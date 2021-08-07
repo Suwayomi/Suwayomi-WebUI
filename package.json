@@ -21,6 +21,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build-zip": "cd build && rev=$(git rev-list HEAD --count) && echo $rev > revision && zip -9 -r ../zipBuild/Tachidesk-WebUI-r$rev *",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

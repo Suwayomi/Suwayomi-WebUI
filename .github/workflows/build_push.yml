@@ -36,8 +36,7 @@ jobs:
           cd master
           yarn install
           yarn build
-          cd build
-          zip -9 -r "../Tachidesk-WebUI-r$(git rev-list HEAD --count)" *
+          yarn build-zip
 
       - name: Generate Tag Name
         id: GenTagName
@@ -74,7 +73,7 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           token: ${{ secrets.DEPLOY_PREVIEW_TOKEN }}
-          artifacts: "master/*.zip"
+          artifacts: "master/buildZip/*.zip"
           owner: "Suwayomi"
           repo: "Tachidesk-WebUI-preview"
           tag: ${{ steps.GenTagName.outputs.value }}
