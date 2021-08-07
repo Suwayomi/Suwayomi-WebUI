@@ -47,13 +47,25 @@ jobs:
           echo "$genTag"
           echo "::set-output name=value::$genTag"
 
+      - name: Checkout preview branch
+        uses: actions/checkout@v2
+        with:
+          repository: 'Suwayomi/Tachidesk-WebUI-preview'
+          ref: main
+          path: preview
+          token: ${{ secrets.DEPLOY_PREVIEW_TOKEN }}
+
       - name: Create Tag
         run: |
           TAG="${{ steps.GenTagName.outputs.value }}"
           echo "tag: $TAG"
-          cd master
+          cd preview
+          echo "{ \"latest\": \"$TAG\" }" > index.json
+          git add index.json
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
+          git commit -m "Updated to $TAG"
+          git push origin main
 
           git tag $TAG
           git push origin $TAG
