@@ -35,7 +35,6 @@ export default function SourceConfigure() {
             .then((data) => setSourcePreferences(data));
     }, []);
 
-    console.log(sourcePreferences);
     return (
         <>
             <List style={{ padding: 0 }}>
