@@ -25,9 +25,17 @@ jobs:
           path: master
           fetch-depth: 0
 
+      - name: Cache node_modules
+        uses: actions/cache@v2
+        with:
+          path: |
+            **/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+
       - name: Build webUI
         run: |
           cd master
+          yarn
           yarn build
           cd build
           zip -9 -r "../Tachidesk-WebUI-r$(git rev-list HEAD --count)" *
