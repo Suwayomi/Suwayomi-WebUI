@@ -8,7 +8,6 @@ on:
 jobs:
   build:
     name: Build artifacts and deploy preview
-    needs: check_wrapper
     if: "!startsWith(github.event.head_commit.message, '[SKIP CI]')"
     runs-on: ubuntu-latest
 
