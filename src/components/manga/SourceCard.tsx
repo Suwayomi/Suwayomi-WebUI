@@ -48,6 +48,7 @@ interface IProps {
 export default function SourceCard(props: IProps) {
     const {
         source: {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             id, name, lang, iconUrl, supportsLatest, isConfigurable,
         },
     } = props;
@@ -76,7 +77,10 @@ export default function SourceCard(props: IProps) {
                     </div>
                 </div>
                 <div style={{ display: 'flex' }}>
-                    {isConfigurable && <Button variant="outlined" style={{ marginLeft: 20 }} onClick={() => { window.location.href = `/sources/${id}/configure/`; }}>Configure</Button>}
+                    {/* {isConfigurable &&
+                        <Button variant="outlined" style={{ marginLeft: 20 }} onClick={()
+                         => { window.location.href = `/sources/${id}/configure/`;
+                          }}>Configure</Button>} */}
                     <Button variant="outlined" style={{ marginLeft: 20 }} onClick={() => { window.location.href = `/sources/${id}/search/`; }}>Search</Button>
                     {supportsLatest && <Button variant="outlined" style={{ marginLeft: 20 }} onClick={() => { window.location.href = `/sources/${id}/latest/`; }}>Latest</Button>}
                     <Button variant="outlined" style={{ marginLeft: 20 }} onClick={() => { window.location.href = `/sources/${id}/popular/`; }}>Browse</Button>
