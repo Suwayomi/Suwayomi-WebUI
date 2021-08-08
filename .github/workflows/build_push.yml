@@ -38,6 +38,7 @@ jobs:
           yarn build
           yarn build-zip
           yarn build-md5
+          ls buildZip
 
       - name: Generate Tag Name
         id: GenTagName
