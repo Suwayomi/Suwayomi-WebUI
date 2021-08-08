@@ -75,7 +75,7 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           token: ${{ secrets.DEPLOY_PREVIEW_TOKEN }}
-          artifacts: "master/buildZip/*.zip;master/buildZip/md5sum"
+          artifacts: "master/buildZip/*"
           owner: "Suwayomi"
           repo: "Tachidesk-WebUI-preview"
           tag: ${{ steps.GenTagName.outputs.value }}
