@@ -10,15 +10,20 @@ export const ISOLanguages = [
     { code: 'installed', name: 'Installed', nativeName: 'Installed' },
     { code: 'updates pending', name: 'Updates pending', nativeName: 'Updates pending' },
 
+    { code: 'other', name: 'other langs?', nativeName: 'Other' },
+
     // full list: https://github.com/meikidd/iso-639-1/blob/master/src/data.js
     { code: 'en', name: 'English', nativeName: 'English' },
     { code: 'ca', name: 'Catalan; Valencian', nativeName: 'Català' },
     { code: 'de', name: 'German', nativeName: 'Deutsch' },
     { code: 'es', name: 'Spanish; Castilian', nativeName: 'Español' },
+    { code: 'es-419', name: 'Spanish; Castilian', nativeName: 'Español (Latinoamérica)' },
     { code: 'fr', name: 'French', nativeName: 'Français' },
     { code: 'id', name: 'Indonesian', nativeName: 'Indonesia' },
     { code: 'it', name: 'Italian', nativeName: 'Italiano' },
     { code: 'pt', name: 'Portuguese', nativeName: 'Português' },
+    { code: 'pt-pt', name: 'Portuguese', nativeName: 'Português (Portugal)' },
+    { code: 'pt-br', name: 'Portuguese; Brasil', nativeName: 'Português (Brasil)' },
     { code: 'vi', name: 'Vietnamese', nativeName: 'Tiếng Việt' },
     { code: 'tr', name: 'Turkish', nativeName: 'Türkçe' },
     { code: 'ru', name: 'Russian', nativeName: 'русский' },
@@ -26,6 +31,11 @@ export const ISOLanguages = [
     { code: 'hi', name: 'Hindi', nativeName: 'हिन्दी' },
     { code: 'th', name: 'Thai', nativeName: 'ไทย' },
     { code: 'zh', name: 'Chinese', nativeName: '中文' },
+    { code: 'zh-hans', name: 'Chinese', nativeName: '中文 (HANS)' },
+    { code: 'zh-hant', name: 'Chinese', nativeName: '中文 (HANT)' },
+    { code: 'zh-rhk', name: 'Chinese', nativeName: '中文 (RHK)' },
+    { code: 'zh-rtw', name: 'Chinese', nativeName: '中文 (RTW)' },
+
     { code: 'ja', name: 'Japanese', nativeName: '日本語' },
     { code: 'ko', name: 'Korean', nativeName: '한국어' },
     { code: 'zu', name: 'Zulu', nativeName: 'isiZulu' },
@@ -54,21 +64,28 @@ export const ISOLanguages = [
     { code: 'bn', name: 'Bengali', nativeName: 'বাংলা' },
     { code: 'lt', name: 'Lithuanian', nativeName: 'lietuvių kalba' },
     { code: 'sh', name: 'Serbo-Croatian', nativeName: 'srpskohrvatski' },
+
+    { code: 'af', name: 'Afrikaans', nativeName: 'Afrikaans' },
+    { code: 'am', name: 'Amharic', nativeName: 'አማርኛ' },
+    { code: 'az', name: 'Azerbaijani', nativeName: 'Azərbaycan' },
+    { code: 'be', name: 'Belarusian', nativeName: 'беларуская' },
+    { code: 'bs', name: 'Bosnian', nativeName: 'bosanski' },
     { code: 'sv', name: 'Swedish', nativeName: 'svenska' },
+    { code: 'sv', name: 'Swedish', nativeName: 'svenska' },
+
 ];
 
 export function langCodeToName(code: string): string {
     const whereToCut = code.indexOf('-') !== -1 ? code.indexOf('-') : code.length;
 
     const proccessedCode = code.toLocaleLowerCase().substring(0, whereToCut);
-    let result = `Unkown language: ${code}`;
+    let result = `language with code: ${code}`;
 
     for (let i = 0; i < ISOLanguages.length; i++) {
-        if (ISOLanguages[i].code === proccessedCode) result = ISOLanguages[i].nativeName;
-    }
-
-    if (code.indexOf('-') !== -1) {
-        result = `${result} (${code.substring(whereToCut + 1)})`;
+        if (ISOLanguages[i].code === proccessedCode
+            || ISOLanguages[i].code === code.toLocaleLowerCase()) {
+            result = ISOLanguages[i].nativeName;
+        }
     }
 
     return result;
