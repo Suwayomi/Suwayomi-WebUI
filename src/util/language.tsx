@@ -51,13 +51,17 @@ export const ISOLanguages = [
     { code: 'eu', name: 'Basque', nativeName: 'euskara' },
     { code: 'el', name: 'Greek', nativeName: 'Ελληνικά' },
     { code: 'da', name: 'Danish', nativeName: 'dansk' },
+    { code: 'bn', name: 'Bengali', nativeName: 'বাংলা' },
+    { code: 'lt', name: 'Lithuanian', nativeName: 'lietuvių kalba' },
+    { code: 'sh', name: 'Serbo-Croatian', nativeName: 'srpskohrvatski' },
+    { code: 'sv', name: 'Swedish', nativeName: 'svenska' },
 ];
 
 export function langCodeToName(code: string): string {
     const whereToCut = code.indexOf('-') !== -1 ? code.indexOf('-') : code.length;
 
     const proccessedCode = code.toLocaleLowerCase().substring(0, whereToCut);
-    let result = 'Error';
+    let result = `Unkown language: ${code}`;
 
     for (let i = 0; i < ISOLanguages.length; i++) {
         if (ISOLanguages[i].code === proccessedCode) result = ISOLanguages[i].nativeName;
