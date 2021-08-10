@@ -60,7 +60,7 @@ interface IChapter {
     name: string
     uploadDate: number
     chapterNumber: number
-    scanlator: String
+    scanlator: string
     mangaId: number
     read: boolean
     bookmarked: boolean
@@ -71,19 +71,25 @@ interface IChapter {
     downloaded: boolean
 }
 
+interface Video{
+    url: string
+    quality: string
+    videoUrl: string
+}
+
 interface IEpisode {
     url: string
     name: string
     uploadDate: number
     episodeNumber: number
-    scanlator: String
+    scanlator: string
     animeId: number
     read: boolean
     bookmarked: boolean
     lastPageRead: number
     index: number
     episodeCount: number
-    linkUrl: string
+    videos: Video[]
 }
 
 interface IPartialChpter {
@@ -93,9 +99,9 @@ interface IPartialChpter {
 }
 
 interface IPartialEpisode {
-    linkUrl: string
     index: number
     episodeCount: number
+    videos: Video[]
 }
 
 interface ICategory {

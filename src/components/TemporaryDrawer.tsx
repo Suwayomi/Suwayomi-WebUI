@@ -12,12 +12,15 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import CollectionsBookmarkIcon from '@material-ui/icons/CollectionsBookmark';
+import CollectionsBookmarkOutlinedIcon from '@material-ui/icons/CollectionsBookmarkOutlined';
+import VideoLibraryOutlinedIcon from '@material-ui/icons/VideoLibraryOutlined';
 import ExploreIcon from '@material-ui/icons/Explore';
 import ExtensionIcon from '@material-ui/icons/Extension';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import ListItemText from '@material-ui/core/ListItemText';
 import SettingsIcon from '@material-ui/icons/Settings';
 import { Link } from 'react-router-dom';
+import useLocalStorage from 'util/useLocalStorage';
 
 const useStyles = makeStyles({
     list: {
@@ -33,6 +36,17 @@ interface IProps {
 
 export default function TemporaryDrawer({ drawerOpen, setDrawerOpen }: IProps) {
     const classes = useStyles();
+    const [workingMode, setWorkingMode] = useLocalStorage<'manga'|'anime'>('workingMode', 'manga');
+
+    const otherMode = () => {
+        if (workingMode === 'manga') return 'Anime';
+        return 'Manga';
+    };
+
+    const switchMode = () => {
+        if (workingMode === 'manga') setWorkingMode('anime');
+        else setWorkingMode('manga');
+    };
 
     return (
         <div>
@@ -48,15 +62,18 @@ export default function TemporaryDrawer({ drawerOpen, setDrawerOpen }: IProps) {
                     onKeyDown={() => setDrawerOpen(false)}
                 >
                     <List>
-                        <Link to="/library" style={{ color: 'inherit', textDecoration: 'none' }}>
-                            <ListItem button key="Library">
-                                <ListItemIcon>
-                                    <CollectionsBookmarkIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Library" />
-                            </ListItem>
-                        </Link>
-                        <Link to="/manga/extensions" style={{ color: 'inherit', textDecoration: 'none' }}>
+                        {workingMode === 'manga'
+                        && (
+                            <Link to="/library" style={{ color: 'inherit', textDecoration: 'none' }}>
+                                <ListItem button key="Library">
+                                    <ListItemIcon>
+                                        <CollectionsBookmarkIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Library" />
+                                </ListItem>
+                            </Link>
+                        )}
+                        <Link to={`/${workingMode}/extensions`} style={{ color: 'inherit', textDecoration: 'none' }}>
                             <ListItem button key="Extensions">
                                 <ListItemIcon>
                                     <ExtensionIcon />
@@ -64,16 +81,7 @@ export default function TemporaryDrawer({ drawerOpen, setDrawerOpen }: IProps) {
                                 <ListItemText primary="Extensions" />
                             </ListItem>
                         </Link>
-                        {/* <Link to="/anime/extensions"
-                        style={{ color: 'inherit', textDecoration: 'none' }}>
-                            <ListItem button key="Extensions">
-                                <ListItemIcon>
-                                    <ExtensionIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Anime Extensions" />
-                            </ListItem>
-                        </Link> */}
-                        <Link to="/manga/sources" style={{ color: 'inherit', textDecoration: 'none' }}>
+                        <Link to={`/${workingMode}/sources`} style={{ color: 'inherit', textDecoration: 'none' }}>
                             <ListItem button key="Sources">
                                 <ListItemIcon>
                                     <ExploreIcon />
@@ -81,23 +89,17 @@ export default function TemporaryDrawer({ drawerOpen, setDrawerOpen }: IProps) {
                                 <ListItemText primary="Sources" />
                             </ListItem>
                         </Link>
-                        {/* <Link to="/anime/sources"
-                        style={{ color: 'inherit', textDecoration: 'none' }}>
-                            <ListItem button key="Sources">
-                                <ListItemIcon>
-                                    <ExploreIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Anime Sources" />
-                            </ListItem>
-                        </Link> */}
-                        <Link to="/manga/downloads" style={{ color: 'inherit', textDecoration: 'none' }}>
-                            <ListItem button key="Manga Download Queue">
-                                <ListItemIcon>
-                                    <GetAppIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Downloads" />
-                            </ListItem>
-                        </Link>
+                        {workingMode === 'manga'
+                        && (
+                            <Link to="/manga/downloads" style={{ color: 'inherit', textDecoration: 'none' }}>
+                                <ListItem button key="Manga Download Queue">
+                                    <ListItemIcon>
+                                        <GetAppIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Downloads" />
+                                </ListItem>
+                            </Link>
+                        )}
                         <Link to="/settings" style={{ color: 'inherit', textDecoration: 'none' }}>
                             <ListItem button key="settings">
                                 <ListItemIcon>
@@ -106,6 +108,13 @@ export default function TemporaryDrawer({ drawerOpen, setDrawerOpen }: IProps) {
                                 <ListItemText primary="Settings" />
                             </ListItem>
                         </Link>
+                        <ListItem button key="SwitchMode" onClick={switchMode}>
+                            <ListItemIcon>
+                                {workingMode === 'manga' && <VideoLibraryOutlinedIcon />}
+                                {workingMode === 'anime' && <CollectionsBookmarkOutlinedIcon />}
+                            </ListItemIcon>
+                            <ListItemText primary={`Switch to ${otherMode()}`} />
+                        </ListItem>
                     </List>
                 </div>
             </Drawer>

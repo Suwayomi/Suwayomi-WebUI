@@ -28,14 +28,17 @@ const useStyles = makeStyles({
     },
 });
 
-const initialEpisode = () => ({ linkUrl: '', index: -1, episodeCount: 0 });
+const initialEpisode = () => ({
+    index: -1, episodeCount: 0, videos: [],
+});
 
 export default function Player() {
     const classes = useStyles();
 
     const { episodeIndex, animeId } = useParams<{ episodeIndex: string, animeId: string }>();
     const [episode, setEpisode] = useState<IEpisode | IPartialEpisode>(initialEpisode());
-    const [episodeLink, setEpisodeLink] = useState<string>();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [episodeLink, setEpisodeLink] = useState<string>('');
     const { setTitle } = useContext(NavbarContext);
 
     useEffect(() => {
@@ -53,12 +56,11 @@ export default function Player() {
             .then((response) => response.data)
             .then((data:IEpisode) => {
                 setEpisode(data);
-                setEpisodeLink(data.linkUrl);
             });
     }, [episodeIndex]);
 
     // return spinner while chpater data is loading
-    if (episode.linkUrl === '') {
+    if (episode.videos.length === 0) {
         return (
             <div className={classes.loading}>
                 <CircularProgress thickness={5} />
@@ -70,7 +72,9 @@ export default function Player() {
         <div className={classes.root}>
             {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
             <video className={classes.video} controls>
-                <source src={episodeLink} />
+                {episode.videos.map((it) => (
+                    <source src={it.videoUrl} />
+                ))}
             </video>
         </div>
     );
