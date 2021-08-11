@@ -26,6 +26,7 @@ import Categories from 'screens/settings/Categories';
 import Backup from 'screens/settings/Backup';
 import Library from 'screens/manga/Library';
 import SearchSingle from 'screens/manga/SearchSingle';
+import AnimeSearchSingle from 'screens/anime/AnimeSearchSingle';
 import SourceConfigure from 'screens/manga/SourceConfigure';
 import Manga from 'screens/manga/Manga';
 import Anime from 'screens/anime/Anime';
@@ -144,6 +145,10 @@ export default function App() {
                             </Route>
 
                             {/* Anime Routes */}
+
+                            <Route path="/anime/sources/:sourceId/search/">
+                                <AnimeSearchSingle />
+                            </Route>
                             <Route path="/anime/extensions">
                                 <AnimeExtensions />
                             </Route>
