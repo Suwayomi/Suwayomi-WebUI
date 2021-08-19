@@ -13,6 +13,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import PauseIcon from '@material-ui/icons/Pause';
 import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
 import client from 'util/client';
 import {
     DragDropContext, Draggable, DraggingStyle, Droppable, DropResult, NotDraggingStyle,
@@ -125,20 +126,13 @@ export default function DownloadQueue() {
                                                     + ` => state: ${item.state}`
                                                 }
                                             />
-                                            {/* <IconButton
-                                                onClick={() => {
-                                                    handleEditDialogOpen(index);
-                                                }}
-                                            >
-                                                <EditIcon />
-                                            </IconButton>
                                             <IconButton
                                                 onClick={() => {
-                                                    deleteCategory(index);
+                                                    // deleteCategory(index);
                                                 }}
                                             >
                                                 <DeleteIcon />
-                                            </IconButton> */}
+                                            </IconButton>
                                         </ListItem>
                                     )}
                                 </Draggable>
