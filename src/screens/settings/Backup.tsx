@@ -6,12 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import React, { useContext, useEffect } from 'react';
-import { ListItemIcon } from '@material-ui/core';
 import List from '@material-ui/core/List';
-import InboxIcon from '@material-ui/icons/Inbox';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { fromEvent } from 'file-selector';
+import makeToast from 'components/Toast';
 import ListItemLink from '../../util/ListItemLink';
 import NavbarContext from '../../context/NavbarContext';
 import client from '../../util/client';
@@ -23,13 +22,23 @@ export default function Backup() {
     const { baseURL } = client.defaults;
 
     const submitBackup = (file: File) => {
-        file.text()
-            .then(
-                (fileContent: string) => {
-                    client.post('/api/v1/backup/legacy/import',
-                        fileContent, { headers: { 'Content-Type': 'application/json' } });
-                },
-            );
+        if (file.name.toLowerCase().endsWith('proto.gz')) {
+            const formData = new FormData();
+            formData.append('backup.proto.gz', file);
+
+            client.post('/api/v1/backup/import/file',
+                formData, { headers: { 'Content-Type': 'multipart/form-data' } });
+        } else if (file.name.toLowerCase().endsWith('json')) {
+            file.text()
+                .then(
+                    (fileContent: string) => {
+                        client.post('/api/v1/backup/legacy/import',
+                            fileContent, { headers: { 'Content-Type': 'application/json' } });
+                    },
+                );
+        } else {
+            makeToast('invalid file type!', 'error');
+        }
     };
 
     const dropHandler = async (e: Event) => {
@@ -60,32 +69,39 @@ export default function Backup() {
     }, []);
 
     return (
-        <List style={{ padding: 0 }}>
-            <ListItemLink href={`${baseURL}/api/v1/backup/legacy/export/file`}>
-                <ListItemIcon>
-                    <InboxIcon />
-                </ListItemIcon>
-                <ListItemText
-                    primary="Create Legacy Backup"
-                    secondary="Backup library as a Tachiyomi legacy backup"
-                />
-            </ListItemLink>
-            <ListItem button onClick={() => document.getElementById('backup-file')?.click()}>
-                <ListItemIcon>
-                    <InboxIcon />
-                </ListItemIcon>
-                <ListItemText
-                    primary="Restore Legacy Backup"
-                    secondary="You can also drop the backup file anywhere to restore"
-                />
-                <input
-                    type="file"
-                    name="backup.json"
-                    id="backup-file"
-                    style={{ display: 'none' }}
-                />
-            </ListItem>
-        </List>
+        <>
+            <List style={{ padding: 0 }}>
+                <ListItemLink href={`${baseURL}/api/v1/backup/export/file`}>
+                    <ListItemText
+                        primary="Create Backup"
+                        secondary="Backup library as a Tachiyomi backup"
+                    />
+                </ListItemLink>
+                <ListItem button onClick={() => document.getElementById('backup-file')?.click()}>
+                    <ListItemText
+                        primary="Restore Backup"
+                        secondary="You can also drag and drop the backup file here to restore"
+                    />
+                </ListItem>
+                <ListItemLink href={`${baseURL}/api/v1/backup/legacy/export/file`}>
+                    <ListItemText
+                        primary="Create Legacy Backup"
+                        secondary="Backup library as a Tachiyomi legacy backup"
+                    />
+                </ListItemLink>
+                <ListItem button onClick={() => document.getElementById('backup-file')?.click()}>
+                    <ListItemText
+                        primary="Restore Legacy Backup"
+                        secondary="You can also drag and drop the backup file here to restore"
+                    />
+                </ListItem>
+            </List>
+            <input
+                type="file"
+                id="backup-file"
+                style={{ display: 'none' }}
+            />
+        </>
 
     );
 }
