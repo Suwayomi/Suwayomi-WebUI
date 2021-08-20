@@ -56,45 +56,23 @@ export default function Library() {
     };
 
     useEffect(() => {
-        Promise.all<IManga[], ICategory[]>([
-            client.get('/api/v1/library').then((response) => response.data),
-            client.get('/api/v1/category').then((response) => response.data),
-        ])
-            .then(
-                ([libraryMangas, categories]) => {
-                    const categoryTabs = categories.map((category) => ({
-                        category,
-                        mangas: [] as IManga[],
-                        isFetched: false,
-                    }));
+        client.get('/api/v1/category')
+            .then((response) => response.data)
+            .then((categories: ICategory[]) => {
+                const categoryTabs = categories.map((category) => ({
+                    category,
+                    mangas: [] as IManga[],
+                    isFetched: false,
+                }));
 
-                    if (libraryMangas.length > 0 || categoryTabs.length === 0) {
-                        const defaultCategoryTab = {
-                            category: {
-                                name: 'Default',
-                                default: true,
-                                order: 0,
-                                id: -1,
-                            },
-                            mangas: libraryMangas,
-                            isFetched: true,
-                        };
-                        setTabs(
-                            [defaultCategoryTab, ...categoryTabs],
-                        );
-                    } else {
-                        setTabs(categoryTabs);
-                        setTabNum(1);
-                    }
-                },
-            );
+                setTabs(categoryTabs);
+            });
     }, []);
 
-    // console.log(client.defaults.baseURL);
     // fetch the current tab
     useEffect(() => {
         tabs.forEach((tab, index) => {
-            if (tab.category.order === tabNum && !tab.isFetched) {
+            if (index === tabNum && !tab.isFetched) {
                 // eslint-disable-next-line @typescript-eslint/no-shadow
                 client.get(`/api/v1/category/${tab.category.id}`)
                     .then((response) => response.data)
@@ -107,7 +85,11 @@ export default function Library() {
                     });
             }
         });
-    }, [tabNum]);
+    }, [tabs.length, tabNum]);
+
+    if (tabs.length === 0) {
+        return <h3>Library is empty</h3>;
+    }
 
     let toRender;
     if (tabs.length > 1) {

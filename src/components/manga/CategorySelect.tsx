@@ -48,6 +48,7 @@ export default function CategorySelect(props: IProps) {
         client.get('/api/v1/category/')
             .then((response) => response.data)
             .then((data: ICategory[]) => {
+                if (data.length > 0 && data[0].name === 'Default') { data.shift(); }
                 tmpCategoryInfos = data.map((category) => ({ category, selected: false }));
             })
             .then(() => {
