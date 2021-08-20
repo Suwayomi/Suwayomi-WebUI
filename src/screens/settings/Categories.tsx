@@ -65,6 +65,7 @@ export default function Categories() {
         if (!dialogOpen) {
             client.get('/api/v1/category/')
                 .then((response) => response.data)
+                .then((data) => { if (data.length > 0 && data[0].name === 'Default') data.shift(); return data; })
                 .then((data) => setCategories(data));
         }
     }, [updateTriggerHolder]);
