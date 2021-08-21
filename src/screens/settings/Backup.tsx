@@ -26,16 +26,13 @@ export default function Backup() {
             const formData = new FormData();
             formData.append('backup.proto.gz', file);
 
+            makeToast('Restoring bacukp....', 'info');
             client.post('/api/v1/backup/import/file',
-                formData, { headers: { 'Content-Type': 'multipart/form-data' } });
+                formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+                .then(() => makeToast('Backup restore finished!', 'success'))
+                .catch(() => makeToast('Backup restore failed!', 'error'));
         } else if (file.name.toLowerCase().endsWith('json')) {
-            file.text()
-                .then(
-                    (fileContent: string) => {
-                        client.post('/api/v1/backup/legacy/import',
-                            fileContent, { headers: { 'Content-Type': 'application/json' } });
-                    },
-                );
+            makeToast('legacy backups are not supported!', 'error');
         } else {
             makeToast('invalid file type!', 'error');
         }
@@ -80,18 +77,6 @@ export default function Backup() {
                 <ListItem button onClick={() => document.getElementById('backup-file')?.click()}>
                     <ListItemText
                         primary="Restore Backup"
-                        secondary="You can also drag and drop the backup file here to restore"
-                    />
-                </ListItem>
-                <ListItemLink href={`${baseURL}/api/v1/backup/legacy/export/file`}>
-                    <ListItemText
-                        primary="Create Legacy Backup"
-                        secondary="Backup library as a Tachiyomi legacy backup"
-                    />
-                </ListItemLink>
-                <ListItem button onClick={() => document.getElementById('backup-file')?.click()}>
-                    <ListItemText
-                        primary="Restore Legacy Backup"
                         secondary="You can also drag and drop the backup file here to restore"
                     />
                 </ListItem>
