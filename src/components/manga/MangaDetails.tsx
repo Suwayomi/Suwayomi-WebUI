@@ -135,9 +135,7 @@ export default function MangaDetails(props: IProps) {
     const { setAction } = useContext(NavbarContext);
 
     const { manga } = props;
-    if (manga.genre == null) {
-        manga.genre = '';
-    }
+
     const [inLibrary, setInLibrary] = useState<string>(
         manga.inLibrary ? 'In Library' : 'Add To Library',
     );
@@ -249,7 +247,7 @@ export default function MangaDetails(props: IProps) {
                     <p>{manga.description}</p>
                 </div>
                 <div className={classes.genre}>
-                    {manga.genre.split(', ').map((g) => <h5 key={g}>{g}</h5>)}
+                    {manga.genre?.split(', ').map((g) => <h5 key={g}>{g}</h5>)}
                 </div>
             </div>
         </div>

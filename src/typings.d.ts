@@ -46,7 +46,7 @@ interface IManga {
     artist: string
     author: string
     description: string
-    genre: string
+    genre: string | null
     status: string
 
     inLibrary: boolean
