@@ -52,6 +52,8 @@ interface IManga {
     inLibrary: boolean
     source: ISource
 
+    realUrl: string
+
     freshData: boolean
 }
 

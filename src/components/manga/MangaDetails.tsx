@@ -233,7 +233,7 @@ export default function MangaDetails(props: IProps) {
                         </IconButton>
                     </div>
                     { /* eslint-disable-next-line react/jsx-no-target-blank */ }
-                    <a href={manga.url} target="_blank">
+                    <a href={manga.realUrl} target="_blank">
                         <IconButton>
                             <PublicIcon />
                             <span>Open Site</span>
