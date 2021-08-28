@@ -95,7 +95,7 @@ export default function Reader() {
                         settings={settings}
                         setSettings={setSettings}
                         manga={manga}
-                        chapter={chapter}
+                        chapter={chapter as IChapter}
                         curPage={curPage}
                     />
                 ),

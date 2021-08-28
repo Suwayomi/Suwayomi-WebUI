@@ -147,11 +147,12 @@ interface IProps {
     settings: IReaderSettings
     setSettings: React.Dispatch<React.SetStateAction<IReaderSettings>>
     manga: IManga | IMangaCard
-    chapter: IChapter | IPartialChpter
+    chapter: IChapter
     curPage: number
 }
 
 export default function ReaderNavBar(props: IProps) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { title } = useContext(NavBarContext);
 
     const history = useHistory();
@@ -216,7 +217,8 @@ export default function ReaderNavBar(props: IProps) {
                             <CloseIcon />
                         </IconButton>
                         <Typography variant="h1">
-                            {title}
+                            {/* {title} */}
+                            {chapter.name}
                         </Typography>
                         {!settings.staticNav
                         && (
@@ -347,9 +349,7 @@ export default function ReaderNavBar(props: IProps) {
                                         variant="outlined"
                                         startIcon={<KeyboardArrowLeftIcon />}
                                     >
-                                        Chapter
-                                        {' '}
-                                        {chapter.index - 1}
+                                        Prev. Chapter
                                     </Button>
                                 </Link>
                             )}
@@ -363,9 +363,7 @@ export default function ReaderNavBar(props: IProps) {
                                         variant="outlined"
                                         endIcon={<KeyboardArrowRightIcon />}
                                     >
-                                        Chapter
-                                        {' '}
-                                        {chapter.index + 1}
+                                        Next Chapter
                                     </Button>
                                 </Link>
                             )}
