@@ -43,6 +43,7 @@ const useStyles = (settings: IReaderSettings) => makeStyles({
         top: 0,
         left: 0,
         width: '300px',
+        minWidth: '300px',
         height: '100vh',
         overflowY: 'auto',
         backgroundColor: '#0a0b0b',
