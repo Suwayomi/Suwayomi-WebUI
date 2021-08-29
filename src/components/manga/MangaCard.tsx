@@ -38,6 +38,8 @@ const useStyles = makeStyles({
         bottom: 0,
         padding: '0.5em',
         color: 'white',
+        fontSize: '1.05rem',
+        textShadow: '0px 0px 3px #000000',
     },
     image: {
         height: '100%',
@@ -49,6 +51,17 @@ const useStyles = makeStyles({
         padding: '180px calc(50% - 20px)',
     },
 });
+
+const truncateText = (str: string, maxLength: number) => {
+    const ending = '...';
+    // trim the string to the maximum length
+    const trimmedString = str.substr(0, maxLength - ending.length);
+
+    if (trimmedString.length < str.length) {
+        return trimmedString + ending;
+    }
+    return str;
+};
 
 interface IProps {
     manga: IMangaCard
@@ -75,7 +88,9 @@ const MangaCard = React.forwardRef((props: IProps, ref) => {
                                 imgClassName={classes.image}
                             />
                             <div className={classes.gradient} />
-                            <Typography className={classes.title} variant="h5" component="h2">{title}</Typography>
+                            <Typography className={classes.title}>
+                                {truncateText(title, 61)}
+                            </Typography>
                         </div>
                     </CardActionArea>
                 </Card>
