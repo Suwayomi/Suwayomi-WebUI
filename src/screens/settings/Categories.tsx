@@ -71,12 +71,10 @@ export default function Categories() {
     }, [updateTriggerHolder]);
 
     const categoryReorder = (list: ICategory[], from: number, to: number) => {
-        const category = list[from];
-
         const formData = new FormData();
         formData.append('from', `${from + 1}`);
         formData.append('to', `${to + 1}`);
-        client.post(`/api/v1/category/${category.id}/reorder`, formData)
+        client.patch('/api/v1/category/reorder', formData)
             .finally(() => triggerUpdate());
 
         // also move it in local state to avoid jarring moving behviour...

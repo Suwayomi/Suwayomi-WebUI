@@ -44,7 +44,7 @@ export default function Library() {
     const { setTitle, setAction } = useContext(NavbarContext);
     useEffect(() => { setTitle('Library'); setAction(<></>); }, []);
 
-    const [tabs, setTabs] = useState<IMangaCategory[]>([]);
+    const [tabs, setTabs] = useState<IMangaCategory[]>();
     const [tabNum, setTabNum] = useState<number>(0);
 
     // a hack so MangaGrid doesn't stop working. I won't change it in case
@@ -66,26 +66,35 @@ export default function Library() {
                 }));
 
                 setTabs(categoryTabs);
+                if (categoryTabs.length > 0) {
+                    setTabNum(categoryTabs[0].category.order);
+                }
             });
     }, []);
 
     // fetch the current tab
     useEffect(() => {
-        tabs.forEach((tab, index) => {
-            if (index === tabNum && !tab.isFetched) {
-                // eslint-disable-next-line @typescript-eslint/no-shadow
-                client.get(`/api/v1/category/${tab.category.id}`)
-                    .then((response) => response.data)
-                    .then((data: IManga[]) => {
-                        const tabsClone = cloneObject(tabs);
-                        tabsClone[index].mangas = data;
-                        tabsClone[index].isFetched = true;
+        if (tabs !== undefined) {
+            tabs.forEach((tab, index) => {
+                if (tab.category.order === tabNum && !tab.isFetched) {
+                    // eslint-disable-next-line @typescript-eslint/no-shadow
+                    client.get(`/api/v1/category/${tab.category.id}`)
+                        .then((response) => response.data)
+                        .then((data: IManga[]) => {
+                            const tabsClone = cloneObject(tabs);
+                            tabsClone[index].mangas = data;
+                            tabsClone[index].isFetched = true;
 
-                        setTabs(tabsClone); // clone the object
-                    });
-            }
-        });
-    }, [tabs.length, tabNum]);
+                            setTabs(tabsClone);
+                        });
+                }
+            });
+        }
+    }, [tabs?.length, tabNum]);
+
+    if (tabs === undefined) {
+        return <h3>Loading...</h3>;
+    }
 
     if (tabs.length === 0) {
         return <h3>Library is empty</h3>;
@@ -113,6 +122,7 @@ export default function Library() {
         toRender = (
             <>
                 <Tabs
+                    key={tabNum}
                     value={tabNum}
                     onChange={(e, newTab) => handleTabChange(newTab)}
                     indicatorColor="primary"
