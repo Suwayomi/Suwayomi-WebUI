@@ -3,6 +3,8 @@ The Traditional web interface for [Tachidesk-Server](https://github.com/Suwayomi
 
 WebUI doesn't have it's own Tachidesk distribution and it's version locked by Tachidesk-Server.
 
+You can find minified builds of WebUI in [Tachidesk-WebUI-preview](https://github.com/Suwayomi/Tachidesk-WebUI-preview)
+
 ## License
 
     Copyright (C) Contributors to the Suwayomi project
