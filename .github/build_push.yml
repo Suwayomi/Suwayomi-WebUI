@@ -1,0 +1,60 @@
+name: CI build
+
+on:
+  push:
+    branches:
+      - master
+
+  build:
+    name: Build artifacts and deploy preview
+    needs: check_wrapper
+    if: "!startsWith(github.event.head_commit.message, '[SKIP CI]')"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Cancel previous runs
+        uses: styfle/cancel-workflow-action@0.9.0
+        with:
+          access_token: ${{ github.token }}
+
+      - name: Checkout master branch
+        uses: actions/checkout@v2
+        with:
+          ref: master
+          path: master
+          fetch-depth: 0
+
+      - name: Build webUI
+        run: |
+          cd master
+          yarn build
+          cd build
+          zip -9 -r "../Tachidesk-WebUI-r$(git rev-list HEAD --count)" *
+
+      - name: Generate Tag Name
+        id: GenTagName
+        run: |
+          cd master/build
+          genTag="r$(git rev-list HEAD --count)"
+          echo "$genTag"
+          echo "::set-output name=value::$genTag"
+
+      - name: Create Tag
+        run: |
+          TAG="${{ steps.GenTagName.outputs.value }}"
+          echo "tag: $TAG"
+          cd master
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+
+          git tag $TAG
+          git push origin $TAG
+
+      - name: Upload CI Release
+        uses: ncipollo/release-action@v1
+        with:
+          token: ${{ secrets.DEPLOY_PREVIEW_TOKEN }}
+          artifacts: "master/*.zip"
+          owner: "Suwayomi"
+          repo: "Tachidesk-WebUI-preview"
+          tag: ${{ steps.GenTagName.outputs.value }}
