@@ -1,16 +1,4 @@
-# Ignore Gradle project-specific cache directory
-.gradle
-.idea
-gradle.properties
-
-# Ignore Gradle build output directory
-build
-
-server/src/main/resources/webUI
-server/tmp/
-server/tachiserver-data/
-
-# bundle asset downlaods
-OpenJDK*.zip
-electron-*.zip
-rcedit-*
+node_modules/
+.eslintcache
+.vscode
+.env
