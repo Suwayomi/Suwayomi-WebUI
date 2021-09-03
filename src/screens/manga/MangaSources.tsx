@@ -38,6 +38,7 @@ export default function MangaSources() {
     const { setTitle, setAction } = useContext(NavbarContext);
 
     const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownSourceLangs', defualtLangs());
+    const [showNsfw] = useLocalStorage<boolean>('showNsfw', false);
 
     const [sources, setSources] = useState<ISource[]>([]);
     const [fetched, setFetched] = useState<boolean>(false);
@@ -70,12 +71,14 @@ export default function MangaSources() {
                 shownLangs.indexOf(lang) !== -1 && (
                     <React.Fragment key={lang}>
                         <h1 key={lang} style={{ marginLeft: 25 }}>{langCodeToName(lang)}</h1>
-                        {(list as ISource[]).map((source) => (
-                            <SourceCard
-                                key={source.id}
-                                source={source}
-                            />
-                        ))}
+                        {(list as ISource[])
+                            .filter((source) => showNsfw || !source.isNsfw)
+                            .map((source) => (
+                                <SourceCard
+                                    key={source.id}
+                                    source={source}
+                                />
+                            ))}
                     </React.Fragment>
                 )
             ))}

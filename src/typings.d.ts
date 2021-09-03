@@ -27,6 +27,7 @@ interface ISource {
     supportsLatest: boolean
     history: any
     isConfigurable: boolean
+    isNsfw: boolean
 }
 
 interface IMangaCard {
