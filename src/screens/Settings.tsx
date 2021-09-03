@@ -25,6 +25,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import TextField from '@material-ui/core/TextField';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 import NavbarContext from '../context/NavbarContext';
 import DarkTheme from '../context/DarkTheme';
 import useLocalStorage from '../util/useLocalStorage';
@@ -36,6 +37,7 @@ export default function Settings() {
 
     const { darkTheme, setDarkTheme } = useContext(DarkTheme);
     const [serverAddress, setServerAddress] = useLocalStorage<String>('serverBaseURL', '');
+    const [showNsfw, setShowNsfw] = useLocalStorage<boolean>('showNsfw', false);
     const [dialogOpen, setDialogOpen] = useState(false);
     const [dialogValue, setDialogValue] = useState(serverAddress);
 
@@ -78,6 +80,19 @@ export default function Settings() {
                             edge="end"
                             checked={darkTheme}
                             onChange={() => setDarkTheme(!darkTheme)}
+                        />
+                    </ListItemSecondaryAction>
+                </ListItem>
+                <ListItem>
+                    <ListItemIcon>
+                        <FavoriteIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Show NSFW" />
+                    <ListItemSecondaryAction>
+                        <Switch
+                            edge="end"
+                            checked={showNsfw}
+                            onChange={() => setShowNsfw(!showNsfw)}
                         />
                     </ListItemSecondaryAction>
                 </ListItem>

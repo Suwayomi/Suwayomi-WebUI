@@ -49,6 +49,7 @@ function extensionDefaultLangs() {
 export default function MangaExtensions() {
     const { setTitle, setAction } = useContext(NavbarContext);
     const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownExtensionLangs', extensionDefaultLangs());
+    const [showNsfw] = useLocalStorage<boolean>('showNsfw', false);
 
     useEffect(() => {
         setTitle('Extensions');
@@ -94,15 +95,17 @@ export default function MangaExtensions() {
                                 <h1 key={lang} style={{ marginLeft: 25 }}>
                                     {langCodeToName(lang)}
                                 </h1>
-                                {(list as IExtension[]).map((it) => (
-                                    <ExtensionCard
-                                        key={it.apkName}
-                                        extension={it}
-                                        notifyInstall={() => {
-                                            triggerUpdate();
-                                        }}
-                                    />
-                                ))}
+                                {(list as IExtension[])
+                                    .filter((extension) => showNsfw || !extension.isNsfw)
+                                    .map((it) => (
+                                        <ExtensionCard
+                                            key={it.apkName}
+                                            extension={it}
+                                            notifyInstall={() => {
+                                                triggerUpdate();
+                                            }}
+                                        />
+                                    ))}
                             </React.Fragment>
                         ))
                 ))
