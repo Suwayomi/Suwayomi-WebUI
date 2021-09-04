@@ -63,7 +63,7 @@ export default function AnimeSearchSingle() {
         if (searchTerm.length > 0) {
             client.get(`/api/v1/anime/source/${sourceId}/search/${searchTerm}/${lastPageNum}`)
                 .then((response) => response.data)
-                .then((data: { mangaList: IManga[], hasNextPage: boolean }) => {
+                .then((data: { mangaList: IAnime[], hasNextPage: boolean }) => {
                     setMessage('');
                     if (data.mangaList.length > 0) {
                         setMangas([

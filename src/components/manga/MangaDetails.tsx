@@ -247,7 +247,7 @@ export default function MangaDetails(props: IProps) {
                     <p>{manga.description}</p>
                 </div>
                 <div className={classes.genre}>
-                    {manga.genre?.split(', ').map((g) => <h5 key={g}>{g}</h5>)}
+                    {manga.genre.map((g) => <h5 key={g}>{g}</h5>)}
                 </div>
             </div>
         </div>

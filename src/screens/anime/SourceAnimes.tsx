@@ -30,7 +30,7 @@ export default function SourceAnimes(props: { popular: boolean }) {
         const sourceType = props.popular ? 'popular' : 'latest';
         client.get(`/api/v1/anime/source/${sourceId}/${sourceType}/${lastPageNum}`)
             .then((response) => response.data)
-            .then((data: { mangaList: IManga[], hasNextPage: boolean }) => {
+            .then((data: { mangaList: IAnime[], hasNextPage: boolean }) => {
                 setMangas([
                     ...mangas,
                     ...data.mangaList.map((it) => ({

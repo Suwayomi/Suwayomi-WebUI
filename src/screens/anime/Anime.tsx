@@ -49,7 +49,7 @@ export default function Anime() {
 
     const { id } = useParams<{ id: string }>();
 
-    const [manga, setManga] = useState<IManga>();
+    const [manga, setManga] = useState<IAnime>();
     const [episodes, setEpisodes] = useState<IEpisode[]>([]);
     const [fetchedEpisodes, setFetchedEpisodes] = useState(false);
     const [noEpisodesFound, setNoEpisodesFound] = useState(false);
@@ -63,7 +63,7 @@ export default function Anime() {
         if (manga === undefined || !manga.freshData) {
             client.get(`/api/v1/anime/anime/${id}/?onlineFetch=${manga !== undefined}`)
                 .then((response) => response.data)
-                .then((data: IManga) => {
+                .then((data: IAnime) => {
                     setManga(data);
                     setTitle(data.title);
                 });

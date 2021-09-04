@@ -47,6 +47,28 @@ interface IManga {
     artist: string
     author: string
     description: string
+    genre: string[]
+    status: string
+
+    inLibrary: boolean
+    source: ISource
+
+    realUrl: string
+
+    freshData: boolean
+}
+
+interface IAnime {
+    id: number
+    sourceId: string
+
+    url: string
+    title: string
+    thumbnailUrl: string
+
+    artist: string
+    author: string
+    description: string
     genre: string | null
     status: string
 

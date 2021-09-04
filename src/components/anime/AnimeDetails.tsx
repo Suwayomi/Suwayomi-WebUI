@@ -117,7 +117,7 @@ const useStyles = (inLibrary: string) => makeStyles((theme: Theme) => ({
 }));
 
 interface IProps{
-    manga: IManga
+    manga: IAnime
 }
 
 function getSourceName(source: ISource) {

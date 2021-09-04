@@ -45,7 +45,7 @@ export default function Player() {
         setTitle('Reader');
         client.get(`/api/v1/anime/anime/${animeId}/`)
             .then((response) => response.data)
-            .then((data: IManga) => {
+            .then((data: IAnime) => {
                 setTitle(data.title);
             });
     }, [episodeIndex]);
