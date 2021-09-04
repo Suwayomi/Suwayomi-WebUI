@@ -37,7 +37,7 @@ export default function Settings() {
 
     const { darkTheme, setDarkTheme } = useContext(DarkTheme);
     const [serverAddress, setServerAddress] = useLocalStorage<String>('serverBaseURL', '');
-    const [showNsfw, setShowNsfw] = useLocalStorage<boolean>('showNsfw', false);
+    const [showNsfw, setShowNsfw] = useLocalStorage<boolean>('showNsfw', true);
     const [dialogOpen, setDialogOpen] = useState(false);
     const [dialogValue, setDialogValue] = useState(serverAddress);
 

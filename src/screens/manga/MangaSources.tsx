@@ -38,7 +38,7 @@ export default function MangaSources() {
     const { setTitle, setAction } = useContext(NavbarContext);
 
     const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownSourceLangs', defualtLangs());
-    const [showNsfw] = useLocalStorage<boolean>('showNsfw', false);
+    const [showNsfw] = useLocalStorage<boolean>('showNsfw', true);
 
     const [sources, setSources] = useState<ISource[]>([]);
     const [fetched, setFetched] = useState<boolean>(false);

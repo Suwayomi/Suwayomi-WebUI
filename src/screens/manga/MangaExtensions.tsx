@@ -49,7 +49,7 @@ function extensionDefaultLangs() {
 export default function MangaExtensions() {
     const { setTitle, setAction } = useContext(NavbarContext);
     const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownExtensionLangs', extensionDefaultLangs());
-    const [showNsfw] = useLocalStorage<boolean>('showNsfw', false);
+    const [showNsfw] = useLocalStorage<boolean>('showNsfw', true);
 
     useEffect(() => {
         setTitle('Extensions');
