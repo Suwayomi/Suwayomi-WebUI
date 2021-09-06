@@ -1,5 +1,5 @@
 # Tachidesk-WebUI
-The bundled web interface that comes with [Tachidesk-Server](https://github.com/Suwayomi/Tachidesk-Server).
+The bundled web interface that comes with [Tachidesk-Server](https://github.com/Suwayomi/Tachidesk-Server)(In simple terms, download Tachidesk-Server and you'll get Tachidesk-WebUI with it.).
 
 WebUI doesn't have it's own Tachidesk distribution and is version locked by Tachidesk-Server.
 
