@@ -42,6 +42,9 @@ const useStyles = makeStyles((theme) => ({
         flex: '0 0 auto',
         marginRight: 16,
     },
+    card: {
+        margin: '10px',
+    },
 }));
 
 interface IProps{
@@ -79,7 +82,7 @@ export default function EpisodeCard(props: IProps) {
     return (
         <>
             <li>
-                <Card>
+                <Card className={classes.card}>
                     <CardContent className={classes.root}>
                         <Link
                             to={`/anime/${episode.animeId}/episode/${episode.index}`}

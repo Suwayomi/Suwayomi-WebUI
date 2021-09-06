@@ -42,6 +42,9 @@ const useStyles = makeStyles((theme) => ({
         flex: '0 0 auto',
         marginRight: 16,
     },
+    card: {
+        margin: '10px',
+    },
 }));
 
 interface IProps{
@@ -85,7 +88,7 @@ export default function ChapterCard(props: IProps) {
     return (
         <>
             <li>
-                <Card>
+                <Card className={classes.card}>
                     <CardContent className={classes.root}>
                         <Link
                             to={`/manga/${chapter.mangaId}/chapter/${chapter.index}`}
