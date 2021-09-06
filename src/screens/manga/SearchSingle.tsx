@@ -16,11 +16,16 @@ import client from 'util/client';
 
 const useStyles = makeStyles((theme) => ({
     root: {
+        margin: '20px 10px',
+        display: 'flex',
+        justifyContent: 'space-around',
+        width: '300px',
         TextField: {
             margin: theme.spacing(1),
             width: '25ch',
         },
     },
+
 }));
 
 export default function SearchSingle() {
@@ -95,7 +100,9 @@ export default function SearchSingle() {
                 <TextField
                     inputRef={textInput}
                     error={error}
-                    id="standard-basic"
+                    id="filled-basic"
+                    variant="filled"
+                    size="small"
                     label="Search text.."
                     onKeyDown={(e) => e.key === 'Enter' && processInput()}
                 />
