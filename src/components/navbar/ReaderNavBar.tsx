@@ -208,19 +208,6 @@ export default function ReaderNavBar(props: IProps) {
             >
                 <div className={classes.root}>
                     <header>
-                        <IconButton
-                            edge="start"
-                            color="inherit"
-                            aria-label="menu"
-                            disableRipple
-                            onClick={() => history.push(`/manga/${manga.id}`)}
-                        >
-                            <CloseIcon />
-                        </IconButton>
-                        <Typography variant="h1">
-                            {/* {title} */}
-                            {chapter.name}
-                        </Typography>
                         {!settings.staticNav
                         && (
                             <IconButton
@@ -233,6 +220,19 @@ export default function ReaderNavBar(props: IProps) {
                                 <KeyboardArrowLeftIcon />
                             </IconButton>
                         ) }
+                        <Typography variant="h1">
+                            {/* {title} */}
+                            {chapter.name}
+                        </Typography>
+                        <IconButton
+                            edge="start"
+                            color="inherit"
+                            aria-label="menu"
+                            disableRipple
+                            onClick={() => history.push(`/manga/${manga.id}`)}
+                        >
+                            <CloseIcon />
+                        </IconButton>
                     </header>
                     <ListItem ContainerComponent="div" className={classes.settingsCollapsseHeader}>
                         <ListItemText primary="Reader Settings" />
