@@ -5,6 +5,9 @@ WebUI doesn't have it's own Tachidesk distribution and is version locked by Tach
 
 You can find minified builds of WebUI in [Tachidesk-WebUI-preview](https://github.com/Suwayomi/Tachidesk-WebUI-preview)
 
+# About
+This is a `create-react-app` project, you can find it's readme in [BUILDING.md](./BUILDING.md)
+
 ## License
 
     Copyright (C) Contributors to the Suwayomi project
