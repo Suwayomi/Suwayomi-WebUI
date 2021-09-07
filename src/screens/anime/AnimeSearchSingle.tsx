@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
         margin: '20px 10px',
         display: 'flex',
         justifyContent: 'space-around',
-        width: '300px',
+        width: 300,
         TextField: {
             margin: theme.spacing(1),
             width: '25ch',

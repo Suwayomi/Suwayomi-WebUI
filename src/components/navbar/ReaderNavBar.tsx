@@ -201,7 +201,7 @@ export default function ReaderNavBar(props: IProps) {
             <Slide
                 direction="right"
                 in={drawerOpen}
-                timeout={200}
+                timeout={150}
                 appear={false}
                 mountOnEnter
                 unmountOnExit
