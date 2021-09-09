@@ -7,6 +7,8 @@
 
 import React, { useContext, useEffect, useState } from 'react';
 import { fromEvent } from 'file-selector';
+import IconButton from '@material-ui/core/IconButton';
+import AddIcon from '@material-ui/icons/Add';
 import ExtensionCard from 'components/manga/ExtensionCard';
 import NavbarContext from 'context/NavbarContext';
 import client from 'util/client';
@@ -56,11 +58,20 @@ export default function MangaExtensions() {
     useEffect(() => {
         setTitle('Extensions');
         setAction(
-            <ExtensionLangSelect
-                shownLangs={shownLangs}
-                setShownLangs={setShownLangs}
-                allLangs={allLangs}
-            />,
+            <>
+                <IconButton
+                    onClick={
+                        () => document.getElementById('external-extension-file')?.click()
+                    }
+                >
+                    <AddIcon />
+                </IconButton>
+                <ExtensionLangSelect
+                    shownLangs={shownLangs}
+                    setShownLangs={setShownLangs}
+                    allLangs={allLangs}
+                />
+            </>,
         );
     }, [shownLangs]);
 
@@ -85,10 +96,14 @@ export default function MangaExtensions() {
 
     const [toasts, makeToast] = makeToaster(useState<React.ReactElement[]>([]));
 
-    const submitExtension = (file: File) => {
+    const submitExternalExtension = (file: File) => {
         if (file.name.toLowerCase().endsWith('apk')) {
             const formData = new FormData();
             formData.append('file', file);
+
+            // empty the input
+            // @ts-ignore
+            document.getElementById('external-extension-file').value = null;
 
             makeToast('Installing Extension File....', 'info');
             client.post('/api/v1/extension/install',
@@ -107,7 +122,7 @@ export default function MangaExtensions() {
         e.preventDefault();
         const files = await fromEvent(e);
 
-        submitExtension(files[0] as File);
+        submitExternalExtension(files[0] as File);
     };
 
     const dragOverHandler = (e: Event) => {
@@ -118,9 +133,17 @@ export default function MangaExtensions() {
         document.addEventListener('drop', dropHandler);
         document.addEventListener('dragover', dragOverHandler);
 
+        const changeHandler = async (evt: Event) => {
+            const files = await fromEvent(evt);
+            submitExternalExtension(files[0] as File);
+        };
+        const input = document.getElementById('external-extension-file');
+        input?.addEventListener('change', changeHandler);
+
         return () => {
             document.removeEventListener('drop', dropHandler);
             document.removeEventListener('dragover', dragOverHandler);
+            input?.removeEventListener('change', changeHandler);
         };
     }, []);
 
@@ -131,6 +154,11 @@ export default function MangaExtensions() {
     return (
         <>
             {toasts}
+            <input
+                type="file"
+                id="external-extension-file"
+                style={{ display: 'none' }}
+            />
             {
                 Object.entries(extensions).map(([lang, list]) => (
                     ((groupsToShow.indexOf(lang) !== -1 && (list as []).length > 0)
