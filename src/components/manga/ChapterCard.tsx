@@ -44,6 +44,14 @@ const useStyles = makeStyles((theme) => ({
     },
     card: {
         margin: '10px',
+        '&:hover': {
+            backgroundColor: 'rgba(255, 255, 255, 0.2)',
+            transition: 'background-color 0ms ease',
+        },
+        '&:active': {
+            backgroundColor: 'rgba(255, 255, 255, 0.1)',
+            transition: 'background-color 100ms ease-out',
+        },
     },
 }));
 
