@@ -44,9 +44,20 @@ export default function MangaGrid(props: IProps) {
     } else {
         mapped = mangas.map((it, idx) => {
             if (idx === mangas.length - 1) {
-                return <MangaCard manga={it} ref={lastManga} />;
+                return (
+                    <MangaCard
+                        key={it.id}
+                        manga={it}
+                        ref={lastManga}
+                    />
+                );
             }
-            return <MangaCard manga={it} />;
+            return (
+                <MangaCard
+                    key={it.id}
+                    manga={it}
+                />
+            );
         });
     }
 
