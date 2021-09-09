@@ -11,7 +11,7 @@ import {
     Route,
     Redirect,
 } from 'react-router-dom';
-import { Container, adaptV4Theme } from '@mui/material';
+import { Container } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import {
     createTheme, ThemeProvider, Theme, StyledEngineProvider,
@@ -58,26 +58,27 @@ export default function App() {
     const darkThemeContext = { darkTheme, setDarkTheme };
 
     const theme = React.useMemo(
-        () => createTheme(adaptV4Theme({
+        () => createTheme({
             palette: {
                 mode: darkTheme ? 'dark' : 'light',
             },
-            overrides: {
+            components: {
                 MuiCssBaseline: {
-                    '@global': {
-                        '*::-webkit-scrollbar': {
-                            width: '10px',
-                            background: darkTheme ? '#222' : '#e1e1e1',
+                    styleOverrides: `
+                        *::-webkit-scrollbar {
+                            width: 10px;
+                            background: ${darkTheme ? '#222' : '#e1e1e1'};   
+                        }
+                        
+                        *::-webkit-scrollbar-thumb {
+                            background: ${darkTheme ? '#111' : '#aaa'};
+                            border-radius: 5px;
+                        }
+                    `,
 
-                        },
-                        '*::-webkit-scrollbar-thumb': {
-                            background: darkTheme ? '#111' : '#aaa',
-                            borderRadius: '5px',
-                        },
-                    },
                 },
             },
-        })),
+        }),
         [darkTheme],
     );
 
