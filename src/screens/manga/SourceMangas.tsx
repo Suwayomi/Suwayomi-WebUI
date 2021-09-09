@@ -6,24 +6,51 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import React, { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
+import IconButton from '@mui/material/IconButton';
 import MangaGrid from 'components/manga/MangaGrid';
 import NavbarContext from 'context/NavbarContext';
 import client from 'util/client';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 export default function SourceMangas(props: { popular: boolean }) {
     const { setTitle, setAction } = useContext(NavbarContext);
-    useEffect(() => { setTitle('Source'); setAction(<></>); }, []);
+    const history = useHistory();
 
     const { sourceId } = useParams<{ sourceId: string }>();
+    const [isConfigurable, setIsConfigurable] = useState<boolean>(false);
     const [mangas, setMangas] = useState<IMangaCard[]>([]);
     const [hasNextPage, setHasNextPage] = useState<boolean>(false);
     const [lastPageNum, setLastPageNum] = useState<number>(1);
 
     useEffect(() => {
+        setTitle('Source');
+        setAction(
+            <>
+                {isConfigurable && (
+                    <IconButton
+                        onClick={() => history.push(`/sources/${sourceId}/configure/`)}
+                        aria-label="display more actions"
+                        edge="end"
+                        color="inherit"
+                        size="large"
+                        // TODO: enable source configuration
+                        style={{ display: 'none' }}
+                    >
+                        <SettingsIcon />
+                    </IconButton>
+                )}
+            </>,
+        );
+    }, [isConfigurable]);
+
+    useEffect(() => {
         client.get(`/api/v1/source/${sourceId}`)
             .then((response) => response.data)
-            .then((data: { name: string }) => setTitle(data.name));
+            .then((data: ISource) => {
+                setTitle(data.name);
+                setIsConfigurable(data.isConfigurable);
+            });
     }, []);
 
     useEffect(() => {
