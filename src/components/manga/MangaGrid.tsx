@@ -22,7 +22,7 @@ export default function MangaGrid(props: IProps) {
         mangas, message, hasNextPage, lastPageNum, setLastPageNum,
     } = props;
     let mapped;
-    const lastManga = useRef<HTMLInputElement>();
+    const lastManga = useRef<HTMLDivElement>(null);
 
     const scrollHandler = () => {
         if (lastManga.current) {

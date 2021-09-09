@@ -48,7 +48,7 @@ const useStyles = makeStyles({
 interface IProps {
     manga: IMangaCard
 }
-const AnimeCard = React.forwardRef((props: IProps, ref) => {
+const AnimeCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) => {
     const {
         manga: {
             id, title, thumbnailUrl,
@@ -60,7 +60,6 @@ const AnimeCard = React.forwardRef((props: IProps, ref) => {
     return (
         <Grid item xs={6} sm={4} md={3} lg={2}>
             <Link to={`/anime/${id}/`}>
-                {/* @ts-ignore */}
                 <Card className={classes.root} ref={ref}>
                     <CardActionArea>
                         <div className={classes.wrapper}>

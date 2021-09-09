@@ -66,7 +66,7 @@ const truncateText = (str: string, maxLength: number) => {
 interface IProps {
     manga: IMangaCard
 }
-const MangaCard = React.forwardRef((props: IProps, ref) => {
+const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) => {
     const {
         manga: {
             id, title, thumbnailUrl,
@@ -78,7 +78,6 @@ const MangaCard = React.forwardRef((props: IProps, ref) => {
     return (
         <Grid item xs={6} sm={4} md={3} lg={2}>
             <Link to={`/manga/${id}/`}>
-                {/* @ts-ignore */}
                 <Card className={classes.root} ref={ref}>
                     <CardActionArea>
                         <div className={classes.wrapper}>
