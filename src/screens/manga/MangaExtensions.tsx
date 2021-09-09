@@ -6,12 +6,14 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import React, { useContext, useEffect, useState } from 'react';
+import { fromEvent } from 'file-selector';
 import ExtensionCard from 'components/manga/ExtensionCard';
 import NavbarContext from 'context/NavbarContext';
 import client from 'util/client';
 import useLocalStorage from 'util/useLocalStorage';
 import ExtensionLangSelect from 'components/manga/ExtensionLangSelect';
 import { defualtLangs, langCodeToName, langSortCmp } from 'util/language';
+import { makeToaster } from 'components/Toast';
 
 const allLangs: string[] = [];
 
@@ -81,12 +83,54 @@ export default function MangaExtensions() {
         }
     }, [extensionsRaw]);
 
+    const [toasts, makeToast] = makeToaster(useState<React.ReactElement[]>([]));
+
+    const submitExtension = (file: File) => {
+        if (file.name.toLowerCase().endsWith('apk')) {
+            const formData = new FormData();
+            formData.append('file', file);
+
+            makeToast('Installing Extension File....', 'info');
+            client.post('/api/v1/extension/install',
+                formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+                .then(() => {
+                    makeToast('Installed extension successfully!', 'success');
+                    triggerUpdate();
+                })
+                .catch(() => makeToast('Extension installion failed!', 'error'));
+        } else {
+            makeToast('invalid file type!', 'error');
+        }
+    };
+
+    const dropHandler = async (e: Event) => {
+        e.preventDefault();
+        const files = await fromEvent(e);
+
+        submitExtension(files[0] as File);
+    };
+
+    const dragOverHandler = (e: Event) => {
+        e.preventDefault();
+    };
+
+    useEffect(() => {
+        document.addEventListener('drop', dropHandler);
+        document.addEventListener('dragover', dragOverHandler);
+
+        return () => {
+            document.removeEventListener('drop', dropHandler);
+            document.removeEventListener('dragover', dragOverHandler);
+        };
+    }, []);
+
     if (Object.entries(extensions).length === 0) {
         return <h3>loading...</h3>;
     }
     const groupsToShow = ['updates pending', 'installed', ...shownLangs];
     return (
         <>
+            {toasts}
             {
                 Object.entries(extensions).map(([lang, list]) => (
                     ((groupsToShow.indexOf(lang) !== -1 && (list as []).length > 0)

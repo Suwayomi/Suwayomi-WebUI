@@ -10,6 +10,7 @@ import React from 'react';
 import Slide, { SlideProps } from '@material-ui/core/Slide';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert, { Color as Severity } from '@material-ui/lab/Alert';
+import cloneObject from 'util/cloneObject';
 
 function removeToast(id: string) {
     const container = document.querySelector(`#${id}`)!!;
@@ -27,7 +28,7 @@ interface IToastProps{
     severity: Severity
 }
 
-function Toast(props: IToastProps) {
+export function Toast(props: IToastProps) {
     const { message, severity } = props;
     const [open, setOpen] = React.useState(true);
 
@@ -60,4 +61,21 @@ export default function makeToast(message: string, severity: Severity) {
     ReactDOM.render(<Toast message={message} severity={severity} />, container);
 
     setTimeout(() => removeToast(container.id), 3500);
+}
+
+export function makeToaster(
+    [toasts, setToasts] : [React.ReactElement[],
+        (arg0: React.ReactElement[]) => void],
+): [React.ReactElement[], ((message: string, severity: Severity) => void)] {
+    return [toasts, (message: string, severity: Severity) => {
+        const curToasts = cloneObject(toasts);
+        curToasts.push(
+            <Toast
+                key={Math.floor(Math.random() * 1000) + 1}
+                message={message}
+                severity={severity}
+            />,
+        );
+        setToasts(curToasts);
+    }];
 }
