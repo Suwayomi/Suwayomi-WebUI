@@ -15,27 +15,26 @@ import {
     ListItemText,
     ListItemIcon,
     IconButton,
-} from '@material-ui/core';
+} from '@mui/material';
 import {
     DragDropContext, Droppable, Draggable, DropResult, DraggingStyle, NotDraggingStyle,
 } from 'react-beautiful-dnd';
-import DragHandleIcon from '@material-ui/icons/DragHandle';
-import EditIcon from '@material-ui/icons/Edit';
-import { useTheme } from '@material-ui/core/styles';
-import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
-import DeleteIcon from '@material-ui/icons/Delete';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import DragHandleIcon from '@mui/icons-material/DragHandle';
+import EditIcon from '@mui/icons-material/Edit';
+import { useTheme, Palette } from '@mui/material/styles';
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import NavbarContext from 'context/NavbarContext';
 import client from 'util/client';
-import { Palette } from '@material-ui/core/styles/createPalette';
 
 const getItemStyle = (isDragging: boolean,
     draggableStyle: DraggingStyle | NotDraggingStyle | undefined, palette: Palette) => ({
@@ -43,7 +42,7 @@ const getItemStyle = (isDragging: boolean,
     ...draggableStyle,
 
     ...(isDragging && {
-        background: palette.type === 'dark' ? '#424242' : 'rgb(235,235,235)',
+        background: palette.mode === 'dark' ? '#424242' : 'rgb(235,235,235)',
     }),
 });
 
@@ -176,6 +175,7 @@ export default function Categories() {
                                                 onClick={() => {
                                                     handleEditDialogOpen(index);
                                                 }}
+                                                size="large"
                                             >
                                                 <EditIcon />
                                             </IconButton>
@@ -183,6 +183,7 @@ export default function Categories() {
                                                 onClick={() => {
                                                     deleteCategory(index);
                                                 }}
+                                                size="large"
                                             >
                                                 <DeleteIcon />
                                             </IconButton>
@@ -243,6 +244,5 @@ export default function Categories() {
                 </DialogActions>
             </Dialog>
         </>
-
     );
 }

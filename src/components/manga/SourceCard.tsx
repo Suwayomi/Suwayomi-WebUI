@@ -6,12 +6,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
-import Avatar from '@material-ui/core/Avatar';
-import Typography from '@material-ui/core/Typography';
+import makeStyles from '@mui/styles/makeStyles';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Button from '@mui/material/Button';
+import Avatar from '@mui/material/Avatar';
+import Typography from '@mui/material/Typography';
 import useLocalStorage from 'util/useLocalStorage';
 import { langCodeToName } from 'util/language';
 

@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import { Tab, Tabs } from '@material-ui/core';
+import { Tab, Tabs } from '@mui/material';
 import React, { useContext, useEffect, useState } from 'react';
 import MangaGrid from 'components/manga/MangaGrid';
 import NavbarContext from 'context/NavbarContext';
@@ -129,7 +129,8 @@ export default function Library() {
                     textColor="primary"
                     centered={!scrollableTabs}
                     variant={scrollableTabs ? 'scrollable' : 'fullWidth'}
-                    scrollButtons="on"
+                    scrollButtons
+                    allowScrollButtonsMobile
                 >
                     {tabDefines}
                 </Tabs>

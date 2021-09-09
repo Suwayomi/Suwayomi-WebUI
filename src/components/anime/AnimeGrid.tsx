@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import React, { useEffect, useRef } from 'react';
-import Grid from '@material-ui/core/Grid';
+import Grid from '@mui/material/Grid';
 import AnimeCard from './AnimeCard';
 
 interface IProps{

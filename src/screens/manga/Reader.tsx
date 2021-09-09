@@ -5,8 +5,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { makeStyles } from '@material-ui/core/styles';
+import CircularProgress from '@mui/material/CircularProgress';
+import makeStyles from '@mui/styles/makeStyles';
 import React, { useContext, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import HorizontalPager from 'components/manga/reader/pager/HorizontalPager';

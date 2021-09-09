@@ -6,9 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import React, { useContext, useEffect } from 'react';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
 import { fromEvent } from 'file-selector';
 import makeToast from 'components/Toast';
 import ListItemLink from '../../util/ListItemLink';

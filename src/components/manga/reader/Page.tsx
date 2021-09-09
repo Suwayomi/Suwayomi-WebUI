@@ -5,12 +5,11 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import { makeStyles } from '@material-ui/core/styles';
-import { CSSProperties } from '@material-ui/core/styles/withStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import React, { useEffect, useRef } from 'react';
 import SpinnerImage from 'components/SpinnerImage';
 
-function imageStyle(settings: IReaderSettings): CSSProperties {
+function imageStyle(settings: IReaderSettings): any {
     if (settings.readerType === 'DoubleLTR'
     || settings.readerType === 'DoubleRTL'
     || settings.readerType === 'ContinuesHorizontalLTR'

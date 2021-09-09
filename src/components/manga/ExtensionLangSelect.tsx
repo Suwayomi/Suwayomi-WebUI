@@ -6,17 +6,18 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import React, { useState } from 'react';
-import { makeStyles, createStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogActions from '@material-ui/core/DialogActions';
-import Dialog from '@material-ui/core/Dialog';
-import Switch from '@material-ui/core/Switch';
-import IconButton from '@material-ui/core/IconButton';
-import FilterListIcon from '@material-ui/icons/FilterList';
-import { List, ListItemSecondaryAction, ListItemText } from '@material-ui/core';
-import ListItem from '@material-ui/core/ListItem';
+import makeStyles from '@mui/styles/makeStyles';
+import createStyles from '@mui/styles/createStyles';
+import Button from '@mui/material/Button';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import Dialog from '@mui/material/Dialog';
+import Switch from '@mui/material/Switch';
+import IconButton from '@mui/material/IconButton';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import { List, ListItemSecondaryAction, ListItemText } from '@mui/material';
+import ListItem from '@mui/material/ListItem';
 import { langCodeToName } from 'util/language';
 import cloneObject from 'util/cloneObject';
 
@@ -68,6 +69,7 @@ export default function ExtensionLangSelect(props: IProps) {
                 aria-label="display more actions"
                 edge="end"
                 color="inherit"
+                size="large"
             >
                 <FilterListIcon />
             </IconButton>

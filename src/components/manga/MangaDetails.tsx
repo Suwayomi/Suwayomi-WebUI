@@ -5,13 +5,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import { makeStyles } from '@material-ui/core';
-import IconButton from '@material-ui/core/IconButton';
-import { Theme } from '@material-ui/core/styles';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import FilterListIcon from '@material-ui/icons/FilterList';
-import PublicIcon from '@material-ui/icons/Public';
+import makeStyles from '@mui/styles/makeStyles';
+import IconButton from '@mui/material/IconButton';
+import { Theme } from '@mui/material/styles';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import PublicIcon from '@mui/icons-material/Public';
 import React, { useContext, useEffect, useState } from 'react';
 import NavbarContext from 'context/NavbarContext';
 import client from 'util/client';
@@ -151,6 +151,7 @@ export default function MangaDetails(props: IProps) {
                         aria-label="display more actions"
                         edge="end"
                         color="inherit"
+                        size="large"
                     >
                         <FilterListIcon />
                     </IconButton>
@@ -226,7 +227,7 @@ export default function MangaDetails(props: IProps) {
                 </div>
                 <div className={classes.buttons}>
                     <div>
-                        <IconButton onClick={() => handleButtonClick()}>
+                        <IconButton onClick={() => handleButtonClick()} size="large">
                             {inLibrary === 'In Library' && <FavoriteIcon />}
                             {inLibrary !== 'In Library' && <FavoriteBorderIcon />}
                             <span>{inLibrary}</span>
@@ -234,7 +235,7 @@ export default function MangaDetails(props: IProps) {
                     </div>
                     { /* eslint-disable-next-line react/jsx-no-target-blank */ }
                     <a href={manga.realUrl} target="_blank">
-                        <IconButton>
+                        <IconButton size="large">
                             <PublicIcon />
                             <span>Open Site</span>
                         </IconButton>

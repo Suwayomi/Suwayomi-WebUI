@@ -7,8 +7,8 @@
 
 import React, { useContext, useEffect, useState } from 'react';
 import { fromEvent } from 'file-selector';
-import IconButton from '@material-ui/core/IconButton';
-import AddIcon from '@material-ui/icons/Add';
+import IconButton from '@mui/material/IconButton';
+import AddIcon from '@mui/icons-material/Add';
 import ExtensionCard from 'components/manga/ExtensionCard';
 import NavbarContext from 'context/NavbarContext';
 import client from 'util/client';
@@ -63,6 +63,7 @@ export default function MangaExtensions() {
                     onClick={
                         () => document.getElementById('external-extension-file')?.click()
                     }
+                    size="large"
                 >
                     <AddIcon />
                 </IconButton>

@@ -6,19 +6,19 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import CollectionsBookmarkIcon from '@material-ui/icons/CollectionsBookmark';
-import CollectionsBookmarkOutlinedIcon from '@material-ui/icons/CollectionsBookmarkOutlined';
-import VideoLibraryOutlinedIcon from '@material-ui/icons/VideoLibraryOutlined';
-import ExploreIcon from '@material-ui/icons/Explore';
-import ExtensionIcon from '@material-ui/icons/Extension';
-import GetAppIcon from '@material-ui/icons/GetApp';
-import ListItemText from '@material-ui/core/ListItemText';
-import SettingsIcon from '@material-ui/icons/Settings';
+import makeStyles from '@mui/styles/makeStyles';
+import Drawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark';
+import CollectionsBookmarkOutlinedIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
+import VideoLibraryOutlinedIcon from '@mui/icons-material/VideoLibraryOutlined';
+import ExploreIcon from '@mui/icons-material/Explore';
+import ExtensionIcon from '@mui/icons-material/Extension';
+import GetAppIcon from '@mui/icons-material/GetApp';
+import ListItemText from '@mui/material/ListItemText';
+import SettingsIcon from '@mui/icons-material/Settings';
 import { Link } from 'react-router-dom';
 import useLocalStorage from 'util/useLocalStorage';
 
@@ -36,7 +36,7 @@ interface IProps {
 
 export default function TemporaryDrawer({ drawerOpen, setDrawerOpen }: IProps) {
     const classes = useStyles();
-    const [workingMode, setWorkingMode] = useLocalStorage<'manga'|'anime'>('workingMode', 'manga');
+    const [workingMode, setWorkingMode] = useLocalStorage<'manga' | 'anime'>('workingMode', 'manga');
 
     const otherMode = () => {
         if (workingMode === 'manga') return 'Anime';

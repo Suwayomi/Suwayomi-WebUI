@@ -6,16 +6,17 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import React from 'react';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import IconButton from '@material-ui/core/IconButton';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import Typography from '@material-ui/core/Typography';
+import { useTheme } from '@mui/material/styles';
+import makeStyles from '@mui/styles/makeStyles';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import IconButton from '@mui/material/IconButton';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import BookmarkIcon from '@material-ui/icons/Bookmark';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
 import client from 'util/client';
 
 const useStyles = makeStyles((theme) => ({
@@ -92,7 +93,7 @@ export default function ChapterCard(props: IProps) {
         handleClose();
     };
 
-    const readChapterColor = theme.palette.type === 'dark' ? '#acacac' : '#b0b0b0';
+    const readChapterColor = theme.palette.mode === 'dark' ? '#acacac' : '#b0b0b0';
     return (
         <>
             <li>
@@ -124,7 +125,7 @@ export default function ChapterCard(props: IProps) {
                             </div>
                         </Link>
 
-                        <IconButton aria-label="more" onClick={handleClick}>
+                        <IconButton aria-label="more" onClick={handleClick} size="large">
                             <MoreVertIcon />
                         </IconButton>
                         <Menu
@@ -134,7 +135,7 @@ export default function ChapterCard(props: IProps) {
                             onClose={handleClose}
                         >
                             {downloadingString.length === 0
-                            && <MenuItem onClick={downloadChapter}>Download</MenuItem> }
+                        && <MenuItem onClick={downloadChapter}>Download</MenuItem> }
                             <MenuItem onClick={() => sendChange('bookmarked', !chapter.bookmarked)}>
                                 {chapter.bookmarked && 'Remove bookmark'}
                                 {!chapter.bookmarked && 'Bookmark'}

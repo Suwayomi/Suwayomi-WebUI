@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { CircularProgress, makeStyles } from '@material-ui/core';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
+import { CircularProgress } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
 import client from '../../util/client';
 import ListItemLink from '../../util/ListItemLink';
 import NavbarContext from '../../context/NavbarContext';

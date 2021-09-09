@@ -10,21 +10,20 @@
 
 import NavbarContext from 'context/NavbarContext';
 import React, { useContext, useEffect, useState } from 'react';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import PauseIcon from '@material-ui/icons/Pause';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import PauseIcon from '@mui/icons-material/Pause';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 import client from 'util/client';
 import {
     DragDropContext, Draggable, DraggingStyle, Droppable, DropResult, NotDraggingStyle,
 } from 'react-beautiful-dnd';
-import { useTheme } from '@material-ui/core/styles';
-import { Palette } from '@material-ui/core/styles/createPalette';
-import List from '@material-ui/core/List';
-import DragHandleIcon from '@material-ui/icons/DragHandle';
-import ListItem from '@material-ui/core/ListItem';
-import { ListItemIcon } from '@material-ui/core';
-import ListItemText from '@material-ui/core/ListItemText';
+import { useTheme, Palette } from '@mui/material/styles';
+import List from '@mui/material/List';
+import DragHandleIcon from '@mui/icons-material/DragHandle';
+import ListItem from '@mui/material/ListItem';
+import { ListItemIcon } from '@mui/material';
+import ListItemText from '@mui/material/ListItemText';
 
 const baseWebsocketUrl = JSON.parse(window.localStorage.getItem('serverBaseURL')!).replace('http', 'ws');
 
@@ -34,7 +33,7 @@ const getItemStyle = (isDragging: boolean,
     ...draggableStyle,
 
     ...(isDragging && {
-        background: palette.type === 'dark' ? '#424242' : 'rgb(235,235,235)',
+        background: palette.mode === 'dark' ? '#424242' : 'rgb(235,235,235)',
     }),
 });
 
@@ -66,13 +65,13 @@ export default function DownloadQueue() {
         setAction(() => {
             if (status === 'Stopped') {
                 return (
-                    <IconButton onClick={toggleQueueStatus}>
+                    <IconButton onClick={toggleQueueStatus} size="large">
                         <PlayArrowIcon />
                     </IconButton>
                 );
             }
             return (
-                <IconButton onClick={toggleQueueStatus}>
+                <IconButton onClick={toggleQueueStatus} size="large">
                     <PauseIcon />
                 </IconButton>
             );
@@ -122,14 +121,15 @@ export default function DownloadQueue() {
                                             <ListItemText
                                                 primary={
                                                     `${item.chapter.name} | `
-                                                    + ` (${item.progress * 100}%)`
-                                                    + ` => state: ${item.state}`
+                                                + ` (${item.progress * 100}%)`
+                                                + ` => state: ${item.state}`
                                                 }
                                             />
                                             <IconButton
                                                 onClick={() => {
-                                                    // deleteCategory(index);
+                                                // deleteCategory(index);
                                                 }}
+                                                size="large"
                                             >
                                                 <DeleteIcon />
                                             </IconButton>

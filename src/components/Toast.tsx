@@ -7,9 +7,9 @@
 
 import ReactDOM from 'react-dom';
 import React from 'react';
-import Slide, { SlideProps } from '@material-ui/core/Slide';
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert, { Color as Severity } from '@material-ui/lab/Alert';
+import Slide, { SlideProps } from '@mui/material/Slide';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert, { AlertColor as Severity } from '@mui/material/Alert';
 
 function removeToast(id: string) {
     const container = document.querySelector(`#${id}`)!!;

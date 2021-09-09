@@ -6,26 +6,26 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import React, { useContext, useEffect, useState } from 'react';
-import List from '@material-ui/core/List';
-import ListAltIcon from '@material-ui/icons/ListAlt';
-import BackupIcon from '@material-ui/icons/Backup';
-import Brightness6Icon from '@material-ui/icons/Brightness6';
-import DnsIcon from '@material-ui/icons/Dns';
-import EditIcon from '@material-ui/icons/Edit';
-import InfoIcon from '@material-ui/icons/Info';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import Switch from '@material-ui/core/Switch';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import TextField from '@material-ui/core/TextField';
-import FavoriteIcon from '@material-ui/icons/Favorite';
+import List from '@mui/material/List';
+import ListAltIcon from '@mui/icons-material/ListAlt';
+import BackupIcon from '@mui/icons-material/Backup';
+import Brightness6Icon from '@mui/icons-material/Brightness6';
+import DnsIcon from '@mui/icons-material/Dns';
+import EditIcon from '@mui/icons-material/Edit';
+import InfoIcon from '@mui/icons-material/Info';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
+import Switch from '@mui/material/Switch';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import TextField from '@mui/material/TextField';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import NavbarContext from '../context/NavbarContext';
 import DarkTheme from '../context/DarkTheme';
 import useLocalStorage from '../util/useLocalStorage';
@@ -106,6 +106,7 @@ export default function Settings() {
                             onClick={() => {
                                 handleDialogOpen();
                             }}
+                            size="large"
                         >
                             <EditIcon />
                         </IconButton>

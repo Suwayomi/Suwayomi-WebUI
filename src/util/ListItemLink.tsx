@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import React from 'react';
-import ListItem, { ListItemProps } from '@material-ui/core/ListItem';
+import ListItem, { ListItemProps } from '@mui/material/ListItem';
 
 export default function ListItemLink(props: ListItemProps<'a', { button?: true }>) {
     // eslint-disable-next-line react/jsx-props-no-spreading

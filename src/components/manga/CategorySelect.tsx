@@ -6,15 +6,16 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import React, { useEffect, useState } from 'react';
-import { makeStyles, createStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogActions from '@material-ui/core/DialogActions';
-import Dialog from '@material-ui/core/Dialog';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormGroup from '@material-ui/core/FormGroup';
+import makeStyles from '@mui/styles/makeStyles';
+import createStyles from '@mui/styles/createStyles';
+import Button from '@mui/material/Button';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import Dialog from '@mui/material/Dialog';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormGroup from '@mui/material/FormGroup';
 import client from 'util/client';
 
 const useStyles = makeStyles(() => createStyles({

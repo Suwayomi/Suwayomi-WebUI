@@ -10,7 +10,7 @@ import NavbarContext from 'context/NavbarContext';
 import { useParams } from 'react-router-dom';
 import client from 'util/client';
 import CheckBoxPreference from 'components/manga/sourceConfiguration/CheckBoxPreference';
-import List from '@material-ui/core/List';
+import List from '@mui/material/List';
 
 function getPrefComponent(type: string) {
     switch (type) {

@@ -5,28 +5,28 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
-import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-import { makeStyles } from '@material-ui/core/styles';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import makeStyles from '@mui/styles/makeStyles';
 import React, { useContext, useEffect, useState } from 'react';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 import { useHistory, Link } from 'react-router-dom';
-import Slide from '@material-ui/core/Slide';
-import Fade from '@material-ui/core/Fade';
-import Zoom from '@material-ui/core/Zoom';
-import { Switch } from '@material-ui/core';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import Collapse from '@material-ui/core/Collapse';
-import Button from '@material-ui/core/Button';
+import Slide from '@mui/material/Slide';
+import Fade from '@mui/material/Fade';
+import Zoom from '@mui/material/Zoom';
+import { Switch } from '@mui/material';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
+import Collapse from '@mui/material/Collapse';
+import Button from '@mui/material/Button';
 import NavBarContext from '../../context/NavbarContext';
 
 const useStyles = (settings: IReaderSettings) => makeStyles({
@@ -209,17 +209,18 @@ export default function ReaderNavBar(props: IProps) {
                 <div className={classes.root}>
                     <header>
                         {!settings.staticNav
-                        && (
-                            <IconButton
-                                edge="start"
-                                color="inherit"
-                                aria-label="menu"
-                                disableRipple
-                                onClick={() => setDrawerOpen(false)}
-                            >
-                                <KeyboardArrowLeftIcon />
-                            </IconButton>
-                        ) }
+                    && (
+                        <IconButton
+                            edge="start"
+                            color="inherit"
+                            aria-label="menu"
+                            disableRipple
+                            onClick={() => setDrawerOpen(false)}
+                            size="large"
+                        >
+                            <KeyboardArrowLeftIcon />
+                        </IconButton>
+                    ) }
                         <Typography variant="h1">
                             {/* {title} */}
                             {chapter.name}
@@ -230,6 +231,7 @@ export default function ReaderNavBar(props: IProps) {
                             aria-label="menu"
                             disableRipple
                             onClick={() => history.push(`/manga/${manga.id}`)}
+                            size="large"
                         >
                             <CloseIcon />
                         </IconButton>
@@ -244,6 +246,7 @@ export default function ReaderNavBar(props: IProps) {
                                 disableRipple
                                 disableFocusRipple
                                 onClick={() => setSettingsCollapseOpen(!settingsCollapseOpen)}
+                                size="large"
                             >
                                 {settingsCollapseOpen && <KeyboardArrowUpIcon />}
                                 {!settingsCollapseOpen && <KeyboardArrowDownIcon />}
@@ -297,9 +300,9 @@ export default function ReaderNavBar(props: IProps) {
 
                                     </MenuItem>
                                     {/* <MenuItem value="SingleVertical">
-                                        Vertical(WIP)
+                                    Vertical(WIP)
 
-                                    </MenuItem> */}
+                                </MenuItem> */}
                                     <MenuItem value="DoubleLTR">
                                         Double Page (LTR)
 
@@ -341,33 +344,33 @@ export default function ReaderNavBar(props: IProps) {
                         </span>
                         <div className={classes.navigationChapters}>
                             {chapter.index > 1
-                            && (
-                                <Link
-                                    style={{ gridArea: 'prev' }}
-                                    to={`/manga/${manga.id}/chapter/${chapter.index - 1}`}
+                        && (
+                            <Link
+                                style={{ gridArea: 'prev' }}
+                                to={`/manga/${manga.id}/chapter/${chapter.index - 1}`}
+                            >
+                                <Button
+                                    variant="outlined"
+                                    startIcon={<KeyboardArrowLeftIcon />}
                                 >
-                                    <Button
-                                        variant="outlined"
-                                        startIcon={<KeyboardArrowLeftIcon />}
-                                    >
-                                        Prev. Chapter
-                                    </Button>
-                                </Link>
-                            )}
+                                    Prev. Chapter
+                                </Button>
+                            </Link>
+                        )}
                             {chapter.index < chapter.chapterCount
-                            && (
-                                <Link
-                                    style={{ gridArea: 'next' }}
-                                    to={`/manga/${manga.id}/chapter/${chapter.index + 1}`}
+                        && (
+                            <Link
+                                style={{ gridArea: 'next' }}
+                                to={`/manga/${manga.id}/chapter/${chapter.index + 1}`}
+                            >
+                                <Button
+                                    variant="outlined"
+                                    endIcon={<KeyboardArrowRightIcon />}
                                 >
-                                    <Button
-                                        variant="outlined"
-                                        endIcon={<KeyboardArrowRightIcon />}
-                                    >
-                                        Next Chapter
-                                    </Button>
-                                </Link>
-                            )}
+                                    Next Chapter
+                                </Button>
+                            </Link>
+                        )}
                         </div>
                     </div>
                 </div>
@@ -382,6 +385,7 @@ export default function ReaderNavBar(props: IProps) {
                         disableRipple
                         disableFocusRipple
                         onClick={() => setDrawerOpen(true)}
+                        size="large"
                     >
                         <KeyboardArrowRightIcon />
                     </IconButton>

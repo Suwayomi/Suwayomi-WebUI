@@ -6,9 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import React, { useContext, useEffect, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
+import makeStyles from '@mui/styles/makeStyles';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 import { useParams } from 'react-router-dom';
 import MangaGrid from 'components/manga/MangaGrid';
 import NavbarContext from 'context/NavbarContext';

@@ -6,7 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import React, { useEffect, useState, useContext } from 'react';
-import { makeStyles, Theme } from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import { useParams } from 'react-router-dom';
 import { Virtuoso } from 'react-virtuoso';
 import EpisodeCard from 'components/anime/EpisodeCard';

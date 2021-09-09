@@ -6,13 +6,13 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardMedia from '@material-ui/core/CardMedia';
-import Typography from '@material-ui/core/Typography';
+import makeStyles from '@mui/styles/makeStyles';
+import Card from '@mui/material/Card';
+import CardActionArea from '@mui/material/CardActionArea';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
-import { Grid } from '@material-ui/core';
+import { Grid } from '@mui/material';
 import useLocalStorage from 'util/useLocalStorage';
 
 const useStyles = makeStyles({
@@ -60,6 +60,7 @@ const AnimeCard = React.forwardRef((props: IProps, ref) => {
     return (
         <Grid item xs={6} sm={4} md={3} lg={2}>
             <Link to={`/anime/${id}/`}>
+                {/* @ts-ignore */}
                 <Card className={classes.root} ref={ref}>
                     <CardActionArea>
                         <div className={classes.wrapper}>
