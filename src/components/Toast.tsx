@@ -10,7 +10,6 @@ import React from 'react';
 import Slide, { SlideProps } from '@material-ui/core/Slide';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert, { Color as Severity } from '@material-ui/lab/Alert';
-import cloneObject from 'util/cloneObject';
 
 function removeToast(id: string) {
     const container = document.querySelector(`#${id}`)!!;
@@ -68,14 +67,10 @@ export function makeToaster(
         (arg0: React.ReactElement[]) => void],
 ): [React.ReactElement[], ((message: string, severity: Severity) => void)] {
     return [toasts, (message: string, severity: Severity) => {
-        const curToasts = cloneObject(toasts);
-        curToasts.push(
-            <Toast
-                key={Math.floor(Math.random() * 1000) + 1}
-                message={message}
-                severity={severity}
-            />,
-        );
-        setToasts(curToasts);
+        setToasts([<Toast
+            key={Math.floor(Math.random() * 1000) + 1}
+            message={message}
+            severity={severity}
+        />]);
     }];
 }
