@@ -27,6 +27,8 @@ const useStyles = (settings: IReaderSettings) => makeStyles({
 
     loading: {
         margin: '50px auto',
+        display: 'flex',
+        justifyContent: 'center',
     },
 });
 
