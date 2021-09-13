@@ -9,13 +9,22 @@ import React, { useContext, useEffect, useState } from 'react';
 import NavbarContext from 'context/NavbarContext';
 import { useParams } from 'react-router-dom';
 import client from 'util/client';
-import CheckBoxPreference from 'components/manga/sourceConfiguration/CheckBoxPreference';
+import { SwitchPreferenceCompat, CheckBoxPreference } from 'components/manga/sourceConfiguration/TwoStatePreference';
+import ListPreference from 'components/manga/sourceConfiguration/ListPreference';
+import EditTextPreference from 'components/manga/sourceConfiguration/EditTextPreference';
 import List from '@mui/material/List';
+import cloneObject from 'util/cloneObject';
 
 function getPrefComponent(type: string) {
     switch (type) {
         case 'CheckBoxPreference':
             return CheckBoxPreference;
+        case 'SwitchPreferenceCompat':
+            return SwitchPreferenceCompat;
+        case 'ListPreference':
+            return ListPreference;
+        case 'EditTextPreference':
+            return EditTextPreference;
         default:
             return CheckBoxPreference;
     }
@@ -25,6 +34,9 @@ export default function SourceConfigure() {
     const [sourcePreferences, setSourcePreferences] = useState<SourcePreferences[]>([]);
     const { setTitle, setAction } = useContext(NavbarContext);
 
+    const [updateTriggerHolder, setUpdateTriggerHolder] = useState<number>(0); // just a hack
+    const triggerUpdate = () => setUpdateTriggerHolder(updateTriggerHolder + 1); // just a hack
+
     useEffect(() => { setTitle('Source Configuration'); setAction(<></>); }, []);
 
     const { sourceId } = useParams<{ sourceId: string }>();
@@ -33,14 +45,29 @@ export default function SourceConfigure() {
         client.get(`/api/v1/source/${sourceId}/preferences`)
             .then((response) => response.data)
             .then((data) => setSourcePreferences(data));
-    }, []);
+    }, [updateTriggerHolder]);
+
+    const updateValue = (position: number) => (
+        (value: any) => {
+            client.post(`/api/v1/source/${sourceId}/preferences`,
+                JSON.stringify({ position, value: value.toString() }))
+                .then(() => triggerUpdate());
+        }
+    );
 
     return (
         <>
             <List style={{ padding: 0 }}>
-
                 {sourcePreferences.map(
-                    (it) => React.createElement(getPrefComponent(it.type), it.props),
+                    (it, index) => {
+                        const props = cloneObject(it.props);
+                        props.updateValue = updateValue(index);
+                        props.key = index;
+
+                        // TypeScript is dumb in detecting extra props
+                        // @ts-ignore
+                        return React.createElement(getPrefComponent(it.type), props);
+                    },
                 )}
             </List>
         </>

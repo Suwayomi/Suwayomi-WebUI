@@ -142,7 +142,7 @@ interface INavbarOverride {
 }
 
 type ReaderType =
-'ContinuesVertical'|
+'ContinuesVertical' |
 'Webtoon' |
 'SingleVertical' |
 'SingleRTL' |
@@ -150,7 +150,7 @@ type ReaderType =
 'DoubleVertical' |
 'DoubleRTL' |
 'DoubleLTR' |
-'ContinuesHorizontalLTR'|
+'ContinuesHorizontalLTR' |
 'ContinuesHorizontalRTL';
 
 interface IReaderSettings{
@@ -200,11 +200,6 @@ interface IQueue {
     queue: IDownloadChapter[]
 }
 
-interface SourcePreferences {
-    type: string
-    props: any
-}
-
 interface PreferenceProps {
     key: string
     title: string
@@ -212,8 +207,29 @@ interface PreferenceProps {
     defaultValue: any
     currentValue: any
     defaultValueType: string
+
+    // intetnal props
+    updateValue: any
 }
 
-interface CheckBoxPreferenceProps extends PreferenceProps {
+interface TwoStatePreferenceProps extends PreferenceProps {
 
+    // intetnal props
+    type: 'Switch' | 'Checkbox'
+}
+interface CheckBoxPreferenceProps extends PreferenceProps {}
+interface SwitchPreferenceCompatProps extends PreferenceProps {}
+interface ListPreferenceProps extends PreferenceProps {
+    entries: string[]
+    entryValues: string[]
+}
+interface EditTextPreferenceProps extends PreferenceProps {
+    dialogTitle: string
+    dialogMessage: string
+    text: string
+}
+
+interface SourcePreferences {
+    type: string
+    props: any
 }

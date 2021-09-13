@@ -24,7 +24,10 @@ export default function SourceMangas(props: { popular: boolean }) {
     const [lastPageNum, setLastPageNum] = useState<number>(1);
 
     useEffect(() => {
-        setTitle('Source');
+        setTitle('Source'); // title is deligated to `MangaGrid` but we set it here once
+    }, []);
+
+    useEffect(() => {
         setAction(
             <>
                 {isConfigurable && (
@@ -34,8 +37,6 @@ export default function SourceMangas(props: { popular: boolean }) {
                         edge="end"
                         color="inherit"
                         size="large"
-                        // TODO: enable source configuration
-                        style={{ display: 'none' }}
                     >
                         <SettingsIcon />
                     </IconButton>
