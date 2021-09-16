@@ -74,24 +74,18 @@ export default function Manga() {
         wsc.onmessage = (e) => {
             const data = JSON.parse(e.data) as IQueue;
             setQueueState(data);
-
-            let shouldUpdate = false;
-            data.queue.forEach((q) => {
-                if (q.mangaId === manga?.id && q.state === 'Finished') {
-                    shouldUpdate = true;
-                }
-            });
-            if (shouldUpdate) {
-                triggerChaptersUpdate();
-            }
         };
 
         setWsClient(wsc);
 
         return () => wsc.close();
+    }, []);
+
+    useEffect(() => {
+        triggerChaptersUpdate();
     }, [queue.length]);
 
-    const downloadingStringFor = (chapter: IChapter) => {
+    const downloadStatusStringFor = (chapter: IChapter) => {
         let rtn = '';
         if (chapter.downloaded) {
             rtn = ' • Downloaded';
@@ -150,7 +144,7 @@ export default function Manga() {
                     itemContent={(index:number) => (
                         <ChapterCard
                             chapter={chapters[index]}
-                            downloadingString={downloadingStringFor(chapters[index])}
+                            downloadStatusString={downloadStatusStringFor(chapters[index])}
                             triggerChaptersUpdate={triggerChaptersUpdate}
                         />
                     )}

@@ -59,13 +59,13 @@ const useStyles = makeStyles((theme) => ({
 interface IProps{
     chapter: IChapter
     triggerChaptersUpdate: () => void
-    downloadingString: string
+    downloadStatusString: string
 }
 
 export default function ChapterCard(props: IProps) {
     const classes = useStyles();
     const theme = useTheme();
-    const { chapter, triggerChaptersUpdate, downloadingString } = props;
+    const { chapter, triggerChaptersUpdate, downloadStatusString } = props;
 
     const dateStr = chapter.uploadDate && new Date(chapter.uploadDate).toISOString().slice(0, 10);
 
@@ -90,6 +90,13 @@ export default function ChapterCard(props: IProps) {
 
     const downloadChapter = () => {
         client.get(`/api/v1/download/${chapter.mangaId}/chapter/${chapter.index}`);
+        handleClose();
+    };
+
+    const deleteChapter = () => {
+        client.delete(`/api/v1/manga/${chapter.mangaId}/chapter/${chapter.index}`)
+            .then(() => triggerChaptersUpdate());
+
         handleClose();
     };
 
@@ -119,7 +126,7 @@ export default function ChapterCard(props: IProps) {
                                         {chapter.scanlator}
                                         {chapter.scanlator && ' '}
                                         {dateStr}
-                                        {downloadingString}
+                                        {downloadStatusString}
                                     </Typography>
                                 </div>
                             </div>
@@ -134,7 +141,9 @@ export default function ChapterCard(props: IProps) {
                             open={Boolean(anchorEl)}
                             onClose={handleClose}
                         >
-                            {downloadingString.length === 0
+                            {downloadStatusString.endsWith('Downloaded')
+                            && <MenuItem onClick={deleteChapter}>Delete</MenuItem>}
+                            {downloadStatusString.length === 0
                         && <MenuItem onClick={downloadChapter}>Download</MenuItem> }
                             <MenuItem onClick={() => sendChange('bookmarked', !chapter.bookmarked)}>
                                 {chapter.bookmarked && 'Remove bookmark'}
