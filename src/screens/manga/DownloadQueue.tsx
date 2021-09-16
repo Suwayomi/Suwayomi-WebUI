@@ -121,7 +121,7 @@ export default function DownloadQueue() {
                                             <ListItemText
                                                 primary={
                                                     `${item.chapter.name} | `
-                                                + ` (${item.progress * 100}%)`
+                                                + ` (${(item.progress * 100).toFixed(2)}%)`
                                                 + ` => state: ${item.state}`
                                                 }
                                             />

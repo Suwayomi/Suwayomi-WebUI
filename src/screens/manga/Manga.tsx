@@ -98,7 +98,7 @@ export default function Manga() {
         }
         queue.forEach((q) => {
             if (chapter.index === q.chapterIndex && chapter.mangaId === q.mangaId) {
-                rtn = ` • Downloading (${q.progress * 100}%)`;
+                rtn = ` • Downloading (${(q.progress * 100).toFixed(2)}%)`;
             }
         });
         return rtn;
