@@ -22,9 +22,10 @@ export default function SourceMangas(props: { popular: boolean }) {
     const [mangas, setMangas] = useState<IMangaCard[]>([]);
     const [hasNextPage, setHasNextPage] = useState<boolean>(false);
     const [lastPageNum, setLastPageNum] = useState<number>(1);
+    const [fetched, setFetched] = useState<boolean>(false);
 
     useEffect(() => {
-        setTitle('Source'); // title is deligated to `MangaGrid` but we set it here once
+        setTitle('Source'); // title is later set after a fetch but we set it here once
     }, []);
 
     useEffect(() => {
@@ -49,7 +50,7 @@ export default function SourceMangas(props: { popular: boolean }) {
         client.get(`/api/v1/source/${sourceId}`)
             .then((response) => response.data)
             .then((data: ISource) => {
-                setTitle(data.name);
+                setTitle(data.displayName);
                 setIsConfigurable(data.isConfigurable);
             });
     }, []);
@@ -65,8 +66,12 @@ export default function SourceMangas(props: { popular: boolean }) {
                         title: it.title, thumbnailUrl: it.thumbnailUrl, id: it.id,
                     }))]);
                 setHasNextPage(data.hasNextPage);
+                setFetched(true);
             });
     }, [lastPageNum]);
+
+    let message;
+    if (fetched) message = 'No manga was found!';
 
     return (
         <MangaGrid
@@ -74,6 +79,7 @@ export default function SourceMangas(props: { popular: boolean }) {
             hasNextPage={hasNextPage}
             lastPageNum={lastPageNum}
             setLastPageNum={setLastPageNum}
+            message={message}
         />
     );
 }

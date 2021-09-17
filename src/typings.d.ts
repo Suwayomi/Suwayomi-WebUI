@@ -25,9 +25,9 @@ interface ISource {
     lang: string
     iconUrl: string
     supportsLatest: boolean
-    history: any
     isConfigurable: boolean
     isNsfw: boolean
+    displayName: string
 }
 
 interface IMangaCard {

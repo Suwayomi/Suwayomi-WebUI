@@ -14,7 +14,7 @@ const useStyles = (settings: IReaderSettings) => makeStyles({
         position: 'fixed',
         bottom: '50px',
         right: settings.staticNav ? 'calc((100vw - 325px)/2)' : 'calc((100vw - 25px)/2)',
-        width: '50px',
+        padding: '2px',
         textAlign: 'center',
         backgroundColor: 'rgba(0, 0, 0, 0.3)',
         borderRadius: '10px',

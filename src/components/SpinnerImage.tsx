@@ -35,18 +35,26 @@ export default function SpinnerImage(props: IProps) {
             onImageLoad?.();
         };
 
+        img.onerror = () => {
+            setImagsrc('Not Found');
+        };
+
         return () => {
             img.onload = null;
+            img.onerror = null;
         };
     }, [src]);
 
     if (imageSrc.length === 0) {
         return (
-            // <div className={`${classes.image} ${classes.loadingImage}`}>
             <div className={spinnerClassName}>
                 <CircularProgress thickness={5} />
             </div>
         );
+    }
+
+    if (imageSrc === 'Not Found') {
+        return <div className={spinnerClassName} />;
     }
 
     return (
