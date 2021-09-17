@@ -146,7 +146,7 @@ export default function MangaExtensions() {
             document.removeEventListener('dragover', dragOverHandler);
             input?.removeEventListener('change', changeHandler);
         };
-    }, []);
+    }, [extensions]); // useEffect only after <input> renders
 
     if (Object.entries(extensions).length === 0) {
         return <h3>loading...</h3>;
