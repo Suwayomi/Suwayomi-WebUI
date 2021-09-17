@@ -12,6 +12,8 @@ export const ISOLanguages = [
 
     { code: 'other', name: 'other langs?', nativeName: 'Other' },
 
+    { code: 'localsourcelang', name: 'Local source', nativeName: 'Other' },
+
     // full list: https://github.com/meikidd/iso-639-1/blob/master/src/data.js
     { code: 'en', name: 'English', nativeName: 'English' },
     { code: 'ca', name: 'Catalan; Valencian', nativeName: 'Català' },
@@ -95,6 +97,7 @@ export function defualtLangs() {
     return [
         // todo: infer this from the browser
         'en',
+        'localSourceLang',
     ];
 }
 
@@ -105,5 +108,8 @@ export const langSortCmp = (a: string, b: string) => {
 
     if (a === 'en') return -1;
     if (b === 'en') return 1;
+    if (a === 'localSourceLang') return 1;
+    if (b === 'localSourceLang') return -1;
+
     return aLang > bLang ? 1 : -1;
 };
