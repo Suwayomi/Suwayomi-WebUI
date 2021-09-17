@@ -41,6 +41,14 @@ const useStyles = makeStyles((theme) => ({
     },
     card: {
         margin: '10px',
+        '&:hover': {
+            backgroundColor: theme.palette.action.hover,
+            transition: 'background-color 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+        },
+        '&:active': {
+            backgroundColor: theme.palette.action.selected,
+            transition: 'background-color 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+        },
     },
 }));
 
