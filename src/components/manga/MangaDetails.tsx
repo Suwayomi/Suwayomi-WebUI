@@ -121,8 +121,8 @@ interface IProps{
 }
 
 function getSourceName(source: ISource) {
-    if (source.name !== null) {
-        return `${source.name} (${source.lang.toLocaleUpperCase()})`;
+    if (source.displayName !== null) {
+        return source.displayName;
     }
     return source.id;
 }
