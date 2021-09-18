@@ -74,6 +74,7 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
     } = props;
     const classes = useStyles();
     const [serverAddress] = useLocalStorage<String>('serverBaseURL', '');
+    const [useCache] = useLocalStorage<boolean>('useCache', true);
 
     return (
         <Grid item xs={6} sm={4} md={3} lg={2}>
@@ -83,7 +84,7 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
                         <div className={classes.wrapper}>
                             <SpinnerImage
                                 alt={title}
-                                src={serverAddress + thumbnailUrl}
+                                src={`${serverAddress}${thumbnailUrl}?useCache=${useCache}`}
                                 spinnerClassName={classes.spinner}
                                 imgClassName={classes.image}
                             />

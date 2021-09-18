@@ -82,6 +82,7 @@ export default function SourceCard(props: IProps) {
     const history = useHistory();
 
     const [serverAddress] = useLocalStorage<String>('serverBaseURL', '');
+    const [useCache] = useLocalStorage<boolean>('useCache', true);
 
     const classes = useStyles();
 
@@ -104,7 +105,7 @@ export default function SourceCard(props: IProps) {
                         variant="rounded"
                         className={classes.icon}
                         alt={name}
-                        src={serverAddress + iconUrl}
+                        src={`${serverAddress}${iconUrl}?useCache=${useCache}`}
                     />
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
                         <Typography variant="h5" component="h2">

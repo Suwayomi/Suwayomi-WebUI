@@ -8,6 +8,7 @@
 import makeStyles from '@mui/styles/makeStyles';
 import React, { useEffect, useRef } from 'react';
 import SpinnerImage from 'components/SpinnerImage';
+import useLocalStorage from 'util/useLocalStorage';
 
 function imageStyle(settings: IReaderSettings): any {
     if (settings.readerType === 'DoubleLTR'
@@ -65,6 +66,8 @@ const Page = React.forwardRef((props: IProps, ref: any) => {
         src, index, onImageLoad, setCurPage, settings,
     } = props;
 
+    const [useCache] = useLocalStorage<boolean>('useCache', true);
+
     const classes = useStyles(settings)();
     const imgRef = useRef<HTMLImageElement>(null);
 
@@ -104,7 +107,7 @@ const Page = React.forwardRef((props: IProps, ref: any) => {
     return (
         <div ref={ref} style={{ margin: '0 auto' }}>
             <SpinnerImage
-                src={src}
+                src={`${src}?useCache=${useCache}`}
                 onImageLoad={onImageLoad}
                 alt={`Page #${index}`}
                 imgRef={imgRef}

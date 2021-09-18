@@ -167,6 +167,7 @@ export default function MangaDetails(props: IProps) {
     }, [inLibrary, categoryDialogOpen]);
 
     const [serverAddress] = useLocalStorage<String>('serverBaseURL', '');
+    const [useCache] = useLocalStorage<boolean>('useCache', true);
 
     const classes = useStyles(inLibrary)();
 
@@ -197,7 +198,7 @@ export default function MangaDetails(props: IProps) {
             <div className={classes.top}>
                 <div className={classes.leftRight}>
                     <div className={classes.leftSide}>
-                        <img src={`${serverAddress}${manga.thumbnailUrl}`} alt="Manga Thumbnail" />
+                        <img src={`${serverAddress}${manga.thumbnailUrl}?useCache=${useCache}`} alt="Manga Thumbnail" />
                     </div>
                     <div className={classes.rightSide}>
                         <h1>

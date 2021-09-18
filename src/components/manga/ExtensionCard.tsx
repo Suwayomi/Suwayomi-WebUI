@@ -65,6 +65,7 @@ export default function ExtensionCard(props: IProps) {
     );
 
     const [serverAddress] = useLocalStorage<String>('serverBaseURL', '');
+    const [useCache] = useLocalStorage<boolean>('useCache', true);
 
     const classes = useStyles();
     const langPress = lang === 'all' ? 'All' : lang.toUpperCase();
@@ -124,7 +125,7 @@ export default function ExtensionCard(props: IProps) {
                         variant="rounded"
                         className={classes.icon}
                         alt={name}
-                        src={serverAddress + iconUrl}
+                        src={`${serverAddress}${iconUrl}?useCache=${useCache}`}
                     />
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
                         <Typography variant="h5" component="h2">

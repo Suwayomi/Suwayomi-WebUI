@@ -13,6 +13,7 @@ import Brightness6Icon from '@mui/icons-material/Brightness6';
 import DnsIcon from '@mui/icons-material/Dns';
 import EditIcon from '@mui/icons-material/Edit';
 import InfoIcon from '@mui/icons-material/Info';
+import CachedIcon from '@mui/icons-material/Cached';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
@@ -38,6 +39,7 @@ export default function Settings() {
     const { darkTheme, setDarkTheme } = useContext(DarkTheme);
     const [serverAddress, setServerAddress] = useLocalStorage<String>('serverBaseURL', '');
     const [showNsfw, setShowNsfw] = useLocalStorage<boolean>('showNsfw', true);
+    const [useCache, setUseCache] = useLocalStorage<boolean>('useCache', true);
     const [dialogOpen, setDialogOpen] = useState(false);
     const [dialogValue, setDialogValue] = useState(serverAddress);
 
@@ -87,12 +89,32 @@ export default function Settings() {
                     <ListItemIcon>
                         <FavoriteIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Show NSFW" />
+                    <ListItemText
+                        primary="Show NSFW"
+                        secondary="Hide NSFW extensions and sources"
+                    />
                     <ListItemSecondaryAction>
                         <Switch
                             edge="end"
                             checked={showNsfw}
                             onChange={() => setShowNsfw(!showNsfw)}
+                        />
+                    </ListItemSecondaryAction>
+                </ListItem>
+                <ListItem>
+                    <ListItemIcon>
+                        <CachedIcon />
+                    </ListItemIcon>
+                    <ListItemText
+                        primary="Use image cache"
+                        secondary="Disabling image cache makes images load faster if you have a slow disk,
+                         but uses it much more internet traffic in turn"
+                    />
+                    <ListItemSecondaryAction>
+                        <Switch
+                            edge="end"
+                            checked={useCache}
+                            onChange={() => setUseCache(!useCache)}
                         />
                     </ListItemSecondaryAction>
                 </ListItem>
