@@ -20,6 +20,8 @@ const useStyles = makeStyles({
 
     loading: {
         margin: '50px auto',
+        display: 'flex',
+        justifyContent: 'center',
     },
 
     video: {
