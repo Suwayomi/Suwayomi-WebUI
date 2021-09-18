@@ -120,7 +120,6 @@ export default function ChapterCard(props: IProps) {
                                             {chapter.bookmarked && <BookmarkIcon />}
                                         </span>
                                         {chapter.name}
-                                        {chapter.chapterNumber > 0 && ` : ${chapter.chapterNumber}`}
                                     </Typography>
                                     <Typography variant="caption" display="block" gutterBottom>
                                         {chapter.scanlator}
