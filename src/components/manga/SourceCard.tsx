@@ -107,13 +107,15 @@ export default function SourceCard(props: IProps) {
                         alt={name}
                         src={`${serverAddress}${iconUrl}?useCache=${useCache}`}
                     />
-                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                         <Typography variant="h5" component="h2">
                             {name}
                         </Typography>
-                        <Typography variant="caption" display="block" gutterBottom>
-                            {langCodeToName(lang)}
-                        </Typography>
+                        {id !== '0' && (
+                            <Typography variant="caption" display="block" gutterBottom>
+                                {langCodeToName(lang)}
+                            </Typography>
+                        )}
                     </div>
                 </div>
                 <div>

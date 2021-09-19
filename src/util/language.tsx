@@ -12,7 +12,7 @@ export const ISOLanguages = [
 
     { code: 'other', name: 'other langs?', nativeName: 'Other' },
 
-    { code: 'localsourcelang', name: 'Local source', nativeName: 'Other' },
+    { code: 'localsourcelang', name: 'Local source', nativeName: 'Local source' },
 
     // full list: https://github.com/meikidd/iso-639-1/blob/master/src/data.js
     { code: 'en', name: 'English', nativeName: 'English' },
