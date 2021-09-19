@@ -71,7 +71,19 @@ export default function SourceMangas(props: { popular: boolean }) {
     }, [lastPageNum]);
 
     let message;
-    if (fetched) message = 'No manga was found!';
+    let messageExtra;
+
+    if (fetched) {
+        message = 'No manga was found!';
+        if (sourceId === '0') {
+            messageExtra = (
+                <>
+                    <span>Check out </span>
+                    <a href="https://github.com/Suwayomi/Tachidesk-Server/wiki/Local-Source">Local source guide</a>
+                </>
+            );
+        }
+    }
 
     return (
         <MangaGrid
@@ -80,6 +92,7 @@ export default function SourceMangas(props: { popular: boolean }) {
             lastPageNum={lastPageNum}
             setLastPageNum={setLastPageNum}
             message={message}
+            messageExtra={messageExtra}
         />
     );
 }

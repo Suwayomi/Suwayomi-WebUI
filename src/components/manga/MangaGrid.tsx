@@ -12,6 +12,7 @@ import MangaCard from './MangaCard';
 interface IProps{
     mangas: IMangaCard[]
     message?: string
+    messageExtra?: JSX.Element
     hasNextPage: boolean
     lastPageNum: number
     setLastPageNum: (lastPageNum: number) => void
@@ -19,7 +20,7 @@ interface IProps{
 
 export default function MangaGrid(props: IProps) {
     const {
-        mangas, message, hasNextPage, lastPageNum, setLastPageNum,
+        mangas, message, messageExtra, hasNextPage, lastPageNum, setLastPageNum,
     } = props;
     let mapped;
     const lastManga = useRef<HTMLDivElement>(null);
@@ -40,7 +41,12 @@ export default function MangaGrid(props: IProps) {
     }, [hasNextPage, mangas]);
 
     if (mangas.length === 0) {
-        mapped = <h3>{message}</h3>;
+        mapped = (
+            <div>
+                <h3>{message}</h3>
+                {messageExtra}
+            </div>
+        );
     } else {
         mapped = mangas.map((it, idx) => {
             if (idx === mangas.length - 1) {
@@ -70,4 +76,5 @@ export default function MangaGrid(props: IProps) {
 
 MangaGrid.defaultProps = {
     message: 'loading...',
+    messageExtra: undefined,
 };
