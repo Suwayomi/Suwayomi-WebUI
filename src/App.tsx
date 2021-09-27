@@ -37,6 +37,7 @@ import SourceMangas from 'screens/manga/SourceMangas';
 import SourceAnimes from 'screens/anime/SourceAnimes';
 import Reader from 'screens/manga/Reader';
 import Player from 'screens/anime/Player';
+import Updates from 'screens/manga/Updates';
 import AnimeExtensions from 'screens/anime/AnimeExtensions';
 import DownloadQueue from 'screens/manga/DownloadQueue';
 
@@ -151,6 +152,9 @@ export default function App() {
                                 </Route>
                                 <Route path="/library">
                                     <Library />
+                                </Route>
+                                <Route path="/updates">
+                                    <Updates />
                                 </Route>
 
                                 {/* Anime Routes */}

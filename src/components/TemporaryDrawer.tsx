@@ -17,6 +17,7 @@ import VideoLibraryOutlinedIcon from '@mui/icons-material/VideoLibraryOutlined';
 import ExploreIcon from '@mui/icons-material/Explore';
 import ExtensionIcon from '@mui/icons-material/Extension';
 import GetAppIcon from '@mui/icons-material/GetApp';
+import NewReleasesIcon from '@mui/icons-material/NewReleases';
 import ListItemText from '@mui/material/ListItemText';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Link } from 'react-router-dom';
@@ -64,14 +65,25 @@ export default function TemporaryDrawer({ drawerOpen, setDrawerOpen }: IProps) {
                     <List>
                         {workingMode === 'manga'
                         && (
-                            <Link to="/library" style={{ color: 'inherit', textDecoration: 'none' }}>
-                                <ListItem button key="Library">
-                                    <ListItemIcon>
-                                        <CollectionsBookmarkIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary="Library" />
-                                </ListItem>
-                            </Link>
+                            <>
+                                <Link to="/library" style={{ color: 'inherit', textDecoration: 'none' }}>
+                                    <ListItem button key="Library">
+                                        <ListItemIcon>
+                                            <CollectionsBookmarkIcon />
+                                        </ListItemIcon>
+                                        <ListItemText primary="Library" />
+                                    </ListItem>
+                                </Link>
+
+                                <Link to="/updates" style={{ color: 'inherit', textDecoration: 'none' }}>
+                                    <ListItem button key="Updates">
+                                        <ListItemIcon>
+                                            <NewReleasesIcon />
+                                        </ListItemIcon>
+                                        <ListItemText primary="Updates" />
+                                    </ListItem>
+                                </Link>
+                            </>
                         )}
                         <Link to={`/${workingMode}/extensions`} style={{ color: 'inherit', textDecoration: 'none' }}>
                             <ListItem button key="Extensions">

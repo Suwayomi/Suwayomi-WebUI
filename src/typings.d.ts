@@ -91,9 +91,15 @@ interface IChapter {
     bookmarked: boolean
     lastPageRead: number
     index: number
+    fetchedAt: number
     chapterCount: number
     pageCount: number
     downloaded: boolean
+}
+
+interface IMangaChapter {
+    manga: IManga
+    chapter: IChapter
 }
 
 interface Video{
