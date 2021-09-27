@@ -107,6 +107,7 @@ export default function CategorySelect(props: IProps) {
                                 />
                             )}
                             label={categoryInfo.category.name}
+                            key={categoryInfo.category.id}
                         />
                     ))}
                 </FormGroup>

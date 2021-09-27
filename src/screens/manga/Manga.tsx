@@ -58,9 +58,10 @@ export default function Manga() {
 
     const [manga, setManga] = useState<IManga>();
     const [chapters, setChapters] = useState<IChapter[]>([]);
-    const [fetchedChapters, setFetchedChapters] = useState(false);
     const [noChaptersFound, setNoChaptersFound] = useState(false);
     const [chapterUpdateTriggerer, setChapterUpdateTriggerer] = useState(0);
+    const [fetchedOnline, setFetchedOnline] = useState(false);
+    const [fetchedOffline, setFetchedOffline] = useState(false);
 
     const [, setWsClient] = useState<WebSocket>();
     const [{ queue }, setQueueState] = useState<IQueue>(initialQueue);
@@ -110,18 +111,19 @@ export default function Manga() {
     }, [manga]);
 
     useEffect(() => {
-        const shouldFetchOnline = fetchedChapters && chapterUpdateTriggerer === 0;
+        const shouldFetchOnline = fetchedOffline && !fetchedOnline;
+
         client.get(`/api/v1/manga/${id}/chapters?onlineFetch=${shouldFetchOnline}`)
             .then((response) => response.data)
             .then((data) => {
-                if (data.length === 0 && fetchedChapters) {
+                if (data.length === 0 && fetchedOffline) {
                     makeToast('No chapters found', 'warning');
                     setNoChaptersFound(true);
                 }
                 setChapters(data);
             })
-            .then(() => setFetchedChapters(true));
-    }, [chapters.length, fetchedChapters, chapterUpdateTriggerer]);
+            .then(() => { setFetchedOffline(true); setFetchedOnline(shouldFetchOnline); });
+    }, [chapters.length, fetchedOffline, chapterUpdateTriggerer]);
 
     return (
         <div className={classes.root}>
