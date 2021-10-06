@@ -145,16 +145,17 @@ export default function Settings() {
             <Dialog open={dialogOpen} onClose={handleDialogCancel}>
                 <DialogContent>
                     <DialogContentText>
-                        Enter new category name.
+                        Enter Server Address
                     </DialogContentText>
                     <TextField
                         autoFocus
                         margin="dense"
                         id="name"
-                        label="Category Name"
+                        label="Server Address"
                         type="text"
                         fullWidth
                         value={dialogValue}
+                        placeholder="http://127.0.0.1:4567"
                         onChange={(e) => setDialogValue(e.target.value)}
                     />
                 </DialogContent>
