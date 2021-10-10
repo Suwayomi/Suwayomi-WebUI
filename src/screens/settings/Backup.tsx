@@ -26,7 +26,7 @@ export default function Backup() {
             const formData = new FormData();
             formData.append('backup.proto.gz', file);
 
-            makeToast('Restoring bacukp....', 'info');
+            makeToast('Restoring backup....', 'info');
             client.post('/api/v1/backup/import/file',
                 formData, { headers: { 'Content-Type': 'multipart/form-data' } })
                 .then(() => makeToast('Backup restore finished!', 'success'))
