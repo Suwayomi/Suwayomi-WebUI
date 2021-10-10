@@ -127,7 +127,7 @@ export default function Manga() {
                     setFetchedOnline(true);
                 } else setFetchedOffline(true);
             });
-    }, [chapters.length, fetchedOnline, fetchedOffline, chapterUpdateTriggerer]);
+    }, [fetchedOnline, fetchedOffline, chapterUpdateTriggerer]);
 
     return (
         <div className={classes.root}>
