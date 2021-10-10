@@ -122,8 +122,12 @@ export default function Manga() {
                 }
                 setChapters(data);
             })
-            .then(() => { setFetchedOffline(true); setFetchedOnline(shouldFetchOnline); });
-    }, [chapters.length, fetchedOffline, chapterUpdateTriggerer]);
+            .then(() => {
+                if (shouldFetchOnline) {
+                    setFetchedOnline(true);
+                } else setFetchedOffline(true);
+            });
+    }, [chapters.length, fetchedOnline, fetchedOffline, chapterUpdateTriggerer]);
 
     return (
         <div className={classes.root}>
