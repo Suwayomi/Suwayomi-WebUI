@@ -11,6 +11,22 @@ import SpinnerImage from 'components/SpinnerImage';
 import useLocalStorage from 'util/useLocalStorage';
 
 function imageStyle(settings: IReaderSettings): any {
+    const [dimensions, setDimensions] = React.useState({
+        height: window.innerHeight,
+        width: window.innerWidth,
+    });
+    React.useEffect(() => {
+        function handleResize() {
+            setDimensions({
+                height: window.innerHeight,
+                width: window.innerWidth,
+            });
+        }
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    });
     if (settings.readerType === 'DoubleLTR'
     || settings.readerType === 'DoubleRTL'
     || settings.readerType === 'ContinuesHorizontalLTR'
@@ -31,9 +47,8 @@ function imageStyle(settings: IReaderSettings): any {
     return {
         display: 'block',
         marginBottom: settings.readerType === 'ContinuesVertical' ? '15px' : 0,
-        minWidth: '50vw',
-        width: '100%',
-        maxWidth: '100%',
+        width: dimensions.width < dimensions.height ? '100vw' : 'auto',
+        height: dimensions.width < dimensions.height ? 'auto' : '100vh',
     };
 }
 
@@ -105,7 +120,7 @@ const Page = React.forwardRef((props: IProps, ref: any) => {
     }, [handleVerticalScroll]);
 
     return (
-        <div ref={ref} style={{ margin: '0 auto' }}>
+        <div ref={ref} style={{ margin: 'auto' }}>
             <SpinnerImage
                 src={`${src}?useCache=${useCache}`}
                 onImageLoad={onImageLoad}
