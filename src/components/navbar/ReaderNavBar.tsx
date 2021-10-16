@@ -46,13 +46,11 @@ const useStyles = (settings: IReaderSettings) => makeStyles((theme) => ({
         minWidth: '300px',
         height: '100vh',
         overflowY: 'auto',
-        backgroundColor: theme.palette.mode === 'dark' ? '#0a0b0b' : '#fff',
+        backgroundColor: theme.palette.mode === 'dark' ? '#0a0b0b' : 'white',
 
         '& header': {
             backgroundColor:
-            // the shade of white is from the main navbar color
-            // it would be better if we could access this color from the mui theme
-            theme.palette.mode === 'dark' ? '#363b3d' : '#f5f5f5',
+            theme.palette.mode === 'dark' ? '#363b3d' : theme.palette.grey[100],
             display: 'flex',
             alignItems: 'center',
             minHeight: '64px',
@@ -131,10 +129,10 @@ const useStyles = (settings: IReaderSettings) => makeStyles((theme) => ({
         height: '40px',
         width: '40px',
         borderRadius: 5,
-        backgroundColor: theme.palette.mode === 'dark' ? 'black' : '#fff',
+        backgroundColor: theme.palette.mode === 'dark' ? 'black' : 'white',
 
         '&:hover': {
-            backgroundColor: theme.palette.mode === 'dark' ? 'black' : '#fff',
+            backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[900] : theme.palette.grey[100],
         },
     },
 }));
