@@ -29,7 +29,7 @@ import Collapse from '@mui/material/Collapse';
 import Button from '@mui/material/Button';
 import NavBarContext from '../../context/NavbarContext';
 
-const useStyles = (settings: IReaderSettings) => makeStyles({
+const useStyles = (settings: IReaderSettings) => makeStyles((theme) => ({
     // main container and root div need to change classes...
     AppMainContainer: {
         display: 'none',
@@ -46,10 +46,13 @@ const useStyles = (settings: IReaderSettings) => makeStyles({
         minWidth: '300px',
         height: '100vh',
         overflowY: 'auto',
-        backgroundColor: '#0a0b0b',
+        backgroundColor: theme.palette.mode === 'dark' ? '#0a0b0b' : '#fff',
 
         '& header': {
-            backgroundColor: '#363b3d',
+            backgroundColor:
+            // the shade of white is from the main navbar color
+            // it would be better if we could access this color from the mui theme
+            theme.palette.mode === 'dark' ? '#363b3d' : '#f5f5f5',
             display: 'flex',
             alignItems: 'center',
             minHeight: '64px',
@@ -128,13 +131,13 @@ const useStyles = (settings: IReaderSettings) => makeStyles({
         height: '40px',
         width: '40px',
         borderRadius: 5,
-        backgroundColor: 'black',
+        backgroundColor: theme.palette.mode === 'dark' ? 'black' : '#fff',
 
         '&:hover': {
-            backgroundColor: 'black',
+            backgroundColor: theme.palette.mode === 'dark' ? 'black' : '#fff',
         },
     },
-});
+}));
 
 export const defaultReaderSettings = () => ({
     staticNav: false,
