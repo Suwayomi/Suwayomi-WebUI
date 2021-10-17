@@ -29,7 +29,7 @@ import Collapse from '@mui/material/Collapse';
 import Button from '@mui/material/Button';
 import NavBarContext from '../../context/NavbarContext';
 
-const useStyles = (settings: IReaderSettings) => makeStyles({
+const useStyles = (settings: IReaderSettings) => makeStyles((theme) => ({
     // main container and root div need to change classes...
     AppMainContainer: {
         display: 'none',
@@ -46,10 +46,11 @@ const useStyles = (settings: IReaderSettings) => makeStyles({
         minWidth: '300px',
         height: '100vh',
         overflowY: 'auto',
-        backgroundColor: '#0a0b0b',
+        backgroundColor: theme.palette.background.default,
 
         '& header': {
-            backgroundColor: '#363b3d',
+            backgroundColor:
+            theme.palette.mode === 'dark' ? theme.palette.grey[800] : theme.palette.grey[100],
             display: 'flex',
             alignItems: 'center',
             minHeight: '64px',
@@ -80,7 +81,7 @@ const useStyles = (settings: IReaderSettings) => makeStyles({
             margin: '0 16px',
             height: '1px',
             border: '0',
-            backgroundColor: 'rgb(38, 41, 43)',
+            backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : theme.palette.grey[100],
         },
     },
 
@@ -128,13 +129,13 @@ const useStyles = (settings: IReaderSettings) => makeStyles({
         height: '40px',
         width: '40px',
         borderRadius: 5,
-        backgroundColor: 'black',
+        backgroundColor: theme.palette.mode === 'dark' ? 'black' : 'white',
 
         '&:hover': {
-            backgroundColor: 'black',
+            backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[900] : theme.palette.grey[100],
         },
     },
-});
+}));
 
 export const defaultReaderSettings = () => ({
     staticNav: false,
@@ -208,8 +209,6 @@ export default function ReaderNavBar(props: IProps) {
             >
                 <div className={classes.root}>
                     <header>
-                        {!settings.staticNav
-                    && (
                         <IconButton
                             edge="start"
                             color="inherit"
@@ -220,7 +219,6 @@ export default function ReaderNavBar(props: IProps) {
                         >
                             <KeyboardArrowLeftIcon />
                         </IconButton>
-                    ) }
                         <Typography variant="h1">
                             {/* {title} */}
                             {chapter.name}
