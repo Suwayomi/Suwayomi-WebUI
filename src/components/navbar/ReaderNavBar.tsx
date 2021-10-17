@@ -209,8 +209,6 @@ export default function ReaderNavBar(props: IProps) {
             >
                 <div className={classes.root}>
                     <header>
-                        {!settings.staticNav
-                    && (
                         <IconButton
                             edge="start"
                             color="inherit"
@@ -221,7 +219,6 @@ export default function ReaderNavBar(props: IProps) {
                         >
                             <KeyboardArrowLeftIcon />
                         </IconButton>
-                    ) }
                         <Typography variant="h1">
                             {/* {title} */}
                             {chapter.name}
