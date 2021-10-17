@@ -46,11 +46,11 @@ const useStyles = (settings: IReaderSettings) => makeStyles((theme) => ({
         minWidth: '300px',
         height: '100vh',
         overflowY: 'auto',
-        backgroundColor: theme.palette.mode === 'dark' ? '#0a0b0b' : 'white',
+        backgroundColor: theme.palette.background.default,
 
         '& header': {
             backgroundColor:
-            theme.palette.mode === 'dark' ? '#363b3d' : theme.palette.grey[100],
+            theme.palette.mode === 'dark' ? theme.palette.grey[800] : theme.palette.grey[100],
             display: 'flex',
             alignItems: 'center',
             minHeight: '64px',
@@ -81,7 +81,7 @@ const useStyles = (settings: IReaderSettings) => makeStyles((theme) => ({
             margin: '0 16px',
             height: '1px',
             border: '0',
-            backgroundColor: 'rgb(38, 41, 43)',
+            backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : theme.palette.grey[100],
         },
     },
 
