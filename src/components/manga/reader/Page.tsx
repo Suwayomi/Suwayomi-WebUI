@@ -26,7 +26,7 @@ function imageStyle(settings: IReaderSettings): any {
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    });
+    }, []);
     if (settings.readerType === 'DoubleLTR'
     || settings.readerType === 'DoubleRTL'
     || settings.readerType === 'ContinuesHorizontalLTR'
@@ -47,8 +47,9 @@ function imageStyle(settings: IReaderSettings): any {
     return {
         display: 'block',
         marginBottom: settings.readerType === 'ContinuesVertical' ? '15px' : 0,
-        width: dimensions.width < dimensions.height ? '100vw' : 'auto',
-        height: dimensions.width < dimensions.height ? 'auto' : '100vh',
+        minWidth: '50vw',
+        width: dimensions.width < dimensions.height ? '100vw' : '100%',
+        maxWidth: '100%',
     };
 }
 
