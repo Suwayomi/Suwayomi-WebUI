@@ -29,7 +29,6 @@ const useStyles = makeStyles(() => createStyles({
 }));
 
 function removeAll(firstList: any[], secondList: any[]) {
-    console.log(secondList);
     secondList.forEach((item) => {
         const index = firstList.indexOf(item);
         if (index !== -1) {

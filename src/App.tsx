@@ -20,25 +20,19 @@ import NavBar from 'components/navbar/NavBar';
 import NavbarContext from 'context/NavbarContext';
 import DarkTheme from 'context/DarkTheme';
 import useLocalStorage from 'util/useLocalStorage';
-import MangaSources from 'screens/manga/MangaSources';
-import AnimeSources from 'screens/anime/AnimeSources';
+import MangaSources from 'screens/manga/Sources';
 import Settings from 'screens/Settings';
 import About from 'screens/settings/About';
 import Categories from 'screens/settings/Categories';
 import Backup from 'screens/settings/Backup';
 import Library from 'screens/manga/Library';
 import SearchSingle from 'screens/manga/SearchSingle';
-import AnimeSearchSingle from 'screens/anime/AnimeSearchSingle';
 import SourceConfigure from 'screens/manga/SourceConfigure';
 import Manga from 'screens/manga/Manga';
-import Anime from 'screens/anime/Anime';
-import MangaExtensions from 'screens/manga/MangaExtensions';
+import MangaExtensions from 'screens/manga/Extensions';
 import SourceMangas from 'screens/manga/SourceMangas';
-import SourceAnimes from 'screens/anime/SourceAnimes';
 import Reader from 'screens/manga/Reader';
-import Player from 'screens/anime/Player';
 import Updates from 'screens/manga/Updates';
-import AnimeExtensions from 'screens/anime/AnimeExtensions';
 import DownloadQueue from 'screens/manga/DownloadQueue';
 
 declare module '@mui/styles/defaultTheme' {
@@ -97,7 +91,7 @@ export default function App() {
                             style={{ paddingTop: '64px' }}
                         >
                             <Switch>
-                                {/* general routes */}
+                                {/* General Routes */}
                                 <Route
                                     exact
                                     path="/"
@@ -155,30 +149,6 @@ export default function App() {
                                 </Route>
                                 <Route path="/updates">
                                     <Updates />
-                                </Route>
-
-                                {/* Anime Routes */}
-
-                                <Route path="/anime/sources/:sourceId/search/">
-                                    <AnimeSearchSingle />
-                                </Route>
-                                <Route path="/anime/extensions">
-                                    <AnimeExtensions />
-                                </Route>
-                                <Route path="/anime/sources/:sourceId/popular/">
-                                    <SourceAnimes popular />
-                                </Route>
-                                <Route path="/anime/sources/:sourceId/latest/">
-                                    <SourceMangas popular={false} />
-                                </Route>
-                                <Route path="/anime/sources">
-                                    <AnimeSources />
-                                </Route>
-                                <Route path="/anime/:animeId/episode/:episodeIndex">
-                                    <Player />
-                                </Route>
-                                <Route path="/anime/:id">
-                                    <Anime />
                                 </Route>
                             </Switch>
                         </Container>

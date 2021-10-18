@@ -58,28 +58,6 @@ interface IManga {
     freshData: boolean
 }
 
-interface IAnime {
-    id: number
-    sourceId: string
-
-    url: string
-    title: string
-    thumbnailUrl: string
-
-    artist: string
-    author: string
-    description: string
-    genre: string | null
-    status: string
-
-    inLibrary: boolean
-    source: ISource
-
-    realUrl: string
-
-    freshData: boolean
-}
-
 interface IChapter {
     url: string
     name: string
@@ -102,37 +80,10 @@ interface IMangaChapter {
     chapter: IChapter
 }
 
-interface Video{
-    url: string
-    quality: string
-    videoUrl: string
-}
-
-interface IEpisode {
-    url: string
-    name: string
-    uploadDate: number
-    episodeNumber: number
-    scanlator: string
-    animeId: number
-    read: boolean
-    bookmarked: boolean
-    lastPageRead: number
-    index: number
-    episodeCount: number
-    videos: Video[]
-}
-
 interface IPartialChpter {
     pageCount: number
     index: number
     chapterCount: number
-}
-
-interface IPartialEpisode {
-    index: number
-    episodeCount: number
-    videos: Video[]
 }
 
 interface ICategory {
