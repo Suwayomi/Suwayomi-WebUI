@@ -10,7 +10,7 @@ import ExtensionCard from 'components/anime/ExtensionCard';
 import NavbarContext from 'context/NavbarContext';
 import client from 'util/client';
 import useLocalStorage from 'util/useLocalStorage';
-import ExtensionLangSelect from 'components/manga/ExtensionLangSelect';
+import LangSelect from 'components/manga/LangSelect';
 import { extensionDefaultLangs, langCodeToName, langSortCmp } from 'util/language';
 
 const allLangs: string[] = [];
@@ -49,7 +49,7 @@ export default function AnimeExtensions() {
     useEffect(() => {
         setTitle('Extensions');
         setAction(
-            <ExtensionLangSelect
+            <LangSelect
                 shownLangs={shownLangs}
                 setShownLangs={setShownLangs}
                 allLangs={allLangs}

@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import React, { useContext, useEffect, useState } from 'react';
-import ExtensionLangSelect from 'components/manga/ExtensionLangSelect';
+import LangSelect from 'components/manga/LangSelect';
 import SourceCard from 'components/manga/SourceCard';
 import NavbarContext from 'context/NavbarContext';
 import client from 'util/client';
@@ -64,7 +64,7 @@ export default function MangaSources() {
     useEffect(() => {
         setTitle('Sources');
         setAction(
-            <ExtensionLangSelect
+            <LangSelect
                 shownLangs={shownLangs}
                 setShownLangs={setShownLangs}
                 allLangs={sourceToLangList(sources)}

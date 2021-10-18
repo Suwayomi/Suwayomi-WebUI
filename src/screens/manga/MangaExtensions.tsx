@@ -13,7 +13,7 @@ import ExtensionCard from 'components/manga/ExtensionCard';
 import NavbarContext from 'context/NavbarContext';
 import client from 'util/client';
 import useLocalStorage from 'util/useLocalStorage';
-import ExtensionLangSelect from 'components/manga/ExtensionLangSelect';
+import LangSelect from 'components/manga/LangSelect';
 import { extensionDefaultLangs, langCodeToName, langSortCmp } from 'util/language';
 import { makeToaster } from 'components/Toast';
 
@@ -63,7 +63,7 @@ export default function MangaExtensions() {
                 >
                     <AddIcon />
                 </IconButton>
-                <ExtensionLangSelect
+                <LangSelect
                     shownLangs={shownLangs}
                     setShownLangs={setShownLangs}
                     allLangs={allLangs}

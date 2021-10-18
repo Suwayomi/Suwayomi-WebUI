@@ -47,7 +47,7 @@ interface IProps {
     forcedLangs?: string[]
 }
 
-export default function ExtensionLangSelect(props: IProps) {
+export default function LangSelect(props: IProps) {
     const {
         shownLangs, setShownLangs, allLangs, forcedLangs,
     } = props;
@@ -125,6 +125,6 @@ export default function ExtensionLangSelect(props: IProps) {
     );
 }
 
-ExtensionLangSelect.defaultProps = {
+LangSelect.defaultProps = {
     forcedLangs: [] as string[],
 };
