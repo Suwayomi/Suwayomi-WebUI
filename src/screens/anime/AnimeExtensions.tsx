@@ -11,7 +11,7 @@ import NavbarContext from 'context/NavbarContext';
 import client from 'util/client';
 import useLocalStorage from 'util/useLocalStorage';
 import ExtensionLangSelect from 'components/manga/ExtensionLangSelect';
-import { defualtLangs, langCodeToName, langSortCmp } from 'util/language';
+import { extensionDefaultLangs, langCodeToName, langSortCmp } from 'util/language';
 
 const allLangs: string[] = [];
 
@@ -40,10 +40,6 @@ function groupExtensions(extensions: IExtension[]) {
     allLangs.sort(langSortCmp);
 
     return result;
-}
-
-function extensionDefaultLangs() {
-    return [...defualtLangs(), 'all'];
 }
 
 export default function AnimeExtensions() {

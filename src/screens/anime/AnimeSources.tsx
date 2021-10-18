@@ -10,7 +10,7 @@ import ExtensionLangSelect from 'components/manga/ExtensionLangSelect';
 import SourceCard from 'components/anime/SourceCard';
 import NavbarContext from 'context/NavbarContext';
 import client from 'util/client';
-import { defualtLangs, langCodeToName, langSortCmp } from 'util/language';
+import { sourceDefualtLangs, langCodeToName, langSortCmp } from 'util/language';
 import useLocalStorage from 'util/useLocalStorage';
 
 function sourceToLangList(sources: ISource[]) {
@@ -37,7 +37,7 @@ function groupByLang(sources: ISource[]) {
 export default function AnimeSources() {
     const { setTitle, setAction } = useContext(NavbarContext);
 
-    const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownSourceLangs', defualtLangs());
+    const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownSourceLangs', sourceDefualtLangs());
 
     const [sources, setSources] = useState<ISource[]>([]);
     const [fetched, setFetched] = useState<boolean>(false);

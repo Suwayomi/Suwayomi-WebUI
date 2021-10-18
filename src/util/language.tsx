@@ -93,11 +93,27 @@ export function langCodeToName(code: string): string {
     return result;
 }
 
-export function defualtLangs() {
+function defaultNativeLang() {
+    return 'en'; // TODO: infer from the browser
+}
+
+export function extensionDefaultLangs() {
     return [
-        // todo: infer this from the browser
-        'en',
-        'localSourceLang',
+        defaultNativeLang(),
+        'all',
+    ];
+}
+
+export function sourceDefualtLangs() {
+    return [
+        defaultNativeLang(),
+        'localsourcelang',
+    ];
+}
+
+export function sourceForcedDefaultLangs(): string[] {
+    return [
+        'localsourcelang',
     ];
 }
 

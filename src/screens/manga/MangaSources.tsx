@@ -10,7 +10,9 @@ import ExtensionLangSelect from 'components/manga/ExtensionLangSelect';
 import SourceCard from 'components/manga/SourceCard';
 import NavbarContext from 'context/NavbarContext';
 import client from 'util/client';
-import { defualtLangs, langCodeToName, langSortCmp } from 'util/language';
+import {
+    sourceDefualtLangs, sourceForcedDefaultLangs, langCodeToName, langSortCmp,
+} from 'util/language';
 import useLocalStorage from 'util/useLocalStorage';
 
 function sourceToLangList(sources: ISource[]) {
@@ -37,11 +39,27 @@ function groupByLang(sources: ISource[]) {
 export default function MangaSources() {
     const { setTitle, setAction } = useContext(NavbarContext);
 
-    const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownSourceLangs', defualtLangs());
+    const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownSourceLangs', sourceDefualtLangs());
     const [showNsfw] = useLocalStorage<boolean>('showNsfw', true);
 
     const [sources, setSources] = useState<ISource[]>([]);
     const [fetched, setFetched] = useState<boolean>(false);
+
+    useEffect(() => {
+        // make sure all of forcedDefaultLangs() exists in shownLangs
+        sourceForcedDefaultLangs().forEach((forcedLang) => {
+            let hasLang = false;
+            shownLangs.forEach((lang) => {
+                if (lang === forcedLang) hasLang = true;
+            });
+            if (!hasLang) {
+                setShownLangs((shownLangsCopy) => {
+                    shownLangsCopy.push(forcedLang);
+                    return shownLangsCopy;
+                });
+            }
+        });
+    }, [shownLangs]);
 
     useEffect(() => {
         setTitle('Sources');
