@@ -59,7 +59,7 @@ export default function MangaSources() {
                 });
             }
         });
-    }, [shownLangs]);
+    }, []);
 
     useEffect(() => {
         setTitle('Sources');
@@ -68,6 +68,7 @@ export default function MangaSources() {
                 shownLangs={shownLangs}
                 setShownLangs={setShownLangs}
                 allLangs={sourceToLangList(sources)}
+                forcedLangs={sourceForcedDefaultLangs()}
             />,
         );
     }, [shownLangs, sources]);

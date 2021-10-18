@@ -28,16 +28,31 @@ const useStyles = makeStyles(() => createStyles({
     },
 }));
 
+function removeAll(firstList: any[], secondList: any[]) {
+    console.log(secondList);
+    secondList.forEach((item) => {
+        const index = firstList.indexOf(item);
+        if (index !== -1) {
+            firstList.splice(index, 1);
+        }
+    });
+
+    return firstList;
+}
+
 interface IProps {
     shownLangs: string[]
     setShownLangs: (arg0: string[]) => void
     allLangs: string[]
+    forcedLangs?: string[]
 }
 
 export default function ExtensionLangSelect(props: IProps) {
-    const { shownLangs, setShownLangs, allLangs } = props;
+    const {
+        shownLangs, setShownLangs, allLangs, forcedLangs,
+    } = props;
     // hold a copy and only sate state on parent when OK pressed, improves performance
-    const [mShownLangs, setMShownLangs] = useState(shownLangs);
+    const [mShownLangs, setMShownLangs] = useState(removeAll(shownLangs, forcedLangs!));
     const classes = useStyles();
     const [open, setOpen] = useState<boolean>(false);
 
@@ -109,3 +124,7 @@ export default function ExtensionLangSelect(props: IProps) {
         </>
     );
 }
+
+ExtensionLangSelect.defaultProps = {
+    forcedLangs: [] as string[],
+};
