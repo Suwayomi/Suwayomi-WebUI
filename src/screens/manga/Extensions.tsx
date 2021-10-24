@@ -16,6 +16,7 @@ import useLocalStorage from 'util/useLocalStorage';
 import LangSelect from 'components/manga/LangSelect';
 import { extensionDefaultLangs, langCodeToName, langSortCmp } from 'util/language';
 import { makeToaster } from 'components/Toast';
+import LoadingPlaceholder from 'components/LoadingPlaceholder';
 
 const allLangs: string[] = [];
 
@@ -145,7 +146,7 @@ export default function MangaExtensions() {
     }, [extensions]); // useEffect only after <input> renders
 
     if (Object.entries(extensions).length === 0) {
-        return <h3>loading...</h3>;
+        return <LoadingPlaceholder />;
     }
     const groupsToShow = ['updates pending', 'installed', ...shownLangs];
     return (

@@ -20,10 +20,10 @@ import ExtensionIcon from '@mui/icons-material/Extension';
 import ExploreIcon from '@mui/icons-material/Explore';
 import GetAppIcon from '@mui/icons-material/GetApp';
 import SettingsIcon from '@mui/icons-material/Settings';
-import TemporaryDrawer from 'components/TemporaryDrawer';
-import NavBarContext from '../../context/NavbarContext';
-import DarkTheme from '../../context/DarkTheme';
+import NavBarContext from 'context/NavbarContext';
+import DarkTheme from 'context/DarkTheme';
 import PermanentSideBar from './PermanentSideBar';
+import TemporaryDrawer from './TemporaryDrawer';
 
 const useStyles = makeStyles((theme) => ({
     root: {

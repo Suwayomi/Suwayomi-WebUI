@@ -93,6 +93,7 @@ export default function SourceMangas(props: { popular: boolean }) {
             setLastPageNum={setLastPageNum}
             message={message}
             messageExtra={messageExtra}
+            isLoading={!fetched}
         />
     );
 }

@@ -39,6 +39,7 @@ export default function SearchSingle() {
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [hasNextPage, setHasNextPage] = useState<boolean>(false);
     const [lastPageNum, setLastPageNum] = useState<number>(1);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const textInput = React.createRef<HTMLInputElement>();
 
@@ -53,22 +54,23 @@ export default function SearchSingle() {
             const { value } = textInput.current;
             if (value === '') {
                 setError(true);
-                setMessage('Type something to search');
-            } else {
+            } else if (value !== searchTerm) {
                 setError(false);
                 setSearchTerm(value);
                 setMangas([]);
-                setMessage('loading...');
             }
         }
     }
 
     useEffect(() => {
         if (searchTerm.length > 0) {
+            setIsLoading(true);
+
             client.get(`/api/v1/source/${sourceId}/search/${searchTerm}/${lastPageNum}`)
                 .then((response) => response.data)
                 .then((data: { mangaList: IManga[], hasNextPage: boolean }) => {
                     setMessage('');
+
                     if (data.mangaList.length > 0) {
                         setMangas([
                             ...mangas,
@@ -77,21 +79,13 @@ export default function SearchSingle() {
                             }))]);
                         setHasNextPage(data.hasNextPage);
                     } else {
-                        setMessage('search query returned nothing.');
+                        setMessage('Search query returned nothing.');
                     }
+
+                    setIsLoading(false);
                 });
         }
     }, [searchTerm]);
-
-    const mangaGrid = (
-        <MangaGrid
-            mangas={mangas}
-            message={message}
-            hasNextPage={hasNextPage}
-            lastPageNum={lastPageNum}
-            setLastPageNum={setLastPageNum}
-        />
-    );
 
     return (
         <>
@@ -109,7 +103,17 @@ export default function SearchSingle() {
                     Search
                 </Button>
             </div>
-            {mangaGrid}
+            {searchTerm.length > 0
+        && (
+            <MangaGrid
+                mangas={mangas}
+                message={message}
+                hasNextPage={hasNextPage}
+                lastPageNum={lastPageNum}
+                setLastPageNum={setLastPageNum}
+                isLoading={isLoading}
+            />
+        )}
         </>
     );
 }

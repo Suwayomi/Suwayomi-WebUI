@@ -20,7 +20,7 @@ const useStyles = makeStyles({
 });
 
 interface IProps {
-    shouldRender: boolean | (() => boolean)
+    shouldRender?: boolean | (() => boolean)
     children?: React.ReactNode
     component?: string | React.FunctionComponent<any> | React.ComponentClass<any, any>
     componentProps?: any
@@ -32,7 +32,10 @@ export default function LoadingPlaceholder(props: IProps) {
     } = props;
     const classes = useStyles();
 
-    const condition = shouldRender instanceof Function ? shouldRender() : shouldRender;
+    let condition = true;
+    if (shouldRender !== undefined) {
+        condition = shouldRender instanceof Function ? shouldRender() : shouldRender;
+    }
 
     if (condition) {
         if (component) {
