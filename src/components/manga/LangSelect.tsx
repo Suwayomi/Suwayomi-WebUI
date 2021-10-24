@@ -51,7 +51,9 @@ export default function LangSelect(props: IProps) {
         shownLangs, setShownLangs, allLangs, forcedLangs,
     } = props;
     // hold a copy and only sate state on parent when OK pressed, improves performance
-    const [mShownLangs, setMShownLangs] = useState(removeAll(shownLangs, forcedLangs!));
+    const [mShownLangs, setMShownLangs] = useState(
+        removeAll(cloneObject(shownLangs), forcedLangs!),
+    );
     const classes = useStyles();
     const [open, setOpen] = useState<boolean>(false);
 
