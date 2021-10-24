@@ -40,28 +40,28 @@ const useStyles = makeStyles((theme) => ({
 const navbarItems: Array<NavbarItem> = [
     {
         path: '/library',
-        text: 'Library',
+        title: 'Library',
         IconComponent: CollectionsBookmarkIcon,
     },
     {
         path: '/updates',
-        text: 'Updates',
+        title: 'Updates',
         IconComponent: NewReleasesIcon,
     }, {
         path: '/manga/extensions',
-        text: 'Extensions',
+        title: 'Extensions',
         IconComponent: ExtensionIcon,
     }, {
         path: '/manga/sources',
-        text: 'Sources',
+        title: 'Sources',
         IconComponent: ExploreIcon,
     }, {
         path: '/manga/downloads',
-        text: 'Manga Download Queue',
+        title: 'Manga Download Queue',
         IconComponent: GetAppIcon,
     }, {
         path: '/settings',
-        text: 'Settings',
+        title: 'Settings',
         IconComponent: SettingsIcon,
     },
 ];
@@ -71,7 +71,7 @@ export default function NavBar() {
     const [drawerOpen, setDrawerOpen] = useState(false);
     const { title, action, override } = useContext(NavBarContext);
     const theme = useTheme();
-    const mobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
+    const isMobileWidth = useMediaQuery(theme.breakpoints.down('sm'));
 
     const { darkTheme } = useContext(DarkTheme);
 
@@ -83,7 +83,7 @@ export default function NavBar() {
         <div className={classes.root}>
             <AppBar position="fixed" color={darkTheme ? 'default' : 'primary'}>
                 <Toolbar>
-                    {mobileDevice && (
+                    {isMobileWidth && (
                         <IconButton
                             edge="start"
                             className={classes.menuButton}
@@ -96,13 +96,13 @@ export default function NavBar() {
                             <MenuIcon />
                         </IconButton>
                     )}
-                    <Typography variant={mobileDevice ? 'h6' : 'h5'} className={classes.title}>
+                    <Typography variant={isMobileWidth ? 'h6' : 'h5'} className={classes.title}>
                         {title}
                     </Typography>
                     {action}
                 </Toolbar>
             </AppBar>
-            {mobileDevice ? (
+            {isMobileWidth ? (
                 <TemporaryDrawer
                     navBarItems={navbarItems}
                     drawerOpen={drawerOpen}

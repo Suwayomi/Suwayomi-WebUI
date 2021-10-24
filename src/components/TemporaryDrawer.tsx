@@ -44,13 +44,13 @@ export default function TemporaryDrawer({ drawerOpen, setDrawerOpen, navBarItems
                     onKeyDown={() => setDrawerOpen(false)}
                 >
                     <List>
-                        {navBarItems.map((({ path, text, IconComponent }: NavbarItem) => (
+                        {navBarItems.map((({ path, title, IconComponent }: NavbarItem) => (
                             <Link to={path} style={{ color: 'inherit', textDecoration: 'none' }}>
-                                <ListItem button key={text}>
+                                <ListItem button key={title}>
                                     <ListItemIcon>
                                         <IconComponent />
                                     </ListItemIcon>
-                                    <ListItemText primary={text} />
+                                    <ListItemText primary={title} />
                                 </ListItem>
                             </Link>
                         )))}

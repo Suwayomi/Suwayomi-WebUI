@@ -76,8 +76,8 @@ export default function App() {
         }),
         [darkTheme],
     );
-    // this can onlu be used after the theme object is created
-    const mobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
+    // this can only be used after the theme object is created
+    const isMobileWidth = useMediaQuery(theme.breakpoints.down('sm'));
 
     return (
         <Router>
@@ -90,7 +90,7 @@ export default function App() {
                             id="appMainContainer"
                             maxWidth={false}
                             disableGutters
-                            style={{ paddingTop: theme.spacing(8), paddingLeft: mobileDevice ? '' : theme.spacing(8) }}
+                            style={{ paddingTop: theme.spacing(8), paddingLeft: isMobileWidth ? '' : theme.spacing(8) }}
                         >
                             <Switch>
                                 {/* General Routes */}

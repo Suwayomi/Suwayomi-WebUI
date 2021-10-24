@@ -8,7 +8,7 @@
 import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import {
-    List, ListItem, ListItemIcon,
+    List, ListItem, ListItemIcon, Tooltip,
 } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -39,11 +39,13 @@ export default function PermanentSideBar({ navBarItems }: IProps) {
             <List>
                 {
                     // eslint-disable-next-line react/destructuring-assignment
-                    navBarItems.map(({ path, text, IconComponent }: NavbarItem) => (
+                    navBarItems.map(({ path, title, IconComponent }: NavbarItem) => (
                         <Link to={path} style={{ color: 'inherit', textDecoration: 'none' }} key={path}>
-                            <ListItem button key={text}>
+                            <ListItem button key={title}>
                                 <ListItemIcon>
-                                    <IconComponent color={location.pathname === path ? 'primary' : 'action'} fontSize="large" />
+                                    <Tooltip placement="right" title={title}>
+                                        <IconComponent color={location.pathname === path ? 'primary' : 'action'} fontSize="large" />
+                                    </Tooltip>
                                 </ListItemIcon>
                             </ListItem>
                         </Link>

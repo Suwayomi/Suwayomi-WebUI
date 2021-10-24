@@ -193,6 +193,6 @@ interface SourcePreferences {
 
 interface NavbarItem{
     path: string,
-    text:string,
+    title:string,
     IconComponent: OverridableComponent<SvgIconTypeMap<{}, 'svg'>>,
 }
