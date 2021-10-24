@@ -190,3 +190,9 @@ interface SourcePreferences {
     type: string
     props: any
 }
+
+interface NavbarItem{
+    path: string,
+    text:string,
+    IconComponent: OverridableComponent<SvgIconTypeMap<{}, 'svg'>>,
+}

@@ -11,13 +11,7 @@ import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark';
-import ExploreIcon from '@mui/icons-material/Explore';
-import ExtensionIcon from '@mui/icons-material/Extension';
-import GetAppIcon from '@mui/icons-material/GetApp';
-import NewReleasesIcon from '@mui/icons-material/NewReleases';
 import ListItemText from '@mui/material/ListItemText';
-import SettingsIcon from '@mui/icons-material/Settings';
 import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles({
@@ -30,9 +24,10 @@ interface IProps {
     drawerOpen: boolean
 
     setDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>
+    navBarItems: Array<NavbarItem>
 }
 
-export default function TemporaryDrawer({ drawerOpen, setDrawerOpen }: IProps) {
+export default function TemporaryDrawer({ drawerOpen, setDrawerOpen, navBarItems }: IProps) {
     const classes = useStyles();
 
     return (
@@ -49,56 +44,16 @@ export default function TemporaryDrawer({ drawerOpen, setDrawerOpen }: IProps) {
                     onKeyDown={() => setDrawerOpen(false)}
                 >
                     <List>
-                        <Link to="/library" style={{ color: 'inherit', textDecoration: 'none' }}>
-                            <ListItem button key="Library">
-                                <ListItemIcon>
-                                    <CollectionsBookmarkIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Library" />
-                            </ListItem>
-                        </Link>
-
-                        <Link to="/updates" style={{ color: 'inherit', textDecoration: 'none' }}>
-                            <ListItem button key="Updates">
-                                <ListItemIcon>
-                                    <NewReleasesIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Updates" />
-                            </ListItem>
-                        </Link>
-
-                        <Link to="/manga/extensions" style={{ color: 'inherit', textDecoration: 'none' }}>
-                            <ListItem button key="Extensions">
-                                <ListItemIcon>
-                                    <ExtensionIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Extensions" />
-                            </ListItem>
-                        </Link>
-                        <Link to="/manga/sources" style={{ color: 'inherit', textDecoration: 'none' }}>
-                            <ListItem button key="Sources">
-                                <ListItemIcon>
-                                    <ExploreIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Sources" />
-                            </ListItem>
-                        </Link>
-                        <Link to="/manga/downloads" style={{ color: 'inherit', textDecoration: 'none' }}>
-                            <ListItem button key="Manga Download Queue">
-                                <ListItemIcon>
-                                    <GetAppIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Downloads" />
-                            </ListItem>
-                        </Link>
-                        <Link to="/settings" style={{ color: 'inherit', textDecoration: 'none' }}>
-                            <ListItem button key="settings">
-                                <ListItemIcon>
-                                    <SettingsIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Settings" />
-                            </ListItem>
-                        </Link>
+                        {navBarItems.map((({ path, text, IconComponent }: NavbarItem) => (
+                            <Link to={path} style={{ color: 'inherit', textDecoration: 'none' }}>
+                                <ListItem button key={text}>
+                                    <ListItemIcon>
+                                        <IconComponent />
+                                    </ListItemIcon>
+                                    <ListItemText primary={text} />
+                                </ListItem>
+                            </Link>
+                        )))}
                     </List>
                 </div>
             </Drawer>

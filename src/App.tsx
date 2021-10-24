@@ -11,7 +11,7 @@ import {
     Route,
     Redirect,
 } from 'react-router-dom';
-import { Container } from '@mui/material';
+import { Container, useMediaQuery } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import {
     createTheme, ThemeProvider, Theme, StyledEngineProvider,
@@ -51,6 +51,7 @@ export default function App() {
         title, setTitle, action, setAction, override, setOverride,
     };
     const darkThemeContext = { darkTheme, setDarkTheme };
+    const nonMobileDevice = useMediaQuery('(min-width:600px)');
 
     const theme = React.useMemo(
         () => createTheme({
@@ -88,7 +89,7 @@ export default function App() {
                             id="appMainContainer"
                             maxWidth={false}
                             disableGutters
-                            style={{ paddingTop: '64px' }}
+                            style={{ paddingTop: '64px', paddingLeft: nonMobileDevice ? '72px' : '' }}
                         >
                             <Switch>
                                 {/* General Routes */}
