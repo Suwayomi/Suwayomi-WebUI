@@ -11,7 +11,7 @@ import {
     Route,
     Redirect,
 } from 'react-router-dom';
-import { Container } from '@mui/material';
+import { Container, useMediaQuery } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import {
     createTheme, ThemeProvider, Theme, StyledEngineProvider,
@@ -76,6 +76,8 @@ export default function App() {
         }),
         [darkTheme],
     );
+    // this can only be used after the theme object is created
+    const isMobileWidth = useMediaQuery(theme.breakpoints.down('sm'));
 
     return (
         <Router>
@@ -88,7 +90,7 @@ export default function App() {
                             id="appMainContainer"
                             maxWidth={false}
                             disableGutters
-                            style={{ paddingTop: '64px' }}
+                            style={{ paddingTop: theme.spacing(8), paddingLeft: isMobileWidth ? '' : theme.spacing(8) }}
                         >
                             <Switch>
                                 {/* General Routes */}
