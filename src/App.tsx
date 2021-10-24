@@ -51,7 +51,6 @@ export default function App() {
         title, setTitle, action, setAction, override, setOverride,
     };
     const darkThemeContext = { darkTheme, setDarkTheme };
-    const nonMobileDevice = useMediaQuery('(min-width:600px)');
 
     const theme = React.useMemo(
         () => createTheme({
@@ -77,6 +76,8 @@ export default function App() {
         }),
         [darkTheme],
     );
+    // this can onlu be used after the theme object is created
+    const mobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
 
     return (
         <Router>
@@ -89,7 +90,7 @@ export default function App() {
                             id="appMainContainer"
                             maxWidth={false}
                             disableGutters
-                            style={{ paddingTop: '64px', paddingLeft: nonMobileDevice ? '64px' : '' }}
+                            style={{ paddingTop: theme.spacing(8), paddingLeft: mobileDevice ? '' : theme.spacing(8) }}
                         >
                             <Switch>
                                 {/* General Routes */}

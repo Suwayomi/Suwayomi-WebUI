@@ -71,7 +71,7 @@ export default function NavBar() {
     const [drawerOpen, setDrawerOpen] = useState(false);
     const { title, action, override } = useContext(NavBarContext);
     const theme = useTheme();
-    const match = useMediaQuery(theme.breakpoints.down('sm'));
+    const mobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
 
     const { darkTheme } = useContext(DarkTheme);
 
@@ -83,7 +83,7 @@ export default function NavBar() {
         <div className={classes.root}>
             <AppBar position="fixed" color={darkTheme ? 'default' : 'primary'}>
                 <Toolbar>
-                    {match && (
+                    {mobileDevice && (
                         <IconButton
                             edge="start"
                             className={classes.menuButton}
@@ -96,13 +96,13 @@ export default function NavBar() {
                             <MenuIcon />
                         </IconButton>
                     )}
-                    <Typography variant={match ? 'h6' : 'h5'} className={classes.title}>
+                    <Typography variant={mobileDevice ? 'h6' : 'h5'} className={classes.title}>
                         {title}
                     </Typography>
                     {action}
                 </Toolbar>
             </AppBar>
-            {match ? (
+            {mobileDevice ? (
                 <TemporaryDrawer
                     navBarItems={navbarItems}
                     drawerOpen={drawerOpen}

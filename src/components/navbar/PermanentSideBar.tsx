@@ -15,12 +15,12 @@ import { Link, useLocation } from 'react-router-dom';
 const useStyles = makeStyles((theme) => ({
     sideBar: {
         height: '100vh',
-        width: '64px',
+        width: theme.spacing(8),
         backgroundColor: theme.palette.mode === 'light' ? theme.palette.grey[100] : theme.palette.grey[900],
         position: 'fixed',
         top: 0,
         left: 0,
-        paddingTop: '64px',
+        paddingTop: theme.spacing(8),
         display: 'flex',
         flexDirection: 'column',
         boxShadow: theme.shadows[5],
