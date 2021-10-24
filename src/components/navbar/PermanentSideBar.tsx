@@ -25,6 +25,9 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
         boxShadow: theme.shadows[5],
     },
+    tooltip: {
+        fontSize: '1rem',
+    },
 }));
 
 interface IProps {
@@ -43,7 +46,7 @@ export default function PermanentSideBar({ navBarItems }: IProps) {
                         <Link to={path} style={{ color: 'inherit', textDecoration: 'none' }} key={path}>
                             <ListItem button key={title}>
                                 <ListItemIcon>
-                                    <Tooltip placement="right" title={title}>
+                                    <Tooltip placement="right" classes={{ tooltip: classes.tooltip }} title={title}>
                                         <IconComponent color={location.pathname === path ? 'primary' : 'action'} fontSize="large" />
                                     </Tooltip>
                                 </ListItemIcon>
