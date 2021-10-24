@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
     sideBar: {
         height: '100vh',
         width: '64px',
-        backgroundColor: theme.palette.mode === 'light' ? theme.palette.background.default : theme.palette.grey[900],
+        backgroundColor: theme.palette.mode === 'light' ? theme.palette.grey[100] : theme.palette.grey[900],
         position: 'fixed',
         top: 0,
         left: 0,

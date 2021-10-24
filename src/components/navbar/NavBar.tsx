@@ -96,7 +96,7 @@ export default function NavBar() {
                             <MenuIcon />
                         </IconButton>
                     )}
-                    <Typography variant="h6" className={classes.title}>
+                    <Typography variant={match ? 'h6' : 'h5'} className={classes.title}>
                         {title}
                     </Typography>
                     {action}
