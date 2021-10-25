@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     },
 
     spinner: {
-        minHeight: '313px',
+        minHeight: '400px',
         padding: '180px calc(50% - 20px)',
     },
 }));
