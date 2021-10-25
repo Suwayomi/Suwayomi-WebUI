@@ -43,12 +43,13 @@ const useStyles = makeStyles((theme) => ({
     },
     badge: {
         position: 'absolute',
-        top: 4,
-        left: 4,
+        top: 2,
+        left: 2,
         backgroundColor: theme.palette.primary.dark,
         borderRadius: 5,
         color: 'white',
-        padding: '0.3em',
+        padding: '0.1em',
+        paddingInline: '0.3em',
         fontSize: '1.05rem',
     },
     image: {
@@ -57,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     },
 
     spinner: {
-        minHeight: '400px',
+        minHeight: '313px',
         padding: '180px calc(50% - 20px)',
     },
 }));
@@ -92,6 +93,13 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
                 <Card className={classes.root} ref={ref}>
                     <CardActionArea>
                         <div className={classes.wrapper}>
+                            {unread
+                                ? (
+                                    <Typography className={classes.badge} component="span">
+                                        {unread}
+                                    </Typography>
+                                )
+                                : null}
                             <SpinnerImage
                                 alt={title}
                                 src={`${serverAddress}${thumbnailUrl}?useCache=${useCache}`}
@@ -102,13 +110,6 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
                             <Typography className={classes.title}>
                                 {truncateText(title, 61)}
                             </Typography>
-                            {unread
-                                ? (
-                                    <Typography className={classes.badge} component="span">
-                                        {unread}
-                                    </Typography>
-                                )
-                                : null}
                         </div>
                     </CardActionArea>
                 </Card>
