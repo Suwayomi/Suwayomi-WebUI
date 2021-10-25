@@ -14,6 +14,7 @@ import {
     sourceDefualtLangs, sourceForcedDefaultLangs, langCodeToName, langSortCmp,
 } from 'util/language';
 import useLocalStorage from 'util/useLocalStorage';
+import LoadingPlaceholder from 'components/LoadingPlaceholder';
 
 function sourceToLangList(sources: ISource[]) {
     const result: string[] = [];
@@ -81,7 +82,7 @@ export default function MangaSources() {
 
     if (sources.length === 0) {
         if (fetched) return (<h3>No sources found. Install Some Extensions first.</h3>);
-        return (<h3>loading...</h3>);
+        return <LoadingPlaceholder />;
     }
     return (
         <>

@@ -90,7 +90,12 @@ export default function App() {
                             id="appMainContainer"
                             maxWidth={false}
                             disableGutters
-                            style={{ paddingTop: theme.spacing(8), paddingLeft: isMobileWidth ? '' : theme.spacing(8) }}
+                            style={{
+                                marginTop: theme.spacing(8),
+                                marginLeft: isMobileWidth ? '' : theme.spacing(8),
+                                width: 'auto',
+                                overflow: 'auto',
+                            }}
                         >
                             <Switch>
                                 {/* General Routes */}

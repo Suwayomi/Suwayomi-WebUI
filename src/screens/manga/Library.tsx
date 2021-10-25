@@ -11,6 +11,8 @@ import MangaGrid from 'components/manga/MangaGrid';
 import NavbarContext from 'context/NavbarContext';
 import client from 'util/client';
 import cloneObject from 'util/cloneObject';
+import EmptyView from 'components/EmptyView';
+import LoadingPlaceholder from 'components/LoadingPlaceholder';
 
 interface IMangaCategory {
     category: ICategory
@@ -93,11 +95,11 @@ export default function Library() {
     }, [tabs?.length, tabNum]);
 
     if (tabs === undefined) {
-        return <h3>Loading...</h3>;
+        return <LoadingPlaceholder />;
     }
 
     if (tabs.length === 0) {
-        return <h3>Library is empty</h3>;
+        return <EmptyView message="Your Library is empty" />;
     }
 
     let toRender;
@@ -112,7 +114,8 @@ export default function Library() {
                     hasNextPage={false}
                     lastPageNum={lastPageNum}
                     setLastPageNum={setLastPageNum}
-                    message={tab.isFetched ? 'Category is Empty' : 'Loading...'}
+                    message="Category is Empty"
+                    isLoading={!tab.isFetched}
                 />
             </TabPanel>
         ));
@@ -145,7 +148,8 @@ export default function Library() {
                 hasNextPage={false}
                 lastPageNum={lastPageNum}
                 setLastPageNum={setLastPageNum}
-                message={tabs.length > 0 ? 'Library is Empty' : undefined}
+                message="Your Library is empty"
+                isLoading={!tabs[0].isFetched}
             />
         );
     }

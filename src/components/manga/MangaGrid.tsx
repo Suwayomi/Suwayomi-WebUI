@@ -7,10 +7,13 @@
 
 import React, { useEffect, useRef } from 'react';
 import Grid from '@mui/material/Grid';
+import EmptyView from 'components/EmptyView';
+import LoadingPlaceholder from 'components/LoadingPlaceholder';
 import MangaCard from './MangaCard';
 
 interface IProps{
     mangas: IMangaCard[]
+    isLoading: boolean
     message?: string
     messageExtra?: JSX.Element
     hasNextPage: boolean
@@ -20,7 +23,7 @@ interface IProps{
 
 export default function MangaGrid(props: IProps) {
     const {
-        mangas, message, messageExtra, hasNextPage, lastPageNum, setLastPageNum,
+        mangas, isLoading, message, messageExtra, hasNextPage, lastPageNum, setLastPageNum,
     } = props;
     let mapped;
     const lastManga = useRef<HTMLDivElement>(null);
@@ -41,12 +44,15 @@ export default function MangaGrid(props: IProps) {
     }, [hasNextPage, mangas]);
 
     if (mangas.length === 0) {
-        mapped = (
-            <div>
-                <h3>{message}</h3>
-                {messageExtra}
-            </div>
-        );
+        if (isLoading) {
+            mapped = (
+                <LoadingPlaceholder />
+            );
+        } else {
+            mapped = (
+                <EmptyView message={message!} messageExtra={messageExtra} />
+            );
+        }
     } else {
         mapped = mangas.map((it, idx) => {
             if (idx === mangas.length - 1) {
@@ -75,6 +81,6 @@ export default function MangaGrid(props: IProps) {
 }
 
 MangaGrid.defaultProps = {
-    message: 'loading...',
+    message: '',
     messageExtra: undefined,
 };
