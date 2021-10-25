@@ -21,6 +21,8 @@ import ExploreIcon from '@mui/icons-material/Explore';
 import GetAppIcon from '@mui/icons-material/GetApp';
 import SettingsIcon from '@mui/icons-material/Settings';
 import TemporaryDrawer from 'components/TemporaryDrawer';
+import { ArrowBack } from '@mui/icons-material';
+import { useHistory } from 'react-router-dom';
 import NavBarContext from '../../context/NavbarContext';
 import DarkTheme from '../../context/DarkTheme';
 import PermanentSideBar from './PermanentSideBar';
@@ -72,6 +74,7 @@ export default function NavBar() {
     const { title, action, override } = useContext(NavBarContext);
     const theme = useTheme();
     const isMobileWidth = useMediaQuery(theme.breakpoints.down('sm'));
+    const history = useHistory();
 
     const { darkTheme } = useContext(DarkTheme);
 
@@ -83,7 +86,7 @@ export default function NavBar() {
         <div className={classes.root}>
             <AppBar position="fixed" color={darkTheme ? 'default' : 'primary'}>
                 <Toolbar>
-                    {isMobileWidth && (
+                    {isMobileWidth ? (
                         <IconButton
                             edge="start"
                             className={classes.menuButton}
@@ -95,7 +98,23 @@ export default function NavBar() {
                         >
                             <MenuIcon />
                         </IconButton>
-                    )}
+                    )
+                        : (
+                            history.location.pathname !== '/library'
+                            && (
+                                <IconButton
+                                    edge="start"
+                                    className={classes.menuButton}
+                                    color="inherit"
+                                    aria-label="menu"
+                                    disableRipple
+                                    onClick={() => history.goBack()}
+                                    size="large"
+                                >
+                                    <ArrowBack />
+                                </IconButton>
+                            )
+                        )}
                     <Typography variant={isMobileWidth ? 'h6' : 'h5'} className={classes.title}>
                         {title}
                     </Typography>
