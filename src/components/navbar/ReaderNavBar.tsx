@@ -228,7 +228,7 @@ export default function ReaderNavBar(props: IProps) {
                             color="inherit"
                             aria-label="menu"
                             disableRipple
-                            onClick={() => history.push(`/manga/${manga.id}`)}
+                            onClick={() => history.goBack()}
                             size="large"
                         >
                             <CloseIcon />
@@ -344,6 +344,7 @@ export default function ReaderNavBar(props: IProps) {
                             {chapter.index > 1
                         && (
                             <Link
+                                replace
                                 style={{ gridArea: 'prev' }}
                                 to={`/manga/${manga.id}/chapter/${chapter.index - 1}`}
                             >
@@ -358,6 +359,7 @@ export default function ReaderNavBar(props: IProps) {
                             {chapter.index < chapter.chapterCount
                         && (
                             <Link
+                                replace
                                 style={{ gridArea: 'next' }}
                                 to={`/manga/${manga.id}/chapter/${chapter.index + 1}`}
                             >
