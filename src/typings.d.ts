@@ -34,6 +34,7 @@ interface IMangaCard {
     id: number
     title: string
     thumbnailUrl: string
+    unread_count?: number
 }
 
 interface IManga {
@@ -56,6 +57,7 @@ interface IManga {
     realUrl: string
 
     freshData: boolean
+    unread_count?: number
 }
 
 interface IChapter {

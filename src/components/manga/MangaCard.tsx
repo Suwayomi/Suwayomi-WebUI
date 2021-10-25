@@ -15,7 +15,7 @@ import { Grid } from '@mui/material';
 import useLocalStorage from 'util/useLocalStorage';
 import SpinnerImage from 'components/SpinnerImage';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     root: {
         height: '100%',
         width: '100%',
@@ -41,6 +41,16 @@ const useStyles = makeStyles({
         fontSize: '1.05rem',
         textShadow: '0px 0px 3px #000000',
     },
+    badge: {
+        position: 'absolute',
+        top: 4,
+        left: 4,
+        backgroundColor: theme.palette.primary.dark,
+        borderRadius: 5,
+        color: 'white',
+        padding: '0.3em',
+        fontSize: '1.05rem',
+    },
     image: {
         height: '100%',
         width: '100%',
@@ -50,7 +60,7 @@ const useStyles = makeStyles({
         minHeight: '400px',
         padding: '180px calc(50% - 20px)',
     },
-});
+}));
 
 const truncateText = (str: string, maxLength: number) => {
     const ending = '...';
@@ -69,7 +79,7 @@ interface IProps {
 const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) => {
     const {
         manga: {
-            id, title, thumbnailUrl,
+            id, title, thumbnailUrl, unread_count: unread,
         },
     } = props;
     const classes = useStyles();
@@ -92,6 +102,13 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
                             <Typography className={classes.title}>
                                 {truncateText(title, 61)}
                             </Typography>
+                            {unread
+                                ? (
+                                    <Typography className={classes.badge} component="span">
+                                        {unread}
+                                    </Typography>
+                                )
+                                : null}
                         </div>
                     </CardActionArea>
                 </Card>
