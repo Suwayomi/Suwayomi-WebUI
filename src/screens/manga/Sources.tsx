@@ -37,7 +37,7 @@ function groupByLang(sources: ISource[]) {
     return result;
 }
 
-export default function MangaSources() {
+export default function Sources() {
     const { setTitle, setAction } = useContext(NavbarContext);
 
     const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownSourceLangs', sourceDefualtLangs());

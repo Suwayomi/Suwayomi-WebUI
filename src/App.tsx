@@ -20,7 +20,6 @@ import NavBar from 'components/navbar/NavBar';
 import NavbarContext from 'context/NavbarContext';
 import DarkTheme from 'context/DarkTheme';
 import useLocalStorage from 'util/useLocalStorage';
-import MangaSources from 'screens/manga/Sources';
 import Settings from 'screens/Settings';
 import About from 'screens/settings/About';
 import Categories from 'screens/settings/Categories';
@@ -29,11 +28,11 @@ import Library from 'screens/manga/Library';
 import SearchSingle from 'screens/manga/SearchSingle';
 import SourceConfigure from 'screens/manga/SourceConfigure';
 import Manga from 'screens/manga/Manga';
-import MangaExtensions from 'screens/manga/Extensions';
 import SourceMangas from 'screens/manga/SourceMangas';
 import Reader from 'screens/manga/Reader';
 import Updates from 'screens/manga/Updates';
 import DownloadQueue from 'screens/manga/DownloadQueue';
+import Browse from 'screens/manga/Browse';
 
 declare module '@mui/styles/defaultTheme' {
     // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -127,9 +126,6 @@ export default function App() {
                                 <Route path="/sources/:sourceId/search/">
                                     <SearchSingle />
                                 </Route>
-                                <Route path="/extensions">
-                                    <MangaExtensions />
-                                </Route>
                                 <Route path="/sources/:sourceId/popular/">
                                     <SourceMangas popular />
                                 </Route>
@@ -138,9 +134,6 @@ export default function App() {
                                 </Route>
                                 <Route path="/sources/:sourceId/configure/">
                                     <SourceConfigure />
-                                </Route>
-                                <Route path="/sources">
-                                    <MangaSources />
                                 </Route>
                                 <Route path="/downloads">
                                     <DownloadQueue />
@@ -156,6 +149,9 @@ export default function App() {
                                 </Route>
                                 <Route path="/updates">
                                     <Updates />
+                                </Route>
+                                <Route path="/browse">
+                                    <Browse />
                                 </Route>
                             </Switch>
                         </Container>

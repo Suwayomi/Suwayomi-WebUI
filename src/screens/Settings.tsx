@@ -30,7 +30,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import NavbarContext from '../context/NavbarContext';
 import DarkTheme from '../context/DarkTheme';
 import useLocalStorage from '../util/useLocalStorage';
-import ListItemLink from '../util/ListItemLink';
+import ListItemLink from '../components/util/ListItemLink';
 
 export default function Settings() {
     const { setTitle, setAction } = useContext(NavbarContext);

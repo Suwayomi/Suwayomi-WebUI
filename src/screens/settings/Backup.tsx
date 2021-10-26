@@ -11,7 +11,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import { fromEvent } from 'file-selector';
 import makeToast from 'components/Toast';
-import ListItemLink from '../../util/ListItemLink';
+import ListItemLink from '../../components/util/ListItemLink';
 import NavbarContext from '../../context/NavbarContext';
 import client from '../../util/client';
 

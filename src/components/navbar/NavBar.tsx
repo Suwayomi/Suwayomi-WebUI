@@ -16,7 +16,6 @@ import { useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark';
 import NewReleasesIcon from '@mui/icons-material/NewReleases';
-import ExtensionIcon from '@mui/icons-material/Extension';
 import ExploreIcon from '@mui/icons-material/Explore';
 import GetAppIcon from '@mui/icons-material/GetApp';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -50,12 +49,8 @@ const navbarItems: Array<NavbarItem> = [
         title: 'Updates',
         IconComponent: NewReleasesIcon,
     }, {
-        path: '/extensions',
-        title: 'Extensions',
-        IconComponent: ExtensionIcon,
-    }, {
-        path: '/sources',
-        title: 'Sources',
+        path: '/browse',
+        title: 'Browse',
         IconComponent: ExploreIcon,
     }, {
         path: '/downloads',
