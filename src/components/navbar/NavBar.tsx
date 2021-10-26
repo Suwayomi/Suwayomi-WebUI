@@ -100,7 +100,7 @@ export default function NavBar() {
                         </IconButton>
                     )
                         : (
-                            !history.location.pathname.startsWith('/library')
+                            !navbarItems.some(({ path }) => path === history.location.pathname)
                             && (
                                 <IconButton
                                     edge="start"
