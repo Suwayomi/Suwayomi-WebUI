@@ -20,11 +20,11 @@ import ExtensionIcon from '@mui/icons-material/Extension';
 import ExploreIcon from '@mui/icons-material/Explore';
 import GetAppIcon from '@mui/icons-material/GetApp';
 import SettingsIcon from '@mui/icons-material/Settings';
-import TemporaryDrawer from 'components/TemporaryDrawer';
 import ArrowBack from '@mui/icons-material/ArrowBack';
 import { useHistory } from 'react-router-dom';
-import NavBarContext from '../../context/NavbarContext';
-import DarkTheme from '../../context/DarkTheme';
+import NavBarContext from 'context/NavbarContext';
+import DarkTheme from 'context/DarkTheme';
+import TemporaryDrawer from './TemporaryDrawer';
 import PermanentSideBar from './PermanentSideBar';
 
 const useStyles = makeStyles((theme) => ({
@@ -100,7 +100,7 @@ export default function NavBar() {
                         </IconButton>
                     )
                         : (
-                            history.location.pathname !== '/library'
+                            !history.location.pathname.startsWith('/library')
                             && (
                                 <IconButton
                                     edge="start"
@@ -108,7 +108,9 @@ export default function NavBar() {
                                     color="inherit"
                                     aria-label="menu"
                                     disableRipple
-                                    onClick={() => history.goBack()}
+                                    // when page is opened in new tab backbutton will
+                                    // take you to the library
+                                    onClick={() => (history.length === 1 ? history.push('/library') : history.goBack())}
                                     size="large"
                                 >
                                     <ArrowBack />
