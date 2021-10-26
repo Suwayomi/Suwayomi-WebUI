@@ -36,6 +36,7 @@ export default function SpinnerImage(props: IProps) {
         };
 
         img.onerror = () => {
+            // Setting to an actual image so CSS styling works consistently
             setImagsrc('/notFound.svg');
         };
 
