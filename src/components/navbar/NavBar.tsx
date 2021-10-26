@@ -20,10 +20,12 @@ import ExtensionIcon from '@mui/icons-material/Extension';
 import ExploreIcon from '@mui/icons-material/Explore';
 import GetAppIcon from '@mui/icons-material/GetApp';
 import SettingsIcon from '@mui/icons-material/Settings';
+import ArrowBack from '@mui/icons-material/ArrowBack';
+import { useHistory } from 'react-router-dom';
 import NavBarContext from 'context/NavbarContext';
 import DarkTheme from 'context/DarkTheme';
-import PermanentSideBar from './PermanentSideBar';
 import TemporaryDrawer from './TemporaryDrawer';
+import PermanentSideBar from './PermanentSideBar';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -72,6 +74,7 @@ export default function NavBar() {
     const { title, action, override } = useContext(NavBarContext);
     const theme = useTheme();
     const isMobileWidth = useMediaQuery(theme.breakpoints.down('sm'));
+    const history = useHistory();
 
     const { darkTheme } = useContext(DarkTheme);
 
@@ -83,7 +86,7 @@ export default function NavBar() {
         <div className={classes.root}>
             <AppBar position="fixed" color={darkTheme ? 'default' : 'primary'}>
                 <Toolbar>
-                    {isMobileWidth && (
+                    {isMobileWidth ? (
                         <IconButton
                             edge="start"
                             className={classes.menuButton}
@@ -95,7 +98,25 @@ export default function NavBar() {
                         >
                             <MenuIcon />
                         </IconButton>
-                    )}
+                    )
+                        : (
+                            !navbarItems.some(({ path }) => path === history.location.pathname)
+                            && (
+                                <IconButton
+                                    edge="start"
+                                    className={classes.menuButton}
+                                    color="inherit"
+                                    aria-label="menu"
+                                    disableRipple
+                                    // when page is opened in new tab backbutton will
+                                    // take you to the library
+                                    onClick={() => (history.length === 1 ? history.push('/library') : history.goBack())}
+                                    size="large"
+                                >
+                                    <ArrowBack />
+                                </IconButton>
+                            )
+                        )}
                     <Typography variant={isMobileWidth ? 'h6' : 'h5'} className={classes.title}>
                         {title}
                     </Typography>
