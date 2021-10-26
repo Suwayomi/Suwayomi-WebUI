@@ -15,7 +15,7 @@ import { Grid } from '@mui/material';
 import useLocalStorage from 'util/useLocalStorage';
 import SpinnerImage from 'components/SpinnerImage';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     root: {
         height: '100%',
         width: '100%',
@@ -41,6 +41,17 @@ const useStyles = makeStyles({
         fontSize: '1.05rem',
         textShadow: '0px 0px 3px #000000',
     },
+    badge: {
+        position: 'absolute',
+        top: 2,
+        left: 2,
+        backgroundColor: theme.palette.primary.dark,
+        borderRadius: 5,
+        color: 'white',
+        padding: '0.1em',
+        paddingInline: '0.3em',
+        fontSize: '1.05rem',
+    },
     image: {
         height: '100%',
         width: '100%',
@@ -48,9 +59,10 @@ const useStyles = makeStyles({
 
     spinner: {
         minHeight: '400px',
-        padding: '180px calc(50% - 20px)',
+        display: 'grid',
+        placeItems: 'center',
     },
-});
+}));
 
 const truncateText = (str: string, maxLength: number) => {
     const ending = '...';
@@ -69,7 +81,7 @@ interface IProps {
 const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) => {
     const {
         manga: {
-            id, title, thumbnailUrl,
+            id, title, thumbnailUrl, unread_count: unread,
         },
     } = props;
     const classes = useStyles();
@@ -82,6 +94,13 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
                 <Card className={classes.root} ref={ref}>
                     <CardActionArea>
                         <div className={classes.wrapper}>
+                            {unread
+                                ? (
+                                    <Typography className={classes.badge} component="span">
+                                        {unread}
+                                    </Typography>
+                                )
+                                : null}
                             <SpinnerImage
                                 alt={title}
                                 src={`${serverAddress}${thumbnailUrl}?useCache=${useCache}`}
