@@ -13,33 +13,12 @@ import client from 'util/client';
 import cloneObject from 'util/cloneObject';
 import EmptyView from 'components/EmptyView';
 import LoadingPlaceholder from 'components/LoadingPlaceholder';
+import TabPanel from 'components/util/TabPanel';
 
 interface IMangaCategory {
     category: ICategory
     mangas: IManga[]
     isFetched: boolean
-}
-
-interface TabPanelProps {
-    children: React.ReactNode;
-    index: any;
-    value: any;
-}
-
-function TabPanel(props: TabPanelProps) {
-    const {
-        children, value, index,
-    } = props;
-
-    return (
-        <div
-            role="tabpanel"
-            hidden={value !== index}
-            id={`simple-tabpanel-${index}`}
-        >
-            {value === index && children}
-        </div>
-    );
 }
 
 export default function Library() {
@@ -108,7 +87,7 @@ export default function Library() {
         const tabDefines = tabs.map((tab) => (<Tab label={tab.category.name} value={tab.category.order} />));
 
         const tabBodies = tabs.map((tab) => (
-            <TabPanel value={tabNum} index={tab.category.order}>
+            <TabPanel index={tab.category.order} currentIndex={tabNum}>
                 <MangaGrid
                     mangas={tab.mangas}
                     hasNextPage={false}
