@@ -127,7 +127,7 @@ export default function App() {
                                 <Route path="/sources/:sourceId/search/">
                                     <SearchSingle />
                                 </Route>
-                                <Route path="/manga/extensions">
+                                <Route path="/extensions">
                                     <MangaExtensions />
                                 </Route>
                                 <Route path="/sources/:sourceId/popular/">
@@ -139,10 +139,10 @@ export default function App() {
                                 <Route path="/sources/:sourceId/configure/">
                                     <SourceConfigure />
                                 </Route>
-                                <Route path="/manga/sources">
+                                <Route path="/sources">
                                     <MangaSources />
                                 </Route>
-                                <Route path="/manga/downloads">
+                                <Route path="/downloads">
                                     <DownloadQueue />
                                 </Route>
                                 <Route path="/manga/:mangaId/chapter/:chapterNum">

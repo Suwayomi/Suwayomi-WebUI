@@ -50,15 +50,15 @@ const navbarItems: Array<NavbarItem> = [
         title: 'Updates',
         IconComponent: NewReleasesIcon,
     }, {
-        path: '/manga/extensions',
+        path: '/extensions',
         title: 'Extensions',
         IconComponent: ExtensionIcon,
     }, {
-        path: '/manga/sources',
+        path: '/sources',
         title: 'Sources',
         IconComponent: ExploreIcon,
     }, {
-        path: '/manga/downloads',
+        path: '/downloads',
         title: 'Manga Download Queue',
         IconComponent: GetAppIcon,
     }, {
