@@ -52,7 +52,7 @@ const navbarItems: Array<NavbarItem> = [
         IconComponent: ExploreIcon,
     }, {
         path: '/downloads',
-        title: 'Manga Download Queue',
+        title: 'Downloads',
         IconComponent: GetAppIcon,
     }, {
         path: '/settings',

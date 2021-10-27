@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'space-evenly',
     },
     tooltip: {
-        fontSize: '1rem',
+        fontSize: '0.8rem',
     },
 }));
 
@@ -61,9 +61,26 @@ export default function PermanentSideBar({ navBarItems }: IProps) {
                     <Link to={path} style={{ color: 'inherit', textDecoration: 'none' }} key={path}>
                         <ListItem button key={title}>
                             <ListItemIcon style={{ minWidth: '0' }}>
-                                <Tooltip placement="right" classes={{ tooltip: classes.tooltip }} title={title}>
-                                    <IconComponent color={location.pathname === path ? 'primary' : 'action'} fontSize="large" />
-                                </Tooltip>
+                                {isMobileWidth
+                                    ? (
+                                        <div style={{
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            alignItems: 'center',
+                                            color: location.pathname === path
+                                                ? theme.palette.primary.main
+                                                : theme.palette.grey.A400,
+                                        }}
+                                        >
+                                            <IconComponent fontSize="medium" />
+                                            <div style={{ fontSize: '0.65rem' }}>{title}</div>
+                                        </div>
+                                    )
+                                    : (
+                                        <Tooltip placement="right" classes={{ tooltip: classes.tooltip }} title={title}>
+                                            <IconComponent color={location.pathname === path ? 'primary' : theme.palette.grey.A400} fontSize="large" />
+                                        </Tooltip>
+                                    )}
                             </ListItemIcon>
                         </ListItem>
                     </Link>
