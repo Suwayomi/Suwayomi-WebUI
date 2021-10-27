@@ -8,9 +8,10 @@
 import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import {
-    List, ListItem, ListItemIcon, Tooltip,
+    List, ListItem, ListItemIcon, Tooltip, useMediaQuery,
 } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
+import { useTheme } from '@mui/material/styles';
 
 const useStyles = makeStyles((theme) => ({
     sideBar: {
@@ -25,6 +26,19 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
         boxShadow: theme.shadows[5],
     },
+    bottomBar: {
+        bottom: 0,
+        left: 0,
+        height: '64px',
+        width: '100vw',
+        backgroundColor: theme.palette.mode === 'light' ? theme.palette.grey[100] : theme.palette.grey[900],
+        position: 'fixed',
+        display: 'flex',
+        flexDirection: 'row',
+        zIndex: theme.zIndex.drawer,
+        boxShadow: theme.shadows[5],
+        justifyContent: 'space-evenly',
+    },
     tooltip: {
         fontSize: '1rem',
     },
@@ -37,24 +51,24 @@ interface IProps {
 export default function PermanentSideBar({ navBarItems }: IProps) {
     const location = useLocation();
     const classes = useStyles();
+    const theme = useTheme();
+    const isMobileWidth = useMediaQuery(theme.breakpoints.down('sm'));
     return (
-        <div className={classes.sideBar}>
-            <List>
-                {
-                    // eslint-disable-next-line react/destructuring-assignment
-                    navBarItems.map(({ path, title, IconComponent }: NavbarItem) => (
-                        <Link to={path} style={{ color: 'inherit', textDecoration: 'none' }} key={path}>
-                            <ListItem button key={title}>
-                                <ListItemIcon>
-                                    <Tooltip placement="right" classes={{ tooltip: classes.tooltip }} title={title}>
-                                        <IconComponent color={location.pathname === path ? 'primary' : 'action'} fontSize="large" />
-                                    </Tooltip>
-                                </ListItemIcon>
-                            </ListItem>
-                        </Link>
-                    ))
-                }
-            </List>
-        </div>
+        <List className={isMobileWidth ? classes.bottomBar : classes.sideBar}>
+            {
+                // eslint-disable-next-line react/destructuring-assignment
+                navBarItems.map(({ path, title, IconComponent }: NavbarItem) => (
+                    <Link to={path} style={{ color: 'inherit', textDecoration: 'none' }} key={path}>
+                        <ListItem button key={title}>
+                            <ListItemIcon style={{ minWidth: '0' }}>
+                                <Tooltip placement="right" classes={{ tooltip: classes.tooltip }} title={title}>
+                                    <IconComponent color={location.pathname === path ? 'primary' : 'action'} fontSize="large" />
+                                </Tooltip>
+                            </ListItemIcon>
+                        </ListItem>
+                    </Link>
+                ))
+            }
+        </List>
     );
 }
