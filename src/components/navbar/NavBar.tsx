@@ -23,6 +23,7 @@ import { useHistory } from 'react-router-dom';
 import NavBarContext from 'context/NavbarContext';
 import DarkTheme from 'context/DarkTheme';
 import PermanentSideBar from './PermanentSideBar';
+import BottomNavigationBar from './BottomNavigationBar';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -67,6 +68,7 @@ export default function NavBar() {
     const theme = useTheme();
     const isMobileWidth = useMediaQuery(theme.breakpoints.down('sm'));
     const history = useHistory();
+    const isMainRoute = navbarItems.some(({ path }) => path === history.location.pathname);
 
     const { darkTheme } = useContext(DarkTheme);
 
@@ -103,8 +105,11 @@ export default function NavBar() {
                 </Toolbar>
             </AppBar>
             {
-                navbarItems.some(({ path }) => path === history.location.pathname)
-            && <PermanentSideBar navBarItems={navbarItems} />
+                isMainRoute
+            && (
+                isMobileWidth
+                    ? <BottomNavigationBar navBarItems={navbarItems} />
+                    : <PermanentSideBar navBarItems={navbarItems} />)
             }
         </div>
     )}
