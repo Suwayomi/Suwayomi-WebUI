@@ -81,7 +81,7 @@ interface IProps {
 const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) => {
     const {
         manga: {
-            id, title, thumbnailUrl, unread_count: unread,
+            id, title, thumbnailUrl, unreadCount: unread,
         },
     } = props;
     const classes = useStyles();
