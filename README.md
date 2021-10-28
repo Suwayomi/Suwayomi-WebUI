@@ -2,7 +2,7 @@
 If you got here hoping to download Tachidesk-WebUI, go back and download [Tachidesk-Server](https://github.com/Suwayomi/Tachidesk-Server), Tachidesk-WebUI is distributed as an embedded web interface along with Tachidesk-Server.
 
 # Tachidesk-WebUI
-WebUI doesn't have it's own Tachidesk distribution and is version locked by Tachidesk-Server.
+WebUI doesn't have it's own Tachidesk distribution and is version locked by Tachidesk-Server, In other words the Tachidesk-WebUI distribution is actually the Tachidesk-Server distribution.
 
 You can find minified builds of WebUI in [Tachidesk-WebUI-preview](https://github.com/Suwayomi/Tachidesk-WebUI-preview)
 
