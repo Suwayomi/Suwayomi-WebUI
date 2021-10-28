@@ -24,6 +24,7 @@ import DragHandleIcon from '@mui/icons-material/DragHandle';
 import ListItem from '@mui/material/ListItem';
 import { ListItemIcon } from '@mui/material';
 import ListItemText from '@mui/material/ListItemText';
+import EmptyView from 'components/EmptyView';
 
 const baseWebsocketUrl = JSON.parse(window.localStorage.getItem('serverBaseURL')!).replace('http', 'ws');
 
@@ -90,6 +91,10 @@ export default function DownloadQueue() {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const onDragEnd = (result: DropResult) => {
     };
+
+    if (queue.length === 0) {
+        return <EmptyView message="No downloads" />;
+    }
 
     return (
         <>
