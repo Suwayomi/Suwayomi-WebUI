@@ -205,24 +205,18 @@ export default function MangaDetails(props: IProps) {
                             {manga.title}
                         </h1>
                         <h3>
-                            Author:
-                            {' '}
+                            {'Author: '}
                             <span>{getValueOrUnknown(manga.author)}</span>
                         </h3>
                         <h3>
-                            Artist:
-                            {' '}
+                            {'Artist: '}
                             <span>{getValueOrUnknown(manga.artist)}</span>
                         </h3>
                         <h3>
-                            Status:
-                            {' '}
-                            {manga.status}
+                            {`Status: ${manga.status}`}
                         </h3>
                         <h3>
-                            Source:
-                            {' '}
-                            {getSourceName(manga.source)}
+                            {`Source: ${getSourceName(manga.source)}`}
                         </h3>
                     </div>
                 </div>
