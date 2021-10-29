@@ -11,7 +11,7 @@ import EmptyView from 'components/EmptyView';
 import LoadingPlaceholder from 'components/LoadingPlaceholder';
 import MangaCard from './MangaCard';
 
-interface IProps{
+export interface IMangaGridProps{
     mangas: IMangaCard[]
     isLoading: boolean
     message?: string
@@ -21,7 +21,7 @@ interface IProps{
     setLastPageNum: (lastPageNum: number) => void
 }
 
-export default function MangaGrid(props: IProps) {
+export default function MangaGrid(props: IMangaGridProps) {
     const {
         mangas, isLoading, message, messageExtra, hasNextPage, lastPageNum, setLastPageNum,
     } = props;
