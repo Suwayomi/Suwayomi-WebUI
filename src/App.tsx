@@ -11,6 +11,7 @@ import {
     Route,
     Redirect,
 } from 'react-router-dom';
+import { QueryParamProvider } from 'use-query-params';
 import { Container, useMediaQuery } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import {
@@ -36,20 +37,32 @@ import Browse from 'screens/manga/Browse';
 
 declare module '@mui/styles/defaultTheme' {
     // eslint-disable-next-line @typescript-eslint/no-empty-interface
-    interface DefaultTheme extends Theme {}
+    interface DefaultTheme extends Theme {
+    }
 }
 
 export default function App() {
     const [title, setTitle] = useState<string>('Tachidesk');
     const [action, setAction] = useState<any>(<div />);
-    const [override, setOverride] = useState<INavbarOverride>({ status: false, value: <div /> });
+    const [override, setOverride] = useState<INavbarOverride>({
+        status: false,
+        value: <div />,
+    });
 
     const [darkTheme, setDarkTheme] = useLocalStorage<boolean>('darkTheme', true);
 
     const navBarContext = {
-        title, setTitle, action, setAction, override, setOverride,
+        title,
+        setTitle,
+        action,
+        setAction,
+        override,
+        setOverride,
     };
-    const darkThemeContext = { darkTheme, setDarkTheme };
+    const darkThemeContext = {
+        darkTheme,
+        setDarkTheme,
+    };
 
     const theme = React.useMemo(
         () => createTheme({
@@ -82,90 +95,95 @@ export default function App() {
         <Router>
             <StyledEngineProvider injectFirst>
                 <ThemeProvider theme={theme}>
-                    <NavbarContext.Provider value={navBarContext}>
-                        <CssBaseline />
-                        <NavBar />
-                        <Container
-                            id="appMainContainer"
-                            maxWidth={false}
-                            disableGutters
-                            style={{
-                                marginTop: theme.spacing(8),
-                                marginLeft: isMobileWidth ? '' : theme.spacing(8),
-                                marginBottom: isMobileWidth ? theme.spacing(8) : '',
-                                width: 'auto',
-                                overflow: 'auto',
-                            }}
-                        >
+                    <QueryParamProvider ReactRouterRoute={Route}>
+                        <NavbarContext.Provider value={navBarContext}>
+                            <CssBaseline />
+                            <NavBar />
+                            <Container
+                                id="appMainContainer"
+                                maxWidth={false}
+                                disableGutters
+                                style={{
+                                    marginTop: theme.spacing(8),
+                                    marginLeft: isMobileWidth ? '' : theme.spacing(8),
+                                    marginBottom: isMobileWidth ? theme.spacing(8) : '',
+                                    width: 'auto',
+                                    overflow: 'auto',
+                                }}
+                            >
+                                <Switch>
+                                    {/* General Routes */}
+                                    <Route
+                                        exact
+                                        path="/"
+                                        render={() => (
+                                            <Redirect to="/library" />
+                                        )}
+                                    />
+                                    <Route path="/settings/about">
+                                        <About />
+                                    </Route>
+                                    <Route path="/settings/categories">
+                                        <Categories />
+                                    </Route>
+                                    <Route path="/settings/backup">
+                                        <Backup />
+                                    </Route>
+                                    <Route path="/settings">
+                                        <DarkTheme.Provider value={darkThemeContext}>
+                                            <Settings />
+                                        </DarkTheme.Provider>
+                                    </Route>
+
+                                    {/* Manga Routes */}
+
+                                    <Route path="/sources/:sourceId/search/">
+                                        <SearchSingle />
+                                    </Route>
+                                    <Route path="/sources/:sourceId/popular/">
+                                        <SourceMangas popular />
+                                    </Route>
+                                    <Route path="/sources/:sourceId/latest/">
+                                        <SourceMangas popular={false} />
+                                    </Route>
+                                    <Route path="/sources/:sourceId/configure/">
+                                        <SourceConfigure />
+                                    </Route>
+                                    <Route path="/downloads">
+                                        <DownloadQueue />
+                                    </Route>
+                                    <Route path="/manga/:mangaId/chapter/:chapterNum">
+                                        <></>
+                                    </Route>
+                                    <Route path="/manga/:id">
+                                        <Manga />
+                                    </Route>
+                                    <Route path="/library">
+                                        <Library />
+                                    </Route>
+                                    <Route path="/updates">
+                                        <Updates />
+                                    </Route>
+                                    <Route path="/browse">
+                                        <Browse />
+                                    </Route>
+                                </Switch>
+                            </Container>
                             <Switch>
-                                {/* General Routes */}
                                 <Route
-                                    exact
-                                    path="/"
-                                    render={() => (
-                                        <Redirect to="/library" />
-                                    )}
+                                    path="/manga/:mangaId/chapter/:chapterIndex"
+                                    // passing a key re-mounts the reader when changing chapters
+                                    render={
+                                        (props: any) => (
+                                            <Reader
+                                                key={props.match.params.chapterIndex}
+                                            />
+                                        )
+                                    }
                                 />
-
-                                <Route path="/settings/about">
-                                    <About />
-                                </Route>
-                                <Route path="/settings/categories">
-                                    <Categories />
-                                </Route>
-                                <Route path="/settings/backup">
-                                    <Backup />
-                                </Route>
-                                <Route path="/settings">
-                                    <DarkTheme.Provider value={darkThemeContext}>
-                                        <Settings />
-                                    </DarkTheme.Provider>
-                                </Route>
-
-                                {/* Manga Routes */}
-
-                                <Route path="/sources/:sourceId/search/">
-                                    <SearchSingle />
-                                </Route>
-                                <Route path="/sources/:sourceId/popular/">
-                                    <SourceMangas popular />
-                                </Route>
-                                <Route path="/sources/:sourceId/latest/">
-                                    <SourceMangas popular={false} />
-                                </Route>
-                                <Route path="/sources/:sourceId/configure/">
-                                    <SourceConfigure />
-                                </Route>
-                                <Route path="/downloads">
-                                    <DownloadQueue />
-                                </Route>
-                                <Route path="/manga/:mangaId/chapter/:chapterNum">
-                                    <></>
-                                </Route>
-                                <Route path="/manga/:id">
-                                    <Manga />
-                                </Route>
-                                <Route path="/library">
-                                    <Library />
-                                </Route>
-                                <Route path="/updates">
-                                    <Updates />
-                                </Route>
-                                <Route path="/browse">
-                                    <Browse />
-                                </Route>
                             </Switch>
-                        </Container>
-                        <Switch>
-                            <Route
-                                path="/manga/:mangaId/chapter/:chapterIndex"
-                                // passing a key re-mounts the reader when changing chapters
-                                render={
-                                    (props:any) => <Reader key={props.match.params.chapterIndex} />
-                                }
-                            />
-                        </Switch>
-                    </NavbarContext.Provider>
+                        </NavbarContext.Provider>
+                    </QueryParamProvider>
                 </ThemeProvider>
             </StyledEngineProvider>
         </Router>

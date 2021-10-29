@@ -7,13 +7,14 @@
 
 import { Tab, Tabs } from '@mui/material';
 import React, { useContext, useEffect, useState } from 'react';
-import MangaGrid from 'components/manga/MangaGrid';
 import NavbarContext from 'context/NavbarContext';
 import client from 'util/client';
 import cloneObject from 'util/cloneObject';
 import EmptyView from 'components/EmptyView';
 import LoadingPlaceholder from 'components/LoadingPlaceholder';
 import TabPanel from 'components/util/TabPanel';
+import LibraryOptions from '../../components/library/LibraryOptions';
+import LibraryMangaGrid from '../../components/library/LibraryMangaGrid';
 
 interface IMangaCategory {
     category: ICategory
@@ -23,7 +24,13 @@ interface IMangaCategory {
 
 export default function Library() {
     const { setTitle, setAction } = useContext(NavbarContext);
-    useEffect(() => { setTitle('Library'); setAction(<></>); }, []);
+    useEffect(() => {
+        setTitle('Library'); setAction(
+            <>
+                <LibraryOptions />
+            </>,
+        );
+    }, []);
 
     const [tabs, setTabs] = useState<IMangaCategory[]>();
     const [tabNum, setTabNum] = useState<number>(0);
@@ -88,7 +95,7 @@ export default function Library() {
 
         const tabBodies = tabs.map((tab) => (
             <TabPanel index={tab.category.order} currentIndex={tabNum}>
-                <MangaGrid
+                <LibraryMangaGrid
                     mangas={tab.mangas}
                     hasNextPage={false}
                     lastPageNum={lastPageNum}
@@ -122,7 +129,7 @@ export default function Library() {
     } else {
         const mangas = tabs.length === 1 ? tabs[0].mangas : [];
         toRender = (
-            <MangaGrid
+            <LibraryMangaGrid
                 mangas={mangas}
                 hasNextPage={false}
                 lastPageNum={lastPageNum}
