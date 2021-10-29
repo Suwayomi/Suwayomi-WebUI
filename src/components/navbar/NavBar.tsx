@@ -5,13 +5,12 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
 import { useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark';
@@ -23,8 +22,8 @@ import ArrowBack from '@mui/icons-material/ArrowBack';
 import { useHistory } from 'react-router-dom';
 import NavBarContext from 'context/NavbarContext';
 import DarkTheme from 'context/DarkTheme';
-import TemporaryDrawer from './TemporaryDrawer';
 import PermanentSideBar from './PermanentSideBar';
+import BottomNavigationBar from './BottomNavigationBar';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -54,7 +53,7 @@ const navbarItems: Array<NavbarItem> = [
         IconComponent: ExploreIcon,
     }, {
         path: '/downloads',
-        title: 'Manga Download Queue',
+        title: 'Downloads',
         IconComponent: GetAppIcon,
     }, {
         path: '/settings',
@@ -65,11 +64,11 @@ const navbarItems: Array<NavbarItem> = [
 
 export default function NavBar() {
     const classes = useStyles();
-    const [drawerOpen, setDrawerOpen] = useState(false);
     const { title, action, override } = useContext(NavBarContext);
     const theme = useTheme();
     const isMobileWidth = useMediaQuery(theme.breakpoints.down('sm'));
     const history = useHistory();
+    const isMainRoute = navbarItems.some(({ path }) => path === history.location.pathname);
 
     const { darkTheme } = useContext(DarkTheme);
 
@@ -81,21 +80,8 @@ export default function NavBar() {
         <div className={classes.root}>
             <AppBar position="fixed" color={darkTheme ? 'default' : 'primary'}>
                 <Toolbar>
-                    {isMobileWidth ? (
-                        <IconButton
-                            edge="start"
-                            className={classes.menuButton}
-                            color="inherit"
-                            aria-label="menu"
-                            disableRipple
-                            onClick={() => setDrawerOpen(true)}
-                            size="large"
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                    )
-                        : (
-                            !navbarItems.some(({ path }) => path === history.location.pathname)
+                    {
+                        !navbarItems.some(({ path }) => path === history.location.pathname)
                             && (
                                 <IconButton
                                     edge="start"
@@ -111,21 +97,20 @@ export default function NavBar() {
                                     <ArrowBack />
                                 </IconButton>
                             )
-                        )}
+                    }
                     <Typography variant={isMobileWidth ? 'h6' : 'h5'} className={classes.title}>
                         {title}
                     </Typography>
                     {action}
                 </Toolbar>
             </AppBar>
-            {isMobileWidth ? (
-                <TemporaryDrawer
-                    navBarItems={navbarItems}
-                    drawerOpen={drawerOpen}
-                    setDrawerOpen={setDrawerOpen}
-                />
-            )
-                : <PermanentSideBar navBarItems={navbarItems} />}
+            {
+                isMainRoute
+            && (
+                isMobileWidth
+                    ? <BottomNavigationBar navBarItems={navbarItems} />
+                    : <PermanentSideBar navBarItems={navbarItems} />)
+            }
         </div>
     )}
         </>
