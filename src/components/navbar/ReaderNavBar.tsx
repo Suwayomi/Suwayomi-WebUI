@@ -332,13 +332,7 @@ export default function ReaderNavBar(props: IProps) {
                     <hr />
                     <div className={classes.navigation}>
                         <span>
-                            Currently on page
-                            {' '}
-                            {curPage + 1}
-                            {' '}
-                            of
-                            {' '}
-                            {chapter.pageCount}
+                            {`Currently on page ${curPage + 1} of ${chapter.pageCount}`}
                         </span>
                         <div className={classes.navigationChapters}>
                             {chapter.index > 1

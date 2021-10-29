@@ -149,10 +149,7 @@ export default function ChapterCard(props: IProps) {
                                 {!chapter.bookmarked && 'Bookmark'}
                             </MenuItem>
                             <MenuItem onClick={() => sendChange('read', !chapter.read)}>
-                                Mark as
-                                {' '}
-                                {chapter.read && 'unread'}
-                                {!chapter.read && 'read'}
+                                {`Mark as ${chapter.read && 'unread'} ${!chapter.read && 'read'}`}
                             </MenuItem>
                             <MenuItem onClick={() => sendChange('markPrevRead', true)}>
                                 Mark previous as Read
