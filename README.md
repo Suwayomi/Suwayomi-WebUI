@@ -9,6 +9,9 @@ You can find minified builds of WebUI in [Tachidesk-WebUI-preview](https://githu
 # About
 This is a `create-react-app` project, you can find it's readme in [BUILDING.md](./BUILDING.md)
 
+## Contributing and Technical info
+See [CONTRIBUTING.md](./CONTRIBUTING.md).
+
 ## License
 
     Copyright (C) Contributors to the Suwayomi project
