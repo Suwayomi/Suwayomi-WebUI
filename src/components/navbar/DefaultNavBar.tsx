@@ -6,7 +6,6 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import React, { useContext } from 'react';
-import makeStyles from '@mui/styles/makeStyles';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -27,21 +26,10 @@ import ArrowBack from '@mui/icons-material/ArrowBack';
 import { useHistory } from 'react-router-dom';
 import NavBarContext from 'components/context/NavbarContext';
 import DarkTheme from 'components/context/DarkTheme';
-import ExtensionOutlinedIcon from './CustomExtensionOutlinedIcon';
+import ExtensionOutlinedIcon from 'components/util/CustomExtensionOutlinedIcon';
+import { Box } from '@mui/system';
 import DesktopSideBar from './navigation/DesktopSideBar';
 import MobileBottomBar from './navigation/MobileBottomBar';
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-    },
-    menuButton: {
-        marginRight: theme.spacing(2),
-    },
-    title: {
-        flexGrow: 1,
-    },
-}));
 
 const navbarItems: Array<NavbarItem> = [
     {
@@ -90,7 +78,6 @@ const navbarItems: Array<NavbarItem> = [
 ];
 
 export default function DefaultNavBar() {
-    const classes = useStyles();
     const { title, action, override } = useContext(NavBarContext);
     const { darkTheme } = useContext(DarkTheme);
 
@@ -113,7 +100,7 @@ export default function DefaultNavBar() {
     }
 
     return (
-        <div className={classes.root}>
+        <Box sx={{ flexGrow: 1 }}>
             <AppBar position="fixed" color={darkTheme ? 'default' : 'primary'}>
                 <Toolbar>
                     {
@@ -121,7 +108,7 @@ export default function DefaultNavBar() {
                             && (
                                 <IconButton
                                     edge="start"
-                                    className={classes.menuButton}
+                                    sx={{ marginRight: theme.spacing(2) }}
                                     color="inherit"
                                     aria-label="menu"
                                     disableRipple
@@ -134,13 +121,13 @@ export default function DefaultNavBar() {
                                 </IconButton>
                             )
                     }
-                    <Typography variant={isMobileWidth ? 'h6' : 'h5'} className={classes.title}>
+                    <Typography variant={isMobileWidth ? 'h6' : 'h5'} sx={{ flexGrow: 1 }}>
                         {title}
                     </Typography>
                     {action}
                 </Toolbar>
             </AppBar>
             {navbar}
-        </div>
+        </Box>
     );
 }
