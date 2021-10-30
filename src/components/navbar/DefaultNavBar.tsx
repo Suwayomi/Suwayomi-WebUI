@@ -20,7 +20,6 @@ import NewReleasesOutlinedIcon from '@mui/icons-material/NewReleasesOutlined';
 import ExploreIcon from '@mui/icons-material/Explore';
 import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
 import ExtensionIcon from '@mui/icons-material/Extension';
-import ExtensionOutlinedIcon from '@mui/icons-material/ExtensionOutlined';
 import GetAppIcon from '@mui/icons-material/GetApp';
 import GetAppOutlinedIcon from '@mui/icons-material/GetAppOutlined';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -28,6 +27,7 @@ import ArrowBack from '@mui/icons-material/ArrowBack';
 import { useHistory } from 'react-router-dom';
 import NavBarContext from 'components/context/NavbarContext';
 import DarkTheme from 'components/context/DarkTheme';
+import ExtensionOutlinedIcon from './CustomExtensionOutlinedIcon';
 import DesktopSideBar from './navigation/DesktopSideBar';
 import MobileBottomBar from './navigation/MobileBottomBar';
 
