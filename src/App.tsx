@@ -34,6 +34,8 @@ import Reader from 'screens/Reader';
 import Updates from 'screens/Updates';
 import DownloadQueue from 'screens/DownloadQueue';
 import Browse from 'screens/Browse';
+import Sources from 'screens/Sources';
+import Extensions from 'screens/Extensions';
 
 declare module '@mui/styles/defaultTheme' {
     // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -163,6 +165,12 @@ export default function App() {
                                     </Route>
                                     <Route path="/updates">
                                         <Updates />
+                                    </Route>
+                                    <Route path="/sources">
+                                        <Sources />
+                                    </Route>
+                                    <Route path="/extensions">
+                                        <Extensions />
                                     </Route>
                                     <Route path="/browse">
                                         <Browse />

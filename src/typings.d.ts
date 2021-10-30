@@ -197,4 +197,5 @@ interface NavbarItem{
     path: string,
     title:string,
     IconComponent: OverridableComponent<SvgIconTypeMap<{}, 'svg'>>,
+    show: 'mobile' | 'desktop' | 'both'
 }

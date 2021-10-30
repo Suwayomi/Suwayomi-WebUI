@@ -16,6 +16,7 @@ import { useTheme } from '@mui/material/styles';
 import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark';
 import NewReleasesIcon from '@mui/icons-material/NewReleases';
 import ExploreIcon from '@mui/icons-material/Explore';
+import ExtensionIcon from '@mui/icons-material/Extension';
 import GetAppIcon from '@mui/icons-material/GetApp';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ArrowBack from '@mui/icons-material/ArrowBack';
@@ -42,23 +43,37 @@ const navbarItems: Array<NavbarItem> = [
         path: '/library',
         title: 'Library',
         IconComponent: CollectionsBookmarkIcon,
-    },
-    {
+        show: 'both',
+    }, {
         path: '/updates',
         title: 'Updates',
         IconComponent: NewReleasesIcon,
+        show: 'both',
+    }, {
+        path: '/sources',
+        title: 'Sources',
+        IconComponent: ExploreIcon,
+        show: 'desktop',
+    }, {
+        path: '/extensions',
+        title: 'Extensions',
+        IconComponent: ExtensionIcon,
+        show: 'desktop',
     }, {
         path: '/browse',
         title: 'Browse',
         IconComponent: ExploreIcon,
+        show: 'mobile',
     }, {
         path: '/downloads',
         title: 'Downloads',
         IconComponent: GetAppIcon,
+        show: 'both',
     }, {
         path: '/settings',
         title: 'Settings',
         IconComponent: SettingsIcon,
+        show: 'both',
     },
 ];
 
@@ -78,11 +93,11 @@ export default function DefaultNavBar() {
 
     let navbar = <></>;
     if (isMobileWidth) {
-        if (!isMainRoute) {
-            navbar = <MobileBottomBar navBarItems={navbarItems} />;
+        if (isMainRoute) {
+            navbar = <MobileBottomBar navBarItems={navbarItems.filter((it) => it.show !== 'desktop')} />;
         }
     } else {
-        navbar = <DesktopSideBar navBarItems={navbarItems} />;
+        navbar = <DesktopSideBar navBarItems={navbarItems.filter((it) => it.show !== 'mobile')} />;
     }
 
     return (
