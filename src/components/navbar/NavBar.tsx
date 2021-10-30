@@ -105,11 +105,16 @@ export default function NavBar() {
                 </Toolbar>
             </AppBar>
             {
-                isMainRoute
-            && (
-                isMobileWidth
-                    ? <BottomNavigationBar navBarItems={navbarItems} />
-                    : <PermanentSideBar navBarItems={navbarItems} />)
+                () => {
+                    if (isMobileWidth) {
+                        if (!isMainRoute) {
+                            return <BottomNavigationBar navBarItems={navbarItems} />;
+                        }
+                    } else {
+                        return <PermanentSideBar navBarItems={navbarItems} />;
+                    }
+                    return <></>;
+                }
             }
         </div>
     )}
