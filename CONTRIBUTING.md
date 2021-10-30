@@ -2,6 +2,9 @@
 ## Where should I start?
 Everything from https://github.com/Suwayomi/Tachidesk-Server/blob/master/CONTRIBUTING.md#where-should-i-start applies here.
 
+## About this project
+This is a `create-react-app` project, you can find it's readme in [BUILDING.md](./BUILDING.md)
+
 ## Coding Style Guide
 **Note:** Some of the bellow are new, refactor the code to match the style guide where you see discrepancies.
 - Don't use relative imports.
