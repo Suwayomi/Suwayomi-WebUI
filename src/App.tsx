@@ -33,7 +33,7 @@ import SourceMangas from 'screens/manga/SourceMangas';
 import Reader from 'screens/manga/Reader';
 import Updates from 'screens/manga/Updates';
 import DownloadQueue from 'screens/manga/DownloadQueue';
-import Browse from 'screens/manga/Browse';
+import Browse from 'screens/Browse';
 
 declare module '@mui/styles/defaultTheme' {
     // eslint-disable-next-line @typescript-eslint/no-empty-interface
