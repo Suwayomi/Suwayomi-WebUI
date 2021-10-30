@@ -72,11 +72,19 @@ export default function NavBar() {
 
     const { darkTheme } = useContext(DarkTheme);
 
+    // Allow default navbar to be overrided with `NavBarContext`
+    if (override.status) return override.value;
+
+    let navbar = <></>;
+    if (isMobileWidth) {
+        if (!isMainRoute) {
+            navbar = <BottomNavigationBar navBarItems={navbarItems} />;
+        }
+    } else {
+        navbar = <PermanentSideBar navBarItems={navbarItems} />;
+    }
+
     return (
-        <>
-            {override.status && override.value}
-            {!override.status
-    && (
         <div className={classes.root}>
             <AppBar position="fixed" color={darkTheme ? 'default' : 'primary'}>
                 <Toolbar>
@@ -104,20 +112,7 @@ export default function NavBar() {
                     {action}
                 </Toolbar>
             </AppBar>
-            {
-                () => {
-                    if (isMobileWidth) {
-                        if (!isMainRoute) {
-                            return <BottomNavigationBar navBarItems={navbarItems} />;
-                        }
-                    } else {
-                        return <PermanentSideBar navBarItems={navbarItems} />;
-                    }
-                    return <></>;
-                }
-            }
+            {navbar}
         </div>
-    )}
-        </>
     );
 }
