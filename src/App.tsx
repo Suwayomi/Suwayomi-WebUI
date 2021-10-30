@@ -25,14 +25,14 @@ import Settings from 'screens/Settings';
 import About from 'screens/settings/About';
 import Categories from 'screens/settings/Categories';
 import Backup from 'screens/settings/Backup';
-import Library from 'screens/manga/Library';
-import SearchSingle from 'screens/manga/SearchSingle';
-import SourceConfigure from 'screens/manga/SourceConfigure';
-import Manga from 'screens/manga/Manga';
-import SourceMangas from 'screens/manga/SourceMangas';
-import Reader from 'screens/manga/Reader';
-import Updates from 'screens/manga/Updates';
-import DownloadQueue from 'screens/manga/DownloadQueue';
+import Library from 'screens/Library';
+import SearchSingle from 'screens/SearchSingle';
+import SourceConfigure from 'screens/SourceConfigure';
+import Manga from 'screens/Manga';
+import SourceMangas from 'screens/SourceMangas';
+import Reader from 'screens/Reader';
+import Updates from 'screens/Updates';
+import DownloadQueue from 'screens/DownloadQueue';
 import Browse from 'screens/Browse';
 
 declare module '@mui/styles/defaultTheme' {

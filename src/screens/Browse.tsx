@@ -10,8 +10,8 @@ import makeStyles from '@mui/styles/makeStyles';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import TabPanel from 'components/util/TabPanel';
-import Sources from 'screens/manga/Sources';
-import Extensions from 'screens/manga/Extensions';
+import Sources from 'screens/Sources';
+import Extensions from 'screens/Extensions';
 
 const useStyles = makeStyles({
     noCapitalize: {

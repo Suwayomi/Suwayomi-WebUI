@@ -13,8 +13,8 @@ import cloneObject from 'util/cloneObject';
 import EmptyView from 'components/util/EmptyView';
 import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
 import TabPanel from 'components/util/TabPanel';
-import LibraryOptions from '../../components/library/LibraryOptions';
-import LibraryMangaGrid from '../../components/library/LibraryMangaGrid';
+import LibraryOptions from 'components/library/LibraryOptions';
+import LibraryMangaGrid from 'components/library/LibraryMangaGrid';
 
 interface IMangaCategory {
     category: ICategory
