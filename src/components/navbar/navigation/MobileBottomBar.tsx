@@ -10,7 +10,7 @@ import {
     Box, ListItem,
 } from '@mui/material';
 import { styled } from '@mui/system';
-import { Link, useLocation } from 'react-router-dom';
+import { Link as RRDLink, useLocation } from 'react-router-dom';
 
 const BottomNavContainer = styled('div')(({ theme }) => ({
     bottom: 0,
@@ -28,6 +28,11 @@ const BottomNavContainer = styled('div')(({ theme }) => ({
     zIndex: 1100,
 }));
 
+const Link = styled(RRDLink)({
+    textDecoration: 'none',
+    flex: 1,
+});
+
 interface IProps {
     navBarItems: Array<NavbarItem>
 }
@@ -38,8 +43,8 @@ export default function MobileBottomBar({ navBarItems }: IProps) {
         <BottomNavContainer>
             {
                 navBarItems.map(({ path, title, IconComponent }: NavbarItem) => (
-                    <Link to={path} style={{ flex: 1 }} key={path}>
-                        <ListItem disableRipple button style={{ justifyContent: 'center', padding: '8px' }} key={title}>
+                    <Link to={path} key={path}>
+                        <ListItem disableRipple button sx={{ justifyContent: 'center', padding: '8px' }} key={title}>
                             <Box sx={{
                                 display: 'flex',
                                 flexDirection: 'column',
