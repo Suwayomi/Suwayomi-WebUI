@@ -23,10 +23,15 @@ function unreadFilter(unread: NullAndUndefined<boolean>, { unreadCount }: IManga
     }
 }
 
+function queryFilter(query: NullAndUndefined<string>, { title }: IMangaCard): boolean {
+    if (!query) return true;
+    return title.toLowerCase().includes(query.toLowerCase());
+}
+
 function filterManga(mangas: IMangaCard[]): IMangaCard[] {
-    const { unread } = useLibraryOptions();
+    const { unread, query } = useLibraryOptions();
     return mangas
-        .filter((manga) => unreadFilter(unread, manga));
+        .filter((manga) => unreadFilter(unread, manga) && queryFilter(query, manga));
 }
 
 export default function LibraryMangaGrid(props: IMangaGridProps) {
