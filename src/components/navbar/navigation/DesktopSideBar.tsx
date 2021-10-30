@@ -28,19 +28,25 @@ interface IProps {
 
 export default function DesktopSideBar({ navBarItems }: IProps) {
     const location = useLocation();
+
+    const iconFor = (path: string, IconComponent: any, SelectedIconComponent: any) => {
+        if (location.pathname === path) return <SelectedIconComponent sx={{ color: 'primary.main' }} fontSize="large" />;
+        return <IconComponent sx={{ color: 'grey.A400' }} fontSize="large" />;
+    };
+
     return (
         <SideNavBarContainer>
             {
                 // eslint-disable-next-line react/destructuring-assignment
-                navBarItems.map(({ path, title, IconComponent }: NavbarItem) => (
+                navBarItems.map(({
+                    path, title, IconComponent, SelectedIconComponent,
+                }: NavbarItem) => (
                     <Link to={path} style={{ color: 'inherit', textDecoration: 'none' }} key={path}>
                         <ListItem disableRipple button key={title}>
                             <ListItemIcon style={{ minWidth: '0' }}>
-
                                 <Tooltip placement="right" title={title}>
-                                    <IconComponent sx={{ color: location.pathname === path ? 'primary.main' : 'grey.A400' }} fontSize="large" />
+                                    {iconFor(path, IconComponent, SelectedIconComponent)}
                                 </Tooltip>
-
                             </ListItemIcon>
                         </ListItem>
                     </Link>

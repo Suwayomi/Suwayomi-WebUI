@@ -193,9 +193,10 @@ interface SourcePreferences {
     props: any
 }
 
-interface NavbarItem{
+interface NavbarItem {
     path: string,
     title:string,
+    SelectedIconComponent: OverridableComponent<SvgIconTypeMap<{}, 'svg'>>,
     IconComponent: OverridableComponent<SvgIconTypeMap<{}, 'svg'>>,
     show: 'mobile' | 'desktop' | 'both'
 }

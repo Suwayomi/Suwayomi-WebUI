@@ -14,10 +14,15 @@ import IconButton from '@mui/material/IconButton';
 import { useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark';
+import CollectionsOutlinedBookmarkIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
 import NewReleasesIcon from '@mui/icons-material/NewReleases';
+import NewReleasesOutlinedIcon from '@mui/icons-material/NewReleasesOutlined';
 import ExploreIcon from '@mui/icons-material/Explore';
+import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
 import ExtensionIcon from '@mui/icons-material/Extension';
+import ExtensionOutlinedIcon from '@mui/icons-material/ExtensionOutlined';
 import GetAppIcon from '@mui/icons-material/GetApp';
+import GetAppOutlinedIcon from '@mui/icons-material/GetAppOutlined';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ArrowBack from '@mui/icons-material/ArrowBack';
 import { useHistory } from 'react-router-dom';
@@ -42,36 +47,43 @@ const navbarItems: Array<NavbarItem> = [
     {
         path: '/library',
         title: 'Library',
-        IconComponent: CollectionsBookmarkIcon,
+        SelectedIconComponent: CollectionsBookmarkIcon,
+        IconComponent: CollectionsOutlinedBookmarkIcon,
         show: 'both',
     }, {
         path: '/updates',
         title: 'Updates',
-        IconComponent: NewReleasesIcon,
+        SelectedIconComponent: NewReleasesIcon,
+        IconComponent: NewReleasesOutlinedIcon,
         show: 'both',
     }, {
         path: '/sources',
         title: 'Sources',
-        IconComponent: ExploreIcon,
+        SelectedIconComponent: ExploreIcon,
+        IconComponent: ExploreOutlinedIcon,
         show: 'desktop',
     }, {
         path: '/extensions',
         title: 'Extensions',
-        IconComponent: ExtensionIcon,
+        SelectedIconComponent: ExtensionIcon,
+        IconComponent: ExtensionOutlinedIcon,
         show: 'desktop',
     }, {
         path: '/browse',
         title: 'Browse',
-        IconComponent: ExploreIcon,
+        SelectedIconComponent: ExploreIcon,
+        IconComponent: ExploreOutlinedIcon,
         show: 'mobile',
     }, {
         path: '/downloads',
         title: 'Downloads',
-        IconComponent: GetAppIcon,
+        SelectedIconComponent: GetAppIcon,
+        IconComponent: GetAppOutlinedIcon,
         show: 'both',
     }, {
         path: '/settings',
         title: 'Settings',
+        SelectedIconComponent: SettingsIcon,
         IconComponent: SettingsIcon,
         show: 'both',
     },

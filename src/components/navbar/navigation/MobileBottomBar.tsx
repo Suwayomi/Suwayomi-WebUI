@@ -39,10 +39,20 @@ interface IProps {
 
 export default function MobileBottomBar({ navBarItems }: IProps) {
     const location = useLocation();
+
+    const iconFor = (path: string, IconComponent: any, SelectedIconComponent: any) => {
+        if (location.pathname === path) return <SelectedIconComponent sx={{ color: 'primary.main' }} fontSize="medium" />;
+        return <IconComponent sx={{ color: 'grey.A400' }} fontSize="medium" />;
+    };
+
     return (
         <BottomNavContainer>
             {
-                navBarItems.map(({ path, title, IconComponent }: NavbarItem) => (
+                navBarItems.map((
+                    {
+                        path, title, IconComponent, SelectedIconComponent,
+                    }: NavbarItem,
+                ) => (
                     <Link to={path} key={path}>
                         <ListItem disableRipple button sx={{ justifyContent: 'center', padding: '8px' }} key={title}>
                             <Box sx={{
@@ -55,7 +65,7 @@ export default function MobileBottomBar({ navBarItems }: IProps) {
                                     : 'grey.A400',
                             }}
                             >
-                                <IconComponent fontSize="medium" />
+                                {iconFor(path, IconComponent, SelectedIconComponent)}
                                 <div style={{ fontSize: '0.65rem' }}>{title}</div>
                             </Box>
                         </ListItem>
