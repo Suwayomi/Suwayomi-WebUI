@@ -7,11 +7,11 @@
 
 import { Tab, Tabs } from '@mui/material';
 import React, { useContext, useEffect, useState } from 'react';
-import NavbarContext from 'context/NavbarContext';
+import NavbarContext from 'components/context/NavbarContext';
 import client from 'util/client';
 import cloneObject from 'util/cloneObject';
-import EmptyView from 'components/EmptyView';
-import LoadingPlaceholder from 'components/LoadingPlaceholder';
+import EmptyView from 'components/util/EmptyView';
+import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
 import TabPanel from 'components/util/TabPanel';
 import LibraryOptions from '../../components/library/LibraryOptions';
 import LibraryMangaGrid from '../../components/library/LibraryMangaGrid';

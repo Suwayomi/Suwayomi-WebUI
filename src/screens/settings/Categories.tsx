@@ -33,7 +33,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import NavbarContext from 'context/NavbarContext';
+import NavbarContext from 'components/context/NavbarContext';
 import client from 'util/client';
 
 const getItemStyle = (isDragging: boolean,

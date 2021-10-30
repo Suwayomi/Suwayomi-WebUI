@@ -10,8 +10,8 @@ import makeStyles from '@mui/styles/makeStyles';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useParams } from 'react-router-dom';
-import MangaGrid from 'components/manga/MangaGrid';
-import NavbarContext from 'context/NavbarContext';
+import MangaGrid from 'components/MangaGrid';
+import NavbarContext from 'components/context/NavbarContext';
 import client from 'util/client';
 
 const useStyles = makeStyles((theme) => ({

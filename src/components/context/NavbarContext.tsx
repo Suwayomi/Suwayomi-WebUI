@@ -8,10 +8,15 @@
 import React from 'react';
 
 type ContextType = {
+    // AppBar title
     title: string
     setTitle: React.Dispatch<React.SetStateAction<string>>
+
+    // AppBar action buttons
     action: any
     setAction: React.Dispatch<React.SetStateAction<any>>
+
+    // Allow default navbar to be overrided
     override: INavbarOverride
     setOverride: React.Dispatch<React.SetStateAction<INavbarOverride>>
 };

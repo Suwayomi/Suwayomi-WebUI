@@ -13,10 +13,10 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import PublicIcon from '@mui/icons-material/Public';
 import React, { useContext, useEffect, useState } from 'react';
-import NavbarContext from 'context/NavbarContext';
+import NavbarContext from 'components/context/NavbarContext';
 import client from 'util/client';
 import useLocalStorage from 'util/useLocalStorage';
-import CategorySelect from './CategorySelect';
+import CategorySelect from './navbar/action/CategorySelect';
 
 const useStyles = (inLibrary: string) => makeStyles((theme: Theme) => ({
     root: {

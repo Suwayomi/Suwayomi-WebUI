@@ -27,8 +27,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import TextField from '@mui/material/TextField';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import NavbarContext from '../context/NavbarContext';
-import DarkTheme from '../context/DarkTheme';
+import NavbarContext from '../components/context/NavbarContext';
+import DarkTheme from '../components/context/DarkTheme';
 import useLocalStorage from '../util/useLocalStorage';
 import ListItemLink from '../components/util/ListItemLink';
 

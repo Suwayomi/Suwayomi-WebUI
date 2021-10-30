@@ -10,12 +10,12 @@ import { Theme } from '@mui/material/styles';
 import makeStyles from '@mui/styles/makeStyles';
 import { useParams } from 'react-router-dom';
 import { Virtuoso } from 'react-virtuoso';
-import ChapterCard from 'components/manga/ChapterCard';
-import MangaDetails from 'components/manga/MangaDetails';
-import NavbarContext from 'context/NavbarContext';
+import ChapterCard from 'components/ChapterCard';
+import MangaDetails from 'components/MangaDetails';
+import NavbarContext from 'components/context/NavbarContext';
 import client from 'util/client';
-import LoadingPlaceholder from 'components/LoadingPlaceholder';
-import makeToast from 'components/Toast';
+import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
+import makeToast from 'components/util/Toast';
 
 const useStyles = makeStyles((theme: Theme) => ({
     root: {

@@ -20,10 +20,10 @@ import GetAppIcon from '@mui/icons-material/GetApp';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ArrowBack from '@mui/icons-material/ArrowBack';
 import { useHistory } from 'react-router-dom';
-import NavBarContext from 'context/NavbarContext';
-import DarkTheme from 'context/DarkTheme';
-import PermanentSideBar from './PermanentSideBar';
-import BottomNavigationBar from './BottomNavigationBar';
+import NavBarContext from 'components/context/NavbarContext';
+import DarkTheme from 'components/context/DarkTheme';
+import DesktopSideBar from './navigation/DesktopSideBar';
+import MobileBottomBar from './navigation/MobileBottomBar';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -62,26 +62,27 @@ const navbarItems: Array<NavbarItem> = [
     },
 ];
 
-export default function NavBar() {
+export default function DefaultNavBar() {
     const classes = useStyles();
     const { title, action, override } = useContext(NavBarContext);
-    const theme = useTheme();
-    const isMobileWidth = useMediaQuery(theme.breakpoints.down('sm'));
-    const history = useHistory();
-    const isMainRoute = navbarItems.some(({ path }) => path === history.location.pathname);
-
     const { darkTheme } = useContext(DarkTheme);
 
-    // Allow default navbar to be overrided with `NavBarContext`
+    const theme = useTheme();
+    const history = useHistory();
+
+    const isMobileWidth = useMediaQuery(theme.breakpoints.down('sm'));
+    const isMainRoute = navbarItems.some(({ path }) => path === history.location.pathname);
+
+    // Allow default navbar to be overrided
     if (override.status) return override.value;
 
     let navbar = <></>;
     if (isMobileWidth) {
         if (!isMainRoute) {
-            navbar = <BottomNavigationBar navBarItems={navbarItems} />;
+            navbar = <MobileBottomBar navBarItems={navbarItems} />;
         }
     } else {
-        navbar = <PermanentSideBar navBarItems={navbarItems} />;
+        navbar = <DesktopSideBar navBarItems={navbarItems} />;
     }
 
     return (

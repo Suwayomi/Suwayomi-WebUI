@@ -17,9 +17,9 @@ import CssBaseline from '@mui/material/CssBaseline';
 import {
     createTheme, ThemeProvider, Theme, StyledEngineProvider,
 } from '@mui/material/styles';
-import NavBar from 'components/navbar/NavBar';
-import NavbarContext from 'context/NavbarContext';
-import DarkTheme from 'context/DarkTheme';
+import DefaultNavBar from 'components/navbar/DefaultNavBar';
+import NavbarContext from 'components/context/NavbarContext';
+import DarkTheme from 'components/context/DarkTheme';
 import useLocalStorage from 'util/useLocalStorage';
 import Settings from 'screens/Settings';
 import About from 'screens/settings/About';
@@ -98,7 +98,7 @@ export default function App() {
                     <QueryParamProvider ReactRouterRoute={Route}>
                         <NavbarContext.Provider value={navBarContext}>
                             <CssBaseline />
-                            <NavBar />
+                            <DefaultNavBar />
                             <Container
                                 id="appMainContainer"
                                 maxWidth={false}

@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 import { Grid } from '@mui/material';
 import useLocalStorage from 'util/useLocalStorage';
-import SpinnerImage from 'components/SpinnerImage';
+import SpinnerImage from 'components/util/SpinnerImage';
 
 const useStyles = makeStyles((theme) => ({
     root: {

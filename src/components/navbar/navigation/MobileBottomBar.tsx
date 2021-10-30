@@ -32,7 +32,7 @@ interface IProps {
     navBarItems: Array<NavbarItem>
 }
 
-export default function BottomNavigationBar({ navBarItems }: IProps) {
+export default function MobileBottomBar({ navBarItems }: IProps) {
     const location = useLocation();
     return (
         <BottomNavContainer>

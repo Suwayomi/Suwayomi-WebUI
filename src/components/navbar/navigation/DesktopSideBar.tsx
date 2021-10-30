@@ -26,7 +26,7 @@ interface IProps {
     navBarItems: Array<NavbarItem>
 }
 
-export default function PermanentSideBar({ navBarItems }: IProps) {
+export default function DesktopSideBar({ navBarItems }: IProps) {
     const location = useLocation();
     return (
         <SideNavBarContainer>

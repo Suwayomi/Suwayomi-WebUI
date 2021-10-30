@@ -7,7 +7,7 @@
 
 import makeStyles from '@mui/styles/makeStyles';
 import React, { useEffect, useRef } from 'react';
-import SpinnerImage from 'components/SpinnerImage';
+import SpinnerImage from 'components/util/SpinnerImage';
 import useLocalStorage from 'util/useLocalStorage';
 
 function imageStyle(settings: IReaderSettings): any {

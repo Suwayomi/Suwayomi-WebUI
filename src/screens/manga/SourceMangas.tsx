@@ -8,8 +8,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
-import MangaGrid from 'components/manga/MangaGrid';
-import NavbarContext from 'context/NavbarContext';
+import MangaGrid from 'components/MangaGrid';
+import NavbarContext from 'components/context/NavbarContext';
 import client from 'util/client';
 import SettingsIcon from '@mui/icons-material/Settings';
 

@@ -17,7 +17,7 @@ import IconButton from '@mui/material/IconButton';
 import DownloadIcon from '@mui/icons-material/Download';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
-import NavbarContext from 'context/NavbarContext';
+import NavbarContext from 'components/context/NavbarContext';
 import client from 'util/client';
 import useLocalStorage from 'util/useLocalStorage';
 

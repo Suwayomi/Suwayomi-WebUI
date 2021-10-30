@@ -6,15 +6,15 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import React, { useContext, useEffect, useState } from 'react';
-import LangSelect from 'components/manga/LangSelect';
-import SourceCard from 'components/manga/SourceCard';
-import NavbarContext from 'context/NavbarContext';
+import LangSelect from 'components/navbar/action/LangSelect';
+import SourceCard from 'components/SourceCard';
+import NavbarContext from 'components/context/NavbarContext';
 import client from 'util/client';
 import {
     sourceDefualtLangs, sourceForcedDefaultLangs, langCodeToName, langSortCmp,
 } from 'util/language';
 import useLocalStorage from 'util/useLocalStorage';
-import LoadingPlaceholder from 'components/LoadingPlaceholder';
+import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
 
 function sourceToLangList(sources: ISource[]) {
     const result: string[] = [];

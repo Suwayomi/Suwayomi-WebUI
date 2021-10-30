@@ -7,8 +7,8 @@
 
 import React, { useEffect, useRef } from 'react';
 import Grid from '@mui/material/Grid';
-import EmptyView from 'components/EmptyView';
-import LoadingPlaceholder from 'components/LoadingPlaceholder';
+import EmptyView from 'components/util/EmptyView';
+import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
 import MangaCard from './MangaCard';
 
 export interface IMangaGridProps{

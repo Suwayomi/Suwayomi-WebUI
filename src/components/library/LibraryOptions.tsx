@@ -9,8 +9,8 @@
 import React from 'react';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { Drawer, FormControlLabel, IconButton } from '@mui/material';
-import useLibraryOptions from '../../util/useLibraryOptions';
-import ThreeStateCheckbox from '../ThreeStateCheckbox';
+import useLibraryOptions from 'util/useLibraryOptions';
+import ThreeStateCheckbox from 'components/util/ThreeStateCheckbox';
 
 function Options() {
     const { unread, setUnread } = useLibraryOptions();

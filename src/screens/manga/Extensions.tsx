@@ -9,14 +9,14 @@ import React, { useContext, useEffect, useState } from 'react';
 import { fromEvent } from 'file-selector';
 import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
-import ExtensionCard from 'components/manga/ExtensionCard';
-import NavbarContext from 'context/NavbarContext';
+import ExtensionCard from 'components/ExtensionCard';
+import NavbarContext from 'components/context/NavbarContext';
 import client from 'util/client';
 import useLocalStorage from 'util/useLocalStorage';
-import LangSelect from 'components/manga/LangSelect';
+import LangSelect from 'components/navbar/action/LangSelect';
 import { extensionDefaultLangs, langCodeToName, langSortCmp } from 'util/language';
-import { makeToaster } from 'components/Toast';
-import LoadingPlaceholder from 'components/LoadingPlaceholder';
+import { makeToaster } from 'components/util/Toast';
+import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
 
 const allLangs: string[] = [];
 

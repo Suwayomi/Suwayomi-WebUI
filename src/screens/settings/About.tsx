@@ -6,7 +6,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import client from '../../util/client';
 import ListItemLink from '../../components/util/ListItemLink';
-import NavbarContext from '../../context/NavbarContext';
+import NavbarContext from '../../components/context/NavbarContext';
 
 const useStyles = makeStyles({
     loading: {

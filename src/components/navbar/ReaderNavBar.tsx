@@ -27,7 +27,7 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import Collapse from '@mui/material/Collapse';
 import Button from '@mui/material/Button';
-import NavBarContext from '../../context/NavbarContext';
+import NavBarContext from 'components/context/NavbarContext';
 
 const useStyles = (settings: IReaderSettings) => makeStyles((theme) => ({
     // main container and root div need to change classes...

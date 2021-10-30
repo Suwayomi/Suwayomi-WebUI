@@ -6,12 +6,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import React, { useContext, useEffect, useState } from 'react';
-import NavbarContext from 'context/NavbarContext';
+import NavbarContext from 'components/context/NavbarContext';
 import { useParams } from 'react-router-dom';
 import client from 'util/client';
-import { SwitchPreferenceCompat, CheckBoxPreference } from 'components/manga/sourceConfiguration/TwoStatePreference';
-import ListPreference from 'components/manga/sourceConfiguration/ListPreference';
-import EditTextPreference from 'components/manga/sourceConfiguration/EditTextPreference';
+import { SwitchPreferenceCompat, CheckBoxPreference } from 'components/sourceConfiguration/TwoStatePreference';
+import ListPreference from 'components/sourceConfiguration/ListPreference';
+import EditTextPreference from 'components/sourceConfiguration/EditTextPreference';
 import List from '@mui/material/List';
 import cloneObject from 'util/cloneObject';
 
