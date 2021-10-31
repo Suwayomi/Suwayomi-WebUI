@@ -18,7 +18,10 @@ import SpinnerImage from 'components/util/SpinnerImage';
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
-        aspectRatio: '9/14',
+        // Preserve the shape of the manga cards, without this the manga card would chage it's
+        // if all the images in a row failed to load then the whole row would change into a
+        //  square shape
+        aspectRatio: '225/350',
     },
     wrapper: {
         position: 'relative',
