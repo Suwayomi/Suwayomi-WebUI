@@ -7,8 +7,9 @@
  */
 
 import React, { useState } from 'react';
-import { TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import { IconButton, Input } from '@mui/material';
+import CancelIcon from '@mui/icons-material/Cancel';
 import useLibraryOptions from '../../util/useLibraryOptions';
 
 export default function LibrarySearch() {
@@ -17,22 +18,41 @@ export default function LibrarySearch() {
         setQuery,
     } = useLibraryOptions();
     const [searchOpen, setSearchOpen] = useState(!!query);
+    const inputRef = React.useRef<HTMLInputElement>();
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         setQuery(e.target.value === '' ? undefined : e.target.value);
     }
-
+    const cancelSearch = () => {
+        setQuery(null);
+        setSearchOpen(false);
+    };
+    const handleBlur = () => { if (!query) setSearchOpen(false); };
+    const openSearch = () => {
+        setSearchOpen(true);
+        // Put Focus Action at the end of the Callstack so Input actually exists on the dom
+        setTimeout(() => {
+            if (inputRef && inputRef.current) inputRef.current.focus();
+        });
+    };
     return (
         <>
             {searchOpen
                 ? (
-                    <TextField
-                        label="Standard"
-                        value={query}
+                    <Input
+                        value={query || ''}
                         onChange={handleChange}
-                        variant="standard"
+                        onBlur={handleBlur}
+                        inputRef={inputRef}
+                        endAdornment={(
+                            <IconButton
+                                onClick={cancelSearch}
+                            >
+                                <CancelIcon />
+                            </IconButton>
+                        )}
                     />
-                ) : <SearchIcon onClick={() => setSearchOpen(true)} /> }
+                ) : <SearchIcon onClick={openSearch} /> }
         </>
     );
 }
