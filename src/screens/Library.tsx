@@ -15,6 +15,7 @@ import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
 import TabPanel from 'components/util/TabPanel';
 import LibraryOptions from 'components/library/LibraryOptions';
 import LibraryMangaGrid from 'components/library/LibraryMangaGrid';
+import LibrarySearch from 'components/library/LibrarySearch';
 
 interface IMangaCategory {
     category: ICategory
@@ -27,6 +28,7 @@ export default function Library() {
     useEffect(() => {
         setTitle('Library'); setAction(
             <>
+                <LibrarySearch />
                 <LibraryOptions />
             </>,
         );
