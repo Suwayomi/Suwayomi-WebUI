@@ -45,16 +45,16 @@ const navbarItems: Array<NavbarItem> = [
         IconComponent: NewReleasesOutlinedIcon,
         show: 'both',
     }, {
-        path: '/sources',
-        title: 'Sources',
-        SelectedIconComponent: ExploreIcon,
-        IconComponent: ExploreOutlinedIcon,
-        show: 'desktop',
-    }, {
         path: '/extensions',
         title: 'Extensions',
         SelectedIconComponent: ExtensionIcon,
         IconComponent: ExtensionOutlinedIcon,
+        show: 'desktop',
+    }, {
+        path: '/sources',
+        title: 'Sources',
+        SelectedIconComponent: ExploreIcon,
+        IconComponent: ExploreOutlinedIcon,
         show: 'desktop',
     }, {
         path: '/browse',
