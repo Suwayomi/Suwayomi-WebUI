@@ -116,6 +116,7 @@ interface IReaderSettings{
     staticNav: boolean
     showPageNumber: boolean
     loadNextonEnding: boolean
+    fitToViewHeight: boolean
     readerType: ReaderType
 }
 

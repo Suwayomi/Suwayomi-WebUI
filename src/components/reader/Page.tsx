@@ -50,6 +50,7 @@ function imageStyle(settings: IReaderSettings): any {
         minWidth: '50vw',
         width: dimensions.width < dimensions.height ? '100vw' : '100%',
         maxWidth: '100%',
+        maxHeight: settings.fitToViewHeight ? '99vh' : 'unset',
     };
 }
 

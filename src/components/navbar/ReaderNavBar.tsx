@@ -142,6 +142,7 @@ export const defaultReaderSettings = () => ({
     showPageNumber: true,
     continuesPageGap: false,
     loadNextonEnding: false,
+    fitToViewHeight: false,
     readerType: 'ContinuesVertical',
 } as IReaderSettings);
 
@@ -171,6 +172,12 @@ export default function ReaderNavBar(props: IProps) {
     const classes = useStyles(settings)();
 
     const setSettingValue = (key: string, value: any) => setSettings({ ...settings, [key]: value });
+    const showFitToHeight = new Set<ReaderType>([
+        'SingleRTL',
+        'SingleLTR',
+        'DoubleRTL',
+        'DoubleLTR',
+    ]).has(settings.readerType);
 
     const handleScroll = () => {
         const currentScrollPos = window.pageYOffset;
@@ -327,6 +334,17 @@ export default function ReaderNavBar(props: IProps) {
                                     </MenuItem>
                                 </Select>
                             </ListItem>
+                            {showFitToHeight
+                                ? (
+                                    <ListItem>
+                                        <ListItemText primary="Limit page height to window" />
+                                        <Switch
+                                            edge="end"
+                                            checked={settings.fitToViewHeight}
+                                            onChange={(e) => setSettingValue('fitToViewHeight', e.target.checked)}
+                                        />
+                                    </ListItem>
+                                ) : null}
                         </List>
                     </Collapse>
                     <hr />
