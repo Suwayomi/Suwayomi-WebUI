@@ -29,11 +29,18 @@ const useStyles = makeStyles((theme) => ({
     },
     gradient: {
         position: 'absolute',
-        top: 0,
+        bottom: 0,
         width: '100%',
-        height: '100%',
-        background: 'linear-gradient(to bottom, transparent, #000000)',
-        opacity: 0.5,
+        height: '30%',
+        background: 'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%)',
+        opacity: 1,
+    },
+    gradient2: {
+        position: 'absolute',
+        bottom: 0,
+        width: '100%',
+        height: '20%',
+        background: 'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%)',
     },
     title: {
         position: 'absolute',
@@ -110,6 +117,7 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
                                 imgClassName={classes.image}
                             />
                             <div className={classes.gradient} />
+                            <div className={classes.gradient2} />
                             <Typography className={classes.title}>
                                 {truncateText(title, 61)}
                             </Typography>
