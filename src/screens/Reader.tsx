@@ -158,13 +158,13 @@ export default function Reader() {
             formData.append('read', 'true');
             client.patch(`/api/v1/manga/${manga.id}/chapter/${chapter.index}`, formData);
 
-            history.push(`/manga/${manga.id}/chapter/${chapter.index + 1}`);
+            history.replace(`/manga/${manga.id}/chapter/${chapter.index + 1}`);
         }
     };
 
     const prevChapter = () => {
         if (chapter.index > 1) {
-            history.push(`/manga/${manga.id}/chapter/${chapter.index - 1}`);
+            history.replace(`/manga/${manga.id}/chapter/${chapter.index - 1}`);
         }
     };
 
