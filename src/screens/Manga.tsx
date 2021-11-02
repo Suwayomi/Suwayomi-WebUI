@@ -137,7 +137,7 @@ export default function Manga() {
         setFirstUnreadChapter(a);
     }, [chapters]);
 
-    const ResumeButton = () => (firstUnreadChapter === undefined ? null
+    const ResumeFab = () => (firstUnreadChapter === undefined ? null
         : (
             <Fab
                 sx={{ position: 'fixed', bottom: '5vw', right: '5vw' }}
