@@ -7,7 +7,6 @@
 
 import React from 'react';
 import { useTheme } from '@mui/material/styles';
-import makeStyles from '@mui/styles/makeStyles';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import IconButton from '@mui/material/IconButton';
@@ -19,43 +18,6 @@ import MenuItem from '@mui/material/MenuItem';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import client from 'util/client';
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: 16,
-    },
-    bullet: {
-        display: 'inline-block',
-        margin: '0 2px',
-        transform: 'scale(0.8)',
-    },
-    title: {
-        fontSize: 14,
-    },
-    pos: {
-        marginBottom: 12,
-    },
-    icon: {
-        width: theme.spacing(7),
-        height: theme.spacing(7),
-        flex: '0 0 auto',
-        marginRight: 16,
-    },
-    card: {
-        margin: '10px',
-        '&:hover': {
-            backgroundColor: theme.palette.action.hover,
-            transition: 'background-color 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-        },
-        '&:active': {
-            backgroundColor: theme.palette.action.selected,
-            transition: 'background-color 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-        },
-    },
-}));
-
 interface IProps{
     chapter: IChapter
     triggerChaptersUpdate: () => void
@@ -63,7 +25,6 @@ interface IProps{
 }
 
 export default function ChapterCard(props: IProps) {
-    const classes = useStyles();
     const theme = useTheme();
     const { chapter, triggerChaptersUpdate, downloadStatusString } = props;
 
@@ -84,6 +45,7 @@ export default function ChapterCard(props: IProps) {
 
         const formData = new FormData();
         formData.append(key, value);
+        if (key === 'read') { formData.append('lastPageRead', '1'); }
         client.patch(`/api/v1/manga/${chapter.mangaId}/chapter/${chapter.index}`, formData)
             .then(() => triggerChaptersUpdate());
     };
@@ -104,8 +66,25 @@ export default function ChapterCard(props: IProps) {
     return (
         <>
             <li>
-                <Card className={classes.card}>
-                    <CardContent className={classes.root}>
+                <Card sx={{
+                    margin: '10px',
+                    ':hover': {
+                        backgroundColor: 'action.hover',
+                        transition: 'background-color 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+                    },
+                    ':active': {
+                        backgroundColor: 'action.selected',
+                        transition: 'background-color 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+                    },
+                }}
+                >
+                    <CardContent sx={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        padding: 2,
+                    }}
+                    >
                         <Link
                             to={`/manga/${chapter.mangaId}/chapter/${chapter.index}`}
                             style={{
@@ -149,7 +128,7 @@ export default function ChapterCard(props: IProps) {
                                 {!chapter.bookmarked && 'Bookmark'}
                             </MenuItem>
                             <MenuItem onClick={() => sendChange('read', !chapter.read)}>
-                                {`Mark as ${chapter.read && 'unread'} ${!chapter.read && 'read'}`}
+                                {`Mark as ${chapter.read ? 'unread' : 'read'}`}
                             </MenuItem>
                             <MenuItem onClick={() => sendChange('markPrevRead', true)}>
                                 Mark previous as Read
