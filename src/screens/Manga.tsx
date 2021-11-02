@@ -8,7 +8,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Theme } from '@mui/material/styles';
 import makeStyles from '@mui/styles/makeStyles';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Virtuoso } from 'react-virtuoso';
 import ChapterCard from 'components/ChapterCard';
 import MangaDetails from 'components/MangaDetails';
@@ -16,6 +16,8 @@ import NavbarContext from 'components/context/NavbarContext';
 import client from 'util/client';
 import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
 import makeToast from 'components/util/Toast';
+import { Fab } from '@mui/material';
+import PlayArrow from '@mui/icons-material/PlayArrow';
 
 const useStyles = makeStyles((theme: Theme) => ({
     root: {
@@ -62,6 +64,7 @@ export default function Manga() {
     const [chapterUpdateTriggerer, setChapterUpdateTriggerer] = useState(0);
     const [fetchedOnline, setFetchedOnline] = useState(false);
     const [fetchedOffline, setFetchedOffline] = useState(false);
+    const [firstUnreadChapter, setFirstUnreadChapter] = useState<IChapter>();
 
     const [, setWsClient] = useState<WebSocket>();
     const [{ queue }, setQueueState] = useState<IQueue>(initialQueue);
@@ -129,6 +132,24 @@ export default function Manga() {
             });
     }, [fetchedOnline, fetchedOffline, chapterUpdateTriggerer]);
 
+    useEffect(() => {
+        const a = [...chapters].reverse().find((chp) => !chp.read);
+        setFirstUnreadChapter(a);
+    }, [chapters]);
+
+    const resumeButton = () => firstUnreadChapter && (
+        <Fab
+            sx={{ position: 'fixed', bottom: '5vw', right: '5vw' }}
+            component={Link}
+            variant="extended"
+            color="primary"
+            to={`/manga/${id}/chapter/${firstUnreadChapter.index}/page/${firstUnreadChapter.lastPageRead}`}
+        >
+            <PlayArrow />
+            {firstUnreadChapter.index === 1 ? 'Start' : 'Resume' }
+        </Fab>
+    );
+
     return (
         <div className={classes.root}>
             <LoadingPlaceholder
@@ -158,7 +179,7 @@ export default function Manga() {
                     overscan={window.innerHeight * 0.5}
                 />
             </LoadingPlaceholder>
-
+            {resumeButton()}
         </div>
     );
 }

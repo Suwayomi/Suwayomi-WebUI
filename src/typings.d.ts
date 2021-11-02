@@ -70,6 +70,7 @@ interface IChapter {
     read: boolean
     bookmarked: boolean
     lastPageRead: number
+    lastReadAt: number
     index: number
     fetchedAt: number
     chapterCount: number
