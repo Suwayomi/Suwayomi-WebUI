@@ -137,18 +137,19 @@ export default function Manga() {
         setFirstUnreadChapter(a);
     }, [chapters]);
 
-    const resumeButton = () => firstUnreadChapter && (
-        <Fab
-            sx={{ position: 'fixed', bottom: '5vw', right: '5vw' }}
-            component={Link}
-            variant="extended"
-            color="primary"
-            to={`/manga/${id}/chapter/${firstUnreadChapter.index}/page/${firstUnreadChapter.lastPageRead}`}
-        >
-            <PlayArrow />
-            {firstUnreadChapter.index === 1 ? 'Start' : 'Resume' }
-        </Fab>
-    );
+    const ResumeButton = () => (firstUnreadChapter === undefined ? null
+        : (
+            <Fab
+                sx={{ position: 'fixed', bottom: '5vw', right: '5vw' }}
+                component={Link}
+                variant="extended"
+                color="primary"
+                to={`/manga/${id}/chapter/${firstUnreadChapter.index}/page/${firstUnreadChapter.lastPageRead}`}
+            >
+                <PlayArrow />
+                {firstUnreadChapter.index === 1 ? 'Start' : 'Resume' }
+            </Fab>
+        ));
 
     return (
         <div className={classes.root}>
@@ -179,7 +180,7 @@ export default function Manga() {
                     overscan={window.innerHeight * 0.5}
                 />
             </LoadingPlaceholder>
-            {resumeButton()}
+            <ResumeButton />
         </div>
     );
 }
