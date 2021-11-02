@@ -180,7 +180,7 @@ export default function Manga() {
                     overscan={window.innerHeight * 0.5}
                 />
             </LoadingPlaceholder>
-            <ResumeButton />
+            <ResumeFab />
         </div>
     );
 }
