@@ -35,18 +35,6 @@ function downloadedFilter(downloaded: NullAndUndefined<boolean>,
     }
 }
 
-// function downloadedFilter(downloaded: NullAndUndefined<boolean>,
-//     { downloadCount }: IMangaCard): boolean {
-//     switch (downloaded) {
-//         case true:
-//             return !!downloaded && downloadCount >= 1;
-//         case false:
-//             return downloadCount === 0;
-//         default:
-//             return true;
-//     }
-// }
-
 function queryFilter(query: NullAndUndefined<string>, { title }: IMangaCard): boolean {
     if (!query) return true;
     return title.toLowerCase().includes(query.toLowerCase());
