@@ -40,17 +40,21 @@ const MangaTitle = styled(Typography)({
     textShadow: '0px 0px 3px #000000',
 });
 
-const UnreadBadge = styled(Typography)(({ theme }) => ({
+const BadgeConatiner = styled('div')({
+    display: 'flex',
     position: 'absolute',
-    top: 2,
-    left: 2,
-    backgroundColor: theme.palette.primary.dark,
+    top: 5,
+    left: 5,
+    height: 'fit-content',
     borderRadius: '5px',
-    color: 'white',
-    padding: '0.1em',
-    paddingInline: '0.3em',
-    fontSize: '1.05rem',
-}));
+    overflow: 'hidden',
+    '& p': {
+        color: 'white',
+        padding: '0.1em',
+        paddingInline: '0.2em',
+        fontSize: '1.05rem',
+    },
+});
 
 const truncateText = (str: string, maxLength: number) => {
     const ending = '...';
@@ -69,7 +73,7 @@ interface IProps {
 const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) => {
     const {
         manga: {
-            id, title, thumbnailUrl, unreadCount: unread,
+            id, title, thumbnailUrl, downloadCount, unreadCount: unread,
         },
     } = props;
 
@@ -93,12 +97,24 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
                             height: '100%',
                         }}
                     >
-                        {unread! > 0
-                            && (
-                                <UnreadBadge>
+
+                        <BadgeConatiner>
+                            {unread! > 0 && (
+                                <Typography
+                                    sx={{ backgroundColor: 'primary.dark' }}
+                                >
                                     {unread}
-                                </UnreadBadge>
-                            ) }
+                                </Typography>
+                            )}
+                            {downloadCount! > 0 && (
+                                <Typography sx={{
+                                    backgroundColor: 'success.dark',
+                                }}
+                                >
+                                    {downloadCount}
+                                </Typography>
+                            )}
+                        </BadgeConatiner>
                         <SpinnerImage
                             alt={title}
                             src={`${serverAddress}${thumbnailUrl}?useCache=${useCache}`}
@@ -107,7 +123,6 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
                                 width: '100%',
                             }}
                             spinnerStyle={{
-                                minHeight: '400px',
                                 display: 'grid',
                                 placeItems: 'center',
                             }}
