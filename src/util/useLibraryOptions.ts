@@ -11,6 +11,8 @@ import { BooleanParam, useQueryParams, StringParam } from 'use-query-params';
 export type NullAndUndefined<T> = T | null | undefined;
 
 interface IUseLibraryOptions {
+    downloaded: NullAndUndefined<boolean>
+    setDownloaded: (downloaded: NullAndUndefined<boolean>)=>void
     unread: NullAndUndefined<boolean>
     setUnread: (unread: NullAndUndefined<boolean>) => void
     query: NullAndUndefined<string>
@@ -20,10 +22,14 @@ interface IUseLibraryOptions {
 
 export default function useLibraryOptions(): IUseLibraryOptions {
     const [searchQuery, setSearchQuery] = useQueryParams({
+        downloaded: BooleanParam,
         unread: BooleanParam,
         query: StringParam,
     });
-    const { unread, query } = searchQuery;
+    const { downloaded, unread, query } = searchQuery;
+    const setDownloaded = (newDownloaded: NullAndUndefined<boolean>) => {
+        setSearchQuery(Object.assign(searchQuery, { downloaded: newDownloaded }), 'replace');
+    };
     const setUnread = (newUnread: NullAndUndefined<boolean>) => {
         setSearchQuery(Object.assign(searchQuery, { unread: newUnread }), 'replace');
     };
@@ -31,8 +37,8 @@ export default function useLibraryOptions(): IUseLibraryOptions {
         setSearchQuery(Object.assign(searchQuery, { query: newQuery }), 'replace');
     };
     // eslint-disable-next-line eqeqeq
-    const active = !(unread == undefined);
+    const active = !(unread == undefined) && !(downloaded == undefined);
     return {
-        unread, setUnread, active, query, setQuery,
+        downloaded, setDownloaded, unread, setUnread, active, query, setQuery,
     };
 }

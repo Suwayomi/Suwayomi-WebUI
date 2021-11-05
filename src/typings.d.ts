@@ -35,6 +35,7 @@ interface IMangaCard {
     title: string
     thumbnailUrl: string
     unreadCount?: number
+    downloadCount?: number
 }
 
 interface IManga {
@@ -58,6 +59,7 @@ interface IManga {
 
     freshData: boolean
     unreadCount?: number
+    downloadCount?: number
 }
 
 interface IChapter {
