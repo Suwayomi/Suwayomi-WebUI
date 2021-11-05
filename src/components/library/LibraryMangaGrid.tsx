@@ -23,15 +23,41 @@ function unreadFilter(unread: NullAndUndefined<boolean>, { unreadCount }: IManga
     }
 }
 
+function downloadedFilter(downloaded: NullAndUndefined<boolean>,
+    { downloadCount }: IMangaCard): boolean {
+    switch (downloaded) {
+        case true:
+            return !!downloadCount && downloadCount >= 1;
+        case false:
+            return downloadCount === 0;
+        default:
+            return true;
+    }
+}
+
+// function downloadedFilter(downloaded: NullAndUndefined<boolean>,
+//     { downloadCount }: IMangaCard): boolean {
+//     switch (downloaded) {
+//         case true:
+//             return !!downloaded && downloadCount >= 1;
+//         case false:
+//             return downloadCount === 0;
+//         default:
+//             return true;
+//     }
+// }
+
 function queryFilter(query: NullAndUndefined<string>, { title }: IMangaCard): boolean {
     if (!query) return true;
     return title.toLowerCase().includes(query.toLowerCase());
 }
 
 function filterManga(mangas: IMangaCard[]): IMangaCard[] {
-    const { unread, query } = useLibraryOptions();
+    const { downloaded, unread, query } = useLibraryOptions();
     return mangas
-        .filter((manga) => unreadFilter(unread, manga) && queryFilter(query, manga));
+        .filter((manga) => downloadedFilter(downloaded, manga)
+        && unreadFilter(unread, manga)
+        && queryFilter(query, manga));
 }
 
 export default function LibraryMangaGrid(props: IMangaGridProps) {
