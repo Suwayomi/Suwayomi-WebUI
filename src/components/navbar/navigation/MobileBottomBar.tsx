@@ -6,11 +6,10 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import React from 'react';
-import {
-    Box, ListItem,
-} from '@mui/material';
-import { styled } from '@mui/system';
+import { ListItem } from '@mui/material';
+import { styled, Box } from '@mui/system';
 import { Link as RRDLink, useLocation } from 'react-router-dom';
+import { useTheme } from '@mui/material/styles';
 
 const BottomNavContainer = styled('div')(({ theme }) => ({
     bottom: 0,
@@ -39,10 +38,11 @@ interface IProps {
 
 export default function MobileBottomBar({ navBarItems }: IProps) {
     const location = useLocation();
+    const theme = useTheme();
 
     const iconFor = (path: string, IconComponent: any, SelectedIconComponent: any) => {
         if (location.pathname === path) return <SelectedIconComponent sx={{ color: 'primary.main' }} fontSize="medium" />;
-        return <IconComponent sx={{ color: 'grey.A400' }} fontSize="medium" />;
+        return <IconComponent sx={{ color: (theme.palette.mode === 'dark') ? 'grey.A400' : 'grey.600' }} fontSize="medium" />;
     };
 
     return (
@@ -60,9 +60,12 @@ export default function MobileBottomBar({ navBarItems }: IProps) {
                                 flexDirection: 'column',
                                 alignItems: 'center',
                                 // if we are on the same path then make the icon active
+                                // eslint-disable-next-line no-nested-ternary
                                 color: location.pathname === path
                                     ? 'primary.main'
-                                    : 'grey.A400',
+                                    : ((theme.palette.mode === 'dark')
+                                        ? 'grey.A400'
+                                        : 'grey.600'),
                             }}
                             >
                                 {iconFor(path, IconComponent, SelectedIconComponent)}
