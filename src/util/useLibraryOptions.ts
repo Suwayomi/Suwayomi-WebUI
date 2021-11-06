@@ -37,7 +37,7 @@ export default function useLibraryOptions(): IUseLibraryOptions {
         setSearchQuery(Object.assign(searchQuery, { query: newQuery }), 'replace');
     };
     // eslint-disable-next-line eqeqeq
-    const active = !(unread == undefined) && !(downloaded == undefined);
+    const active = !(unread == undefined) || !(downloaded == undefined);
     return {
         downloaded, setDownloaded, unread, setUnread, active, query, setQuery,
     };

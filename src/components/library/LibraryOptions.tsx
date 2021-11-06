@@ -17,7 +17,7 @@ function Options() {
         downloaded, setDownloaded, unread, setUnread,
     } = useLibraryOptions();
     return (
-        <div style={{ display: 'Flex', flexDirection: 'column' }}>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
             <FormControlLabel control={<ThreeStateCheckbox name="Unread" checked={unread} onChange={setUnread} />} label="Unread" />
             <FormControlLabel control={<ThreeStateCheckbox name="Downloaded" checked={downloaded} onChange={setDownloaded} />} label="Downloaded" />
         </div>

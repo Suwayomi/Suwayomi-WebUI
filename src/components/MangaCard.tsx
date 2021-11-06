@@ -40,7 +40,7 @@ const MangaTitle = styled(Typography)({
     textShadow: '0px 0px 3px #000000',
 });
 
-const BadgeConatiner = styled('div')({
+const BadgeContainer = styled('div')({
     display: 'flex',
     position: 'absolute',
     top: 5,
@@ -98,7 +98,7 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
                         }}
                     >
 
-                        <BadgeConatiner>
+                        <BadgeContainer>
                             {unread! > 0 && (
                                 <Typography
                                     sx={{ backgroundColor: 'primary.dark' }}
@@ -114,7 +114,7 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
                                     {downloadCount}
                                 </Typography>
                             )}
-                        </BadgeConatiner>
+                        </BadgeContainer>
                         <SpinnerImage
                             alt={title}
                             src={`${serverAddress}${thumbnailUrl}?useCache=${useCache}`}
