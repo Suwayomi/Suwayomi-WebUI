@@ -55,21 +55,24 @@ export default function MobileBottomBar({ navBarItems }: IProps) {
                 ) => (
                     <Link to={path} key={path}>
                         <ListItem disableRipple button sx={{ justifyContent: 'center', padding: '8px' }} key={title}>
-                            <Box sx={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: 'center',
-                                // if we are on the same path then make the icon active
-                                // eslint-disable-next-line no-nested-ternary
-                                color: location.pathname === path
-                                    ? 'primary.main'
-                                    : ((theme.palette.mode === 'dark')
-                                        ? 'grey.A400'
-                                        : 'grey.600'),
-                            }}
+                            <Box
+                                display="flex"
+                                flexDirection="column"
+                                alignItems="center"
                             >
                                 {iconFor(path, IconComponent, SelectedIconComponent)}
-                                <div style={{ fontSize: '0.65rem' }}>{title}</div>
+                                <Box sx={{
+                                    fontSize: '0.65rem',
+                                    // eslint-disable-next-line no-nested-ternary
+                                    color: location.pathname === path
+                                        ? 'primary.main'
+                                        : ((theme.palette.mode === 'dark')
+                                            ? 'grey.A400'
+                                            : 'grey.600'),
+                                }}
+                                >
+                                    {title}
+                                </Box>
                             </Box>
                         </ListItem>
                     </Link>
