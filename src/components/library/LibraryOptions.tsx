@@ -13,10 +13,13 @@ import useLibraryOptions from 'util/useLibraryOptions';
 import ThreeStateCheckbox from 'components/util/ThreeStateCheckbox';
 
 function Options() {
-    const { unread, setUnread } = useLibraryOptions();
+    const {
+        downloaded, setDownloaded, unread, setUnread,
+    } = useLibraryOptions();
     return (
-        <div>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
             <FormControlLabel control={<ThreeStateCheckbox name="Unread" checked={unread} onChange={setUnread} />} label="Unread" />
+            <FormControlLabel control={<ThreeStateCheckbox name="Downloaded" checked={downloaded} onChange={setDownloaded} />} label="Downloaded" />
         </div>
     );
 }
