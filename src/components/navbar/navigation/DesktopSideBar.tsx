@@ -9,6 +9,7 @@ import React from 'react';
 import { ListItem, ListItemIcon, Tooltip } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
 import { styled } from '@mui/system';
+import { useTheme } from '@mui/material/styles';
 
 const SideNavBarContainer = styled('div')(({ theme }) => ({
     height: '100vh',
@@ -28,10 +29,11 @@ interface IProps {
 
 export default function DesktopSideBar({ navBarItems }: IProps) {
     const location = useLocation();
+    const theme = useTheme();
 
     const iconFor = (path: string, IconComponent: any, SelectedIconComponent: any) => {
         if (location.pathname === path) return <SelectedIconComponent sx={{ color: 'primary.main' }} fontSize="large" />;
-        return <IconComponent sx={{ color: 'grey.A400' }} fontSize="large" />;
+        return <IconComponent sx={{ color: (theme.palette.mode === 'dark') ? 'grey.A400' : 'grey.600' }} fontSize="large" />;
     };
 
     return (

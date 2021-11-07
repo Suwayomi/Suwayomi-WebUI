@@ -6,11 +6,10 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import React from 'react';
-import {
-    Box, ListItem,
-} from '@mui/material';
-import { styled } from '@mui/system';
+import { ListItem } from '@mui/material';
+import { styled, Box } from '@mui/system';
 import { Link as RRDLink, useLocation } from 'react-router-dom';
+import { useTheme } from '@mui/material/styles';
 
 const BottomNavContainer = styled('div')(({ theme }) => ({
     bottom: 0,
@@ -39,10 +38,11 @@ interface IProps {
 
 export default function MobileBottomBar({ navBarItems }: IProps) {
     const location = useLocation();
+    const theme = useTheme();
 
     const iconFor = (path: string, IconComponent: any, SelectedIconComponent: any) => {
         if (location.pathname === path) return <SelectedIconComponent sx={{ color: 'primary.main' }} fontSize="medium" />;
-        return <IconComponent sx={{ color: 'grey.A400' }} fontSize="medium" />;
+        return <IconComponent sx={{ color: (theme.palette.mode === 'dark') ? 'grey.A400' : 'grey.600' }} fontSize="medium" />;
     };
 
     return (
@@ -55,18 +55,24 @@ export default function MobileBottomBar({ navBarItems }: IProps) {
                 ) => (
                     <Link to={path} key={path}>
                         <ListItem disableRipple button sx={{ justifyContent: 'center', padding: '8px' }} key={title}>
-                            <Box sx={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: 'center',
-                                // if we are on the same path then make the icon active
-                                color: location.pathname === path
-                                    ? 'primary.main'
-                                    : 'grey.A400',
-                            }}
+                            <Box
+                                display="flex"
+                                flexDirection="column"
+                                alignItems="center"
                             >
                                 {iconFor(path, IconComponent, SelectedIconComponent)}
-                                <div style={{ fontSize: '0.65rem' }}>{title}</div>
+                                <Box sx={{
+                                    fontSize: '0.65rem',
+                                    // eslint-disable-next-line no-nested-ternary
+                                    color: location.pathname === path
+                                        ? 'primary.main'
+                                        : ((theme.palette.mode === 'dark')
+                                            ? 'grey.A400'
+                                            : 'grey.600'),
+                                }}
+                                >
+                                    {title}
+                                </Box>
                             </Box>
                         </ListItem>
                     </Link>
