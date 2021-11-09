@@ -8,7 +8,9 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import React, { useContext, useEffect, useState } from 'react';
+import React, {
+    useContext, useEffect, useState, useRef,
+} from 'react';
 import { useHistory } from 'react-router-dom';
 import makeStyles from '@mui/styles/makeStyles';
 import Card from '@mui/material/Card';
@@ -20,6 +22,8 @@ import Typography from '@mui/material/Typography';
 import NavbarContext from 'components/context/NavbarContext';
 import client from 'util/client';
 import useLocalStorage from 'util/useLocalStorage';
+import EmptyView from 'components/util/EmptyView';
+import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -81,16 +85,17 @@ function getDateString(date: Date) {
     return date.toLocaleDateString();
 }
 
-function groupByDate(updates: IMangaChapter[]): [string, IMangaChapter[]][] {
+function groupByDate(updates: IMangaChapter[]):
+[string, { item: IMangaChapter, globalIdx: number }[] ][] {
     if (updates.length === 0) return [];
 
     const groups = {};
-    updates.forEach((item) => {
+    updates.forEach((item, globalIdx) => {
         const key = getDateString(epochToDate(item.chapter.fetchedAt));
         // @ts-ignore
         if (groups[key] === undefined) groups[key] = [];
         // @ts-ignore
-        groups[key].push(item);
+        groups[key].push({ item, globalIdx });
     });
 
     // @ts-ignore
@@ -109,6 +114,9 @@ export default function Updates() {
 
     const { setTitle, setAction } = useContext(NavbarContext);
     const [updateEntries, setUpdateEntries] = useState<IMangaChapter[]>([]);
+    const [hasNextPage, setHasNextPage] = useState(true);
+    const [fetched, setFetched] = useState(false);
+    const [lastPageNum, setLastPageNum] = useState(0);
 
     const [serverAddress] = useLocalStorage<String>('serverBaseURL', '');
     const [useCache] = useLocalStorage<boolean>('useCache', true);
@@ -135,12 +143,39 @@ export default function Updates() {
     }, []);
 
     useEffect(() => {
-        client.get('/api/v1/update/recentChapters')
-            .then((response) => response.data)
-            .then((updates: IMangaChapter[]) => {
-                setUpdateEntries(updates);
-            });
-    }, []);
+        if (hasNextPage) {
+            client.get(`/api/v1/update/recentChapters/${lastPageNum}`)
+                .then((response) => response.data)
+                .then(({ hasNextPage, page }: PaginatedList<IMangaChapter>) => {
+                    setUpdateEntries([
+                        ...updateEntries,
+                        ...page,
+                    ]);
+                    setHasNextPage(hasNextPage);
+                    setFetched(true);
+                });
+        }
+    }, [lastPageNum]);
+
+    const lastEntry = useRef<HTMLDivElement>(null);
+
+    const scrollHandler = () => {
+        if (lastEntry.current) {
+            const rect = lastEntry.current.getBoundingClientRect();
+            if (((rect.y + rect.height) / window.innerHeight < 2) && hasNextPage) {
+                setLastPageNum(lastPageNum + 1);
+            }
+        }
+    };
+    useEffect(() => {
+        window.addEventListener('scroll', scrollHandler, true);
+        return () => {
+            window.removeEventListener('scroll', scrollHandler, true);
+        };
+    }, [hasNextPage, updateEntries]);
+
+    if (!fetched) { return <LoadingPlaceholder />; }
+    if (fetched && updateEntries.length === 0) { return <EmptyView message="You don't have any updates yet." />; }
 
     const downloadStatusStringFor = (chapter: IChapter) => {
         let rtn = '';
@@ -166,9 +201,10 @@ export default function Updates() {
                     <h1 style={{ marginLeft: 25 }}>
                         {dateGroup[0]}
                     </h1>
-                    {dateGroup[1].map(({ chapter, manga }) => (
+                    {dateGroup[1].map(({ item: { chapter, manga }, globalIdx }) => (
                         <Card
-                            key={`${manga.title}-${chapter.name}`}
+                            ref={globalIdx === updateEntries.length - 1 ? lastEntry : undefined}
+                            key={globalIdx}
                             className={classes.card}
                             onClick={() => history.push(`/manga/${chapter.mangaId}/chapter/${chapter.index}`)}
                         >

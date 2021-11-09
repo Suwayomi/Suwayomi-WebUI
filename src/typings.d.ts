@@ -203,3 +203,8 @@ interface NavbarItem {
     IconComponent: OverridableComponent<SvgIconTypeMap<{}, 'svg'>>,
     show: 'mobile' | 'desktop' | 'both'
 }
+
+interface PaginatedList<T> {
+    page: T[],
+    hasNextPage: boolean
+}
