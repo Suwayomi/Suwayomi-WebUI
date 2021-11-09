@@ -20,14 +20,6 @@ import client from 'util/client';
 import useLocalStorage from 'util/useLocalStorage';
 import EmptyView from 'components/util/EmptyView';
 import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
-import { styled } from '@mui/system';
-
-const DateHeader = styled(Typography)(({ theme }) => ({
-    marginLeft: theme.spacing(3),
-    marginBottom: theme.spacing(2),
-    marginTop: theme.spacing(2),
-    fontWeight: 700,
-}));
 
 function epochToDate(epoch: number) {
     const date = new Date(0); // The 0 there is the key, which sets the date to the epoch
@@ -163,9 +155,16 @@ export default function Updates() {
         <>
             {groupByDate(updateEntries).map((dateGroup) => (
                 <div key={dateGroup[0]}>
-                    <DateHeader variant="h5">
+                    <Typography
+                        variant="h5"
+                        sx={{
+                            ml: 3,
+                            my: 2,
+                            fontWeight: 700,
+                        }}
+                    >
                         {dateGroup[0]}
-                    </DateHeader>
+                    </Typography>
                     {dateGroup[1].map(({ item: { chapter, manga }, globalIdx }) => (
                         <Card
                             ref={globalIdx === updateEntries.length - 1 ? lastEntry : undefined}
