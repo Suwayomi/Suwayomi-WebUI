@@ -140,7 +140,7 @@ export default function Manga() {
     const ResumeFab = () => (firstUnreadChapter === undefined ? null
         : (
             <Fab
-                sx={{ position: 'fixed', bottom: '5vw', right: '5vw' }}
+                sx={{ position: 'fixed', bottom: '2em', right: '3em' }}
                 component={Link}
                 variant="extended"
                 color="primary"
