@@ -105,10 +105,12 @@ function resolveDateGroups(prev:[string, IMangaChapter[]][],
     newGroup:[string, IMangaChapter[]][])
     :[string, IMangaChapter[]][] {
     const lastDateGroup = prev[prev.length - 1];
+    // if both dates are same then add the dates from the new array to
     if (lastDateGroup[0] === newGroup[0][0]) {
         lastDateGroup[1] = lastDateGroup[1].concat(newGroup[0][1]);
+        return [...prev, ...newGroup.slice(1)];
     }
-    return [...prev, ...newGroup.slice(1)];
+    return [...prev, ...newGroup];
 }
 
 const baseWebsocketUrl = JSON.parse(
@@ -172,18 +174,17 @@ export default function Updates() {
         setTitle('Updates');
 
         setAction(<></>);
-        getUpdates();
     }, []);
 
     useEffect(() => {
         async function setUpdates() {
             const newEntries = await getUpdates();
-            setUpdateEntries((prev) => {
-                const newGroups = groupByDate(newEntries);
-                // for firstTime
-                if (prev.length === 0) return newGroups;
-                return resolveDateGroups(prev, newGroups);
-            });
+            const newGroups = groupByDate(newEntries);
+            if (updateEntries.length === 0) {
+                setUpdateEntries(newGroups);
+            } else {
+                setUpdateEntries(resolveDateGroups(updateEntries, newGroups));
+            }
         }
         setUpdates();
     }, [pageNum]);
