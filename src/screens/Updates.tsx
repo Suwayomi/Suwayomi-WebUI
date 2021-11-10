@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-shadow */
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable react/jsx-props-no-spreading */
 /*
  * Copyright (C) Contributors to the Suwayomi project
  *
@@ -8,9 +5,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import React, { useContext, useEffect, useState } from 'react';
+import React, {
+    useContext, useEffect, useState, useRef,
+} from 'react';
 import { useHistory } from 'react-router-dom';
-import makeStyles from '@mui/styles/makeStyles';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import IconButton from '@mui/material/IconButton';
@@ -20,44 +18,8 @@ import Typography from '@mui/material/Typography';
 import NavbarContext from 'components/context/NavbarContext';
 import client from 'util/client';
 import useLocalStorage from 'util/useLocalStorage';
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: 16,
-    },
-    bullet: {
-        display: 'inline-block',
-        margin: '0 2px',
-        transform: 'scale(0.8)',
-    },
-    title: {
-        fontSize: 14,
-    },
-    pos: {
-        marginBottom: 12,
-    },
-    icon: {
-        width: theme.spacing(7),
-        height: theme.spacing(7),
-        flex: '0 0 auto',
-        marginRight: 16,
-        imageRendering: 'pixelated',
-    },
-    card: {
-        margin: '10px',
-        '&:hover': {
-            backgroundColor: theme.palette.action.hover,
-            transition: 'background-color 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-        },
-        '&:active': {
-            backgroundColor: theme.palette.action.selected,
-            transition: 'background-color 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-        },
-    },
-}));
+import EmptyView from 'components/util/EmptyView';
+import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
 
 function epochToDate(epoch: number) {
     const date = new Date(0); // The 0 there is the key, which sets the date to the epoch
@@ -81,16 +43,17 @@ function getDateString(date: Date) {
     return date.toLocaleDateString();
 }
 
-function groupByDate(updates: IMangaChapter[]): [string, IMangaChapter[]][] {
+function groupByDate(updates: IMangaChapter[]):
+[string, { item: IMangaChapter, globalIdx: number }[] ][] {
     if (updates.length === 0) return [];
 
     const groups = {};
-    updates.forEach((item) => {
+    updates.forEach((item, globalIdx) => {
         const key = getDateString(epochToDate(item.chapter.fetchedAt));
         // @ts-ignore
         if (groups[key] === undefined) groups[key] = [];
         // @ts-ignore
-        groups[key].push(item);
+        groups[key].push({ item, globalIdx });
     });
 
     // @ts-ignore
@@ -104,11 +67,13 @@ const initialQueue = {
 } as IQueue;
 
 export default function Updates() {
-    const classes = useStyles();
     const history = useHistory();
 
     const { setTitle, setAction } = useContext(NavbarContext);
     const [updateEntries, setUpdateEntries] = useState<IMangaChapter[]>([]);
+    const [hasNextPage, setHasNextPage] = useState(true);
+    const [fetched, setFetched] = useState(false);
+    const [lastPageNum, setLastPageNum] = useState(0);
 
     const [serverAddress] = useLocalStorage<String>('serverBaseURL', '');
     const [useCache] = useLocalStorage<boolean>('useCache', true);
@@ -135,12 +100,39 @@ export default function Updates() {
     }, []);
 
     useEffect(() => {
-        client.get('/api/v1/update/recentChapters')
-            .then((response) => response.data)
-            .then((updates: IMangaChapter[]) => {
-                setUpdateEntries(updates);
-            });
-    }, []);
+        if (hasNextPage) {
+            client.get(`/api/v1/update/recentChapters/${lastPageNum}`)
+                .then((response) => response.data)
+                .then(({ hasNextPage: fetchedHasNextPage, page }: PaginatedList<IMangaChapter>) => {
+                    setUpdateEntries([
+                        ...updateEntries,
+                        ...page,
+                    ]);
+                    setHasNextPage(fetchedHasNextPage);
+                    setFetched(true);
+                });
+        }
+    }, [lastPageNum]);
+
+    const lastEntry = useRef<HTMLDivElement>(null);
+
+    const scrollHandler = () => {
+        if (lastEntry.current) {
+            const rect = lastEntry.current.getBoundingClientRect();
+            if (((rect.y + rect.height) / window.innerHeight < 2) && hasNextPage) {
+                setLastPageNum(lastPageNum + 1);
+            }
+        }
+    };
+    useEffect(() => {
+        window.addEventListener('scroll', scrollHandler, true);
+        return () => {
+            window.removeEventListener('scroll', scrollHandler, true);
+        };
+    }, [hasNextPage, updateEntries]);
+
+    if (!fetched) { return <LoadingPlaceholder />; }
+    if (fetched && updateEntries.length === 0) { return <EmptyView message="You don't have any updates yet." />; }
 
     const downloadStatusStringFor = (chapter: IChapter) => {
         let rtn = '';
@@ -163,20 +155,50 @@ export default function Updates() {
         <>
             {groupByDate(updateEntries).map((dateGroup) => (
                 <div key={dateGroup[0]}>
-                    <h1 style={{ marginLeft: 25 }}>
+                    <Typography
+                        variant="h5"
+                        sx={{
+                            ml: 3,
+                            my: 2,
+                            fontWeight: 700,
+                        }}
+                    >
                         {dateGroup[0]}
-                    </h1>
-                    {dateGroup[1].map(({ chapter, manga }) => (
+                    </Typography>
+                    {dateGroup[1].map(({ item: { chapter, manga }, globalIdx }) => (
                         <Card
-                            key={`${manga.title}-${chapter.name}`}
-                            className={classes.card}
+                            ref={globalIdx === updateEntries.length - 1 ? lastEntry : undefined}
+                            key={globalIdx}
+                            sx={{
+                                margin: '10px',
+                                '&:hover': {
+                                    backgroundColor: 'action.hover',
+                                    transition: 'background-color 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+                                },
+                                '&:active': {
+                                    backgroundColor: 'action.selected',
+                                    transition: 'background-color 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+                                },
+                            }}
                             onClick={() => history.push(`/manga/${chapter.mangaId}/chapter/${chapter.index}`)}
                         >
-                            <CardContent className={classes.root}>
+                            <CardContent sx={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                                padding: 2,
+                            }}
+                            >
                                 <div style={{ display: 'flex' }}>
                                     <Avatar
                                         variant="rounded"
-                                        className={classes.icon}
+                                        sx={{
+                                            width: 56,
+                                            height: 56,
+                                            flex: '0 0 auto',
+                                            marginRight: 2,
+                                            imageRendering: 'pixelated',
+                                        }}
                                         src={`${serverAddress}${manga.thumbnailUrl}?useCache=${useCache}`}
                                     />
                                     <div style={{ display: 'flex', flexDirection: 'column' }}>
