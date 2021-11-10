@@ -8,7 +8,9 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import React, { useContext, useEffect, useState } from 'react';
+import React, {
+    useContext, useEffect, useState, useRef,
+} from 'react';
 import { useHistory } from 'react-router-dom';
 import makeStyles from '@mui/styles/makeStyles';
 import Card from '@mui/material/Card';
@@ -65,10 +67,12 @@ function epochToDate(epoch: number) {
     return date;
 }
 
-function isTheSameDay(first:Date, second:Date) {
-    return first.getDate() === second.getDate()
-    && first.getMonth() === second.getMonth()
-    && first.getFullYear() === second.getFullYear();
+function isTheSameDay(first: Date, second: Date) {
+    return (
+        first.getDate() === second.getDate()
+        && first.getMonth() === second.getMonth()
+        && first.getFullYear() === second.getFullYear()
+    );
 }
 
 function getDateString(date: Date) {
@@ -97,7 +101,19 @@ function groupByDate(updates: IMangaChapter[]): [string, IMangaChapter[]][] {
     return Object.keys(groups).map((key) => [key, groups[key]]);
 }
 
-const baseWebsocketUrl = JSON.parse(window.localStorage.getItem('serverBaseURL')!).replace('http', 'ws');
+function resolveDateGroups(prev:[string, IMangaChapter[]][],
+    newGroup:[string, IMangaChapter[]][])
+    :[string, IMangaChapter[]][] {
+    const lastDateGroup = prev[prev.length - 1];
+    if (lastDateGroup[0] === newGroup[0][0]) {
+        lastDateGroup[1] = lastDateGroup[1].concat(newGroup[0][1]);
+    }
+    return [...prev, ...newGroup.slice(1)];
+}
+
+const baseWebsocketUrl = JSON.parse(
+    window.localStorage.getItem('serverBaseURL')!,
+).replace('http', 'ws');
 const initialQueue = {
     status: 'Stopped',
     queue: [],
@@ -108,13 +124,30 @@ export default function Updates() {
     const history = useHistory();
 
     const { setTitle, setAction } = useContext(NavbarContext);
-    const [updateEntries, setUpdateEntries] = useState<IMangaChapter[]>([]);
+    const [updateEntries, setUpdateEntries] = useState<
+    [string, IMangaChapter[]][]
+    >([]);
 
     const [serverAddress] = useLocalStorage<String>('serverBaseURL', '');
     const [useCache] = useLocalStorage<boolean>('useCache', true);
 
     const [, setWsClient] = useState<WebSocket>();
     const [{ queue }, setQueueState] = useState<IQueue>(initialQueue);
+
+    const [pageNum, setPageNum] = useState(0);
+    const [hasNextPage, setHasNextPage] = useState<boolean>(true);
+    // eslint-disable-next-line max-len
+
+    const [lastElement, setLastElement] = useState<Element | null>(null);
+
+    const observer = useRef(
+        new IntersectionObserver((entries) => {
+            const first = entries[0];
+            if (first.isIntersecting) {
+                if (hasNextPage) setPageNum((no) => no + 1);
+            }
+        }),
+    );
 
     useEffect(() => {
         const wsc = new WebSocket(`${baseWebsocketUrl}/api/v1/downloads`);
@@ -128,19 +161,50 @@ export default function Updates() {
         return () => wsc.close();
     }, []);
 
+    const getUpdates = async () => client
+        .get(`/api/v1/update/recentChapters/${pageNum}`)
+        .then((response) => {
+            setHasNextPage(response.data.hasNextPage);
+            return response.data.page as IMangaChapter[];
+        });
+
     useEffect(() => {
         setTitle('Updates');
 
         setAction(<></>);
+        getUpdates();
     }, []);
 
     useEffect(() => {
-        client.get('/api/v1/update/recentChapters')
-            .then((response) => response.data)
-            .then((updates: IMangaChapter[]) => {
-                setUpdateEntries(updates);
+        async function setUpdates() {
+            const newEntries = await getUpdates();
+            setUpdateEntries((prev) => {
+                const newGroups = groupByDate(newEntries);
+                // for firstTime
+                if (prev.length === 0) return newGroups;
+                return resolveDateGroups(prev, newGroups);
             });
-    }, []);
+        }
+        setUpdates();
+    }, [pageNum]);
+
+    // This will set an observer on the last dateGroup
+    // which will trigger an increment in pageNum when the last DateElement is visible
+    // which will trigger the next request
+    useEffect(() => {
+        const currentElement = lastElement;
+        const currentObserver = observer.current;
+
+        if (currentElement) {
+            currentObserver.observe(currentElement);
+        }
+
+        return () => {
+            if (currentElement) {
+                currentObserver.unobserve(currentElement);
+            }
+        };
+    }, [lastElement]);
 
     const downloadStatusStringFor = (chapter: IChapter) => {
         let rtn = '';
@@ -161,16 +225,23 @@ export default function Updates() {
 
     return (
         <>
-            {groupByDate(updateEntries).map((dateGroup) => (
+            {updateEntries.map((dateGroup, i) => (
                 <div key={dateGroup[0]}>
-                    <h1 style={{ marginLeft: 25 }}>
-                        {dateGroup[0]}
-                    </h1>
+                    {i === updateEntries.length - 1 && hasNextPage ? (
+                    // eslint-disable-next-line max-len
+                        <h1 ref={setLastElement} style={{ marginLeft: 25 }}>
+                            {dateGroup[0]}
+                        </h1>
+                    ) : (
+                        <h1 style={{ marginLeft: 25 }}>{dateGroup[0]}</h1>
+                    )}
                     {dateGroup[1].map(({ chapter, manga }) => (
                         <Card
                             key={`${manga.title}-${chapter.name}`}
                             className={classes.card}
-                            onClick={() => history.push(`/manga/${chapter.mangaId}/chapter/${chapter.index}`)}
+                            onClick={() => history.push(
+                                `/manga/${chapter.mangaId}/chapter/${chapter.index}`,
+                            )}
                         >
                             <CardContent className={classes.root}>
                                 <div style={{ display: 'flex' }}>
@@ -189,19 +260,18 @@ export default function Updates() {
                                         </Typography>
                                     </div>
                                 </div>
-                                {downloadStatusStringFor(chapter) === ''
-                                        && (
-                                            <IconButton
-                                                onClick={(e) => {
-                                                    downloadChapter(chapter);
-                                                    // prevent parent tags from getting the event
-                                                    e.stopPropagation();
-                                                }}
-                                                size="large"
-                                            >
-                                                <DownloadIcon />
-                                            </IconButton>
-                                        )}
+                                {downloadStatusStringFor(chapter) === '' && (
+                                    <IconButton
+                                        onClick={(e) => {
+                                            downloadChapter(chapter);
+                                            // prevent parent tags from getting the event
+                                            e.stopPropagation();
+                                        }}
+                                        size="large"
+                                    >
+                                        <DownloadIcon />
+                                    </IconButton>
+                                )}
                             </CardContent>
                         </Card>
                     ))}
