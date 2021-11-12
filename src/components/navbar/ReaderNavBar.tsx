@@ -28,8 +28,9 @@ import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import Collapse from '@mui/material/Collapse';
 import Button from '@mui/material/Button';
 import NavBarContext from 'components/context/NavbarContext';
+import { styled } from '@mui/system';
 
-const useStyles = (settings: IReaderSettings) => makeStyles((theme) => ({
+const useStyles = makeStyles({
     // main container and root div need to change classes...
     AppMainContainer: {
         display: 'none',
@@ -37,103 +38,91 @@ const useStyles = (settings: IReaderSettings) => makeStyles((theme) => ({
     AppRootElment: {
         display: 'flex',
     },
+});
 
-    root: {
-        position: settings.staticNav ? 'sticky' : 'fixed',
-        top: 0,
-        left: 0,
-        width: '300px',
-        minWidth: '300px',
-        height: '100vh',
-        overflowY: 'auto',
-        backgroundColor: theme.palette.background.default,
+const Root = styled('div')(({ theme }) => ({
+    top: 0,
+    left: 0,
+    width: '300px',
+    minWidth: '300px',
+    height: '100vh',
+    overflowY: 'auto',
+    backgroundColor: theme.palette.background.default,
 
-        '& header': {
-            backgroundColor:
-            theme.palette.mode === 'dark' ? theme.palette.grey[800] : theme.palette.grey[100],
-            display: 'flex',
-            alignItems: 'center',
-            minHeight: '64px',
-            paddingLeft: '24px',
-            paddingRight: '24px',
+    '& header': {
+        backgroundColor:
+        theme.palette.mode === 'dark' ? theme.palette.grey[800] : theme.palette.grey[100],
+        display: 'flex',
+        alignItems: 'center',
+        minHeight: '64px',
+        paddingLeft: '24px',
+        paddingRight: '24px',
 
-            transition: 'left 2s ease',
+        transition: 'left 2s ease',
 
-            '& button': {
-                flexGrow: 0,
-                flexShrink: 0,
-            },
-
-            '& button:nth-child(1)': {
-                marginRight: '16px',
-            },
-
-            '& button:nth-child(3)': {
-                marginRight: '-12px',
-            },
-
-            '& h1': {
-                fontSize: '1.25rem',
-                flexGrow: 1,
-            },
+        '& button': {
+            flexGrow: 0,
+            flexShrink: 0,
         },
-        '& hr': {
-            margin: '0 16px',
-            height: '1px',
-            border: '0',
-            backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : theme.palette.grey[100],
+
+        '& button:nth-child(1)': {
+            marginRight: '16px',
+        },
+
+        '& button:nth-child(3)': {
+            marginRight: '-12px',
+        },
+
+        '& h1': {
+            fontSize: '1.25rem',
+            flexGrow: 1,
         },
     },
-
-    navigation: {
+    '& hr': {
         margin: '0 16px',
-
-        '& > span:nth-child(1)': {
-            textAlign: 'center',
-            display: 'block',
-            marginTop: '16px',
-        },
-
-        '& $navigationChapters': {
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gridTemplateAreas: '"prev next"',
-            gridColumnGap: '5px',
-            margin: '10px 0',
-
-            '& a': {
-                flexGrow: 1,
-                textDecoration: 'none',
-
-                '& button': {
-                    width: '100%',
-                    padding: '5px 8px',
-                    textTransform: 'none',
-                },
-            },
-        },
-
+        height: '1px',
+        border: '0',
+        backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : theme.palette.grey[100],
     },
-    navigationChapters: {}, // dummy rule
+}));
 
-    settingsCollapsseHeader: {
-        '& span': {
-            fontWeight: 'bold',
+const Navigation = styled('div')({
+    margin: '0 16px',
+    '& > span:nth-child(1)': {
+        textAlign: 'center',
+        display: 'block',
+        marginTop: '16px',
+    },
+});
+
+const ChapterNavigation = styled('div')({
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr',
+    gap: '5px',
+    margin: '10px 0',
+
+    '& a': {
+        flexGrow: 1,
+        textDecoration: 'none',
+
+        '& button': {
+            width: '100%',
+            padding: '5px 8px',
+            textTransform: 'none',
         },
     },
+});
 
-    openDrawerButton: {
-        position: 'fixed',
-        top: 0 + 20,
-        left: 10 + 20,
-        height: '40px',
-        width: '40px',
-        borderRadius: 5,
-        backgroundColor: theme.palette.mode === 'dark' ? 'black' : 'white',
-
-        '&:hover': {
-            backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[900] : theme.palette.grey[100],
-        },
+const OpenDrawerButton = styled(IconButton)(({ theme }) => ({
+    position: 'fixed',
+    top: 0 + 20,
+    left: 10 + 20,
+    height: '40px',
+    width: '40px',
+    borderRadius: 5,
+    backgroundColor: theme.palette.mode === 'dark' ? 'black' : 'white',
+    '&:hover': {
+        backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[900] : theme.palette.grey[100],
     },
 }));
 
@@ -168,7 +157,7 @@ export default function ReaderNavBar(props: IProps) {
     const [prevScrollPos, setPrevScrollPos] = useState(0);
     const [settingsCollapseOpen, setSettingsCollapseOpen] = useState(true);
 
-    const classes = useStyles(settings)();
+    const classes = useStyles();
 
     const setSettingValue = (key: string, value: any) => setSettings({ ...settings, [key]: value });
 
@@ -207,7 +196,10 @@ export default function ReaderNavBar(props: IProps) {
                 mountOnEnter
                 unmountOnExit
             >
-                <div className={classes.root}>
+                <Root sx={{
+                    position: settings.staticNav ? 'sticky' : 'fixed',
+                }}
+                >
                     <header>
                         <IconButton
                             edge="start"
@@ -234,7 +226,14 @@ export default function ReaderNavBar(props: IProps) {
                             <CloseIcon />
                         </IconButton>
                     </header>
-                    <ListItem ContainerComponent="div" className={classes.settingsCollapsseHeader}>
+                    <ListItem
+                        ContainerComponent="div"
+                        sx={{
+                            '& span': {
+                                fontWeight: 'bold',
+                            },
+                        }}
+                    >
                         <ListItemText primary="Reader Settings" />
                         <ListItemSecondaryAction>
                             <IconButton
@@ -330,16 +329,15 @@ export default function ReaderNavBar(props: IProps) {
                         </List>
                     </Collapse>
                     <hr />
-                    <div className={classes.navigation}>
+                    <Navigation>
                         <span>
                             {`Currently on page ${curPage + 1} of ${chapter.pageCount}`}
                         </span>
-                        <div className={classes.navigationChapters}>
+                        <ChapterNavigation>
                             {chapter.index > 1
                         && (
                             <Link
                                 replace
-                                style={{ gridArea: 'prev' }}
                                 to={`/manga/${manga.id}/chapter/${chapter.index - 1}`}
                             >
                                 <Button
@@ -354,7 +352,6 @@ export default function ReaderNavBar(props: IProps) {
                         && (
                             <Link
                                 replace
-                                style={{ gridArea: 'next' }}
                                 to={`/manga/${manga.id}/chapter/${chapter.index + 1}`}
                             >
                                 <Button
@@ -365,14 +362,13 @@ export default function ReaderNavBar(props: IProps) {
                                 </Button>
                             </Link>
                         )}
-                        </div>
-                    </div>
-                </div>
+                        </ChapterNavigation>
+                    </Navigation>
+                </Root>
             </Slide>
             <Zoom in={!drawerOpen}>
                 <Fade in={!hideOpenButton}>
-                    <IconButton
-                        className={classes.openDrawerButton}
+                    <OpenDrawerButton
                         edge="start"
                         color="inherit"
                         aria-label="menu"
@@ -382,7 +378,7 @@ export default function ReaderNavBar(props: IProps) {
                         size="large"
                     >
                         <KeyboardArrowRightIcon />
-                    </IconButton>
+                    </OpenDrawerButton>
                 </Fade>
             </Zoom>
         </>
