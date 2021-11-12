@@ -6,7 +6,6 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import React from 'react';
-import makeStyles from '@mui/styles/makeStyles';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { useHistory } from 'react-router-dom';
@@ -18,55 +17,7 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import useLocalStorage from 'util/useLocalStorage';
 import { langCodeToName } from 'util/language';
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: 16,
-    },
-    bullet: {
-        display: 'inline-block',
-        margin: '0 2px',
-        transform: 'scale(0.8)',
-    },
-    title: {
-        fontSize: 14,
-    },
-    pos: {
-        marginBottom: 12,
-    },
-    icon: {
-        width: theme.spacing(7),
-        height: theme.spacing(7),
-        flex: '0 0 auto',
-        marginRight: 16,
-    },
-    card: {
-        margin: '10px',
-        '&:hover': {
-            backgroundColor: theme.palette.action.hover,
-            transition: 'background-color 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-        },
-        '&:active': {
-            backgroundColor: theme.palette.action.selected,
-            transition: 'background-color 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-        },
-    },
-    showMobile: {
-        display: 'flex',
-        [theme.breakpoints.up('sm')]: {
-            display: 'none',
-        },
-    },
-    showBigger: {
-        display: 'flex',
-        [theme.breakpoints.down('sm')]: {
-            display: 'none',
-        },
-    },
-}));
+import { Box } from '@mui/system';
 
 interface IProps {
     source: ISource
@@ -84,8 +35,6 @@ export default function SourceCard(props: IProps) {
     const [serverAddress] = useLocalStorage<String>('serverBaseURL', '');
     const [useCache] = useLocalStorage<boolean>('useCache', true);
 
-    const classes = useStyles();
-
     const redirectTo = (e: any, to: string) => {
         history.push(to);
 
@@ -95,19 +44,34 @@ export default function SourceCard(props: IProps) {
 
     return (
         <Card
-            className={classes.card}
+            sx={{
+                margin: '10px',
+                '&:hover': {
+                    backgroundColor: 'action.hover',
+                    transition: 'background-color 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+                },
+                '&:active': {
+                    backgroundColor: 'action.selected',
+                    transition: 'background-color 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+                },
+            }}
             onClick={(e) => redirectTo(e, `/sources/${id}/popular/`)}
         >
-            <CardContent className={classes.root}>
+            <CardContent sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                padding: 2,
+            }}
+            >
 
-                <div style={{ display: 'flex' }}>
+                <Box sx={{ display: 'flex' }}>
                     <Avatar
                         variant="rounded"
-                        className={classes.icon}
                         alt={name}
                         src={`${serverAddress}${iconUrl}?useCache=${useCache}`}
                     />
-                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                         <Typography variant="h5" component="h2">
                             {name}
                         </Typography>
@@ -116,10 +80,10 @@ export default function SourceCard(props: IProps) {
                                 {langCodeToName(lang)}
                             </Typography>
                         )}
-                    </div>
-                </div>
+                    </Box>
+                </Box>
                 <div>
-                    <div className={classes.showMobile}>
+                    <Box sx={{ display: { xs: 'flex', sm: 'none' } }}>
                         <IconButton
                             style={{ width: 59, height: 59 }}
                             onClick={(e) => redirectTo(e, `/sources/${id}/search/`)}
@@ -140,8 +104,8 @@ export default function SourceCard(props: IProps) {
                                 />
                             </IconButton>
                         )}
-                    </div>
-                    <div className={classes.showBigger}>
+                    </Box>
+                    <Box sx={{ display: { xs: 'none', sm: 'flex' } }}>
                         <Button
                             variant="outlined"
                             style={{ marginLeft: 20 }}
@@ -165,7 +129,7 @@ export default function SourceCard(props: IProps) {
                         >
                             Browse
                         </Button>
-                    </div>
+                    </Box>
                 </div>
             </CardContent>
         </Card>
