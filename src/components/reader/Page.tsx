@@ -54,11 +54,6 @@ function imageStyle(settings: IReaderSettings): any {
 }
 
 const useStyles = (settings: IReaderSettings) => makeStyles({
-    loading: {
-        margin: '100px auto',
-        height: '100vh',
-        width: '100vw',
-    },
     loadingImage: {
         height: '100vh',
         width: '70vw',
