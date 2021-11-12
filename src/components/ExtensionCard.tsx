@@ -13,6 +13,7 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import client from 'util/client';
 import useLocalStorage from 'util/useLocalStorage';
+import { Box } from '@mui/system';
 
 interface IProps {
     extension: IExtension
@@ -95,7 +96,7 @@ export default function ExtensionCard(props: IProps) {
                 p: 2,
             }}
             >
-                <div style={{ display: 'flex' }}>
+                <Box sx={{ display: 'flex' }}>
                     <Avatar
                         variant="rounded"
                         sx={{
@@ -107,7 +108,7 @@ export default function ExtensionCard(props: IProps) {
                         alt={name}
                         src={`${serverAddress}${iconUrl}?useCache=${useCache}`}
                     />
-                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                         <Typography variant="h5" component="h2">
                             {name}
                         </Typography>
@@ -116,8 +117,8 @@ export default function ExtensionCard(props: IProps) {
                             {' '}
                             {versionName}
                         </Typography>
-                    </div>
-                </div>
+                    </Box>
+                </Box>
 
                 <Button
                     variant="outlined"

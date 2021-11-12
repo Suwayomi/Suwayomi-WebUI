@@ -85,7 +85,7 @@ export default function SourceCard(props: IProps) {
                 <div>
                     <Box sx={{ display: { xs: 'flex', sm: 'none' } }}>
                         <IconButton
-                            style={{ width: 59, height: 59 }}
+                            sx={{ width: 59, height: 59 }}
                             onClick={(e) => redirectTo(e, `/sources/${id}/search/`)}
                             size="large"
                             edge="end"
@@ -108,7 +108,7 @@ export default function SourceCard(props: IProps) {
                     <Box sx={{ display: { xs: 'none', sm: 'flex' } }}>
                         <Button
                             variant="outlined"
-                            style={{ marginLeft: 20 }}
+                            sx={{ ml: 20 }}
                             onClick={(e) => redirectTo(e, `/sources/${id}/search/`)}
                         >
                             Search
@@ -116,7 +116,7 @@ export default function SourceCard(props: IProps) {
                         {supportsLatest && (
                             <Button
                                 variant="outlined"
-                                style={{ marginLeft: 20 }}
+                                sx={{ ml: 20 }}
                                 onClick={(e) => redirectTo(e, `/sources/${id}/latest/`)}
                             >
                                 Latest
@@ -124,7 +124,7 @@ export default function SourceCard(props: IProps) {
                         )}
                         <Button
                             variant="outlined"
-                            style={{ marginLeft: 20 }}
+                            sx={{ ml: 20 }}
                             onClick={(e: any) => redirectTo(e, `/sources/${id}/popular/`)}
                         >
                             Browse

@@ -17,6 +17,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import client from 'util/client';
+import { Box } from '@mui/system';
 
 interface IProps{
     chapter: IChapter
@@ -92,7 +93,7 @@ export default function ChapterCard(props: IProps) {
                                 color: chapter.read ? readChapterColor : theme.palette.text.primary,
                             }}
                         >
-                            <div style={{ display: 'flex' }}>
+                            <Box sx={{ display: 'flex' }}>
                                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                                     <Typography variant="h5" component="h2">
                                         <span style={{ color: theme.palette.primary.dark }}>
@@ -107,7 +108,7 @@ export default function ChapterCard(props: IProps) {
                                         {downloadStatusString}
                                     </Typography>
                                 </div>
-                            </div>
+                            </Box>
                         </Link>
 
                         <IconButton aria-label="more" onClick={handleClick} size="large">

@@ -90,7 +90,7 @@ export default function LangSelect(props: IProps) {
                 open={open}
             >
                 <DialogTitle>Enabled Languages</DialogTitle>
-                <DialogContent dividers style={{ padding: 0 }}>
+                <DialogContent dividers sx={{ padding: 0 }}>
                     <List>
                         {allLangs.map((lang) => (
                             <ListItem key={lang}>
