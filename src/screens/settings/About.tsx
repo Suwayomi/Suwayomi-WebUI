@@ -1,26 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { CircularProgress } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import client from '../../util/client';
-import ListItemLink from '../../components/util/ListItemLink';
-import NavbarContext from '../../components/context/NavbarContext';
-
-const useStyles = makeStyles({
-    loading: {
-        width: '100vw',
-        '& div': {
-            margin: '50px auto',
-            display: 'block',
-        },
-    },
-});
+import { Box } from '@mui/system';
+import client from 'util/client';
+import ListItemLink from 'components/util/ListItemLink';
+import NavbarContext from 'components/context/NavbarContext';
 
 export default function About() {
     const { setTitle, setAction } = useContext(NavbarContext);
-    const classes = useStyles();
 
     const [about, setAbout] = useState<IAbout>();
 
@@ -36,9 +25,12 @@ export default function About() {
 
     if (about === undefined) {
         return (
-            <div className={classes.loading}>
+            <Box sx={{
+                height: 'calc(100vh - 128px)', display: 'grid', placeItems: 'center',
+            }}
+            >
                 <CircularProgress thickness={5} />
-            </div>
+            </Box>
         );
     }
 
