@@ -7,15 +7,16 @@
 
 import React from 'react';
 import { useTheme } from '@mui/material/styles';
+import { useHistory } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Typography from '@mui/material/Typography';
-import { Link } from 'react-router-dom';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
+
 import client from 'util/client';
 
 interface IProps{
@@ -26,6 +27,8 @@ interface IProps{
 
 export default function ChapterCard(props: IProps) {
     const theme = useTheme();
+    const history = useHistory();
+
     const { chapter, triggerChaptersUpdate, downloadStatusString } = props;
 
     const dateStr = chapter.uploadDate && new Date(chapter.uploadDate).toISOString().slice(0, 10);
@@ -33,6 +36,9 @@ export default function ChapterCard(props: IProps) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        // prevent parent tags from getting the event
+        event.stopPropagation();
+
         setAnchorEl(event.currentTarget);
     };
 
@@ -62,79 +68,81 @@ export default function ChapterCard(props: IProps) {
         handleClose();
     };
 
-    const readChapterColor = theme.palette.mode === 'dark' ? '#acacac' : '#b0b0b0';
+    const redirectTo = (e: any, to: string) => {
+        history.push(to);
+
+        // prevent parent tags from getting the event
+        e.stopPropagation();
+    };
+
     return (
         <>
             <li>
-                <Card sx={{
-                    margin: '10px',
-                    ':hover': {
-                        backgroundColor: 'action.hover',
-                        transition: 'background-color 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-                    },
-                    ':active': {
-                        backgroundColor: 'action.selected',
-                        transition: 'background-color 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-                    },
-                }}
-                >
-                    <CardContent sx={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        padding: 2,
+                <Card
+                    sx={{
+                        margin: '10px',
+                        ':hover': {
+                            backgroundColor: 'action.hover',
+                            transition: 'background-color 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+                            cursor: 'pointer',
+                        },
+                        ':active': {
+                            backgroundColor: 'action.selected',
+                            transition: 'background-color 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+                        },
                     }}
+                >
+                    <CardContent
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            padding: 2,
+                        }}
+                        onClick={(e) => redirectTo(e, `/manga/${chapter.mangaId}/chapter/${chapter.index}`)}
                     >
-                        <Link
-                            to={`/manga/${chapter.mangaId}/chapter/${chapter.index}`}
-                            style={{
-                                textDecoration: 'none',
-                                color: chapter.read ? readChapterColor : theme.palette.text.primary,
-                            }}
-                        >
-                            <div style={{ display: 'flex' }}>
-                                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                    <Typography variant="h5" component="h2">
-                                        <span style={{ color: theme.palette.primary.dark }}>
-                                            {chapter.bookmarked && <BookmarkIcon />}
-                                        </span>
-                                        {chapter.name}
-                                    </Typography>
-                                    <Typography variant="caption" display="block" gutterBottom>
-                                        {chapter.scanlator}
-                                        {chapter.scanlator && ' '}
-                                        {dateStr}
-                                        {downloadStatusString}
-                                    </Typography>
-                                </div>
+                        <div style={{ display: 'flex' }}>
+                            <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                <Typography variant="h5" component="h2">
+                                    <span style={{ color: theme.palette.primary.dark }}>
+                                        {chapter.bookmarked && <BookmarkIcon />}
+                                    </span>
+                                    {chapter.name}
+                                </Typography>
+                                <Typography variant="caption" display="block" gutterBottom>
+                                    {chapter.scanlator}
+                                    {chapter.scanlator && ' '}
+                                    {dateStr}
+                                    {downloadStatusString}
+                                </Typography>
                             </div>
-                        </Link>
+                        </div>
 
                         <IconButton aria-label="more" onClick={handleClick} size="large">
                             <MoreVertIcon />
                         </IconButton>
-                        <Menu
-                            anchorEl={anchorEl}
-                            keepMounted
-                            open={Boolean(anchorEl)}
-                            onClose={handleClose}
-                        >
-                            {downloadStatusString.endsWith('Downloaded')
-                            && <MenuItem onClick={deleteChapter}>Delete</MenuItem>}
-                            {downloadStatusString.length === 0
-                        && <MenuItem onClick={downloadChapter}>Download</MenuItem> }
-                            <MenuItem onClick={() => sendChange('bookmarked', !chapter.bookmarked)}>
-                                {chapter.bookmarked && 'Remove bookmark'}
-                                {!chapter.bookmarked && 'Bookmark'}
-                            </MenuItem>
-                            <MenuItem onClick={() => sendChange('read', !chapter.read)}>
-                                {`Mark as ${chapter.read ? 'unread' : 'read'}`}
-                            </MenuItem>
-                            <MenuItem onClick={() => sendChange('markPrevRead', true)}>
-                                Mark previous as Read
-                            </MenuItem>
-                        </Menu>
                     </CardContent>
+                    <Menu
+                        anchorEl={anchorEl}
+                        keepMounted
+                        open={Boolean(anchorEl)}
+                        onClose={handleClose}
+                    >
+                        {downloadStatusString.endsWith('Downloaded')
+                            && <MenuItem onClick={deleteChapter}>Delete</MenuItem>}
+                        {downloadStatusString.length === 0
+                        && <MenuItem onClick={downloadChapter}>Download</MenuItem> }
+                        <MenuItem onClick={() => sendChange('bookmarked', !chapter.bookmarked)}>
+                            {chapter.bookmarked && 'Remove bookmark'}
+                            {!chapter.bookmarked && 'Bookmark'}
+                        </MenuItem>
+                        <MenuItem onClick={() => sendChange('read', !chapter.read)}>
+                            {`Mark as ${chapter.read ? 'unread' : 'read'}`}
+                        </MenuItem>
+                        <MenuItem onClick={() => sendChange('markPrevRead', true)}>
+                            Mark previous as Read
+                        </MenuItem>
+                    </Menu>
                 </Card>
             </li>
         </>
