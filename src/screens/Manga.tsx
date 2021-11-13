@@ -115,7 +115,7 @@ export default function Manga() {
     }, [manga]);
 
     useEffect(() => {
-        const shouldFetchOnline = fetchedOffline && !fetchedOnline;
+        const shouldFetchOnline = fetchedOffline && !fetchedOnline && (chapterUpdateTriggerer < 2);
 
         client.get(`/api/v1/manga/${id}/chapters?onlineFetch=${shouldFetchOnline}`)
             .then((response) => response.data)
