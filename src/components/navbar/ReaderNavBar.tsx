@@ -163,6 +163,7 @@ export default function ReaderNavBar(props: IProps) {
         const rootEl:HTMLDivElement = document.querySelector('#root')!;
         const mainContainer:HTMLDivElement = document.querySelector('#appMainContainer')!;
 
+        // main container and root div need to change styles...
         rootEl.style.display = 'flex';
         mainContainer.style.display = 'none';
 
