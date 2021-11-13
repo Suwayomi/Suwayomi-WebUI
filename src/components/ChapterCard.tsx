@@ -7,7 +7,7 @@
 
 import React from 'react';
 import { useTheme } from '@mui/material/styles';
-import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import IconButton from '@mui/material/IconButton';
@@ -27,7 +27,6 @@ interface IProps{
 
 export default function ChapterCard(props: IProps) {
     const theme = useTheme();
-    const history = useHistory();
 
     const { chapter, triggerChaptersUpdate, downloadStatusString } = props;
 
@@ -38,6 +37,7 @@ export default function ChapterCard(props: IProps) {
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         // prevent parent tags from getting the event
         event.stopPropagation();
+        event.preventDefault();
 
         setAnchorEl(event.currentTarget);
     };
@@ -68,12 +68,7 @@ export default function ChapterCard(props: IProps) {
         handleClose();
     };
 
-    const redirectTo = (e: any, to: string) => {
-        history.push(to);
-
-        // prevent parent tags from getting the event
-        e.stopPropagation();
-    };
+    const readChapterColor = theme.palette.mode === 'dark' ? '#acacac' : '#b0b0b0';
 
     return (
         <>
@@ -92,36 +87,43 @@ export default function ChapterCard(props: IProps) {
                         },
                     }}
                 >
-                    <CardContent
-                        sx={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            padding: 2,
+                    <Link
+                        to={`/manga/${chapter.mangaId}/chapter/${chapter.index}`}
+                        style={{
+                            textDecoration: 'none',
+                            color: chapter.read ? readChapterColor : theme.palette.text.primary,
                         }}
-                        onClick={(e) => redirectTo(e, `/manga/${chapter.mangaId}/chapter/${chapter.index}`)}
                     >
-                        <div style={{ display: 'flex' }}>
-                            <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                <Typography variant="h5" component="h2">
-                                    <span style={{ color: theme.palette.primary.dark }}>
-                                        {chapter.bookmarked && <BookmarkIcon />}
-                                    </span>
-                                    {chapter.name}
-                                </Typography>
-                                <Typography variant="caption" display="block" gutterBottom>
-                                    {chapter.scanlator}
-                                    {chapter.scanlator && ' '}
-                                    {dateStr}
-                                    {downloadStatusString}
-                                </Typography>
+                        <CardContent
+                            sx={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                                padding: 2,
+                            }}
+                        >
+                            <div style={{ display: 'flex' }}>
+                                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                    <Typography variant="h5" component="h2">
+                                        <span style={{ color: theme.palette.primary.dark }}>
+                                            {chapter.bookmarked && <BookmarkIcon />}
+                                        </span>
+                                        {chapter.name}
+                                    </Typography>
+                                    <Typography variant="caption" display="block" gutterBottom>
+                                        {chapter.scanlator}
+                                        {chapter.scanlator && ' '}
+                                        {dateStr}
+                                        {downloadStatusString}
+                                    </Typography>
+                                </div>
                             </div>
-                        </div>
 
-                        <IconButton aria-label="more" onClick={handleClick} size="large">
-                            <MoreVertIcon />
-                        </IconButton>
-                    </CardContent>
+                            <IconButton aria-label="more" onClick={handleClick} size="large">
+                                <MoreVertIcon />
+                            </IconButton>
+                        </CardContent>
+                    </Link>
                     <Menu
                         anchorEl={anchorEl}
                         keepMounted
