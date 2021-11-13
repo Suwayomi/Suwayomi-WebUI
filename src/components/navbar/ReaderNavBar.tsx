@@ -11,7 +11,6 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import makeStyles from '@mui/styles/makeStyles';
 import React, { useContext, useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import { useHistory, Link } from 'react-router-dom';
@@ -29,16 +28,6 @@ import Collapse from '@mui/material/Collapse';
 import Button from '@mui/material/Button';
 import NavBarContext from 'components/context/NavbarContext';
 import { styled } from '@mui/system';
-
-const useStyles = makeStyles({
-    // main container and root div need to change classes...
-    AppMainContainer: {
-        display: 'none',
-    },
-    AppRootElment: {
-        display: 'flex',
-    },
-});
 
 const Root = styled('div')(({ theme }) => ({
     top: 0,
@@ -157,8 +146,6 @@ export default function ReaderNavBar(props: IProps) {
     const [prevScrollPos, setPrevScrollPos] = useState(0);
     const [settingsCollapseOpen, setSettingsCollapseOpen] = useState(true);
 
-    const classes = useStyles();
-
     const setSettingValue = (key: string, value: any) => setSettings({ ...settings, [key]: value });
 
     const handleScroll = () => {
@@ -173,15 +160,15 @@ export default function ReaderNavBar(props: IProps) {
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
 
-        const rootEl = document.querySelector('#root')!;
-        const mainContainer = document.querySelector('#appMainContainer')!;
+        const rootEl:HTMLDivElement = document.querySelector('#root')!;
+        const mainContainer:HTMLDivElement = document.querySelector('#appMainContainer')!;
 
-        rootEl.classList.add(classes.AppRootElment);
-        mainContainer.classList.add(classes.AppMainContainer);
+        rootEl.style.display = 'flex';
+        mainContainer.style.display = 'none';
 
         return () => {
-            rootEl.classList.remove(classes.AppRootElment);
-            mainContainer.classList.remove(classes.AppMainContainer);
+            rootEl.style.display = 'block';
+            mainContainer.style.display = 'block';
             window.removeEventListener('scroll', handleScroll);
         };
     }, [handleScroll]);// handleScroll changes on every render
