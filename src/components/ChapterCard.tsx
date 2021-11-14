@@ -102,7 +102,7 @@ export default function ChapterCard(props: IProps) {
                                 alignItems: 'center',
                                 padding: 2,
                             }}
-                        >   
+                        >
                             <Box sx={{ display: 'flex' }}>
                                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                                     <Typography variant="h5" component="h2">
