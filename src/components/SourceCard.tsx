@@ -105,10 +105,18 @@ export default function SourceCard(props: IProps) {
                             </IconButton>
                         )}
                     </Box>
-                    <Box sx={{ display: { xs: 'none', sm: 'flex' } }}>
+                    <Box sx={{
+                        display: {
+                            xs: 'none',
+                            sm: 'flex',
+                        },
+                        '> .MuiButton-root': {
+                            ml: '20px',
+                        },
+                    }}
+                    >
                         <Button
                             variant="outlined"
-                            sx={{ ml: 20 }}
                             onClick={(e) => redirectTo(e, `/sources/${id}/search/`)}
                         >
                             Search
@@ -116,7 +124,6 @@ export default function SourceCard(props: IProps) {
                         {supportsLatest && (
                             <Button
                                 variant="outlined"
-                                sx={{ ml: 20 }}
                                 onClick={(e) => redirectTo(e, `/sources/${id}/latest/`)}
                             >
                                 Latest
@@ -124,7 +131,6 @@ export default function SourceCard(props: IProps) {
                         )}
                         <Button
                             variant="outlined"
-                            sx={{ ml: 20 }}
                             onClick={(e: any) => redirectTo(e, `/sources/${id}/popular/`)}
                         >
                             Browse
