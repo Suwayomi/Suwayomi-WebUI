@@ -87,8 +87,9 @@ export default function HorizontalPager(props: IReaderProps) {
     };
 
     useEffect(() => {
+        // scroll last read page into view after first mount
         pagesRef.current[curPage]?.scrollIntoView({ inline: 'center' });
-    }, [settings.readerType]);
+    }, [pagesRef.current.length]);
 
     useEffect(() => {
         selfRef.current?.addEventListener('mousedown', dragControl);

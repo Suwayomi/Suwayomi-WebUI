@@ -111,7 +111,11 @@ export default function Reader() {
             .then((response) => response.data)
             .then((data:IChapter) => {
                 setChapter(data);
-                setCurPage(data.lastPageRead);
+
+                if (data.lastPageRead === data.pageCount - 1) {
+                    // last page, also probably read = true, we will load the first page.
+                    setCurPage(0);
+                } else setCurPage(data.lastPageRead);
             });
     }, [chapterIndex]);
 
