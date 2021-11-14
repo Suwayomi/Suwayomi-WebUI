@@ -6,7 +6,6 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import React, { useState } from 'react';
-import makeStyles from '@mui/styles/makeStyles';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
@@ -14,35 +13,7 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import client from 'util/client';
 import useLocalStorage from 'util/useLocalStorage';
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: 16,
-    },
-    bullet: {
-        display: 'inline-block',
-        margin: '0 2px',
-        transform: 'scale(0.8)',
-    },
-    title: {
-        fontSize: 14,
-    },
-    pos: {
-        marginBottom: 12,
-    },
-    icon: {
-        width: theme.spacing(7),
-        height: theme.spacing(7),
-        flex: '0 0 auto',
-        marginRight: 16,
-    },
-    card: {
-        margin: '10px',
-    },
-}));
+import { Box } from '@mui/system';
 
 interface IProps {
     extension: IExtension
@@ -67,7 +38,6 @@ export default function ExtensionCard(props: IProps) {
     const [serverAddress] = useLocalStorage<String>('serverBaseURL', '');
     const [useCache] = useLocalStorage<boolean>('useCache', true);
 
-    const classes = useStyles();
     const langPress = lang === 'all' ? 'All' : lang.toUpperCase();
 
     function install() {
@@ -118,16 +88,27 @@ export default function ExtensionCard(props: IProps) {
     }
 
     return (
-        <Card className={classes.card}>
-            <CardContent className={classes.root}>
-                <div style={{ display: 'flex' }}>
+        <Card sx={{ margin: '10px' }}>
+            <CardContent sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                p: 2,
+            }}
+            >
+                <Box sx={{ display: 'flex' }}>
                     <Avatar
                         variant="rounded"
-                        className={classes.icon}
+                        sx={{
+                            width: '56px',
+                            height: '56px',
+                            flex: '0 0 auto',
+                            mr: 2,
+                        }}
                         alt={name}
                         src={`${serverAddress}${iconUrl}?useCache=${useCache}`}
                     />
-                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                         <Typography variant="h5" component="h2">
                             {name}
                         </Typography>
@@ -136,8 +117,8 @@ export default function ExtensionCard(props: IProps) {
                             {' '}
                             {versionName}
                         </Typography>
-                    </div>
-                </div>
+                    </Box>
+                </Box>
 
                 <Button
                     variant="outlined"

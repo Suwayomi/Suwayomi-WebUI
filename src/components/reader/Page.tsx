@@ -5,7 +5,6 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import makeStyles from '@mui/styles/makeStyles';
 import React, { useEffect, useRef } from 'react';
 import SpinnerImage from 'components/util/SpinnerImage';
 import useLocalStorage from 'util/useLocalStorage';
@@ -53,22 +52,6 @@ function imageStyle(settings: IReaderSettings): any {
     };
 }
 
-const useStyles = (settings: IReaderSettings) => makeStyles({
-    loading: {
-        margin: '100px auto',
-        height: '100vh',
-        width: '100vw',
-    },
-    loadingImage: {
-        height: '100vh',
-        width: '70vw',
-        padding: '50px calc(50% - 20px)',
-        backgroundColor: '#525252',
-        marginBottom: 10,
-    },
-    image: imageStyle(settings),
-});
-
 interface IProps {
     src: string
     index: number
@@ -84,7 +67,6 @@ const Page = React.forwardRef((props: IProps, ref: any) => {
 
     const [useCache] = useLocalStorage<boolean>('useCache', true);
 
-    const classes = useStyles(settings)();
     const imgRef = useRef<HTMLImageElement>(null);
 
     const handleVerticalScroll = () => {
@@ -127,8 +109,14 @@ const Page = React.forwardRef((props: IProps, ref: any) => {
                 onImageLoad={onImageLoad}
                 alt={`Page #${index}`}
                 imgRef={imgRef}
-                spinnerClassName={`${classes.image} ${classes.loadingImage}`}
-                imgClassName={classes.image}
+                spinnerStyle={{
+                    height: '100vh',
+                    width: '70vw',
+                    padding: '50px calc(50% - 20px)',
+                    backgroundColor: '#525252',
+                    marginBottom: 10,
+                }}
+                imgStyle={imageStyle(settings)}
             />
         </div>
     );

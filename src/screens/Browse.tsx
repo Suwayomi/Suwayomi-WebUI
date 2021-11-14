@@ -6,21 +6,13 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import React, { useState } from 'react';
-import makeStyles from '@mui/styles/makeStyles';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import TabPanel from 'components/util/TabPanel';
 import Sources from 'screens/Sources';
 import Extensions from 'screens/Extensions';
 
-const useStyles = makeStyles({
-    noCapitalize: {
-        textTransform: 'none',
-    },
-});
-
 export default function Browse() {
-    const classes = useStyles();
     const [tabNum, setTabNum] = useState<number>(0);
 
     return (
@@ -35,8 +27,8 @@ export default function Browse() {
                 scrollButtons
                 allowScrollButtonsMobile
             >
-                <Tab className={classes.noCapitalize} label="Sources" />
-                <Tab className={classes.noCapitalize} label="Extensions" />
+                <Tab sx={{ textTransform: 'none' }} label="Sources" />
+                <Tab sx={{ textTransform: 'none' }} label="Extensions" />
             </Tabs>
             <TabPanel index={0} currentIndex={tabNum}>
                 <Sources />

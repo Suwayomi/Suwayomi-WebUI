@@ -6,8 +6,6 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import React, { useEffect, useState } from 'react';
-import makeStyles from '@mui/styles/makeStyles';
-import createStyles from '@mui/styles/createStyles';
 import Button from '@mui/material/Button';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -17,13 +15,6 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import client from 'util/client';
-
-const useStyles = makeStyles(() => createStyles({
-    paper: {
-        maxHeight: 435,
-        width: '80%',
-    },
-}));
 
 interface IProps {
     open: boolean
@@ -37,7 +28,6 @@ interface ICategoryInfo {
 }
 
 export default function CategorySelect(props: IProps) {
-    const classes = useStyles();
     const { open, setOpen, mangaId } = props;
     const [categoryInfos, setCategoryInfos] = useState<ICategoryInfo[]>([]);
 
@@ -82,7 +72,12 @@ export default function CategorySelect(props: IProps) {
 
     return (
         <Dialog
-            classes={classes}
+            sx={{
+                '.MuiDialog-paper': {
+                    maxHeight: 435,
+                    width: '80%',
+                },
+            }}
             maxWidth="xs"
             open={open}
         >

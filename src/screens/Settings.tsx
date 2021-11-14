@@ -59,7 +59,7 @@ export default function Settings() {
 
     return (
         <>
-            <List style={{ padding: 0 }}>
+            <List sx={{ padding: 0 }}>
                 <ListItemLink href="/settings/categories">
                     <ListItemIcon>
                         <ListAltIcon />
