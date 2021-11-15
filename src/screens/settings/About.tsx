@@ -1,12 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { CircularProgress } from '@mui/material';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import { Box } from '@mui/system';
 import client from 'util/client';
 import ListItemLink from 'components/util/ListItemLink';
 import NavbarContext from 'components/context/NavbarContext';
+import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
 
 export default function About() {
     const { setTitle, setAction } = useContext(NavbarContext);
@@ -24,14 +23,7 @@ export default function About() {
     }, []);
 
     if (about === undefined) {
-        return (
-            <Box sx={{
-                height: 'calc(100vh - 128px)', display: 'grid', placeItems: 'center',
-            }}
-            >
-                <CircularProgress thickness={5} />
-            </Box>
-        );
+        return <LoadingPlaceholder />;
     }
 
     const version = () => {
