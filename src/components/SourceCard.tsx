@@ -17,7 +17,25 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import useLocalStorage from 'util/useLocalStorage';
 import { langCodeToName } from 'util/language';
-import { Box } from '@mui/system';
+import { Box, styled } from '@mui/system';
+
+const MobileWidthButtons = styled('div')(({ theme }) => ({
+    display: 'flex',
+    [theme.breakpoints.up('sm')]: {
+        display: 'none',
+    },
+}));
+
+const WiderWidthButtons = styled('div')(({ theme }) => ({
+    display: 'flex',
+    [theme.breakpoints.down('sm')]: {
+        display: 'none',
+    },
+
+    '& .MuiButton-root': {
+        marginLeft: '20px',
+    },
+}));
 
 interface IProps {
     source: ISource
@@ -88,8 +106,8 @@ export default function SourceCard(props: IProps) {
                         )}
                     </Box>
                 </Box>
-                <div>
-                    <Box sx={{ display: { xs: 'flex', sm: 'none' } }}>
+                <>
+                    <MobileWidthButtons>
                         <IconButton
                             sx={{ width: 59, height: 59 }}
                             onClick={(e) => redirectTo(e, `/sources/${id}/search/`)}
@@ -110,17 +128,8 @@ export default function SourceCard(props: IProps) {
                                 />
                             </IconButton>
                         )}
-                    </Box>
-                    <Box sx={{
-                        display: {
-                            xs: 'none',
-                            sm: 'flex',
-                        },
-                        '> .MuiButton-root': {
-                            ml: '20px',
-                        },
-                    }}
-                    >
+                    </MobileWidthButtons>
+                    <WiderWidthButtons>
                         <Button
                             variant="outlined"
                             onClick={(e) => redirectTo(e, `/sources/${id}/search/`)}
@@ -141,8 +150,8 @@ export default function SourceCard(props: IProps) {
                         >
                             Browse
                         </Button>
-                    </Box>
-                </div>
+                    </WiderWidthButtons>
+                </>
             </CardContent>
         </Card>
     );
