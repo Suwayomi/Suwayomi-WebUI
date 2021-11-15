@@ -10,7 +10,6 @@ import React from 'react';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 import { useMediaQuery } from '@mui/material';
-import { Box } from '@mui/system';
 
 const ERROR_FACES = [
     '(･o･;)',
@@ -36,7 +35,7 @@ export default function EmptyView({ message, messageExtra }: IProps) {
     const isMobileWidth = useMediaQuery(theme.breakpoints.down('sm'));
 
     return (
-        <Box sx={{
+        <div style={{
             position: 'absolute',
             left: `calc(50% + ${isMobileWidth ? '0px' : theme.spacing(8 / 2)})`,
             top: '50%',
@@ -51,7 +50,7 @@ export default function EmptyView({ message, messageExtra }: IProps) {
                 {message}
             </Typography>
             {messageExtra}
-        </Box>
+        </div>
     );
 }
 

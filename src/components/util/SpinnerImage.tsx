@@ -17,7 +17,9 @@ interface IProps {
 
     imgRef?: React.RefObject<HTMLImageElement>
 
+    spinnerClassName?: string
     spinnerStyle?: SxProps<Theme>
+    imgClassName?: string
     imgStyle?: CSSProperties
 
     onImageLoad?: () => void
@@ -25,7 +27,7 @@ interface IProps {
 
 export default function SpinnerImage(props: IProps) {
     const {
-        src, alt, onImageLoad, imgRef, spinnerStyle, imgStyle,
+        src, alt, onImageLoad, imgRef, spinnerClassName, imgClassName, spinnerStyle, imgStyle,
     } = props;
     const [imageSrc, setImagsrc] = useState<string>('');
 
@@ -51,18 +53,19 @@ export default function SpinnerImage(props: IProps) {
 
     if (imageSrc.length === 0) {
         return (
-            <Box sx={spinnerStyle}>
+            <Box className={spinnerClassName} sx={spinnerStyle}>
                 <CircularProgress thickness={5} />
             </Box>
         );
     }
 
     if (imageSrc === 'Not Found') {
-        return <Box sx={spinnerStyle} />;
+        return <Box className={spinnerClassName} sx={spinnerStyle} />;
     }
 
     return (
         <img
+            className={imgClassName}
             style={imgStyle}
             ref={imgRef}
             src={imageSrc}
@@ -72,6 +75,8 @@ export default function SpinnerImage(props: IProps) {
 }
 
 SpinnerImage.defaultProps = {
+    spinnerClassName: '',
+    imgClassName: '',
     spinnerStyle: {},
     imgStyle: {},
     onImageLoad: () => {},

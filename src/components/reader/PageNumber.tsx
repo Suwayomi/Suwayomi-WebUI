@@ -5,8 +5,21 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
+import makeStyles from '@mui/styles/makeStyles';
 import React from 'react';
-import { Box } from '@mui/system';
+
+const useStyles = (settings: IReaderSettings) => makeStyles({
+    pageNumber: {
+        display: settings.showPageNumber ? 'block' : 'none',
+        position: 'fixed',
+        bottom: '50px',
+        right: settings.staticNav ? 'calc((100vw - 325px)/2)' : 'calc((100vw - 25px)/2)',
+        padding: '2px',
+        textAlign: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+        borderRadius: '10px',
+    },
+});
 
 interface IProps {
     settings: IReaderSettings
@@ -16,20 +29,11 @@ interface IProps {
 
 export default function PageNumber(props: IProps) {
     const { settings, curPage, pageCount } = props;
+    const classes = useStyles(settings)();
 
     return (
-        <Box sx={{
-            display: settings.showPageNumber ? 'block' : 'none',
-            position: 'fixed',
-            bottom: '50px',
-            right: settings.staticNav ? 'calc((100vw - 325px)/2)' : 'calc((100vw - 25px)/2)',
-            padding: '2px',
-            textAlign: 'center',
-            backgroundColor: 'rgba(0, 0, 0, 0.3)',
-            borderRadius: '10px',
-        }}
-        >
+        <div className={classes.pageNumber}>
             {`${curPage + 1} / ${pageCount}`}
-        </Box>
+        </div>
     );
 }

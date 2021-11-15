@@ -6,6 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import React, { useState } from 'react';
+import makeStyles from '@mui/styles/makeStyles';
+import createStyles from '@mui/styles/createStyles';
 import Button from '@mui/material/Button';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -18,6 +20,13 @@ import { List, ListItemSecondaryAction, ListItemText } from '@mui/material';
 import ListItem from '@mui/material/ListItem';
 import { langCodeToName } from 'util/language';
 import cloneObject from 'util/cloneObject';
+
+const useStyles = makeStyles(() => createStyles({
+    paper: {
+        maxHeight: 435,
+        width: '80%',
+    },
+}));
 
 function removeAll(firstList: any[], secondList: any[]) {
     secondList.forEach((item) => {
@@ -45,6 +54,7 @@ export default function LangSelect(props: IProps) {
     const [mShownLangs, setMShownLangs] = useState(
         removeAll(cloneObject(shownLangs), forcedLangs!),
     );
+    const classes = useStyles();
     const [open, setOpen] = useState<boolean>(false);
 
     const handleCancel = () => {
@@ -80,17 +90,12 @@ export default function LangSelect(props: IProps) {
                 <FilterListIcon />
             </IconButton>
             <Dialog
-                sx={{
-                    '.MuiDialog-paper': {
-                        maxHeight: 435,
-                        width: '80%',
-                    },
-                }}
+                classes={classes}
                 maxWidth="xs"
                 open={open}
             >
                 <DialogTitle>Enabled Languages</DialogTitle>
-                <DialogContent dividers sx={{ padding: 0 }}>
+                <DialogContent dividers style={{ padding: 0 }}>
                     <List>
                         {allLangs.map((lang) => (
                             <ListItem key={lang}>

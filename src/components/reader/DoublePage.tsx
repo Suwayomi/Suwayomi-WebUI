@@ -5,16 +5,28 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
+import makeStyles from '@mui/styles/makeStyles';
 import React from 'react';
-import { Box, styled } from '@mui/system';
 
-const Image = styled('img')({
-    marginBottom: 0,
-    width: 'auto',
-    minHeight: '99vh',
-    height: 'auto',
-    maxHeight: '99vh',
-    objectFit: 'contain',
+const useStyles = (settings: IReaderSettings) => makeStyles({
+    image: {
+        display: 'block',
+        marginBottom: 0,
+        width: 'auto',
+        minHeight: '99vh',
+        height: 'auto',
+        maxHeight: '99vh',
+        objectFit: 'contain',
+    },
+    page: {
+        display: 'flex',
+        flexDirection: settings.readerType === 'DoubleLTR' ? 'row' : 'row-reverse',
+        justifyContent: 'center',
+        margin: '0 auto',
+        width: 'auto',
+        height: 'auto',
+        overflowX: 'scroll',
+    },
 });
 
 interface IProps {
@@ -29,28 +41,21 @@ const DoublePage = React.forwardRef((props: IProps, ref: any) => {
         image1src, image2src, index, settings,
     } = props;
 
+    const classes = useStyles(settings)();
+
     return (
-        <Box
-            ref={ref}
-            sx={{
-                display: 'flex',
-                flexDirection: settings.readerType === 'DoubleLTR' ? 'row' : 'row-reverse',
-                justifyContent: 'center',
-                margin: '0 auto',
-                width: 'auto',
-                height: 'auto',
-                overflowX: 'scroll',
-            }}
-        >
-            <Image
+        <div ref={ref} className={classes.page}>
+            <img
+                className={classes.image}
                 src={image1src}
                 alt={`Page #${index}`}
             />
-            <Image
+            <img
+                className={classes.image}
                 src={image2src}
                 alt={`Page #${index + 1}`}
             />
-        </Box>
+        </div>
     );
 });
 

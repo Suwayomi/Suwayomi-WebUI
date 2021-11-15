@@ -6,19 +6,33 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import React, { useContext, useEffect, useState } from 'react';
+import makeStyles from '@mui/styles/makeStyles';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useParams } from 'react-router-dom';
 import MangaGrid from 'components/MangaGrid';
 import NavbarContext from 'components/context/NavbarContext';
 import client from 'util/client';
-import { Box } from '@mui/system';
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        margin: '20px 10px',
+        display: 'flex',
+        justifyContent: 'space-around',
+        width: '300px',
+        TextField: {
+            margin: theme.spacing(1),
+            width: '25ch',
+        },
+    },
+}));
 
 export default function SearchSingle() {
     const { setTitle, setAction } = useContext(NavbarContext);
     useEffect(() => { setTitle('Search'); setAction(<></>); }, []);
 
     const { sourceId } = useParams<{ sourceId: string }>();
+    const classes = useStyles();
     const [error, setError] = useState<boolean>(false);
     const [mangas, setMangas] = useState<IMangaCard[]>([]);
     const [message, setMessage] = useState<string>('');
@@ -75,20 +89,10 @@ export default function SearchSingle() {
 
     return (
         <>
-            <Box sx={{
-                margin: '20px 10px',
-                display: 'flex',
-                justifyContent: 'space-around',
-                width: '300px',
-            }}
-            >
+            <div className={classes.root}>
                 <TextField
                     inputRef={textInput}
                     error={error}
-                    sx={{
-                        m: 1,
-                        width: '25ch',
-                    }}
                     id="filled-basic"
                     variant="filled"
                     size="small"
@@ -98,7 +102,7 @@ export default function SearchSingle() {
                 <Button variant="contained" color="primary" onClick={() => processInput()}>
                     Search
                 </Button>
-            </Box>
+            </div>
             {searchTerm.length > 0
         && (
             <MangaGrid

@@ -6,6 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import CircularProgress from '@mui/material/CircularProgress';
+import makeStyles from '@mui/styles/makeStyles';
 import React, { useContext, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import HorizontalPager from 'components/reader/pager/HorizontalPager';
@@ -18,7 +19,18 @@ import NavbarContext from 'components/context/NavbarContext';
 import client from 'util/client';
 import useLocalStorage from 'util/useLocalStorage';
 import cloneObject from 'util/cloneObject';
-import { Box } from '@mui/system';
+
+const useStyles = (settings: IReaderSettings) => makeStyles({
+    root: {
+        width: settings.staticNav ? 'calc(100vw - 300px)' : '100vw',
+    },
+
+    loading: {
+        margin: '50px auto',
+        display: 'flex',
+        justifyContent: 'center',
+    },
+});
 
 const getReaderComponent = (readerType: ReaderType) => {
     switch (readerType) {
@@ -51,6 +63,7 @@ const initialChapter = () => ({ pageCount: -1, index: -1, chapterCount: 0 });
 export default function Reader() {
     const [settings, setSettings] = useLocalStorage<IReaderSettings>('readerSettings', defaultReaderSettings);
 
+    const classes = useStyles(settings)();
     const history = useHistory();
 
     const [serverAddress] = useLocalStorage<String>('serverBaseURL', '');
@@ -136,12 +149,9 @@ export default function Reader() {
     // return spinner while chpater data is loading
     if (chapter.pageCount === -1) {
         return (
-            <Box sx={{
-                height: '100vh', width: '100vw', display: 'grid', placeItems: 'center',
-            }}
-            >
+            <div className={classes.loading}>
                 <CircularProgress thickness={5} />
-            </Box>
+            </div>
         );
     }
 
@@ -170,7 +180,7 @@ export default function Reader() {
     const ReaderComponent = getReaderComponent(settings.readerType);
 
     return (
-        <Box sx={{ width: settings.staticNav ? 'calc(100vw - 300px)' : '100vw' }}>
+        <div className={classes.root}>
             <PageNumber
                 settings={settings}
                 curPage={curPage}
@@ -187,6 +197,6 @@ export default function Reader() {
                 nextChapter={nextChapter}
                 prevChapter={prevChapter}
             />
-        </Box>
+        </div>
     );
 }

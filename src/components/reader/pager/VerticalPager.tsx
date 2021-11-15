@@ -5,14 +5,26 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
+import makeStyles from '@mui/styles/makeStyles';
 import React, { useEffect, useRef } from 'react';
-import { Box } from '@mui/system';
 import Page from '../Page';
+
+const useStyles = makeStyles({
+    reader: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        margin: '0 auto',
+        width: '100%',
+    },
+});
 
 export default function VerticalReader(props: IReaderProps) {
     const {
         pages, settings, setCurPage, curPage, nextChapter, prevChapter,
     } = props;
+
+    const classes = useStyles();
 
     const selfRef = useRef<HTMLDivElement>(null);
     const pagesRef = useRef<HTMLDivElement[]>([]);
@@ -93,16 +105,7 @@ export default function VerticalReader(props: IReaderProps) {
     }, [pagesRef.current.length]);
 
     return (
-        <Box
-            ref={selfRef}
-            sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                margin: '0 auto',
-                width: '100%',
-            }}
-        >
+        <div ref={selfRef} className={classes.reader}>
             {
                 pages.map((page) => (
                     <Page
@@ -116,6 +119,6 @@ export default function VerticalReader(props: IReaderProps) {
                     />
                 ))
             }
-        </Box>
+        </div>
     );
 }

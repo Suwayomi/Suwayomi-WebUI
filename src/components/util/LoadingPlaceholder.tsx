@@ -8,8 +8,16 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import React from 'react';
+import makeStyles from '@mui/styles/makeStyles';
 import CircularProgress from '@mui/material/CircularProgress';
-import { Box } from '@mui/system';
+
+const useStyles = makeStyles({
+    loading: {
+        margin: '10px auto',
+        display: 'flex',
+        justifyContent: 'center',
+    },
+});
 
 interface IProps {
     shouldRender?: boolean | (() => boolean)
@@ -22,6 +30,7 @@ export default function LoadingPlaceholder(props: IProps) {
     const {
         children, shouldRender, component, componentProps,
     } = props;
+    const classes = useStyles();
 
     let condition = true;
     if (shouldRender !== undefined) {
@@ -43,13 +52,8 @@ export default function LoadingPlaceholder(props: IProps) {
     }
 
     return (
-        <Box sx={{
-            margin: '10px auto',
-            display: 'flex',
-            justifyContent: 'center',
-        }}
-        >
+        <div className={classes.loading}>
             <CircularProgress thickness={5} />
-        </Box>
+        </div>
     );
 }

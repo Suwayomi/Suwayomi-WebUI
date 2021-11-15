@@ -67,7 +67,7 @@ export default function Backup() {
 
     return (
         <>
-            <List sx={{ padding: 0 }}>
+            <List style={{ padding: 0 }}>
                 <ListItemLink href={`${baseURL}/api/v1/backup/export/file`}>
                     <ListItemText
                         primary="Create Backup"

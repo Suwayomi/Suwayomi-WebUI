@@ -18,9 +18,15 @@ import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
 import makeToast from 'components/util/Toast';
 import { Fab } from '@mui/material';
 import PlayArrow from '@mui/icons-material/PlayArrow';
-import { Box } from '@mui/system';
 
 const useStyles = makeStyles((theme: Theme) => ({
+    root: {
+        [theme.breakpoints.up('md')]: {
+            display: 'flex',
+        },
+        overflow: 'hidden',
+    },
+
     chapters: {
         listStyle: 'none',
         padding: 0,
@@ -30,6 +36,12 @@ const useStyles = makeStyles((theme: Theme) => ({
             height: 'calc(100vh - 64px)',
             margin: 0,
         },
+    },
+
+    loading: {
+        margin: '10px 0',
+        display: 'flex',
+        justifyContent: 'center',
     },
 }));
 
@@ -141,7 +153,7 @@ export default function Manga() {
         ));
 
     return (
-        <Box sx={{ display: { md: 'flex' }, overflow: 'hidden' }}>
+        <div className={classes.root}>
             <LoadingPlaceholder
                 shouldRender={manga !== undefined}
                 component={MangaDetails}
@@ -154,7 +166,7 @@ export default function Manga() {
                 <Virtuoso
                     style={{ // override Virtuoso default values and set them with class
                         height: 'undefined',
-                        overflowY: window.innerWidth < 900 ? 'visible' : 'auto',
+                        overflowY: window.innerWidth < 960 ? 'visible' : 'auto',
                     }}
                     className={classes.chapters}
                     totalCount={chapters.length}
@@ -165,11 +177,11 @@ export default function Manga() {
                             triggerChaptersUpdate={triggerChaptersUpdate}
                         />
                     )}
-                    useWindowScroll={window.innerWidth < 900}
+                    useWindowScroll={window.innerWidth < 960}
                     overscan={window.innerHeight * 0.5}
                 />
             </LoadingPlaceholder>
             <ResumeFab />
-        </Box>
+        </div>
     );
 }
