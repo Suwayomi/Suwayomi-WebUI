@@ -83,7 +83,8 @@ const Navigation = styled('div')({
 const ChapterNavigation = styled('div')({
     display: 'grid',
     gridTemplateColumns: '1fr 1fr',
-    gap: '5px',
+    gridTemplateAreas: '"prev next"',
+    gridColumnGap: '5px',
     margin: '10px 0',
 
     '& a': {
