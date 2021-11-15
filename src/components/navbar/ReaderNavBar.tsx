@@ -273,8 +273,10 @@ export default function ReaderNavBar(props: IProps) {
                             <ListItem>
                                 <ListItemText primary="Reader Type" />
                                 <Select
+                                    variant="standard"
                                     value={settings.readerType}
                                     onChange={(e) => setSettingValue('readerType', e.target.value)}
+                                    sx={{ p: 0 }}
                                 >
                                     <MenuItem value="SingleLTR">
                                         Single Page (LTR)
@@ -330,6 +332,7 @@ export default function ReaderNavBar(props: IProps) {
                             >
                                 <Button
                                     variant="outlined"
+                                    sx={{ gridArea: 'prev' }}
                                     startIcon={<KeyboardArrowLeftIcon />}
                                 >
                                     Prev. Chapter
@@ -340,6 +343,7 @@ export default function ReaderNavBar(props: IProps) {
                         && (
                             <Link
                                 replace
+                                style={{ gridArea: 'next' }}
                                 to={`/manga/${manga.id}/chapter/${chapter.index + 1}`}
                             >
                                 <Button
