@@ -5,29 +5,14 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import makeStyles from '@mui/styles/makeStyles';
 import React, { useEffect, useRef } from 'react';
+import { Box } from '@mui/system';
 import Page from '../Page';
-
-const useStyles = (settings: IReaderSettings) => makeStyles({
-    reader: {
-        display: 'flex',
-        flexDirection: (settings.readerType === 'ContinuesHorizontalLTR') ? 'row' : 'row-reverse',
-        justifyContent: (settings.readerType === 'ContinuesHorizontalLTR') ? 'flex-start' : 'flex-end',
-        margin: '0 auto',
-        width: 'auto',
-        height: 'auto',
-        overflowX: 'visible',
-        userSelect: 'none',
-    },
-});
 
 export default function HorizontalPager(props: IReaderProps) {
     const {
         pages, curPage, settings, setCurPage, prevChapter, nextChapter,
     } = props;
-
-    const classes = useStyles(settings)();
 
     const selfRef = useRef<HTMLDivElement>(null);
     const pagesRef = useRef<HTMLDivElement[]>([]);
@@ -128,7 +113,19 @@ export default function HorizontalPager(props: IReaderProps) {
     }, [selfRef, curPage]);
 
     return (
-        <div ref={selfRef} className={classes.reader}>
+        <Box
+            ref={selfRef}
+            sx={{
+                display: 'flex',
+                flexDirection: (settings.readerType === 'ContinuesHorizontalLTR') ? 'row' : 'row-reverse',
+                justifyContent: (settings.readerType === 'ContinuesHorizontalLTR') ? 'flex-start' : 'flex-end',
+                margin: '0 auto',
+                width: 'auto',
+                height: 'auto',
+                overflowX: 'visible',
+                userSelect: 'none',
+            }}
+        >
             {
                 pages.map((page) => (
                     <Page
@@ -142,6 +139,6 @@ export default function HorizontalPager(props: IReaderProps) {
                     />
                 ))
             }
-        </div>
+        </Box>
     );
 }
