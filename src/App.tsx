@@ -12,7 +12,7 @@ import {
     Redirect,
 } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
-import { Container, useMediaQuery } from '@mui/material';
+import { Container } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import {
     createTheme, ThemeProvider, Theme, StyledEngineProvider,
@@ -90,8 +90,6 @@ export default function App() {
         }),
         [darkTheme],
     );
-    // this can only be used after the theme object is created
-    const isMobileWidth = useMediaQuery(theme.breakpoints.down('sm'));
 
     return (
         <Router>
@@ -105,10 +103,10 @@ export default function App() {
                                 id="appMainContainer"
                                 maxWidth={false}
                                 disableGutters
-                                style={{
-                                    marginTop: theme.spacing(8),
-                                    marginLeft: isMobileWidth ? '' : theme.spacing(8),
-                                    marginBottom: isMobileWidth ? theme.spacing(8) : '',
+                                sx={{
+                                    mt: 8,
+                                    ml: { sm: 8 },
+                                    mb: { xs: 8, sm: 0 },
                                     width: 'auto',
                                     overflow: 'auto',
                                 }}
