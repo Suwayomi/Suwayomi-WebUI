@@ -57,7 +57,7 @@ export default function SourceConfigure() {
 
     return (
         <>
-            <List style={{ padding: 0 }}>
+            <List sx={{ padding: 0 }}>
                 {sourcePreferences.map(
                     (it, index) => {
                         const props = cloneObject(it.props);
