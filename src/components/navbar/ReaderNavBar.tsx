@@ -11,7 +11,6 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import makeStyles from '@mui/styles/makeStyles';
 import React, { useContext, useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import { useHistory, Link } from 'react-router-dom';
@@ -28,112 +27,88 @@ import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import Collapse from '@mui/material/Collapse';
 import Button from '@mui/material/Button';
 import NavBarContext from 'components/context/NavbarContext';
+import { styled } from '@mui/system';
 
-const useStyles = (settings: IReaderSettings) => makeStyles((theme) => ({
-    // main container and root div need to change classes...
-    AppMainContainer: {
-        display: 'none',
-    },
-    AppRootElment: {
+const Root = styled('div')(({ theme }) => ({
+    top: 0,
+    left: 0,
+    width: '300px',
+    minWidth: '300px',
+    height: '100vh',
+    overflowY: 'auto',
+    backgroundColor: theme.palette.background.default,
+
+    '& header': {
+        backgroundColor:
+        theme.palette.mode === 'dark' ? theme.palette.grey[800] : theme.palette.grey[100],
         display: 'flex',
-    },
+        alignItems: 'center',
+        minHeight: '64px',
+        paddingLeft: '24px',
+        paddingRight: '24px',
 
-    root: {
-        position: settings.staticNav ? 'sticky' : 'fixed',
-        top: 0,
-        left: 0,
-        width: '300px',
-        minWidth: '300px',
-        height: '100vh',
-        overflowY: 'auto',
-        backgroundColor: theme.palette.background.default,
+        transition: 'left 2s ease',
 
-        '& header': {
-            backgroundColor:
-            theme.palette.mode === 'dark' ? theme.palette.grey[800] : theme.palette.grey[100],
-            display: 'flex',
-            alignItems: 'center',
-            minHeight: '64px',
-            paddingLeft: '24px',
-            paddingRight: '24px',
-
-            transition: 'left 2s ease',
-
-            '& button': {
-                flexGrow: 0,
-                flexShrink: 0,
-            },
-
-            '& button:nth-child(1)': {
-                marginRight: '16px',
-            },
-
-            '& button:nth-child(3)': {
-                marginRight: '-12px',
-            },
-
-            '& h1': {
-                fontSize: '1.25rem',
-                flexGrow: 1,
-            },
+        '& button': {
+            flexGrow: 0,
+            flexShrink: 0,
         },
-        '& hr': {
-            margin: '0 16px',
-            height: '1px',
-            border: '0',
-            backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : theme.palette.grey[100],
+
+        '& button:nth-child(1)': {
+            marginRight: '16px',
+        },
+
+        '& h1': {
+            fontSize: '1.25rem',
+            flexGrow: 1,
         },
     },
-
-    navigation: {
+    '& hr': {
         margin: '0 16px',
-
-        '& > span:nth-child(1)': {
-            textAlign: 'center',
-            display: 'block',
-            marginTop: '16px',
-        },
-
-        '& $navigationChapters': {
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gridTemplateAreas: '"prev next"',
-            gridColumnGap: '5px',
-            margin: '10px 0',
-
-            '& a': {
-                flexGrow: 1,
-                textDecoration: 'none',
-
-                '& button': {
-                    width: '100%',
-                    padding: '5px 8px',
-                    textTransform: 'none',
-                },
-            },
-        },
-
+        height: '1px',
+        border: '0',
+        backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : theme.palette.grey[100],
     },
-    navigationChapters: {}, // dummy rule
+}));
 
-    settingsCollapsseHeader: {
-        '& span': {
-            fontWeight: 'bold',
+const Navigation = styled('div')({
+    margin: '0 16px',
+    '& > span:nth-child(1)': {
+        textAlign: 'center',
+        display: 'block',
+        marginTop: '16px',
+    },
+});
+
+const ChapterNavigation = styled('div')({
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr',
+    gridTemplateAreas: '"prev next"',
+    gridColumnGap: '5px',
+    margin: '10px 0',
+
+    '& a': {
+        flexGrow: 1,
+        textDecoration: 'none',
+
+        '& button': {
+            width: '100%',
+            padding: '5px 8px',
+            textTransform: 'none',
         },
     },
+});
 
-    openDrawerButton: {
-        position: 'fixed',
-        top: 0 + 20,
-        left: 10 + 20,
-        height: '40px',
-        width: '40px',
-        borderRadius: 5,
-        backgroundColor: theme.palette.mode === 'dark' ? 'black' : 'white',
-
-        '&:hover': {
-            backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[900] : theme.palette.grey[100],
-        },
+const OpenDrawerButton = styled(IconButton)(({ theme }) => ({
+    position: 'fixed',
+    top: 0 + 20,
+    left: 10 + 20,
+    height: '40px',
+    width: '40px',
+    borderRadius: 5,
+    backgroundColor: theme.palette.mode === 'dark' ? 'black' : 'white',
+    '&:hover': {
+        backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[900] : theme.palette.grey[100],
     },
 }));
 
@@ -168,8 +143,6 @@ export default function ReaderNavBar(props: IProps) {
     const [prevScrollPos, setPrevScrollPos] = useState(0);
     const [settingsCollapseOpen, setSettingsCollapseOpen] = useState(true);
 
-    const classes = useStyles(settings)();
-
     const setSettingValue = (key: string, value: any) => setSettings({ ...settings, [key]: value });
 
     const handleScroll = () => {
@@ -184,15 +157,16 @@ export default function ReaderNavBar(props: IProps) {
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
 
-        const rootEl = document.querySelector('#root')!;
-        const mainContainer = document.querySelector('#appMainContainer')!;
+        const rootEl:HTMLDivElement = document.querySelector('#root')!;
+        const mainContainer:HTMLDivElement = document.querySelector('#appMainContainer')!;
 
-        rootEl.classList.add(classes.AppRootElment);
-        mainContainer.classList.add(classes.AppMainContainer);
+        // main container and root div need to change styles...
+        rootEl.style.display = 'flex';
+        mainContainer.style.display = 'none';
 
         return () => {
-            rootEl.classList.remove(classes.AppRootElment);
-            mainContainer.classList.remove(classes.AppMainContainer);
+            rootEl.style.display = 'block';
+            mainContainer.style.display = 'block';
             window.removeEventListener('scroll', handleScroll);
         };
     }, [handleScroll]);// handleScroll changes on every render
@@ -207,20 +181,25 @@ export default function ReaderNavBar(props: IProps) {
                 mountOnEnter
                 unmountOnExit
             >
-                <div className={classes.root}>
+                <Root sx={{
+                    position: settings.staticNav ? 'sticky' : 'fixed',
+                }}
+                >
                     <header>
-                        <IconButton
-                            edge="start"
-                            color="inherit"
-                            aria-label="menu"
-                            disableRipple
-                            onClick={() => setDrawerOpen(false)}
-                            size="large"
-                        >
-                            <KeyboardArrowLeftIcon />
-                        </IconButton>
+                        {!settings.staticNav
+                        && (
+                            <IconButton
+                                edge="start"
+                                color="inherit"
+                                aria-label="menu"
+                                disableRipple
+                                onClick={() => setDrawerOpen(false)}
+                                size="large"
+                            >
+                                <KeyboardArrowLeftIcon />
+                            </IconButton>
+                        )}
                         <Typography variant="h1">
-                            {/* {title} */}
                             {chapter.name}
                         </Typography>
                         <IconButton
@@ -230,11 +209,19 @@ export default function ReaderNavBar(props: IProps) {
                             disableRipple
                             onClick={() => history.goBack()}
                             size="large"
+                            sx={{ mr: -1 }}
                         >
                             <CloseIcon />
                         </IconButton>
                     </header>
-                    <ListItem ContainerComponent="div" className={classes.settingsCollapsseHeader}>
+                    <ListItem
+                        ContainerComponent="div"
+                        sx={{
+                            '& span': {
+                                fontWeight: 'bold',
+                            },
+                        }}
+                    >
                         <ListItemText primary="Reader Settings" />
                         <ListItemSecondaryAction>
                             <IconButton
@@ -286,8 +273,10 @@ export default function ReaderNavBar(props: IProps) {
                             <ListItem>
                                 <ListItemText primary="Reader Type" />
                                 <Select
+                                    variant="standard"
                                     value={settings.readerType}
                                     onChange={(e) => setSettingValue('readerType', e.target.value)}
+                                    sx={{ p: 0 }}
                                 >
                                     <MenuItem value="SingleLTR">
                                         Single Page (LTR)
@@ -330,20 +319,20 @@ export default function ReaderNavBar(props: IProps) {
                         </List>
                     </Collapse>
                     <hr />
-                    <div className={classes.navigation}>
+                    <Navigation>
                         <span>
                             {`Currently on page ${curPage + 1} of ${chapter.pageCount}`}
                         </span>
-                        <div className={classes.navigationChapters}>
+                        <ChapterNavigation>
                             {chapter.index > 1
                         && (
                             <Link
                                 replace
-                                style={{ gridArea: 'prev' }}
                                 to={`/manga/${manga.id}/chapter/${chapter.index - 1}`}
                             >
                                 <Button
                                     variant="outlined"
+                                    sx={{ gridArea: 'prev' }}
                                     startIcon={<KeyboardArrowLeftIcon />}
                                 >
                                     Prev. Chapter
@@ -365,14 +354,13 @@ export default function ReaderNavBar(props: IProps) {
                                 </Button>
                             </Link>
                         )}
-                        </div>
-                    </div>
-                </div>
+                        </ChapterNavigation>
+                    </Navigation>
+                </Root>
             </Slide>
             <Zoom in={!drawerOpen}>
                 <Fade in={!hideOpenButton}>
-                    <IconButton
-                        className={classes.openDrawerButton}
+                    <OpenDrawerButton
                         edge="start"
                         color="inherit"
                         aria-label="menu"
@@ -382,7 +370,7 @@ export default function ReaderNavBar(props: IProps) {
                         size="large"
                     >
                         <KeyboardArrowRightIcon />
-                    </IconButton>
+                    </OpenDrawerButton>
                 </Fade>
             </Zoom>
         </>
