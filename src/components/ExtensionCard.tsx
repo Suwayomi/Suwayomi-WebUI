@@ -100,8 +100,8 @@ export default function ExtensionCard(props: IProps) {
                     <Avatar
                         variant="rounded"
                         sx={{
-                            width: '56px',
-                            height: '56px',
+                            width: 56,
+                            height: 56,
                             flex: '0 0 auto',
                             mr: 2,
                         }}

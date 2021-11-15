@@ -69,6 +69,12 @@ export default function SourceCard(props: IProps) {
                     <Avatar
                         variant="rounded"
                         alt={name}
+                        sx={{
+                            width: 56,
+                            height: 56,
+                            flex: '0 0 auto',
+                            mr: 2,
+                        }}
                         src={`${serverAddress}${iconUrl}?useCache=${useCache}`}
                     />
                     <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
