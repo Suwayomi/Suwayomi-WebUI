@@ -78,16 +78,16 @@ export default function SearchSingle() {
             <Box sx={{
                 margin: '20px 10px',
                 display: 'flex',
-                justifyContent: 'space-around',
-                width: '300px',
+                width: '400px',
+                maxWidth: 'calc(100% - 20px)',
             }}
             >
                 <TextField
                     inputRef={textInput}
                     error={error}
                     sx={{
-                        m: 1,
-                        width: '25ch',
+                        mx: 1,
+                        flexGrow: 1,
                     }}
                     id="filled-basic"
                     variant="filled"
@@ -95,7 +95,11 @@ export default function SearchSingle() {
                     label="Search text.."
                     onKeyDown={(e) => e.key === 'Enter' && processInput()}
                 />
-                <Button variant="contained" color="primary" onClick={() => processInput()}>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => processInput()}
+                >
                     Search
                 </Button>
             </Box>
