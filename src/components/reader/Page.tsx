@@ -8,6 +8,7 @@
 import React, { useEffect, useRef } from 'react';
 import SpinnerImage from 'components/util/SpinnerImage';
 import useLocalStorage from 'util/useLocalStorage';
+import Box from '@mui/system/Box';
 
 function imageStyle(settings: IReaderSettings): any {
     const [dimensions, setDimensions] = React.useState({
@@ -102,23 +103,26 @@ const Page = React.forwardRef((props: IProps, ref: any) => {
         }
     }, [handleVerticalScroll]);
 
+    const imgStyle = imageStyle(settings);
+
     return (
-        <div ref={ref} style={{ margin: 'auto' }}>
+        <Box ref={ref} sx={{ margin: 'auto' }}>
             <SpinnerImage
                 src={`${src}?useCache=${useCache}`}
                 onImageLoad={onImageLoad}
                 alt={`Page #${index}`}
                 imgRef={imgRef}
                 spinnerStyle={{
+                    ...imgStyle,
                     height: '100vh',
                     width: '70vw',
                     padding: '50px calc(50% - 20px)',
                     backgroundColor: '#525252',
                     marginBottom: 10,
                 }}
-                imgStyle={imageStyle(settings)}
+                imgStyle={imgStyle}
             />
-        </div>
+        </Box>
     );
 });
 
