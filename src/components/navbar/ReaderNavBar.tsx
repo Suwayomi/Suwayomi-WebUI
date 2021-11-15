@@ -58,10 +58,6 @@ const Root = styled('div')(({ theme }) => ({
             marginRight: '16px',
         },
 
-        '& button:nth-child(3)': {
-            marginRight: '-12px',
-        },
-
         '& h1': {
             fontSize: '1.25rem',
             flexGrow: 1,
@@ -189,18 +185,20 @@ export default function ReaderNavBar(props: IProps) {
                 }}
                 >
                     <header>
-                        <IconButton
-                            edge="start"
-                            color="inherit"
-                            aria-label="menu"
-                            disableRipple
-                            onClick={() => setDrawerOpen(false)}
-                            size="large"
-                        >
-                            <KeyboardArrowLeftIcon />
-                        </IconButton>
+                        {!settings.staticNav
+                        && (
+                            <IconButton
+                                edge="start"
+                                color="inherit"
+                                aria-label="menu"
+                                disableRipple
+                                onClick={() => setDrawerOpen(false)}
+                                size="large"
+                            >
+                                <KeyboardArrowLeftIcon />
+                            </IconButton>
+                        )}
                         <Typography variant="h1">
-                            {/* {title} */}
                             {chapter.name}
                         </Typography>
                         <IconButton
@@ -210,6 +208,7 @@ export default function ReaderNavBar(props: IProps) {
                             disableRipple
                             onClick={() => history.goBack()}
                             size="large"
+                            sx={{ mr: -1 }}
                         >
                             <CloseIcon />
                         </IconButton>
