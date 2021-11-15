@@ -106,7 +106,7 @@ export default function App() {
                                 sx={{
                                     mt: 8,
                                     ml: { sm: 8 },
-                                    mb: { xs: 8, sm: 4 },
+                                    mb: { xs: 8, sm: 0 },
                                     width: 'auto',
                                     overflow: 'auto',
                                 }}
