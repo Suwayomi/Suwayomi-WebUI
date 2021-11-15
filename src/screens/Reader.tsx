@@ -58,7 +58,12 @@ const getReaderComponent = (readerType: ReaderType) => {
 };
 
 const range = (n:number) => Array.from({ length: n }, (value, key) => key);
-const initialChapter = () => ({ pageCount: -1, index: -1, chapterCount: 0 });
+const initialChapter = () => ({
+    pageCount: -1,
+    index: -1,
+    chapterCount: 0,
+    name: 'Loading...',
+});
 
 export default function Reader() {
     const [settings, setSettings] = useLocalStorage<IReaderSettings>('readerSettings', defaultReaderSettings);

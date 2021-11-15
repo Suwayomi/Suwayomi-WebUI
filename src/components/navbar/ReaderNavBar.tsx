@@ -11,7 +11,7 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import { useHistory, Link } from 'react-router-dom';
 import Slide from '@mui/material/Slide';
@@ -26,7 +26,6 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import Collapse from '@mui/material/Collapse';
 import Button from '@mui/material/Button';
-import NavBarContext from 'components/context/NavbarContext';
 import { styled } from '@mui/system';
 
 const Root = styled('div')(({ theme }) => ({
@@ -129,9 +128,6 @@ interface IProps {
 }
 
 export default function ReaderNavBar(props: IProps) {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { title } = useContext(NavBarContext);
-
     const history = useHistory();
 
     const {
@@ -280,39 +276,30 @@ export default function ReaderNavBar(props: IProps) {
                                 >
                                     <MenuItem value="SingleLTR">
                                         Single Page (LTR)
-
                                     </MenuItem>
                                     <MenuItem value="SingleRTL">
                                         Single Page (RTL)
-
                                     </MenuItem>
                                     {/* <MenuItem value="SingleVertical">
-                                    Vertical(WIP)
-
-                                </MenuItem> */}
+                                       Vertical(WIP)
+                                    </MenuItem> */}
                                     <MenuItem value="DoubleLTR">
                                         Double Page (LTR)
-
                                     </MenuItem>
                                     <MenuItem value="DoubleRTL">
                                         Double Page (RTL)
-
                                     </MenuItem>
                                     <MenuItem value="Webtoon">
                                         Webtoon
-
                                     </MenuItem>
                                     <MenuItem value="ContinuesVertical">
                                         Continues Vertical
-
                                     </MenuItem>
                                     <MenuItem value="ContinuesHorizontalLTR">
                                         Horizontal (LTR)
-
                                     </MenuItem>
                                     <MenuItem value="ContinuesHorizontalRTL">
                                         Horizontal (RTL)
-
                                     </MenuItem>
                                 </Select>
                             </ListItem>
