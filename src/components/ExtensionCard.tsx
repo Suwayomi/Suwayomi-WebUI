@@ -122,7 +122,7 @@ export default function ExtensionCard(props: IProps) {
 
                 <Button
                     variant="outlined"
-                    style={{ color: installedState === 'obsolete' ? 'red' : 'inherit' }}
+                    sx={{ color: installedState === 'obsolete' ? 'red' : 'inherit' }}
                     onClick={() => handleButtonClick()}
                 >
                     {installedState}
