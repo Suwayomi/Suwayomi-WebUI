@@ -20,6 +20,7 @@ import client from 'util/client';
 import useLocalStorage from 'util/useLocalStorage';
 import EmptyView from 'components/util/EmptyView';
 import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
+import { Box } from '@mui/system';
 
 function epochToDate(epoch: number) {
     const date = new Date(0); // The 0 there is the key, which sets the date to the epoch
@@ -189,7 +190,7 @@ export default function Updates() {
                                 padding: 2,
                             }}
                             >
-                                <div style={{ display: 'flex' }}>
+                                <Box sx={{ display: 'flex' }}>
                                     <Avatar
                                         variant="rounded"
                                         sx={{
@@ -201,7 +202,7 @@ export default function Updates() {
                                         }}
                                         src={`${serverAddress}${manga.thumbnailUrl}?useCache=${useCache}`}
                                     />
-                                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                                         <Typography variant="h5" component="h2">
                                             {manga.title}
                                         </Typography>
@@ -209,8 +210,8 @@ export default function Updates() {
                                             {chapter.name}
                                             {downloadStatusStringFor(chapter)}
                                         </Typography>
-                                    </div>
-                                </div>
+                                    </Box>
+                                </Box>
                                 {downloadStatusStringFor(chapter) === ''
                                         && (
                                             <IconButton
