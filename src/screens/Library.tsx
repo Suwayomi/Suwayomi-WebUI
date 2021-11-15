@@ -16,6 +16,7 @@ import TabPanel from 'components/util/TabPanel';
 import LibraryOptions from 'components/library/LibraryOptions';
 import LibraryMangaGrid from 'components/library/LibraryMangaGrid';
 import LibrarySearch from 'components/library/LibrarySearch';
+import { useHistory, useParams } from 'react-router-dom';
 
 interface IMangaCategory {
     category: ICategory
@@ -34,14 +35,17 @@ export default function Library() {
         );
     }, []);
 
+    const { tabParamNumber } = useParams<{ tabParamNumber: string }>();
     const [tabs, setTabs] = useState<IMangaCategory[]>();
     const [tabNum, setTabNum] = useState<number>(0);
+    const history = useHistory();
 
     // a hack so MangaGrid doesn't stop working. I won't change it in case
     // if I do manga pagination for library..
     const [lastPageNum, setLastPageNum] = useState<number>(1);
 
     const handleTabChange = (newTab: number) => {
+        history.replace(`/library/${newTab}`);
         setTabNum(newTab);
     };
 
@@ -54,10 +58,11 @@ export default function Library() {
                     mangas: [] as IManga[],
                     isFetched: false,
                 }));
-
                 setTabs(categoryTabs);
                 if (categoryTabs.length > 0) {
-                    setTabNum(categoryTabs[0].category.order);
+                    setTabNum(tabParamNumber === undefined
+                        ? categoryTabs[0].category.order
+                        : Number(tabParamNumber));
                 }
             });
     }, []);
