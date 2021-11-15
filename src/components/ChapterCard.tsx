@@ -18,6 +18,7 @@ import MenuItem from '@mui/material/MenuItem';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 
 import client from 'util/client';
+import { Box } from '@mui/system';
 
 interface IProps{
     chapter: IChapter
@@ -102,7 +103,7 @@ export default function ChapterCard(props: IProps) {
                                 padding: 2,
                             }}
                         >
-                            <div style={{ display: 'flex' }}>
+                            <Box sx={{ display: 'flex' }}>
                                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                                     <Typography variant="h5" component="h2">
                                         <span style={{ color: theme.palette.primary.dark }}>
@@ -117,7 +118,7 @@ export default function ChapterCard(props: IProps) {
                                         {downloadStatusString}
                                     </Typography>
                                 </div>
-                            </div>
+                            </Box>
 
                             <IconButton aria-label="more" onClick={handleClick} size="large">
                                 <MoreVertIcon />
@@ -131,9 +132,9 @@ export default function ChapterCard(props: IProps) {
                         onClose={handleClose}
                     >
                         {downloadStatusString.endsWith('Downloaded')
-                            && <MenuItem onClick={deleteChapter}>Delete</MenuItem>}
+                             && <MenuItem onClick={deleteChapter}>Delete</MenuItem>}
                         {downloadStatusString.length === 0
-                        && <MenuItem onClick={downloadChapter}>Download</MenuItem> }
+                         && <MenuItem onClick={downloadChapter}>Download</MenuItem> }
                         <MenuItem onClick={() => sendChange('bookmarked', !chapter.bookmarked)}>
                             {chapter.bookmarked && 'Remove bookmark'}
                             {!chapter.bookmarked && 'Bookmark'}
