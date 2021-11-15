@@ -11,16 +11,17 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import { Drawer, FormControlLabel, IconButton } from '@mui/material';
 import useLibraryOptions from 'util/useLibraryOptions';
 import ThreeStateCheckbox from 'components/util/ThreeStateCheckbox';
+import { Box } from '@mui/system';
 
 function Options() {
     const {
         downloaded, setDownloaded, unread, setUnread,
     } = useLibraryOptions();
     return (
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <FormControlLabel control={<ThreeStateCheckbox name="Unread" checked={unread} onChange={setUnread} />} label="Unread" />
             <FormControlLabel control={<ThreeStateCheckbox name="Downloaded" checked={downloaded} onChange={setDownloaded} />} label="Downloaded" />
-        </div>
+        </Box>
     );
 }
 
