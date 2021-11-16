@@ -60,9 +60,15 @@ export default function Library() {
                 }));
                 setTabs(categoryTabs);
                 if (categoryTabs.length > 0) {
-                    setTabNum(tabParamNumber === undefined
-                        ? categoryTabs[0].category.order
-                        : Number(tabParamNumber));
+                    setTabNum(() => {
+                        if (tabParamNumber !== undefined
+                            && !Number.isNaN(tabParamNumber)
+                            && !!categories.find((cat) => cat.order === Number(tabParamNumber))) {
+                            return Number(tabParamNumber);
+                        }
+                        history.replace('/library');
+                        return categoryTabs[0].category.order;
+                    });
                 }
             });
     }, []);
