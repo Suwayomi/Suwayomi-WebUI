@@ -45,7 +45,7 @@ export default function DesktopSideBar({ navBarItems }: IProps) {
                 }: NavbarItem) => (
                     <Link to={path} style={{ color: 'inherit', textDecoration: 'none' }} key={path}>
                         <ListItem disableRipple button key={title}>
-                            <ListItemIcon style={{ minWidth: '0' }}>
+                            <ListItemIcon sx={{ minWidth: '0' }}>
                                 <Tooltip placement="right" title={title}>
                                     {iconFor(path, IconComponent, SelectedIconComponent)}
                                 </Tooltip>
