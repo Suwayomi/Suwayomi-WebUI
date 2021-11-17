@@ -6,8 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import React, { useEffect, useState, useContext } from 'react';
-import { Theme } from '@mui/material/styles';
-import makeStyles from '@mui/styles/makeStyles';
+import { Box, styled } from '@mui/system';
 import { Link, useParams } from 'react-router-dom';
 import { Virtuoso } from 'react-virtuoso';
 import ChapterCard from 'components/ChapterCard';
@@ -19,31 +18,16 @@ import makeToast from 'components/util/Toast';
 import { Fab } from '@mui/material';
 import PlayArrow from '@mui/icons-material/PlayArrow';
 
-const useStyles = makeStyles((theme: Theme) => ({
-    root: {
-        [theme.breakpoints.up('md')]: {
-            display: 'flex',
-        },
-        overflow: 'hidden',
+const StyledVirtuoso = styled(Virtuoso)((({ theme }) => ({
+    listStyle: 'none',
+    padding: 0,
+    minHeight: '200px',
+    [theme.breakpoints.up('md')]: {
+        width: '50vw',
+        height: 'calc(100vh - 64px)',
+        margin: 0,
     },
-
-    chapters: {
-        listStyle: 'none',
-        padding: 0,
-        minHeight: '200px',
-        [theme.breakpoints.up('md')]: {
-            width: '50vw',
-            height: 'calc(100vh - 64px)',
-            margin: 0,
-        },
-    },
-
-    loading: {
-        margin: '10px 0',
-        display: 'flex',
-        justifyContent: 'center',
-    },
-}));
+})));
 
 const baseWebsocketUrl = JSON.parse(window.localStorage.getItem('serverBaseURL')!).replace('http', 'ws');
 const initialQueue = {
@@ -52,8 +36,6 @@ const initialQueue = {
 } as IQueue;
 
 export default function Manga() {
-    const classes = useStyles();
-
     const { setTitle } = useContext(NavbarContext);
     useEffect(() => { setTitle('Manga'); }, []); // delegate setting topbar action to MangaDetails
 
@@ -153,7 +135,7 @@ export default function Manga() {
         ));
 
     return (
-        <div className={classes.root}>
+        <Box sx={{ display: { md: 'flex' }, overflow: 'hidden' }}>
             <LoadingPlaceholder
                 shouldRender={manga !== undefined}
                 component={MangaDetails}
@@ -163,12 +145,11 @@ export default function Manga() {
             <LoadingPlaceholder
                 shouldRender={chapters.length > 0 || noChaptersFound}
             >
-                <Virtuoso
+                <StyledVirtuoso
                     style={{ // override Virtuoso default values and set them with class
                         height: 'undefined',
-                        overflowY: window.innerWidth < 960 ? 'visible' : 'auto',
+                        overflowY: window.innerWidth < 900 ? 'visible' : 'auto',
                     }}
-                    className={classes.chapters}
                     totalCount={chapters.length}
                     itemContent={(index:number) => (
                         <ChapterCard
@@ -177,11 +158,11 @@ export default function Manga() {
                             triggerChaptersUpdate={triggerChaptersUpdate}
                         />
                     )}
-                    useWindowScroll={window.innerWidth < 960}
+                    useWindowScroll={window.innerWidth < 900}
                     overscan={window.innerHeight * 0.5}
                 />
             </LoadingPlaceholder>
             <ResumeFab />
-        </div>
+        </Box>
     );
 }
