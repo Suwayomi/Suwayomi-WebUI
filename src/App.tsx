@@ -158,7 +158,7 @@ export default function App() {
                                     <Route path="/manga/:id">
                                         <Manga />
                                     </Route>
-                                    <Route path="/library">
+                                    <Route path="/library/:tabParamNumber?">
                                         <Library />
                                     </Route>
                                     <Route path="/updates">

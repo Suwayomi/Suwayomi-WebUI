@@ -105,6 +105,7 @@ export default function DefaultNavBar() {
                 <Toolbar>
                     {
                         !navbarItems.some(({ path }) => path === history.location.pathname)
+                        && !history.location.pathname.startsWith('/library')
                             && (
                                 <IconButton
                                     edge="start"
