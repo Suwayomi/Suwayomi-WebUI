@@ -64,6 +64,7 @@ export default function Library() {
                         tabSearchParam !== undefined
                          && tabSearchParam !== null
                          && !Number.isNaN(tabSearchParam)
+                         && categories.some((category) => category.order === Number(tabSearchParam))
                     ) {
                         handleTabChange(Number(tabSearchParam!));
                     } else { handleTabChange(categoryTabs[0].category.order); }
