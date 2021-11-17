@@ -45,7 +45,10 @@ export default function Library() {
     const [lastPageNum, setLastPageNum] = useState<number>(1);
 
     const handleTabChange = (newTab: number) => {
-        history.replace(`/library/${newTab}`);
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+        history.location.search === ''
+            ? history.replace(`/library/${newTab}`)
+            : history.replace(`/library/${newTab}/${history.location.search}`);
         setTabNum(newTab);
     };
 
