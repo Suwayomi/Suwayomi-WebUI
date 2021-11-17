@@ -16,7 +16,7 @@ import TabPanel from 'components/util/TabPanel';
 import LibraryOptions from 'components/library/LibraryOptions';
 import LibraryMangaGrid from 'components/library/LibraryMangaGrid';
 import LibrarySearch from 'components/library/LibrarySearch';
-import { useHistory, useParams } from 'react-router-dom';
+import { useQueryParam, NumberParam } from 'use-query-params';
 
 interface IMangaCategory {
     category: ICategory
@@ -35,21 +35,18 @@ export default function Library() {
         );
     }, []);
 
-    const { tabParamNumber } = useParams<{ tabParamNumber: string }>();
     const [tabs, setTabs] = useState<IMangaCategory[]>();
+
     const [tabNum, setTabNum] = useState<number>(0);
-    const history = useHistory();
+    const [tabSearchParam, setTabSearchParam] = useQueryParam('tab', NumberParam);
 
     // a hack so MangaGrid doesn't stop working. I won't change it in case
     // if I do manga pagination for library..
     const [lastPageNum, setLastPageNum] = useState<number>(1);
 
     const handleTabChange = (newTab: number) => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-        history.location.search === ''
-            ? history.replace(`/library/${newTab}`)
-            : history.replace(`/library/${newTab}/${history.location.search}`);
         setTabNum(newTab);
+        setTabSearchParam(newTab);
     };
 
     useEffect(() => {
@@ -63,15 +60,13 @@ export default function Library() {
                 }));
                 setTabs(categoryTabs);
                 if (categoryTabs.length > 0) {
-                    setTabNum(() => {
-                        if (tabParamNumber !== undefined
-                            && !Number.isNaN(tabParamNumber)
-                            && !!categories.find((cat) => cat.order === Number(tabParamNumber))) {
-                            return Number(tabParamNumber);
-                        }
-                        history.replace('/library');
-                        return categoryTabs[0].category.order;
-                    });
+                    if (
+                        tabSearchParam !== undefined
+                         && tabSearchParam !== null
+                         && !Number.isNaN(tabSearchParam)
+                    ) {
+                        handleTabChange(Number(tabSearchParam!));
+                    } else { handleTabChange(categoryTabs[0].category.order); }
                 }
             });
     }, []);
