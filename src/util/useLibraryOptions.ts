@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { BooleanParam, useQueryParams, StringParam } from 'use-query-params';
+import { BooleanParam, useQueryParam, StringParam } from 'use-query-params';
 
 export type NullAndUndefined<T> = T | null | undefined;
 
@@ -21,24 +21,13 @@ interface IUseLibraryOptions {
 }
 
 export default function useLibraryOptions(): IUseLibraryOptions {
-    const [searchQuery, setSearchQuery] = useQueryParams({
-        downloaded: BooleanParam,
-        unread: BooleanParam,
-        query: StringParam,
-    });
-    const { downloaded, unread, query } = searchQuery;
-    const setDownloaded = (newDownloaded: NullAndUndefined<boolean>) => {
-        setSearchQuery(Object.assign(searchQuery, { downloaded: newDownloaded }), 'replace');
-    };
-    const setUnread = (newUnread: NullAndUndefined<boolean>) => {
-        setSearchQuery(Object.assign(searchQuery, { unread: newUnread }), 'replace');
-    };
-    const setQuery = (newQuery: NullAndUndefined<string>) => {
-        setSearchQuery(Object.assign(searchQuery, { query: newQuery }), 'replace');
-    };
+    const [downloaded, setDownloaded] = useQueryParam('downloaded', BooleanParam);
+    const [unread, setUnread] = useQueryParam('unread', BooleanParam);
+    const [query, setQuery] = useQueryParam('query', StringParam);
+
     // eslint-disable-next-line eqeqeq
     const active = !(unread == undefined) || !(downloaded == undefined);
     return {
-        downloaded, setDownloaded, unread, setUnread, active, query, setQuery,
+        downloaded, setDownloaded, unread, setUnread, query, setQuery, active,
     };
 }
