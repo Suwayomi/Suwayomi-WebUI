@@ -12,6 +12,7 @@ import client from 'util/client';
 import { SwitchPreferenceCompat, CheckBoxPreference } from 'components/sourceConfiguration/TwoStatePreference';
 import ListPreference from 'components/sourceConfiguration/ListPreference';
 import EditTextPreference from 'components/sourceConfiguration/EditTextPreference';
+import MultiSelectListPreference from 'components/sourceConfiguration/MultiSelectListPreference';
 import List from '@mui/material/List';
 import cloneObject from 'util/cloneObject';
 
@@ -25,6 +26,8 @@ function getPrefComponent(type: string) {
             return ListPreference;
         case 'EditTextPreference':
             return EditTextPreference;
+        case 'MultiSelectListPreference':
+            return MultiSelectListPreference;
         default:
             return CheckBoxPreference;
     }
@@ -47,10 +50,19 @@ export default function SourceConfigure() {
             .then((data) => setSourcePreferences(data));
     }, [updateTriggerHolder]);
 
+    const convertToString = (position: number, value: any): string => {
+        switch (sourcePreferences[position].props.defaultValueType) {
+            case 'Set<String>':
+                return JSON.stringify(value);
+            default:
+                return value.toString();
+        }
+    };
+
     const updateValue = (position: number) => (
         (value: any) => {
             client.post(`/api/v1/source/${sourceId}/preferences`,
-                JSON.stringify({ position, value: value.toString() }))
+                JSON.stringify({ position, value: convertToString(position, value) }))
                 .then(() => triggerUpdate());
         }
     );

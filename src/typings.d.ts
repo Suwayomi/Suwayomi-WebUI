@@ -180,11 +180,19 @@ interface TwoStatePreferenceProps extends PreferenceProps {
     type: 'Switch' | 'Checkbox'
 }
 interface CheckBoxPreferenceProps extends PreferenceProps {}
+
 interface SwitchPreferenceCompatProps extends PreferenceProps {}
+
 interface ListPreferenceProps extends PreferenceProps {
     entries: string[]
     entryValues: string[]
 }
+
+interface MultiSelectListPreferenceProps extends PreferenceProps {
+    entries: string[]
+    entryValues: string[]
+}
+
 interface EditTextPreferenceProps extends PreferenceProps {
     dialogTitle: string
     dialogMessage: string
