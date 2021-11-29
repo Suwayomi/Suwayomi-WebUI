@@ -35,6 +35,12 @@ export default function SearchSingle() {
             .then((data: { name: string }) => setTitle(`Search: ${data.name}`));
     }, []);
 
+    function resetSearch() {
+        setIsLoading(true);
+        setMangas([]);
+        setLastPageNum(1);
+    }
+
     function processInput() {
         if (textInput.current) {
             const { value } = textInput.current;
@@ -42,10 +48,8 @@ export default function SearchSingle() {
                 setError(true);
             } else {
                 setError(false);
-                setIsLoading(true);
                 setSearchTerm(value);
-                setMangas([]);
-                setLastPageNum(1);
+                resetSearch();
             }
         }
     }
