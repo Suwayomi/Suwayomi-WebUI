@@ -59,8 +59,6 @@ export default function SearchSingle() {
             client.get(`/api/v1/source/${sourceId}/search`, { params: { searchTerm, pageNum: lastPageNum } })
                 .then((response) => response.data)
                 .then((data: { mangaList: IManga[], hasNextPage: boolean }) => {
-                    setMessage('');
-
                     if (data.mangaList.length > 0) {
                         setMangas([
                             ...mangas,
