@@ -35,28 +35,30 @@ export default function SearchSingle() {
             .then((data: { name: string }) => setTitle(`Search: ${data.name}`));
     }, []);
 
+    function resetSearch() {
+        setIsLoading(true);
+        setMangas([]);
+        setLastPageNum(1);
+    }
+
     function processInput() {
         if (textInput.current) {
             const { value } = textInput.current;
             if (value === '') {
                 setError(true);
-            } else if (value !== searchTerm) {
+            } else {
                 setError(false);
                 setSearchTerm(value);
-                setMangas([]);
+                resetSearch();
             }
         }
     }
 
     useEffect(() => {
         if (searchTerm.length > 0) {
-            setIsLoading(true);
-
-            client.get(`/api/v1/source/${sourceId}/search/${searchTerm}/${lastPageNum}`)
+            client.get(`/api/v1/source/${sourceId}/search`, { params: { searchTerm, pageNum: lastPageNum } })
                 .then((response) => response.data)
                 .then((data: { mangaList: IManga[], hasNextPage: boolean }) => {
-                    setMessage('');
-
                     if (data.mangaList.length > 0) {
                         setMangas([
                             ...mangas,
@@ -71,7 +73,7 @@ export default function SearchSingle() {
                     setIsLoading(false);
                 });
         }
-    }, [searchTerm]);
+    }, [searchTerm, lastPageNum]);
 
     return (
         <>
