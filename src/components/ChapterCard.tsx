@@ -24,12 +24,15 @@ interface IProps{
     chapter: IChapter
     triggerChaptersUpdate: () => void
     downloadStatusString: string
+    showChapterNumber: boolean
 }
 
 export default function ChapterCard(props: IProps) {
     const theme = useTheme();
 
-    const { chapter, triggerChaptersUpdate, downloadStatusString } = props;
+    const {
+        chapter, triggerChaptersUpdate, downloadStatusString, showChapterNumber,
+    } = props;
 
     const dateStr = chapter.uploadDate && new Date(chapter.uploadDate).toISOString().slice(0, 10);
 
@@ -109,7 +112,7 @@ export default function ChapterCard(props: IProps) {
                                         <span style={{ color: theme.palette.primary.dark }}>
                                             {chapter.bookmarked && <BookmarkIcon />}
                                         </span>
-                                        {chapter.name}
+                                        { showChapterNumber ? `Chapter ${chapter.chapterNumber}` : chapter.name}
                                     </Typography>
                                     <Typography variant="caption" display="block" gutterBottom>
                                         {chapter.scanlator}
