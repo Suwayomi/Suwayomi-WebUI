@@ -121,6 +121,7 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
                             imgStyle={{
                                 height: '100%',
                                 width: '100%',
+                                objectFit: 'cover',
                             }}
                             spinnerStyle={{
                                 display: 'grid',
