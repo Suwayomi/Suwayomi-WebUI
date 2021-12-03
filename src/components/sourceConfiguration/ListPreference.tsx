@@ -22,11 +22,12 @@ interface IListDialogProps{
     open: boolean
     onClose: (arg0: string | null) => void
     options: string[]
+    title: string
 }
 
 function ListDialog(props: IListDialogProps) {
     const {
-        value: valueProp, open, onClose, options,
+        value: valueProp, open, onClose, options, title,
     } = props;
     const [value, setValue] = React.useState(valueProp);
     const radioGroupRef = React.useRef<HTMLDivElement>(null);
@@ -62,12 +63,10 @@ function ListDialog(props: IListDialogProps) {
             TransitionProps={{ onEntering: handleEntering }}
             open={open}
         >
-            <DialogTitle>Phone Ringtone</DialogTitle>
+            <DialogTitle>{title}</DialogTitle>
             <DialogContent dividers>
                 <RadioGroup
                     ref={radioGroupRef}
-                    aria-label="ringtone"
-                    name="ringtone"
                     value={value}
                     onChange={handleChange}
                 >
@@ -139,6 +138,7 @@ export default function ListPreference(props: ListPreferenceProps) {
                 <ListItemText primary={title} secondary={getSummary()} />
             </ListItem>
             <ListDialog
+                title={title}
                 open={dialogOpen}
                 onClose={handleDialogClose}
                 value={findEntryOf(internalCurrentValue)}
