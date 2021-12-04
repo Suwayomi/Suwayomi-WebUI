@@ -24,6 +24,8 @@ export default function PageNumber(props: IProps) {
             bottom: '50px',
             right: settings.staticNav ? 'calc((100vw - 325px)/2)' : 'calc((100vw - 25px)/2)',
             padding: '2px',
+            paddingLeft: '4px',
+            paddingRight: '4px',
             textAlign: 'center',
             backgroundColor: 'rgba(0, 0, 0, 0.3)',
             borderRadius: '10px',
