@@ -23,11 +23,12 @@ interface IListDialogProps{
     open: boolean
     onClose: (arg0: string[] | null) => void
     values: string[]
+    title: string
 }
 
 function ListDialog(props: IListDialogProps) {
     const {
-        selectedValues: selectedValuesProp, open, onClose, values,
+        selectedValues: selectedValuesProp, open, onClose, values, title,
     } = props;
     const [selectedValues, setSelectedValues] = React.useState(selectedValuesProp);
 
@@ -69,7 +70,7 @@ function ListDialog(props: IListDialogProps) {
             maxWidth="xs"
             open={open}
         >
-            <DialogTitle>Phone Ringtone</DialogTitle>
+            <DialogTitle>{title}</DialogTitle>
             <DialogContent dividers>
                 <FormGroup>
                     {values.map((value) => (
@@ -143,6 +144,7 @@ export default function MultiSelectListPreference(props: MultiSelectListPreferen
                 <ListItemText primary={title} secondary={getSummary()} />
             </ListItem>
             <ListDialog
+                title={title}
                 open={dialogOpen}
                 onClose={handleDialogClose}
                 selectedValues={findEntriesOf(internalCurrentValue)}
