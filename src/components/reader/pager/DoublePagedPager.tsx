@@ -5,33 +5,16 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import makeStyles from '@mui/styles/makeStyles';
 import React, { useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
+import { Box } from '@mui/system';
 import Page from '../Page';
 import DoublePage from '../DoublePage';
-
-const useStyles = (settings: IReaderSettings) => makeStyles({
-    preload: {
-        display: 'none',
-    },
-    reader: {
-        display: 'flex',
-        flexDirection: (settings.readerType === 'DoubleLTR') ? 'row' : 'row-reverse',
-        justifyContent: 'center',
-        margin: '0 auto',
-        width: 'auto',
-        height: 'auto',
-        overflowX: 'scroll',
-    },
-});
 
 export default function DoublePagedPager(props: IReaderProps) {
     const {
         pages, settings, setCurPage, curPage, nextChapter, prevChapter,
     } = props;
-
-    const classes = useStyles(settings)();
 
     const selfRef = useRef<HTMLDivElement>(null);
     const pagesRef = useRef<HTMLImageElement[]>([]);
@@ -192,8 +175,8 @@ export default function DoublePagedPager(props: IReaderProps) {
     }, [selfRef, curPage, settings.readerType]);
 
     return (
-        <div ref={selfRef}>
-            <div id="preload" className={classes.preload}>
+        <Box ref={selfRef}>
+            <Box id="preload" sx={{ display: 'none' }}>
                 {
                     pages.map((page) => (
                         <img
@@ -205,8 +188,19 @@ export default function DoublePagedPager(props: IReaderProps) {
                         />
                     ))
                 }
-            </div>
-            <div id="display" className={classes.reader} />
-        </div>
+            </Box>
+            <Box
+                id="display"
+                sx={{
+                    display: 'flex',
+                    flexDirection: (settings.readerType === 'DoubleLTR') ? 'row' : 'row-reverse',
+                    justifyContent: 'center',
+                    margin: '0 auto',
+                    width: 'auto',
+                    height: 'auto',
+                    overflowX: 'scroll',
+                }}
+            />
+        </Box>
     );
 }
