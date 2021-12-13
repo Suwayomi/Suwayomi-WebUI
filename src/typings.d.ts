@@ -216,3 +216,17 @@ interface PaginatedList<T> {
     page: T[],
     hasNextPage: boolean
 }
+
+type NullAndUndefined<T> = T | null | undefined;
+
+type SortMode = 'fetchedAt' | 'source';
+
+interface ChapterListOptions {
+    active: boolean
+    unread: NullAndUndefined<boolean>
+    downloaded: NullAndUndefined<boolean>
+    bookmarked: NullAndUndefined<boolean>
+    reverse: boolean
+    sortBy: SortMode
+    showChapterNumber: boolean
+}

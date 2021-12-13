@@ -6,34 +6,13 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import React, { useEffect, useState, useContext } from 'react';
-import { Box, styled } from '@mui/system';
-import { Link, useParams } from 'react-router-dom';
-import { Virtuoso } from 'react-virtuoso';
-import ChapterCard from 'components/ChapterCard';
+import { Box } from '@mui/system';
 import MangaDetails from 'components/MangaDetails';
 import NavbarContext from 'components/context/NavbarContext';
 import client from 'util/client';
 import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
-import makeToast from 'components/util/Toast';
-import { Fab } from '@mui/material';
-import PlayArrow from '@mui/icons-material/PlayArrow';
-
-const StyledVirtuoso = styled(Virtuoso)((({ theme }) => ({
-    listStyle: 'none',
-    padding: 0,
-    minHeight: '200px',
-    [theme.breakpoints.up('md')]: {
-        width: '50vw',
-        height: 'calc(100vh - 64px)',
-        margin: 0,
-    },
-})));
-
-const baseWebsocketUrl = JSON.parse(window.localStorage.getItem('serverBaseURL')!).replace('http', 'ws');
-const initialQueue = {
-    status: 'Stopped',
-    queue: [],
-} as IQueue;
+import ChapterList from 'components/ChapterList';
+import { useParams } from 'react-router-dom';
 
 export default function Manga() {
     const { setTitle } = useContext(NavbarContext);
@@ -42,48 +21,6 @@ export default function Manga() {
     const { id } = useParams<{ id: string }>();
 
     const [manga, setManga] = useState<IManga>();
-    const [chapters, setChapters] = useState<IChapter[]>([]);
-    const [noChaptersFound, setNoChaptersFound] = useState(false);
-    const [chapterUpdateTriggerer, setChapterUpdateTriggerer] = useState(0);
-    const [fetchedOnline, setFetchedOnline] = useState(false);
-    const [fetchedOffline, setFetchedOffline] = useState(false);
-    const [firstUnreadChapter, setFirstUnreadChapter] = useState<IChapter>();
-
-    const [, setWsClient] = useState<WebSocket>();
-    const [{ queue }, setQueueState] = useState<IQueue>(initialQueue);
-
-    function triggerChaptersUpdate() {
-        setChapterUpdateTriggerer(chapterUpdateTriggerer + 1);
-    }
-
-    useEffect(() => {
-        const wsc = new WebSocket(`${baseWebsocketUrl}/api/v1/downloads`);
-        wsc.onmessage = (e) => {
-            const data = JSON.parse(e.data) as IQueue;
-            setQueueState(data);
-        };
-
-        setWsClient(wsc);
-
-        return () => wsc.close();
-    }, []);
-
-    useEffect(() => {
-        triggerChaptersUpdate();
-    }, [queue.length]);
-
-    const downloadStatusStringFor = (chapter: IChapter) => {
-        let rtn = '';
-        if (chapter.downloaded) {
-            rtn = ' • Downloaded';
-        }
-        queue.forEach((q) => {
-            if (chapter.index === q.chapterIndex && chapter.mangaId === q.mangaId) {
-                rtn = ` • Downloading (${(q.progress * 100).toFixed(2)}%)`;
-            }
-        });
-        return rtn;
-    };
 
     useEffect(() => {
         if (manga === undefined || !manga.freshData) {
@@ -96,44 +33,6 @@ export default function Manga() {
         }
     }, [manga]);
 
-    useEffect(() => {
-        const shouldFetchOnline = fetchedOffline && !fetchedOnline && (chapterUpdateTriggerer < 2);
-
-        client.get(`/api/v1/manga/${id}/chapters?onlineFetch=${shouldFetchOnline}`)
-            .then((response) => response.data)
-            .then((data) => {
-                if (data.length === 0 && fetchedOffline) {
-                    makeToast('No chapters found', 'warning');
-                    setNoChaptersFound(true);
-                }
-                setChapters(data);
-            })
-            .then(() => {
-                if (shouldFetchOnline) {
-                    setFetchedOnline(true);
-                } else setFetchedOffline(true);
-            });
-    }, [fetchedOnline, fetchedOffline, chapterUpdateTriggerer]);
-
-    useEffect(() => {
-        const a = [...chapters].reverse().find((chp) => !chp.read);
-        setFirstUnreadChapter(a);
-    }, [chapters]);
-
-    const ResumeFab = () => (firstUnreadChapter === undefined ? null
-        : (
-            <Fab
-                sx={{ position: 'fixed', bottom: '2em', right: '3em' }}
-                component={Link}
-                variant="extended"
-                color="primary"
-                to={`/manga/${id}/chapter/${firstUnreadChapter.index}/page/${firstUnreadChapter.lastPageRead}`}
-            >
-                <PlayArrow />
-                {firstUnreadChapter.index === 1 ? 'Start' : 'Resume' }
-            </Fab>
-        ));
-
     return (
         <Box sx={{ display: { md: 'flex' }, overflow: 'hidden' }}>
             <LoadingPlaceholder
@@ -142,27 +41,7 @@ export default function Manga() {
                 componentProps={{ manga }}
             />
 
-            <LoadingPlaceholder
-                shouldRender={chapters.length > 0 || noChaptersFound}
-            >
-                <StyledVirtuoso
-                    style={{ // override Virtuoso default values and set them with class
-                        height: 'undefined',
-                        overflowY: window.innerWidth < 900 ? 'visible' : 'auto',
-                    }}
-                    totalCount={chapters.length}
-                    itemContent={(index:number) => (
-                        <ChapterCard
-                            chapter={chapters[index]}
-                            downloadStatusString={downloadStatusStringFor(chapters[index])}
-                            triggerChaptersUpdate={triggerChaptersUpdate}
-                        />
-                    )}
-                    useWindowScroll={window.innerWidth < 900}
-                    overscan={window.innerHeight * 0.5}
-                />
-            </LoadingPlaceholder>
-            <ResumeFab />
+            <ChapterList id={id} />
         </Box>
     );
 }
