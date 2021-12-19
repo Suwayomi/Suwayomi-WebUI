@@ -17,10 +17,13 @@ import LangSelect from 'components/navbar/action/LangSelect';
 import { extensionDefaultLangs, langCodeToName, langSortCmp } from 'util/language';
 import { makeToaster } from 'components/util/Toast';
 import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
-import ExtensionSearch from 'components/ExtensionSearch';
+import AppbarSearch from 'components/util/AppbarSearch';
 import { useQueryParam, StringParam } from 'use-query-params';
-import { GroupedVirtuoso } from 'react-virtuoso';
+import { Virtuoso } from 'react-virtuoso';
 import { Typography, useMediaQuery, useTheme } from '@mui/material';
+
+const LANGUAGE = 0;
+const EXTENSIONS = 1;
 
 const allLangs: string[] = [];
 
@@ -33,10 +36,8 @@ function groupExtensions(extensions: IExtension[]) {
     const sortedExtenions: GroupedExtension = { installed: [], 'updates pending': [], all: [] };
     extensions.forEach((extension) => {
         if (sortedExtenions[extension.lang] === undefined) {
-            if (sortedExtenions[extension.lang] === undefined) {
-                sortedExtenions[extension.lang] = [];
-                if (extension.lang !== 'all') { allLangs.push(extension.lang); }
-            }
+            sortedExtenions[extension.lang] = [];
+            if (extension.lang !== 'all') { allLangs.push(extension.lang); }
         }
         if (extension.installed) {
             if (extension.hasUpdate) {
@@ -68,17 +69,14 @@ export default function MangaExtensions() {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-    // VirtuosoGroup: ExtArr, LangArr, langCountArr
-    const [extArr, setExtArr] = useState<IExtension[]>([]);
-    const [langArr, setLangArr] = useState<string[]>([]);
-    const [langCountArr, setLangCountArr] = useState<number[]>([]);
+    const [flatRenderItems, setFlatRenderItems] = useState<(IExtension | string)[]>([]);
     const [query] = useQueryParam('query', StringParam);
 
     useEffect(() => {
         setTitle('Extensions');
         setAction(
             <>
-                <ExtensionSearch />
+                <AppbarSearch />
                 <IconButton
                     onClick={
                         () => document.getElementById('external-extension-file')?.click()
@@ -115,15 +113,21 @@ export default function MangaExtensions() {
                 return nsfwFilter && ext.name.toLowerCase().includes(query.toLowerCase());
             });
 
-            const groupedExtensions: [string, IExtension[]][] = groupExtensions(filtered)
-                .filter((group) => group[1].length !== 0)
-                .filter((group) => group[0] === 'installed' || 'updates pending' || 'all'
-                || shownLangs.includes(group[0]));
+            const combinedShownLangs = ['installed', 'updates pending', 'all', ...shownLangs];
 
-            // The Virtual List set up
-            setExtArr(groupedExtensions.reduce((p, c) => p.concat(...c[1]), [] as IExtension[]));
-            setLangArr(groupedExtensions.map((g) => g[0]));
-            setLangCountArr(groupedExtensions.map((lang) => lang[1].length));
+            const groupedExtensions: [string, IExtension[]][] = groupExtensions(filtered)
+                .filter((group) => group[EXTENSIONS].length > 0)
+                .filter((group) => combinedShownLangs.includes(group[LANGUAGE]));
+
+            // Virtual List set up
+            const flatExtensions = [] as (IExtension | string)[];
+
+            groupedExtensions.forEach((group) => {
+                flatExtensions.push(group[LANGUAGE]);
+                group[1].forEach((it) => flatExtensions.push(it));
+            });
+
+            setFlatRenderItems(flatExtensions);
         }
     }, [extensionsRaw, query, shownLangs]);
 
@@ -178,7 +182,7 @@ export default function MangaExtensions() {
             document.removeEventListener('dragover', dragOverHandler);
             input?.removeEventListener('change', changeHandler);
         };
-    }, [extArr]); // useEffect only after <input> renders
+    }, [flatRenderItems]); // useEffect only after <input> renders
 
     if (extensionsRaw.length === 0) {
         return <LoadingPlaceholder />;
@@ -192,30 +196,43 @@ export default function MangaExtensions() {
                 id="external-extension-file"
                 style={{ display: 'none' }}
             />
-            <GroupedVirtuoso
-                fixedItemHeight={57}
-                groupCounts={langCountArr}
-                groupContent={(index) => (
-                    <Typography
-                        key={langArr[index][0]}
-                        variant="h4"
-                        style={{
-                            paddingLeft: 25, margin: 0, paddingBottom: 5, backgroundColor: 'rgb(18, 18, 18)',
-                        }}
-                    >
-                        {langCodeToName(langArr[index])}
-                    </Typography>
-                )}
-                style={{ height: isMobile ? 'calc(100vh - 64px - 64px)' : 'calc(100vh - 64px)' }}
-                itemContent={(index) => (
-                    <ExtensionCard
-                        key={extArr[index].apkName}
-                        extension={extArr[index]}
-                        notifyInstall={() => {
-                            triggerUpdate();
-                        }}
-                    />
-                )}
+            <Virtuoso
+                style={{
+                    height: isMobile ? 'calc(100vh - 64px - 64px)' : 'calc(100vh - 64px)',
+                }}
+                totalCount={flatRenderItems.length}
+                itemContent={(index) => {
+                    if (typeof (flatRenderItems[index]) === 'string') {
+                        const item = flatRenderItems[index] as string;
+                        return (
+                            <Typography
+                                key={item}
+                                variant="h2"
+                                style={{
+                                    paddingLeft: 25,
+                                    paddingBottom: '0.83em',
+                                    paddingTop: '0.83em',
+                                    backgroundColor: 'rgb(18, 18, 18)',
+                                    fontSize: '2em',
+                                    fontWeight: 'bold',
+                                }}
+                            >
+                                {langCodeToName(item)}
+                            </Typography>
+                        );
+                    }
+                    const item = flatRenderItems[index] as IExtension;
+
+                    return (
+                        <ExtensionCard
+                            key={item.apkName}
+                            extension={item}
+                            notifyInstall={() => {
+                                triggerUpdate();
+                            }}
+                        />
+                    );
+                }}
             />
         </>
     );
