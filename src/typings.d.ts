@@ -219,7 +219,7 @@ interface PaginatedList<T> {
 
 type NullAndUndefined<T> = T | null | undefined;
 
-type SortMode = 'fetchedAt' | 'source';
+type ChapterSortMode = 'fetchedAt' | 'source';
 
 interface ChapterListOptions {
     active: boolean
@@ -227,6 +227,6 @@ interface ChapterListOptions {
     downloaded: NullAndUndefined<boolean>
     bookmarked: NullAndUndefined<boolean>
     reverse: boolean
-    sortBy: SortMode
+    sortBy: ChapterSortMode
     showChapterNumber: boolean
 }

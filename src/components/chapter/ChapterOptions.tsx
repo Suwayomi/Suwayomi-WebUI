@@ -20,7 +20,7 @@ interface IProps{
     setOptions: React.Dispatch<React.SetStateAction<ChapterListOptions>>
 }
 
-const SortTab: [SortMode, string][] = [['source', 'By Source'], ['fetchedAt', 'By Fetch date']];
+const SortTab: [ChapterSortMode, string][] = [['source', 'By Source'], ['fetchedAt', 'By Fetch date']];
 
 export default function ChapterOptions(props: IProps) {
     const { options, setOptions } = props;
@@ -48,7 +48,7 @@ export default function ChapterOptions(props: IProps) {
         setOptions({ ...options, active, bookmarked: newBookmarked });
     };
 
-    const setSort = (newSort: SortMode) => {
+    const setSort = (newSort: ChapterSortMode) => {
         if (newSort !== options.sortBy) {
             setOptions({ ...options, sortBy: newSort });
         } else {
