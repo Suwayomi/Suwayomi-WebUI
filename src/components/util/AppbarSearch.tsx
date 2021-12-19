@@ -6,17 +6,14 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import { IconButton, Input } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
-import useLibraryOptions from '../../util/useLibraryOptions';
+import { useQueryParam, StringParam } from 'use-query-params';
 
-export default function LibrarySearch() {
-    const {
-        query,
-        setQuery,
-    } = useLibraryOptions();
+export default function AppbarSearch() {
+    const [query, setQuery] = useQueryParam('query', StringParam);
     const [searchOpen, setSearchOpen] = useState(!!query);
     const inputRef = React.useRef<HTMLInputElement>();
 
@@ -35,6 +32,22 @@ export default function LibrarySearch() {
             if (inputRef && inputRef.current) inputRef.current.focus();
         });
     };
+
+    const handleSearchShortcut = (e: KeyboardEvent) => {
+        if ((e.code === 'F3') || (e.ctrlKey && e.code === 'KeyF')) {
+            e.preventDefault();
+            openSearch();
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener('keydown', handleSearchShortcut);
+
+        return () => {
+            window.removeEventListener('keydown', handleSearchShortcut);
+        };
+    }, [handleSearchShortcut]);
+
     return (
         <>
             {searchOpen
@@ -52,7 +65,11 @@ export default function LibrarySearch() {
                             </IconButton>
                         )}
                     />
-                ) : <SearchIcon onClick={openSearch} /> }
+                ) : (
+                    <IconButton onClick={openSearch}>
+                        <SearchIcon />
+                    </IconButton>
+                )}
         </>
     );
 }

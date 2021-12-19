@@ -18,7 +18,7 @@ import ChapterOptions from 'components/chapter/ChapterOptions';
 import ChapterCard from 'components/chapter/ChapterCard';
 import useLocalStorage from 'util/useLocalStorage';
 
-const List = styled(Virtuoso)(({ theme }) => ({
+const CustomVirtuoso = styled(Virtuoso)(({ theme }) => ({
     listStyle: 'none',
     padding: 0,
     minHeight: '200px',
@@ -221,7 +221,7 @@ export default function ChapterList(props: IProps) {
                     <ChapterOptions options={options} setOptions={setOptions} />
                 </Box>
 
-                <List
+                <CustomVirtuoso
                     style={{ // override Virtuoso default values and set them with class
                         height: 'undefined',
                         // 900 is the md breakpoint in MUI

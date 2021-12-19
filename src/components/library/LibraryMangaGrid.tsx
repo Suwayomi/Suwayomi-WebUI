@@ -8,7 +8,7 @@
 
 import React from 'react';
 import MangaGrid, { IMangaGridProps } from 'components/MangaGrid';
-import useLibraryOptions, { NullAndUndefined } from 'util/useLibraryOptions';
+import useLibraryOptions from 'util/useLibraryOptions';
 
 const FILTERED_OUT_MESSAGE = 'There are no Manga matching this filter';
 
