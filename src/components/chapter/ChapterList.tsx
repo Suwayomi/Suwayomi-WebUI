@@ -9,14 +9,14 @@ import React, { useState, useEffect } from 'react';
 import { Box, styled } from '@mui/system';
 import { Virtuoso } from 'react-virtuoso';
 import Typography from '@mui/material/Typography';
-import ChapterCard from 'components/ChapterCard';
 import { CircularProgress, Fab } from '@mui/material';
 import { Link } from 'react-router-dom';
 import makeToast from 'components/util/Toast';
 import client from 'util/client';
 import PlayArrow from '@mui/icons-material/PlayArrow';
-import ChapterOptions from 'components/ChapterOptions';
-import useLocalStorage from '../util/useLocalStorage';
+import ChapterOptions from 'components/chapter/ChapterOptions';
+import ChapterCard from 'components/chapter/ChapterCard';
+import useLocalStorage from 'util/useLocalStorage';
 
 const List = styled(Virtuoso)(({ theme }) => ({
     listStyle: 'none',

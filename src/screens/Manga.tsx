@@ -11,7 +11,7 @@ import MangaDetails from 'components/MangaDetails';
 import NavbarContext from 'components/context/NavbarContext';
 import client from 'util/client';
 import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
-import ChapterList from 'components/ChapterList';
+import ChapterList from 'components/chapter/ChapterList';
 import { useParams } from 'react-router-dom';
 
 export default function Manga() {
