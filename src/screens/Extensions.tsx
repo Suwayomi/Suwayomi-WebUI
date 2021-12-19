@@ -17,45 +17,68 @@ import LangSelect from 'components/navbar/action/LangSelect';
 import { extensionDefaultLangs, langCodeToName, langSortCmp } from 'util/language';
 import { makeToaster } from 'components/util/Toast';
 import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
+import ExtensionSearch from 'components/ExtensionSearch';
+import { useQueryParam, StringParam } from 'use-query-params';
+import { GroupedVirtuoso } from 'react-virtuoso';
+import { Typography, useMediaQuery, useTheme } from '@mui/material';
 
 const allLangs: string[] = [];
 
+interface GroupedExtension {
+    [key: string]: IExtension[]
+}
+
 function groupExtensions(extensions: IExtension[]) {
     allLangs.length = 0; // empty the array
-    const result = { installed: [], 'updates pending': [] } as any;
-    extensions.sort((a, b) => ((a.apkName > b.apkName) ? 1 : -1));
-
+    const sortedExtenions: GroupedExtension = { installed: [], 'updates pending': [], all: [] };
     extensions.forEach((extension) => {
-        if (result[extension.lang] === undefined) {
-            result[extension.lang] = [];
-            if (extension.lang !== 'all') { allLangs.push(extension.lang); }
+        if (sortedExtenions[extension.lang] === undefined) {
+            if (sortedExtenions[extension.lang] === undefined) {
+                sortedExtenions[extension.lang] = [];
+                if (extension.lang !== 'all') { allLangs.push(extension.lang); }
+            }
         }
         if (extension.installed) {
             if (extension.hasUpdate) {
-                result['updates pending'].push(extension);
+                sortedExtenions['updates pending'].push(extension);
             } else {
-                result.installed.push(extension);
+                sortedExtenions.installed.push(extension);
             }
         } else {
-            result[extension.lang].push(extension);
+            sortedExtenions[extension.lang].push(extension);
         }
     });
 
-    // put english first for convience
     allLangs.sort(langSortCmp);
+    const result: [string, IExtension[]][] = [
+        ['updates pending', sortedExtenions['updates pending']],
+        ['installed', sortedExtenions.installed],
+        ['all', sortedExtenions.all],
+    ];
 
-    return result;
+    const langExt: [string, IExtension[]][] = allLangs.map((lang) => [lang, sortedExtenions[lang]]);
+
+    return result.concat(langExt);
 }
 
 export default function MangaExtensions() {
     const { setTitle, setAction } = useContext(NavbarContext);
     const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownExtensionLangs', extensionDefaultLangs());
     const [showNsfw] = useLocalStorage<boolean>('showNsfw', true);
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+    // VirtuosoGroup: ExtArr, LangArr, langCountArr
+    const [extArr, setExtArr] = useState<IExtension[]>([]);
+    const [langArr, setLangArr] = useState<string[]>([]);
+    const [langCountArr, setLangCountArr] = useState<number[]>([]);
+    const [query] = useQueryParam('query', StringParam);
 
     useEffect(() => {
         setTitle('Extensions');
         setAction(
             <>
+                <ExtensionSearch />
                 <IconButton
                     onClick={
                         () => document.getElementById('external-extension-file')?.click()
@@ -74,7 +97,6 @@ export default function MangaExtensions() {
     }, [shownLangs]);
 
     const [extensionsRaw, setExtensionsRaw] = useState<IExtension[]>([]);
-    const [extensions, setExtensions] = useState<any>({});
 
     const [updateTriggerHolder, setUpdateTriggerHolder] = useState(0); // just a hack
     const triggerUpdate = () => setUpdateTriggerHolder(updateTriggerHolder + 1); // just a hack
@@ -87,10 +109,23 @@ export default function MangaExtensions() {
 
     useEffect(() => {
         if (extensionsRaw.length > 0) {
-            const groupedExtension = groupExtensions(extensionsRaw);
-            setExtensions(groupedExtension);
+            const filtered = extensionsRaw.filter((ext) => {
+                const nsfwFilter = showNsfw || !ext.isNsfw;
+                if (!query) return nsfwFilter;
+                return nsfwFilter && ext.name.toLowerCase().includes(query.toLowerCase());
+            });
+
+            const groupedExtensions: [string, IExtension[]][] = groupExtensions(filtered)
+                .filter((group) => group[1].length !== 0)
+                .filter((group) => group[0] === 'installed' || 'updates pending' || 'all'
+                || shownLangs.includes(group[0]));
+
+            // The Virtual List set up
+            setExtArr(groupedExtensions.reduce((p, c) => p.concat(...c[1]), [] as IExtension[]));
+            setLangArr(groupedExtensions.map((g) => g[0]));
+            setLangCountArr(groupedExtensions.map((lang) => lang[1].length));
         }
-    }, [extensionsRaw]);
+    }, [extensionsRaw, query, shownLangs]);
 
     const [toasts, makeToast] = makeToaster(useState<React.ReactElement[]>([]));
 
@@ -143,12 +178,12 @@ export default function MangaExtensions() {
             document.removeEventListener('dragover', dragOverHandler);
             input?.removeEventListener('change', changeHandler);
         };
-    }, [extensions]); // useEffect only after <input> renders
+    }, [extArr]); // useEffect only after <input> renders
 
-    if (Object.entries(extensions).length === 0) {
+    if (extensionsRaw.length === 0) {
         return <LoadingPlaceholder />;
     }
-    const groupsToShow = ['updates pending', 'installed', ...shownLangs];
+
     return (
         <>
             {toasts}
@@ -157,29 +192,31 @@ export default function MangaExtensions() {
                 id="external-extension-file"
                 style={{ display: 'none' }}
             />
-            {
-                Object.entries(extensions).map(([lang, list]) => (
-                    ((groupsToShow.indexOf(lang) !== -1 && (list as []).length > 0)
-                        && (
-                            <React.Fragment key={lang}>
-                                <h1 key={lang} style={{ marginLeft: 25 }}>
-                                    {langCodeToName(lang)}
-                                </h1>
-                                {(list as IExtension[])
-                                    .filter((extension) => showNsfw || !extension.isNsfw)
-                                    .map((it) => (
-                                        <ExtensionCard
-                                            key={it.apkName}
-                                            extension={it}
-                                            notifyInstall={() => {
-                                                triggerUpdate();
-                                            }}
-                                        />
-                                    ))}
-                            </React.Fragment>
-                        ))
-                ))
-            }
+            <GroupedVirtuoso
+                fixedItemHeight={57}
+                groupCounts={langCountArr}
+                groupContent={(index) => (
+                    <Typography
+                        key={langArr[index][0]}
+                        variant="h4"
+                        style={{
+                            paddingLeft: 25, margin: 0, paddingBottom: 5, backgroundColor: 'rgb(18, 18, 18)',
+                        }}
+                    >
+                        {langCodeToName(langArr[index])}
+                    </Typography>
+                )}
+                style={{ height: isMobile ? 'calc(100vh - 64px - 64px)' : 'calc(100vh - 64px)' }}
+                itemContent={(index) => (
+                    <ExtensionCard
+                        key={extArr[index].apkName}
+                        extension={extArr[index]}
+                        notifyInstall={() => {
+                            triggerUpdate();
+                        }}
+                    />
+                )}
+            />
         </>
     );
 }
