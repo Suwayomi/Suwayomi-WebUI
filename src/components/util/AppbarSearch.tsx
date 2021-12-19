@@ -6,16 +6,16 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import { IconButton, Input } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { useQueryParam, StringParam } from 'use-query-params';
 
-export default function LibrarySearch() {
+export default function AppbarSearch() {
     const [query, setQuery] = useQueryParam('query', StringParam);
     const [searchOpen, setSearchOpen] = useState(!!query);
-    const inputRef = useRef<HTMLInputElement>();
+    const inputRef = React.useRef<HTMLInputElement>();
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         setQuery(e.target.value === '' ? undefined : e.target.value);
@@ -24,9 +24,7 @@ export default function LibrarySearch() {
         setQuery(null);
         setSearchOpen(false);
     };
-    const handleBlur = () => {
-        if (!query) setSearchOpen(false);
-    };
+    const handleBlur = () => { if (!query) setSearchOpen(false); };
     const openSearch = () => {
         setSearchOpen(true);
         // Put Focus Action at the end of the Callstack so Input actually exists on the dom
@@ -36,21 +34,26 @@ export default function LibrarySearch() {
     };
     return (
         <>
-            {searchOpen ? (
-                <Input
-                    value={query || ''}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    inputRef={inputRef}
-                    endAdornment={(
-                        <IconButton onClick={cancelSearch}>
-                            <CancelIcon />
-                        </IconButton>
-                    )}
-                />
-            ) : (
-                <SearchIcon onClick={openSearch} />
-            )}
+            {searchOpen
+                ? (
+                    <Input
+                        value={query || ''}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        inputRef={inputRef}
+                        endAdornment={(
+                            <IconButton
+                                onClick={cancelSearch}
+                            >
+                                <CancelIcon />
+                            </IconButton>
+                        )}
+                    />
+                ) : (
+                    <IconButton onClick={openSearch}>
+                        <SearchIcon />
+                    </IconButton>
+                )}
         </>
     );
 }

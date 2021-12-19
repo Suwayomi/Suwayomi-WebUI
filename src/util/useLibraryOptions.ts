@@ -8,8 +8,6 @@
 
 import { BooleanParam, useQueryParam, StringParam } from 'use-query-params';
 
-export type NullAndUndefined<T> = T | null | undefined;
-
 interface IUseLibraryOptions {
     downloaded: NullAndUndefined<boolean>
     setDownloaded: (downloaded: NullAndUndefined<boolean>)=>void
