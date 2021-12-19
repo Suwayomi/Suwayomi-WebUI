@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import { IconButton, Input } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
@@ -32,6 +32,22 @@ export default function AppbarSearch() {
             if (inputRef && inputRef.current) inputRef.current.focus();
         });
     };
+
+    const handleSearchShortcut = (e: KeyboardEvent) => {
+        if ((e.code === 'F3') || (e.ctrlKey && e.code === 'KeyF')) {
+            e.preventDefault();
+            openSearch();
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener('keydown', handleSearchShortcut);
+
+        return () => {
+            window.removeEventListener('keydown', handleSearchShortcut);
+        };
+    }, [handleSearchShortcut]);
+
     return (
         <>
             {searchOpen
