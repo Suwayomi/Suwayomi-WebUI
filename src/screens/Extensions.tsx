@@ -68,8 +68,6 @@ export default function MangaExtensions() {
     const [showNsfw] = useLocalStorage<boolean>('showNsfw', true);
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-
-    const [flatRenderItems, setFlatRenderItems] = useState<(IExtension | string)[]>([]);
     const [query] = useQueryParam('query', StringParam);
 
     useEffect(() => {
@@ -104,32 +102,6 @@ export default function MangaExtensions() {
             .then((response) => response.data)
             .then((data) => setExtensionsRaw(data));
     }, [updateTriggerHolder]);
-
-    useEffect(() => {
-        if (extensionsRaw.length > 0) {
-            const filtered = extensionsRaw.filter((ext) => {
-                const nsfwFilter = showNsfw || !ext.isNsfw;
-                if (!query) return nsfwFilter;
-                return nsfwFilter && ext.name.toLowerCase().includes(query.toLowerCase());
-            });
-
-            const combinedShownLangs = ['installed', 'updates pending', 'all', ...shownLangs];
-
-            const groupedExtensions: [string, IExtension[]][] = groupExtensions(filtered)
-                .filter((group) => group[EXTENSIONS].length > 0)
-                .filter((group) => combinedShownLangs.includes(group[LANGUAGE]));
-
-            // Virtual List set up
-            const flatExtensions = [] as (IExtension | string)[];
-
-            groupedExtensions.forEach((group) => {
-                flatExtensions.push(group[LANGUAGE]);
-                group[1].forEach((it) => flatExtensions.push(it));
-            });
-
-            setFlatRenderItems(flatExtensions);
-        }
-    }, [extensionsRaw, query, shownLangs]);
 
     const [toasts, makeToast] = makeToaster(useState<React.ReactElement[]>([]));
 
@@ -182,11 +154,25 @@ export default function MangaExtensions() {
             document.removeEventListener('dragover', dragOverHandler);
             input?.removeEventListener('change', changeHandler);
         };
-    }, [flatRenderItems]); // useEffect only after <input> renders
+    }, [extensionsRaw]); // useEffect only after <input> renders
 
     if (extensionsRaw.length === 0) {
         return <LoadingPlaceholder />;
     }
+
+    const filtered = extensionsRaw.filter((ext) => {
+        const nsfwFilter = showNsfw || !ext.isNsfw;
+        if (!query) return nsfwFilter;
+        return nsfwFilter && ext.name.toLowerCase().includes(query.toLowerCase());
+    });
+
+    const combinedShownLangs = ['installed', 'updates pending', 'all', ...shownLangs];
+
+    const groupedExtensions: [string, IExtension[]][] = groupExtensions(filtered)
+        .filter((group) => group[EXTENSIONS].length > 0)
+        .filter((group) => combinedShownLangs.includes(group[LANGUAGE]));
+
+    const flatRenderItems: (IExtension | string)[] = groupedExtensions.flat(2);
 
     return (
         <>
