@@ -230,3 +230,9 @@ interface ChapterListOptions {
     sortBy: ChapterSortMode
     showChapterNumber: boolean
 }
+
+type OptionsReducerActions =
+{ type: 'filter', filterType:string, filterValue: NullAndUndefined<boolean> }
+| { type: 'sortBy', sortBy: ChapterSortMode }
+| { type: 'sortReverse' }
+| { type: 'showChapterNumber' };

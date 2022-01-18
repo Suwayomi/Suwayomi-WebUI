@@ -14,7 +14,7 @@ import React, {
 export interface IThreeStateCheckboxProps {
     name: string
     checked: boolean | undefined | null
-    onChange: (change: boolean | undefined | null) => void
+    onChange: (change: boolean | undefined | null, name: string) => void
 }
 
 enum CheckState {
@@ -61,10 +61,10 @@ const ThreeStateCheckbox = (props: IThreeStateCheckboxProps) => {
     } = props;
     const [localChecked, setLocalChecked] = useState(checkedToState(checked));
     useEffect(() => setLocalChecked(checkedToState(checked)), [checked]);
-    const handleChange = () => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setLocalChecked(stateTransition(localChecked));
         if (onChange) {
-            onChange(stateToChecked(stateTransition(localChecked)));
+            onChange(stateToChecked(stateTransition(localChecked)), e.currentTarget.name);
         }
     };
     const CancelBox = createSvgIcon(
