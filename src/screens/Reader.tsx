@@ -155,7 +155,7 @@ export default function Reader() {
             const formData = new FormData();
             formData.append('lastPageRead', `${chapter.pageCount - 1}`);
             formData.append('read', 'true');
-            if (chapter.index + 2 < chapter.chapterCount) {
+            if (settings.downloadNextDuringReading && chapter.index + 2 < chapter.chapterCount) {
                 client.get(`/api/v1/download/${manga.id}/chapter/${chapter.index + 2}`);
             }
             client.patch(`/api/v1/manga/${manga.id}/chapter/${chapter.index}`, formData);

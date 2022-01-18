@@ -114,8 +114,8 @@ const OpenDrawerButton = styled(IconButton)(({ theme }) => ({
 export const defaultReaderSettings = () => ({
     staticNav: false,
     showPageNumber: true,
-    continuesPageGap: false,
     loadNextonEnding: false,
+    downloadNextDuringReading: false,
     readerType: 'ContinuesVertical',
 } as IReaderSettings);
 
@@ -263,6 +263,16 @@ export default function ReaderNavBar(props: IProps) {
                                         edge="end"
                                         checked={settings.loadNextonEnding}
                                         onChange={(e) => setSettingValue('loadNextonEnding', e.target.checked)}
+                                    />
+                                </ListItemSecondaryAction>
+                            </ListItem>
+                            <ListItem>
+                                <ListItemText primary="Download next chapter while reading" />
+                                <ListItemSecondaryAction>
+                                    <Switch
+                                        edge="end"
+                                        checked={settings.downloadNextDuringReading}
+                                        onChange={(e) => setSettingValue('downloadNextDuringReading', e.target.checked)}
                                     />
                                 </ListItemSecondaryAction>
                             </ListItem>
