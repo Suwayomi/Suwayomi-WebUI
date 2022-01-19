@@ -26,13 +26,14 @@ export function optionsReducer(state: ChapterListOptions, actions: OptionsReduce
     : ChapterListOptions {
     switch (actions.type) {
         case 'filter':
+            // eslint-disable-next-line no-case-declarations
+            const active = state.unread !== false
+            && state.downloaded !== false
+            && state.bookmarked !== false;
             return {
                 ...state,
+                active,
                 [actions.filterType!]: actions.filterValue,
-                active:
-                state.unread !== false
-                && state.downloaded !== false
-                && state.bookmarked !== false,
             };
         case 'sortBy':
             return { ...state, sortBy: actions.sortBy };
@@ -63,7 +64,6 @@ export function ResumeFab(props: ResumeFABProps) {
             <PlayArrow />
             {index === 1 ? 'Start' : 'Resume' }
         </Fab>
-
     );
 }
 

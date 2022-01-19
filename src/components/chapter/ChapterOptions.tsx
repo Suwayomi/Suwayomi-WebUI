@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import {
     Drawer, FormControlLabel, IconButton, Typography, Tab, Tabs, Radio, RadioGroup, Stack,
@@ -27,9 +27,11 @@ export default function ChapterOptions(props: IProps) {
     const [filtersOpen, setFiltersOpen] = useState(false);
     const [tabNum, setTabNum] = useState(0);
 
-    const filterOptions = (value: NullAndUndefined<boolean>, name: string) => {
-        optionsDispatch({ type: 'filter', filterType: name.toLowerCase(), filterValue: value });
-    };
+    const filterOptions = useCallback(
+        (value: NullAndUndefined<boolean>, name: string) => {
+            optionsDispatch({ type: 'filter', filterType: name.toLowerCase(), filterValue: value });
+        }, [],
+    );
 
     return (
         <>
@@ -102,12 +104,12 @@ export default function ChapterOptions(props: IProps) {
                         </Box>
                     </TabPanel>
                     <TabPanel index={2} currentIndex={tabNum}>
-                        <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '150px' }}>
+                        <Stack flexDirection="column" sx={{ minHeight: '150px' }}>
                             <RadioGroup name="chapter-title-display" onChange={() => optionsDispatch({ type: 'showChapterNumber' })} value={options.showChapterNumber}>
                                 <FormControlLabel label="By Source Title" value="title" control={<Radio checked={!options.showChapterNumber} />} />
                                 <FormControlLabel label="By Chapter Number" value="chapterNumber" control={<Radio checked={options.showChapterNumber} />} />
                             </RadioGroup>
-                        </Box>
+                        </Stack>
                     </TabPanel>
                 </Box>
             </Drawer>

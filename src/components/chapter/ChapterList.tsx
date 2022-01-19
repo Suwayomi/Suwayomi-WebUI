@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Box, styled } from '@mui/system';
 import { Virtuoso } from 'react-virtuoso';
 import Typography from '@mui/material/Typography';
@@ -60,9 +60,8 @@ export default function ChapterList(props: IProps) {
     const [, setWsClient] = useState<WebSocket>();
     const [{ queue }, setQueueState] = useState<IQueue>(initialQueue);
 
-    function triggerChaptersUpdate() {
-        setChapterUpdateTriggerer(chapterUpdateTriggerer + 1);
-    }
+    const triggerChaptersUpdate = useCallback(() => setChapterUpdateTriggerer((prev) => prev + 1),
+        []);
 
     useEffect(() => {
         const wsc = new WebSocket(`${baseWebsocketUrl}/api/v1/downloads`);
@@ -80,7 +79,7 @@ export default function ChapterList(props: IProps) {
         triggerChaptersUpdate();
     }, [queue.length]);
 
-    const downloadStatusStringFor = (chapter: IChapter) => {
+    const downloadStatusStringFor = useCallback((chapter: IChapter) => {
         let rtn = '';
         if (chapter.downloaded) {
             rtn = ' • Downloaded';
@@ -91,7 +90,7 @@ export default function ChapterList(props: IProps) {
             }
         });
         return rtn;
-    };
+    }, [queue]);
 
     useEffect(() => {
         const shouldFetchOnline = fetchedOffline && !fetchedOnline;
