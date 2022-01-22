@@ -16,9 +16,11 @@ import ChapterOptions from 'components/chapter/ChapterOptions';
 import ChapterCard from 'components/chapter/ChapterCard';
 import { useReducerLocalStorage } from 'util/useLocalStorage';
 import {
-    optionsReducer, defaultChapterOptions, findFirstUnreadChapter, ResumeFab,
+    optionsReducer, defaultChapterOptions, findFirstUnreadChapter,
     filterAndSortChapters,
 } from 'components/chapter/util';
+
+import ResumeFab from 'components/chapter/ResumeFAB';
 
 const CustomVirtuoso = styled(Virtuoso)(({ theme }) => ({
     listStyle: 'none',

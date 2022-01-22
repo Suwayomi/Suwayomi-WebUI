@@ -7,11 +7,6 @@ import { Link } from 'react-router-dom';
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import React from 'react';
-import { Fab } from '@mui/material';
-import { Link } from 'react-router-dom';
-import { PlayArrow } from '@mui/icons-material';
-
 export const defaultChapterOptions: ChapterListOptions = {
     active: false,
     unread: undefined,
@@ -44,27 +39,6 @@ export function optionsReducer(state: ChapterListOptions, actions: OptionsReduce
         default:
             throw Error('This is not a valid Action');
     }
-}
-
-interface ResumeFABProps{
-    chapter: IChapter
-    mangaId: string
-}
-
-export function ResumeFab(props: ResumeFABProps) {
-    const { chapter: { index, lastPageRead }, mangaId } = props;
-    return (
-        <Fab
-            sx={{ position: 'fixed', bottom: '2em', right: '3em' }}
-            component={Link}
-            variant="extended"
-            color="primary"
-            to={`/manga/${mangaId}/chapter/${index}/page/${lastPageRead}`}
-        >
-            <PlayArrow />
-            {index === 1 ? 'Start' : 'Resume' }
-        </Fab>
-    );
 }
 
 export function unreadFilter(unread: NullAndUndefined<boolean>, { read: isChapterRead }: IChapter) {
