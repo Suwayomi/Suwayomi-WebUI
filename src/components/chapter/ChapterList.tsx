@@ -16,10 +16,9 @@ import ChapterOptions from 'components/chapter/ChapterOptions';
 import ChapterCard from 'components/chapter/ChapterCard';
 import { useReducerLocalStorage } from 'util/useLocalStorage';
 import {
-    optionsReducer, defaultChapterOptions, findFirstUnreadChapter,
+    chapterOptionsReducer, defaultChapterOptions, findFirstUnreadChapter,
     filterAndSortChapters,
 } from 'components/chapter/util';
-
 import ResumeFab from 'components/chapter/ResumeFAB';
 
 const CustomVirtuoso = styled(Virtuoso)(({ theme }) => ({
@@ -55,8 +54,8 @@ export default function ChapterList(props: IProps) {
     const [firstUnreadChapter, setFirstUnreadChapter] = useState<IChapter>();
     const [filteredChapters, setFilteredChapters] = useState<IChapter[]>([]);
     // eslint-disable-next-line max-len
-    const [options, optionsDispatch] = useReducerLocalStorage<ChapterListOptions, OptionsReducerActions>(
-        optionsReducer, `${id}filterOptions`, defaultChapterOptions,
+    const [options, optionsDispatch] = useReducerLocalStorage<ChapterListOptions, ChapterOptionsReducerAction>(
+        chapterOptionsReducer, `${id}filterOptions`, defaultChapterOptions,
     );
 
     const [, setWsClient] = useState<WebSocket>();
