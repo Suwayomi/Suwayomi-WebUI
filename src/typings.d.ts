@@ -231,7 +231,7 @@ interface ChapterListOptions {
     showChapterNumber: boolean
 }
 
-type OptionsReducerActions =
+type ChapterOptionsReducerAction =
 { type: 'filter', filterType:string, filterValue: NullAndUndefined<boolean> }
 | { type: 'sortBy', sortBy: ChapterSortMode }
 | { type: 'sortReverse' }

@@ -1,6 +1,4 @@
 /*
-import { Fab } from '@mui/material/Fab';
-import { Link } from 'react-router-dom';
  * Copyright (C) Contributors to the Suwayomi project
  *
  * This Source Code Form is subject to the terms of the Mozilla Public

@@ -17,7 +17,7 @@ import TabPanel from 'components/util/TabPanel';
 
 interface IProps{
     options: ChapterListOptions
-    optionsDispatch: React.Dispatch<OptionsReducerActions>
+    optionsDispatch: React.Dispatch<ChapterOptionsReducerAction>
 }
 
 const SortTab: [ChapterSortMode, string][] = [['source', 'By Source'], ['fetchedAt', 'By Fetch date']];
