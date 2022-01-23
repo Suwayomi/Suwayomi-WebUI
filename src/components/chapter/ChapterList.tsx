@@ -164,9 +164,11 @@ export default function ChapterList(props: IProps) {
             </Fab>
         ));
 
-    if (noChaptersFound) {
-        makeToast('No chapters found', 'warning');
-    }
+    useEffect(() => {
+        if (noChaptersFound) {
+            makeToast('No chapters found', 'warning');
+        }
+    }, [noChaptersFound]);
 
     if (chapters.length === 0 || noChaptersFound) {
         return (
