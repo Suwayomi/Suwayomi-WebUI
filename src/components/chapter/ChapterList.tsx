@@ -11,7 +11,6 @@ import { Virtuoso } from 'react-virtuoso';
 import Typography from '@mui/material/Typography';
 import { CircularProgress, Stack } from '@mui/material';
 import makeToast from 'components/util/Toast';
-import client from 'util/client';
 import ChapterOptions from 'components/chapter/ChapterOptions';
 import ChapterCard from 'components/chapter/ChapterCard';
 import { useReducerLocalStorage } from 'util/useLocalStorage';
@@ -20,6 +19,7 @@ import {
     filterAndSortChapters,
 } from 'components/chapter/util';
 import ResumeFab from 'components/chapter/ResumeFAB';
+import useFetchChapters from './useFetchChapters';
 
 const CustomVirtuoso = styled(Virtuoso)(({ theme }) => ({
     listStyle: 'none',
@@ -46,11 +46,7 @@ interface IProps {
 export default function ChapterList(props: IProps) {
     const { id } = props;
 
-    const [chapters, setChapters] = useState<IChapter[]>([]);
-    const [noChaptersFound, setNoChaptersFound] = useState(false);
-    const [chapterUpdateTriggerer, setChapterUpdateTriggerer] = useState(0);
-    const [fetchedOnline, setFetchedOnline] = useState(false);
-    const [fetchedOffline, setFetchedOffline] = useState(false);
+    const [chapters, triggerChaptersUpdate, noChaptersFound] = useFetchChapters(id);
     const [firstUnreadChapter, setFirstUnreadChapter] = useState<IChapter>();
     const [filteredChapters, setFilteredChapters] = useState<IChapter[]>([]);
     // eslint-disable-next-line max-len
@@ -60,9 +56,6 @@ export default function ChapterList(props: IProps) {
 
     const [, setWsClient] = useState<WebSocket>();
     const [{ queue }, setQueueState] = useState<IQueue>(initialQueue);
-
-    const triggerChaptersUpdate = useCallback(() => setChapterUpdateTriggerer((prev) => prev + 1),
-        []);
 
     useEffect(() => {
         const wsc = new WebSocket(`${baseWebsocketUrl}/api/v1/downloads`);
@@ -94,29 +87,16 @@ export default function ChapterList(props: IProps) {
     }, [queue]);
 
     useEffect(() => {
-        const shouldFetchOnline = fetchedOffline && !fetchedOnline;
-
-        client.get(`/api/v1/manga/${id}/chapters?onlineFetch=${shouldFetchOnline}`)
-            .then((response) => response.data)
-            .then((data) => {
-                if (data.length === 0 && fetchedOffline) {
-                    makeToast('No chapters found', 'warning');
-                    setNoChaptersFound(true);
-                }
-                setChapters(data);
-            })
-            .then(() => {
-                if (shouldFetchOnline) {
-                    setFetchedOnline(true);
-                } else setFetchedOffline(true);
-            });
-    }, [fetchedOnline, fetchedOffline, chapterUpdateTriggerer]);
-
-    useEffect(() => {
         const filtered = filterAndSortChapters(chapters, options);
         setFilteredChapters(filtered);
         setFirstUnreadChapter(findFirstUnreadChapter(filtered));
     }, [options, chapters]);
+
+    useEffect(() => {
+        if (noChaptersFound) {
+            makeToast('No chapters found', 'warning');
+        }
+    }, [noChaptersFound]);
 
     if (chapters.length === 0 || noChaptersFound) {
         return (
