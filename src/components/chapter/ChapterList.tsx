@@ -5,17 +5,20 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Box, styled } from '@mui/system';
 import { Virtuoso } from 'react-virtuoso';
 import Typography from '@mui/material/Typography';
-import { CircularProgress, Fab } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { CircularProgress, Stack } from '@mui/material';
 import makeToast from 'components/util/Toast';
-import PlayArrow from '@mui/icons-material/PlayArrow';
 import ChapterOptions from 'components/chapter/ChapterOptions';
 import ChapterCard from 'components/chapter/ChapterCard';
-import useLocalStorage from 'util/useLocalStorage';
+import { useReducerLocalStorage } from 'util/useLocalStorage';
+import {
+    chapterOptionsReducer, defaultChapterOptions, findFirstUnreadChapter,
+    filterAndSortChapters,
+} from 'components/chapter/util';
+import ResumeFab from 'components/chapter/ResumeFAB';
 import useFetchChapters from './useFetchChapters';
 
 const CustomVirtuoso = styled(Virtuoso)(({ theme }) => ({
@@ -40,65 +43,15 @@ interface IProps {
     id: string
 }
 
-function unreadFilter(unread: NullAndUndefined<boolean>, { read: isChapterRead }: IChapter) {
-    switch (unread) {
-        case true:
-            return !isChapterRead;
-        case false:
-            return isChapterRead;
-        default:
-            return true;
-    }
-}
-
-function downloadFilter(downloaded: NullAndUndefined<boolean>,
-    { downloaded: chapterDownload }: IChapter) {
-    switch (downloaded) {
-        case true:
-            return chapterDownload;
-        case false:
-            return !chapterDownload;
-        default:
-            return true;
-    }
-}
-
-function bookmarkdFilter(bookmarked: NullAndUndefined<boolean>,
-    { bookmarked: chapterBookmarked }: IChapter) {
-    switch (bookmarked) {
-        case true:
-            return chapterBookmarked;
-        case false:
-            return !chapterBookmarked;
-        default:
-            return true;
-    }
-}
-
-function findFirstUnreadChapter(chapters: IChapter[]): IChapter | undefined {
-    for (let index = chapters.length - 1; index >= 0; index--) {
-        if (!chapters[index].read) return chapters[index];
-    }
-    return undefined;
-}
-
 export default function ChapterList(props: IProps) {
     const { id } = props;
 
     const [chapters, triggerChaptersUpdate, noChaptersFound] = useFetchChapters(id);
     const [firstUnreadChapter, setFirstUnreadChapter] = useState<IChapter>();
     const [filteredChapters, setFilteredChapters] = useState<IChapter[]>([]);
-    const [options, setOptions] = useLocalStorage<ChapterListOptions>(
-        `${id}filterOptions`,
-        {
-            active: false,
-            unread: undefined,
-            downloaded: undefined,
-            bookmarked: undefined,
-            reverse: false,
-            sortBy: 'source',
-            showChapterNumber: false,
-        },
+    // eslint-disable-next-line max-len
+    const [options, optionsDispatch] = useReducerLocalStorage<ChapterListOptions, ChapterOptionsReducerAction>(
+        chapterOptionsReducer, `${id}filterOptions`, defaultChapterOptions,
     );
 
     const [, setWsClient] = useState<WebSocket>();
@@ -120,7 +73,7 @@ export default function ChapterList(props: IProps) {
         triggerChaptersUpdate();
     }, [queue.length]);
 
-    const downloadStatusStringFor = (chapter: IChapter) => {
+    const downloadStatusStringFor = useCallback((chapter: IChapter) => {
         let rtn = '';
         if (chapter.downloaded) {
             rtn = ' • Downloaded';
@@ -131,38 +84,13 @@ export default function ChapterList(props: IProps) {
             }
         });
         return rtn;
-    };
+    }, [queue]);
 
     useEffect(() => {
-        const filtered = options.active
-            ? chapters.filter((chp) => unreadFilter(options.unread, chp)
-            && downloadFilter(options.downloaded, chp)
-            && bookmarkdFilter(options.bookmarked, chp))
-            : [...chapters];
-        const Sorted = options.sortBy === 'fetchedAt'
-            ? filtered.sort((a, b) => a.fetchedAt - b.fetchedAt)
-            : filtered;
-        if (options.reverse) {
-            Sorted.reverse();
-        }
-        setFilteredChapters(Sorted);
-
+        const filtered = filterAndSortChapters(chapters, options);
+        setFilteredChapters(filtered);
         setFirstUnreadChapter(findFirstUnreadChapter(filtered));
     }, [options, chapters]);
-
-    const ResumeFab = () => (firstUnreadChapter === undefined ? null
-        : (
-            <Fab
-                sx={{ position: 'fixed', bottom: '2em', right: '3em' }}
-                component={Link}
-                variant="extended"
-                color="primary"
-                to={`/manga/${id}/chapter/${firstUnreadChapter.index}/page/${firstUnreadChapter.lastPageRead}`}
-            >
-                <PlayArrow />
-                {firstUnreadChapter.index === 1 ? 'Start' : 'Resume' }
-            </Fab>
-        ));
 
     useEffect(() => {
         if (noChaptersFound) {
@@ -185,11 +113,7 @@ export default function ChapterList(props: IProps) {
 
     return (
         <>
-            <Box sx={{
-                display: 'flex',
-                flexDirection: 'column',
-            }}
-            >
+            <Stack direction="column">
                 <Box sx={{
                     display: 'flex', justifyContent: 'space-between', px: 1.5, mt: 1,
                 }}
@@ -197,7 +121,7 @@ export default function ChapterList(props: IProps) {
                     <Typography variant="h5">
                         {`${filteredChapters.length} Chapters`}
                     </Typography>
-                    <ChapterOptions options={options} setOptions={setOptions} />
+                    <ChapterOptions options={options} optionsDispatch={optionsDispatch} />
                 </Box>
 
                 <CustomVirtuoso
@@ -218,8 +142,8 @@ export default function ChapterList(props: IProps) {
                     useWindowScroll={window.innerWidth < 900}
                     overscan={window.innerHeight * 0.5}
                 />
-            </Box>
-            <ResumeFab />
+            </Stack>
+            {firstUnreadChapter && <ResumeFab chapter={firstUnreadChapter} mangaId={id} />}
         </>
     );
 }
