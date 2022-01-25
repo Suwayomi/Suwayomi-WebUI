@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import React, { useState } from 'react';
+import React from 'react';
 import {
     BrowserRouter as Router, Switch,
     Route,
@@ -18,7 +18,6 @@ import {
     createTheme, ThemeProvider, Theme, StyledEngineProvider,
 } from '@mui/material/styles';
 import DefaultNavBar from 'components/navbar/DefaultNavBar';
-import NavbarContext from 'components/context/NavbarContext';
 import DarkTheme from 'components/context/DarkTheme';
 import useLocalStorage from 'util/useLocalStorage';
 import Settings from 'screens/Settings';
@@ -36,6 +35,7 @@ import DownloadQueue from 'screens/DownloadQueue';
 import Browse from 'screens/Browse';
 import Sources from 'screens/Sources';
 import Extensions from 'screens/Extensions';
+import NavBarContextProvider from 'components/navbar/NavBarContextProvider';
 
 declare module '@mui/styles/defaultTheme' {
     // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -44,23 +44,8 @@ declare module '@mui/styles/defaultTheme' {
 }
 
 export default function App() {
-    const [title, setTitle] = useState<string>('Tachidesk');
-    const [action, setAction] = useState<any>(<div />);
-    const [override, setOverride] = useState<INavbarOverride>({
-        status: false,
-        value: <div />,
-    });
-
     const [darkTheme, setDarkTheme] = useLocalStorage<boolean>('darkTheme', true);
 
-    const navBarContext = {
-        title,
-        setTitle,
-        action,
-        setAction,
-        override,
-        setOverride,
-    };
     const darkThemeContext = {
         darkTheme,
         setDarkTheme,
@@ -96,7 +81,7 @@ export default function App() {
             <StyledEngineProvider injectFirst>
                 <ThemeProvider theme={theme}>
                     <QueryParamProvider ReactRouterRoute={Route}>
-                        <NavbarContext.Provider value={navBarContext}>
+                        <NavBarContextProvider>
                             <CssBaseline />
                             <DefaultNavBar />
                             <Container
@@ -188,7 +173,7 @@ export default function App() {
                                     }
                                 />
                             </Switch>
-                        </NavbarContext.Provider>
+                        </NavBarContextProvider>
                     </QueryParamProvider>
                 </ThemeProvider>
             </StyledEngineProvider>
