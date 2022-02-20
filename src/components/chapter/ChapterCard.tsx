@@ -34,7 +34,7 @@ export default function ChapterCard(props: IProps) {
         chapter, triggerChaptersUpdate, downloadStatusString, showChapterNumber,
     } = props;
 
-    const dateStr = chapter.uploadDate && new Date(chapter.uploadDate).toISOString().slice(0, 10);
+    const dateStr = chapter.uploadDate && new Date(chapter.uploadDate).toLocaleDateString();
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
