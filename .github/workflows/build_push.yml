@@ -51,7 +51,7 @@ jobs:
       - name: Checkout preview branch
         uses: actions/checkout@v2
         with:
-          repository: 'Suwayomi/Tachidesk-WebUI-preview'
+          repository: "Suwayomi/Tachidesk-WebUI-preview"
           ref: main
           path: preview
           token: ${{ secrets.DEPLOY_PREVIEW_TOKEN }}
@@ -79,3 +79,23 @@ jobs:
           owner: "Suwayomi"
           repo: "Tachidesk-WebUI-preview"
           tag: ${{ steps.GenTagName.outputs.value }}
+
+      - name: Checkout github pages repo
+        uses: actions/checkout@v2
+        with:
+          repository: "Tachidesk-WebUI-preview/tachidesk-webui-preview.github.io"
+          ref: main
+          path: gh-pages
+          token: ${{ secrets.DEPLOY_PREVIEW_TOKEN }}
+
+      - name: Deploy github pages
+        run: |
+          TAG="${{ steps.GenTagName.outputs.value }}"
+          rm -rf gh-pages/*
+          cp master/build/* gh-pages
+          cd gh-pages
+          git add -A
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git commit -m "Updated to $TAG"
+          git push origin main
