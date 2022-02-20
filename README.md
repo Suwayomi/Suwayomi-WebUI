@@ -6,6 +6,9 @@ WebUI doesn't have it's own Tachidesk distribution and is version locked by Tach
 
 You can find minified builds of WebUI in [Tachidesk-WebUI-preview](https://github.com/Suwayomi/Tachidesk-WebUI-preview)
 
+Online builds of WebUI of are always available [here](https://tachidesk-webui-preview.github.io/). 
+*Make sure to set your Tachidesk-Server hostname in Settings or you'll get infinite loading.* Also note that its the **latest** revision of WebUI and might not work correctly if you connect to a stable build of Tachidesk-Server.
+
 ## Contributing and Technical info
 See [CONTRIBUTING.md](./CONTRIBUTING.md).
 
