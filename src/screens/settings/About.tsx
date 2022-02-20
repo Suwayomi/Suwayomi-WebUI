@@ -44,10 +44,10 @@ export default function About() {
             <ListItem>
                 <ListItemText primary="Build time" secondary={buildTime()} />
             </ListItem>
-            <ListItemLink href={about.github}>
+            <ListItemLink to={about.github}>
                 <ListItemText primary="Github" secondary={about.github} />
             </ListItemLink>
-            <ListItemLink href={about.discord}>
+            <ListItemLink to={about.discord}>
                 <ListItemText primary="Discord" secondary={about.discord} />
             </ListItemLink>
         </List>
