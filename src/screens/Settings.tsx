@@ -60,13 +60,13 @@ export default function Settings() {
     return (
         <>
             <List sx={{ padding: 0 }}>
-                <ListItemLink href="/settings/categories">
+                <ListItemLink to="/settings/categories">
                     <ListItemIcon>
                         <ListAltIcon />
                     </ListItemIcon>
                     <ListItemText primary="Categories" />
                 </ListItemLink>
-                <ListItemLink href="/settings/backup">
+                <ListItemLink to="/settings/backup">
                     <ListItemIcon>
                         <BackupIcon />
                     </ListItemIcon>
@@ -134,7 +134,7 @@ export default function Settings() {
                         </IconButton>
                     </ListItemSecondaryAction>
                 </ListItem>
-                <ListItemLink href="/settings/about">
+                <ListItemLink to="/settings/about">
                     <ListItemIcon>
                         <InfoIcon />
                     </ListItemIcon>
