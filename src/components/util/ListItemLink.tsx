@@ -9,18 +9,13 @@ import React from 'react';
 import ListItem, { ListItemProps } from '@mui/material/ListItem';
 import { Link } from 'react-router-dom';
 
-export default function ListItemLink(props: ListItemProps<Link, {}>) {
-    return (
-        <ListItem
-            // @ts-ignore
-            // sx={{ color: 'white', textDecoration: 'none', '-webkit-text-decoration': 'none' }}
-            // @ts-ignore
-            button
-            component={Link}
-            // eslint-disable-next-line react/jsx-props-no-spreading
-            {...props}
-        />
-    );
+export default function ListItemLink(props: ListItemProps<Link, { directLink?: boolean }>) {
+    const { directLink, to } = props;
+    if (directLink) {
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        return <ListItem button component="a" href={to} {...props} />;
+    }
+
     // eslint-disable-next-line react/jsx-props-no-spreading
-    // return <ListItem button component="a" {...props} />;
+    return <ListItem button component={Link} {...props} />;
 }
