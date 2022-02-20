@@ -4,10 +4,10 @@ If you got here hoping to download Tachidesk-WebUI, go back and download [Tachid
 # Tachidesk-WebUI
 WebUI doesn't have it's own Tachidesk distribution and is version locked by Tachidesk-Server, In other words the Tachidesk-WebUI distribution is actually the Tachidesk-Server distribution.
 
-You can find minified builds of WebUI in [Tachidesk-WebUI-preview](https://github.com/Suwayomi/Tachidesk-WebUI-preview)
-
 Online builds of WebUI of are always available [here](https://tachidesk-webui-preview.github.io/). 
 *Make sure to set your Tachidesk-Server hostname in Settings or you'll get infinite loading.* Also note that its the **latest** revision of WebUI and might not work correctly if you connect to a stable build of Tachidesk-Server.
+
+You can find minified builds of WebUI in [Tachidesk-WebUI-preview](https://github.com/Suwayomi/Tachidesk-WebUI-preview)
 
 ## Contributing and Technical info
 See [CONTRIBUTING.md](./CONTRIBUTING.md).
