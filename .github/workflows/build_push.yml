@@ -92,7 +92,7 @@ jobs:
         run: |
           TAG="${{ steps.GenTagName.outputs.value }}"
           rm -rf gh-pages/*
-          cp master/build/* gh-pages
+          cp -r master/build/* gh-pages
           cd gh-pages
           git add -A
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
