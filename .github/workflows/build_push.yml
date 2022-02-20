@@ -97,5 +97,5 @@ jobs:
           git add -A
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-          git commit -m "Updated to $TAG"
+          git commit -m "$TAG"
           git push origin main
