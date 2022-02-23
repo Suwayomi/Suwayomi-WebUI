@@ -27,8 +27,8 @@ const CustomVirtuoso = styled(Virtuoso)(({ theme }) => ({
     minHeight: '200px',
     [theme.breakpoints.up('md')]: {
         width: '50vw',
-        // 64px for the Appbar, 40px for the ChapterCount Header
-        height: 'calc(100vh - 64px - 40px)',
+        // 64px for the Appbar, 48px for the ChapterCount Header
+        height: 'calc(100vh - 64px - 48px)',
         margin: 0,
     },
 }));
