@@ -17,9 +17,9 @@ interface IUseLibraryOptions {
     setQuery: (query: NullAndUndefined<string>) => void
     active: boolean
     sorts: NullAndUndefined<string>
-    setSorts: (query: NullAndUndefined<string>) => void
+    setSorts: (Sorts: NullAndUndefined<string>) => void
     sortDesc: NullAndUndefined<boolean>
-    setSortDesc: (unread: NullAndUndefined<boolean>) => void
+    setSortDesc: (SortDesc: NullAndUndefined<boolean>) => void
 }
 
 export default function useLibraryOptions(): IUseLibraryOptions {
