@@ -48,6 +48,32 @@ function filterManga(mangas: IMangaCard[]): IMangaCard[] {
         && queryFilter(query, manga));
 }
 
+function ToReadSort(a: IMangaCard, b: IMangaCard): number {
+    if (!a.unreadCount) return -1;
+    if (!b.unreadCount) return 1;
+    return a.unreadCount > b.unreadCount ? 1 : -1;
+}
+
+function ToSortAlph(a: IMangaCard, b: IMangaCard): number {
+    return a.title < b.title ? 1 : -1;
+}
+
+function ToSortID(a: IMangaCard, b: IMangaCard): number {
+    return a.id > b.id ? 1 : -1;
+}
+
+function sortManga(mangas: IMangaCard[]): IMangaCard[] {
+    const { sorts, sortDesc } = useLibraryOptions();
+    return (sorts === 'sortID' || sorts === undefined) && !sortDesc ? mangas : mangas.sort((a, b) => {
+        const c = sortDesc === true ? b : a;
+        const d = sortDesc === true ? a : b;
+        if (sorts === 'sortToRead') { return ToReadSort(c, d); }
+        if (sorts === 'sortAlph') { return ToSortAlph(c, d); }
+        if (sorts === 'sortID' || sorts === undefined) { return ToSortID(c, d); }
+        return 1;
+    });
+}
+
 export default function LibraryMangaGrid(props: IMangaGridProps) {
     const {
         mangas, isLoading, hasNextPage, lastPageNum, setLastPageNum, message,
@@ -55,12 +81,13 @@ export default function LibraryMangaGrid(props: IMangaGridProps) {
 
     const { active, query } = useLibraryOptions();
     const filteredManga = filterManga(mangas);
+    const sortedManga = sortManga(filteredManga);
     const showFilteredOutMessage = (active || query)
         && filteredManga.length === 0 && mangas.length > 0;
 
     return (
         <MangaGrid
-            mangas={filteredManga}
+            mangas={sortedManga}
             isLoading={isLoading}
             hasNextPage={hasNextPage}
             lastPageNum={lastPageNum}
