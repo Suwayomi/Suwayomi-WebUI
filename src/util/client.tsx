@@ -17,7 +17,6 @@ if (port === '3000') { inferredPort = '4567'; } else { inferredPort = port; }
 const client = axios.create({
     // baseURL must not have traling slash
     baseURL: storage.getItem('serverBaseURL', `${protocol}//${hostname}:${inferredPort}`),
-    withCredentials: true,
 });
 
 client.interceptors.request.use((config) => {
