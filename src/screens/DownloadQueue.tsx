@@ -125,7 +125,9 @@ export default function DownloadQueue() {
                                             </ListItemIcon>
                                             <ListItemText
                                                 primary={
-                                                    `${item.chapter.name} | `
+                                                    `${item.manga.source.name} | `
+                                                + `${item.manga.title} | `
+                                                + `${item.chapter.name} | `
                                                 + ` (${(item.progress * 100).toFixed(2)}%)`
                                                 + ` => state: ${item.state}`
                                                 }
