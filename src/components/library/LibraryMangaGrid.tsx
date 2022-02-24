@@ -48,17 +48,17 @@ function filterManga(mangas: IMangaCard[]): IMangaCard[] {
         && queryFilter(query, manga));
 }
 
-function ToReadSort(a: IMangaCard, b: IMangaCard): number {
+function toReadSort(a: IMangaCard, b: IMangaCard): number {
     if (!a.unreadCount) return -1;
     if (!b.unreadCount) return 1;
     return a.unreadCount > b.unreadCount ? 1 : -1;
 }
 
-function ToSortAlph(a: IMangaCard, b: IMangaCard): number {
+function toSortAlph(a: IMangaCard, b: IMangaCard): number {
     return a.title < b.title ? 1 : -1;
 }
 
-function ToSortID(a: IMangaCard, b: IMangaCard): number {
+function toSortID(a: IMangaCard, b: IMangaCard): number {
     return a.id > b.id ? 1 : -1;
 }
 
@@ -67,9 +67,9 @@ function sortManga(mangas: IMangaCard[]): IMangaCard[] {
     return (sorts === 'sortID' || sorts === undefined) && !sortDesc ? mangas : mangas.sort((a, b) => {
         const c = sortDesc === true ? b : a;
         const d = sortDesc === true ? a : b;
-        if (sorts === 'sortToRead') { return ToReadSort(c, d); }
-        if (sorts === 'sortAlph') { return ToSortAlph(c, d); }
-        if (sorts === 'sortID' || sorts === undefined) { return ToSortID(c, d); }
+        if (sorts === 'sortToRead') { return toReadSort(c, d); }
+        if (sorts === 'sortAlph') { return toSortAlph(c, d); }
+        if (sorts === 'sortID' || sorts === undefined) { return toSortID(c, d); }
         return 1;
     });
 }
