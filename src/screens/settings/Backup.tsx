@@ -68,7 +68,7 @@ export default function Backup() {
     return (
         <>
             <List sx={{ padding: 0 }}>
-                <ListItemLink href={`${baseURL}/api/v1/backup/export/file`}>
+                <ListItemLink to={`${baseURL}/api/v1/backup/export/file`} directLink>
                     <ListItemText
                         primary="Create Backup"
                         secondary="Backup library as a Tachiyomi backup"

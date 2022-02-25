@@ -7,8 +7,15 @@
 
 import React from 'react';
 import ListItem, { ListItemProps } from '@mui/material/ListItem';
+import { Link } from 'react-router-dom';
 
-export default function ListItemLink(props: ListItemProps<'a', { button?: true }>) {
+export default function ListItemLink(props: ListItemProps<Link, { directLink?: boolean }>) {
+    const { directLink, to } = props;
+    if (directLink) {
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        return <ListItem button component="a" href={to} {...props} />;
+    }
+
     // eslint-disable-next-line react/jsx-props-no-spreading
-    return <ListItem button component="a" {...props} />;
+    return <ListItem button component={Link} {...props} />;
 }
