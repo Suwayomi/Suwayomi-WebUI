@@ -151,7 +151,9 @@ export default function DownloadQueue() {
                                                         {item.manga.title}
                                                     </Typography>
                                                     <Typography variant="caption" display="block" gutterBottom>
-                                                        {item.chapter.name}
+                                                        {`${item.chapter.name} `
+                                                        + `(${(item.progress * 100).toFixed(2)}%)`
+                                                        + ` => state: ${item.state}`}
                                                     </Typography>
                                                 </Box>
                                             </Box>
