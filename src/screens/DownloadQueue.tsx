@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/jsx-props-no-spreading */
@@ -23,8 +24,11 @@ import List from '@mui/material/List';
 import DragHandleIcon from '@mui/icons-material/DragHandle';
 import ListItem from '@mui/material/ListItem';
 import { ListItemIcon } from '@mui/material';
-import ListItemText from '@mui/material/ListItemText';
 import EmptyView from 'components/util/EmptyView';
+
+import { Box } from '@mui/system';
+import Typography from '@mui/material/Typography';
+import { useHistory } from 'react-router-dom';
 
 const baseWebsocketUrl = JSON.parse(window.localStorage.getItem('serverBaseURL')!).replace('http', 'ws');
 
@@ -47,6 +51,8 @@ export default function DownloadQueue() {
     const [, setWsClient] = useState<WebSocket>();
     const [queueState, setQueueState] = useState<IQueue>(initialQueue);
     const { queue, status } = queueState;
+
+    const history = useHistory();
 
     const theme = useTheme();
 
@@ -111,6 +117,22 @@ export default function DownloadQueue() {
                                     {(provided, snapshot) => (
                                         <ListItem
                                             ContainerProps={{ ref: provided.innerRef } as any}
+                                            sx={{
+                                                display: 'flex',
+                                                justifyContent: 'flex-start',
+                                                alignItems: 'flex-start',
+                                                padding: 2,
+                                                margin: '10px',
+                                                '&:hover': {
+                                                    backgroundColor: 'action.hover',
+                                                    transition: 'background-color 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+                                                },
+                                                '&:active': {
+                                                    backgroundColor: 'action.selected',
+                                                    transition: 'background-color 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+                                                },
+                                            }}
+                                            onClick={() => history.push(`/manga/${item.chapter.mangaId}`)}
                                             {...provided.draggableProps}
                                             {...provided.dragHandleProps}
                                             style={getItemStyle(
@@ -120,21 +142,25 @@ export default function DownloadQueue() {
                                             )}
                                             ref={provided.innerRef}
                                         >
-                                            <ListItemIcon>
+                                            <ListItemIcon sx={{ margin: 'auto 0' }}>
                                                 <DragHandleIcon />
                                             </ListItemIcon>
-                                            <ListItemText
-                                                primary={
-                                                    `${item.manga.source.name} | `
-                                                + `${item.manga.title} | `
-                                                + `${item.chapter.name} | `
-                                                + ` (${(item.progress * 100).toFixed(2)}%)`
-                                                + ` => state: ${item.state}`
-                                                }
-                                            />
+                                            <Box sx={{ display: 'flex' }}>
+                                                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                                                    <Typography variant="h5" component="h2">
+                                                        {item.manga.title}
+                                                    </Typography>
+                                                    <Typography variant="caption" display="block" gutterBottom>
+                                                        {item.chapter.name}
+                                                    </Typography>
+                                                </Box>
+                                            </Box>
                                             <IconButton
-                                                onClick={() => {
-                                                // deleteCategory(index);
+                                                sx={{ marginLeft: 'auto' }}
+                                                onClick={(e) => {
+                                                    // deleteCategory(index);
+                                                    // prevent parent tags from getting the event
+                                                    e.stopPropagation();
                                                 }}
                                                 size="large"
                                             >
@@ -143,6 +169,7 @@ export default function DownloadQueue() {
                                         </ListItem>
                                     )}
                                 </Draggable>
+
                             ))}
                             {provided.placeholder}
                         </List>
