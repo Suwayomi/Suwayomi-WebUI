@@ -41,10 +41,16 @@ function queryFilter(query: NullAndUndefined<string>, { title }: IMangaCard): bo
 }
 
 // eslint-disable-next-line max-len
-function genreFilter(query: NullAndUndefined<{ [key: string]: NullAndUndefined<any>; }>, { genre }: IMangaCard): boolean {
-    if (query !== undefined && query !== null && Object.keys(query).length >= 1 && genre) {
-        const temp = genre.map((e) => query[e]);
-        return !temp.includes('false') && (Object.values(query).includes('true') ? temp.includes('true') : true);
+function genreFilter(queryY: NullAndUndefined<any[]>, queryN: NullAndUndefined<any[]>, { genre }: IMangaCard): boolean {
+    if (genre && (queryN || queryY)) {
+        let ret: boolean = true;
+        if (queryN) {
+            ret = !queryN.some((v: string) => genre.includes(v));
+        }
+        if (queryY) {
+            ret = ret && queryY.some((v: string) => genre.includes(v));
+        }
+        return ret;
     }
     return true;
 }
@@ -54,13 +60,14 @@ function filterManga(mangas: IMangaCard[]): IMangaCard[] {
         downloaded,
         unread,
         query,
-        queryGenre,
+        genreY,
+        genreN,
     } = useLibraryOptions();
     return mangas
         .filter((manga) => downloadedFilter(downloaded, manga)
         && unreadFilter(unread, manga)
         && queryFilter(query, manga)
-        && genreFilter(queryGenre, manga));
+        && genreFilter(genreY, genreN, manga));
 }
 
 function toReadSort(a: IMangaCard, b: IMangaCard): number {

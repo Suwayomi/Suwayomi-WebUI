@@ -57,37 +57,35 @@ function SortOptions() {
 
 function GenreOptions({ genres }: IGenres) {
     const {
-        queryGenre,
-        setQueryGenre,
+        genreY,
+        setGenreY,
+        genreN,
+        setGenreN,
     } = useLibraryOptions();
 
-    function handleGenreChange(ele: string, checked: any) {
-        const tmp = queryGenre || {};
-        if (checked !== undefined) {
-            tmp[ele] = checked;
-        } else {
-            delete tmp[ele];
+    function handleGenreChange(ele: string, checked: boolean | undefined | null) {
+        switch (checked) {
+            case true:
+                setGenreY([...Array.from(genreY || []), ele]);
+                break;
+            case false:
+                setGenreY(genreY?.filter((e) => e !== ele));
+                setGenreN([...Array.from(genreN || []), ele]);
+                break;
+            default:
+                setGenreN(genreN?.filter((e) => e !== ele));
         }
-        setQueryGenre(tmp);
     }
 
     const ret = genres.map((ele) => {
         let check: null | boolean;
-        if (queryGenre !== undefined
-            && queryGenre !== null
-            && Object.keys(queryGenre).length >= 1
-        ) {
-            switch (queryGenre[ele]) {
-                case 'true' || true:
-                    check = true;
-                    break;
-                case 'false' || false:
-                    check = false;
-                    break;
-                default:
-                    check = null;
-            }
-        } else { check = null; }
+        if (genreY?.find((elem) => elem === ele)) {
+            check = true;
+        } else if (genreN?.find((elem) => elem === ele)) {
+            check = false;
+        } else {
+            check = null;
+        }
 
         return (
             <FormControlLabel

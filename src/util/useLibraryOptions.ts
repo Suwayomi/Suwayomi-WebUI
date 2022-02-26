@@ -7,7 +7,7 @@
  */
 
 import {
-    BooleanParam, useQueryParam, StringParam, ObjectParam,
+    BooleanParam, useQueryParam, StringParam, ArrayParam,
 } from 'use-query-params';
 
 interface IUseLibraryOptions {
@@ -23,8 +23,10 @@ interface IUseLibraryOptions {
     setSorts: (sorts: NullAndUndefined<string>) => void
     sortDesc: NullAndUndefined<boolean>
     setSortDesc: (sortDesc: NullAndUndefined<boolean>) => void
-    queryGenre: NullAndUndefined<{ [key: string]: NullAndUndefined<any>; }>
-    setQueryGenre: (queryGenre: NullAndUndefined<{ [key: string]: NullAndUndefined<any>; }>) => void
+    genreY: NullAndUndefined<any[]>
+    setGenreY: (genreY: NullAndUndefined<any[]>) => void
+    genreN: NullAndUndefined<any[]>
+    setGenreN: (genreN: NullAndUndefined<any[]>) => void
 }
 
 export default function useLibraryOptions(): IUseLibraryOptions {
@@ -33,12 +35,13 @@ export default function useLibraryOptions(): IUseLibraryOptions {
     const [query, setQuery] = useQueryParam('query', StringParam);
     const [sorts, setSorts] = useQueryParam('sorts', StringParam);
     const [sortDesc, setSortDesc] = useQueryParam('sortDesc', BooleanParam);
-    const [queryGenre, setQueryGenre] = useQueryParam('queryGenre', ObjectParam);
+    const [genreY, setGenreY] = useQueryParam('genreY', ArrayParam);
+    const [genreN, setGenreN] = useQueryParam('genreN', ArrayParam);
 
+    // eslint-disable-next-line eqeqeq, max-len
+    const active = unread != undefined || downloaded != undefined || genreY != undefined || genreN != undefined;
     // eslint-disable-next-line eqeqeq
-    const active = !(unread == undefined) || !(downloaded == undefined);
-    // eslint-disable-next-line eqeqeq
-    const activeSort = !(queryGenre == undefined || Object.keys(queryGenre).length >= 1);
+    const activeSort = (sortDesc != undefined) || (sorts != undefined);
     return {
         downloaded,
         setDownloaded,
@@ -52,7 +55,9 @@ export default function useLibraryOptions(): IUseLibraryOptions {
         setSorts,
         sortDesc,
         setSortDesc,
-        queryGenre,
-        setQueryGenre,
+        genreY,
+        setGenreY,
+        genreN,
+        setGenreN,
     };
 }
