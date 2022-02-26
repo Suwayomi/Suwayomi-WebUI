@@ -8,10 +8,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
-import MangaGrid from 'components/MangaGrid';
+import SourceMangaGrid from 'components/source/SourceMangaGrid';
 import NavbarContext from 'components/context/NavbarContext';
 import client from 'util/client';
 import SettingsIcon from '@mui/icons-material/Settings';
+import SourceOptions from 'components/source/SourceOptions';
 
 export default function SourceMangas(props: { popular: boolean }) {
     const { setTitle, setAction } = useContext(NavbarContext);
@@ -63,10 +64,22 @@ export default function SourceMangas(props: { popular: boolean }) {
                 setMangas([
                     ...mangas,
                     ...data.mangaList.map((it) => ({
-                        title: it.title, thumbnailUrl: it.thumbnailUrl, id: it.id,
+                        title: it.title, thumbnailUrl: it.thumbnailUrl, id: it.id, genre: it.genre,
                     }))]);
                 setHasNextPage(data.hasNextPage);
                 setFetched(true);
+                const genre = [...Array.from(new Set([
+                    ...mangas,
+                    ...data.mangaList.map((it) => ({
+                        genre: it.genre,
+                    }))].flatMap((ele) => ele.genre || '')))].sort();
+                setTitle('Library'); setAction(
+                    <>
+                        <SourceOptions
+                            genres={genre}
+                        />
+                    </>,
+                );
             });
     }, [lastPageNum]);
 
@@ -86,7 +99,7 @@ export default function SourceMangas(props: { popular: boolean }) {
     }
 
     return (
-        <MangaGrid
+        <SourceMangaGrid
             mangas={mangas}
             hasNextPage={hasNextPage}
             lastPageNum={lastPageNum}
