@@ -48,7 +48,7 @@ function genreFilter(queryY: NullAndUndefined<any[]>, queryN: NullAndUndefined<a
             ret = !queryN.some((v: string) => genre.includes(v));
         }
         if (queryY) {
-            ret = ret && queryY.some((v: string) => genre.includes(v));
+            ret = ret && queryY.every((v: string) => genre.includes(v));
         }
         return ret;
     }
