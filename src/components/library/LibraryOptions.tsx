@@ -112,7 +112,7 @@ export default function LibraryOptions({ genres }: IGenres) {
     const [filtersOpen, setFiltersOpen] = React.useState(false);
     const [genreFiltersOpen, setGenreFiltersOpen] = React.useState(false);
     const [sortsOpen, setSortsOpen] = React.useState(false);
-    const { active, activeSort } = useLibraryOptions();
+    const { active, activeSort, activeGenre } = useLibraryOptions();
     return (
         <>
             <IconButton
@@ -142,7 +142,7 @@ export default function LibraryOptions({ genres }: IGenres) {
                             setFiltersOpen(false);
                             setGenreFiltersOpen(!genreFiltersOpen);
                         }}
-                        color={active ? 'warning' : 'default'}
+                        color={activeGenre ? 'warning' : 'default'}
                         size="small"
                     >
                         <FilterListIcon />
