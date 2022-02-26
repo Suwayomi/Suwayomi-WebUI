@@ -16,6 +16,10 @@ import Switch from '@mui/material/Switch';
 import Radio from '@mui/material/Radio';
 import { Box } from '@mui/system';
 
+interface IGenres {
+    genres: string[]
+}
+
 function Options() {
     const {
         downloaded, setDownloaded, unread, setUnread,
@@ -51,10 +55,66 @@ function SortOptions() {
     );
 }
 
-export default function LibraryOptions() {
+function GenreOptions({ genres }: IGenres) {
+    const {
+        queryGenre,
+        setQueryGenre,
+    } = useLibraryOptions();
+
+    function handleGenreChange(ele: string, checked: any) {
+        const tmp = queryGenre || {};
+        if (checked !== undefined) {
+            tmp[ele] = checked;
+        } else {
+            delete tmp[ele];
+        }
+        setQueryGenre(tmp);
+    }
+
+    const ret = genres.map((ele) => {
+        let check: null | boolean;
+        if (queryGenre !== undefined
+            && queryGenre !== null
+            && Object.keys(queryGenre).length >= 1
+        ) {
+            switch (queryGenre[ele]) {
+                case 'true' || true:
+                    check = true;
+                    break;
+                case 'false' || false:
+                    check = false;
+                    break;
+                default:
+                    check = null;
+            }
+        } else { check = null; }
+
+        return (
+            <FormControlLabel
+                key={ele}
+                control={(
+                    <ThreeStateCheckbox
+                        name={ele}
+                        checked={check}
+                        onChange={(checked) => handleGenreChange(ele, checked)}
+                    />
+                )}
+                label={ele}
+            />
+        );
+    });
+    return (
+        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            {ret}
+        </Box>
+    );
+}
+
+export default function LibraryOptions({ genres }: IGenres) {
     const [filtersOpen, setFiltersOpen] = React.useState(false);
+    const [genreFiltersOpen, setGenreFiltersOpen] = React.useState(false);
     const [sortsOpen, setSortsOpen] = React.useState(false);
-    const { active } = useLibraryOptions();
+    const { active, activeSort } = useLibraryOptions();
     return (
         <>
             <IconButton
@@ -75,11 +135,27 @@ export default function LibraryOptions() {
                 }}
             >
                 <Options />
+                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                    <IconButton
+                        sx={{
+                            marginRight: 'auto',
+                        }}
+                        onClick={() => {
+                            setFiltersOpen(false);
+                            setGenreFiltersOpen(!genreFiltersOpen);
+                        }}
+                        color={active ? 'warning' : 'default'}
+                        size="small"
+                    >
+                        <FilterListIcon />
+                        Genre Filter
+                    </IconButton>
+                </Box>
             </Drawer>
 
             <IconButton
                 onClick={() => setSortsOpen(!filtersOpen)}
-                color={active ? 'warning' : 'default'}
+                color={activeSort ? 'warning' : 'default'}
             >
                 <SortIcon />
             </IconButton>
@@ -95,6 +171,21 @@ export default function LibraryOptions() {
                 }}
             >
                 <SortOptions />
+            </Drawer>
+
+            <Drawer
+                anchor="right"
+                open={genreFiltersOpen}
+                onClose={() => setGenreFiltersOpen(false)}
+                PaperProps={{
+                    style: {
+                        maxWidth: 600, padding: '1em', marginLeft: 'auto', marginRight: 'auto',
+                    },
+                }}
+            >
+                <GenreOptions
+                    genres={genres}
+                />
             </Drawer>
 
         </>

@@ -36,6 +36,7 @@ interface IMangaCard {
     thumbnailUrl: string
     unreadCount?: number
     downloadCount?: number
+    genre?: string[]
 }
 
 interface IManga {

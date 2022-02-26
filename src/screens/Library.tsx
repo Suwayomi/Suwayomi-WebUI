@@ -26,14 +26,6 @@ interface IMangaCategory {
 
 export default function Library() {
     const { setTitle, setAction } = useContext(NavbarContext);
-    useEffect(() => {
-        setTitle('Library'); setAction(
-            <>
-                <AppbarSearch />
-                <LibraryOptions />
-            </>,
-        );
-    }, []);
 
     const [tabs, setTabs] = useState<IMangaCategory[]>();
 
@@ -77,15 +69,23 @@ export default function Library() {
         if (tabs !== undefined) {
             tabs.forEach((tab, index) => {
                 if (tab.category.order === tabNum && !tab.isFetched) {
-                    // eslint-disable-next-line @typescript-eslint/no-shadow
                     client.get(`/api/v1/category/${tab.category.id}`)
                         .then((response) => response.data)
                         .then((data: IManga[]) => {
                             const tabsClone = cloneObject(tabs);
                             tabsClone[index].mangas = data;
                             tabsClone[index].isFetched = true;
-
                             setTabs(tabsClone);
+                            // eslint-disable-next-line max-len
+                            const genre = [...Array.from(new Set(data.flatMap((ele: IManga) => ele.genre)))].filter((e: string) => e !== '').sort();
+                            setTitle('Library'); setAction(
+                                <>
+                                    <AppbarSearch />
+                                    <LibraryOptions
+                                        genres={genre}
+                                    />
+                                </>,
+                            );
                         });
                 }
             });

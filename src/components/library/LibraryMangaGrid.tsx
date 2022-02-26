@@ -40,12 +40,27 @@ function queryFilter(query: NullAndUndefined<string>, { title }: IMangaCard): bo
     return title.toLowerCase().includes(query.toLowerCase());
 }
 
+// eslint-disable-next-line max-len
+function genreFilter(query: NullAndUndefined<{ [key: string]: NullAndUndefined<any>; }>, { genre }: IMangaCard): boolean {
+    if (query !== undefined && query !== null && Object.keys(query).length >= 1 && genre) {
+        const temp = genre.map((e) => query[e]);
+        return !temp.includes('false') && (Object.values(query).includes('true') ? temp.includes('true') : true);
+    }
+    return true;
+}
+
 function filterManga(mangas: IMangaCard[]): IMangaCard[] {
-    const { downloaded, unread, query } = useLibraryOptions();
+    const {
+        downloaded,
+        unread,
+        query,
+        queryGenre,
+    } = useLibraryOptions();
     return mangas
         .filter((manga) => downloadedFilter(downloaded, manga)
         && unreadFilter(unread, manga)
-        && queryFilter(query, manga));
+        && queryFilter(query, manga)
+        && genreFilter(queryGenre, manga));
 }
 
 function toReadSort(a: IMangaCard, b: IMangaCard): number {
