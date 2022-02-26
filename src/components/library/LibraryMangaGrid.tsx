@@ -101,10 +101,10 @@ export default function LibraryMangaGrid(props: IMangaGridProps) {
         mangas, isLoading, hasNextPage, lastPageNum, setLastPageNum, message,
     } = props;
 
-    const { active, query } = useLibraryOptions();
+    const { active, query, activeGenre } = useLibraryOptions();
     const filteredManga = filterManga(mangas);
     const sortedManga = sortManga(filteredManga);
-    const showFilteredOutMessage = (active || query)
+    const showFilteredOutMessage = (active || query || activeGenre)
         && filteredManga.length === 0 && mangas.length > 0;
 
     return (
