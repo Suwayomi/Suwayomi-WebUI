@@ -30,7 +30,7 @@ export default function useLibraryOptions(): IUseLibraryOptions {
     const [sorts, setSorts] = useQueryParam('sorts', StringParam);
     const [sortDesc, setSortDesc] = useQueryParam('sortDesc', BooleanParam);
 
-    // eslint-disable-next-line eqeqeq, max-len
+    // eslint-disable-next-line eqeqeq
     const active = !(unread == undefined) || !(downloaded == undefined);
     // eslint-disable-next-line eqeqeq
     const activeSort = (sortDesc != undefined) || (sorts != undefined);

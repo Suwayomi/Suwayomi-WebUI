@@ -8,95 +8,96 @@
 
 import React from 'react';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { Drawer, FormControlLabel, IconButton } from '@mui/material';
-import useLibraryOptions from 'util/useLibraryOptions';
-import ThreeStateCheckbox from 'components/util/ThreeStateCheckbox';
-import { Box } from '@mui/system';
+import { Drawer, IconButton } from '@mui/material';
+import SelectFilter from './filters/SelectFilter';
+import CheckBoxFilter from './filters/CheckBoxFilter';
 
-interface IGenres {
-    genres: (string)[]
+interface IFilters {
+    sourceFilter: ISourceFilters[]
 }
 
-function GenreOptions({ genres }: IGenres) {
-    const {
-        genreY,
-        setGenreY,
-        genreN,
-        setGenreN,
-    } = useLibraryOptions();
-
-    function handleGenreChange(ele: string, checked: boolean | undefined | null) {
-        switch (checked) {
-            case true:
-                setGenreY([...Array.from(genreY || []), ele]);
+function Options({ sourceFilter }: IFilters) {
+    const ret = sourceFilter.map((e: ISourceFilters) => {
+        switch (e.type) {
+            case 'CheckBox':
+                if (typeof (e.filter.state) === 'boolean') {
+                    return (
+                        <CheckBoxFilter
+                            name={e.filter.name}
+                            state={e.filter.state}
+                        />
+                    );
+                }
                 break;
-            case false:
-                setGenreY(genreY?.filter((e) => e !== ele));
-                setGenreN([...Array.from(genreN || []), ele]);
+            case 'Group':
+                // eslint-disable-next-line no-console
+                console.log(e, 'Group');
+                return (<></>);
+            case 'Header':
+                // eslint-disable-next-line no-console
+                console.log(e, 'Header');
+                return (<></>);
+            case 'Select':
+                if (typeof (e.filter.state) === 'number') {
+                    return (
+                        <SelectFilter
+                            name={e.filter.name}
+                            values={e.filter.values}
+                            state={e.filter.state}
+                        />
+                    );
+                }
                 break;
+            case 'Separator':
+                // eslint-disable-next-line no-console
+                console.log(e, 'Separator');
+                return (<></>);
+            case 'Sort':
+                // eslint-disable-next-line no-console
+                console.log(e, 'Sort');
+                return (<></>);
+            case 'Text':
+                // eslint-disable-next-line no-console
+                console.log(e, 'Text');
+                return (<></>);
+            case 'TriState':
+                // eslint-disable-next-line no-console
+                console.log(e, 'TriState');
+                return (<></>);
             default:
-                setGenreN(genreN?.filter((e) => e !== ele));
+                // eslint-disable-next-line no-console
+                console.log(e, 'error');
+                break;
         }
-    }
-
-    const ret = genres.map((ele) => {
-        let check: null | boolean;
-        if (genreY?.find((elem) => elem === ele)) {
-            check = true;
-        } else if (genreN?.find((elem) => elem === ele)) {
-            check = false;
-        } else {
-            check = null;
-        }
-
-        return (
-            <FormControlLabel
-                key={ele}
-                control={(
-                    <ThreeStateCheckbox
-                        name={ele}
-                        checked={check}
-                        onChange={(checked) => handleGenreChange(ele, checked)}
-                    />
-                )}
-                label={ele}
-            />
-        );
+        return (<></>);
     });
-    return (
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-            {ret}
-        </Box>
-    );
+    return (<>{ ret }</>);
 }
 
-export default function SourceOptions({ genres }: IGenres) {
-    const [genreFiltersOpen, setGenreFiltersOpen] = React.useState(false);
-    const { activeGenre } = useLibraryOptions();
+export default function SourceOptions({ sourceFilter }: IFilters) {
+    const [FilterOptions, setFilterOptions] = React.useState(false);
     return (
         <>
             <IconButton
-                onClick={() => setGenreFiltersOpen(true)}
-                color={activeGenre ? 'warning' : 'default'}
+                onClick={() => setFilterOptions(!FilterOptions)}
             >
                 <FilterListIcon />
             </IconButton>
 
             <Drawer
                 anchor="right"
-                open={genreFiltersOpen}
-                onClose={() => setGenreFiltersOpen(false)}
+                open={FilterOptions}
+                onClose={() => setFilterOptions(false)}
                 PaperProps={{
                     style: {
                         maxWidth: 600, padding: '1em', marginLeft: 'auto', marginRight: 'auto',
                     },
                 }}
             >
-                <GenreOptions
-                    genres={genres}
+                <Options
+                    sourceFilter={sourceFilter}
                 />
             </Drawer>
-
         </>
     );
 }

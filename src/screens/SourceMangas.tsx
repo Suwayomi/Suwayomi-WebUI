@@ -29,23 +29,23 @@ export default function SourceMangas(props: { popular: boolean }) {
         setTitle('Source'); // title is later set after a fetch but we set it here once
     }, []);
 
-    useEffect(() => {
-        setAction(
-            <>
-                {isConfigurable && (
-                    <IconButton
-                        onClick={() => history.push(`/sources/${sourceId}/configure/`)}
-                        aria-label="display more actions"
-                        edge="end"
-                        color="inherit"
-                        size="large"
-                    >
-                        <SettingsIcon />
-                    </IconButton>
-                )}
-            </>,
-        );
-    }, [isConfigurable]);
+    // useEffect(() => {
+    //     setAction(
+    //         <>
+    //             {isConfigurable && (
+    //                 <IconButton
+    //                     onClick={() => history.push(`/sources/${sourceId}/configure/`)}
+    //                     aria-label="display more actions"
+    //                     edge="end"
+    //                     color="inherit"
+    //                     size="large"
+    //                 >
+    //                     <SettingsIcon />
+    //                 </IconButton>
+    //             )}
+    //         </>,
+    //     );
+    // }, [isConfigurable]);
 
     useEffect(() => {
         client.get(`/api/v1/source/${sourceId}`)
@@ -55,6 +55,33 @@ export default function SourceMangas(props: { popular: boolean }) {
                 setIsConfigurable(data.isConfigurable);
             });
     }, []);
+
+    useEffect(() => {
+        client.get(`/api/v1/source/${sourceId}/filters`)
+            .then((response) => response.data)
+            .then((data: ISourceFilters[]) => {
+                setTitle('Library'); setAction(
+                    <>
+                        <SourceOptions
+                            sourceFilter={data}
+                        />
+                        <>
+                            {isConfigurable && (
+                                <IconButton
+                                    onClick={() => history.push(`/sources/${sourceId}/configure/`)}
+                                    aria-label="display more actions"
+                                    edge="end"
+                                    color="inherit"
+                                    size="large"
+                                >
+                                    <SettingsIcon />
+                                </IconButton>
+                            )}
+                        </>
+                    </>,
+                );
+            });
+    }, [isConfigurable]);
 
     useEffect(() => {
         const sourceType = props.popular ? 'popular' : 'latest';
@@ -68,18 +95,6 @@ export default function SourceMangas(props: { popular: boolean }) {
                     }))]);
                 setHasNextPage(data.hasNextPage);
                 setFetched(true);
-                const genre = [...Array.from(new Set([
-                    ...mangas,
-                    ...data.mangaList.map((it) => ({
-                        genre: it.genre,
-                    }))].flatMap((ele) => ele.genre || '')))].sort();
-                setTitle('Library'); setAction(
-                    <>
-                        <SourceOptions
-                            genres={genre}
-                        />
-                    </>,
-                );
             });
     }, [lastPageNum]);
 

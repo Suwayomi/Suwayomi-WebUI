@@ -30,13 +30,23 @@ interface ISource {
     displayName: string
 }
 
+interface ISourceFilters {
+    type: string
+    filter: ISourceFilter
+}
+
+interface ISourceFilter {
+    name: string
+    state: number | string | boolean | ISourceFilters[]
+    values?: string[]
+}
+
 interface IMangaCard {
     id: number
     title: string
     thumbnailUrl: string
     unreadCount?: number
     downloadCount?: number
-    genre?: string[]
 }
 
 interface IManga {
