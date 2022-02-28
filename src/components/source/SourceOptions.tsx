@@ -9,67 +9,89 @@
 import React from 'react';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { Drawer, IconButton } from '@mui/material';
+import { Box } from '@mui/system';
 import SelectFilter from './filters/SelectFilter';
 import CheckBoxFilter from './filters/CheckBoxFilter';
+import HeaderFilter from './filters/HeaderFilter';
+import SeperatorFilter from './filters/SeparatorFilter';
+import SortFilter from './filters/SortFilter';
+import TextFilter from './filters/TextFilter';
+import TriStateFilter from './filters/TriStateFilter';
+// eslint-disable-next-line import/no-cycle
+import GroupFilter from './filters/GroupFilter';
 
 interface IFilters {
     sourceFilter: ISourceFilters[]
 }
 
-function Options({ sourceFilter }: IFilters) {
+export function Options({ sourceFilter }: IFilters) {
     const ret = sourceFilter.map((e: ISourceFilters) => {
+        // eslint-disable-next-line no-console
+        console.log(e, '');
         switch (e.type) {
             case 'CheckBox':
-                if (typeof (e.filter.state) === 'boolean') {
-                    return (
-                        <CheckBoxFilter
-                            name={e.filter.name}
-                            state={e.filter.state}
-                        />
-                    );
-                }
-                break;
+                return (
+                    <CheckBoxFilter
+                        name={e.filter.name}
+                        state={e.filter.state as boolean}
+                    />
+                );
             case 'Group':
-                // eslint-disable-next-line no-console
-                console.log(e, 'Group');
-                return (<></>);
-            case 'Header':
-                // eslint-disable-next-line no-console
-                console.log(e, 'Header');
-                return (<></>);
-            case 'Select':
-                if (typeof (e.filter.state) === 'number') {
-                    return (
-                        <SelectFilter
+                return (
+                    <Box>
+                        <GroupFilter
                             name={e.filter.name}
-                            values={e.filter.values}
-                            state={e.filter.state}
+                            state={e.filter.state as ISourceFilters[]}
                         />
-                    );
-                }
-                break;
+                    </Box>
+                );
+            case 'Header':
+                return (
+                    <HeaderFilter
+                        name={e.filter.name}
+                    />
+                );
+            case 'Select':
+                return (
+                    <SelectFilter
+                        name={e.filter.name}
+                        values={e.filter.values}
+                        state={e.filter.state as number}
+                        selected={e.filter.selected}
+                    />
+                );
             case 'Separator':
-                // eslint-disable-next-line no-console
-                console.log(e, 'Separator');
-                return (<></>);
+                return (
+                    <SeperatorFilter
+                        name={e.filter.name}
+                    />
+                );
             case 'Sort':
-                // eslint-disable-next-line no-console
-                console.log(e, 'Sort');
-                return (<></>);
+                return (
+                    <SortFilter
+                        name={e.filter.name}
+                        values={e.filter.values}
+                        state={e.filter.state as IState}
+                    />
+                );
             case 'Text':
-                // eslint-disable-next-line no-console
-                console.log(e, 'Text');
-                return (<></>);
+                return (
+                    <TextFilter
+                        name={e.filter.name}
+                        state={e.filter.state as string}
+                    />
+                );
             case 'TriState':
-                // eslint-disable-next-line no-console
-                console.log(e, 'TriState');
-                return (<></>);
+                return (
+                    <TriStateFilter
+                        name={e.filter.name}
+                        state={e.filter.state as number}
+                    />
+                );
             default:
-                // eslint-disable-next-line no-console
-                console.log(e, 'error');
                 break;
         }
-        return (<></>);
+        return (<Box key={e.filter.name} />);
     });
     return (<>{ ret }</>);
 }

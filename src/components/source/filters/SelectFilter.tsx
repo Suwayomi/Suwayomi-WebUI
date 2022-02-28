@@ -14,29 +14,54 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 
 interface Props {
-    values: string[] | undefined
+    values: any
     name: string
     state: number
+    selected: Selected | undefined
 }
 
-export default function SelectFilter(props: Props) {
-    const { values, name, state } = props;
-    const [val, setval] = React.useState(state);
+interface Selected {
+    displayname: string
+    value: string
+    _value: string
+}
 
+function hasSelect(
+    values: Selected[],
+    name: string,
+    state: number,
+    // selected: Selected,
+) {
+    const [val, setval] = React.useState({
+        [name]: state,
+    });
     if (values) {
-        const handleChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
-            setval(values.indexOf(`${event.target.value}`));
+        const handleChange = (event: { target: { name: any; value: any; }; }) => {
+            const tmp = val;
+            tmp[event.target.name] = values.map((e) => e.displayname).indexOf(`${event.target.value}`);
+            setval({
+                ...tmp,
+            });
         };
 
-        // eslint-disable-next-line max-len
-        const rett = values.map((value: string) => (<MenuItem key={`${name} ${value}`} value={value}>{value}</MenuItem>));
+        const rett = values.map((e: Selected) => (
+            <MenuItem
+                key={`${name} ${e.displayname}`}
+                value={e.displayname}
+            >
+                {
+                    e.displayname
+                }
+            </MenuItem>
+        ));
         const ret = (
-            <FormControl fullWidth key={name}>
+            <FormControl fullWidth>
                 <InputLabel sx={{ margin: '10px 0 10px 0' }}>
                     {name}
                 </InputLabel>
                 <Select
-                    value={values[val]}
+                    name={name}
+                    value={values[val[name]].displayname}
                     label={name}
                     onChange={handleChange}
                     autoWidth
@@ -47,10 +72,77 @@ export default function SelectFilter(props: Props) {
             </FormControl>
         );
         return (
-            <Box sx={{ display: 'flex', flexDirection: 'column', minWidth: 120 }}>
+            <Box key={name} sx={{ display: 'flex', flexDirection: 'column', minWidth: 120 }}>
                 {ret}
             </Box>
         );
     }
     return (<></>);
+}
+
+function noSelect(
+    values: string[],
+    name: string,
+    state: number,
+) {
+    const [val, setval] = React.useState({
+        [name]: state,
+    });
+
+    if (values) {
+        const handleChange = (event: { target: { name: any; value: any; }; }) => {
+            const tmp = val;
+            tmp[event.target.name] = values.indexOf(`${event.target.value}`);
+            setval({
+                ...tmp,
+            });
+        };
+
+        // eslint-disable-next-line max-len
+        const rett = values.map((value: string) => (<MenuItem key={`${name} ${value}`} value={value}>{value}</MenuItem>));
+        const ret = (
+            <FormControl fullWidth>
+                <InputLabel sx={{ margin: '10px 0 10px 0' }}>
+                    {name}
+                </InputLabel>
+                <Select
+                    name={name}
+                    value={values[val[name]]}
+                    label={name}
+                    onChange={handleChange}
+                    autoWidth
+                    sx={{ margin: '10px 0 10px 0' }}
+                >
+                    {rett}
+                </Select>
+            </FormControl>
+        );
+        return (
+            <Box key={name} sx={{ display: 'flex', flexDirection: 'column', minWidth: 120 }}>
+                {ret}
+            </Box>
+        );
+    }
+    return (<></>);
+}
+
+export default function SelectFilter(props: Props) {
+    const {
+        values,
+        name,
+        state,
+        selected,
+    } = props;
+    if (selected === undefined) {
+        const ret = noSelect(values, name, state);
+        return (<>{ret}</>);
+    }
+
+    const ret = hasSelect(
+        values,
+        name,
+        state,
+        // selected,
+    );
+    return (<>{ret}</>);
 }

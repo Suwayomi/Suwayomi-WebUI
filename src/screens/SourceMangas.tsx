@@ -29,23 +29,23 @@ export default function SourceMangas(props: { popular: boolean }) {
         setTitle('Source'); // title is later set after a fetch but we set it here once
     }, []);
 
-    // useEffect(() => {
-    //     setAction(
-    //         <>
-    //             {isConfigurable && (
-    //                 <IconButton
-    //                     onClick={() => history.push(`/sources/${sourceId}/configure/`)}
-    //                     aria-label="display more actions"
-    //                     edge="end"
-    //                     color="inherit"
-    //                     size="large"
-    //                 >
-    //                     <SettingsIcon />
-    //                 </IconButton>
-    //             )}
-    //         </>,
-    //     );
-    // }, [isConfigurable]);
+    useEffect(() => {
+        setAction(
+            <>
+                {isConfigurable && (
+                    <IconButton
+                        onClick={() => history.push(`/sources/${sourceId}/configure/`)}
+                        aria-label="display more actions"
+                        edge="end"
+                        color="inherit"
+                        size="large"
+                    >
+                        <SettingsIcon />
+                    </IconButton>
+                )}
+            </>,
+        );
+    }, [isConfigurable]);
 
     useEffect(() => {
         client.get(`/api/v1/source/${sourceId}`)
@@ -65,20 +65,19 @@ export default function SourceMangas(props: { popular: boolean }) {
                         <SourceOptions
                             sourceFilter={data}
                         />
-                        <>
-                            {isConfigurable && (
-                                <IconButton
-                                    onClick={() => history.push(`/sources/${sourceId}/configure/`)}
-                                    aria-label="display more actions"
-                                    edge="end"
-                                    color="inherit"
-                                    size="large"
-                                >
-                                    <SettingsIcon />
-                                </IconButton>
-                            )}
-                        </>
-                    </>,
+                        {isConfigurable && (
+                            <IconButton
+                                onClick={() => history.push(`/sources/${sourceId}/configure/`)}
+                                aria-label="display more actions"
+                                edge="end"
+                                color="inherit"
+                                size="large"
+                            >
+                                <SettingsIcon />
+                            </IconButton>
+                        )}
+                    </>
+                    ,
                 );
             });
     }, [isConfigurable]);

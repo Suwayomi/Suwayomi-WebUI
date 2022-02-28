@@ -16,8 +16,6 @@ interface Props {
 
 export default function CheckBoxFilter(props: Props) {
     const { state, name } = props;
-    // eslint-disable-next-line no-console
-    console.log(state, name);
     const [val, setval] = React.useState({
         [name]: state,
     });
@@ -32,13 +30,19 @@ export default function CheckBoxFilter(props: Props) {
 
     // eslint-disable-next-line eqeqeq
     if (state != undefined) {
-        const ret = (
-            // eslint-disable-next-line max-len
-            <FormControlLabel key={name} control={<Checkbox name={name} checked={val[name]} onChange={handleChange} />} label={name} />
-        );
         return (
             <Box sx={{ display: 'flex', flexDirection: 'column', minWidth: 120 }}>
-                {ret}
+                <FormControlLabel
+                    key={name}
+                    control={(
+                        <Checkbox
+                            name={name}
+                            checked={val[name]}
+                            onChange={handleChange}
+                        />
+                    )}
+                    label={name}
+                />
             </Box>
         );
     }
