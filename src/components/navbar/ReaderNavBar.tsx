@@ -203,7 +203,7 @@ export default function ReaderNavBar(props: IProps) {
                             color="inherit"
                             aria-label="menu"
                             disableRipple
-                            onClick={() => history.push('/library')}
+                            onClick={() => history.push('..')}
                             size="large"
                             sx={{ mr: -1 }}
                         >
