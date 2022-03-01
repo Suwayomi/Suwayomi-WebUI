@@ -18,6 +18,9 @@ interface Props {
     name: string
     state: number
     selected: Selected | undefined
+    position: number
+    updateFilterValue: Function
+    group: number | undefined
 }
 
 interface Selected {
@@ -30,7 +33,9 @@ function hasSelect(
     values: Selected[],
     name: string,
     state: number,
-    // selected: Selected,
+    position: number,
+    updateFilterValue: Function,
+    group?: number,
 ) {
     const [val, setval] = React.useState({
         [name]: state,
@@ -38,10 +43,12 @@ function hasSelect(
     if (values) {
         const handleChange = (event: { target: { name: any; value: any; }; }) => {
             const tmp = val;
-            tmp[event.target.name] = values.map((e) => e.displayname).indexOf(`${event.target.value}`);
+            const vall = values.map((e) => e.displayname).indexOf(`${event.target.value}`);
+            tmp[event.target.name] = vall;
             setval({
                 ...tmp,
             });
+            updateFilterValue({ position, state: vall.toString(), group });
         };
 
         const rett = values.map((e: Selected) => (
@@ -84,6 +91,9 @@ function noSelect(
     values: string[],
     name: string,
     state: number,
+    position: number,
+    updateFilterValue: Function,
+    group?: number,
 ) {
     const [val, setval] = React.useState({
         [name]: state,
@@ -92,13 +102,14 @@ function noSelect(
     if (values) {
         const handleChange = (event: { target: { name: any; value: any; }; }) => {
             const tmp = val;
+            const vall = values.indexOf(`${event.target.value}`);
             tmp[event.target.name] = values.indexOf(`${event.target.value}`);
             setval({
                 ...tmp,
             });
+            updateFilterValue({ position, value: vall.toString(), group });
         };
 
-        // eslint-disable-next-line max-len
         const rett = values.map((value: string) => (<MenuItem key={`${name} ${value}`} value={value}>{value}</MenuItem>));
         const ret = (
             <FormControl fullWidth>
@@ -126,15 +137,24 @@ function noSelect(
     return (<></>);
 }
 
-export default function SelectFilter(props: Props) {
-    const {
-        values,
-        name,
-        state,
-        selected,
-    } = props;
+export default function SelectFilter({
+    values,
+    name,
+    state,
+    selected,
+    position,
+    updateFilterValue,
+    group,
+}: Props) {
     if (selected === undefined) {
-        const ret = noSelect(values, name, state);
+        const ret = noSelect(
+            values,
+            name,
+            state,
+            position,
+            updateFilterValue,
+            group,
+        );
         return (<>{ret}</>);
     }
 
@@ -142,7 +162,9 @@ export default function SelectFilter(props: Props) {
         values,
         name,
         state,
-        // selected,
+        position,
+        updateFilterValue,
+        group,
     );
     return (<>{ret}</>);
 }

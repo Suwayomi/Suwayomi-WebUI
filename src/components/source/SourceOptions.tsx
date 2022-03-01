@@ -8,7 +8,7 @@
 
 import React from 'react';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { Drawer, IconButton } from '@mui/material';
+import { Drawer, IconButton, Button } from '@mui/material';
 import { Box } from '@mui/system';
 import SelectFilter from './filters/SelectFilter';
 import CheckBoxFilter from './filters/CheckBoxFilter';
@@ -17,23 +17,37 @@ import SeperatorFilter from './filters/SeparatorFilter';
 import SortFilter from './filters/SortFilter';
 import TextFilter from './filters/TextFilter';
 import TriStateFilter from './filters/TriStateFilter';
+// this can only cycle once, so should be fine
 // eslint-disable-next-line import/no-cycle
 import GroupFilter from './filters/GroupFilter';
 
 interface IFilters {
     sourceFilter: ISourceFilters[]
+    updateFilterValue: Function
+    group: number | undefined
 }
 
-export function Options({ sourceFilter }: IFilters) {
-    const ret = sourceFilter.map((e: ISourceFilters) => {
-        // eslint-disable-next-line no-console
-        console.log(e, '');
+interface IFilters1 {
+    sourceFilter: ISourceFilters[]
+    updateFilterValue: Function
+    resetFilterValue: Function
+}
+
+export function Options({
+    sourceFilter,
+    group,
+    updateFilterValue,
+}: IFilters) {
+    const ret = sourceFilter.map((e: ISourceFilters, index) => {
         switch (e.type) {
             case 'CheckBox':
                 return (
                     <CheckBoxFilter
                         name={e.filter.name}
                         state={e.filter.state as boolean}
+                        position={index}
+                        group={group}
+                        updateFilterValue={updateFilterValue}
                     />
                 );
             case 'Group':
@@ -42,6 +56,8 @@ export function Options({ sourceFilter }: IFilters) {
                         <GroupFilter
                             name={e.filter.name}
                             state={e.filter.state as ISourceFilters[]}
+                            position={index}
+                            updateFilterValue={updateFilterValue}
                         />
                     </Box>
                 );
@@ -58,6 +74,9 @@ export function Options({ sourceFilter }: IFilters) {
                         values={e.filter.values}
                         state={e.filter.state as number}
                         selected={e.filter.selected}
+                        position={index}
+                        group={group}
+                        updateFilterValue={updateFilterValue}
                     />
                 );
             case 'Separator':
@@ -72,6 +91,9 @@ export function Options({ sourceFilter }: IFilters) {
                         name={e.filter.name}
                         values={e.filter.values}
                         state={e.filter.state as IState}
+                        position={index}
+                        group={group}
+                        updateFilterValue={updateFilterValue}
                     />
                 );
             case 'Text':
@@ -79,6 +101,9 @@ export function Options({ sourceFilter }: IFilters) {
                     <TextFilter
                         name={e.filter.name}
                         state={e.filter.state as string}
+                        position={index}
+                        group={group}
+                        updateFilterValue={updateFilterValue}
                     />
                 );
             case 'TriState':
@@ -86,6 +111,9 @@ export function Options({ sourceFilter }: IFilters) {
                     <TriStateFilter
                         name={e.filter.name}
                         state={e.filter.state as number}
+                        position={index}
+                        group={group}
+                        updateFilterValue={updateFilterValue}
                     />
                 );
             default:
@@ -96,7 +124,11 @@ export function Options({ sourceFilter }: IFilters) {
     return (<>{ ret }</>);
 }
 
-export default function SourceOptions({ sourceFilter }: IFilters) {
+export default function SourceOptions({
+    sourceFilter,
+    updateFilterValue,
+    resetFilterValue,
+}: IFilters1) {
     const [FilterOptions, setFilterOptions] = React.useState(false);
     return (
         <>
@@ -116,8 +148,16 @@ export default function SourceOptions({ sourceFilter }: IFilters) {
                     },
                 }}
             >
+                <Button
+                    variant="contained"
+                    onClick={() => resetFilterValue()}
+                >
+                    Reset
+                </Button>
                 <Options
                     sourceFilter={sourceFilter}
+                    updateFilterValue={updateFilterValue}
+                    group={undefined}
                 />
             </Drawer>
         </>

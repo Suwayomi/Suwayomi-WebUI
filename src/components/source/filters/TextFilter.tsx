@@ -17,11 +17,19 @@ import SearchIcon from '@mui/icons-material/Search';
 interface Props {
     state: string
     name: string
+    position: number
+    group: number | undefined
+    updateFilterValue: Function
 }
 
 export default function TextFilter(props: Props) {
-    const { state, name } = props;
-
+    const {
+        state,
+        name,
+        position,
+        group,
+        updateFilterValue,
+    } = props;
     const [val, setval] = React.useState({
         [name]: state,
     });
@@ -32,10 +40,10 @@ export default function TextFilter(props: Props) {
         setval({
             ...tmp,
         });
+        updateFilterValue({ position, state: e.target.value === '' ? '' : e.target.value.toString(), group });
     }
 
-    // eslint-disable-next-line eqeqeq
-    if (state != undefined) {
+    if (state !== undefined) {
         const ret = (
             <>
                 <SearchIcon
@@ -57,7 +65,7 @@ export default function TextFilter(props: Props) {
             </>
         );
         return (
-            <Box sx={{ display: 'flex', flexDirection: 'row', minWidth: 120 }}>
+            <Box key={name} sx={{ display: 'flex', flexDirection: 'row', minWidth: 120 }}>
                 {ret}
             </Box>
         );

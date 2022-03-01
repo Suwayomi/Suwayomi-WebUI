@@ -15,13 +15,18 @@ import { Options } from '../SourceOptions';
 interface Props {
     state: ISourceFilters[]
     name: string
+    position: number
+    updateFilterValue: Function
 }
 
 export default function GroupFilter(props: Props) {
-    const { state, name } = props;
+    const {
+        state,
+        name,
+        position,
+        updateFilterValue,
+    } = props;
     const [filtersOpen, setFiltersOpen] = React.useState(false);
-    // eslint-disable-next-line no-console
-    console.log(state, name);
     return (
         <>
             <Button
@@ -48,6 +53,8 @@ export default function GroupFilter(props: Props) {
             >
                 <Options
                     sourceFilter={state}
+                    group={position}
+                    updateFilterValue={updateFilterValue}
                 />
             </Drawer>
 

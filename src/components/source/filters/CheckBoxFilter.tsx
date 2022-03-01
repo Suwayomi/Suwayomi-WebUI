@@ -12,10 +12,19 @@ import { Checkbox, FormControlLabel } from '@mui/material';
 interface Props {
     state: boolean
     name: string
+    position: number
+    group: number | undefined
+    updateFilterValue: Function
 }
 
 export default function CheckBoxFilter(props: Props) {
-    const { state, name } = props;
+    const {
+        state,
+        name,
+        position,
+        group,
+        updateFilterValue,
+    } = props;
     const [val, setval] = React.useState({
         [name]: state,
     });
@@ -26,10 +35,10 @@ export default function CheckBoxFilter(props: Props) {
         setval({
             ...tmp,
         });
+        updateFilterValue({ position, state: event.target.checked.toString(), group });
     };
 
-    // eslint-disable-next-line eqeqeq
-    if (state != undefined) {
+    if (state !== undefined) {
         return (
             <Box sx={{ display: 'flex', flexDirection: 'column', minWidth: 120 }}>
                 <FormControlLabel

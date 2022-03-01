@@ -16,6 +16,9 @@ interface Props {
     values: any
     name: string
     state: IState
+    position: number
+    group: number | undefined
+    updateFilterValue: Function
 }
 
 export default function SortFilter(props: Props) {
@@ -23,8 +26,10 @@ export default function SortFilter(props: Props) {
         values,
         name,
         state,
+        position,
+        group,
+        updateFilterValue,
     } = props;
-
     const [val, setval] = React.useState({
         [name]: state.index,
     });
@@ -36,6 +41,7 @@ export default function SortFilter(props: Props) {
             setval({
                 ...tmp,
             });
+            updateFilterValue({ position, state: values.indexOf(`${event.target.value}`).toString(), group });
         };
 
         // eslint-disable-next-line max-len

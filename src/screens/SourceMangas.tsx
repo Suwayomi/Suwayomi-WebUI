@@ -14,6 +14,12 @@ import client from 'util/client';
 import SettingsIcon from '@mui/icons-material/Settings';
 import SourceOptions from 'components/source/SourceOptions';
 
+interface IPos {
+    position: number
+    state: any
+    group?: number
+}
+
 export default function SourceMangas(props: { popular: boolean }) {
     const { setTitle, setAction } = useContext(NavbarContext);
     const history = useHistory();
@@ -24,6 +30,14 @@ export default function SourceMangas(props: { popular: boolean }) {
     const [hasNextPage, setHasNextPage] = useState<boolean>(false);
     const [lastPageNum, setLastPageNum] = useState<number>(1);
     const [fetched, setFetched] = useState<boolean>(false);
+
+    const triggerUpdate = () => {
+        setMangas([]);
+        setLastPageNum(0);
+        setLastPageNum(1);
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define
+        makeFilters();
+    };
 
     useEffect(() => {
         setTitle('Source'); // title is later set after a fetch but we set it here once
@@ -56,15 +70,32 @@ export default function SourceMangas(props: { popular: boolean }) {
             });
     }, []);
 
-    useEffect(() => {
+    function updateFilterValue({ position, state, group }: IPos) {
+        client.post(`/api/v1/source/${sourceId}/filters`,
+            JSON.stringify(group === undefined ? {
+                position,
+                state,
+            } : {
+                position: group,
+                state: JSON.stringify({
+                    position,
+                    state,
+                }),
+            }))
+            .then(() => triggerUpdate());
+    }
+
+    function resetFilterValue() {
+        client.get(`/api/v1/source/${sourceId}/filters?reset=true`)
+            .then(() => triggerUpdate());
+    }
+
+    function makeFilters() {
         client.get(`/api/v1/source/${sourceId}/filters`)
             .then((response) => response.data)
             .then((data: ISourceFilters[]) => {
-                setTitle('Library'); setAction(
+                setAction(
                     <>
-                        <SourceOptions
-                            sourceFilter={data}
-                        />
                         {isConfigurable && (
                             <IconButton
                                 onClick={() => history.push(`/sources/${sourceId}/configure/`)}
@@ -76,25 +107,38 @@ export default function SourceMangas(props: { popular: boolean }) {
                                 <SettingsIcon />
                             </IconButton>
                         )}
+                        <SourceOptions
+                            sourceFilter={data}
+                            updateFilterValue={updateFilterValue}
+                            resetFilterValue={resetFilterValue}
+                        />
                     </>
                     ,
                 );
             });
+    }
+
+    useEffect(() => {
+        makeFilters();
     }, [isConfigurable]);
 
     useEffect(() => {
-        const sourceType = props.popular ? 'popular' : 'latest';
-        client.get(`/api/v1/source/${sourceId}/${sourceType}/${lastPageNum}`)
-            .then((response) => response.data)
-            .then((data: { mangaList: IManga[], hasNextPage: boolean }) => {
-                setMangas([
-                    ...mangas,
-                    ...data.mangaList.map((it) => ({
-                        title: it.title, thumbnailUrl: it.thumbnailUrl, id: it.id, genre: it.genre,
-                    }))]);
-                setHasNextPage(data.hasNextPage);
-                setFetched(true);
-            });
+        if (lastPageNum !== 0) {
+            const sourceType = props.popular ? 'popular' : 'latest';
+            client.get(`/api/v1/source/${sourceId}/${sourceType}/${lastPageNum}`)
+                .then((response) => response.data)
+                .then((data: { mangaList: IManga[], hasNextPage: boolean }) => {
+                    setMangas([
+                        ...mangas,
+                        ...data.mangaList.map((it) => ({
+                            title: it.title,
+                            thumbnailUrl: it.thumbnailUrl,
+                            id: it.id,
+                        }))]);
+                    setHasNextPage(data.hasNextPage);
+                    setFetched(true);
+                });
+        }
     }, [lastPageNum]);
 
     let message;

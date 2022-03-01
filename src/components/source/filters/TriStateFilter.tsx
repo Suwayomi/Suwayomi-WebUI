@@ -13,12 +13,19 @@ import ThreeStateCheckbox from 'components/util/ThreeStateCheckbox';
 interface Props {
     state: number
     name: string
+    position: number
+    group: number | undefined
+    updateFilterValue: Function
 }
 
 export default function TriStateFilter(props: Props) {
-    const { state, name } = props;
-    // eslint-disable-next-line no-console
-    console.log(state, name);
+    const {
+        state,
+        name,
+        position,
+        group,
+        updateFilterValue,
+    } = props;
     const [val, setval] = React.useState({
         [name]: state,
     });
@@ -28,17 +35,18 @@ export default function TriStateFilter(props: Props) {
         const tmp = val;
         // eslint-disable-next-line eqeqeq
         if (checked != undefined) {
-            tmp[name] = checked ? 1 : -1;
+            tmp[name] = checked ? 1 : 2;
         } else {
             delete tmp[name];
         }
         setval({
             ...tmp,
         });
+        // eslint-disable-next-line max-len
+        updateFilterValue({ position, state: (tmp[name] === undefined ? 0 : tmp[name]).toString(), group });
     };
 
-    // eslint-disable-next-line eqeqeq
-    if (state != undefined) {
+    if (state !== undefined) {
         let check;
         if (val[name] !== 0) {
             check = val[name] === 1;
