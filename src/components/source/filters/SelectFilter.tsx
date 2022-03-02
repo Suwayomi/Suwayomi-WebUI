@@ -55,26 +55,23 @@ function hasSelect(
                 }
             </MenuItem>
         ));
-        const ret = (
-            <FormControl fullWidth>
-                <InputLabel sx={{ margin: '10px 0 10px 0' }}>
-                    {name}
-                </InputLabel>
-                <Select
-                    name={name}
-                    value={values[val].displayname}
-                    label={name}
-                    onChange={handleChange}
-                    autoWidth
-                    sx={{ margin: '10px 0 10px 0' }}
-                >
-                    {rett}
-                </Select>
-            </FormControl>
-        );
         return (
             <Box key={name} sx={{ display: 'flex', flexDirection: 'column', minWidth: 120 }}>
-                {ret}
+                <FormControl fullWidth>
+                    <InputLabel sx={{ margin: '10px 0 10px 0' }}>
+                        {name}
+                    </InputLabel>
+                    <Select
+                        name={name}
+                        value={values[val].displayname}
+                        label={name}
+                        onChange={handleChange}
+                        autoWidth
+                        sx={{ margin: '10px 0 10px 0' }}
+                    >
+                        {rett}
+                    </Select>
+                </FormControl>
             </Box>
         );
     }
@@ -99,26 +96,23 @@ function noSelect(
         };
 
         const rett = values.map((value: string) => (<MenuItem key={`${name} ${value}`} value={value}>{value}</MenuItem>));
-        const ret = (
-            <FormControl fullWidth>
-                <InputLabel sx={{ margin: '10px 0 10px 0' }}>
-                    {name}
-                </InputLabel>
-                <Select
-                    name={name}
-                    value={values[val]}
-                    label={name}
-                    onChange={handleChange}
-                    autoWidth
-                    sx={{ margin: '10px 0 10px 0' }}
-                >
-                    {rett}
-                </Select>
-            </FormControl>
-        );
         return (
             <Box key={name} sx={{ display: 'flex', flexDirection: 'column', minWidth: 120 }}>
-                {ret}
+                <FormControl fullWidth>
+                    <InputLabel sx={{ margin: '10px 0 10px 0' }}>
+                        {name}
+                    </InputLabel>
+                    <Select
+                        name={name}
+                        value={values[val]}
+                        label={name}
+                        onChange={handleChange}
+                        autoWidth
+                        sx={{ margin: '10px 0 10px 0' }}
+                    >
+                        {rett}
+                    </Select>
+                </FormControl>
             </Box>
         );
     }
@@ -135,7 +129,7 @@ export default function SelectFilter({
     group,
 }: Props) {
     if (selected === undefined) {
-        const ret = noSelect(
+        return noSelect(
             values,
             name,
             state,
@@ -143,10 +137,9 @@ export default function SelectFilter({
             updateFilterValue,
             group,
         );
-        return (<>{ret}</>);
     }
 
-    const ret = hasSelect(
+    return hasSelect(
         values,
         name,
         state,
@@ -154,5 +147,4 @@ export default function SelectFilter({
         updateFilterValue,
         group,
     );
-    return (<>{ret}</>);
 }

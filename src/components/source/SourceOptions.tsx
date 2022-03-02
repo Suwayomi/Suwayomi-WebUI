@@ -44,12 +44,13 @@ export function Options({
     updateFilterValue,
 }: IFilters) {
     return (
-        <>
+        <Box key={`filters ${group}`}>
             { sourceFilter.map((e: ISourceFilters, index) => {
                 switch (e.type) {
                     case 'CheckBox':
                         return (
                             <CheckBoxFilter
+                                key={`filters ${e.filter.name}`}
                                 name={e.filter.name}
                                 state={e.filter.state as boolean}
                                 position={index}
@@ -60,6 +61,7 @@ export function Options({
                     case 'Group':
                         return (
                             <GroupFilter
+                                key={`filters ${e.filter.name}`}
                                 name={e.filter.name}
                                 state={e.filter.state as ISourceFilters[]}
                                 position={index}
@@ -69,12 +71,14 @@ export function Options({
                     case 'Header':
                         return (
                             <HeaderFilter
+                                key={`filters ${e.filter.name}`}
                                 name={e.filter.name}
                             />
                         );
                     case 'Select':
                         return (
                             <SelectFilter
+                                key={`filters ${e.filter.name}`}
                                 name={e.filter.name}
                                 values={e.filter.values}
                                 state={e.filter.state as number}
@@ -87,12 +91,14 @@ export function Options({
                     case 'Separator':
                         return (
                             <SeperatorFilter
+                                key={`filters ${e.filter.name}`}
                                 name={e.filter.name}
                             />
                         );
                     case 'Sort':
                         return (
                             <SortFilter
+                                key={`filters ${e.filter.name}`}
                                 name={e.filter.name}
                                 values={e.filter.values}
                                 state={e.filter.state as IState}
@@ -104,6 +110,7 @@ export function Options({
                     case 'Text':
                         return (
                             <TextFilter
+                                key={`filters ${e.filter.name}`}
                                 name={e.filter.name}
                                 state={e.filter.state as string}
                                 position={index}
@@ -114,6 +121,7 @@ export function Options({
                     case 'TriState':
                         return (
                             <TriStateFilter
+                                key={`filters ${e.filter.name}`}
                                 name={e.filter.name}
                                 state={e.filter.state as number}
                                 position={index}
@@ -122,11 +130,10 @@ export function Options({
                             />
                         );
                     default:
-                        break;
+                        return (<Box key={`${e.filter.name}null`} />);
                 }
-                return (<Box key={e.filter.name} />);
             })}
-        </>
+        </Box>
     );
 }
 
