@@ -139,17 +139,17 @@ export default function SourceOptions({
 }: IFilters1) {
     const [FilterOptions, setFilterOptions] = React.useState(false);
     const [Search, setsearch] = React.useState(searchst);
-    let typingTimer: NodeJS.Timeout;
-
-    function doneTyping(e: React.ChangeEvent<HTMLInputElement>) {
-        setsearchst(e.target.value === '' ? '' : e.target.value);
-    }
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         setsearch(e.target.value === '' ? '' : e.target.value);
-        clearTimeout(typingTimer);
-        typingTimer = setTimeout(() => doneTyping(e), 2500);
+        setsearchst(e.target.value === '' ? '' : e.target.value);
     }
+
+    function handleReset() {
+        setsearch('');
+        resetFilterValue(0);
+    }
+
     return (
         <>
             <IconButton
@@ -170,7 +170,7 @@ export default function SourceOptions({
             >
                 <Button
                     variant="contained"
-                    onClick={() => resetFilterValue()}
+                    onClick={handleReset}
                 >
                     Reset
                 </Button>

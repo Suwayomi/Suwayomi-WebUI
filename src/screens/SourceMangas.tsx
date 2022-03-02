@@ -30,12 +30,20 @@ export default function SourceMangas(props: { popular: boolean }) {
     const [hasNextPage, setHasNextPage] = useState<boolean>(false);
     const [lastPageNum, setLastPageNum] = useState<number>(1);
     const [fetched, setFetched] = useState<boolean>(false);
-    const [Search, setsearch] = React.useState(false);
-    const [Searchst, setsearchst] = useState<string>('');
 
-    function triggerUpdate() {
-        setMangas([]);
-        setLastPageNum(0);
+    const [Search, setSearch] = React.useState(false);
+    const [Searchst, setSearchst] = useState<string>('');
+    const [reset, setReset] = React.useState(2);
+    const [update, setUpdate] = React.useState();
+    const [triggerUpdate, setTriggerUpdate] = React.useState(2);
+    const [Data, SetData] = useState<ISourceFilters[]>();
+
+    function makeFilters() {
+        client.get(`/api/v1/source/${sourceId}/filters`)
+            .then((response) => response.data)
+            .then((data: ISourceFilters[]) => {
+                SetData(data);
+            });
     }
 
     useEffect(() => {
@@ -51,70 +59,71 @@ export default function SourceMangas(props: { popular: boolean }) {
             });
     }, []);
 
-    function updateFilterValue({ position, state, group }: IPos) {
-        client.post(`/api/v1/source/${sourceId}/filters`,
-            JSON.stringify(group === undefined ? {
-                position,
-                state,
-            } : {
-                position: group,
-                state: JSON.stringify({
+    useEffect(() => {
+        if (triggerUpdate === 2) {
+            return () => {};
+        }
+        if (triggerUpdate === 0) {
+            setTriggerUpdate(1);
+            return () => {};
+        }
+        const delayDebounceFn = setTimeout(() => {
+            setMangas([]);
+            setLastPageNum(0);
+        }, 1000);
+        return () => clearTimeout(delayDebounceFn);
+    }, [triggerUpdate]);
+
+    useEffect(() => {
+        if (update !== undefined) {
+            const { position, state, group }: IPos = update;
+            client.post(`/api/v1/source/${sourceId}/filters`,
+                JSON.stringify(group === undefined ? {
                     position,
                     state,
-                }),
-            }))
-            .then(() => {
-                setsearch(true);
-                triggerUpdate();
-                // eslint-disable-next-line @typescript-eslint/no-use-before-define
-                makeFilters();
-            });
-    }
+                } : {
+                    position: group,
+                    state: JSON.stringify({
+                        position,
+                        state,
+                    }),
+                }))
+                .then(() => {
+                    setSearch(true);
+                    setTriggerUpdate(0);
+                    makeFilters();
+                });
+        }
+    }, [update]);
 
-    function resetFilterValue() {
-        client.get(`/api/v1/source/${sourceId}/filters?reset=true`)
-            .then(() => {
-                // eslint-disable-next-line @typescript-eslint/no-use-before-define
-                makeFilters();
-                setsearchst('');
-                setsearch(false);
-                triggerUpdate();
-            });
-    }
-
-    function makeFilters() {
-        client.get(`/api/v1/source/${sourceId}/filters`)
-            .then((response) => response.data)
-            .then((data: ISourceFilters[]) => {
-                setAction(
-                    <>
-                        {isConfigurable && (
-                            <IconButton
-                                onClick={() => history.push(`/sources/${sourceId}/configure/`)}
-                                aria-label="display more actions"
-                                edge="end"
-                                color="inherit"
-                                size="large"
-                            >
-                                <SettingsIcon />
-                            </IconButton>
-                        )}
-                        <SourceOptions
-                            sourceFilter={data}
-                            updateFilterValue={updateFilterValue}
-                            resetFilterValue={resetFilterValue}
-                            setsearchst={setsearchst}
-                            searchst={Searchst}
-                        />
-                    </>
-                    ,
-                );
-            });
-    }
+    useEffect(() => {
+        if (reset === 0) {
+            setReset(1);
+        } else {
+            client.get(`/api/v1/source/${sourceId}/filters?reset=true`)
+                .then(() => {
+                    makeFilters();
+                    setSearchst('');
+                    setSearch(false);
+                    if (reset === 1) {
+                        setTriggerUpdate(0);
+                    }
+                });
+        }
+    }, [reset]);
 
     useEffect(() => {
         setAction(
             <>
+                {Data !== undefined && (
+                    <SourceOptions
+                        sourceFilter={Data}
+                        updateFilterValue={setUpdate}
+                        resetFilterValue={setReset}
+                        setsearchst={setSearchst}
+                        searchst={Searchst}
+                    />
+                )}
                 {isConfigurable && (
                     <IconButton
                         onClick={() => history.push(`/sources/${sourceId}/configure/`)}
@@ -126,21 +135,18 @@ export default function SourceMangas(props: { popular: boolean }) {
                         <SettingsIcon />
                     </IconButton>
                 )}
-            </>,
+            </>
+            ,
         );
-        if (!Search) {
-            client.get(`/api/v1/source/${sourceId}/filters?reset=true`)
-                .then(() => makeFilters());
-        }
-    }, [isConfigurable]);
+    }, [isConfigurable, Data]);
 
     useEffect(() => {
-        if (Searchst !== '') { setsearch(true); }
-        if (Search) { triggerUpdate(); }
+        if (Searchst !== '') { setSearch(true); }
+        if (Search) { setTriggerUpdate(0); }
     }, [Searchst]);
 
     useEffect(() => {
-        if (Search) { triggerUpdate(); }
+        if (Search) { setTriggerUpdate(0); }
     }, [Search]);
 
     useEffect(() => {

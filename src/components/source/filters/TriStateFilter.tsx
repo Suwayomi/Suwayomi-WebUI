@@ -30,11 +30,9 @@ export default function TriStateFilter(props: Props) {
         [name]: state,
     });
 
-    // eslint-disable-next-line max-len
     const handleChange = (checked: boolean | null | undefined) => {
         const tmp = val;
-        // eslint-disable-next-line eqeqeq
-        if (checked != undefined) {
+        if (checked !== undefined) {
             tmp[name] = checked ? 1 : 2;
         } else {
             delete tmp[name];
@@ -42,8 +40,11 @@ export default function TriStateFilter(props: Props) {
         setval({
             ...tmp,
         });
-        // eslint-disable-next-line max-len
-        updateFilterValue({ position, state: (tmp[name] === undefined ? 0 : tmp[name]).toString(), group });
+        updateFilterValue({
+            position,
+            state: (tmp[name] === undefined ? 0 : tmp[name]).toString(),
+            group,
+        });
     };
 
     if (state !== undefined) {
