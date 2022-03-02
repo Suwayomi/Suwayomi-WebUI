@@ -25,16 +25,10 @@ export default function CheckBoxFilter(props: Props) {
         group,
         updateFilterValue,
     } = props;
-    const [val, setval] = React.useState({
-        [name]: state,
-    });
+    const [val, setval] = React.useState(state);
 
     const handleChange = (event: { target: { name: any; checked: any; }; }) => {
-        const tmp = val;
-        tmp[event.target.name] = event.target.checked;
-        setval({
-            ...tmp,
-        });
+        setval(event.target.checked);
         updateFilterValue({ position, state: event.target.checked.toString(), group });
     };
 
@@ -46,7 +40,7 @@ export default function CheckBoxFilter(props: Props) {
                     control={(
                         <Checkbox
                             name={name}
-                            checked={val[name]}
+                            checked={val}
                             onChange={handleChange}
                         />
                     )}

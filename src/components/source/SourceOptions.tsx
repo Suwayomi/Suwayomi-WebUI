@@ -8,8 +8,11 @@
 
 import React from 'react';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { Drawer, IconButton, Button } from '@mui/material';
+import {
+    Drawer, IconButton, Button, FormControl, Input, InputLabel,
+} from '@mui/material';
 import { Box } from '@mui/system';
+import SearchIcon from '@mui/icons-material/Search';
 import SelectFilter from './filters/SelectFilter';
 import CheckBoxFilter from './filters/CheckBoxFilter';
 import HeaderFilter from './filters/HeaderFilter';
@@ -31,6 +34,8 @@ interface IFilters1 {
     sourceFilter: ISourceFilters[]
     updateFilterValue: Function
     resetFilterValue: Function
+    setsearchst: Function
+    searchst: string
 }
 
 export function Options({
@@ -38,98 +43,113 @@ export function Options({
     group,
     updateFilterValue,
 }: IFilters) {
-    const ret = sourceFilter.map((e: ISourceFilters, index) => {
-        switch (e.type) {
-            case 'CheckBox':
-                return (
-                    <CheckBoxFilter
-                        name={e.filter.name}
-                        state={e.filter.state as boolean}
-                        position={index}
-                        group={group}
-                        updateFilterValue={updateFilterValue}
-                    />
-                );
-            case 'Group':
-                return (
-                    <Box>
-                        <GroupFilter
-                            name={e.filter.name}
-                            state={e.filter.state as ISourceFilters[]}
-                            position={index}
-                            updateFilterValue={updateFilterValue}
-                        />
-                    </Box>
-                );
-            case 'Header':
-                return (
-                    <HeaderFilter
-                        name={e.filter.name}
-                    />
-                );
-            case 'Select':
-                return (
-                    <SelectFilter
-                        name={e.filter.name}
-                        values={e.filter.values}
-                        state={e.filter.state as number}
-                        selected={e.filter.selected}
-                        position={index}
-                        group={group}
-                        updateFilterValue={updateFilterValue}
-                    />
-                );
-            case 'Separator':
-                return (
-                    <SeperatorFilter
-                        name={e.filter.name}
-                    />
-                );
-            case 'Sort':
-                return (
-                    <SortFilter
-                        name={e.filter.name}
-                        values={e.filter.values}
-                        state={e.filter.state as IState}
-                        position={index}
-                        group={group}
-                        updateFilterValue={updateFilterValue}
-                    />
-                );
-            case 'Text':
-                return (
-                    <TextFilter
-                        name={e.filter.name}
-                        state={e.filter.state as string}
-                        position={index}
-                        group={group}
-                        updateFilterValue={updateFilterValue}
-                    />
-                );
-            case 'TriState':
-                return (
-                    <TriStateFilter
-                        name={e.filter.name}
-                        state={e.filter.state as number}
-                        position={index}
-                        group={group}
-                        updateFilterValue={updateFilterValue}
-                    />
-                );
-            default:
-                break;
-        }
-        return (<Box key={e.filter.name} />);
-    });
-    return (<>{ ret }</>);
+    return (
+        <>
+            { sourceFilter.map((e: ISourceFilters, index) => {
+                switch (e.type) {
+                    case 'CheckBox':
+                        return (
+                            <CheckBoxFilter
+                                name={e.filter.name}
+                                state={e.filter.state as boolean}
+                                position={index}
+                                group={group}
+                                updateFilterValue={updateFilterValue}
+                            />
+                        );
+                    case 'Group':
+                        return (
+                            <GroupFilter
+                                name={e.filter.name}
+                                state={e.filter.state as ISourceFilters[]}
+                                position={index}
+                                updateFilterValue={updateFilterValue}
+                            />
+                        );
+                    case 'Header':
+                        return (
+                            <HeaderFilter
+                                name={e.filter.name}
+                            />
+                        );
+                    case 'Select':
+                        return (
+                            <SelectFilter
+                                name={e.filter.name}
+                                values={e.filter.values}
+                                state={e.filter.state as number}
+                                selected={e.filter.selected}
+                                position={index}
+                                group={group}
+                                updateFilterValue={updateFilterValue}
+                            />
+                        );
+                    case 'Separator':
+                        return (
+                            <SeperatorFilter
+                                name={e.filter.name}
+                            />
+                        );
+                    case 'Sort':
+                        return (
+                            <SortFilter
+                                name={e.filter.name}
+                                values={e.filter.values}
+                                state={e.filter.state as IState}
+                                position={index}
+                                group={group}
+                                updateFilterValue={updateFilterValue}
+                            />
+                        );
+                    case 'Text':
+                        return (
+                            <TextFilter
+                                name={e.filter.name}
+                                state={e.filter.state as string}
+                                position={index}
+                                group={group}
+                                updateFilterValue={updateFilterValue}
+                            />
+                        );
+                    case 'TriState':
+                        return (
+                            <TriStateFilter
+                                name={e.filter.name}
+                                state={e.filter.state as number}
+                                position={index}
+                                group={group}
+                                updateFilterValue={updateFilterValue}
+                            />
+                        );
+                    default:
+                        break;
+                }
+                return (<Box key={e.filter.name} />);
+            })}
+        </>
+    );
 }
 
 export default function SourceOptions({
     sourceFilter,
     updateFilterValue,
     resetFilterValue,
+    setsearchst,
+    searchst,
 }: IFilters1) {
     const [FilterOptions, setFilterOptions] = React.useState(false);
+    const [Search, setsearch] = React.useState(searchst);
+    let typingTimer: NodeJS.Timeout;
+
+    function doneTyping(e: React.ChangeEvent<HTMLInputElement>) {
+        setsearchst(e.target.value === '' ? '' : e.target.value);
+    }
+
+    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+        setsearch(e.target.value === '' ? '' : e.target.value);
+        clearTimeout(typingTimer);
+        typingTimer = setTimeout(() => doneTyping(e), 2500);
+    }
     return (
         <>
             <IconButton
@@ -154,6 +174,24 @@ export default function SourceOptions({
                 >
                     Reset
                 </Button>
+                <Box sx={{ display: 'flex', flexDirection: 'row', minWidth: 120 }}>
+                    <SearchIcon
+                        sx={{
+                            margin: 'auto',
+                        }}
+                    />
+                    <FormControl fullWidth>
+                        <InputLabel sx={{ margin: '10px 0 10px 0' }}>
+                            Search
+                        </InputLabel>
+                        <Input
+                            name="Search"
+                            value={Search || ''}
+                            onChange={handleChange}
+                            sx={{ margin: '10px 0 10px 0' }}
+                        />
+                    </FormControl>
+                </Box>
                 <Options
                     sourceFilter={sourceFilter}
                     updateFilterValue={updateFilterValue}

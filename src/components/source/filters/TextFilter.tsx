@@ -30,43 +30,41 @@ export default function TextFilter(props: Props) {
         group,
         updateFilterValue,
     } = props;
-    const [val, setval] = React.useState({
-        [name]: state,
-    });
+    const [Search, setsearch] = React.useState('');
+    let typingTimer: NodeJS.Timeout;
 
-    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-        const tmp = val;
-        tmp[e.target.name] = e.target.value === '' ? '' : e.target.value;
-        setval({
-            ...tmp,
-        });
+    function doneTyping(e: React.ChangeEvent<HTMLInputElement>) {
         updateFilterValue({ position, state: e.target.value === '' ? '' : e.target.value.toString(), group });
     }
 
+    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+        setsearch(e.target.value === '' ? '' : e.target.value);
+
+        clearTimeout(typingTimer);
+        typingTimer = setTimeout(() => { doneTyping(e); }, 2500);
+    }
+
     if (state !== undefined) {
-        const ret = (
-            <>
-                <SearchIcon
-                    sx={{
-                        margin: 'auto',
-                    }}
-                />
-                <FormControl fullWidth>
-                    <InputLabel sx={{ margin: '10px 0 10px 0' }}>
-                        {name}
-                    </InputLabel>
-                    <Input
-                        name={name}
-                        value={val[name] || ''}
-                        onChange={handleChange}
-                        sx={{ margin: '10px 0 10px 0' }}
-                    />
-                </FormControl>
-            </>
-        );
         return (
-            <Box key={name} sx={{ display: 'flex', flexDirection: 'row', minWidth: 120 }}>
-                {ret}
+            <Box key={`${name}`} sx={{ display: 'flex', flexDirection: 'row', minWidth: 120 }}>
+                <>
+                    <SearchIcon
+                        sx={{
+                            margin: 'auto',
+                        }}
+                    />
+                    <FormControl fullWidth>
+                        <InputLabel sx={{ margin: '10px 0 10px 0' }}>
+                            {name}
+                        </InputLabel>
+                        <Input
+                            name={name}
+                            value={Search || ''}
+                            onChange={handleChange}
+                            sx={{ margin: '10px 0 10px 0' }}
+                        />
+                    </FormControl>
+                </>
             </Box>
         );
     }

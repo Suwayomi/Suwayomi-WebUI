@@ -37,17 +37,11 @@ function hasSelect(
     updateFilterValue: Function,
     group?: number,
 ) {
-    const [val, setval] = React.useState({
-        [name]: state,
-    });
+    const [val, setval] = React.useState(state);
     if (values) {
         const handleChange = (event: { target: { name: any; value: any; }; }) => {
-            const tmp = val;
             const vall = values.map((e) => e.displayname).indexOf(`${event.target.value}`);
-            tmp[event.target.name] = vall;
-            setval({
-                ...tmp,
-            });
+            setval(vall);
             updateFilterValue({ position, state: vall.toString(), group });
         };
 
@@ -68,7 +62,7 @@ function hasSelect(
                 </InputLabel>
                 <Select
                     name={name}
-                    value={values[val[name]].displayname}
+                    value={values[val].displayname}
                     label={name}
                     onChange={handleChange}
                     autoWidth
@@ -95,19 +89,13 @@ function noSelect(
     updateFilterValue: Function,
     group?: number,
 ) {
-    const [val, setval] = React.useState({
-        [name]: state,
-    });
+    const [val, setval] = React.useState(state);
 
     if (values) {
         const handleChange = (event: { target: { name: any; value: any; }; }) => {
-            const tmp = val;
             const vall = values.indexOf(`${event.target.value}`);
-            tmp[event.target.name] = values.indexOf(`${event.target.value}`);
-            setval({
-                ...tmp,
-            });
-            updateFilterValue({ position, value: vall.toString(), group });
+            setval(vall);
+            updateFilterValue({ position, state: vall.toString(), group });
         };
 
         const rett = values.map((value: string) => (<MenuItem key={`${name} ${value}`} value={value}>{value}</MenuItem>));
@@ -118,7 +106,7 @@ function noSelect(
                 </InputLabel>
                 <Select
                     name={name}
-                    value={values[val[name]]}
+                    value={values[val]}
                     label={name}
                     onChange={handleChange}
                     autoWidth

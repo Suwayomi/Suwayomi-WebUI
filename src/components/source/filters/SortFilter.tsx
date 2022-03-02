@@ -11,6 +11,7 @@ import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import { FormControlLabel, Checkbox } from '@mui/material';
 
 interface Props {
     values: any
@@ -30,21 +31,21 @@ export default function SortFilter(props: Props) {
         group,
         updateFilterValue,
     } = props;
-    const [val, setval] = React.useState({
-        [name]: state.index,
-    });
+    const [val, setval] = React.useState(state);
 
     if (values) {
-        const handleChange = (event: { target: { name: any; value: any; }; }) => {
+        const handleChange = (event: { target: { name: string;
+            value?: string;
+            checked?: boolean
+        };
+        }) => {
             const tmp = val;
-            tmp[event.target.name] = values.indexOf(`${event.target.value}`);
-            setval({
-                ...tmp,
-            });
-            updateFilterValue({ position, state: values.indexOf(`${event.target.value}`).toString(), group });
+            if (event.target.name === 'index') { tmp.index = values.indexOf(`${event.target.value}`); }
+            if (event.target.name === 'ascending') { tmp.ascending = event.target.checked as boolean; }
+            setval(tmp);
+            updateFilterValue({ position, state: JSON.stringify(tmp), group });
         };
 
-        // eslint-disable-next-line max-len
         const rett = values.map((value: string) => (<MenuItem key={`${name} ${value}`} value={value}>{value}</MenuItem>));
         const ret = (
             <FormControl fullWidth>
@@ -52,8 +53,8 @@ export default function SortFilter(props: Props) {
                     {name}
                 </InputLabel>
                 <Select
-                    name={name}
-                    value={values[val[name]]}
+                    name="index"
+                    value={values[val.index]}
                     label={name}
                     onChange={handleChange}
                     autoWidth
@@ -61,6 +62,16 @@ export default function SortFilter(props: Props) {
                 >
                     {rett}
                 </Select>
+                <FormControlLabel
+                    control={(
+                        <Checkbox
+                            name="ascending"
+                            checked={val.ascending}
+                            onChange={handleChange}
+                        />
+                    )}
+                    label="Ascending"
+                />
             </FormControl>
         );
         return (

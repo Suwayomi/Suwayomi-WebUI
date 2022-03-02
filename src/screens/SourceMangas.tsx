@@ -30,36 +30,17 @@ export default function SourceMangas(props: { popular: boolean }) {
     const [hasNextPage, setHasNextPage] = useState<boolean>(false);
     const [lastPageNum, setLastPageNum] = useState<number>(1);
     const [fetched, setFetched] = useState<boolean>(false);
+    const [Search, setsearch] = React.useState(false);
+    const [Searchst, setsearchst] = useState<string>('');
 
-    const triggerUpdate = () => {
+    function triggerUpdate() {
         setMangas([]);
         setLastPageNum(0);
-        setLastPageNum(1);
-        // eslint-disable-next-line @typescript-eslint/no-use-before-define
-        makeFilters();
-    };
+    }
 
     useEffect(() => {
         setTitle('Source'); // title is later set after a fetch but we set it here once
     }, []);
-
-    useEffect(() => {
-        setAction(
-            <>
-                {isConfigurable && (
-                    <IconButton
-                        onClick={() => history.push(`/sources/${sourceId}/configure/`)}
-                        aria-label="display more actions"
-                        edge="end"
-                        color="inherit"
-                        size="large"
-                    >
-                        <SettingsIcon />
-                    </IconButton>
-                )}
-            </>,
-        );
-    }, [isConfigurable]);
 
     useEffect(() => {
         client.get(`/api/v1/source/${sourceId}`)
@@ -82,12 +63,23 @@ export default function SourceMangas(props: { popular: boolean }) {
                     state,
                 }),
             }))
-            .then(() => triggerUpdate());
+            .then(() => {
+                setsearch(true);
+                triggerUpdate();
+                // eslint-disable-next-line @typescript-eslint/no-use-before-define
+                makeFilters();
+            });
     }
 
     function resetFilterValue() {
         client.get(`/api/v1/source/${sourceId}/filters?reset=true`)
-            .then(() => triggerUpdate());
+            .then(() => {
+                // eslint-disable-next-line @typescript-eslint/no-use-before-define
+                makeFilters();
+                setsearchst('');
+                setsearch(false);
+                triggerUpdate();
+            });
     }
 
     function makeFilters() {
@@ -111,6 +103,8 @@ export default function SourceMangas(props: { popular: boolean }) {
                             sourceFilter={data}
                             updateFilterValue={updateFilterValue}
                             resetFilterValue={resetFilterValue}
+                            setsearchst={setsearchst}
+                            searchst={Searchst}
                         />
                     </>
                     ,
@@ -119,13 +113,40 @@ export default function SourceMangas(props: { popular: boolean }) {
     }
 
     useEffect(() => {
-        makeFilters();
+        setAction(
+            <>
+                {isConfigurable && (
+                    <IconButton
+                        onClick={() => history.push(`/sources/${sourceId}/configure/`)}
+                        aria-label="display more actions"
+                        edge="end"
+                        color="inherit"
+                        size="large"
+                    >
+                        <SettingsIcon />
+                    </IconButton>
+                )}
+            </>,
+        );
+        if (!Search) {
+            client.get(`/api/v1/source/${sourceId}/filters?reset=true`)
+                .then(() => makeFilters());
+        }
     }, [isConfigurable]);
+
+    useEffect(() => {
+        if (Searchst !== '') { setsearch(true); }
+        if (Search) { triggerUpdate(); }
+    }, [Searchst]);
+
+    useEffect(() => {
+        if (Search) { triggerUpdate(); }
+    }, [Search]);
 
     useEffect(() => {
         if (lastPageNum !== 0) {
             const sourceType = props.popular ? 'popular' : 'latest';
-            client.get(`/api/v1/source/${sourceId}/${sourceType}/${lastPageNum}`)
+            client.get(`/api/v1/source/${sourceId}/${Searchst !== '' || Search ? 'search' : sourceType}${Searchst !== '' || Search ? `?searchTerm=${Searchst}&pageNum=${lastPageNum}` : `/${lastPageNum}`}`)
                 .then((response) => response.data)
                 .then((data: { mangaList: IManga[], hasNextPage: boolean }) => {
                     setMangas([
@@ -138,7 +159,7 @@ export default function SourceMangas(props: { popular: boolean }) {
                     setHasNextPage(data.hasNextPage);
                     setFetched(true);
                 });
-        }
+        } else { setLastPageNum(1); }
     }, [lastPageNum]);
 
     let message;
