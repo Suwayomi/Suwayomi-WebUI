@@ -26,7 +26,6 @@ import About from 'screens/settings/About';
 import Categories from 'screens/settings/Categories';
 import Backup from 'screens/settings/Backup';
 import Library from 'screens/Library';
-import SearchSingle from 'screens/SearchSingle';
 import SourceConfigure from 'screens/SourceConfigure';
 import Manga from 'screens/Manga';
 import SourceMangas from 'screens/SourceMangas';
@@ -137,9 +136,6 @@ export default function App() {
 
                                     {/* Manga Routes */}
 
-                                    <Route path="/sources/:sourceId/search/">
-                                        <SearchSingle />
-                                    </Route>
                                     <Route path="/sources/:sourceId/popular/">
                                         <SourceMangas popular />
                                     </Route>
