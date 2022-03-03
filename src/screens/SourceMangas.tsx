@@ -72,6 +72,7 @@ export default function SourceMangas(props: { popular: boolean }) {
         setFetched(false);
         setMangas([]);
         setLastPageNum(0);
+        if (query === undefined) { setquery(null); }
     }, [triggerUpdate]);
 
     useEffect(() => {
@@ -96,18 +97,20 @@ export default function SourceMangas(props: { popular: boolean }) {
 
     useEffect(() => {
         if (reset === 0) {
+            setquery(undefined);
             setReset(1);
-        } else {
+        } else if (query === undefined) {
             client.get(`/api/v1/source/${sourceId}/filters?reset=true`)
                 .then(() => {
                     makeFilters();
-                    setquery(undefined);
                     setSearch(false);
                     if (reset === 1) {
                         setTriggerUpdate(0);
                     }
                 });
+            return;
         }
+        makeFilters();
     }, [reset]);
 
     useEffect(() => {
@@ -131,11 +134,13 @@ export default function SourceMangas(props: { popular: boolean }) {
     }, [isConfigurable]);
 
     useEffect(() => {
-        if (query) { setSearch(true); } else { setSearch(false); }
+        if (query) {
+            setSearch(true);
+        } else { setSearch(false); }
     }, [query]);
 
     useEffect(() => {
-        if (Search !== undefined && query !== undefined) {
+        if (Search !== undefined && query !== undefined && query !== null) {
             const delayDebounceFn = setTimeout(() => {
                 setTriggerUpdate(0);
             }, 1000);
@@ -147,7 +152,7 @@ export default function SourceMangas(props: { popular: boolean }) {
     useEffect(() => {
         if (lastPageNum !== 0) {
             const sourceType = props.popular ? 'popular' : 'latest';
-            client.get(`/api/v1/source/${sourceId}/${query || Search ? 'search' : sourceType}${query || Search ? `?searchTerm=${query || ''}&pageNum=${lastPageNum}` : `/${lastPageNum}`}`)
+            client.get(`/api/v1/source/${sourceId}/${query !== undefined || Search ? 'search' : sourceType}${query !== undefined || Search ? `?searchTerm=${query || ''}&pageNum=${lastPageNum}` : `/${lastPageNum}`}`)
                 .then((response) => response.data)
                 .then((data: { mangaList: IManga[], hasNextPage: boolean }) => {
                     setMangas([
