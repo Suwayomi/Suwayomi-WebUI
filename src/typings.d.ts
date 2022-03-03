@@ -236,3 +236,8 @@ type ChapterOptionsReducerAction =
 | { type: 'sortBy', sortBy: ChapterSortMode }
 | { type: 'sortReverse' }
 | { type: 'showChapterNumber' };
+
+interface LibraryDisplayOptions {
+    showDownloadBadge: boolean
+    showUnreadBadge: boolean
+}
