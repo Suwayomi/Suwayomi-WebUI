@@ -8,24 +8,8 @@
 
 import React from 'react';
 import MangaGrid, { IMangaGridProps } from 'components/MangaGrid';
-// import useLibraryOptions from 'util/useLibraryOptions';
 
 const FILTERED_OUT_MESSAGE = 'There are no Manga matching this filter';
-
-// eslint-disable-next-line max-len
-// function genreFilter(queryY: NullAndUndefined<any[]>, queryN: NullAndUndefined<any[]>, { genre }: IMangaCard): boolean {
-//     if (genre && (queryN || queryY)) {
-//         let ret: boolean = true;
-//         if (queryN) {
-//             ret = !queryN.some((v: string) => genre.includes(v));
-//         }
-//         if (queryY) {
-//             ret = ret && queryY.every((v: string) => genre.includes(v));
-//         }
-//         return ret;
-//     }
-//     return true;
-// }
 
 function filterManga(mangas: IMangaCard[]): IMangaCard[] {
     return mangas;
