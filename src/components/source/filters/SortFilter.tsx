@@ -7,11 +7,16 @@
  */
 import React from 'react';
 import { Box } from '@mui/system';
-import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import { FormControlLabel, Checkbox } from '@mui/material';
+import {
+    Collapse,
+    List,
+    ListItem,
+    ListItemButton, ListItemIcon, ListItemText,
+} from '@mui/material';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import { ExpandLess, ExpandMore } from '@mui/icons-material';
 
 interface Props {
     values: any
@@ -33,45 +38,51 @@ export default function SortFilter(props: Props) {
     } = props;
     const [val, setval] = React.useState(state);
 
+    const [open, setOpen] = React.useState(false);
+
+    const handleClick = () => {
+        setOpen(!open);
+    };
+
     if (values) {
-        const handleChange = (event: { target: { name: string;
-            value?: string;
-            checked?: boolean
-        };
-        }) => {
+        const handleChange = (event:
+        React.MouseEvent<HTMLDivElement, MouseEvent>, index: number) => {
             const tmp = val;
-            if (event.target.name === 'index') { tmp.index = values.indexOf(`${event.target.value}`); }
-            if (event.target.name === 'ascending') { tmp.ascending = event.target.checked as boolean; }
+            tmp.index = index;
+            tmp.ascending = !tmp.ascending;
             setval(tmp);
             updateFilterValue({ position, state: JSON.stringify(tmp), group });
         };
 
-        const rett = values.map((value: string) => (<MenuItem key={`${name} ${value}`} value={value}>{value}</MenuItem>));
         const ret = (
             <FormControl fullWidth>
-                <InputLabel sx={{ margin: '10px 0 10px 0' }}>
-                    {name}
-                </InputLabel>
-                <Select
-                    name="index"
-                    value={values[val.index]}
-                    label={name}
-                    onChange={handleChange}
-                    autoWidth
-                    sx={{ margin: '10px 0 10px 0' }}
-                >
-                    {rett}
-                </Select>
-                <FormControlLabel
-                    control={(
-                        <Checkbox
-                            name="ascending"
-                            checked={val.ascending}
-                            onChange={handleChange}
-                        />
-                    )}
-                    label="Ascending"
-                />
+                <ListItemButton onClick={handleClick}>
+                    <ListItemText primary={name} />
+                    {open ? <ExpandLess /> : <ExpandMore />}
+                </ListItemButton>
+                <Collapse in={open}>
+                    <List>
+                        {values.map((value: string, index: number) => {
+                            let icon;
+                            if (val.index === index) {
+                                icon = val.ascending ? (<ArrowUpwardIcon color="primary" />)
+                                    : (<ArrowDownwardIcon color="primary" />);
+                            }
+                            return (
+                                <ListItem disablePadding key={`${name} ${value}`}>
+                                    <ListItemButton
+                                        onClick={(event) => handleChange(event, index)}
+                                    >
+                                        <ListItemIcon>
+                                            {icon}
+                                        </ListItemIcon>
+                                        <ListItemText primary={value} />
+                                    </ListItemButton>
+                                </ListItem>
+                            );
+                        })}
+                    </List>
+                </Collapse>
             </FormControl>
         );
         return (

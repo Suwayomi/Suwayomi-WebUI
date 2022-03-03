@@ -13,6 +13,8 @@ import NavbarContext from 'components/context/NavbarContext';
 import client from 'util/client';
 import SettingsIcon from '@mui/icons-material/Settings';
 import SourceOptions from 'components/source/SourceOptions';
+import AppbarSearch from 'components/util/AppbarSearch';
+import { useQueryParam, StringParam } from 'use-query-params';
 
 interface IPos {
     position: number
@@ -31,11 +33,11 @@ export default function SourceMangas(props: { popular: boolean }) {
     const [lastPageNum, setLastPageNum] = useState<number>(1);
     const [fetched, setFetched] = useState<boolean>(false);
 
-    const [Search, setSearch] = React.useState(false);
-    const [Searchst, setSearchst] = useState<string>('');
+    const [Search, setSearch] = useState<boolean>();
+    const [query, setquery] = useQueryParam('query', StringParam);
     const [reset, setReset] = React.useState(2);
     const [update, setUpdate] = React.useState();
-    const [triggerUpdate, setTriggerUpdate] = React.useState(2);
+    const [triggerUpdate, setTriggerUpdate] = useState<number>(2);
     const [Data, SetData] = useState<ISourceFilters[]>();
 
     function makeFilters() {
@@ -61,17 +63,15 @@ export default function SourceMangas(props: { popular: boolean }) {
 
     useEffect(() => {
         if (triggerUpdate === 2) {
-            return () => {};
+            return;
         }
         if (triggerUpdate === 0) {
             setTriggerUpdate(1);
-            return () => {};
+            return;
         }
-        const delayDebounceFn = setTimeout(() => {
-            setMangas([]);
-            setLastPageNum(0);
-        }, 1000);
-        return () => clearTimeout(delayDebounceFn);
+        setFetched(false);
+        setMangas([]);
+        setLastPageNum(0);
     }, [triggerUpdate]);
 
     useEffect(() => {
@@ -89,8 +89,6 @@ export default function SourceMangas(props: { popular: boolean }) {
                     }),
                 }))
                 .then(() => {
-                    setSearch(true);
-                    setTriggerUpdate(0);
                     makeFilters();
                 });
         }
@@ -103,7 +101,7 @@ export default function SourceMangas(props: { popular: boolean }) {
             client.get(`/api/v1/source/${sourceId}/filters?reset=true`)
                 .then(() => {
                     makeFilters();
-                    setSearchst('');
+                    setquery(undefined);
                     setSearch(false);
                     if (reset === 1) {
                         setTriggerUpdate(0);
@@ -115,15 +113,7 @@ export default function SourceMangas(props: { popular: boolean }) {
     useEffect(() => {
         setAction(
             <>
-                {Data !== undefined && (
-                    <SourceOptions
-                        sourceFilter={Data}
-                        updateFilterValue={setUpdate}
-                        resetFilterValue={setReset}
-                        setsearchst={setSearchst}
-                        searchst={Searchst}
-                    />
-                )}
+                <AppbarSearch />
                 {isConfigurable && (
                     <IconButton
                         onClick={() => history.push(`/sources/${sourceId}/configure/`)}
@@ -138,21 +128,26 @@ export default function SourceMangas(props: { popular: boolean }) {
             </>
             ,
         );
-    }, [isConfigurable, Data]);
+    }, [isConfigurable]);
 
     useEffect(() => {
-        if (Searchst !== '') { setSearch(true); }
-        if (Search) { setTriggerUpdate(0); }
-    }, [Searchst]);
+        if (query) { setSearch(true); } else { setSearch(false); }
+    }, [query]);
 
     useEffect(() => {
-        if (Search) { setTriggerUpdate(0); }
-    }, [Search]);
+        if (Search !== undefined && query !== undefined) {
+            const delayDebounceFn = setTimeout(() => {
+                setTriggerUpdate(0);
+            }, 1000);
+            return () => clearTimeout(delayDebounceFn);
+        }
+        return () => {};
+    }, [Search, query]);
 
     useEffect(() => {
         if (lastPageNum !== 0) {
             const sourceType = props.popular ? 'popular' : 'latest';
-            client.get(`/api/v1/source/${sourceId}/${Searchst !== '' || Search ? 'search' : sourceType}${Searchst !== '' || Search ? `?searchTerm=${Searchst}&pageNum=${lastPageNum}` : `/${lastPageNum}`}`)
+            client.get(`/api/v1/source/${sourceId}/${query || Search ? 'search' : sourceType}${query || Search ? `?searchTerm=${query || ''}&pageNum=${lastPageNum}` : `/${lastPageNum}`}`)
                 .then((response) => response.data)
                 .then((data: { mangaList: IManga[], hasNextPage: boolean }) => {
                     setMangas([
@@ -184,14 +179,25 @@ export default function SourceMangas(props: { popular: boolean }) {
     }
 
     return (
-        <SourceMangaGrid
-            mangas={mangas}
-            hasNextPage={hasNextPage}
-            lastPageNum={lastPageNum}
-            setLastPageNum={setLastPageNum}
-            message={message}
-            messageExtra={messageExtra}
-            isLoading={!fetched}
-        />
+        <>
+            <SourceMangaGrid
+                mangas={mangas}
+                hasNextPage={hasNextPage}
+                lastPageNum={lastPageNum}
+                setLastPageNum={setLastPageNum}
+                message={message}
+                messageExtra={messageExtra}
+                isLoading={!fetched}
+            />
+            {Data !== undefined && (
+                <SourceOptions
+                    sourceFilter={Data}
+                    updateFilterValue={setUpdate}
+                    resetFilterValue={setReset}
+                    setTriggerUpdate={setTriggerUpdate}
+                    setSearch={setSearch}
+                />
+            )}
+        </>
     );
 }

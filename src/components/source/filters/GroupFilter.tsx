@@ -5,10 +5,11 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-import { Button, Drawer } from '@mui/material';
+import {
+    Collapse, List, ListItemButton, ListItemText,
+} from '@mui/material';
 import React from 'react';
-import { Box } from '@mui/system';
-import FilterListIcon from '@mui/icons-material/FilterList';
+import { ExpandLess, ExpandMore } from '@mui/icons-material';
 // eslint-disable-next-line import/no-cycle
 import { Options } from '../SourceOptions';
 
@@ -26,38 +27,28 @@ export default function GroupFilter(props: Props) {
         position,
         updateFilterValue,
     } = props;
-    const [filtersOpen, setFiltersOpen] = React.useState(false);
+
+    const [open, setOpen] = React.useState(false);
+
+    const handleClick = () => {
+        setOpen(!open);
+    };
+
     return (
         <>
-            <Button
-                sx={{ width: '100%', color: 'inherit' }}
-                onClick={() => setFiltersOpen(!filtersOpen)}
-            >
-                <Box
-                    sx={{ margin: 'auto auto auto 0' }}
-                >
-                    <FilterListIcon sx={{ verticalAlign: 'bottom' }} />
-                    {name}
-                </Box>
-            </Button>
-
-            <Drawer
-                anchor="right"
-                open={filtersOpen}
-                onClose={() => setFiltersOpen(false)}
-                PaperProps={{
-                    style: {
-                        maxWidth: 600, padding: '1em', marginLeft: 'auto', marginRight: 'auto',
-                    },
-                }}
-            >
-                <Options
-                    sourceFilter={state}
-                    group={position}
-                    updateFilterValue={updateFilterValue}
-                />
-            </Drawer>
-
+            <ListItemButton onClick={handleClick}>
+                <ListItemText primary={name} />
+                {open ? <ExpandLess /> : <ExpandMore />}
+            </ListItemButton>
+            <Collapse in={open}>
+                <List disablePadding>
+                    <Options
+                        sourceFilter={state}
+                        group={position}
+                        updateFilterValue={updateFilterValue}
+                    />
+                </List>
+            </Collapse>
         </>
     );
 }

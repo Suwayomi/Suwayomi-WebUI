@@ -9,10 +9,9 @@
 import React from 'react';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import {
-    Drawer, IconButton, Button, FormControl, Input, InputLabel,
+    Drawer, Button, Fab,
 } from '@mui/material';
 import { Box } from '@mui/system';
-import SearchIcon from '@mui/icons-material/Search';
 import SelectFilter from './filters/SelectFilter';
 import CheckBoxFilter from './filters/CheckBoxFilter';
 import HeaderFilter from './filters/HeaderFilter';
@@ -34,8 +33,8 @@ interface IFilters1 {
     sourceFilter: ISourceFilters[]
     updateFilterValue: Function
     resetFilterValue: Function
-    setsearchst: Function
-    searchst: string
+    setTriggerUpdate: Function
+    setSearch: Function
 }
 
 export function Options({
@@ -141,32 +140,36 @@ export default function SourceOptions({
     sourceFilter,
     updateFilterValue,
     resetFilterValue,
-    setsearchst,
-    searchst,
+    setTriggerUpdate,
+    setSearch,
 }: IFilters1) {
     const [FilterOptions, setFilterOptions] = React.useState(false);
-    const [Search, setsearch] = React.useState(searchst);
-
-    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-        setsearch(e.target.value === '' ? '' : e.target.value);
-        setsearchst(e.target.value === '' ? '' : e.target.value);
-    }
 
     function handleReset() {
-        setsearch('');
         resetFilterValue(0);
+        setFilterOptions(false);
+    }
+
+    function handleSubmit() {
+        setTriggerUpdate(0);
+        setSearch(true);
+        setFilterOptions(false);
     }
 
     return (
         <>
-            <IconButton
+            <Fab
+                sx={{ position: 'fixed', bottom: '2em', right: '3em' }}
                 onClick={() => setFilterOptions(!FilterOptions)}
+                variant="extended"
+                color="primary"
             >
                 <FilterListIcon />
-            </IconButton>
+                Filter
+            </Fab>
 
             <Drawer
-                anchor="right"
+                anchor="bottom"
                 open={FilterOptions}
                 onClose={() => setFilterOptions(false)}
                 PaperProps={{
@@ -175,29 +178,19 @@ export default function SourceOptions({
                     },
                 }}
             >
-                <Button
-                    variant="contained"
-                    onClick={handleReset}
-                >
-                    Reset
-                </Button>
-                <Box sx={{ display: 'flex', flexDirection: 'row', minWidth: 120 }}>
-                    <SearchIcon
-                        sx={{
-                            margin: 'auto',
-                        }}
-                    />
-                    <FormControl fullWidth>
-                        <InputLabel sx={{ margin: '10px 0 10px 0' }}>
-                            Search
-                        </InputLabel>
-                        <Input
-                            name="Search"
-                            value={Search || ''}
-                            onChange={handleChange}
-                            sx={{ margin: '10px 0 10px 0' }}
-                        />
-                    </FormControl>
+                <Box sx={{ display: 'flex' }}>
+                    <Button
+                        onClick={handleReset}
+                    >
+                        Reset
+                    </Button>
+                    <Button
+                        sx={{ marginLeft: 'auto' }}
+                        variant="contained"
+                        onClick={handleSubmit}
+                    >
+                        Submit
+                    </Button>
                 </Box>
                 <Options
                     sourceFilter={sourceFilter}

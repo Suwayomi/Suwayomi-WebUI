@@ -55,7 +55,7 @@ export default function TriStateFilter(props: Props) {
             check = undefined;
         }
         return (
-            <Box sx={{ display: 'flex', flexDirection: 'column', minWidth: 120 }}>
+            <Box sx={{ marginLeft: 3 }}>
                 <FormControlLabel
                     key={name}
                     control={(
