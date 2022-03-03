@@ -155,6 +155,7 @@ interface IDownloadChapter{
     state: 'Queued' | 'Downloading' | 'Finished' | 'Error'
     progress: number
     chapter: IChapter
+    manga: IManga
 }
 
 interface IQueue {
