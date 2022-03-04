@@ -48,8 +48,12 @@ export default function SortFilter(props: Props) {
         const handleChange = (event:
         React.MouseEvent<HTMLDivElement, MouseEvent>, index: number) => {
             const tmp = val;
+            if (tmp.index === index) {
+                tmp.ascending = !tmp.ascending;
+            } else {
+                tmp.ascending = true;
+            }
             tmp.index = index;
-            tmp.ascending = !tmp.ascending;
             setval(tmp);
             updateFilterValue({ position, state: JSON.stringify(tmp), group });
         };
