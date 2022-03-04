@@ -9,12 +9,14 @@
 import React from 'react';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import SortIcon from '@mui/icons-material/Sort';
-import { Drawer, FormControlLabel, IconButton } from '@mui/material';
+import {
+    Drawer, FormControlLabel, IconButton, ListItem, ListItemButton, ListItemIcon, ListItemText,
+} from '@mui/material';
 import useLibraryOptions from 'util/useLibraryOptions';
 import ThreeStateCheckbox from 'components/util/ThreeStateCheckbox';
-import Switch from '@mui/material/Switch';
-import Radio from '@mui/material/Radio';
 import { Box } from '@mui/system';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 
 function Options() {
     const {
@@ -33,21 +35,35 @@ function SortOptions() {
         sorts, setSorts, sortDesc, setSortDesc,
     } = useLibraryOptions();
 
-    const handleSortChange = (name: string) => (event: { target: { checked: boolean; }; }) => {
-        setSorts(event.target.checked ? name : undefined);
-    };
-
-    const handleOrderChange = () => (event: { target: { checked: boolean; }; }) => {
-        setSortDesc(event.target.checked);
+    const handleChange = (event:
+    React.MouseEvent<HTMLDivElement, MouseEvent>, index: string) => {
+        if (sorts === index) {
+            setSortDesc(!sortDesc);
+        } else { setSortDesc(false); }
+        setSorts(index);
     };
 
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-            <FormControlLabel control={<Switch name="sortDesc" checked={sortDesc === true} onChange={handleOrderChange()} color="default" />} label="Asc/Desc" />
-            <FormControlLabel control={<Radio name="sortToRead" checked={sorts === 'sortToRead'} onChange={handleSortChange('sortToRead')} />} label="Sort by left to read" />
-            <FormControlLabel control={<Radio name="sortAlph" checked={sorts === 'sortAlph'} onChange={handleSortChange('sortAlph')} />} label="Sort alphbetical" />
-            <FormControlLabel control={<Radio name="sortID" checked={sorts === 'sortID' || sorts === undefined} onChange={handleSortChange('sortID')} />} label="Sort by ID" />
-        </Box>
+        <>
+            {
+                ['sortToRead', 'sortAlph', 'sortID'].map((e) => {
+                    let icon;
+                    if (sorts === e) {
+                        icon = !sortDesc ? (<ArrowUpwardIcon color="primary" />)
+                            : (<ArrowDownwardIcon color="primary" />);
+                    }
+                    icon = icon === undefined && sortDesc === undefined && e === 'sortID' ? (<ArrowDownwardIcon color="primary" />) : icon;
+                    return (
+                        <ListItem disablePadding>
+                            <ListItemButton onClick={(event) => handleChange(event, e)}>
+                                <ListItemIcon>{icon}</ListItemIcon>
+                                <ListItemText primary={e} />
+                            </ListItemButton>
+                        </ListItem>
+                    );
+                })
+            }
+        </>
     );
 }
 
