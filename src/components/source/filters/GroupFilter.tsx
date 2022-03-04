@@ -18,6 +18,7 @@ interface Props {
     name: string
     position: number
     updateFilterValue: Function
+    update: any
 }
 
 export default function GroupFilter(props: Props) {
@@ -26,6 +27,7 @@ export default function GroupFilter(props: Props) {
         name,
         position,
         updateFilterValue,
+        update,
     } = props;
 
     const [open, setOpen] = React.useState(false);
@@ -46,6 +48,7 @@ export default function GroupFilter(props: Props) {
                         sourceFilter={state}
                         group={position}
                         updateFilterValue={updateFilterValue}
+                        update={update}
                     />
                 </List>
             </Collapse>

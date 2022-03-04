@@ -20,6 +20,7 @@ interface Props {
     position: number
     group: number | undefined
     updateFilterValue: Function
+    update: any
 }
 
 export default function TextFilter(props: Props) {
@@ -29,16 +30,20 @@ export default function TextFilter(props: Props) {
         position,
         group,
         updateFilterValue,
+        update,
     } = props;
-    const [Search, setsearch] = React.useState('');
+    const [Search, setsearch] = React.useState(state || '');
     let typingTimer: NodeJS.Timeout;
 
     function doneTyping(e: React.ChangeEvent<HTMLInputElement>) {
-        updateFilterValue({ position, state: e.target.value === '' ? '' : e.target.value.toString(), group });
+        const upd = update.filter((el: {
+            position: number; group: number | undefined;
+        }) => !(position === el.position && group === el.group));
+        updateFilterValue([...upd, { position, state: e.target.value, group }]);
     }
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-        setsearch(e.target.value === '' ? '' : e.target.value);
+        setsearch(e.target.value);
 
         clearTimeout(typingTimer);
         typingTimer = setTimeout(() => { doneTyping(e); }, 2500);

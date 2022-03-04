@@ -21,6 +21,7 @@ interface Props {
     position: number
     updateFilterValue: Function
     group: number | undefined
+    update: any
 }
 
 interface Selected {
@@ -35,6 +36,7 @@ function hasSelect(
     state: number,
     position: number,
     updateFilterValue: Function,
+    update: any,
     group?: number,
 ) {
     const [val, setval] = React.useState(state);
@@ -42,7 +44,10 @@ function hasSelect(
         const handleChange = (event: { target: { name: any; value: any; }; }) => {
             const vall = values.map((e) => e.displayname).indexOf(`${event.target.value}`);
             setval(vall);
-            updateFilterValue({ position, state: vall.toString(), group });
+            const upd = update.filter((e: {
+                position: number; group: number | undefined;
+            }) => !(position === e.position && group === e.group));
+            updateFilterValue([...upd, { position, state: vall.toString(), group }]);
         };
 
         const rett = values.map((e: Selected) => (
@@ -84,6 +89,7 @@ function noSelect(
     state: number,
     position: number,
     updateFilterValue: Function,
+    update: any,
     group?: number,
 ) {
     const [val, setval] = React.useState(state);
@@ -92,7 +98,10 @@ function noSelect(
         const handleChange = (event: { target: { name: any; value: any; }; }) => {
             const vall = values.indexOf(`${event.target.value}`);
             setval(vall);
-            updateFilterValue({ position, state: vall.toString(), group });
+            const upd = update.filter((e: {
+                position: number; group: number | undefined;
+            }) => !(position === e.position && group === e.group));
+            updateFilterValue([...upd, { position, state: vall.toString(), group }]);
         };
 
         const rett = values.map((value: string) => (<MenuItem key={`${name} ${value}`} value={value}>{value}</MenuItem>));
@@ -126,6 +135,7 @@ export default function SelectFilter({
     selected,
     position,
     updateFilterValue,
+    update,
     group,
 }: Props) {
     if (selected === undefined) {
@@ -135,6 +145,7 @@ export default function SelectFilter({
             state,
             position,
             updateFilterValue,
+            update,
             group,
         );
     }
@@ -145,6 +156,7 @@ export default function SelectFilter({
         state,
         position,
         updateFilterValue,
+        update,
         group,
     );
 }
