@@ -75,10 +75,10 @@ export default function SourceMangas(props: { popular: boolean }) {
         if (update.length > 0) {
             const rep = update;
             setUpdate([]);
-            Promise.all(rep.map(async (e: IPos) => {
-                const { position, state, group }: IPos = e;
-                await client.post(`/api/v1/source/${sourceId}/filters`,
-                    JSON.stringify(group === undefined ? {
+            client.post(`/api/v1/source/${sourceId}/filters`,
+                rep.map((e: IPos) => {
+                    const { position, state, group }: IPos = e;
+                    return group === undefined ? {
                         position,
                         state,
                     } : {
@@ -87,8 +87,8 @@ export default function SourceMangas(props: { popular: boolean }) {
                             position,
                             state,
                         }),
-                    }));
-            }))
+                    };
+                }))
                 .then(() => {
                     setTriggerUpdate(0);
                     makeFilters();
