@@ -130,9 +130,6 @@ export default function App() {
 
                                         {/* Manga Routes */}
 
-                                        <Route path="/sources/:sourceId/search/">
-                                            <SearchSingle />
-                                        </Route>
                                         <Route path="/sources/:sourceId/popular/">
                                             <SourceMangas popular />
                                         </Route>
@@ -181,56 +178,6 @@ export default function App() {
                                             />
                                         )}
                                     />
-                                    <Route path="/settings/about">
-                                        <About />
-                                    </Route>
-                                    <Route path="/settings/categories">
-                                        <Categories />
-                                    </Route>
-                                    <Route path="/settings/backup">
-                                        <Backup />
-                                    </Route>
-                                    <Route path="/settings">
-                                        <DarkTheme.Provider value={darkThemeContext}>
-                                            <Settings />
-                                        </DarkTheme.Provider>
-                                    </Route>
-
-                                    {/* Manga Routes */}
-
-                                    <Route path="/sources/:sourceId/popular/">
-                                        <SourceMangas popular />
-                                    </Route>
-                                    <Route path="/sources/:sourceId/latest/">
-                                        <SourceMangas popular={false} />
-                                    </Route>
-                                    <Route path="/sources/:sourceId/configure/">
-                                        <SourceConfigure />
-                                    </Route>
-                                    <Route path="/downloads">
-                                        <DownloadQueue />
-                                    </Route>
-                                    <Route path="/manga/:mangaId/chapter/:chapterNum">
-                                        <></>
-                                    </Route>
-                                    <Route path="/manga/:id">
-                                        <Manga />
-                                    </Route>
-                                    <Route path="/library">
-                                        <Library />
-                                    </Route>
-                                    <Route path="/updates">
-                                        <Updates />
-                                    </Route>
-                                    <Route path="/sources">
-                                        <Sources />
-                                    </Route>
-                                    <Route path="/extensions">
-                                        <Extensions />
-                                    </Route>
-                                    <Route path="/browse">
-                                        <Browse />
-                                    </Route>
                                 </Switch>
                             </NavBarContextProvider>
                         </LibraryOptionsContextProvider>
