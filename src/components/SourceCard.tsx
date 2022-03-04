@@ -9,10 +9,7 @@ import React from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { useHistory } from 'react-router-dom';
-import SearchIcon from '@mui/icons-material/Search';
 import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import FiberNewOutlinedIcon from '@mui/icons-material/FiberNewOutlined';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import useLocalStorage from 'util/useLocalStorage';
@@ -108,34 +105,16 @@ export default function SourceCard(props: IProps) {
                 </Box>
                 <>
                     <MobileWidthButtons>
-                        <IconButton
-                            sx={{ width: 59, height: 59 }}
-                            onClick={(e) => redirectTo(e, `/sources/${id}/search/`)}
-                            size="large"
-                            edge="end"
-                        >
-                            <SearchIcon
-                                fontSize="medium"
-                            />
-                        </IconButton>
                         {supportsLatest && (
-                            <IconButton
+                            <Button
+                                variant="outlined"
                                 onClick={(e) => redirectTo(e, `/sources/${id}/latest/`)}
-                                size="large"
                             >
-                                <FiberNewOutlinedIcon
-                                    fontSize="large"
-                                />
-                            </IconButton>
+                                Latest
+                            </Button>
                         )}
                     </MobileWidthButtons>
                     <WiderWidthButtons>
-                        <Button
-                            variant="outlined"
-                            onClick={(e) => redirectTo(e, `/sources/${id}/search/`)}
-                        >
-                            Search
-                        </Button>
                         {supportsLatest && (
                             <Button
                                 variant="outlined"

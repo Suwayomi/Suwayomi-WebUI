@@ -30,6 +30,29 @@ interface ISource {
     displayName: string
 }
 
+interface ISourceFilters {
+    type: string
+    filter: ISourceFilter
+}
+
+interface ISourceFilter {
+    name: string
+    state: number | string | boolean | ISourceFilters[] | IState
+    values?: string[]
+    selected?: ISelected
+}
+
+interface ISelected {
+    displayname: string
+    value: string
+    _value: string
+}
+
+interface IState {
+    ascending: boolean
+    index: number
+}
+
 interface IMangaCard {
     id: number
     title: string

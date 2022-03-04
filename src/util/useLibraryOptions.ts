@@ -16,6 +16,7 @@ interface IUseLibraryOptions {
     query: NullAndUndefined<string>
     setQuery: (query: NullAndUndefined<string>) => void
     active: boolean
+    activeSort: boolean
     sorts: NullAndUndefined<string>
     setSorts: (sorts: NullAndUndefined<string>) => void
     sortDesc: NullAndUndefined<boolean>
@@ -31,6 +32,8 @@ export default function useLibraryOptions(): IUseLibraryOptions {
 
     // eslint-disable-next-line eqeqeq
     const active = !(unread == undefined) || !(downloaded == undefined);
+    // eslint-disable-next-line eqeqeq
+    const activeSort = (sortDesc != undefined) || (sorts != undefined);
     return {
         downloaded,
         setDownloaded,
@@ -39,6 +42,7 @@ export default function useLibraryOptions(): IUseLibraryOptions {
         query,
         setQuery,
         active,
+        activeSort,
         sorts,
         setSorts,
         sortDesc,
