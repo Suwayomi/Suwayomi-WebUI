@@ -70,7 +70,7 @@ export function Options({
                             <GroupFilter
                                 key={`filters ${e.filter.name}`}
                                 name={e.filter.name}
-                                state={checkif || e.filter.state as ISourceFilters[]}
+                                state={e.filter.state as ISourceFilters[]}
                                 position={index}
                                 updateFilterValue={updateFilterValue}
                                 update={update}

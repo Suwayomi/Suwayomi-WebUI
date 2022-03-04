@@ -32,18 +32,18 @@ export default function TextFilter(props: Props) {
         updateFilterValue,
         update,
     } = props;
-    const [Search, setsearch] = React.useState('');
+    const [Search, setsearch] = React.useState(state || '');
     let typingTimer: NodeJS.Timeout;
 
     function doneTyping(e: React.ChangeEvent<HTMLInputElement>) {
         const upd = update.filter((el: {
             position: number; group: number | undefined;
         }) => !(position === el.position && group === el.group));
-        updateFilterValue([...upd, { position, state: e.target.value === '' ? '' : e.target.value.toString(), group }]);
+        updateFilterValue([...upd, { position, state: e.target.value, group }]);
     }
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-        setsearch(e.target.value === '' ? '' : e.target.value);
+        setsearch(e.target.value);
 
         clearTimeout(typingTimer);
         typingTimer = setTimeout(() => { doneTyping(e); }, 2500);
