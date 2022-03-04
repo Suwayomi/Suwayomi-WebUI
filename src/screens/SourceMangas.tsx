@@ -40,6 +40,9 @@ export default function SourceMangas(props: { popular: boolean }) {
     const [triggerUpdate, setTriggerUpdate] = useState<number>(2);
     const [Data, SetData] = useState<ISourceFilters[]>();
 
+    const [Init, setInit] = useState<undefined | null>();
+    const [Noreset, setNoreset] = useQueryParam('R');
+
     function makeFilters() {
         client.get(`/api/v1/source/${sourceId}/filters`)
             .then((response) => response.data)
@@ -72,7 +75,7 @@ export default function SourceMangas(props: { popular: boolean }) {
         setFetched(false);
         setMangas([]);
         setLastPageNum(0);
-        if (query === undefined) { setquery(null); }
+        if (Noreset === undefined && Search) { setNoreset(null); }
     }, [triggerUpdate]);
 
     useEffect(() => {
@@ -98,8 +101,9 @@ export default function SourceMangas(props: { popular: boolean }) {
     useEffect(() => {
         if (reset === 0) {
             setquery(undefined);
+            setNoreset(undefined);
             setReset(1);
-        } else if (query === undefined) {
+        } else if (Noreset === undefined) {
             client.get(`/api/v1/source/${sourceId}/filters?reset=true`)
                 .then(() => {
                     makeFilters();
@@ -137,22 +141,24 @@ export default function SourceMangas(props: { popular: boolean }) {
         if (query) {
             setSearch(true);
         } else { setSearch(false); }
+        if (Noreset === undefined) { setInit(null); }
     }, [query]);
 
     useEffect(() => {
-        if (Search !== undefined && query !== undefined && query !== null) {
+        if (Search !== undefined && query !== undefined && Init === null) {
             const delayDebounceFn = setTimeout(() => {
                 setTriggerUpdate(0);
             }, 1000);
             return () => clearTimeout(delayDebounceFn);
         }
+        if (Search !== undefined) { setInit(null); }
         return () => {};
     }, [Search, query]);
 
     useEffect(() => {
         if (lastPageNum !== 0) {
             const sourceType = props.popular ? 'popular' : 'latest';
-            client.get(`/api/v1/source/${sourceId}/${query !== undefined || Search ? 'search' : sourceType}${query !== undefined || Search ? `?searchTerm=${query || ''}&pageNum=${lastPageNum}` : `/${lastPageNum}`}`)
+            client.get(`/api/v1/source/${sourceId}/${query !== undefined || Search || Noreset === null ? 'search' : sourceType}${query !== undefined || Search || Noreset === null ? `?searchTerm=${query || ''}&pageNum=${lastPageNum}` : `/${lastPageNum}`}`)
                 .then((response) => response.data)
                 .then((data: { mangaList: IManga[], hasNextPage: boolean }) => {
                     setMangas([
