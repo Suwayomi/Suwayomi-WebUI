@@ -178,6 +178,7 @@ interface IDownloadChapter{
     state: 'Queued' | 'Downloading' | 'Finished' | 'Error'
     progress: number
     chapter: IChapter
+    manga: IManga
 }
 
 interface IQueue {
@@ -259,3 +260,8 @@ type ChapterOptionsReducerAction =
 | { type: 'sortBy', sortBy: ChapterSortMode }
 | { type: 'sortReverse' }
 | { type: 'showChapterNumber' };
+
+interface LibraryDisplayOptions {
+    showDownloadBadge: boolean
+    showUnreadBadge: boolean
+}

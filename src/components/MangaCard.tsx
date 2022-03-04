@@ -14,6 +14,7 @@ import { Grid } from '@mui/material';
 import useLocalStorage from 'util/useLocalStorage';
 import SpinnerImage from 'components/util/SpinnerImage';
 import { styled } from '@mui/system';
+import { useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
 
 const BottomGradient = styled('div')({
     position: 'absolute',
@@ -76,6 +77,7 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
             id, title, thumbnailUrl, downloadCount, unreadCount: unread,
         },
     } = props;
+    const { options: { showUnreadBadge, showDownloadBadge } } = useLibraryOptionsContext();
 
     const [serverAddress] = useLocalStorage<String>('serverBaseURL', '');
     const [useCache] = useLocalStorage<boolean>('useCache', true);
@@ -99,14 +101,14 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
                     >
 
                         <BadgeContainer>
-                            {unread! > 0 && (
+                            { showUnreadBadge && unread! > 0 && (
                                 <Typography
                                     sx={{ backgroundColor: 'primary.dark' }}
                                 >
                                     {unread}
                                 </Typography>
                             )}
-                            {downloadCount! > 0 && (
+                            { showDownloadBadge && downloadCount! > 0 && (
                                 <Typography sx={{
                                     backgroundColor: 'success.dark',
                                 }}
