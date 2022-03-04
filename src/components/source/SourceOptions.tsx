@@ -27,6 +27,7 @@ interface IFilters {
     sourceFilter: ISourceFilters[]
     updateFilterValue: Function
     group: number | undefined
+    update: any
 }
 
 interface IFilters1 {
@@ -35,26 +36,33 @@ interface IFilters1 {
     resetFilterValue: Function
     setTriggerUpdate: Function
     setSearch: Function
+    update: any
 }
 
 export function Options({
     sourceFilter,
     group,
     updateFilterValue,
+    update,
 }: IFilters) {
     return (
         <Box key={`filters ${group}`}>
             { sourceFilter.map((e: ISourceFilters, index) => {
+                let checkif = update.find((el: {
+                    group: number | undefined; position: number;
+                }) => el.group === group && el.position === index);
+                checkif = checkif ? checkif.state : checkif;
                 switch (e.type) {
                     case 'CheckBox':
                         return (
                             <CheckBoxFilter
                                 key={`filters ${e.filter.name}`}
                                 name={e.filter.name}
-                                state={e.filter.state as boolean}
+                                state={checkif === 'false' || e.filter.state as boolean}
                                 position={index}
                                 group={group}
                                 updateFilterValue={updateFilterValue}
+                                update={update}
                             />
                         );
                     case 'Group':
@@ -62,9 +70,10 @@ export function Options({
                             <GroupFilter
                                 key={`filters ${e.filter.name}`}
                                 name={e.filter.name}
-                                state={e.filter.state as ISourceFilters[]}
+                                state={checkif || e.filter.state as ISourceFilters[]}
                                 position={index}
                                 updateFilterValue={updateFilterValue}
+                                update={update}
                             />
                         );
                     case 'Header':
@@ -80,11 +89,12 @@ export function Options({
                                 key={`filters ${e.filter.name}`}
                                 name={e.filter.name}
                                 values={e.filter.values}
-                                state={e.filter.state as number}
+                                state={parseInt(checkif, 10) || e.filter.state as number}
                                 selected={e.filter.selected}
                                 position={index}
                                 group={group}
                                 updateFilterValue={updateFilterValue}
+                                update={update}
                             />
                         );
                     case 'Separator':
@@ -100,10 +110,11 @@ export function Options({
                                 key={`filters ${e.filter.name}`}
                                 name={e.filter.name}
                                 values={e.filter.values}
-                                state={e.filter.state as IState}
+                                state={checkif ? JSON.parse(checkif) : e.filter.state as IState}
                                 position={index}
                                 group={group}
                                 updateFilterValue={updateFilterValue}
+                                update={update}
                             />
                         );
                     case 'Text':
@@ -111,10 +122,11 @@ export function Options({
                             <TextFilter
                                 key={`filters ${e.filter.name}`}
                                 name={e.filter.name}
-                                state={e.filter.state as string}
+                                state={checkif || e.filter.state as string}
                                 position={index}
                                 group={group}
                                 updateFilterValue={updateFilterValue}
+                                update={update}
                             />
                         );
                     case 'TriState':
@@ -122,10 +134,11 @@ export function Options({
                             <TriStateFilter
                                 key={`filters ${e.filter.name}`}
                                 name={e.filter.name}
-                                state={e.filter.state as number}
+                                state={parseInt(checkif, 10) || e.filter.state as number}
                                 position={index}
                                 group={group}
                                 updateFilterValue={updateFilterValue}
+                                update={update}
                             />
                         );
                     default:
@@ -142,6 +155,7 @@ export default function SourceOptions({
     resetFilterValue,
     setTriggerUpdate,
     setSearch,
+    update,
 }: IFilters1) {
     const [FilterOptions, setFilterOptions] = React.useState(false);
 
@@ -196,6 +210,7 @@ export default function SourceOptions({
                     sourceFilter={sourceFilter}
                     updateFilterValue={updateFilterValue}
                     group={undefined}
+                    update={update}
                 />
             </Drawer>
         </>

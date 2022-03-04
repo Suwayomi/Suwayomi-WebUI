@@ -16,6 +16,7 @@ interface Props {
     position: number
     group: number | undefined
     updateFilterValue: Function
+    update: any
 }
 
 export default function TriStateFilter(props: Props) {
@@ -25,6 +26,7 @@ export default function TriStateFilter(props: Props) {
         position,
         group,
         updateFilterValue,
+        update,
     } = props;
     const [val, setval] = React.useState({
         [name]: state,
@@ -40,11 +42,14 @@ export default function TriStateFilter(props: Props) {
         setval({
             ...tmp,
         });
-        updateFilterValue({
+        const upd = update.filter((e: {
+            position: number; group: number | undefined;
+        }) => !(position === e.position && group === e.group));
+        updateFilterValue([...upd, {
             position,
             state: (tmp[name] === undefined ? 0 : tmp[name]).toString(),
             group,
-        });
+        }]);
     };
 
     if (state !== undefined) {

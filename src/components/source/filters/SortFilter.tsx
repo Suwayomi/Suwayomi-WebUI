@@ -25,6 +25,7 @@ interface Props {
     position: number
     group: number | undefined
     updateFilterValue: Function
+    update: any
 }
 
 export default function SortFilter(props: Props) {
@@ -35,6 +36,7 @@ export default function SortFilter(props: Props) {
         position,
         group,
         updateFilterValue,
+        update,
     } = props;
     const [val, setval] = React.useState(state);
 
@@ -55,7 +57,10 @@ export default function SortFilter(props: Props) {
             }
             tmp.index = index;
             setval(tmp);
-            updateFilterValue({ position, state: JSON.stringify(tmp), group });
+            const upd = update.filter((e: {
+                position: number; group: number | undefined;
+            }) => !(position === e.position && group === e.group));
+            updateFilterValue([...upd, { position, state: JSON.stringify(tmp), group }]);
         };
 
         const ret = (

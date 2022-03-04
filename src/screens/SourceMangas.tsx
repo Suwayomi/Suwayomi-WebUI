@@ -36,7 +36,7 @@ export default function SourceMangas(props: { popular: boolean }) {
     const [Search, setSearch] = useState<boolean>();
     const [query, setquery] = useQueryParam('query', StringParam);
     const [reset, setReset] = React.useState(2);
-    const [update, setUpdate] = React.useState();
+    const [update, setUpdate] = useState<IPos[]>([]);
     const [triggerUpdate, setTriggerUpdate] = useState<number>(2);
     const [Data, SetData] = useState<ISourceFilters[]>();
 
@@ -72,31 +72,34 @@ export default function SourceMangas(props: { popular: boolean }) {
             setTriggerUpdate(1);
             return;
         }
-        setFetched(false);
-        setMangas([]);
-        setLastPageNum(0);
-        if (Noreset === undefined && Search) { setNoreset(null); }
-    }, [triggerUpdate]);
-
-    useEffect(() => {
-        if (update !== undefined) {
-            const { position, state, group }: IPos = update;
-            client.post(`/api/v1/source/${sourceId}/filters`,
-                JSON.stringify(group === undefined ? {
-                    position,
-                    state,
-                } : {
-                    position: group,
-                    state: JSON.stringify({
+        if (update.length > 0) {
+            const rep = update;
+            setUpdate([]);
+            Promise.all(rep.map(async (e: IPos) => {
+                const { position, state, group }: IPos = e;
+                await client.post(`/api/v1/source/${sourceId}/filters`,
+                    JSON.stringify(group === undefined ? {
                         position,
                         state,
-                    }),
-                }))
+                    } : {
+                        position: group,
+                        state: JSON.stringify({
+                            position,
+                            state,
+                        }),
+                    }));
+            }))
                 .then(() => {
+                    setTriggerUpdate(0);
                     makeFilters();
                 });
+        } else {
+            setFetched(false);
+            setMangas([]);
+            setLastPageNum(0);
+            if (Noreset === undefined && Search) { setNoreset(null); }
         }
-    }, [update]);
+    }, [triggerUpdate]);
 
     useEffect(() => {
         if (reset === 0) {
@@ -207,6 +210,7 @@ export default function SourceMangas(props: { popular: boolean }) {
                     resetFilterValue={setReset}
                     setTriggerUpdate={setTriggerUpdate}
                     setSearch={setSearch}
+                    update={update}
                 />
             )}
         </>
