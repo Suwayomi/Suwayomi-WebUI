@@ -112,36 +112,6 @@ function dispalyTab(currentTab: number) {
     ) {
         setOptions((prev) => ({ ...prev, [e.target.name]: checked }));
     }
-    return (
-        <TabPanel index={2} currentIndex={currentTab}>
-            <Stack direction="column">
-                <FormControlLabel
-                    label="Unread Badges"
-                    control={(
-                        <Checkbox
-                            name="showUnreadBadge"
-                            checked={options.showUnreadBadge}
-                            onChange={setContextOptions}
-                        />
-                    )}
-                />
-                <FormControlLabel
-                    label="Download Badges"
-                    control={(
-                        <Checkbox
-                            name="showDownloadBadge"
-                            checked={options.showDownloadBadge}
-                            onChange={setContextOptions}
-                        />
-                    )}
-                />
-            </Stack>
-        </TabPanel>
-    );
-}
-
-function Options() {
-    const [currentTab, setCurrentTab] = useState<number>(0);
 
     function setGridContextOptions(
         e: React.ChangeEvent<HTMLInputElement>,
