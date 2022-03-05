@@ -6,26 +6,105 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import SortIcon from '@mui/icons-material/Sort';
 import {
-    Drawer, FormControlLabel, IconButton, ListItem, ListItemButton, ListItemIcon, ListItemText,
+    Drawer,
+    FormControlLabel,
+    IconButton,
+    Tabs,
+    Tab,
+    Box,
+    Stack,
+    Checkbox,
+    ListItem,
+    ListItemButton,
+    ListItemIcon,
+    ListItemText,
 } from '@mui/material';
 import useLibraryOptions from 'util/useLibraryOptions';
 import ThreeStateCheckbox from 'components/util/ThreeStateCheckbox';
-import { Box } from '@mui/system';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import TabPanel from 'components/util/TabPanel';
+import { useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
 
 function Options() {
     const {
         downloaded, setDownloaded, unread, setUnread,
     } = useLibraryOptions();
+    const [currentTab, setCurrentTab] = useState<number>(0);
+    const { options, setOptions } = useLibraryOptionsContext();
+
+    function setContextOptions(
+        e: React.ChangeEvent<HTMLInputElement>,
+        checked: boolean,
+    ) {
+        setOptions((prev) => ({ ...prev, [e.target.name]: checked }));
+    }
+
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-            <FormControlLabel control={<ThreeStateCheckbox name="Unread" checked={unread} onChange={setUnread} />} label="Unread" />
-            <FormControlLabel control={<ThreeStateCheckbox name="Downloaded" checked={downloaded} onChange={setDownloaded} />} label="Downloaded" />
+        <Box>
+            <Tabs
+                key={currentTab}
+                value={currentTab}
+                variant="fullWidth"
+                onChange={(e, newTab) => setCurrentTab(newTab)}
+                indicatorColor="primary"
+                textColor="primary"
+            >
+                <Tab label="Filter" value={0} />
+                <Tab label="Display" value={1} />
+            </Tabs>
+            <TabPanel index={0} currentIndex={currentTab}>
+                <Stack direction="column">
+                    <FormControlLabel
+                        control={(
+                            <ThreeStateCheckbox
+                                name="Unread"
+                                checked={unread}
+                                onChange={setUnread}
+                            />
+                        )}
+                        label="Unread"
+                    />
+                    <FormControlLabel
+                        control={(
+                            <ThreeStateCheckbox
+                                name="Downloaded"
+                                checked={downloaded}
+                                onChange={setDownloaded}
+                            />
+                        )}
+                        label="Downloaded"
+                    />
+                </Stack>
+            </TabPanel>
+            <TabPanel index={1} currentIndex={currentTab}>
+                <Stack direction="column">
+                    <FormControlLabel
+                        label="Unread Badges"
+                        control={(
+                            <Checkbox
+                                name="showUnreadBadge"
+                                checked={options.showUnreadBadge}
+                                onChange={setContextOptions}
+                            />
+                        )}
+                    />
+                    <FormControlLabel
+                        label="Download Badges"
+                        control={(
+                            <Checkbox
+                                name="showDownloadBadge"
+                                checked={options.showDownloadBadge}
+                                onChange={setContextOptions}
+                            />
+                        )}
+                    />
+                </Stack>
+            </TabPanel>
         </Box>
     );
 }
