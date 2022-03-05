@@ -21,6 +21,7 @@ import {
     ListItemButton,
     ListItemIcon,
     ListItemText,
+    Radio,
 } from '@mui/material';
 import useLibraryOptions from 'util/useLibraryOptions';
 import ThreeStateCheckbox from 'components/util/ThreeStateCheckbox';
@@ -111,9 +112,41 @@ function dispalyTab(currentTab: number) {
     ) {
         setOptions((prev) => ({ ...prev, [e.target.name]: checked }));
     }
+
+    function setGridContextOptions(
+        e: React.ChangeEvent<HTMLInputElement>,
+        checked: boolean,
+    ) {
+        if (checked) {
+            setOptions((prev) => ({ ...prev, gridLayout: parseInt(e.target.name, 10) }));
+        }
+    }
+
     return (
         <TabPanel index={2} currentIndex={currentTab}>
             <Stack direction="column">
+                DISPLAY MODE
+                <FormControlLabel
+                    label="Compact grid"
+                    control={(
+                        <Radio
+                            name="0"
+                            checked={options.gridLayout === 0 || options.gridLayout === undefined}
+                            onChange={setGridContextOptions}
+                        />
+                    )}
+                />
+                <FormControlLabel
+                    label="Comfortable grid"
+                    control={(
+                        <Radio
+                            name="1"
+                            checked={options.gridLayout === 1}
+                            onChange={setGridContextOptions}
+                        />
+                    )}
+                />
+                BADGES
                 <FormControlLabel
                     label="Unread Badges"
                     control={(

@@ -8,12 +8,13 @@
 import React, { useContext } from 'react';
 
 type ContextType = {
+    // display options
     options: LibraryDisplayOptions;
     setOptions: React.Dispatch<React.SetStateAction<LibraryDisplayOptions>>;
 };
 
 const LibraryOptionsContext = React.createContext<ContextType>({
-    options: { showDownloadBadge: false, showUnreadBadge: false },
+    options: { showDownloadBadge: false, showUnreadBadge: false, gridLayout: 0 },
     setOptions: () => {},
 });
 

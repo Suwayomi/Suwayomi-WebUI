@@ -19,11 +19,13 @@ export interface IMangaGridProps{
     hasNextPage: boolean
     lastPageNum: number
     setLastPageNum: (lastPageNum: number) => void
+    gridLayout?: number | undefined
 }
 
 export default function MangaGrid(props: IMangaGridProps) {
     const {
-        mangas, isLoading, message, messageExtra, hasNextPage, lastPageNum, setLastPageNum,
+        mangas, isLoading, message, messageExtra,
+        hasNextPage, lastPageNum, setLastPageNum, gridLayout,
     } = props;
     let mapped;
     const lastManga = useRef<HTMLDivElement>(null);
@@ -61,6 +63,7 @@ export default function MangaGrid(props: IMangaGridProps) {
                         key={it.id}
                         manga={it}
                         ref={lastManga}
+                        gridLayout={gridLayout}
                     />
                 );
             }
@@ -68,6 +71,7 @@ export default function MangaGrid(props: IMangaGridProps) {
                 <MangaCard
                     key={it.id}
                     manga={it}
+                    gridLayout={gridLayout}
                 />
             );
         });

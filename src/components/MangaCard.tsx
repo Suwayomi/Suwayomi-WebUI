@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
 import { Grid } from '@mui/material';
 import useLocalStorage from 'util/useLocalStorage';
 import SpinnerImage from 'components/util/SpinnerImage';
-import { styled } from '@mui/system';
+import { Box, styled } from '@mui/system';
 import { useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
 
 const BottomGradient = styled('div')({
@@ -70,12 +70,14 @@ const truncateText = (str: string, maxLength: number) => {
 
 interface IProps {
     manga: IMangaCard
+    gridLayout: number | undefined
 }
 const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) => {
     const {
         manga: {
             id, title, thumbnailUrl, downloadCount, unreadCount: unread,
         },
+        gridLayout,
     } = props;
     const { options: { showUnreadBadge, showDownloadBadge } } = useLibraryOptionsContext();
 
@@ -84,60 +86,83 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
 
     return (
         <Grid item xs={6} sm={4} md={3} lg={2}>
-            <Link to={`/manga/${id}/`}>
-                <Card
+            <Link to={`/manga/${id}/`} style={(gridLayout === 1) ? { textDecoration: 'none' } : {}}>
+                <Box
                     sx={{
-                        // force standard aspect ratio of manga covers
-                        aspectRatio: '225/350',
                         display: 'flex',
+                        flexDirection: 'column',
                     }}
-                    ref={ref}
                 >
-                    <CardActionArea
+                    <Card
                         sx={{
-                            position: 'relative',
-                            height: '100%',
+                        // force standard aspect ratio of manga covers
+                            aspectRatio: '225/350',
+                            display: 'flex',
                         }}
+                        ref={ref}
                     >
-
-                        <BadgeContainer>
-                            { showUnreadBadge && unread! > 0 && (
-                                <Typography
-                                    sx={{ backgroundColor: 'primary.dark' }}
-                                >
-                                    {unread}
-                                </Typography>
-                            )}
-                            { showDownloadBadge && downloadCount! > 0 && (
-                                <Typography sx={{
-                                    backgroundColor: 'success.dark',
-                                }}
-                                >
-                                    {downloadCount}
-                                </Typography>
-                            )}
-                        </BadgeContainer>
-                        <SpinnerImage
-                            alt={title}
-                            src={`${serverAddress}${thumbnailUrl}?useCache=${useCache}`}
-                            imgStyle={{
+                        <CardActionArea
+                            sx={{
+                                position: 'relative',
                                 height: '100%',
-                                width: '100%',
-                                objectFit: 'cover',
                             }}
-                            spinnerStyle={{
-                                display: 'grid',
-                                placeItems: 'center',
-                            }}
-                        />
-                        <BottomGradient />
-                        <BottomGradientDoubledDown />
+                        >
 
-                        <MangaTitle>
+                            <BadgeContainer>
+                                { showUnreadBadge && unread! > 0 && (
+                                    <Typography
+                                        sx={{ backgroundColor: 'primary.dark' }}
+                                    >
+                                        {unread}
+                                    </Typography>
+                                )}
+                                { showDownloadBadge && downloadCount! > 0 && (
+                                    <Typography sx={{
+                                        backgroundColor: 'success.dark',
+                                    }}
+                                    >
+                                        {downloadCount}
+                                    </Typography>
+                                )}
+                            </BadgeContainer>
+                            <SpinnerImage
+                                alt={title}
+                                src={`${serverAddress}${thumbnailUrl}?useCache=${useCache}`}
+                                imgStyle={{
+                                    height: '100%',
+                                    width: '100%',
+                                    objectFit: 'cover',
+                                }}
+                                spinnerStyle={{
+                                    display: 'grid',
+                                    placeItems: 'center',
+                                }}
+                            />
+                            {(gridLayout === 1) ? (<></>) : (
+                                <>
+                                    <BottomGradient />
+                                    <BottomGradientDoubledDown />
+                                </>
+                            )}
+                            {(gridLayout === 1) ? (
+                                <></>
+                            ) : (
+                                <MangaTitle>
+                                    {truncateText(title, 61)}
+                                </MangaTitle>
+                            )}
+                        </CardActionArea>
+                    </Card>
+                    {(gridLayout === 1) ? (
+                        <MangaTitle
+                            sx={{
+                                position: 'relative',
+                            }}
+                        >
                             {truncateText(title, 61)}
                         </MangaTitle>
-                    </CardActionArea>
-                </Card>
+                    ) : (<></>)}
+                </Box>
             </Link>
         </Grid>
     );
