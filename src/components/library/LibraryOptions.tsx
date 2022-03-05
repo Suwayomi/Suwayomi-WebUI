@@ -8,7 +8,6 @@
 
 import React, { useState } from 'react';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import SortIcon from '@mui/icons-material/Sort';
 import {
     Drawer,
     FormControlLabel,
@@ -30,86 +29,39 @@ import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import TabPanel from 'components/util/TabPanel';
 import { useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
 
-function Options() {
+function filtersTab(currentTab: number) {
     const {
         downloaded, setDownloaded, unread, setUnread,
     } = useLibraryOptions();
-    const [currentTab, setCurrentTab] = useState<number>(0);
-    const { options, setOptions } = useLibraryOptionsContext();
-
-    function setContextOptions(
-        e: React.ChangeEvent<HTMLInputElement>,
-        checked: boolean,
-    ) {
-        setOptions((prev) => ({ ...prev, [e.target.name]: checked }));
-    }
-
     return (
-        <Box>
-            <Tabs
-                key={currentTab}
-                value={currentTab}
-                variant="fullWidth"
-                onChange={(e, newTab) => setCurrentTab(newTab)}
-                indicatorColor="primary"
-                textColor="primary"
-            >
-                <Tab label="Filter" value={0} />
-                <Tab label="Display" value={1} />
-            </Tabs>
-            <TabPanel index={0} currentIndex={currentTab}>
-                <Stack direction="column">
-                    <FormControlLabel
-                        control={(
-                            <ThreeStateCheckbox
-                                name="Unread"
-                                checked={unread}
-                                onChange={setUnread}
-                            />
-                        )}
-                        label="Unread"
-                    />
-                    <FormControlLabel
-                        control={(
-                            <ThreeStateCheckbox
-                                name="Downloaded"
-                                checked={downloaded}
-                                onChange={setDownloaded}
-                            />
-                        )}
-                        label="Downloaded"
-                    />
-                </Stack>
-            </TabPanel>
-            <TabPanel index={1} currentIndex={currentTab}>
-                <Stack direction="column">
-                    <FormControlLabel
-                        label="Unread Badges"
-                        control={(
-                            <Checkbox
-                                name="showUnreadBadge"
-                                checked={options.showUnreadBadge}
-                                onChange={setContextOptions}
-                            />
-                        )}
-                    />
-                    <FormControlLabel
-                        label="Download Badges"
-                        control={(
-                            <Checkbox
-                                name="showDownloadBadge"
-                                checked={options.showDownloadBadge}
-                                onChange={setContextOptions}
-                            />
-                        )}
-                    />
-                </Stack>
-            </TabPanel>
-        </Box>
+        <TabPanel index={0} currentIndex={currentTab}>
+            <Stack direction="column">
+                <FormControlLabel
+                    control={(
+                        <ThreeStateCheckbox
+                            name="Unread"
+                            checked={unread}
+                            onChange={setUnread}
+                        />
+                    )}
+                    label="Unread"
+                />
+                <FormControlLabel
+                    control={(
+                        <ThreeStateCheckbox
+                            name="Downloaded"
+                            checked={downloaded}
+                            onChange={setDownloaded}
+                        />
+                    )}
+                    label="Downloaded"
+                />
+            </Stack>
+        </TabPanel>
     );
 }
 
-function SortOptions() {
+function sortsTab(currentTab: number) {
     const {
         sorts, setSorts, sortDesc, setSortDesc,
     } = useLibraryOptions();
@@ -124,31 +76,95 @@ function SortOptions() {
 
     return (
         <>
-            {
-                ['sortToRead', 'sortAlph', 'sortID'].map((e) => {
-                    let icon;
-                    if (sorts === e) {
-                        icon = !sortDesc ? (<ArrowUpwardIcon color="primary" />)
-                            : (<ArrowDownwardIcon color="primary" />);
+            <TabPanel index={1} currentIndex={currentTab}>
+                <Stack direction="column">
+                    {
+                        ['sortToRead', 'sortAlph', 'sortID'].map((e) => {
+                            let icon;
+                            if (sorts === e) {
+                                icon = !sortDesc ? (<ArrowUpwardIcon color="primary" />)
+                                    : (<ArrowDownwardIcon color="primary" />);
+                            }
+                            icon = icon === undefined && sortDesc === undefined && e === 'sortID' ? (<ArrowDownwardIcon color="primary" />) : icon;
+                            return (
+                                <ListItem disablePadding>
+                                    <ListItemButton onClick={(event) => handleChange(event, e)}>
+                                        <ListItemIcon>{icon}</ListItemIcon>
+                                        <ListItemText primary={e} />
+                                    </ListItemButton>
+                                </ListItem>
+                            );
+                        })
                     }
-                    icon = icon === undefined && sortDesc === undefined && e === 'sortID' ? (<ArrowDownwardIcon color="primary" />) : icon;
-                    return (
-                        <ListItem disablePadding>
-                            <ListItemButton onClick={(event) => handleChange(event, e)}>
-                                <ListItemIcon>{icon}</ListItemIcon>
-                                <ListItemText primary={e} />
-                            </ListItemButton>
-                        </ListItem>
-                    );
-                })
-            }
+                </Stack>
+            </TabPanel>
         </>
+    );
+}
+
+function dispalyTab(currentTab: number) {
+    const { options, setOptions } = useLibraryOptionsContext();
+
+    function setContextOptions(
+        e: React.ChangeEvent<HTMLInputElement>,
+        checked: boolean,
+    ) {
+        setOptions((prev) => ({ ...prev, [e.target.name]: checked }));
+    }
+    return (
+        <TabPanel index={2} currentIndex={currentTab}>
+            <Stack direction="column">
+                <FormControlLabel
+                    label="Unread Badges"
+                    control={(
+                        <Checkbox
+                            name="showUnreadBadge"
+                            checked={options.showUnreadBadge}
+                            onChange={setContextOptions}
+                        />
+                    )}
+                />
+                <FormControlLabel
+                    label="Download Badges"
+                    control={(
+                        <Checkbox
+                            name="showDownloadBadge"
+                            checked={options.showDownloadBadge}
+                            onChange={setContextOptions}
+                        />
+                    )}
+                />
+            </Stack>
+        </TabPanel>
+    );
+}
+
+function Options() {
+    const [currentTab, setCurrentTab] = useState<number>(0);
+
+    return (
+        <Box>
+            <Tabs
+                key={currentTab}
+                value={currentTab}
+                variant="fullWidth"
+                onChange={(e, newTab) => setCurrentTab(newTab)}
+                indicatorColor="primary"
+                textColor="primary"
+            >
+                <Tab label="Filter" value={0} />
+                <Tab label="Sort" value={1} />
+                <Tab label="Display" value={2} />
+            </Tabs>
+            {filtersTab(currentTab)}
+            {sortsTab(currentTab)}
+            {dispalyTab(currentTab)}
+        </Box>
     );
 }
 
 export default function LibraryOptions() {
     const [filtersOpen, setFiltersOpen] = React.useState(false);
-    const [sortsOpen, setSortsOpen] = React.useState(false);
     const { active } = useLibraryOptions();
     return (
         <>
@@ -171,27 +187,6 @@ export default function LibraryOptions() {
             >
                 <Options />
             </Drawer>
-
-            <IconButton
-                onClick={() => setSortsOpen(!filtersOpen)}
-                color={active ? 'warning' : 'default'}
-            >
-                <SortIcon />
-            </IconButton>
-
-            <Drawer
-                anchor="bottom"
-                open={sortsOpen}
-                onClose={() => setSortsOpen(false)}
-                PaperProps={{
-                    style: {
-                        maxWidth: 600, padding: '1em', marginLeft: 'auto', marginRight: 'auto',
-                    },
-                }}
-            >
-                <SortOptions />
-            </Drawer>
-
         </>
     );
 }
