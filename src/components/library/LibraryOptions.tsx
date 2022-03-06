@@ -146,6 +146,16 @@ function dispalyTab(currentTab: number) {
                         />
                     )}
                 />
+                <FormControlLabel
+                    label="list"
+                    control={(
+                        <Radio
+                            name="2"
+                            checked={options.gridLayout === 2}
+                            onChange={setGridContextOptions}
+                        />
+                    )}
+                />
                 BADGES
                 <FormControlLabel
                     label="Unread Badges"
