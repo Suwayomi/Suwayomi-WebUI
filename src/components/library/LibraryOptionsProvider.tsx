@@ -15,7 +15,9 @@ interface IProps {
 
 export default function LibraryOptionsContextProvider({ children }: IProps) {
     const [options, setOptions] = useLocalStorage<LibraryDisplayOptions>('libraryOptions',
-        { showDownloadBadge: false, showUnreadBadge: false, gridLayout: 0 });
+        {
+            showDownloadBadge: false, showUnreadBadge: false, gridLayout: 0, SourcegridLayout: 0,
+        });
 
     return (
         <LibraryOptionsContext.Provider value={{ options, setOptions }}>

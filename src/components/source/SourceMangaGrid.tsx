@@ -17,7 +17,8 @@ function filterManga(mangas: IMangaCard[]): IMangaCard[] {
 
 export default function SourceMangaGrid(props: IMangaGridProps) {
     const {
-        mangas, isLoading, hasNextPage, lastPageNum, setLastPageNum, message, messageExtra,
+        mangas, isLoading, hasNextPage, lastPageNum,
+        setLastPageNum, message, messageExtra, gridLayout,
     } = props;
 
     const filteredManga = filterManga(mangas);
@@ -32,6 +33,7 @@ export default function SourceMangaGrid(props: IMangaGridProps) {
             setLastPageNum={setLastPageNum}
             message={showFilteredOutMessage ? FILTERED_OUT_MESSAGE : message}
             messageExtra={messageExtra}
+            gridLayout={gridLayout}
         />
     );
 }

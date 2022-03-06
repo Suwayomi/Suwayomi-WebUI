@@ -14,7 +14,9 @@ type ContextType = {
 };
 
 const LibraryOptionsContext = React.createContext<ContextType>({
-    options: { showDownloadBadge: false, showUnreadBadge: false, gridLayout: 0 },
+    options: {
+        showDownloadBadge: false, showUnreadBadge: false, gridLayout: 0, SourcegridLayout: 0,
+    },
     setOptions: () => {},
 });
 
