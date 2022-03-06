@@ -59,6 +59,7 @@ interface IMangaCard {
     thumbnailUrl: string
     unreadCount?: number
     downloadCount?: number
+    inLibrary?: boolean
 }
 
 interface IManga {

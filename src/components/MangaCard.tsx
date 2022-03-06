@@ -75,7 +75,8 @@ interface IProps {
 const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) => {
     const {
         manga: {
-            id, title, thumbnailUrl, downloadCount, unreadCount: unread,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            id, title, thumbnailUrl, downloadCount, unreadCount: unread, inLibrary,
         },
         gridLayout,
     } = props;
@@ -110,6 +111,13 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
                             >
 
                                 <BadgeContainer>
+                                    {inLibrary && (
+                                        <Typography
+                                            sx={{ backgroundColor: 'primary.dark', zIndex: '1' }}
+                                        >
+                                            In library
+                                        </Typography>
+                                    )}
                                     { showUnreadBadge && unread! > 0 && (
                                         <Typography
                                             sx={{ backgroundColor: 'primary.dark' }}
@@ -129,11 +137,18 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
                                 <SpinnerImage
                                     alt={title}
                                     src={`${serverAddress}${thumbnailUrl}?useCache=${useCache}`}
-                                    imgStyle={{
-                                        height: '100%',
-                                        width: '100%',
-                                        objectFit: 'cover',
-                                    }}
+                                    imgStyle={inLibrary
+                                        ? {
+                                            height: '100%',
+                                            width: '100%',
+                                            objectFit: 'cover',
+                                            filter: 'brightness(0.4)',
+                                        }
+                                        : {
+                                            height: '100%',
+                                            width: '100%',
+                                            objectFit: 'cover',
+                                        }}
                                     spinnerStyle={{
                                         display: 'grid',
                                         placeItems: 'center',
