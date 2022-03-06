@@ -76,7 +76,18 @@ export default function SourceGridLayout() {
                             />
                         )}
                     />
-
+                </MenuItem>
+                <MenuItem onClick={handleClose}>
+                    <FormControlLabel
+                        label="List"
+                        control={(
+                            <Radio
+                                name="2"
+                                checked={options.SourcegridLayout === 2}
+                                onChange={setGridContextOptions}
+                            />
+                        )}
+                    />
                 </MenuItem>
             </Menu>
 
