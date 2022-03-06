@@ -265,4 +265,5 @@ interface LibraryDisplayOptions {
     showDownloadBadge: boolean
     showUnreadBadge: boolean
     gridLayout: number
+    SourcegridLayout:number
 }

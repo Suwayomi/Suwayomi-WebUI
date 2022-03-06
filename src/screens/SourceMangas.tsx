@@ -15,6 +15,8 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import SourceOptions from 'components/source/SourceOptions';
 import AppbarSearch from 'components/util/AppbarSearch';
 import { useQueryParam, StringParam } from 'use-query-params';
+import SourceGridLayout from 'components/source/GridLayouts';
+import { useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
 
 interface IPos {
     position: number
@@ -42,6 +44,8 @@ export default function SourceMangas(props: { popular: boolean }) {
 
     const [Init, setInit] = useState<undefined | null>();
     const [Noreset, setNoreset] = useQueryParam('R');
+
+    const { options } = useLibraryOptionsContext();
 
     function makeFilters() {
         client.get(`/api/v1/source/${sourceId}/filters`)
@@ -123,6 +127,7 @@ export default function SourceMangas(props: { popular: boolean }) {
     useEffect(() => {
         setAction(
             <>
+                <SourceGridLayout />
                 <AppbarSearch />
                 {isConfigurable && (
                     <IconButton
@@ -202,6 +207,7 @@ export default function SourceMangas(props: { popular: boolean }) {
                 message={message}
                 messageExtra={messageExtra}
                 isLoading={!fetched}
+                gridLayout={options.SourcegridLayout}
             />
             {Data !== undefined && (
                 <SourceOptions
