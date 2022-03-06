@@ -9,6 +9,7 @@
 import React from 'react';
 import MangaGrid, { IMangaGridProps } from 'components/MangaGrid';
 import useLibraryOptions from 'util/useLibraryOptions';
+import { useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
 
 const FILTERED_OUT_MESSAGE = 'There are no Manga matching this filter';
 
@@ -79,6 +80,7 @@ export default function LibraryMangaGrid(props: IMangaGridProps) {
         mangas, isLoading, hasNextPage, lastPageNum, setLastPageNum, message,
     } = props;
 
+    const { options } = useLibraryOptionsContext();
     const { active, query } = useLibraryOptions();
     const filteredManga = filterManga(mangas);
     const sortedManga = sortManga(filteredManga);
@@ -93,6 +95,7 @@ export default function LibraryMangaGrid(props: IMangaGridProps) {
             lastPageNum={lastPageNum}
             setLastPageNum={setLastPageNum}
             message={showFilteredOutMessage ? FILTERED_OUT_MESSAGE : message}
+            gridLayout={options.gridLayout}
         />
     );
 }
