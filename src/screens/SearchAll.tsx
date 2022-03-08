@@ -19,6 +19,7 @@ import {
     langCodeToName, langSortCmp, sourceDefualtLangs, sourceForcedDefaultLangs,
 } from 'util/language';
 import useLocalStorage from 'util/useLocalStorage';
+import PQueue from 'p-queue/dist/index';
 
 function sourceToLangList(sources: ISource[]) {
     const result: string[] = [];
@@ -48,6 +49,8 @@ export default function SearchAll() {
 
     const [ResetUI, setResetUI] = useState<number>(0);
 
+    const limit = new PQueue({ concurrency: 5 });
+
     useEffect(() => {
         setTitle('Global Search');
         setAction(
@@ -65,8 +68,7 @@ export default function SearchAll() {
     }, []);
 
     async function doIT(elem: any[]) {
-        const ele = elem.shift();
-        try {
+        elem.map((ele) => limit.add(async () => {
             const response = await client.get(`/api/v1/source/${ele.id}/search?searchTerm=${query || ''}&pageNum=1`);
             const data = await response.data;
             const tmp = mangas;
@@ -76,17 +78,7 @@ export default function SearchAll() {
             tmp2[ele.id] = true;
             setFetched(tmp2);
             setResetUI(1);
-            if (elem.length > 0) {
-                doIT(elem);
-            }
-        } catch (e) {
-            const tmp2 = fetched;
-            tmp2[ele.id] = true;
-            setFetched(tmp2);
-            if (elem.length > 0) {
-                doIT(elem);
-            }
-        }
+        }));
     }
 
     useEffect(() => {
