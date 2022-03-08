@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /*
 * Copyright (C) Contributors to the Suwayomi project
 *
@@ -12,7 +11,6 @@ import { useHistory } from 'react-router-dom';
 import NavbarContext from 'components/context/NavbarContext';
 import MangaGrid from 'components/MangaGrid';
 import LangSelect from 'components/navbar/action/LangSelect';
-import SourceCard from 'components/SourceCard';
 import AppbarSearch from 'components/util/AppbarSearch';
 import React, { useContext, useEffect, useState } from 'react';
 import { useQueryParam, StringParam } from 'use-query-params';
@@ -43,7 +41,6 @@ export default function SearchAll() {
     const [showNsfw] = useLocalStorage<boolean>('showNsfw', true);
 
     const [sources, setSources] = useState<ISource[]>([]);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [fetched, setFetched] = useState<any>({});
     const [FetchedSources, setFetchedSources] = useState<any>({});
 
@@ -67,27 +64,43 @@ export default function SearchAll() {
             .then((data) => { setSources(data); setFetchedSources(true); });
     }, []);
 
+    async function doIT(elem: any[]) {
+        const ele = elem.shift();
+        try {
+            const response = await client.get(`/api/v1/source/${ele.id}/search?searchTerm=${query || ''}&pageNum=1`);
+            const data = await response.data;
+            const tmp = mangas;
+            tmp[ele.id] = data.mangaList;
+            setMangas(tmp);
+            const tmp2 = fetched;
+            tmp2[ele.id] = true;
+            setFetched(tmp2);
+            setResetUI(1);
+            if (elem.length > 0) {
+                doIT(elem);
+            }
+        } catch (e) {
+            const tmp2 = fetched;
+            tmp2[ele.id] = true;
+            setFetched(tmp2);
+            if (elem.length > 0) {
+                doIT(elem);
+            }
+        }
+    }
+
     useEffect(() => {
         if (triggerUpdate === 2) {
             return;
         }
         if (triggerUpdate === 0) {
             setTriggerUpdate(1);
-            // return;
+            return;
         }
-        sources.filter(({ lang }) => shownLangs.indexOf(lang) !== -1).forEach((ele) => {
-            client.get(`/api/v1/source/${ele.id}/search?searchTerm=${query || ''}&pageNum=1`)
-                .then((response) => response.data)
-                .then((data: { mangaList: IManga[], hasNextPage: boolean }) => {
-                    const tmp = mangas;
-                    tmp[ele.id] = data.mangaList.slice(0, 6);
-                    setMangas(tmp);
-                    const tmp2 = fetched;
-                    tmp2[ele.id] = true;
-                    setFetched(tmp2);
-                    setResetUI(1);
-                });
-        });
+        setFetched({});
+        setMangas({});
+        // eslint-disable-next-line max-len
+        doIT(sources.filter(({ lang }) => shownLangs.indexOf(lang) !== -1).filter((source) => showNsfw || !source.isNsfw));
     }, [triggerUpdate]);
 
     useEffect(() => {
@@ -145,55 +158,60 @@ export default function SearchAll() {
         // prevent parent tags from getting the event
         e.stopPropagation();
     };
-
-    return (
-        <>
-            {typeof ResetUI === 'number' ? '' : ''}
-            {/* eslint-disable-next-line max-len */}
-            {sources.filter(({ lang }) => shownLangs.indexOf(lang) !== -1).filter((source) => showNsfw || !source.isNsfw).sort((a, b) => {
-                const al = mangas[a.id] ? mangas[a.id].length : 0;
-                const bl = mangas[b.id] ? mangas[b.id].length : 0;
-                return al < bl ? 1 : -1;
-            }).map(({ lang, id, displayName }) => (
-                (
-                    <>
-                        <Card
-                            sx={{
-                                margin: '10px',
-                                '&:hover': {
-                                    backgroundColor: 'action.hover',
-                                    transition: 'background-color 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-                                },
-                                '&:active': {
-                                    backgroundColor: 'action.selected',
-                                    transition: 'background-color 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-                                },
-                            }}
-                            onClick={(e) => redirectTo(e, `/sources/${id}/popular/?R&query=one`)}
-                        >
-                            <h1
-                                key={lang}
-                                style={{ margin: '25px 0px 0px 25px' }}
+    if (query) {
+        return (
+            <>
+                {typeof ResetUI === 'number' ? '' : ''}
+                {/* eslint-disable-next-line max-len */}
+                {sources.filter(({ lang }) => shownLangs.indexOf(lang) !== -1).filter((source) => showNsfw || !source.isNsfw).sort((a, b) => {
+                    const al = mangas[a.id] ? mangas[a.id].length : 0;
+                    const bl = mangas[b.id] ? mangas[b.id].length : 0;
+                    return al < bl ? 1 : -1;
+                }).map(({ lang, id, displayName }) => (
+                    (
+                        <>
+                            <Card
+                                sx={{
+                                    margin: '10px',
+                                    '&:hover': {
+                                        backgroundColor: 'action.hover',
+                                        transition: 'background-color 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+                                    },
+                                    '&:active': {
+                                        backgroundColor: 'action.selected',
+                                        transition: 'background-color 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+                                    },
+                                }}
+                                onClick={(e) => redirectTo(e, `/sources/${id}/popular/?R&query=one`)}
                             >
-                                {displayName}
-                            </h1>
-                            <p
-                                style={{ margin: '0px 0px 25px 25px' }}
-                            >
-                                {langCodeToName(lang)}
-                            </p>
-                        </Card>
-                        <MangaGrid
-                            mangas={mangas[id] || []}
-                            isLoading={!fetched[id]}
-                            hasNextPage={false}
-                            lastPageNum={lastPageNum}
-                            setLastPageNum={setLastPageNum}
-                        />
-                    </>
-                )
-            ))}
+                                <h1
+                                    key={lang}
+                                    style={{ margin: '25px 0px 0px 25px' }}
+                                >
+                                    {displayName}
+                                </h1>
+                                <p
+                                    style={{ margin: '0px 0px 25px 25px' }}
+                                >
+                                    {langCodeToName(lang)}
+                                </p>
+                            </Card>
+                            <MangaGrid
+                                mangas={mangas[id] || []}
+                                isLoading={!fetched[id]}
+                                hasNextPage={false}
+                                lastPageNum={lastPageNum}
+                                setLastPageNum={setLastPageNum}
+                                horisontal
+                                noFaces
+                                message={fetched[id] ? 'No manga was found!' : undefined}
+                            />
+                        </>
+                    )
+                ))}
 
-        </>
-    );
+            </>
+        );
+    }
+    return (<></>);
 }
