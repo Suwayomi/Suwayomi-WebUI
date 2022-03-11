@@ -100,7 +100,7 @@ export default function MangaGrid(props: IMangaGridProps) {
                 margin: 0,
                 width: '100%',
                 padding: '5px',
-                overflow: 'scroll',
+                overflowX: 'scroll',
                 display: '-webkit-inline-box',
                 flexWrap: 'nowrap',
             } : {

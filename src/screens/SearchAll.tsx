@@ -64,7 +64,13 @@ export default function SearchAll() {
     useEffect(() => {
         client.get('/api/v1/source/list')
             .then((response) => response.data)
-            .then((data) => { setSources(data); setFetchedSources(true); });
+            .then((data) => {
+                setSources(data.sort((a: { displayName: string; }, b: { displayName: string; }) => {
+                    if (a.displayName < b.displayName) { return -1; }
+                    if (a.displayName > b.displayName) { return 1; }
+                    return 0;
+                })); setFetchedSources(true);
+            });
     }, []);
 
     async function doIT(elem: any[]) {
@@ -155,12 +161,19 @@ export default function SearchAll() {
     if (query) {
         return (
             <>
-                {typeof ResetUI === 'number' ? '' : ''}
                 {/* eslint-disable-next-line max-len */}
                 {sources.filter(({ lang }) => shownLangs.indexOf(lang) !== -1).filter((source) => showNsfw || !source.isNsfw).sort((a, b) => {
-                    const al = mangas[a.id] ? mangas[a.id].length : 0;
-                    const bl = mangas[b.id] ? mangas[b.id].length : 0;
-                    return al < bl ? 1 : -1;
+                    const af = fetched[a.id];
+                    const bf = fetched[b.id];
+                    if (af && !bf) { return -1; }
+                    if (!af && bf) { return 1; }
+                    if (!af && !bf) { return 0; }
+
+                    const al = mangas[a.id].length === 0;
+                    const bl = mangas[b.id].length === 0;
+                    if (al && !bl) { return 1; }
+                    if (bl && !al) { return -1; }
+                    return 0;
                 }).map(({ lang, id, displayName }) => (
                     (
                         <>
