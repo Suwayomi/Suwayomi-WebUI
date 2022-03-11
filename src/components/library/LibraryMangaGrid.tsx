@@ -84,12 +84,17 @@ export default function LibraryMangaGrid(props: IMangaGridProps) {
     const { active, query } = useLibraryOptions();
     const filteredManga = filterManga(mangas);
     const sortedManga = sortManga(filteredManga);
+    const DoneManga = sortedManga.map((ele) => {
+        // eslint-disable-next-line no-param-reassign
+        ele.inLibrary = undefined;
+        return ele;
+    });
     const showFilteredOutMessage = (active || query)
         && filteredManga.length === 0 && mangas.length > 0;
 
     return (
         <MangaGrid
-            mangas={sortedManga}
+            mangas={DoneManga}
             isLoading={isLoading}
             hasNextPage={hasNextPage}
             lastPageNum={lastPageNum}
