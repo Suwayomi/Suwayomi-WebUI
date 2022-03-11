@@ -131,7 +131,9 @@ export default function SearchAll() {
         setTitle('Sources');
         setAction(
             <>
-                <AppbarSearch />
+                <AppbarSearch
+                    autoOpen
+                />
                 <LangSelect
                     shownLangs={shownLangs}
                     setShownLangs={setShownLangs}
