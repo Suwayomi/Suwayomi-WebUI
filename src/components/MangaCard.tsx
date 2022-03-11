@@ -75,7 +75,8 @@ interface IProps {
 const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) => {
     const {
         manga: {
-            id, title, thumbnailUrl, downloadCount, unreadCount: unread,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            id, title, thumbnailUrl, downloadCount, unreadCount: unread, inLibrary,
         },
         gridLayout,
     } = props;
@@ -110,6 +111,13 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
                             >
 
                                 <BadgeContainer>
+                                    {inLibrary && (
+                                        <Typography
+                                            sx={{ backgroundColor: 'primary.dark', zIndex: '1' }}
+                                        >
+                                            In library
+                                        </Typography>
+                                    )}
                                     { showUnreadBadge && unread! > 0 && (
                                         <Typography
                                             sx={{ backgroundColor: 'primary.dark' }}
@@ -129,11 +137,18 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
                                 <SpinnerImage
                                     alt={title}
                                     src={`${serverAddress}${thumbnailUrl}?useCache=${useCache}`}
-                                    imgStyle={{
-                                        height: '100%',
-                                        width: '100%',
-                                        objectFit: 'cover',
-                                    }}
+                                    imgStyle={inLibrary
+                                        ? {
+                                            height: '100%',
+                                            width: '100%',
+                                            objectFit: 'cover',
+                                            filter: 'brightness(0.4)',
+                                        }
+                                        : {
+                                            height: '100%',
+                                            width: '100%',
+                                            objectFit: 'cover',
+                                        }}
                                     spinnerStyle={{
                                         display: 'grid',
                                         placeItems: 'center',
@@ -189,13 +204,22 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
                 >
                     <Avatar
                         variant="rounded"
-                        sx={{
-                            width: 56,
-                            height: 56,
-                            flex: '0 0 auto',
-                            marginRight: 2,
-                            imageRendering: 'pixelated',
-                        }}
+                        sx={inLibrary
+                            ? {
+                                width: 56,
+                                height: 56,
+                                flex: '0 0 auto',
+                                marginRight: 2,
+                                imageRendering: 'pixelated',
+                                filter: 'brightness(0.4)',
+                            }
+                            : {
+                                width: 56,
+                                height: 56,
+                                flex: '0 0 auto',
+                                marginRight: 2,
+                                imageRendering: 'pixelated',
+                            }}
                         src={`${serverAddress}${thumbnailUrl}?useCache=${useCache}`}
                     />
                     <Box
@@ -211,6 +235,13 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
                         </Typography>
                     </Box>
                     <BadgeContainer sx={{ position: 'relative' }}>
+                        {inLibrary && (
+                            <Typography
+                                sx={{ backgroundColor: 'primary.dark', zIndex: '1' }}
+                            >
+                                In library
+                            </Typography>
+                        )}
                         { showUnreadBadge && unread! > 0 && (
                             <Typography
                                 sx={{ backgroundColor: 'primary.dark' }}

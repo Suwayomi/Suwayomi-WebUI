@@ -175,6 +175,7 @@ export default function SourceMangas(props: { popular: boolean }) {
                             title: it.title,
                             thumbnailUrl: it.thumbnailUrl,
                             id: it.id,
+                            inLibrary: it.inLibrary,
                         }))]);
                     setHasNextPage(data.hasNextPage);
                     setFetched(true);
