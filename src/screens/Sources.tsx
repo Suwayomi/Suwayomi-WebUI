@@ -15,9 +15,6 @@ import {
 } from 'util/language';
 import useLocalStorage from 'util/useLocalStorage';
 import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
-import { IconButton } from '@mui/material';
-import TravelExploreIcon from '@mui/icons-material/TravelExplore';
-import { useHistory } from 'react-router-dom';
 
 function sourceToLangList(sources: ISource[]) {
     const result: string[] = [];
@@ -49,8 +46,6 @@ export default function Sources() {
     const [sources, setSources] = useState<ISource[]>([]);
     const [fetched, setFetched] = useState<boolean>(false);
 
-    const history = useHistory();
-
     useEffect(() => {
         // make sure all of forcedDefaultLangs() exists in shownLangs
         sourceForcedDefaultLangs().forEach((forcedLang) => {
@@ -70,20 +65,12 @@ export default function Sources() {
     useEffect(() => {
         setTitle('Sources');
         setAction(
-            <>
-                <IconButton
-                    onClick={() => history.push('/sources/all/search/')}
-                    size="large"
-                >
-                    <TravelExploreIcon />
-                </IconButton>
-                <LangSelect
-                    shownLangs={shownLangs}
-                    setShownLangs={setShownLangs}
-                    allLangs={sourceToLangList(sources)}
-                    forcedLangs={sourceForcedDefaultLangs()}
-                />
-            </>,
+            <LangSelect
+                shownLangs={shownLangs}
+                setShownLangs={setShownLangs}
+                allLangs={sourceToLangList(sources)}
+                forcedLangs={sourceForcedDefaultLangs()}
+            />,
         );
     }, [shownLangs, sources]);
 

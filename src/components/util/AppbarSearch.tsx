@@ -12,16 +12,7 @@ import { IconButton, Input } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { useQueryParam, StringParam } from 'use-query-params';
 
-interface IProps {
-    autoOpen?: boolean
-}
-
-const defaultProps = {
-    autoOpen: false,
-};
-
-const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
-    const { autoOpen } = props;
+export default function AppbarSearch() {
     const [query, setQuery] = useQueryParam('query', StringParam);
     const [searchOpen, setSearchOpen] = useState(!!query);
     const inputRef = React.useRef<HTMLInputElement>();
@@ -48,12 +39,6 @@ const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
             openSearch();
         }
     };
-
-    useEffect(() => {
-        if (autoOpen) {
-            openSearch();
-        }
-    }, []);
 
     useEffect(() => {
         window.addEventListener('keydown', handleSearchShortcut);
@@ -87,8 +72,4 @@ const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
                 )}
         </>
     );
-};
-
-AppbarSearch.defaultProps = defaultProps;
-
-export default AppbarSearch;
+}
