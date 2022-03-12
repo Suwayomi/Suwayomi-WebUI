@@ -41,7 +41,7 @@ interface IProps {
 export default function SourceCard(props: IProps) {
     const {
         source: {
-            id, name, lang, iconUrl, supportsLatest,
+            id, name, lang, iconUrl, supportsLatest, isNsfw,
         },
     } = props;
 
@@ -99,6 +99,11 @@ export default function SourceCard(props: IProps) {
                         {id !== '0' && (
                             <Typography variant="caption" display="block" gutterBottom>
                                 {langCodeToName(lang)}
+                                {isNsfw && (
+                                    <Typography variant="caption" display="inline" gutterBottom color="red">
+                                        {' 18+'}
+                                    </Typography>
+                                )}
                             </Typography>
                         )}
                     </Box>
