@@ -40,6 +40,7 @@ import Sources from 'screens/Sources';
 import Extensions from 'screens/Extensions';
 import NavBarContextProvider from 'components/navbar/NavBarContextProvider';
 import LibraryOptionsContextProvider from 'components/library/LibraryOptionsProvider';
+import SearchAll from 'screens/SearchAll';
 
 declare module '@mui/styles/defaultTheme' {
     // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -138,6 +139,9 @@ export default function App() {
                                         </Route>
                                         <Route path="/sources/:sourceId/configure/">
                                             <SourceConfigure />
+                                        </Route>
+                                        <Route path="/sources/all/search/">
+                                            <SearchAll />
                                         </Route>
                                         <Route path="/downloads">
                                             <DownloadQueue />

@@ -9,6 +9,8 @@ import React, { useEffect, useRef } from 'react';
 import Grid from '@mui/material/Grid';
 import EmptyView from 'components/util/EmptyView';
 import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
+import { Typography } from '@mui/material';
+import { Box } from '@mui/system';
 import MangaCard from './MangaCard';
 
 export interface IMangaGridProps{
@@ -20,12 +22,14 @@ export interface IMangaGridProps{
     lastPageNum: number
     setLastPageNum: (lastPageNum: number) => void
     gridLayout?: number | undefined
+    horisontal?: boolean | undefined
+    noFaces?: boolean | undefined
 }
 
 export default function MangaGrid(props: IMangaGridProps) {
     const {
         mangas, isLoading, message, messageExtra,
-        hasNextPage, lastPageNum, setLastPageNum, gridLayout,
+        hasNextPage, lastPageNum, setLastPageNum, gridLayout, horisontal, noFaces,
     } = props;
     let mapped;
     const lastManga = useRef<HTMLDivElement>(null);
@@ -51,7 +55,18 @@ export default function MangaGrid(props: IMangaGridProps) {
                 <LoadingPlaceholder />
             );
         } else {
-            mapped = (
+            mapped = noFaces ? (
+                <Box
+                    sx={{
+                        margin: 'auto',
+                    }}
+                >
+                    <Typography variant="h5">
+                        {message}
+                    </Typography>
+                    {messageExtra}
+                </Box>
+            ) : (
                 <EmptyView message={message!} messageExtra={messageExtra} />
             );
         }
@@ -78,7 +93,22 @@ export default function MangaGrid(props: IMangaGridProps) {
     }
 
     return (
-        <Grid container spacing={1} style={{ margin: 0, width: '100%', padding: '5px' }}>
+        <Grid
+            container
+            spacing={1}
+            style={horisontal ? {
+                margin: 0,
+                width: '100%',
+                padding: '5px',
+                overflowX: 'scroll',
+                display: '-webkit-inline-box',
+                flexWrap: 'nowrap',
+            } : {
+                margin: 0,
+                width: '100%',
+                padding: '5px',
+            }}
+        >
             {mapped}
         </Grid>
     );
