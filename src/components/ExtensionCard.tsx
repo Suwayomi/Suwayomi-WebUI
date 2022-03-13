@@ -23,7 +23,7 @@ interface IProps {
 export default function ExtensionCard(props: IProps) {
     const {
         extension: {
-            name, lang, versionName, installed, hasUpdate, obsolete, pkgName, iconUrl,
+            name, lang, versionName, installed, hasUpdate, obsolete, pkgName, iconUrl, isNsfw,
         },
         notifyInstall,
     } = props;
@@ -116,6 +116,11 @@ export default function ExtensionCard(props: IProps) {
                             {langPress}
                             {' '}
                             {versionName}
+                            {isNsfw && (
+                                <Typography variant="caption" display="inline" gutterBottom color="red">
+                                    {' 18+'}
+                                </Typography>
+                            )}
                         </Typography>
                     </Box>
                 </Box>
