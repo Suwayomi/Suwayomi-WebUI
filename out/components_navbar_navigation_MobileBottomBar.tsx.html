@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/navbar/navigation/MobileBottomBar.tsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/navbar/navigation/MobileBottomBar.tsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/*
+ * Copyright (C) Contributors to the Suwayomi project
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+import React from 'react';
+import { ListItem } from '@mui/material';
+import { styled, Box } from '@mui/system';
+import { Link as RRDLink, useLocation } from 'react-router-dom';
+import { useTheme } from '@mui/material/styles';
+
+const BottomNavContainer = styled('div')(({ theme }) => ({
+    bottom: 0,
+    left: 0,
+    height: theme.spacing(7),
+    width: '100vw',
+    backgroundColor: theme.palette.mode === 'light' ? theme.palette.grey[100] : theme.palette.grey[900],
+    position: 'fixed',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    // For Some reason the theme is throwing and error when accessing the Zindex object,
+    // This is the zIndex of the appBar in the default theme
+    zIndex: 1100,
+}));
+
+const Link = styled(RRDLink)({
+    textDecoration: 'none',
+    flex: 1,
+});
+
+interface IProps {
+    navBarItems: Array&lt;NavbarItem>
+}
+
+export default function MobileBottomBar({ navBarItems }: IProps) {
+    const location = useLocation();
+    const theme = useTheme();
+
+    /**
+     * It returns an icon based on the current path.
+     * @param {string} path - The path to check against the current location.
+     * @param {any} IconComponent - The component that will be used to render the icon.
+     * @param {any} SelectedIconComponent - The icon that will be displayed when the current path is
+     * the same as the path passed in.
+     * @returns A React component.
+     */
+    const iconFor = (path: string, IconComponent: any, SelectedIconComponent: any) => {
+        if (location.pathname === path) return &lt;SelectedIconComponent sx={{ color: 'primary.main' }} fontSize="medium" />;
+        return &lt;IconComponent sx={{ color: (theme.palette.mode === 'dark') ? 'grey.A400' : 'grey.600' }} fontSize="medium" />;
+    };
+
+    return (
+        &lt;BottomNavContainer>
+            {
+                navBarItems.map((
+                    {
+                        path, title, IconComponent, SelectedIconComponent,
+                    }: NavbarItem,
+                ) => (
+                    &lt;Link to={path} key={path}>
+                        &lt;ListItem disableRipple button sx={{ justifyContent: 'center', padding: '8px' }} key={title}>
+                            &lt;Box
+                                display="flex"
+                                flexDirection="column"
+                                alignItems="center"
+                            >
+                                {iconFor(path, IconComponent, SelectedIconComponent)}
+                                &lt;Box sx={{
+                                    fontSize: '0.65rem',
+                                    // eslint-disable-next-line no-nested-ternary
+                                    color: location.pathname === path
+                                        ? 'primary.main'
+                                        : ((theme.palette.mode === 'dark')
+                                            ? 'grey.A400'
+                                            : 'grey.600'),
+                                }}
+                                >
+                                    {title}
+                                &lt;/Box>
+                            &lt;/Box>
+                        &lt;/ListItem>
+                    &lt;/Link>
+                ))
+            }
+        &lt;/BottomNavContainer>
+    );
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#About">About</a></li><li><a href="global.html#Backup">Backup</a></li><li><a href="global.html#bookmarkdFilter">bookmarkdFilter</a></li><li><a href="global.html#Browse">Browse</a></li><li><a href="global.html#Categories">Categories</a></li><li><a href="global.html#CategorySelect">CategorySelect</a></li><li><a href="global.html#ChapterList">ChapterList</a></li><li><a href="global.html#CheckBoxPreference">CheckBoxPreference</a></li><li><a href="global.html#cloneObject">cloneObject</a></li><li><a href="global.html#default">default</a></li><li><a href="global.html#defaultChapterOptions">defaultChapterOptions</a></li><li><a href="global.html#defaultNativeLang">defaultNativeLang</a></li><li><a href="global.html#DefaultNavBar">DefaultNavBar</a></li><li><a href="global.html#defaultReaderSettings">defaultReaderSettings</a></li><li><a href="global.html#dispalyTab">dispalyTab</a></li><li><a href="global.html#DoublePagedPager">DoublePagedPager</a></li><li><a href="global.html#downloadedFilter">downloadedFilter</a></li><li><a href="global.html#downloadFilter">downloadFilter</a></li><li><a href="global.html#DownloadQueue">DownloadQueue</a></li><li><a href="global.html#EditTextPreference">EditTextPreference</a></li><li><a href="global.html#epochToDate">epochToDate</a></li><li><a href="global.html#ExtensionCard">ExtensionCard</a></li><li><a href="global.html#extensionDefaultLangs">extensionDefaultLangs</a></li><li><a href="global.html#filterAndSortChapters">filterAndSortChapters</a></li><li><a href="global.html#filterManga">filterManga</a></li><li><a href="global.html#filtersTab">filtersTab</a></li><li><a href="global.html#findFirstUnreadChapter">findFirstUnreadChapter</a></li><li><a href="global.html#getDateString">getDateString</a></li><li><a href="global.html#getItem">getItem</a></li><li><a href="global.html#getItemStyle">getItemStyle</a></li><li><a href="global.html#getPrefComponent">getPrefComponent</a></li><li><a href="global.html#getRandomErrorFace">getRandomErrorFace</a></li><li><a href="global.html#getReaderComponent">getReaderComponent</a></li><li><a href="global.html#getSourceName">getSourceName</a></li><li><a href="global.html#getTwoStateType">getTwoStateType</a></li><li><a href="global.html#getValueOrUnknown">getValueOrUnknown</a></li><li><a href="global.html#groupByDate">groupByDate</a></li><li><a href="global.html#groupByLang">groupByLang</a></li><li><a href="global.html#groupExtensions">groupExtensions</a></li><li><a href="global.html#HeaderFilter">HeaderFilter</a></li><li><a href="global.html#HorizontalPager">HorizontalPager</a></li><li><a href="global.html#imageStyle">imageStyle</a></li><li><a href="global.html#ISOLanguages">ISOLanguages</a></li><li><a href="global.html#isTheSameDay">isTheSameDay</a></li><li><a href="global.html#langSortCmp">langSortCmp</a></li><li><a href="global.html#LibraryMangaGrid">LibraryMangaGrid</a></li><li><a href="global.html#LibraryOptions">LibraryOptions</a></li><li><a href="global.html#LibraryOptionsContextProvider">LibraryOptionsContextProvider</a></li><li><a href="global.html#ListItemLink">ListItemLink</a></li><li><a href="global.html#LoadingPlaceholder">LoadingPlaceholder</a></li><li><a href="global.html#makeToast">makeToast</a></li><li><a href="global.html#makeToaster">makeToaster</a></li><li><a href="global.html#Manga">Manga</a></li><li><a href="global.html#MangaDetails">MangaDetails</a></li><li><a href="global.html#MultiSelectListPreference">MultiSelectListPreference</a></li><li><a href="global.html#NavBarProvider">NavBarProvider</a></li><li><a href="global.html#Options">Options</a></li><li><a href="global.html#PagedReader">PagedReader</a></li><li><a href="global.html#PageNumber">PageNumber</a></li><li><a href="global.html#queryFilter">queryFilter</a></li><li><a href="global.html#removeAll">removeAll</a></li><li><a href="global.html#removeToast">removeToast</a></li><li><a href="global.html#ResumeFab">ResumeFab</a></li><li><a href="global.html#SelectFilter">SelectFilter</a></li><li><a href="global.html#SeperatorFilter">SeperatorFilter</a></li><li><a href="global.html#setItem">setItem</a></li><li><a href="global.html#Settings">Settings</a></li><li><a href="global.html#sortManga">sortManga</a></li><li><a href="global.html#sortsTab">sortsTab</a></li><li><a href="global.html#SourceConfigure">SourceConfigure</a></li><li><a href="global.html#sourceDefualtLangs">sourceDefualtLangs</a></li><li><a href="global.html#sourceForcedDefaultLangs">sourceForcedDefaultLangs</a></li><li><a href="global.html#SourceGridLayout">SourceGridLayout</a></li><li><a href="global.html#SourceMangaGrid">SourceMangaGrid</a></li><li><a href="global.html#SourceMangas">SourceMangas</a></li><li><a href="global.html#SourceOptions">SourceOptions</a></li><li><a href="global.html#sourceToLangList">sourceToLangList</a></li><li><a href="global.html#SpinnerImage">SpinnerImage</a></li><li><a href="global.html#stateToChecked">stateToChecked</a></li><li><a href="global.html#stateTransition">stateTransition</a></li><li><a href="global.html#SwitchPreferenceCompat">SwitchPreferenceCompat</a></li><li><a href="global.html#TabPanel">TabPanel</a></li><li><a href="global.html#TextFilter">TextFilter</a></li><li><a href="global.html#ThreeStateCheckbox">ThreeStateCheckbox</a></li><li><a href="global.html#Toast">Toast</a></li><li><a href="global.html#toReadSort">toReadSort</a></li><li><a href="global.html#toSortAlph">toSortAlph</a></li><li><a href="global.html#toSortID">toSortID</a></li><li><a href="global.html#Transition">Transition</a></li><li><a href="global.html#truncateText">truncateText</a></li><li><a href="global.html#TwoSatePreference">TwoSatePreference</a></li><li><a href="global.html#unreadFilter">unreadFilter</a></li><li><a href="global.html#useChaptersFetch">useChaptersFetch</a></li><li><a href="global.html#useLibraryOptions">useLibraryOptions</a></li><li><a href="global.html#useLocalStorage">useLocalStorage</a></li><li><a href="global.html#useReducerLocalStorage">useReducerLocalStorage</a></li><li><a href="global.html#useStyles">useStyles</a></li><li><a href="global.html#VerticalReader">VerticalReader</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sat Mar 19 2022 18:16:30 GMT+0000 (Greenwich Mean Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

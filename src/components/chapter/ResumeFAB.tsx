@@ -15,6 +15,11 @@ interface ResumeFABProps{
     mangaId: string
 }
 
+/**
+ * It returns a link to the current chapter, and the current page
+ * @param {ResumeFABProps} props - ResumeFABProps
+ * @returns A link to the chapter page.
+ */
 export default function ResumeFab(props: ResumeFABProps) {
     const { chapter: { index, lastPageRead }, mangaId } = props;
     return (

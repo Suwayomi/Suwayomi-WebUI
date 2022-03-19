@@ -7,6 +7,16 @@
 
 import React from 'react';
 
+/**
+ * The ContextType is a type that contains all the data that the Navbar component needs to render.
+ * @property {string} title - The title of the app bar.
+ * @property setTitle - React.Dispatch<React.SetStateAction<string>>
+ * @property {any} action - This is the action button that appears on the right side of the AppBar.
+ * @property setAction - This is a React.Dispatch<React.SetStateAction<any>> function that allows you
+ * to set the action buttons.
+ * @property {INavbarOverride} override - INavbarOverride
+ * @property setOverride - React.Dispatch<React.SetStateAction<INavbarOverride>>
+ */
 type ContextType = {
     // AppBar title
     title: string

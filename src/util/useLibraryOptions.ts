@@ -8,6 +8,7 @@
 
 import { BooleanParam, useQueryParam, StringParam } from 'use-query-params';
 
+/* A type definition for the object that is returned by the function `useLibraryOptions`. */
 interface IUseLibraryOptions {
     downloaded: NullAndUndefined<boolean>
     setDownloaded: (downloaded: NullAndUndefined<boolean>) => void
@@ -23,6 +24,10 @@ interface IUseLibraryOptions {
     setSortDesc: (sortDesc: NullAndUndefined<boolean>) => void
 }
 
+/**
+ * It returns a set of query parameters that can be used to filter the library
+ * @returns The useLibraryOptions hook returns a set of values that are used to control the library.
+ */
 export default function useLibraryOptions(): IUseLibraryOptions {
     const [downloaded, setDownloaded] = useQueryParam('downloaded', BooleanParam);
     const [unread, setUnread] = useQueryParam('unread', BooleanParam);

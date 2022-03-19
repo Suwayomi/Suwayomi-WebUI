@@ -27,6 +27,11 @@ interface ICategoryInfo {
     selected: boolean
 }
 
+/**
+ * It shows a dialog with a list of checkboxes
+ * @param {IProps} props - IProps
+ * @returns A dialog box with a list of checkboxes.
+ */
 export default function CategorySelect(props: IProps) {
     const { open, setOpen, mangaId } = props;
     const [categoryInfos, setCategoryInfos] = useState<ICategoryInfo[]>([]);
@@ -62,6 +67,11 @@ export default function CategorySelect(props: IProps) {
         setOpen(false);
     };
 
+    /**
+     * When the user clicks on a checkbox, it will either add or remove the category from the manga
+     * @param event - React.ChangeEvent<HTMLInputElement>
+     * @param {number} categoryId - The id of the category to be added or removed.
+     */
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>, categoryId: number) => {
         const { checked } = event.target as HTMLInputElement;
 

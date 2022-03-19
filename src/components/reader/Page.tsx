@@ -10,6 +10,11 @@ import SpinnerImage from 'components/util/SpinnerImage';
 import useLocalStorage from 'util/useLocalStorage';
 import Box from '@mui/system/Box';
 
+/**
+ * It returns a style object that is used to style the image.
+ * @param {IReaderSettings} settings - IReaderSettings
+ * @returns The image style object.
+ */
 function imageStyle(settings: IReaderSettings): any {
     const [dimensions, setDimensions] = React.useState({
         height: window.innerHeight,
@@ -70,6 +75,9 @@ const Page = React.forwardRef((props: IProps, ref: any) => {
 
     const imgRef = useRef<HTMLImageElement>(null);
 
+    /**
+     * If the image is scrolled out of view, set the current page to the current index
+     */
     const handleVerticalScroll = () => {
         if (imgRef.current) {
             const rect = imgRef.current.getBoundingClientRect();
@@ -79,6 +87,9 @@ const Page = React.forwardRef((props: IProps, ref: any) => {
         }
     };
 
+    /**
+     * If the image is in the middle of the screen, set the current page to the current index
+     */
     const handleHorizontalScroll = () => {
         if (imgRef.current) {
             const rect = imgRef.current.getBoundingClientRect();

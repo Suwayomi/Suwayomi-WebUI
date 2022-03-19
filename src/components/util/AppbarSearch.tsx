@@ -26,14 +26,27 @@ const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
     const [searchOpen, setSearchOpen] = useState(!!query);
     const inputRef = React.useRef<HTMLInputElement>();
 
+    /**
+     * It sets the query state to the value of the input field.
+     * @param e - React.ChangeEvent<HTMLInputElement>
+     */
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         setQuery(e.target.value === '' ? undefined : e.target.value);
     }
+    /**
+     * Set the query to null and set the search open to false
+     */
     const cancelSearch = () => {
         setQuery(null);
         setSearchOpen(false);
     };
+    /**
+     * If the query is empty, close the search
+     */
     const handleBlur = () => { if (!query) setSearchOpen(false); };
+    /**
+     * Open the search modal
+     */
     const openSearch = () => {
         setSearchOpen(true);
         // Put Focus Action at the end of the Callstack so Input actually exists on the dom
@@ -42,6 +55,10 @@ const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
         });
     };
 
+    /**
+     * If the user presses the F3 key or the Ctrl+F key, the openSearch function is called
+     * @param {KeyboardEvent} e - The event object.
+     */
     const handleSearchShortcut = (e: KeyboardEvent) => {
         if ((e.code === 'F3') || (e.ctrlKey && e.code === 'KeyF')) {
             e.preventDefault();

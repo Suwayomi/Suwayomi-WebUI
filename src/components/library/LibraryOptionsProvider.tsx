@@ -13,6 +13,12 @@ interface IProps {
     children: React.ReactNode;
 }
 
+/**
+ * The LibraryOptionsContextProvider is a React context provider that provides the current library
+ * display options and a function to change them
+ * @param {IProps}  - IProps {
+ * @returns A context provider that wraps the children.
+ */
 export default function LibraryOptionsContextProvider({ children }: IProps) {
     const [options, setOptions] = useLocalStorage<LibraryDisplayOptions>('libraryOptions',
         {

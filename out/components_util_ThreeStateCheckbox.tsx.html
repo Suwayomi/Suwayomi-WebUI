@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/util/ThreeStateCheckbox.tsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/util/ThreeStateCheckbox.tsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/*
+ * Copyright (C) Contributors to the Suwayomi project
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+import { Checkbox, createSvgIcon } from '@mui/material';
+import React, {
+    useEffect, useState,
+} from 'react';
+
+export interface IThreeStateCheckboxProps {
+    name: string
+    checked: boolean | undefined | null
+    onChange: (change: boolean | undefined | null, name: string) => void
+}
+
+enum CheckState {
+    SELECTED, INTERMEDIATE, UNSELECTED,
+}
+
+/**
+ * It takes a boolean value and returns a CheckState value.
+ * @param {boolean | undefined | null} checked - The checked state of the checkbox.
+ * @returns The `checkedToState` function returns a `CheckState` based on the `checked` value.
+ */
+function checkedToState(checked: boolean | undefined | null): CheckState {
+    switch (checked) {
+        case true:
+            return CheckState.SELECTED;
+        case false:
+            return CheckState.INTERMEDIATE;
+        default:
+            return CheckState.UNSELECTED;
+    }
+}
+/**
+ * It takes a CheckState and returns a boolean or undefined.
+ * @param {CheckState} state - The check state of the checkbox.
+ * @returns The `stateToChecked` function returns a boolean or undefined.
+ */
+function stateToChecked(state: CheckState): boolean | undefined {
+    switch (state) {
+        case CheckState.SELECTED:
+            return true;
+        case CheckState.INTERMEDIATE:
+            return false;
+        default:
+        case CheckState.UNSELECTED:
+            return undefined;
+    }
+}
+
+/**
+ * It takes a state and returns the next state.
+ * @param {CheckState} state - The current state of the checkbox.
+ * @returns The next state.
+ */
+function stateTransition(state: CheckState): CheckState {
+    switch (state) {
+        case CheckState.SELECTED:
+            return CheckState.INTERMEDIATE;
+        case CheckState.INTERMEDIATE:
+            return CheckState.UNSELECTED;
+        case CheckState.UNSELECTED:
+        default:
+            return CheckState.SELECTED;
+    }
+}
+
+/**
+ * It creates a checkbox with three states: selected, intermediate, and unselected.
+ * @param {IThreeStateCheckboxProps} props - IThreeStateCheckboxProps
+ */
+const ThreeStateCheckbox = (props: IThreeStateCheckboxProps) => {
+    const {
+        name, checked, onChange,
+    } = props;
+    const [localChecked, setLocalChecked] = useState(checkedToState(checked));
+    useEffect(() => setLocalChecked(checkedToState(checked)), [checked]);
+    /**
+     * The function takes the current state of the checkbox and returns the next state of the checkbox.
+     * 
+     * 
+     * The function is called every time the checkbox is clicked
+     * @param e - React.ChangeEvent&lt;HTMLInputElement>
+     */
+    const handleChange = (e: React.ChangeEvent&lt;HTMLInputElement>) => {
+        setLocalChecked(stateTransition(localChecked));
+        if (onChange) {
+            onChange(stateToChecked(stateTransition(localChecked)), e.currentTarget.name);
+        }
+    };
+    const CancelBox = createSvgIcon(
+        &lt;>
+            &lt;path
+                d="M 19 6.41 L 13.41 12 L 19 17.59 L 17.59 19 L 12 13.41 L 6.41 19 V 19 H 6.41 L 5 17.59 L 11 12 L 5 6.41 L 6.41 5 L 12 10.59 L 17.59 5 L 19 6.41 M 5 5 m 0 -2 H 5 c -1.1 0 -2 0.9 -2 2 v 14 c 0 1.1 0.9 2 2 2 h 14 c 1.1 0 2 -0.9 2 -2 V 5 c 0 -1.1 -0.9 -2 -2 -2 z "
+            />
+        &lt;/>,
+        'CancelBox',
+    );
+
+    return (
+        &lt;Checkbox
+            name={name}
+            checked={localChecked === CheckState.SELECTED}
+            indeterminate={localChecked === CheckState.INTERMEDIATE}
+            indeterminateIcon={&lt;CancelBox />}
+            onChange={handleChange}
+            className={`${localChecked}`}
+        />
+    );
+};
+export default ThreeStateCheckbox;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#About">About</a></li><li><a href="global.html#Backup">Backup</a></li><li><a href="global.html#bookmarkdFilter">bookmarkdFilter</a></li><li><a href="global.html#Browse">Browse</a></li><li><a href="global.html#Categories">Categories</a></li><li><a href="global.html#CategorySelect">CategorySelect</a></li><li><a href="global.html#ChapterList">ChapterList</a></li><li><a href="global.html#CheckBoxPreference">CheckBoxPreference</a></li><li><a href="global.html#cloneObject">cloneObject</a></li><li><a href="global.html#default">default</a></li><li><a href="global.html#defaultChapterOptions">defaultChapterOptions</a></li><li><a href="global.html#defaultNativeLang">defaultNativeLang</a></li><li><a href="global.html#DefaultNavBar">DefaultNavBar</a></li><li><a href="global.html#defaultReaderSettings">defaultReaderSettings</a></li><li><a href="global.html#dispalyTab">dispalyTab</a></li><li><a href="global.html#DoublePagedPager">DoublePagedPager</a></li><li><a href="global.html#downloadedFilter">downloadedFilter</a></li><li><a href="global.html#downloadFilter">downloadFilter</a></li><li><a href="global.html#DownloadQueue">DownloadQueue</a></li><li><a href="global.html#EditTextPreference">EditTextPreference</a></li><li><a href="global.html#epochToDate">epochToDate</a></li><li><a href="global.html#ExtensionCard">ExtensionCard</a></li><li><a href="global.html#extensionDefaultLangs">extensionDefaultLangs</a></li><li><a href="global.html#filterAndSortChapters">filterAndSortChapters</a></li><li><a href="global.html#filterManga">filterManga</a></li><li><a href="global.html#filtersTab">filtersTab</a></li><li><a href="global.html#findFirstUnreadChapter">findFirstUnreadChapter</a></li><li><a href="global.html#getDateString">getDateString</a></li><li><a href="global.html#getItem">getItem</a></li><li><a href="global.html#getItemStyle">getItemStyle</a></li><li><a href="global.html#getPrefComponent">getPrefComponent</a></li><li><a href="global.html#getRandomErrorFace">getRandomErrorFace</a></li><li><a href="global.html#getReaderComponent">getReaderComponent</a></li><li><a href="global.html#getSourceName">getSourceName</a></li><li><a href="global.html#getTwoStateType">getTwoStateType</a></li><li><a href="global.html#getValueOrUnknown">getValueOrUnknown</a></li><li><a href="global.html#groupByDate">groupByDate</a></li><li><a href="global.html#groupByLang">groupByLang</a></li><li><a href="global.html#groupExtensions">groupExtensions</a></li><li><a href="global.html#HeaderFilter">HeaderFilter</a></li><li><a href="global.html#HorizontalPager">HorizontalPager</a></li><li><a href="global.html#imageStyle">imageStyle</a></li><li><a href="global.html#ISOLanguages">ISOLanguages</a></li><li><a href="global.html#isTheSameDay">isTheSameDay</a></li><li><a href="global.html#langSortCmp">langSortCmp</a></li><li><a href="global.html#LibraryMangaGrid">LibraryMangaGrid</a></li><li><a href="global.html#LibraryOptions">LibraryOptions</a></li><li><a href="global.html#LibraryOptionsContextProvider">LibraryOptionsContextProvider</a></li><li><a href="global.html#ListItemLink">ListItemLink</a></li><li><a href="global.html#LoadingPlaceholder">LoadingPlaceholder</a></li><li><a href="global.html#makeToast">makeToast</a></li><li><a href="global.html#makeToaster">makeToaster</a></li><li><a href="global.html#Manga">Manga</a></li><li><a href="global.html#MangaDetails">MangaDetails</a></li><li><a href="global.html#MultiSelectListPreference">MultiSelectListPreference</a></li><li><a href="global.html#NavBarProvider">NavBarProvider</a></li><li><a href="global.html#Options">Options</a></li><li><a href="global.html#PagedReader">PagedReader</a></li><li><a href="global.html#PageNumber">PageNumber</a></li><li><a href="global.html#queryFilter">queryFilter</a></li><li><a href="global.html#removeAll">removeAll</a></li><li><a href="global.html#removeToast">removeToast</a></li><li><a href="global.html#ResumeFab">ResumeFab</a></li><li><a href="global.html#SelectFilter">SelectFilter</a></li><li><a href="global.html#SeperatorFilter">SeperatorFilter</a></li><li><a href="global.html#setItem">setItem</a></li><li><a href="global.html#Settings">Settings</a></li><li><a href="global.html#sortManga">sortManga</a></li><li><a href="global.html#sortsTab">sortsTab</a></li><li><a href="global.html#SourceConfigure">SourceConfigure</a></li><li><a href="global.html#sourceDefualtLangs">sourceDefualtLangs</a></li><li><a href="global.html#sourceForcedDefaultLangs">sourceForcedDefaultLangs</a></li><li><a href="global.html#SourceGridLayout">SourceGridLayout</a></li><li><a href="global.html#SourceMangaGrid">SourceMangaGrid</a></li><li><a href="global.html#SourceMangas">SourceMangas</a></li><li><a href="global.html#SourceOptions">SourceOptions</a></li><li><a href="global.html#sourceToLangList">sourceToLangList</a></li><li><a href="global.html#SpinnerImage">SpinnerImage</a></li><li><a href="global.html#stateToChecked">stateToChecked</a></li><li><a href="global.html#stateTransition">stateTransition</a></li><li><a href="global.html#SwitchPreferenceCompat">SwitchPreferenceCompat</a></li><li><a href="global.html#TabPanel">TabPanel</a></li><li><a href="global.html#TextFilter">TextFilter</a></li><li><a href="global.html#ThreeStateCheckbox">ThreeStateCheckbox</a></li><li><a href="global.html#Toast">Toast</a></li><li><a href="global.html#toReadSort">toReadSort</a></li><li><a href="global.html#toSortAlph">toSortAlph</a></li><li><a href="global.html#toSortID">toSortID</a></li><li><a href="global.html#Transition">Transition</a></li><li><a href="global.html#truncateText">truncateText</a></li><li><a href="global.html#TwoSatePreference">TwoSatePreference</a></li><li><a href="global.html#unreadFilter">unreadFilter</a></li><li><a href="global.html#useChaptersFetch">useChaptersFetch</a></li><li><a href="global.html#useLibraryOptions">useLibraryOptions</a></li><li><a href="global.html#useLocalStorage">useLocalStorage</a></li><li><a href="global.html#useReducerLocalStorage">useReducerLocalStorage</a></li><li><a href="global.html#useStyles">useStyles</a></li><li><a href="global.html#VerticalReader">VerticalReader</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sat Mar 19 2022 18:16:30 GMT+0000 (Greenwich Mean Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

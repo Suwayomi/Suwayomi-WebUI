@@ -25,6 +25,7 @@ interface IListDialogProps{
     title: string
 }
 
+/* It's a function component. */
 function ListDialog(props: IListDialogProps) {
     const {
         value: valueProp, open, onClose, options, title,
@@ -38,20 +39,33 @@ function ListDialog(props: IListDialogProps) {
         }
     }, [valueProp, open]);
 
+    /**
+     * It focuses the radio group when the modal is opened.
+     */
     const handleEntering = () => {
         if (radioGroupRef.current != null) {
             radioGroupRef?.current.focus();
         }
     };
 
+    /**
+     * It closes the modal.
+     */
     const handleCancel = () => {
         onClose(null);
     };
 
+    /**
+     * It closes the modal and passes the value to the onClose function.
+     */
     const handleOk = () => {
         onClose(value);
     };
 
+    /**
+     * It takes an event as an argument, and sets the value of the input to the value of the event
+     * @param {any} event - The event that was triggered.
+     */
     const handleChange = (event: any) => {
         setValue(event.target.value);
     };

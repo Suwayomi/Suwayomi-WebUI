@@ -14,6 +14,9 @@ import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
 import ChapterList from 'components/chapter/ChapterList';
 import { useParams } from 'react-router-dom';
 
+/**
+ * It fetches the manga data from the server, and then renders the MangaDetails component
+ */
 export default function Manga() {
     const { setTitle } = useContext(NavbarContext);
     useEffect(() => { setTitle('Manga'); }, []); // delegate setting topbar action to MangaDetails

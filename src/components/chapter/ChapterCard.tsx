@@ -27,6 +27,7 @@ interface IProps{
     showChapterNumber: boolean
 }
 
+/* This is a React component that renders a Chapter card. */
 export default function ChapterCard(props: IProps) {
     const theme = useTheme();
 
@@ -38,6 +39,10 @@ export default function ChapterCard(props: IProps) {
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
+    /**
+     * It prevents the parent tags from getting the event.
+     * @param event - React.MouseEvent<HTMLButtonElement>
+     */
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         // prevent parent tags from getting the event
         event.stopPropagation();
@@ -46,10 +51,18 @@ export default function ChapterCard(props: IProps) {
         setAnchorEl(event.currentTarget);
     };
 
+    /**
+     * It sets the anchorEl to null.
+     */
     const handleClose = () => {
         setAnchorEl(null);
     };
 
+    /**
+     * Send a PATCH request to the server to update the chapter
+     * @param {string} key - The key of the field to change.
+     * @param {any} value - The value to be sent to the server.
+     */
     const sendChange = (key: string, value: any) => {
         handleClose();
 
@@ -60,11 +73,17 @@ export default function ChapterCard(props: IProps) {
             .then(() => triggerChaptersUpdate());
     };
 
+    /**
+     * It sends a request to the server to download the chapter.
+     */
     const downloadChapter = () => {
         client.get(`/api/v1/download/${chapter.mangaId}/chapter/${chapter.index}`);
         handleClose();
     };
 
+    /**
+     * It deletes the chapter from the database.
+     */
     const deleteChapter = () => {
         client.delete(`/api/v1/manga/${chapter.mangaId}/chapter/${chapter.index}`)
             .then(() => triggerChaptersUpdate());

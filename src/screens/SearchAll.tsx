@@ -21,6 +21,11 @@ import {
 import useLocalStorage from 'util/useLocalStorage';
 import PQueue from 'p-queue/dist/index';
 
+/**
+ * Given a list of sources, return a list of unique languages
+ * @param {ISource[]} sources - An array of sources.
+ * @returns An array of strings.
+ */
 function sourceToLangList(sources: ISource[]) {
     const result: string[] = [];
 
@@ -32,6 +37,7 @@ function sourceToLangList(sources: ISource[]) {
     return result;
 }
 
+/* This is the code that renders the searchAll page. */
 export default function SearchAll() {
     const [query] = useQueryParam('query', StringParam);
     const { setTitle, setAction } = useContext(NavbarContext);
@@ -73,6 +79,11 @@ export default function SearchAll() {
             });
     }, []);
 
+    /**
+     * It takes an array of objects, each object containing an id and a name. It then makes an API call
+     * for each object, and adds the result to the global state
+     * @param {any[]} elem - The array of manga sources.
+     */
     async function doIT(elem: any[]) {
         elem.map((ele) => limit.add(async () => {
             const response = await client.get(`/api/v1/source/${ele.id}/search?searchTerm=${query || ''}&pageNum=1`);
@@ -152,6 +163,12 @@ export default function SearchAll() {
 
     const history = useHistory();
 
+    /**
+     * It takes an event and a string as arguments. It pushes the string to the history object. It also
+     * prevents the event from propogating to the parent tags
+     * @param {any} e - the event object
+     * @param {string} to - The URL to redirect to.
+     */
     const redirectTo = (e: any, to: string) => {
         history.push(to);
 

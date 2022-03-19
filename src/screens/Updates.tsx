@@ -22,18 +22,33 @@ import EmptyView from 'components/util/EmptyView';
 import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
 import { Box } from '@mui/system';
 
+/**
+ * @param {number} epoch - the number of seconds since January 1, 1970, 00:00:00 (UTC)
+ * @returns The date object.
+ */
 function epochToDate(epoch: number) {
     const date = new Date(0); // The 0 there is the key, which sets the date to the epoch
     date.setUTCSeconds(epoch);
     return date;
 }
 
+/**
+ * Given two dates, return true if they are the same day
+ * @param {Date} first - The first date to compare.
+ * @param {Date} second - The date to compare against.
+ * @returns a boolean value.
+ */
 function isTheSameDay(first:Date, second:Date) {
     return first.getDate() === second.getDate()
     && first.getMonth() === second.getMonth()
     && first.getFullYear() === second.getFullYear();
 }
 
+/**
+ * Given a date, return a string that represents the date
+ * @param {Date} date - The date to format.
+ * @returns The date string.
+ */
 function getDateString(date: Date) {
     const today = new Date();
     if (isTheSameDay(today, date)) return 'TODAY';
@@ -44,6 +59,13 @@ function getDateString(date: Date) {
     return date.toLocaleDateString();
 }
 
+/**
+ * It takes an array of manga updates and groups them by date
+ * @param {IMangaChapter[]} updates - IMangaChapter[]
+ * @returns An array of arrays. The first element of the inner array is the date string, the second
+ * element is an array of objects. Each object has a `item` property which is the manga chapter object,
+ * and a `globalIdx` property which is the index of the chapter in the original array.
+ */
 function groupByDate(updates: IMangaChapter[]):
 [string, { item: IMangaChapter, globalIdx: number }[] ][] {
     if (updates.length === 0) return [];
@@ -67,6 +89,7 @@ const initialQueue = {
     queue: [],
 } as IQueue;
 
+/* It's a list of updates. */
 export default function Updates() {
     const history = useHistory();
 
@@ -117,6 +140,10 @@ export default function Updates() {
 
     const lastEntry = useRef<HTMLDivElement>(null);
 
+    /**
+     * If the last entry is within 2% of the bottom of the window, and there is a next page, then
+     * increment the last page number
+     */
     const scrollHandler = () => {
         if (lastEntry.current) {
             const rect = lastEntry.current.getBoundingClientRect();
@@ -135,6 +162,12 @@ export default function Updates() {
     if (!fetched) { return <LoadingPlaceholder />; }
     if (fetched && updateEntries.length === 0) { return <EmptyView message="You don't have any updates yet." />; }
 
+    /**
+     * It takes a chapter object and returns a string that describes the chapter's download status
+     * @param {IChapter} chapter - The chapter object that is being downloaded.
+     * @returns A string that is either empty or contains a string that indicates the chapter is
+     * downloading.
+     */
     const downloadStatusStringFor = (chapter: IChapter) => {
         let rtn = '';
         if (chapter.downloaded) {
@@ -148,6 +181,10 @@ export default function Updates() {
         return rtn;
     };
 
+    /**
+     * It takes a chapter object and makes a request to the server to download the chapter
+     * @param {IChapter} chapter - IChapter
+     */
     const downloadChapter = (chapter: IChapter) => {
         client.get(`/api/v1/download/${chapter.mangaId}/chapter/${chapter.index}`);
     };

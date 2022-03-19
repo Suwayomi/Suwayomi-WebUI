@@ -12,6 +12,10 @@ interface Props {
     name: string
 }
 
+/**
+ * It returns a box with the name of the filter.
+ * @param {Props} props - Props
+ */
 export default function SeperatorFilter(props: Props) {
     const { name } = props;
     return (<Box key={name}>{name}</Box>);

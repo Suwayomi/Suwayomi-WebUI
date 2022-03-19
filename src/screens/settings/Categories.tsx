@@ -36,6 +36,13 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import NavbarContext from 'components/context/NavbarContext';
 import client from 'util/client';
 
+/**
+ * It returns a style object that is applied to the draggable element.
+ * @param {boolean} isDragging - boolean
+ * @param {DraggingStyle | NotDraggingStyle | undefined} draggableStyle - The style to apply to the
+ * draggable element.
+ * @param {Palette} palette - Palette
+ */
 const getItemStyle = (isDragging: boolean,
     draggableStyle: DraggingStyle | NotDraggingStyle | undefined, palette: Palette) => ({
     // styles we need to apply on draggables
@@ -46,6 +53,10 @@ const getItemStyle = (isDragging: boolean,
     }),
 });
 
+/**
+ * It renders a drag-and-drop list of categories, with an add button to add a new category
+ * @returns A list of categories.
+ */
 export default function Categories() {
     const { setTitle, setAction } = useContext(NavbarContext);
     useEffect(() => { setTitle('Categories'); setAction(<></>); }, []);
@@ -69,6 +80,14 @@ export default function Categories() {
         }
     }, [updateTriggerHolder]);
 
+    /**
+     * It takes a list of categories, the index of the category to move, and the index of the new
+     * location for that category. It then sends a PATCH request to the server to move the category
+     * @param {ICategory[]} list - the list of categories to reorder
+     * @param {number} from - the index of the category to move
+     * @param {number} to - The index of the category to move to.
+     * @returns The result of the `reorder` function is an array of categories.
+     */
     const categoryReorder = (list: ICategory[], from: number, to: number) => {
         const formData = new FormData();
         formData.append('from', `${from + 1}`);
@@ -83,6 +102,11 @@ export default function Categories() {
         return result;
     };
 
+    /**
+     * It reorders the categories in the list.
+     * @param {DropResult} result - The result of the drag and drop operation.
+     * @returns Nothing.
+     */
     const onDragEnd = (result: DropResult) => {
         // dropped outside the list?
         if (!result.destination) {
@@ -96,17 +120,30 @@ export default function Categories() {
         ));
     };
 
+    /**
+     * It resets the dialog form.
+     */
     const resetDialog = () => {
         setDialogName('');
         setDialogDefault(false);
         setCategoryToEdit(-1);
     };
 
+    /**
+     * It resets the dialog and opens it.
+     */
     const handleDialogOpen = () => {
         resetDialog();
         setDialogOpen(true);
     };
 
+    /**
+     * It sets the dialog name to the name of the category that is being edited.
+     * It also sets the dialog default to the default value of the category that is being edited.
+     * It also sets the category to edit to the index of the category that is being edited.
+     * It also sets the dialog open to true.
+     * @param {number} index - The index of the category to edit.
+     */
     const handleEditDialogOpen = (index:number) => {
         setDialogName(categories[index].name);
         setDialogDefault(categories[index].default);
@@ -114,10 +151,17 @@ export default function Categories() {
         setDialogOpen(true);
     };
 
+    /**
+     * It sets the dialog open to false.
+     */
     const handleDialogCancel = () => {
         setDialogOpen(false);
     };
 
+    /**
+     * If we are editing a category, we send a PATCH request to the API. Otherwise, we send a POST
+     * request
+     */
     const handleDialogSubmit = () => {
         setDialogOpen(false);
 
@@ -135,6 +179,10 @@ export default function Categories() {
         }
     };
 
+    /**
+     * It deletes a category from the database.
+     * @param {number} index - The index of the category to be deleted.
+     */
     const deleteCategory = (index:number) => {
         const category = categories[index];
         client.delete(`/api/v1/category/${category.id}`)

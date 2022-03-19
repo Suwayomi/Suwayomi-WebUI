@@ -19,6 +19,11 @@ import { IconButton } from '@mui/material';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import { useHistory } from 'react-router-dom';
 
+/**
+ * Given a list of sources, return a list of languages
+ * @param {ISource[]} sources - An array of sources.
+ * @returns An array of strings.
+ */
 function sourceToLangList(sources: ISource[]) {
     const result: string[] = [];
 
@@ -30,6 +35,11 @@ function sourceToLangList(sources: ISource[]) {
     return result;
 }
 
+/**
+ * Given an array of sources, group them by language
+ * @param {ISource[]} sources - An array of sources.
+ * @returns An object with the language as the key and the sources as the value.
+ */
 function groupByLang(sources: ISource[]) {
     const result = {} as any;
     sources.forEach((source) => {

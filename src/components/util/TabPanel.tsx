@@ -13,6 +13,11 @@ interface IProps {
     currentIndex: any;
 }
 
+/**
+ * The TabPanel component is a wrapper component that renders the children only when the index matches
+ * the currentIndex prop
+ * @param {IProps} props - IProps
+ */
 export default function TabPanel(props: IProps) {
     const {
         children, index, currentIndex,

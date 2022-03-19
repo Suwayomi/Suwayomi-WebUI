@@ -22,11 +22,14 @@ interface IProps{
 
 const SortTab: [ChapterSortMode, string][] = [['source', 'By Source'], ['fetchedAt', 'By Fetch date']];
 
+/* chapter options drawer. */
 export default function ChapterOptions(props: IProps) {
     const { options, optionsDispatch } = props;
     const [filtersOpen, setFiltersOpen] = useState(false);
     const [tabNum, setTabNum] = useState(0);
 
+    /* This is a way to prevent the filterOptions function from being re-created every time the
+    component is re-rendered. */
     const filterOptions = useCallback(
         (value: NullAndUndefined<boolean>, name: string) => {
             optionsDispatch({ type: 'filter', filterType: name.toLowerCase(), filterValue: value });

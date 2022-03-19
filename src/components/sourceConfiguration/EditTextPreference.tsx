@@ -16,6 +16,11 @@ import DialogActions from '@mui/material/DialogActions';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
+/**
+ * It creates a dialog box that allows the user to edit the text preference.
+ * @param {EditTextPreferenceProps} props - EditTextPreferenceProps
+ * @returns The EditTextPreference component returns a ListItem and a Dialog.
+ */
 export default function EditTextPreference(props: EditTextPreferenceProps) {
     const {
         title, summary, dialogTitle, dialogMessage, currentValue, updateValue,
@@ -24,6 +29,9 @@ export default function EditTextPreference(props: EditTextPreferenceProps) {
     const [internalCurrentValue, setInternalCurrentValue] = useState<string>(currentValue);
     const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
+    /**
+     * It sets the dialog open to false and resets the internal current value to the current value.
+     */
     const handleDialogCancel = () => {
         setDialogOpen(false);
 
@@ -31,6 +39,9 @@ export default function EditTextPreference(props: EditTextPreferenceProps) {
         setInternalCurrentValue(currentValue);
     };
 
+    /**
+     * *This function is called when the user clicks the submit button in the dialog.*
+     */
     const handleDialogSubmit = () => {
         setDialogOpen(false);
 

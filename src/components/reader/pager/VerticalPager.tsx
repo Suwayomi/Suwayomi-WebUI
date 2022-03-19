@@ -9,6 +9,12 @@ import React, { useEffect, useRef } from 'react';
 import { Box } from '@mui/system';
 import Page from '../Page';
 
+/**
+ * The VerticalReader component is a component that displays the pages of a comic book in a vertical
+ * fashion
+ * @param {IReaderProps} props - IReaderProps
+ * @returns A function that returns a function.
+ */
 export default function VerticalReader(props: IReaderProps) {
     const {
         pages, settings, setCurPage, curPage, nextChapter, prevChapter,
@@ -21,6 +27,10 @@ export default function VerticalReader(props: IReaderProps) {
         pagesRef.current = pagesRef.current.slice(0, pages.length);
     }, [pages.length]);
 
+    /**
+     * If the current page is not the last page, then scroll to the next page. If the current page is
+     * the last page, and the settings.loadNextonEnding is true, then scroll to the next chapter
+     */
     function nextPage() {
         if (curPage < pages.length - 1) {
             pagesRef.current[curPage + 1]?.scrollIntoView();
@@ -30,6 +40,10 @@ export default function VerticalReader(props: IReaderProps) {
         }
     }
 
+    /**
+     * If the current page is not the first page, scroll the current page into view. If the current
+     * page is the first page, scroll the previous chapter into view
+     */
     function prevPage() {
         if (curPage > 0) {
             const rect = pagesRef.current[curPage].getBoundingClientRect();
@@ -44,6 +58,12 @@ export default function VerticalReader(props: IReaderProps) {
         }
     }
 
+    /**
+     * It takes an event as an argument and then checks the event code. If the event code is space, it
+     * calls the nextPage function. If the event code is arrow right, it calls the nextPage function. If
+     * the event code is arrow left, it calls the prevPage function.
+     * @param {KeyboardEvent} e - The KeyboardEvent object.
+     */
     function keyboardControl(e:KeyboardEvent) {
         switch (e.code) {
             case 'Space':
@@ -61,6 +81,11 @@ export default function VerticalReader(props: IReaderProps) {
         }
     }
 
+    /**
+     * If the mouse click is on the right side of the screen, go to the next page. Otherwise, go to the
+     * previous page
+     * @param {MouseEvent} e - The MouseEvent object that was triggered.
+     */
     function clickControl(e:MouseEvent) {
         if (e.clientX > window.innerWidth / 2) {
             nextPage();
@@ -69,6 +94,9 @@ export default function VerticalReader(props: IReaderProps) {
         }
     }
 
+    /**
+     * When the user scrolls to the bottom of the page, load the next chapter
+     */
     const handleLoadNextonEnding = () => {
         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
             nextChapter();

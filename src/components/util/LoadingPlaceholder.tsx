@@ -18,6 +18,11 @@ interface IProps {
     componentProps?: any
 }
 
+/**
+ * It renders the children if the condition is true, otherwise it renders the component.
+ * @param {IProps} props - IProps
+ * @returns A React component.
+ */
 export default function LoadingPlaceholder(props: IProps) {
     const {
         children, shouldRender, component, componentProps,

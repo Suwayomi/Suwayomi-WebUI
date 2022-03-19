@@ -20,6 +20,9 @@ interface IProps {
     notifyInstall: () => void
 }
 
+/**
+ * This function renders a card with an avatar, name, and a button
+ */
 export default function ExtensionCard(props: IProps) {
     const {
         extension: {
@@ -40,6 +43,11 @@ export default function ExtensionCard(props: IProps) {
 
     const langPress = lang === 'all' ? 'All' : lang.toUpperCase();
 
+    /**
+     * The function is called when the user clicks the install button. 
+     * It makes a request to the server to install the extension. 
+     * When the server responds, the function sets the state of the extension to "uninstall".
+     */
     function install() {
         setInstalledState('installing');
         client.get(`/api/v1/extension/install/${pkgName}`)
@@ -49,6 +57,9 @@ export default function ExtensionCard(props: IProps) {
             });
     }
 
+    /**
+     * It updates the extension.
+     */
     function update() {
         setInstalledState('updating');
         client.get(`/api/v1/extension/update/${pkgName}`)
@@ -58,6 +69,11 @@ export default function ExtensionCard(props: IProps) {
             });
     }
 
+    /**
+     * The function is called when the user clicks the uninstall button. 
+     * It makes a call to the server to uninstall the extension. 
+     * The function then sets the state of the extension to uninstalled.
+     */
     function uninstall() {
         setInstalledState('uninstalling');
         client.get(`/api/v1/extension/uninstall/${pkgName}`)
@@ -67,6 +83,10 @@ export default function ExtensionCard(props: IProps) {
             });
     }
 
+    /**
+     * When the user clicks the button, the function checks the current state of the extension and
+     * performs the appropriate action
+     */
     function handleButtonClick() {
         switch (installedState) {
             case 'install':

@@ -38,6 +38,7 @@ interface IProps {
     source: ISource
 }
 
+/* It's a component that renders a card with a source's information. */
 export default function SourceCard(props: IProps) {
     const {
         source: {
@@ -50,6 +51,12 @@ export default function SourceCard(props: IProps) {
     const [serverAddress] = useLocalStorage<String>('serverBaseURL', '');
     const [useCache] = useLocalStorage<boolean>('useCache', true);
 
+    /**
+     * It takes an event and a string as arguments. It pushes the string to the history object. It also
+     * prevents the event from propogating to the parent tags
+     * @param {any} e - the event object
+     * @param {string} to - The URL to redirect to.
+     */
     const redirectTo = (e: any, to: string) => {
         history.push(to);
 

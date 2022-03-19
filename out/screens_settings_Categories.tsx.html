@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: screens/settings/Categories.tsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: screens/settings/Categories.tsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable @typescript-eslint/no-shadow */
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/jsx-props-no-spreading */
+/*
+ * Copyright (C) Contributors to the Suwayomi project
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+import React, { useState, useContext, useEffect } from 'react';
+import {
+    List,
+    ListItem,
+    ListItemText,
+    ListItemIcon,
+    IconButton,
+} from '@mui/material';
+import {
+    DragDropContext, Droppable, Draggable, DropResult, DraggingStyle, NotDraggingStyle,
+} from 'react-beautiful-dnd';
+import DragHandleIcon from '@mui/icons-material/DragHandle';
+import EditIcon from '@mui/icons-material/Edit';
+import { useTheme, Palette } from '@mui/material/styles';
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import NavbarContext from 'components/context/NavbarContext';
+import client from 'util/client';
+
+/**
+ * It returns a style object that is applied to the draggable element.
+ * @param {boolean} isDragging - boolean
+ * @param {DraggingStyle | NotDraggingStyle | undefined} draggableStyle - The style to apply to the
+ * draggable element.
+ * @param {Palette} palette - Palette
+ */
+const getItemStyle = (isDragging: boolean,
+    draggableStyle: DraggingStyle | NotDraggingStyle | undefined, palette: Palette) => ({
+    // styles we need to apply on draggables
+    ...draggableStyle,
+
+    ...(isDragging &amp;&amp; {
+        background: palette.mode === 'dark' ? '#424242' : 'rgb(235,235,235)',
+    }),
+});
+
+/**
+ * It renders a drag-and-drop list of categories, with an add button to add a new category
+ * @returns A list of categories.
+ */
+export default function Categories() {
+    const { setTitle, setAction } = useContext(NavbarContext);
+    useEffect(() => { setTitle('Categories'); setAction(&lt;>&lt;/>); }, []);
+
+    const [categories, setCategories] = useState&lt;ICategory[]>([]);
+    const [categoryToEdit, setCategoryToEdit] = useState&lt;number>(-1); // -1 means new category
+    const [dialogOpen, setDialogOpen] = useState&lt;boolean>(false);
+    const [dialogName, setDialogName] = useState&lt;string>('');
+    const [dialogDefault, setDialogDefault] = useState&lt;boolean>(false);
+    const theme = useTheme();
+
+    const [updateTriggerHolder, setUpdateTriggerHolder] = useState&lt;number>(0); // just a hack
+    const triggerUpdate = () => setUpdateTriggerHolder(updateTriggerHolder + 1); // just a hack
+
+    useEffect(() => {
+        if (!dialogOpen) {
+            client.get('/api/v1/category/')
+                .then((response) => response.data)
+                .then((data) => { if (data.length > 0 &amp;&amp; data[0].name === 'Default') data.shift(); return data; })
+                .then((data) => setCategories(data));
+        }
+    }, [updateTriggerHolder]);
+
+    /**
+     * It takes a list of categories, the index of the category to move, and the index of the new
+     * location for that category. It then sends a PATCH request to the server to move the category
+     * @param {ICategory[]} list - the list of categories to reorder
+     * @param {number} from - the index of the category to move
+     * @param {number} to - The index of the category to move to.
+     * @returns The result of the `reorder` function is an array of categories.
+     */
+    const categoryReorder = (list: ICategory[], from: number, to: number) => {
+        const formData = new FormData();
+        formData.append('from', `${from + 1}`);
+        formData.append('to', `${to + 1}`);
+        client.patch('/api/v1/category/reorder', formData)
+            .finally(() => triggerUpdate());
+
+        // also move it in local state to avoid jarring moving behviour...
+        const result = Array.from(list);
+        const [removed] = result.splice(from, 1);
+        result.splice(to, 0, removed);
+        return result;
+    };
+
+    /**
+     * It reorders the categories in the list.
+     * @param {DropResult} result - The result of the drag and drop operation.
+     * @returns Nothing.
+     */
+    const onDragEnd = (result: DropResult) => {
+        // dropped outside the list?
+        if (!result.destination) {
+            return;
+        }
+
+        setCategories(categoryReorder(
+            categories,
+            result.source.index,
+            result.destination.index,
+        ));
+    };
+
+    /**
+     * It resets the dialog form.
+     */
+    const resetDialog = () => {
+        setDialogName('');
+        setDialogDefault(false);
+        setCategoryToEdit(-1);
+    };
+
+    /**
+     * It resets the dialog and opens it.
+     */
+    const handleDialogOpen = () => {
+        resetDialog();
+        setDialogOpen(true);
+    };
+
+    /**
+     * It sets the dialog name to the name of the category that is being edited.
+     * It also sets the dialog default to the default value of the category that is being edited.
+     * It also sets the category to edit to the index of the category that is being edited.
+     * It also sets the dialog open to true.
+     * @param {number} index - The index of the category to edit.
+     */
+    const handleEditDialogOpen = (index:number) => {
+        setDialogName(categories[index].name);
+        setDialogDefault(categories[index].default);
+        setCategoryToEdit(index);
+        setDialogOpen(true);
+    };
+
+    /**
+     * It sets the dialog open to false.
+     */
+    const handleDialogCancel = () => {
+        setDialogOpen(false);
+    };
+
+    /**
+     * If we are editing a category, we send a PATCH request to the API. Otherwise, we send a POST
+     * request
+     */
+    const handleDialogSubmit = () => {
+        setDialogOpen(false);
+
+        const formData = new FormData();
+        formData.append('name', dialogName);
+        formData.append('default', dialogDefault.toString());
+
+        if (categoryToEdit === -1) {
+            client.post('/api/v1/category/', formData)
+                .finally(() => triggerUpdate());
+        } else {
+            const category = categories[categoryToEdit];
+            client.patch(`/api/v1/category/${category.id}`, formData)
+                .finally(() => triggerUpdate());
+        }
+    };
+
+    /**
+     * It deletes a category from the database.
+     * @param {number} index - The index of the category to be deleted.
+     */
+    const deleteCategory = (index:number) => {
+        const category = categories[index];
+        client.delete(`/api/v1/category/${category.id}`)
+            .finally(() => triggerUpdate());
+    };
+
+    return (
+        &lt;>
+            &lt;DragDropContext onDragEnd={onDragEnd}>
+                &lt;Droppable droppableId="droppable">
+                    {(provided) => (
+                        &lt;List ref={provided.innerRef}>
+                            {categories.map((item, index) => (
+                                &lt;Draggable
+                                    key={item.id}
+                                    draggableId={item.id.toString()}
+                                    index={index}
+                                >
+                                    {(provided, snapshot) => (
+                                        &lt;ListItem
+                                            ContainerProps={{ ref: provided.innerRef } as any}
+                                            {...provided.draggableProps}
+                                            {...provided.dragHandleProps}
+                                            style={getItemStyle(
+                                                snapshot.isDragging,
+                                                provided.draggableProps.style,
+                                                theme.palette,
+                                            )}
+                                            ref={provided.innerRef}
+                                        >
+                                            &lt;ListItemIcon>
+                                                &lt;DragHandleIcon />
+                                            &lt;/ListItemIcon>
+                                            &lt;ListItemText
+                                                primary={item.name}
+                                            />
+                                            &lt;IconButton
+                                                onClick={() => {
+                                                    handleEditDialogOpen(index);
+                                                }}
+                                                size="large"
+                                            >
+                                                &lt;EditIcon />
+                                            &lt;/IconButton>
+                                            &lt;IconButton
+                                                onClick={() => {
+                                                    deleteCategory(index);
+                                                }}
+                                                size="large"
+                                            >
+                                                &lt;DeleteIcon />
+                                            &lt;/IconButton>
+                                        &lt;/ListItem>
+                                    )}
+                                &lt;/Draggable>
+                            ))}
+                            {provided.placeholder}
+                        &lt;/List>
+                    )}
+                &lt;/Droppable>
+            &lt;/DragDropContext>
+            &lt;Fab
+                color="primary"
+                aria-label="add"
+                style={{
+                    position: 'absolute',
+                    bottom: theme.spacing(2),
+                    right: theme.spacing(2),
+                }}
+                onClick={handleDialogOpen}
+            >
+                &lt;AddIcon />
+            &lt;/Fab>
+            &lt;Dialog open={dialogOpen} onClose={handleDialogCancel}>
+                &lt;DialogTitle id="form-dialog-title">
+                    {categoryToEdit === -1 ? 'New Catalog' : 'Edit Catalog'}
+                &lt;/DialogTitle>
+                &lt;DialogContent>
+                    &lt;TextField
+                        autoFocus
+                        margin="dense"
+                        id="name"
+                        label="Category Name"
+                        type="text"
+                        fullWidth
+                        value={dialogName}
+                        onChange={(e) => setDialogName(e.target.value)}
+                    />
+                    &lt;FormControlLabel
+                        control={(
+                            &lt;Checkbox
+                                checked={dialogDefault}
+                                onChange={(e) => setDialogDefault(e.target.checked)}
+                                color="default"
+                            />
+                        )}
+                        label="Default category when adding new manga to library"
+                    />
+                &lt;/DialogContent>
+                &lt;DialogActions>
+                    &lt;Button onClick={handleDialogCancel} color="primary">
+                        Cancel
+                    &lt;/Button>
+                    &lt;Button onClick={handleDialogSubmit} color="primary">
+                        Submit
+                    &lt;/Button>
+                &lt;/DialogActions>
+            &lt;/Dialog>
+        &lt;/>
+    );
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#About">About</a></li><li><a href="global.html#Backup">Backup</a></li><li><a href="global.html#bookmarkdFilter">bookmarkdFilter</a></li><li><a href="global.html#Browse">Browse</a></li><li><a href="global.html#Categories">Categories</a></li><li><a href="global.html#CategorySelect">CategorySelect</a></li><li><a href="global.html#ChapterList">ChapterList</a></li><li><a href="global.html#CheckBoxPreference">CheckBoxPreference</a></li><li><a href="global.html#cloneObject">cloneObject</a></li><li><a href="global.html#default">default</a></li><li><a href="global.html#defaultChapterOptions">defaultChapterOptions</a></li><li><a href="global.html#defaultNativeLang">defaultNativeLang</a></li><li><a href="global.html#DefaultNavBar">DefaultNavBar</a></li><li><a href="global.html#defaultReaderSettings">defaultReaderSettings</a></li><li><a href="global.html#dispalyTab">dispalyTab</a></li><li><a href="global.html#DoublePagedPager">DoublePagedPager</a></li><li><a href="global.html#downloadedFilter">downloadedFilter</a></li><li><a href="global.html#downloadFilter">downloadFilter</a></li><li><a href="global.html#DownloadQueue">DownloadQueue</a></li><li><a href="global.html#EditTextPreference">EditTextPreference</a></li><li><a href="global.html#epochToDate">epochToDate</a></li><li><a href="global.html#ExtensionCard">ExtensionCard</a></li><li><a href="global.html#extensionDefaultLangs">extensionDefaultLangs</a></li><li><a href="global.html#filterAndSortChapters">filterAndSortChapters</a></li><li><a href="global.html#filterManga">filterManga</a></li><li><a href="global.html#filtersTab">filtersTab</a></li><li><a href="global.html#findFirstUnreadChapter">findFirstUnreadChapter</a></li><li><a href="global.html#getDateString">getDateString</a></li><li><a href="global.html#getItem">getItem</a></li><li><a href="global.html#getItemStyle">getItemStyle</a></li><li><a href="global.html#getPrefComponent">getPrefComponent</a></li><li><a href="global.html#getRandomErrorFace">getRandomErrorFace</a></li><li><a href="global.html#getReaderComponent">getReaderComponent</a></li><li><a href="global.html#getSourceName">getSourceName</a></li><li><a href="global.html#getTwoStateType">getTwoStateType</a></li><li><a href="global.html#getValueOrUnknown">getValueOrUnknown</a></li><li><a href="global.html#groupByDate">groupByDate</a></li><li><a href="global.html#groupByLang">groupByLang</a></li><li><a href="global.html#groupExtensions">groupExtensions</a></li><li><a href="global.html#HeaderFilter">HeaderFilter</a></li><li><a href="global.html#HorizontalPager">HorizontalPager</a></li><li><a href="global.html#imageStyle">imageStyle</a></li><li><a href="global.html#ISOLanguages">ISOLanguages</a></li><li><a href="global.html#isTheSameDay">isTheSameDay</a></li><li><a href="global.html#langSortCmp">langSortCmp</a></li><li><a href="global.html#LibraryMangaGrid">LibraryMangaGrid</a></li><li><a href="global.html#LibraryOptions">LibraryOptions</a></li><li><a href="global.html#LibraryOptionsContextProvider">LibraryOptionsContextProvider</a></li><li><a href="global.html#ListItemLink">ListItemLink</a></li><li><a href="global.html#LoadingPlaceholder">LoadingPlaceholder</a></li><li><a href="global.html#makeToast">makeToast</a></li><li><a href="global.html#makeToaster">makeToaster</a></li><li><a href="global.html#Manga">Manga</a></li><li><a href="global.html#MangaDetails">MangaDetails</a></li><li><a href="global.html#MultiSelectListPreference">MultiSelectListPreference</a></li><li><a href="global.html#NavBarProvider">NavBarProvider</a></li><li><a href="global.html#Options">Options</a></li><li><a href="global.html#PagedReader">PagedReader</a></li><li><a href="global.html#PageNumber">PageNumber</a></li><li><a href="global.html#queryFilter">queryFilter</a></li><li><a href="global.html#removeAll">removeAll</a></li><li><a href="global.html#removeToast">removeToast</a></li><li><a href="global.html#ResumeFab">ResumeFab</a></li><li><a href="global.html#SelectFilter">SelectFilter</a></li><li><a href="global.html#SeperatorFilter">SeperatorFilter</a></li><li><a href="global.html#setItem">setItem</a></li><li><a href="global.html#Settings">Settings</a></li><li><a href="global.html#sortManga">sortManga</a></li><li><a href="global.html#sortsTab">sortsTab</a></li><li><a href="global.html#SourceConfigure">SourceConfigure</a></li><li><a href="global.html#sourceDefualtLangs">sourceDefualtLangs</a></li><li><a href="global.html#sourceForcedDefaultLangs">sourceForcedDefaultLangs</a></li><li><a href="global.html#SourceGridLayout">SourceGridLayout</a></li><li><a href="global.html#SourceMangaGrid">SourceMangaGrid</a></li><li><a href="global.html#SourceMangas">SourceMangas</a></li><li><a href="global.html#SourceOptions">SourceOptions</a></li><li><a href="global.html#sourceToLangList">sourceToLangList</a></li><li><a href="global.html#SpinnerImage">SpinnerImage</a></li><li><a href="global.html#stateToChecked">stateToChecked</a></li><li><a href="global.html#stateTransition">stateTransition</a></li><li><a href="global.html#SwitchPreferenceCompat">SwitchPreferenceCompat</a></li><li><a href="global.html#TabPanel">TabPanel</a></li><li><a href="global.html#TextFilter">TextFilter</a></li><li><a href="global.html#ThreeStateCheckbox">ThreeStateCheckbox</a></li><li><a href="global.html#Toast">Toast</a></li><li><a href="global.html#toReadSort">toReadSort</a></li><li><a href="global.html#toSortAlph">toSortAlph</a></li><li><a href="global.html#toSortID">toSortID</a></li><li><a href="global.html#Transition">Transition</a></li><li><a href="global.html#truncateText">truncateText</a></li><li><a href="global.html#TwoSatePreference">TwoSatePreference</a></li><li><a href="global.html#unreadFilter">unreadFilter</a></li><li><a href="global.html#useChaptersFetch">useChaptersFetch</a></li><li><a href="global.html#useLibraryOptions">useLibraryOptions</a></li><li><a href="global.html#useLocalStorage">useLocalStorage</a></li><li><a href="global.html#useReducerLocalStorage">useReducerLocalStorage</a></li><li><a href="global.html#useStyles">useStyles</a></li><li><a href="global.html#VerticalReader">VerticalReader</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sat Mar 19 2022 18:16:30 GMT+0000 (Greenwich Mean Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

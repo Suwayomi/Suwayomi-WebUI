@@ -47,6 +47,7 @@ declare module '@mui/styles/defaultTheme' {
     interface DefaultTheme extends Theme {}
 }
 
+/* It's a React app. */
 export default function App() {
     const [darkTheme, setDarkTheme] = useLocalStorage<boolean>(
         'darkTheme',

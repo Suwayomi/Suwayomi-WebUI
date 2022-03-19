@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: screens/SearchAll.tsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: screens/SearchAll.tsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/*
+* Copyright (C) Contributors to the Suwayomi project
+*
+* This Source Code Form is subject to the terms of the Mozilla Public
+* License, v. 2.0. If a copy of the MPL was not distributed with this
+* file, You can obtain one at https://mozilla.org/MPL/2.0/.
+*/
+
+import { Card } from '@mui/material';
+import { useHistory } from 'react-router-dom';
+import NavbarContext from 'components/context/NavbarContext';
+import MangaGrid from 'components/MangaGrid';
+import LangSelect from 'components/navbar/action/LangSelect';
+import AppbarSearch from 'components/util/AppbarSearch';
+import React, { useContext, useEffect, useState } from 'react';
+import { useQueryParam, StringParam } from 'use-query-params';
+import client from 'util/client';
+import {
+    langCodeToName, langSortCmp, sourceDefualtLangs, sourceForcedDefaultLangs,
+} from 'util/language';
+import useLocalStorage from 'util/useLocalStorage';
+import PQueue from 'p-queue/dist/index';
+
+/**
+ * Given a list of sources, return a list of unique languages
+ * @param {ISource[]} sources - An array of sources.
+ * @returns An array of strings.
+ */
+function sourceToLangList(sources: ISource[]) {
+    const result: string[] = [];
+
+    sources.forEach((source) => {
+        if (result.indexOf(source.lang) === -1) { result.push(source.lang); }
+    });
+
+    result.sort(langSortCmp);
+    return result;
+}
+
+/* This is the code that renders the searchAll page. */
+export default function SearchAll() {
+    const [query] = useQueryParam('query', StringParam);
+    const { setTitle, setAction } = useContext(NavbarContext);
+    const [triggerUpdate, setTriggerUpdate] = useState&lt;number>(2);
+    const [mangas, setMangas] = useState&lt;any>({});
+
+    const [shownLangs, setShownLangs] = useLocalStorage&lt;string[]>('shownSourceLangs', sourceDefualtLangs());
+    const [showNsfw] = useLocalStorage&lt;boolean>('showNsfw', true);
+
+    const [sources, setSources] = useState&lt;ISource[]>([]);
+    const [fetched, setFetched] = useState&lt;any>({});
+    const [FetchedSources, setFetchedSources] = useState&lt;any>({});
+
+    const [lastPageNum, setLastPageNum] = useState&lt;number>(1);
+
+    const [ResetUI, setResetUI] = useState&lt;number>(0);
+
+    const limit = new PQueue({ concurrency: 5 });
+
+    useEffect(() => {
+        setTitle('Global Search');
+        setAction(
+            &lt;>
+                &lt;AppbarSearch />
+            &lt;/>
+            ,
+        );
+    }, []);
+
+    useEffect(() => {
+        client.get('/api/v1/source/list')
+            .then((response) => response.data)
+            .then((data) => {
+                setSources(data.sort((a: { displayName: string; }, b: { displayName: string; }) => {
+                    if (a.displayName &lt; b.displayName) { return -1; }
+                    if (a.displayName > b.displayName) { return 1; }
+                    return 0;
+                })); setFetchedSources(true);
+            });
+    }, []);
+
+    /**
+     * It takes an array of objects, each object containing an id and a name. It then makes an API call
+     * for each object, and adds the result to the global state
+     * @param {any[]} elem - The array of manga sources.
+     */
+    async function doIT(elem: any[]) {
+        elem.map((ele) => limit.add(async () => {
+            const response = await client.get(`/api/v1/source/${ele.id}/search?searchTerm=${query || ''}&amp;pageNum=1`);
+            const data = await response.data;
+            const tmp = mangas;
+            tmp[ele.id] = data.mangaList;
+            setMangas(tmp);
+            const tmp2 = fetched;
+            tmp2[ele.id] = true;
+            setFetched(tmp2);
+            setResetUI(1);
+        }));
+    }
+
+    useEffect(() => {
+        if (triggerUpdate === 2) {
+            return;
+        }
+        if (triggerUpdate === 0) {
+            setTriggerUpdate(1);
+            return;
+        }
+        setFetched({});
+        setMangas({});
+        // eslint-disable-next-line max-len
+        doIT(sources.filter(({ lang }) => shownLangs.indexOf(lang) !== -1).filter((source) => showNsfw || !source.isNsfw));
+    }, [triggerUpdate]);
+
+    useEffect(() => {
+        if (ResetUI === 1) {
+            setResetUI(0);
+        }
+    }, [ResetUI]);
+
+    useEffect(() => {
+        if (query &amp;&amp; FetchedSources) {
+            const delayDebounceFn = setTimeout(() => {
+                setTriggerUpdate(0);
+            }, 1000);
+            return () => clearTimeout(delayDebounceFn);
+        }
+        return () => {};
+    }, [query, shownLangs, sources]);
+
+    useEffect(() => {
+        // make sure all of forcedDefaultLangs() exists in shownLangs
+        sourceForcedDefaultLangs().forEach((forcedLang) => {
+            let hasLang = false;
+            shownLangs.forEach((lang) => {
+                if (lang === forcedLang) hasLang = true;
+            });
+            if (!hasLang) {
+                setShownLangs((shownLangsCopy) => {
+                    shownLangsCopy.push(forcedLang);
+                    return shownLangsCopy;
+                });
+            }
+        });
+    }, []);
+
+    useEffect(() => {
+        setTitle('Sources');
+        setAction(
+            &lt;>
+                &lt;AppbarSearch
+                    autoOpen
+                />
+                &lt;LangSelect
+                    shownLangs={shownLangs}
+                    setShownLangs={setShownLangs}
+                    allLangs={sourceToLangList(sources)}
+                    forcedLangs={sourceForcedDefaultLangs()}
+                />
+            &lt;/>,
+        );
+    }, [shownLangs, sources]);
+
+    const history = useHistory();
+
+    /**
+     * It takes an event and a string as arguments. It pushes the string to the history object. It also
+     * prevents the event from propogating to the parent tags
+     * @param {any} e - the event object
+     * @param {string} to - The URL to redirect to.
+     */
+    const redirectTo = (e: any, to: string) => {
+        history.push(to);
+
+        // prevent parent tags from getting the event
+        e.stopPropagation();
+    };
+    if (query) {
+        return (
+            &lt;>
+                {/* eslint-disable-next-line max-len */}
+                {sources.filter(({ lang }) => shownLangs.indexOf(lang) !== -1).filter((source) => showNsfw || !source.isNsfw).sort((a, b) => {
+                    const af = fetched[a.id];
+                    const bf = fetched[b.id];
+                    if (af &amp;&amp; !bf) { return -1; }
+                    if (!af &amp;&amp; bf) { return 1; }
+                    if (!af &amp;&amp; !bf) { return 0; }
+
+                    const al = mangas[a.id].length === 0;
+                    const bl = mangas[b.id].length === 0;
+                    if (al &amp;&amp; !bl) { return 1; }
+                    if (bl &amp;&amp; !al) { return -1; }
+                    return 0;
+                }).map(({ lang, id, displayName }) => (
+                    (
+                        &lt;>
+                            &lt;Card
+                                sx={{
+                                    margin: '10px',
+                                    '&amp;:hover': {
+                                        backgroundColor: 'action.hover',
+                                        transition: 'background-color 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+                                    },
+                                    '&amp;:active': {
+                                        backgroundColor: 'action.selected',
+                                        transition: 'background-color 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+                                    },
+                                }}
+                                onClick={(e) => redirectTo(e, `/sources/${id}/popular/?R&amp;query=one`)}
+                            >
+                                &lt;h1
+                                    key={lang}
+                                    style={{ margin: '25px 0px 0px 25px' }}
+                                >
+                                    {displayName}
+                                &lt;/h1>
+                                &lt;p
+                                    style={{ margin: '0px 0px 25px 25px' }}
+                                >
+                                    {langCodeToName(lang)}
+                                &lt;/p>
+                            &lt;/Card>
+                            &lt;MangaGrid
+                                mangas={mangas[id] || []}
+                                isLoading={!fetched[id]}
+                                hasNextPage={false}
+                                lastPageNum={lastPageNum}
+                                setLastPageNum={setLastPageNum}
+                                horisontal
+                                noFaces
+                                message={fetched[id] ? 'No manga was found!' : undefined}
+                            />
+                        &lt;/>
+                    )
+                ))}
+
+            &lt;/>
+        );
+    }
+    return (&lt;>&lt;/>);
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#About">About</a></li><li><a href="global.html#Backup">Backup</a></li><li><a href="global.html#bookmarkdFilter">bookmarkdFilter</a></li><li><a href="global.html#Browse">Browse</a></li><li><a href="global.html#Categories">Categories</a></li><li><a href="global.html#CategorySelect">CategorySelect</a></li><li><a href="global.html#ChapterList">ChapterList</a></li><li><a href="global.html#CheckBoxPreference">CheckBoxPreference</a></li><li><a href="global.html#cloneObject">cloneObject</a></li><li><a href="global.html#default">default</a></li><li><a href="global.html#defaultChapterOptions">defaultChapterOptions</a></li><li><a href="global.html#defaultNativeLang">defaultNativeLang</a></li><li><a href="global.html#DefaultNavBar">DefaultNavBar</a></li><li><a href="global.html#defaultReaderSettings">defaultReaderSettings</a></li><li><a href="global.html#dispalyTab">dispalyTab</a></li><li><a href="global.html#DoublePagedPager">DoublePagedPager</a></li><li><a href="global.html#downloadedFilter">downloadedFilter</a></li><li><a href="global.html#downloadFilter">downloadFilter</a></li><li><a href="global.html#DownloadQueue">DownloadQueue</a></li><li><a href="global.html#EditTextPreference">EditTextPreference</a></li><li><a href="global.html#epochToDate">epochToDate</a></li><li><a href="global.html#ExtensionCard">ExtensionCard</a></li><li><a href="global.html#extensionDefaultLangs">extensionDefaultLangs</a></li><li><a href="global.html#filterAndSortChapters">filterAndSortChapters</a></li><li><a href="global.html#filterManga">filterManga</a></li><li><a href="global.html#filtersTab">filtersTab</a></li><li><a href="global.html#findFirstUnreadChapter">findFirstUnreadChapter</a></li><li><a href="global.html#getDateString">getDateString</a></li><li><a href="global.html#getItem">getItem</a></li><li><a href="global.html#getItemStyle">getItemStyle</a></li><li><a href="global.html#getPrefComponent">getPrefComponent</a></li><li><a href="global.html#getRandomErrorFace">getRandomErrorFace</a></li><li><a href="global.html#getReaderComponent">getReaderComponent</a></li><li><a href="global.html#getSourceName">getSourceName</a></li><li><a href="global.html#getTwoStateType">getTwoStateType</a></li><li><a href="global.html#getValueOrUnknown">getValueOrUnknown</a></li><li><a href="global.html#groupByDate">groupByDate</a></li><li><a href="global.html#groupByLang">groupByLang</a></li><li><a href="global.html#groupExtensions">groupExtensions</a></li><li><a href="global.html#HeaderFilter">HeaderFilter</a></li><li><a href="global.html#HorizontalPager">HorizontalPager</a></li><li><a href="global.html#imageStyle">imageStyle</a></li><li><a href="global.html#ISOLanguages">ISOLanguages</a></li><li><a href="global.html#isTheSameDay">isTheSameDay</a></li><li><a href="global.html#langSortCmp">langSortCmp</a></li><li><a href="global.html#LibraryMangaGrid">LibraryMangaGrid</a></li><li><a href="global.html#LibraryOptions">LibraryOptions</a></li><li><a href="global.html#LibraryOptionsContextProvider">LibraryOptionsContextProvider</a></li><li><a href="global.html#ListItemLink">ListItemLink</a></li><li><a href="global.html#LoadingPlaceholder">LoadingPlaceholder</a></li><li><a href="global.html#makeToast">makeToast</a></li><li><a href="global.html#makeToaster">makeToaster</a></li><li><a href="global.html#Manga">Manga</a></li><li><a href="global.html#MangaDetails">MangaDetails</a></li><li><a href="global.html#MultiSelectListPreference">MultiSelectListPreference</a></li><li><a href="global.html#NavBarProvider">NavBarProvider</a></li><li><a href="global.html#Options">Options</a></li><li><a href="global.html#PagedReader">PagedReader</a></li><li><a href="global.html#PageNumber">PageNumber</a></li><li><a href="global.html#queryFilter">queryFilter</a></li><li><a href="global.html#removeAll">removeAll</a></li><li><a href="global.html#removeToast">removeToast</a></li><li><a href="global.html#ResumeFab">ResumeFab</a></li><li><a href="global.html#SelectFilter">SelectFilter</a></li><li><a href="global.html#SeperatorFilter">SeperatorFilter</a></li><li><a href="global.html#setItem">setItem</a></li><li><a href="global.html#Settings">Settings</a></li><li><a href="global.html#sortManga">sortManga</a></li><li><a href="global.html#sortsTab">sortsTab</a></li><li><a href="global.html#SourceConfigure">SourceConfigure</a></li><li><a href="global.html#sourceDefualtLangs">sourceDefualtLangs</a></li><li><a href="global.html#sourceForcedDefaultLangs">sourceForcedDefaultLangs</a></li><li><a href="global.html#SourceGridLayout">SourceGridLayout</a></li><li><a href="global.html#SourceMangaGrid">SourceMangaGrid</a></li><li><a href="global.html#SourceMangas">SourceMangas</a></li><li><a href="global.html#SourceOptions">SourceOptions</a></li><li><a href="global.html#sourceToLangList">sourceToLangList</a></li><li><a href="global.html#SpinnerImage">SpinnerImage</a></li><li><a href="global.html#stateToChecked">stateToChecked</a></li><li><a href="global.html#stateTransition">stateTransition</a></li><li><a href="global.html#SwitchPreferenceCompat">SwitchPreferenceCompat</a></li><li><a href="global.html#TabPanel">TabPanel</a></li><li><a href="global.html#TextFilter">TextFilter</a></li><li><a href="global.html#ThreeStateCheckbox">ThreeStateCheckbox</a></li><li><a href="global.html#Toast">Toast</a></li><li><a href="global.html#toReadSort">toReadSort</a></li><li><a href="global.html#toSortAlph">toSortAlph</a></li><li><a href="global.html#toSortID">toSortID</a></li><li><a href="global.html#Transition">Transition</a></li><li><a href="global.html#truncateText">truncateText</a></li><li><a href="global.html#TwoSatePreference">TwoSatePreference</a></li><li><a href="global.html#unreadFilter">unreadFilter</a></li><li><a href="global.html#useChaptersFetch">useChaptersFetch</a></li><li><a href="global.html#useLibraryOptions">useLibraryOptions</a></li><li><a href="global.html#useLocalStorage">useLocalStorage</a></li><li><a href="global.html#useReducerLocalStorage">useReducerLocalStorage</a></li><li><a href="global.html#useStyles">useStyles</a></li><li><a href="global.html#VerticalReader">VerticalReader</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sat Mar 19 2022 18:16:30 GMT+0000 (Greenwich Mean Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -57,6 +57,15 @@ const BadgeContainer = styled('div')({
     },
 });
 
+/**
+ * It takes a string and a number as arguments. It returns a string that is the original string
+ * truncated to the length of the number argument. If the string is shorter than the number argument,
+ * the original string is returned. If the string is longer than the number argument, the string is
+ * truncated to the length of the number argument and a "..." is appended to the end
+ * @param {string} str - The string to truncate.
+ * @param {number} maxLength - The maximum length of the string.
+ * @returns The string is being trimmed to the maximum length and then the ending is added.
+ */
 const truncateText = (str: string, maxLength: number) => {
     const ending = '...';
     // trim the string to the maximum length
@@ -72,6 +81,7 @@ interface IProps {
     manga: IMangaCard
     gridLayout: number | undefined
 }
+/* This is a React component that renders a manga card. */
 const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) => {
     const {
         manga: {

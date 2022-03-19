@@ -11,12 +11,21 @@ import Slide, { SlideProps } from '@mui/material/Slide';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertColor as Severity } from '@mui/material/Alert';
 
+/**
+ * It removes the toast from the DOM.
+ * @param {string} id - The id of the toast.
+ */
 function removeToast(id: string) {
     const container = document.querySelector(`#${id}`)!!;
     ReactDOM.unmountComponentAtNode(container);
     document.body.removeChild(container);
 }
 
+/**
+ * It returns a Slide component with the direction set to "up".
+ * @param {SlideProps} props - SlideProps
+ * @returns A Slide component with the direction set to "up".
+ */
 function Transition(props: SlideProps) {
     // eslint-disable-next-line react/jsx-props-no-spreading
     return <Slide {...props} direction="up" />;
@@ -27,6 +36,11 @@ interface IToastProps{
     severity: Severity
 }
 
+/**
+ * It renders a snackbar.
+ * @param {IToastProps} props - IToastProps
+ * @returns A Toast component.
+ */
 export function Toast(props: IToastProps) {
     const { message, severity } = props;
     const [open, setOpen] = React.useState(true);
@@ -50,6 +64,11 @@ export function Toast(props: IToastProps) {
     );
 }
 
+/**
+ * It creates a toast message.
+ * @param {string} message - string, The message to be displayed in the toast.
+ * @param {Severity} severity - A string that represents the severity of the message.
+ */
 export default function makeToast(message: string, severity: Severity) {
     const id = Math.floor(Math.random() * 1000);
     const container = document.createElement('div');
@@ -62,6 +81,11 @@ export default function makeToast(message: string, severity: Severity) {
     setTimeout(() => removeToast(container.id), 3500);
 }
 
+/**
+ * It takes a list of toasts and a function that adds a new toast to the list
+ * @param  - [React.ReactElement[], (arg0: React.ReactElement[]) => void]
+ * @returns The toaster component and a function to add a new toast.
+ */
 export function makeToaster(
     [toasts, setToasts] : [React.ReactElement[],
         (arg0: React.ReactElement[]) => void],

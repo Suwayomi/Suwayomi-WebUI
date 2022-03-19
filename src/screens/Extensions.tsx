@@ -27,10 +27,16 @@ const EXTENSIONS = 1;
 
 const allLangs: string[] = [];
 
+/* This is a TypeScript trick to create a map of arrays. */
 interface GroupedExtension {
     [key: string]: IExtension[]
 }
 
+/**
+ * It takes an array of extensions and returns an array of arrays of extensions, grouped by language
+ * @param {IExtension[]} extensions - The list of extensions to group.
+ * @returns An array of arrays. Each inner array contains a language and an array of extensions.
+ */
 function groupExtensions(extensions: IExtension[]) {
     allLangs.length = 0; // empty the array
     const sortedExtenions: GroupedExtension = { installed: [], 'updates pending': [], all: [] };
@@ -62,6 +68,7 @@ function groupExtensions(extensions: IExtension[]) {
     return result.concat(langExt);
 }
 
+/* Grouping the extensions by language and then rendering them. */
 export default function MangaExtensions() {
     const { setTitle, setAction } = useContext(NavbarContext);
     const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownExtensionLangs', extensionDefaultLangs());
@@ -105,6 +112,10 @@ export default function MangaExtensions() {
 
     const [toasts, makeToast] = makeToaster(useState<React.ReactElement[]>([]));
 
+    /**
+     * It takes a file and uploads it to the server.
+     * @param {File} file - The file that was uploaded.
+     */
     const submitExternalExtension = (file: File) => {
         if (file.name.toLowerCase().endsWith('apk')) {
             const formData = new FormData();
@@ -127,6 +138,11 @@ export default function MangaExtensions() {
         }
     };
 
+/**
+ * It takes an event as an argument, and then uses the `fromEvent` function to convert it into a `File`
+ * object
+ * @param {Event} e - The event object.
+ */
     const dropHandler = async (e: Event) => {
         e.preventDefault();
         const files = await fromEvent(e);
@@ -134,6 +150,11 @@ export default function MangaExtensions() {
         submitExternalExtension(files[0] as File);
     };
 
+    /**
+     * It prevents the default browser action of navigating to a different page when the user drags an
+     * element over another element
+     * @param {Event} e - The event object that was fired.
+     */
     const dragOverHandler = (e: Event) => {
         e.preventDefault();
     };
@@ -160,6 +181,7 @@ export default function MangaExtensions() {
         return <LoadingPlaceholder />;
     }
 
+    /* It filters the extensions based on the query parameter. */
     const filtered = extensionsRaw.filter((ext) => {
         const nsfwFilter = showNsfw || !ext.isNsfw;
         if (!query) return nsfwFilter;

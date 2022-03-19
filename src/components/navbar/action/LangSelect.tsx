@@ -19,6 +19,12 @@ import ListItem from '@mui/material/ListItem';
 import { langCodeToName } from 'util/language';
 import cloneObject from 'util/cloneObject';
 
+/**
+ * Remove all items from the first list that are also in the second list
+ * @param {any[]} firstList - The array to remove the items from.
+ * @param {any[]} secondList - The list to remove items from.
+ * @returns The firstList array with the items from the secondList removed.
+ */
 function removeAll(firstList: any[], secondList: any[]) {
     secondList.forEach((item) => {
         const index = firstList.indexOf(item);
@@ -37,6 +43,7 @@ interface IProps {
     forcedLangs?: string[]
 }
 
+/* The `export default` is not needed. */
 export default function LangSelect(props: IProps) {
     const {
         shownLangs, setShownLangs, allLangs, forcedLangs,
@@ -47,15 +54,28 @@ export default function LangSelect(props: IProps) {
     );
     const [open, setOpen] = useState<boolean>(false);
 
+    /**
+     * It sets the state of the open variable to false.
+     */
     const handleCancel = () => {
         setOpen(false);
     };
 
+    /**
+     * It sets the state of the component to false and sets the state of the component to the value of
+     * the variable mShownLangs.
+     */
     const handleOk = () => {
         setOpen(false);
         setShownLangs(mShownLangs);
     };
 
+    /**
+     * It takes an event and a language, and then checks if the language is in the list of shown
+     * languages. If it is, it removes it from the list. If it isn't, it adds it to the list
+     * @param event - React.ChangeEvent<HTMLInputElement>
+     * @param {string} lang - The language to be added or removed from the list of shown languages.
+     */
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>, lang: string) => {
         const { checked } = event.target as HTMLInputElement;
 

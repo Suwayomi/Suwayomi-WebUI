@@ -43,6 +43,11 @@ interface IProps {
     id: string
 }
 
+/**
+ * It takes in a manga id, fetches the chapters, filters them, sorts them, and renders them
+ * @param {IProps} props - IProps
+ * @returns The ChapterList component returns a stack of components.
+ */
 export default function ChapterList(props: IProps) {
     const { id } = props;
 
@@ -73,6 +78,8 @@ export default function ChapterList(props: IProps) {
         triggerChaptersUpdate();
     }, [queue.length]);
 
+    /* This is a memoized function that returns a string. It is memoized because it is called
+    every time the chapter list is rendered. */
     const downloadStatusStringFor = useCallback((chapter: IChapter) => {
         let rtn = '';
         if (chapter.downloaded) {

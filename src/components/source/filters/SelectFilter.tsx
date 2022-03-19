@@ -41,6 +41,10 @@ function hasSelect(
 ) {
     const [val, setval] = React.useState(state);
     if (values) {
+        /**
+         * It takes the value of the input and sets the state of the component to that value.
+         * @param event - The event object that was passed to the callback.
+         */
         const handleChange = (event: { target: { name: any; value: any; }; }) => {
             const vall = values.map((e) => e.displayname).indexOf(`${event.target.value}`);
             setval(vall);
@@ -95,6 +99,10 @@ function noSelect(
     const [val, setval] = React.useState(state);
 
     if (values) {
+        /**
+         * It updates the state of the filter value.
+         * @param event - The event object that was passed to the callback.
+         */
         const handleChange = (event: { target: { name: any; value: any; }; }) => {
             const vall = values.indexOf(`${event.target.value}`);
             setval(vall);
@@ -128,6 +136,12 @@ function noSelect(
     return (<></>);
 }
 
+/**
+ * If the selected value is undefined, then render the noSelect function. Otherwise, render the
+ * hasSelect function
+ * @param {Props}  - values: The values to be displayed in the dropdown.
+ * @returns A function that returns a function.
+ */
 export default function SelectFilter({
     values,
     name,

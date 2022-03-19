@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/navbar/ReaderNavBar.tsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/navbar/ReaderNavBar.tsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/*
+ * Copyright (C) Contributors to the Suwayomi project
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import React, { useEffect, useState } from 'react';
+import Typography from '@mui/material/Typography';
+import { useHistory, Link } from 'react-router-dom';
+import Slide from '@mui/material/Slide';
+import Fade from '@mui/material/Fade';
+import Zoom from '@mui/material/Zoom';
+import { Switch } from '@mui/material';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
+import Collapse from '@mui/material/Collapse';
+import Button from '@mui/material/Button';
+import { styled } from '@mui/system';
+
+const Root = styled('div')(({ theme }) => ({
+    top: 0,
+    left: 0,
+    width: '300px',
+    minWidth: '300px',
+    height: '100vh',
+    overflowY: 'auto',
+    backgroundColor: theme.palette.background.default,
+
+    '&amp; header': {
+        backgroundColor:
+        theme.palette.mode === 'dark' ? theme.palette.grey[800] : theme.palette.grey[100],
+        display: 'flex',
+        alignItems: 'center',
+        minHeight: '64px',
+        paddingLeft: '24px',
+        paddingRight: '24px',
+
+        transition: 'left 2s ease',
+
+        '&amp; button': {
+            flexGrow: 0,
+            flexShrink: 0,
+        },
+
+        '&amp; button:nth-child(1)': {
+            marginRight: '16px',
+        },
+
+        '&amp; h1': {
+            fontSize: '1.25rem',
+            flexGrow: 1,
+        },
+    },
+    '&amp; hr': {
+        margin: '0 16px',
+        height: '1px',
+        border: '0',
+        backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : theme.palette.grey[100],
+    },
+}));
+
+const Navigation = styled('div')({
+    margin: '0 16px',
+    '&amp; > span:nth-child(1)': {
+        textAlign: 'center',
+        display: 'block',
+        marginTop: '16px',
+    },
+});
+
+const ChapterNavigation = styled('div')({
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr',
+    gridTemplateAreas: '"prev next"',
+    gridColumnGap: '5px',
+    margin: '10px 0',
+
+    '&amp; a': {
+        flexGrow: 1,
+        textDecoration: 'none',
+
+        '&amp; button': {
+            width: '100%',
+            padding: '5px 8px',
+            textTransform: 'none',
+        },
+    },
+});
+
+const OpenDrawerButton = styled(IconButton)(({ theme }) => ({
+    position: 'fixed',
+    top: 0 + 20,
+    left: 10 + 20,
+    height: '40px',
+    width: '40px',
+    borderRadius: 5,
+    backgroundColor: theme.palette.mode === 'dark' ? 'black' : 'white',
+    '&amp;:hover': {
+        backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[900] : theme.palette.grey[100],
+    },
+}));
+
+/**
+ * It returns a default reader settings object
+ */
+export const defaultReaderSettings = () => ({
+    staticNav: false,
+    showPageNumber: true,
+    continuesPageGap: false,
+    loadNextonEnding: false,
+    readerType: 'ContinuesVertical',
+} as IReaderSettings);
+
+interface IProps {
+    settings: IReaderSettings
+    setSettings: React.Dispatch&lt;React.SetStateAction&lt;IReaderSettings>>
+    manga: IManga | IMangaCard
+    chapter: IChapter
+    curPage: number
+}
+
+export default function ReaderNavBar(props: IProps) {
+    const history = useHistory();
+
+    const {
+        settings, setSettings, manga, chapter, curPage,
+    } = props;
+
+    const [drawerOpen, setDrawerOpen] = useState(false || settings.staticNav);
+    const [hideOpenButton, setHideOpenButton] = useState(false);
+    const [prevScrollPos, setPrevScrollPos] = useState(0);
+    const [settingsCollapseOpen, setSettingsCollapseOpen] = useState(true);
+
+    /**
+     * It sets the value of a key in the settings object.
+     *
+     * @param {string} key - The name of the setting.
+     * @param {any} value - The value to set the setting to.
+     */
+    const setSettingValue = (key: string, value: any) => setSettings({ ...settings, [key]: value });
+
+    /**
+     * If the user scrolls down, the function sets the hideOpenButton variable to true. If the user
+     * scrolls up, the function sets the hideOpenButton variable to false
+     */
+    const handleScroll = () => {
+        const currentScrollPos = window.pageYOffset;
+
+        if (Math.abs(currentScrollPos - prevScrollPos) > 20) {
+            setHideOpenButton(currentScrollPos > prevScrollPos);
+            setPrevScrollPos(currentScrollPos);
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+
+        const rootEl:HTMLDivElement = document.querySelector('#root')!;
+        const mainContainer:HTMLDivElement = document.querySelector('#appMainContainer')!;
+
+        // main container and root div need to change styles...
+        rootEl.style.display = 'flex';
+        mainContainer.style.display = 'none';
+
+        return () => {
+            rootEl.style.display = 'block';
+            mainContainer.style.display = 'block';
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, [handleScroll]);// handleScroll changes on every render
+
+    return (
+        &lt;>
+            &lt;Slide
+                direction="right"
+                in={drawerOpen}
+                timeout={200}
+                appear={false}
+                mountOnEnter
+                unmountOnExit
+            >
+                &lt;Root sx={{
+                    position: settings.staticNav ? 'sticky' : 'fixed',
+                }}
+                >
+                    &lt;header>
+                        {!settings.staticNav
+                        &amp;&amp; (
+                            &lt;IconButton
+                                edge="start"
+                                color="inherit"
+                                aria-label="menu"
+                                disableRipple
+                                onClick={() => setDrawerOpen(false)}
+                                size="large"
+                            >
+                                &lt;KeyboardArrowLeftIcon />
+                            &lt;/IconButton>
+                        )}
+                        &lt;Typography variant="h1">
+                            {chapter.name}
+                        &lt;/Typography>
+                        &lt;IconButton
+                            edge="start"
+                            color="inherit"
+                            aria-label="menu"
+                            disableRipple
+                            onClick={() => history.push('..')}
+                            size="large"
+                            sx={{ mr: -1 }}
+                        >
+                            &lt;CloseIcon />
+                        &lt;/IconButton>
+                    &lt;/header>
+                    &lt;ListItem
+                        ContainerComponent="div"
+                        sx={{
+                            '&amp; span': {
+                                fontWeight: 'bold',
+                            },
+                        }}
+                    >
+                        &lt;ListItemText primary="Reader Settings" />
+                        &lt;ListItemSecondaryAction>
+                            &lt;IconButton
+                                edge="start"
+                                color="inherit"
+                                aria-label="menu"
+                                disableRipple
+                                disableFocusRipple
+                                onClick={() => setSettingsCollapseOpen(!settingsCollapseOpen)}
+                                size="large"
+                            >
+                                {settingsCollapseOpen &amp;&amp; &lt;KeyboardArrowUpIcon />}
+                                {!settingsCollapseOpen &amp;&amp; &lt;KeyboardArrowDownIcon />}
+                            &lt;/IconButton>
+                        &lt;/ListItemSecondaryAction>
+                    &lt;/ListItem>
+                    &lt;Collapse in={settingsCollapseOpen} timeout="auto" unmountOnExit>
+                        &lt;List>
+                            &lt;ListItem>
+                                &lt;ListItemText primary="Static Navigation" />
+                                &lt;ListItemSecondaryAction>
+                                    &lt;Switch
+                                        edge="end"
+                                        checked={settings.staticNav}
+                                        onChange={(e) => setSettingValue('staticNav', e.target.checked)}
+                                    />
+                                &lt;/ListItemSecondaryAction>
+                            &lt;/ListItem>
+                            &lt;ListItem>
+                                &lt;ListItemText primary="Show page number" />
+                                &lt;ListItemSecondaryAction>
+                                    &lt;Switch
+                                        edge="end"
+                                        checked={settings.showPageNumber}
+                                        onChange={(e) => setSettingValue('showPageNumber', e.target.checked)}
+                                    />
+                                &lt;/ListItemSecondaryAction>
+                            &lt;/ListItem>
+                            &lt;ListItem>
+                                &lt;ListItemText primary="Load next chapter at ending" />
+                                &lt;ListItemSecondaryAction>
+                                    &lt;Switch
+                                        edge="end"
+                                        checked={settings.loadNextonEnding}
+                                        onChange={(e) => setSettingValue('loadNextonEnding', e.target.checked)}
+                                    />
+                                &lt;/ListItemSecondaryAction>
+                            &lt;/ListItem>
+                            &lt;ListItem>
+                                &lt;ListItemText primary="Reader Type" />
+                                &lt;Select
+                                    variant="standard"
+                                    value={settings.readerType}
+                                    onChange={(e) => setSettingValue('readerType', e.target.value)}
+                                    sx={{ p: 0 }}
+                                >
+                                    &lt;MenuItem value="SingleLTR">
+                                        Single Page (LTR)
+                                    &lt;/MenuItem>
+                                    &lt;MenuItem value="SingleRTL">
+                                        Single Page (RTL)
+                                    &lt;/MenuItem>
+                                    {/* &lt;MenuItem value="SingleVertical">
+                                       Vertical(WIP)
+                                    &lt;/MenuItem> */}
+                                    &lt;MenuItem value="DoubleLTR">
+                                        Double Page (LTR)
+                                    &lt;/MenuItem>
+                                    &lt;MenuItem value="DoubleRTL">
+                                        Double Page (RTL)
+                                    &lt;/MenuItem>
+                                    &lt;MenuItem value="Webtoon">
+                                        Webtoon
+                                    &lt;/MenuItem>
+                                    &lt;MenuItem value="ContinuesVertical">
+                                        Continues Vertical
+                                    &lt;/MenuItem>
+                                    &lt;MenuItem value="ContinuesHorizontalLTR">
+                                        Horizontal (LTR)
+                                    &lt;/MenuItem>
+                                    &lt;MenuItem value="ContinuesHorizontalRTL">
+                                        Horizontal (RTL)
+                                    &lt;/MenuItem>
+                                &lt;/Select>
+                            &lt;/ListItem>
+                        &lt;/List>
+                    &lt;/Collapse>
+                    &lt;hr />
+                    &lt;Navigation>
+                        &lt;span>
+                            {`Currently on page ${curPage + 1} of ${chapter.pageCount}`}
+                        &lt;/span>
+                        &lt;ChapterNavigation>
+                            {chapter.index > 1
+                        &amp;&amp; (
+                            &lt;Link
+                                replace
+                                to={`/manga/${manga.id}/chapter/${chapter.index - 1}`}
+                            >
+                                &lt;Button
+                                    variant="outlined"
+                                    sx={{ gridArea: 'prev' }}
+                                    startIcon={&lt;KeyboardArrowLeftIcon />}
+                                >
+                                    Prev. Chapter
+                                &lt;/Button>
+                            &lt;/Link>
+                        )}
+                            {chapter.index &lt; chapter.chapterCount
+                        &amp;&amp; (
+                            &lt;Link
+                                replace
+                                style={{ gridArea: 'next' }}
+                                to={`/manga/${manga.id}/chapter/${chapter.index + 1}`}
+                            >
+                                &lt;Button
+                                    variant="outlined"
+                                    endIcon={&lt;KeyboardArrowRightIcon />}
+                                >
+                                    Next Chapter
+                                &lt;/Button>
+                            &lt;/Link>
+                        )}
+                        &lt;/ChapterNavigation>
+                    &lt;/Navigation>
+                &lt;/Root>
+            &lt;/Slide>
+            &lt;Zoom in={!drawerOpen}>
+                &lt;Fade in={!hideOpenButton}>
+                    &lt;OpenDrawerButton
+                        edge="start"
+                        color="inherit"
+                        aria-label="menu"
+                        disableRipple
+                        disableFocusRipple
+                        onClick={() => setDrawerOpen(true)}
+                        size="large"
+                    >
+                        &lt;KeyboardArrowRightIcon />
+                    &lt;/OpenDrawerButton>
+                &lt;/Fade>
+            &lt;/Zoom>
+        &lt;/>
+    );
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#About">About</a></li><li><a href="global.html#Backup">Backup</a></li><li><a href="global.html#bookmarkdFilter">bookmarkdFilter</a></li><li><a href="global.html#Browse">Browse</a></li><li><a href="global.html#Categories">Categories</a></li><li><a href="global.html#CategorySelect">CategorySelect</a></li><li><a href="global.html#ChapterList">ChapterList</a></li><li><a href="global.html#CheckBoxPreference">CheckBoxPreference</a></li><li><a href="global.html#cloneObject">cloneObject</a></li><li><a href="global.html#default">default</a></li><li><a href="global.html#defaultChapterOptions">defaultChapterOptions</a></li><li><a href="global.html#defaultNativeLang">defaultNativeLang</a></li><li><a href="global.html#DefaultNavBar">DefaultNavBar</a></li><li><a href="global.html#defaultReaderSettings">defaultReaderSettings</a></li><li><a href="global.html#dispalyTab">dispalyTab</a></li><li><a href="global.html#DoublePagedPager">DoublePagedPager</a></li><li><a href="global.html#downloadedFilter">downloadedFilter</a></li><li><a href="global.html#downloadFilter">downloadFilter</a></li><li><a href="global.html#DownloadQueue">DownloadQueue</a></li><li><a href="global.html#EditTextPreference">EditTextPreference</a></li><li><a href="global.html#epochToDate">epochToDate</a></li><li><a href="global.html#ExtensionCard">ExtensionCard</a></li><li><a href="global.html#extensionDefaultLangs">extensionDefaultLangs</a></li><li><a href="global.html#filterAndSortChapters">filterAndSortChapters</a></li><li><a href="global.html#filterManga">filterManga</a></li><li><a href="global.html#filtersTab">filtersTab</a></li><li><a href="global.html#findFirstUnreadChapter">findFirstUnreadChapter</a></li><li><a href="global.html#getDateString">getDateString</a></li><li><a href="global.html#getItem">getItem</a></li><li><a href="global.html#getItemStyle">getItemStyle</a></li><li><a href="global.html#getPrefComponent">getPrefComponent</a></li><li><a href="global.html#getRandomErrorFace">getRandomErrorFace</a></li><li><a href="global.html#getReaderComponent">getReaderComponent</a></li><li><a href="global.html#getSourceName">getSourceName</a></li><li><a href="global.html#getTwoStateType">getTwoStateType</a></li><li><a href="global.html#getValueOrUnknown">getValueOrUnknown</a></li><li><a href="global.html#groupByDate">groupByDate</a></li><li><a href="global.html#groupByLang">groupByLang</a></li><li><a href="global.html#groupExtensions">groupExtensions</a></li><li><a href="global.html#HeaderFilter">HeaderFilter</a></li><li><a href="global.html#HorizontalPager">HorizontalPager</a></li><li><a href="global.html#imageStyle">imageStyle</a></li><li><a href="global.html#ISOLanguages">ISOLanguages</a></li><li><a href="global.html#isTheSameDay">isTheSameDay</a></li><li><a href="global.html#langSortCmp">langSortCmp</a></li><li><a href="global.html#LibraryMangaGrid">LibraryMangaGrid</a></li><li><a href="global.html#LibraryOptions">LibraryOptions</a></li><li><a href="global.html#LibraryOptionsContextProvider">LibraryOptionsContextProvider</a></li><li><a href="global.html#ListItemLink">ListItemLink</a></li><li><a href="global.html#LoadingPlaceholder">LoadingPlaceholder</a></li><li><a href="global.html#makeToast">makeToast</a></li><li><a href="global.html#makeToaster">makeToaster</a></li><li><a href="global.html#Manga">Manga</a></li><li><a href="global.html#MangaDetails">MangaDetails</a></li><li><a href="global.html#MultiSelectListPreference">MultiSelectListPreference</a></li><li><a href="global.html#NavBarProvider">NavBarProvider</a></li><li><a href="global.html#Options">Options</a></li><li><a href="global.html#PagedReader">PagedReader</a></li><li><a href="global.html#PageNumber">PageNumber</a></li><li><a href="global.html#queryFilter">queryFilter</a></li><li><a href="global.html#removeAll">removeAll</a></li><li><a href="global.html#removeToast">removeToast</a></li><li><a href="global.html#ResumeFab">ResumeFab</a></li><li><a href="global.html#SelectFilter">SelectFilter</a></li><li><a href="global.html#SeperatorFilter">SeperatorFilter</a></li><li><a href="global.html#setItem">setItem</a></li><li><a href="global.html#Settings">Settings</a></li><li><a href="global.html#sortManga">sortManga</a></li><li><a href="global.html#sortsTab">sortsTab</a></li><li><a href="global.html#SourceConfigure">SourceConfigure</a></li><li><a href="global.html#sourceDefualtLangs">sourceDefualtLangs</a></li><li><a href="global.html#sourceForcedDefaultLangs">sourceForcedDefaultLangs</a></li><li><a href="global.html#SourceGridLayout">SourceGridLayout</a></li><li><a href="global.html#SourceMangaGrid">SourceMangaGrid</a></li><li><a href="global.html#SourceMangas">SourceMangas</a></li><li><a href="global.html#SourceOptions">SourceOptions</a></li><li><a href="global.html#sourceToLangList">sourceToLangList</a></li><li><a href="global.html#SpinnerImage">SpinnerImage</a></li><li><a href="global.html#stateToChecked">stateToChecked</a></li><li><a href="global.html#stateTransition">stateTransition</a></li><li><a href="global.html#SwitchPreferenceCompat">SwitchPreferenceCompat</a></li><li><a href="global.html#TabPanel">TabPanel</a></li><li><a href="global.html#TextFilter">TextFilter</a></li><li><a href="global.html#ThreeStateCheckbox">ThreeStateCheckbox</a></li><li><a href="global.html#Toast">Toast</a></li><li><a href="global.html#toReadSort">toReadSort</a></li><li><a href="global.html#toSortAlph">toSortAlph</a></li><li><a href="global.html#toSortID">toSortID</a></li><li><a href="global.html#Transition">Transition</a></li><li><a href="global.html#truncateText">truncateText</a></li><li><a href="global.html#TwoSatePreference">TwoSatePreference</a></li><li><a href="global.html#unreadFilter">unreadFilter</a></li><li><a href="global.html#useChaptersFetch">useChaptersFetch</a></li><li><a href="global.html#useLibraryOptions">useLibraryOptions</a></li><li><a href="global.html#useLocalStorage">useLocalStorage</a></li><li><a href="global.html#useReducerLocalStorage">useReducerLocalStorage</a></li><li><a href="global.html#useStyles">useStyles</a></li><li><a href="global.html#VerticalReader">VerticalReader</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sat Mar 19 2022 18:16:30 GMT+0000 (Greenwich Mean Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

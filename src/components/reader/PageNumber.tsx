@@ -14,6 +14,11 @@ interface IProps {
     pageCount: number
 }
 
+/**
+ * This function returns a box with the current page number and the total number of pages
+ * @param {IProps} props - IProps
+ * @returns A box with the current page number and the total number of pages.
+ */
 export default function PageNumber(props: IProps) {
     const { settings, curPage, pageCount } = props;
 

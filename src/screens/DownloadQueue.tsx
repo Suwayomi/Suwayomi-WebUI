@@ -31,6 +31,13 @@ import { useHistory } from 'react-router-dom';
 
 const baseWebsocketUrl = JSON.parse(window.localStorage.getItem('serverBaseURL')!).replace('http', 'ws');
 
+/**
+ * It returns a style object that is applied to the draggable element.
+ * @param {boolean} isDragging - boolean
+ * @param {DraggingStyle | NotDraggingStyle | undefined} draggableStyle - The style to apply to the
+ * draggable element.
+ * @param {Palette} palette - Palette
+ */
 const getItemStyle = (isDragging: boolean,
     draggableStyle: DraggingStyle | NotDraggingStyle | undefined, palette: Palette) => ({
     // styles we need to apply on draggables
@@ -41,11 +48,16 @@ const getItemStyle = (isDragging: boolean,
     }),
 });
 
+/* This is a type assertion. It is saying that the type of `initialQueue` is `IQueue`. */
 const initialQueue = {
     status: 'Stopped',
     queue: [],
 } as IQueue;
 
+/**
+ * This function renders a drag and drop list of the current downloads
+ * @returns A list of items.
+ */
 export default function DownloadQueue() {
     const [, setWsClient] = useState<WebSocket>();
     const [queueState, setQueueState] = useState<IQueue>(initialQueue);
@@ -57,6 +69,9 @@ export default function DownloadQueue() {
 
     const { setTitle, setAction } = useContext(NavbarContext);
 
+    /**
+     * If the status is stopped, start the queue. If the status is running, stop the queue
+     */
     const toggleQueueStatus = () => {
         if (status === 'Stopped') {
             client.get('/api/v1/downloads/start');

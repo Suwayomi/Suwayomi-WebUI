@@ -12,11 +12,21 @@ import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import Switch from '@mui/material/Switch';
 import Checkbox from '@mui/material/Checkbox';
 
+/**
+ * It returns the correct component type for the given type.
+ * @param {'Checkbox' | 'Switch'} type - The type of the component.
+ * @returns A React component.
+ */
 function getTwoStateType(type: 'Checkbox' | 'Switch') {
     if (type === 'Switch') { return Switch; }
     return Checkbox;
 }
 
+/**
+ * It creates a ListItem with a ListItemText and a ListItemSecondaryAction
+ * @param {TwoStatePreferenceProps} props - A prop that's passed in from the caller.
+ * @returns A list item.
+ */
 function TwoSatePreference(props: TwoStatePreferenceProps) {
     const {
         title, summary, currentValue, updateValue, type,
@@ -47,13 +57,25 @@ function TwoSatePreference(props: TwoStatePreferenceProps) {
     );
 }
 
+/**
+ * It creates a checkbox preference.
+ * @param {CheckBoxPreferenceProps} props - CheckBoxPreferenceProps
+ * @returns A React component.
+ */
 export function CheckBoxPreference(props: CheckBoxPreferenceProps) {
     // eslint-disable-next-line react/jsx-props-no-spreading
     return <TwoSatePreference {...props} type="Checkbox" />;
 }
+/**
+ * It creates a new component that is a copy of the TwoSatePreference component, but with the type set
+ * to "Switch".
+ * @param {SwitchPreferenceCompatProps} props - SwitchPreferenceCompatProps
+ * @returns A `TwoSatePreference` component.
+ */
 export function SwitchPreferenceCompat(props: SwitchPreferenceCompatProps) {
     // eslint-disable-next-line react/jsx-props-no-spreading
     return <TwoSatePreference {...props} type="Switch" />;
 }
 
+/* It exports the two components as a default export. */
 export default { CheckBoxPreference, SwitchPreferenceCompat };

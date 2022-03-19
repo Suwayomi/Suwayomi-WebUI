@@ -26,6 +26,7 @@ interface IListDialogProps{
     title: string
 }
 
+/* It's a function component. */
 function ListDialog(props: IListDialogProps) {
     const {
         selectedValues: selectedValuesProp, open, onClose, values, title,
@@ -38,14 +39,25 @@ function ListDialog(props: IListDialogProps) {
         }
     }, [selectedValuesProp, open]);
 
+    /**
+     * It closes the modal.
+     */
     const handleCancel = () => {
         onClose(null);
     };
 
+    /**
+     * It closes the dialog and passes the selected values to the onClose function.
+     */
     const handleOk = () => {
         onClose(selectedValues);
     };
 
+    /**
+     * If the value is in the selectedValues array, remove it. If it's not, add it
+     * @param event - React.ChangeEvent<HTMLInputElement>
+     * @param {string} value - The value of the option that was selected.
+     */
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>, value: string) => {
         const { checked } = event.target as HTMLInputElement;
 
@@ -100,6 +112,11 @@ function ListDialog(props: IListDialogProps) {
     );
 }
 
+/**
+ * It shows a list of items, and when you click on one, it opens a dialog with a list of items
+ * @param {MultiSelectListPreferenceProps} props - MultiSelectListPreferenceProps
+ * @returns The ListDialog component is being returned.
+ */
 export default function MultiSelectListPreference(props: MultiSelectListPreferenceProps) {
     const {
         title, summary, currentValue, updateValue, entryValues, entries,
@@ -111,11 +128,19 @@ export default function MultiSelectListPreference(props: MultiSelectListPreferen
         setInternalCurrentValue(currentValue);
     }, [currentValue]);
 
+    /**
+     * Given an array of strings, return an array of objects
+     * @param {string[]} values - The values to find.
+     */
     const findEntriesOf = (values: string[]) => values.map((value) => {
         const idx = entryValues.indexOf(value);
         return entries[idx];
     });
 
+    /**
+     * Given an array of strings, return an array of strings
+     * @param {string[]} values - The values to find in the entries array.
+     */
     const findEntryValuesOf = (values: string[]) => values.map((value) => {
         const idx = entries.indexOf(value);
         return entryValues[idx];
@@ -123,6 +148,11 @@ export default function MultiSelectListPreference(props: MultiSelectListPreferen
 
     const getSummary = () => summary;
 
+    /**
+     * When the user clicks on a value in the dropdown, the value is added to the list of selected
+     * values
+     * @param {string[] | null} newValue - The new value of the selected entry.
+     */
     const handleDialogClose = (newValue: string[] | null) => {
         if (newValue !== null) {
             // console.log(newValue);

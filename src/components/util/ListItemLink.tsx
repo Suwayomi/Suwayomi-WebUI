@@ -9,6 +9,11 @@ import React from 'react';
 import ListItem, { ListItemProps } from '@mui/material/ListItem';
 import { Link } from 'react-router-dom';
 
+/**
+ * If the `directLink` prop is true, then the `ListItem` will be rendered as a `button` with an `href`
+ * attribute. Otherwise, it will be rendered as a `button` with a `component` attribute
+ * @param props
+ */
 export default function ListItemLink(props: ListItemProps<Link, { directLink?: boolean }>) {
     const { directLink, to } = props;
     if (directLink) {

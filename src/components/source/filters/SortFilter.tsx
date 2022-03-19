@@ -42,11 +42,20 @@ export default function SortFilter(props: Props) {
 
     const [open, setOpen] = React.useState(false);
 
+    /**
+     * It sets the state of the component to the opposite of its current state.
+     */
     const handleClick = () => {
         setOpen(!open);
     };
 
     if (values) {
+        /**
+         * If the current sort is on the same column as the clicked column, then reverse the sort
+         * order. Otherwise, set the sort to ascending order
+         * @param event - The event that triggered the change.
+         * @param {number} index - The index of the column that is being sorted.
+         */
         const handleChange = (event:
         React.MouseEvent<HTMLDivElement, MouseEvent>, index: number) => {
             const tmp = val;

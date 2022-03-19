@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: screens/Reader.tsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: screens/Reader.tsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/*
+ * Copyright (C) Contributors to the Suwayomi project
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+import CircularProgress from '@mui/material/CircularProgress';
+import React, { useContext, useEffect, useState } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
+import HorizontalPager from 'components/reader/pager/HorizontalPager';
+import PageNumber from 'components/reader/PageNumber';
+import PagedPager from 'components/reader/pager/PagedPager';
+import DoublePagedPager from 'components/reader/pager/DoublePagedPager';
+import VerticalPager from 'components/reader/pager/VerticalPager';
+import ReaderNavBar, { defaultReaderSettings } from 'components/navbar/ReaderNavBar';
+import NavbarContext from 'components/context/NavbarContext';
+import client from 'util/client';
+import useLocalStorage from 'util/useLocalStorage';
+import cloneObject from 'util/cloneObject';
+import { Box } from '@mui/system';
+
+/**
+ * It returns the correct component based on the readerType
+ * @param {ReaderType} readerType - The type of reader to use.
+ * @returns A component that will be used to render the reader.
+ */
+const getReaderComponent = (readerType: ReaderType) => {
+    switch (readerType) {
+        case 'ContinuesVertical':
+        case 'Webtoon':
+            return VerticalPager;
+            break;
+        case 'SingleVertical':
+        case 'SingleRTL':
+        case 'SingleLTR':
+            return PagedPager;
+            break;
+        case 'DoubleVertical':
+        case 'DoubleRTL':
+        case 'DoubleLTR':
+            return DoublePagedPager;
+            break;
+        case 'ContinuesHorizontalLTR':
+        case 'ContinuesHorizontalRTL':
+            return HorizontalPager;
+        default:
+            return VerticalPager;
+            break;
+    }
+};
+
+const range = (n:number) => Array.from({ length: n }, (value, key) => key);
+const initialChapter = () => ({
+    pageCount: -1,
+    index: -1,
+    chapterCount: 0,
+    name: 'Loading...',
+});
+
+/* This is the code that renders the reader. */
+export default function Reader() {
+    const [settings, setSettings] = useLocalStorage&lt;IReaderSettings>('readerSettings', defaultReaderSettings);
+
+    const history = useHistory();
+
+    const [serverAddress] = useLocalStorage&lt;String>('serverBaseURL', '');
+
+    const { chapterIndex, mangaId } = useParams&lt;{ chapterIndex: string, mangaId: string }>();
+    const [manga, setManga] = useState&lt;IMangaCard | IManga>({ id: +mangaId, title: '', thumbnailUrl: '' });
+    const [chapter, setChapter] = useState&lt;IChapter | IPartialChpter>(initialChapter());
+    const [curPage, setCurPage] = useState&lt;number>(0);
+    const { setOverride, setTitle } = useContext(NavbarContext);
+
+    useEffect(() => {
+        // make sure settings has all the keys
+        const settingsClone = cloneObject(settings) as any;
+        const defualtSettings = defaultReaderSettings();
+        let shouldUpdateSettings = false;
+        Object.keys(defualtSettings).forEach((key) => {
+            const keyOf = key as keyof IReaderSettings;
+            if (settings[keyOf] === undefined) {
+                settingsClone[keyOf] = defualtSettings[keyOf];
+                shouldUpdateSettings = true;
+            }
+        });
+        if (shouldUpdateSettings) { setSettings(settingsClone); }
+
+        // set the custom navbar
+        setOverride(
+            {
+                status: true,
+                value: (
+                    &lt;ReaderNavBar
+                        settings={settings}
+                        setSettings={setSettings}
+                        manga={manga}
+                        chapter={chapter as IChapter}
+                        curPage={curPage}
+                    />
+                ),
+            },
+        );
+
+        // clean up for when we leave the reader
+        return () => setOverride({ status: false, value: &lt;div /> });
+    }, [manga, chapter, settings, curPage, chapterIndex]);
+
+    useEffect(() => {
+        setTitle('Reader');
+        client.get(`/api/v1/manga/${mangaId}/`)
+            .then((response) => response.data)
+            .then((data: IManga) => {
+                setManga(data);
+                setTitle(data.title);
+            });
+    }, [chapterIndex]);
+
+    useEffect(() => {
+        setChapter(initialChapter);
+        client.get(`/api/v1/manga/${mangaId}/chapter/${chapterIndex}`)
+            .then((response) => response.data)
+            .then((data:IChapter) => {
+                setChapter(data);
+
+                if (data.lastPageRead === data.pageCount - 1) {
+                    // last page, also probably read = true, we will load the first page.
+                    setCurPage(0);
+                } else setCurPage(data.lastPageRead);
+            });
+    }, [chapterIndex]);
+
+    useEffect(() => {
+        if (curPage !== -1) {
+            const formData = new FormData();
+            formData.append('lastPageRead', curPage.toString());
+            client.patch(`/api/v1/manga/${manga.id}/chapter/${chapter.index}`, formData);
+        }
+
+        if (curPage === chapter.pageCount - 1) {
+            const formDataRead = new FormData();
+            formDataRead.append('read', 'true');
+            client.patch(`/api/v1/manga/${manga.id}/chapter/${chapter.index}`, formDataRead);
+        }
+    }, [curPage]);
+
+    // return spinner while chpater data is loading
+    if (chapter.pageCount === -1) {
+        return (
+            &lt;Box sx={{
+                height: '100vh', width: '100vw', display: 'grid', placeItems: 'center',
+            }}
+            >
+                &lt;CircularProgress thickness={5} />
+            &lt;/Box>
+        );
+    }
+
+    /**
+     * If the current chapter is not the last chapter, then go to the next chapter
+     */
+    const nextChapter = () => {
+        if (chapter.index &lt; chapter.chapterCount) {
+            const formData = new FormData();
+            formData.append('lastPageRead', `${chapter.pageCount - 1}`);
+            formData.append('read', 'true');
+            client.patch(`/api/v1/manga/${manga.id}/chapter/${chapter.index}`, formData);
+
+            history.replace(`/manga/${manga.id}/chapter/${chapter.index + 1}`);
+        }
+    };
+
+    /**
+     * If the current chapter index is greater than 1, then replace the current URL with the URL of the
+     * previous chapter
+     */
+    const prevChapter = () => {
+        if (chapter.index > 1) {
+            history.replace(`/manga/${manga.id}/chapter/${chapter.index - 1}`);
+        }
+    };
+
+    /* This is a helper function that creates an array of objects that contain the index and the src of
+    the image.
+    The src is the URL of the image. */
+    const pages = range(chapter.pageCount).map((index) => ({
+        index,
+        src: `${serverAddress}/api/v1/manga/${mangaId}/chapter/${chapterIndex}/page/${index}`,
+    }));
+
+    const ReaderComponent = getReaderComponent(settings.readerType);
+
+    return (
+        &lt;Box sx={{ width: settings.staticNav ? 'calc(100vw - 300px)' : '100vw' }}>
+            &lt;PageNumber
+                settings={settings}
+                curPage={curPage}
+                pageCount={chapter.pageCount}
+            />
+            &lt;ReaderComponent
+                pages={pages}
+                pageCount={chapter.pageCount}
+                setCurPage={setCurPage}
+                curPage={curPage}
+                settings={settings}
+                manga={manga}
+                chapter={chapter}
+                nextChapter={nextChapter}
+                prevChapter={prevChapter}
+            />
+        &lt;/Box>
+    );
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#About">About</a></li><li><a href="global.html#Backup">Backup</a></li><li><a href="global.html#bookmarkdFilter">bookmarkdFilter</a></li><li><a href="global.html#Browse">Browse</a></li><li><a href="global.html#Categories">Categories</a></li><li><a href="global.html#CategorySelect">CategorySelect</a></li><li><a href="global.html#ChapterList">ChapterList</a></li><li><a href="global.html#CheckBoxPreference">CheckBoxPreference</a></li><li><a href="global.html#cloneObject">cloneObject</a></li><li><a href="global.html#default">default</a></li><li><a href="global.html#defaultChapterOptions">defaultChapterOptions</a></li><li><a href="global.html#defaultNativeLang">defaultNativeLang</a></li><li><a href="global.html#DefaultNavBar">DefaultNavBar</a></li><li><a href="global.html#defaultReaderSettings">defaultReaderSettings</a></li><li><a href="global.html#dispalyTab">dispalyTab</a></li><li><a href="global.html#DoublePagedPager">DoublePagedPager</a></li><li><a href="global.html#downloadedFilter">downloadedFilter</a></li><li><a href="global.html#downloadFilter">downloadFilter</a></li><li><a href="global.html#DownloadQueue">DownloadQueue</a></li><li><a href="global.html#EditTextPreference">EditTextPreference</a></li><li><a href="global.html#epochToDate">epochToDate</a></li><li><a href="global.html#ExtensionCard">ExtensionCard</a></li><li><a href="global.html#extensionDefaultLangs">extensionDefaultLangs</a></li><li><a href="global.html#filterAndSortChapters">filterAndSortChapters</a></li><li><a href="global.html#filterManga">filterManga</a></li><li><a href="global.html#filtersTab">filtersTab</a></li><li><a href="global.html#findFirstUnreadChapter">findFirstUnreadChapter</a></li><li><a href="global.html#getDateString">getDateString</a></li><li><a href="global.html#getItem">getItem</a></li><li><a href="global.html#getItemStyle">getItemStyle</a></li><li><a href="global.html#getPrefComponent">getPrefComponent</a></li><li><a href="global.html#getRandomErrorFace">getRandomErrorFace</a></li><li><a href="global.html#getReaderComponent">getReaderComponent</a></li><li><a href="global.html#getSourceName">getSourceName</a></li><li><a href="global.html#getTwoStateType">getTwoStateType</a></li><li><a href="global.html#getValueOrUnknown">getValueOrUnknown</a></li><li><a href="global.html#groupByDate">groupByDate</a></li><li><a href="global.html#groupByLang">groupByLang</a></li><li><a href="global.html#groupExtensions">groupExtensions</a></li><li><a href="global.html#HeaderFilter">HeaderFilter</a></li><li><a href="global.html#HorizontalPager">HorizontalPager</a></li><li><a href="global.html#imageStyle">imageStyle</a></li><li><a href="global.html#ISOLanguages">ISOLanguages</a></li><li><a href="global.html#isTheSameDay">isTheSameDay</a></li><li><a href="global.html#langSortCmp">langSortCmp</a></li><li><a href="global.html#LibraryMangaGrid">LibraryMangaGrid</a></li><li><a href="global.html#LibraryOptions">LibraryOptions</a></li><li><a href="global.html#LibraryOptionsContextProvider">LibraryOptionsContextProvider</a></li><li><a href="global.html#ListItemLink">ListItemLink</a></li><li><a href="global.html#LoadingPlaceholder">LoadingPlaceholder</a></li><li><a href="global.html#makeToast">makeToast</a></li><li><a href="global.html#makeToaster">makeToaster</a></li><li><a href="global.html#Manga">Manga</a></li><li><a href="global.html#MangaDetails">MangaDetails</a></li><li><a href="global.html#MultiSelectListPreference">MultiSelectListPreference</a></li><li><a href="global.html#NavBarProvider">NavBarProvider</a></li><li><a href="global.html#Options">Options</a></li><li><a href="global.html#PagedReader">PagedReader</a></li><li><a href="global.html#PageNumber">PageNumber</a></li><li><a href="global.html#queryFilter">queryFilter</a></li><li><a href="global.html#removeAll">removeAll</a></li><li><a href="global.html#removeToast">removeToast</a></li><li><a href="global.html#ResumeFab">ResumeFab</a></li><li><a href="global.html#SelectFilter">SelectFilter</a></li><li><a href="global.html#SeperatorFilter">SeperatorFilter</a></li><li><a href="global.html#setItem">setItem</a></li><li><a href="global.html#Settings">Settings</a></li><li><a href="global.html#sortManga">sortManga</a></li><li><a href="global.html#sortsTab">sortsTab</a></li><li><a href="global.html#SourceConfigure">SourceConfigure</a></li><li><a href="global.html#sourceDefualtLangs">sourceDefualtLangs</a></li><li><a href="global.html#sourceForcedDefaultLangs">sourceForcedDefaultLangs</a></li><li><a href="global.html#SourceGridLayout">SourceGridLayout</a></li><li><a href="global.html#SourceMangaGrid">SourceMangaGrid</a></li><li><a href="global.html#SourceMangas">SourceMangas</a></li><li><a href="global.html#SourceOptions">SourceOptions</a></li><li><a href="global.html#sourceToLangList">sourceToLangList</a></li><li><a href="global.html#SpinnerImage">SpinnerImage</a></li><li><a href="global.html#stateToChecked">stateToChecked</a></li><li><a href="global.html#stateTransition">stateTransition</a></li><li><a href="global.html#SwitchPreferenceCompat">SwitchPreferenceCompat</a></li><li><a href="global.html#TabPanel">TabPanel</a></li><li><a href="global.html#TextFilter">TextFilter</a></li><li><a href="global.html#ThreeStateCheckbox">ThreeStateCheckbox</a></li><li><a href="global.html#Toast">Toast</a></li><li><a href="global.html#toReadSort">toReadSort</a></li><li><a href="global.html#toSortAlph">toSortAlph</a></li><li><a href="global.html#toSortID">toSortID</a></li><li><a href="global.html#Transition">Transition</a></li><li><a href="global.html#truncateText">truncateText</a></li><li><a href="global.html#TwoSatePreference">TwoSatePreference</a></li><li><a href="global.html#unreadFilter">unreadFilter</a></li><li><a href="global.html#useChaptersFetch">useChaptersFetch</a></li><li><a href="global.html#useLibraryOptions">useLibraryOptions</a></li><li><a href="global.html#useLocalStorage">useLocalStorage</a></li><li><a href="global.html#useReducerLocalStorage">useReducerLocalStorage</a></li><li><a href="global.html#useStyles">useStyles</a></li><li><a href="global.html#VerticalReader">VerticalReader</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sat Mar 19 2022 18:16:30 GMT+0000 (Greenwich Mean Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

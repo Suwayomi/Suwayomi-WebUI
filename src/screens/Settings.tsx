@@ -32,6 +32,10 @@ import DarkTheme from '../components/context/DarkTheme';
 import useLocalStorage from '../util/useLocalStorage';
 import ListItemLink from '../components/util/ListItemLink';
 
+/**
+ * This function renders a list of settings
+ * @returns A list of settings.
+ */
 export default function Settings() {
     const { setTitle, setAction } = useContext(NavbarContext);
     useEffect(() => { setTitle('Settings'); setAction(<></>); }, []);
@@ -43,15 +47,24 @@ export default function Settings() {
     const [dialogOpen, setDialogOpen] = useState(false);
     const [dialogValue, setDialogValue] = useState(serverAddress);
 
+    /**
+     * It sets the dialog value to the server address and opens the dialog.
+     */
     const handleDialogOpen = () => {
         setDialogValue(serverAddress);
         setDialogOpen(true);
     };
 
+    /**
+     * It sets the dialogOpen state to false.
+     */
     const handleDialogCancel = () => {
         setDialogOpen(false);
     };
 
+    /**
+     * It sets the dialog open to false and sets the server address to the value of the dialog.
+     */
     const handleDialogSubmit = () => {
         setDialogOpen(false);
         setServerAddress(dialogValue);

@@ -12,6 +12,10 @@ import TabPanel from 'components/util/TabPanel';
 import Sources from 'screens/Sources';
 import Extensions from 'screens/Extensions';
 
+/**
+ * It creates a tabbed interface.
+ * @returns The `<Tabs>` component is being returned. The `<TabPanel>` component is being returned.
+ */
 export default function Browse() {
     const [tabNum, setTabNum] = useState<number>(0);
 

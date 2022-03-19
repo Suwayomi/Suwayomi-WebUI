@@ -24,6 +24,7 @@ interface IMangaCategory {
     isFetched: boolean
 }
 
+/* make a library page. */
 export default function Library() {
     const { setTitle, setAction } = useContext(NavbarContext);
     useEffect(() => {

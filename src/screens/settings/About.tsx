@@ -7,6 +7,10 @@ import ListItemLink from 'components/util/ListItemLink';
 import NavbarContext from 'components/context/NavbarContext';
 import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
 
+/**
+ * It renders a list of information about the server
+ * @returns A list of items.
+ */
 export default function About() {
     const { setTitle, setAction } = useContext(NavbarContext);
 
@@ -26,11 +30,18 @@ export default function About() {
         return <LoadingPlaceholder />;
     }
 
+    /**
+     * It returns a string.
+     * @returns The version number.
+     */
     const version = () => {
         if (about.buildType === 'Stable') return `${about.version}`;
         return `${about.version}-${about.revision}`;
     };
 
+    /**
+     * It returns a string representation of the date.
+     */
     const buildTime = () => new Date(about.buildTime * 1000).toUTCString();
 
     return (

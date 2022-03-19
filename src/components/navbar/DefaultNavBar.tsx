@@ -77,6 +77,10 @@ const navbarItems: Array<NavbarItem> = [
     },
 ];
 
+/**
+ * The function returns a navbar
+ * @returns The `DefaultNavBar` component returns a `Box` component with a `Toolbar` component.
+ */
 export default function DefaultNavBar() {
     const { title, action, override } = useContext(NavBarContext);
     const { darkTheme } = useContext(DarkTheme);

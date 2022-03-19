@@ -39,6 +39,7 @@ interface IFilters1 {
     update: any
 }
 
+/* This is the code that renders the filters. */
 export function Options({
     sourceFilter,
     group,
@@ -149,6 +150,10 @@ export function Options({
     );
 }
 
+/**
+ * This function is used to display the filter options
+ * @param {IFilters1}  - sourceFilter: The filter value to be updated.
+ */
 export default function SourceOptions({
     sourceFilter,
     updateFilterValue,
@@ -159,11 +164,21 @@ export default function SourceOptions({
 }: IFilters1) {
     const [FilterOptions, setFilterOptions] = React.useState(false);
 
+    /**
+     * This function resets the filter value to 0 and sets the filter options to false.
+     */
     function handleReset() {
         resetFilterValue(0);
         setFilterOptions(false);
     }
 
+    /**
+     * This function is called when the user clicks the search button. 
+     * It sets the triggerUpdate variable to 0, which will cause the search to run. 
+     * It also sets the search variable to true, which will cause the search to run. 
+     * Finally, it sets the filterOptions variable to false, which will cause the filter options to
+     * close
+     */
     function handleSubmit() {
         setTriggerUpdate(0);
         setSearch(true);

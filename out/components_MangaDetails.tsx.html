@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/MangaDetails.tsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/MangaDetails.tsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/*
+ * Copyright (C) Contributors to the Suwayomi project
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+import makeStyles from '@mui/styles/makeStyles';
+import IconButton from '@mui/material/IconButton';
+import { Theme } from '@mui/material/styles';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import PublicIcon from '@mui/icons-material/Public';
+import React, { useContext, useEffect, useState } from 'react';
+import NavbarContext from 'components/context/NavbarContext';
+import client from 'util/client';
+import useLocalStorage from 'util/useLocalStorage';
+import CategorySelect from './navbar/action/CategorySelect';
+
+/**
+ * `useStyles` is a function that returns a `makeStyles` object
+ * @param {string} inLibrary - string
+ */
+const useStyles = (inLibrary: string) => makeStyles((theme: Theme) => ({
+    root: {
+        width: '100%',
+        [theme.breakpoints.up('md')]: {
+            position: 'sticky',
+            top: '64px',
+            left: '0px',
+            width: '50vw',
+            height: 'calc(100vh - 64px)',
+            alignSelf: 'flex-start',
+            overflowY: 'auto',
+        },
+    },
+    top: {
+        padding: '10px',
+        // [theme.breakpoints.up('md')]: {
+        //     minWidth: '50%',
+        // },
+    },
+    leftRight: {
+        display: 'flex',
+    },
+    leftSide: {
+        '&amp; img': {
+            borderRadius: 4,
+            maxWidth: '100%',
+            minWidth: '100%',
+            height: 'auto',
+        },
+        maxWidth: '50%',
+        // [theme.breakpoints.up('md')]: {
+        //     minWidth: '100px',
+        // },
+    },
+    rightSide: {
+        marginLeft: 15,
+        maxWidth: '100%',
+        '&amp; span': {
+            fontWeight: '400',
+        },
+        [theme.breakpoints.up('lg')]: {
+            fontSize: '1.3em',
+        },
+    },
+    buttons: {
+        display: 'flex',
+        justifyContent: 'space-around',
+        '&amp; button': {
+            color: inLibrary === 'In Library' ? '#2196f3' : 'inherit',
+        },
+        '&amp; span': {
+            display: 'block',
+            fontSize: '0.85em',
+        },
+        '&amp; a': {
+            textDecoration: 'none',
+            color: '#858585',
+            '&amp; button': {
+                color: 'inherit',
+            },
+        },
+    },
+    bottom: {
+        paddingLeft: '10px',
+        paddingRight: '10px',
+        [theme.breakpoints.up('md')]: {
+            fontSize: '1.2em',
+            // maxWidth: '50%',
+        },
+        [theme.breakpoints.up('lg')]: {
+            fontSize: '1.3em',
+        },
+    },
+    description: {
+        '&amp; h4': {
+            marginTop: '1em',
+            marginBottom: 0,
+        },
+        '&amp; p': {
+            textAlign: 'justify',
+            textJustify: 'inter-word',
+        },
+    },
+    genre: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        '&amp; h5': {
+            border: '2px solid #2196f3',
+            borderRadius: '1.13em',
+            marginRight: '1em',
+            marginTop: 0,
+            marginBottom: '10px',
+            padding: '0.3em',
+            color: '#2196f3',
+        },
+    },
+}));
+
+interface IProps{
+    manga: IManga
+}
+
+/**
+ * Given a source, return the name of the source
+ * @param {ISource} source - The source object that you want to display.
+ * @returns The name of the source.
+ */
+function getSourceName(source: ISource) {
+    if (source.displayName !== null) {
+        return source.displayName;
+    }
+    return source.id;
+}
+
+/**
+ * Return the value if it exists, otherwise return 'UNKNOWN'
+ * @param {string} val - The value to be checked.
+ * @returns The value of the variable `val` or the string `'UNKNOWN'` if `val` is `undefined`.
+ */
+function getValueOrUnknown(val: string) {
+    return val || 'UNKNOWN';
+}
+
+/**
+ * This function renders the manga details page
+ */
+export default function MangaDetails(props: IProps) {
+    const { setAction } = useContext(NavbarContext);
+
+    const { manga } = props;
+
+    const [inLibrary, setInLibrary] = useState&lt;string>(
+        manga.inLibrary ? 'In Library' : 'Add To Library',
+    );
+
+    const [categoryDialogOpen, setCategoryDialogOpen] = useState&lt;boolean>(false);
+
+    useEffect(() => {
+        if (inLibrary === 'In Library') {
+            setAction(
+                &lt;>
+                    &lt;IconButton
+                        onClick={() => setCategoryDialogOpen(true)}
+                        aria-label="display more actions"
+                        edge="end"
+                        color="inherit"
+                        size="large"
+                    >
+                        &lt;FilterListIcon />
+                    &lt;/IconButton>
+                    &lt;CategorySelect
+                        open={categoryDialogOpen}
+                        setOpen={setCategoryDialogOpen}
+                        mangaId={manga.id}
+                    />
+                &lt;/>,
+
+            );
+        } else { setAction(&lt;>&lt;/>); }
+    }, [inLibrary, categoryDialogOpen]);
+
+    const [serverAddress] = useLocalStorage&lt;String>('serverBaseURL', '');
+    const [useCache] = useLocalStorage&lt;boolean>('useCache', true);
+
+    const classes = useStyles(inLibrary)();
+
+    /**
+     * It adds the manga to the user's library.
+     */
+    function addToLibrary() {
+        // setInLibrary('adding');
+        client.get(`/api/v1/manga/${manga.id}/library/`).then(() => {
+            setInLibrary('In Library');
+        });
+    }
+
+    /**
+     * It removes the manga from the library.
+     */
+    function removeFromLibrary() {
+        // setInLibrary('removing');
+        client.delete(`/api/v1/manga/${manga.id}/library/`).then(() => {
+            setInLibrary('Add To Library');
+        });
+    }
+
+    /**
+     * It adds or removes the current manga from the user's library.
+     */
+    function handleButtonClick() {
+        if (inLibrary === 'Add To Library') {
+            addToLibrary();
+        } else {
+            removeFromLibrary();
+        }
+    }
+
+    return (
+        &lt;div className={classes.root}>
+            &lt;div className={classes.top}>
+                &lt;div className={classes.leftRight}>
+                    &lt;div className={classes.leftSide}>
+                        &lt;img src={`${serverAddress}${manga.thumbnailUrl}?useCache=${useCache}`} alt="Manga Thumbnail" />
+                    &lt;/div>
+                    &lt;div className={classes.rightSide}>
+                        &lt;h1>
+                            {manga.title}
+                        &lt;/h1>
+                        &lt;h3>
+                            {'Author: '}
+                            &lt;span>{getValueOrUnknown(manga.author)}&lt;/span>
+                        &lt;/h3>
+                        &lt;h3>
+                            {'Artist: '}
+                            &lt;span>{getValueOrUnknown(manga.artist)}&lt;/span>
+                        &lt;/h3>
+                        &lt;h3>
+                            {`Status: ${manga.status}`}
+                        &lt;/h3>
+                        &lt;h3>
+                            {`Source: ${getSourceName(manga.source)}`}
+                        &lt;/h3>
+                    &lt;/div>
+                &lt;/div>
+                &lt;div className={classes.buttons}>
+                    &lt;div>
+                        &lt;IconButton onClick={() => handleButtonClick()} size="large">
+                            {inLibrary === 'In Library' &amp;&amp; &lt;FavoriteIcon />}
+                            {inLibrary !== 'In Library' &amp;&amp; &lt;FavoriteBorderIcon />}
+                            &lt;span>{inLibrary}&lt;/span>
+                        &lt;/IconButton>
+                    &lt;/div>
+                    { /* eslint-disable-next-line react/jsx-no-target-blank */ }
+                    &lt;a href={manga.realUrl} target="_blank">
+                        &lt;IconButton size="large">
+                            &lt;PublicIcon />
+                            &lt;span>Open Site&lt;/span>
+                        &lt;/IconButton>
+                    &lt;/a>
+                &lt;/div>
+            &lt;/div>
+            &lt;div className={classes.bottom}>
+                &lt;div className={classes.description}>
+                    &lt;h4>About&lt;/h4>
+                    &lt;p>{manga.description}&lt;/p>
+                &lt;/div>
+                &lt;div className={classes.genre}>
+                    {manga.genre.map((g) => &lt;h5 key={g}>{g}&lt;/h5>)}
+                &lt;/div>
+            &lt;/div>
+        &lt;/div>
+    );
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#About">About</a></li><li><a href="global.html#Backup">Backup</a></li><li><a href="global.html#bookmarkdFilter">bookmarkdFilter</a></li><li><a href="global.html#Browse">Browse</a></li><li><a href="global.html#Categories">Categories</a></li><li><a href="global.html#CategorySelect">CategorySelect</a></li><li><a href="global.html#ChapterList">ChapterList</a></li><li><a href="global.html#CheckBoxPreference">CheckBoxPreference</a></li><li><a href="global.html#cloneObject">cloneObject</a></li><li><a href="global.html#default">default</a></li><li><a href="global.html#defaultChapterOptions">defaultChapterOptions</a></li><li><a href="global.html#defaultNativeLang">defaultNativeLang</a></li><li><a href="global.html#DefaultNavBar">DefaultNavBar</a></li><li><a href="global.html#defaultReaderSettings">defaultReaderSettings</a></li><li><a href="global.html#dispalyTab">dispalyTab</a></li><li><a href="global.html#DoublePagedPager">DoublePagedPager</a></li><li><a href="global.html#downloadedFilter">downloadedFilter</a></li><li><a href="global.html#downloadFilter">downloadFilter</a></li><li><a href="global.html#DownloadQueue">DownloadQueue</a></li><li><a href="global.html#EditTextPreference">EditTextPreference</a></li><li><a href="global.html#epochToDate">epochToDate</a></li><li><a href="global.html#ExtensionCard">ExtensionCard</a></li><li><a href="global.html#extensionDefaultLangs">extensionDefaultLangs</a></li><li><a href="global.html#filterAndSortChapters">filterAndSortChapters</a></li><li><a href="global.html#filterManga">filterManga</a></li><li><a href="global.html#filtersTab">filtersTab</a></li><li><a href="global.html#findFirstUnreadChapter">findFirstUnreadChapter</a></li><li><a href="global.html#getDateString">getDateString</a></li><li><a href="global.html#getItem">getItem</a></li><li><a href="global.html#getItemStyle">getItemStyle</a></li><li><a href="global.html#getPrefComponent">getPrefComponent</a></li><li><a href="global.html#getRandomErrorFace">getRandomErrorFace</a></li><li><a href="global.html#getReaderComponent">getReaderComponent</a></li><li><a href="global.html#getSourceName">getSourceName</a></li><li><a href="global.html#getTwoStateType">getTwoStateType</a></li><li><a href="global.html#getValueOrUnknown">getValueOrUnknown</a></li><li><a href="global.html#groupByDate">groupByDate</a></li><li><a href="global.html#groupByLang">groupByLang</a></li><li><a href="global.html#groupExtensions">groupExtensions</a></li><li><a href="global.html#HeaderFilter">HeaderFilter</a></li><li><a href="global.html#HorizontalPager">HorizontalPager</a></li><li><a href="global.html#imageStyle">imageStyle</a></li><li><a href="global.html#ISOLanguages">ISOLanguages</a></li><li><a href="global.html#isTheSameDay">isTheSameDay</a></li><li><a href="global.html#langSortCmp">langSortCmp</a></li><li><a href="global.html#LibraryMangaGrid">LibraryMangaGrid</a></li><li><a href="global.html#LibraryOptions">LibraryOptions</a></li><li><a href="global.html#LibraryOptionsContextProvider">LibraryOptionsContextProvider</a></li><li><a href="global.html#ListItemLink">ListItemLink</a></li><li><a href="global.html#LoadingPlaceholder">LoadingPlaceholder</a></li><li><a href="global.html#makeToast">makeToast</a></li><li><a href="global.html#makeToaster">makeToaster</a></li><li><a href="global.html#Manga">Manga</a></li><li><a href="global.html#MangaDetails">MangaDetails</a></li><li><a href="global.html#MultiSelectListPreference">MultiSelectListPreference</a></li><li><a href="global.html#NavBarProvider">NavBarProvider</a></li><li><a href="global.html#Options">Options</a></li><li><a href="global.html#PagedReader">PagedReader</a></li><li><a href="global.html#PageNumber">PageNumber</a></li><li><a href="global.html#queryFilter">queryFilter</a></li><li><a href="global.html#removeAll">removeAll</a></li><li><a href="global.html#removeToast">removeToast</a></li><li><a href="global.html#ResumeFab">ResumeFab</a></li><li><a href="global.html#SelectFilter">SelectFilter</a></li><li><a href="global.html#SeperatorFilter">SeperatorFilter</a></li><li><a href="global.html#setItem">setItem</a></li><li><a href="global.html#Settings">Settings</a></li><li><a href="global.html#sortManga">sortManga</a></li><li><a href="global.html#sortsTab">sortsTab</a></li><li><a href="global.html#SourceConfigure">SourceConfigure</a></li><li><a href="global.html#sourceDefualtLangs">sourceDefualtLangs</a></li><li><a href="global.html#sourceForcedDefaultLangs">sourceForcedDefaultLangs</a></li><li><a href="global.html#SourceGridLayout">SourceGridLayout</a></li><li><a href="global.html#SourceMangaGrid">SourceMangaGrid</a></li><li><a href="global.html#SourceMangas">SourceMangas</a></li><li><a href="global.html#SourceOptions">SourceOptions</a></li><li><a href="global.html#sourceToLangList">sourceToLangList</a></li><li><a href="global.html#SpinnerImage">SpinnerImage</a></li><li><a href="global.html#stateToChecked">stateToChecked</a></li><li><a href="global.html#stateTransition">stateTransition</a></li><li><a href="global.html#SwitchPreferenceCompat">SwitchPreferenceCompat</a></li><li><a href="global.html#TabPanel">TabPanel</a></li><li><a href="global.html#TextFilter">TextFilter</a></li><li><a href="global.html#ThreeStateCheckbox">ThreeStateCheckbox</a></li><li><a href="global.html#Toast">Toast</a></li><li><a href="global.html#toReadSort">toReadSort</a></li><li><a href="global.html#toSortAlph">toSortAlph</a></li><li><a href="global.html#toSortID">toSortID</a></li><li><a href="global.html#Transition">Transition</a></li><li><a href="global.html#truncateText">truncateText</a></li><li><a href="global.html#TwoSatePreference">TwoSatePreference</a></li><li><a href="global.html#unreadFilter">unreadFilter</a></li><li><a href="global.html#useChaptersFetch">useChaptersFetch</a></li><li><a href="global.html#useLibraryOptions">useLibraryOptions</a></li><li><a href="global.html#useLocalStorage">useLocalStorage</a></li><li><a href="global.html#useReducerLocalStorage">useReducerLocalStorage</a></li><li><a href="global.html#useStyles">useStyles</a></li><li><a href="global.html#VerticalReader">VerticalReader</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sat Mar 19 2022 18:16:30 GMT+0000 (Greenwich Mean Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -23,6 +23,10 @@ interface Props {
     update: any
 }
 
+/**
+ * It creates a text input for the filter bar
+ * @param {Props} props - Props
+ */
 export default function TextFilter(props: Props) {
     const {
         state,
@@ -35,6 +39,10 @@ export default function TextFilter(props: Props) {
     const [Search, setsearch] = React.useState(state || '');
     let typingTimer: NodeJS.Timeout;
 
+    /**
+     * It updates the state of the filter value.
+     * @param e - React.ChangeEvent<HTMLInputElement>
+     */
     function doneTyping(e: React.ChangeEvent<HTMLInputElement>) {
         const upd = update.filter((el: {
             position: number; group: number | undefined;
@@ -42,6 +50,10 @@ export default function TextFilter(props: Props) {
         updateFilterValue([...upd, { position, state: e.target.value, group }]);
     }
 
+    /**
+     * It sets the state of the search variable to the value of the input field.
+     * @param e - React.ChangeEvent<HTMLInputElement>
+     */
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         setsearch(e.target.value);
 

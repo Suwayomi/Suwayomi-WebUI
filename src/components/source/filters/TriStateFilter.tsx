@@ -32,6 +32,10 @@ export default function TriStateFilter(props: Props) {
         [name]: state,
     });
 
+    /**
+     * It takes a checked value and updates the value of the filter
+     * @param {boolean | null | undefined} checked - The value of the checkbox.
+     */
     const handleChange = (checked: boolean | null | undefined) => {
         const tmp = val;
         if (checked !== undefined) {

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/MangaCard.tsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/MangaCard.tsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/*
+ * Copyright (C) Contributors to the Suwayomi project
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+import React from 'react';
+import Card from '@mui/material/Card';
+import CardActionArea from '@mui/material/CardActionArea';
+import Typography from '@mui/material/Typography';
+import { Link } from 'react-router-dom';
+import { Avatar, CardContent, Grid } from '@mui/material';
+import useLocalStorage from 'util/useLocalStorage';
+import SpinnerImage from 'components/util/SpinnerImage';
+import { Box, styled } from '@mui/system';
+import { useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
+
+const BottomGradient = styled('div')({
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    height: '30%',
+    background: 'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%)',
+});
+
+const BottomGradientDoubledDown = styled('div')({
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    height: '20%',
+    background: 'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%)',
+});
+
+const MangaTitle = styled(Typography)({
+    position: 'absolute',
+    bottom: 0,
+    padding: '0.5em',
+    color: 'white',
+    fontSize: '1.05rem',
+    textShadow: '0px 0px 3px #000000',
+});
+
+const BadgeContainer = styled('div')({
+    display: 'flex',
+    position: 'absolute',
+    top: 5,
+    left: 5,
+    height: 'fit-content',
+    borderRadius: '5px',
+    overflow: 'hidden',
+    '&amp; p': {
+        color: 'white',
+        padding: '0.1em',
+        paddingInline: '0.2em',
+        fontSize: '1.05rem',
+    },
+});
+
+/**
+ * It takes a string and a number as arguments. It returns a string that is the original string
+ * truncated to the length of the number argument. If the string is shorter than the number argument,
+ * the original string is returned. If the string is longer than the number argument, the string is
+ * truncated to the length of the number argument and a "..." is appended to the end
+ * @param {string} str - The string to truncate.
+ * @param {number} maxLength - The maximum length of the string.
+ * @returns The string is being trimmed to the maximum length and then the ending is added.
+ */
+const truncateText = (str: string, maxLength: number) => {
+    const ending = '...';
+    // trim the string to the maximum length
+    const trimmedString = str.substr(0, maxLength - ending.length);
+
+    if (trimmedString.length &lt; str.length) {
+        return trimmedString + ending;
+    }
+    return str;
+};
+
+interface IProps {
+    manga: IMangaCard
+    gridLayout: number | undefined
+}
+/* This is a React component that renders a manga card. */
+const MangaCard = React.forwardRef&lt;HTMLDivElement, IProps>((props: IProps, ref) => {
+    const {
+        manga: {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            id, title, thumbnailUrl, downloadCount, unreadCount: unread, inLibrary,
+        },
+        gridLayout,
+    } = props;
+    const { options: { showUnreadBadge, showDownloadBadge } } = useLibraryOptionsContext();
+
+    const [serverAddress] = useLocalStorage&lt;String>('serverBaseURL', '');
+    const [useCache] = useLocalStorage&lt;boolean>('useCache', true);
+
+    if (gridLayout !== 2) {
+        return (
+            &lt;Grid item xs={6} sm={4} md={3} lg={2}>
+                &lt;Link to={`/manga/${id}/`} style={(gridLayout === 1) ? { textDecoration: 'none' } : {}}>
+                    &lt;Box
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                        }}
+                    >
+                        &lt;Card
+                            sx={{
+                            // force standard aspect ratio of manga covers
+                                aspectRatio: '225/350',
+                                display: 'flex',
+                            }}
+                            ref={ref}
+                        >
+                            &lt;CardActionArea
+                                sx={{
+                                    position: 'relative',
+                                    height: '100%',
+                                }}
+                            >
+
+                                &lt;BadgeContainer>
+                                    {inLibrary &amp;&amp; (
+                                        &lt;Typography
+                                            sx={{ backgroundColor: 'primary.dark', zIndex: '1' }}
+                                        >
+                                            In library
+                                        &lt;/Typography>
+                                    )}
+                                    { showUnreadBadge &amp;&amp; unread! > 0 &amp;&amp; (
+                                        &lt;Typography
+                                            sx={{ backgroundColor: 'primary.dark' }}
+                                        >
+                                            {unread}
+                                        &lt;/Typography>
+                                    )}
+                                    { showDownloadBadge &amp;&amp; downloadCount! > 0 &amp;&amp; (
+                                        &lt;Typography sx={{
+                                            backgroundColor: 'success.dark',
+                                        }}
+                                        >
+                                            {downloadCount}
+                                        &lt;/Typography>
+                                    )}
+                                &lt;/BadgeContainer>
+                                &lt;SpinnerImage
+                                    alt={title}
+                                    src={`${serverAddress}${thumbnailUrl}?useCache=${useCache}`}
+                                    imgStyle={inLibrary
+                                        ? {
+                                            height: '100%',
+                                            width: '100%',
+                                            objectFit: 'cover',
+                                            filter: 'brightness(0.4)',
+                                        }
+                                        : {
+                                            height: '100%',
+                                            width: '100%',
+                                            objectFit: 'cover',
+                                        }}
+                                    spinnerStyle={{
+                                        display: 'grid',
+                                        placeItems: 'center',
+                                    }}
+                                />
+                                {(gridLayout === 1) ? (&lt;>&lt;/>) : (
+                                    &lt;>
+                                        &lt;BottomGradient />
+                                        &lt;BottomGradientDoubledDown />
+                                    &lt;/>
+                                )}
+                                {(gridLayout === 1) ? (
+                                    &lt;>&lt;/>
+                                ) : (
+                                    &lt;MangaTitle>
+                                        {truncateText(title, 61)}
+                                    &lt;/MangaTitle>
+                                )}
+                            &lt;/CardActionArea>
+                        &lt;/Card>
+                        {(gridLayout === 1) ? (
+                            &lt;MangaTitle
+                                sx={{
+                                    position: 'relative',
+                                }}
+                            >
+                                {truncateText(title, 61)}
+                            &lt;/MangaTitle>
+                        ) : (&lt;>&lt;/>)}
+                    &lt;/Box>
+                &lt;/Link>
+            &lt;/Grid>
+        );
+    }
+    return (
+        &lt;Grid item xs={12} sm={12} md={12} lg={12}>
+            &lt;Link to={`/manga/${id}/`} style={{ textDecoration: 'none', color: 'unset' }}>
+                &lt;CardContent sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    padding: 2,
+                    '&amp;:hover': {
+                        backgroundColor: 'action.hover',
+                        transition: 'background-color 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+                    },
+                    '&amp;:active': {
+                        backgroundColor: 'action.selected',
+                        transition: 'background-color 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+                    },
+                    position: 'relative',
+                }}
+                >
+                    &lt;Avatar
+                        variant="rounded"
+                        sx={inLibrary
+                            ? {
+                                width: 56,
+                                height: 56,
+                                flex: '0 0 auto',
+                                marginRight: 2,
+                                imageRendering: 'pixelated',
+                                filter: 'brightness(0.4)',
+                            }
+                            : {
+                                width: 56,
+                                height: 56,
+                                flex: '0 0 auto',
+                                marginRight: 2,
+                                imageRendering: 'pixelated',
+                            }}
+                        src={`${serverAddress}${thumbnailUrl}?useCache=${useCache}`}
+                    />
+                    &lt;Box
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            flexGrow: 1,
+                            width: 'min-content',
+                        }}
+                    >
+                        &lt;Typography variant="h5" component="h2">
+                            {truncateText(title, 61)}
+                        &lt;/Typography>
+                    &lt;/Box>
+                    &lt;BadgeContainer sx={{ position: 'relative' }}>
+                        {inLibrary &amp;&amp; (
+                            &lt;Typography
+                                sx={{ backgroundColor: 'primary.dark', zIndex: '1' }}
+                            >
+                                In library
+                            &lt;/Typography>
+                        )}
+                        { showUnreadBadge &amp;&amp; unread! > 0 &amp;&amp; (
+                            &lt;Typography
+                                sx={{ backgroundColor: 'primary.dark' }}
+                            >
+                                {unread}
+                            &lt;/Typography>
+                        )}
+                        { showDownloadBadge &amp;&amp; downloadCount! > 0 &amp;&amp; (
+                            &lt;Typography sx={{
+                                backgroundColor: 'success.dark',
+                            }}
+                            >
+                                {downloadCount}
+                            &lt;/Typography>
+                        )}
+                    &lt;/BadgeContainer>
+                &lt;/CardContent>
+            &lt;/Link>
+        &lt;/Grid>
+    );
+});
+
+export default MangaCard;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#About">About</a></li><li><a href="global.html#Backup">Backup</a></li><li><a href="global.html#bookmarkdFilter">bookmarkdFilter</a></li><li><a href="global.html#Browse">Browse</a></li><li><a href="global.html#Categories">Categories</a></li><li><a href="global.html#CategorySelect">CategorySelect</a></li><li><a href="global.html#ChapterList">ChapterList</a></li><li><a href="global.html#CheckBoxPreference">CheckBoxPreference</a></li><li><a href="global.html#cloneObject">cloneObject</a></li><li><a href="global.html#default">default</a></li><li><a href="global.html#defaultChapterOptions">defaultChapterOptions</a></li><li><a href="global.html#defaultNativeLang">defaultNativeLang</a></li><li><a href="global.html#DefaultNavBar">DefaultNavBar</a></li><li><a href="global.html#defaultReaderSettings">defaultReaderSettings</a></li><li><a href="global.html#dispalyTab">dispalyTab</a></li><li><a href="global.html#DoublePagedPager">DoublePagedPager</a></li><li><a href="global.html#downloadedFilter">downloadedFilter</a></li><li><a href="global.html#downloadFilter">downloadFilter</a></li><li><a href="global.html#DownloadQueue">DownloadQueue</a></li><li><a href="global.html#EditTextPreference">EditTextPreference</a></li><li><a href="global.html#epochToDate">epochToDate</a></li><li><a href="global.html#ExtensionCard">ExtensionCard</a></li><li><a href="global.html#extensionDefaultLangs">extensionDefaultLangs</a></li><li><a href="global.html#filterAndSortChapters">filterAndSortChapters</a></li><li><a href="global.html#filterManga">filterManga</a></li><li><a href="global.html#filtersTab">filtersTab</a></li><li><a href="global.html#findFirstUnreadChapter">findFirstUnreadChapter</a></li><li><a href="global.html#getDateString">getDateString</a></li><li><a href="global.html#getItem">getItem</a></li><li><a href="global.html#getItemStyle">getItemStyle</a></li><li><a href="global.html#getPrefComponent">getPrefComponent</a></li><li><a href="global.html#getRandomErrorFace">getRandomErrorFace</a></li><li><a href="global.html#getReaderComponent">getReaderComponent</a></li><li><a href="global.html#getSourceName">getSourceName</a></li><li><a href="global.html#getTwoStateType">getTwoStateType</a></li><li><a href="global.html#getValueOrUnknown">getValueOrUnknown</a></li><li><a href="global.html#groupByDate">groupByDate</a></li><li><a href="global.html#groupByLang">groupByLang</a></li><li><a href="global.html#groupExtensions">groupExtensions</a></li><li><a href="global.html#HeaderFilter">HeaderFilter</a></li><li><a href="global.html#HorizontalPager">HorizontalPager</a></li><li><a href="global.html#imageStyle">imageStyle</a></li><li><a href="global.html#ISOLanguages">ISOLanguages</a></li><li><a href="global.html#isTheSameDay">isTheSameDay</a></li><li><a href="global.html#langSortCmp">langSortCmp</a></li><li><a href="global.html#LibraryMangaGrid">LibraryMangaGrid</a></li><li><a href="global.html#LibraryOptions">LibraryOptions</a></li><li><a href="global.html#LibraryOptionsContextProvider">LibraryOptionsContextProvider</a></li><li><a href="global.html#ListItemLink">ListItemLink</a></li><li><a href="global.html#LoadingPlaceholder">LoadingPlaceholder</a></li><li><a href="global.html#makeToast">makeToast</a></li><li><a href="global.html#makeToaster">makeToaster</a></li><li><a href="global.html#Manga">Manga</a></li><li><a href="global.html#MangaDetails">MangaDetails</a></li><li><a href="global.html#MultiSelectListPreference">MultiSelectListPreference</a></li><li><a href="global.html#NavBarProvider">NavBarProvider</a></li><li><a href="global.html#Options">Options</a></li><li><a href="global.html#PagedReader">PagedReader</a></li><li><a href="global.html#PageNumber">PageNumber</a></li><li><a href="global.html#queryFilter">queryFilter</a></li><li><a href="global.html#removeAll">removeAll</a></li><li><a href="global.html#removeToast">removeToast</a></li><li><a href="global.html#ResumeFab">ResumeFab</a></li><li><a href="global.html#SelectFilter">SelectFilter</a></li><li><a href="global.html#SeperatorFilter">SeperatorFilter</a></li><li><a href="global.html#setItem">setItem</a></li><li><a href="global.html#Settings">Settings</a></li><li><a href="global.html#sortManga">sortManga</a></li><li><a href="global.html#sortsTab">sortsTab</a></li><li><a href="global.html#SourceConfigure">SourceConfigure</a></li><li><a href="global.html#sourceDefualtLangs">sourceDefualtLangs</a></li><li><a href="global.html#sourceForcedDefaultLangs">sourceForcedDefaultLangs</a></li><li><a href="global.html#SourceGridLayout">SourceGridLayout</a></li><li><a href="global.html#SourceMangaGrid">SourceMangaGrid</a></li><li><a href="global.html#SourceMangas">SourceMangas</a></li><li><a href="global.html#SourceOptions">SourceOptions</a></li><li><a href="global.html#sourceToLangList">sourceToLangList</a></li><li><a href="global.html#SpinnerImage">SpinnerImage</a></li><li><a href="global.html#stateToChecked">stateToChecked</a></li><li><a href="global.html#stateTransition">stateTransition</a></li><li><a href="global.html#SwitchPreferenceCompat">SwitchPreferenceCompat</a></li><li><a href="global.html#TabPanel">TabPanel</a></li><li><a href="global.html#TextFilter">TextFilter</a></li><li><a href="global.html#ThreeStateCheckbox">ThreeStateCheckbox</a></li><li><a href="global.html#Toast">Toast</a></li><li><a href="global.html#toReadSort">toReadSort</a></li><li><a href="global.html#toSortAlph">toSortAlph</a></li><li><a href="global.html#toSortID">toSortID</a></li><li><a href="global.html#Transition">Transition</a></li><li><a href="global.html#truncateText">truncateText</a></li><li><a href="global.html#TwoSatePreference">TwoSatePreference</a></li><li><a href="global.html#unreadFilter">unreadFilter</a></li><li><a href="global.html#useChaptersFetch">useChaptersFetch</a></li><li><a href="global.html#useLibraryOptions">useLibraryOptions</a></li><li><a href="global.html#useLocalStorage">useLocalStorage</a></li><li><a href="global.html#useReducerLocalStorage">useReducerLocalStorage</a></li><li><a href="global.html#useStyles">useStyles</a></li><li><a href="global.html#VerticalReader">VerticalReader</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sat Mar 19 2022 18:16:30 GMT+0000 (Greenwich Mean Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

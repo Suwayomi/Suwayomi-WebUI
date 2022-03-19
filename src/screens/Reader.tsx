@@ -20,6 +20,11 @@ import useLocalStorage from 'util/useLocalStorage';
 import cloneObject from 'util/cloneObject';
 import { Box } from '@mui/system';
 
+/**
+ * It returns the correct component based on the readerType
+ * @param {ReaderType} readerType - The type of reader to use.
+ * @returns A component that will be used to render the reader.
+ */
 const getReaderComponent = (readerType: ReaderType) => {
     switch (readerType) {
         case 'ContinuesVertical':
@@ -53,6 +58,7 @@ const initialChapter = () => ({
     name: 'Loading...',
 });
 
+/* This is the code that renders the reader. */
 export default function Reader() {
     const [settings, setSettings] = useLocalStorage<IReaderSettings>('readerSettings', defaultReaderSettings);
 
@@ -150,6 +156,9 @@ export default function Reader() {
         );
     }
 
+    /**
+     * If the current chapter is not the last chapter, then go to the next chapter
+     */
     const nextChapter = () => {
         if (chapter.index < chapter.chapterCount) {
             const formData = new FormData();
@@ -161,12 +170,19 @@ export default function Reader() {
         }
     };
 
+    /**
+     * If the current chapter index is greater than 1, then replace the current URL with the URL of the
+     * previous chapter
+     */
     const prevChapter = () => {
         if (chapter.index > 1) {
             history.replace(`/manga/${manga.id}/chapter/${chapter.index - 1}`);
         }
     };
 
+    /* This is a helper function that creates an array of objects that contain the index and the src of
+    the image.
+    The src is the URL of the image. */
     const pages = range(chapter.pageCount).map((index) => ({
         index,
         src: `${serverAddress}/api/v1/manga/${mangaId}/chapter/${chapterIndex}/page/${index}`,

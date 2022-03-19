@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/sourceConfiguration/MultiSelectListPreference.tsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/sourceConfiguration/MultiSelectListPreference.tsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/*
+ * Copyright (C) Contributors to the Suwayomi project
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+import React, { useState, useEffect } from 'react';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import FormGroup from '@mui/material/FormGroup';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Button from '@mui/material/Button';
+import cloneObject from 'util/cloneObject';
+
+interface IListDialogProps{
+    selectedValues: string[]
+    open: boolean
+    onClose: (arg0: string[] | null) => void
+    values: string[]
+    title: string
+}
+
+/* It's a function component. */
+function ListDialog(props: IListDialogProps) {
+    const {
+        selectedValues: selectedValuesProp, open, onClose, values, title,
+    } = props;
+    const [selectedValues, setSelectedValues] = React.useState(selectedValuesProp);
+
+    React.useEffect(() => {
+        if (!open) {
+            setSelectedValues(selectedValuesProp);
+        }
+    }, [selectedValuesProp, open]);
+
+    /**
+     * It closes the modal.
+     */
+    const handleCancel = () => {
+        onClose(null);
+    };
+
+    /**
+     * It closes the dialog and passes the selected values to the onClose function.
+     */
+    const handleOk = () => {
+        onClose(selectedValues);
+    };
+
+    /**
+     * If the value is in the selectedValues array, remove it. If it's not, add it
+     * @param event - React.ChangeEvent&lt;HTMLInputElement>
+     * @param {string} value - The value of the option that was selected.
+     */
+    const handleChange = (event: React.ChangeEvent&lt;HTMLInputElement>, value: string) => {
+        const { checked } = event.target as HTMLInputElement;
+
+        const hasEntry = selectedValues.some((selectedValue) => value === selectedValue);
+        if (checked) {
+            if (!hasEntry) {
+                const selectedValuesClone = cloneObject(selectedValues) as string[];
+                selectedValuesClone.push(value);
+                setSelectedValues(selectedValuesClone);
+            }
+        } else if (hasEntry) { // not checked and has entry
+            const selectedValuesClone = cloneObject(selectedValues) as string[];
+            const index = selectedValuesClone.indexOf(value);
+            selectedValuesClone.splice(index, 1);
+            setSelectedValues(selectedValuesClone);
+        }
+    };
+
+    return (
+        &lt;Dialog
+            sx={{ '&amp; .MuiDialog-paper': { width: '80%', maxHeight: 435 } }}
+            maxWidth="xs"
+            open={open}
+        >
+            &lt;DialogTitle>{title}&lt;/DialogTitle>
+            &lt;DialogContent dividers>
+                &lt;FormGroup>
+                    {values.map((value) => (
+                        &lt;FormControlLabel
+                            control={(
+                                &lt;Checkbox
+                                    checked={selectedValues.some(
+                                        (selectedValue) => value === selectedValue,
+                                    )}
+                                    onChange={(e) => handleChange(e, value)}
+                                    color="default"
+                                />
+                            )}
+                            label={value}
+                            key={value}
+                        />
+                    ))}
+                &lt;/FormGroup>
+            &lt;/DialogContent>
+            &lt;DialogActions>
+                &lt;Button autoFocus onClick={handleCancel}>
+                    Cancel
+                &lt;/Button>
+                &lt;Button onClick={handleOk}>Ok&lt;/Button>
+            &lt;/DialogActions>
+        &lt;/Dialog>
+    );
+}
+
+/**
+ * It shows a list of items, and when you click on one, it opens a dialog with a list of items
+ * @param {MultiSelectListPreferenceProps} props - MultiSelectListPreferenceProps
+ * @returns The ListDialog component is being returned.
+ */
+export default function MultiSelectListPreference(props: MultiSelectListPreferenceProps) {
+    const {
+        title, summary, currentValue, updateValue, entryValues, entries,
+    } = props;
+    const [internalCurrentValue, setInternalCurrentValue] = useState&lt;string[]>(currentValue);
+    const [dialogOpen, setDialogOpen] = useState&lt;boolean>(false);
+
+    useEffect(() => {
+        setInternalCurrentValue(currentValue);
+    }, [currentValue]);
+
+    /**
+     * Given an array of strings, return an array of objects
+     * @param {string[]} values - The values to find.
+     */
+    const findEntriesOf = (values: string[]) => values.map((value) => {
+        const idx = entryValues.indexOf(value);
+        return entries[idx];
+    });
+
+    /**
+     * Given an array of strings, return an array of strings
+     * @param {string[]} values - The values to find in the entries array.
+     */
+    const findEntryValuesOf = (values: string[]) => values.map((value) => {
+        const idx = entries.indexOf(value);
+        return entryValues[idx];
+    });
+
+    const getSummary = () => summary;
+
+    /**
+     * When the user clicks on a value in the dropdown, the value is added to the list of selected
+     * values
+     * @param {string[] | null} newValue - The new value of the selected entry.
+     */
+    const handleDialogClose = (newValue: string[] | null) => {
+        if (newValue !== null) {
+            // console.log(newValue);
+            updateValue(findEntryValuesOf(newValue));
+
+            // appear smooth
+            setInternalCurrentValue(newValue);
+        }
+
+        setDialogOpen(false);
+    };
+
+    return (
+        &lt;>
+            &lt;ListItem
+                button
+                onClick={() => setDialogOpen(true)}
+            >
+                &lt;ListItemText primary={title} secondary={getSummary()} />
+            &lt;/ListItem>
+            &lt;ListDialog
+                title={title}
+                open={dialogOpen}
+                onClose={handleDialogClose}
+                selectedValues={findEntriesOf(internalCurrentValue)}
+                values={entries}
+            />
+        &lt;/>
+    );
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#About">About</a></li><li><a href="global.html#Backup">Backup</a></li><li><a href="global.html#bookmarkdFilter">bookmarkdFilter</a></li><li><a href="global.html#Browse">Browse</a></li><li><a href="global.html#Categories">Categories</a></li><li><a href="global.html#CategorySelect">CategorySelect</a></li><li><a href="global.html#ChapterList">ChapterList</a></li><li><a href="global.html#CheckBoxPreference">CheckBoxPreference</a></li><li><a href="global.html#cloneObject">cloneObject</a></li><li><a href="global.html#default">default</a></li><li><a href="global.html#defaultChapterOptions">defaultChapterOptions</a></li><li><a href="global.html#defaultNativeLang">defaultNativeLang</a></li><li><a href="global.html#DefaultNavBar">DefaultNavBar</a></li><li><a href="global.html#defaultReaderSettings">defaultReaderSettings</a></li><li><a href="global.html#dispalyTab">dispalyTab</a></li><li><a href="global.html#DoublePagedPager">DoublePagedPager</a></li><li><a href="global.html#downloadedFilter">downloadedFilter</a></li><li><a href="global.html#downloadFilter">downloadFilter</a></li><li><a href="global.html#DownloadQueue">DownloadQueue</a></li><li><a href="global.html#EditTextPreference">EditTextPreference</a></li><li><a href="global.html#epochToDate">epochToDate</a></li><li><a href="global.html#ExtensionCard">ExtensionCard</a></li><li><a href="global.html#extensionDefaultLangs">extensionDefaultLangs</a></li><li><a href="global.html#filterAndSortChapters">filterAndSortChapters</a></li><li><a href="global.html#filterManga">filterManga</a></li><li><a href="global.html#filtersTab">filtersTab</a></li><li><a href="global.html#findFirstUnreadChapter">findFirstUnreadChapter</a></li><li><a href="global.html#getDateString">getDateString</a></li><li><a href="global.html#getItem">getItem</a></li><li><a href="global.html#getItemStyle">getItemStyle</a></li><li><a href="global.html#getPrefComponent">getPrefComponent</a></li><li><a href="global.html#getRandomErrorFace">getRandomErrorFace</a></li><li><a href="global.html#getReaderComponent">getReaderComponent</a></li><li><a href="global.html#getSourceName">getSourceName</a></li><li><a href="global.html#getTwoStateType">getTwoStateType</a></li><li><a href="global.html#getValueOrUnknown">getValueOrUnknown</a></li><li><a href="global.html#groupByDate">groupByDate</a></li><li><a href="global.html#groupByLang">groupByLang</a></li><li><a href="global.html#groupExtensions">groupExtensions</a></li><li><a href="global.html#HeaderFilter">HeaderFilter</a></li><li><a href="global.html#HorizontalPager">HorizontalPager</a></li><li><a href="global.html#imageStyle">imageStyle</a></li><li><a href="global.html#ISOLanguages">ISOLanguages</a></li><li><a href="global.html#isTheSameDay">isTheSameDay</a></li><li><a href="global.html#langSortCmp">langSortCmp</a></li><li><a href="global.html#LibraryMangaGrid">LibraryMangaGrid</a></li><li><a href="global.html#LibraryOptions">LibraryOptions</a></li><li><a href="global.html#LibraryOptionsContextProvider">LibraryOptionsContextProvider</a></li><li><a href="global.html#ListItemLink">ListItemLink</a></li><li><a href="global.html#LoadingPlaceholder">LoadingPlaceholder</a></li><li><a href="global.html#makeToast">makeToast</a></li><li><a href="global.html#makeToaster">makeToaster</a></li><li><a href="global.html#Manga">Manga</a></li><li><a href="global.html#MangaDetails">MangaDetails</a></li><li><a href="global.html#MultiSelectListPreference">MultiSelectListPreference</a></li><li><a href="global.html#NavBarProvider">NavBarProvider</a></li><li><a href="global.html#Options">Options</a></li><li><a href="global.html#PagedReader">PagedReader</a></li><li><a href="global.html#PageNumber">PageNumber</a></li><li><a href="global.html#queryFilter">queryFilter</a></li><li><a href="global.html#removeAll">removeAll</a></li><li><a href="global.html#removeToast">removeToast</a></li><li><a href="global.html#ResumeFab">ResumeFab</a></li><li><a href="global.html#SelectFilter">SelectFilter</a></li><li><a href="global.html#SeperatorFilter">SeperatorFilter</a></li><li><a href="global.html#setItem">setItem</a></li><li><a href="global.html#Settings">Settings</a></li><li><a href="global.html#sortManga">sortManga</a></li><li><a href="global.html#sortsTab">sortsTab</a></li><li><a href="global.html#SourceConfigure">SourceConfigure</a></li><li><a href="global.html#sourceDefualtLangs">sourceDefualtLangs</a></li><li><a href="global.html#sourceForcedDefaultLangs">sourceForcedDefaultLangs</a></li><li><a href="global.html#SourceGridLayout">SourceGridLayout</a></li><li><a href="global.html#SourceMangaGrid">SourceMangaGrid</a></li><li><a href="global.html#SourceMangas">SourceMangas</a></li><li><a href="global.html#SourceOptions">SourceOptions</a></li><li><a href="global.html#sourceToLangList">sourceToLangList</a></li><li><a href="global.html#SpinnerImage">SpinnerImage</a></li><li><a href="global.html#stateToChecked">stateToChecked</a></li><li><a href="global.html#stateTransition">stateTransition</a></li><li><a href="global.html#SwitchPreferenceCompat">SwitchPreferenceCompat</a></li><li><a href="global.html#TabPanel">TabPanel</a></li><li><a href="global.html#TextFilter">TextFilter</a></li><li><a href="global.html#ThreeStateCheckbox">ThreeStateCheckbox</a></li><li><a href="global.html#Toast">Toast</a></li><li><a href="global.html#toReadSort">toReadSort</a></li><li><a href="global.html#toSortAlph">toSortAlph</a></li><li><a href="global.html#toSortID">toSortID</a></li><li><a href="global.html#Transition">Transition</a></li><li><a href="global.html#truncateText">truncateText</a></li><li><a href="global.html#TwoSatePreference">TwoSatePreference</a></li><li><a href="global.html#unreadFilter">unreadFilter</a></li><li><a href="global.html#useChaptersFetch">useChaptersFetch</a></li><li><a href="global.html#useLibraryOptions">useLibraryOptions</a></li><li><a href="global.html#useLocalStorage">useLocalStorage</a></li><li><a href="global.html#useReducerLocalStorage">useReducerLocalStorage</a></li><li><a href="global.html#useStyles">useStyles</a></li><li><a href="global.html#VerticalReader">VerticalReader</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sat Mar 19 2022 18:16:30 GMT+0000 (Greenwich Mean Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

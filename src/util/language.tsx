@@ -77,6 +77,11 @@ export const ISOLanguages = [
 
 ];
 
+/**
+ * It takes a language code and returns the name of the language
+ * @param {string} code - The ISO 639-1 language code of the language you want to get the name of.
+ * @returns The native name of the language.
+ */
 export function langCodeToName(code: string): string {
     const whereToCut = code.indexOf('-') !== -1 ? code.indexOf('-') : code.length;
 
@@ -93,10 +98,18 @@ export function langCodeToName(code: string): string {
     return result;
 }
 
+/**
+ * It returns the default language of the browser
+ * @returns The default language of the browser.
+ */
 function defaultNativeLang() {
     return 'en'; // TODO: infer from the browser
 }
 
+/**
+ * The default languages for the extension
+ * @returns An array of strings.
+ */
 export function extensionDefaultLangs() {
     return [
         defaultNativeLang(),
@@ -104,6 +117,10 @@ export function extensionDefaultLangs() {
     ];
 }
 
+/**
+ * The function returns an array of two strings
+ * @returns An array of strings.
+ */
 export function sourceDefualtLangs() {
     return [
         defaultNativeLang(),
@@ -111,12 +128,22 @@ export function sourceDefualtLangs() {
     ];
 }
 
+/**
+ * The function returns an array of strings
+ * @returns An array of strings.
+ */
 export function sourceForcedDefaultLangs(): string[] {
     return [
         'localsourcelang',
     ];
 }
 
+/**
+ * It takes a string and returns a string.
+ * @param {string} a - string, b: string) => {
+ * @param {string} b - The language code of the language to be sorted.
+ * @returns A function that takes two strings and returns a number.
+ */
 export const langSortCmp = (a: string, b: string) => {
     // puts english first for convience
     const aLang = langCodeToName(a);

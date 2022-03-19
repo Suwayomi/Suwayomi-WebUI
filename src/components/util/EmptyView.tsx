@@ -21,6 +21,10 @@ const ERROR_FACES = [
     '(･Д･。',
 ];
 
+/**
+ * Generate a random number between 0 and the length of the array, and return the element at that index
+ * @returns A random error face.
+ */
 function getRandomErrorFace() {
     const randIndex = Math.floor(Math.random() * ERROR_FACES.length);
     return ERROR_FACES[randIndex];

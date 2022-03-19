@@ -15,12 +15,20 @@ import ListItemLink from '../../components/util/ListItemLink';
 import NavbarContext from '../../components/context/NavbarContext';
 import client from '../../util/client';
 
+/**
+ * It creates a list of items that can be used to create a backup or restore a backup.
+ * @returns The `useEffect` hook is used to attach event listeners to the document.
+ */
 export default function Backup() {
     const { setTitle, setAction } = useContext(NavbarContext);
     useEffect(() => { setTitle('Backup'); setAction(<></>); }, []);
 
     const { baseURL } = client.defaults;
 
+    /**
+     * It takes a file and sends it to the server
+     * @param {File} file - The file that was uploaded.
+     */
     const submitBackup = (file: File) => {
         if (file.name.toLowerCase().endsWith('proto.gz')) {
             const formData = new FormData();
@@ -38,6 +46,10 @@ export default function Backup() {
         }
     };
 
+    /**
+     * It takes an event as an argument and returns a promise.
+     * @param {Event} e - Event
+     */
     const dropHandler = async (e: Event) => {
         e.preventDefault();
         const files = await fromEvent(e);
@@ -45,6 +57,10 @@ export default function Backup() {
         submitBackup(files[0] as File);
     };
 
+    /**
+     * It prevents the default action of the event from happening
+     * @param {Event} e - The event object that was fired.
+     */
     const dragOverHandler = (e: Event) => {
         e.preventDefault();
     };

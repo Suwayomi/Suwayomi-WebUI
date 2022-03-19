@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/library/LibraryOptions.tsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/library/LibraryOptions.tsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/*
+ * Copyright (C) Contributors to the Suwayomi project
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+import React, { useState } from 'react';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import {
+    Drawer,
+    FormControlLabel,
+    IconButton,
+    Tabs,
+    Tab,
+    Box,
+    Stack,
+    Checkbox,
+    ListItem,
+    ListItemButton,
+    ListItemIcon,
+    ListItemText,
+    Radio,
+} from '@mui/material';
+import useLibraryOptions from 'util/useLibraryOptions';
+import ThreeStateCheckbox from 'components/util/ThreeStateCheckbox';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import TabPanel from 'components/util/TabPanel';
+import { useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
+
+/**
+ * This function returns a tab panel that contains a form control label that allows the user to toggle
+ * the unread and downloaded filters
+ * @param {number} currentTab - The current tab index.
+ * @returns The `filtersTab` function returns a `TabPanel` component.
+ */
+function filtersTab(currentTab: number) {
+    const {
+        downloaded, setDownloaded, unread, setUnread,
+    } = useLibraryOptions();
+    return (
+        &lt;TabPanel index={0} currentIndex={currentTab}>
+            &lt;Stack direction="column">
+                &lt;FormControlLabel
+                    control={(
+                        &lt;ThreeStateCheckbox
+                            name="Unread"
+                            checked={unread}
+                            onChange={setUnread}
+                        />
+                    )}
+                    label="Unread"
+                />
+                &lt;FormControlLabel
+                    control={(
+                        &lt;ThreeStateCheckbox
+                            name="Downloaded"
+                            checked={downloaded}
+                            onChange={setDownloaded}
+                        />
+                    )}
+                    label="Downloaded"
+                />
+            &lt;/Stack>
+        &lt;/TabPanel>
+    );
+}
+
+/**
+ * This function creates a tab panel that contains a list of sort options
+ * @param {number} currentTab - number
+ * @returns a tab panel with a list of sort options.
+ */
+function sortsTab(currentTab: number) {
+    const {
+        sorts, setSorts, sortDesc, setSortDesc,
+    } = useLibraryOptions();
+
+    /**
+     * It sets the sorts state to the index of the clicked div.
+     * @param event - The event that triggered the change.
+     * @param {string} index - The index of the sort option that was clicked.
+     */
+    const handleChange = (event:
+    React.MouseEvent&lt;HTMLDivElement, MouseEvent>, index: string) => {
+        if (sorts === index) {
+            setSortDesc(!sortDesc);
+        } else { setSortDesc(false); }
+        setSorts(index);
+    };
+
+    return (
+        &lt;>
+            &lt;TabPanel index={1} currentIndex={currentTab}>
+                &lt;Stack direction="column">
+                    {
+                        ['sortToRead', 'sortAlph', 'sortID'].map((e) => {
+                            let icon;
+                            if (sorts === e) {
+                                icon = !sortDesc ? (&lt;ArrowUpwardIcon color="primary" />)
+                                    : (&lt;ArrowDownwardIcon color="primary" />);
+                            }
+                            icon = icon === undefined &amp;&amp; sortDesc === undefined &amp;&amp; e === 'sortID' ? (&lt;ArrowDownwardIcon color="primary" />) : icon;
+                            return (
+                                &lt;ListItem disablePadding>
+                                    &lt;ListItemButton onClick={(event) => handleChange(event, e)}>
+                                        &lt;ListItemIcon>{icon}&lt;/ListItemIcon>
+                                        &lt;ListItemText primary={e} />
+                                    &lt;/ListItemButton>
+                                &lt;/ListItem>
+                            );
+                        })
+                    }
+                &lt;/Stack>
+            &lt;/TabPanel>
+        &lt;/>
+    );
+}
+
+/**
+ * It displays the tab panel for the display options
+ * @param {number} currentTab - number
+ * @returns a tab panel with the options for the library.
+ */
+function dispalyTab(currentTab: number) {
+    const { options, setOptions } = useLibraryOptionsContext();
+
+    /**
+     * It sets the options object to the value of the checked input.
+     * @param e - React.ChangeEvent&lt;HTMLInputElement>
+     * @param {boolean} checked - boolean
+     */
+    function setContextOptions(
+        e: React.ChangeEvent&lt;HTMLInputElement>,
+        checked: boolean,
+    ) {
+        setOptions((prev) => ({ ...prev, [e.target.name]: checked }));
+    }
+
+    /**
+     * It sets the gridLayout option to the value of the input element.
+     * @param e - React.ChangeEvent&lt;HTMLInputElement>
+     * @param {boolean} checked - boolean
+     */
+    function setGridContextOptions(
+        e: React.ChangeEvent&lt;HTMLInputElement>,
+        checked: boolean,
+    ) {
+        if (checked) {
+            setOptions((prev) => ({ ...prev, gridLayout: parseInt(e.target.name, 10) }));
+        }
+    }
+
+    return (
+        &lt;TabPanel index={2} currentIndex={currentTab}>
+            &lt;Stack direction="column">
+                DISPLAY MODE
+                &lt;FormControlLabel
+                    label="Compact grid"
+                    control={(
+                        &lt;Radio
+                            name="0"
+                            checked={options.gridLayout === 0 || options.gridLayout === undefined}
+                            onChange={setGridContextOptions}
+                        />
+                    )}
+                />
+                &lt;FormControlLabel
+                    label="Comfortable grid"
+                    control={(
+                        &lt;Radio
+                            name="1"
+                            checked={options.gridLayout === 1}
+                            onChange={setGridContextOptions}
+                        />
+                    )}
+                />
+                &lt;FormControlLabel
+                    label="list"
+                    control={(
+                        &lt;Radio
+                            name="2"
+                            checked={options.gridLayout === 2}
+                            onChange={setGridContextOptions}
+                        />
+                    )}
+                />
+                BADGES
+                &lt;FormControlLabel
+                    label="Unread Badges"
+                    control={(
+                        &lt;Checkbox
+                            name="showUnreadBadge"
+                            checked={options.showUnreadBadge}
+                            onChange={setContextOptions}
+                        />
+                    )}
+                />
+                &lt;FormControlLabel
+                    label="Download Badges"
+                    control={(
+                        &lt;Checkbox
+                            name="showDownloadBadge"
+                            checked={options.showDownloadBadge}
+                            onChange={setContextOptions}
+                        />
+                    )}
+                />
+            &lt;/Stack>
+        &lt;/TabPanel>
+    );
+}
+
+/**
+ * The Options component is a tabbed interface that allows the user to filter, sort, and display the
+ * data
+ * @returns The `Box` component is being returned.
+ */
+function Options() {
+    const [currentTab, setCurrentTab] = useState&lt;number>(0);
+
+    return (
+        &lt;Box>
+            &lt;Tabs
+                key={currentTab}
+                value={currentTab}
+                variant="fullWidth"
+                onChange={(e, newTab) => setCurrentTab(newTab)}
+                indicatorColor="primary"
+                textColor="primary"
+            >
+                &lt;Tab label="Filter" value={0} />
+                &lt;Tab label="Sort" value={1} />
+                &lt;Tab label="Display" value={2} />
+            &lt;/Tabs>
+            {filtersTab(currentTab)}
+            {sortsTab(currentTab)}
+            {dispalyTab(currentTab)}
+        &lt;/Box>
+    );
+}
+
+/**
+ * It shows a button that opens a drawer with a list of filters
+ * @returns A Drawer component.
+ */
+export default function LibraryOptions() {
+    const [filtersOpen, setFiltersOpen] = React.useState(false);
+    const { active } = useLibraryOptions();
+    return (
+        &lt;>
+            &lt;IconButton
+                onClick={() => setFiltersOpen(!filtersOpen)}
+                color={active ? 'warning' : 'default'}
+            >
+                &lt;FilterListIcon />
+            &lt;/IconButton>
+
+            &lt;Drawer
+                anchor="bottom"
+                open={filtersOpen}
+                onClose={() => setFiltersOpen(false)}
+                PaperProps={{
+                    style: {
+                        maxWidth: 600, padding: '1em', marginLeft: 'auto', marginRight: 'auto',
+                    },
+                }}
+            >
+                &lt;Options />
+            &lt;/Drawer>
+        &lt;/>
+    );
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#About">About</a></li><li><a href="global.html#Backup">Backup</a></li><li><a href="global.html#bookmarkdFilter">bookmarkdFilter</a></li><li><a href="global.html#Browse">Browse</a></li><li><a href="global.html#Categories">Categories</a></li><li><a href="global.html#CategorySelect">CategorySelect</a></li><li><a href="global.html#ChapterList">ChapterList</a></li><li><a href="global.html#CheckBoxPreference">CheckBoxPreference</a></li><li><a href="global.html#cloneObject">cloneObject</a></li><li><a href="global.html#default">default</a></li><li><a href="global.html#defaultChapterOptions">defaultChapterOptions</a></li><li><a href="global.html#defaultNativeLang">defaultNativeLang</a></li><li><a href="global.html#DefaultNavBar">DefaultNavBar</a></li><li><a href="global.html#defaultReaderSettings">defaultReaderSettings</a></li><li><a href="global.html#dispalyTab">dispalyTab</a></li><li><a href="global.html#DoublePagedPager">DoublePagedPager</a></li><li><a href="global.html#downloadedFilter">downloadedFilter</a></li><li><a href="global.html#downloadFilter">downloadFilter</a></li><li><a href="global.html#DownloadQueue">DownloadQueue</a></li><li><a href="global.html#EditTextPreference">EditTextPreference</a></li><li><a href="global.html#epochToDate">epochToDate</a></li><li><a href="global.html#ExtensionCard">ExtensionCard</a></li><li><a href="global.html#extensionDefaultLangs">extensionDefaultLangs</a></li><li><a href="global.html#filterAndSortChapters">filterAndSortChapters</a></li><li><a href="global.html#filterManga">filterManga</a></li><li><a href="global.html#filtersTab">filtersTab</a></li><li><a href="global.html#findFirstUnreadChapter">findFirstUnreadChapter</a></li><li><a href="global.html#getDateString">getDateString</a></li><li><a href="global.html#getItem">getItem</a></li><li><a href="global.html#getItemStyle">getItemStyle</a></li><li><a href="global.html#getPrefComponent">getPrefComponent</a></li><li><a href="global.html#getRandomErrorFace">getRandomErrorFace</a></li><li><a href="global.html#getReaderComponent">getReaderComponent</a></li><li><a href="global.html#getSourceName">getSourceName</a></li><li><a href="global.html#getTwoStateType">getTwoStateType</a></li><li><a href="global.html#getValueOrUnknown">getValueOrUnknown</a></li><li><a href="global.html#groupByDate">groupByDate</a></li><li><a href="global.html#groupByLang">groupByLang</a></li><li><a href="global.html#groupExtensions">groupExtensions</a></li><li><a href="global.html#HeaderFilter">HeaderFilter</a></li><li><a href="global.html#HorizontalPager">HorizontalPager</a></li><li><a href="global.html#imageStyle">imageStyle</a></li><li><a href="global.html#ISOLanguages">ISOLanguages</a></li><li><a href="global.html#isTheSameDay">isTheSameDay</a></li><li><a href="global.html#langSortCmp">langSortCmp</a></li><li><a href="global.html#LibraryMangaGrid">LibraryMangaGrid</a></li><li><a href="global.html#LibraryOptions">LibraryOptions</a></li><li><a href="global.html#LibraryOptionsContextProvider">LibraryOptionsContextProvider</a></li><li><a href="global.html#ListItemLink">ListItemLink</a></li><li><a href="global.html#LoadingPlaceholder">LoadingPlaceholder</a></li><li><a href="global.html#makeToast">makeToast</a></li><li><a href="global.html#makeToaster">makeToaster</a></li><li><a href="global.html#Manga">Manga</a></li><li><a href="global.html#MangaDetails">MangaDetails</a></li><li><a href="global.html#MultiSelectListPreference">MultiSelectListPreference</a></li><li><a href="global.html#NavBarProvider">NavBarProvider</a></li><li><a href="global.html#Options">Options</a></li><li><a href="global.html#PagedReader">PagedReader</a></li><li><a href="global.html#PageNumber">PageNumber</a></li><li><a href="global.html#queryFilter">queryFilter</a></li><li><a href="global.html#removeAll">removeAll</a></li><li><a href="global.html#removeToast">removeToast</a></li><li><a href="global.html#ResumeFab">ResumeFab</a></li><li><a href="global.html#SelectFilter">SelectFilter</a></li><li><a href="global.html#SeperatorFilter">SeperatorFilter</a></li><li><a href="global.html#setItem">setItem</a></li><li><a href="global.html#Settings">Settings</a></li><li><a href="global.html#sortManga">sortManga</a></li><li><a href="global.html#sortsTab">sortsTab</a></li><li><a href="global.html#SourceConfigure">SourceConfigure</a></li><li><a href="global.html#sourceDefualtLangs">sourceDefualtLangs</a></li><li><a href="global.html#sourceForcedDefaultLangs">sourceForcedDefaultLangs</a></li><li><a href="global.html#SourceGridLayout">SourceGridLayout</a></li><li><a href="global.html#SourceMangaGrid">SourceMangaGrid</a></li><li><a href="global.html#SourceMangas">SourceMangas</a></li><li><a href="global.html#SourceOptions">SourceOptions</a></li><li><a href="global.html#sourceToLangList">sourceToLangList</a></li><li><a href="global.html#SpinnerImage">SpinnerImage</a></li><li><a href="global.html#stateToChecked">stateToChecked</a></li><li><a href="global.html#stateTransition">stateTransition</a></li><li><a href="global.html#SwitchPreferenceCompat">SwitchPreferenceCompat</a></li><li><a href="global.html#TabPanel">TabPanel</a></li><li><a href="global.html#TextFilter">TextFilter</a></li><li><a href="global.html#ThreeStateCheckbox">ThreeStateCheckbox</a></li><li><a href="global.html#Toast">Toast</a></li><li><a href="global.html#toReadSort">toReadSort</a></li><li><a href="global.html#toSortAlph">toSortAlph</a></li><li><a href="global.html#toSortID">toSortID</a></li><li><a href="global.html#Transition">Transition</a></li><li><a href="global.html#truncateText">truncateText</a></li><li><a href="global.html#TwoSatePreference">TwoSatePreference</a></li><li><a href="global.html#unreadFilter">unreadFilter</a></li><li><a href="global.html#useChaptersFetch">useChaptersFetch</a></li><li><a href="global.html#useLibraryOptions">useLibraryOptions</a></li><li><a href="global.html#useLocalStorage">useLocalStorage</a></li><li><a href="global.html#useReducerLocalStorage">useReducerLocalStorage</a></li><li><a href="global.html#useStyles">useStyles</a></li><li><a href="global.html#VerticalReader">VerticalReader</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sat Mar 19 2022 18:16:30 GMT+0000 (Greenwich Mean Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

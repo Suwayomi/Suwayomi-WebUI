@@ -30,6 +30,12 @@ import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import TabPanel from 'components/util/TabPanel';
 import { useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
 
+/**
+ * This function returns a tab panel that contains a form control label that allows the user to toggle
+ * the unread and downloaded filters
+ * @param {number} currentTab - The current tab index.
+ * @returns The `filtersTab` function returns a `TabPanel` component.
+ */
 function filtersTab(currentTab: number) {
     const {
         downloaded, setDownloaded, unread, setUnread,
@@ -62,11 +68,21 @@ function filtersTab(currentTab: number) {
     );
 }
 
+/**
+ * This function creates a tab panel that contains a list of sort options
+ * @param {number} currentTab - number
+ * @returns a tab panel with a list of sort options.
+ */
 function sortsTab(currentTab: number) {
     const {
         sorts, setSorts, sortDesc, setSortDesc,
     } = useLibraryOptions();
 
+    /**
+     * It sets the sorts state to the index of the clicked div.
+     * @param event - The event that triggered the change.
+     * @param {string} index - The index of the sort option that was clicked.
+     */
     const handleChange = (event:
     React.MouseEvent<HTMLDivElement, MouseEvent>, index: string) => {
         if (sorts === index) {
@@ -103,9 +119,19 @@ function sortsTab(currentTab: number) {
     );
 }
 
+/**
+ * It displays the tab panel for the display options
+ * @param {number} currentTab - number
+ * @returns a tab panel with the options for the library.
+ */
 function dispalyTab(currentTab: number) {
     const { options, setOptions } = useLibraryOptionsContext();
 
+    /**
+     * It sets the options object to the value of the checked input.
+     * @param e - React.ChangeEvent<HTMLInputElement>
+     * @param {boolean} checked - boolean
+     */
     function setContextOptions(
         e: React.ChangeEvent<HTMLInputElement>,
         checked: boolean,
@@ -113,6 +139,11 @@ function dispalyTab(currentTab: number) {
         setOptions((prev) => ({ ...prev, [e.target.name]: checked }));
     }
 
+    /**
+     * It sets the gridLayout option to the value of the input element.
+     * @param e - React.ChangeEvent<HTMLInputElement>
+     * @param {boolean} checked - boolean
+     */
     function setGridContextOptions(
         e: React.ChangeEvent<HTMLInputElement>,
         checked: boolean,
@@ -182,6 +213,11 @@ function dispalyTab(currentTab: number) {
     );
 }
 
+/**
+ * The Options component is a tabbed interface that allows the user to filter, sort, and display the
+ * data
+ * @returns The `Box` component is being returned.
+ */
 function Options() {
     const [currentTab, setCurrentTab] = useState<number>(0);
 
@@ -206,6 +242,10 @@ function Options() {
     );
 }
 
+/**
+ * It shows a button that opens a drawer with a list of filters
+ * @returns A Drawer component.
+ */
 export default function LibraryOptions() {
     const [filtersOpen, setFiltersOpen] = React.useState(false);
     const { active } = useLibraryOptions();

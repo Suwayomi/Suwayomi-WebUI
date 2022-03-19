@@ -11,10 +11,20 @@ import MangaGrid, { IMangaGridProps } from 'components/MangaGrid';
 
 const FILTERED_OUT_MESSAGE = 'There are no Manga matching this filter';
 
+/**
+ * It takes in an array of manga cards and returns an array of manga cards
+ * @param {IMangaCard[]} mangas - The array of manga cards to filter.
+ * @returns An array of manga cards.
+ */
 function filterManga(mangas: IMangaCard[]): IMangaCard[] {
     return mangas;
 }
 
+/**
+ * This function is a React component that renders a grid of manga
+ * @param {IMangaGridProps} props - IMangaGridProps
+ * @returns A component that renders a grid of manga.
+ */
 export default function SourceMangaGrid(props: IMangaGridProps) {
     const {
         mangas, isLoading, hasNextPage, lastPageNum,

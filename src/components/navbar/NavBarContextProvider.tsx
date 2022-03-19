@@ -12,6 +12,11 @@ interface IProps{
     children: React.ReactNode
 }
 
+/**
+ * The NavBarProvider is a React context provider that provides the NavBarContext
+ * @param {IProps}  - `children` is the child component that will be rendered.
+ * @returns A provider that wraps the children and provides the value to the context.
+ */
 export default function NavBarProvider({ children }:IProps) {
     const [title, setTitle] = useState<string>('Tachidesk');
     const [action, setAction] = useState<any>(<div />);

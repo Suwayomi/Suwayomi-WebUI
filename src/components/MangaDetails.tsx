@@ -18,6 +18,10 @@ import client from 'util/client';
 import useLocalStorage from 'util/useLocalStorage';
 import CategorySelect from './navbar/action/CategorySelect';
 
+/**
+ * `useStyles` is a function that returns a `makeStyles` object
+ * @param {string} inLibrary - string
+ */
 const useStyles = (inLibrary: string) => makeStyles((theme: Theme) => ({
     root: {
         width: '100%',
@@ -120,6 +124,11 @@ interface IProps{
     manga: IManga
 }
 
+/**
+ * Given a source, return the name of the source
+ * @param {ISource} source - The source object that you want to display.
+ * @returns The name of the source.
+ */
 function getSourceName(source: ISource) {
     if (source.displayName !== null) {
         return source.displayName;
@@ -127,10 +136,18 @@ function getSourceName(source: ISource) {
     return source.id;
 }
 
+/**
+ * Return the value if it exists, otherwise return 'UNKNOWN'
+ * @param {string} val - The value to be checked.
+ * @returns The value of the variable `val` or the string `'UNKNOWN'` if `val` is `undefined`.
+ */
 function getValueOrUnknown(val: string) {
     return val || 'UNKNOWN';
 }
 
+/**
+ * This function renders the manga details page
+ */
 export default function MangaDetails(props: IProps) {
     const { setAction } = useContext(NavbarContext);
 
@@ -171,6 +188,9 @@ export default function MangaDetails(props: IProps) {
 
     const classes = useStyles(inLibrary)();
 
+    /**
+     * It adds the manga to the user's library.
+     */
     function addToLibrary() {
         // setInLibrary('adding');
         client.get(`/api/v1/manga/${manga.id}/library/`).then(() => {
@@ -178,6 +198,9 @@ export default function MangaDetails(props: IProps) {
         });
     }
 
+    /**
+     * It removes the manga from the library.
+     */
     function removeFromLibrary() {
         // setInLibrary('removing');
         client.delete(`/api/v1/manga/${manga.id}/library/`).then(() => {
@@ -185,6 +208,9 @@ export default function MangaDetails(props: IProps) {
         });
     }
 
+    /**
+     * It adds or removes the current manga from the user's library.
+     */
     function handleButtonClick() {
         if (inLibrary === 'Add To Library') {
             addToLibrary();

@@ -23,6 +23,11 @@ interface IProps {
     onImageLoad?: () => void
 }
 
+/**
+ * It loads a Spinner image and displays it.
+ * @param {IProps} props - IProps
+ * @returns A Box with a CircularProgress inside.
+ */
 export default function SpinnerImage(props: IProps) {
     const {
         src, alt, onImageLoad, imgRef, spinnerStyle, imgStyle,

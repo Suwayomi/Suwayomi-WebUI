@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/chapter/ChapterList.tsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/chapter/ChapterList.tsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/*
+ * Copyright (C) Contributors to the Suwayomi project
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+import React, { useState, useEffect, useCallback } from 'react';
+import { Box, styled } from '@mui/system';
+import { Virtuoso } from 'react-virtuoso';
+import Typography from '@mui/material/Typography';
+import { CircularProgress, Stack } from '@mui/material';
+import makeToast from 'components/util/Toast';
+import ChapterOptions from 'components/chapter/ChapterOptions';
+import ChapterCard from 'components/chapter/ChapterCard';
+import { useReducerLocalStorage } from 'util/useLocalStorage';
+import {
+    chapterOptionsReducer, defaultChapterOptions, findFirstUnreadChapter,
+    filterAndSortChapters,
+} from 'components/chapter/util';
+import ResumeFab from 'components/chapter/ResumeFAB';
+import useFetchChapters from './useFetchChapters';
+
+const CustomVirtuoso = styled(Virtuoso)(({ theme }) => ({
+    listStyle: 'none',
+    padding: 0,
+    minHeight: '200px',
+    [theme.breakpoints.up('md')]: {
+        width: '50vw',
+        // 64px for the Appbar, 48px for the ChapterCount Header
+        height: 'calc(100vh - 64px - 48px)',
+        margin: 0,
+    },
+}));
+
+const baseWebsocketUrl = JSON.parse(window.localStorage.getItem('serverBaseURL')!).replace('http', 'ws');
+const initialQueue = {
+    status: 'Stopped',
+    queue: [],
+} as IQueue;
+
+interface IProps {
+    id: string
+}
+
+/**
+ * It takes in a manga id, fetches the chapters, filters them, sorts them, and renders them
+ * @param {IProps} props - IProps
+ * @returns The ChapterList component returns a stack of components.
+ */
+export default function ChapterList(props: IProps) {
+    const { id } = props;
+
+    const [chapters, triggerChaptersUpdate, noChaptersFound] = useFetchChapters(id);
+    const [firstUnreadChapter, setFirstUnreadChapter] = useState&lt;IChapter>();
+    const [filteredChapters, setFilteredChapters] = useState&lt;IChapter[]>([]);
+    // eslint-disable-next-line max-len
+    const [options, optionsDispatch] = useReducerLocalStorage&lt;ChapterListOptions, ChapterOptionsReducerAction>(
+        chapterOptionsReducer, `${id}filterOptions`, defaultChapterOptions,
+    );
+
+    const [, setWsClient] = useState&lt;WebSocket>();
+    const [{ queue }, setQueueState] = useState&lt;IQueue>(initialQueue);
+
+    useEffect(() => {
+        const wsc = new WebSocket(`${baseWebsocketUrl}/api/v1/downloads`);
+        wsc.onmessage = (e) => {
+            const data = JSON.parse(e.data) as IQueue;
+            setQueueState(data);
+        };
+
+        setWsClient(wsc);
+
+        return () => wsc.close();
+    }, []);
+
+    useEffect(() => {
+        triggerChaptersUpdate();
+    }, [queue.length]);
+
+    /* This is a memoized function that returns a string. It is memoized because it is called
+    every time the chapter list is rendered. */
+    const downloadStatusStringFor = useCallback((chapter: IChapter) => {
+        let rtn = '';
+        if (chapter.downloaded) {
+            rtn = ' • Downloaded';
+        }
+        queue.forEach((q) => {
+            if (chapter.index === q.chapterIndex &amp;&amp; chapter.mangaId === q.mangaId) {
+                rtn = ` • Downloading (${(q.progress * 100).toFixed(2)}%)`;
+            }
+        });
+        return rtn;
+    }, [queue]);
+
+    useEffect(() => {
+        const filtered = filterAndSortChapters(chapters, options);
+        setFilteredChapters(filtered);
+        setFirstUnreadChapter(findFirstUnreadChapter(filtered));
+    }, [options, chapters]);
+
+    useEffect(() => {
+        if (noChaptersFound) {
+            makeToast('No chapters found', 'warning');
+        }
+    }, [noChaptersFound]);
+
+    if (chapters.length === 0 || noChaptersFound) {
+        return (
+            &lt;div style={{
+                margin: '10px auto',
+                display: 'flex',
+                justifyContent: 'center',
+            }}
+            >
+                &lt;CircularProgress thickness={5} />
+            &lt;/div>
+        );
+    }
+
+    return (
+        &lt;>
+            &lt;Stack direction="column">
+                &lt;Box sx={{
+                    display: 'flex', justifyContent: 'space-between', px: 1.5, mt: 1,
+                }}
+                >
+                    &lt;Typography variant="h5">
+                        {`${filteredChapters.length} Chapters`}
+                    &lt;/Typography>
+                    &lt;ChapterOptions options={options} optionsDispatch={optionsDispatch} />
+                &lt;/Box>
+
+                &lt;CustomVirtuoso
+                    style={{ // override Virtuoso default values and set them with class
+                        height: 'undefined',
+                        // 900 is the md breakpoint in MUI
+                        overflowY: window.innerWidth &lt; 900 ? 'visible' : 'auto',
+                    }}
+                    totalCount={filteredChapters.length}
+                    itemContent={(index:number) => (
+                        &lt;ChapterCard
+                            showChapterNumber={options.showChapterNumber}
+                            chapter={filteredChapters[index]}
+                            downloadStatusString={downloadStatusStringFor(filteredChapters[index])}
+                            triggerChaptersUpdate={triggerChaptersUpdate}
+                        />
+                    )}
+                    useWindowScroll={window.innerWidth &lt; 900}
+                    overscan={window.innerHeight * 0.5}
+                />
+            &lt;/Stack>
+            {firstUnreadChapter &amp;&amp; &lt;ResumeFab chapter={firstUnreadChapter} mangaId={id} />}
+        &lt;/>
+    );
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#About">About</a></li><li><a href="global.html#Backup">Backup</a></li><li><a href="global.html#bookmarkdFilter">bookmarkdFilter</a></li><li><a href="global.html#Browse">Browse</a></li><li><a href="global.html#Categories">Categories</a></li><li><a href="global.html#CategorySelect">CategorySelect</a></li><li><a href="global.html#ChapterList">ChapterList</a></li><li><a href="global.html#CheckBoxPreference">CheckBoxPreference</a></li><li><a href="global.html#cloneObject">cloneObject</a></li><li><a href="global.html#default">default</a></li><li><a href="global.html#defaultChapterOptions">defaultChapterOptions</a></li><li><a href="global.html#defaultNativeLang">defaultNativeLang</a></li><li><a href="global.html#DefaultNavBar">DefaultNavBar</a></li><li><a href="global.html#defaultReaderSettings">defaultReaderSettings</a></li><li><a href="global.html#dispalyTab">dispalyTab</a></li><li><a href="global.html#DoublePagedPager">DoublePagedPager</a></li><li><a href="global.html#downloadedFilter">downloadedFilter</a></li><li><a href="global.html#downloadFilter">downloadFilter</a></li><li><a href="global.html#DownloadQueue">DownloadQueue</a></li><li><a href="global.html#EditTextPreference">EditTextPreference</a></li><li><a href="global.html#epochToDate">epochToDate</a></li><li><a href="global.html#ExtensionCard">ExtensionCard</a></li><li><a href="global.html#extensionDefaultLangs">extensionDefaultLangs</a></li><li><a href="global.html#filterAndSortChapters">filterAndSortChapters</a></li><li><a href="global.html#filterManga">filterManga</a></li><li><a href="global.html#filtersTab">filtersTab</a></li><li><a href="global.html#findFirstUnreadChapter">findFirstUnreadChapter</a></li><li><a href="global.html#getDateString">getDateString</a></li><li><a href="global.html#getItem">getItem</a></li><li><a href="global.html#getItemStyle">getItemStyle</a></li><li><a href="global.html#getPrefComponent">getPrefComponent</a></li><li><a href="global.html#getRandomErrorFace">getRandomErrorFace</a></li><li><a href="global.html#getReaderComponent">getReaderComponent</a></li><li><a href="global.html#getSourceName">getSourceName</a></li><li><a href="global.html#getTwoStateType">getTwoStateType</a></li><li><a href="global.html#getValueOrUnknown">getValueOrUnknown</a></li><li><a href="global.html#groupByDate">groupByDate</a></li><li><a href="global.html#groupByLang">groupByLang</a></li><li><a href="global.html#groupExtensions">groupExtensions</a></li><li><a href="global.html#HeaderFilter">HeaderFilter</a></li><li><a href="global.html#HorizontalPager">HorizontalPager</a></li><li><a href="global.html#imageStyle">imageStyle</a></li><li><a href="global.html#ISOLanguages">ISOLanguages</a></li><li><a href="global.html#isTheSameDay">isTheSameDay</a></li><li><a href="global.html#langSortCmp">langSortCmp</a></li><li><a href="global.html#LibraryMangaGrid">LibraryMangaGrid</a></li><li><a href="global.html#LibraryOptions">LibraryOptions</a></li><li><a href="global.html#LibraryOptionsContextProvider">LibraryOptionsContextProvider</a></li><li><a href="global.html#ListItemLink">ListItemLink</a></li><li><a href="global.html#LoadingPlaceholder">LoadingPlaceholder</a></li><li><a href="global.html#makeToast">makeToast</a></li><li><a href="global.html#makeToaster">makeToaster</a></li><li><a href="global.html#Manga">Manga</a></li><li><a href="global.html#MangaDetails">MangaDetails</a></li><li><a href="global.html#MultiSelectListPreference">MultiSelectListPreference</a></li><li><a href="global.html#NavBarProvider">NavBarProvider</a></li><li><a href="global.html#Options">Options</a></li><li><a href="global.html#PagedReader">PagedReader</a></li><li><a href="global.html#PageNumber">PageNumber</a></li><li><a href="global.html#queryFilter">queryFilter</a></li><li><a href="global.html#removeAll">removeAll</a></li><li><a href="global.html#removeToast">removeToast</a></li><li><a href="global.html#ResumeFab">ResumeFab</a></li><li><a href="global.html#SelectFilter">SelectFilter</a></li><li><a href="global.html#SeperatorFilter">SeperatorFilter</a></li><li><a href="global.html#setItem">setItem</a></li><li><a href="global.html#Settings">Settings</a></li><li><a href="global.html#sortManga">sortManga</a></li><li><a href="global.html#sortsTab">sortsTab</a></li><li><a href="global.html#SourceConfigure">SourceConfigure</a></li><li><a href="global.html#sourceDefualtLangs">sourceDefualtLangs</a></li><li><a href="global.html#sourceForcedDefaultLangs">sourceForcedDefaultLangs</a></li><li><a href="global.html#SourceGridLayout">SourceGridLayout</a></li><li><a href="global.html#SourceMangaGrid">SourceMangaGrid</a></li><li><a href="global.html#SourceMangas">SourceMangas</a></li><li><a href="global.html#SourceOptions">SourceOptions</a></li><li><a href="global.html#sourceToLangList">sourceToLangList</a></li><li><a href="global.html#SpinnerImage">SpinnerImage</a></li><li><a href="global.html#stateToChecked">stateToChecked</a></li><li><a href="global.html#stateTransition">stateTransition</a></li><li><a href="global.html#SwitchPreferenceCompat">SwitchPreferenceCompat</a></li><li><a href="global.html#TabPanel">TabPanel</a></li><li><a href="global.html#TextFilter">TextFilter</a></li><li><a href="global.html#ThreeStateCheckbox">ThreeStateCheckbox</a></li><li><a href="global.html#Toast">Toast</a></li><li><a href="global.html#toReadSort">toReadSort</a></li><li><a href="global.html#toSortAlph">toSortAlph</a></li><li><a href="global.html#toSortID">toSortID</a></li><li><a href="global.html#Transition">Transition</a></li><li><a href="global.html#truncateText">truncateText</a></li><li><a href="global.html#TwoSatePreference">TwoSatePreference</a></li><li><a href="global.html#unreadFilter">unreadFilter</a></li><li><a href="global.html#useChaptersFetch">useChaptersFetch</a></li><li><a href="global.html#useLibraryOptions">useLibraryOptions</a></li><li><a href="global.html#useLocalStorage">useLocalStorage</a></li><li><a href="global.html#useReducerLocalStorage">useReducerLocalStorage</a></li><li><a href="global.html#useStyles">useStyles</a></li><li><a href="global.html#VerticalReader">VerticalReader</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sat Mar 19 2022 18:16:30 GMT+0000 (Greenwich Mean Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

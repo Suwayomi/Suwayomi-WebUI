@@ -21,6 +21,11 @@ enum CheckState {
     SELECTED, INTERMEDIATE, UNSELECTED,
 }
 
+/**
+ * It takes a boolean value and returns a CheckState value.
+ * @param {boolean | undefined | null} checked - The checked state of the checkbox.
+ * @returns The `checkedToState` function returns a `CheckState` based on the `checked` value.
+ */
 function checkedToState(checked: boolean | undefined | null): CheckState {
     switch (checked) {
         case true:
@@ -31,6 +36,11 @@ function checkedToState(checked: boolean | undefined | null): CheckState {
             return CheckState.UNSELECTED;
     }
 }
+/**
+ * It takes a CheckState and returns a boolean or undefined.
+ * @param {CheckState} state - The check state of the checkbox.
+ * @returns The `stateToChecked` function returns a boolean or undefined.
+ */
 function stateToChecked(state: CheckState): boolean | undefined {
     switch (state) {
         case CheckState.SELECTED:
@@ -43,6 +53,11 @@ function stateToChecked(state: CheckState): boolean | undefined {
     }
 }
 
+/**
+ * It takes a state and returns the next state.
+ * @param {CheckState} state - The current state of the checkbox.
+ * @returns The next state.
+ */
 function stateTransition(state: CheckState): CheckState {
     switch (state) {
         case CheckState.SELECTED:
@@ -55,12 +70,23 @@ function stateTransition(state: CheckState): CheckState {
     }
 }
 
+/**
+ * It creates a checkbox with three states: selected, intermediate, and unselected.
+ * @param {IThreeStateCheckboxProps} props - IThreeStateCheckboxProps
+ */
 const ThreeStateCheckbox = (props: IThreeStateCheckboxProps) => {
     const {
         name, checked, onChange,
     } = props;
     const [localChecked, setLocalChecked] = useState(checkedToState(checked));
     useEffect(() => setLocalChecked(checkedToState(checked)), [checked]);
+    /**
+     * The function takes the current state of the checkbox and returns the next state of the checkbox.
+     * 
+     * 
+     * The function is called every time the checkbox is clicked
+     * @param e - React.ChangeEvent<HTMLInputElement>
+     */
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setLocalChecked(stateTransition(localChecked));
         if (onChange) {

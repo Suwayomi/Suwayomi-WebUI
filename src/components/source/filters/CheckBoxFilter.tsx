@@ -29,6 +29,10 @@ export default function CheckBoxFilter(props: Props) {
     } = props;
     const [val, setval] = React.useState(state);
 
+    /**
+     * It updates the state of the checkbox.
+     * @param event - The event object that was passed to the callback.
+     */
     const handleChange = (event: { target: { name: any; checked: any; }; }) => {
         setval(event.target.checked);
         const upd = update.filter((e: {

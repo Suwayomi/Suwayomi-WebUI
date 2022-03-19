@@ -40,6 +40,14 @@ export default function MobileBottomBar({ navBarItems }: IProps) {
     const location = useLocation();
     const theme = useTheme();
 
+    /**
+     * It returns an icon based on the current path.
+     * @param {string} path - The path to check against the current location.
+     * @param {any} IconComponent - The component that will be used to render the icon.
+     * @param {any} SelectedIconComponent - The icon that will be displayed when the current path is
+     * the same as the path passed in.
+     * @returns A React component.
+     */
     const iconFor = (path: string, IconComponent: any, SelectedIconComponent: any) => {
         if (location.pathname === path) return <SelectedIconComponent sx={{ color: 'primary.main' }} fontSize="medium" />;
         return <IconComponent sx={{ color: (theme.palette.mode === 'dark') ? 'grey.A400' : 'grey.600' }} fontSize="medium" />;

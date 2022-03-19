@@ -111,6 +111,9 @@ const OpenDrawerButton = styled(IconButton)(({ theme }) => ({
     },
 }));
 
+/**
+ * It returns a default reader settings object
+ */
 export const defaultReaderSettings = () => ({
     staticNav: false,
     showPageNumber: true,
@@ -139,8 +142,18 @@ export default function ReaderNavBar(props: IProps) {
     const [prevScrollPos, setPrevScrollPos] = useState(0);
     const [settingsCollapseOpen, setSettingsCollapseOpen] = useState(true);
 
+    /**
+     * It sets the value of a key in the settings object.
+     *
+     * @param {string} key - The name of the setting.
+     * @param {any} value - The value to set the setting to.
+     */
     const setSettingValue = (key: string, value: any) => setSettings({ ...settings, [key]: value });
 
+    /**
+     * If the user scrolls down, the function sets the hideOpenButton variable to true. If the user
+     * scrolls up, the function sets the hideOpenButton variable to false
+     */
     const handleScroll = () => {
         const currentScrollPos = window.pageYOffset;
 

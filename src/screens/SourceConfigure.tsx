@@ -16,6 +16,11 @@ import MultiSelectListPreference from 'components/sourceConfiguration/MultiSelec
 import List from '@mui/material/List';
 import cloneObject from 'util/cloneObject';
 
+/**
+ * Given a preference type, return the corresponding preference component
+ * @param {string} type - The type of preference.
+ * @returns A React component.
+ */
 function getPrefComponent(type: string) {
     switch (type) {
         case 'CheckBoxPreference':
@@ -33,6 +38,10 @@ function getPrefComponent(type: string) {
     }
 }
 
+/**
+ * It takes a list of preferences and renders them as a list
+ * @returns A list of components.
+ */
 export default function SourceConfigure() {
     const [sourcePreferences, setSourcePreferences] = useState<SourcePreferences[]>([]);
     const { setTitle, setAction } = useContext(NavbarContext);

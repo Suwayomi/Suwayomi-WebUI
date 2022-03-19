@@ -26,6 +26,7 @@ export interface IMangaGridProps{
     noFaces?: boolean | undefined
 }
 
+/* This is a React component that renders a grid of manga cards. */
 export default function MangaGrid(props: IMangaGridProps) {
     const {
         mangas, isLoading, message, messageExtra,
@@ -34,6 +35,10 @@ export default function MangaGrid(props: IMangaGridProps) {
     let mapped;
     const lastManga = useRef<HTMLDivElement>(null);
 
+    /**
+     * If the last manga in the list is within 2% of the bottom of the window, and there is a next
+     * page, then load the next page
+     */
     const scrollHandler = () => {
         if (lastManga.current) {
             const rect = lastManga.current.getBoundingClientRect();

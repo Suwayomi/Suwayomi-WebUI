@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Settings.tsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Settings.tsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/*
+ * Copyright (C) Contributors to the Suwayomi project
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+import React, { useContext, useEffect, useState } from 'react';
+import List from '@mui/material/List';
+import ListAltIcon from '@mui/icons-material/ListAlt';
+import BackupIcon from '@mui/icons-material/Backup';
+import Brightness6Icon from '@mui/icons-material/Brightness6';
+import DnsIcon from '@mui/icons-material/Dns';
+import EditIcon from '@mui/icons-material/Edit';
+import InfoIcon from '@mui/icons-material/Info';
+import CachedIcon from '@mui/icons-material/Cached';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
+import Switch from '@mui/material/Switch';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import TextField from '@mui/material/TextField';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import NavbarContext from '../components/context/NavbarContext';
+import DarkTheme from '../components/context/DarkTheme';
+import useLocalStorage from '../util/useLocalStorage';
+import ListItemLink from '../components/util/ListItemLink';
+
+/**
+ * This function renders a list of settings
+ * @returns A list of settings.
+ */
+export default function Settings() {
+    const { setTitle, setAction } = useContext(NavbarContext);
+    useEffect(() => { setTitle('Settings'); setAction(&lt;>&lt;/>); }, []);
+
+    const { darkTheme, setDarkTheme } = useContext(DarkTheme);
+    const [serverAddress, setServerAddress] = useLocalStorage&lt;String>('serverBaseURL', '');
+    const [showNsfw, setShowNsfw] = useLocalStorage&lt;boolean>('showNsfw', true);
+    const [useCache, setUseCache] = useLocalStorage&lt;boolean>('useCache', true);
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const [dialogValue, setDialogValue] = useState(serverAddress);
+
+    /**
+     * It sets the dialog value to the server address and opens the dialog.
+     */
+    const handleDialogOpen = () => {
+        setDialogValue(serverAddress);
+        setDialogOpen(true);
+    };
+
+    /**
+     * It sets the dialogOpen state to false.
+     */
+    const handleDialogCancel = () => {
+        setDialogOpen(false);
+    };
+
+    /**
+     * It sets the dialog open to false and sets the server address to the value of the dialog.
+     */
+    const handleDialogSubmit = () => {
+        setDialogOpen(false);
+        setServerAddress(dialogValue);
+    };
+
+    return (
+        &lt;>
+            &lt;List sx={{ padding: 0 }}>
+                &lt;ListItemLink to="/settings/categories">
+                    &lt;ListItemIcon>
+                        &lt;ListAltIcon />
+                    &lt;/ListItemIcon>
+                    &lt;ListItemText primary="Categories" />
+                &lt;/ListItemLink>
+                &lt;ListItemLink to="/settings/backup">
+                    &lt;ListItemIcon>
+                        &lt;BackupIcon />
+                    &lt;/ListItemIcon>
+                    &lt;ListItemText primary="Backup" />
+                &lt;/ListItemLink>
+                &lt;ListItem>
+                    &lt;ListItemIcon>
+                        &lt;Brightness6Icon />
+                    &lt;/ListItemIcon>
+                    &lt;ListItemText primary="Dark Theme" />
+                    &lt;ListItemSecondaryAction>
+                        &lt;Switch
+                            edge="end"
+                            checked={darkTheme}
+                            onChange={() => setDarkTheme(!darkTheme)}
+                        />
+                    &lt;/ListItemSecondaryAction>
+                &lt;/ListItem>
+                &lt;ListItem>
+                    &lt;ListItemIcon>
+                        &lt;FavoriteIcon />
+                    &lt;/ListItemIcon>
+                    &lt;ListItemText
+                        primary="Show NSFW"
+                        secondary="Hide NSFW extensions and sources"
+                    />
+                    &lt;ListItemSecondaryAction>
+                        &lt;Switch
+                            edge="end"
+                            checked={showNsfw}
+                            onChange={() => setShowNsfw(!showNsfw)}
+                        />
+                    &lt;/ListItemSecondaryAction>
+                &lt;/ListItem>
+                &lt;ListItem>
+                    &lt;ListItemIcon>
+                        &lt;CachedIcon />
+                    &lt;/ListItemIcon>
+                    &lt;ListItemText
+                        primary="Use image cache"
+                        secondary="Disabling image cache makes images load faster if you have a slow disk,
+                         but uses it much more internet traffic in turn"
+                    />
+                    &lt;ListItemSecondaryAction>
+                        &lt;Switch
+                            edge="end"
+                            checked={useCache}
+                            onChange={() => setUseCache(!useCache)}
+                        />
+                    &lt;/ListItemSecondaryAction>
+                &lt;/ListItem>
+                &lt;ListItem>
+                    &lt;ListItemIcon>
+                        &lt;DnsIcon />
+                    &lt;/ListItemIcon>
+                    &lt;ListItemText primary="Server Address" secondary={serverAddress} />
+                    &lt;ListItemSecondaryAction>
+                        &lt;IconButton
+                            onClick={() => {
+                                handleDialogOpen();
+                            }}
+                            size="large"
+                        >
+                            &lt;EditIcon />
+                        &lt;/IconButton>
+                    &lt;/ListItemSecondaryAction>
+                &lt;/ListItem>
+                &lt;ListItemLink to="/settings/about">
+                    &lt;ListItemIcon>
+                        &lt;InfoIcon />
+                    &lt;/ListItemIcon>
+                    &lt;ListItemText primary="About" />
+                &lt;/ListItemLink>
+            &lt;/List>
+
+            &lt;Dialog open={dialogOpen} onClose={handleDialogCancel}>
+                &lt;DialogContent>
+                    &lt;DialogContentText>
+                        Enter Server Address
+                    &lt;/DialogContentText>
+                    &lt;TextField
+                        autoFocus
+                        margin="dense"
+                        id="name"
+                        label="Server Address"
+                        type="text"
+                        fullWidth
+                        value={dialogValue}
+                        placeholder="http://127.0.0.1:4567"
+                        onChange={(e) => setDialogValue(e.target.value)}
+                    />
+                &lt;/DialogContent>
+                &lt;DialogActions>
+                    &lt;Button onClick={handleDialogCancel} color="primary">
+                        Cancel
+                    &lt;/Button>
+                    &lt;Button onClick={handleDialogSubmit} color="primary">
+                        Set
+                    &lt;/Button>
+                &lt;/DialogActions>
+            &lt;/Dialog>
+        &lt;/>
+    );
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sat Mar 19 2022 18:03:44 GMT+0000 (Greenwich Mean Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -12,18 +12,33 @@ import React from 'react';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import { useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
 
+/**
+ * It creates a menu that allows the user to select the type of grid layout they want to use.
+ */
 export default function SourceGridLayout() {
     const { options, setOptions } = useLibraryOptionsContext();
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
+    /**
+     * It sets the anchorEl to the current target.
+     * @param {any} event - any
+     */
     const handleClick = (event: any) => {
         setAnchorEl(event.currentTarget);
     };
+    /**
+     * It sets the anchorEl to null.
+     */
     const handleClose = () => {
         setAnchorEl(null);
     };
 
+    /**
+     * It sets the options object to the value of the input element.
+     * @param e - The event object.
+     * @param {boolean} checked - boolean,
+     */
     function setGridContextOptions(
         e: React.ChangeEvent<HTMLInputElement>,
         checked: boolean,

@@ -24,6 +24,10 @@ interface IPos {
     group?: number
 }
 
+/**
+ * This function is responsible for rendering the manga grid and the options for the source
+ * @param props
+ */
 export default function SourceMangas(props: { popular: boolean }) {
     const { setTitle, setAction } = useContext(NavbarContext);
     const history = useHistory();

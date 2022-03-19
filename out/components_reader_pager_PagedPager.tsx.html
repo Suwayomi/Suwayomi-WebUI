@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/reader/pager/PagedPager.tsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/reader/pager/PagedPager.tsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/*
+ * Copyright (C) Contributors to the Suwayomi project
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+import React, { useEffect, useRef } from 'react';
+import { Box } from '@mui/system';
+import Page from '../Page';
+
+/**
+ * It renders a page of the book.
+ * @param {IReaderProps} props - IReaderProps
+ */
+export default function PagedReader(props: IReaderProps) {
+    const {
+        pages, settings, setCurPage, curPage, nextChapter, prevChapter,
+    } = props;
+
+    const selfRef = useRef&lt;HTMLDivElement>(null);
+
+    /**
+     * If the current page is not the last page, then increment the current page. If the current page
+     * is the last page, and the settings.loadNextonEnding is true, then increment the current chapter
+     */
+    function nextPage() {
+        if (curPage &lt; pages.length - 1) {
+            setCurPage(curPage + 1);
+        } else if (settings.loadNextonEnding) {
+            nextChapter();
+        }
+    }
+
+    /**
+     * If the current page is greater than 0, decrement the current page. Otherwise, decrement the
+     * current chapter
+     */
+    function prevPage() {
+        if (curPage > 0) {
+            setCurPage(curPage - 1);
+        } else {
+            prevChapter();
+        }
+    }
+
+    /**
+     * If the reader type is SingleLTR, then call the prevPage function. If the reader type is
+     * SingleRTL, then call the nextPage function
+     */
+    function goLeft() {
+        if (settings.readerType === 'SingleLTR') {
+            prevPage();
+        } else if (settings.readerType === 'SingleRTL') {
+            nextPage();
+        }
+    }
+
+    /**
+     * If the reader type is SingleLTR, then go to the next page. If the reader type is SingleRTL, then
+     * go to the previous page
+     */
+    function goRight() {
+        if (settings.readerType === 'SingleLTR') {
+            nextPage();
+        } else if (settings.readerType === 'SingleRTL') {
+            prevPage();
+        }
+    }
+
+    /**
+     * It takes an event as an argument and then checks the event code. If the event code is space, it
+     * calls the nextPage function. If the event code is arrow right, it calls the goRight function. If
+     * the event code is arrow left, it calls the goLeft function.
+     * @param {KeyboardEvent} e - The KeyboardEvent object.
+     */
+    function keyboardControl(e:KeyboardEvent) {
+        switch (e.code) {
+            case 'Space':
+                e.preventDefault();
+                nextPage();
+                break;
+            case 'ArrowRight':
+                goRight();
+                break;
+            case 'ArrowLeft':
+                goLeft();
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * If the mouse click is on the left side of the screen, go left. If it's on the right side of the
+     * screen, go right
+     * @param {MouseEvent} e - The MouseEvent object that was triggered.
+     */
+    function clickControl(e:MouseEvent) {
+        if (e.clientX > window.innerWidth / 2) {
+            goRight();
+        } else {
+            goLeft();
+        }
+    }
+
+    useEffect(() => {
+        document.addEventListener('keydown', keyboardControl);
+        selfRef.current?.addEventListener('click', clickControl);
+
+        return () => {
+            document.removeEventListener('keydown', keyboardControl);
+            selfRef.current?.removeEventListener('click', clickControl);
+        };
+    }, [selfRef, curPage, settings.readerType]);
+
+    return (
+        &lt;Box
+            ref={selfRef}
+            sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'center',
+                margin: '0 auto',
+                width: '100%',
+                height: '100vh',
+            }}
+        >
+            &lt;Page
+                key={curPage}
+                index={curPage}
+                onImageLoad={() => {}}
+                src={pages[curPage].src}
+                setCurPage={setCurPage}
+                settings={settings}
+            />
+        &lt;/Box>
+    );
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#About">About</a></li><li><a href="global.html#Backup">Backup</a></li><li><a href="global.html#bookmarkdFilter">bookmarkdFilter</a></li><li><a href="global.html#Browse">Browse</a></li><li><a href="global.html#Categories">Categories</a></li><li><a href="global.html#CategorySelect">CategorySelect</a></li><li><a href="global.html#ChapterList">ChapterList</a></li><li><a href="global.html#CheckBoxPreference">CheckBoxPreference</a></li><li><a href="global.html#cloneObject">cloneObject</a></li><li><a href="global.html#default">default</a></li><li><a href="global.html#defaultChapterOptions">defaultChapterOptions</a></li><li><a href="global.html#defaultNativeLang">defaultNativeLang</a></li><li><a href="global.html#DefaultNavBar">DefaultNavBar</a></li><li><a href="global.html#defaultReaderSettings">defaultReaderSettings</a></li><li><a href="global.html#dispalyTab">dispalyTab</a></li><li><a href="global.html#DoublePagedPager">DoublePagedPager</a></li><li><a href="global.html#downloadedFilter">downloadedFilter</a></li><li><a href="global.html#downloadFilter">downloadFilter</a></li><li><a href="global.html#DownloadQueue">DownloadQueue</a></li><li><a href="global.html#EditTextPreference">EditTextPreference</a></li><li><a href="global.html#epochToDate">epochToDate</a></li><li><a href="global.html#ExtensionCard">ExtensionCard</a></li><li><a href="global.html#extensionDefaultLangs">extensionDefaultLangs</a></li><li><a href="global.html#filterAndSortChapters">filterAndSortChapters</a></li><li><a href="global.html#filterManga">filterManga</a></li><li><a href="global.html#filtersTab">filtersTab</a></li><li><a href="global.html#findFirstUnreadChapter">findFirstUnreadChapter</a></li><li><a href="global.html#getDateString">getDateString</a></li><li><a href="global.html#getItem">getItem</a></li><li><a href="global.html#getItemStyle">getItemStyle</a></li><li><a href="global.html#getPrefComponent">getPrefComponent</a></li><li><a href="global.html#getRandomErrorFace">getRandomErrorFace</a></li><li><a href="global.html#getReaderComponent">getReaderComponent</a></li><li><a href="global.html#getSourceName">getSourceName</a></li><li><a href="global.html#getTwoStateType">getTwoStateType</a></li><li><a href="global.html#getValueOrUnknown">getValueOrUnknown</a></li><li><a href="global.html#groupByDate">groupByDate</a></li><li><a href="global.html#groupByLang">groupByLang</a></li><li><a href="global.html#groupExtensions">groupExtensions</a></li><li><a href="global.html#HeaderFilter">HeaderFilter</a></li><li><a href="global.html#HorizontalPager">HorizontalPager</a></li><li><a href="global.html#imageStyle">imageStyle</a></li><li><a href="global.html#ISOLanguages">ISOLanguages</a></li><li><a href="global.html#isTheSameDay">isTheSameDay</a></li><li><a href="global.html#langSortCmp">langSortCmp</a></li><li><a href="global.html#LibraryMangaGrid">LibraryMangaGrid</a></li><li><a href="global.html#LibraryOptions">LibraryOptions</a></li><li><a href="global.html#LibraryOptionsContextProvider">LibraryOptionsContextProvider</a></li><li><a href="global.html#ListItemLink">ListItemLink</a></li><li><a href="global.html#LoadingPlaceholder">LoadingPlaceholder</a></li><li><a href="global.html#makeToast">makeToast</a></li><li><a href="global.html#makeToaster">makeToaster</a></li><li><a href="global.html#Manga">Manga</a></li><li><a href="global.html#MangaDetails">MangaDetails</a></li><li><a href="global.html#MultiSelectListPreference">MultiSelectListPreference</a></li><li><a href="global.html#NavBarProvider">NavBarProvider</a></li><li><a href="global.html#Options">Options</a></li><li><a href="global.html#PagedReader">PagedReader</a></li><li><a href="global.html#PageNumber">PageNumber</a></li><li><a href="global.html#queryFilter">queryFilter</a></li><li><a href="global.html#removeAll">removeAll</a></li><li><a href="global.html#removeToast">removeToast</a></li><li><a href="global.html#ResumeFab">ResumeFab</a></li><li><a href="global.html#SelectFilter">SelectFilter</a></li><li><a href="global.html#SeperatorFilter">SeperatorFilter</a></li><li><a href="global.html#setItem">setItem</a></li><li><a href="global.html#Settings">Settings</a></li><li><a href="global.html#sortManga">sortManga</a></li><li><a href="global.html#sortsTab">sortsTab</a></li><li><a href="global.html#SourceConfigure">SourceConfigure</a></li><li><a href="global.html#sourceDefualtLangs">sourceDefualtLangs</a></li><li><a href="global.html#sourceForcedDefaultLangs">sourceForcedDefaultLangs</a></li><li><a href="global.html#SourceGridLayout">SourceGridLayout</a></li><li><a href="global.html#SourceMangaGrid">SourceMangaGrid</a></li><li><a href="global.html#SourceMangas">SourceMangas</a></li><li><a href="global.html#SourceOptions">SourceOptions</a></li><li><a href="global.html#sourceToLangList">sourceToLangList</a></li><li><a href="global.html#SpinnerImage">SpinnerImage</a></li><li><a href="global.html#stateToChecked">stateToChecked</a></li><li><a href="global.html#stateTransition">stateTransition</a></li><li><a href="global.html#SwitchPreferenceCompat">SwitchPreferenceCompat</a></li><li><a href="global.html#TabPanel">TabPanel</a></li><li><a href="global.html#TextFilter">TextFilter</a></li><li><a href="global.html#ThreeStateCheckbox">ThreeStateCheckbox</a></li><li><a href="global.html#Toast">Toast</a></li><li><a href="global.html#toReadSort">toReadSort</a></li><li><a href="global.html#toSortAlph">toSortAlph</a></li><li><a href="global.html#toSortID">toSortID</a></li><li><a href="global.html#Transition">Transition</a></li><li><a href="global.html#truncateText">truncateText</a></li><li><a href="global.html#TwoSatePreference">TwoSatePreference</a></li><li><a href="global.html#unreadFilter">unreadFilter</a></li><li><a href="global.html#useChaptersFetch">useChaptersFetch</a></li><li><a href="global.html#useLibraryOptions">useLibraryOptions</a></li><li><a href="global.html#useLocalStorage">useLocalStorage</a></li><li><a href="global.html#useReducerLocalStorage">useReducerLocalStorage</a></li><li><a href="global.html#useStyles">useStyles</a></li><li><a href="global.html#VerticalReader">VerticalReader</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sat Mar 19 2022 18:16:30 GMT+0000 (Greenwich Mean Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
