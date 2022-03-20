@@ -189,7 +189,7 @@ export default function SearchAll() {
                                         transition: 'background-color 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
                                     },
                                 }}
-                                onClick={(e) => redirectTo(e, `/sources/${id}/popular/?R&query=one`)}
+                                onClick={(e) => redirectTo(e, `/sources/${id}/popular/?R&query=${query}`)}
                             >
                                 <h1
                                     key={lang}
