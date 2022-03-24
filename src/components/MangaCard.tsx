@@ -85,9 +85,15 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
     const [serverAddress] = useLocalStorage<String>('serverBaseURL', '');
     const [useCache] = useLocalStorage<boolean>('useCache', true);
 
+    const [lg] = useLocalStorage<number>('lg', 6);
+    const [md] = useLocalStorage<number>('md', 4);
+    const [sm] = useLocalStorage<number>('sm', 3);
+    const [xs] = useLocalStorage<number>('xs', 2);
+
     if (gridLayout !== 2) {
         return (
-            <Grid item xs={6} sm={4} md={3} lg={2}>
+            // @ts-ignore gridsize type isnt allowed to be a decimal but it works fine
+            <Grid item xs={12 / xs} sm={12 / sm} md={12 / md} lg={12 / lg}>
                 <Link to={`/manga/${id}/`} style={(gridLayout === 1) ? { textDecoration: 'none' } : {}}>
                     <Box
                         sx={{

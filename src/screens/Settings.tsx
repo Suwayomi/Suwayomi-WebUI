@@ -27,6 +27,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import TextField from '@mui/material/TextField';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import { ListItemButton } from '@mui/material';
+import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import NavbarContext from '../components/context/NavbarContext';
 import DarkTheme from '../components/context/DarkTheme';
 import useLocalStorage from '../util/useLocalStorage';
@@ -43,6 +45,16 @@ export default function Settings() {
     const [dialogOpen, setDialogOpen] = useState(false);
     const [dialogValue, setDialogValue] = useState(serverAddress);
 
+    const [dialogOpenMPerRow, setDialogOpenMPerRow] = useState(false);
+    const [lg, setLg] = useLocalStorage<number>('lg', 6);
+    const [md, setMd] = useLocalStorage<number>('md', 4);
+    const [sm, setSm] = useLocalStorage<number>('sm', 3);
+    const [xs, setXs] = useLocalStorage<number>('xs', 2);
+    const [DialogLg, setDialogLg] = useState(lg);
+    const [DialogMd, setDialogMd] = useState(md);
+    const [DialogSm, setDialogSm] = useState(sm);
+    const [DialogXs, setDialogXs] = useState(xs);
+
     const handleDialogOpen = () => {
         setDialogValue(serverAddress);
         setDialogOpen(true);
@@ -55,6 +67,34 @@ export default function Settings() {
     const handleDialogSubmit = () => {
         setDialogOpen(false);
         setServerAddress(dialogValue);
+    };
+
+    const handleDialogOpenMPerRow = () => {
+        setDialogLg(lg);
+        setDialogMd(md);
+        setDialogSm(sm);
+        setDialogXs(xs);
+        setDialogOpenMPerRow(true);
+    };
+
+    const handleDialogCancelMPerRow = () => {
+        setDialogOpenMPerRow(false);
+    };
+
+    const handleDialogSubmitMPerRow = () => {
+        setDialogOpenMPerRow(false);
+        setLg(DialogLg);
+        setMd(DialogMd);
+        setSm(DialogSm);
+        setXs(DialogXs);
+    };
+
+    const handleDialogResetMPerRow = () => {
+        setDialogOpenMPerRow(false);
+        setLg(6);
+        setMd(4);
+        setSm(3);
+        setXs(2);
     };
 
     return (
@@ -85,6 +125,18 @@ export default function Settings() {
                         />
                     </ListItemSecondaryAction>
                 </ListItem>
+                <ListItemButton>
+                    <ListItemIcon>
+                        <ViewModuleIcon />
+                    </ListItemIcon>
+                    <ListItemText
+                        primary="Items per row"
+                        secondary={`lg:${lg} md:${md} sm:${sm} sx:${xs}`}
+                        onClick={() => {
+                            handleDialogOpenMPerRow();
+                        }}
+                    />
+                </ListItemButton>
                 <ListItem>
                     <ListItemIcon>
                         <FavoriteIcon />
@@ -165,6 +217,58 @@ export default function Settings() {
                     </Button>
                     <Button onClick={handleDialogSubmit} color="primary">
                         Set
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+            <Dialog open={dialogOpenMPerRow} onClose={handleDialogCancelMPerRow}>
+                <DialogContent>
+                    <DialogContentText>
+                        Items Per Row
+                    </DialogContentText>
+                    <TextField
+                        sx={{ margin: 1 }}
+                        id="lg"
+                        label="lg"
+                        autoFocus
+                        type="number"
+                        value={DialogLg}
+                        onChange={(e) => setDialogLg(parseInt(e.target.value, 10))}
+                    />
+                    <TextField
+                        sx={{ margin: 1 }}
+                        id="md"
+                        label="md"
+                        type="number"
+                        value={DialogMd}
+                        onChange={(e) => setDialogMd(parseInt(e.target.value, 10))}
+                    />
+                    <TextField
+                        sx={{ margin: 1 }}
+                        id="sm"
+                        label="sm"
+                        type="number"
+                        value={DialogSm}
+                        onChange={(e) => setDialogSm(parseInt(e.target.value, 10))}
+                    />
+                    <TextField
+                        sx={{ margin: 1 }}
+                        id="xs"
+                        label="xs"
+                        type="number"
+                        value={DialogXs}
+                        onChange={(e) => setDialogXs(parseInt(e.target.value, 10))}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleDialogResetMPerRow} color="primary">
+                        Reset to Default
+                    </Button>
+                    <Button onClick={handleDialogCancelMPerRow} color="primary">
+                        Cancel
+                    </Button>
+                    <Button onClick={handleDialogSubmitMPerRow} color="primary">
+                        OK
                     </Button>
                 </DialogActions>
             </Dialog>
