@@ -27,7 +27,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import TextField from '@mui/material/TextField';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { ListItemButton } from '@mui/material';
+import Slider from '@mui/material/Slider';
+import { DialogTitle, ListItemButton } from '@mui/material';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import NavbarContext from '../components/context/NavbarContext';
 import DarkTheme from '../components/context/DarkTheme';
@@ -45,15 +46,9 @@ export default function Settings() {
     const [dialogOpen, setDialogOpen] = useState(false);
     const [dialogValue, setDialogValue] = useState(serverAddress);
 
-    const [dialogOpenMPerRow, setDialogOpenMPerRow] = useState(false);
-    const [lg, setLg] = useLocalStorage<number>('lg', 6);
-    const [md, setMd] = useLocalStorage<number>('md', 4);
-    const [sm, setSm] = useLocalStorage<number>('sm', 3);
-    const [xs, setXs] = useLocalStorage<number>('xs', 2);
-    const [DialogLg, setDialogLg] = useState(lg);
-    const [DialogMd, setDialogMd] = useState(md);
-    const [DialogSm, setDialogSm] = useState(sm);
-    const [DialogXs, setDialogXs] = useState(xs);
+    const [dialogOpenItemWidth, setDialogOpenItemWidth] = useState(false);
+    const [ItemWidth, setItemWidth] = useLocalStorage<number>('ItemWidth', 6);
+    const [DialogItemWidth, setDialogItemWidth] = useState(ItemWidth);
 
     const handleDialogOpen = () => {
         setDialogValue(serverAddress);
@@ -69,32 +64,27 @@ export default function Settings() {
         setServerAddress(dialogValue);
     };
 
-    const handleDialogOpenMPerRow = () => {
-        setDialogLg(lg);
-        setDialogMd(md);
-        setDialogSm(sm);
-        setDialogXs(xs);
-        setDialogOpenMPerRow(true);
+    const handleDialogOpenItemWidth = () => {
+        setDialogItemWidth(ItemWidth);
+        setDialogOpenItemWidth(true);
     };
 
-    const handleDialogCancelMPerRow = () => {
-        setDialogOpenMPerRow(false);
+    const handleDialogCancelItemWidth = () => {
+        setDialogOpenItemWidth(false);
     };
 
-    const handleDialogSubmitMPerRow = () => {
-        setDialogOpenMPerRow(false);
-        setLg(DialogLg);
-        setMd(DialogMd);
-        setSm(DialogSm);
-        setXs(DialogXs);
+    const handleDialogSubmitItemWidth = () => {
+        setDialogOpenItemWidth(false);
+        setItemWidth(DialogItemWidth);
     };
 
-    const handleDialogResetMPerRow = () => {
-        setDialogOpenMPerRow(false);
-        setLg(6);
-        setMd(4);
-        setSm(3);
-        setXs(2);
+    const handleDialogResetItemWidth = () => {
+        setDialogOpenItemWidth(false);
+        setItemWidth(300);
+    };
+
+    const handleChange = (event: Event, newValue: number | number[]) => {
+        setDialogItemWidth(newValue as number);
     };
 
     return (
@@ -130,10 +120,10 @@ export default function Settings() {
                         <ViewModuleIcon />
                     </ListItemIcon>
                     <ListItemText
-                        primary="Items per row"
-                        secondary={`lg:${lg} md:${md} sm:${sm} sx:${xs}`}
+                        primary="Manga Item width"
+                        secondary={`px:${ItemWidth}`}
                         onClick={() => {
-                            handleDialogOpenMPerRow();
+                            handleDialogOpenItemWidth();
                         }}
                     />
                 </ListItemButton>
@@ -221,53 +211,44 @@ export default function Settings() {
                 </DialogActions>
             </Dialog>
 
-            <Dialog open={dialogOpenMPerRow} onClose={handleDialogCancelMPerRow}>
-                <DialogContent>
-                    <DialogContentText>
-                        Items Per Row
-                    </DialogContentText>
+            <Dialog open={dialogOpenItemWidth} onClose={handleDialogCancelItemWidth}>
+                <DialogTitle>
+                    Manga Item width
+                </DialogTitle>
+                <DialogContent
+                    sx={{
+                        width: '98%',
+                        margin: 'auto',
+                    }}
+                >
                     <TextField
-                        sx={{ margin: 1 }}
-                        id="lg"
-                        label="lg"
+                        sx={{
+                            width: '100%',
+                            margin: 'auto',
+                        }}
                         autoFocus
+                        value={DialogItemWidth}
                         type="number"
-                        value={DialogLg}
-                        onChange={(e) => setDialogLg(parseInt(e.target.value, 10))}
+                        onChange={(e) => setDialogItemWidth(parseInt(e.target.value, 10))}
                     />
-                    <TextField
-                        sx={{ margin: 1 }}
-                        id="md"
-                        label="md"
-                        type="number"
-                        value={DialogMd}
-                        onChange={(e) => setDialogMd(parseInt(e.target.value, 10))}
-                    />
-                    <TextField
-                        sx={{ margin: 1 }}
-                        id="sm"
-                        label="sm"
-                        type="number"
-                        value={DialogSm}
-                        onChange={(e) => setDialogSm(parseInt(e.target.value, 10))}
-                    />
-                    <TextField
-                        sx={{ margin: 1 }}
-                        id="xs"
-                        label="xs"
-                        type="number"
-                        value={DialogXs}
-                        onChange={(e) => setDialogXs(parseInt(e.target.value, 10))}
+                    <Slider
+                        aria-label="Manga Item width"
+                        defaultValue={300}
+                        value={DialogItemWidth}
+                        step={10}
+                        min={100}
+                        max={1000}
+                        onChange={handleChange}
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleDialogResetMPerRow} color="primary">
+                    <Button onClick={handleDialogResetItemWidth} color="primary">
                         Reset to Default
                     </Button>
-                    <Button onClick={handleDialogCancelMPerRow} color="primary">
+                    <Button onClick={handleDialogCancelItemWidth} color="primary">
                         Cancel
                     </Button>
-                    <Button onClick={handleDialogSubmitMPerRow} color="primary">
+                    <Button onClick={handleDialogSubmitItemWidth} color="primary">
                         OK
                     </Button>
                 </DialogActions>
