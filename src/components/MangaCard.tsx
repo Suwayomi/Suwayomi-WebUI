@@ -71,6 +71,7 @@ const truncateText = (str: string, maxLength: number) => {
 interface IProps {
     manga: IMangaCard
     gridLayout: number | undefined
+    dimensions: number
 }
 const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) => {
     const {
@@ -79,15 +80,19 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
             id, title, thumbnailUrl, downloadCount, unreadCount: unread, inLibrary,
         },
         gridLayout,
+        dimensions,
     } = props;
     const { options: { showUnreadBadge, showDownloadBadge } } = useLibraryOptionsContext();
 
     const [serverAddress] = useLocalStorage<String>('serverBaseURL', '');
     const [useCache] = useLocalStorage<boolean>('useCache', true);
+    const [ItemWidth] = useLocalStorage<number>('ItemWidth', 300);
 
     if (gridLayout !== 2) {
+        const colomns = Math.round(dimensions / ItemWidth);
         return (
-            <Grid item xs={6} sm={4} md={3} lg={2}>
+            // @ts-ignore gridsize type isnt allowed to be a decimal but it works fine
+            <Grid item lg={12 / colomns}>
                 <Link to={`/manga/${id}/`} style={(gridLayout === 1) ? { textDecoration: 'none' } : {}}>
                     <Box
                         sx={{

@@ -5,7 +5,9 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import React, { useEffect, useRef } from 'react';
+import React, {
+    useEffect, useLayoutEffect, useRef, useState,
+} from 'react';
 import Grid from '@mui/material/Grid';
 import EmptyView from 'components/util/EmptyView';
 import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
@@ -49,6 +51,23 @@ export default function MangaGrid(props: IMangaGridProps) {
         };
     }, [hasNextPage, mangas]);
 
+    const [dimensions, setDimensions] = useState(1);
+
+    const gridRef = useRef<HTMLDivElement>(null);
+
+    const TestDimensions = () => {
+        setDimensions(gridRef.current ? gridRef.current.offsetWidth : 0);
+    };
+
+    useLayoutEffect(TestDimensions, []);
+
+    let movementTimer: NodeJS.Timeout;
+
+    window.addEventListener('resize', () => {
+        clearInterval(movementTimer);
+        movementTimer = setTimeout(TestDimensions, 100);
+    });
+
     if (mangas.length === 0) {
         if (isLoading) {
             mapped = (
@@ -79,6 +98,7 @@ export default function MangaGrid(props: IMangaGridProps) {
                         manga={it}
                         ref={lastManga}
                         gridLayout={gridLayout}
+                        dimensions={dimensions}
                     />
                 );
             }
@@ -87,30 +107,33 @@ export default function MangaGrid(props: IMangaGridProps) {
                     key={it.id}
                     manga={it}
                     gridLayout={gridLayout}
+                    dimensions={dimensions}
                 />
             );
         });
     }
 
     return (
-        <Grid
-            container
-            spacing={1}
-            style={horisontal ? {
-                margin: 0,
-                width: '100%',
-                padding: '5px',
-                overflowX: 'scroll',
-                display: '-webkit-inline-box',
-                flexWrap: 'nowrap',
-            } : {
-                margin: 0,
-                width: '100%',
-                padding: '5px',
-            }}
-        >
-            {mapped}
-        </Grid>
+        <div ref={gridRef}>
+            <Grid
+                container
+                spacing={1}
+                style={horisontal ? {
+                    margin: 0,
+                    width: '100%',
+                    padding: '5px',
+                    overflowX: 'scroll',
+                    display: '-webkit-inline-box',
+                    flexWrap: 'nowrap',
+                } : {
+                    margin: 0,
+                    width: '100%',
+                    padding: '5px',
+                }}
+            >
+                {mapped}
+            </Grid>
+        </div>
     );
 }
 

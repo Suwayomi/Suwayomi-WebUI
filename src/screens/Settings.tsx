@@ -27,6 +27,9 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import TextField from '@mui/material/TextField';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import Slider from '@mui/material/Slider';
+import { DialogTitle, ListItemButton } from '@mui/material';
+import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import NavbarContext from '../components/context/NavbarContext';
 import DarkTheme from '../components/context/DarkTheme';
 import useLocalStorage from '../util/useLocalStorage';
@@ -43,6 +46,10 @@ export default function Settings() {
     const [dialogOpen, setDialogOpen] = useState(false);
     const [dialogValue, setDialogValue] = useState(serverAddress);
 
+    const [dialogOpenItemWidth, setDialogOpenItemWidth] = useState(false);
+    const [ItemWidth, setItemWidth] = useLocalStorage<number>('ItemWidth', 6);
+    const [DialogItemWidth, setDialogItemWidth] = useState(ItemWidth);
+
     const handleDialogOpen = () => {
         setDialogValue(serverAddress);
         setDialogOpen(true);
@@ -55,6 +62,29 @@ export default function Settings() {
     const handleDialogSubmit = () => {
         setDialogOpen(false);
         setServerAddress(dialogValue);
+    };
+
+    const handleDialogOpenItemWidth = () => {
+        setDialogItemWidth(ItemWidth);
+        setDialogOpenItemWidth(true);
+    };
+
+    const handleDialogCancelItemWidth = () => {
+        setDialogOpenItemWidth(false);
+    };
+
+    const handleDialogSubmitItemWidth = () => {
+        setDialogOpenItemWidth(false);
+        setItemWidth(DialogItemWidth);
+    };
+
+    const handleDialogResetItemWidth = () => {
+        setDialogOpenItemWidth(false);
+        setItemWidth(300);
+    };
+
+    const handleChange = (event: Event, newValue: number | number[]) => {
+        setDialogItemWidth(newValue as number);
     };
 
     return (
@@ -85,6 +115,18 @@ export default function Settings() {
                         />
                     </ListItemSecondaryAction>
                 </ListItem>
+                <ListItemButton>
+                    <ListItemIcon>
+                        <ViewModuleIcon />
+                    </ListItemIcon>
+                    <ListItemText
+                        primary="Manga Item width"
+                        secondary={`px:${ItemWidth}`}
+                        onClick={() => {
+                            handleDialogOpenItemWidth();
+                        }}
+                    />
+                </ListItemButton>
                 <ListItem>
                     <ListItemIcon>
                         <FavoriteIcon />
@@ -165,6 +207,49 @@ export default function Settings() {
                     </Button>
                     <Button onClick={handleDialogSubmit} color="primary">
                         Set
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+            <Dialog open={dialogOpenItemWidth} onClose={handleDialogCancelItemWidth}>
+                <DialogTitle>
+                    Manga Item width
+                </DialogTitle>
+                <DialogContent
+                    sx={{
+                        width: '98%',
+                        margin: 'auto',
+                    }}
+                >
+                    <TextField
+                        sx={{
+                            width: '100%',
+                            margin: 'auto',
+                        }}
+                        autoFocus
+                        value={DialogItemWidth}
+                        type="number"
+                        onChange={(e) => setDialogItemWidth(parseInt(e.target.value, 10))}
+                    />
+                    <Slider
+                        aria-label="Manga Item width"
+                        defaultValue={300}
+                        value={DialogItemWidth}
+                        step={10}
+                        min={100}
+                        max={1000}
+                        onChange={handleChange}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleDialogResetItemWidth} color="primary">
+                        Reset to Default
+                    </Button>
+                    <Button onClick={handleDialogCancelItemWidth} color="primary">
+                        Cancel
+                    </Button>
+                    <Button onClick={handleDialogSubmitItemWidth} color="primary">
+                        OK
                     </Button>
                 </DialogActions>
             </Dialog>
