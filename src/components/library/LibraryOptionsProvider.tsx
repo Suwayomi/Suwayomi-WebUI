@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import React from 'react';
-import LibraryOptionsContext from 'components/context/LibraryOptionsContext';
+import LibraryOptionsContext, { DefaultLibraryOptions } from 'components/context/LibraryOptionsContext';
 import useLocalStorage from 'util/useLocalStorage';
 
 interface IProps {
@@ -14,13 +14,34 @@ interface IProps {
 }
 
 export default function LibraryOptionsContextProvider({ children }: IProps) {
-    const [options, setOptions] = useLocalStorage<LibraryDisplayOptions>('libraryOptions',
-        {
-            showDownloadBadge: false, showUnreadBadge: false, gridLayout: 0, SourcegridLayout: 0,
-        });
+    const [options, setOptions] = useLocalStorage<LibraryOptions>('libraryOptions', DefaultLibraryOptions);
+
+    function setOption<Name extends keyof LibraryOptions>(
+        option: Name,
+        value: React.SetStateAction<LibraryOptions[Name]>,
+    ) {
+        setOptions((opts) => ({
+            ...opts,
+            [option]: typeof value === 'function' ? value(opts[option]) : value,
+        }));
+    }
+
+    // TODO remove these fields when we have a better way to handle them
+    // eslint-disable-next-line eqeqeq
+    const active = !(options.unread == undefined) || !(options.downloaded == undefined);
+    // eslint-disable-next-line eqeqeq
+    const activeSort = (options.sortDesc != undefined) || (options.sorts != undefined);
 
     return (
-        <LibraryOptionsContext.Provider value={{ options, setOptions }}>
+        <LibraryOptionsContext.Provider
+            value={{
+                options,
+                setOption,
+                setOptions,
+                active,
+                activeSort,
+            }}
+        >
             {children}
         </LibraryOptionsContext.Provider>
     );

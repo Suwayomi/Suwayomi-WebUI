@@ -8,7 +8,6 @@
 
 import React from 'react';
 import MangaGrid, { IMangaGridProps } from 'components/MangaGrid';
-import useLibraryOptions from 'util/useLibraryOptions';
 import { useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
 
 const FILTERED_OUT_MESSAGE = 'There are no Manga matching this filter';
@@ -42,7 +41,7 @@ function queryFilter(query: NullAndUndefined<string>, { title }: IMangaCard): bo
 }
 
 function filterManga(mangas: IMangaCard[]): IMangaCard[] {
-    const { downloaded, unread, query } = useLibraryOptions();
+    const { options: { downloaded, unread, query } } = useLibraryOptionsContext();
     return mangas
         .filter((manga) => downloadedFilter(downloaded, manga)
         && unreadFilter(unread, manga)
@@ -64,7 +63,7 @@ function toSortID(a: IMangaCard, b: IMangaCard): number {
 }
 
 function sortManga(mangas: IMangaCard[]): IMangaCard[] {
-    const { sorts, sortDesc } = useLibraryOptions();
+    const { options: { sorts, sortDesc } } = useLibraryOptionsContext();
     return (sorts === 'sortID' || sorts === undefined) && !sortDesc ? mangas : mangas.sort((a, b) => {
         const c = sortDesc === true ? b : a;
         const d = sortDesc === true ? a : b;
@@ -80,8 +79,7 @@ export default function LibraryMangaGrid(props: IMangaGridProps) {
         mangas, isLoading, hasNextPage, lastPageNum, setLastPageNum, message,
     } = props;
 
-    const { options } = useLibraryOptionsContext();
-    const { active, query } = useLibraryOptions();
+    const { options, active } = useLibraryOptionsContext();
     const filteredManga = filterManga(mangas);
     const sortedManga = sortManga(filteredManga);
     const DoneManga = sortedManga.map((ele) => {
@@ -89,7 +87,7 @@ export default function LibraryMangaGrid(props: IMangaGridProps) {
         ele.inLibrary = undefined;
         return ele;
     });
-    const showFilteredOutMessage = (active || query)
+    const showFilteredOutMessage = (active || options.query)
         && filteredManga.length === 0 && mangas.length > 0;
 
     return (
