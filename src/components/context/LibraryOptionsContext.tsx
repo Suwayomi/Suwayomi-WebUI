@@ -27,7 +27,6 @@ export const DefaultLibraryOptions: LibraryOptions = {
     gridLayout: 0,
     SourcegridLayout: 0,
 
-    query: undefined,
     downloaded: undefined,
     sortDesc: undefined,
     sorts: undefined,

@@ -272,7 +272,6 @@ interface LibraryOptions {
     // filter options
     downloaded: NullAndUndefined<boolean>
     unread: NullAndUndefined<boolean>
-    query: NullAndUndefined<string>
     sorts: NullAndUndefined<string>
     sortDesc: NullAndUndefined<boolean>
 }

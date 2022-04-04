@@ -9,6 +9,7 @@
 import React from 'react';
 import MangaGrid, { IMangaGridProps } from 'components/MangaGrid';
 import { useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
+import { StringParam, useQueryParam } from 'use-query-params';
 
 const FILTERED_OUT_MESSAGE = 'There are no Manga matching this filter';
 
@@ -41,7 +42,9 @@ function queryFilter(query: NullAndUndefined<string>, { title }: IMangaCard): bo
 }
 
 function filterManga(mangas: IMangaCard[]): IMangaCard[] {
-    const { options: { downloaded, unread, query } } = useLibraryOptionsContext();
+    const [query] = useQueryParam('query', StringParam);
+
+    const { options: { downloaded, unread } } = useLibraryOptionsContext();
     return mangas
         .filter((manga) => downloadedFilter(downloaded, manga)
         && unreadFilter(unread, manga)
@@ -79,6 +82,7 @@ export default function LibraryMangaGrid(props: IMangaGridProps) {
         mangas, isLoading, hasNextPage, lastPageNum, setLastPageNum, message,
     } = props;
 
+    const [query] = useQueryParam('query', StringParam);
     const { options, active } = useLibraryOptionsContext();
     const filteredManga = filterManga(mangas);
     const sortedManga = sortManga(filteredManga);
@@ -87,7 +91,7 @@ export default function LibraryMangaGrid(props: IMangaGridProps) {
         ele.inLibrary = undefined;
         return ele;
     });
-    const showFilteredOutMessage = (active || options.query)
+    const showFilteredOutMessage = (active || query)
         && filteredManga.length === 0 && mangas.length > 0;
 
     return (
