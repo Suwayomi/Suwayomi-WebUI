@@ -92,7 +92,7 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
         const colomns = Math.round(dimensions / ItemWidth);
         return (
             // @ts-ignore gridsize type isnt allowed to be a decimal but it works fine
-            <Grid item lg={12 / colomns}>
+            <Grid item xs={12 / colomns} sm={12 / colomns} md={12 / colomns} lg={12 / colomns}>
                 <Link to={`/manga/${id}/`} style={(gridLayout === 1) ? { textDecoration: 'none' } : {}}>
                     <Box
                         sx={{
