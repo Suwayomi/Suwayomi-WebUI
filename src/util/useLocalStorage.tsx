@@ -11,6 +11,7 @@ import React, {
     SetStateAction,
     useReducer,
     Reducer,
+    useCallback,
 } from 'react';
 import storage from './localStorage';
 
@@ -24,12 +25,16 @@ export default function useLocalStorage<T>(
         storage.getItem(key, initialState),
     );
 
-    const setValue = ((value: T | ((prevState: T) => T)) => {
-        // Allow value to be a function so we have same API as useState
-        const valueToStore = value instanceof Function ? value(storedValue) : value;
-        setStoredValue(valueToStore);
-        storage.setItem(key, valueToStore);
-    }) as React.Dispatch<React.SetStateAction<T>>;
+    const setValue = useCallback<React.Dispatch<React.SetStateAction<T>>>(
+        ((value) => {
+            setStoredValue((prevValue) => {
+                // Allow value to be a function so we have same API as useState
+                const valueToStore = value instanceof Function ? value(prevValue) : value;
+                storage.setItem(key, valueToStore);
+                return valueToStore;
+            });
+        }), [key],
+    );
 
     return [storedValue, setValue];
 }
