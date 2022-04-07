@@ -23,7 +23,6 @@ import {
     ListItemText,
     Radio,
 } from '@mui/material';
-import useLibraryOptions from 'util/useLibraryOptions';
 import ThreeStateCheckbox from 'components/util/ThreeStateCheckbox';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
@@ -31,9 +30,8 @@ import TabPanel from 'components/util/TabPanel';
 import { useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
 
 function filtersTab(currentTab: number) {
-    const {
-        downloaded, setDownloaded, unread, setUnread,
-    } = useLibraryOptions();
+    const { options: { unread, downloaded }, setOption } = useLibraryOptionsContext();
+
     return (
         <TabPanel index={0} currentIndex={currentTab}>
             <Stack direction="column">
@@ -42,7 +40,7 @@ function filtersTab(currentTab: number) {
                         <ThreeStateCheckbox
                             name="Unread"
                             checked={unread}
-                            onChange={setUnread}
+                            onChange={(change) => setOption('unread', change)}
                         />
                     )}
                     label="Unread"
@@ -52,7 +50,7 @@ function filtersTab(currentTab: number) {
                         <ThreeStateCheckbox
                             name="Downloaded"
                             checked={downloaded}
-                            onChange={setDownloaded}
+                            onChange={(change) => setOption('downloaded', change)}
                         />
                     )}
                     label="Downloaded"
@@ -63,16 +61,15 @@ function filtersTab(currentTab: number) {
 }
 
 function sortsTab(currentTab: number) {
-    const {
-        sorts, setSorts, sortDesc, setSortDesc,
-    } = useLibraryOptions();
+    const { options: { sorts, sortDesc }, setOption } = useLibraryOptionsContext();
 
-    const handleChange = (event:
-    React.MouseEvent<HTMLDivElement, MouseEvent>, index: string) => {
+    const handleChange = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, index: string) => {
         if (sorts === index) {
-            setSortDesc(!sortDesc);
-        } else { setSortDesc(false); }
-        setSorts(index);
+            setOption('sortDesc', (sortDes) => !sortDes);
+        } else {
+            setOption('sortDesc', false);
+        }
+        setOption('sorts', index);
     };
 
     return (
@@ -208,7 +205,7 @@ function Options() {
 
 export default function LibraryOptions() {
     const [filtersOpen, setFiltersOpen] = React.useState(false);
-    const { active } = useLibraryOptions();
+    const { active } = useLibraryOptionsContext();
     return (
         <>
             <IconButton

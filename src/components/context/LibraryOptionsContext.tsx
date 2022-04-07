@@ -8,16 +8,37 @@
 import React, { useContext } from 'react';
 
 type ContextType = {
-    // display options
-    options: LibraryDisplayOptions;
-    setOptions: React.Dispatch<React.SetStateAction<LibraryDisplayOptions>>;
+    options: LibraryOptions;
+
+    setOption: <Name extends keyof LibraryOptions>(
+        name: Name,
+        value: React.SetStateAction<LibraryOptions[Name]>
+    ) => void;
+
+    setOptions: React.Dispatch<React.SetStateAction<LibraryOptions>>;
+
+    active: boolean
+    activeSort: boolean
+};
+
+export const DefaultLibraryOptions: LibraryOptions = {
+    showDownloadBadge: false,
+    showUnreadBadge: false,
+    gridLayout: 0,
+    SourcegridLayout: 0,
+
+    downloaded: undefined,
+    sortDesc: undefined,
+    sorts: undefined,
+    unread: undefined,
 };
 
 const LibraryOptionsContext = React.createContext<ContextType>({
-    options: {
-        showDownloadBadge: false, showUnreadBadge: false, gridLayout: 0, SourcegridLayout: 0,
-    },
+    options: DefaultLibraryOptions,
+    setOption: () => {},
     setOptions: () => {},
+    active: false,
+    activeSort: false,
 });
 
 export default LibraryOptionsContext;

@@ -262,9 +262,16 @@ type ChapterOptionsReducerAction =
 | { type: 'sortReverse' }
 | { type: 'showChapterNumber' };
 
-interface LibraryDisplayOptions {
+interface LibraryOptions {
+    // display options
     showDownloadBadge: boolean
     showUnreadBadge: boolean
     gridLayout: number
     SourcegridLayout:number
+
+    // filter options
+    downloaded: NullAndUndefined<boolean>
+    unread: NullAndUndefined<boolean>
+    sorts: NullAndUndefined<string>
+    sortDesc: NullAndUndefined<boolean>
 }
