@@ -47,7 +47,7 @@ export default function Settings() {
     const [dialogValue, setDialogValue] = useState(serverAddress);
 
     const [dialogOpenItemWidth, setDialogOpenItemWidth] = useState(false);
-    const [ItemWidth, setItemWidth] = useLocalStorage<number>('ItemWidth', 6);
+    const [ItemWidth, setItemWidth] = useLocalStorage<number>('ItemWidth', 300);
     const [DialogItemWidth, setDialogItemWidth] = useState(ItemWidth);
 
     const handleDialogOpen = () => {
