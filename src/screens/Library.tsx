@@ -17,6 +17,7 @@ import LibraryOptions from 'components/library/LibraryOptions';
 import LibraryMangaGrid from 'components/library/LibraryMangaGrid';
 import AppbarSearch from 'components/util/AppbarSearch';
 import { useQueryParam, NumberParam } from 'use-query-params';
+import UpdateChecker from '../components/library/UpdateChecker';
 
 interface IMangaCategory {
     category: ICategory
@@ -31,6 +32,7 @@ export default function Library() {
             <>
                 <AppbarSearch />
                 <LibraryOptions />
+                <UpdateChecker />
             </>,
         );
     }, []);

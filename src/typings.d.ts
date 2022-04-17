@@ -187,6 +187,15 @@ interface IQueue {
     queue: IDownloadChapter[]
 }
 
+interface IUpdateStatus {
+    running: boolean
+    statusMap: {
+        COMPLETE: number,
+        RUNNING: number,
+        PENDING: number
+    }
+}
+
 interface PreferenceProps {
     key: string
     title: string
