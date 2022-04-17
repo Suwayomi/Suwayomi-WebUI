@@ -6,7 +6,11 @@ import { Box } from '@mui/system';
 import Typography from '@mui/material/Typography';
 import client from 'util/client';
 
-function Progress({ progress }: { progress: number }) {
+interface IProgressProps {
+    progress: number
+}
+
+function Progress({ progress }: IProgressProps) {
     return (
         <Box sx={{ display: 'grid', placeItems: 'center', position: 'relative' }}>
             <CircularProgress variant="determinate" value={progress} />
