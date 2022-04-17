@@ -5,7 +5,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { Box } from '@mui/system';
 import Typography from '@mui/material/Typography';
 import client from 'util/client';
-import makeToast from "../util/Toast";
+import makeToast from '../util/Toast';
 
 interface IProgressProps {
     progress: number
@@ -37,7 +37,7 @@ function UpdateChecker() {
             setProgress(0);
             await client.post('/api/v1/update/fetch');
         } catch (e) {
-            makeToast('Checking for updates failed!', 'error')
+            makeToast('Checking for updates failed!', 'error');
             setLoading(false);
         }
     };
