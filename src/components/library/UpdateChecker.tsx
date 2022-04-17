@@ -5,6 +5,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { Box } from '@mui/system';
 import Typography from '@mui/material/Typography';
 import client from 'util/client';
+import makeToast from "../util/Toast";
 
 interface IProgressProps {
     progress: number
@@ -31,9 +32,14 @@ function UpdateChecker() {
     const [progress, setProgress] = useState(0);
 
     const onClick = async () => {
-        setLoading(true);
-        setProgress(0);
-        await client.post('/api/v1/update/fetch');
+        try {
+            setLoading(true);
+            setProgress(0);
+            await client.post('/api/v1/update/fetch');
+        } catch (e) {
+            makeToast('Checking for updates failed!', 'error')
+            setLoading(false);
+        }
     };
 
     useEffect(() => {
