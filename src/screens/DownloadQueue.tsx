@@ -101,6 +101,21 @@ export default function DownloadQueue() {
         return <EmptyView message="No downloads" />;
     }
 
+    const callDeleteServer = (chapter: IChapter) => {
+        // remove from download queue
+        client.delete(`/api/v1/download/${chapter.mangaId}/chapter/${chapter.index}`);
+
+        // delete partial download, should be handle server side?
+        // bug: The folder and the last image downloaded are not deleted
+        client.delete(`/api/v1/manga/${chapter.mangaId}/chapter/${chapter.index}`);
+    };
+
+    const deleteChapterQueue = (chapter: IChapter) => {
+        // required to stop before deleting otherwise the download kept going. Server issue?
+        client.get('/api/v1/downloads/stop')
+            .then(() => callDeleteServer(chapter));
+    };
+
     return (
         <>
             <DragDropContext onDragEnd={onDragEnd}>
@@ -162,6 +177,9 @@ export default function DownloadQueue() {
                                                     // deleteCategory(index);
                                                     // prevent parent tags from getting the event
                                                     e.stopPropagation();
+
+                                                    // delete chapter from download queue
+                                                    deleteChapterQueue(item.chapter);
                                                 }}
                                                 size="large"
                                             >
