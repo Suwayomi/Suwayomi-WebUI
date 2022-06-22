@@ -39,6 +39,7 @@ interface ISourceFilter {
     name: string
     state: number | string | boolean | ISourceFilters[] | IState
     values?: string[]
+    displayValues?: string[]
     selected?: ISelected
 }
 
