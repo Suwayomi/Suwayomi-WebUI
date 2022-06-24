@@ -88,7 +88,7 @@ export function Options({
                             <SelectFilter
                                 key={`filters ${e.filter.name}`}
                                 name={e.filter.name}
-                                values={e.filter.values}
+                                values={e.filter.displayValues}
                                 state={parseInt(checkif, 10) || e.filter.state as number}
                                 selected={e.filter.selected}
                                 position={index}
