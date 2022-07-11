@@ -27,10 +27,10 @@ const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
     const inputRef = React.useRef<HTMLInputElement>();
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-        setQuery(e.target.value === '' ? undefined : e.target.value);
+        setQuery(e.target.value === '' ? undefined : e.target.value, 'replaceIn');
     }
     const cancelSearch = () => {
-        setQuery(null);
+        setQuery(null, 'replaceIn');
         setSearchOpen(false);
     };
     const handleBlur = () => { if (!query) setSearchOpen(false); };
