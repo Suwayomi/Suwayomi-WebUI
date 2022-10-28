@@ -73,10 +73,10 @@ interface IProps {
     gridLayout: number | undefined
     dimensions: number
 }
+
 const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) => {
     const {
         manga: {
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             id, title, thumbnailUrl, downloadCount, unreadCount: unread, inLibrary,
         },
         gridLayout,
@@ -89,10 +89,9 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
     const [ItemWidth] = useLocalStorage<number>('ItemWidth', 300);
 
     if (gridLayout !== 2) {
-        const colomns = Math.round(dimensions / ItemWidth);
+        const cols = Math.floor(dimensions / ItemWidth);
         return (
-            // @ts-ignore gridsize type isnt allowed to be a decimal but it works fine
-            <Grid item xs={12 / colomns} sm={12 / colomns} md={12 / colomns} lg={12 / colomns}>
+            <Grid item columns={cols} xs={1}>
                 <Link to={`/manga/${id}/`} style={(gridLayout === 1) ? { textDecoration: 'none' } : {}}>
                     <Box
                         sx={{
