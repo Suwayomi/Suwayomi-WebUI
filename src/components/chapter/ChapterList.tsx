@@ -5,9 +5,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, {
+    useState, useEffect, useCallback, useMemo,
+} from 'react';
 import { Box, styled } from '@mui/system';
+import { Refresh } from '@mui/icons-material';
 import { Virtuoso } from 'react-virtuoso';
+import useSWR from 'swr';
 import Typography from '@mui/material/Typography';
 import { CircularProgress, Stack } from '@mui/material';
 import makeToast from 'components/util/Toast';
@@ -19,7 +23,9 @@ import {
     filterAndSortChapters,
 } from 'components/chapter/util';
 import ResumeFab from 'components/chapter/ResumeFAB';
-import useFetchChapters from './useFetchChapters';
+import useSubscription from 'components/library/useSubscription';
+import LoadingIconButton from 'components/atoms/LoadingIconButton';
+import { fetcher } from 'util/client';
 
 const CustomVirtuoso = styled(Virtuoso)(({ theme }) => ({
     listStyle: 'none',
@@ -33,12 +39,6 @@ const CustomVirtuoso = styled(Virtuoso)(({ theme }) => ({
     },
 }));
 
-const baseWebsocketUrl = JSON.parse(window.localStorage.getItem('serverBaseURL')!).replace('http', 'ws');
-const initialQueue = {
-    status: 'Stopped',
-    queue: [],
-} as IQueue;
-
 interface IProps {
     id: string
 }
@@ -46,7 +46,15 @@ interface IProps {
 export default function ChapterList(props: IProps) {
     const { id } = props;
 
-    const [chapters, triggerChaptersUpdate, noChaptersFound] = useFetchChapters(id);
+    const { data: chaptersData, mutate } = useSWR<IChapter[]>(`/api/v1/manga/${id}/chapters?onlineFetch=false`);
+    const fetchLive = useCallback(async () => {
+        const res = await fetcher<IChapter[]>(`/api/v1/manga/${id}/chapters?onlineFetch=true`);
+        mutate(res, { revalidate: false });
+    }, [mutate, id]);
+    const noChaptersFound = chaptersData?.length === 0;
+    const chapters = useMemo(() => chaptersData ?? [], [chaptersData]);
+    const triggerChaptersUpdate = mutate;
+
     const [firstUnreadChapter, setFirstUnreadChapter] = useState<IChapter>();
     const [filteredChapters, setFilteredChapters] = useState<IChapter[]>([]);
     // eslint-disable-next-line max-len
@@ -54,31 +62,18 @@ export default function ChapterList(props: IProps) {
         chapterOptionsReducer, `${id}filterOptions`, defaultChapterOptions,
     );
 
-    const [, setWsClient] = useState<WebSocket>();
-    const [{ queue }, setQueueState] = useState<IQueue>(initialQueue);
-
-    useEffect(() => {
-        const wsc = new WebSocket(`${baseWebsocketUrl}/api/v1/downloads`);
-        wsc.onmessage = (e) => {
-            const data = JSON.parse(e.data) as IQueue;
-            setQueueState(data);
-        };
-
-        setWsClient(wsc);
-
-        return () => wsc.close();
-    }, []);
+    const queue = useSubscription<IQueue>('/api/v1/downloads').data?.queue;
 
     useEffect(() => {
         triggerChaptersUpdate();
-    }, [queue.length]);
+    }, [queue?.length]);
 
     const downloadStatusStringFor = useCallback((chapter: IChapter) => {
         let rtn = '';
         if (chapter.downloaded) {
             rtn = ' • Downloaded';
         }
-        queue.forEach((q) => {
+        queue?.forEach((q) => {
             if (chapter.index === q.chapterIndex && chapter.mangaId === q.mangaId) {
                 rtn = ` • Downloading (${(q.progress * 100).toFixed(2)}%)`;
             }
@@ -115,12 +110,15 @@ export default function ChapterList(props: IProps) {
         <>
             <Stack direction="column">
                 <Box sx={{
-                    display: 'flex', justifyContent: 'space-between', px: 1.5, mt: 1,
+                    display: 'flex', px: 1.5, mt: 1,
                 }}
                 >
-                    <Typography variant="h5">
+                    <Typography variant="h5" flex={1}>
                         {`${filteredChapters.length} Chapters`}
                     </Typography>
+                    <LoadingIconButton onClick={fetchLive}>
+                        <Refresh />
+                    </LoadingIconButton>
                     <ChapterOptions options={options} optionsDispatch={optionsDispatch} />
                 </Box>
 

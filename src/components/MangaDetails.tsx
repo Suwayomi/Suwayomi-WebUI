@@ -16,7 +16,9 @@ import React, { useContext, useEffect, useState } from 'react';
 import NavbarContext from 'components/context/NavbarContext';
 import client from 'util/client';
 import useLocalStorage from 'util/useLocalStorage';
+import Refresh from '@mui/icons-material/Refresh';
 import CategorySelect from './navbar/action/CategorySelect';
+import LoadingIconButton from './atoms/LoadingIconButton';
 
 const useStyles = (inLibrary: string) => makeStyles((theme: Theme) => ({
     root: {
@@ -118,6 +120,7 @@ const useStyles = (inLibrary: string) => makeStyles((theme: Theme) => ({
 
 interface IProps{
     manga: IManga
+    onRefresh: () => Promise<any>
 }
 
 function getSourceName(source: ISource) {
@@ -131,10 +134,8 @@ function getValueOrUnknown(val: string) {
     return val || 'UNKNOWN';
 }
 
-export default function MangaDetails(props: IProps) {
+export default function MangaDetails({ manga, onRefresh }: IProps) {
     const { setAction } = useContext(NavbarContext);
-
-    const { manga } = props;
 
     const [inLibrary, setInLibrary] = useState<string>(
         manga.inLibrary ? 'In Library' : 'Add To Library',
@@ -195,6 +196,9 @@ export default function MangaDetails(props: IProps) {
 
     return (
         <div className={classes.root}>
+            <LoadingIconButton onClick={onRefresh} sx={{ position: 'absolute', top: 10, right: 0 }}>
+                <Refresh />
+            </LoadingIconButton>
             <div className={classes.top}>
                 <div className={classes.leftRight}>
                     <div className={classes.leftSide}>

@@ -5,11 +5,12 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useCallback, useEffect, useContext } from 'react';
+import useSWR from 'swr';
 import { Box } from '@mui/system';
 import MangaDetails from 'components/MangaDetails';
 import NavbarContext from 'components/context/NavbarContext';
-import client from 'util/client';
+import { fetcher } from 'util/client';
 import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
 import ChapterList from 'components/chapter/ChapterList';
 import { useParams } from 'react-router-dom';
@@ -20,27 +21,18 @@ export default function Manga() {
 
     const { id } = useParams<{ id: string }>();
 
-    const [manga, setManga] = useState<IManga>();
-
-    useEffect(() => {
-        if (manga === undefined || !manga.freshData) {
-            client.get(`/api/v1/manga/${id}/?onlineFetch=${manga !== undefined}`)
-                .then((response) => response.data)
-                .then((data: IManga) => {
-                    setManga(data);
-                    setTitle(data.title);
-                });
-        }
-    }, [manga]);
+    const {
+        data: manga, error, mutate,
+    } = useSWR<IManga>(`/api/v1/manga/${id}/?onlineFetch=false`);
+    const fetchOnline = useCallback(async () => {
+        const res = await fetcher(`/api/v1/manga/${id}/?onlineFetch=true`);
+        mutate(res, { revalidate: false });
+    }, [mutate, id]);
 
     return (
         <Box sx={{ display: { md: 'flex' }, overflow: 'hidden' }}>
-            <LoadingPlaceholder
-                shouldRender={manga !== undefined}
-                component={MangaDetails}
-                componentProps={{ manga }}
-            />
-
+            {!manga && !error && <LoadingPlaceholder />}
+            {manga && <MangaDetails manga={manga} onRefresh={fetchOnline} />}
             <ChapterList id={id} />
         </Box>
     );

@@ -14,9 +14,11 @@ const { hostname, port, protocol } = window.location;
 let inferredPort;
 if (port === '3000') { inferredPort = '4567'; } else { inferredPort = port; }
 
+const baseURL = storage.getItem('serverBaseURL', `${protocol}//${hostname}:${inferredPort}`);
+
 const client = axios.create({
     // baseURL must not have traling slash
-    baseURL: storage.getItem('serverBaseURL', `${protocol}//${hostname}:${inferredPort}`),
+    baseURL,
 });
 
 client.interceptors.request.use((config) => {
@@ -27,3 +29,14 @@ client.interceptors.request.use((config) => {
 });
 
 export default client;
+
+export async function fetcher<T = any>(path: string) {
+    const res = await client.get(path);
+    if (res.status !== 200) {
+        throw new Error(res.statusText);
+    }
+    if (res.headers['content-type'] !== 'application/json') {
+        throw new Error('Response is not json');
+    }
+    return res.data as T;
+}
