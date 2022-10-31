@@ -23,9 +23,6 @@ import LoadingIconButton from './atoms/LoadingIconButton';
 const useStyles = (inLibrary: string) => makeStyles((theme: Theme) => ({
     root: {
         width: '100%',
-        [theme.breakpoints.down('md')]: {
-            position: 'relative',
-        },
         [theme.breakpoints.up('md')]: {
             position: 'sticky',
             top: '64px',

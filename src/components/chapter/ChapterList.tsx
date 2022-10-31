@@ -96,10 +96,10 @@ export default function ChapterList({ id, chaptersData, onRefresh }: IProps) {
         <>
             <Stack direction="column">
                 <Box sx={{
-                    display: 'flex', px: 1.5, mt: 1,
+                    display: 'flex', justifyContent: 'space-between', px: 1.5, mt: 1,
                 }}
                 >
-                    <Typography variant="h5" flex={1}>
+                    <Typography variant="h5">
                         {`${filteredChapters.length} Chapters`}
                     </Typography>
                     <ChapterOptions options={options} optionsDispatch={optionsDispatch} />
