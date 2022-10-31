@@ -9,9 +9,7 @@ import React, {
     useState, useEffect, useCallback, useMemo,
 } from 'react';
 import { Box, styled } from '@mui/system';
-import { Refresh } from '@mui/icons-material';
 import { Virtuoso } from 'react-virtuoso';
-import useSWR from 'swr';
 import Typography from '@mui/material/Typography';
 import { CircularProgress, Stack } from '@mui/material';
 import makeToast from 'components/util/Toast';
@@ -24,8 +22,6 @@ import {
 } from 'components/chapter/util';
 import ResumeFab from 'components/chapter/ResumeFAB';
 import useSubscription from 'components/library/useSubscription';
-import LoadingIconButton from 'components/atoms/LoadingIconButton';
-import { fetcher } from 'util/client';
 
 const CustomVirtuoso = styled(Virtuoso)(({ theme }) => ({
     listStyle: 'none',
@@ -41,19 +37,13 @@ const CustomVirtuoso = styled(Virtuoso)(({ theme }) => ({
 
 interface IProps {
     id: string
+    chaptersData: IChapter[] | undefined
+    onRefresh: () => void;
 }
 
-export default function ChapterList(props: IProps) {
-    const { id } = props;
-
-    const { data: chaptersData, mutate } = useSWR<IChapter[]>(`/api/v1/manga/${id}/chapters?onlineFetch=false`);
-    const fetchLive = useCallback(async () => {
-        const res = await fetcher<IChapter[]>(`/api/v1/manga/${id}/chapters?onlineFetch=true`);
-        mutate(res, { revalidate: false });
-    }, [mutate, id]);
+export default function ChapterList({ id, chaptersData, onRefresh }: IProps) {
     const noChaptersFound = chaptersData?.length === 0;
     const chapters = useMemo(() => chaptersData ?? [], [chaptersData]);
-    const triggerChaptersUpdate = mutate;
 
     const [firstUnreadChapter, setFirstUnreadChapter] = useState<IChapter>();
     const [filteredChapters, setFilteredChapters] = useState<IChapter[]>([]);
@@ -63,10 +53,6 @@ export default function ChapterList(props: IProps) {
     );
 
     const queue = useSubscription<IQueue>('/api/v1/downloads').data?.queue;
-
-    useEffect(() => {
-        triggerChaptersUpdate();
-    }, [queue?.length]);
 
     const downloadStatusStringFor = useCallback((chapter: IChapter) => {
         let rtn = '';
@@ -116,9 +102,6 @@ export default function ChapterList(props: IProps) {
                     <Typography variant="h5" flex={1}>
                         {`${filteredChapters.length} Chapters`}
                     </Typography>
-                    <LoadingIconButton onClick={fetchLive}>
-                        <Refresh />
-                    </LoadingIconButton>
                     <ChapterOptions options={options} optionsDispatch={optionsDispatch} />
                 </Box>
 
@@ -134,7 +117,7 @@ export default function ChapterList(props: IProps) {
                             showChapterNumber={options.showChapterNumber}
                             chapter={filteredChapters[index]}
                             downloadStatusString={downloadStatusStringFor(filteredChapters[index])}
-                            triggerChaptersUpdate={triggerChaptersUpdate}
+                            triggerChaptersUpdate={onRefresh}
                         />
                     )}
                     useWindowScroll={window.innerWidth < 900}

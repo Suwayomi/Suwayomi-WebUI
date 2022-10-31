@@ -124,6 +124,7 @@ const useStyles = (inLibrary: string) => makeStyles((theme: Theme) => ({
 interface IProps{
     manga: IManga
     onRefresh: () => Promise<any>
+    refreshing: boolean
 }
 
 function getSourceName(source: ISource) {
@@ -137,7 +138,7 @@ function getValueOrUnknown(val: string) {
     return val || 'UNKNOWN';
 }
 
-export default function MangaDetails({ manga, onRefresh }: IProps) {
+export default function MangaDetails({ manga, onRefresh, refreshing }: IProps) {
     const { setAction } = useContext(NavbarContext);
 
     const [inLibrary, setInLibrary] = useState<string>(
@@ -147,28 +148,32 @@ export default function MangaDetails({ manga, onRefresh }: IProps) {
     const [categoryDialogOpen, setCategoryDialogOpen] = useState<boolean>(false);
 
     useEffect(() => {
-        if (inLibrary === 'In Library') {
-            setAction(
-                <>
-                    <IconButton
-                        onClick={() => setCategoryDialogOpen(true)}
-                        aria-label="display more actions"
-                        edge="end"
-                        color="inherit"
-                        size="large"
-                    >
-                        <FilterListIcon />
-                    </IconButton>
-                    <CategorySelect
-                        open={categoryDialogOpen}
-                        setOpen={setCategoryDialogOpen}
-                        mangaId={manga.id}
-                    />
-                </>,
-
-            );
-        } else { setAction(<></>); }
-    }, [inLibrary, categoryDialogOpen]);
+        setAction(
+            <>
+                <LoadingIconButton loading={refreshing} onClick={onRefresh}>
+                    <Refresh />
+                </LoadingIconButton>
+                {inLibrary === 'In Library' && (
+                    <>
+                        <IconButton
+                            onClick={() => setCategoryDialogOpen(true)}
+                            aria-label="display more actions"
+                            edge="end"
+                            color="inherit"
+                            size="large"
+                        >
+                            <FilterListIcon />
+                        </IconButton>
+                        <CategorySelect
+                            open={categoryDialogOpen}
+                            setOpen={setCategoryDialogOpen}
+                            mangaId={manga.id}
+                        />
+                    </>
+                )}
+            </>,
+        );
+    }, [inLibrary, categoryDialogOpen, refreshing, onRefresh]);
 
     const [serverAddress] = useLocalStorage<String>('serverBaseURL', '');
     const [useCache] = useLocalStorage<boolean>('useCache', true);
@@ -199,9 +204,6 @@ export default function MangaDetails({ manga, onRefresh }: IProps) {
 
     return (
         <div className={classes.root}>
-            <LoadingIconButton onClick={onRefresh} sx={{ position: 'absolute', top: 10, right: 0 }}>
-                <Refresh />
-            </LoadingIconButton>
             <div className={classes.top}>
                 <div className={classes.leftRight}>
                     <div className={classes.leftSide}>
