@@ -29,6 +29,12 @@ export default function Manga() {
         mutate(res, { revalidate: false });
     }, [mutate, id]);
 
+    useEffect(() => {
+        if (manga?.title) {
+            setTitle(manga.title);
+        }
+    }, [manga?.title]);
+
     return (
         <Box sx={{ display: { md: 'flex' }, overflow: 'hidden' }}>
             {!manga && !error && <LoadingPlaceholder />}
