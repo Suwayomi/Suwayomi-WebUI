@@ -76,7 +76,7 @@ export default function Categories() {
         const formData = new FormData();
         formData.append('from', `${from + 1}`);
         formData.append('to', `${to + 1}`);
-        client.patch('/api/v1/category/reorder', formData).then(() => mutate());
+        client.patch('/api/v1/category/reorder', formData).finally(() => mutate());
     };
 
     const onDragEnd = (result: DropResult) => {
