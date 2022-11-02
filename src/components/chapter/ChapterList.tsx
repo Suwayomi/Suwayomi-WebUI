@@ -5,7 +5,9 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, {
+    useState, useEffect, useCallback, useMemo,
+} from 'react';
 import { Box, styled } from '@mui/system';
 import { Virtuoso } from 'react-virtuoso';
 import Typography from '@mui/material/Typography';
@@ -19,7 +21,7 @@ import {
     filterAndSortChapters,
 } from 'components/chapter/util';
 import ResumeFab from 'components/chapter/ResumeFAB';
-import useFetchChapters from './useFetchChapters';
+import useSubscription from 'components/library/useSubscription';
 
 const CustomVirtuoso = styled(Virtuoso)(({ theme }) => ({
     listStyle: 'none',
@@ -33,20 +35,16 @@ const CustomVirtuoso = styled(Virtuoso)(({ theme }) => ({
     },
 }));
 
-const baseWebsocketUrl = JSON.parse(window.localStorage.getItem('serverBaseURL')!).replace('http', 'ws');
-const initialQueue = {
-    status: 'Stopped',
-    queue: [],
-} as IQueue;
-
 interface IProps {
     id: string
+    chaptersData: IChapter[] | undefined
+    onRefresh: () => void;
 }
 
-export default function ChapterList(props: IProps) {
-    const { id } = props;
+export default function ChapterList({ id, chaptersData, onRefresh }: IProps) {
+    const noChaptersFound = chaptersData?.length === 0;
+    const chapters = useMemo(() => chaptersData ?? [], [chaptersData]);
 
-    const [chapters, triggerChaptersUpdate, noChaptersFound] = useFetchChapters(id);
     const [firstUnreadChapter, setFirstUnreadChapter] = useState<IChapter>();
     const [filteredChapters, setFilteredChapters] = useState<IChapter[]>([]);
     // eslint-disable-next-line max-len
@@ -54,31 +52,14 @@ export default function ChapterList(props: IProps) {
         chapterOptionsReducer, `${id}filterOptions`, defaultChapterOptions,
     );
 
-    const [, setWsClient] = useState<WebSocket>();
-    const [{ queue }, setQueueState] = useState<IQueue>(initialQueue);
-
-    useEffect(() => {
-        const wsc = new WebSocket(`${baseWebsocketUrl}/api/v1/downloads`);
-        wsc.onmessage = (e) => {
-            const data = JSON.parse(e.data) as IQueue;
-            setQueueState(data);
-        };
-
-        setWsClient(wsc);
-
-        return () => wsc.close();
-    }, []);
-
-    useEffect(() => {
-        triggerChaptersUpdate();
-    }, [queue.length]);
+    const queue = useSubscription<IQueue>('/api/v1/downloads').data?.queue;
 
     const downloadStatusStringFor = useCallback((chapter: IChapter) => {
         let rtn = '';
         if (chapter.downloaded) {
             rtn = ' • Downloaded';
         }
-        queue.forEach((q) => {
+        queue?.forEach((q) => {
             if (chapter.index === q.chapterIndex && chapter.mangaId === q.mangaId) {
                 rtn = ` • Downloading (${(q.progress * 100).toFixed(2)}%)`;
             }
@@ -136,7 +117,7 @@ export default function ChapterList(props: IProps) {
                             showChapterNumber={options.showChapterNumber}
                             chapter={filteredChapters[index]}
                             downloadStatusString={downloadStatusStringFor(filteredChapters[index])}
-                            triggerChaptersUpdate={triggerChaptersUpdate}
+                            triggerChaptersUpdate={onRefresh}
                         />
                     )}
                     useWindowScroll={window.innerWidth < 900}

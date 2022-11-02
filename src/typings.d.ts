@@ -85,6 +85,9 @@ interface IManga {
     freshData: boolean
     unreadCount?: number
     downloadCount?: number
+
+    age: number
+    chaptersAge: number
 }
 
 interface IChapter {
