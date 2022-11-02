@@ -53,10 +53,10 @@ export default function Categories() {
     const { setTitle, setAction } = useContext(NavbarContext);
     useEffect(() => { setTitle('Categories'); setAction(<></>); }, []);
 
-    const { data, mutate } = useSWR('/api/v1/category/');
+    const { data, mutate } = useSWR<ICategory[]>('/api/v1/category/');
     const categories = useMemo(() => {
         const res = [...data ?? []];
-        if (res.length > 0 && data[0].name === 'Default') {
+        if (res.length > 0 && res[0].name === 'Default') {
             res.shift();
         }
         return res;
