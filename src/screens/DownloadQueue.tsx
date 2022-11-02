@@ -9,7 +9,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import NavbarContext from 'components/context/NavbarContext';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import IconButton from '@mui/material/IconButton';
@@ -28,8 +28,7 @@ import EmptyView from 'components/util/EmptyView';
 import { Box } from '@mui/system';
 import Typography from '@mui/material/Typography';
 import { useHistory } from 'react-router-dom';
-
-const baseWebsocketUrl = JSON.parse(window.localStorage.getItem('serverBaseURL')!).replace('http', 'ws');
+import useSubscription from 'components/library/useSubscription';
 
 const getItemStyle = (isDragging: boolean,
     draggableStyle: DraggingStyle | NotDraggingStyle | undefined, palette: Palette) => ({
@@ -47,9 +46,8 @@ const initialQueue = {
 } as IQueue;
 
 export default function DownloadQueue() {
-    const [, setWsClient] = useState<WebSocket>();
-    const [queueState, setQueueState] = useState<IQueue>(initialQueue);
-    const { queue, status } = queueState;
+    const { data: queueState } = useSubscription<IQueue>('/api/v1/downloads');
+    const { queue, status } = queueState ?? initialQueue;
 
     const history = useHistory();
 
@@ -83,15 +81,6 @@ export default function DownloadQueue() {
             );
         });
     }, [status]);
-
-    useEffect(() => {
-        const wsc = new WebSocket(`${baseWebsocketUrl}/api/v1/downloads`);
-        wsc.onmessage = (e) => {
-            setQueueState(JSON.parse(e.data));
-        };
-
-        setWsClient(wsc);
-    }, []);
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const onDragEnd = (result: DropResult) => {

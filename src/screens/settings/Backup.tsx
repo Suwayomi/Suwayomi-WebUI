@@ -10,10 +10,10 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import { fromEvent } from 'file-selector';
+import client from 'util/client';
 import makeToast from 'components/util/Toast';
 import ListItemLink from '../../components/util/ListItemLink';
 import NavbarContext from '../../components/context/NavbarContext';
-import client from '../../util/client';
 
 export default function Backup() {
     const { setTitle, setAction } = useContext(NavbarContext);

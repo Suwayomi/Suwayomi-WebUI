@@ -5,7 +5,9 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import React, { useContext, useEffect, useState } from 'react';
+import React, {
+    useContext, useEffect, useState, useMemo, useRef,
+} from 'react';
 import { fromEvent } from 'file-selector';
 import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
@@ -21,6 +23,7 @@ import AppbarSearch from 'components/util/AppbarSearch';
 import { useQueryParam, StringParam } from 'use-query-params';
 import { Virtuoso } from 'react-virtuoso';
 import { Typography, useMediaQuery, useTheme } from '@mui/material';
+import useSWR from 'swr';
 
 const LANGUAGE = 0;
 const EXTENSIONS = 1;
@@ -63,6 +66,7 @@ function groupExtensions(extensions: IExtension[]) {
 }
 
 export default function MangaExtensions() {
+    const inputRef = useRef<HTMLInputElement>(null);
     const { setTitle, setAction } = useContext(NavbarContext);
     const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownExtensionLangs', extensionDefaultLangs());
     const [showNsfw] = useLocalStorage<boolean>('showNsfw', true);
@@ -76,9 +80,7 @@ export default function MangaExtensions() {
             <>
                 <AppbarSearch />
                 <IconButton
-                    onClick={
-                        () => document.getElementById('external-extension-file')?.click()
-                    }
+                    onClick={() => inputRef.current?.click()}
                     size="large"
                 >
                     <AddIcon />
@@ -92,16 +94,19 @@ export default function MangaExtensions() {
         );
     }, [shownLangs]);
 
-    const [extensionsRaw, setExtensionsRaw] = useState<IExtension[]>([]);
+    const { data: allExtensions, mutate } = useSWR<IExtension[]>('/api/v1/extension/list');
 
-    const [updateTriggerHolder, setUpdateTriggerHolder] = useState(0); // just a hack
-    const triggerUpdate = () => setUpdateTriggerHolder(updateTriggerHolder + 1); // just a hack
+    const filteredExtensions = useMemo(() => (allExtensions ?? []).filter((ext) => {
+        const nsfwFilter = showNsfw || !ext.isNsfw;
+        if (!query) return nsfwFilter;
+        return nsfwFilter && ext.name.toLowerCase().includes(query.toLowerCase());
+    }), [allExtensions, showNsfw, query]);
 
-    useEffect(() => {
-        client.get('/api/v1/extension/list')
-            .then((response) => response.data)
-            .then((data) => setExtensionsRaw(data));
-    }, [updateTriggerHolder]);
+    const groupedExtensions = useMemo(() => groupExtensions(filteredExtensions)
+        .filter((group) => group[EXTENSIONS].length > 0)
+        .filter((group) => ['installed', 'updates pending', 'all', ...shownLangs].includes(group[LANGUAGE])), [shownLangs, filteredExtensions]);
+
+    const flatRenderItems: (IExtension | string)[] = groupedExtensions.flat(2);
 
     const [toasts, makeToast] = makeToaster(useState<React.ReactElement[]>([]));
 
@@ -110,16 +115,16 @@ export default function MangaExtensions() {
             const formData = new FormData();
             formData.append('file', file);
 
-            // empty the input
-            // @ts-ignore
-            document.getElementById('external-extension-file').value = null;
+            if (inputRef.current) {
+                inputRef.current.value = '';
+            }
 
             makeToast('Installing Extension File....', 'info');
             client.post('/api/v1/extension/install',
                 formData, { headers: { 'Content-Type': 'multipart/form-data' } })
                 .then(() => {
                     makeToast('Installed extension successfully!', 'success');
-                    triggerUpdate();
+                    mutate();
                 })
                 .catch(() => makeToast('Extension installion failed!', 'error'));
         } else {
@@ -130,7 +135,6 @@ export default function MangaExtensions() {
     const dropHandler = async (e: Event) => {
         e.preventDefault();
         const files = await fromEvent(e);
-
         submitExternalExtension(files[0] as File);
     };
 
@@ -142,45 +146,23 @@ export default function MangaExtensions() {
         document.addEventListener('drop', dropHandler);
         document.addEventListener('dragover', dragOverHandler);
 
-        const changeHandler = async (evt: Event) => {
-            const files = await fromEvent(evt);
-            submitExternalExtension(files[0] as File);
-        };
-        const input = document.getElementById('external-extension-file');
-        input?.addEventListener('change', changeHandler);
-
         return () => {
             document.removeEventListener('drop', dropHandler);
             document.removeEventListener('dragover', dragOverHandler);
-            input?.removeEventListener('change', changeHandler);
         };
-    }, [extensionsRaw]); // useEffect only after <input> renders
+    }, []);
 
-    if (extensionsRaw.length === 0) {
+    if (!allExtensions) {
         return <LoadingPlaceholder />;
     }
-
-    const filtered = extensionsRaw.filter((ext) => {
-        const nsfwFilter = showNsfw || !ext.isNsfw;
-        if (!query) return nsfwFilter;
-        return nsfwFilter && ext.name.toLowerCase().includes(query.toLowerCase());
-    });
-
-    const combinedShownLangs = ['installed', 'updates pending', 'all', ...shownLangs];
-
-    const groupedExtensions: [string, IExtension[]][] = groupExtensions(filtered)
-        .filter((group) => group[EXTENSIONS].length > 0)
-        .filter((group) => combinedShownLangs.includes(group[LANGUAGE]));
-
-    const flatRenderItems: (IExtension | string)[] = groupedExtensions.flat(2);
 
     return (
         <>
             {toasts}
             <input
                 type="file"
-                id="external-extension-file"
                 style={{ display: 'none' }}
+                ref={inputRef}
             />
             <Virtuoso
                 style={{
@@ -214,7 +196,7 @@ export default function MangaExtensions() {
                             key={item.apkName}
                             extension={item}
                             notifyInstall={() => {
-                                triggerUpdate();
+                                mutate();
                             }}
                         />
                     );

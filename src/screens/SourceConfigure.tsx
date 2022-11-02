@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import NavbarContext from 'components/context/NavbarContext';
 import { useParams } from 'react-router-dom';
 import client from 'util/client';
@@ -15,6 +15,7 @@ import EditTextPreference from 'components/sourceConfiguration/EditTextPreferenc
 import MultiSelectListPreference from 'components/sourceConfiguration/MultiSelectListPreference';
 import List from '@mui/material/List';
 import cloneObject from 'util/cloneObject';
+import useSWR from 'swr';
 
 function getPrefComponent(type: string) {
     switch (type) {
@@ -34,21 +35,12 @@ function getPrefComponent(type: string) {
 }
 
 export default function SourceConfigure() {
-    const [sourcePreferences, setSourcePreferences] = useState<SourcePreferences[]>([]);
     const { setTitle, setAction } = useContext(NavbarContext);
-
-    const [updateTriggerHolder, setUpdateTriggerHolder] = useState<number>(0); // just a hack
-    const triggerUpdate = () => setUpdateTriggerHolder(updateTriggerHolder + 1); // just a hack
 
     useEffect(() => { setTitle('Source Configuration'); setAction(<></>); }, []);
 
     const { sourceId } = useParams<{ sourceId: string }>();
-
-    useEffect(() => {
-        client.get(`/api/v1/source/${sourceId}/preferences`)
-            .then((response) => response.data)
-            .then((data) => setSourcePreferences(data));
-    }, [updateTriggerHolder]);
+    const { data: sourcePreferences = [], mutate } = useSWR<SourcePreferences[]>(`/api/v1/source/${sourceId}/preferences`);
 
     const convertToString = (position: number, value: any): string => {
         switch (sourcePreferences[position].props.defaultValueType) {
@@ -63,7 +55,7 @@ export default function SourceConfigure() {
         (value: any) => {
             client.post(`/api/v1/source/${sourceId}/preferences`,
                 JSON.stringify({ position, value: convertToString(position, value) }))
-                .then(() => triggerUpdate());
+                .then(() => mutate());
         }
     );
 
