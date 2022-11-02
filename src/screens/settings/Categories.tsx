@@ -36,8 +36,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import NavbarContext from 'components/context/NavbarContext';
-import client from 'util/client';
-import useSWR from 'swr';
+import client, { useQuery } from 'util/client';
 
 const getItemStyle = (isDragging: boolean,
     draggableStyle: DraggingStyle | NotDraggingStyle | undefined, palette: Palette) => ({
@@ -53,7 +52,7 @@ export default function Categories() {
     const { setTitle, setAction } = useContext(NavbarContext);
     useEffect(() => { setTitle('Categories'); setAction(<></>); }, []);
 
-    const { data, mutate } = useSWR<ICategory[]>('/api/v1/category/');
+    const { data, mutate } = useQuery<ICategory[]>('/api/v1/category/');
     const categories = useMemo(() => {
         const res = [...data ?? []];
         if (res.length > 0 && res[0].name === 'Default') {

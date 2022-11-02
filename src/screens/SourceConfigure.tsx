@@ -8,14 +8,13 @@
 import React, { useContext, useEffect } from 'react';
 import NavbarContext from 'components/context/NavbarContext';
 import { useParams } from 'react-router-dom';
-import client from 'util/client';
+import client, { useQuery } from 'util/client';
 import { SwitchPreferenceCompat, CheckBoxPreference } from 'components/sourceConfiguration/TwoStatePreference';
 import ListPreference from 'components/sourceConfiguration/ListPreference';
 import EditTextPreference from 'components/sourceConfiguration/EditTextPreference';
 import MultiSelectListPreference from 'components/sourceConfiguration/MultiSelectListPreference';
 import List from '@mui/material/List';
 import cloneObject from 'util/cloneObject';
-import useSWR from 'swr';
 
 function getPrefComponent(type: string) {
     switch (type) {
@@ -40,7 +39,7 @@ export default function SourceConfigure() {
     useEffect(() => { setTitle('Source Configuration'); setAction(<></>); }, []);
 
     const { sourceId } = useParams<{ sourceId: string }>();
-    const { data: sourcePreferences = [], mutate } = useSWR<SourcePreferences[]>(`/api/v1/source/${sourceId}/preferences`);
+    const { data: sourcePreferences = [], mutate } = useQuery<SourcePreferences[]>(`/api/v1/source/${sourceId}/preferences`);
 
     const convertToString = (position: number, value: any): string => {
         switch (sourcePreferences[position].props.defaultValueType) {

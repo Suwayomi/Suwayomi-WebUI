@@ -13,7 +13,7 @@ import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import ExtensionCard from 'components/ExtensionCard';
 import NavbarContext from 'components/context/NavbarContext';
-import client from 'util/client';
+import client, { useQuery } from 'util/client';
 import useLocalStorage from 'util/useLocalStorage';
 import LangSelect from 'components/navbar/action/LangSelect';
 import { extensionDefaultLangs, langCodeToName, langSortCmp } from 'util/language';
@@ -23,7 +23,6 @@ import AppbarSearch from 'components/util/AppbarSearch';
 import { useQueryParam, StringParam } from 'use-query-params';
 import { Virtuoso } from 'react-virtuoso';
 import { Typography, useMediaQuery, useTheme } from '@mui/material';
-import useSWR from 'swr';
 
 const LANGUAGE = 0;
 const EXTENSIONS = 1;
@@ -94,7 +93,7 @@ export default function MangaExtensions() {
         );
     }, [shownLangs]);
 
-    const { data: allExtensions, mutate } = useSWR<IExtension[]>('/api/v1/extension/list');
+    const { data: allExtensions, mutate, loading } = useQuery<IExtension[]>('/api/v1/extension/list');
 
     const filteredExtensions = useMemo(() => (allExtensions ?? []).filter((ext) => {
         const nsfwFilter = showNsfw || !ext.isNsfw;
@@ -152,7 +151,7 @@ export default function MangaExtensions() {
         };
     }, []);
 
-    if (!allExtensions) {
+    if (loading) {
         return <LoadingPlaceholder />;
     }
 

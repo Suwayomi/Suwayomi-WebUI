@@ -5,14 +5,14 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemLink from 'components/util/ListItemLink';
 import NavbarContext from 'components/context/NavbarContext';
 import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
-import useSWR from 'swr';
+import { useQuery } from 'util/client';
 
 export default function About() {
     const { setTitle, setAction } = useContext(NavbarContext);
 
     useEffect(() => { setTitle('About'); setAction(<></>); }, []);
 
-    const { data: about } = useSWR<IAbout>('/api/v1/settings/about');
+    const { data: about } = useQuery<IAbout>('/api/v1/settings/about');
 
     if (about === undefined) {
         return <LoadingPlaceholder />;

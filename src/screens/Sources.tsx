@@ -17,7 +17,7 @@ import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
 import { IconButton } from '@mui/material';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import { useHistory } from 'react-router-dom';
-import useSWR from 'swr';
+import { useQuery } from 'util/client';
 
 function sourceToLangList(sources: ISource[]) {
     const result: string[] = [];
@@ -46,7 +46,7 @@ export default function Sources() {
     const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownSourceLangs', sourceDefualtLangs());
     const [showNsfw] = useLocalStorage<boolean>('showNsfw', true);
 
-    const { data: sources } = useSWR<ISource[]>('/api/v1/source/list');
+    const { data: sources, loading } = useQuery<ISource[]>('/api/v1/source/list');
 
     const history = useHistory();
 
@@ -86,16 +86,16 @@ export default function Sources() {
         );
     }, [shownLangs, sources]);
 
-    if (!sources) return <LoadingPlaceholder />;
+    if (loading) return <LoadingPlaceholder />;
 
-    if (sources.length === 0) {
+    if (sources?.length === 0) {
         return (<h3>No sources found. Install Some Extensions first.</h3>);
     }
 
     return (
         <>
             {/* eslint-disable-next-line max-len */}
-            {Object.entries(groupByLang(sources)).sort((a, b) => langSortCmp(a[0], b[0])).map(([lang, list]) => (
+            {Object.entries(groupByLang(sources ?? [])).sort((a, b) => langSortCmp(a[0], b[0])).map(([lang, list]) => (
                 shownLangs.indexOf(lang) !== -1 && (
                     <React.Fragment key={lang}>
                         <h1 key={lang} style={{ marginLeft: 25 }}>{langCodeToName(lang)}</h1>

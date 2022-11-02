@@ -6,6 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import axios from 'axios';
+import useSWR, { SWRConfiguration, SWRResponse } from 'swr';
 import storage from './localStorage';
 
 const { hostname, port, protocol } = window.location;
@@ -40,3 +41,17 @@ export async function fetcher<T = any>(path: string) {
     }
     return res.data as T;
 }
+
+export const useQuery = <
+    D extends any = any,
+    E extends any = any,
+>(
+    key: string,
+    config?: SWRConfiguration<D, E>,
+): SWRResponse<D, E> & { loading: boolean } => {
+    const res = useSWR(key, config);
+    return {
+        ...res,
+        loading: res.data == null && res.error == null,
+    };
+};

@@ -14,8 +14,7 @@ import Dialog from '@mui/material/Dialog';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
-import useSWR from 'swr';
-import client from 'util/client';
+import client, { useQuery } from 'util/client';
 
 interface IProps {
     open: boolean
@@ -26,8 +25,8 @@ interface IProps {
 export default function CategorySelect(props: IProps) {
     const { open, setOpen, mangaId } = props;
 
-    const { data: mangaCategoriesData, mutate } = useSWR<ICategory[]>(`/api/v1/manga/${mangaId}/category`);
-    const { data: categoriesData } = useSWR<ICategory[]>('/api/v1/category');
+    const { data: mangaCategoriesData, mutate } = useQuery<ICategory[]>(`/api/v1/manga/${mangaId}/category`);
+    const { data: categoriesData } = useQuery<ICategory[]>('/api/v1/category');
 
     const allCategories = useMemo(() => {
         const cats = [...(categoriesData ?? [])]; // make copy
