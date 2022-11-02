@@ -1,26 +1,18 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import client from 'util/client';
 import ListItemLink from 'components/util/ListItemLink';
 import NavbarContext from 'components/context/NavbarContext';
 import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
+import { useQuery } from 'util/client';
 
 export default function About() {
     const { setTitle, setAction } = useContext(NavbarContext);
 
-    const [about, setAbout] = useState<IAbout>();
-
     useEffect(() => { setTitle('About'); setAction(<></>); }, []);
 
-    useEffect(() => {
-        client.get('/api/v1/settings/about')
-            .then((response) => response.data)
-            .then((data:IAbout) => {
-                setAbout(data);
-            });
-    }, []);
+    const { data: about } = useQuery<IAbout>('/api/v1/settings/about');
 
     if (about === undefined) {
         return <LoadingPlaceholder />;

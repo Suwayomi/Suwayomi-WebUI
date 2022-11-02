@@ -8,7 +8,9 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import React, { useState, useContext, useEffect } from 'react';
+import React, {
+    useMemo, useState, useContext, useEffect,
+} from 'react';
 import {
     List,
     ListItem,
@@ -34,7 +36,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import NavbarContext from 'components/context/NavbarContext';
-import client from 'util/client';
+import client, { useQuery } from 'util/client';
 
 const getItemStyle = (isDragging: boolean,
     draggableStyle: DraggingStyle | NotDraggingStyle | undefined, palette: Palette) => ({
@@ -50,37 +52,31 @@ export default function Categories() {
     const { setTitle, setAction } = useContext(NavbarContext);
     useEffect(() => { setTitle('Categories'); setAction(<></>); }, []);
 
-    const [categories, setCategories] = useState<ICategory[]>([]);
+    const { data, mutate } = useQuery<ICategory[]>('/api/v1/category/');
+    const categories = useMemo(() => {
+        const res = [...data ?? []];
+        if (res.length > 0 && res[0].name === 'Default') {
+            res.shift();
+        }
+        return res;
+    }, [data]);
+
     const [categoryToEdit, setCategoryToEdit] = useState<number>(-1); // -1 means new category
     const [dialogOpen, setDialogOpen] = useState<boolean>(false);
     const [dialogName, setDialogName] = useState<string>('');
     const [dialogDefault, setDialogDefault] = useState<boolean>(false);
     const theme = useTheme();
 
-    const [updateTriggerHolder, setUpdateTriggerHolder] = useState<number>(0); // just a hack
-    const triggerUpdate = () => setUpdateTriggerHolder(updateTriggerHolder + 1); // just a hack
-
-    useEffect(() => {
-        if (!dialogOpen) {
-            client.get('/api/v1/category/')
-                .then((response) => response.data)
-                .then((data) => { if (data.length > 0 && data[0].name === 'Default') data.shift(); return data; })
-                .then((data) => setCategories(data));
-        }
-    }, [updateTriggerHolder]);
-
     const categoryReorder = (list: ICategory[], from: number, to: number) => {
+        const newData = [...list];
+        const [removed] = newData.splice(from, 1);
+        newData.splice(to, 0, removed);
+        mutate(newData, { revalidate: false });
+
         const formData = new FormData();
         formData.append('from', `${from + 1}`);
         formData.append('to', `${to + 1}`);
-        client.patch('/api/v1/category/reorder', formData)
-            .finally(() => triggerUpdate());
-
-        // also move it in local state to avoid jarring moving behviour...
-        const result = Array.from(list);
-        const [removed] = result.splice(from, 1);
-        result.splice(to, 0, removed);
-        return result;
+        client.patch('/api/v1/category/reorder', formData).finally(() => mutate());
     };
 
     const onDragEnd = (result: DropResult) => {
@@ -89,11 +85,11 @@ export default function Categories() {
             return;
         }
 
-        setCategories(categoryReorder(
+        categoryReorder(
             categories,
             result.source.index,
             result.destination.index,
-        ));
+        );
     };
 
     const resetDialog = () => {
@@ -127,18 +123,18 @@ export default function Categories() {
 
         if (categoryToEdit === -1) {
             client.post('/api/v1/category/', formData)
-                .finally(() => triggerUpdate());
+                .finally(() => mutate());
         } else {
             const category = categories[categoryToEdit];
             client.patch(`/api/v1/category/${category.id}`, formData)
-                .finally(() => triggerUpdate());
+                .finally(() => mutate());
         }
     };
 
     const deleteCategory = (index:number) => {
         const category = categories[index];
         client.delete(`/api/v1/category/${category.id}`)
-            .finally(() => triggerUpdate());
+            .finally(() => mutate());
     };
 
     return (

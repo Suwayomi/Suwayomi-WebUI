@@ -17,17 +17,21 @@ import LibraryOptions from 'components/library/LibraryOptions';
 import LibraryMangaGrid from 'components/library/LibraryMangaGrid';
 import AppbarSearch from 'components/util/AppbarSearch';
 import { useQueryParam, NumberParam } from 'use-query-params';
-import useSWR from 'swr';
+import { useQuery } from 'util/client';
 import UpdateChecker from '../components/library/UpdateChecker';
 
 export default function Library() {
-    const { data: tabsData, error: tabsError } = useSWR<ICategory[]>('/api/v1/category');
+    const { data: tabsData, error: tabsError, loading } = useQuery<ICategory[]>('/api/v1/category');
     const tabs = tabsData ?? [];
 
     const [tabSearchParam, setTabSearchParam] = useQueryParam('tab', NumberParam);
 
     const activeTab = tabs.find((t) => t.order === tabSearchParam) ?? tabs[0];
-    const { data: mangaData, error: mangaError } = useSWR<IManga[]>(`/api/v1/category/${activeTab?.id}`, {
+    const {
+        data: mangaData,
+        error: mangaError,
+        loading: mangaLoading,
+    } = useQuery<IManga[]>(`/api/v1/category/${activeTab?.id}`, {
         isPaused: () => activeTab == null,
     });
     const mangas = mangaData ?? [];
@@ -56,7 +60,7 @@ export default function Library() {
         return <EmptyView message="Could not load categories" messageExtra={tabsError?.message ?? tabsError} />;
     }
 
-    if (tabsData == null) {
+    if (loading) {
         return <LoadingPlaceholder />;
     }
 
@@ -72,7 +76,7 @@ export default function Library() {
                 lastPageNum={lastPageNum}
                 setLastPageNum={setLastPageNum}
                 message="Your Library is empty"
-                isLoading={activeTab != null && mangaData == null && mangaError == null}
+                isLoading={activeTab != null && mangaLoading}
             />
         );
     }
@@ -110,7 +114,7 @@ export default function Library() {
                                 lastPageNum={lastPageNum}
                                 setLastPageNum={setLastPageNum}
                                 message="Category is Empty"
-                                isLoading={mangaData == null}
+                                isLoading={mangaLoading}
                             />
                         ))}
                 </TabPanel>

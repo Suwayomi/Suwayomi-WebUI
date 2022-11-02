@@ -8,11 +8,10 @@
 import React, {
     useCallback, useEffect, useContext, useState, useRef,
 } from 'react';
-import useSWR from 'swr';
 import { Box } from '@mui/system';
 import MangaDetails from 'components/MangaDetails';
 import NavbarContext from 'components/context/NavbarContext';
-import { fetcher } from 'util/client';
+import { fetcher, useQuery } from 'util/client';
 import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
 import ChapterList from 'components/chapter/ChapterList';
 import { useParams } from 'react-router-dom';
@@ -24,8 +23,8 @@ export default function Manga() {
     const { id } = useParams<{ id: string }>();
     const autofetchedRef = useRef(false);
 
-    const { data: manga, error, mutate: mutateManga } = useSWR<IManga>(`/api/v1/manga/${id}/?onlineFetch=false`);
-    const { data: chaptersData, mutate: mutateChapters } = useSWR<IChapter[]>(`/api/v1/manga/${id}/chapters?onlineFetch=false`);
+    const { data: manga, error, mutate: mutateManga } = useQuery<IManga>(`/api/v1/manga/${id}/?onlineFetch=false`);
+    const { data: chaptersData, mutate: mutateChapters } = useQuery<IChapter[]>(`/api/v1/manga/${id}/chapters?onlineFetch=false`);
 
     const [fetchingOnline, setFetchingOnline] = useState(false);
     const fetchOnline = useCallback(async () => {

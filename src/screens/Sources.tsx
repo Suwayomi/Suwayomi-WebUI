@@ -5,11 +5,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import LangSelect from 'components/navbar/action/LangSelect';
 import SourceCard from 'components/SourceCard';
 import NavbarContext from 'components/context/NavbarContext';
-import client from 'util/client';
 import {
     sourceDefualtLangs, sourceForcedDefaultLangs, langCodeToName, langSortCmp,
 } from 'util/language';
@@ -18,6 +17,7 @@ import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
 import { IconButton } from '@mui/material';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import { useHistory } from 'react-router-dom';
+import { useQuery } from 'util/client';
 
 function sourceToLangList(sources: ISource[]) {
     const result: string[] = [];
@@ -46,8 +46,7 @@ export default function Sources() {
     const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownSourceLangs', sourceDefualtLangs());
     const [showNsfw] = useLocalStorage<boolean>('showNsfw', true);
 
-    const [sources, setSources] = useState<ISource[]>([]);
-    const [fetched, setFetched] = useState<boolean>(false);
+    const { data: sources, loading } = useQuery<ISource[]>('/api/v1/source/list');
 
     const history = useHistory();
 
@@ -80,27 +79,23 @@ export default function Sources() {
                 <LangSelect
                     shownLangs={shownLangs}
                     setShownLangs={setShownLangs}
-                    allLangs={sourceToLangList(sources)}
+                    allLangs={sourceToLangList(sources ?? [])}
                     forcedLangs={sourceForcedDefaultLangs()}
                 />
             </>,
         );
     }, [shownLangs, sources]);
 
-    useEffect(() => {
-        client.get('/api/v1/source/list')
-            .then((response) => response.data)
-            .then((data) => { setSources(data); setFetched(true); });
-    }, []);
+    if (loading) return <LoadingPlaceholder />;
 
-    if (sources.length === 0) {
-        if (fetched) return (<h3>No sources found. Install Some Extensions first.</h3>);
-        return <LoadingPlaceholder />;
+    if (sources?.length === 0) {
+        return (<h3>No sources found. Install Some Extensions first.</h3>);
     }
+
     return (
         <>
             {/* eslint-disable-next-line max-len */}
-            {Object.entries(groupByLang(sources)).sort((a, b) => langSortCmp(a[0], b[0])).map(([lang, list]) => (
+            {Object.entries(groupByLang(sources ?? [])).sort((a, b) => langSortCmp(a[0], b[0])).map(([lang, list]) => (
                 shownLangs.indexOf(lang) !== -1 && (
                     <React.Fragment key={lang}>
                         <h1 key={lang} style={{ marginLeft: 25 }}>{langCodeToName(lang)}</h1>

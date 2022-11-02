@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import Button from '@mui/material/Button';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -14,7 +14,7 @@ import Dialog from '@mui/material/Dialog';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
-import client from 'util/client';
+import client, { useQuery } from 'util/client';
 
 interface IProps {
     open: boolean
@@ -22,37 +22,21 @@ interface IProps {
     mangaId: number
 }
 
-interface ICategoryInfo {
-    category: ICategory
-    selected: boolean
-}
-
 export default function CategorySelect(props: IProps) {
     const { open, setOpen, mangaId } = props;
-    const [categoryInfos, setCategoryInfos] = useState<ICategoryInfo[]>([]);
 
-    const [updateTriggerHolder, setUpdateTriggerHolder] = useState(0); // just a hack
-    const triggerUpdate = () => setUpdateTriggerHolder(updateTriggerHolder + 1); // just a hack
+    const { data: mangaCategoriesData, mutate } = useQuery<ICategory[]>(`/api/v1/manga/${mangaId}/category`);
+    const { data: categoriesData } = useQuery<ICategory[]>('/api/v1/category');
 
-    useEffect(() => {
-        let tmpCategoryInfos: ICategoryInfo[] = [];
-        client.get('/api/v1/category/')
-            .then((response) => response.data)
-            .then((data: ICategory[]) => {
-                if (data.length > 0 && data[0].name === 'Default') { data.shift(); }
-                tmpCategoryInfos = data.map((category) => ({ category, selected: false }));
-            })
-            .then(() => {
-                client.get(`/api/v1/manga/${mangaId}/category/`)
-                    .then((response) => response.data)
-                    .then((data: ICategory[]) => {
-                        data.forEach((category) => {
-                            tmpCategoryInfos[category.order - 1].selected = true;
-                        });
-                        setCategoryInfos(tmpCategoryInfos);
-                    });
-            });
-    }, [updateTriggerHolder, open]);
+    const allCategories = useMemo(() => {
+        const cats = [...(categoriesData ?? [])]; // make copy
+        if (cats.length > 0 && cats[0].name === 'Default') {
+            cats.shift(); // remove first category if it is 'Default'
+        }
+        return cats;
+    }, [categoriesData]);
+
+    const selectedIds = mangaCategoriesData?.map((c) => c.id) ?? [];
 
     const handleCancel = () => {
         setOpen(false);
@@ -67,7 +51,7 @@ export default function CategorySelect(props: IProps) {
 
         const method = checked ? client.get : client.delete;
         method(`/api/v1/manga/${mangaId}/category/${categoryId}`)
-            .then(() => triggerUpdate());
+            .then(() => mutate());
     };
 
     return (
@@ -84,7 +68,7 @@ export default function CategorySelect(props: IProps) {
             <DialogTitle>Set categories</DialogTitle>
             <DialogContent dividers>
                 <FormGroup>
-                    {categoryInfos.length === 0
+                    {allCategories.length === 0
                         && (
                             <span>
                                 No categories found!
@@ -92,17 +76,17 @@ export default function CategorySelect(props: IProps) {
                                 You should make some from settings.
                             </span>
                         )}
-                    {categoryInfos.map((categoryInfo) => (
+                    {allCategories.map((category) => (
                         <FormControlLabel
                             control={(
                                 <Checkbox
-                                    checked={categoryInfo.selected}
-                                    onChange={(e) => handleChange(e, categoryInfo.category.id)}
+                                    checked={selectedIds.includes(category.id)}
+                                    onChange={(e) => handleChange(e, category.id)}
                                     color="default"
                                 />
                             )}
-                            label={categoryInfo.category.name}
-                            key={categoryInfo.category.id}
+                            label={category.name}
+                            key={category.id}
                         />
                     ))}
                 </FormGroup>
