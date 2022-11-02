@@ -132,17 +132,17 @@ export default function MangaExtensions() {
         }
     };
 
-    const dropHandler = async (e: Event) => {
-        e.preventDefault();
-        const files = await fromEvent(e);
-        submitExternalExtension(files[0] as File);
-    };
-
-    const dragOverHandler = (e: Event) => {
-        e.preventDefault();
-    };
-
     useEffect(() => {
+        const dropHandler = async (e: Event) => {
+            e.preventDefault();
+            const files = await fromEvent(e);
+            submitExternalExtension(files[0] as File);
+        };
+
+        const dragOverHandler = (e: Event) => {
+            e.preventDefault();
+        };
+
         document.addEventListener('drop', dropHandler);
         document.addEventListener('dragover', dragOverHandler);
 
@@ -163,6 +163,12 @@ export default function MangaExtensions() {
                 type="file"
                 style={{ display: 'none' }}
                 ref={inputRef}
+                onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                        submitExternalExtension(file);
+                    }
+                }}
             />
             <Virtuoso
                 style={{
