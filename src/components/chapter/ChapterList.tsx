@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import React, {
-    useState, useEffect, useCallback, useMemo,
+    useState, useEffect, useCallback, useMemo, useRef,
 } from 'react';
 import { Box, styled } from '@mui/system';
 import { Virtuoso } from 'react-virtuoso';
@@ -52,6 +52,7 @@ export default function ChapterList({ id, chaptersData, onRefresh }: IProps) {
         chapterOptionsReducer, `${id}filterOptions`, defaultChapterOptions,
     );
 
+    const prevQueueRef = useRef<IDownloadChapter[]>();
     const queue = useSubscription<IQueue>('/api/v1/downloads').data?.queue;
 
     const downloadStatusStringFor = useCallback((chapter: IChapter) => {
@@ -65,6 +66,25 @@ export default function ChapterList({ id, chaptersData, onRefresh }: IProps) {
             }
         });
         return rtn;
+    }, [queue]);
+
+    useEffect(() => {
+        if (prevQueueRef.current && queue) {
+            const prevQueue = prevQueueRef.current;
+            const changedDownloads = queue.filter((cd) => {
+                const prevChapterDownload = prevQueue
+                    .find((pcd) => cd.chapterIndex === pcd.chapterIndex
+                        && cd.mangaId === pcd.mangaId);
+                if (!prevChapterDownload) return true;
+                return cd.state !== prevChapterDownload.state;
+            });
+
+            if (changedDownloads.length > 0) {
+                onRefresh();
+            }
+        }
+
+        prevQueueRef.current = queue;
     }, [queue]);
 
     useEffect(() => {
