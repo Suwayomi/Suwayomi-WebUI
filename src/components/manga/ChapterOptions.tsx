@@ -81,6 +81,7 @@ const ChapterOptions: React.FC<IProps> = ({
                             {
                                 SORT_OPTIONS.map(([mode, label]) => (
                                     <FormControlLabel
+                                        key={mode}
                                         control={(
                                             <Radio
                                                 checked={options.sortBy === mode}
