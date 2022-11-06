@@ -137,7 +137,7 @@ const ChapterCard: React.FC<IProps> = (props: IProps) => {
                         <Stack direction="column" flex={1}>
                             <Stack direction="row" alignItems="center">
                                 {chapter.bookmarked && (
-                                    <BookmarkIcon color="primary" />
+                                    <BookmarkIcon color="primary" sx={{ mr: 1 }} />
                                 )}
                                 <Typography variant="h5" component="h2">
                                     { showChapterNumber ? `Chapter ${chapter.chapterNumber}` : chapter.name}
