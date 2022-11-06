@@ -5,25 +5,22 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import React, {
-    useState, useEffect, useCallback, useMemo, useRef,
-} from 'react';
-import { Box, styled } from '@mui/system';
-import { Virtuoso } from 'react-virtuoso';
-import Typography from '@mui/material/Typography';
 import { CircularProgress, Stack } from '@mui/material';
-import makeToast from 'components/util/Toast';
-import ChapterOptions from 'components/chapter/ChapterOptions';
-import ChapterCard from 'components/chapter/ChapterCard';
-import { useReducerLocalStorage } from 'util/useLocalStorage';
+import Typography from '@mui/material/Typography';
 import {
-    chapterOptionsReducer, defaultChapterOptions, findFirstUnreadChapter,
-    filterAndSortChapters,
-} from 'components/chapter/util';
-import ResumeFab from 'components/chapter/ResumeFAB';
+    Box, styled,
+} from '@mui/system';
 import useSubscription from 'components/library/useSubscription';
+import ChapterCard from 'components/manga/ChapterCard';
+import ResumeFab from 'components/manga/ResumeFAB';
+import { filterAndSortChapters } from 'components/manga/util';
+import EmptyView from 'components/util/EmptyView';
+import React, {
+    useCallback, useEffect, useMemo, useRef,
+} from 'react';
+import { Virtuoso } from 'react-virtuoso';
 
-const CustomVirtuoso = styled(Virtuoso)(({ theme }) => ({
+const StyledVirtuoso = styled(Virtuoso)(({ theme }) => ({
     listStyle: 'none',
     padding: 0,
     minHeight: '200px',
@@ -37,21 +34,15 @@ const CustomVirtuoso = styled(Virtuoso)(({ theme }) => ({
 
 interface IProps {
     id: string
-    chaptersData: IChapter[] | undefined
+    chapters: IChapter[]
     onRefresh: () => void;
+    options: ChapterListOptions;
+    loading: boolean;
 }
 
-export default function ChapterList({ id, chaptersData, onRefresh }: IProps) {
-    const noChaptersFound = chaptersData?.length === 0;
-    const chapters = useMemo(() => chaptersData ?? [], [chaptersData]);
-
-    const [firstUnreadChapter, setFirstUnreadChapter] = useState<IChapter>();
-    const [filteredChapters, setFilteredChapters] = useState<IChapter[]>([]);
-    // eslint-disable-next-line max-len
-    const [options, optionsDispatch] = useReducerLocalStorage<ChapterListOptions, ChapterOptionsReducerAction>(
-        chapterOptionsReducer, `${id}filterOptions`, defaultChapterOptions,
-    );
-
+const ChapterList: React.FC<IProps> = ({
+    id, chapters, onRefresh, options, loading,
+}) => {
     const prevQueueRef = useRef<IDownloadChapter[]>();
     const queue = useSubscription<IQueue>('/api/v1/downloads').data?.queue;
 
@@ -87,19 +78,15 @@ export default function ChapterList({ id, chaptersData, onRefresh }: IProps) {
         prevQueueRef.current = queue;
     }, [queue]);
 
-    useEffect(() => {
-        const filtered = filterAndSortChapters(chapters, options);
-        setFilteredChapters(filtered);
-        setFirstUnreadChapter(findFirstUnreadChapter(filtered));
-    }, [options, chapters]);
+    const visibleChapters = useMemo(() => filterAndSortChapters(chapters, options), //
+        [chapters, options]);
 
-    useEffect(() => {
-        if (noChaptersFound) {
-            makeToast('No chapters found', 'warning');
-        }
-    }, [noChaptersFound]);
+    const firstUnreadChapter = useMemo(() => visibleChapters.slice()
+        .reverse()
+        .find((c) => c.read === false),
+    [visibleChapters]);
 
-    if (chapters.length === 0 || noChaptersFound) {
+    if (loading) {
         return (
             <div style={{
                 margin: '10px auto',
@@ -112,31 +99,40 @@ export default function ChapterList({ id, chaptersData, onRefresh }: IProps) {
         );
     }
 
+    const noChaptersFound = chapters.length === 0;
+    const noChaptersMatchingFilter = !noChaptersFound && visibleChapters.length === 0;
+
     return (
         <>
-            <Stack direction="column">
+            <Stack direction="column" sx={{ position: 'relative' }}>
                 <Box sx={{
                     display: 'flex', justifyContent: 'space-between', px: 1.5, mt: 1,
                 }}
                 >
                     <Typography variant="h5">
-                        {`${filteredChapters.length} Chapters`}
+                        {`${visibleChapters.length} Chapter${visibleChapters.length === 1 ? '' : 's'}`}
                     </Typography>
-                    <ChapterOptions options={options} optionsDispatch={optionsDispatch} />
                 </Box>
 
-                <CustomVirtuoso
+                {noChaptersFound && (
+                    <EmptyView message="No chapters found" />
+                )}
+                {noChaptersMatchingFilter && (
+                    <EmptyView message="No chapters matching filter" />
+                )}
+
+                <StyledVirtuoso
                     style={{ // override Virtuoso default values and set them with class
                         height: 'undefined',
                         // 900 is the md breakpoint in MUI
                         overflowY: window.innerWidth < 900 ? 'visible' : 'auto',
                     }}
-                    totalCount={filteredChapters.length}
+                    totalCount={visibleChapters.length}
                     itemContent={(index:number) => (
                         <ChapterCard
                             showChapterNumber={options.showChapterNumber}
-                            chapter={filteredChapters[index]}
-                            downloadStatusString={downloadStatusStringFor(filteredChapters[index])}
+                            chapter={visibleChapters[index]}
+                            downloadStatusString={downloadStatusStringFor(visibleChapters[index])}
                             triggerChaptersUpdate={onRefresh}
                         />
                     )}
@@ -147,4 +143,6 @@ export default function ChapterList({ id, chaptersData, onRefresh }: IProps) {
             {firstUnreadChapter && <ResumeFab chapter={firstUnreadChapter} mangaId={id} />}
         </>
     );
-}
+};
+
+export default ChapterList;

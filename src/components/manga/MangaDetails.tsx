@@ -5,20 +5,15 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import makeStyles from '@mui/styles/makeStyles';
-import IconButton from '@mui/material/IconButton';
-import { Theme } from '@mui/material/styles';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import FilterListIcon from '@mui/icons-material/FilterList';
 import PublicIcon from '@mui/icons-material/Public';
-import React, { useContext, useEffect, useState } from 'react';
-import NavbarContext from 'components/context/NavbarContext';
+import IconButton from '@mui/material/IconButton';
+import { Theme } from '@mui/material/styles';
+import makeStyles from '@mui/styles/makeStyles';
+import React, { useState } from 'react';
 import client from 'util/client';
 import useLocalStorage from 'util/useLocalStorage';
-import Refresh from '@mui/icons-material/Refresh';
-import CategorySelect from './navbar/action/CategorySelect';
-import LoadingIconButton from './atoms/LoadingIconButton';
 
 const useStyles = (inLibrary: string) => makeStyles((theme: Theme) => ({
     root: {
@@ -120,8 +115,6 @@ const useStyles = (inLibrary: string) => makeStyles((theme: Theme) => ({
 
 interface IProps{
     manga: IManga
-    onRefresh: () => Promise<any>
-    refreshing: boolean
 }
 
 function getSourceName(source: ISource) {
@@ -135,42 +128,10 @@ function getValueOrUnknown(val: string) {
     return val || 'UNKNOWN';
 }
 
-export default function MangaDetails({ manga, onRefresh, refreshing }: IProps) {
-    const { setAction } = useContext(NavbarContext);
-
+export default function MangaDetails({ manga }: IProps) {
     const [inLibrary, setInLibrary] = useState<string>(
         manga.inLibrary ? 'In Library' : 'Add To Library',
     );
-
-    const [categoryDialogOpen, setCategoryDialogOpen] = useState<boolean>(false);
-
-    useEffect(() => {
-        setAction(
-            <>
-                <LoadingIconButton loading={refreshing} onClick={onRefresh}>
-                    <Refresh />
-                </LoadingIconButton>
-                {inLibrary === 'In Library' && (
-                    <>
-                        <IconButton
-                            onClick={() => setCategoryDialogOpen(true)}
-                            aria-label="display more actions"
-                            edge="end"
-                            color="inherit"
-                            size="large"
-                        >
-                            <FilterListIcon />
-                        </IconButton>
-                        <CategorySelect
-                            open={categoryDialogOpen}
-                            setOpen={setCategoryDialogOpen}
-                            mangaId={manga.id}
-                        />
-                    </>
-                )}
-            </>,
-        );
-    }, [inLibrary, categoryDialogOpen, refreshing, onRefresh]);
 
     const [serverAddress] = useLocalStorage<String>('serverBaseURL', '');
     const [useCache] = useLocalStorage<boolean>('useCache', true);

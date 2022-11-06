@@ -5,38 +5,39 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import React, {
-    useCallback, useEffect, useContext, useState, useRef,
-} from 'react';
+import { CircularProgress, IconButton } from '@mui/material';
 import { Box } from '@mui/system';
-import MangaDetails from 'components/MangaDetails';
 import NavbarContext from 'components/context/NavbarContext';
-import { fetcher, useQuery } from 'util/client';
+import ChapterList from 'components/manga/ChapterList';
+import ChaptersToolbarMenu from 'components/manga/ChaptersToolbarMenu';
+import { useRefreshManga } from 'components/manga/hooks';
+import MangaDetails from 'components/manga/MangaDetails';
+import MangaToolbarMenu from 'components/manga/MangaToolbarMenu';
+import { useChapterOptions } from 'components/manga/util';
+import { NavbarToolbar } from 'components/navbar/DefaultNavBar';
+import EmptyView from 'components/util/EmptyView';
 import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
-import ChapterList from 'components/chapter/ChapterList';
+import React, {
+    useContext, useEffect, useRef,
+} from 'react';
 import { useParams } from 'react-router-dom';
+import { useQuery } from 'util/client';
 
 const AUTOFETCH_AGE = 60 * 60 * 24; // 24 hours
 
-export default function Manga() {
+const Manga: React.FC = () => {
     const { setTitle } = useContext(NavbarContext);
     const { id } = useParams<{ id: string }>();
     const autofetchedRef = useRef(false);
 
-    const { data: manga, error, mutate: mutateManga } = useQuery<IManga>(`/api/v1/manga/${id}/?onlineFetch=false`);
-    const { data: chaptersData, mutate: mutateChapters } = useQuery<IChapter[]>(`/api/v1/manga/${id}/chapters?onlineFetch=false`);
+    const { data: manga, error, loading } = useQuery<IManga>(`/api/v1/manga/${id}/?onlineFetch=false`);
+    const {
+        data: chaptersData,
+        mutate: mutateChapters,
+        loading: loadingChapters,
+    } = useQuery<IChapter[]>(`/api/v1/manga/${id}/chapters?onlineFetch=false`);
 
-    const [fetchingOnline, setFetchingOnline] = useState(false);
-    const fetchOnline = useCallback(async () => {
-        setFetchingOnline(true);
-        await Promise.all([
-            fetcher(`/api/v1/manga/${id}/?onlineFetch=true`)
-                .then((res) => mutateManga(res, { revalidate: false })),
-            fetcher(`/api/v1/manga/${id}/chapters?onlineFetch=true`)
-                .then((res) => mutateChapters(res, { revalidate: false })),
-        ]);
-        setFetchingOnline(false);
-    }, [mutateManga, mutateChapters, id]);
+    const [refresh, { loading: refreshing }] = useRefreshManga(id);
 
     useEffect(() => {
         // Automatically fetch manga from source if data is older then 24 hours
@@ -49,7 +50,7 @@ export default function Manga() {
             && autofetchedRef.current === false
         ) {
             autofetchedRef.current = true;
-            fetchOnline();
+            refresh();
         }
     }, [manga]);
 
@@ -57,17 +58,44 @@ export default function Manga() {
         setTitle(manga?.title ?? 'Manga');
     }, [manga?.title]);
 
+    const [options, dispatch] = useChapterOptions(id);
+
     return (
         <Box sx={{ display: { md: 'flex' }, overflow: 'hidden' }}>
-            {!manga && !error && <LoadingPlaceholder />}
+            <NavbarToolbar>
+                {refreshing && (
+                    <IconButton disabled>
+                        <CircularProgress size={16} />
+                    </IconButton>
+                )}
+                {chaptersData && (
+                    <ChaptersToolbarMenu options={options} optionsDispatch={dispatch} />
+                )}
+                {manga && (
+                    <MangaToolbarMenu manga={manga} onRefresh={refresh} refreshing={refreshing} />
+                )}
+            </NavbarToolbar>
+
+            {loading && <LoadingPlaceholder />}
+
+            {error && <EmptyView message="Could not load manga" messageExtra={error.message ?? error} />}
+
             {manga && (
                 <MangaDetails
-                    refreshing={fetchingOnline}
                     manga={manga}
-                    onRefresh={fetchOnline}
                 />
             )}
-            <ChapterList id={id} chaptersData={chaptersData} onRefresh={() => mutateChapters()} />
+            {chaptersData && (
+                <ChapterList
+                    id={id}
+                    chapters={chaptersData}
+                    onRefresh={() => mutateChapters()}
+                    options={options}
+                    loading={loadingChapters}
+                />
+            )}
         </Box>
     );
-}
+};
+
+export default Manga;
