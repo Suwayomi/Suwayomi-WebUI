@@ -5,20 +5,24 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import { CircularProgress, Stack } from '@mui/material';
-import Typography from '@mui/material/Typography';
 import {
-    Box, styled,
-} from '@mui/system';
+    Button, CircularProgress, Stack,
+} from '@mui/material';
+import Typography from '@mui/material/Typography';
+import { styled } from '@mui/system';
 import useSubscription from 'components/library/useSubscription';
 import ChapterCard from 'components/manga/ChapterCard';
 import ResumeFab from 'components/manga/ResumeFAB';
 import { filterAndSortChapters } from 'components/manga/util';
 import EmptyView from 'components/util/EmptyView';
+import { pluralize } from 'components/util/helpers';
+import makeToast from 'components/util/Toast';
 import React, {
-    useCallback, useEffect, useMemo, useRef,
+    useEffect, useMemo, useRef, useState,
 } from 'react';
 import { Virtuoso } from 'react-virtuoso';
+import client from 'util/client';
+import SelectionFAB from './SelectionFAB';
 
 const StyledVirtuoso = styled(Virtuoso)(({ theme }) => ({
     listStyle: 'none',
@@ -43,21 +47,9 @@ interface IProps {
 const ChapterList: React.FC<IProps> = ({
     id, chapters, onRefresh, options, loading,
 }) => {
+    const [selection, setSelection] = useState<number[] | null>(null);
     const prevQueueRef = useRef<IDownloadChapter[]>();
     const queue = useSubscription<IQueue>('/api/v1/downloads').data?.queue;
-
-    const downloadStatusStringFor = useCallback((chapter: IChapter) => {
-        let rtn = '';
-        if (chapter.downloaded) {
-            rtn = ' • Downloaded';
-        }
-        queue?.forEach((q) => {
-            if (chapter.index === q.chapterIndex && chapter.mangaId === q.mangaId) {
-                rtn = ` • Downloading (${(q.progress * 100).toFixed(2)}%)`;
-            }
-        });
-        return rtn;
-    }, [queue]);
 
     useEffect(() => {
         if (prevQueueRef.current && queue) {
@@ -86,6 +78,47 @@ const ChapterList: React.FC<IProps> = ({
         .find((c) => c.read === false),
     [visibleChapters]);
 
+    const selectedChapters = useMemo(() => {
+        if (selection === null) return null;
+        return visibleChapters.filter((chap) => selection.includes(chap.id));
+    }, [visibleChapters, selection]);
+
+    const handleSelection = (index: number) => {
+        const chapter = visibleChapters[index];
+        if (!chapter) return;
+
+        if (selection === null) {
+            setSelection([chapter.id]);
+        } else if (selection.includes(chapter.id)) {
+            const newSelection = selection.filter((cid) => cid !== chapter.id);
+            setSelection(newSelection.length > 0 ? newSelection : null);
+        } else {
+            setSelection([...selection, chapter.id]);
+        }
+    };
+
+    const handleSelectAll = () => {
+        if (selection === null) return;
+        setSelection(visibleChapters.map((c) => c.id));
+    };
+
+    const handleClear = () => {
+        if (selection === null) return;
+        setSelection(null);
+    };
+
+    const handleFabAction = (action: 'download') => {
+        if (!selectedChapters || selectedChapters.length === 0) return;
+        const chapterIds = selectedChapters.map((c) => c.id);
+
+        if (action === 'download') {
+            client.post('/api/v1/download/batch', { chapterIds })
+                .then(() => makeToast(`${chapterIds.length} ${pluralize(chapterIds.length, 'download')} added`, 'success'))
+                .then(() => onRefresh())
+                .catch(() => makeToast('Error adding downloads', 'error'));
+        }
+    };
+
     if (loading) {
         return (
             <div style={{
@@ -102,17 +135,34 @@ const ChapterList: React.FC<IProps> = ({
     const noChaptersFound = chapters.length === 0;
     const noChaptersMatchingFilter = !noChaptersFound && visibleChapters.length === 0;
 
+    const scrollCache = visibleChapters.map((chapter) => {
+        const downloadChapter = queue?.find(
+            (cd) => cd.chapterIndex === chapter.index
+                && cd.mangaId === chapter.mangaId,
+        );
+        const selected = selection?.includes(chapter.id) ?? null;
+        return {
+            chapter,
+            downloadChapter,
+            selected,
+        };
+    });
+
     return (
         <>
             <Stack direction="column" sx={{ position: 'relative' }}>
-                <Box sx={{
-                    display: 'flex', justifyContent: 'space-between', px: 1.5, mt: 1,
-                }}
-                >
+                <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ m: 1, mr: 2 }}>
                     <Typography variant="h5">
                         {`${visibleChapters.length} Chapter${visibleChapters.length === 1 ? '' : 's'}`}
                     </Typography>
-                </Box>
+
+                    {selection !== null && (
+                        <Stack direction="row">
+                            <Button size="small" onClick={handleSelectAll}>Select all</Button>
+                            <Button size="small" onClick={handleClear}>Clear</Button>
+                        </Stack>
+                    )}
+                </Stack>
 
                 {noChaptersFound && (
                     <EmptyView message="No chapters found" />
@@ -130,17 +180,25 @@ const ChapterList: React.FC<IProps> = ({
                     totalCount={visibleChapters.length}
                     itemContent={(index:number) => (
                         <ChapterCard
+                            // eslint-disable-next-line react/jsx-props-no-spreading
+                            {...scrollCache[index]}
                             showChapterNumber={options.showChapterNumber}
-                            chapter={visibleChapters[index]}
-                            downloadStatusString={downloadStatusStringFor(visibleChapters[index])}
                             triggerChaptersUpdate={onRefresh}
+                            onSelect={() => handleSelection(index)}
                         />
                     )}
                     useWindowScroll={window.innerWidth < 900}
                     overscan={window.innerHeight * 0.5}
                 />
             </Stack>
-            {firstUnreadChapter && <ResumeFab chapter={firstUnreadChapter} mangaId={id} />}
+            {selectedChapters !== null ? (
+                <SelectionFAB
+                    selectedChapters={selectedChapters}
+                    onAction={handleFabAction}
+                />
+            ) : (
+                firstUnreadChapter && <ResumeFab chapter={firstUnreadChapter} mangaId={id} />
+            )}
         </>
     );
 };

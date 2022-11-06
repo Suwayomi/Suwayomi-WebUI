@@ -5,40 +5,53 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import React from 'react';
-import { useTheme } from '@mui/material/styles';
-import { Link } from 'react-router-dom';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
+import BookmarkAdd from '@mui/icons-material/BookmarkAdd';
+import BookmarkRemove from '@mui/icons-material/BookmarkRemove';
+import CheckBoxOutlineBlank from '@mui/icons-material/CheckBoxOutlineBlank';
+import Delete from '@mui/icons-material/Delete';
+import Done from '@mui/icons-material/Done';
+import DoneAll from '@mui/icons-material/DoneAll';
+import Download from '@mui/icons-material/Download';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import RemoveDone from '@mui/icons-material/RemoveDone';
+import {
+    LinearProgress,
+    Checkbox, ListItemIcon, ListItemText, Stack,
+} from '@mui/material';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import IconButton from '@mui/material/IconButton';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import BookmarkIcon from '@mui/icons-material/Bookmark';
-
+import { useTheme } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import client from 'util/client';
-import { Box } from '@mui/system';
 
 interface IProps{
     chapter: IChapter
     triggerChaptersUpdate: () => void
-    downloadStatusString: string
+    downloadChapter: IDownloadChapter | undefined
     showChapterNumber: boolean
+    onSelect: (selected: boolean) => void
+    selected: boolean | null
 }
 
-export default function ChapterCard(props: IProps) {
+const ChapterCard: React.FC<IProps> = (props: IProps) => {
     const theme = useTheme();
 
     const {
-        chapter, triggerChaptersUpdate, downloadStatusString, showChapterNumber,
+        chapter, triggerChaptersUpdate, downloadChapter: dc, showChapterNumber, onSelect, selected,
     } = props;
+    const isSelecting = selected !== null;
 
     const dateStr = chapter.uploadDate && new Date(chapter.uploadDate).toLocaleDateString();
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
-    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const handleMenuClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         // prevent parent tags from getting the event
         event.stopPropagation();
         event.preventDefault();
@@ -68,89 +81,163 @@ export default function ChapterCard(props: IProps) {
     const deleteChapter = () => {
         client.delete(`/api/v1/manga/${chapter.mangaId}/chapter/${chapter.index}`)
             .then(() => triggerChaptersUpdate());
-
         handleClose();
     };
 
-    const readChapterColor = theme.palette.mode === 'dark' ? '#acacac' : '#b0b0b0';
+    const handleSelect = () => {
+        onSelect(true);
+        handleClose();
+    };
+
+    const handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+        if (isSelecting) {
+            event.preventDefault();
+            event.stopPropagation();
+            onSelect(!selected);
+        }
+    };
+
+    const isDownloaded = chapter.downloaded;
+    const canBeDownloaded = !chapter.downloaded && dc === undefined;
 
     return (
-        <>
-            <li>
-                <Card
-                    sx={{
-                        margin: '10px',
-                        ':hover': {
-                            backgroundColor: 'action.hover',
-                            transition: 'background-color 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-                            cursor: 'pointer',
-                        },
-                        ':active': {
-                            backgroundColor: 'action.selected',
-                            transition: 'background-color 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-                        },
+        <li>
+            <Card
+                sx={{
+                    position: 'relative',
+                    margin: 1,
+                    ':hover': {
+                        backgroundColor: 'action.hover',
+                        transition: 'background-color 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+                        cursor: 'pointer',
+                    },
+                    ':active': {
+                        backgroundColor: 'action.selected',
+                        transition: 'background-color 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+                    },
+                }}
+            >
+                <Link
+                    to={`/manga/${chapter.mangaId}/chapter/${chapter.index}`}
+                    style={{
+                        textDecoration: 'none',
+                        color: theme.palette.text[chapter.read ? 'disabled' : 'primary'],
                     }}
+                    onClick={handleClick}
                 >
-                    <Link
-                        to={`/manga/${chapter.mangaId}/chapter/${chapter.index}`}
-                        style={{
-                            textDecoration: 'none',
-                            color: chapter.read ? readChapterColor : theme.palette.text.primary,
+                    <CardContent
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            padding: 2,
+                            '&:last-child': { pb: 2 },
                         }}
                     >
-                        <CardContent
-                            sx={{
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                                padding: 2,
-                            }}
-                        >
-                            <Box sx={{ display: 'flex' }}>
-                                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                    <Typography variant="h5" component="h2">
-                                        <span style={{ color: theme.palette.primary.dark }}>
-                                            {chapter.bookmarked && <BookmarkIcon />}
-                                        </span>
-                                        { showChapterNumber ? `Chapter ${chapter.chapterNumber}` : chapter.name}
-                                    </Typography>
-                                    <Typography variant="caption" display="block" gutterBottom>
-                                        {chapter.scanlator}
-                                        {chapter.scanlator && ' '}
-                                        {dateStr}
-                                        {downloadStatusString}
-                                    </Typography>
-                                </div>
-                            </Box>
+                        <Stack direction="column" flex={1}>
+                            <Stack direction="row" alignItems="center">
+                                {chapter.bookmarked && (
+                                    <BookmarkIcon color="primary" />
+                                )}
+                                <Typography variant="h5" component="h2">
+                                    { showChapterNumber ? `Chapter ${chapter.chapterNumber}` : chapter.name}
+                                </Typography>
+                            </Stack>
+                            <Typography variant="caption">
+                                {chapter.scanlator}
+                            </Typography>
+                            <Typography variant="caption">
+                                {dateStr}
+                                {isDownloaded && ' • Downloaded'}
+                                {dc && ` • Downloading (${(dc.progress * 100).toFixed(2)}%)`}
+                            </Typography>
+                        </Stack>
 
-                            <IconButton aria-label="more" onClick={handleClick} size="large">
+                        {selected === null ? (
+                            <IconButton aria-label="more" onClick={handleMenuClick} size="large">
                                 <MoreVertIcon />
                             </IconButton>
-                        </CardContent>
-                    </Link>
-                    <Menu
-                        anchorEl={anchorEl}
-                        keepMounted
-                        open={Boolean(anchorEl)}
-                        onClose={handleClose}
-                    >
-                        {downloadStatusString.endsWith('Downloaded')
-                             && <MenuItem onClick={deleteChapter}>Delete</MenuItem>}
-                        {downloadStatusString.length === 0
-                         && <MenuItem onClick={downloadChapter}>Download</MenuItem> }
-                        <MenuItem onClick={() => sendChange('bookmarked', !chapter.bookmarked)}>
+                        ) : (
+                            <Checkbox checked={selected} />
+                        )}
+                    </CardContent>
+                </Link>
+                {dc != null && (
+                    <LinearProgress
+                        sx={{
+                            position: 'absolute', bottom: 0, width: '100%', opacity: 0.5,
+                        }}
+                        variant="determinate"
+                        value={dc.progress * 100}
+                        color="inherit"
+                    />
+                )}
+                <Menu
+                    anchorEl={anchorEl}
+                    keepMounted
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                >
+                    <MenuItem onClick={handleSelect}>
+                        <ListItemIcon>
+                            <CheckBoxOutlineBlank fontSize="small" />
+                        </ListItemIcon>
+                        <ListItemText>
+                            Select
+                        </ListItemText>
+                    </MenuItem>
+                    {isDownloaded && (
+                        <MenuItem onClick={deleteChapter}>
+                            <ListItemIcon>
+                                <Delete fontSize="small" />
+                            </ListItemIcon>
+                            <ListItemText>
+                                Delete
+                            </ListItemText>
+                        </MenuItem>
+                    )}
+                    {canBeDownloaded && (
+                        <MenuItem onClick={downloadChapter}>
+                            <ListItemIcon>
+                                <Download fontSize="small" />
+                            </ListItemIcon>
+                            <ListItemText>
+                                Download
+                            </ListItemText>
+                        </MenuItem>
+                    ) }
+                    <MenuItem onClick={() => sendChange('bookmarked', !chapter.bookmarked)}>
+                        <ListItemIcon>
+                            {chapter.bookmarked && <BookmarkRemove fontSize="small" />}
+                            {!chapter.bookmarked && <BookmarkAdd fontSize="small" />}
+                        </ListItemIcon>
+                        <ListItemText>
                             {chapter.bookmarked && 'Remove bookmark'}
-                            {!chapter.bookmarked && 'Bookmark'}
-                        </MenuItem>
-                        <MenuItem onClick={() => sendChange('read', !chapter.read)}>
-                            {`Mark as ${chapter.read ? 'unread' : 'read'}`}
-                        </MenuItem>
-                        <MenuItem onClick={() => sendChange('markPrevRead', true)}>
+                            {!chapter.bookmarked && 'Add bookmark'}
+                        </ListItemText>
+                    </MenuItem>
+                    <MenuItem onClick={() => sendChange('read', !chapter.read)}>
+                        <ListItemIcon>
+                            {chapter.read && <RemoveDone fontSize="small" />}
+                            {!chapter.read && <Done fontSize="small" />}
+                        </ListItemIcon>
+                        <ListItemText>
+                            {chapter.read && 'Mark as unread'}
+                            {!chapter.read && 'Mark as read'}
+                        </ListItemText>
+                    </MenuItem>
+                    <MenuItem onClick={() => sendChange('markPrevRead', true)}>
+                        <ListItemIcon>
+                            <DoneAll fontSize="small" />
+                        </ListItemIcon>
+                        <ListItemText>
                             Mark previous as Read
-                        </MenuItem>
-                    </Menu>
-                </Card>
-            </li>
-        </>
+                        </ListItemText>
+                    </MenuItem>
+                </Menu>
+            </Card>
+        </li>
     );
-}
+};
+
+export default ChapterCard;
