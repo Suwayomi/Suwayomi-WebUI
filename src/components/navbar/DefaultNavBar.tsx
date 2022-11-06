@@ -28,6 +28,7 @@ import NavBarContext from 'components/context/NavbarContext';
 import DarkTheme from 'components/context/DarkTheme';
 import ExtensionOutlinedIcon from 'components/util/CustomExtensionOutlinedIcon';
 import { Box } from '@mui/system';
+import { createPortal } from 'react-dom';
 import DesktopSideBar from './navigation/DesktopSideBar';
 import MobileBottomBar from './navigation/MobileBottomBar';
 
@@ -125,9 +126,21 @@ export default function DefaultNavBar() {
                         {title}
                     </Typography>
                     {action}
+                    <div id="navbarToolbar" />
                 </Toolbar>
             </AppBar>
             {navbar}
         </Box>
     );
 }
+
+interface INavbarToolbarProps {
+    children?: React.ReactNode
+}
+
+export const NavbarToolbar: React.FC<INavbarToolbarProps> = ({ children }) => {
+    const container = document.getElementById('navbarToolbar');
+    if (!container) return null;
+
+    return createPortal(children, container);
+};
