@@ -143,6 +143,10 @@ export default function SourceMangas(props: { popular: boolean }) {
             </>
             ,
         );
+
+        return () => {
+            setAction(<></>);
+        };
     }, [isConfigurable]);
 
     useEffect(() => {
