@@ -5,8 +5,9 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
+import { Warning } from '@mui/icons-material';
 import {
-    CircularProgress, IconButton,
+    CircularProgress, IconButton, Stack, Tooltip,
 } from '@mui/material';
 import { Box } from '@mui/system';
 import NavbarContext from 'components/context/NavbarContext';
@@ -31,7 +32,7 @@ const Manga: React.FC = () => {
     const autofetchedRef = useRef(false);
 
     const {
-        data: manga, error, loading,
+        data: manga, error, loading, isValidating, mutate,
     } = useQuery<IManga>(`/api/v1/manga/${id}/?onlineFetch=false`);
 
     const [refresh, { loading: refreshing }] = useRefreshManga(id);
@@ -55,23 +56,45 @@ const Manga: React.FC = () => {
         setTitle(manga?.title ?? 'Manga');
     }, [manga?.title]);
 
-
+    if (error && !manga) {
+        return (
+            <EmptyView message="Could not load manga" messageExtra={error.message ?? error} />
+        );
+    }
     return (
         <Box sx={{ display: { md: 'flex' }, overflow: 'hidden' }}>
             <NavbarToolbar>
-                {refreshing && (
-                    <IconButton disabled>
-                        <CircularProgress size={16} />
-                    </IconButton>
-                )}
-                {manga && (
-                    <MangaToolbarMenu manga={manga} onRefresh={refresh} refreshing={refreshing} />
-                )}
+                <Stack direction="row" alignItems="center">
+                    {error && !isValidating && !refreshing && (
+                        <Tooltip title={(
+                            <>
+                                Could not fetch manga data
+                                <br />
+                                {error.message ?? error}
+                            </>
+                        )}
+                        >
+                            <IconButton onClick={() => mutate()}>
+                                <Warning color="error" />
+                            </IconButton>
+                        </Tooltip>
+                    )}
+                    {(refreshing || isValidating) && (
+                        <IconButton disabled>
+                            <CircularProgress size={16} />
+                        </IconButton>
+                    )}
+                    {manga && (
+                        <MangaToolbarMenu
+                            manga={manga}
+                            onRefresh={refresh}
+                            refreshing={refreshing}
+                        />
+                    )}
+                </Stack>
             </NavbarToolbar>
 
             {loading && <LoadingPlaceholder />}
-
-            {error && <EmptyView message="Could not load manga" messageExtra={error.message ?? error} />}
 
             {manga && <MangaDetails manga={manga} />}
             <ChapterList mangaId={id} />
