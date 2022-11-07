@@ -79,7 +79,7 @@ const Manga: React.FC = () => {
                             </IconButton>
                         </Tooltip>
                     )}
-                    {(refreshing || isValidating) && (
+                    {(manga && (refreshing || isValidating)) && (
                         <IconButton disabled>
                             <CircularProgress size={16} />
                         </IconButton>
