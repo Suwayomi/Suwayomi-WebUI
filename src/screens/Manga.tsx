@@ -5,15 +5,15 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import { CircularProgress, IconButton } from '@mui/material';
+import {
+    CircularProgress, IconButton,
+} from '@mui/material';
 import { Box } from '@mui/system';
 import NavbarContext from 'components/context/NavbarContext';
 import ChapterList from 'components/manga/ChapterList';
-import ChaptersToolbarMenu from 'components/manga/ChaptersToolbarMenu';
 import { useRefreshManga } from 'components/manga/hooks';
 import MangaDetails from 'components/manga/MangaDetails';
 import MangaToolbarMenu from 'components/manga/MangaToolbarMenu';
-import { useChapterOptions } from 'components/manga/util';
 import { NavbarToolbar } from 'components/navbar/DefaultNavBar';
 import EmptyView from 'components/util/EmptyView';
 import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
@@ -30,12 +30,9 @@ const Manga: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const autofetchedRef = useRef(false);
 
-    const { data: manga, error, loading } = useQuery<IManga>(`/api/v1/manga/${id}/?onlineFetch=false`);
     const {
-        data: chaptersData,
-        mutate: mutateChapters,
-        loading: loadingChapters,
-    } = useQuery<IChapter[]>(`/api/v1/manga/${id}/chapters?onlineFetch=false`);
+        data: manga, error, loading,
+    } = useQuery<IManga>(`/api/v1/manga/${id}/?onlineFetch=false`);
 
     const [refresh, { loading: refreshing }] = useRefreshManga(id);
 
@@ -58,7 +55,6 @@ const Manga: React.FC = () => {
         setTitle(manga?.title ?? 'Manga');
     }, [manga?.title]);
 
-    const [options, dispatch] = useChapterOptions(id);
 
     return (
         <Box sx={{ display: { md: 'flex' }, overflow: 'hidden' }}>
@@ -67,9 +63,6 @@ const Manga: React.FC = () => {
                     <IconButton disabled>
                         <CircularProgress size={16} />
                     </IconButton>
-                )}
-                {chaptersData && (
-                    <ChaptersToolbarMenu options={options} optionsDispatch={dispatch} />
                 )}
                 {manga && (
                     <MangaToolbarMenu manga={manga} onRefresh={refresh} refreshing={refreshing} />
@@ -80,20 +73,8 @@ const Manga: React.FC = () => {
 
             {error && <EmptyView message="Could not load manga" messageExtra={error.message ?? error} />}
 
-            {manga && (
-                <MangaDetails
-                    manga={manga}
-                />
-            )}
-            {chaptersData && (
-                <ChapterList
-                    id={id}
-                    chapters={chaptersData}
-                    onRefresh={() => mutateChapters()}
-                    options={options}
-                    loading={loadingChapters}
-                />
-            )}
+            {manga && <MangaDetails manga={manga} />}
+            <ChapterList mangaId={id} />
         </Box>
     );
 };

@@ -13,7 +13,7 @@ import { styled } from '@mui/system';
 import useSubscription from 'components/library/useSubscription';
 import ChapterCard from 'components/manga/ChapterCard';
 import ResumeFab from 'components/manga/ResumeFAB';
-import { filterAndSortChapters } from 'components/manga/util';
+import { filterAndSortChapters, useChapterOptions } from 'components/manga/util';
 import EmptyView from 'components/util/EmptyView';
 import { pluralize } from 'components/util/helpers';
 import makeToast from 'components/util/Toast';
@@ -21,7 +21,8 @@ import React, {
     useEffect, useMemo, useRef, useState,
 } from 'react';
 import { Virtuoso } from 'react-virtuoso';
-import client from 'util/client';
+import client, { useQuery } from 'util/client';
+import ChaptersToolbarMenu from './ChaptersToolbarMenu';
 import SelectionFAB from './SelectionFAB';
 
 const StyledVirtuoso = styled(Virtuoso)(({ theme }) => ({
@@ -37,19 +38,21 @@ const StyledVirtuoso = styled(Virtuoso)(({ theme }) => ({
 }));
 
 interface IProps {
-    id: string
-    chapters: IChapter[]
-    onRefresh: () => void;
-    options: ChapterListOptions;
-    loading: boolean;
+    mangaId: string
 }
 
-const ChapterList: React.FC<IProps> = ({
-    id, chapters, onRefresh, options, loading,
-}) => {
+const ChapterList: React.FC<IProps> = ({ mangaId }) => {
     const [selection, setSelection] = useState<number[] | null>(null);
     const prevQueueRef = useRef<IDownloadChapter[]>();
     const queue = useSubscription<IQueue>('/api/v1/downloads').data?.queue;
+
+    const [options, dispatch] = useChapterOptions(mangaId);
+    const {
+        data: chaptersData,
+        mutate,
+        loading,
+    } = useQuery<IChapter[]>(`/api/v1/manga/${mangaId}/chapters?onlineFetch=false`);
+    const chapters = useMemo(() => chaptersData ?? [], [chaptersData]);
 
     useEffect(() => {
         if (prevQueueRef.current && queue) {
@@ -63,7 +66,7 @@ const ChapterList: React.FC<IProps> = ({
             });
 
             if (changedDownloads.length > 0) {
-                onRefresh();
+                mutate();
             }
         }
 
@@ -114,7 +117,7 @@ const ChapterList: React.FC<IProps> = ({
         if (action === 'download') {
             client.post('/api/v1/download/batch', { chapterIds })
                 .then(() => makeToast(`${chapterIds.length} ${pluralize(chapterIds.length, 'download')} added`, 'success'))
-                .then(() => onRefresh())
+                .then(() => mutate())
                 .catch(() => makeToast('Error adding downloads', 'error'));
         }
     };
@@ -151,12 +154,14 @@ const ChapterList: React.FC<IProps> = ({
     return (
         <>
             <Stack direction="column" sx={{ position: 'relative' }}>
-                <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ m: 1, mr: 2 }}>
+                <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ m: 1, mr: 2, minHeight: 40 }}>
                     <Typography variant="h5">
                         {`${visibleChapters.length} Chapter${visibleChapters.length === 1 ? '' : 's'}`}
                     </Typography>
 
-                    {selection !== null && (
+                    {selection === null ? (
+                        <ChaptersToolbarMenu options={options} optionsDispatch={dispatch} />
+                    ) : (
                         <Stack direction="row">
                             <Button size="small" onClick={handleSelectAll}>Select all</Button>
                             <Button size="small" onClick={handleClear}>Clear</Button>
@@ -183,7 +188,7 @@ const ChapterList: React.FC<IProps> = ({
                             // eslint-disable-next-line react/jsx-props-no-spreading
                             {...scrollCache[index]}
                             showChapterNumber={options.showChapterNumber}
-                            triggerChaptersUpdate={onRefresh}
+                            triggerChaptersUpdate={() => mutate()}
                             onSelect={() => handleSelection(index)}
                         />
                     )}
@@ -197,7 +202,7 @@ const ChapterList: React.FC<IProps> = ({
                     onAction={handleFabAction}
                 />
             ) : (
-                firstUnreadChapter && <ResumeFab chapter={firstUnreadChapter} mangaId={id} />
+                firstUnreadChapter && <ResumeFab chapter={firstUnreadChapter} mangaId={mangaId} />
             )}
         </>
     );
