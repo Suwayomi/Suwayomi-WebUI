@@ -122,7 +122,7 @@ export default function DefaultNavBar() {
                                 </IconButton>
                             )
                     }
-                    <Typography variant={isMobileWidth ? 'h6' : 'h5'} sx={{ flexGrow: 1 }}>
+                    <Typography variant={isMobileWidth ? 'h6' : 'h5'} sx={{ flexGrow: 1 }} noWrap textOverflow="ellipsis">
                         {title}
                     </Typography>
                     {action}
