@@ -154,7 +154,14 @@ const ChapterList: React.FC<IProps> = ({ mangaId }) => {
     return (
         <>
             <Stack direction="column" sx={{ position: 'relative' }}>
-                <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ m: 1, mr: 2, minHeight: 40 }}>
+                <Stack
+                    direction="row"
+                    alignItems="center"
+                    justifyContent="space-between"
+                    sx={{
+                        m: 1, mb: 0, mr: 2, minHeight: 40,
+                    }}
+                >
                     <Typography variant="h5">
                         {`${visibleChapters.length} Chapter${visibleChapters.length === 1 ? '' : 's'}`}
                     </Typography>
