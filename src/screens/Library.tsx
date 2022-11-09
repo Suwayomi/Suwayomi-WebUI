@@ -46,6 +46,10 @@ export default function Library() {
                 <UpdateChecker />
             </>,
         );
+        return () => {
+            setTitle('');
+            setAction(<></>);
+        };
     }, []);
 
     // a hack so MangaGrid doesn't stop working. I won't change it in case

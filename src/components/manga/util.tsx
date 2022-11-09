@@ -5,7 +5,9 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-export const defaultChapterOptions: ChapterListOptions = {
+import { useReducerLocalStorage } from 'util/useLocalStorage';
+
+const defaultChapterOptions: ChapterListOptions = {
     active: false,
     unread: undefined,
     downloaded: undefined,
@@ -15,7 +17,7 @@ export const defaultChapterOptions: ChapterListOptions = {
     showChapterNumber: false,
 };
 
-export function chapterOptionsReducer(state: ChapterListOptions,
+function chapterOptionsReducer(state: ChapterListOptions,
     actions: ChapterOptionsReducerAction)
     : ChapterListOptions {
     switch (actions.type) {
@@ -51,7 +53,7 @@ export function unreadFilter(unread: NullAndUndefined<boolean>, { read: isChapte
     }
 }
 
-export function downloadFilter(downloaded: NullAndUndefined<boolean>,
+function downloadFilter(downloaded: NullAndUndefined<boolean>,
     { downloaded: chapterDownload }: IChapter) {
     switch (downloaded) {
         case true:
@@ -63,7 +65,7 @@ export function downloadFilter(downloaded: NullAndUndefined<boolean>,
     }
 }
 
-export function bookmarkdFilter(bookmarked: NullAndUndefined<boolean>,
+function bookmarkedFilter(bookmarked: NullAndUndefined<boolean>,
     { bookmarked: chapterBookmarked }: IChapter) {
     switch (bookmarked) {
         case true:
@@ -80,7 +82,7 @@ export function filterAndSortChapters(chapters: IChapter[], options: ChapterList
     const filtered = options.active
         ? chapters.filter((chp) => unreadFilter(options.unread, chp)
     && downloadFilter(options.downloaded, chp)
-    && bookmarkdFilter(options.bookmarked, chp))
+    && bookmarkedFilter(options.bookmarked, chp))
         : [...chapters];
     const Sorted = options.sortBy === 'fetchedAt'
         ? filtered.sort((a, b) => a.fetchedAt - b.fetchedAt)
@@ -91,9 +93,20 @@ export function filterAndSortChapters(chapters: IChapter[], options: ChapterList
     return Sorted;
 }
 
-export function findFirstUnreadChapter(chapters: IChapter[]): IChapter | undefined {
-    for (let index = chapters.length - 1; index >= 0; index--) {
-        if (!chapters[index].read) return chapters[index];
-    }
-    return undefined;
-}
+export const useChapterOptions = (mangaId: string) => useReducerLocalStorage<
+ChapterListOptions,
+ChapterOptionsReducerAction
+>(
+    chapterOptionsReducer,
+    `${mangaId}filterOptions`, defaultChapterOptions,
+);
+
+export const SORT_OPTIONS: [ChapterSortMode, string][] = [
+    ['source', 'By Source'],
+    ['fetchedAt', 'By Fetch date'],
+];
+
+export const isFilterActive = (options: ChapterListOptions) => {
+    const { unread, downloaded, bookmarked } = options;
+    return unread != null || downloaded != null || bookmarked != null;
+};
