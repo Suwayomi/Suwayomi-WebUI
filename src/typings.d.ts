@@ -91,6 +91,7 @@ interface IManga {
 }
 
 interface IChapter {
+    id: number
     url: string
     name: string
     uploadDate: number

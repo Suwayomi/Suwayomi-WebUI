@@ -5,22 +5,19 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import makeStyles from '@mui/styles/makeStyles';
-import IconButton from '@mui/material/IconButton';
-import { Theme } from '@mui/material/styles';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import FilterListIcon from '@mui/icons-material/FilterList';
 import PublicIcon from '@mui/icons-material/Public';
-import React, { useContext, useEffect, useState } from 'react';
-import NavbarContext from 'components/context/NavbarContext';
+import { Typography } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import { Theme } from '@mui/material/styles';
+import makeStyles from '@mui/styles/makeStyles';
+import React from 'react';
+import { mutate } from 'swr';
 import client from 'util/client';
 import useLocalStorage from 'util/useLocalStorage';
-import Refresh from '@mui/icons-material/Refresh';
-import CategorySelect from './navbar/action/CategorySelect';
-import LoadingIconButton from './atoms/LoadingIconButton';
 
-const useStyles = (inLibrary: string) => makeStyles((theme: Theme) => ({
+const useStyles = (inLibrary: boolean) => makeStyles((theme: Theme) => ({
     root: {
         width: '100%',
         [theme.breakpoints.up('md')]: {
@@ -68,11 +65,7 @@ const useStyles = (inLibrary: string) => makeStyles((theme: Theme) => ({
         display: 'flex',
         justifyContent: 'space-around',
         '& button': {
-            color: inLibrary === 'In Library' ? '#2196f3' : 'inherit',
-        },
-        '& span': {
-            display: 'block',
-            fontSize: '0.85em',
+            color: inLibrary ? '#2196f3' : 'inherit',
         },
         '& a': {
             textDecoration: 'none',
@@ -120,8 +113,6 @@ const useStyles = (inLibrary: string) => makeStyles((theme: Theme) => ({
 
 interface IProps{
     manga: IManga
-    onRefresh: () => Promise<any>
-    refreshing: boolean
 }
 
 function getSourceName(source: ISource) {
@@ -135,69 +126,23 @@ function getValueOrUnknown(val: string) {
     return val || 'UNKNOWN';
 }
 
-export default function MangaDetails({ manga, onRefresh, refreshing }: IProps) {
-    const { setAction } = useContext(NavbarContext);
-
-    const [inLibrary, setInLibrary] = useState<string>(
-        manga.inLibrary ? 'In Library' : 'Add To Library',
-    );
-
-    const [categoryDialogOpen, setCategoryDialogOpen] = useState<boolean>(false);
-
-    useEffect(() => {
-        setAction(
-            <>
-                <LoadingIconButton loading={refreshing} onClick={onRefresh}>
-                    <Refresh />
-                </LoadingIconButton>
-                {inLibrary === 'In Library' && (
-                    <>
-                        <IconButton
-                            onClick={() => setCategoryDialogOpen(true)}
-                            aria-label="display more actions"
-                            edge="end"
-                            color="inherit"
-                            size="large"
-                        >
-                            <FilterListIcon />
-                        </IconButton>
-                        <CategorySelect
-                            open={categoryDialogOpen}
-                            setOpen={setCategoryDialogOpen}
-                            mangaId={manga.id}
-                        />
-                    </>
-                )}
-            </>,
-        );
-    }, [inLibrary, categoryDialogOpen, refreshing, onRefresh]);
-
+const MangaDetails: React.FC<IProps> = ({ manga }) => {
     const [serverAddress] = useLocalStorage<String>('serverBaseURL', '');
     const [useCache] = useLocalStorage<boolean>('useCache', true);
 
-    const classes = useStyles(inLibrary)();
+    const classes = useStyles(manga.inLibrary)();
 
-    function addToLibrary() {
-        // setInLibrary('adding');
-        client.get(`/api/v1/manga/${manga.id}/library/`).then(() => {
-            setInLibrary('In Library');
-        });
-    }
+    const addToLibrary = () => {
+        mutate(`/api/v1/manga/${manga.id}/?onlineFetch=false`, { ...manga, inLibrary: true }, { revalidate: false });
+        client.get(`/api/v1/manga/${manga.id}/library/`)
+            .then(() => mutate(`/api/v1/manga/${manga.id}/?onlineFetch=false`));
+    };
 
-    function removeFromLibrary() {
-        // setInLibrary('removing');
-        client.delete(`/api/v1/manga/${manga.id}/library/`).then(() => {
-            setInLibrary('Add To Library');
-        });
-    }
-
-    function handleButtonClick() {
-        if (inLibrary === 'Add To Library') {
-            addToLibrary();
-        } else {
-            removeFromLibrary();
-        }
-    }
+    const removeFromLibrary = () => {
+        mutate(`/api/v1/manga/${manga.id}/?onlineFetch=false`, { ...manga, inLibrary: false }, { revalidate: false });
+        client.delete(`/api/v1/manga/${manga.id}/library/`)
+            .then(() => mutate(`/api/v1/manga/${manga.id}/?onlineFetch=false`));
+    };
 
     return (
         <div className={classes.root}>
@@ -228,17 +173,21 @@ export default function MangaDetails({ manga, onRefresh, refreshing }: IProps) {
                 </div>
                 <div className={classes.buttons}>
                     <div>
-                        <IconButton onClick={() => handleButtonClick()} size="large">
-                            {inLibrary === 'In Library' && <FavoriteIcon />}
-                            {inLibrary !== 'In Library' && <FavoriteBorderIcon />}
-                            <span>{inLibrary}</span>
+                        <IconButton onClick={manga.inLibrary ? removeFromLibrary : addToLibrary} size="large">
+                            {manga.inLibrary
+                                ? <FavoriteIcon sx={{ mr: 1 }} />
+                                : <FavoriteBorderIcon sx={{ mr: 1 }} />}
+                            <Typography sx={{ fontSize: { xs: '0.75em', sm: '0.85em' } }}>
+                                {manga.inLibrary ? 'In Library' : 'Add To Library'}
+                            </Typography>
                         </IconButton>
                     </div>
-                    { /* eslint-disable-next-line react/jsx-no-target-blank */ }
-                    <a href={manga.realUrl} target="_blank">
+                    <a href={manga.realUrl} target="_blank" rel="noreferrer">
                         <IconButton size="large">
-                            <PublicIcon />
-                            <span>Open Site</span>
+                            <PublicIcon sx={{ mr: 1 }} />
+                            <Typography sx={{ fontSize: { xs: '0.75em', sm: '0.85em' } }}>
+                                Open Site
+                            </Typography>
                         </IconButton>
                     </a>
                 </div>
@@ -254,4 +203,6 @@ export default function MangaDetails({ manga, onRefresh, refreshing }: IProps) {
             </div>
         </div>
     );
-}
+};
+
+export default MangaDetails;
