@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 // adopted from: https://github.com/tachiyomiorg/tachiyomi/blob/master/app/src/main/java/eu/kanade/tachiyomi/widget/EmptyView.kt
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 import { useMediaQuery } from '@mui/material';
@@ -35,6 +35,8 @@ export default function EmptyView({ message, messageExtra }: IProps) {
     const theme = useTheme();
     const isMobileWidth = useMediaQuery(theme.breakpoints.down('sm'));
 
+    const errorFace = useMemo(() => getRandomErrorFace(), []);
+
     return (
         <Box sx={{
             position: 'absolute',
@@ -45,7 +47,7 @@ export default function EmptyView({ message, messageExtra }: IProps) {
         }}
         >
             <Typography variant="h3" gutterBottom>
-                {getRandomErrorFace()}
+                {errorFace}
             </Typography>
             <Typography variant="h5">
                 {message}
