@@ -5,6 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
+import Delete from '@mui/icons-material/Delete';
 import Download from '@mui/icons-material/Download';
 import MoreHoriz from '@mui/icons-material/MoreHoriz';
 import {
@@ -13,10 +14,11 @@ import {
 import { Box } from '@mui/system';
 import { pluralize } from 'components/util/helpers';
 import React, { useRef, useState } from 'react';
+import type { IChapterWithMeta } from './ChapterList';
 
 interface SelectionFABProps{
-    selectedChapters: IChapter[]
-    onAction: (action: 'download') => void
+    selectedChapters: IChapterWithMeta[]
+    onAction: (action: 'download' | 'delete', chapters: IChapterWithMeta[]) => void
 }
 
 const SelectionFAB: React.FC<SelectionFABProps> = (props) => {
@@ -26,6 +28,14 @@ const SelectionFAB: React.FC<SelectionFABProps> = (props) => {
     const anchorEl = useRef<HTMLElement>();
     const [open, setOpen] = useState(false);
     const handleClose = () => setOpen(false);
+
+    const notDownloadedChapters = selectedChapters.filter(
+        ({ chapter, downloadChapter }) => !chapter.downloaded && downloadChapter === undefined,
+    );
+    const notDownloadedCount = notDownloadedChapters.length;
+
+    const downloadedChapters = selectedChapters.filter(({ chapter }) => chapter.downloaded);
+    const downloadedCount = downloadedChapters.length;
 
     return (
         <Box
@@ -55,23 +65,29 @@ const SelectionFAB: React.FC<SelectionFABProps> = (props) => {
                 }}
             >
                 <MenuItem
-                    onClick={() => { onAction('download'); handleClose(); }}
+                    onClick={() => { onAction('download', notDownloadedChapters); handleClose(); }}
+                    disabled={notDownloadedCount === 0}
                 >
                     <ListItemIcon>
                         <Download fontSize="small" />
                     </ListItemIcon>
                     <ListItemText>
                         Download selected
+                        {notDownloadedCount > 0 ? ` (${notDownloadedCount})` : ''}
                     </ListItemText>
                 </MenuItem>
-                {/* <MenuItem onClick={() => { onClearSelection(); handleClose(); }}>
+                <MenuItem
+                    onClick={() => { onAction('delete', downloadedChapters); handleClose(); }}
+                    disabled={downloadedCount === 0}
+                >
                     <ListItemIcon>
-                        <Clear fontSize="small" />
+                        <Delete fontSize="small" />
                     </ListItemIcon>
                     <ListItemText>
-                        ClearSelection
+                        Delete selected
+                        {downloadedCount > 0 ? ` (${downloadedCount})` : ''}
                     </ListItemText>
-                </MenuItem> */}
+                </MenuItem>
             </Menu>
         </Box>
     );

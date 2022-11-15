@@ -37,6 +37,12 @@ const StyledVirtuoso = styled(Virtuoso)(({ theme }) => ({
     },
 }));
 
+export interface IChapterWithMeta {
+    chapter: IChapter
+    downloadChapter: IDownloadChapter | undefined
+    selected: boolean | null
+}
+
 interface IProps {
     mangaId: string
 }
@@ -81,11 +87,6 @@ const ChapterList: React.FC<IProps> = ({ mangaId }) => {
         .find((c) => c.read === false),
     [visibleChapters]);
 
-    const selectedChapters = useMemo(() => {
-        if (selection === null) return null;
-        return visibleChapters.filter((chap) => selection.includes(chap.id));
-    }, [visibleChapters, selection]);
-
     const handleSelection = (index: number) => {
         const chapter = visibleChapters[index];
         if (!chapter) return;
@@ -110,15 +111,22 @@ const ChapterList: React.FC<IProps> = ({ mangaId }) => {
         setSelection(null);
     };
 
-    const handleFabAction = (action: 'download') => {
-        if (!selectedChapters || selectedChapters.length === 0) return;
-        const chapterIds = selectedChapters.map((c) => c.id);
+    const handleFabAction = (action: 'download' | 'delete', actionChapters: IChapterWithMeta[]) => {
+        if (actionChapters.length === 0) return;
+        const chapterIds = actionChapters.map(({ chapter }) => chapter.id);
 
         if (action === 'download') {
             client.post('/api/v1/download/batch', { chapterIds })
                 .then(() => makeToast(`${chapterIds.length} ${pluralize(chapterIds.length, 'download')} added`, 'success'))
                 .then(() => mutate())
                 .catch(() => makeToast('Error adding downloads', 'error'));
+        }
+
+        if (action === 'delete') {
+            client.post('/api/v1/chapter/batch', { chapterIds, change: { delete: true } })
+                .then(() => makeToast(`${chapterIds.length} ${pluralize(chapterIds.length, 'chapter')} removed`, 'success'))
+                .then(() => mutate())
+                .catch(() => makeToast('Error removing chapters', 'error'));
         }
     };
 
@@ -138,7 +146,7 @@ const ChapterList: React.FC<IProps> = ({ mangaId }) => {
     const noChaptersFound = chapters.length === 0;
     const noChaptersMatchingFilter = !noChaptersFound && visibleChapters.length === 0;
 
-    const scrollCache = visibleChapters.map((chapter) => {
+    const chaptersWithMeta: IChapterWithMeta[] = visibleChapters.map((chapter) => {
         const downloadChapter = queue?.find(
             (cd) => cd.chapterIndex === chapter.index
                 && cd.mangaId === chapter.mangaId,
@@ -150,6 +158,10 @@ const ChapterList: React.FC<IProps> = ({ mangaId }) => {
             selected,
         };
     });
+
+    const selectedChapters = (selection === null)
+        ? null
+        : chaptersWithMeta.filter(({ chapter }) => selection.includes(chapter.id));
 
     return (
         <>
@@ -193,7 +205,7 @@ const ChapterList: React.FC<IProps> = ({ mangaId }) => {
                     itemContent={(index:number) => (
                         <ChapterCard
                             // eslint-disable-next-line react/jsx-props-no-spreading
-                            {...scrollCache[index]}
+                            {...chaptersWithMeta[index]}
                             showChapterNumber={options.showChapterNumber}
                             triggerChaptersUpdate={() => mutate()}
                             onSelect={() => handleSelection(index)}
