@@ -15,9 +15,10 @@ import ChapterCard from 'components/manga/ChapterCard';
 import ResumeFab from 'components/manga/ResumeFAB';
 import { filterAndSortChapters, useChapterOptions } from 'components/manga/util';
 import EmptyView from 'components/util/EmptyView';
-import { pluralize } from 'components/util/helpers';
+import { interpolate } from 'components/util/helpers';
 import makeToast from 'components/util/Toast';
 import React, {
+    ComponentProps,
     useEffect, useMemo, useRef, useState,
 } from 'react';
 import { Virtuoso } from 'react-virtuoso';
@@ -36,6 +37,33 @@ const StyledVirtuoso = styled(Virtuoso)(({ theme }) => ({
         margin: 0,
     },
 }));
+
+const actionsStrings = {
+    download: {
+        success: { one: 'Download added', many: '%count% downloads added' },
+        error: { one: 'Error adding download', many: 'Error adding downloads' },
+    },
+    delete: {
+        success: { one: 'Chapter deleted', many: '%count% chapters deleted' },
+        error: { one: 'Error deleting chapter', many: 'Error deleting chapters' },
+    },
+    bookmark: {
+        success: { one: 'Chapter bookmarked', many: '%count% chapters bookmarked' },
+        error: { one: 'Error bookmarking chapter', many: 'Error bookmarking chapters' },
+    },
+    unbookmark: {
+        success: { one: 'Chapter bookmark removed', many: '%count% chapter bookmarks removed' },
+        error: { one: 'Error removing bookmark', many: 'Error removing bookmarks' },
+    },
+    mark_as_read: {
+        success: { one: 'Chapter marked as read', many: '%count% chapters marked as read' },
+        error: { one: 'Error marking chapter as read', many: 'Error marking chapters as read' },
+    },
+    mark_as_unread: {
+        success: { one: 'Chapter marked as unread', many: '%count% chapters marked as unread' },
+        error: { one: 'Error marking chapter as unread', many: 'Error marking chapters as unread' },
+    },
+};
 
 export interface IChapterWithMeta {
     chapter: IChapter
@@ -111,23 +139,30 @@ const ChapterList: React.FC<IProps> = ({ mangaId }) => {
         setSelection(null);
     };
 
-    const handleFabAction = (action: 'download' | 'delete', actionChapters: IChapterWithMeta[]) => {
+    const handleFabAction: ComponentProps<typeof SelectionFAB>['onAction'] = (action, actionChapters) => {
         if (actionChapters.length === 0) return;
         const chapterIds = actionChapters.map(({ chapter }) => chapter.id);
 
+        let actionPromise: Promise<any>;
+
         if (action === 'download') {
-            client.post('/api/v1/download/batch', { chapterIds })
-                .then(() => makeToast(`${chapterIds.length} ${pluralize(chapterIds.length, 'download')} added`, 'success'))
-                .then(() => mutate())
-                .catch(() => makeToast('Error adding downloads', 'error'));
+            actionPromise = client.post('/api/v1/download/batch', { chapterIds });
+        } else {
+            const change: BatchChaptersChange = {};
+
+            if (action === 'delete') change.delete = true;
+            else if (action === 'bookmark') change.isBookmarked = true;
+            else if (action === 'unbookmark') change.isBookmarked = false;
+            else if (action === 'mark_as_read') change.isRead = true;
+            else if (action === 'mark_as_unread') change.isRead = false;
+
+            actionPromise = client.post('/api/v1/chapter/batch', { chapterIds, change });
         }
 
-        if (action === 'delete') {
-            client.post('/api/v1/chapter/batch', { chapterIds, change: { delete: true } })
-                .then(() => makeToast(`${chapterIds.length} ${pluralize(chapterIds.length, 'chapter')} removed`, 'success'))
-                .then(() => mutate())
-                .catch(() => makeToast('Error removing chapters', 'error'));
-        }
+        actionPromise
+            .then(() => makeToast(interpolate(chapterIds.length, actionsStrings[action].success), 'success'))
+            .then(() => mutate())
+            .catch(() => makeToast(interpolate(chapterIds.length, actionsStrings[action].error), 'error'));
     };
 
     if (loading) {

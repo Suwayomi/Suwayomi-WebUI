@@ -12,3 +12,8 @@ export const pluralize = (count: number, input: string | { one: string, many: st
     }
     return input[count === 1 ? 'one' : 'many'];
 };
+
+export const interpolate = (count: number, input: { one: string, many: string }) => {
+    const text = count === 1 ? input.one : input.many;
+    return text.replaceAll('%count%', count.toString());
+};

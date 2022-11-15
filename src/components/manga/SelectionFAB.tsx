@@ -5,20 +5,21 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import Delete from '@mui/icons-material/Delete';
-import Download from '@mui/icons-material/Download';
 import MoreHoriz from '@mui/icons-material/MoreHoriz';
 import {
-    Fab, ListItemIcon, ListItemText, Menu, MenuItem,
+    Fab, Menu,
 } from '@mui/material';
 import { Box } from '@mui/system';
 import { pluralize } from 'components/util/helpers';
 import React, { useRef, useState } from 'react';
 import type { IChapterWithMeta } from './ChapterList';
+import SelectionFABActionItem from './SelectionFABActionItem';
+
+export type SelectionAction = 'download' | 'delete' | 'bookmark' | 'unbookmark' | 'mark_as_read' | 'mark_as_unread';
 
 interface SelectionFABProps{
     selectedChapters: IChapterWithMeta[]
-    onAction: (action: 'download' | 'delete', chapters: IChapterWithMeta[]) => void
+    onAction: (action: SelectionAction, chapters: IChapterWithMeta[]) => void
 }
 
 const SelectionFAB: React.FC<SelectionFABProps> = (props) => {
@@ -29,13 +30,10 @@ const SelectionFAB: React.FC<SelectionFABProps> = (props) => {
     const [open, setOpen] = useState(false);
     const handleClose = () => setOpen(false);
 
-    const notDownloadedChapters = selectedChapters.filter(
-        ({ chapter, downloadChapter }) => !chapter.downloaded && downloadChapter === undefined,
-    );
-    const notDownloadedCount = notDownloadedChapters.length;
-
-    const downloadedChapters = selectedChapters.filter(({ chapter }) => chapter.downloaded);
-    const downloadedCount = downloadedChapters.length;
+    const handleAction = (action: SelectionAction, chapters: IChapterWithMeta[]) => {
+        onAction(action, chapters);
+        handleClose();
+    };
 
     return (
         <Box
@@ -64,30 +62,44 @@ const SelectionFAB: React.FC<SelectionFABProps> = (props) => {
                     'aria-labelledby': 'selectionMenuButton',
                 }}
             >
-                <MenuItem
-                    onClick={() => { onAction('download', notDownloadedChapters); handleClose(); }}
-                    disabled={notDownloadedCount === 0}
-                >
-                    <ListItemIcon>
-                        <Download fontSize="small" />
-                    </ListItemIcon>
-                    <ListItemText>
-                        Download selected
-                        {notDownloadedCount > 0 ? ` (${notDownloadedCount})` : ''}
-                    </ListItemText>
-                </MenuItem>
-                <MenuItem
-                    onClick={() => { onAction('delete', downloadedChapters); handleClose(); }}
-                    disabled={downloadedCount === 0}
-                >
-                    <ListItemIcon>
-                        <Delete fontSize="small" />
-                    </ListItemIcon>
-                    <ListItemText>
-                        Delete selected
-                        {downloadedCount > 0 ? ` (${downloadedCount})` : ''}
-                    </ListItemText>
-                </MenuItem>
+                <SelectionFABActionItem
+                    action="download"
+                    matchingChapters={selectedChapters.filter(
+                        ({ chapter: c, downloadChapter: dc }) => !c.downloaded && dc === undefined,
+                    )}
+                    onClick={handleAction}
+                    title="Download selected"
+                />
+                <SelectionFABActionItem
+                    action="delete"
+                    matchingChapters={selectedChapters.filter(({ chapter }) => chapter.downloaded)}
+                    onClick={handleAction}
+                    title="Delete selected"
+                />
+                <SelectionFABActionItem
+                    action="bookmark"
+                    matchingChapters={selectedChapters.filter(({ chapter }) => !chapter.bookmarked)}
+                    onClick={handleAction}
+                    title="Bookmark selected"
+                />
+                <SelectionFABActionItem
+                    action="unbookmark"
+                    matchingChapters={selectedChapters.filter(({ chapter }) => chapter.bookmarked)}
+                    onClick={handleAction}
+                    title="Remove bookmarks from selected"
+                />
+                <SelectionFABActionItem
+                    action="mark_as_read"
+                    matchingChapters={selectedChapters.filter(({ chapter }) => !chapter.read)}
+                    onClick={handleAction}
+                    title="Mark selected as read"
+                />
+                <SelectionFABActionItem
+                    action="mark_as_unread"
+                    matchingChapters={selectedChapters.filter(({ chapter }) => chapter.read)}
+                    onClick={handleAction}
+                    title="Mark selected as unread"
+                />
             </Menu>
         </Box>
     );
