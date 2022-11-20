@@ -5,6 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
+import { useNavBarContext } from 'components/context/NavbarContext';
 import { useLocation } from 'react-router-dom';
 
 export const BACK = '__BACK__';
@@ -13,8 +14,9 @@ export const isBack = (backTo: string | undefined): boolean => backTo === BACK;
 
 const useBackTo = (): { url?: string, back: boolean } => {
     const location = useLocation<{ backLink?: string }>();
+    const { defaultBackTo } = useNavBarContext();
 
-    const url = location.state?.backLink;
+    const url = location.state?.backLink ?? defaultBackTo;
     return {
         url: url === BACK ? undefined : url,
         back: url === BACK,
