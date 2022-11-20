@@ -9,12 +9,13 @@ import React from 'react';
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import Typography from '@mui/material/Typography';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Avatar, CardContent, Grid } from '@mui/material';
 import useLocalStorage from 'util/useLocalStorage';
 import SpinnerImage from 'components/util/SpinnerImage';
 import { Box, styled } from '@mui/system';
 import { useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
+import { BACK } from 'util/useBackTo';
 
 const BottomGradient = styled('div')({
     position: 'absolute',
@@ -88,12 +89,14 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
     const [useCache] = useLocalStorage<boolean>('useCache', true);
     const [ItemWidth] = useLocalStorage<number>('ItemWidth', 300);
 
+    const mangaLinkTo = { pathname: `/manga/${id}/`, state: { backLink: BACK } };
+
     if (gridLayout !== 2) {
         const colomns = Math.round(dimensions / ItemWidth);
         return (
             // @ts-ignore gridsize type isnt allowed to be a decimal but it works fine
             <Grid item xs={12 / colomns} sm={12 / colomns} md={12 / colomns} lg={12 / colomns}>
-                <Link to={`/manga/${id}/`} style={(gridLayout === 1) ? { textDecoration: 'none' } : {}}>
+                <Link to={mangaLinkTo} style={(gridLayout === 1) ? { textDecoration: 'none' } : {}}>
                     <Box
                         sx={{
                             display: 'flex',
@@ -190,7 +193,7 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
     }
     return (
         <Grid item xs={12} sm={12} md={12} lg={12}>
-            <Link to={`/manga/${id}/`} style={{ textDecoration: 'none', color: 'unset' }}>
+            <Link to={mangaLinkTo} style={{ textDecoration: 'none', color: 'unset' }}>
                 <CardContent sx={{
                     display: 'flex',
                     justifyContent: 'space-between',

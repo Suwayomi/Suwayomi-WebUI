@@ -29,6 +29,7 @@ import Typography from '@mui/material/Typography';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import client from 'util/client';
+import { BACK } from 'util/useBackTo';
 
 interface IProps{
     chapter: IChapter
@@ -118,7 +119,7 @@ const ChapterCard: React.FC<IProps> = (props: IProps) => {
                 }}
             >
                 <Link
-                    to={`/manga/${chapter.mangaId}/chapter/${chapter.index}`}
+                    to={{ pathname: `/manga/${chapter.mangaId}/chapter/${chapter.index}`, state: { backLink: BACK } }}
                     style={{
                         textDecoration: 'none',
                         color: theme.palette.text[chapter.read ? 'disabled' : 'primary'],

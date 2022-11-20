@@ -1,0 +1,24 @@
+/*
+ * Copyright (C) Contributors to the Suwayomi project
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+import { useLocation } from 'react-router-dom';
+
+export const BACK = '__BACK__';
+
+export const isBack = (backTo: string | undefined): boolean => backTo === BACK;
+
+const useBackTo = (): { url?: string, back: boolean } => {
+    const location = useLocation<{ backLink?: string }>();
+
+    const url = location.state?.backLink;
+    return {
+        url: url === BACK ? undefined : url,
+        back: url === BACK,
+    };
+};
+
+export default useBackTo;

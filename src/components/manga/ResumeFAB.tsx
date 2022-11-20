@@ -9,6 +9,7 @@ import React from 'react';
 import { Fab } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { PlayArrow } from '@mui/icons-material';
+import { BACK } from 'util/useBackTo';
 
 interface ResumeFABProps{
     chapter: IChapter
@@ -23,7 +24,7 @@ export default function ResumeFab(props: ResumeFABProps) {
             component={Link}
             variant="extended"
             color="primary"
-            to={`/manga/${mangaId}/chapter/${index}/page/${lastPageRead}`}
+            to={{ pathname: `/manga/${mangaId}/chapter/${index}/page/${lastPageRead}`, state: { backLink: BACK } }}
         >
             <PlayArrow />
             {index === 1 ? 'Start' : 'Resume' }

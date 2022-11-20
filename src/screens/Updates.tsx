@@ -181,7 +181,7 @@ export default function Updates() {
                                     transition: 'background-color 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
                                 },
                             }}
-                            onClick={() => history.push(`/manga/${chapter.mangaId}/chapter/${chapter.index}`)}
+                            onClick={() => history.push({ pathname: `/manga/${chapter.mangaId}/chapter/${chapter.index}`, state: history.location.state })}
                         >
                             <CardContent sx={{
                                 display: 'flex',

@@ -23,12 +23,13 @@ import GetAppIcon from '@mui/icons-material/GetApp';
 import GetAppOutlinedIcon from '@mui/icons-material/GetAppOutlined';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ArrowBack from '@mui/icons-material/ArrowBack';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import NavBarContext from 'components/context/NavbarContext';
 import DarkTheme from 'components/context/DarkTheme';
 import ExtensionOutlinedIcon from 'components/util/CustomExtensionOutlinedIcon';
 import { Box } from '@mui/system';
 import { createPortal } from 'react-dom';
+import useBackTo from 'util/useBackTo';
 import DesktopSideBar from './navigation/DesktopSideBar';
 import MobileBottomBar from './navigation/MobileBottomBar';
 
@@ -80,10 +81,11 @@ const navbarItems: Array<NavbarItem> = [
 
 export default function DefaultNavBar() {
     const { title, action, override } = useContext(NavBarContext);
+    const backTo = useBackTo();
     const { darkTheme } = useContext(DarkTheme);
 
     const theme = useTheme();
-    const history = useHistory();
+    const history = useHistory<{ backLink?: string }>();
 
     const isMobileWidth = useMediaQuery(theme.breakpoints.down('sm'));
     const isMainRoute = navbarItems.some(({ path }) => path === history.location.pathname);
@@ -100,28 +102,30 @@ export default function DefaultNavBar() {
         navbar = <DesktopSideBar navBarItems={navbarItems.filter((it) => it.show !== 'mobile')} />;
     }
 
+    const handleBack = () => {
+        if (backTo.url != null) return;
+        history.goBack();
+    };
+
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="fixed" color={darkTheme ? 'default' : 'primary'}>
                 <Toolbar>
-                    {
-                        !navbarItems.some(({ path }) => path === history.location.pathname)
-                            && (
-                                <IconButton
-                                    edge="start"
-                                    sx={{ marginRight: theme.spacing(2) }}
-                                    color="inherit"
-                                    aria-label="menu"
-                                    disableRipple
-                                    // when page is opened in new tab backbutton will
-                                    // take you to the library
-                                    onClick={() => (history.length === 1 ? history.push('/library') : history.goBack())}
-                                    size="large"
-                                >
-                                    <ArrowBack />
-                                </IconButton>
-                            )
-                    }
+                    {!isMainRoute && (
+                        <IconButton
+                            component={backTo.url ? Link : 'button'}
+                            to={backTo.url}
+                            edge="start"
+                            sx={{ marginRight: theme.spacing(2) }}
+                            color="inherit"
+                            aria-label="menu"
+                            disableRipple
+                            size="large"
+                            onClick={handleBack}
+                        >
+                            <ArrowBack />
+                        </IconButton>
+                    )}
                     <Typography variant={isMobileWidth ? 'h6' : 'h5'} sx={{ flexGrow: 1 }} noWrap textOverflow="ellipsis">
                         {title}
                     </Typography>
