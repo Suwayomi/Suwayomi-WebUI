@@ -85,7 +85,7 @@ export default function DefaultNavBar() {
     const { darkTheme } = useContext(DarkTheme);
 
     const theme = useTheme();
-    const history = useHistory<{ backLink?: string }>();
+    const history = useHistory();
 
     const isMobileWidth = useMediaQuery(theme.breakpoints.down('sm'));
     const isMainRoute = navbarItems.some(({ path }) => path === history.location.pathname);
