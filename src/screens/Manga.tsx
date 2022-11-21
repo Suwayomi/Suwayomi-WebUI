@@ -10,7 +10,7 @@ import {
     CircularProgress, IconButton, Stack, Tooltip,
 } from '@mui/material';
 import { Box } from '@mui/system';
-import NavbarContext from 'components/context/NavbarContext';
+import NavbarContext, { useSetDefaultBackTo } from 'components/context/NavbarContext';
 import ChapterList from 'components/manga/ChapterList';
 import { useRefreshManga } from 'components/manga/hooks';
 import MangaDetails from 'components/manga/MangaDetails';
@@ -36,6 +36,8 @@ const Manga: React.FC = () => {
     } = useQuery<IManga>(`/api/v1/manga/${id}/?onlineFetch=false`);
 
     const [refresh, { loading: refreshing }] = useRefreshManga(id);
+
+    useSetDefaultBackTo(manga?.inLibrary === false && manga.sourceId != null ? `/sources/${manga.sourceId}/popular` : '/library');
 
     useEffect(() => {
         // Automatically fetch manga from source if data is older then 24 hours

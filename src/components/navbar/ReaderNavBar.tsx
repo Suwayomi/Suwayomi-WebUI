@@ -27,6 +27,7 @@ import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import Collapse from '@mui/material/Collapse';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/system';
+import useBackTo from 'util/useBackTo';
 
 const Root = styled('div')(({ theme }) => ({
     top: 0,
@@ -129,6 +130,7 @@ interface IProps {
 
 export default function ReaderNavBar(props: IProps) {
     const history = useHistory();
+    const backTo = useBackTo();
 
     const {
         settings, setSettings, manga, chapter, curPage,
@@ -167,6 +169,12 @@ export default function ReaderNavBar(props: IProps) {
         };
     }, [handleScroll]);// handleScroll changes on every render
 
+    const handleClose = () => {
+        if (backTo.back) history.goBack();
+        else if (backTo.url) history.push(backTo.url);
+        else history.push(`/manga/${manga.id}`);
+    };
+
     return (
         <>
             <Slide
@@ -203,7 +211,7 @@ export default function ReaderNavBar(props: IProps) {
                             color="inherit"
                             aria-label="menu"
                             disableRipple
-                            onClick={() => history.push('..')}
+                            onClick={handleClose}
                             size="large"
                             sx={{ mr: -1 }}
                         >
@@ -315,7 +323,7 @@ export default function ReaderNavBar(props: IProps) {
                         && (
                             <Link
                                 replace
-                                to={`/manga/${manga.id}/chapter/${chapter.index - 1}`}
+                                to={{ pathname: `/manga/${manga.id}/chapter/${chapter.index - 1}`, state: history.location.state }}
                             >
                                 <Button
                                     variant="outlined"
@@ -331,7 +339,7 @@ export default function ReaderNavBar(props: IProps) {
                             <Link
                                 replace
                                 style={{ gridArea: 'next' }}
-                                to={`/manga/${manga.id}/chapter/${chapter.index + 1}`}
+                                to={{ pathname: `/manga/${manga.id}/chapter/${chapter.index + 1}`, state: history.location.state }}
                             >
                                 <Button
                                     variant="outlined"

@@ -13,6 +13,7 @@ interface IProps{
 }
 
 export default function NavBarProvider({ children }:IProps) {
+    const [defaultBackTo, setDefaultBackTo] = useState<string | undefined>();
     const [title, setTitle] = useState<string>('Tachidesk');
     const [action, setAction] = useState<any>(<div />);
     const [override, setOverride] = useState<INavbarOverride>({
@@ -21,6 +22,8 @@ export default function NavBarProvider({ children }:IProps) {
     });
 
     const value = {
+        defaultBackTo,
+        setDefaultBackTo,
         title,
         setTitle,
         action,

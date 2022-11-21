@@ -5,9 +5,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 
 type ContextType = {
+    // Default back button url
+    defaultBackTo: string | undefined
+    setDefaultBackTo: React.Dispatch<React.SetStateAction<string | undefined>>
+
     // AppBar title
     title: string
     setTitle: React.Dispatch<React.SetStateAction<string>>
@@ -22,6 +26,8 @@ type ContextType = {
 };
 
 const NavBarContext = React.createContext<ContextType>({
+    defaultBackTo: undefined,
+    setDefaultBackTo: ():void => {},
     title: 'Tachidesk',
     setTitle: ():void => {},
     action: <div />,
@@ -31,3 +37,14 @@ const NavBarContext = React.createContext<ContextType>({
 });
 
 export default NavBarContext;
+
+export const useNavBarContext = () => useContext(NavBarContext);
+
+export const useSetDefaultBackTo = (value: string) => {
+    const { setDefaultBackTo } = useNavBarContext();
+
+    useEffect(() => {
+        setDefaultBackTo(value);
+        return () => setDefaultBackTo(undefined);
+    }, [value]);
+};
