@@ -289,3 +289,10 @@ interface LibraryOptions {
     sorts: NullAndUndefined<string>
     sortDesc: NullAndUndefined<boolean>
 }
+
+interface BatchChaptersChange {
+    delete?: boolean
+    isRead?: boolean
+    isBookmarked?: boolean
+    lastPageRead?: number
+}
