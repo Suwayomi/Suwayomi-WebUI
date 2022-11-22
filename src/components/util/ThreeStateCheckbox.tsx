@@ -12,7 +12,7 @@ import React, {
 } from 'react';
 
 export interface IThreeStateCheckboxProps {
-    name: string
+    name?: string
     checked: boolean | undefined | null
     onChange: (change: boolean | undefined | null, name: string) => void
 }

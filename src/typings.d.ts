@@ -276,6 +276,8 @@ type ChapterOptionsReducerAction =
 | { type: 'sortReverse' }
 | { type: 'showChapterNumber' };
 
+type LibrarySortMode = 'sortToRead' | 'sortAlph' | 'sortID';
+
 interface LibraryOptions {
     // display options
     showDownloadBadge: boolean
@@ -286,7 +288,7 @@ interface LibraryOptions {
     // filter options
     downloaded: NullAndUndefined<boolean>
     unread: NullAndUndefined<boolean>
-    sorts: NullAndUndefined<string>
+    sorts: NullAndUndefined<LibrarySortMode>
     sortDesc: NullAndUndefined<boolean>
 }
 

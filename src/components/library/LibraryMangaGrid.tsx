@@ -83,7 +83,8 @@ export default function LibraryMangaGrid(props: IMangaGridProps) {
     } = props;
 
     const [query] = useQueryParam('query', StringParam);
-    const { options, active } = useLibraryOptionsContext();
+    const { options } = useLibraryOptionsContext();
+    const { unread, downloaded } = options;
     const filteredManga = filterManga(mangas);
     const sortedManga = sortManga(filteredManga);
     const DoneManga = sortedManga.map((ele) => {
@@ -91,7 +92,7 @@ export default function LibraryMangaGrid(props: IMangaGridProps) {
         ele.inLibrary = undefined;
         return ele;
     });
-    const showFilteredOutMessage = (active || query)
+    const showFilteredOutMessage = (unread != null || downloaded != null || query)
         && filteredManga.length === 0 && mangas.length > 0;
 
     return (
