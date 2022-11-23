@@ -5,14 +5,11 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-import React from 'react';
-import { Box } from '@mui/system';
-import {
-    Input,
-    InputLabel,
-    FormControl,
-} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import {
+    FormControl, Input, InputAdornment, InputLabel,
+} from '@mui/material';
+import React from 'react';
 
 interface Props {
     state: string
@@ -23,7 +20,7 @@ interface Props {
     update: any
 }
 
-export default function TextFilter(props: Props) {
+const TextFilter: React.FC<Props> = (props) => {
     const {
         state,
         name,
@@ -51,27 +48,24 @@ export default function TextFilter(props: Props) {
 
     if (state !== undefined) {
         return (
-            <Box key={`${name}`} sx={{ display: 'flex', flexDirection: 'row', minWidth: 120 }}>
-                <>
-                    <SearchIcon
-                        sx={{
-                            margin: 'auto',
-                        }}
-                    />
-                    <FormControl fullWidth>
-                        <InputLabel sx={{ margin: '10px 0 10px 0' }}>
-                            {name}
-                        </InputLabel>
-                        <Input
-                            name={name}
-                            value={Search || ''}
-                            onChange={handleChange}
-                            sx={{ margin: '10px 0 10px 0' }}
-                        />
-                    </FormControl>
-                </>
-            </Box>
+            <FormControl sx={{ my: 1 }} variant="standard">
+                <InputLabel>
+                    {name}
+                </InputLabel>
+                <Input
+                    name={name}
+                    value={Search || ''}
+                    onChange={handleChange}
+                    endAdornment={(
+                        <InputAdornment position="end">
+                            <SearchIcon />
+                        </InputAdornment>
+                    )}
+                />
+            </FormControl>
         );
     }
     return (<></>);
-}
+};
+
+export default TextFilter;

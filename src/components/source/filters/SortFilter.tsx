@@ -5,18 +5,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-import React from 'react';
-import { Box } from '@mui/system';
-import FormControl from '@mui/material/FormControl';
-import {
-    Collapse,
-    List,
-    ListItem,
-    ListItemButton, ListItemIcon, ListItemText,
-} from '@mui/material';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
+import {
+    Collapse, ListItemButton, ListItemText, Stack,
+} from '@mui/material';
+import { Box } from '@mui/system';
+import SortRadioInput from 'components/atoms/SortRadioInput';
+import React from 'react';
 
 interface Props {
     values: any
@@ -28,7 +23,7 @@ interface Props {
     update: any
 }
 
-export default function SortFilter(props: Props) {
+const SortFilter: React.FC<Props> = (props: Props) => {
     const {
         values,
         name,
@@ -47,8 +42,7 @@ export default function SortFilter(props: Props) {
     };
 
     if (values) {
-        const handleChange = (event:
-        React.MouseEvent<HTMLDivElement, MouseEvent>, index: number) => {
+        const handleChange = (index: number) => {
             const tmp = val;
             if (tmp.index === index) {
                 tmp.ascending = !tmp.ascending;
@@ -63,42 +57,29 @@ export default function SortFilter(props: Props) {
             updateFilterValue([...upd, { position, state: JSON.stringify(tmp), group }]);
         };
 
-        const ret = (
-            <FormControl fullWidth>
+        return (
+            <Box sx={{ mx: -2 }}>
                 <ListItemButton onClick={handleClick}>
                     <ListItemText primary={name} />
                     {open ? <ExpandLess /> : <ExpandMore />}
                 </ListItemButton>
                 <Collapse in={open}>
-                    <List>
-                        {values.map((value: string, index: number) => {
-                            let icon;
-                            if (val.index === index) {
-                                icon = val.ascending ? (<ArrowUpwardIcon color="primary" />)
-                                    : (<ArrowDownwardIcon color="primary" />);
-                            }
-                            return (
-                                <ListItem disablePadding key={`${name} ${value}`}>
-                                    <ListItemButton
-                                        onClick={(event) => handleChange(event, index)}
-                                    >
-                                        <ListItemIcon>
-                                            {icon}
-                                        </ListItemIcon>
-                                        <ListItemText primary={value} />
-                                    </ListItemButton>
-                                </ListItem>
-                            );
-                        })}
-                    </List>
+                    <Stack sx={{ mx: 4 }}>
+                        {values.map((value: string, index: number) => (
+                            <SortRadioInput
+                                key={`${name} ${value}`}
+                                label={value}
+                                checked={val.index === index}
+                                sortDescending={!val.ascending}
+                                onClick={() => handleChange(index)}
+                            />
+                        ))}
+                    </Stack>
                 </Collapse>
-            </FormControl>
-        );
-        return (
-            <Box key={name} sx={{ display: 'flex', flexDirection: 'column', minWidth: 120 }}>
-                {ret}
             </Box>
         );
     }
-    return (<></>);
-}
+    return null;
+};
+
+export default SortFilter;

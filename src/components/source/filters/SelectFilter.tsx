@@ -7,7 +7,6 @@
  */
 
 import React from 'react';
-import { Box } from '@mui/system';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import MenuItem from '@mui/material/MenuItem';
@@ -61,26 +60,22 @@ function hasSelect(
             </MenuItem>
         ));
         return (
-            <Box key={name} sx={{ display: 'flex', flexDirection: 'column', minWidth: 120 }}>
-                <FormControl fullWidth>
-                    <InputLabel sx={{ margin: '10px 0 10px 0' }}>
-                        {name}
-                    </InputLabel>
-                    <Select
-                        name={name}
-                        value={values[val].displayname}
-                        label={name}
-                        onChange={handleChange}
-                        autoWidth
-                        sx={{ margin: '10px 0 10px 0' }}
-                    >
-                        {rett}
-                    </Select>
-                </FormControl>
-            </Box>
+            <FormControl sx={{ my: 1 }} variant="standard">
+                <InputLabel>
+                    {name}
+                </InputLabel>
+                <Select
+                    name={name}
+                    value={values[val].displayname}
+                    label={name}
+                    onChange={handleChange}
+                >
+                    {rett}
+                </Select>
+            </FormControl>
         );
     }
-    return (<></>);
+    return null;
 }
 
 function noSelect(
@@ -106,29 +101,25 @@ function noSelect(
 
         const rett = values.map((value: string) => (<MenuItem key={`${name} ${value}`} value={value}>{value}</MenuItem>));
         return (
-            <Box key={name} sx={{ display: 'flex', flexDirection: 'column', minWidth: 120 }}>
-                <FormControl fullWidth>
-                    <InputLabel sx={{ margin: '10px 0 10px 0' }}>
-                        {name}
-                    </InputLabel>
-                    <Select
-                        name={name}
-                        value={values[val]}
-                        label={name}
-                        onChange={handleChange}
-                        autoWidth
-                        sx={{ margin: '10px 0 10px 0' }}
-                    >
-                        {rett}
-                    </Select>
-                </FormControl>
-            </Box>
+            <FormControl sx={{ my: 1 }} variant="standard">
+                <InputLabel>
+                    {name}
+                </InputLabel>
+                <Select
+                    name={name}
+                    value={values[val]}
+                    label={name}
+                    onChange={handleChange}
+                >
+                    {rett}
+                </Select>
+            </FormControl>
         );
     }
-    return (<></>);
+    return null;
 }
 
-export default function SelectFilter({
+const SelectFilter: React.FC<Props> = ({
     values,
     name,
     state,
@@ -137,7 +128,7 @@ export default function SelectFilter({
     updateFilterValue,
     update,
     group,
-}: Props) {
+}) => {
     if (selected === undefined) {
         return noSelect(
             values,
@@ -159,4 +150,6 @@ export default function SelectFilter({
         update,
         group,
     );
-}
+};
+
+export default SelectFilter;

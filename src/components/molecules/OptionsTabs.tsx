@@ -5,12 +5,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import {
-    Drawer, Tab, Tabs,
-} from '@mui/material';
-import { Box } from '@mui/system';
+import { Stack, Tab, Tabs } from '@mui/material';
 import TabPanel from 'components/util/TabPanel';
 import React, { useState } from 'react';
+import OptionsPanel from './OptionsPanel';
 
 interface IProps<T = string>{
     open: boolean
@@ -27,46 +25,30 @@ const OptionsTabs = <T extends string = string>({
     const [tabNum, setTabNum] = useState(0);
 
     return (
-        <>
-            <Drawer
-                anchor="bottom"
-                open={open}
-                onClose={onClose}
-                PaperProps={{
-                    style: {
-                        maxWidth: 600,
-                        marginLeft: 'auto',
-                        marginRight: 'auto',
-                        minHeight,
-                    },
-                }}
+        <OptionsPanel
+            open={open}
+            onClose={onClose}
+            minHeight={minHeight}
+        >
+            <Tabs
+                value={tabNum}
+                variant="fullWidth"
+                onChange={(e, newTab) => setTabNum(newTab)}
+                indicatorColor="primary"
+                textColor="primary"
             >
-                <Box>
-                    <Tabs
-                        value={tabNum}
-                        variant="fullWidth"
-                        onChange={(e, newTab) => setTabNum(newTab)}
-                        indicatorColor="primary"
-                        textColor="primary"
-                    >
-                        {tabs.map((tab, tabIndex) => (
-                            <Tab key={tab} value={tabIndex} label={tabTitle(tab)} />
-                        ))}
-                    </Tabs>
-                    {tabs.map((tab, tabIndex) => (
-                        <TabPanel key={tab} index={tabIndex} currentIndex={tabNum}>
-                            <Box
-                                sx={{
-                                    px: 3, py: 1, display: 'flex', flexDirection: 'column', minHeight,
-                                }}
-                            >
-                                {tabContent(tab)}
-                            </Box>
-                        </TabPanel>
-                    ))}
-                </Box>
-            </Drawer>
-        </>
+                {tabs.map((tab, tabIndex) => (
+                    <Tab key={tab} value={tabIndex} label={tabTitle(tab)} />
+                ))}
+            </Tabs>
+            {tabs.map((tab, tabIndex) => (
+                <TabPanel key={tab} index={tabIndex} currentIndex={tabNum}>
+                    <Stack sx={{ px: 3, py: 1, minHeight }}>
+                        {tabContent(tab)}
+                    </Stack>
+                </TabPanel>
+            ))}
+        </OptionsPanel>
     );
 };
 

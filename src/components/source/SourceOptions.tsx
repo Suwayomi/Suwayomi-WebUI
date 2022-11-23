@@ -6,22 +6,21 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import React from 'react';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import {
-    Drawer, Button, Fab,
-} from '@mui/material';
+import { Button, Fab, Stack } from '@mui/material';
 import { Box } from '@mui/system';
-import SelectFilter from './filters/SelectFilter';
+import OptionsPanel from 'components/molecules/OptionsPanel';
+import React from 'react';
 import CheckBoxFilter from './filters/CheckBoxFilter';
 import HeaderFilter from './filters/HeaderFilter';
-import SeperatorFilter from './filters/SeparatorFilter';
+import SelectFilter from './filters/SelectFilter';
 import SortFilter from './filters/SortFilter';
 import TextFilter from './filters/TextFilter';
 import TriStateFilter from './filters/TriStateFilter';
 // this can only cycle once, so should be fine
 // eslint-disable-next-line import/no-cycle
 import GroupFilter from './filters/GroupFilter';
+import SeperatorFilter from './filters/SeparatorFilter';
 
 interface IFilters {
     sourceFilter: ISourceFilters[]
@@ -46,7 +45,7 @@ export function Options({
     update,
 }: IFilters) {
     return (
-        <Box key={`filters ${group}`}>
+        <Stack key={`filters ${group}`}>
             { sourceFilter.map((e: ISourceFilters, index) => {
                 let checkif = update.find((el: {
                     group: number | undefined; position: number;
@@ -145,7 +144,7 @@ export function Options({
                         return (<Box key={`${e.filter.name}null`} />);
                 }
             })}
-        </Box>
+        </Stack>
     );
 }
 
@@ -182,17 +181,11 @@ export default function SourceOptions({
                 Filter
             </Fab>
 
-            <Drawer
-                anchor="bottom"
+            <OptionsPanel
                 open={FilterOptions}
                 onClose={() => setFilterOptions(false)}
-                PaperProps={{
-                    style: {
-                        maxWidth: 600, padding: '1em', marginLeft: 'auto', marginRight: 'auto',
-                    },
-                }}
             >
-                <Box sx={{ display: 'flex' }}>
+                <Box sx={{ display: 'flex', p: 2, pb: 0 }}>
                     <Button
                         onClick={handleReset}
                     >
@@ -206,13 +199,20 @@ export default function SourceOptions({
                         Submit
                     </Button>
                 </Box>
-                <Options
-                    sourceFilter={sourceFilter}
-                    updateFilterValue={updateFilterValue}
-                    group={undefined}
-                    update={update}
-                />
-            </Drawer>
+                <Box
+                    sx={{
+                        pb: 2,
+                        mx: 2,
+                    }}
+                >
+                    <Options
+                        sourceFilter={sourceFilter}
+                        updateFilterValue={updateFilterValue}
+                        group={undefined}
+                        update={update}
+                    />
+                </Box>
+            </OptionsPanel>
         </>
     );
 }

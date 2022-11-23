@@ -5,9 +5,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
+import CheckboxInput from 'components/atoms/CheckboxInput';
 import React from 'react';
-import { Box } from '@mui/system';
-import { Checkbox, FormControlLabel } from '@mui/material';
 
 interface Props {
     state: boolean
@@ -18,7 +17,7 @@ interface Props {
     update: any
 }
 
-export default function CheckBoxFilter(props: Props) {
+const CheckBoxFilter: React.FC<Props> = (props: Props) => {
     const {
         state,
         name,
@@ -39,20 +38,10 @@ export default function CheckBoxFilter(props: Props) {
 
     if (state !== undefined) {
         return (
-            <Box sx={{ display: 'flex', flexDirection: 'column', minWidth: 120 }}>
-                <FormControlLabel
-                    key={name}
-                    control={(
-                        <Checkbox
-                            name={name}
-                            checked={val}
-                            onChange={handleChange}
-                        />
-                    )}
-                    label={name}
-                />
-            </Box>
+            <CheckboxInput label={name} checked={val} onChange={handleChange} />
         );
     }
-    return (<></>);
-}
+    return null;
+};
+
+export default CheckBoxFilter;

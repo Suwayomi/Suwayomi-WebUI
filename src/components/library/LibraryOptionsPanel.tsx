@@ -5,15 +5,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import ArrowDownward from '@mui/icons-material/ArrowDownward';
-import ArrowUpward from '@mui/icons-material/ArrowUpward';
-import {
-    Checkbox,
-    FormControlLabel, FormLabel, Radio, RadioGroup,
-} from '@mui/material';
+import { FormLabel, RadioGroup } from '@mui/material';
+import CheckboxInput from 'components/atoms/CheckboxInput';
+import RadioInput from 'components/atoms/RadioInput';
+import SortRadioInput from 'components/atoms/SortRadioInput';
+import ThreeStateCheckboxInput from 'components/atoms/ThreeStateCheckboxInput';
 import { useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
 import OptionsTabs from 'components/molecules/OptionsTabs';
-import ThreeStateCheckbox from 'components/util/ThreeStateCheckbox';
 import React from 'react';
 
 const TITLES = {
@@ -51,37 +49,23 @@ const LibraryOptionsPanel: React.FC<IProps> = ({ open, onClose }) => {
             tabTitle={(key) => TITLES[key]}
             tabContent={(key) => {
                 if (key === 'filter') {
-                    const { unread, downloaded } = options;
                     return (
                         <>
-                            <FormControlLabel
-                                control={(
-                                    <ThreeStateCheckbox checked={unread} onChange={(change) => handleFilterChange('unread', change)} />
-                                )}
-                                label="Unread"
-                            />
-                            <FormControlLabel
-                                control={<ThreeStateCheckbox checked={downloaded} onChange={(change) => handleFilterChange('downloaded', change)} />}
-                                label="Downloaded"
-                            />
+                            <ThreeStateCheckboxInput label="Unread" checked={options.unread} onChange={(c) => handleFilterChange('unread', c)} />
+                            <ThreeStateCheckboxInput label="Downloaded" checked={options.downloaded} onChange={(c) => handleFilterChange('downloaded', c)} />
                         </>
                     );
                 }
                 if (key === 'sort') {
-                    const { sorts, sortDesc } = options;
                     return SORT_OPTIONS.map(([mode, label]) => (
-                        <FormControlLabel
+                        <SortRadioInput
                             key={mode}
-                            control={(
-                                <Radio
-                                    checked={sorts === mode}
-                                    checkedIcon={sortDesc ? <ArrowUpward color="primary" /> : <ArrowDownward color="primary" />}
-                                    onClick={() => (mode !== sorts
-                                        ? handleFilterChange('sorts', mode)
-                                        : handleFilterChange('sortDesc', !sortDesc))}
-                                />
-                            )}
                             label={label}
+                            checked={options.sorts === mode}
+                            sortDescending={options.sortDesc}
+                            onClick={() => (mode !== options.sorts
+                                ? handleFilterChange('sorts', mode)
+                                : handleFilterChange('sortDesc', !options.sortDesc))}
                         />
                     ));
                 }
@@ -94,29 +78,21 @@ const LibraryOptionsPanel: React.FC<IProps> = ({ open, onClose }) => {
                                 onChange={(e) => handleFilterChange('gridLayout', Number(e.target.value))}
                                 value={gridLayout}
                             >
-                                <FormControlLabel label="Compact grid" value={0} control={<Radio checked={gridLayout == null || gridLayout === 0} />} />
-                                <FormControlLabel label="Comfortable grid" value={1} control={<Radio checked={gridLayout === 1} />} />
-                                <FormControlLabel label="List" value={2} control={<Radio checked={gridLayout === 2} />} />
+                                <RadioInput label="Compact grid" value={0} checked={gridLayout == null || gridLayout === 0} />
+                                <RadioInput label="Comfortable grid" value={1} checked={gridLayout === 1} />
+                                <RadioInput label="List" value={2} checked={gridLayout === 2} />
                             </RadioGroup>
 
                             <FormLabel sx={{ mt: 2 }}>Badges</FormLabel>
-                            <FormControlLabel
+                            <CheckboxInput
                                 label="Unread Badges"
-                                control={(
-                                    <Checkbox
-                                        checked={showUnreadBadge === true}
-                                        onChange={() => handleFilterChange('showUnreadBadge', !showUnreadBadge)}
-                                    />
-                                )}
+                                checked={showUnreadBadge === true}
+                                onChange={() => handleFilterChange('showUnreadBadge', !showUnreadBadge)}
                             />
-                            <FormControlLabel
+                            <CheckboxInput
                                 label="Download Badges"
-                                control={(
-                                    <Checkbox
-                                        checked={showDownloadBadge === true}
-                                        onChange={() => handleFilterChange('showDownloadBadge', !showDownloadBadge)}
-                                    />
-                                )}
+                                checked={showDownloadBadge === true}
+                                onChange={() => handleFilterChange('showDownloadBadge', !showDownloadBadge)}
                             />
                         </>
                     );

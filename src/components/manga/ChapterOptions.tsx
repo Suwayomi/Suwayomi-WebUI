@@ -5,11 +5,12 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import { ArrowDownward, ArrowUpward } from '@mui/icons-material';
-import { FormControlLabel, Radio, RadioGroup } from '@mui/material';
+import { RadioGroup } from '@mui/material';
+import RadioInput from 'components/atoms/RadioInput';
+import SortRadioInput from 'components/atoms/SortRadioInput';
+import ThreeStateCheckboxInput from 'components/atoms/ThreeStateCheckboxInput';
 import OptionsTabs from 'components/molecules/OptionsTabs';
-import ThreeStateCheckbox from 'components/util/ThreeStateCheckbox';
-import React, { useCallback } from 'react';
+import React from 'react';
 import { SORT_OPTIONS } from './util';
 
 interface IProps {
@@ -27,59 +28,47 @@ const TITLES = {
 
 const ChapterOptions: React.FC<IProps> = ({
     open, onClose, options, optionsDispatch,
-}) => {
-    const handleFilterChange = useCallback(
-        (value: NullAndUndefined<boolean>, name: string) => {
-            optionsDispatch({ type: 'filter', filterType: name.toLowerCase(), filterValue: value });
-        }, [],
-    );
-
-    return (
-        <OptionsTabs<'filter' | 'sort' | 'display'>
-            open={open}
-            onClose={onClose}
-            minHeight={150}
-            tabs={['filter', 'sort', 'display']}
-            tabTitle={(key) => TITLES[key]}
-            tabContent={(key) => {
-                if (key === 'filter') {
-                    return (
-                        <>
-                            <FormControlLabel label="Unread" control={<ThreeStateCheckbox name="Unread" checked={options.unread} onChange={handleFilterChange} />} />
-                            <FormControlLabel label="Downloaded" control={<ThreeStateCheckbox name="Downloaded" checked={options.downloaded} onChange={handleFilterChange} />} />
-                            <FormControlLabel label="Bookmarked" control={<ThreeStateCheckbox name="Bookmarked" checked={options.bookmarked} onChange={handleFilterChange} />} />
-                        </>
-                    );
-                }
-                if (key === 'sort') {
-                    return SORT_OPTIONS.map(([mode, label]) => (
-                        <FormControlLabel
-                            key={mode}
-                            label={label}
-                            control={(
-                                <Radio
-                                    checked={options.sortBy === mode}
-                                    checkedIcon={options.reverse ? <ArrowUpward color="primary" /> : <ArrowDownward color="primary" />}
-                                    onClick={() => (mode !== options.sortBy
-                                        ? optionsDispatch({ type: 'sortBy', sortBy: mode })
-                                        : optionsDispatch({ type: 'sortReverse' }))}
-                                />
-                            )}
-                        />
-                    ));
-                }
-                if (key === 'display') {
-                    return (
-                        <RadioGroup onChange={() => optionsDispatch({ type: 'showChapterNumber' })} value={options.showChapterNumber}>
-                            <FormControlLabel label="Source Title" control={<Radio checked={!options.showChapterNumber} />} />
-                            <FormControlLabel label="Chapter Number" control={<Radio checked={options.showChapterNumber} />} />
-                        </RadioGroup>
-                    );
-                }
-                return null;
-            }}
-        />
-    );
-};
+}) => (
+    <OptionsTabs<'filter' | 'sort' | 'display'>
+        open={open}
+        onClose={onClose}
+        minHeight={150}
+        tabs={['filter', 'sort', 'display']}
+        tabTitle={(key) => TITLES[key]}
+        tabContent={(key) => {
+            if (key === 'filter') {
+                return (
+                    <>
+                        <ThreeStateCheckboxInput label="Unread" checked={options.unread} onChange={(c) => optionsDispatch({ type: 'filter', filterType: 'unread', filterValue: c })} />
+                        <ThreeStateCheckboxInput label="Downloaded" checked={options.downloaded} onChange={(c) => optionsDispatch({ type: 'filter', filterType: 'downloaded', filterValue: c })} />
+                        <ThreeStateCheckboxInput label="Bookmarked" checked={options.bookmarked} onChange={(c) => optionsDispatch({ type: 'filter', filterType: 'bookmarked', filterValue: c })} />
+                    </>
+                );
+            }
+            if (key === 'sort') {
+                return SORT_OPTIONS.map(([mode, label]) => (
+                    <SortRadioInput
+                        key={mode}
+                        label={label}
+                        checked={options.sortBy === mode}
+                        sortDescending={options.reverse}
+                        onClick={() => (mode !== options.sortBy
+                            ? optionsDispatch({ type: 'sortBy', sortBy: mode })
+                            : optionsDispatch({ type: 'sortReverse' }))}
+                    />
+                ));
+            }
+            if (key === 'display') {
+                return (
+                    <RadioGroup onChange={() => optionsDispatch({ type: 'showChapterNumber' })} value={options.showChapterNumber}>
+                        <RadioInput label="Source Title" value={false} />
+                        <RadioInput label="Chapter Number" value />
+                    </RadioGroup>
+                );
+            }
+            return null;
+        }}
+    />
+);
 
 export default ChapterOptions;
