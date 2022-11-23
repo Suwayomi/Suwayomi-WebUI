@@ -1,5 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable react/require-default-props */
 /*
  * Copyright (C) Contributors to the Suwayomi project
  *

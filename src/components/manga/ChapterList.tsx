@@ -239,7 +239,6 @@ const ChapterList: React.FC<IProps> = ({ mangaId }) => {
                     totalCount={visibleChapters.length}
                     itemContent={(index:number) => (
                         <ChapterCard
-                            // eslint-disable-next-line react/jsx-props-no-spreading
                             {...chaptersWithMeta[index]}
                             showChapterNumber={options.showChapterNumber}
                             triggerChaptersUpdate={() => mutate()}

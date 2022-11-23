@@ -48,11 +48,9 @@ function TwoSatePreference(props: TwoStatePreferenceProps) {
 }
 
 export function CheckBoxPreference(props: CheckBoxPreferenceProps) {
-    // eslint-disable-next-line react/jsx-props-no-spreading
     return <TwoSatePreference {...props} type="Checkbox" />;
 }
 export function SwitchPreferenceCompat(props: SwitchPreferenceCompatProps) {
-    // eslint-disable-next-line react/jsx-props-no-spreading
     return <TwoSatePreference {...props} type="Switch" />;
 }
 
