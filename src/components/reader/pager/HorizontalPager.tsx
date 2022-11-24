@@ -9,11 +9,26 @@ import React, { useEffect, useRef } from 'react';
 import { Box } from '@mui/system';
 import Page from '../Page';
 
+const findCurrentPageIndex = (wrapper: HTMLDivElement): number => {
+    for (let i = 0; i < wrapper.children.length; i++) {
+        const child = wrapper.children.item(i);
+        if (child) {
+            const { left, right } = child.getBoundingClientRect();
+            if (left <= window.innerWidth / 2 && right > window.innerWidth / 2) return i;
+        }
+    }
+    return -1;
+};
+
+const isAtEnd = () => window.innerWidth + window.scrollX >= document.body.scrollWidth;
+const isAtStart = () => window.scrollX <= 0;
+
 export default function HorizontalPager(props: IReaderProps) {
     const {
-        pages, curPage, settings, setCurPage, prevChapter, nextChapter,
+        pages, curPage, initialPage, settings, setCurPage, prevChapter, nextChapter,
     } = props;
 
+    const currentPageRef = useRef(initialPage);
     const selfRef = useRef<HTMLDivElement>(null);
     const pagesRef = useRef<HTMLDivElement[]>([]);
 
@@ -87,9 +102,12 @@ export default function HorizontalPager(props: IReaderProps) {
     };
 
     useEffect(() => {
-        // scroll last read page into view after first mount
-        pagesRef.current[curPage]?.scrollIntoView({ inline: 'center' });
-    }, [pagesRef.current.length]);
+        // Delay scrolling to next cycle
+        setTimeout(() => {
+            // scroll last read page into view when initialPage changes
+            pagesRef.current[initialPage]?.scrollIntoView({ inline: 'center' });
+        }, 0);
+    }, [initialPage]);
 
     useEffect(() => {
         selfRef.current?.addEventListener('mousedown', dragControl);
@@ -113,6 +131,30 @@ export default function HorizontalPager(props: IReaderProps) {
         };
     }, [selfRef, curPage]);
 
+    useEffect(() => {
+        const handleScroll = () => {
+            if (!selfRef.current) return;
+
+            // Update current page in parent
+            const currentPage = findCurrentPageIndex(selfRef.current);
+            if (currentPage !== currentPageRef.current) {
+                currentPageRef.current = currentPage;
+                setCurPage(currentPage);
+            }
+
+            // Special case if scroll is moved all the way to the edge
+            // This handles cases when last page is show, but is smaller then
+            // window, in which case it would never get marked as read.
+            // See https://github.com/Suwayomi/Tachidesk-WebUI/issues/14 for more info
+            if (settings.readerType === 'ContinuesHorizontalLTR' ? isAtEnd() : isAtStart()) {
+                currentPageRef.current = pages.length - 1;
+                setCurPage(currentPageRef.current);
+            }
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [settings.readerType]);
+
     return (
         <Box
             ref={selfRef}
@@ -134,7 +176,6 @@ export default function HorizontalPager(props: IReaderProps) {
                         index={page.index}
                         src={page.src}
                         onImageLoad={() => {}}
-                        setCurPage={setCurPage}
                         settings={settings}
                         ref={(e:HTMLDivElement) => { pagesRef.current[page.index] = e; }}
                     />

@@ -5,92 +5,116 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { Box } from '@mui/system';
 import Page from '../Page';
 
-export default function VerticalReader(props: IReaderProps) {
+const findCurrentPageIndex = (wrapper: HTMLDivElement): number => {
+    for (let i = 0; i < wrapper.children.length; i++) {
+        const child = wrapper.children.item(i);
+        if (child) {
+            const { top, bottom } = child.getBoundingClientRect();
+            if (top <= window.innerHeight && bottom > 1) return i;
+        }
+    }
+    return -1;
+};
+
+// TODO: make configurable?
+const SCROLL_OFFSET = 0.95;
+const SCROLL_BEHAVIOR: ScrollBehavior = 'smooth';
+
+const isAtBottom = () => window.innerHeight + window.scrollY >= document.body.offsetHeight;
+const isAtTop = () => window.scrollY <= 0;
+
+export default function VerticalPager(props: IReaderProps) {
     const {
-        pages, settings, setCurPage, curPage, nextChapter, prevChapter,
+        pages, settings, setCurPage, initialPage, nextChapter, prevChapter,
     } = props;
 
+    const currentPageRef = useRef(initialPage);
     const selfRef = useRef<HTMLDivElement>(null);
     const pagesRef = useRef<HTMLDivElement[]>([]);
 
     useEffect(() => {
-        pagesRef.current = pagesRef.current.slice(0, pages.length);
-    }, [pages.length]);
+        const handleScroll = () => {
+            if (!selfRef.current) return;
 
-    function nextPage() {
-        if (curPage < pages.length - 1) {
-            pagesRef.current[curPage + 1]?.scrollIntoView();
-            setCurPage((page) => page + 1);
-        } else if (settings.loadNextonEnding) {
-            nextChapter();
-        }
-    }
+            if (isAtBottom()) {
+                // If scroll is moved all the way to the bottom
+                // This handles cases when last page is show, but is smaller then
+                // window, in which case it would never get marked as read.
+                // See https://github.com/Suwayomi/Tachidesk-WebUI/issues/14 for more info
+                currentPageRef.current = pages.length - 1;
+                setCurPage(currentPageRef.current);
 
-    function prevPage() {
-        if (curPage > 0) {
-            const rect = pagesRef.current[curPage].getBoundingClientRect();
-            if (rect.y < 0 && rect.y + rect.height > 0) {
-                pagesRef.current[curPage]?.scrollIntoView();
+                // Go to next chapter if configured to and at bottom
+                if (settings.loadNextonEnding) {
+                    nextChapter();
+                }
             } else {
-                pagesRef.current[curPage - 1]?.scrollIntoView();
-                setCurPage(curPage - 1);
+                // Update current page in parent
+                const currentPage = findCurrentPageIndex(selfRef.current);
+                if (currentPage !== currentPageRef.current) {
+                    currentPageRef.current = currentPage;
+                    setCurPage(currentPage);
+                }
             }
-        } else if (curPage === 0) {
-            prevChapter();
-        }
-    }
-
-    function keyboardControl(e:KeyboardEvent) {
-        switch (e.code) {
-            case 'Space':
-                e.preventDefault();
-                nextPage();
-                break;
-            case 'ArrowRight':
-                nextPage();
-                break;
-            case 'ArrowLeft':
-                prevPage();
-                break;
-            default:
-                break;
-        }
-    }
-
-    function clickControl(e:MouseEvent) {
-        if (e.clientX > window.innerWidth / 2) {
-            nextPage();
-        } else {
-            prevPage();
-        }
-    }
-
-    const handleLoadNextonEnding = () => {
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-            nextChapter();
-        }
-    };
-
-    useEffect(() => {
-        if (settings.loadNextonEnding) { document.addEventListener('scroll', handleLoadNextonEnding); }
-        document.addEventListener('keydown', keyboardControl, false);
-        selfRef.current?.addEventListener('click', clickControl);
-
-        return () => {
-            document.removeEventListener('scroll', handleLoadNextonEnding);
-            document.removeEventListener('keydown', keyboardControl);
-            selfRef.current?.removeEventListener('click', clickControl);
         };
-    }, [selfRef, curPage]);
+
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, [settings.loadNextonEnding]);
+
+    const go = useCallback((direction: 'up' | 'down') => {
+        if (direction === 'down' && isAtBottom()) {
+            nextChapter();
+            return;
+        }
+
+        if (direction === 'up' && isAtTop()) {
+            prevChapter();
+            return;
+        }
+
+        window.scroll({
+            top: window.scrollY + (window.innerHeight * SCROLL_OFFSET) * (direction === 'up' ? -1 : 1),
+            behavior: SCROLL_BEHAVIOR,
+        });
+    }, [nextChapter, prevChapter]);
 
     useEffect(() => {
-        // scroll last read page into view after first mount
-        pagesRef.current[curPage].scrollIntoView();
-    }, [pagesRef.current.length]);
+        const handleKeyboard = (e:KeyboardEvent) => {
+            switch (e.code) {
+                case 'Space':
+                case 'ArrowRight':
+                    e.preventDefault();
+                    go('down');
+                    break;
+                case 'ArrowLeft':
+                    e.preventDefault();
+                    go('up');
+                    break;
+                default:
+                    break;
+            }
+        };
+
+        document.addEventListener('keydown', handleKeyboard, false);
+        return () => {
+            document.removeEventListener('keydown', handleKeyboard);
+        };
+    }, []);
+
+    useEffect(() => {
+        // Delay scrolling to next cycle
+        setTimeout(() => {
+            // scroll last read page into view when initialPage changes
+            pagesRef.current[initialPage]?.scrollIntoView();
+        }, 0);
+    }, [initialPage]);
 
     return (
         <Box
@@ -102,6 +126,7 @@ export default function VerticalReader(props: IReaderProps) {
                 margin: '0 auto',
                 width: '100%',
             }}
+            onClick={(e) => go(e.clientX > window.innerWidth / 2 ? 'down' : 'up')}
         >
             {
                 pages.map((page) => (
@@ -110,7 +135,6 @@ export default function VerticalReader(props: IReaderProps) {
                         index={page.index}
                         src={page.src}
                         onImageLoad={() => {}}
-                        setCurPage={setCurPage}
                         settings={settings}
                         ref={(e:HTMLDivElement) => { pagesRef.current[page.index] = e; }}
                     />

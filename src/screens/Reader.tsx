@@ -6,7 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import CircularProgress from '@mui/material/CircularProgress';
-import React, { useContext, useEffect, useState } from 'react';
+import React, {
+    useCallback, useContext, useEffect, useState,
+} from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import HorizontalPager from 'components/reader/pager/HorizontalPager';
 import PageNumber from 'components/reader/PageNumber';
@@ -50,6 +52,7 @@ const initialChapter = () => ({
     pageCount: -1,
     index: -1,
     chapterCount: 0,
+    lastPageRead: 0,
     name: 'Loading...',
 });
 
@@ -62,7 +65,7 @@ export default function Reader() {
 
     const { chapterIndex, mangaId } = useParams<{ chapterIndex: string, mangaId: string }>();
     const [manga, setManga] = useState<IMangaCard | IManga>({ id: +mangaId, title: '', thumbnailUrl: '' });
-    const [chapter, setChapter] = useState<IChapter | IPartialChpter>(initialChapter());
+    const [chapter, setChapter] = useState<IChapter | IPartialChapter>(initialChapter());
     const [curPage, setCurPage] = useState<number>(0);
     const { setOverride, setTitle } = useContext(NavbarContext);
 
@@ -138,6 +141,23 @@ export default function Reader() {
         }
     }, [curPage]);
 
+    const nextChapter = useCallback(() => {
+        if (chapter.index < chapter.chapterCount) {
+            const formData = new FormData();
+            formData.append('lastPageRead', `${chapter.pageCount - 1}`);
+            formData.append('read', 'true');
+            client.patch(`/api/v1/manga/${manga.id}/chapter/${chapter.index}`, formData);
+
+            history.replace({ pathname: `/manga/${manga.id}/chapter/${chapter.index + 1}`, state: history.location.state });
+        }
+    }, [chapter.index, chapter.chapterCount, chapter.pageCount, manga.id]);
+
+    const prevChapter = useCallback(() => {
+        if (chapter.index > 1) {
+            history.replace({ pathname: `/manga/${manga.id}/chapter/${chapter.index - 1}`, state: history.location.state });
+        }
+    }, [chapter.index, manga.id]);
+
     // return spinner while chpater data is loading
     if (chapter.pageCount === -1) {
         return (
@@ -150,29 +170,15 @@ export default function Reader() {
         );
     }
 
-    const nextChapter = () => {
-        if (chapter.index < chapter.chapterCount) {
-            const formData = new FormData();
-            formData.append('lastPageRead', `${chapter.pageCount - 1}`);
-            formData.append('read', 'true');
-            client.patch(`/api/v1/manga/${manga.id}/chapter/${chapter.index}`, formData);
-
-            history.replace({ pathname: `/manga/${manga.id}/chapter/${chapter.index + 1}`, state: history.location.state });
-        }
-    };
-
-    const prevChapter = () => {
-        if (chapter.index > 1) {
-            history.replace({ pathname: `/manga/${manga.id}/chapter/${chapter.index - 1}`, state: history.location.state });
-        }
-    };
-
     const pages = range(chapter.pageCount).map((index) => ({
         index,
         src: `${serverAddress}/api/v1/manga/${mangaId}/chapter/${chapterIndex}/page/${index}`,
     }));
 
     const ReaderComponent = getReaderComponent(settings.readerType);
+
+    // last page, also probably read = true, we will load the first page.
+    const initialPage = (chapter.lastPageRead === chapter.pageCount - 1) ? 0 : chapter.lastPageRead;
 
     return (
         <Box sx={{ width: settings.staticNav ? 'calc(100vw - 300px)' : '100vw' }}>
@@ -185,6 +191,7 @@ export default function Reader() {
                 pages={pages}
                 pageCount={chapter.pageCount}
                 setCurPage={setCurPage}
+                initialPage={initialPage}
                 curPage={curPage}
                 settings={settings}
                 manga={manga}
