@@ -6,7 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import CircularProgress from '@mui/material/CircularProgress';
-import React, { useContext, useEffect, useState } from 'react';
+import React, {
+    useCallback, useContext, useEffect, useState,
+} from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import HorizontalPager from 'components/reader/pager/HorizontalPager';
 import PageNumber from 'components/reader/PageNumber';
@@ -139,6 +141,23 @@ export default function Reader() {
         }
     }, [curPage]);
 
+    const nextChapter = useCallback(() => {
+        if (chapter.index < chapter.chapterCount) {
+            const formData = new FormData();
+            formData.append('lastPageRead', `${chapter.pageCount - 1}`);
+            formData.append('read', 'true');
+            client.patch(`/api/v1/manga/${manga.id}/chapter/${chapter.index}`, formData);
+
+            history.replace({ pathname: `/manga/${manga.id}/chapter/${chapter.index + 1}`, state: history.location.state });
+        }
+    }, [chapter.index, chapter.chapterCount, chapter.pageCount, manga.id]);
+
+    const prevChapter = useCallback(() => {
+        if (chapter.index > 1) {
+            history.replace({ pathname: `/manga/${manga.id}/chapter/${chapter.index - 1}`, state: history.location.state });
+        }
+    }, [chapter.index, manga.id]);
+
     // return spinner while chpater data is loading
     if (chapter.pageCount === -1) {
         return (
@@ -150,23 +169,6 @@ export default function Reader() {
             </Box>
         );
     }
-
-    const nextChapter = () => {
-        if (chapter.index < chapter.chapterCount) {
-            const formData = new FormData();
-            formData.append('lastPageRead', `${chapter.pageCount - 1}`);
-            formData.append('read', 'true');
-            client.patch(`/api/v1/manga/${manga.id}/chapter/${chapter.index}`, formData);
-
-            history.replace({ pathname: `/manga/${manga.id}/chapter/${chapter.index + 1}`, state: history.location.state });
-        }
-    };
-
-    const prevChapter = () => {
-        if (chapter.index > 1) {
-            history.replace({ pathname: `/manga/${manga.id}/chapter/${chapter.index - 1}`, state: history.location.state });
-        }
-    };
 
     const pages = range(chapter.pageCount).map((index) => ({
         index,
