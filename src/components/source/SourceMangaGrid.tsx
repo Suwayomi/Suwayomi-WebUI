@@ -34,6 +34,7 @@ export default function SourceMangaGrid(props: IMangaGridProps) {
             message={showFilteredOutMessage ? FILTERED_OUT_MESSAGE : message}
             messageExtra={messageExtra}
             gridLayout={gridLayout}
+            inLibraryIndicator
         />
     );
 }

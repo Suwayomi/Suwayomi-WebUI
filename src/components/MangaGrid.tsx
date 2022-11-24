@@ -26,12 +26,14 @@ export interface IMangaGridProps{
     gridLayout?: number | undefined
     horisontal?: boolean | undefined
     noFaces?: boolean | undefined
+    inLibraryIndicator?: boolean
 }
 
-export default function MangaGrid(props: IMangaGridProps) {
+const MangaGrid: React.FC<IMangaGridProps> = (props) => {
     const {
         mangas, isLoading, message, messageExtra,
         hasNextPage, lastPageNum, setLastPageNum, gridLayout, horisontal, noFaces,
+        inLibraryIndicator,
     } = props;
     let mapped;
     const lastManga = useRef<HTMLDivElement>(null);
@@ -90,27 +92,16 @@ export default function MangaGrid(props: IMangaGridProps) {
             );
         }
     } else {
-        mapped = mangas.map((it, idx) => {
-            if (idx === mangas.length - 1) {
-                return (
-                    <MangaCard
-                        key={it.id}
-                        manga={it}
-                        ref={lastManga}
-                        gridLayout={gridLayout}
-                        dimensions={dimensions}
-                    />
-                );
-            }
-            return (
-                <MangaCard
-                    key={it.id}
-                    manga={it}
-                    gridLayout={gridLayout}
-                    dimensions={dimensions}
-                />
-            );
-        });
+        mapped = mangas.map((it, idx) => (
+            <MangaCard
+                key={it.id}
+                manga={it}
+                ref={idx === mangas.length - 1 ? lastManga : undefined}
+                gridLayout={gridLayout}
+                dimensions={dimensions}
+                inLibraryIndicator={inLibraryIndicator}
+            />
+        ));
     }
 
     return (
@@ -135,9 +126,11 @@ export default function MangaGrid(props: IMangaGridProps) {
             </Grid>
         </div>
     );
-}
+};
 
 MangaGrid.defaultProps = {
     message: '',
     messageExtra: undefined,
 };
+
+export default MangaGrid;

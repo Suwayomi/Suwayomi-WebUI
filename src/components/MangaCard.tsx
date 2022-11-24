@@ -73,6 +73,7 @@ interface IProps {
     manga: IMangaCard
     gridLayout: number | undefined
     dimensions: number
+    inLibraryIndicator?: boolean
 }
 const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) => {
     const {
@@ -82,6 +83,7 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
         },
         gridLayout,
         dimensions,
+        inLibraryIndicator,
     } = props;
     const { options: { showUnreadBadge, showDownloadBadge } } = useLibraryOptionsContext();
 
@@ -119,7 +121,7 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
                             >
 
                                 <BadgeContainer>
-                                    {inLibrary && (
+                                    {inLibraryIndicator && inLibrary && (
                                         <Typography
                                             sx={{ backgroundColor: 'primary.dark', zIndex: '1' }}
                                         >
@@ -145,7 +147,7 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
                                 <SpinnerImage
                                     alt={title}
                                     src={`${serverAddress}${thumbnailUrl}?useCache=${useCache}`}
-                                    imgStyle={inLibrary
+                                    imgStyle={inLibraryIndicator && inLibrary
                                         ? {
                                             height: '100%',
                                             width: '100%',
