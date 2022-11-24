@@ -203,7 +203,7 @@ export default function ReaderNavBar(props: IProps) {
                                 <KeyboardArrowLeftIcon />
                             </IconButton>
                         )}
-                        <Typography variant="h1">
+                        <Typography variant="h1" textOverflow="ellipsis" overflow="hidden" sx={{ py: 1 }}>
                             {chapter.name}
                         </Typography>
                         <IconButton
