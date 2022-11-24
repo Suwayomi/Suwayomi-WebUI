@@ -40,17 +40,24 @@ export default function VerticalPager(props: IReaderProps) {
         const handleScroll = () => {
             if (!selfRef.current) return;
 
-            // Update current page in parent
-            const currentPage = findCurrentPageIndex(selfRef.current);
-            if (currentPage !== currentPageRef.current) {
-                currentPageRef.current = currentPage;
-                setCurPage(currentPage);
-            }
+            if (isAtBottom()) {
+                // If scroll is moved all the way to the bottom
+                // This handles cases when last page is show, but is smaller then
+                // window, in which case it would never get marked as read.
+                // See https://github.com/Suwayomi/Tachidesk-WebUI/issues/14 for more info
+                currentPageRef.current = pages.length - 1;
+                setCurPage(currentPageRef.current);
 
-            // Go to next chapter if configured to and at bottom
-            if (settings.loadNextonEnding) {
-                if (isAtBottom()) {
+                // Go to next chapter if configured to and at bottom
+                if (settings.loadNextonEnding) {
                     nextChapter();
+                }
+            } else {
+                // Update current page in parent
+                const currentPage = findCurrentPageIndex(selfRef.current);
+                if (currentPage !== currentPageRef.current) {
+                    currentPageRef.current = currentPage;
+                    setCurPage(currentPage);
                 }
             }
         };

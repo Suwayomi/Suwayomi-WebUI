@@ -20,6 +20,9 @@ const findCurrentPageIndex = (wrapper: HTMLDivElement): number => {
     return -1;
 };
 
+const isAtEnd = () => window.innerWidth + window.scrollX >= document.body.scrollWidth;
+const isAtStart = () => window.scrollX <= 0;
+
 export default function HorizontalPager(props: IReaderProps) {
     const {
         pages, curPage, initialPage, settings, setCurPage, prevChapter, nextChapter,
@@ -138,10 +141,19 @@ export default function HorizontalPager(props: IReaderProps) {
                 currentPageRef.current = currentPage;
                 setCurPage(currentPage);
             }
+
+            // Special case if scroll is moved all the way to the edge
+            // This handles cases when last page is show, but is smaller then
+            // window, in which case it would never get marked as read.
+            // See https://github.com/Suwayomi/Tachidesk-WebUI/issues/14 for more info
+            if (settings.readerType === 'ContinuesHorizontalLTR' ? isAtEnd() : isAtStart()) {
+                currentPageRef.current = pages.length - 1;
+                setCurPage(currentPageRef.current);
+            }
         };
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+    }, [settings.readerType]);
 
     return (
         <Box
