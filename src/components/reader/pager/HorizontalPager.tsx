@@ -9,11 +9,23 @@ import React, { useEffect, useRef } from 'react';
 import { Box } from '@mui/system';
 import Page from '../Page';
 
+const findCurrentPageIndex = (wrapper: HTMLDivElement): number => {
+    for (let i = 0; i < wrapper.children.length; i++) {
+        const child = wrapper.children.item(i);
+        if (child) {
+            const { left, right } = child.getBoundingClientRect();
+            if (left <= window.innerWidth / 2 && right > window.innerWidth / 2) return i;
+        }
+    }
+    return -1;
+};
+
 export default function HorizontalPager(props: IReaderProps) {
     const {
         pages, curPage, initialPage, settings, setCurPage, prevChapter, nextChapter,
     } = props;
 
+    const currentPageRef = useRef(initialPage);
     const selfRef = useRef<HTMLDivElement>(null);
     const pagesRef = useRef<HTMLDivElement[]>([]);
 
@@ -115,6 +127,21 @@ export default function HorizontalPager(props: IReaderProps) {
             selfRef.current?.removeEventListener('mousedown', clickControl);
         };
     }, [selfRef, curPage]);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (!selfRef.current) return;
+
+            // Update current page in parent
+            const currentPage = findCurrentPageIndex(selfRef.current);
+            if (currentPage !== currentPageRef.current) {
+                currentPageRef.current = currentPage;
+                setCurPage(currentPage);
+            }
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
     return (
         <Box
