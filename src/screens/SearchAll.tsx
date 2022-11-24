@@ -212,6 +212,7 @@ export default function SearchAll() {
                                 horisontal
                                 noFaces
                                 message={fetched[id] ? 'No manga was found!' : undefined}
+                                inLibraryIndicator
                             />
                         </>
                     )

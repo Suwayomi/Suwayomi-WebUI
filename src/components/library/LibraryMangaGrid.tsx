@@ -6,14 +6,14 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import MangaGrid, { IMangaGridProps } from 'components/MangaGrid';
 import { useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
 import { StringParam, useQueryParam } from 'use-query-params';
 
 const FILTERED_OUT_MESSAGE = 'There are no Manga matching this filter';
 
-function unreadFilter(unread: NullAndUndefined<boolean>, { unreadCount }: IMangaCard): boolean {
+const unreadFilter = (unread: NullAndUndefined<boolean>, { unreadCount }: IMangaCard): boolean => {
     switch (unread) {
         case true:
             return !!unreadCount && unreadCount >= 1;
@@ -22,10 +22,10 @@ function unreadFilter(unread: NullAndUndefined<boolean>, { unreadCount }: IManga
         default:
             return true;
     }
-}
+};
 
-function downloadedFilter(downloaded: NullAndUndefined<boolean>,
-    { downloadCount }: IMangaCard): boolean {
+const downloadedFilter = (downloaded: NullAndUndefined<boolean>,
+    { downloadCount }: IMangaCard): boolean => {
     switch (downloaded) {
         case true:
             return !!downloadCount && downloadCount >= 1;
@@ -34,70 +34,70 @@ function downloadedFilter(downloaded: NullAndUndefined<boolean>,
         default:
             return true;
     }
-}
+};
 
-function queryFilter(query: NullAndUndefined<string>, { title }: IMangaCard): boolean {
+const queryFilter = (query: NullAndUndefined<string>, { title }: IMangaCard): boolean => {
     if (!query) return true;
     return title.toLowerCase().includes(query.toLowerCase());
-}
+};
 
-function filterManga(mangas: IMangaCard[]): IMangaCard[] {
-    const [query] = useQueryParam('query', StringParam);
+const filterManga = (
+    manga: IMangaCard[],
+    query: NullAndUndefined<string>,
+    unread: NullAndUndefined<boolean>,
+    downloaded: NullAndUndefined<boolean>,
+): IMangaCard[] => manga.filter((m) => downloadedFilter(downloaded, m)
+        && unreadFilter(unread, m)
+        && queryFilter(query, m));
 
-    const { options: { downloaded, unread } } = useLibraryOptionsContext();
-    return mangas
-        .filter((manga) => downloadedFilter(downloaded, manga)
-        && unreadFilter(unread, manga)
-        && queryFilter(query, manga));
-}
+const sortByUnread = (a: IMangaCard, b: IMangaCard): number =>
+    // eslint-disable-next-line implicit-arrow-linebreak
+    (a.unreadCount ?? 0) - (b.unreadCount ?? 0);
 
-function toReadSort(a: IMangaCard, b: IMangaCard): number {
-    if (!a.unreadCount) return -1;
-    if (!b.unreadCount) return 1;
-    return a.unreadCount > b.unreadCount ? 1 : -1;
-}
+const sortByTitle = (a: IMangaCard, b: IMangaCard): number => a.title.localeCompare(b.title);
 
-function toSortAlph(a: IMangaCard, b: IMangaCard): number {
-    return a.title < b.title ? 1 : -1;
-}
+const sortById = (a: IMangaCard, b: IMangaCard): number => a.id - b.id;
 
-function toSortID(a: IMangaCard, b: IMangaCard): number {
-    return a.id > b.id ? 1 : -1;
-}
+const sortManga = (
+    manga: IMangaCard[],
+    sort: NullAndUndefined<LibrarySortMode>,
+    desc: NullAndUndefined<boolean>,
+): IMangaCard[] => {
+    const result = [...manga];
 
-function sortManga(mangas: IMangaCard[]): IMangaCard[] {
-    const { options: { sorts, sortDesc } } = useLibraryOptionsContext();
-    return (sorts === 'sortID' || sorts === undefined) && !sortDesc ? mangas : mangas.sort((a, b) => {
-        const c = sortDesc === true ? b : a;
-        const d = sortDesc === true ? a : b;
-        if (sorts === 'sortToRead') { return toReadSort(c, d); }
-        if (sorts === 'sortAlph') { return toSortAlph(c, d); }
-        if (sorts === 'sortID' || sorts === undefined) { return toSortID(c, d); }
-        return 1;
-    });
-}
+    switch (sort) {
+        case 'sortAlph': result.sort(sortByTitle); break;
+        case 'sortID': result.sort(sortById); break;
+        case 'sortToRead': result.sort(sortByUnread); break;
+        default: break;
+    }
 
-export default function LibraryMangaGrid(props: IMangaGridProps) {
-    const {
-        mangas, isLoading, hasNextPage, lastPageNum, setLastPageNum, message,
-    } = props;
+    if (desc === true) {
+        result.reverse();
+    }
 
+    return result;
+};
+
+const LibraryMangaGrid: React.FC<IMangaGridProps> = ({
+    mangas, isLoading, hasNextPage, lastPageNum, setLastPageNum, message,
+}) => {
     const [query] = useQueryParam('query', StringParam);
     const { options } = useLibraryOptionsContext();
     const { unread, downloaded } = options;
-    const filteredManga = filterManga(mangas);
-    const sortedManga = sortManga(filteredManga);
-    const DoneManga = sortedManga.map((ele) => {
-        // eslint-disable-next-line no-param-reassign
-        ele.inLibrary = undefined;
-        return ele;
-    });
+
+    const sortedManga = useMemo(() => sortManga(mangas, options.sorts, options.sortDesc),
+        [mangas, options.sorts, options.sortDesc]);
+
+    const filteredManga = useMemo(() => filterManga(sortedManga, query, unread, downloaded),
+        [sortedManga, query, unread, downloaded]);
+
     const showFilteredOutMessage = (unread != null || downloaded != null || query)
         && filteredManga.length === 0 && mangas.length > 0;
 
     return (
         <MangaGrid
-            mangas={DoneManga}
+            mangas={filteredManga}
             isLoading={isLoading}
             hasNextPage={hasNextPage}
             lastPageNum={lastPageNum}
@@ -106,4 +106,6 @@ export default function LibraryMangaGrid(props: IMangaGridProps) {
             gridLayout={options.gridLayout}
         />
     );
-}
+};
+
+export default LibraryMangaGrid;
