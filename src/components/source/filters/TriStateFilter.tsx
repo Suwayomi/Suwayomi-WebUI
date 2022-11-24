@@ -5,10 +5,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
+import ThreeStateCheckboxInput from 'components/atoms/ThreeStateCheckboxInput';
 import React from 'react';
-import { Box } from '@mui/system';
-import { FormControlLabel } from '@mui/material';
-import ThreeStateCheckbox from 'components/util/ThreeStateCheckbox';
 
 interface Props {
     state: number
@@ -19,7 +17,7 @@ interface Props {
     update: any
 }
 
-export default function TriStateFilter(props: Props) {
+const TriStateFilter: React.FC<Props> = (props) => {
     const {
         state,
         name,
@@ -28,48 +26,32 @@ export default function TriStateFilter(props: Props) {
         updateFilterValue,
         update,
     } = props;
-    const [val, setval] = React.useState({
-        [name]: state,
-    });
+    const [val, setval] = React.useState<number>(Number(state));
 
     const handleChange = (checked: boolean | null | undefined) => {
-        const tmp = val;
-        if (checked !== undefined) {
-            tmp[name] = checked ? 1 : 2;
-        } else {
-            delete tmp[name];
-        }
-        setval({
-            ...tmp,
-        });
+        // eslint-disable-next-line no-nested-ternary
+        const newState = checked === undefined ? 0 : checked ? 1 : 2;
+        setval(newState);
         const upd = update.filter((e: {
             position: number; group: number | undefined;
         }) => !(position === e.position && group === e.group));
         updateFilterValue([...upd, {
             position,
-            state: (tmp[name] === undefined ? 0 : tmp[name]).toString(),
+            state: newState.toString(),
             group,
         }]);
     };
 
     if (state !== undefined) {
-        let check;
-        if (val[name] !== 0) {
-            check = val[name] === 1;
-        } else {
-            check = undefined;
-        }
         return (
-            <Box sx={{ marginLeft: 3 }}>
-                <FormControlLabel
-                    key={name}
-                    control={(
-                        <ThreeStateCheckbox name="Unread" checked={check} onChange={(checked) => handleChange(checked)} />
-                    )}
-                    label={name}
-                />
-            </Box>
+            <ThreeStateCheckboxInput
+                label={name}
+                checked={[undefined, true, false][val]}
+                onChange={(checked) => handleChange(checked)}
+            />
         );
     }
     return (<></>);
-}
+};
+
+export default TriStateFilter;

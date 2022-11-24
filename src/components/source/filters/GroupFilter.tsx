@@ -5,11 +5,12 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-import {
-    Collapse, List, ListItemButton, ListItemText,
-} from '@mui/material';
-import React from 'react';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
+import {
+    Collapse, ListItemButton, ListItemText, Stack,
+} from '@mui/material';
+import { Box } from '@mui/system';
+import React from 'react';
 // eslint-disable-next-line import/no-cycle
 import { Options } from '../SourceOptions';
 
@@ -21,7 +22,7 @@ interface Props {
     update: any
 }
 
-export default function GroupFilter(props: Props) {
+const GroupFilter: React.FC<Props> = (props: Props) => {
     const {
         state,
         name,
@@ -32,26 +33,25 @@ export default function GroupFilter(props: Props) {
 
     const [open, setOpen] = React.useState(false);
 
-    const handleClick = () => {
-        setOpen(!open);
-    };
-
     return (
-        <>
-            <ListItemButton onClick={handleClick}>
+        <Box sx={{ mx: -2 }}>
+            <ListItemButton onClick={() => setOpen(!open)}>
                 <ListItemText primary={name} />
                 {open ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
             <Collapse in={open}>
-                <List disablePadding>
+                {/* Container is moved outside 2, so content has to go inside 4 */}
+                <Stack sx={{ mx: 4 }}>
                     <Options
                         sourceFilter={state}
                         group={position}
                         updateFilterValue={updateFilterValue}
                         update={update}
                     />
-                </List>
+                </Stack>
             </Collapse>
-        </>
+        </Box>
     );
-}
+};
+
+export default GroupFilter;

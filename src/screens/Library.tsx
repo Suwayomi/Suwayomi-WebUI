@@ -13,7 +13,7 @@ import NavbarContext from 'components/context/NavbarContext';
 import EmptyView from 'components/util/EmptyView';
 import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
 import TabPanel from 'components/util/TabPanel';
-import LibraryOptions from 'components/library/LibraryOptions';
+import LibraryToolbarMenu from 'components/library/LibraryToolbarMenu';
 import LibraryMangaGrid from 'components/library/LibraryMangaGrid';
 import AppbarSearch from 'components/util/AppbarSearch';
 import { useQueryParam, NumberParam } from 'use-query-params';
@@ -42,7 +42,7 @@ export default function Library() {
         setAction(
             <>
                 <AppbarSearch />
-                <LibraryOptions />
+                <LibraryToolbarMenu />
                 <UpdateChecker />
             </>,
         );

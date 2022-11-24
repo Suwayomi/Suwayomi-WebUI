@@ -6,14 +6,13 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import { Typography } from '@mui/material';
 import React from 'react';
-import { Box } from '@mui/system';
 
 interface Props {
     name: string
 }
 
-export default function HeaderFilter(props: Props) {
-    const { name } = props;
-    return (<Box key={name}>{name}</Box>);
-}
+const HeaderFilter: React.FC<Props> = ({ name }) => (<Typography key={name} sx={{ mt: 2 }} variant="subtitle2">{name}</Typography>);
+
+export default HeaderFilter;

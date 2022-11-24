@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable react/destructuring-assignment */
-/* eslint-disable react/jsx-props-no-spreading */
 /*
  * Copyright (C) Contributors to the Suwayomi project
  *

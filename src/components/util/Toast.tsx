@@ -18,7 +18,6 @@ function removeToast(id: string) {
 }
 
 function Transition(props: SlideProps) {
-    // eslint-disable-next-line react/jsx-props-no-spreading
     return <Slide {...props} direction="up" />;
 }
 

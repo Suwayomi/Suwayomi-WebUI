@@ -18,7 +18,6 @@ const LoadingIconButton = ({
     };
 
     return (
-        // eslint-disable-next-line react/jsx-props-no-spreading
         <IconButton disabled={loading} {...rest} onClick={handleClick}>
             {loading ? (<CircularProgress size={24} />) : children}
         </IconButton>

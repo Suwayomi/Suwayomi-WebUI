@@ -9,16 +9,7 @@ import React, { useContext } from 'react';
 
 type ContextType = {
     options: LibraryOptions;
-
-    setOption: <Name extends keyof LibraryOptions>(
-        name: Name,
-        value: React.SetStateAction<LibraryOptions[Name]>
-    ) => void;
-
     setOptions: React.Dispatch<React.SetStateAction<LibraryOptions>>;
-
-    active: boolean
-    activeSort: boolean
 };
 
 export const DefaultLibraryOptions: LibraryOptions = {
@@ -35,10 +26,7 @@ export const DefaultLibraryOptions: LibraryOptions = {
 
 const LibraryOptionsContext = React.createContext<ContextType>({
     options: DefaultLibraryOptions,
-    setOption: () => {},
     setOptions: () => {},
-    active: false,
-    activeSort: false,
 });
 
 export default LibraryOptionsContext;
