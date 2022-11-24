@@ -114,10 +114,11 @@ interface IMangaChapter {
     chapter: IChapter
 }
 
-interface IPartialChpter {
+interface IPartialChapter {
     pageCount: number
     index: number
     chapterCount: number
+    lastPageRead: number
 }
 
 interface ICategory {
@@ -161,9 +162,10 @@ interface IReaderProps {
     pageCount: number
     setCurPage: React.Dispatch<React.SetStateAction<number>>
     curPage: number
+    initialPage: number
     settings: IReaderSettings
     manga: IMangaCard | IManga
-    chapter: IChapter | IPartialChpter
+    chapter: IChapter | IPartialChapter
     nextChapter: () => void
     prevChapter: () => void
 }

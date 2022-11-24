@@ -11,7 +11,7 @@ import Page from '../Page';
 
 export default function VerticalReader(props: IReaderProps) {
     const {
-        pages, settings, setCurPage, curPage, nextChapter, prevChapter,
+        pages, settings, setCurPage, initialPage, nextChapter, prevChapter,
     } = props;
 
     const selfRef = useRef<HTMLDivElement>(null);
@@ -88,9 +88,12 @@ export default function VerticalReader(props: IReaderProps) {
     }, [selfRef, curPage]);
 
     useEffect(() => {
-        // scroll last read page into view after first mount
-        pagesRef.current[curPage].scrollIntoView();
-    }, [pagesRef.current.length]);
+        // Delay scrolling to next cycle
+        setTimeout(() => {
+            // scroll last read page into view when initialPage changes
+            pagesRef.current[initialPage]?.scrollIntoView();
+        }, 0);
+    }, [initialPage]);
 
     return (
         <Box

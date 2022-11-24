@@ -50,6 +50,7 @@ const initialChapter = () => ({
     pageCount: -1,
     index: -1,
     chapterCount: 0,
+    lastPageRead: 0,
     name: 'Loading...',
 });
 
@@ -62,7 +63,7 @@ export default function Reader() {
 
     const { chapterIndex, mangaId } = useParams<{ chapterIndex: string, mangaId: string }>();
     const [manga, setManga] = useState<IMangaCard | IManga>({ id: +mangaId, title: '', thumbnailUrl: '' });
-    const [chapter, setChapter] = useState<IChapter | IPartialChpter>(initialChapter());
+    const [chapter, setChapter] = useState<IChapter | IPartialChapter>(initialChapter());
     const [curPage, setCurPage] = useState<number>(0);
     const { setOverride, setTitle } = useContext(NavbarContext);
 
@@ -185,6 +186,7 @@ export default function Reader() {
                 pages={pages}
                 pageCount={chapter.pageCount}
                 setCurPage={setCurPage}
+                initialPage={chapter.lastPageRead}
                 curPage={curPage}
                 settings={settings}
                 manga={manga}

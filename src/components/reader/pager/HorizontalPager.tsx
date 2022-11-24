@@ -11,7 +11,7 @@ import Page from '../Page';
 
 export default function HorizontalPager(props: IReaderProps) {
     const {
-        pages, curPage, settings, setCurPage, prevChapter, nextChapter,
+        pages, curPage, initialPage, settings, setCurPage, prevChapter, nextChapter,
     } = props;
 
     const selfRef = useRef<HTMLDivElement>(null);
@@ -87,9 +87,12 @@ export default function HorizontalPager(props: IReaderProps) {
     };
 
     useEffect(() => {
-        // scroll last read page into view after first mount
-        pagesRef.current[curPage]?.scrollIntoView({ inline: 'center' });
-    }, [pagesRef.current.length]);
+        // Delay scrolling to next cycle
+        setTimeout(() => {
+            // scroll last read page into view when initialPage changes
+            pagesRef.current[initialPage]?.scrollIntoView({ inline: 'center' });
+        }, 0);
+    }, [initialPage]);
 
     useEffect(() => {
         selfRef.current?.addEventListener('mousedown', dragControl);
