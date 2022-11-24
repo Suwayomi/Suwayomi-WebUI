@@ -134,7 +134,6 @@ export default function HorizontalPager(props: IReaderProps) {
                         index={page.index}
                         src={page.src}
                         onImageLoad={() => {}}
-                        setCurPage={setCurPage}
                         settings={settings}
                         ref={(e:HTMLDivElement) => { pagesRef.current[page.index] = e; }}
                     />

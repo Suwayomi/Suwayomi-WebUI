@@ -65,7 +65,6 @@ export default function DoublePagedPager(props: IReaderProps) {
                     index={curPage}
                     src={(pagesDisplayed.current === 1) ? pages[curPage].src : ''}
                     onImageLoad={() => {}}
-                    setCurPage={setCurPage}
                     settings={settings}
                 />,
                 document.getElementById('display'),

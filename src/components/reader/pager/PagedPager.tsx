@@ -100,7 +100,6 @@ export default function PagedReader(props: IReaderProps) {
                 index={curPage}
                 onImageLoad={() => {}}
                 src={pages[curPage].src}
-                setCurPage={setCurPage}
                 settings={settings}
             />
         </Box>

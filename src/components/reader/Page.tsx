@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import SpinnerImage from 'components/util/SpinnerImage';
 import useLocalStorage from 'util/useLocalStorage';
 import Box from '@mui/system/Box';
@@ -57,51 +57,17 @@ interface IProps {
     src: string
     index: number
     onImageLoad: () => void
-    setCurPage: React.Dispatch<React.SetStateAction<number>>
     settings: IReaderSettings
 }
 
 const Page = React.forwardRef((props: IProps, ref: any) => {
     const {
-        src, index, onImageLoad, setCurPage, settings,
+        src, index, onImageLoad, settings,
     } = props;
 
     const [useCache] = useLocalStorage<boolean>('useCache', true);
 
     const imgRef = useRef<HTMLImageElement>(null);
-
-    const handleVerticalScroll = () => {
-        if (imgRef.current) {
-            const rect = imgRef.current.getBoundingClientRect();
-            if (rect.y < 0 && rect.y + rect.height > 0) {
-                setCurPage(index);
-            }
-        }
-    };
-
-    const handleHorizontalScroll = () => {
-        if (imgRef.current) {
-            const rect = imgRef.current.getBoundingClientRect();
-            if (rect.left <= window.innerWidth / 2 && rect.right > window.innerWidth / 2) {
-                setCurPage(index);
-            }
-        }
-    };
-
-    useEffect(() => {
-        switch (settings.readerType) {
-            case 'Webtoon':
-            case 'ContinuesVertical':
-                window.addEventListener('scroll', handleVerticalScroll);
-                return () => window.removeEventListener('scroll', handleVerticalScroll);
-            case 'ContinuesHorizontalLTR':
-            case 'ContinuesHorizontalRTL':
-                window.addEventListener('scroll', handleHorizontalScroll);
-                return () => window.removeEventListener('scroll', handleHorizontalScroll);
-            default:
-                return () => {};
-        }
-    }, [handleVerticalScroll]);
 
     const imgStyle = imageStyle(settings);
 
