@@ -16,9 +16,14 @@ export default function PagedReader(props: IReaderProps) {
 
     const selfRef = useRef<HTMLDivElement>(null);
 
+    const changePage = (newPage: number) => {
+        setCurPage(newPage);
+        window.scroll({ top: 0 });
+    };
+
     function nextPage() {
         if (curPage < pages.length - 1) {
-            setCurPage(curPage + 1);
+            changePage(curPage + 1);
         } else if (settings.loadNextonEnding) {
             nextChapter();
         }
@@ -26,7 +31,7 @@ export default function PagedReader(props: IReaderProps) {
 
     function prevPage() {
         if (curPage > 0) {
-            setCurPage(curPage - 1);
+            changePage(curPage - 1);
         } else {
             prevChapter();
         }
