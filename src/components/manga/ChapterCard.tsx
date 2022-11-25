@@ -16,8 +16,7 @@ import Download from '@mui/icons-material/Download';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import RemoveDone from '@mui/icons-material/RemoveDone';
 import {
-    LinearProgress,
-    Checkbox, ListItemIcon, ListItemText, Stack,
+    CardActionArea, Checkbox, LinearProgress, ListItemIcon, ListItemText, Stack,
 } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -107,21 +106,12 @@ const ChapterCard: React.FC<IProps> = (props: IProps) => {
                 sx={{
                     position: 'relative',
                     margin: 1,
-                    ':hover': {
-                        backgroundColor: 'action.hover',
-                        transition: 'background-color 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-                        cursor: 'pointer',
-                    },
-                    ':active': {
-                        backgroundColor: 'action.selected',
-                        transition: 'background-color 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-                    },
                 }}
             >
-                <Link
+                <CardActionArea
+                    component={Link}
                     to={{ pathname: `/manga/${chapter.mangaId}/chapter/${chapter.index}`, state: { backLink: BACK } }}
                     style={{
-                        textDecoration: 'none',
                         color: theme.palette.text[chapter.read ? 'disabled' : 'primary'],
                     }}
                     onClick={handleClick}
@@ -160,7 +150,7 @@ const ChapterCard: React.FC<IProps> = (props: IProps) => {
                             <Checkbox checked={selected} />
                         )}
                     </CardContent>
-                </Link>
+                </CardActionArea>
                 {dc != null && (
                     <LinearProgress
                         sx={{

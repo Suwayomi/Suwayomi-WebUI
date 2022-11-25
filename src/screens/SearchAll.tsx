@@ -6,20 +6,20 @@
 * file, You can obtain one at https://mozilla.org/MPL/2.0/.
 */
 
-import { Card } from '@mui/material';
-import { useHistory } from 'react-router-dom';
+import { Card, CardActionArea, Typography } from '@mui/material';
 import NavbarContext from 'components/context/NavbarContext';
 import MangaGrid from 'components/MangaGrid';
 import LangSelect from 'components/navbar/action/LangSelect';
 import AppbarSearch from 'components/util/AppbarSearch';
+import PQueue from 'p-queue/dist/index';
 import React, { useContext, useEffect, useState } from 'react';
-import { useQueryParam, StringParam } from 'use-query-params';
+import { Link } from 'react-router-dom';
+import { StringParam, useQueryParam } from 'use-query-params';
 import client from 'util/client';
 import {
     langCodeToName, langSortCmp, sourceDefualtLangs, sourceForcedDefaultLangs,
 } from 'util/language';
 import useLocalStorage from 'util/useLocalStorage';
-import PQueue from 'p-queue/dist/index';
 
 function sourceToLangList(sources: ISource[]) {
     const result: string[] = [];
@@ -32,7 +32,7 @@ function sourceToLangList(sources: ISource[]) {
     return result;
 }
 
-export default function SearchAll() {
+const SearchAll: React.FC = () => {
     const [query] = useQueryParam('query', StringParam);
     const { setTitle, setAction } = useContext(NavbarContext);
     const [triggerUpdate, setTriggerUpdate] = useState<number>(2);
@@ -150,14 +150,6 @@ export default function SearchAll() {
         );
     }, [shownLangs, sources]);
 
-    const history = useHistory();
-
-    const redirectTo = (e: any, to: string) => {
-        history.push(to);
-
-        // prevent parent tags from getting the event
-        e.stopPropagation();
-    };
     if (query) {
         return (
             <>
@@ -177,31 +169,19 @@ export default function SearchAll() {
                 }).map(({ lang, id, displayName }) => (
                     (
                         <>
-                            <Card
-                                sx={{
-                                    margin: '10px',
-                                    '&:hover': {
-                                        backgroundColor: 'action.hover',
-                                        transition: 'background-color 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-                                    },
-                                    '&:active': {
-                                        backgroundColor: 'action.selected',
-                                        transition: 'background-color 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-                                    },
-                                }}
-                                onClick={(e) => redirectTo(e, `/sources/${id}/popular/?R&query=${query}`)}
-                            >
-                                <h1
-                                    key={lang}
-                                    style={{ margin: '25px 0px 0px 25px' }}
+                            <Card sx={{ margin: '10px' }}>
+                                <CardActionArea
+                                    component={Link}
+                                    to={`/sources/${id}/popular/?R&query=${query}`}
+                                    sx={{ p: 3 }}
                                 >
-                                    {displayName}
-                                </h1>
-                                <p
-                                    style={{ margin: '0px 0px 25px 25px' }}
-                                >
-                                    {langCodeToName(lang)}
-                                </p>
+                                    <Typography variant="h5">
+                                        {displayName}
+                                    </Typography>
+                                    <Typography variant="caption">
+                                        {langCodeToName(lang)}
+                                    </Typography>
+                                </CardActionArea>
                             </Card>
                             <MangaGrid
                                 mangas={mangas[id] || []}
@@ -222,4 +202,6 @@ export default function SearchAll() {
         );
     }
     return (<></>);
-}
+};
+
+export default SearchAll;

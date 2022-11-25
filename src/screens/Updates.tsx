@@ -5,22 +5,23 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import React, {
-    useContext, useEffect, useState, useRef,
-} from 'react';
-import { useHistory } from 'react-router-dom';
+import DownloadIcon from '@mui/icons-material/Download';
+import { CardActionArea } from '@mui/material';
+import Avatar from '@mui/material/Avatar';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import IconButton from '@mui/material/IconButton';
-import DownloadIcon from '@mui/icons-material/Download';
-import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
+import { Box } from '@mui/system';
 import NavbarContext from 'components/context/NavbarContext';
-import client from 'util/client';
-import useLocalStorage from 'util/useLocalStorage';
 import EmptyView from 'components/util/EmptyView';
 import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
-import { Box } from '@mui/system';
+import React, {
+    useContext, useEffect, useRef, useState,
+} from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import client from 'util/client';
+import useLocalStorage from 'util/useLocalStorage';
 
 function epochToDate(epoch: number) {
     const date = new Date(0); // The 0 there is the key, which sets the date to the epoch
@@ -67,7 +68,7 @@ const initialQueue = {
     queue: [],
 } as IQueue;
 
-export default function Updates() {
+const Updates: React.FC = () => {
     const history = useHistory();
 
     const { setTitle, setAction } = useContext(NavbarContext);
@@ -170,49 +171,43 @@ export default function Updates() {
                         <Card
                             ref={globalIdx === updateEntries.length - 1 ? lastEntry : undefined}
                             key={globalIdx}
-                            sx={{
-                                margin: '10px',
-                                '&:hover': {
-                                    backgroundColor: 'action.hover',
-                                    transition: 'background-color 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-                                },
-                                '&:active': {
-                                    backgroundColor: 'action.selected',
-                                    transition: 'background-color 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-                                },
-                            }}
-                            onClick={() => history.push({ pathname: `/manga/${chapter.mangaId}/chapter/${chapter.index}`, state: history.location.state })}
+                            sx={{ margin: '10px' }}
                         >
-                            <CardContent sx={{
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                                padding: 2,
-                            }}
+                            <CardActionArea
+                                component={Link}
+                                to={{ pathname: `/manga/${chapter.mangaId}/chapter/${chapter.index}`, state: history.location.state }}
                             >
-                                <Box sx={{ display: 'flex' }}>
-                                    <Avatar
-                                        variant="rounded"
-                                        sx={{
-                                            width: 56,
-                                            height: 56,
-                                            flex: '0 0 auto',
-                                            marginRight: 2,
-                                            imageRendering: 'pixelated',
-                                        }}
-                                        src={`${serverAddress}${manga.thumbnailUrl}?useCache=${useCache}`}
-                                    />
-                                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                                        <Typography variant="h5" component="h2">
-                                            {manga.title}
-                                        </Typography>
-                                        <Typography variant="caption" display="block" gutterBottom>
-                                            {chapter.name}
-                                            {downloadStatusStringFor(chapter)}
-                                        </Typography>
+                                <CardContent
+                                    sx={{
+                                        display: 'flex',
+                                        justifyContent: 'space-between',
+                                        alignItems: 'center',
+                                        padding: 2,
+                                    }}
+                                >
+                                    <Box sx={{ display: 'flex' }}>
+                                        <Avatar
+                                            variant="rounded"
+                                            sx={{
+                                                width: 56,
+                                                height: 56,
+                                                flex: '0 0 auto',
+                                                marginRight: 2,
+                                                imageRendering: 'pixelated',
+                                            }}
+                                            src={`${serverAddress}${manga.thumbnailUrl}?useCache=${useCache}`}
+                                        />
+                                        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                                            <Typography variant="h5" component="h2">
+                                                {manga.title}
+                                            </Typography>
+                                            <Typography variant="caption" display="block" gutterBottom>
+                                                {chapter.name}
+                                                {downloadStatusStringFor(chapter)}
+                                            </Typography>
+                                        </Box>
                                     </Box>
-                                </Box>
-                                {downloadStatusStringFor(chapter) === ''
+                                    {downloadStatusStringFor(chapter) === ''
                                         && (
                                             <IconButton
                                                 onClick={(e) => {
@@ -225,11 +220,14 @@ export default function Updates() {
                                                 <DownloadIcon />
                                             </IconButton>
                                         )}
-                            </CardContent>
+                                </CardContent>
+                            </CardActionArea>
                         </Card>
                     ))}
                 </div>
             ))}
         </>
     );
-}
+};
+
+export default Updates;
