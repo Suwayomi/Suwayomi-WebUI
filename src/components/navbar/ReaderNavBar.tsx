@@ -17,7 +17,7 @@ import { useHistory, Link } from 'react-router-dom';
 import Slide from '@mui/material/Slide';
 import Fade from '@mui/material/Fade';
 import Zoom from '@mui/material/Zoom';
-import { Switch } from '@mui/material';
+import { Divider, Switch } from '@mui/material';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import MenuItem from '@mui/material/MenuItem';
@@ -61,12 +61,6 @@ const Root = styled('div')(({ theme }) => ({
             fontSize: '1.25rem',
             flexGrow: 1,
         },
-    },
-    '& hr': {
-        margin: '0 16px',
-        height: '1px',
-        border: '0',
-        backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : theme.palette.grey[100],
     },
 }));
 
@@ -312,7 +306,7 @@ export default function ReaderNavBar(props: IProps) {
                             </ListItem>
                         </List>
                     </Collapse>
-                    <hr />
+                    <Divider sx={{ my: 1, mx: 2 }} />
                     <Navigation>
                         <span>
                             {`Currently on page ${curPage + 1} of ${chapter.pageCount}`}
