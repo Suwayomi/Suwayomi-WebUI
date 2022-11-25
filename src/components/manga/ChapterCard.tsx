@@ -16,7 +16,7 @@ import Download from '@mui/icons-material/Download';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import RemoveDone from '@mui/icons-material/RemoveDone';
 import {
-    CardActionArea, Checkbox, LinearProgress, ListItemIcon, ListItemText, Stack,
+    CardActionArea, Checkbox, ListItemIcon, ListItemText, Stack,
 } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -25,6 +25,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
+import DownloadStateIndicator from 'components/molecules/DownloadStateIndicator';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import client from 'util/client';
@@ -138,9 +139,10 @@ const ChapterCard: React.FC<IProps> = (props: IProps) => {
                             <Typography variant="caption">
                                 {dateStr}
                                 {isDownloaded && ' • Downloaded'}
-                                {dc && ` • Downloading (${(dc.progress * 100).toFixed(2)}%)`}
                             </Typography>
                         </Stack>
+
+                        {dc && <DownloadStateIndicator download={dc} />}
 
                         {selected === null ? (
                             <IconButton aria-label="more" onClick={handleMenuClick} size="large">
@@ -151,16 +153,6 @@ const ChapterCard: React.FC<IProps> = (props: IProps) => {
                         )}
                     </CardContent>
                 </CardActionArea>
-                {dc != null && (
-                    <LinearProgress
-                        sx={{
-                            position: 'absolute', bottom: 0, width: '100%', opacity: 0.5,
-                        }}
-                        variant="determinate"
-                        value={dc.progress * 100}
-                        color="inherit"
-                    />
-                )}
                 <Menu
                     anchorEl={anchorEl}
                     keepMounted
