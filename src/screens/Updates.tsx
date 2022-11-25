@@ -201,20 +201,19 @@ const Updates: React.FC = () => {
                                                 </Typography>
                                             </Box>
                                         </Box>
-                                        {download
-                                            ? <DownloadStateIndicator download={download} />
-                                            : (
-                                                <IconButton
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        e.preventDefault();
-                                                        downloadChapter(chapter);
-                                                    }}
-                                                    size="large"
-                                                >
-                                                    <DownloadIcon />
-                                                </IconButton>
-                                            )}
+                                        {download && <DownloadStateIndicator download={download} />}
+                                        {download == null && !chapter.downloaded && (
+                                            <IconButton
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    e.preventDefault();
+                                                    downloadChapter(chapter);
+                                                }}
+                                                size="large"
+                                            >
+                                                <DownloadIcon />
+                                            </IconButton>
+                                        )}
                                     </CardContent>
                                 </CardActionArea>
                             </Card>
