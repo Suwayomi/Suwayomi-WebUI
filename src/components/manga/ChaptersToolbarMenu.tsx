@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import FilterList from '@mui/icons-material/FilterList';
-import { Badge, IconButton } from '@mui/material';
+import { IconButton } from '@mui/material';
 import * as React from 'react';
 import ChapterOptions from './ChapterOptions';
 import { isFilterActive } from './util';
@@ -23,9 +23,7 @@ const ChaptersToolbarMenu = ({ options, optionsDispatch }: IProps) => {
     return (
         <>
             <IconButton onClick={() => setOpen(true)}>
-                <Badge color="primary" variant="dot" invisible={!isFiltered}>
-                    <FilterList />
-                </Badge>
+                <FilterList color={isFiltered ? 'warning' : undefined} />
             </IconButton>
             <ChapterOptions
                 open={open}
