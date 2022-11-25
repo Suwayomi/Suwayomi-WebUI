@@ -218,7 +218,7 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
                     >
                         <Avatar
                             variant="rounded"
-                            sx={inLibrary
+                            sx={inLibraryIndicator && inLibrary
                                 ? {
                                     width: 56,
                                     height: 56,
