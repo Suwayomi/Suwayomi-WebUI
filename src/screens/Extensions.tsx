@@ -185,7 +185,6 @@ export default function MangaExtensions() {
                                     paddingLeft: 25,
                                     paddingBottom: '0.83em',
                                     paddingTop: '0.83em',
-                                    backgroundColor: 'rgb(18, 18, 18)',
                                     fontSize: '2em',
                                     fontWeight: 'bold',
                                 }}
