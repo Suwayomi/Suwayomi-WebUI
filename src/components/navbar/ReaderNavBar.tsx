@@ -39,8 +39,7 @@ const Root = styled('div')(({ theme }) => ({
     backgroundColor: theme.palette.background.default,
 
     '& header': {
-        backgroundColor:
-        theme.palette.mode === 'dark' ? theme.palette.grey[800] : theme.palette.grey[100],
+        backgroundColor: theme.palette.action.hover,
         display: 'flex',
         alignItems: 'center',
         minHeight: '64px',
@@ -106,9 +105,9 @@ const OpenDrawerButton = styled(IconButton)(({ theme }) => ({
     height: '40px',
     width: '40px',
     borderRadius: 5,
-    backgroundColor: theme.palette.mode === 'dark' ? 'black' : 'white',
+    backgroundColor: theme.palette.custom.main,
     '&:hover': {
-        backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[900] : theme.palette.grey[100],
+        backgroundColor: theme.palette.custom.light,
     },
 }));
 
@@ -357,7 +356,6 @@ export default function ReaderNavBar(props: IProps) {
                 <Fade in={!hideOpenButton}>
                     <OpenDrawerButton
                         edge="start"
-                        color="inherit"
                         aria-label="menu"
                         disableRipple
                         disableFocusRipple
