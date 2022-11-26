@@ -20,7 +20,13 @@ const findCurrentPageIndex = (wrapper: HTMLDivElement): number => {
     return -1;
 };
 
-const isAtEnd = () => window.innerWidth + window.scrollX >= document.body.scrollWidth;
+const SCROLL_SAFE_ZONE = 5; // px
+const isAtEnd = () => {
+    const visibleEnd = window.innerWidth + window.scrollX;
+    // SCROLL_SAFE_ZONE is here for special cases when window might be .5px shorter
+    // and math just dont add up correctly
+    return visibleEnd >= document.body.scrollWidth - SCROLL_SAFE_ZONE;
+};
 const isAtStart = () => window.scrollX <= 0;
 
 export default function HorizontalPager(props: IReaderProps) {

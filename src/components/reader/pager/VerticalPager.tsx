@@ -21,10 +21,16 @@ const findCurrentPageIndex = (wrapper: HTMLDivElement): number => {
 };
 
 // TODO: make configurable?
+const SCROLL_SAFE_ZONE = 5; // px
 const SCROLL_OFFSET = 0.95;
 const SCROLL_BEHAVIOR: ScrollBehavior = 'smooth';
 
-const isAtBottom = () => window.innerHeight + window.scrollY >= document.body.offsetHeight;
+const isAtBottom = () => {
+    const visibleBottom = window.innerHeight + window.scrollY;
+    // SCROLL_SAFE_ZONE is here for special cases when window might be .5px shorter
+    // and math just dont add up correctly
+    return visibleBottom >= document.body.offsetHeight - SCROLL_SAFE_ZONE;
+};
 const isAtTop = () => window.scrollY <= 0;
 
 export default function VerticalPager(props: IReaderProps) {
