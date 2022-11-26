@@ -11,6 +11,24 @@ import { Box } from '@mui/system';
 import Page from '../Page';
 import DoublePage from '../DoublePage';
 
+const isSpreadPage = (image: HTMLImageElement): boolean => {
+    const aspectRatio = image.height / image.width;
+    return aspectRatio < 1;
+};
+
+const isSinglePage = (index: number, spreadPages: boolean[]): boolean => {
+    // Page is single if it is spread page
+    if (spreadPages[index]) return true;
+    // Page is single if it is last page
+    if (index === spreadPages.length - 1) return true;
+    // Page can not be single if it is not followed by spread
+    if (!spreadPages[index + 1]) return false;
+    // Page is single if number of single pages since last spread is odd
+    const previousSpreadIndex = spreadPages.lastIndexOf(true, index - 1);
+    const numberOfNonSpreads = index - (previousSpreadIndex + 1);
+    return numberOfNonSpreads % 2 === 0;
+};
+
 export default function DoublePagedPager(props: IReaderProps) {
     const {
         pages, settings, setCurPage, curPage, nextChapter, prevChapter,
@@ -21,26 +39,19 @@ export default function DoublePagedPager(props: IReaderProps) {
 
     const pagesDisplayed = useRef<number>(0);
     const pageLoaded = useRef<boolean[]>(Array(pages.length).fill(false));
+    const spreadPage = useRef<boolean[]>(Array(pages.length).fill(false));
 
     function setPagesToDisplay() {
         pagesDisplayed.current = 0;
         if (curPage < pages.length && pagesRef.current[curPage]) {
             if (pageLoaded.current[curPage]) {
                 pagesDisplayed.current = 1;
-                const imgElem = pagesRef.current[curPage];
-                const aspectRatio = imgElem.height / imgElem.width;
-                if (aspectRatio < 1) {
-                    return;
-                }
+                if (spreadPage.current[curPage]) return;
             }
         }
         if (curPage + 1 < pages.length && pagesRef.current[curPage + 1]) {
             if (pageLoaded.current[curPage + 1]) {
-                const imgElem = pagesRef.current[curPage + 1];
-                const aspectRatio = imgElem.height / imgElem.width;
-                if (aspectRatio < 1) {
-                    return;
-                }
+                if (spreadPage.current[curPage + 1]) return;
                 pagesDisplayed.current = 2;
             }
         }
@@ -73,17 +84,17 @@ export default function DoublePagedPager(props: IReaderProps) {
     }
 
     function pagesToGoBack() {
-        for (let i = 1; i <= 2; i++) {
-            if (curPage - i > 0 && pagesRef.current[curPage - i]) {
-                if (pageLoaded.current[curPage - i]) {
-                    const imgElem = pagesRef.current[curPage - i];
-                    const aspectRatio = imgElem.height / imgElem.width;
-                    if (aspectRatio < 1) {
-                        return 1;
-                    }
-                }
-            }
+        // If previous page is single page, go only one page pack
+        // If previous page is not single page, but we are on last page
+        // go back one page anyway.
+        // This handles special case, where last page was displayed in pair, but then
+        // page was changed to the last page and now it is shown as single page.
+        const isLastPage = curPage === spreadPage.current.length - 1;
+        if (isSinglePage(curPage - 1, spreadPage.current) || isLastPage) {
+            return 1;
         }
+
+        // Otherwise go two pages back
         return 2;
     }
 
@@ -149,6 +160,8 @@ export default function DoublePagedPager(props: IReaderProps) {
     function handleImageLoad(index: number) {
         return () => {
             pageLoaded.current[index] = true;
+            const image = pagesRef.current[index];
+            spreadPage.current[index] = isSpreadPage(image);
         };
     }
 
