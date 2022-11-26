@@ -37,16 +37,11 @@ const MangaTitle = styled(Typography)({
     position: 'absolute',
     bottom: 0,
     padding: '0.5em',
-    color: 'white',
     fontSize: '1.05rem',
-    textShadow: '0px 0px 3px #000000',
 });
 
 const BadgeContainer = styled('div')({
     display: 'flex',
-    position: 'absolute',
-    top: 5,
-    left: 5,
     height: 'fit-content',
     borderRadius: '5px',
     overflow: 'hidden',
@@ -94,10 +89,9 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
     const mangaLinkTo = { pathname: `/manga/${id}/`, state: { backLink: BACK } };
 
     if (gridLayout !== 2) {
-        const colomns = Math.round(dimensions / ItemWidth);
+        const cols = Math.ceil(dimensions / ItemWidth);
         return (
-            // @ts-ignore gridsize type isnt allowed to be a decimal but it works fine
-            <Grid item xs={12 / colomns} sm={12 / colomns} md={12 / colomns} lg={12 / colomns}>
+            <Grid item columns={cols} xs={1}>
                 <Link to={mangaLinkTo} style={(gridLayout === 1) ? { textDecoration: 'none' } : {}}>
                     <Box
                         sx={{
@@ -107,7 +101,7 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
                     >
                         <Card
                             sx={{
-                            // force standard aspect ratio of manga covers
+                                // force standard aspect ratio of manga covers
                                 aspectRatio: '225/350',
                                 display: 'flex',
                             }}
@@ -120,7 +114,13 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
                                 }}
                             >
 
-                                <BadgeContainer>
+                                <BadgeContainer
+                                    sx={{
+                                        position: 'absolute',
+                                        top: 5,
+                                        left: 5,
+                                    }}
+                                >
                                     {inLibraryIndicator && inLibrary && (
                                         <Typography
                                             sx={{ backgroundColor: 'primary.dark', zIndex: '1' }}
@@ -173,7 +173,12 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
                                 {(gridLayout === 1) ? (
                                     <></>
                                 ) : (
-                                    <MangaTitle>
+                                    <MangaTitle
+                                        sx={{
+                                            color: 'white',
+                                            textShadow: '0px 0px 3px #000000',
+                                        }}
+                                    >
                                         {truncateText(title, 61)}
                                     </MangaTitle>
                                 )}
@@ -183,6 +188,7 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
                             <MangaTitle
                                 sx={{
                                     position: 'relative',
+                                    color: 'text.primary',
                                 }}
                             >
                                 {truncateText(title, 61)}
@@ -193,83 +199,82 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
             </Grid>
         );
     }
+
     return (
-        <Grid item xs={12} sm={12} md={12} lg={12}>
-            <Link to={mangaLinkTo} style={{ textDecoration: 'none', color: 'unset' }}>
-                <CardContent sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    padding: 2,
-                    '&:hover': {
-                        backgroundColor: 'action.hover',
-                        transition: 'background-color 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-                    },
-                    '&:active': {
-                        backgroundColor: 'action.selected',
-                        transition: 'background-color 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-                    },
-                    position: 'relative',
-                }}
+        <Grid item xs={12}>
+            <Card>
+                <CardActionArea
+                    component={Link}
+                    to={mangaLinkTo}
                 >
-                    <Avatar
-                        variant="rounded"
-                        sx={inLibrary
-                            ? {
-                                width: 56,
-                                height: 56,
-                                flex: '0 0 auto',
-                                marginRight: 2,
-                                imageRendering: 'pixelated',
-                                filter: 'brightness(0.4)',
-                            }
-                            : {
-                                width: 56,
-                                height: 56,
-                                flex: '0 0 auto',
-                                marginRight: 2,
-                                imageRendering: 'pixelated',
-                            }}
-                        src={`${serverAddress}${thumbnailUrl}?useCache=${useCache}`}
-                    />
-                    <Box
+                    <CardContent
                         sx={{
                             display: 'flex',
-                            flexDirection: 'row',
-                            flexGrow: 1,
-                            width: 'min-content',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            padding: 2,
+                            position: 'relative',
                         }}
                     >
-                        <Typography variant="h5" component="h2">
-                            {truncateText(title, 61)}
-                        </Typography>
-                    </Box>
-                    <BadgeContainer sx={{ position: 'relative' }}>
-                        {inLibrary && (
-                            <Typography
-                                sx={{ backgroundColor: 'primary.dark', zIndex: '1' }}
-                            >
-                                In library
-                            </Typography>
-                        )}
-                        { showUnreadBadge && unread! > 0 && (
-                            <Typography
-                                sx={{ backgroundColor: 'primary.dark' }}
-                            >
-                                {unread}
-                            </Typography>
-                        )}
-                        { showDownloadBadge && downloadCount! > 0 && (
-                            <Typography sx={{
-                                backgroundColor: 'success.dark',
+                        <Avatar
+                            variant="rounded"
+                            sx={inLibraryIndicator && inLibrary
+                                ? {
+                                    width: 56,
+                                    height: 56,
+                                    flex: '0 0 auto',
+                                    marginRight: 2,
+                                    imageRendering: 'pixelated',
+                                    filter: 'brightness(0.4)',
+                                }
+                                : {
+                                    width: 56,
+                                    height: 56,
+                                    flex: '0 0 auto',
+                                    marginRight: 2,
+                                    imageRendering: 'pixelated',
+                                }}
+                            src={`${serverAddress}${thumbnailUrl}?useCache=${useCache}`}
+                        />
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                flexGrow: 1,
+                                width: 'min-content',
                             }}
-                            >
-                                {downloadCount}
+                        >
+                            <Typography variant="h5" component="h2">
+                                {truncateText(title, 61)}
                             </Typography>
-                        )}
-                    </BadgeContainer>
-                </CardContent>
-            </Link>
+                        </Box>
+                        <BadgeContainer>
+                            {inLibraryIndicator && inLibrary && (
+                                <Typography
+                                    sx={{ backgroundColor: 'primary.dark' }}
+                                >
+                                    In library
+                                </Typography>
+                            )}
+                            { showUnreadBadge && unread! > 0 && (
+                                <Typography
+                                    sx={{ backgroundColor: 'primary.dark' }}
+                                >
+                                    {unread}
+                                </Typography>
+                            )}
+                            { showDownloadBadge && downloadCount! > 0 && (
+                                <Typography sx={{
+                                    backgroundColor: 'success.dark',
+                                }}
+                                >
+                                    {downloadCount}
+                                </Typography>
+                            )}
+                        </BadgeContainer>
+                    </CardContent>
+                </CardActionArea>
+            </Card>
         </Grid>
     );
 });

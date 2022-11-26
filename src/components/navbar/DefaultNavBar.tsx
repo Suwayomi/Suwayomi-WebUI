@@ -25,7 +25,6 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import ArrowBack from '@mui/icons-material/ArrowBack';
 import { Link, useHistory } from 'react-router-dom';
 import NavBarContext from 'components/context/NavbarContext';
-import DarkTheme from 'components/context/DarkTheme';
 import ExtensionOutlinedIcon from 'components/util/CustomExtensionOutlinedIcon';
 import { Box } from '@mui/system';
 import { createPortal } from 'react-dom';
@@ -82,7 +81,6 @@ const navbarItems: Array<NavbarItem> = [
 export default function DefaultNavBar() {
     const { title, action, override } = useContext(NavBarContext);
     const backTo = useBackTo();
-    const { darkTheme } = useContext(DarkTheme);
 
     const theme = useTheme();
     const history = useHistory();
@@ -109,7 +107,7 @@ export default function DefaultNavBar() {
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="fixed" color={darkTheme ? 'default' : 'primary'}>
+            <AppBar position="fixed" color="default">
                 <Toolbar>
                     {!isMainRoute && (
                         <IconButton

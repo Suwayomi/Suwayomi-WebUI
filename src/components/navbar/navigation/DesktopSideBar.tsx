@@ -14,7 +14,7 @@ import { useTheme } from '@mui/material/styles';
 const SideNavBarContainer = styled('div')(({ theme }) => ({
     height: '100vh',
     width: theme.spacing(8),
-    backgroundColor: theme.palette.mode === 'light' ? theme.palette.grey[100] : theme.palette.grey[900],
+    backgroundColor: theme.palette.custom,
     position: 'fixed',
     top: 0,
     left: 0,

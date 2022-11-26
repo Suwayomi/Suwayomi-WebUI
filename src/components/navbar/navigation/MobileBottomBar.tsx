@@ -16,7 +16,7 @@ const BottomNavContainer = styled('div')(({ theme }) => ({
     left: 0,
     height: theme.spacing(7),
     width: '100vw',
-    backgroundColor: theme.palette.mode === 'light' ? theme.palette.grey[100] : theme.palette.grey[900],
+    backgroundColor: theme.palette.custom.light,
     position: 'fixed',
     display: 'flex',
     flexDirection: 'row',
