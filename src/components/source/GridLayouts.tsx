@@ -10,10 +10,11 @@ import {
 } from '@mui/material';
 import React from 'react';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
-import { useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
+import { GridLayout, useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
 
+// TODO: clean up this to use a FormControl, and remove dependency on name o radio button
 export default function SourceGridLayout() {
-    const { options, setOptions } = useLibraryOptionsContext();
+    const { options: { SourcegridLayout }, setOptions } = useLibraryOptionsContext();
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -55,11 +56,14 @@ export default function SourceGridLayout() {
                 <MenuItem onClick={handleClose}>
                     <FormControlLabel
                         label="Compact grid"
+                        value={GridLayout.Compact}
                         control={(
                             <Radio
-                                name="0"
-                                // eslint-disable-next-line max-len
-                                checked={options.SourcegridLayout === 0 || options.SourcegridLayout === undefined}
+                                name={GridLayout.Compact.toString()}
+                                checked={
+                                    SourcegridLayout === GridLayout.Compact
+                                    || SourcegridLayout === undefined
+                                }
                                 onChange={setGridContextOptions}
                             />
                         )}
@@ -70,8 +74,8 @@ export default function SourceGridLayout() {
                         label="Comfortable grid"
                         control={(
                             <Radio
-                                name="1"
-                                checked={options.SourcegridLayout === 1}
+                                name={GridLayout.Comfortable.toString()}
+                                checked={SourcegridLayout === GridLayout.Comfortable}
                                 onChange={setGridContextOptions}
                             />
                         )}
@@ -82,15 +86,14 @@ export default function SourceGridLayout() {
                         label="List"
                         control={(
                             <Radio
-                                name="2"
-                                checked={options.SourcegridLayout === 2}
+                                name={GridLayout.List.toString()}
+                                checked={SourcegridLayout === GridLayout.List}
                                 onChange={setGridContextOptions}
                             />
                         )}
                     />
                 </MenuItem>
             </Menu>
-
         </>
     );
 }

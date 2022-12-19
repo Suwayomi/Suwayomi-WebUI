@@ -14,6 +14,7 @@ import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
 import { Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import MangaCard from './MangaCard';
+import { GridLayout } from './context/LibraryOptionsContext';
 
 export interface IMangaGridProps{
     mangas: IMangaCard[]
@@ -23,7 +24,7 @@ export interface IMangaGridProps{
     hasNextPage: boolean
     lastPageNum: number
     setLastPageNum: (lastPageNum: number) => void
-    gridLayout?: number | undefined
+    gridLayout?: GridLayout
     horisontal?: boolean | undefined
     noFaces?: boolean | undefined
     inLibraryIndicator?: boolean

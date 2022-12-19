@@ -12,11 +12,17 @@ type ContextType = {
     setOptions: React.Dispatch<React.SetStateAction<LibraryOptions>>;
 };
 
+export enum GridLayout {
+    Compact = 0,
+    Comfortable = 1,
+    List = 2,
+}
+
 export const DefaultLibraryOptions: LibraryOptions = {
     showDownloadBadge: false,
     showUnreadBadge: false,
-    gridLayout: 0,
-    SourcegridLayout: 0,
+    gridLayout: GridLayout.Compact,
+    SourcegridLayout: GridLayout.Compact,
 
     downloaded: undefined,
     sortDesc: undefined,

@@ -280,12 +280,18 @@ type ChapterOptionsReducerAction =
 
 type LibrarySortMode = 'sortToRead' | 'sortAlph' | 'sortID';
 
+enum GridLayout {
+    Compact = 0,
+    Comfortable = 1,
+    List = 2,
+}
+
 interface LibraryOptions {
     // display options
     showDownloadBadge: boolean
     showUnreadBadge: boolean
-    gridLayout: number
-    SourcegridLayout:number
+    gridLayout: GridLayout
+    SourcegridLayout: GridLayout
 
     // filter options
     downloaded: NullAndUndefined<boolean>

@@ -14,7 +14,7 @@ import { Avatar, CardContent, Grid } from '@mui/material';
 import useLocalStorage from 'util/useLocalStorage';
 import SpinnerImage from 'components/util/SpinnerImage';
 import { Box, styled } from '@mui/system';
-import { useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
+import { GridLayout, useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
 import { BACK } from 'util/useBackTo';
 
 const BottomGradient = styled('div')({
@@ -66,7 +66,7 @@ const truncateText = (str: string, maxLength: number) => {
 
 interface IProps {
     manga: IMangaCard
-    gridLayout: number | undefined
+    gridLayout?: GridLayout
     dimensions: number
     inLibraryIndicator?: boolean
 }
@@ -88,11 +88,11 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
 
     const mangaLinkTo = { pathname: `/manga/${id}/`, state: { backLink: BACK } };
 
-    if (gridLayout !== 2) {
+    if (gridLayout !== GridLayout.List) {
         const cols = Math.ceil(dimensions / ItemWidth);
         return (
             <Grid item columns={cols} xs={1}>
-                <Link to={mangaLinkTo} style={(gridLayout === 1) ? { textDecoration: 'none' } : {}}>
+                <Link to={mangaLinkTo} style={(gridLayout === GridLayout.Comfortable) ? { textDecoration: 'none' } : {}}>
                     <Box
                         sx={{
                             display: 'flex',
@@ -164,13 +164,13 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
                                         placeItems: 'center',
                                     }}
                                 />
-                                {(gridLayout === 1) ? (<></>) : (
+                                {(gridLayout === GridLayout.Comfortable) ? (<></>) : (
                                     <>
                                         <BottomGradient />
                                         <BottomGradientDoubledDown />
                                     </>
                                 )}
-                                {(gridLayout === 1) ? (
+                                {(gridLayout === GridLayout.Comfortable) ? (
                                     <></>
                                 ) : (
                                     <MangaTitle
@@ -184,7 +184,7 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
                                 )}
                             </CardActionArea>
                         </Card>
-                        {(gridLayout === 1) ? (
+                        {(gridLayout === GridLayout.Comfortable) ? (
                             <MangaTitle
                                 sx={{
                                     position: 'relative',
