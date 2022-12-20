@@ -10,7 +10,7 @@ import CheckboxInput from 'components/atoms/CheckboxInput';
 import RadioInput from 'components/atoms/RadioInput';
 import SortRadioInput from 'components/atoms/SortRadioInput';
 import ThreeStateCheckboxInput from 'components/atoms/ThreeStateCheckboxInput';
-import { useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
+import { GridLayout, useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
 import OptionsTabs from 'components/molecules/OptionsTabs';
 import React from 'react';
 
@@ -78,9 +78,9 @@ const LibraryOptionsPanel: React.FC<IProps> = ({ open, onClose }) => {
                                 onChange={(e) => handleFilterChange('gridLayout', Number(e.target.value))}
                                 value={gridLayout}
                             >
-                                <RadioInput label="Compact grid" value={0} checked={gridLayout == null || gridLayout === 0} />
-                                <RadioInput label="Comfortable grid" value={1} checked={gridLayout === 1} />
-                                <RadioInput label="List" value={2} checked={gridLayout === 2} />
+                                <RadioInput label="Compact grid" value={GridLayout.Compact} checked={gridLayout == null || gridLayout === GridLayout.Compact} />
+                                <RadioInput label="Comfortable grid" value={GridLayout.Comfortable} checked={gridLayout === GridLayout.Comfortable} />
+                                <RadioInput label="List" value={GridLayout.List} checked={gridLayout === GridLayout.List} />
                             </RadioGroup>
 
                             <FormLabel sx={{ mt: 2 }}>Badges</FormLabel>
