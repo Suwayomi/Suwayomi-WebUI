@@ -46,7 +46,7 @@ function UpdateChecker() {
         const wsc = new WebSocket(`${baseWebsocketUrl}/api/v1/update`);
         wsc.onmessage = (e) => {
             const data = JSON.parse(e.data) as IUpdateStatus;
-            const { COMPLETE, RUNNING, PENDING } = data.statusMap;
+            const { COMPLETE = [], RUNNING = [], PENDING = [] } = data.statusMap;
 
             setLoading(data.running);
             const currentProgress = 100 * (
