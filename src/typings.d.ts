@@ -197,9 +197,9 @@ interface IQueue {
 interface IUpdateStatus {
     running: boolean
     statusMap: {
-        COMPLETE: number,
-        RUNNING: number,
-        PENDING: number
+        COMPLETE: IManga[],
+        RUNNING: IManga[],
+        PENDING: IManga[]
     }
 }
 
