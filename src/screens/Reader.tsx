@@ -15,12 +15,13 @@ import PageNumber from 'components/reader/PageNumber';
 import PagedPager from 'components/reader/pager/PagedPager';
 import DoublePagedPager from 'components/reader/pager/DoublePagedPager';
 import VerticalPager from 'components/reader/pager/VerticalPager';
-import ReaderNavBar, { defaultReaderSettings } from 'components/navbar/ReaderNavBar';
+import ReaderNavBar, { getReaderSettingsFor } from 'components/navbar/ReaderNavBar';
 import NavbarContext from 'components/context/NavbarContext';
 import client from 'util/client';
 import useLocalStorage from 'util/useLocalStorage';
-import cloneObject from 'util/cloneObject';
 import { Box } from '@mui/system';
+import { requestUpdateMangaMetadata } from 'util/metadata';
+import makeToast from '../components/util/Toast';
 
 const getReaderComponent = (readerType: ReaderType) => {
     switch (readerType) {
@@ -57,8 +58,6 @@ const initialChapter = () => ({
 });
 
 export default function Reader() {
-    const [settings, setSettings] = useLocalStorage<IReaderSettings>('readerSettings', defaultReaderSettings);
-
     const history = useHistory();
 
     const [serverAddress] = useLocalStorage<String>('serverBaseURL', '');
@@ -69,20 +68,14 @@ export default function Reader() {
     const [curPage, setCurPage] = useState<number>(0);
     const { setOverride, setTitle } = useContext(NavbarContext);
 
-    useEffect(() => {
-        // make sure settings has all the keys
-        const settingsClone = cloneObject(settings) as any;
-        const defualtSettings = defaultReaderSettings();
-        let shouldUpdateSettings = false;
-        Object.keys(defualtSettings).forEach((key) => {
-            const keyOf = key as keyof IReaderSettings;
-            if (settings[keyOf] === undefined) {
-                settingsClone[keyOf] = defualtSettings[keyOf];
-                shouldUpdateSettings = true;
-            }
-        });
-        if (shouldUpdateSettings) { setSettings(settingsClone); }
+    const [settings, setSettings] = useState(getReaderSettingsFor(manga));
 
+    const updateSettings = (readerSettings: IReaderSettings) => {
+        setSettings(readerSettings);
+        requestUpdateMangaMetadata(manga, Object.entries(readerSettings) as MetadataKeyValuePair[]).catch(() => makeToast('Failed to save the reader settings to the server', 'warning'));
+    };
+
+    useEffect(() => {
         // set the custom navbar
         setOverride(
             {
@@ -90,7 +83,7 @@ export default function Reader() {
                 value: (
                     <ReaderNavBar
                         settings={settings}
-                        setSettings={setSettings}
+                        setSettings={updateSettings}
                         manga={manga}
                         chapter={chapter as IChapter}
                         curPage={curPage}

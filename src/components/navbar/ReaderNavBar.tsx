@@ -28,6 +28,7 @@ import Collapse from '@mui/material/Collapse';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/system';
 import useBackTo from 'util/useBackTo';
+import { getMetadataFrom } from 'util/metadata';
 
 const Root = styled('div')(({ theme }) => ({
     top: 0,
@@ -105,7 +106,7 @@ const OpenDrawerButton = styled(IconButton)(({ theme }) => ({
     },
 }));
 
-export const defaultReaderSettings = () => ({
+const defaultReaderSettings = () => ({
     staticNav: false,
     showPageNumber: true,
     continuesPageGap: false,
@@ -113,9 +114,22 @@ export const defaultReaderSettings = () => ({
     readerType: 'ContinuesVertical',
 } as IReaderSettings);
 
+const getReaderSettingsFromMetadata = (
+    meta?: IMetadata,
+): IReaderSettings => ({
+    ...getMetadataFrom(
+        { meta },
+        Object.entries(defaultReaderSettings()) as MetadataKeyValuePair[],
+    ) as unknown as IReaderSettings,
+});
+
+export const getReaderSettingsFor = (
+    { meta }: IMangaCard | IManga,
+): IReaderSettings => getReaderSettingsFromMetadata(meta);
+
 interface IProps {
     settings: IReaderSettings
-    setSettings: React.Dispatch<React.SetStateAction<IReaderSettings>>
+    setSettings: (settings: IReaderSettings) => void
     manga: IManga | IMangaCard
     chapter: IChapter
     curPage: number
