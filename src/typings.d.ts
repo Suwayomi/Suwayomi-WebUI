@@ -58,6 +58,10 @@ interface IMetadata<VALUES extends AllowedMetadataValueTypes = string> {
     [key: string]: VALUES;
 }
 
+interface IMetadataHolder<VALUES extends AllowedMetadataValueTypes = string> {
+    meta?: IMetadata<VALUES>
+}
+
 type AllowedMetadataValueTypes = string | boolean | number | undefined;
 
 type MangaMetadataKeys = keyof IReaderSettings;
