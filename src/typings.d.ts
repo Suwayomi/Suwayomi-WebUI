@@ -54,6 +54,18 @@ interface IState {
     index: number
 }
 
+interface IMetadata<VALUES extends AllowedMetadataValueTypes = string> {
+    [key: string]: VALUES;
+}
+
+type AllowedMetadataValueTypes = string | boolean | number | undefined;
+
+type MangaMetadataKeys = keyof IReaderSettings;
+
+type AppMetadataKeys = MangaMetadataKeys;
+
+type MetadataKeyValuePair = [AppMetadataKeys, AllowedMetadataValueTypes];
+
 interface IMangaCard {
     id: number
     title: string
@@ -61,6 +73,7 @@ interface IMangaCard {
     unreadCount?: number
     downloadCount?: number
     inLibrary?: boolean
+    meta?: IMetadata
 }
 
 interface IManga {
@@ -80,8 +93,9 @@ interface IManga {
     inLibrary: boolean
     source: ISource
 
-    realUrl: string
+    meta: IMetadata
 
+    realUrl: string
     freshData: boolean
     unreadCount?: number
     downloadCount?: number
@@ -107,6 +121,7 @@ interface IChapter {
     chapterCount: number
     pageCount: number
     downloaded: boolean
+    meta: IAppMetadata
 }
 
 interface IMangaChapter {
@@ -126,6 +141,7 @@ interface ICategory {
     order: number
     name: string
     default: boolean
+    meta: IAppMetadata
 }
 
 interface INavbarOverride {
