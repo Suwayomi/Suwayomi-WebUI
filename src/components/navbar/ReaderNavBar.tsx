@@ -129,7 +129,7 @@ export const getReaderSettingsFor = (
 
 interface IProps {
     settings: IReaderSettings
-    setSettings: (settings: IReaderSettings) => void
+    setSettingValue: (key: keyof IReaderSettings, value: string | boolean) => void
     manga: IManga | IMangaCard
     chapter: IChapter
     curPage: number
@@ -140,15 +140,13 @@ export default function ReaderNavBar(props: IProps) {
     const backTo = useBackTo();
 
     const {
-        settings, setSettings, manga, chapter, curPage,
+        settings, setSettingValue, manga, chapter, curPage,
     } = props;
 
     const [drawerOpen, setDrawerOpen] = useState(false || settings.staticNav);
     const [hideOpenButton, setHideOpenButton] = useState(false);
     const [prevScrollPos, setPrevScrollPos] = useState(0);
     const [settingsCollapseOpen, setSettingsCollapseOpen] = useState(true);
-
-    const setSettingValue = (key: string, value: any) => setSettings({ ...settings, [key]: value });
 
     const handleScroll = () => {
         const currentScrollPos = window.pageYOffset;

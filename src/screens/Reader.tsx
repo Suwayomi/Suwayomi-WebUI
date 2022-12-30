@@ -70,9 +70,9 @@ export default function Reader() {
 
     const [settings, setSettings] = useState(getReaderSettingsFor(manga));
 
-    const updateSettings = (readerSettings: IReaderSettings) => {
-        setSettings(readerSettings);
-        requestUpdateMangaMetadata(manga, Object.entries(readerSettings) as MetadataKeyValuePair[]).catch(() => makeToast('Failed to save the reader settings to the server', 'warning'));
+    const setSettingValue = (key: keyof IReaderSettings, value: string | boolean) => {
+        setSettings({ ...settings, [key]: value });
+        requestUpdateMangaMetadata(manga, [[key, value]]).catch(() => makeToast('Failed to save the reader settings to the server', 'warning'));
     };
 
     useEffect(() => {
@@ -83,7 +83,7 @@ export default function Reader() {
                 value: (
                     <ReaderNavBar
                         settings={settings}
-                        setSettings={updateSettings}
+                        setSettingValue={setSettingValue}
                         manga={manga}
                         chapter={chapter as IChapter}
                         curPage={curPage}
