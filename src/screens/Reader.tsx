@@ -21,7 +21,11 @@ import client from 'util/client';
 import useLocalStorage from 'util/useLocalStorage';
 import { Box } from '@mui/system';
 import { requestUpdateMangaMetadata } from 'util/metadata';
-import { getReaderSettingsFor, useDefaultReaderSettings } from 'util/readerSettings';
+import {
+    checkAndHandleMissingStoredReaderSettings,
+    getReaderSettingsFor,
+    useDefaultReaderSettings,
+} from 'util/readerSettings';
 import makeToast from '../components/util/Toast';
 
 const getReaderComponent = (readerType: ReaderType) => {
@@ -83,6 +87,7 @@ export default function Reader() {
 
     useEffect(() => {
         if (!areDefaultSettingsLoading && !isMangaLoading) {
+            checkAndHandleMissingStoredReaderSettings(manga, 'manga', defaultSettings).catch(() => {});
             setSettings(getReaderSettingsFor(manga, defaultSettings));
         }
     }, [areDefaultSettingsLoading, isMangaLoading]);

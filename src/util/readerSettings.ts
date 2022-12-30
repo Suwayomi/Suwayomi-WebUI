@@ -6,15 +6,15 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { getMetadataFrom } from 'util/metadata';
+import { getMetadataFrom, requestUpdateMangaMetadata, requestUpdateServerMetadata } from 'util/metadata';
 import { useQuery } from './client';
 
-export const defaultReaderSettings = () => ({
-    staticNav: false,
-    showPageNumber: true,
-    continuesPageGap: false,
-    loadNextonEnding: false,
-    readerType: 'ContinuesVertical',
+export const getDefaultSettings = (forceUndefined: boolean = false) => ({
+    staticNav: forceUndefined ? undefined : false,
+    showPageNumber: forceUndefined ? undefined : true,
+    continuesPageGap: forceUndefined ? undefined : false,
+    loadNextonEnding: forceUndefined ? undefined : false,
+    readerType: forceUndefined ? undefined : 'ContinuesVertical',
 } as IReaderSettings);
 
 const getReaderSettingsWithDefaultValueFallback = (
@@ -48,4 +48,42 @@ export const useDefaultReaderSettings = (): {
     const settings = getReaderSettingsWithDefaultValueFallback(meta);
 
     return { metadata: meta, settings, loading };
+};
+
+/**
+ * Saves all missing reader settings from the metadata to the server
+ *
+ * @param metadataHolder
+ * @param metadataHolderType
+ * @param defaultSettings
+ */
+export const checkAndHandleMissingStoredReaderSettings = async (
+    metadataHolder: IManga | IMetadataHolder,
+    metadataHolderType: 'manga' | 'server',
+    defaultSettings: IReaderSettings,
+): Promise<void | void[]> => {
+    const meta = metadataHolder.meta ?? metadataHolder as IMetadata;
+    const settingsToCheck = getReaderSettingsFor({ meta }, getDefaultSettings(true));
+    const newSettings = getReaderSettingsFor({ meta }, defaultSettings);
+
+    const undefinedSettings = Object.entries(settingsToCheck)
+        .filter((setting) => setting[1] === undefined);
+
+    const settingsToUpdate: MetadataKeyValuePair[] = [];
+    undefinedSettings.forEach((setting) => {
+        const key = setting[0] as keyof IReaderSettings;
+
+        settingsToUpdate.push([key, newSettings[key]]);
+    });
+
+    if (!undefinedSettings.length) {
+        return;
+    }
+
+    if (metadataHolderType === 'manga') {
+        await requestUpdateMangaMetadata(metadataHolder as IManga, settingsToUpdate);
+        return;
+    }
+
+    await requestUpdateServerMetadata(meta, settingsToUpdate);
 };

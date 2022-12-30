@@ -14,7 +14,11 @@ import { Box } from '@mui/system';
 import CircularProgress from '@mui/material/CircularProgress';
 import { requestUpdateServerMetadata } from 'util/metadata';
 import makeToast from 'components/util/Toast';
-import { useDefaultReaderSettings } from 'util/readerSettings';
+import {
+    checkAndHandleMissingStoredReaderSettings,
+    getDefaultSettings,
+    useDefaultReaderSettings,
+} from 'util/readerSettings';
 import ReaderSettingsOptions from 'components/reader/ReaderSettingsOptions';
 
 export default function DefaultReaderSettings() {
@@ -40,6 +44,9 @@ export default function DefaultReaderSettings() {
             </Box>
         );
     }
+
+    checkAndHandleMissingStoredReaderSettings({ meta: metadata }, 'server', getDefaultSettings())
+        .catch(() => {});
 
     return (
         <ReaderSettingsOptions
