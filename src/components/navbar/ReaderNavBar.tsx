@@ -148,6 +148,11 @@ export default function ReaderNavBar(props: IProps) {
     const [prevScrollPos, setPrevScrollPos] = useState(0);
     const [settingsCollapseOpen, setSettingsCollapseOpen] = useState(true);
 
+    const updateDrawer = (open: boolean) => {
+        setDrawerOpen(open);
+        setHideOpenButton(open);
+    };
+
     const handleScroll = () => {
         const currentScrollPos = window.pageYOffset;
 
@@ -204,7 +209,7 @@ export default function ReaderNavBar(props: IProps) {
                                 color="inherit"
                                 aria-label="menu"
                                 disableRipple
-                                onClick={() => setDrawerOpen(false)}
+                                onClick={() => updateDrawer(false)}
                                 size="large"
                             >
                                 <KeyboardArrowLeftIcon />
@@ -367,7 +372,7 @@ export default function ReaderNavBar(props: IProps) {
                         aria-label="menu"
                         disableRipple
                         disableFocusRipple
-                        onClick={() => setDrawerOpen(true)}
+                        onClick={() => updateDrawer(true)}
                         size="large"
                     >
                         <KeyboardArrowRightIcon />
