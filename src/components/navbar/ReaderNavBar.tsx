@@ -13,7 +13,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import React, { useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory, Link, useLocation } from 'react-router-dom';
 import Slide from '@mui/material/Slide';
 import Fade from '@mui/material/Fade';
 import Zoom from '@mui/material/Zoom';
@@ -138,15 +138,25 @@ interface IProps {
 export default function ReaderNavBar(props: IProps) {
     const history = useHistory();
     const backTo = useBackTo();
+    const location = useLocation<{
+        prevDrawerOpen?: boolean,
+        prevSettingsCollapseOpen?: boolean
+    }>();
+    const {
+        prevDrawerOpen,
+        prevSettingsCollapseOpen,
+    } = location.state ?? {};
 
     const {
         settings, setSettingValue, manga, chapter, curPage,
     } = props;
 
-    const [drawerOpen, setDrawerOpen] = useState(settings.staticNav);
-    const [hideOpenButton, setHideOpenButton] = useState(settings.staticNav);
+    const [drawerOpen, setDrawerOpen] = useState(settings.staticNav || prevDrawerOpen);
+    const [hideOpenButton, setHideOpenButton] = useState(settings.staticNav || prevDrawerOpen);
     const [prevScrollPos, setPrevScrollPos] = useState(0);
-    const [settingsCollapseOpen, setSettingsCollapseOpen] = useState(true);
+    const [settingsCollapseOpen, setSettingsCollapseOpen] = useState(
+        prevSettingsCollapseOpen ?? true,
+    );
 
     const updateDrawer = (open: boolean) => {
         setDrawerOpen(open);
@@ -332,35 +342,47 @@ export default function ReaderNavBar(props: IProps) {
                         </span>
                         <ChapterNavigation>
                             {chapter.index > 1
-                        && (
-                            <Link
-                                replace
-                                to={{ pathname: `/manga/${manga.id}/chapter/${chapter.index - 1}`, state: history.location.state }}
-                            >
-                                <Button
-                                    variant="outlined"
-                                    sx={{ gridArea: 'prev' }}
-                                    startIcon={<KeyboardArrowLeftIcon />}
+                            && (
+                                <Link
+                                    replace
+                                    to={{
+                                        pathname: `/manga/${manga.id}/chapter/${chapter.index - 1}`,
+                                        state: {
+                                            prevDrawerOpen: drawerOpen,
+                                            prevSettingsCollapseOpen: settingsCollapseOpen,
+                                        },
+                                    }}
                                 >
-                                    Prev. Chapter
-                                </Button>
-                            </Link>
-                        )}
+                                    <Button
+                                        variant="outlined"
+                                        sx={{ gridArea: 'prev' }}
+                                        startIcon={<KeyboardArrowLeftIcon />}
+                                    >
+                                        Prev. Chapter
+                                    </Button>
+                                </Link>
+                            )}
                             {chapter.index < chapter.chapterCount
-                        && (
-                            <Link
-                                replace
-                                style={{ gridArea: 'next' }}
-                                to={{ pathname: `/manga/${manga.id}/chapter/${chapter.index + 1}`, state: history.location.state }}
-                            >
-                                <Button
-                                    variant="outlined"
-                                    endIcon={<KeyboardArrowRightIcon />}
+                            && (
+                                <Link
+                                    replace
+                                    style={{ gridArea: 'next' }}
+                                    to={{
+                                        pathname: `/manga/${manga.id}/chapter/${chapter.index + 1}`,
+                                        state: {
+                                            prevDrawerOpen: drawerOpen,
+                                            prevSettingsCollapseOpen: settingsCollapseOpen,
+                                        },
+                                    }}
                                 >
-                                    Next Chapter
-                                </Button>
-                            </Link>
-                        )}
+                                    <Button
+                                        variant="outlined"
+                                        endIcon={<KeyboardArrowRightIcon />}
+                                    >
+                                        Next Chapter
+                                    </Button>
+                                </Link>
+                            )}
                         </ChapterNavigation>
                     </Navigation>
                 </Root>
