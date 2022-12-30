@@ -6,6 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import React, { useContext, useEffect, useState } from 'react';
+import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import List from '@mui/material/List';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import BackupIcon from '@mui/icons-material/Backup';
@@ -95,6 +96,12 @@ export default function Settings() {
                         <ListAltIcon />
                     </ListItemIcon>
                     <ListItemText primary="Categories" />
+                </ListItemLink>
+                <ListItemLink to="/settings/defaultReaderSettings">
+                    <ListItemIcon>
+                        <AutoStoriesIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Default Reader Settings" />
                 </ListItemLink>
                 <ListItemLink to="/settings/backup">
                     <ListItemIcon>

@@ -24,6 +24,7 @@ import Settings from 'screens/Settings';
 import About from 'screens/settings/About';
 import Backup from 'screens/settings/Backup';
 import Categories from 'screens/settings/Categories';
+import DefaultReaderSettings from 'screens/settings/DefaultReaderSettings';
 import SourceConfigure from 'screens/SourceConfigure';
 import SourceMangas from 'screens/SourceMangas';
 import Sources from 'screens/Sources';
@@ -59,6 +60,9 @@ const App: React.FC = () => (
                 </Route>
                 <Route path="/settings/categories">
                     <Categories />
+                </Route>
+                <Route path="/settings/defaultReaderSettings">
+                    <DefaultReaderSettings />
                 </Route>
                 <Route path="/settings/backup">
                     <Backup />
