@@ -10,12 +10,11 @@
 
 import React, { useContext, useEffect } from 'react';
 import NavbarContext from 'components/context/NavbarContext';
-import { useQuery } from 'util/client';
 import { Box } from '@mui/system';
 import CircularProgress from '@mui/material/CircularProgress';
 import { requestUpdateServerMetadata } from 'util/metadata';
 import makeToast from 'components/util/Toast';
-import { getReaderSettingsFor } from 'util/readerSettings';
+import { useDefaultReaderSettings } from 'util/readerSettings';
 import ReaderSettingsOptions from 'components/reader/ReaderSettingsOptions';
 
 export default function DefaultReaderSettings() {
@@ -25,11 +24,10 @@ export default function DefaultReaderSettings() {
         setAction(<></>);
     }, []);
 
-    const { data: meta, loading } = useQuery<IMetadata>('/api/v1/meta');
-    const settings = getReaderSettingsFor({ meta });
+    const { metadata, settings, loading } = useDefaultReaderSettings();
 
     const setSettingValue = (key: keyof IReaderSettings, value: string | boolean) => {
-        requestUpdateServerMetadata(meta ?? {}, [[key, value]]).catch(() => makeToast('Failed to save the default reader settings to the server', 'warning'));
+        requestUpdateServerMetadata(metadata ?? {}, [[key, value]]).catch(() => makeToast('Failed to save the default reader settings to the server', 'warning'));
     };
 
     if (loading) {

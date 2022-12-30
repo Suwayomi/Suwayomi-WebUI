@@ -7,6 +7,7 @@
  */
 
 import { getMetadataFrom } from 'util/metadata';
+import { useQuery } from './client';
 
 export const defaultReaderSettings = () => ({
     staticNav: false,
@@ -16,15 +17,35 @@ export const defaultReaderSettings = () => ({
     readerType: 'ContinuesVertical',
 } as IReaderSettings);
 
-export const getReaderSettingsFromMetadata = (
+const getReaderSettingsWithDefaultValueFallback = (
     meta?: IMetadata,
+    defaultSettings?: IReaderSettings,
 ): IReaderSettings => ({
     ...getMetadataFrom(
         { meta },
-        Object.entries(defaultReaderSettings()) as MetadataKeyValuePair[],
+        Object.entries(defaultSettings ?? getDefaultSettings()) as MetadataKeyValuePair[],
     ) as unknown as IReaderSettings,
+});
+
+export const getReaderSettingsFromMetadata = (
+    meta?: IMetadata,
+    defaultSettings?: IReaderSettings,
+): IReaderSettings => ({
+    ...getReaderSettingsWithDefaultValueFallback(meta, defaultSettings),
 });
 
 export const getReaderSettingsFor = (
     { meta }: IMetadataHolder,
-): IReaderSettings => getReaderSettingsFromMetadata(meta);
+    defaultSettings?: IReaderSettings,
+): IReaderSettings => getReaderSettingsFromMetadata(meta, defaultSettings);
+
+export const useDefaultReaderSettings = (): {
+    metadata?: IMetadata,
+    settings: IReaderSettings,
+    loading: boolean
+} => {
+    const { data: meta, loading } = useQuery<IMetadata>('/api/v1/meta');
+    const settings = getReaderSettingsWithDefaultValueFallback(meta);
+
+    return { metadata: meta, settings, loading };
+};
