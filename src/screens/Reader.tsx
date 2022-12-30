@@ -103,6 +103,7 @@ export default function Reader() {
             .then((data: IManga) => {
                 setManga(data);
                 setTitle(data.title);
+                setSettings(getReaderSettingsFor(data));
             });
     }, [mangaId]);
 
