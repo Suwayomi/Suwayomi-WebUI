@@ -15,12 +15,13 @@ import PageNumber from 'components/reader/PageNumber';
 import PagedPager from 'components/reader/pager/PagedPager';
 import DoublePagedPager from 'components/reader/pager/DoublePagedPager';
 import VerticalPager from 'components/reader/pager/VerticalPager';
-import ReaderNavBar, { getReaderSettingsFor } from 'components/navbar/ReaderNavBar';
+import ReaderNavBar from 'components/navbar/ReaderNavBar';
 import NavbarContext from 'components/context/NavbarContext';
 import client from 'util/client';
 import useLocalStorage from 'util/useLocalStorage';
 import { Box } from '@mui/system';
 import { requestUpdateMangaMetadata } from 'util/metadata';
+import { getReaderSettingsFor } from 'util/readerSettings';
 import makeToast from '../components/util/Toast';
 
 const getReaderComponent = (readerType: ReaderType) => {
