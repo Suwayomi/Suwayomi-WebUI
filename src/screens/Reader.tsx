@@ -104,7 +104,7 @@ export default function Reader() {
                 setManga(data);
                 setTitle(data.title);
             });
-    }, [chapterIndex]);
+    }, [mangaId]);
 
     useEffect(() => {
         setChapter(initialChapter);
