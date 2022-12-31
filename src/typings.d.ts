@@ -54,6 +54,11 @@ interface IState {
     index: number
 }
 
+interface IMetadataMigration {
+    appKeyPrefix?: { oldPrefix: string, newPrefix: string }
+    keys?: { oldKey: string, newKey: string }[]
+}
+
 interface IMetadata<VALUES extends AllowedMetadataValueTypes = string> {
     [key: string]: VALUES;
 }
