@@ -143,8 +143,8 @@ export default function ReaderNavBar(props: IProps) {
         settings, setSettingValue, manga, chapter, curPage,
     } = props;
 
-    const [drawerOpen, setDrawerOpen] = useState(false || settings.staticNav);
-    const [hideOpenButton, setHideOpenButton] = useState(false);
+    const [drawerOpen, setDrawerOpen] = useState(settings.staticNav);
+    const [hideOpenButton, setHideOpenButton] = useState(settings.staticNav);
     const [prevScrollPos, setPrevScrollPos] = useState(0);
     const [settingsCollapseOpen, setSettingsCollapseOpen] = useState(true);
 
