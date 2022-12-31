@@ -20,24 +20,28 @@ export const getDefaultSettings = (forceUndefined: boolean = false) => ({
 const getReaderSettingsWithDefaultValueFallback = (
     meta?: IMetadata,
     defaultSettings?: IReaderSettings,
+    applyMetadataMigration: boolean = true,
 ): IReaderSettings => ({
     ...getMetadataFrom(
         { meta },
         Object.entries(defaultSettings ?? getDefaultSettings()) as MetadataKeyValuePair[],
+        applyMetadataMigration,
     ) as unknown as IReaderSettings,
 });
 
 export const getReaderSettingsFromMetadata = (
     meta?: IMetadata,
     defaultSettings?: IReaderSettings,
+    applyMetadataMigration?: boolean,
 ): IReaderSettings => ({
-    ...getReaderSettingsWithDefaultValueFallback(meta, defaultSettings),
+    ...getReaderSettingsWithDefaultValueFallback(meta, defaultSettings, applyMetadataMigration),
 });
 
 export const getReaderSettingsFor = (
     { meta }: IMetadataHolder,
     defaultSettings?: IReaderSettings,
-): IReaderSettings => getReaderSettingsFromMetadata(meta, defaultSettings);
+    applyMetadataMigration?: boolean,
+): IReaderSettings => getReaderSettingsFromMetadata(meta, defaultSettings, applyMetadataMigration);
 
 export const useDefaultReaderSettings = (): {
     metadata?: IMetadata,
@@ -63,7 +67,7 @@ export const checkAndHandleMissingStoredReaderSettings = async (
     defaultSettings: IReaderSettings,
 ): Promise<void | void[]> => {
     const meta = metadataHolder.meta ?? metadataHolder as IMetadata;
-    const settingsToCheck = getReaderSettingsFor({ meta }, getDefaultSettings(true));
+    const settingsToCheck = getReaderSettingsFor({ meta }, getDefaultSettings(true), false);
     const newSettings = getReaderSettingsFor({ meta }, defaultSettings);
 
     const undefinedSettings = Object.entries(settingsToCheck)
