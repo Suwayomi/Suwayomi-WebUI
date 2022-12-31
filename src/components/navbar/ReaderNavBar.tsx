@@ -157,6 +157,8 @@ export default function ReaderNavBar(props: IProps) {
         }
     };
 
+    useEffect(() => setDrawerOpen(settings.staticNav), [settings.staticNav]);
+
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
 
