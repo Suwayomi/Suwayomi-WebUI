@@ -46,10 +46,12 @@ function UpdateChecker() {
         const wsc = new WebSocket(`${baseWebsocketUrl}/api/v1/update`);
         wsc.onmessage = (e) => {
             const data = JSON.parse(e.data) as IUpdateStatus;
-            const { COMPLETE, RUNNING, PENDING } = data.statusMap;
+            const { COMPLETE = [], RUNNING = [], PENDING = [] } = data.statusMap;
 
             setLoading(data.running);
-            const currentProgress = 100 * (COMPLETE / (COMPLETE + RUNNING + PENDING));
+            const currentProgress = 100 * (
+                COMPLETE.length / (COMPLETE.length + RUNNING.length + PENDING.length)
+            );
 
             setProgress(Number.isNaN(currentProgress) ? 0 : currentProgress);
         };
