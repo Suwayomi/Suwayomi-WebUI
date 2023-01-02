@@ -173,7 +173,7 @@ type ReaderType =
 interface IReaderSettings{
     staticNav: boolean
     showPageNumber: boolean
-    loadNextonEnding: boolean
+    loadNextOnEnding: boolean
     readerType: ReaderType
 }
 

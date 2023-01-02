@@ -13,7 +13,7 @@ export const getDefaultSettings = (forceUndefined: boolean = false) => ({
     staticNav: forceUndefined ? undefined : false,
     showPageNumber: forceUndefined ? undefined : true,
     continuesPageGap: forceUndefined ? undefined : false,
-    loadNextonEnding: forceUndefined ? undefined : false,
+    loadNextOnEnding: forceUndefined ? undefined : false,
     readerType: forceUndefined ? undefined : 'ContinuesVertical',
 } as IReaderSettings);
 

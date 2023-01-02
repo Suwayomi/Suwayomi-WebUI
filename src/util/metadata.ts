@@ -11,7 +11,13 @@ import client from './client';
 
 const APP_METADATA_KEY_PREFIX = 'webUI_';
 
-const migrations: IMetadataMigration[] = [];
+const migrations: IMetadataMigration[] = [
+    {
+        keys: [
+            { oldKey: 'loadNextonEnding', newKey: 'loadNextOnEnding' },
+        ],
+    },
+];
 
 const getMetadataKey = (key: string, appPrefix: string = APP_METADATA_KEY_PREFIX) => `${appPrefix}${key}`;
 

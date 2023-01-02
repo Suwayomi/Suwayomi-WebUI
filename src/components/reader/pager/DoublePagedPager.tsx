@@ -102,7 +102,7 @@ export default function DoublePagedPager(props: IReaderProps) {
         if (curPage < pages.length - 1) {
             const nextCurPage = curPage + pagesDisplayed.current;
             setCurPage((nextCurPage >= pages.length) ? pages.length - 1 : nextCurPage);
-        } else if (settings.loadNextonEnding) {
+        } else if (settings.loadNextOnEnding) {
             nextChapter();
         }
     }

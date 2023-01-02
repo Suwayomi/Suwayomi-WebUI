@@ -24,7 +24,7 @@ export default function PagedReader(props: IReaderProps) {
     function nextPage() {
         if (curPage < pages.length - 1) {
             changePage(curPage + 1);
-        } else if (settings.loadNextonEnding) {
+        } else if (settings.loadNextOnEnding) {
             nextChapter();
         }
     }

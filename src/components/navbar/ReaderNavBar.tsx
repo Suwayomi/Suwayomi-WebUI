@@ -256,7 +256,7 @@ export default function ReaderNavBar(props: IProps) {
                             setSettingValue={updateSettingValue}
                             staticNav={settings.staticNav}
                             showPageNumber={settings.showPageNumber}
-                            loadNextonEnding={settings.loadNextonEnding}
+                            loadNextOnEnding={settings.loadNextOnEnding}
                             readerType={settings.readerType}
                         />
                     </Collapse>

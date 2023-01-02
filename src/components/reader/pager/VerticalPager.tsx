@@ -55,7 +55,7 @@ export default function VerticalPager(props: IReaderProps) {
                 setCurPage(currentPageRef.current);
 
                 // Go to next chapter if configured to and at bottom
-                if (settings.loadNextonEnding) {
+                if (settings.loadNextOnEnding) {
                     nextChapter();
                 }
             } else {
@@ -72,7 +72,7 @@ export default function VerticalPager(props: IReaderProps) {
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
-    }, [settings.loadNextonEnding]);
+    }, [settings.loadNextOnEnding]);
 
     const go = useCallback((direction: 'up' | 'down') => {
         if (direction === 'down' && isAtBottom()) {
