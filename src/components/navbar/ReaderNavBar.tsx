@@ -152,11 +152,18 @@ export default function ReaderNavBar(props: IProps) {
     } = props;
 
     const [drawerOpen, setDrawerOpen] = useState(settings.staticNav || prevDrawerOpen);
+    const [updateDrawerOnRender, setUpdateDrawerOnRender] = useState(true);
     const [hideOpenButton, setHideOpenButton] = useState(settings.staticNav || prevDrawerOpen);
     const [prevScrollPos, setPrevScrollPos] = useState(0);
     const [settingsCollapseOpen, setSettingsCollapseOpen] = useState(
         prevSettingsCollapseOpen ?? true,
     );
+
+    const updateSettingValue = (key: keyof IReaderSettings, value: string | boolean) => {
+        // prevent closing the navBar when updating the "staticNav" setting
+        setUpdateDrawerOnRender(key !== 'staticNav');
+        setSettingValue(key, value);
+    };
 
     const updateDrawer = (open: boolean) => {
         setDrawerOpen(open);
@@ -172,7 +179,11 @@ export default function ReaderNavBar(props: IProps) {
         }
     };
 
-    useEffect(() => setDrawerOpen(settings.staticNav), [settings.staticNav]);
+    useEffect(() => {
+        if (updateDrawerOnRender) {
+            updateDrawer(settings.staticNav);
+        }
+    }, [settings.staticNav]);
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
@@ -272,7 +283,7 @@ export default function ReaderNavBar(props: IProps) {
                                     <Switch
                                         edge="end"
                                         checked={settings.staticNav}
-                                        onChange={(e) => setSettingValue('staticNav', e.target.checked)}
+                                        onChange={(e) => updateSettingValue('staticNav', e.target.checked)}
                                     />
                                 </ListItemSecondaryAction>
                             </ListItem>
@@ -282,7 +293,7 @@ export default function ReaderNavBar(props: IProps) {
                                     <Switch
                                         edge="end"
                                         checked={settings.showPageNumber}
-                                        onChange={(e) => setSettingValue('showPageNumber', e.target.checked)}
+                                        onChange={(e) => updateSettingValue('showPageNumber', e.target.checked)}
                                     />
                                 </ListItemSecondaryAction>
                             </ListItem>
@@ -292,7 +303,7 @@ export default function ReaderNavBar(props: IProps) {
                                     <Switch
                                         edge="end"
                                         checked={settings.loadNextonEnding}
-                                        onChange={(e) => setSettingValue('loadNextonEnding', e.target.checked)}
+                                        onChange={(e) => updateSettingValue('loadNextonEnding', e.target.checked)}
                                     />
                                 </ListItemSecondaryAction>
                             </ListItem>
@@ -301,7 +312,7 @@ export default function ReaderNavBar(props: IProps) {
                                 <Select
                                     variant="standard"
                                     value={settings.readerType}
-                                    onChange={(e) => setSettingValue('readerType', e.target.value)}
+                                    onChange={(e) => updateSettingValue('readerType', e.target.value)}
                                     sx={{ p: 0 }}
                                 >
                                     <MenuItem value="SingleLTR">
