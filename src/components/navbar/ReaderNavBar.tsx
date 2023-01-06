@@ -13,7 +13,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import React, { useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory, Link, useLocation } from 'react-router-dom';
 import Slide from '@mui/material/Slide';
 import Fade from '@mui/material/Fade';
 import Zoom from '@mui/material/Zoom';
@@ -28,6 +28,7 @@ import Collapse from '@mui/material/Collapse';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/system';
 import useBackTo from 'util/useBackTo';
+import { getMetadataFrom } from 'util/metadata';
 
 const Root = styled('div')(({ theme }) => ({
     top: 0,
@@ -105,7 +106,7 @@ const OpenDrawerButton = styled(IconButton)(({ theme }) => ({
     },
 }));
 
-export const defaultReaderSettings = () => ({
+const defaultReaderSettings = () => ({
     staticNav: false,
     showPageNumber: true,
     continuesPageGap: false,
@@ -113,9 +114,22 @@ export const defaultReaderSettings = () => ({
     readerType: 'ContinuesVertical',
 } as IReaderSettings);
 
+const getReaderSettingsFromMetadata = (
+    meta?: IMetadata,
+): IReaderSettings => ({
+    ...getMetadataFrom(
+        { meta },
+        Object.entries(defaultReaderSettings()) as MetadataKeyValuePair[],
+    ) as unknown as IReaderSettings,
+});
+
+export const getReaderSettingsFor = (
+    { meta }: IMangaCard | IManga,
+): IReaderSettings => getReaderSettingsFromMetadata(meta);
+
 interface IProps {
     settings: IReaderSettings
-    setSettings: React.Dispatch<React.SetStateAction<IReaderSettings>>
+    setSettingValue: (key: keyof IReaderSettings, value: string | boolean) => void
     manga: IManga | IMangaCard
     chapter: IChapter
     curPage: number
@@ -124,17 +138,37 @@ interface IProps {
 export default function ReaderNavBar(props: IProps) {
     const history = useHistory();
     const backTo = useBackTo();
+    const location = useLocation<{
+        prevDrawerOpen?: boolean,
+        prevSettingsCollapseOpen?: boolean
+    }>();
+    const {
+        prevDrawerOpen,
+        prevSettingsCollapseOpen,
+    } = location.state ?? {};
 
     const {
-        settings, setSettings, manga, chapter, curPage,
+        settings, setSettingValue, manga, chapter, curPage,
     } = props;
 
-    const [drawerOpen, setDrawerOpen] = useState(false || settings.staticNav);
-    const [hideOpenButton, setHideOpenButton] = useState(false);
+    const [drawerOpen, setDrawerOpen] = useState(settings.staticNav || prevDrawerOpen);
+    const [updateDrawerOnRender, setUpdateDrawerOnRender] = useState(true);
+    const [hideOpenButton, setHideOpenButton] = useState(settings.staticNav || prevDrawerOpen);
     const [prevScrollPos, setPrevScrollPos] = useState(0);
-    const [settingsCollapseOpen, setSettingsCollapseOpen] = useState(true);
+    const [settingsCollapseOpen, setSettingsCollapseOpen] = useState(
+        prevSettingsCollapseOpen ?? true,
+    );
 
-    const setSettingValue = (key: string, value: any) => setSettings({ ...settings, [key]: value });
+    const updateSettingValue = (key: keyof IReaderSettings, value: string | boolean) => {
+        // prevent closing the navBar when updating the "staticNav" setting
+        setUpdateDrawerOnRender(key !== 'staticNav');
+        setSettingValue(key, value);
+    };
+
+    const updateDrawer = (open: boolean) => {
+        setDrawerOpen(open);
+        setHideOpenButton(open);
+    };
 
     const handleScroll = () => {
         const currentScrollPos = window.pageYOffset;
@@ -144,6 +178,12 @@ export default function ReaderNavBar(props: IProps) {
             setPrevScrollPos(currentScrollPos);
         }
     };
+
+    useEffect(() => {
+        if (updateDrawerOnRender) {
+            updateDrawer(settings.staticNav);
+        }
+    }, [settings.staticNav]);
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
@@ -190,7 +230,7 @@ export default function ReaderNavBar(props: IProps) {
                                 color="inherit"
                                 aria-label="menu"
                                 disableRipple
-                                onClick={() => setDrawerOpen(false)}
+                                onClick={() => updateDrawer(false)}
                                 size="large"
                             >
                                 <KeyboardArrowLeftIcon />
@@ -243,7 +283,7 @@ export default function ReaderNavBar(props: IProps) {
                                     <Switch
                                         edge="end"
                                         checked={settings.staticNav}
-                                        onChange={(e) => setSettingValue('staticNav', e.target.checked)}
+                                        onChange={(e) => updateSettingValue('staticNav', e.target.checked)}
                                     />
                                 </ListItemSecondaryAction>
                             </ListItem>
@@ -253,7 +293,7 @@ export default function ReaderNavBar(props: IProps) {
                                     <Switch
                                         edge="end"
                                         checked={settings.showPageNumber}
-                                        onChange={(e) => setSettingValue('showPageNumber', e.target.checked)}
+                                        onChange={(e) => updateSettingValue('showPageNumber', e.target.checked)}
                                     />
                                 </ListItemSecondaryAction>
                             </ListItem>
@@ -263,7 +303,7 @@ export default function ReaderNavBar(props: IProps) {
                                     <Switch
                                         edge="end"
                                         checked={settings.loadNextonEnding}
-                                        onChange={(e) => setSettingValue('loadNextonEnding', e.target.checked)}
+                                        onChange={(e) => updateSettingValue('loadNextonEnding', e.target.checked)}
                                     />
                                 </ListItemSecondaryAction>
                             </ListItem>
@@ -272,7 +312,7 @@ export default function ReaderNavBar(props: IProps) {
                                 <Select
                                     variant="standard"
                                     value={settings.readerType}
-                                    onChange={(e) => setSettingValue('readerType', e.target.value)}
+                                    onChange={(e) => updateSettingValue('readerType', e.target.value)}
                                     sx={{ p: 0 }}
                                 >
                                     <MenuItem value="SingleLTR">
@@ -313,35 +353,47 @@ export default function ReaderNavBar(props: IProps) {
                         </span>
                         <ChapterNavigation>
                             {chapter.index > 1
-                        && (
-                            <Link
-                                replace
-                                to={{ pathname: `/manga/${manga.id}/chapter/${chapter.index - 1}`, state: history.location.state }}
-                            >
-                                <Button
-                                    variant="outlined"
-                                    sx={{ gridArea: 'prev' }}
-                                    startIcon={<KeyboardArrowLeftIcon />}
+                            && (
+                                <Link
+                                    replace
+                                    to={{
+                                        pathname: `/manga/${manga.id}/chapter/${chapter.index - 1}`,
+                                        state: {
+                                            prevDrawerOpen: drawerOpen,
+                                            prevSettingsCollapseOpen: settingsCollapseOpen,
+                                        },
+                                    }}
                                 >
-                                    Prev. Chapter
-                                </Button>
-                            </Link>
-                        )}
+                                    <Button
+                                        variant="outlined"
+                                        sx={{ gridArea: 'prev' }}
+                                        startIcon={<KeyboardArrowLeftIcon />}
+                                    >
+                                        Prev. Chapter
+                                    </Button>
+                                </Link>
+                            )}
                             {chapter.index < chapter.chapterCount
-                        && (
-                            <Link
-                                replace
-                                style={{ gridArea: 'next' }}
-                                to={{ pathname: `/manga/${manga.id}/chapter/${chapter.index + 1}`, state: history.location.state }}
-                            >
-                                <Button
-                                    variant="outlined"
-                                    endIcon={<KeyboardArrowRightIcon />}
+                            && (
+                                <Link
+                                    replace
+                                    style={{ gridArea: 'next' }}
+                                    to={{
+                                        pathname: `/manga/${manga.id}/chapter/${chapter.index + 1}`,
+                                        state: {
+                                            prevDrawerOpen: drawerOpen,
+                                            prevSettingsCollapseOpen: settingsCollapseOpen,
+                                        },
+                                    }}
                                 >
-                                    Next Chapter
-                                </Button>
-                            </Link>
-                        )}
+                                    <Button
+                                        variant="outlined"
+                                        endIcon={<KeyboardArrowRightIcon />}
+                                    >
+                                        Next Chapter
+                                    </Button>
+                                </Link>
+                            )}
                         </ChapterNavigation>
                     </Navigation>
                 </Root>
@@ -353,7 +405,7 @@ export default function ReaderNavBar(props: IProps) {
                         aria-label="menu"
                         disableRipple
                         disableFocusRipple
-                        onClick={() => setDrawerOpen(true)}
+                        onClick={() => updateDrawer(true)}
                         size="large"
                     >
                         <KeyboardArrowRightIcon />
