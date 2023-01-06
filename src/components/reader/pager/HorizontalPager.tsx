@@ -42,7 +42,7 @@ export default function HorizontalPager(props: IReaderProps) {
         if (curPage < pages.length - 1) {
             pagesRef.current[curPage + 1]?.scrollIntoView({ inline: 'center' });
             setCurPage((page) => page + 1);
-        } else if (settings.loadNextonEnding) {
+        } else if (settings.loadNextOnEnding) {
             nextChapter();
         }
     }
@@ -126,7 +126,7 @@ export default function HorizontalPager(props: IReaderProps) {
     }, [selfRef]);
 
     useEffect(() => {
-        if (settings.loadNextonEnding) {
+        if (settings.loadNextOnEnding) {
             document.addEventListener('scroll', handleLoadNextonEnding);
         }
         selfRef.current?.addEventListener('mousedown', clickControl);

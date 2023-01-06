@@ -19,7 +19,7 @@ interface IProps extends IReaderSettings {
 }
 
 export default function ReaderSettingsOptions({
-    staticNav, loadNextonEnding, readerType, showPageNumber, setSettingValue,
+    staticNav, loadNextOnEnding, readerType, showPageNumber, setSettingValue,
 }: IProps) {
     return (
         <>
@@ -49,8 +49,8 @@ export default function ReaderSettingsOptions({
                     <ListItemSecondaryAction>
                         <Switch
                             edge="end"
-                            checked={loadNextonEnding}
-                            onChange={(e) => setSettingValue('loadNextonEnding', e.target.checked)}
+                            checked={loadNextOnEnding}
+                            onChange={(e) => setSettingValue('loadNextOnEnding', e.target.checked)}
                         />
                     </ListItemSecondaryAction>
                 </ListItem>

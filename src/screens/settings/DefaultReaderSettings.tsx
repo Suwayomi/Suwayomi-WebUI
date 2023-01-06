@@ -53,7 +53,7 @@ export default function DefaultReaderSettings() {
             setSettingValue={setSettingValue}
             staticNav={settings.staticNav}
             showPageNumber={settings.showPageNumber}
-            loadNextonEnding={settings.loadNextonEnding}
+            loadNextOnEnding={settings.loadNextOnEnding}
             readerType={settings.readerType}
         />
     );

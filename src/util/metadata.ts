@@ -11,7 +11,21 @@ import client from './client';
 
 const APP_METADATA_KEY_PREFIX = 'webUI_';
 
-const getMetadataKey = (key: string) => `${APP_METADATA_KEY_PREFIX}${key}`;
+const migrations: IMetadataMigration[] = [
+    {
+        keys: [
+            { oldKey: 'loadNextonEnding', newKey: 'loadNextOnEnding' },
+        ],
+    },
+];
+
+const getMetadataKey = (key: string, appPrefix: string = APP_METADATA_KEY_PREFIX) => `${appPrefix}${key}`;
+
+const doesMetadataKeyExistIn = (
+    meta: IMetadata | undefined,
+    key: string,
+    appPrefix?: string,
+): boolean => Object.prototype.hasOwnProperty.call(meta ?? {}, getMetadataKey(key, appPrefix));
 
 const convertValueFromMetadata = <
     T extends AllowedMetadataValueTypes = AllowedMetadataValueTypes,
@@ -33,31 +47,121 @@ const convertValueFromMetadata = <
     return value as T;
 };
 
+const getAppMetadataFrom = (
+    meta: IMetadata,
+    appPrefix: string = APP_METADATA_KEY_PREFIX,
+): IMetadata => {
+    const appMetadata: IMetadata = {};
+
+    Object.entries(meta).forEach(([key, value]) => {
+        if (key.startsWith(appPrefix)) {
+            appMetadata[key] = value;
+        }
+    });
+
+    return appMetadata;
+};
+
+const applyAppKeyPrefixMigration = (meta: IMetadata, migration: IMetadataMigration): IMetadata => {
+    const migratedMetadata: IMetadata = { ...meta };
+
+    if (!migration.appKeyPrefix) {
+        return migratedMetadata;
+    }
+
+    const { oldPrefix, newPrefix } = migration.appKeyPrefix;
+
+    const oldAppMetadata = getAppMetadataFrom(meta, oldPrefix);
+    const newAppMetadata = getAppMetadataFrom(meta, newPrefix);
+
+    const missingMetadataKeys = Object.keys(oldAppMetadata)
+        .filter((key) => !Object.keys(newAppMetadata).includes(key));
+
+    const isMissingOldMetadata = missingMetadataKeys.length;
+    if (isMissingOldMetadata) {
+        missingMetadataKeys.forEach((oldKey) => {
+            const keyWithNewPrefix = oldKey.replace(oldPrefix, newPrefix);
+            migratedMetadata[keyWithNewPrefix] = oldAppMetadata[oldKey];
+        });
+    }
+
+    return migratedMetadata;
+};
+
+const applyMetadataKeyMigration = (meta: IMetadata, migration: IMetadataMigration): IMetadata => {
+    const migratedMetadata: IMetadata = { ...meta };
+
+    if (!migration.keys) {
+        return migratedMetadata;
+    }
+
+    const metadataKeyChanges = migration.keys;
+
+    metadataKeyChanges.forEach(({ oldKey, newKey }) => {
+        if (!doesMetadataKeyExistIn(meta, oldKey)) {
+            return;
+        }
+
+        if (doesMetadataKeyExistIn(meta, newKey)) {
+            return;
+        }
+
+        migratedMetadata[getMetadataKey(newKey)] = meta[getMetadataKey(oldKey)];
+    });
+
+    return migratedMetadata;
+};
+
+const applyMetadataMigrations = (meta?: IMetadata): IMetadata | undefined => {
+    if (!meta) {
+        return undefined;
+    }
+
+    const migrationToMetadata: [number, IMetadata][] = [[0, meta]];
+
+    migrations.forEach((migration, index) => {
+        const migrationId = index + 1;
+        const metadataToMigrate = migrationToMetadata[migrationId - 1][1];
+        const appKeyPrefixMigrated = applyAppKeyPrefixMigration(metadataToMigrate, migration);
+        const metadataKeysMigrated = applyMetadataKeyMigration(appKeyPrefixMigrated, migration);
+
+        migrationToMetadata.push([migrationId, metadataKeysMigrated]);
+    });
+
+    const appliedMigration = migrationToMetadata.length > 1;
+    if (!appliedMigration) {
+        return { ...meta };
+    }
+
+    return migrationToMetadata.pop()![1];
+};
+
 export const getMetadataValueFrom = <
     T extends AllowedMetadataValueTypes = AllowedMetadataValueTypes,
 >(
     { meta }: IMetadataHolder,
     key: AppMetadataKeys,
     defaultValue?: T,
+    applyMigrations: boolean = true,
 ): T | undefined => {
-    const metadataKey = getMetadataKey(key);
+    const metadata = applyMigrations ? applyMetadataMigrations(meta) : meta;
 
-    const isMissingKey = !Object.prototype.hasOwnProperty.call(meta ?? {}, metadataKey);
-    if (meta === undefined || isMissingKey) {
+    if (metadata === undefined || !doesMetadataKeyExistIn(metadata, key)) {
         return defaultValue;
     }
 
-    return convertValueFromMetadata(meta[metadataKey]);
+    return convertValueFromMetadata(metadata[getMetadataKey(key)]);
 };
 
 export const getMetadataFrom = (
     { meta }: IMetadataHolder,
     keysToDefaultValues: MetadataKeyValuePair[],
+    applyMigrations?: boolean,
 ): IMetadata<AllowedMetadataValueTypes> => {
     const appMetadata: IMetadata<AllowedMetadataValueTypes> = {};
 
     keysToDefaultValues.forEach(([key, defaultValue]) => {
-        appMetadata[key] = getMetadataValueFrom({ meta }, key, defaultValue);
+        appMetadata[key] = getMetadataValueFrom({ meta }, key, defaultValue, applyMigrations);
     });
 
     return appMetadata;
