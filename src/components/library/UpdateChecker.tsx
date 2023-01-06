@@ -27,7 +27,11 @@ function Progress({ progress }: IProgressProps) {
 
 const baseWebsocketUrl = JSON.parse(window.localStorage.getItem('serverBaseURL')!).replace('http', 'ws');
 
-function UpdateChecker() {
+interface IUpdateCheckerProps {
+    handleFinishedUpdate: (time: number) => void
+}
+
+function UpdateChecker({ handleFinishedUpdate }: IUpdateCheckerProps) {
     const [loading, setLoading] = useState(false);
     const [progress, setProgress] = useState(0);
 
@@ -44,16 +48,36 @@ function UpdateChecker() {
 
     useEffect(() => {
         const wsc = new WebSocket(`${baseWebsocketUrl}/api/v1/update`);
-        wsc.onmessage = (e) => {
-            const data = JSON.parse(e.data) as IUpdateStatus;
-            const { COMPLETE = [], RUNNING = [], PENDING = [] } = data.statusMap;
 
-            setLoading(data.running);
+        // "loading" can't be used since it will be outdated once the state gets changed
+        // it could be used by adding it as a dependency of "useEffect" but then the socket would
+        // get closed and connected again every time it changes
+        let updateStarted = false;
+
+        wsc.onmessage = (e) => {
+            const { running, statusMap } = JSON.parse(e.data) as IUpdateStatus;
+            const { COMPLETE = [], RUNNING = [], PENDING = [] } = statusMap;
+
             const currentProgress = 100 * (
                 COMPLETE.length / (COMPLETE.length + RUNNING.length + PENDING.length)
             );
 
+            const isUpdateFinished = currentProgress === 100;
+            const ignoreFaultyMessage = !updateStarted && !running && isUpdateFinished;
+
+            // for some reason the server sends 100% completed manga updates when connecting to the
+            // socket while no update is running
+            if (ignoreFaultyMessage) {
+                return;
+            }
+
+            updateStarted = running;
+            setLoading(running);
             setProgress(Number.isNaN(currentProgress) ? 0 : currentProgress);
+
+            if (isUpdateFinished) {
+                handleFinishedUpdate(Date.now());
+            }
         };
 
         return () => wsc.close();

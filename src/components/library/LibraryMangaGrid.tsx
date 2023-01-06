@@ -79,18 +79,18 @@ const sortManga = (
     return result;
 };
 
-const LibraryMangaGrid: React.FC<IMangaGridProps> = ({
-    mangas, isLoading, hasNextPage, lastPageNum, setLastPageNum, message,
+const LibraryMangaGrid: React.FC<IMangaGridProps & { lastLibraryUpdate: number }> = ({
+    mangas, isLoading, hasNextPage, lastPageNum, setLastPageNum, message, lastLibraryUpdate,
 }) => {
     const [query] = useQueryParam('query', StringParam);
     const { options } = useLibraryOptionsContext();
     const { unread, downloaded } = options;
 
     const sortedManga = useMemo(() => sortManga(mangas, options.sorts, options.sortDesc),
-        [mangas, options.sorts, options.sortDesc]);
+        [mangas, lastLibraryUpdate, options.sorts, options.sortDesc]);
 
     const filteredManga = useMemo(() => filterManga(sortedManga, query, unread, downloaded),
-        [sortedManga, query, unread, downloaded]);
+        [sortedManga, lastLibraryUpdate, query, unread, downloaded]);
 
     const showFilteredOutMessage = (unread != null || downloaded != null || query)
         && filteredManga.length === 0 && mangas.length > 0;

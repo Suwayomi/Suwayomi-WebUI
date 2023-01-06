@@ -21,6 +21,7 @@ import { useQuery } from 'util/client';
 import UpdateChecker from '../components/library/UpdateChecker';
 
 export default function Library() {
+    const [lastLibraryUpdate, setLastLibraryUpdate] = useState(Date.now());
     const { data: tabsData, error: tabsError, loading } = useQuery<ICategory[]>('/api/v1/category');
     const tabs = tabsData ?? [];
 
@@ -43,7 +44,7 @@ export default function Library() {
             <>
                 <AppbarSearch />
                 <LibraryToolbarMenu />
-                <UpdateChecker />
+                <UpdateChecker handleFinishedUpdate={setLastLibraryUpdate} />
             </>,
         );
         return () => {
@@ -76,6 +77,7 @@ export default function Library() {
         return (
             <LibraryMangaGrid
                 mangas={mangas}
+                lastLibraryUpdate={lastLibraryUpdate}
                 hasNextPage={false}
                 lastPageNum={lastPageNum}
                 setLastPageNum={setLastPageNum}
@@ -114,6 +116,7 @@ export default function Library() {
                         : (
                             <LibraryMangaGrid
                                 mangas={mangas}
+                                lastLibraryUpdate={lastLibraryUpdate}
                                 hasNextPage={false}
                                 lastPageNum={lastPageNum}
                                 setLastPageNum={setLastPageNum}
