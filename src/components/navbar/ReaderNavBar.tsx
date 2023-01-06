@@ -17,18 +17,15 @@ import { useHistory, Link, useLocation } from 'react-router-dom';
 import Slide from '@mui/material/Slide';
 import Fade from '@mui/material/Fade';
 import Zoom from '@mui/material/Zoom';
-import { Divider, Switch } from '@mui/material';
-import List from '@mui/material/List';
+import { Divider } from '@mui/material';
 import ListItem from '@mui/material/ListItem';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import Collapse from '@mui/material/Collapse';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/system';
 import useBackTo from 'util/useBackTo';
-import { getMetadataFrom } from 'util/metadata';
+import ReaderSettingsOptions from '../reader/ReaderSettingsOptions';
 
 const Root = styled('div')(({ theme }) => ({
     top: 0,
@@ -105,27 +102,6 @@ const OpenDrawerButton = styled(IconButton)(({ theme }) => ({
         backgroundColor: theme.palette.custom.light,
     },
 }));
-
-const defaultReaderSettings = () => ({
-    staticNav: false,
-    showPageNumber: true,
-    continuesPageGap: false,
-    loadNextonEnding: false,
-    readerType: 'ContinuesVertical',
-} as IReaderSettings);
-
-const getReaderSettingsFromMetadata = (
-    meta?: IMetadata,
-): IReaderSettings => ({
-    ...getMetadataFrom(
-        { meta },
-        Object.entries(defaultReaderSettings()) as MetadataKeyValuePair[],
-    ) as unknown as IReaderSettings,
-});
-
-export const getReaderSettingsFor = (
-    { meta }: IMangaCard | IManga,
-): IReaderSettings => getReaderSettingsFromMetadata(meta);
 
 interface IProps {
     settings: IReaderSettings
@@ -276,75 +252,13 @@ export default function ReaderNavBar(props: IProps) {
                         </ListItemSecondaryAction>
                     </ListItem>
                     <Collapse in={settingsCollapseOpen} timeout="auto" unmountOnExit>
-                        <List>
-                            <ListItem>
-                                <ListItemText primary="Static Navigation" />
-                                <ListItemSecondaryAction>
-                                    <Switch
-                                        edge="end"
-                                        checked={settings.staticNav}
-                                        onChange={(e) => updateSettingValue('staticNav', e.target.checked)}
-                                    />
-                                </ListItemSecondaryAction>
-                            </ListItem>
-                            <ListItem>
-                                <ListItemText primary="Show page number" />
-                                <ListItemSecondaryAction>
-                                    <Switch
-                                        edge="end"
-                                        checked={settings.showPageNumber}
-                                        onChange={(e) => updateSettingValue('showPageNumber', e.target.checked)}
-                                    />
-                                </ListItemSecondaryAction>
-                            </ListItem>
-                            <ListItem>
-                                <ListItemText primary="Load next chapter at ending" />
-                                <ListItemSecondaryAction>
-                                    <Switch
-                                        edge="end"
-                                        checked={settings.loadNextonEnding}
-                                        onChange={(e) => updateSettingValue('loadNextonEnding', e.target.checked)}
-                                    />
-                                </ListItemSecondaryAction>
-                            </ListItem>
-                            <ListItem>
-                                <ListItemText primary="Reader Type" />
-                                <Select
-                                    variant="standard"
-                                    value={settings.readerType}
-                                    onChange={(e) => updateSettingValue('readerType', e.target.value)}
-                                    sx={{ p: 0 }}
-                                >
-                                    <MenuItem value="SingleLTR">
-                                        Single Page (LTR)
-                                    </MenuItem>
-                                    <MenuItem value="SingleRTL">
-                                        Single Page (RTL)
-                                    </MenuItem>
-                                    {/* <MenuItem value="SingleVertical">
-                                       Vertical(WIP)
-                                    </MenuItem> */}
-                                    <MenuItem value="DoubleLTR">
-                                        Double Page (LTR)
-                                    </MenuItem>
-                                    <MenuItem value="DoubleRTL">
-                                        Double Page (RTL)
-                                    </MenuItem>
-                                    <MenuItem value="Webtoon">
-                                        Webtoon
-                                    </MenuItem>
-                                    <MenuItem value="ContinuesVertical">
-                                        Continues Vertical
-                                    </MenuItem>
-                                    <MenuItem value="ContinuesHorizontalLTR">
-                                        Horizontal (LTR)
-                                    </MenuItem>
-                                    <MenuItem value="ContinuesHorizontalRTL">
-                                        Horizontal (RTL)
-                                    </MenuItem>
-                                </Select>
-                            </ListItem>
-                        </List>
+                        <ReaderSettingsOptions
+                            setSettingValue={updateSettingValue}
+                            staticNav={settings.staticNav}
+                            showPageNumber={settings.showPageNumber}
+                            loadNextonEnding={settings.loadNextonEnding}
+                            readerType={settings.readerType}
+                        />
                     </Collapse>
                     <Divider sx={{ my: 1, mx: 2 }} />
                     <Navigation>

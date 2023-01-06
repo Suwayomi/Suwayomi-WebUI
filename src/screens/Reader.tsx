@@ -15,12 +15,17 @@ import PageNumber from 'components/reader/PageNumber';
 import PagedPager from 'components/reader/pager/PagedPager';
 import DoublePagedPager from 'components/reader/pager/DoublePagedPager';
 import VerticalPager from 'components/reader/pager/VerticalPager';
-import ReaderNavBar, { getReaderSettingsFor } from 'components/navbar/ReaderNavBar';
+import ReaderNavBar from 'components/navbar/ReaderNavBar';
 import NavbarContext from 'components/context/NavbarContext';
 import client from 'util/client';
 import useLocalStorage from 'util/useLocalStorage';
 import { Box } from '@mui/system';
 import { requestUpdateMangaMetadata } from 'util/metadata';
+import {
+    checkAndHandleMissingStoredReaderSettings,
+    getReaderSettingsFor,
+    useDefaultReaderSettings,
+} from 'util/readerSettings';
 import makeToast from '../components/util/Toast';
 
 const getReaderComponent = (readerType: ReaderType) => {
@@ -68,12 +73,24 @@ export default function Reader() {
     const [curPage, setCurPage] = useState<number>(0);
     const { setOverride, setTitle } = useContext(NavbarContext);
 
-    const [settings, setSettings] = useState(getReaderSettingsFor(manga));
+    const {
+        settings: defaultSettings,
+        loading: areDefaultSettingsLoading,
+    } = useDefaultReaderSettings();
+    const [settings, setSettings] = useState(getReaderSettingsFor(manga, defaultSettings));
+    const [isMangaLoading, setIsMangaLoading] = useState(true);
 
     const setSettingValue = (key: keyof IReaderSettings, value: string | boolean) => {
         setSettings({ ...settings, [key]: value });
         requestUpdateMangaMetadata(manga, [[key, value]]).catch(() => makeToast('Failed to save the reader settings to the server', 'warning'));
     };
+
+    useEffect(() => {
+        if (!areDefaultSettingsLoading && !isMangaLoading) {
+            checkAndHandleMissingStoredReaderSettings(manga, 'manga', defaultSettings).catch(() => {});
+            setSettings(getReaderSettingsFor(manga, defaultSettings));
+        }
+    }, [areDefaultSettingsLoading, isMangaLoading]);
 
     useEffect(() => {
         // set the custom navbar
@@ -97,13 +114,14 @@ export default function Reader() {
     }, [manga, chapter, settings, curPage, chapterIndex]);
 
     useEffect(() => {
+        setIsMangaLoading(true);
         setTitle('Reader');
         client.get(`/api/v1/manga/${mangaId}/`)
             .then((response) => response.data)
             .then((data: IManga) => {
                 setManga(data);
                 setTitle(data.title);
-                setSettings(getReaderSettingsFor(data));
+                setIsMangaLoading(false);
             });
     }, [mangaId]);
 
