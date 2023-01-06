@@ -178,6 +178,7 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
                                             color: 'white',
                                             textShadow: '0px 0px 3px #000000',
                                         }}
+                                        title={title}
                                     >
                                         {truncateText(title, 61)}
                                     </MangaTitle>
@@ -190,6 +191,7 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
                                     position: 'relative',
                                     color: 'text.primary',
                                 }}
+                                title={title}
                             >
                                 {truncateText(title, 61)}
                             </MangaTitle>
@@ -244,7 +246,7 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
                                 width: 'min-content',
                             }}
                         >
-                            <Typography variant="h5" component="h2">
+                            <Typography variant="h5" component="h2" title={title}>
                                 {truncateText(title, 61)}
                             </Typography>
                         </Box>
