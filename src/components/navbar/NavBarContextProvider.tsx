@@ -21,11 +21,16 @@ export default function NavBarProvider({ children }:IProps) {
         value: <div />,
     });
 
+    const updateTitle = (newTitle: string) => {
+        document.title = `${newTitle} - Tachidesk`;
+        setTitle(newTitle);
+    };
+
     const value = {
         defaultBackTo,
         setDefaultBackTo,
         title,
-        setTitle,
+        setTitle: updateTitle,
         action,
         setAction,
         override,
