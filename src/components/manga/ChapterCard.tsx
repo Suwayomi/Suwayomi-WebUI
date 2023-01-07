@@ -30,8 +30,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import client from 'util/client';
 import { BACK } from 'util/useBackTo';
+import { getUploadDateString } from 'util/date';
 
-interface IProps{
+interface IProps {
     chapter: IChapter
     triggerChaptersUpdate: () => void
     downloadChapter: IDownloadChapter | undefined
@@ -47,8 +48,6 @@ const ChapterCard: React.FC<IProps> = (props: IProps) => {
         chapter, triggerChaptersUpdate, downloadChapter: dc, showChapterNumber, onSelect, selected,
     } = props;
     const isSelecting = selected !== null;
-
-    const dateStr = chapter.uploadDate && new Date(chapter.uploadDate).toLocaleDateString();
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -69,7 +68,9 @@ const ChapterCard: React.FC<IProps> = (props: IProps) => {
 
         const formData = new FormData();
         formData.append(key, value);
-        if (key === 'read') { formData.append('lastPageRead', '1'); }
+        if (key === 'read') {
+            formData.append('lastPageRead', '1');
+        }
         client.patch(`/api/v1/manga/${chapter.mangaId}/chapter/${chapter.index}`, formData)
             .then(() => triggerChaptersUpdate());
     };
@@ -131,13 +132,13 @@ const ChapterCard: React.FC<IProps> = (props: IProps) => {
                                 {chapter.bookmarked && (
                                     <BookmarkIcon color="primary" sx={{ mr: 0.5, position: 'relative', top: '0.15em' }} />
                                 )}
-                                { showChapterNumber ? `Chapter ${chapter.chapterNumber}` : chapter.name}
+                                {showChapterNumber ? `Chapter ${chapter.chapterNumber}` : chapter.name}
                             </Typography>
                             <Typography variant="caption">
                                 {chapter.scanlator}
                             </Typography>
                             <Typography variant="caption">
-                                {dateStr}
+                                {getUploadDateString(chapter.uploadDate)}
                                 {isDownloaded && ' • Downloaded'}
                             </Typography>
                         </Stack>
@@ -186,7 +187,7 @@ const ChapterCard: React.FC<IProps> = (props: IProps) => {
                                 Download
                             </ListItemText>
                         </MenuItem>
-                    ) }
+                    )}
                     <MenuItem onClick={() => sendChange('bookmarked', !chapter.bookmarked)}>
                         <ListItemIcon>
                             {chapter.bookmarked && <BookmarkRemove fontSize="small" />}
