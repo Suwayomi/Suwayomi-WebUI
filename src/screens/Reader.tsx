@@ -86,6 +86,14 @@ export default function Reader() {
     };
 
     useEffect(() => {
+        if (!manga?.title || (chapter as IChapter)?.name === 'Loading...') {
+            setTitle(`Reader - Manga ${mangaId} Chapter ${chapterIndex}`);
+        } else {
+            setTitle(`${manga.title}: ${(chapter as IChapter).name}`);
+        }
+    }, [manga, chapter]);
+
+    useEffect(() => {
         if (!areDefaultSettingsLoading && !isMangaLoading) {
             checkAndHandleMissingStoredReaderSettings(manga, 'manga', defaultSettings).catch(() => {});
             setSettings(getReaderSettingsFor(manga, defaultSettings));
@@ -115,12 +123,10 @@ export default function Reader() {
 
     useEffect(() => {
         setIsMangaLoading(true);
-        setTitle('Reader');
         client.get(`/api/v1/manga/${mangaId}/`)
             .then((response) => response.data)
             .then((data: IManga) => {
                 setManga(data);
-                setTitle(data.title);
                 setIsMangaLoading(false);
             });
     }, [mangaId]);

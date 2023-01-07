@@ -14,7 +14,7 @@ type ContextType = {
 
     // AppBar title
     title: string
-    setTitle: React.Dispatch<React.SetStateAction<string>>
+    setTitle: (title: string) => void
 
     // AppBar action buttons
     action: any
