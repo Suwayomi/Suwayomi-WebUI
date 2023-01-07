@@ -29,6 +29,8 @@ export const DefaultLibraryOptions: LibraryOptions = {
     sortDesc: undefined,
     sorts: undefined,
     unread: undefined,
+
+    showTabSize: false,
 };
 
 const LibraryOptionsContext = React.createContext<ContextType>({

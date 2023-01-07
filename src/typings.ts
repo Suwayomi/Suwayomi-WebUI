@@ -179,6 +179,7 @@ export interface ICategory {
     name: string;
     default: boolean;
     meta: Metadata;
+    size: number;
 }
 
 export interface INavbarOverride {
@@ -361,6 +362,7 @@ export interface LibraryOptions {
     unread: NullAndUndefined<boolean>;
     sorts: NullAndUndefined<LibrarySortMode>;
     sortDesc: NullAndUndefined<boolean>;
+    showTabSize: boolean;
 }
 
 export interface BatchChaptersChange {

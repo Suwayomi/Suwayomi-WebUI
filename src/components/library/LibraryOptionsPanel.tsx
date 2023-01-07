@@ -81,7 +81,7 @@ const LibraryOptionsPanel: React.FC<IProps> = ({ open, onClose }) => {
                     ));
                 }
                 if (key === 'display') {
-                    const { gridLayout, showDownloadBadge, showUnreadBadge } = options;
+                    const { gridLayout, showDownloadBadge, showUnreadBadge, showTabSize } = options;
                     return (
                         <>
                             <FormLabel>{t('global.grid_layout.title')}</FormLabel>
@@ -116,6 +116,13 @@ const LibraryOptionsPanel: React.FC<IProps> = ({ open, onClose }) => {
                                 label={t('library.option.display.badge.label.download_badges')}
                                 checked={showDownloadBadge === true}
                                 onChange={() => handleFilterChange('showDownloadBadge', !showDownloadBadge)}
+                            />
+
+                            <FormLabel sx={{ mt: 2 }}>{t('library.option.display.tab.title')}</FormLabel>
+                            <CheckboxInput
+                                label={t('library.option.display.tab.label.show_number_of_items')}
+                                checked={showTabSize}
+                                onChange={() => handleFilterChange('showTabSize', !showTabSize)}
                             />
                         </>
                     );

@@ -14,8 +14,8 @@ type ContextType = {
     setDefaultBackTo: React.Dispatch<React.SetStateAction<string | undefined>>;
 
     // AppBar title
-    title: string;
-    setTitle: (title: string, browserTitle?: string) => void;
+    title: string | React.ReactNode;
+    setTitle: (title: ContextType['title'], browserTitle?: string) => void;
 
     // AppBar action buttons
     action: any;
