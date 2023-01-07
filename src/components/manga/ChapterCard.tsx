@@ -48,7 +48,12 @@ const ChapterCard: React.FC<IProps> = (props: IProps) => {
     } = props;
     const isSelecting = selected !== null;
 
-    const dateStr = chapter.uploadDate && new Date(chapter.uploadDate).toLocaleDateString();
+    const dateStr = chapter.uploadDate && new Date(chapter.uploadDate)
+        .toLocaleDateString(undefined, {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+        });
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
