@@ -3,7 +3,7 @@ module.exports = {
         'airbnb',
         'airbnb-typescript'
     ],
-    plugins: ['@typescript-eslint'],
+    plugins: ['@typescript-eslint', 'no-relative-import-paths'],
     parserOptions: {
         project: './tsconfig.json',
     },
@@ -24,5 +24,13 @@ module.exports = {
         'react/jsx-no-bind' : 'off',
         'react/jsx-props-no-spreading': 'off',
         'react/require-default-props': 'off',
+
+        "no-relative-import-paths/no-relative-import-paths": [
+            "error",
+            {
+                rootDir: "src",
+                prefix: false,
+            },
+        ],
     },
 };
