@@ -13,8 +13,8 @@ import EmptyView from 'components/util/EmptyView';
 import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
 import { Typography } from '@mui/material';
 import { Box } from '@mui/system';
-import MangaCard from './MangaCard';
-import { GridLayout } from './context/LibraryOptionsContext';
+import MangaCard from 'components/MangaCard';
+import { GridLayout } from 'components/context/LibraryOptionsContext';
 
 export interface IMangaGridProps{
     mangas: IMangaCard[]

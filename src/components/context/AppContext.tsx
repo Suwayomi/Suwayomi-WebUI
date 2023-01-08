@@ -20,7 +20,7 @@ import createTheme from 'theme';
 import { QueryParamProvider } from 'use-query-params';
 import { fetcher } from 'util/client';
 import useLocalStorage from 'util/useLocalStorage';
-import DarkTheme from './DarkTheme';
+import DarkTheme from 'components/context/DarkTheme';
 
 interface Props {
     children: React.ReactNode

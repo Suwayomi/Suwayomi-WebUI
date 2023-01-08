@@ -7,7 +7,7 @@
  */
 
 import { getMetadataFrom, requestUpdateMangaMetadata, requestUpdateServerMetadata } from 'util/metadata';
-import { useQuery } from './client';
+import { useQuery } from 'util/client';
 
 export const getDefaultSettings = (forceUndefined: boolean = false) => ({
     staticNav: forceUndefined ? undefined : false,

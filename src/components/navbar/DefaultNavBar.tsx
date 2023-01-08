@@ -29,8 +29,8 @@ import ExtensionOutlinedIcon from 'components/util/CustomExtensionOutlinedIcon';
 import { Box } from '@mui/system';
 import { createPortal } from 'react-dom';
 import useBackTo from 'util/useBackTo';
-import DesktopSideBar from './navigation/DesktopSideBar';
-import MobileBottomBar from './navigation/MobileBottomBar';
+import DesktopSideBar from 'components/navbar/navigation/DesktopSideBar';
+import MobileBottomBar from 'components/navbar/navigation/MobileBottomBar';
 
 const navbarItems: Array<NavbarItem> = [
     {

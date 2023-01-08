@@ -18,7 +18,7 @@ import LibraryMangaGrid from 'components/library/LibraryMangaGrid';
 import AppbarSearch from 'components/util/AppbarSearch';
 import { useQueryParam, NumberParam } from 'use-query-params';
 import { useQuery } from 'util/client';
-import UpdateChecker from '../components/library/UpdateChecker';
+import UpdateChecker from 'components/library/UpdateChecker';
 
 export default function Library() {
     const [lastLibraryUpdate, setLastLibraryUpdate] = useState(Date.now());

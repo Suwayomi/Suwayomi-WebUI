@@ -12,8 +12,8 @@ import {
 import { Box } from '@mui/system';
 import { pluralize } from 'components/util/helpers';
 import React, { useRef, useState } from 'react';
-import type { IChapterWithMeta } from './ChapterList';
-import SelectionFABActionItem from './SelectionFABActionItem';
+import type { IChapterWithMeta } from 'components/manga/ChapterList';
+import SelectionFABActionItem from 'components/manga/SelectionFABActionItem';
 
 export type SelectionAction = 'download' | 'delete' | 'bookmark' | 'unbookmark' | 'mark_as_read' | 'mark_as_unread';
 

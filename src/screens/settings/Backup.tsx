@@ -12,8 +12,8 @@ import ListItemText from '@mui/material/ListItemText';
 import { fromEvent } from 'file-selector';
 import client from 'util/client';
 import makeToast from 'components/util/Toast';
-import ListItemLink from '../../components/util/ListItemLink';
-import NavbarContext from '../../components/context/NavbarContext';
+import ListItemLink from 'components/util/ListItemLink';
+import NavbarContext from 'components/context/NavbarContext';
 
 export default function Backup() {
     const { setTitle, setAction } = useContext(NavbarContext);

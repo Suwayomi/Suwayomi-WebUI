@@ -7,7 +7,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import { Box } from '@mui/system';
-import Page from '../Page';
+import Page from 'components/reader/Page';
 
 const findCurrentPageIndex = (wrapper: HTMLDivElement): number => {
     for (let i = 0; i < wrapper.children.length; i++) {
