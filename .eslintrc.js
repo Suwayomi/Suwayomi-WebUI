@@ -1,27 +1,16 @@
 module.exports = {
-    extends: [
-        'airbnb',
-        'airbnb-typescript'
-    ],
-    plugins: ['@typescript-eslint', 'no-relative-import-paths'],
+    extends: ['airbnb', 'airbnb-typescript', 'prettier'],
+    plugins: ['@typescript-eslint', 'no-relative-import-paths', 'prettier'],
     parserOptions: {
         project: './tsconfig.json',
     },
     rules: {
-        // Indent with 4 spaces
-        '@typescript-eslint/indent': ['error', 4],
+        'prettier/prettier': 'error',
 
-        // Indent JSX with 4 spaces
-        'react/jsx-indent': ['error', 4],
-
-        // Indent props with 4 spaces
-        'react/jsx-indent-props': ['error', 4],
-
-        'no-plusplus': ['error', { 'allowForLoopAfterthoughts': true }],
-
+        'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
 
         // just why
-        'react/jsx-no-bind' : 'off',
+        'react/jsx-no-bind': 'off',
         'react/jsx-props-no-spreading': 'off',
         'react/require-default-props': 'off',
 
