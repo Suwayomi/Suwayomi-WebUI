@@ -12,14 +12,7 @@ import { useTheme } from '@mui/material/styles';
 import { useMediaQuery } from '@mui/material';
 import { Box } from '@mui/system';
 
-const ERROR_FACES = [
-    '(･o･;)',
-    'Σ(ಠ_ಠ)',
-    'ಥ_ಥ',
-    '(˘･_･˘)',
-    '(；￣Д￣)',
-    '(･Д･。',
-];
+const ERROR_FACES = ['(･o･;)', 'Σ(ಠ_ಠ)', 'ಥ_ಥ', '(˘･_･˘)', '(；￣Д￣)', '(･Д･。'];
 
 function getRandomErrorFace() {
     const randIndex = Math.floor(Math.random() * ERROR_FACES.length);
@@ -27,8 +20,8 @@ function getRandomErrorFace() {
 }
 
 interface IProps {
-    message: string
-    messageExtra?: JSX.Element
+    message: string;
+    messageExtra?: JSX.Element;
 }
 
 export default function EmptyView({ message, messageExtra }: IProps) {
@@ -38,20 +31,19 @@ export default function EmptyView({ message, messageExtra }: IProps) {
     const errorFace = useMemo(() => getRandomErrorFace(), []);
 
     return (
-        <Box sx={{
-            position: 'absolute',
-            left: `calc(50% + ${isMobileWidth ? '0px' : theme.spacing(8 / 2)})`,
-            top: '50%',
-            transform: 'translate(-50%, -50%)',
-            textAlign: 'center',
-        }}
+        <Box
+            sx={{
+                position: 'absolute',
+                left: `calc(50% + ${isMobileWidth ? '0px' : theme.spacing(8 / 2)})`,
+                top: '50%',
+                transform: 'translate(-50%, -50%)',
+                textAlign: 'center',
+            }}
         >
             <Typography variant="h3" gutterBottom>
                 {errorFace}
             </Typography>
-            <Typography variant="h5">
-                {message}
-            </Typography>
+            <Typography variant="h5">{message}</Typography>
             {messageExtra}
         </Box>
     );

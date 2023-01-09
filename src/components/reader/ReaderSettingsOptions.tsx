@@ -6,20 +6,22 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import {
-    List, ListItem, ListItemText, Switch,
-} from '@mui/material';
+import { List, ListItem, ListItemText, Switch } from '@mui/material';
 import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import React from 'react';
 
 interface IProps extends IReaderSettings {
-    setSettingValue: (key: keyof IReaderSettings, value: string | boolean) => void
+    setSettingValue: (key: keyof IReaderSettings, value: string | boolean) => void;
 }
 
 export default function ReaderSettingsOptions({
-    staticNav, loadNextOnEnding, readerType, showPageNumber, setSettingValue,
+    staticNav,
+    loadNextOnEnding,
+    readerType,
+    showPageNumber,
+    setSettingValue,
 }: IProps) {
     return (
         <>
@@ -62,33 +64,17 @@ export default function ReaderSettingsOptions({
                         onChange={(e) => setSettingValue('readerType', e.target.value)}
                         sx={{ p: 0 }}
                     >
-                        <MenuItem value="SingleLTR">
-                            Single Page (LTR)
-                        </MenuItem>
-                        <MenuItem value="SingleRTL">
-                            Single Page (RTL)
-                        </MenuItem>
+                        <MenuItem value="SingleLTR">Single Page (LTR)</MenuItem>
+                        <MenuItem value="SingleRTL">Single Page (RTL)</MenuItem>
                         {/* <MenuItem value="SingleVertical">
                                        Vertical(WIP)
                                     </MenuItem> */}
-                        <MenuItem value="DoubleLTR">
-                            Double Page (LTR)
-                        </MenuItem>
-                        <MenuItem value="DoubleRTL">
-                            Double Page (RTL)
-                        </MenuItem>
-                        <MenuItem value="Webtoon">
-                            Webtoon
-                        </MenuItem>
-                        <MenuItem value="ContinuesVertical">
-                            Continues Vertical
-                        </MenuItem>
-                        <MenuItem value="ContinuesHorizontalLTR">
-                            Horizontal (LTR)
-                        </MenuItem>
-                        <MenuItem value="ContinuesHorizontalRTL">
-                            Horizontal (RTL)
-                        </MenuItem>
+                        <MenuItem value="DoubleLTR">Double Page (LTR)</MenuItem>
+                        <MenuItem value="DoubleRTL">Double Page (RTL)</MenuItem>
+                        <MenuItem value="Webtoon">Webtoon</MenuItem>
+                        <MenuItem value="ContinuesVertical">Continues Vertical</MenuItem>
+                        <MenuItem value="ContinuesHorizontalLTR">Horizontal (LTR)</MenuItem>
+                        <MenuItem value="ContinuesHorizontalRTL">Horizontal (RTL)</MenuItem>
                     </Select>
                 </ListItem>
             </List>

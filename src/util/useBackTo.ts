@@ -10,7 +10,7 @@ import { useLocation } from 'react-router-dom';
 
 export const BACK = '__BACK__';
 
-const useBackTo = (): { url?: string, back: boolean } => {
+const useBackTo = (): { url?: string; back: boolean } => {
     const location = useLocation<{ backLink?: string }>();
     const { defaultBackTo } = useNavBarContext();
 

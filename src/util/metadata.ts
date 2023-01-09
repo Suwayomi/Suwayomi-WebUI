@@ -13,13 +13,12 @@ const APP_METADATA_KEY_PREFIX = 'webUI_';
 
 const migrations: IMetadataMigration[] = [
     {
-        keys: [
-            { oldKey: 'loadNextonEnding', newKey: 'loadNextOnEnding' },
-        ],
+        keys: [{ oldKey: 'loadNextonEnding', newKey: 'loadNextOnEnding' }],
     },
 ];
 
-const getMetadataKey = (key: string, appPrefix: string = APP_METADATA_KEY_PREFIX) => `${appPrefix}${key}`;
+const getMetadataKey = (key: string, appPrefix: string = APP_METADATA_KEY_PREFIX) =>
+    `${appPrefix}${key}`;
 
 const doesMetadataKeyExistIn = (
     meta: IMetadata | undefined,
@@ -27,9 +26,7 @@ const doesMetadataKeyExistIn = (
     appPrefix?: string,
 ): boolean => Object.prototype.hasOwnProperty.call(meta ?? {}, getMetadataKey(key, appPrefix));
 
-const convertValueFromMetadata = <
-    T extends AllowedMetadataValueTypes = AllowedMetadataValueTypes,
->(
+const convertValueFromMetadata = <T extends AllowedMetadataValueTypes = AllowedMetadataValueTypes>(
     value: string,
 ): T => {
     if (!Number.isNaN(+value)) {
@@ -74,8 +71,9 @@ const applyAppKeyPrefixMigration = (meta: IMetadata, migration: IMetadataMigrati
     const oldAppMetadata = getAppMetadataFrom(meta, oldPrefix);
     const newAppMetadata = getAppMetadataFrom(meta, newPrefix);
 
-    const missingMetadataKeys = Object.keys(oldAppMetadata)
-        .filter((key) => !Object.keys(newAppMetadata).includes(key));
+    const missingMetadataKeys = Object.keys(oldAppMetadata).filter(
+        (key) => !Object.keys(newAppMetadata).includes(key),
+    );
 
     const isMissingOldMetadata = missingMetadataKeys.length;
     if (isMissingOldMetadata) {
@@ -219,16 +217,25 @@ export const requestUpdateMetadata = async (
     keysToValues: [AppMetadataKeys, AllowedMetadataValueTypes][],
     endpointToMutate?: string,
     wrapWithMetaKey?: boolean,
-): Promise<void[]> => Promise.all(keysToValues.map(
-    ([key, value]) => requestUpdateMetadataValue(
-        endpoint, metadataHolder, key, value, endpointToMutate, wrapWithMetaKey,
-    ),
-));
+): Promise<void[]> =>
+    Promise.all(
+        keysToValues.map(([key, value]) =>
+            requestUpdateMetadataValue(
+                endpoint,
+                metadataHolder,
+                key,
+                value,
+                endpointToMutate,
+                wrapWithMetaKey,
+            ),
+        ),
+    );
 
 export const requestUpdateServerMetadata = async (
     serverMetadata: IMetadata,
     keysToValues: MetadataKeyValuePair[],
-): Promise<void[]> => requestUpdateMetadata('', { meta: serverMetadata }, keysToValues, '/meta', false);
+): Promise<void[]> =>
+    requestUpdateMetadata('', { meta: serverMetadata }, keysToValues, '/meta', false);
 
 export const requestUpdateMangaMetadata = async (
     manga: IMangaCard | IManga,
@@ -238,7 +245,12 @@ export const requestUpdateMangaMetadata = async (
 export const requestUpdateChapterMetadata = async (
     mangaChapter: IMangaChapter,
     keysToValues: MetadataKeyValuePair[],
-): Promise<void[]> => requestUpdateMetadata(`/manga/${mangaChapter.manga.id}/chapter/${mangaChapter.chapter.index}`, mangaChapter.chapter, keysToValues);
+): Promise<void[]> =>
+    requestUpdateMetadata(
+        `/manga/${mangaChapter.manga.id}/chapter/${mangaChapter.chapter.index}`,
+        mangaChapter.chapter,
+        keysToValues,
+    );
 
 export const requestUpdateCategoryMetadata = async (
     category: ICategory,

@@ -1,10 +1,10 @@
 /*
-* Copyright (C) Contributors to the Suwayomi project
-*
-* This Source Code Form is subject to the terms of the Mozilla Public
-* License, v. 2.0. If a copy of the MPL was not distributed with this
-* file, You can obtain one at https://mozilla.org/MPL/2.0/.
-*/
+ * Copyright (C) Contributors to the Suwayomi project
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
 
 import { Card, CardActionArea, Typography } from '@mui/material';
 import NavbarContext from 'components/context/NavbarContext';
@@ -17,7 +17,10 @@ import { Link } from 'react-router-dom';
 import { StringParam, useQueryParam } from 'use-query-params';
 import client from 'util/client';
 import {
-    langCodeToName, langSortCmp, sourceDefualtLangs, sourceForcedDefaultLangs,
+    langCodeToName,
+    langSortCmp,
+    sourceDefualtLangs,
+    sourceForcedDefaultLangs,
 } from 'util/language';
 import useLocalStorage from 'util/useLocalStorage';
 
@@ -25,7 +28,9 @@ function sourceToLangList(sources: ISource[]) {
     const result: string[] = [];
 
     sources.forEach((source) => {
-        if (result.indexOf(source.lang) === -1) { result.push(source.lang); }
+        if (result.indexOf(source.lang) === -1) {
+            result.push(source.lang);
+        }
     });
 
     result.sort(langSortCmp);
@@ -38,7 +43,10 @@ const SearchAll: React.FC = () => {
     const [triggerUpdate, setTriggerUpdate] = useState<number>(2);
     const [mangas, setMangas] = useState<any>({});
 
-    const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownSourceLangs', sourceDefualtLangs());
+    const [shownLangs, setShownLangs] = useLocalStorage<string[]>(
+        'shownSourceLangs',
+        sourceDefualtLangs(),
+    );
     const [showNsfw] = useLocalStorage<boolean>('showNsfw', true);
 
     const [sources, setSources] = useState<ISource[]>([]);
@@ -56,35 +64,46 @@ const SearchAll: React.FC = () => {
         setAction(
             <>
                 <AppbarSearch />
-            </>
-            ,
+            </>,
         );
     }, []);
 
     useEffect(() => {
-        client.get('/api/v1/source/list')
+        client
+            .get('/api/v1/source/list')
             .then((response) => response.data)
             .then((data) => {
-                setSources(data.sort((a: { displayName: string; }, b: { displayName: string; }) => {
-                    if (a.displayName < b.displayName) { return -1; }
-                    if (a.displayName > b.displayName) { return 1; }
-                    return 0;
-                })); setFetchedSources(true);
+                setSources(
+                    data.sort((a: { displayName: string }, b: { displayName: string }) => {
+                        if (a.displayName < b.displayName) {
+                            return -1;
+                        }
+                        if (a.displayName > b.displayName) {
+                            return 1;
+                        }
+                        return 0;
+                    }),
+                );
+                setFetchedSources(true);
             });
     }, []);
 
     async function doIT(elem: any[]) {
-        elem.map((ele) => limit.add(async () => {
-            const response = await client.get(`/api/v1/source/${ele.id}/search?searchTerm=${query || ''}&pageNum=1`);
-            const data = await response.data;
-            const tmp = mangas;
-            tmp[ele.id] = data.mangaList;
-            setMangas(tmp);
-            const tmp2 = fetched;
-            tmp2[ele.id] = true;
-            setFetched(tmp2);
-            setResetUI(1);
-        }));
+        elem.map((ele) =>
+            limit.add(async () => {
+                const response = await client.get(
+                    `/api/v1/source/${ele.id}/search?searchTerm=${query || ''}&pageNum=1`,
+                );
+                const data = await response.data;
+                const tmp = mangas;
+                tmp[ele.id] = data.mangaList;
+                setMangas(tmp);
+                const tmp2 = fetched;
+                tmp2[ele.id] = true;
+                setFetched(tmp2);
+                setResetUI(1);
+            }),
+        );
     }
 
     useEffect(() => {
@@ -98,7 +117,11 @@ const SearchAll: React.FC = () => {
         setFetched({});
         setMangas({});
         // eslint-disable-next-line max-len
-        doIT(sources.filter(({ lang }) => shownLangs.indexOf(lang) !== -1).filter((source) => showNsfw || !source.isNsfw));
+        doIT(
+            sources
+                .filter(({ lang }) => shownLangs.indexOf(lang) !== -1)
+                .filter((source) => showNsfw || !source.isNsfw),
+        );
     }, [triggerUpdate]);
 
     useEffect(() => {
@@ -137,9 +160,7 @@ const SearchAll: React.FC = () => {
         setTitle('Sources');
         setAction(
             <>
-                <AppbarSearch
-                    autoOpen
-                />
+                <AppbarSearch autoOpen />
                 <LangSelect
                     shownLangs={shownLangs}
                     setShownLangs={setShownLangs}
@@ -154,20 +175,33 @@ const SearchAll: React.FC = () => {
         return (
             <>
                 {/* eslint-disable-next-line max-len */}
-                {sources.filter(({ lang }) => shownLangs.indexOf(lang) !== -1).filter((source) => showNsfw || !source.isNsfw).sort((a, b) => {
-                    const af = fetched[a.id];
-                    const bf = fetched[b.id];
-                    if (af && !bf) { return -1; }
-                    if (!af && bf) { return 1; }
-                    if (!af && !bf) { return 0; }
+                {sources
+                    .filter(({ lang }) => shownLangs.indexOf(lang) !== -1)
+                    .filter((source) => showNsfw || !source.isNsfw)
+                    .sort((a, b) => {
+                        const af = fetched[a.id];
+                        const bf = fetched[b.id];
+                        if (af && !bf) {
+                            return -1;
+                        }
+                        if (!af && bf) {
+                            return 1;
+                        }
+                        if (!af && !bf) {
+                            return 0;
+                        }
 
-                    const al = mangas[a.id].length === 0;
-                    const bl = mangas[b.id].length === 0;
-                    if (al && !bl) { return 1; }
-                    if (bl && !al) { return -1; }
-                    return 0;
-                }).map(({ lang, id, displayName }) => (
-                    (
+                        const al = mangas[a.id].length === 0;
+                        const bl = mangas[b.id].length === 0;
+                        if (al && !bl) {
+                            return 1;
+                        }
+                        if (bl && !al) {
+                            return -1;
+                        }
+                        return 0;
+                    })
+                    .map(({ lang, id, displayName }) => (
                         <>
                             <Card sx={{ margin: '10px' }}>
                                 <CardActionArea
@@ -175,9 +209,7 @@ const SearchAll: React.FC = () => {
                                     to={`/sources/${id}/popular/?R&query=${query}`}
                                     sx={{ p: 3 }}
                                 >
-                                    <Typography variant="h5">
-                                        {displayName}
-                                    </Typography>
+                                    <Typography variant="h5">{displayName}</Typography>
                                     <Typography variant="caption">
                                         {langCodeToName(lang)}
                                     </Typography>
@@ -195,13 +227,11 @@ const SearchAll: React.FC = () => {
                                 inLibraryIndicator
                             />
                         </>
-                    )
-                ))}
-
+                    ))}
             </>
         );
     }
-    return (<></>);
+    return <></>;
 };
 
 export default SearchAll;

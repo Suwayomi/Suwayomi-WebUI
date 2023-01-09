@@ -6,27 +6,32 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { getMetadataFrom, requestUpdateMangaMetadata, requestUpdateServerMetadata } from 'util/metadata';
+import {
+    getMetadataFrom,
+    requestUpdateMangaMetadata,
+    requestUpdateServerMetadata,
+} from 'util/metadata';
 import { useQuery } from 'util/client';
 
-export const getDefaultSettings = (forceUndefined: boolean = false) => ({
-    staticNav: forceUndefined ? undefined : false,
-    showPageNumber: forceUndefined ? undefined : true,
-    continuesPageGap: forceUndefined ? undefined : false,
-    loadNextOnEnding: forceUndefined ? undefined : false,
-    readerType: forceUndefined ? undefined : 'ContinuesVertical',
-} as IReaderSettings);
+export const getDefaultSettings = (forceUndefined: boolean = false) =>
+    ({
+        staticNav: forceUndefined ? undefined : false,
+        showPageNumber: forceUndefined ? undefined : true,
+        continuesPageGap: forceUndefined ? undefined : false,
+        loadNextOnEnding: forceUndefined ? undefined : false,
+        readerType: forceUndefined ? undefined : 'ContinuesVertical',
+    } as IReaderSettings);
 
 const getReaderSettingsWithDefaultValueFallback = (
     meta?: IMetadata,
     defaultSettings?: IReaderSettings,
     applyMetadataMigration: boolean = true,
 ): IReaderSettings => ({
-    ...getMetadataFrom(
+    ...(getMetadataFrom(
         { meta },
         Object.entries(defaultSettings ?? getDefaultSettings()) as MetadataKeyValuePair[],
         applyMetadataMigration,
-    ) as unknown as IReaderSettings,
+    ) as unknown as IReaderSettings),
 });
 
 export const getReaderSettingsFromMetadata = (
@@ -44,9 +49,9 @@ export const getReaderSettingsFor = (
 ): IReaderSettings => getReaderSettingsFromMetadata(meta, defaultSettings, applyMetadataMigration);
 
 export const useDefaultReaderSettings = (): {
-    metadata?: IMetadata,
-    settings: IReaderSettings,
-    loading: boolean
+    metadata?: IMetadata;
+    settings: IReaderSettings;
+    loading: boolean;
 } => {
     const { data: meta, loading } = useQuery<IMetadata>('/api/v1/meta');
     const settings = getReaderSettingsWithDefaultValueFallback(meta);
@@ -66,12 +71,13 @@ export const checkAndHandleMissingStoredReaderSettings = async (
     metadataHolderType: 'manga' | 'server',
     defaultSettings: IReaderSettings,
 ): Promise<void | void[]> => {
-    const meta = metadataHolder.meta ?? metadataHolder as IMetadata;
+    const meta = metadataHolder.meta ?? (metadataHolder as IMetadata);
     const settingsToCheck = getReaderSettingsFor({ meta }, getDefaultSettings(true), false);
     const newSettings = getReaderSettingsFor({ meta }, defaultSettings);
 
-    const undefinedSettings = Object.entries(settingsToCheck)
-        .filter((setting) => setting[1] === undefined);
+    const undefinedSettings = Object.entries(settingsToCheck).filter(
+        (setting) => setting[1] === undefined,
+    );
 
     const settingsToUpdate: MetadataKeyValuePair[] = [];
     undefinedSettings.forEach((setting) => {

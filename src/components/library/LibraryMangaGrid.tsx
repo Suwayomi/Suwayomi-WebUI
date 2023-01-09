@@ -24,8 +24,10 @@ const unreadFilter = (unread: NullAndUndefined<boolean>, { unreadCount }: IManga
     }
 };
 
-const downloadedFilter = (downloaded: NullAndUndefined<boolean>,
-    { downloadCount }: IMangaCard): boolean => {
+const downloadedFilter = (
+    downloaded: NullAndUndefined<boolean>,
+    { downloadCount }: IMangaCard,
+): boolean => {
     switch (downloaded) {
         case true:
             return !!downloadCount && downloadCount >= 1;
@@ -46,13 +48,14 @@ const filterManga = (
     query: NullAndUndefined<string>,
     unread: NullAndUndefined<boolean>,
     downloaded: NullAndUndefined<boolean>,
-): IMangaCard[] => manga.filter((m) => {
-    if (query) {
-        return queryFilter(query, m);
-    }
+): IMangaCard[] =>
+    manga.filter((m) => {
+        if (query) {
+            return queryFilter(query, m);
+        }
 
-    return downloadedFilter(downloaded, m) && unreadFilter(unread, m);
-});
+        return downloadedFilter(downloaded, m) && unreadFilter(unread, m);
+    });
 
 const sortByUnread = (a: IMangaCard, b: IMangaCard): number =>
     // eslint-disable-next-line implicit-arrow-linebreak
@@ -70,10 +73,17 @@ const sortManga = (
     const result = [...manga];
 
     switch (sort) {
-        case 'sortAlph': result.sort(sortByTitle); break;
-        case 'sortID': result.sort(sortById); break;
-        case 'sortToRead': result.sort(sortByUnread); break;
-        default: break;
+        case 'sortAlph':
+            result.sort(sortByTitle);
+            break;
+        case 'sortID':
+            result.sort(sortById);
+            break;
+        case 'sortToRead':
+            result.sort(sortByUnread);
+            break;
+        default:
+            break;
     }
 
     if (desc === true) {
@@ -84,20 +94,32 @@ const sortManga = (
 };
 
 const LibraryMangaGrid: React.FC<IMangaGridProps & { lastLibraryUpdate: number }> = ({
-    mangas, isLoading, hasNextPage, lastPageNum, setLastPageNum, message, lastLibraryUpdate,
+    mangas,
+    isLoading,
+    hasNextPage,
+    lastPageNum,
+    setLastPageNum,
+    message,
+    lastLibraryUpdate,
 }) => {
     const [query] = useQueryParam('query', StringParam);
     const { options } = useLibraryOptionsContext();
     const { unread, downloaded } = options;
 
-    const sortedManga = useMemo(() => sortManga(mangas, options.sorts, options.sortDesc),
-        [mangas, lastLibraryUpdate, options.sorts, options.sortDesc]);
+    const sortedManga = useMemo(
+        () => sortManga(mangas, options.sorts, options.sortDesc),
+        [mangas, lastLibraryUpdate, options.sorts, options.sortDesc],
+    );
 
-    const filteredManga = useMemo(() => filterManga(sortedManga, query, unread, downloaded),
-        [sortedManga, lastLibraryUpdate, query, unread, downloaded]);
+    const filteredManga = useMemo(
+        () => filterManga(sortedManga, query, unread, downloaded),
+        [sortedManga, lastLibraryUpdate, query, unread, downloaded],
+    );
 
-    const showFilteredOutMessage = (unread != null || downloaded != null || query)
-        && filteredManga.length === 0 && mangas.length > 0;
+    const showFilteredOutMessage =
+        (unread != null || downloaded != null || query) &&
+        filteredManga.length === 0 &&
+        mangas.length > 0;
 
     return (
         <MangaGrid

@@ -13,7 +13,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import { useQueryParam, StringParam } from 'use-query-params';
 
 interface IProps {
-    autoOpen?: boolean
+    autoOpen?: boolean;
 }
 
 const defaultProps = {
@@ -29,11 +29,14 @@ const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         setQuery(e.target.value === '' ? undefined : e.target.value);
     }
+
     const cancelSearch = () => {
         setQuery(null);
         setSearchOpen(false);
     };
-    const handleBlur = () => { if (!query) setSearchOpen(false); };
+    const handleBlur = () => {
+        if (!query) setSearchOpen(false);
+    };
     const openSearch = () => {
         setSearchOpen(true);
         // Put Focus Action at the end of the Callstack so Input actually exists on the dom
@@ -43,7 +46,7 @@ const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
     };
 
     const handleSearchShortcut = (e: KeyboardEvent) => {
-        if ((e.code === 'F3') || (e.ctrlKey && e.code === 'KeyF')) {
+        if (e.code === 'F3' || (e.ctrlKey && e.code === 'KeyF')) {
             e.preventDefault();
             openSearch();
         }
@@ -65,26 +68,23 @@ const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
 
     return (
         <>
-            {searchOpen
-                ? (
-                    <Input
-                        value={query || ''}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        inputRef={inputRef}
-                        endAdornment={(
-                            <IconButton
-                                onClick={cancelSearch}
-                            >
-                                <CancelIcon />
-                            </IconButton>
-                        )}
-                    />
-                ) : (
-                    <IconButton onClick={openSearch}>
-                        <SearchIcon />
-                    </IconButton>
-                )}
+            {searchOpen ? (
+                <Input
+                    value={query || ''}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    inputRef={inputRef}
+                    endAdornment={
+                        <IconButton onClick={cancelSearch}>
+                            <CancelIcon />
+                        </IconButton>
+                    }
+                />
+            ) : (
+                <IconButton onClick={openSearch}>
+                    <SearchIcon />
+                </IconButton>
+            )}
         </>
     );
 };

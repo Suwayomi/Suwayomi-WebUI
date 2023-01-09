@@ -6,9 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import CircularProgress from '@mui/material/CircularProgress';
-import React, {
-    useCallback, useContext, useEffect, useState,
-} from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import HorizontalPager from 'components/reader/pager/HorizontalPager';
 import PageNumber from 'components/reader/PageNumber';
@@ -53,7 +51,7 @@ const getReaderComponent = (readerType: ReaderType) => {
     }
 };
 
-const range = (n:number) => Array.from({ length: n }, (value, key) => key);
+const range = (n: number) => Array.from({ length: n }, (value, key) => key);
 const initialChapter = () => ({
     pageCount: -1,
     index: -1,
@@ -67,22 +65,26 @@ export default function Reader() {
 
     const [serverAddress] = useLocalStorage<String>('serverBaseURL', '');
 
-    const { chapterIndex, mangaId } = useParams<{ chapterIndex: string, mangaId: string }>();
-    const [manga, setManga] = useState<IMangaCard | IManga>({ id: +mangaId, title: '', thumbnailUrl: '' });
+    const { chapterIndex, mangaId } = useParams<{ chapterIndex: string; mangaId: string }>();
+    const [manga, setManga] = useState<IMangaCard | IManga>({
+        id: +mangaId,
+        title: '',
+        thumbnailUrl: '',
+    });
     const [chapter, setChapter] = useState<IChapter | IPartialChapter>(initialChapter());
     const [curPage, setCurPage] = useState<number>(0);
     const { setOverride, setTitle } = useContext(NavbarContext);
 
-    const {
-        settings: defaultSettings,
-        loading: areDefaultSettingsLoading,
-    } = useDefaultReaderSettings();
+    const { settings: defaultSettings, loading: areDefaultSettingsLoading } =
+        useDefaultReaderSettings();
     const [settings, setSettings] = useState(getReaderSettingsFor(manga, defaultSettings));
     const [isMangaLoading, setIsMangaLoading] = useState(true);
 
     const setSettingValue = (key: keyof IReaderSettings, value: string | boolean) => {
         setSettings({ ...settings, [key]: value });
-        requestUpdateMangaMetadata(manga, [[key, value]]).catch(() => makeToast('Failed to save the reader settings to the server', 'warning'));
+        requestUpdateMangaMetadata(manga, [[key, value]]).catch(() =>
+            makeToast('Failed to save the reader settings to the server', 'warning'),
+        );
     };
 
     useEffect(() => {
@@ -95,27 +97,27 @@ export default function Reader() {
 
     useEffect(() => {
         if (!areDefaultSettingsLoading && !isMangaLoading) {
-            checkAndHandleMissingStoredReaderSettings(manga, 'manga', defaultSettings).catch(() => {});
+            checkAndHandleMissingStoredReaderSettings(manga, 'manga', defaultSettings).catch(
+                () => {},
+            );
             setSettings(getReaderSettingsFor(manga, defaultSettings));
         }
     }, [areDefaultSettingsLoading, isMangaLoading]);
 
     useEffect(() => {
         // set the custom navbar
-        setOverride(
-            {
-                status: true,
-                value: (
-                    <ReaderNavBar
-                        settings={settings}
-                        setSettingValue={setSettingValue}
-                        manga={manga}
-                        chapter={chapter as IChapter}
-                        curPage={curPage}
-                    />
-                ),
-            },
-        );
+        setOverride({
+            status: true,
+            value: (
+                <ReaderNavBar
+                    settings={settings}
+                    setSettingValue={setSettingValue}
+                    manga={manga}
+                    chapter={chapter as IChapter}
+                    curPage={curPage}
+                />
+            ),
+        });
 
         // clean up for when we leave the reader
         return () => setOverride({ status: false, value: <div /> });
@@ -123,7 +125,8 @@ export default function Reader() {
 
     useEffect(() => {
         setIsMangaLoading(true);
-        client.get(`/api/v1/manga/${mangaId}/`)
+        client
+            .get(`/api/v1/manga/${mangaId}/`)
             .then((response) => response.data)
             .then((data: IManga) => {
                 setManga(data);
@@ -133,9 +136,10 @@ export default function Reader() {
 
     useEffect(() => {
         setChapter(initialChapter);
-        client.get(`/api/v1/manga/${mangaId}/chapter/${chapterIndex}`)
+        client
+            .get(`/api/v1/manga/${mangaId}/chapter/${chapterIndex}`)
             .then((response) => response.data)
-            .then((data:IChapter) => {
+            .then((data: IChapter) => {
                 setChapter(data);
 
                 if (data.lastPageRead === data.pageCount - 1) {
@@ -166,22 +170,32 @@ export default function Reader() {
             formData.append('read', 'true');
             client.patch(`/api/v1/manga/${manga.id}/chapter/${chapter.index}`, formData);
 
-            history.replace({ pathname: `/manga/${manga.id}/chapter/${chapter.index + 1}`, state: history.location.state });
+            history.replace({
+                pathname: `/manga/${manga.id}/chapter/${chapter.index + 1}`,
+                state: history.location.state,
+            });
         }
     }, [chapter.index, chapter.chapterCount, chapter.pageCount, manga.id]);
 
     const prevChapter = useCallback(() => {
         if (chapter.index > 1) {
-            history.replace({ pathname: `/manga/${manga.id}/chapter/${chapter.index - 1}`, state: history.location.state });
+            history.replace({
+                pathname: `/manga/${manga.id}/chapter/${chapter.index - 1}`,
+                state: history.location.state,
+            });
         }
     }, [chapter.index, manga.id]);
 
     // return spinner while chpater data is loading
     if (chapter.pageCount === -1) {
         return (
-            <Box sx={{
-                height: '100vh', width: '100vw', display: 'grid', placeItems: 'center',
-            }}
+            <Box
+                sx={{
+                    height: '100vh',
+                    width: '100vw',
+                    display: 'grid',
+                    placeItems: 'center',
+                }}
             >
                 <CircularProgress thickness={5} />
             </Box>
@@ -196,15 +210,11 @@ export default function Reader() {
     const ReaderComponent = getReaderComponent(settings.readerType);
 
     // last page, also probably read = true, we will load the first page.
-    const initialPage = (chapter.lastPageRead === chapter.pageCount - 1) ? 0 : chapter.lastPageRead;
+    const initialPage = chapter.lastPageRead === chapter.pageCount - 1 ? 0 : chapter.lastPageRead;
 
     return (
         <Box sx={{ width: settings.staticNav ? 'calc(100vw - 300px)' : '100vw' }}>
-            <PageNumber
-                settings={settings}
-                curPage={curPage}
-                pageCount={chapter.pageCount}
-            />
+            <PageNumber settings={settings} curPage={curPage} pageCount={chapter.pageCount} />
             <ReaderComponent
                 pages={pages}
                 pageCount={chapter.pageCount}

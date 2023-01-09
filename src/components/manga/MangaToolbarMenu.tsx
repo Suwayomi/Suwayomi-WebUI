@@ -9,7 +9,14 @@ import Label from '@mui/icons-material/Label';
 import MoreHoriz from '@mui/icons-material/MoreHoriz';
 import Refresh from '@mui/icons-material/Refresh';
 import {
-    IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Tooltip, useMediaQuery, useTheme,
+    IconButton,
+    ListItemIcon,
+    ListItemText,
+    Menu,
+    MenuItem,
+    Tooltip,
+    useMediaQuery,
+    useTheme,
 } from '@mui/material';
 import CategorySelect from 'components/navbar/action/CategorySelect';
 import React, { useState } from 'react';
@@ -37,13 +44,22 @@ const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
             {isLargeScreen && (
                 <>
                     <Tooltip title="Reload data from source">
-                        <IconButton onClick={() => { onRefresh(); }} disabled={refreshing}>
+                        <IconButton
+                            onClick={() => {
+                                onRefresh();
+                            }}
+                            disabled={refreshing}
+                        >
                             <Refresh />
                         </IconButton>
                     </Tooltip>
                     {manga.inLibrary && (
                         <Tooltip title="Edit manga categories">
-                            <IconButton onClick={() => { setEditCategories(true); }}>
+                            <IconButton
+                                onClick={() => {
+                                    setEditCategories(true);
+                                }}
+                            >
                                 <Label />
                             </IconButton>
                         </Tooltip>
@@ -71,37 +87,35 @@ const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                         }}
                     >
                         <MenuItem
-                            onClick={() => { onRefresh(); handleClose(); }}
+                            onClick={() => {
+                                onRefresh();
+                                handleClose();
+                            }}
                             disabled={refreshing}
                         >
                             <ListItemIcon>
                                 <Refresh fontSize="small" />
                             </ListItemIcon>
-                            <ListItemText>
-                                Reload data from source
-                            </ListItemText>
+                            <ListItemText>Reload data from source</ListItemText>
                         </MenuItem>
                         {manga.inLibrary && (
                             <MenuItem
-                                onClick={() => { setEditCategories(true); handleClose(); }}
+                                onClick={() => {
+                                    setEditCategories(true);
+                                    handleClose();
+                                }}
                             >
                                 <ListItemIcon>
                                     <Label fontSize="small" />
                                 </ListItemIcon>
-                                <ListItemText>
-                                    Edit manga categories
-                                </ListItemText>
+                                <ListItemText>Edit manga categories</ListItemText>
                             </MenuItem>
                         )}
                     </Menu>
                 </>
             )}
 
-            <CategorySelect
-                open={editCategories}
-                setOpen={setEditCategories}
-                mangaId={manga.id}
-            />
+            <CategorySelect open={editCategories} setOpen={setEditCategories} mangaId={manga.id} />
         </>
     );
 };

@@ -16,7 +16,6 @@ declare module '@mui/material/styles' {
     interface PaletteOptions {
         custom?: PaletteOptions['primary'];
     }
-
 }
 
 const createTheme = (dark?: boolean) => {
@@ -26,16 +25,17 @@ const createTheme = (dark?: boolean) => {
         },
     });
 
-    const tachideskTheme = createMuiTheme({
-        palette: {
-            custom: {
-                main: dark ? baseTheme.palette.common.black : baseTheme.palette.common.white,
-                light: dark ? baseTheme.palette.grey[900] : baseTheme.palette.grey[100],
+    const tachideskTheme = createMuiTheme(
+        {
+            palette: {
+                custom: {
+                    main: dark ? baseTheme.palette.common.black : baseTheme.palette.common.white,
+                    light: dark ? baseTheme.palette.grey[900] : baseTheme.palette.grey[100],
+                },
             },
-        },
-        components: {
-            MuiCssBaseline: {
-                styleOverrides: `
+            components: {
+                MuiCssBaseline: {
+                    styleOverrides: `
                 *::-webkit-scrollbar {
                     width: 10px;
                     background: ${dark ? '#222' : '#e1e1e1'};   
@@ -46,9 +46,11 @@ const createTheme = (dark?: boolean) => {
                     border-radius: 5px;
                 }
             `,
+                },
             },
         },
-    }, baseTheme);
+        baseTheme,
+    );
 
     return tachideskTheme;
 };

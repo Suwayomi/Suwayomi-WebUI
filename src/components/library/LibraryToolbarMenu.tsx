@@ -18,10 +18,7 @@ const LibraryToolbarMenu: React.FC = () => {
 
     return (
         <>
-            <IconButton
-                onClick={() => setOpen(!open)}
-                color={active ? 'warning' : 'default'}
-            >
+            <IconButton onClick={() => setOpen(!open)} color={active ? 'warning' : 'default'}>
                 <FilterList />
             </IconButton>
             <LibraryOptionsPanel open={open} onClose={() => setOpen(false)} />

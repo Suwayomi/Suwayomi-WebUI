@@ -14,16 +14,10 @@ interface IProps {
 }
 
 export default function TabPanel(props: IProps) {
-    const {
-        children, index, currentIndex,
-    } = props;
+    const { children, index, currentIndex } = props;
 
     return (
-        <div
-            role="tabpanel"
-            hidden={index !== currentIndex}
-            id={`simple-tabpanel-${index}`}
-        >
+        <div role="tabpanel" hidden={index !== currentIndex} id={`simple-tabpanel-${index}`}>
             {currentIndex === index && children}
         </div>
     );

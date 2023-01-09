@@ -10,26 +10,27 @@ import TabPanel from 'components/util/TabPanel';
 import React, { useState } from 'react';
 import OptionsPanel from 'components/molecules/OptionsPanel';
 
-interface IProps<T = string>{
-    open: boolean
-    onClose: () => void
-    tabs: T[]
-    tabTitle: (key: T) => React.ReactNode
-    tabContent: (key: T) => React.ReactNode
-    minHeight?: number
+interface IProps<T = string> {
+    open: boolean;
+    onClose: () => void;
+    tabs: T[];
+    tabTitle: (key: T) => React.ReactNode;
+    tabContent: (key: T) => React.ReactNode;
+    minHeight?: number;
 }
 
 const OptionsTabs = <T extends string = string>({
-    open, onClose, tabs, tabTitle, tabContent, minHeight,
+    open,
+    onClose,
+    tabs,
+    tabTitle,
+    tabContent,
+    minHeight,
 }: IProps<T>) => {
     const [tabNum, setTabNum] = useState(0);
 
     return (
-        <OptionsPanel
-            open={open}
-            onClose={onClose}
-            minHeight={minHeight}
-        >
+        <OptionsPanel open={open} onClose={onClose} minHeight={minHeight}>
             <Tabs
                 value={tabNum}
                 variant="fullWidth"
@@ -43,9 +44,7 @@ const OptionsTabs = <T extends string = string>({
             </Tabs>
             {tabs.map((tab, tabIndex) => (
                 <TabPanel key={tab} index={tabIndex} currentIndex={tabNum}>
-                    <Stack sx={{ px: 3, py: 1, minHeight }}>
-                        {tabContent(tab)}
-                    </Stack>
+                    <Stack sx={{ px: 3, py: 1, minHeight }}>{tabContent(tab)}</Stack>
                 </TabPanel>
             ))}
         </OptionsPanel>

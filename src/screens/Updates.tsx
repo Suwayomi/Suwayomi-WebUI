@@ -17,9 +17,7 @@ import NavbarContext from 'components/context/NavbarContext';
 import DownloadStateIndicator from 'components/molecules/DownloadStateIndicator';
 import EmptyView from 'components/util/EmptyView';
 import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
-import React, {
-    useContext, useEffect, useRef, useState,
-} from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import client from 'util/client';
 import useLocalStorage from 'util/useLocalStorage';
@@ -30,10 +28,12 @@ function epochToDate(epoch: number) {
     return date;
 }
 
-function isTheSameDay(first:Date, second:Date) {
-    return first.getDate() === second.getDate()
-    && first.getMonth() === second.getMonth()
-    && first.getFullYear() === second.getFullYear();
+function isTheSameDay(first: Date, second: Date) {
+    return (
+        first.getDate() === second.getDate() &&
+        first.getMonth() === second.getMonth() &&
+        first.getFullYear() === second.getFullYear()
+    );
 }
 
 function getDateString(date: Date) {
@@ -46,8 +46,9 @@ function getDateString(date: Date) {
     return date.toLocaleDateString();
 }
 
-function groupByDate(updates: IMangaChapter[]):
-[string, { item: IMangaChapter, globalIdx: number }[] ][] {
+function groupByDate(
+    updates: IMangaChapter[],
+): [string, { item: IMangaChapter; globalIdx: number }[]][] {
     if (updates.length === 0) return [];
 
     const groups = {};
@@ -63,7 +64,10 @@ function groupByDate(updates: IMangaChapter[]):
     return Object.keys(groups).map((key) => [key, groups[key]]);
 }
 
-const baseWebsocketUrl = JSON.parse(window.localStorage.getItem('serverBaseURL')!).replace('http', 'ws');
+const baseWebsocketUrl = JSON.parse(window.localStorage.getItem('serverBaseURL')!).replace(
+    'http',
+    'ws',
+);
 const initialQueue = {
     status: 'Stopped',
     queue: [],
@@ -104,13 +108,11 @@ const Updates: React.FC = () => {
 
     useEffect(() => {
         if (hasNextPage) {
-            client.get(`/api/v1/update/recentChapters/${lastPageNum}`)
+            client
+                .get(`/api/v1/update/recentChapters/${lastPageNum}`)
                 .then((response) => response.data)
                 .then(({ hasNextPage: fetchedHasNextPage, page }: PaginatedList<IMangaChapter>) => {
-                    setUpdateEntries([
-                        ...updateEntries,
-                        ...page,
-                    ]);
+                    setUpdateEntries([...updateEntries, ...page]);
                     setHasNextPage(fetchedHasNextPage);
                     setFetched(true);
                 });
@@ -122,7 +124,7 @@ const Updates: React.FC = () => {
     const scrollHandler = () => {
         if (lastEntry.current) {
             const rect = lastEntry.current.getBoundingClientRect();
-            if (((rect.y + rect.height) / window.innerHeight < 2) && hasNextPage) {
+            if ((rect.y + rect.height) / window.innerHeight < 2 && hasNextPage) {
                 setLastPageNum(lastPageNum + 1);
             }
         }
@@ -134,8 +136,12 @@ const Updates: React.FC = () => {
         };
     }, [hasNextPage, updateEntries]);
 
-    if (!fetched) { return <LoadingPlaceholder />; }
-    if (fetched && updateEntries.length === 0) { return <EmptyView message="You don't have any updates yet." />; }
+    if (!fetched) {
+        return <LoadingPlaceholder />;
+    }
+    if (fetched && updateEntries.length === 0) {
+        return <EmptyView message="You don't have any updates yet." />;
+    }
 
     const downloadForChapter = (chapter: IChapter) => {
         const { index, mangaId } = chapter;
@@ -170,7 +176,10 @@ const Updates: React.FC = () => {
                             >
                                 <CardActionArea
                                     component={Link}
-                                    to={{ pathname: `/manga/${chapter.mangaId}/chapter/${chapter.index}`, state: history.location.state }}
+                                    to={{
+                                        pathname: `/manga/${chapter.mangaId}/chapter/${chapter.index}`,
+                                        state: history.location.state,
+                                    }}
                                 >
                                     <CardContent
                                         sx={{
@@ -196,7 +205,11 @@ const Updates: React.FC = () => {
                                                 <Typography variant="h5" component="h2">
                                                     {manga.title}
                                                 </Typography>
-                                                <Typography variant="caption" display="block" gutterBottom>
+                                                <Typography
+                                                    variant="caption"
+                                                    display="block"
+                                                    gutterBottom
+                                                >
                                                     {chapter.name}
                                                 </Typography>
                                             </Box>

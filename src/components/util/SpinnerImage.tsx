@@ -12,21 +12,19 @@ import { Theme } from '@mui/system/createTheme';
 import { SxProps } from '@mui/system/styleFunctionSx';
 
 interface IProps {
-    src: string
-    alt: string
+    src: string;
+    alt: string;
 
-    imgRef?: React.RefObject<HTMLImageElement>
+    imgRef?: React.RefObject<HTMLImageElement>;
 
-    spinnerStyle?: SxProps<Theme>
-    imgStyle?: CSSProperties
+    spinnerStyle?: SxProps<Theme>;
+    imgStyle?: CSSProperties;
 
-    onImageLoad?: () => void
+    onImageLoad?: () => void;
 }
 
 export default function SpinnerImage(props: IProps) {
-    const {
-        src, alt, onImageLoad, imgRef, spinnerStyle, imgStyle,
-    } = props;
+    const { src, alt, onImageLoad, imgRef, spinnerStyle, imgStyle } = props;
     const [imageSrc, setImagsrc] = useState<string>('');
 
     useEffect(() => {
@@ -61,14 +59,7 @@ export default function SpinnerImage(props: IProps) {
         return <Box sx={spinnerStyle} />;
     }
 
-    return (
-        <img
-            style={imgStyle}
-            ref={imgRef}
-            src={imageSrc}
-            alt={alt}
-        />
-    );
+    return <img style={imgStyle} ref={imgRef} src={imageSrc} alt={alt} />;
 }
 
 SpinnerImage.defaultProps = {

@@ -14,10 +14,10 @@ import React from 'react';
 import { SORT_OPTIONS } from 'components/manga/util';
 
 interface IProps {
-    open: boolean
-    onClose: () => void
-    options: ChapterListOptions
-    optionsDispatch: React.Dispatch<ChapterOptionsReducerAction>
+    open: boolean;
+    onClose: () => void;
+    options: ChapterListOptions;
+    optionsDispatch: React.Dispatch<ChapterOptionsReducerAction>;
 }
 
 const TITLES = {
@@ -26,9 +26,7 @@ const TITLES = {
     display: 'Display',
 };
 
-const ChapterOptions: React.FC<IProps> = ({
-    open, onClose, options, optionsDispatch,
-}) => (
+const ChapterOptions: React.FC<IProps> = ({ open, onClose, options, optionsDispatch }) => (
     <OptionsTabs<'filter' | 'sort' | 'display'>
         open={open}
         onClose={onClose}
@@ -39,9 +37,39 @@ const ChapterOptions: React.FC<IProps> = ({
             if (key === 'filter') {
                 return (
                     <>
-                        <ThreeStateCheckboxInput label="Unread" checked={options.unread} onChange={(c) => optionsDispatch({ type: 'filter', filterType: 'unread', filterValue: c })} />
-                        <ThreeStateCheckboxInput label="Downloaded" checked={options.downloaded} onChange={(c) => optionsDispatch({ type: 'filter', filterType: 'downloaded', filterValue: c })} />
-                        <ThreeStateCheckboxInput label="Bookmarked" checked={options.bookmarked} onChange={(c) => optionsDispatch({ type: 'filter', filterType: 'bookmarked', filterValue: c })} />
+                        <ThreeStateCheckboxInput
+                            label="Unread"
+                            checked={options.unread}
+                            onChange={(c) =>
+                                optionsDispatch({
+                                    type: 'filter',
+                                    filterType: 'unread',
+                                    filterValue: c,
+                                })
+                            }
+                        />
+                        <ThreeStateCheckboxInput
+                            label="Downloaded"
+                            checked={options.downloaded}
+                            onChange={(c) =>
+                                optionsDispatch({
+                                    type: 'filter',
+                                    filterType: 'downloaded',
+                                    filterValue: c,
+                                })
+                            }
+                        />
+                        <ThreeStateCheckboxInput
+                            label="Bookmarked"
+                            checked={options.bookmarked}
+                            onChange={(c) =>
+                                optionsDispatch({
+                                    type: 'filter',
+                                    filterType: 'bookmarked',
+                                    filterValue: c,
+                                })
+                            }
+                        />
                     </>
                 );
             }
@@ -52,15 +80,20 @@ const ChapterOptions: React.FC<IProps> = ({
                         label={label}
                         checked={options.sortBy === mode}
                         sortDescending={options.reverse}
-                        onClick={() => (mode !== options.sortBy
-                            ? optionsDispatch({ type: 'sortBy', sortBy: mode })
-                            : optionsDispatch({ type: 'sortReverse' }))}
+                        onClick={() =>
+                            mode !== options.sortBy
+                                ? optionsDispatch({ type: 'sortBy', sortBy: mode })
+                                : optionsDispatch({ type: 'sortReverse' })
+                        }
                     />
                 ));
             }
             if (key === 'display') {
                 return (
-                    <RadioGroup onChange={() => optionsDispatch({ type: 'showChapterNumber' })} value={options.showChapterNumber}>
+                    <RadioGroup
+                        onChange={() => optionsDispatch({ type: 'showChapterNumber' })}
+                        value={options.showChapterNumber}
+                    >
                         <RadioInput label="Source Title" value={false} />
                         <RadioInput label="Chapter Number" value />
                     </RadioGroup>

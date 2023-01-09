@@ -13,14 +13,14 @@ import Switch from '@mui/material/Switch';
 import Checkbox from '@mui/material/Checkbox';
 
 function getTwoStateType(type: 'Checkbox' | 'Switch') {
-    if (type === 'Switch') { return Switch; }
+    if (type === 'Switch') {
+        return Switch;
+    }
     return Checkbox;
 }
 
 function TwoSatePreference(props: TwoStatePreferenceProps) {
-    const {
-        title, summary, currentValue, updateValue, type,
-    } = props;
+    const { title, summary, currentValue, updateValue, type } = props;
     const [internalCurrentValue, setInternalCurrentValue] = useState<boolean>(currentValue);
 
     useEffect(() => {
@@ -31,17 +31,16 @@ function TwoSatePreference(props: TwoStatePreferenceProps) {
         <ListItem>
             <ListItemText primary={title} secondary={summary} />
             <ListItemSecondaryAction>
-                {React.createElement(getTwoStateType(type),
-                    {
-                        edge: 'end',
-                        checked: internalCurrentValue,
-                        onChange: () => {
-                            updateValue(!currentValue);
+                {React.createElement(getTwoStateType(type), {
+                    edge: 'end',
+                    checked: internalCurrentValue,
+                    onChange: () => {
+                        updateValue(!currentValue);
 
-                            // appear smooth
-                            setInternalCurrentValue(!currentValue);
-                        },
-                    })}
+                        // appear smooth
+                        setInternalCurrentValue(!currentValue);
+                    },
+                })}
             </ListItemSecondaryAction>
         </ListItem>
     );
@@ -50,6 +49,7 @@ function TwoSatePreference(props: TwoStatePreferenceProps) {
 export function CheckBoxPreference(props: CheckBoxPreferenceProps) {
     return <TwoSatePreference {...props} type="Checkbox" />;
 }
+
 export function SwitchPreferenceCompat(props: SwitchPreferenceCompatProps) {
     return <TwoSatePreference {...props} type="Switch" />;
 }

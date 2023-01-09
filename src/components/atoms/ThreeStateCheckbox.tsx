@@ -19,8 +19,8 @@ function nextState(state: CheckState): CheckState {
 }
 
 export interface ThreeStateCheckboxProps extends Omit<CheckboxProps, 'checked' | 'onChange'> {
-    checked?: boolean | undefined | null
-    onChange?: (checked: boolean | undefined | null) => void
+    checked?: boolean | undefined | null;
+    onChange?: (checked: boolean | undefined | null) => void;
 }
 
 /**

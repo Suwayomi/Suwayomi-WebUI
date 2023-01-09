@@ -13,7 +13,11 @@ const { hostname, port, protocol } = window.location;
 
 // if port is 3000 it's probably running from webpack devlopment server
 let inferredPort;
-if (port === '3000') { inferredPort = '4567'; } else { inferredPort = port; }
+if (port === '3000') {
+    inferredPort = '4567';
+} else {
+    inferredPort = port;
+}
 
 const baseURL = storage.getItem('serverBaseURL', `${protocol}//${hostname}:${inferredPort}`);
 
@@ -42,10 +46,7 @@ export async function fetcher<T = any>(path: string) {
     return res.data as T;
 }
 
-export const useQuery = <
-    D extends any = any,
-    E extends any = any,
->(
+export const useQuery = <D extends any = any, E extends any = any>(
     key: string,
     config?: SWRConfiguration<D, E>,
 ): SWRResponse<D, E> & { loading: boolean } => {

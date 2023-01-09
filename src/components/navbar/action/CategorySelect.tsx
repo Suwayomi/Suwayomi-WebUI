@@ -17,15 +17,17 @@ import FormGroup from '@mui/material/FormGroup';
 import client, { useQuery } from 'util/client';
 
 interface IProps {
-    open: boolean
-    setOpen: (value: boolean) => void
-    mangaId: number
+    open: boolean;
+    setOpen: (value: boolean) => void;
+    mangaId: number;
 }
 
 export default function CategorySelect(props: IProps) {
     const { open, setOpen, mangaId } = props;
 
-    const { data: mangaCategoriesData, mutate } = useQuery<ICategory[]>(`/api/v1/manga/${mangaId}/category`);
+    const { data: mangaCategoriesData, mutate } = useQuery<ICategory[]>(
+        `/api/v1/manga/${mangaId}/category`,
+    );
     const { data: categoriesData } = useQuery<ICategory[]>('/api/v1/category');
 
     const allCategories = useMemo(() => {
@@ -50,8 +52,7 @@ export default function CategorySelect(props: IProps) {
         const { checked } = event.target as HTMLInputElement;
 
         const method = checked ? client.get : client.delete;
-        method(`/api/v1/manga/${mangaId}/category/${categoryId}`)
-            .then(() => mutate());
+        method(`/api/v1/manga/${mangaId}/category/${categoryId}`).then(() => mutate());
     };
 
     return (
@@ -68,29 +69,27 @@ export default function CategorySelect(props: IProps) {
             <DialogTitle>Set categories</DialogTitle>
             <DialogContent dividers>
                 <FormGroup>
-                    {allCategories.length === 0
-                        && (
-                            <span>
-                                No categories found!
-                                <br />
-                                You should make some from settings.
-                            </span>
-                        )}
+                    {allCategories.length === 0 && (
+                        <span>
+                            No categories found!
+                            <br />
+                            You should make some from settings.
+                        </span>
+                    )}
                     {allCategories.map((category) => (
                         <FormControlLabel
-                            control={(
+                            control={
                                 <Checkbox
                                     checked={selectedIds.includes(category.id)}
                                     onChange={(e) => handleChange(e, category.id)}
                                     color="default"
                                 />
-                            )}
+                            }
                             label={category.name}
                             key={category.id}
                         />
                     ))}
                 </FormGroup>
-
             </DialogContent>
             <DialogActions>
                 <Button autoFocus onClick={handleCancel} color="primary">

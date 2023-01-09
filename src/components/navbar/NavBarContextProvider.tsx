@@ -8,11 +8,11 @@
 import React, { useState } from 'react';
 import NavBarContext from 'components/context/NavbarContext';
 
-interface IProps{
-    children: React.ReactNode
+interface IProps {
+    children: React.ReactNode;
 }
 
-export default function NavBarProvider({ children }:IProps) {
+export default function NavBarProvider({ children }: IProps) {
     const [defaultBackTo, setDefaultBackTo] = useState<string | undefined>();
     const [title, setTitle] = useState<string>('Tachidesk');
     const [action, setAction] = useState<any>(<div />);
@@ -36,9 +36,5 @@ export default function NavBarProvider({ children }:IProps) {
         override,
         setOverride,
     };
-    return (
-        <NavBarContext.Provider value={value}>
-            {children}
-        </NavBarContext.Provider>
-    );
+    return <NavBarContext.Provider value={value}>{children}</NavBarContext.Provider>;
 }

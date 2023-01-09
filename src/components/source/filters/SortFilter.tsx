@@ -6,33 +6,23 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
-import {
-    Collapse, ListItemButton, ListItemText, Stack,
-} from '@mui/material';
+import { Collapse, ListItemButton, ListItemText, Stack } from '@mui/material';
 import { Box } from '@mui/system';
 import SortRadioInput from 'components/atoms/SortRadioInput';
 import React from 'react';
 
 interface Props {
-    values: any
-    name: string
-    state: IState
-    position: number
-    group: number | undefined
-    updateFilterValue: Function
-    update: any
+    values: any;
+    name: string;
+    state: IState;
+    position: number;
+    group: number | undefined;
+    updateFilterValue: Function;
+    update: any;
 }
 
 const SortFilter: React.FC<Props> = (props: Props) => {
-    const {
-        values,
-        name,
-        state,
-        position,
-        group,
-        updateFilterValue,
-        update,
-    } = props;
+    const { values, name, state, position, group, updateFilterValue, update } = props;
     const [val, setval] = React.useState(state);
 
     const [open, setOpen] = React.useState(false);
@@ -51,9 +41,10 @@ const SortFilter: React.FC<Props> = (props: Props) => {
             }
             tmp.index = index;
             setval(tmp);
-            const upd = update.filter((e: {
-                position: number; group: number | undefined;
-            }) => !(position === e.position && group === e.group));
+            const upd = update.filter(
+                (e: { position: number; group: number | undefined }) =>
+                    !(position === e.position && group === e.group),
+            );
             updateFilterValue([...upd, { position, state: JSON.stringify(tmp), group }]);
         };
 

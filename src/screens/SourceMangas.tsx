@@ -19,9 +19,9 @@ import SourceGridLayout from 'components/source/GridLayouts';
 import { useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
 
 interface IPos {
-    position: number
-    state: any
-    group?: number
+    position: number;
+    state: any;
+    group?: number;
 }
 
 export default function SourceMangas(props: { popular: boolean }) {
@@ -48,7 +48,8 @@ export default function SourceMangas(props: { popular: boolean }) {
     const { options } = useLibraryOptionsContext();
 
     function makeFilters() {
-        client.get(`/api/v1/source/${sourceId}/filters`)
+        client
+            .get(`/api/v1/source/${sourceId}/filters`)
             .then((response) => response.data)
             .then((data: ISourceFilters[]) => {
                 SetData(data);
@@ -60,7 +61,8 @@ export default function SourceMangas(props: { popular: boolean }) {
     }, []);
 
     useEffect(() => {
-        client.get(`/api/v1/source/${sourceId}`)
+        client
+            .get(`/api/v1/source/${sourceId}`)
             .then((response) => response.data)
             .then((data: ISource) => {
                 setTitle(data.displayName);
@@ -79,20 +81,25 @@ export default function SourceMangas(props: { popular: boolean }) {
         if (update.length > 0) {
             const rep = update;
             setUpdate([]);
-            client.post(`/api/v1/source/${sourceId}/filters`,
-                rep.map((e: IPos) => {
-                    const { position, state, group }: IPos = e;
-                    return group === undefined ? {
-                        position,
-                        state,
-                    } : {
-                        position: group,
-                        state: JSON.stringify({
-                            position,
-                            state,
-                        }),
-                    };
-                }))
+            client
+                .post(
+                    `/api/v1/source/${sourceId}/filters`,
+                    rep.map((e: IPos) => {
+                        const { position, state, group }: IPos = e;
+                        return group === undefined
+                            ? {
+                                  position,
+                                  state,
+                              }
+                            : {
+                                  position: group,
+                                  state: JSON.stringify({
+                                      position,
+                                      state,
+                                  }),
+                              };
+                    }),
+                )
                 .then(() => {
                     setTriggerUpdate(0);
                     makeFilters();
@@ -101,7 +108,9 @@ export default function SourceMangas(props: { popular: boolean }) {
             setFetched(false);
             setMangas([]);
             setLastPageNum(0);
-            if (Noreset === undefined && Search) { setNoreset(null); }
+            if (Noreset === undefined && Search) {
+                setNoreset(null);
+            }
         }
     }, [triggerUpdate]);
 
@@ -111,14 +120,13 @@ export default function SourceMangas(props: { popular: boolean }) {
             setNoreset(undefined);
             setReset(1);
         } else if (Noreset === undefined) {
-            client.get(`/api/v1/source/${sourceId}/filters?reset=true`)
-                .then(() => {
-                    makeFilters();
-                    setSearch(false);
-                    if (reset === 1) {
-                        setTriggerUpdate(0);
-                    }
-                });
+            client.get(`/api/v1/source/${sourceId}/filters?reset=true`).then(() => {
+                makeFilters();
+                setSearch(false);
+                if (reset === 1) {
+                    setTriggerUpdate(0);
+                }
+            });
             return;
         }
         makeFilters();
@@ -140,8 +148,7 @@ export default function SourceMangas(props: { popular: boolean }) {
                         <SettingsIcon />
                     </IconButton>
                 )}
-            </>
-            ,
+            </>,
         );
 
         return () => {
@@ -152,8 +159,12 @@ export default function SourceMangas(props: { popular: boolean }) {
     useEffect(() => {
         if (query) {
             setSearch(true);
-        } else { setSearch(false); }
-        if (Noreset === undefined) { setInit(null); }
+        } else {
+            setSearch(false);
+        }
+        if (Noreset === undefined) {
+            setInit(null);
+        }
     }, [query]);
 
     useEffect(() => {
@@ -163,16 +174,27 @@ export default function SourceMangas(props: { popular: boolean }) {
             }, 1000);
             return () => clearTimeout(delayDebounceFn);
         }
-        if (Search !== undefined) { setInit(null); }
+        if (Search !== undefined) {
+            setInit(null);
+        }
         return () => {};
     }, [Search, query]);
 
     useEffect(() => {
         if (lastPageNum !== 0) {
             const sourceType = props.popular ? 'popular' : 'latest';
-            client.get(`/api/v1/source/${sourceId}/${query !== undefined || Search || Noreset === null ? 'search' : sourceType}${query !== undefined || Search || Noreset === null ? `?searchTerm=${query || ''}&pageNum=${lastPageNum}` : `/${lastPageNum}`}`)
+            client
+                .get(
+                    `/api/v1/source/${sourceId}/${
+                        query !== undefined || Search || Noreset === null ? 'search' : sourceType
+                    }${
+                        query !== undefined || Search || Noreset === null
+                            ? `?searchTerm=${query || ''}&pageNum=${lastPageNum}`
+                            : `/${lastPageNum}`
+                    }`,
+                )
                 .then((response) => response.data)
-                .then((data: { mangaList: IManga[], hasNextPage: boolean }) => {
+                .then((data: { mangaList: IManga[]; hasNextPage: boolean }) => {
                     setMangas([
                         ...mangas,
                         ...data.mangaList.map((it) => ({
@@ -180,11 +202,14 @@ export default function SourceMangas(props: { popular: boolean }) {
                             thumbnailUrl: it.thumbnailUrl,
                             id: it.id,
                             inLibrary: it.inLibrary,
-                        }))]);
+                        })),
+                    ]);
                     setHasNextPage(data.hasNextPage);
                     setFetched(true);
                 });
-        } else { setLastPageNum(1); }
+        } else {
+            setLastPageNum(1);
+        }
     }, [lastPageNum]);
 
     let message;
@@ -196,7 +221,9 @@ export default function SourceMangas(props: { popular: boolean }) {
             messageExtra = (
                 <>
                     <span>Check out </span>
-                    <a href="https://github.com/Suwayomi/Tachidesk-Server/wiki/Local-Source">Local source guide</a>
+                    <a href="https://github.com/Suwayomi/Tachidesk-Server/wiki/Local-Source">
+                        Local source guide
+                    </a>
                 </>
             );
         }

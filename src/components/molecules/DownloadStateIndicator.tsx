@@ -12,7 +12,7 @@ import { Box } from '@mui/system';
 import React from 'react';
 
 interface DownloadStateIndicatorProps {
-    download: IDownloadChapter
+    download: IDownloadChapter;
 }
 
 const DownloadStateIndicator: React.FC<DownloadStateIndicatorProps> = ({ download }) => (
@@ -25,10 +25,7 @@ const DownloadStateIndicator: React.FC<DownloadStateIndicatorProps> = ({ downloa
         }}
     >
         {download.progress !== 0 && (
-            <CircularProgress
-                variant="determinate"
-                value={download.progress * 100}
-            />
+            <CircularProgress variant="determinate" value={download.progress * 100} />
         )}
         <Box
             sx={{

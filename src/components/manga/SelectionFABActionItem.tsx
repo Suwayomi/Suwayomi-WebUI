@@ -17,10 +17,10 @@ import type { IChapterWithMeta } from 'components/manga/ChapterList';
 import type { SelectionAction } from 'components/manga/SelectionFAB';
 
 interface IProps {
-    action: SelectionAction
-    matchingChapters: IChapterWithMeta[]
-    title: string
-    onClick: (action: SelectionAction, chapters: IChapterWithMeta[]) => void
+    action: SelectionAction;
+    matchingChapters: IChapterWithMeta[];
+    title: string;
+    onClick: (action: SelectionAction, chapters: IChapterWithMeta[]) => void;
 }
 
 const ICONS = {
@@ -32,16 +32,11 @@ const ICONS = {
     mark_as_unread: RemoveDone,
 };
 
-const SelectionFABActionItem: React.FC<IProps> = ({
-    action, matchingChapters, onClick, title,
-}) => {
+const SelectionFABActionItem: React.FC<IProps> = ({ action, matchingChapters, onClick, title }) => {
     const count = matchingChapters.length;
     const Icon = ICONS[action];
     return (
-        <MenuItem
-            onClick={() => onClick(action, matchingChapters)}
-            disabled={count === 0}
-        >
+        <MenuItem onClick={() => onClick(action, matchingChapters)} disabled={count === 0}>
             <ListItemIcon>
                 <Icon fontSize="small" />
             </ListItemIcon>

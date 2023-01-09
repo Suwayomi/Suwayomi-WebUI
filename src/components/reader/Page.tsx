@@ -22,15 +22,18 @@ function imageStyle(settings: IReaderSettings): any {
                 width: window.innerWidth,
             });
         }
+
         window.addEventListener('resize', handleResize);
         return () => {
             window.removeEventListener('resize', handleResize);
         };
     }, []);
-    if (settings.readerType === 'DoubleLTR'
-    || settings.readerType === 'DoubleRTL'
-    || settings.readerType === 'ContinuesHorizontalLTR'
-    || settings.readerType === 'ContinuesHorizontalRTL') {
+    if (
+        settings.readerType === 'DoubleLTR' ||
+        settings.readerType === 'DoubleRTL' ||
+        settings.readerType === 'ContinuesHorizontalLTR' ||
+        settings.readerType === 'ContinuesHorizontalRTL'
+    ) {
         return {
             display: 'block',
             marginLeft: '7px',
@@ -54,16 +57,14 @@ function imageStyle(settings: IReaderSettings): any {
 }
 
 interface IProps {
-    src: string
-    index: number
-    onImageLoad: () => void
-    settings: IReaderSettings
+    src: string;
+    index: number;
+    onImageLoad: () => void;
+    settings: IReaderSettings;
 }
 
 const Page = React.forwardRef((props: IProps, ref: any) => {
-    const {
-        src, index, onImageLoad, settings,
-    } = props;
+    const { src, index, onImageLoad, settings } = props;
 
     const [useCache] = useLocalStorage<boolean>('useCache', true);
 

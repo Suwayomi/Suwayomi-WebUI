@@ -7,18 +7,15 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import React, {
-    useMemo, useState, useContext, useEffect,
-} from 'react';
+import React, { useMemo, useState, useContext, useEffect } from 'react';
+import { List, ListItem, ListItemText, ListItemIcon, IconButton } from '@mui/material';
 import {
-    List,
-    ListItem,
-    ListItemText,
-    ListItemIcon,
-    IconButton,
-} from '@mui/material';
-import {
-    DragDropContext, Droppable, Draggable, DropResult, DraggingStyle, NotDraggingStyle,
+    DragDropContext,
+    Droppable,
+    Draggable,
+    DropResult,
+    DraggingStyle,
+    NotDraggingStyle,
 } from 'react-beautiful-dnd';
 import DragHandleIcon from '@mui/icons-material/DragHandle';
 import EditIcon from '@mui/icons-material/Edit';
@@ -37,8 +34,11 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import NavbarContext from 'components/context/NavbarContext';
 import client, { useQuery } from 'util/client';
 
-const getItemStyle = (isDragging: boolean,
-    draggableStyle: DraggingStyle | NotDraggingStyle | undefined, palette: Palette) => ({
+const getItemStyle = (
+    isDragging: boolean,
+    draggableStyle: DraggingStyle | NotDraggingStyle | undefined,
+    palette: Palette,
+) => ({
     // styles we need to apply on draggables
     ...draggableStyle,
 
@@ -49,11 +49,14 @@ const getItemStyle = (isDragging: boolean,
 
 export default function Categories() {
     const { setTitle, setAction } = useContext(NavbarContext);
-    useEffect(() => { setTitle('Categories'); setAction(<></>); }, []);
+    useEffect(() => {
+        setTitle('Categories');
+        setAction(<></>);
+    }, []);
 
     const { data, mutate } = useQuery<ICategory[]>('/api/v1/category/');
     const categories = useMemo(() => {
-        const res = [...data ?? []];
+        const res = [...(data ?? [])];
         if (res.length > 0 && res[0].name === 'Default') {
             res.shift();
         }
@@ -84,11 +87,7 @@ export default function Categories() {
             return;
         }
 
-        categoryReorder(
-            categories,
-            result.source.index,
-            result.destination.index,
-        );
+        categoryReorder(categories, result.source.index, result.destination.index);
     };
 
     const resetDialog = () => {
@@ -102,7 +101,7 @@ export default function Categories() {
         setDialogOpen(true);
     };
 
-    const handleEditDialogOpen = (index:number) => {
+    const handleEditDialogOpen = (index: number) => {
         setDialogName(categories[index].name);
         setDialogDefault(categories[index].default);
         setCategoryToEdit(index);
@@ -121,19 +120,16 @@ export default function Categories() {
         formData.append('default', dialogDefault.toString());
 
         if (categoryToEdit === -1) {
-            client.post('/api/v1/category/', formData)
-                .finally(() => mutate());
+            client.post('/api/v1/category/', formData).finally(() => mutate());
         } else {
             const category = categories[categoryToEdit];
-            client.patch(`/api/v1/category/${category.id}`, formData)
-                .finally(() => mutate());
+            client.patch(`/api/v1/category/${category.id}`, formData).finally(() => mutate());
         }
     };
 
-    const deleteCategory = (index:number) => {
+    const deleteCategory = (index: number) => {
         const category = categories[index];
-        client.delete(`/api/v1/category/${category.id}`)
-            .finally(() => mutate());
+        client.delete(`/api/v1/category/${category.id}`).finally(() => mutate());
     };
 
     return (
@@ -163,9 +159,7 @@ export default function Categories() {
                                             <ListItemIcon>
                                                 <DragHandleIcon />
                                             </ListItemIcon>
-                                            <ListItemText
-                                                primary={item.name}
-                                            />
+                                            <ListItemText primary={item.name} />
                                             <IconButton
                                                 onClick={() => {
                                                     handleEditDialogOpen(index);
@@ -219,13 +213,13 @@ export default function Categories() {
                         onChange={(e) => setDialogName(e.target.value)}
                     />
                     <FormControlLabel
-                        control={(
+                        control={
                             <Checkbox
                                 checked={dialogDefault}
                                 onChange={(e) => setDialogDefault(e.target.checked)}
                                 color="default"
                             />
-                        )}
+                        }
                         label="Default category when adding new manga to library"
                     />
                 </DialogContent>

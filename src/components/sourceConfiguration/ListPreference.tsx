@@ -17,18 +17,16 @@ import Radio from '@mui/material/Radio';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Button from '@mui/material/Button';
 
-interface IListDialogProps{
-    value: string
-    open: boolean
-    onClose: (arg0: string | null) => void
-    options: string[]
-    title: string
+interface IListDialogProps {
+    value: string;
+    open: boolean;
+    onClose: (arg0: string | null) => void;
+    options: string[];
+    title: string;
 }
 
 function ListDialog(props: IListDialogProps) {
-    const {
-        value: valueProp, open, onClose, options, title,
-    } = props;
+    const { value: valueProp, open, onClose, options, title } = props;
     const [value, setValue] = React.useState(valueProp);
     const radioGroupRef = React.useRef<HTMLDivElement>(null);
 
@@ -65,11 +63,7 @@ function ListDialog(props: IListDialogProps) {
         >
             <DialogTitle>{title}</DialogTitle>
             <DialogContent dividers>
-                <RadioGroup
-                    ref={radioGroupRef}
-                    value={value}
-                    onChange={handleChange}
-                >
+                <RadioGroup ref={radioGroupRef} value={value} onChange={handleChange}>
                     {options.map((option) => (
                         <FormControlLabel
                             value={option}
@@ -91,9 +85,7 @@ function ListDialog(props: IListDialogProps) {
 }
 
 export default function ListPreference(props: ListPreferenceProps) {
-    const {
-        title, summary, currentValue, updateValue, entryValues, entries,
-    } = props;
+    const { title, summary, currentValue, updateValue, entryValues, entries } = props;
     const [internalCurrentValue, setInternalCurrentValue] = useState<string>(currentValue);
     const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
@@ -131,10 +123,7 @@ export default function ListPreference(props: ListPreferenceProps) {
 
     return (
         <>
-            <ListItem
-                button
-                onClick={() => setDialogOpen(true)}
-            >
+            <ListItem button onClick={() => setDialogOpen(true)}>
                 <ListItemText primary={title} secondary={getSummary()} />
             </ListItem>
             <ListDialog

@@ -16,10 +16,14 @@ export const useRefreshManga = (mangaId: string) => {
     const handleRefresh = useCallback(async () => {
         setFetchingOnline(true);
         await Promise.all([
-            fetcher(`/api/v1/manga/${mangaId}/?onlineFetch=true`)
-                .then((res) => mutate(`/api/v1/manga/${mangaId}/?onlineFetch=false`, res, { revalidate: false })),
-            fetcher(`/api/v1/manga/${mangaId}/chapters?onlineFetch=true`)
-                .then((res) => mutate(`/api/v1/manga/${mangaId}/chapters?onlineFetch=false`, res, { revalidate: false })),
+            fetcher(`/api/v1/manga/${mangaId}/?onlineFetch=true`).then((res) =>
+                mutate(`/api/v1/manga/${mangaId}/?onlineFetch=false`, res, { revalidate: false }),
+            ),
+            fetcher(`/api/v1/manga/${mangaId}/chapters?onlineFetch=true`).then((res) =>
+                mutate(`/api/v1/manga/${mangaId}/chapters?onlineFetch=false`, res, {
+                    revalidate: false,
+                }),
+            ),
         ]).finally(() => setFetchingOnline(false));
     }, [mangaId]);
 

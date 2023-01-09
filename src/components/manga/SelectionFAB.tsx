@@ -6,20 +6,24 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import MoreHoriz from '@mui/icons-material/MoreHoriz';
-import {
-    Fab, Menu,
-} from '@mui/material';
+import { Fab, Menu } from '@mui/material';
 import { Box } from '@mui/system';
 import { pluralize } from 'components/util/helpers';
 import React, { useRef, useState } from 'react';
 import type { IChapterWithMeta } from 'components/manga/ChapterList';
 import SelectionFABActionItem from 'components/manga/SelectionFABActionItem';
 
-export type SelectionAction = 'download' | 'delete' | 'bookmark' | 'unbookmark' | 'mark_as_read' | 'mark_as_unread';
+export type SelectionAction =
+    | 'download'
+    | 'delete'
+    | 'bookmark'
+    | 'unbookmark'
+    | 'mark_as_read'
+    | 'mark_as_unread';
 
-interface SelectionFABProps{
-    selectedChapters: IChapterWithMeta[]
-    onAction: (action: SelectionAction, chapters: IChapterWithMeta[]) => void
+interface SelectionFABProps {
+    selectedChapters: IChapterWithMeta[];
+    onAction: (action: SelectionAction, chapters: IChapterWithMeta[]) => void;
 }
 
 const SelectionFAB: React.FC<SelectionFABProps> = (props) => {
@@ -38,7 +42,10 @@ const SelectionFAB: React.FC<SelectionFABProps> = (props) => {
     return (
         <Box
             sx={{
-                position: 'fixed', bottom: '2em', right: '3em', pt: 1,
+                position: 'fixed',
+                bottom: '2em',
+                right: '3em',
+                pt: 1,
             }}
             ref={anchorEl}
         >

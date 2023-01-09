@@ -30,9 +30,7 @@ const isSinglePage = (index: number, spreadPages: boolean[]): boolean => {
 };
 
 export default function DoublePagedPager(props: IReaderProps) {
-    const {
-        pages, settings, setCurPage, curPage, nextChapter, prevChapter,
-    } = props;
+    const { pages, settings, setCurPage, curPage, nextChapter, prevChapter } = props;
 
     const selfRef = useRef<HTMLDivElement>(null);
     const pagesRef = useRef<HTMLImageElement[]>([]);
@@ -74,7 +72,7 @@ export default function DoublePagedPager(props: IReaderProps) {
                 <Page
                     key={curPage}
                     index={curPage}
-                    src={(pagesDisplayed.current === 1) ? pages[curPage].src : ''}
+                    src={pagesDisplayed.current === 1 ? pages[curPage].src : ''}
                     onImageLoad={() => {}}
                     settings={settings}
                 />,
@@ -101,7 +99,7 @@ export default function DoublePagedPager(props: IReaderProps) {
     function nextPage() {
         if (curPage < pages.length - 1) {
             const nextCurPage = curPage + pagesDisplayed.current;
-            setCurPage((nextCurPage >= pages.length) ? pages.length - 1 : nextCurPage);
+            setCurPage(nextCurPage >= pages.length ? pages.length - 1 : nextCurPage);
         } else if (settings.loadNextOnEnding) {
             nextChapter();
         }
@@ -110,7 +108,7 @@ export default function DoublePagedPager(props: IReaderProps) {
     function prevPage() {
         if (curPage > 0) {
             const nextCurPage = curPage - pagesToGoBack();
-            setCurPage((nextCurPage < 0) ? 0 : nextCurPage);
+            setCurPage(nextCurPage < 0 ? 0 : nextCurPage);
         } else {
             prevChapter();
         }
@@ -132,7 +130,7 @@ export default function DoublePagedPager(props: IReaderProps) {
         }
     }
 
-    function keyboardControl(e:KeyboardEvent) {
+    function keyboardControl(e: KeyboardEvent) {
         switch (e.code) {
             case 'Space':
                 e.preventDefault();
@@ -149,7 +147,7 @@ export default function DoublePagedPager(props: IReaderProps) {
         }
     }
 
-    function clickControl(e:MouseEvent) {
+    function clickControl(e: MouseEvent) {
         if (e.clientX > window.innerWidth / 2) {
             goRight();
         } else {
@@ -167,9 +165,11 @@ export default function DoublePagedPager(props: IReaderProps) {
 
     useEffect(() => {
         const retryDisplay = setInterval(() => {
-            const isLastPage = (curPage === pages.length - 1);
-            if ((!isLastPage && pageLoaded.current[curPage] && pageLoaded.current[curPage + 1])
-                || pageLoaded.current[curPage]) {
+            const isLastPage = curPage === pages.length - 1;
+            if (
+                (!isLastPage && pageLoaded.current[curPage] && pageLoaded.current[curPage + 1]) ||
+                pageLoaded.current[curPage]
+            ) {
                 setPagesToDisplay();
                 displayPages();
                 clearInterval(retryDisplay);
@@ -189,23 +189,23 @@ export default function DoublePagedPager(props: IReaderProps) {
     return (
         <Box ref={selfRef}>
             <Box id="preload" sx={{ display: 'none' }}>
-                {
-                    pages.map((page) => (
-                        <img
-                            ref={(e:HTMLImageElement) => { pagesRef.current[page.index] = e; }}
-                            key={`${page.index}`}
-                            src={page.src}
-                            onLoad={handleImageLoad(page.index)}
-                            alt={`${page.index}`}
-                        />
-                    ))
-                }
+                {pages.map((page) => (
+                    <img
+                        ref={(e: HTMLImageElement) => {
+                            pagesRef.current[page.index] = e;
+                        }}
+                        key={`${page.index}`}
+                        src={page.src}
+                        onLoad={handleImageLoad(page.index)}
+                        alt={`${page.index}`}
+                    />
+                ))}
             </Box>
             <Box
                 id="display"
                 sx={{
                     display: 'flex',
-                    flexDirection: (settings.readerType === 'DoubleLTR') ? 'row' : 'row-reverse',
+                    flexDirection: settings.readerType === 'DoubleLTR' ? 'row' : 'row-reverse',
                     justifyContent: 'center',
                     margin: '0 auto',
                     width: 'auto',
