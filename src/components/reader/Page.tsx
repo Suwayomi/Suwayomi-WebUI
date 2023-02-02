@@ -29,8 +29,8 @@ function imageStyle(settings: IReaderSettings): any {
     }, []);
     if (settings.readerType === 'DoubleLTR'
     || settings.readerType === 'DoubleRTL'
-    || settings.readerType === 'ContinuesHorizontalLTR'
-    || settings.readerType === 'ContinuesHorizontalRTL') {
+    || settings.readerType === 'ContinuousHorizontalLTR'
+    || settings.readerType === 'ContinuousHorizontalRTL') {
         return {
             display: 'block',
             marginLeft: '7px',
@@ -46,7 +46,7 @@ function imageStyle(settings: IReaderSettings): any {
 
     return {
         display: 'block',
-        marginBottom: settings.readerType === 'ContinuesVertical' ? '15px' : 0,
+        marginBottom: settings.readerType === 'ContinuousVertical' ? '15px' : 0,
         minWidth: '50vw',
         width: dimensions.width < dimensions.height ? '100vw' : '100%',
         maxWidth: '100%',
