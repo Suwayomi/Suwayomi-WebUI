@@ -80,13 +80,13 @@ export default function ReaderSettingsOptions({
                         <MenuItem value="Webtoon">
                             Webtoon
                         </MenuItem>
-                        <MenuItem value="ContinuesVertical">
-                            Continues Vertical
+                        <MenuItem value="ContinuousVertical">
+                            Continuous Vertical
                         </MenuItem>
-                        <MenuItem value="ContinuesHorizontalLTR">
+                        <MenuItem value="ContinuousHorizontalLTR">
                             Horizontal (LTR)
                         </MenuItem>
-                        <MenuItem value="ContinuesHorizontalRTL">
+                        <MenuItem value="ContinuousHorizontalRTL">
                             Horizontal (RTL)
                         </MenuItem>
                     </Select>
