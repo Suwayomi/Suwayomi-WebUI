@@ -159,7 +159,7 @@ interface INavbarOverride {
 }
 
 type ReaderType =
-'ContinuesVertical' |
+'ContinuousVertical' |
 'Webtoon' |
 'SingleVertical' |
 'SingleRTL' |
@@ -167,8 +167,8 @@ type ReaderType =
 'DoubleVertical' |
 'DoubleRTL' |
 'DoubleLTR' |
-'ContinuesHorizontalLTR' |
-'ContinuesHorizontalRTL';
+'ContinuousHorizontalLTR' |
+'ContinuousHorizontalRTL';
 
 interface IReaderSettings{
     staticNav: boolean
