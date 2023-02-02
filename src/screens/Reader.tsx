@@ -30,7 +30,7 @@ import makeToast from '../components/util/Toast';
 
 const getReaderComponent = (readerType: ReaderType) => {
     switch (readerType) {
-        case 'ContinuesVertical':
+        case 'ContinuousVertical':
         case 'Webtoon':
             return VerticalPager;
             break;
@@ -44,8 +44,8 @@ const getReaderComponent = (readerType: ReaderType) => {
         case 'DoubleLTR':
             return DoublePagedPager;
             break;
-        case 'ContinuesHorizontalLTR':
-        case 'ContinuesHorizontalRTL':
+        case 'ContinuousHorizontalLTR':
+        case 'ContinuousHorizontalRTL':
             return HorizontalPager;
         default:
             return VerticalPager;
