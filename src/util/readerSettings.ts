@@ -12,9 +12,9 @@ import { useQuery } from './client';
 export const getDefaultSettings = (forceUndefined: boolean = false) => ({
     staticNav: forceUndefined ? undefined : false,
     showPageNumber: forceUndefined ? undefined : true,
-    continuesPageGap: forceUndefined ? undefined : false,
+    continuousPageGap: forceUndefined ? undefined : false,
     loadNextOnEnding: forceUndefined ? undefined : false,
-    readerType: forceUndefined ? undefined : 'ContinuesVertical',
+    readerType: forceUndefined ? undefined : 'ContinuousVertical',
 } as IReaderSettings);
 
 const getReaderSettingsWithDefaultValueFallback = (
