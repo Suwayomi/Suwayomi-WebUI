@@ -57,7 +57,7 @@ export default function HorizontalPager(props: IReaderProps) {
     }
 
     function goLeft() {
-        if (settings.readerType === 'ContinuesHorizontalLTR') {
+        if (settings.readerType === 'ContinuousHorizontalLTR') {
             prevPage();
         } else {
             nextPage();
@@ -65,7 +65,7 @@ export default function HorizontalPager(props: IReaderProps) {
     }
 
     function goRight() {
-        if (settings.readerType === 'ContinuesHorizontalLTR') {
+        if (settings.readerType === 'ContinuousHorizontalLTR') {
             nextPage();
         } else {
             prevPage();
@@ -96,11 +96,11 @@ export default function HorizontalPager(props: IReaderProps) {
     }
 
     const handleLoadNextonEnding = () => {
-        if (settings.readerType === 'ContinuesHorizontalLTR') {
+        if (settings.readerType === 'ContinuousHorizontalLTR') {
             if (window.scrollX + window.innerWidth >= document.body.scrollWidth) {
                 nextChapter();
             }
-        } else if (settings.readerType === 'ContinuesHorizontalRTL') {
+        } else if (settings.readerType === 'ContinuousHorizontalRTL') {
             if (window.scrollX <= window.innerWidth) {
                 nextChapter();
             }
@@ -152,7 +152,7 @@ export default function HorizontalPager(props: IReaderProps) {
             // This handles cases when last page is show, but is smaller then
             // window, in which case it would never get marked as read.
             // See https://github.com/Suwayomi/Tachidesk-WebUI/issues/14 for more info
-            if (settings.readerType === 'ContinuesHorizontalLTR' ? isAtEnd() : isAtStart()) {
+            if (settings.readerType === 'ContinuousHorizontalLTR' ? isAtEnd() : isAtStart()) {
                 currentPageRef.current = pages.length - 1;
                 setCurPage(currentPageRef.current);
             }
@@ -166,8 +166,8 @@ export default function HorizontalPager(props: IReaderProps) {
             ref={selfRef}
             sx={{
                 display: 'flex',
-                flexDirection: (settings.readerType === 'ContinuesHorizontalLTR') ? 'row' : 'row-reverse',
-                justifyContent: (settings.readerType === 'ContinuesHorizontalLTR') ? 'flex-start' : 'flex-end',
+                flexDirection: (settings.readerType === 'ContinuousHorizontalLTR') ? 'row' : 'row-reverse',
+                justifyContent: (settings.readerType === 'ContinuousHorizontalLTR') ? 'flex-start' : 'flex-end',
                 margin: '0 auto',
                 width: 'auto',
                 height: 'auto',
