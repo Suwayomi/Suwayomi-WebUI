@@ -115,6 +115,7 @@ export default function Reader() {
                     manga={manga}
                     chapter={chapter as IChapter}
                     curPage={curPage}
+                    setCurPage={setCurPage}
                 />
             ),
         });
@@ -209,9 +210,6 @@ export default function Reader() {
 
     const ReaderComponent = getReaderComponent(settings.readerType);
 
-    // last page, also probably read = true, we will load the first page.
-    const initialPage = chapter.lastPageRead === chapter.pageCount - 1 ? 0 : chapter.lastPageRead;
-
     return (
         <Box sx={{ width: settings.staticNav ? 'calc(100vw - 300px)' : '100vw' }}>
             <PageNumber settings={settings} curPage={curPage} pageCount={chapter.pageCount} />
@@ -219,7 +217,7 @@ export default function Reader() {
                 pages={pages}
                 pageCount={chapter.pageCount}
                 setCurPage={setCurPage}
-                initialPage={initialPage}
+                initialPage={curPage}
                 curPage={curPage}
                 settings={settings}
                 manga={manga}

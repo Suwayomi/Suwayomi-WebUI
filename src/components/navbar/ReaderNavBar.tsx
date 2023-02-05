@@ -17,7 +17,7 @@ import { useHistory, Link, useLocation } from 'react-router-dom';
 import Slide from '@mui/material/Slide';
 import Fade from '@mui/material/Fade';
 import Zoom from '@mui/material/Zoom';
-import { Divider } from '@mui/material';
+import { Divider, FormControl, MenuItem, Select } from '@mui/material';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
@@ -71,6 +71,14 @@ const Navigation = styled('div')({
     },
 });
 
+const PageNavigation = styled('div')({
+    display: 'flex',
+    flexWrap: 'wrap',
+    alignContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+});
+
 const ChapterNavigation = styled('div')({
     display: 'grid',
     gridTemplateColumns: '1fr 1fr',
@@ -89,6 +97,8 @@ const ChapterNavigation = styled('div')({
         },
     },
 });
+
+const MenuProps = { PaperProps: { style: { maxHeight: 150 } } };
 
 const OpenDrawerButton = styled(IconButton)(({ theme }) => ({
     position: 'fixed',
@@ -109,6 +119,7 @@ interface IProps {
     manga: IManga | IMangaCard;
     chapter: IChapter;
     curPage: number;
+    setCurPage: (page: number) => void;
 }
 
 export default function ReaderNavBar(props: IProps) {
@@ -120,7 +131,7 @@ export default function ReaderNavBar(props: IProps) {
     }>();
     const { prevDrawerOpen, prevSettingsCollapseOpen } = location.state ?? {};
 
-    const { settings, setSettingValue, manga, chapter, curPage } = props;
+    const { settings, setSettingValue, manga, chapter, curPage, setCurPage } = props;
 
     const [drawerOpen, setDrawerOpen] = useState(settings.staticNav || prevDrawerOpen);
     const [updateDrawerOnRender, setUpdateDrawerOnRender] = useState(true);
@@ -262,7 +273,33 @@ export default function ReaderNavBar(props: IProps) {
                     </Collapse>
                     <Divider sx={{ my: 1, mx: 2 }} />
                     <Navigation>
-                        <span>{`Currently on page ${curPage + 1} of ${chapter.pageCount}`}</span>
+                        <PageNavigation>
+                            <span>Currently on page</span>
+                            <FormControl
+                                size="small"
+                                sx={{ margin: '0 5px' }}
+                                disabled={chapter.pageCount === -1}
+                            >
+                                <Select
+                                    MenuProps={MenuProps}
+                                    value={chapter.pageCount > -1 ? curPage : ''}
+                                    displayEmpty
+                                    onChange={({ target: { value: selectedPage } }) => {
+                                        setCurPage(Number(selectedPage));
+                                    }}
+                                >
+                                    {Array(Math.max(0, chapter.pageCount))
+                                        .fill(1)
+                                        .map((ignoreValue, index) => (
+                                            // eslint-disable-next-line react/no-array-index-key
+                                            <MenuItem key={`Page#${index}`} value={index}>
+                                                {index + 1}
+                                            </MenuItem>
+                                        ))}
+                                </Select>
+                            </FormControl>
+                            <span>{`of ${chapter.pageCount}`}</span>
+                        </PageNavigation>
                         <ChapterNavigation>
                             {chapter.index > 1 && (
                                 <Link
