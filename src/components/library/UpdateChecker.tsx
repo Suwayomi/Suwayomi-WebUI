@@ -5,7 +5,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { Box } from '@mui/system';
 import Typography from '@mui/material/Typography';
 import client from 'util/client';
-import makeToast from '../util/Toast';
+import makeToast from 'components/util/Toast';
 
 interface IProgressProps {
     progress: number

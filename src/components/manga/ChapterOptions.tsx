@@ -11,7 +11,7 @@ import SortRadioInput from 'components/atoms/SortRadioInput';
 import ThreeStateCheckboxInput from 'components/atoms/ThreeStateCheckboxInput';
 import OptionsTabs from 'components/molecules/OptionsTabs';
 import React from 'react';
-import { SORT_OPTIONS } from './util';
+import { SORT_OPTIONS } from 'components/manga/util';
 
 interface IProps {
     open: boolean

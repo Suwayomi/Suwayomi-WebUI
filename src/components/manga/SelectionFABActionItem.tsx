@@ -13,8 +13,8 @@ import Download from '@mui/icons-material/Download';
 import RemoveDone from '@mui/icons-material/RemoveDone';
 import { ListItemIcon, ListItemText, MenuItem } from '@mui/material';
 import React from 'react';
-import type { IChapterWithMeta } from './ChapterList';
-import type { SelectionAction } from './SelectionFAB';
+import type { IChapterWithMeta } from 'components/manga/ChapterList';
+import type { SelectionAction } from 'components/manga/SelectionFAB';
 
 interface IProps {
     action: SelectionAction

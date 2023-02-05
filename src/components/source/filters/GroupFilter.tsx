@@ -12,7 +12,7 @@ import {
 import { Box } from '@mui/system';
 import React from 'react';
 // eslint-disable-next-line import/no-cycle
-import { Options } from '../SourceOptions';
+import { Options } from 'components/source/SourceOptions';
 
 interface Props {
     state: ISourceFilters[]

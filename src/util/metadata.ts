@@ -7,7 +7,7 @@
  */
 
 import { mutate } from 'swr';
-import client from './client';
+import client from 'util/client';
 
 const APP_METADATA_KEY_PREFIX = 'webUI_';
 

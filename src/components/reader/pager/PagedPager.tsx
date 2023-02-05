@@ -7,7 +7,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import { Box } from '@mui/system';
-import Page from '../Page';
+import Page from 'components/reader/Page';
 
 export default function PagedReader(props: IReaderProps) {
     const {

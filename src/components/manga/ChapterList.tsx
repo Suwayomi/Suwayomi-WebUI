@@ -23,8 +23,8 @@ import React, {
 } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 import client, { useQuery } from 'util/client';
-import ChaptersToolbarMenu from './ChaptersToolbarMenu';
-import SelectionFAB from './SelectionFAB';
+import ChaptersToolbarMenu from 'components/manga/ChaptersToolbarMenu';
+import SelectionFAB from 'components/manga/SelectionFAB';
 
 const StyledVirtuoso = styled(Virtuoso)(({ theme }) => ({
     listStyle: 'none',

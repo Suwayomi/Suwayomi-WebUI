@@ -7,7 +7,7 @@
 
 import axios from 'axios';
 import useSWR, { SWRConfiguration, SWRResponse } from 'swr';
-import storage from './localStorage';
+import storage from 'util/localStorage';
 
 const { hostname, port, protocol } = window.location;
 

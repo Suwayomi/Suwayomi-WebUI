@@ -11,16 +11,16 @@ import { Button, Fab, Stack } from '@mui/material';
 import { Box } from '@mui/system';
 import OptionsPanel from 'components/molecules/OptionsPanel';
 import React from 'react';
-import CheckBoxFilter from './filters/CheckBoxFilter';
-import HeaderFilter from './filters/HeaderFilter';
-import SelectFilter from './filters/SelectFilter';
-import SortFilter from './filters/SortFilter';
-import TextFilter from './filters/TextFilter';
-import TriStateFilter from './filters/TriStateFilter';
+import CheckBoxFilter from 'components/source/filters/CheckBoxFilter';
+import HeaderFilter from 'components/source/filters/HeaderFilter';
+import SelectFilter from 'components/source/filters/SelectFilter';
+import SortFilter from 'components/source/filters/SortFilter';
+import TextFilter from 'components/source/filters/TextFilter';
+import TriStateFilter from 'components/source/filters/TriStateFilter';
 // this can only cycle once, so should be fine
 // eslint-disable-next-line import/no-cycle
-import GroupFilter from './filters/GroupFilter';
-import SeperatorFilter from './filters/SeparatorFilter';
+import GroupFilter from 'components/source/filters/GroupFilter';
+import SeperatorFilter from 'components/source/filters/SeparatorFilter';
 
 interface IFilters {
     sourceFilter: ISourceFilters[]

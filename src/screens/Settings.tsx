@@ -31,10 +31,10 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import Slider from '@mui/material/Slider';
 import { DialogTitle, ListItemButton } from '@mui/material';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
-import NavbarContext from '../components/context/NavbarContext';
-import DarkTheme from '../components/context/DarkTheme';
-import useLocalStorage from '../util/useLocalStorage';
-import ListItemLink from '../components/util/ListItemLink';
+import NavbarContext from 'components/context/NavbarContext';
+import DarkTheme from 'components/context/DarkTheme';
+import useLocalStorage from 'util/useLocalStorage';
+import ListItemLink from 'components/util/ListItemLink';
 
 export default function Settings() {
     const { setTitle, setAction } = useContext(NavbarContext);

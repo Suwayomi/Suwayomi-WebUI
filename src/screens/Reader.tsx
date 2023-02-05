@@ -26,7 +26,7 @@ import {
     getReaderSettingsFor,
     useDefaultReaderSettings,
 } from 'util/readerSettings';
-import makeToast from '../components/util/Toast';
+import makeToast from 'components/util/Toast';
 
 const getReaderComponent = (readerType: ReaderType) => {
     switch (readerType) {

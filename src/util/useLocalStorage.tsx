@@ -13,7 +13,7 @@ import React, {
     Reducer,
     useCallback,
 } from 'react';
-import storage from './localStorage';
+import storage from 'util/localStorage';
 
 // eslint-disable-next-line max-len
 export default function useLocalStorage<T>(

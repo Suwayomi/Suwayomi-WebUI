@@ -25,7 +25,7 @@ import Collapse from '@mui/material/Collapse';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/system';
 import useBackTo from 'util/useBackTo';
-import ReaderSettingsOptions from '../reader/ReaderSettingsOptions';
+import ReaderSettingsOptions from 'components/reader/ReaderSettingsOptions';
 
 const Root = styled('div')(({ theme }) => ({
     top: 0,
