@@ -46,9 +46,13 @@ const filterManga = (
     query: NullAndUndefined<string>,
     unread: NullAndUndefined<boolean>,
     downloaded: NullAndUndefined<boolean>,
-): IMangaCard[] => manga.filter((m) => downloadedFilter(downloaded, m)
-        && unreadFilter(unread, m)
-        && queryFilter(query, m));
+): IMangaCard[] => manga.filter((m) => {
+    if (query) {
+        return queryFilter(query, m);
+    }
+
+    return downloadedFilter(downloaded, m) && unreadFilter(unread, m);
+});
 
 const sortByUnread = (a: IMangaCard, b: IMangaCard): number =>
     // eslint-disable-next-line implicit-arrow-linebreak
