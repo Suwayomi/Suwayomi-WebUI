@@ -100,10 +100,7 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
         const cols = Math.ceil(dimensions / ItemWidth);
         return (
             <Grid item columns={cols} xs={1}>
-                <Link
-                    to={mangaLinkTo}
-                    style={gridLayout === GridLayout.Comfortable ? { textDecoration: 'none' } : {}}
-                >
+                <Link to={mangaLinkTo} style={gridLayout === GridLayout.Comfortable ? { textDecoration: 'none' } : {}}>
                     <Box
                         sx={{
                             display: 'flex',
@@ -132,16 +129,12 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
                                     }}
                                 >
                                     {inLibraryIndicator && inLibrary && (
-                                        <Typography
-                                            sx={{ backgroundColor: 'primary.dark', zIndex: '1' }}
-                                        >
+                                        <Typography sx={{ backgroundColor: 'primary.dark', zIndex: '1' }}>
                                             In library
                                         </Typography>
                                     )}
                                     {showUnreadBadge && unread! > 0 && (
-                                        <Typography sx={{ backgroundColor: 'primary.dark' }}>
-                                            {unread}
-                                        </Typography>
+                                        <Typography sx={{ backgroundColor: 'primary.dark' }}>{unread}</Typography>
                                     )}
                                     {showDownloadBadge && downloadCount! > 0 && (
                                         <Typography
@@ -266,14 +259,10 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
                         </Box>
                         <BadgeContainer>
                             {inLibraryIndicator && inLibrary && (
-                                <Typography sx={{ backgroundColor: 'primary.dark' }}>
-                                    In library
-                                </Typography>
+                                <Typography sx={{ backgroundColor: 'primary.dark' }}>In library</Typography>
                             )}
                             {showUnreadBadge && unread! > 0 && (
-                                <Typography sx={{ backgroundColor: 'primary.dark' }}>
-                                    {unread}
-                                </Typography>
+                                <Typography sx={{ backgroundColor: 'primary.dark' }}>{unread}</Typography>
                             )}
                             {showDownloadBadge && downloadCount! > 0 && (
                                 <Typography

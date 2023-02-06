@@ -221,9 +221,7 @@ export default function SourceMangas(props: { popular: boolean }) {
             messageExtra = (
                 <>
                     <span>Check out </span>
-                    <a href="https://github.com/Suwayomi/Tachidesk-Server/wiki/Local-Source">
-                        Local source guide
-                    </a>
+                    <a href="https://github.com/Suwayomi/Tachidesk-Server/wiki/Local-Source">Local source guide</a>
                 </>
             );
         }

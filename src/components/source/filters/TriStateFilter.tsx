@@ -26,8 +26,7 @@ const TriStateFilter: React.FC<Props> = (props) => {
         const newState = checked === undefined ? 0 : checked ? 1 : 2;
         setval(newState);
         const upd = update.filter(
-            (e: { position: number; group: number | undefined }) =>
-                !(position === e.position && group === e.group),
+            (e: { position: number; group: number | undefined }) => !(position === e.position && group === e.group),
         );
         updateFilterValue([
             ...upd,

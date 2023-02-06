@@ -97,9 +97,7 @@ const DownloadQueue: React.FC = () => {
                                         >
                                             <Card
                                                 sx={{
-                                                    backgroundColor: snapshot.isDragging
-                                                        ? 'custom.light'
-                                                        : undefined,
+                                                    backgroundColor: snapshot.isDragging ? 'custom.light' : undefined,
                                                 }}
                                             >
                                                 <CardActionArea
@@ -117,18 +115,9 @@ const DownloadQueue: React.FC = () => {
                                                     <IconButton sx={{ pointerEvents: 'none' }}>
                                                         <DragHandle />
                                                     </IconButton>
-                                                    <Stack
-                                                        sx={{ flex: 1, ml: 1 }}
-                                                        direction="column"
-                                                    >
-                                                        <Typography variant="h6">
-                                                            {item.manga.title}
-                                                        </Typography>
-                                                        <Typography
-                                                            variant="caption"
-                                                            display="block"
-                                                            gutterBottom
-                                                        >
+                                                    <Stack sx={{ flex: 1, ml: 1 }} direction="column">
+                                                        <Typography variant="h6">{item.manga.title}</Typography>
+                                                        <Typography variant="caption" display="block" gutterBottom>
                                                             {item.chapter.name}
                                                         </Typography>
                                                     </Stack>

@@ -139,11 +139,7 @@ export default function Categories() {
                     {(provided) => (
                         <List ref={provided.innerRef}>
                             {categories.map((item, index) => (
-                                <Draggable
-                                    key={item.id}
-                                    draggableId={item.id.toString()}
-                                    index={index}
-                                >
+                                <Draggable key={item.id} draggableId={item.id.toString()} index={index}>
                                     {(provided, snapshot) => (
                                         <ListItem
                                             ContainerProps={{ ref: provided.innerRef } as any}

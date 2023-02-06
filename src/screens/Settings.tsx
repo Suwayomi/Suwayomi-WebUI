@@ -118,11 +118,7 @@ export default function Settings() {
                     </ListItemIcon>
                     <ListItemText primary="Dark Theme" />
                     <ListItemSecondaryAction>
-                        <Switch
-                            edge="end"
-                            checked={darkTheme}
-                            onChange={() => setDarkTheme(!darkTheme)}
-                        />
+                        <Switch edge="end" checked={darkTheme} onChange={() => setDarkTheme(!darkTheme)} />
                     </ListItemSecondaryAction>
                 </ListItem>
                 <ListItemButton>
@@ -141,16 +137,9 @@ export default function Settings() {
                     <ListItemIcon>
                         <FavoriteIcon />
                     </ListItemIcon>
-                    <ListItemText
-                        primary="Show NSFW"
-                        secondary="Hide NSFW extensions and sources"
-                    />
+                    <ListItemText primary="Show NSFW" secondary="Hide NSFW extensions and sources" />
                     <ListItemSecondaryAction>
-                        <Switch
-                            edge="end"
-                            checked={showNsfw}
-                            onChange={() => setShowNsfw(!showNsfw)}
-                        />
+                        <Switch edge="end" checked={showNsfw} onChange={() => setShowNsfw(!showNsfw)} />
                     </ListItemSecondaryAction>
                 </ListItem>
                 <ListItem>
@@ -163,11 +152,7 @@ export default function Settings() {
                          but uses it much more internet traffic in turn"
                     />
                     <ListItemSecondaryAction>
-                        <Switch
-                            edge="end"
-                            checked={useCache}
-                            onChange={() => setUseCache(!useCache)}
-                        />
+                        <Switch edge="end" checked={useCache} onChange={() => setUseCache(!useCache)} />
                     </ListItemSecondaryAction>
                 </ListItem>
                 <ListItem>

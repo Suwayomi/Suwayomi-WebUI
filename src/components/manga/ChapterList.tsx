@@ -140,10 +140,7 @@ const ChapterList: React.FC<IProps> = ({ mangaId }) => {
         setSelection(null);
     };
 
-    const handleFabAction: ComponentProps<typeof SelectionFAB>['onAction'] = (
-        action,
-        actionChapters,
-    ) => {
+    const handleFabAction: ComponentProps<typeof SelectionFAB>['onAction'] = (action, actionChapters) => {
         if (actionChapters.length === 0) return;
         const chapterIds = actionChapters.map(({ chapter }) => chapter.id);
 
@@ -164,16 +161,9 @@ const ChapterList: React.FC<IProps> = ({ mangaId }) => {
         }
 
         actionPromise
-            .then(() =>
-                makeToast(
-                    interpolate(chapterIds.length, actionsStrings[action].success),
-                    'success',
-                ),
-            )
+            .then(() => makeToast(interpolate(chapterIds.length, actionsStrings[action].success), 'success'))
             .then(() => mutate())
-            .catch(() =>
-                makeToast(interpolate(chapterIds.length, actionsStrings[action].error), 'error'),
-            );
+            .catch(() => makeToast(interpolate(chapterIds.length, actionsStrings[action].error), 'error'));
     };
 
     if (loading) {
@@ -206,9 +196,7 @@ const ChapterList: React.FC<IProps> = ({ mangaId }) => {
     });
 
     const selectedChapters =
-        selection === null
-            ? null
-            : chaptersWithMeta.filter(({ chapter }) => selection.includes(chapter.id));
+        selection === null ? null : chaptersWithMeta.filter(({ chapter }) => selection.includes(chapter.id));
 
     return (
         <>
@@ -225,9 +213,7 @@ const ChapterList: React.FC<IProps> = ({ mangaId }) => {
                     }}
                 >
                     <Typography variant="h5">
-                        {`${visibleChapters.length} Chapter${
-                            visibleChapters.length === 1 ? '' : 's'
-                        }`}
+                        {`${visibleChapters.length} Chapter${visibleChapters.length === 1 ? '' : 's'}`}
                     </Typography>
 
                     {selection === null ? (

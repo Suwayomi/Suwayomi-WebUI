@@ -16,12 +16,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { StringParam, useQueryParam } from 'use-query-params';
 import client from 'util/client';
-import {
-    langCodeToName,
-    langSortCmp,
-    sourceDefualtLangs,
-    sourceForcedDefaultLangs,
-} from 'util/language';
+import { langCodeToName, langSortCmp, sourceDefualtLangs, sourceForcedDefaultLangs } from 'util/language';
 import useLocalStorage from 'util/useLocalStorage';
 
 function sourceToLangList(sources: ISource[]) {
@@ -43,10 +38,7 @@ const SearchAll: React.FC = () => {
     const [triggerUpdate, setTriggerUpdate] = useState<number>(2);
     const [mangas, setMangas] = useState<any>({});
 
-    const [shownLangs, setShownLangs] = useLocalStorage<string[]>(
-        'shownSourceLangs',
-        sourceDefualtLangs(),
-    );
+    const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownSourceLangs', sourceDefualtLangs());
     const [showNsfw] = useLocalStorage<boolean>('showNsfw', true);
 
     const [sources, setSources] = useState<ISource[]>([]);
@@ -210,9 +202,7 @@ const SearchAll: React.FC = () => {
                                     sx={{ p: 3 }}
                                 >
                                     <Typography variant="h5">{displayName}</Typography>
-                                    <Typography variant="caption">
-                                        {langCodeToName(lang)}
-                                    </Typography>
+                                    <Typography variant="caption">{langCodeToName(lang)}</Typography>
                                 </CardActionArea>
                             </Card>
                             <MangaGrid

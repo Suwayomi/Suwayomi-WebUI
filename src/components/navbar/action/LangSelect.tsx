@@ -40,9 +40,7 @@ interface IProps {
 export default function LangSelect(props: IProps) {
     const { shownLangs, setShownLangs, allLangs, forcedLangs } = props;
     // hold a copy and only sate state on parent when OK pressed, improves performance
-    const [mShownLangs, setMShownLangs] = useState(
-        removeAll(cloneObject(shownLangs), forcedLangs!),
-    );
+    const [mShownLangs, setMShownLangs] = useState(removeAll(cloneObject(shownLangs), forcedLangs!));
     const [open, setOpen] = useState<boolean>(false);
 
     const handleCancel = () => {

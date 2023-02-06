@@ -75,8 +75,7 @@ export default function Reader() {
     const [curPage, setCurPage] = useState<number>(0);
     const { setOverride, setTitle } = useContext(NavbarContext);
 
-    const { settings: defaultSettings, loading: areDefaultSettingsLoading } =
-        useDefaultReaderSettings();
+    const { settings: defaultSettings, loading: areDefaultSettingsLoading } = useDefaultReaderSettings();
     const [settings, setSettings] = useState(getReaderSettingsFor(manga, defaultSettings));
     const [isMangaLoading, setIsMangaLoading] = useState(true);
 
@@ -97,9 +96,7 @@ export default function Reader() {
 
     useEffect(() => {
         if (!areDefaultSettingsLoading && !isMangaLoading) {
-            checkAndHandleMissingStoredReaderSettings(manga, 'manga', defaultSettings).catch(
-                () => {},
-            );
+            checkAndHandleMissingStoredReaderSettings(manga, 'manga', defaultSettings).catch(() => {});
             setSettings(getReaderSettingsFor(manga, defaultSettings));
         }
     }, [areDefaultSettingsLoading, isMangaLoading]);

@@ -60,12 +60,7 @@ export default function Library() {
     };
 
     if (tabsError != null) {
-        return (
-            <EmptyView
-                message="Could not load categories"
-                messageExtra={tabsError?.message ?? tabsError}
-            />
-        );
+        return <EmptyView message="Could not load categories" messageExtra={tabsError?.message ?? tabsError} />;
     }
 
     if (loading) {

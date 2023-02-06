@@ -65,12 +65,7 @@ function ListDialog(props: IListDialogProps) {
             <DialogContent dividers>
                 <RadioGroup ref={radioGroupRef} value={value} onChange={handleChange}>
                     {options.map((option) => (
-                        <FormControlLabel
-                            value={option}
-                            key={option}
-                            control={<Radio />}
-                            label={option}
-                        />
+                        <FormControlLabel value={option} key={option} control={<Radio />} label={option} />
                     ))}
                 </RadioGroup>
             </DialogContent>

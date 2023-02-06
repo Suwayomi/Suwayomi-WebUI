@@ -9,10 +9,7 @@ import React, { useContext, useEffect } from 'react';
 import NavbarContext from 'components/context/NavbarContext';
 import { useParams } from 'react-router-dom';
 import client, { useQuery } from 'util/client';
-import {
-    SwitchPreferenceCompat,
-    CheckBoxPreference,
-} from 'components/sourceConfiguration/TwoStatePreference';
+import { SwitchPreferenceCompat, CheckBoxPreference } from 'components/sourceConfiguration/TwoStatePreference';
 import ListPreference from 'components/sourceConfiguration/ListPreference';
 import EditTextPreference from 'components/sourceConfiguration/EditTextPreference';
 import MultiSelectListPreference from 'components/sourceConfiguration/MultiSelectListPreference';

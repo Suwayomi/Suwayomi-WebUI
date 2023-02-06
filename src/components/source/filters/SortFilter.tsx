@@ -42,8 +42,7 @@ const SortFilter: React.FC<Props> = (props: Props) => {
             tmp.index = index;
             setval(tmp);
             const upd = update.filter(
-                (e: { position: number; group: number | undefined }) =>
-                    !(position === e.position && group === e.group),
+                (e: { position: number; group: number | undefined }) => !(position === e.position && group === e.group),
             );
             updateFilterValue([...upd, { position, state: JSON.stringify(tmp), group }]);
         };

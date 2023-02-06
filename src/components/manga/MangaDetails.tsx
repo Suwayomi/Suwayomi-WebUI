@@ -134,22 +134,14 @@ const MangaDetails: React.FC<IProps> = ({ manga }) => {
     const classes = useStyles(manga.inLibrary)();
 
     const addToLibrary = () => {
-        mutate(
-            `/api/v1/manga/${manga.id}/?onlineFetch=false`,
-            { ...manga, inLibrary: true },
-            { revalidate: false },
-        );
+        mutate(`/api/v1/manga/${manga.id}/?onlineFetch=false`, { ...manga, inLibrary: true }, { revalidate: false });
         client
             .get(`/api/v1/manga/${manga.id}/library/`)
             .then(() => mutate(`/api/v1/manga/${manga.id}/?onlineFetch=false`));
     };
 
     const removeFromLibrary = () => {
-        mutate(
-            `/api/v1/manga/${manga.id}/?onlineFetch=false`,
-            { ...manga, inLibrary: false },
-            { revalidate: false },
-        );
+        mutate(`/api/v1/manga/${manga.id}/?onlineFetch=false`, { ...manga, inLibrary: false }, { revalidate: false });
         client
             .delete(`/api/v1/manga/${manga.id}/library/`)
             .then(() => mutate(`/api/v1/manga/${manga.id}/?onlineFetch=false`));
@@ -160,10 +152,7 @@ const MangaDetails: React.FC<IProps> = ({ manga }) => {
             <div className={classes.top}>
                 <div className={classes.leftRight}>
                     <div className={classes.leftSide}>
-                        <img
-                            src={`${serverAddress}${manga.thumbnailUrl}?useCache=${useCache}`}
-                            alt="Manga Thumbnail"
-                        />
+                        <img src={`${serverAddress}${manga.thumbnailUrl}?useCache=${useCache}`} alt="Manga Thumbnail" />
                     </div>
                     <div className={classes.rightSide}>
                         <h1>{manga.title}</h1>
@@ -181,15 +170,8 @@ const MangaDetails: React.FC<IProps> = ({ manga }) => {
                 </div>
                 <div className={classes.buttons}>
                     <div>
-                        <IconButton
-                            onClick={manga.inLibrary ? removeFromLibrary : addToLibrary}
-                            size="large"
-                        >
-                            {manga.inLibrary ? (
-                                <FavoriteIcon sx={{ mr: 1 }} />
-                            ) : (
-                                <FavoriteBorderIcon sx={{ mr: 1 }} />
-                            )}
+                        <IconButton onClick={manga.inLibrary ? removeFromLibrary : addToLibrary} size="large">
+                            {manga.inLibrary ? <FavoriteIcon sx={{ mr: 1 }} /> : <FavoriteBorderIcon sx={{ mr: 1 }} />}
                             <Typography sx={{ fontSize: { xs: '0.75em', sm: '0.85em' } }}>
                                 {manga.inLibrary ? 'In Library' : 'Add To Library'}
                             </Typography>
@@ -198,9 +180,7 @@ const MangaDetails: React.FC<IProps> = ({ manga }) => {
                     <a href={manga.realUrl} target="_blank" rel="noreferrer">
                         <IconButton size="large">
                             <PublicIcon sx={{ mr: 1 }} />
-                            <Typography sx={{ fontSize: { xs: '0.75em', sm: '0.85em' } }}>
-                                Open Site
-                            </Typography>
+                            <Typography sx={{ fontSize: { xs: '0.75em', sm: '0.85em' } }}>Open Site</Typography>
                         </IconButton>
                     </a>
                 </div>

@@ -44,8 +44,7 @@ function hasSelect(
             const vall = values.map((e) => e.displayname).indexOf(`${event.target.value}`);
             setval(vall);
             const upd = update.filter(
-                (e: { position: number; group: number | undefined }) =>
-                    !(position === e.position && group === e.group),
+                (e: { position: number; group: number | undefined }) => !(position === e.position && group === e.group),
             );
             updateFilterValue([...upd, { position, state: vall.toString(), group }]);
         };
@@ -58,12 +57,7 @@ function hasSelect(
         return (
             <FormControl sx={{ my: 1 }} variant="standard">
                 <InputLabel>{name}</InputLabel>
-                <Select
-                    name={name}
-                    value={values[val].displayname}
-                    label={name}
-                    onChange={handleChange}
-                >
+                <Select name={name} value={values[val].displayname} label={name} onChange={handleChange}>
                     {rett}
                 </Select>
             </FormControl>
@@ -88,8 +82,7 @@ function noSelect(
             const vall = values.indexOf(`${event.target.value}`);
             setval(vall);
             const upd = update.filter(
-                (e: { position: number; group: number | undefined }) =>
-                    !(position === e.position && group === e.group),
+                (e: { position: number; group: number | undefined }) => !(position === e.position && group === e.group),
             );
             updateFilterValue([...upd, { position, state: vall.toString(), group }]);
         };

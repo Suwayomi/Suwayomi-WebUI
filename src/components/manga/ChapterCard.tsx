@@ -42,14 +42,7 @@ interface IProps {
 const ChapterCard: React.FC<IProps> = (props: IProps) => {
     const theme = useTheme();
 
-    const {
-        chapter,
-        triggerChaptersUpdate,
-        downloadChapter: dc,
-        showChapterNumber,
-        onSelect,
-        selected,
-    } = props;
+    const { chapter, triggerChaptersUpdate, downloadChapter: dc, showChapterNumber, onSelect, selected } = props;
     const isSelecting = selected !== null;
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -85,9 +78,7 @@ const ChapterCard: React.FC<IProps> = (props: IProps) => {
     };
 
     const deleteChapter = () => {
-        client
-            .delete(`/api/v1/manga/${chapter.mangaId}/chapter/${chapter.index}`)
-            .then(() => triggerChaptersUpdate());
+        client.delete(`/api/v1/manga/${chapter.mangaId}/chapter/${chapter.index}`).then(() => triggerChaptersUpdate());
         handleClose();
     };
 
@@ -143,9 +134,7 @@ const ChapterCard: React.FC<IProps> = (props: IProps) => {
                                         sx={{ mr: 0.5, position: 'relative', top: '0.15em' }}
                                     />
                                 )}
-                                {showChapterNumber
-                                    ? `Chapter ${chapter.chapterNumber}`
-                                    : chapter.name}
+                                {showChapterNumber ? `Chapter ${chapter.chapterNumber}` : chapter.name}
                             </Typography>
                             <Typography variant="caption">{chapter.scanlator}</Typography>
                             <Typography variant="caption">
@@ -165,12 +154,7 @@ const ChapterCard: React.FC<IProps> = (props: IProps) => {
                         )}
                     </CardContent>
                 </CardActionArea>
-                <Menu
-                    anchorEl={anchorEl}
-                    keepMounted
-                    open={Boolean(anchorEl)}
-                    onClose={handleClose}
-                >
+                <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
                     <MenuItem onClick={handleSelect}>
                         <ListItemIcon>
                             <CheckBoxOutlineBlank fontSize="small" />

@@ -22,10 +22,7 @@ function Progress({ progress }: IProgressProps) {
     );
 }
 
-const baseWebsocketUrl = JSON.parse(window.localStorage.getItem('serverBaseURL')!).replace(
-    'http',
-    'ws',
-);
+const baseWebsocketUrl = JSON.parse(window.localStorage.getItem('serverBaseURL')!).replace('http', 'ws');
 
 interface IUpdateCheckerProps {
     handleFinishedUpdate: (time: number) => void;
@@ -58,8 +55,7 @@ function UpdateChecker({ handleFinishedUpdate }: IUpdateCheckerProps) {
             const { running, statusMap } = JSON.parse(e.data) as IUpdateStatus;
             const { COMPLETE = [], RUNNING = [], PENDING = [] } = statusMap;
 
-            const currentProgress =
-                100 * (COMPLETE.length / (COMPLETE.length + RUNNING.length + PENDING.length));
+            const currentProgress = 100 * (COMPLETE.length / (COMPLETE.length + RUNNING.length + PENDING.length));
 
             const isUpdateFinished = currentProgress === 100;
             const ignoreFaultyMessage = !updateStarted && !running && isUpdateFinished;

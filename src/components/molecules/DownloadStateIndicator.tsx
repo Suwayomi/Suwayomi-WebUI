@@ -24,9 +24,7 @@ const DownloadStateIndicator: React.FC<DownloadStateIndicatorProps> = ({ downloa
             justifyContent: 'center',
         }}
     >
-        {download.progress !== 0 && (
-            <CircularProgress variant="determinate" value={download.progress * 100} />
-        )}
+        {download.progress !== 0 && <CircularProgress variant="determinate" value={download.progress * 100} />}
         <Box
             sx={{
                 top: 0,
