@@ -17,9 +17,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
 export default function EditTextPreference(props: EditTextPreferenceProps) {
-    const {
-        title, summary, dialogTitle, dialogMessage, currentValue, updateValue,
-    } = props;
+    const { title, summary, dialogTitle, dialogMessage, currentValue, updateValue } = props;
 
     const [internalCurrentValue, setInternalCurrentValue] = useState<string>(currentValue);
     const [dialogOpen, setDialogOpen] = useState<boolean>(false);
@@ -39,23 +37,13 @@ export default function EditTextPreference(props: EditTextPreferenceProps) {
 
     return (
         <>
-            <ListItem
-                button
-                onClick={() => setDialogOpen(true)}
-            >
-                <ListItemText
-                    primary={title}
-                    secondary={summary}
-                />
+            <ListItem button onClick={() => setDialogOpen(true)}>
+                <ListItemText primary={title} secondary={summary} />
             </ListItem>
             <Dialog open={dialogOpen} onClose={handleDialogCancel}>
-                <DialogTitle>
-                    {dialogTitle}
-                </DialogTitle>
+                <DialogTitle>{dialogTitle}</DialogTitle>
                 <DialogContent>
-                    <DialogContentText>
-                        {dialogMessage}
-                    </DialogContentText>
+                    <DialogContentText>{dialogMessage}</DialogContentText>
                     <TextField
                         autoFocus
                         margin="dense"

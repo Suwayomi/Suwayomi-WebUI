@@ -6,9 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import { Tab, Tabs } from '@mui/material';
-import React, {
-    useContext, useEffect, useState,
-} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import NavbarContext from 'components/context/NavbarContext';
 import EmptyView from 'components/util/EmptyView';
 import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
@@ -62,7 +60,12 @@ export default function Library() {
     };
 
     if (tabsError != null) {
-        return <EmptyView message="Could not load categories" messageExtra={tabsError?.message ?? tabsError} />;
+        return (
+            <EmptyView
+                message="Could not load categories"
+                messageExtra={tabsError?.message ?? tabsError}
+            />
+        );
     }
 
     if (loading) {
@@ -109,11 +112,13 @@ export default function Library() {
             </Tabs>
             {tabs.map((tab) => (
                 <TabPanel key={tab.order} index={tab.order} currentIndex={activeTab.order}>
-                    {tab === activeTab && (mangaError
-                        ? (
-                            <EmptyView message="Could not load manga" messageExtra={mangaError?.message ?? mangaError} />
-                        )
-                        : (
+                    {tab === activeTab &&
+                        (mangaError ? (
+                            <EmptyView
+                                message="Could not load manga"
+                                messageExtra={mangaError?.message ?? mangaError}
+                            />
+                        ) : (
                             <LibraryMangaGrid
                                 mangas={mangas}
                                 lastLibraryUpdate={lastLibraryUpdate}

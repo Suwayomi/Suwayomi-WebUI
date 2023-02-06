@@ -11,23 +11,29 @@ import { Link } from 'react-router-dom';
 import { PlayArrow } from '@mui/icons-material';
 import { BACK } from 'util/useBackTo';
 
-interface ResumeFABProps{
-    chapter: IChapter
-    mangaId: string
+interface ResumeFABProps {
+    chapter: IChapter;
+    mangaId: string;
 }
 
 export default function ResumeFab(props: ResumeFABProps) {
-    const { chapter: { index, lastPageRead }, mangaId } = props;
+    const {
+        chapter: { index, lastPageRead },
+        mangaId,
+    } = props;
     return (
         <Fab
             sx={{ position: 'fixed', bottom: '2em', right: '3em' }}
             component={Link}
             variant="extended"
             color="primary"
-            to={{ pathname: `/manga/${mangaId}/chapter/${index}/page/${lastPageRead}`, state: { backLink: BACK } }}
+            to={{
+                pathname: `/manga/${mangaId}/chapter/${index}/page/${lastPageRead}`,
+                state: { backLink: BACK },
+            }}
         >
             <PlayArrow />
-            {index === 1 ? 'Start' : 'Resume' }
+            {index === 1 ? 'Start' : 'Resume'}
         </Fab>
     );
 }

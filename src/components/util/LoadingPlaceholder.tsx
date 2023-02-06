@@ -10,16 +10,14 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { Box } from '@mui/system';
 
 interface IProps {
-    shouldRender?: boolean | (() => boolean)
-    children?: React.ReactNode
-    component?: string | React.FunctionComponent<any> | React.ComponentClass<any, any>
-    componentProps?: any
+    shouldRender?: boolean | (() => boolean);
+    children?: React.ReactNode;
+    component?: string | React.FunctionComponent<any> | React.ComponentClass<any, any>;
+    componentProps?: any;
 }
 
 export default function LoadingPlaceholder(props: IProps) {
-    const {
-        children, shouldRender, component, componentProps,
-    } = props;
+    const { children, shouldRender, component, componentProps } = props;
 
     let condition = true;
     if (shouldRender !== undefined) {
@@ -32,20 +30,17 @@ export default function LoadingPlaceholder(props: IProps) {
         }
 
         if (children) {
-            return (
-                <>
-                    {children}
-                </>
-            );
+            return <>{children}</>;
         }
     }
 
     return (
-        <Box sx={{
-            margin: '10px auto',
-            display: 'flex',
-            justifyContent: 'center',
-        }}
+        <Box
+            sx={{
+                margin: '10px auto',
+                display: 'flex',
+                justifyContent: 'center',
+            }}
         >
             <CircularProgress thickness={5} />
         </Box>

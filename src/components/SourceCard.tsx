@@ -36,14 +36,12 @@ const WiderWidthButtons = styled('div')(({ theme }) => ({
 }));
 
 interface IProps {
-    source: ISource
+    source: ISource;
 }
 
 const SourceCard: React.FC<IProps> = (props: IProps) => {
     const {
-        source: {
-            id, name, lang, iconUrl, supportsLatest, isNsfw,
-        },
+        source: { id, name, lang, iconUrl, supportsLatest, isNsfw },
     } = props;
 
     const history = useHistory();
@@ -64,10 +62,7 @@ const SourceCard: React.FC<IProps> = (props: IProps) => {
                 margin: '10px',
             }}
         >
-            <CardActionArea
-                component={Link}
-                to={`/sources/${id}/popular/`}
-            >
+            <CardActionArea component={Link} to={`/sources/${id}/popular/`}>
                 <CardContent
                     sx={{
                         display: 'flex',
@@ -76,7 +71,6 @@ const SourceCard: React.FC<IProps> = (props: IProps) => {
                         padding: 2,
                     }}
                 >
-
                     <Box sx={{ display: 'flex' }}>
                         <Avatar
                             variant="rounded"
@@ -89,7 +83,13 @@ const SourceCard: React.FC<IProps> = (props: IProps) => {
                             }}
                             src={`${serverAddress}${iconUrl}?useCache=${useCache}`}
                         />
-                        <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'center',
+                            }}
+                        >
                             <Typography variant="h5" component="h2">
                                 {name}
                             </Typography>
@@ -97,7 +97,12 @@ const SourceCard: React.FC<IProps> = (props: IProps) => {
                                 <Typography variant="caption" display="block" gutterBottom>
                                     {langCodeToName(lang)}
                                     {isNsfw && (
-                                        <Typography variant="caption" display="inline" gutterBottom color="red">
+                                        <Typography
+                                            variant="caption"
+                                            display="inline"
+                                            gutterBottom
+                                            color="red"
+                                        >
                                             {' 18+'}
                                         </Typography>
                                     )}

@@ -23,33 +23,29 @@ import GroupFilter from 'components/source/filters/GroupFilter';
 import SeperatorFilter from 'components/source/filters/SeparatorFilter';
 
 interface IFilters {
-    sourceFilter: ISourceFilters[]
-    updateFilterValue: Function
-    group: number | undefined
-    update: any
+    sourceFilter: ISourceFilters[];
+    updateFilterValue: Function;
+    group: number | undefined;
+    update: any;
 }
 
 interface IFilters1 {
-    sourceFilter: ISourceFilters[]
-    updateFilterValue: Function
-    resetFilterValue: Function
-    setTriggerUpdate: Function
-    setSearch: Function
-    update: any
+    sourceFilter: ISourceFilters[];
+    updateFilterValue: Function;
+    resetFilterValue: Function;
+    setTriggerUpdate: Function;
+    setSearch: Function;
+    update: any;
 }
 
-export function Options({
-    sourceFilter,
-    group,
-    updateFilterValue,
-    update,
-}: IFilters) {
+export function Options({ sourceFilter, group, updateFilterValue, update }: IFilters) {
     return (
         <Stack key={`filters ${group}`}>
-            { sourceFilter.map((e: ISourceFilters, index) => {
-                let checkif = update.find((el: {
-                    group: number | undefined; position: number;
-                }) => el.group === group && el.position === index);
+            {sourceFilter.map((e: ISourceFilters, index) => {
+                let checkif = update.find(
+                    (el: { group: number | undefined; position: number }) =>
+                        el.group === group && el.position === index,
+                );
                 checkif = checkif ? checkif.state : checkif;
                 switch (e.type) {
                     case 'CheckBox':
@@ -57,7 +53,7 @@ export function Options({
                             <CheckBoxFilter
                                 key={`filters ${e.filter.name}`}
                                 name={e.filter.name}
-                                state={checkif === 'false' || e.filter.state as boolean}
+                                state={checkif === 'false' || (e.filter.state as boolean)}
                                 position={index}
                                 group={group}
                                 updateFilterValue={updateFilterValue}
@@ -77,10 +73,7 @@ export function Options({
                         );
                     case 'Header':
                         return (
-                            <HeaderFilter
-                                key={`filters ${e.filter.name}`}
-                                name={e.filter.name}
-                            />
+                            <HeaderFilter key={`filters ${e.filter.name}`} name={e.filter.name} />
                         );
                     case 'Select':
                         return (
@@ -88,7 +81,7 @@ export function Options({
                                 key={`filters ${e.filter.name}`}
                                 name={e.filter.name}
                                 values={e.filter.displayValues}
-                                state={parseInt(checkif, 10) || e.filter.state as number}
+                                state={parseInt(checkif, 10) || (e.filter.state as number)}
                                 selected={e.filter.selected}
                                 position={index}
                                 group={group}
@@ -109,7 +102,7 @@ export function Options({
                                 key={`filters ${e.filter.name}`}
                                 name={e.filter.name}
                                 values={e.filter.values}
-                                state={checkif ? JSON.parse(checkif) : e.filter.state as IState}
+                                state={checkif ? JSON.parse(checkif) : (e.filter.state as IState)}
                                 position={index}
                                 group={group}
                                 updateFilterValue={updateFilterValue}
@@ -121,7 +114,7 @@ export function Options({
                             <TextFilter
                                 key={`filters ${e.filter.name}`}
                                 name={e.filter.name}
-                                state={checkif || e.filter.state as string}
+                                state={checkif || (e.filter.state as string)}
                                 position={index}
                                 group={group}
                                 updateFilterValue={updateFilterValue}
@@ -133,7 +126,7 @@ export function Options({
                             <TriStateFilter
                                 key={`filters ${e.filter.name}`}
                                 name={e.filter.name}
-                                state={parseInt(checkif, 10) || e.filter.state as number}
+                                state={parseInt(checkif, 10) || (e.filter.state as number)}
                                 position={index}
                                 group={group}
                                 updateFilterValue={updateFilterValue}
@@ -141,7 +134,7 @@ export function Options({
                             />
                         );
                     default:
-                        return (<Box key={`${e.filter.name}null`} />);
+                        return <Box key={`${e.filter.name}null`} />;
                 }
             })}
         </Stack>
@@ -181,21 +174,10 @@ export default function SourceOptions({
                 Filter
             </Fab>
 
-            <OptionsPanel
-                open={FilterOptions}
-                onClose={() => setFilterOptions(false)}
-            >
+            <OptionsPanel open={FilterOptions} onClose={() => setFilterOptions(false)}>
                 <Box sx={{ display: 'flex', p: 2, pb: 0 }}>
-                    <Button
-                        onClick={handleReset}
-                    >
-                        Reset
-                    </Button>
-                    <Button
-                        sx={{ marginLeft: 'auto' }}
-                        variant="contained"
-                        onClick={handleSubmit}
-                    >
+                    <Button onClick={handleReset}>Reset</Button>
+                    <Button sx={{ marginLeft: 'auto' }} variant="contained" onClick={handleSubmit}>
                         Submit
                     </Button>
                 </Box>

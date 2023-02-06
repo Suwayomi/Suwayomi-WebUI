@@ -31,22 +31,31 @@ export default function DefaultReaderSettings() {
     const { metadata, settings, loading } = useDefaultReaderSettings();
 
     const setSettingValue = (key: keyof IReaderSettings, value: string | boolean) => {
-        requestUpdateServerMetadata(metadata ?? {}, [[key, value]]).catch(() => makeToast('Failed to save the default reader settings to the server', 'warning'));
+        requestUpdateServerMetadata(metadata ?? {}, [[key, value]]).catch(() =>
+            makeToast('Failed to save the default reader settings to the server', 'warning'),
+        );
     };
 
     if (loading) {
         return (
-            <Box sx={{
-                height: '100vh', width: '100vw', display: 'grid', placeItems: 'center',
-            }}
+            <Box
+                sx={{
+                    height: '100vh',
+                    width: '100vw',
+                    display: 'grid',
+                    placeItems: 'center',
+                }}
             >
                 <CircularProgress thickness={5} />
             </Box>
         );
     }
 
-    checkAndHandleMissingStoredReaderSettings({ meta: metadata }, 'server', getDefaultSettings())
-        .catch(() => {});
+    checkAndHandleMissingStoredReaderSettings(
+        { meta: metadata },
+        'server',
+        getDefaultSettings(),
+    ).catch(() => {});
 
     return (
         <ReaderSettingsOptions

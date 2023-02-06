@@ -5,9 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import {
-    Button, CircularProgress, Stack,
-} from '@mui/material';
+import { Button, CircularProgress, Stack } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { styled } from '@mui/system';
 import useSubscription from 'components/library/useSubscription';
@@ -17,10 +15,7 @@ import { filterAndSortChapters, useChapterOptions } from 'components/manga/util'
 import EmptyView from 'components/util/EmptyView';
 import { interpolate } from 'components/util/helpers';
 import makeToast from 'components/util/Toast';
-import React, {
-    ComponentProps,
-    useEffect, useMemo, useRef, useState,
-} from 'react';
+import React, { ComponentProps, useEffect, useMemo, useRef, useState } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 import client, { useQuery } from 'util/client';
 import ChaptersToolbarMenu from 'components/manga/ChaptersToolbarMenu';
@@ -66,13 +61,13 @@ const actionsStrings = {
 };
 
 export interface IChapterWithMeta {
-    chapter: IChapter
-    downloadChapter: IDownloadChapter | undefined
-    selected: boolean | null
+    chapter: IChapter;
+    downloadChapter: IDownloadChapter | undefined;
+    selected: boolean | null;
 }
 
 interface IProps {
-    mangaId: string
+    mangaId: string;
 }
 
 const ChapterList: React.FC<IProps> = ({ mangaId }) => {
@@ -92,9 +87,9 @@ const ChapterList: React.FC<IProps> = ({ mangaId }) => {
         if (prevQueueRef.current && queue) {
             const prevQueue = prevQueueRef.current;
             const changedDownloads = queue.filter((cd) => {
-                const prevChapterDownload = prevQueue
-                    .find((pcd) => cd.chapterIndex === pcd.chapterIndex
-                        && cd.mangaId === pcd.mangaId);
+                const prevChapterDownload = prevQueue.find(
+                    (pcd) => cd.chapterIndex === pcd.chapterIndex && cd.mangaId === pcd.mangaId,
+                );
                 if (!prevChapterDownload) return true;
                 return cd.state !== prevChapterDownload.state;
             });
@@ -107,13 +102,19 @@ const ChapterList: React.FC<IProps> = ({ mangaId }) => {
         prevQueueRef.current = queue;
     }, [queue]);
 
-    const visibleChapters = useMemo(() => filterAndSortChapters(chapters, options), //
-        [chapters, options]);
+    const visibleChapters = useMemo(
+        () => filterAndSortChapters(chapters, options), //
+        [chapters, options],
+    );
 
-    const firstUnreadChapter = useMemo(() => visibleChapters.slice()
-        .reverse()
-        .find((c) => c.read === false),
-    [visibleChapters]);
+    const firstUnreadChapter = useMemo(
+        () =>
+            visibleChapters
+                .slice()
+                .reverse()
+                .find((c) => c.read === false),
+        [visibleChapters],
+    );
 
     const handleSelection = (index: number) => {
         const chapter = visibleChapters[index];
@@ -139,7 +140,10 @@ const ChapterList: React.FC<IProps> = ({ mangaId }) => {
         setSelection(null);
     };
 
-    const handleFabAction: ComponentProps<typeof SelectionFAB>['onAction'] = (action, actionChapters) => {
+    const handleFabAction: ComponentProps<typeof SelectionFAB>['onAction'] = (
+        action,
+        actionChapters,
+    ) => {
         if (actionChapters.length === 0) return;
         const chapterIds = actionChapters.map(({ chapter }) => chapter.id);
 
@@ -160,18 +164,26 @@ const ChapterList: React.FC<IProps> = ({ mangaId }) => {
         }
 
         actionPromise
-            .then(() => makeToast(interpolate(chapterIds.length, actionsStrings[action].success), 'success'))
+            .then(() =>
+                makeToast(
+                    interpolate(chapterIds.length, actionsStrings[action].success),
+                    'success',
+                ),
+            )
             .then(() => mutate())
-            .catch(() => makeToast(interpolate(chapterIds.length, actionsStrings[action].error), 'error'));
+            .catch(() =>
+                makeToast(interpolate(chapterIds.length, actionsStrings[action].error), 'error'),
+            );
     };
 
     if (loading) {
         return (
-            <div style={{
-                margin: '10px auto',
-                display: 'flex',
-                justifyContent: 'center',
-            }}
+            <div
+                style={{
+                    margin: '10px auto',
+                    display: 'flex',
+                    justifyContent: 'center',
+                }}
             >
                 <CircularProgress thickness={5} />
             </div>
@@ -183,8 +195,7 @@ const ChapterList: React.FC<IProps> = ({ mangaId }) => {
 
     const chaptersWithMeta: IChapterWithMeta[] = visibleChapters.map((chapter) => {
         const downloadChapter = queue?.find(
-            (cd) => cd.chapterIndex === chapter.index
-                && cd.mangaId === chapter.mangaId,
+            (cd) => cd.chapterIndex === chapter.index && cd.mangaId === chapter.mangaId,
         );
         const selected = selection?.includes(chapter.id) ?? null;
         return {
@@ -194,9 +205,10 @@ const ChapterList: React.FC<IProps> = ({ mangaId }) => {
         };
     });
 
-    const selectedChapters = (selection === null)
-        ? null
-        : chaptersWithMeta.filter(({ chapter }) => selection.includes(chapter.id));
+    const selectedChapters =
+        selection === null
+            ? null
+            : chaptersWithMeta.filter(({ chapter }) => selection.includes(chapter.id));
 
     return (
         <>
@@ -206,38 +218,44 @@ const ChapterList: React.FC<IProps> = ({ mangaId }) => {
                     alignItems="center"
                     justifyContent="space-between"
                     sx={{
-                        m: 1, mb: 0, mr: 2, minHeight: 40,
+                        m: 1,
+                        mb: 0,
+                        mr: 2,
+                        minHeight: 40,
                     }}
                 >
                     <Typography variant="h5">
-                        {`${visibleChapters.length} Chapter${visibleChapters.length === 1 ? '' : 's'}`}
+                        {`${visibleChapters.length} Chapter${
+                            visibleChapters.length === 1 ? '' : 's'
+                        }`}
                     </Typography>
 
                     {selection === null ? (
                         <ChaptersToolbarMenu options={options} optionsDispatch={dispatch} />
                     ) : (
                         <Stack direction="row">
-                            <Button size="small" onClick={handleSelectAll}>Select all</Button>
-                            <Button size="small" onClick={handleClear}>Clear</Button>
+                            <Button size="small" onClick={handleSelectAll}>
+                                Select all
+                            </Button>
+                            <Button size="small" onClick={handleClear}>
+                                Clear
+                            </Button>
                         </Stack>
                     )}
                 </Stack>
 
-                {noChaptersFound && (
-                    <EmptyView message="No chapters found" />
-                )}
-                {noChaptersMatchingFilter && (
-                    <EmptyView message="No chapters matching filter" />
-                )}
+                {noChaptersFound && <EmptyView message="No chapters found" />}
+                {noChaptersMatchingFilter && <EmptyView message="No chapters matching filter" />}
 
                 <StyledVirtuoso
-                    style={{ // override Virtuoso default values and set them with class
+                    style={{
+                        // override Virtuoso default values and set them with class
                         height: 'undefined',
                         // 900 is the md breakpoint in MUI
                         overflowY: window.innerWidth < 900 ? 'visible' : 'auto',
                     }}
                     totalCount={visibleChapters.length}
-                    itemContent={(index:number) => (
+                    itemContent={(index: number) => (
                         <ChapterCard
                             {...chaptersWithMeta[index]}
                             showChapterNumber={options.showChapterNumber}
@@ -250,10 +268,7 @@ const ChapterList: React.FC<IProps> = ({ mangaId }) => {
                 />
             </Stack>
             {selectedChapters !== null ? (
-                <SelectionFAB
-                    selectedChapters={selectedChapters}
-                    onAction={handleFabAction}
-                />
+                <SelectionFAB selectedChapters={selectedChapters} onAction={handleFabAction} />
             ) : (
                 firstUnreadChapter && <ResumeFab chapter={firstUnreadChapter} mangaId={mangaId} />
             )}

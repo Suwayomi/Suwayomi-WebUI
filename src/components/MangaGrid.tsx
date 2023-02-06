@@ -5,9 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import React, {
-    useEffect, useLayoutEffect, useRef, useState,
-} from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import Grid from '@mui/material/Grid';
 import EmptyView from 'components/util/EmptyView';
 import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
@@ -16,24 +14,32 @@ import { Box } from '@mui/system';
 import MangaCard from 'components/MangaCard';
 import { GridLayout } from 'components/context/LibraryOptionsContext';
 
-export interface IMangaGridProps{
-    mangas: IMangaCard[]
-    isLoading: boolean
-    message?: string
-    messageExtra?: JSX.Element
-    hasNextPage: boolean
-    lastPageNum: number
-    setLastPageNum: (lastPageNum: number) => void
-    gridLayout?: GridLayout
-    horisontal?: boolean | undefined
-    noFaces?: boolean | undefined
-    inLibraryIndicator?: boolean
+export interface IMangaGridProps {
+    mangas: IMangaCard[];
+    isLoading: boolean;
+    message?: string;
+    messageExtra?: JSX.Element;
+    hasNextPage: boolean;
+    lastPageNum: number;
+    setLastPageNum: (lastPageNum: number) => void;
+    gridLayout?: GridLayout;
+    horisontal?: boolean | undefined;
+    noFaces?: boolean | undefined;
+    inLibraryIndicator?: boolean;
 }
 
 const MangaGrid: React.FC<IMangaGridProps> = (props) => {
     const {
-        mangas, isLoading, message, messageExtra,
-        hasNextPage, lastPageNum, setLastPageNum, gridLayout, horisontal, noFaces,
+        mangas,
+        isLoading,
+        message,
+        messageExtra,
+        hasNextPage,
+        lastPageNum,
+        setLastPageNum,
+        gridLayout,
+        horisontal,
+        noFaces,
         inLibraryIndicator,
     } = props;
     let mapped;
@@ -42,7 +48,7 @@ const MangaGrid: React.FC<IMangaGridProps> = (props) => {
     const scrollHandler = () => {
         if (lastManga.current) {
             const rect = lastManga.current.getBoundingClientRect();
-            if (((rect.y + rect.height) / window.innerHeight < 2) && hasNextPage) {
+            if ((rect.y + rect.height) / window.innerHeight < 2 && hasNextPage) {
                 setLastPageNum(lastPageNum + 1);
             }
         }
@@ -73,9 +79,7 @@ const MangaGrid: React.FC<IMangaGridProps> = (props) => {
 
     if (mangas.length === 0) {
         if (isLoading) {
-            mapped = (
-                <LoadingPlaceholder />
-            );
+            mapped = <LoadingPlaceholder />;
         } else {
             mapped = noFaces ? (
                 <Box
@@ -83,9 +87,7 @@ const MangaGrid: React.FC<IMangaGridProps> = (props) => {
                         margin: 'auto',
                     }}
                 >
-                    <Typography variant="h5">
-                        {message}
-                    </Typography>
+                    <Typography variant="h5">{message}</Typography>
                     {messageExtra}
                 </Box>
             ) : (
@@ -110,18 +112,22 @@ const MangaGrid: React.FC<IMangaGridProps> = (props) => {
             <Grid
                 container
                 spacing={1}
-                style={horisontal ? {
-                    margin: 0,
-                    width: '100%',
-                    padding: '5px',
-                    overflowX: 'scroll',
-                    display: '-webkit-inline-box',
-                    flexWrap: 'nowrap',
-                } : {
-                    margin: 0,
-                    width: '100%',
-                    padding: '5px',
-                }}
+                style={
+                    horisontal
+                        ? {
+                              margin: 0,
+                              width: '100%',
+                              padding: '5px',
+                              overflowX: 'scroll',
+                              display: '-webkit-inline-box',
+                              flexWrap: 'nowrap',
+                          }
+                        : {
+                              margin: 0,
+                              width: '100%',
+                              padding: '5px',
+                          }
+                }
             >
                 {mapped}
             </Grid>

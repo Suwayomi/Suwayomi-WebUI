@@ -104,28 +104,23 @@ const OpenDrawerButton = styled(IconButton)(({ theme }) => ({
 }));
 
 interface IProps {
-    settings: IReaderSettings
-    setSettingValue: (key: keyof IReaderSettings, value: string | boolean) => void
-    manga: IManga | IMangaCard
-    chapter: IChapter
-    curPage: number
+    settings: IReaderSettings;
+    setSettingValue: (key: keyof IReaderSettings, value: string | boolean) => void;
+    manga: IManga | IMangaCard;
+    chapter: IChapter;
+    curPage: number;
 }
 
 export default function ReaderNavBar(props: IProps) {
     const history = useHistory();
     const backTo = useBackTo();
     const location = useLocation<{
-        prevDrawerOpen?: boolean,
-        prevSettingsCollapseOpen?: boolean
+        prevDrawerOpen?: boolean;
+        prevSettingsCollapseOpen?: boolean;
     }>();
-    const {
-        prevDrawerOpen,
-        prevSettingsCollapseOpen,
-    } = location.state ?? {};
+    const { prevDrawerOpen, prevSettingsCollapseOpen } = location.state ?? {};
 
-    const {
-        settings, setSettingValue, manga, chapter, curPage,
-    } = props;
+    const { settings, setSettingValue, manga, chapter, curPage } = props;
 
     const [drawerOpen, setDrawerOpen] = useState(settings.staticNav || prevDrawerOpen);
     const [updateDrawerOnRender, setUpdateDrawerOnRender] = useState(true);
@@ -164,8 +159,8 @@ export default function ReaderNavBar(props: IProps) {
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
 
-        const rootEl:HTMLDivElement = document.querySelector('#root')!;
-        const mainContainer:HTMLDivElement = document.querySelector('#appMainContainer')!;
+        const rootEl: HTMLDivElement = document.querySelector('#root')!;
+        const mainContainer: HTMLDivElement = document.querySelector('#appMainContainer')!;
 
         // main container and root div need to change styles...
         rootEl.style.display = 'flex';
@@ -176,7 +171,7 @@ export default function ReaderNavBar(props: IProps) {
             mainContainer.style.display = 'block';
             window.removeEventListener('scroll', handleScroll);
         };
-    }, [handleScroll]);// handleScroll changes on every render
+    }, [handleScroll]); // handleScroll changes on every render
 
     const handleClose = () => {
         if (backTo.back) history.goBack();
@@ -194,13 +189,13 @@ export default function ReaderNavBar(props: IProps) {
                 mountOnEnter
                 unmountOnExit
             >
-                <Root sx={{
-                    position: settings.staticNav ? 'sticky' : 'fixed',
-                }}
+                <Root
+                    sx={{
+                        position: settings.staticNav ? 'sticky' : 'fixed',
+                    }}
                 >
                     <header>
-                        {!settings.staticNav
-                        && (
+                        {!settings.staticNav && (
                             <IconButton
                                 edge="start"
                                 color="inherit"
@@ -212,7 +207,12 @@ export default function ReaderNavBar(props: IProps) {
                                 <KeyboardArrowLeftIcon />
                             </IconButton>
                         )}
-                        <Typography variant="h1" textOverflow="ellipsis" overflow="hidden" sx={{ py: 1 }}>
+                        <Typography
+                            variant="h1"
+                            textOverflow="ellipsis"
+                            overflow="hidden"
+                            sx={{ py: 1 }}
+                        >
                             {chapter.name}
                         </Typography>
                         <IconButton
@@ -262,12 +262,9 @@ export default function ReaderNavBar(props: IProps) {
                     </Collapse>
                     <Divider sx={{ my: 1, mx: 2 }} />
                     <Navigation>
-                        <span>
-                            {`Currently on page ${curPage + 1} of ${chapter.pageCount}`}
-                        </span>
+                        <span>{`Currently on page ${curPage + 1} of ${chapter.pageCount}`}</span>
                         <ChapterNavigation>
-                            {chapter.index > 1
-                            && (
+                            {chapter.index > 1 && (
                                 <Link
                                     replace
                                     to={{
@@ -287,8 +284,7 @@ export default function ReaderNavBar(props: IProps) {
                                     </Button>
                                 </Link>
                             )}
-                            {chapter.index < chapter.chapterCount
-                            && (
+                            {chapter.index < chapter.chapterCount && (
                                 <Link
                                     replace
                                     style={{ gridArea: 'next' }}
@@ -300,10 +296,7 @@ export default function ReaderNavBar(props: IProps) {
                                         },
                                     }}
                                 >
-                                    <Button
-                                        variant="outlined"
-                                        endIcon={<KeyboardArrowRightIcon />}
-                                    >
+                                    <Button variant="outlined" endIcon={<KeyboardArrowRightIcon />}>
                                         Next Chapter
                                     </Button>
                                 </Link>

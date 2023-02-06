@@ -11,16 +11,12 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import DragHandle from '@mui/icons-material/DragHandle';
 import PauseIcon from '@mui/icons-material/Pause';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import {
-    Card, CardActionArea, Stack,
-} from '@mui/material';
+import { Card, CardActionArea, Stack } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import NavbarContext from 'components/context/NavbarContext';
 import EmptyView from 'components/util/EmptyView';
 import React, { useContext, useEffect } from 'react';
-import {
-    DragDropContext, Draggable, Droppable, DropResult,
-} from 'react-beautiful-dnd';
+import { DragDropContext, Draggable, Droppable, DropResult } from 'react-beautiful-dnd';
 import client from 'util/client';
 
 import Typography from '@mui/material/Typography';
@@ -56,8 +52,7 @@ const DownloadQueue: React.FC = () => {
     }, []);
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const onDragEnd = (result: DropResult) => {
-    };
+    const onDragEnd = (result: DropResult) => {};
 
     if (queue.length === 0) {
         return <EmptyView message="No downloads" />;
@@ -65,14 +60,15 @@ const DownloadQueue: React.FC = () => {
 
     const handleDelete = (chapter: IChapter) => {
         // required to stop before deleting otherwise the download kept going. Server issue?
-        client.get('/api/v1/downloads/stop')
-            .then(() => Promise.all([
+        client.get('/api/v1/downloads/stop').then(() =>
+            Promise.all([
                 // remove from download queue
                 client.delete(`/api/v1/download/${chapter.mangaId}/chapter/${chapter.index}`),
                 // delete partial download, should be handle server side?
                 // bug: The folder and the last image downloaded are not deleted
                 client.delete(`/api/v1/manga/${chapter.mangaId}/chapter/${chapter.index}`),
-            ]));
+            ]),
+        );
     };
 
     return (
@@ -101,22 +97,38 @@ const DownloadQueue: React.FC = () => {
                                         >
                                             <Card
                                                 sx={{
-                                                    backgroundColor: snapshot.isDragging ? 'custom.light' : undefined,
+                                                    backgroundColor: snapshot.isDragging
+                                                        ? 'custom.light'
+                                                        : undefined,
                                                 }}
                                             >
                                                 <CardActionArea
                                                     component={Link}
-                                                    to={{ pathname: `/manga/${item.chapter.mangaId}`, state: { backLink: BACK } }}
-                                                    sx={{ display: 'flex', alignItems: 'center', p: 1 }}
+                                                    to={{
+                                                        pathname: `/manga/${item.chapter.mangaId}`,
+                                                        state: { backLink: BACK },
+                                                    }}
+                                                    sx={{
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        p: 1,
+                                                    }}
                                                 >
                                                     <IconButton sx={{ pointerEvents: 'none' }}>
                                                         <DragHandle />
                                                     </IconButton>
-                                                    <Stack sx={{ flex: 1, ml: 1 }} direction="column">
+                                                    <Stack
+                                                        sx={{ flex: 1, ml: 1 }}
+                                                        direction="column"
+                                                    >
                                                         <Typography variant="h6">
                                                             {item.manga.title}
                                                         </Typography>
-                                                        <Typography variant="caption" display="block" gutterBottom>
+                                                        <Typography
+                                                            variant="caption"
+                                                            display="block"
+                                                            gutterBottom
+                                                        >
                                                             {item.chapter.name}
                                                         </Typography>
                                                     </Stack>

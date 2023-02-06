@@ -65,22 +65,30 @@ const truncateText = (str: string, maxLength: number) => {
 };
 
 interface IProps {
-    manga: IMangaCard
-    gridLayout?: GridLayout
-    dimensions: number
-    inLibraryIndicator?: boolean
+    manga: IMangaCard;
+    gridLayout?: GridLayout;
+    dimensions: number;
+    inLibraryIndicator?: boolean;
 }
+
 const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) => {
     const {
         manga: {
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            id, title, thumbnailUrl, downloadCount, unreadCount: unread, inLibrary,
+            id,
+            title,
+            thumbnailUrl,
+            downloadCount,
+            unreadCount: unread,
+            inLibrary,
         },
         gridLayout,
         dimensions,
         inLibraryIndicator,
     } = props;
-    const { options: { showUnreadBadge, showDownloadBadge } } = useLibraryOptionsContext();
+    const {
+        options: { showUnreadBadge, showDownloadBadge },
+    } = useLibraryOptionsContext();
 
     const [serverAddress] = useLocalStorage<String>('serverBaseURL', '');
     const [useCache] = useLocalStorage<boolean>('useCache', true);
@@ -92,7 +100,10 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
         const cols = Math.ceil(dimensions / ItemWidth);
         return (
             <Grid item columns={cols} xs={1}>
-                <Link to={mangaLinkTo} style={(gridLayout === GridLayout.Comfortable) ? { textDecoration: 'none' } : {}}>
+                <Link
+                    to={mangaLinkTo}
+                    style={gridLayout === GridLayout.Comfortable ? { textDecoration: 'none' } : {}}
+                >
                     <Box
                         sx={{
                             display: 'flex',
@@ -113,7 +124,6 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
                                     height: '100%',
                                 }}
                             >
-
                                 <BadgeContainer
                                     sx={{
                                         position: 'absolute',
@@ -128,17 +138,16 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
                                             In library
                                         </Typography>
                                     )}
-                                    { showUnreadBadge && unread! > 0 && (
-                                        <Typography
-                                            sx={{ backgroundColor: 'primary.dark' }}
-                                        >
+                                    {showUnreadBadge && unread! > 0 && (
+                                        <Typography sx={{ backgroundColor: 'primary.dark' }}>
                                             {unread}
                                         </Typography>
                                     )}
-                                    { showDownloadBadge && downloadCount! > 0 && (
-                                        <Typography sx={{
-                                            backgroundColor: 'success.dark',
-                                        }}
+                                    {showDownloadBadge && downloadCount! > 0 && (
+                                        <Typography
+                                            sx={{
+                                                backgroundColor: 'success.dark',
+                                            }}
                                         >
                                             {downloadCount}
                                         </Typography>
@@ -147,30 +156,34 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
                                 <SpinnerImage
                                     alt={title}
                                     src={`${serverAddress}${thumbnailUrl}?useCache=${useCache}`}
-                                    imgStyle={inLibraryIndicator && inLibrary
-                                        ? {
-                                            height: '100%',
-                                            width: '100%',
-                                            objectFit: 'cover',
-                                            filter: 'brightness(0.4)',
-                                        }
-                                        : {
-                                            height: '100%',
-                                            width: '100%',
-                                            objectFit: 'cover',
-                                        }}
+                                    imgStyle={
+                                        inLibraryIndicator && inLibrary
+                                            ? {
+                                                  height: '100%',
+                                                  width: '100%',
+                                                  objectFit: 'cover',
+                                                  filter: 'brightness(0.4)',
+                                              }
+                                            : {
+                                                  height: '100%',
+                                                  width: '100%',
+                                                  objectFit: 'cover',
+                                              }
+                                    }
                                     spinnerStyle={{
                                         display: 'grid',
                                         placeItems: 'center',
                                     }}
                                 />
-                                {(gridLayout === GridLayout.Comfortable) ? (<></>) : (
+                                {gridLayout === GridLayout.Comfortable ? (
+                                    <></>
+                                ) : (
                                     <>
                                         <BottomGradient />
                                         <BottomGradientDoubledDown />
                                     </>
                                 )}
-                                {(gridLayout === GridLayout.Comfortable) ? (
+                                {gridLayout === GridLayout.Comfortable ? (
                                     <></>
                                 ) : (
                                     <MangaTitle
@@ -185,7 +198,7 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
                                 )}
                             </CardActionArea>
                         </Card>
-                        {(gridLayout === GridLayout.Comfortable) ? (
+                        {gridLayout === GridLayout.Comfortable ? (
                             <MangaTitle
                                 sx={{
                                     position: 'relative',
@@ -195,7 +208,9 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
                             >
                                 {truncateText(title, 61)}
                             </MangaTitle>
-                        ) : (<></>)}
+                        ) : (
+                            <></>
+                        )}
                     </Box>
                 </Link>
             </Grid>
@@ -205,10 +220,7 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
     return (
         <Grid item xs={12}>
             <Card>
-                <CardActionArea
-                    component={Link}
-                    to={mangaLinkTo}
-                >
+                <CardActionArea component={Link} to={mangaLinkTo}>
                     <CardContent
                         sx={{
                             display: 'flex',
@@ -220,22 +232,24 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
                     >
                         <Avatar
                             variant="rounded"
-                            sx={inLibraryIndicator && inLibrary
-                                ? {
-                                    width: 56,
-                                    height: 56,
-                                    flex: '0 0 auto',
-                                    marginRight: 2,
-                                    imageRendering: 'pixelated',
-                                    filter: 'brightness(0.4)',
-                                }
-                                : {
-                                    width: 56,
-                                    height: 56,
-                                    flex: '0 0 auto',
-                                    marginRight: 2,
-                                    imageRendering: 'pixelated',
-                                }}
+                            sx={
+                                inLibraryIndicator && inLibrary
+                                    ? {
+                                          width: 56,
+                                          height: 56,
+                                          flex: '0 0 auto',
+                                          marginRight: 2,
+                                          imageRendering: 'pixelated',
+                                          filter: 'brightness(0.4)',
+                                      }
+                                    : {
+                                          width: 56,
+                                          height: 56,
+                                          flex: '0 0 auto',
+                                          marginRight: 2,
+                                          imageRendering: 'pixelated',
+                                      }
+                            }
                             src={`${serverAddress}${thumbnailUrl}?useCache=${useCache}`}
                         />
                         <Box
@@ -252,23 +266,20 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
                         </Box>
                         <BadgeContainer>
                             {inLibraryIndicator && inLibrary && (
-                                <Typography
-                                    sx={{ backgroundColor: 'primary.dark' }}
-                                >
+                                <Typography sx={{ backgroundColor: 'primary.dark' }}>
                                     In library
                                 </Typography>
                             )}
-                            { showUnreadBadge && unread! > 0 && (
-                                <Typography
-                                    sx={{ backgroundColor: 'primary.dark' }}
-                                >
+                            {showUnreadBadge && unread! > 0 && (
+                                <Typography sx={{ backgroundColor: 'primary.dark' }}>
                                     {unread}
                                 </Typography>
                             )}
-                            { showDownloadBadge && downloadCount! > 0 && (
-                                <Typography sx={{
-                                    backgroundColor: 'success.dark',
-                                }}
+                            {showDownloadBadge && downloadCount! > 0 && (
+                                <Typography
+                                    sx={{
+                                        backgroundColor: 'success.dark',
+                                    }}
                                 >
                                     {downloadCount}
                                 </Typography>

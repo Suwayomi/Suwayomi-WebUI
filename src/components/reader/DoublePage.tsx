@@ -18,16 +18,14 @@ const Image = styled('img')({
 });
 
 interface IProps {
-    index: number
-    image1src: string
-    image2src: string
-    settings: IReaderSettings
+    index: number;
+    image1src: string;
+    image2src: string;
+    settings: IReaderSettings;
 }
 
 const DoublePage = React.forwardRef((props: IProps, ref: any) => {
-    const {
-        image1src, image2src, index, settings,
-    } = props;
+    const { image1src, image2src, index, settings } = props;
 
     return (
         <Box
@@ -42,14 +40,8 @@ const DoublePage = React.forwardRef((props: IProps, ref: any) => {
                 overflowX: 'scroll',
             }}
         >
-            <Image
-                src={image1src}
-                alt={`Page #${index}`}
-            />
-            <Image
-                src={image2src}
-                alt={`Page #${index + 1}`}
-            />
+            <Image src={image1src} alt={`Page #${index}`} />
+            <Image src={image2src} alt={`Page #${index + 1}`} />
         </Box>
     );
 });

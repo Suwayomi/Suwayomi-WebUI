@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 
-const baseWebsocketUrl = JSON.parse(window.localStorage.getItem('serverBaseURL')!).replace('http', 'ws');
+const baseWebsocketUrl = JSON.parse(window.localStorage.getItem('serverBaseURL')!).replace(
+    'http',
+    'ws',
+);
 
 const useSubscription = <T>(path: string, callback?: (newValue: T) => boolean | void) => {
     const [state, setState] = useState<T | undefined>();

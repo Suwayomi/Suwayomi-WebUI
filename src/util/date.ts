@@ -47,13 +47,10 @@ export const getUploadDateString = (date: Date | number) => {
 
     const addTimeString = wasUploadedToday || wasUploadedYesterday;
     const timeString = addTimeString
-        ? uploadDate.toLocaleTimeString(
-            undefined,
-            {
-                hour: '2-digit',
-                minute: '2-digit',
-            },
-        )
+        ? uploadDate.toLocaleTimeString(undefined, {
+              hour: '2-digit',
+              minute: '2-digit',
+          })
         : '';
 
     if (wasUploadedToday) {

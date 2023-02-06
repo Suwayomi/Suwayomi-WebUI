@@ -21,9 +21,9 @@ function Transition(props: SlideProps) {
     return <Slide {...props} direction="up" />;
 }
 
-interface IToastProps{
-    message: string
-    severity: Severity
+interface IToastProps {
+    message: string;
+    severity: Severity;
 }
 
 export function Toast(props: IToastProps) {
@@ -61,15 +61,20 @@ export default function makeToast(message: string, severity: Severity) {
     setTimeout(() => removeToast(container.id), 3500);
 }
 
-export function makeToaster(
-    [toasts, setToasts] : [React.ReactElement[],
-        (arg0: React.ReactElement[]) => void],
-): [React.ReactElement[], ((message: string, severity: Severity) => void)] {
-    return [toasts, (message: string, severity: Severity) => {
-        setToasts([<Toast
-            key={Math.floor(Math.random() * 1000) + 1}
-            message={message}
-            severity={severity}
-        />]);
-    }];
+export function makeToaster([toasts, setToasts]: [
+    React.ReactElement[],
+    (arg0: React.ReactElement[]) => void,
+]): [React.ReactElement[], (message: string, severity: Severity) => void] {
+    return [
+        toasts,
+        (message: string, severity: Severity) => {
+            setToasts([
+                <Toast
+                    key={Math.floor(Math.random() * 1000) + 1}
+                    message={message}
+                    severity={severity}
+                />,
+            ]);
+        },
+    ];
 }

@@ -5,9 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import React, {
-    useContext, useEffect, useState, useMemo, useRef,
-} from 'react';
+import React, { useContext, useEffect, useState, useMemo, useRef } from 'react';
 import { fromEvent } from 'file-selector';
 import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
@@ -30,7 +28,7 @@ const EXTENSIONS = 1;
 const allLangs: string[] = [];
 
 interface GroupedExtension {
-    [key: string]: IExtension[]
+    [key: string]: IExtension[];
 }
 
 function groupExtensions(extensions: IExtension[]) {
@@ -39,7 +37,9 @@ function groupExtensions(extensions: IExtension[]) {
     extensions.forEach((extension) => {
         if (sortedExtenions[extension.lang] === undefined) {
             sortedExtenions[extension.lang] = [];
-            if (extension.lang !== 'all') { allLangs.push(extension.lang); }
+            if (extension.lang !== 'all') {
+                allLangs.push(extension.lang);
+            }
         }
         if (extension.installed) {
             if (extension.hasUpdate) {
@@ -67,7 +67,10 @@ function groupExtensions(extensions: IExtension[]) {
 export default function MangaExtensions() {
     const inputRef = useRef<HTMLInputElement>(null);
     const { setTitle, setAction } = useContext(NavbarContext);
-    const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownExtensionLangs', extensionDefaultLangs());
+    const [shownLangs, setShownLangs] = useLocalStorage<string[]>(
+        'shownExtensionLangs',
+        extensionDefaultLangs(),
+    );
     const [showNsfw] = useLocalStorage<boolean>('showNsfw', true);
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -78,10 +81,7 @@ export default function MangaExtensions() {
         setAction(
             <>
                 <AppbarSearch />
-                <IconButton
-                    onClick={() => inputRef.current?.click()}
-                    size="large"
-                >
+                <IconButton onClick={() => inputRef.current?.click()} size="large">
                     <AddIcon />
                 </IconButton>
                 <LangSelect
@@ -93,17 +93,33 @@ export default function MangaExtensions() {
         );
     }, [shownLangs]);
 
-    const { data: allExtensions, mutate, loading } = useQuery<IExtension[]>('/api/v1/extension/list');
+    const {
+        data: allExtensions,
+        mutate,
+        loading,
+    } = useQuery<IExtension[]>('/api/v1/extension/list');
 
-    const filteredExtensions = useMemo(() => (allExtensions ?? []).filter((ext) => {
-        const nsfwFilter = showNsfw || !ext.isNsfw;
-        if (!query) return nsfwFilter;
-        return nsfwFilter && ext.name.toLowerCase().includes(query.toLowerCase());
-    }), [allExtensions, showNsfw, query]);
+    const filteredExtensions = useMemo(
+        () =>
+            (allExtensions ?? []).filter((ext) => {
+                const nsfwFilter = showNsfw || !ext.isNsfw;
+                if (!query) return nsfwFilter;
+                return nsfwFilter && ext.name.toLowerCase().includes(query.toLowerCase());
+            }),
+        [allExtensions, showNsfw, query],
+    );
 
-    const groupedExtensions = useMemo(() => groupExtensions(filteredExtensions)
-        .filter((group) => group[EXTENSIONS].length > 0)
-        .filter((group) => ['installed', 'updates pending', 'all', ...shownLangs].includes(group[LANGUAGE])), [shownLangs, filteredExtensions]);
+    const groupedExtensions = useMemo(
+        () =>
+            groupExtensions(filteredExtensions)
+                .filter((group) => group[EXTENSIONS].length > 0)
+                .filter((group) =>
+                    ['installed', 'updates pending', 'all', ...shownLangs].includes(
+                        group[LANGUAGE],
+                    ),
+                ),
+        [shownLangs, filteredExtensions],
+    );
 
     const flatRenderItems: (IExtension | string)[] = groupedExtensions.flat(2);
 
@@ -119,8 +135,10 @@ export default function MangaExtensions() {
             }
 
             makeToast('Installing Extension File....', 'info');
-            client.post('/api/v1/extension/install',
-                formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+            client
+                .post('/api/v1/extension/install', formData, {
+                    headers: { 'Content-Type': 'multipart/form-data' },
+                })
                 .then(() => {
                     makeToast('Installed extension successfully!', 'success');
                     mutate();
@@ -175,7 +193,7 @@ export default function MangaExtensions() {
                 }}
                 totalCount={flatRenderItems.length}
                 itemContent={(index) => {
-                    if (typeof (flatRenderItems[index]) === 'string') {
+                    if (typeof flatRenderItems[index] === 'string') {
                         const item = flatRenderItems[index] as string;
                         return (
                             <Typography

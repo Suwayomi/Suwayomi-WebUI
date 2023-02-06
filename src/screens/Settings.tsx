@@ -38,7 +38,10 @@ import ListItemLink from 'components/util/ListItemLink';
 
 export default function Settings() {
     const { setTitle, setAction } = useContext(NavbarContext);
-    useEffect(() => { setTitle('Settings'); setAction(<></>); }, []);
+    useEffect(() => {
+        setTitle('Settings');
+        setAction(<></>);
+    }, []);
 
     const { darkTheme, setDarkTheme } = useContext(DarkTheme);
     const [serverAddress, setServerAddress] = useLocalStorage<String>('serverBaseURL', '');
@@ -193,9 +196,7 @@ export default function Settings() {
 
             <Dialog open={dialogOpen} onClose={handleDialogCancel}>
                 <DialogContent>
-                    <DialogContentText>
-                        Enter Server Address
-                    </DialogContentText>
+                    <DialogContentText>Enter Server Address</DialogContentText>
                     <TextField
                         autoFocus
                         margin="dense"
@@ -219,9 +220,7 @@ export default function Settings() {
             </Dialog>
 
             <Dialog open={dialogOpenItemWidth} onClose={handleDialogCancelItemWidth}>
-                <DialogTitle>
-                    Manga Item width
-                </DialogTitle>
+                <DialogTitle>Manga Item width</DialogTitle>
                 <DialogContent
                     sx={{
                         width: '98%',

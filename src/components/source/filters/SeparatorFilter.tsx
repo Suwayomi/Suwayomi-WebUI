@@ -9,9 +9,13 @@ import { Divider } from '@mui/material';
 import React from 'react';
 
 interface Props {
-    name: string
+    name: string;
 }
 
-const SeparatorFilter: React.FC<Props> = ({ name }) => (<Divider key={name} sx={{ my: 1 }} textAlign="center">{name}</Divider>);
+const SeparatorFilter: React.FC<Props> = ({ name }) => (
+    <Divider key={name} sx={{ my: 1 }} textAlign="center">
+        {name}
+    </Divider>
+);
 
 export default SeparatorFilter;

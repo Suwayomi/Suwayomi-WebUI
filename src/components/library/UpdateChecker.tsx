@@ -8,7 +8,7 @@ import client from 'util/client';
 import makeToast from 'components/util/Toast';
 
 interface IProgressProps {
-    progress: number
+    progress: number;
 }
 
 function Progress({ progress }: IProgressProps) {
@@ -16,19 +16,19 @@ function Progress({ progress }: IProgressProps) {
         <Box sx={{ display: 'grid', placeItems: 'center', position: 'relative' }}>
             <CircularProgress variant="determinate" value={progress} />
             <Box sx={{ position: 'absolute' }}>
-                <Typography fontSize="0.8rem">
-                    {`${Math.round(progress)}%`}
-                </Typography>
+                <Typography fontSize="0.8rem">{`${Math.round(progress)}%`}</Typography>
             </Box>
         </Box>
-
     );
 }
 
-const baseWebsocketUrl = JSON.parse(window.localStorage.getItem('serverBaseURL')!).replace('http', 'ws');
+const baseWebsocketUrl = JSON.parse(window.localStorage.getItem('serverBaseURL')!).replace(
+    'http',
+    'ws',
+);
 
 interface IUpdateCheckerProps {
-    handleFinishedUpdate: (time: number) => void
+    handleFinishedUpdate: (time: number) => void;
 }
 
 function UpdateChecker({ handleFinishedUpdate }: IUpdateCheckerProps) {
@@ -58,9 +58,8 @@ function UpdateChecker({ handleFinishedUpdate }: IUpdateCheckerProps) {
             const { running, statusMap } = JSON.parse(e.data) as IUpdateStatus;
             const { COMPLETE = [], RUNNING = [], PENDING = [] } = statusMap;
 
-            const currentProgress = 100 * (
-                COMPLETE.length / (COMPLETE.length + RUNNING.length + PENDING.length)
-            );
+            const currentProgress =
+                100 * (COMPLETE.length / (COMPLETE.length + RUNNING.length + PENDING.length));
 
             const isUpdateFinished = currentProgress === 100;
             const ignoreFaultyMessage = !updateStarted && !running && isUpdateFinished;

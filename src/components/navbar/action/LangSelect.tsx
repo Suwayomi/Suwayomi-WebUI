@@ -31,16 +31,14 @@ function removeAll(firstList: any[], secondList: any[]) {
 }
 
 interface IProps {
-    shownLangs: string[]
-    setShownLangs: (arg0: string[]) => void
-    allLangs: string[]
-    forcedLangs?: string[]
+    shownLangs: string[];
+    setShownLangs: (arg0: string[]) => void;
+    allLangs: string[];
+    forcedLangs?: string[];
 }
 
 export default function LangSelect(props: IProps) {
-    const {
-        shownLangs, setShownLangs, allLangs, forcedLangs,
-    } = props;
+    const { shownLangs, setShownLangs, allLangs, forcedLangs } = props;
     // hold a copy and only sate state on parent when OK pressed, improves performance
     const [mShownLangs, setMShownLangs] = useState(
         removeAll(cloneObject(shownLangs), forcedLangs!),
@@ -102,11 +100,9 @@ export default function LangSelect(props: IProps) {
                                         onChange={(e) => handleChange(e, lang)}
                                     />
                                 </ListItemSecondaryAction>
-
                             </ListItem>
                         ))}
                     </List>
-
                 </DialogContent>
                 <DialogActions>
                     <Button autoFocus onClick={handleCancel} color="primary">

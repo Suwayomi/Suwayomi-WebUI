@@ -10,7 +10,10 @@ import { useQuery } from 'util/client';
 export default function About() {
     const { setTitle, setAction } = useContext(NavbarContext);
 
-    useEffect(() => { setTitle('About'); setAction(<></>); }, []);
+    useEffect(() => {
+        setTitle('About');
+        setAction(<></>);
+    }, []);
 
     const { data: about } = useQuery<IAbout>('/api/v1/settings/about');
 

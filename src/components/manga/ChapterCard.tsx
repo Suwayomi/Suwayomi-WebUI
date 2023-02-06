@@ -15,9 +15,7 @@ import DoneAll from '@mui/icons-material/DoneAll';
 import Download from '@mui/icons-material/Download';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import RemoveDone from '@mui/icons-material/RemoveDone';
-import {
-    CardActionArea, Checkbox, ListItemIcon, ListItemText, Stack,
-} from '@mui/material';
+import { CardActionArea, Checkbox, ListItemIcon, ListItemText, Stack } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import IconButton from '@mui/material/IconButton';
@@ -33,19 +31,24 @@ import { BACK } from 'util/useBackTo';
 import { getUploadDateString } from 'util/date';
 
 interface IProps {
-    chapter: IChapter
-    triggerChaptersUpdate: () => void
-    downloadChapter: IDownloadChapter | undefined
-    showChapterNumber: boolean
-    onSelect: (selected: boolean) => void
-    selected: boolean | null
+    chapter: IChapter;
+    triggerChaptersUpdate: () => void;
+    downloadChapter: IDownloadChapter | undefined;
+    showChapterNumber: boolean;
+    onSelect: (selected: boolean) => void;
+    selected: boolean | null;
 }
 
 const ChapterCard: React.FC<IProps> = (props: IProps) => {
     const theme = useTheme();
 
     const {
-        chapter, triggerChaptersUpdate, downloadChapter: dc, showChapterNumber, onSelect, selected,
+        chapter,
+        triggerChaptersUpdate,
+        downloadChapter: dc,
+        showChapterNumber,
+        onSelect,
+        selected,
     } = props;
     const isSelecting = selected !== null;
 
@@ -71,7 +74,8 @@ const ChapterCard: React.FC<IProps> = (props: IProps) => {
         if (key === 'read') {
             formData.append('lastPageRead', '1');
         }
-        client.patch(`/api/v1/manga/${chapter.mangaId}/chapter/${chapter.index}`, formData)
+        client
+            .patch(`/api/v1/manga/${chapter.mangaId}/chapter/${chapter.index}`, formData)
             .then(() => triggerChaptersUpdate());
     };
 
@@ -81,7 +85,8 @@ const ChapterCard: React.FC<IProps> = (props: IProps) => {
     };
 
     const deleteChapter = () => {
-        client.delete(`/api/v1/manga/${chapter.mangaId}/chapter/${chapter.index}`)
+        client
+            .delete(`/api/v1/manga/${chapter.mangaId}/chapter/${chapter.index}`)
             .then(() => triggerChaptersUpdate());
         handleClose();
     };
@@ -112,7 +117,10 @@ const ChapterCard: React.FC<IProps> = (props: IProps) => {
             >
                 <CardActionArea
                     component={Link}
-                    to={{ pathname: `/manga/${chapter.mangaId}/chapter/${chapter.index}`, state: { backLink: BACK } }}
+                    to={{
+                        pathname: `/manga/${chapter.mangaId}/chapter/${chapter.index}`,
+                        state: { backLink: BACK },
+                    }}
                     style={{
                         color: theme.palette.text[chapter.read ? 'disabled' : 'primary'],
                     }}
@@ -130,13 +138,16 @@ const ChapterCard: React.FC<IProps> = (props: IProps) => {
                         <Stack direction="column" flex={1}>
                             <Typography variant="h5" component="h2">
                                 {chapter.bookmarked && (
-                                    <BookmarkIcon color="primary" sx={{ mr: 0.5, position: 'relative', top: '0.15em' }} />
+                                    <BookmarkIcon
+                                        color="primary"
+                                        sx={{ mr: 0.5, position: 'relative', top: '0.15em' }}
+                                    />
                                 )}
-                                {showChapterNumber ? `Chapter ${chapter.chapterNumber}` : chapter.name}
+                                {showChapterNumber
+                                    ? `Chapter ${chapter.chapterNumber}`
+                                    : chapter.name}
                             </Typography>
-                            <Typography variant="caption">
-                                {chapter.scanlator}
-                            </Typography>
+                            <Typography variant="caption">{chapter.scanlator}</Typography>
                             <Typography variant="caption">
                                 {getUploadDateString(chapter.uploadDate)}
                                 {isDownloaded && ' • Downloaded'}
@@ -164,18 +175,14 @@ const ChapterCard: React.FC<IProps> = (props: IProps) => {
                         <ListItemIcon>
                             <CheckBoxOutlineBlank fontSize="small" />
                         </ListItemIcon>
-                        <ListItemText>
-                            Select
-                        </ListItemText>
+                        <ListItemText>Select</ListItemText>
                     </MenuItem>
                     {isDownloaded && (
                         <MenuItem onClick={deleteChapter}>
                             <ListItemIcon>
                                 <Delete fontSize="small" />
                             </ListItemIcon>
-                            <ListItemText>
-                                Delete
-                            </ListItemText>
+                            <ListItemText>Delete</ListItemText>
                         </MenuItem>
                     )}
                     {canBeDownloaded && (
@@ -183,9 +190,7 @@ const ChapterCard: React.FC<IProps> = (props: IProps) => {
                             <ListItemIcon>
                                 <Download fontSize="small" />
                             </ListItemIcon>
-                            <ListItemText>
-                                Download
-                            </ListItemText>
+                            <ListItemText>Download</ListItemText>
                         </MenuItem>
                     )}
                     <MenuItem onClick={() => sendChange('bookmarked', !chapter.bookmarked)}>
@@ -212,9 +217,7 @@ const ChapterCard: React.FC<IProps> = (props: IProps) => {
                         <ListItemIcon>
                             <DoneAll fontSize="small" />
                         </ListItemIcon>
-                        <ListItemText>
-                            Mark previous as Read
-                        </ListItemText>
+                        <ListItemText>Mark previous as Read</ListItemText>
                     </MenuItem>
                 </Menu>
             </Card>

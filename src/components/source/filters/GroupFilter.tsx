@@ -6,30 +6,22 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
-import {
-    Collapse, ListItemButton, ListItemText, Stack,
-} from '@mui/material';
+import { Collapse, ListItemButton, ListItemText, Stack } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
 // eslint-disable-next-line import/no-cycle
 import { Options } from 'components/source/SourceOptions';
 
 interface Props {
-    state: ISourceFilters[]
-    name: string
-    position: number
-    updateFilterValue: Function
-    update: any
+    state: ISourceFilters[];
+    name: string;
+    position: number;
+    updateFilterValue: Function;
+    update: any;
 }
 
 const GroupFilter: React.FC<Props> = (props: Props) => {
-    const {
-        state,
-        name,
-        position,
-        updateFilterValue,
-        update,
-    } = props;
+    const { state, name, position, updateFilterValue, update } = props;
 
     const [open, setOpen] = React.useState(false);
 

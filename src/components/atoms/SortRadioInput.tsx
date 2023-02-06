@@ -12,14 +12,14 @@ import React from 'react';
 import RadioInput, { RadioInputProps } from 'components/atoms/RadioInput';
 
 interface IProps extends RadioInputProps {
-    sortDescending?: boolean | null | undefined
+    sortDescending?: boolean | null | undefined;
 }
 
-const SortRadioInput: React.FC<IProps> = ({
-    sortDescending, ...rest
-}) => (
+const SortRadioInput: React.FC<IProps> = ({ sortDescending, ...rest }) => (
     <RadioInput
-        checkedIcon={sortDescending ? <ArrowDownward color="primary" /> : <ArrowUpward color="primary" />}
+        checkedIcon={
+            sortDescending ? <ArrowDownward color="primary" /> : <ArrowUpward color="primary" />
+        }
         {...rest}
     />
 );

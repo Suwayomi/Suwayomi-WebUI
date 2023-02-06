@@ -27,8 +27,8 @@ const SORT_OPTIONS: [LibrarySortMode, string][] = [
 ];
 
 interface IProps {
-    open: boolean,
-    onClose: () => void,
+    open: boolean;
+    onClose: () => void;
 }
 
 const LibraryOptionsPanel: React.FC<IProps> = ({ open, onClose }) => {
@@ -51,8 +51,16 @@ const LibraryOptionsPanel: React.FC<IProps> = ({ open, onClose }) => {
                 if (key === 'filter') {
                     return (
                         <>
-                            <ThreeStateCheckboxInput label="Unread" checked={options.unread} onChange={(c) => handleFilterChange('unread', c)} />
-                            <ThreeStateCheckboxInput label="Downloaded" checked={options.downloaded} onChange={(c) => handleFilterChange('downloaded', c)} />
+                            <ThreeStateCheckboxInput
+                                label="Unread"
+                                checked={options.unread}
+                                onChange={(c) => handleFilterChange('unread', c)}
+                            />
+                            <ThreeStateCheckboxInput
+                                label="Downloaded"
+                                checked={options.downloaded}
+                                onChange={(c) => handleFilterChange('downloaded', c)}
+                            />
                         </>
                     );
                 }
@@ -63,9 +71,11 @@ const LibraryOptionsPanel: React.FC<IProps> = ({ open, onClose }) => {
                             label={label}
                             checked={options.sorts === mode}
                             sortDescending={options.sortDesc}
-                            onClick={() => (mode !== options.sorts
-                                ? handleFilterChange('sorts', mode)
-                                : handleFilterChange('sortDesc', !options.sortDesc))}
+                            onClick={() =>
+                                mode !== options.sorts
+                                    ? handleFilterChange('sorts', mode)
+                                    : handleFilterChange('sortDesc', !options.sortDesc)
+                            }
                         />
                     ));
                 }
@@ -75,24 +85,44 @@ const LibraryOptionsPanel: React.FC<IProps> = ({ open, onClose }) => {
                         <>
                             <FormLabel>Display mode</FormLabel>
                             <RadioGroup
-                                onChange={(e) => handleFilterChange('gridLayout', Number(e.target.value))}
+                                onChange={(e) =>
+                                    handleFilterChange('gridLayout', Number(e.target.value))
+                                }
                                 value={gridLayout}
                             >
-                                <RadioInput label="Compact grid" value={GridLayout.Compact} checked={gridLayout == null || gridLayout === GridLayout.Compact} />
-                                <RadioInput label="Comfortable grid" value={GridLayout.Comfortable} checked={gridLayout === GridLayout.Comfortable} />
-                                <RadioInput label="List" value={GridLayout.List} checked={gridLayout === GridLayout.List} />
+                                <RadioInput
+                                    label="Compact grid"
+                                    value={GridLayout.Compact}
+                                    checked={
+                                        gridLayout == null || gridLayout === GridLayout.Compact
+                                    }
+                                />
+                                <RadioInput
+                                    label="Comfortable grid"
+                                    value={GridLayout.Comfortable}
+                                    checked={gridLayout === GridLayout.Comfortable}
+                                />
+                                <RadioInput
+                                    label="List"
+                                    value={GridLayout.List}
+                                    checked={gridLayout === GridLayout.List}
+                                />
                             </RadioGroup>
 
                             <FormLabel sx={{ mt: 2 }}>Badges</FormLabel>
                             <CheckboxInput
                                 label="Unread Badges"
                                 checked={showUnreadBadge === true}
-                                onChange={() => handleFilterChange('showUnreadBadge', !showUnreadBadge)}
+                                onChange={() =>
+                                    handleFilterChange('showUnreadBadge', !showUnreadBadge)
+                                }
                             />
                             <CheckboxInput
                                 label="Download Badges"
                                 checked={showDownloadBadge === true}
-                                onChange={() => handleFilterChange('showDownloadBadge', !showDownloadBadge)}
+                                onChange={() =>
+                                    handleFilterChange('showDownloadBadge', !showDownloadBadge)
+                                }
                             />
                         </>
                     );

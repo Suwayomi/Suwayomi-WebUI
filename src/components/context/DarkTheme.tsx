@@ -8,13 +8,13 @@
 import React from 'react';
 
 type ContextType = {
-    darkTheme: boolean
-    setDarkTheme: React.Dispatch<React.SetStateAction<boolean>>
+    darkTheme: boolean;
+    setDarkTheme: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const DarkTheme = React.createContext<ContextType>({
     darkTheme: true,
-    setDarkTheme: ():void => {},
+    setDarkTheme: (): void => {},
 });
 
 export default DarkTheme;

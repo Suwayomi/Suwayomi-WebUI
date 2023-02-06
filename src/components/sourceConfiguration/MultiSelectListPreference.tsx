@@ -18,18 +18,16 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Button from '@mui/material/Button';
 import cloneObject from 'util/cloneObject';
 
-interface IListDialogProps{
-    selectedValues: string[]
-    open: boolean
-    onClose: (arg0: string[] | null) => void
-    values: string[]
-    title: string
+interface IListDialogProps {
+    selectedValues: string[];
+    open: boolean;
+    onClose: (arg0: string[] | null) => void;
+    values: string[];
+    title: string;
 }
 
 function ListDialog(props: IListDialogProps) {
-    const {
-        selectedValues: selectedValuesProp, open, onClose, values, title,
-    } = props;
+    const { selectedValues: selectedValuesProp, open, onClose, values, title } = props;
     const [selectedValues, setSelectedValues] = React.useState(selectedValuesProp);
 
     React.useEffect(() => {
@@ -56,7 +54,8 @@ function ListDialog(props: IListDialogProps) {
                 selectedValuesClone.push(value);
                 setSelectedValues(selectedValuesClone);
             }
-        } else if (hasEntry) { // not checked and has entry
+        } else if (hasEntry) {
+            // not checked and has entry
             const selectedValuesClone = cloneObject(selectedValues) as string[];
             const index = selectedValuesClone.indexOf(value);
             selectedValuesClone.splice(index, 1);
@@ -75,7 +74,7 @@ function ListDialog(props: IListDialogProps) {
                 <FormGroup>
                     {values.map((value) => (
                         <FormControlLabel
-                            control={(
+                            control={
                                 <Checkbox
                                     checked={selectedValues.some(
                                         (selectedValue) => value === selectedValue,
@@ -83,7 +82,7 @@ function ListDialog(props: IListDialogProps) {
                                     onChange={(e) => handleChange(e, value)}
                                     color="default"
                                 />
-                            )}
+                            }
                             label={value}
                             key={value}
                         />
@@ -101,9 +100,7 @@ function ListDialog(props: IListDialogProps) {
 }
 
 export default function MultiSelectListPreference(props: MultiSelectListPreferenceProps) {
-    const {
-        title, summary, currentValue, updateValue, entryValues, entries,
-    } = props;
+    const { title, summary, currentValue, updateValue, entryValues, entries } = props;
     const [internalCurrentValue, setInternalCurrentValue] = useState<string[]>(currentValue);
     const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
@@ -111,15 +108,17 @@ export default function MultiSelectListPreference(props: MultiSelectListPreferen
         setInternalCurrentValue(currentValue);
     }, [currentValue]);
 
-    const findEntriesOf = (values: string[]) => values.map((value) => {
-        const idx = entryValues.indexOf(value);
-        return entries[idx];
-    });
+    const findEntriesOf = (values: string[]) =>
+        values.map((value) => {
+            const idx = entryValues.indexOf(value);
+            return entries[idx];
+        });
 
-    const findEntryValuesOf = (values: string[]) => values.map((value) => {
-        const idx = entries.indexOf(value);
-        return entryValues[idx];
-    });
+    const findEntryValuesOf = (values: string[]) =>
+        values.map((value) => {
+            const idx = entries.indexOf(value);
+            return entryValues[idx];
+        });
 
     const getSummary = () => summary;
 
@@ -137,10 +136,7 @@ export default function MultiSelectListPreference(props: MultiSelectListPreferen
 
     return (
         <>
-            <ListItem
-                button
-                onClick={() => setDialogOpen(true)}
-            >
+            <ListItem button onClick={() => setDialogOpen(true)}>
                 <ListItemText primary={title} secondary={getSummary()} />
             </ListItem>
             <ListDialog

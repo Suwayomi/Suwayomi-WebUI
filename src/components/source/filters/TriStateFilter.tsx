@@ -9,37 +9,34 @@ import ThreeStateCheckboxInput from 'components/atoms/ThreeStateCheckboxInput';
 import React from 'react';
 
 interface Props {
-    state: number
-    name: string
-    position: number
-    group: number | undefined
-    updateFilterValue: Function
-    update: any
+    state: number;
+    name: string;
+    position: number;
+    group: number | undefined;
+    updateFilterValue: Function;
+    update: any;
 }
 
 const TriStateFilter: React.FC<Props> = (props) => {
-    const {
-        state,
-        name,
-        position,
-        group,
-        updateFilterValue,
-        update,
-    } = props;
+    const { state, name, position, group, updateFilterValue, update } = props;
     const [val, setval] = React.useState<number>(Number(state));
 
     const handleChange = (checked: boolean | null | undefined) => {
         // eslint-disable-next-line no-nested-ternary
         const newState = checked === undefined ? 0 : checked ? 1 : 2;
         setval(newState);
-        const upd = update.filter((e: {
-            position: number; group: number | undefined;
-        }) => !(position === e.position && group === e.group));
-        updateFilterValue([...upd, {
-            position,
-            state: newState.toString(),
-            group,
-        }]);
+        const upd = update.filter(
+            (e: { position: number; group: number | undefined }) =>
+                !(position === e.position && group === e.group),
+        );
+        updateFilterValue([
+            ...upd,
+            {
+                position,
+                state: newState.toString(),
+                group,
+            },
+        ]);
     };
 
     if (state !== undefined) {
@@ -51,7 +48,7 @@ const TriStateFilter: React.FC<Props> = (props) => {
             />
         );
     }
-    return (<></>);
+    return <></>;
 };
 
 export default TriStateFilter;

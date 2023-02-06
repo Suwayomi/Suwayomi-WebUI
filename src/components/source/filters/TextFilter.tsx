@@ -6,36 +6,28 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 import SearchIcon from '@mui/icons-material/Search';
-import {
-    FormControl, Input, InputAdornment, InputLabel,
-} from '@mui/material';
+import { FormControl, Input, InputAdornment, InputLabel } from '@mui/material';
 import React from 'react';
 
 interface Props {
-    state: string
-    name: string
-    position: number
-    group: number | undefined
-    updateFilterValue: Function
-    update: any
+    state: string;
+    name: string;
+    position: number;
+    group: number | undefined;
+    updateFilterValue: Function;
+    update: any;
 }
 
 const TextFilter: React.FC<Props> = (props) => {
-    const {
-        state,
-        name,
-        position,
-        group,
-        updateFilterValue,
-        update,
-    } = props;
+    const { state, name, position, group, updateFilterValue, update } = props;
     const [Search, setsearch] = React.useState(state || '');
     let typingTimer: NodeJS.Timeout;
 
     function doneTyping(e: React.ChangeEvent<HTMLInputElement>) {
-        const upd = update.filter((el: {
-            position: number; group: number | undefined;
-        }) => !(position === el.position && group === el.group));
+        const upd = update.filter(
+            (el: { position: number; group: number | undefined }) =>
+                !(position === el.position && group === el.group),
+        );
         updateFilterValue([...upd, { position, state: e.target.value, group }]);
     }
 
@@ -43,29 +35,29 @@ const TextFilter: React.FC<Props> = (props) => {
         setsearch(e.target.value);
 
         clearTimeout(typingTimer);
-        typingTimer = setTimeout(() => { doneTyping(e); }, 2500);
+        typingTimer = setTimeout(() => {
+            doneTyping(e);
+        }, 2500);
     }
 
     if (state !== undefined) {
         return (
             <FormControl sx={{ my: 1 }} variant="standard">
-                <InputLabel>
-                    {name}
-                </InputLabel>
+                <InputLabel>{name}</InputLabel>
                 <Input
                     name={name}
                     value={Search || ''}
                     onChange={handleChange}
-                    endAdornment={(
+                    endAdornment={
                         <InputAdornment position="end">
                             <SearchIcon />
                         </InputAdornment>
-                    )}
+                    }
                 />
             </FormControl>
         );
     }
-    return (<></>);
+    return <></>;
 };
 
 export default TextFilter;

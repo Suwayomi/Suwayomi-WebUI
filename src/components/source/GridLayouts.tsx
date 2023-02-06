@@ -5,16 +5,17 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import {
-    IconButton, Menu, MenuItem, FormControlLabel, Radio,
-} from '@mui/material';
+import { IconButton, Menu, MenuItem, FormControlLabel, Radio } from '@mui/material';
 import React from 'react';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import { GridLayout, useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
 
 // TODO: clean up this to use a FormControl, and remove dependency on name o radio button
 export default function SourceGridLayout() {
-    const { options: { SourcegridLayout }, setOptions } = useLibraryOptionsContext();
+    const {
+        options: { SourcegridLayout },
+        setOptions,
+    } = useLibraryOptionsContext();
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -25,10 +26,7 @@ export default function SourceGridLayout() {
         setAnchorEl(null);
     };
 
-    function setGridContextOptions(
-        e: React.ChangeEvent<HTMLInputElement>,
-        checked: boolean,
-    ) {
+    function setGridContextOptions(e: React.ChangeEvent<HTMLInputElement>, checked: boolean) {
         if (checked) {
             setOptions((prev: any) => ({ ...prev, SourcegridLayout: parseInt(e.target.name, 10) }));
         }
@@ -57,40 +55,40 @@ export default function SourceGridLayout() {
                     <FormControlLabel
                         label="Compact grid"
                         value={GridLayout.Compact}
-                        control={(
+                        control={
                             <Radio
                                 name={GridLayout.Compact.toString()}
                                 checked={
-                                    SourcegridLayout === GridLayout.Compact
-                                    || SourcegridLayout === undefined
+                                    SourcegridLayout === GridLayout.Compact ||
+                                    SourcegridLayout === undefined
                                 }
                                 onChange={setGridContextOptions}
                             />
-                        )}
+                        }
                     />
                 </MenuItem>
                 <MenuItem onClick={handleClose}>
                     <FormControlLabel
                         label="Comfortable grid"
-                        control={(
+                        control={
                             <Radio
                                 name={GridLayout.Comfortable.toString()}
                                 checked={SourcegridLayout === GridLayout.Comfortable}
                                 onChange={setGridContextOptions}
                             />
-                        )}
+                        }
                     />
                 </MenuItem>
                 <MenuItem onClick={handleClose}>
                     <FormControlLabel
                         label="List"
-                        control={(
+                        control={
                             <Radio
                                 name={GridLayout.List.toString()}
                                 checked={SourcegridLayout === GridLayout.List}
                                 onChange={setGridContextOptions}
                             />
-                        )}
+                        }
                     />
                 </MenuItem>
             </Menu>

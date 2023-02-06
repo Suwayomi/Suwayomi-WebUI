@@ -30,9 +30,7 @@ const isAtEnd = () => {
 const isAtStart = () => window.scrollX <= 0;
 
 export default function HorizontalPager(props: IReaderProps) {
-    const {
-        pages, curPage, initialPage, settings, setCurPage, prevChapter, nextChapter,
-    } = props;
+    const { pages, curPage, initialPage, settings, setCurPage, prevChapter, nextChapter } = props;
 
     const currentPageRef = useRef(initialPage);
     const selfRef = useRef<HTMLDivElement>(null);
@@ -78,7 +76,7 @@ export default function HorizontalPager(props: IReaderProps) {
         window.scrollBy(mouseXPos.current - e.pageX, 0);
     }
 
-    function dragControl(e:MouseEvent) {
+    function dragControl(e: MouseEvent) {
         mouseXPos.current = e.pageX;
         selfRef.current?.addEventListener('mousemove', dragScreen);
     }
@@ -87,7 +85,7 @@ export default function HorizontalPager(props: IReaderProps) {
         selfRef.current?.removeEventListener('mousemove', dragScreen);
     }
 
-    function clickControl(e:MouseEvent) {
+    function clickControl(e: MouseEvent) {
         if (e.clientX >= window.innerWidth * 0.85) {
             goRight();
         } else if (e.clientX <= window.innerWidth * 0.15) {
@@ -166,8 +164,10 @@ export default function HorizontalPager(props: IReaderProps) {
             ref={selfRef}
             sx={{
                 display: 'flex',
-                flexDirection: (settings.readerType === 'ContinuesHorizontalLTR') ? 'row' : 'row-reverse',
-                justifyContent: (settings.readerType === 'ContinuesHorizontalLTR') ? 'flex-start' : 'flex-end',
+                flexDirection:
+                    settings.readerType === 'ContinuesHorizontalLTR' ? 'row' : 'row-reverse',
+                justifyContent:
+                    settings.readerType === 'ContinuesHorizontalLTR' ? 'flex-start' : 'flex-end',
                 margin: '0 auto',
                 width: 'auto',
                 height: 'auto',
@@ -175,18 +175,18 @@ export default function HorizontalPager(props: IReaderProps) {
                 userSelect: 'none',
             }}
         >
-            {
-                pages.map((page) => (
-                    <Page
-                        key={page.index}
-                        index={page.index}
-                        src={page.src}
-                        onImageLoad={() => {}}
-                        settings={settings}
-                        ref={(e:HTMLDivElement) => { pagesRef.current[page.index] = e; }}
-                    />
-                ))
-            }
+            {pages.map((page) => (
+                <Page
+                    key={page.index}
+                    index={page.index}
+                    src={page.src}
+                    onImageLoad={() => {}}
+                    settings={settings}
+                    ref={(e: HTMLDivElement) => {
+                        pagesRef.current[page.index] = e;
+                    }}
+                />
+            ))}
         </Box>
     );
 }

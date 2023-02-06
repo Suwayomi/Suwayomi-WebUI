@@ -34,9 +34,7 @@ const isAtBottom = () => {
 const isAtTop = () => window.scrollY <= 0;
 
 export default function VerticalPager(props: IReaderProps) {
-    const {
-        pages, settings, setCurPage, initialPage, nextChapter, prevChapter,
-    } = props;
+    const { pages, settings, setCurPage, initialPage, nextChapter, prevChapter } = props;
 
     const currentPageRef = useRef(initialPage);
     const selfRef = useRef<HTMLDivElement>(null);
@@ -74,25 +72,30 @@ export default function VerticalPager(props: IReaderProps) {
         };
     }, [settings.loadNextOnEnding]);
 
-    const go = useCallback((direction: 'up' | 'down') => {
-        if (direction === 'down' && isAtBottom()) {
-            nextChapter();
-            return;
-        }
+    const go = useCallback(
+        (direction: 'up' | 'down') => {
+            if (direction === 'down' && isAtBottom()) {
+                nextChapter();
+                return;
+            }
 
-        if (direction === 'up' && isAtTop()) {
-            prevChapter();
-            return;
-        }
+            if (direction === 'up' && isAtTop()) {
+                prevChapter();
+                return;
+            }
 
-        window.scroll({
-            top: window.scrollY + (window.innerHeight * SCROLL_OFFSET) * (direction === 'up' ? -1 : 1),
-            behavior: SCROLL_BEHAVIOR,
-        });
-    }, [nextChapter, prevChapter]);
+            window.scroll({
+                top:
+                    window.scrollY +
+                    window.innerHeight * SCROLL_OFFSET * (direction === 'up' ? -1 : 1),
+                behavior: SCROLL_BEHAVIOR,
+            });
+        },
+        [nextChapter, prevChapter],
+    );
 
     useEffect(() => {
-        const handleKeyboard = (e:KeyboardEvent) => {
+        const handleKeyboard = (e: KeyboardEvent) => {
             switch (e.code) {
                 case 'Space':
                 case 'ArrowRight':
@@ -134,18 +137,18 @@ export default function VerticalPager(props: IReaderProps) {
             }}
             onClick={(e) => go(e.clientX > window.innerWidth / 2 ? 'down' : 'up')}
         >
-            {
-                pages.map((page) => (
-                    <Page
-                        key={page.index}
-                        index={page.index}
-                        src={page.src}
-                        onImageLoad={() => {}}
-                        settings={settings}
-                        ref={(e:HTMLDivElement) => { pagesRef.current[page.index] = e; }}
-                    />
-                ))
-            }
+            {pages.map((page) => (
+                <Page
+                    key={page.index}
+                    index={page.index}
+                    src={page.src}
+                    onImageLoad={() => {}}
+                    settings={settings}
+                    ref={(e: HTMLDivElement) => {
+                        pagesRef.current[page.index] = e;
+                    }}
+                />
+            ))}
         </Box>
     );
 }

@@ -9,7 +9,10 @@ import React, { useContext, useEffect } from 'react';
 import NavbarContext from 'components/context/NavbarContext';
 import { useParams } from 'react-router-dom';
 import client, { useQuery } from 'util/client';
-import { SwitchPreferenceCompat, CheckBoxPreference } from 'components/sourceConfiguration/TwoStatePreference';
+import {
+    SwitchPreferenceCompat,
+    CheckBoxPreference,
+} from 'components/sourceConfiguration/TwoStatePreference';
 import ListPreference from 'components/sourceConfiguration/ListPreference';
 import EditTextPreference from 'components/sourceConfiguration/EditTextPreference';
 import MultiSelectListPreference from 'components/sourceConfiguration/MultiSelectListPreference';
@@ -36,10 +39,15 @@ function getPrefComponent(type: string) {
 export default function SourceConfigure() {
     const { setTitle, setAction } = useContext(NavbarContext);
 
-    useEffect(() => { setTitle('Source Configuration'); setAction(<></>); }, []);
+    useEffect(() => {
+        setTitle('Source Configuration');
+        setAction(<></>);
+    }, []);
 
     const { sourceId } = useParams<{ sourceId: string }>();
-    const { data: sourcePreferences = [], mutate } = useQuery<SourcePreferences[]>(`/api/v1/source/${sourceId}/preferences`);
+    const { data: sourcePreferences = [], mutate } = useQuery<SourcePreferences[]>(
+        `/api/v1/source/${sourceId}/preferences`,
+    );
 
     const convertToString = (position: number, value: any): string => {
         switch (sourcePreferences[position].props.defaultValueType) {
@@ -50,28 +58,27 @@ export default function SourceConfigure() {
         }
     };
 
-    const updateValue = (position: number) => (
-        (value: any) => {
-            client.post(`/api/v1/source/${sourceId}/preferences`,
-                JSON.stringify({ position, value: convertToString(position, value) }))
-                .then(() => mutate());
-        }
-    );
+    const updateValue = (position: number) => (value: any) => {
+        client
+            .post(
+                `/api/v1/source/${sourceId}/preferences`,
+                JSON.stringify({ position, value: convertToString(position, value) }),
+            )
+            .then(() => mutate());
+    };
 
     return (
         <>
             <List sx={{ padding: 0 }}>
-                {sourcePreferences.map(
-                    (it, index) => {
-                        const props = cloneObject(it.props);
-                        props.updateValue = updateValue(index);
-                        props.key = index;
+                {sourcePreferences.map((it, index) => {
+                    const props = cloneObject(it.props);
+                    props.updateValue = updateValue(index);
+                    props.key = index;
 
-                        // TypeScript is dumb in detecting extra props
-                        // @ts-ignore
-                        return React.createElement(getPrefComponent(it.type), props);
-                    },
-                )}
+                    // TypeScript is dumb in detecting extra props
+                    // @ts-ignore
+                    return React.createElement(getPrefComponent(it.type), props);
+                })}
             </List>
         </>
     );

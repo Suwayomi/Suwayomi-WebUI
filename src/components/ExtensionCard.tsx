@@ -16,24 +16,34 @@ import useLocalStorage from 'util/useLocalStorage';
 import { Box } from '@mui/system';
 
 interface IProps {
-    extension: IExtension
-    notifyInstall: () => void
+    extension: IExtension;
+    notifyInstall: () => void;
 }
 
 export default function ExtensionCard(props: IProps) {
     const {
         extension: {
-            name, lang, versionName, installed, hasUpdate, obsolete, pkgName, iconUrl, isNsfw,
+            name,
+            lang,
+            versionName,
+            installed,
+            hasUpdate,
+            obsolete,
+            pkgName,
+            iconUrl,
+            isNsfw,
         },
         notifyInstall,
     } = props;
-    const [installedState, setInstalledState] = useState<string>(
-        () => {
-            if (obsolete) { return 'obsolete'; }
-            if (hasUpdate) { return 'update'; }
-            return (installed ? 'uninstall' : 'install');
-        },
-    );
+    const [installedState, setInstalledState] = useState<string>(() => {
+        if (obsolete) {
+            return 'obsolete';
+        }
+        if (hasUpdate) {
+            return 'update';
+        }
+        return installed ? 'uninstall' : 'install';
+    });
 
     const [serverAddress] = useLocalStorage<String>('serverBaseURL', '');
     const [useCache] = useLocalStorage<boolean>('useCache', true);
@@ -42,29 +52,26 @@ export default function ExtensionCard(props: IProps) {
 
     function install() {
         setInstalledState('installing');
-        client.get(`/api/v1/extension/install/${pkgName}`)
-            .then(() => {
-                setInstalledState('uninstall');
-                notifyInstall();
-            });
+        client.get(`/api/v1/extension/install/${pkgName}`).then(() => {
+            setInstalledState('uninstall');
+            notifyInstall();
+        });
     }
 
     function update() {
         setInstalledState('updating');
-        client.get(`/api/v1/extension/update/${pkgName}`)
-            .then(() => {
-                setInstalledState('uninstall');
-                notifyInstall();
-            });
+        client.get(`/api/v1/extension/update/${pkgName}`).then(() => {
+            setInstalledState('uninstall');
+            notifyInstall();
+        });
     }
 
     function uninstall() {
         setInstalledState('uninstalling');
-        client.get(`/api/v1/extension/uninstall/${pkgName}`)
-            .then(() => {
-                // setInstalledState('install');
-                notifyInstall();
-            });
+        client.get(`/api/v1/extension/uninstall/${pkgName}`).then(() => {
+            // setInstalledState('install');
+            notifyInstall();
+        });
     }
 
     function handleButtonClick() {
@@ -89,12 +96,13 @@ export default function ExtensionCard(props: IProps) {
 
     return (
         <Card sx={{ margin: '10px' }}>
-            <CardContent sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                p: 2,
-            }}
+            <CardContent
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    p: 2,
+                }}
             >
                 <Box sx={{ display: 'flex' }}>
                     <Avatar
@@ -113,11 +121,14 @@ export default function ExtensionCard(props: IProps) {
                             {name}
                         </Typography>
                         <Typography variant="caption" display="block" gutterBottom>
-                            {langPress}
-                            {' '}
-                            {versionName}
+                            {langPress} {versionName}
                             {isNsfw && (
-                                <Typography variant="caption" display="inline" gutterBottom color="red">
+                                <Typography
+                                    variant="caption"
+                                    display="inline"
+                                    gutterBottom
+                                    color="red"
+                                >
                                     {' 18+'}
                                 </Typography>
                             )}
@@ -131,7 +142,6 @@ export default function ExtensionCard(props: IProps) {
                     onClick={() => handleButtonClick()}
                 >
                     {installedState}
-
                 </Button>
             </CardContent>
         </Card>

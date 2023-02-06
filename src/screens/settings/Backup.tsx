@@ -17,7 +17,10 @@ import NavbarContext from 'components/context/NavbarContext';
 
 export default function Backup() {
     const { setTitle, setAction } = useContext(NavbarContext);
-    useEffect(() => { setTitle('Backup'); setAction(<></>); }, []);
+    useEffect(() => {
+        setTitle('Backup');
+        setAction(<></>);
+    }, []);
 
     const { baseURL } = client.defaults;
 
@@ -27,8 +30,10 @@ export default function Backup() {
             formData.append('backup.proto.gz', file);
 
             makeToast('Restoring backup....', 'info');
-            client.post('/api/v1/backup/import/file',
-                formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+            client
+                .post('/api/v1/backup/import/file', formData, {
+                    headers: { 'Content-Type': 'multipart/form-data' },
+                })
                 .then(() => makeToast('Backup restore finished!', 'success'))
                 .catch(() => makeToast('Backup restore failed!', 'error'));
         } else if (file.name.toLowerCase().endsWith('json')) {
@@ -81,12 +86,7 @@ export default function Backup() {
                     />
                 </ListItem>
             </List>
-            <input
-                type="file"
-                id="backup-file"
-                style={{ display: 'none' }}
-            />
+            <input type="file" id="backup-file" style={{ display: 'none' }} />
         </>
-
     );
 }

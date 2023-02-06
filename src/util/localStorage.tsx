@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-function getItem<T>(key: string, defaultValue: T) : T {
+function getItem<T>(key: string, defaultValue: T): T {
     try {
         const item = window.localStorage.getItem(key);
 
@@ -16,7 +16,8 @@ function getItem<T>(key: string, defaultValue: T) : T {
         window.localStorage.setItem(key, JSON.stringify(defaultValue));
 
         /* eslint-disable no-empty */
-    } finally { }
+    } finally {
+    }
     return defaultValue;
 }
 
@@ -25,7 +26,8 @@ function setItem<T>(key: string, value: T): void {
         window.localStorage.setItem(key, JSON.stringify(value));
 
         // eslint-disable-next-line no-empty
-    } finally { }
+    } finally {
+    }
 }
 
 export default { getItem, setItem };

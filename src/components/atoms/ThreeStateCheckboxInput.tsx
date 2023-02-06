@@ -11,19 +11,11 @@ import React from 'react';
 import ThreeStateCheckbox, { ThreeStateCheckboxProps } from 'components/atoms/ThreeStateCheckbox';
 
 interface IProps extends ThreeStateCheckboxProps {
-    label?: string
+    label?: string;
 }
 
-const ThreeStateCheckboxInput: React.FC<IProps> = ({
-    label, sx, ...rest
-}) => (
-    <FormControlLabel
-        control={(
-            <ThreeStateCheckbox {...rest} />
-        )}
-        label={label}
-        sx={sx}
-    />
+const ThreeStateCheckboxInput: React.FC<IProps> = ({ label, sx, ...rest }) => (
+    <FormControlLabel control={<ThreeStateCheckbox {...rest} />} label={label} sx={sx} />
 );
 
 export default ThreeStateCheckboxInput;

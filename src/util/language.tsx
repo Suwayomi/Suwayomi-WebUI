@@ -74,7 +74,6 @@ export const ISOLanguages = [
     { code: 'bs', name: 'Bosnian', nativeName: 'bosanski' },
     { code: 'sv', name: 'Swedish', nativeName: 'svenska' },
     { code: 'sv', name: 'Swedish', nativeName: 'svenska' },
-
 ];
 
 export function langCodeToName(code: string): string {
@@ -84,8 +83,10 @@ export function langCodeToName(code: string): string {
     let result = `language with code: ${code}`;
 
     for (let i = 0; i < ISOLanguages.length; i++) {
-        if (ISOLanguages[i].code === proccessedCode
-            || ISOLanguages[i].code === code.toLocaleLowerCase()) {
+        if (
+            ISOLanguages[i].code === proccessedCode ||
+            ISOLanguages[i].code === code.toLocaleLowerCase()
+        ) {
             result = ISOLanguages[i].nativeName;
         }
     }
@@ -98,23 +99,15 @@ function defaultNativeLang() {
 }
 
 export function extensionDefaultLangs() {
-    return [
-        defaultNativeLang(),
-        'all',
-    ];
+    return [defaultNativeLang(), 'all'];
 }
 
 export function sourceDefualtLangs() {
-    return [
-        defaultNativeLang(),
-        'localsourcelang',
-    ];
+    return [defaultNativeLang(), 'localsourcelang'];
 }
 
 export function sourceForcedDefaultLangs(): string[] {
-    return [
-        'localsourcelang',
-    ];
+    return ['localsourcelang'];
 }
 
 export const langSortCmp = (a: string, b: string) => {

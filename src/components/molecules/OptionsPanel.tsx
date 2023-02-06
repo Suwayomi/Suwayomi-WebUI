@@ -5,22 +5,18 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import {
-    Drawer,
-} from '@mui/material';
+import { Drawer } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
 
 interface IProps {
-    open: boolean
-    onClose: () => void
-    children: React.ReactNode
-    minHeight?: number
+    open: boolean;
+    onClose: () => void;
+    children: React.ReactNode;
+    minHeight?: number;
 }
 
-const OptionsPanel: React.FC<IProps> = ({
-    open, onClose, children, minHeight,
-}) => (
+const OptionsPanel: React.FC<IProps> = ({ open, onClose, children, minHeight }) => (
     <Drawer
         anchor="bottom"
         open={open}
@@ -34,9 +30,7 @@ const OptionsPanel: React.FC<IProps> = ({
             },
         }}
     >
-        <Box>
-            {children}
-        </Box>
+        <Box>{children}</Box>
     </Drawer>
 );
 

@@ -39,37 +39,43 @@ const navbarItems: Array<NavbarItem> = [
         SelectedIconComponent: CollectionsBookmarkIcon,
         IconComponent: CollectionsOutlinedBookmarkIcon,
         show: 'both',
-    }, {
+    },
+    {
         path: '/updates',
         title: 'Updates',
         SelectedIconComponent: NewReleasesIcon,
         IconComponent: NewReleasesOutlinedIcon,
         show: 'both',
-    }, {
+    },
+    {
         path: '/extensions',
         title: 'Extensions',
         SelectedIconComponent: ExtensionIcon,
         IconComponent: ExtensionOutlinedIcon,
         show: 'desktop',
-    }, {
+    },
+    {
         path: '/sources',
         title: 'Sources',
         SelectedIconComponent: ExploreIcon,
         IconComponent: ExploreOutlinedIcon,
         show: 'desktop',
-    }, {
+    },
+    {
         path: '/browse',
         title: 'Browse',
         SelectedIconComponent: ExploreIcon,
         IconComponent: ExploreOutlinedIcon,
         show: 'mobile',
-    }, {
+    },
+    {
         path: '/downloads',
         title: 'Downloads',
         SelectedIconComponent: GetAppIcon,
         IconComponent: GetAppOutlinedIcon,
         show: 'both',
-    }, {
+    },
+    {
         path: '/settings',
         title: 'Settings',
         SelectedIconComponent: SettingsIcon,
@@ -94,7 +100,9 @@ export default function DefaultNavBar() {
     let navbar = <></>;
     if (isMobileWidth) {
         if (isMainRoute) {
-            navbar = <MobileBottomBar navBarItems={navbarItems.filter((it) => it.show !== 'desktop')} />;
+            navbar = (
+                <MobileBottomBar navBarItems={navbarItems.filter((it) => it.show !== 'desktop')} />
+            );
         }
     } else {
         navbar = <DesktopSideBar navBarItems={navbarItems.filter((it) => it.show !== 'mobile')} />;
@@ -124,7 +132,12 @@ export default function DefaultNavBar() {
                             <ArrowBack />
                         </IconButton>
                     )}
-                    <Typography variant={isMobileWidth ? 'h6' : 'h5'} sx={{ flexGrow: 1 }} noWrap textOverflow="ellipsis">
+                    <Typography
+                        variant={isMobileWidth ? 'h6' : 'h5'}
+                        sx={{ flexGrow: 1 }}
+                        noWrap
+                        textOverflow="ellipsis"
+                    >
                         {title}
                     </Typography>
                     {action}
@@ -137,7 +150,7 @@ export default function DefaultNavBar() {
 }
 
 interface INavbarToolbarProps {
-    children?: React.ReactNode
+    children?: React.ReactNode;
 }
 
 export const NavbarToolbar: React.FC<INavbarToolbarProps> = ({ children }) => {

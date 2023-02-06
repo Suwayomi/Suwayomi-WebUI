@@ -10,9 +10,7 @@ import { Box } from '@mui/system';
 import Page from 'components/reader/Page';
 
 export default function PagedReader(props: IReaderProps) {
-    const {
-        pages, settings, setCurPage, curPage, nextChapter, prevChapter,
-    } = props;
+    const { pages, settings, setCurPage, curPage, nextChapter, prevChapter } = props;
 
     const selfRef = useRef<HTMLDivElement>(null);
 
@@ -53,7 +51,7 @@ export default function PagedReader(props: IReaderProps) {
         }
     }
 
-    function keyboardControl(e:KeyboardEvent) {
+    function keyboardControl(e: KeyboardEvent) {
         switch (e.code) {
             case 'Space':
                 e.preventDefault();
@@ -70,7 +68,7 @@ export default function PagedReader(props: IReaderProps) {
         }
     }
 
-    function clickControl(e:MouseEvent) {
+    function clickControl(e: MouseEvent) {
         if (e.clientX > window.innerWidth / 2) {
             goRight();
         } else {

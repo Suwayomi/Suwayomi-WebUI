@@ -12,8 +12,8 @@ import ChapterOptions from 'components/manga/ChapterOptions';
 import { isFilterActive } from 'components/manga/util';
 
 interface IProps {
-    options: ChapterListOptions
-    optionsDispatch: React.Dispatch<ChapterOptionsReducerAction>
+    options: ChapterListOptions;
+    optionsDispatch: React.Dispatch<ChapterOptionsReducerAction>;
 }
 
 const ChaptersToolbarMenu = ({ options, optionsDispatch }: IProps) => {
