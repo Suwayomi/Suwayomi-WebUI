@@ -13,7 +13,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import React, { useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
-import { useHistory, Link, useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import Slide from '@mui/material/Slide';
 import Fade from '@mui/material/Fade';
 import Zoom from '@mui/material/Zoom';
@@ -22,7 +22,6 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import Collapse from '@mui/material/Collapse';
-import Button from '@mui/material/Button';
 import { styled } from '@mui/system';
 import useBackTo from 'util/useBackTo';
 import ReaderSettingsOptions from 'components/reader/ReaderSettingsOptions';
@@ -81,20 +80,18 @@ const PageNavigation = styled('div')({
 
 const ChapterNavigation = styled('div')({
     display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
-    gridTemplateAreas: '"prev next"',
+    gridTemplateRows: 'auto auto auto',
+    gridTemplateColumns: '0fr 1fr 0fr',
+    gridTemplateAreas: '"pre current next"',
     gridColumnGap: '5px',
     margin: '10px 0',
 
     '& a': {
-        flexGrow: 1,
         textDecoration: 'none',
-
-        '& button': {
-            width: '100%',
-            padding: '5px 8px',
-            textTransform: 'none',
-        },
+        color: 'inherit',
+        display: 'flex',
+        flexWrap: 'wrap',
+        alignContent: 'center',
     },
 });
 
@@ -287,43 +284,71 @@ export default function ReaderNavBar(props: IProps) {
                             <span>{`of ${chapter.pageCount}`}</span>
                         </PageNavigation>
                         <ChapterNavigation>
-                            {chapter.index > 1 && (
-                                <Link
-                                    replace
-                                    to={{
+                            <IconButton
+                                title="Previous Chapter"
+                                sx={{ gridArea: 'pre' }}
+                                disabled={chapter.index <= 1}
+                                onClick={() => {
+                                    history.replace({
                                         pathname: `/manga/${manga.id}/chapter/${chapter.index - 1}`,
                                         state: {
                                             prevDrawerOpen: drawerOpen,
                                             prevSettingsCollapseOpen: settingsCollapseOpen,
                                         },
+                                    });
+                                }}
+                            >
+                                <KeyboardArrowLeftIcon />
+                            </IconButton>
+                            <FormControl
+                                sx={{ gridArea: 'current' }}
+                                size="small"
+                                disabled={chapter.index < 1}
+                            >
+                                <Select
+                                    MenuProps={MenuProps}
+                                    value={chapter.index >= 1 ? chapter.index : ''}
+                                    displayEmpty
+                                    onChange={({ target: { value: selectedChapter } }) => {
+                                        history.replace({
+                                            pathname: `/manga/${manga.id}/chapter/${selectedChapter}`,
+                                            state: {
+                                                prevDrawerOpen: drawerOpen,
+                                                prevSettingsCollapseOpen: settingsCollapseOpen,
+                                            },
+                                        });
                                     }}
                                 >
-                                    <Button
-                                        variant="outlined"
-                                        sx={{ gridArea: 'prev' }}
-                                        startIcon={<KeyboardArrowLeftIcon />}
-                                    >
-                                        Prev. Chapter
-                                    </Button>
-                                </Link>
-                            )}
-                            {chapter.index < chapter.chapterCount && (
-                                <Link
-                                    replace
-                                    style={{ gridArea: 'next' }}
-                                    to={{
+                                    {Array(Math.max(0, chapter.chapterCount))
+                                        .fill(1)
+                                        .map((ignoreValue, index) => (
+                                            // eslint-disable-next-line  max-len
+                                            // eslint-disable-next-line  react/no-array-index-key
+                                            <MenuItem
+                                                key={`Chapter#${index + 1}`}
+                                                value={index + 1}
+                                            >{`Chapter ${index + 1}`}</MenuItem>
+                                        ))}
+                                </Select>
+                            </FormControl>
+                            <IconButton
+                                title="Next Chapter"
+                                sx={{ gridArea: 'next' }}
+                                disabled={
+                                    chapter.index < 1 || chapter.index >= chapter.chapterCount
+                                }
+                                onClick={() => {
+                                    history.replace({
                                         pathname: `/manga/${manga.id}/chapter/${chapter.index + 1}`,
                                         state: {
                                             prevDrawerOpen: drawerOpen,
                                             prevSettingsCollapseOpen: settingsCollapseOpen,
                                         },
-                                    }}
-                                >
-                                    <Button variant="outlined" endIcon={<KeyboardArrowRightIcon />}>
-                                        Next Chapter
-                                    </Button>
-                                </Link>
-                            )}
+                                    });
+                                }}
+                            >
+                                <KeyboardArrowRightIcon />
+                            </IconButton>
                         </ChapterNavigation>
                     </Navigation>
                 </Root>
