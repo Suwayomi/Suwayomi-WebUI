@@ -38,9 +38,7 @@ const Manga: React.FC = () => {
     const [refresh, { loading: refreshing }] = useRefreshManga(id);
 
     useSetDefaultBackTo(
-        manga?.inLibrary === false && manga.sourceId != null
-            ? `/sources/${manga.sourceId}/popular`
-            : '/library',
+        manga?.inLibrary === false && manga.sourceId != null ? `/sources/${manga.sourceId}/popular` : '/library',
     );
 
     useEffect(() => {
@@ -89,13 +87,7 @@ const Manga: React.FC = () => {
                             <CircularProgress size={16} />
                         </IconButton>
                     )}
-                    {manga && (
-                        <MangaToolbarMenu
-                            manga={manga}
-                            onRefresh={refresh}
-                            refreshing={refreshing}
-                        />
-                    )}
+                    {manga && <MangaToolbarMenu manga={manga} onRefresh={refresh} refreshing={refreshing} />}
                 </Stack>
             </NavbarToolbar>
 

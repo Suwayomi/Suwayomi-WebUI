@@ -17,14 +17,10 @@ const migrations: IMetadataMigration[] = [
     },
 ];
 
-const getMetadataKey = (key: string, appPrefix: string = APP_METADATA_KEY_PREFIX) =>
-    `${appPrefix}${key}`;
+const getMetadataKey = (key: string, appPrefix: string = APP_METADATA_KEY_PREFIX) => `${appPrefix}${key}`;
 
-const doesMetadataKeyExistIn = (
-    meta: IMetadata | undefined,
-    key: string,
-    appPrefix?: string,
-): boolean => Object.prototype.hasOwnProperty.call(meta ?? {}, getMetadataKey(key, appPrefix));
+const doesMetadataKeyExistIn = (meta: IMetadata | undefined, key: string, appPrefix?: string): boolean =>
+    Object.prototype.hasOwnProperty.call(meta ?? {}, getMetadataKey(key, appPrefix));
 
 const convertValueFromMetadata = <T extends AllowedMetadataValueTypes = AllowedMetadataValueTypes>(
     value: string,
@@ -44,10 +40,7 @@ const convertValueFromMetadata = <T extends AllowedMetadataValueTypes = AllowedM
     return value as T;
 };
 
-const getAppMetadataFrom = (
-    meta: IMetadata,
-    appPrefix: string = APP_METADATA_KEY_PREFIX,
-): IMetadata => {
+const getAppMetadataFrom = (meta: IMetadata, appPrefix: string = APP_METADATA_KEY_PREFIX): IMetadata => {
     const appMetadata: IMetadata = {};
 
     Object.entries(meta).forEach(([key, value]) => {
@@ -71,9 +64,7 @@ const applyAppKeyPrefixMigration = (meta: IMetadata, migration: IMetadataMigrati
     const oldAppMetadata = getAppMetadataFrom(meta, oldPrefix);
     const newAppMetadata = getAppMetadataFrom(meta, newPrefix);
 
-    const missingMetadataKeys = Object.keys(oldAppMetadata).filter(
-        (key) => !Object.keys(newAppMetadata).includes(key),
-    );
+    const missingMetadataKeys = Object.keys(oldAppMetadata).filter((key) => !Object.keys(newAppMetadata).includes(key));
 
     const isMissingOldMetadata = missingMetadataKeys.length;
     if (isMissingOldMetadata) {
@@ -134,9 +125,7 @@ const applyMetadataMigrations = (meta?: IMetadata): IMetadata | undefined => {
     return migrationToMetadata.pop()![1];
 };
 
-export const getMetadataValueFrom = <
-    T extends AllowedMetadataValueTypes = AllowedMetadataValueTypes,
->(
+export const getMetadataValueFrom = <T extends AllowedMetadataValueTypes = AllowedMetadataValueTypes>(
     { meta }: IMetadataHolder,
     key: AppMetadataKeys,
     defaultValue?: T,
@@ -220,22 +209,14 @@ export const requestUpdateMetadata = async (
 ): Promise<void[]> =>
     Promise.all(
         keysToValues.map(([key, value]) =>
-            requestUpdateMetadataValue(
-                endpoint,
-                metadataHolder,
-                key,
-                value,
-                endpointToMutate,
-                wrapWithMetaKey,
-            ),
+            requestUpdateMetadataValue(endpoint, metadataHolder, key, value, endpointToMutate, wrapWithMetaKey),
         ),
     );
 
 export const requestUpdateServerMetadata = async (
     serverMetadata: IMetadata,
     keysToValues: MetadataKeyValuePair[],
-): Promise<void[]> =>
-    requestUpdateMetadata('', { meta: serverMetadata }, keysToValues, '/meta', false);
+): Promise<void[]> => requestUpdateMetadata('', { meta: serverMetadata }, keysToValues, '/meta', false);
 
 export const requestUpdateMangaMetadata = async (
     manga: IMangaCard | IManga,

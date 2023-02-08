@@ -17,15 +17,11 @@ const defaultChapterOptions: ChapterListOptions = {
     showChapterNumber: false,
 };
 
-function chapterOptionsReducer(
-    state: ChapterListOptions,
-    actions: ChapterOptionsReducerAction,
-): ChapterListOptions {
+function chapterOptionsReducer(state: ChapterListOptions, actions: ChapterOptionsReducerAction): ChapterListOptions {
     switch (actions.type) {
         case 'filter':
             // eslint-disable-next-line no-case-declarations
-            const active =
-                state.unread !== false && state.downloaded !== false && state.bookmarked !== false;
+            const active = state.unread !== false && state.downloaded !== false && state.bookmarked !== false;
             return {
                 ...state,
                 active,
@@ -53,10 +49,7 @@ export function unreadFilter(unread: NullAndUndefined<boolean>, { read: isChapte
     }
 }
 
-function downloadFilter(
-    downloaded: NullAndUndefined<boolean>,
-    { downloaded: chapterDownload }: IChapter,
-) {
+function downloadFilter(downloaded: NullAndUndefined<boolean>, { downloaded: chapterDownload }: IChapter) {
     switch (downloaded) {
         case true:
             return chapterDownload;
@@ -67,10 +60,7 @@ function downloadFilter(
     }
 }
 
-function bookmarkedFilter(
-    bookmarked: NullAndUndefined<boolean>,
-    { bookmarked: chapterBookmarked }: IChapter,
-) {
+function bookmarkedFilter(bookmarked: NullAndUndefined<boolean>, { bookmarked: chapterBookmarked }: IChapter) {
     switch (bookmarked) {
         case true:
             return chapterBookmarked;
@@ -81,10 +71,7 @@ function bookmarkedFilter(
     }
 }
 
-export function filterAndSortChapters(
-    chapters: IChapter[],
-    options: ChapterListOptions,
-): IChapter[] {
+export function filterAndSortChapters(chapters: IChapter[], options: ChapterListOptions): IChapter[] {
     const filtered = options.active
         ? chapters.filter(
               (chp) =>
@@ -93,10 +80,7 @@ export function filterAndSortChapters(
                   bookmarkedFilter(options.bookmarked, chp),
           )
         : [...chapters];
-    const Sorted =
-        options.sortBy === 'fetchedAt'
-            ? filtered.sort((a, b) => a.fetchedAt - b.fetchedAt)
-            : filtered;
+    const Sorted = options.sortBy === 'fetchedAt' ? filtered.sort((a, b) => a.fetchedAt - b.fetchedAt) : filtered;
     if (options.reverse) {
         Sorted.reverse();
     }

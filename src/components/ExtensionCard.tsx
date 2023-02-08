@@ -22,17 +22,7 @@ interface IProps {
 
 export default function ExtensionCard(props: IProps) {
     const {
-        extension: {
-            name,
-            lang,
-            versionName,
-            installed,
-            hasUpdate,
-            obsolete,
-            pkgName,
-            iconUrl,
-            isNsfw,
-        },
+        extension: { name, lang, versionName, installed, hasUpdate, obsolete, pkgName, iconUrl, isNsfw },
         notifyInstall,
     } = props;
     const [installedState, setInstalledState] = useState<string>(() => {
@@ -123,12 +113,7 @@ export default function ExtensionCard(props: IProps) {
                         <Typography variant="caption" display="block" gutterBottom>
                             {langPress} {versionName}
                             {isNsfw && (
-                                <Typography
-                                    variant="caption"
-                                    display="inline"
-                                    gutterBottom
-                                    color="red"
-                                >
+                                <Typography variant="caption" display="inline" gutterBottom color="red">
                                     {' 18+'}
                                 </Typography>
                             )}

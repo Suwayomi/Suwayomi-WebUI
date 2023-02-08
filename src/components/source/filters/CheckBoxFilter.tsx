@@ -24,8 +24,7 @@ const CheckBoxFilter: React.FC<Props> = (props: Props) => {
     const handleChange = (event: { target: { name: any; checked: any } }) => {
         setval(event.target.checked);
         const upd = update.filter(
-            (e: { position: number; group: number | undefined }) =>
-                !(position === e.position && group === e.group),
+            (e: { position: number; group: number | undefined }) => !(position === e.position && group === e.group),
         );
         updateFilterValue([...upd, { position, state: event.target.checked.toString(), group }]);
     };

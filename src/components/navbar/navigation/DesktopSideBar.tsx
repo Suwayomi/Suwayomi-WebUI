@@ -35,10 +35,7 @@ export default function DesktopSideBar({ navBarItems }: IProps) {
         if (location.pathname === path)
             return <SelectedIconComponent sx={{ color: 'primary.main' }} fontSize="large" />;
         return (
-            <IconComponent
-                sx={{ color: theme.palette.mode === 'dark' ? 'grey.A400' : 'grey.600' }}
-                fontSize="large"
-            />
+            <IconComponent sx={{ color: theme.palette.mode === 'dark' ? 'grey.A400' : 'grey.600' }} fontSize="large" />
         );
     };
 
@@ -46,23 +43,17 @@ export default function DesktopSideBar({ navBarItems }: IProps) {
         <SideNavBarContainer>
             {
                 // eslint-disable-next-line react/destructuring-assignment
-                navBarItems.map(
-                    ({ path, title, IconComponent, SelectedIconComponent }: NavbarItem) => (
-                        <Link
-                            to={path}
-                            style={{ color: 'inherit', textDecoration: 'none' }}
-                            key={path}
-                        >
-                            <ListItem disableRipple button key={title}>
-                                <ListItemIcon sx={{ minWidth: '0' }}>
-                                    <Tooltip placement="right" title={title}>
-                                        {iconFor(path, IconComponent, SelectedIconComponent)}
-                                    </Tooltip>
-                                </ListItemIcon>
-                            </ListItem>
-                        </Link>
-                    ),
-                )
+                navBarItems.map(({ path, title, IconComponent, SelectedIconComponent }: NavbarItem) => (
+                    <Link to={path} style={{ color: 'inherit', textDecoration: 'none' }} key={path}>
+                        <ListItem disableRipple button key={title}>
+                            <ListItemIcon sx={{ minWidth: '0' }}>
+                                <Tooltip placement="right" title={title}>
+                                    {iconFor(path, IconComponent, SelectedIconComponent)}
+                                </Tooltip>
+                            </ListItemIcon>
+                        </ListItem>
+                    </Link>
+                ))
             }
         </SideNavBarContainer>
     );

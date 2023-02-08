@@ -85,9 +85,7 @@ export default function VerticalPager(props: IReaderProps) {
             }
 
             window.scroll({
-                top:
-                    window.scrollY +
-                    window.innerHeight * SCROLL_OFFSET * (direction === 'up' ? -1 : 1),
+                top: window.scrollY + window.innerHeight * SCROLL_OFFSET * (direction === 'up' ? -1 : 1),
                 behavior: SCROLL_BEHAVIOR,
             });
         },

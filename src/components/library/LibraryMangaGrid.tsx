@@ -24,10 +24,7 @@ const unreadFilter = (unread: NullAndUndefined<boolean>, { unreadCount }: IManga
     }
 };
 
-const downloadedFilter = (
-    downloaded: NullAndUndefined<boolean>,
-    { downloadCount }: IMangaCard,
-): boolean => {
+const downloadedFilter = (downloaded: NullAndUndefined<boolean>, { downloadCount }: IMangaCard): boolean => {
     switch (downloaded) {
         case true:
             return !!downloadCount && downloadCount >= 1;
@@ -117,9 +114,7 @@ const LibraryMangaGrid: React.FC<IMangaGridProps & { lastLibraryUpdate: number }
     );
 
     const showFilteredOutMessage =
-        (unread != null || downloaded != null || query) &&
-        filteredManga.length === 0 &&
-        mangas.length > 0;
+        (unread != null || downloaded != null || query) && filteredManga.length === 0 && mangas.length > 0;
 
     return (
         <MangaGrid

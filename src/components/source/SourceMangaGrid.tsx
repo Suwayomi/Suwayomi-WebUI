@@ -16,16 +16,7 @@ function filterManga(mangas: IMangaCard[]): IMangaCard[] {
 }
 
 export default function SourceMangaGrid(props: IMangaGridProps) {
-    const {
-        mangas,
-        isLoading,
-        hasNextPage,
-        lastPageNum,
-        setLastPageNum,
-        message,
-        messageExtra,
-        gridLayout,
-    } = props;
+    const { mangas, isLoading, hasNextPage, lastPageNum, setLastPageNum, message, messageExtra, gridLayout } = props;
 
     const filteredManga = filterManga(mangas);
     const showFilteredOutMessage = filteredManga.length === 0 && mangas.length > 0;

@@ -64,11 +64,7 @@ function ListDialog(props: IListDialogProps) {
     };
 
     return (
-        <Dialog
-            sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 435 } }}
-            maxWidth="xs"
-            open={open}
-        >
+        <Dialog sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 435 } }} maxWidth="xs" open={open}>
             <DialogTitle>{title}</DialogTitle>
             <DialogContent dividers>
                 <FormGroup>
@@ -76,9 +72,7 @@ function ListDialog(props: IListDialogProps) {
                         <FormControlLabel
                             control={
                                 <Checkbox
-                                    checked={selectedValues.some(
-                                        (selectedValue) => value === selectedValue,
-                                    )}
+                                    checked={selectedValues.some((selectedValue) => value === selectedValue)}
                                     onChange={(e) => handleChange(e, value)}
                                     color="default"
                                 />

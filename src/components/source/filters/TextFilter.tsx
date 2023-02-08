@@ -25,8 +25,7 @@ const TextFilter: React.FC<Props> = (props) => {
 
     function doneTyping(e: React.ChangeEvent<HTMLInputElement>) {
         const upd = update.filter(
-            (el: { position: number; group: number | undefined }) =>
-                !(position === el.position && group === el.group),
+            (el: { position: number; group: number | undefined }) => !(position === el.position && group === el.group),
         );
         updateFilterValue([...upd, { position, state: e.target.value, group }]);
     }

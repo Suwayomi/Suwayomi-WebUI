@@ -58,10 +58,7 @@ export default function SourceGridLayout() {
                         control={
                             <Radio
                                 name={GridLayout.Compact.toString()}
-                                checked={
-                                    SourcegridLayout === GridLayout.Compact ||
-                                    SourcegridLayout === undefined
-                                }
+                                checked={SourcegridLayout === GridLayout.Compact || SourcegridLayout === undefined}
                                 onChange={setGridContextOptions}
                             />
                         }

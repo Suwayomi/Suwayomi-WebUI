@@ -44,45 +44,35 @@ export default function MobileBottomBar({ navBarItems }: IProps) {
         if (location.pathname === path)
             return <SelectedIconComponent sx={{ color: 'primary.main' }} fontSize="medium" />;
         return (
-            <IconComponent
-                sx={{ color: theme.palette.mode === 'dark' ? 'grey.A400' : 'grey.600' }}
-                fontSize="medium"
-            />
+            <IconComponent sx={{ color: theme.palette.mode === 'dark' ? 'grey.A400' : 'grey.600' }} fontSize="medium" />
         );
     };
 
     return (
         <BottomNavContainer>
-            {navBarItems.map(
-                ({ path, title, IconComponent, SelectedIconComponent }: NavbarItem) => (
-                    <Link to={path} key={path}>
-                        <ListItem
-                            disableRipple
-                            button
-                            sx={{ justifyContent: 'center', padding: '8px' }}
-                            key={title}
-                        >
-                            <Box display="flex" flexDirection="column" alignItems="center">
-                                {iconFor(path, IconComponent, SelectedIconComponent)}
-                                <Box
-                                    sx={{
-                                        fontSize: '0.65rem',
-                                        color:
-                                            // eslint-disable-next-line no-nested-ternary
-                                            location.pathname === path
-                                                ? 'primary.main'
-                                                : theme.palette.mode === 'dark'
-                                                ? 'grey.A400'
-                                                : 'grey.600',
-                                    }}
-                                >
-                                    {title}
-                                </Box>
+            {navBarItems.map(({ path, title, IconComponent, SelectedIconComponent }: NavbarItem) => (
+                <Link to={path} key={path}>
+                    <ListItem disableRipple button sx={{ justifyContent: 'center', padding: '8px' }} key={title}>
+                        <Box display="flex" flexDirection="column" alignItems="center">
+                            {iconFor(path, IconComponent, SelectedIconComponent)}
+                            <Box
+                                sx={{
+                                    fontSize: '0.65rem',
+                                    color:
+                                        // eslint-disable-next-line no-nested-ternary
+                                        location.pathname === path
+                                            ? 'primary.main'
+                                            : theme.palette.mode === 'dark'
+                                            ? 'grey.A400'
+                                            : 'grey.600',
+                                }}
+                            >
+                                {title}
                             </Box>
-                        </ListItem>
-                    </Link>
-                ),
-            )}
+                        </Box>
+                    </ListItem>
+                </Link>
+            ))}
         </BottomNavContainer>
     );
 }

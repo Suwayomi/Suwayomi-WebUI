@@ -46,9 +46,7 @@ function getDateString(date: Date) {
     return date.toLocaleDateString();
 }
 
-function groupByDate(
-    updates: IMangaChapter[],
-): [string, { item: IMangaChapter; globalIdx: number }[]][] {
+function groupByDate(updates: IMangaChapter[]): [string, { item: IMangaChapter; globalIdx: number }[]][] {
     if (updates.length === 0) return [];
 
     const groups = {};
@@ -64,10 +62,7 @@ function groupByDate(
     return Object.keys(groups).map((key) => [key, groups[key]]);
 }
 
-const baseWebsocketUrl = JSON.parse(window.localStorage.getItem('serverBaseURL')!).replace(
-    'http',
-    'ws',
-);
+const baseWebsocketUrl = JSON.parse(window.localStorage.getItem('serverBaseURL')!).replace('http', 'ws');
 const initialQueue = {
     status: 'Stopped',
     queue: [],
@@ -205,11 +200,7 @@ const Updates: React.FC = () => {
                                                 <Typography variant="h5" component="h2">
                                                     {manga.title}
                                                 </Typography>
-                                                <Typography
-                                                    variant="caption"
-                                                    display="block"
-                                                    gutterBottom
-                                                >
+                                                <Typography variant="caption" display="block" gutterBottom>
                                                     {chapter.name}
                                                 </Typography>
                                             </Box>

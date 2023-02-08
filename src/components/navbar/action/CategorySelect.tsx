@@ -25,9 +25,7 @@ interface IProps {
 export default function CategorySelect(props: IProps) {
     const { open, setOpen, mangaId } = props;
 
-    const { data: mangaCategoriesData, mutate } = useQuery<ICategory[]>(
-        `/api/v1/manga/${mangaId}/category`,
-    );
+    const { data: mangaCategoriesData, mutate } = useQuery<ICategory[]>(`/api/v1/manga/${mangaId}/category`);
     const { data: categoriesData } = useQuery<ICategory[]>('/api/v1/category');
 
     const allCategories = useMemo(() => {

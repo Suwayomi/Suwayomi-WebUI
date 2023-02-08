@@ -34,10 +34,7 @@ interface IProps {
 const LibraryOptionsPanel: React.FC<IProps> = ({ open, onClose }) => {
     const { options, setOptions } = useLibraryOptionsContext();
 
-    const handleFilterChange = <T extends keyof LibraryOptions>(
-        key: T,
-        value: LibraryOptions[T],
-    ) => {
+    const handleFilterChange = <T extends keyof LibraryOptions>(key: T, value: LibraryOptions[T]) => {
         setOptions((v) => ({ ...v, [key]: value }));
     };
 
@@ -85,17 +82,13 @@ const LibraryOptionsPanel: React.FC<IProps> = ({ open, onClose }) => {
                         <>
                             <FormLabel>Display mode</FormLabel>
                             <RadioGroup
-                                onChange={(e) =>
-                                    handleFilterChange('gridLayout', Number(e.target.value))
-                                }
+                                onChange={(e) => handleFilterChange('gridLayout', Number(e.target.value))}
                                 value={gridLayout}
                             >
                                 <RadioInput
                                     label="Compact grid"
                                     value={GridLayout.Compact}
-                                    checked={
-                                        gridLayout == null || gridLayout === GridLayout.Compact
-                                    }
+                                    checked={gridLayout == null || gridLayout === GridLayout.Compact}
                                 />
                                 <RadioInput
                                     label="Comfortable grid"
@@ -113,16 +106,12 @@ const LibraryOptionsPanel: React.FC<IProps> = ({ open, onClose }) => {
                             <CheckboxInput
                                 label="Unread Badges"
                                 checked={showUnreadBadge === true}
-                                onChange={() =>
-                                    handleFilterChange('showUnreadBadge', !showUnreadBadge)
-                                }
+                                onChange={() => handleFilterChange('showUnreadBadge', !showUnreadBadge)}
                             />
                             <CheckboxInput
                                 label="Download Badges"
                                 checked={showDownloadBadge === true}
-                                onChange={() =>
-                                    handleFilterChange('showDownloadBadge', !showDownloadBadge)
-                                }
+                                onChange={() => handleFilterChange('showDownloadBadge', !showDownloadBadge)}
                             />
                         </>
                     );

@@ -74,10 +74,7 @@ export default function Backup() {
         <>
             <List sx={{ padding: 0 }}>
                 <ListItemLink to={`${baseURL}/api/v1/backup/export/file`} directLink>
-                    <ListItemText
-                        primary="Create Backup"
-                        secondary="Backup library as a Tachiyomi backup"
-                    />
+                    <ListItemText primary="Create Backup" secondary="Backup library as a Tachiyomi backup" />
                 </ListItemLink>
                 <ListItem button onClick={() => document.getElementById('backup-file')?.click()}>
                     <ListItemText

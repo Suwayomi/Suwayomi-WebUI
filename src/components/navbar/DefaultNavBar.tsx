@@ -100,9 +100,7 @@ export default function DefaultNavBar() {
     let navbar = <></>;
     if (isMobileWidth) {
         if (isMainRoute) {
-            navbar = (
-                <MobileBottomBar navBarItems={navbarItems.filter((it) => it.show !== 'desktop')} />
-            );
+            navbar = <MobileBottomBar navBarItems={navbarItems.filter((it) => it.show !== 'desktop')} />;
         }
     } else {
         navbar = <DesktopSideBar navBarItems={navbarItems.filter((it) => it.show !== 'mobile')} />;

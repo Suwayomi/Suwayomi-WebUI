@@ -98,13 +98,7 @@ export default function PagedReader(props: IReaderProps) {
                 height: '100vh',
             }}
         >
-            <Page
-                key={curPage}
-                index={curPage}
-                onImageLoad={() => {}}
-                src={pages[curPage].src}
-                settings={settings}
-            />
+            <Page key={curPage} index={curPage} onImageLoad={() => {}} src={pages[curPage].src} settings={settings} />
         </Box>
     );
 }

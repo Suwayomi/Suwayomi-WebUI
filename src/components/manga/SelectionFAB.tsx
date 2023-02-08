@@ -13,13 +13,7 @@ import React, { useRef, useState } from 'react';
 import type { IChapterWithMeta } from 'components/manga/ChapterList';
 import SelectionFABActionItem from 'components/manga/SelectionFABActionItem';
 
-export type SelectionAction =
-    | 'download'
-    | 'delete'
-    | 'bookmark'
-    | 'unbookmark'
-    | 'mark_as_read'
-    | 'mark_as_unread';
+export type SelectionAction = 'download' | 'delete' | 'bookmark' | 'unbookmark' | 'mark_as_read' | 'mark_as_unread';
 
 interface SelectionFABProps {
     selectedChapters: IChapterWithMeta[];
@@ -49,12 +43,7 @@ const SelectionFAB: React.FC<SelectionFABProps> = (props) => {
             }}
             ref={anchorEl}
         >
-            <Fab
-                variant="extended"
-                color="primary"
-                id="selectionMenuButton"
-                onClick={() => setOpen(true)}
-            >
+            <Fab variant="extended" color="primary" id="selectionMenuButton" onClick={() => setOpen(true)}>
                 {`${count} ${pluralize(count, 'chapter')}`}
                 <MoreHoriz sx={{ ml: 1 }} />
             </Fab>

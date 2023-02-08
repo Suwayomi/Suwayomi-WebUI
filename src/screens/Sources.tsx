@@ -9,12 +9,7 @@ import React, { useContext, useEffect } from 'react';
 import LangSelect from 'components/navbar/action/LangSelect';
 import SourceCard from 'components/SourceCard';
 import NavbarContext from 'components/context/NavbarContext';
-import {
-    sourceDefualtLangs,
-    sourceForcedDefaultLangs,
-    langCodeToName,
-    langSortCmp,
-} from 'util/language';
+import { sourceDefualtLangs, sourceForcedDefaultLangs, langCodeToName, langSortCmp } from 'util/language';
 import useLocalStorage from 'util/useLocalStorage';
 import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
 import { IconButton } from '@mui/material';
@@ -50,10 +45,7 @@ function groupByLang(sources: ISource[]) {
 export default function Sources() {
     const { setTitle, setAction } = useContext(NavbarContext);
 
-    const [shownLangs, setShownLangs] = useLocalStorage<string[]>(
-        'shownSourceLangs',
-        sourceDefualtLangs(),
-    );
+    const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownSourceLangs', sourceDefualtLangs());
     const [showNsfw] = useLocalStorage<boolean>('showNsfw', true);
 
     const { data: sources, loading } = useQuery<ISource[]>('/api/v1/source/list');

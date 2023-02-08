@@ -51,11 +51,7 @@ export default function DefaultReaderSettings() {
         );
     }
 
-    checkAndHandleMissingStoredReaderSettings(
-        { meta: metadata },
-        'server',
-        getDefaultSettings(),
-    ).catch(() => {});
+    checkAndHandleMissingStoredReaderSettings({ meta: metadata }, 'server', getDefaultSettings()).catch(() => {});
 
     return (
         <ReaderSettingsOptions

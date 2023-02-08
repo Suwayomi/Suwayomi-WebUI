@@ -67,10 +67,7 @@ function groupExtensions(extensions: IExtension[]) {
 export default function MangaExtensions() {
     const inputRef = useRef<HTMLInputElement>(null);
     const { setTitle, setAction } = useContext(NavbarContext);
-    const [shownLangs, setShownLangs] = useLocalStorage<string[]>(
-        'shownExtensionLangs',
-        extensionDefaultLangs(),
-    );
+    const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownExtensionLangs', extensionDefaultLangs());
     const [showNsfw] = useLocalStorage<boolean>('showNsfw', true);
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -84,20 +81,12 @@ export default function MangaExtensions() {
                 <IconButton onClick={() => inputRef.current?.click()} size="large">
                     <AddIcon />
                 </IconButton>
-                <LangSelect
-                    shownLangs={shownLangs}
-                    setShownLangs={setShownLangs}
-                    allLangs={allLangs}
-                />
+                <LangSelect shownLangs={shownLangs} setShownLangs={setShownLangs} allLangs={allLangs} />
             </>,
         );
     }, [shownLangs]);
 
-    const {
-        data: allExtensions,
-        mutate,
-        loading,
-    } = useQuery<IExtension[]>('/api/v1/extension/list');
+    const { data: allExtensions, mutate, loading } = useQuery<IExtension[]>('/api/v1/extension/list');
 
     const filteredExtensions = useMemo(
         () =>
@@ -113,11 +102,7 @@ export default function MangaExtensions() {
         () =>
             groupExtensions(filteredExtensions)
                 .filter((group) => group[EXTENSIONS].length > 0)
-                .filter((group) =>
-                    ['installed', 'updates pending', 'all', ...shownLangs].includes(
-                        group[LANGUAGE],
-                    ),
-                ),
+                .filter((group) => ['installed', 'updates pending', 'all', ...shownLangs].includes(group[LANGUAGE])),
         [shownLangs, filteredExtensions],
     );
 

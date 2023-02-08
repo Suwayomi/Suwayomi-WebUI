@@ -72,9 +72,7 @@ export function Options({ sourceFilter, group, updateFilterValue, update }: IFil
                             />
                         );
                     case 'Header':
-                        return (
-                            <HeaderFilter key={`filters ${e.filter.name}`} name={e.filter.name} />
-                        );
+                        return <HeaderFilter key={`filters ${e.filter.name}`} name={e.filter.name} />;
                     case 'Select':
                         return (
                             <SelectFilter
@@ -90,12 +88,7 @@ export function Options({ sourceFilter, group, updateFilterValue, update }: IFil
                             />
                         );
                     case 'Separator':
-                        return (
-                            <SeperatorFilter
-                                key={`filters ${e.filter.name}`}
-                                name={e.filter.name}
-                            />
-                        );
+                        return <SeperatorFilter key={`filters ${e.filter.name}`} name={e.filter.name} />;
                     case 'Sort':
                         return (
                             <SortFilter

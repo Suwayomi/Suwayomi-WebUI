@@ -17,9 +17,7 @@ interface IProps extends RadioInputProps {
 
 const SortRadioInput: React.FC<IProps> = ({ sortDescending, ...rest }) => (
     <RadioInput
-        checkedIcon={
-            sortDescending ? <ArrowDownward color="primary" /> : <ArrowUpward color="primary" />
-        }
+        checkedIcon={sortDescending ? <ArrowDownward color="primary" /> : <ArrowUpward color="primary" />}
         {...rest}
     />
 );

@@ -97,12 +97,7 @@ const SourceCard: React.FC<IProps> = (props: IProps) => {
                                 <Typography variant="caption" display="block" gutterBottom>
                                     {langCodeToName(lang)}
                                     {isNsfw && (
-                                        <Typography
-                                            variant="caption"
-                                            display="inline"
-                                            gutterBottom
-                                            color="red"
-                                        >
+                                        <Typography variant="caption" display="inline" gutterBottom color="red">
                                             {' 18+'}
                                         </Typography>
                                     )}
@@ -113,29 +108,18 @@ const SourceCard: React.FC<IProps> = (props: IProps) => {
                     <>
                         <MobileWidthButtons>
                             {supportsLatest && (
-                                <Button
-                                    variant="outlined"
-                                    onClick={(e) => redirectTo(e, `/sources/${id}/latest/`)}
-                                >
+                                <Button variant="outlined" onClick={(e) => redirectTo(e, `/sources/${id}/latest/`)}>
                                     Latest
                                 </Button>
                             )}
                         </MobileWidthButtons>
                         <WiderWidthButtons>
                             {supportsLatest && (
-                                <Button
-                                    component={Link}
-                                    to={`/sources/${id}/latest/`}
-                                    variant="outlined"
-                                >
+                                <Button component={Link} to={`/sources/${id}/latest/`} variant="outlined">
                                     Latest
                                 </Button>
                             )}
-                            <Button
-                                component={Link}
-                                to={`/sources/${id}/popular/`}
-                                variant="outlined"
-                            >
+                            <Button component={Link} to={`/sources/${id}/popular/`} variant="outlined">
                                 Browse
                             </Button>
                         </WiderWidthButtons>

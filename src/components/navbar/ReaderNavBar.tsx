@@ -126,9 +126,7 @@ export default function ReaderNavBar(props: IProps) {
     const [updateDrawerOnRender, setUpdateDrawerOnRender] = useState(true);
     const [hideOpenButton, setHideOpenButton] = useState(settings.staticNav || prevDrawerOpen);
     const [prevScrollPos, setPrevScrollPos] = useState(0);
-    const [settingsCollapseOpen, setSettingsCollapseOpen] = useState(
-        prevSettingsCollapseOpen ?? true,
-    );
+    const [settingsCollapseOpen, setSettingsCollapseOpen] = useState(prevSettingsCollapseOpen ?? true);
 
     const updateSettingValue = (key: keyof IReaderSettings, value: string | boolean) => {
         // prevent closing the navBar when updating the "staticNav" setting
@@ -181,14 +179,7 @@ export default function ReaderNavBar(props: IProps) {
 
     return (
         <>
-            <Slide
-                direction="right"
-                in={drawerOpen}
-                timeout={200}
-                appear={false}
-                mountOnEnter
-                unmountOnExit
-            >
+            <Slide direction="right" in={drawerOpen} timeout={200} appear={false} mountOnEnter unmountOnExit>
                 <Root
                     sx={{
                         position: settings.staticNav ? 'sticky' : 'fixed',
@@ -207,12 +198,7 @@ export default function ReaderNavBar(props: IProps) {
                                 <KeyboardArrowLeftIcon />
                             </IconButton>
                         )}
-                        <Typography
-                            variant="h1"
-                            textOverflow="ellipsis"
-                            overflow="hidden"
-                            sx={{ py: 1 }}
-                        >
+                        <Typography variant="h1" textOverflow="ellipsis" overflow="hidden" sx={{ py: 1 }}>
                             {chapter.name}
                         </Typography>
                         <IconButton

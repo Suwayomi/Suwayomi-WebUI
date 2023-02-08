@@ -83,10 +83,7 @@ export function langCodeToName(code: string): string {
     let result = `language with code: ${code}`;
 
     for (let i = 0; i < ISOLanguages.length; i++) {
-        if (
-            ISOLanguages[i].code === proccessedCode ||
-            ISOLanguages[i].code === code.toLocaleLowerCase()
-        ) {
+        if (ISOLanguages[i].code === proccessedCode || ISOLanguages[i].code === code.toLocaleLowerCase()) {
             result = ISOLanguages[i].nativeName;
         }
     }

@@ -6,11 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import {
-    getMetadataFrom,
-    requestUpdateMangaMetadata,
-    requestUpdateServerMetadata,
-} from 'util/metadata';
+import { getMetadataFrom, requestUpdateMangaMetadata, requestUpdateServerMetadata } from 'util/metadata';
 import { useQuery } from 'util/client';
 
 export const getDefaultSettings = (forceUndefined: boolean = false) =>
@@ -75,9 +71,7 @@ export const checkAndHandleMissingStoredReaderSettings = async (
     const settingsToCheck = getReaderSettingsFor({ meta }, getDefaultSettings(true), false);
     const newSettings = getReaderSettingsFor({ meta }, defaultSettings);
 
-    const undefinedSettings = Object.entries(settingsToCheck).filter(
-        (setting) => setting[1] === undefined,
-    );
+    const undefinedSettings = Object.entries(settingsToCheck).filter((setting) => setting[1] === undefined);
 
     const settingsToUpdate: MetadataKeyValuePair[] = [];
     undefinedSettings.forEach((setting) => {
