@@ -116,7 +116,7 @@ interface IProps {
     manga: IManga | IMangaCard;
     chapter: IChapter;
     curPage: number;
-    setCurPage: (page: number) => void;
+    scrollToPage: (page: number) => void;
 }
 
 export default function ReaderNavBar(props: IProps) {
@@ -128,7 +128,7 @@ export default function ReaderNavBar(props: IProps) {
     }>();
     const { prevDrawerOpen, prevSettingsCollapseOpen } = location.state ?? {};
 
-    const { settings, setSettingValue, manga, chapter, curPage, setCurPage } = props;
+    const { settings, setSettingValue, manga, chapter, curPage, scrollToPage } = props;
 
     const [drawerOpen, setDrawerOpen] = useState(settings.staticNav || prevDrawerOpen);
     const [updateDrawerOnRender, setUpdateDrawerOnRender] = useState(true);
@@ -268,7 +268,7 @@ export default function ReaderNavBar(props: IProps) {
                                     value={chapter.pageCount > -1 ? curPage : ''}
                                     displayEmpty
                                     onChange={({ target: { value: selectedPage } }) => {
-                                        setCurPage(Number(selectedPage));
+                                        scrollToPage(Number(selectedPage));
                                     }}
                                 >
                                     {Array(Math.max(0, chapter.pageCount))

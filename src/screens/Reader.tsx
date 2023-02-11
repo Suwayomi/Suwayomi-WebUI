@@ -73,6 +73,7 @@ export default function Reader() {
     });
     const [chapter, setChapter] = useState<IChapter | IPartialChapter>(initialChapter());
     const [curPage, setCurPage] = useState<number>(0);
+    const [pageToScrollTo, setPageToScrollTo] = useState<number | undefined>(undefined);
     const { setOverride, setTitle } = useContext(NavbarContext);
 
     const { settings: defaultSettings, loading: areDefaultSettingsLoading } = useDefaultReaderSettings();
@@ -112,7 +113,7 @@ export default function Reader() {
                     manga={manga}
                     chapter={chapter as IChapter}
                     curPage={curPage}
-                    setCurPage={setCurPage}
+                    scrollToPage={setPageToScrollTo}
                 />
             ),
         });
@@ -207,6 +208,9 @@ export default function Reader() {
 
     const ReaderComponent = getReaderComponent(settings.readerType);
 
+    // last page, also probably read = true, we will load the first page.
+    const initialPage = pageToScrollTo ?? (chapter.lastPageRead === chapter.pageCount - 1 ? 0 : chapter.lastPageRead);
+
     return (
         <Box sx={{ width: settings.staticNav ? 'calc(100vw - 300px)' : '100vw' }}>
             <PageNumber settings={settings} curPage={curPage} pageCount={chapter.pageCount} />
@@ -214,7 +218,7 @@ export default function Reader() {
                 pages={pages}
                 pageCount={chapter.pageCount}
                 setCurPage={setCurPage}
-                initialPage={curPage}
+                initialPage={initialPage}
                 curPage={curPage}
                 settings={settings}
                 manga={manga}
