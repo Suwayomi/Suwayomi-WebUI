@@ -212,7 +212,12 @@ export default function Reader() {
     const initialPage = pageToScrollTo ?? (chapter.lastPageRead === chapter.pageCount - 1 ? 0 : chapter.lastPageRead);
 
     return (
-        <Box sx={{ width: settings.staticNav ? 'calc(100vw - 300px)' : '100vw' }}>
+        <Box
+            sx={{
+                width: settings.staticNav ? 'calc(100vw - 300px)' : '100vw',
+                marginLeft: settings.staticNav ? '300px' : 'unset',
+            }}
+        >
             <PageNumber settings={settings} curPage={curPage} pageCount={chapter.pageCount} />
             <ReaderComponent
                 pages={pages}

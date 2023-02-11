@@ -190,7 +190,7 @@ export default function ReaderNavBar(props: IProps) {
             <Slide direction="right" in={drawerOpen} timeout={200} appear={false} mountOnEnter unmountOnExit>
                 <Root
                     sx={{
-                        position: settings.staticNav ? 'sticky' : 'fixed',
+                        position: 'fixed',
                     }}
                 >
                     <header>
