@@ -53,6 +53,7 @@ const filterManga = (
     unread: NullAndUndefined<boolean>,
     downloaded: NullAndUndefined<boolean>,
 ): IMangaCard[] => {
+    let filteredManga: IMangaCard[] = [];
     if (query) {
         const titleFilteredManga = manga.filter((m) => queryFilter(query, m));
         const genreFilteredManga = manga.filter((m) => queryGenreFilter(query, m));
@@ -63,15 +64,12 @@ const filterManga = (
             }
             return acc;
         }, {});
-        return Object.values(unique);
+        filteredManga = Object.values(unique);
     }
-    return manga.filter((m) => {
-        if (query) {
-            return queryFilter(query, m);
-        }
-
-        return downloadedFilter(downloaded, m) && unreadFilter(unread, m);
-    });
+    filteredManga = (filteredManga.length ? filteredManga : manga).filter(
+        (m) => downloadedFilter(downloaded, m) && unreadFilter(unread, m),
+    );
+    return filteredManga;
 };
 
 const sortByUnread = (a: IMangaCard, b: IMangaCard): number =>
