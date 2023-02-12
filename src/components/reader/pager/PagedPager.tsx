@@ -10,7 +10,7 @@ import { Box } from '@mui/system';
 import Page from 'components/reader/Page';
 
 export default function PagedReader(props: IReaderProps) {
-    const { pages, settings, setCurPage, curPage, nextChapter, prevChapter } = props;
+    const { pages, settings, setCurPage, initialPage, curPage, nextChapter, prevChapter } = props;
 
     const selfRef = useRef<HTMLDivElement>(null);
 
@@ -85,6 +85,14 @@ export default function PagedReader(props: IReaderProps) {
             selfRef.current?.removeEventListener('click', clickControl);
         };
     }, [selfRef, curPage, settings.readerType]);
+
+    useEffect(() => {
+        // Delay scrolling to next cycle
+        setTimeout(() => {
+            // scroll last read page into view when initialPage changes
+            changePage(initialPage);
+        }, 0);
+    }, [initialPage]);
 
     return (
         <Box

@@ -30,7 +30,7 @@ const isSinglePage = (index: number, spreadPages: boolean[]): boolean => {
 };
 
 export default function DoublePagedPager(props: IReaderProps) {
-    const { pages, settings, setCurPage, curPage, nextChapter, prevChapter } = props;
+    const { pages, settings, setCurPage, initialPage, curPage, nextChapter, prevChapter } = props;
 
     const selfRef = useRef<HTMLDivElement>(null);
     const pagesRef = useRef<HTMLImageElement[]>([]);
@@ -185,6 +185,10 @@ export default function DoublePagedPager(props: IReaderProps) {
             selfRef.current?.removeEventListener('click', clickControl);
         };
     }, [selfRef, curPage, settings.readerType]);
+
+    useEffect(() => {
+        setCurPage(initialPage);
+    }, [initialPage]);
 
     return (
         <Box ref={selfRef}>
