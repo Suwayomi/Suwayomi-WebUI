@@ -202,6 +202,7 @@ export default function SourceMangas(props: { popular: boolean }) {
                             thumbnailUrl: it.thumbnailUrl,
                             id: it.id,
                             inLibrary: it.inLibrary,
+                            genre: it.genre,
                         })),
                     ]);
                     setHasNextPage(data.hasNextPage);
