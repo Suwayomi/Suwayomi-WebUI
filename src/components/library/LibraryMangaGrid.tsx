@@ -6,10 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import React, { useMemo } from 'react';
-import MangaGrid, { IMangaGridProps } from 'components/MangaGrid';
+import React, { useEffect, useState } from 'react';
+import MangaGrid from 'components/MangaGrid';
 import { useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
 import { StringParam, useQueryParam } from 'use-query-params';
+import { useMediaQuery, useTheme } from '@mui/material';
 
 const FILTERED_OUT_MESSAGE = 'There are no Manga matching this filter';
 
@@ -90,37 +91,51 @@ const sortManga = (
     return result;
 };
 
-const LibraryMangaGrid: React.FC<IMangaGridProps & { lastLibraryUpdate: number }> = ({
+interface LibraryMangaGridProps {
+    mangas: IMangaCard[];
+    isLoading: boolean;
+    message?: string;
+}
+
+const LibraryMangaGrid: React.FC<LibraryMangaGridProps & { lastLibraryUpdate: number }> = ({
     mangas,
     isLoading,
-    hasNextPage,
-    lastPageNum,
-    setLastPageNum,
     message,
     lastLibraryUpdate,
 }) => {
     const [query] = useQueryParam('query', StringParam);
     const { options } = useLibraryOptionsContext();
     const { unread, downloaded } = options;
+    const [filteredPaginatedMangas, setFilteredPaginatedMangas] = useState<IMangaCard[]>([]);
+    const [sortedManga, setSortedManga] = useState<IMangaCard[]>([]);
+    const [filteredManga, setFilteredManga] = useState<IMangaCard[]>([]);
+    const totalPages = (mangas ?? []).length / 10;
+    const theme = useTheme();
+    const isLargeScreen = useMediaQuery(theme.breakpoints.up('sm'));
+    const defaultPageNumber = isLargeScreen ? 4 : 1;
+    const [lastPageNum, setLastPageNum] = useState<number>(defaultPageNumber);
+    useEffect(() => {
+        setFilteredManga(filterManga(mangas, query, unread, downloaded));
+        setLastPageNum(defaultPageNumber);
+        window.scrollTo(0, 0);
+    }, [mangas, query, unread, downloaded]);
 
-    const sortedManga = useMemo(
-        () => sortManga(mangas, options.sorts, options.sortDesc),
-        [mangas, lastLibraryUpdate, options.sorts, options.sortDesc],
-    );
+    useEffect(() => {
+        setSortedManga(sortManga(filteredManga, options.sorts, options.sortDesc));
+    }, [filteredManga, lastLibraryUpdate, options.sorts, options.sortDesc]);
 
-    const filteredManga = useMemo(
-        () => filterManga(sortedManga, query, unread, downloaded),
-        [sortedManga, lastLibraryUpdate, query, unread, downloaded],
-    );
+    useEffect(() => {
+        setFilteredPaginatedMangas((sortedManga ?? []).slice(0, lastPageNum * 10));
+    }, [lastPageNum, sortedManga]);
 
     const showFilteredOutMessage =
         (unread != null || downloaded != null || query) && filteredManga.length === 0 && mangas.length > 0;
 
     return (
         <MangaGrid
-            mangas={filteredManga}
+            mangas={filteredPaginatedMangas}
             isLoading={isLoading}
-            hasNextPage={hasNextPage}
+            hasNextPage={lastPageNum < totalPages}
             lastPageNum={lastPageNum}
             setLastPageNum={setLastPageNum}
             message={showFilteredOutMessage ? FILTERED_OUT_MESSAGE : message}

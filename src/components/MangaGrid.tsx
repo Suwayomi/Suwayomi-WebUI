@@ -23,7 +23,7 @@ export interface IMangaGridProps {
     lastPageNum: number;
     setLastPageNum: (lastPageNum: number) => void;
     gridLayout?: GridLayout;
-    horisontal?: boolean | undefined;
+    horizontal?: boolean | undefined;
     noFaces?: boolean | undefined;
     inLibraryIndicator?: boolean;
 }
@@ -38,7 +38,7 @@ const MangaGrid: React.FC<IMangaGridProps> = (props) => {
         lastPageNum,
         setLastPageNum,
         gridLayout,
-        horisontal,
+        horizontal,
         noFaces,
         inLibraryIndicator,
     } = props;
@@ -113,7 +113,7 @@ const MangaGrid: React.FC<IMangaGridProps> = (props) => {
                 container
                 spacing={1}
                 style={
-                    horisontal
+                    horizontal
                         ? {
                               margin: 0,
                               width: '100%',

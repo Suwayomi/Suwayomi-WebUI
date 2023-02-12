@@ -211,7 +211,7 @@ const SearchAll: React.FC = () => {
                                 hasNextPage={false}
                                 lastPageNum={lastPageNum}
                                 setLastPageNum={setLastPageNum}
-                                horisontal
+                                horizontal
                                 noFaces
                                 message={fetched[id] ? 'No manga was found!' : undefined}
                                 inLibraryIndicator

@@ -258,11 +258,7 @@ export default function ReaderNavBar(props: IProps) {
                     <Navigation>
                         <PageNavigation>
                             <span>Currently on page</span>
-                            <FormControl
-                                size="small"
-                                sx={{ margin: '0 5px' }}
-                                disabled={chapter.pageCount === -1}
-                            >
+                            <FormControl size="small" sx={{ margin: '0 5px' }} disabled={chapter.pageCount === -1}>
                                 <Select
                                     MenuProps={MenuProps}
                                     value={chapter.pageCount > -1 ? curPage : ''}
@@ -300,11 +296,7 @@ export default function ReaderNavBar(props: IProps) {
                             >
                                 <KeyboardArrowLeftIcon />
                             </IconButton>
-                            <FormControl
-                                sx={{ gridArea: 'current' }}
-                                size="small"
-                                disabled={chapter.index < 1}
-                            >
+                            <FormControl sx={{ gridArea: 'current' }} size="small" disabled={chapter.index < 1}>
                                 <Select
                                     MenuProps={MenuProps}
                                     value={chapter.index >= 1 ? chapter.index : ''}
@@ -324,19 +316,16 @@ export default function ReaderNavBar(props: IProps) {
                                         .map((ignoreValue, index) => (
                                             // eslint-disable-next-line  max-len
                                             // eslint-disable-next-line  react/no-array-index-key
-                                            <MenuItem
-                                                key={`Chapter#${index + 1}`}
-                                                value={index + 1}
-                                            >{`Chapter ${index + 1}`}</MenuItem>
+                                            <MenuItem key={`Chapter#${index + 1}`} value={index + 1}>{`Chapter ${
+                                                index + 1
+                                            }`}</MenuItem>
                                         ))}
                                 </Select>
                             </FormControl>
                             <IconButton
                                 title="Next Chapter"
                                 sx={{ gridArea: 'next' }}
-                                disabled={
-                                    chapter.index < 1 || chapter.index >= chapter.chapterCount
-                                }
+                                disabled={chapter.index < 1 || chapter.index >= chapter.chapterCount}
                                 onClick={() => {
                                     history.replace({
                                         pathname: `/manga/${manga.id}/chapter/${chapter.index + 1}`,
