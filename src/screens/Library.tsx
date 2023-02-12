@@ -51,10 +51,6 @@ export default function Library() {
         };
     }, []);
 
-    // a hack so MangaGrid doesn't stop working. I won't change it in case
-    // if I do manga pagination for library..
-    const [lastPageNum, setLastPageNum] = useState<number>(1);
-
     const handleTabChange = (newTab: number) => {
         setTabSearchParam(newTab === 0 ? undefined : newTab);
     };
@@ -76,9 +72,6 @@ export default function Library() {
             <LibraryMangaGrid
                 mangas={mangas}
                 lastLibraryUpdate={lastLibraryUpdate}
-                hasNextPage={false}
-                lastPageNum={lastPageNum}
-                setLastPageNum={setLastPageNum}
                 message="Your Library is empty"
                 isLoading={activeTab != null && mangaLoading}
             />
@@ -117,9 +110,6 @@ export default function Library() {
                             <LibraryMangaGrid
                                 mangas={mangas}
                                 lastLibraryUpdate={lastLibraryUpdate}
-                                hasNextPage={false}
-                                lastPageNum={lastPageNum}
-                                setLastPageNum={setLastPageNum}
                                 message="Category is Empty"
                                 isLoading={mangaLoading}
                             />
