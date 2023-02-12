@@ -41,19 +41,38 @@ const queryFilter = (query: NullAndUndefined<string>, { title }: IMangaCard): bo
     return title.toLowerCase().includes(query.toLowerCase());
 };
 
+const queryGenreFilter = (query: NullAndUndefined<string>, { genre }: IMangaCard): boolean => {
+    if (!query) return true;
+    const queries = query.split(',').map((str) => str.toLowerCase().trim());
+    return queries.every((element) => genre.map((el) => el.toLowerCase()).includes(element));
+};
+
 const filterManga = (
     manga: IMangaCard[],
     query: NullAndUndefined<string>,
     unread: NullAndUndefined<boolean>,
     downloaded: NullAndUndefined<boolean>,
-): IMangaCard[] =>
-    manga.filter((m) => {
+): IMangaCard[] => {
+    if (query) {
+        const titleFilteredManga = manga.filter((m) => queryFilter(query, m));
+        const genreFilteredManga = manga.filter((m) => queryGenreFilter(query, m));
+        const unique = titleFilteredManga.concat(genreFilteredManga).reduce((acc: Record<number, IMangaCard>, obj) => {
+            const { id } = obj;
+            if (!acc[id]) {
+                acc[id] = obj;
+            }
+            return acc;
+        }, {});
+        return Object.values(unique);
+    }
+    return manga.filter((m) => {
         if (query) {
             return queryFilter(query, m);
         }
 
         return downloadedFilter(downloaded, m) && unreadFilter(unread, m);
     });
+};
 
 const sortByUnread = (a: IMangaCard, b: IMangaCard): number =>
     // eslint-disable-next-line implicit-arrow-linebreak
