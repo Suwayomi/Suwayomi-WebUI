@@ -27,6 +27,7 @@ import SourceConfigure from 'screens/SourceConfigure';
 import SourceMangas from 'screens/SourceMangas';
 import Sources from 'screens/Sources';
 import Updates from 'screens/Updates';
+import 'i18n';
 
 const App: React.FC = () => (
     <AppContext>
