@@ -17,15 +17,17 @@ import AppbarSearch from 'components/util/AppbarSearch';
 import { useQueryParam, NumberParam } from 'use-query-params';
 import { useQuery } from 'util/client';
 import UpdateChecker from 'components/library/UpdateChecker';
+import { useTranslation } from 'react-i18next';
 
 export default function Library() {
+    const { t } = useTranslation();
     const [lastLibraryUpdate, setLastLibraryUpdate] = useState(Date.now());
     const { data: tabsData, error: tabsError, loading } = useQuery<ICategory[]>('/api/v1/category');
     const tabs = tabsData ?? [];
 
     const [tabSearchParam, setTabSearchParam] = useQueryParam('tab', NumberParam);
 
-    const activeTab = tabs.find((t) => t.order === tabSearchParam) ?? tabs[0];
+    const activeTab = tabs.find((tab) => tab.order === tabSearchParam) ?? tabs[0];
     const {
         data: mangaData,
         error: mangaError,
@@ -37,7 +39,7 @@ export default function Library() {
 
     const { setTitle, setAction } = useContext(NavbarContext);
     useEffect(() => {
-        setTitle('Library');
+        setTitle(t('screens/Library/Library'));
         setAction(
             <>
                 <AppbarSearch />
