@@ -12,6 +12,15 @@ You can find minified builds of WebUI in [Tachidesk-WebUI-preview](https://githu
 ## Contributing and Technical info
 See [CONTRIBUTING.md](./CONTRIBUTING.md).
 
+## Translation
+Feel free to translate the project on [Weblate](https://hosted.weblate.org/projects/suwayomi/tachidesk-webui/)
+
+<details><summary>Translation Progress</summary>
+<a href="https://hosted.weblate.org/engage/tachidesk-webui/">
+<img src="https://hosted.weblate.org/widgets/suwayomi/-/tachidesk-webui/multi-auto.svg" alt="Translation status" />
+</a>
+</details>
+
 ## License
 
     Copyright (C) Contributors to the Suwayomi project
