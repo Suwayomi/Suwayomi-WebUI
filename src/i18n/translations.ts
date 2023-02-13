@@ -5,19 +5,16 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
+import en from 'i18n/resources/en.json';
+import fr from 'i18n/resources/fr.json';
+
+const translationHelper = (lng: any) => ({
+    translation: lng,
+});
+
 const resources = {
-    en: {
-        translation: {
-            'DefaultNavBar.navbarItems.Library': 'Library',
-            'screens/Library/Library': 'Library',
-        },
-    },
-    fr: {
-        translation: {
-            'DefaultNavBar.navbarItems.Library': 'fr(Library)',
-            'screens/Library/Library': 'fr(Library)',
-        },
-    },
+    en: translationHelper(en),
+    fr: translationHelper(fr),
 };
 
 export default resources;
