@@ -21,6 +21,7 @@ import { useTranslation } from 'react-i18next';
 
 export default function Library() {
     const { t } = useTranslation();
+
     const [lastLibraryUpdate, setLastLibraryUpdate] = useState(Date.now());
     const { data: tabsData, error: tabsError, loading } = useQuery<ICategory[]>('/api/v1/category');
     const tabs = tabsData ?? [];

@@ -11,8 +11,11 @@ import Tab from '@mui/material/Tab';
 import TabPanel from 'components/util/TabPanel';
 import Sources from 'screens/Sources';
 import Extensions from 'screens/Extensions';
+import { useTranslation } from 'react-i18next';
 
 export default function Browse() {
+    const { t } = useTranslation();
+
     const [tabNum, setTabNum] = useState<number>(0);
 
     return (
@@ -27,8 +30,8 @@ export default function Browse() {
                 scrollButtons
                 allowScrollButtonsMobile
             >
-                <Tab sx={{ textTransform: 'none' }} label="Sources" />
-                <Tab sx={{ textTransform: 'none' }} label="Extensions" />
+                <Tab sx={{ textTransform: 'none' }} label={t('screens.Browse.sources')} />
+                <Tab sx={{ textTransform: 'none' }} label={t('screens.Browse.extensions')} />
             </Tabs>
             <TabPanel index={0} currentIndex={tabNum}>
                 <Sources />

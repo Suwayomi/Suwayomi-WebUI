@@ -26,6 +26,7 @@ import DownloadStateIndicator from 'components/molecules/DownloadStateIndicator'
 import { NavbarToolbar } from 'components/navbar/DefaultNavBar';
 import { Link } from 'react-router-dom';
 import { BACK } from 'util/useBackTo';
+import { useTranslation } from 'react-i18next';
 
 const initialQueue = {
     status: 'Stopped',
@@ -33,6 +34,8 @@ const initialQueue = {
 } as IQueue;
 
 const DownloadQueue: React.FC = () => {
+    const { t } = useTranslation();
+
     const { data: queueState } = useSubscription<IQueue>('/api/v1/downloads');
     const { queue, status } = queueState ?? initialQueue;
 
@@ -47,7 +50,7 @@ const DownloadQueue: React.FC = () => {
     };
 
     useEffect(() => {
-        setTitle('Download Queue');
+        setTitle(t('screens.DownloadQueue.download-queue'));
         setAction(null);
     }, []);
 
@@ -55,7 +58,7 @@ const DownloadQueue: React.FC = () => {
     const onDragEnd = (result: DropResult) => {};
 
     if (queue.length === 0) {
-        return <EmptyView message="No downloads" />;
+        return <EmptyView message={t('screens.DownloadQueue.no-downloads')} />;
     }
 
     const handleDelete = (chapter: IChapter) => {

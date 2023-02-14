@@ -6,6 +6,14 @@
       "your-library-is-empty": "Your Library is empty",
       "category-is-empty": "Category is Empty",
       "could-not-load-manga": "Could not load manga"
+    },
+    "Browse": {
+      "sources": "Sources",
+      "extensions": "Extensions"
+    },
+    "DownloadQueue": {
+      "no-downloads": "No downloads",
+      "download-queue": "Download Queue"
     }
   }
 }
