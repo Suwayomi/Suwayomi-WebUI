@@ -1,0 +1,11 @@
+{
+  "screens": {
+    "Library": {
+      "Library": "Library",
+      "could-not-load-categories": "Could not load categories",
+      "your-library-is-empty": "Your Library is empty",
+      "category-is-empty": "Category is Empty",
+      "could-not-load-manga": "Could not load manga"
+    }
+  }
+}
