@@ -1,1 +1,7 @@
-{}
+{
+    "screens": {
+        "Library": {
+            "Library": "Bibliotek"
+        }
+    }
+}
