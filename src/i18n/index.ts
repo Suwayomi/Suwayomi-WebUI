@@ -19,7 +19,8 @@ const i18n = use(initReactI18next)
         interpolation: {
             escapeValue: false,
         },
-        debug: true,
+        returnNull: false,
+        debug: process.env.NODE_ENV !== 'production',
     });
 
 export default i18n;

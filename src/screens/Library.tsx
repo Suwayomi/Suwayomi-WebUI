@@ -39,7 +39,7 @@ export default function Library() {
 
     const { setTitle, setAction } = useContext(NavbarContext);
     useEffect(() => {
-        setTitle(t('screens/Library/Library'));
+        setTitle(t('screens.Library.Library'));
         setAction(
             <>
                 <AppbarSearch />
@@ -58,7 +58,12 @@ export default function Library() {
     };
 
     if (tabsError != null) {
-        return <EmptyView message="Could not load categories" messageExtra={tabsError?.message ?? tabsError} />;
+        return (
+            <EmptyView
+                message={t('screens.Library.could-not-load-categories')}
+                messageExtra={tabsError?.message ?? tabsError}
+            />
+        );
     }
 
     if (loading) {
@@ -66,7 +71,7 @@ export default function Library() {
     }
 
     if (tabs.length === 0) {
-        return <EmptyView message="Your Library is empty" />;
+        return <EmptyView message={t('screens.Library.your-library-is-empty')} />;
     }
 
     if (tabs.length === 1) {
@@ -74,7 +79,7 @@ export default function Library() {
             <LibraryMangaGrid
                 mangas={mangas}
                 lastLibraryUpdate={lastLibraryUpdate}
-                message="Your Library is empty"
+                message={t('screens.Library.your-library-is-empty') as string}
                 isLoading={activeTab != null && mangaLoading}
             />
         );
@@ -105,14 +110,14 @@ export default function Library() {
                     {tab === activeTab &&
                         (mangaError ? (
                             <EmptyView
-                                message="Could not load manga"
+                                message={t('screens.Library.could-not-load-manga')}
                                 messageExtra={mangaError?.message ?? mangaError}
                             />
                         ) : (
                             <LibraryMangaGrid
                                 mangas={mangas}
                                 lastLibraryUpdate={lastLibraryUpdate}
-                                message="Category is Empty"
+                                message={t('screens.Library.category-is-empty') as string}
                                 isLoading={mangaLoading}
                             />
                         ))}
