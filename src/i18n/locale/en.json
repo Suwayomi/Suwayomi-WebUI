@@ -10,6 +10,10 @@
     "Browse": {
       "sources": "Sources",
       "extensions": "Extensions"
+    },
+    "DownloadQueue": {
+      "no-downloads": "No downloads",
+      "download-queue": "Download Queue"
     }
   }
 }
