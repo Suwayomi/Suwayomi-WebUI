@@ -11,6 +11,7 @@ import MangaGrid from 'components/MangaGrid';
 import { useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
 import { StringParam, useQueryParam } from 'use-query-params';
 import { useMediaQuery, useTheme } from '@mui/material';
+import { useSearchSettings } from 'util/searchSettings';
 
 const FILTERED_OUT_MESSAGE = 'There are no Manga matching this filter';
 
@@ -46,13 +47,16 @@ const filterManga = (
     query: NullAndUndefined<string>,
     unread: NullAndUndefined<boolean>,
     downloaded: NullAndUndefined<boolean>,
+    overrideFilters: boolean,
 ): IMangaCard[] =>
     manga.filter((m) => {
+        const isFiltered = downloadedFilter(downloaded, m) && unreadFilter(unread, m);
         if (query) {
-            return queryFilter(query, m);
+            const isQueried = queryFilter(query, m);
+            if (overrideFilters) return isQueried;
+            return isFiltered && isQueried;
         }
-
-        return downloadedFilter(downloaded, m) && unreadFilter(unread, m);
+        return isFiltered;
     });
 
 const sortByUnread = (a: IMangaCard, b: IMangaCard): number =>
@@ -114,11 +118,13 @@ const LibraryMangaGrid: React.FC<LibraryMangaGridProps & { lastLibraryUpdate: nu
     const isLargeScreen = useMediaQuery(theme.breakpoints.up('sm'));
     const defaultPageNumber = isLargeScreen ? 4 : 1;
     const [lastPageNum, setLastPageNum] = useState<number>(defaultPageNumber);
+    const { settings } = useSearchSettings();
+
     useEffect(() => {
-        setFilteredManga(filterManga(mangas, query, unread, downloaded));
+        setFilteredManga(filterManga(mangas, query, unread, downloaded, settings.overrideFilters));
         setLastPageNum(defaultPageNumber);
         window.scrollTo(0, 0);
-    }, [mangas, query, unread, downloaded]);
+    }, [mangas, query, unread, downloaded, settings.overrideFilters]);
 
     useEffect(() => {
         setSortedManga(sortManga(filteredManga, options.sorts, options.sortDesc));

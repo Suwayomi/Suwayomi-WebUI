@@ -69,7 +69,7 @@ interface IMetadataHolder<VALUES extends AllowedMetadataValueTypes = string> {
 
 type AllowedMetadataValueTypes = string | boolean | number | undefined;
 
-type MangaMetadataKeys = keyof IReaderSettings;
+type MangaMetadataKeys = keyof (IReaderSettings & ISearchSettings);
 
 type AppMetadataKeys = MangaMetadataKeys;
 
@@ -175,6 +175,10 @@ interface IReaderSettings {
     showPageNumber: boolean;
     loadNextOnEnding: boolean;
     readerType: ReaderType;
+}
+
+interface ISearchSettings {
+    overrideFilters: boolean;
 }
 
 interface IReaderPage {
