@@ -78,6 +78,7 @@ type MetadataKeyValuePair = [AppMetadataKeys, AllowedMetadataValueTypes];
 interface IMangaCard {
     id: number;
     title: string;
+    genre: string[];
     thumbnailUrl: string;
     unreadCount?: number;
     downloadCount?: number;

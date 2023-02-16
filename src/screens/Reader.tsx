@@ -70,6 +70,7 @@ export default function Reader() {
         id: +mangaId,
         title: '',
         thumbnailUrl: '',
+        genre: [],
     });
     const [chapter, setChapter] = useState<IChapter | IPartialChapter>(initialChapter());
     const [curPage, setCurPage] = useState<number>(0);
