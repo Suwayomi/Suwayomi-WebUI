@@ -56,6 +56,15 @@ interface IState {
 
 interface IMetadataMigration {
     appKeyPrefix?: { oldPrefix: string; newPrefix: string };
+    values?: {
+        /**
+         * In case the migration should only be applied to a specific metadata key.
+         * Otherwise, all metadata keys will get migrated.
+         */
+        key?: string;
+        oldValue: string;
+        newValue: string;
+    }[];
     keys?: { oldKey: string; newKey: string }[];
 }
 

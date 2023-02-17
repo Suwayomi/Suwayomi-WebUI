@@ -11,11 +11,76 @@ import client from 'util/client';
 
 const APP_METADATA_KEY_PREFIX = 'webUI_';
 
+/**
+ * Once all changes have been done in the current branch, a new migration for all changes should be
+ * created.
+ *
+ * In case a value should be migrated for a specific key, and in the same migration the key is
+ * getting migrated, the key in the value migration is the "old" key (before the migration to the
+ * new key).
+ *
+ * Migration order (function "applyMetadataMigrations"):
+ * 1. app metadata key prefix
+ * 2. app metadata values
+ * 3. app metadata keys
+ *
+ * @example
+ * // changes:
+ * // commit: change key "X" to "Z"
+ * // commit: change key "Y" to "A"
+ * // commit: fix typo in reader setting "someTipo"
+ * // commit: add metadata migration
+ *
+ * // result:
+ * // old migrations:
+ * // const migrations = [
+ * //   {
+ * //     keys: [{ oldKey: 'loadNextonEnding', newKey: 'loadNextOnEnding' }],
+ * //   }
+ * // ];
+ *
+ * // updated migrations
+ * const migrations = [
+ *   {
+ *     keys: [{ oldKey: 'loadNextonEnding', newKey: 'loadNextOnEnding' }],
+ *   },
+ *   {
+ *     keys: [
+ *       { oldKey: 'X', newKey: 'Z' },
+ *       { oldKey: 'Y', newKey: 'A' },
+ *     ],
+ *     // all stored values in the metadata (of this app) will get migrated
+ *     values: [
+ *       {
+ *         oldValue: 'someTipo',
+ *         newValue: 'someTypo'
+ *       },
+ *     ],
+ *     // to migrate only the value of a specific key (in this case of "someKey"):
+ *     // values: [
+ *     //   {
+ *     //     key: 'someKey',
+ *     //     oldValue: 'someTipo',
+ *     //     newValue: 'someTypo',
+ *     //   },
+ *     // ],
+ *   },
+ * ];
+ */
 const migrations: IMetadataMigration[] = [
     {
         keys: [{ oldKey: 'loadNextonEnding', newKey: 'loadNextOnEnding' }],
     },
 ];
+
+const getAppKeyPrefixForMigration = (migrationId: number): string => {
+    const appKeyPrefix = migrations
+        .slice(0, migrationId)
+        .reverse()
+        .find((migration) => !!migration.appKeyPrefix);
+
+    return appKeyPrefix?.appKeyPrefix?.newPrefix ?? APP_METADATA_KEY_PREFIX;
+};
 
 const getMetadataKey = (key: string, appPrefix: string = APP_METADATA_KEY_PREFIX) => `${appPrefix}${key}`;
 
@@ -77,6 +142,45 @@ const applyAppKeyPrefixMigration = (meta: IMetadata, migration: IMetadataMigrati
     return migratedMetadata;
 };
 
+const applyMetadataValueMigration = (
+    meta: IMetadata,
+    migration: IMetadataMigration,
+    appKeyPrefix: string,
+): IMetadata => {
+    const migratedMetadata: IMetadata = { ...meta };
+
+    if (!migration.values) {
+        return migratedMetadata;
+    }
+
+    const appMetadata = getAppMetadataFrom(meta, appKeyPrefix);
+    const metadataValueChanges = migration.values;
+
+    metadataValueChanges.forEach(({ key, oldValue, newValue }) => {
+        const migrateValue = (metaKey: string) => {
+            if (meta[metaKey] === oldValue) {
+                migratedMetadata[metaKey] = newValue;
+            }
+        };
+
+        const migrateValueOfAllAppKeys = key === undefined;
+        if (migrateValueOfAllAppKeys) {
+            Object.keys(appMetadata).forEach((metaKey) => {
+                migrateValue(metaKey);
+            });
+            return;
+        }
+
+        if (!doesMetadataKeyExistIn(meta, key, appKeyPrefix)) {
+            return;
+        }
+
+        migrateValue(getMetadataKey(key, appKeyPrefix));
+    });
+
+    return migratedMetadata;
+};
+
 const applyMetadataKeyMigration = (meta: IMetadata, migration: IMetadataMigration): IMetadata => {
     const migratedMetadata: IMetadata = { ...meta };
 
@@ -112,7 +216,12 @@ const applyMetadataMigrations = (meta?: IMetadata): IMetadata | undefined => {
         const migrationId = index + 1;
         const metadataToMigrate = migrationToMetadata[migrationId - 1][1];
         const appKeyPrefixMigrated = applyAppKeyPrefixMigration(metadataToMigrate, migration);
-        const metadataKeysMigrated = applyMetadataKeyMigration(appKeyPrefixMigrated, migration);
+        const metadataValuesMigrated = applyMetadataValueMigration(
+            appKeyPrefixMigrated,
+            migration,
+            getAppKeyPrefixForMigration(migrationId),
+        );
+        const metadataKeysMigrated = applyMetadataKeyMigration(metadataValuesMigrated, migration);
 
         migrationToMetadata.push([migrationId, metadataKeysMigrated]);
     });
