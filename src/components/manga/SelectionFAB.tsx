@@ -8,10 +8,10 @@
 import MoreHoriz from '@mui/icons-material/MoreHoriz';
 import { Fab, Menu } from '@mui/material';
 import { Box } from '@mui/system';
-import { pluralize } from 'components/util/helpers';
 import React, { useRef, useState } from 'react';
 import type { IChapterWithMeta } from 'components/manga/ChapterList';
 import SelectionFABActionItem from 'components/manga/SelectionFABActionItem';
+import { useTranslation } from 'react-i18next';
 
 export type SelectionAction = 'download' | 'delete' | 'bookmark' | 'unbookmark' | 'mark_as_read' | 'mark_as_unread';
 
@@ -21,6 +21,8 @@ interface SelectionFABProps {
 }
 
 const SelectionFAB: React.FC<SelectionFABProps> = (props) => {
+    const { t } = useTranslation();
+
     const { selectedChapters, onAction } = props;
     const count = selectedChapters.length;
 
@@ -44,7 +46,7 @@ const SelectionFAB: React.FC<SelectionFABProps> = (props) => {
             ref={anchorEl}
         >
             <Fab variant="extended" color="primary" id="selectionMenuButton" onClick={() => setOpen(true)}>
-                {`${count} ${pluralize(count, 'chapter')}`}
+                {`${count} ${t('chapter.title', { count })}`}
                 <MoreHoriz sx={{ ml: 1 }} />
             </Fab>
             <Menu
@@ -64,37 +66,37 @@ const SelectionFAB: React.FC<SelectionFABProps> = (props) => {
                         ({ chapter: c, downloadChapter: dc }) => !c.downloaded && dc === undefined,
                     )}
                     onClick={handleAction}
-                    title="Download selected"
+                    title={t('chapter.action.download.add.button.selected')}
                 />
                 <SelectionFABActionItem
                     action="delete"
                     matchingChapters={selectedChapters.filter(({ chapter }) => chapter.downloaded)}
                     onClick={handleAction}
-                    title="Delete selected"
+                    title={t('chapter.action.download.delete.button.selected')}
                 />
                 <SelectionFABActionItem
                     action="bookmark"
                     matchingChapters={selectedChapters.filter(({ chapter }) => !chapter.bookmarked)}
                     onClick={handleAction}
-                    title="Bookmark selected"
+                    title={t('chapter.action.bookmark.add.button.selected')}
                 />
                 <SelectionFABActionItem
                     action="unbookmark"
                     matchingChapters={selectedChapters.filter(({ chapter }) => chapter.bookmarked)}
                     onClick={handleAction}
-                    title="Remove bookmarks from selected"
+                    title={t('chapter.action.bookmark.remove.button.selected')}
                 />
                 <SelectionFABActionItem
                     action="mark_as_read"
                     matchingChapters={selectedChapters.filter(({ chapter }) => !chapter.read)}
                     onClick={handleAction}
-                    title="Mark selected as read"
+                    title={t('chapter.action.mark_as_read.add.button.selected')}
                 />
                 <SelectionFABActionItem
                     action="mark_as_unread"
                     matchingChapters={selectedChapters.filter(({ chapter }) => chapter.read)}
                     onClick={handleAction}
-                    title="Mark selected as unread"
+                    title={t('chapter.action.mark_as_read.remove.button.selected')}
                 />
             </Menu>
         </Box>

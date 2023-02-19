@@ -18,6 +18,7 @@ import { List, ListItemSecondaryAction, ListItemText } from '@mui/material';
 import ListItem from '@mui/material/ListItem';
 import { langCodeToName } from 'util/language';
 import cloneObject from 'util/cloneObject';
+import { useTranslation } from 'react-i18next';
 
 function removeAll(firstList: any[], secondList: any[]) {
     secondList.forEach((item) => {
@@ -38,6 +39,8 @@ interface IProps {
 }
 
 export default function LangSelect(props: IProps) {
+    const { t } = useTranslation();
+
     const { shownLangs, setShownLangs, allLangs, forcedLangs } = props;
     // hold a copy and only sate state on parent when OK pressed, improves performance
     const [mShownLangs, setMShownLangs] = useState(removeAll(cloneObject(shownLangs), forcedLangs!));
@@ -85,7 +88,7 @@ export default function LangSelect(props: IProps) {
                 maxWidth="xs"
                 open={open}
             >
-                <DialogTitle>Enabled Languages</DialogTitle>
+                <DialogTitle>{t('global.language.title.enabled_languages')}</DialogTitle>
                 <DialogContent dividers sx={{ padding: 0 }}>
                     <List>
                         {allLangs.map((lang) => (
@@ -104,10 +107,10 @@ export default function LangSelect(props: IProps) {
                 </DialogContent>
                 <DialogActions>
                     <Button autoFocus onClick={handleCancel} color="primary">
-                        Cancel
+                        {t('global.button.cancel')}
                     </Button>
                     <Button onClick={handleOk} color="primary">
-                        Ok
+                        {t('global.button.ok')}
                     </Button>
                 </DialogActions>
             </Dialog>

@@ -41,7 +41,7 @@ export default function Library() {
 
     const { setTitle, setAction } = useContext(NavbarContext);
     useEffect(() => {
-        setTitle(t('screens.Library.Library'));
+        setTitle(t('library.title'));
         setAction(
             <>
                 <AppbarSearch />
@@ -62,7 +62,7 @@ export default function Library() {
     if (tabsError != null) {
         return (
             <EmptyView
-                message={t('screens.Library.could-not-load-categories')}
+                message={t('category.error.label.request_failure')}
                 messageExtra={tabsError?.message ?? tabsError}
             />
         );
@@ -73,7 +73,7 @@ export default function Library() {
     }
 
     if (tabs.length === 0) {
-        return <EmptyView message={t('screens.Library.your-library-is-empty')} />;
+        return <EmptyView message={t('library.error.label.empty')} />;
     }
 
     if (tabs.length === 1) {
@@ -81,7 +81,7 @@ export default function Library() {
             <LibraryMangaGrid
                 mangas={mangas}
                 lastLibraryUpdate={lastLibraryUpdate}
-                message={t('screens.Library.your-library-is-empty') as string}
+                message={t('library.error.label.empty') as string}
                 isLoading={activeTab != null && mangaLoading}
             />
         );
@@ -112,14 +112,14 @@ export default function Library() {
                     {tab === activeTab &&
                         (mangaError ? (
                             <EmptyView
-                                message={t('screens.Library.could-not-load-manga')}
+                                message={t('manga.error.label.request_failure')}
                                 messageExtra={mangaError?.message ?? mangaError}
                             />
                         ) : (
                             <LibraryMangaGrid
                                 mangas={mangas}
                                 lastLibraryUpdate={lastLibraryUpdate}
-                                message={t('screens.Library.category-is-empty') as string}
+                                message={t('library.error.label.empty') as string}
                                 isLoading={mangaLoading}
                             />
                         ))}

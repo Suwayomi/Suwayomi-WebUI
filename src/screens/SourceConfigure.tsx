@@ -16,6 +16,7 @@ import MultiSelectListPreference from 'components/sourceConfiguration/MultiSelec
 import List from '@mui/material/List';
 import cloneObject from 'util/cloneObject';
 import { SourcePreferences } from 'typings';
+import { useTranslation } from 'react-i18next';
 
 function getPrefComponent(type: string) {
     switch (type) {
@@ -35,10 +36,11 @@ function getPrefComponent(type: string) {
 }
 
 export default function SourceConfigure() {
+    const { t } = useTranslation();
     const { setTitle, setAction } = useContext(NavbarContext);
 
     useEffect(() => {
-        setTitle('Source Configuration');
+        setTitle(t('source.configuration.title'));
         setAction(null);
     }, []);
 

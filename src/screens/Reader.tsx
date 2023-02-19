@@ -26,6 +26,7 @@ import {
 } from 'util/readerSettings';
 import makeToast from 'components/util/Toast';
 import { IChapter, IManga, IMangaCard, IPartialChapter, IReaderSettings, ReaderType } from 'typings';
+import { useTranslation } from 'react-i18next';
 
 const getReaderComponent = (readerType: ReaderType) => {
     switch (readerType) {
@@ -62,6 +63,7 @@ const initialChapter = () => ({
 });
 
 export default function Reader() {
+    const { t } = useTranslation();
     const history = useHistory();
 
     const [serverAddress] = useLocalStorage<String>('serverBaseURL', '');
@@ -87,13 +89,13 @@ export default function Reader() {
     const setSettingValue = (key: keyof IReaderSettings, value: string | boolean) => {
         setSettings({ ...settings, [key]: value });
         requestUpdateMangaMetadata(manga, [[key, value]]).catch(() =>
-            makeToast('Failed to save the reader settings to the server', 'warning'),
+            makeToast(t('reader.settings.error.label.failed_to_save_settings'), 'warning'),
         );
     };
 
     useEffect(() => {
-        if (!manga?.title || (chapter as IChapter)?.name === 'Loading...') {
-            setTitle(`Reader - Manga ${mangaId} Chapter ${chapterIndex}`);
+        if (!manga?.title || (chapter as IChapter)?.name === t('global.label.loading')) {
+            setTitle(t('reader.title'));
         } else {
             setTitle(`${manga.title}: ${(chapter as IChapter).name}`);
         }

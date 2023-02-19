@@ -51,7 +51,7 @@ const DownloadQueue: React.FC = () => {
     };
 
     useEffect(() => {
-        setTitle(t('screens.DownloadQueue.download-queue'));
+        setTitle(t('download.queue.title'));
         setAction(null);
     }, []);
 
@@ -59,7 +59,7 @@ const DownloadQueue: React.FC = () => {
     const onDragEnd = (result: DropResult) => {};
 
     if (queue.length === 0) {
-        return <EmptyView message={t('screens.DownloadQueue.no-downloads')} />;
+        return <EmptyView message={t('download.queue.label.no_downloads')} />;
     }
 
     const handleDelete = (chapter: IChapter) => {

@@ -11,6 +11,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { styled } from '@mui/system';
 import { useTheme } from '@mui/material/styles';
 import { NavbarItem } from 'typings';
+import { useTranslation } from 'react-i18next';
 
 const SideNavBarContainer = styled('div')(({ theme }) => ({
     height: '100vh',
@@ -29,6 +30,7 @@ interface IProps {
 }
 
 export default function DesktopSideBar({ navBarItems }: IProps) {
+    const { t } = useTranslation();
     const location = useLocation();
     const theme = useTheme();
 
@@ -48,7 +50,7 @@ export default function DesktopSideBar({ navBarItems }: IProps) {
                     <Link to={path} style={{ color: 'inherit', textDecoration: 'none' }} key={path}>
                         <ListItem disableRipple button key={title}>
                             <ListItemIcon sx={{ minWidth: '0' }}>
-                                <Tooltip placement="right" title={title}>
+                                <Tooltip placement="right" title={t(title)}>
                                     {iconFor(path, IconComponent, SelectedIconComponent)}
                                 </Tooltip>
                             </ListItemIcon>

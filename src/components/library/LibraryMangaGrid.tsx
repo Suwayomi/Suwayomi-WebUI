@@ -13,8 +13,7 @@ import { StringParam, useQueryParam } from 'use-query-params';
 import { useMediaQuery, useTheme } from '@mui/material';
 import { IMangaCard, LibrarySortMode, NullAndUndefined } from 'typings';
 import { useSearchSettings } from 'util/searchSettings';
-
-const FILTERED_OUT_MESSAGE = 'There are no Manga matching this filter';
+import { useTranslation } from 'react-i18next';
 
 const unreadFilter = (unread: NullAndUndefined<boolean>, { unreadCount }: IMangaCard): boolean => {
     switch (unread) {
@@ -118,6 +117,8 @@ const LibraryMangaGrid: React.FC<LibraryMangaGridProps & { lastLibraryUpdate: nu
     message,
     lastLibraryUpdate,
 }) => {
+    const { t } = useTranslation();
+
     const [query] = useQueryParam('query', StringParam);
     const { options } = useLibraryOptionsContext();
     const { unread, downloaded } = options;
@@ -155,7 +156,7 @@ const LibraryMangaGrid: React.FC<LibraryMangaGridProps & { lastLibraryUpdate: nu
             hasNextPage={lastPageNum < totalPages}
             lastPageNum={lastPageNum}
             setLastPageNum={setLastPageNum}
-            message={showFilteredOutMessage ? FILTERED_OUT_MESSAGE : message}
+            message={showFilteredOutMessage ? t('library.error.label.no_matches') : message}
             gridLayout={options.gridLayout}
         />
     );
