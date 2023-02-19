@@ -15,5 +15,12 @@
       "no-downloads": "No downloads",
       "download-queue": "Download Queue"
     }
+  },
+  "DefaultNavBar": {
+    "navbarItems": {
+      "title": {
+        "library": "Library"
+      }
+    }
   }
 }

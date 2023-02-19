@@ -31,14 +31,12 @@ import { createPortal } from 'react-dom';
 import useBackTo from 'util/useBackTo';
 import DesktopSideBar from 'components/navbar/navigation/DesktopSideBar';
 import MobileBottomBar from 'components/navbar/navigation/MobileBottomBar';
-// import { useTranslation } from 'react-i18next';
-import { t } from 'i18next';
 import { NavbarItem } from 'typings';
 
 const navbarItems: Array<NavbarItem> = [
     {
         path: '/library',
-        title: t('DefaultNavBar.navbarItems.Library'),
+        title: 'DefaultNavBar.navbarItems.title.library',
         SelectedIconComponent: CollectionsBookmarkIcon,
         IconComponent: CollectionsOutlinedBookmarkIcon,
         show: 'both',
@@ -88,7 +86,6 @@ const navbarItems: Array<NavbarItem> = [
 ];
 
 export default function DefaultNavBar() {
-    // const { t } = useTranslation();
     const { title, action, override } = useContext(NavBarContext);
     const backTo = useBackTo();
 
