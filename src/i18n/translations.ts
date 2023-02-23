@@ -7,12 +7,12 @@
 
 import en from 'i18n/locale/en.json';
 
-const translationHelper = (lng: any) => ({
+const translationHelper = <T>(lng: T) => ({
     translation: lng,
 });
 
 const resources = {
     en: translationHelper(en),
-};
+} as const;
 
 export default resources;
