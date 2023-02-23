@@ -10,6 +10,7 @@ import { ListItem, ListItemIcon, Tooltip } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
 import { styled } from '@mui/system';
 import { useTheme } from '@mui/material/styles';
+import { NavbarItem } from 'typings';
 
 const SideNavBarContainer = styled('div')(({ theme }) => ({
     height: '100vh',

@@ -11,6 +11,7 @@ import MangaGrid from 'components/MangaGrid';
 import { useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
 import { StringParam, useQueryParam } from 'use-query-params';
 import { useMediaQuery, useTheme } from '@mui/material';
+import { IMangaCard, LibrarySortMode, NullAndUndefined } from 'typings';
 
 const FILTERED_OUT_MESSAGE = 'There are no Manga matching this filter';
 

@@ -10,6 +10,7 @@ import { IconButton } from '@mui/material';
 import * as React from 'react';
 import ChapterOptions from 'components/manga/ChapterOptions';
 import { isFilterActive } from 'components/manga/util';
+import { ChapterListOptions, ChapterOptionsReducerAction } from 'typings';
 
 interface IProps {
     options: ChapterListOptions;

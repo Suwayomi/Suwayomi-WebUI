@@ -27,6 +27,7 @@ import { NavbarToolbar } from 'components/navbar/DefaultNavBar';
 import { Link } from 'react-router-dom';
 import { BACK } from 'util/useBackTo';
 import { useTranslation } from 'react-i18next';
+import { IChapter, IQueue } from 'typings';
 
 const initialQueue = {
     status: 'Stopped',

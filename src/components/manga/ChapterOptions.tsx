@@ -12,6 +12,7 @@ import ThreeStateCheckboxInput from 'components/atoms/ThreeStateCheckboxInput';
 import OptionsTabs from 'components/molecules/OptionsTabs';
 import React from 'react';
 import { SORT_OPTIONS } from 'components/manga/util';
+import { ChapterListOptions, ChapterOptionsReducerAction } from 'typings';
 
 interface IProps {
     open: boolean;

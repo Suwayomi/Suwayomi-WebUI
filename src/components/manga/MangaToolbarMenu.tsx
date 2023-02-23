@@ -20,6 +20,7 @@ import {
 } from '@mui/material';
 import CategorySelect from 'components/navbar/action/CategorySelect';
 import React, { useState } from 'react';
+import { IManga } from 'typings';
 
 interface IProps {
     manga: IManga;

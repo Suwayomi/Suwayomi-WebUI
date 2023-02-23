@@ -8,6 +8,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Box } from '@mui/system';
 import Page from 'components/reader/Page';
+import { IReaderProps } from 'typings';
 
 export default function PagedReader(props: IReaderProps) {
     const { pages, settings, setCurPage, initialPage, curPage, nextChapter, prevChapter } = props;

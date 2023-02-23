@@ -33,6 +33,7 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import NavbarContext from 'components/context/NavbarContext';
 import client, { useQuery } from 'util/client';
+import { ICategory } from 'typings';
 
 const getItemStyle = (
     isDragging: boolean,

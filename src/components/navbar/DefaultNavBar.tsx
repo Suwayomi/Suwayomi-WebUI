@@ -33,6 +33,7 @@ import DesktopSideBar from 'components/navbar/navigation/DesktopSideBar';
 import MobileBottomBar from 'components/navbar/navigation/MobileBottomBar';
 // import { useTranslation } from 'react-i18next';
 import { t } from 'i18next';
+import { NavbarItem } from 'typings';
 
 const navbarItems: Array<NavbarItem> = [
     {

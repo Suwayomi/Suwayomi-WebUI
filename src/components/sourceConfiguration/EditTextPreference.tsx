@@ -15,6 +15,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { EditTextPreferenceProps } from 'typings';
 
 export default function EditTextPreference(props: EditTextPreferenceProps) {
     const { title, summary, dialogTitle, dialogMessage, currentValue, updateValue } = props;

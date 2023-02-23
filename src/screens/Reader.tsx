@@ -25,6 +25,7 @@ import {
     useDefaultReaderSettings,
 } from 'util/readerSettings';
 import makeToast from 'components/util/Toast';
+import { IChapter, IManga, IMangaCard, IPartialChapter, IReaderSettings, ReaderType } from 'typings';
 
 const getReaderComponent = (readerType: ReaderType) => {
     switch (readerType) {
