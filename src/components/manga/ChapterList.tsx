@@ -110,11 +110,11 @@ const ChapterList: React.FC<IProps> = ({ mangaId }) => {
 
     const firstUnreadChapter = useMemo(
         () =>
-            visibleChapters
+            chapters
                 .slice()
                 .reverse()
-                .find((c) => c.read === false),
-        [visibleChapters],
+                .find((chapter) => !chapter.read),
+        [chapters],
     );
 
     const handleSelection = (index: number) => {
