@@ -6,6 +6,7 @@ import { Box } from '@mui/system';
 import Typography from '@mui/material/Typography';
 import client from 'util/client';
 import makeToast from 'components/util/Toast';
+import { IUpdateStatus } from 'typings';
 
 interface IProgressProps {
     progress: number;

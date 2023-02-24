@@ -8,6 +8,7 @@
 
 import { getMetadataFrom, requestUpdateMangaMetadata, requestUpdateServerMetadata } from 'util/metadata';
 import { useQuery } from 'util/client';
+import { IManga, IMetadata, IMetadataHolder, IReaderSettings, MetadataKeyValuePair } from 'typings';
 
 export const getDefaultSettings = (forceUndefined: boolean = false) =>
     ({

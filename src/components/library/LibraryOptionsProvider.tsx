@@ -8,6 +8,7 @@
 import LibraryOptionsContext, { DefaultLibraryOptions } from 'components/context/LibraryOptionsContext';
 import React from 'react';
 import useLocalStorage from 'util/useLocalStorage';
+import { LibraryOptions } from 'typings';
 
 interface IProps {
     children: React.ReactNode;

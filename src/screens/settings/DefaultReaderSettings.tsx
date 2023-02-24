@@ -20,6 +20,7 @@ import {
     useDefaultReaderSettings,
 } from 'util/readerSettings';
 import ReaderSettingsOptions from 'components/reader/ReaderSettingsOptions';
+import { IReaderSettings } from 'typings';
 
 export default function DefaultReaderSettings() {
     const { setTitle, setAction } = useContext(NavbarContext);

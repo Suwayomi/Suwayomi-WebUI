@@ -19,6 +19,7 @@ import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
 import React, { useContext, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from 'util/client';
+import { IManga } from 'typings';
 
 const AUTOFETCH_AGE = 60 * 60 * 24; // 24 hours
 

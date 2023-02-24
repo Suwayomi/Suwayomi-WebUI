@@ -18,6 +18,7 @@ import { useQueryParam, NumberParam } from 'use-query-params';
 import { useQuery } from 'util/client';
 import UpdateChecker from 'components/library/UpdateChecker';
 import { useTranslation } from 'react-i18next';
+import { ICategory, IManga } from 'typings';
 
 export default function Library() {
     const { t } = useTranslation();

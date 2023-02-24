@@ -18,6 +18,7 @@ import { StringParam, useQueryParam } from 'use-query-params';
 import client from 'util/client';
 import { langCodeToName, langSortCmp, sourceDefualtLangs, sourceForcedDefaultLangs } from 'util/language';
 import useLocalStorage from 'util/useLocalStorage';
+import { ISource } from 'typings';
 
 function sourceToLangList(sources: ISource[]) {
     const result: string[] = [];

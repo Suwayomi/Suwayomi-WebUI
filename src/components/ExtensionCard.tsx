@@ -14,6 +14,7 @@ import Typography from '@mui/material/Typography';
 import client from 'util/client';
 import useLocalStorage from 'util/useLocalStorage';
 import { Box } from '@mui/system';
+import { IExtension } from 'typings';
 
 interface IProps {
     extension: IExtension;

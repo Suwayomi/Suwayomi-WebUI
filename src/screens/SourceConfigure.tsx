@@ -15,6 +15,7 @@ import EditTextPreference from 'components/sourceConfiguration/EditTextPreferenc
 import MultiSelectListPreference from 'components/sourceConfiguration/MultiSelectListPreference';
 import List from '@mui/material/List';
 import cloneObject from 'util/cloneObject';
+import { SourcePreferences } from 'typings';
 
 function getPrefComponent(type: string) {
     switch (type) {

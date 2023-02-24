@@ -8,6 +8,18 @@
 
 import { mutate } from 'swr';
 import client from 'util/client';
+import {
+    AllowedMetadataValueTypes,
+    AppMetadataKeys,
+    ICategory,
+    IManga,
+    IMangaCard,
+    IMangaChapter,
+    IMetadata,
+    IMetadataHolder,
+    IMetadataMigration,
+    MetadataKeyValuePair,
+} from 'typings';
 
 const APP_METADATA_KEY_PREFIX = 'webUI_';
 

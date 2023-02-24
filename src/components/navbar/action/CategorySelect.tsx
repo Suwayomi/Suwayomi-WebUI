@@ -15,6 +15,7 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import client, { useQuery } from 'util/client';
+import { ICategory } from 'typings';
 
 interface IProps {
     open: boolean;

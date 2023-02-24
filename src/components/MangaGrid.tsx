@@ -13,6 +13,7 @@ import { Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import MangaCard from 'components/MangaCard';
 import { GridLayout } from 'components/context/LibraryOptionsContext';
+import { IMangaCard } from 'typings';
 
 export interface IMangaGridProps {
     mangas: IMangaCard[];

@@ -10,6 +10,7 @@ import { Fab } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { PlayArrow } from '@mui/icons-material';
 import { BACK } from 'util/useBackTo';
+import { IChapter } from 'typings';
 
 interface ResumeFABProps {
     chapter: IChapter;

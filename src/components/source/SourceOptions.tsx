@@ -21,6 +21,7 @@ import TriStateFilter from 'components/source/filters/TriStateFilter';
 // eslint-disable-next-line import/no-cycle
 import GroupFilter from 'components/source/filters/GroupFilter';
 import SeperatorFilter from 'components/source/filters/SeparatorFilter';
+import { ISourceFilters, IState } from 'typings';
 
 interface IFilters {
     sourceFilter: ISourceFilters[];

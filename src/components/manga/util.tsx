@@ -6,6 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import { useReducerLocalStorage } from 'util/useLocalStorage';
+import { ChapterListOptions, ChapterOptionsReducerAction, ChapterSortMode, IChapter, NullAndUndefined } from 'typings';
 
 const defaultChapterOptions: ChapterListOptions = {
     active: false,
