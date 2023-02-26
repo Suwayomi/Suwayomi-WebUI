@@ -21,19 +21,36 @@ interface IProps {
     notifyInstall: () => void;
 }
 
+enum ExtensionAction {
+    UPDATE = 'UPDATE',
+    UNINSTALL = 'UNINSTALL',
+    INSTALL = 'INSTALL',
+}
+
+enum ExtensionState {
+    OBSOLETE = 'OBSOLETE',
+    UPDATING = 'UPDATING',
+    UNINSTALLING = 'UNINSTALLING',
+    INSTALLING = 'INSTALLING',
+}
+
+type InstalledStates = ExtensionAction | ExtensionState;
+
+const InstalledState = { ...ExtensionAction, ...ExtensionState } as const;
+
 export default function ExtensionCard(props: IProps) {
     const {
         extension: { name, lang, versionName, installed, hasUpdate, obsolete, pkgName, iconUrl, isNsfw },
         notifyInstall,
     } = props;
-    const [installedState, setInstalledState] = useState<string>(() => {
+    const [installedState, setInstalledState] = useState<InstalledStates>(() => {
         if (obsolete) {
-            return 'obsolete';
+            return InstalledState.OBSOLETE;
         }
         if (hasUpdate) {
-            return 'update';
+            return InstalledState.UPDATE;
         }
-        return installed ? 'uninstall' : 'install';
+        return installed ? InstalledState.UNINSTALL : InstalledState.INSTALL;
     });
 
     const [serverAddress] = useLocalStorage<String>('serverBaseURL', '');
@@ -42,23 +59,23 @@ export default function ExtensionCard(props: IProps) {
     const langPress = lang === 'all' ? 'All' : lang.toUpperCase();
 
     function install() {
-        setInstalledState('installing');
+        setInstalledState(InstalledState.INSTALLING);
         client.get(`/api/v1/extension/install/${pkgName}`).then(() => {
-            setInstalledState('uninstall');
+            setInstalledState(InstalledState.UNINSTALL);
             notifyInstall();
         });
     }
 
     function update() {
-        setInstalledState('updating');
+        setInstalledState(InstalledState.UPDATING);
         client.get(`/api/v1/extension/update/${pkgName}`).then(() => {
-            setInstalledState('uninstall');
+            setInstalledState(InstalledState.UNINSTALL);
             notifyInstall();
         });
     }
 
     function uninstall() {
-        setInstalledState('uninstalling');
+        setInstalledState(InstalledState.UNINSTALLING);
         client.get(`/api/v1/extension/uninstall/${pkgName}`).then(() => {
             // setInstalledState('install');
             notifyInstall();
@@ -67,17 +84,17 @@ export default function ExtensionCard(props: IProps) {
 
     function handleButtonClick() {
         switch (installedState) {
-            case 'install':
+            case InstalledState.INSTALL:
                 install();
                 break;
-            case 'update':
+            case InstalledState.UPDATE:
                 update();
                 break;
-            case 'obsolete':
+            case InstalledState.OBSOLETE:
                 uninstall();
                 setTimeout(() => window.location.reload(), 3000);
                 break;
-            case 'uninstall':
+            case InstalledState.UNINSTALL:
                 uninstall();
                 break;
             default:
@@ -124,7 +141,7 @@ export default function ExtensionCard(props: IProps) {
 
                 <Button
                     variant="outlined"
-                    sx={{ color: installedState === 'obsolete' ? 'red' : 'inherit' }}
+                    sx={{ color: installedState === InstalledState.OBSOLETE ? 'red' : 'inherit' }}
                     onClick={() => handleButtonClick()}
                 >
                     {installedState}
