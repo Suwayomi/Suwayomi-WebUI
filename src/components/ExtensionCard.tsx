@@ -38,6 +38,18 @@ type InstalledStates = ExtensionAction | ExtensionState;
 
 const InstalledState = { ...ExtensionAction, ...ExtensionState } as const;
 
+const EXTENSION_ACTION_TO_STATE_MAP: { [action in ExtensionAction]: ExtensionState } = {
+    [ExtensionAction.UPDATE]: ExtensionState.UPDATING,
+    [ExtensionAction.UNINSTALL]: ExtensionState.UNINSTALLING,
+    [ExtensionAction.INSTALL]: ExtensionState.INSTALLING,
+} as const;
+
+const EXTENSION_ACTION_TO_NEXT_ACTION_MAP: { [action in ExtensionAction]: ExtensionAction } = {
+    [ExtensionAction.UPDATE]: ExtensionAction.UNINSTALL,
+    [ExtensionAction.UNINSTALL]: ExtensionAction.INSTALL,
+    [ExtensionAction.INSTALL]: ExtensionAction.UNINSTALL,
+} as const;
+
 export default function ExtensionCard(props: IProps) {
     const {
         extension: { name, lang, versionName, installed, hasUpdate, obsolete, pkgName, iconUrl, isNsfw },
@@ -58,44 +70,25 @@ export default function ExtensionCard(props: IProps) {
 
     const langPress = lang === 'all' ? 'All' : lang.toUpperCase();
 
-    function install() {
-        setInstalledState(InstalledState.INSTALLING);
-        client.get(`/api/v1/extension/install/${pkgName}`).then(() => {
-            setInstalledState(InstalledState.UNINSTALL);
-            notifyInstall();
-        });
-    }
+    const requestExtensionAction = async (action: ExtensionAction): Promise<void> => {
+        const nextAction = EXTENSION_ACTION_TO_NEXT_ACTION_MAP[action];
+        const state = EXTENSION_ACTION_TO_STATE_MAP[action];
 
-    function update() {
-        setInstalledState(InstalledState.UPDATING);
-        client.get(`/api/v1/extension/update/${pkgName}`).then(() => {
-            setInstalledState(InstalledState.UNINSTALL);
-            notifyInstall();
-        });
-    }
-
-    function uninstall() {
-        setInstalledState(InstalledState.UNINSTALLING);
-        client.get(`/api/v1/extension/uninstall/${pkgName}`).then(() => {
-            // setInstalledState('install');
-            notifyInstall();
-        });
-    }
+        setInstalledState(state);
+        await client.get(`/api/v1/extension/${action.toLowerCase()}/${pkgName}`);
+        setInstalledState(nextAction);
+        notifyInstall();
+    };
 
     function handleButtonClick() {
         switch (installedState) {
-            case InstalledState.INSTALL:
-                install();
+            case ExtensionAction.INSTALL:
+            case ExtensionAction.UPDATE:
+            case ExtensionAction.UNINSTALL:
+                requestExtensionAction(installedState).catch(() => {});
                 break;
-            case InstalledState.UPDATE:
-                update();
-                break;
-            case InstalledState.OBSOLETE:
-                uninstall();
-                setTimeout(() => window.location.reload(), 3000);
-                break;
-            case InstalledState.UNINSTALL:
-                uninstall();
+            case ExtensionState.OBSOLETE:
+                requestExtensionAction(ExtensionAction.UNINSTALL).catch(() => {});
                 break;
             default:
                 break;
