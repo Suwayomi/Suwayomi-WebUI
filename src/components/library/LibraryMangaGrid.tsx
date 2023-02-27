@@ -49,16 +49,16 @@ const queryGenreFilter = (query: NullAndUndefined<string>, { genre }: IMangaCard
 };
 
 const filterManga = (
-    manga: IMangaCard[],
+    mangas: IMangaCard[],
     query: NullAndUndefined<string>,
     unread: NullAndUndefined<boolean>,
     downloaded: NullAndUndefined<boolean>,
 ): IMangaCard[] =>
-    manga.filter(
-        (m) =>
-            (queryFilter(query, m) || queryGenreFilter(query, m)) &&
-            downloadedFilter(downloaded, m) &&
-            unreadFilter(unread, m),
+    mangas.filter(
+        (manga) =>
+            (queryFilter(query, manga) || queryGenreFilter(query, manga)) &&
+            downloadedFilter(downloaded, manga) &&
+            unreadFilter(unread, manga),
     );
 
 const sortByUnread = (a: IMangaCard, b: IMangaCard): number =>
