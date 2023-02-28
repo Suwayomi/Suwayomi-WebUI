@@ -29,13 +29,36 @@ const EXTENSIONS = 1;
 
 const allLangs: string[] = [];
 
-interface GroupedExtension {
-    [key: string]: IExtension[];
+enum ExtensionState {
+    INSTALLED = 'INSTALLED',
+    UPDATE_PENDING = 'UPDATE PENDING',
 }
 
-function groupExtensions(extensions: IExtension[]) {
+enum ExtensionLanguage {
+    ALL = 'all',
+}
+
+type GroupedExtensionsResult<KEY extends string = string> = [KEY, IExtension[]][];
+
+type GroupedByExtensionState = {
+    [state in ExtensionState]: IExtension[];
+};
+
+type GroupedByLanguage = {
+    [language in ExtensionLanguage]: IExtension[];
+} & {
+    [language: string]: IExtension[];
+};
+
+type GroupedExtensions = GroupedByExtensionState & GroupedByLanguage;
+
+function groupExtensions(extensions: IExtension[]): GroupedExtensionsResult {
     allLangs.length = 0; // empty the array
-    const sortedExtenions: GroupedExtension = { installed: [], 'updates pending': [], all: [] };
+    const sortedExtenions: GroupedExtensions = {
+        [ExtensionState.INSTALLED]: [],
+        [ExtensionState.UPDATE_PENDING]: [],
+        [ExtensionLanguage.ALL]: [],
+    };
     extensions.forEach((extension) => {
         if (sortedExtenions[extension.lang] === undefined) {
             sortedExtenions[extension.lang] = [];
@@ -45,9 +68,9 @@ function groupExtensions(extensions: IExtension[]) {
         }
         if (extension.installed) {
             if (extension.hasUpdate) {
-                sortedExtenions['updates pending'].push(extension);
+                sortedExtenions[ExtensionState.UPDATE_PENDING].push(extension);
             } else {
-                sortedExtenions.installed.push(extension);
+                sortedExtenions[ExtensionState.INSTALLED].push(extension);
             }
         } else {
             sortedExtenions[extension.lang].push(extension);
@@ -55,15 +78,15 @@ function groupExtensions(extensions: IExtension[]) {
     });
 
     allLangs.sort(langSortCmp);
-    const result: [string, IExtension[]][] = [
-        ['updates pending', sortedExtenions['updates pending']],
-        ['installed', sortedExtenions.installed],
-        ['all', sortedExtenions.all],
+    const result: GroupedExtensionsResult<ExtensionState | ExtensionLanguage | string> = [
+        [ExtensionState.UPDATE_PENDING, sortedExtenions[ExtensionState.UPDATE_PENDING]],
+        [ExtensionState.INSTALLED, sortedExtenions[ExtensionState.INSTALLED]],
+        [ExtensionLanguage.ALL, sortedExtenions[ExtensionLanguage.ALL]],
     ];
 
-    const langExt: [string, IExtension[]][] = allLangs.map((lang) => [lang, sortedExtenions[lang]]);
+    const langExt: GroupedExtensionsResult = allLangs.map((lang) => [lang, sortedExtenions[lang]]);
 
-    return result.concat(langExt);
+    return (result as GroupedExtensionsResult).concat(langExt);
 }
 
 export default function MangaExtensions() {
@@ -106,7 +129,14 @@ export default function MangaExtensions() {
         () =>
             groupExtensions(filteredExtensions)
                 .filter((group) => group[EXTENSIONS].length > 0)
-                .filter((group) => ['installed', 'updates pending', 'all', ...shownLangs].includes(group[LANGUAGE])),
+                .filter((group) =>
+                    [
+                        ExtensionState.INSTALLED,
+                        ExtensionState.UPDATE_PENDING,
+                        ExtensionLanguage.ALL,
+                        ...shownLangs,
+                    ].includes(group[LANGUAGE]),
+                ),
         [shownLangs, filteredExtensions],
     );
 
