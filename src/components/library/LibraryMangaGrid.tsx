@@ -49,29 +49,17 @@ const queryGenreFilter = (query: NullAndUndefined<string>, { genre }: IMangaCard
 };
 
 const filterManga = (
-    manga: IMangaCard[],
+    mangas: IMangaCard[],
     query: NullAndUndefined<string>,
     unread: NullAndUndefined<boolean>,
     downloaded: NullAndUndefined<boolean>,
-): IMangaCard[] => {
-    let filteredManga: IMangaCard[] = [];
-    if (query) {
-        const titleFilteredManga = manga.filter((m) => queryFilter(query, m));
-        const genreFilteredManga = manga.filter((m) => queryGenreFilter(query, m));
-        const unique = titleFilteredManga.concat(genreFilteredManga).reduce((acc: Record<number, IMangaCard>, obj) => {
-            const { id } = obj;
-            if (!acc[id]) {
-                acc[id] = obj;
-            }
-            return acc;
-        }, {});
-        filteredManga = Object.values(unique);
-    }
-    filteredManga = (filteredManga.length ? filteredManga : manga).filter(
-        (m) => downloadedFilter(downloaded, m) && unreadFilter(unread, m),
+): IMangaCard[] =>
+    mangas.filter(
+        (manga) =>
+            (queryFilter(query, manga) || queryGenreFilter(query, manga)) &&
+            downloadedFilter(downloaded, manga) &&
+            unreadFilter(unread, manga),
     );
-    return filteredManga;
-};
 
 const sortByUnread = (a: IMangaCard, b: IMangaCard): number =>
     // eslint-disable-next-line implicit-arrow-linebreak
