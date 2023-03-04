@@ -35,6 +35,7 @@ import NavbarContext from 'components/context/NavbarContext';
 import DarkTheme from 'components/context/DarkTheme';
 import useLocalStorage from 'util/useLocalStorage';
 import ListItemLink from 'components/util/ListItemLink';
+import SearchSettings from 'screens/settings/SearchSettings';
 
 export default function Settings() {
     const { setTitle, setAction } = useContext(NavbarContext);
@@ -121,6 +122,7 @@ export default function Settings() {
                         <Switch edge="end" checked={darkTheme} onChange={() => setDarkTheme(!darkTheme)} />
                     </ListItemSecondaryAction>
                 </ListItem>
+                <SearchSettings />
                 <ListItemButton>
                     <ListItemIcon>
                         <ViewModuleIcon />

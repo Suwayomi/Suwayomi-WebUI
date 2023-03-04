@@ -83,7 +83,9 @@ export type AllowedMetadataValueTypes = string | boolean | number | undefined;
 
 export type MangaMetadataKeys = keyof IReaderSettings;
 
-export type AppMetadataKeys = MangaMetadataKeys;
+export type SearchMetadataKeys = keyof ISearchSettings;
+
+export type AppMetadataKeys = MangaMetadataKeys | SearchMetadataKeys;
 
 export type MetadataKeyValuePair = [AppMetadataKeys, AllowedMetadataValueTypes];
 
@@ -188,6 +190,10 @@ export interface IReaderSettings {
     showPageNumber: boolean;
     loadNextOnEnding: boolean;
     readerType: ReaderType;
+}
+
+export interface ISearchSettings {
+    ignoreFilters: boolean;
 }
 
 export interface IReaderPage {
