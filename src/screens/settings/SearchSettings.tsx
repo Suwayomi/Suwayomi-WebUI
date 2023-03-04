@@ -1,12 +1,12 @@
 import { ListItem, ListItemText, Switch } from '@mui/material';
 import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import React from 'react';
-import { ISearchSettings } from '../../typings';
 import { useSearchSettings } from 'util/searchSettings';
 import { requestUpdateServerMetadata } from 'util/metadata';
 import makeToast from 'components/util/Toast';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import SearchIcon from '@mui/icons-material/Search';
+import { ISearchSettings } from 'typings';
 
 export default function SearchSettings() {
     const { metadata, settings } = useSearchSettings();
