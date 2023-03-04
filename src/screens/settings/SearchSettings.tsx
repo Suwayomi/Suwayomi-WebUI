@@ -6,12 +6,12 @@ import { requestUpdateServerMetadata } from 'util/metadata';
 import makeToast from 'components/util/Toast';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import SearchIcon from '@mui/icons-material/Search';
-import { ISearchSettings } from 'typings';
+import { SearchMetadataKeys } from 'typings';
 
 export default function SearchSettings() {
     const { metadata, settings } = useSearchSettings();
 
-    const setSettingValue = (key: keyof ISearchSettings, value: boolean) => {
+    const setSettingValue = (key: SearchMetadataKeys, value: boolean) => {
         requestUpdateServerMetadata(metadata ?? {}, [[key, value]]).catch(() =>
             makeToast('Failed to save the default search settings to the server', 'warning'),
         );

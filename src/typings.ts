@@ -81,9 +81,11 @@ export interface IMetadataHolder<VALUES extends AllowedMetadataValueTypes = stri
 
 export type AllowedMetadataValueTypes = string | boolean | number | undefined;
 
-export type MangaMetadataKeys = IReaderSettings;
+export type MangaMetadataKeys = keyof IReaderSettings;
 
-export type AppMetadataKeys = MangaMetadataKeys & ISearchSettings;
+export type SearchMetadataKeys = keyof ISearchSettings;
+
+export type AppMetadataKeys = MangaMetadataKeys | SearchMetadataKeys;
 
 export type MetadataKeyValuePair = [AppMetadataKeys, AllowedMetadataValueTypes];
 
