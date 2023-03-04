@@ -24,7 +24,7 @@ const TITLES = {
 const SORT_OPTIONS: [LibrarySortMode, string][] = [
     ['sortToRead', 'By Unread chapters'],
     ['sortAlph', 'Alphabetically'],
-    ['sortID', 'By ID'],
+    ['sortDateAdded', 'Date Added'],
 ];
 
 interface IProps {

@@ -68,7 +68,7 @@ const sortByUnread = (a: IMangaCard, b: IMangaCard): number =>
 
 const sortByTitle = (a: IMangaCard, b: IMangaCard): number => a.title.localeCompare(b.title);
 
-const sortById = (a: IMangaCard, b: IMangaCard): number => a.id - b.id;
+const sortByDateAdded = (a: IMangaCard, b: IMangaCard): number => a.inLibraryAt - b.inLibraryAt;
 
 const sortManga = (
     manga: IMangaCard[],
@@ -81,8 +81,8 @@ const sortManga = (
         case 'sortAlph':
             result.sort(sortByTitle);
             break;
-        case 'sortID':
-            result.sort(sortById);
+        case 'sortDateAdded':
+            result.sort(sortByDateAdded);
             break;
         case 'sortToRead':
             result.sort(sortByUnread);
