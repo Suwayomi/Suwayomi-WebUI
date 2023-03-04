@@ -1,6 +1,7 @@
 import { ListItem, ListItemText, Switch } from '@mui/material';
 import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import React from 'react';
+import { ISearchSettings } from '../../typings';
 import { useSearchSettings } from 'util/searchSettings';
 import { requestUpdateServerMetadata } from 'util/metadata';
 import makeToast from 'components/util/Toast';
@@ -12,7 +13,7 @@ export default function SearchSettings() {
 
     const setSettingValue = (key: keyof ISearchSettings, value: boolean) => {
         requestUpdateServerMetadata(metadata ?? {}, [[key, value]]).catch(() =>
-            makeToast('Failed to save the default reader settings to the server', 'warning'),
+            makeToast('Failed to save the default search settings to the server', 'warning'),
         );
     };
     return (
@@ -20,7 +21,7 @@ export default function SearchSettings() {
             <ListItemIcon>
                 <SearchIcon />
             </ListItemIcon>
-            <ListItemText primary="Override Filters when Searching" />
+            <ListItemText primary="Ignore Filters when Searching" />
             <ListItemSecondaryAction>
                 <Switch
                     edge="end"

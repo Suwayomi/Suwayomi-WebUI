@@ -1,12 +1,13 @@
 import { useQuery } from 'util/client';
 import { getMetadataFrom } from 'util/metadata';
+import { IMetadata, ISearchSettings, MetadataKeyValuePair } from 'typings';
 
 export const getDefaultSettings = () =>
     ({
         overrideFilters: false,
     } as ISearchSettings);
 
-const getReaderSettingsWithDefaultValueFallback = (
+const getSearchSettingsWithDefaultValueFallback = (
     meta?: IMetadata,
     defaultSettings?: ISearchSettings,
     applyMetadataMigration: boolean = true,
@@ -24,7 +25,7 @@ export const useSearchSettings = (): {
     loading: boolean;
 } => {
     const { data: meta, loading } = useQuery<IMetadata>('/api/v1/meta');
-    const settings = getReaderSettingsWithDefaultValueFallback(meta);
+    const settings = getSearchSettingsWithDefaultValueFallback(meta);
 
     return { metadata: meta, settings, loading };
 };
