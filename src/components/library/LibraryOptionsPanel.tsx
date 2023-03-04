@@ -25,6 +25,7 @@ const SORT_OPTIONS: [LibrarySortMode, string][] = [
     ['sortToRead', 'By Unread chapters'],
     ['sortAlph', 'Alphabetically'],
     ['sortDateAdded', 'Date Added'],
+    ['sortLastRead', 'Last Read'],
 ];
 
 interface IProps {
