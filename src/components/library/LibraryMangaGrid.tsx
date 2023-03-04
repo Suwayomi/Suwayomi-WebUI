@@ -54,12 +54,12 @@ const filterManga = (
     query: NullAndUndefined<string>,
     unread: NullAndUndefined<boolean>,
     downloaded: NullAndUndefined<boolean>,
-    overrideFilters: boolean,
+    ignoreFilters: boolean,
 ): IMangaCard[] =>
     mangas.filter(
         (manga) =>
             (queryFilter(query, manga) || queryGenreFilter(query, manga)) &&
-            (overrideFilters || (downloadedFilter(downloaded, manga) && unreadFilter(unread, manga))),
+            (ignoreFilters || (downloadedFilter(downloaded, manga) && unreadFilter(unread, manga))),
     );
 
 const sortByUnread = (a: IMangaCard, b: IMangaCard): number =>
@@ -124,10 +124,10 @@ const LibraryMangaGrid: React.FC<LibraryMangaGridProps & { lastLibraryUpdate: nu
     const { settings } = useSearchSettings();
 
     useEffect(() => {
-        setFilteredManga(filterManga(mangas, query, unread, downloaded, settings.overrideFilters));
+        setFilteredManga(filterManga(mangas, query, unread, downloaded, settings.ignoreFilters));
         setLastPageNum(defaultPageNumber);
         window.scrollTo(0, 0);
-    }, [mangas, query, unread, downloaded, settings.overrideFilters]);
+    }, [mangas, query, unread, downloaded, settings.ignoreFilters]);
 
     useEffect(() => {
         setSortedManga(sortManga(filteredManga, options.sorts, options.sortDesc));

@@ -81,9 +81,9 @@ export interface IMetadataHolder<VALUES extends AllowedMetadataValueTypes = stri
 
 export type AllowedMetadataValueTypes = string | boolean | number | undefined;
 
-export type MangaMetadataKeys = keyof (IReaderSettings & ISearchSettings);
+export type MangaMetadataKeys = IReaderSettings;
 
-export type AppMetadataKeys = MangaMetadataKeys;
+export type AppMetadataKeys = MangaMetadataKeys & ISearchSettings;
 
 export type MetadataKeyValuePair = [AppMetadataKeys, AllowedMetadataValueTypes];
 
@@ -191,7 +191,7 @@ export interface IReaderSettings {
 }
 
 export interface ISearchSettings {
-    overrideFilters: boolean;
+    ignoreFilters: boolean;
 }
 
 export interface IReaderPage {

@@ -4,7 +4,7 @@ import { IMetadata, ISearchSettings, MetadataKeyValuePair } from 'typings';
 
 export const getDefaultSettings = () =>
     ({
-        overrideFilters: false,
+        ignoreFilters: false,
     } as ISearchSettings);
 
 const getSearchSettingsWithDefaultValueFallback = (

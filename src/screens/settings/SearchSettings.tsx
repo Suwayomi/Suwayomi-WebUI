@@ -25,8 +25,8 @@ export default function SearchSettings() {
             <ListItemSecondaryAction>
                 <Switch
                     edge="end"
-                    checked={settings.overrideFilters}
-                    onChange={(e) => setSettingValue('overrideFilters', e.target.checked)}
+                    checked={settings.ignoreFilters}
+                    onChange={(e) => setSettingValue('ignoreFilters', e.target.checked)}
                 />
             </ListItemSecondaryAction>
         </ListItem>
