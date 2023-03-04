@@ -6,6 +6,7 @@ import ListItemLink from 'components/util/ListItemLink';
 import NavbarContext from 'components/context/NavbarContext';
 import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
 import { useQuery } from 'util/client';
+import { IAbout } from 'typings';
 
 export default function About() {
     const { setTitle, setAction } = useContext(NavbarContext);

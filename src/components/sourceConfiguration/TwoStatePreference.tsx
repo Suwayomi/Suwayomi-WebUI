@@ -11,6 +11,7 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import Switch from '@mui/material/Switch';
 import Checkbox from '@mui/material/Checkbox';
+import { CheckBoxPreferenceProps, SwitchPreferenceCompatProps, TwoStatePreferenceProps } from 'typings';
 
 function getTwoStateType(type: 'Checkbox' | 'Switch') {
     if (type === 'Switch') {

@@ -10,6 +10,7 @@ import ReactDOM from 'react-dom';
 import { Box } from '@mui/system';
 import Page from 'components/reader/Page';
 import DoublePage from 'components/reader/DoublePage';
+import { IReaderProps } from 'typings';
 
 const isSpreadPage = (image: HTMLImageElement): boolean => {
     const aspectRatio = image.height / image.width;

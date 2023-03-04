@@ -16,6 +16,7 @@ import React from 'react';
 import { mutate } from 'swr';
 import client from 'util/client';
 import useLocalStorage from 'util/useLocalStorage';
+import { IManga, ISource } from 'typings';
 
 const useStyles = (inLibrary: boolean) =>
     makeStyles((theme: Theme) => ({

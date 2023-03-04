@@ -9,6 +9,7 @@ import React, { useRef } from 'react';
 import SpinnerImage from 'components/util/SpinnerImage';
 import useLocalStorage from 'util/useLocalStorage';
 import Box from '@mui/system/Box';
+import { IReaderSettings } from 'typings';
 
 function imageStyle(settings: IReaderSettings): any {
     const [dimensions, setDimensions] = React.useState({

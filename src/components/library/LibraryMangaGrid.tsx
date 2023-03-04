@@ -11,6 +11,7 @@ import MangaGrid from 'components/MangaGrid';
 import { useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
 import { StringParam, useQueryParam } from 'use-query-params';
 import { useMediaQuery, useTheme } from '@mui/material';
+import { IMangaCard, LibrarySortMode, NullAndUndefined } from 'typings';
 import { useSearchSettings } from 'util/searchSettings';
 
 const FILTERED_OUT_MESSAGE = 'There are no Manga matching this filter';
@@ -42,22 +43,24 @@ const queryFilter = (query: NullAndUndefined<string>, { title }: IMangaCard): bo
     return title.toLowerCase().includes(query.toLowerCase());
 };
 
+const queryGenreFilter = (query: NullAndUndefined<string>, { genre }: IMangaCard): boolean => {
+    if (!query) return true;
+    const queries = query.split(',').map((str) => str.toLowerCase().trim());
+    return queries.every((element) => genre.map((el) => el.toLowerCase()).includes(element));
+};
+
 const filterManga = (
-    manga: IMangaCard[],
+    mangas: IMangaCard[],
     query: NullAndUndefined<string>,
     unread: NullAndUndefined<boolean>,
     downloaded: NullAndUndefined<boolean>,
     overrideFilters: boolean,
 ): IMangaCard[] =>
-    manga.filter((m) => {
-        const isFiltered = downloadedFilter(downloaded, m) && unreadFilter(unread, m);
-        if (query) {
-            const isQueried = queryFilter(query, m);
-            if (overrideFilters) return isQueried;
-            return isFiltered && isQueried;
-        }
-        return isFiltered;
-    });
+    mangas.filter(
+        (manga) =>
+            (queryFilter(query, manga) || queryGenreFilter(query, manga)) &&
+            (overrideFilters || (downloadedFilter(downloaded, manga) && unreadFilter(unread, manga))),
+    );
 
 const sortByUnread = (a: IMangaCard, b: IMangaCard): number =>
     // eslint-disable-next-line implicit-arrow-linebreak

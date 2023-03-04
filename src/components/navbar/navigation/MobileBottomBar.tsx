@@ -10,6 +10,7 @@ import { ListItem } from '@mui/material';
 import { styled, Box } from '@mui/system';
 import { Link as RRDLink, useLocation } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
+import { NavbarItem } from 'typings';
 
 const BottomNavContainer = styled('div')(({ theme }) => ({
     bottom: 0,

@@ -25,6 +25,7 @@ import Collapse from '@mui/material/Collapse';
 import { styled } from '@mui/system';
 import useBackTo from 'util/useBackTo';
 import ReaderSettingsOptions from 'components/reader/ReaderSettingsOptions';
+import { IChapter, IManga, IMangaCard, IReaderSettings } from 'typings';
 
 const Root = styled('div')(({ theme }) => ({
     top: 0,

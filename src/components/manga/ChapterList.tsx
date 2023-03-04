@@ -20,6 +20,7 @@ import { Virtuoso } from 'react-virtuoso';
 import client, { useQuery } from 'util/client';
 import ChaptersToolbarMenu from 'components/manga/ChaptersToolbarMenu';
 import SelectionFAB from 'components/manga/SelectionFAB';
+import { BatchChaptersChange, IChapter, IDownloadChapter, IQueue } from 'typings';
 
 const StyledVirtuoso = styled(Virtuoso)(({ theme }) => ({
     listStyle: 'none',
@@ -109,11 +110,11 @@ const ChapterList: React.FC<IProps> = ({ mangaId }) => {
 
     const firstUnreadChapter = useMemo(
         () =>
-            visibleChapters
+            chapters
                 .slice()
                 .reverse()
-                .find((c) => c.read === false),
-        [visibleChapters],
+                .find((chapter) => !chapter.read),
+        [chapters],
     );
 
     const handleSelection = (index: number) => {

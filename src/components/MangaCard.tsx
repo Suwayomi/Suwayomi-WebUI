@@ -16,6 +16,7 @@ import SpinnerImage from 'components/util/SpinnerImage';
 import { Box, styled } from '@mui/system';
 import { GridLayout, useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
 import { BACK } from 'util/useBackTo';
+import { IMangaCard } from 'typings';
 
 const BottomGradient = styled('div')({
     position: 'absolute',

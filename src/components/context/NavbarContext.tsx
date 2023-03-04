@@ -6,6 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import React, { useContext, useEffect } from 'react';
+import { INavbarOverride } from 'typings';
 
 type ContextType = {
     // Default back button url

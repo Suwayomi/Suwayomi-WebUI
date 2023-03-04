@@ -11,6 +11,7 @@ import { Box } from '@mui/system';
 import React from 'react';
 // eslint-disable-next-line import/no-cycle
 import { Options } from 'components/source/SourceOptions';
+import { ISourceFilters } from 'typings';
 
 interface Props {
     state: ISourceFilters[];

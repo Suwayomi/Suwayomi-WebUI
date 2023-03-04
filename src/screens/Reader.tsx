@@ -25,6 +25,7 @@ import {
     useDefaultReaderSettings,
 } from 'util/readerSettings';
 import makeToast from 'components/util/Toast';
+import { IChapter, IManga, IMangaCard, IPartialChapter, IReaderSettings, ReaderType } from 'typings';
 
 const getReaderComponent = (readerType: ReaderType) => {
     switch (readerType) {
@@ -70,6 +71,7 @@ export default function Reader() {
         id: +mangaId,
         title: '',
         thumbnailUrl: '',
+        genre: [],
     });
     const [chapter, setChapter] = useState<IChapter | IPartialChapter>(initialChapter());
     const [curPage, setCurPage] = useState<number>(0);

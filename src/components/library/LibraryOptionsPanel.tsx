@@ -13,6 +13,7 @@ import ThreeStateCheckboxInput from 'components/atoms/ThreeStateCheckboxInput';
 import { GridLayout, useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
 import OptionsTabs from 'components/molecules/OptionsTabs';
 import React from 'react';
+import { LibraryOptions, LibrarySortMode } from 'typings';
 
 const TITLES = {
     filter: 'Filter',

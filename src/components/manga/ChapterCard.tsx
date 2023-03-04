@@ -29,6 +29,7 @@ import { Link } from 'react-router-dom';
 import client from 'util/client';
 import { BACK } from 'util/useBackTo';
 import { getUploadDateString } from 'util/date';
+import { IChapter, IDownloadChapter } from 'typings';
 
 interface IProps {
     chapter: IChapter;

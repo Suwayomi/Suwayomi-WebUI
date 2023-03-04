@@ -21,6 +21,7 @@ import AppbarSearch from 'components/util/AppbarSearch';
 import { useQueryParam, StringParam } from 'use-query-params';
 import { Virtuoso } from 'react-virtuoso';
 import { Typography, useMediaQuery, useTheme } from '@mui/material';
+import { IExtension } from 'typings';
 
 const LANGUAGE = 0;
 const EXTENSIONS = 1;

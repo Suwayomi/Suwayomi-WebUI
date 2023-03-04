@@ -16,6 +16,7 @@ import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { langCodeToName } from 'util/language';
 import useLocalStorage from 'util/useLocalStorage';
+import { ISource } from 'typings';
 
 const MobileWidthButtons = styled('div')(({ theme }) => ({
     display: 'flex',

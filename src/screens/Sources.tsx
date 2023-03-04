@@ -16,6 +16,7 @@ import { IconButton } from '@mui/material';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import { useHistory } from 'react-router-dom';
 import { useQuery } from 'util/client';
+import { ISource } from 'typings';
 
 function sourceToLangList(sources: ISource[]) {
     const result: string[] = [];

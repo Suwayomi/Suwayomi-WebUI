@@ -8,6 +8,7 @@
 
 import React from 'react';
 import MangaGrid, { IMangaGridProps } from 'components/MangaGrid';
+import { IMangaCard } from 'typings';
 
 const FILTERED_OUT_MESSAGE = 'There are no Manga matching this filter';
 

@@ -21,6 +21,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import client from 'util/client';
 import useLocalStorage from 'util/useLocalStorage';
+import { IChapter, IMangaChapter, IQueue, PaginatedList } from 'typings';
 
 function epochToDate(epoch: number) {
     const date = new Date(0); // The 0 there is the key, which sets the date to the epoch

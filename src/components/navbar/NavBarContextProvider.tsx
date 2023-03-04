@@ -7,6 +7,7 @@
 
 import React, { useState } from 'react';
 import NavBarContext from 'components/context/NavbarContext';
+import { INavbarOverride } from 'typings';
 
 interface IProps {
     children: React.ReactNode;
