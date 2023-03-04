@@ -72,6 +72,7 @@ export default function Reader() {
         title: '',
         thumbnailUrl: '',
         genre: [],
+        inLibraryAt: 0,
     });
     const [chapter, setChapter] = useState<IChapter | IPartialChapter>(initialChapter());
     const [curPage, setCurPage] = useState<number>(0);

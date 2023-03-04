@@ -96,6 +96,7 @@ export interface IMangaCard {
     downloadCount?: number;
     inLibrary?: boolean;
     meta?: IMetadata;
+    inLibraryAt: number;
 }
 
 export interface IManga {
@@ -124,6 +125,14 @@ export interface IManga {
 
     age: number;
     chaptersAge: number;
+    chaptersLastFetchedAt: number;
+    inLibraryAt: number;
+    initialized: boolean;
+    lastChapterRead: NullAndUndefined<IChapter>;
+    lastFetchedAt: number;
+    lastReadAt: number;
+    thumbnailUrlLastFetched: number;
+    updateStrategy: string;
 }
 
 export interface IChapter {
@@ -316,7 +325,7 @@ export type ChapterOptionsReducerAction =
     | { type: 'sortReverse' }
     | { type: 'showChapterNumber' };
 
-export type LibrarySortMode = 'sortToRead' | 'sortAlph' | 'sortID';
+export type LibrarySortMode = 'sortToRead' | 'sortAlph' | 'sortDateAdded';
 
 enum GridLayout {
     Compact = 0,
