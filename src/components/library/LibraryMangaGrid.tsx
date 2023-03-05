@@ -70,6 +70,8 @@ const sortByTitle = (a: IMangaCard, b: IMangaCard): number => a.title.localeComp
 
 const sortByDateAdded = (a: IMangaCard, b: IMangaCard): number => a.inLibraryAt - b.inLibraryAt;
 
+const sortByLastRead = (a: IMangaCard, b: IMangaCard): number => b.lastReadAt - a.lastReadAt;
+
 const sortManga = (
     manga: IMangaCard[],
     sort: NullAndUndefined<LibrarySortMode>,
@@ -86,6 +88,9 @@ const sortManga = (
             break;
         case 'sortToRead':
             result.sort(sortByUnread);
+            break;
+        case 'sortLastRead':
+            result.sort(sortByLastRead);
             break;
         default:
             break;

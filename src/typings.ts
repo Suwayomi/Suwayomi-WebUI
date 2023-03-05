@@ -99,6 +99,7 @@ export interface IMangaCard {
     inLibrary?: boolean;
     meta?: IMetadata;
     inLibraryAt: number;
+    lastReadAt: number;
 }
 
 export interface IManga {
@@ -331,7 +332,7 @@ export type ChapterOptionsReducerAction =
     | { type: 'sortReverse' }
     | { type: 'showChapterNumber' };
 
-export type LibrarySortMode = 'sortToRead' | 'sortAlph' | 'sortDateAdded';
+export type LibrarySortMode = 'sortToRead' | 'sortAlph' | 'sortDateAdded' | 'sortLastRead';
 
 enum GridLayout {
     Compact = 0,
