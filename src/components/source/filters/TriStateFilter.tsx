@@ -47,7 +47,7 @@ const TriStateFilter: React.FC<Props> = (props) => {
             />
         );
     }
-    return <></>;
+    return null;
 };
 
 export default TriStateFilter;

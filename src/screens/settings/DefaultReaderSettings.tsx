@@ -26,7 +26,7 @@ export default function DefaultReaderSettings() {
     const { setTitle, setAction } = useContext(NavbarContext);
     useEffect(() => {
         setTitle('Default Reader Settings');
-        setAction(<></>);
+        setAction(null);
     }, []);
 
     const { metadata, settings, loading } = useDefaultReaderSettings();

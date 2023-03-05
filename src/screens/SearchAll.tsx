@@ -54,11 +54,7 @@ const SearchAll: React.FC = () => {
 
     useEffect(() => {
         setTitle('Global Search');
-        setAction(
-            <>
-                <AppbarSearch />
-            </>,
-        );
+        setAction(<AppbarSearch />);
     }, []);
 
     useEffect(() => {
@@ -222,7 +218,8 @@ const SearchAll: React.FC = () => {
             </>
         );
     }
-    return <></>;
+
+    return null;
 };
 
 export default SearchAll;

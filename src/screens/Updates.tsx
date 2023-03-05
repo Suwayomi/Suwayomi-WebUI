@@ -99,7 +99,7 @@ const Updates: React.FC = () => {
     useEffect(() => {
         setTitle('Updates');
 
-        setAction(<></>);
+        setAction(null);
     }, []);
 
     useEffect(() => {
