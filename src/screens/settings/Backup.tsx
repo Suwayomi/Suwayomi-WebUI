@@ -19,7 +19,7 @@ export default function Backup() {
     const { setTitle, setAction } = useContext(NavbarContext);
     useEffect(() => {
         setTitle('Backup');
-        setAction(<></>);
+        setAction(null);
     }, []);
 
     const { baseURL } = client.defaults;

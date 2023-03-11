@@ -101,7 +101,7 @@ export default function DefaultNavBar() {
     // Allow default navbar to be overrided
     if (override.status) return override.value;
 
-    let navbar = <></>;
+    let navbar: JSX.Element | null = null;
     if (isMobileWidth) {
         if (isMainRoute) {
             navbar = <MobileBottomBar navBarItems={navbarItems.filter((it) => it.show !== 'desktop')} />;

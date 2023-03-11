@@ -56,7 +56,7 @@ const TextFilter: React.FC<Props> = (props) => {
             </FormControl>
         );
     }
-    return <></>;
+    return null;
 };
 
 export default TextFilter;

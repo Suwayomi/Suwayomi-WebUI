@@ -11,7 +11,7 @@ import NavbarContext from 'components/context/NavbarContext';
 import MangaGrid from 'components/MangaGrid';
 import LangSelect from 'components/navbar/action/LangSelect';
 import AppbarSearch from 'components/util/AppbarSearch';
-import PQueue from 'p-queue/dist/index';
+import PQueue from 'p-queue';
 import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { StringParam, useQueryParam } from 'use-query-params';
@@ -54,11 +54,7 @@ const SearchAll: React.FC = () => {
 
     useEffect(() => {
         setTitle('Global Search');
-        setAction(
-            <>
-                <AppbarSearch />
-            </>,
-        );
+        setAction(<AppbarSearch />);
     }, []);
 
     useEffect(() => {
@@ -222,7 +218,8 @@ const SearchAll: React.FC = () => {
             </>
         );
     }
-    return <></>;
+
+    return null;
 };
 
 export default SearchAll;

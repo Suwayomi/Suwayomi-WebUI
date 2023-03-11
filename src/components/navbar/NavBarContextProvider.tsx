@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import React, { useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import NavBarContext from 'components/context/NavbarContext';
 import { INavbarOverride } from 'typings';
 
@@ -22,20 +22,27 @@ export default function NavBarProvider({ children }: IProps) {
         value: <div />,
     });
 
-    const updateTitle = (newTitle: string) => {
-        document.title = `${newTitle} - Tachidesk`;
-        setTitle(newTitle);
-    };
+    const updateTitle = useCallback(
+        (newTitle: string) => {
+            console.log('title:', newTitle);
+            document.title = `${newTitle} - Tachidesk`;
+            setTitle(newTitle);
+        },
+        [setTitle],
+    );
 
-    const value = {
-        defaultBackTo,
-        setDefaultBackTo,
-        title,
-        setTitle: updateTitle,
-        action,
-        setAction,
-        override,
-        setOverride,
-    };
+    const value = useMemo(
+        () => ({
+            defaultBackTo,
+            setDefaultBackTo,
+            title,
+            setTitle: updateTitle,
+            action,
+            setAction,
+            override,
+            setOverride,
+        }),
+        [defaultBackTo, setDefaultBackTo, title, updateTitle, action, setAction, override, setOverride],
+    );
     return <NavBarContext.Provider value={value}>{children}</NavBarContext.Provider>;
 }

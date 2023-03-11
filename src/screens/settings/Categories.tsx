@@ -52,7 +52,7 @@ export default function Categories() {
     const { setTitle, setAction } = useContext(NavbarContext);
     useEffect(() => {
         setTitle('Categories');
-        setAction(<></>);
+        setAction(null);
     }, []);
 
     const { data, mutate } = useQuery<ICategory[]>('/api/v1/category/');

@@ -25,7 +25,7 @@ interface IPos {
     group?: number;
 }
 
-export default function SourceMangas(props: { popular: boolean }) {
+export default function SourceMangas({ popular }: { popular: boolean }) {
     const { setTitle, setAction } = useContext(NavbarContext);
     const history = useHistory();
 
@@ -153,7 +153,7 @@ export default function SourceMangas(props: { popular: boolean }) {
         );
 
         return () => {
-            setAction(<></>);
+            setAction(null);
         };
     }, [isConfigurable]);
 
@@ -183,7 +183,7 @@ export default function SourceMangas(props: { popular: boolean }) {
 
     useEffect(() => {
         if (lastPageNum !== 0) {
-            const sourceType = props.popular ? 'popular' : 'latest';
+            const sourceType = popular ? 'popular' : 'latest';
             client
                 .get(
                     `/api/v1/source/${sourceId}/${

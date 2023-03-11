@@ -41,7 +41,7 @@ export default function Settings() {
     const { setTitle, setAction } = useContext(NavbarContext);
     useEffect(() => {
         setTitle('Settings');
-        setAction(<></>);
+        setAction(null);
     }, []);
 
     const { darkTheme, setDarkTheme } = useContext(DarkTheme);

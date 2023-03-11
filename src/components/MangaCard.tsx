@@ -169,30 +169,24 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
                                         placeItems: 'center',
                                     }}
                                 />
-                                {gridLayout === GridLayout.Comfortable ? (
-                                    <></>
-                                ) : (
+                                {gridLayout !== GridLayout.Comfortable && (
                                     <>
                                         <BottomGradient />
                                         <BottomGradientDoubledDown />
+                                        <MangaTitle
+                                            sx={{
+                                                color: 'white',
+                                                textShadow: '0px 0px 3px #000000',
+                                            }}
+                                            title={title}
+                                        >
+                                            {truncateText(title, 61)}
+                                        </MangaTitle>
                                     </>
-                                )}
-                                {gridLayout === GridLayout.Comfortable ? (
-                                    <></>
-                                ) : (
-                                    <MangaTitle
-                                        sx={{
-                                            color: 'white',
-                                            textShadow: '0px 0px 3px #000000',
-                                        }}
-                                        title={title}
-                                    >
-                                        {truncateText(title, 61)}
-                                    </MangaTitle>
                                 )}
                             </CardActionArea>
                         </Card>
-                        {gridLayout === GridLayout.Comfortable ? (
+                        {gridLayout === GridLayout.Comfortable && (
                             <MangaTitle
                                 sx={{
                                     position: 'relative',
@@ -202,8 +196,6 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
                             >
                                 {truncateText(title, 61)}
                             </MangaTitle>
-                        ) : (
-                            <></>
                         )}
                     </Box>
                 </Link>

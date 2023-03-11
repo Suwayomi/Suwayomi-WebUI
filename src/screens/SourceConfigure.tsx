@@ -39,7 +39,7 @@ export default function SourceConfigure() {
 
     useEffect(() => {
         setTitle('Source Configuration');
-        setAction(<></>);
+        setAction(null);
     }, []);
 
     const { sourceId } = useParams<{ sourceId: string }>();
@@ -66,18 +66,16 @@ export default function SourceConfigure() {
     };
 
     return (
-        <>
-            <List sx={{ padding: 0 }}>
-                {sourcePreferences.map((it, index) => {
-                    const props = cloneObject(it.props);
-                    props.updateValue = updateValue(index);
-                    props.key = index;
+        <List sx={{ padding: 0 }}>
+            {sourcePreferences.map((it, index) => {
+                const props = cloneObject(it.props);
+                props.updateValue = updateValue(index);
+                props.key = index;
 
-                    // TypeScript is dumb in detecting extra props
-                    // @ts-ignore
-                    return React.createElement(getPrefComponent(it.type), props);
-                })}
-            </List>
-        </>
+                // TypeScript is dumb in detecting extra props
+                // @ts-ignore
+                return React.createElement(getPrefComponent(it.type), props);
+            })}
+        </List>
     );
 }

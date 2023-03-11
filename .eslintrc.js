@@ -13,11 +13,19 @@ module.exports = {
         'react/jsx-no-bind': 'off',
         'react/jsx-props-no-spreading': 'off',
         'react/require-default-props': 'off',
+        'react/function-component-definition': 'off',
 
-        "no-relative-import-paths/no-relative-import-paths": [
-            "error",
+        'react/no-unstable-nested-components': [
+            'error',
             {
-                rootDir: "src",
+                allowAsProps: true,
+            },
+        ],
+
+        'no-relative-import-paths/no-relative-import-paths': [
+            'error',
+            {
+                rootDir: 'src',
                 prefix: false,
             },
         ],

@@ -13,7 +13,7 @@ export default function About() {
 
     useEffect(() => {
         setTitle('About');
-        setAction(<></>);
+        setAction(null);
     }, []);
 
     const { data: about } = useQuery<IAbout>('/api/v1/settings/about');

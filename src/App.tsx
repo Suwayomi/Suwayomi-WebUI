@@ -81,9 +81,7 @@ const App: React.FC = () => (
                 <Route path="/downloads">
                     <DownloadQueue />
                 </Route>
-                <Route path="/manga/:mangaId/chapter/:chapterNum">
-                    <></>
-                </Route>
+                <Route path="/manga/:mangaId/chapter/:chapterNum" />
                 <Route path="/manga/:id">
                     <Manga />
                 </Route>
