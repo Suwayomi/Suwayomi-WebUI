@@ -56,11 +56,14 @@ const filterManga = (
     downloaded: NullAndUndefined<boolean>,
     ignoreFilters: boolean,
 ): IMangaCard[] =>
-    mangas.filter(
-        (manga) =>
-            (queryFilter(query, manga) || queryGenreFilter(query, manga)) &&
-            (ignoreFilters || (downloadedFilter(downloaded, manga) && unreadFilter(unread, manga))),
-    );
+    mangas.filter((manga) => {
+        const ignoreFiltersWhileSearching = ignoreFilters && query?.length;
+        const matchesSearch = queryFilter(query, manga) || queryGenreFilter(query, manga);
+        const matchesFilters =
+            ignoreFiltersWhileSearching || (downloadedFilter(downloaded, manga) && unreadFilter(unread, manga));
+
+        return matchesSearch && matchesFilters;
+    });
 
 const sortByUnread = (a: IMangaCard, b: IMangaCard): number =>
     // eslint-disable-next-line implicit-arrow-linebreak
