@@ -15,3 +15,6 @@ jobs:
 
       - name: Run TSC
         run: yarn tsc
+
+      - name: Build app
+        run: yarn build
