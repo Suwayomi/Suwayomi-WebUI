@@ -24,7 +24,6 @@ export default function NavBarProvider({ children }: IProps) {
 
     const updateTitle = useCallback(
         (newTitle: string) => {
-            console.log('title:', newTitle);
             document.title = `${newTitle} - Tachidesk`;
             setTitle(newTitle);
         },
