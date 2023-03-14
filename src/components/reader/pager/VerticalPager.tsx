@@ -123,7 +123,7 @@ export default function VerticalPager(props: IReaderProps) {
         return () => {
             document.removeEventListener('keydown', handleKeyboard);
         };
-    }, []);
+    }, [go]);
 
     useEffect(() => {
         // Delay scrolling to next cycle
