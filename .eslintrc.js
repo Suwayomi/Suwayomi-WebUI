@@ -15,6 +15,8 @@ module.exports = {
         'react/require-default-props': 'off',
         'react/function-component-definition': 'off',
 
+        '@typescript-eslint/no-shadow': 'off',
+
         'react/no-unstable-nested-components': [
             'error',
             {
