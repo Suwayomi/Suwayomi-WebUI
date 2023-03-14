@@ -42,10 +42,17 @@ export default function VerticalPager(props: IReaderProps) {
     const pagesRef = useRef<HTMLDivElement[]>([]);
 
     useEffect(() => {
+        let handlingEndOfPage = false;
         const handleScroll = () => {
             if (!selfRef.current) return;
 
             if (isAtBottom()) {
+                if (handlingEndOfPage) {
+                    return;
+                }
+
+                handlingEndOfPage = true;
+
                 // If scroll is moved all the way to the bottom
                 // This handles cases when last page is show, but is smaller then
                 // window, in which case it would never get marked as read.
@@ -58,6 +65,8 @@ export default function VerticalPager(props: IReaderProps) {
                     nextChapter();
                 }
             } else {
+                handlingEndOfPage = false;
+
                 // Update current page in parent
                 const currentPage = findCurrentPageIndex(selfRef.current);
                 if (currentPage !== currentPageRef.current) {
