@@ -185,7 +185,7 @@ export default function DoublePagedPager(props: IReaderProps) {
             document.removeEventListener('keydown', keyboardControl);
             selfRef.current?.removeEventListener('click', clickControl);
         };
-    }, [selfRef, curPage, settings.readerType]);
+    }, [selfRef, curPage, settings.readerType, prevChapter, nextChapter]);
 
     useEffect(() => {
         setCurPage(initialPage);

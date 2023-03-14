@@ -71,7 +71,7 @@ export default function VerticalPager(props: IReaderProps) {
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
-    }, [settings.loadNextOnEnding]);
+    }, [settings.loadNextOnEnding, nextChapter]);
 
     const go = useCallback(
         (direction: 'up' | 'down') => {

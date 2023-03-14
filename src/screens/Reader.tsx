@@ -25,8 +25,43 @@ import {
     useDefaultReaderSettings,
 } from 'util/readerSettings';
 import makeToast from 'components/util/Toast';
-import { IChapter, IManga, IMangaCard, IPartialChapter, IReaderSettings, ReaderType } from 'typings';
+import {
+    ChapterOffset,
+    IChapter,
+    IManga,
+    IMangaCard,
+    IPartialChapter,
+    IReaderSettings,
+    ReaderType,
+    TranslationKey,
+} from 'typings';
 import { useTranslation } from 'react-i18next';
+
+const isDupChapter = async (chapterIndex: number, currentChapter: IChapter) => {
+    const nextChapter = (await client.get<IChapter>(`/api/v1/manga/${currentChapter.mangaId}/chapter/${chapterIndex}`))
+        .data;
+
+    return nextChapter.chapterNumber === currentChapter.chapterNumber;
+};
+
+/**
+ * In case duplicated chapters should be skipped the function will check all next/prev chapters until
+ *  - a non duplicated chapter was found
+ *  - no prev/next chapter exists => chapter request will fail and error will be raised up
+ */
+const getOffsetChapter = async (
+    chapterIndex: number,
+    currentChapter: IChapter,
+    skipDupChapters: boolean,
+    offset: ChapterOffset,
+): Promise<number> => {
+    const shouldSkipChapter = skipDupChapters && (await isDupChapter(chapterIndex, currentChapter));
+    if (shouldSkipChapter) {
+        return getOffsetChapter(chapterIndex + offset, currentChapter, skipDupChapters, offset);
+    }
+
+    return chapterIndex;
+};
 
 const getReaderComponent = (readerType: ReaderType) => {
     switch (readerType) {
@@ -81,6 +116,7 @@ export default function Reader() {
     const [curPage, setCurPage] = useState<number>(0);
     const [pageToScrollTo, setPageToScrollTo] = useState<number | undefined>(undefined);
     const { setOverride, setTitle } = useContext(NavbarContext);
+    const [retrievingNextChapter, setRetrievingNextChapter] = useState(false);
 
     const { settings: defaultSettings, loading: areDefaultSettingsLoading } = useDefaultReaderSettings();
     const [settings, setSettings] = useState(getReaderSettingsFor(manga, defaultSettings));
@@ -92,6 +128,32 @@ export default function Reader() {
             makeToast(t('reader.settings.error.label.failed_to_save_settings'), 'warning'),
         );
     };
+
+    const openNextChapter = useCallback(
+        async (offset: ChapterOffset, setHistory: (nextChapterIndex: number) => void) => {
+            setRetrievingNextChapter(true);
+            try {
+                setHistory(
+                    await getOffsetChapter(
+                        chapter.index + offset,
+                        chapter as IChapter,
+                        settings.skipDupChapters,
+                        offset,
+                    ),
+                );
+            } catch (error) {
+                const offsetToTranslationKeyMap: { [chapterOffset in ChapterOffset]: TranslationKey } = {
+                    [ChapterOffset.PREV]: 'reader.error.label.unable_to_get_prev_chapter_skip_dup',
+                    [ChapterOffset.NEXT]: 'reader.error.label.unable_to_get_next_chapter_skip_dup',
+                };
+
+                makeToast(t(offsetToTranslationKeyMap[offset]) as string, 'error');
+            } finally {
+                setRetrievingNextChapter(false);
+            }
+        },
+        [chapter, settings],
+    );
 
     useEffect(() => {
         if (!manga?.title || (chapter as IChapter)?.name === t('global.label.loading')) {
@@ -120,13 +182,15 @@ export default function Reader() {
                     chapter={chapter as IChapter}
                     curPage={curPage}
                     scrollToPage={setPageToScrollTo}
+                    openNextChapter={openNextChapter}
+                    retrievingNextChapter={retrievingNextChapter}
                 />
             ),
         });
 
         // clean up for when we leave the reader
         return () => setOverride({ status: false, value: <div /> });
-    }, [manga, chapter, settings, curPage, chapterIndex]);
+    }, [manga, chapter, settings, curPage, chapterIndex, retrievingNextChapter]);
 
     useEffect(() => {
         setIsMangaLoading(true);
@@ -175,21 +239,25 @@ export default function Reader() {
             formData.append('read', 'true');
             client.patch(`/api/v1/manga/${manga.id}/chapter/${chapter.index}`, formData);
 
-            history.replace({
-                pathname: `/manga/${manga.id}/chapter/${chapter.index + 1}`,
-                state: history.location.state,
-            });
+            openNextChapter(ChapterOffset.NEXT, (nextChapterIndex) =>
+                history.replace({
+                    pathname: `/manga/${manga.id}/chapter/${nextChapterIndex}`,
+                    state: history.location.state,
+                }),
+            );
         }
-    }, [chapter.index, chapter.chapterCount, chapter.pageCount, manga.id]);
+    }, [chapter.index, chapter.chapterCount, chapter.pageCount, manga.id, settings.skipDupChapters]);
 
     const prevChapter = useCallback(() => {
         if (chapter.index > 1) {
-            history.replace({
-                pathname: `/manga/${manga.id}/chapter/${chapter.index - 1}`,
-                state: history.location.state,
-            });
+            openNextChapter(ChapterOffset.PREV, (prevChapterIndex) =>
+                history.replace({
+                    pathname: `/manga/${manga.id}/chapter/${prevChapterIndex}`,
+                    state: history.location.state,
+                }),
+            );
         }
-    }, [chapter.index, manga.id]);
+    }, [chapter.index, manga.id, settings.skipDupChapters]);
 
     // return spinner while chpater data is loading
     if (chapter.pageCount === -1) {

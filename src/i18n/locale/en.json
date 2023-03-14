@@ -303,6 +303,12 @@
       "next_chapter": "Next Chapter",
       "previous_chapter": "Previous Chapter"
     },
+    "error": {
+      "label": {
+        "unable_to_get_next_chapter_skip_dup": "Unable to get the next chapter - \"$t(reader.settings.label.skip_dup_chapters)\" option is enabled",
+        "unable_to_get_prev_chapter_skip_dup": "Unable to get the previous chapter - \"$t(reader.settings.label.skip_dup_chapters)\" option is enabled"
+      }
+    },
     "page_info": {
       "label": {
         "currently_on_page": "Currently on page",
@@ -320,6 +326,7 @@
         "load_next_chapter": "Load next chapter at ending",
         "reader_type": "Reader Type",
         "show_page_number": "Show page number",
+        "skip_dup_chapters": "Skip duplicate chapters",
         "static_navigation": "Static Navigation"
       },
       "reader_type": {

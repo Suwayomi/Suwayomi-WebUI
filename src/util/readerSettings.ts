@@ -16,6 +16,7 @@ export const getDefaultSettings = (forceUndefined: boolean = false) =>
         showPageNumber: forceUndefined ? undefined : true,
         continuesPageGap: forceUndefined ? undefined : false,
         loadNextOnEnding: forceUndefined ? undefined : false,
+        skipDupChapters: forceUndefined ? undefined : true,
         readerType: forceUndefined ? undefined : 'ContinuesVertical',
     } as IReaderSettings);
 
