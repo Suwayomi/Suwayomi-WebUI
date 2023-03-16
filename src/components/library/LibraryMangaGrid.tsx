@@ -126,7 +126,7 @@ const LibraryMangaGrid: React.FC<LibraryMangaGridProps & { lastLibraryUpdate: nu
     const [filteredManga, setFilteredManga] = useState<IMangaCard[]>([]);
     const totalPages = (mangas ?? []).length / 10;
     const theme = useTheme();
-    const isLargeScreen = useMediaQuery(theme.breakpoints.up('sm'));
+    const isLargeScreen = useMediaQuery(theme.breakpoints.up('sm'), { noSsr: true });
     const defaultPageNumber = isLargeScreen ? 4 : 1;
     const [lastPageNum, setLastPageNum] = useState<number>(defaultPageNumber);
     const { settings } = useSearchSettings();
