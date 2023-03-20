@@ -39,6 +39,7 @@ import SearchSettings from 'screens/settings/SearchSettings';
 import { useTranslation } from 'react-i18next';
 import LanguageIcon from '@mui/icons-material/Language';
 import { langCodeToName } from 'util/language';
+import CollectionsOutlinedBookmarkIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
 
 export default function Settings() {
     const { t, i18n } = useTranslation();
@@ -111,6 +112,12 @@ export default function Settings() {
                         <AutoStoriesIcon />
                     </ListItemIcon>
                     <ListItemText primary={t('reader.settings.title.default_reader_settings')} />
+                </ListItemLink>
+                <ListItemLink to="/settings/librarySettings">
+                    <ListItemIcon>
+                        <CollectionsOutlinedBookmarkIcon />
+                    </ListItemIcon>
+                    <ListItemText primary={t('library.title')} />
                 </ListItemLink>
                 <ListItemLink to="/settings/backup">
                     <ListItemIcon>

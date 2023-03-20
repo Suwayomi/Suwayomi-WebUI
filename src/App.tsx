@@ -28,6 +28,7 @@ import SourceMangas from 'screens/SourceMangas';
 import Sources from 'screens/Sources';
 import Updates from 'screens/Updates';
 import 'i18n';
+import LibrarySettings from 'screens/settings/LibrarySettings';
 
 const App: React.FC = () => (
     <AppContext>
@@ -56,6 +57,9 @@ const App: React.FC = () => (
                 </Route>
                 <Route path="/settings/defaultReaderSettings">
                     <DefaultReaderSettings />
+                </Route>
+                <Route path="/settings/librarySettings">
+                    <LibrarySettings />
                 </Route>
                 <Route path="/settings/backup">
                     <Backup />

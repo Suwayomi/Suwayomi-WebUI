@@ -173,11 +173,18 @@ export interface IPartialChapter {
     lastPageRead: number;
 }
 
+export enum IncludeInGlobalUpdate {
+    EXCLUDE = 0,
+    INCLUDE = 1,
+    UNSET = -1,
+}
+
 export interface ICategory {
     id: number;
     order: number;
     name: string;
     default: boolean;
+    includeInUpdate: IncludeInGlobalUpdate;
     meta: Metadata;
     size: number;
 }
