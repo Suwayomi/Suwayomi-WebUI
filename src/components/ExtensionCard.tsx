@@ -14,7 +14,8 @@ import Typography from '@mui/material/Typography';
 import client from 'util/client';
 import useLocalStorage from 'util/useLocalStorage';
 import { Box } from '@mui/system';
-import { IExtension } from 'typings';
+import { IExtension, TranslationKey } from 'typings';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {
     extension: IExtension;
@@ -50,7 +51,19 @@ const EXTENSION_ACTION_TO_NEXT_ACTION_MAP: { [action in ExtensionAction]: Extens
     [ExtensionAction.INSTALL]: ExtensionAction.UNINSTALL,
 } as const;
 
+const INSTALLED_STATE_TO_TRANSLATION_KEY_MAP: { [installedState in InstalledStates]: TranslationKey } = {
+    [InstalledState.UNINSTALL]: 'extension.action.label.uninstall',
+    [InstalledState.INSTALL]: 'extension.action.label.install',
+    [InstalledState.UPDATE]: 'extension.action.label.update',
+    [InstalledState.OBSOLETE]: 'extension.state.label.obsolete',
+    [InstalledState.UPDATING]: 'extension.state.label.updating',
+    [InstalledState.UNINSTALLING]: 'extension.state.label.uninstalling',
+    [InstalledState.INSTALLING]: 'extension.state.label.installing',
+} as const;
+
 export default function ExtensionCard(props: IProps) {
+    const { t } = useTranslation();
+
     const {
         extension: { name, lang, versionName, installed, hasUpdate, obsolete, pkgName, iconUrl, isNsfw },
         notifyInstall,
@@ -68,7 +81,7 @@ export default function ExtensionCard(props: IProps) {
     const [serverAddress] = useLocalStorage<String>('serverBaseURL', '');
     const [useCache] = useLocalStorage<boolean>('useCache', true);
 
-    const langPress = lang === 'all' ? 'All' : lang.toUpperCase();
+    const langPress = lang === 'all' ? t('extension.language.all') : lang.toUpperCase();
 
     const requestExtensionAction = async (action: ExtensionAction): Promise<void> => {
         const nextAction = EXTENSION_ACTION_TO_NEXT_ACTION_MAP[action];
@@ -137,7 +150,7 @@ export default function ExtensionCard(props: IProps) {
                     sx={{ color: installedState === InstalledState.OBSOLETE ? 'red' : 'inherit' }}
                     onClick={() => handleButtonClick()}
                 >
-                    {installedState}
+                    {t(INSTALLED_STATE_TO_TRANSLATION_KEY_MAP[installedState])}
                 </Button>
             </CardContent>
         </Card>

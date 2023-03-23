@@ -17,6 +17,7 @@ import { Box, styled } from '@mui/system';
 import { GridLayout, useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
 import { BACK } from 'util/useBackTo';
 import { IMangaCard } from 'typings';
+import { useTranslation } from 'react-i18next';
 
 const BottomGradient = styled('div')({
     position: 'absolute',
@@ -73,6 +74,8 @@ interface IProps {
 }
 
 const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) => {
+    const { t } = useTranslation();
+
     const {
         manga: {
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -131,7 +134,7 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
                                 >
                                     {inLibraryIndicator && inLibrary && (
                                         <Typography sx={{ backgroundColor: 'primary.dark', zIndex: '1' }}>
-                                            In library
+                                            {t('manga.button.in_library')}
                                         </Typography>
                                     )}
                                     {showUnreadBadge && unread! > 0 && (
@@ -252,7 +255,9 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
                         </Box>
                         <BadgeContainer>
                             {inLibraryIndicator && inLibrary && (
-                                <Typography sx={{ backgroundColor: 'primary.dark' }}>In library</Typography>
+                                <Typography sx={{ backgroundColor: 'primary.dark' }}>
+                                    {t('manga.button.in_library')}
+                                </Typography>
                             )}
                             {showUnreadBadge && unread! > 0 && (
                                 <Typography sx={{ backgroundColor: 'primary.dark' }}>{unread}</Typography>

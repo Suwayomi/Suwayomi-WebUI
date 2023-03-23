@@ -11,6 +11,7 @@ import { styled, Box } from '@mui/system';
 import { Link as RRDLink, useLocation } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import { NavbarItem } from 'typings';
+import { useTranslation } from 'react-i18next';
 
 const BottomNavContainer = styled('div')(({ theme }) => ({
     bottom: 0,
@@ -38,6 +39,7 @@ interface IProps {
 }
 
 export default function MobileBottomBar({ navBarItems }: IProps) {
+    const { t } = useTranslation();
     const location = useLocation();
     const theme = useTheme();
 
@@ -68,7 +70,7 @@ export default function MobileBottomBar({ navBarItems }: IProps) {
                                             : 'grey.600',
                                 }}
                             >
-                                {title}
+                                {t(title)}
                             </Box>
                         </Box>
                     </ListItem>

@@ -22,6 +22,8 @@ import { Link, useHistory } from 'react-router-dom';
 import client from 'util/client';
 import useLocalStorage from 'util/useLocalStorage';
 import { IChapter, IMangaChapter, IQueue, PaginatedList } from 'typings';
+import { useTranslation } from 'react-i18next';
+import { t as translate } from 'i18next';
 
 function epochToDate(epoch: number) {
     const date = new Date(0); // The 0 there is the key, which sets the date to the epoch
@@ -39,11 +41,11 @@ function isTheSameDay(first: Date, second: Date) {
 
 function getDateString(date: Date) {
     const today = new Date();
-    if (isTheSameDay(today, date)) return 'TODAY';
+    if (isTheSameDay(today, date)) return translate('global.date.label.today');
     // calculate yesterday
     const yesterday = new Date();
     yesterday.setDate(today.getDate() - 1);
-    if (isTheSameDay(yesterday, date)) return 'YESTERDAY';
+    if (isTheSameDay(yesterday, date)) return translate('global.date.label.yesterday');
     return date.toLocaleDateString();
 }
 
@@ -70,6 +72,7 @@ const initialQueue = {
 } as IQueue;
 
 const Updates: React.FC = () => {
+    const { t } = useTranslation();
     const history = useHistory();
 
     const { setTitle, setAction } = useContext(NavbarContext);
@@ -97,7 +100,7 @@ const Updates: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        setTitle('Updates');
+        setTitle(t('updates.title'));
 
         setAction(null);
     }, []);
@@ -136,7 +139,7 @@ const Updates: React.FC = () => {
         return <LoadingPlaceholder />;
     }
     if (fetched && updateEntries.length === 0) {
-        return <EmptyView message="You don't have any updates yet." />;
+        return <EmptyView message={t('updates.error.label.no_updates_available')} />;
     }
 
     const downloadForChapter = (chapter: IChapter) => {

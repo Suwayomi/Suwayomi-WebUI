@@ -1,19 +1,39 @@
 {
-    "screens": {
-        "Library": {
-            "Library": "Bibliotek",
-            "could-not-load-categories": "Kategorien konnten nicht geladen werden",
-            "category-is-empty": "Kategorie ist leer",
-            "could-not-load-manga": "Manga konnte nicht geladen werden",
-            "your-library-is-empty": "Deine Bibliothek ist leer"
-        },
-        "Browse": {
-            "sources": "Quellen",
-            "extensions": "Erweiterungen"
-        },
-        "DownloadQueue": {
-            "no-downloads": "Keine Downloads",
-            "download-queue": "Herunterladen-Warteschlange"
+    "category": {
+        "error": {
+            "label": {
+                "empty": "Kategorie ist leer",
+                "request_failure": "Kategorien konnten nicht geladen werden"
+            }
         }
+    },
+    "download": {
+        "queue": {
+            "label": {
+                "no_downloads": "Keine Downloads"
+            },
+            "title": "Herunterladen-Warteschlange"
+        }
+    },
+    "extension": {
+        "title": "Erweiterungen"
+    },
+    "library": {
+        "error": {
+            "label": {
+                "empty": "Deine Bibliothek ist leer"
+            }
+        },
+        "title": "Bibliotek"
+    },
+    "manga": {
+        "error": {
+            "label": {
+                "request_failure": "Manga konnte nicht geladen werden"
+            }
+        }
+    },
+    "source": {
+        "title": "Quellen"
     }
 }

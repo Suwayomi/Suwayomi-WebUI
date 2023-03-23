@@ -1,7 +1,5 @@
 {
-    "screens": {
-        "Library": {
-            "Library": "المكتبة"
-        }
+    "library": {
+        "title": "المكتبة"
     }
 }

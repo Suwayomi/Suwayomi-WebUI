@@ -22,6 +22,7 @@ import { useQueryParam, StringParam } from 'use-query-params';
 import { Virtuoso } from 'react-virtuoso';
 import { Typography, useMediaQuery, useTheme } from '@mui/material';
 import { IExtension } from 'typings';
+import { useTranslation } from 'react-i18next';
 
 const LANGUAGE = 0;
 const EXTENSIONS = 1;
@@ -66,6 +67,8 @@ function groupExtensions(extensions: IExtension[]) {
 }
 
 export default function MangaExtensions() {
+    const { t } = useTranslation();
+
     const inputRef = useRef<HTMLInputElement>(null);
     const { setTitle, setAction } = useContext(NavbarContext);
     const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownExtensionLangs', extensionDefaultLangs());
@@ -75,7 +78,7 @@ export default function MangaExtensions() {
     const [query] = useQueryParam('query', StringParam);
 
     useEffect(() => {
-        setTitle('Extensions');
+        setTitle(t('extension.title'));
         setAction(
             <>
                 <AppbarSearch />
@@ -120,18 +123,18 @@ export default function MangaExtensions() {
                 inputRef.current.value = '';
             }
 
-            makeToast('Installing Extension File....', 'info');
+            makeToast(t('extension.label.installing_file'), 'info');
             client
                 .post('/api/v1/extension/install', formData, {
                     headers: { 'Content-Type': 'multipart/form-data' },
                 })
                 .then(() => {
-                    makeToast('Installed extension successfully!', 'success');
+                    makeToast(t('extension.label.installed_successfully'), 'success');
                     mutate();
                 })
-                .catch(() => makeToast('Extension installion failed!', 'error'));
+                .catch(() => makeToast(t('extension.label.installation_failed'), 'error'));
         } else {
-            makeToast('invalid file type!', 'error');
+            makeToast(t('global.error.label.invalid_file_type'), 'error');
         }
     };
 
