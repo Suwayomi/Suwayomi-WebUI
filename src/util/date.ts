@@ -5,6 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
+import { t } from 'i18next';
 
 export const isWithinLastXMillis = (date: Date, timeMS: number) => {
     const timeDifference = Date.now() - date.getTime();
@@ -54,11 +55,11 @@ export const getUploadDateString = (date: Date | number) => {
         : '';
 
     if (wasUploadedToday) {
-        return `Today at ${timeString}`;
+        return t('global.date.label.today_at', { timeString });
     }
 
     if (wasUploadedYesterday) {
-        return `Yesterday at ${timeString}`;
+        return t('global.date.label.yesterday_at', { timeString });
     }
 
     return uploadDate.toLocaleDateString(undefined, {

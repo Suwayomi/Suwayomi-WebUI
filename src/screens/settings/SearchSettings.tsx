@@ -7,13 +7,15 @@ import makeToast from 'components/util/Toast';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import SearchIcon from '@mui/icons-material/Search';
 import { SearchMetadataKeys } from 'typings';
+import { useTranslation } from 'react-i18next';
 
 export default function SearchSettings() {
+    const { t } = useTranslation();
     const { metadata, settings } = useSearchSettings();
 
     const setSettingValue = (key: SearchMetadataKeys, value: boolean) => {
         requestUpdateServerMetadata(metadata ?? {}, [[key, value]]).catch(() =>
-            makeToast('Failed to save the default search settings to the server', 'warning'),
+            makeToast(t('search.error.label.failed_to_save_settings'), 'warning'),
         );
     };
     return (
@@ -21,7 +23,7 @@ export default function SearchSettings() {
             <ListItemIcon>
                 <SearchIcon />
             </ListItemIcon>
-            <ListItemText primary="Ignore Filters when Searching" />
+            <ListItemText primary={t('search.label.ignore_filters')} />
             <ListItemSecondaryAction>
                 <Switch
                     edge="end"

@@ -7,6 +7,9 @@
 
 import { OverridableComponent } from '@mui/material/OverridableComponent';
 import { SvgIconTypeMap } from '@mui/material/SvgIcon/SvgIcon';
+import { TFuncKey } from 'i18next';
+
+export type TranslationKey = TFuncKey;
 
 export interface IExtension {
     name: string;
@@ -301,7 +304,7 @@ export interface SourcePreferences {
 
 export interface NavbarItem {
     path: string;
-    title: string;
+    title: TranslationKey;
     SelectedIconComponent: OverridableComponent<SvgIconTypeMap<{}, 'svg'>>;
     IconComponent: OverridableComponent<SvgIconTypeMap<{}, 'svg'>>;
     show: 'mobile' | 'desktop' | 'both';

@@ -17,6 +17,7 @@ import { NavbarToolbar } from 'components/navbar/DefaultNavBar';
 import EmptyView from 'components/util/EmptyView';
 import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
 import React, { useContext, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { useQuery } from 'util/client';
 import { IManga } from 'typings';
@@ -24,6 +25,8 @@ import { IManga } from 'typings';
 const AUTOFETCH_AGE = 60 * 60 * 24; // 24 hours
 
 const Manga: React.FC = () => {
+    const { t } = useTranslation();
+
     const { setTitle } = useContext(NavbarContext);
     const { id } = useParams<{ id: string }>();
     const autofetchedRef = useRef(false);
@@ -58,11 +61,11 @@ const Manga: React.FC = () => {
     }, [manga]);
 
     useEffect(() => {
-        setTitle(manga?.title ?? 'Manga');
+        setTitle(manga?.title ?? t('manga.title'));
     }, [manga?.title]);
 
     if (error && !manga) {
-        return <EmptyView message="Could not load manga" messageExtra={error.message ?? error} />;
+        return <EmptyView message={t('manga.error.label.request_failure')} messageExtra={error.message ?? error} />;
     }
     return (
         <Box sx={{ display: { md: 'flex' }, overflow: 'hidden' }}>
@@ -72,7 +75,7 @@ const Manga: React.FC = () => {
                         <Tooltip
                             title={
                                 <>
-                                    Could not fetch manga data
+                                    {t('manga.error.label.request_failure')}
                                     <br />
                                     {error.message ?? error}
                                 </>

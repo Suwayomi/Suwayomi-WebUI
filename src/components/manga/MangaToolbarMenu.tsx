@@ -21,6 +21,7 @@ import {
 import CategorySelect from 'components/navbar/action/CategorySelect';
 import React, { useState } from 'react';
 import { IManga } from 'typings';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {
     manga: IManga;
@@ -29,6 +30,7 @@ interface IProps {
 }
 
 const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
+    const { t } = useTranslation();
     const theme = useTheme();
     const isLargeScreen = useMediaQuery(theme.breakpoints.up('sm'));
 
@@ -44,7 +46,7 @@ const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
         <>
             {isLargeScreen && (
                 <>
-                    <Tooltip title="Reload data from source">
+                    <Tooltip title={t('manga.label.reload_from_source')}>
                         <IconButton
                             onClick={() => {
                                 onRefresh();
@@ -55,7 +57,7 @@ const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                         </IconButton>
                     </Tooltip>
                     {manga.inLibrary && (
-                        <Tooltip title="Edit manga categories">
+                        <Tooltip title={t('manga.label.edit_categories')}>
                             <IconButton
                                 onClick={() => {
                                     setEditCategories(true);
@@ -97,7 +99,7 @@ const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                             <ListItemIcon>
                                 <Refresh fontSize="small" />
                             </ListItemIcon>
-                            <ListItemText>Reload data from source</ListItemText>
+                            <ListItemText>{t('manga.label.reload_from_source')}</ListItemText>
                         </MenuItem>
                         {manga.inLibrary && (
                             <MenuItem
@@ -109,7 +111,7 @@ const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                                 <ListItemIcon>
                                     <Label fontSize="small" />
                                 </ListItemIcon>
-                                <ListItemText>Edit manga categories</ListItemText>
+                                <ListItemText>{t('manga.label.edit_categories')}</ListItemText>
                             </MenuItem>
                         )}
                     </Menu>

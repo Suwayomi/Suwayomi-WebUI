@@ -36,11 +36,14 @@ import DarkTheme from 'components/context/DarkTheme';
 import useLocalStorage from 'util/useLocalStorage';
 import ListItemLink from 'components/util/ListItemLink';
 import SearchSettings from 'screens/settings/SearchSettings';
+import { useTranslation } from 'react-i18next';
 
 export default function Settings() {
+    const { t } = useTranslation();
+
     const { setTitle, setAction } = useContext(NavbarContext);
     useEffect(() => {
-        setTitle('Settings');
+        setTitle(t('settings.title'));
         setAction(null);
     }, []);
 
@@ -99,25 +102,25 @@ export default function Settings() {
                     <ListItemIcon>
                         <ListAltIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Categories" />
+                    <ListItemText primary={t('category.title.categories')} />
                 </ListItemLink>
                 <ListItemLink to="/settings/defaultReaderSettings">
                     <ListItemIcon>
                         <AutoStoriesIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Default Reader Settings" />
+                    <ListItemText primary={t('reader.settings.title.default_reader_settings')} />
                 </ListItemLink>
                 <ListItemLink to="/settings/backup">
                     <ListItemIcon>
                         <BackupIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Backup" />
+                    <ListItemText primary={t('settings.backup.title')} />
                 </ListItemLink>
                 <ListItem>
                     <ListItemIcon>
                         <Brightness6Icon />
                     </ListItemIcon>
-                    <ListItemText primary="Dark Theme" />
+                    <ListItemText primary={t('settings.label.dark_theme')} />
                     <ListItemSecondaryAction>
                         <Switch edge="end" checked={darkTheme} onChange={() => setDarkTheme(!darkTheme)} />
                     </ListItemSecondaryAction>
@@ -128,7 +131,7 @@ export default function Settings() {
                         <ViewModuleIcon />
                     </ListItemIcon>
                     <ListItemText
-                        primary="Manga Item width"
+                        primary={t('settings.label.manga_item_width')}
                         secondary={`px:${ItemWidth}`}
                         onClick={() => {
                             handleDialogOpenItemWidth();
@@ -139,7 +142,10 @@ export default function Settings() {
                     <ListItemIcon>
                         <FavoriteIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Show NSFW" secondary="Hide NSFW extensions and sources" />
+                    <ListItemText
+                        primary={t('settings.label.show_nsfw')}
+                        secondary={t('settings.label.show_nsfw_description')}
+                    />
                     <ListItemSecondaryAction>
                         <Switch edge="end" checked={showNsfw} onChange={() => setShowNsfw(!showNsfw)} />
                     </ListItemSecondaryAction>
@@ -149,9 +155,8 @@ export default function Settings() {
                         <CachedIcon />
                     </ListItemIcon>
                     <ListItemText
-                        primary="Use image cache"
-                        secondary="Disabling image cache makes images load faster if you have a slow disk,
-                         but uses it much more internet traffic in turn"
+                        primary={t('settings.label.image_cache')}
+                        secondary={t('settings.label.image_cache_description')}
                     />
                     <ListItemSecondaryAction>
                         <Switch edge="end" checked={useCache} onChange={() => setUseCache(!useCache)} />
@@ -161,7 +166,7 @@ export default function Settings() {
                     <ListItemIcon>
                         <DnsIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Server Address" secondary={serverAddress} />
+                    <ListItemText primary={t('settings.about.label.server_address')} secondary={serverAddress} />
                     <ListItemSecondaryAction>
                         <IconButton
                             onClick={() => {
@@ -177,18 +182,18 @@ export default function Settings() {
                     <ListItemIcon>
                         <InfoIcon />
                     </ListItemIcon>
-                    <ListItemText primary="About" />
+                    <ListItemText primary={t('settings.about.title')} />
                 </ListItemLink>
             </List>
 
             <Dialog open={dialogOpen} onClose={handleDialogCancel}>
                 <DialogContent>
-                    <DialogContentText>Enter Server Address</DialogContentText>
+                    <DialogContentText>{t('settings.server_address.dialog.label.enter_address')}</DialogContentText>
                     <TextField
                         autoFocus
                         margin="dense"
                         id="name"
-                        label="Server Address"
+                        label={t('settings.about.label.server_address')}
                         type="text"
                         fullWidth
                         value={dialogValue}
@@ -198,16 +203,16 @@ export default function Settings() {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleDialogCancel} color="primary">
-                        Cancel
+                        {t('global.button.cancel')}
                     </Button>
                     <Button onClick={handleDialogSubmit} color="primary">
-                        Set
+                        {t('global.button.set')}
                     </Button>
                 </DialogActions>
             </Dialog>
 
             <Dialog open={dialogOpenItemWidth} onClose={handleDialogCancelItemWidth}>
-                <DialogTitle>Manga Item width</DialogTitle>
+                <DialogTitle>{t('settings.label.manga_item_width')}</DialogTitle>
                 <DialogContent
                     sx={{
                         width: '98%',
@@ -236,13 +241,13 @@ export default function Settings() {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleDialogResetItemWidth} color="primary">
-                        Reset to Default
+                        {t('global.button.reset_to_default')}
                     </Button>
                     <Button onClick={handleDialogCancelItemWidth} color="primary">
-                        Cancel
+                        {t('global.button.cancel')}
                     </Button>
                     <Button onClick={handleDialogSubmitItemWidth} color="primary">
-                        OK
+                        {t('global.button.ok')}
                     </Button>
                 </DialogActions>
             </Dialog>

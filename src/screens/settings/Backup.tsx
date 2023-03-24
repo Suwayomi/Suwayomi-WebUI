@@ -14,11 +14,13 @@ import client from 'util/client';
 import makeToast from 'components/util/Toast';
 import ListItemLink from 'components/util/ListItemLink';
 import NavbarContext from 'components/context/NavbarContext';
+import { useTranslation } from 'react-i18next';
 
 export default function Backup() {
+    const { t } = useTranslation();
     const { setTitle, setAction } = useContext(NavbarContext);
     useEffect(() => {
-        setTitle('Backup');
+        setTitle(t('settings.backup.title'));
         setAction(null);
     }, []);
 
@@ -29,17 +31,17 @@ export default function Backup() {
             const formData = new FormData();
             formData.append('backup.proto.gz', file);
 
-            makeToast('Restoring backup....', 'info');
+            makeToast(t('settings.backup.label.restoring_backup'), 'info');
             client
                 .post('/api/v1/backup/import/file', formData, {
                     headers: { 'Content-Type': 'multipart/form-data' },
                 })
-                .then(() => makeToast('Backup restore finished!', 'success'))
-                .catch(() => makeToast('Backup restore failed!', 'error'));
+                .then(() => makeToast(t('settings.backup.label.restored_backup'), 'success'))
+                .catch(() => makeToast(t('settings.backup.label.backup_restore_failed'), 'error'));
         } else if (file.name.toLowerCase().endsWith('json')) {
-            makeToast('legacy backups are not supported!', 'error');
+            makeToast(t('settings.backup.label.legacy_backup_unsupported'), 'error');
         } else {
-            makeToast('invalid file type!', 'error');
+            makeToast(t('global.error.label.invalid_file_type'), 'error');
         }
     };
 
@@ -74,12 +76,15 @@ export default function Backup() {
         <>
             <List sx={{ padding: 0 }}>
                 <ListItemLink to={`${baseURL}/api/v1/backup/export/file`} directLink>
-                    <ListItemText primary="Create Backup" secondary="Backup library as a Tachiyomi backup" />
+                    <ListItemText
+                        primary={t('settings.backup.label.create_backup')}
+                        secondary={t('settings.backup.label.create_backup_info')}
+                    />
                 </ListItemLink>
                 <ListItem button onClick={() => document.getElementById('backup-file')?.click()}>
                     <ListItemText
-                        primary="Restore Backup"
-                        secondary="You can also drag and drop the backup file here to restore"
+                        primary={t('settings.backup.label.restore_backup')}
+                        secondary={t('settings.backup.label.restore_backup_info')}
                     />
                 </ListItem>
             </List>

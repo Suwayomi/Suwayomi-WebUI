@@ -13,6 +13,7 @@ import IconButton from '@mui/material/IconButton';
 import { Theme } from '@mui/material/styles';
 import makeStyles from '@mui/styles/makeStyles';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { mutate } from 'swr';
 import client from 'util/client';
 import useLocalStorage from 'util/useLocalStorage';
@@ -129,6 +130,8 @@ function getValueOrUnknown(val: string) {
 }
 
 const MangaDetails: React.FC<IProps> = ({ manga }) => {
+    const { t } = useTranslation();
+
     const [serverAddress] = useLocalStorage<String>('serverBaseURL', '');
     const [useCache] = useLocalStorage<boolean>('useCache', true);
 
@@ -158,15 +161,15 @@ const MangaDetails: React.FC<IProps> = ({ manga }) => {
                     <div className={classes.rightSide}>
                         <h1>{manga.title}</h1>
                         <h3>
-                            {'Author: '}
+                            {`${t('manga.label.author')}: `}
                             <span>{getValueOrUnknown(manga.author)}</span>
                         </h3>
                         <h3>
-                            {'Artist: '}
+                            {`${t('manga.label.artist')}: `}
                             <span>{getValueOrUnknown(manga.artist)}</span>
                         </h3>
-                        <h3>{`Status: ${manga.status}`}</h3>
-                        <h3>{`Source: ${getSourceName(manga.source)}`}</h3>
+                        <h3>{`${t('manga.label.status')}: ${manga.status}`}</h3>
+                        <h3>{`${t('source.title')}: ${getSourceName(manga.source)}`}</h3>
                     </div>
                 </div>
                 <div className={classes.buttons}>
@@ -174,21 +177,23 @@ const MangaDetails: React.FC<IProps> = ({ manga }) => {
                         <IconButton onClick={manga.inLibrary ? removeFromLibrary : addToLibrary} size="large">
                             {manga.inLibrary ? <FavoriteIcon sx={{ mr: 1 }} /> : <FavoriteBorderIcon sx={{ mr: 1 }} />}
                             <Typography sx={{ fontSize: { xs: '0.75em', sm: '0.85em' } }}>
-                                {manga.inLibrary ? 'In Library' : 'Add To Library'}
+                                {manga.inLibrary ? t('manga.button.in_library') : t('manga.button.add_to_library')}
                             </Typography>
                         </IconButton>
                     </div>
                     <a href={manga.realUrl} target="_blank" rel="noreferrer">
                         <IconButton size="large">
                             <PublicIcon sx={{ mr: 1 }} />
-                            <Typography sx={{ fontSize: { xs: '0.75em', sm: '0.85em' } }}>Open Site</Typography>
+                            <Typography sx={{ fontSize: { xs: '0.75em', sm: '0.85em' } }}>
+                                {t('global.button.open_site')}
+                            </Typography>
                         </IconButton>
                     </a>
                 </div>
             </div>
             <div className={classes.bottom}>
                 <div className={classes.description}>
-                    <h4>About</h4>
+                    <h4>{t('settings.about.title')}</h4>
                     <p>{manga.description}</p>
                 </div>
                 <div className={classes.genre}>

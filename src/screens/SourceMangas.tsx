@@ -18,6 +18,7 @@ import { useQueryParam, StringParam } from 'use-query-params';
 import SourceGridLayout from 'components/source/GridLayouts';
 import { useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
 import { IManga, IMangaCard, ISource, ISourceFilters } from 'typings';
+import { useTranslation } from 'react-i18next';
 
 interface IPos {
     position: number;
@@ -26,6 +27,7 @@ interface IPos {
 }
 
 export default function SourceMangas({ popular }: { popular: boolean }) {
+    const { t } = useTranslation();
     const { setTitle, setAction } = useContext(NavbarContext);
     const history = useHistory();
 
@@ -58,7 +60,7 @@ export default function SourceMangas({ popular }: { popular: boolean }) {
     }
 
     useEffect(() => {
-        setTitle('Source'); // title is later set after a fetch but we set it here once
+        setTitle(t('source.title')); // title is later set after a fetch but we set it here once
     }, []);
 
     useEffect(() => {
@@ -220,12 +222,14 @@ export default function SourceMangas({ popular }: { popular: boolean }) {
     let messageExtra;
 
     if (fetched) {
-        message = 'No manga was found!';
+        message = t('manga.error.label.no_mangas_found');
         if (sourceId === '0') {
             messageExtra = (
                 <>
-                    <span>Check out </span>
-                    <a href="https://github.com/Suwayomi/Tachidesk-Server/wiki/Local-Source">Local source guide</a>
+                    <span>{t('source.local_source.label.checkout')} </span>
+                    <a href="https://github.com/Suwayomi/Tachidesk-Server/wiki/Local-Source">
+                        {t('source.local_source.label.guide')}
+                    </a>
                 </>
             );
         }

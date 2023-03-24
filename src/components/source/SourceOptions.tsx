@@ -22,6 +22,7 @@ import TriStateFilter from 'components/source/filters/TriStateFilter';
 import GroupFilter from 'components/source/filters/GroupFilter';
 import SeperatorFilter from 'components/source/filters/SeparatorFilter';
 import { ISourceFilters, IState } from 'typings';
+import { useTranslation } from 'react-i18next';
 
 interface IFilters {
     sourceFilter: ISourceFilters[];
@@ -143,6 +144,7 @@ export default function SourceOptions({
     setSearch,
     update,
 }: IFilters1) {
+    const { t } = useTranslation();
     const [FilterOptions, setFilterOptions] = React.useState(false);
 
     function handleReset() {
@@ -165,14 +167,14 @@ export default function SourceOptions({
                 color="primary"
             >
                 <FilterListIcon />
-                Filter
+                {t('global.button.filter')}
             </Fab>
 
             <OptionsPanel open={FilterOptions} onClose={() => setFilterOptions(false)}>
                 <Box sx={{ display: 'flex', p: 2, pb: 0 }}>
-                    <Button onClick={handleReset}>Reset</Button>
+                    <Button onClick={handleReset}>{t('global.button.reset')}</Button>
                     <Button sx={{ marginLeft: 'auto' }} variant="contained" onClick={handleSubmit}>
-                        Submit
+                        {t('global.button.submit')}
                     </Button>
                 </Box>
                 <Box

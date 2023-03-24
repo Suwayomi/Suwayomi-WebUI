@@ -4,6 +4,7 @@
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+import { t } from 'i18next';
 
 export const ISOLanguages = [
     { code: 'all', name: 'All', nativeName: 'All' },
@@ -80,7 +81,7 @@ export function langCodeToName(code: string): string {
     const whereToCut = code.indexOf('-') !== -1 ? code.indexOf('-') : code.length;
 
     const proccessedCode = code.toLocaleLowerCase().substring(0, whereToCut);
-    let result = `language with code: ${code}`;
+    let result = t('global.language.label.language_with_code', { code });
 
     for (let i = 0; i < ISOLanguages.length; i++) {
         if (ISOLanguages[i].code === proccessedCode || ISOLanguages[i].code === code.toLocaleLowerCase()) {

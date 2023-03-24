@@ -1,19 +1,39 @@
 {
-    "screens": {
-        "Library": {
-            "Library": "Bibliothèque",
-            "could-not-load-categories": "Impossible de charger les catégories",
-            "your-library-is-empty": "Votre bibliothèque est vide",
-            "category-is-empty": "La catégorie est vide",
-            "could-not-load-manga": "Impossible de charger le manga"
-        },
-        "Browse": {
-            "sources": "Sources",
-            "extensions": "Extensions"
-        },
-        "DownloadQueue": {
-            "no-downloads": "Aucun téléchargement",
-            "download-queue": "File d’attente des téléchargements"
+    "category": {
+        "error": {
+            "label": {
+                "empty": "La catégorie est vide",
+                "request_failure": "Impossible de charger les catégories"
+            }
         }
+    },
+    "download": {
+        "queue": {
+            "label": {
+                "no_downloads": "Aucun téléchargement"
+            },
+            "title": "File d’attente des téléchargements"
+        }
+    },
+    "extension": {
+        "title": "Extensions"
+    },
+    "library": {
+        "error": {
+            "label": {
+                "empty": "Votre bibliothèque est vide"
+            }
+        },
+        "title": "Bibliothèque"
+    },
+    "manga": {
+        "error": {
+            "label": {
+                "request_failure": "Impossible de charger le manga"
+            }
+        }
+    },
+    "source": {
+        "title": "Sources"
     }
 }
