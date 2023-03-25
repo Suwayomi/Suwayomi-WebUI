@@ -45,10 +45,10 @@ export default function About() {
             <ListItem>
                 <ListItemText primary={t('settings.about.label.build_time')} secondary={buildTime()} />
             </ListItem>
-            <ListItemLink to={about.github}>
+            <ListItemLink directLink to={about.github}>
                 <ListItemText primary={t('settings.about.label.github')} secondary={about.github} />
             </ListItemLink>
-            <ListItemLink to={about.discord}>
+            <ListItemLink directLink to={about.discord}>
                 <ListItemText primary={t('settings.about.label.discord')} secondary={about.discord} />
             </ListItemLink>
         </List>
