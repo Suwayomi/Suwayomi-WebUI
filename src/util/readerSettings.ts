@@ -10,31 +10,29 @@ import { getMetadataFrom, requestUpdateMangaMetadata, requestUpdateServerMetadat
 import { useQuery } from 'util/client';
 import { IManga, Metadata, MetadataHolder, IReaderSettings, MetadataKeyValuePair } from 'typings';
 
-export const getDefaultSettings = (forceUndefined: boolean = false) =>
-    ({
-        staticNav: forceUndefined ? undefined : false,
-        showPageNumber: forceUndefined ? undefined : true,
-        continuesPageGap: forceUndefined ? undefined : false,
-        loadNextOnEnding: forceUndefined ? undefined : false,
-        skipDupChapters: forceUndefined ? undefined : true,
-        readerType: forceUndefined ? undefined : 'ContinuesVertical',
-    } as IReaderSettings);
+type UndefinedReaderSettings = {
+    [setting in keyof IReaderSettings]: IReaderSettings[setting] | undefined;
+};
 
-const getReaderSettingsWithDefaultValueFallback = (
-    meta?: Metadata,
-    defaultSettings: IReaderSettings = getDefaultSettings(),
-    applyMetadataMigration: boolean = true,
-): IReaderSettings => ({
-    ...getMetadataFrom({ meta }, defaultSettings, applyMetadataMigration),
+export const getDefaultSettings = (): IReaderSettings => ({
+    staticNav: false,
+    showPageNumber: true,
+    loadNextOnEnding: false,
+    skipDupChapters: true,
+    readerType: 'ContinuesVertical',
 });
+
+const getReaderSettingsWithDefaultValueFallback = <DefaultSettings extends IReaderSettings | UndefinedReaderSettings>(
+    meta?: Metadata,
+    defaultSettings: DefaultSettings = getDefaultSettings() as DefaultSettings,
+    applyMetadataMigration: boolean = true,
+): DefaultSettings => getMetadataFrom({ meta }, defaultSettings, applyMetadataMigration);
 
 export const getReaderSettingsFromMetadata = (
     meta?: Metadata,
     defaultSettings?: IReaderSettings,
     applyMetadataMigration?: boolean,
-): IReaderSettings => ({
-    ...getReaderSettingsWithDefaultValueFallback(meta, defaultSettings, applyMetadataMigration),
-});
+): IReaderSettings => getReaderSettingsWithDefaultValueFallback(meta, defaultSettings, applyMetadataMigration);
 
 export const getReaderSettingsFor = (
     { meta }: MetadataHolder,
@@ -48,7 +46,7 @@ export const useDefaultReaderSettings = (): {
     loading: boolean;
 } => {
     const { data: meta, loading } = useQuery<Metadata>('/api/v1/meta');
-    const settings = getReaderSettingsWithDefaultValueFallback(meta);
+    const settings = getReaderSettingsWithDefaultValueFallback<IReaderSettings>(meta);
 
     return { metadata: meta, settings, loading };
 };
@@ -66,7 +64,17 @@ export const checkAndHandleMissingStoredReaderSettings = async (
     defaultSettings: IReaderSettings,
 ): Promise<void | void[]> => {
     const meta = metadataHolder.meta ?? (metadataHolder as Metadata);
-    const settingsToCheck = getReaderSettingsFor({ meta }, getDefaultSettings(true), false);
+    const settingsToCheck = getReaderSettingsWithDefaultValueFallback(
+        meta,
+        {
+            staticNav: undefined,
+            showPageNumber: undefined,
+            loadNextOnEnding: undefined,
+            skipDupChapters: undefined,
+            readerType: undefined,
+        },
+        false,
+    );
     const newSettings = getReaderSettingsFor({ meta }, defaultSettings);
 
     const undefinedSettings = Object.entries(settingsToCheck).filter((setting) => setting[1] === undefined);
