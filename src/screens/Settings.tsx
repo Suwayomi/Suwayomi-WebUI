@@ -29,7 +29,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import TextField from '@mui/material/TextField';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import Slider from '@mui/material/Slider';
-import { DialogTitle, ListItemButton } from '@mui/material';
+import { DialogTitle, ListItemButton, MenuItem, Select } from '@mui/material';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import NavbarContext from 'components/context/NavbarContext';
 import DarkTheme from 'components/context/DarkTheme';
@@ -37,9 +37,11 @@ import useLocalStorage from 'util/useLocalStorage';
 import ListItemLink from 'components/util/ListItemLink';
 import SearchSettings from 'screens/settings/SearchSettings';
 import { useTranslation } from 'react-i18next';
+import LanguageIcon from '@mui/icons-material/Language';
+import { langCodeToName } from 'util/language';
 
 export default function Settings() {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
 
     const { setTitle, setAction } = useContext(NavbarContext);
     useEffect(() => {
@@ -160,6 +162,25 @@ export default function Settings() {
                     />
                     <ListItemSecondaryAction>
                         <Switch edge="end" checked={useCache} onChange={() => setUseCache(!useCache)} />
+                    </ListItemSecondaryAction>
+                </ListItem>
+                <ListItem>
+                    <ListItemIcon>
+                        <LanguageIcon />
+                    </ListItemIcon>
+                    <ListItemText primary={t('global.language.label.language')} />
+                    <ListItemSecondaryAction>
+                        <Select
+                            MenuProps={{ PaperProps: { style: { maxHeight: 150 } } }}
+                            value={i18n.language}
+                            onChange={({ target: { value: language } }) => i18n.changeLanguage(language)}
+                        >
+                            {Object.keys(i18n.services.resourceStore.data).map((language) => (
+                                <MenuItem key={language} value={language}>
+                                    {langCodeToName(language)}
+                                </MenuItem>
+                            ))}
+                        </Select>
                     </ListItemSecondaryAction>
                 </ListItem>
                 <ListItem>

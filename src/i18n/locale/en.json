@@ -236,6 +236,7 @@
     },
     "language": {
       "label": {
+        "language": "Language",
         "language_with_code": "language with code: {{code}}"
       },
       "title": {

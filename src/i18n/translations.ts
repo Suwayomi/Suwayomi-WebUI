@@ -7,12 +7,22 @@
 
 import en from 'i18n/locale/en.json';
 
+import ar from 'i18n/resources/ar.json';
+import de from 'i18n/resources/de.json';
+import es from 'i18n/resources/es.json';
+import fr from 'i18n/resources/fr.json';
+
 const translationHelper = <T>(lng: T) => ({
     translation: lng,
 });
 
 const resources = {
     en: translationHelper(en),
+
+    ar: translationHelper(ar),
+    de: translationHelper(de),
+    es: translationHelper(es),
+    fr: translationHelper(fr),
 } as const;
 
 export default resources;
