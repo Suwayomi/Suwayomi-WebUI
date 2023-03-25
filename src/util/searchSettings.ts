@@ -1,6 +1,6 @@
 import { useQuery } from 'util/client';
 import { getMetadataFrom } from 'util/metadata';
-import { IMetadata, ISearchSettings, MetadataKeyValuePair } from 'typings';
+import { IMetadata, ISearchSettings } from 'typings';
 
 export const getDefaultSettings = () =>
     ({
@@ -9,14 +9,10 @@ export const getDefaultSettings = () =>
 
 const getSearchSettingsWithDefaultValueFallback = (
     meta?: IMetadata,
-    defaultSettings?: ISearchSettings,
+    defaultSettings: ISearchSettings = getDefaultSettings(),
     applyMetadataMigration: boolean = true,
 ): ISearchSettings => ({
-    ...(getMetadataFrom(
-        { meta },
-        Object.entries(defaultSettings ?? getDefaultSettings()) as MetadataKeyValuePair[],
-        applyMetadataMigration,
-    ) as unknown as ISearchSettings),
+    ...getMetadataFrom({ meta }, defaultSettings, applyMetadataMigration),
 });
 
 export const useSearchSettings = (): {

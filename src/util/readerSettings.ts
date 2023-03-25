@@ -22,14 +22,10 @@ export const getDefaultSettings = (forceUndefined: boolean = false) =>
 
 const getReaderSettingsWithDefaultValueFallback = (
     meta?: IMetadata,
-    defaultSettings?: IReaderSettings,
+    defaultSettings: IReaderSettings = getDefaultSettings(),
     applyMetadataMigration: boolean = true,
 ): IReaderSettings => ({
-    ...(getMetadataFrom(
-        { meta },
-        Object.entries(defaultSettings ?? getDefaultSettings()) as MetadataKeyValuePair[],
-        applyMetadataMigration,
-    ) as unknown as IReaderSettings),
+    ...getMetadataFrom({ meta }, defaultSettings, applyMetadataMigration),
 });
 
 export const getReaderSettingsFromMetadata = (

@@ -246,12 +246,12 @@ const applyMetadataMigrations = (meta?: IMetadata): IMetadata | undefined => {
     return migrationToMetadata.pop()![1];
 };
 
-export const getMetadataValueFrom = <T extends AllowedMetadataValueTypes = AllowedMetadataValueTypes>(
+export const getMetadataValueFrom = <Key extends AppMetadataKeys, Value extends AllowedMetadataValueTypes>(
     { meta }: IMetadataHolder,
-    key: AppMetadataKeys,
-    defaultValue?: T,
+    key: Key,
+    defaultValue?: Value,
     applyMigrations: boolean = true,
-): T | undefined => {
+): Value | undefined => {
     const metadata = applyMigrations ? applyMetadataMigrations(meta) : meta;
 
     if (metadata === undefined || !doesMetadataKeyExistIn(metadata, key)) {
@@ -261,15 +261,20 @@ export const getMetadataValueFrom = <T extends AllowedMetadataValueTypes = Allow
     return convertValueFromMetadata(metadata[getMetadataKey(key)]);
 };
 
-export const getMetadataFrom = (
+export const getMetadataFrom = <Metadata extends Partial<IMetadata<AppMetadataKeys, AllowedMetadataValueTypes>>>(
     { meta }: IMetadataHolder,
-    keysToDefaultValues: MetadataKeyValuePair[],
+    metadataWithDefaultValues: Metadata,
     applyMigrations?: boolean,
-): IMetadata<AllowedMetadataValueTypes> => {
-    const appMetadata: IMetadata<AllowedMetadataValueTypes> = {};
+): Metadata => {
+    const appMetadata = {} as Metadata;
 
-    keysToDefaultValues.forEach(([key, defaultValue]) => {
-        appMetadata[key] = getMetadataValueFrom({ meta }, key, defaultValue, applyMigrations);
+    Object.entries(metadataWithDefaultValues).forEach(([key, defaultValue]) => {
+        appMetadata[key as AppMetadataKeys] = getMetadataValueFrom(
+            { meta },
+            key as AppMetadataKeys,
+            defaultValue,
+            applyMigrations,
+        );
     });
 
     return appMetadata;

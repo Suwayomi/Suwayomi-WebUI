@@ -74,13 +74,13 @@ export interface IMetadataMigration {
     keys?: { oldKey: string; newKey: string }[];
 }
 
-export interface IMetadata<VALUES extends AllowedMetadataValueTypes = string> {
-    [key: string]: VALUES;
-}
+export type IMetadata<Keys extends string = string, Values = string> = {
+    [key in Keys]: Values;
+};
 
-export interface IMetadataHolder<VALUES extends AllowedMetadataValueTypes = string> {
-    meta?: IMetadata<VALUES>;
-}
+export type IMetadataHolder<Keys extends string = string, Values = string> = {
+    meta?: IMetadata<Keys, Values>;
+};
 
 export type AllowedMetadataValueTypes = string | boolean | number | undefined;
 
