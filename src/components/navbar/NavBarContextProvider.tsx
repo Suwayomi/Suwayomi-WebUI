@@ -23,8 +23,8 @@ export default function NavBarProvider({ children }: IProps) {
     });
 
     const updateTitle = useCallback(
-        (newTitle: string) => {
-            document.title = `${newTitle} - Tachidesk`;
+        (newTitle: string, browserTitle: string = newTitle) => {
+            document.title = `${browserTitle} - Tachidesk`;
             setTitle(newTitle);
         },
         [setTitle],

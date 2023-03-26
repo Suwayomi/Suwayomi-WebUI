@@ -15,7 +15,7 @@ type ContextType = {
 
     // AppBar title
     title: string;
-    setTitle: (title: string) => void;
+    setTitle: (title: string, browserTitle?: string) => void;
 
     // AppBar action buttons
     action: any;
