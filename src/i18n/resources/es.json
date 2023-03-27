@@ -1,0 +1,19 @@
+{
+    "screens": {
+        "Library": {
+            "Library": "Biblioteca",
+            "could-not-load-categories": "No se pudieron cargar las categorías",
+            "your-library-is-empty": "Tu biblioteca esta vacia",
+            "category-is-empty": "La categoría está vacía",
+            "could-not-load-manga": "No se pudo cargar el manga"
+        },
+        "DownloadQueue": {
+            "no-downloads": "No hay descargas",
+            "download-queue": "Descarga en la cola"
+        },
+        "Browse": {
+            "extensions": "Extensiones",
+            "sources": "Fuentes"
+        }
+    }
+}
