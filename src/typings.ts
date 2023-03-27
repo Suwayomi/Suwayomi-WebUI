@@ -5,7 +5,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-interface IExtension {
+import { OverridableComponent } from '@mui/material/OverridableComponent';
+import { SvgIconTypeMap } from '@mui/material/SvgIcon/SvgIcon';
+import { TFuncKey } from 'i18next';
+
+export type TranslationKey = TFuncKey;
+
+export interface IExtension {
     name: string;
     pkgName: string;
     versionName: string;
@@ -19,7 +25,7 @@ interface IExtension {
     obsolete: boolean;
 }
 
-interface ISource {
+export interface ISource {
     id: string;
     name: string;
     lang: string;
@@ -30,12 +36,12 @@ interface ISource {
     displayName: string;
 }
 
-interface ISourceFilters {
+export interface ISourceFilters {
     type: string;
     filter: ISourceFilter;
 }
 
-interface ISourceFilter {
+export interface ISourceFilter {
     name: string;
     state: number | string | boolean | ISourceFilters[] | IState;
     values?: string[];
@@ -43,18 +49,18 @@ interface ISourceFilter {
     selected?: ISelected;
 }
 
-interface ISelected {
+export interface ISelected {
     displayname: string;
     value: string;
     _value: string;
 }
 
-interface IState {
+export interface IState {
     ascending: boolean;
     index: number;
 }
 
-interface IMetadataMigration {
+export interface IMetadataMigration {
     appKeyPrefix?: { oldPrefix: string; newPrefix: string };
     values?: {
         /**
@@ -68,23 +74,25 @@ interface IMetadataMigration {
     keys?: { oldKey: string; newKey: string }[];
 }
 
-interface IMetadata<VALUES extends AllowedMetadataValueTypes = string> {
+export interface IMetadata<VALUES extends AllowedMetadataValueTypes = string> {
     [key: string]: VALUES;
 }
 
-interface IMetadataHolder<VALUES extends AllowedMetadataValueTypes = string> {
+export interface IMetadataHolder<VALUES extends AllowedMetadataValueTypes = string> {
     meta?: IMetadata<VALUES>;
 }
 
-type AllowedMetadataValueTypes = string | boolean | number | undefined;
+export type AllowedMetadataValueTypes = string | boolean | number | undefined;
 
-type MangaMetadataKeys = keyof IReaderSettings;
+export type MangaMetadataKeys = keyof IReaderSettings;
 
-type AppMetadataKeys = MangaMetadataKeys;
+export type SearchMetadataKeys = keyof ISearchSettings;
 
-type MetadataKeyValuePair = [AppMetadataKeys, AllowedMetadataValueTypes];
+export type AppMetadataKeys = MangaMetadataKeys | SearchMetadataKeys;
 
-interface IMangaCard {
+export type MetadataKeyValuePair = [AppMetadataKeys, AllowedMetadataValueTypes];
+
+export interface IMangaCard {
     id: number;
     title: string;
     genre: string[];
@@ -93,9 +101,11 @@ interface IMangaCard {
     downloadCount?: number;
     inLibrary?: boolean;
     meta?: IMetadata;
+    inLibraryAt: number;
+    lastReadAt: number;
 }
 
-interface IManga {
+export interface IManga {
     id: number;
     sourceId: string;
 
@@ -121,9 +131,17 @@ interface IManga {
 
     age: number;
     chaptersAge: number;
+    chaptersLastFetchedAt: number;
+    inLibraryAt: number;
+    initialized: boolean;
+    lastChapterRead: NullAndUndefined<IChapter>;
+    lastFetchedAt: number;
+    lastReadAt: number;
+    thumbnailUrlLastFetched: number;
+    updateStrategy: string;
 }
 
-interface IChapter {
+export interface IChapter {
     id: number;
     url: string;
     name: string;
@@ -140,35 +158,35 @@ interface IChapter {
     chapterCount: number;
     pageCount: number;
     downloaded: boolean;
-    meta: IAppMetadata;
+    meta: IMetadata;
 }
 
-interface IMangaChapter {
+export interface IMangaChapter {
     manga: IManga;
     chapter: IChapter;
 }
 
-interface IPartialChapter {
+export interface IPartialChapter {
     pageCount: number;
     index: number;
     chapterCount: number;
     lastPageRead: number;
 }
 
-interface ICategory {
+export interface ICategory {
     id: number;
     order: number;
     name: string;
     default: boolean;
-    meta: IAppMetadata;
+    meta: IMetadata;
 }
 
-interface INavbarOverride {
+export interface INavbarOverride {
     status: boolean;
     value: any;
 }
 
-type ReaderType =
+export type ReaderType =
     | 'ContinuesVertical'
     | 'Webtoon'
     | 'SingleVertical'
@@ -180,19 +198,23 @@ type ReaderType =
     | 'ContinuesHorizontalLTR'
     | 'ContinuesHorizontalRTL';
 
-interface IReaderSettings {
+export interface IReaderSettings {
     staticNav: boolean;
     showPageNumber: boolean;
     loadNextOnEnding: boolean;
     readerType: ReaderType;
 }
 
-interface IReaderPage {
+export interface ISearchSettings {
+    ignoreFilters: boolean;
+}
+
+export interface IReaderPage {
     index: number;
     src: string;
 }
 
-interface IReaderProps {
+export interface IReaderProps {
     pages: Array<IReaderPage>;
     pageCount: number;
     setCurPage: React.Dispatch<React.SetStateAction<number>>;
@@ -205,7 +227,7 @@ interface IReaderProps {
     prevChapter: () => void;
 }
 
-interface IAbout {
+export interface IAbout {
     name: string;
     version: string;
     revision: string;
@@ -215,7 +237,7 @@ interface IAbout {
     discord: string;
 }
 
-interface IDownloadChapter {
+export interface IDownloadChapter {
     chapterIndex: number;
     mangaId: number;
     state: 'Queued' | 'Downloading' | 'Finished' | 'Error';
@@ -224,12 +246,12 @@ interface IDownloadChapter {
     manga: IManga;
 }
 
-interface IQueue {
+export interface IQueue {
     status: 'Stopped' | 'Started';
     queue: IDownloadChapter[];
 }
 
-interface IUpdateStatus {
+export interface IUpdateStatus {
     running: boolean;
     statusMap: {
         COMPLETE?: IManga[];
@@ -238,7 +260,7 @@ interface IUpdateStatus {
     };
 }
 
-interface PreferenceProps {
+export interface PreferenceProps {
     key: string;
     title: string;
     summary: string;
@@ -250,54 +272,54 @@ interface PreferenceProps {
     updateValue: any;
 }
 
-interface TwoStatePreferenceProps extends PreferenceProps {
+export interface TwoStatePreferenceProps extends PreferenceProps {
     // intetnal props
     type: 'Switch' | 'Checkbox';
 }
 
-interface CheckBoxPreferenceProps extends PreferenceProps {}
+export interface CheckBoxPreferenceProps extends PreferenceProps {}
 
-interface SwitchPreferenceCompatProps extends PreferenceProps {}
+export interface SwitchPreferenceCompatProps extends PreferenceProps {}
 
-interface ListPreferenceProps extends PreferenceProps {
+export interface ListPreferenceProps extends PreferenceProps {
     entries: string[];
     entryValues: string[];
 }
 
-interface MultiSelectListPreferenceProps extends PreferenceProps {
+export interface MultiSelectListPreferenceProps extends PreferenceProps {
     entries: string[];
     entryValues: string[];
 }
 
-interface EditTextPreferenceProps extends PreferenceProps {
+export interface EditTextPreferenceProps extends PreferenceProps {
     dialogTitle: string;
     dialogMessage: string;
     text: string;
 }
 
-interface SourcePreferences {
+export interface SourcePreferences {
     type: string;
     props: any;
 }
 
-interface NavbarItem {
+export interface NavbarItem {
     path: string;
-    title: string;
+    title: TranslationKey;
     SelectedIconComponent: OverridableComponent<SvgIconTypeMap<{}, 'svg'>>;
     IconComponent: OverridableComponent<SvgIconTypeMap<{}, 'svg'>>;
     show: 'mobile' | 'desktop' | 'both';
 }
 
-interface PaginatedList<T> {
+export interface PaginatedList<T> {
     page: T[];
     hasNextPage: boolean;
 }
 
-type NullAndUndefined<T> = T | null | undefined;
+export type NullAndUndefined<T> = T | null | undefined;
 
-type ChapterSortMode = 'fetchedAt' | 'source';
+export type ChapterSortMode = 'fetchedAt' | 'source';
 
-interface ChapterListOptions {
+export interface ChapterListOptions {
     active: boolean;
     unread: NullAndUndefined<boolean>;
     downloaded: NullAndUndefined<boolean>;
@@ -307,13 +329,13 @@ interface ChapterListOptions {
     showChapterNumber: boolean;
 }
 
-type ChapterOptionsReducerAction =
+export type ChapterOptionsReducerAction =
     | { type: 'filter'; filterType: string; filterValue: NullAndUndefined<boolean> }
     | { type: 'sortBy'; sortBy: ChapterSortMode }
     | { type: 'sortReverse' }
     | { type: 'showChapterNumber' };
 
-type LibrarySortMode = 'sortToRead' | 'sortAlph' | 'sortID';
+export type LibrarySortMode = 'sortToRead' | 'sortAlph' | 'sortDateAdded' | 'sortLastRead';
 
 enum GridLayout {
     Compact = 0,
@@ -321,7 +343,7 @@ enum GridLayout {
     List = 2,
 }
 
-interface LibraryOptions {
+export interface LibraryOptions {
     // display options
     showDownloadBadge: boolean;
     showUnreadBadge: boolean;
@@ -335,7 +357,7 @@ interface LibraryOptions {
     sortDesc: NullAndUndefined<boolean>;
 }
 
-interface BatchChaptersChange {
+export interface BatchChaptersChange {
     delete?: boolean;
     isRead?: boolean;
     isBookmarked?: boolean;

@@ -13,17 +13,20 @@ import ThreeStateCheckboxInput from 'components/atoms/ThreeStateCheckboxInput';
 import { GridLayout, useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
 import OptionsTabs from 'components/molecules/OptionsTabs';
 import React from 'react';
+import { LibraryOptions, LibrarySortMode, TranslationKey } from 'typings';
+import { useTranslation } from 'react-i18next';
 
-const TITLES = {
-    filter: 'Filter',
-    sort: 'Sort',
-    display: 'Display',
+const TITLES: { [key in 'filter' | 'sort' | 'display']: TranslationKey } = {
+    filter: 'global.label.filter',
+    sort: 'global.label.sort',
+    display: 'global.label.display',
 };
 
-const SORT_OPTIONS: [LibrarySortMode, string][] = [
-    ['sortToRead', 'By Unread chapters'],
-    ['sortAlph', 'Alphabetically'],
-    ['sortID', 'By ID'],
+const SORT_OPTIONS: [LibrarySortMode, TranslationKey][] = [
+    ['sortToRead', 'library.option.sort.label.by_unread_chapters'],
+    ['sortAlph', 'library.option.sort.label.alphabetically'],
+    ['sortDateAdded', 'library.option.sort.label.by_date_added'],
+    ['sortLastRead', 'library.option.sort.label.by_last_read'],
 ];
 
 interface IProps {
@@ -32,6 +35,7 @@ interface IProps {
 }
 
 const LibraryOptionsPanel: React.FC<IProps> = ({ open, onClose }) => {
+    const { t } = useTranslation();
     const { options, setOptions } = useLibraryOptionsContext();
 
     const handleFilterChange = <T extends keyof LibraryOptions>(key: T, value: LibraryOptions[T]) => {
@@ -43,18 +47,18 @@ const LibraryOptionsPanel: React.FC<IProps> = ({ open, onClose }) => {
             open={open}
             onClose={onClose}
             tabs={['filter', 'sort', 'display']}
-            tabTitle={(key) => TITLES[key]}
+            tabTitle={(key) => t(TITLES[key])}
             tabContent={(key) => {
                 if (key === 'filter') {
                     return (
                         <>
                             <ThreeStateCheckboxInput
-                                label="Unread"
+                                label={t('global.filter.label.unread')}
                                 checked={options.unread}
                                 onChange={(c) => handleFilterChange('unread', c)}
                             />
                             <ThreeStateCheckboxInput
-                                label="Downloaded"
+                                label={t('global.filter.label.downloaded')}
                                 checked={options.downloaded}
                                 onChange={(c) => handleFilterChange('downloaded', c)}
                             />
@@ -65,7 +69,7 @@ const LibraryOptionsPanel: React.FC<IProps> = ({ open, onClose }) => {
                     return SORT_OPTIONS.map(([mode, label]) => (
                         <SortRadioInput
                             key={mode}
-                            label={label}
+                            label={t(label) as string}
                             checked={options.sorts === mode}
                             sortDescending={options.sortDesc}
                             onClick={() =>
@@ -80,36 +84,36 @@ const LibraryOptionsPanel: React.FC<IProps> = ({ open, onClose }) => {
                     const { gridLayout, showDownloadBadge, showUnreadBadge } = options;
                     return (
                         <>
-                            <FormLabel>Display mode</FormLabel>
+                            <FormLabel>{t('global.grid_layout.title')}</FormLabel>
                             <RadioGroup
                                 onChange={(e) => handleFilterChange('gridLayout', Number(e.target.value))}
                                 value={gridLayout}
                             >
                                 <RadioInput
-                                    label="Compact grid"
+                                    label={t('global.grid_layout.label.compact_grid')}
                                     value={GridLayout.Compact}
                                     checked={gridLayout == null || gridLayout === GridLayout.Compact}
                                 />
                                 <RadioInput
-                                    label="Comfortable grid"
+                                    label={t('global.grid_layout.label.comfortable_grid')}
                                     value={GridLayout.Comfortable}
                                     checked={gridLayout === GridLayout.Comfortable}
                                 />
                                 <RadioInput
-                                    label="List"
+                                    label={t('global.grid_layout.label.list')}
                                     value={GridLayout.List}
                                     checked={gridLayout === GridLayout.List}
                                 />
                             </RadioGroup>
 
-                            <FormLabel sx={{ mt: 2 }}>Badges</FormLabel>
+                            <FormLabel sx={{ mt: 2 }}>{t('library.option.display.badge.title')}</FormLabel>
                             <CheckboxInput
-                                label="Unread Badges"
+                                label={t('library.option.display.badge.label.unread_badges')}
                                 checked={showUnreadBadge === true}
                                 onChange={() => handleFilterChange('showUnreadBadge', !showUnreadBadge)}
                             />
                             <CheckboxInput
-                                label="Download Badges"
+                                label={t('library.option.display.badge.label.download_badges')}
                                 checked={showDownloadBadge === true}
                                 onChange={() => handleFilterChange('showDownloadBadge', !showDownloadBadge)}
                             />

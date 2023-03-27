@@ -5,7 +5,16 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
+import { t } from 'i18next';
 import { useReducerLocalStorage } from 'util/useLocalStorage';
+import {
+    ChapterListOptions,
+    ChapterOptionsReducerAction,
+    ChapterSortMode,
+    IChapter,
+    NullAndUndefined,
+    TranslationKey,
+} from 'typings';
 
 const defaultChapterOptions: ChapterListOptions = {
     active: false,
@@ -34,7 +43,7 @@ function chapterOptionsReducer(state: ChapterListOptions, actions: ChapterOption
         case 'showChapterNumber':
             return { ...state, showChapterNumber: !state.showChapterNumber };
         default:
-            throw Error('This is not a valid Action');
+            throw Error(t('global.error.label.invalid_action'));
     }
 }
 
@@ -94,9 +103,9 @@ export const useChapterOptions = (mangaId: string) =>
         defaultChapterOptions,
     );
 
-export const SORT_OPTIONS: [ChapterSortMode, string][] = [
-    ['source', 'By Source'],
-    ['fetchedAt', 'By Fetch date'],
+export const SORT_OPTIONS: [ChapterSortMode, TranslationKey][] = [
+    ['source', 'global.sort.label.by_source'],
+    ['fetchedAt', 'global.sort.label.by_fetch_date'],
 ];
 
 export const isFilterActive = (options: ChapterListOptions) => {

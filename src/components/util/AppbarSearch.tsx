@@ -66,26 +66,26 @@ const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
         };
     }, [handleSearchShortcut]);
 
+    if (searchOpen) {
+        return (
+            <Input
+                value={query || ''}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                inputRef={inputRef}
+                endAdornment={
+                    <IconButton onClick={cancelSearch}>
+                        <CancelIcon />
+                    </IconButton>
+                }
+            />
+        );
+    }
+
     return (
-        <>
-            {searchOpen ? (
-                <Input
-                    value={query || ''}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    inputRef={inputRef}
-                    endAdornment={
-                        <IconButton onClick={cancelSearch}>
-                            <CancelIcon />
-                        </IconButton>
-                    }
-                />
-            ) : (
-                <IconButton onClick={openSearch}>
-                    <SearchIcon />
-                </IconButton>
-            )}
-        </>
+        <IconButton onClick={openSearch}>
+            <SearchIcon />
+        </IconButton>
     );
 };
 

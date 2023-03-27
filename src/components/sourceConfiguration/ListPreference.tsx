@@ -16,6 +16,8 @@ import RadioGroup from '@mui/material/RadioGroup';
 import Radio from '@mui/material/Radio';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Button from '@mui/material/Button';
+import { ListPreferenceProps } from 'typings';
+import { useTranslation } from 'react-i18next';
 
 interface IListDialogProps {
     value: string;
@@ -26,6 +28,8 @@ interface IListDialogProps {
 }
 
 function ListDialog(props: IListDialogProps) {
+    const { t } = useTranslation();
+
     const { value: valueProp, open, onClose, options, title } = props;
     const [value, setValue] = React.useState(valueProp);
     const radioGroupRef = React.useRef<HTMLDivElement>(null);
@@ -71,9 +75,9 @@ function ListDialog(props: IListDialogProps) {
             </DialogContent>
             <DialogActions>
                 <Button autoFocus onClick={handleCancel}>
-                    Cancel
+                    {t('global.button.cancel')}
                 </Button>
-                <Button onClick={handleOk}>Ok</Button>
+                <Button onClick={handleOk}>{t('global.button.ok')}</Button>
             </DialogActions>
         </Dialog>
     );

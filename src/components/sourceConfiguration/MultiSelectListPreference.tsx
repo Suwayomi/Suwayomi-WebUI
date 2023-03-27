@@ -17,6 +17,8 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Button from '@mui/material/Button';
 import cloneObject from 'util/cloneObject';
+import { MultiSelectListPreferenceProps } from 'typings';
+import { useTranslation } from 'react-i18next';
 
 interface IListDialogProps {
     selectedValues: string[];
@@ -27,6 +29,8 @@ interface IListDialogProps {
 }
 
 function ListDialog(props: IListDialogProps) {
+    const { t } = useTranslation();
+
     const { selectedValues: selectedValuesProp, open, onClose, values, title } = props;
     const [selectedValues, setSelectedValues] = React.useState(selectedValuesProp);
 
@@ -85,9 +89,9 @@ function ListDialog(props: IListDialogProps) {
             </DialogContent>
             <DialogActions>
                 <Button autoFocus onClick={handleCancel}>
-                    Cancel
+                    {t('global.button.cancel')}
                 </Button>
-                <Button onClick={handleOk}>Ok</Button>
+                <Button onClick={handleOk}>{t('global.button.ok')}</Button>
             </DialogActions>
         </Dialog>
     );

@@ -33,6 +33,8 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import NavbarContext from 'components/context/NavbarContext';
 import client, { useQuery } from 'util/client';
+import { ICategory } from 'typings';
+import { useTranslation } from 'react-i18next';
 
 const getItemStyle = (
     isDragging: boolean,
@@ -48,10 +50,12 @@ const getItemStyle = (
 });
 
 export default function Categories() {
+    const { t } = useTranslation();
+
     const { setTitle, setAction } = useContext(NavbarContext);
     useEffect(() => {
-        setTitle('Categories');
-        setAction(<></>);
+        setTitle(t('category.title.categories'));
+        setAction(null);
     }, []);
 
     const { data, mutate } = useQuery<ICategory[]>('/api/v1/category/');
@@ -195,14 +199,16 @@ export default function Categories() {
             </Fab>
             <Dialog open={dialogOpen} onClose={handleDialogCancel}>
                 <DialogTitle id="form-dialog-title">
-                    {categoryToEdit === -1 ? 'New Catalog' : 'Edit Catalog'}
+                    {categoryToEdit === -1
+                        ? t('category.dialog.title.new_category')
+                        : t('category.dialog.title.edit_category')}
                 </DialogTitle>
                 <DialogContent>
                     <TextField
                         autoFocus
                         margin="dense"
                         id="name"
-                        label="Category Name"
+                        label={t('category.label.category_name')}
                         type="text"
                         fullWidth
                         value={dialogName}
@@ -216,15 +222,15 @@ export default function Categories() {
                                 color="default"
                             />
                         }
-                        label="Default category when adding new manga to library"
+                        label={t('category.label.use_as_default_category')}
                     />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleDialogCancel} color="primary">
-                        Cancel
+                        {t('global.button.cancel')}
                     </Button>
                     <Button onClick={handleDialogSubmit} color="primary">
-                        Submit
+                        {t('global.button.submit')}
                     </Button>
                 </DialogActions>
             </Dialog>

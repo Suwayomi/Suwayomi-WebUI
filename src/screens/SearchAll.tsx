@@ -11,13 +11,15 @@ import NavbarContext from 'components/context/NavbarContext';
 import MangaGrid from 'components/MangaGrid';
 import LangSelect from 'components/navbar/action/LangSelect';
 import AppbarSearch from 'components/util/AppbarSearch';
-import PQueue from 'p-queue/dist/index';
+import PQueue from 'p-queue';
 import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { StringParam, useQueryParam } from 'use-query-params';
 import client from 'util/client';
 import { langCodeToName, langSortCmp, sourceDefualtLangs, sourceForcedDefaultLangs } from 'util/language';
 import useLocalStorage from 'util/useLocalStorage';
+import { ISource } from 'typings';
+import { useTranslation } from 'react-i18next';
 
 function sourceToLangList(sources: ISource[]) {
     const result: string[] = [];
@@ -33,6 +35,8 @@ function sourceToLangList(sources: ISource[]) {
 }
 
 const SearchAll: React.FC = () => {
+    const { t } = useTranslation();
+
     const [query] = useQueryParam('query', StringParam);
     const { setTitle, setAction } = useContext(NavbarContext);
     const [triggerUpdate, setTriggerUpdate] = useState<number>(2);
@@ -52,12 +56,8 @@ const SearchAll: React.FC = () => {
     const limit = new PQueue({ concurrency: 5 });
 
     useEffect(() => {
-        setTitle('Global Search');
-        setAction(
-            <>
-                <AppbarSearch />
-            </>,
-        );
+        setTitle(t('search.title.global_search'));
+        setAction(<AppbarSearch />);
     }, []);
 
     useEffect(() => {
@@ -149,7 +149,7 @@ const SearchAll: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        setTitle('Sources');
+        setTitle(t('source.title'));
         setAction(
             <>
                 <AppbarSearch autoOpen />
@@ -213,7 +213,7 @@ const SearchAll: React.FC = () => {
                                 setLastPageNum={setLastPageNum}
                                 horizontal
                                 noFaces
-                                message={fetched[id] ? 'No manga was found!' : undefined}
+                                message={fetched[id] ? t('manga.error.label.no_mangas_found') : undefined}
                                 inLibraryIndicator
                             />
                         </>
@@ -221,7 +221,8 @@ const SearchAll: React.FC = () => {
             </>
         );
     }
-    return <></>;
+
+    return null;
 };
 
 export default SearchAll;

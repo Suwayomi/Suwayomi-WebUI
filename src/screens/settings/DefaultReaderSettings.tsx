@@ -20,19 +20,22 @@ import {
     useDefaultReaderSettings,
 } from 'util/readerSettings';
 import ReaderSettingsOptions from 'components/reader/ReaderSettingsOptions';
+import { IReaderSettings } from 'typings';
+import { useTranslation } from 'react-i18next';
 
 export default function DefaultReaderSettings() {
+    const { t } = useTranslation();
     const { setTitle, setAction } = useContext(NavbarContext);
     useEffect(() => {
-        setTitle('Default Reader Settings');
-        setAction(<></>);
+        setTitle(t('reader.settings.title.default_reader_settings'));
+        setAction(null);
     }, []);
 
     const { metadata, settings, loading } = useDefaultReaderSettings();
 
     const setSettingValue = (key: keyof IReaderSettings, value: string | boolean) => {
         requestUpdateServerMetadata(metadata ?? {}, [[key, value]]).catch(() =>
-            makeToast('Failed to save the default reader settings to the server', 'warning'),
+            makeToast(t('reader.settings.error.label.failed_to_save_settings'), 'warning'),
         );
     };
 

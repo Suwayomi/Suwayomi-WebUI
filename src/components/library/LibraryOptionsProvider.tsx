@@ -6,8 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import LibraryOptionsContext, { DefaultLibraryOptions } from 'components/context/LibraryOptionsContext';
-import React from 'react';
+import React, { useMemo } from 'react';
 import useLocalStorage from 'util/useLocalStorage';
+import { LibraryOptions } from 'typings';
 
 interface IProps {
     children: React.ReactNode;
@@ -16,7 +17,9 @@ interface IProps {
 const LibraryOptionsContextProvider: React.FC<IProps> = ({ children }) => {
     const [options, setOptions] = useLocalStorage<LibraryOptions>('libraryOptions', DefaultLibraryOptions);
 
-    return <LibraryOptionsContext.Provider value={{ options, setOptions }}>{children}</LibraryOptionsContext.Provider>;
+    const value = useMemo(() => ({ options, setOptions }), [options, setOptions]);
+
+    return <LibraryOptionsContext.Provider value={value}>{children}</LibraryOptionsContext.Provider>;
 };
 
 export default LibraryOptionsContextProvider;

@@ -15,6 +15,8 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import client, { useQuery } from 'util/client';
+import { ICategory } from 'typings';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {
     open: boolean;
@@ -23,6 +25,8 @@ interface IProps {
 }
 
 export default function CategorySelect(props: IProps) {
+    const { t } = useTranslation();
+
     const { open, setOpen, mangaId } = props;
 
     const { data: mangaCategoriesData, mutate } = useQuery<ICategory[]>(`/api/v1/manga/${mangaId}/category`);
@@ -64,14 +68,14 @@ export default function CategorySelect(props: IProps) {
             maxWidth="xs"
             open={open}
         >
-            <DialogTitle>Set categories</DialogTitle>
+            <DialogTitle>{t('category.title.set_categories')}</DialogTitle>
             <DialogContent dividers>
                 <FormGroup>
                     {allCategories.length === 0 && (
                         <span>
-                            No categories found!
+                            {t('category.error.no_categories_found.label.info')}
                             <br />
-                            You should make some from settings.
+                            {t('category.error.no_categories_found.label.hint')}
                         </span>
                     )}
                     {allCategories.map((category) => (
@@ -91,10 +95,10 @@ export default function CategorySelect(props: IProps) {
             </DialogContent>
             <DialogActions>
                 <Button autoFocus onClick={handleCancel} color="primary">
-                    Cancel
+                    {t('global.button.cancel')}
                 </Button>
                 <Button onClick={handleOk} color="primary">
-                    Ok
+                    {t('global.button.ok')}
                 </Button>
             </DialogActions>
         </Dialog>

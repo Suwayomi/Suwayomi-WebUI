@@ -31,55 +31,54 @@ import { createPortal } from 'react-dom';
 import useBackTo from 'util/useBackTo';
 import DesktopSideBar from 'components/navbar/navigation/DesktopSideBar';
 import MobileBottomBar from 'components/navbar/navigation/MobileBottomBar';
-// import { useTranslation } from 'react-i18next';
-import { t } from 'i18next';
+import { NavbarItem } from 'typings';
 
 const navbarItems: Array<NavbarItem> = [
     {
         path: '/library',
-        title: t('DefaultNavBar.navbarItems.Library'),
+        title: 'library.title',
         SelectedIconComponent: CollectionsBookmarkIcon,
         IconComponent: CollectionsOutlinedBookmarkIcon,
         show: 'both',
     },
     {
         path: '/updates',
-        title: 'Updates',
+        title: 'updates.title',
         SelectedIconComponent: NewReleasesIcon,
         IconComponent: NewReleasesOutlinedIcon,
         show: 'both',
     },
     {
         path: '/extensions',
-        title: 'Extensions',
+        title: 'extension.title',
         SelectedIconComponent: ExtensionIcon,
         IconComponent: ExtensionOutlinedIcon,
         show: 'desktop',
     },
     {
         path: '/sources',
-        title: 'Sources',
+        title: 'source.title',
         SelectedIconComponent: ExploreIcon,
         IconComponent: ExploreOutlinedIcon,
         show: 'desktop',
     },
     {
         path: '/browse',
-        title: 'Browse',
+        title: 'global.label.browse',
         SelectedIconComponent: ExploreIcon,
         IconComponent: ExploreOutlinedIcon,
         show: 'mobile',
     },
     {
         path: '/downloads',
-        title: 'Downloads',
+        title: 'download.title',
         SelectedIconComponent: GetAppIcon,
         IconComponent: GetAppOutlinedIcon,
         show: 'both',
     },
     {
         path: '/settings',
-        title: 'Settings',
+        title: 'settings.title',
         SelectedIconComponent: SettingsIcon,
         IconComponent: SettingsIcon,
         show: 'both',
@@ -87,7 +86,6 @@ const navbarItems: Array<NavbarItem> = [
 ];
 
 export default function DefaultNavBar() {
-    // const { t } = useTranslation();
     const { title, action, override } = useContext(NavBarContext);
     const backTo = useBackTo();
 
@@ -100,7 +98,7 @@ export default function DefaultNavBar() {
     // Allow default navbar to be overrided
     if (override.status) return override.value;
 
-    let navbar = <></>;
+    let navbar: JSX.Element | null = null;
     if (isMobileWidth) {
         if (isMainRoute) {
             navbar = <MobileBottomBar navBarItems={navbarItems.filter((it) => it.show !== 'desktop')} />;

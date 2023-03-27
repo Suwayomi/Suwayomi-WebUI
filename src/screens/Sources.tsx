@@ -16,6 +16,8 @@ import { IconButton } from '@mui/material';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import { useHistory } from 'react-router-dom';
 import { useQuery } from 'util/client';
+import { ISource } from 'typings';
+import { useTranslation } from 'react-i18next';
 
 function sourceToLangList(sources: ISource[]) {
     const result: string[] = [];
@@ -43,6 +45,7 @@ function groupByLang(sources: ISource[]) {
 }
 
 export default function Sources() {
+    const { t } = useTranslation();
     const { setTitle, setAction } = useContext(NavbarContext);
 
     const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownSourceLangs', sourceDefualtLangs());
@@ -69,7 +72,7 @@ export default function Sources() {
     }, []);
 
     useEffect(() => {
-        setTitle('Sources');
+        setTitle(t('source.title'));
         setAction(
             <>
                 <IconButton onClick={() => history.push('/sources/all/search/')} size="large">
@@ -88,7 +91,7 @@ export default function Sources() {
     if (loading) return <LoadingPlaceholder />;
 
     if (sources?.length === 0) {
-        return <h3>No sources found. Install Some Extensions first.</h3>;
+        return <h3>{t('source.error.label.no_sources_found')}</h3>;
     }
 
     return (

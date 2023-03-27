@@ -17,6 +17,8 @@ import AppbarSearch from 'components/util/AppbarSearch';
 import { useQueryParam, StringParam } from 'use-query-params';
 import SourceGridLayout from 'components/source/GridLayouts';
 import { useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
+import { IManga, IMangaCard, ISource, ISourceFilters } from 'typings';
+import { useTranslation } from 'react-i18next';
 
 interface IPos {
     position: number;
@@ -24,7 +26,8 @@ interface IPos {
     group?: number;
 }
 
-export default function SourceMangas(props: { popular: boolean }) {
+export default function SourceMangas({ popular }: { popular: boolean }) {
+    const { t } = useTranslation();
     const { setTitle, setAction } = useContext(NavbarContext);
     const history = useHistory();
 
@@ -57,7 +60,7 @@ export default function SourceMangas(props: { popular: boolean }) {
     }
 
     useEffect(() => {
-        setTitle('Source'); // title is later set after a fetch but we set it here once
+        setTitle(t('source.title')); // title is later set after a fetch but we set it here once
     }, []);
 
     useEffect(() => {
@@ -152,7 +155,7 @@ export default function SourceMangas(props: { popular: boolean }) {
         );
 
         return () => {
-            setAction(<></>);
+            setAction(null);
         };
     }, [isConfigurable]);
 
@@ -182,7 +185,7 @@ export default function SourceMangas(props: { popular: boolean }) {
 
     useEffect(() => {
         if (lastPageNum !== 0) {
-            const sourceType = props.popular ? 'popular' : 'latest';
+            const sourceType = popular ? 'popular' : 'latest';
             client
                 .get(
                     `/api/v1/source/${sourceId}/${
@@ -203,6 +206,8 @@ export default function SourceMangas(props: { popular: boolean }) {
                             id: it.id,
                             inLibrary: it.inLibrary,
                             genre: it.genre,
+                            inLibraryAt: it.inLibraryAt,
+                            lastReadAt: it.lastReadAt,
                         })),
                     ]);
                     setHasNextPage(data.hasNextPage);
@@ -217,12 +222,14 @@ export default function SourceMangas(props: { popular: boolean }) {
     let messageExtra;
 
     if (fetched) {
-        message = 'No manga was found!';
+        message = t('manga.error.label.no_mangas_found');
         if (sourceId === '0') {
             messageExtra = (
                 <>
-                    <span>Check out </span>
-                    <a href="https://github.com/Suwayomi/Tachidesk-Server/wiki/Local-Source">Local source guide</a>
+                    <span>{t('source.local_source.label.checkout')} </span>
+                    <a href="https://github.com/Suwayomi/Tachidesk-Server/wiki/Local-Source">
+                        {t('source.local_source.label.guide')}
+                    </a>
                 </>
             );
         }

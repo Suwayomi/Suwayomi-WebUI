@@ -10,6 +10,8 @@ import { Fab } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { PlayArrow } from '@mui/icons-material';
 import { BACK } from 'util/useBackTo';
+import { IChapter } from 'typings';
+import { useTranslation } from 'react-i18next';
 
 interface ResumeFABProps {
     chapter: IChapter;
@@ -17,6 +19,8 @@ interface ResumeFABProps {
 }
 
 export default function ResumeFab(props: ResumeFABProps) {
+    const { t } = useTranslation();
+
     const {
         chapter: { index, lastPageRead },
         mangaId,
@@ -33,7 +37,7 @@ export default function ResumeFab(props: ResumeFABProps) {
             }}
         >
             <PlayArrow />
-            {index === 1 ? 'Start' : 'Resume'}
+            {index === 1 ? t('global.button.start') : t('global.button.resume')}
         </Fab>
     );
 }

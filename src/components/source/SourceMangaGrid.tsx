@@ -8,14 +8,15 @@
 
 import React from 'react';
 import MangaGrid, { IMangaGridProps } from 'components/MangaGrid';
-
-const FILTERED_OUT_MESSAGE = 'There are no Manga matching this filter';
+import { IMangaCard } from 'typings';
+import { useTranslation } from 'react-i18next';
 
 function filterManga(mangas: IMangaCard[]): IMangaCard[] {
     return mangas;
 }
 
 export default function SourceMangaGrid(props: IMangaGridProps) {
+    const { t } = useTranslation();
     const { mangas, isLoading, hasNextPage, lastPageNum, setLastPageNum, message, messageExtra, gridLayout } = props;
 
     const filteredManga = filterManga(mangas);
@@ -28,7 +29,7 @@ export default function SourceMangaGrid(props: IMangaGridProps) {
             hasNextPage={hasNextPage}
             lastPageNum={lastPageNum}
             setLastPageNum={setLastPageNum}
-            message={showFilteredOutMessage ? FILTERED_OUT_MESSAGE : message}
+            message={showFilteredOutMessage ? t('manga.error.label.no_matches') : message}
             messageExtra={messageExtra}
             gridLayout={gridLayout}
             inLibraryIndicator

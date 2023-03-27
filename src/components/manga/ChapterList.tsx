@@ -13,13 +13,14 @@ import ChapterCard from 'components/manga/ChapterCard';
 import ResumeFab from 'components/manga/ResumeFAB';
 import { filterAndSortChapters, useChapterOptions } from 'components/manga/util';
 import EmptyView from 'components/util/EmptyView';
-import { interpolate } from 'components/util/helpers';
 import makeToast from 'components/util/Toast';
 import React, { ComponentProps, useEffect, useMemo, useRef, useState } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 import client, { useQuery } from 'util/client';
 import ChaptersToolbarMenu from 'components/manga/ChaptersToolbarMenu';
 import SelectionFAB from 'components/manga/SelectionFAB';
+import { BatchChaptersChange, IChapter, IDownloadChapter, IQueue, TranslationKey } from 'typings';
+import { useTranslation } from 'react-i18next';
 
 const StyledVirtuoso = styled(Virtuoso)(({ theme }) => ({
     listStyle: 'none',
@@ -33,30 +34,35 @@ const StyledVirtuoso = styled(Virtuoso)(({ theme }) => ({
     },
 }));
 
-const actionsStrings = {
+const actionsStrings: {
+    [key in 'download' | 'delete' | 'bookmark' | 'unbookmark' | 'mark_as_read' | 'mark_as_unread']: {
+        success: TranslationKey;
+        error: TranslationKey;
+    };
+} = {
     download: {
-        success: { one: 'Download added', many: '%count% downloads added' },
-        error: { one: 'Error adding download', many: 'Error adding downloads' },
+        success: 'chapter.action.download.add.label.success',
+        error: 'chapter.action.download.add.label.error',
     },
     delete: {
-        success: { one: 'Chapter deleted', many: '%count% chapters deleted' },
-        error: { one: 'Error deleting chapter', many: 'Error deleting chapters' },
+        success: 'chapter.action.download.delete.label.success',
+        error: 'chapter.action.download.delete.label.error',
     },
     bookmark: {
-        success: { one: 'Chapter bookmarked', many: '%count% chapters bookmarked' },
-        error: { one: 'Error bookmarking chapter', many: 'Error bookmarking chapters' },
+        success: 'chapter.action.bookmark.add.label.success',
+        error: 'chapter.action.bookmark.add.label.error',
     },
     unbookmark: {
-        success: { one: 'Chapter bookmark removed', many: '%count% chapter bookmarks removed' },
-        error: { one: 'Error removing bookmark', many: 'Error removing bookmarks' },
+        success: 'chapter.action.bookmark.remove.label.success',
+        error: 'chapter.action.bookmark.remove.label.error',
     },
     mark_as_read: {
-        success: { one: 'Chapter marked as read', many: '%count% chapters marked as read' },
-        error: { one: 'Error marking chapter as read', many: 'Error marking chapters as read' },
+        success: 'chapter.action.mark_as_read.add.label.success',
+        error: 'chapter.action.mark_as_read.add.label.error',
     },
     mark_as_unread: {
-        success: { one: 'Chapter marked as unread', many: '%count% chapters marked as unread' },
-        error: { one: 'Error marking chapter as unread', many: 'Error marking chapters as unread' },
+        success: 'chapter.action.mark_as_read.remove.label.success',
+        error: 'chapter.action.mark_as_read.remove.label.error',
     },
 };
 
@@ -71,6 +77,8 @@ interface IProps {
 }
 
 const ChapterList: React.FC<IProps> = ({ mangaId }) => {
+    const { t } = useTranslation();
+
     const [selection, setSelection] = useState<number[] | null>(null);
     const prevQueueRef = useRef<IDownloadChapter[]>();
     const queue = useSubscription<IQueue>('/api/v1/downloads').data?.queue;
@@ -109,11 +117,11 @@ const ChapterList: React.FC<IProps> = ({ mangaId }) => {
 
     const firstUnreadChapter = useMemo(
         () =>
-            visibleChapters
+            chapters
                 .slice()
                 .reverse()
-                .find((c) => c.read === false),
-        [visibleChapters],
+                .find((chapter) => !chapter.read),
+        [chapters],
     );
 
     const handleSelection = (index: number) => {
@@ -161,9 +169,9 @@ const ChapterList: React.FC<IProps> = ({ mangaId }) => {
         }
 
         actionPromise
-            .then(() => makeToast(interpolate(chapterIds.length, actionsStrings[action].success), 'success'))
+            .then(() => makeToast(t(actionsStrings[action].success, { count: chapterIds.length }) as string, 'success'))
             .then(() => mutate())
-            .catch(() => makeToast(interpolate(chapterIds.length, actionsStrings[action].error), 'error'));
+            .catch(() => makeToast(t(actionsStrings[action].error, { count: chapterIds.length }) as string, 'error'));
     };
 
     if (loading) {
@@ -213,7 +221,9 @@ const ChapterList: React.FC<IProps> = ({ mangaId }) => {
                     }}
                 >
                     <Typography variant="h5">
-                        {`${visibleChapters.length} Chapter${visibleChapters.length === 1 ? '' : 's'}`}
+                        {`${visibleChapters.length} ${t('chapter.title', {
+                            count: visibleChapters.length,
+                        })}`}
                     </Typography>
 
                     {selection === null ? (
@@ -221,17 +231,17 @@ const ChapterList: React.FC<IProps> = ({ mangaId }) => {
                     ) : (
                         <Stack direction="row">
                             <Button size="small" onClick={handleSelectAll}>
-                                Select all
+                                {t('global.button.select_all')}
                             </Button>
                             <Button size="small" onClick={handleClear}>
-                                Clear
+                                {t('global.button.clear')}
                             </Button>
                         </Stack>
                     )}
                 </Stack>
 
-                {noChaptersFound && <EmptyView message="No chapters found" />}
-                {noChaptersMatchingFilter && <EmptyView message="No chapters matching filter" />}
+                {noChaptersFound && <EmptyView message={t('chapter.error.label.no_chapter_found')} />}
+                {noChaptersMatchingFilter && <EmptyView message={t('chapter.error.label.no_matches')} />}
 
                 <StyledVirtuoso
                     style={{

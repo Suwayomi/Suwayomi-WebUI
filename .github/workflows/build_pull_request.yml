@@ -1,11 +1,20 @@
-name: Lint
-on: push
+name: CI Pull Request
+on:
+  pull_request:
 jobs:
   build:
+    name: ci-pull-request
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Install modules
         run: yarn
+
       - name: Run ESLint
         run: yarn lint
+
+      - name: Run TSC
+        run: yarn tsc
+
+      - name: Build app
+        run: yarn build

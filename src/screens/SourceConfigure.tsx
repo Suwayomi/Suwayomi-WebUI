@@ -15,6 +15,8 @@ import EditTextPreference from 'components/sourceConfiguration/EditTextPreferenc
 import MultiSelectListPreference from 'components/sourceConfiguration/MultiSelectListPreference';
 import List from '@mui/material/List';
 import cloneObject from 'util/cloneObject';
+import { SourcePreferences } from 'typings';
+import { useTranslation } from 'react-i18next';
 
 function getPrefComponent(type: string) {
     switch (type) {
@@ -34,11 +36,12 @@ function getPrefComponent(type: string) {
 }
 
 export default function SourceConfigure() {
+    const { t } = useTranslation();
     const { setTitle, setAction } = useContext(NavbarContext);
 
     useEffect(() => {
-        setTitle('Source Configuration');
-        setAction(<></>);
+        setTitle(t('source.configuration.title'));
+        setAction(null);
     }, []);
 
     const { sourceId } = useParams<{ sourceId: string }>();
@@ -65,18 +68,16 @@ export default function SourceConfigure() {
     };
 
     return (
-        <>
-            <List sx={{ padding: 0 }}>
-                {sourcePreferences.map((it, index) => {
-                    const props = cloneObject(it.props);
-                    props.updateValue = updateValue(index);
-                    props.key = index;
+        <List sx={{ padding: 0 }}>
+            {sourcePreferences.map((it, index) => {
+                const props = cloneObject(it.props);
+                props.updateValue = updateValue(index);
+                props.key = index;
 
-                    // TypeScript is dumb in detecting extra props
-                    // @ts-ignore
-                    return React.createElement(getPrefComponent(it.type), props);
-                })}
-            </List>
-        </>
+                // TypeScript is dumb in detecting extra props
+                // @ts-ignore
+                return React.createElement(getPrefComponent(it.type), props);
+            })}
+        </List>
     );
 }

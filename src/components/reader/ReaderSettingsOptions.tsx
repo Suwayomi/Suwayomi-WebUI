@@ -11,6 +11,8 @@ import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import React from 'react';
+import { IReaderSettings } from 'typings';
+import { useTranslation } from 'react-i18next';
 
 interface IProps extends IReaderSettings {
     setSettingValue: (key: keyof IReaderSettings, value: string | boolean) => void;
@@ -23,61 +25,67 @@ export default function ReaderSettingsOptions({
     showPageNumber,
     setSettingValue,
 }: IProps) {
+    const { t } = useTranslation();
+
     return (
-        <>
-            <List>
-                <ListItem>
-                    <ListItemText primary="Static Navigation" />
-                    <ListItemSecondaryAction>
-                        <Switch
-                            edge="end"
-                            checked={staticNav}
-                            onChange={(e) => setSettingValue('staticNav', e.target.checked)}
-                        />
-                    </ListItemSecondaryAction>
-                </ListItem>
-                <ListItem>
-                    <ListItemText primary="Show page number" />
-                    <ListItemSecondaryAction>
-                        <Switch
-                            edge="end"
-                            checked={showPageNumber}
-                            onChange={(e) => setSettingValue('showPageNumber', e.target.checked)}
-                        />
-                    </ListItemSecondaryAction>
-                </ListItem>
-                <ListItem>
-                    <ListItemText primary="Load next chapter at ending" />
-                    <ListItemSecondaryAction>
-                        <Switch
-                            edge="end"
-                            checked={loadNextOnEnding}
-                            onChange={(e) => setSettingValue('loadNextOnEnding', e.target.checked)}
-                        />
-                    </ListItemSecondaryAction>
-                </ListItem>
-                <ListItem>
-                    <ListItemText primary="Reader Type" />
-                    <Select
-                        variant="standard"
-                        value={readerType}
-                        onChange={(e) => setSettingValue('readerType', e.target.value)}
-                        sx={{ p: 0 }}
-                    >
-                        <MenuItem value="SingleLTR">Single Page (LTR)</MenuItem>
-                        <MenuItem value="SingleRTL">Single Page (RTL)</MenuItem>
-                        {/* <MenuItem value="SingleVertical">
+        <List>
+            <ListItem>
+                <ListItemText primary={t('reader.settings.label.static_navigation')} />
+                <ListItemSecondaryAction>
+                    <Switch
+                        edge="end"
+                        checked={staticNav}
+                        onChange={(e) => setSettingValue('staticNav', e.target.checked)}
+                    />
+                </ListItemSecondaryAction>
+            </ListItem>
+            <ListItem>
+                <ListItemText primary={t('reader.settings.label.show_page_number')} />
+                <ListItemSecondaryAction>
+                    <Switch
+                        edge="end"
+                        checked={showPageNumber}
+                        onChange={(e) => setSettingValue('showPageNumber', e.target.checked)}
+                    />
+                </ListItemSecondaryAction>
+            </ListItem>
+            <ListItem>
+                <ListItemText primary={t('reader.settings.label.load_next_chapter')} />
+                <ListItemSecondaryAction>
+                    <Switch
+                        edge="end"
+                        checked={loadNextOnEnding}
+                        onChange={(e) => setSettingValue('loadNextOnEnding', e.target.checked)}
+                    />
+                </ListItemSecondaryAction>
+            </ListItem>
+            <ListItem>
+                <ListItemText primary={t('reader.settings.label.reader_type')} />
+                <Select
+                    variant="standard"
+                    value={readerType}
+                    onChange={(e) => setSettingValue('readerType', e.target.value)}
+                    sx={{ p: 0 }}
+                >
+                    <MenuItem value="SingleLTR">{t('reader.settings.reader_type.label.single_page_ltr')}</MenuItem>
+                    <MenuItem value="SingleRTL">{t('reader.settings.reader_type.label.single_page_rtl')}</MenuItem>
+                    {/* <MenuItem value="SingleVertical">
                                        Vertical(WIP)
                                     </MenuItem> */}
-                        <MenuItem value="DoubleLTR">Double Page (LTR)</MenuItem>
-                        <MenuItem value="DoubleRTL">Double Page (RTL)</MenuItem>
-                        <MenuItem value="Webtoon">Webtoon</MenuItem>
-                        <MenuItem value="ContinuesVertical">Continues Vertical</MenuItem>
-                        <MenuItem value="ContinuesHorizontalLTR">Horizontal (LTR)</MenuItem>
-                        <MenuItem value="ContinuesHorizontalRTL">Horizontal (RTL)</MenuItem>
-                    </Select>
-                </ListItem>
-            </List>
-        </>
+                    <MenuItem value="DoubleLTR">{t('reader.settings.reader_type.label.double_page_ltr')}</MenuItem>
+                    <MenuItem value="DoubleRTL">{t('reader.settings.reader_type.label.double_page_rtl')}</MenuItem>
+                    <MenuItem value="Webtoon">{t('reader.settings.reader_type.label.webtoon')}</MenuItem>
+                    <MenuItem value="ContinuesVertical">
+                        {t('reader.settings.reader_type.label.continuous_vertical')}
+                    </MenuItem>
+                    <MenuItem value="ContinuesHorizontalLTR">
+                        {t('reader.settings.reader_type.label.continuous_horizontal_ltr')}
+                    </MenuItem>
+                    <MenuItem value="ContinuesHorizontalRTL">
+                        {t('reader.settings.reader_type.label.continuous_horizontal_rtl')}
+                    </MenuItem>
+                </Select>
+            </ListItem>
+        </List>
     );
 }

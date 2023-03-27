@@ -9,9 +9,12 @@ import { IconButton, Menu, MenuItem, FormControlLabel, Radio } from '@mui/materi
 import React from 'react';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import { GridLayout, useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
+import { useTranslation } from 'react-i18next';
 
 // TODO: clean up this to use a FormControl, and remove dependency on name o radio button
 export default function SourceGridLayout() {
+    const { t } = useTranslation();
+
     const {
         options: { SourcegridLayout },
         setOptions,
@@ -53,7 +56,7 @@ export default function SourceGridLayout() {
             >
                 <MenuItem onClick={handleClose}>
                     <FormControlLabel
-                        label="Compact grid"
+                        label={t('global.grid_layout.label.compact_grid')}
                         value={GridLayout.Compact}
                         control={
                             <Radio
@@ -66,7 +69,7 @@ export default function SourceGridLayout() {
                 </MenuItem>
                 <MenuItem onClick={handleClose}>
                     <FormControlLabel
-                        label="Comfortable grid"
+                        label={t('global.grid_layout.label.comfortable_grid')}
                         control={
                             <Radio
                                 name={GridLayout.Comfortable.toString()}
@@ -78,7 +81,7 @@ export default function SourceGridLayout() {
                 </MenuItem>
                 <MenuItem onClick={handleClose}>
                     <FormControlLabel
-                        label="List"
+                        label={t('global.grid_layout.label.list')}
                         control={
                             <Radio
                                 name={GridLayout.List.toString()}

@@ -30,8 +30,8 @@ export default function Browse() {
                 scrollButtons
                 allowScrollButtonsMobile
             >
-                <Tab sx={{ textTransform: 'none' }} label={t('screens.Browse.sources')} />
-                <Tab sx={{ textTransform: 'none' }} label={t('screens.Browse.extensions')} />
+                <Tab sx={{ textTransform: 'none' }} label={t('source.title')} />
+                <Tab sx={{ textTransform: 'none' }} label={t('extension.title')} />
             </Tabs>
             <TabPanel index={0} currentIndex={tabNum}>
                 <Sources />

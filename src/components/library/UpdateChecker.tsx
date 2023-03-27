@@ -6,6 +6,8 @@ import { Box } from '@mui/system';
 import Typography from '@mui/material/Typography';
 import client from 'util/client';
 import makeToast from 'components/util/Toast';
+import { IUpdateStatus } from 'typings';
+import { useTranslation } from 'react-i18next';
 
 interface IProgressProps {
     progress: number;
@@ -29,6 +31,8 @@ interface IUpdateCheckerProps {
 }
 
 function UpdateChecker({ handleFinishedUpdate }: IUpdateCheckerProps) {
+    const { t } = useTranslation();
+
     const [loading, setLoading] = useState(false);
     const [progress, setProgress] = useState(0);
 
@@ -38,7 +42,7 @@ function UpdateChecker({ handleFinishedUpdate }: IUpdateCheckerProps) {
             setProgress(0);
             await client.post('/api/v1/update/fetch');
         } catch (e) {
-            makeToast('Checking for updates failed!', 'error');
+            makeToast(t('global.error.label.update_failed'), 'error');
             setLoading(false);
         }
     };

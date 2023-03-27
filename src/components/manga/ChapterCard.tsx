@@ -29,6 +29,8 @@ import { Link } from 'react-router-dom';
 import client from 'util/client';
 import { BACK } from 'util/useBackTo';
 import { getUploadDateString } from 'util/date';
+import { IChapter, IDownloadChapter } from 'typings';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {
     chapter: IChapter;
@@ -40,6 +42,7 @@ interface IProps {
 }
 
 const ChapterCard: React.FC<IProps> = (props: IProps) => {
+    const { t } = useTranslation();
     const theme = useTheme();
 
     const { chapter, triggerChaptersUpdate, downloadChapter: dc, showChapterNumber, onSelect, selected } = props;
@@ -134,12 +137,12 @@ const ChapterCard: React.FC<IProps> = (props: IProps) => {
                                         sx={{ mr: 0.5, position: 'relative', top: '0.15em' }}
                                     />
                                 )}
-                                {showChapterNumber ? `Chapter ${chapter.chapterNumber}` : chapter.name}
+                                {showChapterNumber ? `${t('chapter.title')} ${chapter.chapterNumber}` : chapter.name}
                             </Typography>
                             <Typography variant="caption">{chapter.scanlator}</Typography>
                             <Typography variant="caption">
                                 {getUploadDateString(chapter.uploadDate)}
-                                {isDownloaded && ' • Downloaded'}
+                                {isDownloaded && ` • ${t('chapter.status.label.downloaded')}`}
                             </Typography>
                         </Stack>
 
@@ -159,14 +162,14 @@ const ChapterCard: React.FC<IProps> = (props: IProps) => {
                         <ListItemIcon>
                             <CheckBoxOutlineBlank fontSize="small" />
                         </ListItemIcon>
-                        <ListItemText>Select</ListItemText>
+                        <ListItemText>{t('chapter.action.label.select')}</ListItemText>
                     </MenuItem>
                     {isDownloaded && (
                         <MenuItem onClick={deleteChapter}>
                             <ListItemIcon>
                                 <Delete fontSize="small" />
                             </ListItemIcon>
-                            <ListItemText>Delete</ListItemText>
+                            <ListItemText>{t('chapter.action.download.delete.label.action')}</ListItemText>
                         </MenuItem>
                     )}
                     {canBeDownloaded && (
@@ -174,7 +177,7 @@ const ChapterCard: React.FC<IProps> = (props: IProps) => {
                             <ListItemIcon>
                                 <Download fontSize="small" />
                             </ListItemIcon>
-                            <ListItemText>Download</ListItemText>
+                            <ListItemText>{t('chapter.action.download.add.label.action')}</ListItemText>
                         </MenuItem>
                     )}
                     <MenuItem onClick={() => sendChange('bookmarked', !chapter.bookmarked)}>
@@ -183,8 +186,8 @@ const ChapterCard: React.FC<IProps> = (props: IProps) => {
                             {!chapter.bookmarked && <BookmarkAdd fontSize="small" />}
                         </ListItemIcon>
                         <ListItemText>
-                            {chapter.bookmarked && 'Remove bookmark'}
-                            {!chapter.bookmarked && 'Add bookmark'}
+                            {chapter.bookmarked && t('chapter.action.bookmark.remove.label.action')}
+                            {!chapter.bookmarked && t('chapter.action.bookmark.add.label.action')}
                         </ListItemText>
                     </MenuItem>
                     <MenuItem onClick={() => sendChange('read', !chapter.read)}>
@@ -193,15 +196,15 @@ const ChapterCard: React.FC<IProps> = (props: IProps) => {
                             {!chapter.read && <Done fontSize="small" />}
                         </ListItemIcon>
                         <ListItemText>
-                            {chapter.read && 'Mark as unread'}
-                            {!chapter.read && 'Mark as read'}
+                            {chapter.read && t('chapter.action.mark_as_read.remove.label.action')}
+                            {!chapter.read && t('chapter.action.mark_as_read.add.label.action.current')}
                         </ListItemText>
                     </MenuItem>
                     <MenuItem onClick={() => sendChange('markPrevRead', true)}>
                         <ListItemIcon>
                             <DoneAll fontSize="small" />
                         </ListItemIcon>
-                        <ListItemText>Mark previous as Read</ListItemText>
+                        <ListItemText>{t('chapter.action.mark_as_read.add.label.action.previous')}</ListItemText>
                     </MenuItem>
                 </Menu>
             </Card>

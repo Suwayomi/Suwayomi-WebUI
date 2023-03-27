@@ -15,11 +15,11 @@ interface IProps extends RadioInputProps {
     sortDescending?: boolean | null | undefined;
 }
 
-const SortRadioInput: React.FC<IProps> = ({ sortDescending, ...rest }) => (
+const SortRadioInput = React.memo(({ sortDescending, ...rest }: IProps) => (
     <RadioInput
         checkedIcon={sortDescending ? <ArrowDownward color="primary" /> : <ArrowUpward color="primary" />}
         {...rest}
     />
-);
+));
 
 export default SortRadioInput;

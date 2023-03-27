@@ -13,9 +13,11 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { Box, styled } from '@mui/system';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link, useHistory } from 'react-router-dom';
 import { langCodeToName } from 'util/language';
 import useLocalStorage from 'util/useLocalStorage';
+import { ISource } from 'typings';
 
 const MobileWidthButtons = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -40,6 +42,8 @@ interface IProps {
 }
 
 const SourceCard: React.FC<IProps> = (props: IProps) => {
+    const { t } = useTranslation();
+
     const {
         source: { id, name, lang, iconUrl, supportsLatest, isNsfw },
     } = props;
@@ -109,18 +113,18 @@ const SourceCard: React.FC<IProps> = (props: IProps) => {
                         <MobileWidthButtons>
                             {supportsLatest && (
                                 <Button variant="outlined" onClick={(e) => redirectTo(e, `/sources/${id}/latest/`)}>
-                                    Latest
+                                    {t('global.button.latest')}
                                 </Button>
                             )}
                         </MobileWidthButtons>
                         <WiderWidthButtons>
                             {supportsLatest && (
                                 <Button component={Link} to={`/sources/${id}/latest/`} variant="outlined">
-                                    Latest
+                                    {t('global.button.latest')}
                                 </Button>
                             )}
                             <Button component={Link} to={`/sources/${id}/popular/`} variant="outlined">
-                                Browse
+                                {t('global.button.browse')}
                             </Button>
                         </WiderWidthButtons>
                     </>

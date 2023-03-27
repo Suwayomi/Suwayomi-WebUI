@@ -30,7 +30,7 @@ export default function LoadingPlaceholder(props: IProps) {
         }
 
         if (children) {
-            return <>{children}</>;
+            return children as JSX.Element;
         }
     }
 

@@ -10,6 +10,7 @@ import { Collapse, ListItemButton, ListItemText, Stack } from '@mui/material';
 import { Box } from '@mui/system';
 import SortRadioInput from 'components/atoms/SortRadioInput';
 import React from 'react';
+import { IState } from 'typings';
 
 interface Props {
     values: any;

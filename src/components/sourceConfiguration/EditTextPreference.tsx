@@ -15,8 +15,12 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { EditTextPreferenceProps } from 'typings';
+import { useTranslation } from 'react-i18next';
 
 export default function EditTextPreference(props: EditTextPreferenceProps) {
+    const { t } = useTranslation();
+
     const { title, summary, dialogTitle, dialogMessage, currentValue, updateValue } = props;
 
     const [internalCurrentValue, setInternalCurrentValue] = useState<string>(currentValue);
@@ -56,10 +60,10 @@ export default function EditTextPreference(props: EditTextPreferenceProps) {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleDialogCancel} color="primary">
-                        Cancel
+                        {t('global.button.cancel')}
                     </Button>
                     <Button onClick={handleDialogSubmit} color="primary">
-                        OK
+                        {t('global.button.ok')}
                     </Button>
                 </DialogActions>
             </Dialog>
