@@ -86,7 +86,7 @@ export default function Sources() {
                 />
             </>,
         );
-    }, [shownLangs, sources]);
+    }, [t, shownLangs, sources]);
 
     if (loading) return <LoadingPlaceholder />;
 

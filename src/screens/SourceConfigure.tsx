@@ -42,7 +42,7 @@ export default function SourceConfigure() {
     useEffect(() => {
         setTitle(t('source.configuration.title'));
         setAction(null);
-    }, []);
+    }, [t]);
 
     const { sourceId } = useParams<{ sourceId: string }>();
     const { data: sourcePreferences = [], mutate } = useQuery<SourcePreferences[]>(

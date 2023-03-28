@@ -29,7 +29,7 @@ export default function DefaultReaderSettings() {
     useEffect(() => {
         setTitle(t('reader.settings.title.default_reader_settings'));
         setAction(null);
-    }, []);
+    }, [t]);
 
     const { metadata, settings, loading } = useDefaultReaderSettings();
 

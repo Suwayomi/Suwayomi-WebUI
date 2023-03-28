@@ -99,7 +99,7 @@ export default function Reader() {
         } else {
             setTitle(`${manga.title}: ${(chapter as IChapter).name}`);
         }
-    }, [manga, chapter]);
+    }, [t, manga, chapter]);
 
     useEffect(() => {
         if (!areDefaultSettingsLoading && !isMangaLoading) {

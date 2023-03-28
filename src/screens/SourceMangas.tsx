@@ -61,7 +61,7 @@ export default function SourceMangas({ popular }: { popular: boolean }) {
 
     useEffect(() => {
         setTitle(t('source.title')); // title is later set after a fetch but we set it here once
-    }, []);
+    }, [t]);
 
     useEffect(() => {
         client

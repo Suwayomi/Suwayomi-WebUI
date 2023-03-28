@@ -62,7 +62,7 @@ const Manga: React.FC = () => {
 
     useEffect(() => {
         setTitle(manga?.title ?? t('manga.title'));
-    }, [manga?.title]);
+    }, [t, manga?.title]);
 
     if (error && !manga) {
         return <EmptyView message={t('manga.error.label.request_failure')} messageExtra={error.message ?? error} />;
