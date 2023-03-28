@@ -1,5 +1,423 @@
 {
     "library": {
-        "title": "Bibliotek"
+        "title": "Bibliotek",
+        "error": {
+            "label": {
+                "empty": "",
+                "no_matches": ""
+            }
+        },
+        "option": {
+            "sort": {
+                "label": {
+                    "by_date_added": "",
+                    "by_unread_chapters": "",
+                    "by_last_read": "",
+                    "alphabetically": ""
+                }
+            },
+            "display": {
+                "badge": {
+                    "label": {
+                        "unread_badges": "",
+                        "download_badges": ""
+                    },
+                    "title": ""
+                }
+            }
+        }
+    },
+    "category": {
+        "error": {
+            "no_categories_found": {
+                "label": {
+                    "info": "",
+                    "hint": ""
+                }
+            },
+            "label": {
+                "request_failure": "",
+                "empty": ""
+            }
+        },
+        "label": {
+            "category_name": "",
+            "use_as_default_category": ""
+        },
+        "title": {
+            "categories": "",
+            "set_categories": ""
+        },
+        "dialog": {
+            "title": {
+                "edit_category": "",
+                "new_category": ""
+            }
+        }
+    },
+    "chapter": {
+        "action": {
+            "bookmark": {
+                "add": {
+                    "button": {
+                        "selected": ""
+                    },
+                    "label": {
+                        "error_one": "",
+                        "error_other": "",
+                        "success_one": "",
+                        "success_other": "",
+                        "action": ""
+                    }
+                },
+                "remove": {
+                    "label": {
+                        "error_one": "",
+                        "error_other": "",
+                        "success_one": "",
+                        "success_other": "",
+                        "action": ""
+                    },
+                    "button": {
+                        "selected": ""
+                    }
+                }
+            },
+            "download": {
+                "add": {
+                    "label": {
+                        "error_one": "",
+                        "error_other": "",
+                        "action": "",
+                        "success_one": "",
+                        "success_other": ""
+                    },
+                    "button": {
+                        "selected": ""
+                    }
+                },
+                "delete": {
+                    "label": {
+                        "action": "",
+                        "success_one": "",
+                        "success_other": "",
+                        "error_one": "",
+                        "error_other": ""
+                    },
+                    "button": {
+                        "selected": ""
+                    }
+                }
+            },
+            "label": {
+                "select": ""
+            },
+            "mark_as_read": {
+                "add": {
+                    "button": {
+                        "selected": ""
+                    },
+                    "label": {
+                        "action": {
+                            "current": "",
+                            "previous": ""
+                        },
+                        "error_one": "",
+                        "error_other": "",
+                        "success_one": "",
+                        "success_other": ""
+                    }
+                },
+                "remove": {
+                    "label": {
+                        "action": "",
+                        "success_one": "",
+                        "success_other": "",
+                        "error_one": "",
+                        "error_other": ""
+                    },
+                    "button": {
+                        "selected": ""
+                    }
+                }
+            }
+        },
+        "error": {
+            "label": {
+                "no_chapter_found": "",
+                "no_matches": ""
+            }
+        },
+        "status": {
+            "label": {
+                "downloaded": ""
+            }
+        },
+        "title": "",
+        "option": {
+            "display": {
+                "label": {
+                    "chapter_number": "",
+                    "source_title": ""
+                }
+            }
+        }
+    },
+    "download": {
+        "queue": {
+            "title": "",
+            "label": {
+                "no_downloads": ""
+            }
+        },
+        "state": {
+            "label": {
+                "downloading": "",
+                "error": "",
+                "finished": "",
+                "queued": ""
+            }
+        },
+        "title": ""
+    },
+    "extension": {
+        "label": {
+            "installed_successfully": "",
+            "installation_failed": "",
+            "installing_file": ""
+        },
+        "state": {
+            "label": {
+                "installing": "",
+                "uninstalling": "",
+                "updating": "",
+                "obsolete": ""
+            }
+        },
+        "title": "",
+        "action": {
+            "label": {
+                "uninstall": "",
+                "install": "",
+                "update": ""
+            }
+        },
+        "language": {
+            "all": ""
+        }
+    },
+    "global": {
+        "button": {
+            "clear": "",
+            "open_site": "",
+            "reset_to_default": "",
+            "cancel": "",
+            "resume": "",
+            "select_all": "",
+            "submit": "",
+            "browse": "",
+            "latest": "",
+            "reset": "",
+            "ok": "",
+            "set": "",
+            "filter": "",
+            "start": ""
+        },
+        "error": {
+            "label": {
+                "invalid_action": "",
+                "update_failed": "",
+                "invalid_file_type": ""
+            }
+        },
+        "filter": {
+            "label": {
+                "downloaded": "",
+                "unread": "",
+                "bookmarked": ""
+            }
+        },
+        "label": {
+            "loading": "",
+            "filter": "",
+            "display": "",
+            "browse": "",
+            "sort": ""
+        },
+        "sort": {
+            "label": {
+                "by_fetch_date": "",
+                "by_source": ""
+            }
+        },
+        "grid_layout": {
+            "label": {
+                "list": "",
+                "compact_grid": "",
+                "comfortable_grid": ""
+            },
+            "title": ""
+        },
+        "language": {
+            "label": {
+                "language_with_code": "",
+                "language": ""
+            },
+            "title": {
+                "enabled_languages": ""
+            }
+        },
+        "date": {
+            "label": {
+                "today_at": "",
+                "yesterday_at": "",
+                "yesterday": "",
+                "today": ""
+            }
+        }
+    },
+    "reader": {
+        "page_info": {
+            "label": {
+                "of_max_pages": "",
+                "currently_on_page": ""
+            }
+        },
+        "settings": {
+            "label": {
+                "reader_type": "",
+                "show_page_number": "",
+                "static_navigation": "",
+                "load_next_chapter": ""
+            },
+            "reader_type": {
+                "label": {
+                    "continuous_horizontal_ltr": "",
+                    "continuous_horizontal_rtl": "",
+                    "webtoon": "",
+                    "double_page_rtl": "",
+                    "single_page_rtl": "",
+                    "continuous_vertical": "",
+                    "double_page_ltr": "",
+                    "single_page_ltr": ""
+                }
+            },
+            "error": {
+                "label": {
+                    "failed_to_save_default_settings": "",
+                    "failed_to_save_settings": ""
+                }
+            },
+            "title": {
+                "default_reader_settings": "",
+                "reader_settings": ""
+            }
+        },
+        "button": {
+            "previous_chapter": "",
+            "next_chapter": ""
+        },
+        "title": ""
+    },
+    "search": {
+        "error": {
+            "label": {
+                "failed_to_save_settings": ""
+            }
+        },
+        "label": {
+            "ignore_filters": ""
+        },
+        "title": {
+            "global_search": ""
+        }
+    },
+    "settings": {
+        "about": {
+            "label": {
+                "build_time": "",
+                "github": "",
+                "server_address": "",
+                "server_version": "",
+                "server": "",
+                "discord": ""
+            },
+            "title": ""
+        },
+        "backup": {
+            "label": {
+                "backup_restore_failed": "",
+                "create_backup": "",
+                "legacy_backup_unsupported": "",
+                "restore_backup": "",
+                "restore_backup_info": "",
+                "restoring_backup": "",
+                "create_backup_info": "",
+                "restored_backup": ""
+            },
+            "title": ""
+        },
+        "label": {
+            "dark_theme": "",
+            "show_nsfw": "",
+            "image_cache_description": "",
+            "manga_item_width": "",
+            "show_nsfw_description": "",
+            "image_cache": ""
+        },
+        "server_address": {
+            "dialog": {
+                "label": {
+                    "enter_address": ""
+                }
+            }
+        },
+        "title": ""
+    },
+    "source": {
+        "local_source": {
+            "label": {
+                "guide": "",
+                "checkout": ""
+            }
+        },
+        "title": "",
+        "error": {
+            "label": {
+                "no_sources_found": ""
+            }
+        },
+        "configuration": {
+            "title": ""
+        }
+    },
+    "updates": {
+        "error": {
+            "label": {
+                "no_updates_available": ""
+            }
+        },
+        "title": ""
+    },
+    "manga": {
+        "label": {
+            "status": "",
+            "reload_from_source": "",
+            "artist": "",
+            "author": "",
+            "edit_categories": ""
+        },
+        "error": {
+            "label": {
+                "request_failure": "",
+                "no_mangas_found": "",
+                "no_matches": ""
+            }
+        },
+        "title": "",
+        "button": {
+            "add_to_library": "",
+            "in_library": ""
+        }
     }
 }
