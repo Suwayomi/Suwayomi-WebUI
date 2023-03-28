@@ -10,3 +10,4 @@ This is a `create-react-app` project, you can find it's readme in [BUILDING.md](
 - Don't use relative imports.
 - We are using MUI v5, the all stylings must be applied with the new system. 
 - Never use the `style` prop, there's always a cleaner solution with `sx` or `styled`.
+- Any new or changed string that might be shown to the user must be translated.
