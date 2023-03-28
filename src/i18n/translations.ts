@@ -7,10 +7,10 @@
 
 import en from 'i18n/locale/en.json';
 
-import ar from 'i18n/resources/ar.json';
-import de from 'i18n/resources/de.json';
-import es from 'i18n/resources/es.json';
-import fr from 'i18n/resources/fr.json';
+import ar from 'i18n/locale/ar.json';
+import de from 'i18n/locale/de.json';
+import es from 'i18n/locale/es.json';
+import fr from 'i18n/locale/fr.json';
 
 const translationHelper = <T>(lng: T) => ({
     translation: lng,
