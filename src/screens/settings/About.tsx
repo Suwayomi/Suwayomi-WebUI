@@ -16,7 +16,7 @@ export default function About() {
     useEffect(() => {
         setTitle(t('settings.about.title'));
         setAction(null);
-    }, []);
+    }, [t]);
 
     const { data: about } = useQuery<IAbout>('/api/v1/settings/about');
 

@@ -53,7 +53,7 @@ export default function Library() {
             setTitle('');
             setAction(null);
         };
-    }, []);
+    }, [t]);
 
     const handleTabChange = (newTab: number) => {
         setTabSearchParam(newTab === 0 ? undefined : newTab);

@@ -53,7 +53,7 @@ const DownloadQueue: React.FC = () => {
     useEffect(() => {
         setTitle(t('download.queue.title'));
         setAction(null);
-    }, []);
+    }, [t]);
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const onDragEnd = (result: DropResult) => {};

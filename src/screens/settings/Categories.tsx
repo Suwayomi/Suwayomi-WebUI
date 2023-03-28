@@ -56,7 +56,7 @@ export default function Categories() {
     useEffect(() => {
         setTitle(t('category.title.categories'));
         setAction(null);
-    }, []);
+    }, [t]);
 
     const { data, mutate } = useQuery<ICategory[]>('/api/v1/category/');
     const categories = useMemo(() => {
