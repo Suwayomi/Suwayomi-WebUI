@@ -22,7 +22,7 @@ export default function Backup() {
     useEffect(() => {
         setTitle(t('settings.backup.title'));
         setAction(null);
-    }, []);
+    }, [t]);
 
     const { baseURL } = client.defaults;
 

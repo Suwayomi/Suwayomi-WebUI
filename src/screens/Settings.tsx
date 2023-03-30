@@ -47,7 +47,7 @@ export default function Settings() {
     useEffect(() => {
         setTitle(t('settings.title'));
         setAction(null);
-    }, []);
+    }, [t]);
 
     const { darkTheme, setDarkTheme } = useContext(DarkTheme);
     const [serverAddress, setServerAddress] = useLocalStorage<String>('serverBaseURL', '');

@@ -88,7 +88,7 @@ export default function MangaExtensions() {
                 <LangSelect shownLangs={shownLangs} setShownLangs={setShownLangs} allLangs={allLangs} />
             </>,
         );
-    }, [shownLangs]);
+    }, [t, shownLangs]);
 
     const { data: allExtensions, mutate, loading } = useQuery<IExtension[]>('/api/v1/extension/list');
 

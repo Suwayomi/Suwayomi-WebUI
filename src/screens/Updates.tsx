@@ -103,7 +103,7 @@ const Updates: React.FC = () => {
         setTitle(t('updates.title'));
 
         setAction(null);
-    }, []);
+    }, [t]);
 
     useEffect(() => {
         if (hasNextPage) {

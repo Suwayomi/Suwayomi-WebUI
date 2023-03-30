@@ -58,7 +58,7 @@ const SearchAll: React.FC = () => {
     useEffect(() => {
         setTitle(t('search.title.global_search'));
         setAction(<AppbarSearch />);
-    }, []);
+    }, [t]);
 
     useEffect(() => {
         client
@@ -161,7 +161,7 @@ const SearchAll: React.FC = () => {
                 />
             </>,
         );
-    }, [shownLangs, sources]);
+    }, [t, shownLangs, sources]);
 
     if (query) {
         return (
