@@ -8,7 +8,7 @@
     },
     "error": {
       "label": {
-        "empty": "Empty Category",
+        "empty": "The category is empty",
         "request_failure": "Could not load categories"
       },
       "no_categories_found": {
@@ -123,8 +123,8 @@
     "option": {
       "display": {
         "label": {
-          "chapter_number": "Chapter Number",
-          "source_title": "Source Title"
+          "chapter_number": "Chapter number",
+          "source_title": "Source title"
         }
       }
     },
@@ -157,13 +157,13 @@
   "extension": {
     "action": {
       "label": {
-        "install": "install",
-        "uninstall": "uninstall",
-        "update": "update"
+        "install": "Install",
+        "uninstall": "Uninstall",
+        "update": "Update"
       }
     },
     "label": {
-      "installation_failed": "Could not install extension",
+      "installation_failed": "Could not install the extension",
       "installed_successfully": "Extension installed",
       "installing_file": "Installing extension file…"
     },
@@ -174,11 +174,11 @@
     "state": {
       "label": {
         "installed": "Installed",
-        "installing": "installing",
-        "obsolete": "obsolete",
-        "uninstalling": "uninstalling",
+        "installing": "Installing",
+        "obsolete": "Obsolete",
+        "uninstalling": "Uninstalling",
         "update_pending": "Update pending",
-        "updating": "updating"
+        "updating": "Updating"
       }
     },
     "title": "Extensions"
@@ -244,7 +244,7 @@
     "language": {
       "label": {
         "language": "Language",
-        "language_with_code": "language with code: {{code}}"
+        "language_with_code": "Language with code: {{code}}"
       },
       "title": {
         "enabled_languages": "Used Languages"
@@ -252,8 +252,8 @@
     },
     "sort": {
       "label": {
-        "by_fetch_date": "By Fetch date",
-        "by_source": "By Source"
+        "by_fetch_date": "By date fetched",
+        "by_source": "By source"
       }
     }
   },
@@ -261,15 +261,15 @@
     "error": {
       "label": {
         "empty": "Your library is empty",
-        "no_matches": "No nanga matches this filter"
+        "no_matches": "No manga matches this filter"
       }
     },
     "option": {
       "display": {
         "badge": {
           "label": {
-            "download_badges": "Download Badges",
-            "unread_badges": "Unread Badges"
+            "download_badges": "Download badges",
+            "unread_badges": "Unread badges"
           },
           "title": "Badges"
         },
@@ -283,9 +283,9 @@
       "sort": {
         "label": {
           "alphabetically": "A-Z",
-          "by_date_added": "By Date Added",
-          "by_last_read": "By Last Read",
-          "by_unread_chapters": "By Unread Chapters"
+          "by_date_added": "Most recently added",
+          "by_last_read": "Most recently read",
+          "by_unread_chapters": "Number of unread chapters"
         }
       }
     },
@@ -312,7 +312,7 @@
     "error": {
       "label": {
         "no_mangas_found": "No manga found",
-        "no_matches": "No nanga matches this filter",
+        "no_matches": "No manga matches this filter",
         "request_failure": "Could not load manga"
       }
     },
@@ -351,20 +351,20 @@
       },
       "label": {
         "load_next_chapter": "Load next chapter at ending",
-        "reader_type": "Reader Type",
+        "reader_type": "Reader type",
         "show_page_number": "Show page number",
         "skip_dup_chapters": "Skip duplicate chapters",
-        "static_navigation": "Static Navigation"
+        "static_navigation": "Static navigation"
       },
       "reader_type": {
         "label": {
           "continuous_horizontal_ltr": "Horizontal (LTR) →",
           "continuous_horizontal_rtl": "Horizontal (RTL) ←",
-          "continuous_vertical": "Continues Vertical",
-          "double_page_ltr": "Double Page (LTR) →",
-          "double_page_rtl": "Double Page (RTL) ←",
-          "single_page_ltr": "Single Page (LTR) →",
-          "single_page_rtl": "Single Page (RTL) ←",
+          "continuous_vertical": "Continues vertical",
+          "double_page_ltr": "Double page (LTR) →",
+          "double_page_rtl": "Double page (RTL) ←",
+          "single_page_ltr": "Single page (LTR) →",
+          "single_page_rtl": "Single page (RTL) ←",
           "webtoon": "Webtoon"
         }
       },
@@ -382,7 +382,7 @@
       }
     },
     "label": {
-      "ignore_filters": "Ignore Filters when Searching"
+      "ignore_filters": "Ignore filters when searching"
     },
     "title": {
       "global_search": "Global Search"
@@ -395,7 +395,7 @@
         "discord": "Discord",
         "github": "GitHub",
         "server": "Server",
-        "server_address": "Server Address",
+        "server_address": "Server address",
         "server_version": "Server version"
       },
       "title": "About"
@@ -403,7 +403,7 @@
     "backup": {
       "label": {
         "backup_restore_failed": "Could not restore backup",
-        "create_backup": "Create Backup",
+        "create_backup": "Create backup",
         "create_backup_info": "Back up library as a Tachiyomi backup",
         "legacy_backup_unsupported": "legacy backups are not supported!",
         "restore_backup": "Restore Backup",
@@ -414,17 +414,17 @@
       "title": "Backup"
     },
     "label": {
-      "dark_theme": "Dark Theme",
-      "image_cache": "Use image cache",
-      "image_cache_description": "Preloading images shows them quicker, but downloads more data.",
-      "manga_item_width": "Manga Item width",
+      "dark_theme": "Dark theme",
+      "image_cache": "Preload images",
+      "image_cache_description": "Quicker, but downloads more data.",
+      "manga_item_width": "Manga item width",
       "show_nsfw": "Show NSFW",
       "show_nsfw_description": "Hide NSFW extensions and sources"
     },
     "server_address": {
       "dialog": {
         "label": {
-          "enter_address": "Enter Server Address"
+          "enter_address": "Enter server address"
         }
       }
     },
