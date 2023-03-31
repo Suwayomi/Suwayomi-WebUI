@@ -1,5 +1,423 @@
 {
     "library": {
-        "title": "Bibliotek"
+        "title": "Bibliotek",
+        "option": {
+            "sort": {
+                "label": {
+                    "by_last_read": "Nach zuletzt gelesen",
+                    "by_unread_chapters": "Nach ungelesenen Kapiteln",
+                    "alphabetically": "Alphabetisch",
+                    "by_date_added": "Nach Hinzufügedatum"
+                }
+            },
+            "display": {
+                "badge": {
+                    "title": "Indikatoren",
+                    "label": {
+                        "download_badges": "Download Indikator",
+                        "unread_badges": "Ungelesen Indikator"
+                    }
+                }
+            }
+        },
+        "error": {
+            "label": {
+                "no_matches": "Keine Manga stimmen mit dem Filter überein",
+                "empty": "Deine Bibliothek ist leer"
+            }
+        }
+    },
+    "chapter": {
+        "action": {
+            "label": {
+                "select": "Auswählen"
+            },
+            "download": {
+                "add": {
+                    "label": {
+                        "action": "Download",
+                        "success_one": "Download hinzugefügt",
+                        "success_other": "{{count}} Downloads hinzugefügt",
+                        "error_one": "Fehler beim hinzufügen des Downloads",
+                        "error_other": "Fehler beim hinzufügen der Downloads"
+                    },
+                    "button": {
+                        "selected": "Auswahl downloaden"
+                    }
+                },
+                "delete": {
+                    "label": {
+                        "success_one": "Kapitel gelöscht",
+                        "success_other": "{{count}} Kapitel gelöscht",
+                        "action": "Löschen",
+                        "error_one": "Fehler beim löschen des Kapitels",
+                        "error_other": "Fehler beim löschen der Kapitel"
+                    },
+                    "button": {
+                        "selected": "Auswahl löschen"
+                    }
+                }
+            },
+            "bookmark": {
+                "remove": {
+                    "label": {
+                        "error_one": "Fehler beim entfernen des Lesezeichens",
+                        "error_other": "Fehler beim entfernen der Lesezeichen",
+                        "action": "Lesezeichen entfernen",
+                        "success_one": "Lesezeichen von dem Kapitel entfernt",
+                        "success_other": "Lesezeichen von {{count}} Kapiteln entfernt"
+                    },
+                    "button": {
+                        "selected": "Lesezeichen von der Auswahl entfernen"
+                    }
+                },
+                "add": {
+                    "button": {
+                        "selected": "Lesezeichen ausgewählt"
+                    },
+                    "label": {
+                        "error_one": "Fehler beim erstellen eines Lesezeichens für das Kapitel",
+                        "error_other": "Fehler beim erstellen eines Lesezeichens für die Kapitel",
+                        "action": "Lesezeichen hinzufügen",
+                        "success_one": "Für das Kapitel wurde ein Lesezeichen erstellt",
+                        "success_other": "Für {{count}} Kapitel wurden Lesezeichen erstellt"
+                    }
+                }
+            },
+            "mark_as_read": {
+                "remove": {
+                    "label": {
+                        "error_one": "Kapitel konnte nicht als ungelesen markiert werden",
+                        "error_other": "Kapitel konnten nicht als ungelesen markiert werden",
+                        "action": "Als ungelesen markieren",
+                        "success_one": "Kapitel wurde als ungelesen markiert",
+                        "success_other": "{{count}} Kapitel wurden als ungelesen markiert"
+                    },
+                    "button": {
+                        "selected": "Auswahl als ungelesen markieren"
+                    }
+                },
+                "add": {
+                    "button": {
+                        "selected": "Auswahl als gelesen markieren"
+                    },
+                    "label": {
+                        "action": {
+                            "current": "Als gelesen markieren",
+                            "previous": "Vorherige als gelesen markieren"
+                        },
+                        "success_one": "Kapitel wurde als gelesen markiert",
+                        "success_other": "{{count}} Kapitel wurden als gelesen markiert",
+                        "error_one": "Kapitel konnte nicht als gelesen markiert werden",
+                        "error_other": "Kapitel konnten nicht als gelesen markiert werden"
+                    }
+                }
+            }
+        },
+        "error": {
+            "label": {
+                "no_chapter_found": "Keine Kapitel gefunden",
+                "no_matches": "Keine Kapitel stimmen mit dem Filter überein"
+            }
+        },
+        "status": {
+            "label": {
+                "downloaded": "Heruntergeladen"
+            }
+        },
+        "title": "Kapitel",
+        "option": {
+            "display": {
+                "label": {
+                    "chapter_number": "Kapitel Nummer",
+                    "source_title": "Name der Quelle"
+                }
+            }
+        }
+    },
+    "reader": {
+        "settings": {
+            "label": {
+                "reader_type": "Lesetyp",
+                "show_page_number": "Seitenzahl anzeigen",
+                "static_navigation": "Statische Navigation",
+                "load_next_chapter": "Nächstes Kapitel am Ende laden"
+            },
+            "reader_type": {
+                "label": {
+                    "double_page_rtl": "Doppelseitig (RnL)",
+                    "continuous_horizontal_ltr": "Horizontal (LnR)",
+                    "webtoon": "Webtoon",
+                    "single_page_rtl": "Einseitig (RnL)",
+                    "continuous_vertical": "Kontinuierlich Vertikal",
+                    "double_page_ltr": "Doppelseitig (LnR)",
+                    "single_page_ltr": "Einseitig (LnR)",
+                    "continuous_horizontal_rtl": "Horizontal (RnL)"
+                }
+            },
+            "error": {
+                "label": {
+                    "failed_to_save_default_settings": "Die Standardleseeinstellungen konnten nicht gespeichert werden",
+                    "failed_to_save_settings": "Die Leseeinstellungen konnten nicht gespeichert werden"
+                }
+            },
+            "title": {
+                "reader_settings": "Leseeinstellungen",
+                "default_reader_settings": "Standardleseeinstellungen"
+            }
+        },
+        "title": "Leser - Manga {{mangaId}} Kapitel {{chapterIndex}}",
+        "page_info": {
+            "label": {
+                "of_max_pages": "von {{maxPages}}",
+                "currently_on_page": "Aktuell auf Seite"
+            }
+        },
+        "button": {
+            "previous_chapter": "Vorheriges Kapitel",
+            "next_chapter": "Nächstes Kapitel"
+        }
+    },
+    "updates": {
+        "title": "Aktualisierungen",
+        "error": {
+            "label": {
+                "no_updates_available": "Es sind noch keine Aktualisierungen vorhanden."
+            }
+        }
+    },
+    "manga": {
+        "label": {
+            "status": "Status",
+            "author": "Author",
+            "reload_from_source": "Daten von Quelle neu laden",
+            "artist": "Künstler",
+            "edit_categories": "Manga Kategorien bearbeiten"
+        },
+        "error": {
+            "label": {
+                "request_failure": "Manga konnten nicht geladen werden",
+                "no_mangas_found": "Keine Manga gefunden!",
+                "no_matches": "Keine Manga stimmen mit dem Filter überein"
+            }
+        },
+        "title": "Manga",
+        "button": {
+            "in_library": "In Bibliothek",
+            "add_to_library": "Zur Bibliothek hinzufügen"
+        }
+    },
+    "extension": {
+        "title": "Erweiterungen",
+        "action": {
+            "label": {
+                "install": "Installieren",
+                "uninstall": "Deinstallieren",
+                "update": "Aktualisieren"
+            }
+        },
+        "label": {
+            "installed_successfully": "Erweiterung erfolgreich installiert!",
+            "installation_failed": "Installation der Erweiterung fehlgeschlagen!",
+            "installing_file": "Erweiterungsdatei wird installiert..."
+        },
+        "state": {
+            "label": {
+                "installing": "installiert",
+                "uninstalling": "deinstalliert",
+                "updating": "aktualisiert",
+                "obsolete": "veraltet"
+            }
+        },
+        "language": {
+            "all": "Alle"
+        }
+    },
+    "global": {
+        "grid_layout": {
+            "label": {
+                "list": "Listenansicht",
+                "comfortable_grid": "Komfortable Gitteransicht",
+                "compact_grid": "Kompakte Gitteransicht"
+            },
+            "title": "Ansichtsmodus"
+        },
+        "language": {
+            "label": {
+                "language_with_code": "Sprache mit Code: {{code}}",
+                "language": "Sprache"
+            },
+            "title": {
+                "enabled_languages": "Aktivierte Sprachen"
+            }
+        },
+        "label": {
+            "filter": "Filter",
+            "browse": "Suchen",
+            "loading": "Lädt...",
+            "display": "Anzeige",
+            "sort": "Sortieren"
+        },
+        "button": {
+            "ok": "OK",
+            "filter": "Filter",
+            "set": "Setzen",
+            "reset_to_default": "Auf Standardeinstellungen zurücksetzen",
+            "clear": "Leeren",
+            "open_site": "Seite öffnen",
+            "cancel": "Abbrechen",
+            "resume": "Fortfahren",
+            "browse": "Suchen",
+            "select_all": "Alle auswählen",
+            "submit": "Übernehmen",
+            "latest": "Neueste",
+            "reset": "Zurücksetzen",
+            "start": "Start"
+        },
+        "error": {
+            "label": {
+                "invalid_action": "Dies ist keine zulässige Aktion",
+                "update_failed": "Das Prüfen auf Aktualisierungen ist fehlgeschlagen!",
+                "invalid_file_type": "Nicht unterstützter Dateityp!"
+            }
+        },
+        "filter": {
+            "label": {
+                "downloaded": "Downloaded",
+                "unread": "Ungelesen",
+                "bookmarked": "Als Lesezeichen markiert"
+            }
+        },
+        "sort": {
+            "label": {
+                "by_fetch_date": "Nach Abrufdatum",
+                "by_source": "Nach Quelle"
+            }
+        },
+        "date": {
+            "label": {
+                "today_at": "Heute um {{timeString}}",
+                "yesterday_at": "Gestern um {{timeString}}",
+                "yesterday": "Gestern",
+                "today": "Heute"
+            }
+        }
+    },
+    "category": {
+        "dialog": {
+            "title": {
+                "new_category": "Neuen Katalog erstellen",
+                "edit_category": "Katalog bearbeiten"
+            }
+        },
+        "error": {
+            "label": {
+                "empty": "Kategorie ist leer",
+                "request_failure": "Kategorien konnten nicht geladen werden"
+            },
+            "no_categories_found": {
+                "label": {
+                    "info": "Keine Kategorien gefunden!",
+                    "hint": "Man muss zuerst welche in den Einstellungen erstellen."
+                }
+            }
+        },
+        "label": {
+            "category_name": "Kategorie Name",
+            "use_as_default_category": "Standard Kategorie, wenn neue Manga zur Bibliothek hinzugefügt werden"
+        },
+        "title": {
+            "categories": "Kategorien",
+            "set_categories": "Kategorien setzen"
+        }
+    },
+    "settings": {
+        "backup": {
+            "label": {
+                "restoring_backup": "Sicherung wird wiederhergestellt...",
+                "backup_restore_failed": "Wiederherstellen der Sicherung fehlgeschlagen!",
+                "create_backup": "Sicherung erstellen",
+                "legacy_backup_unsupported": "legacy Sicherungen werden nicht ünterstützt!",
+                "create_backup_info": "Bibliothek als Tachiyomi backup sichern",
+                "restored_backup": "Wiederherstellung der Sicherung fertiggestellt!",
+                "restore_backup": "Sicherung wiederherstellen",
+                "restore_backup_info": "Man kann auch eine Sicherung per Drag-and-drop hereinziehen, um diese wiederherzustellen"
+            },
+            "title": "Sicherung"
+        },
+        "label": {
+            "manga_item_width": "Breite von Manga Einträgen",
+            "image_cache": "Bildcache verwenden",
+            "dark_theme": "Dunkles Design",
+            "show_nsfw": "NSFW-Inhalte anzeigen",
+            "image_cache_description": "Durch deaktivieren des Bildcaches werden die Bilder schneller geladen, wenn man eine langsame Festplatte hat, dafür wird mehr Internetvolumen verbraucht",
+            "show_nsfw_description": "NSFW Erweiterungen und Quellen verstecken"
+        },
+        "about": {
+            "label": {
+                "build_time": "Build time",
+                "github": "Github",
+                "server_address": "Serveradresse",
+                "server_version": "Serverversion",
+                "server": "Server",
+                "discord": "Discord"
+            },
+            "title": "Über"
+        },
+        "server_address": {
+            "dialog": {
+                "label": {
+                    "enter_address": "Serveradresse angeben"
+                }
+            }
+        },
+        "title": "Einstellungen"
+    },
+    "download": {
+        "queue": {
+            "title": "Download Warteschlange",
+            "label": {
+                "no_downloads": "Keine downloads"
+            }
+        },
+        "state": {
+            "label": {
+                "downloading": "Downloading",
+                "error": "Fehler",
+                "finished": "Fertiggestellt",
+                "queued": "Eingereiht"
+            }
+        },
+        "title": "Downloads"
+    },
+    "source": {
+        "local_source": {
+            "label": {
+                "guide": "Anleitung zum Einrichten der lokalen Quelle",
+                "checkout": "Lese die"
+            }
+        },
+        "title": "Quelle",
+        "error": {
+            "label": {
+                "no_sources_found": "Keine Quellen gefunden. Installiere zuerst ein paar Erweiterungen."
+            }
+        },
+        "configuration": {
+            "title": "Konfiguration der Quelle"
+        }
+    },
+    "search": {
+        "label": {
+            "ignore_filters": "Filter bei Suche ignorieren"
+        },
+        "title": {
+            "global_search": "Globale Suche"
+        },
+        "error": {
+            "label": {
+                "failed_to_save_settings": "Die Standardsucheinstellungen konnten nicht gespeichert werden"
+            }
+        }
     }
 }
