@@ -247,7 +247,7 @@
         "language_with_code": "Language with code: {{code}}"
       },
       "title": {
-        "enabled_languages": "Used Languages"
+        "enabled_languages": "Allowed Languages"
       }
     },
     "sort": {
@@ -283,9 +283,9 @@
       "sort": {
         "label": {
           "alphabetically": "A-Z",
-          "by_date_added": "Most recently added",
-          "by_last_read": "Most recently read",
-          "by_unread_chapters": "Number of unread chapters"
+          "by_date_added": "Recently added",
+          "by_last_read": "Recently read",
+          "by_unread_chapters": "Unread chapters"
         }
       }
     },
@@ -415,8 +415,8 @@
     },
     "label": {
       "dark_theme": "Dark theme",
-      "image_cache": "Preload images",
-      "image_cache_description": "Quicker, but downloads more data.",
+      "image_cache": "Prefetch images",
+      "image_cache_description": "Downloads images for later use.",
       "manga_item_width": "Manga item width",
       "show_nsfw": "Show NSFW",
       "show_nsfw_description": "Hide NSFW extensions and sources"
