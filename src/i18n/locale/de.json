@@ -347,7 +347,7 @@
         },
         "label": {
             "manga_item_width": "Breite von Manga Einträgen",
-            "image_cache": "Bildcache verwenden",
+            "image_cache": "Bildzwischenspeicher verwenden",
             "dark_theme": "Dunkles Design",
             "show_nsfw": "NSFW-Inhalte anzeigen",
             "image_cache_description": "Durch deaktivieren des Bildcaches werden die Bilder schneller geladen, wenn man eine langsame Festplatte hat, dafür wird mehr Internetvolumen verbraucht",
