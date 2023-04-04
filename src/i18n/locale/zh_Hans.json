@@ -20,7 +20,7 @@
         },
         "label": {
             "category_name": "分类名称",
-            "use_as_default_category": "添加新漫画到库时的默认分类"
+            "use_as_default_category": "默认添加到此库"
         },
         "title": {
             "categories": "分类",
@@ -239,7 +239,7 @@
     "library": {
         "error": {
             "label": {
-                "empty": "你的库是空的",
+                "empty": "你的书架是空的",
                 "no_matches": "没有漫画匹配筛选"
             }
         },
@@ -262,12 +262,12 @@
                 }
             }
         },
-        "title": "库"
+        "title": "书架"
     },
     "manga": {
         "button": {
-            "add_to_library": "添加到库",
-            "in_library": "在库中"
+            "add_to_library": "添加到书架",
+            "in_library": "在库书架中"
         },
         "error": {
             "label": {
@@ -335,7 +335,7 @@
                 "restore_backup_info": "您还可以在这里拖放备份文件进行恢复",
                 "restored_backup": "备份恢复完成!",
                 "restoring_backup": "正在恢复备份...",
-                "create_backup_info": "将库备份为Tachiyomi支持的备份",
+                "create_backup_info": "将书架备份为Tachiyomi支持的备份",
                 "create_backup": "创建备份",
                 "backup_restore_failed": "恢复备份失败!",
                 "restore_backup": "恢复备份"
