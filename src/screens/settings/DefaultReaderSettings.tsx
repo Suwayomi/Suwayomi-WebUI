@@ -62,6 +62,7 @@ export default function DefaultReaderSettings() {
             staticNav={settings.staticNav}
             showPageNumber={settings.showPageNumber}
             loadNextOnEnding={settings.loadNextOnEnding}
+            skipDupChapters={settings.skipDupChapters}
             readerType={settings.readerType}
         />
     );

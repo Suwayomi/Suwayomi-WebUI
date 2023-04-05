@@ -134,7 +134,7 @@ export default function HorizontalPager(props: IReaderProps) {
             document.removeEventListener('scroll', handleLoadNextonEnding);
             selfRef.current?.removeEventListener('mousedown', clickControl);
         };
-    }, [selfRef, curPage]);
+    }, [selfRef, curPage, prevChapter, nextChapter]);
 
     useEffect(() => {
         const handleScroll = () => {
