@@ -189,7 +189,7 @@ export default function Categories() {
                 color="primary"
                 aria-label="add"
                 style={{
-                    position: 'absolute',
+                    position: 'fixed',
                     bottom: theme.spacing(2),
                     right: theme.spacing(2),
                 }}
