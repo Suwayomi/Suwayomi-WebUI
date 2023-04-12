@@ -162,8 +162,10 @@ const ChapterList: React.FC<IProps> = ({ mangaId }) => {
             if (action === 'delete') change.delete = true;
             else if (action === 'bookmark') change.isBookmarked = true;
             else if (action === 'unbookmark') change.isBookmarked = false;
-            else if (action === 'mark_as_read') change.isRead = true;
-            else if (action === 'mark_as_unread') change.isRead = false;
+            else if (action === 'mark_as_read' || action === 'mark_as_unread') {
+                change.isRead = action === 'mark_as_read';
+                change.lastPageRead = 0;
+            }
 
             actionPromise = client.post('/api/v1/chapter/batch', { chapterIds, change });
         }

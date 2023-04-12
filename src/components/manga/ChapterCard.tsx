@@ -68,7 +68,7 @@ const ChapterCard: React.FC<IProps> = (props: IProps) => {
         const formData = new FormData();
         formData.append(key, value);
         if (key === 'read') {
-            formData.append('lastPageRead', '1');
+            formData.append('lastPageRead', '0');
         }
         client
             .patch(`/api/v1/manga/${chapter.mangaId}/chapter/${chapter.index}`, formData)
