@@ -202,7 +202,13 @@ export interface IReaderSettings {
     staticNav: boolean;
     showPageNumber: boolean;
     loadNextOnEnding: boolean;
+    skipDupChapters: boolean;
     readerType: ReaderType;
+}
+
+export enum ChapterOffset {
+    PREV = -1,
+    NEXT = 1,
 }
 
 export interface ISearchSettings {

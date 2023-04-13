@@ -23,6 +23,7 @@ export default function ReaderSettingsOptions({
     loadNextOnEnding,
     readerType,
     showPageNumber,
+    skipDupChapters,
     setSettingValue,
 }: IProps) {
     const { t } = useTranslation();
@@ -56,6 +57,16 @@ export default function ReaderSettingsOptions({
                         edge="end"
                         checked={loadNextOnEnding}
                         onChange={(e) => setSettingValue('loadNextOnEnding', e.target.checked)}
+                    />
+                </ListItemSecondaryAction>
+            </ListItem>
+            <ListItem>
+                <ListItemText primary={t('reader.settings.label.skip_dup_chapters')} />
+                <ListItemSecondaryAction>
+                    <Switch
+                        edge="end"
+                        checked={skipDupChapters}
+                        onChange={(e) => setSettingValue('skipDupChapters', e.target.checked)}
                     />
                 </ListItemSecondaryAction>
             </ListItem>
