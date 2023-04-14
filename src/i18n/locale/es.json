@@ -298,7 +298,8 @@
                 "load_next_chapter": "Cargar siguiente capitulo al final",
                 "static_navigation": "Navigación Estática",
                 "show_page_number": "Mostrar numero de pagina",
-                "reader_type": "Tipo de Lector"
+                "reader_type": "Tipo de Lector",
+                "skip_dup_chapters": "Omitir capítulos duplicados"
             },
             "title": {
                 "default_reader_settings": "Ajustes Defecto del Lector",
@@ -320,6 +321,12 @@
             "label": {
                 "currently_on_page": "Actualmente en pagina",
                 "of_max_pages": "{{maxPages}}"
+            }
+        },
+        "error": {
+            "label": {
+                "unable_to_get_next_chapter_skip_dup": "No se puede obtener el capítulo siguiente - la opción \"$t(reader.settings.label.skip_dup_chapters)\" está activada",
+                "unable_to_get_prev_chapter_skip_dup": "No se puede obtener el capítulo anterior - la opción \"$t(reader.settings.label.skip_dup_chapters)\" está activada"
             }
         }
     },
