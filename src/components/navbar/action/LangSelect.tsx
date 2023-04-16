@@ -16,9 +16,9 @@ import IconButton from '@mui/material/IconButton';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { List, ListItemSecondaryAction, ListItemText } from '@mui/material';
 import ListItem from '@mui/material/ListItem';
-import { langCodeToName } from 'util/language';
 import cloneObject from 'util/cloneObject';
 import { useTranslation } from 'react-i18next';
+import { translateExtensionLanguage } from 'screens/util/Extensions';
 
 function removeAll(firstList: any[], secondList: any[]) {
     secondList.forEach((item) => {
@@ -93,7 +93,7 @@ export default function LangSelect(props: IProps) {
                     <List>
                         {allLangs.map((lang) => (
                             <ListItem key={lang}>
-                                <ListItemText primary={langCodeToName(lang)} />
+                                <ListItemText primary={translateExtensionLanguage(lang)} />
 
                                 <ListItemSecondaryAction>
                                     <Switch

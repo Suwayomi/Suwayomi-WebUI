@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import React, { useContext, useEffect, useState, useMemo, useRef } from 'react';
+import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { fromEvent } from 'file-selector';
 import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
@@ -14,50 +14,36 @@ import NavbarContext from 'components/context/NavbarContext';
 import client, { useQuery } from 'util/client';
 import useLocalStorage from 'util/useLocalStorage';
 import LangSelect from 'components/navbar/action/LangSelect';
-import { extensionDefaultLangs, langCodeToName, langSortCmp } from 'util/language';
+import { extensionDefaultLangs, DefaultLanguage, langSortCmp } from 'util/language';
 import { makeToaster } from 'components/util/Toast';
 import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
 import AppbarSearch from 'components/util/AppbarSearch';
-import { useQueryParam, StringParam } from 'use-query-params';
+import { StringParam, useQueryParam } from 'use-query-params';
 import { Virtuoso } from 'react-virtuoso';
 import { Typography, useMediaQuery, useTheme } from '@mui/material';
 import { IExtension } from 'typings';
 import { useTranslation } from 'react-i18next';
+import {
+    ExtensionState,
+    GroupedExtensions,
+    GroupedExtensionsResult,
+    isExtensionStateOrLanguage,
+    translateExtensionLanguage,
+} from 'screens/util/Extensions';
 
 const LANGUAGE = 0;
 const EXTENSIONS = 1;
 
 const allLangs: string[] = [];
 
-enum ExtensionState {
-    INSTALLED = 'INSTALLED',
-    UPDATE_PENDING = 'UPDATE PENDING',
-}
-
-enum ExtensionLanguage {
-    ALL = 'all',
-}
-
-type GroupedExtensionsResult<KEY extends string = string> = [KEY, IExtension[]][];
-
-type GroupedByExtensionState = {
-    [state in ExtensionState]: IExtension[];
-};
-
-type GroupedByLanguage = {
-    [language in ExtensionLanguage]: IExtension[];
-} & {
-    [language: string]: IExtension[];
-};
-
-type GroupedExtensions = GroupedByExtensionState & GroupedByLanguage;
-
 function groupExtensions(extensions: IExtension[]): GroupedExtensionsResult {
     allLangs.length = 0; // empty the array
     const sortedExtenions: GroupedExtensions = {
         [ExtensionState.INSTALLED]: [],
         [ExtensionState.UPDATE_PENDING]: [],
-        [ExtensionLanguage.ALL]: [],
+        [DefaultLanguage.ALL]: [],
+        [DefaultLanguage.OTHER]: [],
+        [DefaultLanguage.LOCAL_SOURCE]: [],
     };
     extensions.forEach((extension) => {
         if (sortedExtenions[extension.lang] === undefined) {
@@ -78,10 +64,12 @@ function groupExtensions(extensions: IExtension[]): GroupedExtensionsResult {
     });
 
     allLangs.sort(langSortCmp);
-    const result: GroupedExtensionsResult<ExtensionState | ExtensionLanguage | string> = [
+    const result: GroupedExtensionsResult<ExtensionState | DefaultLanguage | string> = [
         [ExtensionState.UPDATE_PENDING, sortedExtenions[ExtensionState.UPDATE_PENDING]],
         [ExtensionState.INSTALLED, sortedExtenions[ExtensionState.INSTALLED]],
-        [ExtensionLanguage.ALL, sortedExtenions[ExtensionLanguage.ALL]],
+        [DefaultLanguage.ALL, sortedExtenions[DefaultLanguage.ALL]],
+        [DefaultLanguage.OTHER, sortedExtenions[DefaultLanguage.OTHER]],
+        [DefaultLanguage.LOCAL_SOURCE, sortedExtenions[DefaultLanguage.LOCAL_SOURCE]],
     ];
 
     const langExt: GroupedExtensionsResult = allLangs.map((lang) => [lang, sortedExtenions[lang]]);
@@ -129,14 +117,7 @@ export default function MangaExtensions() {
         () =>
             groupExtensions(filteredExtensions)
                 .filter((group) => group[EXTENSIONS].length > 0)
-                .filter((group) =>
-                    [
-                        ExtensionState.INSTALLED,
-                        ExtensionState.UPDATE_PENDING,
-                        ExtensionLanguage.ALL,
-                        ...shownLangs,
-                    ].includes(group[LANGUAGE]),
-                ),
+                .filter((group) => isExtensionStateOrLanguage(group[LANGUAGE]) || shownLangs.includes(group[LANGUAGE])),
         [shownLangs, filteredExtensions],
     );
 
@@ -226,7 +207,7 @@ export default function MangaExtensions() {
                                     fontWeight: 'bold',
                                 }}
                             >
-                                {langCodeToName(item)}
+                                {translateExtensionLanguage(item)}
                             </Typography>
                         );
                     }

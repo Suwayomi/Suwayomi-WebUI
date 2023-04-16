@@ -9,7 +9,7 @@ import React, { useContext, useEffect } from 'react';
 import LangSelect from 'components/navbar/action/LangSelect';
 import SourceCard from 'components/SourceCard';
 import NavbarContext from 'components/context/NavbarContext';
-import { sourceDefualtLangs, sourceForcedDefaultLangs, langCodeToName, langSortCmp } from 'util/language';
+import { sourceDefualtLangs, sourceForcedDefaultLangs, langSortCmp } from 'util/language';
 import useLocalStorage from 'util/useLocalStorage';
 import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
 import { IconButton } from '@mui/material';
@@ -18,6 +18,7 @@ import { useHistory } from 'react-router-dom';
 import { useQuery } from 'util/client';
 import { ISource } from 'typings';
 import { useTranslation } from 'react-i18next';
+import { translateExtensionLanguage } from 'screens/util/Extensions';
 
 function sourceToLangList(sources: ISource[]) {
     const result: string[] = [];
@@ -104,7 +105,7 @@ export default function Sources() {
                         shownLangs.indexOf(lang) !== -1 && (
                             <React.Fragment key={lang}>
                                 <h1 key={lang} style={{ marginLeft: 25 }}>
-                                    {langCodeToName(lang)}
+                                    {translateExtensionLanguage(lang)}
                                 </h1>
                                 {(list as ISource[])
                                     .filter((source) => showNsfw || !source.isNsfw)

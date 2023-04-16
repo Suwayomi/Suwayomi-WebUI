@@ -6,15 +6,13 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 import { t } from 'i18next';
 
+export enum DefaultLanguage {
+    ALL = 'all',
+    OTHER = 'other',
+    LOCAL_SOURCE = 'localsourcelang',
+}
+
 export const ISOLanguages = [
-    { code: 'all', name: 'All', nativeName: 'All' },
-    { code: 'installed', name: 'Installed', nativeName: 'Installed' },
-    { code: 'updates pending', name: 'Updates pending', nativeName: 'Updates pending' },
-
-    { code: 'other', name: 'other langs?', nativeName: 'Other' },
-
-    { code: 'localsourcelang', name: 'Local source', nativeName: 'Local source' },
-
     // full list: https://github.com/meikidd/iso-639-1/blob/master/src/data.js
     { code: 'en', name: 'English', nativeName: 'English' },
     { code: 'ca', name: 'Catalan; Valencian', nativeName: 'Català' },
@@ -97,15 +95,15 @@ function defaultNativeLang() {
 }
 
 export function extensionDefaultLangs() {
-    return [defaultNativeLang(), 'all'];
+    return [defaultNativeLang(), DefaultLanguage.ALL];
 }
 
 export function sourceDefualtLangs() {
-    return [defaultNativeLang(), 'localsourcelang'];
+    return [defaultNativeLang(), DefaultLanguage.LOCAL_SOURCE];
 }
 
 export function sourceForcedDefaultLangs(): string[] {
-    return ['localsourcelang'];
+    return [DefaultLanguage.LOCAL_SOURCE];
 }
 
 export const langSortCmp = (a: string, b: string) => {
@@ -115,8 +113,8 @@ export const langSortCmp = (a: string, b: string) => {
 
     if (a === 'en') return -1;
     if (b === 'en') return 1;
-    if (a === 'localSourceLang') return 1;
-    if (b === 'localSourceLang') return -1;
+    if (a === DefaultLanguage.LOCAL_SOURCE) return 1;
+    if (b === DefaultLanguage.LOCAL_SOURCE) return -1;
 
     return aLang > bLang ? 1 : -1;
 };

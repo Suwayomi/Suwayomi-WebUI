@@ -15,9 +15,9 @@ import { Box, styled } from '@mui/system';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useHistory } from 'react-router-dom';
-import { langCodeToName } from 'util/language';
 import useLocalStorage from 'util/useLocalStorage';
 import { ISource } from 'typings';
+import { translateExtensionLanguage } from 'screens/util/Extensions';
 
 const MobileWidthButtons = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -99,7 +99,7 @@ const SourceCard: React.FC<IProps> = (props: IProps) => {
                             </Typography>
                             {id !== '0' && (
                                 <Typography variant="caption" display="block" gutterBottom>
-                                    {langCodeToName(lang)}
+                                    {translateExtensionLanguage(lang)}
                                     {isNsfw && (
                                         <Typography variant="caption" display="inline" gutterBottom color="red">
                                             {' 18+'}

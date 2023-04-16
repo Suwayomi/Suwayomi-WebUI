@@ -168,13 +168,16 @@
       "installing_file": "Installing Extension File..."
     },
     "language": {
-      "all": "All"
+      "all": "All",
+      "other": "Other"
     },
     "state": {
       "label": {
+        "installed": "Installed",
         "installing": "installing",
         "obsolete": "obsolete",
         "uninstalling": "uninstalling",
+        "update_pending": "Update pending",
         "updating": "updating"
       }
     },
@@ -410,7 +413,8 @@
       "label": {
         "checkout": "Check out",
         "guide": "Local source guide"
-      }
+      },
+      "title": "Local source"
     },
     "title": "Source",
     "title_one": "Source",
