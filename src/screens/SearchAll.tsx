@@ -16,10 +16,11 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { StringParam, useQueryParam } from 'use-query-params';
 import client from 'util/client';
-import { langCodeToName, langSortCmp, sourceDefualtLangs, sourceForcedDefaultLangs } from 'util/language';
+import { langSortCmp, sourceDefualtLangs, sourceForcedDefaultLangs } from 'util/language';
 import useLocalStorage from 'util/useLocalStorage';
 import { ISource } from 'typings';
 import { useTranslation } from 'react-i18next';
+import { translateExtensionLanguage } from 'screens/util/Extensions';
 
 function sourceToLangList(sources: ISource[]) {
     const result: string[] = [];
@@ -202,7 +203,7 @@ const SearchAll: React.FC = () => {
                                     sx={{ p: 3 }}
                                 >
                                     <Typography variant="h5">{displayName}</Typography>
-                                    <Typography variant="caption">{langCodeToName(lang)}</Typography>
+                                    <Typography variant="caption">{translateExtensionLanguage(lang)}</Typography>
                                 </CardActionArea>
                             </Card>
                             <MangaGrid
