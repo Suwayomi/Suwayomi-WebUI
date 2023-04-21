@@ -8,7 +8,7 @@
 
 import { getMetadataFrom, requestUpdateMangaMetadata, requestUpdateServerMetadata } from 'util/metadata';
 import { useQuery } from 'util/client';
-import { IManga, IMetadata, IMetadataHolder, IReaderSettings, MetadataKeyValuePair } from 'typings';
+import { IManga, Metadata, MetadataHolder, IReaderSettings, MetadataKeyValuePair } from 'typings';
 
 export const getDefaultSettings = (forceUndefined: boolean = false) =>
     ({
@@ -21,7 +21,7 @@ export const getDefaultSettings = (forceUndefined: boolean = false) =>
     } as IReaderSettings);
 
 const getReaderSettingsWithDefaultValueFallback = (
-    meta?: IMetadata,
+    meta?: Metadata,
     defaultSettings: IReaderSettings = getDefaultSettings(),
     applyMetadataMigration: boolean = true,
 ): IReaderSettings => ({
@@ -29,7 +29,7 @@ const getReaderSettingsWithDefaultValueFallback = (
 });
 
 export const getReaderSettingsFromMetadata = (
-    meta?: IMetadata,
+    meta?: Metadata,
     defaultSettings?: IReaderSettings,
     applyMetadataMigration?: boolean,
 ): IReaderSettings => ({
@@ -37,17 +37,17 @@ export const getReaderSettingsFromMetadata = (
 });
 
 export const getReaderSettingsFor = (
-    { meta }: IMetadataHolder,
+    { meta }: MetadataHolder,
     defaultSettings?: IReaderSettings,
     applyMetadataMigration?: boolean,
 ): IReaderSettings => getReaderSettingsFromMetadata(meta, defaultSettings, applyMetadataMigration);
 
 export const useDefaultReaderSettings = (): {
-    metadata?: IMetadata;
+    metadata?: Metadata;
     settings: IReaderSettings;
     loading: boolean;
 } => {
-    const { data: meta, loading } = useQuery<IMetadata>('/api/v1/meta');
+    const { data: meta, loading } = useQuery<Metadata>('/api/v1/meta');
     const settings = getReaderSettingsWithDefaultValueFallback(meta);
 
     return { metadata: meta, settings, loading };
@@ -61,11 +61,11 @@ export const useDefaultReaderSettings = (): {
  * @param defaultSettings
  */
 export const checkAndHandleMissingStoredReaderSettings = async (
-    metadataHolder: IManga | IMetadataHolder,
+    metadataHolder: IManga | MetadataHolder,
     metadataHolderType: 'manga' | 'server',
     defaultSettings: IReaderSettings,
 ): Promise<void | void[]> => {
-    const meta = metadataHolder.meta ?? (metadataHolder as IMetadata);
+    const meta = metadataHolder.meta ?? (metadataHolder as Metadata);
     const settingsToCheck = getReaderSettingsFor({ meta }, getDefaultSettings(true), false);
     const newSettings = getReaderSettingsFor({ meta }, defaultSettings);
 

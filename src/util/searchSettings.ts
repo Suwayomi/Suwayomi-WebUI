@@ -1,6 +1,6 @@
 import { useQuery } from 'util/client';
 import { getMetadataFrom } from 'util/metadata';
-import { IMetadata, ISearchSettings } from 'typings';
+import { Metadata, ISearchSettings } from 'typings';
 
 export const getDefaultSettings = () =>
     ({
@@ -8,7 +8,7 @@ export const getDefaultSettings = () =>
     } as ISearchSettings);
 
 const getSearchSettingsWithDefaultValueFallback = (
-    meta?: IMetadata,
+    meta?: Metadata,
     defaultSettings: ISearchSettings = getDefaultSettings(),
     applyMetadataMigration: boolean = true,
 ): ISearchSettings => ({
@@ -16,11 +16,11 @@ const getSearchSettingsWithDefaultValueFallback = (
 });
 
 export const useSearchSettings = (): {
-    metadata?: IMetadata;
+    metadata?: Metadata;
     settings: ISearchSettings;
     loading: boolean;
 } => {
-    const { data: meta, loading } = useQuery<IMetadata>('/api/v1/meta');
+    const { data: meta, loading } = useQuery<Metadata>('/api/v1/meta');
     const settings = getSearchSettingsWithDefaultValueFallback(meta);
 
     return { metadata: meta, settings, loading };

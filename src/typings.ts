@@ -74,12 +74,12 @@ export interface IMetadataMigration {
     keys?: { oldKey: string; newKey: string }[];
 }
 
-export type IMetadata<Keys extends string = string, Values = string> = {
+export type Metadata<Keys extends string = string, Values = string> = {
     [key in Keys]: Values;
 };
 
-export type IMetadataHolder<Keys extends string = string, Values = string> = {
-    meta?: IMetadata<Keys, Values>;
+export type MetadataHolder<Keys extends string = string, Values = string> = {
+    meta?: Metadata<Keys, Values>;
 };
 
 export type AllowedMetadataValueTypes = string | boolean | number | undefined;
@@ -100,7 +100,7 @@ export interface IMangaCard {
     unreadCount?: number;
     downloadCount?: number;
     inLibrary?: boolean;
-    meta?: IMetadata;
+    meta?: Metadata;
     inLibraryAt: number;
     lastReadAt: number;
 }
@@ -122,7 +122,7 @@ export interface IManga {
     inLibrary: boolean;
     source: ISource;
 
-    meta: IMetadata;
+    meta: Metadata;
 
     realUrl: string;
     freshData: boolean;
@@ -158,7 +158,7 @@ export interface IChapter {
     chapterCount: number;
     pageCount: number;
     downloaded: boolean;
-    meta: IMetadata;
+    meta: Metadata;
 }
 
 export interface IMangaChapter {
@@ -178,7 +178,7 @@ export interface ICategory {
     order: number;
     name: string;
     default: boolean;
-    meta: IMetadata;
+    meta: Metadata;
 }
 
 export interface INavbarOverride {
