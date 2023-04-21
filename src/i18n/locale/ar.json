@@ -1,5 +1,49 @@
 {
     "library": {
-        "title": "المكتبة"
+        "title": "المكتبة",
+        "option": {
+            "display": {
+                "badge": {
+                    "title": "الشارات"
+                }
+            }
+        }
+    },
+    "category": {
+        "title": {
+            "categories": "الفئات"
+        }
+    },
+    "settings": {
+        "backup": {
+            "label": {
+                "create_backup": "إنشاء نسخة احتياطية"
+            }
+        },
+        "about": {
+            "title": "حول",
+            "label": {
+                "build_time": "تاريخ بناء الخادم"
+            }
+        }
+    },
+    "global": {
+        "button": {
+            "cancel": "إلغاء",
+            "browse": "تصفح"
+        },
+        "label": {
+            "browse": "تصفح"
+        },
+        "sort": {
+            "label": {
+                "by_source": "حسب المصدر"
+            }
+        },
+        "filter": {
+            "label": {
+                "bookmarked": "لديها إشارات مرجعية"
+            }
+        }
     }
 }
