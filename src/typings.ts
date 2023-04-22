@@ -74,13 +74,13 @@ export interface IMetadataMigration {
     keys?: { oldKey: string; newKey: string }[];
 }
 
-export interface IMetadata<VALUES extends AllowedMetadataValueTypes = string> {
-    [key: string]: VALUES;
-}
+export type Metadata<Keys extends string = string, Values = string> = {
+    [key in Keys]: Values;
+};
 
-export interface IMetadataHolder<VALUES extends AllowedMetadataValueTypes = string> {
-    meta?: IMetadata<VALUES>;
-}
+export type MetadataHolder<Keys extends string = string, Values = string> = {
+    meta?: Metadata<Keys, Values>;
+};
 
 export type AllowedMetadataValueTypes = string | boolean | number | undefined;
 
@@ -100,7 +100,7 @@ export interface IMangaCard {
     unreadCount?: number;
     downloadCount?: number;
     inLibrary?: boolean;
-    meta?: IMetadata;
+    meta?: Metadata;
     inLibraryAt: number;
     lastReadAt: number;
 }
@@ -122,7 +122,7 @@ export interface IManga {
     inLibrary: boolean;
     source: ISource;
 
-    meta: IMetadata;
+    meta: Metadata;
 
     realUrl: string;
     freshData: boolean;
@@ -158,7 +158,7 @@ export interface IChapter {
     chapterCount: number;
     pageCount: number;
     downloaded: boolean;
-    meta: IMetadata;
+    meta: Metadata;
 }
 
 export interface IMangaChapter {
@@ -173,12 +173,20 @@ export interface IPartialChapter {
     lastPageRead: number;
 }
 
+export enum IncludeInGlobalUpdate {
+    EXCLUDE = 0,
+    INCLUDE = 1,
+    UNSET = -1,
+}
+
 export interface ICategory {
     id: number;
     order: number;
     name: string;
     default: boolean;
-    meta: IMetadata;
+    includeInUpdate: IncludeInGlobalUpdate;
+    meta: Metadata;
+    size: number;
 }
 
 export interface INavbarOverride {
@@ -361,6 +369,7 @@ export interface LibraryOptions {
     unread: NullAndUndefined<boolean>;
     sorts: NullAndUndefined<LibrarySortMode>;
     sortDesc: NullAndUndefined<boolean>;
+    showTabSize: boolean;
 }
 
 export interface BatchChaptersChange {
