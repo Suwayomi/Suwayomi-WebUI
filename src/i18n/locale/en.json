@@ -210,6 +210,8 @@
     },
     "error": {
       "label": {
+        "failed_to_load_data": "Unable to load data",
+        "failed_to_save_changes": "Failed to save changes",
         "invalid_action": "This is not a valid Action",
         "invalid_file_type": "invalid file type!",
         "update_failed": "Checking for updates failed!"
@@ -235,6 +237,7 @@
       "display": "Display",
       "filter": "Filter",
       "loading": "Loading...",
+      "none": "None",
       "sort": "Sort"
     },
     "language": {
@@ -284,6 +287,19 @@
           "by_unread_chapters": "By Unread chapters"
         }
       }
+    },
+    "settings": {
+      "global_update": {
+        "categories": {
+          "label": {
+            "exclude": "Exclude: {{excludedCategoriesText}}",
+            "include": "Include: {{includedCategoriesText}}",
+            "info": "Entries in excluded categories will not be updated even if they are also in included categories"
+          }
+        },
+        "title": "Global update"
+      },
+      "title": "Library Settings"
     },
     "title": "Library"
   },
