@@ -15,8 +15,8 @@ import {
     IManga,
     IMangaCard,
     IMangaChapter,
-    IMetadata,
-    IMetadataHolder,
+    Metadata,
+    MetadataHolder,
     IMetadataMigration,
     MetadataKeyValuePair,
 } from 'typings';
@@ -96,7 +96,7 @@ const getAppKeyPrefixForMigration = (migrationId: number): string => {
 
 const getMetadataKey = (key: string, appPrefix: string = APP_METADATA_KEY_PREFIX) => `${appPrefix}${key}`;
 
-const doesMetadataKeyExistIn = (meta: IMetadata | undefined, key: string, appPrefix?: string): boolean =>
+const doesMetadataKeyExistIn = (meta: Metadata | undefined, key: string, appPrefix?: string): boolean =>
     Object.prototype.hasOwnProperty.call(meta ?? {}, getMetadataKey(key, appPrefix));
 
 const convertValueFromMetadata = <T extends AllowedMetadataValueTypes = AllowedMetadataValueTypes>(
@@ -117,8 +117,8 @@ const convertValueFromMetadata = <T extends AllowedMetadataValueTypes = AllowedM
     return value as T;
 };
 
-const getAppMetadataFrom = (meta: IMetadata, appPrefix: string = APP_METADATA_KEY_PREFIX): IMetadata => {
-    const appMetadata: IMetadata = {};
+const getAppMetadataFrom = (meta: Metadata, appPrefix: string = APP_METADATA_KEY_PREFIX): Metadata => {
+    const appMetadata: Metadata = {};
 
     Object.entries(meta).forEach(([key, value]) => {
         if (key.startsWith(appPrefix)) {
@@ -129,8 +129,8 @@ const getAppMetadataFrom = (meta: IMetadata, appPrefix: string = APP_METADATA_KE
     return appMetadata;
 };
 
-const applyAppKeyPrefixMigration = (meta: IMetadata, migration: IMetadataMigration): IMetadata => {
-    const migratedMetadata: IMetadata = { ...meta };
+const applyAppKeyPrefixMigration = (meta: Metadata, migration: IMetadataMigration): Metadata => {
+    const migratedMetadata: Metadata = { ...meta };
 
     if (!migration.appKeyPrefix) {
         return migratedMetadata;
@@ -154,12 +154,8 @@ const applyAppKeyPrefixMigration = (meta: IMetadata, migration: IMetadataMigrati
     return migratedMetadata;
 };
 
-const applyMetadataValueMigration = (
-    meta: IMetadata,
-    migration: IMetadataMigration,
-    appKeyPrefix: string,
-): IMetadata => {
-    const migratedMetadata: IMetadata = { ...meta };
+const applyMetadataValueMigration = (meta: Metadata, migration: IMetadataMigration, appKeyPrefix: string): Metadata => {
+    const migratedMetadata: Metadata = { ...meta };
 
     if (!migration.values) {
         return migratedMetadata;
@@ -193,8 +189,8 @@ const applyMetadataValueMigration = (
     return migratedMetadata;
 };
 
-const applyMetadataKeyMigration = (meta: IMetadata, migration: IMetadataMigration): IMetadata => {
-    const migratedMetadata: IMetadata = { ...meta };
+const applyMetadataKeyMigration = (meta: Metadata, migration: IMetadataMigration): Metadata => {
+    const migratedMetadata: Metadata = { ...meta };
 
     if (!migration.keys) {
         return migratedMetadata;
@@ -217,12 +213,12 @@ const applyMetadataKeyMigration = (meta: IMetadata, migration: IMetadataMigratio
     return migratedMetadata;
 };
 
-const applyMetadataMigrations = (meta?: IMetadata): IMetadata | undefined => {
+const applyMetadataMigrations = (meta?: Metadata): Metadata | undefined => {
     if (!meta) {
         return undefined;
     }
 
-    const migrationToMetadata: [number, IMetadata][] = [[0, meta]];
+    const migrationToMetadata: [number, Metadata][] = [[0, meta]];
 
     migrations.forEach((migration, index) => {
         const migrationId = index + 1;
@@ -246,12 +242,12 @@ const applyMetadataMigrations = (meta?: IMetadata): IMetadata | undefined => {
     return migrationToMetadata.pop()![1];
 };
 
-export const getMetadataValueFrom = <T extends AllowedMetadataValueTypes = AllowedMetadataValueTypes>(
-    { meta }: IMetadataHolder,
-    key: AppMetadataKeys,
-    defaultValue?: T,
+export const getMetadataValueFrom = <Key extends AppMetadataKeys, Value extends AllowedMetadataValueTypes>(
+    { meta }: MetadataHolder,
+    key: Key,
+    defaultValue?: Value,
     applyMigrations: boolean = true,
-): T | undefined => {
+): Value | undefined => {
     const metadata = applyMigrations ? applyMetadataMigrations(meta) : meta;
 
     if (metadata === undefined || !doesMetadataKeyExistIn(metadata, key)) {
@@ -261,21 +257,26 @@ export const getMetadataValueFrom = <T extends AllowedMetadataValueTypes = Allow
     return convertValueFromMetadata(metadata[getMetadataKey(key)]);
 };
 
-export const getMetadataFrom = (
-    { meta }: IMetadataHolder,
-    keysToDefaultValues: MetadataKeyValuePair[],
+export const getMetadataFrom = <METADATA extends Partial<Metadata<AppMetadataKeys, AllowedMetadataValueTypes>>>(
+    { meta }: MetadataHolder,
+    metadataWithDefaultValues: METADATA,
     applyMigrations?: boolean,
-): IMetadata<AllowedMetadataValueTypes> => {
-    const appMetadata: IMetadata<AllowedMetadataValueTypes> = {};
+): METADATA => {
+    const appMetadata = {} as METADATA;
 
-    keysToDefaultValues.forEach(([key, defaultValue]) => {
-        appMetadata[key] = getMetadataValueFrom({ meta }, key, defaultValue, applyMigrations);
+    Object.entries(metadataWithDefaultValues).forEach(([key, defaultValue]) => {
+        appMetadata[key as AppMetadataKeys] = getMetadataValueFrom(
+            { meta },
+            key as AppMetadataKeys,
+            defaultValue,
+            applyMigrations,
+        );
     });
 
     return appMetadata;
 };
 
-const wrapMetadataWithMetaKey = (wrap: boolean, metadata: IMetadata): IMetadataHolder => {
+const wrapMetadataWithMetaKey = (wrap: boolean, metadata: Metadata): MetadataHolder => {
     if (wrap) {
         return {
             meta: {
@@ -291,7 +292,7 @@ const wrapMetadataWithMetaKey = (wrap: boolean, metadata: IMetadata): IMetadataH
 
 export const requestUpdateMetadataValue = async (
     endpoint: string,
-    metadataHolder: IMetadataHolder,
+    metadataHolder: MetadataHolder,
     key: AppMetadataKeys,
     value: AllowedMetadataValueTypes,
     endpointToMutate: string = endpoint,
@@ -323,7 +324,7 @@ export const requestUpdateMetadataValue = async (
 
 export const requestUpdateMetadata = async (
     endpoint: string,
-    metadataHolder: IMetadataHolder,
+    metadataHolder: MetadataHolder,
     keysToValues: [AppMetadataKeys, AllowedMetadataValueTypes][],
     endpointToMutate?: string,
     wrapWithMetaKey?: boolean,
@@ -335,7 +336,7 @@ export const requestUpdateMetadata = async (
     );
 
 export const requestUpdateServerMetadata = async (
-    serverMetadata: IMetadata,
+    serverMetadata: Metadata,
     keysToValues: MetadataKeyValuePair[],
 ): Promise<void[]> => requestUpdateMetadata('', { meta: serverMetadata }, keysToValues, '/meta', false);
 
