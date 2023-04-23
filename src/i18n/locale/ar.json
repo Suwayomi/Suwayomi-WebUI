@@ -11,7 +11,24 @@
     },
     "category": {
         "title": {
-            "categories": "الفئات"
+            "categories": "الفئات",
+            "set_categories": "تعيين الفئات"
+        },
+        "label": {
+            "category_name": "اسم الفئة",
+            "use_as_default_category": "الفئة الافتراضية عند إضافة مانجا جديدة إلى المكتبة"
+        },
+        "error": {
+            "label": {
+                "empty": "الفئة فارغة",
+                "request_failure": "تعذر تحميل الفئات"
+            },
+            "no_categories_found": {
+                "label": {
+                    "hint": "عليك إنشاء فئات من الإعدادات.",
+                    "info": "لا توجد فئات!"
+                }
+            }
         }
     },
     "settings": {
@@ -43,6 +60,20 @@
         "filter": {
             "label": {
                 "bookmarked": "لديها إشارات مرجعية"
+            }
+        }
+    },
+    "chapter": {
+        "action": {
+            "bookmark": {
+                "add": {
+                    "button": {
+                        "selected": "تم تحديد إشارة مرجعية"
+                    },
+                    "label": {
+                        "action": "إضافة إشارة مرجعية"
+                    }
+                }
             }
         }
     }
