@@ -149,14 +149,17 @@
             }
         },
         "language": {
-            "all": "全部"
+            "all": "全部",
+            "other": "其他"
         },
         "state": {
             "label": {
                 "installing": "安装中",
                 "obsolete": "过时",
                 "uninstalling": "卸载中",
-                "updating": "升级中"
+                "updating": "升级中",
+                "installed": "已安装",
+                "update_pending": "待更新"
             }
         },
         "label": {
@@ -195,7 +198,9 @@
             "label": {
                 "invalid_action": "这不是一个有效操作",
                 "invalid_file_type": "无效的文件类型!",
-                "update_failed": "检查更新失败!"
+                "update_failed": "检查更新失败!",
+                "failed_to_save_changes": "保存更改失败",
+                "failed_to_load_data": "无法加载数据"
             }
         },
         "filter": {
@@ -218,7 +223,8 @@
             "display": "显示",
             "filter": "筛选",
             "loading": "加载中...",
-            "sort": "排序"
+            "sort": "排序",
+            "none": "无"
         },
         "language": {
             "label": {
@@ -251,6 +257,12 @@
                         "download_badges": "已下载数量",
                         "unread_badges": "未读数量"
                     }
+                },
+                "tab": {
+                    "title": "标签",
+                    "label": {
+                        "show_number_of_items": "显示项目的数量"
+                    }
                 }
             },
             "sort": {
@@ -262,7 +274,18 @@
                 }
             }
         },
-        "title": "书架"
+        "title": "书架",
+        "settings": {
+            "global_update": {
+                "categories": {
+                    "label": {
+                        "info": "排除类别中的条目将不会被更新，即使它们也在包含的类别中"
+                    }
+                },
+                "title": "全局更新"
+            },
+            "title": "图书馆设置"
+        }
     },
     "manga": {
         "button": {
@@ -307,7 +330,8 @@
                 "load_next_chapter": "在尾页加载下一章",
                 "reader_type": "阅读器类型",
                 "show_page_number": "显示页数",
-                "static_navigation": "静态导航"
+                "static_navigation": "静态导航",
+                "skip_dup_chapters": "跳过重复章节"
             },
             "reader_type": {
                 "label": {
@@ -375,7 +399,8 @@
             "label": {
                 "checkout": "查看",
                 "guide": "本地图源指南"
-            }
+            },
+            "title": "本地来源"
         },
         "configuration": {
             "title": "图源配置"
