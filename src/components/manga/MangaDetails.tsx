@@ -140,7 +140,11 @@ const MangaDetails: React.FC<IProps> = ({ manga }) => {
 
     const classes = useStyles(manga.inLibrary)();
 
-    useEffect(() => makeToast(translate('source.error.label.source_not_found'), 'error'), [manga.id]);
+    useEffect(() => {
+        if (!manga.source) {
+            makeToast(translate('source.error.label.source_not_found'), 'error');
+        }
+    }, [manga.source]);
 
     const addToLibrary = () => {
         mutate(`/api/v1/manga/${manga.id}/?onlineFetch=false`, { ...manga, inLibrary: true }, { revalidate: false });
