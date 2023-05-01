@@ -238,7 +238,8 @@
       "filter": "Filter",
       "loading": "Loading...",
       "none": "None",
-      "sort": "Sort"
+      "sort": "Sort",
+      "unknown": "Unknown"
     },
     "language": {
       "label": {
