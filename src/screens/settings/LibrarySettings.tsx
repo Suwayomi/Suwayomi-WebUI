@@ -75,7 +75,7 @@ export default function LibrarySettings() {
     useEffect(() => {
         setTitle(t('library.settings.title'));
         setAction(null);
-    }, []);
+    }, [t]);
 
     const { data: categories, loading, error: requestError, mutate } = useQuery<ICategory[]>('/api/v1/category/');
 
