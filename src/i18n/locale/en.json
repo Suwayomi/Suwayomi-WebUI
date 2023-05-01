@@ -436,7 +436,8 @@
     },
     "error": {
       "label": {
-        "no_sources_found": "No sources found. Install Some Extensions first."
+        "no_sources_found": "No sources found. Install Some Extensions first.",
+        "source_not_found": "Could not find source. Check your installed extensions."
       }
     },
     "local_source": {

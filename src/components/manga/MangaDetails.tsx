@@ -19,6 +19,7 @@ import client from 'util/client';
 import useLocalStorage from 'util/useLocalStorage';
 import { IManga, ISource } from 'typings';
 import { t as translate } from 'i18next';
+import makeToast from 'components/util/Toast';
 
 const useStyles = (inLibrary: boolean) =>
     makeStyles((theme: Theme) => ({
@@ -138,6 +139,8 @@ const MangaDetails: React.FC<IProps> = ({ manga }) => {
     const [useCache] = useLocalStorage<boolean>('useCache', true);
 
     const classes = useStyles(manga.inLibrary)();
+
+    useEffect(() => makeToast(translate('source.error.label.source_not_found'), 'error'), [manga.id]);
 
     const addToLibrary = () => {
         mutate(`/api/v1/manga/${manga.id}/?onlineFetch=false`, { ...manga, inLibrary: true }, { revalidate: false });
