@@ -12,12 +12,14 @@ import { Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import { Theme } from '@mui/material/styles';
 import makeStyles from '@mui/styles/makeStyles';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { mutate } from 'swr';
 import client from 'util/client';
 import useLocalStorage from 'util/useLocalStorage';
 import { IManga, ISource } from 'typings';
+import { t as translate } from 'i18next';
+import makeToast from 'components/util/Toast';
 
 const useStyles = (inLibrary: boolean) =>
     makeStyles((theme: Theme) => ({
@@ -119,10 +121,11 @@ interface IProps {
 }
 
 function getSourceName(source: ISource) {
-    if (source.displayName !== null) {
-        return source.displayName;
+    if (!source) {
+        return translate('global.label.unknown');
     }
-    return source.id;
+
+    return source.displayName ?? source.id;
 }
 
 function getValueOrUnknown(val: string) {
@@ -136,6 +139,12 @@ const MangaDetails: React.FC<IProps> = ({ manga }) => {
     const [useCache] = useLocalStorage<boolean>('useCache', true);
 
     const classes = useStyles(manga.inLibrary)();
+
+    useEffect(() => {
+        if (!manga.source) {
+            makeToast(translate('source.error.label.source_not_found'), 'error');
+        }
+    }, [manga.source]);
 
     const addToLibrary = () => {
         mutate(`/api/v1/manga/${manga.id}/?onlineFetch=false`, { ...manga, inLibrary: true }, { revalidate: false });
