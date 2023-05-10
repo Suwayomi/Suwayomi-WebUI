@@ -2,8 +2,8 @@
   "category": {
     "dialog": {
       "title": {
-        "edit_category": "Edit Catalog",
-        "new_category": "New Catalog"
+        "edit_category": "Edit category",
+        "new_category": "New category"
       }
     },
     "error": {
