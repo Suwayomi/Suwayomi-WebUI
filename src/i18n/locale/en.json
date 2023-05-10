@@ -358,13 +358,13 @@
       },
       "reader_type": {
         "label": {
-          "continuous_horizontal_ltr": "Horizontal (LTR) →",
-          "continuous_horizontal_rtl": "Horizontal (RTL) ←",
+          "continuous_horizontal_ltr": "Horizontal (LTR) ➡️",
+          "continuous_horizontal_rtl": "Horizontal (RTL) ⬅️",
           "continuous_vertical": "Continues vertical",
-          "double_page_ltr": "Double page (LTR) →",
-          "double_page_rtl": "Double page (RTL) ←",
-          "single_page_ltr": "Single page (LTR) →",
-          "single_page_rtl": "Single page (RTL) ←",
+          "double_page_ltr": "Double page (LTR) ➡️",
+          "double_page_rtl": "Double page (RTL) ⬅️",
+          "single_page_ltr": "Single page (LTR) ➡️",
+          "single_page_rtl": "Single page (RTL) ⬅️",
           "webtoon": "Webtoon"
         }
       },
