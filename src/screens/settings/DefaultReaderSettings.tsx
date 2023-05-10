@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-shadow */
-/* eslint-disable react/destructuring-assignment */
 /*
  * Copyright (C) Contributors to the Suwayomi project
  *

@@ -44,20 +44,17 @@ export default function DesktopSideBar({ navBarItems }: IProps) {
 
     return (
         <SideNavBarContainer>
-            {
-                // eslint-disable-next-line react/destructuring-assignment
-                navBarItems.map(({ path, title, IconComponent, SelectedIconComponent }: NavbarItem) => (
-                    <Link to={path} style={{ color: 'inherit', textDecoration: 'none' }} key={path}>
-                        <ListItem disableRipple button key={title}>
-                            <ListItemIcon sx={{ minWidth: '0' }}>
-                                <Tooltip placement="right" title={t(title)}>
-                                    {iconFor(path, IconComponent, SelectedIconComponent)}
-                                </Tooltip>
-                            </ListItemIcon>
-                        </ListItem>
-                    </Link>
-                ))
-            }
+            {navBarItems.map(({ path, title, IconComponent, SelectedIconComponent }: NavbarItem) => (
+                <Link to={path} style={{ color: 'inherit', textDecoration: 'none' }} key={path}>
+                    <ListItem disableRipple button key={title}>
+                        <ListItemIcon sx={{ minWidth: '0' }}>
+                            <Tooltip placement="right" title={t(title)}>
+                                {iconFor(path, IconComponent, SelectedIconComponent)}
+                            </Tooltip>
+                        </ListItemIcon>
+                    </ListItem>
+                </Link>
+            ))}
         </SideNavBarContainer>
     );
 }

@@ -17,7 +17,6 @@ interface DownloadStateIndicatorProps {
     download: IDownloadChapter;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const DOWNLOAD_STATE_TO_TRANSLATION_KEY_MAP: { [state in IDownloadChapter['state']]: TranslationKey } = {
     Downloading: 'download.state.label.downloading',
     Error: 'download.state.label.error',
