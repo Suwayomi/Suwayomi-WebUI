@@ -415,8 +415,8 @@
     },
     "label": {
       "dark_theme": "Dark theme",
-      "image_cache": "Prefetch images",
-      "image_cache_description": "Downloads images for later use.",
+      "image_cache": "Use image cache",
+      "image_cache_description": "Reduces the data consumption and improves the performance when a already requested image gets requested again",
       "manga_item_width": "Manga item width",
       "show_nsfw": "Show NSFW",
       "show_nsfw_description": "Hide NSFW extensions and sources"
