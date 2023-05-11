@@ -1,0 +1,470 @@
+{
+    "chapter": {
+        "action": {
+            "bookmark": {
+                "remove": {
+                    "button": {
+                        "selected": "Видалити закладки з вибраного"
+                    },
+                    "label": {
+                        "action": "Видалити закладку",
+                        "error_one": "Помилка видалення закладки",
+                        "error_few": "Помилка видалення закладок",
+                        "error_many": "Помилка видалення закладок",
+                        "success_one": "закладку розділу видалено",
+                        "success_few": "{{count}} закладки розділів видалено",
+                        "success_many": "{{count}} закладок розділів видалено"
+                    }
+                },
+                "add": {
+                    "button": {
+                        "selected": "Вибрано закладку"
+                    },
+                    "label": {
+                        "action": "Додати закладку",
+                        "error_one": "Помилка закладки розділу",
+                        "error_few": "Помилка закладки розділів",
+                        "error_many": "Помилка закладки розділів",
+                        "success_one": "розділ додано до закладок",
+                        "success_few": "{{count}} розділи додано до закладок",
+                        "success_many": "{{count}} розділів додано до закладок"
+                    }
+                }
+            },
+            "download": {
+                "add": {
+                    "button": {
+                        "selected": "Вибране завантаження"
+                    },
+                    "label": {
+                        "action": "Завантажити",
+                        "error_one": "Помилка додавання завантажень",
+                        "error_few": "Помилка додавання завантажень",
+                        "error_many": "Помилка додавання завантажень",
+                        "success_one": "Завантаження додано",
+                        "success_few": "{{count}} завантаження додано",
+                        "success_many": "{{count}} завантажень додано"
+                    }
+                },
+                "delete": {
+                    "button": {
+                        "selected": "Видалити вибране"
+                    },
+                    "label": {
+                        "error_one": "Помилка видалення розділу",
+                        "error_few": "Помилка видалення розділів",
+                        "error_many": "Помилка видалення розділів",
+                        "action": "Видалити",
+                        "success_one": "Розділ видалено",
+                        "success_few": "{{count}} розділи видалено",
+                        "success_many": "{{count}} розділів видалено"
+                    }
+                }
+            },
+            "mark_as_read": {
+                "add": {
+                    "label": {
+                        "action": {
+                            "current": "Позначити як прочитане",
+                            "previous": "Позначити попереднє як прочитане"
+                        },
+                        "success_one": "Розділ позначено як прочитаний",
+                        "success_few": "{{count}} розділи позначені як прочитані",
+                        "success_many": "{{count}} розділів позначені як прочитані",
+                        "error_one": "Помилка позначення розділу як прочитаного",
+                        "error_few": "Помилка позначення розділів як прочитаних",
+                        "error_many": "Помилка позначення розділів як прочитаних"
+                    },
+                    "button": {
+                        "selected": "Позначити вибране як прочитане"
+                    }
+                },
+                "remove": {
+                    "label": {
+                        "action": "Позначити як непрочитане",
+                        "success_one": "Розділ позначено як непрочитаний",
+                        "success_few": "{{count}} розділи позначені як непрочитані",
+                        "success_many": "{{count}} розділів позначено як непрочитані",
+                        "error_one": "Помилка позначення розділу як непрочитаного",
+                        "error_few": "Помилка позначення розділів як непрочитаних",
+                        "error_many": "Помилка позначення розділів як непрочитаних"
+                    },
+                    "button": {
+                        "selected": "Позначити вибране як непрочитане"
+                    }
+                }
+            },
+            "label": {
+                "select": "Вибрати"
+            }
+        },
+        "error": {
+            "label": {
+                "no_chapter_found": "Не знайдено жодного розділу",
+                "no_matches": "Немає розділів, що відповідають фільтру"
+            }
+        },
+        "option": {
+            "display": {
+                "label": {
+                    "chapter_number": "Номер розділу",
+                    "source_title": "Назва джерела"
+                }
+            }
+        },
+        "status": {
+            "label": {
+                "downloaded": "Завантажено"
+            }
+        },
+        "title": "Розділ"
+    },
+    "category": {
+        "dialog": {
+            "title": {
+                "edit_category": "Редагувати каталог",
+                "new_category": "Новий каталог"
+            }
+        },
+        "error": {
+            "label": {
+                "empty": "Категорія порожня",
+                "request_failure": "Не вдалося завантажити категорії"
+            },
+            "no_categories_found": {
+                "label": {
+                    "hint": "Ви повинні зробити деякі з налаштувань.",
+                    "info": "Не знайдено жодної категорії!"
+                }
+            }
+        },
+        "label": {
+            "use_as_default_category": "Категорія за замовчуванням при додаванні нової манґи до бібліотеки",
+            "category_name": "Назва категорії"
+        },
+        "title": {
+            "categories": "Категорії",
+            "set_categories": "Встановити категорії"
+        }
+    },
+    "download": {
+        "queue": {
+            "label": {
+                "no_downloads": "Немає завантажень"
+            },
+            "title": "Черга завантажень"
+        },
+        "state": {
+            "label": {
+                "downloading": "Завантаження",
+                "finished": "Завершено",
+                "queued": "У черзі",
+                "error": "Помилка"
+            }
+        },
+        "title": "Завантаження"
+    },
+    "extension": {
+        "action": {
+            "label": {
+                "install": "встановити",
+                "uninstall": "видалити",
+                "update": "оновити"
+            }
+        },
+        "label": {
+            "installed_successfully": "Розширення успішно встановлено!",
+            "installing_file": "Встановлення файлу розширення...",
+            "installation_failed": "Встановлення розширення не вдалося!"
+        },
+        "language": {
+            "all": "Всі",
+            "other": "Інші"
+        },
+        "state": {
+            "label": {
+                "installing": "встановлення",
+                "obsolete": "застаріле",
+                "update_pending": "Очікується оновлення",
+                "updating": "оновлення",
+                "installed": "Встановлено",
+                "uninstalling": "видалення"
+            }
+        },
+        "title": "Розширення"
+    },
+    "global": {
+        "button": {
+            "browse": "Переглянути",
+            "cancel": "Скасувати",
+            "filter": "Фільтр",
+            "latest": "Останні",
+            "reset": "Скинути",
+            "reset_to_default": "Скинути до замовчування",
+            "resume": "Відновити",
+            "set": "Встановити",
+            "start": "Почати",
+            "submit": "Надіслати",
+            "ok": "Ок",
+            "clear": "Очистити",
+            "select_all": "Вибрати все",
+            "open_site": "Відкрити сайт"
+        },
+        "date": {
+            "label": {
+                "today_at": "Сьогодні о {{timeString}}",
+                "yesterday": "ВЧОРА",
+                "yesterday_at": "Вчора о {{timeString}}",
+                "today": "СЬОГОДНІ"
+            }
+        },
+        "error": {
+            "label": {
+                "failed_to_load_data": "Не вдається завантажити дані",
+                "invalid_action": "Ця дія не є дійсною",
+                "invalid_file_type": "неправильний тип файлу!",
+                "update_failed": "Не вдалося перевірити наявність оновлень!",
+                "failed_to_save_changes": "Не вдалося зберегти зміни"
+            }
+        },
+        "filter": {
+            "label": {
+                "downloaded": "Завантажено",
+                "bookmarked": "Додано в закладки",
+                "unread": "Не прочитано"
+            }
+        },
+        "grid_layout": {
+            "label": {
+                "list": "Список",
+                "compact_grid": "Компактна сітка",
+                "comfortable_grid": "Зручна сітка"
+            },
+            "title": "Режим відображення"
+        },
+        "label": {
+            "browse": "Переглянути",
+            "display": "Дисплей",
+            "filter": "Фільтр",
+            "loading": "Завантаження...",
+            "none": "Нічого",
+            "sort": "Сортувати",
+            "unknown": "Невідомо"
+        },
+        "language": {
+            "label": {
+                "language": "Мова",
+                "language_with_code": "мова з кодом: {{code}}"
+            },
+            "title": {
+                "enabled_languages": "Ввімкнені мови"
+            }
+        },
+        "sort": {
+            "label": {
+                "by_fetch_date": "За датою отримання",
+                "by_source": "За джерелом"
+            }
+        }
+    },
+    "library": {
+        "error": {
+            "label": {
+                "empty": "Ваша бібліотека порожня",
+                "no_matches": "За цим фільтром не знайдено манґи, що відповідає цьому фільтру"
+            }
+        },
+        "option": {
+            "display": {
+                "badge": {
+                    "label": {
+                        "download_badges": "Завантажити значки",
+                        "unread_badges": "Непрочитані значки"
+                    },
+                    "title": "Значки"
+                },
+                "tab": {
+                    "title": "Вкладки",
+                    "label": {
+                        "show_number_of_items": "Показати кількість елементів"
+                    }
+                }
+            },
+            "sort": {
+                "label": {
+                    "alphabetically": "За алфавітом",
+                    "by_date_added": "За датою додавання",
+                    "by_unread_chapters": "За непрочитаними розділами",
+                    "by_last_read": "За останнім читанням"
+                }
+            }
+        },
+        "settings": {
+            "global_update": {
+                "categories": {
+                    "label": {
+                        "info": "Записи у виключених категоріях не будуть оновлюватися, навіть якщо вони є у включених категоріях",
+                        "exclude": "Виключити: {{excludedCategoriesText}}",
+                        "include": "Включити: {{includedCategoriesText}}"
+                    }
+                },
+                "title": "Глобальне оновлення"
+            },
+            "title": "Налаштування бібліотеки"
+        },
+        "title": "Бібліотека"
+    },
+    "manga": {
+        "button": {
+            "in_library": "У бібліотеці",
+            "add_to_library": "Додати до бібліотеки"
+        },
+        "error": {
+            "label": {
+                "no_mangas_found": "Манґи не знайдено!",
+                "request_failure": "Не вдалося завантажити манґу",
+                "no_matches": "За цим фільтром не знайдено манґи, що відповідає цьому фільтру"
+            }
+        },
+        "label": {
+            "edit_categories": "Редагувати категорії манґи",
+            "reload_from_source": "Перезавантажити дані з джерела",
+            "status": "Статус",
+            "author": "Автор",
+            "artist": "Художник"
+        },
+        "title": "Манґа"
+    },
+    "reader": {
+        "button": {
+            "previous_chapter": "Попередній розділ",
+            "next_chapter": "Наступний розділ"
+        },
+        "error": {
+            "label": {
+                "unable_to_get_prev_chapter_skip_dup": "Не вдалося отримати попередній розділ - ввімкнено опцію \"$t(reader.settings.label.skip_dup_chapters)\"",
+                "unable_to_get_next_chapter_skip_dup": "Не вдається отримати наступний розділ - ввімкнено опцію \"$t(reader.settings.label.skip_dup_chapters)\""
+            }
+        },
+        "page_info": {
+            "label": {
+                "of_max_pages": "з {{maxPages}}",
+                "currently_on_page": "Зараз на сторінці"
+            }
+        },
+        "settings": {
+            "label": {
+                "reader_type": "Тип читача",
+                "show_page_number": "Показати номер сторінки",
+                "skip_dup_chapters": "Пропуск повторюваних розділів",
+                "static_navigation": "Статична навігація",
+                "load_next_chapter": "Завантажувати наступний розділ після закінчення"
+            },
+            "reader_type": {
+                "label": {
+                    "continuous_horizontal_ltr": "Горизонтальний (зліва направо)",
+                    "continuous_horizontal_rtl": "Горизонтальний (справа наліво)",
+                    "continuous_vertical": "Вертикальний безперервний",
+                    "double_page_ltr": "Подвійна сторінка (зліва направо)",
+                    "double_page_rtl": "Подвійна сторінка (справа наліво)",
+                    "single_page_ltr": "Одна сторінка (зліва направо)",
+                    "single_page_rtl": "Одна сторінка (справа наліво)",
+                    "webtoon": "Webtoon"
+                }
+            },
+            "title": {
+                "default_reader_settings": "Налаштування читача за замовчуванням",
+                "reader_settings": "Налаштування читача"
+            },
+            "error": {
+                "label": {
+                    "failed_to_save_default_settings": "Не вдалося зберегти налаштування читача за замовчуванням на сервері",
+                    "failed_to_save_settings": "Не вдалося зберегти налаштування читача на сервері"
+                }
+            }
+        },
+        "title": "Читач - Манґа {{mangaId}} Розділ {{chapterIndex}}"
+    },
+    "search": {
+        "label": {
+            "ignore_filters": "Ігнорувати фільтри під час пошуку"
+        },
+        "title": {
+            "global_search": "Глобальний пошук"
+        },
+        "error": {
+            "label": {
+                "failed_to_save_settings": "Не вдалося зберегти налаштування пошуку за замовчуванням на сервері"
+            }
+        }
+    },
+    "settings": {
+        "about": {
+            "label": {
+                "build_time": "Час збірки",
+                "github": "Github",
+                "server": "Сервер",
+                "server_address": "Адреса сервера",
+                "server_version": "Версія сервера",
+                "discord": "Discord"
+            },
+            "title": "Про застосунок"
+        },
+        "backup": {
+            "label": {
+                "backup_restore_failed": "Не вдалося відновити резервну копію!",
+                "create_backup": "Створити резервну копію",
+                "create_backup_info": "Резервна бібліотека як резервна копія Tachiyomi",
+                "legacy_backup_unsupported": "застарілі резервні копії не підтримуються!",
+                "restore_backup_info": "Ви також можете перетягнути файл резервної копії сюди для відновлення",
+                "restoring_backup": "Відновлення резервної копії...",
+                "restored_backup": "Відновлення резервної копії завершено!",
+                "restore_backup": "Відновити резервну копію"
+            },
+            "title": "Резервна копія"
+        },
+        "label": {
+            "dark_theme": "Темна тема",
+            "image_cache": "Використовувати кеш зображень",
+            "manga_item_width": "Ширина елемента манґи",
+            "show_nsfw": "Показати NSFW",
+            "show_nsfw_description": "Приховати NSFW розширення та джерела",
+            "image_cache_description": "Вимкнення кешу зображень пришвидшує завантаження зображень, якщо у вас повільний диск, але, в свою чергу, використовує набагато більше інтернет-трафіку"
+        },
+        "server_address": {
+            "dialog": {
+                "label": {
+                    "enter_address": "Введіть адресу сервера"
+                }
+            }
+        },
+        "title": "Налаштування"
+    },
+    "source": {
+        "error": {
+            "label": {
+                "no_sources_found": "Джерела не знайдені. Спочатку встановіть деякі розширення.",
+                "source_not_found": "Не вдалося знайти джерело. Перевірте встановлені розширення."
+            }
+        },
+        "local_source": {
+            "label": {
+                "checkout": "Перевірити",
+                "guide": "Посібник з локальних джерел"
+            },
+            "title": "Локальне джерело"
+        },
+        "title": "Джерело",
+        "configuration": {
+            "title": "Конфігурація джерела"
+        }
+    },
+    "updates": {
+        "error": {
+            "label": {
+                "no_updates_available": "У вас ще немає оновлень."
+            }
+        },
+        "title": "Оновлення"
+    }
+}

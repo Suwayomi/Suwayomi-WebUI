@@ -1,0 +1,436 @@
+{
+    "category": {
+        "dialog": {
+            "title": {
+                "edit_category": "编辑目录",
+                "new_category": "新目录"
+            }
+        },
+        "error": {
+            "label": {
+                "empty": "分类为空",
+                "request_failure": "无法加载分类"
+            },
+            "no_categories_found": {
+                "label": {
+                    "hint": "你应该需要设置一些设定。",
+                    "info": "没有发现任何分类!"
+                }
+            }
+        },
+        "label": {
+            "category_name": "分类名称",
+            "use_as_default_category": "默认添加到此库"
+        },
+        "title": {
+            "categories": "分类",
+            "set_categories": "设置分类"
+        }
+    },
+    "chapter": {
+        "action": {
+            "bookmark": {
+                "add": {
+                    "label": {
+                        "action": "添加收藏",
+                        "error_other": "收藏章节出错",
+                        "success_other": "已收藏{{count}}章节"
+                    },
+                    "button": {
+                        "selected": "收藏选中的"
+                    }
+                },
+                "remove": {
+                    "button": {
+                        "selected": "取消收藏选中的"
+                    },
+                    "label": {
+                        "action": "取消收藏",
+                        "error_other": "删除收藏出错",
+                        "success_other": "删除{{count}}章节收藏"
+                    }
+                }
+            },
+            "download": {
+                "add": {
+                    "button": {
+                        "selected": "下载选中的"
+                    },
+                    "label": {
+                        "action": "下载",
+                        "success_other": "新增{{count}}下载",
+                        "error_other": "添加下载错误"
+                    }
+                },
+                "delete": {
+                    "button": {
+                        "selected": "删除选中"
+                    },
+                    "label": {
+                        "action": "删除",
+                        "success_other": "{{count}}章节已删除",
+                        "error_other": "删除章节错误"
+                    }
+                }
+            },
+            "label": {
+                "select": "选择"
+            },
+            "mark_as_read": {
+                "add": {
+                    "label": {
+                        "action": {
+                            "current": "标记为已读",
+                            "previous": "标记之前的章节为已读"
+                        },
+                        "error_other": "将章节标记为已读出错",
+                        "success_other": "{{count}}章节标记为已读"
+                    },
+                    "button": {
+                        "selected": "标记为已读"
+                    }
+                },
+                "remove": {
+                    "button": {
+                        "selected": "标记为未读"
+                    },
+                    "label": {
+                        "action": "标记为未读",
+                        "error_other": "将章节标记为未读出错",
+                        "success_other": "{{count}}章节标记为未读"
+                    }
+                }
+            }
+        },
+        "error": {
+            "label": {
+                "no_chapter_found": "没有找到章节",
+                "no_matches": "没有章节匹配筛选"
+            }
+        },
+        "option": {
+            "display": {
+                "label": {
+                    "chapter_number": "章节数",
+                    "source_title": "原标题"
+                }
+            }
+        },
+        "status": {
+            "label": {
+                "downloaded": "已下载"
+            }
+        },
+        "title": "章节"
+    },
+    "download": {
+        "queue": {
+            "label": {
+                "no_downloads": "没有下载"
+            },
+            "title": "下载列表"
+        },
+        "state": {
+            "label": {
+                "downloading": "正在下载",
+                "finished": "完成",
+                "queued": "排队中",
+                "error": "错误"
+            }
+        },
+        "title": "下载"
+    },
+    "extension": {
+        "action": {
+            "label": {
+                "install": "安装",
+                "uninstall": "卸载",
+                "update": "升级"
+            }
+        },
+        "language": {
+            "all": "全部",
+            "other": "其他"
+        },
+        "state": {
+            "label": {
+                "installing": "安装中",
+                "obsolete": "过时",
+                "uninstalling": "卸载中",
+                "updating": "升级中",
+                "installed": "已安装",
+                "update_pending": "待更新"
+            }
+        },
+        "label": {
+            "installation_failed": "插件安装失败!",
+            "installed_successfully": "插件安装成功!",
+            "installing_file": "正在安装插件文件…"
+        },
+        "title": "插件"
+    },
+    "global": {
+        "button": {
+            "cancel": "取消",
+            "clear": "清除",
+            "latest": "最新",
+            "ok": "Ok",
+            "open_site": "打开网站",
+            "reset": "重置",
+            "reset_to_default": "重置为默认值",
+            "resume": "恢复",
+            "filter": "筛选",
+            "select_all": "全选",
+            "set": "选",
+            "start": "开始",
+            "submit": "提交",
+            "browse": "浏览"
+        },
+        "date": {
+            "label": {
+                "today": "今天",
+                "today_at": "今天{{timeString}}",
+                "yesterday_at": "昨天{{timeString}}",
+                "yesterday": "昨天"
+            }
+        },
+        "error": {
+            "label": {
+                "invalid_action": "这不是一个有效操作",
+                "invalid_file_type": "无效的文件类型!",
+                "update_failed": "检查更新失败!",
+                "failed_to_save_changes": "保存更改失败",
+                "failed_to_load_data": "无法加载数据"
+            }
+        },
+        "filter": {
+            "label": {
+                "bookmarked": "已收藏",
+                "downloaded": "已下载",
+                "unread": "未读"
+            }
+        },
+        "grid_layout": {
+            "label": {
+                "comfortable_grid": "松散网格",
+                "compact_grid": "紧凑网格",
+                "list": "列表"
+            },
+            "title": "显示模式"
+        },
+        "label": {
+            "browse": "浏览",
+            "display": "显示",
+            "filter": "筛选",
+            "loading": "加载中...",
+            "sort": "排序",
+            "none": "无"
+        },
+        "language": {
+            "label": {
+                "language_with_code": "带有代码的语言:{{code}}",
+                "language": "语言"
+            },
+            "title": {
+                "enabled_languages": "使用语言"
+            }
+        },
+        "sort": {
+            "label": {
+                "by_source": "按图源",
+                "by_fetch_date": "按日期"
+            }
+        }
+    },
+    "library": {
+        "error": {
+            "label": {
+                "empty": "你的书架是空的",
+                "no_matches": "没有漫画匹配筛选"
+            }
+        },
+        "option": {
+            "display": {
+                "badge": {
+                    "title": "标记",
+                    "label": {
+                        "download_badges": "已下载数量",
+                        "unread_badges": "未读数量"
+                    }
+                },
+                "tab": {
+                    "title": "标签",
+                    "label": {
+                        "show_number_of_items": "显示项目的数量"
+                    }
+                }
+            },
+            "sort": {
+                "label": {
+                    "by_date_added": "按添加日期",
+                    "by_last_read": "按最后一次阅读",
+                    "by_unread_chapters": "按未读章节",
+                    "alphabetically": "按字母顺序"
+                }
+            }
+        },
+        "title": "书架",
+        "settings": {
+            "global_update": {
+                "categories": {
+                    "label": {
+                        "info": "排除类别中的条目将不会被更新，即使它们也在包含的类别中"
+                    }
+                },
+                "title": "全局更新"
+            },
+            "title": "图书馆设置"
+        }
+    },
+    "manga": {
+        "button": {
+            "add_to_library": "添加到书架",
+            "in_library": "在库书架中"
+        },
+        "error": {
+            "label": {
+                "no_mangas_found": "没有漫画!",
+                "no_matches": "没有漫画匹配筛选",
+                "request_failure": "无法加载漫画"
+            }
+        },
+        "label": {
+            "artist": "画师",
+            "author": "作者",
+            "edit_categories": "编辑漫画分类",
+            "status": "状态",
+            "reload_from_source": "从图源重新加载数据"
+        },
+        "title": "漫画"
+    },
+    "reader": {
+        "button": {
+            "previous_chapter": "上一章",
+            "next_chapter": "下一章"
+        },
+        "page_info": {
+            "label": {
+                "currently_on_page": "当前页面",
+                "of_max_pages": "/ {{maxPages}}"
+            }
+        },
+        "settings": {
+            "error": {
+                "label": {
+                    "failed_to_save_default_settings": "保存默认阅读器设置到服务器发生错误",
+                    "failed_to_save_settings": "保存阅读器设置到服务器发生错误"
+                }
+            },
+            "label": {
+                "load_next_chapter": "在尾页加载下一章",
+                "reader_type": "阅读器类型",
+                "show_page_number": "显示页数",
+                "static_navigation": "静态导航",
+                "skip_dup_chapters": "跳过重复章节"
+            },
+            "reader_type": {
+                "label": {
+                    "continuous_horizontal_ltr": "水平(左到右)",
+                    "double_page_ltr": "双页(左到右)",
+                    "double_page_rtl": "双页(右到左)",
+                    "single_page_ltr": "单页(左到右)",
+                    "single_page_rtl": "单页(右到左)",
+                    "continuous_vertical": "从上到下",
+                    "continuous_horizontal_rtl": "水平(右到左)",
+                    "webtoon": "条漫"
+                }
+            },
+            "title": {
+                "default_reader_settings": "默认阅读器设置",
+                "reader_settings": "阅读器设置"
+            }
+        },
+        "title": "读者 - 漫画 {{mangaId}} 章节 {{chapterIndex}}"
+    },
+    "settings": {
+        "backup": {
+            "label": {
+                "legacy_backup_unsupported": "不支持旧版的备份!",
+                "restore_backup_info": "您还可以在这里拖放备份文件进行恢复",
+                "restored_backup": "备份恢复完成!",
+                "restoring_backup": "正在恢复备份...",
+                "create_backup_info": "将书架备份为Tachiyomi支持的备份",
+                "create_backup": "创建备份",
+                "backup_restore_failed": "恢复备份失败!",
+                "restore_backup": "恢复备份"
+            },
+            "title": "备份"
+        },
+        "label": {
+            "dark_theme": "暗黑主题",
+            "image_cache": "使用图片缓存",
+            "image_cache_description": "如果你的硬盘速度慢，禁用图像缓存可以使图像加载更快，但反过来会使用更多的流量",
+            "show_nsfw": "显示NSFW(工作场所不宜)内容",
+            "manga_item_width": "漫画单元格宽度",
+            "show_nsfw_description": "隐藏NSFW的插件和源图源"
+        },
+        "server_address": {
+            "dialog": {
+                "label": {
+                    "enter_address": "输入服务器地址"
+                }
+            }
+        },
+        "title": "设置",
+        "about": {
+            "label": {
+                "build_time": "构建时间",
+                "server_version": "服务器版本",
+                "server": "服务器",
+                "server_address": "服务器地址",
+                "discord": "Discord社群",
+                "github": "Github"
+            },
+            "title": "关于"
+        }
+    },
+    "source": {
+        "local_source": {
+            "label": {
+                "checkout": "查看",
+                "guide": "本地图源指南"
+            },
+            "title": "本地来源"
+        },
+        "configuration": {
+            "title": "图源配置"
+        },
+        "error": {
+            "label": {
+                "no_sources_found": "没有找到图源。请先安装一些插件。"
+            }
+        },
+        "title": "图源"
+    },
+    "updates": {
+        "error": {
+            "label": {
+                "no_updates_available": "你还没有任何更新。"
+            }
+        },
+        "title": "更新"
+    },
+    "search": {
+        "title": {
+            "global_search": "全局搜索"
+        },
+        "error": {
+            "label": {
+                "failed_to_save_settings": "保存默认搜索设置到服务器时出错"
+            }
+        },
+        "label": {
+            "ignore_filters": "搜索时忽略筛选"
+        }
+    }
+}

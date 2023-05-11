@@ -1,2 +1,232 @@
 {
+    "chapter": {
+        "action": {
+            "bookmark": {
+                "remove": {
+                    "label": {
+                        "success_one": "Favorito removido do capítulo",
+                        "success_many": "{{count}} Favoritos removidos do capítulo",
+                        "success_other": "{{count}} Favoritos removidos do capítulo",
+                        "action": "Remover favorito",
+                        "error_one": "Erro ao remover favorito",
+                        "error_many": "Erro ao remover seus favoritos",
+                        "error_other": "Erro ao remover seus favoritos"
+                    },
+                    "button": {
+                        "selected": "Remover favoritos dos selecionados"
+                    }
+                },
+                "add": {
+                    "label": {
+                        "success_one": "Capitulo Marcado",
+                        "success_many": "{{count}} Capítulos Marcados",
+                        "success_other": "{{count}} Capítulos Marcados",
+                        "action": "Adicionar favorito",
+                        "error_one": "Erro ao marcar capitulo",
+                        "error_many": "Erro ao marcar capítulos",
+                        "error_other": "Erro ao marcar capítulos"
+                    },
+                    "button": {
+                        "selected": "Favorito selecionado"
+                    }
+                }
+            },
+            "label": {
+                "select": "Selecionar"
+            },
+            "mark_as_read": {
+                "add": {
+                    "label": {
+                        "success_one": "Capítulo marcado como lido",
+                        "success_many": "{{count}} Capítulos marcados como lido",
+                        "success_other": "{{count}} Capítulos marcados como lido",
+                        "action": {
+                            "current": "Marcar como lido",
+                            "previous": "Marcar capítulos anteriores como lidos"
+                        },
+                        "error_one": "Erro ao marcar capitulo como lido",
+                        "error_many": "Erro ao marcar capítulos como lido",
+                        "error_other": "Erro ao marcar capítulos como lido"
+                    },
+                    "button": {
+                        "selected": "Marcar seleção como lida"
+                    }
+                },
+                "remove": {
+                    "button": {
+                        "selected": "Marcar seleção como não lida"
+                    },
+                    "label": {
+                        "action": "Marcar como não lido",
+                        "error_one": "Erro ao marcar capitulo como não lido",
+                        "error_many": "Erro ao marcar capítulos como não lido",
+                        "error_other": "Erro ao marcar capítulos como não lido",
+                        "success_one": "Capitulo marcado como não lido",
+                        "success_many": "{{count}} Capítulos marcados como não lidos",
+                        "success_other": "{{count}} Capítulos marcados como não lidos"
+                    }
+                }
+            },
+            "download": {
+                "delete": {
+                    "button": {
+                        "selected": "Deletar seleção"
+                    },
+                    "label": {
+                        "action": "Deletar",
+                        "error_one": "Erro ao deletar capitulo",
+                        "error_many": "Erro ao deletar capitulos",
+                        "error_other": "Erro ao deletar capitulos",
+                        "success_one": "Capitulo deletado",
+                        "success_many": "{{count}} Capítulos deletados",
+                        "success_other": "{{count}} Capítulos deletados"
+                    }
+                },
+                "add": {
+                    "button": {
+                        "selected": "Download selecionado"
+                    },
+                    "label": {
+                        "success_one": "Download adicionado",
+                        "success_many": "{{count}} Downloads Adicionados",
+                        "success_other": "{{count}} Downloads Adicionados",
+                        "error_one": "Erro ao adicionar o download",
+                        "error_many": "Erro ao adicionas os downloads",
+                        "error_other": "Erro ao adicionas os downloads",
+                        "action": "Baixado"
+                    }
+                }
+            }
+        },
+        "error": {
+            "label": {
+                "no_chapter_found": "Nenhum capítulo encontrado",
+                "no_matches": "Nenhum capítulo corresponde ao filtro"
+            }
+        },
+        "option": {
+            "display": {
+                "label": {
+                    "chapter_number": "Número do capítulo",
+                    "source_title": "Título da fonte"
+                }
+            }
+        },
+        "status": {
+            "label": {
+                "downloaded": "Baixado"
+            }
+        },
+        "title": "Capitulo"
+    },
+    "extension": {
+        "state": {
+            "label": {
+                "installed": "Instalada",
+                "updating": "atualizando",
+                "installing": "Instalando",
+                "uninstalling": "desinstalando",
+                "obsolete": "obsoleta",
+                "update_pending": "atualização pendente"
+            }
+        },
+        "action": {
+            "label": {
+                "install": "Instalar",
+                "uninstall": "desinstalar",
+                "update": "atualizar"
+            }
+        },
+        "label": {
+            "installed_successfully": "Extensão instalada com sucesso!",
+            "installing_file": "Instalando arquivo da extensão...",
+            "installation_failed": "Falha na instalação da extensão!"
+        },
+        "language": {
+            "all": "Todos",
+            "other": "Outros"
+        },
+        "title": "Extensões"
+    },
+    "category": {
+        "dialog": {
+            "title": {
+                "edit_category": "Editar catálogo",
+                "new_category": "Novo Catálogo"
+            }
+        },
+        "error": {
+            "label": {
+                "empty": "A categoria está vazia",
+                "request_failure": "Não foi possível carregar as categorias"
+            },
+            "no_categories_found": {
+                "label": {
+                    "hint": "Deve fazer alguns partir das configurações.",
+                    "info": "Não foram encontradas categorias!"
+                }
+            }
+        },
+        "label": {
+            "category_name": "Nome da categoria",
+            "use_as_default_category": "Categoria predefinida ao adicionar nova manga à biblioteca"
+        },
+        "title": {
+            "categories": "Categorias",
+            "set_categories": "Defina as categorias"
+        }
+    },
+    "global": {
+        "button": {
+            "browse": "Navegador",
+            "clear": "Limpar",
+            "open_site": "Abrir site",
+            "reset": "Reiniciar",
+            "reset_to_default": "Redefinir padrões",
+            "resume": "Resumo",
+            "select_all": "Selecionar todos",
+            "submit": "Enviar",
+            "latest": "Ultimo",
+            "ok": "Ok",
+            "filter": "Filtro",
+            "start": "Iniciar",
+            "cancel": "Cancelar"
+        },
+        "date": {
+            "label": {
+                "today_at": "Hoje {{timeString}}",
+                "yesterday": "Ontem",
+                "yesterday_at": "Ontem {{timeString}}",
+                "today": "Hoje"
+            }
+        },
+        "label": {
+            "display": "Tela"
+        },
+        "error": {
+            "label": {
+                "invalid_file_type": "Tipo de arquivo inválido!",
+                "invalid_action": "Essa não é uma ação válida",
+                "failed_to_load_data": "Não foi possível carregar os dados",
+                "failed_to_save_changes": "Falha ao salvar as alterações"
+            }
+        }
+    },
+    "download": {
+        "queue": {
+            "title": "Fila de downloads",
+            "label": {
+                "no_downloads": "Sem downloads"
+            }
+        },
+        "state": {
+            "label": {
+                "downloading": "Baixando",
+                "error": "Erro",
+                "finished": "Finalizado",
+                "queued": "Na fila"
+            }
+        },
+        "title": "Baixados"
+    }
 }

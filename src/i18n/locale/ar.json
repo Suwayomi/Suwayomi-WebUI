@@ -1,5 +1,80 @@
 {
     "library": {
-        "title": "المكتبة"
+        "title": "المكتبة",
+        "option": {
+            "display": {
+                "badge": {
+                    "title": "الشارات"
+                }
+            }
+        }
+    },
+    "category": {
+        "title": {
+            "categories": "الفئات",
+            "set_categories": "تعيين الفئات"
+        },
+        "label": {
+            "category_name": "اسم الفئة",
+            "use_as_default_category": "الفئة الافتراضية عند إضافة مانجا جديدة إلى المكتبة"
+        },
+        "error": {
+            "label": {
+                "empty": "الفئة فارغة",
+                "request_failure": "تعذر تحميل الفئات"
+            },
+            "no_categories_found": {
+                "label": {
+                    "hint": "عليك إنشاء فئات من الإعدادات.",
+                    "info": "لا توجد فئات!"
+                }
+            }
+        }
+    },
+    "settings": {
+        "backup": {
+            "label": {
+                "create_backup": "إنشاء نسخة احتياطية"
+            }
+        },
+        "about": {
+            "title": "حول",
+            "label": {
+                "build_time": "تاريخ بناء الخادم"
+            }
+        }
+    },
+    "global": {
+        "button": {
+            "cancel": "إلغاء",
+            "browse": "تصفح"
+        },
+        "label": {
+            "browse": "تصفح"
+        },
+        "sort": {
+            "label": {
+                "by_source": "حسب المصدر"
+            }
+        },
+        "filter": {
+            "label": {
+                "bookmarked": "لديها إشارات مرجعية"
+            }
+        }
+    },
+    "chapter": {
+        "action": {
+            "bookmark": {
+                "add": {
+                    "button": {
+                        "selected": "تم تحديد إشارة مرجعية"
+                    },
+                    "label": {
+                        "action": "إضافة إشارة مرجعية"
+                    }
+                }
+            }
+        }
     }
 }
