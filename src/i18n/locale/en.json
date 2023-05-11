@@ -247,7 +247,8 @@
         "language_with_code": "Language with code: {{code}}"
       },
       "title": {
-        "enabled_languages": "Allowed Languages"
+        "enabled_languages": "Allowed Languages",
+        "weblate": "Weblate"
       }
     },
     "sort": {
@@ -419,7 +420,8 @@
       "image_cache_description": "Reduces the data consumption and improves the performance when a already requested image gets requested again",
       "manga_item_width": "Manga item width",
       "show_nsfw": "Show NSFW",
-      "show_nsfw_description": "Hide NSFW extensions and sources"
+      "show_nsfw_description": "Hide NSFW extensions and sources",
+      "language_description": "Feel free to translate the project on"
     },
     "server_address": {
       "dialog": {

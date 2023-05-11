@@ -29,7 +29,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import TextField from '@mui/material/TextField';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import Slider from '@mui/material/Slider';
-import { DialogTitle, ListItemButton, MenuItem, Select } from '@mui/material';
+import { DialogTitle, Link, ListItemButton, MenuItem, Select } from '@mui/material';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import NavbarContext from 'components/context/NavbarContext';
 import DarkTheme from 'components/context/DarkTheme';
@@ -175,7 +175,17 @@ export default function Settings() {
                     <ListItemIcon>
                         <LanguageIcon />
                     </ListItemIcon>
-                    <ListItemText primary={t('global.language.label.language')} />
+                    <ListItemText
+                        primary={t('global.language.label.language')}
+                        secondary={
+                            <>
+                                <span>{t('settings.label.language_description')} </span>
+                                <Link href="https://hosted.weblate.org/projects/suwayomi/tachidesk-webui">
+                                    {t('global.language.title.weblate')}
+                                </Link>
+                            </>
+                        }
+                    />
                     <ListItemSecondaryAction>
                         <Select
                             MenuProps={{ PaperProps: { style: { maxHeight: 150 } } }}
