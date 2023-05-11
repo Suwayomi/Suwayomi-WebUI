@@ -64,9 +64,7 @@ const filterManga = (
         return matchesSearch && matchesFilters;
     });
 
-const sortByUnread = (a: IMangaCard, b: IMangaCard): number =>
-    // eslint-disable-next-line implicit-arrow-linebreak
-    (a.unreadCount ?? 0) - (b.unreadCount ?? 0);
+const sortByUnread = (a: IMangaCard, b: IMangaCard): number => (a.unreadCount ?? 0) - (b.unreadCount ?? 0);
 
 const sortByTitle = (a: IMangaCard, b: IMangaCard): number => a.title.localeCompare(b.title);
 

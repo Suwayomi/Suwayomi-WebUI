@@ -333,8 +333,6 @@ export default function ReaderNavBar(props: IProps) {
                                     {Array(Math.max(0, chapter.chapterCount))
                                         .fill(1)
                                         .map((ignoreValue, index) => (
-                                            // eslint-disable-next-line  max-len
-                                            // eslint-disable-next-line  react/no-array-index-key
                                             <MenuItem key={`Chapter#${index + 1}`} value={index + 1}>{`${t(
                                                 'chapter.title',
                                             )} ${index + 1}`}</MenuItem>

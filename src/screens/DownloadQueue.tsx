@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-shadow */
-/* eslint-disable react/destructuring-assignment */
 /*
  * Copyright (C) Contributors to the Suwayomi project
  *
@@ -16,7 +14,7 @@ import IconButton from '@mui/material/IconButton';
 import NavbarContext from 'components/context/NavbarContext';
 import EmptyView from 'components/util/EmptyView';
 import React, { useContext, useEffect } from 'react';
-import { DragDropContext, Draggable, Droppable, DropResult } from 'react-beautiful-dnd';
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import client from 'util/client';
 
 import Typography from '@mui/material/Typography';
@@ -55,8 +53,7 @@ const DownloadQueue: React.FC = () => {
         setAction(null);
     }, [t]);
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const onDragEnd = (result: DropResult) => {};
+    const onDragEnd = () => {};
 
     if (queue.length === 0) {
         return <EmptyView message={t('download.queue.label.no_downloads')} />;
@@ -84,19 +81,19 @@ const DownloadQueue: React.FC = () => {
             </NavbarToolbar>
             <DragDropContext onDragEnd={onDragEnd}>
                 <Droppable droppableId="droppable">
-                    {(provided) => (
-                        <Box ref={provided.innerRef} sx={{ pt: 1 }}>
+                    {(droppableProvided) => (
+                        <Box ref={droppableProvided.innerRef} sx={{ pt: 1 }}>
                             {queue.map((item, index) => (
                                 <Draggable
                                     key={`${item.mangaId}-${item.chapterIndex}`}
                                     draggableId={`${item.mangaId}-${item.chapterIndex}`}
                                     index={index}
                                 >
-                                    {(provided, snapshot) => (
+                                    {(draggableProvided, snapshot) => (
                                         <Box
-                                            {...provided.draggableProps}
-                                            {...provided.dragHandleProps}
-                                            ref={provided.innerRef}
+                                            {...draggableProvided.draggableProps}
+                                            {...draggableProvided.dragHandleProps}
+                                            ref={draggableProvided.innerRef}
                                             sx={{ p: 1, pb: 2 }}
                                         >
                                             <Card
@@ -142,7 +139,7 @@ const DownloadQueue: React.FC = () => {
                                     )}
                                 </Draggable>
                             ))}
-                            {provided.placeholder}
+                            {droppableProvided.placeholder}
                         </Box>
                     )}
                 </Droppable>

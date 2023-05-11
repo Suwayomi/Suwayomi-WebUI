@@ -161,6 +161,7 @@ const Updates: React.FC = () => {
                             ml: 3,
                             my: 2,
                             fontWeight: 700,
+                            textTransform: 'uppercase',
                         }}
                     >
                         {dateGroup[0]}

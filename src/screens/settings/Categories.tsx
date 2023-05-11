@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-shadow */
-/* eslint-disable react/destructuring-assignment */
 /*
  * Copyright (C) Contributors to the Suwayomi project
  *
@@ -140,21 +138,21 @@ export default function Categories() {
         <>
             <DragDropContext onDragEnd={onDragEnd}>
                 <Droppable droppableId="droppable">
-                    {(provided) => (
-                        <List ref={provided.innerRef}>
+                    {(droppableProvided) => (
+                        <List ref={droppableProvided.innerRef}>
                             {categories.map((item, index) => (
                                 <Draggable key={item.id} draggableId={item.id.toString()} index={index}>
-                                    {(provided, snapshot) => (
+                                    {(draggableProvided, snapshot) => (
                                         <ListItem
-                                            ContainerProps={{ ref: provided.innerRef } as any}
-                                            {...provided.draggableProps}
-                                            {...provided.dragHandleProps}
+                                            ContainerProps={{ ref: draggableProvided.innerRef } as any}
+                                            {...draggableProvided.draggableProps}
+                                            {...draggableProvided.dragHandleProps}
                                             style={getItemStyle(
                                                 snapshot.isDragging,
-                                                provided.draggableProps.style,
+                                                draggableProvided.draggableProps.style,
                                                 theme.palette,
                                             )}
-                                            ref={provided.innerRef}
+                                            ref={draggableProvided.innerRef}
                                         >
                                             <ListItemIcon>
                                                 <DragHandleIcon />
@@ -180,7 +178,7 @@ export default function Categories() {
                                     )}
                                 </Draggable>
                             ))}
-                            {provided.placeholder}
+                            {droppableProvided.placeholder}
                         </List>
                     )}
                 </Droppable>

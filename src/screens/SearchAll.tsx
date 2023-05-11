@@ -109,7 +109,6 @@ const SearchAll: React.FC = () => {
         }
         setFetched({});
         setMangas({});
-        // eslint-disable-next-line max-len
         doIT(
             sources
                 .filter(({ lang }) => shownLangs.indexOf(lang) !== -1)
@@ -167,7 +166,6 @@ const SearchAll: React.FC = () => {
     if (query) {
         return (
             <>
-                {/* eslint-disable-next-line max-len */}
                 {sources
                     .filter(({ lang }) => shownLangs.indexOf(lang) !== -1)
                     .filter((source) => showNsfw || !source.isNsfw)
