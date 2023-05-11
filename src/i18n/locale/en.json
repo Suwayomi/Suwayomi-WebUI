@@ -2,25 +2,25 @@
   "category": {
     "dialog": {
       "title": {
-        "edit_category": "Edit Catalog",
-        "new_category": "New Catalog"
+        "edit_category": "Edit category",
+        "new_category": "New category"
       }
     },
     "error": {
       "label": {
-        "empty": "Category is Empty",
+        "empty": "The category is empty",
         "request_failure": "Could not load categories"
       },
       "no_categories_found": {
         "label": {
-          "hint": "You should make some from settings.",
-          "info": "No categories found!"
+          "hint": "You should make some from the settings.",
+          "info": "No categories found."
         }
       }
     },
     "label": {
       "category_name": "Category Name",
-      "use_as_default_category": "Default category when adding new manga to library"
+      "use_as_default_category": "Default category when adding new manga to the library"
     },
     "title": {
       "categories": "Categories",
@@ -36,8 +36,8 @@
           },
           "label": {
             "action": "Add bookmark",
-            "error_one": "Error bookmarking chapter",
-            "error_other": "Error bookmarking chapters",
+            "error_one": "Could not bookmark the chapter",
+            "error_other": "Could not bookmark chapters",
             "success_one": "Chapter bookmarked",
             "success_other": "{{count}} chapters bookmarked"
           }
@@ -48,8 +48,8 @@
           },
           "label": {
             "action": "Remove bookmark",
-            "error_one": "Error removing bookmark",
-            "error_other": "Error removing bookmarks",
+            "error_one": "Could not remove the bookmark",
+            "error_other": "Could not remove the bookmarks",
             "success_one": "Chapter bookmark removed",
             "success_other": "{{count}} chapter bookmarks removed"
           }
@@ -62,8 +62,8 @@
           },
           "label": {
             "action": "Download",
-            "error_one": "Error adding download",
-            "error_other": "Error adding downloads",
+            "error_one": "Could not add the download",
+            "error_other": "Could not add downloads",
             "success_one": "Download added",
             "success_other": "{{count}} downloads added"
           }
@@ -74,8 +74,8 @@
           },
           "label": {
             "action": "Delete",
-            "error_one": "Error deleting chapter",
-            "error_other": "Error deleting chapters",
+            "error_one": "Could not delete the chapter",
+            "error_other": "Could not delete chapters",
             "success_one": "Chapter deleted",
             "success_other": "{{count}} chapters deleted"
           }
@@ -92,10 +92,10 @@
           "label": {
             "action": {
               "current": "Mark as read",
-              "previous": "Mark previous as Read"
+              "previous": "Mark previous as read"
             },
-            "error_one": "Error marking chapter as read",
-            "error_other": "Error marking chapters as read",
+            "error_one": "Could not mark the chapter as read",
+            "error_other": "Could not mark chapters as read",
             "success_one": "Chapter marked as read",
             "success_other": "{{count}} chapters marked as read"
           }
@@ -106,8 +106,8 @@
           },
           "label": {
             "action": "Mark as unread",
-            "error_one": "Error marking chapter as unread",
-            "error_other": "Error marking chapters as unread",
+            "error_one": "Could not mark the chapter as unread",
+            "error_other": "Could not mark chapters as unread",
             "success_one": "Chapter marked as unread",
             "success_other": "{{count}} chapters marked as unread"
           }
@@ -123,8 +123,8 @@
     "option": {
       "display": {
         "label": {
-          "chapter_number": "Chapter Number",
-          "source_title": "Source Title"
+          "chapter_number": "Chapter number",
+          "source_title": "Source title"
         }
       }
     },
@@ -157,15 +157,15 @@
   "extension": {
     "action": {
       "label": {
-        "install": "install",
-        "uninstall": "uninstall",
-        "update": "update"
+        "install": "Install",
+        "uninstall": "Uninstall",
+        "update": "Update"
       }
     },
     "label": {
-      "installation_failed": "Extension installation failed!",
-      "installed_successfully": "Installed extension successfully!",
-      "installing_file": "Installing Extension File..."
+      "installation_failed": "Could not install the extension",
+      "installed_successfully": "Extension installed",
+      "installing_file": "Installing extension file…"
     },
     "language": {
       "all": "All",
@@ -174,11 +174,11 @@
     "state": {
       "label": {
         "installed": "Installed",
-        "installing": "installing",
-        "obsolete": "obsolete",
-        "uninstalling": "uninstalling",
+        "installing": "Installing",
+        "obsolete": "Obsolete",
+        "uninstalling": "Uninstalling",
         "update_pending": "Update pending",
-        "updating": "updating"
+        "updating": "Updating"
       }
     },
     "title": "Extensions"
@@ -202,9 +202,9 @@
     },
     "date": {
       "label": {
-        "today": "TODAY",
+        "today": "Today",
         "today_at": "Today at {{timeString}}",
-        "yesterday": "YESTERDAY",
+        "yesterday": "Yesterday",
         "yesterday_at": "Yesterday at {{timeString}}"
       }
     },
@@ -212,9 +212,9 @@
       "label": {
         "failed_to_load_data": "Unable to load data",
         "failed_to_save_changes": "Failed to save changes",
-        "invalid_action": "This is not a valid Action",
-        "invalid_file_type": "invalid file type!",
-        "update_failed": "Checking for updates failed!"
+        "invalid_action": "This is not a valid action",
+        "invalid_file_type": "Invalid filetype",
+        "update_failed": "Could not check for updates"
       }
     },
     "filter": {
@@ -236,7 +236,7 @@
       "browse": "Browse",
       "display": "Display",
       "filter": "Filter",
-      "loading": "Loading...",
+      "loading": "Loading…",
       "none": "None",
       "sort": "Sort",
       "unknown": "Unknown"
@@ -244,32 +244,32 @@
     "language": {
       "label": {
         "language": "Language",
-        "language_with_code": "language with code: {{code}}"
+        "language_with_code": "Language with code: {{code}}"
       },
       "title": {
-        "enabled_languages": "Enabled Languages"
+        "enabled_languages": "Allowed Languages"
       }
     },
     "sort": {
       "label": {
-        "by_fetch_date": "By Fetch date",
-        "by_source": "By Source"
+        "by_fetch_date": "By date fetched",
+        "by_source": "By source"
       }
     }
   },
   "library": {
     "error": {
       "label": {
-        "empty": "Your Library is empty",
-        "no_matches": "There are no Manga matching this filter"
+        "empty": "Your library is empty",
+        "no_matches": "No manga matches this filter"
       }
     },
     "option": {
       "display": {
         "badge": {
           "label": {
-            "download_badges": "Download Badges",
-            "unread_badges": "Unread Badges"
+            "download_badges": "Download badges",
+            "unread_badges": "Unread badges"
           },
           "title": "Badges"
         },
@@ -282,10 +282,10 @@
       },
       "sort": {
         "label": {
-          "alphabetically": "Alphabetically",
-          "by_date_added": "By Date Added",
-          "by_last_read": "By Last Read",
-          "by_unread_chapters": "By Unread chapters"
+          "alphabetically": "A-Z",
+          "by_date_added": "Recently added",
+          "by_last_read": "Recently read",
+          "by_unread_chapters": "Unread chapters"
         }
       }
     },
@@ -311,8 +311,8 @@
     },
     "error": {
       "label": {
-        "no_mangas_found": "No manga found!",
-        "no_matches": "There are no Manga matching this filter",
+        "no_mangas_found": "No manga found",
+        "no_matches": "No manga matches this filter",
         "request_failure": "Could not load manga"
       }
     },
@@ -345,26 +345,26 @@
     "settings": {
       "error": {
         "label": {
-          "failed_to_save_default_settings": "Failed to save the default reader settings to the server",
-          "failed_to_save_settings": "Failed to save the reader settings to the server"
+          "failed_to_save_default_settings": "Could not save the default reader settings to the server",
+          "failed_to_save_settings": "Could not save the reader settings to the server"
         }
       },
       "label": {
         "load_next_chapter": "Load next chapter at ending",
-        "reader_type": "Reader Type",
+        "reader_type": "Reader type",
         "show_page_number": "Show page number",
         "skip_dup_chapters": "Skip duplicate chapters",
-        "static_navigation": "Static Navigation"
+        "static_navigation": "Static navigation"
       },
       "reader_type": {
         "label": {
-          "continuous_horizontal_ltr": "Horizontal (LTR)",
-          "continuous_horizontal_rtl": "Horizontal (RTL)",
-          "continuous_vertical": "Continues Vertical",
-          "double_page_ltr": "Double Page (LTR)",
-          "double_page_rtl": "Double Page (RTL)",
-          "single_page_ltr": "Single Page (LTR)",
-          "single_page_rtl": "Single Page (RTL)",
+          "continuous_horizontal_ltr": "Horizontal (LTR) ➡️",
+          "continuous_horizontal_rtl": "Horizontal (RTL) ⬅️",
+          "continuous_vertical": "Continues vertical",
+          "double_page_ltr": "Double page (LTR) ➡️",
+          "double_page_rtl": "Double page (RTL) ⬅️",
+          "single_page_ltr": "Single page (LTR) ➡️",
+          "single_page_rtl": "Single page (RTL) ⬅️",
           "webtoon": "Webtoon"
         }
       },
@@ -373,16 +373,16 @@
         "reader_settings": "Reader Settings"
       }
     },
-    "title": "Reader - Manga {{mangaId}} Chapter {{chapterIndex}}"
+    "title": "Reader — Manga {{mangaId}} Chapter {{chapterIndex}}"
   },
   "search": {
     "error": {
       "label": {
-        "failed_to_save_settings": "Failed to save the default search settings to the server"
+        "failed_to_save_settings": "Could not save the default search settings to the server"
       }
     },
     "label": {
-      "ignore_filters": "Ignore Filters when Searching"
+      "ignore_filters": "Ignore filters when searching"
     },
     "title": {
       "global_search": "Global Search"
@@ -393,38 +393,38 @@
       "label": {
         "build_time": "Build time",
         "discord": "Discord",
-        "github": "Github",
+        "github": "GitHub",
         "server": "Server",
-        "server_address": "Server Address",
+        "server_address": "Server address",
         "server_version": "Server version"
       },
       "title": "About"
     },
     "backup": {
       "label": {
-        "backup_restore_failed": "Backup restore failed!",
-        "create_backup": "Create Backup",
-        "create_backup_info": "Backup library as a Tachiyomi backup",
+        "backup_restore_failed": "Could not restore backup",
+        "create_backup": "Create backup",
+        "create_backup_info": "Back up library as a Tachiyomi backup",
         "legacy_backup_unsupported": "legacy backups are not supported!",
         "restore_backup": "Restore Backup",
-        "restore_backup_info": "You can also drag and drop the backup file here to restore",
-        "restored_backup": "Backup restore finished!",
-        "restoring_backup": "Restoring backup..."
+        "restore_backup_info": "You can also drag and drop the backup file here to restore it",
+        "restored_backup": "Backup restored.",
+        "restoring_backup": "Restoring backup…"
       },
       "title": "Backup"
     },
     "label": {
-      "dark_theme": "Dark Theme",
+      "dark_theme": "Dark theme",
       "image_cache": "Use image cache",
-      "image_cache_description": "Disabling image cache makes images load faster if you have a slow disk, but uses it much more internet traffic in turn",
-      "manga_item_width": "Manga Item width",
+      "image_cache_description": "Reduces the data consumption and improves the performance when a already requested image gets requested again",
+      "manga_item_width": "Manga item width",
       "show_nsfw": "Show NSFW",
       "show_nsfw_description": "Hide NSFW extensions and sources"
     },
     "server_address": {
       "dialog": {
         "label": {
-          "enter_address": "Enter Server Address"
+          "enter_address": "Enter server address"
         }
       }
     },
@@ -436,7 +436,7 @@
     },
     "error": {
       "label": {
-        "no_sources_found": "No sources found. Install Some Extensions first.",
+        "no_sources_found": "No sources found. Install Some extensions first.",
         "source_not_found": "Could not find source. Check your installed extensions."
       }
     },
