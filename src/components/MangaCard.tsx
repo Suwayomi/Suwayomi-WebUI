@@ -77,15 +77,7 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
     const { t } = useTranslation();
 
     const {
-        manga: {
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            id,
-            title,
-            thumbnailUrl,
-            downloadCount,
-            unreadCount: unread,
-            inLibrary,
-        },
+        manga: { id, title, thumbnailUrl, downloadCount, unreadCount: unread, inLibrary },
         gridLayout,
         dimensions,
         inLibraryIndicator,

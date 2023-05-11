@@ -29,11 +29,9 @@ const defaultChapterOptions: ChapterListOptions = {
 function chapterOptionsReducer(state: ChapterListOptions, actions: ChapterOptionsReducerAction): ChapterListOptions {
     switch (actions.type) {
         case 'filter':
-            // eslint-disable-next-line no-case-declarations
-            const active = state.unread !== false && state.downloaded !== false && state.bookmarked !== false;
             return {
                 ...state,
-                active,
+                active: state.unread !== false && state.downloaded !== false && state.bookmarked !== false,
                 [actions.filterType!]: actions.filterValue,
             };
         case 'sortBy':

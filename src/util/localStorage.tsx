@@ -6,28 +6,18 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 function getItem<T>(key: string, defaultValue: T): T {
-    try {
-        const item = window.localStorage.getItem(key);
+    const item = window.localStorage.getItem(key);
 
-        if (item !== null) {
-            return JSON.parse(item);
-        }
-
-        window.localStorage.setItem(key, JSON.stringify(defaultValue));
-
-        /* eslint-disable no-empty */
-    } finally {
+    if (item !== null) {
+        return JSON.parse(item);
     }
+
+    window.localStorage.setItem(key, JSON.stringify(defaultValue));
     return defaultValue;
 }
 
 function setItem<T>(key: string, value: T): void {
-    try {
-        window.localStorage.setItem(key, JSON.stringify(value));
-
-        // eslint-disable-next-line no-empty
-    } finally {
-    }
+    window.localStorage.setItem(key, JSON.stringify(value));
 }
 
 export default { getItem, setItem };

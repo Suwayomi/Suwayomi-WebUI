@@ -8,7 +8,6 @@
 import React, { useState, Dispatch, SetStateAction, useReducer, Reducer, useCallback } from 'react';
 import storage from 'util/localStorage';
 
-// eslint-disable-next-line max-len
 export default function useLocalStorage<T>(key: string, defaultValue: T | (() => T)): [T, Dispatch<SetStateAction<T>>] {
     const initialState = defaultValue instanceof Function ? defaultValue() : defaultValue;
     const [storedValue, setStoredValue] = useState<T>(storage.getItem(key, initialState));

@@ -97,7 +97,6 @@ export default function Sources() {
 
     return (
         <>
-            {/* eslint-disable-next-line max-len */}
             {Object.entries(groupByLang(sources ?? []))
                 .sort((a, b) => langSortCmp(a[0], b[0]))
                 .map(
