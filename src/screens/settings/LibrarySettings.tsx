@@ -77,13 +77,13 @@ export default function LibrarySettings() {
         setAction(null);
     }, [t]);
 
-    const { data: categories, loading, error: requestError, mutate } = useQuery<ICategory[]>('/api/v1/category/');
+    const { data: categories, isLoading, error: requestError, mutate } = useQuery<ICategory[]>('/api/v1/category/');
 
     const [currentCategories, setCurrentCategories] = useState<ICategory[]>(categories ?? []); // categories to check if response categories changed
     const [dialogCategories, setDialogCategories] = useState<ICategory[]>(categories ?? []); // categories that are shown and updated in the dialog
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-    const retrievedCategoriesChanged = !loading && categories?.length && categories !== currentCategories;
+    const retrievedCategoriesChanged = !isLoading && categories?.length && categories !== currentCategories;
     if (retrievedCategoriesChanged) {
         setCurrentCategories(categories);
         setDialogCategories(categories);

@@ -87,7 +87,7 @@ const ChapterList: React.FC<IProps> = ({ mangaId }) => {
     const {
         data: chaptersData,
         mutate,
-        loading,
+        isLoading,
     } = useQuery<IChapter[]>(`/api/v1/manga/${mangaId}/chapters?onlineFetch=false`);
     const chapters = useMemo(() => chaptersData ?? [], [chaptersData]);
 
@@ -176,7 +176,7 @@ const ChapterList: React.FC<IProps> = ({ mangaId }) => {
             .catch(() => makeToast(t(actionsStrings[action].error, { count: chapterIds.length }) as string, 'error'));
     };
 
-    if (loading) {
+    if (isLoading) {
         return (
             <div
                 style={{

@@ -36,7 +36,7 @@ export default function Library() {
 
     const { options } = useLibraryOptionsContext();
     const [lastLibraryUpdate, setLastLibraryUpdate] = useState(Date.now());
-    const { data: tabsData, error: tabsError, loading } = useQuery<ICategory[]>('/api/v1/category');
+    const { data: tabsData, error: tabsError, isLoading } = useQuery<ICategory[]>('/api/v1/category');
     const tabs = tabsData ?? [];
     const librarySize = useMemo(() => tabs.map((tab) => tab.size).reduce((prev, curr) => prev + curr, 0), [tabs]);
 
@@ -46,7 +46,7 @@ export default function Library() {
     const {
         data: mangaData,
         error: mangaError,
-        loading: mangaLoading,
+        isLoading: mangaLoading,
     } = useQuery<IManga[]>(`/api/v1/category/${activeTab?.id}`, {
         isPaused: () => activeTab == null,
     });
@@ -88,7 +88,7 @@ export default function Library() {
         );
     }
 
-    if (loading) {
+    if (isLoading) {
         return <LoadingPlaceholder />;
     }
 

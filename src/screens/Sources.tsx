@@ -52,7 +52,7 @@ export default function Sources() {
     const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownSourceLangs', sourceDefualtLangs());
     const [showNsfw] = useLocalStorage<boolean>('showNsfw', true);
 
-    const { data: sources, loading } = useQuery<ISource[]>('/api/v1/source/list');
+    const { data: sources, isLoading } = useQuery<ISource[]>('/api/v1/source/list');
 
     const history = useHistory();
 
@@ -89,7 +89,7 @@ export default function Sources() {
         );
     }, [t, shownLangs, sources]);
 
-    if (loading) return <LoadingPlaceholder />;
+    if (isLoading) return <LoadingPlaceholder />;
 
     if (sources?.length === 0) {
         return <h3>{t('source.error.label.no_sources_found')}</h3>;

@@ -34,7 +34,7 @@ const Manga: React.FC = () => {
     const {
         data: manga,
         error,
-        loading,
+        isLoading,
         isValidating,
         mutate,
     } = useQuery<IManga>(`/api/v1/manga/${id}/?onlineFetch=false`);
@@ -95,7 +95,7 @@ const Manga: React.FC = () => {
                 </Stack>
             </NavbarToolbar>
 
-            {loading && <LoadingPlaceholder />}
+            {isLoading && <LoadingPlaceholder />}
 
             {manga && <MangaDetails manga={manga} />}
             <ChapterList mangaId={id} />
