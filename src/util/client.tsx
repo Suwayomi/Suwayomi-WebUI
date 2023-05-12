@@ -47,6 +47,6 @@ export async function fetcher<T = any>(path: string) {
 }
 
 export const useQuery = <Data extends any = any, Error extends any = any>(
-    key: string,
+    key: string | null,
     config?: SWRConfiguration<Data, Error>,
 ): SWRResponse<Data, Error> => useSWR(key, config);

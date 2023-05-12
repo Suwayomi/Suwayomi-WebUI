@@ -47,9 +47,7 @@ export default function Library() {
         data: mangaData,
         error: mangaError,
         isLoading: mangaLoading,
-    } = useQuery<IManga[]>(`/api/v1/category/${activeTab?.id}`, {
-        isPaused: () => activeTab == null,
-    });
+    } = useQuery<IManga[]>(activeTab ? `/api/v1/category/${activeTab?.id}` : null);
     const mangas = mangaData ?? [];
 
     const { setTitle, setAction } = useContext(NavbarContext);
