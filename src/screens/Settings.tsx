@@ -74,8 +74,9 @@ export default function Settings() {
 
     const handleDialogSubmit = () => {
         setDialogOpen(false);
-        setServerAddress(dialogValue);
-        requestManager.updateClient({ baseURL: dialogValue });
+        const serverBaseUrl = dialogValue.replaceAll(/(\/)+$/g, '');
+        setServerAddress(serverBaseUrl);
+        requestManager.updateClient({ baseURL: serverBaseUrl });
     };
 
     const handleDialogOpenItemWidth = () => {
