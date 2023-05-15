@@ -21,6 +21,7 @@ import ChaptersToolbarMenu from 'components/manga/ChaptersToolbarMenu';
 import SelectionFAB from 'components/manga/SelectionFAB';
 import { BatchChaptersChange, IChapter, IDownloadChapter, IQueue, TranslationKey } from 'typings';
 import { useTranslation } from 'react-i18next';
+import { DEFAULT_FULL_FAB_HEIGHT } from 'components/util/StyledFab';
 
 const StyledVirtuoso = styled(Virtuoso)(({ theme }) => ({
     listStyle: 'none',
@@ -252,15 +253,29 @@ const ChapterList: React.FC<IProps> = ({ mangaId }) => {
                         // 900 is the md breakpoint in MUI
                         overflowY: window.innerWidth < 900 ? 'visible' : 'auto',
                     }}
-                    totalCount={visibleChapters.length}
-                    itemContent={(index: number) => (
-                        <ChapterCard
-                            {...chaptersWithMeta[index]}
-                            showChapterNumber={options.showChapterNumber}
-                            triggerChaptersUpdate={() => mutate()}
-                            onSelect={() => handleSelection(index)}
-                        />
-                    )}
+                    totalCount={visibleChapters.length + 1}
+                    itemContent={(index: number) => {
+                        // hacky way of adding padding to the bottom of the list, so the FAB doesn't overlay the last chapter
+                        // since I was unable to find another solution on how to achieve this
+                        if (index === visibleChapters.length) {
+                            return (
+                                <div
+                                    style={{
+                                        paddingBottom: DEFAULT_FULL_FAB_HEIGHT,
+                                    }}
+                                />
+                            );
+                        }
+
+                        return (
+                            <ChapterCard
+                                {...chaptersWithMeta[index]}
+                                showChapterNumber={options.showChapterNumber}
+                                triggerChaptersUpdate={() => mutate()}
+                                onSelect={() => handleSelection(index)}
+                            />
+                        );
+                    }}
                     useWindowScroll={window.innerWidth < 900}
                     overscan={window.innerHeight * 0.5}
                 />
