@@ -26,6 +26,7 @@ import { Link } from 'react-router-dom';
 import { BACK } from 'util/useBackTo';
 import { useTranslation } from 'react-i18next';
 import { IChapter, IQueue } from 'typings';
+import makeToast from 'components/util/Toast';
 
 const initialQueue = {
     status: 'Stopped',
@@ -73,7 +74,9 @@ const DownloadQueue: React.FC = () => {
                 // bug: The folder and the last image downloaded are not deleted
                 client.delete(`/api/v1/manga/${chapter.mangaId}/chapter/${chapter.index}`),
             ]);
-        } catch (error) {}
+        } catch (error) {
+            makeToast(t('download.queue.error.label.failed_to_remove'), 'error');
+        }
     };
 
     return (

@@ -142,6 +142,11 @@
       "label": {
         "no_downloads": "No downloads"
       },
+      "error": {
+        "label": {
+          "failed_to_remove": "Could not remove download from queue."
+        }
+      },
       "title": "Download Queue"
     },
     "state": {
