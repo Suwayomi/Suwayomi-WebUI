@@ -26,6 +26,7 @@ import { Link } from 'react-router-dom';
 import { BACK } from 'util/useBackTo';
 import { useTranslation } from 'react-i18next';
 import { IChapter, IQueue } from 'typings';
+import makeToast from 'components/util/Toast';
 
 const initialQueue = {
     status: 'Stopped',
@@ -59,17 +60,31 @@ const DownloadQueue: React.FC = () => {
         return <EmptyView message={t('download.queue.label.no_downloads')} />;
     }
 
-    const handleDelete = (chapter: IChapter) => {
-        // required to stop before deleting otherwise the download kept going. Server issue?
-        client.get('/api/v1/downloads/stop').then(() =>
-            Promise.all([
+    const handleDelete = async (chapter: IChapter) => {
+        const isRunning = status === 'Started';
+
+        try {
+            if (isRunning) {
+                // required to stop before deleting otherwise the download kept going. Server issue?
+                await client.get('/api/v1/downloads/stop');
+            }
+
+            await Promise.all([
                 // remove from download queue
                 client.delete(`/api/v1/download/${chapter.mangaId}/chapter/${chapter.index}`),
                 // delete partial download, should be handle server side?
                 // bug: The folder and the last image downloaded are not deleted
                 client.delete(`/api/v1/manga/${chapter.mangaId}/chapter/${chapter.index}`),
-            ]),
-        );
+            ]);
+        } catch (error) {
+            makeToast(t('download.queue.error.label.failed_to_remove'), 'error');
+        }
+
+        if (!isRunning) {
+            return;
+        }
+
+        client.get('/api/v1/downloads/start').catch(() => {});
     };
 
     return (
