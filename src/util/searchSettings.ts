@@ -16,8 +16,8 @@ export const useSearchSettings = (): {
     settings: ISearchSettings;
     loading: boolean;
 } => {
-    const { data: meta, loading } = useQuery<Metadata>('/api/v1/meta');
+    const { data: meta, isLoading } = useQuery<Metadata>('/api/v1/meta');
     const settings = getSearchSettingsWithDefaultValueFallback(meta);
 
-    return { metadata: meta, settings, loading };
+    return { metadata: meta, settings, loading: isLoading };
 };

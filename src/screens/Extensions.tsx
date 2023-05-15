@@ -101,7 +101,7 @@ export default function MangaExtensions() {
         );
     }, [t, shownLangs]);
 
-    const { data: allExtensions, mutate, loading } = useQuery<IExtension[]>('/api/v1/extension/list');
+    const { data: allExtensions, mutate, isLoading } = useQuery<IExtension[]>('/api/v1/extension/list');
 
     const filteredExtensions = useMemo(
         () =>
@@ -169,7 +169,7 @@ export default function MangaExtensions() {
         };
     }, []);
 
-    if (loading) {
+    if (isLoading) {
         return <LoadingPlaceholder />;
     }
 
