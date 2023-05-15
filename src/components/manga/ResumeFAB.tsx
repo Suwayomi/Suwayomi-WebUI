@@ -6,12 +6,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import React from 'react';
-import { Fab } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { PlayArrow } from '@mui/icons-material';
 import { BACK } from 'util/useBackTo';
 import { IChapter } from 'typings';
 import { useTranslation } from 'react-i18next';
+import StyledFab from 'components/util/StyledFab';
 
 interface ResumeFABProps {
     chapter: IChapter;
@@ -26,8 +26,7 @@ export default function ResumeFab(props: ResumeFABProps) {
         mangaId,
     } = props;
     return (
-        <Fab
-            sx={{ position: 'fixed', bottom: '2em', right: '3em' }}
+        <StyledFab
             component={Link}
             variant="extended"
             color="primary"
@@ -38,6 +37,6 @@ export default function ResumeFab(props: ResumeFABProps) {
         >
             <PlayArrow />
             {index === 1 ? t('global.button.start') : t('global.button.resume')}
-        </Fab>
+        </StyledFab>
     );
 }

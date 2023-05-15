@@ -7,7 +7,7 @@
  */
 
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { Button, Fab, Stack } from '@mui/material';
+import { Button, Stack } from '@mui/material';
 import { Box } from '@mui/system';
 import OptionsPanel from 'components/molecules/OptionsPanel';
 import React from 'react';
@@ -23,6 +23,7 @@ import GroupFilter from 'components/source/filters/GroupFilter';
 import SeperatorFilter from 'components/source/filters/SeparatorFilter';
 import { ISourceFilters, IState } from 'typings';
 import { useTranslation } from 'react-i18next';
+import StyledFab from 'components/util/StyledFab';
 
 interface IFilters {
     sourceFilter: ISourceFilters[];
@@ -160,15 +161,10 @@ export default function SourceOptions({
 
     return (
         <>
-            <Fab
-                sx={{ position: 'fixed', bottom: '2em', right: '3em' }}
-                onClick={() => setFilterOptions(!FilterOptions)}
-                variant="extended"
-                color="primary"
-            >
+            <StyledFab onClick={() => setFilterOptions(!FilterOptions)} variant="extended" color="primary">
                 <FilterListIcon />
                 {t('global.button.filter')}
-            </Fab>
+            </StyledFab>
 
             <OptionsPanel open={FilterOptions} onClose={() => setFilterOptions(false)}>
                 <Box sx={{ display: 'flex', p: 2, pb: 0 }}>
