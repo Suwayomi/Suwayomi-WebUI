@@ -61,8 +61,10 @@ const DownloadQueue: React.FC = () => {
     }
 
     const handleDelete = async (chapter: IChapter) => {
+        const isRunning = status === 'Started';
+
         try {
-            if (status === 'Started') {
+            if (isRunning) {
                 // required to stop before deleting otherwise the download kept going. Server issue?
                 await client.get('/api/v1/downloads/stop');
             }
@@ -77,6 +79,12 @@ const DownloadQueue: React.FC = () => {
         } catch (error) {
             makeToast(t('download.queue.error.label.failed_to_remove'), 'error');
         }
+
+        if (!isRunning) {
+            return;
+        }
+
+        client.get('/api/v1/downloads/start').catch(() => {});
     };
 
     return (
