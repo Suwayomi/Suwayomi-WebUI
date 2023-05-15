@@ -33,6 +33,7 @@ import NavbarContext from 'components/context/NavbarContext';
 import client, { useQuery } from 'util/client';
 import { ICategory } from 'typings';
 import { useTranslation } from 'react-i18next';
+import { DEFAULT_FULL_FAB_HEIGHT } from 'components/util/StyledFab';
 
 const getItemStyle = (
     isDragging: boolean,
@@ -139,7 +140,7 @@ export default function Categories() {
             <DragDropContext onDragEnd={onDragEnd}>
                 <Droppable droppableId="droppable">
                     {(droppableProvided) => (
-                        <List ref={droppableProvided.innerRef}>
+                        <List ref={droppableProvided.innerRef} sx={{ paddingBottom: DEFAULT_FULL_FAB_HEIGHT }}>
                             {categories.map((item, index) => (
                                 <Draggable key={item.id} draggableId={item.id.toString()} index={index}>
                                     {(draggableProvided, snapshot) => (
