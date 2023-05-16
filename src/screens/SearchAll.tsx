@@ -15,12 +15,12 @@ import PQueue from 'p-queue';
 import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { StringParam, useQueryParam } from 'use-query-params';
-import client from 'util/client';
 import { langSortCmp, sourceDefualtLangs, sourceForcedDefaultLangs } from 'util/language';
 import useLocalStorage from 'util/useLocalStorage';
 import { ISource } from 'typings';
 import { useTranslation } from 'react-i18next';
 import { translateExtensionLanguage } from 'screens/util/Extensions';
+import requestManager from 'lib/RequestManager';
 
 function sourceToLangList(sources: ISource[]) {
     const result: string[] = [];
@@ -62,7 +62,8 @@ const SearchAll: React.FC = () => {
     }, [t]);
 
     useEffect(() => {
-        client
+        requestManager
+            .getClient()
             .get('/api/v1/source/list')
             .then((response) => response.data)
             .then((data) => {
@@ -84,9 +85,9 @@ const SearchAll: React.FC = () => {
     async function doIT(elem: any[]) {
         elem.map((ele) =>
             limit.add(async () => {
-                const response = await client.get(
-                    `/api/v1/source/${ele.id}/search?searchTerm=${query || ''}&pageNum=1`,
-                );
+                const response = await requestManager
+                    .getClient()
+                    .get(`/api/v1/source/${ele.id}/search?searchTerm=${query || ''}&pageNum=1`);
                 const data = await response.data;
                 const tmp = mangas;
                 tmp[ele.id] = data.mangaList;

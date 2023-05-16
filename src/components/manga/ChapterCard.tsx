@@ -27,11 +27,11 @@ import Typography from '@mui/material/Typography';
 import DownloadStateIndicator from 'components/molecules/DownloadStateIndicator';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import client from 'util/client';
 import { BACK } from 'util/useBackTo';
 import { getUploadDateString } from 'util/date';
 import { IChapter, IDownloadChapter } from 'typings';
 import { useTranslation } from 'react-i18next';
+import requestManager from 'lib/RequestManager';
 
 interface IProps {
     chapter: IChapter;
@@ -66,23 +66,23 @@ const ChapterCard: React.FC<IProps> = (props: IProps) => {
     const sendChange = (key: string, value: any) => {
         handleClose();
 
-        const formData = new FormData();
-        formData.append(key, value);
-        if (key === 'read') {
-            formData.append('lastPageRead', '0');
-        }
-        client
-            .patch(`/api/v1/manga/${chapter.mangaId}/chapter/${chapter.index}`, formData)
+        requestManager
+            .updateChapter(chapter.mangaId, chapter.index, {
+                [key]: value,
+                lastPageRead: key === 'read' ? 0 : undefined,
+            })
             .then(() => triggerChaptersUpdate());
     };
 
     const downloadChapter = () => {
-        client.get(`/api/v1/download/${chapter.mangaId}/chapter/${chapter.index}`);
+        requestManager.addChapterToDownloadQueue(chapter.mangaId, chapter.index);
         handleClose();
     };
 
     const deleteChapter = () => {
-        client.delete(`/api/v1/manga/${chapter.mangaId}/chapter/${chapter.index}`).then(() => triggerChaptersUpdate());
+        requestManager
+            .removeChapterFromDownloadQueue(chapter.mangaId, chapter.index)
+            .then(() => triggerChaptersUpdate());
         handleClose();
     };
 

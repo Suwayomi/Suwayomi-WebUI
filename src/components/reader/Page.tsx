@@ -8,7 +8,6 @@
 
 import React, { useRef } from 'react';
 import SpinnerImage from 'components/util/SpinnerImage';
-import useLocalStorage from 'util/useLocalStorage';
 import Box from '@mui/system/Box';
 import { IReaderSettings } from 'typings';
 
@@ -68,8 +67,6 @@ interface IProps {
 const Page = React.forwardRef((props: IProps, ref: any) => {
     const { src, index, onImageLoad, settings } = props;
 
-    const [useCache] = useLocalStorage<boolean>('useCache', true);
-
     const imgRef = useRef<HTMLImageElement>(null);
 
     const imgStyle = imageStyle(settings);
@@ -77,7 +74,7 @@ const Page = React.forwardRef((props: IProps, ref: any) => {
     return (
         <Box ref={ref} sx={{ margin: 'auto' }}>
             <SpinnerImage
-                src={`${src}?useCache=${useCache}`}
+                src={src}
                 onImageLoad={onImageLoad}
                 alt={`Page #${index}`}
                 imgRef={imgRef}

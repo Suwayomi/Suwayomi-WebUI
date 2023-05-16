@@ -13,9 +13,8 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemLink from 'components/util/ListItemLink';
 import NavbarContext from 'components/context/NavbarContext';
 import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
-import { useQuery } from 'util/client';
-import { IAbout } from 'typings';
 import { useTranslation } from 'react-i18next';
+import requestManager from 'lib/RequestManager';
 
 export default function About() {
     const { t } = useTranslation();
@@ -26,7 +25,7 @@ export default function About() {
         setAction(null);
     }, [t]);
 
-    const { data: about } = useQuery<IAbout>('/api/v1/settings/about');
+    const { data: about } = requestManager.useGetAbout();
 
     if (about === undefined) {
         return <LoadingPlaceholder />;

@@ -17,12 +17,12 @@ import EmptyView from 'components/util/EmptyView';
 import makeToast from 'components/util/Toast';
 import React, { ComponentProps, useEffect, useMemo, useRef, useState } from 'react';
 import { Virtuoso } from 'react-virtuoso';
-import client, { useQuery } from 'util/client';
 import ChaptersToolbarMenu from 'components/manga/ChaptersToolbarMenu';
 import SelectionFAB from 'components/manga/SelectionFAB';
 import { BatchChaptersChange, IChapter, IDownloadChapter, IQueue, TranslationKey } from 'typings';
 import { useTranslation } from 'react-i18next';
 import { DEFAULT_FULL_FAB_HEIGHT } from 'components/util/StyledFab';
+import requestManager from 'lib/RequestManager';
 
 const StyledVirtuoso = styled(Virtuoso)(({ theme }) => ({
     listStyle: 'none',
@@ -83,14 +83,10 @@ const ChapterList: React.FC<IProps> = ({ mangaId }) => {
 
     const [selection, setSelection] = useState<number[] | null>(null);
     const prevQueueRef = useRef<IDownloadChapter[]>();
-    const queue = useSubscription<IQueue>('/api/v1/downloads').data?.queue;
+    const queue = useSubscription<IQueue>('downloads').data?.queue;
 
     const [options, dispatch] = useChapterOptions(mangaId);
-    const {
-        data: chaptersData,
-        mutate,
-        isLoading,
-    } = useQuery<IChapter[]>(`/api/v1/manga/${mangaId}/chapters?onlineFetch=false`);
+    const { data: chaptersData, mutate, isLoading } = requestManager.useGetMangaChapters(mangaId);
     const chapters = useMemo(() => chaptersData ?? [], [chaptersData]);
 
     useEffect(() => {
@@ -157,7 +153,7 @@ const ChapterList: React.FC<IProps> = ({ mangaId }) => {
         let actionPromise: Promise<any>;
 
         if (action === 'download') {
-            actionPromise = client.post('/api/v1/download/batch', { chapterIds });
+            actionPromise = requestManager.addChaptersToDownloadQueue(chapterIds);
         } else {
             const change: BatchChaptersChange = {};
 
@@ -169,7 +165,7 @@ const ChapterList: React.FC<IProps> = ({ mangaId }) => {
                 change.lastPageRead = 0;
             }
 
-            actionPromise = client.post('/api/v1/chapter/batch', { chapterIds, change });
+            actionPromise = requestManager.updateChapters(chapterIds, change);
         }
 
         actionPromise

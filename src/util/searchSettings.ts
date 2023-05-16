@@ -6,9 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useQuery } from 'util/client';
 import { getMetadataFrom } from 'util/metadata';
 import { Metadata, ISearchSettings } from 'typings';
+import requestManager from 'lib/RequestManager';
 
 export const getDefaultSettings = (): ISearchSettings => ({
     ignoreFilters: false,
@@ -24,7 +24,7 @@ export const useSearchSettings = (): {
     settings: ISearchSettings;
     loading: boolean;
 } => {
-    const { data: meta, isLoading } = useQuery<Metadata>('/api/v1/meta');
+    const { data: meta, isLoading } = requestManager.useGetGlobalMeta();
     const settings = getSearchSettingsWithDefaultValueFallback(meta);
 
     return { metadata: meta, settings, loading: isLoading };

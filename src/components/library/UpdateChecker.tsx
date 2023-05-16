@@ -12,10 +12,10 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Box } from '@mui/system';
 import Typography from '@mui/material/Typography';
-import client from 'util/client';
 import makeToast from 'components/util/Toast';
 import { IUpdateStatus } from 'typings';
 import { useTranslation } from 'react-i18next';
+import requestManager from 'lib/RequestManager';
 
 interface IProgressProps {
     progress: number;
@@ -32,8 +32,6 @@ function Progress({ progress }: IProgressProps) {
     );
 }
 
-const baseWebsocketUrl = JSON.parse(window.localStorage.getItem('serverBaseURL')!).replace('http', 'ws');
-
 interface IUpdateCheckerProps {
     handleFinishedUpdate: (time: number) => void;
 }
@@ -48,7 +46,7 @@ function UpdateChecker({ handleFinishedUpdate }: IUpdateCheckerProps) {
         try {
             setLoading(true);
             setProgress(0);
-            await client.post('/api/v1/update/fetch');
+            await requestManager.startGlobalUpdate();
         } catch (e) {
             makeToast(t('global.error.label.update_failed'), 'error');
             setLoading(false);
@@ -56,7 +54,7 @@ function UpdateChecker({ handleFinishedUpdate }: IUpdateCheckerProps) {
     };
 
     useEffect(() => {
-        const wsc = new WebSocket(`${baseWebsocketUrl}/api/v1/update`);
+        const wsc = requestManager.getUpdateWebSocket();
 
         // "loading" can't be used since it will be outdated once the state gets changed
         // it could be used by adding it as a dependency of "useEffect" but then the socket would

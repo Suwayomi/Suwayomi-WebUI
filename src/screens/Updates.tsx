@@ -20,11 +20,10 @@ import EmptyView from 'components/util/EmptyView';
 import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import client from 'util/client';
-import useLocalStorage from 'util/useLocalStorage';
 import { IChapter, IMangaChapter, IQueue, PaginatedList } from 'typings';
 import { useTranslation } from 'react-i18next';
 import { t as translate } from 'i18next';
+import requestManager from 'lib/RequestManager';
 
 function epochToDate(epoch: number) {
     const date = new Date(0); // The 0 there is the key, which sets the date to the epoch
@@ -66,7 +65,6 @@ function groupByDate(updates: IMangaChapter[]): [string, { item: IMangaChapter; 
     return Object.keys(groups).map((key) => [key, groups[key]]);
 }
 
-const baseWebsocketUrl = JSON.parse(window.localStorage.getItem('serverBaseURL')!).replace('http', 'ws');
 const initialQueue = {
     status: 'Stopped',
     queue: [],
@@ -82,14 +80,11 @@ const Updates: React.FC = () => {
     const [fetched, setFetched] = useState(false);
     const [lastPageNum, setLastPageNum] = useState(0);
 
-    const [serverAddress] = useLocalStorage<String>('serverBaseURL', '');
-    const [useCache] = useLocalStorage<boolean>('useCache', true);
-
     const [, setWsClient] = useState<WebSocket>();
     const [{ queue }, setQueueState] = useState<IQueue>(initialQueue);
 
     useEffect(() => {
-        const wsc = new WebSocket(`${baseWebsocketUrl}/api/v1/downloads`);
+        const wsc = requestManager.getDownloadWebSocket();
         wsc.onmessage = (e) => {
             const data = JSON.parse(e.data) as IQueue;
             setQueueState(data);
@@ -108,7 +103,8 @@ const Updates: React.FC = () => {
 
     useEffect(() => {
         if (hasNextPage) {
-            client
+            requestManager
+                .getClient()
                 .get(`/api/v1/update/recentChapters/${lastPageNum}`)
                 .then((response) => response.data)
                 .then(({ hasNextPage: fetchedHasNextPage, page }: PaginatedList<IMangaChapter>) => {
@@ -149,7 +145,7 @@ const Updates: React.FC = () => {
     };
 
     const downloadChapter = (chapter: IChapter) => {
-        client.get(`/api/v1/download/${chapter.mangaId}/chapter/${chapter.index}`);
+        requestManager.addChapterToDownloadQueue(chapter.mangaId, chapter.index);
     };
 
     return (
@@ -200,7 +196,7 @@ const Updates: React.FC = () => {
                                                     marginRight: 2,
                                                     imageRendering: 'pixelated',
                                                 }}
-                                                src={`${serverAddress}${manga.thumbnailUrl}?useCache=${useCache}`}
+                                                src={requestManager.getValidImgUrlFor(manga.thumbnailUrl)}
                                             />
                                             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                                                 <Typography variant="h5" component="h2">

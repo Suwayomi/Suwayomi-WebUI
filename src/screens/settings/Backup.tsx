@@ -11,11 +11,11 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import { fromEvent } from 'file-selector';
-import client from 'util/client';
 import makeToast from 'components/util/Toast';
 import ListItemLink from 'components/util/ListItemLink';
 import NavbarContext from 'components/context/NavbarContext';
 import { useTranslation } from 'react-i18next';
+import requestManager from 'lib/RequestManager';
 
 export default function Backup() {
     const { t } = useTranslation();
@@ -25,18 +25,11 @@ export default function Backup() {
         setAction(null);
     }, [t]);
 
-    const { baseURL } = client.defaults;
-
     const submitBackup = (file: File) => {
         if (file.name.toLowerCase().endsWith('proto.gz')) {
-            const formData = new FormData();
-            formData.append('backup.proto.gz', file);
-
             makeToast(t('settings.backup.label.restoring_backup'), 'info');
-            client
-                .post('/api/v1/backup/import/file', formData, {
-                    headers: { 'Content-Type': 'multipart/form-data' },
-                })
+            requestManager
+                .restoreBackupFile(file)
                 .then(() => makeToast(t('settings.backup.label.restored_backup'), 'success'))
                 .catch(() => makeToast(t('settings.backup.label.backup_restore_failed'), 'error'));
         } else if (file.name.toLowerCase().endsWith('json')) {
@@ -76,7 +69,7 @@ export default function Backup() {
     return (
         <>
             <List sx={{ padding: 0 }}>
-                <ListItemLink to={`${baseURL}/api/v1/backup/export/file`} directLink>
+                <ListItemLink to={requestManager.getExportBackupUrl()} directLink>
                     <ListItemText
                         primary={t('settings.backup.label.create_backup')}
                         secondary={t('settings.backup.label.create_backup_info')}

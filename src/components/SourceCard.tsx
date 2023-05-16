@@ -16,9 +16,9 @@ import { Box, styled } from '@mui/system';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useHistory } from 'react-router-dom';
-import useLocalStorage from 'util/useLocalStorage';
 import { ISource } from 'typings';
 import { translateExtensionLanguage } from 'screens/util/Extensions';
+import requestManager from 'lib/RequestManager';
 
 const MobileWidthButtons = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -50,9 +50,6 @@ const SourceCard: React.FC<IProps> = (props: IProps) => {
     } = props;
 
     const history = useHistory();
-
-    const [serverAddress] = useLocalStorage<String>('serverBaseURL', '');
-    const [useCache] = useLocalStorage<boolean>('useCache', true);
 
     const redirectTo = (e: any, to: string) => {
         history.push(to);
@@ -86,7 +83,7 @@ const SourceCard: React.FC<IProps> = (props: IProps) => {
                                 flex: '0 0 auto',
                                 mr: 2,
                             }}
-                            src={`${serverAddress}${iconUrl}?useCache=${useCache}`}
+                            src={requestManager.getValidImgUrlFor(iconUrl)}
                         />
                         <Box
                             sx={{

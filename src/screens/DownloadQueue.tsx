@@ -16,7 +16,6 @@ import NavbarContext from 'components/context/NavbarContext';
 import EmptyView from 'components/util/EmptyView';
 import React, { useContext, useEffect } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import client from 'util/client';
 
 import Typography from '@mui/material/Typography';
 import { Box } from '@mui/system';
@@ -28,6 +27,7 @@ import { BACK } from 'util/useBackTo';
 import { useTranslation } from 'react-i18next';
 import { IChapter, IQueue } from 'typings';
 import makeToast from 'components/util/Toast';
+import requestManager from 'lib/RequestManager';
 
 const initialQueue = {
     status: 'Stopped',
@@ -37,16 +37,16 @@ const initialQueue = {
 const DownloadQueue: React.FC = () => {
     const { t } = useTranslation();
 
-    const { data: queueState } = useSubscription<IQueue>('/api/v1/downloads');
+    const { data: queueState } = useSubscription<IQueue>('downloads');
     const { queue, status } = queueState ?? initialQueue;
 
     const { setTitle, setAction } = useContext(NavbarContext);
 
     const toggleQueueStatus = () => {
         if (status === 'Stopped') {
-            client.get('/api/v1/downloads/start');
+            requestManager.startDownloads();
         } else {
-            client.get('/api/v1/downloads/stop');
+            requestManager.stopDownloads();
         }
     };
 
@@ -67,15 +67,15 @@ const DownloadQueue: React.FC = () => {
         try {
             if (isRunning) {
                 // required to stop before deleting otherwise the download kept going. Server issue?
-                await client.get('/api/v1/downloads/stop');
+                await requestManager.stopDownloads();
             }
 
             await Promise.all([
                 // remove from download queue
-                client.delete(`/api/v1/download/${chapter.mangaId}/chapter/${chapter.index}`),
+                requestManager.removeChapterFromDownloadQueue(chapter.mangaId, chapter.index),
                 // delete partial download, should be handle server side?
                 // bug: The folder and the last image downloaded are not deleted
-                client.delete(`/api/v1/manga/${chapter.mangaId}/chapter/${chapter.index}`),
+                requestManager.deleteDownloadedChapter(chapter.mangaId, chapter.index),
             ]);
         } catch (error) {
             makeToast(t('download.queue.error.label.failed_to_remove'), 'error');
@@ -85,7 +85,7 @@ const DownloadQueue: React.FC = () => {
             return;
         }
 
-        client.get('/api/v1/downloads/start').catch(() => {});
+        requestManager.startDownloads().catch(() => {});
     };
 
     return (
