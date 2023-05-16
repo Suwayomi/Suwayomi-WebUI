@@ -17,7 +17,7 @@ import AppbarSearch from 'components/util/AppbarSearch';
 import { useQueryParam, StringParam } from 'use-query-params';
 import SourceGridLayout from 'components/source/GridLayouts';
 import { useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
-import { IManga, IMangaCard, ISource, ISourceFilters } from 'typings';
+import { IManga, IMangaCard, ISourceFilters } from 'typings';
 import { useTranslation } from 'react-i18next';
 import Link from '@mui/material/Link';
 import requestManager from 'lib/RequestManager';
@@ -34,6 +34,9 @@ export default function SourceMangas({ popular }: { popular: boolean }) {
     const history = useHistory();
 
     const { sourceId } = useParams<{ sourceId: string }>();
+
+    const { data: source } = requestManager.useGetSource(sourceId);
+
     const [isConfigurable, setIsConfigurable] = useState<boolean>(false);
     const [mangas, setMangas] = useState<IMangaCard[]>([]);
     const [hasNextPage, setHasNextPage] = useState<boolean>(false);
@@ -67,15 +70,13 @@ export default function SourceMangas({ popular }: { popular: boolean }) {
     }, [t]);
 
     useEffect(() => {
-        requestManager
-            .getClient()
-            .get(`/api/v1/source/${sourceId}`)
-            .then((response) => response.data)
-            .then((data: ISource) => {
-                setTitle(data.displayName);
-                setIsConfigurable(data.isConfigurable);
-            });
-    }, []);
+        if (!source) {
+            return;
+        }
+
+        setTitle(source.displayName);
+        setIsConfigurable(source.isConfigurable);
+    }, [source]);
 
     useEffect(() => {
         if (triggerUpdate === 2) {

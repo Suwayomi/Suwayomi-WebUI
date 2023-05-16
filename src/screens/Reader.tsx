@@ -24,16 +24,7 @@ import {
     useDefaultReaderSettings,
 } from 'util/readerSettings';
 import makeToast from 'components/util/Toast';
-import {
-    ChapterOffset,
-    IChapter,
-    IManga,
-    IMangaCard,
-    IPartialChapter,
-    IReaderSettings,
-    ReaderType,
-    TranslationKey,
-} from 'typings';
+import { ChapterOffset, IChapter, IManga, IMangaCard, IReaderSettings, ReaderType, TranslationKey } from 'typings';
 import { useTranslation } from 'react-i18next';
 import requestManager from 'lib/RequestManager';
 
@@ -105,15 +96,21 @@ export default function Reader() {
     const history = useHistory();
 
     const { chapterIndex, mangaId } = useParams<{ chapterIndex: string; mangaId: string }>();
-    const [manga, setManga] = useState<IMangaCard | IManga>({
-        id: +mangaId,
-        title: '',
-        thumbnailUrl: '',
-        genre: [],
-        inLibraryAt: 0,
-        lastReadAt: 0,
-    });
-    const [chapter, setChapter] = useState<IChapter | IPartialChapter>(initialChapter());
+    const {
+        data: manga = {
+            id: +mangaId,
+            title: '',
+            thumbnailUrl: '',
+            genre: [],
+            inLibraryAt: 0,
+            lastReadAt: 0,
+        } as IMangaCard | IManga,
+        isLoading: isMangaLoading,
+    } = requestManager.useGetManga(mangaId);
+    const { data: chapter = initialChapter(), isLoading: isChapterLoading } = requestManager.useGetChapter(
+        mangaId,
+        chapterIndex,
+    );
     const [curPage, setCurPage] = useState<number>(0);
     const [pageToScrollTo, setPageToScrollTo] = useState<number | undefined>(undefined);
     const { setOverride, setTitle } = useContext(NavbarContext);
@@ -121,7 +118,6 @@ export default function Reader() {
 
     const { settings: defaultSettings, loading: areDefaultSettingsLoading } = useDefaultReaderSettings();
     const [settings, setSettings] = useState(getReaderSettingsFor(manga, defaultSettings));
-    const [isMangaLoading, setIsMangaLoading] = useState(true);
 
     const setSettingValue = (key: keyof IReaderSettings, value: string | boolean) => {
         setSettings({ ...settings, [key]: value });
@@ -155,6 +151,17 @@ export default function Reader() {
         },
         [chapter, settings],
     );
+
+    useEffect(() => {
+        if (isChapterLoading || !chapter) {
+            return;
+        }
+
+        if (chapter.lastPageRead === chapter.pageCount - 1) {
+            // last page, also probably read = true, we will load the first page.
+            setCurPage(0);
+        } else setCurPage(chapter.lastPageRead);
+    }, [chapter, isChapterLoading]);
 
     useEffect(() => {
         if (!manga?.title || (chapter as IChapter)?.name === t('global.label.loading')) {
@@ -192,34 +199,6 @@ export default function Reader() {
         // clean up for when we leave the reader
         return () => setOverride({ status: false, value: <div /> });
     }, [manga, chapter, settings, curPage, chapterIndex, retrievingNextChapter]);
-
-    useEffect(() => {
-        setIsMangaLoading(true);
-        requestManager
-            .getClient()
-            .get(`/api/v1/manga/${mangaId}/`)
-            .then((response) => response.data)
-            .then((data: IManga) => {
-                setManga(data);
-                setIsMangaLoading(false);
-            });
-    }, [mangaId]);
-
-    useEffect(() => {
-        setChapter(initialChapter);
-        requestManager
-            .getClient()
-            .get(`/api/v1/manga/${mangaId}/chapter/${chapterIndex}`)
-            .then((response) => response.data)
-            .then((data: IChapter) => {
-                setChapter(data);
-
-                if (data.lastPageRead === data.pageCount - 1) {
-                    // last page, also probably read = true, we will load the first page.
-                    setCurPage(0);
-                } else setCurPage(data.lastPageRead);
-            });
-    }, [chapterIndex]);
 
     useEffect(() => {
         if (curPage !== -1) {
