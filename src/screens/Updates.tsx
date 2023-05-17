@@ -13,20 +13,30 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { Box } from '@mui/system';
+import { Box, styled } from '@mui/system';
 import NavbarContext from 'components/context/NavbarContext';
 import DownloadStateIndicator from 'components/molecules/DownloadStateIndicator';
 import EmptyView from 'components/util/EmptyView';
 import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
-import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { IChapter, IMangaChapter, IQueue } from 'typings';
 import { useTranslation } from 'react-i18next';
 import { t as translate } from 'i18next';
 import requestManager from 'lib/RequestManager';
+import { GroupedVirtuoso } from 'react-virtuoso';
 
 type GroupedUpdateItem = { item: IMangaChapter; globalIdx: number };
 type GroupedUpdate = [date: string, items: GroupedUpdateItem[]];
+
+const StyledGroupedVirtuoso = styled(GroupedVirtuoso)(({ theme }) => ({
+    // 64px header
+    height: 'calc(100vh - 64px)',
+    [theme.breakpoints.down('sm')]: {
+        // 64px header (margin); 64px menu (margin);
+        height: 'calc(100vh - 64px - 64px)',
+    },
+}));
 
 function epochToDate(epoch: number) {
     const date = new Date(0); // The 0 there is the key, which sets the date to the epoch
@@ -87,6 +97,7 @@ const Updates: React.FC = () => {
         [pages],
     );
     const groupedUpdates = useMemo(() => groupByDate(updateEntries), [updateEntries]);
+    const groupCounts: number[] = useMemo(() => groupedUpdates.map((group) => group[1].length), [groupedUpdates]);
 
     const [, setWsClient] = useState<WebSocket>();
     const [{ queue }, setQueueState] = useState<IQueue>(initialQueue);
@@ -109,27 +120,6 @@ const Updates: React.FC = () => {
         setAction(null);
     }, [t]);
 
-    const lastEntry = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        // prevent triggering the next page load multiple times in the same useEffect "lifecycle"
-        let wasLoadTriggered = false;
-        const scrollHandler = () => {
-            if (lastEntry.current) {
-                const rect = lastEntry.current.getBoundingClientRect();
-                if ((rect.y + rect.height) / window.innerHeight < 2 && hasNextPage && !isLoading && !wasLoadTriggered) {
-                    wasLoadTriggered = true;
-                    setPages(loadedPages + 1);
-                }
-            }
-        };
-
-        window.addEventListener('scroll', scrollHandler, true);
-        return () => {
-            window.removeEventListener('scroll', scrollHandler, true);
-        };
-    }, [hasNextPage, isLoading, loadedPages]);
-
     if (!isLoading && updateEntries.length === 0) {
         return <EmptyView message={t('updates.error.label.no_updates_available')} />;
     }
@@ -143,87 +133,100 @@ const Updates: React.FC = () => {
         requestManager.addChapterToDownloadQueue(chapter.mangaId, chapter.index);
     };
 
+    const loadMore = useCallback(() => {
+        if (!hasNextPage) {
+            return;
+        }
+
+        setPages(loadedPages + 1);
+    }, [hasNextPage, loadedPages]);
+
     return (
-        <>
-            {groupedUpdates.map((dateGroup) => (
-                <div key={dateGroup[0]}>
-                    <Typography
-                        variant="h5"
-                        sx={{
-                            ml: 3,
-                            my: 2,
-                            fontWeight: 700,
-                            textTransform: 'uppercase',
-                        }}
-                    >
-                        {dateGroup[0]}
-                    </Typography>
-                    {dateGroup[1].map(({ item: { chapter, manga }, globalIdx }) => {
-                        const download = downloadForChapter(chapter);
-                        return (
-                            <Card
-                                ref={globalIdx === updateEntries.length - 1 ? lastEntry : undefined}
-                                key={globalIdx}
-                                sx={{ margin: '10px' }}
+        <StyledGroupedVirtuoso
+            style={{
+                // override Virtuoso default values and set them with class
+                height: 'undefined',
+            }}
+            components={{
+                Footer: () => (isLoading ? <LoadingPlaceholder /> : null),
+            }}
+            overscan={window.innerHeight * 0.5}
+            endReached={loadMore}
+            groupCounts={groupCounts}
+            groupContent={(index) => (
+                <Typography
+                    variant="h5"
+                    sx={{
+                        ml: 3,
+                        my: 2,
+                        fontWeight: 700,
+                        textTransform: 'uppercase',
+                    }}
+                >
+                    {groupedUpdates[index][0]}
+                </Typography>
+            )}
+            itemContent={(index) => {
+                const { chapter, manga } = updateEntries[index];
+                const download = downloadForChapter(chapter);
+
+                return (
+                    <Card key={index}>
+                        <CardActionArea
+                            component={Link}
+                            to={{
+                                pathname: `/manga/${chapter.mangaId}/chapter/${chapter.index}`,
+                                state: history.location.state,
+                            }}
+                        >
+                            <CardContent
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                    padding: 2,
+                                }}
                             >
-                                <CardActionArea
-                                    component={Link}
-                                    to={{
-                                        pathname: `/manga/${chapter.mangaId}/chapter/${chapter.index}`,
-                                        state: history.location.state,
-                                    }}
-                                >
-                                    <CardContent
+                                <Box sx={{ display: 'flex' }}>
+                                    <Avatar
+                                        variant="rounded"
                                         sx={{
-                                            display: 'flex',
-                                            justifyContent: 'space-between',
-                                            alignItems: 'center',
-                                            padding: 2,
+                                            width: 56,
+                                            height: 56,
+                                            flex: '0 0 auto',
+                                            marginRight: 2,
+                                            imageRendering: 'pixelated',
                                         }}
+                                        src={requestManager.getValidImgUrlFor(manga.thumbnailUrl)}
+                                    />
+                                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                                        <Typography variant="h5" component="h2">
+                                            {manga.title}
+                                        </Typography>
+                                        <Typography variant="caption" display="block" gutterBottom>
+                                            {chapter.name}
+                                        </Typography>
+                                    </Box>
+                                </Box>
+                                {download && <DownloadStateIndicator download={download} />}
+                                {download == null && !chapter.downloaded && (
+                                    <IconButton
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            e.preventDefault();
+                                            downloadChapter(chapter);
+                                        }}
+                                        size="large"
                                     >
-                                        <Box sx={{ display: 'flex' }}>
-                                            <Avatar
-                                                variant="rounded"
-                                                sx={{
-                                                    width: 56,
-                                                    height: 56,
-                                                    flex: '0 0 auto',
-                                                    marginRight: 2,
-                                                    imageRendering: 'pixelated',
-                                                }}
-                                                src={requestManager.getValidImgUrlFor(manga.thumbnailUrl)}
-                                            />
-                                            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                                                <Typography variant="h5" component="h2">
-                                                    {manga.title}
-                                                </Typography>
-                                                <Typography variant="caption" display="block" gutterBottom>
-                                                    {chapter.name}
-                                                </Typography>
-                                            </Box>
-                                        </Box>
-                                        {download && <DownloadStateIndicator download={download} />}
-                                        {download == null && !chapter.downloaded && (
-                                            <IconButton
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    e.preventDefault();
-                                                    downloadChapter(chapter);
-                                                }}
-                                                size="large"
-                                            >
-                                                <DownloadIcon />
-                                            </IconButton>
-                                        )}
-                                    </CardContent>
-                                </CardActionArea>
-                            </Card>
-                        );
-                    })}
-                </div>
-            ))}
-            {isLoading ? <LoadingPlaceholder /> : null}
-        </>
+                                        <DownloadIcon />
+                                    </IconButton>
+                                )}
+                            </CardContent>
+                        </CardActionArea>
+                    </Card>
+                );
+            }}
+        />
     );
 };
 
