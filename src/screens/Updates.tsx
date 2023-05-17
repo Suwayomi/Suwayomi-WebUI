@@ -26,9 +26,6 @@ import { t as translate } from 'i18next';
 import requestManager from 'lib/RequestManager';
 import { GroupedVirtuoso } from 'react-virtuoso';
 
-type GroupedUpdateItem = { item: IMangaChapter; globalIdx: number };
-type GroupedUpdate = [date: string, items: GroupedUpdateItem[]];
-
 const StyledGroupedVirtuoso = styled(GroupedVirtuoso)(({ theme }) => ({
     // 64px header
     height: 'calc(100vh - 64px)',
@@ -85,18 +82,19 @@ function getDateString(date: Date) {
     return date.toLocaleDateString();
 }
 
-function groupByDate(updates: IMangaChapter[]): GroupedUpdate[] {
-    if (updates.length === 0) return [];
+const groupByDate = (updates: IMangaChapter[]): [date: string, items: number][] => {
+    if (!updates.length) {
+        return [];
+    }
 
-    const groups: { [date: string]: GroupedUpdateItem[] } = {};
-    updates.forEach((item, globalIdx) => {
-        const key = getDateString(epochToDate(item.chapter.fetchedAt));
-        if (groups[key] === undefined) groups[key] = [];
-        groups[key].push({ item, globalIdx });
+    const dateToItemMap = new Map<string, number>();
+    updates.forEach((item) => {
+        const date = getDateString(epochToDate(item.chapter.fetchedAt));
+        dateToItemMap.set(date, (dateToItemMap.get(date) ?? 0) + 1);
     });
 
-    return Object.keys(groups).map((key) => [key, groups[key]]);
-}
+    return [...dateToItemMap.entries()];
+};
 
 const initialQueue = {
     status: 'Stopped',
@@ -120,7 +118,7 @@ const Updates: React.FC = () => {
         [pages],
     );
     const groupedUpdates = useMemo(() => groupByDate(updateEntries), [updateEntries]);
-    const groupCounts: number[] = useMemo(() => groupedUpdates.map((group) => group[1].length), [groupedUpdates]);
+    const groupCounts: number[] = useMemo(() => groupedUpdates.map((group) => group[1]), [groupedUpdates]);
 
     const [, setWsClient] = useState<WebSocket>();
     const [{ queue }, setQueueState] = useState<IQueue>(initialQueue);
