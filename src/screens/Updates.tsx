@@ -86,6 +86,7 @@ const Updates: React.FC = () => {
         () => pages.map((page) => page.page).reduce((lastPageChapters, chapters) => [...lastPageChapters, ...chapters]),
         [pages],
     );
+    const groupedUpdates = useMemo(() => groupByDate(updateEntries), [updateEntries]);
 
     const [, setWsClient] = useState<WebSocket>();
     const [{ queue }, setQueueState] = useState<IQueue>(initialQueue);
@@ -144,7 +145,7 @@ const Updates: React.FC = () => {
 
     return (
         <>
-            {groupByDate(updateEntries).map((dateGroup) => (
+            {groupedUpdates.map((dateGroup) => (
                 <div key={dateGroup[0]}>
                     <Typography
                         variant="h5"
