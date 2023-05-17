@@ -38,6 +38,28 @@ const StyledGroupedVirtuoso = styled(GroupedVirtuoso)(({ theme }) => ({
     },
 }));
 
+const StyledGroupHeader = styled(Typography, { shouldForwardProp: (prop) => prop !== 'isFirstItem' })<{
+    isFirstItem: boolean;
+}>(({ theme, isFirstItem }) => ({
+    marginLeft: '24px',
+    // 16px - 10px (bottom padding of the group items)
+    paddingTop: '6px',
+    paddingBottom: '16px',
+    fontWeight: 700,
+    textTransform: 'uppercase',
+    [theme.breakpoints.down('sm')]: {
+        // 16px - 8px (margin of header)
+        paddingTop: isFirstItem ? '8px' : '6px',
+    },
+}));
+
+const StyledGroupItemWrapper = styled(Box, { shouldForwardProp: (prop) => prop !== 'isLastItem' })<{
+    isLastItem: boolean;
+}>(({ isLastItem }) => ({
+    padding: '0 10px',
+    paddingBottom: isLastItem ? '0' : '10px',
+}));
+
 function epochToDate(epoch: number) {
     const date = new Date(0); // The 0 there is the key, which sets the date to the epoch
     date.setUTCSeconds(epoch);
@@ -148,82 +170,76 @@ const Updates: React.FC = () => {
                 height: 'undefined',
             }}
             components={{
-                Footer: () => (isLoading ? <LoadingPlaceholder /> : null),
+                Footer: () => (isLoading ? <LoadingPlaceholder usePadding /> : null),
             }}
             overscan={window.innerHeight * 0.5}
             endReached={loadMore}
             groupCounts={groupCounts}
             groupContent={(index) => (
-                <Typography
-                    variant="h5"
-                    sx={{
-                        ml: 3,
-                        my: 2,
-                        fontWeight: 700,
-                        textTransform: 'uppercase',
-                    }}
-                >
+                <StyledGroupHeader variant="h5" isFirstItem={index === 0}>
                     {groupedUpdates[index][0]}
-                </Typography>
+                </StyledGroupHeader>
             )}
             itemContent={(index) => {
                 const { chapter, manga } = updateEntries[index];
                 const download = downloadForChapter(chapter);
 
                 return (
-                    <Card key={index}>
-                        <CardActionArea
-                            component={Link}
-                            to={{
-                                pathname: `/manga/${chapter.mangaId}/chapter/${chapter.index}`,
-                                state: history.location.state,
-                            }}
-                        >
-                            <CardContent
-                                sx={{
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    alignItems: 'center',
-                                    padding: 2,
+                    <StyledGroupItemWrapper key={index} isLastItem={index === updateEntries.length - 1}>
+                        <Card>
+                            <CardActionArea
+                                component={Link}
+                                to={{
+                                    pathname: `/manga/${chapter.mangaId}/chapter/${chapter.index}`,
+                                    state: history.location.state,
                                 }}
                             >
-                                <Box sx={{ display: 'flex' }}>
-                                    <Avatar
-                                        variant="rounded"
-                                        sx={{
-                                            width: 56,
-                                            height: 56,
-                                            flex: '0 0 auto',
-                                            marginRight: 2,
-                                            imageRendering: 'pixelated',
-                                        }}
-                                        src={requestManager.getValidImgUrlFor(manga.thumbnailUrl)}
-                                    />
-                                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                                        <Typography variant="h5" component="h2">
-                                            {manga.title}
-                                        </Typography>
-                                        <Typography variant="caption" display="block" gutterBottom>
-                                            {chapter.name}
-                                        </Typography>
+                                <CardContent
+                                    sx={{
+                                        display: 'flex',
+                                        justifyContent: 'space-between',
+                                        alignItems: 'center',
+                                        padding: 2,
+                                    }}
+                                >
+                                    <Box sx={{ display: 'flex' }}>
+                                        <Avatar
+                                            variant="rounded"
+                                            sx={{
+                                                width: 56,
+                                                height: 56,
+                                                flex: '0 0 auto',
+                                                marginRight: 2,
+                                                imageRendering: 'pixelated',
+                                            }}
+                                            src={requestManager.getValidImgUrlFor(manga.thumbnailUrl)}
+                                        />
+                                        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                                            <Typography variant="h5" component="h2">
+                                                {manga.title}
+                                            </Typography>
+                                            <Typography variant="caption" display="block" gutterBottom>
+                                                {chapter.name}
+                                            </Typography>
+                                        </Box>
                                     </Box>
-                                </Box>
-                                {download && <DownloadStateIndicator download={download} />}
-                                {download == null && !chapter.downloaded && (
-                                    <IconButton
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            e.preventDefault();
-                                            downloadChapter(chapter);
-                                        }}
-                                        size="large"
-                                    >
-                                        <DownloadIcon />
-                                    </IconButton>
-                                )}
-                            </CardContent>
-                        </CardActionArea>
-                    </Card>
+                                    {download && <DownloadStateIndicator download={download} />}
+                                    {download == null && !chapter.downloaded && (
+                                        <IconButton
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                e.preventDefault();
+                                                downloadChapter(chapter);
+                                            }}
+                                            size="large"
+                                        >
+                                            <DownloadIcon />
+                                        </IconButton>
+                                    )}
+                                </CardContent>
+                            </CardActionArea>
+                        </Card>
+                    </StyledGroupItemWrapper>
                 );
             }}
         />
