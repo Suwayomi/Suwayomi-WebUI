@@ -18,9 +18,9 @@ import NavbarContext from 'components/context/NavbarContext';
 import DownloadStateIndicator from 'components/molecules/DownloadStateIndicator';
 import EmptyView from 'components/util/EmptyView';
 import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { IChapter, IMangaChapter, IQueue, PaginatedList } from 'typings';
+import { IChapter, IMangaChapter, IQueue } from 'typings';
 import { useTranslation } from 'react-i18next';
 import { t as translate } from 'i18next';
 import requestManager from 'lib/RequestManager';
@@ -75,10 +75,17 @@ const Updates: React.FC = () => {
     const history = useHistory();
 
     const { setTitle, setAction } = useContext(NavbarContext);
-    const [updateEntries, setUpdateEntries] = useState<IMangaChapter[]>([]);
-    const [hasNextPage, setHasNextPage] = useState(true);
-    const [fetched, setFetched] = useState(false);
-    const [lastPageNum, setLastPageNum] = useState(0);
+    const {
+        data: pages = [{ hasNextPage: false, page: [] }],
+        isLoading,
+        size: loadedPages,
+        setSize: setPages,
+    } = requestManager.useGetRecentlyUpdatedChapters();
+    const { hasNextPage } = pages[pages.length - 1];
+    const updateEntries = useMemo(
+        () => pages.map((page) => page.page).reduce((lastPageChapters, chapters) => [...lastPageChapters, ...chapters]),
+        [pages],
+    );
 
     const [, setWsClient] = useState<WebSocket>();
     const [{ queue }, setQueueState] = useState<IQueue>(initialQueue);
@@ -101,41 +108,28 @@ const Updates: React.FC = () => {
         setAction(null);
     }, [t]);
 
-    useEffect(() => {
-        if (hasNextPage) {
-            requestManager
-                .getClient()
-                .get(`/api/v1/update/recentChapters/${lastPageNum}`)
-                .then((response) => response.data)
-                .then(({ hasNextPage: fetchedHasNextPage, page }: PaginatedList<IMangaChapter>) => {
-                    setUpdateEntries([...updateEntries, ...page]);
-                    setHasNextPage(fetchedHasNextPage);
-                    setFetched(true);
-                });
-        }
-    }, [lastPageNum]);
-
     const lastEntry = useRef<HTMLDivElement>(null);
 
-    const scrollHandler = () => {
-        if (lastEntry.current) {
-            const rect = lastEntry.current.getBoundingClientRect();
-            if ((rect.y + rect.height) / window.innerHeight < 2 && hasNextPage) {
-                setLastPageNum(lastPageNum + 1);
-            }
-        }
-    };
     useEffect(() => {
+        // prevent triggering the next page load multiple times in the same useEffect "lifecycle"
+        let wasLoadTriggered = false;
+        const scrollHandler = () => {
+            if (lastEntry.current) {
+                const rect = lastEntry.current.getBoundingClientRect();
+                if ((rect.y + rect.height) / window.innerHeight < 2 && hasNextPage && !isLoading && !wasLoadTriggered) {
+                    wasLoadTriggered = true;
+                    setPages(loadedPages + 1);
+                }
+            }
+        };
+
         window.addEventListener('scroll', scrollHandler, true);
         return () => {
             window.removeEventListener('scroll', scrollHandler, true);
         };
-    }, [hasNextPage, updateEntries]);
+    }, [hasNextPage, isLoading, loadedPages]);
 
-    if (!fetched) {
-        return <LoadingPlaceholder />;
-    }
-    if (fetched && updateEntries.length === 0) {
+    if (!isLoading && updateEntries.length === 0) {
         return <EmptyView message={t('updates.error.label.no_updates_available')} />;
     }
 
@@ -227,6 +221,7 @@ const Updates: React.FC = () => {
                     })}
                 </div>
             ))}
+            {isLoading ? <LoadingPlaceholder /> : null}
         </>
     );
 };
