@@ -41,12 +41,13 @@ const StyledGroupedVirtuoso = styled(GroupedVirtuoso)(({ theme }) => ({
 const StyledGroupHeader = styled(Typography, { shouldForwardProp: (prop) => prop !== 'isFirstItem' })<{
     isFirstItem: boolean;
 }>(({ theme, isFirstItem }) => ({
-    marginLeft: '24px',
+    paddingLeft: '24px',
     // 16px - 10px (bottom padding of the group items)
     paddingTop: '6px',
     paddingBottom: '16px',
     fontWeight: 700,
     textTransform: 'uppercase',
+    backgroundColor: theme.palette.background.default,
     [theme.breakpoints.down('sm')]: {
         // 16px - 8px (margin of header)
         paddingTop: isFirstItem ? '8px' : '6px',
