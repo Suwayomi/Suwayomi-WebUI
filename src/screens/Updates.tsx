@@ -25,6 +25,9 @@ import { useTranslation } from 'react-i18next';
 import { t as translate } from 'i18next';
 import requestManager from 'lib/RequestManager';
 
+type GroupedUpdateItem = { item: IMangaChapter; globalIdx: number };
+type GroupedUpdate = [date: string, items: GroupedUpdateItem[]];
+
 function epochToDate(epoch: number) {
     const date = new Date(0); // The 0 there is the key, which sets the date to the epoch
     date.setUTCSeconds(epoch);
@@ -49,19 +52,16 @@ function getDateString(date: Date) {
     return date.toLocaleDateString();
 }
 
-function groupByDate(updates: IMangaChapter[]): [string, { item: IMangaChapter; globalIdx: number }[]][] {
+function groupByDate(updates: IMangaChapter[]): GroupedUpdate[] {
     if (updates.length === 0) return [];
 
-    const groups = {};
+    const groups: { [date: string]: GroupedUpdateItem[] } = {};
     updates.forEach((item, globalIdx) => {
         const key = getDateString(epochToDate(item.chapter.fetchedAt));
-        // @ts-ignore
         if (groups[key] === undefined) groups[key] = [];
-        // @ts-ignore
         groups[key].push({ item, globalIdx });
     });
 
-    // @ts-ignore
     return Object.keys(groups).map((key) => [key, groups[key]]);
 }
 
