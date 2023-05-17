@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import MangaGrid from 'components/MangaGrid';
 import { useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
 import { StringParam, useQueryParam } from 'use-query-params';
@@ -120,9 +120,6 @@ const LibraryMangaGrid: React.FC<LibraryMangaGridProps & { lastLibraryUpdate: nu
     const [query] = useQueryParam('query', StringParam);
     const { options } = useLibraryOptionsContext();
     const { unread, downloaded } = options;
-    const [filteredPaginatedMangas, setFilteredPaginatedMangas] = useState<IMangaCard[]>([]);
-    const [sortedManga, setSortedManga] = useState<IMangaCard[]>([]);
-    const [filteredManga, setFilteredManga] = useState<IMangaCard[]>([]);
     const totalPages = (mangas ?? []).length / 10;
     const theme = useTheme();
     const isLargeScreen = useMediaQuery(theme.breakpoints.up('sm'), { noSsr: true });
@@ -130,22 +127,23 @@ const LibraryMangaGrid: React.FC<LibraryMangaGridProps & { lastLibraryUpdate: nu
     const [lastPageNum, setLastPageNum] = useState<number>(defaultPageNumber);
     const { settings } = useSearchSettings();
 
-    useEffect(() => {
-        setFilteredManga(filterManga(mangas, query, unread, downloaded, settings.ignoreFilters));
-        setLastPageNum(defaultPageNumber);
-        window.scrollTo(0, 0);
-    }, [mangas, query, unread, downloaded, settings.ignoreFilters]);
-
-    useEffect(() => {
-        setSortedManga(sortManga(filteredManga, options.sorts, options.sortDesc));
-    }, [filteredManga, lastLibraryUpdate, options.sorts, options.sortDesc]);
-
-    useEffect(() => {
-        setFilteredPaginatedMangas((sortedManga ?? []).slice(0, lastPageNum * 10));
-    }, [lastPageNum, sortedManga]);
+    const filteredMangas = useMemo(
+        () => filterManga(mangas, query, unread, downloaded, settings.ignoreFilters),
+        [mangas, query, unread, downloaded, settings.ignoreFilters],
+    );
+    const sortedMangas = useMemo(
+        () => sortManga(filteredMangas, options.sorts, options.sortDesc),
+        [filteredMangas, lastLibraryUpdate, options.sorts, options.sortDesc],
+    );
+    const filteredPaginatedMangas = useMemo(() => sortedMangas.slice(0, lastPageNum * 10), [sortedMangas, lastPageNum]);
 
     const showFilteredOutMessage =
-        (unread != null || downloaded != null || query) && filteredManga.length === 0 && mangas.length > 0;
+        (unread != null || downloaded != null || query) && filteredMangas.length === 0 && mangas.length > 0;
+
+    useEffect(() => {
+        setLastPageNum(defaultPageNumber);
+        window.scrollTo(0, 0);
+    }, [filteredMangas]);
 
     return (
         <MangaGrid
