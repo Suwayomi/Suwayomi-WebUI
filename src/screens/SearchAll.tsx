@@ -38,6 +38,16 @@ function sourceToLangList(sources: ISource[]) {
     return result;
 }
 
+const compareSourceByName = (sourceA: ISource, sourceB: ISource): -1 | 0 | 1 => {
+    if (sourceA.displayName < sourceB.displayName) {
+        return -1;
+    }
+    if (sourceA.displayName > sourceB.displayName) {
+        return 1;
+    }
+    return 0;
+};
+
 const SearchAll: React.FC = () => {
     const { t } = useTranslation();
 
@@ -50,19 +60,7 @@ const SearchAll: React.FC = () => {
     const [showNsfw] = useLocalStorage<boolean>('showNsfw', true);
 
     const { data: sources = [], isLoading: isLoadingSources } = requestManager.useGetSourceList();
-    const sortedSources = useMemo(
-        () =>
-            sources.sort((sourceA: { displayName: string }, sourceB: { displayName: string }) => {
-                if (sourceA.displayName < sourceB.displayName) {
-                    return -1;
-                }
-                if (sourceA.displayName > sourceB.displayName) {
-                    return 1;
-                }
-                return 0;
-            }),
-        [sources],
-    );
+    const sortedSources = useMemo(() => sources.sort(compareSourceByName), [sources]);
 
     const [sourceToFetchedStateMap, setSourceToFetchedStateMap] = useState<SourceToFetchedStateMap>({});
 
