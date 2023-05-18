@@ -17,10 +17,13 @@ import { Link } from 'react-router-dom';
 import { StringParam, useQueryParam } from 'use-query-params';
 import { langSortCmp, sourceDefualtLangs, sourceForcedDefaultLangs } from 'util/language';
 import useLocalStorage from 'util/useLocalStorage';
-import { ISource } from 'typings';
+import { IManga, ISource, SourceSearchResult } from 'typings';
 import { useTranslation } from 'react-i18next';
 import { translateExtensionLanguage } from 'screens/util/Extensions';
 import requestManager from 'lib/RequestManager';
+
+type SourceToMangasMap = { [source: string]: IManga[] };
+type SourceToFetchedStateMap = { [source: string]: boolean };
 
 function sourceToLangList(sources: ISource[]) {
     const result: string[] = [];
@@ -41,7 +44,7 @@ const SearchAll: React.FC = () => {
     const [query] = useQueryParam('query', StringParam);
     const { setTitle, setAction } = useContext(NavbarContext);
     const [triggerUpdate, setTriggerUpdate] = useState<number>(2);
-    const [sourceToMangasMap, setSourceToMangasMap] = useState<any>({});
+    const [sourceToMangasMap, setSourceToMangasMap] = useState<SourceToMangasMap>({});
 
     const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownSourceLangs', sourceDefualtLangs());
     const [showNsfw] = useLocalStorage<boolean>('showNsfw', true);
@@ -61,7 +64,7 @@ const SearchAll: React.FC = () => {
         [sources],
     );
 
-    const [sourceToFetchedStateMap, setSourceToFetchedStateMap] = useState<any>({});
+    const [sourceToFetchedStateMap, setSourceToFetchedStateMap] = useState<SourceToFetchedStateMap>({});
 
     const [lastPageNum, setLastPageNum] = useState<number>(1);
 
@@ -74,12 +77,12 @@ const SearchAll: React.FC = () => {
         setAction(<AppbarSearch />);
     }, [t]);
 
-    async function performSearch(sourcesToSearchIn: any[]) {
+    async function performSearch(sourcesToSearchIn: ISource[]) {
         sourcesToSearchIn.map((source) =>
             searchRequestsQueue.add(async () => {
                 const response = await requestManager
                     .getClient()
-                    .get(`/api/v1/source/${source.id}/search?searchTerm=${query || ''}&pageNum=1`);
+                    .get<SourceSearchResult>(`/api/v1/source/${source.id}/search?searchTerm=${query || ''}&pageNum=1`);
                 const searchResult = await response.data;
                 const tmpMangas = sourceToMangasMap;
                 tmpMangas[source.id] = searchResult.mangaList;
