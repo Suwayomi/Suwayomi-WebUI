@@ -60,7 +60,7 @@ const SearchAll: React.FC = () => {
     const [showNsfw] = useLocalStorage<boolean>('showNsfw', true);
 
     const { data: sources = [], isLoading: isLoadingSources } = requestManager.useGetSourceList();
-    const sortedSources = useMemo(() => sources.sort(compareSourceByName), [sources]);
+    const sortedSources = useMemo(() => [...sources].sort(compareSourceByName), [sources]);
 
     const [sourceToFetchedStateMap, setSourceToFetchedStateMap] = useState<SourceToFetchedStateMap>({});
 
