@@ -41,52 +41,52 @@ const SearchAll: React.FC = () => {
     const [query] = useQueryParam('query', StringParam);
     const { setTitle, setAction } = useContext(NavbarContext);
     const [triggerUpdate, setTriggerUpdate] = useState<number>(2);
-    const [mangas, setMangas] = useState<any>({});
+    const [sourceToMangasMap, setSourceToMangasMap] = useState<any>({});
 
     const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownSourceLangs', sourceDefualtLangs());
     const [showNsfw] = useLocalStorage<boolean>('showNsfw', true);
 
-    const { data: unsortedSources = [], isLoading: isLoadingSources } = requestManager.useGetSourceList();
-    const sources = useMemo(
+    const { data: sources = [], isLoading: isLoadingSources } = requestManager.useGetSourceList();
+    const sortedSources = useMemo(
         () =>
-            unsortedSources.sort((a: { displayName: string }, b: { displayName: string }) => {
-                if (a.displayName < b.displayName) {
+            sources.sort((sourceA: { displayName: string }, sourceB: { displayName: string }) => {
+                if (sourceA.displayName < sourceB.displayName) {
                     return -1;
                 }
-                if (a.displayName > b.displayName) {
+                if (sourceA.displayName > sourceB.displayName) {
                     return 1;
                 }
                 return 0;
             }),
-        [unsortedSources],
+        [sources],
     );
 
-    const [fetched, setFetched] = useState<any>({});
+    const [sourceToFetchedStateMap, setSourceToFetchedStateMap] = useState<any>({});
 
     const [lastPageNum, setLastPageNum] = useState<number>(1);
 
-    const [ResetUI, setResetUI] = useState<number>(0);
+    const [resetUI, setResetUI] = useState<number>(0);
 
-    const limit = new PQueue({ concurrency: 5 });
+    const searchRequestsQueue = new PQueue({ concurrency: 5 });
 
     useEffect(() => {
         setTitle(t('search.title.global_search'));
         setAction(<AppbarSearch />);
     }, [t]);
 
-    async function doIT(elem: any[]) {
-        elem.map((ele) =>
-            limit.add(async () => {
+    async function performSearch(sourcesToSearchIn: any[]) {
+        sourcesToSearchIn.map((source) =>
+            searchRequestsQueue.add(async () => {
                 const response = await requestManager
                     .getClient()
-                    .get(`/api/v1/source/${ele.id}/search?searchTerm=${query || ''}&pageNum=1`);
-                const data = await response.data;
-                const tmp = mangas;
-                tmp[ele.id] = data.mangaList;
-                setMangas(tmp);
-                const tmp2 = fetched;
-                tmp2[ele.id] = true;
-                setFetched(tmp2);
+                    .get(`/api/v1/source/${source.id}/search?searchTerm=${query || ''}&pageNum=1`);
+                const searchResult = await response.data;
+                const tmpMangas = sourceToMangasMap;
+                tmpMangas[source.id] = searchResult.mangaList;
+                setSourceToMangasMap(tmpMangas);
+                const tmpFetched = sourceToFetchedStateMap;
+                tmpFetched[source.id] = true;
+                setSourceToFetchedStateMap(tmpFetched);
                 setResetUI(1);
             }),
         );
@@ -100,20 +100,20 @@ const SearchAll: React.FC = () => {
             setTriggerUpdate(1);
             return;
         }
-        setFetched({});
-        setMangas({});
-        doIT(
-            sources
+        setSourceToFetchedStateMap({});
+        setSourceToMangasMap({});
+        performSearch(
+            sortedSources
                 .filter(({ lang }) => shownLangs.indexOf(lang) !== -1)
                 .filter((source) => showNsfw || !source.isNsfw),
         );
     }, [triggerUpdate]);
 
     useEffect(() => {
-        if (ResetUI === 1) {
+        if (resetUI === 1) {
             setResetUI(0);
         }
-    }, [ResetUI]);
+    }, [resetUI]);
 
     useEffect(() => {
         if (query && !isLoadingSources) {
@@ -123,16 +123,16 @@ const SearchAll: React.FC = () => {
             return () => clearTimeout(delayDebounceFn);
         }
         return () => {};
-    }, [query, shownLangs, sources]);
+    }, [query, shownLangs, sortedSources]);
 
     useEffect(() => {
         // make sure all of forcedDefaultLangs() exists in shownLangs
         sourceForcedDefaultLangs().forEach((forcedLang) => {
-            let hasLang = false;
+            let includedInShownLangs = false;
             shownLangs.forEach((lang) => {
-                if (lang === forcedLang) hasLang = true;
+                if (lang === forcedLang) includedInShownLangs = true;
             });
-            if (!hasLang) {
+            if (!includedInShownLangs) {
                 setShownLangs((shownLangsCopy) => {
                     shownLangsCopy.push(forcedLang);
                     return shownLangsCopy;
@@ -149,38 +149,38 @@ const SearchAll: React.FC = () => {
                 <LangSelect
                     shownLangs={shownLangs}
                     setShownLangs={setShownLangs}
-                    allLangs={sourceToLangList(sources)}
+                    allLangs={sourceToLangList(sortedSources)}
                     forcedLangs={sourceForcedDefaultLangs()}
                 />
             </>,
         );
-    }, [t, shownLangs, sources]);
+    }, [t, shownLangs, sortedSources]);
 
     if (query) {
         return (
             <>
-                {sources
+                {sortedSources
                     .filter(({ lang }) => shownLangs.indexOf(lang) !== -1)
                     .filter((source) => showNsfw || !source.isNsfw)
-                    .sort((a, b) => {
-                        const af = fetched[a.id];
-                        const bf = fetched[b.id];
-                        if (af && !bf) {
+                    .sort((sourceA, sourceB) => {
+                        const isSourceAFetched = sourceToFetchedStateMap[sourceA.id];
+                        const isSourceBFetched = sourceToFetchedStateMap[sourceB.id];
+                        if (isSourceAFetched && !isSourceBFetched) {
                             return -1;
                         }
-                        if (!af && bf) {
+                        if (!isSourceAFetched && isSourceBFetched) {
                             return 1;
                         }
-                        if (!af && !bf) {
+                        if (!isSourceAFetched && !isSourceBFetched) {
                             return 0;
                         }
 
-                        const al = mangas[a.id].length === 0;
-                        const bl = mangas[b.id].length === 0;
-                        if (al && !bl) {
+                        const isSourceASearchResultEmpty = sourceToMangasMap[sourceA.id].length === 0;
+                        const isSourceBSearchResultEmpty = sourceToMangasMap[sourceB.id].length === 0;
+                        if (isSourceASearchResultEmpty && !isSourceBSearchResultEmpty) {
                             return 1;
                         }
-                        if (bl && !al) {
+                        if (isSourceBSearchResultEmpty && !isSourceASearchResultEmpty) {
                             return -1;
                         }
                         return 0;
@@ -198,14 +198,16 @@ const SearchAll: React.FC = () => {
                                 </CardActionArea>
                             </Card>
                             <MangaGrid
-                                mangas={mangas[id] || []}
-                                isLoading={!fetched[id]}
+                                mangas={sourceToMangasMap[id] || []}
+                                isLoading={!sourceToFetchedStateMap[id]}
                                 hasNextPage={false}
                                 lastPageNum={lastPageNum}
                                 setLastPageNum={setLastPageNum}
                                 horizontal
                                 noFaces
-                                message={fetched[id] ? t('manga.error.label.no_mangas_found') : undefined}
+                                message={
+                                    sourceToFetchedStateMap[id] ? t('manga.error.label.no_mangas_found') : undefined
+                                }
                                 inLibraryIndicator
                             />
                         </>
