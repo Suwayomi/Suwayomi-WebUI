@@ -48,6 +48,35 @@ const compareSourceByName = (sourceA: ISource, sourceB: ISource): -1 | 0 | 1 => 
     return 0;
 };
 
+const compareSourcesBySearchResult = (
+    sourceA: ISource,
+    sourceB: ISource,
+    sourceToFetchedStateMap: SourceToFetchedStateMap,
+    sourceToMangasMap: SourceToMangasMap,
+): -1 | 0 | 1 => {
+    const isSourceAFetched = sourceToFetchedStateMap[sourceA.id];
+    const isSourceBFetched = sourceToFetchedStateMap[sourceB.id];
+    if (isSourceAFetched && !isSourceBFetched) {
+        return -1;
+    }
+    if (!isSourceAFetched && isSourceBFetched) {
+        return 1;
+    }
+    if (!isSourceAFetched && !isSourceBFetched) {
+        return 0;
+    }
+
+    const isSourceASearchResultEmpty = sourceToMangasMap[sourceA.id].length === 0;
+    const isSourceBSearchResultEmpty = sourceToMangasMap[sourceB.id].length === 0;
+    if (isSourceASearchResultEmpty && !isSourceBSearchResultEmpty) {
+        return 1;
+    }
+    if (isSourceBSearchResultEmpty && !isSourceASearchResultEmpty) {
+        return -1;
+    }
+    return 0;
+};
+
 const SearchAll: React.FC = () => {
     const { t } = useTranslation();
 
@@ -163,29 +192,9 @@ const SearchAll: React.FC = () => {
                 {sortedSources
                     .filter(({ lang }) => shownLangs.indexOf(lang) !== -1)
                     .filter((source) => showNsfw || !source.isNsfw)
-                    .sort((sourceA, sourceB) => {
-                        const isSourceAFetched = sourceToFetchedStateMap[sourceA.id];
-                        const isSourceBFetched = sourceToFetchedStateMap[sourceB.id];
-                        if (isSourceAFetched && !isSourceBFetched) {
-                            return -1;
-                        }
-                        if (!isSourceAFetched && isSourceBFetched) {
-                            return 1;
-                        }
-                        if (!isSourceAFetched && !isSourceBFetched) {
-                            return 0;
-                        }
-
-                        const isSourceASearchResultEmpty = sourceToMangasMap[sourceA.id].length === 0;
-                        const isSourceBSearchResultEmpty = sourceToMangasMap[sourceB.id].length === 0;
-                        if (isSourceASearchResultEmpty && !isSourceBSearchResultEmpty) {
-                            return 1;
-                        }
-                        if (isSourceBSearchResultEmpty && !isSourceASearchResultEmpty) {
-                            return -1;
-                        }
-                        return 0;
-                    })
+                    .sort((sourceA, sourceB) =>
+                        compareSourcesBySearchResult(sourceA, sourceB, sourceToFetchedStateMap, sourceToMangasMap),
+                    )
                     .map(({ lang, id, displayName }) => (
                         <>
                             <Card sx={{ margin: '10px' }}>
