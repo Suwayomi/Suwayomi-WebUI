@@ -11,7 +11,6 @@ import List from '@mui/material/List';
 import ListItemText from '@mui/material/ListItemText';
 import NavbarContext from 'components/context/NavbarContext';
 import ListSubheader from '@mui/material/ListSubheader';
-import client, { useQuery } from 'util/client';
 import { ICategory, IncludeInGlobalUpdate } from 'typings';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
@@ -25,6 +24,7 @@ import { styled } from '@mui/system';
 import makeToast from 'components/util/Toast';
 import { t as translate } from 'i18next';
 import { useTranslation } from 'react-i18next';
+import requestManager from 'lib/RequestManager';
 
 const CategoriesDiv = styled('div')({
     display: 'flex',
@@ -77,7 +77,7 @@ export default function LibrarySettings() {
         setAction(null);
     }, [t]);
 
-    const { data: categories, isLoading, error: requestError, mutate } = useQuery<ICategory[]>('/api/v1/category/');
+    const { data: categories, isLoading, error: requestError, mutate } = requestManager.useGetCategories();
 
     const [currentCategories, setCurrentCategories] = useState<ICategory[]>(categories ?? []); // categories to check if response categories changed
     const [dialogCategories, setDialogCategories] = useState<ICategory[]>(categories ?? []); // categories that are shown and updated in the dialog
@@ -110,12 +110,8 @@ export default function LibrarySettings() {
         requestError,
     );
 
-    const updateCategory = (category: ICategory) => {
-        const formData = new FormData();
-        formData.append('includeInUpdate', `${category.includeInUpdate}`);
-
-        return client.patch(`/api/v1/category/${category.id}`, formData);
-    };
+    const updateCategory = (category: ICategory) =>
+        requestManager.updateCategory(category.id, { includeInUpdate: category.includeInUpdate });
 
     const updateCategories = async () => {
         const categoriesToUpdate = dialogCategories.filter((category) => {

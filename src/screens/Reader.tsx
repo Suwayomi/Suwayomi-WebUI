@@ -16,8 +16,6 @@ import DoublePagedPager from 'components/reader/pager/DoublePagedPager';
 import VerticalPager from 'components/reader/pager/VerticalPager';
 import ReaderNavBar from 'components/navbar/ReaderNavBar';
 import NavbarContext from 'components/context/NavbarContext';
-import client from 'util/client';
-import useLocalStorage from 'util/useLocalStorage';
 import { Box } from '@mui/system';
 import { requestUpdateMangaMetadata } from 'util/metadata';
 import {
@@ -26,21 +24,16 @@ import {
     useDefaultReaderSettings,
 } from 'util/readerSettings';
 import makeToast from 'components/util/Toast';
-import {
-    ChapterOffset,
-    IChapter,
-    IManga,
-    IMangaCard,
-    IPartialChapter,
-    IReaderSettings,
-    ReaderType,
-    TranslationKey,
-} from 'typings';
+import { ChapterOffset, IChapter, IManga, IMangaCard, IReaderSettings, ReaderType, TranslationKey } from 'typings';
 import { useTranslation } from 'react-i18next';
+import requestManager from 'lib/RequestManager';
 
 const isDupChapter = async (chapterIndex: number, currentChapter: IChapter) => {
-    const nextChapter = (await client.get<IChapter>(`/api/v1/manga/${currentChapter.mangaId}/chapter/${chapterIndex}`))
-        .data;
+    const nextChapter = (
+        await requestManager
+            .getClient()
+            .get<IChapter>(`/api/v1/manga/${currentChapter.mangaId}/chapter/${chapterIndex}`)
+    ).data;
 
     return nextChapter.chapterNumber === currentChapter.chapterNumber;
 };
@@ -102,18 +95,22 @@ export default function Reader() {
     const { t } = useTranslation();
     const history = useHistory();
 
-    const [serverAddress] = useLocalStorage<String>('serverBaseURL', '');
-
     const { chapterIndex, mangaId } = useParams<{ chapterIndex: string; mangaId: string }>();
-    const [manga, setManga] = useState<IMangaCard | IManga>({
-        id: +mangaId,
-        title: '',
-        thumbnailUrl: '',
-        genre: [],
-        inLibraryAt: 0,
-        lastReadAt: 0,
-    });
-    const [chapter, setChapter] = useState<IChapter | IPartialChapter>(initialChapter());
+    const {
+        data: manga = {
+            id: +mangaId,
+            title: '',
+            thumbnailUrl: '',
+            genre: [],
+            inLibraryAt: 0,
+            lastReadAt: 0,
+        } as IMangaCard | IManga,
+        isLoading: isMangaLoading,
+    } = requestManager.useGetManga(mangaId);
+    const { data: chapter = initialChapter(), isLoading: isChapterLoading } = requestManager.useGetChapter(
+        mangaId,
+        chapterIndex,
+    );
     const [curPage, setCurPage] = useState<number>(0);
     const [pageToScrollTo, setPageToScrollTo] = useState<number | undefined>(undefined);
     const { setOverride, setTitle } = useContext(NavbarContext);
@@ -121,7 +118,6 @@ export default function Reader() {
 
     const { settings: defaultSettings, loading: areDefaultSettingsLoading } = useDefaultReaderSettings();
     const [settings, setSettings] = useState(getReaderSettingsFor(manga, defaultSettings));
-    const [isMangaLoading, setIsMangaLoading] = useState(true);
 
     const setSettingValue = (key: keyof IReaderSettings, value: string | boolean) => {
         setSettings({ ...settings, [key]: value });
@@ -155,6 +151,17 @@ export default function Reader() {
         },
         [chapter, settings],
     );
+
+    useEffect(() => {
+        if (isChapterLoading || !chapter) {
+            return;
+        }
+
+        if (chapter.lastPageRead === chapter.pageCount - 1) {
+            // last page, also probably read = true, we will load the first page.
+            setCurPage(0);
+        } else setCurPage(chapter.lastPageRead);
+    }, [chapter, isChapterLoading]);
 
     useEffect(() => {
         if (!manga?.title || (chapter as IChapter)?.name === t('global.label.loading')) {
@@ -194,51 +201,21 @@ export default function Reader() {
     }, [manga, chapter, settings, curPage, chapterIndex, retrievingNextChapter]);
 
     useEffect(() => {
-        setIsMangaLoading(true);
-        client
-            .get(`/api/v1/manga/${mangaId}/`)
-            .then((response) => response.data)
-            .then((data: IManga) => {
-                setManga(data);
-                setIsMangaLoading(false);
-            });
-    }, [mangaId]);
-
-    useEffect(() => {
-        setChapter(initialChapter);
-        client
-            .get(`/api/v1/manga/${mangaId}/chapter/${chapterIndex}`)
-            .then((response) => response.data)
-            .then((data: IChapter) => {
-                setChapter(data);
-
-                if (data.lastPageRead === data.pageCount - 1) {
-                    // last page, also probably read = true, we will load the first page.
-                    setCurPage(0);
-                } else setCurPage(data.lastPageRead);
-            });
-    }, [chapterIndex]);
-
-    useEffect(() => {
         if (curPage !== -1) {
-            const formData = new FormData();
-            formData.append('lastPageRead', curPage.toString());
-            client.patch(`/api/v1/manga/${manga.id}/chapter/${chapter.index}`, formData);
+            requestManager.updateChapter(manga.id, chapter.index, { lastPageRead: curPage });
         }
 
         if (curPage === chapter.pageCount - 1) {
-            const formDataRead = new FormData();
-            formDataRead.append('read', 'true');
-            client.patch(`/api/v1/manga/${manga.id}/chapter/${chapter.index}`, formDataRead);
+            requestManager.updateChapter(manga.id, chapter.index, { read: true });
         }
     }, [curPage]);
 
     const nextChapter = useCallback(() => {
         if (chapter.index < chapter.chapterCount) {
-            const formData = new FormData();
-            formData.append('lastPageRead', `${chapter.pageCount - 1}`);
-            formData.append('read', 'true');
-            client.patch(`/api/v1/manga/${manga.id}/chapter/${chapter.index}`, formData);
+            requestManager.updateChapter(manga.id, chapter.index, {
+                lastPageRead: chapter.pageCount - 1,
+                read: true,
+            });
 
             openNextChapter(ChapterOffset.NEXT, (nextChapterIndex) =>
                 history.replace({
@@ -278,7 +255,7 @@ export default function Reader() {
 
     const pages = range(chapter.pageCount).map((index) => ({
         index,
-        src: `${serverAddress}/api/v1/manga/${mangaId}/chapter/${chapterIndex}/page/${index}`,
+        src: requestManager.getChapterPageUrl(mangaId, chapterIndex, index),
     }));
 
     const ReaderComponent = getReaderComponent(settings.readerType);

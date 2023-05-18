@@ -7,14 +7,13 @@
  */
 
 import { useEffect, useState } from 'react';
-
-const baseWebsocketUrl = JSON.parse(window.localStorage.getItem('serverBaseURL')!).replace('http', 'ws');
+import requestManager from 'lib/RequestManager';
 
 const useSubscription = <T>(path: string, callback?: (newValue: T) => boolean | void) => {
     const [state, setState] = useState<T | undefined>();
 
     useEffect(() => {
-        const wsc = new WebSocket(`${baseWebsocketUrl}${path}`);
+        const wsc = new WebSocket(requestManager.getValidWebSocketUrl(path));
 
         wsc.onmessage = (e) => {
             const data = JSON.parse(e.data) as T;

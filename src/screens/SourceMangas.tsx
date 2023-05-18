@@ -11,16 +11,16 @@ import { useParams, useHistory } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 import SourceMangaGrid from 'components/source/SourceMangaGrid';
 import NavbarContext from 'components/context/NavbarContext';
-import client from 'util/client';
 import SettingsIcon from '@mui/icons-material/Settings';
 import SourceOptions from 'components/source/SourceOptions';
 import AppbarSearch from 'components/util/AppbarSearch';
 import { useQueryParam, StringParam } from 'use-query-params';
 import SourceGridLayout from 'components/source/GridLayouts';
 import { useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
-import { IManga, IMangaCard, ISource, ISourceFilters } from 'typings';
+import { IManga, IMangaCard, ISourceFilters } from 'typings';
 import { useTranslation } from 'react-i18next';
 import Link from '@mui/material/Link';
+import requestManager from 'lib/RequestManager';
 
 interface IPos {
     position: number;
@@ -34,6 +34,9 @@ export default function SourceMangas({ popular }: { popular: boolean }) {
     const history = useHistory();
 
     const { sourceId } = useParams<{ sourceId: string }>();
+
+    const { data: source } = requestManager.useGetSource(sourceId);
+
     const [isConfigurable, setIsConfigurable] = useState<boolean>(false);
     const [mangas, setMangas] = useState<IMangaCard[]>([]);
     const [hasNextPage, setHasNextPage] = useState<boolean>(false);
@@ -53,7 +56,8 @@ export default function SourceMangas({ popular }: { popular: boolean }) {
     const { options } = useLibraryOptionsContext();
 
     function makeFilters() {
-        client
+        requestManager
+            .getClient()
             .get(`/api/v1/source/${sourceId}/filters`)
             .then((response) => response.data)
             .then((data: ISourceFilters[]) => {
@@ -66,14 +70,13 @@ export default function SourceMangas({ popular }: { popular: boolean }) {
     }, [t]);
 
     useEffect(() => {
-        client
-            .get(`/api/v1/source/${sourceId}`)
-            .then((response) => response.data)
-            .then((data: ISource) => {
-                setTitle(data.displayName);
-                setIsConfigurable(data.isConfigurable);
-            });
-    }, []);
+        if (!source) {
+            return;
+        }
+
+        setTitle(source.displayName);
+        setIsConfigurable(source.isConfigurable);
+    }, [source]);
 
     useEffect(() => {
         if (triggerUpdate === 2) {
@@ -86,9 +89,9 @@ export default function SourceMangas({ popular }: { popular: boolean }) {
         if (update.length > 0) {
             const rep = update;
             setUpdate([]);
-            client
-                .post(
-                    `/api/v1/source/${sourceId}/filters`,
+            requestManager
+                .setSourceFilters(
+                    sourceId,
                     rep.map((e: IPos) => {
                         const { position, state, group }: IPos = e;
                         return group === undefined
@@ -125,7 +128,7 @@ export default function SourceMangas({ popular }: { popular: boolean }) {
             setNoreset(undefined);
             setReset(1);
         } else if (Noreset === undefined) {
-            client.get(`/api/v1/source/${sourceId}/filters?reset=true`).then(() => {
+            requestManager.resetSourceFilters(sourceId).then(() => {
                 makeFilters();
                 setSearch(false);
                 if (reset === 1) {
@@ -188,7 +191,8 @@ export default function SourceMangas({ popular }: { popular: boolean }) {
     useEffect(() => {
         if (lastPageNum !== 0) {
             const sourceType = popular ? 'popular' : 'latest';
-            client
+            requestManager
+                .getClient()
                 .get(
                     `/api/v1/source/${sourceId}/${
                         query !== undefined || Search || Noreset === null ? 'search' : sourceType

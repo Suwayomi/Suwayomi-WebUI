@@ -7,7 +7,6 @@
  */
 
 import { mutate } from 'swr';
-import client from 'util/client';
 import {
     AllowedMetadataValueTypes,
     AppMetadataKeys,
@@ -20,6 +19,7 @@ import {
     IMetadataMigration,
     MetadataKeyValuePair,
 } from 'typings';
+import requestManager from 'lib/RequestManager';
 
 const APP_METADATA_KEY_PREFIX = 'webUI_';
 
@@ -314,7 +314,7 @@ export const requestUpdateMetadataValue = async (
         [metadataKey]: valueAsString,
     };
 
-    await client.patch(url, formData);
+    await requestManager.getClient().patch(url, formData);
     await mutate(
         urlToMutate,
         { ...metadataHolder, ...wrapMetadataWithMetaKey(wrapWithMetaKey, mutatedMetadata) },

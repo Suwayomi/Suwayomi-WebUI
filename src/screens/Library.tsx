@@ -16,12 +16,11 @@ import LibraryToolbarMenu from 'components/library/LibraryToolbarMenu';
 import LibraryMangaGrid from 'components/library/LibraryMangaGrid';
 import AppbarSearch from 'components/util/AppbarSearch';
 import { useQueryParam, NumberParam } from 'use-query-params';
-import { useQuery } from 'util/client';
 import UpdateChecker from 'components/library/UpdateChecker';
 import { useTranslation } from 'react-i18next';
-import { ICategory, IManga } from 'typings';
 import { styled } from '@mui/system';
 import { useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
+import requestManager from 'lib/RequestManager';
 
 const TitleWithSizeTag = styled('span')({
     display: 'flex',
@@ -37,7 +36,7 @@ export default function Library() {
 
     const { options } = useLibraryOptionsContext();
     const [lastLibraryUpdate, setLastLibraryUpdate] = useState(Date.now());
-    const { data: tabsData, error: tabsError, isLoading } = useQuery<ICategory[]>('/api/v1/category');
+    const { data: tabsData, error: tabsError, isLoading } = requestManager.useGetCategories();
     const tabs = tabsData ?? [];
     const librarySize = useMemo(() => tabs.map((tab) => tab.size).reduce((prev, curr) => prev + curr, 0), [tabs]);
 
@@ -48,7 +47,7 @@ export default function Library() {
         data: mangaData,
         error: mangaError,
         isLoading: mangaLoading,
-    } = useQuery<IManga[]>(activeTab ? `/api/v1/category/${activeTab?.id}` : null);
+    } = requestManager.useGetCategoryMangas(activeTab?.id, { skipRequest: !activeTab });
     const mangas = mangaData ?? [];
 
     const { setTitle, setAction } = useContext(NavbarContext);

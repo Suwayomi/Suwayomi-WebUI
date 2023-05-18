@@ -12,7 +12,6 @@ import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import ExtensionCard from 'components/ExtensionCard';
 import NavbarContext from 'components/context/NavbarContext';
-import client, { useQuery } from 'util/client';
 import useLocalStorage from 'util/useLocalStorage';
 import LangSelect from 'components/navbar/action/LangSelect';
 import { extensionDefaultLangs, DefaultLanguage, langSortCmp } from 'util/language';
@@ -31,6 +30,7 @@ import {
     isExtensionStateOrLanguage,
     translateExtensionLanguage,
 } from 'screens/util/Extensions';
+import requestManager from 'lib/RequestManager';
 
 const LANGUAGE = 0;
 const EXTENSIONS = 1;
@@ -102,7 +102,7 @@ export default function MangaExtensions() {
         );
     }, [t, shownLangs]);
 
-    const { data: allExtensions, mutate, isLoading } = useQuery<IExtension[]>('/api/v1/extension/list');
+    const { data: allExtensions, mutate, isLoading } = requestManager.useGetExtensionList();
 
     const filteredExtensions = useMemo(
         () =>
@@ -128,18 +128,13 @@ export default function MangaExtensions() {
 
     const submitExternalExtension = (file: File) => {
         if (file.name.toLowerCase().endsWith('apk')) {
-            const formData = new FormData();
-            formData.append('file', file);
-
             if (inputRef.current) {
                 inputRef.current.value = '';
             }
 
             makeToast(t('extension.label.installing_file'), 'info');
-            client
-                .post('/api/v1/extension/install', formData, {
-                    headers: { 'Content-Type': 'multipart/form-data' },
-                })
+            requestManager
+                .installExtension(file)
                 .then(() => {
                     makeToast(t('extension.label.installed_successfully'), 'success');
                     mutate();

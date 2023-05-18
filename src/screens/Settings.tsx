@@ -41,6 +41,7 @@ import { useTranslation } from 'react-i18next';
 import LanguageIcon from '@mui/icons-material/Language';
 import { langCodeToName } from 'util/language';
 import CollectionsOutlinedBookmarkIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
+import requestManager from 'lib/RequestManager';
 
 export default function Settings() {
     const { t, i18n } = useTranslation();
@@ -52,7 +53,7 @@ export default function Settings() {
     }, [t]);
 
     const { darkTheme, setDarkTheme } = useContext(DarkTheme);
-    const [serverAddress, setServerAddress] = useLocalStorage<String>('serverBaseURL', '');
+    const [serverAddress, setServerAddress] = useLocalStorage<string>('serverBaseURL', '');
     const [showNsfw, setShowNsfw] = useLocalStorage<boolean>('showNsfw', true);
     const [useCache, setUseCache] = useLocalStorage<boolean>('useCache', true);
     const [dialogOpen, setDialogOpen] = useState(false);
@@ -73,7 +74,9 @@ export default function Settings() {
 
     const handleDialogSubmit = () => {
         setDialogOpen(false);
-        setServerAddress(dialogValue);
+        const serverBaseUrl = dialogValue.replaceAll(/(\/)+$/g, '');
+        setServerAddress(serverBaseUrl);
+        requestManager.updateClient({ baseURL: serverBaseUrl });
     };
 
     const handleDialogOpenItemWidth = () => {

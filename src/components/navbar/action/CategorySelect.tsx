@@ -15,9 +15,8 @@ import Dialog from '@mui/material/Dialog';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
-import client, { useQuery } from 'util/client';
-import { ICategory } from 'typings';
 import { useTranslation } from 'react-i18next';
+import requestManager from 'lib/RequestManager';
 
 interface IProps {
     open: boolean;
@@ -30,8 +29,8 @@ export default function CategorySelect(props: IProps) {
 
     const { open, setOpen, mangaId } = props;
 
-    const { data: mangaCategoriesData, mutate } = useQuery<ICategory[]>(`/api/v1/manga/${mangaId}/category`);
-    const { data: categoriesData } = useQuery<ICategory[]>('/api/v1/category');
+    const { data: mangaCategoriesData, mutate } = requestManager.useGetMangaCategories(mangaId);
+    const { data: categoriesData } = requestManager.useGetCategories();
 
     const allCategories = useMemo(() => {
         const cats = [...(categoriesData ?? [])]; // make copy
@@ -54,8 +53,10 @@ export default function CategorySelect(props: IProps) {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>, categoryId: number) => {
         const { checked } = event.target as HTMLInputElement;
 
-        const method = checked ? client.get : client.delete;
-        method(`/api/v1/manga/${mangaId}/category/${categoryId}`).then(() => mutate());
+        (checked
+            ? requestManager.addMangaToCategory(mangaId, categoryId)
+            : requestManager.removeMangaFromCategory(mangaId, categoryId)
+        ).then(() => mutate());
     };
 
     return (

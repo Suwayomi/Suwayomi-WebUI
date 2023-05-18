@@ -19,6 +19,7 @@ import { GridLayout, useLibraryOptionsContext } from 'components/context/Library
 import { BACK } from 'util/useBackTo';
 import { IMangaCard } from 'typings';
 import { useTranslation } from 'react-i18next';
+import requestManager from 'lib/RequestManager';
 
 const BottomGradient = styled('div')({
     position: 'absolute',
@@ -87,8 +88,6 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
         options: { showUnreadBadge, showDownloadBadge },
     } = useLibraryOptionsContext();
 
-    const [serverAddress] = useLocalStorage<String>('serverBaseURL', '');
-    const [useCache] = useLocalStorage<boolean>('useCache', true);
     const [ItemWidth] = useLocalStorage<number>('ItemWidth', 300);
 
     const mangaLinkTo = { pathname: `/manga/${id}/`, state: { backLink: BACK } };
@@ -145,7 +144,7 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
                                 </BadgeContainer>
                                 <SpinnerImage
                                     alt={title}
-                                    src={`${serverAddress}${thumbnailUrl}?useCache=${useCache}`}
+                                    src={requestManager.getValidImgUrlFor(thumbnailUrl)}
                                     imgStyle={
                                         inLibraryIndicator && inLibrary
                                             ? {
@@ -232,7 +231,7 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
                                           imageRendering: 'pixelated',
                                       }
                             }
-                            src={`${serverAddress}${thumbnailUrl}?useCache=${useCache}`}
+                            src={requestManager.getValidImgUrlFor(thumbnailUrl)}
                         />
                         <Box
                             sx={{

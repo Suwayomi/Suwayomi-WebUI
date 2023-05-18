@@ -31,10 +31,10 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import NavbarContext from 'components/context/NavbarContext';
-import client, { useQuery } from 'util/client';
 import { ICategory } from 'typings';
 import { useTranslation } from 'react-i18next';
 import { DEFAULT_FULL_FAB_HEIGHT } from 'components/util/StyledFab';
+import requestManager from 'lib/RequestManager';
 
 const getItemStyle = (
     isDragging: boolean,
@@ -58,7 +58,7 @@ export default function Categories() {
         setAction(null);
     }, [t]);
 
-    const { data, mutate } = useQuery<ICategory[]>('/api/v1/category/');
+    const { data, mutate } = requestManager.useGetCategories();
     const categories = useMemo(() => {
         const res = [...(data ?? [])];
         if (res.length > 0 && res[0].name === 'Default') {
@@ -79,10 +79,7 @@ export default function Categories() {
         newData.splice(to, 0, removed);
         mutate(newData, { revalidate: false });
 
-        const formData = new FormData();
-        formData.append('from', `${from + 1}`);
-        formData.append('to', `${to + 1}`);
-        client.patch('/api/v1/category/reorder', formData).finally(() => mutate());
+        requestManager.reorderCategory(from + 1, to + 1).finally(() => mutate());
     };
 
     const onDragEnd = (result: DropResult) => {
@@ -119,21 +116,19 @@ export default function Categories() {
     const handleDialogSubmit = () => {
         setDialogOpen(false);
 
-        const formData = new FormData();
-        formData.append('name', dialogName);
-        formData.append('default', dialogDefault.toString());
-
         if (categoryToEdit === -1) {
-            client.post('/api/v1/category/', formData).finally(() => mutate());
+            requestManager.createCategory(dialogName).finally(() => mutate());
         } else {
             const category = categories[categoryToEdit];
-            client.patch(`/api/v1/category/${category.id}`, formData).finally(() => mutate());
+            requestManager
+                .updateCategory(category.id, { name: dialogName, default: dialogDefault })
+                .finally(() => mutate());
         }
     };
 
     const deleteCategory = (index: number) => {
         const category = categories[index];
-        client.delete(`/api/v1/category/${category.id}`).finally(() => mutate());
+        requestManager.deleteCategory(category.id).finally(() => mutate());
     };
 
     return (

@@ -16,10 +16,10 @@ import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
 import { IconButton } from '@mui/material';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import { useHistory } from 'react-router-dom';
-import { useQuery } from 'util/client';
 import { ISource } from 'typings';
 import { useTranslation } from 'react-i18next';
 import { translateExtensionLanguage } from 'screens/util/Extensions';
+import requestManager from 'lib/RequestManager';
 
 function sourceToLangList(sources: ISource[]) {
     const result: string[] = [];
@@ -53,7 +53,7 @@ export default function Sources() {
     const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownSourceLangs', sourceDefualtLangs());
     const [showNsfw] = useLocalStorage<boolean>('showNsfw', true);
 
-    const { data: sources, isLoading } = useQuery<ISource[]>('/api/v1/source/list');
+    const { data: sources, isLoading } = requestManager.useGetSourceList();
 
     const history = useHistory();
 

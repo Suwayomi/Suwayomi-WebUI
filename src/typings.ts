@@ -379,3 +379,20 @@ export interface BatchChaptersChange {
     isBookmarked?: boolean;
     lastPageRead?: number;
 }
+
+export type UpdateCheck = {
+    channel: 'Stable' | 'Preview';
+    tag: string;
+    url: string;
+};
+
+export type SourceSearchResult = {
+    mangaList: IManga[];
+    hasNextPage: boolean;
+};
+
+export type BackupValidationResult = {
+    missingSources: string[];
+    missingTrackers: string[];
+    mangasMissingSources: string[];
+};

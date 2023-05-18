@@ -9,15 +9,14 @@
 import React, { useContext, useEffect } from 'react';
 import NavbarContext from 'components/context/NavbarContext';
 import { useParams } from 'react-router-dom';
-import client, { useQuery } from 'util/client';
 import { SwitchPreferenceCompat, CheckBoxPreference } from 'components/sourceConfiguration/TwoStatePreference';
 import ListPreference from 'components/sourceConfiguration/ListPreference';
 import EditTextPreference from 'components/sourceConfiguration/EditTextPreference';
 import MultiSelectListPreference from 'components/sourceConfiguration/MultiSelectListPreference';
 import List from '@mui/material/List';
 import cloneObject from 'util/cloneObject';
-import { SourcePreferences } from 'typings';
 import { useTranslation } from 'react-i18next';
+import requestManager from 'lib/RequestManager';
 
 function getPrefComponent(type: string) {
     switch (type) {
@@ -46,9 +45,7 @@ export default function SourceConfigure() {
     }, [t]);
 
     const { sourceId } = useParams<{ sourceId: string }>();
-    const { data: sourcePreferences = [], mutate } = useQuery<SourcePreferences[]>(
-        `/api/v1/source/${sourceId}/preferences`,
-    );
+    const { data: sourcePreferences = [], mutate } = requestManager.useGetSourcePreferences(sourceId);
 
     const convertToString = (position: number, value: any): string => {
         switch (sourcePreferences[position].props.defaultValueType) {
@@ -60,12 +57,7 @@ export default function SourceConfigure() {
     };
 
     const updateValue = (position: number) => (value: any) => {
-        client
-            .post(
-                `/api/v1/source/${sourceId}/preferences`,
-                JSON.stringify({ position, value: convertToString(position, value) }),
-            )
-            .then(() => mutate());
+        requestManager.setSourcePreferences(sourceId, position, convertToString(position, value)).then(() => mutate());
     };
 
     return (

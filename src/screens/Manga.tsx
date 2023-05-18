@@ -20,8 +20,7 @@ import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
 import React, { useContext, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import { useQuery } from 'util/client';
-import { IManga } from 'typings';
+import requestManager from 'lib/RequestManager';
 
 const AUTOFETCH_AGE = 60 * 60 * 24; // 24 hours
 
@@ -32,13 +31,7 @@ const Manga: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const autofetchedRef = useRef(false);
 
-    const {
-        data: manga,
-        error,
-        isLoading,
-        isValidating,
-        mutate,
-    } = useQuery<IManga>(`/api/v1/manga/${id}/?onlineFetch=false`);
+    const { data: manga, error, isLoading, isValidating, mutate } = requestManager.useGetManga(id);
 
     const [refresh, { loading: refreshing }] = useRefreshManga(id);
 

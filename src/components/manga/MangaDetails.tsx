@@ -16,11 +16,10 @@ import makeStyles from '@mui/styles/makeStyles';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { mutate } from 'swr';
-import client from 'util/client';
-import useLocalStorage from 'util/useLocalStorage';
 import { IManga, ISource } from 'typings';
 import { t as translate } from 'i18next';
 import makeToast from 'components/util/Toast';
+import requestManager from 'lib/RequestManager';
 
 const useStyles = (inLibrary: boolean) =>
     makeStyles((theme: Theme) => ({
@@ -136,9 +135,6 @@ function getValueOrUnknown(val: string) {
 const MangaDetails: React.FC<IProps> = ({ manga }) => {
     const { t } = useTranslation();
 
-    const [serverAddress] = useLocalStorage<String>('serverBaseURL', '');
-    const [useCache] = useLocalStorage<boolean>('useCache', true);
-
     const classes = useStyles(manga.inLibrary)();
 
     useEffect(() => {
@@ -148,17 +144,13 @@ const MangaDetails: React.FC<IProps> = ({ manga }) => {
     }, [manga.source]);
 
     const addToLibrary = () => {
-        mutate(`/api/v1/manga/${manga.id}/?onlineFetch=false`, { ...manga, inLibrary: true }, { revalidate: false });
-        client
-            .get(`/api/v1/manga/${manga.id}/library/`)
-            .then(() => mutate(`/api/v1/manga/${manga.id}/?onlineFetch=false`));
+        mutate(`/api/v1/manga/${manga.id}`, { ...manga, inLibrary: true }, { revalidate: false });
+        requestManager.addMangaToLibrary(manga.id).then(() => mutate(`/api/v1/manga/${manga.id}`));
     };
 
     const removeFromLibrary = () => {
-        mutate(`/api/v1/manga/${manga.id}/?onlineFetch=false`, { ...manga, inLibrary: false }, { revalidate: false });
-        client
-            .delete(`/api/v1/manga/${manga.id}/library/`)
-            .then(() => mutate(`/api/v1/manga/${manga.id}/?onlineFetch=false`));
+        mutate(`/api/v1/manga/${manga.id}`, { ...manga, inLibrary: false }, { revalidate: false });
+        requestManager.removeMangaFromLibrary(manga.id).then(() => mutate(`/api/v1/manga/${manga.id}`));
     };
 
     return (
@@ -166,7 +158,7 @@ const MangaDetails: React.FC<IProps> = ({ manga }) => {
             <div className={classes.top}>
                 <div className={classes.leftRight}>
                     <div className={classes.leftSide}>
-                        <img src={`${serverAddress}${manga.thumbnailUrl}?useCache=${useCache}`} alt="Manga Thumbnail" />
+                        <img src={requestManager.getValidImgUrlFor(manga.thumbnailUrl)} alt="Manga Thumbnail" />
                     </div>
                     <div className={classes.rightSide}>
                         <h1>{manga.title}</h1>

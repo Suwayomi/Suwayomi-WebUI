@@ -14,7 +14,6 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { SWRConfig } from 'swr';
 import createTheme from 'theme';
 import { QueryParamProvider } from 'use-query-params';
-import { fetcher } from 'util/client';
 import useLocalStorage from 'util/useLocalStorage';
 import DarkTheme from 'components/context/DarkTheme';
 
@@ -36,7 +35,7 @@ const AppContext: React.FC<Props> = ({ children }) => {
     const theme = useMemo(() => createTheme(darkTheme), [darkTheme]);
 
     return (
-        <SWRConfig value={{ fetcher }}>
+        <SWRConfig>
             <Router>
                 <StyledEngineProvider injectFirst>
                     <ThemeProvider theme={theme}>

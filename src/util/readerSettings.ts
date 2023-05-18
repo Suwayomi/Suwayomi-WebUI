@@ -7,8 +7,8 @@
  */
 
 import { getMetadataFrom, requestUpdateMangaMetadata, requestUpdateServerMetadata } from 'util/metadata';
-import { useQuery } from 'util/client';
 import { IManga, Metadata, MetadataHolder, IReaderSettings, MetadataKeyValuePair } from 'typings';
+import requestManager from 'lib/RequestManager';
 
 type UndefinedReaderSettings = {
     [setting in keyof IReaderSettings]: IReaderSettings[setting] | undefined;
@@ -45,7 +45,7 @@ export const useDefaultReaderSettings = (): {
     settings: IReaderSettings;
     loading: boolean;
 } => {
-    const { data: meta, isLoading } = useQuery<Metadata>('/api/v1/meta');
+    const { data: meta, isLoading } = requestManager.useGetGlobalMeta();
     const settings = getReaderSettingsWithDefaultValueFallback<IReaderSettings>(meta);
 
     return { metadata: meta, settings, loading: isLoading };

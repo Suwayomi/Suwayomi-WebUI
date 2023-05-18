@@ -12,11 +12,10 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
-import client from 'util/client';
-import useLocalStorage from 'util/useLocalStorage';
 import { Box } from '@mui/system';
 import { IExtension, TranslationKey } from 'typings';
 import { useTranslation } from 'react-i18next';
+import requestManager from 'lib/RequestManager';
 
 interface IProps {
     extension: IExtension;
@@ -79,9 +78,6 @@ export default function ExtensionCard(props: IProps) {
         return installed ? InstalledState.UNINSTALL : InstalledState.INSTALL;
     });
 
-    const [serverAddress] = useLocalStorage<String>('serverBaseURL', '');
-    const [useCache] = useLocalStorage<boolean>('useCache', true);
-
     const langPress = lang === 'all' ? t('extension.language.all') : lang.toUpperCase();
 
     const requestExtensionAction = async (action: ExtensionAction): Promise<void> => {
@@ -89,7 +85,19 @@ export default function ExtensionCard(props: IProps) {
         const state = EXTENSION_ACTION_TO_STATE_MAP[action];
 
         setInstalledState(state);
-        await client.get(`/api/v1/extension/${action.toLowerCase()}/${pkgName}`);
+        switch (action) {
+            case ExtensionAction.INSTALL:
+                await requestManager.installExtension(pkgName);
+                break;
+            case ExtensionAction.UNINSTALL:
+                await requestManager.uninstallExtension(pkgName);
+                break;
+            case ExtensionAction.UPDATE:
+                await requestManager.updateExtension(pkgName);
+                break;
+            default:
+                throw new Error(`Unexpected ExtensionAction "${action}"`);
+        }
         setInstalledState(nextAction);
         notifyInstall();
     };
@@ -129,7 +137,7 @@ export default function ExtensionCard(props: IProps) {
                             mr: 2,
                         }}
                         alt={name}
-                        src={`${serverAddress}${iconUrl}?useCache=${useCache}`}
+                        src={requestManager.getValidImgUrlFor(iconUrl)}
                     />
                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                         <Typography variant="h5" component="h2">
