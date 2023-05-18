@@ -15,10 +15,11 @@ interface IProps {
     children?: React.ReactNode;
     component?: string | React.FunctionComponent<any> | React.ComponentClass<any, any>;
     componentProps?: any;
+    usePadding?: boolean;
 }
 
 export default function LoadingPlaceholder(props: IProps) {
-    const { children, shouldRender, component, componentProps } = props;
+    const { children, shouldRender, component, componentProps, usePadding } = props;
 
     let condition = true;
     if (shouldRender !== undefined) {
@@ -38,7 +39,10 @@ export default function LoadingPlaceholder(props: IProps) {
     return (
         <Box
             sx={{
-                margin: '10px auto',
+                margin: '0px auto',
+                marginTop: usePadding ? 'unset' : '10px',
+                marginBottom: usePadding ? 'unset' : '10px',
+                padding: usePadding ? '10px 0' : 'unset',
                 display: 'flex',
                 justifyContent: 'center',
             }}
