@@ -46,7 +46,7 @@ const SearchAll: React.FC = () => {
     const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownSourceLangs', sourceDefualtLangs());
     const [showNsfw] = useLocalStorage<boolean>('showNsfw', true);
 
-    const { data: unsortedSources = [], isLoading: FetchedSources } = requestManager.useGetSourceList();
+    const { data: unsortedSources = [], isLoading: isLoadingSources } = requestManager.useGetSourceList();
     const sources = useMemo(
         () =>
             unsortedSources.sort((a: { displayName: string }, b: { displayName: string }) => {
@@ -116,7 +116,7 @@ const SearchAll: React.FC = () => {
     }, [ResetUI]);
 
     useEffect(() => {
-        if (query && FetchedSources) {
+        if (query && !isLoadingSources) {
             const delayDebounceFn = setTimeout(() => {
                 setTriggerUpdate(0);
             }, 1000);
