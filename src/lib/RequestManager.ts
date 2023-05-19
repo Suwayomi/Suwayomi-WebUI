@@ -125,23 +125,26 @@ export class RequestManager {
         });
     }
 
-    public useSwrInfinite<Data = any, ErrorResponse = any>(
+    public useSwrInfinite<
+        Data = any,
+        ErrorResponse = any,
+        OptionsSWR extends SWRInfiniteOptions<Data, ErrorResponse> = SWRInfiniteOptions<Data, ErrorResponse>,
+    >(
         getEndpoint: Required<CustomSWROptions<Data>>['getEndpoint'],
-        {
-            axiosOptions,
-            swrOptions,
-        }: { axiosOptions?: AxiosRequestConfig; swrOptions?: SWRInfiniteConfiguration<Data, ErrorResponse> } = {},
+        { axiosOptions, swrOptions }: { axiosOptions?: AxiosRequestConfig; swrOptions?: OptionsSWR } = {},
     ): SWRInfiniteResponse<Data, ErrorResponse> {
+        const { skipRequest, ...swrConfig } = swrOptions ?? {};
+
         // useSWRInfinite will (by default) revalidate the first page, to check if the other pages have to be revalidated as well
         const result = useSWRInfinite<Data, ErrorResponse>(
             (index, previousData) => {
                 const pageEndpoint = getEndpoint(index, previousData);
-                return pageEndpoint !== null ? this.getValidUrlFor(pageEndpoint) : null;
+                return pageEndpoint !== null && !skipRequest ? this.getValidUrlFor(pageEndpoint) : null;
             },
             {
                 fetcher: (path: string) =>
                     this.restClient.fetcher(path, { httpMethod: HttpMethod.GET, config: axiosOptions }),
-                ...swrOptions,
+                ...swrConfig,
             },
         );
 
@@ -163,7 +166,6 @@ export class RequestManager {
      * In that case "getEndpoint" has to be passed, which gets used over "endpoint"
      *
      * Pass "skipRequest" to make SWR skip sending the request to the server.
-     * Only works for none "infinite" requests, for "infinite" requests the "getEndpoint" function can return "null".
      * In case "formData" is passed, "data" gets ignored.
      */
     private doRequest<
