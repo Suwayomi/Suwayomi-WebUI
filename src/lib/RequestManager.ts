@@ -275,7 +275,7 @@ export class RequestManager {
             swrOptions: {
                 getEndpoint: (page, previousData) =>
                     previousData?.hasNextPage ?? true
-                        ? `source/${sourceId}/popular/${extension}?pageNum=${page}`
+                        ? `source/${sourceId}/popular/${extension}?pageNum=${page + 1}`
                         : null,
                 initialSize: initialPages,
                 ...swrOptions,
@@ -292,7 +292,9 @@ export class RequestManager {
         return this.doRequest(SWRHttpMethod.SWR_GET_INFINITE, '', {
             swrOptions: {
                 getEndpoint: (page, previousData) =>
-                    previousData?.hasNextPage ?? true ? `source/${sourceId}/latest/${extension}?pageNum=${page}` : null,
+                    previousData?.hasNextPage ?? true
+                        ? `source/${sourceId}/latest/${extension}?pageNum=${page + 1}`
+                        : null,
                 initialSize: initialPages,
                 ...swrOptions,
             } as typeof swrOptions,
@@ -336,7 +338,7 @@ export class RequestManager {
             swrOptions: {
                 getEndpoint: (page, previousData) =>
                     previousData?.hasNextPage ?? true
-                        ? `source/${sourceId}/search?searchTerm=${searchTerm}&pageNum=${page}`
+                        ? `source/${sourceId}/search?searchTerm=${searchTerm}&pageNum=${page + 1}`
                         : null,
                 initialSize: initialPages,
                 ...swrOptions,
@@ -356,7 +358,7 @@ export class RequestManager {
             swrOptions: {
                 getEndpoint: (page, previousData) =>
                     previousData?.hasNextPage ?? true
-                        ? `source/${sourceId}/quick-search?searchTerm=${searchTerm}&pageNum=${page}`
+                        ? `source/${sourceId}/quick-search?searchTerm=${searchTerm}&pageNum=${page + 1}`
                         : null,
                 initialSize: initialPages,
                 ...swrOptions,
