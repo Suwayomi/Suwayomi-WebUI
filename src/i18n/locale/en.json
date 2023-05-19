@@ -384,7 +384,8 @@
   "search": {
     "error": {
       "label": {
-        "failed_to_save_settings": "Could not save the default search settings to the server"
+        "failed_to_save_settings": "Could not save the default search settings to the server",
+        "source_search_failed": "Could not search source"
       }
     },
     "label": {
