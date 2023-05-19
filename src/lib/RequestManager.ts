@@ -24,6 +24,7 @@ import {
     IUpdateStatus,
     Metadata,
     PaginatedList,
+    PaginatedMangaList,
     SourcePreferences,
     SourceSearchResult,
     UpdateCheck,
@@ -268,14 +269,12 @@ export class RequestManager {
     public useGetSourcePopularMangas(
         sourceId: string,
         initialPages?: number,
-        swrOptions?: SWRInfiniteOptions<PaginatedList<IManga>>,
-    ): SWRInfiniteResponse<PaginatedList<IManga>> {
+        swrOptions?: SWRInfiniteOptions<PaginatedMangaList>,
+    ): SWRInfiniteResponse<PaginatedMangaList> {
         return this.doRequest(SWRHttpMethod.SWR_GET_INFINITE, '', {
             swrOptions: {
                 getEndpoint: (page, previousData) =>
-                    previousData?.hasNextPage ?? true
-                        ? `source/${sourceId}/popular?pageNum=${page + 1}`
-                        : null,
+                    previousData?.hasNextPage ?? true ? `source/${sourceId}/popular/${page + 1}` : null,
                 initialSize: initialPages,
                 ...swrOptions,
             } as typeof swrOptions,
@@ -285,14 +284,12 @@ export class RequestManager {
     public useGetSourceLatestMangas(
         sourceId: string,
         initialPages?: number,
-        swrOptions?: SWRInfiniteOptions<PaginatedList<IManga>>,
-    ): SWRInfiniteResponse<PaginatedList<IManga>> {
+        swrOptions?: SWRInfiniteOptions<PaginatedMangaList>,
+    ): SWRInfiniteResponse<PaginatedMangaList> {
         return this.doRequest(SWRHttpMethod.SWR_GET_INFINITE, '', {
             swrOptions: {
                 getEndpoint: (page, previousData) =>
-                    previousData?.hasNextPage ?? true
-                        ? `source/${sourceId}/latest?pageNum=${page + 1}`
-                        : null,
+                    previousData?.hasNextPage ?? true ? `source/${sourceId}/latest/${page + 1}` : null,
                 initialSize: initialPages,
                 ...swrOptions,
             } as typeof swrOptions,

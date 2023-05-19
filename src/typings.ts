@@ -330,6 +330,11 @@ export interface PaginatedList<T> {
     hasNextPage: boolean;
 }
 
+export type PaginatedMangaList = {
+    mangaList: IManga[];
+    hasNextPage: boolean;
+};
+
 export type NullAndUndefined<T> = T | null | undefined;
 
 export type ChapterSortMode = 'fetchedAt' | 'source';
