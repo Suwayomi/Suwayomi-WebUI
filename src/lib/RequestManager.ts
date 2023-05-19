@@ -267,7 +267,6 @@ export class RequestManager {
 
     public useGetSourcePopularMangas(
         sourceId: string,
-        extension: string,
         initialPages?: number,
         swrOptions?: SWRInfiniteOptions<PaginatedList<IManga>>,
     ): SWRInfiniteResponse<PaginatedList<IManga>> {
@@ -275,7 +274,7 @@ export class RequestManager {
             swrOptions: {
                 getEndpoint: (page, previousData) =>
                     previousData?.hasNextPage ?? true
-                        ? `source/${sourceId}/popular/${extension}?pageNum=${page + 1}`
+                        ? `source/${sourceId}/popular?pageNum=${page + 1}`
                         : null,
                 initialSize: initialPages,
                 ...swrOptions,
@@ -285,7 +284,6 @@ export class RequestManager {
 
     public useGetSourceLatestMangas(
         sourceId: string,
-        extension: string,
         initialPages?: number,
         swrOptions?: SWRInfiniteOptions<PaginatedList<IManga>>,
     ): SWRInfiniteResponse<PaginatedList<IManga>> {
@@ -293,7 +291,7 @@ export class RequestManager {
             swrOptions: {
                 getEndpoint: (page, previousData) =>
                     previousData?.hasNextPage ?? true
-                        ? `source/${sourceId}/latest/${extension}?pageNum=${page + 1}`
+                        ? `source/${sourceId}/latest?pageNum=${page + 1}`
                         : null,
                 initialSize: initialPages,
                 ...swrOptions,
