@@ -272,7 +272,9 @@ export class RequestManager {
         return this.doRequest(SWRHttpMethod.SWR_GET_INFINITE, '', {
             swrOptions: {
                 getEndpoint: (page, previousData) =>
-                    previousData?.hasNextPage ? `source/${sourceId}/popular/${extension}?pageNum=${page}` : null,
+                    previousData?.hasNextPage ?? true
+                        ? `source/${sourceId}/popular/${extension}?pageNum=${page}`
+                        : null,
                 initialSize: initialPages,
                 ...swrOptions,
             } as typeof swrOptions,
@@ -288,7 +290,7 @@ export class RequestManager {
         return this.doRequest(SWRHttpMethod.SWR_GET_INFINITE, '', {
             swrOptions: {
                 getEndpoint: (page, previousData) =>
-                    previousData?.hasNextPage ? `source/${sourceId}/latest/${extension}?pageNum=${page}` : null,
+                    previousData?.hasNextPage ?? true ? `source/${sourceId}/latest/${extension}?pageNum=${page}` : null,
                 initialSize: initialPages,
                 ...swrOptions,
             } as typeof swrOptions,
@@ -331,7 +333,7 @@ export class RequestManager {
         return this.doRequest(HttpMethod.SWR_GET_INFINITE, '', {
             swrOptions: {
                 getEndpoint: (page, previousData) =>
-                    previousData?.hasNextPage
+                    previousData?.hasNextPage ?? true
                         ? `source/${sourceId}/search?searchTerm=${searchTerm}&pageNum=${page}`
                         : null,
                 initialSize: initialPages,
@@ -351,7 +353,7 @@ export class RequestManager {
             data: filters,
             swrOptions: {
                 getEndpoint: (page, previousData) =>
-                    previousData?.hasNextPage
+                    previousData?.hasNextPage ?? true
                         ? `source/${sourceId}/quick-search?searchTerm=${searchTerm}&pageNum=${page}`
                         : null,
                 initialSize: initialPages,
