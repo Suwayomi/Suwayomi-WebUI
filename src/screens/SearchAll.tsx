@@ -157,18 +157,10 @@ const SearchAll: React.FC = () => {
 
     useEffect(() => {
         // make sure all of forcedDefaultLangs() exists in shownLangs
-        sourceForcedDefaultLangs().forEach((forcedLang) => {
-            let includedInShownLangs = false;
-            shownLangs.forEach((lang) => {
-                if (lang === forcedLang) includedInShownLangs = true;
-            });
-            if (!includedInShownLangs) {
-                setShownLangs((shownLangsCopy) => {
-                    shownLangsCopy.push(forcedLang);
-                    return shownLangsCopy;
-                });
-            }
-        });
+        const missingDefaultLangs = sourceForcedDefaultLangs().filter(
+            (defaultLang) => !shownLangs.includes(defaultLang),
+        );
+        setShownLangs([...shownLangs, ...missingDefaultLangs]);
     }, []);
 
     useEffect(() => {
