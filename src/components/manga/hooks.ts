@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { mutate } from 'swr';
 import requestManager from 'lib/RequestManager';
 
@@ -33,4 +33,20 @@ export const useRefreshManga = (mangaId: string) => {
     }, [mangaId]);
 
     return [handleRefresh, { loading: fetchingOnline }] as const;
+};
+
+export const useDebounce = <Value>(value: Value, delay: number): Value => {
+    const [debouncedValue, setDebouncedValue] = useState(value);
+
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            setDebouncedValue(value);
+        }, delay);
+
+        return () => {
+            clearTimeout(handler);
+        };
+    }, [value, delay]);
+
+    return debouncedValue;
 };

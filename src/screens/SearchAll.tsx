@@ -11,19 +11,19 @@ import NavbarContext from 'components/context/NavbarContext';
 import MangaGrid from 'components/MangaGrid';
 import LangSelect from 'components/navbar/action/LangSelect';
 import AppbarSearch from 'components/util/AppbarSearch';
-import PQueue from 'p-queue';
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { StringParam, useQueryParam } from 'use-query-params';
 import { langSortCmp, sourceDefualtLangs, sourceForcedDefaultLangs } from 'util/language';
 import useLocalStorage from 'util/useLocalStorage';
-import { IManga, ISource, SourceSearchResult } from 'typings';
+import { ISource } from 'typings';
 import { useTranslation } from 'react-i18next';
 import { translateExtensionLanguage } from 'screens/util/Extensions';
 import requestManager from 'lib/RequestManager';
+import { useDebounce } from 'components/manga/hooks';
 
-type SourceToMangasMap = { [source: string]: IManga[] };
-type SourceToFetchedStateMap = { [source: string]: boolean };
+type SourceLoadingState = { isLoading: boolean; hasResults: boolean; emptySearch: boolean };
+type SourceToLoadingStateMap = Map<string, SourceLoadingState>;
 
 function sourceToLangList(sources: ISource[]) {
     const result: string[] = [];
@@ -51,11 +51,10 @@ const compareSourceByName = (sourceA: ISource, sourceB: ISource): -1 | 0 | 1 => 
 const compareSourcesBySearchResult = (
     sourceA: ISource,
     sourceB: ISource,
-    sourceToFetchedStateMap: SourceToFetchedStateMap,
-    sourceToMangasMap: SourceToMangasMap,
+    sourceToFetchedStateMap: SourceToLoadingStateMap,
 ): -1 | 0 | 1 => {
-    const isSourceAFetched = sourceToFetchedStateMap[sourceA.id];
-    const isSourceBFetched = sourceToFetchedStateMap[sourceB.id];
+    const isSourceAFetched = !sourceToFetchedStateMap.get(sourceA.id)?.isLoading ?? true;
+    const isSourceBFetched = !sourceToFetchedStateMap.get(sourceB.id)?.isLoading ?? true;
     if (isSourceAFetched && !isSourceBFetched) {
         return -1;
     }
@@ -66,94 +65,125 @@ const compareSourcesBySearchResult = (
         return 0;
     }
 
-    const isSourceASearchResultEmpty = sourceToMangasMap[sourceA.id].length === 0;
-    const isSourceBSearchResultEmpty = sourceToMangasMap[sourceB.id].length === 0;
+    const isSourceASearchResultEmpty = !sourceToFetchedStateMap.get(sourceA.id)?.hasResults;
+    const isSourceBSearchResultEmpty = !sourceToFetchedStateMap.get(sourceB.id)?.hasResults;
     if (isSourceASearchResultEmpty && !isSourceBSearchResultEmpty) {
         return 1;
     }
     if (isSourceBSearchResultEmpty && !isSourceASearchResultEmpty) {
         return -1;
     }
+
     return 0;
+};
+const TRIGGER_SEARCH_THRESHOLD = 1000; // ms
+
+const SourceSearchPreview = ({
+    source,
+    onSearchRequestFinished,
+}: {
+    source: ISource;
+    onSearchRequestFinished: (source: ISource, isLoading: boolean, hasResults: boolean, emptySearch: boolean) => void;
+}) => {
+    const { t } = useTranslation();
+    const [query] = useQueryParam('query', StringParam);
+    const searchString = useDebounce(query, TRIGGER_SEARCH_THRESHOLD);
+    const skipRequest = !searchString;
+
+    const { id, displayName, lang } = source;
+    const {
+        data: searchResult,
+        size,
+        setSize,
+        isLoading,
+    } = requestManager.useSourceSearch(id, searchString ?? '', 1, { skipRequest });
+    const mangas = !isLoading ? searchResult?.[0]?.mangaList ?? [] : [];
+    const noMangasFound = !isLoading && !mangas.length;
+
+    useEffect(() => {
+        onSearchRequestFinished(source, isLoading, !noMangasFound, !searchString);
+    }, [isLoading, noMangasFound, searchString]);
+
+    if (!isLoading && !searchString) {
+        return null;
+    }
+
+    return (
+        <>
+            <Card sx={{ margin: '10px' }}>
+                <CardActionArea component={Link} to={`/sources/${id}/popular/?R&query=${query}`} sx={{ p: 3 }}>
+                    <Typography variant="h5">{displayName}</Typography>
+                    <Typography variant="caption">{translateExtensionLanguage(lang)}</Typography>
+                </CardActionArea>
+            </Card>
+            <MangaGrid
+                mangas={mangas}
+                isLoading={isLoading}
+                hasNextPage={false}
+                lastPageNum={size}
+                setLastPageNum={setSize}
+                horizontal
+                noFaces
+                message={noMangasFound ? t('manga.error.label.no_mangas_found') : undefined}
+                inLibraryIndicator
+            />
+        </>
+    );
 };
 
 const SearchAll: React.FC = () => {
     const { t } = useTranslation();
 
-    const [query] = useQueryParam('query', StringParam);
     const { setTitle, setAction } = useContext(NavbarContext);
-    const [triggerUpdate, setTriggerUpdate] = useState<number>(2);
-    const [sourceToMangasMap, setSourceToMangasMap] = useState<SourceToMangasMap>({});
 
     const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownSourceLangs', sourceDefualtLangs());
     const [showNsfw] = useLocalStorage<boolean>('showNsfw', true);
 
-    const { data: sources = [], isLoading: isLoadingSources } = requestManager.useGetSourceList();
-    const sortedSources = useMemo(() => [...sources].sort(compareSourceByName), [sources]);
+    const { data: sources = [] } = requestManager.useGetSourceList();
+    const [sourceToLoadingStateMap, setSourceToLoadingStateMap] = useState<SourceToLoadingStateMap>(new Map());
 
-    const [sourceToFetchedStateMap, setSourceToFetchedStateMap] = useState<SourceToFetchedStateMap>({});
+    const sourcesSortedByName = useMemo(() => [...sources].sort(compareSourceByName), [sources]);
+    const sourcesFilteredByLang = useMemo(
+        () => sourcesSortedByName.filter((source) => shownLangs.includes(source.lang)),
+        [sourcesSortedByName, shownLangs],
+    );
+    const sourcesFilteredByNsfw = useMemo(
+        () => sourcesFilteredByLang.filter((source) => showNsfw || !source.isNsfw),
+        [sourcesFilteredByLang, showNsfw],
+    );
+    const sourcesSortedByResult = useMemo(
+        () =>
+            [...sourcesFilteredByNsfw].sort((sourceA, sourceB) =>
+                compareSourcesBySearchResult(sourceA, sourceB, sourceToLoadingStateMap),
+            ),
+        [sourcesFilteredByNsfw, sourceToLoadingStateMap],
+    );
 
-    const [lastPageNum, setLastPageNum] = useState<number>(1);
-
-    const [resetUI, setResetUI] = useState<number>(0);
-
-    const searchRequestsQueue = new PQueue({ concurrency: 5 });
+    const updateSourceLoadingState = useCallback(
+        ({ id }: ISource, isLoading: boolean, hasResults: boolean, emptySearch: boolean) => {
+            setSourceToLoadingStateMap((currentMap) => {
+                const mapCopy = new Map(currentMap);
+                mapCopy.set(id, { isLoading, hasResults, emptySearch });
+                return mapCopy;
+            });
+        },
+        [sourceToLoadingStateMap, setSourceToLoadingStateMap],
+    );
 
     useEffect(() => {
         setTitle(t('search.title.global_search'));
-        setAction(<AppbarSearch />);
-    }, [t]);
-
-    async function performSearch(sourcesToSearchIn: ISource[]) {
-        sourcesToSearchIn.map((source) =>
-            searchRequestsQueue.add(async () => {
-                const response = await requestManager
-                    .getClient()
-                    .get<SourceSearchResult>(`/api/v1/source/${source.id}/search?searchTerm=${query || ''}&pageNum=1`);
-                const searchResult = await response.data;
-                const tmpMangas = sourceToMangasMap;
-                tmpMangas[source.id] = searchResult.mangaList;
-                setSourceToMangasMap(tmpMangas);
-                const tmpFetched = sourceToFetchedStateMap;
-                tmpFetched[source.id] = true;
-                setSourceToFetchedStateMap(tmpFetched);
-                setResetUI(1);
-            }),
+        setAction(
+            <>
+                <AppbarSearch autoOpen />
+                <LangSelect
+                    shownLangs={shownLangs}
+                    setShownLangs={setShownLangs}
+                    allLangs={sourceToLangList(sources)}
+                    forcedLangs={sourceForcedDefaultLangs()}
+                />
+            </>,
         );
-    }
-
-    useEffect(() => {
-        if (triggerUpdate === 2) {
-            return;
-        }
-        if (triggerUpdate === 0) {
-            setTriggerUpdate(1);
-            return;
-        }
-        setSourceToFetchedStateMap({});
-        setSourceToMangasMap({});
-        performSearch(
-            sortedSources
-                .filter(({ lang }) => shownLangs.indexOf(lang) !== -1)
-                .filter((source) => showNsfw || !source.isNsfw),
-        );
-    }, [triggerUpdate]);
-
-    useEffect(() => {
-        if (resetUI === 1) {
-            setResetUI(0);
-        }
-    }, [resetUI]);
-
-    useEffect(() => {
-        if (query && !isLoadingSources) {
-            const delayDebounceFn = setTimeout(() => {
-                setTriggerUpdate(0);
-            }, 1000);
-            return () => clearTimeout(delayDebounceFn);
-        }
-        return () => {};
-    }, [query, shownLangs, sortedSources]);
+    }, [t, shownLangs, setShownLangs, sources]);
 
     useEffect(() => {
         // make sure all of forcedDefaultLangs() exists in shownLangs
@@ -163,62 +193,17 @@ const SearchAll: React.FC = () => {
         setShownLangs([...shownLangs, ...missingDefaultLangs]);
     }, []);
 
-    useEffect(() => {
-        setTitle(t('source.title'));
-        setAction(
-            <>
-                <AppbarSearch autoOpen />
-                <LangSelect
-                    shownLangs={shownLangs}
-                    setShownLangs={setShownLangs}
-                    allLangs={sourceToLangList(sortedSources)}
-                    forcedLangs={sourceForcedDefaultLangs()}
+    return (
+        <>
+            {sourcesSortedByResult.map((source) => (
+                <SourceSearchPreview
+                    key={source.id}
+                    source={source}
+                    onSearchRequestFinished={updateSourceLoadingState}
                 />
-            </>,
-        );
-    }, [t, shownLangs, sortedSources]);
-
-    if (query) {
-        return (
-            <>
-                {sortedSources
-                    .filter(({ lang }) => shownLangs.indexOf(lang) !== -1)
-                    .filter((source) => showNsfw || !source.isNsfw)
-                    .sort((sourceA, sourceB) =>
-                        compareSourcesBySearchResult(sourceA, sourceB, sourceToFetchedStateMap, sourceToMangasMap),
-                    )
-                    .map(({ lang, id, displayName }) => (
-                        <>
-                            <Card sx={{ margin: '10px' }}>
-                                <CardActionArea
-                                    component={Link}
-                                    to={`/sources/${id}/popular/?R&query=${query}`}
-                                    sx={{ p: 3 }}
-                                >
-                                    <Typography variant="h5">{displayName}</Typography>
-                                    <Typography variant="caption">{translateExtensionLanguage(lang)}</Typography>
-                                </CardActionArea>
-                            </Card>
-                            <MangaGrid
-                                mangas={sourceToMangasMap[id] || []}
-                                isLoading={!sourceToFetchedStateMap[id]}
-                                hasNextPage={false}
-                                lastPageNum={lastPageNum}
-                                setLastPageNum={setLastPageNum}
-                                horizontal
-                                noFaces
-                                message={
-                                    sourceToFetchedStateMap[id] ? t('manga.error.label.no_mangas_found') : undefined
-                                }
-                                inLibraryIndicator
-                            />
-                        </>
-                    ))}
-            </>
-        );
-    }
-
-    return null;
+            ))}
+        </>
+    );
 };
 
 export default SearchAll;
