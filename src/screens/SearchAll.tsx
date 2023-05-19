@@ -11,7 +11,7 @@ import NavbarContext from 'components/context/NavbarContext';
 import MangaGrid from 'components/MangaGrid';
 import LangSelect from 'components/navbar/action/LangSelect';
 import AppbarSearch from 'components/util/AppbarSearch';
-import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import React, { useContext, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { StringParam, useQueryParam } from 'use-query-params';
 import { langSortCmp, sourceDefualtLangs, sourceForcedDefaultLangs } from 'util/language';
@@ -21,9 +21,6 @@ import { useTranslation } from 'react-i18next';
 import { translateExtensionLanguage } from 'screens/util/Extensions';
 import requestManager from 'lib/RequestManager';
 import { useDebounce } from 'components/manga/hooks';
-
-type SourceLoadingState = { isLoading: boolean; hasResults: boolean; emptySearch: boolean };
-type SourceToLoadingStateMap = Map<string, SourceLoadingState>;
 
 function sourceToLangList(sources: ISource[]) {
     const result: string[] = [];
@@ -48,43 +45,9 @@ const compareSourceByName = (sourceA: ISource, sourceB: ISource): -1 | 0 | 1 => 
     return 0;
 };
 
-const compareSourcesBySearchResult = (
-    sourceA: ISource,
-    sourceB: ISource,
-    sourceToFetchedStateMap: SourceToLoadingStateMap,
-): -1 | 0 | 1 => {
-    const isSourceAFetched = !sourceToFetchedStateMap.get(sourceA.id)?.isLoading ?? true;
-    const isSourceBFetched = !sourceToFetchedStateMap.get(sourceB.id)?.isLoading ?? true;
-    if (isSourceAFetched && !isSourceBFetched) {
-        return -1;
-    }
-    if (!isSourceAFetched && isSourceBFetched) {
-        return 1;
-    }
-    if (!isSourceAFetched && !isSourceBFetched) {
-        return 0;
-    }
-
-    const isSourceASearchResultEmpty = !sourceToFetchedStateMap.get(sourceA.id)?.hasResults;
-    const isSourceBSearchResultEmpty = !sourceToFetchedStateMap.get(sourceB.id)?.hasResults;
-    if (isSourceASearchResultEmpty && !isSourceBSearchResultEmpty) {
-        return 1;
-    }
-    if (isSourceBSearchResultEmpty && !isSourceASearchResultEmpty) {
-        return -1;
-    }
-
-    return 0;
-};
 const TRIGGER_SEARCH_THRESHOLD = 1000; // ms
 
-const SourceSearchPreview = ({
-    source,
-    onSearchRequestFinished,
-}: {
-    source: ISource;
-    onSearchRequestFinished: (source: ISource, isLoading: boolean, hasResults: boolean, emptySearch: boolean) => void;
-}) => {
+const SourceSearchPreview = ({ source }: { source: ISource }) => {
     const { t } = useTranslation();
     const [query] = useQueryParam('query', StringParam);
     const searchString = useDebounce(query, TRIGGER_SEARCH_THRESHOLD);
@@ -100,10 +63,6 @@ const SourceSearchPreview = ({
     } = requestManager.useSourceSearch(id, searchString ?? '', 1, { skipRequest });
     const mangas = !isLoading ? searchResult?.[0]?.mangaList ?? [] : [];
     const noMangasFound = !isLoading && !mangas.length;
-
-    useEffect(() => {
-        onSearchRequestFinished(source, isLoading, !noMangasFound, !searchString);
-    }, [isLoading, noMangasFound, searchString]);
 
     if (!isLoading && !searchString) {
         return null;
@@ -148,34 +107,15 @@ const SearchAll: React.FC = () => {
     const [showNsfw] = useLocalStorage<boolean>('showNsfw', true);
 
     const { data: sources = [] } = requestManager.useGetSourceList();
-    const [sourceToLoadingStateMap, setSourceToLoadingStateMap] = useState<SourceToLoadingStateMap>(new Map());
 
     const sourcesSortedByName = useMemo(() => [...sources].sort(compareSourceByName), [sources]);
     const sourcesFilteredByLang = useMemo(
         () => sourcesSortedByName.filter((source) => shownLangs.includes(source.lang)),
         [sourcesSortedByName, shownLangs],
     );
-    const sourcesFilteredByNsfw = useMemo(
+    const visibleSources = useMemo(
         () => sourcesFilteredByLang.filter((source) => showNsfw || !source.isNsfw),
         [sourcesFilteredByLang, showNsfw],
-    );
-    const sourcesSortedByResult = useMemo(
-        () =>
-            [...sourcesFilteredByNsfw].sort((sourceA, sourceB) =>
-                compareSourcesBySearchResult(sourceA, sourceB, sourceToLoadingStateMap),
-            ),
-        [sourcesFilteredByNsfw, sourceToLoadingStateMap],
-    );
-
-    const updateSourceLoadingState = useCallback(
-        ({ id }: ISource, isLoading: boolean, hasResults: boolean, emptySearch: boolean) => {
-            setSourceToLoadingStateMap((currentMap) => {
-                const mapCopy = new Map(currentMap);
-                mapCopy.set(id, { isLoading, hasResults, emptySearch });
-                return mapCopy;
-            });
-        },
-        [sourceToLoadingStateMap, setSourceToLoadingStateMap],
     );
 
     useEffect(() => {
@@ -203,12 +143,8 @@ const SearchAll: React.FC = () => {
 
     return (
         <>
-            {sourcesSortedByResult.map((source) => (
-                <SourceSearchPreview
-                    key={source.id}
-                    source={source}
-                    onSearchRequestFinished={updateSourceLoadingState}
-                />
+            {visibleSources.map((source) => (
+                <SourceSearchPreview key={source.id} source={source} />
             ))}
         </>
     );
