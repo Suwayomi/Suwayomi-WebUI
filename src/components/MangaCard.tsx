@@ -200,7 +200,7 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
 
     return (
         <Grid item xs={12}>
-            <Card>
+            <Card ref={ref}>
                 <CardActionArea component={Link} to={mangaLinkTo}>
                     <CardContent
                         sx={{
