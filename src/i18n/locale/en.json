@@ -139,13 +139,13 @@
   },
   "download": {
     "queue": {
-      "label": {
-        "no_downloads": "No downloads"
-      },
       "error": {
         "label": {
           "failed_to_remove": "Could not remove download from queue."
         }
+      },
+      "label": {
+        "no_downloads": "No downloads"
       },
       "title": "Download Queue"
     },
@@ -280,10 +280,10 @@
           "title": "Badges"
         },
         "tab": {
-          "title": "Tabs",
           "label": {
             "show_number_of_items": "Show number of items"
-          }
+          },
+          "title": "Tabs"
         }
       },
       "sort": {
@@ -384,7 +384,8 @@
   "search": {
     "error": {
       "label": {
-        "failed_to_save_settings": "Could not save the default search settings to the server"
+        "failed_to_save_settings": "Could not save the default search settings to the server",
+        "source_search_failed": "Could not search source"
       }
     },
     "label": {
@@ -423,10 +424,10 @@
       "dark_theme": "Dark theme",
       "image_cache": "Use image cache",
       "image_cache_description": "Reduces the data consumption and improves the performance when a already requested image gets requested again",
+      "language_description": "Feel free to translate the project on",
       "manga_item_width": "Manga item width",
       "show_nsfw": "Show NSFW",
-      "show_nsfw_description": "Hide NSFW extensions and sources",
-      "language_description": "Feel free to translate the project on"
+      "show_nsfw_description": "Hide NSFW extensions and sources"
     },
     "server_address": {
       "dialog": {

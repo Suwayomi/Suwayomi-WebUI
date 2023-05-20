@@ -96,6 +96,7 @@ const SourceSearchPreview = ({
         size,
         setSize,
         isLoading,
+        error,
     } = requestManager.useSourceSearch(id, searchString ?? '', 1, { skipRequest });
     const mangas = !isLoading ? searchResult?.[0]?.mangaList ?? [] : [];
     const noMangasFound = !isLoading && !mangas.length;
@@ -106,6 +107,13 @@ const SourceSearchPreview = ({
 
     if (!isLoading && !searchString) {
         return null;
+    }
+
+    let errorMessage: string | undefined;
+    if (error) {
+        errorMessage = t('search.error.label.source_search_failed');
+    } else if (noMangasFound) {
+        errorMessage = t('manga.error.label.no_mangas_found');
     }
 
     return (
@@ -124,7 +132,7 @@ const SourceSearchPreview = ({
                 setLastPageNum={setSize}
                 horizontal
                 noFaces
-                message={noMangasFound ? t('manga.error.label.no_mangas_found') : undefined}
+                message={errorMessage}
                 inLibraryIndicator
             />
         </>
