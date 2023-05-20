@@ -24,6 +24,7 @@ import {
     IUpdateStatus,
     Metadata,
     PaginatedList,
+    PaginatedMangaList,
     SourcePreferences,
     SourceSearchResult,
     UpdateCheck,
@@ -125,23 +126,26 @@ export class RequestManager {
         });
     }
 
-    public useSwrInfinite<Data = any, ErrorResponse = any>(
+    public useSwrInfinite<
+        Data = any,
+        ErrorResponse = any,
+        OptionsSWR extends SWRInfiniteOptions<Data, ErrorResponse> = SWRInfiniteOptions<Data, ErrorResponse>,
+    >(
         getEndpoint: Required<CustomSWROptions<Data>>['getEndpoint'],
-        {
-            axiosOptions,
-            swrOptions,
-        }: { axiosOptions?: AxiosRequestConfig; swrOptions?: SWRInfiniteConfiguration<Data, ErrorResponse> } = {},
+        { axiosOptions, swrOptions }: { axiosOptions?: AxiosRequestConfig; swrOptions?: OptionsSWR } = {},
     ): SWRInfiniteResponse<Data, ErrorResponse> {
+        const { skipRequest, ...swrConfig } = swrOptions ?? {};
+
         // useSWRInfinite will (by default) revalidate the first page, to check if the other pages have to be revalidated as well
         const result = useSWRInfinite<Data, ErrorResponse>(
             (index, previousData) => {
                 const pageEndpoint = getEndpoint(index, previousData);
-                return pageEndpoint !== null ? this.getValidUrlFor(pageEndpoint) : null;
+                return pageEndpoint !== null && !skipRequest ? this.getValidUrlFor(pageEndpoint) : null;
             },
             {
                 fetcher: (path: string) =>
                     this.restClient.fetcher(path, { httpMethod: HttpMethod.GET, config: axiosOptions }),
-                ...swrOptions,
+                ...swrConfig,
             },
         );
 
@@ -163,7 +167,6 @@ export class RequestManager {
      * In that case "getEndpoint" has to be passed, which gets used over "endpoint"
      *
      * Pass "skipRequest" to make SWR skip sending the request to the server.
-     * Only works for none "infinite" requests, for "infinite" requests the "getEndpoint" function can return "null".
      * In case "formData" is passed, "data" gets ignored.
      */
     private doRequest<
@@ -265,14 +268,13 @@ export class RequestManager {
 
     public useGetSourcePopularMangas(
         sourceId: string,
-        extension: string,
         initialPages?: number,
-        swrOptions?: SWRInfiniteOptions<PaginatedList<IManga>>,
-    ): SWRInfiniteResponse<PaginatedList<IManga>> {
+        swrOptions?: SWRInfiniteOptions<PaginatedMangaList>,
+    ): SWRInfiniteResponse<PaginatedMangaList> {
         return this.doRequest(SWRHttpMethod.SWR_GET_INFINITE, '', {
             swrOptions: {
                 getEndpoint: (page, previousData) =>
-                    previousData?.hasNextPage ? `source/${sourceId}/popular/${extension}?pageNum=${page}` : null,
+                    previousData?.hasNextPage ?? true ? `source/${sourceId}/popular/${page + 1}` : null,
                 initialSize: initialPages,
                 ...swrOptions,
             } as typeof swrOptions,
@@ -281,14 +283,13 @@ export class RequestManager {
 
     public useGetSourceLatestMangas(
         sourceId: string,
-        extension: string,
         initialPages?: number,
-        swrOptions?: SWRInfiniteOptions<PaginatedList<IManga>>,
-    ): SWRInfiniteResponse<PaginatedList<IManga>> {
+        swrOptions?: SWRInfiniteOptions<PaginatedMangaList>,
+    ): SWRInfiniteResponse<PaginatedMangaList> {
         return this.doRequest(SWRHttpMethod.SWR_GET_INFINITE, '', {
             swrOptions: {
                 getEndpoint: (page, previousData) =>
-                    previousData?.hasNextPage ? `source/${sourceId}/latest/${extension}?pageNum=${page}` : null,
+                    previousData?.hasNextPage ?? true ? `source/${sourceId}/latest/${page + 1}` : null,
                 initialSize: initialPages,
                 ...swrOptions,
             } as typeof swrOptions,
@@ -331,8 +332,8 @@ export class RequestManager {
         return this.doRequest(HttpMethod.SWR_GET_INFINITE, '', {
             swrOptions: {
                 getEndpoint: (page, previousData) =>
-                    previousData?.hasNextPage
-                        ? `source/${sourceId}/search?searchTerm=${searchTerm}&pageNum=${page}`
+                    previousData?.hasNextPage ?? true
+                        ? `source/${sourceId}/search?searchTerm=${searchTerm}&pageNum=${page + 1}`
                         : null,
                 initialSize: initialPages,
                 ...swrOptions,
@@ -351,8 +352,8 @@ export class RequestManager {
             data: filters,
             swrOptions: {
                 getEndpoint: (page, previousData) =>
-                    previousData?.hasNextPage
-                        ? `source/${sourceId}/quick-search?searchTerm=${searchTerm}&pageNum=${page}`
+                    previousData?.hasNextPage ?? true
+                        ? `source/${sourceId}/quick-search?searchTerm=${searchTerm}&pageNum=${page + 1}`
                         : null,
                 initialSize: initialPages,
                 ...swrOptions,
