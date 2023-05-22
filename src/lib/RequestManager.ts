@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import useSWR, { SWRConfiguration, SWRResponse } from 'swr';
 import useSWRInfinite, { SWRInfiniteConfiguration, SWRInfiniteResponse } from 'swr/infinite';
 import {
@@ -66,7 +66,7 @@ export class RequestManager {
         return this.restClient;
     }
 
-    public updateClient(config: AxiosRequestConfig): void {
+    public updateClient(config: Partial<AxiosInstance['defaults']>): void {
         this.restClient.updateConfig(config);
     }
 
