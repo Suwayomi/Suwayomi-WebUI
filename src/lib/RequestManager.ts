@@ -362,8 +362,8 @@ export class RequestManager {
         initialPages?: number,
         swrOptions?: SWRInfiniteOptions<SourceSearchResult>,
     ): SWRInfiniteResponse<SourceSearchResult> {
-        return this.doRequest(HttpMethod.SWR_GET_INFINITE, '', {
-            data: filters,
+        return this.doRequest(HttpMethod.SWR_POST_INFINITE, '', {
+            data: { searchTerm, filter: filters },
             swrOptions: {
                 getEndpoint: (page, previousData) =>
                     previousData?.hasNextPage ?? true
