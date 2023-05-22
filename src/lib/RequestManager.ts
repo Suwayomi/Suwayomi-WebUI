@@ -36,6 +36,7 @@ enum SWRHttpMethod {
     SWR_GET,
     SWR_GET_INFINITE,
     SWR_POST,
+    SWR_POST_INFINITE,
 }
 
 type HttpMethodType = DefaultHttpMethod | SWRHttpMethod;
@@ -132,7 +133,12 @@ export class RequestManager {
         OptionsSWR extends SWRInfiniteOptions<Data, ErrorResponse> = SWRInfiniteOptions<Data, ErrorResponse>,
     >(
         getEndpoint: Required<CustomSWROptions<Data>>['getEndpoint'],
-        { axiosOptions, swrOptions }: { axiosOptions?: AxiosRequestConfig; swrOptions?: OptionsSWR } = {},
+        httpMethod: DefaultHttpMethod,
+        {
+            data,
+            axiosOptions,
+            swrOptions,
+        }: { data?: any; axiosOptions?: AxiosRequestConfig; swrOptions?: OptionsSWR } = {},
     ): SWRInfiniteResponse<Data, ErrorResponse> {
         const { skipRequest, ...swrConfig } = swrOptions ?? {};
 
@@ -143,8 +149,7 @@ export class RequestManager {
                 return pageEndpoint !== null && !skipRequest ? this.getValidUrlFor(pageEndpoint) : null;
             },
             {
-                fetcher: (path: string) =>
-                    this.restClient.fetcher(path, { httpMethod: HttpMethod.GET, config: axiosOptions }),
+                fetcher: (path: string) => this.restClient.fetcher(path, { httpMethod, data, config: axiosOptions }),
                 ...swrConfig,
             },
         );
@@ -205,7 +210,16 @@ export class RequestManager {
                 return this.useSwr(url, HttpMethod.GET, { axiosOptions, swrOptions }) as Result;
             case HttpMethod.SWR_GET_INFINITE:
                 // throw TypeError in case options aren't correctly passed
-                return this.useSwrInfinite(swrOptions!.getEndpoint!, { axiosOptions, swrOptions }) as Result;
+                return this.useSwrInfinite(swrOptions!.getEndpoint!, HttpMethod.GET, {
+                    axiosOptions,
+                    swrOptions,
+                }) as Result;
+            case SWRHttpMethod.SWR_POST_INFINITE:
+                return this.useSwrInfinite(swrOptions!.getEndpoint!, HttpMethod.POST, {
+                    data,
+                    axiosOptions,
+                    swrOptions,
+                }) as Result;
             case HttpMethod.SWR_POST:
                 return this.useSwr(url, HttpMethod.POST, { data, axiosOptions, swrOptions }) as Result;
             default:
@@ -348,8 +362,8 @@ export class RequestManager {
         initialPages?: number,
         swrOptions?: SWRInfiniteOptions<SourceSearchResult>,
     ): SWRInfiniteResponse<SourceSearchResult> {
-        return this.doRequest(HttpMethod.SWR_GET_INFINITE, '', {
-            data: filters,
+        return this.doRequest(HttpMethod.SWR_POST_INFINITE, '', {
+            data: { searchTerm, filter: filters },
             swrOptions: {
                 getEndpoint: (page, previousData) =>
                     previousData?.hasNextPage ?? true
