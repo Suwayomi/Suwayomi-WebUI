@@ -316,7 +316,7 @@ export class RequestManager {
     }
 
     public setSourceFilters(sourceId: string, filters: { position: number; state: string }[]): Promise<AxiosResponse> {
-        return this.doRequest(HttpMethod.POST, `source/${sourceId}/filters`, { data: { filters } });
+        return this.doRequest(HttpMethod.POST, `source/${sourceId}/filters`, { data: filters });
     }
 
     public resetSourceFilters(sourceId: string): Promise<AxiosResponse> {
