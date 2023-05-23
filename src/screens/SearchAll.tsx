@@ -81,13 +81,13 @@ const TRIGGER_SEARCH_THRESHOLD = 1000; // ms
 const SourceSearchPreview = ({
     source,
     onSearchRequestFinished,
+    searchString,
 }: {
     source: ISource;
     onSearchRequestFinished: (source: ISource, isLoading: boolean, hasResults: boolean, emptySearch: boolean) => void;
+    searchString: string | null | undefined;
 }) => {
     const { t } = useTranslation();
-    const [query] = useQueryParam('query', StringParam);
-    const searchString = useDebounce(query, TRIGGER_SEARCH_THRESHOLD);
     const skipRequest = !searchString;
 
     const { id, displayName, lang } = source;
@@ -105,10 +105,6 @@ const SourceSearchPreview = ({
         onSearchRequestFinished(source, isLoading, !noMangasFound, !searchString);
     }, [isLoading, noMangasFound, searchString]);
 
-    if (!isLoading && !searchString) {
-        return null;
-    }
-
     let errorMessage: string | undefined;
     if (error) {
         errorMessage = t('search.error.label.source_search_failed');
@@ -116,10 +112,14 @@ const SourceSearchPreview = ({
         errorMessage = t('manga.error.label.no_mangas_found');
     }
 
+    if (!isLoading && !searchString) {
+        return null;
+    }
+
     return (
         <>
             <Card sx={{ margin: '10px' }}>
-                <CardActionArea component={Link} to={`/sources/${id}/popular/?R&query=${query}`} sx={{ p: 3 }}>
+                <CardActionArea component={Link} to={`/sources/${id}/popular/?R&query=${searchString}`} sx={{ p: 3 }}>
                     <Typography variant="h5">{displayName}</Typography>
                     <Typography variant="caption">{translateExtensionLanguage(lang)}</Typography>
                 </CardActionArea>
@@ -143,6 +143,9 @@ const SearchAll: React.FC = () => {
     const { t } = useTranslation();
 
     const { setTitle, setAction } = useContext(NavbarContext);
+
+    const [query] = useQueryParam('query', StringParam);
+    const searchString = useDebounce(query, TRIGGER_SEARCH_THRESHOLD);
 
     const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownSourceLangs', sourceDefualtLangs());
     const [showNsfw] = useLocalStorage<boolean>('showNsfw', true);
@@ -208,6 +211,7 @@ const SearchAll: React.FC = () => {
                     key={source.id}
                     source={source}
                     onSearchRequestFinished={updateSourceLoadingState}
+                    searchString={searchString}
                 />
             ))}
         </>
