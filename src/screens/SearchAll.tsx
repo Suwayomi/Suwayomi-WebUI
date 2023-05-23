@@ -175,6 +175,7 @@ const SearchAll: React.FC = () => {
 
     const { data: sources = [] } = requestManager.useGetSourceList();
     const [sourceToLoadingStateMap, setSourceToLoadingStateMap] = useState<SourceToLoadingStateMap>(new Map());
+    const debouncedSourceToLoadingStateMap = useDebounce(sourceToLoadingStateMap, 500);
 
     const sourcesSortedByName = useMemo(() => [...sources].sort(compareSourceByName), [sources]);
     const sourcesFilteredByLang = useMemo(
@@ -188,9 +189,9 @@ const SearchAll: React.FC = () => {
     const sourcesSortedByResult = useMemo(
         () =>
             [...sourcesFilteredByNsfw].sort((sourceA, sourceB) =>
-                compareSourcesBySearchResult(sourceA, sourceB, sourceToLoadingStateMap),
+                compareSourcesBySearchResult(sourceA, sourceB, debouncedSourceToLoadingStateMap),
             ),
-        [sourcesFilteredByNsfw, sourceToLoadingStateMap],
+        [sourcesFilteredByNsfw, debouncedSourceToLoadingStateMap],
     );
 
     const updateSourceLoadingState = useCallback(
