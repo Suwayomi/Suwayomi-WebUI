@@ -46,7 +46,7 @@ function UpdateChecker({ handleFinishedUpdate }: IUpdateCheckerProps) {
         try {
             setLoading(true);
             setProgress(0);
-            await requestManager.startGlobalUpdate();
+            await requestManager.startGlobalUpdate().response;
         } catch (e) {
             makeToast(t('global.error.label.update_failed'), 'error');
             setLoading(false);

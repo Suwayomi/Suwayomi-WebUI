@@ -67,15 +67,15 @@ const DownloadQueue: React.FC = () => {
         try {
             if (isRunning) {
                 // required to stop before deleting otherwise the download kept going. Server issue?
-                await requestManager.stopDownloads();
+                await requestManager.stopDownloads().response;
             }
 
             await Promise.all([
                 // remove from download queue
-                requestManager.removeChapterFromDownloadQueue(chapter.mangaId, chapter.index),
+                requestManager.removeChapterFromDownloadQueue(chapter.mangaId, chapter.index).response,
                 // delete partial download, should be handle server side?
                 // bug: The folder and the last image downloaded are not deleted
-                requestManager.deleteDownloadedChapter(chapter.mangaId, chapter.index),
+                requestManager.deleteDownloadedChapter(chapter.mangaId, chapter.index).response,
             ]);
         } catch (error) {
             makeToast(t('download.queue.error.label.failed_to_remove'), 'error');

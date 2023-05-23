@@ -111,7 +111,7 @@ export default function LibrarySettings() {
     );
 
     const updateCategory = (category: ICategory) =>
-        requestManager.updateCategory(category.id, { includeInUpdate: category.includeInUpdate });
+        requestManager.updateCategory(category.id, { includeInUpdate: category.includeInUpdate }).response;
 
     const updateCategories = async () => {
         const categoriesToUpdate = dialogCategories.filter((category) => {

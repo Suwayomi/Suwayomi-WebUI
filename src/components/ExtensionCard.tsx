@@ -87,13 +87,13 @@ export default function ExtensionCard(props: IProps) {
         setInstalledState(state);
         switch (action) {
             case ExtensionAction.INSTALL:
-                await requestManager.installExtension(pkgName);
+                await requestManager.installExtension(pkgName).response;
                 break;
             case ExtensionAction.UNINSTALL:
-                await requestManager.uninstallExtension(pkgName);
+                await requestManager.uninstallExtension(pkgName).response;
                 break;
             case ExtensionAction.UPDATE:
-                await requestManager.updateExtension(pkgName);
+                await requestManager.updateExtension(pkgName).response;
                 break;
             default:
                 throw new Error(`Unexpected ExtensionAction "${action}"`);
