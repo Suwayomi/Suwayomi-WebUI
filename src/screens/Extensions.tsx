@@ -135,7 +135,7 @@ export default function MangaExtensions() {
             makeToast(t('extension.label.installing_file'), 'info');
             requestManager
                 .installExtension(file)
-                .then(() => {
+                .response.then(() => {
                     makeToast(t('extension.label.installed_successfully'), 'success');
                     mutate();
                 })

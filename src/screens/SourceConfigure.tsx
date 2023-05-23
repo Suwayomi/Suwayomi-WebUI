@@ -57,7 +57,9 @@ export default function SourceConfigure() {
     };
 
     const updateValue = (position: number) => (value: any) => {
-        requestManager.setSourcePreferences(sourceId, position, convertToString(position, value)).then(() => mutate());
+        requestManager
+            .setSourcePreferences(sourceId, position, convertToString(position, value))
+            .response.then(() => mutate());
     };
 
     return (

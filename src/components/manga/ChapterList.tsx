@@ -153,7 +153,7 @@ const ChapterList: React.FC<IProps> = ({ mangaId }) => {
         let actionPromise: Promise<any>;
 
         if (action === 'download') {
-            actionPromise = requestManager.addChaptersToDownloadQueue(chapterIds);
+            actionPromise = requestManager.addChaptersToDownloadQueue(chapterIds).response;
         } else {
             const change: BatchChaptersChange = {};
 
@@ -165,7 +165,7 @@ const ChapterList: React.FC<IProps> = ({ mangaId }) => {
                 change.lastPageRead = 0;
             }
 
-            actionPromise = requestManager.updateChapters(chapterIds, change);
+            actionPromise = requestManager.updateChapters(chapterIds, change).response;
         }
 
         actionPromise

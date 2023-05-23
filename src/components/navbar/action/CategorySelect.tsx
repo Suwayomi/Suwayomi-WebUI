@@ -56,7 +56,7 @@ export default function CategorySelect(props: IProps) {
         (checked
             ? requestManager.addMangaToCategory(mangaId, categoryId)
             : requestManager.removeMangaFromCategory(mangaId, categoryId)
-        ).then(() => mutate());
+        ).response.then(() => mutate());
     };
 
     return (

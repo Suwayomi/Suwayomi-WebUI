@@ -30,7 +30,7 @@ export default function Backup() {
             makeToast(t('settings.backup.label.restoring_backup'), 'info');
             requestManager
                 .restoreBackupFile(file)
-                .then(() => makeToast(t('settings.backup.label.restored_backup'), 'success'))
+                .response.then(() => makeToast(t('settings.backup.label.restored_backup'), 'success'))
                 .catch(() => makeToast(t('settings.backup.label.backup_restore_failed'), 'error'));
         } else if (file.name.toLowerCase().endsWith('json')) {
             makeToast(t('settings.backup.label.legacy_backup_unsupported'), 'error');
