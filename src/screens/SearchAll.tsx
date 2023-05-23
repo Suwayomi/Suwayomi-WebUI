@@ -137,11 +137,7 @@ const SourceSearchPreview = React.memo(
         return (
             <>
                 <Card sx={{ margin: '10px' }}>
-                    <CardActionArea
-                        component={Link}
-                        to={`/sources/${id}/popular/?R&query=${searchString}`}
-                        sx={{ p: 3 }}
-                    >
+                    <CardActionArea component={Link} to={`/sources/${id}?query=${searchString}`} sx={{ p: 3 }}>
                         <Typography variant="h5">{displayName}</Typography>
                         <Typography variant="caption">{translateExtensionLanguage(lang)}</Typography>
                     </CardActionArea>
