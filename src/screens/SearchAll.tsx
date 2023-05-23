@@ -105,6 +105,7 @@ const SourceSearchPreview = React.memo(
             setSize,
             isLoading,
             error,
+            abortRequest,
         } = requestManager.useSourceSearch(id, searchString ?? '', 1, { skipRequest });
         const mangas = !isLoading ? searchResult?.[0]?.mangaList ?? [] : [];
         const noMangasFound = !isLoading && !mangas.length;
@@ -119,6 +120,15 @@ const SourceSearchPreview = React.memo(
         } else if (noMangasFound) {
             errorMessage = t('manga.error.label.no_mangas_found');
         }
+
+        useEffect(
+            () => () => {
+                abortRequest(
+                    new Error(`SourceSearchPreview(${source.id}, ${source.displayName}): search string changed`),
+                );
+            },
+            [searchString],
+        );
 
         if ((!isLoading && !searchString) || emptyQuery) {
             return null;
