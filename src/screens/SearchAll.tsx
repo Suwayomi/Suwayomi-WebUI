@@ -83,6 +83,7 @@ const SourceSearchPreview = React.memo(
         source,
         onSearchRequestFinished,
         searchString,
+        emptyQuery,
     }: {
         source: ISource;
         onSearchRequestFinished: (
@@ -92,6 +93,7 @@ const SourceSearchPreview = React.memo(
             emptySearch: boolean,
         ) => void;
         searchString: string | null | undefined;
+        emptyQuery: boolean;
     }) => {
         const { t } = useTranslation();
         const skipRequest = !searchString;
@@ -118,7 +120,7 @@ const SourceSearchPreview = React.memo(
             errorMessage = t('manga.error.label.no_mangas_found');
         }
 
-        if (!isLoading && !searchString) {
+        if ((!isLoading && !searchString) || emptyQuery) {
             return null;
         }
 
@@ -223,6 +225,7 @@ const SearchAll: React.FC = () => {
                     source={source}
                     onSearchRequestFinished={updateSourceLoadingState}
                     searchString={searchString}
+                    emptyQuery={!query}
                 />
             ))}
         </>
