@@ -78,66 +78,77 @@ const compareSourcesBySearchResult = (
 };
 const TRIGGER_SEARCH_THRESHOLD = 1000; // ms
 
-const SourceSearchPreview = ({
-    source,
-    onSearchRequestFinished,
-    searchString,
-}: {
-    source: ISource;
-    onSearchRequestFinished: (source: ISource, isLoading: boolean, hasResults: boolean, emptySearch: boolean) => void;
-    searchString: string | null | undefined;
-}) => {
-    const { t } = useTranslation();
-    const skipRequest = !searchString;
+const SourceSearchPreview = React.memo(
+    ({
+        source,
+        onSearchRequestFinished,
+        searchString,
+    }: {
+        source: ISource;
+        onSearchRequestFinished: (
+            source: ISource,
+            isLoading: boolean,
+            hasResults: boolean,
+            emptySearch: boolean,
+        ) => void;
+        searchString: string | null | undefined;
+    }) => {
+        const { t } = useTranslation();
+        const skipRequest = !searchString;
 
-    const { id, displayName, lang } = source;
-    const {
-        data: searchResult,
-        size,
-        setSize,
-        isLoading,
-        error,
-    } = requestManager.useSourceSearch(id, searchString ?? '', 1, { skipRequest });
-    const mangas = !isLoading ? searchResult?.[0]?.mangaList ?? [] : [];
-    const noMangasFound = !isLoading && !mangas.length;
+        const { id, displayName, lang } = source;
+        const {
+            data: searchResult,
+            size,
+            setSize,
+            isLoading,
+            error,
+        } = requestManager.useSourceSearch(id, searchString ?? '', 1, { skipRequest });
+        const mangas = !isLoading ? searchResult?.[0]?.mangaList ?? [] : [];
+        const noMangasFound = !isLoading && !mangas.length;
 
-    useEffect(() => {
-        onSearchRequestFinished(source, isLoading, !noMangasFound, !searchString);
-    }, [isLoading, noMangasFound, searchString]);
+        useEffect(() => {
+            onSearchRequestFinished(source, isLoading, !noMangasFound, !searchString);
+        }, [isLoading, noMangasFound, searchString]);
 
-    let errorMessage: string | undefined;
-    if (error) {
-        errorMessage = t('search.error.label.source_search_failed');
-    } else if (noMangasFound) {
-        errorMessage = t('manga.error.label.no_mangas_found');
-    }
+        let errorMessage: string | undefined;
+        if (error) {
+            errorMessage = t('search.error.label.source_search_failed');
+        } else if (noMangasFound) {
+            errorMessage = t('manga.error.label.no_mangas_found');
+        }
 
-    if (!isLoading && !searchString) {
-        return null;
-    }
+        if (!isLoading && !searchString) {
+            return null;
+        }
 
-    return (
-        <>
-            <Card sx={{ margin: '10px' }}>
-                <CardActionArea component={Link} to={`/sources/${id}/popular/?R&query=${searchString}`} sx={{ p: 3 }}>
-                    <Typography variant="h5">{displayName}</Typography>
-                    <Typography variant="caption">{translateExtensionLanguage(lang)}</Typography>
-                </CardActionArea>
-            </Card>
-            <MangaGrid
-                mangas={mangas}
-                isLoading={isLoading}
-                hasNextPage={false}
-                lastPageNum={size}
-                setLastPageNum={setSize}
-                horizontal
-                noFaces
-                message={errorMessage}
-                inLibraryIndicator
-            />
-        </>
-    );
-};
+        return (
+            <>
+                <Card sx={{ margin: '10px' }}>
+                    <CardActionArea
+                        component={Link}
+                        to={`/sources/${id}/popular/?R&query=${searchString}`}
+                        sx={{ p: 3 }}
+                    >
+                        <Typography variant="h5">{displayName}</Typography>
+                        <Typography variant="caption">{translateExtensionLanguage(lang)}</Typography>
+                    </CardActionArea>
+                </Card>
+                <MangaGrid
+                    mangas={mangas}
+                    isLoading={isLoading}
+                    hasNextPage={false}
+                    lastPageNum={size}
+                    setLastPageNum={setSize}
+                    horizontal
+                    noFaces
+                    message={errorMessage}
+                    inLibraryIndicator
+                />
+            </>
+        );
+    },
+);
 
 const SearchAll: React.FC = () => {
     const { t } = useTranslation();
@@ -178,7 +189,7 @@ const SearchAll: React.FC = () => {
                 return mapCopy;
             });
         },
-        [sourceToLoadingStateMap, setSourceToLoadingStateMap],
+        [setSourceToLoadingStateMap],
     );
 
     useEffect(() => {
