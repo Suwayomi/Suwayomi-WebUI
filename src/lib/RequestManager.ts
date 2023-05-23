@@ -52,6 +52,11 @@ type CustomSWROptions<Data> = {
 type SWROptions<Data = any, Error = any> = SWRConfiguration<Data, Error> & CustomSWROptions<Data>;
 type SWRInfiniteOptions<Data = any, Error = any> = SWRInfiniteConfiguration<Data, Error> & CustomSWROptions<Data>;
 
+type AbortableRequest = { abortRequest: AbortController['abort'] };
+type AbortableAxiosResponse<Data = any> = { response: Promise<AxiosResponse<Data>> } & AbortableRequest;
+type AbortableSWRResponse<Data = any, Error = any> = SWRResponse<Data, Error> & AbortableRequest;
+type AbortableSWRInfiniteResponse<Data = any, Error = any> = SWRInfiniteResponse<Data, Error> & AbortableRequest;
+
 // the following endpoints have not been implemented:
 //   - PUT  /api/v1/manga/{mangaId}/chapter/{chapterIndex}  - modify chapter    # PATCH endpoint used instead
 //   - POST /api/v1/backup/import                           - import backup     # "import backup file" endpoint used instead
@@ -175,7 +180,7 @@ export class RequestManager {
      * In case "formData" is passed, "data" gets ignored.
      */
     private doRequest<
-        Result extends Promise<AxiosResponse> | SWRResponse | SWRInfiniteResponse,
+        Result extends AbortableAxiosResponse | AbortableSWRResponse | AbortableSWRInfiniteResponse,
         OptionsSWR extends SWROptions | SWRInfiniteOptions,
     >(
         httpMethod: HttpMethodType,
@@ -205,54 +210,80 @@ export class RequestManager {
             });
         }
 
+        const abortController = new AbortController();
+        const abortRequest = (reason?: any): void => {
+            if (!abortController.signal.aborted) {
+                abortController.abort(reason);
+            }
+        };
+        const axiosOptionsWithAbortController = { ...axiosOptions, signal: abortController.signal };
         switch (httpMethod) {
             case HttpMethod.SWR_GET:
-                return this.useSwr(url, HttpMethod.GET, { axiosOptions, swrOptions }) as Result;
+                return {
+                    ...(this.useSwr(url, HttpMethod.GET, { axiosOptions, swrOptions }) as Result),
+                    abortRequest,
+                };
             case HttpMethod.SWR_GET_INFINITE:
                 // throw TypeError in case options aren't correctly passed
-                return this.useSwrInfinite(swrOptions!.getEndpoint!, HttpMethod.GET, {
-                    axiosOptions,
-                    swrOptions,
-                }) as Result;
+                return {
+                    ...(this.useSwrInfinite(swrOptions!.getEndpoint!, HttpMethod.GET, {
+                        axiosOptions: axiosOptionsWithAbortController,
+                        swrOptions,
+                    }) as Result),
+                    abortRequest,
+                };
             case SWRHttpMethod.SWR_POST_INFINITE:
-                return this.useSwrInfinite(swrOptions!.getEndpoint!, HttpMethod.POST, {
-                    data,
-                    axiosOptions,
-                    swrOptions,
-                }) as Result;
+                return {
+                    ...(this.useSwrInfinite(swrOptions!.getEndpoint!, HttpMethod.POST, {
+                        data,
+                        axiosOptions: axiosOptionsWithAbortController,
+                        swrOptions,
+                    }) as Result),
+                    abortRequest,
+                };
             case HttpMethod.SWR_POST:
-                return this.useSwr(url, HttpMethod.POST, { data, axiosOptions, swrOptions }) as Result;
+                return {
+                    ...(this.useSwr(url, HttpMethod.POST, {
+                        data,
+                        axiosOptions: axiosOptionsWithAbortController,
+                        swrOptions,
+                    }) as Result),
+                    controller: abortController,
+                };
             default:
-                return this.restClient.fetcher(url, {
-                    data,
-                    httpMethod,
-                    config: axiosOptions,
-                    checkResponseIsJson: false,
-                }) as Result;
+                return {
+                    response: this.restClient.fetcher(url, {
+                        data,
+                        httpMethod,
+                        config: axiosOptionsWithAbortController,
+                        checkResponseIsJson: false,
+                    }),
+                    abortRequest,
+                } as Result;
         }
     }
 
-    public useGetGlobalMeta(swrOptions?: SWROptions<Metadata>): SWRResponse<Metadata> {
+    public useGetGlobalMeta(swrOptions?: SWROptions<Metadata>): AbortableSWRResponse<Metadata> {
         return this.doRequest(HttpMethod.SWR_GET, 'meta', { swrOptions });
     }
 
-    public setGlobalMetadata(key: string, value: any): Promise<AxiosResponse> {
+    public setGlobalMetadata(key: string, value: any): AbortableAxiosResponse {
         return this.doRequest(HttpMethod.PATCH, 'meta', { formData: { key, value } });
     }
 
-    public useGetAbout(swrOptions?: SWROptions<IAbout>): SWRResponse<IAbout> {
+    public useGetAbout(swrOptions?: SWROptions<IAbout>): AbortableSWRResponse<IAbout> {
         return this.doRequest(HttpMethod.SWR_GET, 'settings/about', { swrOptions });
     }
 
-    public useCheckForUpdate(swrOptions?: SWROptions<UpdateCheck[]>): SWRResponse<UpdateCheck[]> {
+    public useCheckForUpdate(swrOptions?: SWROptions<UpdateCheck[]>): AbortableSWRResponse<UpdateCheck[]> {
         return this.doRequest(HttpMethod.SWR_GET, 'settings/check-update', { swrOptions });
     }
 
-    public useGetExtensionList(swrOptions?: SWROptions<IExtension[]>): SWRResponse<IExtension[]> {
+    public useGetExtensionList(swrOptions?: SWROptions<IExtension[]>): AbortableSWRResponse<IExtension[]> {
         return this.doRequest(HttpMethod.SWR_GET, 'extension/list', { swrOptions });
     }
 
-    public installExtension(extension: string | File): Promise<AxiosResponse> {
+    public installExtension(extension: string | File): AbortableAxiosResponse {
         if (typeof extension === 'string') {
             return this.doRequest(HttpMethod.GET, `extension/install/${extension}`);
         }
@@ -260,11 +291,11 @@ export class RequestManager {
         return this.doRequest(HttpMethod.POST, `extension/install`, { formData: { file: extension } });
     }
 
-    public updateExtension(extension: string): Promise<AxiosResponse> {
+    public updateExtension(extension: string): AbortableAxiosResponse {
         return this.doRequest(HttpMethod.GET, `extension/update/${extension}`);
     }
 
-    public uninstallExtension(extension: string): Promise<AxiosResponse> {
+    public uninstallExtension(extension: string): AbortableAxiosResponse {
         return this.doRequest(HttpMethod.GET, `extension/uninstall/${extension}`);
     }
 
@@ -272,11 +303,11 @@ export class RequestManager {
         return this.getValidImgUrlFor(`extension/icon/${extension}`);
     }
 
-    public useGetSourceList(swrOptions?: SWROptions<ISource[]>): SWRResponse<ISource[]> {
+    public useGetSourceList(swrOptions?: SWROptions<ISource[]>): AbortableSWRResponse<ISource[]> {
         return this.doRequest(HttpMethod.SWR_GET, 'source/list', { swrOptions });
     }
 
-    public useGetSource(sourceId: string, swrOptions?: SWROptions<ISource>): SWRResponse<ISource> {
+    public useGetSource(sourceId: string, swrOptions?: SWROptions<ISource>): AbortableSWRResponse<ISource> {
         return this.doRequest(HttpMethod.SWR_GET, `source/${sourceId}`, { swrOptions });
     }
 
@@ -284,7 +315,7 @@ export class RequestManager {
         sourceId: string,
         initialPages?: number,
         swrOptions?: SWRInfiniteOptions<PaginatedMangaList>,
-    ): SWRInfiniteResponse<PaginatedMangaList> {
+    ): AbortableSWRInfiniteResponse<PaginatedMangaList> {
         return this.doRequest(SWRHttpMethod.SWR_GET_INFINITE, '', {
             swrOptions: {
                 getEndpoint: (page, previousData) =>
@@ -299,7 +330,7 @@ export class RequestManager {
         sourceId: string,
         initialPages?: number,
         swrOptions?: SWRInfiniteOptions<PaginatedMangaList>,
-    ): SWRInfiniteResponse<PaginatedMangaList> {
+    ): AbortableSWRInfiniteResponse<PaginatedMangaList> {
         return this.doRequest(SWRHttpMethod.SWR_GET_INFINITE, '', {
             swrOptions: {
                 getEndpoint: (page, previousData) =>
@@ -313,11 +344,11 @@ export class RequestManager {
     public useGetSourcePreferences(
         sourceId: string,
         swrOptions?: SWROptions<SourcePreferences[]>,
-    ): SWRResponse<SourcePreferences[]> {
+    ): AbortableSWRResponse<SourcePreferences[]> {
         return this.doRequest(HttpMethod.SWR_GET, `source/${sourceId}/preferences`, { swrOptions });
     }
 
-    public setSourcePreferences(sourceId: string, position: number, value: string): Promise<AxiosResponse> {
+    public setSourcePreferences(sourceId: string, position: number, value: string): AbortableAxiosResponse {
         return this.doRequest(HttpMethod.POST, `source/${sourceId}/preferences`, { data: { position, value } });
     }
 
@@ -325,15 +356,15 @@ export class RequestManager {
         sourceId: string,
         reset?: boolean,
         swrOptions?: SWROptions<ISourceFilters[]>,
-    ): SWRResponse<ISourceFilters[]> {
+    ): AbortableSWRResponse<ISourceFilters[]> {
         return this.doRequest(HttpMethod.SWR_GET, `source/${sourceId}/filters`, { swrOptions });
     }
 
-    public setSourceFilters(sourceId: string, filters: { position: number; state: string }[]): Promise<AxiosResponse> {
+    public setSourceFilters(sourceId: string, filters: { position: number; state: string }[]): AbortableAxiosResponse {
         return this.doRequest(HttpMethod.POST, `source/${sourceId}/filters`, { data: filters });
     }
 
-    public resetSourceFilters(sourceId: string): Promise<AxiosResponse> {
+    public resetSourceFilters(sourceId: string): AbortableAxiosResponse {
         return this.doRequest(HttpMethod.GET, `source/${sourceId}/filters?reset=true`);
     }
 
@@ -342,7 +373,7 @@ export class RequestManager {
         searchTerm: string,
         initialPages?: number,
         swrOptions?: SWRInfiniteOptions<SourceSearchResult>,
-    ): SWRInfiniteResponse<SourceSearchResult> {
+    ): AbortableSWRInfiniteResponse<SourceSearchResult> {
         return this.doRequest(HttpMethod.SWR_GET_INFINITE, '', {
             swrOptions: {
                 getEndpoint: (page, previousData) =>
@@ -361,7 +392,7 @@ export class RequestManager {
         filters: { position: number; state: string }[],
         initialPages?: number,
         swrOptions?: SWRInfiniteOptions<SourceSearchResult>,
-    ): SWRInfiniteResponse<SourceSearchResult> {
+    ): AbortableSWRInfiniteResponse<SourceSearchResult> {
         return this.doRequest(HttpMethod.SWR_POST_INFINITE, '', {
             data: { searchTerm, filter: filters },
             swrOptions: {
@@ -378,7 +409,7 @@ export class RequestManager {
     public useGetManga(
         mangaId: number | string,
         { doOnlineFetch, ...swrOptions }: SWROptions<IManga> & RequestOption = {},
-    ): SWRResponse<IManga> {
+    ): AbortableSWRResponse<IManga> {
         const onlineFetch = doOnlineFetch ? '?onlineFetch=true' : '';
         return this.doRequest(HttpMethod.SWR_GET, `manga/${mangaId}${onlineFetch}`, {
             swrOptions,
@@ -388,7 +419,7 @@ export class RequestManager {
     public useGetFullManga(
         mangaId: number | string,
         { doOnlineFetch, ...swrOptions }: SWROptions<IManga> & RequestOption = {},
-    ): SWRResponse<IManga> {
+    ): AbortableSWRResponse<IManga> {
         const onlineFetch = doOnlineFetch ? '?onlineFetch=true' : '';
         return this.doRequest(HttpMethod.SWR_GET, `manga/${mangaId}/full${onlineFetch}`, {
             swrOptions,
@@ -399,34 +430,37 @@ export class RequestManager {
         return this.getValidImgUrlFor(`manga/${mangaId}/thumbnail`);
     }
 
-    public useGetMangaCategories(mangaId: number, swrOptions?: SWROptions<ICategory[]>): SWRResponse<ICategory[]> {
+    public useGetMangaCategories(
+        mangaId: number,
+        swrOptions?: SWROptions<ICategory[]>,
+    ): AbortableSWRResponse<ICategory[]> {
         return this.doRequest(HttpMethod.SWR_GET, `manga/${mangaId}/category`, { swrOptions });
     }
 
-    public addMangaToCategory(mangaId: number, categoryId: number): Promise<AxiosResponse> {
+    public addMangaToCategory(mangaId: number, categoryId: number): AbortableAxiosResponse {
         return this.doRequest(HttpMethod.GET, `manga/${mangaId}/category/${categoryId}`);
     }
 
-    public removeMangaFromCategory(mangaId: number, categoryId: number): Promise<AxiosResponse> {
+    public removeMangaFromCategory(mangaId: number, categoryId: number): AbortableAxiosResponse {
         return this.doRequest(HttpMethod.DELETE, `manga/${mangaId}/category/${categoryId}`);
     }
 
-    public addMangaToLibrary(mangaId: number | string): Promise<AxiosResponse> {
+    public addMangaToLibrary(mangaId: number | string): AbortableAxiosResponse {
         return this.doRequest(HttpMethod.GET, `manga/${mangaId}/library`);
     }
 
-    public removeMangaFromLibrary(mangaId: number | string): Promise<AxiosResponse> {
+    public removeMangaFromLibrary(mangaId: number | string): AbortableAxiosResponse {
         return this.doRequest(HttpMethod.DELETE, `manga/${mangaId}/library`);
     }
 
-    public setMangaMeta(mangaId: number, key: string, value: any): Promise<AxiosResponse> {
+    public setMangaMeta(mangaId: number, key: string, value: any): AbortableAxiosResponse {
         return this.doRequest(HttpMethod.POST, `manga/${mangaId}/meta`, { formData: { key, value } });
     }
 
     public useGetMangaChapters(
         mangaId: number | string,
         { doOnlineFetch, ...swrOptions }: SWROptions<IChapter[]> & RequestOption = {},
-    ): SWRResponse<IChapter[]> {
+    ): AbortableSWRResponse<IChapter[]> {
         const onlineFetch = doOnlineFetch ? '?onlineFetch=true' : '';
         return this.doRequest(HttpMethod.SWR_GET, `manga/${mangaId}/chapters${onlineFetch}`, {
             swrOptions,
@@ -443,7 +477,7 @@ export class RequestManager {
             | { chapterIds?: number[]; chapterIndexes: number[] }
             | { chapterIds: number[]; chapterIndexes?: number[] }
         ) & { change: BatchChaptersChange },
-    ): Promise<AxiosResponse> {
+    ): AbortableAxiosResponse {
         return this.doRequest(HttpMethod.POST, `manga/${mangaId}/chapter/batch`, {
             data: {
                 chapterIds,
@@ -457,13 +491,13 @@ export class RequestManager {
         mangaId: number | string,
         chapterIndex: number | string,
         swrOptions?: SWROptions<IChapter>,
-    ): SWRResponse<IChapter> {
+    ): AbortableSWRResponse<IChapter> {
         return this.doRequest(HttpMethod.SWR_GET, `manga/${mangaId}/chapter/${chapterIndex}`, {
             swrOptions,
         });
     }
 
-    public deleteDownloadedChapter(mangaId: number | string, chapterIndex: number | string): Promise<AxiosResponse> {
+    public deleteDownloadedChapter(mangaId: number | string, chapterIndex: number | string): AbortableAxiosResponse {
         return this.doRequest(HttpMethod.DELETE, `manga/${mangaId}/chapter/${chapterIndex}`);
     }
 
@@ -471,7 +505,7 @@ export class RequestManager {
         mangaId: number | string,
         chapterIndex: number | string,
         change: { read?: boolean; bookmarked?: boolean; markPrevRead?: boolean; lastPageRead?: number } = {},
-    ): Promise<AxiosResponse> {
+    ): AbortableAxiosResponse {
         return this.doRequest(HttpMethod.PATCH, `manga/${mangaId}/chapter/${chapterIndex}`, { formData: change });
     }
 
@@ -480,7 +514,7 @@ export class RequestManager {
         chapterIndex: number | string,
         key: string,
         value: any,
-    ): Promise<AxiosResponse> {
+    ): AbortableAxiosResponse {
         return this.doRequest(HttpMethod.PATCH, `manga/${mangaId}/chapter/${chapterIndex}/meta`, {
             formData: { key, value },
         });
@@ -493,51 +527,51 @@ export class RequestManager {
         );
     }
 
-    public updateChapters(chapterIds: number[], change: BatchChaptersChange): Promise<AxiosResponse> {
+    public updateChapters(chapterIds: number[], change: BatchChaptersChange): AbortableAxiosResponse {
         return this.doRequest(HttpMethod.POST, `chapter/batch`, { data: { chapterIds, change } });
     }
 
-    public useGetCategories(swrOptions?: SWROptions<ICategory[]>): SWRResponse<ICategory[]> {
+    public useGetCategories(swrOptions?: SWROptions<ICategory[]>): AbortableSWRResponse<ICategory[]> {
         return this.doRequest(HttpMethod.SWR_GET, `category`, { swrOptions });
     }
 
-    public createCategory(name: string): Promise<AxiosResponse> {
+    public createCategory(name: string): AbortableAxiosResponse {
         return this.doRequest(HttpMethod.POST, `category`, { formData: { name } });
     }
 
-    public reorderCategory(currentPosition: number, newPosition: number): Promise<AxiosResponse> {
+    public reorderCategory(currentPosition: number, newPosition: number): AbortableAxiosResponse {
         return this.doRequest(HttpMethod.PATCH, `category/reorder`, {
             formData: { from: currentPosition, to: newPosition },
         });
     }
 
-    public useGetCategoryMangas(categoryId: number, swrOptions?: SWROptions<IManga[]>): SWRResponse<IManga[]> {
+    public useGetCategoryMangas(categoryId: number, swrOptions?: SWROptions<IManga[]>): AbortableSWRResponse<IManga[]> {
         return this.doRequest(HttpMethod.SWR_GET, `category/${categoryId}`, { swrOptions });
     }
 
-    public deleteCategory(categoryId: number): Promise<AxiosResponse> {
+    public deleteCategory(categoryId: number): AbortableAxiosResponse {
         return this.doRequest(HttpMethod.DELETE, `category/${categoryId}`);
     }
 
     public updateCategory(
         categoryId: number,
         change: { name?: string; default?: boolean; includeInUpdate?: IncludeInGlobalUpdate } = {},
-    ): Promise<AxiosResponse> {
+    ): AbortableAxiosResponse {
         return this.doRequest(HttpMethod.PATCH, `category/${categoryId}`, { formData: change });
     }
 
-    public setCategoryMeta(categoryId: number, key: string, value: any): Promise<AxiosResponse> {
+    public setCategoryMeta(categoryId: number, key: string, value: any): AbortableAxiosResponse {
         return this.doRequest(HttpMethod.PATCH, `category/${categoryId}`, { formData: { key, value } });
     }
 
-    public restoreBackupFile(file: File): Promise<AxiosResponse> {
+    public restoreBackupFile(file: File): AbortableAxiosResponse {
         return this.doRequest(HttpMethod.POST, 'backup/import/file', { formData: { 'backup.proto.gz': file } });
     }
 
     public useValidateBackupFile(
         file: File,
         swrOptions?: SWROptions<BackupValidationResult>,
-    ): SWRResponse<BackupValidationResult> {
+    ): AbortableSWRResponse<BackupValidationResult> {
         return this.doRequest(HttpMethod.SWR_POST, 'backup/validate/file', {
             formData: { 'backup.proto.gz': file },
             swrOptions,
@@ -548,26 +582,26 @@ export class RequestManager {
         return this.getValidUrlFor('backup/export/file');
     }
 
-    public startDownloads(): Promise<AxiosResponse> {
+    public startDownloads(): AbortableAxiosResponse {
         return this.doRequest(HttpMethod.GET, 'downloads/start');
     }
 
-    public stopDownloads(): Promise<AxiosResponse> {
+    public stopDownloads(): AbortableAxiosResponse {
         return this.doRequest(HttpMethod.GET, 'downloads/stop');
     }
 
-    public clearDownloads(): Promise<AxiosResponse> {
+    public clearDownloads(): AbortableAxiosResponse {
         return this.doRequest(HttpMethod.GET, 'downloads/clear');
     }
 
-    public addChapterToDownloadQueue(mangaId: number | string, chapterIndex: number | string): Promise<AxiosResponse> {
+    public addChapterToDownloadQueue(mangaId: number | string, chapterIndex: number | string): AbortableAxiosResponse {
         return this.doRequest(HttpMethod.GET, `download/${mangaId}/chapter/${chapterIndex}`);
     }
 
     public removeChapterFromDownloadQueue(
         mangaId: number | string,
         chapterIndex: number | string,
-    ): Promise<AxiosResponse> {
+    ): AbortableAxiosResponse {
         return this.doRequest(HttpMethod.DELETE, `download/${mangaId}/chapter/${chapterIndex}`);
     }
 
@@ -575,22 +609,22 @@ export class RequestManager {
         mangaId: number | string,
         chapterIndex: number | string,
         position: number,
-    ): Promise<AxiosResponse> {
+    ): AbortableAxiosResponse {
         return this.doRequest(HttpMethod.PATCH, `download/${mangaId}/chapter/${chapterIndex}/reorder/${position}`);
     }
 
-    public addChaptersToDownloadQueue(chapterIds: number[]): Promise<AxiosResponse> {
+    public addChaptersToDownloadQueue(chapterIds: number[]): AbortableAxiosResponse {
         return this.doRequest(HttpMethod.POST, 'download/batch', { data: { chapterIds } });
     }
 
-    public removeChaptersFromDownloadQueue(chapterIds: number[]): Promise<AxiosResponse> {
+    public removeChaptersFromDownloadQueue(chapterIds: number[]): AbortableAxiosResponse {
         return this.doRequest(HttpMethod.DELETE, 'download/batch', { data: { chapterIds } });
     }
 
     public useGetRecentlyUpdatedChapters(
         initialPages?: number,
         swrOptions?: SWRInfiniteOptions<PaginatedList<IMangaChapter>>,
-    ): SWRInfiniteResponse<PaginatedList<IMangaChapter>> {
+    ): AbortableSWRInfiniteResponse<PaginatedList<IMangaChapter>> {
         return this.doRequest(HttpMethod.SWR_GET_INFINITE, '', {
             swrOptions: {
                 getEndpoint: (page, previousData) =>
@@ -601,15 +635,15 @@ export class RequestManager {
         });
     }
 
-    public startGlobalUpdate(categoryId?: number): Promise<AxiosResponse> {
+    public startGlobalUpdate(categoryId?: number): AbortableAxiosResponse {
         return this.doRequest(HttpMethod.POST, 'update/fetch', { formData: { categoryId } });
     }
 
-    public resetGlobalUpdate(): Promise<AxiosResponse> {
+    public resetGlobalUpdate(): AbortableAxiosResponse {
         return this.doRequest(HttpMethod.POST, 'update/reset');
     }
 
-    public useGetGlobalUpdateSummary(swrOptions?: SWROptions<IUpdateStatus>): SWRResponse<IUpdateStatus> {
+    public useGetGlobalUpdateSummary(swrOptions?: SWROptions<IUpdateStatus>): AbortableSWRResponse<IUpdateStatus> {
         return this.doRequest(HttpMethod.SWR_GET, 'update/summary', { swrOptions });
     }
 }
