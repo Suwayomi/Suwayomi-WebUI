@@ -108,7 +108,7 @@ export default function SourceMangas({ popular }: { popular: boolean }) {
                               };
                     }),
                 )
-                .then(() => {
+                .response.then(() => {
                     setTriggerUpdate(0);
                     makeFilters();
                 });
@@ -128,7 +128,7 @@ export default function SourceMangas({ popular }: { popular: boolean }) {
             setNoreset(undefined);
             setReset(1);
         } else if (Noreset === undefined) {
-            requestManager.resetSourceFilters(sourceId).then(() => {
+            requestManager.resetSourceFilters(sourceId).response.then(() => {
                 makeFilters();
                 setSearch(false);
                 if (reset === 1) {

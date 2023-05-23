@@ -85,7 +85,7 @@ const DownloadQueue: React.FC = () => {
             return;
         }
 
-        requestManager.startDownloads().catch(() => {});
+        requestManager.startDownloads().response.catch(() => {});
     };
 
     return (

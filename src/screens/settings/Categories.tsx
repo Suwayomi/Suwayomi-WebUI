@@ -79,7 +79,7 @@ export default function Categories() {
         newData.splice(to, 0, removed);
         mutate(newData, { revalidate: false });
 
-        requestManager.reorderCategory(from + 1, to + 1).finally(() => mutate());
+        requestManager.reorderCategory(from + 1, to + 1).response.finally(() => mutate());
     };
 
     const onDragEnd = (result: DropResult) => {
@@ -117,18 +117,18 @@ export default function Categories() {
         setDialogOpen(false);
 
         if (categoryToEdit === -1) {
-            requestManager.createCategory(dialogName).finally(() => mutate());
+            requestManager.createCategory(dialogName).response.finally(() => mutate());
         } else {
             const category = categories[categoryToEdit];
             requestManager
                 .updateCategory(category.id, { name: dialogName, default: dialogDefault })
-                .finally(() => mutate());
+                .response.finally(() => mutate());
         }
     };
 
     const deleteCategory = (index: number) => {
         const category = categories[index];
-        requestManager.deleteCategory(category.id).finally(() => mutate());
+        requestManager.deleteCategory(category.id).response.finally(() => mutate());
     };
 
     return (

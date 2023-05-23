@@ -71,7 +71,7 @@ const ChapterCard: React.FC<IProps> = (props: IProps) => {
                 [key]: value,
                 lastPageRead: key === 'read' ? 0 : undefined,
             })
-            .then(() => triggerChaptersUpdate());
+            .response.then(() => triggerChaptersUpdate());
     };
 
     const downloadChapter = () => {
@@ -82,7 +82,7 @@ const ChapterCard: React.FC<IProps> = (props: IProps) => {
     const deleteChapter = () => {
         requestManager
             .removeChapterFromDownloadQueue(chapter.mangaId, chapter.index)
-            .then(() => triggerChaptersUpdate());
+            .response.then(() => triggerChaptersUpdate());
         handleClose();
     };
 
