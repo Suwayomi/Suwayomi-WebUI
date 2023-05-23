@@ -95,7 +95,7 @@ export class RestClient implements IRestClient {
         });
     }
 
-    public updateConfig(config: AxiosRequestConfig): void {
+    public updateConfig(config: Partial<AxiosInstance['defaults']>): void {
         this.client.defaults = { ...this.client.defaults, ...config };
     }
 
