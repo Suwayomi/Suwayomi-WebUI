@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 import SourceMangaGrid from 'components/source/SourceMangaGrid';
@@ -17,10 +17,56 @@ import AppbarSearch from 'components/util/AppbarSearch';
 import { useQueryParam, StringParam } from 'use-query-params';
 import SourceGridLayout from 'components/source/GridLayouts';
 import { useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
-import { IManga, IMangaCard, ISourceFilters } from 'typings';
 import { useTranslation } from 'react-i18next';
 import Link from '@mui/material/Link';
 import requestManager from 'lib/RequestManager';
+import { useDebounce } from 'components/manga/hooks';
+import { Box, Button, styled } from '@mui/material';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import NewReleasesIcon from '@mui/icons-material/NewReleases';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import { TranslationKey } from 'typings';
+
+const ContentTypeMenu = styled('div')(({ theme }) => ({
+    display: 'flex',
+    position: 'fixed',
+    top: '64px',
+    width: '100%',
+    zIndex: 1,
+    backgroundColor: theme.palette.background.default,
+    [theme.breakpoints.down('sm')]: {
+        top: '56px', // header height
+    },
+}));
+
+const ContentTypeButton = styled(Button)(() => ({
+    marginTop: '13px',
+    marginBottom: '13px',
+    marginLeft: '13px',
+}));
+
+const StyledGridWrapper = styled(Box, { shouldForwardProp: (prop) => prop !== 'hasContent' })<{ hasContent: boolean }>(
+    ({ theme, hasContent }) => ({
+        // 62.5px ContentTypeMenu height (- padding of grid + grid item)
+        marginTop: `calc(62.5px ${hasContent ? '- 13px' : ''})`,
+        // header height - ContentTypeMenu height
+        minHeight: 'calc(100vh - 64px - 62.5px)',
+        position: 'relative',
+        [theme.breakpoints.down('sm')]: {
+            // 62.5px ContentTypeMenu - 8px margin diff header height (56px) (- padding of grid + grid item)
+            marginTop: `calc(62.5px - 8px ${hasContent ? '- 13px' : ''})`,
+            // header height (+ 8px margin) - footer height - ContentTypeMenu height
+            minHeight: 'calc(100vh - 64px - 64px - 62.5px)',
+        },
+    }),
+);
+
+export enum SourceContentType {
+    POPULAR,
+    LATEST,
+    SEARCH,
+    FILTER,
+}
 
 interface IPos {
     position: number;
@@ -28,124 +74,168 @@ interface IPos {
     group?: number;
 }
 
-export default function SourceMangas({ popular }: { popular: boolean }) {
+const SOURCE_CONTENT_TYPE_TO_ERROR_MSG_KEY: { [contentType in SourceContentType]: TranslationKey } = {
+    [SourceContentType.POPULAR]: 'manga.error.label.no_mangas_found',
+    [SourceContentType.LATEST]: 'manga.error.label.no_mangas_found',
+    [SourceContentType.FILTER]: 'manga.error.label.no_matches',
+    [SourceContentType.SEARCH]: 'manga.error.label.no_mangas_found',
+};
+
+const useSourceManga = (
+    sourceId: string,
+    contentType: SourceContentType,
+    searchTerm: string | null | undefined,
+    filters: IPos[],
+) => {
+    switch (contentType) {
+        case SourceContentType.POPULAR:
+            return requestManager.useGetSourcePopularMangas(sourceId, 1);
+        case SourceContentType.LATEST:
+            return requestManager.useGetSourceLatestMangas(sourceId, 1);
+        case SourceContentType.SEARCH:
+            return requestManager.useSourceQuickSearch(sourceId, searchTerm ?? '', [], 1);
+        case SourceContentType.FILTER:
+            return requestManager.useSourceQuickSearch(
+                sourceId,
+                searchTerm ?? '',
+                filters.map((filter) => {
+                    const { position, state, group } = filter;
+
+                    const isPartOfGroup = group !== undefined;
+                    if (isPartOfGroup) {
+                        return {
+                            position: group,
+                            state: JSON.stringify({
+                                position,
+                                state,
+                            }),
+                        };
+                    }
+
+                    return filter;
+                }),
+                1,
+            );
+        default:
+            throw new Error(`Unknown ContentType "${contentType}"`);
+    }
+};
+
+export default function SourceMangas() {
     const { t } = useTranslation();
     const { setTitle, setAction } = useContext(NavbarContext);
-    const history = useHistory();
 
     const { sourceId } = useParams<{ sourceId: string }>();
 
-    const { data: source } = requestManager.useGetSource(sourceId);
-
-    const [isConfigurable, setIsConfigurable] = useState<boolean>(false);
-    const [mangas, setMangas] = useState<IMangaCard[]>([]);
-    const [hasNextPage, setHasNextPage] = useState<boolean>(false);
-    const [lastPageNum, setLastPageNum] = useState<number>(1);
-    const [fetched, setFetched] = useState<boolean>(false);
-
-    const [Search, setSearch] = useState<boolean>();
-    const [query, setquery] = useQueryParam('query', StringParam);
-    const [reset, setReset] = React.useState(2);
-    const [update, setUpdate] = useState<IPos[]>([]);
-    const [triggerUpdate, setTriggerUpdate] = useState<number>(2);
-    const [Data, SetData] = useState<ISourceFilters[]>();
-
-    const [Init, setInit] = useState<undefined | null>();
-    const [Noreset, setNoreset] = useQueryParam('R');
+    const history = useHistory<{ contentType: SourceContentType }>();
+    const { contentType: currentLocationContentType = SourceContentType.POPULAR } = history.location.state ?? {};
 
     const { options } = useLibraryOptionsContext();
+    const [query] = useQueryParam('query', StringParam);
+    const [dialogFiltersToApply, setDialogFiltersToApply] = useState<IPos[]>([]);
+    const [filtersToApply, setFiltersToApply] = useState<IPos[]>([]);
+    const searchTerm = useDebounce(query, 1000);
+    const [contentType, setContentType] = useState(currentLocationContentType);
+    const {
+        data: requestResult = [],
+        isLoading,
+        size: lastPageNum,
+        setSize: setPages,
+        mutate: refreshData,
+        abortRequest,
+    } = useSourceManga(sourceId, contentType, searchTerm, filtersToApply);
+    const mangas = useMemo(
+        () =>
+            requestResult
+                .map((result) => result.mangaList)
+                .reduce((prevResultMangas, resultMangas) => [...prevResultMangas, ...resultMangas], []),
+        [requestResult],
+    );
+    const hasNextPage = requestResult[requestResult.length - 1]?.hasNextPage;
+    const { data: filters = [], mutate: mutateFilters } = requestManager.useGetSourceFilters(sourceId);
+    const { data: source } = requestManager.useGetSource(sourceId);
+    const [triggerDataRefresh, setTriggerDataRefresh] = useState(false);
 
-    function makeFilters() {
-        requestManager
-            .getClient()
-            .get(`/api/v1/source/${sourceId}/filters`)
-            .then((response) => response.data)
-            .then((data: ISourceFilters[]) => {
-                SetData(data);
-            });
+    const message = !isLoading ? (t(SOURCE_CONTENT_TYPE_TO_ERROR_MSG_KEY[contentType]) as string) : undefined;
+    const isLocalSource = sourceId === '0';
+    const messageExtra = isLocalSource ? (
+        <>
+            <span>{t('source.local_source.label.checkout')} </span>
+            <Link href="https://github.com/Suwayomi/Tachidesk-Server/wiki/Local-Source">
+                {t('source.local_source.label.guide')}
+            </Link>
+        </>
+    ) : undefined;
+
+    const isSearchTermAvailable = searchTerm && query?.length;
+    const setSearchContentType = isSearchTermAvailable && contentType !== SourceContentType.SEARCH;
+    if (setSearchContentType) {
+        setContentType(SourceContentType.SEARCH);
     }
 
-    useEffect(() => {
-        setTitle(t('source.title')); // title is later set after a fetch but we set it here once
-    }, [t]);
+    const closeSearch = !query?.length && contentType === SourceContentType.SEARCH;
+    if (closeSearch) {
+        setContentType(currentLocationContentType);
+    }
 
-    useEffect(() => {
-        if (!source) {
+    let wasLoadMoreTriggered = false;
+    const setLastPageNum = useCallback(() => {
+        if (!hasNextPage || wasLoadMoreTriggered) {
             return;
         }
 
-        setTitle(source.displayName);
-        setIsConfigurable(source.isConfigurable);
-    }, [source]);
+        wasLoadMoreTriggered = true;
+        setPages(lastPageNum + 1);
+    }, [setPages, hasNextPage, lastPageNum]);
 
-    useEffect(() => {
-        if (triggerUpdate === 2) {
-            return;
+    const resetFilters = useCallback(async () => {
+        setDialogFiltersToApply([]);
+        setFiltersToApply([]);
+        try {
+            // required since previous implementation used to set the filters on server side (server caches them), thus, it has to be made sure that they are reset
+            await requestManager.resetSourceFilters(sourceId);
+            mutateFilters();
+        } catch (error) {
+            // ignore
         }
-        if (triggerUpdate === 0) {
-            setTriggerUpdate(1);
-            return;
-        }
-        if (update.length > 0) {
-            const rep = update;
-            setUpdate([]);
-            requestManager
-                .setSourceFilters(
-                    sourceId,
-                    rep.map((e: IPos) => {
-                        const { position, state, group }: IPos = e;
-                        return group === undefined
-                            ? {
-                                  position,
-                                  state,
-                              }
-                            : {
-                                  position: group,
-                                  state: JSON.stringify({
-                                      position,
-                                      state,
-                                  }),
-                              };
-                    }),
-                )
-                .response.then(() => {
-                    setTriggerUpdate(0);
-                    makeFilters();
-                });
-        } else {
-            setFetched(false);
-            setMangas([]);
-            setLastPageNum(0);
-            if (Noreset === undefined && Search) {
-                setNoreset(null);
+        setTriggerDataRefresh(true);
+    }, [sourceId]);
+
+    const updateContentType = useCallback(
+        (newContentType: SourceContentType) => {
+            history.replace(sourceId, { contentType: newContentType });
+            setContentType(newContentType);
+        },
+        [setContentType],
+    );
+
+    useEffect(
+        () => () => {
+            if (contentType !== SourceContentType.SEARCH) {
+                return;
             }
-        }
-    }, [triggerUpdate]);
+
+            abortRequest(new Error(`SourceMangas(${sourceId}): search string changed`));
+        },
+        [searchTerm, contentType],
+    );
 
     useEffect(() => {
-        if (reset === 0) {
-            setquery(undefined);
-            setNoreset(undefined);
-            setReset(1);
-        } else if (Noreset === undefined) {
-            requestManager.resetSourceFilters(sourceId).response.then(() => {
-                makeFilters();
-                setSearch(false);
-                if (reset === 1) {
-                    setTriggerUpdate(0);
-                }
-            });
+        if (!triggerDataRefresh) {
             return;
         }
-        makeFilters();
-    }, [reset]);
+
+        refreshData();
+        setTriggerDataRefresh(false);
+    }, [triggerDataRefresh]);
 
     useEffect(() => {
+        setTitle(source?.displayName ?? t('source.title'));
         setAction(
             <>
-                <SourceGridLayout />
                 <AppbarSearch />
-                {isConfigurable && (
+                <SourceGridLayout />
+                {source?.isConfigurable && (
                     <IconButton
                         onClick={() => history.push(`/sources/${sourceId}/configure/`)}
                         aria-label="display more actions"
@@ -158,91 +248,33 @@ export default function SourceMangas({ popular }: { popular: boolean }) {
                 )}
             </>,
         );
-
-        return () => {
-            setAction(null);
-        };
-    }, [isConfigurable]);
-
-    useEffect(() => {
-        if (query) {
-            setSearch(true);
-        } else {
-            setSearch(false);
-        }
-        if (Noreset === undefined) {
-            setInit(null);
-        }
-    }, [query]);
-
-    useEffect(() => {
-        if (Search !== undefined && query !== undefined && Init === null) {
-            const delayDebounceFn = setTimeout(() => {
-                setTriggerUpdate(0);
-            }, 1000);
-            return () => clearTimeout(delayDebounceFn);
-        }
-        if (Search !== undefined) {
-            setInit(null);
-        }
-        return () => {};
-    }, [Search, query]);
-
-    useEffect(() => {
-        if (lastPageNum !== 0) {
-            const sourceType = popular ? 'popular' : 'latest';
-            requestManager
-                .getClient()
-                .get(
-                    `/api/v1/source/${sourceId}/${
-                        query !== undefined || Search || Noreset === null ? 'search' : sourceType
-                    }${
-                        query !== undefined || Search || Noreset === null
-                            ? `?searchTerm=${query || ''}&pageNum=${lastPageNum}`
-                            : `/${lastPageNum}`
-                    }`,
-                )
-                .then((response) => response.data)
-                .then((data: { mangaList: IManga[]; hasNextPage: boolean }) => {
-                    setMangas([
-                        ...mangas,
-                        ...data.mangaList.map((it) => ({
-                            title: it.title,
-                            thumbnailUrl: it.thumbnailUrl,
-                            id: it.id,
-                            inLibrary: it.inLibrary,
-                            genre: it.genre,
-                            inLibraryAt: it.inLibraryAt,
-                            lastReadAt: it.lastReadAt,
-                        })),
-                    ]);
-                    setHasNextPage(data.hasNextPage);
-                    setFetched(true);
-                });
-        } else {
-            setLastPageNum(1);
-        }
-    }, [lastPageNum]);
-
-    let message;
-    let messageExtra;
-
-    if (fetched) {
-        message = t('manga.error.label.no_mangas_found');
-        if (sourceId === '0') {
-            messageExtra = (
-                <>
-                    <span>{t('source.local_source.label.checkout')} </span>
-                    <Link href="https://github.com/Suwayomi/Tachidesk-Server/wiki/Local-Source">
-                        {t('source.local_source.label.guide')}
-                    </Link>
-                </>
-            );
-        }
-    }
+    }, [t, source]);
 
     return (
-        <>
+        <StyledGridWrapper hasContent={!!mangas.length}>
+            <ContentTypeMenu>
+                <ContentTypeButton
+                    variant={contentType === SourceContentType.POPULAR ? 'contained' : 'outlined'}
+                    startIcon={<FavoriteIcon />}
+                    onClick={() => updateContentType(SourceContentType.POPULAR)}
+                >
+                    {t('global.button.browse')}
+                </ContentTypeButton>
+                <ContentTypeButton
+                    variant={contentType === SourceContentType.LATEST ? 'contained' : 'outlined'}
+                    startIcon={<NewReleasesIcon />}
+                    onClick={() => updateContentType(SourceContentType.LATEST)}
+                >
+                    {t('global.button.latest')}
+                </ContentTypeButton>
+                <ContentTypeButton
+                    variant={contentType === SourceContentType.FILTER ? 'contained' : 'outlined'}
+                    startIcon={<FilterListIcon />}
+                    onClick={() => updateContentType(SourceContentType.FILTER)}
+                >
+                    {t('global.button.filter')}
+                </ContentTypeButton>
+            </ContentTypeMenu>
             <SourceMangaGrid
                 mangas={mangas}
                 hasNextPage={hasNextPage}
@@ -250,19 +282,21 @@ export default function SourceMangas({ popular }: { popular: boolean }) {
                 setLastPageNum={setLastPageNum}
                 message={message}
                 messageExtra={messageExtra}
-                isLoading={!fetched}
+                isLoading={isLoading}
                 gridLayout={options.SourcegridLayout}
             />
-            {Data !== undefined && (
+            {contentType === SourceContentType.FILTER && (
                 <SourceOptions
-                    sourceFilter={Data}
-                    updateFilterValue={setUpdate}
-                    resetFilterValue={setReset}
-                    setTriggerUpdate={setTriggerUpdate}
-                    setSearch={setSearch}
-                    update={update}
+                    sourceFilter={filters}
+                    updateFilterValue={setDialogFiltersToApply}
+                    setTriggerUpdate={() => {
+                        setFiltersToApply(dialogFiltersToApply);
+                        setTriggerDataRefresh(true);
+                    }}
+                    resetFilterValue={resetFilters}
+                    update={dialogFiltersToApply}
                 />
             )}
-        </>
+        </StyledGridWrapper>
     );
 }
