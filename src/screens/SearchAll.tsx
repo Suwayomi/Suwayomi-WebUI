@@ -78,77 +78,104 @@ const compareSourcesBySearchResult = (
 };
 const TRIGGER_SEARCH_THRESHOLD = 1000; // ms
 
-const SourceSearchPreview = ({
-    source,
-    onSearchRequestFinished,
-}: {
-    source: ISource;
-    onSearchRequestFinished: (source: ISource, isLoading: boolean, hasResults: boolean, emptySearch: boolean) => void;
-}) => {
-    const { t } = useTranslation();
-    const [query] = useQueryParam('query', StringParam);
-    const searchString = useDebounce(query, TRIGGER_SEARCH_THRESHOLD);
-    const skipRequest = !searchString;
+const SourceSearchPreview = React.memo(
+    ({
+        source,
+        onSearchRequestFinished,
+        searchString,
+        emptyQuery,
+    }: {
+        source: ISource;
+        onSearchRequestFinished: (
+            source: ISource,
+            isLoading: boolean,
+            hasResults: boolean,
+            emptySearch: boolean,
+        ) => void;
+        searchString: string | null | undefined;
+        emptyQuery: boolean;
+    }) => {
+        const { t } = useTranslation();
+        const skipRequest = !searchString;
 
-    const { id, displayName, lang } = source;
-    const {
-        data: searchResult,
-        size,
-        setSize,
-        isLoading,
-        error,
-    } = requestManager.useSourceSearch(id, searchString ?? '', 1, { skipRequest });
-    const mangas = !isLoading ? searchResult?.[0]?.mangaList ?? [] : [];
-    const noMangasFound = !isLoading && !mangas.length;
+        const { id, displayName, lang } = source;
+        const {
+            data: searchResult,
+            size,
+            setSize,
+            isLoading,
+            error,
+            abortRequest,
+        } = requestManager.useSourceSearch(id, searchString ?? '', 1, { skipRequest });
+        const mangas = !isLoading ? searchResult?.[0]?.mangaList ?? [] : [];
+        const noMangasFound = !isLoading && !mangas.length;
 
-    useEffect(() => {
-        onSearchRequestFinished(source, isLoading, !noMangasFound, !searchString);
-    }, [isLoading, noMangasFound, searchString]);
+        useEffect(() => {
+            onSearchRequestFinished(source, isLoading, !noMangasFound, !searchString);
+        }, [isLoading, noMangasFound, searchString]);
 
-    if (!isLoading && !searchString) {
-        return null;
-    }
+        let errorMessage: string | undefined;
+        if (error) {
+            errorMessage = t('search.error.label.source_search_failed');
+        } else if (noMangasFound) {
+            errorMessage = t('manga.error.label.no_mangas_found');
+        }
 
-    let errorMessage: string | undefined;
-    if (error) {
-        errorMessage = t('search.error.label.source_search_failed');
-    } else if (noMangasFound) {
-        errorMessage = t('manga.error.label.no_mangas_found');
-    }
+        useEffect(
+            () => () => {
+                abortRequest(
+                    new Error(`SourceSearchPreview(${source.id}, ${source.displayName}): search string changed`),
+                );
+            },
+            [searchString],
+        );
 
-    return (
-        <>
-            <Card sx={{ margin: '10px' }}>
-                <CardActionArea component={Link} to={`/sources/${id}/popular/?R&query=${query}`} sx={{ p: 3 }}>
-                    <Typography variant="h5">{displayName}</Typography>
-                    <Typography variant="caption">{translateExtensionLanguage(lang)}</Typography>
-                </CardActionArea>
-            </Card>
-            <MangaGrid
-                mangas={mangas}
-                isLoading={isLoading}
-                hasNextPage={false}
-                lastPageNum={size}
-                setLastPageNum={setSize}
-                horizontal
-                noFaces
-                message={errorMessage}
-                inLibraryIndicator
-            />
-        </>
-    );
-};
+        if ((!isLoading && !searchString) || emptyQuery) {
+            return null;
+        }
+
+        return (
+            <>
+                <Card sx={{ margin: '10px' }}>
+                    <CardActionArea
+                        component={Link}
+                        to={`/sources/${id}/popular/?R&query=${searchString}`}
+                        sx={{ p: 3 }}
+                    >
+                        <Typography variant="h5">{displayName}</Typography>
+                        <Typography variant="caption">{translateExtensionLanguage(lang)}</Typography>
+                    </CardActionArea>
+                </Card>
+                <MangaGrid
+                    mangas={mangas}
+                    isLoading={isLoading}
+                    hasNextPage={false}
+                    lastPageNum={size}
+                    setLastPageNum={setSize}
+                    horizontal
+                    noFaces
+                    message={errorMessage}
+                    inLibraryIndicator
+                />
+            </>
+        );
+    },
+);
 
 const SearchAll: React.FC = () => {
     const { t } = useTranslation();
 
     const { setTitle, setAction } = useContext(NavbarContext);
 
+    const [query] = useQueryParam('query', StringParam);
+    const searchString = useDebounce(query, TRIGGER_SEARCH_THRESHOLD);
+
     const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownSourceLangs', sourceDefualtLangs());
     const [showNsfw] = useLocalStorage<boolean>('showNsfw', true);
 
     const { data: sources = [] } = requestManager.useGetSourceList();
     const [sourceToLoadingStateMap, setSourceToLoadingStateMap] = useState<SourceToLoadingStateMap>(new Map());
+    const debouncedSourceToLoadingStateMap = useDebounce(sourceToLoadingStateMap, 500);
 
     const sourcesSortedByName = useMemo(() => [...sources].sort(compareSourceByName), [sources]);
     const sourcesFilteredByLang = useMemo(
@@ -162,9 +189,9 @@ const SearchAll: React.FC = () => {
     const sourcesSortedByResult = useMemo(
         () =>
             [...sourcesFilteredByNsfw].sort((sourceA, sourceB) =>
-                compareSourcesBySearchResult(sourceA, sourceB, sourceToLoadingStateMap),
+                compareSourcesBySearchResult(sourceA, sourceB, debouncedSourceToLoadingStateMap),
             ),
-        [sourcesFilteredByNsfw, sourceToLoadingStateMap],
+        [sourcesFilteredByNsfw, debouncedSourceToLoadingStateMap],
     );
 
     const updateSourceLoadingState = useCallback(
@@ -175,7 +202,7 @@ const SearchAll: React.FC = () => {
                 return mapCopy;
             });
         },
-        [sourceToLoadingStateMap, setSourceToLoadingStateMap],
+        [setSourceToLoadingStateMap],
     );
 
     useEffect(() => {
@@ -208,6 +235,8 @@ const SearchAll: React.FC = () => {
                     key={source.id}
                     source={source}
                     onSearchRequestFinished={updateSourceLoadingState}
+                    searchString={searchString}
+                    emptyQuery={!query}
                 />
             ))}
         </>
