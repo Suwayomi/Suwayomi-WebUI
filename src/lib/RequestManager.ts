@@ -52,10 +52,16 @@ type CustomSWROptions<Data> = {
 type SWROptions<Data = any, Error = any> = SWRConfiguration<Data, Error> & CustomSWROptions<Data>;
 type SWRInfiniteOptions<Data = any, Error = any> = SWRInfiniteConfiguration<Data, Error> & CustomSWROptions<Data>;
 
+type SWRInfiniteResponseLoadInfo = {
+    isInitialLoad: boolean;
+    isLoadMore: boolean;
+};
 type AbortableRequest = { abortRequest: AbortController['abort'] };
 type AbortableAxiosResponse<Data = any> = { response: Promise<AxiosResponse<Data>> } & AbortableRequest;
 type AbortableSWRResponse<Data = any, Error = any> = SWRResponse<Data, Error> & AbortableRequest;
-type AbortableSWRInfiniteResponse<Data = any, Error = any> = SWRInfiniteResponse<Data, Error> & AbortableRequest;
+type AbortableSWRInfiniteResponse<Data = any, Error = any> = SWRInfiniteResponse<Data, Error> &
+    AbortableRequest &
+    SWRInfiniteResponseLoadInfo;
 
 // the following endpoints have not been implemented:
 //   - PUT  /api/v1/manga/{mangaId}/chapter/{chapterIndex}  - modify chapter    # PATCH endpoint used instead
@@ -144,11 +150,11 @@ export class RequestManager {
             axiosOptions,
             swrOptions,
         }: { data?: any; axiosOptions?: AxiosRequestConfig; swrOptions?: OptionsSWR } = {},
-    ): SWRInfiniteResponse<Data, ErrorResponse> {
+    ): SWRInfiniteResponse<Data, ErrorResponse> & SWRInfiniteResponseLoadInfo {
         const { skipRequest, ...swrConfig } = swrOptions ?? {};
 
         // useSWRInfinite will (by default) revalidate the first page, to check if the other pages have to be revalidated as well
-        const result = useSWRInfinite<Data, ErrorResponse>(
+        const swrResult = useSWRInfinite<Data, ErrorResponse>(
             (index, previousData) => {
                 const pageEndpoint = getEndpoint(index, previousData);
                 return pageEndpoint !== null && !skipRequest ? this.getValidUrlFor(pageEndpoint) : null;
@@ -159,14 +165,17 @@ export class RequestManager {
             },
         );
 
-        return {
-            ...result,
+        const isNextPageMissing = !!swrResult.data && typeof swrResult.data[swrResult.size - 1] === 'undefined';
+        const isLoadingMore = swrResult.size > 0 && isNextPageMissing;
+        const customSwrResult = {
+            ...swrResult,
+            isInitialLoad: swrResult.isLoading,
             // SWR "isLoading" state is only updated for the first load, for every subsequent load it's "false"
-            isLoading:
-                result.isLoading ||
-                // check if more data is being loaded
-                (result.size > 0 && !!result.data && typeof result.data[result.size - 1] === 'undefined'),
+            isLoadMore: !swrResult.isLoading && isLoadingMore,
         };
+        customSwrResult.isLoading = customSwrResult.isInitialLoad || customSwrResult.isLoadMore;
+
+        return customSwrResult;
     }
 
     /**
