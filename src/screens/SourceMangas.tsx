@@ -19,13 +19,13 @@ import SourceGridLayout from 'components/source/GridLayouts';
 import { useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
 import { useTranslation } from 'react-i18next';
 import Link from '@mui/material/Link';
-import requestManager from 'lib/RequestManager';
+import requestManager, { AbortableSWRInfiniteResponse } from 'lib/RequestManager';
 import { useDebounce } from 'components/manga/hooks';
 import { Box, Button, styled } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import NewReleasesIcon from '@mui/icons-material/NewReleases';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { TranslationKey } from 'typings';
+import { IManga, PaginatedMangaList, TranslationKey } from 'typings';
 
 const ContentTypeMenu = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -81,21 +81,45 @@ const SOURCE_CONTENT_TYPE_TO_ERROR_MSG_KEY: { [contentType in SourceContentType]
     [SourceContentType.SEARCH]: 'manga.error.label.no_mangas_found',
 };
 
+type SourceMangaResponse = Omit<AbortableSWRInfiniteResponse<PaginatedMangaList>, 'data'> & {
+    data: {
+        items: IManga[];
+        hasNextPage: boolean;
+    };
+};
+
+const getUniqueMangas = (mangas: IManga[]): IManga[] => {
+    const uniqueMangas: IManga[] = [];
+
+    mangas.forEach((manga) => {
+        const isDuplicate = uniqueMangas.some((uniqueManga) => uniqueManga.id === manga.id);
+        if (!isDuplicate) {
+            uniqueMangas.push(manga);
+        }
+    });
+
+    return uniqueMangas;
+};
+
 const useSourceManga = (
     sourceId: string,
     contentType: SourceContentType,
     searchTerm: string | null | undefined,
     filters: IPos[],
-) => {
+): SourceMangaResponse => {
+    let result: AbortableSWRInfiniteResponse<PaginatedMangaList>;
     switch (contentType) {
         case SourceContentType.POPULAR:
-            return requestManager.useGetSourcePopularMangas(sourceId, 1);
+            result = requestManager.useGetSourcePopularMangas(sourceId, 1);
+            break;
         case SourceContentType.LATEST:
-            return requestManager.useGetSourceLatestMangas(sourceId, 1);
+            result = requestManager.useGetSourceLatestMangas(sourceId, 1);
+            break;
         case SourceContentType.SEARCH:
-            return requestManager.useSourceQuickSearch(sourceId, searchTerm ?? '', [], 1);
+            result = requestManager.useSourceQuickSearch(sourceId, searchTerm ?? '', [], 1);
+            break;
         case SourceContentType.FILTER:
-            return requestManager.useSourceQuickSearch(
+            result = requestManager.useSourceQuickSearch(
                 sourceId,
                 searchTerm ?? '',
                 filters.map((filter) => {
@@ -116,9 +140,20 @@ const useSourceManga = (
                 }),
                 1,
             );
+            break;
         default:
             throw new Error(`Unknown ContentType "${contentType}"`);
     }
+
+    const pages = result.data;
+    const { hasNextPage } = pages?.[pages.length - 1] ?? { hasNextPage: false };
+    const items = useMemo(
+        () => (pages ?? []).map((page) => page.mangaList).reduce((prevList, list) => [...prevList, ...list], []),
+        [pages],
+    );
+    const uniqueItems = useMemo(() => getUniqueMangas(items), [items]);
+
+    return { ...result, data: { items: uniqueItems, hasNextPage } };
 };
 
 export default function SourceMangas() {
@@ -137,7 +172,7 @@ export default function SourceMangas() {
     const searchTerm = useDebounce(query, 1000);
     const [contentType, setContentType] = useState(currentLocationContentType);
     const {
-        data: requestResult = [],
+        data: { items: mangas, hasNextPage } = { items: [], hasNextPage: false },
         isLoading,
         size: lastPageNum,
         setSize: setPages,
@@ -145,14 +180,6 @@ export default function SourceMangas() {
         abortRequest,
         isValidating,
     } = useSourceManga(sourceId, contentType, searchTerm, filtersToApply);
-    const mangas = useMemo(
-        () =>
-            requestResult
-                .map((result) => result.mangaList)
-                .reduce((prevResultMangas, resultMangas) => [...prevResultMangas, ...resultMangas], []),
-        [requestResult],
-    );
-    const hasNextPage = requestResult[requestResult.length - 1]?.hasNextPage;
     const { data: filters = [], mutate: mutateFilters } = requestManager.useGetSourceFilters(sourceId);
     const { data: source } = requestManager.useGetSource(sourceId);
     const [triggerDataRefresh, setTriggerDataRefresh] = useState(false);
