@@ -288,7 +288,7 @@ export default function SourceMangas() {
                     startIcon={<FavoriteIcon />}
                     onClick={() => updateContentType(SourceContentType.POPULAR)}
                 >
-                    {t('global.button.browse')}
+                    {t('global.button.popular')}
                 </ContentTypeButton>
                 <ContentTypeButton
                     variant={contentType === SourceContentType.LATEST ? 'contained' : 'outlined'}

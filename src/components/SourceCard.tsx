@@ -135,7 +135,7 @@ const SourceCard: React.FC<IProps> = (props: IProps) => {
                                 component={Link}
                                 to={{ pathname: `/sources/${id}`, state: { contentType: SourceContentType.POPULAR } }}
                             >
-                                {t('global.button.browse')}
+                                {t('global.button.popular')}
                             </Button>
                         </WiderWidthButtons>
                     </>
