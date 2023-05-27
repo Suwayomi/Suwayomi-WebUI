@@ -143,6 +143,7 @@ export default function SourceMangas() {
         setSize: setPages,
         mutate: refreshData,
         abortRequest,
+        isValidating,
     } = useSourceManga(sourceId, contentType, searchTerm, filtersToApply);
     const mangas = useMemo(
         () =>
@@ -155,6 +156,8 @@ export default function SourceMangas() {
     const { data: filters = [], mutate: mutateFilters } = requestManager.useGetSourceFilters(sourceId);
     const { data: source } = requestManager.useGetSource(sourceId);
     const [triggerDataRefresh, setTriggerDataRefresh] = useState(false);
+
+    const isValidatingMangasForFilter = !isLoading && isValidating && contentType === SourceContentType.FILTER;
 
     const message = !isLoading ? (t(SOURCE_CONTENT_TYPE_TO_ERROR_MSG_KEY[contentType]) as string) : undefined;
     const isLocalSource = sourceId === '0';
@@ -276,13 +279,13 @@ export default function SourceMangas() {
                 </ContentTypeButton>
             </ContentTypeMenu>
             <SourceMangaGrid
-                mangas={mangas}
+                mangas={isValidatingMangasForFilter ? [] : mangas}
                 hasNextPage={hasNextPage}
                 lastPageNum={lastPageNum}
                 setLastPageNum={setLastPageNum}
                 message={message}
                 messageExtra={messageExtra}
-                isLoading={isLoading}
+                isLoading={isLoading || isValidatingMangasForFilter}
                 gridLayout={options.SourcegridLayout}
             />
             {contentType === SourceContentType.FILTER && (
