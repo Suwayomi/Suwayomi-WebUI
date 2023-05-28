@@ -71,11 +71,8 @@ const App: React.FC = () => (
 
                 {/* Manga Routes */}
 
-                <Route path="/sources/:sourceId/popular/">
-                    <SourceMangas popular />
-                </Route>
-                <Route path="/sources/:sourceId/latest/">
-                    <SourceMangas popular={false} />
+                <Route exact path="/sources/:sourceId">
+                    <SourceMangas />
                 </Route>
                 <Route path="/sources/:sourceId/configure/">
                     <SourceConfigure />

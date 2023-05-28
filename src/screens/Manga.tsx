@@ -14,7 +14,6 @@ import ChapterList from 'components/manga/ChapterList';
 import { useRefreshManga } from 'components/manga/hooks';
 import MangaDetails from 'components/manga/MangaDetails';
 import MangaToolbarMenu from 'components/manga/MangaToolbarMenu';
-import { NavbarToolbar } from 'components/navbar/DefaultNavBar';
 import EmptyView from 'components/util/EmptyView';
 import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
 import React, { useContext, useEffect, useRef } from 'react';
@@ -27,7 +26,7 @@ const AUTOFETCH_AGE = 60 * 60 * 24; // 24 hours
 const Manga: React.FC = () => {
     const { t } = useTranslation();
 
-    const { setTitle } = useContext(NavbarContext);
+    const { setTitle, setAction } = useContext(NavbarContext);
     const { id } = useParams<{ id: string }>();
     const autofetchedRef = useRef(false);
 
@@ -36,7 +35,7 @@ const Manga: React.FC = () => {
     const [refresh, { loading: refreshing }] = useRefreshManga(id);
 
     useSetDefaultBackTo(
-        manga?.inLibrary === false && manga.sourceId != null ? `/sources/${manga.sourceId}/popular` : '/library',
+        manga?.inLibrary === false && manga.sourceId != null ? `/sources/${manga.sourceId}` : '/library',
     );
 
     useEffect(() => {
@@ -56,39 +55,42 @@ const Manga: React.FC = () => {
 
     useEffect(() => {
         setTitle(manga?.title ?? t('manga.title'));
+        setAction(null);
     }, [t, manga?.title]);
+
+    useEffect(() => {
+        setAction(
+            <Stack direction="row" alignItems="center">
+                {error && !isValidating && !refreshing && (
+                    <Tooltip
+                        title={
+                            <>
+                                {t('manga.error.label.request_failure')}
+                                <br />
+                                {error.message ?? error}
+                            </>
+                        }
+                    >
+                        <IconButton onClick={() => mutate()}>
+                            <Warning color="error" />
+                        </IconButton>
+                    </Tooltip>
+                )}
+                {manga && (refreshing || isValidating) && (
+                    <IconButton disabled>
+                        <CircularProgress size={16} />
+                    </IconButton>
+                )}
+                {manga && <MangaToolbarMenu manga={manga} onRefresh={refresh} refreshing={refreshing} />}
+            </Stack>,
+        );
+    }, [t, error, isValidating, refreshing, mutate, manga, refresh]);
 
     if (error && !manga) {
         return <EmptyView message={t('manga.error.label.request_failure')} messageExtra={error.message ?? error} />;
     }
     return (
         <Box sx={{ display: { md: 'flex' }, overflow: 'hidden' }}>
-            <NavbarToolbar>
-                <Stack direction="row" alignItems="center">
-                    {error && !isValidating && !refreshing && (
-                        <Tooltip
-                            title={
-                                <>
-                                    {t('manga.error.label.request_failure')}
-                                    <br />
-                                    {error.message ?? error}
-                                </>
-                            }
-                        >
-                            <IconButton onClick={() => mutate()}>
-                                <Warning color="error" />
-                            </IconButton>
-                        </Tooltip>
-                    )}
-                    {manga && (refreshing || isValidating) && (
-                        <IconButton disabled>
-                            <CircularProgress size={16} />
-                        </IconButton>
-                    )}
-                    {manga && <MangaToolbarMenu manga={manga} onRefresh={refresh} refreshing={refreshing} />}
-                </Stack>
-            </NavbarToolbar>
-
             {isLoading && <LoadingPlaceholder />}
 
             {manga && <MangaDetails manga={manga} />}

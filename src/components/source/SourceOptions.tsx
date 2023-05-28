@@ -37,7 +37,6 @@ interface IFilters1 {
     updateFilterValue: Function;
     resetFilterValue: Function;
     setTriggerUpdate: Function;
-    setSearch: Function;
     update: any;
 }
 
@@ -142,7 +141,6 @@ export default function SourceOptions({
     updateFilterValue,
     resetFilterValue,
     setTriggerUpdate,
-    setSearch,
     update,
 }: IFilters1) {
     const { t } = useTranslation();
@@ -155,7 +153,6 @@ export default function SourceOptions({
 
     function handleSubmit() {
         setTriggerUpdate(0);
-        setSearch(true);
         setFilterOptions(false);
     }
 

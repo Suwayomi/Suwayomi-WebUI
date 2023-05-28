@@ -15,10 +15,11 @@ import Typography from '@mui/material/Typography';
 import { Box, styled } from '@mui/system';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { ISource } from 'typings';
 import { translateExtensionLanguage } from 'screens/util/Extensions';
 import requestManager from 'lib/RequestManager';
+import { SourceContentType } from 'screens/SourceMangas';
 
 const MobileWidthButtons = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -49,22 +50,16 @@ const SourceCard: React.FC<IProps> = (props: IProps) => {
         source: { id, name, lang, iconUrl, supportsLatest, isNsfw },
     } = props;
 
-    const history = useHistory();
-
-    const redirectTo = (e: any, to: string) => {
-        history.push(to);
-
-        // prevent parent tags from getting the event
-        e.stopPropagation();
-    };
-
     return (
         <Card
             sx={{
                 margin: '10px',
             }}
         >
-            <CardActionArea component={Link} to={`/sources/${id}/popular/`}>
+            <CardActionArea
+                component={Link}
+                to={{ pathname: `/sources/${id}`, state: { contentType: SourceContentType.POPULAR } }}
+            >
                 <CardContent
                     sx={{
                         display: 'flex',
@@ -110,19 +105,37 @@ const SourceCard: React.FC<IProps> = (props: IProps) => {
                     <>
                         <MobileWidthButtons>
                             {supportsLatest && (
-                                <Button variant="outlined" onClick={(e) => redirectTo(e, `/sources/${id}/latest/`)}>
+                                <Button
+                                    variant="outlined"
+                                    component={Link}
+                                    to={{
+                                        pathname: `/sources/${id}`,
+                                        state: { contentType: SourceContentType.LATEST },
+                                    }}
+                                >
                                     {t('global.button.latest')}
                                 </Button>
                             )}
                         </MobileWidthButtons>
                         <WiderWidthButtons>
                             {supportsLatest && (
-                                <Button component={Link} to={`/sources/${id}/latest/`} variant="outlined">
+                                <Button
+                                    variant="outlined"
+                                    component={Link}
+                                    to={{
+                                        pathname: `/sources/${id}`,
+                                        state: { contentType: SourceContentType.LATEST },
+                                    }}
+                                >
                                     {t('global.button.latest')}
                                 </Button>
                             )}
-                            <Button component={Link} to={`/sources/${id}/popular/`} variant="outlined">
-                                {t('global.button.browse')}
+                            <Button
+                                variant="outlined"
+                                component={Link}
+                                to={{ pathname: `/sources/${id}`, state: { contentType: SourceContentType.POPULAR } }}
+                            >
+                                {t('global.button.popular')}
                             </Button>
                         </WiderWidthButtons>
                     </>

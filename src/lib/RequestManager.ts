@@ -57,9 +57,9 @@ type SWRInfiniteResponseLoadInfo = {
     isLoadMore: boolean;
 };
 type AbortableRequest = { abortRequest: AbortController['abort'] };
-type AbortableAxiosResponse<Data = any> = { response: Promise<AxiosResponse<Data>> } & AbortableRequest;
-type AbortableSWRResponse<Data = any, Error = any> = SWRResponse<Data, Error> & AbortableRequest;
-type AbortableSWRInfiniteResponse<Data = any, Error = any> = SWRInfiniteResponse<Data, Error> &
+export type AbortableAxiosResponse<Data = any> = { response: Promise<AxiosResponse<Data>> } & AbortableRequest;
+export type AbortableSWRResponse<Data = any, Error = any> = SWRResponse<Data, Error> & AbortableRequest;
+export type AbortableSWRInfiniteResponse<Data = any, Error = any> = SWRInfiniteResponse<Data, Error> &
     AbortableRequest &
     SWRInfiniteResponseLoadInfo;
 
