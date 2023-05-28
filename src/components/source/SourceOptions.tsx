@@ -98,7 +98,7 @@ export function Options({ sourceFilter, group, updateFilterValue, update }: IFil
                                 key={`filters ${e.filter.name}`}
                                 name={e.filter.name}
                                 values={e.filter.values}
-                                state={checkif ? JSON.parse(checkif) : (e.filter.state as IState)}
+                                state={checkif ? JSON.parse(checkif) : { ...(e.filter.state as IState) }}
                                 position={index}
                                 group={group}
                                 updateFilterValue={updateFilterValue}
