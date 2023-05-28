@@ -56,7 +56,7 @@ export function Options({ sourceFilter, group, updateFilterValue, update }: IFil
                             <CheckBoxFilter
                                 key={`filters ${e.filter.name}`}
                                 name={e.filter.name}
-                                state={checkif === 'false' || (e.filter.state as boolean)}
+                                state={checkif != null ? checkif === 'true' : (e.filter.state as boolean)}
                                 position={index}
                                 group={group}
                                 updateFilterValue={updateFilterValue}
@@ -82,7 +82,7 @@ export function Options({ sourceFilter, group, updateFilterValue, update }: IFil
                                 key={`filters ${e.filter.name}`}
                                 name={e.filter.name}
                                 values={e.filter.displayValues}
-                                state={parseInt(checkif, 10) || (e.filter.state as number)}
+                                state={checkif != null ? parseInt(checkif, 10) : (e.filter.state as number)}
                                 selected={e.filter.selected}
                                 position={index}
                                 group={group}
@@ -98,7 +98,7 @@ export function Options({ sourceFilter, group, updateFilterValue, update }: IFil
                                 key={`filters ${e.filter.name}`}
                                 name={e.filter.name}
                                 values={e.filter.values}
-                                state={checkif ? JSON.parse(checkif) : (e.filter.state as IState)}
+                                state={checkif ? JSON.parse(checkif) : { ...(e.filter.state as IState) }}
                                 position={index}
                                 group={group}
                                 updateFilterValue={updateFilterValue}
@@ -110,7 +110,7 @@ export function Options({ sourceFilter, group, updateFilterValue, update }: IFil
                             <TextFilter
                                 key={`filters ${e.filter.name}`}
                                 name={e.filter.name}
-                                state={checkif || (e.filter.state as string)}
+                                state={checkif ?? (e.filter.state as string)}
                                 position={index}
                                 group={group}
                                 updateFilterValue={updateFilterValue}
@@ -122,7 +122,7 @@ export function Options({ sourceFilter, group, updateFilterValue, update }: IFil
                             <TriStateFilter
                                 key={`filters ${e.filter.name}`}
                                 name={e.filter.name}
-                                state={parseInt(checkif, 10) || (e.filter.state as number)}
+                                state={checkif != null ? parseInt(checkif, 10) : (e.filter.state as number)}
                                 position={index}
                                 group={group}
                                 updateFilterValue={updateFilterValue}
