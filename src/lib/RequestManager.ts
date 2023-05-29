@@ -468,7 +468,7 @@ export class RequestManager {
     }
 
     public setMangaMeta(mangaId: number, key: string, value: any): AbortableAxiosResponse {
-        return this.doRequest(HttpMethod.POST, `manga/${mangaId}/meta`, { formData: { key, value } });
+        return this.doRequest(HttpMethod.PATCH, `manga/${mangaId}/meta`, { formData: { key, value } });
     }
 
     public useGetMangaChapters(
