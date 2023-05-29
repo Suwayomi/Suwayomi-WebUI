@@ -69,7 +69,7 @@ export type AbortableSWRInfiniteResponse<Data = any, Error = any> = SWRInfiniteR
 //   - POST /api/v1/backup/validate                         - validate backup   # "validate backup file" endpoint used instead
 //   - GET  /api/v1/backup/export                           - export backup     # no function needed, url gets called via link triggering the download
 export class RequestManager {
-    private static readonly API_VERSION = '/api/v1/';
+    public static readonly API_VERSION = '/api/v1/';
 
     private readonly restClient: RestClient = new RestClient();
 
