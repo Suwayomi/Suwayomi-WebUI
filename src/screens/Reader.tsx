@@ -29,11 +29,7 @@ import { useTranslation } from 'react-i18next';
 import requestManager from 'lib/RequestManager';
 
 const isDupChapter = async (chapterIndex: number, currentChapter: IChapter) => {
-    const nextChapter = (
-        await requestManager
-            .getClient()
-            .get<IChapter>(`/api/v1/manga/${currentChapter.mangaId}/chapter/${chapterIndex}`)
-    ).data;
+    const nextChapter = await requestManager.getChapter(currentChapter.mangaId, chapterIndex).response;
 
     return nextChapter.chapterNumber === currentChapter.chapterNumber;
 };

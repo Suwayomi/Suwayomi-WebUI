@@ -516,6 +516,10 @@ export class RequestManager {
         });
     }
 
+    public getChapter(mangaId: number | string, chapterIndex: number | string): AbortableAxiosResponse<IChapter> {
+        return this.doRequest(HttpMethod.GET, `manga/${mangaId}/chapter/${chapterIndex}`);
+    }
+
     public deleteDownloadedChapter(mangaId: number | string, chapterIndex: number | string): AbortableAxiosResponse {
         return this.doRequest(HttpMethod.DELETE, `manga/${mangaId}/chapter/${chapterIndex}`);
     }
