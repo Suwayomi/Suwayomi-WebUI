@@ -8,27 +8,23 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { mutate } from 'swr';
-import requestManager from 'lib/RequestManager';
+import requestManager, { RequestManager } from 'lib/RequestManager';
 
-// eslint-disable-next-line import/prefer-default-export
 export const useRefreshManga = (mangaId: string) => {
     const [fetchingOnline, setFetchingOnline] = useState(false);
 
     const handleRefresh = useCallback(async () => {
         setFetchingOnline(true);
         await Promise.all([
-            requestManager
-                .getClient()
-                .get(`/api/v1/manga/${mangaId}/?onlineFetch=true`)
-                .then((res) => mutate(`/api/v1/manga/${mangaId}`, res.data, { revalidate: false })),
-            requestManager
-                .getClient()
-                .get(`/api/v1/manga/${mangaId}/chapters?onlineFetch=true`)
-                .then((res) =>
-                    mutate(`/api/v1/manga/${mangaId}/chapters`, res.data, {
-                        revalidate: false,
-                    }),
-                ),
+            requestManager.getManga(mangaId, true).response.then((res) => {
+                console.log('manga', res);
+                mutate(`${RequestManager.API_VERSION}manga/${mangaId}`, res, { revalidate: false });
+            }),
+            requestManager.getMangaChapters(mangaId, true).response.then((res) =>
+                mutate(`${RequestManager.API_VERSION}manga/${mangaId}/chapters`, res, {
+                    revalidate: false,
+                }),
+            ),
         ]).finally(() => setFetchingOnline(false));
     }, [mangaId]);
 

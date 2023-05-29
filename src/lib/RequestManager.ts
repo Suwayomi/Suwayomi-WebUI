@@ -425,6 +425,11 @@ export class RequestManager {
         });
     }
 
+    public getManga(mangaId: number | string, doOnlineFetch?: boolean): AbortableAxiosResponse<IManga> {
+        const onlineFetch = doOnlineFetch ? '?onlineFetch=true' : '';
+        return this.doRequest(HttpMethod.GET, `manga/${mangaId}${onlineFetch}`);
+    }
+
     public useGetFullManga(
         mangaId: number | string,
         { doOnlineFetch, ...swrOptions }: SWROptions<IManga> & RequestOption = {},
@@ -474,6 +479,11 @@ export class RequestManager {
         return this.doRequest(HttpMethod.SWR_GET, `manga/${mangaId}/chapters${onlineFetch}`, {
             swrOptions,
         });
+    }
+
+    public getMangaChapters(mangaId: number | string, doOnlineFetch?: boolean): AbortableAxiosResponse<IChapter[]> {
+        const onlineFetch = doOnlineFetch ? '?onlineFetch=true' : '';
+        return this.doRequest(HttpMethod.GET, `manga/${mangaId}/chapters${onlineFetch}`);
     }
 
     public updateMangaChapters(
