@@ -584,7 +584,7 @@ export class RequestManager {
     }
 
     public setCategoryMeta(categoryId: number, key: string, value: any): AbortableAxiosResponse {
-        return this.doRequest(HttpMethod.PATCH, `category/${categoryId}`, { formData: { key, value } });
+        return this.doRequest(HttpMethod.PATCH, `category/${categoryId}/meta`, { formData: { key, value } });
     }
 
     public restoreBackupFile(file: File): AbortableAxiosResponse {
