@@ -10,7 +10,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import DragHandle from '@mui/icons-material/DragHandle';
 import PauseIcon from '@mui/icons-material/Pause';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import { Card, CardActionArea, Stack } from '@mui/material';
+import { Card, CardActionArea, Stack, Box } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import NavbarContext from 'components/context/NavbarContext';
 import EmptyView from 'components/util/EmptyView';
@@ -18,7 +18,6 @@ import React, { useContext, useEffect } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
 import Typography from '@mui/material/Typography';
-import { Box } from '@mui/system';
 import useSubscription from 'components/library/useSubscription';
 import DownloadStateIndicator from 'components/molecules/DownloadStateIndicator';
 import { NavbarToolbar } from 'components/navbar/DefaultNavBar';

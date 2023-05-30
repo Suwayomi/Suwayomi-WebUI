@@ -6,9 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Button, CircularProgress, Stack } from '@mui/material';
+import { Button, CircularProgress, Stack, styled } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import { styled } from '@mui/system';
 import useSubscription from 'components/library/useSubscription';
 import ChapterCard from 'components/manga/ChapterCard';
 import ResumeFab from 'components/manga/ResumeFAB';

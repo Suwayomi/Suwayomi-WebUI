@@ -20,7 +20,7 @@ import Button from '@mui/material/Button';
 import ListItemButton from '@mui/material/ListItemButton';
 import ThreeStateCheckboxInput from 'components/atoms/ThreeStateCheckboxInput';
 import DialogTitle from '@mui/material/DialogTitle';
-import { styled } from '@mui/system';
+import { styled } from '@mui/material';
 import makeToast from 'components/util/Toast';
 import { t as translate } from 'i18next';
 import { useTranslation } from 'react-i18next';

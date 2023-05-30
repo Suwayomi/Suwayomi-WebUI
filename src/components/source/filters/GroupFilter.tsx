@@ -7,8 +7,7 @@
  */
 
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
-import { Collapse, ListItemButton, ListItemText, Stack } from '@mui/material';
-import { Box } from '@mui/system';
+import { Collapse, ListItemButton, ListItemText, Stack, Box } from '@mui/material';
 import React from 'react';
 // eslint-disable-next-line import/no-cycle
 import { Options } from 'components/source/SourceOptions';

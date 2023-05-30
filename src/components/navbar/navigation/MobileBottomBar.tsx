@@ -7,8 +7,7 @@
  */
 
 import React from 'react';
-import { ListItem } from '@mui/material';
-import { styled, Box } from '@mui/system';
+import { ListItem, styled, Box } from '@mui/material';
 import { Link as RRDLink, useLocation } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import { NavbarItem } from 'typings';

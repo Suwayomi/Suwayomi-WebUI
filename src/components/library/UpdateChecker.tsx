@@ -10,7 +10,7 @@ import React, { useEffect, useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import CircularProgress from '@mui/material/CircularProgress';
-import { Box } from '@mui/system';
+import { Box } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import makeToast from 'components/util/Toast';
 import { IUpdateStatus } from 'typings';

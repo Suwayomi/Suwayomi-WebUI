@@ -7,13 +7,12 @@
  */
 
 import DownloadIcon from '@mui/icons-material/Download';
-import { CardActionArea } from '@mui/material';
+import { Box, CardActionArea, styled } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { Box, styled } from '@mui/system';
 import NavbarContext from 'components/context/NavbarContext';
 import DownloadStateIndicator from 'components/molecules/DownloadStateIndicator';
 import EmptyView from 'components/util/EmptyView';
