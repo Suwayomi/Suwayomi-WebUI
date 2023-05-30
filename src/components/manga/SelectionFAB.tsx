@@ -7,8 +7,7 @@
  */
 
 import MoreHoriz from '@mui/icons-material/MoreHoriz';
-import { Fab, Menu } from '@mui/material';
-import { Box } from '@mui/system';
+import { Fab, Menu, Box } from '@mui/material';
 import React, { useRef, useState } from 'react';
 import type { IChapterWithMeta } from 'components/manga/ChapterList';
 import SelectionFABActionItem from 'components/manga/SelectionFABActionItem';

@@ -7,8 +7,7 @@
  */
 
 import { Warning } from '@mui/icons-material';
-import { CircularProgress, IconButton, Stack, Tooltip } from '@mui/material';
-import { Box } from '@mui/system';
+import { CircularProgress, IconButton, Stack, Tooltip, Box } from '@mui/material';
 import NavbarContext, { useSetDefaultBackTo } from 'components/context/NavbarContext';
 import ChapterList from 'components/manga/ChapterList';
 import { useRefreshManga } from 'components/manga/hooks';
