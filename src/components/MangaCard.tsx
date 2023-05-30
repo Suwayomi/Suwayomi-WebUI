@@ -11,7 +11,7 @@ import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
-import { Avatar, CardContent, Grid, Box, styled } from '@mui/material';
+import { Avatar, Box, CardContent, Grid, styled } from '@mui/material';
 import useLocalStorage from 'util/useLocalStorage';
 import SpinnerImage from 'components/util/SpinnerImage';
 import { GridLayout, useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
@@ -92,9 +92,10 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
     const mangaLinkTo = { pathname: `/manga/${id}/`, state: { backLink: BACK } };
 
     if (gridLayout !== GridLayout.List) {
-        const cols = Math.ceil(dimensions / ItemWidth);
+        const columns = Math.ceil(dimensions / ItemWidth);
+        const columnsPerItem = 12 / columns;
         return (
-            <Grid item columns={cols} xs={1}>
+            <Grid item xs={columnsPerItem}>
                 <Link to={mangaLinkTo} style={gridLayout === GridLayout.Comfortable ? { textDecoration: 'none' } : {}}>
                     <Box
                         sx={{
