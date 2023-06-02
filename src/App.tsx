@@ -11,7 +11,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import AppContext from 'components/context/AppContext';
 import DefaultNavBar from 'components/navbar/DefaultNavBar';
 import React from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Routes } from 'react-router-dom';
 import Browse from 'screens/Browse';
 import DownloadQueue from 'screens/DownloadQueue';
 import Extensions from 'screens/Extensions';
@@ -47,7 +47,7 @@ const App: React.FC = () => (
                 overflow: 'auto',
             }}
         >
-            <Switch>
+            <Routes>
                 {/* General Routes */}
                 <Route exact path="/" render={() => <Redirect to="/library" />} />
                 <Route path="/settings/about">
@@ -102,16 +102,16 @@ const App: React.FC = () => (
                 <Route path="/browse">
                     <Browse />
                 </Route>
-            </Switch>
+            </Routes>
         </Container>
-        <Switch>
+        <Routes>
             <Route
                 path="/manga/:mangaId/chapter/:chapterIndex"
                 // passing a key re-mounts the reader
                 // when changing chapters
                 render={(props: any) => <Reader key={props.match.params.chapterIndex} />}
             />
-        </Switch>
+        </Routes>
     </AppContext>
 );
 
