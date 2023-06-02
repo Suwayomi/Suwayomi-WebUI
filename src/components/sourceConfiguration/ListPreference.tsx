@@ -7,7 +7,6 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -19,6 +18,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Button from '@mui/material/Button';
 import { ListPreferenceProps } from 'typings';
 import { useTranslation } from 'react-i18next';
+import { ListItemButton } from '@mui/material';
 
 interface IListDialogProps {
     value: string;
@@ -123,9 +123,9 @@ export default function ListPreference(props: ListPreferenceProps) {
 
     return (
         <>
-            <ListItem button onClick={() => setDialogOpen(true)}>
+            <ListItemButton onClick={() => setDialogOpen(true)}>
                 <ListItemText primary={title} secondary={getSummary()} />
-            </ListItem>
+            </ListItemButton>
             <ListDialog
                 title={title}
                 open={dialogOpen}

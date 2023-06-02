@@ -7,7 +7,6 @@
  */
 
 import React, { useState } from 'react';
-import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -18,6 +17,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { EditTextPreferenceProps } from 'typings';
 import { useTranslation } from 'react-i18next';
+import { ListItemButton } from '@mui/material';
 
 export default function EditTextPreference(props: EditTextPreferenceProps) {
     const { t } = useTranslation();
@@ -42,9 +42,9 @@ export default function EditTextPreference(props: EditTextPreferenceProps) {
 
     return (
         <>
-            <ListItem button onClick={() => setDialogOpen(true)}>
+            <ListItemButton onClick={() => setDialogOpen(true)}>
                 <ListItemText primary={title} secondary={summary} />
-            </ListItem>
+            </ListItemButton>
             <Dialog open={dialogOpen} onClose={handleDialogCancel}>
                 <DialogTitle>{dialogTitle}</DialogTitle>
                 <DialogContent>

@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { ListItem, styled, Box } from '@mui/material';
+import { styled, Box, ListItemButton } from '@mui/material';
 import { Link as RRDLink, useLocation } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import { NavbarItem } from 'typings';
@@ -55,7 +55,7 @@ export default function MobileBottomBar({ navBarItems }: IProps) {
         <BottomNavContainer>
             {navBarItems.map(({ path, title, IconComponent, SelectedIconComponent }: NavbarItem) => (
                 <Link to={path} key={path}>
-                    <ListItem disableRipple button sx={{ justifyContent: 'center', padding: '8px' }} key={title}>
+                    <ListItemButton disableRipple sx={{ justifyContent: 'center', padding: '8px' }} key={title}>
                         <Box display="flex" flexDirection="column" alignItems="center">
                             {iconFor(path, IconComponent, SelectedIconComponent)}
                             <Box
@@ -73,7 +73,7 @@ export default function MobileBottomBar({ navBarItems }: IProps) {
                                 {t(title)}
                             </Box>
                         </Box>
-                    </ListItem>
+                    </ListItemButton>
                 </Link>
             ))}
         </BottomNavContainer>

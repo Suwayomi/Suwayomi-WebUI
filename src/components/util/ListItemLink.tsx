@@ -7,14 +7,14 @@
  */
 
 import React from 'react';
-import ListItem, { ListItemProps } from '@mui/material/ListItem';
 import { Link } from 'react-router-dom';
+import { ListItemButton, ListItemButtonProps } from '@mui/material';
 
-export default function ListItemLink(props: ListItemProps<Link, { directLink?: boolean }>) {
+export default function ListItemLink(props: ListItemButtonProps<Link, { directLink?: boolean }>) {
     const { directLink, to } = props;
     if (directLink) {
-        return <ListItem button component="a" href={to} {...props} />;
+        return <ListItemButton component="a" href={to} {...props} />;
     }
 
-    return <ListItem button component={Link} {...props} />;
+    return <ListItemButton component={Link} {...props} />;
 }
