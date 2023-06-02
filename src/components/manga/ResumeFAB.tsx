@@ -31,10 +31,8 @@ export default function ResumeFab(props: ResumeFABProps) {
             component={Link}
             variant="extended"
             color="primary"
-            to={{
-                pathname: `/manga/${mangaId}/chapter/${index}/page/${lastPageRead}`,
-                state: { backLink: BACK },
-            }}
+            to={`/manga/${mangaId}/chapter/${index}/page/${lastPageRead}`}
+            state={{ backLink: BACK }}
         >
             <PlayArrow />
             {index === 1 ? t('global.button.start') : t('global.button.resume')}
