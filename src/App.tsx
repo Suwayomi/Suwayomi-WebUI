@@ -49,68 +49,31 @@ const App: React.FC = () => (
         >
             <Routes>
                 {/* General Routes */}
-                <Route exact path="/" render={() => <Redirect to="/library" />} />
-                <Route path="/settings/about">
-                    <About />
-                </Route>
-                <Route path="/settings/categories">
-                    <Categories />
-                </Route>
-                <Route path="/settings/defaultReaderSettings">
-                    <DefaultReaderSettings />
-                </Route>
-                <Route path="/settings/librarySettings">
-                    <LibrarySettings />
-                </Route>
-                <Route path="/settings/backup">
-                    <Backup />
-                </Route>
-                <Route path="/settings">
-                    <Settings />
-                </Route>
+                <Route path="/" element={<Redirect to="/library" />} />
+                <Route path="settings/about" element={<About />} />
+                <Route path="settings/categories" element={<Categories />} />
+                <Route path="settings/defaultReaderSettings" element={<DefaultReaderSettings />} />
+                <Route path="settings/librarySettings" element={<LibrarySettings />} />
+                <Route path="settings/backup" element={<Backup />} />
+                <Route path="settings" element={<Settings />} />
 
                 {/* Manga Routes */}
 
-                <Route exact path="/sources/:sourceId">
-                    <SourceMangas />
-                </Route>
-                <Route path="/sources/:sourceId/configure/">
-                    <SourceConfigure />
-                </Route>
-                <Route path="/sources/all/search/">
-                    <SearchAll />
-                </Route>
-                <Route path="/downloads">
-                    <DownloadQueue />
-                </Route>
+                <Route path="sources/:sourceId" element={<SourceMangas />} />
+                <Route path="sources/:sourceId/configure/" element={<SourceConfigure />} />
+                <Route path="sources/all/search/" element={<SearchAll />} />
+                <Route path="downloads" element={<DownloadQueue />} />
                 <Route path="/manga/:mangaId/chapter/:chapterNum" />
-                <Route path="/manga/:id">
-                    <Manga />
-                </Route>
-                <Route path="/library">
-                    <Library />
-                </Route>
-                <Route path="/updates">
-                    <Updates />
-                </Route>
-                <Route path="/sources">
-                    <Sources />
-                </Route>
-                <Route path="/extensions">
-                    <Extensions />
-                </Route>
-                <Route path="/browse">
-                    <Browse />
-                </Route>
+                <Route path="manga/:id" element={<Manga />} />
+                <Route path="library" element={<Library />} />
+                <Route path="updates" element={<Updates />} />
+                <Route path="sources" element={<Sources />} />
+                <Route path="extensions" element={<Extensions />} />
+                <Route path="browse" element={<Browse />} />
             </Routes>
         </Container>
         <Routes>
-            <Route
-                path="/manga/:mangaId/chapter/:chapterIndex"
-                // passing a key re-mounts the reader
-                // when changing chapters
-                render={(props: any) => <Reader key={props.match.params.chapterIndex} />}
-            />
+            <Route path="manga/:mangaId/chapter/:chapterIndex" element={<Reader />} />
         </Routes>
     </AppContext>
 );
