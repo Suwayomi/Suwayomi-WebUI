@@ -7,7 +7,7 @@
  */
 
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 import SourceMangaGrid from 'components/source/SourceMangaGrid';
 import NavbarContext from 'components/context/NavbarContext';
@@ -162,8 +162,10 @@ export default function SourceMangas() {
 
     const { sourceId } = useParams<{ sourceId: string }>();
 
-    const history = useHistory<{ contentType: SourceContentType }>();
-    const { contentType: currentLocationContentType = SourceContentType.POPULAR } = history.location.state ?? {};
+    const navigate = useNavigate();
+    const { state: { contentType: currentLocationContentType = SourceContentType.POPULAR } = {} } = useLocation<{
+        contentType: SourceContentType;
+    }>();
 
     const { options } = useLibraryOptionsContext();
     const [query] = useQueryParam('query', StringParam);
@@ -233,7 +235,7 @@ export default function SourceMangas() {
 
     const updateContentType = useCallback(
         (newContentType: SourceContentType) => {
-            history.replace(sourceId, { contentType: newContentType });
+            navigate('', { replace: true, state: { contentType: newContentType } });
             setContentType(newContentType);
         },
         [setContentType],
@@ -267,7 +269,7 @@ export default function SourceMangas() {
                 <SourceGridLayout />
                 {source?.isConfigurable && (
                     <IconButton
-                        onClick={() => history.push(`/sources/${sourceId}/configure/`)}
+                        onClick={() => navigate(`/sources/${sourceId}/configure/`)}
                         aria-label="display more actions"
                         edge="end"
                         color="inherit"

@@ -11,7 +11,7 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import { useMediaQuery, Box } from '@mui/material';
+import { Box, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark';
 import CollectionsOutlinedBookmarkIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
@@ -24,7 +24,7 @@ import GetAppIcon from '@mui/icons-material/GetApp';
 import GetAppOutlinedIcon from '@mui/icons-material/GetAppOutlined';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ArrowBack from '@mui/icons-material/ArrowBack';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import NavBarContext from 'components/context/NavbarContext';
 import ExtensionOutlinedIcon from 'components/util/CustomExtensionOutlinedIcon';
 import { createPortal } from 'react-dom';
@@ -90,10 +90,11 @@ export default function DefaultNavBar() {
     const backTo = useBackTo();
 
     const theme = useTheme();
-    const history = useHistory();
+    const navigate = useNavigate();
+    const { pathname } = useLocation();
 
     const isMobileWidth = useMediaQuery(theme.breakpoints.down('sm'));
-    const isMainRoute = navbarItems.some(({ path }) => path === history.location.pathname);
+    const isMainRoute = navbarItems.some(({ path }) => path === pathname);
 
     // Allow default navbar to be overrided
     if (override.status) return override.value;
@@ -109,7 +110,7 @@ export default function DefaultNavBar() {
 
     const handleBack = () => {
         if (backTo.url != null) return;
-        history.goBack();
+        navigate(-1);
     };
 
     return (

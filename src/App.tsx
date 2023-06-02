@@ -11,7 +11,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import AppContext from 'components/context/AppContext';
 import DefaultNavBar from 'components/navbar/DefaultNavBar';
 import React from 'react';
-import { Redirect, Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import Browse from 'screens/Browse';
 import DownloadQueue from 'screens/DownloadQueue';
 import Extensions from 'screens/Extensions';
@@ -49,7 +49,7 @@ const App: React.FC = () => (
         >
             <Routes>
                 {/* General Routes */}
-                <Route path="/" element={<Redirect to="/library" />} />
+                <Route path="/" element={<Navigate to="/library" />} />
                 <Route path="settings">
                     <Route index element={<Settings />} />
                     <Route path="about" element={<About />} />
