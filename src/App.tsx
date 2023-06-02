@@ -50,24 +50,30 @@ const App: React.FC = () => (
             <Routes>
                 {/* General Routes */}
                 <Route path="/" element={<Redirect to="/library" />} />
-                <Route path="settings/about" element={<About />} />
-                <Route path="settings/categories" element={<Categories />} />
-                <Route path="settings/defaultReaderSettings" element={<DefaultReaderSettings />} />
-                <Route path="settings/librarySettings" element={<LibrarySettings />} />
-                <Route path="settings/backup" element={<Backup />} />
-                <Route path="settings" element={<Settings />} />
+                <Route path="settings">
+                    <Route index element={<Settings />} />
+                    <Route path="about" element={<About />} />
+                    <Route path="categories" element={<Categories />} />
+                    <Route path="defaultReaderSettings" element={<DefaultReaderSettings />} />
+                    <Route path="librarySettings" element={<LibrarySettings />} />
+                    <Route path="backup" element={<Backup />} />
+                </Route>
 
                 {/* Manga Routes */}
 
-                <Route path="sources/:sourceId" element={<SourceMangas />} />
-                <Route path="sources/:sourceId/configure/" element={<SourceConfigure />} />
-                <Route path="sources/all/search/" element={<SearchAll />} />
+                <Route path="sources">
+                    <Route index element={<Sources />} />
+                    <Route path=":sourceId" element={<SourceMangas />} />
+                    <Route path=":sourceId/configure/" element={<SourceConfigure />} />
+                    <Route path="all/search/" element={<SearchAll />} />
+                </Route>
                 <Route path="downloads" element={<DownloadQueue />} />
-                <Route path="/manga/:mangaId/chapter/:chapterNum" />
-                <Route path="manga/:id" element={<Manga />} />
+                <Route path="manga/:id">
+                    <Route path="chapter/:chapterNum" />
+                    <Route index element={<Manga />} />
+                </Route>
                 <Route path="library" element={<Library />} />
                 <Route path="updates" element={<Updates />} />
-                <Route path="sources" element={<Sources />} />
                 <Route path="extensions" element={<Extensions />} />
                 <Route path="browse" element={<Browse />} />
             </Routes>
