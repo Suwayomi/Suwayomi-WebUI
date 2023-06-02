@@ -8,7 +8,7 @@
 
 import CircularProgress from '@mui/material/CircularProgress';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import HorizontalPager from 'components/reader/pager/HorizontalPager';
 import PageNumber from 'components/reader/PageNumber';
 import PagedPager from 'components/reader/pager/PagedPager';
@@ -89,7 +89,8 @@ const initialChapter = {
 
 export default function Reader() {
     const { t } = useTranslation();
-    const history = useHistory();
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const { chapterIndex, mangaId } = useParams<{ chapterIndex: string; mangaId: string }>();
     const {
@@ -214,9 +215,9 @@ export default function Reader() {
             });
 
             openNextChapter(ChapterOffset.NEXT, (nextChapterIndex) =>
-                history.replace({
-                    pathname: `/manga/${manga.id}/chapter/${nextChapterIndex}`,
-                    state: history.location.state,
+                navigate(`/manga/${manga.id}/chapter/${nextChapterIndex}`, {
+                    replace: true,
+                    state: location.state,
                 }),
             );
         }
@@ -225,9 +226,9 @@ export default function Reader() {
     const prevChapter = useCallback(() => {
         if (chapter.index > 1) {
             openNextChapter(ChapterOffset.PREV, (prevChapterIndex) =>
-                history.replace({
-                    pathname: `/manga/${manga.id}/chapter/${prevChapterIndex}`,
-                    state: history.location.state,
+                navigate(`/manga/${manga.id}/chapter/${prevChapterIndex}`, {
+                    replace: true,
+                    state: location.state,
                 }),
             );
         }
