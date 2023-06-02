@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { ListItem, ListItemIcon, Tooltip, styled } from '@mui/material';
+import { ListItemIcon, Tooltip, styled, ListItemButton } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import { NavbarItem } from 'typings';
@@ -46,13 +46,13 @@ export default function DesktopSideBar({ navBarItems }: IProps) {
         <SideNavBarContainer>
             {navBarItems.map(({ path, title, IconComponent, SelectedIconComponent }: NavbarItem) => (
                 <Link to={path} style={{ color: 'inherit', textDecoration: 'none' }} key={path}>
-                    <ListItem disableRipple button key={title}>
+                    <ListItemButton disableRipple key={title}>
                         <ListItemIcon sx={{ minWidth: '0' }}>
                             <Tooltip placement="right" title={t(title)}>
                                 {iconFor(path, IconComponent, SelectedIconComponent)}
                             </Tooltip>
                         </ListItemIcon>
-                    </ListItem>
+                    </ListItemButton>
                 </Link>
             ))}
         </SideNavBarContainer>
