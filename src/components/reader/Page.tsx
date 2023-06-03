@@ -30,7 +30,7 @@ function imageStyle(settings: IReaderSettings): any {
         };
     }, []);
     if (
-        settings.fitToWindow ||
+        settings.fitPageToWindow ||
         settings.readerType === 'DoubleLTR' ||
         settings.readerType === 'DoubleRTL' ||
         settings.readerType === 'ContinuesHorizontalLTR' ||
