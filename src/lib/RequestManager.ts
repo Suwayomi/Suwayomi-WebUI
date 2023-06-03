@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { AxiosInstance, AxiosRequestConfig } from 'axios';
 import useSWR, { SWRConfiguration, SWRResponse } from 'swr';
 import useSWRInfinite, { SWRInfiniteConfiguration, SWRInfiniteResponse } from 'swr/infinite';
 import {
@@ -57,7 +57,7 @@ type SWRInfiniteResponseLoadInfo = {
     isLoadMore: boolean;
 };
 type AbortableRequest = { abortRequest: AbortController['abort'] };
-export type AbortableAxiosResponse<Data = any> = { response: Promise<AxiosResponse<Data>> } & AbortableRequest;
+export type AbortableAxiosResponse<Data = any> = { response: Promise<Data> } & AbortableRequest;
 export type AbortableSWRResponse<Data = any, Error = any> = SWRResponse<Data, Error> & AbortableRequest;
 export type AbortableSWRInfiniteResponse<Data = any, Error = any> = SWRInfiniteResponse<Data, Error> &
     AbortableRequest &
