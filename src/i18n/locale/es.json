@@ -299,7 +299,8 @@
                 "static_navigation": "Navigación Estática",
                 "show_page_number": "Mostrar numero de pagina",
                 "reader_type": "Tipo de Lector",
-                "skip_dup_chapters": "Omitir capítulos duplicados"
+                "skip_dup_chapters": "Omitir capítulos duplicados",
+                "fit_page_to_window": "Ajustar página a la ventana"
             },
             "title": {
                 "default_reader_settings": "Ajustes Defecto del Lector",

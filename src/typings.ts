@@ -212,6 +212,7 @@ export interface IReaderSettings {
     showPageNumber: boolean;
     loadNextOnEnding: boolean;
     skipDupChapters: boolean;
+    fitPageToWindow: boolean;
     readerType: ReaderType;
 }
 

@@ -25,9 +25,16 @@ export default function ReaderSettingsOptions({
     showPageNumber,
     skipDupChapters,
     setSettingValue,
+    fitPageToWindow,
 }: IProps) {
     const { t } = useTranslation();
-
+    const fitPageToWindowEligible = [
+        'ContinuesVertical',
+        'Webtoon',
+        'SingleVertical',
+        'SingleRTL',
+        'SingleLTR',
+    ].includes(readerType);
     return (
         <List>
             <ListItem>
@@ -70,6 +77,18 @@ export default function ReaderSettingsOptions({
                     />
                 </ListItemSecondaryAction>
             </ListItem>
+            {fitPageToWindowEligible ? (
+                <ListItem>
+                    <ListItemText primary={t('reader.settings.label.fit_page_to_window')} />
+                    <ListItemSecondaryAction>
+                        <Switch
+                            edge="end"
+                            checked={fitPageToWindow}
+                            onChange={(e) => setSettingValue('fitPageToWindow', e.target.checked)}
+                        />
+                    </ListItemSecondaryAction>
+                </ListItem>
+            ) : null}
             <ListItem>
                 <ListItemText primary={t('reader.settings.label.reader_type')} />
                 <Select

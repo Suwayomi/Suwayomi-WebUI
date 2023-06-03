@@ -61,6 +61,7 @@ export default function DefaultReaderSettings() {
             showPageNumber={settings.showPageNumber}
             loadNextOnEnding={settings.loadNextOnEnding}
             skipDupChapters={settings.skipDupChapters}
+            fitPageToWindow={settings.fitPageToWindow}
             readerType={settings.readerType}
         />
     );
