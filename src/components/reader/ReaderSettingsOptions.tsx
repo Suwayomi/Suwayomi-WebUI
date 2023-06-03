@@ -79,7 +79,7 @@ export default function ReaderSettingsOptions({
             </ListItem>
             {fitPageToWindowEligible ? (
                 <ListItem>
-                    <ListItemText primary={t('reader.settings.label.fit_to_window')} />
+                    <ListItemText primary={t('reader.settings.label.fit_page_to_window')} />
                     <ListItemSecondaryAction>
                         <Switch
                             edge="end"

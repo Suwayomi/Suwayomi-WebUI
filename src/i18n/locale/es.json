@@ -300,7 +300,7 @@
                 "show_page_number": "Mostrar numero de pagina",
                 "reader_type": "Tipo de Lector",
                 "skip_dup_chapters": "Omitir capítulos duplicados",
-                "fit_to_window": "Ajustar página a la ventana"
+                "fit_page_to_window": "Ajustar página a la ventana"
             },
             "title": {
                 "default_reader_settings": "Ajustes Defecto del Lector",
