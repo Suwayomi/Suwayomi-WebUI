@@ -10,12 +10,13 @@ import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
 import LibraryOptionsContextProvider from 'components/library/LibraryOptionsProvider';
 import NavBarContextProvider from 'components/navbar/NavBarContextProvider';
 import React, { useMemo } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { SWRConfig } from 'swr';
 import createTheme from 'theme';
 import { QueryParamProvider } from 'use-query-params';
 import useLocalStorage from 'util/useLocalStorage';
 import DarkTheme from 'components/context/DarkTheme';
+import { ReactRouter5Adapter } from 'use-query-params/adapters/react-router-5';
 
 interface Props {
     children: React.ReactNode;
@@ -40,7 +41,7 @@ const AppContext: React.FC<Props> = ({ children }) => {
                 <StyledEngineProvider injectFirst>
                     <ThemeProvider theme={theme}>
                         <DarkTheme.Provider value={darkThemeContext}>
-                            <QueryParamProvider ReactRouterRoute={Route}>
+                            <QueryParamProvider adapter={ReactRouter5Adapter}>
                                 <LibraryOptionsContextProvider>
                                     <NavBarContextProvider>{children}</NavBarContextProvider>
                                 </LibraryOptionsContextProvider>
