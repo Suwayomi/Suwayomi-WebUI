@@ -215,7 +215,7 @@ export class RequestManager {
             data = new FormData();
 
             Object.entries(formData).forEach(([key, value]) => {
-                if (value !== undefined) data.append(key, `${value}`);
+                if (value !== undefined) data.append(key, value); // "append" automatically converts non string or blob values to strings
             });
         }
 
