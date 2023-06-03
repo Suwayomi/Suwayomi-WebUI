@@ -69,7 +69,7 @@ export type AbortableSWRInfiniteResponse<Data = any, Error = any> = SWRInfiniteR
 //   - POST /api/v1/backup/validate                         - validate backup   # "validate backup file" endpoint used instead
 //   - GET  /api/v1/backup/export                           - export backup     # no function needed, url gets called via link triggering the download
 export class RequestManager {
-    private static readonly API_VERSION = '/api/v1/';
+    public static readonly API_VERSION = '/api/v1/';
 
     private readonly restClient: RestClient = new RestClient();
 
@@ -425,6 +425,11 @@ export class RequestManager {
         });
     }
 
+    public getManga(mangaId: number | string, doOnlineFetch?: boolean): AbortableAxiosResponse<IManga> {
+        const onlineFetch = doOnlineFetch ? '?onlineFetch=true' : '';
+        return this.doRequest(HttpMethod.GET, `manga/${mangaId}${onlineFetch}`);
+    }
+
     public useGetFullManga(
         mangaId: number | string,
         { doOnlineFetch, ...swrOptions }: SWROptions<IManga> & RequestOption = {},
@@ -463,7 +468,7 @@ export class RequestManager {
     }
 
     public setMangaMeta(mangaId: number, key: string, value: any): AbortableAxiosResponse {
-        return this.doRequest(HttpMethod.POST, `manga/${mangaId}/meta`, { formData: { key, value } });
+        return this.doRequest(HttpMethod.PATCH, `manga/${mangaId}/meta`, { formData: { key, value } });
     }
 
     public useGetMangaChapters(
@@ -474,6 +479,11 @@ export class RequestManager {
         return this.doRequest(HttpMethod.SWR_GET, `manga/${mangaId}/chapters${onlineFetch}`, {
             swrOptions,
         });
+    }
+
+    public getMangaChapters(mangaId: number | string, doOnlineFetch?: boolean): AbortableAxiosResponse<IChapter[]> {
+        const onlineFetch = doOnlineFetch ? '?onlineFetch=true' : '';
+        return this.doRequest(HttpMethod.GET, `manga/${mangaId}/chapters${onlineFetch}`);
     }
 
     public updateMangaChapters(
@@ -504,6 +514,10 @@ export class RequestManager {
         return this.doRequest(HttpMethod.SWR_GET, `manga/${mangaId}/chapter/${chapterIndex}`, {
             swrOptions,
         });
+    }
+
+    public getChapter(mangaId: number | string, chapterIndex: number | string): AbortableAxiosResponse<IChapter> {
+        return this.doRequest(HttpMethod.GET, `manga/${mangaId}/chapter/${chapterIndex}`);
     }
 
     public deleteDownloadedChapter(mangaId: number | string, chapterIndex: number | string): AbortableAxiosResponse {
@@ -570,7 +584,7 @@ export class RequestManager {
     }
 
     public setCategoryMeta(categoryId: number, key: string, value: any): AbortableAxiosResponse {
-        return this.doRequest(HttpMethod.PATCH, `category/${categoryId}`, { formData: { key, value } });
+        return this.doRequest(HttpMethod.PATCH, `category/${categoryId}/meta`, { formData: { key, value } });
     }
 
     public restoreBackupFile(file: File): AbortableAxiosResponse {

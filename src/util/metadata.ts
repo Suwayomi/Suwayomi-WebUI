@@ -14,12 +14,12 @@ import {
     IManga,
     IMangaCard,
     IMangaChapter,
+    IMetadataMigration,
     Metadata,
     MetadataHolder,
-    IMetadataMigration,
     MetadataKeyValuePair,
 } from 'typings';
-import requestManager from 'lib/RequestManager';
+import requestManager, { RequestManager } from 'lib/RequestManager';
 
 const APP_METADATA_KEY_PREFIX = 'webUI_';
 
@@ -290,72 +290,75 @@ const wrapMetadataWithMetaKey = (wrap: boolean, metadata: Metadata): MetadataHol
     };
 };
 
+type MetadataHolderType = 'manga' | 'chapter' | 'category' | 'global';
+
 export const requestUpdateMetadataValue = async (
-    endpoint: string,
     metadataHolder: MetadataHolder,
+    holderType: MetadataHolderType,
     key: AppMetadataKeys,
     value: AllowedMetadataValueTypes,
-    endpointToMutate: string = endpoint,
-    wrapWithMetaKey: boolean = true,
 ): Promise<void> => {
-    const restApiVersion = '/api/v1';
-    const url = `${restApiVersion}${endpoint}/meta`;
-    const urlToMutate = `${restApiVersion}${endpointToMutate}`;
-
     const metadataKey = getMetadataKey(key);
-    const valueAsString = `${value}`;
-
-    const formData = new FormData();
-    formData.append('key', metadataKey);
-    formData.append('value', valueAsString);
-
     const mutatedMetadata = {
         ...metadataHolder.meta,
-        [metadataKey]: valueAsString,
+        [metadataKey]: `${value}`,
     };
 
-    await requestManager.getClient().patch(url, formData);
-    await mutate(
+    let endpoint: string;
+    switch (holderType) {
+        case 'category':
+            endpoint = `category/${(metadataHolder as ICategory).id}/meta`;
+            await requestManager.setCategoryMeta((metadataHolder as ICategory).id, metadataKey, value).response;
+            break;
+        case 'chapter':
+            // eslint-disable-next-line no-case-declarations
+            const { manga, chapter } = metadataHolder as IMangaChapter;
+            endpoint = `manga/${manga.id}/chapter/${chapter.index}/meta`;
+            await requestManager.setChapterMeta(manga.id, chapter.index, metadataKey, value).response;
+            break;
+        case 'global':
+            endpoint = 'meta';
+            await requestManager.setGlobalMetadata(metadataKey, value).response;
+            break;
+        case 'manga':
+            endpoint = `manga/${(metadataHolder as IManga).id}/meta`;
+            await requestManager.setMangaMeta((metadataHolder as IManga).id, metadataKey, value).response;
+            break;
+        default:
+            throw new Error(`requestUpdateMetadataValue: unknown holderType "${holderType}"`);
+    }
+
+    const urlToMutate = `${RequestManager.API_VERSION}${endpoint}`;
+    mutate(
         urlToMutate,
-        { ...metadataHolder, ...wrapMetadataWithMetaKey(wrapWithMetaKey, mutatedMetadata) },
+        { ...metadataHolder, ...wrapMetadataWithMetaKey(holderType !== 'global', mutatedMetadata) },
         { revalidate: false },
     );
 };
 
 export const requestUpdateMetadata = async (
-    endpoint: string,
     metadataHolder: MetadataHolder,
+    holderType: MetadataHolderType,
     keysToValues: [AppMetadataKeys, AllowedMetadataValueTypes][],
-    endpointToMutate?: string,
-    wrapWithMetaKey?: boolean,
 ): Promise<void[]> =>
-    Promise.all(
-        keysToValues.map(([key, value]) =>
-            requestUpdateMetadataValue(endpoint, metadataHolder, key, value, endpointToMutate, wrapWithMetaKey),
-        ),
-    );
+    Promise.all(keysToValues.map(([key, value]) => requestUpdateMetadataValue(metadataHolder, holderType, key, value)));
 
 export const requestUpdateServerMetadata = async (
     serverMetadata: Metadata,
     keysToValues: MetadataKeyValuePair[],
-): Promise<void[]> => requestUpdateMetadata('', { meta: serverMetadata }, keysToValues, '/meta', false);
+): Promise<void[]> => requestUpdateMetadata({ meta: serverMetadata }, 'global', keysToValues);
 
 export const requestUpdateMangaMetadata = async (
     manga: IMangaCard | IManga,
     keysToValues: MetadataKeyValuePair[],
-): Promise<void[]> => requestUpdateMetadata(`/manga/${manga.id}`, manga, keysToValues);
+): Promise<void[]> => requestUpdateMetadata(manga, 'manga', keysToValues);
 
 export const requestUpdateChapterMetadata = async (
     mangaChapter: IMangaChapter,
     keysToValues: MetadataKeyValuePair[],
-): Promise<void[]> =>
-    requestUpdateMetadata(
-        `/manga/${mangaChapter.manga.id}/chapter/${mangaChapter.chapter.index}`,
-        mangaChapter.chapter,
-        keysToValues,
-    );
+): Promise<void[]> => requestUpdateMetadata(mangaChapter.chapter, 'chapter', keysToValues);
 
 export const requestUpdateCategoryMetadata = async (
     category: ICategory,
     keysToValues: MetadataKeyValuePair[],
-): Promise<void[]> => requestUpdateMetadata(`/category/${category.id}`, category, keysToValues);
+): Promise<void[]> => requestUpdateMetadata(category, 'category', keysToValues);
