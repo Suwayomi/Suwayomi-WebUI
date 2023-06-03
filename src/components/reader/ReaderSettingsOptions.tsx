@@ -25,6 +25,7 @@ export default function ReaderSettingsOptions({
     showPageNumber,
     skipDupChapters,
     setSettingValue,
+    fitToWindow,
 }: IProps) {
     const { t } = useTranslation();
 
@@ -67,6 +68,16 @@ export default function ReaderSettingsOptions({
                         edge="end"
                         checked={skipDupChapters}
                         onChange={(e) => setSettingValue('skipDupChapters', e.target.checked)}
+                    />
+                </ListItemSecondaryAction>
+            </ListItem>
+            <ListItem>
+                <ListItemText primary={t('reader.settings.label.fit_to_window')} />
+                <ListItemSecondaryAction>
+                    <Switch
+                        edge="end"
+                        checked={fitToWindow}
+                        onChange={(e) => setSettingValue('fitToWindow', e.target.checked)}
                     />
                 </ListItemSecondaryAction>
             </ListItem>

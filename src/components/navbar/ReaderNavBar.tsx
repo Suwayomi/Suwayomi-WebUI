@@ -261,6 +261,7 @@ export default function ReaderNavBar(props: IProps) {
                             showPageNumber={settings.showPageNumber}
                             loadNextOnEnding={settings.loadNextOnEnding}
                             skipDupChapters={settings.skipDupChapters}
+                            fitToWindow={settings.fitToWindow}
                             readerType={settings.readerType}
                         />
                     </Collapse>

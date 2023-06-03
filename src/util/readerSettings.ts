@@ -19,6 +19,7 @@ export const getDefaultSettings = (): IReaderSettings => ({
     showPageNumber: true,
     loadNextOnEnding: false,
     skipDupChapters: true,
+    fitToWindow: false,
     readerType: 'ContinuesVertical',
 });
 
@@ -71,6 +72,7 @@ export const checkAndHandleMissingStoredReaderSettings = async (
             showPageNumber: undefined,
             loadNextOnEnding: undefined,
             skipDupChapters: undefined,
+            fitToWindow: undefined,
             readerType: undefined,
         },
         false,
