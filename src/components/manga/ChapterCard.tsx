@@ -81,7 +81,7 @@ const ChapterCard: React.FC<IProps> = (props: IProps) => {
 
     const deleteChapter = () => {
         requestManager
-            .removeChapterFromDownloadQueue(chapter.mangaId, chapter.index)
+            .deleteDownloadedChapter(chapter.mangaId, chapter.index)
             .response.then(() => triggerChaptersUpdate());
         handleClose();
     };
