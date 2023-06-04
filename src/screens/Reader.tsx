@@ -79,13 +79,13 @@ const getReaderComponent = (readerType: ReaderType) => {
 };
 
 const range = (n: number) => Array.from({ length: n }, (value, key) => key);
-const initialChapter = () => ({
+const initialChapter = {
     pageCount: -1,
     index: -1,
     chapterCount: 0,
     lastPageRead: 0,
     name: 'Loading...',
-});
+};
 
 export default function Reader() {
     const { t } = useTranslation();
@@ -103,7 +103,7 @@ export default function Reader() {
         } as IMangaCard | IManga,
         isLoading: isMangaLoading,
     } = requestManager.useGetManga(mangaId);
-    const { data: chapter = initialChapter(), isLoading: isChapterLoading } = requestManager.useGetChapter(
+    const { data: chapter = initialChapter, isLoading: isChapterLoading } = requestManager.useGetChapter(
         mangaId,
         chapterIndex,
     );
