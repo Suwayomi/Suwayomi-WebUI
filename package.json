@@ -42,7 +42,7 @@
     "react-scripts": "^5.0.1",
     "react-virtuoso": "^1.8.6",
     "swr": "^2.1.5",
-    "use-query-params": "^1.2.3",
+    "use-query-params": "^2.2.1",
     "web-vitals": "^2.1.0"
   },
   "devDependencies": {
