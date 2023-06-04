@@ -9,22 +9,22 @@
 import React, { useContext, useEffect, useState } from 'react';
 import List from '@mui/material/List';
 import ListItemText from '@mui/material/ListItemText';
-import NavbarContext from 'components/context/NavbarContext';
 import ListSubheader from '@mui/material/ListSubheader';
-import { ICategory, IncludeInGlobalUpdate } from 'typings';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import ListItemButton from '@mui/material/ListItemButton';
-import ThreeStateCheckboxInput from 'components/atoms/ThreeStateCheckboxInput';
 import DialogTitle from '@mui/material/DialogTitle';
 import { styled } from '@mui/material';
-import makeToast from 'components/util/Toast';
 import { t as translate } from 'i18next';
 import { useTranslation } from 'react-i18next';
-import requestManager from 'lib/RequestManager';
+import { ICategory, IncludeInGlobalUpdate } from '@/typings';
+import requestManager from '@/lib/RequestManager';
+import makeToast from '@/components/util/Toast';
+import ThreeStateCheckboxInput from '@/components/atoms/ThreeStateCheckboxInput';
+import NavbarContext from '@/components/context/NavbarContext';
 
 const CategoriesDiv = styled('div')({
     display: 'flex',

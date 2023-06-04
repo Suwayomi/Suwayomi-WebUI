@@ -8,7 +8,7 @@
 
 import React from 'react';
 import { Box, styled } from '@mui/material';
-import { IReaderSettings } from 'typings';
+import { IReaderSettings } from '@/typings';
 
 const Image = styled('img')({
     marginBottom: 0,

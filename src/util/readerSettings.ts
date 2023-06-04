@@ -6,9 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { getMetadataFrom, requestUpdateMangaMetadata, requestUpdateServerMetadata } from 'util/metadata';
-import { IManga, Metadata, MetadataHolder, IReaderSettings, MetadataKeyValuePair } from 'typings';
-import requestManager from 'lib/RequestManager';
+import { IManga, Metadata, MetadataHolder, IReaderSettings, MetadataKeyValuePair } from '@/typings';
+import requestManager from '@/lib/RequestManager';
+import { getMetadataFrom, requestUpdateMangaMetadata, requestUpdateServerMetadata } from '@/util/metadata';
 
 type UndefinedReaderSettings = {
     [setting in keyof IReaderSettings]: IReaderSettings[setting] | undefined;

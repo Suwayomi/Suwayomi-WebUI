@@ -9,10 +9,10 @@
 import React, { useState } from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import TabPanel from 'components/util/TabPanel';
-import Sources from 'screens/Sources';
-import Extensions from 'screens/Extensions';
 import { useTranslation } from 'react-i18next';
+import Sources from '@/screens/Sources';
+import Extensions from '@/screens/Extensions';
+import TabPanel from '@/components/util/TabPanel';
 
 export default function Browse() {
     const { t } = useTranslation();

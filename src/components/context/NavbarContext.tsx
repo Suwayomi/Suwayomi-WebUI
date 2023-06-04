@@ -7,7 +7,7 @@
  */
 
 import React, { useContext, useEffect } from 'react';
-import { INavbarOverride } from 'typings';
+import { INavbarOverride } from '@/typings';
 
 type ContextType = {
     // Default back button url

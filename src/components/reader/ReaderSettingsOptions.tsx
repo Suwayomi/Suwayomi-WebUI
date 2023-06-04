@@ -11,8 +11,8 @@ import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import React from 'react';
-import { IReaderSettings } from 'typings';
 import { useTranslation } from 'react-i18next';
+import { IReaderSettings } from '@/typings';
 
 interface IProps extends IReaderSettings {
     setSettingValue: (key: keyof IReaderSettings, value: string | boolean) => void;

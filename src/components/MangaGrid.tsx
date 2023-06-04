@@ -8,12 +8,12 @@
 
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import Grid from '@mui/material/Grid';
-import EmptyView from 'components/util/EmptyView';
-import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
 import { Typography, Box } from '@mui/material';
-import MangaCard from 'components/MangaCard';
-import { GridLayout } from 'components/context/LibraryOptionsContext';
-import { IMangaCard } from 'typings';
+import { IMangaCard } from '@/typings';
+import EmptyView from '@/components/util/EmptyView';
+import LoadingPlaceholder from '@/components/util/LoadingPlaceholder';
+import MangaCard from '@/components/MangaCard';
+import { GridLayout } from '@/components/context/LibraryOptionsContext';
 
 export interface IMangaGridProps {
     mangas: IMangaCard[];

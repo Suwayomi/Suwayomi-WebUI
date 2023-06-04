@@ -6,10 +6,10 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import LibraryOptionsContext, { DefaultLibraryOptions } from 'components/context/LibraryOptionsContext';
 import React, { useMemo } from 'react';
-import useLocalStorage from 'util/useLocalStorage';
-import { LibraryOptions } from 'typings';
+import { LibraryOptions } from '@/typings';
+import useLocalStorage from '@/util/useLocalStorage';
+import LibraryOptionsContext, { DefaultLibraryOptions } from '@/components/context/LibraryOptionsContext';
 
 interface IProps {
     children: React.ReactNode;

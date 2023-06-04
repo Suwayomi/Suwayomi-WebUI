@@ -8,28 +8,28 @@
 
 import { Container } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
-import AppContext from 'components/context/AppContext';
-import DefaultNavBar from 'components/navbar/DefaultNavBar';
 import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import Browse from 'screens/Browse';
-import DownloadQueue from 'screens/DownloadQueue';
-import Extensions from 'screens/Extensions';
-import Library from 'screens/Library';
-import Manga from 'screens/Manga';
-import Reader from 'screens/Reader';
-import SearchAll from 'screens/SearchAll';
-import Settings from 'screens/Settings';
-import About from 'screens/settings/About';
-import Backup from 'screens/settings/Backup';
-import Categories from 'screens/settings/Categories';
-import DefaultReaderSettings from 'screens/settings/DefaultReaderSettings';
-import SourceConfigure from 'screens/SourceConfigure';
-import SourceMangas from 'screens/SourceMangas';
-import Sources from 'screens/Sources';
-import Updates from 'screens/Updates';
-import 'i18n';
-import LibrarySettings from 'screens/settings/LibrarySettings';
+import AppContext from '@/components/context/AppContext';
+import Browse from '@/screens/Browse';
+import DownloadQueue from '@/screens/DownloadQueue';
+import Extensions from '@/screens/Extensions';
+import Library from '@/screens/Library';
+import Manga from '@/screens/Manga';
+import Reader from '@/screens/Reader';
+import SearchAll from '@/screens/SearchAll';
+import Settings from '@/screens/Settings';
+import About from '@/screens/settings/About';
+import Backup from '@/screens/settings/Backup';
+import Categories from '@/screens/settings/Categories';
+import DefaultReaderSettings from '@/screens/settings/DefaultReaderSettings';
+import SourceConfigure from '@/screens/SourceConfigure';
+import SourceMangas from '@/screens/SourceMangas';
+import Sources from '@/screens/Sources';
+import Updates from '@/screens/Updates';
+import '@/i18n';
+import LibrarySettings from '@/screens/settings/LibrarySettings';
+import DefaultNavBar from '@/components/navbar/DefaultNavBar';
 
 const App: React.FC = () => (
     <AppContext>

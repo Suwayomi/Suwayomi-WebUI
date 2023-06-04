@@ -10,27 +10,27 @@ import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { fromEvent } from 'file-selector';
 import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
-import ExtensionCard from 'components/ExtensionCard';
-import NavbarContext from 'components/context/NavbarContext';
-import useLocalStorage from 'util/useLocalStorage';
-import LangSelect from 'components/navbar/action/LangSelect';
-import { extensionDefaultLangs, DefaultLanguage, langSortCmp } from 'util/language';
-import { makeToaster } from 'components/util/Toast';
-import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
-import AppbarSearch from 'components/util/AppbarSearch';
 import { StringParam, useQueryParam } from 'use-query-params';
 import { Virtuoso } from 'react-virtuoso';
 import { Typography, useMediaQuery, useTheme } from '@mui/material';
-import { IExtension } from 'typings';
 import { useTranslation } from 'react-i18next';
+import { IExtension } from '@/typings';
+import requestManager from '@/lib/RequestManager';
+import { extensionDefaultLangs, DefaultLanguage, langSortCmp } from '@/util/language';
+import useLocalStorage from '@/util/useLocalStorage';
 import {
     ExtensionState,
     GroupedExtensions,
     GroupedExtensionsResult,
     isExtensionStateOrLanguage,
     translateExtensionLanguage,
-} from 'screens/util/Extensions';
-import requestManager from 'lib/RequestManager';
+} from '@/screens/util/Extensions';
+import AppbarSearch from '@/components/util/AppbarSearch';
+import LoadingPlaceholder from '@/components/util/LoadingPlaceholder';
+import { makeToaster } from '@/components/util/Toast';
+import LangSelect from '@/components/navbar/action/LangSelect';
+import NavbarContext from '@/components/context/NavbarContext';
+import ExtensionCard from '@/components/ExtensionCard';
 
 const LANGUAGE = 0;
 const EXTENSIONS = 1;

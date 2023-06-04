@@ -12,22 +12,22 @@ import PauseIcon from '@mui/icons-material/Pause';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { Card, CardActionArea, Stack, Box } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
-import NavbarContext from 'components/context/NavbarContext';
-import EmptyView from 'components/util/EmptyView';
 import React, { useContext, useEffect } from 'react';
 import { DragDropContext, Draggable } from 'react-beautiful-dnd';
 
 import Typography from '@mui/material/Typography';
-import useSubscription from 'components/library/useSubscription';
-import DownloadStateIndicator from 'components/molecules/DownloadStateIndicator';
-import { NavbarToolbar } from 'components/navbar/DefaultNavBar';
 import { Link } from 'react-router-dom';
-import { BACK } from 'util/useBackTo';
 import { useTranslation } from 'react-i18next';
-import { IChapter, IQueue } from 'typings';
-import makeToast from 'components/util/Toast';
-import requestManager from 'lib/RequestManager';
-import StrictModeDroppable from 'lib/StrictModeDroppable';
+import { IChapter, IQueue } from '@/typings';
+import requestManager from '@/lib/RequestManager';
+import StrictModeDroppable from '@/lib/StrictModeDroppable';
+import { BACK } from '@/util/useBackTo';
+import makeToast from '@/components/util/Toast';
+import { NavbarToolbar } from '@/components/navbar/DefaultNavBar';
+import DownloadStateIndicator from '@/components/molecules/DownloadStateIndicator';
+import useSubscription from '@/components/library/useSubscription';
+import EmptyView from '@/components/util/EmptyView';
+import NavbarContext from '@/components/context/NavbarContext';
 
 const initialQueue = {
     status: 'Stopped',

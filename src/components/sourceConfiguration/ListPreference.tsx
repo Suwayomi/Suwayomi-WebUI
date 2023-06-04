@@ -16,9 +16,9 @@ import RadioGroup from '@mui/material/RadioGroup';
 import Radio from '@mui/material/Radio';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Button from '@mui/material/Button';
-import { ListPreferenceProps } from 'typings';
 import { useTranslation } from 'react-i18next';
 import { ListItemButton } from '@mui/material';
+import { ListPreferenceProps } from '@/typings';
 
 interface IListDialogProps {
     value: string;

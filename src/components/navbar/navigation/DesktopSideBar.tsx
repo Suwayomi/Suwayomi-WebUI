@@ -10,8 +10,8 @@ import React from 'react';
 import { ListItemIcon, Tooltip, styled, ListItemButton } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
-import { NavbarItem } from 'typings';
 import { useTranslation } from 'react-i18next';
+import { NavbarItem } from '@/typings';
 
 const SideNavBarContainer = styled('div')(({ theme }) => ({
     height: '100vh',

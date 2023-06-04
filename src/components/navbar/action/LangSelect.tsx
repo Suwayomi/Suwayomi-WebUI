@@ -17,9 +17,9 @@ import IconButton from '@mui/material/IconButton';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { List, ListItemSecondaryAction, ListItemText } from '@mui/material';
 import ListItem from '@mui/material/ListItem';
-import cloneObject from 'util/cloneObject';
 import { useTranslation } from 'react-i18next';
-import { translateExtensionLanguage } from 'screens/util/Extensions';
+import cloneObject from '@/util/cloneObject';
+import { translateExtensionLanguage } from '@/screens/util/Extensions';
 
 function removeAll(firstList: any[], secondList: any[]) {
     secondList.forEach((item) => {

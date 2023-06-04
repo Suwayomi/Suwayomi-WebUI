@@ -13,9 +13,9 @@ import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import { Box } from '@mui/material';
-import { IExtension, TranslationKey } from 'typings';
 import { useTranslation } from 'react-i18next';
-import requestManager from 'lib/RequestManager';
+import { IExtension, TranslationKey } from '@/typings';
+import requestManager from '@/lib/RequestManager';
 
 interface IProps {
     extension: IExtension;

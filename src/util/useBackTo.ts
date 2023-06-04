@@ -6,8 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useNavBarContext } from 'components/context/NavbarContext';
 import { useLocation } from 'react-router-dom';
+import { useNavBarContext } from '@/components/context/NavbarContext';
 
 export const BACK = '__BACK__';
 

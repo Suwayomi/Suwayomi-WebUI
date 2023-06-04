@@ -8,9 +8,9 @@
 
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { Collapse, ListItemButton, ListItemText, Stack, Box } from '@mui/material';
-import SortRadioInput from 'components/atoms/SortRadioInput';
 import React from 'react';
-import { IState } from 'typings';
+import { IState } from '@/typings';
+import SortRadioInput from '@/components/atoms/SortRadioInput';
 
 interface Props {
     values: any;

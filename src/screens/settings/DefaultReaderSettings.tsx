@@ -7,19 +7,19 @@
  */
 
 import React, { useContext, useEffect } from 'react';
-import NavbarContext from 'components/context/NavbarContext';
 import { Box } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
-import { requestUpdateServerMetadata } from 'util/metadata';
-import makeToast from 'components/util/Toast';
+import { useTranslation } from 'react-i18next';
+import { IReaderSettings } from '@/typings';
+import { requestUpdateServerMetadata } from '@/util/metadata';
 import {
     checkAndHandleMissingStoredReaderSettings,
     getDefaultSettings,
     useDefaultReaderSettings,
-} from 'util/readerSettings';
-import ReaderSettingsOptions from 'components/reader/ReaderSettingsOptions';
-import { IReaderSettings } from 'typings';
-import { useTranslation } from 'react-i18next';
+} from '@/util/readerSettings';
+import ReaderSettingsOptions from '@/components/reader/ReaderSettingsOptions';
+import makeToast from '@/components/util/Toast';
+import NavbarContext from '@/components/context/NavbarContext';
 
 export default function DefaultReaderSettings() {
     const { t } = useTranslation();

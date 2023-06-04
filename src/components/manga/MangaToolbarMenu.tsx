@@ -19,10 +19,10 @@ import {
     useMediaQuery,
     useTheme,
 } from '@mui/material';
-import CategorySelect from 'components/navbar/action/CategorySelect';
 import React, { useState } from 'react';
-import { IManga } from 'typings';
 import { useTranslation } from 'react-i18next';
+import { IManga } from '@/typings';
+import CategorySelect from '@/components/navbar/action/CategorySelect';
 
 interface IProps {
     manga: IManga;

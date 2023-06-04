@@ -6,9 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { getMetadataFrom } from 'util/metadata';
-import { Metadata, ISearchSettings } from 'typings';
-import requestManager from 'lib/RequestManager';
+import { Metadata, ISearchSettings } from '@/typings';
+import requestManager from '@/lib/RequestManager';
+import { getMetadataFrom } from '@/util/metadata';
 
 export const getDefaultSettings = (): ISearchSettings => ({
     ignoreFilters: false,

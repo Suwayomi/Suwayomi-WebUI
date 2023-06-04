@@ -8,18 +8,18 @@
 
 import { Chip, Tab, Tabs, styled } from '@mui/material';
 import React, { useContext, useEffect, useMemo, useState } from 'react';
-import NavbarContext from 'components/context/NavbarContext';
-import EmptyView from 'components/util/EmptyView';
-import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
-import TabPanel from 'components/util/TabPanel';
-import LibraryToolbarMenu from 'components/library/LibraryToolbarMenu';
-import LibraryMangaGrid from 'components/library/LibraryMangaGrid';
-import AppbarSearch from 'components/util/AppbarSearch';
 import { useQueryParam, NumberParam } from 'use-query-params';
-import UpdateChecker from 'components/library/UpdateChecker';
 import { useTranslation } from 'react-i18next';
-import { useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
-import requestManager from 'lib/RequestManager';
+import requestManager from '@/lib/RequestManager';
+import NavbarContext from '@/components/context/NavbarContext';
+import EmptyView from '@/components/util/EmptyView';
+import LoadingPlaceholder from '@/components/util/LoadingPlaceholder';
+import TabPanel from '@/components/util/TabPanel';
+import LibraryToolbarMenu from '@/components/library/LibraryToolbarMenu';
+import LibraryMangaGrid from '@/components/library/LibraryMangaGrid';
+import AppbarSearch from '@/components/util/AppbarSearch';
+import UpdateChecker from '@/components/library/UpdateChecker';
+import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
 
 const TitleWithSizeTag = styled('span')({
     display: 'flex',

@@ -25,13 +25,13 @@ import GetAppOutlinedIcon from '@mui/icons-material/GetAppOutlined';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ArrowBack from '@mui/icons-material/ArrowBack';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import NavBarContext from 'components/context/NavbarContext';
-import ExtensionOutlinedIcon from 'components/util/CustomExtensionOutlinedIcon';
 import { createPortal } from 'react-dom';
-import useBackTo from 'util/useBackTo';
-import DesktopSideBar from 'components/navbar/navigation/DesktopSideBar';
-import MobileBottomBar from 'components/navbar/navigation/MobileBottomBar';
-import { NavbarItem } from 'typings';
+import { NavbarItem } from '@/typings';
+import useBackTo from '@/util/useBackTo';
+import NavBarContext from '@/components/context/NavbarContext';
+import ExtensionOutlinedIcon from '@/components/util/CustomExtensionOutlinedIcon';
+import DesktopSideBar from '@/components/navbar/navigation/DesktopSideBar';
+import MobileBottomBar from '@/components/navbar/navigation/MobileBottomBar';
 
 const navbarItems: Array<NavbarItem> = [
     {

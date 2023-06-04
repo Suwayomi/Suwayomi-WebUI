@@ -16,10 +16,10 @@ import FormGroup from '@mui/material/FormGroup';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Button from '@mui/material/Button';
-import cloneObject from 'util/cloneObject';
-import { MultiSelectListPreferenceProps } from 'typings';
 import { useTranslation } from 'react-i18next';
 import { ListItemButton } from '@mui/material';
+import { MultiSelectListPreferenceProps } from '@/typings';
+import cloneObject from '@/util/cloneObject';
 
 interface IListDialogProps {
     selectedValues: string[];

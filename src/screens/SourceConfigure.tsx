@@ -7,16 +7,16 @@
  */
 
 import React, { useContext, useEffect } from 'react';
-import NavbarContext from 'components/context/NavbarContext';
 import { useParams } from 'react-router-dom';
-import { SwitchPreferenceCompat, CheckBoxPreference } from 'components/sourceConfiguration/TwoStatePreference';
-import ListPreference from 'components/sourceConfiguration/ListPreference';
-import EditTextPreference from 'components/sourceConfiguration/EditTextPreference';
-import MultiSelectListPreference from 'components/sourceConfiguration/MultiSelectListPreference';
 import List from '@mui/material/List';
-import cloneObject from 'util/cloneObject';
 import { useTranslation } from 'react-i18next';
-import requestManager from 'lib/RequestManager';
+import requestManager from '@/lib/RequestManager';
+import cloneObject from '@/util/cloneObject';
+import NavbarContext from '@/components/context/NavbarContext';
+import { SwitchPreferenceCompat, CheckBoxPreference } from '@/components/sourceConfiguration/TwoStatePreference';
+import ListPreference from '@/components/sourceConfiguration/ListPreference';
+import EditTextPreference from '@/components/sourceConfiguration/EditTextPreference';
+import MultiSelectListPreference from '@/components/sourceConfiguration/MultiSelectListPreference';
 
 function getPrefComponent(type: string) {
     switch (type) {

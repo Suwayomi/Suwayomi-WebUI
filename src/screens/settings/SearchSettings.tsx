@@ -9,13 +9,13 @@
 import { ListItem, ListItemText, Switch } from '@mui/material';
 import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import React from 'react';
-import { useSearchSettings } from 'util/searchSettings';
-import { requestUpdateServerMetadata } from 'util/metadata';
-import makeToast from 'components/util/Toast';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import SearchIcon from '@mui/icons-material/Search';
-import { SearchMetadataKeys } from 'typings';
 import { useTranslation } from 'react-i18next';
+import { SearchMetadataKeys } from '@/typings';
+import { requestUpdateServerMetadata } from '@/util/metadata';
+import { useSearchSettings } from '@/util/searchSettings';
+import makeToast from '@/components/util/Toast';
 
 export default function SearchSettings() {
     const { t } = useTranslation();

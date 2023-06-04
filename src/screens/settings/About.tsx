@@ -10,11 +10,11 @@ import React, { useContext, useEffect } from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import ListItemLink from 'components/util/ListItemLink';
-import NavbarContext from 'components/context/NavbarContext';
-import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
 import { useTranslation } from 'react-i18next';
-import requestManager from 'lib/RequestManager';
+import requestManager from '@/lib/RequestManager';
+import ListItemLink from '@/components/util/ListItemLink';
+import NavbarContext from '@/components/context/NavbarContext';
+import LoadingPlaceholder from '@/components/util/LoadingPlaceholder';
 
 export default function About() {
     const { t } = useTranslation();

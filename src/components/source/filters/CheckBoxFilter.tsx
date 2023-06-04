@@ -6,8 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import CheckboxInput from 'components/atoms/CheckboxInput';
 import React from 'react';
+import CheckboxInput from '@/components/atoms/CheckboxInput';
 
 interface Props {
     state: boolean;

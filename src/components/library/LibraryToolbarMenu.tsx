@@ -8,9 +8,9 @@
 
 import FilterList from '@mui/icons-material/FilterList';
 import { IconButton } from '@mui/material';
-import { useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
 import React, { useState } from 'react';
-import LibraryOptionsPanel from 'components/library/LibraryOptionsPanel';
+import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
+import LibraryOptionsPanel from '@/components/library/LibraryOptionsPanel';
 
 const LibraryToolbarMenu: React.FC = () => {
     const [open, setOpen] = useState(false);

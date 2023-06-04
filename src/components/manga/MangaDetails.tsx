@@ -15,10 +15,10 @@ import { styled } from '@mui/material/styles';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { mutate } from 'swr';
-import { IManga, ISource } from 'typings';
 import { t as translate } from 'i18next';
-import makeToast from 'components/util/Toast';
-import requestManager from 'lib/RequestManager';
+import { IManga, ISource } from '@/typings';
+import requestManager from '@/lib/RequestManager';
+import makeToast from '@/components/util/Toast';
 
 const DetailsWrapper = styled('div')(({ theme }) => ({
     width: '100%',

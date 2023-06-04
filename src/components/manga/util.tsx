@@ -7,7 +7,6 @@
  */
 
 import { t } from 'i18next';
-import { useReducerLocalStorage } from 'util/useLocalStorage';
 import {
     ChapterListOptions,
     ChapterOptionsReducerAction,
@@ -15,7 +14,8 @@ import {
     IChapter,
     NullAndUndefined,
     TranslationKey,
-} from 'typings';
+} from '@/typings';
+import { useReducerLocalStorage } from '@/util/useLocalStorage';
 
 const defaultChapterOptions: ChapterListOptions = {
     active: false,

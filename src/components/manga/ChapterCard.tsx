@@ -24,14 +24,14 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import DownloadStateIndicator from 'components/molecules/DownloadStateIndicator';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { BACK } from 'util/useBackTo';
-import { getUploadDateString } from 'util/date';
-import { IChapter, IDownloadChapter } from 'typings';
 import { useTranslation } from 'react-i18next';
-import requestManager from 'lib/RequestManager';
+import { IChapter, IDownloadChapter } from '@/typings';
+import requestManager from '@/lib/RequestManager';
+import { getUploadDateString } from '@/util/date';
+import { BACK } from '@/util/useBackTo';
+import DownloadStateIndicator from '@/components/molecules/DownloadStateIndicator';
 
 interface IProps {
     chapter: IChapter;

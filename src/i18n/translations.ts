@@ -6,17 +6,17 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import en from 'i18n/locale/en.json';
+import en from '@/i18n/locale/en.json';
 
-import ar from 'i18n/locale/ar.json';
-import de from 'i18n/locale/de.json';
-import es from 'i18n/locale/es.json';
-import fr from 'i18n/locale/fr.json';
-import ja from 'i18n/locale/ja.json';
-import pt from 'i18n/locale/pt.json';
-import uk from 'i18n/locale/uk.json';
-import zh_Hans from 'i18n/locale/zh_Hans.json';
-import zh_Hant from 'i18n/locale/zh_Hant.json';
+import ar from '@/i18n/locale/ar.json';
+import de from '@/i18n/locale/de.json';
+import es from '@/i18n/locale/es.json';
+import fr from '@/i18n/locale/fr.json';
+import ja from '@/i18n/locale/ja.json';
+import pt from '@/i18n/locale/pt.json';
+import uk from '@/i18n/locale/uk.json';
+import zh_Hans from '@/i18n/locale/zh_Hans.json';
+import zh_Hant from '@/i18n/locale/zh_Hant.json';
 
 const translationHelper = <T>(lng: T) => ({
     translation: lng,

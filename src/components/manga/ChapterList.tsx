@@ -8,20 +8,20 @@
 
 import { Button, CircularProgress, Stack, styled } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import useSubscription from 'components/library/useSubscription';
-import ChapterCard from 'components/manga/ChapterCard';
-import ResumeFab from 'components/manga/ResumeFAB';
-import { filterAndSortChapters, useChapterOptions } from 'components/manga/util';
-import EmptyView from 'components/util/EmptyView';
-import makeToast from 'components/util/Toast';
 import React, { ComponentProps, useEffect, useMemo, useRef, useState } from 'react';
 import { Virtuoso } from 'react-virtuoso';
-import ChaptersToolbarMenu from 'components/manga/ChaptersToolbarMenu';
-import SelectionFAB from 'components/manga/SelectionFAB';
-import { BatchChaptersChange, IChapter, IDownloadChapter, IQueue, TranslationKey } from 'typings';
 import { useTranslation } from 'react-i18next';
-import { DEFAULT_FULL_FAB_HEIGHT } from 'components/util/StyledFab';
-import requestManager from 'lib/RequestManager';
+import { BatchChaptersChange, IChapter, IDownloadChapter, IQueue, TranslationKey } from '@/typings';
+import requestManager from '@/lib/RequestManager';
+import useSubscription from '@/components/library/useSubscription';
+import ChapterCard from '@/components/manga/ChapterCard';
+import ResumeFab from '@/components/manga/ResumeFAB';
+import { filterAndSortChapters, useChapterOptions } from '@/components/manga/util';
+import EmptyView from '@/components/util/EmptyView';
+import makeToast from '@/components/util/Toast';
+import ChaptersToolbarMenu from '@/components/manga/ChaptersToolbarMenu';
+import SelectionFAB from '@/components/manga/SelectionFAB';
+import { DEFAULT_FULL_FAB_HEIGHT } from '@/components/util/StyledFab';
 
 const StyledVirtuoso = styled(Virtuoso)(({ theme }) => ({
     listStyle: 'none',

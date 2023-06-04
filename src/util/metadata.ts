@@ -18,8 +18,8 @@ import {
     Metadata,
     MetadataHolder,
     MetadataKeyValuePair,
-} from 'typings';
-import requestManager, { RequestManager } from 'lib/RequestManager';
+} from '@/typings';
+import requestManager, { RequestManager } from '@/lib/RequestManager';
 
 const APP_METADATA_KEY_PREFIX = 'webUI_';
 
