@@ -35,7 +35,7 @@ export default function Library() {
 
     const { options } = useLibraryOptionsContext();
     const [lastLibraryUpdate, setLastLibraryUpdate] = useState(Date.now());
-    const { data: tabsData, error: tabsError, isLoading } = requestManager.useGetCategories();
+    const { data: tabsData, error: tabsError, isLoading: areCategoriesLoading } = requestManager.useGetCategories();
     const tabs = tabsData ?? [];
     const librarySize = useMemo(() => tabs.map((tab) => tab.size).reduce((prev, curr) => prev + curr, 0), [tabs]);
 
@@ -55,7 +55,7 @@ export default function Library() {
         const navBarTitle = (
             <TitleWithSizeTag>
                 {title}
-                {mangaLoading || !options.showTabSize ? null : <TitleSizeTag label={librarySize} />}
+                {areCategoriesLoading || !options.showTabSize ? null : <TitleSizeTag label={librarySize} />}
             </TitleWithSizeTag>
         );
         setTitle(navBarTitle, title);
@@ -70,7 +70,7 @@ export default function Library() {
             setTitle('');
             setAction(null);
         };
-    }, [t, librarySize, mangaLoading, options]);
+    }, [t, librarySize, areCategoriesLoading, options]);
 
     const handleTabChange = (newTab: number) => {
         setTabSearchParam(newTab === 0 ? undefined : newTab);
@@ -85,7 +85,7 @@ export default function Library() {
         );
     }
 
-    if (isLoading) {
+    if (areCategoriesLoading) {
         return <LoadingPlaceholder />;
     }
 
