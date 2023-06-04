@@ -3,12 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
     "build-md5": "find build -type f | sort | xargs md5sum | awk '{ print $1 }' | tr -d '\n' | md5sum| awk '{ print $1 }' > buildZip/md5sum ",
     "build-zip": "cd build && rev=$(git rev-list HEAD --count) && echo r$rev > revision && zip -9 -r ../buildZip/Tachidesk-WebUI-r$rev *",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
     "lint": "eslint src --ext .ts,.tsx,.js,.jsx"
   },
   "browserslist": {
@@ -29,6 +28,8 @@
     "@fontsource/roboto": "^5.0.2",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.13.3",
+    "@types/node": "18.16.0",
+    "@vitejs/plugin-react": "^4.0.0",
     "axios": "^1.4.0",
     "file-selector": "^0.6.0",
     "i18next": "^22.5.0",
@@ -38,14 +39,14 @@
     "react-dom": "^18.2.0",
     "react-i18next": "^12.3.1",
     "react-router-dom": "^6.11.2",
-    "react-scripts": "^5.0.1",
     "react-virtuoso": "^4.3.8",
     "swr": "^2.1.5",
     "use-query-params": "^2.2.1",
+    "vite": "^4.3.9",
+    "vite-tsconfig-paths": "^4.2.0",
     "web-vitals": "^3.3.2"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.10",
     "@types/react": "^18.2.8",
     "@types/react-beautiful-dnd": "^13.1.4",
     "@types/react-dom": "^18.2.4",
