@@ -6,11 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Theme, createTheme as createMuiTheme } from '@mui/material/styles';
-
-declare module '@mui/styles/defaultTheme' {
-    interface DefaultTheme extends Theme {}
-}
+import { createTheme as createMuiTheme } from '@mui/material/styles';
 
 declare module '@mui/material/styles' {
     interface PaletteOptions {
