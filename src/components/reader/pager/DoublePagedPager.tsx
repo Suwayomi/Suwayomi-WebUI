@@ -8,10 +8,10 @@
 
 import React, { useEffect, useRef } from 'react';
 import { Box } from '@mui/material';
-import Page from 'components/reader/Page';
-import DoublePage from 'components/reader/DoublePage';
-import { IReaderProps } from 'typings';
 import { createRoot } from 'react-dom/client';
+import { IReaderProps } from '@/typings';
+import Page from '@/components/reader/Page';
+import DoublePage from '@/components/reader/DoublePage';
 
 const isSpreadPage = (image: HTMLImageElement): boolean => {
     const aspectRatio = image.height / image.width;

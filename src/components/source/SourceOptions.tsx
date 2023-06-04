@@ -8,21 +8,21 @@
 
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { Button, Stack, Box } from '@mui/material';
-import OptionsPanel from 'components/molecules/OptionsPanel';
 import React from 'react';
-import CheckBoxFilter from 'components/source/filters/CheckBoxFilter';
-import HeaderFilter from 'components/source/filters/HeaderFilter';
-import SelectFilter from 'components/source/filters/SelectFilter';
-import SortFilter from 'components/source/filters/SortFilter';
-import TextFilter from 'components/source/filters/TextFilter';
-import TriStateFilter from 'components/source/filters/TriStateFilter';
+import { useTranslation } from 'react-i18next';
+import { ISourceFilters, IState } from '@/typings';
+import OptionsPanel from '@/components/molecules/OptionsPanel';
+import CheckBoxFilter from '@/components/source/filters/CheckBoxFilter';
+import HeaderFilter from '@/components/source/filters/HeaderFilter';
+import SelectFilter from '@/components/source/filters/SelectFilter';
+import SortFilter from '@/components/source/filters/SortFilter';
+import TextFilter from '@/components/source/filters/TextFilter';
+import TriStateFilter from '@/components/source/filters/TriStateFilter';
 // this can only cycle once, so should be fine
 // eslint-disable-next-line import/no-cycle
-import GroupFilter from 'components/source/filters/GroupFilter';
-import SeperatorFilter from 'components/source/filters/SeparatorFilter';
-import { ISourceFilters, IState } from 'typings';
-import { useTranslation } from 'react-i18next';
-import StyledFab from 'components/util/StyledFab';
+import GroupFilter from '@/components/source/filters/GroupFilter';
+import SeperatorFilter from '@/components/source/filters/SeparatorFilter';
+import StyledFab from '@/components/util/StyledFab';
 
 interface IFilters {
     sourceFilter: ISourceFilters[];

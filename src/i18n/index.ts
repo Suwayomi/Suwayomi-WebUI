@@ -8,8 +8,8 @@
 
 import { use } from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import resources from 'i18n/translations';
 import LanguageDetector from 'i18next-browser-languagedetector';
+import resources from '@/i18n/translations';
 
 const i18n = use(initReactI18next)
     .use(LanguageDetector)

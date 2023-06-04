@@ -7,9 +7,9 @@
  */
 
 import React, { useRef } from 'react';
-import SpinnerImage from 'components/util/SpinnerImage';
 import Box from '@mui/material/Box';
-import { IReaderSettings } from 'typings';
+import { IReaderSettings } from '@/typings';
+import SpinnerImage from '@/components/util/SpinnerImage';
 
 function imageStyle(settings: IReaderSettings): any {
     const [dimensions, setDimensions] = React.useState({

@@ -32,16 +32,16 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import Slider from '@mui/material/Slider';
 import { DialogTitle, Link, ListItemButton, MenuItem, Select } from '@mui/material';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
-import NavbarContext from 'components/context/NavbarContext';
-import DarkTheme from 'components/context/DarkTheme';
-import useLocalStorage from 'util/useLocalStorage';
-import ListItemLink from 'components/util/ListItemLink';
-import SearchSettings from 'screens/settings/SearchSettings';
 import { useTranslation } from 'react-i18next';
 import LanguageIcon from '@mui/icons-material/Language';
-import { langCodeToName } from 'util/language';
 import CollectionsOutlinedBookmarkIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
-import requestManager from 'lib/RequestManager';
+import requestManager from '@/lib/RequestManager';
+import { langCodeToName } from '@/util/language';
+import useLocalStorage from '@/util/useLocalStorage';
+import SearchSettings from '@/screens/settings/SearchSettings';
+import ListItemLink from '@/components/util/ListItemLink';
+import DarkTheme from '@/components/context/DarkTheme';
+import NavbarContext from '@/components/context/NavbarContext';
 
 export default function Settings() {
     const { t, i18n } = useTranslation();

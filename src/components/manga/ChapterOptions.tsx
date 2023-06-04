@@ -7,14 +7,14 @@
  */
 
 import { RadioGroup } from '@mui/material';
-import RadioInput from 'components/atoms/RadioInput';
-import SortRadioInput from 'components/atoms/SortRadioInput';
-import ThreeStateCheckboxInput from 'components/atoms/ThreeStateCheckboxInput';
-import OptionsTabs from 'components/molecules/OptionsTabs';
 import React from 'react';
-import { SORT_OPTIONS } from 'components/manga/util';
-import { ChapterListOptions, ChapterOptionsReducerAction, TranslationKey } from 'typings';
 import { useTranslation } from 'react-i18next';
+import { ChapterListOptions, ChapterOptionsReducerAction, TranslationKey } from '@/typings';
+import RadioInput from '@/components/atoms/RadioInput';
+import SortRadioInput from '@/components/atoms/SortRadioInput';
+import ThreeStateCheckboxInput from '@/components/atoms/ThreeStateCheckboxInput';
+import OptionsTabs from '@/components/molecules/OptionsTabs';
+import { SORT_OPTIONS } from '@/components/manga/util';
 
 interface IProps {
     open: boolean;

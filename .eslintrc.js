@@ -38,11 +38,14 @@ module.exports = {
             },
         ],
 
+        // seems to be bugged for aliases
+        'import/extensions': ['error', 'ignorePackages', { '': 'never' }],
+
         'no-relative-import-paths/no-relative-import-paths': [
             'error',
             {
                 rootDir: 'src',
-                prefix: false,
+                prefix: '@',
             },
         ],
     },

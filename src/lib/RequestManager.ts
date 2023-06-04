@@ -28,9 +28,9 @@ import {
     SourcePreferences,
     SourceSearchResult,
     UpdateCheck,
-} from 'typings';
-import storage from 'util/localStorage';
-import { HttpMethod as DefaultHttpMethod, IRestClient, RestClient } from 'lib/RestClient';
+} from '@/typings';
+import { HttpMethod as DefaultHttpMethod, IRestClient, RestClient } from '@/lib/RestClient';
+import storage from '@/util/localStorage';
 
 enum SWRHttpMethod {
     SWR_GET,

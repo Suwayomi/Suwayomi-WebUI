@@ -9,24 +9,24 @@
 import CircularProgress from '@mui/material/CircularProgress';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import HorizontalPager from 'components/reader/pager/HorizontalPager';
-import PageNumber from 'components/reader/PageNumber';
-import PagedPager from 'components/reader/pager/PagedPager';
-import DoublePagedPager from 'components/reader/pager/DoublePagedPager';
-import VerticalPager from 'components/reader/pager/VerticalPager';
-import ReaderNavBar from 'components/navbar/ReaderNavBar';
-import NavbarContext from 'components/context/NavbarContext';
 import { Box } from '@mui/material';
-import { requestUpdateMangaMetadata } from 'util/metadata';
+import { useTranslation } from 'react-i18next';
+import { ChapterOffset, IChapter, IManga, IMangaCard, IReaderSettings, ReaderType, TranslationKey } from '@/typings';
+import requestManager from '@/lib/RequestManager';
 import {
     checkAndHandleMissingStoredReaderSettings,
     getReaderSettingsFor,
     useDefaultReaderSettings,
-} from 'util/readerSettings';
-import makeToast from 'components/util/Toast';
-import { ChapterOffset, IChapter, IManga, IMangaCard, IReaderSettings, ReaderType, TranslationKey } from 'typings';
-import { useTranslation } from 'react-i18next';
-import requestManager from 'lib/RequestManager';
+} from '@/util/readerSettings';
+import { requestUpdateMangaMetadata } from '@/util/metadata';
+import HorizontalPager from '@/components/reader/pager/HorizontalPager';
+import PageNumber from '@/components/reader/PageNumber';
+import PagedPager from '@/components/reader/pager/PagedPager';
+import DoublePagedPager from '@/components/reader/pager/DoublePagedPager';
+import VerticalPager from '@/components/reader/pager/VerticalPager';
+import ReaderNavBar from '@/components/navbar/ReaderNavBar';
+import NavbarContext from '@/components/context/NavbarContext';
+import makeToast from '@/components/util/Toast';
 
 const isDupChapter = async (chapterIndex: number, currentChapter: IChapter) => {
     const nextChapter = await requestManager.getChapter(currentChapter.mangaId, chapterIndex).response;

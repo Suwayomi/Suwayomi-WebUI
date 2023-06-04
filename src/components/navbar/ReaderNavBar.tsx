@@ -23,10 +23,10 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import Collapse from '@mui/material/Collapse';
-import useBackTo from 'util/useBackTo';
-import ReaderSettingsOptions from 'components/reader/ReaderSettingsOptions';
-import { ChapterOffset, IChapter, IManga, IMangaCard, IReaderSettings } from 'typings';
 import { useTranslation } from 'react-i18next';
+import { ChapterOffset, IChapter, IManga, IMangaCard, IReaderSettings } from '@/typings';
+import useBackTo from '@/util/useBackTo';
+import ReaderSettingsOptions from '@/components/reader/ReaderSettingsOptions';
 
 const Root = styled('div')(({ theme }) => ({
     top: 0,

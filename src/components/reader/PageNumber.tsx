@@ -8,7 +8,7 @@
 
 import React from 'react';
 import { Box } from '@mui/material';
-import { IReaderSettings } from 'typings';
+import { IReaderSettings } from '@/typings';
 
 interface IProps {
     settings: IReaderSettings;

@@ -23,12 +23,12 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import NavbarContext from 'components/context/NavbarContext';
-import { ICategory } from 'typings';
 import { useTranslation } from 'react-i18next';
-import { DEFAULT_FULL_FAB_HEIGHT } from 'components/util/StyledFab';
-import requestManager from 'lib/RequestManager';
-import StrictModeDroppable from 'lib/StrictModeDroppable';
+import { ICategory } from '@/typings';
+import requestManager from '@/lib/RequestManager';
+import StrictModeDroppable from '@/lib/StrictModeDroppable';
+import { DEFAULT_FULL_FAB_HEIGHT } from '@/components/util/StyledFab';
+import NavbarContext from '@/components/context/NavbarContext';
 
 const getItemStyle = (
     isDragging: boolean,

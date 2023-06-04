@@ -7,9 +7,9 @@
  */
 
 import { Stack, Tab, Tabs } from '@mui/material';
-import TabPanel from 'components/util/TabPanel';
 import React, { useState } from 'react';
-import OptionsPanel from 'components/molecules/OptionsPanel';
+import TabPanel from '@/components/util/TabPanel';
+import OptionsPanel from '@/components/molecules/OptionsPanel';
 
 interface IProps<T = string> {
     open: boolean;

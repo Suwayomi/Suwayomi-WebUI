@@ -9,10 +9,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { PlayArrow } from '@mui/icons-material';
-import { BACK } from 'util/useBackTo';
-import { IChapter } from 'typings';
 import { useTranslation } from 'react-i18next';
-import StyledFab from 'components/util/StyledFab';
+import { IChapter } from '@/typings';
+import { BACK } from '@/util/useBackTo';
+import StyledFab from '@/components/util/StyledFab';
 
 interface ResumeFABProps {
     chapter: IChapter;

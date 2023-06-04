@@ -9,10 +9,10 @@
 import MoreHoriz from '@mui/icons-material/MoreHoriz';
 import { Fab, Menu, Box } from '@mui/material';
 import React, { useRef, useState } from 'react';
-import type { IChapterWithMeta } from 'components/manga/ChapterList';
-import SelectionFABActionItem from 'components/manga/SelectionFABActionItem';
 import { useTranslation } from 'react-i18next';
-import { DEFAULT_FAB_STYLE } from 'components/util/StyledFab';
+import type { IChapterWithMeta } from '@/components/manga/ChapterList';
+import SelectionFABActionItem from '@/components/manga/SelectionFABActionItem';
+import { DEFAULT_FAB_STYLE } from '@/components/util/StyledFab';
 
 export type SelectionAction = 'download' | 'delete' | 'bookmark' | 'unbookmark' | 'mark_as_read' | 'mark_as_unread';
 

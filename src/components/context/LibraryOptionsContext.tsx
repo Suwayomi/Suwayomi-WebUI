@@ -7,7 +7,7 @@
  */
 
 import React, { useContext } from 'react';
-import { LibraryOptions } from 'typings';
+import { LibraryOptions } from '@/typings';
 
 type ContextType = {
     options: LibraryOptions;

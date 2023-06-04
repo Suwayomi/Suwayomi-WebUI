@@ -8,17 +8,17 @@
 
 import { Warning } from '@mui/icons-material';
 import { CircularProgress, IconButton, Stack, Tooltip, Box } from '@mui/material';
-import NavbarContext, { useSetDefaultBackTo } from 'components/context/NavbarContext';
-import ChapterList from 'components/manga/ChapterList';
-import { useRefreshManga } from 'components/manga/hooks';
-import MangaDetails from 'components/manga/MangaDetails';
-import MangaToolbarMenu from 'components/manga/MangaToolbarMenu';
-import EmptyView from 'components/util/EmptyView';
-import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
 import React, { useContext, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import requestManager from 'lib/RequestManager';
+import requestManager from '@/lib/RequestManager';
+import NavbarContext, { useSetDefaultBackTo } from '@/components/context/NavbarContext';
+import ChapterList from '@/components/manga/ChapterList';
+import { useRefreshManga } from '@/components/manga/hooks';
+import MangaDetails from '@/components/manga/MangaDetails';
+import MangaToolbarMenu from '@/components/manga/MangaToolbarMenu';
+import EmptyView from '@/components/util/EmptyView';
+import LoadingPlaceholder from '@/components/util/LoadingPlaceholder';
 
 const AUTOFETCH_AGE = 60 * 60 * 24; // 24 hours
 

@@ -6,9 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { IExtension, TranslationKey } from 'typings';
-import { DefaultLanguage, langCodeToName } from 'util/language';
 import { t } from 'i18next';
+import { IExtension, TranslationKey } from '@/typings';
+import { DefaultLanguage, langCodeToName } from '@/util/language';
 
 export enum ExtensionState {
     INSTALLED = 'INSTALLED',

@@ -9,7 +9,7 @@
 import SearchIcon from '@mui/icons-material/Search';
 import { FormControl, Input, InputAdornment, InputLabel } from '@mui/material';
 import React, { useEffect } from 'react';
-import { useDebounce } from 'components/manga/hooks';
+import { useDebounce } from '@/components/manga/hooks';
 
 interface Props {
     state: string;

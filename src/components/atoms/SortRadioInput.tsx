@@ -9,7 +9,7 @@
 import ArrowDownward from '@mui/icons-material/ArrowDownward';
 import ArrowUpward from '@mui/icons-material/ArrowUpward';
 import React from 'react';
-import RadioInput, { RadioInputProps } from 'components/atoms/RadioInput';
+import RadioInput, { RadioInputProps } from '@/components/atoms/RadioInput';
 
 interface IProps extends RadioInputProps {
     sortDescending?: boolean | null | undefined;

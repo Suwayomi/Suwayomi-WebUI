@@ -10,7 +10,7 @@ import { CircularProgress, Box } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { IDownloadChapter, TranslationKey } from 'typings';
+import { IDownloadChapter, TranslationKey } from '@/typings';
 
 interface DownloadStateIndicatorProps {
     download: IDownloadChapter;

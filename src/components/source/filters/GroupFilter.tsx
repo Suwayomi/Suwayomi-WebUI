@@ -10,8 +10,8 @@ import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { Collapse, ListItemButton, ListItemText, Stack, Box } from '@mui/material';
 import React from 'react';
 // eslint-disable-next-line import/no-cycle
-import { Options } from 'components/source/SourceOptions';
-import { ISourceFilters } from 'typings';
+import { ISourceFilters } from '@/typings';
+import { Options } from '@/components/source/SourceOptions';
 
 interface Props {
     state: ISourceFilters[];

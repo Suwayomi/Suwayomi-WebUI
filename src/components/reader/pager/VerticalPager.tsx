@@ -8,8 +8,8 @@
 
 import React, { useCallback, useEffect, useRef } from 'react';
 import { Box } from '@mui/material';
-import Page from 'components/reader/Page';
-import { IReaderProps } from 'typings';
+import { IReaderProps } from '@/typings';
+import Page from '@/components/reader/Page';
 
 const findCurrentPageIndex = (wrapper: HTMLDivElement): number => {
     for (let i = 0; i < wrapper.children.length; i++) {

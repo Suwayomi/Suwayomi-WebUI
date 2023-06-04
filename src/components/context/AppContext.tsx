@@ -7,16 +7,16 @@
  */
 
 import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
-import LibraryOptionsContextProvider from 'components/library/LibraryOptionsProvider';
-import NavBarContextProvider from 'components/navbar/NavBarContextProvider';
 import React, { useMemo } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { SWRConfig } from 'swr';
-import createTheme from 'theme';
 import { QueryParamProvider } from 'use-query-params';
-import useLocalStorage from 'util/useLocalStorage';
-import DarkTheme from 'components/context/DarkTheme';
 import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
+import createTheme from '@/theme';
+import useLocalStorage from '@/util/useLocalStorage';
+import DarkTheme from '@/components/context/DarkTheme';
+import NavBarContextProvider from '@/components/navbar/NavBarContextProvider';
+import LibraryOptionsContextProvider from '@/components/library/LibraryOptionsProvider';
 
 interface Props {
     children: React.ReactNode;

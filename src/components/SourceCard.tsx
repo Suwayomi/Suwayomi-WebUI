@@ -15,10 +15,10 @@ import Typography from '@mui/material/Typography';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { ISource } from 'typings';
-import { translateExtensionLanguage } from 'screens/util/Extensions';
-import requestManager from 'lib/RequestManager';
-import { SourceContentType } from 'screens/SourceMangas';
+import { ISource } from '@/typings';
+import requestManager from '@/lib/RequestManager';
+import { translateExtensionLanguage } from '@/screens/util/Extensions';
+import { SourceContentType } from '@/screens/SourceMangas';
 
 const MobileWidthButtons = styled('div')(({ theme }) => ({
     display: 'flex',

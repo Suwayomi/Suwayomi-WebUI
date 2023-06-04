@@ -7,8 +7,8 @@
  */
 
 import React, { useCallback, useMemo, useState } from 'react';
-import NavBarContext from 'components/context/NavbarContext';
-import { INavbarOverride } from 'typings';
+import { INavbarOverride } from '@/typings';
+import NavBarContext from '@/components/context/NavbarContext';
 
 interface IProps {
     children: React.ReactNode;

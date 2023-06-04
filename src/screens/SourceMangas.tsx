@@ -9,23 +9,23 @@
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
-import SourceMangaGrid from 'components/source/SourceMangaGrid';
-import NavbarContext from 'components/context/NavbarContext';
 import SettingsIcon from '@mui/icons-material/Settings';
-import SourceOptions from 'components/source/SourceOptions';
-import AppbarSearch from 'components/util/AppbarSearch';
 import { useQueryParam, StringParam } from 'use-query-params';
-import SourceGridLayout from 'components/source/GridLayouts';
-import { useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
 import { useTranslation } from 'react-i18next';
 import Link from '@mui/material/Link';
-import requestManager, { AbortableSWRInfiniteResponse } from 'lib/RequestManager';
-import { useDebounce } from 'components/manga/hooks';
 import { Box, Button, styled } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import NewReleasesIcon from '@mui/icons-material/NewReleases';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { IManga, PaginatedMangaList, TranslationKey } from 'typings';
+import { IManga, PaginatedMangaList, TranslationKey } from '@/typings';
+import requestManager, { AbortableSWRInfiniteResponse } from '@/lib/RequestManager';
+import { useDebounce } from '@/components/manga/hooks';
+import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
+import SourceGridLayout from '@/components/source/GridLayouts';
+import AppbarSearch from '@/components/util/AppbarSearch';
+import SourceOptions from '@/components/source/SourceOptions';
+import NavbarContext from '@/components/context/NavbarContext';
+import SourceMangaGrid from '@/components/source/SourceMangaGrid';
 
 const ContentTypeMenu = styled('div')(({ theme }) => ({
     display: 'flex',

@@ -9,8 +9,8 @@
 import { IconButton, Menu, MenuItem, FormControlLabel, Radio } from '@mui/material';
 import React from 'react';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
-import { GridLayout, useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
 import { useTranslation } from 'react-i18next';
+import { GridLayout, useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
 
 // TODO: clean up this to use a FormControl, and remove dependency on name o radio button
 export default function SourceGridLayout() {

@@ -7,20 +7,20 @@
  */
 
 import { Card, CardActionArea, Typography } from '@mui/material';
-import NavbarContext from 'components/context/NavbarContext';
-import MangaGrid from 'components/MangaGrid';
-import LangSelect from 'components/navbar/action/LangSelect';
-import AppbarSearch from 'components/util/AppbarSearch';
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { StringParam, useQueryParam } from 'use-query-params';
-import { langSortCmp, sourceDefualtLangs, sourceForcedDefaultLangs } from 'util/language';
-import useLocalStorage from 'util/useLocalStorage';
-import { ISource } from 'typings';
 import { useTranslation } from 'react-i18next';
-import { translateExtensionLanguage } from 'screens/util/Extensions';
-import requestManager from 'lib/RequestManager';
-import { useDebounce } from 'components/manga/hooks';
+import { ISource } from '@/typings';
+import requestManager from '@/lib/RequestManager';
+import useLocalStorage from '@/util/useLocalStorage';
+import { langSortCmp, sourceDefualtLangs, sourceForcedDefaultLangs } from '@/util/language';
+import { translateExtensionLanguage } from '@/screens/util/Extensions';
+import AppbarSearch from '@/components/util/AppbarSearch';
+import LangSelect from '@/components/navbar/action/LangSelect';
+import MangaGrid from '@/components/MangaGrid';
+import NavbarContext from '@/components/context/NavbarContext';
+import { useDebounce } from '@/components/manga/hooks';
 
 type SourceLoadingState = { isLoading: boolean; hasResults: boolean; emptySearch: boolean };
 type SourceToLoadingStateMap = Map<string, SourceLoadingState>;

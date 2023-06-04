@@ -13,17 +13,17 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import NavbarContext from 'components/context/NavbarContext';
-import DownloadStateIndicator from 'components/molecules/DownloadStateIndicator';
-import EmptyView from 'components/util/EmptyView';
-import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { IChapter, IMangaChapter, IQueue } from 'typings';
 import { useTranslation } from 'react-i18next';
 import { t as translate } from 'i18next';
-import requestManager from 'lib/RequestManager';
 import { GroupedVirtuoso } from 'react-virtuoso';
+import { IChapter, IMangaChapter, IQueue } from '@/typings';
+import requestManager from '@/lib/RequestManager';
+import LoadingPlaceholder from '@/components/util/LoadingPlaceholder';
+import EmptyView from '@/components/util/EmptyView';
+import DownloadStateIndicator from '@/components/molecules/DownloadStateIndicator';
+import NavbarContext from '@/components/context/NavbarContext';
 
 const StyledGroupedVirtuoso = styled(GroupedVirtuoso)(({ theme }) => ({
     // 64px header

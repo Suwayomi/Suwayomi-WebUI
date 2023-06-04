@@ -9,9 +9,9 @@
 import FilterList from '@mui/icons-material/FilterList';
 import { IconButton } from '@mui/material';
 import * as React from 'react';
-import ChapterOptions from 'components/manga/ChapterOptions';
-import { isFilterActive } from 'components/manga/util';
-import { ChapterListOptions, ChapterOptionsReducerAction } from 'typings';
+import { ChapterListOptions, ChapterOptionsReducerAction } from '@/typings';
+import ChapterOptions from '@/components/manga/ChapterOptions';
+import { isFilterActive } from '@/components/manga/util';
 
 interface IProps {
     options: ChapterListOptions;

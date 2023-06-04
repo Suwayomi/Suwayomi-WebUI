@@ -7,19 +7,19 @@
  */
 
 import React, { useContext, useEffect } from 'react';
-import LangSelect from 'components/navbar/action/LangSelect';
-import SourceCard from 'components/SourceCard';
-import NavbarContext from 'components/context/NavbarContext';
-import { sourceDefualtLangs, sourceForcedDefaultLangs, langSortCmp } from 'util/language';
-import useLocalStorage from 'util/useLocalStorage';
-import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
 import { IconButton } from '@mui/material';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import { useNavigate } from 'react-router-dom';
-import { ISource } from 'typings';
 import { useTranslation } from 'react-i18next';
-import { translateExtensionLanguage } from 'screens/util/Extensions';
-import requestManager from 'lib/RequestManager';
+import { ISource } from '@/typings';
+import requestManager from '@/lib/RequestManager';
+import useLocalStorage from '@/util/useLocalStorage';
+import { sourceDefualtLangs, sourceForcedDefaultLangs, langSortCmp } from '@/util/language';
+import { translateExtensionLanguage } from '@/screens/util/Extensions';
+import LoadingPlaceholder from '@/components/util/LoadingPlaceholder';
+import NavbarContext from '@/components/context/NavbarContext';
+import SourceCard from '@/components/SourceCard';
+import LangSelect from '@/components/navbar/action/LangSelect';
 
 function sourceToLangList(sources: ISource[]) {
     const result: string[] = [];

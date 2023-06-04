@@ -6,8 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import ThreeStateCheckboxInput from 'components/atoms/ThreeStateCheckboxInput';
 import React from 'react';
+import ThreeStateCheckboxInput from '@/components/atoms/ThreeStateCheckboxInput';
 
 interface Props {
     state: number;

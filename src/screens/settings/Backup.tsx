@@ -10,12 +10,12 @@ import React, { useContext, useEffect } from 'react';
 import List from '@mui/material/List';
 import ListItemText from '@mui/material/ListItemText';
 import { fromEvent } from 'file-selector';
-import makeToast from 'components/util/Toast';
-import ListItemLink from 'components/util/ListItemLink';
-import NavbarContext from 'components/context/NavbarContext';
 import { useTranslation } from 'react-i18next';
-import requestManager from 'lib/RequestManager';
 import { ListItemButton } from '@mui/material';
+import requestManager from '@/lib/RequestManager';
+import makeToast from '@/components/util/Toast';
+import ListItemLink from '@/components/util/ListItemLink';
+import NavbarContext from '@/components/context/NavbarContext';
 
 export default function Backup() {
     const { t } = useTranslation();

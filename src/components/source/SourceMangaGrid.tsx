@@ -7,9 +7,9 @@
  */
 
 import React from 'react';
-import MangaGrid, { IMangaGridProps } from 'components/MangaGrid';
-import { IMangaCard } from 'typings';
 import { useTranslation } from 'react-i18next';
+import { IMangaCard } from '@/typings';
+import MangaGrid, { IMangaGridProps } from '@/components/MangaGrid';
 
 function filterManga(mangas: IMangaCard[]): IMangaCard[] {
     return mangas;
