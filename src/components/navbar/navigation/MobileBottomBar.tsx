@@ -70,7 +70,7 @@ export default function MobileBottomBar({ navBarItems }: IProps) {
                                             : 'grey.600',
                                 }}
                             >
-                                {t(title)}
+                                {t(title) as string}
                             </Box>
                         </Box>
                     </ListItemButton>
