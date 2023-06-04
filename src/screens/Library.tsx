@@ -55,7 +55,7 @@ export default function Library() {
         const navBarTitle = (
             <TitleWithSizeTag>
                 {title}
-                {mangaLoading || !options.showTabSize ? null : <TitleSizeTag label={librarySize} />}
+                {areCategoriesLoading || !options.showTabSize ? null : <TitleSizeTag label={librarySize} />}
             </TitleWithSizeTag>
         );
         setTitle(navBarTitle, title);
@@ -70,7 +70,7 @@ export default function Library() {
             setTitle('');
             setAction(null);
         };
-    }, [t, librarySize, mangaLoading, options]);
+    }, [t, librarySize, areCategoriesLoading, options]);
 
     const handleTabChange = (newTab: number) => {
         setTabSearchParam(newTab === 0 ? undefined : newTab);
