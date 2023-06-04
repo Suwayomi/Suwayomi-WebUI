@@ -16,7 +16,7 @@ import createTheme from 'theme';
 import { QueryParamProvider } from 'use-query-params';
 import useLocalStorage from 'util/useLocalStorage';
 import DarkTheme from 'components/context/DarkTheme';
-import { ReactRouter5Adapter } from 'use-query-params/adapters/react-router-5';
+import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
 
 interface Props {
     children: React.ReactNode;
@@ -41,7 +41,7 @@ const AppContext: React.FC<Props> = ({ children }) => {
                 <StyledEngineProvider injectFirst>
                     <ThemeProvider theme={theme}>
                         <DarkTheme.Provider value={darkThemeContext}>
-                            <QueryParamProvider adapter={ReactRouter5Adapter}>
+                            <QueryParamProvider adapter={ReactRouter6Adapter}>
                                 <LibraryOptionsContextProvider>
                                     <NavBarContextProvider>{children}</NavBarContextProvider>
                                 </LibraryOptionsContextProvider>
