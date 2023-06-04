@@ -7,11 +7,11 @@
  */
 
 import React, { useEffect, useRef } from 'react';
-import ReactDOM from 'react-dom';
 import { Box } from '@mui/material';
 import Page from 'components/reader/Page';
 import DoublePage from 'components/reader/DoublePage';
 import { IReaderProps } from 'typings';
+import { createRoot } from 'react-dom/client';
 
 const isSpreadPage = (image: HTMLImageElement): boolean => {
     const aspectRatio = image.height / image.width;
@@ -58,8 +58,11 @@ export default function DoublePagedPager(props: IReaderProps) {
     }
 
     function displayPages() {
+        const container = document.getElementById('display');
+        const root = createRoot(container!);
+
         if (pagesDisplayed.current === 2) {
-            ReactDOM.render(
+            root.render(
                 <DoublePage
                     key={curPage}
                     index={curPage}
@@ -67,10 +70,9 @@ export default function DoublePagedPager(props: IReaderProps) {
                     image2src={pages[curPage + 1].src}
                     settings={settings}
                 />,
-                document.getElementById('display'),
             );
         } else {
-            ReactDOM.render(
+            root.render(
                 <Page
                     key={curPage}
                     index={curPage}
@@ -78,7 +80,6 @@ export default function DoublePagedPager(props: IReaderProps) {
                     onImageLoad={() => {}}
                     settings={settings}
                 />,
-                document.getElementById('display'),
             );
         }
     }
