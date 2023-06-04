@@ -45,7 +45,7 @@ module.exports = {
             'error',
             {
                 rootDir: 'src',
-                prefix: false,
+                prefix: '@',
             },
         ],
     },
