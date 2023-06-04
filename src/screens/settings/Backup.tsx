@@ -8,7 +8,6 @@
 
 import React, { useContext, useEffect } from 'react';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import { fromEvent } from 'file-selector';
 import makeToast from 'components/util/Toast';
@@ -16,6 +15,7 @@ import ListItemLink from 'components/util/ListItemLink';
 import NavbarContext from 'components/context/NavbarContext';
 import { useTranslation } from 'react-i18next';
 import requestManager from 'lib/RequestManager';
+import { ListItemButton } from '@mui/material';
 
 export default function Backup() {
     const { t } = useTranslation();
@@ -75,12 +75,12 @@ export default function Backup() {
                         secondary={t('settings.backup.label.create_backup_info')}
                     />
                 </ListItemLink>
-                <ListItem button onClick={() => document.getElementById('backup-file')?.click()}>
+                <ListItemButton onClick={() => document.getElementById('backup-file')?.click()}>
                     <ListItemText
                         primary={t('settings.backup.label.restore_backup')}
                         secondary={t('settings.backup.label.restore_backup_info')}
                     />
-                </ListItem>
+                </ListItemButton>
             </List>
             <input type="file" id="backup-file" style={{ display: 'none' }} />
         </>
