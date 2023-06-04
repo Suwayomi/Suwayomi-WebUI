@@ -6,16 +6,14 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import ReactDOM from 'react-dom';
 import React from 'react';
 import Slide, { SlideProps } from '@mui/material/Slide';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertColor as Severity } from '@mui/material/Alert';
+import { createRoot, Root } from 'react-dom/client';
 
-function removeToast(id: string) {
-    const container = document.querySelector(`#${id}`)!!;
-    ReactDOM.unmountComponentAtNode(container);
-    document.body.removeChild(container);
+function removeToast(root: Root) {
+    root.unmount();
 }
 
 function Transition(props: SlideProps) {
@@ -57,9 +55,10 @@ export default function makeToast(message: string, severity: Severity) {
 
     document.body.appendChild(container);
 
-    ReactDOM.render(<Toast message={message} severity={severity} />, container);
+    const root = createRoot(container!);
+    root.render(<Toast message={message} severity={severity} />);
 
-    setTimeout(() => removeToast(container.id), 3500);
+    setTimeout(() => removeToast(root), 3500);
 }
 
 export function makeToaster([toasts, setToasts]: [React.ReactElement[], (arg0: React.ReactElement[]) => void]): [
