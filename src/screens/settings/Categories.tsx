@@ -8,14 +8,7 @@
 
 import React, { useMemo, useState, useContext, useEffect } from 'react';
 import { List, ListItem, ListItemText, ListItemIcon, IconButton } from '@mui/material';
-import {
-    DragDropContext,
-    Droppable,
-    Draggable,
-    DropResult,
-    DraggingStyle,
-    NotDraggingStyle,
-} from 'react-beautiful-dnd';
+import { DragDropContext, Draggable, DropResult, DraggingStyle, NotDraggingStyle } from 'react-beautiful-dnd';
 import DragHandleIcon from '@mui/icons-material/DragHandle';
 import EditIcon from '@mui/icons-material/Edit';
 import { useTheme, Palette } from '@mui/material/styles';
@@ -35,6 +28,7 @@ import { ICategory } from 'typings';
 import { useTranslation } from 'react-i18next';
 import { DEFAULT_FULL_FAB_HEIGHT } from 'components/util/StyledFab';
 import requestManager from 'lib/RequestManager';
+import StrictModeDroppable from 'lib/StrictModeDroppable';
 
 const getItemStyle = (
     isDragging: boolean,
@@ -134,7 +128,7 @@ export default function Categories() {
     return (
         <>
             <DragDropContext onDragEnd={onDragEnd}>
-                <Droppable droppableId="droppable">
+                <StrictModeDroppable droppableId="droppable">
                     {(droppableProvided) => (
                         <List ref={droppableProvided.innerRef} sx={{ paddingBottom: DEFAULT_FULL_FAB_HEIGHT }}>
                             {categories.map((item, index) => (
@@ -178,7 +172,7 @@ export default function Categories() {
                             {droppableProvided.placeholder}
                         </List>
                     )}
-                </Droppable>
+                </StrictModeDroppable>
             </DragDropContext>
             <Fab
                 color="primary"
