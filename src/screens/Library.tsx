@@ -35,7 +35,7 @@ export default function Library() {
 
     const { options } = useLibraryOptionsContext();
     const [lastLibraryUpdate, setLastLibraryUpdate] = useState(Date.now());
-    const { data: tabsData, error: tabsError, isLoading } = requestManager.useGetCategories();
+    const { data: tabsData, error: tabsError, isLoading: areCategoriesLoading } = requestManager.useGetCategories();
     const tabs = tabsData ?? [];
     const librarySize = useMemo(() => tabs.map((tab) => tab.size).reduce((prev, curr) => prev + curr, 0), [tabs]);
 
@@ -85,7 +85,7 @@ export default function Library() {
         );
     }
 
-    if (isLoading) {
+    if (areCategoriesLoading) {
         return <LoadingPlaceholder />;
     }
 
