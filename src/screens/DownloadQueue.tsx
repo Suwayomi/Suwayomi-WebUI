@@ -15,7 +15,7 @@ import IconButton from '@mui/material/IconButton';
 import NavbarContext from 'components/context/NavbarContext';
 import EmptyView from 'components/util/EmptyView';
 import React, { useContext, useEffect } from 'react';
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import { DragDropContext, Draggable } from 'react-beautiful-dnd';
 
 import Typography from '@mui/material/Typography';
 import useSubscription from 'components/library/useSubscription';
@@ -27,6 +27,7 @@ import { useTranslation } from 'react-i18next';
 import { IChapter, IQueue } from 'typings';
 import makeToast from 'components/util/Toast';
 import requestManager from 'lib/RequestManager';
+import StrictModeDroppable from 'lib/StrictModeDroppable';
 
 const initialQueue = {
     status: 'Stopped',
@@ -95,7 +96,7 @@ const DownloadQueue: React.FC = () => {
                 </IconButton>
             </NavbarToolbar>
             <DragDropContext onDragEnd={onDragEnd}>
-                <Droppable droppableId="droppable">
+                <StrictModeDroppable droppableId="droppable">
                     {(droppableProvided) => (
                         <Box ref={droppableProvided.innerRef} sx={{ pt: 1 }}>
                             {queue.map((item, index) => (
@@ -155,7 +156,7 @@ const DownloadQueue: React.FC = () => {
                             {droppableProvided.placeholder}
                         </Box>
                     )}
-                </Droppable>
+                </StrictModeDroppable>
             </DragDropContext>
         </>
     );
