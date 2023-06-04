@@ -29,6 +29,7 @@
     "@fontsource/roboto": "^5.0.2",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.13.3",
+    "@vitejs/plugin-react": "^4.0.0",
     "axios": "^1.4.0",
     "file-selector": "^0.6.0",
     "i18next": "^22.5.0",
@@ -42,6 +43,8 @@
     "react-virtuoso": "^4.3.8",
     "swr": "^2.1.5",
     "use-query-params": "^2.2.1",
+    "vite": "^4.3.9",
+    "vite-tsconfig-paths": "^4.2.0",
     "web-vitals": "^3.3.2"
   },
   "devDependencies": {
