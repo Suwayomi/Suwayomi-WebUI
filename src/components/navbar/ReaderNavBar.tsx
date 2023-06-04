@@ -14,7 +14,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import React, { useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Slide from '@mui/material/Slide';
 import Fade from '@mui/material/Fade';
 import Zoom from '@mui/material/Zoom';
@@ -125,7 +125,7 @@ interface IProps {
 
 export default function ReaderNavBar(props: IProps) {
     const { t } = useTranslation();
-    const history = useHistory();
+    const navigate = useNavigate();
     const backTo = useBackTo();
     const location = useLocation<{
         prevDrawerOpen?: boolean;
@@ -188,9 +188,9 @@ export default function ReaderNavBar(props: IProps) {
     }, [handleScroll]); // handleScroll changes on every render
 
     const handleClose = () => {
-        if (backTo.back) history.goBack();
-        else if (backTo.url) history.push(backTo.url);
-        else history.push(`/manga/${manga.id}`);
+        if (backTo.back) navigate(-1);
+        else if (backTo.url) navigate(backTo.url);
+        else navigate(`/manga/${manga.id}`);
     };
 
     return (
@@ -300,8 +300,8 @@ export default function ReaderNavBar(props: IProps) {
                                 disabled={disableChapterNavButtons || chapter.index <= 1}
                                 onClick={() =>
                                     openNextChapter(ChapterOffset.PREV, (prevChapterIndex) => {
-                                        history.replace({
-                                            pathname: `/manga/${manga.id}/chapter/${prevChapterIndex}`,
+                                        navigate(`/manga/${manga.id}/chapter/${prevChapterIndex}`, {
+                                            replace: true,
                                             state: {
                                                 prevDrawerOpen: drawerOpen,
                                                 prevSettingsCollapseOpen: settingsCollapseOpen,
@@ -322,8 +322,8 @@ export default function ReaderNavBar(props: IProps) {
                                     value={chapter.index >= 1 ? chapter.index : ''}
                                     displayEmpty
                                     onChange={({ target: { value: selectedChapter } }) => {
-                                        history.replace({
-                                            pathname: `/manga/${manga.id}/chapter/${selectedChapter}`,
+                                        navigate(`/manga/${manga.id}/chapter/${selectedChapter}`, {
+                                            replace: true,
                                             state: {
                                                 prevDrawerOpen: drawerOpen,
                                                 prevSettingsCollapseOpen: settingsCollapseOpen,
@@ -350,8 +350,8 @@ export default function ReaderNavBar(props: IProps) {
                                 }
                                 onClick={() => {
                                     openNextChapter(ChapterOffset.NEXT, (nextChapterIndex) =>
-                                        history.replace({
-                                            pathname: `/manga/${manga.id}/chapter/${nextChapterIndex}`,
+                                        navigate(`/manga/${manga.id}/chapter/${nextChapterIndex}`, {
+                                            replace: true,
                                             state: {
                                                 prevDrawerOpen: drawerOpen,
                                                 prevSettingsCollapseOpen: settingsCollapseOpen,

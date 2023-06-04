@@ -55,10 +55,7 @@ const SourceCard: React.FC<IProps> = (props: IProps) => {
                 margin: '10px',
             }}
         >
-            <CardActionArea
-                component={Link}
-                to={{ pathname: `/sources/${id}`, state: { contentType: SourceContentType.POPULAR } }}
-            >
+            <CardActionArea component={Link} to={`/sources/${id}`} state={{ contentType: SourceContentType.POPULAR }}>
                 <CardContent
                     sx={{
                         display: 'flex',
@@ -107,10 +104,8 @@ const SourceCard: React.FC<IProps> = (props: IProps) => {
                                 <Button
                                     variant="outlined"
                                     component={Link}
-                                    to={{
-                                        pathname: `/sources/${id}`,
-                                        state: { contentType: SourceContentType.LATEST },
-                                    }}
+                                    to={`/sources/${id}`}
+                                    state={{ contentType: SourceContentType.LATEST }}
                                 >
                                     {t('global.button.latest')}
                                 </Button>
@@ -121,10 +116,8 @@ const SourceCard: React.FC<IProps> = (props: IProps) => {
                                 <Button
                                     variant="outlined"
                                     component={Link}
-                                    to={{
-                                        pathname: `/sources/${id}`,
-                                        state: { contentType: SourceContentType.LATEST },
-                                    }}
+                                    to={`/sources/${id}`}
+                                    state={{ contentType: SourceContentType.LATEST }}
                                 >
                                     {t('global.button.latest')}
                                 </Button>
@@ -132,7 +125,8 @@ const SourceCard: React.FC<IProps> = (props: IProps) => {
                             <Button
                                 variant="outlined"
                                 component={Link}
-                                to={{ pathname: `/sources/${id}`, state: { contentType: SourceContentType.POPULAR } }}
+                                to={`/sources/${id}`}
+                                state={{ contentType: SourceContentType.POPULAR }}
                             >
                                 {t('global.button.popular')}
                             </Button>

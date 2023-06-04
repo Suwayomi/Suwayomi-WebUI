@@ -15,7 +15,7 @@ import useLocalStorage from 'util/useLocalStorage';
 import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
 import { IconButton } from '@mui/material';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { ISource } from 'typings';
 import { useTranslation } from 'react-i18next';
 import { translateExtensionLanguage } from 'screens/util/Extensions';
@@ -55,7 +55,7 @@ export default function Sources() {
 
     const { data: sources, isLoading } = requestManager.useGetSourceList();
 
-    const history = useHistory();
+    const navigate = useNavigate();
 
     useEffect(() => {
         // make sure all of forcedDefaultLangs() exists in shownLangs
@@ -77,7 +77,7 @@ export default function Sources() {
         setTitle(t('source.title'));
         setAction(
             <>
-                <IconButton onClick={() => history.push('/sources/all/search/')} size="large">
+                <IconButton onClick={() => navigate('/sources/all/search/')} size="large">
                     <TravelExploreIcon />
                 </IconButton>
                 <LangSelect

@@ -112,10 +112,8 @@ const ChapterCard: React.FC<IProps> = (props: IProps) => {
             >
                 <CardActionArea
                     component={Link}
-                    to={{
-                        pathname: `/manga/${chapter.mangaId}/chapter/${chapter.index}`,
-                        state: { backLink: BACK },
-                    }}
+                    to={`/manga/${chapter.mangaId}/chapter/${chapter.index}`}
+                    state={{ backLink: BACK }}
                     style={{
                         color: theme.palette.text[chapter.read ? 'disabled' : 'primary'],
                     }}

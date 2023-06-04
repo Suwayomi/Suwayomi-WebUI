@@ -118,10 +118,8 @@ const DownloadQueue: React.FC = () => {
                                             >
                                                 <CardActionArea
                                                     component={Link}
-                                                    to={{
-                                                        pathname: `/manga/${item.chapter.mangaId}`,
-                                                        state: { backLink: BACK },
-                                                    }}
+                                                    to={`/manga/${item.chapter.mangaId}`}
+                                                    state={{ backLink: BACK }}
                                                     sx={{
                                                         display: 'flex',
                                                         alignItems: 'center',

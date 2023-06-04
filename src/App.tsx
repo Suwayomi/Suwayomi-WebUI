@@ -11,7 +11,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import AppContext from 'components/context/AppContext';
 import DefaultNavBar from 'components/navbar/DefaultNavBar';
 import React from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import Browse from 'screens/Browse';
 import DownloadQueue from 'screens/DownloadQueue';
 import Extensions from 'screens/Extensions';
@@ -47,71 +47,41 @@ const App: React.FC = () => (
                 overflow: 'auto',
             }}
         >
-            <Switch>
+            <Routes>
                 {/* General Routes */}
-                <Route exact path="/" render={() => <Redirect to="/library" />} />
-                <Route path="/settings/about">
-                    <About />
-                </Route>
-                <Route path="/settings/categories">
-                    <Categories />
-                </Route>
-                <Route path="/settings/defaultReaderSettings">
-                    <DefaultReaderSettings />
-                </Route>
-                <Route path="/settings/librarySettings">
-                    <LibrarySettings />
-                </Route>
-                <Route path="/settings/backup">
-                    <Backup />
-                </Route>
-                <Route path="/settings">
-                    <Settings />
+                <Route path="/" element={<Navigate to="/library" />} />
+                <Route path="settings">
+                    <Route index element={<Settings />} />
+                    <Route path="about" element={<About />} />
+                    <Route path="categories" element={<Categories />} />
+                    <Route path="defaultReaderSettings" element={<DefaultReaderSettings />} />
+                    <Route path="librarySettings" element={<LibrarySettings />} />
+                    <Route path="backup" element={<Backup />} />
                 </Route>
 
                 {/* Manga Routes */}
 
-                <Route exact path="/sources/:sourceId">
-                    <SourceMangas />
+                <Route path="sources">
+                    <Route index element={<Sources />} />
+                    <Route path=":sourceId" element={<SourceMangas />} />
+                    <Route path=":sourceId/configure/" element={<SourceConfigure />} />
+                    <Route path="all/search/" element={<SearchAll />} />
                 </Route>
-                <Route path="/sources/:sourceId/configure/">
-                    <SourceConfigure />
+                <Route path="downloads" element={<DownloadQueue />} />
+                <Route path="manga/:id">
+                    <Route path="chapter/:chapterNum" element={null} />
+                    <Route index element={<Manga />} />
                 </Route>
-                <Route path="/sources/all/search/">
-                    <SearchAll />
-                </Route>
-                <Route path="/downloads">
-                    <DownloadQueue />
-                </Route>
-                <Route path="/manga/:mangaId/chapter/:chapterNum" />
-                <Route path="/manga/:id">
-                    <Manga />
-                </Route>
-                <Route path="/library">
-                    <Library />
-                </Route>
-                <Route path="/updates">
-                    <Updates />
-                </Route>
-                <Route path="/sources">
-                    <Sources />
-                </Route>
-                <Route path="/extensions">
-                    <Extensions />
-                </Route>
-                <Route path="/browse">
-                    <Browse />
-                </Route>
-            </Switch>
+                <Route path="library" element={<Library />} />
+                <Route path="updates" element={<Updates />} />
+                <Route path="extensions" element={<Extensions />} />
+                <Route path="browse" element={<Browse />} />
+            </Routes>
         </Container>
-        <Switch>
-            <Route
-                path="/manga/:mangaId/chapter/:chapterIndex"
-                // passing a key re-mounts the reader
-                // when changing chapters
-                render={(props: any) => <Reader key={props.match.params.chapterIndex} />}
-            />
-        </Switch>
+        <Routes>
+            <Route path="manga/:mangaId/chapter/:chapterIndex" element={<Reader />} />
+            <Route path="*" element={null} />
+        </Routes>
     </AppContext>
 );
 

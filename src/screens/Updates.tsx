@@ -18,7 +18,7 @@ import DownloadStateIndicator from 'components/molecules/DownloadStateIndicator'
 import EmptyView from 'components/util/EmptyView';
 import LoadingPlaceholder from 'components/util/LoadingPlaceholder';
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { IChapter, IMangaChapter, IQueue } from 'typings';
 import { useTranslation } from 'react-i18next';
 import { t as translate } from 'i18next';
@@ -102,7 +102,7 @@ const initialQueue = {
 
 const Updates: React.FC = () => {
     const { t } = useTranslation();
-    const history = useHistory();
+    const location = useLocation();
 
     const { setTitle, setAction } = useContext(NavbarContext);
     const {
@@ -187,10 +187,8 @@ const Updates: React.FC = () => {
                         <Card>
                             <CardActionArea
                                 component={Link}
-                                to={{
-                                    pathname: `/manga/${chapter.mangaId}/chapter/${chapter.index}`,
-                                    state: history.location.state,
-                                }}
+                                to={`/manga/${chapter.mangaId}/chapter/${chapter.index}`}
+                                state={location.state}
                             >
                                 <CardContent
                                     sx={{
