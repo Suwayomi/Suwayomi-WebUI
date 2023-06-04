@@ -38,7 +38,7 @@ const ChapterOptions: React.FC<IProps> = ({ open, onClose, options, optionsDispa
             onClose={onClose}
             minHeight={150}
             tabs={['filter', 'sort', 'display']}
-            tabTitle={(key) => t(TITLES[key])}
+            tabTitle={(key) => t(TITLES[key]) as string}
             tabContent={(key) => {
                 if (key === 'filter') {
                     return (

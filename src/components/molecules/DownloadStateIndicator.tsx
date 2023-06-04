@@ -49,8 +49,10 @@ const DownloadStateIndicator: React.FC<DownloadStateIndicatorProps> = ({ downloa
                 }}
             >
                 <Typography variant="caption" component="div" color="text.secondary">
-                    {download.progress !== 0 && `${Math.round(download.progress * 100)}%`}
-                    {download.progress === 0 && t(DOWNLOAD_STATE_TO_TRANSLATION_KEY_MAP[download.state])}
+                    <>
+                        {download.progress !== 0 && `${Math.round(download.progress * 100)}%`}
+                        {download.progress === 0 && t(DOWNLOAD_STATE_TO_TRANSLATION_KEY_MAP[download.state])}
+                    </>
                 </Typography>
             </Box>
         </Box>

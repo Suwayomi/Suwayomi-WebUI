@@ -48,7 +48,7 @@ const LibraryOptionsPanel: React.FC<IProps> = ({ open, onClose }) => {
             open={open}
             onClose={onClose}
             tabs={['filter', 'sort', 'display']}
-            tabTitle={(key) => t(TITLES[key])}
+            tabTitle={(key) => t(TITLES[key]) as string}
             tabContent={(key) => {
                 if (key === 'filter') {
                     return (
