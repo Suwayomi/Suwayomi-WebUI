@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Box, styled } from '@mui/system';
+import { Box, styled } from '@mui/material';
 import { IReaderSettings } from 'typings';
 
 const Image = styled('img')({

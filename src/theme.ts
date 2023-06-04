@@ -6,20 +6,27 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { createTheme as createMuiTheme } from '@mui/material/styles';
+import { createTheme as createMuiTheme, Palette as MuiPalette, Theme } from '@mui/material/styles';
 
-declare module '@mui/material/styles' {
+declare module '@mui/material/styles/createPalette' {
+    interface Palette {
+        custom: Palette['primary'];
+    }
+
     interface PaletteOptions {
-        custom?: PaletteOptions['primary'];
+        custom: PaletteOptions['primary'];
     }
 }
 
+type DefaultMuiPalette = Omit<MuiPalette, 'custom'>;
+type DefaultMuiTheme = Omit<Theme, 'palette'> & { palette: DefaultMuiPalette };
+
 const createTheme = (dark?: boolean) => {
-    const baseTheme = createMuiTheme({
+    const baseTheme: DefaultMuiTheme = createMuiTheme({
         palette: {
             mode: dark ? 'dark' : 'light',
         },
-    });
+    } as Theme);
 
     const tachideskTheme = createMuiTheme(
         {

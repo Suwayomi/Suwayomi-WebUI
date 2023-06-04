@@ -8,7 +8,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
-import { Box } from '@mui/system';
+import { Box } from '@mui/material';
 import Page from 'components/reader/Page';
 import DoublePage from 'components/reader/DoublePage';
 import { IReaderProps } from 'typings';

@@ -7,9 +7,8 @@
  */
 
 import React from 'react';
-import { ListItem, ListItemIcon, Tooltip } from '@mui/material';
+import { ListItem, ListItemIcon, Tooltip, styled } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
-import { styled } from '@mui/system';
 import { useTheme } from '@mui/material/styles';
 import { NavbarItem } from 'typings';
 import { useTranslation } from 'react-i18next';
@@ -17,7 +16,7 @@ import { useTranslation } from 'react-i18next';
 const SideNavBarContainer = styled('div')(({ theme }) => ({
     height: '100vh',
     width: theme.spacing(8),
-    backgroundColor: theme.palette.custom,
+    backgroundColor: theme.palette.custom.dark,
     position: 'fixed',
     top: 0,
     left: 0,

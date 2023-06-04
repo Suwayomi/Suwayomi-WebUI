@@ -7,8 +7,7 @@
  */
 
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { Button, Stack } from '@mui/material';
-import { Box } from '@mui/system';
+import { Button, Stack, Box } from '@mui/material';
 import OptionsPanel from 'components/molecules/OptionsPanel';
 import React from 'react';
 import CheckBoxFilter from 'components/source/filters/CheckBoxFilter';

@@ -7,7 +7,7 @@
  */
 
 import React, { useCallback, useEffect, useRef } from 'react';
-import { Box } from '@mui/system';
+import { Box } from '@mui/material';
 import Page from 'components/reader/Page';
 import { IReaderProps } from 'typings';
 

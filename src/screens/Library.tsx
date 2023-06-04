@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Chip, Tab, Tabs } from '@mui/material';
+import { Chip, Tab, Tabs, styled } from '@mui/material';
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import NavbarContext from 'components/context/NavbarContext';
 import EmptyView from 'components/util/EmptyView';
@@ -18,7 +18,6 @@ import AppbarSearch from 'components/util/AppbarSearch';
 import { useQueryParam, NumberParam } from 'use-query-params';
 import UpdateChecker from 'components/library/UpdateChecker';
 import { useTranslation } from 'react-i18next';
-import { styled } from '@mui/system';
 import { useLibraryOptionsContext } from 'components/context/LibraryOptionsContext';
 import requestManager from 'lib/RequestManager';
 

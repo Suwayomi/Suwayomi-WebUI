@@ -8,7 +8,7 @@
 
 import React, { useContext, useEffect } from 'react';
 import NavbarContext from 'components/context/NavbarContext';
-import { Box } from '@mui/system';
+import { Box } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import { requestUpdateServerMetadata } from 'util/metadata';
 import makeToast from 'components/util/Toast';

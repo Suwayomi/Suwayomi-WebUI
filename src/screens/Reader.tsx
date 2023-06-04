@@ -16,7 +16,7 @@ import DoublePagedPager from 'components/reader/pager/DoublePagedPager';
 import VerticalPager from 'components/reader/pager/VerticalPager';
 import ReaderNavBar from 'components/navbar/ReaderNavBar';
 import NavbarContext from 'components/context/NavbarContext';
-import { Box } from '@mui/system';
+import { Box } from '@mui/material';
 import { requestUpdateMangaMetadata } from 'util/metadata';
 import {
     checkAndHandleMissingStoredReaderSettings,

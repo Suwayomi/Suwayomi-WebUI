@@ -8,9 +8,8 @@
 
 import React, { useEffect, useState, CSSProperties } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
-import Box from '@mui/system/Box';
-import { Theme } from '@mui/system/createTheme';
-import { SxProps } from '@mui/system/styleFunctionSx';
+import Box from '@mui/material/Box';
+import { Theme, SxProps } from '@mui/material';
 
 interface IProps {
     src: string;

@@ -8,7 +8,7 @@
 
 import React, { useRef } from 'react';
 import SpinnerImage from 'components/util/SpinnerImage';
-import Box from '@mui/system/Box';
+import Box from '@mui/material/Box';
 import { IReaderSettings } from 'typings';
 
 function imageStyle(settings: IReaderSettings): any {
