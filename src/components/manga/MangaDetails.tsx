@@ -11,8 +11,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import PublicIcon from '@mui/icons-material/Public';
 import { Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
-import { Theme } from '@mui/material/styles';
-import makeStyles from '@mui/styles/makeStyles';
+import { styled } from '@mui/material/styles';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { mutate } from 'swr';
@@ -21,100 +20,103 @@ import { t as translate } from 'i18next';
 import makeToast from 'components/util/Toast';
 import requestManager from 'lib/RequestManager';
 
-const useStyles = (inLibrary: boolean) =>
-    makeStyles((theme: Theme) => ({
-        root: {
-            width: '100%',
-            [theme.breakpoints.up('md')]: {
-                position: 'sticky',
-                top: '64px',
-                left: '0px',
-                width: '50vw',
-                height: 'calc(100vh - 64px)',
-                alignSelf: 'flex-start',
-                overflowY: 'auto',
-            },
+const DetailsWrapper = styled('div')(({ theme }) => ({
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+        position: 'sticky',
+        top: '64px',
+        left: '0px',
+        width: '50vw',
+        height: 'calc(100vh - 64px)',
+        alignSelf: 'flex-start',
+        overflowY: 'auto',
+    },
+}));
+
+const TopContentWrapper = styled('div')(() => ({
+    padding: '10px',
+    // [theme.breakpoints.up('md')]: {
+    //     minWidth: '50%',
+    // },
+}));
+
+const ThumbnailMetadataWrapper = styled('div')(() => ({
+    display: 'flex',
+}));
+
+const Thumbnail = styled('div')(() => ({
+    '& img': {
+        borderRadius: 4,
+        maxWidth: '100%',
+        minWidth: '100%',
+        height: 'auto',
+    },
+    maxWidth: '50%',
+    // [theme.breakpoints.up('md')]: {
+    //     minWidth: '100px',
+    // },
+}));
+
+const Metadata = styled('div')(({ theme }) => ({
+    marginLeft: 15,
+    maxWidth: '100%',
+    '& span': {
+        fontWeight: '400',
+    },
+    [theme.breakpoints.up('lg')]: {
+        fontSize: '1.3em',
+    },
+}));
+const MangaButtonsContainer = styled('div', { shouldForwardProp: (prop) => prop !== 'inLibrary' })<{
+    inLibrary: boolean;
+}>(({ inLibrary }) => ({
+    display: 'flex',
+    justifyContent: 'space-around',
+    '& button': {
+        color: inLibrary ? '#2196f3' : 'inherit',
+    },
+    '& a': {
+        textDecoration: 'none',
+        color: '#858585',
+        '& button': {
+            color: 'inherit',
         },
-        top: {
-            padding: '10px',
-            // [theme.breakpoints.up('md')]: {
-            //     minWidth: '50%',
-            // },
-        },
-        leftRight: {
-            display: 'flex',
-        },
-        leftSide: {
-            '& img': {
-                borderRadius: 4,
-                maxWidth: '100%',
-                minWidth: '100%',
-                height: 'auto',
-            },
-            maxWidth: '50%',
-            // [theme.breakpoints.up('md')]: {
-            //     minWidth: '100px',
-            // },
-        },
-        rightSide: {
-            marginLeft: 15,
-            maxWidth: '100%',
-            '& span': {
-                fontWeight: '400',
-            },
-            [theme.breakpoints.up('lg')]: {
-                fontSize: '1.3em',
-            },
-        },
-        buttons: {
-            display: 'flex',
-            justifyContent: 'space-around',
-            '& button': {
-                color: inLibrary ? '#2196f3' : 'inherit',
-            },
-            '& a': {
-                textDecoration: 'none',
-                color: '#858585',
-                '& button': {
-                    color: 'inherit',
-                },
-            },
-        },
-        bottom: {
-            paddingLeft: '10px',
-            paddingRight: '10px',
-            [theme.breakpoints.up('md')]: {
-                fontSize: '1.2em',
-                // maxWidth: '50%',
-            },
-            [theme.breakpoints.up('lg')]: {
-                fontSize: '1.3em',
-            },
-        },
-        description: {
-            '& h4': {
-                marginTop: '1em',
-                marginBottom: 0,
-            },
-            '& p': {
-                textAlign: 'justify',
-                textJustify: 'inter-word',
-            },
-        },
-        genre: {
-            display: 'flex',
-            flexWrap: 'wrap',
-            '& h5': {
-                border: '2px solid #2196f3',
-                borderRadius: '1.13em',
-                marginRight: '1em',
-                marginTop: 0,
-                marginBottom: '10px',
-                padding: '0.3em',
-                color: '#2196f3',
-            },
-        },
-    }));
+    },
+}));
+const BottomContentWrapper = styled('div')(({ theme }) => ({
+    paddingLeft: '10px',
+    paddingRight: '10px',
+    [theme.breakpoints.up('md')]: {
+        fontSize: '1.2em',
+        // maxWidth: '50%',
+    },
+    [theme.breakpoints.up('lg')]: {
+        fontSize: '1.3em',
+    },
+}));
+const Description = styled('div')(() => ({
+    '& h4': {
+        marginTop: '1em',
+        marginBottom: 0,
+    },
+    '& p': {
+        textAlign: 'justify',
+        textJustify: 'inter-word',
+    },
+}));
+const Genres = styled('div')(() => ({
+    display: 'flex',
+    flexWrap: 'wrap',
+    '& h5': {
+        border: '2px solid #2196f3',
+        borderRadius: '1.13em',
+        marginRight: '1em',
+        marginTop: 0,
+        marginBottom: '10px',
+        padding: '0.3em',
+        color: '#2196f3',
+    },
+}));
 
 interface IProps {
     manga: IManga;
@@ -135,8 +137,6 @@ function getValueOrUnknown(val: string) {
 const MangaDetails: React.FC<IProps> = ({ manga }) => {
     const { t } = useTranslation();
 
-    const classes = useStyles(manga.inLibrary)();
-
     useEffect(() => {
         if (!manga.source) {
             makeToast(translate('source.error.label.source_not_found'), 'error');
@@ -154,13 +154,13 @@ const MangaDetails: React.FC<IProps> = ({ manga }) => {
     };
 
     return (
-        <div className={classes.root}>
-            <div className={classes.top}>
-                <div className={classes.leftRight}>
-                    <div className={classes.leftSide}>
+        <DetailsWrapper>
+            <TopContentWrapper>
+                <ThumbnailMetadataWrapper>
+                    <Thumbnail>
                         <img src={requestManager.getValidImgUrlFor(manga.thumbnailUrl)} alt="Manga Thumbnail" />
-                    </div>
-                    <div className={classes.rightSide}>
+                    </Thumbnail>
+                    <Metadata>
                         <h1>{manga.title}</h1>
                         <h3>
                             {`${t('manga.label.author')}: `}
@@ -172,9 +172,9 @@ const MangaDetails: React.FC<IProps> = ({ manga }) => {
                         </h3>
                         <h3>{`${t('manga.label.status')}: ${manga.status}`}</h3>
                         <h3>{`${t('source.title')}: ${getSourceName(manga.source)}`}</h3>
-                    </div>
-                </div>
-                <div className={classes.buttons}>
+                    </Metadata>
+                </ThumbnailMetadataWrapper>
+                <MangaButtonsContainer inLibrary={manga.inLibrary}>
                     <div>
                         <IconButton onClick={manga.inLibrary ? removeFromLibrary : addToLibrary} size="large">
                             {manga.inLibrary ? <FavoriteIcon sx={{ mr: 1 }} /> : <FavoriteBorderIcon sx={{ mr: 1 }} />}
@@ -191,20 +191,20 @@ const MangaDetails: React.FC<IProps> = ({ manga }) => {
                             </Typography>
                         </IconButton>
                     </a>
-                </div>
-            </div>
-            <div className={classes.bottom}>
-                <div className={classes.description}>
+                </MangaButtonsContainer>
+            </TopContentWrapper>
+            <BottomContentWrapper>
+                <Description>
                     <h4>{t('settings.about.title')}</h4>
                     <p>{manga.description}</p>
-                </div>
-                <div className={classes.genre}>
+                </Description>
+                <Genres>
                     {manga.genre.map((g) => (
                         <h5 key={g}>{g}</h5>
                     ))}
-                </div>
-            </div>
-        </div>
+                </Genres>
+            </BottomContentWrapper>
+        </DetailsWrapper>
     );
 };
 
