@@ -30,7 +30,6 @@
     "@mui/icons-material": "^5.0.5",
     "@mui/lab": "^5.0.0-alpha.53",
     "@mui/material": "^5.0.6",
-    "@mui/styles": "^5.0.2",
     "@mui/system": "^5.0.6",
     "axios": "^1.4.0",
     "file-selector": "^0.2.4",
