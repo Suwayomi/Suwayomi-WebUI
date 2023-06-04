@@ -69,7 +69,7 @@ const App: React.FC = () => (
                 </Route>
                 <Route path="downloads" element={<DownloadQueue />} />
                 <Route path="manga/:id">
-                    <Route path="chapter/:chapterNum" />
+                    <Route path="chapter/:chapterNum" element={null} />
                     <Route index element={<Manga />} />
                 </Route>
                 <Route path="library" element={<Library />} />
@@ -80,6 +80,7 @@ const App: React.FC = () => (
         </Container>
         <Routes>
             <Route path="manga/:mangaId/chapter/:chapterIndex" element={<Reader />} />
+            <Route path="*" element={null} />
         </Routes>
     </AppContext>
 );
