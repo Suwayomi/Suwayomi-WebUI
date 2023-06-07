@@ -23,7 +23,7 @@ export default function ResumeFab(props: ResumeFABProps) {
     const { t } = useTranslation();
 
     const {
-        chapter: { index, lastPageRead },
+        chapter: { index },
         mangaId,
     } = props;
     return (
@@ -31,7 +31,7 @@ export default function ResumeFab(props: ResumeFABProps) {
             component={Link}
             variant="extended"
             color="primary"
-            to={`/manga/${mangaId}/chapter/${index}/page/${lastPageRead}`}
+            to={`/manga/${mangaId}/chapter/${index}`}
             state={{ backLink: BACK }}
         >
             <PlayArrow />
