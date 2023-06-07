@@ -15,7 +15,6 @@ import { Avatar, Box, CardContent, Grid, styled } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { IMangaCard } from '@/typings';
 import requestManager from '@/lib/RequestManager';
-import { BACK } from '@/util/useBackTo';
 import useLocalStorage from '@/util/useLocalStorage';
 import { GridLayout, useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
 import SpinnerImage from '@/components/util/SpinnerImage';
@@ -89,7 +88,7 @@ const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) 
 
     const [ItemWidth] = useLocalStorage<number>('ItemWidth', 300);
 
-    const mangaLinkTo = { pathname: `/manga/${id}/`, state: { backLink: BACK } };
+    const mangaLinkTo = `/manga/${id}/`;
 
     if (gridLayout !== GridLayout.List) {
         const columns = Math.ceil(dimensions / ItemWidth);

@@ -11,7 +11,6 @@ import { Link } from 'react-router-dom';
 import { PlayArrow } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 import { IChapter } from '@/typings';
-import { BACK } from '@/util/useBackTo';
 import StyledFab from '@/components/util/StyledFab';
 
 interface ResumeFABProps {
@@ -27,13 +26,7 @@ export default function ResumeFab(props: ResumeFABProps) {
         mangaId,
     } = props;
     return (
-        <StyledFab
-            component={Link}
-            variant="extended"
-            color="primary"
-            to={`/manga/${mangaId}/chapter/${index}`}
-            state={{ backLink: BACK }}
-        >
+        <StyledFab component={Link} variant="extended" color="primary" to={`/manga/${mangaId}/chapter/${index}`}>
             <PlayArrow />
             {index === 1 ? t('global.button.start') : t('global.button.resume')}
         </StyledFab>

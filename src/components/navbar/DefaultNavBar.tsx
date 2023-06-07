@@ -27,7 +27,6 @@ import ArrowBack from '@mui/icons-material/ArrowBack';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { createPortal } from 'react-dom';
 import { NavbarItem } from '@/typings';
-import useBackTo from '@/util/useBackTo';
 import NavBarContext from '@/components/context/NavbarContext';
 import ExtensionOutlinedIcon from '@/components/util/CustomExtensionOutlinedIcon';
 import DesktopSideBar from '@/components/navbar/navigation/DesktopSideBar';
@@ -86,8 +85,7 @@ const navbarItems: Array<NavbarItem> = [
 ];
 
 export default function DefaultNavBar() {
-    const { title, action, override } = useContext(NavBarContext);
-    const backTo = useBackTo();
+    const { title, action, override, defaultBackTo: backToUrl } = useContext(NavBarContext);
 
     const theme = useTheme();
     const navigate = useNavigate();
@@ -109,7 +107,7 @@ export default function DefaultNavBar() {
     }
 
     const handleBack = () => {
-        if (backTo.url != null) return;
+        if (backToUrl != null) return;
         navigate(-1);
     };
 
@@ -119,8 +117,8 @@ export default function DefaultNavBar() {
                 <Toolbar>
                     {!isMainRoute && (
                         <IconButton
-                            component={backTo.url ? Link : 'button'}
-                            to={backTo.url}
+                            component={backToUrl ? Link : 'button'}
+                            to={backToUrl}
                             edge="start"
                             sx={{ marginRight: theme.spacing(2) }}
                             color="inherit"
