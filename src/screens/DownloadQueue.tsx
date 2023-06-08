@@ -21,7 +21,6 @@ import { useTranslation } from 'react-i18next';
 import { IChapter, IQueue } from '@/typings';
 import requestManager from '@/lib/RequestManager';
 import StrictModeDroppable from '@/lib/StrictModeDroppable';
-import { BACK } from '@/util/useBackTo';
 import makeToast from '@/components/util/Toast';
 import { NavbarToolbar } from '@/components/navbar/DefaultNavBar';
 import DownloadStateIndicator from '@/components/molecules/DownloadStateIndicator';
@@ -120,7 +119,6 @@ const DownloadQueue: React.FC = () => {
                                                 <CardActionArea
                                                     component={Link}
                                                     to={`/manga/${item.chapter.mangaId}`}
-                                                    state={{ backLink: BACK }}
                                                     sx={{
                                                         display: 'flex',
                                                         alignItems: 'center',

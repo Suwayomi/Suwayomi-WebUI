@@ -30,7 +30,6 @@ import { useTranslation } from 'react-i18next';
 import { IChapter, IDownloadChapter } from '@/typings';
 import requestManager from '@/lib/RequestManager';
 import { getUploadDateString } from '@/util/date';
-import { BACK } from '@/util/useBackTo';
 import DownloadStateIndicator from '@/components/molecules/DownloadStateIndicator';
 
 interface IProps {
@@ -113,7 +112,6 @@ const ChapterCard: React.FC<IProps> = (props: IProps) => {
                 <CardActionArea
                     component={Link}
                     to={`/manga/${chapter.mangaId}/chapter/${chapter.index}`}
-                    state={{ backLink: BACK }}
                     style={{
                         color: theme.palette.text[chapter.read ? 'disabled' : 'primary'],
                     }}

@@ -25,7 +25,6 @@ import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import Collapse from '@mui/material/Collapse';
 import { useTranslation } from 'react-i18next';
 import { ChapterOffset, IChapter, IManga, IMangaCard, IReaderSettings } from '@/typings';
-import useBackTo from '@/util/useBackTo';
 import ReaderSettingsOptions from '@/components/reader/ReaderSettingsOptions';
 
 const Root = styled('div')(({ theme }) => ({
@@ -126,7 +125,6 @@ interface IProps {
 export default function ReaderNavBar(props: IProps) {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const backTo = useBackTo();
     const location = useLocation<{
         prevDrawerOpen?: boolean;
         prevSettingsCollapseOpen?: boolean;
@@ -188,9 +186,9 @@ export default function ReaderNavBar(props: IProps) {
     }, [handleScroll]); // handleScroll changes on every render
 
     const handleClose = () => {
-        if (backTo.back) navigate(-1);
-        else if (backTo.url) navigate(backTo.url);
-        else navigate(`/manga/${manga.id}`);
+        // this works because opening previous/next chapter will replace the current history element.
+        // in case this gets changed this has to be updated
+        navigate(-1);
     };
 
     return (
