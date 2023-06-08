@@ -108,6 +108,7 @@ export default function Reader() {
         mangaId,
         chapterIndex,
     );
+    const [wasLastPageReadSet, setWasLastPageReadSet] = useState(false);
     const [curPage, setCurPage] = useState<number>(0);
     const [pageToScrollTo, setPageToScrollTo] = useState<number | undefined>(undefined);
     const { setOverride, setTitle } = useContext(NavbarContext);
@@ -154,6 +155,7 @@ export default function Reader() {
             return;
         }
 
+        setWasLastPageReadSet(true);
         if (chapter.lastPageRead === chapter.pageCount - 1) {
             // last page, also probably read = true, we will load the first page.
             setCurPage(0);
@@ -198,6 +200,10 @@ export default function Reader() {
     }, [manga, chapter, settings, curPage, chapterIndex, retrievingNextChapter]);
 
     useEffect(() => {
+        if (!wasLastPageReadSet) {
+            return;
+        }
+
         if (curPage !== -1) {
             requestManager.updateChapter(manga.id, chapter.index, { lastPageRead: curPage });
         }
