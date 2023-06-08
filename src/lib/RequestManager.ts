@@ -7,7 +7,7 @@
  */
 
 import { AxiosInstance, AxiosRequestConfig } from 'axios';
-import useSWR, { SWRConfiguration, SWRResponse } from 'swr';
+import useSWR, { Middleware, SWRConfiguration, SWRResponse } from 'swr';
 import useSWRInfinite, { SWRInfiniteConfiguration, SWRInfiniteResponse } from 'swr/infinite';
 import {
     BackupValidationResult,
@@ -47,6 +47,7 @@ type RequestOption = { doOnlineFetch?: boolean };
 type CustomSWROptions<Data> = {
     skipRequest?: boolean;
     getEndpoint?: (index: number, previousData: Data | null) => string | null;
+    disableCache?: boolean;
 };
 
 type SWROptions<Data = any, Error = any> = SWRConfiguration<Data, Error> & CustomSWROptions<Data>;
@@ -62,6 +63,30 @@ export type AbortableSWRResponse<Data = any, Error = any> = SWRResponse<Data, Er
 export type AbortableSWRInfiniteResponse<Data = any, Error = any> = SWRInfiniteResponse<Data, Error> &
     AbortableRequest &
     SWRInfiniteResponseLoadInfo;
+
+const isLoadingMore = (swrResult: SWRInfiniteResponse): boolean => {
+    const isNextPageMissing = !!swrResult.data && typeof swrResult.data[swrResult.size - 1] === 'undefined';
+    // SWR "isLoading" state is only updated for the first load, for every subsequent load it's "false"
+    return !swrResult.isLoading && swrResult.size > 0 && isNextPageMissing;
+};
+
+const disableSwrInfiniteCache: Middleware = (useSWRNext) => (key, fetcher, config) => {
+    const swr = useSWRNext(key, fetcher, config) as unknown as SWRInfiniteResponse;
+    const { size, data, isLoading, isValidating } = swr;
+    const isActuallyValidating = !isLoading && !isLoadingMore(swr) && isValidating;
+    return {
+        ...swr,
+        isLoading: isActuallyValidating ? true : isLoading,
+        data: isActuallyValidating ? undefined : data,
+        size: isActuallyValidating ? 1 : size,
+    } as SWRResponse;
+};
+
+const disableSwrCache: Middleware = (useSWRNext) => (key, fetcher, config) => {
+    const swr = useSWRNext(key, fetcher, config);
+    const { data, isLoading, isValidating } = swr;
+    return { ...swr, isLoading: isValidating ? true : isLoading, data: isValidating ? undefined : data };
+};
 
 // the following endpoints have not been implemented:
 //   - PUT  /api/v1/manga/{mangaId}/chapter/{chapterIndex}  - modify chapter    # PATCH endpoint used instead
@@ -129,11 +154,12 @@ export class RequestManager {
             swrOptions?: OptionsSWR;
         } = {},
     ): SWRResponse<Data, ErrorResponse> {
-        const { skipRequest, ...swrConfig } = swrOptions ?? {};
+        const { skipRequest, disableCache, ...swrConfig } = swrOptions ?? {};
 
         // in case "null" gets passed as the url, SWR won't do the request
         return useSWR(skipRequest ? null : url, {
             fetcher: (path: string) => this.restClient.fetcher(path, { data, httpMethod, config: axiosOptions }),
+            use: disableCache ? [disableSwrCache] : undefined,
             ...swrConfig,
         });
     }
@@ -151,7 +177,7 @@ export class RequestManager {
             swrOptions,
         }: { data?: any; axiosOptions?: AxiosRequestConfig; swrOptions?: OptionsSWR } = {},
     ): SWRInfiniteResponse<Data, ErrorResponse> & SWRInfiniteResponseLoadInfo {
-        const { skipRequest, ...swrConfig } = swrOptions ?? {};
+        const { skipRequest, disableCache, ...swrConfig } = swrOptions ?? {};
 
         // useSWRInfinite will (by default) revalidate the first page, to check if the other pages have to be revalidated as well
         const swrResult = useSWRInfinite<Data, ErrorResponse>(
@@ -161,17 +187,15 @@ export class RequestManager {
             },
             {
                 fetcher: (path: string) => this.restClient.fetcher(path, { httpMethod, data, config: axiosOptions }),
+                use: disableCache ? [disableSwrInfiniteCache] : undefined,
                 ...swrConfig,
             },
         );
 
-        const isNextPageMissing = !!swrResult.data && typeof swrResult.data[swrResult.size - 1] === 'undefined';
-        const isLoadingMore = swrResult.size > 0 && isNextPageMissing;
         const customSwrResult = {
             ...swrResult,
             isInitialLoad: swrResult.isLoading,
-            // SWR "isLoading" state is only updated for the first load, for every subsequent load it's "false"
-            isLoadMore: !swrResult.isLoading && isLoadingMore,
+            isLoadMore: isLoadingMore(swrResult),
         };
         customSwrResult.isLoading = customSwrResult.isInitialLoad || customSwrResult.isLoadMore;
 
