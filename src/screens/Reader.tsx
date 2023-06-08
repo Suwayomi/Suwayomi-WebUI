@@ -107,6 +107,7 @@ export default function Reader() {
     const { data: chapter = initialChapter, isLoading: isChapterLoading } = requestManager.useGetChapter(
         mangaId,
         chapterIndex,
+        { disableCache: true },
     );
     const [wasLastPageReadSet, setWasLastPageReadSet] = useState(false);
     const [curPage, setCurPage] = useState<number>(0);
@@ -204,6 +205,7 @@ export default function Reader() {
             return;
         }
 
+        // do not mutate the chapter, this will cause the page to jump around due to always scrolling to the last read page
         if (curPage !== -1) {
             requestManager.updateChapter(manga.id, chapter.index, { lastPageRead: curPage });
         }
