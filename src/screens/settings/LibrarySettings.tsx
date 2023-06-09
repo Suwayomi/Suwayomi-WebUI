@@ -124,14 +124,14 @@ export default function LibrarySettings() {
             return currentCategory.includeInUpdate !== category.includeInUpdate;
         });
 
+        setIsDialogOpen(false);
+
         try {
             await Promise.all(categoriesToUpdate.map((category) => updateCategory(category)));
             mutate([...dialogCategories], { revalidate: false });
         } catch (error) {
             makeToast(t('global.error.label.failed_to_save_changes'), 'error');
             mutate([...currentCategories]);
-        } finally {
-            setIsDialogOpen(false);
         }
     };
 
