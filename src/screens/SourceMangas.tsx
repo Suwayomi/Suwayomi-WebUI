@@ -163,9 +163,10 @@ export default function SourceMangas() {
     const { sourceId } = useParams<{ sourceId: string }>();
 
     const navigate = useNavigate();
-    const { state: { contentType: currentLocationContentType = SourceContentType.POPULAR } = {} } = useLocation<{
-        contentType: SourceContentType;
-    }>();
+    const { contentType: currentLocationContentType = SourceContentType.POPULAR } =
+        useLocation<{
+            contentType: SourceContentType;
+        }>().state ?? {};
 
     const { options } = useLibraryOptionsContext();
     const [query] = useQueryParam('query', StringParam);
