@@ -163,9 +163,10 @@ export default function SourceMangas() {
     const { sourceId } = useParams<{ sourceId: string }>();
 
     const navigate = useNavigate();
-    const { state: { contentType: currentLocationContentType = SourceContentType.POPULAR } = {} } = useLocation<{
-        contentType: SourceContentType;
-    }>();
+    const { contentType: currentLocationContentType = SourceContentType.POPULAR } =
+        useLocation<{
+            contentType: SourceContentType;
+        }>().state ?? {};
 
     const { options } = useLibraryOptionsContext();
     const [query] = useQueryParam('query', StringParam);
@@ -247,6 +248,9 @@ export default function SourceMangas() {
                 return;
             }
 
+            // INFO:
+            // with strict mode + dev mode the first request will be aborted. due to using SWR there won't be an
+            // immediate second request since it's the same key. instead the "second" request will be the error handling of SWR
             abortRequest(new Error(`SourceMangas(${sourceId}): search string changed`));
         },
         [searchTerm, contentType],
