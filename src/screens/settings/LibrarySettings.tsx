@@ -77,17 +77,13 @@ export default function LibrarySettings() {
         setAction(null);
     }, [t]);
 
-    const { data: categories, isLoading, error: requestError, mutate } = requestManager.useGetCategories();
-
-    const [currentCategories, setCurrentCategories] = useState<ICategory[]>(categories ?? []); // categories to check if response categories changed
-    const [dialogCategories, setDialogCategories] = useState<ICategory[]>(categories ?? []); // categories that are shown and updated in the dialog
+    const { data: categories = [], error: requestError, mutate } = requestManager.useGetCategories();
+    const [dialogCategories, setDialogCategories] = useState<ICategory[]>(categories);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-    const retrievedCategoriesChanged = !isLoading && categories?.length && categories !== currentCategories;
-    if (retrievedCategoriesChanged) {
-        setCurrentCategories(categories);
+    useEffect(() => {
         setDialogCategories(categories);
-    }
+    }, [categories]);
 
     const unsetCategories: ICategory[] =
         categories?.filter((category) => category.includeInUpdate === IncludeInGlobalUpdate.UNSET) ?? [];
@@ -115,7 +111,7 @@ export default function LibrarySettings() {
 
     const updateCategories = async () => {
         const categoriesToUpdate = dialogCategories.filter((category) => {
-            const currentCategory = currentCategories.find((currCategory) => currCategory.id === category.id);
+            const currentCategory = categories.find((currCategory) => currCategory.id === category.id);
 
             if (!currentCategory) {
                 return false;
@@ -124,17 +120,14 @@ export default function LibrarySettings() {
             return currentCategory.includeInUpdate !== category.includeInUpdate;
         });
 
+        setIsDialogOpen(false);
+
         try {
             await Promise.all(categoriesToUpdate.map((category) => updateCategory(category)));
+            mutate([...dialogCategories], { revalidate: false });
         } catch (error) {
             makeToast(t('global.error.label.failed_to_save_changes'), 'error');
-        } finally {
-            setIsDialogOpen(false);
-
-            if (categoriesToUpdate.length) {
-                setDialogCategories([]);
-                mutate([...dialogCategories], { revalidate: false });
-            }
+            mutate([...categories]);
         }
     };
 
