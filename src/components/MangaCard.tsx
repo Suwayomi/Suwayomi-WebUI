@@ -174,8 +174,10 @@ const MangaCard = (props: IProps) => {
                     {gridLayout === GridLayout.Comfortable && (
                         <MangaTitle
                             sx={{
+                                height: '67.16px',
                                 position: 'relative',
                                 color: 'text.primary',
+                                overflow: 'hidden',
                             }}
                             title={title}
                         >
@@ -229,7 +231,12 @@ const MangaCard = (props: IProps) => {
                             width: 'min-content',
                         }}
                     >
-                        <Typography variant="h5" component="h2" title={title}>
+                        <Typography
+                            variant="h5"
+                            component="h2"
+                            title={title}
+                            style={{ height: '64.03px', overflow: 'hidden' }}
+                        >
                             {truncateText(title, 61)}
                         </Typography>
                     </Box>
