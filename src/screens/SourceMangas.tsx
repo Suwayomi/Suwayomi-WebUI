@@ -286,6 +286,10 @@ export default function SourceMangas() {
         );
     }, [t, source]);
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [contentType]);
+
     return (
         <StyledGridWrapper hasContent={!!mangas.length}>
             <ContentTypeMenu>
