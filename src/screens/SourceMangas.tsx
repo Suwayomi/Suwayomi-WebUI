@@ -48,13 +48,13 @@ const ContentTypeButton = styled(Button)(() => ({
 const StyledGridWrapper = styled(Box, { shouldForwardProp: (prop) => prop !== 'hasContent' })<{ hasContent: boolean }>(
     ({ theme, hasContent }) => ({
         // 62.5px ContentTypeMenu height (- padding of grid + grid item)
-        marginTop: `calc(62.5px ${hasContent ? '- 13px' : ''})`,
+        marginTop: `calc(62.5px ${hasContent ? '- 8px' : ''})`,
         // header height - ContentTypeMenu height
         minHeight: 'calc(100vh - 64px - 62.5px)',
         position: 'relative',
         [theme.breakpoints.down('sm')]: {
-            // 62.5px ContentTypeMenu - 8px margin diff header height (56px) (- padding of grid + grid item)
-            marginTop: `calc(62.5px - 8px ${hasContent ? '- 13px' : ''})`,
+            // 62.5px ContentTypeMenu - 8px margin diff header height (56px) (- padding of grid item)
+            marginTop: `calc(62.5px - 8px ${hasContent ? '- 8px' : ''})`,
             // header height (+ 8px margin) - footer height - ContentTypeMenu height
             minHeight: 'calc(100vh - 64px - 64px - 62.5px)',
         },
