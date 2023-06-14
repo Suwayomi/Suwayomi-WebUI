@@ -6,9 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { StringParam, useQueryParam } from 'use-query-params';
-import { useMediaQuery, useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { IMangaCard, LibrarySortMode, NullAndUndefined } from '@/typings';
 import { useSearchSettings } from '@/util/searchSettings';
@@ -120,11 +119,6 @@ const LibraryMangaGrid: React.FC<LibraryMangaGridProps & { lastLibraryUpdate: nu
     const [query] = useQueryParam('query', StringParam);
     const { options } = useLibraryOptionsContext();
     const { unread, downloaded } = options;
-    const totalPages = Math.trunc((mangas ?? []).length / 10);
-    const theme = useTheme();
-    const isLargeScreen = useMediaQuery(theme.breakpoints.up('sm'));
-    const defaultPageNumber = isLargeScreen ? 4 : 1;
-    const [lastPageNum, setLastPageNum] = useState<number>(defaultPageNumber);
     const { settings } = useSearchSettings();
 
     const filteredMangas = useMemo(
@@ -135,23 +129,21 @@ const LibraryMangaGrid: React.FC<LibraryMangaGridProps & { lastLibraryUpdate: nu
         () => sortManga(filteredMangas, options.sorts, options.sortDesc),
         [filteredMangas, lastLibraryUpdate, options.sorts, options.sortDesc],
     );
-    const filteredPaginatedMangas = useMemo(() => sortedMangas.slice(0, lastPageNum * 10), [sortedMangas, lastPageNum]);
 
     const showFilteredOutMessage =
         (unread != null || downloaded != null || query) && filteredMangas.length === 0 && mangas.length > 0;
 
     useEffect(() => {
-        setLastPageNum(defaultPageNumber);
         window.scrollTo(0, 0);
     }, [filteredMangas]);
 
     return (
         <MangaGrid
-            mangas={filteredPaginatedMangas}
+            mangas={sortedMangas}
             isLoading={isLoading}
-            hasNextPage={lastPageNum < totalPages}
-            lastPageNum={lastPageNum}
-            setLastPageNum={setLastPageNum}
+            hasNextPage={false}
+            lastPageNum={0}
+            setLastPageNum={() => undefined}
             message={showFilteredOutMessage ? t('library.error.label.no_matches') : message}
             gridLayout={options.gridLayout}
         />
