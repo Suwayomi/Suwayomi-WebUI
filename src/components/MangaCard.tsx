@@ -35,9 +35,21 @@ const BottomGradientDoubledDown = styled('div')({
 });
 
 const MangaTitle = styled(Typography)({
+    lineHeight: '1.5rem',
+    maxHeight: '3rem',
+    display: '-webkit-box',
+    WebkitLineClamp: '2',
+    WebkitBoxOrient: 'vertical',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+});
+
+const GridMangaTitle = styled(MangaTitle)({
+    width: '100%',
     position: 'absolute',
     bottom: 0,
-    padding: '0.5em',
+    margin: '0.5em 0',
+    padding: '0 0.5em',
     fontSize: '1.05rem',
 });
 
@@ -53,17 +65,6 @@ const BadgeContainer = styled('div')({
         fontSize: '1.05rem',
     },
 });
-
-const truncateText = (str: string, maxLength: number) => {
-    const ending = '...';
-    // trim the string to the maximum length
-    const trimmedString = str.substr(0, maxLength - ending.length);
-
-    if (trimmedString.length < str.length) {
-        return trimmedString + ending;
-    }
-    return str;
-};
 
 interface IProps {
     manga: IMangaCard;
@@ -158,31 +159,30 @@ const MangaCard = (props: IProps) => {
                                 <>
                                     <BottomGradient />
                                     <BottomGradientDoubledDown />
-                                    <MangaTitle
+                                    <GridMangaTitle
                                         sx={{
                                             color: 'white',
                                             textShadow: '0px 0px 3px #000000',
                                         }}
                                         title={title}
                                     >
-                                        {truncateText(title, 61)}
-                                    </MangaTitle>
+                                        {title}
+                                    </GridMangaTitle>
                                 </>
                             )}
                         </CardActionArea>
                     </Card>
                     {gridLayout === GridLayout.Comfortable && (
-                        <MangaTitle
+                        <GridMangaTitle
                             sx={{
-                                height: '67.16px',
                                 position: 'relative',
                                 color: 'text.primary',
-                                overflow: 'hidden',
+                                height: '3rem',
                             }}
                             title={title}
                         >
-                            {truncateText(title, 61)}
-                        </MangaTitle>
+                            {title}
+                        </GridMangaTitle>
                     )}
                 </Box>
             </Link>
@@ -231,14 +231,9 @@ const MangaCard = (props: IProps) => {
                             width: 'min-content',
                         }}
                     >
-                        <Typography
-                            variant="h5"
-                            component="h2"
-                            title={title}
-                            style={{ height: '64.03px', overflow: 'hidden' }}
-                        >
-                            {truncateText(title, 61)}
-                        </Typography>
+                        <MangaTitle variant="h5" title={title}>
+                            {title}
+                        </MangaTitle>
                     </Box>
                     <BadgeContainer>
                         {inLibraryIndicator && inLibrary && (
