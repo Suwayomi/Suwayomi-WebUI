@@ -66,8 +66,9 @@ export type AbortableSWRInfiniteResponse<Data = any, Error = any> = SWRInfiniteR
 
 const isLoadingMore = (swrResult: SWRInfiniteResponse): boolean => {
     const isNextPageMissing = !!swrResult.data && typeof swrResult.data[swrResult.size - 1] === 'undefined';
+    const isRequestActive = swrResult.isValidating;
     // SWR "isLoading" state is only updated for the first load, for every subsequent load it's "false"
-    return !swrResult.isLoading && swrResult.size > 0 && isNextPageMissing;
+    return !swrResult.isLoading && swrResult.size > 0 && isNextPageMissing && isRequestActive;
 };
 
 const disableSwrInfiniteCache: Middleware = (useSWRNext) => (key, fetcher, config) => {
