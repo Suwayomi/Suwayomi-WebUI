@@ -120,7 +120,7 @@ const LibraryMangaGrid: React.FC<LibraryMangaGridProps & { lastLibraryUpdate: nu
     const [query] = useQueryParam('query', StringParam);
     const { options } = useLibraryOptionsContext();
     const { unread, downloaded } = options;
-    const totalPages = (mangas ?? []).length / 10;
+    const totalPages = Math.trunc((mangas ?? []).length / 10);
     const theme = useTheme();
     const isLargeScreen = useMediaQuery(theme.breakpoints.up('sm'), { noSsr: true });
     const defaultPageNumber = isLargeScreen ? 4 : 1;
