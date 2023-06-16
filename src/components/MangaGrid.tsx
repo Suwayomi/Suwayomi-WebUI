@@ -81,12 +81,10 @@ const VerticalGrid = ({
     GridItemContainer,
     gridLayout,
     hasNextPage,
-    setLastPageNum,
-    lastPageNum,
+    loadMore,
 }: DefaultGridProps & {
     hasNextPage: boolean;
-    setLastPageNum: (page: number) => void;
-    lastPageNum: number;
+    loadMore: () => void;
 }) => {
     const [restoredScrollPosition, setRestoredScrollPosition] = useState(mangas.length === 0);
     const location = useLocation<{ lastScrollPosition?: number }>();
@@ -138,13 +136,7 @@ const VerticalGrid = ({
                     List: GridContainer,
                     Item: GridItemContainer,
                 }}
-                endReached={() => {
-                    if (!hasNextPage) {
-                        return;
-                    }
-
-                    setLastPageNum(lastPageNum + 1);
-                }}
+                endReached={() => loadMore()}
                 itemContent={(index) => createMangaCard(mangas[index], gridLayout, inLibraryIndicator)}
             />
             {/* render div to prevent UI jumping around when showing/hiding loading placeholder */
@@ -160,8 +152,7 @@ export interface IMangaGridProps {
     message?: string;
     messageExtra?: JSX.Element;
     hasNextPage: boolean;
-    lastPageNum: number;
-    setLastPageNum: (lastPageNum: number) => void;
+    loadMore: () => void;
     gridLayout?: GridLayout;
     horizontal?: boolean | undefined;
     noFaces?: boolean | undefined;
@@ -175,8 +166,7 @@ const MangaGrid: React.FC<IMangaGridProps> = (props) => {
         message,
         messageExtra,
         hasNextPage,
-        lastPageNum,
-        setLastPageNum,
+        loadMore,
         gridLayout,
         horizontal,
         noFaces,
@@ -253,8 +243,7 @@ const MangaGrid: React.FC<IMangaGridProps> = (props) => {
                     mangas={mangas}
                     GridItemContainer={GridItemContainer}
                     hasNextPage={hasNextPage}
-                    setLastPageNum={setLastPageNum}
-                    lastPageNum={lastPageNum}
+                    loadMore={loadMore}
                     gridLayout={gridLayout}
                 />
             )}

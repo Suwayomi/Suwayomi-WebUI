@@ -142,8 +142,7 @@ const LibraryMangaGrid: React.FC<LibraryMangaGridProps & { lastLibraryUpdate: nu
             mangas={sortedMangas}
             isLoading={isLoading}
             hasNextPage={false}
-            lastPageNum={0}
-            setLastPageNum={() => undefined}
+            loadMore={() => undefined}
             message={showFilteredOutMessage ? t('library.error.label.no_matches') : message}
             gridLayout={options.gridLayout}
         />

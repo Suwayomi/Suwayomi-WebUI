@@ -225,9 +225,13 @@ export default function SourceMangas() {
         updateContentType(currentLocationContentType, false);
     }
 
-    const setLastPageNum = useCallback(() => {
+    const loadMore = useCallback(() => {
+        if (!hasNextPage) {
+            return;
+        }
+
         setPages(lastPageNum + 1);
-    }, [setPages, lastPageNum]);
+    }, [setPages, lastPageNum, hasNextPage]);
 
     const resetFilters = useCallback(async () => {
         setDialogFiltersToApply([]);
@@ -322,8 +326,7 @@ export default function SourceMangas() {
             <SourceMangaGrid
                 mangas={mangas}
                 hasNextPage={hasNextPage}
-                lastPageNum={lastPageNum}
-                setLastPageNum={setLastPageNum}
+                loadMore={loadMore}
                 message={message}
                 messageExtra={messageExtra}
                 isLoading={isLoading}
