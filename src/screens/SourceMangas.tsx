@@ -222,15 +222,9 @@ export default function SourceMangas() {
         updateContentType(currentLocationContentType, false);
     }
 
-    let wasLoadMoreTriggered = false;
     const setLastPageNum = useCallback(() => {
-        if (!hasNextPage || wasLoadMoreTriggered) {
-            return;
-        }
-
-        wasLoadMoreTriggered = true;
         setPages(lastPageNum + 1);
-    }, [setPages, hasNextPage, lastPageNum]);
+    }, [setPages, lastPageNum]);
 
     const resetFilters = useCallback(async () => {
         setDialogFiltersToApply([]);
