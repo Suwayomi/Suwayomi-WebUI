@@ -25,6 +25,7 @@ import requestManager from '@/lib/RequestManager';
 import makeToast from '@/components/util/Toast';
 import ThreeStateCheckboxInput from '@/components/atoms/ThreeStateCheckboxInput';
 import NavbarContext from '@/components/context/NavbarContext';
+import SearchSettings from '@/screens/settings/SearchSettings';
 
 const CategoriesDiv = styled('div')({
     display: 'flex',
@@ -138,6 +139,15 @@ export default function LibrarySettings() {
 
     return (
         <>
+            <List
+                subheader={
+                    <ListSubheader component="div" id="nested-list-subheader">
+                        {t('search.title.search')}
+                    </ListSubheader>
+                }
+            >
+                <SearchSettings />
+            </List>
             <List
                 subheader={
                     <ListSubheader component="div" id="nested-list-subheader">

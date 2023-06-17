@@ -38,7 +38,6 @@ import CollectionsOutlinedBookmarkIcon from '@mui/icons-material/CollectionsBook
 import requestManager from '@/lib/RequestManager';
 import { langCodeToName } from '@/util/language';
 import useLocalStorage from '@/util/useLocalStorage';
-import SearchSettings from '@/screens/settings/SearchSettings';
 import ListItemLink from '@/components/util/ListItemLink';
 import DarkTheme from '@/components/context/DarkTheme';
 import NavbarContext from '@/components/context/NavbarContext';
@@ -138,7 +137,6 @@ export default function Settings() {
                         <Switch edge="end" checked={darkTheme} onChange={() => setDarkTheme(!darkTheme)} />
                     </ListItemSecondaryAction>
                 </ListItem>
-                <SearchSettings />
                 <ListItemButton
                     onClick={() => {
                         handleDialogOpenItemWidth();
