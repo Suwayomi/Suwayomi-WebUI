@@ -24,18 +24,21 @@ const GridContainer = React.forwardRef<HTMLDivElement, GridTypeMap['props']>(({ 
     </Grid>
 ));
 
-const GridItemContainerWithDimension =
-    (dimensions: number, itemWidth: number, gridLayout?: GridLayout, maxColumns: number = 12) =>
-    ({ children, ...itemProps }: GridTypeMap['props'] & Partial<GridItemProps>) => {
-        const itemsPerRow = Math.ceil(dimensions / itemWidth);
-        const columnsPerItem = gridLayout === GridLayout.List ? maxColumns : maxColumns / itemsPerRow;
+const GridItemContainerWithDimension = (
+    dimensions: number,
+    itemWidth: number,
+    gridLayout?: GridLayout,
+    maxColumns: number = 12,
+) => {
+    const itemsPerRow = Math.ceil(dimensions / itemWidth);
+    const columnsPerItem = gridLayout === GridLayout.List ? maxColumns : maxColumns / itemsPerRow;
 
-        return (
-            <Grid {...itemProps} item xs={columnsPerItem} sx={{ paddingTop: '8px', paddingLeft: '8px' }}>
-                {children}
-            </Grid>
-        );
-    };
+    return ({ children, ...itemProps }: GridTypeMap['props'] & Partial<GridItemProps>) => (
+        <Grid {...itemProps} item xs={columnsPerItem} sx={{ paddingTop: '8px', paddingLeft: '8px' }}>
+            {children}
+        </Grid>
+    );
+};
 
 const createMangaCard = (manga: IMangaCard, gridLayout?: GridLayout, inLibraryIndicator?: boolean) => (
     <MangaCard key={manga.id} manga={manga} gridLayout={gridLayout} inLibraryIndicator={inLibraryIndicator} />
