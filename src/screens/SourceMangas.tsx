@@ -13,7 +13,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import { useQueryParam, StringParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
 import Link from '@mui/material/Link';
-import { Box, Button, styled } from '@mui/material';
+import { Box, Button, styled, useTheme, useMediaQuery } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import NewReleasesIcon from '@mui/icons-material/NewReleases';
 import FilterListIcon from '@mui/icons-material/FilterList';
@@ -48,13 +48,13 @@ const ContentTypeButton = styled(Button)(() => ({
 const StyledGridWrapper = styled(Box, { shouldForwardProp: (prop) => prop !== 'hasContent' })<{ hasContent: boolean }>(
     ({ theme, hasContent }) => ({
         // 62.5px ContentTypeMenu height (- padding of grid + grid item)
-        marginTop: `calc(62.5px ${hasContent ? '- 13px' : ''})`,
+        marginTop: `calc(62.5px ${hasContent ? '- 8px' : ''})`,
         // header height - ContentTypeMenu height
         minHeight: 'calc(100vh - 64px - 62.5px)',
         position: 'relative',
         [theme.breakpoints.down('sm')]: {
-            // 62.5px ContentTypeMenu - 8px margin diff header height (56px) (- padding of grid + grid item)
-            marginTop: `calc(62.5px - 8px ${hasContent ? '- 13px' : ''})`,
+            // 62.5px ContentTypeMenu - 8px margin diff header height (56px) (- padding of grid item)
+            marginTop: `calc(62.5px - 8px ${hasContent ? '- 8px' : ''})`,
             // header height (+ 8px margin) - footer height - ContentTypeMenu height
             minHeight: 'calc(100vh - 64px - 64px - 62.5px)',
         },
@@ -106,17 +106,18 @@ const useSourceManga = (
     contentType: SourceContentType,
     searchTerm: string | null | undefined,
     filters: IPos[],
+    initialPages = 1,
 ): SourceMangaResponse => {
     let result: AbortableSWRInfiniteResponse<PaginatedMangaList>;
     switch (contentType) {
         case SourceContentType.POPULAR:
-            result = requestManager.useGetSourcePopularMangas(sourceId, 1);
+            result = requestManager.useGetSourcePopularMangas(sourceId, initialPages);
             break;
         case SourceContentType.LATEST:
-            result = requestManager.useGetSourceLatestMangas(sourceId, 1);
+            result = requestManager.useGetSourceLatestMangas(sourceId, initialPages);
             break;
         case SourceContentType.SEARCH:
-            result = requestManager.useSourceQuickSearch(sourceId, searchTerm ?? '', [], 1);
+            result = requestManager.useSourceQuickSearch(sourceId, searchTerm ?? '', [], initialPages);
             break;
         case SourceContentType.FILTER:
             result = requestManager.useSourceQuickSearch(
@@ -138,7 +139,7 @@ const useSourceManga = (
 
                     return filter;
                 }),
-                1,
+                initialPages,
                 { disableCache: true },
             );
             break;
@@ -160,6 +161,8 @@ const useSourceManga = (
 export default function SourceMangas() {
     const { t } = useTranslation();
     const { setTitle, setAction } = useContext(NavbarContext);
+    const theme = useTheme();
+    const isLargeScreen = useMediaQuery(theme.breakpoints.up('sm'));
 
     const { sourceId } = useParams<{ sourceId: string }>();
 
@@ -183,7 +186,7 @@ export default function SourceMangas() {
         setSize: setPages,
         mutate: refreshData,
         abortRequest,
-    } = useSourceManga(sourceId, contentType, searchTerm, filtersToApply);
+    } = useSourceManga(sourceId, contentType, searchTerm, filtersToApply, isLargeScreen ? 2 : 1);
     const { data: filters = [], mutate: mutateFilters } = requestManager.useGetSourceFilters(sourceId);
     const { data: source } = requestManager.useGetSource(sourceId);
     const [triggerDataRefresh, setTriggerDataRefresh] = useState(false);
@@ -222,15 +225,13 @@ export default function SourceMangas() {
         updateContentType(currentLocationContentType, false);
     }
 
-    let wasLoadMoreTriggered = false;
-    const setLastPageNum = useCallback(() => {
-        if (!hasNextPage || wasLoadMoreTriggered) {
+    const loadMore = useCallback(() => {
+        if (!hasNextPage) {
             return;
         }
 
-        wasLoadMoreTriggered = true;
         setPages(lastPageNum + 1);
-    }, [setPages, hasNextPage, lastPageNum]);
+    }, [setPages, lastPageNum, hasNextPage]);
 
     const resetFilters = useCallback(async () => {
         setDialogFiltersToApply([]);
@@ -325,8 +326,7 @@ export default function SourceMangas() {
             <SourceMangaGrid
                 mangas={mangas}
                 hasNextPage={hasNextPage}
-                lastPageNum={lastPageNum}
-                setLastPageNum={setLastPageNum}
+                loadMore={loadMore}
                 message={message}
                 messageExtra={messageExtra}
                 isLoading={isLoading}

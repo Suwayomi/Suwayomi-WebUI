@@ -11,11 +11,10 @@ import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
-import { Avatar, Box, CardContent, Grid, styled } from '@mui/material';
+import { Avatar, Box, CardContent, styled } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { IMangaCard } from '@/typings';
 import requestManager from '@/lib/RequestManager';
-import useLocalStorage from '@/util/useLocalStorage';
 import { GridLayout, useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
 import SpinnerImage from '@/components/util/SpinnerImage';
 
@@ -36,9 +35,21 @@ const BottomGradientDoubledDown = styled('div')({
 });
 
 const MangaTitle = styled(Typography)({
+    lineHeight: '1.5rem',
+    maxHeight: '3rem',
+    display: '-webkit-box',
+    WebkitLineClamp: '2',
+    WebkitBoxOrient: 'vertical',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+});
+
+const GridMangaTitle = styled(MangaTitle)({
+    width: '100%',
     position: 'absolute',
     bottom: 0,
-    padding: '0.5em',
+    margin: '0.5em 0',
+    padding: '0 0.5em',
     fontSize: '1.05rem',
 });
 
@@ -55,219 +66,198 @@ const BadgeContainer = styled('div')({
     },
 });
 
-const truncateText = (str: string, maxLength: number) => {
-    const ending = '...';
-    // trim the string to the maximum length
-    const trimmedString = str.substr(0, maxLength - ending.length);
-
-    if (trimmedString.length < str.length) {
-        return trimmedString + ending;
-    }
-    return str;
-};
-
 interface IProps {
     manga: IMangaCard;
     gridLayout?: GridLayout;
-    dimensions: number;
     inLibraryIndicator?: boolean;
 }
 
-const MangaCard = React.forwardRef<HTMLDivElement, IProps>((props: IProps, ref) => {
+const MangaCard = (props: IProps) => {
     const { t } = useTranslation();
 
     const {
         manga: { id, title, thumbnailUrl, downloadCount, unreadCount: unread, inLibrary },
         gridLayout,
-        dimensions,
         inLibraryIndicator,
     } = props;
     const {
         options: { showUnreadBadge, showDownloadBadge },
     } = useLibraryOptionsContext();
 
-    const [ItemWidth] = useLocalStorage<number>('ItemWidth', 300);
-
     const mangaLinkTo = `/manga/${id}/`;
 
     if (gridLayout !== GridLayout.List) {
-        const columns = Math.ceil(dimensions / ItemWidth);
-        const columnsPerItem = 12 / columns;
         return (
-            <Grid item xs={columnsPerItem}>
-                <Link to={mangaLinkTo} style={gridLayout === GridLayout.Comfortable ? { textDecoration: 'none' } : {}}>
-                    <Box
+            <Link to={mangaLinkTo} style={gridLayout === GridLayout.Comfortable ? { textDecoration: 'none' } : {}}>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                    }}
+                >
+                    <Card
                         sx={{
+                            // force standard aspect ratio of manga covers
+                            aspectRatio: '225/350',
                             display: 'flex',
-                            flexDirection: 'column',
                         }}
                     >
-                        <Card
+                        <CardActionArea
                             sx={{
-                                // force standard aspect ratio of manga covers
-                                aspectRatio: '225/350',
-                                display: 'flex',
+                                position: 'relative',
+                                height: '100%',
                             }}
-                            ref={ref}
                         >
-                            <CardActionArea
+                            <BadgeContainer
                                 sx={{
-                                    position: 'relative',
-                                    height: '100%',
+                                    position: 'absolute',
+                                    top: 5,
+                                    left: 5,
                                 }}
                             >
-                                <BadgeContainer
-                                    sx={{
-                                        position: 'absolute',
-                                        top: 5,
-                                        left: 5,
-                                    }}
-                                >
-                                    {inLibraryIndicator && inLibrary && (
-                                        <Typography sx={{ backgroundColor: 'primary.dark', zIndex: '1' }}>
-                                            {t('manga.button.in_library')}
-                                        </Typography>
-                                    )}
-                                    {showUnreadBadge && unread! > 0 && (
-                                        <Typography sx={{ backgroundColor: 'primary.dark' }}>{unread}</Typography>
-                                    )}
-                                    {showDownloadBadge && downloadCount! > 0 && (
-                                        <Typography
-                                            sx={{
-                                                backgroundColor: 'success.dark',
-                                            }}
-                                        >
-                                            {downloadCount}
-                                        </Typography>
-                                    )}
-                                </BadgeContainer>
-                                <SpinnerImage
-                                    alt={title}
-                                    src={requestManager.getValidImgUrlFor(thumbnailUrl)}
-                                    imgStyle={
-                                        inLibraryIndicator && inLibrary
-                                            ? {
-                                                  height: '100%',
-                                                  width: '100%',
-                                                  objectFit: 'cover',
-                                                  filter: 'brightness(0.4)',
-                                              }
-                                            : {
-                                                  height: '100%',
-                                                  width: '100%',
-                                                  objectFit: 'cover',
-                                              }
-                                    }
-                                    spinnerStyle={{
-                                        display: 'grid',
-                                        placeItems: 'center',
-                                    }}
-                                />
-                                {gridLayout !== GridLayout.Comfortable && (
-                                    <>
-                                        <BottomGradient />
-                                        <BottomGradientDoubledDown />
-                                        <MangaTitle
-                                            sx={{
-                                                color: 'white',
-                                                textShadow: '0px 0px 3px #000000',
-                                            }}
-                                            title={title}
-                                        >
-                                            {truncateText(title, 61)}
-                                        </MangaTitle>
-                                    </>
+                                {inLibraryIndicator && inLibrary && (
+                                    <Typography sx={{ backgroundColor: 'primary.dark', zIndex: '1' }}>
+                                        {t('manga.button.in_library')}
+                                    </Typography>
                                 )}
-                            </CardActionArea>
-                        </Card>
-                        {gridLayout === GridLayout.Comfortable && (
-                            <MangaTitle
-                                sx={{
-                                    position: 'relative',
-                                    color: 'text.primary',
+                                {showUnreadBadge && unread! > 0 && (
+                                    <Typography sx={{ backgroundColor: 'primary.dark' }}>{unread}</Typography>
+                                )}
+                                {showDownloadBadge && downloadCount! > 0 && (
+                                    <Typography
+                                        sx={{
+                                            backgroundColor: 'success.dark',
+                                        }}
+                                    >
+                                        {downloadCount}
+                                    </Typography>
+                                )}
+                            </BadgeContainer>
+                            <SpinnerImage
+                                alt={title}
+                                src={requestManager.getValidImgUrlFor(thumbnailUrl)}
+                                imgStyle={
+                                    inLibraryIndicator && inLibrary
+                                        ? {
+                                              height: '100%',
+                                              width: '100%',
+                                              objectFit: 'cover',
+                                              filter: 'brightness(0.4)',
+                                          }
+                                        : {
+                                              height: '100%',
+                                              width: '100%',
+                                              objectFit: 'cover',
+                                          }
+                                }
+                                spinnerStyle={{
+                                    display: 'grid',
+                                    placeItems: 'center',
                                 }}
-                                title={title}
-                            >
-                                {truncateText(title, 61)}
-                            </MangaTitle>
-                        )}
-                    </Box>
-                </Link>
-            </Grid>
+                            />
+                            {gridLayout !== GridLayout.Comfortable && (
+                                <>
+                                    <BottomGradient />
+                                    <BottomGradientDoubledDown />
+                                    <GridMangaTitle
+                                        sx={{
+                                            color: 'white',
+                                            textShadow: '0px 0px 3px #000000',
+                                        }}
+                                        title={title}
+                                    >
+                                        {title}
+                                    </GridMangaTitle>
+                                </>
+                            )}
+                        </CardActionArea>
+                    </Card>
+                    {gridLayout === GridLayout.Comfortable && (
+                        <GridMangaTitle
+                            sx={{
+                                position: 'relative',
+                                color: 'text.primary',
+                                height: '3rem',
+                            }}
+                            title={title}
+                        >
+                            {title}
+                        </GridMangaTitle>
+                    )}
+                </Box>
+            </Link>
         );
     }
 
     return (
-        <Grid item xs={12}>
-            <Card ref={ref}>
-                <CardActionArea component={Link} to={mangaLinkTo}>
-                    <CardContent
+        <Card>
+            <CardActionArea component={Link} to={mangaLinkTo}>
+                <CardContent
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        padding: 2,
+                        position: 'relative',
+                    }}
+                >
+                    <Avatar
+                        variant="rounded"
+                        sx={
+                            inLibraryIndicator && inLibrary
+                                ? {
+                                      width: 56,
+                                      height: 56,
+                                      flex: '0 0 auto',
+                                      marginRight: 2,
+                                      imageRendering: 'pixelated',
+                                      filter: 'brightness(0.4)',
+                                  }
+                                : {
+                                      width: 56,
+                                      height: 56,
+                                      flex: '0 0 auto',
+                                      marginRight: 2,
+                                      imageRendering: 'pixelated',
+                                  }
+                        }
+                        src={requestManager.getValidImgUrlFor(thumbnailUrl)}
+                    />
+                    <Box
                         sx={{
                             display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            padding: 2,
-                            position: 'relative',
+                            flexDirection: 'row',
+                            flexGrow: 1,
+                            width: 'min-content',
                         }}
                     >
-                        <Avatar
-                            variant="rounded"
-                            sx={
-                                inLibraryIndicator && inLibrary
-                                    ? {
-                                          width: 56,
-                                          height: 56,
-                                          flex: '0 0 auto',
-                                          marginRight: 2,
-                                          imageRendering: 'pixelated',
-                                          filter: 'brightness(0.4)',
-                                      }
-                                    : {
-                                          width: 56,
-                                          height: 56,
-                                          flex: '0 0 auto',
-                                          marginRight: 2,
-                                          imageRendering: 'pixelated',
-                                      }
-                            }
-                            src={requestManager.getValidImgUrlFor(thumbnailUrl)}
-                        />
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                flexDirection: 'row',
-                                flexGrow: 1,
-                                width: 'min-content',
-                            }}
-                        >
-                            <Typography variant="h5" component="h2" title={title}>
-                                {truncateText(title, 61)}
+                        <MangaTitle variant="h5" title={title}>
+                            {title}
+                        </MangaTitle>
+                    </Box>
+                    <BadgeContainer>
+                        {inLibraryIndicator && inLibrary && (
+                            <Typography sx={{ backgroundColor: 'primary.dark' }}>
+                                {t('manga.button.in_library')}
                             </Typography>
-                        </Box>
-                        <BadgeContainer>
-                            {inLibraryIndicator && inLibrary && (
-                                <Typography sx={{ backgroundColor: 'primary.dark' }}>
-                                    {t('manga.button.in_library')}
-                                </Typography>
-                            )}
-                            {showUnreadBadge && unread! > 0 && (
-                                <Typography sx={{ backgroundColor: 'primary.dark' }}>{unread}</Typography>
-                            )}
-                            {showDownloadBadge && downloadCount! > 0 && (
-                                <Typography
-                                    sx={{
-                                        backgroundColor: 'success.dark',
-                                    }}
-                                >
-                                    {downloadCount}
-                                </Typography>
-                            )}
-                        </BadgeContainer>
-                    </CardContent>
-                </CardActionArea>
-            </Card>
-        </Grid>
+                        )}
+                        {showUnreadBadge && unread! > 0 && (
+                            <Typography sx={{ backgroundColor: 'primary.dark' }}>{unread}</Typography>
+                        )}
+                        {showDownloadBadge && downloadCount! > 0 && (
+                            <Typography
+                                sx={{
+                                    backgroundColor: 'success.dark',
+                                }}
+                            >
+                                {downloadCount}
+                            </Typography>
+                        )}
+                    </BadgeContainer>
+                </CardContent>
+            </CardActionArea>
+        </Card>
     );
-});
+};
 
 export default MangaCard;

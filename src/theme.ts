@@ -37,6 +37,11 @@ const createTheme = (dark?: boolean) => {
                 },
             },
             components: {
+                MuiUseMediaQuery: {
+                    defaultProps: {
+                        noSsr: true,
+                    },
+                },
                 MuiCssBaseline: {
                     styleOverrides: `
                 *::-webkit-scrollbar {

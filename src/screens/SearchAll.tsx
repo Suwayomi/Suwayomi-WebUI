@@ -101,8 +101,6 @@ const SourceSearchPreview = React.memo(
         const { id, displayName, lang } = source;
         const {
             data: searchResult,
-            size,
-            setSize,
             isLoading,
             error,
             abortRequest,
@@ -149,8 +147,7 @@ const SourceSearchPreview = React.memo(
                     mangas={mangas}
                     isLoading={isLoading}
                     hasNextPage={false}
-                    lastPageNum={size}
-                    setLastPageNum={setSize}
+                    loadMore={() => undefined}
                     horizontal
                     noFaces
                     message={errorMessage}
