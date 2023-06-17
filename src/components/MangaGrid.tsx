@@ -34,7 +34,7 @@ const GridItemContainerWithDimension = (
     const columnsPerItem = gridLayout === GridLayout.List ? maxColumns : maxColumns / itemsPerRow;
 
     return ({ children, ...itemProps }: GridTypeMap['props'] & Partial<GridItemProps>) => (
-        <Grid {...itemProps} item xs={columnsPerItem} sx={{ paddingTop: '8px', paddingLeft: '8px' }}>
+        <Grid {...itemProps} item xs={columnsPerItem} sx={{ width: '100%', paddingTop: '8px', paddingLeft: '8px' }}>
             {children}
         </Grid>
     );
