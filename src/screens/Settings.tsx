@@ -139,17 +139,15 @@ export default function Settings() {
                     </ListItemSecondaryAction>
                 </ListItem>
                 <SearchSettings />
-                <ListItemButton>
+                <ListItemButton
+                    onClick={() => {
+                        handleDialogOpenItemWidth();
+                    }}
+                >
                     <ListItemIcon>
                         <ViewModuleIcon />
                     </ListItemIcon>
-                    <ListItemText
-                        primary={t('settings.label.manga_item_width')}
-                        secondary={`px:${ItemWidth}`}
-                        onClick={() => {
-                            handleDialogOpenItemWidth();
-                        }}
-                    />
+                    <ListItemText primary={t('settings.label.manga_item_width')} secondary={`px:${ItemWidth}`} />
                 </ListItemButton>
                 <ListItem>
                     <ListItemIcon>
