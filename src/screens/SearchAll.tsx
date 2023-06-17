@@ -106,7 +106,7 @@ const SourceSearchPreview = React.memo(
             isLoading,
             error,
             abortRequest,
-        } = requestManager.useSourceSearch(id, searchString ?? '', 1, { skipRequest });
+        } = requestManager.useSourceQuickSearch(id, searchString ?? '', [], 1, { skipRequest });
         const mangas = !isLoading ? searchResult?.[0]?.mangaList ?? [] : [];
         const noMangasFound = !isLoading && !mangas.length;
 
