@@ -176,22 +176,19 @@ const MangaGrid: React.FC<IMangaGridProps> = (props) => {
         inLibraryIndicator,
     } = props;
 
-    const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+    const [dimensions, setDimensions] = useState(document.documentElement.offsetWidth);
     const [gridItemWidth] = useLocalStorage<number>('ItemWidth', 300);
     const gridRef = useRef<HTMLDivElement>(null);
     const GridItemContainer = useMemo(
-        () => GridItemContainerWithDimension(dimensions.width, gridItemWidth, gridLayout),
+        () => GridItemContainerWithDimension(dimensions, gridItemWidth, gridLayout),
         [dimensions, gridItemWidth, gridLayout],
     );
 
     const updateGridWidth = () => {
-        setDimensions({
-            width: gridRef.current?.offsetWidth ?? 0,
-            height: gridRef.current?.offsetHeight ?? 0,
-        });
+        setDimensions(gridRef.current?.offsetWidth ?? document.documentElement.offsetWidth);
     };
 
-    useLayoutEffect(() => updateGridWidth, [gridRef.current?.offsetWidth, gridRef.current?.offsetHeight]);
+    useLayoutEffect(updateGridWidth, []);
 
     useEffect(() => {
         let movementTimer: NodeJS.Timeout;
