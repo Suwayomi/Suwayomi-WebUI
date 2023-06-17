@@ -110,7 +110,6 @@ export default function Library() {
     return (
         <>
             <Tabs
-                key={activeTab.order}
                 value={activeTab.order}
                 onChange={(e, newTab) => handleTabChange(newTab)}
                 indicatorColor="primary"
