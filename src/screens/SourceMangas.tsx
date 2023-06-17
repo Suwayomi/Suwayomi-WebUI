@@ -174,6 +174,7 @@ export default function SourceMangas() {
     const [dialogFiltersToApply, setDialogFiltersToApply] = useState<IPos[]>([]);
     const [filtersToApply, setFiltersToApply] = useState<IPos[]>([]);
     const searchTerm = useDebounce(query, 1000);
+    const [resetScrollPosition, setResetScrollPosition] = useState(false);
     const [contentType, setContentType] = useState(currentLocationContentType);
     const {
         data: { items: mangas, hasNextPage } = { items: [], hasNextPage: false },
@@ -198,15 +199,27 @@ export default function SourceMangas() {
         </>
     ) : undefined;
 
+    const updateContentType = useCallback(
+        (newContentType: SourceContentType, updateLocationState: boolean = true) => {
+            if (updateLocationState) {
+                navigate('', { replace: true, state: { contentType: newContentType } });
+            }
+
+            setContentType(newContentType);
+            setResetScrollPosition(true);
+        },
+        [setContentType],
+    );
+
     const isSearchTermAvailable = searchTerm && query?.length;
     const setSearchContentType = isSearchTermAvailable && contentType !== SourceContentType.SEARCH;
     if (setSearchContentType) {
-        setContentType(SourceContentType.SEARCH);
+        updateContentType(SourceContentType.SEARCH, false);
     }
 
     const closeSearch = !query?.length && contentType === SourceContentType.SEARCH;
     if (closeSearch) {
-        setContentType(currentLocationContentType);
+        updateContentType(currentLocationContentType, false);
     }
 
     let wasLoadMoreTriggered = false;
@@ -231,14 +244,6 @@ export default function SourceMangas() {
         }
         setTriggerDataRefresh(true);
     }, [sourceId]);
-
-    const updateContentType = useCallback(
-        (newContentType: SourceContentType) => {
-            navigate('', { replace: true, state: { contentType: newContentType } });
-            setContentType(newContentType);
-        },
-        [setContentType],
-    );
 
     useEffect(
         () => () => {
@@ -285,8 +290,12 @@ export default function SourceMangas() {
     }, [t, source]);
 
     useEffect(() => {
+        if (!resetScrollPosition) {
+            return;
+        }
+
         window.scrollTo(0, 0);
-    }, [contentType]);
+    }, [resetScrollPosition]);
 
     return (
         <StyledGridWrapper hasContent={!!mangas.length}>
