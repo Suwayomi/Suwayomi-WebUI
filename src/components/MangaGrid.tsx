@@ -60,7 +60,7 @@ const HorizontalGrid = ({ isLoading, mangas, inLibraryIndicator, GridItemContain
             margin: 0,
             width: '100%',
             padding: '5px',
-            overflowX: 'scroll',
+            overflowX: 'auto',
             display: '-webkit-inline-box',
             flexWrap: 'nowrap',
         }}
