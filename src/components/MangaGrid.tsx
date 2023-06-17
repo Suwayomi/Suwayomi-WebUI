@@ -191,7 +191,7 @@ const MangaGrid: React.FC<IMangaGridProps> = (props) => {
         });
     };
 
-    useLayoutEffect(updateGridWidth, []);
+    useLayoutEffect(() => updateGridWidth, [gridRef.current?.offsetWidth, gridRef.current?.offsetHeight]);
 
     useEffect(() => {
         let movementTimer: NodeJS.Timeout;
