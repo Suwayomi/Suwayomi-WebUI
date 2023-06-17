@@ -145,7 +145,7 @@ export default function LibrarySettings() {
                     </ListSubheader>
                 }
             >
-                <ListItemButton>
+                <ListItemButton onClick={() => setIsDialogOpen(true)}>
                     <ListItemText
                         primary={t('category.title.categories')}
                         secondary={
@@ -163,7 +163,6 @@ export default function LibrarySettings() {
                             </>
                         }
                         secondaryTypographyProps={{ style: { display: 'flex', flexDirection: 'column' } }}
-                        onClick={() => setIsDialogOpen(true)}
                     />
                 </ListItemButton>
             </List>
