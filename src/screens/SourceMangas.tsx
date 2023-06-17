@@ -121,7 +121,7 @@ const useSourceManga = (
         case SourceContentType.FILTER:
             result = requestManager.useSourceQuickSearch(
                 sourceId,
-                searchTerm ?? '',
+                '',
                 filters.map((filter) => {
                     const { position, state, group } = filter;
 
