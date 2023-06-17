@@ -176,7 +176,10 @@ const MangaGrid: React.FC<IMangaGridProps> = (props) => {
         inLibraryIndicator,
     } = props;
 
-    const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+    const [dimensions, setDimensions] = useState({
+        width: document.documentElement.offsetWidth,
+        height: document.documentElement.offsetHeight,
+    });
     const [gridItemWidth] = useLocalStorage<number>('ItemWidth', 300);
     const gridRef = useRef<HTMLDivElement>(null);
     const GridItemContainer = useMemo(
@@ -186,8 +189,8 @@ const MangaGrid: React.FC<IMangaGridProps> = (props) => {
 
     const updateGridWidth = () => {
         setDimensions({
-            width: gridRef.current?.offsetWidth ?? 0,
-            height: gridRef.current?.offsetHeight ?? 0,
+            width: gridRef.current?.offsetWidth ?? document.documentElement.offsetWidth,
+            height: gridRef.current?.offsetHeight ?? document.documentElement.offsetHeight,
         });
     };
 
