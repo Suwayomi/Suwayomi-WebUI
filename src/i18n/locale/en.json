@@ -394,6 +394,7 @@
       "ignore_filters": "Ignore filters when searching"
     },
     "title": {
+      "search": "Search",
       "global_search": "Global Search"
     }
   },
