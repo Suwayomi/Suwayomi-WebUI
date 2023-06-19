@@ -296,6 +296,7 @@ export default function SourceMangas() {
         }
 
         window.scrollTo(0, 0);
+        setResetScrollPosition(false);
     }, [resetScrollPosition]);
 
     return (
