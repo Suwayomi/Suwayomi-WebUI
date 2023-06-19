@@ -256,6 +256,7 @@ export default function SourceMangas() {
             // with strict mode + dev mode the first request will be aborted. due to using SWR there won't be an
             // immediate second request since it's the same key. instead the "second" request will be the error handling of SWR
             abortRequest(new Error(`SourceMangas(${sourceId}): search string changed`));
+            setResetScrollPosition(true);
         },
         [searchTerm, contentType],
     );
