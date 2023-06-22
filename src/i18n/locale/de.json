@@ -38,8 +38,8 @@
                         "action": "Download",
                         "success_one": "Download hinzugefügt",
                         "success_other": "{{count}} Downloads hinzugefügt",
-                        "error_one": "Fehler beim hinzufügen des Downloads",
-                        "error_other": "Fehler beim hinzufügen der Downloads"
+                        "error_one": "Fehler beim Hinzufügen des Downloads",
+                        "error_other": "Fehler beim Hinzufügen der Downloads"
                     },
                     "button": {
                         "selected": "Auswahl downloaden"
@@ -50,8 +50,8 @@
                         "success_one": "Kapitel gelöscht",
                         "success_other": "{{count}} Kapitel gelöscht",
                         "action": "Löschen",
-                        "error_one": "Fehler beim löschen des Kapitels",
-                        "error_other": "Fehler beim löschen der Kapitel"
+                        "error_one": "Fehler beim Löschen des Kapitels",
+                        "error_other": "Fehler beim Löschen der Kapitel"
                     },
                     "button": {
                         "selected": "Auswahl löschen"
@@ -61,8 +61,8 @@
             "bookmark": {
                 "remove": {
                     "label": {
-                        "error_one": "Fehler beim entfernen des Lesezeichens",
-                        "error_other": "Fehler beim entfernen der Lesezeichen",
+                        "error_one": "Fehler beim Entfernen des Lesezeichens",
+                        "error_other": "Fehler beim Entfernen der Lesezeichen",
                         "action": "Lesezeichen entfernen",
                         "success_one": "Lesezeichen von dem Kapitel entfernt",
                         "success_other": "Lesezeichen von {{count}} Kapiteln entfernt"
@@ -76,8 +76,8 @@
                         "selected": "Lesezeichen ausgewählt"
                     },
                     "label": {
-                        "error_one": "Fehler beim erstellen eines Lesezeichens für das Kapitel",
-                        "error_other": "Fehler beim erstellen eines Lesezeichens für die Kapitel",
+                        "error_one": "Fehler beim Erstellen des Lesezeichens für das Kapitel",
+                        "error_other": "Fehler beim Erstellen der Lesezeichen für die Kapitel",
                         "action": "Lesezeichen hinzufügen",
                         "success_one": "Für das Kapitel wurde ein Lesezeichen erstellt",
                         "success_other": "Für {{count}} Kapitel wurden Lesezeichen erstellt"
@@ -306,8 +306,8 @@
     "category": {
         "dialog": {
             "title": {
-                "new_category": "Neuen Katalog erstellen",
-                "edit_category": "Katalog bearbeiten"
+                "new_category": "Neue Kategorie erstellen",
+                "edit_category": "Kategorie bearbeiten"
             }
         },
         "error": {
@@ -317,8 +317,8 @@
             },
             "no_categories_found": {
                 "label": {
-                    "info": "Keine Kategorien gefunden!",
-                    "hint": "Man muss zuerst welche in den Einstellungen erstellen."
+                    "info": "Keine Kategorien gefunden.",
+                    "hint": "Kategorien können in den Einstellungn erstellt werden."
                 }
             }
         },
