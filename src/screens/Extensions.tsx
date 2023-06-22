@@ -39,7 +39,7 @@ const allLangs: string[] = [];
 
 function groupExtensions(extensions: IExtension[]): GroupedExtensionsResult {
     allLangs.length = 0; // empty the array
-    const sortedExtenions: GroupedExtensions = {
+    const sortedExtensions: GroupedExtensions = {
         [ExtensionState.OBSOLETE]: [],
         [ExtensionState.INSTALLED]: [],
         [ExtensionState.UPDATE_PENDING]: [],
@@ -48,39 +48,39 @@ function groupExtensions(extensions: IExtension[]): GroupedExtensionsResult {
         [DefaultLanguage.LOCAL_SOURCE]: [],
     };
     extensions.forEach((extension) => {
-        if (sortedExtenions[extension.lang] === undefined) {
-            sortedExtenions[extension.lang] = [];
+        if (sortedExtensions[extension.lang] === undefined) {
+            sortedExtensions[extension.lang] = [];
             if (extension.lang !== 'all') {
                 allLangs.push(extension.lang);
             }
         }
         if (extension.installed) {
             if (extension.hasUpdate) {
-                sortedExtenions[ExtensionState.UPDATE_PENDING].push(extension);
+                sortedExtensions[ExtensionState.UPDATE_PENDING].push(extension);
                 return;
             }
             if (extension.obsolete) {
-                sortedExtenions[ExtensionState.OBSOLETE].push(extension);
+                sortedExtensions[ExtensionState.OBSOLETE].push(extension);
                 return;
             }
 
-            sortedExtenions[ExtensionState.INSTALLED].push(extension);
+            sortedExtensions[ExtensionState.INSTALLED].push(extension);
         } else {
-            sortedExtenions[extension.lang].push(extension);
+            sortedExtensions[extension.lang].push(extension);
         }
     });
 
     allLangs.sort(langSortCmp);
     const result: GroupedExtensionsResult<ExtensionState | DefaultLanguage | string> = [
-        [ExtensionState.OBSOLETE, sortedExtenions[ExtensionState.OBSOLETE]],
-        [ExtensionState.UPDATE_PENDING, sortedExtenions[ExtensionState.UPDATE_PENDING]],
-        [ExtensionState.INSTALLED, sortedExtenions[ExtensionState.INSTALLED]],
-        [DefaultLanguage.ALL, sortedExtenions[DefaultLanguage.ALL]],
-        [DefaultLanguage.OTHER, sortedExtenions[DefaultLanguage.OTHER]],
-        [DefaultLanguage.LOCAL_SOURCE, sortedExtenions[DefaultLanguage.LOCAL_SOURCE]],
+        [ExtensionState.OBSOLETE, sortedExtensions[ExtensionState.OBSOLETE]],
+        [ExtensionState.UPDATE_PENDING, sortedExtensions[ExtensionState.UPDATE_PENDING]],
+        [ExtensionState.INSTALLED, sortedExtensions[ExtensionState.INSTALLED]],
+        [DefaultLanguage.ALL, sortedExtensions[DefaultLanguage.ALL]],
+        [DefaultLanguage.OTHER, sortedExtensions[DefaultLanguage.OTHER]],
+        [DefaultLanguage.LOCAL_SOURCE, sortedExtensions[DefaultLanguage.LOCAL_SOURCE]],
     ];
 
-    const langExt: GroupedExtensionsResult = allLangs.map((lang) => [lang, sortedExtenions[lang]]);
+    const langExt: GroupedExtensionsResult = allLangs.map((lang) => [lang, sortedExtensions[lang]]);
 
     return (result as GroupedExtensionsResult).concat(langExt);
 }
