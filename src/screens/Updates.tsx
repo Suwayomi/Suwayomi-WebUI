@@ -140,10 +140,6 @@ const Updates: React.FC = () => {
         setAction(null);
     }, [t]);
 
-    if (!isLoading && updateEntries.length === 0) {
-        return <EmptyView message={t('updates.error.label.no_updates_available')} />;
-    }
-
     const downloadForChapter = (chapter: IChapter) => {
         const { index, mangaId } = chapter;
         return queue.find((q) => index === q.chapterIndex && mangaId === q.mangaId);
@@ -160,6 +156,10 @@ const Updates: React.FC = () => {
 
         setPages(loadedPages + 1);
     }, [hasNextPage, loadedPages]);
+
+    if (!isLoading && updateEntries.length === 0) {
+        return <EmptyView message={t('updates.error.label.no_updates_available')} />;
+    }
 
     return (
         <StyledGroupedVirtuoso
