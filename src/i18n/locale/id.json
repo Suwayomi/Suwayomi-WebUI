@@ -1,0 +1,56 @@
+{
+    "category": {
+        "dialog": {
+            "title": {
+                "new_category": "Kategori baru",
+                "edit_category": "Ubah kategori"
+            }
+        },
+        "error": {
+            "label": {
+                "empty": "Kategori ini kosong",
+                "request_failure": "Tidak dapat memuat kategori"
+            },
+            "no_categories_found": {
+                "label": {
+                    "info": "Kategori tak ditemukan.",
+                    "hint": "Buatlah di pengaturan."
+                }
+            }
+        },
+        "label": {
+            "category_name": "Nama kategori",
+            "use_as_default_category": "Kategori saat menambahkan manga ke perpustakaan"
+        },
+        "title": {
+            "set_categories": "Atur kategori",
+            "categories": "Kategori"
+        }
+    },
+    "chapter": {
+        "action": {
+            "bookmark": {
+                "remove": {
+                    "button": {
+                        "selected": "Hapus yang terpilih dari favorit"
+                    },
+                    "label": {
+                        "action": "Hapus favorit",
+                        "success_other": "Telah menghapus {{count}} dari favorit",
+                        "error_other": "Tidak dapat menghapus favorit"
+                    }
+                },
+                "add": {
+                    "label": {
+                        "action": "Tambahkan ke favorit",
+                        "error_other": "Tidak dapat mengatur favorit pada bab",
+                        "success_other": "{{count}} bab telah difavorit"
+                    },
+                    "button": {
+                        "selected": "Telah difavorit"
+                    }
+                }
+            }
+        }
+    }
+}

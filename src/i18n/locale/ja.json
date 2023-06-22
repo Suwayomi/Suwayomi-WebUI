@@ -1,1 +1,22 @@
-{}
+{
+    "category": {
+        "dialog": {
+            "title": {
+                "new_category": "新しいカテゴリー",
+                "edit_category": "カテゴリーを編集します"
+            }
+        },
+        "error": {
+            "label": {
+                "empty": "カテゴリーは空です",
+                "request_failure": "カテゴリーを読み込めませんでした"
+            },
+            "no_categories_found": {
+                "label": {
+                    "hint": "設定から作成してください。",
+                    "info": "カテゴリーが見つかりませんでした。"
+                }
+            }
+        }
+    }
+}
