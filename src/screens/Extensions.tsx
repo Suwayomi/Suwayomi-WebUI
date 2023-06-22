@@ -35,10 +35,11 @@ import ExtensionCard from '@/components/ExtensionCard';
 const LANGUAGE = 0;
 const EXTENSIONS = 1;
 
-const allLangs: string[] = [];
-
-function getExtensionsInfo(extensions: IExtension[]): GroupedExtensionsResult {
-    allLangs.length = 0; // empty the array
+function getExtensionsInfo(extensions: IExtension[]): {
+    allLangs: string[];
+    groupedExtensions: GroupedExtensionsResult;
+} {
+    const allLangs: string[] = [];
     const sortedExtensions: GroupedExtensions = {
         [ExtensionState.OBSOLETE]: [],
         [ExtensionState.INSTALLED]: [],
@@ -82,7 +83,10 @@ function getExtensionsInfo(extensions: IExtension[]): GroupedExtensionsResult {
 
     const langExt: GroupedExtensionsResult = allLangs.map((lang) => [lang, sortedExtensions[lang]]);
 
-    return (result as GroupedExtensionsResult).concat(langExt);
+    return {
+        allLangs,
+        groupedExtensions: (result as GroupedExtensionsResult).concat(langExt),
+    };
 }
 
 export default function MangaExtensions() {
@@ -96,19 +100,6 @@ export default function MangaExtensions() {
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const [query] = useQueryParam('query', StringParam);
 
-    useEffect(() => {
-        setTitle(t('extension.title'));
-        setAction(
-            <>
-                <AppbarSearch />
-                <IconButton onClick={() => inputRef.current?.click()} size="large">
-                    <AddIcon />
-                </IconButton>
-                <LangSelect shownLangs={shownLangs} setShownLangs={setShownLangs} allLangs={allLangs} />
-            </>,
-        );
-    }, [t, shownLangs]);
-
     const { data: allExtensions, mutate, isLoading } = requestManager.useGetExtensionList();
 
     const filteredExtensions = useMemo(
@@ -121,15 +112,17 @@ export default function MangaExtensions() {
         [allExtensions, showNsfw, query],
     );
 
-    const groupedExtensions = useMemo(
+    const { allLangs, groupedExtensions } = useMemo(() => getExtensionsInfo(filteredExtensions), [filteredExtensions]);
+
+    const filteredGroupedExtensions = useMemo(
         () =>
-            getExtensionsInfo(filteredExtensions)
+            groupedExtensions
                 .filter((group) => group[EXTENSIONS].length > 0)
                 .filter((group) => isExtensionStateOrLanguage(group[LANGUAGE]) || shownLangs.includes(group[LANGUAGE])),
-        [shownLangs, filteredExtensions],
+        [shownLangs, groupedExtensions],
     );
 
-    const flatRenderItems: (IExtension | string)[] = groupedExtensions.flat(2);
+    const flatRenderItems: (IExtension | string)[] = filteredGroupedExtensions.flat(2);
 
     const [toasts, makeToast] = makeToaster(useState<React.ReactElement[]>([]));
 
@@ -151,6 +144,19 @@ export default function MangaExtensions() {
             makeToast(t('global.error.label.invalid_file_type'), 'error');
         }
     };
+
+    useEffect(() => {
+        setTitle(t('extension.title'));
+        setAction(
+            <>
+                <AppbarSearch />
+                <IconButton onClick={() => inputRef.current?.click()} size="large">
+                    <AddIcon />
+                </IconButton>
+                <LangSelect shownLangs={shownLangs} setShownLangs={setShownLangs} allLangs={allLangs} />
+            </>,
+        );
+    }, [t, shownLangs]);
 
     useEffect(() => {
         const dropHandler = async (e: Event) => {
