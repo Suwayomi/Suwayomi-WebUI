@@ -12,6 +12,7 @@ import ar from '@/i18n/locale/ar.json';
 import de from '@/i18n/locale/de.json';
 import es from '@/i18n/locale/es.json';
 import fr from '@/i18n/locale/fr.json';
+import id from '@/i18n/locale/id.json';
 import ja from '@/i18n/locale/ja.json';
 import pt from '@/i18n/locale/pt.json';
 import uk from '@/i18n/locale/uk.json';
@@ -33,6 +34,7 @@ const resources = {
     de: translationHelper(de),
     es: translationHelper(es),
     fr: translationHelper(fr),
+    id: translationHelper(id),
     ja: translationHelper(ja),
     pt: translationHelper(pt),
     uk: translationHelper(uk),
