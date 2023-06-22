@@ -37,7 +37,7 @@ const EXTENSIONS = 1;
 
 const allLangs: string[] = [];
 
-function groupExtensions(extensions: IExtension[]): GroupedExtensionsResult {
+function getExtensionsInfo(extensions: IExtension[]): GroupedExtensionsResult {
     allLangs.length = 0; // empty the array
     const sortedExtensions: GroupedExtensions = {
         [ExtensionState.OBSOLETE]: [],
@@ -123,7 +123,7 @@ export default function MangaExtensions() {
 
     const groupedExtensions = useMemo(
         () =>
-            groupExtensions(filteredExtensions)
+            getExtensionsInfo(filteredExtensions)
                 .filter((group) => group[EXTENSIONS].length > 0)
                 .filter((group) => isExtensionStateOrLanguage(group[LANGUAGE]) || shownLangs.includes(group[LANGUAGE])),
         [shownLangs, filteredExtensions],
