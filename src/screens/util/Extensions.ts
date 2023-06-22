@@ -13,6 +13,7 @@ import { DefaultLanguage, langCodeToName } from '@/util/language';
 export enum ExtensionState {
     INSTALLED = 'INSTALLED',
     UPDATE_PENDING = 'UPDATE_PENDING',
+    OBSOLETE = 'OBSOLETE',
 }
 
 export type GroupedExtensionsResult<KEY extends string = string> = [KEY, IExtension[]][];
@@ -32,6 +33,7 @@ export type GroupedExtensions = GroupedByExtensionState & GroupedByLanguage;
 export const extensionLanguageToTranslationKey: { [state in ExtensionState | DefaultLanguage]: TranslationKey } = {
     [ExtensionState.INSTALLED]: 'extension.state.label.installed',
     [ExtensionState.UPDATE_PENDING]: 'extension.state.label.update_pending',
+    [ExtensionState.OBSOLETE]: 'extension.state.label.obsolete',
     [DefaultLanguage.ALL]: 'extension.language.all',
     [DefaultLanguage.OTHER]: 'extension.language.other',
     [DefaultLanguage.LOCAL_SOURCE]: 'source.local_source.title',
@@ -41,6 +43,7 @@ export const isExtensionStateOrLanguage = (languageCode: string): boolean =>
     [
         ExtensionState.INSTALLED,
         ExtensionState.UPDATE_PENDING,
+        ExtensionState.OBSOLETE,
         DefaultLanguage.ALL,
         DefaultLanguage.OTHER,
         DefaultLanguage.LOCAL_SOURCE,

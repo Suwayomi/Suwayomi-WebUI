@@ -40,6 +40,7 @@ const allLangs: string[] = [];
 function groupExtensions(extensions: IExtension[]): GroupedExtensionsResult {
     allLangs.length = 0; // empty the array
     const sortedExtenions: GroupedExtensions = {
+        [ExtensionState.OBSOLETE]: [],
         [ExtensionState.INSTALLED]: [],
         [ExtensionState.UPDATE_PENDING]: [],
         [DefaultLanguage.ALL]: [],
@@ -56,9 +57,14 @@ function groupExtensions(extensions: IExtension[]): GroupedExtensionsResult {
         if (extension.installed) {
             if (extension.hasUpdate) {
                 sortedExtenions[ExtensionState.UPDATE_PENDING].push(extension);
-            } else {
-                sortedExtenions[ExtensionState.INSTALLED].push(extension);
+                return;
             }
+            if (extension.obsolete) {
+                sortedExtenions[ExtensionState.OBSOLETE].push(extension);
+                return;
+            }
+
+            sortedExtenions[ExtensionState.INSTALLED].push(extension);
         } else {
             sortedExtenions[extension.lang].push(extension);
         }
@@ -66,6 +72,7 @@ function groupExtensions(extensions: IExtension[]): GroupedExtensionsResult {
 
     allLangs.sort(langSortCmp);
     const result: GroupedExtensionsResult<ExtensionState | DefaultLanguage | string> = [
+        [ExtensionState.OBSOLETE, sortedExtenions[ExtensionState.OBSOLETE]],
         [ExtensionState.UPDATE_PENDING, sortedExtenions[ExtensionState.UPDATE_PENDING]],
         [ExtensionState.INSTALLED, sortedExtenions[ExtensionState.INSTALLED]],
         [DefaultLanguage.ALL, sortedExtenions[DefaultLanguage.ALL]],
