@@ -188,7 +188,6 @@ export default function LibrarySettings() {
                             <ThreeStateCheckboxInput
                                 key={category.id}
                                 label={category.name}
-                                disabled={category.name === 'Default'}
                                 checked={includeInUpdateStatusToBoolean(category.includeInUpdate)}
                                 onChange={(checked) => {
                                     const newIncludeState: IncludeInGlobalUpdate =
