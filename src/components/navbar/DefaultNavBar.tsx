@@ -24,7 +24,7 @@ import GetAppIcon from '@mui/icons-material/GetApp';
 import GetAppOutlinedIcon from '@mui/icons-material/GetAppOutlined';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ArrowBack from '@mui/icons-material/ArrowBack';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { createPortal } from 'react-dom';
 import { NavbarItem } from '@/typings';
 import NavBarContext from '@/components/context/NavbarContext';
@@ -126,8 +126,7 @@ export default function DefaultNavBar() {
                 <Toolbar>
                     {!isMainRoute && (
                         <IconButton
-                            component={backToUrl ? Link : 'button'}
-                            to={backToUrl}
+                            component="button"
                             edge="start"
                             sx={{ marginRight: theme.spacing(2) }}
                             color="inherit"
