@@ -24,7 +24,7 @@ import { ICategory, IncludeInGlobalUpdate } from '@/typings';
 import requestManager from '@/lib/RequestManager';
 import makeToast from '@/components/util/Toast';
 import ThreeStateCheckboxInput from '@/components/atoms/ThreeStateCheckboxInput';
-import NavbarContext from '@/components/context/NavbarContext';
+import NavbarContext, { useSetDefaultBackTo } from '@/components/context/NavbarContext';
 import SearchSettings from '@/screens/settings/SearchSettings';
 
 const CategoriesDiv = styled('div')({
@@ -77,6 +77,8 @@ export default function LibrarySettings() {
         setTitle(t('library.settings.title'));
         setAction(null);
     }, [t]);
+
+    useSetDefaultBackTo('settings');
 
     const { data: categories = [], error: requestError, mutate } = requestManager.useGetCategories();
     const [dialogCategories, setDialogCategories] = useState<ICategory[]>(categories);

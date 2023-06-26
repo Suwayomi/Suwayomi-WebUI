@@ -16,10 +16,13 @@ import { SearchMetadataKeys } from '@/typings';
 import { requestUpdateServerMetadata } from '@/util/metadata';
 import { useSearchSettings } from '@/util/searchSettings';
 import makeToast from '@/components/util/Toast';
+import { useSetDefaultBackTo } from '@/components/context/NavbarContext';
 
 export default function SearchSettings() {
     const { t } = useTranslation();
     const { metadata, settings } = useSearchSettings();
+
+    useSetDefaultBackTo('settings');
 
     const setSettingValue = (key: SearchMetadataKeys, value: boolean) => {
         requestUpdateServerMetadata(metadata ?? {}, [[key, value]]).catch(() =>

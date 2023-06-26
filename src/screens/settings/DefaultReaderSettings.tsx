@@ -19,7 +19,7 @@ import {
 } from '@/util/readerSettings';
 import ReaderSettingsOptions from '@/components/reader/ReaderSettingsOptions';
 import makeToast from '@/components/util/Toast';
-import NavbarContext from '@/components/context/NavbarContext';
+import NavbarContext, { useSetDefaultBackTo } from '@/components/context/NavbarContext';
 
 export default function DefaultReaderSettings() {
     const { t } = useTranslation();
@@ -30,6 +30,8 @@ export default function DefaultReaderSettings() {
     }, [t]);
 
     const { metadata, settings, loading } = useDefaultReaderSettings();
+
+    useSetDefaultBackTo('settings');
 
     const setSettingValue = (key: keyof IReaderSettings, value: string | boolean) => {
         requestUpdateServerMetadata(metadata ?? {}, [[key, value]]).catch(() =>

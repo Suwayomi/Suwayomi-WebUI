@@ -12,7 +12,7 @@ import React, { useContext, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import requestManager from '@/lib/RequestManager';
-import NavbarContext from '@/components/context/NavbarContext';
+import NavbarContext, { useSetDefaultBackTo } from '@/components/context/NavbarContext';
 import ChapterList from '@/components/manga/ChapterList';
 import { useRefreshManga } from '@/components/manga/hooks';
 import MangaDetails from '@/components/manga/MangaDetails';
@@ -32,6 +32,7 @@ const Manga: React.FC = () => {
     const { data: manga, error, isLoading, isValidating, mutate } = requestManager.useGetManga(id);
 
     const [refresh, { loading: refreshing }] = useRefreshManga(id);
+    useSetDefaultBackTo('library');
 
     useEffect(() => {
         // Automatically fetch manga from source if data is older then 24 hours

@@ -31,6 +31,7 @@ import NavBarContext from '@/components/context/NavbarContext';
 import ExtensionOutlinedIcon from '@/components/util/CustomExtensionOutlinedIcon';
 import DesktopSideBar from '@/components/navbar/navigation/DesktopSideBar';
 import MobileBottomBar from '@/components/navbar/navigation/MobileBottomBar';
+import { useHistory } from '@/util/useHistory';
 
 const navbarItems: Array<NavbarItem> = [
     {
@@ -89,7 +90,8 @@ export default function DefaultNavBar() {
 
     const theme = useTheme();
     const navigate = useNavigate();
-    const { pathname } = useLocation();
+    const { pathname, ...location } = useLocation();
+    const history = useHistory();
 
     const isMobileWidth = useMediaQuery(theme.breakpoints.down('sm'));
     const isMainRoute = navbarItems.some(({ path }) => path === pathname);
@@ -107,7 +109,14 @@ export default function DefaultNavBar() {
     }
 
     const handleBack = () => {
-        if (backToUrl != null) return;
+        const isLastPageInHistory = location.key === 'default';
+        const wasPreviousPageReader = history[history.length - 2]?.match(/\/manga\/[0-9]+\/chapter\/[0-9]+.*/g);
+
+        if (isLastPageInHistory || wasPreviousPageReader) {
+            navigate(backToUrl ?? '');
+            return;
+        }
+
         navigate(-1);
     };
 

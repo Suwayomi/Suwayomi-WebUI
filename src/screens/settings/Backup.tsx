@@ -15,7 +15,7 @@ import { ListItemButton } from '@mui/material';
 import requestManager from '@/lib/RequestManager';
 import makeToast from '@/components/util/Toast';
 import ListItemLink from '@/components/util/ListItemLink';
-import NavbarContext from '@/components/context/NavbarContext';
+import NavbarContext, { useSetDefaultBackTo } from '@/components/context/NavbarContext';
 
 export default function Backup() {
     const { t } = useTranslation();
@@ -24,6 +24,8 @@ export default function Backup() {
         setTitle(t('settings.backup.title'));
         setAction(null);
     }, [t]);
+
+    useSetDefaultBackTo('settings');
 
     const submitBackup = (file: File) => {
         if (file.name.toLowerCase().endsWith('proto.gz')) {

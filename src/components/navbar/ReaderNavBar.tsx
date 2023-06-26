@@ -186,6 +186,13 @@ export default function ReaderNavBar(props: IProps) {
     }, [handleScroll]); // handleScroll changes on every render
 
     const handleClose = () => {
+        const isLastPageInHistory = location.key === 'default';
+
+        if (isLastPageInHistory) {
+            navigate(`/manga/${manga.id}`);
+            return;
+        }
+
         // this works because opening previous/next chapter will replace the current history element.
         // in case this gets changed this has to be updated
         navigate(-1);

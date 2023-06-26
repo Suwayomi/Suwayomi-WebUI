@@ -13,7 +13,7 @@ import ListItemText from '@mui/material/ListItemText';
 import { useTranslation } from 'react-i18next';
 import requestManager from '@/lib/RequestManager';
 import ListItemLink from '@/components/util/ListItemLink';
-import NavbarContext from '@/components/context/NavbarContext';
+import NavbarContext, { useSetDefaultBackTo } from '@/components/context/NavbarContext';
 import LoadingPlaceholder from '@/components/util/LoadingPlaceholder';
 
 export default function About() {
@@ -26,6 +26,8 @@ export default function About() {
     }, [t]);
 
     const { data: about } = requestManager.useGetAbout();
+
+    useSetDefaultBackTo('settings');
 
     if (about === undefined) {
         return <LoadingPlaceholder />;
