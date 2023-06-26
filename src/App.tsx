@@ -49,7 +49,7 @@ const App: React.FC = () => (
         >
             <Routes>
                 {/* General Routes */}
-                <Route path="/" element={<Navigate to="/library" />} />
+                <Route path="/" element={<Navigate to="/library" replace />} />
                 <Route path="settings">
                     <Route index element={<Settings />} />
                     <Route path="about" element={<About />} />
