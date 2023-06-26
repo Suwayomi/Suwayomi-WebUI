@@ -24,13 +24,14 @@ import GetAppIcon from '@mui/icons-material/GetApp';
 import GetAppOutlinedIcon from '@mui/icons-material/GetAppOutlined';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ArrowBack from '@mui/icons-material/ArrowBack';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { createPortal } from 'react-dom';
 import { NavbarItem } from '@/typings';
 import NavBarContext from '@/components/context/NavbarContext';
 import ExtensionOutlinedIcon from '@/components/util/CustomExtensionOutlinedIcon';
 import DesktopSideBar from '@/components/navbar/navigation/DesktopSideBar';
 import MobileBottomBar from '@/components/navbar/navigation/MobileBottomBar';
+import { useHistory } from '@/util/useHistory';
 
 const navbarItems: Array<NavbarItem> = [
     {
@@ -89,7 +90,8 @@ export default function DefaultNavBar() {
 
     const theme = useTheme();
     const navigate = useNavigate();
-    const { pathname } = useLocation();
+    const { pathname, ...location } = useLocation();
+    const history = useHistory();
 
     const isMobileWidth = useMediaQuery(theme.breakpoints.down('sm'));
     const isMainRoute = navbarItems.some(({ path }) => path === pathname);
@@ -107,7 +109,14 @@ export default function DefaultNavBar() {
     }
 
     const handleBack = () => {
-        if (backToUrl != null) return;
+        const isLastPageInHistory = location.key === 'default';
+        const wasPreviousPageReader = history[history.length - 2]?.match(/\/manga\/[0-9]+\/chapter\/[0-9]+.*/g);
+
+        if (isLastPageInHistory || wasPreviousPageReader) {
+            navigate(backToUrl ?? '');
+            return;
+        }
+
         navigate(-1);
     };
 
@@ -117,8 +126,7 @@ export default function DefaultNavBar() {
                 <Toolbar>
                     {!isMainRoute && (
                         <IconButton
-                            component={backToUrl ? Link : 'button'}
-                            to={backToUrl}
+                            component="button"
                             edge="start"
                             sx={{ marginRight: theme.spacing(2) }}
                             color="inherit"

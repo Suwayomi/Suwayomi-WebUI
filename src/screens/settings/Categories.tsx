@@ -28,7 +28,7 @@ import { ICategory } from '@/typings';
 import requestManager from '@/lib/RequestManager';
 import StrictModeDroppable from '@/lib/StrictModeDroppable';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/components/util/StyledFab';
-import NavbarContext from '@/components/context/NavbarContext';
+import NavbarContext, { useSetDefaultBackTo } from '@/components/context/NavbarContext';
 
 const getItemStyle = (
     isDragging: boolean,
@@ -66,6 +66,8 @@ export default function Categories() {
     const [dialogName, setDialogName] = useState<string>('');
     const [dialogDefault, setDialogDefault] = useState<boolean>(false);
     const theme = useTheme();
+
+    useSetDefaultBackTo('settings');
 
     const categoryReorder = (list: ICategory[], from: number, to: number) => {
         const newData = [...list];
