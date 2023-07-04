@@ -16,6 +16,7 @@ import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { mutate } from 'swr';
 import { t as translate } from 'i18next';
+import Button from '@mui/material/Button';
 import { IManga, ISource } from '@/typings';
 import requestManager from '@/lib/RequestManager';
 import makeToast from '@/components/util/Toast';
@@ -69,11 +70,19 @@ const Metadata = styled('div')(({ theme }) => ({
 }));
 const MangaButtonsContainer = styled('div', { shouldForwardProp: (prop) => prop !== 'inLibrary' })<{
     inLibrary: boolean;
-}>(({ inLibrary }) => ({
+}>(({ theme, inLibrary }) => ({
     display: 'flex',
     justifyContent: 'space-around',
     '& button': {
         color: inLibrary ? '#2196f3' : 'inherit',
+        borderRadius: '25px',
+        textTransform: 'none',
+        paddingLeft: '20px',
+        paddingRight: '20px',
+        fontSize: 'x-large',
+        [theme.breakpoints.down('sm')]: {
+            fontSize: 'larger',
+        },
     },
     '& a': {
         textDecoration: 'none',
@@ -176,20 +185,18 @@ const MangaDetails: React.FC<IProps> = ({ manga }) => {
                 </ThumbnailMetadataWrapper>
                 <MangaButtonsContainer inLibrary={manga.inLibrary}>
                     <div>
-                        <IconButton onClick={manga.inLibrary ? removeFromLibrary : addToLibrary} size="large">
-                            {manga.inLibrary ? <FavoriteIcon sx={{ mr: 1 }} /> : <FavoriteBorderIcon sx={{ mr: 1 }} />}
-                            <Typography sx={{ fontSize: { xs: '0.75em', sm: '0.85em' } }}>
-                                {manga.inLibrary ? t('manga.button.in_library') : t('manga.button.add_to_library')}
-                            </Typography>
-                        </IconButton>
+                        <Button
+                            startIcon={manga.inLibrary ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                            onClick={manga.inLibrary ? removeFromLibrary : addToLibrary}
+                            size="large"
+                        >
+                            {manga.inLibrary ? t('manga.button.in_library') : t('manga.button.add_to_library')}
+                        </Button>
                     </div>
                     <a href={manga.realUrl} target="_blank" rel="noreferrer">
-                        <IconButton size="large">
-                            <PublicIcon sx={{ mr: 1 }} />
-                            <Typography sx={{ fontSize: { xs: '0.75em', sm: '0.85em' } }}>
-                                {t('global.button.open_site')}
-                            </Typography>
-                        </IconButton>
+                        <Button startIcon={<PublicIcon />} size="large">
+                            {t('global.button.open_site')}
+                        </Button>
                     </a>
                 </MangaButtonsContainer>
             </TopContentWrapper>
