@@ -143,7 +143,7 @@ export default function Reader() {
                     [ChapterOffset.NEXT]: 'reader.error.label.unable_to_get_next_chapter_skip_dup',
                 };
 
-                makeToast(t(offsetToTranslationKeyMap[offset]) as string, 'error');
+                makeToast(t(offsetToTranslationKeyMap[offset]), 'error');
             } finally {
                 setRetrievingNextChapter(false);
             }

@@ -168,9 +168,9 @@ const ChapterList: React.FC<IProps> = ({ mangaId }) => {
         }
 
         actionPromise
-            .then(() => makeToast(t(actionsStrings[action].success, { count: chapterIds.length }) as string, 'success'))
+            .then(() => makeToast(t(actionsStrings[action].success, { count: chapterIds.length }), 'success'))
             .then(() => mutate())
-            .catch(() => makeToast(t(actionsStrings[action].error, { count: chapterIds.length }) as string, 'error'));
+            .catch(() => makeToast(t(actionsStrings[action].error, { count: chapterIds.length }), 'error'));
     };
 
     if (isLoading) {

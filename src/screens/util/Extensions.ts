@@ -51,5 +51,5 @@ export const isExtensionStateOrLanguage = (languageCode: string): boolean =>
 
 export const translateExtensionLanguage = (languageCode: string): string =>
     isExtensionStateOrLanguage(languageCode)
-        ? (t(extensionLanguageToTranslationKey[languageCode as ExtensionState | DefaultLanguage]) as string)
+        ? t(extensionLanguageToTranslationKey[languageCode as ExtensionState | DefaultLanguage])
         : langCodeToName(languageCode);
