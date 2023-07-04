@@ -126,7 +126,7 @@ export default function Library() {
             <LibraryMangaGrid
                 mangas={mangas}
                 lastLibraryUpdate={lastLibraryUpdate}
-                message={t('library.error.label.empty') as string}
+                message={t('library.error.label.empty')}
                 isLoading={activeTab != null && mangaLoading}
             />
         );
@@ -173,7 +173,7 @@ export default function Library() {
                             <LibraryMangaGrid
                                 mangas={mangas}
                                 lastLibraryUpdate={lastLibraryUpdate}
-                                message={t('library.error.label.empty') as string}
+                                message={t('library.error.label.empty')}
                                 isLoading={mangaLoading}
                             />
                         ))}

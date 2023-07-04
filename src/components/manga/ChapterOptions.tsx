@@ -38,7 +38,7 @@ const ChapterOptions: React.FC<IProps> = ({ open, onClose, options, optionsDispa
             onClose={onClose}
             minHeight={150}
             tabs={['filter', 'sort', 'display']}
-            tabTitle={(key) => t(TITLES[key]) as string}
+            tabTitle={(key) => t(TITLES[key])}
             tabContent={(key) => {
                 if (key === 'filter') {
                     return (
@@ -83,7 +83,7 @@ const ChapterOptions: React.FC<IProps> = ({ open, onClose, options, optionsDispa
                     return SORT_OPTIONS.map(([mode, label]) => (
                         <SortRadioInput
                             key={mode}
-                            label={t(label) as string}
+                            label={t(label)}
                             checked={options.sortBy === mode}
                             sortDescending={options.reverse}
                             onClick={() =>

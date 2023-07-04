@@ -191,7 +191,7 @@ export default function SourceMangas() {
     const { data: source } = requestManager.useGetSource(sourceId);
     const [triggerDataRefresh, setTriggerDataRefresh] = useState(false);
 
-    const message = !isLoading ? (t(SOURCE_CONTENT_TYPE_TO_ERROR_MSG_KEY[contentType]) as string) : undefined;
+    const message = !isLoading ? t(SOURCE_CONTENT_TYPE_TO_ERROR_MSG_KEY[contentType]) : undefined;
     const isLocalSource = sourceId === '0';
     const messageExtra = isLocalSource ? (
         <>

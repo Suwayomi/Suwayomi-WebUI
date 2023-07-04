@@ -159,7 +159,7 @@ export default function ExtensionCard(props: IProps) {
                     sx={{ color: installedState === InstalledState.OBSOLETE ? 'red' : 'inherit' }}
                     onClick={() => handleButtonClick()}
                 >
-                    {t(INSTALLED_STATE_TO_TRANSLATION_KEY_MAP[installedState]) as string}
+                    {t(INSTALLED_STATE_TO_TRANSLATION_KEY_MAP[installedState])}
                 </Button>
             </CardContent>
         </Card>
