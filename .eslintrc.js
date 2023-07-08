@@ -2,7 +2,7 @@ module.exports = {
     extends: ['airbnb', 'airbnb-typescript', 'prettier'],
     plugins: ['@typescript-eslint', 'no-relative-import-paths', 'prettier', 'header'],
     parserOptions: {
-        project: ['./tsconfig.json', './tools/scripts/tsconfig.json'],
+        project: ['./tsconfig.json', './tsconfig.node.json', './tools/scripts/tsconfig.json'],
     },
     overrides: [
         {

@@ -11,7 +11,8 @@
     "build-zip": "cd build && rev=$(git rev-list HEAD --count) && echo r$rev > revision && zip -9 -r ../buildZip/Tachidesk-WebUI-r$rev *",
     "lint": "eslint src --ext .ts,.tsx,.js,.jsx",
     "createChangelog": "ts-node tools/scripts/createReleaseChanglog.ts",
-    "updateDeps": "yarn outdated && yarn upgrade && yarn syncyarnlock -s -k && yarn && git add package.json yarn.lock && git commit -m \"Update dependencies\""
+    "updateDeps": "yarn outdated && yarn upgrade && yarn syncyarnlock -s -k && yarn && git add package.json yarn.lock && git commit -m \"Update dependencies\"",
+    "gql:codegen": "graphql-codegen --config gql_codegen.ts"
   },
   "browserslist": {
     "production": [
@@ -51,6 +52,10 @@
     "vite-tsconfig-paths": "^4.2.1"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^5.0.0",
+    "@graphql-codegen/client-preset": "^4.1.0",
+    "@graphql-codegen/typescript-apollo-client-helpers": "^2.2.6",
+    "@graphql-codegen/typescript-operations": "^4.0.1",
     "@types/apollo-upload-client": "^17.0.2",
     "@types/node": "^20.6.2",
     "@types/react": "^18.2.21",

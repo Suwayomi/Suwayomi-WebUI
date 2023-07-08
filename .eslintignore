@@ -1,1 +1,2 @@
 .eslintrc.js
+src/lib/graphql/generated
