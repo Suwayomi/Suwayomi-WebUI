@@ -9,8 +9,6 @@
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import PublicIcon from '@mui/icons-material/Public';
-import { Typography } from '@mui/material';
-import IconButton from '@mui/material/IconButton';
 import { styled } from '@mui/material/styles';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
