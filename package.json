@@ -8,7 +8,8 @@
     "serve": "vite preview",
     "build-md5": "find build -type f | sort | xargs md5sum | awk '{ print $1 }' | tr -d '\n' | md5sum| awk '{ print $1 }' > buildZip/md5sum ",
     "build-zip": "cd build && rev=$(git rev-list HEAD --count) && echo r$rev > revision && zip -9 -r ../buildZip/Tachidesk-WebUI-r$rev *",
-    "lint": "eslint src --ext .ts,.tsx,.js,.jsx"
+    "lint": "eslint src --ext .ts,.tsx,.js,.jsx",
+    "createChangelog": "ts-node tools/scripts/createReleaseChanglog.ts"
   },
   "browserslist": {
     "production": [
@@ -49,6 +50,7 @@
     "@types/react": "^18.2.8",
     "@types/react-beautiful-dnd": "^13.1.4",
     "@types/react-dom": "^18.2.4",
+    "@types/yargs": "^17.0.24",
     "@typescript-eslint/eslint-plugin": "^6.2.1",
     "@typescript-eslint/parser": "^6.2.1",
     "eslint": "^8.42.0",
@@ -63,6 +65,8 @@
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "prettier": "^3.0.1",
-    "typescript": "^5.1.3"
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.3",
+    "yargs": "^17.7.2"
   }
 }
