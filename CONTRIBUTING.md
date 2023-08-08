@@ -5,6 +5,15 @@ Everything from https://github.com/Suwayomi/Tachidesk-Server/blob/master/CONTRIB
 ## About this project
 This is a `create-react-app` project, you can find it's readme in [BUILDING.md](./BUILDING.md)
 
+## Release process
+1. Update the changelog
+   1. Copy the content of the template changelog to the top of the actual changelog
+   2. Create the changelog since the latest release (printed in console) with `npm run createChangelog -- --sha <latest commit hash of previous release>`
+   3. Copy the changelog to the corresponding position in the template
+   4. Create a TL;DR
+2. Update the [version to server version mapping file](versionToServerVersionMapping.json)
+   1. See [When to update](#when-to-update)
+
 ## WebUI to [server](https://github.com/Suwayomi/Tachidesk-Server) mapping
 ### Explanation
 For the server to be able to automatically download the latest compatible WebUI version, the [version to server version mapping file](versionToServerVersionMapping.json) has to be provided.<br/>
