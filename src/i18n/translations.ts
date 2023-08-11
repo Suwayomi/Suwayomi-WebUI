@@ -6,14 +6,15 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import en from '@/i18n/locale/en.json';
-
 import ar from '@/i18n/locale/ar.json';
 import de from '@/i18n/locale/de.json';
 import es from '@/i18n/locale/es.json';
+import en from '@/i18n/locale/en.json'; // default language
 import fr from '@/i18n/locale/fr.json';
 import id from '@/i18n/locale/id.json';
+import it from '@/i18n/locale/it.json';
 import ja from '@/i18n/locale/ja.json';
+import ko from '@/i18n/locale/ko.json';
 import pt from '@/i18n/locale/pt.json';
 import uk from '@/i18n/locale/uk.json';
 import zh_Hans from '@/i18n/locale/zh_Hans.json';
@@ -28,14 +29,15 @@ const translationHelper = <T>(lng: T) => ({
  * In case there is no language code for the key in {@link ISOLanguages}, the corresponding language has to be added
  */
 const resources = {
-    en: translationHelper(en),
-
     ar: translationHelper(ar),
     de: translationHelper(de),
     es: translationHelper(es),
+    en: translationHelper(en), // default language
     fr: translationHelper(fr),
     id: translationHelper(id),
+    it: translationHelper(it),
     ja: translationHelper(ja),
+    ko: translationHelper(ko),
     pt: translationHelper(pt),
     uk: translationHelper(uk),
     'zh-Hans': translationHelper(zh_Hans),
