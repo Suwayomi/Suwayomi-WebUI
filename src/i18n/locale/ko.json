@@ -1,0 +1,18 @@
+{
+    "chapter": {
+        "action": {
+            "bookmark": {
+                "remove": {
+                    "label": {
+                        "action": "북마크 제거",
+                        "error_other": "북마크를 제거할 수 없습니다",
+                        "success_other": "북마크 제거 성공"
+                    },
+                    "button": {
+                        "selected": "선택한 항목 북마크 제거"
+                    }
+                }
+            }
+        }
+    }
+}

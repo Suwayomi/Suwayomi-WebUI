@@ -2,40 +2,41 @@
     "settings": {
         "backup": {
             "label": {
-                "create_backup": "Crear Respaldo",
+                "create_backup": "Crear una copia de seguridad",
                 "legacy_backup_unsupported": "Respaldos legacía no están soportados!",
-                "restoring_backup": "Restaurando respaldo...",
+                "restoring_backup": "Restaurando copia de seguridad…",
                 "restore_backup": "Restaurar Respaldo",
-                "backup_restore_failed": "Restauración de respaldo fallido!",
-                "restored_backup": "Restauración de respaldo terminada!",
-                "restore_backup_info": "También puedes arrastrar y soltar el archivo de respaldo aquí para restaurar",
-                "create_backup_info": "Respaldar librería como un Respaldo de Tachiyomi"
+                "backup_restore_failed": "No se pudo restaurar la copia de seguridad",
+                "restored_backup": "Copia de seguridad restaurada.",
+                "restore_backup_info": "También puedes arrastrar y soltar el archivo de respaldo aquí para restaurarlo",
+                "create_backup_info": "Respaldar biblioteca como una copia de seguridad de Tachiyomi"
             },
             "title": "Respaldo"
         },
         "about": {
             "label": {
                 "discord": "Discord",
-                "github": "Github",
+                "github": "GitHub",
                 "server": "Servidor",
                 "server_version": "Versión del Servidor",
                 "build_time": "Tiempo de Ensamblaje",
-                "server_address": "Dirección del Servidor"
+                "server_address": "Dirección del servidor"
             },
             "title": "Acerca de"
         },
         "label": {
             "image_cache": "Usar cache de imagen",
             "show_nsfw_description": "Esconder extensiones y fuentes NSFW",
-            "manga_item_width": "Ancho del articulo de manga",
+            "manga_item_width": "Anchura del manga",
             "show_nsfw": "Mostrar NSFW",
-            "dark_theme": "Modo Oscuro",
-            "image_cache_description": "Deshabilitando cache de imágenes hace que las imágenes carguen mas rápido si tienes un disco lento, pero usa mas internet en cambio"
+            "dark_theme": "Modo oscuro",
+            "image_cache_description": "Reduce el consumo de los datos y mejora el rendimiento cuando se vuelve a solicitar una imagen ya solicitada",
+            "language_description": "No dude en traducir el proyecto en"
         },
         "server_address": {
             "dialog": {
                 "label": {
-                    "enter_address": "Ingresar Dirección del Servidor"
+                    "enter_address": "Ingresar dirección del servidor"
                 }
             }
         },
@@ -51,25 +52,27 @@
     },
     "search": {
         "title": {
-            "global_search": "Busqueda Global"
+            "global_search": "Busqueda Global",
+            "search": "Buscar"
         },
         "error": {
             "label": {
-                "failed_to_save_settings": "Se ha fallado en guardar los ajustes de búsqueda defectos al servidor"
+                "failed_to_save_settings": "No se pudo guardar la configuración del buscador predeterminado en el servidor",
+                "source_search_failed": "No se pudo buscar la fuente"
             }
         },
         "label": {
-            "ignore_filters": "Ignorar Filtros durante Busqueda"
+            "ignore_filters": "Ignorar los filtros al buscar"
         }
     },
     "library": {
         "option": {
             "sort": {
                 "label": {
-                    "by_last_read": "Por Ultimo Leido",
-                    "by_unread_chapters": "Por Capítulos No Leídos",
-                    "alphabetically": "Alfabéticamente",
-                    "by_date_added": "Por Fecha de Añadidura"
+                    "by_last_read": "Recientemente leído",
+                    "by_unread_chapters": "Capítulos sin leer",
+                    "alphabetically": "A-Z",
+                    "by_date_added": "Recientemente agregado"
                 }
             },
             "display": {
@@ -77,41 +80,61 @@
                     "title": "Insignias",
                     "label": {
                         "unread_badges": "Insignias de no leído",
-                        "download_badges": "Insignias de Descarga"
+                        "download_badges": "Insignias descargadas"
                     }
+                },
+                "tab": {
+                    "label": {
+                        "show_number_of_items": "Mostrar número de elementos"
+                    },
+                    "title": "Pestañas"
                 }
             }
         },
         "error": {
             "label": {
-                "empty": "Tu librería esta vacía",
-                "no_matches": "No hay manga que concuerde con este filtro"
+                "empty": "Tu biblioteca está vacía",
+                "no_matches": "Ningún manga coincide con este filtro"
             }
         },
-        "title": "Libreria"
+        "title": "Libreria",
+        "settings": {
+            "global_update": {
+                "categories": {
+                    "label": {
+                        "include": "Incluir: {{includedCategoriesText}}",
+                        "exclude": "Excluir: {{excludedCategoriesText}}",
+                        "info": "Las entradas de las categorías excluidas no serán actualizadas aún si se encuentran en categorías incluidas"
+                    }
+                },
+                "title": "Actualización global"
+            },
+            "title": "Configuración de la biblioteca"
+        }
     },
     "global": {
         "sort": {
             "label": {
-                "by_source": "Por Fuente",
-                "by_fetch_date": "Por fecha de búsqueda"
+                "by_source": "Por fuente",
+                "by_fetch_date": "Por fecha de obtención del capítulo"
             }
         },
         "date": {
             "label": {
-                "yesterday": "AYER",
+                "yesterday": "Ayer",
                 "yesterday_at": "Ayer a las {{timeString}}",
-                "today": "HOY",
+                "today": "Hoy",
                 "today_at": "Hoy a las {{timeString}}"
             }
         },
         "language": {
             "title": {
-                "enabled_languages": "Lenguajes activados"
+                "enabled_languages": "Lenguajes disponibles",
+                "weblate": "Weblate"
             },
             "label": {
                 "language": "Lenguaje",
-                "language_with_code": "lenguaje con código: {{code}}"
+                "language_with_code": "Lenguaje con código: {{code}}"
             }
         },
         "grid_layout": {
@@ -136,20 +159,25 @@
             "submit": "Enviar",
             "open_site": "Abrir Sitio",
             "reset": "Reiniciar",
-            "set": "Establecer"
+            "set": "Establecer",
+            "popular": "Popular"
         },
         "label": {
             "display": "Visualización",
             "filter": "Filtro",
-            "loading": "Cargando...",
+            "loading": "Cargando…",
             "sort": "Ordenar",
-            "browse": "Explorar"
+            "browse": "Explorar",
+            "unknown": "Desconocido",
+            "none": "Ninguno"
         },
         "error": {
             "label": {
-                "invalid_file_type": "Tipo de archivo invalido!",
-                "update_failed": "El chequeo de actualizaciones ha fallado!",
-                "invalid_action": "Esta no es una acción valida"
+                "invalid_file_type": "Tipo de archivo invalido",
+                "update_failed": "No se pudo comprobar si había actualizaciones",
+                "invalid_action": "Esta no es una acción valida",
+                "failed_to_load_data": "No se pueden cargar los datos",
+                "failed_to_save_changes": "Error al guardar los cambios"
             }
         },
         "filter": {
@@ -166,8 +194,8 @@
                 "remove": {
                     "label": {
                         "action": "Remover marcador",
-                        "error_one": "Error removiendo marcador",
-                        "error_many": "Error removiendo marcadores",
+                        "error_one": "No se pudo eliminar el marcador",
+                        "error_many": "No se pudieron eliminar los marcadores",
                         "error_other": "None",
                         "success_one": "Marcador de capitulo removido",
                         "success_many": "{{count}} Marcadores de capitulo han sido removidos",
@@ -183,8 +211,8 @@
                     },
                     "label": {
                         "action": "Agregar marcador",
-                        "error_one": "Error marcando capitulo",
-                        "error_many": "Error marcando capítulos",
+                        "error_one": "No se pudo marcar el capitulo",
+                        "error_many": "No se pudieron marcar los capítulos",
                         "error_other": "None",
                         "success_one": "Capitulo marcado",
                         "success_many": "{{count}} capitulos marcados",
@@ -198,8 +226,8 @@
                         "selected": "Borrar selección"
                     },
                     "label": {
-                        "error_one": "Error borrando capitulo",
-                        "error_many": "Error borrando capítulos",
+                        "error_one": "No se pudo eliminar el capitulo",
+                        "error_many": "No se pudieron eliminar los capítulos",
                         "error_other": "None",
                         "action": "Borrar",
                         "success_one": "Capitulo borrado",
@@ -213,8 +241,8 @@
                     },
                     "label": {
                         "action": "Descargar",
-                        "error_one": "Error al agregar descarga",
-                        "error_many": "Error al agregar descargas",
+                        "error_one": "No se pudo agregar la descarga",
+                        "error_many": "No se pudieron agregar las descargas",
                         "error_other": "None",
                         "success_one": "Descarga agregada",
                         "success_many": "{{count}} descargas agregadas",
@@ -227,10 +255,10 @@
                     "label": {
                         "action": {
                             "current": "Marcar como leído",
-                            "previous": "Marcar lo previo como leído"
+                            "previous": "Marcar anterior como leído"
                         },
-                        "error_one": "Error marcando capitulo como leído",
-                        "error_many": "Error marcando capítulos como leídos",
+                        "error_one": "No se pudo marcar el capítulo como leído",
+                        "error_many": "No se pudieron marcar los capítulos como leídos",
                         "error_other": "None",
                         "success_one": "Capitulo marcado como leído",
                         "success_many": "{{count}} capítulos marcados como leído",
@@ -246,8 +274,8 @@
                         "success_many": "{{count}} capítulos marcados como no leído",
                         "success_other": "None",
                         "action": "Marcar como no leído",
-                        "error_one": "Error marcando capitulo como no leído",
-                        "error_many": "Error marcando capítulos como no leído",
+                        "error_one": "No se pudo marcar el capítulo como no leído",
+                        "error_many": "No se pudieron marcar los capítulos como no leídos",
                         "error_other": "None"
                     },
                     "button": {
@@ -262,8 +290,8 @@
         "option": {
             "display": {
                 "label": {
-                    "chapter_number": "Numero de Capitulo",
-                    "source_title": "Titulo de Fuente"
+                    "chapter_number": "Número de capitulo",
+                    "source_title": "Título de fuente"
                 }
             }
         },
@@ -284,21 +312,21 @@
         "settings": {
             "reader_type": {
                 "label": {
-                    "continuous_horizontal_rtl": "Horizontal (DAI)",
-                    "double_page_rtl": "Doble Pagina (DAI)",
-                    "single_page_ltr": "Pagina Singular (IAD)",
+                    "continuous_horizontal_rtl": "Horizontal (RTL) ⬅️",
+                    "double_page_rtl": "Página doble (RTL) ⬅️",
+                    "single_page_ltr": "Página única (LTR) ➡️",
                     "webtoon": "Webtoon",
-                    "double_page_ltr": "Doble pagina (IAD)",
-                    "continuous_vertical": "Vertical Continuo",
-                    "continuous_horizontal_ltr": "Horizontal (IAD)",
-                    "single_page_rtl": "Pagina Singular (DAI)"
+                    "double_page_ltr": "Página doble (LTR) ➡️",
+                    "continuous_vertical": "Continúa vertical",
+                    "continuous_horizontal_ltr": "Horizontal (LTR) ➡️",
+                    "single_page_rtl": "Página única (RTL) ⬅️"
                 }
             },
             "label": {
                 "load_next_chapter": "Cargar siguiente capitulo al final",
-                "static_navigation": "Navigación Estática",
+                "static_navigation": "Navegación estática",
                 "show_page_number": "Mostrar numero de pagina",
-                "reader_type": "Tipo de Lector",
+                "reader_type": "Tipo de lector",
                 "skip_dup_chapters": "Omitir capítulos duplicados",
                 "fit_page_to_window": "Ajustar página a la ventana"
             },
@@ -308,12 +336,12 @@
             },
             "error": {
                 "label": {
-                    "failed_to_save_default_settings": "Se ha fallado en guardar los ajustes defecto para el lector al servidor",
-                    "failed_to_save_settings": "Se ha fallado en guardar los ajustes del lector al servidor"
+                    "failed_to_save_default_settings": "No se pudo guardar la configuración predeterminada del lector en el servidor",
+                    "failed_to_save_settings": "No se pudo guardar la configuración del lector en el servidor"
                 }
             }
         },
-        "title": "Lector - Manga {{mangaId}} Capitulo {{chapterIndex}}",
+        "title": "Lector — Manga {{mangaId}} Capítulo {{chapterIndex}}",
         "button": {
             "next_chapter": "Siguiente Capitulo",
             "previous_chapter": "Capitulo Anterior"
@@ -338,25 +366,25 @@
         },
         "dialog": {
             "title": {
-                "new_category": "Nuevo Catalogo",
-                "edit_category": "Editar Catalogo"
+                "new_category": "Nueva categoría",
+                "edit_category": "Editar la categoría"
             }
         },
         "error": {
             "no_categories_found": {
                 "label": {
-                    "info": "No se encontraron categorías!",
-                    "hint": "Deberías crear algunas desde configuración."
+                    "info": "No se encontraron categorías.",
+                    "hint": "Deberías crear algunas desde la configuración."
                 }
             },
             "label": {
-                "empty": "Categoria vacía",
+                "empty": "Categoría vacia",
                 "request_failure": "No se pudo cargar las categorías"
             }
         },
         "label": {
             "category_name": "Nombre de Categoria",
-            "use_as_default_category": "Categoría defecto al agregarse nuevo manga a la librería"
+            "use_as_default_category": "Categoría predeterminada cuando se agrega un nuevo manga a la biblioteca"
         }
     },
     "source": {
@@ -364,7 +392,8 @@
             "label": {
                 "checkout": "Examinar",
                 "guide": "Guia de Fuente Local"
-            }
+            },
+            "title": "Fuente local"
         },
         "title": "Fuente",
         "configuration": {
@@ -372,34 +401,38 @@
         },
         "error": {
             "label": {
-                "no_sources_found": "Fuentes no encontradas. Instala Algunas Extensiones primero."
+                "no_sources_found": "No se han encontrado fuentes. Instale primero algunas extensiones.",
+                "source_not_found": "No se pudo encontrar la fuente. Compruebe las extensiones instaladas."
             }
         }
     },
     "extension": {
         "action": {
             "label": {
-                "update": "actualizar",
+                "update": "Actualizar",
                 "install": "Instalar",
-                "uninstall": "desinstalar"
+                "uninstall": "Desinstalar"
             }
         },
         "state": {
             "label": {
                 "installing": "Instalando",
-                "obsolete": "obsoleto",
-                "updating": "actualizando",
-                "uninstalling": "desinstalando"
+                "obsolete": "Obsoleto",
+                "updating": "Actualizando",
+                "uninstalling": "Desinstalando",
+                "update_pending": "Actualización pendiente",
+                "installed": "Instalado"
             }
         },
         "label": {
-            "installing_file": "Instalando archivo de Extensión...",
-            "installation_failed": "Instalación de extensión fallida!",
-            "installed_successfully": "Instalación de extensión exitosa!"
+            "installing_file": "Instalando el archivo de extensión…",
+            "installation_failed": "No se pudo instalar la extensión",
+            "installed_successfully": "Extensión instalada"
         },
         "title": "Extensiones",
         "language": {
-            "all": "Todo"
+            "all": "Todo",
+            "other": "Otro"
         }
     },
     "manga": {
@@ -413,8 +446,8 @@
         "error": {
             "label": {
                 "request_failure": "No se pudo cargar manga",
-                "no_matches": "No hay manga que coincide con este filtro",
-                "no_mangas_found": "No se encontró manga!"
+                "no_matches": "Ningún manga coincide con este filtro",
+                "no_mangas_found": "No se encontró ningún manga"
             }
         },
         "title": "Manga",
@@ -428,7 +461,12 @@
         "queue": {
             "title": "Cola de descargas",
             "label": {
-                "no_downloads": "No hay descargas"
+                "no_downloads": "No se encontraron descargas"
+            },
+            "error": {
+                "label": {
+                    "failed_to_remove": "No se pudo eliminar la descarga de la cola."
+                }
             }
         },
         "state": {
