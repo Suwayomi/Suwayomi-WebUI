@@ -6,4 +6,4 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-/// <reference types="react-scripts" />
+/// <reference types="vite/client" />

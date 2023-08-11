@@ -3,7 +3,9 @@
 Everything from https://github.com/Suwayomi/Tachidesk-Server/blob/master/CONTRIBUTING.md#where-should-i-start applies here.
 
 ## About this project
-This is a `create-react-app` project, you can find it's readme in [BUILDING.md](./BUILDING.md)
+
+### Building the app
+See [BUILDING.md](./BUILDING.md) for more information
 
 ## Release process
 1. Update the changelog
