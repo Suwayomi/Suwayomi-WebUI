@@ -29,6 +29,12 @@
                     "info": "لا توجد فئات!"
                 }
             }
+        },
+        "dialog": {
+            "title": {
+                "new_category": "فئة جديدة",
+                "edit_category": "تعديل الفئة"
+            }
         }
     },
     "settings": {
