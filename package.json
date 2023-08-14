@@ -77,6 +77,7 @@
     "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-unused-imports": "^3.0.0",
     "prettier": "^3.0.3",
     "syncyarnlock": "^1.0.19",
     "ts-node": "^10.9.1",
