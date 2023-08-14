@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Droppable, DroppableProps } from 'react-beautiful-dnd';
 
 // issue: https://github.com/atlassian/react-beautiful-dnd/issues/2399

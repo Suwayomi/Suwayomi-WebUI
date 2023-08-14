@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { Box } from '@mui/material';
 import { createRoot } from 'react-dom/client';
 import { IReaderProps } from '@/typings';

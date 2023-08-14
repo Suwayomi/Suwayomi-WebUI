@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import React, { useContext, useEffect } from 'react';
+import { Fragment, useContext, useEffect } from 'react';
 import { IconButton } from '@mui/material';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import { useNavigate } from 'react-router-dom';
@@ -103,7 +103,7 @@ export default function Sources() {
                 .map(
                     ([lang, list]) =>
                         shownLangs.indexOf(lang) !== -1 && (
-                            <React.Fragment key={lang}>
+                            <Fragment key={lang}>
                                 <h1 key={lang} style={{ marginLeft: 25 }}>
                                     {translateExtensionLanguage(lang)}
                                 </h1>
@@ -112,7 +112,7 @@ export default function Sources() {
                                     .map((source) => (
                                         <SourceCard key={source.id} source={source} />
                                     ))}
-                            </React.Fragment>
+                            </Fragment>
                         ),
                 )}
         </>

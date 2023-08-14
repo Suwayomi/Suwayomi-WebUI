@@ -8,7 +8,6 @@
 
 import { ListItem, ListItemText, Switch } from '@mui/material';
 import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
-import React from 'react';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import SearchIcon from '@mui/icons-material/Search';
 import { useTranslation } from 'react-i18next';

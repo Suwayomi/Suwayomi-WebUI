@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import React from 'react';
+import { forwardRef } from 'react';
 import { Box, styled } from '@mui/material';
 import { IReaderSettings } from '@/typings';
 
@@ -26,7 +26,7 @@ interface IProps {
     settings: IReaderSettings;
 }
 
-const DoublePage = React.forwardRef((props: IProps, ref: any) => {
+const DoublePage = forwardRef((props: IProps, ref: any) => {
     const { image1src, image2src, index, settings } = props;
 
     return (

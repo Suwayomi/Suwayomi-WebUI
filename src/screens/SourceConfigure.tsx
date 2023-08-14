@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import React, { useContext, useEffect } from 'react';
+import { createElement, useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import List from '@mui/material/List';
 import { useTranslation } from 'react-i18next';
@@ -71,7 +71,7 @@ export default function SourceConfigure() {
 
                 // TypeScript is dumb in detecting extra props
                 // @ts-ignore
-                return React.createElement(getPrefComponent(it.type), props);
+                return createElement(getPrefComponent(it.type), props);
             })}
         </List>
     );

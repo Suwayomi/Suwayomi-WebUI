@@ -8,7 +8,7 @@
 
 // adopted from: https://github.com/tachiyomiorg/tachiyomi/blob/master/app/src/main/java/eu/kanade/tachiyomi/widget/EmptyView.kt
 
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 import { Box, useMediaQuery } from '@mui/material';

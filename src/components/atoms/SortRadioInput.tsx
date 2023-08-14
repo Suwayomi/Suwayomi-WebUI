@@ -8,14 +8,14 @@
 
 import ArrowDownward from '@mui/icons-material/ArrowDownward';
 import ArrowUpward from '@mui/icons-material/ArrowUpward';
-import React from 'react';
+import { memo } from 'react';
 import RadioInput, { RadioInputProps } from '@/components/atoms/RadioInput';
 
 interface IProps extends RadioInputProps {
     sortDescending?: boolean | null | undefined;
 }
 
-const SortRadioInput = React.memo(({ sortDescending, ...rest }: IProps) => (
+const SortRadioInput = memo(({ sortDescending, ...rest }: IProps) => (
     <RadioInput
         checkedIcon={sortDescending ? <ArrowDownward color="primary" /> : <ArrowUpward color="primary" />}
         {...rest}

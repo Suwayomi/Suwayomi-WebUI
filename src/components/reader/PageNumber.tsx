@@ -6,7 +6,6 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import React from 'react';
 import { Box } from '@mui/material';
 import { IReaderSettings } from '@/typings';
 
