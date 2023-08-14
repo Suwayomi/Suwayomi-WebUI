@@ -6,7 +6,6 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import React from 'react';
 import { styled, Box, ListItemButton } from '@mui/material';
 import { Link as RRDLink, useLocation } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';

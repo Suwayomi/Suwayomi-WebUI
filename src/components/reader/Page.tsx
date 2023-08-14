@@ -6,17 +6,17 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import React, { useRef } from 'react';
+import { useState, useEffect, forwardRef, useRef } from 'react';
 import Box from '@mui/material/Box';
 import { IReaderSettings } from '@/typings';
 import SpinnerImage from '@/components/util/SpinnerImage';
 
 function imageStyle(settings: IReaderSettings): any {
-    const [dimensions, setDimensions] = React.useState({
+    const [dimensions, setDimensions] = useState({
         height: window.innerHeight,
         width: window.innerWidth,
     });
-    React.useEffect(() => {
+    useEffect(() => {
         function handleResize() {
             setDimensions({
                 height: window.innerHeight,
@@ -65,7 +65,7 @@ interface IProps {
     settings: IReaderSettings;
 }
 
-const Page = React.forwardRef((props: IProps, ref: any) => {
+const Page = forwardRef((props: IProps, ref: any) => {
     const { src, index, onImageLoad, settings } = props;
 
     const imgRef = useRef<HTMLImageElement>(null);

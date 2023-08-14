@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import React, { useState, Dispatch, SetStateAction, useReducer, Reducer, useCallback } from 'react';
+import { useState, Dispatch, SetStateAction, useReducer, Reducer, useCallback } from 'react';
 import storage from '@/util/localStorage';
 
 export default function useLocalStorage<T>(key: string, defaultValue: T | (() => T)): [T, Dispatch<SetStateAction<T>>] {

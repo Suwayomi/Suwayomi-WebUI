@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import React, { useMemo, useState, useContext, useEffect } from 'react';
+import { useMemo, useState, useContext, useEffect } from 'react';
 import { List, ListItem, ListItemText, ListItemIcon, IconButton } from '@mui/material';
 import { DragDropContext, Draggable, DropResult, DraggingStyle, NotDraggingStyle } from 'react-beautiful-dnd';
 import DragHandleIcon from '@mui/icons-material/DragHandle';

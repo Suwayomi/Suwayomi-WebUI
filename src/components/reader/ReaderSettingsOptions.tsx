@@ -10,7 +10,6 @@ import { List, ListItem, ListItemText, Switch } from '@mui/material';
 import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { IReaderSettings } from '@/typings';
 

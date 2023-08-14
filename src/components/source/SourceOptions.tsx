@@ -8,7 +8,7 @@
 
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { Button, Stack, Box } from '@mui/material';
-import React from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ISourceFilters, IState } from '@/typings';
 import OptionsPanel from '@/components/molecules/OptionsPanel';
@@ -143,7 +143,7 @@ export default function SourceOptions({
     update,
 }: IFilters1) {
     const { t } = useTranslation();
-    const [FilterOptions, setFilterOptions] = React.useState(false);
+    const [FilterOptions, setFilterOptions] = useState(false);
 
     function handleReset() {
         resetFilterValue(0);

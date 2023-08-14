@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import React, { useState, useEffect } from 'react';
+import { createElement, useState, useEffect } from 'react';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
@@ -33,7 +33,7 @@ function TwoSatePreference(props: TwoStatePreferenceProps) {
         <ListItem>
             <ListItemText primary={title} secondary={summary} />
             <ListItemSecondaryAction>
-                {React.createElement(getTwoStateType(type), {
+                {createElement(getTwoStateType(type), {
                     edge: 'end',
                     checked: internalCurrentValue,
                     onChange: () => {
