@@ -1,0 +1,457 @@
+{
+    "category": {
+        "label": {
+            "use_as_default_category": "Danh mục mặc định khi thêm manga mới vào thư viện",
+            "category_name": "Tên danh mục"
+        },
+        "title": {
+            "categories": "Phân loại",
+            "set_categories": "Đặt danh mục"
+        },
+        "dialog": {
+            "title": {
+                "new_category": "Danh mục mới",
+                "edit_category": "Chỉnh sửa thể loại"
+            }
+        },
+        "error": {
+            "label": {
+                "empty": "Danh mục trống",
+                "request_failure": "Không thể tải danh mục"
+            },
+            "no_categories_found": {
+                "label": {
+                    "hint": "Bạn cần phải thiết lập một số cài đặt.",
+                    "info": "Không tìm thấy danh mục nào."
+                }
+            }
+        }
+    },
+    "chapter": {
+        "action": {
+            "bookmark": {
+                "add": {
+                    "button": {
+                        "selected": "Yêu thích đã chọn"
+                    },
+                    "label": {
+                        "action": "Thêm vào mục yêu thích",
+                        "error_other": "Lỗi chương yêu thích",
+                        "success_other": "Đã đánh dấu {{count}} chương"
+                    }
+                },
+                "remove": {
+                    "button": {
+                        "selected": "Đã chọn không yêu thích"
+                    },
+                    "label": {
+                        "action": "Hủy yêu thích",
+                        "success_other": "Xóa {{count}} chương yêu thích",
+                        "error_other": "Lỗi xóa yêu thích"
+                    }
+                }
+            },
+            "download": {
+                "add": {
+                    "label": {
+                        "action": "Tải xuống",
+                        "error_other": "Không thể thêm tải xuống",
+                        "success_other": "Đã thêm {{count}} lượt tải xuống"
+                    },
+                    "button": {
+                        "selected": "Tải xuống đã chọn"
+                    }
+                },
+                "delete": {
+                    "button": {
+                        "selected": "Xóa đã chọn"
+                    },
+                    "label": {
+                        "action": "Xóa",
+                        "error_other": "Không thể xóa chương",
+                        "success_other": "Đã xóa {{count}} chương"
+                    }
+                }
+            },
+            "label": {
+                "select": "Chọn"
+            },
+            "mark_as_read": {
+                "add": {
+                    "button": {
+                        "selected": "Đánh dấu là đã đọc"
+                    },
+                    "label": {
+                        "action": {
+                            "current": "Đánh dấu là đã đọc",
+                            "previous": "Đánh dấu các chương trước là đã đọc"
+                        },
+                        "error_other": "Lỗi đánh dấu chương là đã đọc",
+                        "success_other": "{{count}} chương được đánh dấu là đã đọc"
+                    }
+                },
+                "remove": {
+                    "button": {
+                        "selected": "Đánh dấu là chưa đọc"
+                    },
+                    "label": {
+                        "action": "Đánh dấu là chưa đọc",
+                        "error_other": "Lỗi đánh dấu chương là chưa đọc",
+                        "success_other": "{{count}} chương được đánh dấu là chưa đọc"
+                    }
+                }
+            }
+        },
+        "error": {
+            "label": {
+                "no_chapter_found": "Không tìm thấy chương nào",
+                "no_matches": "Không có chương nào phù hợp với bộ lọc"
+            }
+        },
+        "option": {
+            "display": {
+                "label": {
+                    "chapter_number": "Số chương",
+                    "source_title": "Tiêu đề nguồn"
+                }
+            }
+        },
+        "status": {
+            "label": {
+                "downloaded": "Tải về"
+            }
+        },
+        "title": "Chương"
+    },
+    "download": {
+        "queue": {
+            "error": {
+                "label": {
+                    "failed_to_remove": "Không thể xóa tải xuống khỏi hàng đợi."
+                }
+            },
+            "title": "Danh sách tải xuống",
+            "label": {
+                "no_downloads": "Không tải xuống"
+            }
+        },
+        "state": {
+            "label": {
+                "downloading": "Đang tải xuống",
+                "error": "Lỗi",
+                "finished": "Hoàn thành",
+                "queued": "Xếp hàng"
+            }
+        },
+        "title": "Tải xuống"
+    },
+    "extension": {
+        "action": {
+            "label": {
+                "install": "Cài đặt",
+                "uninstall": "Gỡ cài đặt",
+                "update": "Cập nhật"
+            }
+        },
+        "label": {
+            "installation_failed": "Không thể cài đặt tiện ích mở rộng",
+            "installed_successfully": "Tiện ích mở rộng được cài đặt",
+            "installing_file": "Cài đặt tệp tiện ích mở rộng…"
+        },
+        "language": {
+            "all": "Tất cả",
+            "other": "Khác"
+        },
+        "state": {
+            "label": {
+                "installed": "Cài đặt",
+                "installing": "Cài đặt",
+                "obsolete": "Lỗi thời",
+                "update_pending": "Đang chờ cập nhật",
+                "uninstalling": "Gỡ cài đặt",
+                "updating": "Cập nhật"
+            }
+        },
+        "title": "Phần tiện ích mở rộng"
+    },
+    "global": {
+        "button": {
+            "browse": "Duyệt",
+            "cancel": "Hủy bỏ",
+            "clear": "Xóa",
+            "filter": "Bộ lọc",
+            "latest": "Mới nhất",
+            "ok": "Ok",
+            "open_site": "Mở trang web",
+            "popular": "Phổ biến",
+            "reset": "Reset",
+            "reset_to_default": "Đặt lại về mặc định",
+            "resume": "Tiếp tục",
+            "select_all": "Chọn tất cả",
+            "set": "Lựa chọn",
+            "start": "Bắt đầu",
+            "submit": "Nộp"
+        },
+        "date": {
+            "label": {
+                "today": "Hôm nay",
+                "today_at": "Hôm nay {{timeString}}",
+                "yesterday_at": "Hôm qua {{timeString}}",
+                "yesterday": "Hôm qua"
+            }
+        },
+        "error": {
+            "label": {
+                "failed_to_load_data": "Không thể tải dữ liệu",
+                "invalid_action": "Đây không phải là một hành động hợp lệ",
+                "update_failed": "Không thể kiểm tra các bản cập nhật",
+                "failed_to_save_changes": "Không thể lưu thay đổi",
+                "invalid_file_type": "Loại tệp không hợp lệ"
+            }
+        },
+        "filter": {
+            "label": {
+                "bookmarked": "Đã đánh dấu trang",
+                "downloaded": "Tải về",
+                "unread": "Chưa đọc"
+            }
+        },
+        "grid_layout": {
+            "label": {
+                "compact_grid": "Lưới nhỏ gọn",
+                "comfortable_grid": "Lưới lỏng lẻo",
+                "list": "Danh sách"
+            },
+            "title": "Chế độ hiển thị"
+        },
+        "label": {
+            "browse": "Duyệt",
+            "display": "Trưng bày",
+            "filter": "Bộ lọc",
+            "loading": "Đang tải…",
+            "none": "Trống",
+            "sort": "Sắp xếp",
+            "unknown": "Không xác định"
+        },
+        "language": {
+            "label": {
+                "language": "Ngôn ngữ",
+                "language_with_code": "Ngôn ngữ có mã: {{code}}"
+            },
+            "title": {
+                "enabled_languages": "Ngôn ngữ được phép",
+                "weblate": "Weblate"
+            }
+        },
+        "sort": {
+            "label": {
+                "by_fetch_date": "Theo ngày",
+                "by_source": "Theo nguồn"
+            }
+        }
+    },
+    "library": {
+        "error": {
+            "label": {
+                "empty": "Thư viện của bạn trống",
+                "no_matches": "Không có manga nào phù hợp với bộ lọc này"
+            }
+        },
+        "option": {
+            "display": {
+                "badge": {
+                    "label": {
+                        "download_badges": "Số lượt tải xuống",
+                        "unread_badges": "Số lượng chưa đọc"
+                    },
+                    "title": "Đánh dấu"
+                },
+                "tab": {
+                    "title": "Nhãn",
+                    "label": {
+                        "show_number_of_items": "Hiển thị số lượng mục"
+                    }
+                }
+            },
+            "sort": {
+                "label": {
+                    "by_date_added": "Đã thêm gần đây",
+                    "by_unread_chapters": "Các chương chưa đọc",
+                    "alphabetically": "A-Z",
+                    "by_last_read": "Đọc gần đây"
+                }
+            }
+        },
+        "settings": {
+            "global_update": {
+                "categories": {
+                    "label": {
+                        "exclude": "Loại trừ: {{excludedCategoriesText}}",
+                        "include": "Bao gồm: {{includedCategoriesText}}",
+                        "info": "Các mục trong danh mục bị loại trừ sẽ không được cập nhật ngay cả khi chúng cũng nằm trong danh mục được bao gồm"
+                    }
+                },
+                "title": "Cập nhật toàn cầu"
+            },
+            "title": "Cài đặt thư viện"
+        },
+        "title": "Thư viện"
+    },
+    "manga": {
+        "button": {
+            "add_to_library": "Thêm vào thư viện",
+            "in_library": "Trong thư viện"
+        },
+        "error": {
+            "label": {
+                "no_mangas_found": "Không có truyện tranh",
+                "no_matches": "Không có manga nào phù hợp với bộ lọc này",
+                "request_failure": "Không thể tải manga"
+            }
+        },
+        "label": {
+            "artist": "Họa sĩ",
+            "author": "Tác giả",
+            "edit_categories": "Chỉnh sửa danh mục manga",
+            "reload_from_source": "Tải lại dữ liệu từ nguồn",
+            "status": "Trạng thái"
+        },
+        "title": "Manga"
+    },
+    "reader": {
+        "button": {
+            "next_chapter": "Chương tiếp theo",
+            "previous_chapter": "Chương trước"
+        },
+        "error": {
+            "label": {
+                "unable_to_get_next_chapter_skip_dup": "Không thể tải chương tiếp theo - Đã bật tùy chọn \"$t(reader.settings.label.skip_dup_chapters)\"",
+                "unable_to_get_prev_chapter_skip_dup": "Không thể tải chương trước - Đã bật tùy chọn \"$t(reader.settings.label.skip_dup_chapters)\""
+            }
+        },
+        "page_info": {
+            "label": {
+                "currently_on_page": "Trang hiện tại",
+                "of_max_pages": "/ {{maxPages}}"
+            }
+        },
+        "settings": {
+            "error": {
+                "label": {
+                    "failed_to_save_default_settings": "Không thể lưu cài đặt đọc mặc định vào máy chủ",
+                    "failed_to_save_settings": "Không thể lưu cài đặt trình đọc vào máy chủ"
+                }
+            },
+            "label": {
+                "load_next_chapter": "Tải chương tiếp theo trên trang cuối cùng",
+                "reader_type": "Loại đầu đọc",
+                "show_page_number": "Hiển thị số trang",
+                "skip_dup_chapters": "Bỏ qua các chương trùng lặp",
+                "static_navigation": "Điều hướng tĩnh",
+                "fit_page_to_window": "Vừa trang với cửa sổ"
+            },
+            "reader_type": {
+                "label": {
+                    "continuous_horizontal_ltr": "Ngang (trái sang phải) ➡️",
+                    "continuous_vertical": "Tiếp tục theo chiều dọc",
+                    "double_page_ltr": "Trang đôi (trái sang phải) ➡️",
+                    "double_page_rtl": "Trang đôi (phải sang trái) ⬅️",
+                    "single_page_rtl": "Trang đơn (phải sang trái) ⬅️",
+                    "continuous_horizontal_rtl": "Ngang (phải sang trái) ⬅️",
+                    "single_page_ltr": "Trang đơn (trái sang phải) ➡️",
+                    "webtoon": "Webtoon"
+                }
+            },
+            "title": {
+                "default_reader_settings": "Cài đặt trình đọc mặc định",
+                "reader_settings": "Cài đặt trình đọc"
+            }
+        },
+        "title": "Đọc - Truyện {{mangaId}} Chương {{chapterIndex}}"
+    },
+    "search": {
+        "error": {
+            "label": {
+                "failed_to_save_settings": "Không thể lưu cài đặt tìm kiếm mặc định vào máy chủ",
+                "source_search_failed": "Không thể tìm kiếm nguồn"
+            }
+        },
+        "title": {
+            "search": "Tìm kiếm",
+            "global_search": "Tìm kiếm toàn cầu"
+        },
+        "label": {
+            "ignore_filters": "Bỏ qua bộ lọc khi tìm kiếm"
+        }
+    },
+    "settings": {
+        "about": {
+            "label": {
+                "build_time": "Xây dựng thời gian",
+                "discord": "Discord",
+                "github": "GitHub",
+                "server": "Máy chủ",
+                "server_address": "Địa chỉ máy chủ",
+                "server_version": "Phiên bản máy chủ"
+            },
+            "title": "Về"
+        },
+        "backup": {
+            "label": {
+                "backup_restore_failed": "Không thể khôi phục bản sao lưu",
+                "create_backup": "Tạo bản sao lưu",
+                "legacy_backup_unsupported": "Sao lưu các phiên bản cũ hơn không được hỗ trợ!",
+                "restore_backup": "Khôi phục bản sao lưu",
+                "restore_backup_info": "Bạn cũng có thể kéo và thả tệp sao lưu vào đây để khôi phục nó",
+                "restored_backup": "Sao lưu được khôi phục.",
+                "restoring_backup": "Khôi phục bản sao lưu…",
+                "create_backup_info": "Sao lưu thư viện dưới dạng bản sao lưu Tachiyomi"
+            },
+            "title": "Sao lưu"
+        },
+        "label": {
+            "dark_theme": "Chủ đề tối",
+            "image_cache": "Sử dụng bộ nhớ cache của hình ảnh",
+            "language_description": "Bản dịch chính xác không thể tách rời khỏi sự sửa chữa của mọi người ->",
+            "manga_item_width": "Chiều rộng ô truyện tranh",
+            "show_nsfw": "Nội dung NSFW (18+)",
+            "image_cache_description": "Giảm mức tiêu thụ lưu lượng trong khi làm cho hình ảnh tải nhanh hơn",
+            "show_nsfw_description": "Ẩn các tiện ích mở rộng và nguồn NSFW (18+)"
+        },
+        "server_address": {
+            "dialog": {
+                "label": {
+                    "enter_address": "Nhập địa chỉ máy chủ"
+                }
+            }
+        },
+        "title": "Cài đặt"
+    },
+    "source": {
+        "configuration": {
+            "title": "Cấu hình nguồn hình ảnh"
+        },
+        "error": {
+            "label": {
+                "no_sources_found": "Không tìm thấy nguồn. Trước tiên, hãy cài đặt một số tiện ích mở rộng.",
+                "source_not_found": "Không thể tìm thấy nguồn. Kiểm tra các tiện ích đã cài đặt của bạn."
+            }
+        },
+        "local_source": {
+            "label": {
+                "checkout": "Kiểm tra lại",
+                "guide": "Hướng dẫn nguồn cục bộ"
+            },
+            "title": "Nguồn cục bộ"
+        },
+        "title": "Nguồn"
+    },
+    "updates": {
+        "error": {
+            "label": {
+                "no_updates_available": "Không được cập nhật gần đây."
+            }
+        },
+        "title": "Cập nhật"
+    }
+}
