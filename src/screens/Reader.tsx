@@ -12,7 +12,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { ChapterOffset, IChapter, IManga, IMangaCard, IReaderSettings, ReaderType, TranslationKey } from '@/typings';
-import requestManager from '@/lib/RequestManager';
+import requestManager from '@/lib/requests/RequestManager.ts';
 import {
     checkAndHandleMissingStoredReaderSettings,
     getReaderSettingsFor,

@@ -10,7 +10,7 @@ import { Chip, Tab, Tabs, styled, Box } from '@mui/material';
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { useQueryParam, NumberParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
-import requestManager from '@/lib/RequestManager';
+import requestManager from '@/lib/requests/RequestManager.ts';
 import NavbarContext from '@/components/context/NavbarContext';
 import EmptyView from '@/components/util/EmptyView';
 import LoadingPlaceholder from '@/components/util/LoadingPlaceholder';

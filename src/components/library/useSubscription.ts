@@ -7,7 +7,7 @@
  */
 
 import { useEffect, useState } from 'react';
-import requestManager from '@/lib/RequestManager';
+import requestManager from '@/lib/requests/RequestManager.ts';
 
 const useSubscription = <T>(path: string, callback?: (newValue: T) => boolean | void) => {
     const [state, setState] = useState<T | undefined>();

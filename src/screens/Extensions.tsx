@@ -15,7 +15,7 @@ import { Virtuoso } from 'react-virtuoso';
 import { Typography, useMediaQuery, useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { IExtension } from '@/typings';
-import requestManager from '@/lib/RequestManager';
+import requestManager from '@/lib/requests/RequestManager.ts';
 import { extensionDefaultLangs, DefaultLanguage, langSortCmp } from '@/util/language';
 import useLocalStorage from '@/util/useLocalStorage';
 import {

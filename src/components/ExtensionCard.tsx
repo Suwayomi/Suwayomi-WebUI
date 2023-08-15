@@ -15,7 +15,7 @@ import Typography from '@mui/material/Typography';
 import { Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { IExtension, TranslationKey } from '@/typings';
-import requestManager from '@/lib/RequestManager';
+import requestManager from '@/lib/requests/RequestManager.ts';
 
 interface IProps {
     extension: IExtension;

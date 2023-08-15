@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
 import { Avatar, Box, CardContent, styled } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { IMangaCard } from '@/typings';
-import requestManager from '@/lib/RequestManager';
+import requestManager from '@/lib/requests/RequestManager.ts';
 import { GridLayout, useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
 import SpinnerImage from '@/components/util/SpinnerImage';
 

@@ -10,7 +10,7 @@ import { createElement, useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import List from '@mui/material/List';
 import { useTranslation } from 'react-i18next';
-import requestManager from '@/lib/RequestManager';
+import requestManager from '@/lib/requests/RequestManager.ts';
 import cloneObject from '@/util/cloneObject';
 import NavbarContext from '@/components/context/NavbarContext';
 import { SwitchPreferenceCompat, CheckBoxPreference } from '@/components/sourceConfiguration/TwoStatePreference';

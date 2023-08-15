@@ -18,7 +18,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import NewReleasesIcon from '@mui/icons-material/NewReleases';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { IManga, PaginatedMangaList, TranslationKey } from '@/typings';
-import requestManager, { AbortableSWRInfiniteResponse } from '@/lib/RequestManager';
+import requestManager, { AbortableSWRInfiniteResponse } from '@/lib/requests/RequestManager.ts';
 import { useDebounce } from '@/components/manga/hooks';
 import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
 import SourceGridLayout from '@/components/source/GridLayouts';

@@ -21,7 +21,7 @@ import { styled } from '@mui/material';
 import { t as translate } from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { ICategory, IncludeInGlobalUpdate } from '@/typings';
-import requestManager from '@/lib/RequestManager';
+import requestManager from '@/lib/requests/RequestManager.ts';
 import makeToast from '@/components/util/Toast';
 import ThreeStateCheckboxInput from '@/components/atoms/ThreeStateCheckboxInput';
 import NavbarContext, { useSetDefaultBackTo } from '@/components/context/NavbarContext';

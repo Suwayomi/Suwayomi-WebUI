@@ -11,7 +11,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import { useTranslation } from 'react-i18next';
-import requestManager from '@/lib/RequestManager';
+import requestManager from '@/lib/requests/RequestManager.ts';
 import ListItemLink from '@/components/util/ListItemLink';
 import NavbarContext, { useSetDefaultBackTo } from '@/components/context/NavbarContext';
 import LoadingPlaceholder from '@/components/util/LoadingPlaceholder';

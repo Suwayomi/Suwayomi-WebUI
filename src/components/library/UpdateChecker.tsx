@@ -14,7 +14,7 @@ import { Box } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next';
 import { IUpdateStatus } from '@/typings';
-import requestManager from '@/lib/RequestManager';
+import requestManager from '@/lib/requests/RequestManager.ts';
 import makeToast from '@/components/util/Toast';
 
 interface IProgressProps {

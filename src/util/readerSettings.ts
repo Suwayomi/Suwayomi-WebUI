@@ -7,7 +7,7 @@
  */
 
 import { IManga, Metadata, MetadataHolder, IReaderSettings, MetadataKeyValuePair } from '@/typings';
-import requestManager from '@/lib/RequestManager';
+import requestManager from '@/lib/requests/RequestManager.ts';
 import { getMetadataFrom, requestUpdateMangaMetadata, requestUpdateServerMetadata } from '@/util/metadata';
 
 type UndefinedReaderSettings = {

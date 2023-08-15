@@ -8,7 +8,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { mutate } from 'swr';
-import requestManager, { RequestManager } from '@/lib/RequestManager';
+import requestManager, { RequestManager } from '@/lib/requests/RequestManager.ts';
 
 export const useRefreshManga = (mangaId: string) => {
     const [fetchingOnline, setFetchingOnline] = useState(false);

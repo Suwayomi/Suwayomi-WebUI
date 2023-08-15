@@ -25,7 +25,7 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { useTranslation } from 'react-i18next';
 import { ICategory } from '@/typings';
-import requestManager from '@/lib/RequestManager';
+import requestManager from '@/lib/requests/RequestManager.ts';
 import StrictModeDroppable from '@/lib/StrictModeDroppable';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/components/util/StyledFab';
 import NavbarContext, { useSetDefaultBackTo } from '@/components/context/NavbarContext';

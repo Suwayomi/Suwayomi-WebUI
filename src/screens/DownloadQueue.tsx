@@ -19,7 +19,7 @@ import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { IChapter, IQueue } from '@/typings';
-import requestManager from '@/lib/RequestManager';
+import requestManager from '@/lib/requests/RequestManager.ts';
 import StrictModeDroppable from '@/lib/StrictModeDroppable';
 import makeToast from '@/components/util/Toast';
 import { NavbarToolbar } from '@/components/navbar/DefaultNavBar';

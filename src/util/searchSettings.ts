@@ -7,7 +7,7 @@
  */
 
 import { Metadata, ISearchSettings } from '@/typings';
-import requestManager from '@/lib/RequestManager';
+import requestManager from '@/lib/requests/RequestManager.ts';
 import { getMetadataFrom } from '@/util/metadata';
 
 export const getDefaultSettings = (): ISearchSettings => ({

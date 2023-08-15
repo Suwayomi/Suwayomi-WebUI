@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 import { StringParam, useQueryParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
 import { ISource } from '@/typings';
-import requestManager from '@/lib/RequestManager';
+import requestManager from '@/lib/requests/RequestManager.ts';
 import useLocalStorage from '@/util/useLocalStorage';
 import { langSortCmp, sourceDefualtLangs, sourceForcedDefaultLangs } from '@/util/language';
 import { translateExtensionLanguage } from '@/screens/util/Extensions';

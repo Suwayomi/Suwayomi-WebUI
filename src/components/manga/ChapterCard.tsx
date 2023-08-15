@@ -28,7 +28,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { IChapter, IDownloadChapter } from '@/typings';
-import requestManager from '@/lib/RequestManager';
+import requestManager from '@/lib/requests/RequestManager.ts';
 import { getUploadDateString } from '@/util/date';
 import DownloadStateIndicator from '@/components/molecules/DownloadStateIndicator';
 

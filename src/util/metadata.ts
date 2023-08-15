@@ -19,7 +19,7 @@ import {
     MetadataHolder,
     MetadataKeyValuePair,
 } from '@/typings';
-import requestManager, { RequestManager } from '@/lib/RequestManager';
+import requestManager, { RequestManager } from '@/lib/requests/RequestManager.ts';
 
 const APP_METADATA_KEY_PREFIX = 'webUI_';
 

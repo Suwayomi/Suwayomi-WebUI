@@ -19,7 +19,7 @@ import { useTranslation } from 'react-i18next';
 import { t as translate } from 'i18next';
 import { GroupedVirtuoso } from 'react-virtuoso';
 import { IChapter, IMangaChapter, IQueue } from '@/typings';
-import requestManager from '@/lib/RequestManager';
+import requestManager from '@/lib/requests/RequestManager.ts';
 import LoadingPlaceholder from '@/components/util/LoadingPlaceholder';
 import EmptyView from '@/components/util/EmptyView';
 import DownloadStateIndicator from '@/components/molecules/DownloadStateIndicator';

@@ -16,7 +16,7 @@ import { mutate } from 'swr';
 import { t as translate } from 'i18next';
 import Button from '@mui/material/Button';
 import { IManga, ISource } from '@/typings';
-import requestManager from '@/lib/RequestManager';
+import requestManager from '@/lib/requests/RequestManager.ts';
 import makeToast from '@/components/util/Toast';
 
 const DetailsWrapper = styled('div')(({ theme }) => ({

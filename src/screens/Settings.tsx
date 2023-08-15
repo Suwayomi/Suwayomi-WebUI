@@ -35,7 +35,7 @@ import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import { useTranslation } from 'react-i18next';
 import LanguageIcon from '@mui/icons-material/Language';
 import CollectionsOutlinedBookmarkIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
-import requestManager from '@/lib/RequestManager';
+import requestManager from '@/lib/requests/RequestManager.ts';
 import { langCodeToName } from '@/util/language';
 import useLocalStorage from '@/util/useLocalStorage';
 import ListItemLink from '@/components/util/ListItemLink';

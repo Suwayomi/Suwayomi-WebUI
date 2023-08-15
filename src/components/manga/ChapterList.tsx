@@ -12,7 +12,7 @@ import React, { ComponentProps, useEffect, useMemo, useRef, useState } from 'rea
 import { Virtuoso } from 'react-virtuoso';
 import { useTranslation } from 'react-i18next';
 import { BatchChaptersChange, IChapter, IDownloadChapter, IQueue, TranslationKey } from '@/typings';
-import requestManager from '@/lib/RequestManager';
+import requestManager from '@/lib/requests/RequestManager.ts';
 import useSubscription from '@/components/library/useSubscription';
 import ChapterCard from '@/components/manga/ChapterCard';
 import ResumeFab from '@/components/manga/ResumeFAB';
