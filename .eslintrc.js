@@ -2,7 +2,7 @@ module.exports = {
     extends: ['airbnb', 'airbnb-typescript', 'prettier'],
     plugins: ['@typescript-eslint', 'no-relative-import-paths', 'prettier', 'header'],
     parserOptions: {
-        project: './tsconfig.json',
+        project: ['./tsconfig.json', './tools/scripts/tsconfig.json'],
     },
     overrides: [
         {
@@ -30,8 +30,8 @@ module.exports = {
                 'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
 
                 // just why
-                "react/jsx-uses-react": "off",
-                "react/react-in-jsx-scope": "off",
+                'react/jsx-uses-react': 'off',
+                'react/react-in-jsx-scope': 'off',
                 'react/jsx-no-bind': 'off',
                 'react/jsx-props-no-spreading': 'off',
                 'react/require-default-props': 'off',
@@ -57,9 +57,10 @@ module.exports = {
             },
         },
         {
-            files: ['tools/script/.*'],
+            files: ['tools/scripts/*'],
             rules: {
-                'no-relative-import-paths/no-relative-import-paths': 'off'
+                'no-relative-import-paths/no-relative-import-paths': 'off',
+                'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
             },
         },
     ],
