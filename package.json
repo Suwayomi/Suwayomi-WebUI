@@ -12,7 +12,9 @@
     "lint": "eslint src --ext .ts,.tsx,.js,.jsx",
     "createChangelog": "ts-node tools/scripts/createReleaseChanglog.ts",
     "updateDeps": "yarn outdated && yarn upgrade && yarn syncyarnlock -s -k && yarn && git add package.json yarn.lock && git commit -m \"Update dependencies\"",
-    "gql:codegen": "graphql-codegen --config gql_codegen.ts"
+    "gql:codegen-base": "graphql-codegen --config gql_codegen.ts",
+    "gql:codegen-formatter": "ts-node tools/scripts/codegenFormatter.ts",
+    "gql:codegen": "yarn gql:codegen-base & yarn gql:codegen-formatter"
   },
   "browserslist": {
     "production": [
