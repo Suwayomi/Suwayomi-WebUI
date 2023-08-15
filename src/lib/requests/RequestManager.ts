@@ -29,7 +29,7 @@ import {
     SourceSearchResult,
     UpdateCheck,
 } from '@/typings.ts';
-import { HttpMethod as DefaultHttpMethod, IRestClient, RestClient } from '@/lib/RestClient.ts';
+import { HttpMethod as DefaultHttpMethod, IRestClient, RestClient } from '@/lib/requests/client/RestClient.ts';
 import storage from '@/util/localStorage.tsx';
 
 enum SWRHttpMethod {

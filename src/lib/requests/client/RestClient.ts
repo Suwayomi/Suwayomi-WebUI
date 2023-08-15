@@ -7,7 +7,7 @@
  */
 
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import storage from '@/util/localStorage';
+import storage from '@/util/localStorage.tsx';
 
 export enum HttpMethod {
     GET = 'get',
