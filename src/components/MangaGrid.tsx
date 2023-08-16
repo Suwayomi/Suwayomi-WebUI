@@ -241,6 +241,7 @@ const MangaGrid: React.FC<IMangaGridProps> = (props) => {
                 <VerticalGrid
                     isLoading={isLoading}
                     mangas={mangas}
+                    inLibraryIndicator={inLibraryIndicator}
                     GridItemContainer={GridItemContainer}
                     hasNextPage={hasNextPage}
                     loadMore={loadMore}
