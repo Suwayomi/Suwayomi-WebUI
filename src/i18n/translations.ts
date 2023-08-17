@@ -17,6 +17,7 @@ import ja from '@/i18n/locale/ja.json';
 import ko from '@/i18n/locale/ko.json';
 import pt from '@/i18n/locale/pt.json';
 import uk from '@/i18n/locale/uk.json';
+import vi from '@/i18n/locale/vi.json';
 import zh_Hans from '@/i18n/locale/zh_Hans.json';
 import zh_Hant from '@/i18n/locale/zh_Hant.json';
 
@@ -40,6 +41,7 @@ const resources = {
     ko: translationHelper(ko),
     pt: translationHelper(pt),
     uk: translationHelper(uk),
+    vi: translationHelper(vi),
     'zh-Hans': translationHelper(zh_Hans),
     'zh-Hant': translationHelper(zh_Hant),
 } as const;
