@@ -26,14 +26,17 @@
     ]
   },
   "dependencies": {
+    "@apollo/client": "^3.8.1",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@fontsource/roboto": "^5.0.8",
     "@mui/icons-material": "^5.14.9",
     "@mui/material": "^5.14.9",
     "@vitejs/plugin-react-swc": "^3.3.2",
+    "apollo-upload-client": "^17.0.0",
     "axios": "^1.5.0",
     "file-selector": "^0.6.0",
+    "graphql-tag": "^2.12.6",
     "i18next": "^23.5.1",
     "i18next-browser-languagedetector": "^7.1.0",
     "react": "^18.2.0",
@@ -48,6 +51,7 @@
     "vite-tsconfig-paths": "^4.2.1"
   },
   "devDependencies": {
+    "@types/apollo-upload-client": "^17.0.2",
     "@types/node": "^20.6.2",
     "@types/react": "^18.2.21",
     "@types/react-beautiful-dnd": "^13.1.4",
