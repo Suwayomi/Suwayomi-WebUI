@@ -62,8 +62,8 @@ function UpdateChecker({ handleFinishedUpdate }: IUpdateCheckerProps) {
         let updateStarted = false;
 
         wsc.onmessage = (e) => {
-            const { running, statusMap } = JSON.parse(e.data) as IUpdateStatus;
-            const { COMPLETE = [], RUNNING = [], PENDING = [] } = statusMap;
+            const { running, mangaStatusMap } = JSON.parse(e.data) as IUpdateStatus;
+            const { COMPLETE = [], RUNNING = [], PENDING = [] } = mangaStatusMap;
 
             const currentProgress = 100 * (COMPLETE.length / (COMPLETE.length + RUNNING.length + PENDING.length));
 
