@@ -278,7 +278,7 @@ export interface IQueue {
 
 export interface IUpdateStatus {
     running: boolean;
-    statusMap: {
+    mangaStatusMap: {
         COMPLETE?: IManga[];
         RUNNING?: IManga[];
         PENDING?: IManga[];
