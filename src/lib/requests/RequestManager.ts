@@ -10,6 +10,18 @@ import { AxiosInstance, AxiosRequestConfig } from 'axios';
 import useSWR, { Middleware, SWRConfiguration, SWRResponse } from 'swr';
 import useSWRInfinite, { SWRInfiniteConfiguration, SWRInfiniteResponse } from 'swr/infinite';
 import {
+    FetchResult,
+    MutationHookOptions,
+    MutationOptions,
+    MutationTuple,
+    QueryHookOptions,
+    QueryResult,
+    TypedDocumentNode,
+    useMutation,
+    useQuery,
+} from '@apollo/client';
+import { OperationVariables } from '@apollo/client/core';
+import {
     BackupValidationResult,
     BatchChaptersChange,
     IAbout,
@@ -31,12 +43,19 @@ import {
 } from '@/typings.ts';
 import { HttpMethod as DefaultHttpMethod, IRestClient, RestClient } from '@/lib/requests/client/RestClient.ts';
 import storage from '@/util/localStorage.tsx';
+import { GraphQLClient } from '@/lib/requests/client/GraphQLClient.ts';
 
 enum SWRHttpMethod {
     SWR_GET,
     SWR_GET_INFINITE,
     SWR_POST,
     SWR_POST_INFINITE,
+}
+
+enum GQLMethod {
+    USE_QUERY = 'USE_QUERY',
+    USE_MUTATION = 'USE_MUTATION',
+    MUTATION = 'MUTATION',
 }
 
 type HttpMethodType = DefaultHttpMethod | SWRHttpMethod;
@@ -63,6 +82,16 @@ export type AbortableSWRResponse<Data = any, Error = any> = SWRResponse<Data, Er
 export type AbortableSWRInfiniteResponse<Data = any, Error = any> = SWRInfiniteResponse<Data, Error> &
     AbortableRequest &
     SWRInfiniteResponseLoadInfo;
+
+type AbortableApolloUseQueryResponse<
+    Data = any,
+    Variables extends OperationVariables = OperationVariables,
+> = QueryResult<Data, Variables> & AbortableRequest;
+type AbortableApolloUseMutationResponse<Data = any, Variables extends OperationVariables = OperationVariables> = [
+    MutationTuple<Data, Variables>[0],
+    MutationTuple<Data, Variables>[1] & AbortableRequest,
+];
+type AbortableApolloMutationResponse<Data = any> = { response: Promise<FetchResult<Data>> } & AbortableRequest;
 
 const isLoadingMore = (swrResult: SWRInfiniteResponse): boolean => {
     const isNextPageMissing = !!swrResult.data && typeof swrResult.data[swrResult.size - 1] === 'undefined';
@@ -97,6 +126,8 @@ const disableSwrCache: Middleware = (useSWRNext) => (key, fetcher, config) => {
 export class RequestManager {
     public static readonly API_VERSION = '/api/v1/';
 
+    private readonly graphQLClient = new GraphQLClient();
+
     private readonly restClient: RestClient = new RestClient();
 
     public getClient(): IRestClient {
@@ -105,6 +136,7 @@ export class RequestManager {
 
     public updateClient(config: Partial<AxiosInstance['defaults']>): void {
         this.restClient.updateConfig(config);
+        this.graphQLClient.updateConfig({ uri: config.baseURL });
     }
 
     public getBaseUrl(): string {
@@ -136,6 +168,100 @@ export class RequestManager {
         const useCacheQuery = `?useCache=${useCache}`;
         // server provided image urls already contain the api version
         return `${this.getValidUrlFor(imageUrl, apiVersion)}${useCacheQuery}`;
+    }
+
+    private doRequestNew<Data, Variables extends OperationVariables = OperationVariables>(
+        method: GQLMethod.USE_QUERY,
+        operation: TypedDocumentNode<Data, Variables>,
+        variables: Variables,
+        options?: Partial<QueryHookOptions<Data, Variables>>,
+    ): AbortableApolloUseQueryResponse<Data, Variables>;
+
+    private doRequestNew<Data, Variables extends OperationVariables = OperationVariables>(
+        method: GQLMethod.USE_MUTATION,
+        operation: TypedDocumentNode<Data, Variables>,
+        variables: Variables | undefined,
+        options?: Partial<MutationHookOptions<Data, Variables>>,
+    ): AbortableApolloUseMutationResponse<Data, Variables>;
+
+    private doRequestNew<Data, Variables extends OperationVariables = OperationVariables>(
+        method: GQLMethod.MUTATION,
+        operation: TypedDocumentNode<Data, Variables>,
+        variables: Variables,
+        options?: Partial<MutationOptions<Data, Variables>>,
+    ): AbortableApolloMutationResponse<Data>;
+
+    private doRequestNew<Data, Variables extends OperationVariables = OperationVariables>(
+        method: GQLMethod,
+        operation: TypedDocumentNode<Data, Variables>,
+        variables: Variables,
+        options?:
+            | QueryHookOptions<Data, Variables>
+            | MutationHookOptions<Data, Variables>
+            | MutationOptions<Data, Variables>,
+    ):
+        | AbortableApolloUseQueryResponse<Data, Variables>
+        | AbortableApolloUseMutationResponse<Data, Variables>
+        | AbortableApolloMutationResponse<Data> {
+        const abortController = new AbortController();
+        const abortRequest = (reason?: any): void => {
+            if (!abortController.signal.aborted) {
+                abortController.abort(reason);
+            }
+        };
+
+        switch (method) {
+            case GQLMethod.USE_QUERY:
+                return {
+                    ...useQuery<Data, Variables>(operation, {
+                        variables,
+                        client: this.graphQLClient.client,
+                        ...options,
+                        context: {
+                            ...options?.context,
+                            fetchOptions: {
+                                signal: abortController.signal,
+                                ...options?.context?.fetchOptions,
+                            },
+                        },
+                    }),
+                    abortRequest,
+                };
+            case GQLMethod.USE_MUTATION:
+                // eslint-disable-next-line no-case-declarations
+                const mutationResult = useMutation<Data, Variables>(operation, {
+                    variables,
+                    client: this.graphQLClient.client,
+                    ...(options as MutationHookOptions<Data, Variables>),
+                    context: {
+                        ...options?.context,
+                        fetchOptions: {
+                            signal: abortController.signal,
+                            ...options?.context?.fetchOptions,
+                        },
+                    },
+                });
+
+                return [mutationResult[0], { ...mutationResult[1], abortRequest }];
+            case GQLMethod.MUTATION:
+                return {
+                    response: this.graphQLClient.client.mutate<Data, Variables>({
+                        mutation: operation,
+                        variables,
+                        ...(options as MutationOptions<Data, Variables>),
+                        context: {
+                            ...options?.context,
+                            fetchOptions: {
+                                signal: abortController.signal,
+                                ...options?.context?.fetchOptions,
+                            },
+                        },
+                    }),
+                    abortRequest,
+                };
+            default:
+                throw new Error(`unexpected GQLRequest type "${method}"`);
+        }
     }
 
     private useSwr<
