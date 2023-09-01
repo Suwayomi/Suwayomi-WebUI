@@ -30,7 +30,8 @@ export default function CategorySelect(props: IProps) {
     const { open, setOpen, mangaId } = props;
 
     const { data: mangaCategoriesData, mutate } = requestManager.useGetMangaCategories(mangaId);
-    const { data: categoriesData } = requestManager.useGetCategories();
+    const { data } = requestManager.useGetCategories();
+    const categoriesData = data?.categories.nodes;
     const [triggerMutate] = requestManager.useUpdateMangaCategories();
 
     const allCategories = useMemo(() => {

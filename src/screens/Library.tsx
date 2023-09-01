@@ -63,9 +63,13 @@ export default function Library() {
 
     const { options } = useLibraryOptionsContext();
     const [lastLibraryUpdate, setLastLibraryUpdate] = useState(Date.now());
-    const { data: tabsData, error: tabsError, isLoading: areCategoriesLoading } = requestManager.useGetCategories();
+    const { data, error: tabsError, loading: areCategoriesLoading } = requestManager.useGetCategories();
+    const tabsData = data?.categories.nodes.filter((category) => category.id !== 0);
     const tabs = tabsData ?? [];
-    const librarySize = useMemo(() => tabs.map((tab) => tab.size).reduce((prev, curr) => prev + curr, 0), [tabs]);
+    const librarySize = useMemo(
+        () => tabs.map((tab) => tab.mangas.totalCount).reduce((prev, curr) => prev + curr, 0),
+        [tabs],
+    );
 
     const [tabSearchParam, setTabSearchParam] = useQueryParam('tab', NumberParam);
 
@@ -108,7 +112,7 @@ export default function Library() {
         return (
             <EmptyView
                 message={t('category.error.label.request_failure')}
-                messageExtra={tabsError?.message ?? tabsError}
+                messageExtra={(tabsError?.message as any) ?? tabsError}
             />
         );
     }
@@ -154,7 +158,7 @@ export default function Library() {
                         label={
                             <TitleWithSizeTag>
                                 {tab.name}
-                                {options.showTabSize ? <TitleSizeTag label={tab.size} /> : null}
+                                {options.showTabSize ? <TitleSizeTag label={tab.mangas.totalCount} /> : null}
                             </TitleWithSizeTag>
                         }
                         value={tab.order}

@@ -27,7 +27,6 @@ import {
     IChapter,
     IManga,
     IMangaChapter,
-    IncludeInGlobalUpdate,
     ISourceFilters,
     IUpdateStatus,
     PaginatedList,
@@ -39,8 +38,14 @@ import { HttpMethod as DefaultHttpMethod, IRestClient, RestClient } from '@/lib/
 import storage from '@/util/localStorage.tsx';
 import { GraphQLClient } from '@/lib/requests/client/GraphQLClient.ts';
 import {
+    CategoryOrderBy,
     CheckForServerUpdatesQuery,
     CheckForServerUpdatesQueryVariables,
+    CreateCategoryInput,
+    CreateCategoryMutation,
+    CreateCategoryMutationVariables,
+    DeleteCategoryMutation,
+    DeleteCategoryMutationVariables,
     DeleteDownloadedChapterMutation,
     DeleteDownloadedChapterMutationVariables,
     DeleteDownloadedChaptersMutation,
@@ -49,6 +54,8 @@ import {
     GetAboutQueryVariables,
     GetExtensionsFetchMutation,
     GetExtensionsFetchMutationVariables,
+    GetCategoriesQuery,
+    GetCategoriesQueryVariables,
     GetExtensionsQuery,
     GetExtensionsQueryVariables,
     GetGlobalMetadatasQuery,
@@ -59,11 +66,18 @@ import {
     GetSourcesQueryVariables,
     InstallExternalExtensionMutation,
     InstallExternalExtensionMutationVariables,
+    SetCategoryMetadataMutation,
+    SetCategoryMetadataMutationVariables,
     SetChapterMetadataMutation,
     SetChapterMetadataMutationVariables,
     SetGlobalMetadataMutation,
     SetGlobalMetadataMutationVariables,
     SetMangaMetadataMutation,
+    UpdateCategoryMutation,
+    UpdateCategoryMutationVariables,
+    UpdateCategoryOrderMutation,
+    UpdateCategoryOrderMutationVariables,
+    UpdateCategoryPatchInput,
     UpdateChapterMutation,
     UpdateChapterMutationVariables,
     UpdateChapterPatchInput,
@@ -95,6 +109,13 @@ import { GET_SOURCE_MANGAS_FETCH } from '@/lib/graphql/mutations/SourceMutation.
 import { DELETE_DOWNLOADED_CHAPTER, DELETE_DOWNLOADED_CHAPTERS } from '@/lib/graphql/mutations/DownloaderMutation.ts';
 import { GET_CHAPTER, GET_CHAPTERS } from '@/lib/graphql/queries/ChapterQuery.ts';
 import { SET_CHAPTER_METADATA, UPDATE_CHAPTER, UPDATE_CHAPTERS } from '@/lib/graphql/mutations/ChapterMutation.ts';
+import {
+    CREATE_CATEGORY,
+    DELETE_CATEGORY,
+    SET_CATEGORY_METADATA,
+    UPDATE_CATEGORY,
+    UPDATE_CATEGORY_ORDER,
+} from '@/lib/graphql/mutations/CategoryMutation.ts';
 
 enum SWRHttpMethod {
     SWR_GET,
@@ -822,37 +843,66 @@ export class RequestManager {
         );
     }
 
-    public useGetCategories(swrOptions?: SWROptions<ICategory[]>): AbortableSWRResponse<ICategory[]> {
-        return this.doRequest(HttpMethod.SWR_GET, `category`, { swrOptions });
-    }
-
-    public createCategory(name: string): AbortableAxiosResponse {
-        return this.doRequest(HttpMethod.POST, `category`, { formData: { name } });
-    }
-
-    public reorderCategory(currentPosition: number, newPosition: number): AbortableAxiosResponse {
-        return this.doRequest(HttpMethod.PATCH, `category/reorder`, {
-            formData: { from: currentPosition, to: newPosition },
+    public useGetCategories(): AbortableApolloUseQueryResponse<GetCategoriesQuery, GetCategoriesQueryVariables> {
+        return this.doRequestNew<GetCategoriesQuery, GetCategoriesQueryVariables>(GQLMethod.USE_QUERY, GET_CATEGORIES, {
+            orderBy: CategoryOrderBy.Order,
         });
+    }
+
+    public createCategory(input: CreateCategoryInput): AbortableApolloMutationResponse<CreateCategoryMutation> {
+        return this.doRequestNew<CreateCategoryMutation, CreateCategoryMutationVariables>(
+            GQLMethod.MUTATION,
+            CREATE_CATEGORY,
+            { input },
+            { refetchQueries: [GET_CATEGORIES] },
+        );
+    }
+
+    public reorderCategory(id: number, position: number): AbortableApolloMutationResponse<UpdateCategoryOrderMutation> {
+        return this.doRequestNew<UpdateCategoryOrderMutation, UpdateCategoryOrderMutationVariables>(
+            GQLMethod.MUTATION,
+            UPDATE_CATEGORY_ORDER,
+            { input: { id, position } },
+            { refetchQueries: [GET_CATEGORIES] },
+        );
     }
 
     public useGetCategoryMangas(categoryId: number, swrOptions?: SWROptions<IManga[]>): AbortableSWRResponse<IManga[]> {
         return this.doRequest(HttpMethod.SWR_GET, `category/${categoryId}`, { swrOptions });
     }
 
-    public deleteCategory(categoryId: number): AbortableAxiosResponse {
-        return this.doRequest(HttpMethod.DELETE, `category/${categoryId}`);
+    public deleteCategory(categoryId: number): AbortableApolloMutationResponse<DeleteCategoryMutation> {
+        return this.doRequestNew<DeleteCategoryMutation, DeleteCategoryMutationVariables>(
+            GQLMethod.MUTATION,
+            DELETE_CATEGORY,
+            { input: { categoryId } },
+            { refetchQueries: [GET_MANGA, GET_MANGAS, GET_CATEGORIES] },
+        );
     }
 
     public updateCategory(
-        categoryId: number,
-        change: { name?: string; default?: boolean; includeInUpdate?: IncludeInGlobalUpdate } = {},
-    ): AbortableAxiosResponse {
-        return this.doRequest(HttpMethod.PATCH, `category/${categoryId}`, { formData: change });
+        id: number,
+        patch: UpdateCategoryPatchInput,
+    ): AbortableApolloMutationResponse<UpdateCategoryMutation> {
+        return this.doRequestNew<UpdateCategoryMutation, UpdateCategoryMutationVariables>(
+            GQLMethod.MUTATION,
+            UPDATE_CATEGORY,
+            { input: { id, patch } },
+            { refetchQueries: [GET_CATEGORY, GET_CATEGORIES] },
+        );
     }
 
-    public setCategoryMeta(categoryId: number, key: string, value: any): AbortableAxiosResponse {
-        return this.doRequest(HttpMethod.PATCH, `category/${categoryId}/meta`, { formData: { key, value } });
+    public setCategoryMeta(
+        categoryId: number,
+        key: string,
+        value: any,
+    ): AbortableApolloMutationResponse<SetCategoryMetadataMutation> {
+        return this.doRequestNew<SetCategoryMetadataMutation, SetCategoryMetadataMutationVariables>(
+            GQLMethod.MUTATION,
+            SET_CATEGORY_METADATA,
+            { input: { meta: { categoryId, key, value: `${value}` } } },
+            { refetchQueries: [GET_MANGA, GET_MANGAS, GET_CATEGORY, GET_CATEGORIES] },
+        );
     }
 
     public restoreBackupFile(file: File): AbortableAxiosResponse {

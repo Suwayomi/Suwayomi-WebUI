@@ -24,11 +24,11 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { useTranslation } from 'react-i18next';
-import { ICategory } from '@/typings';
 import requestManager from '@/lib/requests/RequestManager.ts';
 import StrictModeDroppable from '@/lib/StrictModeDroppable';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/components/util/StyledFab';
 import NavbarContext, { useSetDefaultBackTo } from '@/components/context/NavbarContext';
+import { CategoryType } from '@/lib/graphql/generated/graphql.ts';
 
 const getItemStyle = (
     isDragging: boolean,
@@ -52,13 +52,13 @@ export default function Categories() {
         setAction(null);
     }, [t]);
 
-    const { data, mutate } = requestManager.useGetCategories();
+    const { data } = requestManager.useGetCategories();
     const categories = useMemo(() => {
-        const res = [...(data ?? [])];
+        const res = [...(data?.categories.nodes ?? [])];
         if (res.length > 0 && res[0].name === 'Default') {
             res.shift();
         }
-        return res;
+        return res as CategoryType[];
     }, [data]);
 
     const [categoryToEdit, setCategoryToEdit] = useState<number>(-1); // -1 means new category
@@ -69,13 +69,15 @@ export default function Categories() {
 
     useSetDefaultBackTo('settings');
 
-    const categoryReorder = (list: ICategory[], from: number, to: number) => {
+    const categoryReorder = (list: CategoryType[], from: number, to: number) => {
+        const reorderedCategory = list[from];
         const newData = [...list];
         const [removed] = newData.splice(from, 1);
         newData.splice(to, 0, removed);
-        mutate(newData, { revalidate: false });
+        // TODO - update cache immediately
+        // mutate(categoriesEndpoint, newData, { revalidate: false });
 
-        requestManager.reorderCategory(from + 1, to + 1).response.finally(() => mutate());
+        requestManager.reorderCategory(reorderedCategory.id, to + 1);
     };
 
     const onDragEnd = (result: DropResult) => {
@@ -113,18 +115,16 @@ export default function Categories() {
         setDialogOpen(false);
 
         if (categoryToEdit === -1) {
-            requestManager.createCategory(dialogName).response.finally(() => mutate());
+            requestManager.createCategory({ name: dialogName, default: dialogDefault });
         } else {
             const category = categories[categoryToEdit];
-            requestManager
-                .updateCategory(category.id, { name: dialogName, default: dialogDefault })
-                .response.finally(() => mutate());
+            requestManager.updateCategory(category.id, { name: dialogName, default: dialogDefault });
         }
     };
 
     const deleteCategory = (index: number) => {
         const category = categories[index];
-        requestManager.deleteCategory(category.id).response.finally(() => mutate());
+        requestManager.deleteCategory(category.id);
     };
 
     return (
