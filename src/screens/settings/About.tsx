@@ -25,7 +25,8 @@ export default function About() {
         setAction(null);
     }, [t]);
 
-    const { data: about } = requestManager.useGetAbout();
+    const { data } = requestManager.useGetAbout();
+    const about = data?.about;
 
     useSetDefaultBackTo('settings');
 

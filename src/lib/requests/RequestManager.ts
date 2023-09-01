@@ -24,7 +24,6 @@ import { OperationVariables } from '@apollo/client/core';
 import {
     BackupValidationResult,
     BatchChaptersChange,
-    IAbout,
     ICategory,
     IChapter,
     IExtension,
@@ -44,6 +43,8 @@ import { HttpMethod as DefaultHttpMethod, IRestClient, RestClient } from '@/lib/
 import storage from '@/util/localStorage.tsx';
 import { GraphQLClient } from '@/lib/requests/client/GraphQLClient.ts';
 import {
+    GetAboutQuery,
+    GetAboutQueryVariables,
     GetGlobalMetadatasQuery,
     GetGlobalMetadatasQueryVariables,
     SetGlobalMetadataMutation,
@@ -51,6 +52,7 @@ import {
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_GLOBAL_METADATA, GET_GLOBAL_METADATAS } from '@/lib/graphql/queries/GlobalMetadataQuery.ts';
 import { SET_GLOBAL_METADATA } from '@/lib/graphql/mutations/GlobalMetadataMutation.ts';
+import { GET_ABOUT } from '@/lib/graphql/queries/ServerInfoQuery.ts';
 
 enum SWRHttpMethod {
     SWR_GET,
@@ -445,8 +447,10 @@ export class RequestManager {
         );
     }
 
-    public useGetAbout(swrOptions?: SWROptions<IAbout>): AbortableSWRResponse<IAbout> {
-        return this.doRequest(HttpMethod.SWR_GET, 'settings/about', { swrOptions });
+    public useGetAbout(
+        options?: QueryHookOptions<GetAboutQuery, GetAboutQueryVariables>,
+    ): AbortableApolloUseQueryResponse<GetAboutQuery, GetAboutQueryVariables> {
+        return this.doRequestNew(GQLMethod.USE_QUERY, GET_ABOUT, {}, options);
     }
 
     public useCheckForUpdate(swrOptions?: SWROptions<UpdateCheck[]>): AbortableSWRResponse<UpdateCheck[]> {

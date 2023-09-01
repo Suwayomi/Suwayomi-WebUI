@@ -253,16 +253,6 @@ export interface IReaderProps {
     prevChapter: () => void;
 }
 
-export interface IAbout {
-    name: string;
-    version: string;
-    revision: string;
-    buildType: 'Stable' | 'Preview';
-    buildTime: number;
-    github: string;
-    discord: string;
-}
-
 export interface IDownloadChapter {
     chapterIndex: number;
     mangaId: number;
