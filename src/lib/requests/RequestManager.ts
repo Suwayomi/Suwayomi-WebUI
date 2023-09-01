@@ -41,6 +41,8 @@ import {
     CategoryOrderBy,
     CheckForServerUpdatesQuery,
     CheckForServerUpdatesQueryVariables,
+    ClearDownloaderMutation,
+    ClearDownloaderMutationVariables,
     CreateCategoryInput,
     CreateCategoryMutation,
     CreateCategoryMutationVariables,
@@ -50,6 +52,14 @@ import {
     DeleteDownloadedChapterMutationVariables,
     DeleteDownloadedChaptersMutation,
     DeleteDownloadedChaptersMutationVariables,
+    DequeueChapterDownloadMutation,
+    DequeueChapterDownloadMutationVariables,
+    DequeueChapterDownloadsMutation,
+    DequeueChapterDownloadsMutationVariables,
+    EnqueueChapterDownloadMutation,
+    EnqueueChapterDownloadMutationVariables,
+    EnqueueChapterDownloadsMutation,
+    EnqueueChapterDownloadsMutationVariables,
     GetAboutQuery,
     GetAboutQueryVariables,
     GetExtensionsFetchMutation,
@@ -66,6 +76,8 @@ import {
     GetSourcesQueryVariables,
     InstallExternalExtensionMutation,
     InstallExternalExtensionMutationVariables,
+    ReorderChapterDownloadMutation,
+    ReorderChapterDownloadMutationVariables,
     SetCategoryMetadataMutation,
     SetCategoryMetadataMutationVariables,
     SetChapterMetadataMutation,
@@ -73,6 +85,10 @@ import {
     SetGlobalMetadataMutation,
     SetGlobalMetadataMutationVariables,
     SetMangaMetadataMutation,
+    StartDownloaderMutation,
+    StartDownloaderMutationVariables,
+    StopDownloaderMutation,
+    StopDownloaderMutationVariables,
     UpdateCategoryMutation,
     UpdateCategoryMutationVariables,
     UpdateCategoryOrderMutation,
@@ -106,7 +122,18 @@ import { SET_MANGA_METADATA, UPDATE_MANGA, UPDATE_MANGA_CATEGORIES } from '@/lib
 import { GET_MANGA, GET_MANGAS } from '@/lib/graphql/queries/MangaQuery.ts';
 import { GET_CATEGORIES, GET_CATEGORY, GET_CATEGORY_MANGAS } from '@/lib/graphql/queries/CategoryQuery.ts';
 import { GET_SOURCE_MANGAS_FETCH } from '@/lib/graphql/mutations/SourceMutation.ts';
-import { DELETE_DOWNLOADED_CHAPTER, DELETE_DOWNLOADED_CHAPTERS } from '@/lib/graphql/mutations/DownloaderMutation.ts';
+import {
+    CLEAR_DOWNLOADER,
+    DELETE_DOWNLOADED_CHAPTER,
+    DELETE_DOWNLOADED_CHAPTERS,
+    DEQUEUE_CHAPTER_DOWNLOAD,
+    DEQUEUE_CHAPTER_DOWNLOADS,
+    ENQUEUE_CHAPTER_DOWNLOAD,
+    ENQUEUE_CHAPTER_DOWNLOADS,
+    REORDER_CHAPTER_DOWNLOAD,
+    START_DOWNLOADER,
+    STOP_DOWNLOADER,
+} from '@/lib/graphql/mutations/DownloaderMutation.ts';
 import { GET_CHAPTER, GET_CHAPTERS } from '@/lib/graphql/queries/ChapterQuery.ts';
 import { SET_CHAPTER_METADATA, UPDATE_CHAPTER, UPDATE_CHAPTERS } from '@/lib/graphql/mutations/ChapterMutation.ts';
 import {
@@ -116,6 +143,7 @@ import {
     UPDATE_CATEGORY,
     UPDATE_CATEGORY_ORDER,
 } from '@/lib/graphql/mutations/CategoryMutation.ts';
+import { GET_DOWNLOAD_STATUS } from '@/lib/graphql/queries/DownloaderQuery.ts';
 
 enum SWRHttpMethod {
     SWR_GET,
@@ -923,43 +951,79 @@ export class RequestManager {
         return this.getValidUrlFor('backup/export/file');
     }
 
-    public startDownloads(): AbortableAxiosResponse {
-        return this.doRequest(HttpMethod.GET, 'downloads/start');
+    public startDownloads(): AbortableApolloMutationResponse<StartDownloaderMutation> {
+        return this.doRequestNew<StartDownloaderMutation, StartDownloaderMutationVariables>(
+            GQLMethod.MUTATION,
+            START_DOWNLOADER,
+            {},
+        );
     }
 
-    public stopDownloads(): AbortableAxiosResponse {
-        return this.doRequest(HttpMethod.GET, 'downloads/stop');
+    public stopDownloads(): AbortableApolloMutationResponse<StopDownloaderMutation> {
+        return this.doRequestNew<StopDownloaderMutation, StopDownloaderMutationVariables>(
+            GQLMethod.MUTATION,
+            STOP_DOWNLOADER,
+            {},
+        );
     }
 
-    public clearDownloads(): AbortableAxiosResponse {
-        return this.doRequest(HttpMethod.GET, 'downloads/clear');
+    public clearDownloads(): AbortableApolloMutationResponse<ClearDownloaderMutation> {
+        return this.doRequestNew<ClearDownloaderMutation, ClearDownloaderMutationVariables>(
+            GQLMethod.MUTATION,
+            CLEAR_DOWNLOADER,
+            {},
+            { refetchQueries: [GET_DOWNLOAD_STATUS] },
+        );
     }
 
-    public addChapterToDownloadQueue(mangaId: number | string, chapterIndex: number | string): AbortableAxiosResponse {
-        return this.doRequest(HttpMethod.GET, `download/${mangaId}/chapter/${chapterIndex}`);
+    public addChapterToDownloadQueue(id: number): AbortableApolloMutationResponse<EnqueueChapterDownloadMutation> {
+        return this.doRequestNew<EnqueueChapterDownloadMutation, EnqueueChapterDownloadMutationVariables>(
+            GQLMethod.MUTATION,
+            ENQUEUE_CHAPTER_DOWNLOAD,
+            { input: { id } },
+            { refetchQueries: [GET_DOWNLOAD_STATUS] },
+        );
     }
 
-    public removeChapterFromDownloadQueue(
-        mangaId: number | string,
-        chapterIndex: number | string,
-    ): AbortableAxiosResponse {
-        return this.doRequest(HttpMethod.DELETE, `download/${mangaId}/chapter/${chapterIndex}`);
+    public removeChapterFromDownloadQueue(id: number): AbortableApolloMutationResponse<DequeueChapterDownloadMutation> {
+        return this.doRequestNew<DequeueChapterDownloadMutation, DequeueChapterDownloadMutationVariables>(
+            GQLMethod.MUTATION,
+            DEQUEUE_CHAPTER_DOWNLOAD,
+            { input: { id } },
+            { refetchQueries: [GET_DOWNLOAD_STATUS] },
+        );
     }
 
     public reorderChapterInDownloadQueue(
-        mangaId: number | string,
-        chapterIndex: number | string,
+        chapterId: number,
         position: number,
-    ): AbortableAxiosResponse {
-        return this.doRequest(HttpMethod.PATCH, `download/${mangaId}/chapter/${chapterIndex}/reorder/${position}`);
+    ): AbortableApolloMutationResponse<ReorderChapterDownloadMutation> {
+        return this.doRequestNew<ReorderChapterDownloadMutation, ReorderChapterDownloadMutationVariables>(
+            GQLMethod.MUTATION,
+            REORDER_CHAPTER_DOWNLOAD,
+            { input: { chapterId, to: position } },
+            { refetchQueries: [GET_DOWNLOAD_STATUS] },
+        );
     }
 
-    public addChaptersToDownloadQueue(chapterIds: number[]): AbortableAxiosResponse {
-        return this.doRequest(HttpMethod.POST, 'download/batch', { data: { chapterIds } });
+    public addChaptersToDownloadQueue(ids: number[]): AbortableApolloMutationResponse<EnqueueChapterDownloadsMutation> {
+        return this.doRequestNew<EnqueueChapterDownloadsMutation, EnqueueChapterDownloadsMutationVariables>(
+            GQLMethod.MUTATION,
+            ENQUEUE_CHAPTER_DOWNLOADS,
+            { input: { ids } },
+            { refetchQueries: [GET_DOWNLOAD_STATUS] },
+        );
     }
 
-    public removeChaptersFromDownloadQueue(chapterIds: number[]): AbortableAxiosResponse {
-        return this.doRequest(HttpMethod.DELETE, 'download/batch', { data: { chapterIds } });
+    public removeChaptersFromDownloadQueue(
+        ids: number[],
+    ): AbortableApolloMutationResponse<DequeueChapterDownloadsMutation> {
+        return this.doRequestNew<DequeueChapterDownloadsMutation, DequeueChapterDownloadsMutationVariables>(
+            GQLMethod.MUTATION,
+            DEQUEUE_CHAPTER_DOWNLOADS,
+            { input: { ids } },
+            { refetchQueries: [GET_DOWNLOAD_STATUS] },
+        );
     }
 
     public useGetRecentlyUpdatedChapters(

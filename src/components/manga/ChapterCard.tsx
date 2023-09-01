@@ -91,7 +91,7 @@ const ChapterCard: React.FC<IProps> = (props: IProps) => {
     };
 
     const downloadChapter = () => {
-        requestManager.addChapterToDownloadQueue(chapter.mangaId, chapter.index);
+        requestManager.addChapterToDownloadQueue(chapter.id);
         handleClose();
     };
 

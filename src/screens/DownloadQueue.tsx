@@ -71,7 +71,7 @@ const DownloadQueue: React.FC = () => {
 
             await Promise.all([
                 // remove from download queue
-                requestManager.removeChapterFromDownloadQueue(chapter.mangaId, chapter.index).response,
+                requestManager.removeChapterFromDownloadQueue(chapter.id).response,
                 // delete partial download, should be handle server side?
                 // bug: The folder and the last image downloaded are not deleted
                 requestManager.deleteDownloadedChapter(chapter.id).response,

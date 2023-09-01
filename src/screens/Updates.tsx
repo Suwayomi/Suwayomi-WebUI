@@ -146,7 +146,7 @@ const Updates: React.FC = () => {
     };
 
     const downloadChapter = (chapter: IChapter) => {
-        requestManager.addChapterToDownloadQueue(chapter.mangaId, chapter.index);
+        requestManager.addChapterToDownloadQueue(chapter.id);
     };
 
     const loadMore = useCallback(() => {
