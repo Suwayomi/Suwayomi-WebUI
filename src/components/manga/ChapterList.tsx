@@ -11,7 +11,7 @@ import Typography from '@mui/material/Typography';
 import React, { ComponentProps, useEffect, useMemo, useRef, useState } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 import { useTranslation } from 'react-i18next';
-import { BatchChaptersChange, IChapter, IDownloadChapter, IQueue, TranslationKey } from '@/typings';
+import { IChapter, IDownloadChapter, IQueue, TranslationKey } from '@/typings';
 import requestManager from '@/lib/requests/RequestManager.ts';
 import useSubscription from '@/components/library/useSubscription';
 import ChapterCard from '@/components/manga/ChapterCard';
@@ -22,6 +22,7 @@ import makeToast from '@/components/util/Toast';
 import ChaptersToolbarMenu from '@/components/manga/ChaptersToolbarMenu';
 import SelectionFAB from '@/components/manga/SelectionFAB';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/components/util/StyledFab';
+import { UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
 
 const StyledVirtuoso = styled(Virtuoso)(({ theme }) => ({
     listStyle: 'none',
@@ -87,6 +88,7 @@ const ChapterList: React.FC<IProps> = ({ mangaId }) => {
     const [options, dispatch] = useChapterOptions(mangaId);
     const { data: chaptersData, mutate, isLoading } = requestManager.useGetMangaChapters(mangaId);
     const chapters = useMemo(() => chaptersData ?? [], [chaptersData]);
+    const mangaChapterIds = useMemo(() => chapters.map((chapter) => chapter.id), [chapters]);
 
     useEffect(() => {
         if (prevQueueRef.current && queue) {
@@ -154,17 +156,20 @@ const ChapterList: React.FC<IProps> = ({ mangaId }) => {
         if (action === 'download') {
             actionPromise = requestManager.addChaptersToDownloadQueue(chapterIds).response;
         } else {
-            const change: BatchChaptersChange = {};
+            const change: UpdateChapterPatchInput = {};
 
-            if (action === 'delete') change.delete = true;
-            else if (action === 'bookmark') change.isBookmarked = true;
+            if (action === 'bookmark') change.isBookmarked = true;
             else if (action === 'unbookmark') change.isBookmarked = false;
             else if (action === 'mark_as_read' || action === 'mark_as_unread') {
                 change.isRead = action === 'mark_as_read';
                 change.lastPageRead = 0;
             }
 
-            actionPromise = requestManager.updateChapters(chapterIds, change).response;
+            if (action === 'delete') {
+                actionPromise = requestManager.deleteDownloadedChapters(chapterIds).response;
+            } else {
+                actionPromise = requestManager.updateChapters(chapterIds, change).response;
+            }
         }
 
         actionPromise
@@ -266,6 +271,7 @@ const ChapterList: React.FC<IProps> = ({ mangaId }) => {
                         return (
                             <ChapterCard
                                 {...chaptersWithMeta[index]}
+                                chapterIds={mangaChapterIds}
                                 showChapterNumber={options.showChapterNumber}
                                 triggerChaptersUpdate={() => mutate()}
                                 onSelect={() => handleSelection(index)}

@@ -85,7 +85,7 @@ const initialChapter = {
     chapterCount: 0,
     lastPageRead: 0,
     name: 'Loading...',
-};
+} as IChapter;
 
 export default function Reader() {
     const { t } = useTranslation();
@@ -207,19 +207,19 @@ export default function Reader() {
 
         // do not mutate the chapter, this will cause the page to jump around due to always scrolling to the last read page
         if (curPage !== -1) {
-            requestManager.updateChapter(manga.id, chapter.index, { lastPageRead: curPage });
+            requestManager.updateChapter(chapter.id, { lastPageRead: curPage });
         }
 
         if (curPage === chapter.pageCount - 1) {
-            requestManager.updateChapter(manga.id, chapter.index, { read: true });
+            requestManager.updateChapter(chapter.id, { isRead: true });
         }
     }, [curPage]);
 
     const nextChapter = useCallback(() => {
         if (chapter.index < chapter.chapterCount) {
-            requestManager.updateChapter(manga.id, chapter.index, {
+            requestManager.updateChapter(chapter.id, {
                 lastPageRead: chapter.pageCount - 1,
-                read: true,
+                isRead: true,
             });
 
             openNextChapter(ChapterOffset.NEXT, (nextChapterIndex) =>

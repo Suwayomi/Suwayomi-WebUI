@@ -74,7 +74,7 @@ const DownloadQueue: React.FC = () => {
                 requestManager.removeChapterFromDownloadQueue(chapter.mangaId, chapter.index).response,
                 // delete partial download, should be handle server side?
                 // bug: The folder and the last image downloaded are not deleted
-                requestManager.deleteDownloadedChapter(chapter.mangaId, chapter.index).response,
+                requestManager.deleteDownloadedChapter(chapter.id).response,
             ]);
         } catch (error) {
             makeToast(t('download.queue.error.label.failed_to_remove'), 'error');

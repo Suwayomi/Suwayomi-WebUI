@@ -31,9 +31,11 @@ import { IChapter, IDownloadChapter } from '@/typings';
 import requestManager from '@/lib/requests/RequestManager.ts';
 import { getUploadDateString } from '@/util/date';
 import DownloadStateIndicator from '@/components/molecules/DownloadStateIndicator';
+import { UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
 
 interface IProps {
     chapter: IChapter;
+    chapterIds: number[];
     triggerChaptersUpdate: () => void;
     downloadChapter: IDownloadChapter | undefined;
     showChapterNumber: boolean;
@@ -45,7 +47,15 @@ const ChapterCard: React.FC<IProps> = (props: IProps) => {
     const { t } = useTranslation();
     const theme = useTheme();
 
-    const { chapter, triggerChaptersUpdate, downloadChapter: dc, showChapterNumber, onSelect, selected } = props;
+    const {
+        chapter,
+        chapterIds,
+        triggerChaptersUpdate,
+        downloadChapter: dc,
+        showChapterNumber,
+        onSelect,
+        selected,
+    } = props;
     const isSelecting = selected !== null;
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -62,13 +72,20 @@ const ChapterCard: React.FC<IProps> = (props: IProps) => {
         setAnchorEl(null);
     };
 
-    const sendChange = (key: string, value: any) => {
+    type UpdatePatchInput = UpdateChapterPatchInput & { markPrevRead?: boolean };
+    const sendChange = <Key extends keyof UpdatePatchInput>(key: Key, value: UpdatePatchInput[Key]) => {
         handleClose();
 
+        if (key === 'markPrevRead') {
+            const index = chapterIds.findIndex((chapterId) => chapterId === chapter.id);
+            requestManager.updateChapters(chapterIds.slice(index, -1), { isRead: true });
+            return;
+        }
+
         requestManager
-            .updateChapter(chapter.mangaId, chapter.index, {
+            .updateChapter(chapter.id, {
                 [key]: value,
-                lastPageRead: key === 'read' ? 0 : undefined,
+                lastPageRead: key === 'isRead' ? 0 : undefined,
             })
             .response.then(() => triggerChaptersUpdate());
     };
@@ -79,9 +96,7 @@ const ChapterCard: React.FC<IProps> = (props: IProps) => {
     };
 
     const deleteChapter = () => {
-        requestManager
-            .deleteDownloadedChapter(chapter.mangaId, chapter.index)
-            .response.then(() => triggerChaptersUpdate());
+        requestManager.deleteDownloadedChapter(chapter.id).response.then(() => triggerChaptersUpdate());
         handleClose();
     };
 
@@ -177,7 +192,7 @@ const ChapterCard: React.FC<IProps> = (props: IProps) => {
                             <ListItemText>{t('chapter.action.download.add.label.action')}</ListItemText>
                         </MenuItem>
                     )}
-                    <MenuItem onClick={() => sendChange('bookmarked', !chapter.bookmarked)}>
+                    <MenuItem onClick={() => sendChange('isBookmarked', !chapter.bookmarked)}>
                         <ListItemIcon>
                             {chapter.bookmarked && <BookmarkRemove fontSize="small" />}
                             {!chapter.bookmarked && <BookmarkAdd fontSize="small" />}
@@ -187,7 +202,7 @@ const ChapterCard: React.FC<IProps> = (props: IProps) => {
                             {!chapter.bookmarked && t('chapter.action.bookmark.add.label.action')}
                         </ListItemText>
                     </MenuItem>
-                    <MenuItem onClick={() => sendChange('read', !chapter.read)}>
+                    <MenuItem onClick={() => sendChange('isRead', !chapter.read)}>
                         <ListItemIcon>
                             {chapter.read && <RemoveDone fontSize="small" />}
                             {!chapter.read && <Done fontSize="small" />}

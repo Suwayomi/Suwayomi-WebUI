@@ -23,7 +23,6 @@ import {
 import { OperationVariables } from '@apollo/client/core';
 import {
     BackupValidationResult,
-    BatchChaptersChange,
     ICategory,
     IChapter,
     IManga,
@@ -42,6 +41,10 @@ import { GraphQLClient } from '@/lib/requests/client/GraphQLClient.ts';
 import {
     CheckForServerUpdatesQuery,
     CheckForServerUpdatesQueryVariables,
+    DeleteDownloadedChapterMutation,
+    DeleteDownloadedChapterMutationVariables,
+    DeleteDownloadedChaptersMutation,
+    DeleteDownloadedChaptersMutationVariables,
     GetAboutQuery,
     GetAboutQueryVariables,
     GetExtensionsFetchMutation,
@@ -56,9 +59,16 @@ import {
     GetSourcesQueryVariables,
     InstallExternalExtensionMutation,
     InstallExternalExtensionMutationVariables,
+    SetChapterMetadataMutation,
+    SetChapterMetadataMutationVariables,
     SetGlobalMetadataMutation,
     SetGlobalMetadataMutationVariables,
     SetMangaMetadataMutation,
+    UpdateChapterMutation,
+    UpdateChapterMutationVariables,
+    UpdateChapterPatchInput,
+    UpdateChaptersMutation,
+    UpdateChaptersMutationVariables,
     UpdateExtensionMutation,
     UpdateExtensionMutationVariables,
     UpdateExtensionPatchInput,
@@ -82,6 +92,9 @@ import { SET_MANGA_METADATA, UPDATE_MANGA, UPDATE_MANGA_CATEGORIES } from '@/lib
 import { GET_MANGA, GET_MANGAS } from '@/lib/graphql/queries/MangaQuery.ts';
 import { GET_CATEGORIES, GET_CATEGORY, GET_CATEGORY_MANGAS } from '@/lib/graphql/queries/CategoryQuery.ts';
 import { GET_SOURCE_MANGAS_FETCH } from '@/lib/graphql/mutations/SourceMutation.ts';
+import { DELETE_DOWNLOADED_CHAPTER, DELETE_DOWNLOADED_CHAPTERS } from '@/lib/graphql/mutations/DownloaderMutation.ts';
+import { GET_CHAPTER, GET_CHAPTERS } from '@/lib/graphql/queries/ChapterQuery.ts';
+import { SET_CHAPTER_METADATA, UPDATE_CHAPTER, UPDATE_CHAPTERS } from '@/lib/graphql/mutations/ChapterMutation.ts';
 
 enum SWRHttpMethod {
     SWR_GET,
@@ -747,27 +760,47 @@ export class RequestManager {
         return this.doRequest(HttpMethod.GET, `manga/${mangaId}/chapter/${chapterIndex}`);
     }
 
-    public deleteDownloadedChapter(mangaId: number | string, chapterIndex: number | string): AbortableAxiosResponse {
-        return this.doRequest(HttpMethod.DELETE, `manga/${mangaId}/chapter/${chapterIndex}`);
+    public deleteDownloadedChapter(id: number): AbortableApolloMutationResponse<DeleteDownloadedChapterMutation> {
+        return this.doRequestNew<DeleteDownloadedChapterMutation, DeleteDownloadedChapterMutationVariables>(
+            GQLMethod.MUTATION,
+            DELETE_DOWNLOADED_CHAPTER,
+            { input: { id } },
+            { refetchQueries: [GET_MANGA, GET_MANGAS, GET_CATEGORY_MANGAS, GET_CHAPTERS] },
+        );
+    }
+
+    public deleteDownloadedChapters(ids: number[]): AbortableApolloMutationResponse<DeleteDownloadedChaptersMutation> {
+        return this.doRequestNew<DeleteDownloadedChaptersMutation, DeleteDownloadedChaptersMutationVariables>(
+            GQLMethod.MUTATION,
+            DELETE_DOWNLOADED_CHAPTERS,
+            { input: { ids } },
+            { refetchQueries: [GET_MANGA, GET_MANGAS, GET_CATEGORY_MANGAS, GET_CHAPTERS] },
+        );
     }
 
     public updateChapter(
-        mangaId: number | string,
-        chapterIndex: number | string,
-        change: { read?: boolean; bookmarked?: boolean; markPrevRead?: boolean; lastPageRead?: number } = {},
-    ): AbortableAxiosResponse {
-        return this.doRequest(HttpMethod.PATCH, `manga/${mangaId}/chapter/${chapterIndex}`, { formData: change });
+        id: number,
+        patch: UpdateChapterPatchInput,
+    ): AbortableApolloMutationResponse<UpdateChapterMutation> {
+        return this.doRequestNew<UpdateChapterMutation, UpdateChapterMutationVariables>(
+            GQLMethod.MUTATION,
+            UPDATE_CHAPTER,
+            { input: { id, patch } },
+            { refetchQueries: [GET_MANGA, GET_MANGAS, GET_CATEGORY_MANGAS, GET_CHAPTER, GET_CHAPTERS] },
+        );
     }
 
     public setChapterMeta(
-        mangaId: number | string,
-        chapterIndex: number | string,
+        chapterId: number,
         key: string,
         value: any,
-    ): AbortableAxiosResponse {
-        return this.doRequest(HttpMethod.PATCH, `manga/${mangaId}/chapter/${chapterIndex}/meta`, {
-            formData: { key, value },
-        });
+    ): AbortableApolloMutationResponse<SetChapterMetadataMutation> {
+        return this.doRequestNew<SetChapterMetadataMutation, SetChapterMetadataMutationVariables>(
+            GQLMethod.MUTATION,
+            SET_CHAPTER_METADATA,
+            { input: { meta: { chapterId, key, value: `${value}` } } },
+            { refetchQueries: [GET_CHAPTER, GET_CHAPTERS] },
+        );
     }
 
     public getChapterPageUrl(mangaId: number | string, chapterIndex: number | string, page: number): string {
@@ -777,8 +810,16 @@ export class RequestManager {
         );
     }
 
-    public updateChapters(chapterIds: number[], change: BatchChaptersChange): AbortableAxiosResponse {
-        return this.doRequest(HttpMethod.POST, `chapter/batch`, { data: { chapterIds, change } });
+    public updateChapters(
+        ids: number[],
+        patch: UpdateChapterPatchInput,
+    ): AbortableApolloMutationResponse<UpdateChaptersMutation> {
+        return this.doRequestNew<UpdateChaptersMutation, UpdateChaptersMutationVariables>(
+            GQLMethod.MUTATION,
+            UPDATE_CHAPTERS,
+            { input: { ids, patch } },
+            { refetchQueries: [GET_MANGA, GET_MANGAS, GET_CATEGORY_MANGAS, GET_CHAPTER, GET_CHAPTERS] },
+        );
     }
 
     public useGetCategories(swrOptions?: SWROptions<ICategory[]>): AbortableSWRResponse<ICategory[]> {

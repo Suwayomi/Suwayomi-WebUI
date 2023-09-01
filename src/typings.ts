@@ -368,13 +368,6 @@ export interface LibraryOptions {
     showTabSize: boolean;
 }
 
-export interface BatchChaptersChange {
-    delete?: boolean;
-    isRead?: boolean;
-    isBookmarked?: boolean;
-    lastPageRead?: number;
-}
-
 export type UpdateCheck = {
     channel: 'Stable' | 'Preview';
     tag: string;

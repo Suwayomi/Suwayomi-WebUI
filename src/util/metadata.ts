@@ -315,7 +315,7 @@ export const requestUpdateMetadataValue = async (
             // eslint-disable-next-line no-case-declarations
             const { manga, chapter } = metadataHolder as IMangaChapter;
             endpoint = `manga/${manga.id}/chapter/${chapter.index}/meta`;
-            await requestManager.setChapterMeta(manga.id, chapter.index, metadataKey, value).response;
+            await requestManager.setChapterMeta(chapter.id, metadataKey, value).response;
             break;
         case 'global':
             endpoint = 'meta';
