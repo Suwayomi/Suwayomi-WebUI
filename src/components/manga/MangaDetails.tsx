@@ -152,12 +152,16 @@ const MangaDetails: React.FC<IProps> = ({ manga }) => {
 
     const addToLibrary = () => {
         mutate(`/api/v1/manga/${manga.id}`, { ...manga, inLibrary: true }, { revalidate: false });
-        requestManager.addMangaToLibrary(manga.id).response.then(() => mutate(`/api/v1/manga/${manga.id}`));
+        requestManager
+            .updateManga(manga.id, { inLibrary: true })
+            .response.then(() => mutate(`/api/v1/manga/${manga.id}`));
     };
 
     const removeFromLibrary = () => {
         mutate(`/api/v1/manga/${manga.id}`, { ...manga, inLibrary: false }, { revalidate: false });
-        requestManager.removeMangaFromLibrary(manga.id).response.then(() => mutate(`/api/v1/manga/${manga.id}`));
+        requestManager
+            .updateManga(manga.id, { inLibrary: false })
+            .response.then(() => mutate(`/api/v1/manga/${manga.id}`));
     };
 
     return (

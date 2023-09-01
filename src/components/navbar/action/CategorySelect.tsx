@@ -31,6 +31,7 @@ export default function CategorySelect(props: IProps) {
 
     const { data: mangaCategoriesData, mutate } = requestManager.useGetMangaCategories(mangaId);
     const { data: categoriesData } = requestManager.useGetCategories();
+    const [triggerMutate] = requestManager.useUpdateMangaCategories();
 
     const allCategories = useMemo(() => {
         const cats = [...(categoriesData ?? [])]; // make copy
@@ -53,10 +54,18 @@ export default function CategorySelect(props: IProps) {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>, categoryId: number) => {
         const { checked } = event.target as HTMLInputElement;
 
-        (checked
-            ? requestManager.addMangaToCategory(mangaId, categoryId)
-            : requestManager.removeMangaFromCategory(mangaId, categoryId)
-        ).response.then(() => mutate());
+        // TODO - update to only update categories when clicking OK - can now be updated in one go with graphql
+        triggerMutate({
+            variables: {
+                input: {
+                    id: mangaId,
+                    patch: {
+                        addToCategories: checked ? [categoryId] : [],
+                        removeFromCategories: !checked ? [categoryId] : [],
+                    },
+                },
+            },
+        }).then(() => mutate());
     };
 
     return (

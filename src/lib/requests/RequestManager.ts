@@ -58,9 +58,15 @@ import {
     InstallExternalExtensionMutationVariables,
     SetGlobalMetadataMutation,
     SetGlobalMetadataMutationVariables,
+    SetMangaMetadataMutation,
     UpdateExtensionMutation,
     UpdateExtensionMutationVariables,
     UpdateExtensionPatchInput,
+    UpdateMangaCategoriesMutation,
+    UpdateMangaCategoriesMutationVariables,
+    UpdateMangaMutation,
+    UpdateMangaMutationVariables,
+    UpdateMangaPatchInput,
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_GLOBAL_METADATA, GET_GLOBAL_METADATAS } from '@/lib/graphql/queries/GlobalMetadataQuery.ts';
 import { SET_GLOBAL_METADATA } from '@/lib/graphql/mutations/GlobalMetadataMutation.ts';
@@ -72,6 +78,10 @@ import {
     UPDATE_EXTENSION,
 } from '@/lib/graphql/mutations/ExtensionMutation.ts';
 import { GET_SOURCE, GET_SOURCES } from '@/lib/graphql/queries/SourceQuery.ts';
+import { SET_MANGA_METADATA, UPDATE_MANGA, UPDATE_MANGA_CATEGORIES } from '@/lib/graphql/mutations/MangaMutation.ts';
+import { GET_MANGA, GET_MANGAS } from '@/lib/graphql/queries/MangaQuery.ts';
+import { GET_CATEGORIES, GET_CATEGORY, GET_CATEGORY_MANGAS } from '@/lib/graphql/queries/CategoryQuery.ts';
+import { GET_SOURCE_MANGAS_FETCH } from '@/lib/graphql/mutations/SourceMutation.ts';
 
 enum SWRHttpMethod {
     SWR_GET,
@@ -661,24 +671,51 @@ export class RequestManager {
         return this.doRequest(HttpMethod.SWR_GET, `manga/${mangaId}/category`, { swrOptions });
     }
 
-    public addMangaToCategory(mangaId: number, categoryId: number): AbortableAxiosResponse {
-        return this.doRequest(HttpMethod.GET, `manga/${mangaId}/category/${categoryId}`);
+    public useUpdateMangaCategories(
+        options?: MutationHookOptions<UpdateMangaCategoriesMutation, UpdateMangaCategoriesMutationVariables>,
+    ): AbortableApolloUseMutationResponse<UpdateMangaCategoriesMutation, UpdateMangaCategoriesMutationVariables> {
+        return this.doRequestNew(GQLMethod.USE_MUTATION, UPDATE_MANGA_CATEGORIES, undefined, {
+            refetchQueries: [GET_MANGA, GET_MANGAS, GET_CATEGORY, GET_CATEGORIES, GET_CATEGORY_MANGAS],
+            ...options,
+        });
     }
 
-    public removeMangaFromCategory(mangaId: number, categoryId: number): AbortableAxiosResponse {
-        return this.doRequest(HttpMethod.DELETE, `manga/${mangaId}/category/${categoryId}`);
+    public updateManga(
+        id: number,
+        patch: UpdateMangaPatchInput,
+        options?: MutationHookOptions<UpdateMangaMutation, UpdateMangaMutationVariables>,
+    ): AbortableApolloMutationResponse<UpdateMangaMutation> {
+        return this.doRequestNew<UpdateMangaMutation, UpdateMangaMutationVariables>(
+            GQLMethod.MUTATION,
+            UPDATE_MANGA,
+            { input: { id, patch } },
+            {
+                refetchQueries: [
+                    GET_MANGA,
+                    GET_MANGAS,
+                    GET_CATEGORY_MANGAS,
+                    GET_CATEGORY,
+                    GET_CATEGORIES,
+                    GET_SOURCE_MANGAS_FETCH,
+                ],
+                ...options,
+            },
+        );
     }
 
-    public addMangaToLibrary(mangaId: number | string): AbortableAxiosResponse {
-        return this.doRequest(HttpMethod.GET, `manga/${mangaId}/library`);
-    }
-
-    public removeMangaFromLibrary(mangaId: number | string): AbortableAxiosResponse {
-        return this.doRequest(HttpMethod.DELETE, `manga/${mangaId}/library`);
-    }
-
-    public setMangaMeta(mangaId: number, key: string, value: any): AbortableAxiosResponse {
-        return this.doRequest(HttpMethod.PATCH, `manga/${mangaId}/meta`, { formData: { key, value } });
+    public setMangaMeta(
+        mangaId: number,
+        key: string,
+        value: any,
+    ): AbortableApolloMutationResponse<SetMangaMetadataMutation> {
+        return this.doRequestNew(
+            GQLMethod.MUTATION,
+            SET_MANGA_METADATA,
+            {
+                input: { meta: { mangaId, key, value: `${value}` } },
+            },
+            { refetchQueries: [GET_MANGA, GET_MANGAS, GET_CATEGORY_MANGAS, GET_SOURCE_MANGAS_FETCH] },
+        );
     }
 
     public useGetMangaChapters(
@@ -694,26 +731,6 @@ export class RequestManager {
     public getMangaChapters(mangaId: number | string, doOnlineFetch?: boolean): AbortableAxiosResponse<IChapter[]> {
         const onlineFetch = doOnlineFetch ? '?onlineFetch=true' : '';
         return this.doRequest(HttpMethod.GET, `manga/${mangaId}/chapters${onlineFetch}`);
-    }
-
-    public updateMangaChapters(
-        mangaId: number | string,
-        {
-            chapterIds,
-            chapterIndexes,
-            change,
-        }: (
-            | { chapterIds?: number[]; chapterIndexes: number[] }
-            | { chapterIds: number[]; chapterIndexes?: number[] }
-        ) & { change: BatchChaptersChange },
-    ): AbortableAxiosResponse {
-        return this.doRequest(HttpMethod.POST, `manga/${mangaId}/chapter/batch`, {
-            data: {
-                chapterIds,
-                chapterIndexes,
-                change,
-            },
-        });
     }
 
     public useGetChapter(
