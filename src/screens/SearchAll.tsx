@@ -169,7 +169,8 @@ const SearchAll: React.FC = () => {
     const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownSourceLangs', sourceDefualtLangs());
     const [showNsfw] = useLocalStorage<boolean>('showNsfw', true);
 
-    const { data: sources = [] } = requestManager.useGetSourceList();
+    const { data } = requestManager.useGetSourceList();
+    const sources = data?.sources.nodes ?? [];
     const [sourceToLoadingStateMap, setSourceToLoadingStateMap] = useState<SourceToLoadingStateMap>(new Map());
     const debouncedSourceToLoadingStateMap = useDebounce(sourceToLoadingStateMap, 500);
 

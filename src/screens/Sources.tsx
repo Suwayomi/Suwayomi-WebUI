@@ -53,7 +53,8 @@ export default function Sources() {
     const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownSourceLangs', sourceDefualtLangs());
     const [showNsfw] = useLocalStorage<boolean>('showNsfw', true);
 
-    const { data: sources, isLoading } = requestManager.useGetSourceList();
+    const { data, loading: isLoading } = requestManager.useGetSourceList();
+    const sources = data?.sources.nodes;
 
     const navigate = useNavigate();
 

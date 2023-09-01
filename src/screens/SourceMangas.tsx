@@ -188,7 +188,8 @@ export default function SourceMangas() {
         abortRequest,
     } = useSourceManga(sourceId, contentType, searchTerm, filtersToApply, isLargeScreen ? 2 : 1);
     const { data: filters = [], mutate: mutateFilters } = requestManager.useGetSourceFilters(sourceId);
-    const { data: source } = requestManager.useGetSource(sourceId);
+    const { data } = requestManager.useGetSource(sourceId);
+    const source = data?.source;
     const [triggerDataRefresh, setTriggerDataRefresh] = useState(false);
 
     const message = !isLoading ? t(SOURCE_CONTENT_TYPE_TO_ERROR_MSG_KEY[contentType]) : undefined;

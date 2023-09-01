@@ -29,7 +29,6 @@ import {
     IManga,
     IMangaChapter,
     IncludeInGlobalUpdate,
-    ISource,
     ISourceFilters,
     IUpdateStatus,
     PaginatedList,
@@ -51,6 +50,10 @@ import {
     GetExtensionsQueryVariables,
     GetGlobalMetadatasQuery,
     GetGlobalMetadatasQueryVariables,
+    GetSourceQuery,
+    GetSourceQueryVariables,
+    GetSourcesQuery,
+    GetSourcesQueryVariables,
     InstallExternalExtensionMutation,
     InstallExternalExtensionMutationVariables,
     SetGlobalMetadataMutation,
@@ -68,6 +71,7 @@ import {
     INSTALL_EXTERNAL_EXTENSION,
     UPDATE_EXTENSION,
 } from '@/lib/graphql/mutations/ExtensionMutation.ts';
+import { GET_SOURCE, GET_SOURCES } from '@/lib/graphql/queries/SourceQuery.ts';
 
 enum SWRHttpMethod {
     SWR_GET,
@@ -513,12 +517,17 @@ export class RequestManager {
         return this.getValidImgUrlFor(`extension/icon/${extension}`);
     }
 
-    public useGetSourceList(swrOptions?: SWROptions<ISource[]>): AbortableSWRResponse<ISource[]> {
-        return this.doRequest(HttpMethod.SWR_GET, 'source/list', { swrOptions });
+    public useGetSourceList(
+        options?: QueryHookOptions<GetSourcesQuery, GetSourcesQueryVariables>,
+    ): AbortableApolloUseQueryResponse<GetSourcesQuery, GetSourcesQueryVariables> {
+        return this.doRequestNew(GQLMethod.USE_QUERY, GET_SOURCES, {}, options);
     }
 
-    public useGetSource(sourceId: string, swrOptions?: SWROptions<ISource>): AbortableSWRResponse<ISource> {
-        return this.doRequest(HttpMethod.SWR_GET, `source/${sourceId}`, { swrOptions });
+    public useGetSource(
+        id: string,
+        options?: QueryHookOptions<GetSourceQuery, GetSourceQueryVariables>,
+    ): AbortableApolloUseQueryResponse<GetSourceQuery, GetSourceQueryVariables> {
+        return this.doRequestNew(GQLMethod.USE_QUERY, GET_SOURCE, { id }, options);
     }
 
     public useGetSourcePopularMangas(
