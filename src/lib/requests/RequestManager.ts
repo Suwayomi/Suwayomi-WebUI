@@ -28,7 +28,6 @@ import {
     IManga,
     IMangaChapter,
     ISourceFilters,
-    IUpdateStatus,
     PaginatedList,
     PaginatedMangaList,
     SourcePreferences,
@@ -74,6 +73,8 @@ import {
     GetSourceQueryVariables,
     GetSourcesQuery,
     GetSourcesQueryVariables,
+    GetUpdateStatusQuery,
+    GetUpdateStatusQueryVariables,
     InstallExternalExtensionMutation,
     InstallExternalExtensionMutationVariables,
     ReorderChapterDownloadMutation,
@@ -89,6 +90,10 @@ import {
     StartDownloaderMutationVariables,
     StopDownloaderMutation,
     StopDownloaderMutationVariables,
+    StopUpdaterMutation,
+    StopUpdaterMutationVariables,
+    UpdateCategoryMangasMutation,
+    UpdateCategoryMangasMutationVariables,
     UpdateCategoryMutation,
     UpdateCategoryMutationVariables,
     UpdateCategoryOrderMutation,
@@ -102,6 +107,8 @@ import {
     UpdateExtensionMutation,
     UpdateExtensionMutationVariables,
     UpdateExtensionPatchInput,
+    UpdateLibraryMangasMutation,
+    UpdateLibraryMangasMutationVariables,
     UpdateMangaCategoriesMutation,
     UpdateMangaCategoriesMutationVariables,
     UpdateMangaMutation,
@@ -144,6 +151,12 @@ import {
     UPDATE_CATEGORY_ORDER,
 } from '@/lib/graphql/mutations/CategoryMutation.ts';
 import { GET_DOWNLOAD_STATUS } from '@/lib/graphql/queries/DownloaderQuery.ts';
+import {
+    STOP_UPDATER,
+    UPDATE_CATEGORY_MANGAS,
+    UPDATE_LIBRARY_MANGAS,
+} from '@/lib/graphql/mutations/UpdaterMutation.ts';
+import { GET_UPDATE_STATUS } from '@/lib/graphql/queries/UpdaterQuery.ts';
 
 enum SWRHttpMethod {
     SWR_GET,
@@ -1040,16 +1053,40 @@ export class RequestManager {
         });
     }
 
-    public startGlobalUpdate(categoryId?: number): AbortableAxiosResponse {
-        return this.doRequest(HttpMethod.POST, 'update/fetch', { formData: { categoryId } });
+    public startGlobalUpdate(): AbortableApolloMutationResponse<UpdateLibraryMangasMutation>;
+
+    public startGlobalUpdate(categories: number[]): AbortableApolloMutationResponse<UpdateCategoryMangasMutation>;
+
+    public startGlobalUpdate(
+        categories?: number[],
+    ): AbortableApolloMutationResponse<UpdateCategoryMangasMutation | UpdateLibraryMangasMutation> {
+        if (categories?.length) {
+            return this.doRequestNew<UpdateCategoryMangasMutation, UpdateCategoryMangasMutationVariables>(
+                GQLMethod.MUTATION,
+                UPDATE_CATEGORY_MANGAS,
+                { input: { categories } },
+            );
+        }
+
+        return this.doRequestNew<UpdateLibraryMangasMutation, UpdateLibraryMangasMutationVariables>(
+            GQLMethod.MUTATION,
+            UPDATE_LIBRARY_MANGAS,
+            {},
+        );
     }
 
-    public resetGlobalUpdate(): AbortableAxiosResponse {
-        return this.doRequest(HttpMethod.POST, 'update/reset');
+    public resetGlobalUpdate(): AbortableApolloMutationResponse<StopUpdaterMutation> {
+        return this.doRequestNew<StopUpdaterMutation, StopUpdaterMutationVariables>(
+            GQLMethod.MUTATION,
+            STOP_UPDATER,
+            {},
+        );
     }
 
-    public useGetGlobalUpdateSummary(swrOptions?: SWROptions<IUpdateStatus>): AbortableSWRResponse<IUpdateStatus> {
-        return this.doRequest(HttpMethod.SWR_GET, 'update/summary', { swrOptions });
+    public useGetGlobalUpdateSummary(
+        options?: QueryHookOptions<GetUpdateStatusQuery, GetUpdateStatusQueryVariables>,
+    ): AbortableApolloUseQueryResponse<GetUpdateStatusQuery, GetUpdateStatusQueryVariables> {
+        return this.doRequestNew(GQLMethod.USE_QUERY, GET_UPDATE_STATUS, {}, options);
     }
 }
 
