@@ -20,6 +20,7 @@ import {
     MetadataKeyValuePair,
 } from '@/typings';
 import requestManager, { RequestManager } from '@/lib/requests/RequestManager.ts';
+import { MetaType } from '@/lib/graphql/generated/graphql.ts';
 
 const APP_METADATA_KEY_PREFIX = 'webUI_';
 
@@ -362,3 +363,16 @@ export const requestUpdateCategoryMetadata = async (
     category: ICategory,
     keysToValues: MetadataKeyValuePair[],
 ): Promise<void[]> => requestUpdateMetadata(category, 'category', keysToValues);
+
+export const convertGqlMetadata = (gqlMetadata?: MetaType[]): Metadata | undefined => {
+    if (!gqlMetadata) {
+        return undefined;
+    }
+
+    const metadata: Metadata = {};
+    gqlMetadata.forEach(({ key, value }) => {
+        metadata[key] = value;
+    });
+
+    return metadata;
+};

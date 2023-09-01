@@ -8,7 +8,7 @@
 
 import { Metadata, ISearchSettings } from '@/typings';
 import requestManager from '@/lib/requests/RequestManager.ts';
-import { getMetadataFrom } from '@/util/metadata';
+import { convertGqlMetadata, getMetadataFrom } from '@/util/metadata';
 
 export const getDefaultSettings = (): ISearchSettings => ({
     ignoreFilters: false,
@@ -24,8 +24,9 @@ export const useSearchSettings = (): {
     settings: ISearchSettings;
     loading: boolean;
 } => {
-    const { data: meta, isLoading } = requestManager.useGetGlobalMeta();
-    const settings = getSearchSettingsWithDefaultValueFallback(meta);
+    const { data, loading } = requestManager.useGetGlobalMeta();
+    const metadata = convertGqlMetadata(data?.metas.nodes);
+    const settings = getSearchSettingsWithDefaultValueFallback(metadata);
 
-    return { metadata: meta, settings, loading: isLoading };
+    return { metadata, settings, loading };
 };

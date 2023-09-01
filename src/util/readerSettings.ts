@@ -8,7 +8,12 @@
 
 import { IManga, Metadata, MetadataHolder, IReaderSettings, MetadataKeyValuePair } from '@/typings';
 import requestManager from '@/lib/requests/RequestManager.ts';
-import { getMetadataFrom, requestUpdateMangaMetadata, requestUpdateServerMetadata } from '@/util/metadata';
+import {
+    convertGqlMetadata,
+    getMetadataFrom,
+    requestUpdateMangaMetadata,
+    requestUpdateServerMetadata,
+} from '@/util/metadata';
 
 type UndefinedReaderSettings = {
     [setting in keyof IReaderSettings]: IReaderSettings[setting] | undefined;
@@ -47,10 +52,11 @@ export const useDefaultReaderSettings = (): {
     settings: IReaderSettings;
     loading: boolean;
 } => {
-    const { data: meta, isLoading } = requestManager.useGetGlobalMeta();
-    const settings = getReaderSettingsWithDefaultValueFallback<IReaderSettings>(meta);
+    const { data, loading } = requestManager.useGetGlobalMeta();
+    const metadata = convertGqlMetadata(data?.metas.nodes);
+    const settings = getReaderSettingsWithDefaultValueFallback<IReaderSettings>(metadata);
 
-    return { metadata: meta, settings, loading: isLoading };
+    return { metadata, settings, loading };
 };
 
 /**

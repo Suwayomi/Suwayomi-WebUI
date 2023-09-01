@@ -34,7 +34,6 @@ import {
     ISource,
     ISourceFilters,
     IUpdateStatus,
-    Metadata,
     PaginatedList,
     PaginatedMangaList,
     SourcePreferences,
@@ -44,6 +43,14 @@ import {
 import { HttpMethod as DefaultHttpMethod, IRestClient, RestClient } from '@/lib/requests/client/RestClient.ts';
 import storage from '@/util/localStorage.tsx';
 import { GraphQLClient } from '@/lib/requests/client/GraphQLClient.ts';
+import {
+    GetGlobalMetadatasQuery,
+    GetGlobalMetadatasQueryVariables,
+    SetGlobalMetadataMutation,
+    SetGlobalMetadataMutationVariables,
+} from '@/lib/graphql/generated/graphql.ts';
+import { GET_GLOBAL_METADATA, GET_GLOBAL_METADATAS } from '@/lib/graphql/queries/GlobalMetadataQuery.ts';
+import { SET_GLOBAL_METADATA } from '@/lib/graphql/mutations/GlobalMetadataMutation.ts';
 
 enum SWRHttpMethod {
     SWR_GET,
@@ -423,12 +430,19 @@ export class RequestManager {
         }
     }
 
-    public useGetGlobalMeta(swrOptions?: SWROptions<Metadata>): AbortableSWRResponse<Metadata> {
-        return this.doRequest(HttpMethod.SWR_GET, 'meta', { swrOptions });
+    public useGetGlobalMeta(
+        options?: QueryHookOptions<GetGlobalMetadatasQuery, GetGlobalMetadatasQueryVariables>,
+    ): AbortableApolloUseQueryResponse<GetGlobalMetadatasQuery, GetGlobalMetadatasQueryVariables> {
+        return this.doRequestNew(GQLMethod.USE_QUERY, GET_GLOBAL_METADATAS, {}, options);
     }
 
-    public setGlobalMetadata(key: string, value: any): AbortableAxiosResponse {
-        return this.doRequest(HttpMethod.PATCH, 'meta', { formData: { key, value } });
+    public setGlobalMetadata(key: string, value: any): AbortableApolloMutationResponse<SetGlobalMetadataMutation> {
+        return this.doRequestNew<SetGlobalMetadataMutation, SetGlobalMetadataMutationVariables>(
+            GQLMethod.MUTATION,
+            SET_GLOBAL_METADATA,
+            { input: { meta: { key, value: `${value}` } } },
+            { refetchQueries: [GET_GLOBAL_METADATA, GET_GLOBAL_METADATAS] },
+        );
     }
 
     public useGetAbout(swrOptions?: SWROptions<IAbout>): AbortableSWRResponse<IAbout> {
