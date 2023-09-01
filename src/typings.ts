@@ -10,6 +10,7 @@ import { OverridableComponent } from '@mui/material/OverridableComponent';
 import { SvgIconTypeMap } from '@mui/material/SvgIcon/SvgIcon';
 import { ParseKeys } from 'i18next';
 import { Location } from 'react-router-dom';
+import { ExtensionType } from '@/lib/graphql/generated/graphql.ts';
 
 type GenericLocation<State = any> = Omit<Location, 'state'> & { state?: State };
 
@@ -21,19 +22,7 @@ declare module 'react-router-dom' {
 
 export type TranslationKey = ParseKeys;
 
-export interface IExtension {
-    name: string;
-    pkgName: string;
-    versionName: string;
-    versionCode: number;
-    lang: string;
-    isNsfw: boolean;
-    apkName: string;
-    iconUrl: string;
-    installed: boolean;
-    hasUpdate: boolean;
-    obsolete: boolean;
-}
+export type Extension = Omit<ExtensionType, 'source'>;
 
 export interface ISource {
     id: string;

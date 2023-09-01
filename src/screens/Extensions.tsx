@@ -14,7 +14,6 @@ import { StringParam, useQueryParam } from 'use-query-params';
 import { Virtuoso } from 'react-virtuoso';
 import { Typography, useMediaQuery, useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { IExtension } from '@/typings';
 import requestManager from '@/lib/requests/RequestManager.ts';
 import { extensionDefaultLangs, DefaultLanguage, langSortCmp } from '@/util/language';
 import useLocalStorage from '@/util/useLocalStorage';
@@ -31,11 +30,12 @@ import { makeToaster } from '@/components/util/Toast';
 import LangSelect from '@/components/navbar/action/LangSelect';
 import NavbarContext from '@/components/context/NavbarContext';
 import ExtensionCard from '@/components/ExtensionCard';
+import { Extension } from '@/typings.ts';
 
 const LANGUAGE = 0;
 const EXTENSIONS = 1;
 
-function getExtensionsInfo(extensions: IExtension[]): {
+function getExtensionsInfo(extensions: Extension[]): {
     allLangs: string[];
     groupedExtensions: GroupedExtensionsResult;
 } {
@@ -55,12 +55,12 @@ function getExtensionsInfo(extensions: IExtension[]): {
                 allLangs.push(extension.lang);
             }
         }
-        if (extension.installed) {
+        if (extension.isInstalled) {
             if (extension.hasUpdate) {
                 sortedExtensions[ExtensionState.UPDATE_PENDING].push(extension);
                 return;
             }
-            if (extension.obsolete) {
+            if (extension.isObsolete) {
                 sortedExtensions[ExtensionState.OBSOLETE].push(extension);
                 return;
             }
@@ -100,7 +100,17 @@ export default function MangaExtensions() {
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const [query] = useQueryParam('query', StringParam);
 
-    const { data: allExtensions, mutate, isLoading } = requestManager.useGetExtensionList();
+    const [extensionsTimestamp, setExtensionsTimestamp] = useLocalStorage('extensionsTimestamp', 0);
+    const [fetchExtensions, { loading: isFetching }] = requestManager.useExtensionListFetch();
+    const { data, loading: isLoading } = requestManager.useGetExtensionList();
+    const allExtensions = data?.extensions.nodes;
+
+    useEffect(() => {
+        const updateExtensionsList = Date.now() - extensionsTimestamp >= 1000 * 60; // update list in case it's older than 1 minute
+        if (updateExtensionsList) {
+            fetchExtensions().catch(() => setExtensionsTimestamp(Date.now()));
+        }
+    }, []);
 
     const filteredExtensions = useMemo(
         () =>
@@ -122,7 +132,7 @@ export default function MangaExtensions() {
         [shownLangs, groupedExtensions],
     );
 
-    const flatRenderItems: (IExtension | string)[] = filteredGroupedExtensions.flat(2);
+    const flatRenderItems: (Extension | string)[] = filteredGroupedExtensions.flat(2);
 
     const [toasts, makeToast] = makeToaster(useState<React.ReactElement[]>([]));
 
@@ -134,10 +144,9 @@ export default function MangaExtensions() {
 
             makeToast(t('extension.label.installing_file'), 'info');
             requestManager
-                .installExtension(file)
+                .installExternalExtension(file)
                 .response.then(() => {
                     makeToast(t('extension.label.installed_successfully'), 'success');
-                    mutate();
                 })
                 .catch(() => makeToast(t('extension.label.installation_failed'), 'error'));
         } else {
@@ -178,7 +187,7 @@ export default function MangaExtensions() {
         };
     }, []);
 
-    if (isLoading) {
+    if (isLoading || isFetching) {
         return <LoadingPlaceholder />;
     }
 
@@ -220,17 +229,9 @@ export default function MangaExtensions() {
                             </Typography>
                         );
                     }
-                    const item = flatRenderItems[index] as IExtension;
+                    const item = flatRenderItems[index] as Extension;
 
-                    return (
-                        <ExtensionCard
-                            key={item.apkName}
-                            extension={item}
-                            notifyInstall={() => {
-                                mutate();
-                            }}
-                        />
-                    );
+                    return <ExtensionCard key={item.apkName} extension={item} />;
                 }}
             />
         </>

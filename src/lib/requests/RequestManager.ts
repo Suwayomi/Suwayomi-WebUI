@@ -26,7 +26,6 @@ import {
     BatchChaptersChange,
     ICategory,
     IChapter,
-    IExtension,
     IManga,
     IMangaChapter,
     IncludeInGlobalUpdate,
@@ -46,14 +45,29 @@ import {
     CheckForServerUpdatesQueryVariables,
     GetAboutQuery,
     GetAboutQueryVariables,
+    GetExtensionsFetchMutation,
+    GetExtensionsFetchMutationVariables,
+    GetExtensionsQuery,
+    GetExtensionsQueryVariables,
     GetGlobalMetadatasQuery,
     GetGlobalMetadatasQueryVariables,
+    InstallExternalExtensionMutation,
+    InstallExternalExtensionMutationVariables,
     SetGlobalMetadataMutation,
     SetGlobalMetadataMutationVariables,
+    UpdateExtensionMutation,
+    UpdateExtensionMutationVariables,
+    UpdateExtensionPatchInput,
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_GLOBAL_METADATA, GET_GLOBAL_METADATAS } from '@/lib/graphql/queries/GlobalMetadataQuery.ts';
 import { SET_GLOBAL_METADATA } from '@/lib/graphql/mutations/GlobalMetadataMutation.ts';
 import { CHECK_FOR_SERVER_UPDATES, GET_ABOUT } from '@/lib/graphql/queries/ServerInfoQuery.ts';
+import { GET_EXTENSION, GET_EXTENSIONS } from '@/lib/graphql/queries/ExtensionQuery.ts';
+import {
+    GET_EXTENSIONS_FETCH,
+    INSTALL_EXTERNAL_EXTENSION,
+    UPDATE_EXTENSION,
+} from '@/lib/graphql/mutations/ExtensionMutation.ts';
 
 enum SWRHttpMethod {
     SWR_GET,
@@ -460,24 +474,39 @@ export class RequestManager {
         return this.doRequestNew(GQLMethod.USE_QUERY, CHECK_FOR_SERVER_UPDATES, {}, options);
     }
 
-    public useGetExtensionList(swrOptions?: SWROptions<IExtension[]>): AbortableSWRResponse<IExtension[]> {
-        return this.doRequest(HttpMethod.SWR_GET, 'extension/list', { swrOptions });
+    public useGetExtensionList(
+        options?: QueryHookOptions<GetExtensionsQuery, GetExtensionsQueryVariables>,
+    ): AbortableApolloUseQueryResponse<GetExtensionsQuery, GetExtensionsQueryVariables> {
+        return this.doRequestNew(GQLMethod.USE_QUERY, GET_EXTENSIONS, {}, options);
     }
 
-    public installExtension(extension: string | File): AbortableAxiosResponse {
-        if (typeof extension === 'string') {
-            return this.doRequest(HttpMethod.GET, `extension/install/${extension}`);
-        }
-
-        return this.doRequest(HttpMethod.POST, `extension/install`, { formData: { file: extension } });
+    public useExtensionListFetch(
+        options?: MutationHookOptions<GetExtensionsFetchMutation, GetExtensionsFetchMutationVariables>,
+    ): AbortableApolloUseMutationResponse<GetExtensionsFetchMutation, GetExtensionsFetchMutationVariables> {
+        return this.doRequestNew(GQLMethod.USE_MUTATION, GET_EXTENSIONS_FETCH, {}, options);
     }
 
-    public updateExtension(extension: string): AbortableAxiosResponse {
-        return this.doRequest(HttpMethod.GET, `extension/update/${extension}`);
+    public installExternalExtension(
+        extensionFile: File,
+    ): AbortableApolloMutationResponse<InstallExternalExtensionMutation> {
+        return this.doRequestNew<InstallExternalExtensionMutation, InstallExternalExtensionMutationVariables>(
+            GQLMethod.MUTATION,
+            INSTALL_EXTERNAL_EXTENSION,
+            { file: extensionFile },
+            { refetchQueries: [GET_EXTENSION, GET_EXTENSIONS] },
+        );
     }
 
-    public uninstallExtension(extension: string): AbortableAxiosResponse {
-        return this.doRequest(HttpMethod.GET, `extension/uninstall/${extension}`);
+    public updateExtension(
+        id: string,
+        patch: UpdateExtensionPatchInput,
+    ): AbortableApolloMutationResponse<UpdateExtensionMutation> {
+        return this.doRequestNew<UpdateExtensionMutation, UpdateExtensionMutationVariables>(
+            GQLMethod.MUTATION,
+            UPDATE_EXTENSION,
+            { input: { id, patch } },
+            { refetchQueries: [GET_EXTENSION, GET_EXTENSIONS, GET_SOURCES] },
+        );
     }
 
     public getExtensionIconUrl(extension: string): string {
