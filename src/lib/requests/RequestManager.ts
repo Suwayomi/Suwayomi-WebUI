@@ -37,12 +37,13 @@ import {
     PaginatedMangaList,
     SourcePreferences,
     SourceSearchResult,
-    UpdateCheck,
 } from '@/typings.ts';
 import { HttpMethod as DefaultHttpMethod, IRestClient, RestClient } from '@/lib/requests/client/RestClient.ts';
 import storage from '@/util/localStorage.tsx';
 import { GraphQLClient } from '@/lib/requests/client/GraphQLClient.ts';
 import {
+    CheckForServerUpdatesQuery,
+    CheckForServerUpdatesQueryVariables,
     GetAboutQuery,
     GetAboutQueryVariables,
     GetGlobalMetadatasQuery,
@@ -52,7 +53,7 @@ import {
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_GLOBAL_METADATA, GET_GLOBAL_METADATAS } from '@/lib/graphql/queries/GlobalMetadataQuery.ts';
 import { SET_GLOBAL_METADATA } from '@/lib/graphql/mutations/GlobalMetadataMutation.ts';
-import { GET_ABOUT } from '@/lib/graphql/queries/ServerInfoQuery.ts';
+import { CHECK_FOR_SERVER_UPDATES, GET_ABOUT } from '@/lib/graphql/queries/ServerInfoQuery.ts';
 
 enum SWRHttpMethod {
     SWR_GET,
@@ -453,8 +454,10 @@ export class RequestManager {
         return this.doRequestNew(GQLMethod.USE_QUERY, GET_ABOUT, {}, options);
     }
 
-    public useCheckForUpdate(swrOptions?: SWROptions<UpdateCheck[]>): AbortableSWRResponse<UpdateCheck[]> {
-        return this.doRequest(HttpMethod.SWR_GET, 'settings/check-update', { swrOptions });
+    public useCheckForUpdate(
+        options?: QueryHookOptions<CheckForServerUpdatesQuery, CheckForServerUpdatesQueryVariables>,
+    ): AbortableApolloUseQueryResponse<CheckForServerUpdatesQuery, CheckForServerUpdatesQueryVariables> {
+        return this.doRequestNew(GQLMethod.USE_QUERY, CHECK_FOR_SERVER_UPDATES, {}, options);
     }
 
     public useGetExtensionList(swrOptions?: SWROptions<IExtension[]>): AbortableSWRResponse<IExtension[]> {
