@@ -23,8 +23,6 @@ const isSinglePage = (index: number, spreadPages: boolean[]): boolean => {
     if (spreadPages[index]) return true;
     // Page is single if it is last page
     if (index === spreadPages.length - 1) return true;
-    // Page can not be single if it is not followed by spread
-    // if (!spreadPages[index + 1]) return false;
     // Page is single if number of single pages since last spread is odd
     const previousSpreadIndex = spreadPages.lastIndexOf(true, index - 1);
     const numberOfNonSpreads = index - (previousSpreadIndex + 1);
