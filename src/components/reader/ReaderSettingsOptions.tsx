@@ -25,6 +25,7 @@ export default function ReaderSettingsOptions({
     skipDupChapters,
     setSettingValue,
     fitPageToWindow,
+    offsetDoubleSpreads,
 }: IProps) {
     const { t } = useTranslation();
     const fitPageToWindowEligible = [
@@ -114,6 +115,16 @@ export default function ReaderSettingsOptions({
                         {t('reader.settings.reader_type.label.continuous_horizontal_rtl')}
                     </MenuItem>
                 </Select>
+            </ListItem>
+            <ListItem>
+                <ListItemText primary={t('reader.settings.label.offset_double_spreads')} />
+                <ListItemSecondaryAction>
+                    <Switch
+                        edge="end"
+                        checked={offsetDoubleSpreads}
+                        onChange={(e) => setSettingValue('offsetDoubleSpreads', e.target.checked)}
+                    />
+                </ListItemSecondaryAction>
             </ListItem>
         </List>
     );

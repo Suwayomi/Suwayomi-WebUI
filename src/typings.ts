@@ -223,6 +223,7 @@ export interface IReaderSettings {
     skipDupChapters: boolean;
     fitPageToWindow: boolean;
     readerType: ReaderType;
+    offsetDoubleSpreads: boolean;
 }
 
 export enum ChapterOffset {

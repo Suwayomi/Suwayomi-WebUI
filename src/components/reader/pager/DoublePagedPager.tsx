@@ -49,10 +49,19 @@ export default function DoublePagedPager(props: IReaderProps) {
                 if (spreadPage.current[curPage]) return;
             }
         }
-        if (curPage + 1 < pages.length && pagesRef.current[curPage + 1]) {
-            if (pageLoaded.current[curPage + 1]) {
-                if (spreadPage.current[curPage + 1]) return;
-                pagesDisplayed.current = 2;
+        if (!settings.offsetDoubleSpreads) {
+            if (curPage + 1 < pages.length && pagesRef.current[curPage + 1]) {
+                if (pageLoaded.current[curPage + 1]) {
+                    if (spreadPage.current[curPage + 1]) return;
+                    pagesDisplayed.current = 2;
+                }
+            }
+        } else if (settings.offsetDoubleSpreads) {
+            if (curPage - 1 < pages.length && pagesRef.current[curPage - 1]) {
+                if (pageLoaded.current[curPage - 1]) {
+                    if (spreadPage.current[curPage - 1]) return;
+                    pagesDisplayed.current = 2;
+                }
             }
         }
     }
