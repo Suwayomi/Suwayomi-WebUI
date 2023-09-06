@@ -94,7 +94,7 @@ export default function DoublePagedPager(props: IReaderProps) {
 
     function nextPage() {
         // Only go to next page if last page isn't displayed
-        if (curPage < pages.length - pagesDisplayed.current) {
+        if (curPage < pages.length - 1) {
             const nextCurPage = curPage + pagesDisplayed.current;
             setCurPage(nextCurPage >= pages.length ? pages.length - 1 : nextCurPage);
         } else if (settings.loadNextOnEnding) {
