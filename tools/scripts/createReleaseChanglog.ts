@@ -15,7 +15,9 @@ type GithubCommit = {
     html_url: string;
     commit: {
         message: string;
-        author: string;
+        author: {
+            name: string;
+        };
     };
     author: { login: string } | null;
 };
@@ -98,7 +100,7 @@ const createChangelog = async (prevReleaseLastCommitSha: string) => {
         revision: numberOfCommits - index,
         url: githubCommit.html_url,
         githubUser: githubCommit.author?.login,
-        author: githubCommit.commit.author,
+        author: githubCommit.commit.author.name,
         title: githubCommit.commit.message.split('\n')[0],
     }));
 
