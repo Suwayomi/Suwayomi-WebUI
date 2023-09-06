@@ -23,8 +23,6 @@ const isSinglePage = (index: number, spreadPages: boolean[]): boolean => {
     if (spreadPages[index]) return true;
     // Page is single if it is last page
     if (index === spreadPages.length - 1) return true;
-    // Page can not be single if it is not followed by spread
-    if (!spreadPages[index + 1]) return false;
     // Page is single if number of single pages since last spread is odd
     const previousSpreadIndex = spreadPages.lastIndexOf(true, index - 1);
     const numberOfNonSpreads = index - (previousSpreadIndex + 1);
@@ -86,12 +84,7 @@ export default function DoublePagedPager(props: IReaderProps) {
 
     function pagesToGoBack() {
         // If previous page is single page, go only one page pack
-        // If previous page is not single page, but we are on last page
-        // go back one page anyway.
-        // This handles special case, where last page was displayed in pair, but then
-        // page was changed to the last page and now it is shown as single page.
-        const isLastPage = curPage === spreadPage.current.length - 1;
-        if (isSinglePage(curPage - 1, spreadPage.current) || isLastPage) {
+        if (isSinglePage(curPage - 1, spreadPage.current)) {
             return 1;
         }
 
