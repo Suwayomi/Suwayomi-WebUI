@@ -20,6 +20,7 @@ import LibraryMangaGrid from '@/components/library/LibraryMangaGrid';
 import AppbarSearch from '@/components/util/AppbarSearch';
 import UpdateChecker from '@/components/library/UpdateChecker';
 import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
+import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 
 const StyledGridWrapper = styled(Box)(({ theme }) => ({
     // TabsMenu height + TabsMenu bottom padding - grid item top padding
@@ -63,8 +64,14 @@ export default function Library() {
 
     const { options } = useLibraryOptionsContext();
     const [lastLibraryUpdate, setLastLibraryUpdate] = useState(Date.now());
-    const { data, error: tabsError, loading: areCategoriesLoading } = requestManager.useGetCategories();
-    const tabsData = data?.categories.nodes.filter((category) => category.id !== 0);
+    const {
+        data: categoriesResponse,
+        error: tabsError,
+        loading: areCategoriesLoading,
+    } = requestManager.useGetCategories();
+    const tabsData = categoriesResponse?.categories.nodes.filter(
+        (category) => category.id !== 0 || (category.id === 0 && category.mangas.totalCount),
+    );
     const tabs = tabsData ?? [];
     const librarySize = useMemo(
         () => tabs.map((tab) => tab.mangas.totalCount).reduce((prev, curr) => prev + curr, 0),
@@ -75,11 +82,11 @@ export default function Library() {
 
     const activeTab = tabs.find((tab) => tab.order === tabSearchParam) ?? tabs[0];
     const {
-        data: mangaData,
+        data: categoryMangaResponse,
         error: mangaError,
-        isLoading: mangaLoading,
-    } = requestManager.useGetCategoryMangas(activeTab?.id, { skipRequest: !activeTab });
-    const mangas = mangaData ?? [];
+        loading: mangaLoading,
+    } = requestManager.useGetCategoryMangas(activeTab?.id, { skip: !activeTab });
+    const mangas = (categoryMangaResponse?.category.mangas.nodes as unknown as MangaType[]) ?? [];
 
     const { setTitle, setAction } = useContext(NavbarContext);
     useEffect(() => {
@@ -105,14 +112,14 @@ export default function Library() {
     }, [t, librarySize, areCategoriesLoading, options]);
 
     const handleTabChange = (newTab: number) => {
-        setTabSearchParam(newTab === 0 ? undefined : newTab);
+        setTabSearchParam(newTab);
     };
 
     if (tabsError != null) {
         return (
             <EmptyView
                 message={t('category.error.label.request_failure')}
-                messageExtra={(tabsError?.message as any) ?? tabsError}
+                messageExtra={tabsError.message ?? tabsError}
             />
         );
     }
@@ -171,7 +178,7 @@ export default function Library() {
                         (mangaError ? (
                             <EmptyView
                                 message={t('manga.error.label.request_failure')}
-                                messageExtra={mangaError?.message ?? mangaError}
+                                messageExtra={mangaError.message ?? mangaError}
                             />
                         ) : (
                             <LibraryMangaGrid

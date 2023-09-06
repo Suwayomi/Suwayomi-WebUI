@@ -12,10 +12,10 @@ import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 import { Avatar, Box, CardContent, styled } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { IMangaCard } from '@/typings';
 import requestManager from '@/lib/requests/RequestManager.ts';
 import { GridLayout, useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
 import SpinnerImage from '@/components/util/SpinnerImage';
+import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 
 const BottomGradient = styled('div')({
     position: 'absolute',
@@ -66,7 +66,7 @@ const BadgeContainer = styled('div')({
 });
 
 interface IProps {
-    manga: IMangaCard;
+    manga: MangaType;
     gridLayout?: GridLayout;
     inLibraryIndicator?: boolean;
 }
@@ -75,10 +75,11 @@ const MangaCard = (props: IProps) => {
     const { t } = useTranslation();
 
     const {
-        manga: { id, title, thumbnailUrl, downloadCount, unreadCount: unread, inLibrary },
+        manga: { id, title, thumbnailUrl: tmpThumbnailUrl, downloadCount, unreadCount: unread, inLibrary },
         gridLayout,
         inLibraryIndicator,
     } = props;
+    const thumbnailUrl = tmpThumbnailUrl ?? 'nonExistingMangaUrl';
     const {
         options: { showUnreadBadge, showDownloadBadge },
     } = useLibraryOptionsContext();

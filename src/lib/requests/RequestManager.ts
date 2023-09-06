@@ -25,7 +25,6 @@ import {
     BackupValidationResult,
     ICategory,
     IChapter,
-    IManga,
     IMangaChapter,
     ISourceFilters,
     PaginatedList,
@@ -65,6 +64,8 @@ import {
     GetExtensionsFetchMutationVariables,
     GetCategoriesQuery,
     GetCategoriesQueryVariables,
+    GetCategoryMangasQuery,
+    GetCategoryMangasQueryVariables,
     GetExtensionsQuery,
     GetExtensionsQueryVariables,
     GetGlobalMetadatasQuery,
@@ -918,8 +919,11 @@ export class RequestManager {
         );
     }
 
-    public useGetCategoryMangas(categoryId: number, swrOptions?: SWROptions<IManga[]>): AbortableSWRResponse<IManga[]> {
-        return this.doRequest(HttpMethod.SWR_GET, `category/${categoryId}`, { swrOptions });
+    public useGetCategoryMangas(
+        id: number,
+        options?: QueryHookOptions<GetCategoryMangasQuery, GetCategoryMangasQueryVariables>,
+    ): AbortableApolloUseQueryResponse<GetCategoryMangasQuery, GetCategoryMangasQueryVariables> {
+        return this.doRequestNew(GQLMethod.USE_QUERY, GET_CATEGORY_MANGAS, { id }, options);
     }
 
     public deleteCategory(categoryId: number): AbortableApolloMutationResponse<DeleteCategoryMutation> {
