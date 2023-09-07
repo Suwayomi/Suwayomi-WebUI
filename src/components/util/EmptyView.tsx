@@ -22,7 +22,7 @@ function getRandomErrorFace() {
 
 interface IProps {
     message: string;
-    messageExtra?: JSX.Element;
+    messageExtra?: JSX.Element | string;
 }
 
 export default function EmptyView({ message, messageExtra }: IProps) {

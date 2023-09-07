@@ -10,7 +10,7 @@ import { OverridableComponent } from '@mui/material/OverridableComponent';
 import { SvgIconTypeMap } from '@mui/material/SvgIcon/SvgIcon';
 import { ParseKeys } from 'i18next';
 import { Location } from 'react-router-dom';
-import { ExtensionType } from '@/lib/graphql/generated/graphql.ts';
+import { ExtensionType, MangaType, MetaType } from '@/lib/graphql/generated/graphql.ts';
 
 type GenericLocation<State = any> = Omit<Location, 'state'> & { state?: State };
 
@@ -76,6 +76,8 @@ export interface IMetadataMigration {
 export type Metadata<Keys extends string = string, Values = string> = {
     [key in Keys]: Values;
 };
+
+export type GqlMetaHolder = { meta?: MetaType[] };
 
 export type MetadataHolder<Keys extends string = string, Values = string> = {
     meta?: Metadata<Keys, Values>;
@@ -236,7 +238,7 @@ export interface IReaderProps {
     curPage: number;
     initialPage: number;
     settings: IReaderSettings;
-    manga: IMangaCard | IManga;
+    manga: MangaType;
     chapter: IChapter | IPartialChapter;
     nextChapter: () => void;
     prevChapter: () => void;

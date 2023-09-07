@@ -10,14 +10,15 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import PublicIcon from '@mui/icons-material/Public';
 import { styled } from '@mui/material/styles';
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { mutate } from 'swr';
 import { t as translate } from 'i18next';
 import Button from '@mui/material/Button';
-import { IManga, ISource } from '@/typings';
+import { ISource } from '@/typings';
 import requestManager from '@/lib/requests/RequestManager.ts';
 import makeToast from '@/components/util/Toast';
+import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 
 const DetailsWrapper = styled('div')(({ theme }) => ({
     width: '100%',
@@ -125,11 +126,36 @@ const Genres = styled('div')(() => ({
     },
 }));
 
+const OpenSourceButton = ({ url }: { url?: string | null }) => {
+    const { t } = useTranslation();
+
+    const button = useMemo(
+        () => (
+            <Button disabled={!!url} startIcon={<PublicIcon />} size="large">
+                {t('global.button.open_site')}
+            </Button>
+        ),
+        [url],
+    );
+
+    if (!url) {
+        return button;
+    }
+
+    return (
+        <a href={url} target="_blank" rel="noreferrer">
+            <Button startIcon={<PublicIcon />} size="large">
+                {t('global.button.open_site')}
+            </Button>
+        </a>
+    );
+};
+
 interface IProps {
-    manga: IManga;
+    manga: MangaType;
 }
 
-function getSourceName(source: ISource) {
+function getSourceName(source?: ISource | null) {
     if (!source) {
         return translate('global.label.unknown');
     }
@@ -137,7 +163,7 @@ function getSourceName(source: ISource) {
     return source.displayName ?? source.id;
 }
 
-function getValueOrUnknown(val: string) {
+function getValueOrUnknown(val?: string | null) {
     return val || 'UNKNOWN';
 }
 
@@ -169,7 +195,9 @@ const MangaDetails: React.FC<IProps> = ({ manga }) => {
             <TopContentWrapper>
                 <ThumbnailMetadataWrapper>
                     <Thumbnail>
-                        <img src={requestManager.getValidImgUrlFor(manga.thumbnailUrl)} alt="Manga Thumbnail" />
+                        {manga.thumbnailUrl && (
+                            <img src={requestManager.getValidImgUrlFor(manga.thumbnailUrl)} alt="Manga Thumbnail" />
+                        )}
                     </Thumbnail>
                     <Metadata>
                         <h1>{manga.title}</h1>
@@ -195,11 +223,7 @@ const MangaDetails: React.FC<IProps> = ({ manga }) => {
                             {manga.inLibrary ? t('manga.button.in_library') : t('manga.button.add_to_library')}
                         </Button>
                     </div>
-                    <a href={manga.realUrl} target="_blank" rel="noreferrer">
-                        <Button startIcon={<PublicIcon />} size="large">
-                            {t('global.button.open_site')}
-                        </Button>
-                    </a>
+                    <OpenSourceButton url={manga.realUrl} />
                 </MangaButtonsContainer>
             </TopContentWrapper>
             <BottomContentWrapper>

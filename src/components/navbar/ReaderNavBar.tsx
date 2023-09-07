@@ -24,8 +24,9 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import Collapse from '@mui/material/Collapse';
 import { useTranslation } from 'react-i18next';
-import { ChapterOffset, IChapter, IManga, IMangaCard, IReaderSettings } from '@/typings';
+import { ChapterOffset, IChapter, IReaderSettings } from '@/typings';
 import ReaderSettingsOptions from '@/components/reader/ReaderSettingsOptions';
+import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 
 const Root = styled('div')(({ theme }) => ({
     top: 0,
@@ -114,7 +115,7 @@ const OpenDrawerButton = styled(IconButton)(({ theme }) => ({
 interface IProps {
     settings: IReaderSettings;
     setSettingValue: (key: keyof IReaderSettings, value: string | boolean) => void;
-    manga: IManga | IMangaCard;
+    manga: Pick<MangaType, 'id'>;
     chapter: IChapter;
     curPage: number;
     scrollToPage: (page: number) => void;

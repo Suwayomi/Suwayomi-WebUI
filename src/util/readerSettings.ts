@@ -6,14 +6,15 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { IManga, Metadata, MetadataHolder, IReaderSettings, MetadataKeyValuePair } from '@/typings';
+import { Metadata, IReaderSettings, MetadataKeyValuePair, GqlMetaHolder } from '@/typings';
 import requestManager from '@/lib/requests/RequestManager.ts';
 import {
-    convertGqlMetadata,
+    convertFromGqlMeta,
     getMetadataFrom,
     requestUpdateMangaMetadata,
     requestUpdateServerMetadata,
 } from '@/util/metadata';
+import { MangaType, MetaType } from '@/lib/graphql/generated/graphql.ts';
 
 type UndefinedReaderSettings = {
     [setting in keyof IReaderSettings]: IReaderSettings[setting] | undefined;
@@ -42,10 +43,10 @@ export const getReaderSettingsFromMetadata = (
 ): IReaderSettings => getReaderSettingsWithDefaultValueFallback(meta, defaultSettings, applyMetadataMigration);
 
 export const getReaderSettingsFor = (
-    { meta }: MetadataHolder,
+    { meta }: GqlMetaHolder = {},
     defaultSettings?: IReaderSettings,
     applyMetadataMigration?: boolean,
-): IReaderSettings => getReaderSettingsFromMetadata(meta, defaultSettings, applyMetadataMigration);
+): IReaderSettings => getReaderSettingsFromMetadata(convertFromGqlMeta(meta), defaultSettings, applyMetadataMigration);
 
 export const useDefaultReaderSettings = (): {
     metadata?: Metadata;
@@ -53,7 +54,7 @@ export const useDefaultReaderSettings = (): {
     loading: boolean;
 } => {
     const { data, loading } = requestManager.useGetGlobalMeta();
-    const metadata = convertGqlMetadata(data?.metas.nodes);
+    const metadata = convertFromGqlMeta(data?.metas.nodes);
     const settings = getReaderSettingsWithDefaultValueFallback<IReaderSettings>(metadata);
 
     return { metadata, settings, loading };
@@ -67,11 +68,12 @@ export const useDefaultReaderSettings = (): {
  * @param defaultSettings
  */
 export const checkAndHandleMissingStoredReaderSettings = async (
-    metadataHolder: IManga | MetadataHolder,
+    metadataHolder: Required<GqlMetaHolder> | MetaType[],
     metadataHolderType: 'manga' | 'server',
     defaultSettings: IReaderSettings,
 ): Promise<void | void[]> => {
-    const meta = metadataHolder.meta ?? (metadataHolder as Metadata);
+    const getMeta = () => (Array.isArray(metadataHolder) ? metadataHolder : metadataHolder.meta);
+    const meta = convertFromGqlMeta(getMeta())!;
     const settingsToCheck = getReaderSettingsWithDefaultValueFallback(
         meta,
         {
@@ -85,7 +87,7 @@ export const checkAndHandleMissingStoredReaderSettings = async (
         },
         false,
     );
-    const newSettings = getReaderSettingsFor({ meta }, defaultSettings);
+    const newSettings = getReaderSettingsFor({ meta: getMeta() }, defaultSettings);
 
     const undefinedSettings = Object.entries(settingsToCheck).filter((setting) => setting[1] === undefined);
 
@@ -101,9 +103,9 @@ export const checkAndHandleMissingStoredReaderSettings = async (
     }
 
     if (metadataHolderType === 'manga') {
-        await requestUpdateMangaMetadata(metadataHolder as IManga, settingsToUpdate);
+        await requestUpdateMangaMetadata(metadataHolder as MangaType, settingsToUpdate);
         return;
     }
 
-    await requestUpdateServerMetadata(meta, settingsToUpdate);
+    await requestUpdateServerMetadata(metadataHolder as MetaType[], settingsToUpdate);
 };

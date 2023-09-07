@@ -12,7 +12,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import SearchIcon from '@mui/icons-material/Search';
 import { useTranslation } from 'react-i18next';
 import { SearchMetadataKeys } from '@/typings';
-import { requestUpdateServerMetadata } from '@/util/metadata';
+import { convertToGqlMeta, requestUpdateServerMetadata } from '@/util/metadata';
 import { useSearchSettings } from '@/util/searchSettings';
 import makeToast from '@/components/util/Toast';
 import { useSetDefaultBackTo } from '@/components/context/NavbarContext';
@@ -24,7 +24,7 @@ export default function SearchSettings() {
     useSetDefaultBackTo('settings');
 
     const setSettingValue = (key: SearchMetadataKeys, value: boolean) => {
-        requestUpdateServerMetadata(metadata ?? {}, [[key, value]]).catch(() =>
+        requestUpdateServerMetadata(convertToGqlMeta(metadata)! ?? {}, [[key, value]]).catch(() =>
             makeToast(t('search.error.label.failed_to_save_settings'), 'warning'),
         );
     };

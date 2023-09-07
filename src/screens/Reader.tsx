@@ -7,11 +7,11 @@
  */
 
 import CircularProgress from '@mui/material/CircularProgress';
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { ChapterOffset, IChapter, IManga, IMangaCard, IReaderSettings, ReaderType, TranslationKey } from '@/typings';
+import { ChapterOffset, IChapter, IReaderSettings, ReaderType, TranslationKey } from '@/typings';
 import requestManager from '@/lib/requests/RequestManager.ts';
 import {
     checkAndHandleMissingStoredReaderSettings,
@@ -27,6 +27,7 @@ import VerticalPager from '@/components/reader/pager/VerticalPager';
 import ReaderNavBar from '@/components/navbar/ReaderNavBar';
 import NavbarContext from '@/components/context/NavbarContext';
 import makeToast from '@/components/util/Toast';
+import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 
 const isDupChapter = async (chapterIndex: number, currentChapter: IChapter) => {
     const nextChapter = await requestManager.getChapter(currentChapter.mangaId, chapterIndex).response;
@@ -93,17 +94,22 @@ export default function Reader() {
     const location = useLocation();
 
     const { chapterIndex, mangaId } = useParams<{ chapterIndex: string; mangaId: string }>();
-    const {
-        data: manga = {
-            id: +mangaId,
-            title: '',
-            thumbnailUrl: '',
-            genre: [],
-            inLibraryAt: 0,
-            lastReadAt: 0,
-        } as IMangaCard | IManga,
-        isLoading: isMangaLoading,
-    } = requestManager.useGetManga(mangaId);
+
+    const initialManga = useMemo(
+        () =>
+            ({
+                id: +mangaId,
+                title: '',
+                thumbnailUrl: '',
+                genre: [],
+                inLibraryAt: 0,
+                lastReadAt: 0,
+            }) as unknown as MangaType,
+        [mangaId],
+    );
+
+    const { data, loading: isMangaLoading } = requestManager.useGetManga(mangaId);
+    const manga = (data?.manga as MangaType) ?? initialManga;
     const { data: chapter = initialChapter, isLoading: isChapterLoading } = requestManager.useGetChapter(
         mangaId,
         chapterIndex,

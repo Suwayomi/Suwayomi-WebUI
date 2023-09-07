@@ -16,7 +16,7 @@ export const useRefreshManga = (mangaId: string) => {
     const handleRefresh = useCallback(async () => {
         setFetchingOnline(true);
         await Promise.all([
-            requestManager.getManga(mangaId, true).response.then((res) => {
+            requestManager.getMangaFetch(mangaId).response.then((res) => {
                 mutate(`${RequestManager.API_VERSION}manga/${mangaId}`, res, { revalidate: false });
             }),
             requestManager.getMangaChapters(mangaId, true).response.then((res) =>

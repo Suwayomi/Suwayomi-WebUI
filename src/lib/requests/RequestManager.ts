@@ -69,6 +69,10 @@ import {
     GetExtensionsQueryVariables,
     GetGlobalMetadatasQuery,
     GetGlobalMetadatasQueryVariables,
+    GetMangaFetchMutation,
+    GetMangaFetchMutationVariables,
+    GetMangaQuery,
+    GetMangaQueryVariables,
     GetSourceQuery,
     GetSourceQueryVariables,
     GetSourcesQuery,
@@ -125,7 +129,12 @@ import {
     UPDATE_EXTENSION,
 } from '@/lib/graphql/mutations/ExtensionMutation.ts';
 import { GET_SOURCE, GET_SOURCES } from '@/lib/graphql/queries/SourceQuery.ts';
-import { SET_MANGA_METADATA, UPDATE_MANGA, UPDATE_MANGA_CATEGORIES } from '@/lib/graphql/mutations/MangaMutation.ts';
+import {
+    GET_MANGA_FETCH,
+    SET_MANGA_METADATA,
+    UPDATE_MANGA,
+    UPDATE_MANGA_CATEGORIES,
+} from '@/lib/graphql/mutations/MangaMutation.ts';
 import { GET_MANGA, GET_MANGAS } from '@/lib/graphql/queries/MangaQuery.ts';
 import { GET_CATEGORIES, GET_CATEGORY, GET_CATEGORY_MANGAS } from '@/lib/graphql/queries/CategoryQuery.ts';
 import { GET_SOURCE_MANGAS_FETCH } from '@/lib/graphql/mutations/SourceMutation.ts';
@@ -712,27 +721,28 @@ export class RequestManager {
 
     public useGetManga(
         mangaId: number | string,
-        { doOnlineFetch, ...swrOptions }: SWROptions<IManga> & RequestOption = {},
-    ): AbortableSWRResponse<IManga> {
-        const onlineFetch = doOnlineFetch ? '?onlineFetch=true' : '';
-        return this.doRequest(HttpMethod.SWR_GET, `manga/${mangaId}${onlineFetch}`, {
-            swrOptions,
-        });
+        options?: QueryHookOptions<GetMangaQuery, GetMangaQueryVariables>,
+    ): AbortableApolloUseQueryResponse<GetMangaQuery, GetMangaQueryVariables> {
+        return this.doRequestNew(GQLMethod.USE_QUERY, GET_MANGA, { id: Number(mangaId) }, options);
     }
 
-    public getManga(mangaId: number | string, doOnlineFetch?: boolean): AbortableAxiosResponse<IManga> {
-        const onlineFetch = doOnlineFetch ? '?onlineFetch=true' : '';
-        return this.doRequest(HttpMethod.GET, `manga/${mangaId}${onlineFetch}`);
-    }
-
-    public useGetFullManga(
+    public getMangaFetch(
         mangaId: number | string,
-        { doOnlineFetch, ...swrOptions }: SWROptions<IManga> & RequestOption = {},
-    ): AbortableSWRResponse<IManga> {
-        const onlineFetch = doOnlineFetch ? '?onlineFetch=true' : '';
-        return this.doRequest(HttpMethod.SWR_GET, `manga/${mangaId}/full${onlineFetch}`, {
-            swrOptions,
-        });
+        options?: MutationOptions<GetMangaFetchMutation, GetMangaFetchMutationVariables>,
+    ): AbortableApolloMutationResponse<GetMangaFetchMutation> {
+        return this.doRequestNew<GetMangaFetchMutation, GetMangaFetchMutationVariables>(
+            GQLMethod.MUTATION,
+            GET_MANGA_FETCH,
+            {
+                input: {
+                    id: Number(mangaId),
+                },
+            },
+            {
+                refetchQueries: [GET_MANGA, GET_MANGAS],
+                ...options,
+            },
+        );
     }
 
     public getMangaThumbnailUrl(mangaId: number): string {
