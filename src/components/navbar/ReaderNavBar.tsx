@@ -267,7 +267,7 @@ export default function ReaderNavBar(props: IProps) {
                             skipDupChapters={settings.skipDupChapters}
                             fitPageToWindow={settings.fitPageToWindow}
                             readerType={settings.readerType}
-                            offsetDoubleSpreads={settings.offsetDoubleSpreads}
+                            invertDoublePage={settings.invertDoublePage}
                         />
                     </Collapse>
                     <Divider sx={{ my: 1, mx: 2 }} />

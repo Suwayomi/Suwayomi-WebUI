@@ -25,7 +25,7 @@ export default function ReaderSettingsOptions({
     skipDupChapters,
     setSettingValue,
     fitPageToWindow,
-    offsetDoubleSpreads,
+    invertDoublePage,
 }: IProps) {
     const { t } = useTranslation();
     const fitPageToWindowEligible = [
@@ -117,12 +117,12 @@ export default function ReaderSettingsOptions({
                 </Select>
             </ListItem>
             <ListItem>
-                <ListItemText primary={t('reader.settings.label.offset_double_spreads')} />
+                <ListItemText primary={t('reader.settings.label.invert_double_page')} />
                 <ListItemSecondaryAction>
                     <Switch
                         edge="end"
-                        checked={offsetDoubleSpreads}
-                        onChange={(e) => setSettingValue('offsetDoubleSpreads', e.target.checked)}
+                        checked={invertDoublePage}
+                        onChange={(e) => setSettingValue('invertDoublePage', e.target.checked)}
                     />
                 </ListItemSecondaryAction>
             </ListItem>
