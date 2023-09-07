@@ -7,10 +7,10 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { IMangaCard } from '@/typings';
 import MangaGrid, { IMangaGridProps } from '@/components/MangaGrid';
+import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 
-function filterManga(mangas: IMangaCard[]): IMangaCard[] {
+function filterManga(mangas: MangaType[]): MangaType[] {
     return mangas;
 }
 

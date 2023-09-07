@@ -21,6 +21,7 @@ import {
     useQuery,
 } from '@apollo/client';
 import { OperationVariables } from '@apollo/client/core';
+import { useState } from 'react';
 import {
     BackupValidationResult,
     ICategory,
@@ -58,6 +59,9 @@ import {
     EnqueueChapterDownloadMutationVariables,
     EnqueueChapterDownloadsMutation,
     EnqueueChapterDownloadsMutationVariables,
+    FetchSourceMangaInput,
+    FetchSourceMangaType,
+    FilterChangeInput,
     GetAboutQuery,
     GetAboutQueryVariables,
     GetExtensionsFetchMutation,
@@ -74,6 +78,8 @@ import {
     GetMangaFetchMutationVariables,
     GetMangaQuery,
     GetMangaQueryVariables,
+    GetSourceMangasFetchMutation,
+    GetSourceMangasFetchMutationVariables,
     GetSourceQuery,
     GetSourceQueryVariables,
     GetSourcesQuery,
@@ -213,6 +219,13 @@ type AbortableApolloUseQueryResponse<
 type AbortableApolloUseMutationResponse<Data = any, Variables extends OperationVariables = OperationVariables> = [
     MutationTuple<Data, Variables>[0],
     MutationTuple<Data, Variables>[1] & AbortableRequest,
+];
+type AbortableApolloUseMutationPaginatedResponse<
+    Data = any,
+    Variables extends OperationVariables = OperationVariables,
+> = [
+    (page: number) => Promise<FetchResult<Data>>,
+    (MutationTuple<Data, Variables>[1] & AbortableRequest & { size: number; loadingMore: boolean })[],
 ];
 type AbortableApolloMutationResponse<Data = any> = { response: Promise<FetchResult<Data>> } & AbortableRequest;
 
@@ -625,6 +638,99 @@ export class RequestManager {
         return this.doRequestNew(GQLMethod.USE_QUERY, GET_SOURCE, { id }, options);
     }
 
+    public useGetSourceMangas(
+        input: FetchSourceMangaInput,
+        options?: MutationHookOptions<GetSourceMangasFetchMutation, GetSourceMangasFetchMutationVariables>,
+    ): AbortableApolloUseMutationPaginatedResponse<
+        GetSourceMangasFetchMutation,
+        GetSourceMangasFetchMutationVariables
+    > {
+        const createPaginatedResult = (
+            result: AbortableApolloUseMutationResponse[1],
+            page: number,
+        ): AbortableApolloUseMutationPaginatedResponse[1][number] => {
+            const loading = result.loading || !result.called;
+            return {
+                ...result,
+                loading,
+                size: page,
+                loadingMore: loading && page > 1,
+            };
+        };
+
+        // TODO - implement caching
+        //  - ? global cache with revalidating (same as SWR does, revalidate each page starting with 1st until the first page is reached whose data didn't change)
+        //  - ? saving fetched mangas in location state and only "cache" when navigating prev/next
+        const [mutate, result] = this.doRequestNew<GetSourceMangasFetchMutation, GetSourceMangasFetchMutationVariables>(
+            GQLMethod.USE_MUTATION,
+            GET_SOURCE_MANGAS_FETCH,
+            { input },
+            options,
+        );
+
+        const [previousResults, setPreviousResults] = useState<AbortableApolloUseMutationPaginatedResponse[1]>([
+            createPaginatedResult(result, input.page),
+        ]);
+
+        const [contentType, setContentType] = useState(input.type);
+        const [query, setQuery] = useState(input.query);
+        const [page, setPage] = useState(input.page);
+
+        const paginatedResult = createPaginatedResult(result, page);
+
+        // TODO - option "global cache with revalidating"
+        // replace previousResults with cache
+        // cache specific response
+        // cache "base" key to specific page keys to be able to retrieve all necessary cached pages
+        // get cached results
+        // revalidate in background - revalidate first page -> result changed? revalidate every page until cached result and response is the same
+
+        // wrap "mutate" function to align with the expected type, which allows only passing a "page" argument
+        const wrappedMutate = (newPage: number) => {
+            const resetPreviousResultForInitialLoad = newPage < page;
+            if (resetPreviousResultForInitialLoad) {
+                setPreviousResults(previousResults.filter((prevResult) => prevResult.size <= newPage));
+            }
+
+            if (newPage !== page) {
+                setPage(newPage);
+            }
+
+            return mutate({
+                variables: {
+                    input: {
+                        ...input,
+                        page: newPage,
+                    },
+                },
+            });
+        };
+
+        const contentTypeChanged = contentType !== input.type;
+        const queryChanged = query !== input.query;
+        // instantly return empty results in case the provided variables changed - wait until the hook returns empty data,
+        // otherwise, updating the previous results will revert the reset
+        const resetPreviousResult = (queryChanged || contentTypeChanged) && !paginatedResult.data;
+        let updatedResults = [
+            ...(resetPreviousResult ? [{ ...paginatedResult, size: page, loadingMore: false }] : previousResults),
+        ];
+
+        if (resetPreviousResult) {
+            setContentType(input.type);
+            setQuery(input.query);
+            setPreviousResults([paginatedResult]);
+        }
+
+        const resultChanged = previousResults[page - 1]?.loading !== paginatedResult.loading;
+        const updatePreviousResult = resultChanged && !resetPreviousResult;
+        if (updatePreviousResult) {
+            updatedResults = [...previousResults.slice(0, page - 1), paginatedResult];
+            setPreviousResults(updatedResults);
+        }
+
+        return [wrappedMutate, updatedResult];
+    }
+
     public useGetSourcePopularMangas(
         sourceId: string,
         initialPages?: number,
@@ -683,21 +789,15 @@ export class RequestManager {
     }
 
     public useSourceSearch(
-        sourceId: string,
-        searchTerm: string,
-        initialPages?: number,
-        swrOptions?: SWRInfiniteOptions<SourceSearchResult>,
-    ): AbortableSWRInfiniteResponse<SourceSearchResult> {
-        return this.doRequest(HttpMethod.SWR_GET_INFINITE, '', {
-            swrOptions: {
-                getEndpoint: (page, previousData) =>
-                    previousData?.hasNextPage ?? true
-                        ? `source/${sourceId}/search?searchTerm=${searchTerm}&pageNum=${page + 1}`
-                        : null,
-                initialSize: initialPages,
-                ...swrOptions,
-            } as typeof swrOptions,
-        });
+        source: string,
+        query: string,
+        filters?: FilterChangeInput[],
+        options?: MutationHookOptions<GetSourceMangasFetchMutation, GetSourceMangasFetchMutationVariables>,
+    ): AbortableApolloUseMutationPaginatedResponse<
+        GetSourceMangasFetchMutation,
+        GetSourceMangasFetchMutationVariables
+    > {
+        return this.useGetSourceMangas({ type: FetchSourceMangaType.Search, source, query, filters, page: 1 }, options);
     }
 
     public useSourceQuickSearch(

@@ -12,6 +12,14 @@ import { ParseKeys } from 'i18next';
 import { Location } from 'react-router-dom';
 import { ExtensionType, MangaType, MetaType } from '@/lib/graphql/generated/graphql.ts';
 
+export type RecursivePartial<T> = {
+    [P in keyof T]?: T[P] extends (infer U)[]
+        ? RecursivePartial<U>[]
+        : T[P] extends object | undefined
+        ? RecursivePartial<T[P]>
+        : T[P];
+};
+
 type GenericLocation<State = any> = Omit<Location, 'state'> & { state?: State };
 
 declare module 'react-router-dom' {

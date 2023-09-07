@@ -7,16 +7,16 @@
  */
 
 import gql from 'graphql-tag';
-import { FULL_MANGA_FIELDS, FULL_SOURCE_FIELDS } from '@/lib/graphql/Fragments';
+import { BASE_MANGA_FIELDS, FULL_SOURCE_FIELDS } from '@/lib/graphql/Fragments';
 
 export const GET_SOURCE_MANGAS_FETCH = gql`
-    ${FULL_MANGA_FIELDS}
+    ${BASE_MANGA_FIELDS}
     mutation GET_SOURCE_MANGAS_FETCH($input: FetchSourceMangaInput!) {
         fetchSourceManga(input: $input) {
             clientMutationId
             hasNextPage
             mangas {
-                ...FULL_MANGA_FIELDS
+                ...BASE_MANGA_FIELDS
             }
         }
     }
