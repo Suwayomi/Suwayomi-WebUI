@@ -97,19 +97,14 @@ const SourceSearchPreview = React.memo(
         emptyQuery: boolean;
     }) => {
         const { t } = useTranslation();
-        const skipRequest = !searchString;
 
         const { id, displayName, lang } = source;
-        const [loadPage, results] = requestManager.useSourceSearch(id, searchString ?? '', []);
-        const { data: searchResult, loading: isLoading, error, abortRequest } = results[0]!;
+        const [, results] = requestManager.useSourceSearch(id, searchString ?? '', undefined, 1, {
+            skipRequest: !searchString,
+        });
+        const { data: searchResult, isLoading, error, abortRequest } = results[0]!;
         const mangas = (searchResult?.fetchSourceManga.mangas as MangaType[]) ?? [];
         const noMangasFound = !isLoading && !mangas.length;
-
-        useEffect(() => {
-            if (!skipRequest) {
-                loadPage(1);
-            }
-        }, [skipRequest, searchString]);
 
         useEffect(() => {
             onSearchRequestFinished(source, isLoading, !noMangasFound, !searchString);

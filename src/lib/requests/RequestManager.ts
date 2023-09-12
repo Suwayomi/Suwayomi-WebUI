@@ -10,6 +10,8 @@ import { AxiosInstance, AxiosRequestConfig } from 'axios';
 import useSWR, { Middleware, SWRConfiguration, SWRResponse } from 'swr';
 import useSWRInfinite, { SWRInfiniteConfiguration, SWRInfiniteResponse } from 'swr/infinite';
 import {
+    ApolloError,
+    DocumentNode,
     FetchResult,
     MutationHookOptions,
     MutationOptions,
@@ -21,7 +23,7 @@ import {
     useQuery,
 } from '@apollo/client';
 import { OperationVariables } from '@apollo/client/core';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
     BackupValidationResult,
     ICategory,
@@ -29,7 +31,6 @@ import {
     IMangaChapter,
     ISourceFilters,
     PaginatedList,
-    PaginatedMangaList,
     SourcePreferences,
     SourceSearchResult,
 } from '@/typings.ts';
@@ -173,6 +174,7 @@ import {
     UPDATE_LIBRARY_MANGAS,
 } from '@/lib/graphql/mutations/UpdaterMutation.ts';
 import { GET_UPDATE_STATUS } from '@/lib/graphql/queries/UpdaterQuery.ts';
+import { CustomCache } from '@/lib/requests/CustomCache.ts';
 
 enum SWRHttpMethod {
     SWR_GET,
@@ -205,6 +207,12 @@ type SWRInfiniteResponseLoadInfo = {
     isInitialLoad: boolean;
     isLoadMore: boolean;
 };
+
+type ApolloPaginatedMutationOptions<Data = any, Variables = OperationVariables> = MutationHookOptions<
+    Data,
+    Variables
+> & { skipRequest?: boolean };
+
 type AbortableRequest = { abortRequest: AbortController['abort'] };
 export type AbortableAxiosResponse<Data = any> = { response: Promise<Data> } & AbortableRequest;
 export type AbortableSWRResponse<Data = any, Error = any> = SWRResponse<Data, Error> & AbortableRequest;
@@ -212,22 +220,38 @@ export type AbortableSWRInfiniteResponse<Data = any, Error = any> = SWRInfiniteR
     AbortableRequest &
     SWRInfiniteResponseLoadInfo;
 
-type AbortableApolloUseQueryResponse<
+export type AbortableApolloUseQueryResponse<
     Data = any,
     Variables extends OperationVariables = OperationVariables,
 > = QueryResult<Data, Variables> & AbortableRequest;
-type AbortableApolloUseMutationResponse<Data = any, Variables extends OperationVariables = OperationVariables> = [
-    MutationTuple<Data, Variables>[0],
-    MutationTuple<Data, Variables>[1] & AbortableRequest,
-];
-type AbortableApolloUseMutationPaginatedResponse<
+export type AbortableApolloUseMutationResponse<
+    Data = any,
+    Variables extends OperationVariables = OperationVariables,
+> = [MutationTuple<Data, Variables>[0], MutationTuple<Data, Variables>[1] & AbortableRequest];
+export type AbortableApolloUseMutationPaginatedResponse<
     Data = any,
     Variables extends OperationVariables = OperationVariables,
 > = [
     (page: number) => Promise<FetchResult<Data>>,
-    (MutationTuple<Data, Variables>[1] & AbortableRequest & { size: number; loadingMore: boolean })[],
+    (Omit<MutationTuple<Data, Variables>[1], 'loading'> &
+        AbortableRequest & {
+            size: number;
+            /**
+             * Indicates whether any request is currently active.
+             * In case only "isLoading" is true, it means that it's the initial request
+             */
+            isLoading: boolean;
+            /**
+             * Indicates if a next page is being fetched, which is not part of the initial pages
+             */
+            isLoadingMore: boolean;
+            /**
+             * Indicates if the cached pages are currently getting revalidated
+             */
+            isValidating: boolean;
+        })[],
 ];
-type AbortableApolloMutationResponse<Data = any> = { response: Promise<FetchResult<Data>> } & AbortableRequest;
+export type AbortableApolloMutationResponse<Data = any> = { response: Promise<FetchResult<Data>> } & AbortableRequest;
 
 const isLoadingMore = (swrResult: SWRInfiniteResponse): boolean => {
     const isNextPageMissing = !!swrResult.data && typeof swrResult.data[swrResult.size - 1] === 'undefined';
@@ -266,6 +290,8 @@ export class RequestManager {
 
     private readonly restClient: RestClient = new RestClient();
 
+    private readonly cache = new CustomCache();
+
     public getClient(): IRestClient {
         return this.restClient;
     }
@@ -297,6 +323,339 @@ export class RequestManager {
 
     public getValidUrlFor(endpoint: string, apiVersion: string = RequestManager.API_VERSION): string {
         return `${this.getBaseUrl()}${apiVersion}${endpoint}`;
+    }
+
+    private createAbortController(): { signal: AbortSignal } & AbortableRequest {
+        const abortController = new AbortController();
+        const abortRequest = (reason?: any): void => {
+            if (!abortController.signal.aborted) {
+                abortController.abort(reason);
+            }
+        };
+
+        return { signal: abortController.signal, abortRequest };
+    }
+
+    private createPaginatedResult<Result extends AbortableApolloUseMutationPaginatedResponse[1][number]>(
+        result: Partial<Result> | undefined | null,
+        defaultPage: number,
+        page?: number,
+    ): Result {
+        const isLoading = !result?.error && (result?.isLoading || !result?.called);
+        const size = page ?? result?.size ?? defaultPage;
+        return {
+            client: this.graphQLClient.client,
+            abortRequest: () => {},
+            reset: () => {},
+            called: false,
+            data: undefined,
+            error: undefined,
+            size,
+            isLoading,
+            isLoadingMore: isLoading && size > 1,
+            isValidating: !!result?.isValidating,
+            ...result,
+        } as Result;
+    }
+
+    private async revalidatePage<Data = any, Variables extends OperationVariables = OperationVariables>(
+        cacheResultsKey: string,
+        cachePagesKey: string,
+        getVariablesFor: (page: number) => Variables,
+        options: ApolloPaginatedMutationOptions<Data, Variables> | undefined,
+        checkIfCachedPageIsInvalid: (
+            cachedResult: AbortableApolloUseMutationPaginatedResponse<Data, Variables>[1][number] | undefined,
+            revalidatedResult: FetchResult<Data>,
+        ) => boolean,
+        hasNextPage: (revalidatedResult: FetchResult<Data>) => boolean,
+        pageToRevalidate: number,
+        maxPage: number,
+        signal: AbortSignal,
+    ): Promise<void> {
+        const { response: revalidationRequest } = this.doRequestNew(
+            GQLMethod.MUTATION,
+            GET_SOURCE_MANGAS_FETCH,
+            getVariablesFor(pageToRevalidate),
+            {
+                ...options,
+                context: { fetchOptions: { signal } },
+            },
+        );
+
+        const revalidationResponse = await revalidationRequest;
+        const cachedPageData = this.cache.getResponseFor<
+            AbortableApolloUseMutationPaginatedResponse<Data, Variables>[1][number]
+        >(cacheResultsKey, getVariablesFor(pageToRevalidate));
+
+        const isCachedPageInvalid = checkIfCachedPageIsInvalid(cachedPageData, revalidationResponse);
+        if (isCachedPageInvalid) {
+            this.cache.cacheResponse(cacheResultsKey, getVariablesFor(pageToRevalidate), revalidationResponse);
+        }
+
+        if (!hasNextPage(revalidationResponse)) {
+            const currentCachedPages = this.cache.getResponseFor<Set<number>>(cachePagesKey, getVariablesFor(0))!;
+            this.cache.cacheResponse(
+                cachePagesKey,
+                getVariablesFor(0),
+                [...currentCachedPages].filter((cachedPage) => cachedPage <= pageToRevalidate),
+            );
+            [...currentCachedPages]
+                .filter((cachedPage) => cachedPage > pageToRevalidate)
+                .forEach((cachedPage) =>
+                    this.cache.cacheResponse(cacheResultsKey, getVariablesFor(cachedPage), undefined),
+                );
+            return;
+        }
+
+        if (isCachedPageInvalid && pageToRevalidate < maxPage) {
+            await this.revalidatePage(
+                cacheResultsKey,
+                cachePagesKey,
+                getVariablesFor,
+                options,
+                checkIfCachedPageIsInvalid,
+                hasNextPage,
+                pageToRevalidate + 1,
+                maxPage,
+                signal,
+            );
+        }
+    }
+
+    private async revalidatePages<Variables extends OperationVariables = OperationVariables>(
+        activeRevalidationRef:
+            | [ForInput: Variables, Request: Promise<unknown>, AbortRequest: AbortableRequest['abortRequest']]
+            | null,
+        setRevalidationDone: (isDone: boolean) => void,
+        setActiveRevalidation: (
+            activeRevalidation:
+                | [ForInput: Variables, Request: Promise<unknown>, AbortRequest: AbortableRequest['abortRequest']]
+                | null,
+        ) => void,
+        getVariablesFor: (page: number) => Variables,
+        setValidating: (isValidating: boolean) => void,
+        revalidatePage: (pageToRevalidate: number, maxPage: number, signal: AbortSignal) => Promise<void>,
+        maxPage: number,
+        abortRequest: AbortableRequest['abortRequest'],
+        signal: AbortSignal,
+    ): Promise<void> {
+        setRevalidationDone(true);
+
+        const [currRevVars, currRevPromise, currRevAbortRequest] = activeRevalidationRef ?? [];
+
+        const isActiveRevalidationForInput = JSON.stringify(currRevVars) === JSON.stringify(getVariablesFor(0));
+
+        setValidating(true);
+
+        if (!isActiveRevalidationForInput) {
+            currRevAbortRequest?.(new Error('Abort revalidation for different input'));
+        }
+
+        let revalidationPromise = currRevPromise;
+        if (!isActiveRevalidationForInput) {
+            revalidationPromise = revalidatePage(1, maxPage, signal);
+            setActiveRevalidation([getVariablesFor(0), revalidationPromise, abortRequest]);
+        }
+
+        try {
+            await revalidationPromise;
+            setActiveRevalidation(null);
+        } catch (e) {
+            // ignore
+        } finally {
+            setValidating(false);
+        }
+    }
+
+    private async fetchPaginatedMutationPage<
+        Data = any,
+        Variables extends OperationVariables = OperationVariables,
+        ResultIdInfo extends Record<string, any> = any,
+    >(
+        getVariablesFor: (page: number) => Variables,
+        setAbortRequest: (abortRequest: AbortableRequest['abortRequest']) => void,
+        getResultIdInfo: () => ResultIdInfo,
+        createPaginatedResult: (
+            result: Partial<AbortableApolloUseMutationPaginatedResponse<Data, Variables>[1][number]>,
+        ) => AbortableApolloUseMutationPaginatedResponse<Data, Variables>[1][number],
+        setResult: (
+            result: AbortableApolloUseMutationPaginatedResponse<Data, Variables>[1][number] & ResultIdInfo,
+        ) => void,
+        revalidate: (
+            maxPage: number,
+            abortRequest: AbortableRequest['abortRequest'],
+            signal: AbortSignal,
+        ) => Promise<void>,
+        options: ApolloPaginatedMutationOptions<Data, Variables> | undefined,
+        documentNode: DocumentNode,
+        cachePagesKey: string,
+        cacheResultsKey: string,
+        cachedPages: Set<number>,
+        newPage: number,
+    ): Promise<FetchResult<Data>> {
+        const basePaginatedResult: Partial<AbortableApolloUseMutationPaginatedResponse<Data, Variables>[1][number]> = {
+            size: newPage,
+            isLoading: false,
+            isLoadingMore: false,
+            called: true,
+        };
+
+        let response: FetchResult<Data> = {};
+        try {
+            const { signal, abortRequest } = this.createAbortController();
+            setAbortRequest(abortRequest);
+
+            setResult({
+                ...getResultIdInfo(),
+                ...createPaginatedResult({ isLoading: true, abortRequest, size: newPage, called: true }),
+            });
+
+            if (newPage !== 1 && cachedPages.size) {
+                await revalidate(newPage, abortRequest, signal);
+            }
+
+            const { response: request } = this.doRequestNew<Data, Variables>(
+                GQLMethod.MUTATION,
+                documentNode,
+                getVariablesFor(newPage),
+                { ...options, context: { fetchOptions: { signal } } },
+            );
+
+            response = await request;
+
+            basePaginatedResult.data = response.data;
+        } catch (error: any) {
+            if (error instanceof ApolloError) {
+                basePaginatedResult.error = error;
+            } else {
+                basePaginatedResult.error = new ApolloError({
+                    errorMessage: error?.message ?? error.toString(),
+                    extraInfo: error,
+                });
+            }
+        }
+
+        const fetchPaginatedResult = {
+            ...getResultIdInfo(),
+            ...createPaginatedResult(basePaginatedResult),
+        };
+
+        setResult(fetchPaginatedResult);
+
+        const shouldCacheResult = !fetchPaginatedResult.error;
+        if (shouldCacheResult) {
+            const currentCachedPages = this.cache.getResponseFor<Set<number>>(cachePagesKey, getVariablesFor(0)) ?? [];
+            this.cache.cacheResponse(cachePagesKey, getVariablesFor(0), new Set([...currentCachedPages, newPage]));
+            this.cache.cacheResponse(cacheResultsKey, getVariablesFor(newPage), fetchPaginatedResult);
+        }
+
+        return response;
+    }
+
+    private fetchInitialPages<Data = any, Variables extends OperationVariables = OperationVariables>(
+        options: ApolloPaginatedMutationOptions<Data, Variables> | undefined,
+        areFetchingInitialPages: boolean,
+        areInitialPagesFetched: boolean,
+        setRevalidationDone: (isDone: boolean) => void,
+        cacheInitialPagesKey: string,
+        getVariablesFor: (page: number) => Variables,
+        initialPages: number,
+        fetchPage: (page: number) => Promise<FetchResult<Data>>,
+        hasNextPage: (result: FetchResult<Data>) => boolean,
+    ): void {
+        const shouldFetchInitialPages = !options?.skipRequest && !areFetchingInitialPages && !areInitialPagesFetched;
+        if (shouldFetchInitialPages) {
+            setRevalidationDone(true);
+            this.cache.cacheResponse(cacheInitialPagesKey, getVariablesFor(0), true);
+
+            const loadInitialPages = async (initialPage: number) => {
+                const areAllPagesFetched = initialPage > initialPages;
+                if (areAllPagesFetched) {
+                    return;
+                }
+
+                const pageResult = await fetchPage(initialPage);
+
+                if (hasNextPage(pageResult)) {
+                    await loadInitialPages(initialPage + 1);
+                }
+            };
+
+            loadInitialPages(1);
+        }
+    }
+
+    private returnPaginatedMutationResult<Data = any, Variables extends OperationVariables = OperationVariables>(
+        areInitialPagesFetched: boolean,
+        cachedResults: AbortableApolloUseMutationPaginatedResponse<Data, Variables>[1][number][],
+        getVariablesFor: (page: number) => Variables,
+        paginatedResult: AbortableApolloUseMutationPaginatedResponse<Data, Variables>[1][number],
+        fetchPage: (page: number) => Promise<FetchResult<Data>>,
+        hasCachedResult: boolean,
+        createPaginatedResult: (
+            result: Partial<AbortableApolloUseMutationPaginatedResponse<Data, Variables>[1][number]>,
+        ) => AbortableApolloUseMutationPaginatedResponse<Data, Variables>[1][number],
+    ): AbortableApolloUseMutationPaginatedResponse<Data, Variables> {
+        const doCachedResultsExist = areInitialPagesFetched && cachedResults.length;
+        if (!doCachedResultsExist) {
+            return [fetchPage, [paginatedResult]];
+        }
+
+        const areAllPagesCached = doCachedResultsExist && hasCachedResult;
+        if (!areAllPagesCached) {
+            return [fetchPage, [...cachedResults, paginatedResult]];
+        }
+
+        return [
+            fetchPage,
+            [
+                ...cachedResults.slice(0, cachedResults.length - 1),
+                createPaginatedResult({
+                    ...cachedResults[cachedResults.length - 1],
+                    isValidating: paginatedResult.isValidating,
+                }),
+            ],
+        ];
+    }
+
+    private revalidateInitialPages<Variables extends OperationVariables = OperationVariables>(
+        isRevalidationDone: boolean,
+        cachedResultsLength: number,
+        cachedPages: Set<number>,
+        setRevalidationDone: (isDone: boolean) => void,
+        getVariablesFor: (page: number) => Variables,
+        triggerRerender: () => void,
+        revalidate: (
+            maxPage: number,
+            abortRequest: AbortableRequest['abortRequest'],
+            signal: AbortSignal,
+        ) => Promise<void>,
+    ): void {
+        const isMountedRef = useRef(false);
+
+        useEffect(() => {
+            const isRevalidationRequired = isMountedRef.current && cachedResultsLength;
+            if (!isRevalidationRequired) {
+                return;
+            }
+
+            setRevalidationDone(false);
+            triggerRerender();
+        }, [JSON.stringify(getVariablesFor(0))]);
+
+        useEffect(() => {
+            const shouldRevalidateData = isMountedRef.current && !isRevalidationDone && cachedResultsLength;
+            if (shouldRevalidateData) {
+                setRevalidationDone(true);
+
+                const { signal, abortRequest } = this.createAbortController();
+                revalidate(Math.max(...cachedPages), abortRequest, signal);
+            }
+        }, [isMountedRef.current, isRevalidationDone]);
+
+        useEffect(() => {
+            isMountedRef.current = true;
+        }, []);
     }
 
     public getValidImgUrlFor(imageUrl: string, apiVersion: string = ''): string {
@@ -339,13 +698,7 @@ export class RequestManager {
         | AbortableApolloUseQueryResponse<Data, Variables>
         | AbortableApolloUseMutationResponse<Data, Variables>
         | AbortableApolloMutationResponse<Data> {
-        const abortController = new AbortController();
-        const abortRequest = (reason?: any): void => {
-            if (!abortController.signal.aborted) {
-                abortController.abort(reason);
-            }
-        };
-
+        const { signal, abortRequest } = this.createAbortController();
         switch (method) {
             case GQLMethod.USE_QUERY:
                 return {
@@ -356,7 +709,7 @@ export class RequestManager {
                         context: {
                             ...options?.context,
                             fetchOptions: {
-                                signal: abortController.signal,
+                                signal,
                                 ...options?.context?.fetchOptions,
                             },
                         },
@@ -372,7 +725,7 @@ export class RequestManager {
                     context: {
                         ...options?.context,
                         fetchOptions: {
-                            signal: abortController.signal,
+                            signal,
                             ...options?.context?.fetchOptions,
                         },
                     },
@@ -388,7 +741,7 @@ export class RequestManager {
                         context: {
                             ...options?.context,
                             fetchOptions: {
-                                signal: abortController.signal,
+                                signal,
                                 ...options?.context?.fetchOptions,
                             },
                         },
@@ -640,125 +993,209 @@ export class RequestManager {
 
     public useGetSourceMangas(
         input: FetchSourceMangaInput,
-        options?: MutationHookOptions<GetSourceMangasFetchMutation, GetSourceMangasFetchMutationVariables>,
+        initialPages: number = 1,
+        options?: ApolloPaginatedMutationOptions<GetSourceMangasFetchMutation, GetSourceMangasFetchMutationVariables>,
     ): AbortableApolloUseMutationPaginatedResponse<
         GetSourceMangasFetchMutation,
         GetSourceMangasFetchMutationVariables
     > {
+        type MutationResult = AbortableApolloUseMutationPaginatedResponse<
+            GetSourceMangasFetchMutation,
+            GetSourceMangasFetchMutationVariables
+        >[1];
+        type MutationDataResult = MutationResult[number];
+
         const createPaginatedResult = (
-            result: AbortableApolloUseMutationResponse[1],
-            page: number,
-        ): AbortableApolloUseMutationPaginatedResponse[1][number] => {
-            const loading = result.loading || !result.called;
-            return {
-                ...result,
-                loading,
-                size: page,
-                loadingMore: loading && page > 1,
-            };
+            result?: Partial<AbortableApolloUseMutationPaginatedResponse[1][number]> | null,
+            page?: number,
+        ) => this.createPaginatedResult(result, input.page, page);
+
+        const getVariablesFor = (page: number): GetSourceMangasFetchMutationVariables => ({
+            input: {
+                ...input,
+                page,
+            },
+        });
+
+        const CACHE_INITIAL_PAGES_FETCHING_KEY = 'GET_SOURCE_MANGAS_FETCH_FETCHING_INITIAL_PAGES';
+        const CACHE_PAGES_KEY = 'GET_SOURCE_MANGAS_FETCH_PAGES';
+        const CACHE_RESULTS_KEY = 'GET_SOURCE_MANGAS_FETCH';
+
+        const isRevalidationDoneRef = useRef(false);
+        const activeRevalidationRef = useRef<
+            | [
+                  ForInput: GetSourceMangasFetchMutationVariables,
+                  Request: Promise<unknown>,
+                  AbortRequest: AbortableRequest['abortRequest'],
+              ]
+            | null
+        >(null);
+        const abortRequestRef = useRef<AbortableRequest['abortRequest']>(() => {});
+        const resultRef = useRef<(MutationDataResult & { forInput: string }) | null>(null);
+        const result = resultRef.current;
+
+        const [, setTriggerRerender] = useState(0);
+        const triggerRerender = () => setTriggerRerender((prev) => prev + 1);
+        const setResult = (nextResult: typeof resultRef.current) => {
+            resultRef.current = nextResult;
+            triggerRerender();
         };
 
-        // TODO - implement caching
-        //  - ? global cache with revalidating (same as SWR does, revalidate each page starting with 1st until the first page is reached whose data didn't change)
-        //  - ? saving fetched mangas in location state and only "cache" when navigating prev/next
-        const [mutate, result] = this.doRequestNew<GetSourceMangasFetchMutation, GetSourceMangasFetchMutationVariables>(
-            GQLMethod.USE_MUTATION,
-            GET_SOURCE_MANGAS_FETCH,
-            { input },
-            options,
+        const cachedPages = this.cache.getResponseFor<Set<number>>(CACHE_PAGES_KEY, getVariablesFor(0)) ?? new Set();
+        const cachedResults = [...cachedPages]
+            .map(
+                (cachedPage) =>
+                    this.cache.getResponseFor<MutationDataResult>(CACHE_RESULTS_KEY, getVariablesFor(cachedPage))!,
+            )
+            .sort((a, b) => a.size - b.size);
+        const areFetchingInitialPages = !!this.cache.getResponseFor<boolean>(
+            CACHE_INITIAL_PAGES_FETCHING_KEY,
+            getVariablesFor(0),
         );
 
-        const [previousResults, setPreviousResults] = useState<AbortableApolloUseMutationPaginatedResponse[1]>([
-            createPaginatedResult(result, input.page),
-        ]);
+        const areInitialPagesFetched = cachedResults.length >= initialPages;
+        const isResultForCurrentInput = result?.forInput === JSON.stringify(getVariablesFor(0));
+        const lastPage = cachedPages.size ? Math.max(...cachedPages) : input.page;
+        const nextPage = isResultForCurrentInput ? result.size : lastPage;
 
-        const [contentType, setContentType] = useState(input.type);
-        const [query, setQuery] = useState(input.query);
-        const [page, setPage] = useState(input.page);
+        const paginatedResult =
+            isResultForCurrentInput && areInitialPagesFetched ? result : createPaginatedResult(undefined, nextPage);
+        paginatedResult.abortRequest = abortRequestRef.current;
 
-        const paginatedResult = createPaginatedResult(result, page);
+        // make sure that the result is always for the current input
+        resultRef.current = { forInput: JSON.stringify(getVariablesFor(0)), ...paginatedResult };
 
-        // TODO - option "global cache with revalidating"
-        // replace previousResults with cache
-        // cache specific response
-        // cache "base" key to specific page keys to be able to retrieve all necessary cached pages
-        // get cached results
-        // revalidate in background - revalidate first page -> result changed? revalidate every page until cached result and response is the same
+        const hasCachedResult = !!this.cache.getResponseFor(CACHE_RESULTS_KEY, getVariablesFor(nextPage));
+
+        const revalidatePage = async (pageToRevalidate: number, maxPage: number, signal: AbortSignal) =>
+            this.revalidatePage(
+                CACHE_RESULTS_KEY,
+                CACHE_PAGES_KEY,
+                getVariablesFor,
+                options,
+                (cachedResult, revalidatedResult) =>
+                    !cachedResult ||
+                    !cachedResult.data?.fetchSourceManga.mangas.length ||
+                    cachedResult.data.fetchSourceManga.mangas.some(
+                        (manga, index) => manga.id !== revalidatedResult.data?.fetchSourceManga.mangas[index]?.id,
+                    ),
+                (revalidatedResult) => !!revalidatedResult.data?.fetchSourceManga.hasNextPage,
+                pageToRevalidate,
+                maxPage,
+                signal,
+            );
+
+        const revalidate = async (
+            maxPage: number,
+            abortRequest: AbortableRequest['abortRequest'],
+            signal: AbortSignal,
+        ) =>
+            this.revalidatePages(
+                activeRevalidationRef.current,
+                (isDone) => {
+                    isRevalidationDoneRef.current = isDone;
+                },
+                (activeRevalidation) => {
+                    activeRevalidationRef.current = activeRevalidation;
+                },
+                getVariablesFor,
+                (isValidating) => {
+                    setResult({
+                        ...createPaginatedResult(resultRef.current),
+                        isValidating,
+                        forInput: JSON.stringify(getVariablesFor(0)),
+                    });
+                },
+                revalidatePage,
+                maxPage,
+                abortRequest,
+                signal,
+            );
 
         // wrap "mutate" function to align with the expected type, which allows only passing a "page" argument
-        const wrappedMutate = (newPage: number) => {
-            const resetPreviousResultForInitialLoad = newPage < page;
-            if (resetPreviousResultForInitialLoad) {
-                setPreviousResults(previousResults.filter((prevResult) => prevResult.size <= newPage));
-            }
-
-            if (newPage !== page) {
-                setPage(newPage);
-            }
-
-            return mutate({
-                variables: {
-                    input: {
-                        ...input,
-                        page: newPage,
-                    },
+        const wrappedMutate = async (newPage: number) =>
+            this.fetchPaginatedMutationPage<GetSourceMangasFetchMutation, GetSourceMangasFetchMutationVariables>(
+                getVariablesFor,
+                (abortRequest) => {
+                    abortRequestRef.current = abortRequest;
                 },
-            });
-        };
+                () => ({ forType: input.type, forQuery: input.query }),
+                createPaginatedResult,
+                setResult,
+                revalidate,
+                options,
+                GET_SOURCE_MANGAS_FETCH,
+                CACHE_PAGES_KEY,
+                CACHE_RESULTS_KEY,
+                cachedPages,
+                newPage,
+            );
 
-        const contentTypeChanged = contentType !== input.type;
-        const queryChanged = query !== input.query;
-        // instantly return empty results in case the provided variables changed - wait until the hook returns empty data,
-        // otherwise, updating the previous results will revert the reset
-        const resetPreviousResult = (queryChanged || contentTypeChanged) && !paginatedResult.data;
-        let updatedResults = [
-            ...(resetPreviousResult ? [{ ...paginatedResult, size: page, loadingMore: false }] : previousResults),
-        ];
+        this.fetchInitialPages(
+            options,
+            areFetchingInitialPages,
+            areInitialPagesFetched,
+            (isDone) => {
+                isRevalidationDoneRef.current = isDone;
+            },
+            CACHE_INITIAL_PAGES_FETCHING_KEY,
+            getVariablesFor,
+            initialPages,
+            wrappedMutate,
+            (fetchedResult) => !!fetchedResult.data?.fetchSourceManga.hasNextPage,
+        );
 
-        if (resetPreviousResult) {
-            setContentType(input.type);
-            setQuery(input.query);
-            setPreviousResults([paginatedResult]);
-        }
+        this.revalidateInitialPages(
+            isRevalidationDoneRef.current,
+            cachedResults.length,
+            cachedPages,
+            (isDone) => {
+                isRevalidationDoneRef.current = isDone;
+            },
+            getVariablesFor,
+            triggerRerender,
+            revalidate,
+        );
 
-        const resultChanged = previousResults[page - 1]?.loading !== paginatedResult.loading;
-        const updatePreviousResult = resultChanged && !resetPreviousResult;
-        if (updatePreviousResult) {
-            updatedResults = [...previousResults.slice(0, page - 1), paginatedResult];
-            setPreviousResults(updatedResults);
-        }
-
-        return [wrappedMutate, updatedResult];
+        return this.returnPaginatedMutationResult(
+            areInitialPagesFetched,
+            cachedResults,
+            getVariablesFor,
+            paginatedResult,
+            wrappedMutate,
+            hasCachedResult,
+            createPaginatedResult,
+        );
     }
 
     public useGetSourcePopularMangas(
         sourceId: string,
         initialPages?: number,
-        swrOptions?: SWRInfiniteOptions<PaginatedMangaList>,
-    ): AbortableSWRInfiniteResponse<PaginatedMangaList> {
-        return this.doRequest(SWRHttpMethod.SWR_GET_INFINITE, '', {
-            swrOptions: {
-                getEndpoint: (page, previousData) =>
-                    previousData?.hasNextPage ?? true ? `source/${sourceId}/popular/${page + 1}` : null,
-                initialSize: initialPages,
-                ...swrOptions,
-            } as typeof swrOptions,
-        });
+        options?: ApolloPaginatedMutationOptions<GetSourceMangasFetchMutation, GetSourceMangasFetchMutationVariables>,
+    ): AbortableApolloUseMutationPaginatedResponse<
+        GetSourceMangasFetchMutation,
+        GetSourceMangasFetchMutationVariables
+    > {
+        return this.useGetSourceMangas(
+            { type: FetchSourceMangaType.Popular, source: sourceId, page: 1 },
+            initialPages,
+            options,
+        );
     }
 
     public useGetSourceLatestMangas(
         sourceId: string,
         initialPages?: number,
-        swrOptions?: SWRInfiniteOptions<PaginatedMangaList>,
-    ): AbortableSWRInfiniteResponse<PaginatedMangaList> {
-        return this.doRequest(SWRHttpMethod.SWR_GET_INFINITE, '', {
-            swrOptions: {
-                getEndpoint: (page, previousData) =>
-                    previousData?.hasNextPage ?? true ? `source/${sourceId}/latest/${page + 1}` : null,
-                initialSize: initialPages,
-                ...swrOptions,
-            } as typeof swrOptions,
-        });
+        options?: ApolloPaginatedMutationOptions<GetSourceMangasFetchMutation, GetSourceMangasFetchMutationVariables>,
+    ): AbortableApolloUseMutationPaginatedResponse<
+        GetSourceMangasFetchMutation,
+        GetSourceMangasFetchMutationVariables
+    > {
+        return this.useGetSourceMangas(
+            { type: FetchSourceMangaType.Latest, source: sourceId, page: 1 },
+            initialPages,
+            options,
+        );
     }
 
     public useGetSourcePreferences(
@@ -790,14 +1227,19 @@ export class RequestManager {
 
     public useSourceSearch(
         source: string,
-        query: string,
+        query?: string,
         filters?: FilterChangeInput[],
-        options?: MutationHookOptions<GetSourceMangasFetchMutation, GetSourceMangasFetchMutationVariables>,
+        initialPages?: number,
+        options?: ApolloPaginatedMutationOptions<GetSourceMangasFetchMutation, GetSourceMangasFetchMutationVariables>,
     ): AbortableApolloUseMutationPaginatedResponse<
         GetSourceMangasFetchMutation,
         GetSourceMangasFetchMutationVariables
     > {
-        return this.useGetSourceMangas({ type: FetchSourceMangaType.Search, source, query, filters, page: 1 }, options);
+        return this.useGetSourceMangas(
+            { type: FetchSourceMangaType.Search, source, query, filters, page: 1 },
+            initialPages,
+            options,
+        );
     }
 
     public useSourceQuickSearch(
