@@ -7,7 +7,7 @@
  */
 
 import { t } from 'i18next';
-import { ISOLanguages, loadDefaultDayJsLocale } from '@/util/isoLanguages.ts';
+import { ISOLanguage, ISOLanguages, loadDefaultDayJsLocale } from '@/util/isoLanguages.ts';
 
 export enum DefaultLanguage {
     ALL = 'all',
@@ -15,19 +15,32 @@ export enum DefaultLanguage {
     LOCAL_SOURCE = 'localsourcelang',
 }
 
-export function langCodeToName(code: string): string {
-    const whereToCut = code.indexOf('-') !== -1 ? code.indexOf('-') : code.length;
-
-    const proccessedCode = code.toLocaleLowerCase().substring(0, whereToCut);
-    let result = t('global.language.label.language_with_code', { code });
-
-    for (let i = 0; i < ISOLanguages.length; i++) {
-        if (ISOLanguages[i].code === proccessedCode || ISOLanguages[i].code === code.toLocaleLowerCase()) {
-            result = ISOLanguages[i].nativeName;
-        }
+function getISOLanguage(code: string): ISOLanguage | null {
+    if (ISOLanguages[code]) {
+        return ISOLanguages[code];
     }
 
-    return result;
+    if (ISOLanguages[code.toLocaleLowerCase()]) {
+        return ISOLanguages[code.toLocaleLowerCase()];
+    }
+
+    const whereToCut = code.indexOf('-') !== -1 ? code.indexOf('-') : code.length;
+    const processedCode = code.toLocaleLowerCase().substring(0, whereToCut);
+    if (ISOLanguages[processedCode]) {
+        return ISOLanguages[processedCode];
+    }
+
+    return null;
+}
+
+export function langCodeToName(code: string): string {
+    const isoLanguage = getISOLanguage(code);
+
+    if (isoLanguage) {
+        return isoLanguage.nativeName;
+    }
+
+    return t('global.language.label.language_with_code', { code });
 }
 
 function defaultNativeLang() {
@@ -60,7 +73,7 @@ export const langSortCmp = (a: string, b: string) => {
 };
 
 export const loadDayJsLocale = async (locale: string) => {
-    const lang = ISOLanguages.find(({ code }) => code.toLowerCase() === locale.toLowerCase());
+    const lang = getISOLanguage(locale);
 
     try {
         if (!lang) {
