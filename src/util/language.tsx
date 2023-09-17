@@ -33,14 +33,21 @@ function getISOLanguage(code: string): ISOLanguage | null {
     return null;
 }
 
-export function langCodeToName(code: string): string {
+export function getLanguage(code: string): { name: string; nativeName: string } {
     const isoLanguage = getISOLanguage(code);
 
     if (isoLanguage) {
-        return isoLanguage.nativeName;
+        return isoLanguage;
     }
 
-    return t('global.language.label.language_with_code', { code });
+    return {
+        name: t('global.language.label.language_with_code', { code }),
+        nativeName: t('global.language.label.language_with_code', { code }),
+    };
+}
+
+export function langCodeToName(code: string): string {
+    return getLanguage(code).nativeName;
 }
 
 function defaultNativeLang() {
