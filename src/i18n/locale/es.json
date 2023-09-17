@@ -367,7 +367,7 @@
         "dialog": {
             "title": {
                 "new_category": "Nueva categoría",
-                "edit_category": "Editar la categoría"
+                "edit_category": "Editar categoría"
             }
         },
         "error": {
