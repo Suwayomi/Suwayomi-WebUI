@@ -201,15 +201,19 @@ export default function SourceMangas() {
     const { sourceId } = useParams<{ sourceId: string }>();
 
     const navigate = useNavigate();
-    const { contentType: currentLocationContentType = SourceContentType.POPULAR } =
+    const {
+        contentType: currentLocationContentType = SourceContentType.POPULAR,
+        filtersToApply: currentLocationFiltersToApply = [],
+    } =
         useLocation<{
             contentType: SourceContentType;
+            filtersToApply: IPos[];
         }>().state ?? {};
 
     const { options } = useLibraryOptionsContext();
     const [query] = useQueryParam('query', StringParam);
-    const [dialogFiltersToApply, setDialogFiltersToApply] = useState<IPos[]>([]);
-    const [filtersToApply, setFiltersToApply] = useState<IPos[]>([]);
+    const [dialogFiltersToApply, setDialogFiltersToApply] = useState<IPos[]>(currentLocationFiltersToApply);
+    const [filtersToApply, setFiltersToApply] = useState<IPos[]>(currentLocationFiltersToApply);
     const searchTerm = useDebounce(query, 1000);
     const [resetScrollPosition, setResetScrollPosition] = useState(false);
     const [contentType, setContentType] = useState(currentLocationContentType);
@@ -250,6 +254,15 @@ export default function SourceMangas() {
         [setContentType],
     );
 
+    const updateLocationFilters = useCallback(
+        (updatedFilters: IPos[]) => {
+            if (contentType === SourceContentType.FILTER) {
+                navigate('', { replace: true, state: { contentType, filtersToApply: updatedFilters } });
+            }
+        },
+        [contentType],
+    );
+
     const isSearchTermAvailable = searchTerm && query?.length;
     const setSearchContentType = isSearchTermAvailable && contentType !== SourceContentType.SEARCH;
     if (setSearchContentType) {
@@ -272,7 +285,9 @@ export default function SourceMangas() {
     const resetFilters = useCallback(async () => {
         setDialogFiltersToApply([]);
         setFiltersToApply([]);
-    }, [sourceId]);
+        updateLocationFilters([]);
+        setResetScrollPosition(true);
+    }, [sourceId, contentType]);
 
     useEffect(
         () => () => {
@@ -360,6 +375,7 @@ export default function SourceMangas() {
                     updateFilterValue={setDialogFiltersToApply}
                     setTriggerUpdate={() => {
                         setFiltersToApply(dialogFiltersToApply);
+                        updateLocationFilters(dialogFiltersToApply);
                     }}
                     resetFilterValue={resetFilters}
                     update={dialogFiltersToApply}
