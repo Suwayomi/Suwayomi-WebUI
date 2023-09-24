@@ -26,7 +26,6 @@ import { OperationVariables } from '@apollo/client/core';
 import { useEffect, useRef, useState } from 'react';
 import {
     BackupValidationResult,
-    ICategory,
     IChapter,
     IMangaChapter,
     ISourceFilters,
@@ -1290,13 +1289,6 @@ export class RequestManager {
 
     public getMangaThumbnailUrl(mangaId: number): string {
         return this.getValidImgUrlFor(`manga/${mangaId}/thumbnail`);
-    }
-
-    public useGetMangaCategories(
-        mangaId: number,
-        swrOptions?: SWROptions<ICategory[]>,
-    ): AbortableSWRResponse<ICategory[]> {
-        return this.doRequest(HttpMethod.SWR_GET, `manga/${mangaId}/category`, { swrOptions });
     }
 
     public useUpdateMangaCategories(

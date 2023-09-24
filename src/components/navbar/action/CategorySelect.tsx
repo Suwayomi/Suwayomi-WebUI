@@ -29,7 +29,7 @@ export default function CategorySelect(props: IProps) {
 
     const { open, setOpen, mangaId } = props;
 
-    const { data: mangaCategoriesData, mutate } = requestManager.useGetMangaCategories(mangaId);
+    const { data: mangaResult } = requestManager.useGetManga(mangaId);
     const { data } = requestManager.useGetCategories();
     const categoriesData = data?.categories.nodes;
     const [triggerMutate] = requestManager.useUpdateMangaCategories();
@@ -42,7 +42,7 @@ export default function CategorySelect(props: IProps) {
         return cats;
     }, [categoriesData]);
 
-    const selectedIds = mangaCategoriesData?.map((c) => c.id) ?? [];
+    const selectedIds = mangaResult?.manga.categories.nodes.map((c) => c.id) ?? [];
 
     const handleCancel = () => {
         setOpen(false);
@@ -66,7 +66,7 @@ export default function CategorySelect(props: IProps) {
                     },
                 },
             },
-        }).then(() => mutate());
+        });
     };
 
     return (
