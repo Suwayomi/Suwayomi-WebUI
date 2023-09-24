@@ -16,54 +16,10 @@ interface Props {
     values: any;
     name: string;
     state: number;
-    selected: Selected | undefined;
     position: number;
     updateFilterValue: Function;
     group: number | undefined;
     update: any;
-}
-
-interface Selected {
-    displayname: string;
-    value: string;
-    _value: string;
-}
-
-function hasSelect(
-    values: Selected[],
-    name: string,
-    state: number,
-    position: number,
-    updateFilterValue: Function,
-    update: any,
-    group?: number,
-) {
-    const [val, setval] = React.useState(state);
-    if (values) {
-        const handleChange = (event: { target: { name: any; value: any } }) => {
-            const vall = values.map((e) => e.displayname).indexOf(`${event.target.value}`);
-            setval(vall);
-            const upd = update.filter(
-                (e: { position: number; group: number | undefined }) => !(position === e.position && group === e.group),
-            );
-            updateFilterValue([...upd, { position, state: vall.toString(), group }]);
-        };
-
-        const rett = values.map((e: Selected) => (
-            <MenuItem key={`${name} ${e.displayname}`} value={e.displayname}>
-                {e.displayname}
-            </MenuItem>
-        ));
-        return (
-            <FormControl sx={{ my: 1 }} variant="standard">
-                <InputLabel>{name}</InputLabel>
-                <Select name={name} value={values[val].displayname} label={name} onChange={handleChange}>
-                    {rett}
-                </Select>
-            </FormControl>
-        );
-    }
-    return null;
 }
 
 function noSelect(
@@ -84,7 +40,7 @@ function noSelect(
             const upd = update.filter(
                 (e: { position: number; group: number | undefined }) => !(position === e.position && group === e.group),
             );
-            updateFilterValue([...upd, { position, state: vall.toString(), group }]);
+            updateFilterValue([...upd, { type: 'selectState', position, state: vall, group }]);
         };
 
         const rett = values.map((value: string) => (
@@ -104,21 +60,7 @@ function noSelect(
     return null;
 }
 
-const SelectFilter: React.FC<Props> = ({
-    values,
-    name,
-    state,
-    selected,
-    position,
-    updateFilterValue,
-    update,
-    group,
-}) => {
-    if (selected === undefined) {
-        return noSelect(values, name, state, position, updateFilterValue, update, group);
-    }
-
-    return hasSelect(values, name, state, position, updateFilterValue, update, group);
-};
+const SelectFilter: React.FC<Props> = ({ values, name, state, position, updateFilterValue, update, group }) =>
+    noSelect(values, name, state, position, updateFilterValue, update, group);
 
 export default SelectFilter;

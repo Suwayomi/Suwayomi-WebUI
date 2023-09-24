@@ -10,7 +10,7 @@ import { OverridableComponent } from '@mui/material/OverridableComponent';
 import { SvgIconTypeMap } from '@mui/material/SvgIcon/SvgIcon';
 import { ParseKeys } from 'i18next';
 import { Location } from 'react-router-dom';
-import { ExtensionType, MangaType, MetaType } from '@/lib/graphql/generated/graphql.ts';
+import { ExtensionType, GetSourceQuery, MangaType, MetaType } from '@/lib/graphql/generated/graphql.ts';
 
 export type RecursivePartial<T> = {
     [P in keyof T]?: T[P] extends (infer U)[]
@@ -43,29 +43,7 @@ export interface ISource {
     displayName: string;
 }
 
-export interface ISourceFilters {
-    type: string;
-    filter: ISourceFilter;
-}
-
-export interface ISourceFilter {
-    name: string;
-    state: number | string | boolean | ISourceFilters[] | IState;
-    values?: string[];
-    displayValues?: string[];
-    selected?: ISelected;
-}
-
-export interface ISelected {
-    displayname: string;
-    value: string;
-    _value: string;
-}
-
-export interface IState {
-    ascending: boolean;
-    index: number;
-}
+export type SourceFilters = GetSourceQuery['source']['filters'][number];
 
 export interface IMetadataMigration {
     appKeyPrefix?: { oldPrefix: string; newPrefix: string };

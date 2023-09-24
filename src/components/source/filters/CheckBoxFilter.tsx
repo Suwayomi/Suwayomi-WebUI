@@ -27,7 +27,7 @@ const CheckBoxFilter: React.FC<Props> = (props: Props) => {
         const upd = update.filter(
             (e: { position: number; group: number | undefined }) => !(position === e.position && group === e.group),
         );
-        updateFilterValue([...upd, { position, state: event.target.checked.toString(), group }]);
+        updateFilterValue([...upd, { type: 'checkBoxState', position, state: event.target.checked, group }]);
     };
 
     if (state !== undefined) {

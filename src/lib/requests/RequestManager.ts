@@ -28,10 +28,8 @@ import {
     BackupValidationResult,
     IChapter,
     IMangaChapter,
-    ISourceFilters,
     PaginatedList,
     SourcePreferences,
-    SourceSearchResult,
 } from '@/typings.ts';
 import { HttpMethod as DefaultHttpMethod, IRestClient, RestClient } from '@/lib/requests/client/RestClient.ts';
 import storage from '@/util/localStorage.tsx';
@@ -1208,22 +1206,6 @@ export class RequestManager {
         return this.doRequest(HttpMethod.POST, `source/${sourceId}/preferences`, { data: { position, value } });
     }
 
-    public useGetSourceFilters(
-        sourceId: string,
-        reset?: boolean,
-        swrOptions?: SWROptions<ISourceFilters[]>,
-    ): AbortableSWRResponse<ISourceFilters[]> {
-        return this.doRequest(HttpMethod.SWR_GET, `source/${sourceId}/filters`, { swrOptions });
-    }
-
-    public setSourceFilters(sourceId: string, filters: { position: number; state: string }[]): AbortableAxiosResponse {
-        return this.doRequest(HttpMethod.POST, `source/${sourceId}/filters`, { data: filters });
-    }
-
-    public resetSourceFilters(sourceId: string): AbortableAxiosResponse {
-        return this.doRequest(HttpMethod.GET, `source/${sourceId}/filters?reset=true`);
-    }
-
     public useSourceSearch(
         source: string,
         query?: string,
@@ -1239,26 +1221,6 @@ export class RequestManager {
             initialPages,
             options,
         );
-    }
-
-    public useSourceQuickSearch(
-        sourceId: string,
-        searchTerm: string,
-        filters: { position: number; state: string }[],
-        initialPages?: number,
-        swrOptions?: SWRInfiniteOptions<SourceSearchResult>,
-    ): AbortableSWRInfiniteResponse<SourceSearchResult> {
-        return this.doRequest(HttpMethod.SWR_POST_INFINITE, '', {
-            data: { searchTerm, filter: filters },
-            swrOptions: {
-                getEndpoint: (page, previousData) =>
-                    previousData?.hasNextPage ?? true
-                        ? `source/${sourceId}/quick-search?searchTerm=${searchTerm}&pageNum=${page + 1}`
-                        : null,
-                initialSize: initialPages,
-                ...swrOptions,
-            } as typeof swrOptions,
-        });
     }
 
     public useGetManga(

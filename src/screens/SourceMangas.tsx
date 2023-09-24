@@ -74,6 +74,7 @@ export enum SourceContentType {
 }
 
 interface IPos {
+    type: 'selectState' | 'textState' | 'checkBoxState' | 'triState' | 'sortState';
     position: number;
     state: any;
     group?: number;
@@ -127,30 +128,30 @@ const useSourceManga = (
             result = requestManager.useSourceSearch(sourceId, searchTerm ?? '', undefined, initialPages);
             break;
         case SourceContentType.FILTER:
-            result = requestManager.useSourceSearch(sourceId, undefined, [], initialPages);
-            // TODO - update filters to gql
-            // result = requestManager.useSourceQuickSearch(
-            //     sourceId,
-            //     '',
-            //     filters.map((filter) => {
-            //         const { position, state, group } = filter;
-            //
-            //         const isPartOfGroup = group !== undefined;
-            //         if (isPartOfGroup) {
-            //             return {
-            //                 position: group,
-            //                 state: JSON.stringify({
-            //                     position,
-            //                     state,
-            //                 }),
-            //             };
-            //         }
-            //
-            //         return filter;
-            //     }),
-            //     initialPages,
-            //     { disableCache: true },
-            // );
+            result = requestManager.useSourceSearch(
+                sourceId,
+                undefined,
+                filters.map((filter) => {
+                    const { position, state, group } = filter;
+
+                    const isPartOfGroup = group !== undefined;
+                    if (isPartOfGroup) {
+                        return {
+                            position: group,
+                            groupChange: {
+                                position,
+                                [filter.type]: state,
+                            },
+                        };
+                    }
+
+                    return {
+                        position,
+                        [filter.type]: state,
+                    };
+                }),
+                initialPages,
+            );
             break;
         default:
             throw new Error(`Unknown ContentType "${contentType}"`);
@@ -222,10 +223,9 @@ export default function SourceMangas() {
     const mangas = (data?.fetchSourceManga.mangas as MangaType[]) ?? [];
     const hasNextPage = data?.fetchSourceManga.hasNextPage ?? false;
 
-    const { data: filters = [], mutate: mutateFilters } = requestManager.useGetSourceFilters(sourceId);
     const { data: sourceData } = requestManager.useGetSource(sourceId);
     const source = sourceData?.source;
-    const [triggerDataRefresh, setTriggerDataRefresh] = useState(false);
+    const filters = source?.filters ?? [];
 
     const message = !isLoading ? t(SOURCE_CONTENT_TYPE_TO_ERROR_MSG_KEY[contentType]) : undefined;
     const isLocalSource = sourceId === '0';
@@ -272,14 +272,6 @@ export default function SourceMangas() {
     const resetFilters = useCallback(async () => {
         setDialogFiltersToApply([]);
         setFiltersToApply([]);
-        try {
-            // required since previous implementation used to set the filters on server side (server caches them), thus, it has to be made sure that they are reset
-            await requestManager.resetSourceFilters(sourceId);
-            mutateFilters();
-        } catch (error) {
-            // ignore
-        }
-        setTriggerDataRefresh(true);
     }, [sourceId]);
 
     useEffect(
@@ -296,16 +288,6 @@ export default function SourceMangas() {
         },
         [searchTerm, contentType],
     );
-
-    // TODO - check when fixing filters
-    useEffect(() => {
-        if (!triggerDataRefresh) {
-            return;
-        }
-
-        // refreshData();
-        setTriggerDataRefresh(false);
-    }, [triggerDataRefresh]);
 
     useEffect(() => {
         setTitle(source?.displayName ?? t('source.title'));
@@ -378,7 +360,6 @@ export default function SourceMangas() {
                     updateFilterValue={setDialogFiltersToApply}
                     setTriggerUpdate={() => {
                         setFiltersToApply(dialogFiltersToApply);
-                        setTriggerDataRefresh(true);
                     }}
                     resetFilterValue={resetFilters}
                     update={dialogFiltersToApply}

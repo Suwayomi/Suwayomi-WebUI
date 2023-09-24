@@ -29,7 +29,7 @@ const TextFilter: React.FC<Props> = (props) => {
         const upd = update.filter(
             (el: { position: number; group: number | undefined }) => !(position === el.position && group === el.group),
         );
-        updateFilterValue([...upd, { position, state: inputText, group }]);
+        updateFilterValue([...upd, { type: 'textState', position, state: inputText, group }]);
     }, [inputText]);
 
     if (state !== undefined) {

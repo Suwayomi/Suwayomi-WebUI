@@ -10,11 +10,14 @@ import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { Collapse, ListItemButton, ListItemText, Stack, Box } from '@mui/material';
 import React from 'react';
 // eslint-disable-next-line import/no-cycle
-import { ISourceFilters } from '@/typings';
+import { SourceFilters } from '@/typings';
 import { Options } from '@/components/source/SourceOptions';
 
+// type ExcludeByName<T, K extends string> = T extends { __typename?: K } ? never : T;
+type PickByName<T, K extends string> = T extends { __typename?: K } ? T : never;
+
 interface Props {
-    state: ISourceFilters[];
+    state: PickByName<SourceFilters, 'GroupFilter'>['filters'];
     name: string;
     position: number;
     updateFilterValue: Function;
@@ -36,7 +39,7 @@ const GroupFilter: React.FC<Props> = (props: Props) => {
                 {/* Container is moved outside 2, so content has to go inside 4 */}
                 <Stack sx={{ mx: 4 }}>
                     <Options
-                        sourceFilter={state}
+                        sourceFilter={state as SourceFilters[]}
                         group={position}
                         updateFilterValue={updateFilterValue}
                         update={update}
