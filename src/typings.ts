@@ -10,7 +10,19 @@ import { OverridableComponent } from '@mui/material/OverridableComponent';
 import { SvgIconTypeMap } from '@mui/material/SvgIcon/SvgIcon';
 import { ParseKeys } from 'i18next';
 import { Location } from 'react-router-dom';
-import { ExtensionType, GetSourceQuery, MangaType, MetaType } from '@/lib/graphql/generated/graphql.ts';
+import {
+    ExtensionType,
+    GetSourceQuery,
+    MangaType,
+    MetaType,
+    SourcePreferenceChangeInput,
+} from '@/lib/graphql/generated/graphql.ts';
+
+export type ExtractByKeyValue<T, Key extends keyof T, Value extends T[Key]> = T extends
+    | Record<Key, Value>
+    | Partial<Record<Key, Value>>
+    ? T
+    : never;
 
 export type RecursivePartial<T> = {
     [P in keyof T]?: T[P] extends (infer U)[]
@@ -253,47 +265,34 @@ export interface IUpdateStatus {
     };
 }
 
+export type SourcePreferences = GetSourceQuery['source']['preferences'][number];
+
 export interface PreferenceProps {
-    key: string;
-    title: string;
-    summary: string;
-    defaultValue: any;
-    currentValue: any;
-    defaultValueType: string;
+    updateValue: <Key extends keyof Omit<SourcePreferenceChangeInput, 'position'>>(
+        type: Key,
+        value: SourcePreferenceChangeInput[Key],
+    ) => void;
+}
 
+export type TwoStatePreferenceProps = (CheckBoxPreferenceProps | SwitchPreferenceCompatProps) & {
     // intetnal props
-    updateValue: any;
-}
+    twoStateType: 'Switch' | 'Checkbox';
+};
 
-export interface TwoStatePreferenceProps extends PreferenceProps {
-    // intetnal props
-    type: 'Switch' | 'Checkbox';
-}
+export type CheckBoxPreferenceProps = PreferenceProps &
+    ExtractByKeyValue<SourcePreferences, '__typename', 'CheckBoxPreference'>;
 
-export interface CheckBoxPreferenceProps extends PreferenceProps {}
+export type SwitchPreferenceCompatProps = PreferenceProps &
+    ExtractByKeyValue<SourcePreferences, '__typename', 'SwitchPreference'>;
 
-export interface SwitchPreferenceCompatProps extends PreferenceProps {}
+export type ListPreferenceProps = PreferenceProps &
+    ExtractByKeyValue<SourcePreferences, '__typename', 'ListPreference'>;
 
-export interface ListPreferenceProps extends PreferenceProps {
-    entries: string[];
-    entryValues: string[];
-}
+export type MultiSelectListPreferenceProps = PreferenceProps &
+    ExtractByKeyValue<SourcePreferences, '__typename', 'MultiSelectListPreference'>;
 
-export interface MultiSelectListPreferenceProps extends PreferenceProps {
-    entries: string[];
-    entryValues: string[];
-}
-
-export interface EditTextPreferenceProps extends PreferenceProps {
-    dialogTitle: string;
-    dialogMessage: string;
-    text: string;
-}
-
-export interface SourcePreferences {
-    type: string;
-    props: any;
-}
+export type EditTextPreferenceProps = PreferenceProps &
+    ExtractByKeyValue<SourcePreferences, '__typename', 'EditTextPreference'>;
 
 export interface NavbarItem {
     path: string;

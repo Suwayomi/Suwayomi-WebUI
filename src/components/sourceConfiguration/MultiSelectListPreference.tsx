@@ -99,32 +99,40 @@ function ListDialog(props: IListDialogProps) {
 }
 
 export default function MultiSelectListPreference(props: MultiSelectListPreferenceProps) {
-    const { title, summary, currentValue, updateValue, entryValues, entries } = props;
-    const [internalCurrentValue, setInternalCurrentValue] = useState<string[]>(currentValue);
+    const {
+        MultiSelectListPreferenceTitle: title,
+        summary,
+        MultiSelectListPreferenceCurrentValue: currentValue,
+        MultiSelectListPreferenceDefault: defaultValue,
+        updateValue,
+        entryValues,
+        entries,
+    } = props;
+    const [internalCurrentValue, setInternalCurrentValue] = useState(currentValue ?? defaultValue);
     const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
     useEffect(() => {
         setInternalCurrentValue(currentValue);
     }, [currentValue]);
 
-    const findEntriesOf = (values: string[]) =>
-        values.map((value) => {
+    const findEntriesOf = (values?: string[] | null) =>
+        values?.map((value) => {
             const idx = entryValues.indexOf(value);
             return entries[idx];
-        });
+        }) ?? [];
 
-    const findEntryValuesOf = (values: string[]) =>
-        values.map((value) => {
+    const findEntryValuesOf = (values?: string[] | null) =>
+        values?.map((value) => {
             const idx = entries.indexOf(value);
             return entryValues[idx];
-        });
+        }) ?? [];
 
     const getSummary = () => summary;
 
     const handleDialogClose = (newValue: string[] | null) => {
         if (newValue !== null) {
             // console.log(newValue);
-            updateValue(findEntryValuesOf(newValue));
+            updateValue('multiSelectState', findEntryValuesOf(newValue));
 
             // appear smooth
             setInternalCurrentValue(newValue);
@@ -139,7 +147,7 @@ export default function MultiSelectListPreference(props: MultiSelectListPreferen
                 <ListItemText primary={title} secondary={getSummary()} />
             </ListItemButton>
             <ListDialog
-                title={title}
+                title={title ?? ''}
                 open={dialogOpen}
                 onClose={handleDialogClose}
                 selectedValues={findEntriesOf(internalCurrentValue)}

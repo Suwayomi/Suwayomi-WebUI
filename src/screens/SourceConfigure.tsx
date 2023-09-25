@@ -17,12 +17,13 @@ import { SwitchPreferenceCompat, CheckBoxPreference } from '@/components/sourceC
 import ListPreference from '@/components/sourceConfiguration/ListPreference';
 import EditTextPreference from '@/components/sourceConfiguration/EditTextPreference';
 import MultiSelectListPreference from '@/components/sourceConfiguration/MultiSelectListPreference';
+import { PreferenceProps } from '@/typings.ts';
 
 function getPrefComponent(type: string) {
     switch (type) {
         case 'CheckBoxPreference':
             return CheckBoxPreference;
-        case 'SwitchPreferenceCompat':
+        case 'SwitchPreference':
             return SwitchPreferenceCompat;
         case 'ListPreference':
             return ListPreference;
@@ -31,7 +32,7 @@ function getPrefComponent(type: string) {
         case 'MultiSelectListPreference':
             return MultiSelectListPreference;
         default:
-            return CheckBoxPreference;
+            throw new Error(`Unexpected preference type "${type}"`);
     }
 }
 
@@ -45,33 +46,26 @@ export default function SourceConfigure() {
     }, [t]);
 
     const { sourceId } = useParams<{ sourceId: string }>();
-    const { data: sourcePreferences = [], mutate } = requestManager.useGetSourcePreferences(sourceId);
+    const { data } = requestManager.useGetSource(sourceId);
+    const sourcePreferences = data?.source.preferences ?? [];
 
-    const convertToString = (position: number, value: any): string => {
-        switch (sourcePreferences[position].props.defaultValueType) {
-            case 'Set<String>':
-                return JSON.stringify(value);
-            default:
-                return value.toString();
-        }
-    };
-
-    const updateValue = (position: number) => (value: any) => {
-        requestManager
-            .setSourcePreferences(sourceId, position, convertToString(position, value))
-            .response.then(() => mutate());
-    };
+    const updateValue =
+        (position: number): PreferenceProps['updateValue'] =>
+        (type, value) => {
+            requestManager.setSourcePreferences(sourceId, { position, [type]: value });
+        };
 
     return (
         <List sx={{ padding: 0 }}>
             {sourcePreferences.map((it, index) => {
-                const props = cloneObject(it.props);
-                props.updateValue = updateValue(index);
-                props.key = index;
+                const props = cloneObject(it);
 
                 // TypeScript is dumb in detecting extra props
                 // @ts-ignore
-                return createElement(getPrefComponent(it.type), props);
+                return createElement(getPrefComponent(it.type), {
+                    ...props,
+                    updateValue: updateValue(index),
+                });
             })}
         </List>
     );

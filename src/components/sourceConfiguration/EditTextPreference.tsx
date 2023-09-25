@@ -22,22 +22,29 @@ import { EditTextPreferenceProps } from '@/typings';
 export default function EditTextPreference(props: EditTextPreferenceProps) {
     const { t } = useTranslation();
 
-    const { title, summary, dialogTitle, dialogMessage, currentValue, updateValue } = props;
+    const {
+        EditTextPreferenceTitle: title,
+        summary,
+        dialogTitle,
+        dialogMessage,
+        EditTextPreferenceCurrentValue: currentValue,
+        updateValue,
+    } = props;
 
-    const [internalCurrentValue, setInternalCurrentValue] = useState<string>(currentValue);
+    const [internalCurrentValue, setInternalCurrentValue] = useState<string>(currentValue ?? '');
     const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
     const handleDialogCancel = () => {
         setDialogOpen(false);
 
         // reset the dialog
-        setInternalCurrentValue(currentValue);
+        setInternalCurrentValue(currentValue ?? '');
     };
 
     const handleDialogSubmit = () => {
         setDialogOpen(false);
 
-        updateValue(internalCurrentValue);
+        updateValue('editTextState', internalCurrentValue);
     };
 
     return (

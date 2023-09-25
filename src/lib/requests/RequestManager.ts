@@ -24,13 +24,7 @@ import {
 } from '@apollo/client';
 import { OperationVariables } from '@apollo/client/core';
 import { useEffect, useRef, useState } from 'react';
-import {
-    BackupValidationResult,
-    IChapter,
-    IMangaChapter,
-    PaginatedList,
-    SourcePreferences,
-} from '@/typings.ts';
+import { BackupValidationResult, IChapter, IMangaChapter,  PaginatedList } from '@/typings.ts';
 import { HttpMethod as DefaultHttpMethod, IRestClient, RestClient } from '@/lib/requests/client/RestClient.ts';
 import storage from '@/util/localStorage.tsx';
 import { GraphQLClient } from '@/lib/requests/client/GraphQLClient.ts';
@@ -95,6 +89,7 @@ import {
     SetGlobalMetadataMutation,
     SetGlobalMetadataMutationVariables,
     SetMangaMetadataMutation,
+    SourcePreferenceChangeInput,
     StartDownloaderMutation,
     StartDownloaderMutationVariables,
     StopDownloaderMutation,
@@ -123,6 +118,8 @@ import {
     UpdateMangaMutation,
     UpdateMangaMutationVariables,
     UpdateMangaPatchInput,
+    UpdateSourcePreferencesMutation,
+    UpdateSourcePreferencesMutationVariables,
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_GLOBAL_METADATA, GET_GLOBAL_METADATAS } from '@/lib/graphql/queries/GlobalMetadataQuery.ts';
 import { SET_GLOBAL_METADATA } from '@/lib/graphql/mutations/GlobalMetadataMutation.ts';
@@ -142,7 +139,7 @@ import {
 } from '@/lib/graphql/mutations/MangaMutation.ts';
 import { GET_MANGA, GET_MANGAS } from '@/lib/graphql/queries/MangaQuery.ts';
 import { GET_CATEGORIES, GET_CATEGORY, GET_CATEGORY_MANGAS } from '@/lib/graphql/queries/CategoryQuery.ts';
-import { GET_SOURCE_MANGAS_FETCH } from '@/lib/graphql/mutations/SourceMutation.ts';
+import { GET_SOURCE_MANGAS_FETCH, UPDATE_SOURCE_PREFERENCES } from '@/lib/graphql/mutations/SourceMutation.ts';
 import {
     CLEAR_DOWNLOADER,
     DELETE_DOWNLOADED_CHAPTER,
@@ -1195,15 +1192,20 @@ export class RequestManager {
         );
     }
 
-    public useGetSourcePreferences(
-        sourceId: string,
-        swrOptions?: SWROptions<SourcePreferences[]>,
-    ): AbortableSWRResponse<SourcePreferences[]> {
-        return this.doRequest(HttpMethod.SWR_GET, `source/${sourceId}/preferences`, { swrOptions });
-    }
-
-    public setSourcePreferences(sourceId: string, position: number, value: string): AbortableAxiosResponse {
-        return this.doRequest(HttpMethod.POST, `source/${sourceId}/preferences`, { data: { position, value } });
+    public setSourcePreferences(
+        source: string,
+        change: SourcePreferenceChangeInput,
+        options?: MutationOptions<UpdateSourcePreferencesMutation, UpdateSourcePreferencesMutationVariables>,
+    ): AbortableApolloMutationResponse<UpdateSourcePreferencesMutation> {
+        return this.doRequestNew(
+            GQLMethod.MUTATION,
+            UPDATE_SOURCE_PREFERENCES,
+            { input: { source, change } },
+            {
+                refetchQueries: [GET_SOURCE],
+                ...options,
+            },
+        );
     }
 
     public useSourceSearch(

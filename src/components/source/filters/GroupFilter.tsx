@@ -10,14 +10,11 @@ import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { Collapse, ListItemButton, ListItemText, Stack, Box } from '@mui/material';
 import React from 'react';
 // eslint-disable-next-line import/no-cycle
-import { SourceFilters } from '@/typings';
+import { ExtractByKeyValue, SourceFilters } from '@/typings';
 import { Options } from '@/components/source/SourceOptions';
 
-// type ExcludeByName<T, K extends string> = T extends { __typename?: K } ? never : T;
-type PickByName<T, K extends string> = T extends { __typename?: K } ? T : never;
-
 interface Props {
-    state: PickByName<SourceFilters, 'GroupFilter'>['filters'];
+    state: ExtractByKeyValue<SourceFilters, '__typename', 'GroupFilter'>['filters'];
     name: string;
     position: number;
     updateFilterValue: Function;

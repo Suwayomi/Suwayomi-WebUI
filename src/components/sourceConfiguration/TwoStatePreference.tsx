@@ -21,23 +21,48 @@ function getTwoStateType(type: 'Checkbox' | 'Switch') {
     return Checkbox;
 }
 
+const getTwoStateValues = (
+    props: TwoStatePreferenceProps,
+): {
+    title: string;
+    defaultValue: boolean;
+    currentValue?: boolean | null | undefined;
+} => {
+    if (props.type === 'CheckBoxPreference') {
+        return {
+            title: props.CheckBoxTitle,
+            defaultValue: props.CheckBoxDefault,
+            currentValue: props.CheckBoxCheckBoxCurrentValue,
+        };
+    }
+
+    return {
+        title: props.SwitchPreferenceTitle,
+        defaultValue: props.SwitchPreferenceDefault,
+        currentValue: props.SwitchPreferenceCurrentValue,
+    };
+};
+
 function TwoSatePreference(props: TwoStatePreferenceProps) {
-    const { title, summary, currentValue, updateValue, type } = props;
-    const [internalCurrentValue, setInternalCurrentValue] = useState<boolean>(currentValue);
+    const { title, defaultValue, currentValue, summary, updateValue, twoStateType } = {
+        ...props,
+        ...getTwoStateValues(props),
+    };
+    const [internalCurrentValue, setInternalCurrentValue] = useState(currentValue ?? defaultValue);
 
     useEffect(() => {
-        setInternalCurrentValue(currentValue);
+        setInternalCurrentValue(currentValue ?? defaultValue);
     }, [currentValue]);
 
     return (
         <ListItem>
             <ListItemText primary={title} secondary={summary} />
             <ListItemSecondaryAction>
-                {createElement(getTwoStateType(type), {
+                {createElement(getTwoStateType(twoStateType), {
                     edge: 'end',
                     checked: internalCurrentValue,
                     onChange: () => {
-                        updateValue(!currentValue);
+                        updateValue(twoStateType === 'Switch' ? 'switchState' : 'checkBoxState', !currentValue);
 
                         // appear smooth
                         setInternalCurrentValue(!currentValue);
@@ -49,11 +74,11 @@ function TwoSatePreference(props: TwoStatePreferenceProps) {
 }
 
 export function CheckBoxPreference(props: CheckBoxPreferenceProps) {
-    return <TwoSatePreference {...props} type="Checkbox" />;
+    return <TwoSatePreference {...props} twoStateType="Checkbox" />;
 }
 
 export function SwitchPreferenceCompat(props: SwitchPreferenceCompatProps) {
-    return <TwoSatePreference {...props} type="Switch" />;
+    return <TwoSatePreference {...props} twoStateType="Switch" />;
 }
 
 export default { CheckBoxPreference, SwitchPreferenceCompat };
