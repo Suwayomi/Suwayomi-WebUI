@@ -6,13 +6,236 @@
                     "label": {
                         "action": "북마크 제거",
                         "error_other": "북마크를 제거할 수 없습니다",
-                        "success_other": "북마크 제거 성공"
+                        "success_other": "{{count}} 개 챕터 북마크 제거됨"
                     },
                     "button": {
                         "selected": "선택한 항목 북마크 제거"
                     }
+                },
+                "add": {
+                    "label": {
+                        "success_other": "{{count}} 개의 챕터가 북마크 됨",
+                        "error_other": "챕터를 북마크에 추가할 수 없습니다",
+                        "action": "북마크 추가"
+                    },
+                    "button": {
+                        "selected": "북마크 선택됨"
+                    }
+                }
+            },
+            "download": {
+                "add": {
+                    "button": {
+                        "selected": "선택 다운로드"
+                    },
+                    "label": {
+                        "action": "다운로드",
+                        "error_other": "다운로드 할 수 없습니다",
+                        "success_other": "{{count}} 개 다운로드 추가됨"
+                    }
+                },
+                "delete": {
+                    "button": {
+                        "selected": "선택 다운로드 삭제"
+                    },
+                    "label": {
+                        "action": "다운로드 삭제",
+                        "error_other": "챕터를 삭제할 수 없음니다",
+                        "success_other": "{{count}} 개 챕터 삭제됨"
+                    }
+                }
+            },
+            "label": {
+                "select": "선택"
+            },
+            "mark_as_read": {
+                "add": {
+                    "button": {
+                        "selected": "선택항목 읽음으로 표시"
+                    },
+                    "label": {
+                        "action": {
+                            "current": "읽음으로 표시",
+                            "previous": "이전 장을 읽음으로 표시"
+                        },
+                        "error_other": "챕터를 읽음으로 표시할 수 없음니다",
+                        "success_other": "{{count}} 개의 챕터를 읽음으로 표시"
+                    }
+                },
+                "remove": {
+                    "button": {
+                        "selected": "선택 항목을 읽지 않음으로 표시"
+                    },
+                    "label": {
+                        "action": "읽지 않음으로 표시",
+                        "error_other": "챕터를 읽지 않음으로 표시할 수 없습니다",
+                        "success_other": "{{count}} 개의 챕터 읽지 않음으로 표시"
+                    }
                 }
             }
+        },
+        "error": {
+            "label": {
+                "no_chapter_found": "챕터를 찾을 수 없습니다",
+                "no_matches": "필터와 일치하는 챕터가 없습니다"
+            }
+        },
+        "option": {
+            "display": {
+                "label": {
+                    "chapter_number": "장",
+                    "source_title": "원 제목"
+                }
+            }
+        },
+        "status": {
+            "label": {
+                "downloaded": "다운로드됨"
+            }
+        },
+        "title": "장"
+    },
+    "download": {
+        "queue": {
+            "label": {
+                "no_downloads": "다운로드 없음"
+            },
+            "title": "다운로드 대기열",
+            "error": {
+                "label": {
+                    "failed_to_remove": "대기열에서 다운로드를 제거할 수 없습니다."
+                }
+            }
+        },
+        "state": {
+            "label": {
+                "downloading": "다운로드 중",
+                "error": "오류",
+                "finished": "완료",
+                "queued": "대기 중"
+            }
+        },
+        "title": "다운로드"
+    },
+    "extension": {
+        "action": {
+            "label": {
+                "install": "설치",
+                "uninstall": "삭제",
+                "update": "업데이트"
+            }
+        },
+        "label": {
+            "installing_file": "확장 기능 설치 중…",
+            "installation_failed": "확장 기능을 설치할 수 없습니다",
+            "installed_successfully": "확장 기능 설치됨"
+        },
+        "language": {
+            "all": "모든 언어"
+        },
+        "state": {
+            "label": {
+                "installed": "설치됨",
+                "uninstalling": "삭제 중",
+                "update_pending": "업데이트 대기 중",
+                "updating": "업데이트 중",
+                "installing": "설치 중"
+            }
+        },
+        "title": "확장 기능"
+    },
+    "global": {
+        "button": {
+            "browse": "찾기",
+            "cancel": "취소",
+            "clear": "지우기",
+            "filter": "필터",
+            "ok": "확인",
+            "open_site": "사이트 열기",
+            "popular": "인기 있는",
+            "reset": "초기화",
+            "reset_to_default": "기본값으로 재설정",
+            "select_all": "모두 선택",
+            "start": "시작"
+        },
+        "date": {
+            "label": {
+                "today": "오늘",
+                "yesterday": "어제"
+            }
+        },
+        "error": {
+            "label": {
+                "failed_to_load_data": "데이터를 가져올 수 없습니다",
+                "failed_to_save_changes": "변경사항을 저장하지 못했습니다",
+                "invalid_file_type": "유효한 파일 형식이 아닙니다",
+                "update_failed": "업데이트를 확인할 수 없습니다",
+                "invalid_action": "유효한 작업이 아닙니다"
+            }
+        },
+        "filter": {
+            "label": {
+                "bookmarked": "북마크 됨",
+                "downloaded": "다운로드 됨",
+                "unread": "읽지 않음"
+            }
+        },
+        "grid_layout": {
+            "label": {
+                "comfortable_grid": "편안한 그리드",
+                "compact_grid": "작은 그리드",
+                "list": "리스트"
+            },
+            "title": "표시 모드"
+        },
+        "label": {
+            "browse": "찾기",
+            "display": "화면",
+            "filter": "필터",
+            "loading": "로딩중…",
+            "sort": "분류"
+        },
+        "language": {
+            "label": {
+                "language": "언어"
+            },
+            "title": {
+                "enabled_languages": "허용된 언어",
+                "weblate": "Weblate"
+            }
+        },
+        "sort": {
+            "label": {
+                "by_fetch_date": "가져온 날짜 기준"
+            }
+        }
+    },
+    "category": {
+        "dialog": {
+            "title": {
+                "new_category": "새 카테고리",
+                "edit_category": "카테고리 수정"
+            }
+        },
+        "error": {
+            "label": {
+                "empty": "카테고리가 없습니다",
+                "request_failure": "카테고리를 가져올 수 없습니다"
+            },
+            "no_categories_found": {
+                "label": {
+                    "hint": "설정에서 카테고리를 만들어야 합니다.",
+                    "info": "카테고리를 찾을 수 없습니다."
+                }
+            }
+        },
+        "label": {
+            "category_name": "카테고리 이름",
+            "use_as_default_category": "새 만화를 추가할 때 기본 카테고리 설정"
+        },
+        "title": {
+            "categories": "카테고리",
+            "set_categories": "카테고리 설정"
         }
     }
 }
