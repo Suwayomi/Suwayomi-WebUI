@@ -26,7 +26,7 @@ const isSinglePage = (index: number, spreadPages: boolean[], invertDoublePage: b
     // Page is single if number of single pages since last spread is odd
     const previousSpreadIndex = spreadPages.lastIndexOf(true, index - 1);
     const numberOfNonSpreads = index - (previousSpreadIndex + 1);
-    return invertDoublePage ? numberOfNonSpreads % 2 === 1 : numberOfNonSpreads % 2 === 0;
+    return invertDoublePage ? numberOfNonSpreads % 2 === 0 : numberOfNonSpreads % 2 === 1;
     return numberOfNonSpreads % 2 === 1;
 };
 
@@ -186,6 +186,19 @@ export default function DoublePagedPager(props: IReaderProps) {
     useEffect(() => {
         setCurPage(initialPage);
     }, [initialPage]);
+
+    useEffect(() => {
+    	
+	if(pagesDisplayed.current == 2){
+		if(settings.invertDoublePage){
+			setCurPage(curPage + 1);	
+		}
+		else if(curPage > 0 && !isSinglePage(curPage - 1, spreadPage.current, settings.invertDoublePage)){
+			setCurPage(curPage - 1);
+		}
+			
+	}
+    }, [settings.invertDoublePage]);
 
     return (
         <Box ref={selfRef}>
