@@ -89,16 +89,18 @@ export default function ReaderSettingsOptions({
                     </ListItemSecondaryAction>
                 </ListItem>
             ) : null}
-            <ListItem>
-                <ListItemText primary={t('reader.settings.label.offset_first_page')} />
-                <ListItemSecondaryAction>
-                    <Switch
-                        edge="end"
-                        checked={offsetFirstPage}
-                        onChange={(e) => setSettingValue('offsetFirstPage', e.target.checked)}
-                    />
-                </ListItemSecondaryAction>
-            </ListItem>
+            {readerType === 'DoubleLTR' || readerType === 'DoubleRTL' ? (
+                <ListItem>
+                    <ListItemText primary={t('reader.settings.label.offset_first_page')} />
+                    <ListItemSecondaryAction>
+                        <Switch
+                            edge="end"
+                            checked={offsetFirstPage}
+                            onChange={(e) => setSettingValue('offsetFirstPage', e.target.checked)}
+                        />
+                    </ListItemSecondaryAction>
+                </ListItem>
+            ) : null}
             <ListItem>
                 <ListItemText primary={t('reader.settings.label.reader_type')} />
                 <Select
