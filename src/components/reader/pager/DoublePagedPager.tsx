@@ -27,7 +27,6 @@ const isSinglePage = (index: number, spreadPages: boolean[], offsetFirstPage: bo
     const previousSpreadIndex = spreadPages.lastIndexOf(true, index - 1);
     const numberOfNonSpreads = index - (previousSpreadIndex + 1);
     return offsetFirstPage ? numberOfNonSpreads % 2 === 0 : numberOfNonSpreads % 2 === 1;
-    return numberOfNonSpreads % 2 === 1;
 };
 
 export default function DoublePagedPager(props: IReaderProps) {
