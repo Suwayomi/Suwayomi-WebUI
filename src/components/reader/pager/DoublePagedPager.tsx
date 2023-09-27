@@ -188,8 +188,8 @@ export default function DoublePagedPager(props: IReaderProps) {
     }, [initialPage]);
 
     useEffect(() => {
-        if (pagesDisplayed.current === 2) {
-            if (settings.offsetFirstPage) {
+        if (settings.offsetFirstPage) {
+        	if (pagesDisplayed.current === 2) {
                 setCurPage(curPage + 1);
             }
         } else if (curPage > 0 && !isSinglePage(curPage - 1, spreadPage.current, settings.offsetFirstPage)) {
