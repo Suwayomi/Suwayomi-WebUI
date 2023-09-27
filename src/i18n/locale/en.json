@@ -362,7 +362,8 @@
         "show_page_number": "Show page number",
         "skip_dup_chapters": "Skip duplicate chapters",
         "static_navigation": "Static navigation",
-        "fit_page_to_window": "Fit page to window"
+        "fit_page_to_window": "Fit page to window",
+        "offset_first_page": "Offset first page"
       },
       "reader_type": {
         "label": {

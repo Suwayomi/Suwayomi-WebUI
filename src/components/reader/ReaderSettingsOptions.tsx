@@ -25,6 +25,7 @@ export default function ReaderSettingsOptions({
     skipDupChapters,
     setSettingValue,
     fitPageToWindow,
+    offsetFirstPage,
 }: IProps) {
     const { t } = useTranslation();
     const fitPageToWindowEligible = [
@@ -84,6 +85,18 @@ export default function ReaderSettingsOptions({
                             edge="end"
                             checked={fitPageToWindow}
                             onChange={(e) => setSettingValue('fitPageToWindow', e.target.checked)}
+                        />
+                    </ListItemSecondaryAction>
+                </ListItem>
+            ) : null}
+            {readerType === 'DoubleLTR' || readerType === 'DoubleRTL' ? (
+                <ListItem>
+                    <ListItemText primary={t('reader.settings.label.offset_first_page')} />
+                    <ListItemSecondaryAction>
+                        <Switch
+                            edge="end"
+                            checked={offsetFirstPage}
+                            onChange={(e) => setSettingValue('offsetFirstPage', e.target.checked)}
                         />
                     </ListItemSecondaryAction>
                 </ListItem>

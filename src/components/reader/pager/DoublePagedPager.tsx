@@ -18,15 +18,15 @@ const isSpreadPage = (image: HTMLImageElement): boolean => {
     return aspectRatio < 1;
 };
 
-const isSinglePage = (index: number, spreadPages: boolean[]): boolean => {
+const isSinglePage = (index: number, spreadPages: boolean[], offsetFirstPage: boolean): boolean => {
     // Page is single if it is spread page
-    if (spreadPages[index]) return true;
+    if (spreadPages[index] || spreadPages[index + 1]) return true;
     // Page is single if it is last page
     if (index === spreadPages.length - 1) return true;
     // Page is single if number of single pages since last spread is odd
     const previousSpreadIndex = spreadPages.lastIndexOf(true, index - 1);
     const numberOfNonSpreads = index - (previousSpreadIndex + 1);
-    return numberOfNonSpreads % 2 === 0;
+    return offsetFirstPage ? numberOfNonSpreads % 2 === 0 : numberOfNonSpreads % 2 === 1;
 };
 
 export default function DoublePagedPager(props: IReaderProps) {
@@ -49,7 +49,7 @@ export default function DoublePagedPager(props: IReaderProps) {
         }
         if (curPage + 1 < pages.length && pagesRef.current[curPage + 1]) {
             if (pageLoaded.current[curPage + 1]) {
-                if (spreadPage.current[curPage + 1]) return;
+                if (isSinglePage(curPage, spreadPage.current, settings.offsetFirstPage)) return;
                 pagesDisplayed.current = 2;
             }
         }
@@ -84,7 +84,7 @@ export default function DoublePagedPager(props: IReaderProps) {
 
     function pagesToGoBack() {
         // If previous page is single page, go only one page pack
-        if (isSinglePage(curPage - 1, spreadPage.current)) {
+        if (isSinglePage(curPage - 2, spreadPage.current, settings.offsetFirstPage)) {
             return 1;
         }
 
@@ -185,6 +185,16 @@ export default function DoublePagedPager(props: IReaderProps) {
     useEffect(() => {
         setCurPage(initialPage);
     }, [initialPage]);
+
+    useEffect(() => {
+        if (settings.offsetFirstPage) {
+            if (pagesDisplayed.current === 2) {
+                setCurPage(curPage + 1);
+            }
+        } else if (curPage > 0 && !isSinglePage(curPage - 1, spreadPage.current, settings.offsetFirstPage)) {
+            setCurPage(curPage - 1);
+        }
+    }, [settings.offsetFirstPage]);
 
     return (
         <Box ref={selfRef}>
