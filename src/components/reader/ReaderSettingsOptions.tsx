@@ -25,7 +25,7 @@ export default function ReaderSettingsOptions({
     skipDupChapters,
     setSettingValue,
     fitPageToWindow,
-    invertDoublePage,
+    offsetFirstPage,
 }: IProps) {
     const { t } = useTranslation();
     const fitPageToWindowEligible = [
@@ -90,6 +90,16 @@ export default function ReaderSettingsOptions({
                 </ListItem>
             ) : null}
             <ListItem>
+                <ListItemText primary={t('reader.settings.label.offset_first_page')} />
+                <ListItemSecondaryAction>
+                    <Switch
+                        edge="end"
+                        checked={offsetFirstPage}
+                        onChange={(e) => setSettingValue('offsetFirstPage', e.target.checked)}
+                    />
+                </ListItemSecondaryAction>
+            </ListItem>
+            <ListItem>
                 <ListItemText primary={t('reader.settings.label.reader_type')} />
                 <Select
                     variant="standard"
@@ -115,16 +125,6 @@ export default function ReaderSettingsOptions({
                         {t('reader.settings.reader_type.label.continuous_horizontal_rtl')}
                     </MenuItem>
                 </Select>
-            </ListItem>
-            <ListItem>
-                <ListItemText primary={t('reader.settings.label.invert_double_page')} />
-                <ListItemSecondaryAction>
-                    <Switch
-                        edge="end"
-                        checked={invertDoublePage}
-                        onChange={(e) => setSettingValue('invertDoublePage', e.target.checked)}
-                    />
-                </ListItemSecondaryAction>
             </ListItem>
         </List>
     );

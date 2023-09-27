@@ -65,7 +65,7 @@ export default function DefaultReaderSettings() {
             skipDupChapters={settings.skipDupChapters}
             fitPageToWindow={settings.fitPageToWindow}
             readerType={settings.readerType}
-            invertDoublePage={settings.invertDoublePage}
+            offsetFirstPage={settings.offsetFirstPage}
         />
     );
 }

@@ -363,7 +363,7 @@
         "skip_dup_chapters": "Skip duplicate chapters",
         "static_navigation": "Static navigation",
         "fit_page_to_window": "Fit page to window",
-        "invert_double_page": "Invert double page"
+        "offset_first_page": "Offset first page"
       },
       "reader_type": {
         "label": {
