@@ -20,5 +20,5 @@ This command runs the app in a local preview production build.
 
 ### `yarn build`
 
-This command ceates an optimized production build of the app and places it in the `build` folder.
+This command creates an optimized production build of the app and places it in the `build` folder.
 See this section about [Building for Production](https://vitejs.dev/guide/build.html) for more information.
