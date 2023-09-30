@@ -97,7 +97,7 @@ const Manga: React.FC = () => {
             {isLoading && <LoadingPlaceholder />}
 
             {manga && <MangaDetails manga={manga} />}
-            <ChapterList mangaId={id} />
+            {manga && <ChapterList manga={manga} isRefreshing={refreshing} />}
         </Box>
     );
 };

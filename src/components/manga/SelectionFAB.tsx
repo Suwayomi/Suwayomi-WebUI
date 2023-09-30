@@ -63,38 +63,38 @@ const SelectionFAB: React.FC<SelectionFABProps> = (props) => {
                 <SelectionFABActionItem
                     action="download"
                     matchingChapters={selectedChapters.filter(
-                        ({ chapter: c, downloadChapter: dc }) => !c.downloaded && dc === undefined,
+                        ({ chapter: c, downloadChapter: dc }) => !c.isDownloaded && dc === undefined,
                     )}
                     onClick={handleAction}
                     title={t('chapter.action.download.add.button.selected')}
                 />
                 <SelectionFABActionItem
                     action="delete"
-                    matchingChapters={selectedChapters.filter(({ chapter }) => chapter.downloaded)}
+                    matchingChapters={selectedChapters.filter(({ chapter }) => chapter.isDownloaded)}
                     onClick={handleAction}
                     title={t('chapter.action.download.delete.button.selected')}
                 />
                 <SelectionFABActionItem
                     action="bookmark"
-                    matchingChapters={selectedChapters.filter(({ chapter }) => !chapter.bookmarked)}
+                    matchingChapters={selectedChapters.filter(({ chapter }) => !chapter.isBookmarked)}
                     onClick={handleAction}
                     title={t('chapter.action.bookmark.add.button.selected')}
                 />
                 <SelectionFABActionItem
                     action="unbookmark"
-                    matchingChapters={selectedChapters.filter(({ chapter }) => chapter.bookmarked)}
+                    matchingChapters={selectedChapters.filter(({ chapter }) => chapter.isBookmarked)}
                     onClick={handleAction}
                     title={t('chapter.action.bookmark.remove.button.selected')}
                 />
                 <SelectionFABActionItem
                     action="mark_as_read"
-                    matchingChapters={selectedChapters.filter(({ chapter }) => !chapter.read)}
+                    matchingChapters={selectedChapters.filter(({ chapter }) => !chapter.isRead)}
                     onClick={handleAction}
                     title={t('chapter.action.mark_as_read.add.button.selected')}
                 />
                 <SelectionFABActionItem
                     action="mark_as_unread"
-                    matchingChapters={selectedChapters.filter(({ chapter }) => chapter.read)}
+                    matchingChapters={selectedChapters.filter(({ chapter }) => chapter.isRead)}
                     onClick={handleAction}
                     title={t('chapter.action.mark_as_read.remove.button.selected')}
                 />

@@ -24,9 +24,9 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import Collapse from '@mui/material/Collapse';
 import { useTranslation } from 'react-i18next';
-import { ChapterOffset, IChapter, IReaderSettings } from '@/typings';
+import { ChapterOffset, IReaderSettings } from '@/typings';
 import ReaderSettingsOptions from '@/components/reader/ReaderSettingsOptions';
-import { MangaType } from '@/lib/graphql/generated/graphql.ts';
+import { ChapterType, MangaType } from '@/lib/graphql/generated/graphql.ts';
 
 const Root = styled('div')(({ theme }) => ({
     top: 0,
@@ -115,8 +115,8 @@ const OpenDrawerButton = styled(IconButton)(({ theme }) => ({
 interface IProps {
     settings: IReaderSettings;
     setSettingValue: (key: keyof IReaderSettings, value: string | boolean) => void;
-    manga: Pick<MangaType, 'id'>;
-    chapter: IChapter;
+    manga: MangaType;
+    chapter: ChapterType;
     curPage: number;
     scrollToPage: (page: number) => void;
     openNextChapter: (offset: ChapterOffset, setHistory: (nextChapterIndex: number) => void) => Promise<void>;
@@ -304,7 +304,7 @@ export default function ReaderNavBar(props: IProps) {
                             <IconButton
                                 title={t('reader.button.previous_chapter')}
                                 sx={{ gridArea: 'pre' }}
-                                disabled={disableChapterNavButtons || chapter.index <= 1}
+                                disabled={disableChapterNavButtons || chapter.sourceOrder <= 1}
                                 onClick={() =>
                                     openNextChapter(ChapterOffset.PREV, (prevChapterIndex) => {
                                         navigate(`/manga/${manga.id}/chapter/${prevChapterIndex}`, {
@@ -322,11 +322,11 @@ export default function ReaderNavBar(props: IProps) {
                             <FormControl
                                 sx={{ gridArea: 'current' }}
                                 size="small"
-                                disabled={disableChapterNavButtons || chapter.index < 1}
+                                disabled={disableChapterNavButtons || chapter.sourceOrder < 1}
                             >
                                 <Select
                                     MenuProps={MenuProps}
-                                    value={chapter.index >= 1 ? chapter.index : ''}
+                                    value={chapter.sourceOrder >= 1 ? chapter.sourceOrder : ''}
                                     displayEmpty
                                     onChange={({ target: { value: selectedChapter } }) => {
                                         navigate(`/manga/${manga.id}/chapter/${selectedChapter}`, {
@@ -338,7 +338,7 @@ export default function ReaderNavBar(props: IProps) {
                                         });
                                     }}
                                 >
-                                    {Array(Math.max(0, chapter.chapterCount))
+                                    {Array(Math.max(0, manga.chapters.totalCount))
                                         .fill(1)
                                         .map((ignoreValue, index) => (
                                             <MenuItem key={`Chapter#${index + 1}`} value={index + 1}>{`${t(
@@ -352,8 +352,8 @@ export default function ReaderNavBar(props: IProps) {
                                 sx={{ gridArea: 'next' }}
                                 disabled={
                                     disableChapterNavButtons ||
-                                    chapter.index < 1 ||
-                                    chapter.index >= chapter.chapterCount
+                                    chapter.sourceOrder < 1 ||
+                                    chapter.sourceOrder >= manga.chapters.totalCount
                                 }
                                 onClick={() => {
                                     openNextChapter(ChapterOffset.NEXT, (nextChapterIndex) =>

@@ -6,16 +6,44 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ApolloClient, ApolloClientOptions, InMemoryCache, NormalizedCacheObject } from '@apollo/client';
+import { ApolloClient, ApolloClientOptions, InMemoryCache, NormalizedCacheObject, Reference } from '@apollo/client';
 import { createUploadLink } from 'apollo-upload-client';
 import { BaseClient } from '@/lib/requests/client/BaseClient.ts';
 import { StrictTypedTypePolicies } from '@/lib/graphql/generated/apollo-helpers.ts';
 
+/* eslint-disable no-underscore-dangle */
 const typePolicies: StrictTypedTypePolicies = {
     GlobalMetaType: { keyFields: ['key'] },
     ExtensionType: { keyFields: ['apkName'] },
     AboutPayload: { keyFields: [] },
+    Query: {
+        fields: {
+            chapters: {
+                keyArgs: ['condition', 'filter', 'orderBy', 'orderByType'],
+                merge(existing, incoming) {
+                    const merged = {
+                        ...existing,
+                        ...incoming,
+                        nodes: existing?.nodes ?? [],
+                    };
+                    const isRefetch = incoming.nodes.some(
+                        (incomingChapter) =>
+                            existing?.nodes.some(
+                                (existingChapter) =>
+                                    (existingChapter as unknown as Reference).__ref ===
+                                    (incomingChapter as unknown as Reference).__ref,
+                            ),
+                    );
+                    if (!isRefetch) {
+                        merged.nodes = [...(existing?.nodes ?? []), ...incoming.nodes];
+                    }
+                    return merged;
+                },
+            },
+        },
+    },
 };
+/* eslint-enable no-underscore-dangle */
 
 // eslint-disable-next-line import/prefer-default-export
 export class GraphQLClient extends BaseClient<

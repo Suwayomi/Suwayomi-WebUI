@@ -1,4 +1,5 @@
 import { FieldPolicy, FieldReadFunction, TypePolicies, TypePolicy } from '@apollo/client/cache';
+import { GetChaptersQuery } from "@/lib/graphql/generated/graphql.ts";
 export type AboutPayloadKeySpecifier = ('buildTime' | 'buildType' | 'discord' | 'github' | 'name' | 'revision' | 'version' | AboutPayloadKeySpecifier)[];
 export type AboutPayloadFieldPolicy = {
 	buildTime?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -491,7 +492,7 @@ export type QueryFieldPolicy = {
 	categories?: FieldPolicy<any> | FieldReadFunction<any>,
 	category?: FieldPolicy<any> | FieldReadFunction<any>,
 	chapter?: FieldPolicy<any> | FieldReadFunction<any>,
-	chapters?: FieldPolicy<any> | FieldReadFunction<any>,
+	chapters?: FieldPolicy<GetChaptersQuery['chapters']> | FieldReadFunction<GetChaptersQuery['chapters']>,
 	checkForServerUpdates?: FieldPolicy<any> | FieldReadFunction<any>,
 	checkForWebUIUpdate?: FieldPolicy<any> | FieldReadFunction<any>,
 	downloadStatus?: FieldPolicy<any> | FieldReadFunction<any>,

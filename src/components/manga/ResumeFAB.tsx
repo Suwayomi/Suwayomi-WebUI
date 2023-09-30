@@ -9,25 +9,21 @@
 import { Link } from 'react-router-dom';
 import { PlayArrow } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
-import { IChapter } from '@/typings';
 import StyledFab from '@/components/util/StyledFab';
 
 interface ResumeFABProps {
-    chapter: IChapter;
-    mangaId: string;
+    chapterIndex: number;
+    mangaId: number;
 }
 
 export default function ResumeFab(props: ResumeFABProps) {
     const { t } = useTranslation();
 
-    const {
-        chapter: { index },
-        mangaId,
-    } = props;
+    const { chapterIndex, mangaId } = props;
     return (
-        <StyledFab component={Link} variant="extended" color="primary" to={`/manga/${mangaId}/chapter/${index}`}>
+        <StyledFab component={Link} variant="extended" color="primary" to={`/manga/${mangaId}/chapter/${chapterIndex}`}>
             <PlayArrow />
-            {index === 1 ? t('global.button.start') : t('global.button.resume')}
+            {chapterIndex === 1 ? t('global.button.start') : t('global.button.resume')}
         </StyledFab>
     );
 }
