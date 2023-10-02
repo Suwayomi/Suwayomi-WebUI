@@ -113,6 +113,7 @@ const Updates: React.FC = () => {
     } = requestManager.useGetRecentlyUpdatedChapters(undefined, {
         fetchPolicy: 'cache-and-network',
         notifyOnNetworkStatusChange: true,
+        omitAbortSignal: true,
     });
     const hasNextPage = !!chapterUpdateData?.chapters.pageInfo.hasNextPage;
     const endCursor = chapterUpdateData?.chapters.pageInfo.endCursor;

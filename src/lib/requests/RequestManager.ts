@@ -14,11 +14,11 @@ import {
     ApolloQueryResult,
     DocumentNode,
     FetchResult,
-    MutationHookOptions,
-    MutationOptions,
+    MutationHookOptions as ApolloMutationHookOptions,
+    MutationOptions as ApolloMutationOptions,
     MutationTuple,
-    QueryHookOptions,
-    QueryOptions,
+    QueryHookOptions as ApolloQueryHookOptions,
+    QueryOptions as ApolloQueryOptions,
     QueryResult,
     TypedDocumentNode,
     useMutation,
@@ -217,10 +217,41 @@ type SWRInfiniteResponseLoadInfo = {
     isLoadMore: boolean;
 };
 
-type ApolloPaginatedMutationOptions<Data = any, Variables = OperationVariables> = MutationHookOptions<
+type CustomApolloOptions = {
+    /**
+     * This is a workaround for an apollo bug (?).
+     *
+     * A new abort signal gets passed on every hook call.
+     * This causes the passed arguments to change (due to updating the "context" option, which is only relevant for the actual request),
+     * which - I assume - results in apollo to handle this as a completely new hook call.
+     * Due to this, when e.g. calling "fetchMore", "loading" and "networkStatus" do not get updated when enabling "notifyOnNetworkStatusChange".
+     *
+     * By not passing an abort signal, the states get correctly updated, BUT it won't be possible to abort the request.
+     */
+    omitAbortSignal?: boolean;
+};
+type QueryOptions<Variables extends OperationVariables = OperationVariables, Data = any> = ApolloQueryOptions<
+    Variables,
+    Data
+> &
+    CustomApolloOptions;
+type QueryHookOptions<Data = any, Variables extends OperationVariables = OperationVariables> = ApolloQueryHookOptions<
     Data,
     Variables
-> & { skipRequest?: boolean };
+> &
+    CustomApolloOptions;
+type MutationHookOptions<Data = any, Variables extends OperationVariables = OperationVariables> = Partial<
+    ApolloMutationHookOptions<Data, Variables>
+> &
+    CustomApolloOptions;
+type MutationOptions<Data = any, Variables extends OperationVariables = OperationVariables> = Partial<
+    ApolloMutationOptions<Data, Variables>
+> &
+    CustomApolloOptions;
+type ApolloPaginatedMutationOptions<
+    Data = any,
+    Variables extends OperationVariables = OperationVariables,
+> = MutationHookOptions<Data, Variables> & { skipRequest?: boolean };
 
 type AbortableRequest = { abortRequest: AbortController['abort'] };
 export type AbortableAxiosResponse<Data = any> = { response: Promise<Data> } & AbortableRequest;
@@ -730,7 +761,7 @@ export class RequestManager {
                         context: {
                             ...options?.context,
                             fetchOptions: {
-                                signal,
+                                signal: options?.omitAbortSignal ? undefined : signal,
                                 ...options?.context?.fetchOptions,
                             },
                         },
@@ -746,7 +777,7 @@ export class RequestManager {
                         context: {
                             ...options?.context,
                             fetchOptions: {
-                                signal,
+                                signal: options?.omitAbortSignal ? undefined : signal,
                                 ...options?.context?.fetchOptions,
                             },
                         },
@@ -762,7 +793,7 @@ export class RequestManager {
                     context: {
                         ...options?.context,
                         fetchOptions: {
-                            signal,
+                            signal: options?.omitAbortSignal ? undefined : signal,
                             ...options?.context?.fetchOptions,
                         },
                     },
@@ -778,7 +809,7 @@ export class RequestManager {
                         context: {
                             ...options?.context,
                             fetchOptions: {
-                                signal,
+                                signal: options?.omitAbortSignal ? undefined : signal,
                                 ...options?.context?.fetchOptions,
                             },
                         },
