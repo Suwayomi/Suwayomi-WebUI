@@ -26,7 +26,6 @@ import {
 } from '@apollo/client';
 import { OperationVariables } from '@apollo/client/core';
 import { useEffect, useRef, useState } from 'react';
-import { BackupValidationResult } from '@/typings.ts';
 import { HttpMethod as DefaultHttpMethod, IRestClient, RestClient } from '@/lib/requests/client/RestClient.ts';
 import storage from '@/util/localStorage.tsx';
 import { GraphQLClient } from '@/lib/requests/client/GraphQLClient.ts';
@@ -91,6 +90,8 @@ import {
     InstallExternalExtensionMutationVariables,
     ReorderChapterDownloadMutation,
     ReorderChapterDownloadMutationVariables,
+    RestoreBackupMutation,
+    RestoreBackupMutationVariables,
     SetCategoryMetadataMutation,
     SetCategoryMetadataMutationVariables,
     SetChapterMetadataMutation,
@@ -130,6 +131,8 @@ import {
     UpdateMangaPatchInput,
     UpdateSourcePreferencesMutation,
     UpdateSourcePreferencesMutationVariables,
+    ValidateBackupQuery,
+    ValidateBackupQueryVariables,
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_GLOBAL_METADATA, GET_GLOBAL_METADATAS } from '@/lib/graphql/queries/GlobalMetadataQuery.ts';
 import { SET_GLOBAL_METADATA } from '@/lib/graphql/mutations/GlobalMetadataMutation.ts';
@@ -185,6 +188,8 @@ import {
 } from '@/lib/graphql/mutations/UpdaterMutation.ts';
 import { GET_UPDATE_STATUS } from '@/lib/graphql/queries/UpdaterQuery.ts';
 import { CustomCache } from '@/lib/requests/CustomCache.ts';
+import { RESTORE_BACKUP } from '@/lib/graphql/mutations/BackupMutation.ts';
+import { VALIDATE_BACKUP } from '@/lib/graphql/queries/BackupQuery.ts';
 
 enum SWRHttpMethod {
     SWR_GET,
@@ -1615,18 +1620,23 @@ export class RequestManager {
         );
     }
 
-    public restoreBackupFile(file: File): AbortableAxiosResponse {
-        return this.doRequest(HttpMethod.POST, 'backup/import/file', { formData: { 'backup.proto.gz': file } });
+    public restoreBackupFile(
+        file: File,
+        options?: MutationOptions<RestoreBackupMutation, RestoreBackupMutationVariables>,
+    ): AbortableApolloMutationResponse<RestoreBackupMutation> {
+        return this.doRequestNew<RestoreBackupMutation, RestoreBackupMutationVariables>(
+            GQLMethod.MUTATION,
+            RESTORE_BACKUP,
+            { input: { backup: file } },
+            options,
+        );
     }
 
     public useValidateBackupFile(
         file: File,
-        swrOptions?: SWROptions<BackupValidationResult>,
-    ): AbortableSWRResponse<BackupValidationResult> {
-        return this.doRequest(HttpMethod.SWR_POST, 'backup/validate/file', {
-            formData: { 'backup.proto.gz': file },
-            swrOptions,
-        });
+        options?: QueryOptions<ValidateBackupQueryVariables, ValidateBackupQuery>,
+    ): AbortabaleApolloQueryResponse<ValidateBackupQuery> {
+        return this.doRequestNew(GQLMethod.QUERY, VALIDATE_BACKUP, { input: { backup: file } }, options);
     }
 
     public getExportBackupUrl(): string {
