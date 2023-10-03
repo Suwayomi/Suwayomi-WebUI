@@ -9,7 +9,6 @@
 import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
 import React, { useMemo } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { SWRConfig } from 'swr';
 import { QueryParamProvider } from 'use-query-params';
 import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
 import createTheme from '@/theme';
@@ -36,21 +35,19 @@ const AppContext: React.FC<Props> = ({ children }) => {
     const theme = useMemo(() => createTheme(darkTheme), [darkTheme]);
 
     return (
-        <SWRConfig>
-            <Router>
-                <StyledEngineProvider injectFirst>
-                    <ThemeProvider theme={theme}>
-                        <DarkTheme.Provider value={darkThemeContext}>
-                            <QueryParamProvider adapter={ReactRouter6Adapter}>
-                                <LibraryOptionsContextProvider>
-                                    <NavBarContextProvider>{children}</NavBarContextProvider>
-                                </LibraryOptionsContextProvider>
-                            </QueryParamProvider>
-                        </DarkTheme.Provider>
-                    </ThemeProvider>
-                </StyledEngineProvider>
-            </Router>
-        </SWRConfig>
+        <Router>
+            <StyledEngineProvider injectFirst>
+                <ThemeProvider theme={theme}>
+                    <DarkTheme.Provider value={darkThemeContext}>
+                        <QueryParamProvider adapter={ReactRouter6Adapter}>
+                            <LibraryOptionsContextProvider>
+                                <NavBarContextProvider>{children}</NavBarContextProvider>
+                            </LibraryOptionsContextProvider>
+                        </QueryParamProvider>
+                    </DarkTheme.Provider>
+                </ThemeProvider>
+            </StyledEngineProvider>
+        </Router>
     );
 };
 

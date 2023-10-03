@@ -6,9 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { AxiosInstance, AxiosRequestConfig } from 'axios';
-import useSWR, { Middleware, SWRConfiguration, SWRResponse } from 'swr';
-import useSWRInfinite, { SWRInfiniteConfiguration, SWRInfiniteResponse } from 'swr/infinite';
+import { AxiosInstance } from 'axios';
 import {
     ApolloError,
     ApolloQueryResult,
@@ -26,7 +24,7 @@ import {
 } from '@apollo/client';
 import { OperationVariables } from '@apollo/client/core';
 import { useEffect, useRef, useState } from 'react';
-import { HttpMethod as DefaultHttpMethod, IRestClient, RestClient } from '@/lib/requests/client/RestClient.ts';
+import { IRestClient, RestClient } from '@/lib/requests/client/RestClient.ts';
 import storage from '@/util/localStorage.tsx';
 import { GraphQLClient } from '@/lib/requests/client/GraphQLClient.ts';
 import {
@@ -191,36 +189,12 @@ import { CustomCache } from '@/lib/requests/CustomCache.ts';
 import { RESTORE_BACKUP } from '@/lib/graphql/mutations/BackupMutation.ts';
 import { VALIDATE_BACKUP } from '@/lib/graphql/queries/BackupQuery.ts';
 
-enum SWRHttpMethod {
-    SWR_GET,
-    SWR_GET_INFINITE,
-    SWR_POST,
-    SWR_POST_INFINITE,
-}
-
 enum GQLMethod {
     QUERY = 'QUERY',
     USE_QUERY = 'USE_QUERY',
     USE_MUTATION = 'USE_MUTATION',
     MUTATION = 'MUTATION',
 }
-
-type HttpMethodType = DefaultHttpMethod | SWRHttpMethod;
-const HttpMethod = { ...SWRHttpMethod, ...DefaultHttpMethod };
-
-type CustomSWROptions<Data> = {
-    skipRequest?: boolean;
-    getEndpoint?: (index: number, previousData: Data | null) => string | null;
-    disableCache?: boolean;
-};
-
-type SWROptions<Data = any, Error = any> = SWRConfiguration<Data, Error> & CustomSWROptions<Data>;
-type SWRInfiniteOptions<Data = any, Error = any> = SWRInfiniteConfiguration<Data, Error> & CustomSWROptions<Data>;
-
-type SWRInfiniteResponseLoadInfo = {
-    isInitialLoad: boolean;
-    isLoadMore: boolean;
-};
 
 type CustomApolloOptions = {
     /**
@@ -259,11 +233,6 @@ type ApolloPaginatedMutationOptions<
 > = MutationHookOptions<Data, Variables> & { skipRequest?: boolean };
 
 type AbortableRequest = { abortRequest: AbortController['abort'] };
-export type AbortableAxiosResponse<Data = any> = { response: Promise<Data> } & AbortableRequest;
-export type AbortableSWRResponse<Data = any, Error = any> = SWRResponse<Data, Error> & AbortableRequest;
-export type AbortableSWRInfiniteResponse<Data = any, Error = any> = SWRInfiniteResponse<Data, Error> &
-    AbortableRequest &
-    SWRInfiniteResponseLoadInfo;
 
 export type AbortabaleApolloQueryResponse<Data = any> = {
     response: Promise<ApolloQueryResult<Data>>;
@@ -301,36 +270,6 @@ export type AbortableApolloUseMutationPaginatedResponse<
 ];
 export type AbortableApolloMutationResponse<Data = any> = { response: Promise<FetchResult<Data>> } & AbortableRequest;
 
-const isLoadingMore = (swrResult: SWRInfiniteResponse): boolean => {
-    const isNextPageMissing = !!swrResult.data && typeof swrResult.data[swrResult.size - 1] === 'undefined';
-    const isRequestActive = swrResult.isValidating;
-    // SWR "isLoading" state is only updated for the first load, for every subsequent load it's "false"
-    return !swrResult.isLoading && swrResult.size > 0 && isNextPageMissing && isRequestActive;
-};
-
-const disableSwrInfiniteCache: Middleware = (useSWRNext) => (key, fetcher, config) => {
-    const swr = useSWRNext(key, fetcher, config) as unknown as SWRInfiniteResponse;
-    const { size, data, isLoading, isValidating } = swr;
-    const isActuallyValidating = !isLoading && !isLoadingMore(swr) && isValidating;
-    return {
-        ...swr,
-        isLoading: isActuallyValidating ? true : isLoading,
-        data: isActuallyValidating ? undefined : data,
-        size: isActuallyValidating ? 1 : size,
-    } as SWRResponse;
-};
-
-const disableSwrCache: Middleware = (useSWRNext) => (key, fetcher, config) => {
-    const swr = useSWRNext(key, fetcher, config);
-    const { data, isLoading, isValidating } = swr;
-    return { ...swr, isLoading: isValidating ? true : isLoading, data: isValidating ? undefined : data };
-};
-
-// the following endpoints have not been implemented:
-//   - PUT  /api/v1/manga/{mangaId}/chapter/{chapterIndex}  - modify chapter    # PATCH endpoint used instead
-//   - POST /api/v1/backup/import                           - import backup     # "import backup file" endpoint used instead
-//   - POST /api/v1/backup/validate                         - validate backup   # "validate backup file" endpoint used instead
-//   - GET  /api/v1/backup/export                           - export backup     # no function needed, url gets called via link triggering the download
 export class RequestManager {
     public static readonly API_VERSION = '/api/v1/';
 
@@ -823,165 +762,6 @@ export class RequestManager {
                 };
             default:
                 throw new Error(`unexpected GQLRequest type "${method}"`);
-        }
-    }
-
-    private useSwr<
-        Data = any,
-        ErrorResponse = any,
-        OptionsSWR extends SWROptions<Data, ErrorResponse> = SWROptions<Data, ErrorResponse>,
-    >(
-        url: string,
-        httpMethod: DefaultHttpMethod,
-        {
-            data,
-            axiosOptions,
-            swrOptions,
-        }: {
-            data?: Data;
-            axiosOptions?: AxiosRequestConfig;
-            swrOptions?: OptionsSWR;
-        } = {},
-    ): SWRResponse<Data, ErrorResponse> {
-        const { skipRequest, disableCache, ...swrConfig } = swrOptions ?? {};
-
-        // in case "null" gets passed as the url, SWR won't do the request
-        return useSWR(skipRequest ? null : url, {
-            fetcher: (path: string) => this.restClient.fetcher(path, { data, httpMethod, config: axiosOptions }),
-            use: disableCache ? [disableSwrCache] : undefined,
-            ...swrConfig,
-        });
-    }
-
-    public useSwrInfinite<
-        Data = any,
-        ErrorResponse = any,
-        OptionsSWR extends SWRInfiniteOptions<Data, ErrorResponse> = SWRInfiniteOptions<Data, ErrorResponse>,
-    >(
-        getEndpoint: Required<CustomSWROptions<Data>>['getEndpoint'],
-        httpMethod: DefaultHttpMethod,
-        {
-            data,
-            axiosOptions,
-            swrOptions,
-        }: { data?: any; axiosOptions?: AxiosRequestConfig; swrOptions?: OptionsSWR } = {},
-    ): SWRInfiniteResponse<Data, ErrorResponse> & SWRInfiniteResponseLoadInfo {
-        const { skipRequest, disableCache, ...swrConfig } = swrOptions ?? {};
-
-        // useSWRInfinite will (by default) revalidate the first page, to check if the other pages have to be revalidated as well
-        const swrResult = useSWRInfinite<Data, ErrorResponse>(
-            (index, previousData) => {
-                const pageEndpoint = getEndpoint(index, previousData);
-                return pageEndpoint !== null && !skipRequest ? this.getValidUrlFor(pageEndpoint) : null;
-            },
-            {
-                fetcher: (path: string) => this.restClient.fetcher(path, { httpMethod, data, config: axiosOptions }),
-                use: disableCache ? [disableSwrInfiniteCache] : undefined,
-                ...swrConfig,
-            },
-        );
-
-        const customSwrResult = {
-            ...swrResult,
-            isInitialLoad: swrResult.isLoading,
-            isLoadMore: isLoadingMore(swrResult),
-        };
-        customSwrResult.isLoading = customSwrResult.isInitialLoad || customSwrResult.isLoadMore;
-
-        return customSwrResult;
-    }
-
-    /**
-     * Performs the actual server request.
-     *
-     * In case {@link HttpMethod.GET_SWR} gets passed, the "useSWR" hook gets called.
-     * In case {@link HttpMethod.GET_SWR_INFINITE} gets passed, the "useSWRInfinite" hook gets called.
-     * In that case "getEndpoint" has to be passed, which gets used over "endpoint"
-     *
-     * Pass "skipRequest" to make SWR skip sending the request to the server.
-     * In case "formData" is passed, "data" gets ignored.
-     */
-    private doRequest<
-        Result extends AbortableAxiosResponse | AbortableSWRResponse | AbortableSWRInfiniteResponse,
-        OptionsSWR extends SWROptions | SWRInfiniteOptions,
-    >(
-        httpMethod: HttpMethodType,
-        endpoint: string,
-        {
-            apiVersion = RequestManager.API_VERSION,
-            data: dataToSend,
-            formData,
-            axiosOptions,
-            swrOptions,
-        }: {
-            apiVersion?: string;
-            data?: any;
-            formData?: { [key: string]: any };
-            axiosOptions?: AxiosRequestConfig;
-            swrOptions?: OptionsSWR;
-        } = {},
-    ): Result {
-        const url = `${apiVersion}${endpoint}`;
-
-        let data = dataToSend;
-        if (formData) {
-            data = new FormData();
-
-            Object.entries(formData).forEach(([key, value]) => {
-                if (value !== undefined) data.append(key, value); // "append" automatically converts non string or blob values to strings
-            });
-        }
-
-        const abortController = new AbortController();
-        const abortRequest = (reason?: any): void => {
-            if (!abortController.signal.aborted) {
-                abortController.abort(reason);
-            }
-        };
-        const axiosOptionsWithAbortController = { ...axiosOptions, signal: abortController.signal };
-        switch (httpMethod) {
-            case HttpMethod.SWR_GET:
-                return {
-                    ...(this.useSwr(url, HttpMethod.GET, { axiosOptions, swrOptions }) as Result),
-                    abortRequest,
-                };
-            case HttpMethod.SWR_GET_INFINITE:
-                // throw TypeError in case options aren't correctly passed
-                return {
-                    ...(this.useSwrInfinite(swrOptions!.getEndpoint!, HttpMethod.GET, {
-                        axiosOptions: axiosOptionsWithAbortController,
-                        swrOptions,
-                    }) as Result),
-                    abortRequest,
-                };
-            case SWRHttpMethod.SWR_POST_INFINITE:
-                return {
-                    ...(this.useSwrInfinite(swrOptions!.getEndpoint!, HttpMethod.POST, {
-                        data,
-                        axiosOptions: axiosOptionsWithAbortController,
-                        swrOptions,
-                    }) as Result),
-                    abortRequest,
-                };
-            case HttpMethod.SWR_POST:
-                return {
-                    ...(this.useSwr(url, HttpMethod.POST, {
-                        data,
-                        axiosOptions: axiosOptionsWithAbortController,
-                        swrOptions,
-                    }) as Result),
-                    controller: abortController,
-                };
-            default:
-                return {
-                    response: this.restClient.fetcher(url, {
-                        data,
-                        httpMethod,
-                        config: axiosOptionsWithAbortController,
-                        checkResponseIsJson: false,
-                    }),
-                    abortRequest,
-                } as Result;
         }
     }
 
