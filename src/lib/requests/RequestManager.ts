@@ -18,9 +18,12 @@ import {
     QueryHookOptions as ApolloQueryHookOptions,
     QueryOptions as ApolloQueryOptions,
     QueryResult,
+    SubscriptionHookOptions as ApolloSubscriptionHookOptions,
+    SubscriptionResult,
     TypedDocumentNode,
     useMutation,
     useQuery,
+    useSubscription,
 } from '@apollo/client';
 import { OperationVariables } from '@apollo/client/core';
 import { useEffect, useRef, useState } from 'react';
@@ -47,6 +50,8 @@ import {
     DequeueChapterDownloadMutationVariables,
     DequeueChapterDownloadsMutation,
     DequeueChapterDownloadsMutationVariables,
+    DownloadStatusSubscription,
+    DownloadStatusSubscriptionVariables,
     EnqueueChapterDownloadMutation,
     EnqueueChapterDownloadMutationVariables,
     EnqueueChapterDownloadsMutation,
@@ -127,6 +132,8 @@ import {
     UpdateMangaMutation,
     UpdateMangaMutationVariables,
     UpdateMangaPatchInput,
+    UpdaterSubscription,
+    UpdaterSubscriptionVariables,
     UpdateSourcePreferencesMutation,
     UpdateSourcePreferencesMutationVariables,
     ValidateBackupQuery,
@@ -188,12 +195,15 @@ import { GET_UPDATE_STATUS } from '@/lib/graphql/queries/UpdaterQuery.ts';
 import { CustomCache } from '@/lib/requests/CustomCache.ts';
 import { RESTORE_BACKUP } from '@/lib/graphql/mutations/BackupMutation.ts';
 import { VALIDATE_BACKUP } from '@/lib/graphql/queries/BackupQuery.ts';
+import { DOWNLOAD_STATUS_SUBSCRIPTION } from '@/lib/graphql/subscriptions/DownloaderSubscription.ts';
+import { UPDATER_SUBSCRIPTION } from '@/lib/graphql/subscriptions/UpdaterSubscription.ts';
 
 enum GQLMethod {
     QUERY = 'QUERY',
     USE_QUERY = 'USE_QUERY',
     USE_MUTATION = 'USE_MUTATION',
     MUTATION = 'MUTATION',
+    USE_SUBSCRIPTION = 'USE_SUBSCRIPTION',
 }
 
 type CustomApolloOptions = {
@@ -209,14 +219,12 @@ type CustomApolloOptions = {
      */
     omitAbortSignal?: boolean;
 };
-type QueryOptions<Variables extends OperationVariables = OperationVariables, Data = any> = ApolloQueryOptions<
-    Variables,
-    Data
+type QueryOptions<Variables extends OperationVariables = OperationVariables, Data = any> = Partial<
+    ApolloQueryOptions<Variables, Data>
 > &
     CustomApolloOptions;
-type QueryHookOptions<Data = any, Variables extends OperationVariables = OperationVariables> = ApolloQueryHookOptions<
-    Data,
-    Variables
+type QueryHookOptions<Data = any, Variables extends OperationVariables = OperationVariables> = Partial<
+    ApolloQueryHookOptions<Data, Variables>
 > &
     CustomApolloOptions;
 type MutationHookOptions<Data = any, Variables extends OperationVariables = OperationVariables> = Partial<
@@ -227,10 +235,13 @@ type MutationOptions<Data = any, Variables extends OperationVariables = Operatio
     ApolloMutationOptions<Data, Variables>
 > &
     CustomApolloOptions;
-type ApolloPaginatedMutationOptions<
-    Data = any,
-    Variables extends OperationVariables = OperationVariables,
-> = MutationHookOptions<Data, Variables> & { skipRequest?: boolean };
+type ApolloPaginatedMutationOptions<Data = any, Variables extends OperationVariables = OperationVariables> = Partial<
+    MutationHookOptions<Data, Variables>
+> & { skipRequest?: boolean };
+type SubscriptionHookOptions<Data = any, Variables extends OperationVariables = OperationVariables> = Partial<
+    ApolloSubscriptionHookOptions<Data, Variables>
+> &
+    Omit<CustomApolloOptions, 'omitAbortSignal'> & { omitAbortSignal?: never };
 
 type AbortableRequest = { abortRequest: AbortController['abort'] };
 
@@ -290,22 +301,6 @@ export class RequestManager {
 
     public getBaseUrl(): string {
         return this.restClient.getClient().defaults.baseURL!;
-    }
-
-    public getWebSocketBaseUrl(): string {
-        return this.getBaseUrl().replace('http', 'ws');
-    }
-
-    public getValidWebSocketUrl(path: string, apiVersion = RequestManager.API_VERSION): string {
-        return `${this.getWebSocketBaseUrl()}${apiVersion}${path}`;
-    }
-
-    public getUpdateWebSocket(): WebSocket {
-        return new WebSocket(this.getValidWebSocketUrl('update'));
-    }
-
-    public getDownloadWebSocket(): WebSocket {
-        return new WebSocket(this.getValidWebSocketUrl('downloads'));
     }
 
     public getValidUrlFor(endpoint: string, apiVersion: string = RequestManager.API_VERSION): string {
@@ -654,46 +649,55 @@ export class RequestManager {
 
     private doRequestNew<Data, Variables extends OperationVariables = OperationVariables>(
         method: GQLMethod.QUERY,
-        operation: TypedDocumentNode<Data, Variables>,
-        variables: Variables,
-        options?: Partial<QueryOptions<Variables, Data>>,
+        operation: DocumentNode | TypedDocumentNode<Data, Variables>,
+        variables: Variables | undefined,
+        options?: QueryOptions<Variables, Data>,
     ): AbortabaleApolloQueryResponse<Data>;
 
     private doRequestNew<Data, Variables extends OperationVariables = OperationVariables>(
         method: GQLMethod.USE_QUERY,
-        operation: TypedDocumentNode<Data, Variables>,
-        variables: Variables,
-        options?: Partial<QueryHookOptions<Data, Variables>>,
+        operation: DocumentNode | TypedDocumentNode<Data, Variables>,
+        variables: Variables | undefined,
+        options?: QueryHookOptions<Data, Variables>,
     ): AbortableApolloUseQueryResponse<Data, Variables>;
 
     private doRequestNew<Data, Variables extends OperationVariables = OperationVariables>(
         method: GQLMethod.USE_MUTATION,
-        operation: TypedDocumentNode<Data, Variables>,
+        operation: DocumentNode | TypedDocumentNode<Data, Variables>,
         variables: Variables | undefined,
-        options?: Partial<MutationHookOptions<Data, Variables>>,
+        options?: MutationHookOptions<Data, Variables>,
     ): AbortableApolloUseMutationResponse<Data, Variables>;
 
     private doRequestNew<Data, Variables extends OperationVariables = OperationVariables>(
         method: GQLMethod.MUTATION,
-        operation: TypedDocumentNode<Data, Variables>,
-        variables: Variables,
-        options?: Partial<MutationOptions<Data, Variables>>,
+        operation: DocumentNode | TypedDocumentNode<Data, Variables>,
+        variables: Variables | undefined,
+        options?: MutationOptions<Data, Variables>,
     ): AbortableApolloMutationResponse<Data>;
 
     private doRequestNew<Data, Variables extends OperationVariables = OperationVariables>(
+        method: GQLMethod.USE_SUBSCRIPTION,
+        operation: DocumentNode | TypedDocumentNode<Data, Variables>,
+        variables: Variables | undefined,
+        options?: SubscriptionHookOptions<Data, Variables>,
+    ): SubscriptionResult<Data, Variables>;
+
+    private doRequestNew<Data, Variables extends OperationVariables = OperationVariables>(
         method: GQLMethod,
-        operation: TypedDocumentNode<Data, Variables>,
-        variables: Variables,
+        operation: DocumentNode | TypedDocumentNode<Data, Variables>,
+        variables: Variables | undefined,
         options?:
             | QueryOptions<Variables, Data>
             | QueryHookOptions<Data, Variables>
             | MutationHookOptions<Data, Variables>
-            | MutationOptions<Data, Variables>,
+            | MutationOptions<Data, Variables>
+            | SubscriptionHookOptions<Data, Variables>,
     ):
         | AbortabaleApolloQueryResponse<Data>
         | AbortableApolloUseQueryResponse<Data, Variables>
         | AbortableApolloUseMutationResponse<Data, Variables>
-        | AbortableApolloMutationResponse<Data> {
+        | AbortableApolloMutationResponse<Data>
+        | SubscriptionResult<Data, Variables> {
         const { signal, abortRequest } = this.createAbortController();
         switch (method) {
             case GQLMethod.QUERY:
@@ -760,6 +764,12 @@ export class RequestManager {
                     }),
                     abortRequest,
                 };
+            case GQLMethod.USE_SUBSCRIPTION:
+                return useSubscription<Data, Variables>(operation, {
+                    client: this.graphQLClient.client,
+                    variables,
+                    ...(options as SubscriptionHookOptions<Data, Variables>),
+                });
             default:
                 throw new Error(`unexpected GQLRequest type "${method}"`);
         }
@@ -1565,6 +1575,18 @@ export class RequestManager {
         options?: QueryHookOptions<GetUpdateStatusQuery, GetUpdateStatusQueryVariables>,
     ): AbortableApolloUseQueryResponse<GetUpdateStatusQuery, GetUpdateStatusQueryVariables> {
         return this.doRequestNew(GQLMethod.USE_QUERY, GET_UPDATE_STATUS, {}, options);
+    }
+
+    public useDownloadSubscription(
+        options?: SubscriptionHookOptions<DownloadStatusSubscription, DownloadStatusSubscriptionVariables>,
+    ): SubscriptionResult<DownloadStatusSubscription, DownloadStatusSubscriptionVariables> {
+        return this.doRequestNew(GQLMethod.USE_SUBSCRIPTION, DOWNLOAD_STATUS_SUBSCRIPTION, {}, options);
+    }
+
+    public useUpdaterSubscription(
+        options?: SubscriptionHookOptions<UpdaterSubscription, UpdaterSubscriptionVariables>,
+    ): SubscriptionResult<UpdaterSubscription, UpdaterSubscriptionVariables> {
+        return this.doRequestNew(GQLMethod.USE_SUBSCRIPTION, UPDATER_SUBSCRIPTION, {}, options);
     }
 }
 

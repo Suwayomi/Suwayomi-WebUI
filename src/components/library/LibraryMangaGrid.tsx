@@ -110,12 +110,7 @@ interface LibraryMangaGridProps {
     message?: string;
 }
 
-const LibraryMangaGrid: React.FC<LibraryMangaGridProps & { lastLibraryUpdate: number }> = ({
-    mangas,
-    isLoading,
-    message,
-    lastLibraryUpdate,
-}) => {
+const LibraryMangaGrid: React.FC<LibraryMangaGridProps> = ({ mangas, isLoading, message }) => {
     const { t } = useTranslation();
 
     const [query] = useQueryParam('query', StringParam);
@@ -129,7 +124,7 @@ const LibraryMangaGrid: React.FC<LibraryMangaGridProps & { lastLibraryUpdate: nu
     );
     const sortedMangas = useMemo(
         () => sortManga(filteredMangas, options.sorts, options.sortDesc),
-        [filteredMangas, lastLibraryUpdate, options.sorts, options.sortDesc],
+        [filteredMangas, options.sorts, options.sortDesc],
     );
 
     const showFilteredOutMessage =
@@ -137,7 +132,7 @@ const LibraryMangaGrid: React.FC<LibraryMangaGridProps & { lastLibraryUpdate: nu
 
     useEffect(() => {
         window.scrollTo(0, 0);
-    }, [filteredMangas]);
+    }, [query, unread, downloaded]);
 
     return (
         <MangaGrid

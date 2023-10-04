@@ -11,9 +11,8 @@ import Typography from '@mui/material/Typography';
 import React, { ComponentProps, useEffect, useMemo, useRef, useState } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 import { useTranslation } from 'react-i18next';
-import { IDownloadChapter, IQueue, TranslationKey } from '@/typings';
+import { TranslationKey } from '@/typings';
 import requestManager from '@/lib/requests/RequestManager.ts';
-import useSubscription from '@/components/library/useSubscription';
 import ChapterCard from '@/components/manga/ChapterCard';
 import ResumeFab from '@/components/manga/ResumeFAB';
 import { filterAndSortChapters, useChapterOptions } from '@/components/manga/util';
@@ -22,7 +21,7 @@ import makeToast from '@/components/util/Toast';
 import ChaptersToolbarMenu from '@/components/manga/ChaptersToolbarMenu';
 import SelectionFAB from '@/components/manga/SelectionFAB';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/components/util/StyledFab';
-import { ChapterType, MangaType, UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
+import { ChapterType, DownloadType, MangaType, UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
 
 const StyledVirtuoso = styled(Virtuoso)(({ theme }) => ({
     listStyle: 'none',
@@ -70,7 +69,7 @@ const actionsStrings: {
 
 export interface IChapterWithMeta {
     chapter: ChapterType;
-    downloadChapter: IDownloadChapter | undefined;
+    downloadChapter: DownloadType | undefined;
     selected: boolean | null;
 }
 
@@ -83,8 +82,9 @@ const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
     const { t } = useTranslation();
 
     const [selection, setSelection] = useState<number[] | null>(null);
-    const prevQueueRef = useRef<IDownloadChapter[]>();
-    const queue = useSubscription<IQueue>('downloads').data?.queue;
+    const prevQueueRef = useRef<DownloadType[]>();
+    const { data: downloaderData } = requestManager.useDownloadSubscription();
+    const queue = (downloaderData?.downloadChanged.queue as DownloadType[]) ?? [];
 
     const [options, dispatch] = useChapterOptions(manga.id);
     const { data: chaptersData, loading: isLoading, refetch } = requestManager.useGetMangaChapters(manga.id);
@@ -99,13 +99,15 @@ const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
             const prevQueue = prevQueueRef.current;
             const changedDownloads = queue.filter((cd) => {
                 const prevChapterDownload = prevQueue.find(
-                    (pcd) => cd.chapterIndex === pcd.chapterIndex && cd.mangaId === pcd.mangaId,
+                    (pcd) =>
+                        cd.chapter.sourceOrder === pcd.chapter.sourceOrder &&
+                        cd.chapter.manga.id === pcd.chapter.manga.id,
                 );
                 if (!prevChapterDownload) return true;
                 return cd.state !== prevChapterDownload.state;
             });
 
-            if (changedDownloads.length > 0) {
+            if (changedDownloads.length > 0 || prevQueue?.length !== queue.length) {
                 refetch();
             }
         }
@@ -179,7 +181,7 @@ const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
         () =>
             visibleChapters.map((chapter) => {
                 const downloadChapter = queue?.find(
-                    (cd) => cd.chapterIndex === chapter.sourceOrder && cd.mangaId === chapter.manga.id,
+                    (cd) => cd.chapter.sourceOrder === chapter.sourceOrder && cd.chapter.manga.id === chapter.manga.id,
                 );
                 const selected = selection?.includes(chapter.id) ?? null;
                 return {

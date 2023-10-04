@@ -7,7 +7,7 @@
  */
 
 import { Chip, Tab, Tabs, styled, Box } from '@mui/material';
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useRef } from 'react';
 import { useQueryParam, NumberParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
 import requestManager from '@/lib/requests/RequestManager.ts';
@@ -63,7 +63,6 @@ export default function Library() {
     const { t } = useTranslation();
 
     const { options } = useLibraryOptionsContext();
-    const [lastLibraryUpdate, setLastLibraryUpdate] = useState(Date.now());
     const {
         data: categoriesResponse,
         error: tabsError,
@@ -85,7 +84,7 @@ export default function Library() {
         data: categoryMangaResponse,
         error: mangaError,
         loading: mangaLoading,
-    } = requestManager.useGetCategoryMangas(activeTab?.id, { skip: !activeTab });
+    } = requestManager.useGetCategoryMangas(activeTab?.id, { skip: !activeTab, nextFetchPolicy: 'cache-only' });
     const mangas = (categoryMangaResponse?.category.mangas.nodes as unknown as MangaType[]) ?? [];
 
     const { setTitle, setAction } = useContext(NavbarContext);
@@ -102,7 +101,7 @@ export default function Library() {
             <>
                 <AppbarSearch />
                 <LibraryToolbarMenu />
-                <UpdateChecker handleFinishedUpdate={setLastLibraryUpdate} />
+                <UpdateChecker />
             </>,
         );
         return () => {
@@ -136,7 +135,6 @@ export default function Library() {
         return (
             <LibraryMangaGrid
                 mangas={mangas}
-                lastLibraryUpdate={lastLibraryUpdate}
                 message={t('library.error.label.empty')}
                 isLoading={activeTab != null && mangaLoading}
             />
@@ -183,7 +181,6 @@ export default function Library() {
                         ) : (
                             <LibraryMangaGrid
                                 mangas={mangas}
-                                lastLibraryUpdate={lastLibraryUpdate}
                                 message={t('library.error.label.empty')}
                                 isLoading={mangaLoading}
                             />

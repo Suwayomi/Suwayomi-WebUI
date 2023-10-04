@@ -12,7 +12,6 @@ import PublicIcon from '@mui/icons-material/Public';
 import { styled } from '@mui/material/styles';
 import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { mutate } from 'swr';
 import { t as translate } from 'i18next';
 import Button from '@mui/material/Button';
 import { ISource } from '@/typings';
@@ -177,17 +176,11 @@ const MangaDetails: React.FC<IProps> = ({ manga }) => {
     }, [manga.source]);
 
     const addToLibrary = () => {
-        mutate(`/api/v1/manga/${manga.id}`, { ...manga, inLibrary: true }, { revalidate: false });
-        requestManager
-            .updateManga(manga.id, { inLibrary: true })
-            .response.then(() => mutate(`/api/v1/manga/${manga.id}`));
+        requestManager.updateManga(manga.id, { inLibrary: true });
     };
 
     const removeFromLibrary = () => {
-        mutate(`/api/v1/manga/${manga.id}`, { ...manga, inLibrary: false }, { revalidate: false });
-        requestManager
-            .updateManga(manga.id, { inLibrary: false })
-            .response.then(() => mutate(`/api/v1/manga/${manga.id}`));
+        requestManager.updateManga(manga.id, { inLibrary: false });
     };
 
     return (

@@ -13,18 +13,17 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { t as translate } from 'i18next';
 import { GroupedVirtuoso } from 'react-virtuoso';
-import { IQueue } from '@/typings';
 import requestManager from '@/lib/requests/RequestManager.ts';
 import LoadingPlaceholder from '@/components/util/LoadingPlaceholder';
 import EmptyView from '@/components/util/EmptyView';
 import DownloadStateIndicator from '@/components/molecules/DownloadStateIndicator';
 import NavbarContext from '@/components/context/NavbarContext';
-import { ChapterType } from '@/lib/graphql/generated/graphql.ts';
+import { ChapterType, DownloadType } from '@/lib/graphql/generated/graphql.ts';
 
 const StyledGroupedVirtuoso = styled(GroupedVirtuoso)(({ theme }) => ({
     // 64px header
@@ -96,11 +95,6 @@ const groupByDate = (updates: ChapterType[]): [date: string, items: number][] =>
     return [...dateToItemMap.entries()];
 };
 
-const initialQueue = {
-    status: 'Stopped',
-    queue: [],
-} as IQueue;
-
 const Updates: React.FC = () => {
     const { t } = useTranslation();
     const location = useLocation();
@@ -120,20 +114,8 @@ const Updates: React.FC = () => {
     const updateEntries = (chapterUpdateData?.chapters.nodes as ChapterType[]) ?? [];
     const groupedUpdates = useMemo(() => groupByDate(updateEntries), [updateEntries]);
     const groupCounts: number[] = useMemo(() => groupedUpdates.map((group) => group[1]), [groupedUpdates]);
-    const [, setWsClient] = useState<WebSocket>();
-    const [{ queue }, setQueueState] = useState<IQueue>(initialQueue);
-
-    useEffect(() => {
-        const wsc = requestManager.getDownloadWebSocket();
-        wsc.onmessage = (e) => {
-            const data = JSON.parse(e.data) as IQueue;
-            setQueueState(data);
-        };
-
-        setWsClient(wsc);
-
-        return () => wsc.close();
-    }, []);
+    const { data: downloaderData } = requestManager.useDownloadSubscription();
+    const queue = (downloaderData?.downloadChanged.queue as DownloadType[]) ?? [];
 
     useEffect(() => {
         setTitle(t('updates.title'));
@@ -146,7 +128,7 @@ const Updates: React.FC = () => {
             sourceOrder,
             manga: { id: mangaId },
         } = chapter;
-        return queue.find((q) => sourceOrder === q.chapterIndex && mangaId === q.mangaId);
+        return queue.find((q) => sourceOrder === q.chapter.sourceOrder && mangaId === q.chapter.manga.id);
     };
 
     const downloadChapter = (chapter: ChapterType) => {

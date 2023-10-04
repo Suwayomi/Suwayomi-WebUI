@@ -27,16 +27,15 @@ import Typography from '@mui/material/Typography';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { IDownloadChapter } from '@/typings';
 import requestManager from '@/lib/requests/RequestManager.ts';
 import { getUploadDateString } from '@/util/date';
 import DownloadStateIndicator from '@/components/molecules/DownloadStateIndicator';
-import { ChapterType, UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
+import { ChapterType, DownloadType, UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
 
 interface IProps {
     chapter: ChapterType;
     chapterIds: number[];
-    downloadChapter: IDownloadChapter | undefined;
+    downloadChapter: DownloadType | undefined;
     showChapterNumber: boolean;
     onSelect: (selected: boolean) => void;
     selected: boolean | null;
