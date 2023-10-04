@@ -285,7 +285,7 @@ export class RequestManager {
 
     public updateClient(config: Partial<AxiosInstance['defaults']>): void {
         this.restClient.updateConfig(config);
-        this.graphQLClient.updateConfig({ uri: config.baseURL });
+        this.graphQLClient.updateConfig();
     }
 
     public getBaseUrl(): string {

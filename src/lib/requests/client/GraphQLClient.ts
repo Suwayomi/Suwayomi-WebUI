@@ -6,8 +6,18 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ApolloClient, ApolloClientOptions, InMemoryCache, NormalizedCacheObject, Reference } from '@apollo/client';
+import {
+    ApolloClient,
+    ApolloClientOptions,
+    InMemoryCache,
+    NormalizedCacheObject,
+    Reference,
+    split,
+} from '@apollo/client';
 import { createUploadLink } from 'apollo-upload-client';
+import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
+import { Client, createClient } from 'graphql-ws';
+import { getMainDefinition } from '@apollo/client/utilities';
 import { BaseClient } from '@/lib/requests/client/BaseClient.ts';
 import { StrictTypedTypePolicies } from '@/lib/graphql/generated/apollo-helpers.ts';
 
@@ -55,6 +65,8 @@ export class GraphQLClient extends BaseClient<
 
     public declare client: ApolloClient<NormalizedCacheObject>;
 
+    private wsClient!: Client;
+
     public override getBaseUrl(): string {
         return `${super.getBaseUrl()}/api/graphql`;
     }
@@ -63,11 +75,27 @@ export class GraphQLClient extends BaseClient<
         return createUploadLink({ uri: () => this.getBaseUrl() });
     }
 
+    private createWSLink() {
+        return new GraphQLWsLink(this.wsClient);
+    }
+
     private createLink() {
-        return this.createUploadLink();
+        return split(
+            ({ query }) => {
+                const definition = getMainDefinition(query);
+                return definition.kind === 'OperationDefinition' && definition.operation === 'subscription';
+            },
+            this.createWSLink(),
+            this.createUploadLink(),
+        );
     }
 
     protected createClient() {
+        this.wsClient = createClient({
+            url: () => this.getBaseUrl().replace(/http(|s)/g, 'ws'),
+            keepAlive: 20000,
+        });
+
         this.client = new ApolloClient({
             cache: new InMemoryCache({
                 typePolicies,
