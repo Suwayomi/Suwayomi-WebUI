@@ -165,7 +165,7 @@ export default function MangaExtensions() {
                 <LangSelect shownLangs={shownLangs} setShownLangs={setShownLangs} allLangs={allLangs} />
             </>,
         );
-    }, [t, shownLangs]);
+    }, [t, shownLangs, allLangs]);
 
     useEffect(() => {
         const dropHandler = async (e: Event) => {
