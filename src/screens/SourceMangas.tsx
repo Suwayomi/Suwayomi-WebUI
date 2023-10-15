@@ -17,7 +17,7 @@ import { Box, Button, styled, useTheme, useMediaQuery } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import NewReleasesIcon from '@mui/icons-material/NewReleases';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { TranslationKey } from '@/typings';
+import { TPartialManga, TranslationKey } from '@/typings';
 import requestManager, { AbortableApolloUseMutationPaginatedResponse } from '@/lib/requests/RequestManager.ts';
 import { useDebounce } from '@/components/manga/hooks';
 import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
@@ -29,7 +29,6 @@ import SourceMangaGrid from '@/components/source/SourceMangaGrid';
 import {
     GetSourceMangasFetchMutation,
     GetSourceMangasFetchMutationVariables,
-    MangaType,
 } from '@/lib/graphql/generated/graphql.ts';
 
 const ContentTypeMenu = styled('div')(({ theme }) => ({
@@ -87,8 +86,8 @@ const SOURCE_CONTENT_TYPE_TO_ERROR_MSG_KEY: { [contentType in SourceContentType]
     [SourceContentType.SEARCH]: 'manga.error.label.no_mangas_found',
 };
 
-const getUniqueMangas = (mangas: MangaType[]): MangaType[] => {
-    const uniqueMangas: MangaType[] = [];
+const getUniqueMangas = (mangas: TPartialManga[]): TPartialManga[] => {
+    const uniqueMangas: TPartialManga[] = [];
 
     mangas.forEach((manga) => {
         const isDuplicate = uniqueMangas.some((uniqueManga) => uniqueManga.id === manga.id);
@@ -166,7 +165,7 @@ const useSourceManga = (
                 .map((page) => page.data?.fetchSourceManga.mangas ?? [])
                 .reduce((prevList, list) => [...prevList, ...list], []),
         [pages],
-    ) as MangaType[];
+    );
     const uniqueItems = useMemo(() => getUniqueMangas(items), [items]);
 
     if (!uniqueItems.length) {
@@ -224,7 +223,7 @@ export default function SourceMangas() {
         filtersToApply,
         isLargeScreen ? 2 : 1,
     );
-    const mangas = (data?.fetchSourceManga.mangas as MangaType[]) ?? [];
+    const mangas = data?.fetchSourceManga.mangas ?? [];
     const hasNextPage = data?.fetchSourceManga.hasNextPage ?? false;
 
     const { data: sourceData } = requestManager.useGetSource(sourceId);

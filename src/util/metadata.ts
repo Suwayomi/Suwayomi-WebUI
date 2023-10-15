@@ -14,9 +14,12 @@ import {
     Metadata,
     MetadataHolder,
     MetadataKeyValuePair,
+    TCategory,
+    TChapter,
+    TManga,
 } from '@/typings';
 import requestManager from '@/lib/requests/RequestManager.ts';
-import { CategoryType, ChapterType, MangaType, MetaType } from '@/lib/graphql/generated/graphql.ts';
+import { MetaType } from '@/lib/graphql/generated/graphql.ts';
 
 const APP_METADATA_KEY_PREFIX = 'webUI_';
 
@@ -322,16 +325,16 @@ export const requestUpdateMetadataValue = async (
 
     switch (holderType) {
         case 'category':
-            await requestManager.setCategoryMeta((metadataHolder as CategoryType).id, metadataKey, value).response;
+            await requestManager.setCategoryMeta((metadataHolder as TCategory).id, metadataKey, value).response;
             break;
         case 'chapter':
-            await requestManager.setChapterMeta((metadataHolder as ChapterType).id, metadataKey, value).response;
+            await requestManager.setChapterMeta((metadataHolder as TChapter).id, metadataKey, value).response;
             break;
         case 'global':
             await requestManager.setGlobalMetadata(metadataKey, value).response;
             break;
         case 'manga':
-            await requestManager.setMangaMeta((metadataHolder as MangaType).id, metadataKey, value).response;
+            await requestManager.setMangaMeta((metadataHolder as TManga).id, metadataKey, value).response;
             break;
         default:
             throw new Error(`requestUpdateMetadataValue: unknown holderType "${holderType}"`);
@@ -351,16 +354,16 @@ export const requestUpdateServerMetadata = async (
 ): Promise<void[]> => requestUpdateMetadata({ meta: serverMetadata }, 'global', keysToValues);
 
 export const requestUpdateMangaMetadata = async (
-    manga: MangaType,
+    manga: TManga,
     keysToValues: MetadataKeyValuePair[],
 ): Promise<void[]> => requestUpdateMetadata(manga, 'manga', keysToValues);
 
 export const requestUpdateChapterMetadata = async (
-    chapter: ChapterType,
+    chapter: TChapter,
     keysToValues: MetadataKeyValuePair[],
 ): Promise<void[]> => requestUpdateMetadata(chapter, 'chapter', keysToValues);
 
 export const requestUpdateCategoryMetadata = async (
-    category: CategoryType,
+    category: TCategory,
     keysToValues: MetadataKeyValuePair[],
 ): Promise<void[]> => requestUpdateMetadata(category, 'category', keysToValues);

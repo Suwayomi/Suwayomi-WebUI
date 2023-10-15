@@ -14,11 +14,11 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import { Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { Extension, TranslationKey } from '@/typings';
+import { PartialExtension, TranslationKey } from '@/typings';
 import requestManager from '@/lib/requests/RequestManager.ts';
 
 interface IProps {
-    extension: Extension;
+    extension: PartialExtension;
 }
 
 enum ExtensionAction {

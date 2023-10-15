@@ -30,10 +30,11 @@ import { useTranslation } from 'react-i18next';
 import requestManager from '@/lib/requests/RequestManager.ts';
 import { getUploadDateString } from '@/util/date';
 import DownloadStateIndicator from '@/components/molecules/DownloadStateIndicator';
-import { ChapterType, DownloadType, UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
+import { DownloadType, UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
+import { TChapter } from '@/typings.ts';
 
 interface IProps {
-    chapter: ChapterType;
+    chapter: TChapter;
     chapterIds: number[];
     downloadChapter: DownloadType | undefined;
     showChapterNumber: boolean;

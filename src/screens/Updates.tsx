@@ -23,7 +23,8 @@ import LoadingPlaceholder from '@/components/util/LoadingPlaceholder';
 import EmptyView from '@/components/util/EmptyView';
 import DownloadStateIndicator from '@/components/molecules/DownloadStateIndicator';
 import NavbarContext from '@/components/context/NavbarContext';
-import { ChapterType, DownloadType } from '@/lib/graphql/generated/graphql.ts';
+import { DownloadType } from '@/lib/graphql/generated/graphql.ts';
+import { TChapter } from '@/typings.ts';
 
 const StyledGroupedVirtuoso = styled(GroupedVirtuoso)(({ theme }) => ({
     // 64px header
@@ -81,7 +82,7 @@ function getDateString(date: Date) {
     return date.toLocaleDateString();
 }
 
-const groupByDate = (updates: ChapterType[]): [date: string, items: number][] => {
+const groupByDate = (updates: TChapter[]): [date: string, items: number][] => {
     if (!updates.length) {
         return [];
     }
@@ -111,7 +112,7 @@ const Updates: React.FC = () => {
     });
     const hasNextPage = !!chapterUpdateData?.chapters.pageInfo.hasNextPage;
     const endCursor = chapterUpdateData?.chapters.pageInfo.endCursor;
-    const updateEntries = (chapterUpdateData?.chapters.nodes as ChapterType[]) ?? [];
+    const updateEntries = chapterUpdateData?.chapters.nodes ?? [];
     const groupedUpdates = useMemo(() => groupByDate(updateEntries), [updateEntries]);
     const groupCounts: number[] = useMemo(() => groupedUpdates.map((group) => group[1]), [groupedUpdates]);
     const { data: downloaderData } = requestManager.useDownloadSubscription();
@@ -123,7 +124,7 @@ const Updates: React.FC = () => {
         setAction(null);
     }, [t]);
 
-    const downloadForChapter = (chapter: ChapterType) => {
+    const downloadForChapter = (chapter: TChapter) => {
         const {
             sourceOrder,
             manga: { id: mangaId },
@@ -131,7 +132,7 @@ const Updates: React.FC = () => {
         return queue.find((q) => sourceOrder === q.chapter.sourceOrder && mangaId === q.chapter.manga.id);
     };
 
-    const downloadChapter = (chapter: ChapterType) => {
+    const downloadChapter = (chapter: TChapter) => {
         requestManager.addChapterToDownloadQueue(chapter.id);
     };
 

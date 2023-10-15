@@ -20,7 +20,6 @@ import MangaDetails from '@/components/manga/MangaDetails';
 import MangaToolbarMenu from '@/components/manga/MangaToolbarMenu';
 import EmptyView from '@/components/util/EmptyView';
 import LoadingPlaceholder from '@/components/util/LoadingPlaceholder';
-import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 
 const AUTOFETCH_AGE = 1000 * 60 * 60 * 24; // 24 hours
 
@@ -33,7 +32,7 @@ const Manga: React.FC = () => {
 
     const { data, error, loading: isLoading, networkStatus, refetch } = requestManager.useGetManga(id);
     const isValidating = isNetworkRequestInFlight(networkStatus);
-    const manga = data?.manga as MangaType | undefined;
+    const manga = data?.manga;
 
     const [refresh, { loading: refreshing }] = useRefreshManga(id);
     useSetDefaultBackTo('library');

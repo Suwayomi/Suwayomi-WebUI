@@ -28,7 +28,7 @@ import requestManager from '@/lib/requests/RequestManager.ts';
 import StrictModeDroppable from '@/lib/StrictModeDroppable';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/components/util/StyledFab';
 import NavbarContext, { useSetDefaultBackTo } from '@/components/context/NavbarContext';
-import { CategoryType } from '@/lib/graphql/generated/graphql.ts';
+import { TCategory } from '@/typings.ts';
 
 const getItemStyle = (
     isDragging: boolean,
@@ -58,7 +58,7 @@ export default function Categories() {
         if (res.length > 0 && res[0].name === 'Default') {
             res.shift();
         }
-        return res as CategoryType[];
+        return res;
     }, [data]);
 
     const [categoryToEdit, setCategoryToEdit] = useState<number>(-1); // -1 means new category
@@ -69,7 +69,7 @@ export default function Categories() {
 
     useSetDefaultBackTo('settings');
 
-    const categoryReorder = (list: CategoryType[], from: number, to: number) => {
+    const categoryReorder = (list: TCategory[], from: number, to: number) => {
         const reorderedCategory = list[from];
         const newData = [...list];
         const [removed] = newData.splice(from, 1);

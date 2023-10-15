@@ -15,7 +15,7 @@ import { useTranslation } from 'react-i18next';
 import requestManager from '@/lib/requests/RequestManager.ts';
 import { GridLayout, useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
 import SpinnerImage from '@/components/util/SpinnerImage';
-import { MangaType } from '@/lib/graphql/generated/graphql.ts';
+import { TPartialManga } from '@/typings.ts';
 
 const BottomGradient = styled('div')({
     position: 'absolute',
@@ -66,7 +66,7 @@ const BadgeContainer = styled('div')({
 });
 
 interface IProps {
-    manga: MangaType;
+    manga: TPartialManga;
     gridLayout?: GridLayout;
     inLibraryIndicator?: boolean;
 }
@@ -120,10 +120,10 @@ const MangaCard = (props: IProps) => {
                                         {t('manga.button.in_library')}
                                     </Typography>
                                 )}
-                                {showUnreadBadge && unread! > 0 && (
+                                {showUnreadBadge && (unread ?? 0) > 0 && (
                                     <Typography sx={{ backgroundColor: 'primary.dark' }}>{unread}</Typography>
                                 )}
-                                {showDownloadBadge && downloadCount! > 0 && (
+                                {showDownloadBadge && (downloadCount ?? 0) > 0 && (
                                     <Typography
                                         sx={{
                                             backgroundColor: 'success.dark',

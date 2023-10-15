@@ -25,7 +25,8 @@ import { NavbarToolbar } from '@/components/navbar/DefaultNavBar';
 import DownloadStateIndicator from '@/components/molecules/DownloadStateIndicator';
 import EmptyView from '@/components/util/EmptyView';
 import NavbarContext from '@/components/context/NavbarContext';
-import { ChapterType, DownloadType } from '@/lib/graphql/generated/graphql.ts';
+import { DownloadType } from '@/lib/graphql/generated/graphql.ts';
+import { TChapter } from '@/typings.ts';
 
 const DownloadQueue: React.FC = () => {
     const { t } = useTranslation();
@@ -55,7 +56,7 @@ const DownloadQueue: React.FC = () => {
         return <EmptyView message={t('download.queue.label.no_downloads')} />;
     }
 
-    const handleDelete = async (chapter: ChapterType) => {
+    const handleDelete = async (chapter: TChapter) => {
         const isRunning = status === 'STARTED';
 
         try {

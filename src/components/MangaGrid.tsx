@@ -16,7 +16,7 @@ import LoadingPlaceholder from '@/components/util/LoadingPlaceholder';
 import MangaCard from '@/components/MangaCard';
 import { GridLayout } from '@/components/context/LibraryOptionsContext';
 import useLocalStorage from '@/util/useLocalStorage';
-import { MangaType } from '@/lib/graphql/generated/graphql.ts';
+import { TPartialManga } from '@/typings.ts';
 
 const GridContainer = React.forwardRef<HTMLDivElement, GridTypeMap['props']>(({ children, ...props }, ref) => (
     <Grid {...props} ref={ref} container sx={{ paddingLeft: '5px', paddingRight: '13px' }}>
@@ -40,13 +40,13 @@ const GridItemContainerWithDimension = (
     );
 };
 
-const createMangaCard = (manga: MangaType, gridLayout?: GridLayout, inLibraryIndicator?: boolean) => (
+const createMangaCard = (manga: TPartialManga, gridLayout?: GridLayout, inLibraryIndicator?: boolean) => (
     <MangaCard key={manga.id} manga={manga} gridLayout={gridLayout} inLibraryIndicator={inLibraryIndicator} />
 );
 
 type DefaultGridProps = {
     isLoading: boolean;
-    mangas: MangaType[];
+    mangas: TPartialManga[];
     inLibraryIndicator?: boolean;
     GridItemContainer: (props: GridTypeMap['props'] & Partial<GridItemProps>) => JSX.Element;
     gridLayout?: GridLayout;
@@ -150,7 +150,7 @@ const VerticalGrid = ({
 };
 
 export interface IMangaGridProps {
-    mangas: MangaType[];
+    mangas: TPartialManga[];
     isLoading: boolean;
     message?: string;
     messageExtra?: JSX.Element;

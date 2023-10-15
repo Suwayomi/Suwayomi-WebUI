@@ -7,7 +7,7 @@
  */
 
 import { t } from 'i18next';
-import { Extension, TranslationKey } from '@/typings';
+import { PartialExtension, TranslationKey } from '@/typings';
 import { DefaultLanguage, langCodeToName } from '@/util/language';
 
 export enum ExtensionState {
@@ -16,16 +16,16 @@ export enum ExtensionState {
     OBSOLETE = 'OBSOLETE',
 }
 
-export type GroupedExtensionsResult<KEY extends string = string> = [KEY, Extension[]][];
+export type GroupedExtensionsResult<KEY extends string = string> = [KEY, PartialExtension[]][];
 
 export type GroupedByExtensionState = {
-    [state in ExtensionState]: Extension[];
+    [state in ExtensionState]: PartialExtension[];
 };
 
 export type GroupedByLanguage = {
-    [language in DefaultLanguage]: Extension[];
+    [language in DefaultLanguage]: PartialExtension[];
 } & {
-    [language: string]: Extension[];
+    [language: string]: PartialExtension[];
 };
 
 export type GroupedExtensions = GroupedByExtensionState & GroupedByLanguage;

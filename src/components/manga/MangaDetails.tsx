@@ -14,10 +14,9 @@ import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { t as translate } from 'i18next';
 import Button from '@mui/material/Button';
-import { ISource } from '@/typings';
+import { ISource, TManga } from '@/typings';
 import requestManager from '@/lib/requests/RequestManager.ts';
 import makeToast from '@/components/util/Toast';
-import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 
 const DetailsWrapper = styled('div')(({ theme }) => ({
     width: '100%',
@@ -151,7 +150,7 @@ const OpenSourceButton = ({ url }: { url?: string | null }) => {
 };
 
 interface IProps {
-    manga: MangaType;
+    manga: TManga;
 }
 
 function getSourceName(source?: ISource | null) {

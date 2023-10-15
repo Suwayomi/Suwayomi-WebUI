@@ -21,7 +21,6 @@ import LangSelect from '@/components/navbar/action/LangSelect';
 import MangaGrid from '@/components/MangaGrid';
 import NavbarContext from '@/components/context/NavbarContext';
 import { useDebounce } from '@/components/manga/hooks';
-import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 
 type SourceLoadingState = { isLoading: boolean; hasResults: boolean; emptySearch: boolean };
 type SourceToLoadingStateMap = Map<string, SourceLoadingState>;
@@ -103,7 +102,7 @@ const SourceSearchPreview = React.memo(
             skipRequest: !searchString,
         });
         const { data: searchResult, isLoading, error, abortRequest } = results[0]!;
-        const mangas = (searchResult?.fetchSourceManga.mangas as MangaType[]) ?? [];
+        const mangas = searchResult?.fetchSourceManga.mangas ?? [];
         const noMangasFound = !isLoading && !mangas.length;
 
         useEffect(() => {

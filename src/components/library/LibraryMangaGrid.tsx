@@ -9,13 +9,12 @@
 import React, { useEffect, useMemo } from 'react';
 import { StringParam, useQueryParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
-import { LibrarySortMode, NullAndUndefined } from '@/typings';
+import { LibrarySortMode, NullAndUndefined, TManga } from '@/typings';
 import { useSearchSettings } from '@/util/searchSettings';
 import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
 import MangaGrid from '@/components/MangaGrid';
-import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 
-const unreadFilter = (unread: NullAndUndefined<boolean>, { unreadCount }: MangaType): boolean => {
+const unreadFilter = (unread: NullAndUndefined<boolean>, { unreadCount }: TManga): boolean => {
     switch (unread) {
         case true:
             return !!unreadCount && unreadCount >= 1;
@@ -26,7 +25,7 @@ const unreadFilter = (unread: NullAndUndefined<boolean>, { unreadCount }: MangaT
     }
 };
 
-const downloadedFilter = (downloaded: NullAndUndefined<boolean>, { downloadCount }: MangaType): boolean => {
+const downloadedFilter = (downloaded: NullAndUndefined<boolean>, { downloadCount }: TManga): boolean => {
     switch (downloaded) {
         case true:
             return !!downloadCount && downloadCount >= 1;
@@ -37,24 +36,24 @@ const downloadedFilter = (downloaded: NullAndUndefined<boolean>, { downloadCount
     }
 };
 
-const queryFilter = (query: NullAndUndefined<string>, { title }: MangaType): boolean => {
+const queryFilter = (query: NullAndUndefined<string>, { title }: TManga): boolean => {
     if (!query) return true;
     return title.toLowerCase().includes(query.toLowerCase());
 };
 
-const queryGenreFilter = (query: NullAndUndefined<string>, { genre }: MangaType): boolean => {
+const queryGenreFilter = (query: NullAndUndefined<string>, { genre }: TManga): boolean => {
     if (!query) return true;
     const queries = query.split(',').map((str) => str.toLowerCase().trim());
     return queries.every((element) => genre.map((el) => el.toLowerCase()).includes(element));
 };
 
 const filterManga = (
-    mangas: MangaType[],
+    mangas: TManga[],
     query: NullAndUndefined<string>,
     unread: NullAndUndefined<boolean>,
     downloaded: NullAndUndefined<boolean>,
     ignoreFilters: boolean,
-): MangaType[] =>
+): TManga[] =>
     mangas.filter((manga) => {
         const ignoreFiltersWhileSearching = ignoreFilters && query?.length;
         const matchesSearch = queryFilter(query, manga) || queryGenreFilter(query, manga);
@@ -64,20 +63,20 @@ const filterManga = (
         return matchesSearch && matchesFilters;
     });
 
-const sortByUnread = (a: MangaType, b: MangaType): number => (a.unreadCount ?? 0) - (b.unreadCount ?? 0);
+const sortByUnread = (a: TManga, b: TManga): number => (a.unreadCount ?? 0) - (b.unreadCount ?? 0);
 
-const sortByTitle = (a: MangaType, b: MangaType): number => a.title.localeCompare(b.title);
+const sortByTitle = (a: TManga, b: TManga): number => a.title.localeCompare(b.title);
 
-const sortByDateAdded = (a: MangaType, b: MangaType): number => Number(a.inLibraryAt) - Number(b.inLibraryAt);
+const sortByDateAdded = (a: TManga, b: TManga): number => Number(a.inLibraryAt) - Number(b.inLibraryAt);
 
-const sortByLastRead = (a: MangaType, b: MangaType): number =>
+const sortByLastRead = (a: TManga, b: TManga): number =>
     Number(b.lastReadChapter?.lastReadAt ?? 0) - Number(a.lastReadChapter?.lastReadAt ?? 0);
 
 const sortManga = (
-    manga: MangaType[],
+    manga: TManga[],
     sort: NullAndUndefined<LibrarySortMode>,
     desc: NullAndUndefined<boolean>,
-): MangaType[] => {
+): TManga[] => {
     const result = [...manga];
 
     switch (sort) {
@@ -105,7 +104,7 @@ const sortManga = (
 };
 
 interface LibraryMangaGridProps {
-    mangas: MangaType[];
+    mangas: TManga[];
     isLoading: boolean;
     message?: string;
 }

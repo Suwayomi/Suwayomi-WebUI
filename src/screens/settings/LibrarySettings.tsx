@@ -25,7 +25,8 @@ import makeToast from '@/components/util/Toast';
 import ThreeStateCheckboxInput from '@/components/atoms/ThreeStateCheckboxInput';
 import NavbarContext, { useSetDefaultBackTo } from '@/components/context/NavbarContext';
 import SearchSettings from '@/screens/settings/SearchSettings';
-import { CategoryType, IncludeInUpdate } from '@/lib/graphql/generated/graphql.ts';
+import { IncludeInUpdate } from '@/lib/graphql/generated/graphql.ts';
+import { TCategory } from '@/typings.ts';
 
 const CategoriesDiv = styled('div')({
     display: 'flex',
@@ -62,7 +63,7 @@ const includeInUpdateStatusToBoolean = (status: IncludeInUpdate): boolean | null
 };
 
 const getCategoryUpdateInfo = (
-    categories: CategoryType[],
+    categories: TCategory[],
     areIncluded: boolean,
     unsetCategories: number,
     allCategories: number,
@@ -100,19 +101,19 @@ export default function LibrarySettings() {
     useSetDefaultBackTo('settings');
 
     const { data, error: requestError } = requestManager.useGetCategories();
-    const categories = (data?.categories.nodes ?? []) as CategoryType[];
-    const [dialogCategories, setDialogCategories] = useState<CategoryType[]>(categories);
+    const categories = data?.categories.nodes ?? [];
+    const [dialogCategories, setDialogCategories] = useState<TCategory[]>(categories);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     useEffect(() => {
         setDialogCategories(categories);
     }, [categories]);
 
-    const unsetCategories: CategoryType[] =
+    const unsetCategories: TCategory[] =
         categories?.filter((category) => category.includeInUpdate === IncludeInUpdate.Unset) ?? [];
-    const excludedCategories: CategoryType[] =
+    const excludedCategories: TCategory[] =
         categories?.filter((category) => category.includeInUpdate === IncludeInUpdate.Exclude) ?? [];
-    const includedCategories: CategoryType[] =
+    const includedCategories: TCategory[] =
         categories?.filter((category) => category.includeInUpdate === IncludeInUpdate.Include) ?? [];
     const excludedCategoriesText = getCategoryUpdateInfo(
         excludedCategories,
@@ -129,7 +130,7 @@ export default function LibrarySettings() {
         requestError,
     );
 
-    const updateCategory = (category: CategoryType) =>
+    const updateCategory = (category: TCategory) =>
         requestManager.updateCategory(category.id, { includeInUpdate: category.includeInUpdate }).response;
 
     const updateCategories = async () => {
@@ -218,7 +219,7 @@ export default function LibrarySettings() {
                                     const categoryIndex = dialogCategories.findIndex(
                                         (category_) => category_ === category,
                                     );
-                                    const updatedDialogCategories: CategoryType[] = [
+                                    const updatedDialogCategories: TCategory[] = [
                                         ...dialogCategories.slice(0, categoryIndex),
                                         {
                                             ...category,

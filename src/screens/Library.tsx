@@ -7,7 +7,7 @@
  */
 
 import { Chip, Tab, Tabs, styled, Box } from '@mui/material';
-import React, { useContext, useEffect, useMemo, useRef } from 'react';
+import React, { useContext, useEffect, useMemo } from 'react';
 import { useQueryParam, NumberParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
 import requestManager from '@/lib/requests/RequestManager.ts';
@@ -20,7 +20,6 @@ import LibraryMangaGrid from '@/components/library/LibraryMangaGrid';
 import AppbarSearch from '@/components/util/AppbarSearch';
 import UpdateChecker from '@/components/library/UpdateChecker';
 import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
-import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 
 const StyledGridWrapper = styled(Box)(({ theme }) => ({
     // TabsMenu height + TabsMenu bottom padding - grid item top padding
@@ -85,7 +84,7 @@ export default function Library() {
         error: mangaError,
         loading: mangaLoading,
     } = requestManager.useGetCategoryMangas(activeTab?.id, { skip: !activeTab, nextFetchPolicy: 'cache-only' });
-    const mangas = (categoryMangaResponse?.category.mangas.nodes as unknown as MangaType[]) ?? [];
+    const mangas = categoryMangaResponse?.category.mangas.nodes ?? [];
 
     const { setTitle, setAction } = useContext(NavbarContext);
     useEffect(() => {

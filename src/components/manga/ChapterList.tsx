@@ -11,7 +11,7 @@ import Typography from '@mui/material/Typography';
 import React, { ComponentProps, useEffect, useMemo, useRef, useState } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 import { useTranslation } from 'react-i18next';
-import { TranslationKey } from '@/typings';
+import { TChapter, TManga, TranslationKey } from '@/typings';
 import requestManager from '@/lib/requests/RequestManager.ts';
 import ChapterCard from '@/components/manga/ChapterCard';
 import ResumeFab from '@/components/manga/ResumeFAB';
@@ -21,7 +21,7 @@ import makeToast from '@/components/util/Toast';
 import ChaptersToolbarMenu from '@/components/manga/ChaptersToolbarMenu';
 import SelectionFAB from '@/components/manga/SelectionFAB';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/components/util/StyledFab';
-import { ChapterType, DownloadType, MangaType, UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
+import { DownloadType, UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
 
 const StyledVirtuoso = styled(Virtuoso)(({ theme }) => ({
     listStyle: 'none',
@@ -68,13 +68,13 @@ const actionsStrings: {
 };
 
 export interface IChapterWithMeta {
-    chapter: ChapterType;
+    chapter: TChapter;
     downloadChapter: DownloadType | undefined;
     selected: boolean | null;
 }
 
 interface IProps {
-    manga: MangaType;
+    manga: TManga;
     isRefreshing: boolean;
 }
 
@@ -88,10 +88,7 @@ const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
 
     const [options, dispatch] = useChapterOptions(manga.id);
     const { data: chaptersData, loading: isLoading, refetch } = requestManager.useGetMangaChapters(manga.id);
-    const chapters = useMemo(
-        () => (chaptersData?.chapters.nodes as ChapterType[]) ?? [],
-        [chaptersData?.chapters.nodes],
-    );
+    const chapters = useMemo(() => chaptersData?.chapters.nodes ?? [], [chaptersData?.chapters.nodes]);
     const mangaChapterIds = useMemo(() => chapters.map((chapter) => chapter.id), [chapters]);
 
     useEffect(() => {

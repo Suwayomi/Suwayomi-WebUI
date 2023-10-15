@@ -8,9 +8,9 @@
 
 import { useTranslation } from 'react-i18next';
 import MangaGrid, { IMangaGridProps } from '@/components/MangaGrid';
-import { MangaType } from '@/lib/graphql/generated/graphql.ts';
+import { TPartialManga } from '@/typings.ts';
 
-function filterManga(mangas: MangaType[]): MangaType[] {
+function filterManga(mangas: TPartialManga[]): TPartialManga[] {
     return mangas;
 }
 

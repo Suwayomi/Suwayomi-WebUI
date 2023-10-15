@@ -30,12 +30,12 @@ import { makeToaster } from '@/components/util/Toast';
 import LangSelect from '@/components/navbar/action/LangSelect';
 import NavbarContext from '@/components/context/NavbarContext';
 import ExtensionCard from '@/components/ExtensionCard';
-import { Extension } from '@/typings.ts';
+import { PartialExtension } from '@/typings.ts';
 
 const LANGUAGE = 0;
 const EXTENSIONS = 1;
 
-function getExtensionsInfo(extensions: Extension[]): {
+function getExtensionsInfo(extensions: PartialExtension[]): {
     allLangs: string[];
     groupedExtensions: GroupedExtensionsResult;
 } {
@@ -132,7 +132,7 @@ export default function MangaExtensions() {
         [shownLangs, groupedExtensions],
     );
 
-    const flatRenderItems: (Extension | string)[] = filteredGroupedExtensions.flat(2);
+    const flatRenderItems: (PartialExtension | string)[] = filteredGroupedExtensions.flat(2);
 
     const [toasts, makeToast] = makeToaster(useState<React.ReactElement[]>([]));
 
@@ -229,7 +229,7 @@ export default function MangaExtensions() {
                             </Typography>
                         );
                     }
-                    const item = flatRenderItems[index] as Extension;
+                    const item = flatRenderItems[index] as PartialExtension;
 
                     return <ExtensionCard key={item.apkName} extension={item} />;
                 }}

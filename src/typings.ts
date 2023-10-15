@@ -11,10 +11,11 @@ import { SvgIconTypeMap } from '@mui/material/SvgIcon/SvgIcon';
 import { ParseKeys } from 'i18next';
 import { Location } from 'react-router-dom';
 import {
-    ChapterType,
-    ExtensionType,
+    GetCategoryQuery,
+    GetChapterQuery,
+    GetExtensionQuery,
+    GetMangaQuery,
     GetSourceQuery,
-    MangaType,
     MetaType,
     SourcePreferenceChangeInput,
 } from '@/lib/graphql/generated/graphql.ts';
@@ -33,6 +34,8 @@ export type RecursivePartial<T> = {
         : T[P];
 };
 
+export type OptionalProperty<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
+
 type GenericLocation<State = any> = Omit<Location, 'state'> & { state?: State };
 
 declare module 'react-router-dom' {
@@ -43,7 +46,7 @@ declare module 'react-router-dom' {
 
 export type TranslationKey = ParseKeys;
 
-export type Extension = Omit<ExtensionType, 'source'>;
+export type PartialExtension = GetExtensionQuery['extension'];
 
 export interface ISource {
     id: string;
@@ -104,6 +107,10 @@ export interface IMangaCard {
     inLibraryAt: number;
     lastReadAt: number;
 }
+
+export type TManga = GetMangaQuery['manga'];
+
+export type TPartialManga = OptionalProperty<TManga, 'unreadCount' | 'downloadCount' | 'categories' | 'chapters'>;
 
 export interface IManga {
     id: number;
@@ -166,11 +173,15 @@ export interface IMangaChapter {
     chapter: IChapter;
 }
 
+export type TChapter = GetChapterQuery['chapter'];
+
 export enum IncludeInGlobalUpdate {
     EXCLUDE = 0,
     INCLUDE = 1,
     UNSET = -1,
 }
+
+export type TCategory = GetCategoryQuery['category'];
 
 export interface ICategory {
     id: number;
@@ -230,8 +241,8 @@ export interface IReaderProps {
     curPage: number;
     initialPage: number;
     settings: IReaderSettings;
-    manga: MangaType;
-    chapter: ChapterType;
+    manga: TManga;
+    chapter: TChapter;
     nextChapter: () => void;
     prevChapter: () => void;
 }

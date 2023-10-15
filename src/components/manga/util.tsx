@@ -12,10 +12,10 @@ import {
     ChapterOptionsReducerAction,
     ChapterSortMode,
     NullAndUndefined,
+    TChapter,
     TranslationKey,
 } from '@/typings';
 import { useReducerLocalStorage } from '@/util/useLocalStorage';
-import { ChapterType } from '@/lib/graphql/generated/graphql.ts';
 
 const defaultChapterOptions: ChapterListOptions = {
     active: false,
@@ -46,7 +46,7 @@ function chapterOptionsReducer(state: ChapterListOptions, actions: ChapterOption
     }
 }
 
-export function unreadFilter(unread: NullAndUndefined<boolean>, { isRead: isChapterRead }: ChapterType) {
+export function unreadFilter(unread: NullAndUndefined<boolean>, { isRead: isChapterRead }: TChapter) {
     switch (unread) {
         case true:
             return !isChapterRead;
@@ -57,7 +57,7 @@ export function unreadFilter(unread: NullAndUndefined<boolean>, { isRead: isChap
     }
 }
 
-function downloadFilter(downloaded: NullAndUndefined<boolean>, { isDownloaded: chapterDownload }: ChapterType) {
+function downloadFilter(downloaded: NullAndUndefined<boolean>, { isDownloaded: chapterDownload }: TChapter) {
     switch (downloaded) {
         case true:
             return chapterDownload;
@@ -68,7 +68,7 @@ function downloadFilter(downloaded: NullAndUndefined<boolean>, { isDownloaded: c
     }
 }
 
-function bookmarkedFilter(bookmarked: NullAndUndefined<boolean>, { isBookmarked: chapterBookmarked }: ChapterType) {
+function bookmarkedFilter(bookmarked: NullAndUndefined<boolean>, { isBookmarked: chapterBookmarked }: TChapter) {
     switch (bookmarked) {
         case true:
             return chapterBookmarked;
@@ -79,7 +79,7 @@ function bookmarkedFilter(bookmarked: NullAndUndefined<boolean>, { isBookmarked:
     }
 }
 
-export function filterAndSortChapters(chapters: ChapterType[], options: ChapterListOptions): ChapterType[] {
+export function filterAndSortChapters(chapters: TChapter[], options: ChapterListOptions): TChapter[] {
     const filtered = options.active
         ? chapters.filter(
               (chp) =>

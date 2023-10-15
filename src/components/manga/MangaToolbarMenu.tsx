@@ -22,10 +22,10 @@ import {
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import CategorySelect from '@/components/navbar/action/CategorySelect';
-import { MangaType } from '@/lib/graphql/generated/graphql.ts';
+import { TManga } from '@/typings.ts';
 
 interface IProps {
-    manga: MangaType;
+    manga: TManga;
     onRefresh: () => any;
     refreshing: boolean;
 }

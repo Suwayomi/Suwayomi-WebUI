@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Metadata, IReaderSettings, MetadataKeyValuePair, GqlMetaHolder } from '@/typings';
+import { Metadata, IReaderSettings, MetadataKeyValuePair, GqlMetaHolder, TManga } from '@/typings';
 import requestManager from '@/lib/requests/RequestManager.ts';
 import {
     convertFromGqlMeta,
@@ -14,7 +14,7 @@ import {
     requestUpdateMangaMetadata,
     requestUpdateServerMetadata,
 } from '@/util/metadata';
-import { MangaType, MetaType } from '@/lib/graphql/generated/graphql.ts';
+import { MetaType } from '@/lib/graphql/generated/graphql.ts';
 
 type UndefinedReaderSettings = {
     [setting in keyof IReaderSettings]: IReaderSettings[setting] | undefined;
@@ -103,7 +103,7 @@ export const checkAndHandleMissingStoredReaderSettings = async (
     }
 
     if (metadataHolderType === 'manga') {
-        await requestUpdateMangaMetadata(metadataHolder as MangaType, settingsToUpdate);
+        await requestUpdateMangaMetadata(metadataHolder as TManga, settingsToUpdate);
         return;
     }
 
