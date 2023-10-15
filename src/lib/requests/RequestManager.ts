@@ -355,7 +355,7 @@ export class RequestManager {
         maxPage: number,
         signal: AbortSignal,
     ): Promise<void> {
-        const { response: revalidationRequest } = this.doRequestNew(
+        const { response: revalidationRequest } = this.doRequest(
             GQLMethod.MUTATION,
             GET_SOURCE_MANGAS_FETCH,
             getVariablesFor(pageToRevalidate),
@@ -497,7 +497,7 @@ export class RequestManager {
                 await revalidate(newPage, abortRequest, signal);
             }
 
-            const { response: request } = this.doRequestNew<Data, Variables>(
+            const { response: request } = this.doRequest<Data, Variables>(
                 GQLMethod.MUTATION,
                 documentNode,
                 getVariablesFor(newPage),
@@ -648,42 +648,42 @@ export class RequestManager {
         return `${this.getValidUrlFor(imageUrl, apiVersion)}${useCacheQuery}`;
     }
 
-    private doRequestNew<Data, Variables extends OperationVariables = OperationVariables>(
+    private doRequest<Data, Variables extends OperationVariables = OperationVariables>(
         method: GQLMethod.QUERY,
         operation: DocumentNode | TypedDocumentNode<Data, Variables>,
         variables: Variables | undefined,
         options?: QueryOptions<Variables, Data>,
     ): AbortabaleApolloQueryResponse<Data>;
 
-    private doRequestNew<Data, Variables extends OperationVariables = OperationVariables>(
+    private doRequest<Data, Variables extends OperationVariables = OperationVariables>(
         method: GQLMethod.USE_QUERY,
         operation: DocumentNode | TypedDocumentNode<Data, Variables>,
         variables: Variables | undefined,
         options?: QueryHookOptions<Data, Variables>,
     ): AbortableApolloUseQueryResponse<Data, Variables>;
 
-    private doRequestNew<Data, Variables extends OperationVariables = OperationVariables>(
+    private doRequest<Data, Variables extends OperationVariables = OperationVariables>(
         method: GQLMethod.USE_MUTATION,
         operation: DocumentNode | TypedDocumentNode<Data, Variables>,
         variables: Variables | undefined,
         options?: MutationHookOptions<Data, Variables>,
     ): AbortableApolloUseMutationResponse<Data, Variables>;
 
-    private doRequestNew<Data, Variables extends OperationVariables = OperationVariables>(
+    private doRequest<Data, Variables extends OperationVariables = OperationVariables>(
         method: GQLMethod.MUTATION,
         operation: DocumentNode | TypedDocumentNode<Data, Variables>,
         variables: Variables | undefined,
         options?: MutationOptions<Data, Variables>,
     ): AbortableApolloMutationResponse<Data>;
 
-    private doRequestNew<Data, Variables extends OperationVariables = OperationVariables>(
+    private doRequest<Data, Variables extends OperationVariables = OperationVariables>(
         method: GQLMethod.USE_SUBSCRIPTION,
         operation: DocumentNode | TypedDocumentNode<Data, Variables>,
         variables: Variables | undefined,
         options?: SubscriptionHookOptions<Data, Variables>,
     ): SubscriptionResult<Data, Variables>;
 
-    private doRequestNew<Data, Variables extends OperationVariables = OperationVariables>(
+    private doRequest<Data, Variables extends OperationVariables = OperationVariables>(
         method: GQLMethod,
         operation: DocumentNode | TypedDocumentNode<Data, Variables>,
         variables: Variables | undefined,
@@ -779,7 +779,7 @@ export class RequestManager {
     public useGetGlobalMeta(
         options?: QueryHookOptions<GetGlobalMetadatasQuery, GetGlobalMetadatasQueryVariables>,
     ): AbortableApolloUseQueryResponse<GetGlobalMetadatasQuery, GetGlobalMetadatasQueryVariables> {
-        return this.doRequestNew(GQLMethod.USE_QUERY, GET_GLOBAL_METADATAS, {}, options);
+        return this.doRequest(GQLMethod.USE_QUERY, GET_GLOBAL_METADATAS, {}, options);
     }
 
     public setGlobalMetadata(
@@ -787,7 +787,7 @@ export class RequestManager {
         value: any,
         options?: MutationOptions<SetGlobalMetadataMutation, SetGlobalMetadataMutationVariables>,
     ): AbortableApolloMutationResponse<SetGlobalMetadataMutation> {
-        return this.doRequestNew<SetGlobalMetadataMutation, SetGlobalMetadataMutationVariables>(
+        return this.doRequest<SetGlobalMetadataMutation, SetGlobalMetadataMutationVariables>(
             GQLMethod.MUTATION,
             SET_GLOBAL_METADATA,
             { input: { meta: { key, value: `${value}` } } },
@@ -798,32 +798,32 @@ export class RequestManager {
     public useGetAbout(
         options?: QueryHookOptions<GetAboutQuery, GetAboutQueryVariables>,
     ): AbortableApolloUseQueryResponse<GetAboutQuery, GetAboutQueryVariables> {
-        return this.doRequestNew(GQLMethod.USE_QUERY, GET_ABOUT, {}, options);
+        return this.doRequest(GQLMethod.USE_QUERY, GET_ABOUT, {}, options);
     }
 
     public useCheckForUpdate(
         options?: QueryHookOptions<CheckForServerUpdatesQuery, CheckForServerUpdatesQueryVariables>,
     ): AbortableApolloUseQueryResponse<CheckForServerUpdatesQuery, CheckForServerUpdatesQueryVariables> {
-        return this.doRequestNew(GQLMethod.USE_QUERY, CHECK_FOR_SERVER_UPDATES, {}, options);
+        return this.doRequest(GQLMethod.USE_QUERY, CHECK_FOR_SERVER_UPDATES, {}, options);
     }
 
     public useGetExtensionList(
         options?: QueryHookOptions<GetExtensionsQuery, GetExtensionsQueryVariables>,
     ): AbortableApolloUseQueryResponse<GetExtensionsQuery, GetExtensionsQueryVariables> {
-        return this.doRequestNew(GQLMethod.USE_QUERY, GET_EXTENSIONS, {}, options);
+        return this.doRequest(GQLMethod.USE_QUERY, GET_EXTENSIONS, {}, options);
     }
 
     public useExtensionListFetch(
         options?: MutationHookOptions<GetExtensionsFetchMutation, GetExtensionsFetchMutationVariables>,
     ): AbortableApolloUseMutationResponse<GetExtensionsFetchMutation, GetExtensionsFetchMutationVariables> {
-        return this.doRequestNew(GQLMethod.USE_MUTATION, GET_EXTENSIONS_FETCH, {}, options);
+        return this.doRequest(GQLMethod.USE_MUTATION, GET_EXTENSIONS_FETCH, {}, options);
     }
 
     public installExternalExtension(
         extensionFile: File,
         options?: MutationOptions<InstallExternalExtensionMutation, InstallExternalExtensionMutationVariables>,
     ): AbortableApolloMutationResponse<InstallExternalExtensionMutation> {
-        return this.doRequestNew<InstallExternalExtensionMutation, InstallExternalExtensionMutationVariables>(
+        return this.doRequest<InstallExternalExtensionMutation, InstallExternalExtensionMutationVariables>(
             GQLMethod.MUTATION,
             INSTALL_EXTERNAL_EXTENSION,
             { file: extensionFile },
@@ -836,7 +836,7 @@ export class RequestManager {
         patch: UpdateExtensionPatchInput,
         options?: MutationOptions<UpdateExtensionMutation, UpdateExtensionMutationVariables>,
     ): AbortableApolloMutationResponse<UpdateExtensionMutation> {
-        return this.doRequestNew<UpdateExtensionMutation, UpdateExtensionMutationVariables>(
+        return this.doRequest<UpdateExtensionMutation, UpdateExtensionMutationVariables>(
             GQLMethod.MUTATION,
             UPDATE_EXTENSION,
             { input: { id, patch } },
@@ -851,14 +851,14 @@ export class RequestManager {
     public useGetSourceList(
         options?: QueryHookOptions<GetSourcesQuery, GetSourcesQueryVariables>,
     ): AbortableApolloUseQueryResponse<GetSourcesQuery, GetSourcesQueryVariables> {
-        return this.doRequestNew(GQLMethod.USE_QUERY, GET_SOURCES, {}, options);
+        return this.doRequest(GQLMethod.USE_QUERY, GET_SOURCES, {}, options);
     }
 
     public useGetSource(
         id: string,
         options?: QueryHookOptions<GetSourceQuery, GetSourceQueryVariables>,
     ): AbortableApolloUseQueryResponse<GetSourceQuery, GetSourceQueryVariables> {
-        return this.doRequestNew(GQLMethod.USE_QUERY, GET_SOURCE, { id }, options);
+        return this.doRequest(GQLMethod.USE_QUERY, GET_SOURCE, { id }, options);
     }
 
     public useGetSourceMangas(
@@ -1073,7 +1073,7 @@ export class RequestManager {
         change: SourcePreferenceChangeInput,
         options?: MutationOptions<UpdateSourcePreferencesMutation, UpdateSourcePreferencesMutationVariables>,
     ): AbortableApolloMutationResponse<UpdateSourcePreferencesMutation> {
-        return this.doRequestNew(
+        return this.doRequest(
             GQLMethod.MUTATION,
             UPDATE_SOURCE_PREFERENCES,
             { input: { source, change } },
@@ -1105,14 +1105,14 @@ export class RequestManager {
         mangaId: number | string,
         options?: QueryHookOptions<GetMangaQuery, GetMangaQueryVariables>,
     ): AbortableApolloUseQueryResponse<GetMangaQuery, GetMangaQueryVariables> {
-        return this.doRequestNew(GQLMethod.USE_QUERY, GET_MANGA, { id: Number(mangaId) }, options);
+        return this.doRequest(GQLMethod.USE_QUERY, GET_MANGA, { id: Number(mangaId) }, options);
     }
 
     public getMangaFetch(
         mangaId: number | string,
         options?: MutationOptions<GetMangaFetchMutation, GetMangaFetchMutationVariables>,
     ): AbortableApolloMutationResponse<GetMangaFetchMutation> {
-        return this.doRequestNew<GetMangaFetchMutation, GetMangaFetchMutationVariables>(
+        return this.doRequest<GetMangaFetchMutation, GetMangaFetchMutationVariables>(
             GQLMethod.MUTATION,
             GET_MANGA_FETCH,
             {
@@ -1134,7 +1134,7 @@ export class RequestManager {
     public useUpdateMangaCategories(
         options?: MutationHookOptions<UpdateMangaCategoriesMutation, UpdateMangaCategoriesMutationVariables>,
     ): AbortableApolloUseMutationResponse<UpdateMangaCategoriesMutation, UpdateMangaCategoriesMutationVariables> {
-        return this.doRequestNew(GQLMethod.USE_MUTATION, UPDATE_MANGA_CATEGORIES, undefined, {
+        return this.doRequest(GQLMethod.USE_MUTATION, UPDATE_MANGA_CATEGORIES, undefined, {
             refetchQueries: [GET_MANGA, GET_MANGAS, GET_CATEGORY, GET_CATEGORIES, GET_CATEGORY_MANGAS],
             ...options,
         });
@@ -1145,7 +1145,7 @@ export class RequestManager {
         patch: UpdateMangaPatchInput,
         options?: MutationHookOptions<UpdateMangaMutation, UpdateMangaMutationVariables>,
     ): AbortableApolloMutationResponse<UpdateMangaMutation> {
-        return this.doRequestNew<UpdateMangaMutation, UpdateMangaMutationVariables>(
+        return this.doRequest<UpdateMangaMutation, UpdateMangaMutationVariables>(
             GQLMethod.MUTATION,
             UPDATE_MANGA,
             { input: { id, patch } },
@@ -1169,7 +1169,7 @@ export class RequestManager {
         value: any,
         options?: MutationOptions<SetMangaMetadataMutation, SetMangaMetadataMutationVariables>,
     ): AbortableApolloMutationResponse<SetMangaMetadataMutation> {
-        return this.doRequestNew(
+        return this.doRequest(
             GQLMethod.MUTATION,
             SET_MANGA_METADATA,
             {
@@ -1183,7 +1183,7 @@ export class RequestManager {
         variables: GetChaptersQueryVariables,
         options?: QueryHookOptions<GetChaptersQuery, GetChaptersQueryVariables>,
     ): AbortableApolloUseQueryResponse<GetChaptersQuery, GetChaptersQueryVariables> {
-        return this.doRequestNew(GQLMethod.USE_QUERY, GET_CHAPTERS, variables, options);
+        return this.doRequest(GQLMethod.USE_QUERY, GET_CHAPTERS, variables, options);
     }
 
     public useGetMangaChapters(
@@ -1204,7 +1204,7 @@ export class RequestManager {
         mangaId: number | string,
         options?: MutationOptions<GetMangaChaptersFetchMutation, GetMangaChaptersFetchMutationVariables>,
     ): AbortableApolloMutationResponse<GetMangaChaptersFetchMutation> {
-        return this.doRequestNew<GetMangaChaptersFetchMutation, GetMangaChaptersFetchMutationVariables>(
+        return this.doRequest<GetMangaChaptersFetchMutation, GetMangaChaptersFetchMutationVariables>(
             GQLMethod.MUTATION,
             GET_MANGA_CHAPTERS_FETCH,
             { input: { mangaId: Number(mangaId) } },
@@ -1253,7 +1253,7 @@ export class RequestManager {
             chapter: GetChaptersQuery['chapters']['nodes'][number];
         };
 
-        const chapterRequest = this.doRequestNew<GetChaptersQuery, GetChaptersQueryVariables>(
+        const chapterRequest = this.doRequest<GetChaptersQuery, GetChaptersQueryVariables>(
             GQLMethod.QUERY,
             GET_CHAPTERS,
             {
@@ -1283,7 +1283,7 @@ export class RequestManager {
         chapterId: string | number,
         options?: MutationHookOptions<GetChapterPagesFetchMutation, GetChapterPagesFetchMutationVariables>,
     ): AbortableApolloUseMutationResponse<GetChapterPagesFetchMutation, GetChapterPagesFetchMutationVariables> {
-        return this.doRequestNew(
+        return this.doRequest(
             GQLMethod.USE_MUTATION,
             GET_CHAPTER_PAGES_FETCH,
             {
@@ -1297,7 +1297,7 @@ export class RequestManager {
         id: number,
         options?: MutationOptions<DeleteDownloadedChapterMutation, DeleteDownloadedChapterMutationVariables>,
     ): AbortableApolloMutationResponse<DeleteDownloadedChapterMutation> {
-        return this.doRequestNew<DeleteDownloadedChapterMutation, DeleteDownloadedChapterMutationVariables>(
+        return this.doRequest<DeleteDownloadedChapterMutation, DeleteDownloadedChapterMutationVariables>(
             GQLMethod.MUTATION,
             DELETE_DOWNLOADED_CHAPTER,
             { input: { id } },
@@ -1309,7 +1309,7 @@ export class RequestManager {
         ids: number[],
         options?: MutationOptions<DeleteDownloadedChaptersMutation, DeleteDownloadedChaptersMutationVariables>,
     ): AbortableApolloMutationResponse<DeleteDownloadedChaptersMutation> {
-        return this.doRequestNew<DeleteDownloadedChaptersMutation, DeleteDownloadedChaptersMutationVariables>(
+        return this.doRequest<DeleteDownloadedChaptersMutation, DeleteDownloadedChaptersMutationVariables>(
             GQLMethod.MUTATION,
             DELETE_DOWNLOADED_CHAPTERS,
             { input: { ids } },
@@ -1322,7 +1322,7 @@ export class RequestManager {
         patch: UpdateChapterPatchInput,
         options?: MutationOptions<UpdateChapterMutation, UpdateChapterMutationVariables>,
     ): AbortableApolloMutationResponse<UpdateChapterMutation> {
-        return this.doRequestNew<UpdateChapterMutation, UpdateChapterMutationVariables>(
+        return this.doRequest<UpdateChapterMutation, UpdateChapterMutationVariables>(
             GQLMethod.MUTATION,
             UPDATE_CHAPTER,
             { input: { id, patch } },
@@ -1336,7 +1336,7 @@ export class RequestManager {
         value: any,
         options?: MutationOptions<SetChapterMetadataMutation, SetChapterMetadataMutationVariables>,
     ): AbortableApolloMutationResponse<SetChapterMetadataMutation> {
-        return this.doRequestNew<SetChapterMetadataMutation, SetChapterMetadataMutationVariables>(
+        return this.doRequest<SetChapterMetadataMutation, SetChapterMetadataMutationVariables>(
             GQLMethod.MUTATION,
             SET_CHAPTER_METADATA,
             { input: { meta: { chapterId, key, value: `${value}` } } },
@@ -1356,7 +1356,7 @@ export class RequestManager {
         patch: UpdateChapterPatchInput,
         options?: MutationOptions<UpdateChaptersMutation, UpdateChaptersMutationVariables>,
     ): AbortableApolloMutationResponse<UpdateChaptersMutation> {
-        return this.doRequestNew<UpdateChaptersMutation, UpdateChaptersMutationVariables>(
+        return this.doRequest<UpdateChaptersMutation, UpdateChaptersMutationVariables>(
             GQLMethod.MUTATION,
             UPDATE_CHAPTERS,
             { input: { ids, patch } },
@@ -1367,7 +1367,7 @@ export class RequestManager {
     public useGetCategories(
         options?: QueryHookOptions<GetCategoriesQuery, GetCategoriesQueryVariables>,
     ): AbortableApolloUseQueryResponse<GetCategoriesQuery, GetCategoriesQueryVariables> {
-        return this.doRequestNew<GetCategoriesQuery, GetCategoriesQueryVariables>(
+        return this.doRequest<GetCategoriesQuery, GetCategoriesQueryVariables>(
             GQLMethod.USE_QUERY,
             GET_CATEGORIES,
             {
@@ -1381,7 +1381,7 @@ export class RequestManager {
         input: CreateCategoryInput,
         options?: MutationOptions<CreateCategoryMutation, CreateCategoryMutationVariables>,
     ): AbortableApolloMutationResponse<CreateCategoryMutation> {
-        return this.doRequestNew<CreateCategoryMutation, CreateCategoryMutationVariables>(
+        return this.doRequest<CreateCategoryMutation, CreateCategoryMutationVariables>(
             GQLMethod.MUTATION,
             CREATE_CATEGORY,
             { input },
@@ -1394,7 +1394,7 @@ export class RequestManager {
         position: number,
         options?: MutationOptions<UpdateCategoryOrderMutation, UpdateCategoryOrderMutationVariables>,
     ): AbortableApolloMutationResponse<UpdateCategoryOrderMutation> {
-        return this.doRequestNew<UpdateCategoryOrderMutation, UpdateCategoryOrderMutationVariables>(
+        return this.doRequest<UpdateCategoryOrderMutation, UpdateCategoryOrderMutationVariables>(
             GQLMethod.MUTATION,
             UPDATE_CATEGORY_ORDER,
             { input: { id, position } },
@@ -1406,14 +1406,14 @@ export class RequestManager {
         id: number,
         options?: QueryHookOptions<GetCategoryMangasQuery, GetCategoryMangasQueryVariables>,
     ): AbortableApolloUseQueryResponse<GetCategoryMangasQuery, GetCategoryMangasQueryVariables> {
-        return this.doRequestNew(GQLMethod.USE_QUERY, GET_CATEGORY_MANGAS, { id }, options);
+        return this.doRequest(GQLMethod.USE_QUERY, GET_CATEGORY_MANGAS, { id }, options);
     }
 
     public deleteCategory(
         categoryId: number,
         options?: MutationOptions<DeleteCategoryMutation, DeleteCategoryMutationVariables>,
     ): AbortableApolloMutationResponse<DeleteCategoryMutation> {
-        return this.doRequestNew<DeleteCategoryMutation, DeleteCategoryMutationVariables>(
+        return this.doRequest<DeleteCategoryMutation, DeleteCategoryMutationVariables>(
             GQLMethod.MUTATION,
             DELETE_CATEGORY,
             { input: { categoryId } },
@@ -1426,7 +1426,7 @@ export class RequestManager {
         patch: UpdateCategoryPatchInput,
         options?: MutationOptions<UpdateCategoryMutation, UpdateCategoryMutationVariables>,
     ): AbortableApolloMutationResponse<UpdateCategoryMutation> {
-        return this.doRequestNew<UpdateCategoryMutation, UpdateCategoryMutationVariables>(
+        return this.doRequest<UpdateCategoryMutation, UpdateCategoryMutationVariables>(
             GQLMethod.MUTATION,
             UPDATE_CATEGORY,
             { input: { id, patch } },
@@ -1440,7 +1440,7 @@ export class RequestManager {
         value: any,
         options?: MutationOptions<SetCategoryMetadataMutation, SetCategoryMetadataMutationVariables>,
     ): AbortableApolloMutationResponse<SetCategoryMetadataMutation> {
-        return this.doRequestNew<SetCategoryMetadataMutation, SetCategoryMetadataMutationVariables>(
+        return this.doRequest<SetCategoryMetadataMutation, SetCategoryMetadataMutationVariables>(
             GQLMethod.MUTATION,
             SET_CATEGORY_METADATA,
             { input: { meta: { categoryId, key, value: `${value}` } } },
@@ -1452,7 +1452,7 @@ export class RequestManager {
         file: File,
         options?: MutationOptions<RestoreBackupMutation, RestoreBackupMutationVariables>,
     ): AbortableApolloMutationResponse<RestoreBackupMutation> {
-        return this.doRequestNew<RestoreBackupMutation, RestoreBackupMutationVariables>(
+        return this.doRequest<RestoreBackupMutation, RestoreBackupMutationVariables>(
             GQLMethod.MUTATION,
             RESTORE_BACKUP,
             { input: { backup: file } },
@@ -1464,7 +1464,7 @@ export class RequestManager {
         file: File,
         options?: QueryOptions<ValidateBackupQueryVariables, ValidateBackupQuery>,
     ): AbortabaleApolloQueryResponse<ValidateBackupQuery> {
-        return this.doRequestNew(GQLMethod.QUERY, VALIDATE_BACKUP, { input: { backup: file } }, options);
+        return this.doRequest(GQLMethod.QUERY, VALIDATE_BACKUP, { input: { backup: file } }, options);
     }
 
     public getExportBackupUrl(): string {
@@ -1474,7 +1474,7 @@ export class RequestManager {
     public startDownloads(
         options?: MutationOptions<StartDownloaderMutation, StartDownloaderMutationVariables>,
     ): AbortableApolloMutationResponse<StartDownloaderMutation> {
-        return this.doRequestNew<StartDownloaderMutation, StartDownloaderMutationVariables>(
+        return this.doRequest<StartDownloaderMutation, StartDownloaderMutationVariables>(
             GQLMethod.MUTATION,
             START_DOWNLOADER,
             {},
@@ -1485,7 +1485,7 @@ export class RequestManager {
     public stopDownloads(
         options?: MutationOptions<StopDownloaderMutation, StopDownloaderMutationVariables>,
     ): AbortableApolloMutationResponse<StopDownloaderMutation> {
-        return this.doRequestNew<StopDownloaderMutation, StopDownloaderMutationVariables>(
+        return this.doRequest<StopDownloaderMutation, StopDownloaderMutationVariables>(
             GQLMethod.MUTATION,
             STOP_DOWNLOADER,
             {},
@@ -1496,7 +1496,7 @@ export class RequestManager {
     public clearDownloads(
         options?: MutationOptions<ClearDownloaderMutation, ClearDownloaderMutationVariables>,
     ): AbortableApolloMutationResponse<ClearDownloaderMutation> {
-        return this.doRequestNew<ClearDownloaderMutation, ClearDownloaderMutationVariables>(
+        return this.doRequest<ClearDownloaderMutation, ClearDownloaderMutationVariables>(
             GQLMethod.MUTATION,
             CLEAR_DOWNLOADER,
             {},
@@ -1508,7 +1508,7 @@ export class RequestManager {
         id: number,
         options?: MutationOptions<EnqueueChapterDownloadMutation, EnqueueChapterDownloadMutationVariables>,
     ): AbortableApolloMutationResponse<EnqueueChapterDownloadMutation> {
-        return this.doRequestNew<EnqueueChapterDownloadMutation, EnqueueChapterDownloadMutationVariables>(
+        return this.doRequest<EnqueueChapterDownloadMutation, EnqueueChapterDownloadMutationVariables>(
             GQLMethod.MUTATION,
             ENQUEUE_CHAPTER_DOWNLOAD,
             { input: { id } },
@@ -1520,7 +1520,7 @@ export class RequestManager {
         id: number,
         options?: MutationOptions<DequeueChapterDownloadMutation, DequeueChapterDownloadMutationVariables>,
     ): AbortableApolloMutationResponse<DequeueChapterDownloadMutation> {
-        return this.doRequestNew<DequeueChapterDownloadMutation, DequeueChapterDownloadMutationVariables>(
+        return this.doRequest<DequeueChapterDownloadMutation, DequeueChapterDownloadMutationVariables>(
             GQLMethod.MUTATION,
             DEQUEUE_CHAPTER_DOWNLOAD,
             { input: { id } },
@@ -1533,7 +1533,7 @@ export class RequestManager {
         position: number,
         options?: MutationOptions<ReorderChapterDownloadMutation, ReorderChapterDownloadMutationVariables>,
     ): AbortableApolloMutationResponse<ReorderChapterDownloadMutation> {
-        return this.doRequestNew<ReorderChapterDownloadMutation, ReorderChapterDownloadMutationVariables>(
+        return this.doRequest<ReorderChapterDownloadMutation, ReorderChapterDownloadMutationVariables>(
             GQLMethod.MUTATION,
             REORDER_CHAPTER_DOWNLOAD,
             { input: { chapterId, to: position } },
@@ -1545,7 +1545,7 @@ export class RequestManager {
         ids: number[],
         options?: MutationOptions<EnqueueChapterDownloadsMutation, EnqueueChapterDownloadsMutationVariables>,
     ): AbortableApolloMutationResponse<EnqueueChapterDownloadsMutation> {
-        return this.doRequestNew<EnqueueChapterDownloadsMutation, EnqueueChapterDownloadsMutationVariables>(
+        return this.doRequest<EnqueueChapterDownloadsMutation, EnqueueChapterDownloadsMutationVariables>(
             GQLMethod.MUTATION,
             ENQUEUE_CHAPTER_DOWNLOADS,
             { input: { ids } },
@@ -1557,7 +1557,7 @@ export class RequestManager {
         ids: number[],
         options?: MutationOptions<DequeueChapterDownloadsMutation, DequeueChapterDownloadsMutationVariables>,
     ): AbortableApolloMutationResponse<DequeueChapterDownloadsMutation> {
-        return this.doRequestNew<DequeueChapterDownloadsMutation, DequeueChapterDownloadsMutationVariables>(
+        return this.doRequest<DequeueChapterDownloadsMutation, DequeueChapterDownloadsMutationVariables>(
             GQLMethod.MUTATION,
             DEQUEUE_CHAPTER_DOWNLOADS,
             { input: { ids } },
@@ -1613,7 +1613,7 @@ export class RequestManager {
         Variables extends UpdateLibraryMangasMutationVariables | UpdateCategoryMangasMutationVariables,
     >(categories?: number[], options?: MutationOptions<Data, Variables>): AbortableApolloMutationResponse<Data> {
         if (categories?.length) {
-            return this.doRequestNew<UpdateCategoryMangasMutation, UpdateCategoryMangasMutationVariables>(
+            return this.doRequest<UpdateCategoryMangasMutation, UpdateCategoryMangasMutationVariables>(
                 GQLMethod.MUTATION,
                 UPDATE_CATEGORY_MANGAS,
                 { input: { categories } },
@@ -1621,7 +1621,7 @@ export class RequestManager {
             ) as AbortableApolloMutationResponse<Data>;
         }
 
-        return this.doRequestNew<UpdateLibraryMangasMutation, UpdateLibraryMangasMutationVariables>(
+        return this.doRequest<UpdateLibraryMangasMutation, UpdateLibraryMangasMutationVariables>(
             GQLMethod.MUTATION,
             UPDATE_LIBRARY_MANGAS,
             {},
@@ -1632,7 +1632,7 @@ export class RequestManager {
     public resetGlobalUpdate(
         options?: MutationOptions<StopUpdaterMutation, StopUpdaterMutationVariables>,
     ): AbortableApolloMutationResponse<StopUpdaterMutation> {
-        return this.doRequestNew<StopUpdaterMutation, StopUpdaterMutationVariables>(
+        return this.doRequest<StopUpdaterMutation, StopUpdaterMutationVariables>(
             GQLMethod.MUTATION,
             STOP_UPDATER,
             {},
@@ -1643,19 +1643,19 @@ export class RequestManager {
     public useGetGlobalUpdateSummary(
         options?: QueryHookOptions<GetUpdateStatusQuery, GetUpdateStatusQueryVariables>,
     ): AbortableApolloUseQueryResponse<GetUpdateStatusQuery, GetUpdateStatusQueryVariables> {
-        return this.doRequestNew(GQLMethod.USE_QUERY, GET_UPDATE_STATUS, {}, options);
+        return this.doRequest(GQLMethod.USE_QUERY, GET_UPDATE_STATUS, {}, options);
     }
 
     public useDownloadSubscription(
         options?: SubscriptionHookOptions<DownloadStatusSubscription, DownloadStatusSubscriptionVariables>,
     ): SubscriptionResult<DownloadStatusSubscription, DownloadStatusSubscriptionVariables> {
-        return this.doRequestNew(GQLMethod.USE_SUBSCRIPTION, DOWNLOAD_STATUS_SUBSCRIPTION, {}, options);
+        return this.doRequest(GQLMethod.USE_SUBSCRIPTION, DOWNLOAD_STATUS_SUBSCRIPTION, {}, options);
     }
 
     public useUpdaterSubscription(
         options?: SubscriptionHookOptions<UpdaterSubscription, UpdaterSubscriptionVariables>,
     ): SubscriptionResult<UpdaterSubscription, UpdaterSubscriptionVariables> {
-        return this.doRequestNew(GQLMethod.USE_SUBSCRIPTION, UPDATER_SUBSCRIPTION, {}, options);
+        return this.doRequest(GQLMethod.USE_SUBSCRIPTION, UPDATER_SUBSCRIPTION, {}, options);
     }
 }
 
