@@ -61,8 +61,6 @@ import {
     FilterChangeInput,
     GetAboutQuery,
     GetAboutQueryVariables,
-    GetExtensionsFetchMutation,
-    GetExtensionsFetchMutationVariables,
     GetCategoriesQuery,
     GetCategoriesQueryVariables,
     GetCategoryMangasQuery,
@@ -71,6 +69,8 @@ import {
     GetChapterPagesFetchMutationVariables,
     GetChaptersQuery,
     GetChaptersQueryVariables,
+    GetExtensionsFetchMutation,
+    GetExtensionsFetchMutationVariables,
     GetExtensionsQuery,
     GetExtensionsQueryVariables,
     GetGlobalMetadatasQuery,
@@ -1407,17 +1407,70 @@ export class RequestManager {
         );
     }
 
-    public reorderCategory(
-        id: number,
-        position: number,
-        options?: MutationOptions<UpdateCategoryOrderMutation, UpdateCategoryOrderMutationVariables>,
-    ): AbortableApolloMutationResponse<UpdateCategoryOrderMutation> {
-        return this.doRequest<UpdateCategoryOrderMutation, UpdateCategoryOrderMutationVariables>(
-            GQLMethod.MUTATION,
+    public useReorderCategory(
+        options?: MutationHookOptions<UpdateCategoryOrderMutation, UpdateCategoryOrderMutationVariables>,
+    ): AbortableApolloUseMutationResponse<UpdateCategoryOrderMutation, UpdateCategoryOrderMutationVariables> {
+        const [mutate, result] = this.doRequest<UpdateCategoryOrderMutation, UpdateCategoryOrderMutationVariables>(
+            GQLMethod.USE_MUTATION,
             UPDATE_CATEGORY_ORDER,
-            { input: { id, position } },
-            { refetchQueries: [GET_CATEGORIES], ...options },
+            undefined,
+            options,
         );
+
+        const wrappedMutate = (mutateOptions: Parameters<typeof mutate>[0]) => {
+            const variables = mutateOptions?.variables?.input;
+            const cachedCategories = this.graphQLClient.client.readQuery<
+                GetCategoriesQuery,
+                GetCategoriesQueryVariables
+            >({
+                query: GET_CATEGORIES,
+                variables: { orderBy: CategoryOrderBy.Order },
+            })?.categories.nodes;
+
+            if (!variables) {
+                throw new Error('useReorderCategory: no variables passed');
+            }
+
+            if (!cachedCategories) {
+                throw new Error('useReorderCategory: there are no cached results');
+            }
+
+            const movedIndex = cachedCategories.findIndex((category) => category.id === variables.id);
+            const newData = [...cachedCategories.map((category) => ({ ...category }))];
+            const [removed] = newData.splice(movedIndex, 1);
+            newData.splice(variables.position, 0, removed);
+            removed.order = variables.position;
+            newData[movedIndex].order = movedIndex;
+
+            return mutate({
+                update: (cache) => {
+                    cache.updateQuery<GetCategoriesQuery, GetCategoriesQueryVariables>(
+                        {
+                            id: cache.identify({ __typename: 'CategoryNodeList' }),
+                            query: GET_CATEGORIES,
+                            variables: { orderBy: CategoryOrderBy.Order },
+                        },
+                        (data) => ({
+                            ...data!,
+                            categories: {
+                                ...data!.categories,
+                                nodes: newData,
+                            },
+                        }),
+                    );
+                },
+                optimisticResponse: {
+                    __typename: 'Mutation',
+                    updateCategoryOrder: {
+                        __typename: 'UpdateCategoryOrderPayload',
+                        categories: newData,
+                    },
+                },
+                ...mutateOptions,
+            });
+        };
+
+        return [wrappedMutate, result];
     }
 
     public useGetCategoryMangas(

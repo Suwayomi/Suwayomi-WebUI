@@ -65,19 +65,17 @@ export default function Categories() {
     const [dialogOpen, setDialogOpen] = useState<boolean>(false);
     const [dialogName, setDialogName] = useState<string>('');
     const [dialogDefault, setDialogDefault] = useState<boolean>(false);
+    const [reorderCategory, { reset: revertReorder }] = requestManager.useReorderCategory();
     const theme = useTheme();
 
     useSetDefaultBackTo('settings');
 
     const categoryReorder = (list: TCategory[], from: number, to: number) => {
         const reorderedCategory = list[from];
-        const newData = [...list];
-        const [removed] = newData.splice(from, 1);
-        newData.splice(to, 0, removed);
-        // TODO - update cache immediately
-        // mutate(categoriesEndpoint, newData, { revalidate: false });
 
-        requestManager.reorderCategory(reorderedCategory.id, to + 1);
+        reorderCategory({ variables: { input: { id: reorderedCategory.id, position: to + 1 } } }).catch(() =>
+            revertReorder(),
+        );
     };
 
     const onDragEnd = (result: DropResult) => {
