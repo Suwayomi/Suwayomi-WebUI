@@ -167,6 +167,10 @@ function getValueOrUnknown(val?: string | null) {
 
 const MangaDetails: React.FC<IProps> = ({ manga }) => {
     const { t } = useTranslation();
+    const { data: categoriesData, loading: areCategoriesLoading } = requestManager.useGetCategories();
+    const categories = categoriesData?.categories.nodes ?? [];
+    const defaultCategoryIds = categories.filter((category) => category.default).map((category) => category.id);
+    const [updateMangaCategories] = requestManager.useUpdateMangaCategories();
 
     useEffect(() => {
         if (!manga.source) {
@@ -175,11 +179,24 @@ const MangaDetails: React.FC<IProps> = ({ manga }) => {
     }, [manga.source]);
 
     const addToLibrary = () => {
-        requestManager.updateManga(manga.id, { inLibrary: true });
+        Promise.all([
+            requestManager.updateManga(manga.id, { inLibrary: true }).response,
+            updateMangaCategories({
+                variables: { input: { id: manga.id, patch: { addToCategories: defaultCategoryIds } } },
+            }),
+        ])
+            .then(() => makeToast(t('library.info.label.added_to_library'), 'success'))
+            .catch(() => {
+                makeToast(t('library.error.label.add_to_library'), 'error');
+            });
     };
 
     const removeFromLibrary = () => {
-        requestManager.updateManga(manga.id, { inLibrary: false });
+        Promise.all([requestManager.updateManga(manga.id, { inLibrary: false }).response])
+            .then(() => makeToast(t('library.info.label.removed_from_library'), 'success'))
+            .catch(() => {
+                makeToast(t('library.error.label.remove_from_library'), 'error');
+            });
     };
 
     return (
@@ -208,6 +225,7 @@ const MangaDetails: React.FC<IProps> = ({ manga }) => {
                 <MangaButtonsContainer inLibrary={manga.inLibrary}>
                     <div>
                         <Button
+                            disabled={areCategoriesLoading}
                             startIcon={manga.inLibrary ? <FavoriteIcon /> : <FavoriteBorderIcon />}
                             onClick={manga.inLibrary ? removeFromLibrary : addToLibrary}
                             size="large"
