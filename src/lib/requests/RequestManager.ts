@@ -63,8 +63,6 @@ import {
     GetAboutQueryVariables,
     GetCategoriesQuery,
     GetCategoriesQueryVariables,
-    GetCategoryMangasQuery,
-    GetCategoryMangasQueryVariables,
     GetChapterPagesFetchMutation,
     GetChapterPagesFetchMutationVariables,
     GetChaptersQuery,
@@ -81,6 +79,8 @@ import {
     GetMangaFetchMutationVariables,
     GetMangaQuery,
     GetMangaQueryVariables,
+    GetMangasQuery,
+    GetMangasQueryVariables,
     GetSourceMangasFetchMutation,
     GetSourceMangasFetchMutationVariables,
     GetSourceQuery,
@@ -156,8 +156,8 @@ import {
     UPDATE_MANGA,
     UPDATE_MANGA_CATEGORIES,
 } from '@/lib/graphql/mutations/MangaMutation.ts';
-import { GET_MANGA } from '@/lib/graphql/queries/MangaQuery.ts';
-import { GET_CATEGORIES, GET_CATEGORY_MANGAS } from '@/lib/graphql/queries/CategoryQuery.ts';
+import { GET_MANGA, GET_MANGAS } from '@/lib/graphql/queries/MangaQuery.ts';
+import { GET_CATEGORIES } from '@/lib/graphql/queries/CategoryQuery.ts';
 import { GET_SOURCE_MANGAS_FETCH, UPDATE_SOURCE_PREFERENCES } from '@/lib/graphql/mutations/SourceMutation.ts';
 import {
     CLEAR_DOWNLOADER,
@@ -1139,6 +1139,13 @@ export class RequestManager {
         );
     }
 
+    public useGetMangas(
+        variables: GetMangasQueryVariables,
+        options?: QueryHookOptions<GetMangasQuery, GetMangasQueryVariables>,
+    ): AbortableApolloUseQueryResponse<GetMangasQuery, GetMangasQueryVariables> {
+        return this.doRequest(GQLMethod.USE_QUERY, GET_MANGAS, variables, options);
+    }
+
     public getMangaThumbnailUrl(mangaId: number): string {
         return this.getValidImgUrlFor(`manga/${mangaId}/thumbnail`);
     }
@@ -1475,9 +1482,9 @@ export class RequestManager {
 
     public useGetCategoryMangas(
         id: number,
-        options?: QueryHookOptions<GetCategoryMangasQuery, GetCategoryMangasQueryVariables>,
-    ): AbortableApolloUseQueryResponse<GetCategoryMangasQuery, GetCategoryMangasQueryVariables> {
-        return this.doRequest(GQLMethod.USE_QUERY, GET_CATEGORY_MANGAS, { id }, options);
+        options?: QueryHookOptions<GetMangasQuery, GetMangasQueryVariables>,
+    ): AbortableApolloUseQueryResponse<GetMangasQuery, GetMangasQueryVariables> {
+        return this.useGetMangas({ condition: { inLibrary: true, categoryIds: [id] } }, options);
     }
 
     public deleteCategory(

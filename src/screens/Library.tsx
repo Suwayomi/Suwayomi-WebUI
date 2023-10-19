@@ -84,7 +84,7 @@ export default function Library() {
         error: mangaError,
         loading: mangaLoading,
     } = requestManager.useGetCategoryMangas(activeTab?.id, { skip: !activeTab, nextFetchPolicy: 'cache-only' });
-    const mangas = categoryMangaResponse?.category.mangas.nodes ?? [];
+    const mangas = categoryMangaResponse?.mangas.nodes ?? [];
 
     const { setTitle, setAction } = useContext(NavbarContext);
     useEffect(() => {
