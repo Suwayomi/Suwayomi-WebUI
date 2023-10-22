@@ -101,11 +101,15 @@ export default function LibrarySettings() {
     useSetDefaultBackTo('settings');
 
     const { data, error: requestError } = requestManager.useGetCategories();
-    const categories = data?.categories.nodes ?? [];
-    const [dialogCategories, setDialogCategories] = useState<TCategory[]>(categories);
+    const categories = data?.categories.nodes;
+    const [dialogCategories, setDialogCategories] = useState<TCategory[]>(categories ?? []);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     useEffect(() => {
+        if (!categories) {
+            return;
+        }
+
         setDialogCategories(categories);
     }, [categories]);
 
@@ -135,7 +139,7 @@ export default function LibrarySettings() {
 
     const updateCategories = async () => {
         const categoriesToUpdate = dialogCategories.filter((category) => {
-            const currentCategory = categories.find((currCategory) => currCategory.id === category.id);
+            const currentCategory = categories?.find((currCategory) => currCategory.id === category.id);
 
             if (!currentCategory) {
                 return false;
