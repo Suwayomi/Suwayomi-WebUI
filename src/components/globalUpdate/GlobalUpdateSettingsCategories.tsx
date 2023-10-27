@@ -22,13 +22,7 @@ import makeToast from '@/components/util/Toast.tsx';
 import { IncludeInUpdate } from '@/lib/graphql/generated/graphql.ts';
 import { TCategory } from '@/typings.ts';
 import requestManager from '@/lib/requests/RequestManager.ts';
-
-const CategoriesDiv = styled('div')({
-    display: 'flex',
-    flexDirection: 'column',
-    maxHeight: '170px',
-    overflow: 'auto',
-});
+import { CheckboxContainer } from '@/components/globalUpdate/CheckboxContainer.ts';
 
 const booleanToIncludeInStatus = (status: boolean | null | undefined): IncludeInUpdate => {
     switch (status) {
@@ -182,7 +176,7 @@ export const GlobalUpdateSettingsCategories = () => {
                     <DialogContentText sx={{ paddingBottom: '10px' }}>
                         {t('library.settings.global_update.categories.label.info')}
                     </DialogContentText>
-                    <CategoriesDiv>
+                    <CheckboxContainer>
                         {dialogCategories.map((category) => (
                             <ThreeStateCheckboxInput
                                 key={category.id}
@@ -207,7 +201,7 @@ export const GlobalUpdateSettingsCategories = () => {
                                 }}
                             />
                         ))}
-                    </CategoriesDiv>
+                    </CheckboxContainer>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={closeDialog} color="primary">
