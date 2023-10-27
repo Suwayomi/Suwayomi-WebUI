@@ -16,8 +16,8 @@ import { GetServerSettingsQuery } from '@/lib/graphql/generated/graphql.ts';
 import { TranslationKey } from '@/typings.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
-import { CheckboxContainer } from '@/components/globalUpdate/CheckboxContainer';
-import { CheckboxInput } from '@/components/atoms/CheckboxInput';
+import { CheckboxContainer } from '@/components/settings/globalUpdate/CheckboxContainer.ts';
+import { CheckboxInput } from '@/components/atoms/CheckboxInput.tsx';
 
 type GlobalUpdateSkipEntriesSettings = Pick<
     GetServerSettingsQuery['settings'],

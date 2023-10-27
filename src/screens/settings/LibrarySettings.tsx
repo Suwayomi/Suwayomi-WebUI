@@ -9,7 +9,7 @@
 import { useTranslation } from 'react-i18next';
 import { useContext, useEffect } from 'react';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
-import { GlobalUpdateSettings } from '@/components/globalUpdate/GlobalUpdateSettings.tsx';
+import { GlobalUpdateSettings } from '@/components/settings/globalUpdate/GlobalUpdateSettings.tsx';
 import { SearchSettings } from '@/screens/settings/SearchSettings.tsx';
 
 export function LibrarySettings() {

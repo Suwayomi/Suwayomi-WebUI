@@ -9,8 +9,8 @@
 import List from '@mui/material/List';
 import ListSubheader from '@mui/material/ListSubheader';
 import { useTranslation } from 'react-i18next';
-import { GlobalUpdateSettingsCategories } from '@/components/globalUpdate/GlobalUpdateSettingsCategories.tsx';
-import { GlobalUpdateSettingsEntries } from '@/components/globalUpdate/GlobalUpdateSettingsEntries.tsx';
+import { GlobalUpdateSettingsCategories } from '@/components/settings/globalUpdate/GlobalUpdateSettingsCategories.tsx';
+import { GlobalUpdateSettingsEntries } from '@/components/settings/globalUpdate/GlobalUpdateSettingsEntries.tsx';
 
 export const GlobalUpdateSettings = () => {
     const { t } = useTranslation();
