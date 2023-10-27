@@ -1,6 +1,6 @@
 module.exports = {
     extends: ['airbnb', 'airbnb-typescript', 'prettier'],
-    plugins: ['@typescript-eslint', 'no-relative-import-paths', 'prettier', 'header'],
+    plugins: ['unused-imports', '@typescript-eslint', 'no-relative-import-paths', 'prettier', 'header'],
     parserOptions: {
         project: ['./tsconfig.json', './tsconfig.node.json', './tools/scripts/tsconfig.json'],
     },
@@ -8,6 +8,8 @@ module.exports = {
         {
             files: ['*'],
             rules: {
+                'unused-imports/no-unused-imports': 'error',
+
                 'header/header': [
                     'error',
                     'block', // comment type
