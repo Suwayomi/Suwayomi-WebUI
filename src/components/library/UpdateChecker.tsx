@@ -45,7 +45,7 @@ const calcProgress = (status: UpdaterSubscription['updateStatusChanged'] | undef
     return Number.isNaN(progress) ? 0 : progress;
 };
 
-function UpdateChecker() {
+function UpdateChecker({ handleFinishedUpdate }: { handleFinishedUpdate: () => void }) {
     const { t } = useTranslation();
 
     const { data: updaterData } = requestManager.useUpdaterSubscription();
@@ -61,6 +61,11 @@ function UpdateChecker() {
             status?.runningJobs.mangas.totalCount,
         ],
     );
+
+    const isUpdateFinished = progress === 100;
+    if (isUpdateFinished) {
+        handleFinishedUpdate();
+    }
 
     const onClick = async () => {
         try {

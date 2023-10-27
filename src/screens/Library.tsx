@@ -7,7 +7,7 @@
  */
 
 import { Chip, Tab, Tabs, styled, Box } from '@mui/material';
-import React, { useContext, useEffect, useMemo } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 import { useQueryParam, NumberParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
 import requestManager from '@/lib/requests/RequestManager.ts';
@@ -66,6 +66,7 @@ export default function Library() {
         data: categoriesResponse,
         error: tabsError,
         loading: areCategoriesLoading,
+        refetch,
     } = requestManager.useGetCategories();
     const tabsData = categoriesResponse?.categories.nodes.filter(
         (category) => category.id !== 0 || (category.id === 0 && category.mangas.totalCount),
@@ -86,6 +87,10 @@ export default function Library() {
     } = requestManager.useGetCategoryMangas(activeTab?.id, { skip: !activeTab, nextFetchPolicy: 'cache-only' });
     const mangas = categoryMangaResponse?.mangas.nodes ?? [];
 
+    const handleFinishedUpdate = useCallback(() => {
+        refetch();
+    }, [refetch]);
+
     const { setTitle, setAction } = useContext(NavbarContext);
     useEffect(() => {
         const title = t('library.title');
@@ -100,7 +105,7 @@ export default function Library() {
             <>
                 <AppbarSearch />
                 <LibraryToolbarMenu />
-                <UpdateChecker />
+                <UpdateChecker handleFinishedUpdate={handleFinishedUpdate} />
             </>,
         );
         return () => {
