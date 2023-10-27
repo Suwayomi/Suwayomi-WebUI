@@ -6,11 +6,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ListItem, ListItemText, Switch } from '@mui/material';
+import { List, ListItem, ListItemText, Switch } from '@mui/material';
 import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import SearchIcon from '@mui/icons-material/Search';
 import { useTranslation } from 'react-i18next';
+import ListSubheader from '@mui/material/ListSubheader';
 import { SearchMetadataKeys } from '@/typings';
 import { convertToGqlMeta, requestUpdateServerMetadata } from '@/util/metadata';
 import { useSearchSettings } from '@/util/searchSettings';
@@ -29,18 +30,26 @@ export default function SearchSettings() {
         );
     };
     return (
-        <ListItem>
-            <ListItemIcon>
-                <SearchIcon />
-            </ListItemIcon>
-            <ListItemText primary={t('search.label.ignore_filters')} />
-            <ListItemSecondaryAction>
-                <Switch
-                    edge="end"
-                    checked={settings.ignoreFilters}
-                    onChange={(e) => setSettingValue('ignoreFilters', e.target.checked)}
-                />
-            </ListItemSecondaryAction>
-        </ListItem>
+        <List
+            subheader={
+                <ListSubheader component="div" id="library-search-filter">
+                    {t('search.title.search')}
+                </ListSubheader>
+            }
+        >
+            <ListItem>
+                <ListItemIcon>
+                    <SearchIcon />
+                </ListItemIcon>
+                <ListItemText primary={t('search.label.ignore_filters')} />
+                <ListItemSecondaryAction>
+                    <Switch
+                        edge="end"
+                        checked={settings.ignoreFilters}
+                        onChange={(e) => setSettingValue('ignoreFilters', e.target.checked)}
+                    />
+                </ListItemSecondaryAction>
+            </ListItem>
+        </List>
     );
 }
