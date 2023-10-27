@@ -60,7 +60,5 @@ function noSelect(
     return null;
 }
 
-const SelectFilter: React.FC<Props> = ({ values, name, state, position, updateFilterValue, update, group }) =>
+export const SelectFilter: React.FC<Props> = ({ values, name, state, position, updateFilterValue, update, group }) =>
     noSelect(values, name, state, position, updateFilterValue, update, group);
-
-export default SelectFilter;

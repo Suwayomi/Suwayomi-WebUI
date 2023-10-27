@@ -8,7 +8,6 @@
 
 import { styled } from '@mui/material';
 
-// eslint-disable-next-line import/prefer-default-export
 export const CheckboxContainer = styled('div')({
     display: 'flex',
     flexDirection: 'column',

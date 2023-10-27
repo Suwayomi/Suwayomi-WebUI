@@ -17,11 +17,11 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import { t as translate } from 'i18next';
-import ThreeStateCheckboxInput from '@/components/atoms/ThreeStateCheckboxInput.tsx';
-import makeToast from '@/components/util/Toast.tsx';
+import { ThreeStateCheckboxInput } from '@/components/atoms/ThreeStateCheckboxInput.tsx';
+import { makeToast } from '@/components/util/Toast.tsx';
 import { IncludeInUpdate } from '@/lib/graphql/generated/graphql.ts';
 import { TCategory } from '@/typings.ts';
-import requestManager from '@/lib/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { CheckboxContainer } from '@/components/globalUpdate/CheckboxContainer.ts';
 
 const booleanToIncludeInStatus = (status: boolean | null | undefined): IncludeInUpdate => {
@@ -78,7 +78,6 @@ const getCategoryUpdateInfo = (
     return categories.map((category) => category.name).join(', ');
 };
 
-// eslint-disable-next-line import/prefer-default-export
 export const GlobalUpdateSettingsCategories = () => {
     const { t } = useTranslation();
 

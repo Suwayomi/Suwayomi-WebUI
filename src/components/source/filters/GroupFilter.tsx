@@ -21,7 +21,7 @@ interface Props {
     update: any;
 }
 
-const GroupFilter: React.FC<Props> = (props: Props) => {
+export const GroupFilter: React.FC<Props> = (props: Props) => {
     const { state, name, position, updateFilterValue, update } = props;
 
     const [open, setOpen] = React.useState(false);
@@ -46,5 +46,3 @@ const GroupFilter: React.FC<Props> = (props: Props) => {
         </Box>
     );
 };
-
-export default GroupFilter;

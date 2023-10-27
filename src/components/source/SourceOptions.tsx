@@ -11,18 +11,18 @@ import { Button, Stack, Box } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { SourceFilters } from '@/typings';
-import OptionsPanel from '@/components/molecules/OptionsPanel';
-import CheckBoxFilter from '@/components/source/filters/CheckBoxFilter';
-import HeaderFilter from '@/components/source/filters/HeaderFilter';
-import SelectFilter from '@/components/source/filters/SelectFilter';
-import SortFilter from '@/components/source/filters/SortFilter';
-import TextFilter from '@/components/source/filters/TextFilter';
-import TriStateFilter from '@/components/source/filters/TriStateFilter';
+import { OptionsPanel } from '@/components/molecules/OptionsPanel';
+import { CheckBoxFilter } from '@/components/source/filters/CheckBoxFilter';
+import { HeaderFilter } from '@/components/source/filters/HeaderFilter';
+import { SelectFilter } from '@/components/source/filters/SelectFilter';
+import { SortFilter } from '@/components/source/filters/SortFilter';
+import { TextFilter } from '@/components/source/filters/TextFilter';
+import { TriStateFilter } from '@/components/source/filters/TriStateFilter';
 // this can only cycle once, so should be fine
 // eslint-disable-next-line import/no-cycle
-import GroupFilter from '@/components/source/filters/GroupFilter';
-import SeperatorFilter from '@/components/source/filters/SeparatorFilter';
-import StyledFab from '@/components/util/StyledFab';
+import { GroupFilter } from '@/components/source/filters/GroupFilter';
+import { SeparatorFilter } from '@/components/source/filters/SeparatorFilter';
+import { StyledFab } from '@/components/util/StyledFab';
 
 interface IFilters {
     sourceFilter: SourceFilters[];
@@ -88,7 +88,7 @@ export function Options({ sourceFilter, group, updateFilterValue, update }: IFil
                             />
                         );
                     case 'SeparatorFilter':
-                        return <SeperatorFilter key={`filters ${e.name}`} name={e.name} />;
+                        return <SeparatorFilter key={`filters ${e.name}`} name={e.name} />;
                     case 'SortFilter':
                         return (
                             <SortFilter
@@ -139,7 +139,7 @@ export function Options({ sourceFilter, group, updateFilterValue, update }: IFil
     );
 }
 
-export default function SourceOptions({
+export function SourceOptions({
     sourceFilter,
     updateFilterValue,
     resetFilterValue,

@@ -48,7 +48,7 @@ export function Toast(props: IToastProps) {
     );
 }
 
-export default function makeToast(message: string, severity: Severity) {
+export function makeToast(message: string, severity: Severity) {
     const id = Math.floor(Math.random() * 1000);
     const container = document.createElement('div');
     container.id = `alert-${id}`;

@@ -21,7 +21,7 @@ declare module '@mui/material/styles/createPalette' {
 type DefaultMuiPalette = Omit<MuiPalette, 'custom'>;
 type DefaultMuiTheme = Omit<Theme, 'palette'> & { palette: DefaultMuiPalette };
 
-const createTheme = (dark?: boolean) => {
+export const createTheme = (dark?: boolean) => {
     const baseTheme: DefaultMuiTheme = createMuiTheme({
         palette: {
             mode: dark ? 'dark' : 'light',
@@ -62,5 +62,3 @@ const createTheme = (dark?: boolean) => {
 
     return tachideskTheme;
 };
-
-export default createTheme;

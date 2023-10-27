@@ -23,7 +23,7 @@ interface IProps {
     onImageLoad?: () => void;
 }
 
-export default function SpinnerImage(props: IProps) {
+export function SpinnerImage(props: IProps) {
     const { src, alt, onImageLoad, imgRef, spinnerStyle, imgStyle } = props;
     const [imageSrc, setImagsrc] = useState<string>('');
 

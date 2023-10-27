@@ -13,10 +13,8 @@ interface Props {
     name: string;
 }
 
-const HeaderFilter: React.FC<Props> = ({ name }) => (
+export const HeaderFilter: React.FC<Props> = ({ name }) => (
     <Typography key={name} sx={{ mt: 2 }} variant="subtitle2">
         {name}
     </Typography>
 );
-
-export default HeaderFilter;

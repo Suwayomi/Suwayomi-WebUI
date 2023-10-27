@@ -8,13 +8,13 @@
 
 import { useTranslation } from 'react-i18next';
 import { useContext, useEffect } from 'react';
-import NavbarContext, { useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
+import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
 import { GlobalUpdateSettings } from '@/components/globalUpdate/GlobalUpdateSettings.tsx';
-import SearchSettings from '@/screens/settings/SearchSettings.tsx';
+import { SearchSettings } from '@/screens/settings/SearchSettings.tsx';
 
-export default function LibrarySettings() {
+export function LibrarySettings() {
     const { t } = useTranslation();
-    const { setTitle, setAction } = useContext(NavbarContext);
+    const { setTitle, setAction } = useContext(NavBarContext);
 
     useEffect(() => {
         setTitle(t('library.settings.title'));

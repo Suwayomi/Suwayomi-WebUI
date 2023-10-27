@@ -13,8 +13,6 @@ interface IProps extends CheckboxProps {
     label?: string;
 }
 
-const CheckboxInput: React.FC<IProps> = ({ label, sx, ...rest }) => (
+export const CheckboxInput: React.FC<IProps> = ({ label, sx, ...rest }) => (
     <FormControlLabel control={<Checkbox {...rest} />} label={label} sx={sx} />
 );
-
-export default CheckboxInput;

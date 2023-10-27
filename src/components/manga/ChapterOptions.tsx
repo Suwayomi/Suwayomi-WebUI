@@ -10,10 +10,10 @@ import { RadioGroup } from '@mui/material';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { ChapterListOptions, ChapterOptionsReducerAction, TranslationKey } from '@/typings';
-import RadioInput from '@/components/atoms/RadioInput';
-import SortRadioInput from '@/components/atoms/SortRadioInput';
-import ThreeStateCheckboxInput from '@/components/atoms/ThreeStateCheckboxInput';
-import OptionsTabs from '@/components/molecules/OptionsTabs';
+import { RadioInput } from '@/components/atoms/RadioInput';
+import { SortRadioInput } from '@/components/atoms/SortRadioInput';
+import { ThreeStateCheckboxInput } from '@/components/atoms/ThreeStateCheckboxInput';
+import { OptionsTabs } from '@/components/molecules/OptionsTabs';
 import { SORT_OPTIONS } from '@/components/manga/util';
 
 interface IProps {
@@ -29,7 +29,7 @@ const TITLES: { [key in 'filter' | 'sort' | 'display']: TranslationKey } = {
     display: 'global.label.display',
 };
 
-const ChapterOptions: React.FC<IProps> = ({ open, onClose, options, optionsDispatch }) => {
+export const ChapterOptions: React.FC<IProps> = ({ open, onClose, options, optionsDispatch }) => {
     const { t } = useTranslation();
 
     return (
@@ -110,5 +110,3 @@ const ChapterOptions: React.FC<IProps> = ({ open, onClose, options, optionsDispa
         />
     );
 };
-
-export default ChapterOptions;

@@ -11,7 +11,7 @@ import { Fab, Menu, Box } from '@mui/material';
 import React, { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { IChapterWithMeta } from '@/components/manga/ChapterList';
-import SelectionFABActionItem from '@/components/manga/SelectionFABActionItem';
+import { SelectionFABActionItem } from '@/components/manga/SelectionFABActionItem';
 import { DEFAULT_FAB_STYLE } from '@/components/util/StyledFab';
 
 export type SelectionAction = 'download' | 'delete' | 'bookmark' | 'unbookmark' | 'mark_as_read' | 'mark_as_unread';
@@ -21,7 +21,7 @@ interface SelectionFABProps {
     onAction: (action: SelectionAction, chapters: IChapterWithMeta[]) => void;
 }
 
-const SelectionFAB: React.FC<SelectionFABProps> = (props) => {
+export const SelectionFAB: React.FC<SelectionFABProps> = (props) => {
     const { t } = useTranslation();
 
     const { selectedChapters, onAction } = props;
@@ -102,5 +102,3 @@ const SelectionFAB: React.FC<SelectionFABProps> = (props) => {
         </Box>
     );
 };
-
-export default SelectionFAB;

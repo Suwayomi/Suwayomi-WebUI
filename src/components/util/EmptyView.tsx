@@ -25,7 +25,7 @@ interface IProps {
     messageExtra?: JSX.Element | string;
 }
 
-export default function EmptyView({ message, messageExtra }: IProps) {
+export function EmptyView({ message, messageExtra }: IProps) {
     const theme = useTheme();
     const isMobileWidth = useMediaQuery(theme.breakpoints.down('sm'));
 

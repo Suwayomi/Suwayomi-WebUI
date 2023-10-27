@@ -10,7 +10,7 @@ import FilterList from '@mui/icons-material/FilterList';
 import { IconButton } from '@mui/material';
 import * as React from 'react';
 import { ChapterListOptions, ChapterOptionsReducerAction } from '@/typings';
-import ChapterOptions from '@/components/manga/ChapterOptions';
+import { ChapterOptions } from '@/components/manga/ChapterOptions';
 import { isFilterActive } from '@/components/manga/util';
 
 interface IProps {
@@ -18,7 +18,7 @@ interface IProps {
     optionsDispatch: React.Dispatch<ChapterOptionsReducerAction>;
 }
 
-const ChaptersToolbarMenu = ({ options, optionsDispatch }: IProps) => {
+export const ChaptersToolbarMenu = ({ options, optionsDispatch }: IProps) => {
     const [open, setOpen] = React.useState(false);
     const isFiltered = isFilterActive(options);
 
@@ -36,5 +36,3 @@ const ChaptersToolbarMenu = ({ options, optionsDispatch }: IProps) => {
         </>
     );
 };
-
-export default ChaptersToolbarMenu;

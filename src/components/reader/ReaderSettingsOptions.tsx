@@ -17,7 +17,7 @@ interface IProps extends IReaderSettings {
     setSettingValue: (key: keyof IReaderSettings, value: string | boolean) => void;
 }
 
-export default function ReaderSettingsOptions({
+export function ReaderSettingsOptions({
     staticNav,
     loadNextOnEnding,
     readerType,

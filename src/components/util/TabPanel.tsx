@@ -14,7 +14,7 @@ interface IProps {
     currentIndex: any;
 }
 
-export default function TabPanel(props: IProps) {
+export function TabPanel(props: IProps) {
     const { children, index, currentIndex } = props;
 
     return (

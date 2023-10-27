@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-function getItem<T>(key: string, defaultValue: T): T {
+export function getItem<T>(key: string, defaultValue: T): T {
     const item = window.localStorage.getItem(key);
 
     if (item !== null) {
@@ -17,8 +17,6 @@ function getItem<T>(key: string, defaultValue: T): T {
     return defaultValue;
 }
 
-function setItem<T>(key: string, value: T): void {
+export function setItem<T>(key: string, value: T): void {
     window.localStorage.setItem(key, JSON.stringify(value));
 }
-
-export default { getItem, setItem };

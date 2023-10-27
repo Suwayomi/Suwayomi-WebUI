@@ -56,7 +56,6 @@ const typePolicies: StrictTypedTypePolicies = {
 };
 /* eslint-enable no-underscore-dangle */
 
-// eslint-disable-next-line import/prefer-default-export
 export class GraphQLClient extends BaseClient<
     ApolloClient<NormalizedCacheObject>,
     ApolloClientOptions<NormalizedCacheObject>,

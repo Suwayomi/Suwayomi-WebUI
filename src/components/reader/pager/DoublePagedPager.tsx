@@ -10,8 +10,8 @@ import { useEffect, useRef } from 'react';
 import { Box } from '@mui/material';
 import { createRoot } from 'react-dom/client';
 import { IReaderProps } from '@/typings';
-import Page from '@/components/reader/Page';
-import DoublePage from '@/components/reader/DoublePage';
+import { Page } from '@/components/reader/Page';
+import { DoublePage } from '@/components/reader/DoublePage';
 
 const isSpreadPage = (image: HTMLImageElement): boolean => {
     const aspectRatio = image.height / image.width;
@@ -29,7 +29,7 @@ const isSinglePage = (index: number, spreadPages: boolean[], offsetFirstPage: bo
     return offsetFirstPage ? numberOfNonSpreads % 2 === 0 : numberOfNonSpreads % 2 === 1;
 };
 
-export default function DoublePagedPager(props: IReaderProps) {
+export function DoublePagedPager(props: IReaderProps) {
     const { pages, settings, setCurPage, initialPage, curPage, nextChapter, prevChapter } = props;
 
     const selfRef = useRef<HTMLDivElement>(null);

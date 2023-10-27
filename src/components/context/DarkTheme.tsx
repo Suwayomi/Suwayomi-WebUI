@@ -13,9 +13,7 @@ type ContextType = {
     setDarkTheme: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const DarkTheme = React.createContext<ContextType>({
+export const DarkTheme = React.createContext<ContextType>({
     darkTheme: true,
     setDarkTheme: (): void => {},
 });
-
-export default DarkTheme;

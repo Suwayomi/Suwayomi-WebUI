@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { LibrarySortMode, NullAndUndefined, TManga } from '@/typings';
 import { useSearchSettings } from '@/util/searchSettings';
 import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
-import MangaGrid from '@/components/MangaGrid';
+import { MangaGrid } from '@/components/MangaGrid';
 
 const unreadFilter = (unread: NullAndUndefined<boolean>, { unreadCount }: TManga): boolean => {
     switch (unread) {
@@ -109,7 +109,7 @@ interface LibraryMangaGridProps {
     message?: string;
 }
 
-const LibraryMangaGrid: React.FC<LibraryMangaGridProps> = ({ mangas, isLoading, message }) => {
+export const LibraryMangaGrid: React.FC<LibraryMangaGridProps> = ({ mangas, isLoading, message }) => {
     const { t } = useTranslation();
 
     const [query] = useQueryParam('query', StringParam);
@@ -144,5 +144,3 @@ const LibraryMangaGrid: React.FC<LibraryMangaGridProps> = ({ mangas, isLoading, 
         />
     );
 };
-
-export default LibraryMangaGrid;

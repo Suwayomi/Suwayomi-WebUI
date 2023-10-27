@@ -9,7 +9,7 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { Box } from '@mui/material';
 import { IReaderProps } from '@/typings';
-import Page from '@/components/reader/Page';
+import { Page } from '@/components/reader/Page';
 
 const findCurrentPageIndex = (wrapper: HTMLDivElement): number => {
     for (let i = 0; i < wrapper.children.length; i++) {
@@ -35,7 +35,7 @@ const isAtBottom = () => {
 };
 const isAtTop = () => window.scrollY <= 0;
 
-export default function VerticalPager(props: IReaderProps) {
+export function VerticalPager(props: IReaderProps) {
     const { pages, settings, setCurPage, initialPage, nextChapter, prevChapter } = props;
 
     const currentPageRef = useRef(initialPage);

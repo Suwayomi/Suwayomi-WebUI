@@ -13,8 +13,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { Box } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next';
-import requestManager from '@/lib/requests/RequestManager.ts';
-import makeToast from '@/components/util/Toast';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { makeToast } from '@/components/util/Toast';
 import { UpdaterSubscription } from '@/lib/graphql/generated/graphql.ts';
 
 interface IProgressProps {
@@ -45,7 +45,7 @@ const calcProgress = (status: UpdaterSubscription['updateStatusChanged'] | undef
     return Number.isNaN(progress) ? 0 : progress;
 };
 
-function UpdateChecker({ handleFinishedUpdate }: { handleFinishedUpdate: () => void }) {
+export function UpdateChecker({ handleFinishedUpdate }: { handleFinishedUpdate: () => void }) {
     const { t } = useTranslation();
 
     const { data: updaterData } = requestManager.useUpdaterSubscription();
@@ -81,5 +81,3 @@ function UpdateChecker({ handleFinishedUpdate }: { handleFinishedUpdate: () => v
         </IconButton>
     );
 }
-
-export default UpdateChecker;

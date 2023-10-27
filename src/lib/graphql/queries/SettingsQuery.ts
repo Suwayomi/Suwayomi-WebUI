@@ -9,7 +9,6 @@
 import gql from 'graphql-tag';
 import { SERVER_SETTINGS } from '@/lib/graphql/Fragments';
 
-// eslint-disable-next-line import/prefer-default-export
 export const GET_SERVER_SETTINGS = gql`
     ${SERVER_SETTINGS}
     query GET_SERVER_SETTINGS {

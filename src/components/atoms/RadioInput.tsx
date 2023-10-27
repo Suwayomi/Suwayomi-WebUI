@@ -13,8 +13,6 @@ export interface RadioInputProps extends RadioProps {
     label?: string;
 }
 
-const RadioInput: React.FC<RadioInputProps> = ({ label, sx, ...rest }) => (
+export const RadioInput: React.FC<RadioInputProps> = ({ label, sx, ...rest }) => (
     <FormControlLabel control={<Radio {...rest} />} label={label} sx={sx} />
 );
-
-export default RadioInput;

@@ -9,7 +9,7 @@
 import { useState, useEffect, forwardRef, useRef } from 'react';
 import Box from '@mui/material/Box';
 import { IReaderSettings } from '@/typings';
-import SpinnerImage from '@/components/util/SpinnerImage';
+import { SpinnerImage } from '@/components/util/SpinnerImage';
 
 function imageStyle(settings: IReaderSettings): any {
     const [dimensions, setDimensions] = useState({
@@ -65,7 +65,7 @@ interface IProps {
     settings: IReaderSettings;
 }
 
-const Page = forwardRef((props: IProps, ref: any) => {
+export const Page = forwardRef((props: IProps, ref: any) => {
     const { src, index, onImageLoad, settings } = props;
 
     const imgRef = useRef<HTMLImageElement>(null);
@@ -92,5 +92,3 @@ const Page = forwardRef((props: IProps, ref: any) => {
         </Box>
     );
 });
-
-export default Page;

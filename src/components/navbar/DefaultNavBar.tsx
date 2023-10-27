@@ -27,10 +27,10 @@ import ArrowBack from '@mui/icons-material/ArrowBack';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { createPortal } from 'react-dom';
 import { NavbarItem } from '@/typings';
-import NavBarContext from '@/components/context/NavbarContext';
-import ExtensionOutlinedIcon from '@/components/util/CustomExtensionOutlinedIcon';
-import DesktopSideBar from '@/components/navbar/navigation/DesktopSideBar';
-import MobileBottomBar from '@/components/navbar/navigation/MobileBottomBar';
+import { NavBarContext } from '@/components/context/NavbarContext';
+import { ExtensionOutlinedIcon } from '@/components/util/CustomExtensionOutlinedIcon';
+import { DesktopSideBar } from '@/components/navbar/navigation/DesktopSideBar';
+import { MobileBottomBar } from '@/components/navbar/navigation/MobileBottomBar';
 import { useHistory } from '@/util/useHistory';
 
 const navbarItems: Array<NavbarItem> = [
@@ -85,7 +85,7 @@ const navbarItems: Array<NavbarItem> = [
     },
 ];
 
-export default function DefaultNavBar() {
+export function DefaultNavBar() {
     const { title, action, override, defaultBackTo: backToUrl } = useContext(NavBarContext);
 
     const theme = useTheme();

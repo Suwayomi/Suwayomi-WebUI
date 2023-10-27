@@ -35,17 +35,17 @@ import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import { useTranslation } from 'react-i18next';
 import LanguageIcon from '@mui/icons-material/Language';
 import CollectionsOutlinedBookmarkIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
-import requestManager from '@/lib/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { langCodeToName } from '@/util/language';
-import useLocalStorage from '@/util/useLocalStorage';
-import ListItemLink from '@/components/util/ListItemLink';
-import DarkTheme from '@/components/context/DarkTheme';
-import NavbarContext from '@/components/context/NavbarContext';
+import { useLocalStorage } from '@/util/useLocalStorage';
+import { ListItemLink } from '@/components/util/ListItemLink';
+import { DarkTheme } from '@/components/context/DarkTheme';
+import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 
-export default function Settings() {
+export function Settings() {
     const { t, i18n } = useTranslation();
 
-    const { setTitle, setAction } = useContext(NavbarContext);
+    const { setTitle, setAction } = useContext(NavBarContext);
     useEffect(() => {
         setTitle(t('settings.title'));
         setAction(null);

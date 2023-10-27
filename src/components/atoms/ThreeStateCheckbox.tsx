@@ -28,7 +28,7 @@ export interface ThreeStateCheckboxProps extends Omit<CheckboxProps, 'checked' |
  * When checked is false, checkbox contains cross
  * When checked is null or undefined, checkbox is empty
  */
-const ThreeStateCheckbox: React.FC<ThreeStateCheckboxProps> = ({ checked, onChange, ...rest }) => {
+export const ThreeStateCheckbox: React.FC<ThreeStateCheckboxProps> = ({ checked, onChange, ...rest }) => {
     const handleChange = useCallback(() => {
         if (onChange) {
             const newState = nextState(checked);
@@ -46,4 +46,3 @@ const ThreeStateCheckbox: React.FC<ThreeStateCheckboxProps> = ({ checked, onChan
         />
     );
 };
-export default ThreeStateCheckbox;

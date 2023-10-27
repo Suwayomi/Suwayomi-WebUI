@@ -18,18 +18,18 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import NewReleasesIcon from '@mui/icons-material/NewReleases';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { TPartialManga, TranslationKey } from '@/typings';
-import requestManager, { AbortableApolloUseMutationPaginatedResponse } from '@/lib/requests/RequestManager.ts';
+import { requestManager, AbortableApolloUseMutationPaginatedResponse } from '@/lib/requests/RequestManager.ts';
 import { useDebounce } from '@/components/manga/hooks';
 import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
-import SourceGridLayout from '@/components/source/GridLayouts';
-import AppbarSearch from '@/components/util/AppbarSearch';
-import SourceOptions from '@/components/source/SourceOptions';
-import NavbarContext from '@/components/context/NavbarContext';
-import SourceMangaGrid from '@/components/source/SourceMangaGrid';
+import { SourceGridLayout } from '@/components/source/GridLayouts';
+import { AppbarSearch } from '@/components/util/AppbarSearch';
+import { SourceOptions } from '@/components/source/SourceOptions';
+import { SourceMangaGrid } from '@/components/source/SourceMangaGrid';
 import {
     GetSourceMangasFetchMutation,
     GetSourceMangasFetchMutationVariables,
 } from '@/lib/graphql/generated/graphql.ts';
+import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 
 const ContentTypeMenu = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -191,9 +191,9 @@ const useSourceManga = (
     ];
 };
 
-export default function SourceMangas() {
+export function SourceMangas() {
     const { t } = useTranslation();
-    const { setTitle, setAction } = useContext(NavbarContext);
+    const { setTitle, setAction } = useContext(NavBarContext);
     const theme = useTheme();
     const isLargeScreen = useMediaQuery(theme.breakpoints.up('sm'));
 

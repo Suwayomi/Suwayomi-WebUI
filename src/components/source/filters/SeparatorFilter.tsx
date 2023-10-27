@@ -13,10 +13,8 @@ interface Props {
     name: string;
 }
 
-const SeparatorFilter: React.FC<Props> = ({ name }) => (
+export const SeparatorFilter: React.FC<Props> = ({ name }) => (
     <Divider key={name} sx={{ my: 1 }} textAlign="center">
         {name}
     </Divider>
 );
-
-export default SeparatorFilter;

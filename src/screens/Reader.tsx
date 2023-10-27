@@ -12,21 +12,21 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { ChapterOffset, IReaderSettings, ReaderType, TChapter, TManga, TranslationKey } from '@/typings';
-import requestManager from '@/lib/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 import {
     checkAndHandleMissingStoredReaderSettings,
     getReaderSettingsFor,
     useDefaultReaderSettings,
 } from '@/util/readerSettings';
 import { requestUpdateMangaMetadata } from '@/util/metadata';
-import HorizontalPager from '@/components/reader/pager/HorizontalPager';
-import PageNumber from '@/components/reader/PageNumber';
-import PagedPager from '@/components/reader/pager/PagedPager';
-import DoublePagedPager from '@/components/reader/pager/DoublePagedPager';
-import VerticalPager from '@/components/reader/pager/VerticalPager';
-import ReaderNavBar from '@/components/navbar/ReaderNavBar';
-import NavbarContext from '@/components/context/NavbarContext';
-import makeToast from '@/components/util/Toast';
+import { HorizontalPager } from '@/components/reader/pager/HorizontalPager';
+import { PageNumber } from '@/components/reader/PageNumber';
+import { PagedPager } from '@/components/reader/pager/PagedPager';
+import { DoublePagedPager } from '@/components/reader/pager/DoublePagedPager';
+import { VerticalPager } from '@/components/reader/pager/VerticalPager';
+import { ReaderNavBar } from '@/components/navbar/ReaderNavBar';
+import { makeToast } from '@/components/util/Toast';
+import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 
 const isDupChapter = async (chapterIndex: number, currentChapter: TChapter) => {
     const nextChapter = await requestManager.getChapter(currentChapter.manga.id, chapterIndex).response;
@@ -87,7 +87,7 @@ const initialChapter = {
     name: 'Loading...',
 } as unknown as TChapter;
 
-export default function Reader() {
+export function Reader() {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const location = useLocation();
@@ -148,7 +148,7 @@ export default function Reader() {
     const [wasLastPageReadSet, setWasLastPageReadSet] = useState(false);
     const [curPage, setCurPage] = useState<number>(0);
     const [pageToScrollTo, setPageToScrollTo] = useState<number | undefined>(undefined);
-    const { setOverride, setTitle } = useContext(NavbarContext);
+    const { setOverride, setTitle } = useContext(NavBarContext);
     const [retrievingNextChapter, setRetrievingNextChapter] = useState(false);
 
     const { settings: defaultSettings, loading: areDefaultSettingsLoading } = useDefaultReaderSettings();

@@ -11,17 +11,17 @@ import React, { useMemo } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
 import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
-import createTheme from '@/theme';
-import useLocalStorage from '@/util/useLocalStorage';
-import DarkTheme from '@/components/context/DarkTheme';
-import NavBarContextProvider from '@/components/navbar/NavBarContextProvider';
-import LibraryOptionsContextProvider from '@/components/library/LibraryOptionsProvider';
+import { createTheme } from '@/theme';
+import { useLocalStorage } from '@/util/useLocalStorage';
+import { DarkTheme } from '@/components/context/DarkTheme';
+import { NavBarContextProvider } from '@/components/navbar/NavBarContextProvider';
+import { LibraryOptionsContextProvider } from '@/components/library/LibraryOptionsProvider';
 
 interface Props {
     children: React.ReactNode;
 }
 
-const AppContext: React.FC<Props> = ({ children }) => {
+export const AppContext: React.FC<Props> = ({ children }) => {
     const [darkTheme, setDarkTheme] = useLocalStorage<boolean>('darkTheme', true);
 
     const darkThemeContext = useMemo(
@@ -50,5 +50,3 @@ const AppContext: React.FC<Props> = ({ children }) => {
         </Router>
     );
 };
-
-export default AppContext;

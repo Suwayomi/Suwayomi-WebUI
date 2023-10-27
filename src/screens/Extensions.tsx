@@ -14,9 +14,9 @@ import { StringParam, useQueryParam } from 'use-query-params';
 import { Virtuoso } from 'react-virtuoso';
 import { Typography, useMediaQuery, useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import requestManager from '@/lib/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { extensionDefaultLangs, DefaultLanguage, langSortCmp } from '@/util/language';
-import useLocalStorage from '@/util/useLocalStorage';
+import { useLocalStorage } from '@/util/useLocalStorage';
 import {
     ExtensionState,
     GroupedExtensions,
@@ -24,13 +24,13 @@ import {
     isExtensionStateOrLanguage,
     translateExtensionLanguage,
 } from '@/screens/util/Extensions';
-import AppbarSearch from '@/components/util/AppbarSearch';
-import LoadingPlaceholder from '@/components/util/LoadingPlaceholder';
+import { AppbarSearch } from '@/components/util/AppbarSearch';
+import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
 import { makeToaster } from '@/components/util/Toast';
-import LangSelect from '@/components/navbar/action/LangSelect';
-import NavbarContext from '@/components/context/NavbarContext';
-import ExtensionCard from '@/components/ExtensionCard';
+import { LangSelect } from '@/components/navbar/action/LangSelect';
+import { ExtensionCard } from '@/components/ExtensionCard';
 import { PartialExtension } from '@/typings.ts';
+import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 
 const LANGUAGE = 0;
 const EXTENSIONS = 1;
@@ -89,11 +89,11 @@ function getExtensionsInfo(extensions: PartialExtension[]): {
     };
 }
 
-export default function MangaExtensions() {
+export function Extensions() {
     const { t } = useTranslation();
 
     const inputRef = useRef<HTMLInputElement>(null);
-    const { setTitle, setAction } = useContext(NavbarContext);
+    const { setTitle, setAction } = useContext(NavBarContext);
     const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownExtensionLangs', extensionDefaultLangs());
     const [showNsfw] = useLocalStorage<boolean>('showNsfw', true);
     const theme = useTheme();

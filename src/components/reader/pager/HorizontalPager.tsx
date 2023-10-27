@@ -9,7 +9,7 @@
 import { useEffect, useRef } from 'react';
 import { Box } from '@mui/material';
 import { IReaderProps } from '@/typings';
-import Page from '@/components/reader/Page';
+import { Page } from '@/components/reader/Page';
 
 const findCurrentPageIndex = (wrapper: HTMLDivElement): number => {
     for (let i = 0; i < wrapper.children.length; i++) {
@@ -31,7 +31,7 @@ const isAtEnd = () => {
 };
 const isAtStart = () => window.scrollX <= 0;
 
-export default function HorizontalPager(props: IReaderProps) {
+export function HorizontalPager(props: IReaderProps) {
     const { pages, curPage, initialPage, settings, setCurPage, prevChapter, nextChapter } = props;
 
     const currentPageRef = useRef(initialPage);

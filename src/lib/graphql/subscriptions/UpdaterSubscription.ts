@@ -9,7 +9,6 @@
 import gql from 'graphql-tag';
 import { FULL_UPDATER_STATUS } from '@/lib/graphql/Fragments';
 
-// eslint-disable-next-line import/prefer-default-export
 export const UPDATER_SUBSCRIPTION = gql`
     ${FULL_UPDATER_STATUS}
     subscription UPDATER_SUBSCRIPTION {

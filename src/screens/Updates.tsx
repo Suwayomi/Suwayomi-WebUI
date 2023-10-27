@@ -18,13 +18,13 @@ import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { t as translate } from 'i18next';
 import { GroupedVirtuoso } from 'react-virtuoso';
-import requestManager from '@/lib/requests/RequestManager.ts';
-import LoadingPlaceholder from '@/components/util/LoadingPlaceholder';
-import EmptyView from '@/components/util/EmptyView';
-import DownloadStateIndicator from '@/components/molecules/DownloadStateIndicator';
-import NavbarContext from '@/components/context/NavbarContext';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
+import { EmptyView } from '@/components/util/EmptyView';
+import { DownloadStateIndicator } from '@/components/molecules/DownloadStateIndicator';
 import { DownloadType } from '@/lib/graphql/generated/graphql.ts';
 import { TChapter } from '@/typings.ts';
+import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 
 const StyledGroupedVirtuoso = styled(GroupedVirtuoso)(({ theme }) => ({
     // 64px header
@@ -96,11 +96,11 @@ const groupByDate = (updates: TChapter[]): [date: string, items: number][] => {
     return [...dateToItemMap.entries()];
 };
 
-const Updates: React.FC = () => {
+export const Updates: React.FC = () => {
     const { t } = useTranslation();
     const location = useLocation();
 
-    const { setTitle, setAction } = useContext(NavbarContext);
+    const { setTitle, setAction } = useContext(NavBarContext);
     const {
         data: chapterUpdateData,
         loading: isLoading,
@@ -229,5 +229,3 @@ const Updates: React.FC = () => {
         />
     );
 };
-
-export default Updates;

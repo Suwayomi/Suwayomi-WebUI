@@ -20,7 +20,7 @@ const defaultProps = {
     autoOpen: false,
 };
 
-const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
+export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
     const { autoOpen } = props;
     const [query, setQuery] = useQueryParam('query', StringParam);
     const [searchOpen, setSearchOpen] = useState(!!query);
@@ -90,5 +90,3 @@ const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
 };
 
 AppbarSearch.defaultProps = defaultProps;
-
-export default AppbarSearch;

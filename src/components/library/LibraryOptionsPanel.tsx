@@ -10,12 +10,12 @@ import { FormLabel, RadioGroup } from '@mui/material';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { LibraryOptions, LibrarySortMode, TranslationKey } from '@/typings';
-import CheckboxInput from '@/components/atoms/CheckboxInput';
-import RadioInput from '@/components/atoms/RadioInput';
-import SortRadioInput from '@/components/atoms/SortRadioInput';
-import ThreeStateCheckboxInput from '@/components/atoms/ThreeStateCheckboxInput';
+import { CheckboxInput } from '@/components/atoms/CheckboxInput';
+import { RadioInput } from '@/components/atoms/RadioInput';
+import { SortRadioInput } from '@/components/atoms/SortRadioInput';
+import { ThreeStateCheckboxInput } from '@/components/atoms/ThreeStateCheckboxInput';
 import { GridLayout, useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
-import OptionsTabs from '@/components/molecules/OptionsTabs';
+import { OptionsTabs } from '@/components/molecules/OptionsTabs';
 
 const TITLES: { [key in 'filter' | 'sort' | 'display']: TranslationKey } = {
     filter: 'global.label.filter',
@@ -35,7 +35,7 @@ interface IProps {
     onClose: () => void;
 }
 
-const LibraryOptionsPanel: React.FC<IProps> = ({ open, onClose }) => {
+export const LibraryOptionsPanel: React.FC<IProps> = ({ open, onClose }) => {
     const { t } = useTranslation();
     const { options, setOptions } = useLibraryOptionsContext();
 
@@ -133,5 +133,3 @@ const LibraryOptionsPanel: React.FC<IProps> = ({ open, onClose }) => {
         />
     );
 };
-
-export default LibraryOptionsPanel;

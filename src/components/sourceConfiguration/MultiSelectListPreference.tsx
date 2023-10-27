@@ -19,7 +19,7 @@ import Button from '@mui/material/Button';
 import { useTranslation } from 'react-i18next';
 import { ListItemButton } from '@mui/material';
 import { MultiSelectListPreferenceProps } from '@/typings';
-import cloneObject from '@/util/cloneObject';
+import { cloneObject } from '@/util/cloneObject';
 
 interface IListDialogProps {
     selectedValues: string[];
@@ -98,7 +98,7 @@ function ListDialog(props: IListDialogProps) {
     );
 }
 
-export default function MultiSelectListPreference(props: MultiSelectListPreferenceProps) {
+export function MultiSelectListPreference(props: MultiSelectListPreferenceProps) {
     const {
         MultiSelectListPreferenceTitle: title,
         summary,

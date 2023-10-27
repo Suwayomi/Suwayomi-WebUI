@@ -33,7 +33,7 @@ const ICONS = {
     mark_as_unread: RemoveDone,
 };
 
-const SelectionFABActionItem: React.FC<IProps> = ({ action, matchingChapters, onClick, title }) => {
+export const SelectionFABActionItem: React.FC<IProps> = ({ action, matchingChapters, onClick, title }) => {
     const count = matchingChapters.length;
     const Icon = ICONS[action];
     return (
@@ -48,5 +48,3 @@ const SelectionFABActionItem: React.FC<IProps> = ({ action, matchingChapters, on
         </MenuItem>
     );
 };
-
-export default SelectionFABActionItem;

@@ -12,9 +12,9 @@ import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 import { Avatar, Box, CardContent, styled } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import requestManager from '@/lib/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { GridLayout, useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
-import SpinnerImage from '@/components/util/SpinnerImage';
+import { SpinnerImage } from '@/components/util/SpinnerImage';
 import { TPartialManga } from '@/typings.ts';
 
 const BottomGradient = styled('div')({
@@ -71,7 +71,7 @@ interface IProps {
     inLibraryIndicator?: boolean;
 }
 
-const MangaCard = (props: IProps) => {
+export const MangaCard = (props: IProps) => {
     const { t } = useTranslation();
 
     const {
@@ -259,5 +259,3 @@ const MangaCard = (props: IProps) => {
         </Card>
     );
 };
-
-export default MangaCard;

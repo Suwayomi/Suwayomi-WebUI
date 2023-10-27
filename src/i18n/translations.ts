@@ -29,7 +29,7 @@ const translationHelper = <T>(lng: T) => ({
  * Keys have to match {@link ISOLanguages} codes, they're used for showing the language name in the dropdown in the {@link Settings}.<br/>
  * In case there is no language code for the key in {@link ISOLanguages}, the corresponding language has to be added
  */
-const resources = {
+export const resources = {
     ar: translationHelper(ar),
     de: translationHelper(de),
     es: translationHelper(es),
@@ -45,5 +45,3 @@ const resources = {
     'zh-Hans': translationHelper(zh_Hans),
     'zh-Hant': translationHelper(zh_Hant),
 } as const;
-
-export default resources;

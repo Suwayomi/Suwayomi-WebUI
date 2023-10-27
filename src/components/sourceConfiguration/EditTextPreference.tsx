@@ -19,7 +19,7 @@ import { useTranslation } from 'react-i18next';
 import { ListItemButton } from '@mui/material';
 import { EditTextPreferenceProps } from '@/typings';
 
-export default function EditTextPreference(props: EditTextPreferenceProps) {
+export function EditTextPreference(props: EditTextPreferenceProps) {
     const { t } = useTranslation();
 
     const {

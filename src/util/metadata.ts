@@ -18,7 +18,7 @@ import {
     TChapter,
     TManga,
 } from '@/typings';
-import requestManager from '@/lib/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { MetaType } from '@/lib/graphql/generated/graphql.ts';
 
 const APP_METADATA_KEY_PREFIX = 'webUI_';
