@@ -313,6 +313,14 @@
             "info": "Entries in excluded categories will not be updated even if they are also in included categories"
           }
         },
+        "entries": {
+          "title": "Skip updating entries",
+          "label": {
+            "completed": "With \"Completed\" status",
+            "not_started": "That haven't been started",
+            "unread_chapters": "With unread chapter(s)"
+          }
+        },
         "title": "Global update"
       },
       "title": "Library Settings"

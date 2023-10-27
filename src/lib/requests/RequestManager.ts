@@ -83,6 +83,7 @@ import {
     GetMangaQueryVariables,
     GetMangasQuery,
     GetMangasQueryVariables,
+    GetServerSettingsQuery,
     GetSourceMangasFetchMutation,
     GetSourceMangasFetchMutationVariables,
     GetSourceQuery,
@@ -137,6 +138,8 @@ import {
     UpdateMangaPatchInput,
     UpdaterSubscription,
     UpdaterSubscriptionVariables,
+    UpdateServerSettingsMutation,
+    UpdateServerSettingsMutationVariables,
     UpdateSourcePreferencesMutation,
     UpdateSourcePreferencesMutationVariables,
     ValidateBackupQuery,
@@ -199,6 +202,8 @@ import { RESTORE_BACKUP } from '@/lib/graphql/mutations/BackupMutation.ts';
 import { VALIDATE_BACKUP } from '@/lib/graphql/queries/BackupQuery.ts';
 import { DOWNLOAD_STATUS_SUBSCRIPTION } from '@/lib/graphql/subscriptions/DownloaderSubscription.ts';
 import { UPDATER_SUBSCRIPTION } from '@/lib/graphql/subscriptions/UpdaterSubscription.ts';
+import { GET_SERVER_SETTINGS } from '@/lib/graphql/queries/SettingsQuery.ts';
+import { UPDATE_SERVER_SETTINGS } from '@/lib/graphql/mutations/SettingsMutation.ts';
 
 enum GQLMethod {
     QUERY = 'QUERY',
@@ -1775,6 +1780,18 @@ export class RequestManager {
         options?: SubscriptionHookOptions<UpdaterSubscription, UpdaterSubscriptionVariables>,
     ): SubscriptionResult<UpdaterSubscription, UpdaterSubscriptionVariables> {
         return this.doRequest(GQLMethod.USE_SUBSCRIPTION, UPDATER_SUBSCRIPTION, {}, options);
+    }
+
+    public useGetServerSettings(
+        options?: QueryHookOptions<GetServerSettingsQuery, GetSourcesQueryVariables>,
+    ): AbortableApolloUseQueryResponse<GetServerSettingsQuery, GetSourcesQueryVariables> {
+        return this.doRequest(GQLMethod.USE_QUERY, GET_SERVER_SETTINGS, undefined, options);
+    }
+
+    public useUpdateServerSettings(
+        options?: MutationHookOptions<UpdateServerSettingsMutation, UpdateServerSettingsMutationVariables>,
+    ): AbortableApolloUseMutationResponse<UpdateServerSettingsMutation, UpdateServerSettingsMutationVariables> {
+        return this.doRequest(GQLMethod.USE_MUTATION, UPDATE_SERVER_SETTINGS, undefined, options);
     }
 }
 
