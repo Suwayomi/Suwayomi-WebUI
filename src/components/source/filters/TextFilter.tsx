@@ -20,7 +20,7 @@ interface Props {
     update: any;
 }
 
-const TextFilter: React.FC<Props> = (props) => {
+export const TextFilter: React.FC<Props> = (props) => {
     const { state, name, position, group, updateFilterValue, update } = props;
     const [Search, setsearch] = React.useState(state || '');
     const inputText = useDebounce(Search, 500);
@@ -51,5 +51,3 @@ const TextFilter: React.FC<Props> = (props) => {
     }
     return null;
 };
-
-export default TextFilter;

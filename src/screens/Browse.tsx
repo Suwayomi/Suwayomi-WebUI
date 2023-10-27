@@ -10,11 +10,11 @@ import { useState } from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { useTranslation } from 'react-i18next';
-import Sources from '@/screens/Sources';
-import Extensions from '@/screens/Extensions';
-import TabPanel from '@/components/util/TabPanel';
+import { Sources } from '@/screens/Sources';
+import { Extensions } from '@/screens/Extensions';
+import { TabPanel } from '@/components/util/TabPanel';
 
-export default function Browse() {
+export function Browse() {
     const { t } = useTranslation();
 
     const [tabNum, setTabNum] = useState<number>(0);

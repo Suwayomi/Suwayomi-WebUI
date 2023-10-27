@@ -12,7 +12,6 @@ import { useTranslation } from 'react-i18next';
 import { GlobalUpdateSettingsCategories } from '@/components/globalUpdate/GlobalUpdateSettingsCategories.tsx';
 import { GlobalUpdateSettingsEntries } from '@/components/globalUpdate/GlobalUpdateSettingsEntries.tsx';
 
-// eslint-disable-next-line import/prefer-default-export
 export const GlobalUpdateSettings = () => {
     const { t } = useTranslation();
 

@@ -8,19 +8,17 @@
 
 import React, { useMemo } from 'react';
 import { LibraryOptions } from '@/typings';
-import useLocalStorage from '@/util/useLocalStorage';
-import LibraryOptionsContext, { DefaultLibraryOptions } from '@/components/context/LibraryOptionsContext';
+import { useLocalStorage } from '@/util/useLocalStorage';
+import { LibraryOptionsContext, DefaultLibraryOptions } from '@/components/context/LibraryOptionsContext';
 
 interface IProps {
     children: React.ReactNode;
 }
 
-const LibraryOptionsContextProvider: React.FC<IProps> = ({ children }) => {
+export const LibraryOptionsContextProvider: React.FC<IProps> = ({ children }) => {
     const [options, setOptions] = useLocalStorage<LibraryOptions>('libraryOptions', DefaultLibraryOptions);
 
     const value = useMemo(() => ({ options, setOptions }), [options, setOptions]);
 
     return <LibraryOptionsContext.Provider value={value}>{children}</LibraryOptionsContext.Provider>;
 };
-
-export default LibraryOptionsContextProvider;

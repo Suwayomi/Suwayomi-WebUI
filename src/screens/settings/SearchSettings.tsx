@@ -15,10 +15,10 @@ import ListSubheader from '@mui/material/ListSubheader';
 import { SearchMetadataKeys } from '@/typings';
 import { convertToGqlMeta, requestUpdateServerMetadata } from '@/util/metadata';
 import { useSearchSettings } from '@/util/searchSettings';
-import makeToast from '@/components/util/Toast';
+import { makeToast } from '@/components/util/Toast';
 import { useSetDefaultBackTo } from '@/components/context/NavbarContext';
 
-export default function SearchSettings() {
+export function SearchSettings() {
     const { t } = useTranslation();
     const { metadata, settings } = useSearchSettings();
 

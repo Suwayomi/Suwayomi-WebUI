@@ -6,9 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import storage from '@/util/localStorage.tsx';
+import * as storage from '@/util/localStorage.tsx';
 
-// eslint-disable-next-line import/prefer-default-export
 export abstract class BaseClient<Client, ClientConfig, Fetcher> {
     protected client!: Client;
 

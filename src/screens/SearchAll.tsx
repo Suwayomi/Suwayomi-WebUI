@@ -12,15 +12,15 @@ import { Link } from 'react-router-dom';
 import { StringParam, useQueryParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
 import { ISource } from '@/typings';
-import requestManager from '@/lib/requests/RequestManager.ts';
-import useLocalStorage from '@/util/useLocalStorage';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { useLocalStorage } from '@/util/useLocalStorage';
 import { langSortCmp, sourceDefualtLangs, sourceForcedDefaultLangs } from '@/util/language';
 import { translateExtensionLanguage } from '@/screens/util/Extensions';
-import AppbarSearch from '@/components/util/AppbarSearch';
-import LangSelect from '@/components/navbar/action/LangSelect';
-import MangaGrid from '@/components/MangaGrid';
-import NavbarContext from '@/components/context/NavbarContext';
+import { AppbarSearch } from '@/components/util/AppbarSearch';
+import { LangSelect } from '@/components/navbar/action/LangSelect';
+import { MangaGrid } from '@/components/MangaGrid';
 import { useDebounce } from '@/components/manga/hooks';
+import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 
 type SourceLoadingState = { isLoading: boolean; hasResults: boolean; emptySearch: boolean };
 type SourceToLoadingStateMap = Map<string, SourceLoadingState>;
@@ -155,10 +155,10 @@ const SourceSearchPreview = React.memo(
     },
 );
 
-const SearchAll: React.FC = () => {
+export const SearchAll: React.FC = () => {
     const { t } = useTranslation();
 
-    const { setTitle, setAction } = useContext(NavbarContext);
+    const { setTitle, setAction } = useContext(NavBarContext);
 
     const [query] = useQueryParam('query', StringParam);
     const searchString = useDebounce(query, TRIGGER_SEARCH_THRESHOLD);
@@ -236,5 +236,3 @@ const SearchAll: React.FC = () => {
         </>
     );
 };
-
-export default SearchAll;

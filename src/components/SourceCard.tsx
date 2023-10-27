@@ -16,7 +16,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { ISource } from '@/typings';
-import requestManager from '@/lib/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { translateExtensionLanguage } from '@/screens/util/Extensions';
 import { SourceContentType } from '@/screens/SourceMangas';
 
@@ -42,7 +42,7 @@ interface IProps {
     source: ISource;
 }
 
-const SourceCard: React.FC<IProps> = (props: IProps) => {
+export const SourceCard: React.FC<IProps> = (props: IProps) => {
     const { t } = useTranslation();
 
     const {
@@ -137,5 +137,3 @@ const SourceCard: React.FC<IProps> = (props: IProps) => {
         </Card>
     );
 };
-
-export default SourceCard;

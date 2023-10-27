@@ -9,7 +9,6 @@
 import gql from 'graphql-tag';
 import { FULL_DOWNLOAD_STATUS } from '@/lib/graphql/Fragments';
 
-// eslint-disable-next-line import/prefer-default-export
 export const DOWNLOAD_STATUS_SUBSCRIPTION = gql`
     ${FULL_DOWNLOAD_STATUS}
     subscription DOWNLOAD_STATUS_SUBSCRIPTION {

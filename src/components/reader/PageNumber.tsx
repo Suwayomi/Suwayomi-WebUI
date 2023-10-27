@@ -15,7 +15,7 @@ interface IProps {
     pageCount: number;
 }
 
-export default function PageNumber(props: IProps) {
+export function PageNumber(props: IProps) {
     const { settings, curPage, pageCount } = props;
 
     return (

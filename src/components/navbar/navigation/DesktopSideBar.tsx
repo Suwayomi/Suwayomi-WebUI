@@ -28,7 +28,7 @@ interface IProps {
     navBarItems: Array<NavbarItem>;
 }
 
-export default function DesktopSideBar({ navBarItems }: IProps) {
+export function DesktopSideBar({ navBarItems }: IProps) {
     const { t } = useTranslation();
     const location = useLocation();
     const theme = useTheme();

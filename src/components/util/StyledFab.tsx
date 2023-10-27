@@ -17,8 +17,6 @@ export const DEFAULT_FAB_STYLE = {
 
 export const DEFAULT_FULL_FAB_HEIGHT = `calc(${DEFAULT_FAB_STYLE.bottom} + ${DEFAULT_FAB_STYLE.height})`;
 
-const StyledFab = styled(Fab)({
+export const StyledFab = styled(Fab)({
     ...DEFAULT_FAB_STYLE,
 }) as typeof Fab;
-
-export default StyledFab;

@@ -9,14 +9,14 @@
 import { Link } from 'react-router-dom';
 import { PlayArrow } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
-import StyledFab from '@/components/util/StyledFab';
+import { StyledFab } from '@/components/util/StyledFab';
 
 interface ResumeFABProps {
     chapterIndex: number;
     mangaId: number;
 }
 
-export default function ResumeFab(props: ResumeFABProps) {
+export function ResumeFab(props: ResumeFABProps) {
     const { t } = useTranslation();
 
     const { chapterIndex, mangaId } = props;

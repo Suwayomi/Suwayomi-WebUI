@@ -16,7 +16,7 @@ interface IProps {
     minHeight?: number;
 }
 
-const OptionsPanel: React.FC<IProps> = ({ open, onClose, children, minHeight }) => (
+export const OptionsPanel: React.FC<IProps> = ({ open, onClose, children, minHeight }) => (
     <Drawer
         anchor="bottom"
         open={open}
@@ -37,5 +37,3 @@ const OptionsPanel: React.FC<IProps> = ({ open, onClose, children, minHeight }) 
 OptionsPanel.defaultProps = {
     minHeight: undefined,
 };
-
-export default OptionsPanel;

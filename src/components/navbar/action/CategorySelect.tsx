@@ -16,7 +16,7 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import { useTranslation } from 'react-i18next';
-import requestManager from '@/lib/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 
 interface IProps {
     open: boolean;
@@ -24,7 +24,7 @@ interface IProps {
     mangaId: number;
 }
 
-export default function CategorySelect(props: IProps) {
+export function CategorySelect(props: IProps) {
     const { t } = useTranslation();
 
     const { open, setOpen, mangaId } = props;

@@ -7,14 +7,14 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import MangaGrid, { IMangaGridProps } from '@/components/MangaGrid';
+import { MangaGrid, IMangaGridProps } from '@/components/MangaGrid';
 import { TPartialManga } from '@/typings.ts';
 
 function filterManga(mangas: TPartialManga[]): TPartialManga[] {
     return mangas;
 }
 
-export default function SourceMangaGrid(props: IMangaGridProps) {
+export function SourceMangaGrid(props: IMangaGridProps) {
     const { t } = useTranslation();
     const { mangas, isLoading, hasNextPage, loadMore, message, messageExtra, gridLayout } = props;
 

@@ -9,7 +9,6 @@
 import { useEffect, useState } from 'react';
 import { NavigationType, useLocation, useNavigationType } from 'react-router-dom';
 
-// eslint-disable-next-line import/prefer-default-export
 export const useHistory = () => {
     const location = useLocation();
     const navigationType = useNavigationType();

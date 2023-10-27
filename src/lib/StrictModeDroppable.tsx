@@ -11,7 +11,7 @@ import { Droppable, DroppableProps } from 'react-beautiful-dnd';
 
 // issue: https://github.com/atlassian/react-beautiful-dnd/issues/2399
 // credit for fix: https://github.com/atlassian/react-beautiful-dnd/issues/2399#issuecomment-1175638194
-export default function StrictModeDroppable({ children, ...props }: DroppableProps) {
+export function StrictModeDroppable({ children, ...props }: DroppableProps) {
     const [enabled, setEnabled] = useState(false);
 
     useEffect(() => {

@@ -15,7 +15,7 @@ import Typography from '@mui/material/Typography';
 import { Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { PartialExtension, TranslationKey } from '@/typings';
-import requestManager from '@/lib/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 
 interface IProps {
     extension: PartialExtension;
@@ -60,7 +60,7 @@ const INSTALLED_STATE_TO_TRANSLATION_KEY_MAP: { [installedState in InstalledStat
     [InstalledState.INSTALLING]: 'extension.state.label.installing',
 } as const;
 
-export default function ExtensionCard(props: IProps) {
+export function ExtensionCard(props: IProps) {
     const { t } = useTranslation();
 
     const {

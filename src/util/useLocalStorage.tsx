@@ -7,9 +7,9 @@
  */
 
 import { useState, Dispatch, SetStateAction, useReducer, Reducer, useCallback } from 'react';
-import storage from '@/util/localStorage';
+import * as storage from '@/util/localStorage';
 
-export default function useLocalStorage<T>(key: string, defaultValue: T | (() => T)): [T, Dispatch<SetStateAction<T>>] {
+export function useLocalStorage<T>(key: string, defaultValue: T | (() => T)): [T, Dispatch<SetStateAction<T>>] {
     const initialState = defaultValue instanceof Function ? defaultValue() : defaultValue;
     const [storedValue, setStoredValue] = useState<T>(storage.getItem(key, initialState));
 

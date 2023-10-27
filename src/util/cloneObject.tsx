@@ -6,6 +6,6 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-export default function cloneObject<T extends object>(obj: T) {
+export function cloneObject<T extends object>(obj: T) {
     return JSON.parse(JSON.stringify(obj)) as T;
 }

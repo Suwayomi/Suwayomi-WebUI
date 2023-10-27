@@ -37,7 +37,7 @@ interface IProps {
     navBarItems: Array<NavbarItem>;
 }
 
-export default function MobileBottomBar({ navBarItems }: IProps) {
+export function MobileBottomBar({ navBarItems }: IProps) {
     const { t } = useTranslation();
     const location = useLocation();
     const theme = useTheme();

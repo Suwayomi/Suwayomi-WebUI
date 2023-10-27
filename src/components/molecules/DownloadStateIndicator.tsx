@@ -24,7 +24,7 @@ const DOWNLOAD_STATE_TO_TRANSLATION_KEY_MAP: { [state in DownloadState]: Transla
     QUEUED: 'download.state.label.queued',
 } as const;
 
-const DownloadStateIndicator: React.FC<DownloadStateIndicatorProps> = ({ download }) => {
+export const DownloadStateIndicator: React.FC<DownloadStateIndicatorProps> = ({ download }) => {
     const { t } = useTranslation();
 
     return (
@@ -59,5 +59,3 @@ const DownloadStateIndicator: React.FC<DownloadStateIndicatorProps> = ({ downloa
         </Box>
     );
 };
-
-export default DownloadStateIndicator;

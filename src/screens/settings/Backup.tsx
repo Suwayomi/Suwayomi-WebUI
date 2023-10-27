@@ -12,14 +12,14 @@ import ListItemText from '@mui/material/ListItemText';
 import { fromEvent } from 'file-selector';
 import { useTranslation } from 'react-i18next';
 import { ListItemButton } from '@mui/material';
-import requestManager from '@/lib/requests/RequestManager.ts';
-import makeToast from '@/components/util/Toast';
-import ListItemLink from '@/components/util/ListItemLink';
-import NavbarContext, { useSetDefaultBackTo } from '@/components/context/NavbarContext';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { makeToast } from '@/components/util/Toast';
+import { ListItemLink } from '@/components/util/ListItemLink';
+import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext';
 
-export default function Backup() {
+export function Backup() {
     const { t } = useTranslation();
-    const { setTitle, setAction } = useContext(NavbarContext);
+    const { setTitle, setAction } = useContext(NavBarContext);
     useEffect(() => {
         setTitle(t('settings.backup.title'));
         setAction(null);

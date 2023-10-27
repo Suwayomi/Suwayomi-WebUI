@@ -11,11 +11,11 @@ import Grid, { GridTypeMap } from '@mui/material/Grid';
 import { Box, Typography } from '@mui/material';
 import { GridItemProps, VirtuosoGrid, VirtuosoGridHandle } from 'react-virtuoso';
 import { useNavigate, useLocation } from 'react-router-dom';
-import EmptyView from '@/components/util/EmptyView';
-import LoadingPlaceholder from '@/components/util/LoadingPlaceholder';
-import MangaCard from '@/components/MangaCard';
+import { EmptyView } from '@/components/util/EmptyView';
+import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
+import { MangaCard } from '@/components/MangaCard';
 import { GridLayout } from '@/components/context/LibraryOptionsContext';
-import useLocalStorage from '@/util/useLocalStorage';
+import { useLocalStorage } from '@/util/useLocalStorage';
 import { TPartialManga } from '@/typings.ts';
 
 const GridContainer = React.forwardRef<HTMLDivElement, GridTypeMap['props']>(({ children, ...props }, ref) => (
@@ -162,7 +162,7 @@ export interface IMangaGridProps {
     inLibraryIndicator?: boolean;
 }
 
-const MangaGrid: React.FC<IMangaGridProps> = (props) => {
+export const MangaGrid: React.FC<IMangaGridProps> = (props) => {
     const {
         mangas,
         isLoading,
@@ -256,5 +256,3 @@ MangaGrid.defaultProps = {
     message: '',
     messageExtra: undefined,
 };
-
-export default MangaGrid;

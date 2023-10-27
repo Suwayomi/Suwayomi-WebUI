@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import ThreeStateCheckboxInput from '@/components/atoms/ThreeStateCheckboxInput';
+import { ThreeStateCheckboxInput } from '@/components/atoms/ThreeStateCheckboxInput';
 import { TriState } from '@/lib/graphql/generated/graphql.ts';
 
 interface Props {
@@ -45,7 +45,7 @@ const convertNumberToTriState = (state: number): TriState => {
     }
 };
 
-const TriStateFilter: React.FC<Props> = (props) => {
+export const TriStateFilter: React.FC<Props> = (props) => {
     const { state, name, position, group, updateFilterValue, update } = props;
     const [val, setval] = React.useState(convertTriStateToNumber(state));
 
@@ -78,5 +78,3 @@ const TriStateFilter: React.FC<Props> = (props) => {
     }
     return null;
 };
-
-export default TriStateFilter;

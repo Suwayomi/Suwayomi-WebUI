@@ -12,14 +12,14 @@ import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ISource } from '@/typings';
-import requestManager from '@/lib/requests/RequestManager.ts';
-import useLocalStorage from '@/util/useLocalStorage';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { useLocalStorage } from '@/util/useLocalStorage';
 import { sourceDefualtLangs, sourceForcedDefaultLangs, langSortCmp } from '@/util/language';
 import { translateExtensionLanguage } from '@/screens/util/Extensions';
-import LoadingPlaceholder from '@/components/util/LoadingPlaceholder';
-import NavbarContext from '@/components/context/NavbarContext';
-import SourceCard from '@/components/SourceCard';
-import LangSelect from '@/components/navbar/action/LangSelect';
+import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
+import { SourceCard } from '@/components/SourceCard';
+import { LangSelect } from '@/components/navbar/action/LangSelect';
+import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 
 function sourceToLangList(sources: ISource[]) {
     const result: string[] = [];
@@ -46,9 +46,9 @@ function groupByLang(sources: ISource[]) {
     return result;
 }
 
-export default function Sources() {
+export function Sources() {
     const { t } = useTranslation();
-    const { setTitle, setAction } = useContext(NavbarContext);
+    const { setTitle, setAction } = useContext(NavBarContext);
 
     const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownSourceLangs', sourceDefualtLangs());
     const [showNsfw] = useLocalStorage<boolean>('showNsfw', true);

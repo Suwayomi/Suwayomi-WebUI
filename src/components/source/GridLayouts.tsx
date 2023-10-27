@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { GridLayout, useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
 
 // TODO: clean up this to use a FormControl, and remove dependency on name o radio button
-export default function SourceGridLayout() {
+export function SourceGridLayout() {
     const { t } = useTranslation();
 
     const {

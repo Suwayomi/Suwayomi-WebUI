@@ -18,24 +18,24 @@ import { DragDropContext, Draggable } from 'react-beautiful-dnd';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import requestManager from '@/lib/requests/RequestManager.ts';
-import StrictModeDroppable from '@/lib/StrictModeDroppable';
-import makeToast from '@/components/util/Toast';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { StrictModeDroppable } from '@/lib/StrictModeDroppable';
+import { makeToast } from '@/components/util/Toast';
 import { NavbarToolbar } from '@/components/navbar/DefaultNavBar';
-import DownloadStateIndicator from '@/components/molecules/DownloadStateIndicator';
-import EmptyView from '@/components/util/EmptyView';
-import NavbarContext from '@/components/context/NavbarContext';
+import { DownloadStateIndicator } from '@/components/molecules/DownloadStateIndicator';
+import { EmptyView } from '@/components/util/EmptyView';
 import { DownloadType } from '@/lib/graphql/generated/graphql.ts';
 import { TChapter } from '@/typings.ts';
+import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 
-const DownloadQueue: React.FC = () => {
+export const DownloadQueue: React.FC = () => {
     const { t } = useTranslation();
 
     const { data: downloaderData } = requestManager.useDownloadSubscription();
     const queue = (downloaderData?.downloadChanged.queue as DownloadType[]) ?? [];
     const status = downloaderData?.downloadChanged.state ?? 'STARTED';
 
-    const { setTitle, setAction } = useContext(NavbarContext);
+    const { setTitle, setAction } = useContext(NavBarContext);
 
     const toggleQueueStatus = () => {
         if (status === 'STOPPED') {
@@ -155,5 +155,3 @@ const DownloadQueue: React.FC = () => {
         </>
     );
 };
-
-export default DownloadQueue;

@@ -12,14 +12,14 @@ import React, { ComponentProps, useEffect, useMemo, useRef, useState } from 'rea
 import { Virtuoso } from 'react-virtuoso';
 import { useTranslation } from 'react-i18next';
 import { TChapter, TManga, TranslationKey } from '@/typings';
-import requestManager from '@/lib/requests/RequestManager.ts';
-import ChapterCard from '@/components/manga/ChapterCard';
-import ResumeFab from '@/components/manga/ResumeFAB';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { ChapterCard } from '@/components/manga/ChapterCard';
+import { ResumeFab } from '@/components/manga/ResumeFAB';
 import { filterAndSortChapters, useChapterOptions } from '@/components/manga/util';
-import EmptyView from '@/components/util/EmptyView';
-import makeToast from '@/components/util/Toast';
-import ChaptersToolbarMenu from '@/components/manga/ChaptersToolbarMenu';
-import SelectionFAB from '@/components/manga/SelectionFAB';
+import { EmptyView } from '@/components/util/EmptyView';
+import { makeToast } from '@/components/util/Toast';
+import { ChaptersToolbarMenu } from '@/components/manga/ChaptersToolbarMenu';
+import { SelectionFAB } from '@/components/manga/SelectionFAB';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/components/util/StyledFab';
 import { DownloadType, UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
 
@@ -78,7 +78,7 @@ interface IProps {
     isRefreshing: boolean;
 }
 
-const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
+export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
     const { t } = useTranslation();
 
     const [selection, setSelection] = useState<number[] | null>(null);
@@ -299,5 +299,3 @@ const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
         </>
     );
 };
-
-export default ChapterList;

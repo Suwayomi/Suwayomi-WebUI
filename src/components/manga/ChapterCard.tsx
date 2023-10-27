@@ -27,9 +27,9 @@ import Typography from '@mui/material/Typography';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import requestManager from '@/lib/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { getUploadDateString } from '@/util/date';
-import DownloadStateIndicator from '@/components/molecules/DownloadStateIndicator';
+import { DownloadStateIndicator } from '@/components/molecules/DownloadStateIndicator';
 import { DownloadType, UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
 import { TChapter } from '@/typings.ts';
 
@@ -42,7 +42,7 @@ interface IProps {
     selected: boolean | null;
 }
 
-const ChapterCard: React.FC<IProps> = (props: IProps) => {
+export const ChapterCard: React.FC<IProps> = (props: IProps) => {
     const { t } = useTranslation();
     const theme = useTheme();
 
@@ -212,5 +212,3 @@ const ChapterCard: React.FC<IProps> = (props: IProps) => {
         </li>
     );
 };
-
-export default ChapterCard;

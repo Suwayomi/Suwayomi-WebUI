@@ -8,8 +8,8 @@
 
 import { Stack, Tab, Tabs } from '@mui/material';
 import React, { useState } from 'react';
-import TabPanel from '@/components/util/TabPanel';
-import OptionsPanel from '@/components/molecules/OptionsPanel';
+import { TabPanel } from '@/components/util/TabPanel';
+import { OptionsPanel } from '@/components/molecules/OptionsPanel';
 
 interface IProps<T = string> {
     open: boolean;
@@ -20,7 +20,7 @@ interface IProps<T = string> {
     minHeight?: number;
 }
 
-const OptionsTabs = <T extends string = string>({
+export const OptionsTabs = <T extends string = string>({
     open,
     onClose,
     tabs,
@@ -55,5 +55,3 @@ const OptionsTabs = <T extends string = string>({
 OptionsTabs.defaultProps = {
     minHeight: undefined,
 };
-
-export default OptionsTabs;

@@ -26,7 +26,7 @@ interface IProps {
     settings: IReaderSettings;
 }
 
-const DoublePage = forwardRef((props: IProps, ref: any) => {
+export const DoublePage = forwardRef((props: IProps, ref: any) => {
     const { image1src, image2src, index, settings } = props;
 
     return (
@@ -47,5 +47,3 @@ const DoublePage = forwardRef((props: IProps, ref: any) => {
         </Box>
     );
 });
-
-export default DoublePage;

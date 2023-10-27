@@ -18,7 +18,7 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import { List, ListItemSecondaryAction, ListItemText } from '@mui/material';
 import ListItem from '@mui/material/ListItem';
 import { useTranslation } from 'react-i18next';
-import cloneObject from '@/util/cloneObject';
+import { cloneObject } from '@/util/cloneObject';
 import { translateExtensionLanguage } from '@/screens/util/Extensions';
 
 function removeAll(firstList: any[], secondList: any[]) {
@@ -39,7 +39,7 @@ interface IProps {
     forcedLangs?: string[];
 }
 
-export default function LangSelect(props: IProps) {
+export function LangSelect(props: IProps) {
     const { t } = useTranslation();
 
     const { shownLangs, setShownLangs, allLangs, forcedLangs } = props;

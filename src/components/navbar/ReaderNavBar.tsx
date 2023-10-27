@@ -25,7 +25,7 @@ import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import Collapse from '@mui/material/Collapse';
 import { useTranslation } from 'react-i18next';
 import { ChapterOffset, IReaderSettings, TChapter, TManga } from '@/typings';
-import ReaderSettingsOptions from '@/components/reader/ReaderSettingsOptions';
+import { ReaderSettingsOptions } from '@/components/reader/ReaderSettingsOptions';
 
 const Root = styled('div')(({ theme }) => ({
     top: 0,
@@ -122,7 +122,7 @@ interface IProps {
     retrievingNextChapter: boolean;
 }
 
-export default function ReaderNavBar(props: IProps) {
+export function ReaderNavBar(props: IProps) {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const location = useLocation<{

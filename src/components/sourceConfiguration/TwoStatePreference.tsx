@@ -80,5 +80,3 @@ export function CheckBoxPreference(props: CheckBoxPreferenceProps) {
 export function SwitchPreferenceCompat(props: SwitchPreferenceCompatProps) {
     return <TwoSatePreference {...props} twoStateType="Switch" />;
 }
-
-export default { CheckBoxPreference, SwitchPreferenceCompat };

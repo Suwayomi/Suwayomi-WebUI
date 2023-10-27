@@ -18,7 +18,7 @@ interface IProps {
     usePadding?: boolean;
 }
 
-export default function LoadingPlaceholder(props: IProps) {
+export function LoadingPlaceholder(props: IProps) {
     const { children, shouldRender, component, componentProps, usePadding } = props;
 
     let condition = true;

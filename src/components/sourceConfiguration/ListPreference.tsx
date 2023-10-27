@@ -84,7 +84,7 @@ function ListDialog(props: IListDialogProps) {
     );
 }
 
-export default function ListPreference(props: ListPreferenceProps) {
+export function ListPreference(props: ListPreferenceProps) {
     const {
         ListPreferenceTitle: title,
         summary,

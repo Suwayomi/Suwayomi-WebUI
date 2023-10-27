@@ -34,12 +34,10 @@ export const DefaultLibraryOptions: LibraryOptions = {
     showTabSize: false,
 };
 
-const LibraryOptionsContext = React.createContext<ContextType>({
+export const LibraryOptionsContext = React.createContext<ContextType>({
     options: DefaultLibraryOptions,
     setOptions: () => {},
 });
-
-export default LibraryOptionsContext;
 
 export function useLibraryOptionsContext() {
     return useContext(LibraryOptionsContext);

@@ -7,7 +7,7 @@
  */
 
 import { Metadata, ISearchSettings } from '@/typings';
-import requestManager from '@/lib/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { convertFromGqlMeta, getMetadataFrom } from '@/util/metadata';
 
 export const getDefaultSettings = (): ISearchSettings => ({

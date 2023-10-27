@@ -9,9 +9,9 @@
 import { use } from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
-import resources from '@/i18n/translations';
+import { resources } from '@/i18n/translations';
 
-const i18n = use(initReactI18next)
+export const i18n = use(initReactI18next)
     .use(LanguageDetector)
     .init({
         resources,
@@ -23,5 +23,3 @@ const i18n = use(initReactI18next)
         returnNull: false,
         debug: process.env.NODE_ENV !== 'production',
     });
-
-export default i18n;

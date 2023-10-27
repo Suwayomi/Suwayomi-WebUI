@@ -15,8 +15,8 @@ import { useTranslation } from 'react-i18next';
 import { t as translate } from 'i18next';
 import Button from '@mui/material/Button';
 import { ISource, TManga } from '@/typings';
-import requestManager from '@/lib/requests/RequestManager.ts';
-import makeToast from '@/components/util/Toast';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { makeToast } from '@/components/util/Toast';
 
 const DetailsWrapper = styled('div')(({ theme }) => ({
     width: '100%',
@@ -165,7 +165,7 @@ function getValueOrUnknown(val?: string | null) {
     return val || 'UNKNOWN';
 }
 
-const MangaDetails: React.FC<IProps> = ({ manga }) => {
+export const MangaDetails: React.FC<IProps> = ({ manga }) => {
     const { t } = useTranslation();
     const { data: categoriesData, loading: areCategoriesLoading } = requestManager.useGetCategories();
     const categories = categoriesData?.categories.nodes ?? [];
@@ -250,5 +250,3 @@ const MangaDetails: React.FC<IProps> = ({ manga }) => {
         </DetailsWrapper>
     );
 };
-
-export default MangaDetails;

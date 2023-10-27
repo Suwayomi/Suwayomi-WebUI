@@ -6,7 +6,6 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-// eslint-disable-next-line import/prefer-default-export
 export class CustomCache {
     private keyToResponseMap = new Map<string, unknown>();
 

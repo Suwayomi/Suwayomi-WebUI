@@ -14,10 +14,10 @@ import ListItemText from '@mui/material/ListItemText';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { GetServerSettingsQuery } from '@/lib/graphql/generated/graphql.ts';
 import { TranslationKey } from '@/typings.ts';
-import requestManager from '@/lib/requests/RequestManager.ts';
-import makeToast from '@/components/util/Toast.tsx';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { makeToast } from '@/components/util/Toast.tsx';
 import { CheckboxContainer } from '@/components/globalUpdate/CheckboxContainer';
-import CheckboxInput from '@/components/atoms/CheckboxInput';
+import { CheckboxInput } from '@/components/atoms/CheckboxInput';
 
 type GlobalUpdateSkipEntriesSettings = Pick<
     GetServerSettingsQuery['settings'],
@@ -69,7 +69,6 @@ const extractSkipEntriesSettings = (
     excludeUnreadChapters: serverSettings.excludeUnreadChapters,
 });
 
-// eslint-disable-next-line import/prefer-default-export
 export const GlobalUpdateSettingsEntries = () => {
     const { t } = useTranslation();
     const { data, loading, error: requestError } = requestManager.useGetServerSettings();

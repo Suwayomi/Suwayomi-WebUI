@@ -9,7 +9,7 @@
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { Collapse, ListItemButton, ListItemText, Stack, Box } from '@mui/material';
 import React from 'react';
-import SortRadioInput from '@/components/atoms/SortRadioInput';
+import { SortRadioInput } from '@/components/atoms/SortRadioInput';
 import { SortSelectionInput } from '@/lib/graphql/generated/graphql.ts';
 
 interface Props {
@@ -22,7 +22,7 @@ interface Props {
     update: any;
 }
 
-const SortFilter: React.FC<Props> = (props: Props) => {
+export const SortFilter: React.FC<Props> = (props: Props) => {
     const { values, name, state, position, group, updateFilterValue, update } = props;
     const [val, setval] = React.useState(state);
 
@@ -72,5 +72,3 @@ const SortFilter: React.FC<Props> = (props: Props) => {
     }
     return null;
 };
-
-export default SortFilter;

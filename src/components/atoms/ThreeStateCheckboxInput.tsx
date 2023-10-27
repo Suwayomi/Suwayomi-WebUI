@@ -8,14 +8,12 @@
 
 import { FormControlLabel } from '@mui/material';
 import React from 'react';
-import ThreeStateCheckbox, { ThreeStateCheckboxProps } from '@/components/atoms/ThreeStateCheckbox';
+import { ThreeStateCheckbox, ThreeStateCheckboxProps } from '@/components/atoms/ThreeStateCheckbox';
 
 interface IProps extends ThreeStateCheckboxProps {
     label?: string;
 }
 
-const ThreeStateCheckboxInput: React.FC<IProps> = ({ label, sx, ...rest }) => (
+export const ThreeStateCheckboxInput: React.FC<IProps> = ({ label, sx, ...rest }) => (
     <FormControlLabel control={<ThreeStateCheckbox {...rest} />} label={label} sx={sx} />
 );
-
-export default ThreeStateCheckboxInput;

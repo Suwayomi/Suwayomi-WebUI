@@ -9,7 +9,6 @@
 import gql from 'graphql-tag';
 import { WEBUI_UPDATE_STATUS } from '@/lib/graphql/Fragments';
 
-// eslint-disable-next-line import/prefer-default-export
 export const UPDATE_WEBUI = gql`
     ${WEBUI_UPDATE_STATUS}
     mutation UPDATE_WEBUI($input: WebUIUpdateInput = {}) {

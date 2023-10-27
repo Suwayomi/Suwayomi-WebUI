@@ -10,16 +10,16 @@ import { Chip, Tab, Tabs, styled, Box } from '@mui/material';
 import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 import { useQueryParam, NumberParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
-import requestManager from '@/lib/requests/RequestManager.ts';
-import NavbarContext from '@/components/context/NavbarContext';
-import EmptyView from '@/components/util/EmptyView';
-import LoadingPlaceholder from '@/components/util/LoadingPlaceholder';
-import TabPanel from '@/components/util/TabPanel';
-import LibraryToolbarMenu from '@/components/library/LibraryToolbarMenu';
-import LibraryMangaGrid from '@/components/library/LibraryMangaGrid';
-import AppbarSearch from '@/components/util/AppbarSearch';
-import UpdateChecker from '@/components/library/UpdateChecker';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { EmptyView } from '@/components/util/EmptyView';
+import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
+import { TabPanel } from '@/components/util/TabPanel';
+import { LibraryToolbarMenu } from '@/components/library/LibraryToolbarMenu';
+import { LibraryMangaGrid } from '@/components/library/LibraryMangaGrid';
+import { AppbarSearch } from '@/components/util/AppbarSearch';
+import { UpdateChecker } from '@/components/library/UpdateChecker';
 import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
+import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 
 const StyledGridWrapper = styled(Box)(({ theme }) => ({
     // TabsMenu height + TabsMenu bottom padding - grid item top padding
@@ -58,7 +58,7 @@ const TitleSizeTag = (props: React.ComponentProps<typeof Chip>) => (
     <Chip {...props} size="small" sx={{ marginLeft: '5px' }} />
 );
 
-export default function Library() {
+export function Library() {
     const { t } = useTranslation();
 
     const { options } = useLibraryOptionsContext();
@@ -91,7 +91,7 @@ export default function Library() {
         refetch();
     }, [refetch]);
 
-    const { setTitle, setAction } = useContext(NavbarContext);
+    const { setTitle, setAction } = useContext(NavBarContext);
     useEffect(() => {
         const title = t('library.title');
         const navBarTitle = (

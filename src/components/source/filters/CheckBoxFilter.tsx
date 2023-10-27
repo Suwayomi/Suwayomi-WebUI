@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import CheckboxInput from '@/components/atoms/CheckboxInput';
+import { CheckboxInput } from '@/components/atoms/CheckboxInput';
 
 interface Props {
     state: boolean;
@@ -18,7 +18,7 @@ interface Props {
     update: any;
 }
 
-const CheckBoxFilter: React.FC<Props> = (props: Props) => {
+export const CheckBoxFilter: React.FC<Props> = (props: Props) => {
     const { state, name, position, group, updateFilterValue, update } = props;
     const [val, setval] = React.useState(state);
 
@@ -35,5 +35,3 @@ const CheckBoxFilter: React.FC<Props> = (props: Props) => {
     }
     return null;
 };
-
-export default CheckBoxFilter;

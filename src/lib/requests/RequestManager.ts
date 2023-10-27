@@ -28,7 +28,7 @@ import {
 import { OperationVariables } from '@apollo/client/core';
 import { useEffect, useRef, useState } from 'react';
 import { IRestClient, RestClient } from '@/lib/requests/client/RestClient.ts';
-import storage from '@/util/localStorage.tsx';
+import * as storage from '@/util/localStorage.tsx';
 import { GraphQLClient } from '@/lib/requests/client/GraphQLClient.ts';
 import {
     CategoryOrderBy,
@@ -1795,5 +1795,4 @@ export class RequestManager {
     }
 }
 
-const requestManager = new RequestManager();
-export default requestManager;
+export const requestManager = new RequestManager();

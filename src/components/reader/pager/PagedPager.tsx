@@ -9,9 +9,9 @@
 import { useEffect, useRef } from 'react';
 import { Box } from '@mui/material';
 import { IReaderProps } from '@/typings';
-import Page from '@/components/reader/Page';
+import { Page } from '@/components/reader/Page';
 
-export default function PagedReader(props: IReaderProps) {
+export function PagedPager(props: IReaderProps) {
     const { pages, settings, setCurPage, initialPage, curPage, nextChapter, prevChapter } = props;
 
     const selfRef = useRef<HTMLDivElement>(null);

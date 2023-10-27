@@ -10,14 +10,14 @@ import { createElement, useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import List from '@mui/material/List';
 import { useTranslation } from 'react-i18next';
-import requestManager from '@/lib/requests/RequestManager.ts';
-import cloneObject from '@/util/cloneObject';
-import NavbarContext from '@/components/context/NavbarContext';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { cloneObject } from '@/util/cloneObject';
 import { SwitchPreferenceCompat, CheckBoxPreference } from '@/components/sourceConfiguration/TwoStatePreference';
-import ListPreference from '@/components/sourceConfiguration/ListPreference';
-import EditTextPreference from '@/components/sourceConfiguration/EditTextPreference';
-import MultiSelectListPreference from '@/components/sourceConfiguration/MultiSelectListPreference';
+import { ListPreference } from '@/components/sourceConfiguration/ListPreference';
+import { EditTextPreference } from '@/components/sourceConfiguration/EditTextPreference';
+import { MultiSelectListPreference } from '@/components/sourceConfiguration/MultiSelectListPreference';
 import { PreferenceProps } from '@/typings.ts';
+import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 
 function getPrefComponent(type: string) {
     switch (type) {
@@ -36,9 +36,9 @@ function getPrefComponent(type: string) {
     }
 }
 
-export default function SourceConfigure() {
+export function SourceConfigure() {
     const { t } = useTranslation();
-    const { setTitle, setAction } = useContext(NavbarContext);
+    const { setTitle, setAction } = useContext(NavBarContext);
 
     useEffect(() => {
         setTitle(t('source.configuration.title'));

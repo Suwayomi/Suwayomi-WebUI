@@ -9,7 +9,6 @@
 import gql from 'graphql-tag';
 import { WEBUI_UPDATE_STATUS } from '@/lib/graphql/Fragments';
 
-// eslint-disable-next-line import/prefer-default-export
 export const WEBUI_UPDATE_SUBSCRIPTION = gql`
     ${WEBUI_UPDATE_STATUS}
     subscription WEBUI_UPDATE_SUBSCRIPTION {

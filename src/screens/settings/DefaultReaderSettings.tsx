@@ -17,13 +17,13 @@ import {
     getDefaultSettings,
     useDefaultReaderSettings,
 } from '@/util/readerSettings';
-import ReaderSettingsOptions from '@/components/reader/ReaderSettingsOptions';
-import makeToast from '@/components/util/Toast';
-import NavbarContext, { useSetDefaultBackTo } from '@/components/context/NavbarContext';
+import { ReaderSettingsOptions } from '@/components/reader/ReaderSettingsOptions';
+import { makeToast } from '@/components/util/Toast';
+import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext';
 
-export default function DefaultReaderSettings() {
+export function DefaultReaderSettings() {
     const { t } = useTranslation();
-    const { setTitle, setAction } = useContext(NavbarContext);
+    const { setTitle, setAction } = useContext(NavBarContext);
     useEffect(() => {
         setTitle(t('reader.settings.title.default_reader_settings'));
         setAction(null);

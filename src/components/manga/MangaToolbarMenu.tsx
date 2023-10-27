@@ -21,7 +21,7 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import CategorySelect from '@/components/navbar/action/CategorySelect';
+import { CategorySelect } from '@/components/navbar/action/CategorySelect';
 import { TManga } from '@/typings.ts';
 
 interface IProps {
@@ -30,7 +30,7 @@ interface IProps {
     refreshing: boolean;
 }
 
-const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
+export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
     const { t } = useTranslation();
     const theme = useTheme();
     const isLargeScreen = useMediaQuery(theme.breakpoints.up('sm'));
@@ -123,5 +123,3 @@ const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
         </>
     );
 };
-
-export default MangaToolbarMenu;

@@ -8,13 +8,13 @@
 
 import React, { useCallback, useMemo, useState } from 'react';
 import { INavbarOverride } from '@/typings';
-import NavBarContext from '@/components/context/NavbarContext';
+import { NavBarContext } from '@/components/context/NavbarContext';
 
 interface IProps {
     children: React.ReactNode;
 }
 
-export default function NavBarProvider({ children }: IProps) {
+export function NavBarContextProvider({ children }: IProps) {
     const [defaultBackTo, setDefaultBackTo] = useState<string | undefined>();
     const [title, setTitle] = useState<string | React.ReactNode>('Tachidesk');
     const [action, setAction] = useState<any>(<div />);

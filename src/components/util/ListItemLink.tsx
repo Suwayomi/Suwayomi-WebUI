@@ -9,7 +9,7 @@
 import { Link } from 'react-router-dom';
 import { ListItemButton, ListItemButtonProps } from '@mui/material';
 
-export default function ListItemLink(props: ListItemButtonProps<typeof Link, { directLink?: boolean }>) {
+export function ListItemLink(props: ListItemButtonProps<typeof Link, { directLink?: boolean }>) {
     const { directLink, to } = props;
     if (directLink) {
         if (typeof to !== 'string') {

@@ -24,10 +24,10 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { useTranslation } from 'react-i18next';
-import requestManager from '@/lib/requests/RequestManager.ts';
-import StrictModeDroppable from '@/lib/StrictModeDroppable';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { StrictModeDroppable } from '@/lib/StrictModeDroppable';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/components/util/StyledFab';
-import NavbarContext, { useSetDefaultBackTo } from '@/components/context/NavbarContext';
+import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext';
 import { TCategory } from '@/typings.ts';
 
 const getItemStyle = (
@@ -43,10 +43,10 @@ const getItemStyle = (
     }),
 });
 
-export default function Categories() {
+export function Categories() {
     const { t } = useTranslation();
 
-    const { setTitle, setAction } = useContext(NavbarContext);
+    const { setTitle, setAction } = useContext(NavBarContext);
     useEffect(() => {
         setTitle(t('category.title.categories'));
         setAction(null);

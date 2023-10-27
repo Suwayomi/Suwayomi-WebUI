@@ -12,21 +12,21 @@ import React, { useContext, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { isNetworkRequestInFlight } from '@apollo/client/core/networkStatus';
-import requestManager from '@/lib/requests/RequestManager.ts';
-import NavbarContext, { useSetDefaultBackTo } from '@/components/context/NavbarContext';
-import ChapterList from '@/components/manga/ChapterList';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext';
+import { ChapterList } from '@/components/manga/ChapterList';
 import { useRefreshManga } from '@/components/manga/hooks';
-import MangaDetails from '@/components/manga/MangaDetails';
-import MangaToolbarMenu from '@/components/manga/MangaToolbarMenu';
-import EmptyView from '@/components/util/EmptyView';
-import LoadingPlaceholder from '@/components/util/LoadingPlaceholder';
+import { MangaDetails } from '@/components/manga/MangaDetails';
+import { MangaToolbarMenu } from '@/components/manga/MangaToolbarMenu';
+import { EmptyView } from '@/components/util/EmptyView';
+import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
 
 const AUTOFETCH_AGE = 1000 * 60 * 60 * 24; // 24 hours
 
-const Manga: React.FC = () => {
+export const Manga: React.FC = () => {
     const { t } = useTranslation();
 
-    const { setTitle, setAction } = useContext(NavbarContext);
+    const { setTitle, setAction } = useContext(NavBarContext);
     const { id } = useParams<{ id: string }>();
     const autofetchedRef = useRef(false);
 
@@ -100,5 +100,3 @@ const Manga: React.FC = () => {
         </Box>
     );
 };
-
-export default Manga;

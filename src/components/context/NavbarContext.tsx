@@ -27,7 +27,7 @@ type ContextType = {
     setOverride: React.Dispatch<React.SetStateAction<INavbarOverride>>;
 };
 
-const NavBarContext = React.createContext<ContextType>({
+export const NavBarContext = React.createContext<ContextType>({
     defaultBackTo: undefined,
     setDefaultBackTo: (): void => {},
     title: 'Tachidesk',
@@ -37,8 +37,6 @@ const NavBarContext = React.createContext<ContextType>({
     override: { status: false, value: <div /> },
     setOverride: (): void => {},
 });
-
-export default NavBarContext;
 
 export const useNavBarContext = () => useContext(NavBarContext);
 
