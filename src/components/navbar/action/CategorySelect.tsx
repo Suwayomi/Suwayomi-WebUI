@@ -16,7 +16,7 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import { useTranslation } from 'react-i18next';
-import requestManager from '@/lib/RequestManager';
+import requestManager from '@/lib/requests/RequestManager.ts';
 
 interface IProps {
     open: boolean;
@@ -29,8 +29,10 @@ export default function CategorySelect(props: IProps) {
 
     const { open, setOpen, mangaId } = props;
 
-    const { data: mangaCategoriesData, mutate } = requestManager.useGetMangaCategories(mangaId);
-    const { data: categoriesData } = requestManager.useGetCategories();
+    const { data: mangaResult } = requestManager.useGetManga(mangaId);
+    const { data } = requestManager.useGetCategories();
+    const categoriesData = data?.categories.nodes;
+    const [triggerMutate] = requestManager.useUpdateMangaCategories();
 
     const allCategories = useMemo(() => {
         const cats = [...(categoriesData ?? [])]; // make copy
@@ -40,7 +42,7 @@ export default function CategorySelect(props: IProps) {
         return cats;
     }, [categoriesData]);
 
-    const selectedIds = mangaCategoriesData?.map((c) => c.id) ?? [];
+    const selectedIds = mangaResult?.manga.categories.nodes.map((c) => c.id) ?? [];
 
     const handleCancel = () => {
         setOpen(false);
@@ -53,10 +55,18 @@ export default function CategorySelect(props: IProps) {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>, categoryId: number) => {
         const { checked } = event.target as HTMLInputElement;
 
-        (checked
-            ? requestManager.addMangaToCategory(mangaId, categoryId)
-            : requestManager.removeMangaFromCategory(mangaId, categoryId)
-        ).response.then(() => mutate());
+        // TODO - update to only update categories when clicking OK - can now be updated in one go with graphql
+        triggerMutate({
+            variables: {
+                input: {
+                    id: mangaId,
+                    patch: {
+                        addToCategories: checked ? [categoryId] : [],
+                        removeFromCategories: !checked ? [categoryId] : [],
+                    },
+                },
+            },
+        });
     };
 
     return (

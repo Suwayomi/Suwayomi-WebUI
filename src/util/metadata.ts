@@ -6,20 +6,20 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { mutate } from 'swr';
 import {
     AllowedMetadataValueTypes,
     AppMetadataKeys,
-    ICategory,
-    IManga,
-    IMangaCard,
-    IMangaChapter,
+    GqlMetaHolder,
     IMetadataMigration,
     Metadata,
     MetadataHolder,
     MetadataKeyValuePair,
+    TCategory,
+    TChapter,
+    TManga,
 } from '@/typings';
-import requestManager, { RequestManager } from '@/lib/RequestManager';
+import requestManager from '@/lib/requests/RequestManager.ts';
+import { MetaType } from '@/lib/graphql/generated/graphql.ts';
 
 const APP_METADATA_KEY_PREFIX = 'webUI_';
 
@@ -115,6 +115,27 @@ const convertValueFromMetadata = <T extends AllowedMetadataValueTypes = AllowedM
     }
 
     return value as T;
+};
+
+export const convertFromGqlMeta = (gqlMetadata?: MetaType[]): Metadata | undefined => {
+    if (!gqlMetadata) {
+        return undefined;
+    }
+
+    const metadata: Metadata = {};
+    gqlMetadata.forEach(({ key, value }) => {
+        metadata[key] = value;
+    });
+
+    return metadata;
+};
+
+export const convertToGqlMeta = (metadata?: Metadata): MetaType[] | undefined => {
+    if (!metadata) {
+        return undefined;
+    }
+
+    return Object.entries(metadata).map(([key, value]) => ({ key, value }));
 };
 
 const getAppMetadataFrom = (meta: Metadata, appPrefix: string = APP_METADATA_KEY_PREFIX): Metadata => {
@@ -276,6 +297,8 @@ export const getMetadataFrom = <METADATA extends Partial<Metadata<AppMetadataKey
     return appMetadata;
 };
 
+// @ts-ignore
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const wrapMetadataWithMetaKey = (wrap: boolean, metadata: Metadata): MetadataHolder => {
     if (wrap) {
         return {
@@ -293,72 +316,54 @@ const wrapMetadataWithMetaKey = (wrap: boolean, metadata: Metadata): MetadataHol
 type MetadataHolderType = 'manga' | 'chapter' | 'category' | 'global';
 
 export const requestUpdateMetadataValue = async (
-    metadataHolder: MetadataHolder,
+    metadataHolder: GqlMetaHolder,
     holderType: MetadataHolderType,
     key: AppMetadataKeys,
     value: AllowedMetadataValueTypes,
 ): Promise<void> => {
     const metadataKey = getMetadataKey(key);
-    const mutatedMetadata = {
-        ...metadataHolder.meta,
-        [metadataKey]: `${value}`,
-    };
 
-    let endpoint: string;
     switch (holderType) {
         case 'category':
-            endpoint = `category/${(metadataHolder as ICategory).id}/meta`;
-            await requestManager.setCategoryMeta((metadataHolder as ICategory).id, metadataKey, value).response;
+            await requestManager.setCategoryMeta((metadataHolder as TCategory).id, metadataKey, value).response;
             break;
         case 'chapter':
-            // eslint-disable-next-line no-case-declarations
-            const { manga, chapter } = metadataHolder as IMangaChapter;
-            endpoint = `manga/${manga.id}/chapter/${chapter.index}/meta`;
-            await requestManager.setChapterMeta(manga.id, chapter.index, metadataKey, value).response;
+            await requestManager.setChapterMeta((metadataHolder as TChapter).id, metadataKey, value).response;
             break;
         case 'global':
-            endpoint = 'meta';
             await requestManager.setGlobalMetadata(metadataKey, value).response;
             break;
         case 'manga':
-            endpoint = `manga/${(metadataHolder as IManga).id}/meta`;
-            await requestManager.setMangaMeta((metadataHolder as IManga).id, metadataKey, value).response;
+            await requestManager.setMangaMeta((metadataHolder as TManga).id, metadataKey, value).response;
             break;
         default:
             throw new Error(`requestUpdateMetadataValue: unknown holderType "${holderType}"`);
     }
-
-    const urlToMutate = `${RequestManager.API_VERSION}${endpoint}`;
-    mutate(
-        urlToMutate,
-        { ...metadataHolder, ...wrapMetadataWithMetaKey(holderType !== 'global', mutatedMetadata) },
-        { revalidate: false },
-    );
 };
 
 export const requestUpdateMetadata = async (
-    metadataHolder: MetadataHolder,
+    metadataHolder: GqlMetaHolder,
     holderType: MetadataHolderType,
     keysToValues: [AppMetadataKeys, AllowedMetadataValueTypes][],
 ): Promise<void[]> =>
     Promise.all(keysToValues.map(([key, value]) => requestUpdateMetadataValue(metadataHolder, holderType, key, value)));
 
 export const requestUpdateServerMetadata = async (
-    serverMetadata: Metadata,
+    serverMetadata: MetaType[],
     keysToValues: MetadataKeyValuePair[],
 ): Promise<void[]> => requestUpdateMetadata({ meta: serverMetadata }, 'global', keysToValues);
 
 export const requestUpdateMangaMetadata = async (
-    manga: IMangaCard | IManga,
+    manga: TManga,
     keysToValues: MetadataKeyValuePair[],
 ): Promise<void[]> => requestUpdateMetadata(manga, 'manga', keysToValues);
 
 export const requestUpdateChapterMetadata = async (
-    mangaChapter: IMangaChapter,
+    chapter: TChapter,
     keysToValues: MetadataKeyValuePair[],
-): Promise<void[]> => requestUpdateMetadata(mangaChapter.chapter, 'chapter', keysToValues);
+): Promise<void[]> => requestUpdateMetadata(chapter, 'chapter', keysToValues);
 
 export const requestUpdateCategoryMetadata = async (
-    category: ICategory,
+    category: TCategory,
     keysToValues: MetadataKeyValuePair[],
 ): Promise<void[]> => requestUpdateMetadata(category, 'category', keysToValues);

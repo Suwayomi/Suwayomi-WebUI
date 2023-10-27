@@ -18,31 +18,27 @@ import { DragDropContext, Draggable } from 'react-beautiful-dnd';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { IChapter, IQueue } from '@/typings';
-import requestManager from '@/lib/RequestManager';
+import requestManager from '@/lib/requests/RequestManager.ts';
 import StrictModeDroppable from '@/lib/StrictModeDroppable';
 import makeToast from '@/components/util/Toast';
 import { NavbarToolbar } from '@/components/navbar/DefaultNavBar';
 import DownloadStateIndicator from '@/components/molecules/DownloadStateIndicator';
-import useSubscription from '@/components/library/useSubscription';
 import EmptyView from '@/components/util/EmptyView';
 import NavbarContext from '@/components/context/NavbarContext';
-
-const initialQueue = {
-    status: 'Stopped',
-    queue: [],
-} as IQueue;
+import { DownloadType } from '@/lib/graphql/generated/graphql.ts';
+import { TChapter } from '@/typings.ts';
 
 const DownloadQueue: React.FC = () => {
     const { t } = useTranslation();
 
-    const { data: queueState } = useSubscription<IQueue>('downloads');
-    const { queue, status } = queueState ?? initialQueue;
+    const { data: downloaderData } = requestManager.useDownloadSubscription();
+    const queue = (downloaderData?.downloadChanged.queue as DownloadType[]) ?? [];
+    const status = downloaderData?.downloadChanged.state ?? 'STARTED';
 
     const { setTitle, setAction } = useContext(NavbarContext);
 
     const toggleQueueStatus = () => {
-        if (status === 'Stopped') {
+        if (status === 'STOPPED') {
             requestManager.startDownloads();
         } else {
             requestManager.stopDownloads();
@@ -60,8 +56,8 @@ const DownloadQueue: React.FC = () => {
         return <EmptyView message={t('download.queue.label.no_downloads')} />;
     }
 
-    const handleDelete = async (chapter: IChapter) => {
-        const isRunning = status === 'Started';
+    const handleDelete = async (chapter: TChapter) => {
+        const isRunning = status === 'STARTED';
 
         try {
             if (isRunning) {
@@ -71,10 +67,10 @@ const DownloadQueue: React.FC = () => {
 
             await Promise.all([
                 // remove from download queue
-                requestManager.removeChapterFromDownloadQueue(chapter.mangaId, chapter.index).response,
+                requestManager.removeChapterFromDownloadQueue(chapter.id).response,
                 // delete partial download, should be handle server side?
                 // bug: The folder and the last image downloaded are not deleted
-                requestManager.deleteDownloadedChapter(chapter.mangaId, chapter.index).response,
+                requestManager.deleteDownloadedChapter(chapter.id).response,
             ]);
         } catch (error) {
             makeToast(t('download.queue.error.label.failed_to_remove'), 'error');
@@ -91,7 +87,7 @@ const DownloadQueue: React.FC = () => {
         <>
             <NavbarToolbar>
                 <IconButton onClick={toggleQueueStatus} size="large">
-                    {status === 'Stopped' ? <PlayArrowIcon /> : <PauseIcon />}
+                    {status === 'STOPPED' ? <PlayArrowIcon /> : <PauseIcon />}
                 </IconButton>
             </NavbarToolbar>
             <DragDropContext onDragEnd={onDragEnd}>
@@ -100,8 +96,8 @@ const DownloadQueue: React.FC = () => {
                         <Box ref={droppableProvided.innerRef} sx={{ pt: 1 }}>
                             {queue.map((item, index) => (
                                 <Draggable
-                                    key={`${item.mangaId}-${item.chapterIndex}`}
-                                    draggableId={`${item.mangaId}-${item.chapterIndex}`}
+                                    key={`${item.chapter.manga.id}-${item.chapter.sourceOrder}`}
+                                    draggableId={`${item.chapter.manga.id}-${item.chapter.sourceOrder}`}
                                     index={index}
                                 >
                                     {(draggableProvided, snapshot) => (
@@ -129,7 +125,7 @@ const DownloadQueue: React.FC = () => {
                                                         <DragHandle />
                                                     </IconButton>
                                                     <Stack sx={{ flex: 1, ml: 1 }} direction="column">
-                                                        <Typography variant="h6">{item.manga.title}</Typography>
+                                                        <Typography variant="h6">{item.chapter.manga.title}</Typography>
                                                         <Typography variant="caption" display="block" gutterBottom>
                                                             {item.chapter.name}
                                                         </Typography>

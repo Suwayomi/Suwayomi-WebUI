@@ -11,12 +11,12 @@ import Grid, { GridTypeMap } from '@mui/material/Grid';
 import { Box, Typography } from '@mui/material';
 import { GridItemProps, VirtuosoGrid, VirtuosoGridHandle } from 'react-virtuoso';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { IMangaCard } from '@/typings';
 import EmptyView from '@/components/util/EmptyView';
 import LoadingPlaceholder from '@/components/util/LoadingPlaceholder';
 import MangaCard from '@/components/MangaCard';
 import { GridLayout } from '@/components/context/LibraryOptionsContext';
 import useLocalStorage from '@/util/useLocalStorage';
+import { TPartialManga } from '@/typings.ts';
 
 const GridContainer = React.forwardRef<HTMLDivElement, GridTypeMap['props']>(({ children, ...props }, ref) => (
     <Grid {...props} ref={ref} container sx={{ paddingLeft: '5px', paddingRight: '13px' }}>
@@ -40,13 +40,13 @@ const GridItemContainerWithDimension = (
     );
 };
 
-const createMangaCard = (manga: IMangaCard, gridLayout?: GridLayout, inLibraryIndicator?: boolean) => (
+const createMangaCard = (manga: TPartialManga, gridLayout?: GridLayout, inLibraryIndicator?: boolean) => (
     <MangaCard key={manga.id} manga={manga} gridLayout={gridLayout} inLibraryIndicator={inLibraryIndicator} />
 );
 
 type DefaultGridProps = {
     isLoading: boolean;
-    mangas: IMangaCard[];
+    mangas: TPartialManga[];
     inLibraryIndicator?: boolean;
     GridItemContainer: (props: GridTypeMap['props'] & Partial<GridItemProps>) => JSX.Element;
     gridLayout?: GridLayout;
@@ -150,7 +150,7 @@ const VerticalGrid = ({
 };
 
 export interface IMangaGridProps {
-    mangas: IMangaCard[];
+    mangas: TPartialManga[];
     isLoading: boolean;
     message?: string;
     messageExtra?: JSX.Element;

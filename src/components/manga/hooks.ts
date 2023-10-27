@@ -7,8 +7,7 @@
  */
 
 import { useCallback, useEffect, useState } from 'react';
-import { mutate } from 'swr';
-import requestManager, { RequestManager } from '@/lib/RequestManager';
+import requestManager from '@/lib/requests/RequestManager.ts';
 
 export const useRefreshManga = (mangaId: string) => {
     const [fetchingOnline, setFetchingOnline] = useState(false);
@@ -16,14 +15,8 @@ export const useRefreshManga = (mangaId: string) => {
     const handleRefresh = useCallback(async () => {
         setFetchingOnline(true);
         await Promise.all([
-            requestManager.getManga(mangaId, true).response.then((res) => {
-                mutate(`${RequestManager.API_VERSION}manga/${mangaId}`, res, { revalidate: false });
-            }),
-            requestManager.getMangaChapters(mangaId, true).response.then((res) =>
-                mutate(`${RequestManager.API_VERSION}manga/${mangaId}/chapters`, res, {
-                    revalidate: false,
-                }),
-            ),
+            requestManager.getMangaFetch(mangaId, { awaitRefetchQueries: true }).response,
+            requestManager.getMangaChaptersFetch(mangaId, { awaitRefetchQueries: true }).response,
         ]).finally(() => setFetchingOnline(false));
     }, [mangaId]);
 

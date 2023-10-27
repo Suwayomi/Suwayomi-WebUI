@@ -1,0 +1,7 @@
+schema: schema.json # download the schema from the server and place it in "src/lib/graphql/"
+documents: [
+  'src/lib/graphql/queries/**',
+  'src/lib/graphql/mutations/**',
+  'src/lib/graphql/subscriptions/**',
+  'src/lib/graphql/Fragments.ts',
+]

@@ -9,13 +9,13 @@
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { Collapse, ListItemButton, ListItemText, Stack, Box } from '@mui/material';
 import React from 'react';
-import { IState } from '@/typings';
 import SortRadioInput from '@/components/atoms/SortRadioInput';
+import { SortSelectionInput } from '@/lib/graphql/generated/graphql.ts';
 
 interface Props {
     values: any;
     name: string;
-    state: IState;
+    state: SortSelectionInput;
     position: number;
     group: number | undefined;
     updateFilterValue: Function;
@@ -45,7 +45,7 @@ const SortFilter: React.FC<Props> = (props: Props) => {
             const upd = update.filter(
                 (e: { position: number; group: number | undefined }) => !(position === e.position && group === e.group),
             );
-            updateFilterValue([...upd, { position, state: JSON.stringify(tmp), group }]);
+            updateFilterValue([...upd, { type: 'sortState', position, state: tmp, group }]);
         };
 
         return (

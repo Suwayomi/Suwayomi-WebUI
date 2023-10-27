@@ -21,11 +21,11 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IManga } from '@/typings';
 import CategorySelect from '@/components/navbar/action/CategorySelect';
+import { TManga } from '@/typings.ts';
 
 interface IProps {
-    manga: IManga;
+    manga: TManga;
     onRefresh: () => any;
     refreshing: boolean;
 }

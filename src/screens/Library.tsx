@@ -7,10 +7,10 @@
  */
 
 import { Chip, Tab, Tabs, styled, Box } from '@mui/material';
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 import { useQueryParam, NumberParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
-import requestManager from '@/lib/RequestManager';
+import requestManager from '@/lib/requests/RequestManager.ts';
 import NavbarContext from '@/components/context/NavbarContext';
 import EmptyView from '@/components/util/EmptyView';
 import LoadingPlaceholder from '@/components/util/LoadingPlaceholder';
@@ -62,20 +62,34 @@ export default function Library() {
     const { t } = useTranslation();
 
     const { options } = useLibraryOptionsContext();
-    const [lastLibraryUpdate, setLastLibraryUpdate] = useState(Date.now());
-    const { data: tabsData, error: tabsError, isLoading: areCategoriesLoading } = requestManager.useGetCategories();
+    const {
+        data: categoriesResponse,
+        error: tabsError,
+        loading: areCategoriesLoading,
+        refetch,
+    } = requestManager.useGetCategories();
+    const tabsData = categoriesResponse?.categories.nodes.filter(
+        (category) => category.id !== 0 || (category.id === 0 && category.mangas.totalCount),
+    );
     const tabs = tabsData ?? [];
-    const librarySize = useMemo(() => tabs.map((tab) => tab.size).reduce((prev, curr) => prev + curr, 0), [tabs]);
+    const librarySize = useMemo(
+        () => tabs.map((tab) => tab.mangas.totalCount).reduce((prev, curr) => prev + curr, 0),
+        [tabs],
+    );
 
     const [tabSearchParam, setTabSearchParam] = useQueryParam('tab', NumberParam);
 
     const activeTab = tabs.find((tab) => tab.order === tabSearchParam) ?? tabs[0];
     const {
-        data: mangaData,
+        data: categoryMangaResponse,
         error: mangaError,
-        isLoading: mangaLoading,
-    } = requestManager.useGetCategoryMangas(activeTab?.id, { skipRequest: !activeTab });
-    const mangas = mangaData ?? [];
+        loading: mangaLoading,
+    } = requestManager.useGetCategoryMangas(activeTab?.id, { skip: !activeTab, nextFetchPolicy: 'cache-only' });
+    const mangas = categoryMangaResponse?.mangas.nodes ?? [];
+
+    const handleFinishedUpdate = useCallback(() => {
+        refetch();
+    }, [refetch]);
 
     const { setTitle, setAction } = useContext(NavbarContext);
     useEffect(() => {
@@ -91,7 +105,7 @@ export default function Library() {
             <>
                 <AppbarSearch />
                 <LibraryToolbarMenu />
-                <UpdateChecker handleFinishedUpdate={setLastLibraryUpdate} />
+                <UpdateChecker handleFinishedUpdate={handleFinishedUpdate} />
             </>,
         );
         return () => {
@@ -101,14 +115,14 @@ export default function Library() {
     }, [t, librarySize, areCategoriesLoading, options]);
 
     const handleTabChange = (newTab: number) => {
-        setTabSearchParam(newTab === 0 ? undefined : newTab);
+        setTabSearchParam(newTab);
     };
 
     if (tabsError != null) {
         return (
             <EmptyView
                 message={t('category.error.label.request_failure')}
-                messageExtra={tabsError?.message ?? tabsError}
+                messageExtra={tabsError.message ?? tabsError}
             />
         );
     }
@@ -125,7 +139,6 @@ export default function Library() {
         return (
             <LibraryMangaGrid
                 mangas={mangas}
-                lastLibraryUpdate={lastLibraryUpdate}
                 message={t('library.error.label.empty')}
                 isLoading={activeTab != null && mangaLoading}
             />
@@ -154,7 +167,7 @@ export default function Library() {
                         label={
                             <TitleWithSizeTag>
                                 {tab.name}
-                                {options.showTabSize ? <TitleSizeTag label={tab.size} /> : null}
+                                {options.showTabSize ? <TitleSizeTag label={tab.mangas.totalCount} /> : null}
                             </TitleWithSizeTag>
                         }
                         value={tab.order}
@@ -167,12 +180,11 @@ export default function Library() {
                         (mangaError ? (
                             <EmptyView
                                 message={t('manga.error.label.request_failure')}
-                                messageExtra={mangaError?.message ?? mangaError}
+                                messageExtra={mangaError.message ?? mangaError}
                             />
                         ) : (
                             <LibraryMangaGrid
                                 mangas={mangas}
-                                lastLibraryUpdate={lastLibraryUpdate}
                                 message={t('library.error.label.empty')}
                                 isLoading={mangaLoading}
                             />

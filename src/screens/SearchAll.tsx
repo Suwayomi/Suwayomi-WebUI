@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 import { StringParam, useQueryParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
 import { ISource } from '@/typings';
-import requestManager from '@/lib/RequestManager';
+import requestManager from '@/lib/requests/RequestManager.ts';
 import useLocalStorage from '@/util/useLocalStorage';
 import { langSortCmp, sourceDefualtLangs, sourceForcedDefaultLangs } from '@/util/language';
 import { translateExtensionLanguage } from '@/screens/util/Extensions';
@@ -96,16 +96,13 @@ const SourceSearchPreview = React.memo(
         emptyQuery: boolean;
     }) => {
         const { t } = useTranslation();
-        const skipRequest = !searchString;
 
         const { id, displayName, lang } = source;
-        const {
-            data: searchResult,
-            isLoading,
-            error,
-            abortRequest,
-        } = requestManager.useSourceQuickSearch(id, searchString ?? '', [], 1, { skipRequest });
-        const mangas = !isLoading ? searchResult?.[0]?.mangaList ?? [] : [];
+        const [, results] = requestManager.useSourceSearch(id, searchString ?? '', undefined, 1, {
+            skipRequest: !searchString,
+        });
+        const { data: searchResult, isLoading, error, abortRequest } = results[0]!;
+        const mangas = searchResult?.fetchSourceManga.mangas ?? [];
         const noMangasFound = !isLoading && !mangas.length;
 
         useEffect(() => {
@@ -169,7 +166,8 @@ const SearchAll: React.FC = () => {
     const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownSourceLangs', sourceDefualtLangs());
     const [showNsfw] = useLocalStorage<boolean>('showNsfw', true);
 
-    const { data: sources = [] } = requestManager.useGetSourceList();
+    const { data } = requestManager.useGetSourceList();
+    const sources = data?.sources.nodes ?? [];
     const [sourceToLoadingStateMap, setSourceToLoadingStateMap] = useState<SourceToLoadingStateMap>(new Map());
     const debouncedSourceToLoadingStateMap = useDebounce(sourceToLoadingStateMap, 500);
 

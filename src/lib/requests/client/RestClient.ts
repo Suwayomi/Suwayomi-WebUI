@@ -7,7 +7,7 @@
  */
 
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import storage from '@/util/localStorage';
+import { BaseClient } from '@/lib/requests/client/BaseClient.ts';
 
 export enum HttpMethod {
     GET = 'get',
@@ -28,13 +28,10 @@ export interface IRestClient {
     patch<Data = any, Response = SimpleRestResponse<Data>>(url: string, data?: any): Promise<Response>;
 }
 
-export class RestClient implements IRestClient {
-    protected client!: AxiosInstance;
-
-    constructor() {
-        this.createClient();
-    }
-
+export class RestClient
+    extends BaseClient<AxiosInstance, AxiosInstance['defaults'], <Data = any>(url: string, data: any) => Promise<Data>>
+    implements IRestClient
+{
     public readonly fetcher = async <Data = any>(
         url: string,
         {
@@ -75,12 +72,8 @@ export class RestClient implements IRestClient {
         return result.data;
     };
 
-    private createClient(): void {
-        const { hostname, port, protocol } = window.location;
-
-        // if port is 3000 it's probably running from webpack development server
-        const inferredPort = port === '3000' ? '4567' : port;
-        const baseURL = storage.getItem('serverBaseURL', `${protocol}//${hostname}:${inferredPort}`);
+    protected override createClient(): void {
+        const baseURL = this.getBaseUrl();
 
         this.client = axios.create({
             // baseURL must not have trailing slash

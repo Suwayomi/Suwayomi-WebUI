@@ -20,12 +20,13 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { styled } from '@mui/material';
 import { t as translate } from 'i18next';
 import { useTranslation } from 'react-i18next';
-import { ICategory, IncludeInGlobalUpdate } from '@/typings';
-import requestManager from '@/lib/RequestManager';
+import requestManager from '@/lib/requests/RequestManager.ts';
 import makeToast from '@/components/util/Toast';
 import ThreeStateCheckboxInput from '@/components/atoms/ThreeStateCheckboxInput';
 import NavbarContext, { useSetDefaultBackTo } from '@/components/context/NavbarContext';
 import SearchSettings from '@/screens/settings/SearchSettings';
+import { IncludeInUpdate } from '@/lib/graphql/generated/graphql.ts';
+import { TCategory } from '@/typings.ts';
 
 const CategoriesDiv = styled('div')({
     display: 'flex',
@@ -34,16 +35,35 @@ const CategoriesDiv = styled('div')({
     overflow: 'auto',
 });
 
-const includeInUpdateStatusToBoolean = (status: IncludeInGlobalUpdate) => {
-    if (status === IncludeInGlobalUpdate.UNSET) {
-        return null;
+const booleanToIncludeInStatus = (status: boolean | null | undefined): IncludeInUpdate => {
+    switch (status) {
+        case false:
+            return IncludeInUpdate.Exclude;
+        case true:
+            return IncludeInUpdate.Include;
+        case null:
+        case undefined:
+            return IncludeInUpdate.Unset;
+        default:
+            throw new Error(`booleanToIncludeInStatus: unexpected IncludeInUpdate status "${status}"`);
     }
+};
 
-    return !!status;
+const includeInUpdateStatusToBoolean = (status: IncludeInUpdate): boolean | null => {
+    switch (status) {
+        case IncludeInUpdate.Exclude:
+            return false;
+        case IncludeInUpdate.Include:
+            return true;
+        case IncludeInUpdate.Unset:
+            return null;
+        default:
+            throw new Error(`includeInUpdateStatusToBoolean: unexpected IncludeInUpdate status "${status}"`);
+    }
 };
 
 const getCategoryUpdateInfo = (
-    categories: ICategory[],
+    categories: TCategory[],
     areIncluded: boolean,
     unsetCategories: number,
     allCategories: number,
@@ -80,20 +100,25 @@ export default function LibrarySettings() {
 
     useSetDefaultBackTo('settings');
 
-    const { data: categories = [], error: requestError, mutate } = requestManager.useGetCategories();
-    const [dialogCategories, setDialogCategories] = useState<ICategory[]>(categories);
+    const { data, error: requestError } = requestManager.useGetCategories();
+    const categories = data?.categories.nodes;
+    const [dialogCategories, setDialogCategories] = useState<TCategory[]>(categories ?? []);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     useEffect(() => {
+        if (!categories) {
+            return;
+        }
+
         setDialogCategories(categories);
     }, [categories]);
 
-    const unsetCategories: ICategory[] =
-        categories?.filter((category) => category.includeInUpdate === IncludeInGlobalUpdate.UNSET) ?? [];
-    const excludedCategories: ICategory[] =
-        categories?.filter((category) => category.includeInUpdate === IncludeInGlobalUpdate.EXCLUDE) ?? [];
-    const includedCategories: ICategory[] =
-        categories?.filter((category) => category.includeInUpdate === IncludeInGlobalUpdate.INCLUDE) ?? [];
+    const unsetCategories: TCategory[] =
+        categories?.filter((category) => category.includeInUpdate === IncludeInUpdate.Unset) ?? [];
+    const excludedCategories: TCategory[] =
+        categories?.filter((category) => category.includeInUpdate === IncludeInUpdate.Exclude) ?? [];
+    const includedCategories: TCategory[] =
+        categories?.filter((category) => category.includeInUpdate === IncludeInUpdate.Include) ?? [];
     const excludedCategoriesText = getCategoryUpdateInfo(
         excludedCategories,
         false,
@@ -109,12 +134,12 @@ export default function LibrarySettings() {
         requestError,
     );
 
-    const updateCategory = (category: ICategory) =>
+    const updateCategory = (category: TCategory) =>
         requestManager.updateCategory(category.id, { includeInUpdate: category.includeInUpdate }).response;
 
     const updateCategories = async () => {
         const categoriesToUpdate = dialogCategories.filter((category) => {
-            const currentCategory = categories.find((currCategory) => currCategory.id === category.id);
+            const currentCategory = categories?.find((currCategory) => currCategory.id === category.id);
 
             if (!currentCategory) {
                 return false;
@@ -127,10 +152,11 @@ export default function LibrarySettings() {
 
         try {
             await Promise.all(categoriesToUpdate.map((category) => updateCategory(category)));
-            mutate([...dialogCategories], { revalidate: false });
+            // TODO - update cache immediately
+            // mutate(categoriesEndpoint, [...dialogCategories], { revalidate: false });
         } catch (error) {
             makeToast(t('global.error.label.failed_to_save_changes'), 'error');
-            mutate([...categories]);
+            // mutate(categoriesEndpoint, [...categories]);
         }
     };
 
@@ -192,13 +218,12 @@ export default function LibrarySettings() {
                                 label={category.name}
                                 checked={includeInUpdateStatusToBoolean(category.includeInUpdate)}
                                 onChange={(checked) => {
-                                    const newIncludeState: IncludeInGlobalUpdate =
-                                        checked == null ? IncludeInGlobalUpdate.UNSET : Number(checked);
+                                    const newIncludeState = booleanToIncludeInStatus(checked);
 
                                     const categoryIndex = dialogCategories.findIndex(
                                         (category_) => category_ === category,
                                     );
-                                    const updatedDialogCategories: ICategory[] = [
+                                    const updatedDialogCategories: TCategory[] = [
                                         ...dialogCategories.slice(0, categoryIndex),
                                         {
                                             ...category,

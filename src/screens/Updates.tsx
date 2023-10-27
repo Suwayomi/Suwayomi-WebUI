@@ -13,17 +13,18 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { t as translate } from 'i18next';
 import { GroupedVirtuoso } from 'react-virtuoso';
-import { IChapter, IMangaChapter, IQueue } from '@/typings';
-import requestManager from '@/lib/RequestManager';
+import requestManager from '@/lib/requests/RequestManager.ts';
 import LoadingPlaceholder from '@/components/util/LoadingPlaceholder';
 import EmptyView from '@/components/util/EmptyView';
 import DownloadStateIndicator from '@/components/molecules/DownloadStateIndicator';
 import NavbarContext from '@/components/context/NavbarContext';
+import { DownloadType } from '@/lib/graphql/generated/graphql.ts';
+import { TChapter } from '@/typings.ts';
 
 const StyledGroupedVirtuoso = styled(GroupedVirtuoso)(({ theme }) => ({
     // 64px header
@@ -81,24 +82,19 @@ function getDateString(date: Date) {
     return date.toLocaleDateString();
 }
 
-const groupByDate = (updates: IMangaChapter[]): [date: string, items: number][] => {
+const groupByDate = (updates: TChapter[]): [date: string, items: number][] => {
     if (!updates.length) {
         return [];
     }
 
     const dateToItemMap = new Map<string, number>();
     updates.forEach((item) => {
-        const date = getDateString(epochToDate(item.chapter.fetchedAt));
+        const date = getDateString(epochToDate(Number(item.fetchedAt)));
         dateToItemMap.set(date, (dateToItemMap.get(date) ?? 0) + 1);
     });
 
     return [...dateToItemMap.entries()];
 };
-
-const initialQueue = {
-    status: 'Stopped',
-    queue: [],
-} as IQueue;
 
 const Updates: React.FC = () => {
     const { t } = useTranslation();
@@ -106,33 +102,21 @@ const Updates: React.FC = () => {
 
     const { setTitle, setAction } = useContext(NavbarContext);
     const {
-        data: pages = [{ hasNextPage: false, page: [] }],
-        isLoading,
-        size: loadedPages,
-        setSize: setPages,
-    } = requestManager.useGetRecentlyUpdatedChapters();
-    const { hasNextPage } = pages[pages.length - 1];
-    const updateEntries = useMemo(
-        () => pages.map((page) => page.page).reduce((lastPageChapters, chapters) => [...lastPageChapters, ...chapters]),
-        [pages],
-    );
+        data: chapterUpdateData,
+        loading: isLoading,
+        fetchMore,
+    } = requestManager.useGetRecentlyUpdatedChapters(undefined, {
+        fetchPolicy: 'cache-and-network',
+        notifyOnNetworkStatusChange: true,
+        omitAbortSignal: true,
+    });
+    const hasNextPage = !!chapterUpdateData?.chapters.pageInfo.hasNextPage;
+    const endCursor = chapterUpdateData?.chapters.pageInfo.endCursor;
+    const updateEntries = chapterUpdateData?.chapters.nodes ?? [];
     const groupedUpdates = useMemo(() => groupByDate(updateEntries), [updateEntries]);
     const groupCounts: number[] = useMemo(() => groupedUpdates.map((group) => group[1]), [groupedUpdates]);
-
-    const [, setWsClient] = useState<WebSocket>();
-    const [{ queue }, setQueueState] = useState<IQueue>(initialQueue);
-
-    useEffect(() => {
-        const wsc = requestManager.getDownloadWebSocket();
-        wsc.onmessage = (e) => {
-            const data = JSON.parse(e.data) as IQueue;
-            setQueueState(data);
-        };
-
-        setWsClient(wsc);
-
-        return () => wsc.close();
-    }, []);
+    const { data: downloaderData } = requestManager.useDownloadSubscription();
+    const queue = (downloaderData?.downloadChanged.queue as DownloadType[]) ?? [];
 
     useEffect(() => {
         setTitle(t('updates.title'));
@@ -140,13 +124,16 @@ const Updates: React.FC = () => {
         setAction(null);
     }, [t]);
 
-    const downloadForChapter = (chapter: IChapter) => {
-        const { index, mangaId } = chapter;
-        return queue.find((q) => index === q.chapterIndex && mangaId === q.mangaId);
+    const downloadForChapter = (chapter: TChapter) => {
+        const {
+            sourceOrder,
+            manga: { id: mangaId },
+        } = chapter;
+        return queue.find((q) => sourceOrder === q.chapter.sourceOrder && mangaId === q.chapter.manga.id);
     };
 
-    const downloadChapter = (chapter: IChapter) => {
-        requestManager.addChapterToDownloadQueue(chapter.mangaId, chapter.index);
+    const downloadChapter = (chapter: TChapter) => {
+        requestManager.addChapterToDownloadQueue(chapter.id);
     };
 
     const loadMore = useCallback(() => {
@@ -154,8 +141,8 @@ const Updates: React.FC = () => {
             return;
         }
 
-        setPages(loadedPages + 1);
-    }, [hasNextPage, loadedPages]);
+        fetchMore({ variables: { offset: updateEntries.length } });
+    }, [hasNextPage, endCursor]);
 
     if (!isLoading && updateEntries.length === 0) {
         return <EmptyView message={t('updates.error.label.no_updates_available')} />;
@@ -179,7 +166,8 @@ const Updates: React.FC = () => {
                 </StyledGroupHeader>
             )}
             itemContent={(index) => {
-                const { chapter, manga } = updateEntries[index];
+                const chapter = updateEntries[index];
+                const { manga } = chapter;
                 const download = downloadForChapter(chapter);
 
                 return (
@@ -187,7 +175,7 @@ const Updates: React.FC = () => {
                         <Card>
                             <CardActionArea
                                 component={Link}
-                                to={`/manga/${chapter.mangaId}/chapter/${chapter.index}`}
+                                to={`/manga/${chapter.manga.id}/chapter/${chapter.sourceOrder}`}
                                 state={location.state}
                             >
                                 <CardContent
@@ -208,7 +196,7 @@ const Updates: React.FC = () => {
                                                 marginRight: 2,
                                                 imageRendering: 'pixelated',
                                             }}
-                                            src={requestManager.getValidImgUrlFor(manga.thumbnailUrl)}
+                                            src={requestManager.getValidImgUrlFor(manga.thumbnailUrl ?? '')}
                                         />
                                         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                                             <Typography variant="h5" component="h2">
@@ -220,7 +208,7 @@ const Updates: React.FC = () => {
                                         </Box>
                                     </Box>
                                     {download && <DownloadStateIndicator download={download} />}
-                                    {download == null && !chapter.downloaded && (
+                                    {download == null && !chapter.isDownloaded && (
                                         <IconButton
                                             onClick={(e) => {
                                                 e.stopPropagation();

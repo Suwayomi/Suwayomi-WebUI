@@ -19,7 +19,7 @@
     /* Bundler mode */
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,

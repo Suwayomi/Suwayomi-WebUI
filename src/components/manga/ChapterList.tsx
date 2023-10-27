@@ -11,9 +11,8 @@ import Typography from '@mui/material/Typography';
 import React, { ComponentProps, useEffect, useMemo, useRef, useState } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 import { useTranslation } from 'react-i18next';
-import { BatchChaptersChange, IChapter, IDownloadChapter, IQueue, TranslationKey } from '@/typings';
-import requestManager from '@/lib/RequestManager';
-import useSubscription from '@/components/library/useSubscription';
+import { TChapter, TManga, TranslationKey } from '@/typings';
+import requestManager from '@/lib/requests/RequestManager.ts';
 import ChapterCard from '@/components/manga/ChapterCard';
 import ResumeFab from '@/components/manga/ResumeFAB';
 import { filterAndSortChapters, useChapterOptions } from '@/components/manga/util';
@@ -22,6 +21,7 @@ import makeToast from '@/components/util/Toast';
 import ChaptersToolbarMenu from '@/components/manga/ChaptersToolbarMenu';
 import SelectionFAB from '@/components/manga/SelectionFAB';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/components/util/StyledFab';
+import { DownloadType, UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
 
 const StyledVirtuoso = styled(Virtuoso)(({ theme }) => ({
     listStyle: 'none',
@@ -68,58 +68,54 @@ const actionsStrings: {
 };
 
 export interface IChapterWithMeta {
-    chapter: IChapter;
-    downloadChapter: IDownloadChapter | undefined;
+    chapter: TChapter;
+    downloadChapter: DownloadType | undefined;
     selected: boolean | null;
 }
 
 interface IProps {
-    mangaId: string;
+    manga: TManga;
+    isRefreshing: boolean;
 }
 
-const ChapterList: React.FC<IProps> = ({ mangaId }) => {
+const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
     const { t } = useTranslation();
 
     const [selection, setSelection] = useState<number[] | null>(null);
-    const prevQueueRef = useRef<IDownloadChapter[]>();
-    const queue = useSubscription<IQueue>('downloads').data?.queue;
+    const prevQueueRef = useRef<DownloadType[]>();
+    const { data: downloaderData } = requestManager.useDownloadSubscription();
+    const queue = (downloaderData?.downloadChanged.queue as DownloadType[]) ?? [];
 
-    const [options, dispatch] = useChapterOptions(mangaId);
-    const { data: chaptersData, mutate, isLoading } = requestManager.useGetMangaChapters(mangaId);
-    const chapters = useMemo(() => chaptersData ?? [], [chaptersData]);
+    const [options, dispatch] = useChapterOptions(manga.id);
+    const { data: chaptersData, loading: isLoading, refetch } = requestManager.useGetMangaChapters(manga.id);
+    const chapters = useMemo(() => chaptersData?.chapters.nodes ?? [], [chaptersData?.chapters.nodes]);
+    const mangaChapterIds = useMemo(() => chapters.map((chapter) => chapter.id), [chapters]);
 
     useEffect(() => {
         if (prevQueueRef.current && queue) {
             const prevQueue = prevQueueRef.current;
             const changedDownloads = queue.filter((cd) => {
                 const prevChapterDownload = prevQueue.find(
-                    (pcd) => cd.chapterIndex === pcd.chapterIndex && cd.mangaId === pcd.mangaId,
+                    (pcd) =>
+                        cd.chapter.sourceOrder === pcd.chapter.sourceOrder &&
+                        cd.chapter.manga.id === pcd.chapter.manga.id,
                 );
                 if (!prevChapterDownload) return true;
                 return cd.state !== prevChapterDownload.state;
             });
 
-            if (changedDownloads.length > 0) {
-                mutate();
+            if (changedDownloads.length > 0 || prevQueue?.length !== queue.length) {
+                refetch();
             }
         }
 
         prevQueueRef.current = queue;
     }, [queue]);
 
-    const visibleChapters = useMemo(
-        () => filterAndSortChapters(chapters, options), //
-        [chapters, options],
-    );
+    const visibleChapters = useMemo(() => filterAndSortChapters(chapters, options), [chapters, options]);
 
-    const firstUnreadChapter = useMemo(
-        () =>
-            chapters
-                .slice()
-                .reverse()
-                .find((chapter) => !chapter.read),
-        [chapters],
-    );
+    const nextChapterIndexToRead = (manga.lastReadChapter?.sourceOrder ?? 0) + 1;
+    const isLatestChapterRead = manga.chapters.totalCount === manga.lastReadChapter?.sourceOrder;
 
     const handleSelection = (index: number) => {
         const chapter = visibleChapters[index];
@@ -154,26 +150,67 @@ const ChapterList: React.FC<IProps> = ({ mangaId }) => {
         if (action === 'download') {
             actionPromise = requestManager.addChaptersToDownloadQueue(chapterIds).response;
         } else {
-            const change: BatchChaptersChange = {};
+            const change: UpdateChapterPatchInput = {};
 
-            if (action === 'delete') change.delete = true;
-            else if (action === 'bookmark') change.isBookmarked = true;
+            if (action === 'bookmark') change.isBookmarked = true;
             else if (action === 'unbookmark') change.isBookmarked = false;
             else if (action === 'mark_as_read' || action === 'mark_as_unread') {
                 change.isRead = action === 'mark_as_read';
                 change.lastPageRead = 0;
             }
 
-            actionPromise = requestManager.updateChapters(chapterIds, change).response;
+            if (action === 'delete') {
+                actionPromise = requestManager.deleteDownloadedChapters(chapterIds).response;
+            } else {
+                actionPromise = requestManager.updateChapters(chapterIds, change).response;
+            }
         }
 
         actionPromise
             .then(() => makeToast(t(actionsStrings[action].success, { count: chapterIds.length }), 'success'))
-            .then(() => mutate())
             .catch(() => makeToast(t(actionsStrings[action].error, { count: chapterIds.length }), 'error'));
     };
 
-    if (isLoading) {
+    const noChaptersFound = chapters.length === 0;
+    const noChaptersMatchingFilter = !noChaptersFound && visibleChapters.length === 0;
+
+    const chaptersWithMeta: IChapterWithMeta[] = useMemo(
+        () =>
+            visibleChapters.map((chapter) => {
+                const downloadChapter = queue?.find(
+                    (cd) => cd.chapter.sourceOrder === chapter.sourceOrder && cd.chapter.manga.id === chapter.manga.id,
+                );
+                const selected = selection?.includes(chapter.id) ?? null;
+                return {
+                    chapter,
+                    downloadChapter,
+                    selected,
+                };
+            }),
+        [queue, selection, visibleChapters],
+    );
+
+    const selectedChapters = useMemo(() => {
+        if (!selection) {
+            return null;
+        }
+
+        return chaptersWithMeta.filter(({ chapter }) => selection.includes(chapter.id));
+    }, [selection, chapters]);
+
+    const chapterListFAB = useMemo(() => {
+        if (selectedChapters) {
+            return <SelectionFAB selectedChapters={selectedChapters} onAction={handleFabAction} />;
+        }
+
+        if (!isLatestChapterRead) {
+            return <ResumeFab chapterIndex={nextChapterIndexToRead} mangaId={manga.id} />;
+        }
+
+        return null;
+    }, [selectedChapters, isLatestChapterRead]);
+
+    if (isLoading || (noChaptersFound && isRefreshing)) {
         return (
             <div
                 style={{
@@ -186,24 +223,6 @@ const ChapterList: React.FC<IProps> = ({ mangaId }) => {
             </div>
         );
     }
-
-    const noChaptersFound = chapters.length === 0;
-    const noChaptersMatchingFilter = !noChaptersFound && visibleChapters.length === 0;
-
-    const chaptersWithMeta: IChapterWithMeta[] = visibleChapters.map((chapter) => {
-        const downloadChapter = queue?.find(
-            (cd) => cd.chapterIndex === chapter.index && cd.mangaId === chapter.mangaId,
-        );
-        const selected = selection?.includes(chapter.id) ?? null;
-        return {
-            chapter,
-            downloadChapter,
-            selected,
-        };
-    });
-
-    const selectedChapters =
-        selection === null ? null : chaptersWithMeta.filter(({ chapter }) => selection.includes(chapter.id));
 
     return (
         <>
@@ -266,8 +285,8 @@ const ChapterList: React.FC<IProps> = ({ mangaId }) => {
                         return (
                             <ChapterCard
                                 {...chaptersWithMeta[index]}
+                                chapterIds={mangaChapterIds}
                                 showChapterNumber={options.showChapterNumber}
-                                triggerChaptersUpdate={() => mutate()}
                                 onSelect={() => handleSelection(index)}
                             />
                         );
@@ -276,11 +295,7 @@ const ChapterList: React.FC<IProps> = ({ mangaId }) => {
                     overscan={window.innerHeight * 0.5}
                 />
             </Stack>
-            {selectedChapters !== null ? (
-                <SelectionFAB selectedChapters={selectedChapters} onAction={handleFabAction} />
-            ) : (
-                firstUnreadChapter && <ResumeFab chapter={firstUnreadChapter} mangaId={mangaId} />
-            )}
+            {chapterListFAB}
         </>
     );
 };

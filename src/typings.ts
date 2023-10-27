@@ -10,6 +10,31 @@ import { OverridableComponent } from '@mui/material/OverridableComponent';
 import { SvgIconTypeMap } from '@mui/material/SvgIcon/SvgIcon';
 import { ParseKeys } from 'i18next';
 import { Location } from 'react-router-dom';
+import {
+    GetCategoryQuery,
+    GetChapterQuery,
+    GetExtensionQuery,
+    GetMangaQuery,
+    GetSourceQuery,
+    MetaType,
+    SourcePreferenceChangeInput,
+} from '@/lib/graphql/generated/graphql.ts';
+
+export type ExtractByKeyValue<T, Key extends keyof T, Value extends T[Key]> = T extends
+    | Record<Key, Value>
+    | Partial<Record<Key, Value>>
+    ? T
+    : never;
+
+export type RecursivePartial<T> = {
+    [P in keyof T]?: T[P] extends (infer U)[]
+        ? RecursivePartial<U>[]
+        : T[P] extends object | undefined
+        ? RecursivePartial<T[P]>
+        : T[P];
+};
+
+export type OptionalProperty<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
 type GenericLocation<State = any> = Omit<Location, 'state'> & { state?: State };
 
@@ -21,19 +46,7 @@ declare module 'react-router-dom' {
 
 export type TranslationKey = ParseKeys;
 
-export interface IExtension {
-    name: string;
-    pkgName: string;
-    versionName: string;
-    versionCode: number;
-    lang: string;
-    isNsfw: boolean;
-    apkName: string;
-    iconUrl: string;
-    installed: boolean;
-    hasUpdate: boolean;
-    obsolete: boolean;
-}
+export type PartialExtension = GetExtensionQuery['extension'];
 
 export interface ISource {
     id: string;
@@ -46,29 +59,7 @@ export interface ISource {
     displayName: string;
 }
 
-export interface ISourceFilters {
-    type: string;
-    filter: ISourceFilter;
-}
-
-export interface ISourceFilter {
-    name: string;
-    state: number | string | boolean | ISourceFilters[] | IState;
-    values?: string[];
-    displayValues?: string[];
-    selected?: ISelected;
-}
-
-export interface ISelected {
-    displayname: string;
-    value: string;
-    _value: string;
-}
-
-export interface IState {
-    ascending: boolean;
-    index: number;
-}
+export type SourceFilters = GetSourceQuery['source']['filters'][number];
 
 export interface IMetadataMigration {
     appKeyPrefix?: { oldPrefix: string; newPrefix: string };
@@ -87,6 +78,8 @@ export interface IMetadataMigration {
 export type Metadata<Keys extends string = string, Values = string> = {
     [key in Keys]: Values;
 };
+
+export type GqlMetaHolder = { meta?: MetaType[] };
 
 export type MetadataHolder<Keys extends string = string, Values = string> = {
     meta?: Metadata<Keys, Values>;
@@ -114,6 +107,10 @@ export interface IMangaCard {
     inLibraryAt: number;
     lastReadAt: number;
 }
+
+export type TManga = GetMangaQuery['manga'];
+
+export type TPartialManga = OptionalProperty<TManga, 'unreadCount' | 'downloadCount' | 'categories' | 'chapters'>;
 
 export interface IManga {
     id: number;
@@ -176,18 +173,15 @@ export interface IMangaChapter {
     chapter: IChapter;
 }
 
-export interface IPartialChapter {
-    pageCount: number;
-    index: number;
-    chapterCount: number;
-    lastPageRead: number;
-}
+export type TChapter = GetChapterQuery['chapter'];
 
 export enum IncludeInGlobalUpdate {
     EXCLUDE = 0,
     INCLUDE = 1,
     UNSET = -1,
 }
+
+export type TCategory = GetCategoryQuery['category'];
 
 export interface ICategory {
     id: number;
@@ -247,20 +241,10 @@ export interface IReaderProps {
     curPage: number;
     initialPage: number;
     settings: IReaderSettings;
-    manga: IMangaCard | IManga;
-    chapter: IChapter | IPartialChapter;
+    manga: TManga;
+    chapter: TChapter;
     nextChapter: () => void;
     prevChapter: () => void;
-}
-
-export interface IAbout {
-    name: string;
-    version: string;
-    revision: string;
-    buildType: 'Stable' | 'Preview';
-    buildTime: number;
-    github: string;
-    discord: string;
 }
 
 export interface IDownloadChapter {
@@ -286,47 +270,34 @@ export interface IUpdateStatus {
     };
 }
 
+export type SourcePreferences = GetSourceQuery['source']['preferences'][number];
+
 export interface PreferenceProps {
-    key: string;
-    title: string;
-    summary: string;
-    defaultValue: any;
-    currentValue: any;
-    defaultValueType: string;
+    updateValue: <Key extends keyof Omit<SourcePreferenceChangeInput, 'position'>>(
+        type: Key,
+        value: SourcePreferenceChangeInput[Key],
+    ) => void;
+}
 
+export type TwoStatePreferenceProps = (CheckBoxPreferenceProps | SwitchPreferenceCompatProps) & {
     // intetnal props
-    updateValue: any;
-}
+    twoStateType: 'Switch' | 'Checkbox';
+};
 
-export interface TwoStatePreferenceProps extends PreferenceProps {
-    // intetnal props
-    type: 'Switch' | 'Checkbox';
-}
+export type CheckBoxPreferenceProps = PreferenceProps &
+    ExtractByKeyValue<SourcePreferences, '__typename', 'CheckBoxPreference'>;
 
-export interface CheckBoxPreferenceProps extends PreferenceProps {}
+export type SwitchPreferenceCompatProps = PreferenceProps &
+    ExtractByKeyValue<SourcePreferences, '__typename', 'SwitchPreference'>;
 
-export interface SwitchPreferenceCompatProps extends PreferenceProps {}
+export type ListPreferenceProps = PreferenceProps &
+    ExtractByKeyValue<SourcePreferences, '__typename', 'ListPreference'>;
 
-export interface ListPreferenceProps extends PreferenceProps {
-    entries: string[];
-    entryValues: string[];
-}
+export type MultiSelectListPreferenceProps = PreferenceProps &
+    ExtractByKeyValue<SourcePreferences, '__typename', 'MultiSelectListPreference'>;
 
-export interface MultiSelectListPreferenceProps extends PreferenceProps {
-    entries: string[];
-    entryValues: string[];
-}
-
-export interface EditTextPreferenceProps extends PreferenceProps {
-    dialogTitle: string;
-    dialogMessage: string;
-    text: string;
-}
-
-export interface SourcePreferences {
-    type: string;
-    props: any;
-}
+export type EditTextPreferenceProps = PreferenceProps &
+    ExtractByKeyValue<SourcePreferences, '__typename', 'EditTextPreference'>;
 
 export interface NavbarItem {
     path: string;
@@ -387,13 +358,6 @@ export interface LibraryOptions {
     sorts: NullAndUndefined<LibrarySortMode>;
     sortDesc: NullAndUndefined<boolean>;
     showTabSize: boolean;
-}
-
-export interface BatchChaptersChange {
-    delete?: boolean;
-    isRead?: boolean;
-    isBookmarked?: boolean;
-    lastPageRead?: number;
 }
 
 export type UpdateCheck = {

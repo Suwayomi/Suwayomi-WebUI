@@ -85,12 +85,20 @@ function ListDialog(props: IListDialogProps) {
 }
 
 export default function ListPreference(props: ListPreferenceProps) {
-    const { title, summary, currentValue, updateValue, entryValues, entries } = props;
-    const [internalCurrentValue, setInternalCurrentValue] = useState<string>(currentValue);
+    const {
+        ListPreferenceTitle: title,
+        summary,
+        ListPreferenceCurrentValue: currentValue,
+        ListPreferenceDefault: defaultValue,
+        updateValue,
+        entryValues,
+        entries,
+    } = props;
+    const [internalCurrentValue, setInternalCurrentValue] = useState(currentValue ?? defaultValue ?? '');
     const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
     useEffect(() => {
-        setInternalCurrentValue(currentValue);
+        setInternalCurrentValue(currentValue ?? defaultValue ?? '');
     }, [currentValue]);
 
     const findEntryOf = (value: string) => {
@@ -104,6 +112,10 @@ export default function ListPreference(props: ListPreferenceProps) {
     };
 
     const getSummary = () => {
+        if (currentValue == null) {
+            return '';
+        }
+
         if (summary === '%s') {
             return findEntryOf(currentValue);
         }
@@ -112,7 +124,7 @@ export default function ListPreference(props: ListPreferenceProps) {
 
     const handleDialogClose = (newValue: string | null) => {
         if (newValue !== null) {
-            updateValue(findEntryValueOf(newValue));
+            updateValue('listState', findEntryValueOf(newValue));
 
             // appear smooth
             setInternalCurrentValue(newValue);
@@ -127,7 +139,7 @@ export default function ListPreference(props: ListPreferenceProps) {
                 <ListItemText primary={title} secondary={getSummary()} />
             </ListItemButton>
             <ListDialog
-                title={title}
+                title={title ?? ''}
                 open={dialogOpen}
                 onClose={handleDialogClose}
                 value={findEntryOf(internalCurrentValue)}

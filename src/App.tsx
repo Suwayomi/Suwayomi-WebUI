@@ -10,6 +10,8 @@ import { Container } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
+import { loadErrorMessages, loadDevMessages } from '@apollo/client/dev';
+import { __DEV__ } from '@apollo/client/utilities/globals';
 import AppContext from '@/components/context/AppContext';
 import Browse from '@/screens/Browse';
 import DownloadQueue from '@/screens/DownloadQueue';
@@ -31,6 +33,11 @@ import '@/i18n';
 import LibrarySettings from '@/screens/settings/LibrarySettings';
 import DefaultNavBar from '@/components/navbar/DefaultNavBar';
 
+if (__DEV__) {
+    // Adds messages only in a dev environment
+    loadDevMessages();
+    loadErrorMessages();
+}
 const App: React.FC = () => (
     <AppContext>
         <CssBaseline />

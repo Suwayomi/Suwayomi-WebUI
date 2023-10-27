@@ -12,7 +12,7 @@ import ListItemText from '@mui/material/ListItemText';
 import { fromEvent } from 'file-selector';
 import { useTranslation } from 'react-i18next';
 import { ListItemButton } from '@mui/material';
-import requestManager from '@/lib/RequestManager';
+import requestManager from '@/lib/requests/RequestManager.ts';
 import makeToast from '@/components/util/Toast';
 import ListItemLink from '@/components/util/ListItemLink';
 import NavbarContext, { useSetDefaultBackTo } from '@/components/context/NavbarContext';

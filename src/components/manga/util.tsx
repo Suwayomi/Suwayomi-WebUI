@@ -11,8 +11,8 @@ import {
     ChapterListOptions,
     ChapterOptionsReducerAction,
     ChapterSortMode,
-    IChapter,
     NullAndUndefined,
+    TChapter,
     TranslationKey,
 } from '@/typings';
 import { useReducerLocalStorage } from '@/util/useLocalStorage';
@@ -46,7 +46,7 @@ function chapterOptionsReducer(state: ChapterListOptions, actions: ChapterOption
     }
 }
 
-export function unreadFilter(unread: NullAndUndefined<boolean>, { read: isChapterRead }: IChapter) {
+export function unreadFilter(unread: NullAndUndefined<boolean>, { isRead: isChapterRead }: TChapter) {
     switch (unread) {
         case true:
             return !isChapterRead;
@@ -57,7 +57,7 @@ export function unreadFilter(unread: NullAndUndefined<boolean>, { read: isChapte
     }
 }
 
-function downloadFilter(downloaded: NullAndUndefined<boolean>, { downloaded: chapterDownload }: IChapter) {
+function downloadFilter(downloaded: NullAndUndefined<boolean>, { isDownloaded: chapterDownload }: TChapter) {
     switch (downloaded) {
         case true:
             return chapterDownload;
@@ -68,7 +68,7 @@ function downloadFilter(downloaded: NullAndUndefined<boolean>, { downloaded: cha
     }
 }
 
-function bookmarkedFilter(bookmarked: NullAndUndefined<boolean>, { bookmarked: chapterBookmarked }: IChapter) {
+function bookmarkedFilter(bookmarked: NullAndUndefined<boolean>, { isBookmarked: chapterBookmarked }: TChapter) {
     switch (bookmarked) {
         case true:
             return chapterBookmarked;
@@ -79,7 +79,7 @@ function bookmarkedFilter(bookmarked: NullAndUndefined<boolean>, { bookmarked: c
     }
 }
 
-export function filterAndSortChapters(chapters: IChapter[], options: ChapterListOptions): IChapter[] {
+export function filterAndSortChapters(chapters: TChapter[], options: ChapterListOptions): TChapter[] {
     const filtered = options.active
         ? chapters.filter(
               (chp) =>
@@ -88,14 +88,17 @@ export function filterAndSortChapters(chapters: IChapter[], options: ChapterList
                   bookmarkedFilter(options.bookmarked, chp),
           )
         : [...chapters];
-    const Sorted = options.sortBy === 'fetchedAt' ? filtered.sort((a, b) => a.fetchedAt - b.fetchedAt) : filtered;
+    const Sorted =
+        options.sortBy === 'fetchedAt'
+            ? filtered.sort((a, b) => Number(a.fetchedAt ?? 0) - Number(b.fetchedAt ?? 0))
+            : filtered;
     if (options.reverse) {
         Sorted.reverse();
     }
     return Sorted;
 }
 
-export const useChapterOptions = (mangaId: string) =>
+export const useChapterOptions = (mangaId: number) =>
     useReducerLocalStorage<ChapterListOptions, ChapterOptionsReducerAction>(
         chapterOptionsReducer,
         `${mangaId}filterOptions`,

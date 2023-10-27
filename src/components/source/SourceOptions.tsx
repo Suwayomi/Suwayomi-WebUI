@@ -10,7 +10,7 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import { Button, Stack, Box } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ISourceFilters, IState } from '@/typings';
+import { SourceFilters } from '@/typings';
 import OptionsPanel from '@/components/molecules/OptionsPanel';
 import CheckBoxFilter from '@/components/source/filters/CheckBoxFilter';
 import HeaderFilter from '@/components/source/filters/HeaderFilter';
@@ -25,14 +25,14 @@ import SeperatorFilter from '@/components/source/filters/SeparatorFilter';
 import StyledFab from '@/components/util/StyledFab';
 
 interface IFilters {
-    sourceFilter: ISourceFilters[];
+    sourceFilter: SourceFilters[];
     updateFilterValue: Function;
     group: number | undefined;
     update: any;
 }
 
 interface IFilters1 {
-    sourceFilter: ISourceFilters[];
+    sourceFilter: SourceFilters[];
     updateFilterValue: Function;
     resetFilterValue: Function;
     setTriggerUpdate: Function;
@@ -42,85 +42,89 @@ interface IFilters1 {
 export function Options({ sourceFilter, group, updateFilterValue, update }: IFilters) {
     return (
         <Stack key={`filters ${group}`}>
-            {sourceFilter.map((e: ISourceFilters, index) => {
+            {sourceFilter.map((e, index) => {
                 let checkif = update.find(
                     (el: { group: number | undefined; position: number }) =>
                         el.group === group && el.position === index,
                 );
                 checkif = checkif ? checkif.state : checkif;
                 switch (e.type) {
-                    case 'CheckBox':
+                    case 'CheckBoxFilter':
                         return (
                             <CheckBoxFilter
-                                key={`filters ${e.filter.name}`}
-                                name={e.filter.name}
-                                state={checkif != null ? checkif === 'true' : (e.filter.state as boolean)}
+                                key={`filters ${e.name}`}
+                                name={e.name}
+                                state={checkif ?? e.CheckBoxFilterDefault}
                                 position={index}
                                 group={group}
                                 updateFilterValue={updateFilterValue}
                                 update={update}
                             />
                         );
-                    case 'Group':
+                    case 'GroupFilter':
                         return (
                             <GroupFilter
-                                key={`filters ${e.filter.name}`}
-                                name={e.filter.name}
-                                state={e.filter.state as ISourceFilters[]}
+                                key={`filters ${e.name}`}
+                                name={e.name}
+                                state={e.filters}
                                 position={index}
                                 updateFilterValue={updateFilterValue}
                                 update={update}
                             />
                         );
-                    case 'Header':
-                        return <HeaderFilter key={`filters ${e.filter.name}`} name={e.filter.name} />;
-                    case 'Select':
+                    case 'HeaderFilter':
+                        return <HeaderFilter key={`filters ${e.name}`} name={e.name} />;
+                    case 'SelectFilter':
                         return (
                             <SelectFilter
-                                key={`filters ${e.filter.name}`}
-                                name={e.filter.name}
-                                values={e.filter.displayValues}
-                                state={checkif != null ? parseInt(checkif, 10) : (e.filter.state as number)}
-                                selected={e.filter.selected}
+                                key={`filters ${e.name}`}
+                                name={e.name}
+                                values={e.values}
+                                state={checkif != null ? parseInt(checkif, 10) : e.SelectFilterDefault}
                                 position={index}
                                 group={group}
                                 updateFilterValue={updateFilterValue}
                                 update={update}
                             />
                         );
-                    case 'Separator':
-                        return <SeperatorFilter key={`filters ${e.filter.name}`} name={e.filter.name} />;
-                    case 'Sort':
+                    case 'SeparatorFilter':
+                        return <SeperatorFilter key={`filters ${e.name}`} name={e.name} />;
+                    case 'SortFilter':
                         return (
                             <SortFilter
-                                key={`filters ${e.filter.name}`}
-                                name={e.filter.name}
-                                values={e.filter.values}
-                                state={checkif ? JSON.parse(checkif) : { ...(e.filter.state as IState) }}
+                                key={`filters ${e.name}`}
+                                name={e.name}
+                                values={e.values}
+                                state={
+                                    checkif ?? {
+                                        ascending: e.SortFilterDefault?.ascending,
+                                        index: e.SortFilterDefault?.index,
+                                    }
+                                }
                                 position={index}
                                 group={group}
                                 updateFilterValue={updateFilterValue}
                                 update={update}
                             />
                         );
-                    case 'Text':
+                    case 'TextFilter':
                         return (
                             <TextFilter
-                                key={`filters ${e.filter.name}`}
-                                name={e.filter.name}
-                                state={checkif ?? (e.filter.state as string)}
+                                key={`filters ${e.name}`}
+                                name={e.name}
+                                state={checkif ?? e.TextFilterDefault}
                                 position={index}
                                 group={group}
                                 updateFilterValue={updateFilterValue}
                                 update={update}
                             />
                         );
-                    case 'TriState':
+                    case 'TriStateFilter':
                         return (
                             <TriStateFilter
-                                key={`filters ${e.filter.name}`}
-                                name={e.filter.name}
-                                state={checkif != null ? parseInt(checkif, 10) : (e.filter.state as number)}
+                                key={`filters ${e.name}`}
+                                name={e.name}
+                                state={checkif != null ? checkif : e.TriStateFilterDefault}
                                 position={index}
                                 group={group}
                                 updateFilterValue={updateFilterValue}
@@ -128,7 +132,7 @@ export function Options({ sourceFilter, group, updateFilterValue, update }: IFil
                             />
                         );
                     default:
-                        return <Box key={`${e.filter.name}null`} />;
+                        throw new Error(`Unknown source filter "${e}"`);
                 }
             })}
         </Stack>

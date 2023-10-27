@@ -10,17 +10,18 @@ import { CircularProgress, Box } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { IDownloadChapter, TranslationKey } from '@/typings';
+import { TranslationKey } from '@/typings';
+import { DownloadState, DownloadType } from '@/lib/graphql/generated/graphql.ts';
 
 interface DownloadStateIndicatorProps {
-    download: IDownloadChapter;
+    download: DownloadType;
 }
 
-const DOWNLOAD_STATE_TO_TRANSLATION_KEY_MAP: { [state in IDownloadChapter['state']]: TranslationKey } = {
-    Downloading: 'download.state.label.downloading',
-    Error: 'download.state.label.error',
-    Finished: 'download.state.label.finished',
-    Queued: 'download.state.label.queued',
+const DOWNLOAD_STATE_TO_TRANSLATION_KEY_MAP: { [state in DownloadState]: TranslationKey } = {
+    DOWNLOADING: 'download.state.label.downloading',
+    ERROR: 'download.state.label.error',
+    FINISHED: 'download.state.label.finished',
+    QUEUED: 'download.state.label.queued',
 } as const;
 
 const DownloadStateIndicator: React.FC<DownloadStateIndicatorProps> = ({ download }) => {

@@ -10,13 +10,12 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import PublicIcon from '@mui/icons-material/Public';
 import { styled } from '@mui/material/styles';
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { mutate } from 'swr';
 import { t as translate } from 'i18next';
 import Button from '@mui/material/Button';
-import { IManga, ISource } from '@/typings';
-import requestManager from '@/lib/RequestManager';
+import { ISource, TManga } from '@/typings';
+import requestManager from '@/lib/requests/RequestManager.ts';
 import makeToast from '@/components/util/Toast';
 
 const DetailsWrapper = styled('div')(({ theme }) => ({
@@ -125,11 +124,36 @@ const Genres = styled('div')(() => ({
     },
 }));
 
+const OpenSourceButton = ({ url }: { url?: string | null }) => {
+    const { t } = useTranslation();
+
+    const button = useMemo(
+        () => (
+            <Button disabled={!!url} startIcon={<PublicIcon />} size="large">
+                {t('global.button.open_site')}
+            </Button>
+        ),
+        [url],
+    );
+
+    if (!url) {
+        return button;
+    }
+
+    return (
+        <a href={url} target="_blank" rel="noreferrer">
+            <Button startIcon={<PublicIcon />} size="large">
+                {t('global.button.open_site')}
+            </Button>
+        </a>
+    );
+};
+
 interface IProps {
-    manga: IManga;
+    manga: TManga;
 }
 
-function getSourceName(source: ISource) {
+function getSourceName(source?: ISource | null) {
     if (!source) {
         return translate('global.label.unknown');
     }
@@ -137,12 +161,16 @@ function getSourceName(source: ISource) {
     return source.displayName ?? source.id;
 }
 
-function getValueOrUnknown(val: string) {
+function getValueOrUnknown(val?: string | null) {
     return val || 'UNKNOWN';
 }
 
 const MangaDetails: React.FC<IProps> = ({ manga }) => {
     const { t } = useTranslation();
+    const { data: categoriesData, loading: areCategoriesLoading } = requestManager.useGetCategories();
+    const categories = categoriesData?.categories.nodes ?? [];
+    const defaultCategoryIds = categories.filter((category) => category.default).map((category) => category.id);
+    const [updateMangaCategories] = requestManager.useUpdateMangaCategories();
 
     useEffect(() => {
         if (!manga.source) {
@@ -151,13 +179,24 @@ const MangaDetails: React.FC<IProps> = ({ manga }) => {
     }, [manga.source]);
 
     const addToLibrary = () => {
-        mutate(`/api/v1/manga/${manga.id}`, { ...manga, inLibrary: true }, { revalidate: false });
-        requestManager.addMangaToLibrary(manga.id).response.then(() => mutate(`/api/v1/manga/${manga.id}`));
+        Promise.all([
+            requestManager.updateManga(manga.id, { inLibrary: true }).response,
+            updateMangaCategories({
+                variables: { input: { id: manga.id, patch: { addToCategories: defaultCategoryIds } } },
+            }),
+        ])
+            .then(() => makeToast(t('library.info.label.added_to_library'), 'success'))
+            .catch(() => {
+                makeToast(t('library.error.label.add_to_library'), 'error');
+            });
     };
 
     const removeFromLibrary = () => {
-        mutate(`/api/v1/manga/${manga.id}`, { ...manga, inLibrary: false }, { revalidate: false });
-        requestManager.removeMangaFromLibrary(manga.id).response.then(() => mutate(`/api/v1/manga/${manga.id}`));
+        Promise.all([requestManager.updateManga(manga.id, { inLibrary: false }).response])
+            .then(() => makeToast(t('library.info.label.removed_from_library'), 'success'))
+            .catch(() => {
+                makeToast(t('library.error.label.remove_from_library'), 'error');
+            });
     };
 
     return (
@@ -165,7 +204,9 @@ const MangaDetails: React.FC<IProps> = ({ manga }) => {
             <TopContentWrapper>
                 <ThumbnailMetadataWrapper>
                     <Thumbnail>
-                        <img src={requestManager.getValidImgUrlFor(manga.thumbnailUrl)} alt="Manga Thumbnail" />
+                        {manga.thumbnailUrl && (
+                            <img src={requestManager.getValidImgUrlFor(manga.thumbnailUrl)} alt="Manga Thumbnail" />
+                        )}
                     </Thumbnail>
                     <Metadata>
                         <h1>{manga.title}</h1>
@@ -184,6 +225,7 @@ const MangaDetails: React.FC<IProps> = ({ manga }) => {
                 <MangaButtonsContainer inLibrary={manga.inLibrary}>
                     <div>
                         <Button
+                            disabled={areCategoriesLoading}
                             startIcon={manga.inLibrary ? <FavoriteIcon /> : <FavoriteBorderIcon />}
                             onClick={manga.inLibrary ? removeFromLibrary : addToLibrary}
                             size="large"
@@ -191,11 +233,7 @@ const MangaDetails: React.FC<IProps> = ({ manga }) => {
                             {manga.inLibrary ? t('manga.button.in_library') : t('manga.button.add_to_library')}
                         </Button>
                     </div>
-                    <a href={manga.realUrl} target="_blank" rel="noreferrer">
-                        <Button startIcon={<PublicIcon />} size="large">
-                            {t('global.button.open_site')}
-                        </Button>
-                    </a>
+                    <OpenSourceButton url={manga.realUrl} />
                 </MangaButtonsContainer>
             </TopContentWrapper>
             <BottomContentWrapper>

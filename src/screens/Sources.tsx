@@ -12,7 +12,7 @@ import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ISource } from '@/typings';
-import requestManager from '@/lib/RequestManager';
+import requestManager from '@/lib/requests/RequestManager.ts';
 import useLocalStorage from '@/util/useLocalStorage';
 import { sourceDefualtLangs, sourceForcedDefaultLangs, langSortCmp } from '@/util/language';
 import { translateExtensionLanguage } from '@/screens/util/Extensions';
@@ -53,7 +53,8 @@ export default function Sources() {
     const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownSourceLangs', sourceDefualtLangs());
     const [showNsfw] = useLocalStorage<boolean>('showNsfw', true);
 
-    const { data: sources, isLoading } = requestManager.useGetSourceList();
+    const { data, loading: isLoading } = requestManager.useGetSourceList();
+    const sources = data?.sources.nodes;
 
     const navigate = useNavigate();
 

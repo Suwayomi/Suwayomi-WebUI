@@ -24,11 +24,11 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { useTranslation } from 'react-i18next';
-import { ICategory } from '@/typings';
-import requestManager from '@/lib/RequestManager';
+import requestManager from '@/lib/requests/RequestManager.ts';
 import StrictModeDroppable from '@/lib/StrictModeDroppable';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/components/util/StyledFab';
 import NavbarContext, { useSetDefaultBackTo } from '@/components/context/NavbarContext';
+import { TCategory } from '@/typings.ts';
 
 const getItemStyle = (
     isDragging: boolean,
@@ -52,9 +52,9 @@ export default function Categories() {
         setAction(null);
     }, [t]);
 
-    const { data, mutate } = requestManager.useGetCategories();
+    const { data } = requestManager.useGetCategories();
     const categories = useMemo(() => {
-        const res = [...(data ?? [])];
+        const res = [...(data?.categories.nodes ?? [])];
         if (res.length > 0 && res[0].name === 'Default') {
             res.shift();
         }
@@ -65,17 +65,17 @@ export default function Categories() {
     const [dialogOpen, setDialogOpen] = useState<boolean>(false);
     const [dialogName, setDialogName] = useState<string>('');
     const [dialogDefault, setDialogDefault] = useState<boolean>(false);
+    const [reorderCategory, { reset: revertReorder }] = requestManager.useReorderCategory();
     const theme = useTheme();
 
     useSetDefaultBackTo('settings');
 
-    const categoryReorder = (list: ICategory[], from: number, to: number) => {
-        const newData = [...list];
-        const [removed] = newData.splice(from, 1);
-        newData.splice(to, 0, removed);
-        mutate(newData, { revalidate: false });
+    const categoryReorder = (list: TCategory[], from: number, to: number) => {
+        const reorderedCategory = list[from];
 
-        requestManager.reorderCategory(from + 1, to + 1).response.finally(() => mutate());
+        reorderCategory({ variables: { input: { id: reorderedCategory.id, position: to + 1 } } }).catch(() =>
+            revertReorder(),
+        );
     };
 
     const onDragEnd = (result: DropResult) => {
@@ -113,18 +113,16 @@ export default function Categories() {
         setDialogOpen(false);
 
         if (categoryToEdit === -1) {
-            requestManager.createCategory(dialogName).response.finally(() => mutate());
+            requestManager.createCategory({ name: dialogName, default: dialogDefault });
         } else {
             const category = categories[categoryToEdit];
-            requestManager
-                .updateCategory(category.id, { name: dialogName, default: dialogDefault })
-                .response.finally(() => mutate());
+            requestManager.updateCategory(category.id, { name: dialogName, default: dialogDefault });
         }
     };
 
     const deleteCategory = (index: number) => {
         const category = categories[index];
-        requestManager.deleteCategory(category.id).response.finally(() => mutate());
+        requestManager.deleteCategory(category.id);
     };
 
     return (

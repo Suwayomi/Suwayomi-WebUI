@@ -8,9 +8,10 @@
 
 import React from 'react';
 import ThreeStateCheckboxInput from '@/components/atoms/ThreeStateCheckboxInput';
+import { TriState } from '@/lib/graphql/generated/graphql.ts';
 
 interface Props {
-    state: number;
+    state: TriState;
     name: string;
     position: number;
     group: number | undefined;
@@ -18,9 +19,35 @@ interface Props {
     update: any;
 }
 
+const convertTriStateToNumber = (triState: TriState): number => {
+    switch (triState) {
+        case TriState.Ignore:
+            return 0;
+        case TriState.Include:
+            return 1;
+        case TriState.Exclude:
+            return 2;
+        default:
+            throw new Error(`Unexpected TriState ${triState}`);
+    }
+};
+
+const convertNumberToTriState = (state: number): TriState => {
+    switch (state) {
+        case 0:
+            return TriState.Ignore;
+        case 1:
+            return TriState.Include;
+        case 2:
+            return TriState.Exclude;
+        default:
+            throw new Error(`Unexpected state number ${state}`);
+    }
+};
+
 const TriStateFilter: React.FC<Props> = (props) => {
     const { state, name, position, group, updateFilterValue, update } = props;
-    const [val, setval] = React.useState<number>(Number(state));
+    const [val, setval] = React.useState(convertTriStateToNumber(state));
 
     const handleChange = (checked: boolean | null | undefined) => {
         // eslint-disable-next-line no-nested-ternary
@@ -32,8 +59,9 @@ const TriStateFilter: React.FC<Props> = (props) => {
         updateFilterValue([
             ...upd,
             {
+                type: 'triState',
                 position,
-                state: newState.toString(),
+                state: convertNumberToTriState(newState),
                 group,
             },
         ]);

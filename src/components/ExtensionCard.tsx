@@ -14,12 +14,11 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import { Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { IExtension, TranslationKey } from '@/typings';
-import requestManager from '@/lib/RequestManager';
+import { PartialExtension, TranslationKey } from '@/typings';
+import requestManager from '@/lib/requests/RequestManager.ts';
 
 interface IProps {
-    extension: IExtension;
-    notifyInstall: () => void;
+    extension: PartialExtension;
 }
 
 enum ExtensionAction {
@@ -65,17 +64,16 @@ export default function ExtensionCard(props: IProps) {
     const { t } = useTranslation();
 
     const {
-        extension: { name, lang, versionName, installed, hasUpdate, obsolete, pkgName, iconUrl, isNsfw },
-        notifyInstall,
+        extension: { name, lang, versionName, isInstalled, hasUpdate, isObsolete, pkgName, iconUrl, isNsfw },
     } = props;
     const [installedState, setInstalledState] = useState<InstalledStates>(() => {
-        if (obsolete) {
+        if (isObsolete) {
             return InstalledState.OBSOLETE;
         }
         if (hasUpdate) {
             return InstalledState.UPDATE;
         }
-        return installed ? InstalledState.UNINSTALL : InstalledState.INSTALL;
+        return isInstalled ? InstalledState.UNINSTALL : InstalledState.INSTALL;
     });
 
     const langPress = lang === 'all' ? t('extension.language.all') : lang.toUpperCase();
@@ -87,19 +85,18 @@ export default function ExtensionCard(props: IProps) {
         setInstalledState(state);
         switch (action) {
             case ExtensionAction.INSTALL:
-                await requestManager.installExtension(pkgName).response;
+                await requestManager.updateExtension(pkgName, { install: true }).response;
                 break;
             case ExtensionAction.UNINSTALL:
-                await requestManager.uninstallExtension(pkgName).response;
+                await requestManager.updateExtension(pkgName, { uninstall: true }).response;
                 break;
             case ExtensionAction.UPDATE:
-                await requestManager.updateExtension(pkgName).response;
+                await requestManager.updateExtension(pkgName, { update: true }).response;
                 break;
             default:
                 throw new Error(`Unexpected ExtensionAction "${action}"`);
         }
         setInstalledState(nextAction);
-        notifyInstall();
     };
 
     function handleButtonClick() {

@@ -12,10 +12,10 @@ import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 import { Avatar, Box, CardContent, styled } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { IMangaCard } from '@/typings';
-import requestManager from '@/lib/RequestManager';
+import requestManager from '@/lib/requests/RequestManager.ts';
 import { GridLayout, useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
 import SpinnerImage from '@/components/util/SpinnerImage';
+import { TPartialManga } from '@/typings.ts';
 
 const BottomGradient = styled('div')({
     position: 'absolute',
@@ -66,7 +66,7 @@ const BadgeContainer = styled('div')({
 });
 
 interface IProps {
-    manga: IMangaCard;
+    manga: TPartialManga;
     gridLayout?: GridLayout;
     inLibraryIndicator?: boolean;
 }
@@ -75,10 +75,11 @@ const MangaCard = (props: IProps) => {
     const { t } = useTranslation();
 
     const {
-        manga: { id, title, thumbnailUrl, downloadCount, unreadCount: unread, inLibrary },
+        manga: { id, title, thumbnailUrl: tmpThumbnailUrl, downloadCount, unreadCount: unread, inLibrary },
         gridLayout,
         inLibraryIndicator,
     } = props;
+    const thumbnailUrl = tmpThumbnailUrl ?? 'nonExistingMangaUrl';
     const {
         options: { showUnreadBadge, showDownloadBadge },
     } = useLibraryOptionsContext();
@@ -119,10 +120,10 @@ const MangaCard = (props: IProps) => {
                                         {t('manga.button.in_library')}
                                     </Typography>
                                 )}
-                                {showUnreadBadge && unread! > 0 && (
+                                {showUnreadBadge && (unread ?? 0) > 0 && (
                                     <Typography sx={{ backgroundColor: 'primary.dark' }}>{unread}</Typography>
                                 )}
-                                {showDownloadBadge && downloadCount! > 0 && (
+                                {showDownloadBadge && (downloadCount ?? 0) > 0 && (
                                     <Typography
                                         sx={{
                                             backgroundColor: 'success.dark',
