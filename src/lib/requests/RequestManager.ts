@@ -63,6 +63,8 @@ import {
     GetAboutQueryVariables,
     GetCategoriesQuery,
     GetCategoriesQueryVariables,
+    GetCategoryMangasQuery,
+    GetCategoryMangasQueryVariables,
     GetChapterPagesFetchMutation,
     GetChapterPagesFetchMutationVariables,
     GetChaptersQuery,
@@ -157,7 +159,7 @@ import {
     UPDATE_MANGA_CATEGORIES,
 } from '@/lib/graphql/mutations/MangaMutation.ts';
 import { GET_MANGA, GET_MANGAS } from '@/lib/graphql/queries/MangaQuery.ts';
-import { GET_CATEGORIES } from '@/lib/graphql/queries/CategoryQuery.ts';
+import { GET_CATEGORIES, GET_CATEGORY_MANGAS } from '@/lib/graphql/queries/CategoryQuery.ts';
 import { GET_SOURCE_MANGAS_FETCH, UPDATE_SOURCE_PREFERENCES } from '@/lib/graphql/mutations/SourceMutation.ts';
 import {
     CLEAR_DOWNLOADER,
@@ -1158,6 +1160,7 @@ export class RequestManager {
         const wrappedMutate = (mutateOptions: Parameters<typeof mutate>[0]) =>
             mutate({
                 onCompleted: () => {
+                    this.graphQLClient.client.cache.evict({ fieldName: 'categories' });
                     this.graphQLClient.client.cache.evict({ fieldName: 'category' });
                     this.graphQLClient.client.cache.evict({ fieldName: 'mangas' });
                 },
@@ -1484,6 +1487,27 @@ export class RequestManager {
         id: number,
         options?: QueryHookOptions<GetMangasQuery, GetMangasQueryVariables>,
     ): AbortableApolloUseQueryResponse<GetMangasQuery, GetMangasQueryVariables> {
+        const isDefaultCategory = id === 0;
+        if (isDefaultCategory) {
+            // hacky way of loading the default category mangas - some stuff won't work but since that is not used anyway, it won't be a problem
+            // can't be loaded via "useGetMangas" because mangas are not actually mapped to the default category in the database
+            const { data, ...result } = this.doRequest<GetCategoryMangasQuery, GetCategoryMangasQueryVariables>(
+                GQLMethod.USE_QUERY,
+                GET_CATEGORY_MANGAS,
+                { id },
+            );
+
+            return {
+                ...result,
+                data: data
+                    ? {
+                          ...data?.category,
+                          __typename: 'Query',
+                      }
+                    : undefined,
+            } as unknown as AbortableApolloUseQueryResponse<GetMangasQuery, GetMangasQueryVariables>;
+        }
+
         return this.useGetMangas({ condition: { inLibrary: true, categoryIds: [id] } }, options);
     }
 
