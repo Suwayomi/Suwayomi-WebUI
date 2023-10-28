@@ -206,6 +206,9 @@
       "start": "Start",
       "submit": "Submit"
     },
+    "time": {
+      "hour_short": "h"
+    },
     "date": {
       "label": {
         "today": "Today",
@@ -319,6 +322,17 @@
             "completed": "With \"Completed\" status",
             "not_started": "That haven't been started",
             "unread_chapters": "With unread chapter(s)"
+          }
+        },
+        "auto_update": {
+          "interval": {
+            "label": {
+              "value": "{{hours}}$t(global.time.hour_short)",
+              "title": "Automatic update interval"
+            }
+          },
+          "label": {
+            "title": "Automatic updates"
           }
         },
         "title": "Global update"

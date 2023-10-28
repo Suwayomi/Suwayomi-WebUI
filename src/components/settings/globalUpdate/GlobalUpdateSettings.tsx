@@ -11,6 +11,7 @@ import ListSubheader from '@mui/material/ListSubheader';
 import { useTranslation } from 'react-i18next';
 import { GlobalUpdateSettingsCategories } from '@/components/settings/globalUpdate/GlobalUpdateSettingsCategories.tsx';
 import { GlobalUpdateSettingsEntries } from '@/components/settings/globalUpdate/GlobalUpdateSettingsEntries.tsx';
+import { GlobalUpdateSettingsInterval } from '@/components/settings/globalUpdate/GlobalUpdateSettingsInterval.tsx';
 
 export const GlobalUpdateSettings = () => {
     const { t } = useTranslation();
@@ -23,6 +24,7 @@ export const GlobalUpdateSettings = () => {
                 </ListSubheader>
             }
         >
+            <GlobalUpdateSettingsInterval />
             <GlobalUpdateSettingsEntries />
             <GlobalUpdateSettingsCategories />
         </List>
