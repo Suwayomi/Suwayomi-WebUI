@@ -9,8 +9,8 @@
 import gql from 'graphql-tag';
 
 export const VALIDATE_BACKUP = gql`
-    query VALIDATE_BACKUP($input: ValidateBackupInput!) {
-        validateBackup(input: $input) {
+    query VALIDATE_BACKUP($backup: Upload!) {
+        validateBackup(input: { backup: $backup }) {
             missingSources {
                 id
                 name

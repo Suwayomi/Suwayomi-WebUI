@@ -1571,7 +1571,7 @@ export class RequestManager {
         const result = this.doRequest<RestoreBackupMutation, RestoreBackupMutationVariables>(
             GQLMethod.MUTATION,
             RESTORE_BACKUP,
-            { input: { backup: file } },
+            { backup: file },
             {
                 ...options,
             },
@@ -1584,11 +1584,11 @@ export class RequestManager {
         return result;
     }
 
-    public useValidateBackupFile(
+    public validateBackupFile(
         file: File,
         options?: QueryOptions<ValidateBackupQueryVariables, ValidateBackupQuery>,
     ): AbortabaleApolloQueryResponse<ValidateBackupQuery> {
-        return this.doRequest(GQLMethod.QUERY, VALIDATE_BACKUP, { input: { backup: file } }, options);
+        return this.doRequest(GQLMethod.QUERY, VALIDATE_BACKUP, { backup: file }, options);
     }
 
     public getExportBackupUrl(): string {
