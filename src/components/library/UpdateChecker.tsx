@@ -9,28 +9,11 @@
 import { useMemo } from 'react';
 import IconButton from '@mui/material/IconButton';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import CircularProgress from '@mui/material/CircularProgress';
-import { Box } from '@mui/material';
-import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/components/util/Toast';
 import { UpdaterSubscription } from '@/lib/graphql/generated/graphql.ts';
-
-interface IProgressProps {
-    progress: number;
-}
-
-function Progress({ progress }: IProgressProps) {
-    return (
-        <Box sx={{ display: 'grid', placeItems: 'center', position: 'relative' }}>
-            <CircularProgress variant="determinate" value={progress} />
-            <Box sx={{ position: 'absolute' }}>
-                <Typography fontSize="0.8rem">{`${Math.round(progress)}%`}</Typography>
-            </Box>
-        </Box>
-    );
-}
+import { Progress } from '@/components/util/Progress';
 
 const calcProgress = (status: UpdaterSubscription['updateStatusChanged'] | undefined) => {
     if (!status) {
