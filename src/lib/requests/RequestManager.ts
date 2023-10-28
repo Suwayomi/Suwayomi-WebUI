@@ -83,6 +83,8 @@ import {
     GetMangaQueryVariables,
     GetMangasQuery,
     GetMangasQueryVariables,
+    GetRestoreStatusQuery,
+    GetRestoreStatusQueryVariables,
     GetServerSettingsQuery,
     GetSourceMangasFetchMutation,
     GetSourceMangasFetchMutationVariables,
@@ -199,7 +201,7 @@ import {
 import { GET_UPDATE_STATUS } from '@/lib/graphql/queries/UpdaterQuery.ts';
 import { CustomCache } from '@/lib/requests/CustomCache.ts';
 import { RESTORE_BACKUP } from '@/lib/graphql/mutations/BackupMutation.ts';
-import { VALIDATE_BACKUP } from '@/lib/graphql/queries/BackupQuery.ts';
+import { GET_RESTORE_STATUS, VALIDATE_BACKUP } from '@/lib/graphql/queries/BackupQuery.ts';
 import { DOWNLOAD_STATUS_SUBSCRIPTION } from '@/lib/graphql/subscriptions/DownloaderSubscription.ts';
 import { UPDATER_SUBSCRIPTION } from '@/lib/graphql/subscriptions/UpdaterSubscription.ts';
 import { GET_SERVER_SETTINGS } from '@/lib/graphql/queries/SettingsQuery.ts';
@@ -1589,6 +1591,12 @@ export class RequestManager {
         options?: QueryOptions<ValidateBackupQueryVariables, ValidateBackupQuery>,
     ): AbortabaleApolloQueryResponse<ValidateBackupQuery> {
         return this.doRequest(GQLMethod.QUERY, VALIDATE_BACKUP, { backup: file }, options);
+    }
+
+    public useGetBackupRestoreStatus(
+        options?: QueryHookOptions<GetRestoreStatusQuery, GetRestoreStatusQueryVariables>,
+    ): AbortableApolloUseQueryResponse<GetRestoreStatusQuery, GetRestoreStatusQueryVariables> {
+        return this.doRequest(GQLMethod.USE_QUERY, GET_RESTORE_STATUS, undefined, options);
     }
 
     public getExportBackupUrl(): string {
