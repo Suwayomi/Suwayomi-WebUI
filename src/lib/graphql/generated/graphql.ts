@@ -2094,7 +2094,7 @@ export type CreateBackupMutationVariables = Exact<{
 export type CreateBackupMutation = { __typename?: 'Mutation', createBackup: { __typename?: 'CreateBackupPayload', clientMutationId?: string | null, url: string } };
 
 export type RestoreBackupMutationVariables = Exact<{
-  input: RestoreBackupInput;
+  backup: Scalars['Upload']['input'];
 }>;
 
 
@@ -2409,7 +2409,7 @@ export type StopUpdaterMutationVariables = Exact<{
 export type StopUpdaterMutation = { __typename?: 'Mutation', updateStop: { __typename?: 'UpdateStopPayload', clientMutationId?: string | null } };
 
 export type ValidateBackupQueryVariables = Exact<{
-  input: ValidateBackupInput;
+  backup: Scalars['Upload']['input'];
 }>;
 
 

@@ -28,7 +28,7 @@ export function Backup() {
     useSetDefaultBackTo('settings');
 
     const submitBackup = (file: File) => {
-        if (file.name.toLowerCase().endsWith('proto.gz')) {
+        if (file.name.toLowerCase().match(/proto\.gz$|tachibk$/g)) {
             makeToast(t('settings.backup.label.restoring_backup'), 'info');
             requestManager
                 .restoreBackupFile(file)
