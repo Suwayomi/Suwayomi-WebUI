@@ -69,7 +69,7 @@ export const ChapterCard: React.FC<IProps> = (props: IProps) => {
 
         if (key === 'markPrevRead') {
             const index = chapterIds.findIndex((chapterId) => chapterId === chapter.id);
-            requestManager.updateChapters(chapterIds.slice(index, -1), { isRead: true });
+            requestManager.updateChapters(chapterIds.slice(index), { isRead: true });
             return;
         }
 
