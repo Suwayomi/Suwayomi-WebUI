@@ -955,7 +955,9 @@ export class RequestManager {
             getVariablesFor(0),
         );
 
-        const areInitialPagesFetched = cachedResults.length >= initialPages;
+        const areInitialPagesFetched =
+            cachedResults.length >= initialPages ||
+            (!!cachedResults.length && !cachedResults[cachedResults.length - 1].data?.fetchSourceManga.hasNextPage);
         const isResultForCurrentInput = result?.forInput === JSON.stringify(getVariablesFor(0));
         const lastPage = cachedPages.size ? Math.max(...cachedPages) : input.page;
         const nextPage = isResultForCurrentInput ? result.size : lastPage;
