@@ -22,7 +22,7 @@ import { makeToast } from '@/components/util/Toast.tsx';
 import { IncludeInUpdate } from '@/lib/graphql/generated/graphql.ts';
 import { TCategory } from '@/typings.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { CheckboxContainer } from '@/components/globalUpdate/CheckboxContainer.ts';
+import { CheckboxContainer } from '@/components/settings/globalUpdate/CheckboxContainer.ts';
 
 const booleanToIncludeInStatus = (status: boolean | null | undefined): IncludeInUpdate => {
     switch (status) {

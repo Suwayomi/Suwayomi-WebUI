@@ -15,6 +15,7 @@ import {
     GetChapterQuery,
     GetExtensionQuery,
     GetMangaQuery,
+    GetServerSettingsQuery,
     GetSourceQuery,
     MetaType,
     SourcePreferenceChangeInput,
@@ -376,3 +377,5 @@ export type BackupValidationResult = {
     missingTrackers: string[];
     mangasMissingSources: string[];
 };
+
+export type ServerSettings = GetServerSettingsQuery['settings'];

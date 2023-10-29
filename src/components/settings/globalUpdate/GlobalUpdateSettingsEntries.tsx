@@ -12,15 +12,14 @@ import { useEffect, useState } from 'react';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
-import { GetServerSettingsQuery } from '@/lib/graphql/generated/graphql.ts';
-import { TranslationKey } from '@/typings.ts';
+import { ServerSettings, TranslationKey } from '@/typings.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
-import { CheckboxContainer } from '@/components/globalUpdate/CheckboxContainer';
-import { CheckboxInput } from '@/components/atoms/CheckboxInput';
+import { CheckboxContainer } from '@/components/settings/globalUpdate/CheckboxContainer.ts';
+import { CheckboxInput } from '@/components/atoms/CheckboxInput.tsx';
 
 type GlobalUpdateSkipEntriesSettings = Pick<
-    GetServerSettingsQuery['settings'],
+    ServerSettings,
     'excludeUnreadChapters' | 'excludeNotStarted' | 'excludeCompleted'
 >;
 
@@ -61,9 +60,7 @@ const getSkipMangasText = (settings: GlobalUpdateSkipEntriesSettings | undefined
     return skipSettings.join(', ');
 };
 
-const extractSkipEntriesSettings = (
-    serverSettings: GetServerSettingsQuery['settings'],
-): GlobalUpdateSkipEntriesSettings => ({
+const extractSkipEntriesSettings = (serverSettings: ServerSettings): GlobalUpdateSkipEntriesSettings => ({
     excludeCompleted: serverSettings.excludeCompleted,
     excludeNotStarted: serverSettings.excludeNotStarted,
     excludeUnreadChapters: serverSettings.excludeUnreadChapters,
