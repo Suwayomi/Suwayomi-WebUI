@@ -169,7 +169,9 @@ export const MangaDetails: React.FC<IProps> = ({ manga }) => {
     const { t } = useTranslation();
     const { data: categoriesData, loading: areCategoriesLoading } = requestManager.useGetCategories();
     const categories = categoriesData?.categories.nodes ?? [];
-    const defaultCategoryIds = categories.filter((category) => category.default).map((category) => category.id);
+    const defaultCategoryIds = categories
+        .filter((category) => category.default && category.id !== 0)
+        .map((category) => category.id);
     const [updateMangaCategories] = requestManager.useUpdateMangaCategories();
 
     useEffect(() => {
