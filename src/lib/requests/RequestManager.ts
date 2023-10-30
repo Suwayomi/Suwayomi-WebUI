@@ -1596,9 +1596,10 @@ export class RequestManager {
     }
 
     public useGetBackupRestoreStatus(
+        id: string,
         options?: QueryHookOptions<GetRestoreStatusQuery, GetRestoreStatusQueryVariables>,
     ): AbortableApolloUseQueryResponse<GetRestoreStatusQuery, GetRestoreStatusQueryVariables> {
-        return this.doRequest(GQLMethod.USE_QUERY, GET_RESTORE_STATUS, undefined, options);
+        return this.doRequest(GQLMethod.USE_QUERY, GET_RESTORE_STATUS, { id }, options);
     }
 
     public getExportBackupUrl(): string {
