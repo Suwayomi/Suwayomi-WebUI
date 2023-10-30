@@ -29,9 +29,11 @@ export type AboutPayload = {
 };
 
 export enum BackupRestoreState {
+  Failure = 'FAILURE',
   Idle = 'IDLE',
   RestoringCategories = 'RESTORING_CATEGORIES',
-  RestoringManga = 'RESTORING_MANGA'
+  RestoringManga = 'RESTORING_MANGA',
+  Success = 'SUCCESS'
 }
 
 export type BackupRestoreStatus = {
@@ -1216,6 +1218,7 @@ export type PageInfo = {
 
 export type PartialSettingsType = Settings & {
   __typename?: 'PartialSettingsType';
+  autoDownloadAheadLimit?: Maybe<Scalars['Int']['output']>;
   autoDownloadNewChapters?: Maybe<Scalars['Boolean']['output']>;
   backupInterval?: Maybe<Scalars['Int']['output']>;
   backupPath?: Maybe<Scalars['String']['output']>;
@@ -1229,9 +1232,11 @@ export type PartialSettingsType = Settings & {
   downloadsPath?: Maybe<Scalars['String']['output']>;
   electronPath?: Maybe<Scalars['String']['output']>;
   excludeCompleted?: Maybe<Scalars['Boolean']['output']>;
+  excludeEntryWithUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
   excludeNotStarted?: Maybe<Scalars['Boolean']['output']>;
   excludeUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
   globalUpdateInterval?: Maybe<Scalars['Float']['output']>;
+  gqlDebugLogsEnabled?: Maybe<Scalars['Boolean']['output']>;
   initialOpenInBrowserEnabled?: Maybe<Scalars['Boolean']['output']>;
   ip?: Maybe<Scalars['String']['output']>;
   localSourcePath?: Maybe<Scalars['String']['output']>;
@@ -1241,6 +1246,7 @@ export type PartialSettingsType = Settings & {
   socksProxyHost?: Maybe<Scalars['String']['output']>;
   socksProxyPort?: Maybe<Scalars['String']['output']>;
   systemTrayEnabled?: Maybe<Scalars['Boolean']['output']>;
+  updateMangas?: Maybe<Scalars['Boolean']['output']>;
   webUIChannel?: Maybe<WebUiChannel>;
   webUIFlavor?: Maybe<WebUiFlavor>;
   webUIInterface?: Maybe<WebUiInterface>;
@@ -1248,6 +1254,7 @@ export type PartialSettingsType = Settings & {
 };
 
 export type PartialSettingsTypeInput = {
+  autoDownloadAheadLimit?: InputMaybe<Scalars['Int']['input']>;
   autoDownloadNewChapters?: InputMaybe<Scalars['Boolean']['input']>;
   backupInterval?: InputMaybe<Scalars['Int']['input']>;
   backupPath?: InputMaybe<Scalars['String']['input']>;
@@ -1261,9 +1268,11 @@ export type PartialSettingsTypeInput = {
   downloadsPath?: InputMaybe<Scalars['String']['input']>;
   electronPath?: InputMaybe<Scalars['String']['input']>;
   excludeCompleted?: InputMaybe<Scalars['Boolean']['input']>;
+  excludeEntryWithUnreadChapters?: InputMaybe<Scalars['Boolean']['input']>;
   excludeNotStarted?: InputMaybe<Scalars['Boolean']['input']>;
   excludeUnreadChapters?: InputMaybe<Scalars['Boolean']['input']>;
   globalUpdateInterval?: InputMaybe<Scalars['Float']['input']>;
+  gqlDebugLogsEnabled?: InputMaybe<Scalars['Boolean']['input']>;
   initialOpenInBrowserEnabled?: InputMaybe<Scalars['Boolean']['input']>;
   ip?: InputMaybe<Scalars['String']['input']>;
   localSourcePath?: InputMaybe<Scalars['String']['input']>;
@@ -1273,6 +1282,7 @@ export type PartialSettingsTypeInput = {
   socksProxyHost?: InputMaybe<Scalars['String']['input']>;
   socksProxyPort?: InputMaybe<Scalars['String']['input']>;
   systemTrayEnabled?: InputMaybe<Scalars['Boolean']['input']>;
+  updateMangas?: InputMaybe<Scalars['Boolean']['input']>;
   webUIChannel?: InputMaybe<WebUiChannel>;
   webUIFlavor?: InputMaybe<WebUiFlavor>;
   webUIInterface?: InputMaybe<WebUiInterface>;
@@ -1299,7 +1309,7 @@ export type Query = {
   mangas: MangaNodeList;
   meta: GlobalMetaType;
   metas: GlobalMetaNodeList;
-  restoreStatus: BackupRestoreStatus;
+  restoreStatus?: Maybe<BackupRestoreStatus>;
   settings: SettingsType;
   source: SourceType;
   sources: SourceNodeList;
@@ -1398,6 +1408,11 @@ export type QueryMetasArgs = {
 };
 
 
+export type QueryRestoreStatusArgs = {
+  id: Scalars['String']['input'];
+};
+
+
 export type QuerySourceArgs = {
   id: Scalars['LongString']['input'];
 };
@@ -1450,7 +1465,8 @@ export type RestoreBackupInput = {
 export type RestoreBackupPayload = {
   __typename?: 'RestoreBackupPayload';
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  status: BackupRestoreStatus;
+  id: Scalars['String']['output'];
+  status?: Maybe<BackupRestoreStatus>;
 };
 
 export type SelectFilter = {
@@ -1521,6 +1537,7 @@ export type SetSettingsPayload = {
 };
 
 export type Settings = {
+  autoDownloadAheadLimit?: Maybe<Scalars['Int']['output']>;
   autoDownloadNewChapters?: Maybe<Scalars['Boolean']['output']>;
   backupInterval?: Maybe<Scalars['Int']['output']>;
   backupPath?: Maybe<Scalars['String']['output']>;
@@ -1534,9 +1551,11 @@ export type Settings = {
   downloadsPath?: Maybe<Scalars['String']['output']>;
   electronPath?: Maybe<Scalars['String']['output']>;
   excludeCompleted?: Maybe<Scalars['Boolean']['output']>;
+  excludeEntryWithUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
   excludeNotStarted?: Maybe<Scalars['Boolean']['output']>;
   excludeUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
   globalUpdateInterval?: Maybe<Scalars['Float']['output']>;
+  gqlDebugLogsEnabled?: Maybe<Scalars['Boolean']['output']>;
   initialOpenInBrowserEnabled?: Maybe<Scalars['Boolean']['output']>;
   ip?: Maybe<Scalars['String']['output']>;
   localSourcePath?: Maybe<Scalars['String']['output']>;
@@ -1546,6 +1565,7 @@ export type Settings = {
   socksProxyHost?: Maybe<Scalars['String']['output']>;
   socksProxyPort?: Maybe<Scalars['String']['output']>;
   systemTrayEnabled?: Maybe<Scalars['Boolean']['output']>;
+  updateMangas?: Maybe<Scalars['Boolean']['output']>;
   webUIChannel?: Maybe<WebUiChannel>;
   webUIFlavor?: Maybe<WebUiFlavor>;
   webUIInterface?: Maybe<WebUiInterface>;
@@ -1554,6 +1574,7 @@ export type Settings = {
 
 export type SettingsType = Settings & {
   __typename?: 'SettingsType';
+  autoDownloadAheadLimit: Scalars['Int']['output'];
   autoDownloadNewChapters: Scalars['Boolean']['output'];
   backupInterval: Scalars['Int']['output'];
   backupPath: Scalars['String']['output'];
@@ -1567,9 +1588,11 @@ export type SettingsType = Settings & {
   downloadsPath: Scalars['String']['output'];
   electronPath: Scalars['String']['output'];
   excludeCompleted: Scalars['Boolean']['output'];
+  excludeEntryWithUnreadChapters: Scalars['Boolean']['output'];
   excludeNotStarted: Scalars['Boolean']['output'];
   excludeUnreadChapters: Scalars['Boolean']['output'];
   globalUpdateInterval: Scalars['Float']['output'];
+  gqlDebugLogsEnabled: Scalars['Boolean']['output'];
   initialOpenInBrowserEnabled: Scalars['Boolean']['output'];
   ip: Scalars['String']['output'];
   localSourcePath: Scalars['String']['output'];
@@ -1579,6 +1602,7 @@ export type SettingsType = Settings & {
   socksProxyHost: Scalars['String']['output'];
   socksProxyPort: Scalars['String']['output'];
   systemTrayEnabled: Scalars['Boolean']['output'];
+  updateMangas: Scalars['Boolean']['output'];
   webUIChannel: WebUiChannel;
   webUIFlavor: WebUiFlavor;
   webUIInterface: WebUiInterface;
@@ -2098,7 +2122,7 @@ export type RestoreBackupMutationVariables = Exact<{
 }>;
 
 
-export type RestoreBackupMutation = { __typename?: 'Mutation', restoreBackup: { __typename?: 'RestoreBackupPayload', clientMutationId?: string | null, status: { __typename?: 'BackupRestoreStatus', mangaProgress: number, state: BackupRestoreState, totalManga: number } } };
+export type RestoreBackupMutation = { __typename?: 'Mutation', restoreBackup: { __typename?: 'RestoreBackupPayload', clientMutationId?: string | null, id: string, status?: { __typename?: 'BackupRestoreStatus', mangaProgress: number, state: BackupRestoreState, totalManga: number } | null } };
 
 export type CreateCategoryMutationVariables = Exact<{
   input: CreateCategoryInput;
@@ -2415,10 +2439,12 @@ export type ValidateBackupQueryVariables = Exact<{
 
 export type ValidateBackupQuery = { __typename?: 'Query', validateBackup: { __typename?: 'ValidateBackupResult', missingSources: Array<{ __typename?: 'ValidateBackupSource', id: any, name: string }> } };
 
-export type GetRestoreStatusQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetRestoreStatusQueryVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
 
 
-export type GetRestoreStatusQuery = { __typename?: 'Query', restoreStatus: { __typename?: 'BackupRestoreStatus', mangaProgress: number, state: BackupRestoreState, totalManga: number } };
+export type GetRestoreStatusQuery = { __typename?: 'Query', restoreStatus?: { __typename?: 'BackupRestoreStatus', mangaProgress: number, state: BackupRestoreState, totalManga: number } | null };
 
 export type GetCategoriesQueryVariables = Exact<{
   after?: InputMaybe<Scalars['Cursor']['input']>;

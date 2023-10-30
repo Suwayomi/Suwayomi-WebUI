@@ -454,8 +454,9 @@ export type PageInfoFieldPolicy = {
 	hasPreviousPage?: FieldPolicy<any> | FieldReadFunction<any>,
 	startCursor?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type PartialSettingsTypeKeySpecifier = ('autoDownloadNewChapters' | 'backupInterval' | 'backupPath' | 'backupTTL' | 'backupTime' | 'basicAuthEnabled' | 'basicAuthPassword' | 'basicAuthUsername' | 'debugLogsEnabled' | 'downloadAsCbz' | 'downloadsPath' | 'electronPath' | 'excludeCompleted' | 'excludeNotStarted' | 'excludeUnreadChapters' | 'globalUpdateInterval' | 'initialOpenInBrowserEnabled' | 'ip' | 'localSourcePath' | 'maxSourcesInParallel' | 'port' | 'socksProxyEnabled' | 'socksProxyHost' | 'socksProxyPort' | 'systemTrayEnabled' | 'webUIChannel' | 'webUIFlavor' | 'webUIInterface' | 'webUIUpdateCheckInterval' | PartialSettingsTypeKeySpecifier)[];
+export type PartialSettingsTypeKeySpecifier = ('autoDownloadAheadLimit' | 'autoDownloadNewChapters' | 'backupInterval' | 'backupPath' | 'backupTTL' | 'backupTime' | 'basicAuthEnabled' | 'basicAuthPassword' | 'basicAuthUsername' | 'debugLogsEnabled' | 'downloadAsCbz' | 'downloadsPath' | 'electronPath' | 'excludeCompleted' | 'excludeEntryWithUnreadChapters' | 'excludeNotStarted' | 'excludeUnreadChapters' | 'globalUpdateInterval' | 'gqlDebugLogsEnabled' | 'initialOpenInBrowserEnabled' | 'ip' | 'localSourcePath' | 'maxSourcesInParallel' | 'port' | 'socksProxyEnabled' | 'socksProxyHost' | 'socksProxyPort' | 'systemTrayEnabled' | 'updateMangas' | 'webUIChannel' | 'webUIFlavor' | 'webUIInterface' | 'webUIUpdateCheckInterval' | PartialSettingsTypeKeySpecifier)[];
 export type PartialSettingsTypeFieldPolicy = {
+	autoDownloadAheadLimit?: FieldPolicy<any> | FieldReadFunction<any>,
 	autoDownloadNewChapters?: FieldPolicy<any> | FieldReadFunction<any>,
 	backupInterval?: FieldPolicy<any> | FieldReadFunction<any>,
 	backupPath?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -469,9 +470,11 @@ export type PartialSettingsTypeFieldPolicy = {
 	downloadsPath?: FieldPolicy<any> | FieldReadFunction<any>,
 	electronPath?: FieldPolicy<any> | FieldReadFunction<any>,
 	excludeCompleted?: FieldPolicy<any> | FieldReadFunction<any>,
+	excludeEntryWithUnreadChapters?: FieldPolicy<any> | FieldReadFunction<any>,
 	excludeNotStarted?: FieldPolicy<any> | FieldReadFunction<any>,
 	excludeUnreadChapters?: FieldPolicy<any> | FieldReadFunction<any>,
 	globalUpdateInterval?: FieldPolicy<any> | FieldReadFunction<any>,
+	gqlDebugLogsEnabled?: FieldPolicy<any> | FieldReadFunction<any>,
 	initialOpenInBrowserEnabled?: FieldPolicy<any> | FieldReadFunction<any>,
 	ip?: FieldPolicy<any> | FieldReadFunction<any>,
 	localSourcePath?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -481,6 +484,7 @@ export type PartialSettingsTypeFieldPolicy = {
 	socksProxyHost?: FieldPolicy<any> | FieldReadFunction<any>,
 	socksProxyPort?: FieldPolicy<any> | FieldReadFunction<any>,
 	systemTrayEnabled?: FieldPolicy<any> | FieldReadFunction<any>,
+	updateMangas?: FieldPolicy<any> | FieldReadFunction<any>,
 	webUIChannel?: FieldPolicy<any> | FieldReadFunction<any>,
 	webUIFlavor?: FieldPolicy<any> | FieldReadFunction<any>,
 	webUIInterface?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -521,9 +525,10 @@ export type ResetSettingsPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	settings?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type RestoreBackupPayloadKeySpecifier = ('clientMutationId' | 'status' | RestoreBackupPayloadKeySpecifier)[];
+export type RestoreBackupPayloadKeySpecifier = ('clientMutationId' | 'id' | 'status' | RestoreBackupPayloadKeySpecifier)[];
 export type RestoreBackupPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	status?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type SelectFilterKeySpecifier = ('default' | 'name' | 'values' | SelectFilterKeySpecifier)[];
@@ -561,8 +566,9 @@ export type SetSettingsPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	settings?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type SettingsKeySpecifier = ('autoDownloadNewChapters' | 'backupInterval' | 'backupPath' | 'backupTTL' | 'backupTime' | 'basicAuthEnabled' | 'basicAuthPassword' | 'basicAuthUsername' | 'debugLogsEnabled' | 'downloadAsCbz' | 'downloadsPath' | 'electronPath' | 'excludeCompleted' | 'excludeNotStarted' | 'excludeUnreadChapters' | 'globalUpdateInterval' | 'initialOpenInBrowserEnabled' | 'ip' | 'localSourcePath' | 'maxSourcesInParallel' | 'port' | 'socksProxyEnabled' | 'socksProxyHost' | 'socksProxyPort' | 'systemTrayEnabled' | 'webUIChannel' | 'webUIFlavor' | 'webUIInterface' | 'webUIUpdateCheckInterval' | SettingsKeySpecifier)[];
+export type SettingsKeySpecifier = ('autoDownloadAheadLimit' | 'autoDownloadNewChapters' | 'backupInterval' | 'backupPath' | 'backupTTL' | 'backupTime' | 'basicAuthEnabled' | 'basicAuthPassword' | 'basicAuthUsername' | 'debugLogsEnabled' | 'downloadAsCbz' | 'downloadsPath' | 'electronPath' | 'excludeCompleted' | 'excludeEntryWithUnreadChapters' | 'excludeNotStarted' | 'excludeUnreadChapters' | 'globalUpdateInterval' | 'gqlDebugLogsEnabled' | 'initialOpenInBrowserEnabled' | 'ip' | 'localSourcePath' | 'maxSourcesInParallel' | 'port' | 'socksProxyEnabled' | 'socksProxyHost' | 'socksProxyPort' | 'systemTrayEnabled' | 'updateMangas' | 'webUIChannel' | 'webUIFlavor' | 'webUIInterface' | 'webUIUpdateCheckInterval' | SettingsKeySpecifier)[];
 export type SettingsFieldPolicy = {
+	autoDownloadAheadLimit?: FieldPolicy<any> | FieldReadFunction<any>,
 	autoDownloadNewChapters?: FieldPolicy<any> | FieldReadFunction<any>,
 	backupInterval?: FieldPolicy<any> | FieldReadFunction<any>,
 	backupPath?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -576,9 +582,11 @@ export type SettingsFieldPolicy = {
 	downloadsPath?: FieldPolicy<any> | FieldReadFunction<any>,
 	electronPath?: FieldPolicy<any> | FieldReadFunction<any>,
 	excludeCompleted?: FieldPolicy<any> | FieldReadFunction<any>,
+	excludeEntryWithUnreadChapters?: FieldPolicy<any> | FieldReadFunction<any>,
 	excludeNotStarted?: FieldPolicy<any> | FieldReadFunction<any>,
 	excludeUnreadChapters?: FieldPolicy<any> | FieldReadFunction<any>,
 	globalUpdateInterval?: FieldPolicy<any> | FieldReadFunction<any>,
+	gqlDebugLogsEnabled?: FieldPolicy<any> | FieldReadFunction<any>,
 	initialOpenInBrowserEnabled?: FieldPolicy<any> | FieldReadFunction<any>,
 	ip?: FieldPolicy<any> | FieldReadFunction<any>,
 	localSourcePath?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -588,13 +596,15 @@ export type SettingsFieldPolicy = {
 	socksProxyHost?: FieldPolicy<any> | FieldReadFunction<any>,
 	socksProxyPort?: FieldPolicy<any> | FieldReadFunction<any>,
 	systemTrayEnabled?: FieldPolicy<any> | FieldReadFunction<any>,
+	updateMangas?: FieldPolicy<any> | FieldReadFunction<any>,
 	webUIChannel?: FieldPolicy<any> | FieldReadFunction<any>,
 	webUIFlavor?: FieldPolicy<any> | FieldReadFunction<any>,
 	webUIInterface?: FieldPolicy<any> | FieldReadFunction<any>,
 	webUIUpdateCheckInterval?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type SettingsTypeKeySpecifier = ('autoDownloadNewChapters' | 'backupInterval' | 'backupPath' | 'backupTTL' | 'backupTime' | 'basicAuthEnabled' | 'basicAuthPassword' | 'basicAuthUsername' | 'debugLogsEnabled' | 'downloadAsCbz' | 'downloadsPath' | 'electronPath' | 'excludeCompleted' | 'excludeNotStarted' | 'excludeUnreadChapters' | 'globalUpdateInterval' | 'initialOpenInBrowserEnabled' | 'ip' | 'localSourcePath' | 'maxSourcesInParallel' | 'port' | 'socksProxyEnabled' | 'socksProxyHost' | 'socksProxyPort' | 'systemTrayEnabled' | 'webUIChannel' | 'webUIFlavor' | 'webUIInterface' | 'webUIUpdateCheckInterval' | SettingsTypeKeySpecifier)[];
+export type SettingsTypeKeySpecifier = ('autoDownloadAheadLimit' | 'autoDownloadNewChapters' | 'backupInterval' | 'backupPath' | 'backupTTL' | 'backupTime' | 'basicAuthEnabled' | 'basicAuthPassword' | 'basicAuthUsername' | 'debugLogsEnabled' | 'downloadAsCbz' | 'downloadsPath' | 'electronPath' | 'excludeCompleted' | 'excludeEntryWithUnreadChapters' | 'excludeNotStarted' | 'excludeUnreadChapters' | 'globalUpdateInterval' | 'gqlDebugLogsEnabled' | 'initialOpenInBrowserEnabled' | 'ip' | 'localSourcePath' | 'maxSourcesInParallel' | 'port' | 'socksProxyEnabled' | 'socksProxyHost' | 'socksProxyPort' | 'systemTrayEnabled' | 'updateMangas' | 'webUIChannel' | 'webUIFlavor' | 'webUIInterface' | 'webUIUpdateCheckInterval' | SettingsTypeKeySpecifier)[];
 export type SettingsTypeFieldPolicy = {
+	autoDownloadAheadLimit?: FieldPolicy<any> | FieldReadFunction<any>,
 	autoDownloadNewChapters?: FieldPolicy<any> | FieldReadFunction<any>,
 	backupInterval?: FieldPolicy<any> | FieldReadFunction<any>,
 	backupPath?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -608,9 +618,11 @@ export type SettingsTypeFieldPolicy = {
 	downloadsPath?: FieldPolicy<any> | FieldReadFunction<any>,
 	electronPath?: FieldPolicy<any> | FieldReadFunction<any>,
 	excludeCompleted?: FieldPolicy<any> | FieldReadFunction<any>,
+	excludeEntryWithUnreadChapters?: FieldPolicy<any> | FieldReadFunction<any>,
 	excludeNotStarted?: FieldPolicy<any> | FieldReadFunction<any>,
 	excludeUnreadChapters?: FieldPolicy<any> | FieldReadFunction<any>,
 	globalUpdateInterval?: FieldPolicy<any> | FieldReadFunction<any>,
+	gqlDebugLogsEnabled?: FieldPolicy<any> | FieldReadFunction<any>,
 	initialOpenInBrowserEnabled?: FieldPolicy<any> | FieldReadFunction<any>,
 	ip?: FieldPolicy<any> | FieldReadFunction<any>,
 	localSourcePath?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -620,6 +632,7 @@ export type SettingsTypeFieldPolicy = {
 	socksProxyHost?: FieldPolicy<any> | FieldReadFunction<any>,
 	socksProxyPort?: FieldPolicy<any> | FieldReadFunction<any>,
 	systemTrayEnabled?: FieldPolicy<any> | FieldReadFunction<any>,
+	updateMangas?: FieldPolicy<any> | FieldReadFunction<any>,
 	webUIChannel?: FieldPolicy<any> | FieldReadFunction<any>,
 	webUIFlavor?: FieldPolicy<any> | FieldReadFunction<any>,
 	webUIInterface?: FieldPolicy<any> | FieldReadFunction<any>,
