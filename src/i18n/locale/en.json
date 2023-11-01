@@ -272,8 +272,8 @@
       "label": {
         "empty": "Your library is empty",
         "no_matches": "No manga matches this filter",
-        "add_to_library": "Added manga to library!",
-        "remove_from_library": "Could not add manga to library!"
+        "add_to_library": "Could not add manga to library!",
+        "remove_from_library": "Could not remove manga from library!"
       }
     },
     "info": {
