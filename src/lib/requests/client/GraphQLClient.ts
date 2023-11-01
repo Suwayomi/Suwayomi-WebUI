@@ -6,14 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import {
-    ApolloClient,
-    ApolloClientOptions,
-    InMemoryCache,
-    NormalizedCacheObject,
-    Reference,
-    split,
-} from '@apollo/client';
+import { ApolloClient, ApolloClientOptions, InMemoryCache, NormalizedCacheObject, split } from '@apollo/client';
 import { createUploadLink } from 'apollo-upload-client';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { Client, createClient } from 'graphql-ws';
@@ -33,23 +26,43 @@ const typePolicies: StrictTypedTypePolicies = {
             chapters: {
                 keyArgs: ['condition', 'filter', 'orderBy', 'orderByType'],
                 merge(existing, incoming) {
-                    const merged = {
-                        ...existing,
-                        ...incoming,
-                        nodes: existing?.nodes ?? [],
-                    };
-                    const isRefetch = incoming.nodes.some(
-                        (incomingChapter) =>
-                            existing?.nodes.some(
-                                (existingChapter) =>
-                                    (existingChapter as unknown as Reference).__ref ===
-                                    (incomingChapter as unknown as Reference).__ref,
-                            ),
-                    );
-                    if (!isRefetch) {
-                        merged.nodes = [...(existing?.nodes ?? []), ...incoming.nodes];
+                    if (existing == null) {
+                        return incoming;
                     }
-                    return merged;
+
+                    const isReFetch = !incoming.pageInfo.hasPreviousPage;
+                    const hasLessItems = existing.nodes.length > incoming.nodes.length;
+
+                    const useIncomingResponse = isReFetch && !hasLessItems;
+                    if (useIncomingResponse) {
+                        return incoming;
+                    }
+
+                    const replaceExistingItems = isReFetch && hasLessItems;
+                    if (replaceExistingItems) {
+                        const existingWithReplacedIncoming: typeof incoming = {
+                            ...existing,
+                            pageInfo: {
+                                ...existing.pageInfo,
+                                startCursor: incoming.pageInfo.startCursor,
+                            },
+                            nodes: [...incoming.nodes, ...existing.nodes.slice(incoming.nodes.length)],
+                        };
+
+                        return existingWithReplacedIncoming;
+                    }
+
+                    const existingWithAppendedIncoming: typeof incoming = {
+                        ...existing,
+                        pageInfo: {
+                            ...existing.pageInfo,
+                            endCursor: incoming.pageInfo.endCursor,
+                            hasNextPage: incoming.pageInfo.hasNextPage,
+                        },
+                        nodes: [...existing.nodes, ...incoming.nodes],
+                    };
+
+                    return existingWithAppendedIncoming;
                 },
             },
         },
