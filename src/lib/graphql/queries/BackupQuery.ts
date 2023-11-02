@@ -20,8 +20,8 @@ export const VALIDATE_BACKUP = gql`
 `;
 
 export const GET_RESTORE_STATUS = gql`
-    query GET_RESTORE_STATUS {
-        restoreStatus {
+    query GET_RESTORE_STATUS($id: String!) {
+        restoreStatus(id: $id) {
             mangaProgress
             state
             totalManga

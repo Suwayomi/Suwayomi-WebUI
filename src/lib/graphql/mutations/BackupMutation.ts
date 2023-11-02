@@ -21,6 +21,7 @@ export const RESTORE_BACKUP = gql`
     mutation RESTORE_BACKUP($backup: Upload!) {
         restoreBackup(input: { backup: $backup }) {
             clientMutationId
+            id
             status {
                 mangaProgress
                 state

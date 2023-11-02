@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import List from '@mui/material/List';
 import ListItemText from '@mui/material/ListItemText';
 import { fromEvent } from 'file-selector';
@@ -17,8 +17,10 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/components/util/Toast';
 import { ListItemLink } from '@/components/util/ListItemLink';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext';
-import { BackupRestoreState, GetRestoreStatusQuery } from '@/lib/graphql/generated/graphql.ts';
+import { BackupRestoreState } from '@/lib/graphql/generated/graphql.ts';
 import { Progress } from '@/components/util/Progress.tsx';
+
+let backupRestoreId: string | undefined;
 
 export function Backup() {
     const { t } = useTranslation();
@@ -30,15 +32,15 @@ export function Backup() {
 
     useSetDefaultBackTo('settings');
 
-    const [isRestoring, setIsRestoring] = useState<boolean | null>(null);
-    const { data } = requestManager.useGetBackupRestoreStatus({
-        skip: isRestoring !== null ? !isRestoring : false,
+    const { data } = requestManager.useGetBackupRestoreStatus(backupRestoreId ?? '', {
+        skip: !backupRestoreId,
         pollInterval: 1000,
     });
-    const prevRestoreStatusRef = useRef<GetRestoreStatusQuery['restoreStatus'] | null>(null);
+
+    const [, setTriggerReRender] = useState(0);
 
     const restoreProgress = (() => {
-        if (!isRestoring || !data) {
+        if (!data?.restoreStatus) {
             return 0;
         }
 
@@ -47,37 +49,36 @@ export function Backup() {
     })();
 
     useEffect(() => {
-        if (!data || isRestoring !== null) {
+        if (!data?.restoreStatus) {
             return;
         }
 
-        const isRestoreInProgress = data?.restoreStatus.state !== BackupRestoreState.Idle;
-        setIsRestoring(isRestoreInProgress);
-    }, [data?.restoreStatus.state]);
+        const isSuccess = data.restoreStatus.state === BackupRestoreState.Success;
+        const isFailure = data.restoreStatus.state === BackupRestoreState.Failure;
 
-    useEffect(() => {
-        if (!data) {
-            return;
-        }
-
-        const isRestoreFinished =
-            isRestoring &&
-            data.restoreStatus.mangaProgress === data.restoreStatus.totalManga &&
-            prevRestoreStatusRef.current?.state !== BackupRestoreState.Idle;
+        const isRestoreFinished = isSuccess || isFailure;
         if (isRestoreFinished) {
-            setIsRestoring(false);
-            makeToast(t('settings.backup.label.restored_backup'), 'success');
+            if (isSuccess) {
+                makeToast(t('settings.backup.label.restored_backup'), 'success');
+            }
+
+            if (isFailure) {
+                makeToast(t('settings.backup.label.backup_restore_failed'), 'error');
+            }
+
+            backupRestoreId = undefined;
+            setTriggerReRender(Date.now());
         }
-        prevRestoreStatusRef.current = data.restoreStatus;
-    }, [data?.restoreStatus.state]);
+    }, [data?.restoreStatus?.state]);
 
     const submitBackup = async (file: File) => {
         if (file.name.toLowerCase().match(/proto\.gz$|tachibk$/g)) {
             makeToast(t('settings.backup.label.restoring_backup'), 'info');
 
             try {
-                await requestManager.restoreBackupFile(file).response;
-                setIsRestoring(true);
+                const response = await requestManager.restoreBackupFile(file).response;
+                backupRestoreId = response.data?.restoreBackup.id;
+                setTriggerReRender(Date.now());
             } catch (e) {
                 makeToast(t('settings.backup.label.backup_restore_failed'), 'error');
             }
@@ -129,13 +130,13 @@ export function Backup() {
                 </ListItemLink>
                 <ListItemButton
                     onClick={() => document.getElementById('backup-file')?.click()}
-                    disabled={!!isRestoring}
+                    disabled={!!backupRestoreId}
                 >
                     <ListItemText
                         primary={t('settings.backup.label.restore_backup')}
                         secondary={t('settings.backup.label.restore_backup_info')}
                     />
-                    {isRestoring ? (
+                    {backupRestoreId ? (
                         <ListItemIcon>
                             <Progress progress={restoreProgress} />
                         </ListItemIcon>
