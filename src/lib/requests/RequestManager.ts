@@ -1583,6 +1583,7 @@ export class RequestManager {
 
         result.response.then(() => {
             this.graphQLClient.client.cache.reset();
+            this.cache.clear();
         });
 
         return result;

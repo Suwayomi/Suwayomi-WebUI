@@ -36,4 +36,9 @@ export class CustomCache {
         const key = this.getKeyFor(endpoint, data);
         return this.keyToResponseMap.get(key) as Response;
     }
+
+    public clear(): void {
+        this.keyToResponseMap.clear();
+        this.keyToFetchTimestampMap.clear();
+    }
 }
