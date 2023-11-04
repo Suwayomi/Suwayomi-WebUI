@@ -149,19 +149,21 @@
       },
       "title": "Download Queue"
     },
-    "state": {
-      "label": {
-        "downloading": "Downloading",
-        "error": "Error",
-        "finished": "Finished",
-        "queued": "Queued"
-      }
-    },
     "settings": {
-      "file_type": {
+      "auto_download": {
         "label": {
-          "cbz": "Save as CBZ archive"
-        }
+          "ignore_with_unread_chapters": "Ignore automatic chapter downloads for entries with unread chapters",
+          "new_chapters": "Download new chapters"
+        },
+        "title": "Auto-download"
+      },
+      "download_ahead": {
+        "label": {
+          "unread_chapters_to_download": "Number of unread chapters to download",
+          "value": "{{chapters}} $t(chapter.title)",
+          "while_reading": "Auto download while reading"
+        },
+        "title": "Download ahead"
       },
       "download_path": {
         "label": {
@@ -169,22 +171,20 @@
           "title": "Download location"
         }
       },
-      "auto_download": {
+      "file_type": {
         "label": {
-          "new_chapters": "Download new chapters",
-          "ignore_with_unread_chapters": "Ignore automatic chapter downloads for entries with unread chapters"
-        },
-        "title": "Auto-download"
-      },
-      "download_ahead": {
-        "label": {
-          "while_reading": "Auto download while reading",
-          "unread_chapters_to_download": "Number of unread chapters to download",
-          "value": "{{chapters}} $t(chapter.title)"
-        },
-        "title": "Download ahead"
+          "cbz": "Save as CBZ archive"
+        }
       },
       "title": "Download settings"
+    },
+    "state": {
+      "label": {
+        "downloading": "Downloading",
+        "error": "Error",
+        "finished": "Finished",
+        "queued": "Queued"
+      }
     },
     "title": "Downloads"
   },
@@ -234,9 +234,6 @@
       "set": "Set",
       "start": "Start",
       "submit": "Submit"
-    },
-    "time": {
-      "hour_short": "h"
     },
     "date": {
       "label": {
@@ -294,14 +291,17 @@
         "by_fetch_date": "By date fetched",
         "by_source": "By source"
       }
+    },
+    "time": {
+      "hour_short": "h"
     }
   },
   "library": {
     "error": {
       "label": {
+        "add_to_library": "Could not add manga to library!",
         "empty": "Your library is empty",
         "no_matches": "No manga matches this filter",
-        "add_to_library": "Could not add manga to library!",
         "remove_from_library": "Could not remove manga from library!"
       }
     },
@@ -338,6 +338,17 @@
     },
     "settings": {
       "global_update": {
+        "auto_update": {
+          "interval": {
+            "label": {
+              "title": "Automatic update interval",
+              "value": "{{hours}}$t(global.time.hour_short)"
+            }
+          },
+          "label": {
+            "title": "Automatic updates"
+          }
+        },
         "categories": {
           "label": {
             "exclude": "Exclude: {{excludedCategoriesText}}",
@@ -346,28 +357,17 @@
           }
         },
         "entries": {
-          "title": "Skip updating entries",
           "label": {
             "completed": "With \"Completed\" status",
             "not_started": "That haven't been started",
             "unread_chapters": "With unread chapter(s)"
-          }
-        },
-        "auto_update": {
-          "interval": {
-            "label": {
-              "value": "{{hours}}$t(global.time.hour_short)",
-              "title": "Automatic update interval"
-            }
           },
-          "label": {
-            "title": "Automatic updates"
-          }
+          "title": "Skip updating entries"
         },
         "metadata": {
           "label": {
-            "title": "Automatically refresh metadata",
-            "description": "Check for new cover and details when updating library"
+            "description": "Check for new cover and details when updating library",
+            "title": "Automatically refresh metadata"
           }
         },
         "title": "Global update"
@@ -422,13 +422,13 @@
         }
       },
       "label": {
+        "fit_page_to_window": "Fit page to window",
         "load_next_chapter": "Load next chapter at ending",
+        "offset_first_page": "Offset first page",
         "reader_type": "Reader type",
         "show_page_number": "Show page number",
         "skip_dup_chapters": "Skip duplicate chapters",
-        "static_navigation": "Static navigation",
-        "fit_page_to_window": "Fit page to window",
-        "offset_first_page": "Offset first page"
+        "static_navigation": "Static navigation"
       },
       "reader_type": {
         "label": {
@@ -460,8 +460,8 @@
       "ignore_filters": "Ignore filters when searching"
     },
     "title": {
-      "search": "Search",
-      "global_search": "Global Search"
+      "global_search": "Global Search",
+      "search": "Search"
     }
   },
   "settings": {
