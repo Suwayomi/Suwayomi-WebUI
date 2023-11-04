@@ -15,6 +15,7 @@ import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
 
 const DEFAULT_INTERVAL_HOURS = 12;
 const MIN_INTERVAL_HOURS = 6;
+const MAX_INTERVAL_HOURS = 24 * 7 * 4; // 1 month
 
 export const GlobalUpdateSettingsInterval = () => {
     const { t } = useTranslation();
@@ -49,6 +50,9 @@ export const GlobalUpdateSettingsInterval = () => {
                     })}
                     value={autoUpdateIntervalHours}
                     minValue={MIN_INTERVAL_HOURS}
+                    maxValue={MAX_INTERVAL_HOURS}
+                    defaultValue={DEFAULT_INTERVAL_HOURS}
+                    showSlider
                     dialogTitle={t('library.settings.global_update.auto_update.interval.label.title')}
                     valueUnit={t('global.time.hour_short')}
                     handleUpdate={updateSetting}
