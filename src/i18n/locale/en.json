@@ -364,6 +364,12 @@
             "title": "Automatic updates"
           }
         },
+        "metadata": {
+          "label": {
+            "title": "Automatically refresh metadata",
+            "description": "Check for new cover and details when updating library"
+          }
+        },
         "title": "Global update"
       },
       "title": "Library Settings"

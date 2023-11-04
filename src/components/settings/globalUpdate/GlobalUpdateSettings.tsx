@@ -9,12 +9,34 @@
 import List from '@mui/material/List';
 import ListSubheader from '@mui/material/ListSubheader';
 import { useTranslation } from 'react-i18next';
+import { ListItem, ListItemText, Switch } from '@mui/material';
+import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import { GlobalUpdateSettingsCategories } from '@/components/settings/globalUpdate/GlobalUpdateSettingsCategories.tsx';
 import { GlobalUpdateSettingsEntries } from '@/components/settings/globalUpdate/GlobalUpdateSettingsEntries.tsx';
 import { GlobalUpdateSettingsInterval } from '@/components/settings/globalUpdate/GlobalUpdateSettingsInterval.tsx';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { makeToast } from '@/components/util/Toast.tsx';
+import { ServerSettings } from '@/typings.ts';
+
+type LibrarySettingsType = Pick<ServerSettings, 'updateMangas'>;
 
 export const GlobalUpdateSettings = () => {
     const { t } = useTranslation();
+
+    const { data } = requestManager.useGetServerSettings();
+    const updateMangas = !!data?.settings.updateMangas;
+    const [mutateSettings] = requestManager.useUpdateServerSettings();
+
+    const updateSetting = async <Setting extends keyof LibrarySettingsType>(
+        setting: Setting,
+        value: LibrarySettingsType[Setting],
+    ) => {
+        try {
+            await mutateSettings({ variables: { input: { settings: { [setting]: value } } } });
+        } catch (error) {
+            makeToast(t('global.error.label.failed_to_save_changes'), 'error');
+        }
+    };
 
     return (
         <List
@@ -27,6 +49,19 @@ export const GlobalUpdateSettings = () => {
             <GlobalUpdateSettingsInterval />
             <GlobalUpdateSettingsEntries />
             <GlobalUpdateSettingsCategories />
+            <ListItem>
+                <ListItemText
+                    primary={t('library.settings.global_update.metadata.label.title')}
+                    secondary={t('library.settings.global_update.metadata.label.description')}
+                />
+                <ListItemSecondaryAction>
+                    <Switch
+                        edge="end"
+                        checked={updateMangas}
+                        onChange={(e) => updateSetting('updateMangas', e.target.checked)}
+                    />
+                </ListItemSecondaryAction>
+            </ListItem>
         </List>
     );
 };
