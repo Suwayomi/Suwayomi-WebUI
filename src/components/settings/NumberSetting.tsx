@@ -13,7 +13,7 @@ import TextField from '@mui/material/TextField';
 import { InputAdornment, ListItemText } from '@mui/material';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ListItemButton from '@mui/material/ListItemButton';
 import * as React from 'react';
@@ -35,8 +35,8 @@ type BaseProps = {
     showSlider?: never;
 };
 
-type PropsWithSlider = Omit<BaseProps, 'defaultValue' | 'minValue' | 'maxValue' | 'showSlider' | 'stepSize'> &
-    Required<Pick<BaseProps, 'defaultValue' | 'minValue' | 'maxValue' | 'stepSize'>> & { showSlider: true };
+type PropsWithSlider = Omit<BaseProps, 'defaultValue' | 'minValue' | 'maxValue' | 'showSlider'> &
+    Required<Pick<BaseProps, 'defaultValue' | 'minValue' | 'maxValue'>> & { showSlider: true };
 
 type Props = BaseProps | PropsWithSlider;
 
@@ -87,6 +87,10 @@ export const NumberSetting = ({
         },
         [value, handleUpdate, closeDialog],
     );
+
+    useEffect(() => {
+        setDialogValue(value);
+    }, [value]);
 
     return (
         <>

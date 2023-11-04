@@ -33,6 +33,7 @@ import { Link, MenuItem, Select } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import LanguageIcon from '@mui/icons-material/Language';
 import CollectionsOutlinedBookmarkIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
+import GetAppOutlinedIcon from '@mui/icons-material/GetAppOutlined';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { langCodeToName } from '@/util/language';
@@ -98,6 +99,12 @@ export function Settings() {
                         <CollectionsOutlinedBookmarkIcon />
                     </ListItemIcon>
                     <ListItemText primary={t('library.title')} />
+                </ListItemLink>
+                <ListItemLink to="/settings/downloadSettings">
+                    <ListItemIcon>
+                        <GetAppOutlinedIcon />
+                    </ListItemIcon>
+                    <ListItemText primary={t('download.title')} />
                 </ListItemLink>
                 <ListItemLink to="/settings/backup">
                     <ListItemIcon>
