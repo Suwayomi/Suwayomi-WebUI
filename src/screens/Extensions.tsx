@@ -100,16 +100,11 @@ export function Extensions() {
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const [query] = useQueryParam('query', StringParam);
 
-    const [extensionsTimestamp, setExtensionsTimestamp] = useLocalStorage('extensionsTimestamp', 0);
-    const [fetchExtensions, { loading: isFetching }] = requestManager.useExtensionListFetch();
-    const { data, loading: isLoading } = requestManager.useGetExtensionList();
-    const allExtensions = data?.extensions.nodes;
+    const [fetchExtensions, { data, loading: isLoading, called }] = requestManager.useExtensionListFetch();
+    const allExtensions = data?.fetchExtensions.extensions;
 
     useEffect(() => {
-        const updateExtensionsList = Date.now() - extensionsTimestamp >= 1000 * 60; // update list in case it's older than 1 minute
-        if (updateExtensionsList) {
-            fetchExtensions().catch(() => setExtensionsTimestamp(Date.now()));
-        }
+        fetchExtensions();
     }, []);
 
     const filteredExtensions = useMemo(
@@ -187,7 +182,7 @@ export function Extensions() {
         };
     }, []);
 
-    if (isLoading || isFetching) {
+    if (!allExtensions && (isLoading || !called)) {
         return <LoadingPlaceholder />;
     }
 

@@ -834,12 +834,29 @@ export class RequestManager {
     public useExtensionListFetch(
         options?: MutationHookOptions<GetExtensionsFetchMutation, GetExtensionsFetchMutationVariables>,
     ): AbortableApolloUseMutationResponse<GetExtensionsFetchMutation, GetExtensionsFetchMutationVariables> {
-        return this.doRequest(
+        const cacheKey = 'useExtensionListFetch';
+
+        const [mutate, result] = this.doRequest(
             GQLMethod.USE_MUTATION,
             GET_EXTENSIONS_FETCH,
             {},
             { refetchQueries: [GET_EXTENSIONS], ...options },
         );
+
+        if (result.data?.fetchExtensions.extensions) {
+            this.cache.cacheResponse(cacheKey, undefined, result);
+        }
+        const cachedResult = this.cache.getResponseFor(cacheKey, undefined, 1000 * 60);
+
+        const wrappedMutate = (mutateOptions: Parameters<typeof mutate>[0]) => {
+            if (cachedResult) {
+                return cachedResult;
+            }
+
+            return mutate(mutateOptions);
+        };
+
+        return [wrappedMutate, cachedResult ?? result];
     }
 
     public installExternalExtension(
@@ -1583,6 +1600,7 @@ export class RequestManager {
 
         result.response.then(() => {
             this.graphQLClient.client.cache.reset();
+            this.cache.clear();
         });
 
         return result;

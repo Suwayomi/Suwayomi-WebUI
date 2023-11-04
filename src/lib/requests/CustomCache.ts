@@ -32,8 +32,19 @@ export class CustomCache {
         return this.keyToFetchTimestampMap.get(key);
     }
 
-    public getResponseFor<Response = any>(endpoint: string, data: unknown): Response | undefined {
+    public getResponseFor<Response = any>(endpoint: string, data: unknown, ttl?: number): Response | undefined {
         const key = this.getKeyFor(endpoint, data);
+
+        const isTtlReached = ttl && Date.now() - (this.getFetchTimestampFor(endpoint, data) ?? 0) >= ttl;
+        if (isTtlReached) {
+            this.keyToResponseMap.delete(key);
+        }
+
         return this.keyToResponseMap.get(key) as Response;
+    }
+
+    public clear(): void {
+        this.keyToResponseMap.clear();
+        this.keyToFetchTimestampMap.clear();
     }
 }
