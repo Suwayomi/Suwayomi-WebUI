@@ -118,6 +118,7 @@ export function Reader() {
     const { data: chapterData, loading: isChapterLoading } = requestManager.useGetMangaChapter(mangaId, chapterIndex, {
         skip: isChapterLoaded,
     });
+    const [arePagesUpdated, setArePagesUpdated] = useState(false);
 
     const getLoadedChapter = () => {
         const isAChapterLoaded = loadedChapter.current;
@@ -125,6 +126,10 @@ export function Reader() {
         const isSameAsLoadedChapter = isAChapterLoaded && isChapterLoaded;
         if (isSameAsLoadedChapter) {
             return loadedChapter.current;
+        }
+
+        if (arePagesUpdated) {
+            setArePagesUpdated(false);
         }
 
         if (chapterData?.chapter) {
@@ -136,15 +141,21 @@ export function Reader() {
     loadedChapter.current = getLoadedChapter();
 
     const chapter = loadedChapter.current ?? initialChapter;
-    const [fetchPages, { loading: areChapterPagesLoading }] = requestManager.useGetChapterPagesFetch(chapter.id);
+    const [fetchPages] = requestManager.useGetChapterPagesFetch(chapter.id);
 
     useEffect(() => {
-        if (!isChapterLoading && chapter.pageCount === -1) {
-            fetchPages();
+        const reCheckPages = !chapter.isDownloaded || chapter.pageCount === -1;
+        const shouldFetchPages = !isChapterLoading && reCheckPages;
+        if (shouldFetchPages) {
+            fetchPages().then(() => setArePagesUpdated(true));
+        }
+
+        if (!reCheckPages && !arePagesUpdated) {
+            setArePagesUpdated(true);
         }
     }, [chapter.id]);
 
-    const isLoading = isChapterLoading || areChapterPagesLoading || chapter.pageCount === -1;
+    const isLoading = isChapterLoading || !arePagesUpdated;
     const [wasLastPageReadSet, setWasLastPageReadSet] = useState(false);
     const [curPage, setCurPage] = useState<number>(0);
     const [pageToScrollTo, setPageToScrollTo] = useState<number | undefined>(undefined);
@@ -276,8 +287,7 @@ export function Reader() {
         }
     }, [chapter.sourceOrder, manga.id, settings.skipDupChapters]);
 
-    // return spinner while chpater data is loading
-    if (chapter.pageCount === -1) {
+    if (isLoading) {
         return (
             <Box
                 sx={{
