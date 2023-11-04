@@ -406,34 +406,54 @@ export const WEBUI_UPDATE_STATUS = gql`
 
 export const SERVER_SETTINGS = gql`
     fragment SERVER_SETTINGS on SettingsType {
-        autoDownloadNewChapters
-        backupInterval
-        backupPath
-        backupTTL
-        backupTime
-        basicAuthEnabled
-        basicAuthPassword
-        basicAuthUsername
-        debugLogsEnabled
-        downloadAsCbz
-        downloadsPath
-        electronPath
-        excludeCompleted
-        excludeNotStarted
-        excludeUnreadChapters
-        globalUpdateInterval
-        initialOpenInBrowserEnabled
+        # Server ip and port bindings
         ip
-        localSourcePath
-        maxSourcesInParallel
         port
+
+        # Socks proxy
         socksProxyEnabled
         socksProxyHost
         socksProxyPort
-        systemTrayEnabled
-        webUIChannel
+
+        # webUI
         webUIFlavor
+        initialOpenInBrowserEnabled
         webUIInterface
+        electronPath
+        webUIChannel
         webUIUpdateCheckInterval
+
+        # downloader
+        downloadAsCbz
+        downloadsPath
+        autoDownloadNewChapters
+        excludeEntryWithUnreadChapters
+        autoDownloadAheadLimit
+
+        # requests
+        maxSourcesInParallel
+
+        # updater
+        excludeUnreadChapters
+        excludeNotStarted
+        excludeCompleted
+        globalUpdateInterval
+        updateMangas
+
+        # Authentication
+        basicAuthEnabled
+        basicAuthUsername
+        basicAuthPassword
+
+        # misc
+        debugLogsEnabled
+        gqlDebugLogsEnabled
+        systemTrayEnabled
+
+        # backup
+        backupPath
+        backupTime
+        backupInterval
+        backupTTL
     }
 `;
