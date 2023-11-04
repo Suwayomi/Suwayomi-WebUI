@@ -7,20 +7,15 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { InputAdornment, List, ListItem, ListItemText, Switch } from '@mui/material';
+import { List, ListItem, ListItemText, Switch } from '@mui/material';
 import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
-import ListItemButton from '@mui/material/ListItemButton';
-import { useEffect, useState } from 'react';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogActions from '@mui/material/DialogActions';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import TextField from '@mui/material/TextField';
+import { useCallback } from 'react';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
 
 const DEFAULT_INTERVAL_HOURS = 12;
 const MIN_INTERVAL_HOURS = 6;
+const MAX_INTERVAL_HOURS = 24 * 7 * 4; // 1 month
 
 export const GlobalUpdateSettingsInterval = () => {
     const { t } = useTranslation();
@@ -30,32 +25,14 @@ export const GlobalUpdateSettingsInterval = () => {
     const doAutoUpdates = !!autoUpdateIntervalHours;
     const [mutateSettings] = requestManager.useUpdateServerSettings();
 
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [dialogUpdateIntervalHours, setDialogUpdateIntervalHours] = useState(autoUpdateIntervalHours);
-
-    const closeDialog = () => {
-        setIsDialogOpen(false);
-    };
-
-    const updateSetting = (globalUpdateInterval: number) => {
-        closeDialog();
-
-        const didIntervalChange = autoUpdateIntervalHours !== globalUpdateInterval;
-        if (!didIntervalChange) {
-            return;
-        }
-
+    const updateSetting = useCallback((globalUpdateInterval: number) => {
         mutateSettings({ variables: { input: { settings: { globalUpdateInterval } } } });
-    };
+    }, []);
 
     const setDoAutoUpdates = (enable: boolean) => {
         const globalUpdateInterval = enable ? DEFAULT_INTERVAL_HOURS : 0;
         updateSetting(globalUpdateInterval);
     };
-
-    useEffect(() => {
-        setDialogUpdateIntervalHours(autoUpdateIntervalHours);
-    }, [autoUpdateIntervalHours]);
 
     return (
         <List>
@@ -66,54 +43,20 @@ export const GlobalUpdateSettingsInterval = () => {
                 </ListItemSecondaryAction>
             </ListItem>
             {doAutoUpdates ? (
-                <>
-                    <ListItemButton onClick={() => setIsDialogOpen(true)}>
-                        <ListItemText
-                            primary={t('library.settings.global_update.auto_update.interval.label.title')}
-                            secondary={t('library.settings.global_update.auto_update.interval.label.value', {
-                                hours: autoUpdateIntervalHours,
-                            })}
-                            secondaryTypographyProps={{ style: { display: 'flex', flexDirection: 'column' } }}
-                        />
-                    </ListItemButton>
-
-                    <Dialog open={isDialogOpen} onClose={closeDialog}>
-                        <DialogContent>
-                            <DialogTitle sx={{ paddingLeft: 0 }}>
-                                {t('library.settings.global_update.auto_update.interval.label.title')}
-                            </DialogTitle>
-                            <TextField
-                                sx={{
-                                    width: '100%',
-                                    margin: 'auto',
-                                }}
-                                InputProps={{
-                                    inputProps: { min: MIN_INTERVAL_HOURS },
-                                    startAdornment: (
-                                        <InputAdornment position="start">{t('global.time.hour_short')}</InputAdornment>
-                                    ),
-                                }}
-                                autoFocus
-                                value={dialogUpdateIntervalHours}
-                                type="number"
-                                onChange={(e) => setDialogUpdateIntervalHours(Number(e.target.value))}
-                            />
-                        </DialogContent>
-                        <DialogActions>
-                            <Button onClick={closeDialog} color="primary">
-                                {t('global.button.cancel')}
-                            </Button>
-                            <Button
-                                onClick={() => {
-                                    updateSetting(dialogUpdateIntervalHours);
-                                }}
-                                color="primary"
-                            >
-                                {t('global.button.ok')}
-                            </Button>
-                        </DialogActions>
-                    </Dialog>
-                </>
+                <NumberSetting
+                    settingTitle={t('library.settings.global_update.auto_update.interval.label.title')}
+                    settingValue={t('library.settings.global_update.auto_update.interval.label.value', {
+                        hours: autoUpdateIntervalHours,
+                    })}
+                    value={autoUpdateIntervalHours}
+                    minValue={MIN_INTERVAL_HOURS}
+                    maxValue={MAX_INTERVAL_HOURS}
+                    defaultValue={DEFAULT_INTERVAL_HOURS}
+                    showSlider
+                    dialogTitle={t('library.settings.global_update.auto_update.interval.label.title')}
+                    valueUnit={t('global.time.hour_short')}
+                    handleUpdate={updateSetting}
+                />
             ) : null}
         </List>
     );

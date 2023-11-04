@@ -32,6 +32,7 @@ import { Updates } from '@/screens/Updates';
 import '@/i18n';
 import { LibrarySettings } from '@/screens/settings/LibrarySettings';
 import { DefaultNavBar } from '@/components/navbar/DefaultNavBar';
+import { DownloadSettings } from '@/screens/settings/DownloadSettings.tsx';
 
 if (__DEV__) {
     // Adds messages only in a dev environment
@@ -63,6 +64,7 @@ export const App: React.FC = () => (
                     <Route path="categories" element={<Categories />} />
                     <Route path="defaultReaderSettings" element={<DefaultReaderSettings />} />
                     <Route path="librarySettings" element={<LibrarySettings />} />
+                    <Route path="downloadSettings" element={<DownloadSettings />} />
                     <Route path="backup" element={<Backup />} />
                 </Route>
 

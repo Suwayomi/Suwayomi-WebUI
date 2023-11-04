@@ -157,6 +157,35 @@
         "queued": "Queued"
       }
     },
+    "settings": {
+      "file_type": {
+        "label": {
+          "cbz": "Save as CBZ archive"
+        }
+      },
+      "download_path": {
+        "label": {
+          "description": "The path to the directory on the server where downloaded files should get saved in",
+          "title": "Download location"
+        }
+      },
+      "auto_download": {
+        "label": {
+          "new_chapters": "Download new chapters",
+          "ignore_with_unread_chapters": "Ignore automatic chapter downloads for entries with unread chapters"
+        },
+        "title": "Auto-download"
+      },
+      "download_ahead": {
+        "label": {
+          "while_reading": "Auto download while reading",
+          "unread_chapters_to_download": "Number of unread chapters to download",
+          "value": "{{chapters}} $t(chapter.title)"
+        },
+        "title": "Download ahead"
+      },
+      "title": "Download settings"
+    },
     "title": "Downloads"
   },
   "extension": {
