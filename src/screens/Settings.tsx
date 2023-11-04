@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import List from '@mui/material/List';
 import ListAltIcon from '@mui/icons-material/ListAlt';
@@ -29,18 +29,18 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import TextField from '@mui/material/TextField';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import Slider from '@mui/material/Slider';
-import { DialogTitle, Link, ListItemButton, MenuItem, Select } from '@mui/material';
-import ViewModuleIcon from '@mui/icons-material/ViewModule';
+import { Link, MenuItem, Select } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import LanguageIcon from '@mui/icons-material/Language';
 import CollectionsOutlinedBookmarkIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
+import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { langCodeToName } from '@/util/language';
 import { useLocalStorage } from '@/util/useLocalStorage';
 import { ListItemLink } from '@/components/util/ListItemLink';
 import { DarkTheme } from '@/components/context/DarkTheme';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
+import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
 
 export function Settings() {
     const { t, i18n } = useTranslation();
@@ -58,9 +58,9 @@ export function Settings() {
     const [dialogOpen, setDialogOpen] = useState(false);
     const [dialogValue, setDialogValue] = useState(serverAddress);
 
-    const [dialogOpenItemWidth, setDialogOpenItemWidth] = useState(false);
-    const [ItemWidth, setItemWidth] = useLocalStorage<number>('ItemWidth', 300);
-    const [DialogItemWidth, setDialogItemWidth] = useState(ItemWidth);
+    const DEFAULT_ITEM_WIDTH = 300;
+    const itemWidthIcon = useMemo(() => <ViewModuleIcon />, []);
+    const [itemWidth, setItemWidth] = useLocalStorage<number>('ItemWidth', DEFAULT_ITEM_WIDTH);
 
     const handleDialogOpen = () => {
         setDialogValue(serverAddress);
@@ -76,29 +76,6 @@ export function Settings() {
         const serverBaseUrl = dialogValue.replaceAll(/(\/)+$/g, '');
         setServerAddress(serverBaseUrl);
         requestManager.updateClient({ baseURL: serverBaseUrl });
-    };
-
-    const handleDialogOpenItemWidth = () => {
-        setDialogItemWidth(ItemWidth);
-        setDialogOpenItemWidth(true);
-    };
-
-    const handleDialogCancelItemWidth = () => {
-        setDialogOpenItemWidth(false);
-    };
-
-    const handleDialogSubmitItemWidth = () => {
-        setDialogOpenItemWidth(false);
-        setItemWidth(DialogItemWidth);
-    };
-
-    const handleDialogResetItemWidth = () => {
-        setDialogOpenItemWidth(false);
-        setItemWidth(300);
-    };
-
-    const handleChange = (event: Event, newValue: number | number[]) => {
-        setDialogItemWidth(newValue as number);
     };
 
     return (
@@ -137,16 +114,20 @@ export function Settings() {
                         <Switch edge="end" checked={darkTheme} onChange={() => setDarkTheme(!darkTheme)} />
                     </ListItemSecondaryAction>
                 </ListItem>
-                <ListItemButton
-                    onClick={() => {
-                        handleDialogOpenItemWidth();
-                    }}
-                >
-                    <ListItemIcon>
-                        <ViewModuleIcon />
-                    </ListItemIcon>
-                    <ListItemText primary={t('settings.label.manga_item_width')} secondary={`px:${ItemWidth}`} />
-                </ListItemButton>
+                <NumberSetting
+                    settingTitle={t('settings.label.manga_item_width')}
+                    settingValue={`px:${itemWidth}`}
+                    settingIcon={itemWidthIcon}
+                    value={itemWidth}
+                    defaultValue={DEFAULT_ITEM_WIDTH}
+                    minValue={100}
+                    maxValue={1000}
+                    stepSize={10}
+                    dialogTitle={t('settings.label.manga_item_width')}
+                    valueUnit="px"
+                    showSlider
+                    handleUpdate={setItemWidth}
+                />
                 <ListItem>
                     <ListItemIcon>
                         <FavoriteIcon />
@@ -245,47 +226,6 @@ export function Settings() {
                     </Button>
                     <Button onClick={handleDialogSubmit} color="primary">
                         {t('global.button.set')}
-                    </Button>
-                </DialogActions>
-            </Dialog>
-
-            <Dialog open={dialogOpenItemWidth} onClose={handleDialogCancelItemWidth}>
-                <DialogTitle>{t('settings.label.manga_item_width')}</DialogTitle>
-                <DialogContent
-                    sx={{
-                        width: '98%',
-                        margin: 'auto',
-                    }}
-                >
-                    <TextField
-                        sx={{
-                            width: '100%',
-                            margin: 'auto',
-                        }}
-                        autoFocus
-                        value={DialogItemWidth}
-                        type="number"
-                        onChange={(e) => setDialogItemWidth(parseInt(e.target.value, 10))}
-                    />
-                    <Slider
-                        aria-label="Manga Item width"
-                        defaultValue={300}
-                        value={DialogItemWidth}
-                        step={10}
-                        min={100}
-                        max={1000}
-                        onChange={handleChange}
-                    />
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleDialogResetItemWidth} color="primary">
-                        {t('global.button.reset_to_default')}
-                    </Button>
-                    <Button onClick={handleDialogCancelItemWidth} color="primary">
-                        {t('global.button.cancel')}
-                    </Button>
-                    <Button onClick={handleDialogSubmitItemWidth} color="primary">
-                        {t('global.button.ok')}
                     </Button>
                 </DialogActions>
             </Dialog>
