@@ -7,21 +7,26 @@
  */
 
 import FilterList from '@mui/icons-material/FilterList';
-import { IconButton } from '@mui/material';
+import { IconButton, Tooltip } from '@mui/material';
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
 import { LibraryOptionsPanel } from '@/components/library/LibraryOptionsPanel';
 
 export const LibraryToolbarMenu: React.FC = () => {
+    const { t } = useTranslation();
+
     const [open, setOpen] = useState(false);
     const { options } = useLibraryOptionsContext();
     const active = options.downloaded != null || options.unread != null;
 
     return (
         <>
-            <IconButton onClick={() => setOpen(!open)} color={active ? 'warning' : 'default'}>
-                <FilterList />
-            </IconButton>
+            <Tooltip title={t('settings.title')}>
+                <IconButton onClick={() => setOpen(!open)} color={active ? 'warning' : 'default'}>
+                    <FilterList />
+                </IconButton>
+            </Tooltip>
             <LibraryOptionsPanel open={open} onClose={() => setOpen(false)} />
         </>
     );

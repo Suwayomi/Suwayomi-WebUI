@@ -16,7 +16,7 @@ import DoneAll from '@mui/icons-material/DoneAll';
 import Download from '@mui/icons-material/Download';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import RemoveDone from '@mui/icons-material/RemoveDone';
-import { CardActionArea, Checkbox, ListItemIcon, ListItemText, Stack } from '@mui/material';
+import { CardActionArea, Checkbox, ListItemIcon, ListItemText, Stack, Tooltip } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import IconButton from '@mui/material/IconButton';
@@ -150,11 +150,15 @@ export const ChapterCard: React.FC<IProps> = (props: IProps) => {
                         {dc && <DownloadStateIndicator download={dc} />}
 
                         {selected === null ? (
-                            <IconButton aria-label="more" onClick={handleMenuClick} size="large">
-                                <MoreVertIcon />
-                            </IconButton>
+                            <Tooltip title={t('global.button.options')}>
+                                <IconButton aria-label="more" onClick={handleMenuClick} size="large">
+                                    <MoreVertIcon />
+                                </IconButton>
+                            </Tooltip>
                         ) : (
-                            <Checkbox checked={selected} />
+                            <Tooltip title={t(selected ? 'global.button.deselect' : 'global.button.select')}>
+                                <Checkbox checked={selected} />
+                            </Tooltip>
                         )}
                     </CardContent>
                 </CardActionArea>

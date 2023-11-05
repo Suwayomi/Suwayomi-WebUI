@@ -7,7 +7,7 @@
  */
 
 import { useMemo, useState, useContext, useEffect } from 'react';
-import { List, ListItem, ListItemText, ListItemIcon, IconButton } from '@mui/material';
+import { List, ListItem, ListItemText, ListItemIcon, IconButton, Tooltip } from '@mui/material';
 import { DragDropContext, Draggable, DropResult, DraggingStyle, NotDraggingStyle } from 'react-beautiful-dnd';
 import DragHandleIcon from '@mui/icons-material/DragHandle';
 import EditIcon from '@mui/icons-material/Edit';
@@ -149,22 +149,26 @@ export function Categories() {
                                                 <DragHandleIcon />
                                             </ListItemIcon>
                                             <ListItemText primary={item.name} />
-                                            <IconButton
-                                                onClick={() => {
-                                                    handleEditDialogOpen(index);
-                                                }}
-                                                size="large"
-                                            >
-                                                <EditIcon />
-                                            </IconButton>
-                                            <IconButton
-                                                onClick={() => {
-                                                    deleteCategory(index);
-                                                }}
-                                                size="large"
-                                            >
-                                                <DeleteIcon />
-                                            </IconButton>
+                                            <Tooltip title={t('global.button.edit')}>
+                                                <IconButton
+                                                    onClick={() => {
+                                                        handleEditDialogOpen(index);
+                                                    }}
+                                                    size="large"
+                                                >
+                                                    <EditIcon />
+                                                </IconButton>
+                                            </Tooltip>
+                                            <Tooltip title={t('chapter.action.download.delete.label.action')}>
+                                                <IconButton
+                                                    onClick={() => {
+                                                        deleteCategory(index);
+                                                    }}
+                                                    size="large"
+                                                >
+                                                    <DeleteIcon />
+                                                </IconButton>
+                                            </Tooltip>
                                         </ListItem>
                                     )}
                                 </Draggable>

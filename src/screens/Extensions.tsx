@@ -12,7 +12,7 @@ import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import { StringParam, useQueryParam } from 'use-query-params';
 import { Virtuoso } from 'react-virtuoso';
-import { Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Tooltip, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { extensionDefaultLangs, DefaultLanguage, langSortCmp } from '@/util/language';
@@ -154,9 +154,12 @@ export function Extensions() {
         setAction(
             <>
                 <AppbarSearch />
-                <IconButton onClick={() => inputRef.current?.click()} size="large">
-                    <AddIcon />
-                </IconButton>
+                <Tooltip title={t('extension.action.label.install_external')}>
+                    <IconButton onClick={() => inputRef.current?.click()} size="large">
+                        <AddIcon />
+                    </IconButton>
+                </Tooltip>
+
                 <LangSelect shownLangs={shownLangs} setShownLangs={setShownLangs} allLangs={allLangs} />
             </>,
         );

@@ -10,7 +10,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import DragHandle from '@mui/icons-material/DragHandle';
 import PauseIcon from '@mui/icons-material/Pause';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import { Card, CardActionArea, Stack, Box } from '@mui/material';
+import { Card, CardActionArea, Stack, Box, Tooltip } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import React, { useContext, useEffect } from 'react';
 import { DragDropContext, Draggable } from 'react-beautiful-dnd';
@@ -86,9 +86,11 @@ export const DownloadQueue: React.FC = () => {
     return (
         <>
             <NavbarToolbar>
-                <IconButton onClick={toggleQueueStatus} size="large">
-                    {status === 'STOPPED' ? <PlayArrowIcon /> : <PauseIcon />}
-                </IconButton>
+                <Tooltip title={t(status === 'STOPPED' ? 'global.button.start' : 'global.button.stop')}>
+                    <IconButton onClick={toggleQueueStatus} size="large">
+                        {status === 'STOPPED' ? <PlayArrowIcon /> : <PauseIcon />}
+                    </IconButton>
+                </Tooltip>
             </NavbarToolbar>
             <DragDropContext onDragEnd={onDragEnd}>
                 <StrictModeDroppable droppableId="droppable">
@@ -131,16 +133,18 @@ export const DownloadQueue: React.FC = () => {
                                                         </Typography>
                                                     </Stack>
                                                     <DownloadStateIndicator download={item} />
-                                                    <IconButton
-                                                        onClick={(e) => {
-                                                            e.preventDefault();
-                                                            e.stopPropagation();
-                                                            handleDelete(item.chapter);
-                                                        }}
-                                                        size="large"
-                                                    >
-                                                        <DeleteIcon />
-                                                    </IconButton>
+                                                    <Tooltip title={t('chapter.action.download.delete.label.action')}>
+                                                        <IconButton
+                                                            onClick={(e) => {
+                                                                e.preventDefault();
+                                                                e.stopPropagation();
+                                                                handleDelete(item.chapter);
+                                                            }}
+                                                            size="large"
+                                                        >
+                                                            <DeleteIcon />
+                                                        </IconButton>
+                                                    </Tooltip>
                                                 </CardActionArea>
                                             </Card>
                                         </Box>

@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { IconButton, Menu, MenuItem, FormControlLabel, Radio } from '@mui/material';
+import { IconButton, Menu, MenuItem, FormControlLabel, Radio, Tooltip } from '@mui/material';
 import React from 'react';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import { useTranslation } from 'react-i18next';
@@ -38,16 +38,18 @@ export function SourceGridLayout() {
 
     return (
         <>
-            <IconButton
-                onClick={handleClick}
-                size="small"
-                sx={{ ml: 2 }}
-                aria-controls={open ? 'account-menu' : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? 'true' : undefined}
-            >
-                <ViewModuleIcon />
-            </IconButton>
+            <Tooltip title={t('global.label.display')}>
+                <IconButton
+                    onClick={handleClick}
+                    size="small"
+                    sx={{ ml: 2 }}
+                    aria-controls={open ? 'account-menu' : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? 'true' : undefined}
+                >
+                    <ViewModuleIcon />
+                </IconButton>
+            </Tooltip>
             <Menu
                 id="basic-menu"
                 anchorEl={anchorEl}
