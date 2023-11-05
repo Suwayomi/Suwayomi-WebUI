@@ -206,6 +206,7 @@ import { DOWNLOAD_STATUS_SUBSCRIPTION } from '@/lib/graphql/subscriptions/Downlo
 import { UPDATER_SUBSCRIPTION } from '@/lib/graphql/subscriptions/UpdaterSubscription.ts';
 import { GET_SERVER_SETTINGS } from '@/lib/graphql/queries/SettingsQuery.ts';
 import { UPDATE_SERVER_SETTINGS } from '@/lib/graphql/mutations/SettingsMutation.ts';
+import { FULL_EXTENSION_FIELDS } from '@/lib/graphql/Fragments.ts';
 
 enum GQLMethod {
     QUERY = 'QUERY',
@@ -289,6 +290,8 @@ export type AbortableApolloUseMutationPaginatedResponse<
         })[],
 ];
 export type AbortableApolloMutationResponse<Data = any> = { response: Promise<FetchResult<Data>> } & AbortableRequest;
+
+const EXTENSION_LIST_CACHE_KEY = 'useExtensionListFetch';
 
 // TODO - correctly update cache after all mutations instead of refetching queries
 export class RequestManager {
@@ -834,8 +837,6 @@ export class RequestManager {
     public useExtensionListFetch(
         options?: MutationHookOptions<GetExtensionsFetchMutation, GetExtensionsFetchMutationVariables>,
     ): AbortableApolloUseMutationResponse<GetExtensionsFetchMutation, GetExtensionsFetchMutationVariables> {
-        const cacheKey = 'useExtensionListFetch';
-
         const [mutate, result] = this.doRequest(
             GQLMethod.USE_MUTATION,
             GET_EXTENSIONS_FETCH,
@@ -844,19 +845,41 @@ export class RequestManager {
         );
 
         if (result.data?.fetchExtensions.extensions) {
-            this.cache.cacheResponse(cacheKey, undefined, result);
+            this.cache.cacheResponse(EXTENSION_LIST_CACHE_KEY, undefined, result);
         }
-        const cachedResult = this.cache.getResponseFor(cacheKey, undefined, 1000 * 60);
+        const cachedResult = this.cache.getResponseFor<typeof result>(EXTENSION_LIST_CACHE_KEY, undefined, 1000 * 60);
+        const normalizedCachedResult = !cachedResult
+            ? result
+            : {
+                  ...cachedResult,
+                  data: !cachedResult?.data?.fetchExtensions.extensions
+                      ? cachedResult?.data
+                      : {
+                            ...cachedResult.data,
+                            fetchExtensions: {
+                                ...cachedResult.data.fetchExtensions,
+                                extensions: cachedResult.data.fetchExtensions.extensions.map(
+                                    (extension) =>
+                                        this.graphQLClient.client.cache.readFragment<
+                                            GetExtensionsFetchMutation['fetchExtensions']['extensions'][0]
+                                        >({
+                                            id: this.graphQLClient.client.cache.identify(extension),
+                                            fragment: FULL_EXTENSION_FIELDS,
+                                        }) ?? extension,
+                                ),
+                            },
+                        },
+              };
 
-        const wrappedMutate = (mutateOptions: Parameters<typeof mutate>[0]) => {
+        const wrappedMutate = async (mutateOptions: Parameters<typeof mutate>[0]) => {
             if (cachedResult) {
-                return cachedResult;
+                return normalizedCachedResult;
             }
 
             return mutate(mutateOptions);
         };
 
-        return [wrappedMutate, cachedResult ?? result];
+        return [wrappedMutate, normalizedCachedResult];
     }
 
     public installExternalExtension(
@@ -880,10 +903,7 @@ export class RequestManager {
             GQLMethod.MUTATION,
             UPDATE_EXTENSION,
             { input: { id, patch } },
-            {
-                refetchQueries: [GET_EXTENSIONS, GET_SOURCES],
-                ...options,
-            },
+            options,
         );
 
         result.response.then(() => {
