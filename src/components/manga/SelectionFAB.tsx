@@ -42,6 +42,7 @@ export const SelectionFAB: React.FC<SelectionFABProps> = (props) => {
                 ...DEFAULT_FAB_STYLE,
                 height: `calc(${DEFAULT_FAB_STYLE.height} + 1)`,
                 pt: 1,
+                zIndex: 1, // the "Checkbox" (MUI) component of the "ChapterCard" has z-index 1, which causes it to take over the mouse events
             }}
             ref={anchorEl}
         >
