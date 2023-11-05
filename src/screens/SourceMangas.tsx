@@ -343,13 +343,16 @@ export function SourceMangas() {
                 >
                     {t('global.button.popular')}
                 </ContentTypeButton>
-                <ContentTypeButton
-                    variant={contentType === SourceContentType.LATEST ? 'contained' : 'outlined'}
-                    startIcon={<NewReleasesIcon />}
-                    onClick={() => updateContentType(SourceContentType.LATEST)}
-                >
-                    {t('global.button.latest')}
-                </ContentTypeButton>
+                {source?.supportsLatest === undefined || source.supportsLatest ? (
+                    <ContentTypeButton
+                        disabled={!source?.supportsLatest}
+                        variant={contentType === SourceContentType.LATEST ? 'contained' : 'outlined'}
+                        startIcon={<NewReleasesIcon />}
+                        onClick={() => updateContentType(SourceContentType.LATEST)}
+                    >
+                        {t('global.button.latest')}
+                    </ContentTypeButton>
+                ) : null}
                 <ContentTypeButton
                     variant={contentType === SourceContentType.FILTER ? 'contained' : 'outlined'}
                     startIcon={<FilterListIcon />}
