@@ -192,6 +192,7 @@
     "action": {
       "label": {
         "install": "Install",
+        "install_external": "Install external extension",
         "uninstall": "Uninstall",
         "update": "Update"
       }
@@ -222,17 +223,22 @@
       "browse": "Browse",
       "cancel": "Cancel",
       "clear": "Clear",
+      "deselect": "Deselect",
+      "edit": "Edit",
       "filter": "Filter",
       "latest": "Latest",
       "ok": "Ok",
       "open_site": "Open Site",
+      "options": "Options",
       "popular": "Popular",
       "reset": "Reset",
       "reset_to_default": "Reset to Default",
       "resume": "Resume",
+      "select": "Select",
       "select_all": "Select all",
       "set": "Set",
       "start": "Start",
+      "stop": "Stop",
       "submit": "Submit"
     },
     "date": {
@@ -399,7 +405,10 @@
   },
   "reader": {
     "button": {
+      "close_menu": "Close menu",
+      "exit": "Exit reader",
       "next_chapter": "Next Chapter",
+      "open_menu": "Open menu",
       "previous_chapter": "Previous Chapter"
     },
     "error": {

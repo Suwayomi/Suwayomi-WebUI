@@ -15,7 +15,7 @@ import Dialog from '@mui/material/Dialog';
 import Switch from '@mui/material/Switch';
 import IconButton from '@mui/material/IconButton';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { List, ListItemSecondaryAction, ListItemText } from '@mui/material';
+import { List, ListItemSecondaryAction, ListItemText, Tooltip } from '@mui/material';
 import ListItem from '@mui/material/ListItem';
 import { useTranslation } from 'react-i18next';
 import { cloneObject } from '@/util/cloneObject';
@@ -70,15 +70,17 @@ export function LangSelect(props: IProps) {
 
     return (
         <>
-            <IconButton
-                onClick={() => setOpen(true)}
-                aria-label="display more actions"
-                edge="end"
-                color="inherit"
-                size="large"
-            >
-                <FilterListIcon />
-            </IconButton>
+            <Tooltip title={t('settings.title')}>
+                <IconButton
+                    onClick={() => setOpen(true)}
+                    aria-label="display more actions"
+                    edge="end"
+                    color="inherit"
+                    size="large"
+                >
+                    <FilterListIcon />
+                </IconButton>
+            </Tooltip>
             <Dialog
                 sx={{
                     '.MuiDialog-paper': {

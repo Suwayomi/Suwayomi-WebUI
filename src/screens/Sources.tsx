@@ -7,7 +7,7 @@
  */
 
 import { Fragment, useContext, useEffect } from 'react';
-import { IconButton } from '@mui/material';
+import { IconButton, Tooltip } from '@mui/material';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -78,9 +78,11 @@ export function Sources() {
         setTitle(t('source.title'));
         setAction(
             <>
-                <IconButton onClick={() => navigate('/sources/all/search/')} size="large">
-                    <TravelExploreIcon />
-                </IconButton>
+                <Tooltip title={t('search.title.global_search')}>
+                    <IconButton onClick={() => navigate('/sources/all/search/')} size="large">
+                        <TravelExploreIcon />
+                    </IconButton>
+                </Tooltip>
                 <LangSelect
                     shownLangs={shownLangs}
                     setShownLangs={setShownLangs}

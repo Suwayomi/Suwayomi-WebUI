@@ -13,7 +13,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import { useQueryParam, StringParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
 import Link from '@mui/material/Link';
-import { Box, Button, styled, useTheme, useMediaQuery } from '@mui/material';
+import { Box, Button, styled, useTheme, useMediaQuery, Tooltip } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import NewReleasesIcon from '@mui/icons-material/NewReleases';
 import FilterListIcon from '@mui/icons-material/FilterList';
@@ -310,15 +310,17 @@ export function SourceMangas() {
                 <AppbarSearch />
                 <SourceGridLayout />
                 {source?.isConfigurable && (
-                    <IconButton
-                        onClick={() => navigate(`/sources/${sourceId}/configure/`)}
-                        aria-label="display more actions"
-                        edge="end"
-                        color="inherit"
-                        size="large"
-                    >
-                        <SettingsIcon />
-                    </IconButton>
+                    <Tooltip title={t('settings.title')}>
+                        <IconButton
+                            onClick={() => navigate(`/sources/${sourceId}/configure/`)}
+                            aria-label="display more actions"
+                            edge="end"
+                            color="inherit"
+                            size="large"
+                        >
+                            <SettingsIcon />
+                        </IconButton>
+                    </Tooltip>
                 )}
             </>,
         );

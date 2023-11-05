@@ -10,6 +10,7 @@ import { useMemo } from 'react';
 import IconButton from '@mui/material/IconButton';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { useTranslation } from 'react-i18next';
+import { Tooltip } from '@mui/material';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/components/util/Toast';
 import { UpdaterSubscription } from '@/lib/graphql/generated/graphql.ts';
@@ -59,8 +60,10 @@ export function UpdateChecker({ handleFinishedUpdate }: { handleFinishedUpdate: 
     };
 
     return (
-        <IconButton onClick={onClick} disabled={loading}>
-            {loading ? <Progress progress={progress} /> : <RefreshIcon />}
-        </IconButton>
+        <Tooltip title={t('library.settings.global_update.title')}>
+            <IconButton onClick={onClick} disabled={loading}>
+                {loading ? <Progress progress={progress} /> : <RefreshIcon />}
+            </IconButton>
+        </Tooltip>
     );
 }

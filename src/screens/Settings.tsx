@@ -29,7 +29,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import TextField from '@mui/material/TextField';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { Link, MenuItem, Select } from '@mui/material';
+import { Link, MenuItem, Select, Tooltip } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import LanguageIcon from '@mui/icons-material/Language';
 import CollectionsOutlinedBookmarkIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
@@ -194,14 +194,16 @@ export function Settings() {
                     </ListItemIcon>
                     <ListItemText primary={t('settings.about.label.server_address')} secondary={serverAddress} />
                     <ListItemSecondaryAction>
-                        <IconButton
-                            onClick={() => {
-                                handleDialogOpen();
-                            }}
-                            size="large"
-                        >
-                            <EditIcon />
-                        </IconButton>
+                        <Tooltip title={t('global.button.edit')}>
+                            <IconButton
+                                onClick={() => {
+                                    handleDialogOpen();
+                                }}
+                                size="large"
+                            >
+                                <EditIcon />
+                            </IconButton>
+                        </Tooltip>
                     </ListItemSecondaryAction>
                 </ListItem>
                 <ListItemLink to="/settings/about">

@@ -18,7 +18,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Slide from '@mui/material/Slide';
 import Fade from '@mui/material/Fade';
 import Zoom from '@mui/material/Zoom';
-import { Divider, FormControl, MenuItem, Select, styled } from '@mui/material';
+import { Divider, FormControl, MenuItem, Select, styled, Tooltip } from '@mui/material';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
@@ -208,31 +208,35 @@ export function ReaderNavBar(props: IProps) {
                 >
                     <header>
                         {!settings.staticNav && (
+                            <Tooltip title={t('reader.button.close_menu')}>
+                                <IconButton
+                                    edge="start"
+                                    color="inherit"
+                                    aria-label="menu"
+                                    disableRipple
+                                    onClick={() => updateDrawer(false)}
+                                    size="large"
+                                >
+                                    <KeyboardArrowLeftIcon />
+                                </IconButton>
+                            </Tooltip>
+                        )}
+                        <Typography variant="h1" textOverflow="ellipsis" overflow="hidden" sx={{ py: 1 }}>
+                            {chapter.name}
+                        </Typography>
+                        <Tooltip title={t('reader.button.exit')}>
                             <IconButton
                                 edge="start"
                                 color="inherit"
                                 aria-label="menu"
                                 disableRipple
-                                onClick={() => updateDrawer(false)}
+                                onClick={handleClose}
                                 size="large"
+                                sx={{ mr: -1 }}
                             >
-                                <KeyboardArrowLeftIcon />
+                                <CloseIcon />
                             </IconButton>
-                        )}
-                        <Typography variant="h1" textOverflow="ellipsis" overflow="hidden" sx={{ py: 1 }}>
-                            {chapter.name}
-                        </Typography>
-                        <IconButton
-                            edge="start"
-                            color="inherit"
-                            aria-label="menu"
-                            disableRipple
-                            onClick={handleClose}
-                            size="large"
-                            sx={{ mr: -1 }}
-                        >
-                            <CloseIcon />
-                        </IconButton>
+                        </Tooltip>
                     </header>
                     <ListItem
                         ContainerComponent="div"
@@ -300,24 +304,25 @@ export function ReaderNavBar(props: IProps) {
                             <span>{t('reader.page_info.label.of_max_pages', { maxPages: chapter.pageCount })}</span>
                         </PageNavigation>
                         <ChapterNavigation>
-                            <IconButton
-                                title={t('reader.button.previous_chapter')}
-                                sx={{ gridArea: 'pre' }}
-                                disabled={disableChapterNavButtons || chapter.sourceOrder <= 1}
-                                onClick={() =>
-                                    openNextChapter(ChapterOffset.PREV, (prevChapterIndex) => {
-                                        navigate(`/manga/${manga.id}/chapter/${prevChapterIndex}`, {
-                                            replace: true,
-                                            state: {
-                                                prevDrawerOpen: drawerOpen,
-                                                prevSettingsCollapseOpen: settingsCollapseOpen,
-                                            },
-                                        });
-                                    })
-                                }
-                            >
-                                <KeyboardArrowLeftIcon />
-                            </IconButton>
+                            <Tooltip title={t('reader.button.previous_chapter')}>
+                                <IconButton
+                                    sx={{ gridArea: 'pre' }}
+                                    disabled={disableChapterNavButtons || chapter.sourceOrder <= 1}
+                                    onClick={() =>
+                                        openNextChapter(ChapterOffset.PREV, (prevChapterIndex) => {
+                                            navigate(`/manga/${manga.id}/chapter/${prevChapterIndex}`, {
+                                                replace: true,
+                                                state: {
+                                                    prevDrawerOpen: drawerOpen,
+                                                    prevSettingsCollapseOpen: settingsCollapseOpen,
+                                                },
+                                            });
+                                        })
+                                    }
+                                >
+                                    <KeyboardArrowLeftIcon />
+                                </IconButton>
+                            </Tooltip>
                             <FormControl
                                 sx={{ gridArea: 'current' }}
                                 size="small"
@@ -346,44 +351,47 @@ export function ReaderNavBar(props: IProps) {
                                         ))}
                                 </Select>
                             </FormControl>
-                            <IconButton
-                                title={t('reader.button.next_chapter')}
-                                sx={{ gridArea: 'next' }}
-                                disabled={
-                                    disableChapterNavButtons ||
-                                    chapter.sourceOrder < 1 ||
-                                    chapter.sourceOrder >= manga.chapters.totalCount
-                                }
-                                onClick={() => {
-                                    openNextChapter(ChapterOffset.NEXT, (nextChapterIndex) =>
-                                        navigate(`/manga/${manga.id}/chapter/${nextChapterIndex}`, {
-                                            replace: true,
-                                            state: {
-                                                prevDrawerOpen: drawerOpen,
-                                                prevSettingsCollapseOpen: settingsCollapseOpen,
-                                            },
-                                        }),
-                                    );
-                                }}
-                            >
-                                <KeyboardArrowRightIcon />
-                            </IconButton>
+                            <Tooltip title={t('reader.button.next_chapter')}>
+                                <IconButton
+                                    sx={{ gridArea: 'next' }}
+                                    disabled={
+                                        disableChapterNavButtons ||
+                                        chapter.sourceOrder < 1 ||
+                                        chapter.sourceOrder >= manga.chapters.totalCount
+                                    }
+                                    onClick={() => {
+                                        openNextChapter(ChapterOffset.NEXT, (nextChapterIndex) =>
+                                            navigate(`/manga/${manga.id}/chapter/${nextChapterIndex}`, {
+                                                replace: true,
+                                                state: {
+                                                    prevDrawerOpen: drawerOpen,
+                                                    prevSettingsCollapseOpen: settingsCollapseOpen,
+                                                },
+                                            }),
+                                        );
+                                    }}
+                                >
+                                    <KeyboardArrowRightIcon />
+                                </IconButton>
+                            </Tooltip>
                         </ChapterNavigation>
                     </Navigation>
                 </Root>
             </Slide>
             <Zoom in={!drawerOpen}>
                 <Fade in={!hideOpenButton}>
-                    <OpenDrawerButton
-                        edge="start"
-                        aria-label="menu"
-                        disableRipple
-                        disableFocusRipple
-                        onClick={() => updateDrawer(true)}
-                        size="large"
-                    >
-                        <KeyboardArrowRightIcon />
-                    </OpenDrawerButton>
+                    <Tooltip title={t('reader.button.open_menu')}>
+                        <OpenDrawerButton
+                            edge="start"
+                            aria-label="menu"
+                            disableRipple
+                            disableFocusRipple
+                            onClick={() => updateDrawer(true)}
+                            size="large"
+                        >
+                            <KeyboardArrowRightIcon />
+                        </OpenDrawerButton>
+                    </Tooltip>
                 </Fade>
             </Zoom>
         </>

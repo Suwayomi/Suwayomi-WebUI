@@ -7,7 +7,7 @@
  */
 
 import DownloadIcon from '@mui/icons-material/Download';
-import { Box, CardActionArea, styled } from '@mui/material';
+import { Box, CardActionArea, styled, Tooltip } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -209,16 +209,18 @@ export const Updates: React.FC = () => {
                                     </Box>
                                     {download && <DownloadStateIndicator download={download} />}
                                     {download == null && !chapter.isDownloaded && (
-                                        <IconButton
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                e.preventDefault();
-                                                downloadChapter(chapter);
-                                            }}
-                                            size="large"
-                                        >
-                                            <DownloadIcon />
-                                        </IconButton>
+                                        <Tooltip title={t('chapter.action.download.add.label.action')}>
+                                            <IconButton
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    e.preventDefault();
+                                                    downloadChapter(chapter);
+                                                }}
+                                                size="large"
+                                            >
+                                                <DownloadIcon />
+                                            </IconButton>
+                                        </Tooltip>
                                     )}
                                 </CardContent>
                             </CardActionArea>

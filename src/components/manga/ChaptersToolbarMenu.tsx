@@ -7,8 +7,9 @@
  */
 
 import FilterList from '@mui/icons-material/FilterList';
-import { IconButton } from '@mui/material';
+import { IconButton, Tooltip } from '@mui/material';
 import * as React from 'react';
+import { useTranslation } from 'react-i18next';
 import { ChapterListOptions, ChapterOptionsReducerAction } from '@/typings';
 import { ChapterOptions } from '@/components/manga/ChapterOptions';
 import { isFilterActive } from '@/components/manga/util';
@@ -19,14 +20,18 @@ interface IProps {
 }
 
 export const ChaptersToolbarMenu = ({ options, optionsDispatch }: IProps) => {
+    const { t } = useTranslation();
+
     const [open, setOpen] = React.useState(false);
     const isFiltered = isFilterActive(options);
 
     return (
         <>
-            <IconButton onClick={() => setOpen(true)}>
-                <FilterList color={isFiltered ? 'warning' : undefined} />
-            </IconButton>
+            <Tooltip title={t('settings.title')}>
+                <IconButton onClick={() => setOpen(true)}>
+                    <FilterList color={isFiltered ? 'warning' : undefined} />
+                </IconButton>
+            </Tooltip>
             <ChapterOptions
                 open={open}
                 onClose={() => setOpen(false)}
