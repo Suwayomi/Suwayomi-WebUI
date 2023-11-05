@@ -206,7 +206,7 @@ import { DOWNLOAD_STATUS_SUBSCRIPTION } from '@/lib/graphql/subscriptions/Downlo
 import { UPDATER_SUBSCRIPTION } from '@/lib/graphql/subscriptions/UpdaterSubscription.ts';
 import { GET_SERVER_SETTINGS } from '@/lib/graphql/queries/SettingsQuery.ts';
 import { UPDATE_SERVER_SETTINGS } from '@/lib/graphql/mutations/SettingsMutation.ts';
-import { FULL_EXTENSION_FIELDS } from '@/lib/graphql/Fragments.ts';
+import { BASE_MANGA_FIELDS, FULL_EXTENSION_FIELDS } from '@/lib/graphql/Fragments.ts';
 
 enum GQLMethod {
     QUERY = 'QUERY',
@@ -1098,9 +1098,34 @@ export class RequestManager {
             revalidate,
         );
 
+        const normalizedCachedResults = cachedResults.map((cachedResult) => {
+            const hasResults = cachedResult.data?.fetchSourceManga.mangas;
+            if (!hasResults) {
+                return cachedResult;
+            }
+
+            return {
+                ...cachedResult,
+                data: {
+                    ...cachedResult.data,
+                    fetchSourceManga: {
+                        ...cachedResult.data?.fetchSourceManga,
+                        mangas: cachedResult.data?.fetchSourceManga.mangas.map(
+                            (manga) =>
+                                this.graphQLClient.client.cache.readFragment<typeof manga>({
+                                    id: this.graphQLClient.client.cache.identify(manga),
+                                    fragment: BASE_MANGA_FIELDS,
+                                    fragmentName: 'BASE_MANGA_FIELDS',
+                                }) ?? manga,
+                        ),
+                    },
+                },
+            };
+        });
+
         return this.returnPaginatedMutationResult(
             areInitialPagesFetched,
-            cachedResults,
+            normalizedCachedResults,
             getVariablesFor,
             paginatedResult,
             wrappedMutate,
