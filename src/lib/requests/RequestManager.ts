@@ -1425,7 +1425,7 @@ export class RequestManager {
             GQLMethod.MUTATION,
             UPDATE_CHAPTER,
             { input: { id, patch } },
-            { refetchQueries: [GET_MANGA], ...options },
+            options,
         );
     }
 
