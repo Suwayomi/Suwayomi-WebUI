@@ -295,6 +295,16 @@ export type AbortableApolloMutationResponse<Data = any> = { response: Promise<Fe
 
 const EXTENSION_LIST_CACHE_KEY = 'useExtensionListFetch';
 
+const CACHE_INITIAL_PAGES_FETCHING_KEY = 'GET_SOURCE_MANGAS_FETCH_FETCHING_INITIAL_PAGES';
+const CACHE_PAGES_KEY = 'GET_SOURCE_MANGAS_FETCH_PAGES';
+const CACHE_RESULTS_KEY = 'GET_SOURCE_MANGAS_FETCH';
+
+export const SPECIAL_ED_SOURCES = {
+    REVALIDATION: [
+        '57122881048805941', // e-hentai
+    ],
+};
+
 // TODO - correctly update cache after all mutations instead of refetching queries
 export class RequestManager {
     public static readonly API_VERSION = '/api/v1/';
@@ -320,6 +330,14 @@ export class RequestManager {
 
     public getValidUrlFor(endpoint: string, apiVersion: string = RequestManager.API_VERSION): string {
         return `${this.getBaseUrl()}${apiVersion}${endpoint}`;
+    }
+
+    public clearBrowseCacheFor(sourceId: string) {
+        const cacheKeys = this.cache.getMatchingKeys(
+            new RegExp(`${CACHE_INITIAL_PAGES_FETCHING_KEY}|${CACHE_PAGES_KEY}|${CACHE_RESULTS_KEY}.*${sourceId}`),
+        );
+
+        this.cache.clearFor(...cacheKeys);
     }
 
     private createAbortController(): { signal: AbortSignal } & AbortableRequest {
@@ -356,6 +374,7 @@ export class RequestManager {
     }
 
     private async revalidatePage<Data = any, Variables extends OperationVariables = OperationVariables>(
+        sourceId: string,
         cacheResultsKey: string,
         cachePagesKey: string,
         getVariablesFor: (page: number) => Variables,
@@ -369,6 +388,10 @@ export class RequestManager {
         maxPage: number,
         signal: AbortSignal,
     ): Promise<void> {
+        if (SPECIAL_ED_SOURCES.REVALIDATION.includes(sourceId)) {
+            return;
+        }
+
         const { response: revalidationRequest } = this.doRequest(
             GQLMethod.MUTATION,
             GET_SOURCE_MANGAS_FETCH,
@@ -406,6 +429,7 @@ export class RequestManager {
 
         if (isCachedPageInvalid && pageToRevalidate < maxPage) {
             await this.revalidatePage(
+                sourceId,
                 cacheResultsKey,
                 cachePagesKey,
                 getVariablesFor,
@@ -965,10 +989,6 @@ export class RequestManager {
             },
         });
 
-        const CACHE_INITIAL_PAGES_FETCHING_KEY = 'GET_SOURCE_MANGAS_FETCH_FETCHING_INITIAL_PAGES';
-        const CACHE_PAGES_KEY = 'GET_SOURCE_MANGAS_FETCH_PAGES';
-        const CACHE_RESULTS_KEY = 'GET_SOURCE_MANGAS_FETCH';
-
         const isRevalidationDoneRef = useRef(false);
         const activeRevalidationRef = useRef<
             | [
@@ -1019,6 +1039,7 @@ export class RequestManager {
 
         const revalidatePage = async (pageToRevalidate: number, maxPage: number, signal: AbortSignal) =>
             this.revalidatePage(
+                input.source,
                 CACHE_RESULTS_KEY,
                 CACHE_PAGES_KEY,
                 getVariablesFor,

@@ -43,6 +43,21 @@ export class CustomCache {
         return this.keyToResponseMap.get(key) as Response;
     }
 
+    public getAllKeys(): string[] {
+        return [...this.keyToResponseMap.keys()];
+    }
+
+    public getMatchingKeys(regex: RegExp): string[] {
+        return this.getAllKeys().filter((key) => !!regex.exec(key));
+    }
+
+    public clearFor(...keys: string[]) {
+        keys.forEach((key) => {
+            this.keyToResponseMap.delete(key);
+            this.keyToFetchTimestampMap.delete(key);
+        });
+    }
+
     public clear(): void {
         this.keyToResponseMap.clear();
         this.keyToFetchTimestampMap.clear();

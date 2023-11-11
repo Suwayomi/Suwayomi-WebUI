@@ -18,7 +18,11 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import NewReleasesIcon from '@mui/icons-material/NewReleases';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { TPartialManga, TranslationKey } from '@/typings';
-import { requestManager, AbortableApolloUseMutationPaginatedResponse } from '@/lib/requests/RequestManager.ts';
+import {
+    requestManager,
+    AbortableApolloUseMutationPaginatedResponse,
+    SPECIAL_ED_SOURCES,
+} from '@/lib/requests/RequestManager.ts';
 import { useDebounce } from '@/components/manga/hooks';
 import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
 import { SourceGridLayout } from '@/components/source/GridLayouts';
@@ -203,11 +207,12 @@ export function SourceMangas() {
     const {
         contentType: currentLocationContentType = SourceContentType.POPULAR,
         filtersToApply: currentLocationFiltersToApply = [],
-    } =
-        useLocation<{
-            contentType: SourceContentType;
-            filtersToApply: IPos[];
-        }>().state ?? {};
+        clearCache = false,
+    } = useLocation<{
+        contentType: SourceContentType;
+        filtersToApply: IPos[];
+        clearCache: boolean;
+    }>().state ?? {};
 
     const { options } = useLibraryOptionsContext();
     const [query] = useQueryParam('query', StringParam);
@@ -287,6 +292,23 @@ export function SourceMangas() {
         updateLocationFilters([]);
         setResetScrollPosition(true);
     }, [sourceId, contentType]);
+
+    useEffect(() => {
+        if (!clearCache) {
+            return;
+        }
+
+        const requiresClear = SPECIAL_ED_SOURCES.REVALIDATION.includes(sourceId);
+        if (!requiresClear) {
+            return;
+        }
+
+        requestManager.clearBrowseCacheFor(sourceId);
+        navigate('', {
+            replace: true,
+            state: { contentType: currentLocationContentType, filters: currentLocationFiltersToApply },
+        });
+    }, [clearCache]);
 
     useEffect(
         () => () => {

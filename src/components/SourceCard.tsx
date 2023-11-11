@@ -55,7 +55,11 @@ export const SourceCard: React.FC<IProps> = (props: IProps) => {
                 margin: '10px',
             }}
         >
-            <CardActionArea component={Link} to={`/sources/${id}`} state={{ contentType: SourceContentType.POPULAR }}>
+            <CardActionArea
+                component={Link}
+                to={`/sources/${id}`}
+                state={{ contentType: SourceContentType.POPULAR, clearCache: true }}
+            >
                 <CardContent
                     sx={{
                         display: 'flex',
@@ -105,7 +109,7 @@ export const SourceCard: React.FC<IProps> = (props: IProps) => {
                                     variant="outlined"
                                     component={Link}
                                     to={`/sources/${id}`}
-                                    state={{ contentType: SourceContentType.LATEST }}
+                                    state={{ contentType: SourceContentType.LATEST, clearCache: true }}
                                 >
                                     {t('global.button.latest')}
                                 </Button>
@@ -117,7 +121,7 @@ export const SourceCard: React.FC<IProps> = (props: IProps) => {
                                     variant="outlined"
                                     component={Link}
                                     to={`/sources/${id}`}
-                                    state={{ contentType: SourceContentType.LATEST }}
+                                    state={{ contentType: SourceContentType.LATEST, clearCache: true }}
                                 >
                                     {t('global.button.latest')}
                                 </Button>
@@ -126,7 +130,7 @@ export const SourceCard: React.FC<IProps> = (props: IProps) => {
                                 variant="outlined"
                                 component={Link}
                                 to={`/sources/${id}`}
-                                state={{ contentType: SourceContentType.POPULAR }}
+                                state={{ contentType: SourceContentType.POPULAR, clearCache: true }}
                             >
                                 {t('global.button.popular')}
                             </Button>
