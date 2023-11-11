@@ -293,6 +293,12 @@ export type AbortableApolloMutationResponse<Data = any> = { response: Promise<Fe
 
 const EXTENSION_LIST_CACHE_KEY = 'useExtensionListFetch';
 
+export const SPECIAL_ED_SOURCES = {
+    REVALIDATION: [
+        '57122881048805941', // e-hentai
+    ],
+};
+
 // TODO - correctly update cache after all mutations instead of refetching queries
 export class RequestManager {
     public static readonly API_VERSION = '/api/v1/';
@@ -354,6 +360,7 @@ export class RequestManager {
     }
 
     private async revalidatePage<Data = any, Variables extends OperationVariables = OperationVariables>(
+        sourceId: string,
         cacheResultsKey: string,
         cachePagesKey: string,
         getVariablesFor: (page: number) => Variables,
@@ -367,6 +374,10 @@ export class RequestManager {
         maxPage: number,
         signal: AbortSignal,
     ): Promise<void> {
+        if (SPECIAL_ED_SOURCES.REVALIDATION.includes(sourceId)) {
+            return;
+        }
+
         const { response: revalidationRequest } = this.doRequest(
             GQLMethod.MUTATION,
             GET_SOURCE_MANGAS_FETCH,
@@ -404,6 +415,7 @@ export class RequestManager {
 
         if (isCachedPageInvalid && pageToRevalidate < maxPage) {
             await this.revalidatePage(
+                sourceId,
                 cacheResultsKey,
                 cachePagesKey,
                 getVariablesFor,
@@ -1010,6 +1022,7 @@ export class RequestManager {
 
         const revalidatePage = async (pageToRevalidate: number, maxPage: number, signal: AbortSignal) =>
             this.revalidatePage(
+                input.source,
                 CACHE_RESULTS_KEY,
                 CACHE_PAGES_KEY,
                 getVariablesFor,
