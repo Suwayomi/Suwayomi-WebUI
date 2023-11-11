@@ -27,6 +27,7 @@ import { VerticalPager } from '@/components/reader/pager/VerticalPager';
 import { ReaderNavBar } from '@/components/navbar/ReaderNavBar';
 import { makeToast } from '@/components/util/Toast';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
+import { useDebounce } from '@/components/manga/hooks.ts';
 
 const isDupChapter = async (chapterIndex: number, currentChapter: TChapter) => {
     const nextChapter = await requestManager.getChapter(currentChapter.manga.id, chapterIndex).response;
@@ -158,6 +159,8 @@ export function Reader() {
     const isLoading = isChapterLoading || !arePagesUpdated;
     const [wasLastPageReadSet, setWasLastPageReadSet] = useState(false);
     const [curPage, setCurPage] = useState<number>(0);
+    const isLastPage = curPage === chapter.pageCount - 1;
+    const curPageDebounced = useDebounce(curPage, isLastPage ? 0 : 1000);
     const [pageToScrollTo, setPageToScrollTo] = useState<number | undefined>(undefined);
     const { setOverride, setTitle } = useContext(NavBarContext);
     const [retrievingNextChapter, setRetrievingNextChapter] = useState(false);
@@ -248,17 +251,17 @@ export function Reader() {
         }
 
         // do not mutate the chapter, this will cause the page to jump around due to always scrolling to the last read page
-        const updateLastPageRead = curPage !== -1;
-        const updateIsRead = curPage === chapter.pageCount - 1;
+        const updateLastPageRead = curPageDebounced !== -1;
+        const updateIsRead = curPageDebounced === chapter.pageCount - 1;
         const updateChapter = updateLastPageRead || updateIsRead;
 
         if (updateChapter) {
             requestManager.updateChapter(chapter.id, {
-                lastPageRead: updateLastPageRead ? curPage : undefined,
+                lastPageRead: updateLastPageRead ? curPageDebounced : undefined,
                 isRead: updateIsRead ? true : undefined,
             });
         }
-    }, [curPage]);
+    }, [curPageDebounced]);
 
     const nextChapter = useCallback(() => {
         if (chapter.sourceOrder < manga.chapters.totalCount) {
