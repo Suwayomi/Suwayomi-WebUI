@@ -83,6 +83,33 @@ export function VerticalPager(props: IReaderProps) {
         };
     }, [settings.loadNextOnEnding, nextChapter]);
 
+    const mouseYPos = useRef<number>(0);
+    const didMouseMove = useRef(false);
+
+    function dragScreen(e: MouseEvent) {
+        didMouseMove.current = true;
+        window.scrollBy(0, mouseYPos.current - e.pageY);
+    }
+
+    function dragControl(e: MouseEvent) {
+        mouseYPos.current = e.pageY;
+        selfRef.current?.addEventListener('mousemove', dragScreen);
+    }
+
+    function removeDragControl() {
+        selfRef.current?.removeEventListener('mousemove', dragScreen);
+    }
+
+    useEffect(() => {
+        selfRef.current?.addEventListener('mousedown', dragControl);
+        selfRef.current?.addEventListener('mouseup', removeDragControl);
+
+        return () => {
+            selfRef.current?.removeEventListener('mousedown', dragControl);
+            selfRef.current?.removeEventListener('mouseup', removeDragControl);
+        };
+    }, [selfRef]);
+
     const go = useCallback(
         (direction: 'up' | 'down') => {
             if (direction === 'down' && isAtBottom()) {
@@ -149,7 +176,14 @@ export function VerticalPager(props: IReaderProps) {
                 margin: '0 auto',
                 width: '100%',
             }}
-            onClick={(e) => go(e.clientX > window.innerWidth / 2 ? 'down' : 'up')}
+            onClick={(e) => {
+                if (didMouseMove.current) {
+                    didMouseMove.current = false;
+                    return;
+                }
+
+                go(e.clientX > window.innerWidth / 2 ? 'down' : 'up');
+            }}
         >
             {pages.map((page) => (
                 <Page
