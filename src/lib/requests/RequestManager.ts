@@ -554,7 +554,7 @@ export class RequestManager {
         areFetchingInitialPages: boolean,
         areInitialPagesFetched: boolean,
         setRevalidationDone: (isDone: boolean) => void,
-        cacheInitialPagesKey: string,
+        cacheFetchingInitialPagesKey: string,
         getVariablesFor: (page: number) => Variables,
         initialPages: number,
         fetchPage: (page: number) => Promise<FetchResult<Data>>,
@@ -568,7 +568,7 @@ export class RequestManager {
             }
 
             setRevalidationDone(true);
-            this.cache.cacheResponse(cacheInitialPagesKey, getVariablesFor(0), true);
+            this.cache.cacheResponse(cacheFetchingInitialPagesKey, getVariablesFor(0), true);
 
             const loadInitialPages = async (initialPage: number) => {
                 const areAllPagesFetched = initialPage > initialPages;
@@ -583,7 +583,9 @@ export class RequestManager {
                 }
             };
 
-            loadInitialPages(1);
+            loadInitialPages(1).finally(() =>
+                this.cache.cacheResponse(cacheFetchingInitialPagesKey, getVariablesFor(0), false),
+            );
         }, [!options?.skipRequest, !areFetchingInitialPages, !areInitialPagesFetched]);
     }
 
