@@ -107,6 +107,9 @@ export function VerticalPager(props: IReaderProps) {
         const handleKeyboard = (e: KeyboardEvent) => {
             switch (e.code) {
                 case 'Space':
+                    e.preventDefault();
+                    go(e.shiftKey ? 'up' : 'down');
+                    break;
                 case 'ArrowRight':
                     e.preventDefault();
                     go('down');
