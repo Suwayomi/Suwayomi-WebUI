@@ -100,6 +100,7 @@ const SourceSearchPreview = React.memo(
         const { id, displayName, lang } = source;
         const [, results] = requestManager.useSourceSearch(id, searchString ?? '', undefined, 1, {
             skipRequest: !searchString,
+            addAbortSignal: true,
         });
         const { data: searchResult, isLoading, error, abortRequest } = results[0]!;
         const mangas = searchResult?.fetchSourceManga.mangas ?? [];
