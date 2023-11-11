@@ -113,12 +113,12 @@ export function VerticalPager(props: IReaderProps) {
                 case 'ArrowDown':
                 case 'ArrowRight':
                     e.preventDefault();
-                    go('down');
+                    go(e.shiftKey ? 'up' : 'down');
                     break;
                 case 'ArrowUp':
                 case 'ArrowLeft':
                     e.preventDefault();
-                    go('up');
+                    go(e.shiftKey ? 'down' : 'up');
                     break;
                 default:
                     break;
