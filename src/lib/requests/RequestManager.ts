@@ -225,9 +225,11 @@ type CustomApolloOptions = {
      * which - I assume - results in apollo to handle this as a completely new hook call.
      * Due to this, when e.g. calling "fetchMore", "loading" and "networkStatus" do not get updated when enabling "notifyOnNetworkStatusChange".
      *
-     * By not passing an abort signal, the states get correctly updated, BUT it won't be possible to abort the request.
+     * It also causes apollo to spam requests in case of request failures on every rerender.
+     *
+     * Instead of adding the abort signal by default, it has to be added manually which will cause these stated issues (and potentially more?)
      */
-    omitAbortSignal?: boolean;
+    addAbortSignal?: boolean;
 };
 type QueryOptions<Variables extends OperationVariables = OperationVariables, Data = any> = Partial<
     ApolloQueryOptions<Variables, Data>
@@ -251,7 +253,7 @@ type ApolloPaginatedMutationOptions<Data = any, Variables extends OperationVaria
 type SubscriptionHookOptions<Data = any, Variables extends OperationVariables = OperationVariables> = Partial<
     ApolloSubscriptionHookOptions<Data, Variables>
 > &
-    Omit<CustomApolloOptions, 'omitAbortSignal'> & { omitAbortSignal?: never };
+    Omit<CustomApolloOptions, 'addAbortSignal'> & { addAbortSignal?: never };
 
 type AbortableRequest = { abortRequest: AbortController['abort'] };
 
@@ -552,16 +554,21 @@ export class RequestManager {
         areFetchingInitialPages: boolean,
         areInitialPagesFetched: boolean,
         setRevalidationDone: (isDone: boolean) => void,
-        cacheInitialPagesKey: string,
+        cacheFetchingInitialPagesKey: string,
         getVariablesFor: (page: number) => Variables,
         initialPages: number,
         fetchPage: (page: number) => Promise<FetchResult<Data>>,
         hasNextPage: (result: FetchResult<Data>) => boolean,
     ): void {
-        const shouldFetchInitialPages = !options?.skipRequest && !areFetchingInitialPages && !areInitialPagesFetched;
-        if (shouldFetchInitialPages) {
+        useEffect(() => {
+            const shouldFetchInitialPages =
+                !options?.skipRequest && !areFetchingInitialPages && !areInitialPagesFetched;
+            if (!shouldFetchInitialPages) {
+                return;
+            }
+
             setRevalidationDone(true);
-            this.cache.cacheResponse(cacheInitialPagesKey, getVariablesFor(0), true);
+            this.cache.cacheResponse(cacheFetchingInitialPagesKey, getVariablesFor(0), true);
 
             const loadInitialPages = async (initialPage: number) => {
                 const areAllPagesFetched = initialPage > initialPages;
@@ -576,8 +583,10 @@ export class RequestManager {
                 }
             };
 
-            loadInitialPages(1);
-        }
+            loadInitialPages(1).finally(() =>
+                this.cache.cacheResponse(cacheFetchingInitialPagesKey, getVariablesFor(0), false),
+            );
+        }, [!options?.skipRequest, !areFetchingInitialPages, !areInitialPagesFetched]);
     }
 
     private returnPaginatedMutationResult<Data = any, Variables extends OperationVariables = OperationVariables>(
@@ -722,7 +731,7 @@ export class RequestManager {
                         context: {
                             ...options?.context,
                             fetchOptions: {
-                                signal: options?.omitAbortSignal ? undefined : signal,
+                                signal: options?.addAbortSignal ? signal : undefined,
                                 ...options?.context?.fetchOptions,
                             },
                         },
@@ -738,7 +747,7 @@ export class RequestManager {
                         context: {
                             ...options?.context,
                             fetchOptions: {
-                                signal: options?.omitAbortSignal ? undefined : signal,
+                                signal: options?.addAbortSignal ? signal : undefined,
                                 ...options?.context?.fetchOptions,
                             },
                         },
@@ -754,7 +763,7 @@ export class RequestManager {
                     context: {
                         ...options?.context,
                         fetchOptions: {
-                            signal: options?.omitAbortSignal ? undefined : signal,
+                            signal: options?.addAbortSignal ? signal : undefined,
                             ...options?.context?.fetchOptions,
                         },
                     },
@@ -770,7 +779,7 @@ export class RequestManager {
                         context: {
                             ...options?.context,
                             fetchOptions: {
-                                signal: options?.omitAbortSignal ? undefined : signal,
+                                signal: options?.addAbortSignal ? signal : undefined,
                                 ...options?.context?.fetchOptions,
                             },
                         },
