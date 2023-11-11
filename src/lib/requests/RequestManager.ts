@@ -560,8 +560,13 @@ export class RequestManager {
         fetchPage: (page: number) => Promise<FetchResult<Data>>,
         hasNextPage: (result: FetchResult<Data>) => boolean,
     ): void {
-        const shouldFetchInitialPages = !options?.skipRequest && !areFetchingInitialPages && !areInitialPagesFetched;
-        if (shouldFetchInitialPages) {
+        useEffect(() => {
+            const shouldFetchInitialPages =
+                !options?.skipRequest && !areFetchingInitialPages && !areInitialPagesFetched;
+            if (!shouldFetchInitialPages) {
+                return;
+            }
+
             setRevalidationDone(true);
             this.cache.cacheResponse(cacheInitialPagesKey, getVariablesFor(0), true);
 
@@ -579,7 +584,7 @@ export class RequestManager {
             };
 
             loadInitialPages(1);
-        }
+        }, [!options?.skipRequest, !areFetchingInitialPages, !areInitialPagesFetched]);
     }
 
     private returnPaginatedMutationResult<Data = any, Variables extends OperationVariables = OperationVariables>(
