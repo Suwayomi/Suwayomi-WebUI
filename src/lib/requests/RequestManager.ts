@@ -293,6 +293,10 @@ export type AbortableApolloMutationResponse<Data = any> = { response: Promise<Fe
 
 const EXTENSION_LIST_CACHE_KEY = 'useExtensionListFetch';
 
+const CACHE_INITIAL_PAGES_FETCHING_KEY = 'GET_SOURCE_MANGAS_FETCH_FETCHING_INITIAL_PAGES';
+const CACHE_PAGES_KEY = 'GET_SOURCE_MANGAS_FETCH_PAGES';
+const CACHE_RESULTS_KEY = 'GET_SOURCE_MANGAS_FETCH';
+
 export const SPECIAL_ED_SOURCES = {
     REVALIDATION: [
         '57122881048805941', // e-hentai
@@ -324,6 +328,14 @@ export class RequestManager {
 
     public getValidUrlFor(endpoint: string, apiVersion: string = RequestManager.API_VERSION): string {
         return `${this.getBaseUrl()}${apiVersion}${endpoint}`;
+    }
+
+    public clearBrowseCacheFor(sourceId: string) {
+        const cacheKeys = this.cache.getMatchingKeys(
+            new RegExp(`${CACHE_INITIAL_PAGES_FETCHING_KEY}|${CACHE_PAGES_KEY}|${CACHE_RESULTS_KEY}.*${sourceId}`),
+        );
+
+        this.cache.clearFor(...cacheKeys);
     }
 
     private createAbortController(): { signal: AbortSignal } & AbortableRequest {
@@ -967,10 +979,6 @@ export class RequestManager {
                 page,
             },
         });
-
-        const CACHE_INITIAL_PAGES_FETCHING_KEY = 'GET_SOURCE_MANGAS_FETCH_FETCHING_INITIAL_PAGES';
-        const CACHE_PAGES_KEY = 'GET_SOURCE_MANGAS_FETCH_PAGES';
-        const CACHE_RESULTS_KEY = 'GET_SOURCE_MANGAS_FETCH';
 
         const isRevalidationDoneRef = useRef(false);
         const activeRevalidationRef = useRef<
