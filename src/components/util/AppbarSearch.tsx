@@ -89,7 +89,7 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
             return;
         }
 
-        if (searchString === '' && !!query) {
+        if (query && searchString !== query) {
             setSearchString(query);
             openSearch();
         }
