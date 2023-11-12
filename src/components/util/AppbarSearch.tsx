@@ -12,6 +12,7 @@ import { IconButton, Input, Tooltip } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { useQueryParam, StringParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
+import { useBackButton } from '@/util/useBackButton.ts';
 
 interface IProps {
     autoOpen?: boolean;
@@ -23,6 +24,7 @@ const defaultProps = {
 
 export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
     const { t } = useTranslation();
+    const handleBack = useBackButton();
 
     const { autoOpen } = props;
     const [query, setQuery] = useQueryParam('query', StringParam);
@@ -38,6 +40,8 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
     const cancelSearch = () => {
         setSearchString('');
         setSearchOpen(false);
+
+        handleBack();
     };
     const handleBlur = () => {
         if (!searchString) setSearchOpen(false);

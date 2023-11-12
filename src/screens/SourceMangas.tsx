@@ -33,7 +33,7 @@ import {
     GetSourceMangasFetchMutation,
     GetSourceMangasFetchMutationVariables,
 } from '@/lib/graphql/generated/graphql.ts';
-import { NavBarContext } from '@/components/context/NavbarContext.tsx';
+import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
 
 const ContentTypeMenu = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -198,21 +198,26 @@ const useSourceManga = (
 export function SourceMangas() {
     const { t } = useTranslation();
     const { setTitle, setAction } = useContext(NavBarContext);
+
     const theme = useTheme();
     const isLargeScreen = useMediaQuery(theme.breakpoints.up('sm'));
 
     const { sourceId } = useParams<{ sourceId: string }>();
 
     const navigate = useNavigate();
+    const { pathname, state: locationState } =
+        useLocation<{
+            contentType: SourceContentType;
+            filtersToApply: IPos[];
+            clearCache: boolean;
+        }>() ?? {};
     const {
         contentType: currentLocationContentType = SourceContentType.POPULAR,
         filtersToApply: currentLocationFiltersToApply = [],
         clearCache = false,
-    } = useLocation<{
-        contentType: SourceContentType;
-        filtersToApply: IPos[];
-        clearCache: boolean;
-    }>().state ?? {};
+    } = locationState ?? {};
+
+    useSetDefaultBackTo(pathname);
 
     const { options } = useLibraryOptionsContext();
     const [query] = useQueryParam('query', StringParam);

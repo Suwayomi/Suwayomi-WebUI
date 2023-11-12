@@ -20,7 +20,7 @@ import { AppbarSearch } from '@/components/util/AppbarSearch';
 import { LangSelect } from '@/components/navbar/action/LangSelect';
 import { MangaGrid } from '@/components/MangaGrid';
 import { useDebounce } from '@/components/manga/hooks';
-import { NavBarContext } from '@/components/context/NavbarContext.tsx';
+import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
 
 type SourceLoadingState = { isLoading: boolean; hasResults: boolean; emptySearch: boolean };
 type SourceToLoadingStateMap = Map<string, SourceLoadingState>;
@@ -160,6 +160,8 @@ export const SearchAll: React.FC = () => {
     const { t } = useTranslation();
 
     const { setTitle, setAction } = useContext(NavBarContext);
+
+    useSetDefaultBackTo('sources/all/search');
 
     const [query] = useQueryParam('query', StringParam);
     const searchString = useDebounce(query, TRIGGER_SEARCH_THRESHOLD);
