@@ -47,12 +47,9 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
     const handleBlur = () => {
         if (!searchString) setSearchOpen(false);
     };
+
     const openSearch = () => {
         setSearchOpen(true);
-        // Put Focus Action at the end of the Callstack so Input actually exists on the dom
-        setTimeout(() => {
-            if (inputRef && inputRef.current) inputRef.current.focus();
-        });
     };
 
     const handleKeyboardEvent = (e: KeyboardEvent) => {
@@ -73,6 +70,14 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
             openSearch();
         }
     }, []);
+
+    useEffect(() => {
+        if (!searchOpen || !inputRef.current) {
+            return;
+        }
+
+        inputRef.current.focus();
+    }, [searchOpen, inputRef.current]);
 
     useEffect(() => {
         if (query === undefined && searchString !== undefined) {
