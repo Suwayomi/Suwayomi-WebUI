@@ -24,14 +24,14 @@ import GetAppIcon from '@mui/icons-material/GetApp';
 import GetAppOutlinedIcon from '@mui/icons-material/GetAppOutlined';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ArrowBack from '@mui/icons-material/ArrowBack';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { createPortal } from 'react-dom';
 import { NavbarItem } from '@/typings';
 import { NavBarContext } from '@/components/context/NavbarContext';
 import { ExtensionOutlinedIcon } from '@/components/util/CustomExtensionOutlinedIcon';
 import { DesktopSideBar } from '@/components/navbar/navigation/DesktopSideBar';
 import { MobileBottomBar } from '@/components/navbar/navigation/MobileBottomBar';
-import { useHistory } from '@/util/useHistory';
+import { useBackButton } from '@/util/useBackButton.ts';
 
 const navbarItems: Array<NavbarItem> = [
     {
@@ -86,12 +86,11 @@ const navbarItems: Array<NavbarItem> = [
 ];
 
 export function DefaultNavBar() {
-    const { title, action, override, defaultBackTo: backToUrl } = useContext(NavBarContext);
+    const { title, action, override } = useContext(NavBarContext);
 
     const theme = useTheme();
-    const navigate = useNavigate();
-    const { pathname, ...location } = useLocation();
-    const history = useHistory();
+    const { pathname } = useLocation();
+    const handleBack = useBackButton();
 
     const isMobileWidth = useMediaQuery(theme.breakpoints.down('sm'));
     const isMainRoute = navbarItems.some(({ path }) => path === pathname);
@@ -107,18 +106,6 @@ export function DefaultNavBar() {
     } else {
         navbar = <DesktopSideBar navBarItems={navbarItems.filter((it) => it.show !== 'mobile')} />;
     }
-
-    const handleBack = () => {
-        const isLastPageInHistory = location.key === 'default';
-        const wasPreviousPageReader = history[history.length - 2]?.match(/\/manga\/[0-9]+\/chapter\/[0-9]+.*/g);
-
-        if (isLastPageInHistory || wasPreviousPageReader) {
-            navigate(backToUrl ?? '');
-            return;
-        }
-
-        navigate(-1);
-    };
 
     return (
         <Box sx={{ flexGrow: 1 }}>
