@@ -33,8 +33,13 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
 
     const [searchString, setSearchString] = useState(query ?? '');
 
-    function handleChange(e: string) {
-        setQuery(e === '' ? undefined : e);
+    function handleChange(newQuery: string) {
+        if (newQuery === '') {
+            handleBack();
+            return;
+        }
+
+        setQuery(newQuery);
     }
 
     const cancelSearch = () => {
