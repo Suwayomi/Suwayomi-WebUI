@@ -29,16 +29,18 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
     const [searchOpen, setSearchOpen] = useState(!!query);
     const inputRef = React.useRef<HTMLInputElement>();
 
-    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-        setQuery(e.target.value === '' ? undefined : e.target.value);
+    const [searchString, setSearchString] = useState(query ?? '');
+
+    function handleChange(e: string) {
+        setQuery(e === '' ? undefined : e);
     }
 
     const cancelSearch = () => {
-        setQuery(null);
+        setSearchString('');
         setSearchOpen(false);
     };
     const handleBlur = () => {
-        if (!query) setSearchOpen(false);
+        if (!searchString) setSearchOpen(false);
     };
     const openSearch = () => {
         setSearchOpen(true);
@@ -48,10 +50,16 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
         });
     };
 
-    const handleSearchShortcut = (e: KeyboardEvent) => {
+    const handleKeyboardEvent = (e: KeyboardEvent) => {
         if (e.code === 'F3' || (e.ctrlKey && e.code === 'KeyF')) {
             e.preventDefault();
             openSearch();
+            return;
+        }
+
+        if (e.code === 'Enter') {
+            e.preventDefault();
+            handleChange(searchString);
         }
     };
 
@@ -62,18 +70,25 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
     }, []);
 
     useEffect(() => {
-        window.addEventListener('keydown', handleSearchShortcut);
+        if (searchString === '' && !!query) {
+            setSearchString(query);
+            setSearchOpen(true);
+        }
+    }, [query]);
+
+    useEffect(() => {
+        window.addEventListener('keydown', handleKeyboardEvent);
 
         return () => {
-            window.removeEventListener('keydown', handleSearchShortcut);
+            window.removeEventListener('keydown', handleKeyboardEvent);
         };
-    }, [handleSearchShortcut]);
+    }, [handleKeyboardEvent]);
 
     if (searchOpen) {
         return (
             <Input
-                value={query || ''}
-                onChange={handleChange}
+                value={searchString}
+                onChange={(e) => setSearchString(e.target.value)}
                 onBlur={handleBlur}
                 inputRef={inputRef}
                 endAdornment={
