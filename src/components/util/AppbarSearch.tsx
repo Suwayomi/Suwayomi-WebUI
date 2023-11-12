@@ -12,7 +12,7 @@ import { IconButton, Input, Tooltip } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { useQueryParam, StringParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
-import { useBackButton } from '@/util/useBackButton.ts';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface IProps {
     autoOpen?: boolean;
@@ -23,19 +23,33 @@ const defaultProps = {
 };
 
 export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
-    const { t } = useTranslation();
-    const handleBack = useBackButton();
-
     const { autoOpen } = props;
+
+    const { t } = useTranslation();
+
+    const { pathname, search: locationSearch, state: fullLocationState } = useLocation<{ wasSearchOpen?: boolean }>();
+    const { wasSearchOpen, ...locationState } = fullLocationState ?? {};
+
+    const navigate = useNavigate();
+
     const [query, setQuery] = useQueryParam('query', StringParam);
     const [searchOpen, setSearchOpen] = useState(!!query);
     const inputRef = React.useRef<HTMLInputElement>();
 
     const [searchString, setSearchString] = useState(query ?? '');
 
+    const updateSearchOpenState = (open: boolean) => {
+        setSearchOpen(open);
+
+        // try to focus input component since in case of navigating to the previous/next page in the browser history
+        // the "openSearch" state might not change and thus, won't trigger a focus
+        if (open) {
+            inputRef.current?.focus();
+        }
+    };
+
     function handleChange(newQuery: string) {
         if (newQuery === '') {
-            handleBack();
             return;
         }
 
@@ -44,25 +58,17 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
 
     const cancelSearch = () => {
         setSearchString('');
-        setSearchOpen(false);
-
-        handleBack();
+        setQuery(undefined);
+        updateSearchOpenState(false);
     };
     const handleBlur = () => {
-        if (!searchString) setSearchOpen(false);
-    };
-    const openSearch = () => {
-        setSearchOpen(true);
-        // Put Focus Action at the end of the Callstack so Input actually exists on the dom
-        setTimeout(() => {
-            if (inputRef && inputRef.current) inputRef.current.focus();
-        });
+        if (!searchString) updateSearchOpenState(false);
     };
 
     const handleKeyboardEvent = (e: KeyboardEvent) => {
         if (e.code === 'F3' || (e.ctrlKey && e.code === 'KeyF')) {
             e.preventDefault();
-            openSearch();
+            updateSearchOpenState(true);
             return;
         }
 
@@ -73,21 +79,42 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
     };
 
     useEffect(() => {
-        if (autoOpen) {
-            openSearch();
+        if ((autoOpen && wasSearchOpen === undefined) || (wasSearchOpen && query)) {
+            updateSearchOpenState(true);
+            return;
         }
-    }, []);
+
+        updateSearchOpenState(false);
+    }, [autoOpen, pathname]);
+
+    useEffect(() => {
+        if (!searchOpen || !inputRef.current) {
+            return;
+        }
+
+        inputRef.current.focus();
+    }, [searchOpen, inputRef.current]);
+
+    useEffect(() => {
+        if (wasSearchOpen === searchOpen) {
+            return;
+        }
+
+        navigate(
+            { pathname, search: locationSearch },
+            { replace: true, state: { ...locationState, wasSearchOpen: searchOpen } },
+        );
+    }, [searchOpen]);
 
     useEffect(() => {
         if (query === undefined && searchString !== undefined) {
             setSearchString('');
-            setSearchOpen(false);
             return;
         }
 
-        if (searchString === '' && !!query) {
+        if (query && searchString !== query) {
             setSearchString(query);
-            setSearchOpen(true);
+            updateSearchOpenState(true);
         }
     }, [query]);
 
@@ -117,7 +144,7 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
 
     return (
         <Tooltip title={t('search.title.search')}>
-            <IconButton onClick={openSearch}>
+            <IconButton onClick={() => updateSearchOpenState(true)}>
                 <SearchIcon />
             </IconButton>
         </Tooltip>

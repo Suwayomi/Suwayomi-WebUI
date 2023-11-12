@@ -205,19 +205,17 @@ export function SourceMangas() {
     const { sourceId } = useParams<{ sourceId: string }>();
 
     const navigate = useNavigate();
-    const { pathname, state: locationState } =
-        useLocation<{
-            contentType: SourceContentType;
-            filtersToApply: IPos[];
-            clearCache: boolean;
-        }>() ?? {};
     const {
         contentType: currentLocationContentType = SourceContentType.POPULAR,
         filtersToApply: currentLocationFiltersToApply = [],
         clearCache = false,
-    } = locationState ?? {};
+    } = useLocation<{
+        contentType: SourceContentType;
+        filtersToApply: IPos[];
+        clearCache: boolean;
+    }>().state ?? {};
 
-    useSetDefaultBackTo(pathname);
+    useSetDefaultBackTo('sources');
 
     const { options } = useLibraryOptionsContext();
     const [query] = useQueryParam('query', StringParam);
