@@ -12,6 +12,7 @@ import { IconButton, Input, Tooltip } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { useQueryParam, StringParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface IProps {
     autoOpen?: boolean;
@@ -22,14 +23,24 @@ const defaultProps = {
 };
 
 export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
+    const { autoOpen } = props;
+
     const { t } = useTranslation();
 
-    const { autoOpen } = props;
+    const { pathname, search: locationSearch, state: fullLocationState } = useLocation<{ wasSearchOpen?: boolean }>();
+    const { wasSearchOpen, ...locationState } = fullLocationState ?? {};
+
+    const navigate = useNavigate();
+
     const [query, setQuery] = useQueryParam('query', StringParam);
     const [searchOpen, setSearchOpen] = useState(!!query);
     const inputRef = React.useRef<HTMLInputElement>();
 
     const [searchString, setSearchString] = useState(query ?? '');
+
+    const updateSearchOpenState = (open: boolean) => {
+        setSearchOpen(open);
+    };
 
     function handleChange(newQuery: string) {
         if (newQuery === '') {
@@ -42,20 +53,16 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
     const cancelSearch = () => {
         setSearchString('');
         setQuery(undefined);
-        setSearchOpen(false);
+        updateSearchOpenState(false);
     };
     const handleBlur = () => {
-        if (!searchString) setSearchOpen(false);
-    };
-
-    const openSearch = () => {
-        setSearchOpen(true);
+        if (!searchString) updateSearchOpenState(false);
     };
 
     const handleKeyboardEvent = (e: KeyboardEvent) => {
         if (e.code === 'F3' || (e.ctrlKey && e.code === 'KeyF')) {
             e.preventDefault();
-            openSearch();
+            updateSearchOpenState(true);
             return;
         }
 
@@ -66,10 +73,13 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
     };
 
     useEffect(() => {
-        if (autoOpen) {
-            openSearch();
+        if ((autoOpen && wasSearchOpen === undefined) || (wasSearchOpen && query)) {
+            updateSearchOpenState(true);
+            return;
         }
-    }, []);
+
+        updateSearchOpenState(false);
+    }, [autoOpen, pathname]);
 
     useEffect(() => {
         if (!searchOpen || !inputRef.current) {
@@ -80,19 +90,25 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
     }, [searchOpen, inputRef.current]);
 
     useEffect(() => {
+        if (wasSearchOpen === searchOpen) {
+            return;
+        }
+
+        navigate(
+            { pathname, search: locationSearch },
+            { replace: true, state: { ...locationState, wasSearchOpen: searchOpen } },
+        );
+    }, [searchOpen]);
+
+    useEffect(() => {
         if (query === undefined && searchString !== undefined) {
             setSearchString('');
-
-            if (!autoOpen) {
-                setSearchOpen(false);
-            }
-
             return;
         }
 
         if (query && searchString !== query) {
             setSearchString(query);
-            openSearch();
+            updateSearchOpenState(true);
         }
     }, [query]);
 
@@ -122,7 +138,7 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
 
     return (
         <Tooltip title={t('search.title.search')}>
-            <IconButton onClick={openSearch}>
+            <IconButton onClick={() => updateSearchOpenState(true)}>
                 <SearchIcon />
             </IconButton>
         </Tooltip>
