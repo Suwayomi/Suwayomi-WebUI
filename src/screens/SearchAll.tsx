@@ -161,7 +161,7 @@ export const SearchAll: React.FC = () => {
 
     const { setTitle, setAction } = useContext(NavBarContext);
 
-    useSetDefaultBackTo('sources/all/search');
+    useSetDefaultBackTo('sources');
 
     const [query] = useQueryParam('query', StringParam);
     const searchString = useDebounce(query, TRIGGER_SEARCH_THRESHOLD);
