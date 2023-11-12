@@ -175,6 +175,7 @@ export function VerticalPager(props: IReaderProps) {
                 justifyContent: 'center',
                 margin: '0 auto',
                 width: '100%',
+                userSelect: 'none',
             }}
             onClick={(e) => {
                 if (didMouseMove.current) {
