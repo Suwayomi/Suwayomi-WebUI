@@ -74,6 +74,12 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
     }, []);
 
     useEffect(() => {
+        if (query === undefined && searchString !== undefined) {
+            setSearchString('');
+            setSearchOpen(false);
+            return;
+        }
+
         if (searchString === '' && !!query) {
             setSearchString(query);
             setSearchOpen(true);
