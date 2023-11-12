@@ -22,7 +22,7 @@ import Slider from '@mui/material/Slider';
 
 type BaseProps = {
     settingTitle: string;
-    settingValue: string;
+    settingValue?: string;
     settingIcon?: React.ReactNode;
     value: number;
     defaultValue?: number;
@@ -98,7 +98,7 @@ export const NumberSetting = ({
                 {settingIcon ? <ListItemIcon>{settingIcon}</ListItemIcon> : null}
                 <ListItemText
                     primary={settingTitle}
-                    secondary={settingValue}
+                    secondary={settingValue ?? t('global.label.loading')}
                     secondaryTypographyProps={{ style: { display: 'flex', flexDirection: 'column' } }}
                 />
             </ListItemButton>

@@ -21,7 +21,7 @@ export const DownloadAheadSetting = () => {
     const { t } = useTranslation();
 
     const { data } = requestManager.useGetServerSettings();
-    const downloadAheadLimit = data?.settings.autoDownloadAheadLimit ?? 0;
+    const downloadAheadLimit = data?.settings.autoDownloadAheadLimit;
     const shouldDownloadAhead = !!downloadAheadLimit;
     const [mutateSettings] = requestManager.useUpdateServerSettings();
 
@@ -49,10 +49,14 @@ export const DownloadAheadSetting = () => {
             {shouldDownloadAhead ? (
                 <NumberSetting
                     settingTitle={t('download.settings.download_ahead.label.unread_chapters_to_download')}
-                    settingValue={t('download.settings.download_ahead.label.value', {
-                        chapters: downloadAheadLimit,
-                        count: downloadAheadLimit,
-                    })}
+                    settingValue={
+                        downloadAheadLimit
+                            ? t('download.settings.download_ahead.label.value', {
+                                  chapters: downloadAheadLimit,
+                                  count: downloadAheadLimit,
+                              })
+                            : undefined
+                    }
                     value={downloadAheadLimit}
                     minValue={MIN_LIMIT}
                     maxValue={MAX_LIMIT}

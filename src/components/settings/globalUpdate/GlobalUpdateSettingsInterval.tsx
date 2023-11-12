@@ -21,7 +21,7 @@ export const GlobalUpdateSettingsInterval = () => {
     const { t } = useTranslation();
 
     const { data } = requestManager.useGetServerSettings();
-    const autoUpdateIntervalHours = data?.settings.globalUpdateInterval ?? 0;
+    const autoUpdateIntervalHours = data?.settings.globalUpdateInterval;
     const doAutoUpdates = !!autoUpdateIntervalHours;
     const [mutateSettings] = requestManager.useUpdateServerSettings();
 
@@ -45,9 +45,13 @@ export const GlobalUpdateSettingsInterval = () => {
             {doAutoUpdates ? (
                 <NumberSetting
                     settingTitle={t('library.settings.global_update.auto_update.interval.label.title')}
-                    settingValue={t('library.settings.global_update.auto_update.interval.label.value', {
-                        hours: autoUpdateIntervalHours,
-                    })}
+                    settingValue={
+                        autoUpdateIntervalHours
+                            ? t('library.settings.global_update.auto_update.interval.label.value', {
+                                  hours: autoUpdateIntervalHours,
+                              })
+                            : undefined
+                    }
                     value={autoUpdateIntervalHours}
                     minValue={MIN_INTERVAL_HOURS}
                     maxValue={MAX_INTERVAL_HOURS}

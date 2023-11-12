@@ -243,10 +243,18 @@
     },
     "date": {
       "label": {
+        "day": "Day",
+        "day_one": "Day",
+        "day_other": "Days",
         "today": "Today",
         "today_at": "Today at {{timeString}}",
         "yesterday": "Yesterday",
         "yesterday_at": "Yesterday at {{timeString}}"
+      },
+      "value": {
+        "label": {
+          "day": "{{days}} $t(global.date.label.day, lowercase)"
+        }
       }
     },
     "error": {
@@ -278,6 +286,7 @@
       "display": "Display",
       "filter": "Filter",
       "loading": "Loading…",
+      "never": "Never",
       "none": "None",
       "sort": "Sort",
       "unknown": "Unknown"
@@ -486,6 +495,24 @@
       "title": "About"
     },
     "backup": {
+      "automated": {
+        "cleanup": {
+          "label": {
+            "title": "Backup cleanup",
+            "value": "Delete backups that are older than $t(global.date.value.label.day)"
+          }
+        },
+        "label": {
+          "interval": "Backup interval",
+          "time": "Backup time"
+        },
+        "location": {
+          "label": {
+            "description": "The path to the directory on the server where automated backups should get saved in",
+            "title": "Backup location"
+          }
+        }
+      },
       "label": {
         "backup_restore_failed": "Could not restore backup",
         "create_backup": "Create backup",
