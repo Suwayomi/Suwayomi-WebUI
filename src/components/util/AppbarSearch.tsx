@@ -12,6 +12,7 @@ import { IconButton, Input, Tooltip } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { useQueryParam, StringParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
+import { useBackButton } from '@/util/useBackButton.ts';
 
 interface IProps {
     autoOpen?: boolean;
@@ -23,22 +24,32 @@ const defaultProps = {
 
 export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
     const { t } = useTranslation();
+    const handleBack = useBackButton();
 
     const { autoOpen } = props;
     const [query, setQuery] = useQueryParam('query', StringParam);
     const [searchOpen, setSearchOpen] = useState(!!query);
     const inputRef = React.useRef<HTMLInputElement>();
 
-    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-        setQuery(e.target.value === '' ? undefined : e.target.value);
+    const [searchString, setSearchString] = useState(query ?? '');
+
+    function handleChange(newQuery: string) {
+        if (newQuery === '') {
+            handleBack();
+            return;
+        }
+
+        setQuery(newQuery);
     }
 
     const cancelSearch = () => {
-        setQuery(null);
+        setSearchString('');
         setSearchOpen(false);
+
+        handleBack();
     };
     const handleBlur = () => {
-        if (!query) setSearchOpen(false);
+        if (!searchString) setSearchOpen(false);
     };
     const openSearch = () => {
         setSearchOpen(true);
@@ -48,10 +59,16 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
         });
     };
 
-    const handleSearchShortcut = (e: KeyboardEvent) => {
+    const handleKeyboardEvent = (e: KeyboardEvent) => {
         if (e.code === 'F3' || (e.ctrlKey && e.code === 'KeyF')) {
             e.preventDefault();
             openSearch();
+            return;
+        }
+
+        if (e.code === 'Enter') {
+            e.preventDefault();
+            handleChange(searchString);
         }
     };
 
@@ -62,18 +79,31 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
     }, []);
 
     useEffect(() => {
-        window.addEventListener('keydown', handleSearchShortcut);
+        if (query === undefined && searchString !== undefined) {
+            setSearchString('');
+            setSearchOpen(false);
+            return;
+        }
+
+        if (searchString === '' && !!query) {
+            setSearchString(query);
+            setSearchOpen(true);
+        }
+    }, [query]);
+
+    useEffect(() => {
+        window.addEventListener('keydown', handleKeyboardEvent);
 
         return () => {
-            window.removeEventListener('keydown', handleSearchShortcut);
+            window.removeEventListener('keydown', handleKeyboardEvent);
         };
-    }, [handleSearchShortcut]);
+    }, [handleKeyboardEvent]);
 
     if (searchOpen) {
         return (
             <Input
-                value={query || ''}
-                onChange={handleChange}
+                value={searchString}
+                onChange={(e) => setSearchString(e.target.value)}
                 onBlur={handleBlur}
                 inputRef={inputRef}
                 endAdornment={
