@@ -40,6 +40,12 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
 
     const updateSearchOpenState = (open: boolean) => {
         setSearchOpen(open);
+
+        // try to focus input component since in case of navigating to the previous/next page in the browser history
+        // the "openSearch" state might not change and thus, won't trigger a focus
+        if (open) {
+            inputRef.current?.focus();
+        }
     };
 
     function handleChange(newQuery: string) {
