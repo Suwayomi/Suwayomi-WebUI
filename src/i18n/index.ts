@@ -19,6 +19,14 @@ export const i18n = use(initReactI18next)
         fallbackLng: 'en',
         interpolation: {
             escapeValue: false,
+            format: (value, format) => {
+                switch (format) {
+                    case 'lowercase':
+                        return value.toLowerCase();
+                    default:
+                        return value;
+                }
+            },
         },
         returnNull: false,
         debug: process.env.NODE_ENV !== 'production',
