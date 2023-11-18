@@ -92,20 +92,17 @@ export const DownloadSettings = () => {
                         />
                     </ListItemSecondaryAction>
                 </ListItem>
-                {downloadSettings?.autoDownloadNewChapters ? (
-                    <ListItem>
-                        <ListItemText
-                            primary={t('download.settings.auto_download.label.ignore_with_unread_chapters')}
+                <ListItem disabled={!downloadSettings?.autoDownloadNewChapters}>
+                    <ListItemText primary={t('download.settings.auto_download.label.ignore_with_unread_chapters')} />
+                    <ListItemSecondaryAction>
+                        <Switch
+                            edge="end"
+                            checked={!!downloadSettings?.excludeEntryWithUnreadChapters}
+                            onChange={(e) => updateSetting('excludeEntryWithUnreadChapters', e.target.checked)}
+                            disabled={!downloadSettings?.autoDownloadNewChapters}
                         />
-                        <ListItemSecondaryAction>
-                            <Switch
-                                edge="end"
-                                checked={downloadSettings.excludeEntryWithUnreadChapters}
-                                onChange={(e) => updateSetting('excludeEntryWithUnreadChapters', e.target.checked)}
-                            />
-                        </ListItemSecondaryAction>
-                    </ListItem>
-                ) : null}
+                    </ListItemSecondaryAction>
+                </ListItem>
             </List>
             <List
                 subheader={

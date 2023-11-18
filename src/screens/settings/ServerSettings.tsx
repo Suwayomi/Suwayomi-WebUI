@@ -175,20 +175,18 @@ export const ServerSettings = () => {
                         />
                     </ListItemSecondaryAction>
                 </ListItem>
-                {!!serverSettings?.socksProxyEnabled && (
-                    <>
-                        <TextSetting
-                            settingName={t('settings.server.socks_proxy.label.host')}
-                            value={serverSettings.socksProxyHost}
-                            handleChange={(proxyHost) => updateSetting('socksProxyHost', proxyHost)}
-                        />
-                        <TextSetting
-                            settingName={t('settings.server.socks_proxy.label.port')}
-                            value={serverSettings.socksProxyPort}
-                            handleChange={(proxyPort) => updateSetting('socksProxyPort', proxyPort)}
-                        />
-                    </>
-                )}
+                <TextSetting
+                    settingName={t('settings.server.socks_proxy.label.host')}
+                    value={serverSettings?.socksProxyHost}
+                    handleChange={(proxyHost) => updateSetting('socksProxyHost', proxyHost)}
+                    disabled={!serverSettings?.socksProxyEnabled}
+                />
+                <TextSetting
+                    settingName={t('settings.server.socks_proxy.label.port')}
+                    value={serverSettings?.socksProxyPort}
+                    handleChange={(proxyPort) => updateSetting('socksProxyPort', proxyPort)}
+                    disabled={!serverSettings?.socksProxyEnabled}
+                />
             </List>
             <List
                 subheader={
@@ -207,21 +205,19 @@ export const ServerSettings = () => {
                         />
                     </ListItemSecondaryAction>
                 </ListItem>
-                {!!serverSettings?.basicAuthEnabled && (
-                    <>
-                        <TextSetting
-                            settingName={t('settings.server.auth.basic.label.username')}
-                            value={serverSettings?.basicAuthUsername}
-                            handleChange={(authUsername) => updateSetting('basicAuthUsername', authUsername)}
-                        />
-                        <TextSetting
-                            settingName={t('settings.server.auth.basic.label.password')}
-                            value={serverSettings?.basicAuthPassword}
-                            isPassword
-                            handleChange={(authPassword) => updateSetting('basicAuthPassword', authPassword)}
-                        />
-                    </>
-                )}
+                <TextSetting
+                    settingName={t('settings.server.auth.basic.label.username')}
+                    value={serverSettings?.basicAuthUsername}
+                    handleChange={(authUsername) => updateSetting('basicAuthUsername', authUsername)}
+                    disabled={!serverSettings?.basicAuthEnabled}
+                />
+                <TextSetting
+                    settingName={t('settings.server.auth.basic.label.password')}
+                    value={serverSettings?.basicAuthPassword}
+                    isPassword
+                    handleChange={(authPassword) => updateSetting('basicAuthPassword', authPassword)}
+                    disabled={!serverSettings?.basicAuthEnabled}
+                />
             </List>
             <List
                 subheader={
