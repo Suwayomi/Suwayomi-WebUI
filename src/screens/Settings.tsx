@@ -26,6 +26,7 @@ import CollectionsOutlinedBookmarkIcon from '@mui/icons-material/CollectionsBook
 import GetAppOutlinedIcon from '@mui/icons-material/GetAppOutlined';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import DnsIcon from '@mui/icons-material/Dns';
+import WebIcon from '@mui/icons-material/Web';
 import { langCodeToName } from '@/util/language';
 import { useLocalStorage } from '@/util/useLocalStorage';
 import { ListItemLink } from '@/components/util/ListItemLink';
@@ -145,6 +146,12 @@ export function Settings() {
                     </Select>
                 </ListItemSecondaryAction>
             </ListItem>
+            <ListItemLink to="/settings/webUI">
+                <ListItemIcon>
+                    <WebIcon />
+                </ListItemIcon>
+                <ListItemText primary={t('settings.webui.title.webui')} />
+            </ListItemLink>
             <ListItemLink to="/settings/server">
                 <ListItemIcon>
                     <DnsIcon />
