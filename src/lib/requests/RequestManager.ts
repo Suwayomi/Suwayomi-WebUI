@@ -26,7 +26,7 @@ import {
     useSubscription,
 } from '@apollo/client';
 import { OperationVariables } from '@apollo/client/core';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { IRestClient, RestClient } from '@/lib/requests/client/RestClient.ts';
 import * as storage from '@/util/localStorage.tsx';
 import { GraphQLClient } from '@/lib/requests/client/GraphQLClient.ts';
@@ -876,33 +876,48 @@ export class RequestManager {
             {},
             { refetchQueries: [GET_EXTENSIONS], ...options },
         );
+        const [, setUpdatedCache] = useState({});
 
-        if (result.data?.fetchExtensions.extensions) {
+        useEffect(() => {
+            if (result.loading) {
+                return;
+            }
+
+            if (!result.data?.fetchExtensions.extensions) {
+                return;
+            }
+
             this.cache.cacheResponse(EXTENSION_LIST_CACHE_KEY, undefined, result);
-        }
+            setUpdatedCache({});
+        }, [result.loading]);
+
         const cachedResult = this.cache.getResponseFor<typeof result>(EXTENSION_LIST_CACHE_KEY, undefined, 1000 * 60);
-        const normalizedCachedResult = !cachedResult
-            ? result
-            : {
-                  ...cachedResult,
-                  data: !cachedResult?.data?.fetchExtensions.extensions
-                      ? cachedResult?.data
-                      : {
-                            ...cachedResult.data,
-                            fetchExtensions: {
-                                ...cachedResult.data.fetchExtensions,
-                                extensions: cachedResult.data.fetchExtensions.extensions.map(
-                                    (extension) =>
-                                        this.graphQLClient.client.cache.readFragment<
-                                            GetExtensionsFetchMutation['fetchExtensions']['extensions'][0]
-                                        >({
-                                            id: this.graphQLClient.client.cache.identify(extension),
-                                            fragment: FULL_EXTENSION_FIELDS,
-                                        }) ?? extension,
-                                ),
-                            },
-                        },
-              };
+        const normalizedCachedResult = useMemo(
+            () =>
+                !cachedResult
+                    ? result
+                    : {
+                          ...cachedResult,
+                          data: !cachedResult?.data?.fetchExtensions.extensions
+                              ? cachedResult?.data
+                              : {
+                                    ...cachedResult.data,
+                                    fetchExtensions: {
+                                        ...cachedResult.data.fetchExtensions,
+                                        extensions: cachedResult.data.fetchExtensions.extensions.map(
+                                            (extension) =>
+                                                this.graphQLClient.client.cache.readFragment<
+                                                    GetExtensionsFetchMutation['fetchExtensions']['extensions'][0]
+                                                >({
+                                                    id: this.graphQLClient.client.cache.identify(extension),
+                                                    fragment: FULL_EXTENSION_FIELDS,
+                                                }) ?? extension,
+                                        ),
+                                    },
+                                },
+                      },
+            [this.cache.getFetchTimestampFor(EXTENSION_LIST_CACHE_KEY, undefined)],
+        );
 
         const wrappedMutate = async (mutateOptions: Parameters<typeof mutate>[0]) => {
             if (cachedResult) {
