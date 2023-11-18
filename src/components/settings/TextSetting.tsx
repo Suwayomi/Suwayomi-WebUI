@@ -39,12 +39,16 @@ export const TextSetting = ({
         setDialogValue(value);
     }, [value]);
 
-    const closeDialog = () => {
+    const closeDialog = (resetValue: boolean = true) => {
+        if (resetValue) {
+            setDialogValue(value ?? '');
+        }
+
         setIsDialogOpen(false);
     };
 
     const updateSetting = () => {
-        closeDialog();
+        closeDialog(false);
         handleChange(dialogValue);
     };
 
@@ -58,7 +62,7 @@ export const TextSetting = ({
                 />
             </ListItemButton>
 
-            <Dialog open={isDialogOpen} onClose={closeDialog} fullWidth>
+            <Dialog open={isDialogOpen} onClose={() => closeDialog()} fullWidth>
                 <DialogContent>
                     <DialogTitle sx={{ paddingLeft: 0 }}>{settingName}</DialogTitle>
                     {!!dialogDescription && (
@@ -76,7 +80,7 @@ export const TextSetting = ({
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={closeDialog} color="primary">
+                    <Button onClick={() => closeDialog()} color="primary">
                         {t('global.button.cancel')}
                     </Button>
                     <Button onClick={() => updateSetting()} color="primary">
