@@ -8,11 +8,48 @@
 
 import { useTranslation } from 'react-i18next';
 import { useContext, useEffect } from 'react';
-import { List } from '@mui/material';
+import { List, ListItem, ListItemText, Switch } from '@mui/material';
+import ListSubheader from '@mui/material/ListSubheader';
+import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { useLocalStorage } from '@/util/useLocalStorage.tsx';
 import { TextSetting } from '@/components/settings/TextSetting.tsx';
+import { ServerSettings as GqlServerSettings } from '@/typings.ts';
+import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
+
+type ServerSettingsType = Pick<
+    GqlServerSettings,
+    | 'ip'
+    | 'port'
+    | 'socksProxyEnabled'
+    | 'socksProxyHost'
+    | 'socksProxyPort'
+    | 'debugLogsEnabled'
+    | 'gqlDebugLogsEnabled'
+    | 'systemTrayEnabled'
+    | 'basicAuthEnabled'
+    | 'basicAuthUsername'
+    | 'basicAuthPassword'
+    | 'maxSourcesInParallel'
+    | 'localSourcePath'
+>;
+
+const extractDownloadSettings = (settings: GqlServerSettings): ServerSettingsType => ({
+    ip: settings.ip,
+    port: settings.port,
+    socksProxyEnabled: settings.socksProxyEnabled,
+    socksProxyHost: settings.socksProxyHost,
+    socksProxyPort: settings.socksProxyPort,
+    debugLogsEnabled: settings.debugLogsEnabled,
+    gqlDebugLogsEnabled: settings.gqlDebugLogsEnabled,
+    systemTrayEnabled: settings.systemTrayEnabled,
+    basicAuthEnabled: settings.basicAuthEnabled,
+    basicAuthUsername: settings.basicAuthUsername,
+    basicAuthPassword: settings.basicAuthPassword,
+    maxSourcesInParallel: settings.maxSourcesInParallel,
+    localSourcePath: settings.localSourcePath,
+});
 
 export const ServerSettings = () => {
     const { t } = useTranslation();
@@ -21,25 +58,215 @@ export const ServerSettings = () => {
     useSetDefaultBackTo('settings');
 
     useEffect(() => {
-        setTitle(t('download.settings.title'));
+        setTitle(t('settings.server.title.settings'));
         setAction(null);
     }, [t]);
 
+    const { data } = requestManager.useGetServerSettings();
+    const serverSettings = data ? extractDownloadSettings(data.settings) : undefined;
+    const [mutateSettings] = requestManager.useUpdateServerSettings();
+
     const [serverAddress, setServerAddress] = useLocalStorage<string>('serverBaseURL', '');
 
-    const handleChange = (address: string) => {
+    const handleServerAddressChange = (address: string) => {
         const serverBaseUrl = address.replaceAll(/(\/)+$/g, '');
         setServerAddress(serverBaseUrl);
         requestManager.updateClient({ baseURL: serverBaseUrl });
     };
 
+    const updateSetting = <Setting extends keyof ServerSettingsType>(
+        setting: Setting,
+        value: ServerSettingsType[Setting],
+    ) => {
+        mutateSettings({ variables: { input: { settings: { [setting]: value } } } });
+    };
+
     return (
         <List>
-            <TextSetting
-                settingName={t('settings.about.label.server_address')}
-                handleChange={handleChange}
-                value={serverAddress}
-            />
+            <List
+                subheader={
+                    <ListSubheader component="div" id="server-settings-client">
+                        {t('global.label.client')}
+                    </ListSubheader>
+                }
+            >
+                <TextSetting
+                    settingName={t('settings.about.label.server_address')}
+                    handleChange={handleServerAddressChange}
+                    value={serverAddress}
+                    placeholder="http://localhost:4567"
+                />
+            </List>
+            <List
+                subheader={
+                    <ListSubheader component="div" id="server-settings-requests">
+                        {t('settings.server.requests.title')}
+                    </ListSubheader>
+                }
+            >
+                <NumberSetting
+                    settingTitle={t('settings.server.requests.sources.parallel.label.title')}
+                    settingValue={t('settings.server.requests.sources.parallel.label.value', {
+                        value: serverSettings?.maxSourcesInParallel,
+                        count: serverSettings?.maxSourcesInParallel,
+                    })}
+                    valueUnit={t('source.title')}
+                    value={serverSettings?.maxSourcesInParallel ?? 6}
+                    defaultValue={6}
+                    minValue={1}
+                    maxValue={20}
+                    showSlider
+                    stepSize={1}
+                    dialogTitle={t('settings.server.requests.sources.parallel.label.title')}
+                    handleUpdate={(parallelSources) => updateSetting('maxSourcesInParallel', parallelSources)}
+                />
+            </List>
+            <List
+                subheader={
+                    <ListSubheader component="div" id="server-settings-requests">
+                        {t('settings.server.requests.title')}
+                    </ListSubheader>
+                }
+            >
+                <TextSetting
+                    settingName={t('settings.server.local_source.path.label.title')}
+                    dialogDescription={t('settings.server.local_source.path.label.description')}
+                    value={serverSettings?.localSourcePath}
+                    handleChange={(path) => updateSetting('localSourcePath', path)}
+                />
+            </List>
+            <List
+                subheader={
+                    <ListSubheader component="div" id="server-settings-server-address">
+                        {t('settings.server.address.server.title')}
+                    </ListSubheader>
+                }
+            >
+                <TextSetting
+                    settingName={t('settings.server.address.server.label.ip')}
+                    handleChange={(ip) => updateSetting('ip', ip)}
+                    value={serverSettings?.ip}
+                    placeholder="0.0.0.0"
+                />
+                <NumberSetting
+                    settingTitle={t('settings.server.address.server.label.port')}
+                    settingValue={serverSettings?.port.toString()}
+                    dialogTitle={t('settings.server.address.server.label.port')}
+                    handleUpdate={(port) => updateSetting('port', port)}
+                    value={serverSettings?.port ?? 4567}
+                    defaultValue={4567}
+                    valueUnit={t('settings.server.address.server.label.port')}
+                />
+            </List>
+            <List
+                subheader={
+                    <ListSubheader component="div" id="server-settings-socks-proxy">
+                        {t('settings.server.socks_proxy.title')}
+                    </ListSubheader>
+                }
+            >
+                <ListItem>
+                    <ListItemText primary={t('settings.server.socks_proxy.label.enable')} />
+                    <ListItemSecondaryAction>
+                        <Switch
+                            edge="end"
+                            checked={!!serverSettings?.socksProxyEnabled}
+                            onChange={(e) => updateSetting('socksProxyEnabled', e.target.checked)}
+                        />
+                    </ListItemSecondaryAction>
+                </ListItem>
+                {!!serverSettings?.socksProxyEnabled && (
+                    <>
+                        <TextSetting
+                            settingName={t('settings.server.socks_proxy.label.host')}
+                            value={serverSettings.socksProxyHost}
+                            handleChange={(proxyHost) => updateSetting('socksProxyHost', proxyHost)}
+                        />
+                        <TextSetting
+                            settingName={t('settings.server.socks_proxy.label.port')}
+                            value={serverSettings.socksProxyPort}
+                            handleChange={(proxyPort) => updateSetting('socksProxyPort', proxyPort)}
+                        />
+                    </>
+                )}
+            </List>
+            <List
+                subheader={
+                    <ListSubheader component="div" id="server-settings-auth">
+                        {t('settings.server.auth.title')}
+                    </ListSubheader>
+                }
+            >
+                <ListItem>
+                    <ListItemText primary={t('settings.server.auth.basic.label.enable')} />
+                    <ListItemSecondaryAction>
+                        <Switch
+                            edge="end"
+                            checked={!!serverSettings?.basicAuthEnabled}
+                            onChange={(e) => updateSetting('basicAuthEnabled', e.target.checked)}
+                        />
+                    </ListItemSecondaryAction>
+                </ListItem>
+                {!!serverSettings?.basicAuthEnabled && (
+                    <>
+                        <TextSetting
+                            settingName={t('settings.server.auth.basic.label.username')}
+                            value={serverSettings?.basicAuthUsername}
+                            handleChange={(authUsername) => updateSetting('basicAuthUsername', authUsername)}
+                        />
+                        <TextSetting
+                            settingName={t('settings.server.auth.basic.label.password')}
+                            value={serverSettings?.basicAuthPassword}
+                            isPassword
+                            handleChange={(authPassword) => updateSetting('basicAuthPassword', authPassword)}
+                        />
+                    </>
+                )}
+            </List>
+            <List
+                subheader={
+                    <ListSubheader component="div" id="server-settings-misc">
+                        {t('settings.server.misc.title')}
+                    </ListSubheader>
+                }
+            >
+                <ListItem>
+                    <ListItemText primary={t('settings.server.misc.log_level.label.server')} />
+                    <ListItemSecondaryAction>
+                        <Switch
+                            edge="end"
+                            checked={!!serverSettings?.debugLogsEnabled}
+                            onChange={(e) => updateSetting('debugLogsEnabled', e.target.checked)}
+                        />
+                    </ListItemSecondaryAction>
+                </ListItem>
+                <ListItem>
+                    <ListItemText
+                        primary={t('settings.server.misc.log_level.graphql.label.title')}
+                        secondary={t('settings.server.misc.log_level.graphql.label.description')}
+                    />
+                    <ListItemSecondaryAction>
+                        <Switch
+                            edge="end"
+                            checked={!!serverSettings?.gqlDebugLogsEnabled}
+                            onChange={(e) => updateSetting('gqlDebugLogsEnabled', e.target.checked)}
+                        />
+                    </ListItemSecondaryAction>
+                </ListItem>
+                <ListItem>
+                    <ListItemText
+                        primary={t('settings.server.misc.tray_icon.label.title')}
+                        secondary={t('settings.server.misc.tray_icon.label.description')}
+                    />
+                    <ListItemSecondaryAction>
+                        <Switch
+                            edge="end"
+                            checked={!!serverSettings?.systemTrayEnabled}
+                            onChange={(e) => updateSetting('systemTrayEnabled', e.target.checked)}
+                        />
+                    </ListItemSecondaryAction>
+                </ListItem>
+            </List>
         </List>
     );
 };

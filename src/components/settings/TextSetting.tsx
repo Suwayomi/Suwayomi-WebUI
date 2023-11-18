@@ -23,12 +23,14 @@ export const TextSetting = ({
     value,
     handleChange,
     isPassword = false,
+    placeholder = '',
 }: {
     settingName: string;
     dialogDescription?: string;
     value?: string;
     handleChange: (value: string) => void;
     isPassword?: boolean;
+    placeholder?: string;
 }) => {
     const { t } = useTranslation();
 
@@ -82,6 +84,7 @@ export const TextSetting = ({
                             margin: 'auto',
                         }}
                         autoFocus
+                        placeholder={placeholder}
                         value={dialogValue}
                         type={isPassword && !showPassword ? 'password' : 'text'}
                         onChange={(e) => setDialogValue(e.target.value)}
