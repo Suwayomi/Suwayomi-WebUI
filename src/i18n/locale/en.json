@@ -488,7 +488,6 @@
         "build_time": "Build time",
         "discord": "Discord",
         "github": "GitHub",
-        "server": "Server",
         "server_address": "Server address",
         "server_version": "Server version"
       },
@@ -534,11 +533,17 @@
       "show_nsfw": "Show NSFW",
       "show_nsfw_description": "Hide NSFW extensions and sources"
     },
-    "server_address": {
-      "dialog": {
-        "label": {
-          "enter_address": "Enter server address"
+    "server": {
+      "address": {
+        "dialog": {
+          "label": {
+            "enter_address": "Enter server address"
+          }
         }
+      },
+      "title": {
+        "server": "Server",
+        "settings": "Server Settings"
       }
     },
     "title": "Settings"

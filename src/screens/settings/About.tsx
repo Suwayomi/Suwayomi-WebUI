@@ -45,7 +45,7 @@ export function About() {
         <List>
             <ListItem>
                 <ListItemText
-                    primary={t('settings.about.label.server')}
+                    primary={t('settings.server.title.server')}
                     secondary={`${about.name} ${about.buildType}`}
                 />
             </ListItem>
