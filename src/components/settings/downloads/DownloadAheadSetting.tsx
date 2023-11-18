@@ -12,6 +12,7 @@ import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import { useCallback } from 'react';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
+import { getPersistedServerSetting, usePersistedValue } from '@/util/usePersistedValue.tsx';
 
 const DEFAULT_LIMIT = 5;
 const MIN_LIMIT = 2;
@@ -24,13 +25,25 @@ export const DownloadAheadSetting = () => {
     const downloadAheadLimit = data?.settings.autoDownloadAheadLimit;
     const shouldDownloadAhead = !!downloadAheadLimit;
     const [mutateSettings] = requestManager.useUpdateServerSettings();
+    const [currentDownloadAheadLimit, persistDownloadAheadLimit] = usePersistedValue(
+        'lastDownloadAheadLimit',
+        DEFAULT_LIMIT,
+        downloadAheadLimit,
+        getPersistedServerSetting,
+    );
 
-    const updateSetting = useCallback((autoDownloadAheadLimit: number) => {
-        mutateSettings({ variables: { input: { settings: { autoDownloadAheadLimit } } } });
-    }, []);
+    const updateSetting = useCallback(
+        (autoDownloadAheadLimit: number) => {
+            persistDownloadAheadLimit(
+                autoDownloadAheadLimit === 0 ? currentDownloadAheadLimit : autoDownloadAheadLimit,
+            );
+            mutateSettings({ variables: { input: { settings: { autoDownloadAheadLimit } } } });
+        },
+        [currentDownloadAheadLimit],
+    );
 
     const setDoAutoUpdates = (enable: boolean) => {
-        const globalUpdateInterval = enable ? DEFAULT_LIMIT : 0;
+        const globalUpdateInterval = enable ? currentDownloadAheadLimit : 0;
         updateSetting(globalUpdateInterval);
     };
 
@@ -51,12 +64,12 @@ export const DownloadAheadSetting = () => {
                 settingValue={
                     downloadAheadLimit !== undefined
                         ? t('download.settings.download_ahead.label.value', {
-                              chapters: downloadAheadLimit,
-                              count: downloadAheadLimit,
+                              chapters: currentDownloadAheadLimit,
+                              count: currentDownloadAheadLimit,
                           })
                         : undefined
                 }
-                value={downloadAheadLimit ?? DEFAULT_LIMIT}
+                value={currentDownloadAheadLimit}
                 minValue={MIN_LIMIT}
                 maxValue={MAX_LIMIT}
                 defaultValue={DEFAULT_LIMIT}

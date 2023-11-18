@@ -12,6 +12,7 @@ import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import { useCallback } from 'react';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
+import { getPersistedServerSetting, usePersistedValue } from '@/util/usePersistedValue.tsx';
 
 const DEFAULT_INTERVAL_HOURS = 12;
 const MIN_INTERVAL_HOURS = 6;
@@ -24,13 +25,25 @@ export const GlobalUpdateSettingsInterval = () => {
     const autoUpdateIntervalHours = data?.settings.globalUpdateInterval;
     const doAutoUpdates = !!autoUpdateIntervalHours;
     const [mutateSettings] = requestManager.useUpdateServerSettings();
+    const [currentAutoUpdateIntervalHours, persistAutoUpdateIntervalHours] = usePersistedValue(
+        'lastGlobalUpdateInterval',
+        DEFAULT_INTERVAL_HOURS,
+        autoUpdateIntervalHours,
+        getPersistedServerSetting,
+    );
 
-    const updateSetting = useCallback((globalUpdateInterval: number) => {
-        mutateSettings({ variables: { input: { settings: { globalUpdateInterval } } } });
-    }, []);
+    const updateSetting = useCallback(
+        (globalUpdateInterval: number) => {
+            persistAutoUpdateIntervalHours(
+                globalUpdateInterval === 0 ? currentAutoUpdateIntervalHours : globalUpdateInterval,
+            );
+            mutateSettings({ variables: { input: { settings: { globalUpdateInterval } } } });
+        },
+        [currentAutoUpdateIntervalHours],
+    );
 
     const setDoAutoUpdates = (enable: boolean) => {
-        const globalUpdateInterval = enable ? DEFAULT_INTERVAL_HOURS : 0;
+        const globalUpdateInterval = enable ? currentAutoUpdateIntervalHours : 0;
         updateSetting(globalUpdateInterval);
     };
 
@@ -47,11 +60,11 @@ export const GlobalUpdateSettingsInterval = () => {
                 settingValue={
                     autoUpdateIntervalHours !== undefined
                         ? t('library.settings.global_update.auto_update.interval.label.value', {
-                              hours: autoUpdateIntervalHours,
+                              hours: currentAutoUpdateIntervalHours,
                           })
                         : undefined
                 }
-                value={autoUpdateIntervalHours ?? DEFAULT_INTERVAL_HOURS}
+                value={currentAutoUpdateIntervalHours}
                 minValue={MIN_INTERVAL_HOURS}
                 maxValue={MAX_INTERVAL_HOURS}
                 defaultValue={DEFAULT_INTERVAL_HOURS}
