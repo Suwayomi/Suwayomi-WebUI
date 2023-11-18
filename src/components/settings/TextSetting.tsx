@@ -22,21 +22,21 @@ export const TextSetting = ({
     handleChange,
 }: {
     settingName: string;
-    dialogDescription: string;
+    dialogDescription?: string;
     value?: string;
     handleChange: (value: string) => void;
 }) => {
     const { t } = useTranslation();
 
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [dialogDirPath, setDialogDirPath] = useState(value ?? '');
+    const [dialogValue, setDialogValue] = useState(value ?? '');
 
     useEffect(() => {
         if (!value) {
             return;
         }
 
-        setDialogDirPath(value);
+        setDialogValue(value);
     }, [value]);
 
     const closeDialog = () => {
@@ -45,7 +45,7 @@ export const TextSetting = ({
 
     const updateSetting = () => {
         closeDialog();
-        handleChange(dialogDirPath);
+        handleChange(dialogValue);
     };
 
     return (
@@ -61,16 +61,18 @@ export const TextSetting = ({
             <Dialog open={isDialogOpen} onClose={closeDialog} fullWidth>
                 <DialogContent>
                     <DialogTitle sx={{ paddingLeft: 0 }}>{settingName}</DialogTitle>
-                    <DialogContentText sx={{ paddingBottom: '10px' }}>{dialogDescription}</DialogContentText>
+                    {!!dialogDescription && (
+                        <DialogContentText sx={{ paddingBottom: '10px' }}>{dialogDescription}</DialogContentText>
+                    )}
                     <TextField
                         sx={{
                             width: '100%',
                             margin: 'auto',
                         }}
                         autoFocus
-                        value={dialogDirPath}
                         type="text"
-                        onChange={(e) => setDialogDirPath(e.target.value)}
+                        value={dialogValue}
+                        onChange={(e) => setDialogValue(e.target.value)}
                     />
                 </DialogContent>
                 <DialogActions>

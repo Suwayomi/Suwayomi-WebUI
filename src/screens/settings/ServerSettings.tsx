@@ -7,22 +7,12 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { useContext, useEffect, useState } from 'react';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
-import { List, Tooltip } from '@mui/material';
-import IconButton from '@mui/material/IconButton';
-import EditIcon from '@mui/icons-material/Edit';
-import Dialog from '@mui/material/Dialog';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import TextField from '@mui/material/TextField';
-import DialogActions from '@mui/material/DialogActions';
-import Button from '@mui/material/Button';
+import { useContext, useEffect } from 'react';
+import { List } from '@mui/material';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { useLocalStorage } from '@/util/useLocalStorage.tsx';
+import { TextSetting } from '@/components/settings/TextSetting.tsx';
 
 export const ServerSettings = () => {
     const { t } = useTranslation();
@@ -37,69 +27,19 @@ export const ServerSettings = () => {
 
     const [serverAddress, setServerAddress] = useLocalStorage<string>('serverBaseURL', '');
 
-    const [dialogOpen, setDialogOpen] = useState(false);
-    const [dialogValue, setDialogValue] = useState(serverAddress);
-
-    const handleDialogOpen = () => {
-        setDialogValue(serverAddress);
-        setDialogOpen(true);
-    };
-
-    const handleDialogCancel = () => {
-        setDialogOpen(false);
-    };
-
-    const handleDialogSubmit = () => {
-        setDialogOpen(false);
-        const serverBaseUrl = dialogValue.replaceAll(/(\/)+$/g, '');
+    const handleChange = (address: string) => {
+        const serverBaseUrl = address.replaceAll(/(\/)+$/g, '');
         setServerAddress(serverBaseUrl);
         requestManager.updateClient({ baseURL: serverBaseUrl });
     };
 
     return (
-        <>
-            <List>
-                <ListItem>
-                    <ListItemText primary={t('settings.about.label.server_address')} secondary={serverAddress} />
-                    <ListItemSecondaryAction>
-                        <Tooltip title={t('global.button.edit')}>
-                            <IconButton
-                                onClick={() => {
-                                    handleDialogOpen();
-                                }}
-                                size="large"
-                            >
-                                <EditIcon />
-                            </IconButton>
-                        </Tooltip>
-                    </ListItemSecondaryAction>
-                </ListItem>
-            </List>
-
-            <Dialog open={dialogOpen} onClose={handleDialogCancel}>
-                <DialogContent>
-                    <DialogContentText>{t('settings.server.address.dialog.label.enter_address')}</DialogContentText>
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        id="name"
-                        label={t('settings.about.label.server_address')}
-                        type="text"
-                        fullWidth
-                        value={dialogValue}
-                        placeholder="http://127.0.0.1:4567"
-                        onChange={(e) => setDialogValue(e.target.value)}
-                    />
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleDialogCancel} color="primary">
-                        {t('global.button.cancel')}
-                    </Button>
-                    <Button onClick={handleDialogSubmit} color="primary">
-                        {t('global.button.set')}
-                    </Button>
-                </DialogActions>
-            </Dialog>
-        </>
+        <List>
+            <TextSetting
+                settingName={t('settings.about.label.server_address')}
+                handleChange={handleChange}
+                value={serverAddress}
+            />
+        </List>
     );
 };
