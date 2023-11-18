@@ -13,7 +13,6 @@ import ListAltIcon from '@mui/icons-material/ListAlt';
 import BackupIcon from '@mui/icons-material/Backup';
 import Brightness6Icon from '@mui/icons-material/Brightness6';
 import InfoIcon from '@mui/icons-material/Info';
-import CachedIcon from '@mui/icons-material/Cached';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
@@ -45,7 +44,6 @@ export function Settings() {
 
     const { darkTheme, setDarkTheme } = useContext(DarkTheme);
     const [showNsfw, setShowNsfw] = useLocalStorage<boolean>('showNsfw', true);
-    const [useCache, setUseCache] = useLocalStorage<boolean>('useCache', true);
 
     const DEFAULT_ITEM_WIDTH = 300;
     const itemWidthIcon = useMemo(() => <ViewModuleIcon />, []);
@@ -116,18 +114,6 @@ export function Settings() {
                 />
                 <ListItemSecondaryAction>
                     <Switch edge="end" checked={showNsfw} onChange={() => setShowNsfw(!showNsfw)} />
-                </ListItemSecondaryAction>
-            </ListItem>
-            <ListItem>
-                <ListItemIcon>
-                    <CachedIcon />
-                </ListItemIcon>
-                <ListItemText
-                    primary={t('settings.label.image_cache')}
-                    secondary={t('settings.label.image_cache_description')}
-                />
-                <ListItemSecondaryAction>
-                    <Switch edge="end" checked={useCache} onChange={() => setUseCache(!useCache)} />
                 </ListItemSecondaryAction>
             </ListItem>
             <ListItem>
