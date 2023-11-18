@@ -283,13 +283,16 @@
     },
     "label": {
       "browse": "Browse",
+      "client": "Client",
       "display": "Display",
       "filter": "Filter",
       "loading": "Loading…",
       "never": "Never",
       "none": "None",
+      "password": "Password",
       "sort": "Sort",
-      "unknown": "Unknown"
+      "unknown": "Unknown",
+      "username": "Username"
     },
     "language": {
       "label": {
@@ -488,7 +491,6 @@
         "build_time": "Build time",
         "discord": "Discord",
         "github": "GitHub",
-        "server": "Server",
         "server_address": "Server address",
         "server_version": "Server version"
       },
@@ -534,11 +536,86 @@
       "show_nsfw": "Show NSFW",
       "show_nsfw_description": "Hide NSFW extensions and sources"
     },
-    "server_address": {
-      "dialog": {
-        "label": {
-          "enter_address": "Enter server address"
+    "server": {
+      "address": {
+        "client": {
+          "dialog": {
+            "label": {
+              "enter_address": "Enter server address"
+            }
+          },
+          "label": {
+            "description": "The address the client will use to connect to the server"
+          }
+        },
+        "server": {
+          "label": {
+            "ip": "IP",
+            "port": "Port"
+          },
+          "title": "Server bindings"
         }
+      },
+      "auth": {
+        "basic": {
+          "label": {
+            "enable": "Use basic authentication",
+            "password": "Basic authentication $t(global.label.password, lowercase)",
+            "username": "Basic authentication $t(global.label.username, lowercase)"
+          }
+        },
+        "title": "Authentication"
+      },
+      "local_source": {
+        "path": {
+          "label": {
+            "description": "The path to the directory on the server where local source files are saved in",
+            "title": "Local source location"
+          }
+        }
+      },
+      "misc": {
+        "log_level": {
+          "graphql": {
+            "label": {
+              "description": "This includes logs with non privacy safe information",
+              "title": "Enable graphql debug logs"
+            }
+          },
+          "label": {
+            "server": "Enable debug logs"
+          }
+        },
+        "title": "Misc",
+        "tray_icon": {
+          "label": {
+            "description": "This icon will be shown on the system that is running the server",
+            "title": "Show icon in system tray"
+          }
+        }
+      },
+      "requests": {
+        "sources": {
+          "parallel": {
+            "label": {
+              "title": "Parallel source requests",
+              "value": "{{value}} $t(source.title)"
+            }
+          }
+        },
+        "title": "Requests"
+      },
+      "socks_proxy": {
+        "label": {
+          "enable": "Use SOCKS5 proxy",
+          "host": "SOCKS5 host",
+          "port": "SOCKS5 port"
+        },
+        "title": "SOCKS proxy"
+      },
+      "title": {
+        "server": "Server",
+        "settings": "Server Settings"
       }
     },
     "title": "Settings"

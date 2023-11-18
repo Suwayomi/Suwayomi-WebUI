@@ -12,7 +12,7 @@ import List from '@mui/material/List';
 import { ListItem, ListItemText, Switch } from '@mui/material';
 import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import ListSubheader from '@mui/material/ListSubheader';
-import { ServerDirSetting } from '@/components/settings/ServerDirSetting';
+import { TextSetting } from '@/components/settings/TextSetting.tsx';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
 import { ServerSettings } from '@/typings.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
@@ -59,11 +59,11 @@ export const DownloadSettings = () => {
 
     return (
         <List>
-            <ServerDirSetting
+            <TextSetting
                 settingName={t('download.settings.download_path.label.title')}
                 dialogDescription={t('download.settings.download_path.label.description')}
-                dirPath={downloadSettings?.downloadsPath}
-                handlePathChange={(path) => updateSetting('downloadsPath', path)}
+                value={downloadSettings?.downloadsPath}
+                handleChange={(path) => updateSetting('downloadsPath', path)}
             />
             <ListItem>
                 <ListItemText primary={t('download.settings.file_type.label.cbz')} />

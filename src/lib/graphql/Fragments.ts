@@ -455,5 +455,8 @@ export const SERVER_SETTINGS = gql`
         backupTime
         backupInterval
         backupTTL
+
+        # local source
+        localSourcePath
     }
 `;
