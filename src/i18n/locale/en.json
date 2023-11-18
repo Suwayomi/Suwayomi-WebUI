@@ -529,8 +529,6 @@
     },
     "label": {
       "dark_theme": "Dark theme",
-      "image_cache": "Use image cache",
-      "image_cache_description": "Reduces the data consumption and improves the performance when a already requested image gets requested again",
       "language_description": "Feel free to translate the project on",
       "manga_item_width": "Manga item width",
       "show_nsfw": "Show NSFW",
