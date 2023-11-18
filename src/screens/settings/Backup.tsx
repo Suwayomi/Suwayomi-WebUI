@@ -21,7 +21,7 @@ import { ListItemLink } from '@/components/util/ListItemLink';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext';
 import { BackupRestoreState } from '@/lib/graphql/generated/graphql.ts';
 import { Progress } from '@/components/util/Progress.tsx';
-import { ServerDirSetting } from '@/components/settings/ServerDirSetting.tsx';
+import { TextSetting } from '@/components/settings/TextSetting.tsx';
 import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
 import { TimeSetting } from '@/components/settings/TimeSetting.tsx';
 import { ServerSettings } from '@/typings.ts';
@@ -188,11 +188,11 @@ export function Backup() {
                         </ListSubheader>
                     }
                 >
-                    <ServerDirSetting
+                    <TextSetting
                         settingName={t('settings.backup.automated.location.label.title')}
                         dialogDescription={t('settings.backup.automated.location.label.description')}
-                        dirPath={backupSettings?.backupPath}
-                        handlePathChange={(path) => updateSetting('backupPath', path)}
+                        value={backupSettings?.backupPath}
+                        handleChange={(path) => updateSetting('backupPath', path)}
                     />
                     <TimeSetting
                         settingName={t('settings.backup.automated.label.time')}

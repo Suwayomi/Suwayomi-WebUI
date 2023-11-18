@@ -15,29 +15,29 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import DialogContentText from '@mui/material/DialogContentText';
 
-export const ServerDirSetting = ({
+export const TextSetting = ({
     settingName,
     dialogDescription,
-    dirPath,
-    handlePathChange,
+    value,
+    handleChange,
 }: {
     settingName: string;
     dialogDescription: string;
-    dirPath?: string;
-    handlePathChange: (path: string) => void;
+    value?: string;
+    handleChange: (value: string) => void;
 }) => {
     const { t } = useTranslation();
 
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [dialogDirPath, setDialogDirPath] = useState(dirPath ?? '');
+    const [dialogDirPath, setDialogDirPath] = useState(value ?? '');
 
     useEffect(() => {
-        if (!dirPath) {
+        if (!value) {
             return;
         }
 
-        setDialogDirPath(dirPath);
-    }, [dirPath]);
+        setDialogDirPath(value);
+    }, [value]);
 
     const closeDialog = () => {
         setIsDialogOpen(false);
@@ -45,7 +45,7 @@ export const ServerDirSetting = ({
 
     const updateSetting = () => {
         closeDialog();
-        handlePathChange(dialogDirPath);
+        handleChange(dialogDirPath);
     };
 
     return (
@@ -53,7 +53,7 @@ export const ServerDirSetting = ({
             <ListItemButton onClick={() => setIsDialogOpen(true)}>
                 <ListItemText
                     primary={settingName}
-                    secondary={dirPath ?? t('global.label.loading')}
+                    secondary={value ?? t('global.label.loading')}
                     secondaryTypographyProps={{ style: { display: 'flex', flexDirection: 'column' } }}
                 />
             </ListItemButton>
