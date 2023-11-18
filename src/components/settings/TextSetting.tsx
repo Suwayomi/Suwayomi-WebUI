@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Button, Dialog, DialogTitle, ListItemText } from '@mui/material';
+import { Button, Dialog, DialogTitle, InputAdornment, ListItemText } from '@mui/material';
 import DialogContent from '@mui/material/DialogContent';
 import TextField from '@mui/material/TextField';
 import DialogActions from '@mui/material/DialogActions';
@@ -14,22 +14,29 @@ import ListItemButton from '@mui/material/ListItemButton';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import DialogContentText from '@mui/material/DialogContentText';
+import IconButton from '@mui/material/IconButton';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 export const TextSetting = ({
     settingName,
     dialogDescription,
     value,
     handleChange,
+    isPassword = false,
 }: {
     settingName: string;
     dialogDescription?: string;
     value?: string;
     handleChange: (value: string) => void;
+    isPassword?: boolean;
 }) => {
     const { t } = useTranslation();
 
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [dialogValue, setDialogValue] = useState(value ?? '');
+    const [showPassword, setShowPassword] = useState(false);
+
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
 
     useEffect(() => {
         if (!value) {
@@ -44,6 +51,7 @@ export const TextSetting = ({
             setDialogValue(value ?? '');
         }
 
+        setShowPassword(false);
         setIsDialogOpen(false);
     };
 
@@ -57,7 +65,7 @@ export const TextSetting = ({
             <ListItemButton onClick={() => setIsDialogOpen(true)}>
                 <ListItemText
                     primary={settingName}
-                    secondary={value ?? t('global.label.loading')}
+                    secondary={isPassword ? value?.replace(/./g, '*') : value ?? t('global.label.loading')}
                     secondaryTypographyProps={{ style: { display: 'flex', flexDirection: 'column' } }}
                 />
             </ListItemButton>
@@ -74,9 +82,22 @@ export const TextSetting = ({
                             margin: 'auto',
                         }}
                         autoFocus
-                        type="text"
                         value={dialogValue}
+                        type={isPassword && !showPassword ? 'password' : 'text'}
                         onChange={(e) => setDialogValue(e.target.value)}
+                        InputProps={{
+                            endAdornment: isPassword ? (
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        aria-label="toggle password visibility"
+                                        onClick={handleClickShowPassword}
+                                        edge="end"
+                                    >
+                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                    </IconButton>
+                                </InputAdornment>
+                            ) : null,
+                        }}
                     />
                 </DialogContent>
                 <DialogActions>
