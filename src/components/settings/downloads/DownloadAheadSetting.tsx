@@ -46,27 +46,26 @@ export const DownloadAheadSetting = () => {
                     />
                 </ListItemSecondaryAction>
             </ListItem>
-            {shouldDownloadAhead ? (
-                <NumberSetting
-                    settingTitle={t('download.settings.download_ahead.label.unread_chapters_to_download')}
-                    settingValue={
-                        downloadAheadLimit
-                            ? t('download.settings.download_ahead.label.value', {
-                                  chapters: downloadAheadLimit,
-                                  count: downloadAheadLimit,
-                              })
-                            : undefined
-                    }
-                    value={downloadAheadLimit}
-                    minValue={MIN_LIMIT}
-                    maxValue={MAX_LIMIT}
-                    defaultValue={DEFAULT_LIMIT}
-                    showSlider
-                    dialogTitle={t('download.settings.download_ahead.label.unread_chapters_to_download')}
-                    valueUnit={t('chapter.title')}
-                    handleUpdate={updateSetting}
-                />
-            ) : null}
+            <NumberSetting
+                settingTitle={t('download.settings.download_ahead.label.unread_chapters_to_download')}
+                settingValue={
+                    downloadAheadLimit !== undefined
+                        ? t('download.settings.download_ahead.label.value', {
+                              chapters: downloadAheadLimit,
+                              count: downloadAheadLimit,
+                          })
+                        : undefined
+                }
+                value={downloadAheadLimit ?? DEFAULT_LIMIT}
+                minValue={MIN_LIMIT}
+                maxValue={MAX_LIMIT}
+                defaultValue={DEFAULT_LIMIT}
+                showSlider
+                dialogTitle={t('download.settings.download_ahead.label.unread_chapters_to_download')}
+                valueUnit={t('chapter.title')}
+                handleUpdate={updateSetting}
+                disabled={!shouldDownloadAhead}
+            />
         </List>
     );
 };

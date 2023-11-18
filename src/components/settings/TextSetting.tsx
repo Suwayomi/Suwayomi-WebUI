@@ -24,6 +24,7 @@ export const TextSetting = ({
     handleChange,
     isPassword = false,
     placeholder = '',
+    disabled = false,
 }: {
     settingName: string;
     dialogDescription?: string;
@@ -31,6 +32,7 @@ export const TextSetting = ({
     handleChange: (value: string) => void;
     isPassword?: boolean;
     placeholder?: string;
+    disabled?: boolean;
 }) => {
     const { t } = useTranslation();
 
@@ -64,7 +66,7 @@ export const TextSetting = ({
 
     return (
         <>
-            <ListItemButton onClick={() => setIsDialogOpen(true)}>
+            <ListItemButton disabled={disabled} onClick={() => setIsDialogOpen(true)}>
                 <ListItemText
                     primary={settingName}
                     secondary={isPassword ? value?.replace(/./g, '*') : value ?? t('global.label.loading')}

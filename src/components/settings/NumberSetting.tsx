@@ -33,6 +33,7 @@ type BaseProps = {
     valueUnit: string;
     handleUpdate: (value: number) => void;
     showSlider?: never;
+    disabled?: boolean;
 };
 
 type PropsWithSlider = Omit<BaseProps, 'defaultValue' | 'minValue' | 'maxValue' | 'showSlider'> &
@@ -53,6 +54,7 @@ export const NumberSetting = ({
     valueUnit,
     handleUpdate,
     showSlider,
+    disabled = false,
 }: Props) => {
     const { t } = useTranslation();
 
@@ -94,7 +96,7 @@ export const NumberSetting = ({
 
     return (
         <>
-            <ListItemButton onClick={() => setIsDialogOpen(true)}>
+            <ListItemButton disabled={disabled} onClick={() => setIsDialogOpen(true)}>
                 {settingIcon ? <ListItemIcon>{settingIcon}</ListItemIcon> : null}
                 <ListItemText
                     primary={settingTitle}

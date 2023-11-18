@@ -42,26 +42,25 @@ export const GlobalUpdateSettingsInterval = () => {
                     <Switch edge="end" checked={doAutoUpdates} onChange={(e) => setDoAutoUpdates(e.target.checked)} />
                 </ListItemSecondaryAction>
             </ListItem>
-            {doAutoUpdates ? (
-                <NumberSetting
-                    settingTitle={t('library.settings.global_update.auto_update.interval.label.title')}
-                    settingValue={
-                        autoUpdateIntervalHours
-                            ? t('library.settings.global_update.auto_update.interval.label.value', {
-                                  hours: autoUpdateIntervalHours,
-                              })
-                            : undefined
-                    }
-                    value={autoUpdateIntervalHours}
-                    minValue={MIN_INTERVAL_HOURS}
-                    maxValue={MAX_INTERVAL_HOURS}
-                    defaultValue={DEFAULT_INTERVAL_HOURS}
-                    showSlider
-                    dialogTitle={t('library.settings.global_update.auto_update.interval.label.title')}
-                    valueUnit={t('global.time.hour_short')}
-                    handleUpdate={updateSetting}
-                />
-            ) : null}
+            <NumberSetting
+                settingTitle={t('library.settings.global_update.auto_update.interval.label.title')}
+                settingValue={
+                    autoUpdateIntervalHours !== undefined
+                        ? t('library.settings.global_update.auto_update.interval.label.value', {
+                              hours: autoUpdateIntervalHours,
+                          })
+                        : undefined
+                }
+                value={autoUpdateIntervalHours ?? DEFAULT_INTERVAL_HOURS}
+                minValue={MIN_INTERVAL_HOURS}
+                maxValue={MAX_INTERVAL_HOURS}
+                defaultValue={DEFAULT_INTERVAL_HOURS}
+                showSlider
+                dialogTitle={t('library.settings.global_update.auto_update.interval.label.title')}
+                valueUnit={t('global.time.hour_short')}
+                handleUpdate={updateSetting}
+                disabled={!doAutoUpdates}
+            />
         </List>
     );
 };
