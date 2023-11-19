@@ -14,9 +14,11 @@ import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import ListSubheader from '@mui/material/ListSubheader';
 import { TextSetting } from '@/components/settings/TextSetting.tsx';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
-import { ServerSettings } from '@/typings.ts';
+import { MetadataServerSettingKeys, MetadataServerSettings, ServerSettings } from '@/typings.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { DownloadAheadSetting } from '@/components/settings/downloads/DownloadAheadSetting.tsx';
+import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
+import { convertToGqlMeta, requestUpdateServerMetadata } from '@/util/metadata.ts';
 
 type DownloadSettingsType = Pick<
     ServerSettings,
@@ -49,12 +51,24 @@ export const DownloadSettings = () => {
     const { data } = requestManager.useGetServerSettings();
     const downloadSettings = data ? extractDownloadSettings(data.settings) : undefined;
     const [mutateSettings] = requestManager.useUpdateServerSettings();
+    const { metadata, settings: metadataSettings } = useMetadataServerSettings();
 
     const updateSetting = <Setting extends keyof DownloadSettingsType>(
         setting: Setting,
         value: DownloadSettingsType[Setting],
     ) => {
         mutateSettings({ variables: { input: { settings: { [setting]: value } } } });
+    };
+
+    const updateMetadataSetting = <Setting extends MetadataServerSettingKeys>(
+        setting: Setting,
+        value: MetadataServerSettings[Setting],
+    ) => {
+        if (!metadata) {
+            return;
+        }
+
+        requestUpdateServerMetadata(convertToGqlMeta(metadata) ?? [], [[setting, value]]);
     };
 
     return (
@@ -75,6 +89,46 @@ export const DownloadSettings = () => {
                     />
                 </ListItemSecondaryAction>
             </ListItem>
+            <List
+                subheader={
+                    <ListSubheader component="div" id="download-settings-auto-download">
+                        Delete chapters
+                    </ListSubheader>
+                }
+            >
+                <ListItem>
+                    <ListItemText primary="Delete chapter after manually marking it as read" />
+                    <ListItemSecondaryAction>
+                        <Switch
+                            edge="end"
+                            checked={metadataSettings.deleteChaptersManuallyMarkedRead}
+                            onChange={(e) =>
+                                updateMetadataSetting('deleteChaptersManuallyMarkedRead', e.target.checked)
+                            }
+                        />
+                    </ListItemSecondaryAction>
+                </ListItem>
+                <ListItem>
+                    <ListItemText primary="Delete finished chapters while reading" />
+                    <ListItemSecondaryAction>
+                        <Switch
+                            edge="end"
+                            checked={metadataSettings.deleteChaptersAutoMarkedRead}
+                            onChange={(e) => updateMetadataSetting('deleteChaptersAutoMarkedRead', e.target.checked)}
+                        />
+                    </ListItemSecondaryAction>
+                </ListItem>
+                <ListItem>
+                    <ListItemText primary="Allow deleting bookmarked chapters" />
+                    <ListItemSecondaryAction>
+                        <Switch
+                            edge="end"
+                            checked={metadataSettings.deleteChaptersWithBookmark}
+                            onChange={(e) => updateMetadataSetting('deleteChaptersWithBookmark', e.target.checked)}
+                        />
+                    </ListItemSecondaryAction>
+                </ListItem>
+            </List>
             <List
                 subheader={
                     <ListSubheader component="div" id="download-settings-auto-download">
