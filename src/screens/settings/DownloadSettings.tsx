@@ -19,6 +19,7 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { DownloadAheadSetting } from '@/components/settings/downloads/DownloadAheadSetting.tsx';
 import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
 import { convertToGqlMeta, requestUpdateServerMetadata } from '@/util/metadata.ts';
+import { makeToast } from '@/components/util/Toast.tsx';
 
 type DownloadSettingsType = Pick<
     ServerSettings,
@@ -57,7 +58,9 @@ export const DownloadSettings = () => {
         setting: Setting,
         value: DownloadSettingsType[Setting],
     ) => {
-        mutateSettings({ variables: { input: { settings: { [setting]: value } } } });
+        mutateSettings({ variables: { input: { settings: { [setting]: value } } } }).catch(() =>
+            makeToast(t('global.error.label.failed_to_save_changes'), 'error'),
+        );
     };
 
     const updateMetadataSetting = <Setting extends MetadataServerSettingKeys>(
@@ -68,7 +71,9 @@ export const DownloadSettings = () => {
             return;
         }
 
-        requestUpdateServerMetadata(convertToGqlMeta(metadata) ?? [], [[setting, value]]);
+        requestUpdateServerMetadata(convertToGqlMeta(metadata) ?? [], [[setting, value]]).catch(() =>
+            makeToast(t('global.error.label.failed_to_save_changes'), 'error'),
+        );
     };
 
     return (

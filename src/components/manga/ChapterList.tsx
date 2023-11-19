@@ -13,7 +13,7 @@ import { Virtuoso } from 'react-virtuoso';
 import { useTranslation } from 'react-i18next';
 import { TChapter, TManga, TranslationKey } from '@/typings';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { ChapterCard } from '@/components/manga/ChapterCard';
+import { ChapterCard, ChapterInfo } from '@/components/manga/ChapterCard';
 import { ResumeFab } from '@/components/manga/ResumeFAB';
 import { filterAndSortChapters, useChapterOptions } from '@/components/manga/util';
 import { EmptyView } from '@/components/util/EmptyView';
@@ -22,6 +22,7 @@ import { ChaptersToolbarMenu } from '@/components/manga/ChaptersToolbarMenu';
 import { SelectionFAB } from '@/components/manga/SelectionFAB';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/components/util/StyledFab';
 import { DownloadType, UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
+import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
 
 const StyledVirtuoso = styled(Virtuoso)(({ theme }) => ({
     listStyle: 'none',
@@ -89,7 +90,12 @@ export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
     const [options, dispatch] = useChapterOptions(manga.id);
     const { data: chaptersData, loading: isLoading, refetch } = requestManager.useGetMangaChapters(manga.id);
     const chapters = useMemo(() => chaptersData?.chapters.nodes ?? [], [chaptersData?.chapters.nodes]);
-    const mangaChapterIds = useMemo(() => chapters.map((chapter) => chapter.id), [chapters]);
+    const mangaChapters: ChapterInfo[] = useMemo(
+        () => chapters.map((chapter) => [chapter.id, chapter.isBookmarked, chapter.isDownloaded]),
+        [chapters],
+    );
+
+    const { settings: metadataServerSettings } = useMetadataServerSettings();
 
     useEffect(() => {
         if (prevQueueRef.current && queue) {
@@ -163,6 +169,20 @@ export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
                 actionPromise = requestManager.deleteDownloadedChapters(chapterIds).response;
             } else {
                 actionPromise = requestManager.updateChapters(chapterIds, change).response;
+            }
+
+            const shouldDeleteChapters =
+                action === 'mark_as_read' && metadataServerSettings.deleteChaptersManuallyMarkedRead;
+            if (shouldDeleteChapters) {
+                const chapterIdsToDelete = actionChapters
+                    .filter(
+                        ({ chapter }) =>
+                            chapter.isDownloaded &&
+                            (!chapter.isBookmarked || metadataServerSettings.deleteChaptersWithBookmark),
+                    )
+                    .map(({ chapter }) => chapter.id);
+
+                requestManager.deleteDownloadedChapters(chapterIdsToDelete).response.catch(() => {});
             }
         }
 
@@ -285,7 +305,7 @@ export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
                         return (
                             <ChapterCard
                                 {...chaptersWithMeta[index]}
-                                chapterIds={mangaChapterIds}
+                                allChapters={mangaChapters}
                                 showChapterNumber={options.showChapterNumber}
                                 onSelect={() => handleSelection(index)}
                             />

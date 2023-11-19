@@ -182,6 +182,7 @@ export function Reader() {
         const shouldDeleteChapter =
             patch.isRead &&
             metadataSettings.deleteChaptersAutoMarkedRead &&
+            chapter.isDownloaded &&
             (!chapter.isBookmarked || metadataSettings.deleteChaptersWithBookmark);
         if (shouldDeleteChapter) {
             requestManager.deleteDownloadedChapter(chapter.id).response.catch(() => {});
