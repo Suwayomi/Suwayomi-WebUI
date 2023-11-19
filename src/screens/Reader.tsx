@@ -178,6 +178,7 @@ export function Reader() {
     const openNextChapter = useCallback(
         async (offset: ChapterOffset, setHistory: (nextChapterIndex: number) => void) => {
             setRetrievingNextChapter(true);
+            setCurPage(0);
             try {
                 setHistory(
                     await getOffsetChapter(chapter.sourceOrder + offset, chapter, settings.skipDupChapters, offset),
@@ -198,6 +199,7 @@ export function Reader() {
 
     useEffect(() => {
         if (isLoading || !chapter) {
+            setCurPage(0);
             return;
         }
 
