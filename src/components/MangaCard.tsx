@@ -10,7 +10,7 @@ import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
-import { Avatar, Box, CardContent, styled } from '@mui/material';
+import { Avatar, Box, CardContent, styled, Tooltip } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { GridLayout, useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
@@ -159,30 +159,32 @@ export const MangaCard = (props: IProps) => {
                                 <>
                                     <BottomGradient />
                                     <BottomGradientDoubledDown />
-                                    <GridMangaTitle
-                                        sx={{
-                                            color: 'white',
-                                            textShadow: '0px 0px 3px #000000',
-                                        }}
-                                        title={title}
-                                    >
-                                        {title}
-                                    </GridMangaTitle>
+                                    <Tooltip title={title} placement="top">
+                                        <GridMangaTitle
+                                            sx={{
+                                                color: 'white',
+                                                textShadow: '0px 0px 3px #000000',
+                                            }}
+                                        >
+                                            {title}
+                                        </GridMangaTitle>
+                                    </Tooltip>
                                 </>
                             )}
                         </CardActionArea>
                     </Card>
                     {gridLayout === GridLayout.Comfortable && (
-                        <GridMangaTitle
-                            sx={{
-                                position: 'relative',
-                                color: 'text.primary',
-                                height: '3rem',
-                            }}
-                            title={title}
-                        >
-                            {title}
-                        </GridMangaTitle>
+                        <Tooltip title={title} placement="top">
+                            <GridMangaTitle
+                                sx={{
+                                    position: 'relative',
+                                    color: 'text.primary',
+                                    height: '3rem',
+                                }}
+                            >
+                                {title}
+                            </GridMangaTitle>
+                        </Tooltip>
                     )}
                 </Box>
             </Link>
@@ -231,9 +233,9 @@ export const MangaCard = (props: IProps) => {
                             width: 'min-content',
                         }}
                     >
-                        <MangaTitle variant="h5" title={title}>
-                            {title}
-                        </MangaTitle>
+                        <Tooltip title={title} placement="top">
+                            <MangaTitle variant="h5">{title}</MangaTitle>
+                        </Tooltip>
                     </Box>
                     <BadgeContainer>
                         {inLibraryIndicator && inLibrary && (
