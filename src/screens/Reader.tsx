@@ -29,6 +29,7 @@ import { makeToast } from '@/components/util/Toast';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { useDebounce } from '@/components/manga/hooks.ts';
 import { UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
+import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
 
 const isDupChapter = async (chapterIndex: number, currentChapter: TChapter) => {
     const nextChapter = await requestManager.getChapter(currentChapter.manga.id, chapterIndex).response;
@@ -173,8 +174,18 @@ export function Reader() {
     const { settings: defaultSettings, loading: areDefaultSettingsLoading } = useDefaultReaderSettings();
     const [settings, setSettings] = useState(getReaderSettingsFor(manga, defaultSettings));
 
+    const { settings: metadataSettings } = useMetadataServerSettings();
+
     const updateChapter = (patch: UpdateChapterPatchInput) => {
         requestManager.updateChapter(chapter.id, patch).response.catch(() => {});
+
+        const shouldDeleteChapter =
+            patch.isRead &&
+            metadataSettings.deleteChaptersAutoMarkedRead &&
+            (!chapter.isBookmarked || metadataSettings.deleteChaptersWithBookmark);
+        if (shouldDeleteChapter) {
+            requestManager.deleteDownloadedChapter(chapter.id).response.catch(() => {});
+        }
 
         const shouldDownloadAhead =
             chapter.manga.inLibrary && !chapter.isRead && patch.isRead && isDownloadAheadEnabled;
