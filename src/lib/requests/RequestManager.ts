@@ -28,7 +28,6 @@ import {
 import { OperationVariables } from '@apollo/client/core';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { IRestClient, RestClient } from '@/lib/requests/client/RestClient.ts';
-import * as storage from '@/util/localStorage.tsx';
 import { GraphQLClient } from '@/lib/requests/client/GraphQLClient.ts';
 import {
     CategoryOrderBy,
@@ -687,10 +686,8 @@ export class RequestManager {
     }
 
     public getValidImgUrlFor(imageUrl: string, apiVersion: string = ''): string {
-        const useCache = storage.getItem('useCache', true);
-        const useCacheQuery = `?useCache=${useCache}`;
         // server provided image urls already contain the api version
-        return `${this.getValidUrlFor(imageUrl, apiVersion)}${useCacheQuery}`;
+        return `${this.getValidUrlFor(imageUrl, apiVersion)}`;
     }
 
     private doRequest<Data, Variables extends OperationVariables = OperationVariables>(
