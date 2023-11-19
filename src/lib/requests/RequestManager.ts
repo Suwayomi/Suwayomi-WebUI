@@ -50,6 +50,8 @@ import {
     DequeueChapterDownloadMutationVariables,
     DequeueChapterDownloadsMutation,
     DequeueChapterDownloadsMutationVariables,
+    DownloadAheadMutation,
+    DownloadAheadMutationVariables,
     DownloadStatusSubscription,
     DownloadStatusSubscriptionVariables,
     EnqueueChapterDownloadMutation,
@@ -172,6 +174,7 @@ import {
     DELETE_DOWNLOADED_CHAPTERS,
     DEQUEUE_CHAPTER_DOWNLOAD,
     DEQUEUE_CHAPTER_DOWNLOADS,
+    DOWNLOAD_AHEAD,
     ENQUEUE_CHAPTER_DOWNLOAD,
     ENQUEUE_CHAPTER_DOWNLOADS,
     REORDER_CHAPTER_DOWNLOAD,
@@ -1911,6 +1914,12 @@ export class RequestManager {
         options?: MutationHookOptions<UpdateServerSettingsMutation, UpdateServerSettingsMutationVariables>,
     ): AbortableApolloUseMutationResponse<UpdateServerSettingsMutation, UpdateServerSettingsMutationVariables> {
         return this.doRequest(GQLMethod.USE_MUTATION, UPDATE_SERVER_SETTINGS, undefined, options);
+    }
+
+    public useDownloadAhead(
+        options?: MutationHookOptions<DownloadAheadMutation, DownloadAheadMutationVariables>,
+    ): AbortableApolloUseMutationResponse<DownloadAheadMutation, DownloadAheadMutationVariables> {
+        return this.doRequest(GQLMethod.USE_MUTATION, DOWNLOAD_AHEAD, undefined, options);
     }
 }
 

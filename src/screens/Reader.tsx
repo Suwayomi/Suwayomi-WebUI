@@ -28,6 +28,7 @@ import { ReaderNavBar } from '@/components/navbar/ReaderNavBar';
 import { makeToast } from '@/components/util/Toast';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { useDebounce } from '@/components/manga/hooks.ts';
+import { UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
 
 const isDupChapter = async (chapterIndex: number, currentChapter: TChapter) => {
     const nextChapter = await requestManager.getChapter(currentChapter.manga.id, chapterIndex).response;
@@ -121,6 +122,10 @@ export function Reader() {
     });
     const [arePagesUpdated, setArePagesUpdated] = useState(false);
 
+    const { data: settingsData } = requestManager.useGetServerSettings();
+    const isDownloadAheadEnabled = !!settingsData?.settings.autoDownloadAheadLimit;
+    const [downloadAhead] = requestManager.useDownloadAhead();
+
     const getLoadedChapter = () => {
         const isAChapterLoaded = loadedChapter.current;
 
@@ -167,6 +172,23 @@ export function Reader() {
 
     const { settings: defaultSettings, loading: areDefaultSettingsLoading } = useDefaultReaderSettings();
     const [settings, setSettings] = useState(getReaderSettingsFor(manga, defaultSettings));
+
+    const updateChapter = (patch: UpdateChapterPatchInput) => {
+        requestManager.updateChapter(chapter.id, patch).response.catch(() => {});
+
+        const shouldDownloadAhead =
+            chapter.manga.inLibrary && !chapter.isRead && patch.isRead && isDownloadAheadEnabled;
+        if (shouldDownloadAhead) {
+            downloadAhead({
+                variables: {
+                    input: {
+                        mangaIds: [chapter.manga.id],
+                        latestReadChapterIds: [chapter.id],
+                    },
+                },
+            }).catch(() => {});
+        }
+    };
 
     const setSettingValue = (key: keyof IReaderSettings, value: string | boolean) => {
         setSettings({ ...settings, [key]: value });
@@ -253,31 +275,42 @@ export function Reader() {
         // do not mutate the chapter, this will cause the page to jump around due to always scrolling to the last read page
         const updateLastPageRead = curPageDebounced !== -1;
         const updateIsRead = curPageDebounced === chapter.pageCount - 1;
-        const updateChapter = updateLastPageRead || updateIsRead;
-
-        if (updateChapter) {
-            requestManager.updateChapter(chapter.id, {
-                lastPageRead: updateLastPageRead ? curPageDebounced : undefined,
-                isRead: updateIsRead ? true : undefined,
-            });
+        const shouldUpdateChapter = updateLastPageRead || updateIsRead;
+        if (!shouldUpdateChapter) {
+            return;
         }
-    }, [curPageDebounced]);
+
+        updateChapter({
+            lastPageRead: updateLastPageRead ? curPageDebounced : undefined,
+            isRead: updateIsRead ? true : undefined,
+        });
+    }, [curPageDebounced, isDownloadAheadEnabled]);
 
     const nextChapter = useCallback(() => {
-        if (chapter.sourceOrder < manga.chapters.totalCount) {
-            requestManager.updateChapter(chapter.id, {
-                lastPageRead: chapter.pageCount - 1,
-                isRead: true,
-            });
-
-            openNextChapter(ChapterOffset.NEXT, (nextChapterIndex) =>
-                navigate(`/manga/${manga.id}/chapter/${nextChapterIndex}`, {
-                    replace: true,
-                    state: location.state,
-                }),
-            );
+        const doesNextChapterExist = chapter.sourceOrder < manga.chapters.totalCount;
+        if (!doesNextChapterExist) {
+            return;
         }
-    }, [chapter.sourceOrder, manga.chapters.totalCount, chapter.pageCount, manga.id, settings.skipDupChapters]);
+
+        updateChapter({
+            lastPageRead: chapter.pageCount - 1,
+            isRead: true,
+        });
+
+        openNextChapter(ChapterOffset.NEXT, (nextChapterIndex) =>
+            navigate(`/manga/${manga.id}/chapter/${nextChapterIndex}`, {
+                replace: true,
+                state: location.state,
+            }),
+        );
+    }, [
+        chapter.sourceOrder,
+        manga.chapters.totalCount,
+        chapter.pageCount,
+        manga.id,
+        settings.skipDupChapters,
+        isDownloadAheadEnabled,
+    ]);
 
     const prevChapter = useCallback(() => {
         if (chapter.sourceOrder > 1) {
