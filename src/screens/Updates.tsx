@@ -25,6 +25,7 @@ import { DownloadStateIndicator } from '@/components/molecules/DownloadStateIndi
 import { DownloadType } from '@/lib/graphql/generated/graphql.ts';
 import { TChapter } from '@/typings.ts';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
+import { UpdateChecker } from '@/components/library/UpdateChecker.tsx';
 
 const StyledGroupedVirtuoso = styled(GroupedVirtuoso)(({ theme }) => ({
     // 64px header
@@ -117,11 +118,24 @@ export const Updates: React.FC = () => {
     const { data: downloaderData } = requestManager.useDownloadSubscription();
     const queue = (downloaderData?.downloadChanged.queue as DownloadType[]) ?? [];
 
+    const { data: lastUpdateTimestampData, refetch: refetchlastTimestamp } =
+        requestManager.useGetLastGlobalUpdateTimestamp();
+    const lastUpdateTimestamp = lastUpdateTimestampData?.lastUpdateTimestamp.timestamp;
+
     useEffect(() => {
         setTitle(t('updates.title'));
 
-        setAction(null);
-    }, [t]);
+        setAction(
+            <>
+                <Typography sx={{ marginRight: '10px' }}>
+                    {t('library.settings.global_update.label.last_update', {
+                        date: lastUpdateTimestamp ? new Date(+lastUpdateTimestamp).toLocaleString() : '-',
+                    })}
+                </Typography>
+                <UpdateChecker handleFinishedUpdate={() => refetchlastTimestamp()} />
+            </>,
+        );
+    }, [t, lastUpdateTimestamp]);
 
     const downloadForChapter = (chapter: TChapter) => {
         const {

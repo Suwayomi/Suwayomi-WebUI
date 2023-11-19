@@ -382,6 +382,10 @@
           },
           "title": "Skip updating entries"
         },
+        "label": {
+          "last_update": "Last update: {{date}}",
+          "last_update_tooltip": "$t(library.settings.global_update.title) ($t(library.settings.global_update.label.last_update, lowercase))"
+        },
         "metadata": {
           "label": {
             "description": "Check for new cover and details when updating library",

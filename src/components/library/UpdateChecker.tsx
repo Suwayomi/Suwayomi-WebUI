@@ -32,6 +32,9 @@ const calcProgress = (status: UpdaterSubscription['updateStatusChanged'] | undef
 export function UpdateChecker({ handleFinishedUpdate }: { handleFinishedUpdate: () => void }) {
     const { t } = useTranslation();
 
+    const { data: lastUpdateTimestampData, refetch: refetchlastTimestamp } =
+        requestManager.useGetLastGlobalUpdateTimestamp();
+    const lastUpdateTimestamp = lastUpdateTimestampData?.lastUpdateTimestamp.timestamp;
     const { data: updaterData } = requestManager.useUpdaterSubscription();
     const status = updaterData?.updateStatusChanged;
 
@@ -48,6 +51,7 @@ export function UpdateChecker({ handleFinishedUpdate }: { handleFinishedUpdate: 
 
     const isUpdateFinished = progress === 100;
     if (isUpdateFinished) {
+        refetchlastTimestamp();
         handleFinishedUpdate();
     }
 
@@ -60,7 +64,11 @@ export function UpdateChecker({ handleFinishedUpdate }: { handleFinishedUpdate: 
     };
 
     return (
-        <Tooltip title={t('library.settings.global_update.title')}>
+        <Tooltip
+            title={t('library.settings.global_update.label.last_update_tooltip', {
+                date: lastUpdateTimestamp ? new Date(+lastUpdateTimestamp).toLocaleString() : '-',
+            })}
+        >
             <IconButton onClick={onClick} disabled={loading}>
                 {loading ? <Progress progress={progress} /> : <RefreshIcon />}
             </IconButton>
