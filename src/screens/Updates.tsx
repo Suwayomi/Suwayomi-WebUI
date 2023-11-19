@@ -117,11 +117,20 @@ export const Updates: React.FC = () => {
     const { data: downloaderData } = requestManager.useDownloadSubscription();
     const queue = (downloaderData?.downloadChanged.queue as DownloadType[]) ?? [];
 
+    const { data: lastUpdateTimestampData } = requestManager.useGetLastGlobalUpdateTimestamp();
+    const lastUpdateTimestamp = lastUpdateTimestampData?.lastUpdateTimestamp.timestamp;
+
     useEffect(() => {
         setTitle(t('updates.title'));
 
-        setAction(null);
-    }, [t]);
+        setAction(
+            <Typography>
+                {t('library.settings.global_update.label.last_update', {
+                    date: lastUpdateTimestamp ? new Date(+lastUpdateTimestamp).toLocaleString() : '-',
+                })}
+            </Typography>,
+        );
+    }, [t, lastUpdateTimestamp]);
 
     const downloadForChapter = (chapter: TChapter) => {
         const {

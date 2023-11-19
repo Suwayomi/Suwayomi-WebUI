@@ -76,6 +76,8 @@ import {
     GetExtensionsQueryVariables,
     GetGlobalMetadatasQuery,
     GetGlobalMetadatasQueryVariables,
+    GetLastUpdateTimestampQuery,
+    GetLastUpdateTimestampQueryVariables,
     GetMangaChaptersFetchMutation,
     GetMangaChaptersFetchMutationVariables,
     GetMangaFetchMutation,
@@ -200,7 +202,7 @@ import {
     UPDATE_CATEGORY_MANGAS,
     UPDATE_LIBRARY_MANGAS,
 } from '@/lib/graphql/mutations/UpdaterMutation.ts';
-import { GET_UPDATE_STATUS } from '@/lib/graphql/queries/UpdaterQuery.ts';
+import { GET_LAST_UPDATE_TIMESTAMP, GET_UPDATE_STATUS } from '@/lib/graphql/queries/UpdaterQuery.ts';
 import { CustomCache } from '@/lib/requests/CustomCache.ts';
 import { RESTORE_BACKUP } from '@/lib/graphql/mutations/BackupMutation.ts';
 import { GET_RESTORE_STATUS, VALIDATE_BACKUP } from '@/lib/graphql/queries/BackupQuery.ts';
@@ -1917,6 +1919,12 @@ export class RequestManager {
         options?: MutationHookOptions<DownloadAheadMutation, DownloadAheadMutationVariables>,
     ): AbortableApolloUseMutationResponse<DownloadAheadMutation, DownloadAheadMutationVariables> {
         return this.doRequest(GQLMethod.USE_MUTATION, DOWNLOAD_AHEAD, undefined, options);
+    }
+
+    public useGetLastGlobalUpdateTimestamp(
+        options?: QueryHookOptions<GetLastUpdateTimestampQuery, GetLastUpdateTimestampQueryVariables>,
+    ): AbortableApolloUseQueryResponse<GetLastUpdateTimestampQuery, GetLastUpdateTimestampQueryVariables> {
+        return this.doRequest(GQLMethod.USE_QUERY, GET_LAST_UPDATE_TIMESTAMP, {}, options);
     }
 }
 
