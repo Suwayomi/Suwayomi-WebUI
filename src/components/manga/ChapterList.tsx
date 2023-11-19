@@ -13,7 +13,7 @@ import { Virtuoso } from 'react-virtuoso';
 import { useTranslation } from 'react-i18next';
 import { TChapter, TManga, TranslationKey } from '@/typings';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { ChapterCard, ChapterInfo } from '@/components/manga/ChapterCard';
+import { ChapterCard } from '@/components/manga/ChapterCard';
 import { ResumeFab } from '@/components/manga/ResumeFAB';
 import { filterAndSortChapters, useChapterOptions } from '@/components/manga/util';
 import { EmptyView } from '@/components/util/EmptyView';
@@ -90,10 +90,6 @@ export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
     const [options, dispatch] = useChapterOptions(manga.id);
     const { data: chaptersData, loading: isLoading, refetch } = requestManager.useGetMangaChapters(manga.id);
     const chapters = useMemo(() => chaptersData?.chapters.nodes ?? [], [chaptersData?.chapters.nodes]);
-    const mangaChapters: ChapterInfo[] = useMemo(
-        () => chapters.map((chapter) => [chapter.id, chapter.isBookmarked, chapter.isDownloaded]),
-        [chapters],
-    );
 
     const { settings: metadataServerSettings } = useMetadataServerSettings();
 
@@ -305,7 +301,7 @@ export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
                         return (
                             <ChapterCard
                                 {...chaptersWithMeta[index]}
-                                allChapters={mangaChapters}
+                                allChapters={chapters}
                                 showChapterNumber={options.showChapterNumber}
                                 onSelect={() => handleSelection(index)}
                             />

@@ -34,11 +34,9 @@ import { DownloadType, UpdateChapterPatchInput } from '@/lib/graphql/generated/g
 import { TChapter } from '@/typings.ts';
 import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
 
-export type ChapterInfo = [ChapterId: number, IsBookmarked: boolean, IsDownloaded: boolean];
-
 interface IProps {
     chapter: TChapter;
-    allChapters: ChapterInfo[];
+    allChapters: TChapter[];
     downloadChapter: DownloadType | undefined;
     showChapterNumber: boolean;
     onSelect: (selected: boolean) => void;
@@ -75,20 +73,24 @@ export const ChapterCard: React.FC<IProps> = (props: IProps) => {
         const isMarkAsRead = (key === 'isRead' && value) || key === 'markPrevRead';
         const shouldAutoDeleteChapters = isMarkAsRead && metadataServerSettings.deleteChaptersManuallyMarkedRead;
         if (shouldAutoDeleteChapters) {
-            const shouldDeleteChapter = ([, isBookmarked, isDownloaded]: ChapterInfo) =>
+            const shouldDeleteChapter = ({ isBookmarked, isDownloaded }: TChapter) =>
                 isDownloaded && (!isBookmarked || metadataServerSettings.deleteChaptersWithBookmark);
 
-            const chaptersToDelete: ChapterInfo[] =
-                key === 'isRead' ? [[chapter.id, chapter.isBookmarked, chapter.isDownloaded]] : allChapters;
-            const chapterIdsToDelete = chaptersToDelete.filter(shouldDeleteChapter).map(([chapterId]) => chapterId);
+            const chaptersToDelete = key === 'isRead' ? [chapter] : allChapters;
+            const chapterIdsToDelete = chaptersToDelete
+                .filter(shouldDeleteChapter)
+                .map(({ id: chapterId }) => chapterId);
 
             requestManager.deleteDownloadedChapters(chapterIdsToDelete).response.catch(() => {});
         }
 
         if (key === 'markPrevRead') {
-            const index = allChapters.findIndex(([chapterId]) => chapterId === chapter.id);
+            const index = allChapters.findIndex(({ id: chapterId }) => chapterId === chapter.id);
             requestManager.updateChapters(
-                allChapters.slice(index).map(([chapterId]) => chapterId),
+                allChapters
+                    .slice(index)
+                    .filter(({ isRead }) => !isRead)
+                    .map(({ id: chapterId }) => chapterId),
                 { isRead: true },
             );
             return;
