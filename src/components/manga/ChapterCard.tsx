@@ -32,10 +32,11 @@ import { getUploadDateString } from '@/util/date';
 import { DownloadStateIndicator } from '@/components/molecules/DownloadStateIndicator';
 import { DownloadType, UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
 import { TChapter } from '@/typings.ts';
+import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
 
 interface IProps {
     chapter: TChapter;
-    chapterIds: number[];
+    allChapters: TChapter[];
     downloadChapter: DownloadType | undefined;
     showChapterNumber: boolean;
     onSelect: (selected: boolean) => void;
@@ -46,8 +47,10 @@ export const ChapterCard: React.FC<IProps> = (props: IProps) => {
     const { t } = useTranslation();
     const theme = useTheme();
 
-    const { chapter, chapterIds, downloadChapter: dc, showChapterNumber, onSelect, selected } = props;
+    const { chapter, allChapters, downloadChapter: dc, showChapterNumber, onSelect, selected } = props;
     const isSelecting = selected !== null;
+
+    const { settings: metadataServerSettings } = useMetadataServerSettings();
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -67,9 +70,29 @@ export const ChapterCard: React.FC<IProps> = (props: IProps) => {
     const sendChange = <Key extends keyof UpdatePatchInput>(key: Key, value: UpdatePatchInput[Key]) => {
         handleClose();
 
+        const isMarkAsRead = (key === 'isRead' && value) || key === 'markPrevRead';
+        const shouldAutoDeleteChapters = isMarkAsRead && metadataServerSettings.deleteChaptersManuallyMarkedRead;
+        if (shouldAutoDeleteChapters) {
+            const shouldDeleteChapter = ({ isBookmarked, isDownloaded }: TChapter) =>
+                isDownloaded && (!isBookmarked || metadataServerSettings.deleteChaptersWithBookmark);
+
+            const chaptersToDelete = key === 'isRead' ? [chapter] : allChapters;
+            const chapterIdsToDelete = chaptersToDelete
+                .filter(shouldDeleteChapter)
+                .map(({ id: chapterId }) => chapterId);
+
+            requestManager.deleteDownloadedChapters(chapterIdsToDelete).response.catch(() => {});
+        }
+
         if (key === 'markPrevRead') {
-            const index = chapterIds.findIndex((chapterId) => chapterId === chapter.id);
-            requestManager.updateChapters(chapterIds.slice(index), { isRead: true });
+            const index = allChapters.findIndex(({ id: chapterId }) => chapterId === chapter.id);
+            requestManager.updateChapters(
+                allChapters
+                    .slice(index)
+                    .filter(({ isRead }) => !isRead)
+                    .map(({ id: chapterId }) => chapterId),
+                { isRead: true },
+            );
             return;
         }
 

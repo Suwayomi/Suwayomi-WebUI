@@ -128,3 +128,11 @@ export const STOP_DOWNLOADER = gql`
         }
     }
 `;
+
+export const DOWNLOAD_AHEAD = gql`
+    mutation DOWNLOAD_AHEAD($input: DownloadAheadInput!) {
+        downloadAhead(input: $input) {
+            clientMutationId
+        }
+    }
+`;

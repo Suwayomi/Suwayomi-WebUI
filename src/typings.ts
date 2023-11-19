@@ -88,11 +88,13 @@ export type MetadataHolder<Keys extends string = string, Values = string> = {
 
 export type AllowedMetadataValueTypes = string | boolean | number | undefined;
 
+export type MetadataServerSettingKeys = keyof MetadataServerSettings;
+
 export type MangaMetadataKeys = keyof IReaderSettings;
 
 export type SearchMetadataKeys = keyof ISearchSettings;
 
-export type AppMetadataKeys = MangaMetadataKeys | SearchMetadataKeys;
+export type AppMetadataKeys = MetadataServerSettingKeys | MangaMetadataKeys | SearchMetadataKeys;
 
 export type MetadataKeyValuePair = [AppMetadataKeys, AllowedMetadataValueTypes];
 
@@ -225,6 +227,12 @@ export enum ChapterOffset {
     PREV = -1,
     NEXT = 1,
 }
+
+export type MetadataServerSettings = {
+    deleteChaptersManuallyMarkedRead: boolean;
+    deleteChaptersAutoMarkedRead: boolean;
+    deleteChaptersWithBookmark: boolean;
+};
 
 export interface ISearchSettings {
     ignoreFilters: boolean;

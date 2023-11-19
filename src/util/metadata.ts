@@ -344,7 +344,7 @@ export const requestUpdateMetadataValue = async (
 export const requestUpdateMetadata = async (
     metadataHolder: GqlMetaHolder,
     holderType: MetadataHolderType,
-    keysToValues: [AppMetadataKeys, AllowedMetadataValueTypes][],
+    keysToValues: MetadataKeyValuePair[],
 ): Promise<void[]> =>
     Promise.all(keysToValues.map(([key, value]) => requestUpdateMetadataValue(metadataHolder, holderType, key, value)));
 
