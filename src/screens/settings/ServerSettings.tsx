@@ -124,7 +124,7 @@ export const ServerSettings = () => {
             <List
                 subheader={
                     <ListSubheader component="div" id="server-settings-requests">
-                        {t('settings.server.requests.title')}
+                        {t('source.local_source.title')}
                     </ListSubheader>
                 }
             >
