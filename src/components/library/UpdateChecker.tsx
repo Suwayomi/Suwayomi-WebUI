@@ -32,7 +32,8 @@ const calcProgress = (status: UpdaterSubscription['updateStatusChanged'] | undef
 export function UpdateChecker({ handleFinishedUpdate }: { handleFinishedUpdate: () => void }) {
     const { t } = useTranslation();
 
-    const { data: lastUpdateTimestampData } = requestManager.useGetLastGlobalUpdateTimestamp();
+    const { data: lastUpdateTimestampData, refetch: refetchlastTimestamp } =
+        requestManager.useGetLastGlobalUpdateTimestamp();
     const lastUpdateTimestamp = lastUpdateTimestampData?.lastUpdateTimestamp.timestamp;
     const { data: updaterData } = requestManager.useUpdaterSubscription();
     const status = updaterData?.updateStatusChanged;
@@ -50,6 +51,7 @@ export function UpdateChecker({ handleFinishedUpdate }: { handleFinishedUpdate: 
 
     const isUpdateFinished = progress === 100;
     if (isUpdateFinished) {
+        refetchlastTimestamp();
         handleFinishedUpdate();
     }
 

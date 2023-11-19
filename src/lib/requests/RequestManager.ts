@@ -1924,7 +1924,15 @@ export class RequestManager {
     public useGetLastGlobalUpdateTimestamp(
         options?: QueryHookOptions<GetLastUpdateTimestampQuery, GetLastUpdateTimestampQueryVariables>,
     ): AbortableApolloUseQueryResponse<GetLastUpdateTimestampQuery, GetLastUpdateTimestampQueryVariables> {
-        return this.doRequest(GQLMethod.USE_QUERY, GET_LAST_UPDATE_TIMESTAMP, {}, options);
+        return this.doRequest(
+            GQLMethod.USE_QUERY,
+            GET_LAST_UPDATE_TIMESTAMP,
+            {},
+            {
+                fetchPolicy: 'network-only',
+                ...options,
+            },
+        );
     }
 }
 
