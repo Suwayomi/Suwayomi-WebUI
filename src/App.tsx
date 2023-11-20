@@ -34,6 +34,7 @@ import { LibrarySettings } from '@/screens/settings/LibrarySettings';
 import { DefaultNavBar } from '@/components/navbar/DefaultNavBar';
 import { DownloadSettings } from '@/screens/settings/DownloadSettings.tsx';
 import { ServerSettings } from '@/screens/settings/ServerSettings.tsx';
+import { WebUISettings } from '@/screens/settings/WebUISettings.tsx';
 
 if (__DEV__) {
     // Adds messages only in a dev environment
@@ -68,6 +69,7 @@ export const App: React.FC = () => (
                     <Route path="downloadSettings" element={<DownloadSettings />} />
                     <Route path="backup" element={<Backup />} />
                     <Route path="server" element={<ServerSettings />} />
+                    <Route path="webUI" element={<WebUISettings />} />
                 </Route>
 
                 {/* Manga Routes */}

@@ -620,7 +620,84 @@
         "settings": "Server Settings"
       }
     },
-    "title": "Settings"
+    "title": "Settings",
+    "webui": {
+      "auto_update": {
+        "label": {
+          "interval": "Update interval",
+          "title": "Automatically download the latest version"
+        }
+      },
+      "channel": {
+        "label": {
+          "title": "Channel"
+        },
+        "option": {
+          "bundled": {
+            "label": {
+              "description": "Use the version that was delivered with the server release",
+              "title": "Bundled"
+            }
+          },
+          "preview": {
+            "label": {
+              "description": "Use the latest features and help us get them ready for a stable release.",
+              "disclaimer": "Features and changes in this version might not be completely ready yet and can cause bugs.\nMake sure that you have automatic backups enabled to prevent loss of your library!",
+              "title": "Preview"
+            }
+          },
+          "stable": {
+            "label": {
+              "description": "Use the latest released version.",
+              "title": "Stable"
+            }
+          }
+        }
+      },
+      "electron_path": {
+        "label": {
+          "description": "The path to the electron installation on the server",
+          "title": "Electron path"
+        }
+      },
+      "flavor": {
+        "label": {
+          "title": "Flavor"
+        },
+        "option": {
+          "custom": {
+            "label": {
+              "description": "Use a custom $t(settings.webui.title.webui).\nTo use a custom $t(settings.webui.title.webui) replace the content of the \"webUI\" directory in the root directory on the server with the files of the custom $t(settings.webui.title.webui)",
+              "title": "Custom"
+            }
+          },
+          "webui": {
+            "label": {
+              "description": "Use the default $t(settings.webui.title.webui)"
+            }
+          }
+        }
+      },
+      "interface": {
+        "label": {
+          "description": "Where to start the $t(settings.webui.title.webui) when starting the server",
+          "title": "Interface"
+        },
+        "option": {
+          "label": {
+            "browser": "Browser",
+            "electron": "Electron"
+          }
+        }
+      },
+      "label": {
+        "initial_open_browser": "Open the $t(settings.webui.title.webui) when starting the server"
+      },
+      "title": {
+        "settings": "$t(settings.webui.title.webui) Settings",
+        "webui": "WebUI"
+      }
+    }
   },
   "source": {
     "configuration": {
