@@ -316,11 +316,16 @@ export const FULL_EXTENSION_FIELDS = gql`
 `;
 
 export const FULL_DOWNLOAD_STATUS = gql`
-    ${FULL_CHAPTER_FIELDS}
     fragment FULL_DOWNLOAD_STATUS on DownloadStatus {
         queue {
             chapter {
-                ...FULL_CHAPTER_FIELDS
+                id
+                name
+                sourceOrder
+                manga {
+                    id
+                    title
+                }
             }
             progress
             state
