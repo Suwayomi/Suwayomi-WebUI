@@ -7,7 +7,7 @@
  */
 
 import gql from 'graphql-tag';
-import { FULL_CHAPTER_FIELDS, FULL_DOWNLOAD_STATUS } from '@/lib/graphql/Fragments';
+import { FULL_DOWNLOAD_STATUS } from '@/lib/graphql/Fragments';
 
 export const CLEAR_DOWNLOADER = gql`
     ${FULL_DOWNLOAD_STATUS}
@@ -22,24 +22,24 @@ export const CLEAR_DOWNLOADER = gql`
 `;
 
 export const DELETE_DOWNLOADED_CHAPTER = gql`
-    ${FULL_CHAPTER_FIELDS}
     mutation DELETE_DOWNLOADED_CHAPTER($input: DeleteDownloadedChapterInput!) {
         deleteDownloadedChapter(input: $input) {
             clientMutationId
             chapters {
-                ...FULL_CHAPTER_FIELDS
+                id
+                isDownloaded
             }
         }
     }
 `;
 
 export const DELETE_DOWNLOADED_CHAPTERS = gql`
-    ${FULL_CHAPTER_FIELDS}
     mutation DELETE_DOWNLOADED_CHAPTERS($input: DeleteDownloadedChaptersInput!) {
         deleteDownloadedChapters(input: $input) {
             clientMutationId
             chapters {
-                ...FULL_CHAPTER_FIELDS
+                id
+                isDownloaded
             }
         }
     }

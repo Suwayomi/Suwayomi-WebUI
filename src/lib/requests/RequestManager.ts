@@ -1471,7 +1471,12 @@ export class RequestManager {
         return this.doRequest<UpdateChapterMutation, UpdateChapterMutationVariables>(
             GQLMethod.MUTATION,
             UPDATE_CHAPTER,
-            { input: { id, patch } },
+            {
+                input: { id, patch },
+                getBookmarked: patch.isBookmarked != null,
+                getRead: patch.isRead != null,
+                getLastPageRead: patch.lastPageRead != null,
+            },
             options,
         );
     }
@@ -1505,7 +1510,12 @@ export class RequestManager {
         return this.doRequest<UpdateChaptersMutation, UpdateChaptersMutationVariables>(
             GQLMethod.MUTATION,
             UPDATE_CHAPTERS,
-            { input: { ids, patch } },
+            {
+                input: { ids, patch },
+                getBookmarked: patch.isBookmarked != null,
+                getRead: patch.isRead != null,
+                getLastPageRead: patch.lastPageRead != null,
+            },
             { refetchQueries: [GET_MANGA], ...options },
         );
     }

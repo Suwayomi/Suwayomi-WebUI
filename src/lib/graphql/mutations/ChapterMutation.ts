@@ -10,7 +10,6 @@ import gql from 'graphql-tag';
 import { FULL_CHAPTER_FIELDS } from '@/lib/graphql/Fragments';
 
 export const DELETE_CHAPTER_METADATA = gql`
-    ${FULL_CHAPTER_FIELDS}
     mutation DELETE_CHAPTER_METADATA($input: DeleteChapterMetaInput!) {
         deleteChapterMeta(input: $input) {
             clientMutationId
@@ -18,11 +17,19 @@ export const DELETE_CHAPTER_METADATA = gql`
                 key
                 value
                 chapter {
-                    ...FULL_CHAPTER_FIELDS
+                    id
+                    meta {
+                        key
+                        value
+                    }
                 }
             }
             chapter {
-                ...FULL_CHAPTER_FIELDS
+                id
+                meta {
+                    key
+                    value
+                }
             }
         }
     }
@@ -30,12 +37,12 @@ export const DELETE_CHAPTER_METADATA = gql`
 
 // makes the server fetch and return the pages of a chapter
 export const GET_CHAPTER_PAGES_FETCH = gql`
-    ${FULL_CHAPTER_FIELDS}
     mutation GET_CHAPTER_PAGES_FETCH($input: FetchChapterPagesInput!) {
         fetchChapterPages(input: $input) {
             clientMutationId
             chapter {
-                ...FULL_CHAPTER_FIELDS
+                id
+                pageCount
             }
             pages
         }
@@ -56,7 +63,6 @@ export const GET_MANGA_CHAPTERS_FETCH = gql`
 `;
 
 export const SET_CHAPTER_METADATA = gql`
-    ${FULL_CHAPTER_FIELDS}
     mutation SET_CHAPTER_METADATA($input: SetChapterMetaInput!) {
         setChapterMeta(input: $input) {
             clientMutationId
@@ -64,7 +70,11 @@ export const SET_CHAPTER_METADATA = gql`
                 key
                 value
                 chapter {
-                    ...FULL_CHAPTER_FIELDS
+                    id
+                    meta {
+                        key
+                        value
+                    }
                 }
             }
         }
@@ -72,24 +82,54 @@ export const SET_CHAPTER_METADATA = gql`
 `;
 
 export const UPDATE_CHAPTER = gql`
-    ${FULL_CHAPTER_FIELDS}
-    mutation UPDATE_CHAPTER($input: UpdateChapterInput!) {
+    mutation UPDATE_CHAPTER(
+        $input: UpdateChapterInput!
+        $getBookmarked: Boolean!
+        $getRead: Boolean!
+        $getLastPageRead: Boolean!
+    ) {
         updateChapter(input: $input) {
             clientMutationId
             chapter {
-                ...FULL_CHAPTER_FIELDS
+                id
+                isBookmarked @include(if: $getBookmarked)
+                isRead @include(if: $getRead)
+                lastReadAt @include(if: $getRead)
+                lastPageRead @include(if: $getLastPageRead)
+                manga @include(if: $getRead) {
+                    id
+                    unreadCount
+                    lastReadChapter {
+                        id
+                    }
+                }
             }
         }
     }
 `;
 
 export const UPDATE_CHAPTERS = gql`
-    ${FULL_CHAPTER_FIELDS}
-    mutation UPDATE_CHAPTERS($input: UpdateChaptersInput!) {
+    mutation UPDATE_CHAPTERS(
+        $input: UpdateChaptersInput!
+        $getBookmarked: Boolean!
+        $getRead: Boolean!
+        $getLastPageRead: Boolean!
+    ) {
         updateChapters(input: $input) {
             clientMutationId
             chapters {
-                ...FULL_CHAPTER_FIELDS
+                id
+                isBookmarked @include(if: $getBookmarked)
+                isRead @include(if: $getRead)
+                lastReadAt @include(if: $getRead)
+                lastPageRead @include(if: $getLastPageRead)
+                manga @include(if: $getRead) {
+                    id
+                    unreadCount
+                    lastReadChapter {
+                        id
+                    }
+                }
             }
         }
     }
