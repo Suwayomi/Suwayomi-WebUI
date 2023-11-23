@@ -17,8 +17,8 @@ export type Scalars = {
   Upload: { input: any; output: any; }
 };
 
-export type AboutPayload = {
-  __typename?: 'AboutPayload';
+export type AboutServerPayload = {
+  __typename?: 'AboutServerPayload';
   buildTime: Scalars['LongString']['output'];
   buildType: Scalars['String']['output'];
   discord: Scalars['String']['output'];
@@ -1293,7 +1293,8 @@ export type Preference = CheckBoxPreference | EditTextPreference | ListPreferenc
 
 export type Query = {
   __typename?: 'Query';
-  about: AboutPayload;
+  aboutServer: AboutServerPayload;
+  aboutWebUI: WebUiUpdateInfo;
   categories: CategoryNodeList;
   category: CategoryType;
   chapter: ChapterType;
@@ -2578,7 +2579,7 @@ export type GetMangasQuery = { __typename?: 'Query', mangas: { __typename?: 'Man
 export type GetAboutQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAboutQuery = { __typename?: 'Query', about: { __typename?: 'AboutPayload', buildTime: any, buildType: string, discord: string, github: string, name: string, revision: string, version: string } };
+export type GetAboutQuery = { __typename?: 'Query', aboutServer: { __typename?: 'AboutServerPayload', buildTime: any, buildType: string, discord: string, github: string, name: string, revision: string, version: string } };
 
 export type CheckForServerUpdatesQueryVariables = Exact<{ [key: string]: never; }>;
 

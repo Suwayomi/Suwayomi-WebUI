@@ -58,7 +58,8 @@ import { GetChaptersQuery } from "@/lib/graphql/generated/graphql.ts";`,
 const fixTypingOfQueryTypePolicies = format(
     addImports,
     `export type QueryFieldPolicy = {
-\tabout?: FieldPolicy<any> | FieldReadFunction<any>,
+\taboutServer?: FieldPolicy<any> | FieldReadFunction<any>,
+\taboutWebUI?: FieldPolicy<any> | FieldReadFunction<any>,
 \tcategories?: FieldPolicy<any> | FieldReadFunction<any>,
 \tcategory?: FieldPolicy<any> | FieldReadFunction<any>,
 \tchapter?: FieldPolicy<any> | FieldReadFunction<any>,
