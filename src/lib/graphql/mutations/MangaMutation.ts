@@ -10,7 +10,6 @@ import gql from 'graphql-tag';
 import { FULL_MANGA_FIELDS } from '@/lib/graphql/Fragments';
 
 export const DELETE_MANGA_METADATA = gql`
-    ${FULL_MANGA_FIELDS}
     mutation DELETE_MANGA_METADATA($input: DeleteMangaMetaInput!) {
         deleteMangaMeta(input: $input) {
             clientMutationId
@@ -18,11 +17,19 @@ export const DELETE_MANGA_METADATA = gql`
                 key
                 value
                 manga {
-                    ...FULL_MANGA_FIELDS
+                    id
+                    meta {
+                        key
+                        value
+                    }
                 }
             }
             manga {
-                ...FULL_MANGA_FIELDS
+                id
+                meta {
+                    key
+                    value
+                }
             }
         }
     }
@@ -42,7 +49,6 @@ export const GET_MANGA_FETCH = gql`
 `;
 
 export const SET_MANGA_METADATA = gql`
-    ${FULL_MANGA_FIELDS}
     mutation SET_MANGA_METADATA($input: SetMangaMetaInput!) {
         setMangaMeta(input: $input) {
             clientMutationId
@@ -50,7 +56,11 @@ export const SET_MANGA_METADATA = gql`
                 key
                 value
                 manga {
-                    ...FULL_MANGA_FIELDS
+                    id
+                    meta {
+                        key
+                        value
+                    }
                 }
             }
         }
@@ -58,48 +68,64 @@ export const SET_MANGA_METADATA = gql`
 `;
 
 export const UPDATE_MANGA = gql`
-    ${FULL_MANGA_FIELDS}
     mutation UPDATE_MANGA($input: UpdateMangaInput!) {
         updateManga(input: $input) {
             clientMutationId
             manga {
-                ...FULL_MANGA_FIELDS
-            }
-        }
-    }
-`;
-
-export const UPDATE_MANGA_CATEGORIES = gql`
-    ${FULL_MANGA_FIELDS}
-    mutation UPDATE_MANGA_CATEGORIES($input: UpdateMangaCategoriesInput!) {
-        updateMangaCategories(input: $input) {
-            clientMutationId
-            manga {
-                ...FULL_MANGA_FIELDS
+                id
+                inLibrary
+                inLibraryAt
             }
         }
     }
 `;
 
 export const UPDATE_MANGAS = gql`
-    ${FULL_MANGA_FIELDS}
     mutation UPDATE_MANGAS($input: UpdateMangasInput!) {
         updateMangas(input: $input) {
             clientMutationId
             mangas {
-                ...FULL_MANGA_FIELDS
+                id
+                inLibrary
+                inLibraryAt
+            }
+        }
+    }
+`;
+
+export const UPDATE_MANGA_CATEGORIES = gql`
+    mutation UPDATE_MANGA_CATEGORIES($input: UpdateMangaCategoriesInput!) {
+        updateMangaCategories(input: $input) {
+            clientMutationId
+            manga {
+                id
+                categories {
+                    nodes {
+                        id
+                        mangas {
+                            totalCount
+                        }
+                    }
+                }
             }
         }
     }
 `;
 
 export const UPDATE_MANGAS_CATEGORIES = gql`
-    ${FULL_MANGA_FIELDS}
     mutation UPDATE_MANGAS_CATEGORIES($input: UpdateMangasCategoriesInput!) {
         updateMangasCategories(input: $input) {
             clientMutationId
             mangas {
-                ...FULL_MANGA_FIELDS
+                id
+                categories {
+                    nodes {
+                        id
+                        mangas {
+                            totalCount
+                        }
+                    }
+                }
             }
         }
     }
