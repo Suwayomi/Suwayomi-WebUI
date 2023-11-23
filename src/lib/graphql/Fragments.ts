@@ -41,6 +41,14 @@ export const FULL_CATEGORY_FIELDS = gql`
     }
 `;
 
+export const UPDATER_CATEGORY_FIELDS = gql`
+    fragment UPDATER_CATEGORY_FIELDS on CategoryType {
+        id
+        name
+        includeInUpdate
+    }
+`;
+
 export const PARTIAL_SOURCE_FIELDS = gql`
     fragment PARTIAL_SOURCE_FIELDS on SourceType {
         displayName
@@ -283,6 +291,14 @@ export const FULL_MANGA_FIELDS = gql`
     }
 `;
 
+export const UPDATER_MANGA_FIELDS = gql`
+    fragment UPDATER_MANGA_FIELDS on MangaType {
+        id
+        title
+        thumbnailUrl
+    }
+`;
+
 export const FULL_EXTENSION_FIELDS = gql`
     fragment FULL_EXTENSION_FIELDS on ExtensionType {
         apkName
@@ -321,15 +337,21 @@ export const PARTIAL_UPDATER_STATUS = gql`
 `;
 
 export const FULL_UPDATER_STATUS = gql`
-    ${FULL_MANGA_FIELDS}
+    ${UPDATER_MANGA_FIELDS}
+    ${BASE_MANGA_FIELDS}
     ${PARTIAL_UPDATER_STATUS}
-    ${FULL_CATEGORY_FIELDS}
+    ${UPDATER_CATEGORY_FIELDS}
     fragment FULL_UPDATER_STATUS on UpdateStatus {
         ...PARTIAL_UPDATER_STATUS
         completeJobs {
             mangas {
                 nodes {
-                    ...FULL_MANGA_FIELDS
+                    ...BASE_MANGA_FIELDS
+                    unreadCount
+                    downloadCount
+                    chapters {
+                        totalCount
+                    }
                 }
                 totalCount
             }
@@ -337,7 +359,7 @@ export const FULL_UPDATER_STATUS = gql`
         failedJobs {
             mangas {
                 nodes {
-                    ...FULL_MANGA_FIELDS
+                    ...UPDATER_MANGA_FIELDS
                 }
                 totalCount
             }
@@ -345,7 +367,7 @@ export const FULL_UPDATER_STATUS = gql`
         pendingJobs {
             mangas {
                 nodes {
-                    ...FULL_MANGA_FIELDS
+                    ...UPDATER_MANGA_FIELDS
                 }
                 totalCount
             }
@@ -353,7 +375,7 @@ export const FULL_UPDATER_STATUS = gql`
         runningJobs {
             mangas {
                 nodes {
-                    ...FULL_MANGA_FIELDS
+                    ...UPDATER_MANGA_FIELDS
                 }
                 totalCount
             }
@@ -361,7 +383,7 @@ export const FULL_UPDATER_STATUS = gql`
         skippedJobs {
             mangas {
                 nodes {
-                    ...FULL_MANGA_FIELDS
+                    ...UPDATER_MANGA_FIELDS
                 }
                 totalCount
             }
@@ -369,7 +391,7 @@ export const FULL_UPDATER_STATUS = gql`
         updatingCategories {
             categories {
                 nodes {
-                    ...FULL_CATEGORY_FIELDS
+                    ...UPDATER_CATEGORY_FIELDS
                 }
                 totalCount
             }
@@ -377,7 +399,7 @@ export const FULL_UPDATER_STATUS = gql`
         skippedCategories {
             categories {
                 nodes {
-                    ...FULL_CATEGORY_FIELDS
+                    ...UPDATER_CATEGORY_FIELDS
                 }
                 totalCount
             }
