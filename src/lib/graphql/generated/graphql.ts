@@ -2137,42 +2137,48 @@ export type DeleteCategoryMutationVariables = Exact<{
 }>;
 
 
-export type DeleteCategoryMutation = { __typename?: 'Mutation', deleteCategory: { __typename?: 'DeleteCategoryPayload', clientMutationId?: string | null, category?: { __typename?: 'CategoryType', default: boolean, id: number, includeInUpdate: IncludeInUpdate, name: string, order: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }>, mangas: { __typename?: 'MangaNodeList', totalCount: number } } | null } };
+export type DeleteCategoryMutation = { __typename?: 'Mutation', deleteCategory: { __typename?: 'DeleteCategoryPayload', clientMutationId?: string | null, category?: { __typename?: 'CategoryType', id: number } | null } };
 
 export type DeleteCategoryMetadataMutationVariables = Exact<{
   input: DeleteCategoryMetaInput;
 }>;
 
 
-export type DeleteCategoryMetadataMutation = { __typename?: 'Mutation', deleteCategoryMeta: { __typename?: 'DeleteCategoryMetaPayload', clientMutationId?: string | null, meta?: { __typename?: 'CategoryMetaType', key: string, value: string, category: { __typename?: 'CategoryType', default: boolean, id: number, includeInUpdate: IncludeInUpdate, name: string, order: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }>, mangas: { __typename?: 'MangaNodeList', totalCount: number } } } | null, category: { __typename?: 'CategoryType', default: boolean, id: number, includeInUpdate: IncludeInUpdate, name: string, order: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }>, mangas: { __typename?: 'MangaNodeList', totalCount: number } } } };
+export type DeleteCategoryMetadataMutation = { __typename?: 'Mutation', deleteCategoryMeta: { __typename?: 'DeleteCategoryMetaPayload', clientMutationId?: string | null, meta?: { __typename?: 'CategoryMetaType', key: string } | null, category: { __typename?: 'CategoryType', id: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }> } } };
 
 export type SetCategoryMetadataMutationVariables = Exact<{
   input: SetCategoryMetaInput;
 }>;
 
 
-export type SetCategoryMetadataMutation = { __typename?: 'Mutation', setCategoryMeta: { __typename?: 'SetCategoryMetaPayload', clientMutationId?: string | null, meta: { __typename?: 'CategoryMetaType', key: string, value: string, category: { __typename?: 'CategoryType', default: boolean, id: number, includeInUpdate: IncludeInUpdate, name: string, order: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }>, mangas: { __typename?: 'MangaNodeList', totalCount: number } } } } };
+export type SetCategoryMetadataMutation = { __typename?: 'Mutation', setCategoryMeta: { __typename?: 'SetCategoryMetaPayload', clientMutationId?: string | null, meta: { __typename?: 'CategoryMetaType', key: string, value: string, category: { __typename?: 'CategoryType', id: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }> } } } };
 
 export type UpdateCategoryMutationVariables = Exact<{
   input: UpdateCategoryInput;
+  getDefault: Scalars['Boolean']['input'];
+  getIncludeInUpdate: Scalars['Boolean']['input'];
+  getName: Scalars['Boolean']['input'];
 }>;
 
 
-export type UpdateCategoryMutation = { __typename?: 'Mutation', updateCategory: { __typename?: 'UpdateCategoryPayload', clientMutationId?: string | null, category: { __typename?: 'CategoryType', default: boolean, id: number, includeInUpdate: IncludeInUpdate, name: string, order: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }>, mangas: { __typename?: 'MangaNodeList', totalCount: number } } } };
+export type UpdateCategoryMutation = { __typename?: 'Mutation', updateCategory: { __typename?: 'UpdateCategoryPayload', clientMutationId?: string | null, category: { __typename?: 'CategoryType', id: number, default?: boolean, includeInUpdate?: IncludeInUpdate, name?: string } } };
 
 export type UpdateCategoriesMutationVariables = Exact<{
   input: UpdateCategoriesInput;
+  getDefault: Scalars['Boolean']['input'];
+  getIncludeInUpdate: Scalars['Boolean']['input'];
+  getName: Scalars['Boolean']['input'];
 }>;
 
 
-export type UpdateCategoriesMutation = { __typename?: 'Mutation', updateCategories: { __typename?: 'UpdateCategoriesPayload', clientMutationId?: string | null, categories: Array<{ __typename?: 'CategoryType', default: boolean, id: number, includeInUpdate: IncludeInUpdate, name: string, order: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }>, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> } };
+export type UpdateCategoriesMutation = { __typename?: 'Mutation', updateCategories: { __typename?: 'UpdateCategoriesPayload', clientMutationId?: string | null, categories: Array<{ __typename?: 'CategoryType', id: number, default?: boolean, includeInUpdate?: IncludeInUpdate, name?: string }> } };
 
 export type UpdateCategoryOrderMutationVariables = Exact<{
   input: UpdateCategoryOrderInput;
 }>;
 
 
-export type UpdateCategoryOrderMutation = { __typename?: 'Mutation', updateCategoryOrder: { __typename?: 'UpdateCategoryOrderPayload', clientMutationId?: string | null, categories: Array<{ __typename?: 'CategoryType', default: boolean, id: number, includeInUpdate: IncludeInUpdate, name: string, order: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }>, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> } };
+export type UpdateCategoryOrderMutation = { __typename?: 'Mutation', updateCategoryOrder: { __typename?: 'UpdateCategoryOrderPayload', clientMutationId?: string | null, categories: Array<{ __typename?: 'CategoryType', id: number, order: number }> } };
 
 export type DeleteChapterMetadataMutationVariables = Exact<{
   input: DeleteChapterMetaInput;

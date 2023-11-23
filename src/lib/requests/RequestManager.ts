@@ -1658,7 +1658,12 @@ export class RequestManager {
         return this.doRequest<UpdateCategoryMutation, UpdateCategoryMutationVariables>(
             GQLMethod.MUTATION,
             UPDATE_CATEGORY,
-            { input: { id, patch } },
+            {
+                input: { id, patch },
+                getIncludeInUpdate: patch.includeInUpdate != null,
+                getDefault: patch.default != null,
+                getName: patch.name != null,
+            },
             options,
         );
     }
