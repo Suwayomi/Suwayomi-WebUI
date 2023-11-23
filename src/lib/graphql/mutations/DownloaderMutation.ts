@@ -106,24 +106,22 @@ export const REORDER_CHAPTER_DOWNLOAD = gql`
 `;
 
 export const START_DOWNLOADER = gql`
-    ${FULL_DOWNLOAD_STATUS}
     mutation START_DOWNLOADER($input: StartDownloaderInput = {}) {
         startDownloader(input: $input) {
             clientMutationId
             downloadStatus {
-                ...FULL_DOWNLOAD_STATUS
+                state
             }
         }
     }
 `;
 
 export const STOP_DOWNLOADER = gql`
-    ${FULL_DOWNLOAD_STATUS}
     mutation STOP_DOWNLOADER($input: StopDownloaderInput = {}) {
         stopDownloader(input: $input) {
             clientMutationId
             downloadStatus {
-                ...FULL_DOWNLOAD_STATUS
+                state
             }
         }
     }
