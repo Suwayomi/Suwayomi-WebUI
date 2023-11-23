@@ -110,41 +110,41 @@ export const FULL_SOURCE_FIELDS = gql`
             }
         }
         filters {
-            ... on TriStateFilter {
-                type: __typename
-                name
-                TriStateFilterDefault: default
-            }
             ... on CheckBoxFilter {
                 type: __typename
                 CheckBoxFilterDefault: default
                 name
             }
-            ... on TextFilter {
-                type: __typename
-                name
-                TextFilterDefault: default
-            }
-            ... on SortFilter {
-                type: __typename
-                values
-                name
-                SortFilterDefault: default {
-                    ascending
-                    index
-                }
-            }
-            ... on SeparatorFilter {
+            ... on HeaderFilter {
                 type: __typename
                 name
             }
             ... on SelectFilter {
                 type: __typename
-                values
-                name
                 SelectFilterDefault: default
+                name
+                values
             }
-            ... on HeaderFilter {
+            ... on TriStateFilter {
+                type: __typename
+                TriStateFilterDefault: default
+                name
+            }
+            ... on TextFilter {
+                type: __typename
+                TextFilterDefault: default
+                name
+            }
+            ... on SortFilter {
+                type: __typename
+                SortFilterDefault: default {
+                    ascending
+                    index
+                }
+                name
+                values
+            }
+            ... on SeparatorFilter {
                 type: __typename
                 name
             }
@@ -179,7 +179,7 @@ export const FULL_SOURCE_FIELDS = gql`
                     }
                     ... on SortFilter {
                         type: __typename
-                        SorSortFilterDefault: default {
+                        SortFilterDefault: default {
                             ascending
                             index
                         }

@@ -7,7 +7,7 @@
  */
 
 import gql from 'graphql-tag';
-import { BASE_MANGA_FIELDS, FULL_SOURCE_FIELDS } from '@/lib/graphql/Fragments';
+import { BASE_MANGA_FIELDS } from '@/lib/graphql/Fragments';
 
 export const GET_SOURCE_MANGAS_FETCH = gql`
     ${BASE_MANGA_FIELDS}
@@ -23,12 +23,62 @@ export const GET_SOURCE_MANGAS_FETCH = gql`
 `;
 
 export const UPDATE_SOURCE_PREFERENCES = gql`
-    ${FULL_SOURCE_FIELDS}
     mutation UPDATE_SOURCE_PREFERENCES($input: UpdateSourcePreferenceInput!) {
         updateSourcePreference(input: $input) {
             clientMutationId
             source {
-                ...FULL_SOURCE_FIELDS
+                id
+                preferences {
+                    ... on CheckBoxPreference {
+                        type: __typename
+                        CheckBoxCheckBoxCurrentValue: currentValue
+                        summary
+                        CheckBoxDefault: default
+                        key
+                        CheckBoxTitle: title
+                    }
+                    ... on EditTextPreference {
+                        type: __typename
+                        EditTextPreferenceCurrentValue: currentValue
+                        EditTextPreferenceDefault: default
+                        EditTextPreferenceTitle: title
+                        text
+                        summary
+                        key
+                        dialogTitle
+                        dialogMessage
+                    }
+                    ... on SwitchPreference {
+                        type: __typename
+                        SwitchPreferenceCurrentValue: currentValue
+                        summary
+                        key
+                        SwitchPreferenceDefault: default
+                        SwitchPreferenceTitle: title
+                    }
+                    ... on MultiSelectListPreference {
+                        type: __typename
+                        dialogMessage
+                        dialogTitle
+                        MultiSelectListPreferenceTitle: title
+                        summary
+                        key
+                        entryValues
+                        entries
+                        MultiSelectListPreferenceDefault: default
+                        MultiSelectListPreferenceCurrentValue: currentValue
+                    }
+                    ... on ListPreference {
+                        type: __typename
+                        ListPreferenceCurrentValue: currentValue
+                        ListPreferenceDefault: default
+                        ListPreferenceTitle: title
+                        summary
+                        key
+                        entryValues
+                        entries
+                    }
+                }
             }
         }
     }
