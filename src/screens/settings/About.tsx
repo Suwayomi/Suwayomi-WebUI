@@ -26,7 +26,7 @@ export function About() {
     }, [t]);
 
     const { data } = requestManager.useGetAbout();
-    const about = data?.about;
+    const about = data?.aboutServer;
 
     useSetDefaultBackTo('settings');
 

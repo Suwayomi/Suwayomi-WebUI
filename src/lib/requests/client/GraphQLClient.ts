@@ -25,7 +25,7 @@ import { StrictTypedTypePolicies } from '@/lib/graphql/generated/apollo-helpers.
 const typePolicies: StrictTypedTypePolicies = {
     GlobalMetaType: { keyFields: ['key'] },
     ExtensionType: { keyFields: ['apkName'] },
-    AboutPayload: { keyFields: [] },
+    AboutServerPayload: { keyFields: [] },
     SettingsType: { keyFields: [] },
     Query: {
         fields: {
