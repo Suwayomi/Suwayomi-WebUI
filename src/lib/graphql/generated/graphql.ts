@@ -2317,14 +2317,14 @@ export type UpdateExtensionMutationVariables = Exact<{
 }>;
 
 
-export type UpdateExtensionMutation = { __typename?: 'Mutation', updateExtension: { __typename?: 'UpdateExtensionPayload', clientMutationId?: string | null, extension: { __typename?: 'ExtensionType', apkName: string, hasUpdate: boolean, iconUrl: string, isInstalled: boolean, isNsfw: boolean, isObsolete: boolean, lang: string, name: string, pkgName: string, versionCode: number, versionName: string } } };
+export type UpdateExtensionMutation = { __typename?: 'Mutation', updateExtension: { __typename?: 'UpdateExtensionPayload', clientMutationId?: string | null, extension: { __typename?: 'ExtensionType', apkName: string, versionName: string, versionCode: number, isInstalled: boolean, isObsolete: boolean, hasUpdate: boolean } } };
 
 export type UpdateExtensionsMutationVariables = Exact<{
   input: UpdateExtensionsInput;
 }>;
 
 
-export type UpdateExtensionsMutation = { __typename?: 'Mutation', updateExtensions: { __typename?: 'UpdateExtensionsPayload', clientMutationId?: string | null, extensions: Array<{ __typename?: 'ExtensionType', apkName: string, hasUpdate: boolean, iconUrl: string, isInstalled: boolean, isNsfw: boolean, isObsolete: boolean, lang: string, name: string, pkgName: string, versionCode: number, versionName: string }> } };
+export type UpdateExtensionsMutation = { __typename?: 'Mutation', updateExtensions: { __typename?: 'UpdateExtensionsPayload', clientMutationId?: string | null, extensions: Array<{ __typename?: 'ExtensionType', apkName: string, versionName: string, versionCode: number, isInstalled: boolean, isObsolete: boolean, hasUpdate: boolean }> } };
 
 export type InstallExternalExtensionMutationVariables = Exact<{
   file: Scalars['Upload']['input'];
