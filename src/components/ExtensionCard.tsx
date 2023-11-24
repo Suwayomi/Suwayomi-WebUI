@@ -19,6 +19,7 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 
 interface IProps {
     extension: PartialExtension;
+    handleUpdate: () => void;
 }
 
 enum ExtensionAction {
@@ -65,6 +66,7 @@ export function ExtensionCard(props: IProps) {
 
     const {
         extension: { name, lang, versionName, isInstalled, hasUpdate, isObsolete, pkgName, iconUrl, isNsfw },
+        handleUpdate,
     } = props;
     const [installedState, setInstalledState] = useState<InstalledStates>(() => {
         if (isObsolete) {
@@ -97,6 +99,8 @@ export function ExtensionCard(props: IProps) {
                 throw new Error(`Unexpected ExtensionAction "${action}"`);
         }
         setInstalledState(nextAction);
+
+        handleUpdate();
     };
 
     function handleButtonClick() {

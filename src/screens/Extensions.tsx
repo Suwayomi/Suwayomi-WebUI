@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { fromEvent } from 'file-selector';
 import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
@@ -100,12 +100,15 @@ export function Extensions() {
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const [query] = useQueryParam('query', StringParam);
 
+    const [refetchExtensions, setRefetchExtensions] = useState({});
     const [fetchExtensions, { data, loading: isLoading, called }] = requestManager.useExtensionListFetch();
     const allExtensions = data?.fetchExtensions.extensions;
 
+    const handleExtensionUpdate = useCallback(() => setRefetchExtensions({}), []);
+
     useEffect(() => {
         fetchExtensions();
-    }, []);
+    }, [refetchExtensions]);
 
     const filteredExtensions = useMemo(
         () =>
@@ -229,7 +232,7 @@ export function Extensions() {
                     }
                     const item = flatRenderItems[index] as PartialExtension;
 
-                    return <ExtensionCard key={item.apkName} extension={item} />;
+                    return <ExtensionCard key={item.apkName} extension={item} handleUpdate={handleExtensionUpdate} />;
                 }}
             />
         </>
