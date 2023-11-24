@@ -1,7 +1,7 @@
 import { FieldPolicy, FieldReadFunction, TypePolicies, TypePolicy } from '@apollo/client/cache';
 import { GetChaptersQuery } from "@/lib/graphql/generated/graphql.ts";
-export type AboutPayloadKeySpecifier = ('buildTime' | 'buildType' | 'discord' | 'github' | 'name' | 'revision' | 'version' | AboutPayloadKeySpecifier)[];
-export type AboutPayloadFieldPolicy = {
+export type AboutServerPayloadKeySpecifier = ('buildTime' | 'buildType' | 'discord' | 'github' | 'name' | 'revision' | 'version' | AboutServerPayloadKeySpecifier)[];
+export type AboutServerPayloadFieldPolicy = {
 	buildTime?: FieldPolicy<any> | FieldReadFunction<any>,
 	buildType?: FieldPolicy<any> | FieldReadFunction<any>,
 	discord?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -490,7 +490,7 @@ export type PartialSettingsTypeFieldPolicy = {
 	webUIInterface?: FieldPolicy<any> | FieldReadFunction<any>,
 	webUIUpdateCheckInterval?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('about' | 'categories' | 'category' | 'chapter' | 'chapters' | 'checkForServerUpdates' | 'checkForWebUIUpdate' | 'downloadStatus' | 'extension' | 'extensions' | 'getWebUIUpdateStatus' | 'lastUpdateTimestamp' | 'manga' | 'mangas' | 'meta' | 'metas' | 'restoreStatus' | 'settings' | 'source' | 'sources' | 'updateStatus' | 'validateBackup' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('aboutServer' | 'aboutWebUI' | 'categories' | 'category' | 'chapter' | 'chapters' | 'checkForServerUpdates' | 'checkForWebUIUpdate' | 'downloadStatus' | 'extension' | 'extensions' | 'getWebUIUpdateStatus' | 'lastUpdateTimestamp' | 'manga' | 'mangas' | 'meta' | 'metas' | 'restoreStatus' | 'settings' | 'source' | 'sources' | 'updateStatus' | 'validateBackup' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	about?: FieldPolicy<any> | FieldReadFunction<any>,
 	categories?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -832,9 +832,9 @@ export type WebUIUpdateStatusFieldPolicy = {
 	state?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type StrictTypedTypePolicies = {
-	AboutPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | AboutPayloadKeySpecifier | (() => undefined | AboutPayloadKeySpecifier),
-		fields?: AboutPayloadFieldPolicy,
+	AboutServerPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | AboutServerPayloadKeySpecifier | (() => undefined | AboutServerPayloadKeySpecifier),
+		fields?: AboutServerPayloadFieldPolicy,
 	},
 	BackupRestoreStatus?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | BackupRestoreStatusKeySpecifier | (() => undefined | BackupRestoreStatusKeySpecifier),

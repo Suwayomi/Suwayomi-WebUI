@@ -11,7 +11,7 @@ import { WEBUI_UPDATE_INFO, WEBUI_UPDATE_STATUS } from '@/lib/graphql/Fragments'
 
 export const GET_ABOUT = gql`
     query GET_ABOUT {
-        about {
+        aboutServer {
             buildTime
             buildType
             discord
