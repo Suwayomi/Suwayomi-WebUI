@@ -14,6 +14,7 @@ import {
     FetchResult,
     MutationHookOptions as ApolloMutationHookOptions,
     MutationOptions as ApolloMutationOptions,
+    MutationResult,
     MutationTuple,
     QueryHookOptions as ApolloQueryHookOptions,
     QueryOptions as ApolloQueryOptions,
@@ -956,8 +957,40 @@ export class RequestManager {
             options,
         );
 
-        result.response.then(() => {
+        result.response.then((response) => {
             this.graphQLClient.client.cache.evict({ fieldName: 'sources' });
+            const cachedExtensions = this.cache.getResponseFor<MutationResult<GetExtensionsFetchMutation>>(
+                EXTENSION_LIST_CACHE_KEY,
+                undefined,
+            );
+
+            if (!cachedExtensions || !cachedExtensions.data) {
+                return;
+            }
+
+            const updatedCachedExtensions: MutationResult<GetExtensionsFetchMutation> = {
+                ...cachedExtensions,
+                data: {
+                    ...cachedExtensions.data,
+                    fetchExtensions: {
+                        ...cachedExtensions.data.fetchExtensions,
+                        extensions: cachedExtensions.data.fetchExtensions.extensions.map((extension) => {
+                            const isUpdatedExtension =
+                                extension.apkName === response.data?.updateExtension.extension.apkName;
+                            if (!isUpdatedExtension) {
+                                return extension;
+                            }
+
+                            return {
+                                ...extension,
+                                ...response.data?.updateExtension.extension,
+                            };
+                        }),
+                    },
+                },
+            };
+
+            this.cache.cacheResponse(EXTENSION_LIST_CACHE_KEY, undefined, updatedCachedExtensions);
         });
 
         return result;
