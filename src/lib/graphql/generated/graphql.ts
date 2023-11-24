@@ -2217,20 +2217,29 @@ export type UpdateChapterMutationVariables = Exact<{
   getBookmarked: Scalars['Boolean']['input'];
   getRead: Scalars['Boolean']['input'];
   getLastPageRead: Scalars['Boolean']['input'];
+  id: Scalars['Int']['input'];
+  deleteChapter: Scalars['Boolean']['input'];
+  mangaId: Scalars['Int']['input'];
+  downloadAhead: Scalars['Boolean']['input'];
 }>;
 
 
-export type UpdateChapterMutation = { __typename?: 'Mutation', updateChapter: { __typename?: 'UpdateChapterPayload', clientMutationId?: string | null, chapter: { __typename?: 'ChapterType', id: number, isBookmarked?: boolean, isRead?: boolean, lastReadAt?: any, lastPageRead?: number, manga?: { __typename?: 'MangaType', id: number, unreadCount: number, lastReadChapter?: { __typename?: 'ChapterType', id: number } | null } } } };
+export type UpdateChapterMutation = { __typename?: 'Mutation', updateChapter: { __typename?: 'UpdateChapterPayload', clientMutationId?: string | null, chapter: { __typename?: 'ChapterType', id: number, isBookmarked?: boolean, isRead?: boolean, lastReadAt?: any, lastPageRead?: number, manga?: { __typename?: 'MangaType', id: number, unreadCount: number, lastReadChapter?: { __typename?: 'ChapterType', id: number } | null } } }, deleteDownloadedChapter?: { __typename?: 'DeleteDownloadedChapterPayload', clientMutationId?: string | null, chapters: { __typename?: 'ChapterType', id: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, downloadCount: number } } }, downloadAhead?: { __typename?: 'DownloadAheadPayload', clientMutationId?: string | null } };
 
 export type UpdateChaptersMutationVariables = Exact<{
   input: UpdateChaptersInput;
   getBookmarked: Scalars['Boolean']['input'];
   getRead: Scalars['Boolean']['input'];
   getLastPageRead: Scalars['Boolean']['input'];
+  chapterIdsToDelete: Array<Scalars['Int']['input']> | Scalars['Int']['input'];
+  deleteChapters: Scalars['Boolean']['input'];
+  mangaIds: Array<Scalars['Int']['input']> | Scalars['Int']['input'];
+  lastReadChapterIds: Array<Scalars['Int']['input']> | Scalars['Int']['input'];
+  downloadAhead: Scalars['Boolean']['input'];
 }>;
 
 
-export type UpdateChaptersMutation = { __typename?: 'Mutation', updateChapters: { __typename?: 'UpdateChaptersPayload', clientMutationId?: string | null, chapters: Array<{ __typename?: 'ChapterType', id: number, isBookmarked?: boolean, isRead?: boolean, lastReadAt?: any, lastPageRead?: number, manga?: { __typename?: 'MangaType', id: number, unreadCount: number, lastReadChapter?: { __typename?: 'ChapterType', id: number } | null } }> } };
+export type UpdateChaptersMutation = { __typename?: 'Mutation', updateChapters: { __typename?: 'UpdateChaptersPayload', clientMutationId?: string | null, chapters: Array<{ __typename?: 'ChapterType', id: number, isBookmarked?: boolean, isRead?: boolean, lastReadAt?: any, lastPageRead?: number, manga?: { __typename?: 'MangaType', id: number, unreadCount: number, lastReadChapter?: { __typename?: 'ChapterType', id: number } | null } }> }, deleteDownloadedChapters?: { __typename?: 'DeleteDownloadedChaptersPayload', clientMutationId?: string | null, chapters: Array<{ __typename?: 'ChapterType', id: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, downloadCount: number } }> }, downloadAhead?: { __typename?: 'DownloadAheadPayload', clientMutationId?: string | null } };
 
 export type ClearDownloaderMutationVariables = Exact<{
   input?: InputMaybe<ClearDownloaderInput>;
