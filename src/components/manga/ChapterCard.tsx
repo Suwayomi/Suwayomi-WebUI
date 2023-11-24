@@ -70,19 +70,16 @@ export const ChapterCard: React.FC<IProps> = (props: IProps) => {
     const sendChange = <Key extends keyof UpdatePatchInput>(key: Key, value: UpdatePatchInput[Key]) => {
         handleClose();
 
+        const shouldDeleteChapter = ({ isBookmarked, isDownloaded }: TChapter) =>
+            isDownloaded && (!isBookmarked || metadataServerSettings.deleteChaptersWithBookmark);
+
         const isMarkAsRead = (key === 'isRead' && value) || key === 'markPrevRead';
         const shouldAutoDeleteChapters = isMarkAsRead && metadataServerSettings.deleteChaptersManuallyMarkedRead;
-        if (shouldAutoDeleteChapters) {
-            const shouldDeleteChapter = ({ isBookmarked, isDownloaded }: TChapter) =>
-                isDownloaded && (!isBookmarked || metadataServerSettings.deleteChaptersWithBookmark);
 
-            const chaptersToDelete = key === 'isRead' ? [chapter] : allChapters;
-            const chapterIdsToDelete = chaptersToDelete
-                .filter(shouldDeleteChapter)
-                .map(({ id: chapterId }) => chapterId);
-
-            requestManager.deleteDownloadedChapters(chapterIdsToDelete).response.catch(() => {});
-        }
+        const chaptersToDelete = key === 'isRead' ? [chapter] : allChapters;
+        const chapterIdsToDelete = shouldAutoDeleteChapters
+            ? chaptersToDelete.filter(shouldDeleteChapter).map(({ id: chapterId }) => chapterId)
+            : [];
 
         if (key === 'markPrevRead') {
             const index = allChapters.findIndex(({ id: chapterId }) => chapterId === chapter.id);
@@ -91,7 +88,7 @@ export const ChapterCard: React.FC<IProps> = (props: IProps) => {
                     .slice(index)
                     .filter(({ isRead }) => !isRead)
                     .map(({ id: chapterId }) => chapterId),
-                { isRead: true },
+                { isRead: true, chapterIdsToDelete },
             );
             return;
         }
@@ -99,6 +96,7 @@ export const ChapterCard: React.FC<IProps> = (props: IProps) => {
         requestManager.updateChapter(chapter.id, {
             [key]: value,
             lastPageRead: key === 'isRead' ? 0 : undefined,
+            deleteChapter: !!chapterIdsToDelete.length,
         });
     };
 

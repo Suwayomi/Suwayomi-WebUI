@@ -125,7 +125,6 @@ export function Reader() {
 
     const { data: settingsData } = requestManager.useGetServerSettings();
     const isDownloadAheadEnabled = !!settingsData?.settings.autoDownloadAheadLimit;
-    const [downloadAhead] = requestManager.useDownloadAhead();
 
     const getLoadedChapter = () => {
         const isAChapterLoaded = loadedChapter.current;
@@ -177,29 +176,22 @@ export function Reader() {
     const { settings: metadataSettings } = useMetadataServerSettings();
 
     const updateChapter = (patch: UpdateChapterPatchInput) => {
-        requestManager.updateChapter(chapter.id, patch).response.catch(() => {});
-
         const shouldDeleteChapter =
-            patch.isRead &&
+            !!patch.isRead &&
             metadataSettings.deleteChaptersAutoMarkedRead &&
             chapter.isDownloaded &&
             (!chapter.isBookmarked || metadataSettings.deleteChaptersWithBookmark);
-        if (shouldDeleteChapter) {
-            requestManager.deleteDownloadedChapter(chapter.id).response.catch(() => {});
-        }
 
         const shouldDownloadAhead =
-            chapter.manga.inLibrary && !chapter.isRead && patch.isRead && isDownloadAheadEnabled;
-        if (shouldDownloadAhead) {
-            downloadAhead({
-                variables: {
-                    input: {
-                        mangaIds: [chapter.manga.id],
-                        latestReadChapterIds: [chapter.id],
-                    },
-                },
-            }).catch(() => {});
-        }
+            chapter.manga.inLibrary && !chapter.isRead && !!patch.isRead && isDownloadAheadEnabled;
+
+        requestManager
+            .updateChapter(chapter.id, {
+                ...patch,
+                deleteChapter: shouldDeleteChapter,
+                downloadAheadMangaId: shouldDownloadAhead ? chapter.manga.id : undefined,
+            })
+            .response.catch(() => {});
     };
 
     const setSettingValue = (key: keyof IReaderSettings, value: string | boolean) => {

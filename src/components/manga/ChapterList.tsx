@@ -164,21 +164,19 @@ export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
             if (action === 'delete') {
                 actionPromise = requestManager.deleteDownloadedChapters(chapterIds).response;
             } else {
-                actionPromise = requestManager.updateChapters(chapterIds, change).response;
-            }
+                const shouldDeleteChapters =
+                    action === 'mark_as_read' && metadataServerSettings.deleteChaptersManuallyMarkedRead;
+                const chapterIdsToDelete = shouldDeleteChapters
+                    ? actionChapters
+                          .filter(
+                              ({ chapter }) =>
+                                  chapter.isDownloaded &&
+                                  (!chapter.isBookmarked || metadataServerSettings.deleteChaptersWithBookmark),
+                          )
+                          .map(({ chapter }) => chapter.id)
+                    : [];
 
-            const shouldDeleteChapters =
-                action === 'mark_as_read' && metadataServerSettings.deleteChaptersManuallyMarkedRead;
-            if (shouldDeleteChapters) {
-                const chapterIdsToDelete = actionChapters
-                    .filter(
-                        ({ chapter }) =>
-                            chapter.isDownloaded &&
-                            (!chapter.isBookmarked || metadataServerSettings.deleteChaptersWithBookmark),
-                    )
-                    .map(({ chapter }) => chapter.id);
-
-                requestManager.deleteDownloadedChapters(chapterIdsToDelete).response.catch(() => {});
+                actionPromise = requestManager.updateChapters(chapterIds, { ...change, chapterIdsToDelete }).response;
             }
         }
 

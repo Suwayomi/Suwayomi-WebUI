@@ -1465,13 +1465,24 @@ export class RequestManager {
 
     public updateChapter(
         id: number,
-        patch: UpdateChapterPatchInput,
+        patch: UpdateChapterPatchInput & { deleteChapter?: boolean; downloadAheadMangaId?: number },
         options?: MutationOptions<UpdateChapterMutation, UpdateChapterMutationVariables>,
     ): AbortableApolloMutationResponse<UpdateChapterMutation> {
+        const { deleteChapter, downloadAheadMangaId = -1, ...updatePatch } = patch;
+
         return this.doRequest<UpdateChapterMutation, UpdateChapterMutationVariables>(
             GQLMethod.MUTATION,
             UPDATE_CHAPTER,
-            { input: { id, patch } },
+            {
+                id,
+                input: { id, patch: updatePatch },
+                getBookmarked: patch.isBookmarked != null,
+                getRead: patch.isRead != null,
+                getLastPageRead: patch.lastPageRead != null,
+                deleteChapter: !!deleteChapter,
+                mangaId: downloadAheadMangaId,
+                downloadAhead: downloadAheadMangaId !== -1,
+            },
             options,
         );
     }
@@ -1499,13 +1510,27 @@ export class RequestManager {
 
     public updateChapters(
         ids: number[],
-        patch: UpdateChapterPatchInput,
+        patch: UpdateChapterPatchInput & { chapterIdsToDelete?: number[]; mangaIds?: number[] },
         options?: MutationOptions<UpdateChaptersMutation, UpdateChaptersMutationVariables>,
     ): AbortableApolloMutationResponse<UpdateChaptersMutation> {
+        const { chapterIdsToDelete = [], mangaIds = [], ...updatePatch } = patch;
+
+        const downloadAhead = !!mangaIds.length;
+
         return this.doRequest<UpdateChaptersMutation, UpdateChaptersMutationVariables>(
             GQLMethod.MUTATION,
             UPDATE_CHAPTERS,
-            { input: { ids, patch } },
+            {
+                input: { ids, patch: updatePatch },
+                getBookmarked: patch.isBookmarked != null,
+                getRead: patch.isRead != null,
+                getLastPageRead: patch.lastPageRead != null,
+                chapterIdsToDelete,
+                deleteChapters: !!chapterIdsToDelete.length,
+                mangaIds,
+                downloadAhead,
+                lastReadChapterIds: downloadAhead ? ids : [],
+            },
             { refetchQueries: [GET_MANGA], ...options },
         );
     }
@@ -1658,7 +1683,12 @@ export class RequestManager {
         return this.doRequest<UpdateCategoryMutation, UpdateCategoryMutationVariables>(
             GQLMethod.MUTATION,
             UPDATE_CATEGORY,
-            { input: { id, patch } },
+            {
+                input: { id, patch },
+                getIncludeInUpdate: patch.includeInUpdate != null,
+                getDefault: patch.default != null,
+                getName: patch.name != null,
+            },
             options,
         );
     }

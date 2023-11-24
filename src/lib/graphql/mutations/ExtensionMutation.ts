@@ -23,24 +23,32 @@ export const GET_EXTENSIONS_FETCH = gql`
 `;
 
 export const UPDATE_EXTENSION = gql`
-    ${FULL_EXTENSION_FIELDS}
     mutation UPDATE_EXTENSION($input: UpdateExtensionInput!) {
         updateExtension(input: $input) {
             clientMutationId
             extension {
-                ...FULL_EXTENSION_FIELDS
+                apkName
+                versionName
+                versionCode
+                isInstalled
+                isObsolete
+                hasUpdate
             }
         }
     }
 `;
 
 export const UPDATE_EXTENSIONS = gql`
-    ${FULL_EXTENSION_FIELDS}
     mutation UPDATE_EXTENSIONS($input: UpdateExtensionsInput!) {
         updateExtensions(input: $input) {
             clientMutationId
             extensions {
-                ...FULL_EXTENSION_FIELDS
+                apkName
+                versionName
+                versionCode
+                isInstalled
+                isObsolete
+                hasUpdate
             }
         }
     }
@@ -50,10 +58,10 @@ export const INSTALL_EXTERNAL_EXTENSION = gql`
     ${FULL_EXTENSION_FIELDS}
     mutation INSTALL_EXTERNAL_EXTENSION($file: Upload!) {
         installExternalExtension(input: { extensionFile: $file }) {
+            clientMutationId
             extension {
                 ...FULL_EXTENSION_FIELDS
             }
-            clientMutationId
         }
     }
 `;

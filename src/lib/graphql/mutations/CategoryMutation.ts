@@ -22,38 +22,35 @@ export const CREATE_CATEGORY = gql`
 `;
 
 export const DELETE_CATEGORY = gql`
-    ${FULL_CATEGORY_FIELDS}
     mutation DELETE_CATEGORY($input: DeleteCategoryInput!) {
         deleteCategory(input: $input) {
             clientMutationId
             category {
-                ...FULL_CATEGORY_FIELDS
+                id
             }
         }
     }
 `;
 
 export const DELETE_CATEGORY_METADATA = gql`
-    ${FULL_CATEGORY_FIELDS}
     mutation DELETE_CATEGORY_METADATA($input: DeleteCategoryMetaInput!) {
         deleteCategoryMeta(input: $input) {
             clientMutationId
             meta {
                 key
-                value
-                category {
-                    ...FULL_CATEGORY_FIELDS
-                }
             }
             category {
-                ...FULL_CATEGORY_FIELDS
+                id
+                meta {
+                    key
+                    value
+                }
             }
         }
     }
 `;
 
 export const SET_CATEGORY_METADATA = gql`
-    ${FULL_CATEGORY_FIELDS}
     mutation SET_CATEGORY_METADATA($input: SetCategoryMetaInput!) {
         setCategoryMeta(input: $input) {
             clientMutationId
@@ -61,7 +58,11 @@ export const SET_CATEGORY_METADATA = gql`
                 key
                 value
                 category {
-                    ...FULL_CATEGORY_FIELDS
+                    id
+                    meta {
+                        key
+                        value
+                    }
                 }
             }
         }
@@ -69,36 +70,50 @@ export const SET_CATEGORY_METADATA = gql`
 `;
 
 export const UPDATE_CATEGORY = gql`
-    ${FULL_CATEGORY_FIELDS}
-    mutation UPDATE_CATEGORY($input: UpdateCategoryInput!) {
+    mutation UPDATE_CATEGORY(
+        $input: UpdateCategoryInput!
+        $getDefault: Boolean!
+        $getIncludeInUpdate: Boolean!
+        $getName: Boolean!
+    ) {
         updateCategory(input: $input) {
             clientMutationId
             category {
-                ...FULL_CATEGORY_FIELDS
+                id
+                default @include(if: $getDefault)
+                includeInUpdate @include(if: $getIncludeInUpdate)
+                name @include(if: $getName)
             }
         }
     }
 `;
 
 export const UPDATE_CATEGORIES = gql`
-    ${FULL_CATEGORY_FIELDS}
-    mutation UPDATE_CATEGORIES($input: UpdateCategoriesInput!) {
+    mutation UPDATE_CATEGORIES(
+        $input: UpdateCategoriesInput!
+        $getDefault: Boolean!
+        $getIncludeInUpdate: Boolean!
+        $getName: Boolean!
+    ) {
         updateCategories(input: $input) {
             clientMutationId
             categories {
-                ...FULL_CATEGORY_FIELDS
+                id
+                default @include(if: $getDefault)
+                includeInUpdate @include(if: $getIncludeInUpdate)
+                name @include(if: $getName)
             }
         }
     }
 `;
 
 export const UPDATE_CATEGORY_ORDER = gql`
-    ${FULL_CATEGORY_FIELDS}
     mutation UPDATE_CATEGORY_ORDER($input: UpdateCategoryOrderInput!) {
         updateCategoryOrder(input: $input) {
             clientMutationId
             categories {
-                ...FULL_CATEGORY_FIELDS
+                id
+                order
             }
         }
     }
