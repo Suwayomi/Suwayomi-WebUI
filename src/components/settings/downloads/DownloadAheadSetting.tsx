@@ -14,9 +14,9 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
 import { getPersistedServerSetting, usePersistedValue } from '@/util/usePersistedValue.tsx';
 
-const DEFAULT_LIMIT = 5;
 const MIN_LIMIT = 2;
 const MAX_LIMIT = 10;
+const DEFAULT_LIMIT = MIN_LIMIT;
 
 export const DownloadAheadSetting = () => {
     const { t } = useTranslation();
