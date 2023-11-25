@@ -10,7 +10,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
-import { InputAdornment, ListItemText } from '@mui/material';
+import { InputAdornment, ListItemText, Stack, Typography } from '@mui/material';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import { useCallback, useEffect, useState } from 'react';
@@ -19,6 +19,8 @@ import ListItemButton from '@mui/material/ListItemButton';
 import * as React from 'react';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Slider from '@mui/material/Slider';
+import DialogContentText from '@mui/material/DialogContentText';
+import InfoIcon from '@mui/icons-material/Info';
 
 type BaseProps = {
     settingTitle: string;
@@ -30,6 +32,8 @@ type BaseProps = {
     maxValue?: number;
     stepSize?: number;
     dialogTitle: string;
+    dialogDescription?: string;
+    dialogDisclaimer?: string;
     valueUnit: string;
     handleUpdate: (value: number) => void;
     showSlider?: never;
@@ -45,6 +49,8 @@ export const NumberSetting = ({
     settingTitle,
     settingValue,
     settingIcon,
+    dialogDescription,
+    dialogDisclaimer,
     value,
     defaultValue,
     minValue,
@@ -108,6 +114,35 @@ export const NumberSetting = ({
             <Dialog open={isDialogOpen} onClose={closeDialogWithReset}>
                 <DialogContent>
                     <DialogTitle sx={{ paddingLeft: 0 }}>{dialogTitle}</DialogTitle>
+                    {(!!dialogDescription || !!dialogDisclaimer) && (
+                        <DialogContentText sx={{ paddingBottom: '10px' }} component="div">
+                            {dialogDescription && (
+                                <Typography
+                                    variant="body1"
+                                    sx={{
+                                        whiteSpace: 'pre-line',
+                                    }}
+                                >
+                                    {dialogDescription}
+                                </Typography>
+                            )}
+                            {dialogDisclaimer && (
+                                <Stack direction="row" alignItems="center">
+                                    <InfoIcon color="warning" />
+                                    <Typography
+                                        variant="body1"
+                                        sx={{
+                                            marginLeft: '10px',
+                                            marginTop: '5px',
+                                            whiteSpace: 'pre-line',
+                                        }}
+                                    >
+                                        {dialogDisclaimer}
+                                    </Typography>
+                                </Stack>
+                            )}
+                        </DialogContentText>
+                    )}
                     <TextField
                         sx={{
                             width: '100%',

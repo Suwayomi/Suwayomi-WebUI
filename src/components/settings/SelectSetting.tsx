@@ -125,11 +125,6 @@ export const SelectSetting = <SettingValue extends string | number>({
                             )}
                         </DialogContentText>
                     )}
-                    {/* {!!dialogValueDisplayInfo.disclaimer && ( */}
-                    {/*    <DialogContentText sx={{ paddingBottom: '10px', color: 'orange' }}> */}
-                    {/*        {t(dialogValueDisplayInfo.disclaimer)} */}
-                    {/*    </DialogContentText> */}
-                    {/* )} */}
                     <FormControl fullWidth>
                         <Select
                             id="dialog-select"
