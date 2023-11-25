@@ -52,6 +52,10 @@ export function UpdateChecker({ handleFinishedUpdate }: { handleFinishedUpdate?:
     );
 
     useEffect(() => {
+        if (!lastRunningState && status?.isRunning) {
+            lastRunningState = true;
+        }
+
         const isUpdateFinished = lastRunningState && progress === 100;
         if (!isUpdateFinished) {
             return;
