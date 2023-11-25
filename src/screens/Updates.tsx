@@ -13,7 +13,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import React, { useCallback, useContext, useEffect, useMemo } from 'react';
+import React, { useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { t as translate } from 'i18next';
@@ -27,12 +27,14 @@ import { TChapter } from '@/typings.ts';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { UpdateChecker } from '@/components/library/UpdateChecker.tsx';
 
-const StyledGroupedVirtuoso = styled(GroupedVirtuoso)(({ theme }) => ({
+const StyledGroupedVirtuoso = styled(GroupedVirtuoso, { shouldForwardProp: (prop) => prop !== 'heightToSubtract' })<{
+    heightToSubtract: number;
+}>(({ theme, heightToSubtract }) => ({
     // 64px header
-    height: 'calc(100vh - 64px)',
+    height: `calc(100vh - 64px - ${heightToSubtract}px)`,
     [theme.breakpoints.down('sm')]: {
         // 64px header (margin); 64px menu (margin);
-        height: 'calc(100vh - 64px - 64px)',
+        height: `calc(100vh - 64px - 64px - ${heightToSubtract}px)`,
     },
 }));
 
@@ -118,6 +120,12 @@ export const Updates: React.FC = () => {
     const { data: downloaderData } = requestManager.useDownloadSubscription();
     const queue = (downloaderData?.downloadChanged.queue as DownloadType[]) ?? [];
 
+    const lastUpdateTimestampCompRef = useRef<HTMLElement>(null);
+    const [lastUpdateTimestampCompHeight, setLastUpdateTimestampCompHeight] = useState(0);
+    useLayoutEffect(() => {
+        setLastUpdateTimestampCompHeight(lastUpdateTimestampCompRef.current?.clientHeight ?? 0);
+    }, [lastUpdateTimestampCompRef.current]);
+
     const { data: lastUpdateTimestampData } = requestManager.useGetLastGlobalUpdateTimestamp({
         /**
          * The {@link UpdateChecker} is responsible for updating the timestamp
@@ -129,16 +137,7 @@ export const Updates: React.FC = () => {
     useEffect(() => {
         setTitle(t('updates.title'));
 
-        setAction(
-            <>
-                <Typography sx={{ marginRight: '10px' }}>
-                    {t('library.settings.global_update.label.last_update', {
-                        date: lastUpdateTimestamp ? new Date(+lastUpdateTimestamp).toLocaleString() : '-',
-                    })}
-                </Typography>
-                <UpdateChecker />
-            </>,
-        );
+        setAction(<UpdateChecker />);
     }, [t, lastUpdateTimestamp]);
 
     const downloadForChapter = (chapter: TChapter) => {
@@ -166,85 +165,99 @@ export const Updates: React.FC = () => {
     }
 
     return (
-        <StyledGroupedVirtuoso
-            style={{
-                // override Virtuoso default values and set them with class
-                height: 'undefined',
-            }}
-            components={{
-                Footer: () => (isLoading ? <LoadingPlaceholder usePadding /> : null),
-            }}
-            overscan={window.innerHeight * 0.5}
-            endReached={loadMore}
-            groupCounts={groupCounts}
-            groupContent={(index) => (
-                <StyledGroupHeader variant="h5" isFirstItem={index === 0}>
-                    {groupedUpdates[index][0]}
-                </StyledGroupHeader>
-            )}
-            itemContent={(index) => {
-                const chapter = updateEntries[index];
-                const { manga } = chapter;
-                const download = downloadForChapter(chapter);
+        <>
+            <Typography
+                ref={lastUpdateTimestampCompRef}
+                sx={{
+                    marginLeft: '10px',
+                    paddingTop: (theme) => ({ [theme.breakpoints.up('sm')]: { paddingTop: '6px' } }),
+                }}
+            >
+                {t('library.settings.global_update.label.last_update', {
+                    date: lastUpdateTimestamp ? new Date(+lastUpdateTimestamp).toLocaleString() : '-',
+                })}
+            </Typography>
+            <StyledGroupedVirtuoso
+                heightToSubtract={lastUpdateTimestampCompHeight}
+                style={{
+                    // override Virtuoso default values and set them with class
+                    height: 'undefined',
+                }}
+                components={{
+                    Footer: () => (isLoading ? <LoadingPlaceholder usePadding /> : null),
+                }}
+                overscan={window.innerHeight * 0.5}
+                endReached={loadMore}
+                groupCounts={groupCounts}
+                groupContent={(index) => (
+                    <StyledGroupHeader variant="h5" isFirstItem={index === 0}>
+                        {groupedUpdates[index][0]}
+                    </StyledGroupHeader>
+                )}
+                itemContent={(index) => {
+                    const chapter = updateEntries[index];
+                    const { manga } = chapter;
+                    const download = downloadForChapter(chapter);
 
-                return (
-                    <StyledGroupItemWrapper key={index} isLastItem={index === updateEntries.length - 1}>
-                        <Card>
-                            <CardActionArea
-                                component={Link}
-                                to={`/manga/${chapter.manga.id}/chapter/${chapter.sourceOrder}`}
-                                state={location.state}
-                            >
-                                <CardContent
-                                    sx={{
-                                        display: 'flex',
-                                        justifyContent: 'space-between',
-                                        alignItems: 'center',
-                                        padding: 2,
-                                    }}
+                    return (
+                        <StyledGroupItemWrapper key={index} isLastItem={index === updateEntries.length - 1}>
+                            <Card>
+                                <CardActionArea
+                                    component={Link}
+                                    to={`/manga/${chapter.manga.id}/chapter/${chapter.sourceOrder}`}
+                                    state={location.state}
                                 >
-                                    <Box sx={{ display: 'flex' }}>
-                                        <Avatar
-                                            variant="rounded"
-                                            sx={{
-                                                width: 56,
-                                                height: 56,
-                                                flex: '0 0 auto',
-                                                marginRight: 2,
-                                                imageRendering: 'pixelated',
-                                            }}
-                                            src={requestManager.getValidImgUrlFor(manga.thumbnailUrl ?? '')}
-                                        />
-                                        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                                            <Typography variant="h5" component="h2">
-                                                {manga.title}
-                                            </Typography>
-                                            <Typography variant="caption" display="block" gutterBottom>
-                                                {chapter.name}
-                                            </Typography>
-                                        </Box>
-                                    </Box>
-                                    {download && <DownloadStateIndicator download={download} />}
-                                    {download == null && !chapter.isDownloaded && (
-                                        <Tooltip title={t('chapter.action.download.add.label.action')}>
-                                            <IconButton
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    e.preventDefault();
-                                                    downloadChapter(chapter);
+                                    <CardContent
+                                        sx={{
+                                            display: 'flex',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'center',
+                                            padding: 2,
+                                        }}
+                                    >
+                                        <Box sx={{ display: 'flex' }}>
+                                            <Avatar
+                                                variant="rounded"
+                                                sx={{
+                                                    width: 56,
+                                                    height: 56,
+                                                    flex: '0 0 auto',
+                                                    marginRight: 2,
+                                                    imageRendering: 'pixelated',
                                                 }}
-                                                size="large"
-                                            >
-                                                <DownloadIcon />
-                                            </IconButton>
-                                        </Tooltip>
-                                    )}
-                                </CardContent>
-                            </CardActionArea>
-                        </Card>
-                    </StyledGroupItemWrapper>
-                );
-            }}
-        />
+                                                src={requestManager.getValidImgUrlFor(manga.thumbnailUrl ?? '')}
+                                            />
+                                            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                                                <Typography variant="h5" component="h2">
+                                                    {manga.title}
+                                                </Typography>
+                                                <Typography variant="caption" display="block" gutterBottom>
+                                                    {chapter.name}
+                                                </Typography>
+                                            </Box>
+                                        </Box>
+                                        {download && <DownloadStateIndicator download={download} />}
+                                        {download == null && !chapter.isDownloaded && (
+                                            <Tooltip title={t('chapter.action.download.add.label.action')}>
+                                                <IconButton
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        e.preventDefault();
+                                                        downloadChapter(chapter);
+                                                    }}
+                                                    size="large"
+                                                >
+                                                    <DownloadIcon />
+                                                </IconButton>
+                                            </Tooltip>
+                                        )}
+                                    </CardContent>
+                                </CardActionArea>
+                            </Card>
+                        </StyledGroupItemWrapper>
+                    );
+                }}
+            />
+        </>
     );
 };
