@@ -29,6 +29,8 @@ const calcProgress = (status: UpdaterSubscription['updateStatusChanged'] | undef
     return Number.isNaN(progress) ? 0 : progress;
 };
 
+let lastRunningState = false;
+
 export function UpdateChecker({ handleFinishedUpdate }: { handleFinishedUpdate?: () => void }) {
     const { t } = useTranslation();
 
@@ -50,19 +52,24 @@ export function UpdateChecker({ handleFinishedUpdate }: { handleFinishedUpdate?:
     );
 
     useEffect(() => {
-        const isUpdateFinished = progress === 100;
-        if (isUpdateFinished) {
-            handleFinishedUpdate?.();
-            // this re-fetch is necessary since a running update could have been triggered by the server or another client
-            reFetchLastTimestamp().catch(() => {});
+        const isUpdateFinished = lastRunningState && progress === 100;
+        if (!isUpdateFinished) {
+            return;
         }
+
+        lastRunningState = false;
+        handleFinishedUpdate?.();
+        // this re-fetch is necessary since a running update could have been triggered by the server or another client
+        reFetchLastTimestamp().catch(() => {});
     }, [status?.isRunning]);
 
     const onClick = async () => {
         try {
+            lastRunningState = true;
             await requestManager.startGlobalUpdate().response;
             reFetchLastTimestamp().catch(() => {});
         } catch (e) {
+            lastRunningState = false;
             makeToast(t('global.error.label.update_failed'), 'error');
         }
     };
