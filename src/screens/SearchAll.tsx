@@ -53,8 +53,8 @@ const compareSourcesBySearchResult = (
     sourceB: ISource,
     sourceToFetchedStateMap: SourceToLoadingStateMap,
 ): -1 | 0 | 1 => {
-    const isSourceAFetched = !sourceToFetchedStateMap.get(sourceA.id)?.isLoading ?? true;
-    const isSourceBFetched = !sourceToFetchedStateMap.get(sourceB.id)?.isLoading ?? true;
+    const isSourceAFetched = !sourceToFetchedStateMap.get(sourceA.id)?.isLoading;
+    const isSourceBFetched = !sourceToFetchedStateMap.get(sourceB.id)?.isLoading;
     if (isSourceAFetched && !isSourceBFetched) {
         return -1;
     }
