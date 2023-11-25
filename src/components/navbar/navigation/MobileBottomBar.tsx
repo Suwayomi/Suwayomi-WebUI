@@ -65,8 +65,8 @@ export function MobileBottomBar({ navBarItems }: IProps) {
                                         location.pathname === path
                                             ? 'primary.main'
                                             : theme.palette.mode === 'dark'
-                                            ? 'grey.A400'
-                                            : 'grey.600',
+                                              ? 'grey.A400'
+                                              : 'grey.600',
                                 }}
                             >
                                 {t(title)}
