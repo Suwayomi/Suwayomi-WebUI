@@ -118,8 +118,12 @@ export const Updates: React.FC = () => {
     const { data: downloaderData } = requestManager.useDownloadSubscription();
     const queue = (downloaderData?.downloadChanged.queue as DownloadType[]) ?? [];
 
-    const { data: lastUpdateTimestampData, refetch: refetchlastTimestamp } =
-        requestManager.useGetLastGlobalUpdateTimestamp();
+    const { data: lastUpdateTimestampData } = requestManager.useGetLastGlobalUpdateTimestamp({
+        /**
+         * The {@link UpdateChecker} is responsible for updating the timestamp
+         */
+        fetchPolicy: 'cache-only',
+    });
     const lastUpdateTimestamp = lastUpdateTimestampData?.lastUpdateTimestamp.timestamp;
 
     useEffect(() => {
@@ -132,7 +136,7 @@ export const Updates: React.FC = () => {
                         date: lastUpdateTimestamp ? new Date(+lastUpdateTimestamp).toLocaleString() : '-',
                     })}
                 </Typography>
-                <UpdateChecker handleFinishedUpdate={() => refetchlastTimestamp()} />
+                <UpdateChecker />
             </>,
         );
     }, [t, lastUpdateTimestamp]);

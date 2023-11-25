@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import IconButton from '@mui/material/IconButton';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { useTranslation } from 'react-i18next';
@@ -29,10 +29,10 @@ const calcProgress = (status: UpdaterSubscription['updateStatusChanged'] | undef
     return Number.isNaN(progress) ? 0 : progress;
 };
 
-export function UpdateChecker({ handleFinishedUpdate }: { handleFinishedUpdate: () => void }) {
+export function UpdateChecker({ handleFinishedUpdate }: { handleFinishedUpdate?: () => void }) {
     const { t } = useTranslation();
 
-    const { data: lastUpdateTimestampData, refetch: refetchlastTimestamp } =
+    const { data: lastUpdateTimestampData, refetch: reFetchLastTimestamp } =
         requestManager.useGetLastGlobalUpdateTimestamp();
     const lastUpdateTimestamp = lastUpdateTimestampData?.lastUpdateTimestamp.timestamp;
     const { data: updaterData } = requestManager.useUpdaterSubscription();
@@ -49,15 +49,19 @@ export function UpdateChecker({ handleFinishedUpdate }: { handleFinishedUpdate: 
         ],
     );
 
-    const isUpdateFinished = progress === 100;
-    if (isUpdateFinished) {
-        refetchlastTimestamp();
-        handleFinishedUpdate();
-    }
+    useEffect(() => {
+        const isUpdateFinished = progress === 100;
+        if (isUpdateFinished) {
+            handleFinishedUpdate?.();
+            // this re-fetch is necessary since a running update could have been triggered by the server or another client
+            reFetchLastTimestamp().catch(() => {});
+        }
+    }, [status?.isRunning]);
 
     const onClick = async () => {
         try {
             await requestManager.startGlobalUpdate().response;
+            reFetchLastTimestamp().catch(() => {});
         } catch (e) {
             makeToast(t('global.error.label.update_failed'), 'error');
         }
