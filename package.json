@@ -14,8 +14,7 @@
     "updateDeps": "yarn upgrade && yarn syncyarnlock -s -k && yarn && git add package.json yarn.lock && git commit -m \"Update dependencies\" && echo Updated non breaking dependencies. Check potential breaking changes below... && yarn outdated",
     "gql:codegen-base": "graphql-codegen --config gql_codegen.ts",
     "gql:codegen-formatter": "ts-node tools/scripts/codegenFormatter.ts",
-    "gql:codegen": "yarn gql:codegen-base & yarn gql:codegen-formatter",
-    "asdf": "echo test && yarn -v"
+    "gql:codegen": "yarn gql:codegen-base & yarn gql:codegen-formatter"
   },
   "browserslist": {
     "production": [
