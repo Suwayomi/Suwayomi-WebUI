@@ -36,6 +36,8 @@ import {
     CheckForServerUpdatesQuery,
     CheckForServerUpdatesQueryVariables,
     ClearCachedImagesInput,
+    CheckForWebuiUpdateQuery,
+    CheckForWebuiUpdateQueryVariables,
     ClearDownloaderMutation,
     ClearDownloaderMutationVariables,
     ClearServerCacheMutation,
@@ -151,12 +153,17 @@ import {
     UpdateServerSettingsMutationVariables,
     UpdateSourcePreferencesMutation,
     UpdateSourcePreferencesMutationVariables,
+    UpdateWebuiMutation,
+    UpdateWebuiMutationVariables,
     ValidateBackupQuery,
     ValidateBackupQueryVariables,
+    WebuiUpdateSubscription,
+    ResetWebuiUpdateStatusMutation,
+    ResetWebuiUpdateStatusMutationVariables,
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_GLOBAL_METADATAS } from '@/lib/graphql/queries/GlobalMetadataQuery.ts';
 import { SET_GLOBAL_METADATA } from '@/lib/graphql/mutations/GlobalMetadataMutation.ts';
-import { CHECK_FOR_SERVER_UPDATES, GET_ABOUT } from '@/lib/graphql/queries/ServerInfoQuery.ts';
+import { CHECK_FOR_SERVER_UPDATES, CHECK_FOR_WEBUI_UPDATE, GET_ABOUT } from '@/lib/graphql/queries/ServerInfoQuery.ts';
 import { GET_EXTENSIONS } from '@/lib/graphql/queries/ExtensionQuery.ts';
 import {
     GET_EXTENSIONS_FETCH,
@@ -216,6 +223,8 @@ import { GET_SERVER_SETTINGS } from '@/lib/graphql/queries/SettingsQuery.ts';
 import { UPDATE_SERVER_SETTINGS } from '@/lib/graphql/mutations/SettingsMutation.ts';
 import { BASE_MANGA_FIELDS, FULL_EXTENSION_FIELDS } from '@/lib/graphql/Fragments.ts';
 import { CLEAR_SERVER_CACHE } from '@/lib/graphql/mutations/ImageMutation.ts';
+import { RESET_WEBUI_UPDATE_STATUS, UPDATE_WEBUI } from '@/lib/graphql/mutations/ServerInfoMutation.ts';
+import { WEBUI_UPDATE_SUBSCRIPTION } from '@/lib/graphql/subscriptions/ServerInfoSubscription.ts';
 
 enum GQLMethod {
     QUERY = 'QUERY',
@@ -318,7 +327,7 @@ export const SPECIAL_ED_SOURCES = {
 export class RequestManager {
     public static readonly API_VERSION = '/api/v1/';
 
-    private readonly graphQLClient = new GraphQLClient();
+    public readonly graphQLClient = new GraphQLClient();
 
     private readonly restClient: RestClient = new RestClient();
 
@@ -862,10 +871,22 @@ export class RequestManager {
         return this.doRequest(GQLMethod.USE_QUERY, GET_ABOUT, {}, options);
     }
 
-    public useCheckForUpdate(
+    public useCheckForServerUpdate(
         options?: QueryHookOptions<CheckForServerUpdatesQuery, CheckForServerUpdatesQueryVariables>,
     ): AbortableApolloUseQueryResponse<CheckForServerUpdatesQuery, CheckForServerUpdatesQueryVariables> {
         return this.doRequest(GQLMethod.USE_QUERY, CHECK_FOR_SERVER_UPDATES, {}, options);
+    }
+
+    public useCheckForWebUIUpdate(
+        options?: QueryHookOptions<CheckForWebuiUpdateQuery, CheckForWebuiUpdateQueryVariables>,
+    ): AbortableApolloUseQueryResponse<CheckForWebuiUpdateQuery, CheckForWebuiUpdateQueryVariables> {
+        return this.doRequest(GQLMethod.USE_QUERY, CHECK_FOR_WEBUI_UPDATE, {}, options);
+    }
+
+    public updateWebUI(
+        options?: MutationOptions<UpdateWebuiMutation, UpdateWebuiMutationVariables>,
+    ): AbortableApolloMutationResponse<UpdateWebuiMutation> {
+        return this.doRequest(GQLMethod.MUTATION, UPDATE_WEBUI, undefined, options);
     }
 
     public useGetExtensionList(
@@ -2003,6 +2024,18 @@ export class RequestManager {
         options?: MutationHookOptions<ClearServerCacheMutation, ClearServerCacheMutationVariables>,
     ): AbortableApolloUseMutationResponse<ClearServerCacheMutation, ClearServerCacheMutationVariables> {
         return this.doRequest(GQLMethod.USE_MUTATION, CLEAR_SERVER_CACHE, { input }, options);
+    }
+
+    public useWebUIUpdateSubscription(
+        options?: SubscriptionHookOptions<WebuiUpdateSubscription, WebuiUpdateSubscription>,
+    ): SubscriptionResult<WebuiUpdateSubscription, WebuiUpdateSubscription> {
+        return this.doRequest(GQLMethod.USE_SUBSCRIPTION, WEBUI_UPDATE_SUBSCRIPTION, undefined, options);
+    }
+
+    public resetWebUIUpdateStatus(
+        options?: MutationOptions<ResetWebuiUpdateStatusMutation, ResetWebuiUpdateStatusMutationVariables>,
+    ): AbortableApolloMutationResponse<ResetWebuiUpdateStatusMutation> {
+        return this.doRequest(GQLMethod.MUTATION, RESET_WEBUI_UPDATE_STATUS, undefined, options);
     }
 }
 

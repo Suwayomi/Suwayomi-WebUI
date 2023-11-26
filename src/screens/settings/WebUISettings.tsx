@@ -119,6 +119,10 @@ export const WebUISettings = () => {
         setting: Setting,
         value: WebUISettingsType[Setting],
     ) => {
+        if (setting === 'webUIChannel') {
+            requestManager.graphQLClient.client.cache.evict({ fieldName: 'checkForWebUIUpdate' });
+        }
+
         mutateSettings({ variables: { input: { settings: { [setting]: value } } } });
     };
 

@@ -2143,6 +2143,10 @@ export type PartialUpdaterStatusFragment = { __typename?: 'UpdateStatus', isRunn
 
 export type FullUpdaterStatusFragment = { __typename?: 'UpdateStatus', isRunning: boolean, completeJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', unreadCount: number, downloadCount: number, artist?: string | null, author?: string | null, chaptersLastFetchedAt?: any | null, description?: string | null, genre: Array<string>, id: number, inLibrary: boolean, inLibraryAt: any, initialized: boolean, lastFetchedAt?: any | null, realUrl?: string | null, status: MangaStatus, thumbnailUrl?: string | null, title: string, url: string, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, source?: { __typename?: 'SourceType', displayName: string, iconUrl: string, id: any, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean } | null }> } }, failedJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, pendingJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, runningJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, skippedJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, updatingCategories: { __typename?: 'UpdateStatusCategoryType', categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, name: string, includeInUpdate: IncludeInUpdate }> } }, skippedCategories: { __typename?: 'UpdateStatusCategoryType', categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, name: string, includeInUpdate: IncludeInUpdate }> } } };
 
+export type AboutWebuiFragment = { __typename?: 'AboutWebUI', channel: string, tag: string };
+
+export type WebuiUpdateCheckFragment = { __typename?: 'WebUIUpdateCheck', channel: string, tag: string, updateAvailable: boolean };
+
 export type WebuiUpdateInfoFragment = { __typename?: 'WebUIUpdateInfo', channel: string, tag: string };
 
 export type WebuiUpdateStatusFragment = { __typename?: 'WebUIUpdateStatus', progress: number, state: UpdateState, info: { __typename?: 'WebUIUpdateInfo', channel: string, tag: string } };
@@ -2457,6 +2461,11 @@ export type UpdateWebuiMutationVariables = Exact<{
 
 
 export type UpdateWebuiMutation = { __typename?: 'Mutation', updateWebUI: { __typename?: 'WebUIUpdatePayload', clientMutationId?: string | null, updateStatus: { __typename?: 'WebUIUpdateStatus', progress: number, state: UpdateState, info: { __typename?: 'WebUIUpdateInfo', channel: string, tag: string } } } };
+
+export type ResetWebuiUpdateStatusMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ResetWebuiUpdateStatusMutation = { __typename?: 'Mutation', resetWebUIUpdateStatus: { __typename?: 'WebUIUpdateStatus', state: UpdateState, info: { __typename?: 'WebUIUpdateInfo', channel: string, tag: string } } };
 
 export type ResetServerSettingsMutationVariables = Exact<{
   input: ResetSettingsInput;

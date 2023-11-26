@@ -339,6 +339,16 @@
     },
     "time": {
       "hour_short": "h"
+    },
+    "update": {
+      "label": {
+        "available": "Update available",
+        "check_failure": "Could not check for update",
+        "checking": "Checking for update",
+        "up_to_date": "This is the latest version",
+        "update_failure": "Update failed",
+        "updating": "{{progress}}% | Updating…"
+      }
     }
   },
   "library": {
@@ -531,6 +541,8 @@
         "label": {
           "channel": "$t(settings.webui.title.webui) channel",
           "github": "$t(global.label.github) $t(settings.webui.title.webui)",
+          "update_failure": "Could not update $t(settings.webui.title.webui)",
+          "update_success": "Updated $t(settings.webui.title.webui) to version {{version}}. Refresh required",
           "version": "$t(settings.webui.title.webui) version"
         }
       }
