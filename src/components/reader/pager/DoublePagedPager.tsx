@@ -40,26 +40,29 @@ export function DoublePagedPager(props: IReaderProps) {
     const spreadPage = useRef<boolean[]>(Array(pages.length).fill(false));
 
     function setPagesToDisplay() {
-        pagesDisplayed.current = 0;
-        if (curPage < pages.length && pagesRef.current[curPage]) {
-            if (pageLoaded.current[curPage]) {
-                pagesDisplayed.current = 1;
-                if (spreadPage.current[curPage]) return;
-            }
-        }
-        if (curPage + 1 < pages.length && pagesRef.current[curPage + 1]) {
-            if (pageLoaded.current[curPage + 1]) {
-                if (isSinglePage(curPage, spreadPage.current, settings.offsetFirstPage)) return;
-                pagesDisplayed.current = 2;
-            }
-        }
+        // pagesDisplayed.current = 0;
+        // if (curPage < pages.length && pagesRef.current[curPage]) {
+        //     if (pageLoaded.current[curPage]) {
+        //         pagesDisplayed.current = 1;
+        //         if (spreadPage.current[curPage]) return;
+        //     }
+        // }
+        // if (curPage + 1 < pages.length && pagesRef.current[curPage + 1]) {
+        //     if (pageLoaded.current[curPage + 1]) {
+        //         if (isSinglePage(curPage, spreadPage.current, settings.offsetFirstPage)) return;
+        //         pagesDisplayed.current = 2;
+        //     }
+        // }
+        pagesDisplayed.current = 2;
     }
 
     function displayPages() {
+        console.log('displaying pages');
         const container = document.getElementById('display');
         const root = createRoot(container!);
 
         if (pagesDisplayed.current === 2) {
+            console.log('rendering two');
             root.render(
                 <DoublePage
                     key={curPage}
@@ -160,23 +163,26 @@ export function DoublePagedPager(props: IReaderProps) {
     }
 
     useEffect(() => {
-        const retryDisplay = setInterval(() => {
-            const isLastPage = curPage === pages.length - 1;
-            if (
-                (!isLastPage && pageLoaded.current[curPage] && pageLoaded.current[curPage + 1]) ||
-                pageLoaded.current[curPage]
-            ) {
-                setPagesToDisplay();
-                displayPages();
-                clearInterval(retryDisplay);
-            }
-        }, 50);
+        console.log("using effect!")
+        // const retryDisplay = setInterval(() => {
+        //     const isLastPage = curPage === pages.length - 1;
+        //     if (
+        //         (!isLastPage && pageLoaded.current[curPage] && pageLoaded.current[curPage + 1]) ||
+        //         pageLoaded.current[curPage]
+        //     ) {
+                // setPagesToDisplay();
+                // displayPages();
+        //         clearInterval(retryDisplay);
+        //     }
+        // }, 50);
+        setPagesToDisplay();
+        displayPages();
 
         document.addEventListener('keydown', keyboardControl);
         selfRef.current?.addEventListener('click', clickControl);
 
         return () => {
-            clearInterval(retryDisplay);
+            // clearInterval(retryDisplay);
             document.removeEventListener('keydown', keyboardControl);
             selfRef.current?.removeEventListener('click', clickControl);
         };
