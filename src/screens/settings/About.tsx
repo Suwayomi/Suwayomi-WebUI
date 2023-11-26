@@ -11,6 +11,8 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import { useTranslation } from 'react-i18next';
+import ListSubheader from '@mui/material/ListSubheader';
+import { Divider } from '@mui/material';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { ListItemLink } from '@/components/util/ListItemLink';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext';
@@ -26,41 +28,84 @@ export function About() {
     }, [t]);
 
     const { data } = requestManager.useGetAbout();
-    const about = data?.aboutServer;
+    const { aboutServer, aboutWebUI } = data ?? {};
 
     useSetDefaultBackTo('settings');
 
-    if (about === undefined) {
+    if (!aboutServer || !aboutWebUI) {
         return <LoadingPlaceholder />;
     }
 
     const version = () => {
-        if (about.buildType === 'Stable') return `${about.version}`;
-        return `${about.version}-${about.revision}`;
+        if (aboutServer.buildType === 'Stable') return `${aboutServer.version}`;
+        return `${aboutServer.version}-${aboutServer.revision}`;
     };
 
-    const buildTime = () => new Date(about.buildTime * 1000).toUTCString();
+    const buildTime = () => new Date(aboutServer.buildTime * 1000).toUTCString();
 
     return (
         <List>
-            <ListItem>
-                <ListItemText
-                    primary={t('settings.server.title.server')}
-                    secondary={`${about.name} ${about.buildType}`}
-                />
-            </ListItem>
-            <ListItem>
-                <ListItemText primary={t('settings.about.label.server_version')} secondary={version()} />
-            </ListItem>
-            <ListItem>
-                <ListItemText primary={t('settings.about.label.build_time')} secondary={buildTime()} />
-            </ListItem>
-            <ListItemLink directLink to={about.github}>
-                <ListItemText primary={t('settings.about.label.github')} secondary={about.github} />
-            </ListItemLink>
-            <ListItemLink directLink to={about.discord}>
-                <ListItemText primary={t('settings.about.label.discord')} secondary={about.discord} />
-            </ListItemLink>
+            <List
+                sx={{ padding: 0 }}
+                subheader={
+                    <ListSubheader component="div" id="about-server-info">
+                        {t('settings.server.title.server')}
+                    </ListSubheader>
+                }
+            >
+                <ListItem>
+                    <ListItemText
+                        primary={t('settings.server.title.server')}
+                        secondary={`${aboutServer.name} ${aboutServer.buildType}`}
+                    />
+                </ListItem>
+                <ListItem>
+                    <ListItemText primary={t('settings.about.server.label.version')} secondary={version()} />
+                </ListItem>
+                <ListItem>
+                    <ListItemText primary={t('settings.about.server.label.build_time')} secondary={buildTime()} />
+                </ListItem>
+            </List>
+            <Divider />
+            <List
+                sx={{ padding: 0 }}
+                subheader={
+                    <ListSubheader component="div" id="about-webui-info">
+                        {t('settings.webui.title.webui')}
+                    </ListSubheader>
+                }
+            >
+                <ListItem>
+                    <ListItemText primary={t('settings.about.webui.label.version')} secondary={aboutWebUI.tag} />
+                </ListItem>
+                <ListItem>
+                    <ListItemText
+                        primary={t('settings.about.webui.label.channel')}
+                        secondary={aboutWebUI.channel.toLocaleUpperCase()}
+                    />
+                </ListItem>
+            </List>
+            <Divider />
+            <List
+                subheader={
+                    <ListSubheader component="div" id="about-links">
+                        {t('global.label.links')}
+                    </ListSubheader>
+                }
+            >
+                <ListItemLink directLink to={aboutServer.github}>
+                    <ListItemText primary={t('settings.about.server.label.github')} secondary={aboutServer.github} />
+                </ListItemLink>
+                <ListItemLink directLink to="https://github.com/Suwayomi/Tachidesk-WebUI">
+                    <ListItemText
+                        primary={t('settings.about.webui.label.github')}
+                        secondary="https://github.com/Suwayomi/Tachidesk-WebUI"
+                    />
+                </ListItemLink>
+                <ListItemLink directLink to={aboutServer.discord}>
+                    <ListItemText primary={t('global.label.discord')} secondary={aboutServer.discord} />
+                </ListItemLink>
+            </List>
         </List>
     );
 }

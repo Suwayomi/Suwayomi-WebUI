@@ -91,7 +91,7 @@ export const ServerSettings = () => {
                 }
             >
                 <TextSetting
-                    settingName={t('settings.about.label.server_address')}
+                    settingName={t('settings.about.server.label.address')}
                     handleChange={handleServerAddressChange}
                     value={serverAddress}
                     placeholder="http://localhost:4567"
