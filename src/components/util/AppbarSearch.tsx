@@ -66,15 +66,9 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
     };
 
     const handleKeyboardEvent = (e: KeyboardEvent) => {
-        if (e.code === 'F3' || (e.ctrlKey && e.code === 'KeyF')) {
+        if (e.key === 'F3' || (e.ctrlKey && e.key === 'f')) {
             e.preventDefault();
             updateSearchOpenState(true);
-            return;
-        }
-
-        if (e.code === 'Enter') {
-            e.preventDefault();
-            handleChange(searchString);
         }
     };
 
@@ -131,6 +125,11 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
             <Input
                 value={searchString}
                 onChange={(e) => setSearchString(e.target.value)}
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                        handleChange(searchString);
+                    }
+                }}
                 onBlur={handleBlur}
                 inputRef={inputRef}
                 endAdornment={

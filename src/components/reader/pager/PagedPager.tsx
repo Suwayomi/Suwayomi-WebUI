@@ -54,7 +54,7 @@ export function PagedPager(props: IReaderProps) {
     }
 
     function keyboardControl(e: KeyboardEvent) {
-        switch (e.code) {
+        switch (e.key) {
             case 'Space':
                 e.preventDefault();
                 nextPage();
