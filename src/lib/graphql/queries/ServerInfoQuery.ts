@@ -20,6 +20,11 @@ export const GET_ABOUT = gql`
             revision
             version
         }
+        aboutWebUI {
+            channel
+            tag
+            updateAvailable
+        }
     }
 `;
 

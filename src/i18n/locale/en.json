@@ -286,8 +286,11 @@
     "label": {
       "browse": "Browse",
       "client": "Client",
+      "discord": "Discord",
       "display": "Display",
       "filter": "Filter",
+      "github": "GitHub",
+      "links": "Links",
       "loading": "Loading…",
       "never": "Never",
       "none": "None",
@@ -493,14 +496,22 @@
   },
   "settings": {
     "about": {
-      "label": {
-        "build_time": "Build time",
-        "discord": "Discord",
-        "github": "GitHub",
-        "server_address": "Server address",
-        "server_version": "Server version"
+      "server": {
+        "label": {
+          "address": "Server address",
+          "build_time": "Build time",
+          "github": "$t(global.label.github) $t(settings.server.title.server)",
+          "version": "Server version"
+        }
       },
-      "title": "About"
+      "title": "About",
+      "webui": {
+        "label": {
+          "channel": "$t(settings.webui.title.webui) channel",
+          "github": "$t(global.label.github) $t(settings.webui.title.webui)",
+          "version": "$t(settings.webui.title.webui) version"
+        }
+      }
     },
     "backup": {
       "automated": {
