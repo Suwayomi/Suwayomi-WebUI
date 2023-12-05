@@ -230,7 +230,7 @@ export enum ChapterOffset {
 
 export type MetadataServerSettings = {
     deleteChaptersManuallyMarkedRead: boolean;
-    deleteChaptersWhileReading: boolean;
+    deleteChaptersWhileReading: number;
     deleteChaptersWithBookmark: boolean;
 };
 

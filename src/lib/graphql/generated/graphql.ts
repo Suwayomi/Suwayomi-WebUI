@@ -2252,6 +2252,7 @@ export type UpdateChapterMutationVariables = Exact<{
   getRead: Scalars['Boolean']['input'];
   getLastPageRead: Scalars['Boolean']['input'];
   id: Scalars['Int']['input'];
+  chapterIdToDelete: Scalars['Int']['input'];
   deleteChapter: Scalars['Boolean']['input'];
   mangaId: Scalars['Int']['input'];
   downloadAhead: Scalars['Boolean']['input'];

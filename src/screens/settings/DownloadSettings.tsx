@@ -20,6 +20,7 @@ import { DownloadAheadSetting } from '@/components/settings/downloads/DownloadAh
 import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
 import { convertToGqlMeta, requestUpdateServerMetadata } from '@/util/metadata.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
+import { DeleteChaptersWhileReadingSetting } from '@/components/settings/downloads/DeleteChaptersWhileReadingSetting.tsx';
 
 type DownloadSettingsType = Pick<
     ServerSettings,
@@ -113,16 +114,12 @@ export const DownloadSettings = () => {
                         />
                     </ListItemSecondaryAction>
                 </ListItem>
-                <ListItem>
-                    <ListItemText primary={t('download.settings.delete_chapters.label.while_reading')} />
-                    <ListItemSecondaryAction>
-                        <Switch
-                            edge="end"
-                            checked={metadataSettings.deleteChaptersWhileReading}
-                            onChange={(e) => updateMetadataSetting('deleteChaptersWhileReading', e.target.checked)}
-                        />
-                    </ListItemSecondaryAction>
-                </ListItem>
+                <DeleteChaptersWhileReadingSetting
+                    chapterToDelete={metadataSettings.deleteChaptersWhileReading}
+                    handleChange={(chapterToDelete) =>
+                        updateMetadataSetting('deleteChaptersWhileReading', chapterToDelete)
+                    }
+                />
                 <ListItem>
                     <ListItemText primary={t('download.settings.delete_chapters.label.allow_deletion_of_bookmarked')} />
                     <ListItemSecondaryAction>

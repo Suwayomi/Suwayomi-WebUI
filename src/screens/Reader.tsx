@@ -169,6 +169,8 @@ export function Reader() {
     const [pageToScrollTo, setPageToScrollTo] = useState<number | undefined>(undefined);
     const { setOverride, setTitle } = useContext(NavBarContext);
     const [retrievingNextChapter, setRetrievingNextChapter] = useState(false);
+    const { data: mangaChaptersData } = requestManager.useGetMangaChapters(mangaId, { nextFetchPolicy: 'standby' });
+    const mangaChapters = mangaChaptersData?.chapters.nodes;
 
     const { settings: defaultSettings, loading: areDefaultSettingsLoading } = useDefaultReaderSettings();
     const [settings, setSettings] = useState(getReaderSettingsFor(manga, defaultSettings));
@@ -176,11 +178,27 @@ export function Reader() {
     const { settings: metadataSettings } = useMetadataServerSettings();
 
     const updateChapter = (patch: UpdateChapterPatchInput) => {
-        const shouldDeleteChapter =
-            !!patch.isRead &&
-            metadataSettings.deleteChaptersWhileReading &&
-            chapter.isDownloaded &&
-            (!chapter.isBookmarked || metadataSettings.deleteChaptersWithBookmark);
+        const isAutoDeletionEnabled = !!patch.isRead && !!metadataSettings.deleteChaptersWhileReading;
+
+        const getChapterIdToDelete = () => {
+            if (!isAutoDeletionEnabled || !mangaChapters) {
+                return -1;
+            }
+
+            const chapterToDeleteSourceOrder = Number(chapterIndex) - (metadataSettings.deleteChaptersWhileReading - 1);
+            const chapterToDelete = mangaChapters.find(
+                (mangaChapter) => mangaChapter.sourceOrder === chapterToDeleteSourceOrder,
+            );
+
+            const shouldDeleteChapter =
+                chapterToDelete?.isDownloaded &&
+                (!chapterToDelete?.isBookmarked || metadataSettings.deleteChaptersWithBookmark);
+            if (!shouldDeleteChapter) {
+                return -1;
+            }
+
+            return chapterToDelete.id;
+        };
 
         const shouldDownloadAhead =
             chapter.manga.inLibrary && !chapter.isRead && !!patch.isRead && isDownloadAheadEnabled;
@@ -188,7 +206,7 @@ export function Reader() {
         requestManager
             .updateChapter(chapter.id, {
                 ...patch,
-                deleteChapter: shouldDeleteChapter,
+                chapterIdToDelete: getChapterIdToDelete(),
                 downloadAheadMangaId: shouldDownloadAhead ? chapter.manga.id : undefined,
             })
             .response.catch(() => {});

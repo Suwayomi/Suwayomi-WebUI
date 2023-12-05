@@ -160,10 +160,22 @@
       "delete_chapters": {
         "label": {
           "allow_deletion_of_bookmarked": "Allow deleting bookmarked chapters",
-          "manually_marked_as_read": "Delete chapter after manually marking it as read",
-          "while_reading": "Delete finished chapters while reading"
+          "manually_marked_as_read": "Delete chapter after manually marking it as read"
         },
-        "title": "Delete chapters"
+        "title": "Delete chapters",
+        "while_reading": {
+          "label": {
+            "title": "Delete finished chapters while reading"
+          },
+          "option": {
+            "label": {
+              "fifth": "Fifth to last read chapter",
+              "first": "Last read chapter",
+              "fourth": "Fourth to last read chapter",
+              "second": "Second to last read chapter",
+              "third": "Third to last read chapter"
+            }
+          }
         }
       },
       "download_ahead": {
@@ -295,6 +307,7 @@
     "label": {
       "browse": "Browse",
       "client": "Client",
+      "disabled": "Disabled",
       "discord": "Discord",
       "display": "Display",
       "filter": "Filter",
