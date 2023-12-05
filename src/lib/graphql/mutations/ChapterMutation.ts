@@ -88,6 +88,7 @@ export const UPDATE_CHAPTER = gql`
         $getRead: Boolean!
         $getLastPageRead: Boolean!
         $id: Int!
+        $chapterIdToDelete: Int!
         $deleteChapter: Boolean!
         $mangaId: Int!
         $downloadAhead: Boolean!
@@ -109,7 +110,7 @@ export const UPDATE_CHAPTER = gql`
                 }
             }
         }
-        deleteDownloadedChapter(input: { id: $id }) @include(if: $deleteChapter) {
+        deleteDownloadedChapter(input: { id: $chapterIdToDelete }) @include(if: $deleteChapter) {
             clientMutationId
             chapters {
                 id

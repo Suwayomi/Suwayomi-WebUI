@@ -12,7 +12,7 @@ import { convertFromGqlMeta, getMetadataFrom } from '@/util/metadata';
 
 export const getDefaultSettings = (): MetadataServerSettings => ({
     deleteChaptersManuallyMarkedRead: false,
-    deleteChaptersAutoMarkedRead: false,
+    deleteChaptersWhileReading: 0,
     deleteChaptersWithBookmark: false,
 });
 

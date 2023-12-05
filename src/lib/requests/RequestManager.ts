@@ -1498,10 +1498,13 @@ export class RequestManager {
 
     public updateChapter(
         id: number,
-        patch: UpdateChapterPatchInput & { deleteChapter?: boolean; downloadAheadMangaId?: number },
+        patch: UpdateChapterPatchInput & {
+            chapterIdToDelete?: number;
+            downloadAheadMangaId?: number;
+        },
         options?: MutationOptions<UpdateChapterMutation, UpdateChapterMutationVariables>,
     ): AbortableApolloMutationResponse<UpdateChapterMutation> {
-        const { deleteChapter, downloadAheadMangaId = -1, ...updatePatch } = patch;
+        const { chapterIdToDelete = -1, downloadAheadMangaId = -1, ...updatePatch } = patch;
 
         return this.doRequest<UpdateChapterMutation, UpdateChapterMutationVariables>(
             GQLMethod.MUTATION,
@@ -1512,7 +1515,8 @@ export class RequestManager {
                 getBookmarked: patch.isBookmarked != null,
                 getRead: patch.isRead != null,
                 getLastPageRead: patch.lastPageRead != null,
-                deleteChapter: !!deleteChapter,
+                chapterIdToDelete,
+                deleteChapter: chapterIdToDelete >= 0,
                 mangaId: downloadAheadMangaId,
                 downloadAhead: downloadAheadMangaId !== -1,
             },

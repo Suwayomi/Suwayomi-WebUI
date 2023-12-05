@@ -20,6 +20,7 @@ import { DownloadAheadSetting } from '@/components/settings/downloads/DownloadAh
 import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
 import { convertToGqlMeta, requestUpdateServerMetadata } from '@/util/metadata.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
+import { DeleteChaptersWhileReadingSetting } from '@/components/settings/downloads/DeleteChaptersWhileReadingSetting.tsx';
 
 type DownloadSettingsType = Pick<
     ServerSettings,
@@ -97,12 +98,12 @@ export const DownloadSettings = () => {
             <List
                 subheader={
                     <ListSubheader component="div" id="download-settings-auto-download">
-                        Delete chapters
+                        {t('download.settings.delete_chapters.title')}
                     </ListSubheader>
                 }
             >
                 <ListItem>
-                    <ListItemText primary="Delete chapter after manually marking it as read" />
+                    <ListItemText primary={t('download.settings.delete_chapters.label.manually_marked_as_read')} />
                     <ListItemSecondaryAction>
                         <Switch
                             edge="end"
@@ -113,18 +114,14 @@ export const DownloadSettings = () => {
                         />
                     </ListItemSecondaryAction>
                 </ListItem>
+                <DeleteChaptersWhileReadingSetting
+                    chapterToDelete={metadataSettings.deleteChaptersWhileReading}
+                    handleChange={(chapterToDelete) =>
+                        updateMetadataSetting('deleteChaptersWhileReading', chapterToDelete)
+                    }
+                />
                 <ListItem>
-                    <ListItemText primary="Delete finished chapters while reading" />
-                    <ListItemSecondaryAction>
-                        <Switch
-                            edge="end"
-                            checked={metadataSettings.deleteChaptersAutoMarkedRead}
-                            onChange={(e) => updateMetadataSetting('deleteChaptersAutoMarkedRead', e.target.checked)}
-                        />
-                    </ListItemSecondaryAction>
-                </ListItem>
-                <ListItem>
-                    <ListItemText primary="Allow deleting bookmarked chapters" />
+                    <ListItemText primary={t('download.settings.delete_chapters.label.allow_deletion_of_bookmarked')} />
                     <ListItemSecondaryAction>
                         <Switch
                             edge="end"

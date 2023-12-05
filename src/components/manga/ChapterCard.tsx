@@ -102,7 +102,7 @@ export const ChapterCard: React.FC<IProps> = (props: IProps) => {
         requestManager.updateChapter(chapter.id, {
             [key]: value,
             lastPageRead: key === 'isRead' ? 0 : undefined,
-            deleteChapter: !!chapterIdsToDelete.length,
+            chapterIdToDelete: chapterIdsToDelete[0],
         });
     };
 
