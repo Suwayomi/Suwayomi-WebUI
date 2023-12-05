@@ -178,7 +178,7 @@ export function Reader() {
     const updateChapter = (patch: UpdateChapterPatchInput) => {
         const shouldDeleteChapter =
             !!patch.isRead &&
-            metadataSettings.deleteChaptersAutoMarkedRead &&
+            metadataSettings.deleteChaptersWhileReading &&
             chapter.isDownloaded &&
             (!chapter.isBookmarked || metadataSettings.deleteChaptersWithBookmark);
 

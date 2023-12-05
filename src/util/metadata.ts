@@ -83,6 +83,9 @@ const migrations: IMetadataMigration[] = [
     {
         keys: [{ oldKey: 'loadNextonEnding', newKey: 'loadNextOnEnding' }],
     },
+    {
+        keys: [{ oldKey: 'deleteChaptersAutoMarkedRead', newKey: 'deleteChaptersWhileReading' }],
+    },
 ];
 
 const getAppKeyPrefixForMigration = (migrationId: number): string => {

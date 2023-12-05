@@ -118,8 +118,8 @@ export const DownloadSettings = () => {
                     <ListItemSecondaryAction>
                         <Switch
                             edge="end"
-                            checked={metadataSettings.deleteChaptersAutoMarkedRead}
-                            onChange={(e) => updateMetadataSetting('deleteChaptersAutoMarkedRead', e.target.checked)}
+                            checked={metadataSettings.deleteChaptersWhileReading}
+                            onChange={(e) => updateMetadataSetting('deleteChaptersWhileReading', e.target.checked)}
                         />
                     </ListItemSecondaryAction>
                 </ListItem>
