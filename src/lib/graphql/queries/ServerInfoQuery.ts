@@ -7,7 +7,7 @@
  */
 
 import gql from 'graphql-tag';
-import { WEBUI_UPDATE_INFO, WEBUI_UPDATE_STATUS } from '@/lib/graphql/Fragments';
+import { WEBUI_UPDATE_STATUS } from '@/lib/graphql/Fragments';
 
 export const GET_ABOUT = gql`
     query GET_ABOUT {
@@ -23,7 +23,6 @@ export const GET_ABOUT = gql`
         aboutWebUI {
             channel
             tag
-            updateAvailable
         }
     }
 `;
@@ -39,10 +38,11 @@ export const CHECK_FOR_SERVER_UPDATES = gql`
 `;
 
 export const CHECK_FOR_WEBUI_UPDATE = gql`
-    ${WEBUI_UPDATE_INFO}
     query CHECK_FOR_WEBUI_UPDATE {
         checkForWebUIUpdate {
-            ...WEBUI_UPDATE_INFO
+            channel
+            tag
+            updateAvailable
         }
     }
 `;

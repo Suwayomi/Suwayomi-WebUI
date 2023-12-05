@@ -416,7 +416,6 @@ export const WEBUI_UPDATE_INFO = gql`
     fragment WEBUI_UPDATE_INFO on WebUIUpdateInfo {
         channel
         tag
-        updateAvailable
     }
 `;
 

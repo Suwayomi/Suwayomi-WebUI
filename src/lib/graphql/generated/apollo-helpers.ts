@@ -10,6 +10,11 @@ export type AboutServerPayloadFieldPolicy = {
 	revision?: FieldPolicy<any> | FieldReadFunction<any>,
 	version?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type AboutWebUIKeySpecifier = ('channel' | 'tag' | AboutWebUIKeySpecifier)[];
+export type AboutWebUIFieldPolicy = {
+	channel?: FieldPolicy<any> | FieldReadFunction<any>,
+	tag?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type BackupRestoreStatusKeySpecifier = ('mangaProgress' | 'state' | 'totalManga' | BackupRestoreStatusKeySpecifier)[];
 export type BackupRestoreStatusFieldPolicy = {
 	mangaProgress?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -104,6 +109,13 @@ export type CheckForServerUpdatesPayloadFieldPolicy = {
 	channel?: FieldPolicy<any> | FieldReadFunction<any>,
 	tag?: FieldPolicy<any> | FieldReadFunction<any>,
 	url?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type ClearCachedImagesPayloadKeySpecifier = ('cachedPages' | 'cachedThumbnails' | 'clientMutationId' | 'downloadedThumbnails' | ClearCachedImagesPayloadKeySpecifier)[];
+export type ClearCachedImagesPayloadFieldPolicy = {
+	cachedPages?: FieldPolicy<any> | FieldReadFunction<any>,
+	cachedThumbnails?: FieldPolicy<any> | FieldReadFunction<any>,
+	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
+	downloadedThumbnails?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type ClearDownloaderPayloadKeySpecifier = ('clientMutationId' | 'downloadStatus' | ClearDownloaderPayloadKeySpecifier)[];
 export type ClearDownloaderPayloadFieldPolicy = {
@@ -390,8 +402,9 @@ export type MultiSelectListPreferenceFieldPolicy = {
 	title?: FieldPolicy<any> | FieldReadFunction<any>,
 	visible?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('clearDownloader' | 'createBackup' | 'createCategory' | 'deleteCategory' | 'deleteCategoryMeta' | 'deleteChapterMeta' | 'deleteDownloadedChapter' | 'deleteDownloadedChapters' | 'deleteGlobalMeta' | 'deleteMangaMeta' | 'dequeueChapterDownload' | 'dequeueChapterDownloads' | 'downloadAhead' | 'enqueueChapterDownload' | 'enqueueChapterDownloads' | 'fetchChapterPages' | 'fetchChapters' | 'fetchExtensions' | 'fetchManga' | 'fetchSourceManga' | 'installExternalExtension' | 'reorderChapterDownload' | 'resetSettings' | 'restoreBackup' | 'setCategoryMeta' | 'setChapterMeta' | 'setGlobalMeta' | 'setMangaMeta' | 'setSettings' | 'startDownloader' | 'stopDownloader' | 'updateCategories' | 'updateCategory' | 'updateCategoryManga' | 'updateCategoryOrder' | 'updateChapter' | 'updateChapters' | 'updateExtension' | 'updateExtensions' | 'updateLibraryManga' | 'updateManga' | 'updateMangaCategories' | 'updateMangas' | 'updateMangasCategories' | 'updateSourcePreference' | 'updateStop' | 'updateWebUI' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('clearCachedImages' | 'clearDownloader' | 'createBackup' | 'createCategory' | 'deleteCategory' | 'deleteCategoryMeta' | 'deleteChapterMeta' | 'deleteDownloadedChapter' | 'deleteDownloadedChapters' | 'deleteGlobalMeta' | 'deleteMangaMeta' | 'dequeueChapterDownload' | 'dequeueChapterDownloads' | 'downloadAhead' | 'enqueueChapterDownload' | 'enqueueChapterDownloads' | 'fetchChapterPages' | 'fetchChapters' | 'fetchExtensions' | 'fetchManga' | 'fetchSourceManga' | 'installExternalExtension' | 'reorderChapterDownload' | 'resetSettings' | 'restoreBackup' | 'setCategoryMeta' | 'setChapterMeta' | 'setGlobalMeta' | 'setMangaMeta' | 'setSettings' | 'startDownloader' | 'stopDownloader' | 'updateCategories' | 'updateCategory' | 'updateCategoryManga' | 'updateCategoryOrder' | 'updateChapter' | 'updateChapters' | 'updateExtension' | 'updateExtensions' | 'updateLibraryManga' | 'updateManga' | 'updateMangaCategories' | 'updateMangas' | 'updateMangasCategories' | 'updateSourcePreference' | 'updateStop' | 'updateWebUI' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
+	clearCachedImages?: FieldPolicy<any> | FieldReadFunction<any>,
 	clearDownloader?: FieldPolicy<any> | FieldReadFunction<any>,
 	createBackup?: FieldPolicy<any> | FieldReadFunction<any>,
 	createCategory?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -814,6 +827,12 @@ export type ValidateBackupSourceFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type WebUIUpdateCheckKeySpecifier = ('channel' | 'tag' | 'updateAvailable' | WebUIUpdateCheckKeySpecifier)[];
+export type WebUIUpdateCheckFieldPolicy = {
+	channel?: FieldPolicy<any> | FieldReadFunction<any>,
+	tag?: FieldPolicy<any> | FieldReadFunction<any>,
+	updateAvailable?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type WebUIUpdateInfoKeySpecifier = ('channel' | 'tag' | 'updateAvailable' | WebUIUpdateInfoKeySpecifier)[];
 export type WebUIUpdateInfoFieldPolicy = {
 	channel?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -835,6 +854,10 @@ export type StrictTypedTypePolicies = {
 	AboutServerPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | AboutServerPayloadKeySpecifier | (() => undefined | AboutServerPayloadKeySpecifier),
 		fields?: AboutServerPayloadFieldPolicy,
+	},
+	AboutWebUI?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | AboutWebUIKeySpecifier | (() => undefined | AboutWebUIKeySpecifier),
+		fields?: AboutWebUIFieldPolicy,
 	},
 	BackupRestoreStatus?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | BackupRestoreStatusKeySpecifier | (() => undefined | BackupRestoreStatusKeySpecifier),
@@ -883,6 +906,10 @@ export type StrictTypedTypePolicies = {
 	CheckForServerUpdatesPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | CheckForServerUpdatesPayloadKeySpecifier | (() => undefined | CheckForServerUpdatesPayloadKeySpecifier),
 		fields?: CheckForServerUpdatesPayloadFieldPolicy,
+	},
+	ClearCachedImagesPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | ClearCachedImagesPayloadKeySpecifier | (() => undefined | ClearCachedImagesPayloadKeySpecifier),
+		fields?: ClearCachedImagesPayloadFieldPolicy,
 	},
 	ClearDownloaderPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | ClearDownloaderPayloadKeySpecifier | (() => undefined | ClearDownloaderPayloadKeySpecifier),
@@ -1247,6 +1274,10 @@ export type StrictTypedTypePolicies = {
 	ValidateBackupSource?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | ValidateBackupSourceKeySpecifier | (() => undefined | ValidateBackupSourceKeySpecifier),
 		fields?: ValidateBackupSourceFieldPolicy,
+	},
+	WebUIUpdateCheck?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | WebUIUpdateCheckKeySpecifier | (() => undefined | WebUIUpdateCheckKeySpecifier),
+		fields?: WebUIUpdateCheckFieldPolicy,
 	},
 	WebUIUpdateInfo?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | WebUIUpdateInfoKeySpecifier | (() => undefined | WebUIUpdateInfoKeySpecifier),
