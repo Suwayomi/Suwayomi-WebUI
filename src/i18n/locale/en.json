@@ -157,6 +157,15 @@
         },
         "title": "Auto-download"
       },
+      "delete_chapters": {
+        "label": {
+          "allow_deletion_of_bookmarked": "Allow deleting bookmarked chapters",
+          "manually_marked_as_read": "Delete chapter after manually marking it as read",
+          "while_reading": "Delete finished chapters while reading"
+        },
+        "title": "Delete chapters"
+        }
+      },
       "download_ahead": {
         "label": {
           "description": "How many chapters should get downloaded when marking a chapter as read while reading.",

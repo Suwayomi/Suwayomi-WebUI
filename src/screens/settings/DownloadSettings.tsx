@@ -97,12 +97,12 @@ export const DownloadSettings = () => {
             <List
                 subheader={
                     <ListSubheader component="div" id="download-settings-auto-download">
-                        Delete chapters
+                        {t('download.settings.delete_chapters.title')}
                     </ListSubheader>
                 }
             >
                 <ListItem>
-                    <ListItemText primary="Delete chapter after manually marking it as read" />
+                    <ListItemText primary={t('download.settings.delete_chapters.label.manually_marked_as_read')} />
                     <ListItemSecondaryAction>
                         <Switch
                             edge="end"
@@ -114,7 +114,7 @@ export const DownloadSettings = () => {
                     </ListItemSecondaryAction>
                 </ListItem>
                 <ListItem>
-                    <ListItemText primary="Delete finished chapters while reading" />
+                    <ListItemText primary={t('download.settings.delete_chapters.label.while_reading')} />
                     <ListItemSecondaryAction>
                         <Switch
                             edge="end"
@@ -124,7 +124,7 @@ export const DownloadSettings = () => {
                     </ListItemSecondaryAction>
                 </ListItem>
                 <ListItem>
-                    <ListItemText primary="Allow deleting bookmarked chapters" />
+                    <ListItemText primary={t('download.settings.delete_chapters.label.allow_deletion_of_bookmarked')} />
                     <ListItemSecondaryAction>
                         <Switch
                             edge="end"
