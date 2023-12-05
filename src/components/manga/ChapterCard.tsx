@@ -85,7 +85,7 @@ export const ChapterCard: React.FC<IProps> = (props: IProps) => {
             const index = allChapters.findIndex(({ id: chapterId }) => chapterId === chapter.id);
             requestManager.updateChapters(
                 allChapters
-                    .slice(index)
+                    .slice(index + 1)
                     .filter(({ isRead }) => !isRead)
                     .map(({ id: chapterId }) => chapterId),
                 { isRead: true, chapterIdsToDelete },
