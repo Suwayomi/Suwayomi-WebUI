@@ -28,7 +28,7 @@ import { makeToast } from '@/components/util/Toast.tsx';
 
 type AboutServer = GetAboutQuery['aboutServer'];
 
-const getVersion = (aboutServer: AboutServer) => {
+export const getVersion = (aboutServer: AboutServer) => {
     if (aboutServer.buildType === 'Stable') return `${aboutServer.version}`;
     return `${aboutServer.version}-${aboutServer.revision}`;
 };

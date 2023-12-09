@@ -35,6 +35,7 @@ import { DefaultNavBar } from '@/components/navbar/DefaultNavBar';
 import { DownloadSettings } from '@/screens/settings/DownloadSettings.tsx';
 import { ServerSettings } from '@/screens/settings/ServerSettings.tsx';
 import { WebUISettings } from '@/screens/settings/WebUISettings.tsx';
+import { ServerUpdateChecker } from '@/components/settings/ServerUpdateChecker.tsx';
 
 if (__DEV__) {
     // Adds messages only in a dev environment
@@ -43,6 +44,7 @@ if (__DEV__) {
 }
 export const App: React.FC = () => (
     <AppContext>
+        <ServerUpdateChecker />
         <CssBaseline />
         <DefaultNavBar />
         <Container
