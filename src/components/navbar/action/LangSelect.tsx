@@ -15,7 +15,7 @@ import Dialog from '@mui/material/Dialog';
 import Switch from '@mui/material/Switch';
 import IconButton from '@mui/material/IconButton';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { List, ListItemSecondaryAction, ListItemText, Tooltip } from '@mui/material';
+import { List, ListItemText, Tooltip } from '@mui/material';
 import ListItem from '@mui/material/ListItem';
 import { useTranslation } from 'react-i18next';
 import { cloneObject } from '@/util/cloneObject';
@@ -98,12 +98,10 @@ export function LangSelect(props: IProps) {
                             <ListItem key={lang}>
                                 <ListItemText primary={translateExtensionLanguage(lang)} />
 
-                                <ListItemSecondaryAction>
-                                    <Switch
-                                        checked={mShownLangs.indexOf(lang) !== -1}
-                                        onChange={(e) => handleChange(e, lang)}
-                                    />
-                                </ListItemSecondaryAction>
+                                <Switch
+                                    checked={mShownLangs.indexOf(lang) !== -1}
+                                    onChange={(e) => handleChange(e, lang)}
+                                />
                             </ListItem>
                         ))}
                     </List>

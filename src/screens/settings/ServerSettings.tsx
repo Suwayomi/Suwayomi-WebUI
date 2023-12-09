@@ -10,7 +10,6 @@ import { useTranslation } from 'react-i18next';
 import { useContext, useEffect } from 'react';
 import { List, ListItem, ListItemText, Switch } from '@mui/material';
 import ListSubheader from '@mui/material/ListSubheader';
-import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { useLocalStorage } from '@/util/useLocalStorage.tsx';
@@ -167,13 +166,11 @@ export const ServerSettings = () => {
             >
                 <ListItem>
                     <ListItemText primary={t('settings.server.socks_proxy.label.enable')} />
-                    <ListItemSecondaryAction>
-                        <Switch
-                            edge="end"
-                            checked={!!serverSettings?.socksProxyEnabled}
-                            onChange={(e) => updateSetting('socksProxyEnabled', e.target.checked)}
-                        />
-                    </ListItemSecondaryAction>
+                    <Switch
+                        edge="end"
+                        checked={!!serverSettings?.socksProxyEnabled}
+                        onChange={(e) => updateSetting('socksProxyEnabled', e.target.checked)}
+                    />
                 </ListItem>
                 <TextSetting
                     settingName={t('settings.server.socks_proxy.label.host')}
@@ -197,13 +194,11 @@ export const ServerSettings = () => {
             >
                 <ListItem>
                     <ListItemText primary={t('settings.server.auth.basic.label.enable')} />
-                    <ListItemSecondaryAction>
-                        <Switch
-                            edge="end"
-                            checked={!!serverSettings?.basicAuthEnabled}
-                            onChange={(e) => updateSetting('basicAuthEnabled', e.target.checked)}
-                        />
-                    </ListItemSecondaryAction>
+                    <Switch
+                        edge="end"
+                        checked={!!serverSettings?.basicAuthEnabled}
+                        onChange={(e) => updateSetting('basicAuthEnabled', e.target.checked)}
+                    />
                 </ListItem>
                 <TextSetting
                     settingName={t('settings.server.auth.basic.label.username')}
@@ -228,39 +223,33 @@ export const ServerSettings = () => {
             >
                 <ListItem>
                     <ListItemText primary={t('settings.server.misc.log_level.label.server')} />
-                    <ListItemSecondaryAction>
-                        <Switch
-                            edge="end"
-                            checked={!!serverSettings?.debugLogsEnabled}
-                            onChange={(e) => updateSetting('debugLogsEnabled', e.target.checked)}
-                        />
-                    </ListItemSecondaryAction>
+                    <Switch
+                        edge="end"
+                        checked={!!serverSettings?.debugLogsEnabled}
+                        onChange={(e) => updateSetting('debugLogsEnabled', e.target.checked)}
+                    />
                 </ListItem>
                 <ListItem>
                     <ListItemText
                         primary={t('settings.server.misc.log_level.graphql.label.title')}
                         secondary={t('settings.server.misc.log_level.graphql.label.description')}
                     />
-                    <ListItemSecondaryAction>
-                        <Switch
-                            edge="end"
-                            checked={!!serverSettings?.gqlDebugLogsEnabled}
-                            onChange={(e) => updateSetting('gqlDebugLogsEnabled', e.target.checked)}
-                        />
-                    </ListItemSecondaryAction>
+                    <Switch
+                        edge="end"
+                        checked={!!serverSettings?.gqlDebugLogsEnabled}
+                        onChange={(e) => updateSetting('gqlDebugLogsEnabled', e.target.checked)}
+                    />
                 </ListItem>
                 <ListItem>
                     <ListItemText
                         primary={t('settings.server.misc.tray_icon.label.title')}
                         secondary={t('settings.server.misc.tray_icon.label.description')}
                     />
-                    <ListItemSecondaryAction>
-                        <Switch
-                            edge="end"
-                            checked={!!serverSettings?.systemTrayEnabled}
-                            onChange={(e) => updateSetting('systemTrayEnabled', e.target.checked)}
-                        />
-                    </ListItemSecondaryAction>
+                    <Switch
+                        edge="end"
+                        checked={!!serverSettings?.systemTrayEnabled}
+                        onChange={(e) => updateSetting('systemTrayEnabled', e.target.checked)}
+                    />
                 </ListItem>
             </List>
         </List>

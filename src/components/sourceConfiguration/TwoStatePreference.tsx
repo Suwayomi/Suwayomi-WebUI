@@ -9,7 +9,6 @@
 import { createElement, useState, useEffect } from 'react';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import Switch from '@mui/material/Switch';
 import Checkbox from '@mui/material/Checkbox';
 import { CheckBoxPreferenceProps, SwitchPreferenceCompatProps, TwoStatePreferenceProps } from '@/typings';
@@ -57,18 +56,16 @@ function TwoSatePreference(props: TwoStatePreferenceProps) {
     return (
         <ListItem>
             <ListItemText primary={title} secondary={summary} />
-            <ListItemSecondaryAction>
-                {createElement(getTwoStateType(twoStateType), {
-                    edge: 'end',
-                    checked: internalCurrentValue,
-                    onChange: () => {
-                        updateValue(twoStateType === 'Switch' ? 'switchState' : 'checkBoxState', !currentValue);
+            {createElement(getTwoStateType(twoStateType), {
+                edge: 'end',
+                checked: internalCurrentValue,
+                onChange: () => {
+                    updateValue(twoStateType === 'Switch' ? 'switchState' : 'checkBoxState', !currentValue);
 
-                        // appear smooth
-                        setInternalCurrentValue(!currentValue);
-                    },
-                })}
-            </ListItemSecondaryAction>
+                    // appear smooth
+                    setInternalCurrentValue(!currentValue);
+                },
+            })}
         </ListItem>
     );
 }

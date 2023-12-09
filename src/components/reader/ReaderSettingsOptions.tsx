@@ -7,7 +7,6 @@
  */
 
 import { List, ListItem, ListItemText, Switch } from '@mui/material';
-import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { useTranslation } from 'react-i18next';
@@ -39,66 +38,54 @@ export function ReaderSettingsOptions({
         <List>
             <ListItem>
                 <ListItemText primary={t('reader.settings.label.static_navigation')} />
-                <ListItemSecondaryAction>
-                    <Switch
-                        edge="end"
-                        checked={staticNav}
-                        onChange={(e) => setSettingValue('staticNav', e.target.checked)}
-                    />
-                </ListItemSecondaryAction>
+                <Switch
+                    edge="end"
+                    checked={staticNav}
+                    onChange={(e) => setSettingValue('staticNav', e.target.checked)}
+                />
             </ListItem>
             <ListItem>
                 <ListItemText primary={t('reader.settings.label.show_page_number')} />
-                <ListItemSecondaryAction>
-                    <Switch
-                        edge="end"
-                        checked={showPageNumber}
-                        onChange={(e) => setSettingValue('showPageNumber', e.target.checked)}
-                    />
-                </ListItemSecondaryAction>
+                <Switch
+                    edge="end"
+                    checked={showPageNumber}
+                    onChange={(e) => setSettingValue('showPageNumber', e.target.checked)}
+                />
             </ListItem>
             <ListItem>
                 <ListItemText primary={t('reader.settings.label.load_next_chapter')} />
-                <ListItemSecondaryAction>
-                    <Switch
-                        edge="end"
-                        checked={loadNextOnEnding}
-                        onChange={(e) => setSettingValue('loadNextOnEnding', e.target.checked)}
-                    />
-                </ListItemSecondaryAction>
+                <Switch
+                    edge="end"
+                    checked={loadNextOnEnding}
+                    onChange={(e) => setSettingValue('loadNextOnEnding', e.target.checked)}
+                />
             </ListItem>
             <ListItem>
                 <ListItemText primary={t('reader.settings.label.skip_dup_chapters')} />
-                <ListItemSecondaryAction>
-                    <Switch
-                        edge="end"
-                        checked={skipDupChapters}
-                        onChange={(e) => setSettingValue('skipDupChapters', e.target.checked)}
-                    />
-                </ListItemSecondaryAction>
+                <Switch
+                    edge="end"
+                    checked={skipDupChapters}
+                    onChange={(e) => setSettingValue('skipDupChapters', e.target.checked)}
+                />
             </ListItem>
             {fitPageToWindowEligible ? (
                 <ListItem>
                     <ListItemText primary={t('reader.settings.label.fit_page_to_window')} />
-                    <ListItemSecondaryAction>
-                        <Switch
-                            edge="end"
-                            checked={fitPageToWindow}
-                            onChange={(e) => setSettingValue('fitPageToWindow', e.target.checked)}
-                        />
-                    </ListItemSecondaryAction>
+                    <Switch
+                        edge="end"
+                        checked={fitPageToWindow}
+                        onChange={(e) => setSettingValue('fitPageToWindow', e.target.checked)}
+                    />
                 </ListItem>
             ) : null}
             {readerType === 'DoubleLTR' || readerType === 'DoubleRTL' ? (
                 <ListItem>
                     <ListItemText primary={t('reader.settings.label.offset_first_page')} />
-                    <ListItemSecondaryAction>
-                        <Switch
-                            edge="end"
-                            checked={offsetFirstPage}
-                            onChange={(e) => setSettingValue('offsetFirstPage', e.target.checked)}
-                        />
-                    </ListItemSecondaryAction>
+                    <Switch
+                        edge="end"
+                        checked={offsetFirstPage}
+                        onChange={(e) => setSettingValue('offsetFirstPage', e.target.checked)}
+                    />
                 </ListItem>
             ) : null}
             <ListItem>
