@@ -14,14 +14,12 @@ import { Card, CardActionArea, Stack, Box, Tooltip } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import React, { useContext, useEffect } from 'react';
 import { DragDropContext, Draggable } from 'react-beautiful-dnd';
-
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { StrictModeDroppable } from '@/lib/StrictModeDroppable';
 import { makeToast } from '@/components/util/Toast';
-import { NavbarToolbar } from '@/components/navbar/DefaultNavBar';
 import { DownloadStateIndicator } from '@/components/molecules/DownloadStateIndicator';
 import { EmptyView } from '@/components/util/EmptyView';
 import { DownloadType } from '@/lib/graphql/generated/graphql.ts';
@@ -34,6 +32,7 @@ export const DownloadQueue: React.FC = () => {
     const { data: downloaderData } = requestManager.useDownloadSubscription();
     const queue = (downloaderData?.downloadChanged.queue as DownloadType[]) ?? [];
     const status = downloaderData?.downloadChanged.state ?? 'STARTED';
+    const isQueueEmpty = !queue.length;
 
     const { setTitle, setAction } = useContext(NavBarContext);
 
@@ -47,14 +46,16 @@ export const DownloadQueue: React.FC = () => {
 
     useEffect(() => {
         setTitle(t('download.queue.title'));
-        setAction(null);
-    }, [t]);
+        setAction(
+            <Tooltip title={t(status === 'STOPPED' ? 'global.button.start' : 'global.button.stop')}>
+                <IconButton onClick={toggleQueueStatus} size="large" disabled={isQueueEmpty}>
+                    {status === 'STOPPED' ? <PlayArrowIcon /> : <PauseIcon />}
+                </IconButton>
+            </Tooltip>,
+        );
+    }, [t, status, isQueueEmpty]);
 
     const onDragEnd = () => {};
-
-    if (queue.length === 0) {
-        return <EmptyView message={t('download.queue.label.no_downloads')} />;
-    }
 
     const handleDelete = async (chapter: TChapter) => {
         const isRunning = status === 'STARTED';
@@ -83,79 +84,74 @@ export const DownloadQueue: React.FC = () => {
         requestManager.startDownloads().response.catch(() => {});
     };
 
+    if (isQueueEmpty) {
+        return <EmptyView message={t('download.queue.label.no_downloads')} />;
+    }
+
     return (
-        <>
-            <NavbarToolbar>
-                <Tooltip title={t(status === 'STOPPED' ? 'global.button.start' : 'global.button.stop')}>
-                    <IconButton onClick={toggleQueueStatus} size="large">
-                        {status === 'STOPPED' ? <PlayArrowIcon /> : <PauseIcon />}
-                    </IconButton>
-                </Tooltip>
-            </NavbarToolbar>
-            <DragDropContext onDragEnd={onDragEnd}>
-                <StrictModeDroppable droppableId="droppable">
-                    {(droppableProvided) => (
-                        <Box ref={droppableProvided.innerRef} sx={{ pt: 1 }}>
-                            {queue.map((item, index) => (
-                                <Draggable
-                                    key={`${item.chapter.manga.id}-${item.chapter.sourceOrder}`}
-                                    draggableId={`${item.chapter.manga.id}-${item.chapter.sourceOrder}`}
-                                    index={index}
-                                >
-                                    {(draggableProvided, snapshot) => (
-                                        <Box
-                                            {...draggableProvided.draggableProps}
-                                            {...draggableProvided.dragHandleProps}
-                                            ref={draggableProvided.innerRef}
-                                            sx={{ p: 1, pb: 2 }}
+        <DragDropContext onDragEnd={onDragEnd}>
+            <StrictModeDroppable droppableId="droppable">
+                {(droppableProvided) => (
+                    <Box ref={droppableProvided.innerRef} sx={{ pt: 1 }}>
+                        {queue.map((item, index) => (
+                            <Draggable
+                                key={`${item.chapter.manga.id}-${item.chapter.sourceOrder}`}
+                                draggableId={`${item.chapter.manga.id}-${item.chapter.sourceOrder}`}
+                                index={index}
+                            >
+                                {(draggableProvided, snapshot) => (
+                                    <Box
+                                        {...draggableProvided.draggableProps}
+                                        {...draggableProvided.dragHandleProps}
+                                        ref={draggableProvided.innerRef}
+                                        sx={{ p: 1, pb: 2 }}
+                                    >
+                                        <Card
+                                            sx={{
+                                                backgroundColor: snapshot.isDragging ? 'custom.light' : undefined,
+                                            }}
                                         >
-                                            <Card
+                                            <CardActionArea
+                                                component={Link}
+                                                to={`/manga/${item.chapter.mangaId}`}
                                                 sx={{
-                                                    backgroundColor: snapshot.isDragging ? 'custom.light' : undefined,
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    p: 1,
                                                 }}
                                             >
-                                                <CardActionArea
-                                                    component={Link}
-                                                    to={`/manga/${item.chapter.mangaId}`}
-                                                    sx={{
-                                                        display: 'flex',
-                                                        alignItems: 'center',
-                                                        p: 1,
-                                                    }}
-                                                >
-                                                    <IconButton sx={{ pointerEvents: 'none' }}>
-                                                        <DragHandle />
+                                                <IconButton sx={{ pointerEvents: 'none' }}>
+                                                    <DragHandle />
+                                                </IconButton>
+                                                <Stack sx={{ flex: 1, ml: 1 }} direction="column">
+                                                    <Typography variant="h6">{item.chapter.manga.title}</Typography>
+                                                    <Typography variant="caption" display="block" gutterBottom>
+                                                        {item.chapter.name}
+                                                    </Typography>
+                                                </Stack>
+                                                <DownloadStateIndicator download={item} />
+                                                <Tooltip title={t('chapter.action.download.delete.label.action')}>
+                                                    <IconButton
+                                                        onClick={(e) => {
+                                                            e.preventDefault();
+                                                            e.stopPropagation();
+                                                            handleDelete(item.chapter);
+                                                        }}
+                                                        size="large"
+                                                    >
+                                                        <DeleteIcon />
                                                     </IconButton>
-                                                    <Stack sx={{ flex: 1, ml: 1 }} direction="column">
-                                                        <Typography variant="h6">{item.chapter.manga.title}</Typography>
-                                                        <Typography variant="caption" display="block" gutterBottom>
-                                                            {item.chapter.name}
-                                                        </Typography>
-                                                    </Stack>
-                                                    <DownloadStateIndicator download={item} />
-                                                    <Tooltip title={t('chapter.action.download.delete.label.action')}>
-                                                        <IconButton
-                                                            onClick={(e) => {
-                                                                e.preventDefault();
-                                                                e.stopPropagation();
-                                                                handleDelete(item.chapter);
-                                                            }}
-                                                            size="large"
-                                                        >
-                                                            <DeleteIcon />
-                                                        </IconButton>
-                                                    </Tooltip>
-                                                </CardActionArea>
-                                            </Card>
-                                        </Box>
-                                    )}
-                                </Draggable>
-                            ))}
-                            {droppableProvided.placeholder}
-                        </Box>
-                    )}
-                </StrictModeDroppable>
-            </DragDropContext>
-        </>
+                                                </Tooltip>
+                                            </CardActionArea>
+                                        </Card>
+                                    </Box>
+                                )}
+                            </Draggable>
+                        ))}
+                        {droppableProvided.placeholder}
+                    </Box>
+                )}
+            </StrictModeDroppable>
+        </DragDropContext>
     );
 };
