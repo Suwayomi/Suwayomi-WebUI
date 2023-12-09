@@ -952,6 +952,7 @@ export type Mutation = {
   installExternalExtension: InstallExternalExtensionPayload;
   reorderChapterDownload: ReorderChapterDownloadPayload;
   resetSettings: ResetSettingsPayload;
+  resetWebUIUpdateStatus: WebUiUpdateStatus;
   restoreBackup: RestoreBackupPayload;
   setCategoryMeta: SetCategoryMetaPayload;
   setChapterMeta: SetChapterMetaPayload;
@@ -2017,7 +2018,7 @@ export enum UpdateState {
   Downloading = 'DOWNLOADING',
   Error = 'ERROR',
   Finished = 'FINISHED',
-  Stopped = 'STOPPED'
+  Idle = 'IDLE'
 }
 
 export type UpdateStatus = {
@@ -2093,7 +2094,6 @@ export type WebUiUpdateInfo = {
   __typename?: 'WebUIUpdateInfo';
   channel: Scalars['String']['output'];
   tag: Scalars['String']['output'];
-  updateAvailable: Scalars['Boolean']['output'];
 };
 
 export type WebUiUpdateInput = {
@@ -2394,6 +2394,13 @@ export type SetGlobalMetadataMutationVariables = Exact<{
 
 
 export type SetGlobalMetadataMutation = { __typename?: 'Mutation', setGlobalMeta: { __typename?: 'SetGlobalMetaPayload', clientMutationId?: string | null, meta: { __typename?: 'GlobalMetaType', key: string, value: string } } };
+
+export type ClearServerCacheMutationVariables = Exact<{
+  input: ClearCachedImagesInput;
+}>;
+
+
+export type ClearServerCacheMutation = { __typename?: 'Mutation', clearCachedImages: { __typename?: 'ClearCachedImagesPayload', clientMutationId?: string | null, cachedPages?: boolean | null, cachedThumbnails?: boolean | null, downloadedThumbnails?: boolean | null } };
 
 export type DeleteMangaMetadataMutationVariables = Exact<{
   input: DeleteMangaMetaInput;

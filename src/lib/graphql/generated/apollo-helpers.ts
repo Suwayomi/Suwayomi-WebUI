@@ -402,7 +402,7 @@ export type MultiSelectListPreferenceFieldPolicy = {
 	title?: FieldPolicy<any> | FieldReadFunction<any>,
 	visible?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('clearCachedImages' | 'clearDownloader' | 'createBackup' | 'createCategory' | 'deleteCategory' | 'deleteCategoryMeta' | 'deleteChapterMeta' | 'deleteDownloadedChapter' | 'deleteDownloadedChapters' | 'deleteGlobalMeta' | 'deleteMangaMeta' | 'dequeueChapterDownload' | 'dequeueChapterDownloads' | 'downloadAhead' | 'enqueueChapterDownload' | 'enqueueChapterDownloads' | 'fetchChapterPages' | 'fetchChapters' | 'fetchExtensions' | 'fetchManga' | 'fetchSourceManga' | 'installExternalExtension' | 'reorderChapterDownload' | 'resetSettings' | 'restoreBackup' | 'setCategoryMeta' | 'setChapterMeta' | 'setGlobalMeta' | 'setMangaMeta' | 'setSettings' | 'startDownloader' | 'stopDownloader' | 'updateCategories' | 'updateCategory' | 'updateCategoryManga' | 'updateCategoryOrder' | 'updateChapter' | 'updateChapters' | 'updateExtension' | 'updateExtensions' | 'updateLibraryManga' | 'updateManga' | 'updateMangaCategories' | 'updateMangas' | 'updateMangasCategories' | 'updateSourcePreference' | 'updateStop' | 'updateWebUI' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('clearCachedImages' | 'clearDownloader' | 'createBackup' | 'createCategory' | 'deleteCategory' | 'deleteCategoryMeta' | 'deleteChapterMeta' | 'deleteDownloadedChapter' | 'deleteDownloadedChapters' | 'deleteGlobalMeta' | 'deleteMangaMeta' | 'dequeueChapterDownload' | 'dequeueChapterDownloads' | 'downloadAhead' | 'enqueueChapterDownload' | 'enqueueChapterDownloads' | 'fetchChapterPages' | 'fetchChapters' | 'fetchExtensions' | 'fetchManga' | 'fetchSourceManga' | 'installExternalExtension' | 'reorderChapterDownload' | 'resetSettings' | 'resetWebUIUpdateStatus' | 'restoreBackup' | 'setCategoryMeta' | 'setChapterMeta' | 'setGlobalMeta' | 'setMangaMeta' | 'setSettings' | 'startDownloader' | 'stopDownloader' | 'updateCategories' | 'updateCategory' | 'updateCategoryManga' | 'updateCategoryOrder' | 'updateChapter' | 'updateChapters' | 'updateExtension' | 'updateExtensions' | 'updateLibraryManga' | 'updateManga' | 'updateMangaCategories' | 'updateMangas' | 'updateMangasCategories' | 'updateSourcePreference' | 'updateStop' | 'updateWebUI' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	clearCachedImages?: FieldPolicy<any> | FieldReadFunction<any>,
 	clearDownloader?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -428,6 +428,7 @@ export type MutationFieldPolicy = {
 	installExternalExtension?: FieldPolicy<any> | FieldReadFunction<any>,
 	reorderChapterDownload?: FieldPolicy<any> | FieldReadFunction<any>,
 	resetSettings?: FieldPolicy<any> | FieldReadFunction<any>,
+	resetWebUIUpdateStatus?: FieldPolicy<any> | FieldReadFunction<any>,
 	restoreBackup?: FieldPolicy<any> | FieldReadFunction<any>,
 	setCategoryMeta?: FieldPolicy<any> | FieldReadFunction<any>,
 	setChapterMeta?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -833,11 +834,10 @@ export type WebUIUpdateCheckFieldPolicy = {
 	tag?: FieldPolicy<any> | FieldReadFunction<any>,
 	updateAvailable?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type WebUIUpdateInfoKeySpecifier = ('channel' | 'tag' | 'updateAvailable' | WebUIUpdateInfoKeySpecifier)[];
+export type WebUIUpdateInfoKeySpecifier = ('channel' | 'tag' | WebUIUpdateInfoKeySpecifier)[];
 export type WebUIUpdateInfoFieldPolicy = {
 	channel?: FieldPolicy<any> | FieldReadFunction<any>,
-	tag?: FieldPolicy<any> | FieldReadFunction<any>,
-	updateAvailable?: FieldPolicy<any> | FieldReadFunction<any>
+	tag?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type WebUIUpdatePayloadKeySpecifier = ('clientMutationId' | 'updateStatus' | WebUIUpdatePayloadKeySpecifier)[];
 export type WebUIUpdatePayloadFieldPolicy = {
