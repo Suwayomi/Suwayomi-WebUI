@@ -8,7 +8,6 @@
 
 import { useTranslation } from 'react-i18next';
 import { List, ListItem, ListItemText, Switch } from '@mui/material';
-import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import { useCallback } from 'react';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
@@ -51,13 +50,7 @@ export const DownloadAheadSetting = () => {
         <List>
             <ListItem>
                 <ListItemText primary={t('download.settings.download_ahead.label.while_reading')} />
-                <ListItemSecondaryAction>
-                    <Switch
-                        edge="end"
-                        checked={shouldDownloadAhead}
-                        onChange={(e) => setDoAutoUpdates(e.target.checked)}
-                    />
-                </ListItemSecondaryAction>
+                <Switch edge="end" checked={shouldDownloadAhead} onChange={(e) => setDoAutoUpdates(e.target.checked)} />
             </ListItem>
             <NumberSetting
                 settingTitle={t('download.settings.download_ahead.label.unread_chapters_to_download')}

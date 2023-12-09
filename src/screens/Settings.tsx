@@ -16,7 +16,6 @@ import InfoIcon from '@mui/icons-material/Info';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import Switch from '@mui/material/Switch';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Link, ListItemButton, MenuItem, Select } from '@mui/material';
@@ -101,9 +100,7 @@ export function Settings() {
                     <Brightness6Icon />
                 </ListItemIcon>
                 <ListItemText primary={t('settings.label.dark_theme')} />
-                <ListItemSecondaryAction>
-                    <Switch edge="end" checked={darkTheme} onChange={() => setDarkTheme(!darkTheme)} />
-                </ListItemSecondaryAction>
+                <Switch edge="end" checked={darkTheme} onChange={() => setDarkTheme(!darkTheme)} />
             </ListItem>
             <NumberSetting
                 settingTitle={t('settings.label.manga_item_width')}
@@ -127,9 +124,7 @@ export function Settings() {
                     primary={t('settings.label.show_nsfw')}
                     secondary={t('settings.label.show_nsfw_description')}
                 />
-                <ListItemSecondaryAction>
-                    <Switch edge="end" checked={showNsfw} onChange={() => setShowNsfw(!showNsfw)} />
-                </ListItemSecondaryAction>
+                <Switch edge="end" checked={showNsfw} onChange={() => setShowNsfw(!showNsfw)} />
             </ListItem>
             <ListItem>
                 <ListItemIcon>
@@ -146,19 +141,17 @@ export function Settings() {
                         </>
                     }
                 />
-                <ListItemSecondaryAction>
-                    <Select
-                        MenuProps={{ PaperProps: { style: { maxHeight: 150 } } }}
-                        value={i18n.language}
-                        onChange={({ target: { value: language } }) => i18n.changeLanguage(language)}
-                    >
-                        {Object.keys(i18n.services.resourceStore.data).map((language) => (
-                            <MenuItem key={language} value={language}>
-                                {langCodeToName(language)}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </ListItemSecondaryAction>
+                <Select
+                    MenuProps={{ PaperProps: { style: { maxHeight: 150 } } }}
+                    value={i18n.language}
+                    onChange={({ target: { value: language } }) => i18n.changeLanguage(language)}
+                >
+                    {Object.keys(i18n.services.resourceStore.data).map((language) => (
+                        <MenuItem key={language} value={language}>
+                            {langCodeToName(language)}
+                        </MenuItem>
+                    ))}
+                </Select>
             </ListItem>
             <ListItemButton disabled={isClearingServerCache} onClick={clearServerCache}>
                 <ListItemIcon>

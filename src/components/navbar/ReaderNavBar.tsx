@@ -21,7 +21,6 @@ import Zoom from '@mui/material/Zoom';
 import { Divider, FormControl, MenuItem, Select, styled, Tooltip } from '@mui/material';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import Collapse from '@mui/material/Collapse';
 import { useTranslation } from 'react-i18next';
 import { ChapterOffset, IReaderSettings, TChapter, TManga } from '@/typings';
@@ -247,20 +246,18 @@ export function ReaderNavBar(props: IProps) {
                         }}
                     >
                         <ListItemText primary={t('reader.settings.title.reader_settings')} />
-                        <ListItemSecondaryAction>
-                            <IconButton
-                                edge="start"
-                                color="inherit"
-                                aria-label="menu"
-                                disableRipple
-                                disableFocusRipple
-                                onClick={() => setSettingsCollapseOpen(!settingsCollapseOpen)}
-                                size="large"
-                            >
-                                {settingsCollapseOpen && <KeyboardArrowUpIcon />}
-                                {!settingsCollapseOpen && <KeyboardArrowDownIcon />}
-                            </IconButton>
-                        </ListItemSecondaryAction>
+                        <IconButton
+                            edge="start"
+                            color="inherit"
+                            aria-label="menu"
+                            disableRipple
+                            disableFocusRipple
+                            onClick={() => setSettingsCollapseOpen(!settingsCollapseOpen)}
+                            size="large"
+                        >
+                            {settingsCollapseOpen && <KeyboardArrowUpIcon />}
+                            {!settingsCollapseOpen && <KeyboardArrowDownIcon />}
+                        </IconButton>
                     </ListItem>
                     <Collapse in={settingsCollapseOpen} timeout="auto" unmountOnExit>
                         <ReaderSettingsOptions

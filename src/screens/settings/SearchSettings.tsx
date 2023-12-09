@@ -7,7 +7,6 @@
  */
 
 import { List, ListItem, ListItemText, Switch } from '@mui/material';
-import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import { useTranslation } from 'react-i18next';
 import ListSubheader from '@mui/material/ListSubheader';
 import { SearchMetadataKeys } from '@/typings';
@@ -37,13 +36,11 @@ export function SearchSettings() {
         >
             <ListItem>
                 <ListItemText primary={t('search.label.ignore_filters')} />
-                <ListItemSecondaryAction>
-                    <Switch
-                        edge="end"
-                        checked={settings.ignoreFilters}
-                        onChange={(e) => setSettingValue('ignoreFilters', e.target.checked)}
-                    />
-                </ListItemSecondaryAction>
+                <Switch
+                    edge="end"
+                    checked={settings.ignoreFilters}
+                    onChange={(e) => setSettingValue('ignoreFilters', e.target.checked)}
+                />
             </ListItem>
         </List>
     );
