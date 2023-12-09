@@ -9,15 +9,6 @@
 import { Link } from 'react-router-dom';
 import { ListItemButton, ListItemButtonProps } from '@mui/material';
 
-export function ListItemLink(props: ListItemButtonProps<typeof Link, { directLink?: boolean }>) {
-    const { directLink, to } = props;
-    if (directLink) {
-        if (typeof to !== 'string') {
-            throw new Error('ListItemLink: "to" has to be a string in case it is a directLink');
-        }
-
-        return <ListItemButton component="a" href={to} {...props} />;
-    }
-
+export function ListItemLink(props: ListItemButtonProps<typeof Link>) {
     return <ListItemButton component={Link} {...props} />;
 }
