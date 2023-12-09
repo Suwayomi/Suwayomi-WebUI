@@ -141,10 +141,12 @@
     "queue": {
       "error": {
         "label": {
-          "failed_to_remove": "Could not remove download from queue."
+          "failed_to_remove": "Could not remove the download from the queue.",
+          "failed_delete_all": "Could not remove all downloads from the queue"
         }
       },
       "label": {
+        "delete_all": "Delete all",
         "no_downloads": "No downloads"
       },
       "title": "Download Queue"

@@ -17,6 +17,7 @@ import { DragDropContext, Draggable } from 'react-beautiful-dnd';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { StrictModeDroppable } from '@/lib/StrictModeDroppable';
 import { makeToast } from '@/components/util/Toast';
@@ -36,6 +37,14 @@ export const DownloadQueue: React.FC = () => {
 
     const { setTitle, setAction } = useContext(NavBarContext);
 
+    const clearQueue = async () => {
+        try {
+            await requestManager.clearDownloads().response;
+        } catch (e) {
+            makeToast(t('download.queue.error.label.failed_delete_all'), 'error');
+        }
+    };
+
     const toggleQueueStatus = () => {
         if (status === 'STOPPED') {
             requestManager.startDownloads();
@@ -47,11 +56,19 @@ export const DownloadQueue: React.FC = () => {
     useEffect(() => {
         setTitle(t('download.queue.title'));
         setAction(
-            <Tooltip title={t(status === 'STOPPED' ? 'global.button.start' : 'global.button.stop')}>
-                <IconButton onClick={toggleQueueStatus} size="large" disabled={isQueueEmpty}>
-                    {status === 'STOPPED' ? <PlayArrowIcon /> : <PauseIcon />}
-                </IconButton>
-            </Tooltip>,
+            <>
+                <Tooltip title={t('download.queue.label.delete_all')}>
+                    <IconButton onClick={clearQueue} size="large" disabled={isQueueEmpty}>
+                        <DeleteSweepIcon />
+                    </IconButton>
+                </Tooltip>
+
+                <Tooltip title={t(status === 'STOPPED' ? 'global.button.start' : 'global.button.stop')}>
+                    <IconButton onClick={toggleQueueStatus} size="large" disabled={isQueueEmpty}>
+                        {status === 'STOPPED' ? <PlayArrowIcon /> : <PauseIcon />}
+                    </IconButton>
+                </Tooltip>
+            </>,
         );
     }, [t, status, isQueueEmpty]);
 
