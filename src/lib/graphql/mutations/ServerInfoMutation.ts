@@ -7,7 +7,7 @@
  */
 
 import gql from 'graphql-tag';
-import { WEBUI_UPDATE_STATUS } from '@/lib/graphql/Fragments';
+import { WEBUI_UPDATE_INFO, WEBUI_UPDATE_STATUS } from '@/lib/graphql/Fragments';
 
 export const UPDATE_WEBUI = gql`
     ${WEBUI_UPDATE_STATUS}
@@ -17,6 +17,18 @@ export const UPDATE_WEBUI = gql`
             updateStatus {
                 ...WEBUI_UPDATE_STATUS
             }
+        }
+    }
+`;
+
+export const RESET_WEBUI_UPDATE_STATUS = gql`
+    ${WEBUI_UPDATE_INFO}
+    mutation RESET_WEBUI_UPDATE_STATUS {
+        resetWebUIUpdateStatus {
+            info {
+                ...WEBUI_UPDATE_INFO
+            }
+            state
         }
     }
 `;

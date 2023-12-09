@@ -21,22 +21,6 @@ import {
     SourcePreferenceChangeInput,
 } from '@/lib/graphql/generated/graphql.ts';
 
-export type ExtractByKeyValue<T, Key extends keyof T, Value extends T[Key]> = T extends
-    | Record<Key, Value>
-    | Partial<Record<Key, Value>>
-    ? T
-    : never;
-
-export type RecursivePartial<T> = {
-    [P in keyof T]?: T[P] extends (infer U)[]
-        ? RecursivePartial<U>[]
-        : T[P] extends object | undefined
-          ? RecursivePartial<T[P]>
-          : T[P];
-};
-
-export type OptionalProperty<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
-
 type GenericLocation<State = any> = Omit<Location, 'state'> & { state?: State };
 
 declare module 'react-router-dom' {

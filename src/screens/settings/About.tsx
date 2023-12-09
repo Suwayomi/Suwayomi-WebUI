@@ -12,11 +12,175 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import { useTranslation } from 'react-i18next';
 import ListSubheader from '@mui/material/ListSubheader';
-import { Divider } from '@mui/material';
+import { Button, CircularProgress, Divider, Stack, Typography } from '@mui/material';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import DownloadIcon from '@mui/icons-material/Download';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import { t as translate } from 'i18next';
+import DownloadingIcon from '@mui/icons-material/Downloading';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { ListItemLink } from '@/components/util/ListItemLink';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
+import { GetAboutQuery, UpdateState } from '@/lib/graphql/generated/graphql.ts';
+import { ABOUT_WEBUI, WEBUI_UPDATE_CHECK } from '@/lib/graphql/Fragments.ts';
+import { makeToast } from '@/components/util/Toast.tsx';
+
+type AboutServer = GetAboutQuery['aboutServer'];
+
+const getVersion = (aboutServer: AboutServer) => {
+    if (aboutServer.buildType === 'Stable') return `${aboutServer.version}`;
+    return `${aboutServer.version}-${aboutServer.revision}`;
+};
+
+const getBuildTime = (aboutServer: AboutServer) => new Date(aboutServer.buildTime * 1000).toUTCString();
+
+const getUpdateCheckButtonIcon = (
+    isLoading: boolean,
+    isUpdateAvailable: boolean,
+    updateState?: UpdateState,
+    asLink: boolean = false,
+) => {
+    const isUpdateInProgress = updateState === UpdateState.Downloading;
+    if (isUpdateInProgress) {
+        return <DownloadingIcon />;
+    }
+
+    if (isLoading) {
+        return <CircularProgress size={15} />;
+    }
+
+    const isRefreshRequired = !isUpdateAvailable || updateState === UpdateState.Error;
+    if (isRefreshRequired) {
+        return <RefreshIcon />;
+    }
+
+    return asLink ? <OpenInNewIcon /> : <DownloadIcon />;
+};
+
+const getUpdateCheckButtonText = (
+    isLoading: boolean,
+    isUpdateAvailable: boolean,
+    error: any,
+    updateState?: UpdateState,
+    progress: number = 0,
+) => {
+    const isUpdating = updateState === UpdateState.Downloading;
+    if (isUpdating) {
+        return translate('global.update.label.updating', { progress });
+    }
+
+    const didUpdateFail = updateState === UpdateState.Error;
+    if (didUpdateFail) {
+        return translate('global.update.label.update_failure');
+    }
+
+    if (isLoading) {
+        return translate('global.update.label.checking');
+    }
+
+    if (error) {
+        return translate('global.update.label.check_failure');
+    }
+
+    if (isUpdateAvailable) {
+        return translate('global.update.label.available');
+    }
+
+    return translate('global.update.label.up_to_date');
+};
+
+type BaseVersionInfoProps = {
+    version: string;
+    isCheckingForUpdate: boolean;
+    isUpdateAvailable: boolean;
+    updateCheckError: any;
+    checkForUpdate: () => void;
+};
+
+type LinkVersionInfoProps = {
+    downloadAsLink: true;
+    url: string;
+};
+
+type TriggerVersionInfoProps = {
+    triggerUpdate: () => void;
+    updateState: UpdateState;
+    progress: number;
+};
+
+type VersionInfoProps =
+    | (BaseVersionInfoProps & PropertiesNever<TriggerVersionInfoProps> & LinkVersionInfoProps)
+    | (BaseVersionInfoProps & TriggerVersionInfoProps & PropertiesNever<LinkVersionInfoProps>);
+
+const VersionInfo = ({
+    version,
+    isCheckingForUpdate,
+    isUpdateAvailable,
+    updateCheckError,
+    checkForUpdate,
+    triggerUpdate,
+    updateState,
+    progress,
+    downloadAsLink,
+    url,
+}: VersionInfoProps) => {
+    const isUpdateInProgress = updateState === UpdateState.Downloading;
+
+    const onClick = () => {
+        if (isUpdateInProgress) {
+            return;
+        }
+
+        const shouldCheckForUpdate = !isUpdateAvailable || updateCheckError || updateState === UpdateState.Error;
+        if (shouldCheckForUpdate) {
+            checkForUpdate();
+            return;
+        }
+
+        if (isUpdateAvailable) {
+            triggerUpdate?.();
+        }
+    };
+
+    return (
+        <Stack alignItems="start">
+            <Typography component="span" variant="body2">
+                {version}
+            </Typography>
+            <Button
+                sx={{
+                    marginTop: '5px',
+                    backgroundColor: 'transparent',
+                    pointerEvents: isUpdateInProgress ? 'none' : 'unset',
+                }}
+                size="small"
+                variant="outlined"
+                startIcon={getUpdateCheckButtonIcon(
+                    isCheckingForUpdate,
+                    isUpdateAvailable,
+                    updateState,
+                    downloadAsLink,
+                )}
+                onClick={onClick}
+                {...(!!url && isUpdateAvailable
+                    ? {
+                          href: url,
+                          target: '_blank',
+                      }
+                    : undefined)}
+            >
+                {getUpdateCheckButtonText(
+                    isCheckingForUpdate,
+                    isUpdateAvailable,
+                    updateCheckError,
+                    updateState,
+                    progress,
+                )}
+            </Button>
+        </Stack>
+    );
+};
 
 export function About() {
     const { t } = useTranslation();
@@ -27,21 +191,82 @@ export function About() {
         setAction(null);
     }, [t]);
 
+    useSetDefaultBackTo('settings');
+
     const { data } = requestManager.useGetAbout();
     const { aboutServer, aboutWebUI } = data ?? {};
 
-    useSetDefaultBackTo('settings');
+    const {
+        data: serverUpdateCheckData,
+        loading: isCheckingForServerUpdate,
+        refetch: checkForServerUpdate,
+        error: serverUpdateCheckError,
+    } = requestManager.useCheckForServerUpdate({ notifyOnNetworkStatusChange: true });
+    const {
+        data: webUIUpdateData,
+        loading: isCheckingForWebUIUpdate,
+        refetch: checkForWebUIUpdate,
+        error: orgWebUIUpdateCheckError,
+    } = requestManager.useCheckForWebUIUpdate({ notifyOnNetworkStatusChange: true });
+    const webUIUpdateCheckError = orgWebUIUpdateCheckError || webUIUpdateData?.checkForWebUIUpdate.tag === '';
+
+    const { data: webUIUpdateStatusData } = requestManager.useWebUIUpdateSubscription();
+    const { state: webUIUpdateState, progress: webUIUpdateProgress } =
+        webUIUpdateStatusData?.webUIUpdateStatusChange ?? { state: UpdateState.Idle, progress: 0 };
+
+    useEffect(() => {
+        const isError = webUIUpdateState === UpdateState.Error;
+        if (isError) {
+            makeToast(t('settings.about.webui.label.update_failure'), 'error');
+        }
+
+        const updateFinished = webUIUpdateState === UpdateState.Finished;
+
+        const resetUpdateStatus = isError || updateFinished;
+        if (resetUpdateStatus) {
+            requestManager.resetWebUIUpdateStatus().response.catch(() => {});
+        }
+
+        if (!updateFinished) {
+            return;
+        }
+
+        makeToast(
+            t('settings.about.webui.label.update_success', {
+                version: webUIUpdateStatusData!.webUIUpdateStatusChange.info.tag,
+            }),
+            'success',
+        );
+
+        requestManager.graphQLClient.client.cache.writeFragment({
+            fragment: ABOUT_WEBUI,
+            data: {
+                __typename: 'AboutWebUI',
+                channel: webUIUpdateStatusData!.webUIUpdateStatusChange.info.channel,
+                tag: webUIUpdateStatusData!.webUIUpdateStatusChange.info.tag,
+            },
+        });
+        requestManager.graphQLClient.client.cache.writeFragment({
+            fragment: WEBUI_UPDATE_CHECK,
+            data: {
+                __typename: 'WebUIUpdateCheck',
+                channel: webUIUpdateStatusData!.webUIUpdateStatusChange.info.channel,
+                tag: webUIUpdateStatusData!.webUIUpdateStatusChange.info.tag,
+                updateAvailable: false,
+            },
+        });
+    }, [webUIUpdateState]);
 
     if (!aboutServer || !aboutWebUI) {
         return <LoadingPlaceholder />;
     }
 
-    const version = () => {
-        if (aboutServer.buildType === 'Stable') return `${aboutServer.version}`;
-        return `${aboutServer.version}-${aboutServer.revision}`;
-    };
-
-    const buildTime = () => new Date(aboutServer.buildTime * 1000).toUTCString();
+    const selectedServerChannelInfo = serverUpdateCheckData?.checkForServerUpdates?.find(
+        (channel) => channel.channel === aboutServer.buildType,
+    );
+    const isServerUpdateAvailable =
+        !!selectedServerChannelInfo?.tag && selectedServerChannelInfo.tag !== getVersion(aboutServer);
+    const isWebUIUpdateAvailable = !!webUIUpdateData?.checkForWebUIUpdate.updateAvailable;
 
     return (
         <List>
@@ -60,10 +285,26 @@ export function About() {
                     />
                 </ListItem>
                 <ListItem>
-                    <ListItemText primary={t('settings.about.server.label.version')} secondary={version()} />
+                    <ListItemText
+                        primary={t('settings.about.server.label.version')}
+                        secondary={
+                            <VersionInfo
+                                version={getVersion(aboutServer)}
+                                isCheckingForUpdate={isCheckingForServerUpdate}
+                                isUpdateAvailable={isServerUpdateAvailable}
+                                updateCheckError={serverUpdateCheckError}
+                                checkForUpdate={checkForServerUpdate}
+                                downloadAsLink
+                                url={selectedServerChannelInfo?.url ?? ''}
+                            />
+                        }
+                    />
                 </ListItem>
                 <ListItem>
-                    <ListItemText primary={t('settings.about.server.label.build_time')} secondary={buildTime()} />
+                    <ListItemText
+                        primary={t('settings.about.server.label.build_time')}
+                        secondary={getBuildTime(aboutServer)}
+                    />
                 </ListItem>
             </List>
             <Divider />
@@ -76,7 +317,21 @@ export function About() {
                 }
             >
                 <ListItem>
-                    <ListItemText primary={t('settings.about.webui.label.version')} secondary={aboutWebUI.tag} />
+                    <ListItemText
+                        primary={t('settings.about.webui.label.version')}
+                        secondary={
+                            <VersionInfo
+                                version={aboutWebUI.tag}
+                                isCheckingForUpdate={isCheckingForWebUIUpdate}
+                                isUpdateAvailable={isWebUIUpdateAvailable}
+                                updateCheckError={webUIUpdateCheckError}
+                                checkForUpdate={checkForWebUIUpdate}
+                                triggerUpdate={() => requestManager.updateWebUI().response.catch(() => {})}
+                                progress={webUIUpdateProgress}
+                                updateState={webUIUpdateState}
+                            />
+                        }
+                    />
                 </ListItem>
                 <ListItem>
                     <ListItemText

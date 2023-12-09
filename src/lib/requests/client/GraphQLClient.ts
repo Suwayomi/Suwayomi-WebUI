@@ -19,7 +19,9 @@ const typePolicies: StrictTypedTypePolicies = {
     GlobalMetaType: { keyFields: ['key'] },
     ExtensionType: { keyFields: ['apkName'] },
     AboutServerPayload: { keyFields: [] },
+    AboutWebUI: { keyFields: [] },
     WebUIUpdateInfo: { keyFields: [] },
+    WebUIUpdateCheck: { keyFields: [] },
     SettingsType: { keyFields: [] },
     Query: {
         fields: {
