@@ -161,7 +161,7 @@ export function Backup() {
     return (
         <>
             <List sx={{ padding: 0 }}>
-                <ListItemLink to={requestManager.getExportBackupUrl()} directLink>
+                <ListItemLink to={requestManager.getExportBackupUrl()}>
                     <ListItemText
                         primary={t('settings.backup.label.create_backup')}
                         secondary={t('settings.backup.label.create_backup_info')}

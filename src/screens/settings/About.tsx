@@ -93,16 +93,16 @@ export function About() {
                     </ListSubheader>
                 }
             >
-                <ListItemLink directLink to={aboutServer.github}>
+                <ListItemLink to={aboutServer.github}>
                     <ListItemText primary={t('settings.about.server.label.github')} secondary={aboutServer.github} />
                 </ListItemLink>
-                <ListItemLink directLink to="https://github.com/Suwayomi/Tachidesk-WebUI">
+                <ListItemLink to="https://github.com/Suwayomi/Tachidesk-WebUI">
                     <ListItemText
                         primary={t('settings.about.webui.label.github')}
                         secondary="https://github.com/Suwayomi/Tachidesk-WebUI"
                     />
                 </ListItemLink>
-                <ListItemLink directLink to={aboutServer.discord}>
+                <ListItemLink to={aboutServer.discord}>
                     <ListItemText primary={t('global.label.discord')} secondary={aboutServer.discord} />
                 </ListItemLink>
             </List>
