@@ -307,6 +307,7 @@
     "label": {
       "browse": "Browse",
       "client": "Client",
+      "close": "Close",
       "disabled": "Disabled",
       "discord": "Discord",
       "display": "Display",
@@ -345,6 +346,7 @@
         "available": "Update available",
         "check_failure": "Could not check for update",
         "checking": "Checking for update",
+        "info": "Server version {{version}} ({{channel}}) available for download",
         "up_to_date": "This is the latest version",
         "update_failure": "Update failed",
         "updating": "{{progress}}% | Updating…"
