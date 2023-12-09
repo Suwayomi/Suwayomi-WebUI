@@ -35,8 +35,11 @@ import {
     ChapterOrderBy,
     CheckForServerUpdatesQuery,
     CheckForServerUpdatesQueryVariables,
+    ClearCachedImagesInput,
     ClearDownloaderMutation,
     ClearDownloaderMutationVariables,
+    ClearServerCacheMutation,
+    ClearServerCacheMutationVariables,
     CreateCategoryInput,
     CreateCategoryMutation,
     CreateCategoryMutationVariables,
@@ -212,6 +215,7 @@ import { UPDATER_SUBSCRIPTION } from '@/lib/graphql/subscriptions/UpdaterSubscri
 import { GET_SERVER_SETTINGS } from '@/lib/graphql/queries/SettingsQuery.ts';
 import { UPDATE_SERVER_SETTINGS } from '@/lib/graphql/mutations/SettingsMutation.ts';
 import { BASE_MANGA_FIELDS, FULL_EXTENSION_FIELDS } from '@/lib/graphql/Fragments.ts';
+import { CLEAR_SERVER_CACHE } from '@/lib/graphql/mutations/ImageMutation.ts';
 
 enum GQLMethod {
     QUERY = 'QUERY',
@@ -1992,6 +1996,13 @@ export class RequestManager {
         options?: QueryHookOptions<GetLastUpdateTimestampQuery, GetLastUpdateTimestampQueryVariables>,
     ): AbortableApolloUseQueryResponse<GetLastUpdateTimestampQuery, GetLastUpdateTimestampQueryVariables> {
         return this.doRequest(GQLMethod.USE_QUERY, GET_LAST_UPDATE_TIMESTAMP, {}, options);
+    }
+
+    public useClearServerCache(
+        input: ClearCachedImagesInput = { cachedPages: true, cachedThumbnails: true, downloadedThumbnails: true },
+        options?: MutationHookOptions<ClearServerCacheMutation, ClearServerCacheMutationVariables>,
+    ): AbortableApolloUseMutationResponse<ClearServerCacheMutation, ClearServerCacheMutationVariables> {
+        return this.doRequest(GQLMethod.USE_MUTATION, CLEAR_SERVER_CACHE, { input }, options);
     }
 }
 
