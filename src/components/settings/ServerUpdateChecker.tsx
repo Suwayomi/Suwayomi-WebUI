@@ -23,7 +23,7 @@ const UPDATE_CHECK_INTERVAL = 1000 * 60 * 60 * 24; // 1 day
 export const ServerUpdateChecker = () => {
     const { t } = useTranslation();
 
-    const [lastUpdateCheck, setLastUpdateCheck] = useLocalStorage('lastAutomatedServerUpdateCheck', Date.now());
+    const [lastUpdateCheck, setLastUpdateCheck] = useLocalStorage('lastAutomatedServerUpdateCheck', 0);
 
     const {
         data: serverUpdateCheckData,
@@ -48,7 +48,8 @@ export const ServerUpdateChecker = () => {
     };
 
     useEffect(() => {
-        const remainingTimeTillNextUpdateCheck = Date.now() - lastUpdateCheck;
+        const remainingTimeTillNextUpdateCheck =
+            (UPDATE_CHECK_INTERVAL - (Date.now() - lastUpdateCheck)) % UPDATE_CHECK_INTERVAL;
 
         let timeout: NodeJS.Timeout | undefined;
         const scheduleUpdateCheck = (timeoutMS: number) => {
