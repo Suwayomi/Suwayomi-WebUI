@@ -143,14 +143,46 @@
                 "error": "错误"
             }
         },
-        "title": "下载"
+        "title": "下载",
+        "settings": {
+            "file_type": {
+                "label": {
+                    "cbz": "保存为CBZ文件"
+                }
+            },
+            "auto_download": {
+                "label": {
+                    "new_chapters": "下载新章节",
+                    "ignore_with_unread_chapters": "忽略带有未读章节的作品的自动下载"
+                },
+                "title": "自动下载"
+            },
+            "download_ahead": {
+                "label": {
+                    "while_reading": "阅读时自动下载",
+                    "unread_chapters_to_download": "要下载的未读章节数",
+                    "value": "{{chapters}} $t(chapter.title)",
+                    "disclaimer": "此限制也适用于更新期间自动下载新章节",
+                    "description": "阅读时应提前下载多少章节"
+                },
+                "title": "下载前"
+            },
+            "download_path": {
+                "label": {
+                    "description": "服务器上存放下载文件的目录的路径",
+                    "title": "下载位置"
+                }
+            },
+            "title": "下载设置"
+        }
     },
     "extension": {
         "action": {
             "label": {
                 "install": "安装",
                 "uninstall": "卸载",
-                "update": "升级"
+                "update": "升级",
+                "install_external": "安装外部插件"
             }
         },
         "language": {
@@ -190,14 +222,25 @@
             "start": "开始",
             "submit": "提交",
             "browse": "浏览",
-            "popular": "受欢迎的"
+            "popular": "受欢迎的",
+            "deselect": "取消选择",
+            "stop": "停止",
+            "edit": "编辑",
+            "select": "选择",
+            "options": "选项"
         },
         "date": {
             "label": {
                 "today": "今天",
                 "today_at": "今天{{timeString}}",
                 "yesterday_at": "昨天{{timeString}}",
-                "yesterday": "昨天"
+                "yesterday": "昨天",
+                "day": "日"
+            },
+            "value": {
+                "label": {
+                    "day": "{{days}} $t(global.date.label.day, lowercase)"
+                }
             }
         },
         "error": {
@@ -231,7 +274,11 @@
             "loading": "加载中…",
             "sort": "排序",
             "none": "无",
-            "unknown": "未知"
+            "unknown": "未知",
+            "username": "用户名",
+            "client": "客户端",
+            "password": "密码",
+            "never": "从未"
         },
         "language": {
             "label": {
@@ -248,13 +295,18 @@
                 "by_source": "按图源",
                 "by_fetch_date": "按日期"
             }
+        },
+        "time": {
+            "hour_short": "小时"
         }
     },
     "library": {
         "error": {
             "label": {
                 "empty": "你的书架是空的",
-                "no_matches": "没有漫画匹配筛选"
+                "no_matches": "没有漫画匹配筛选",
+                "remove_from_library": "无法将漫画从书架中删除！",
+                "add_to_library": "无法将漫画添加到书架！"
             }
         },
         "option": {
@@ -292,9 +344,44 @@
                         "include": "包含: {{includedCategoriesText}}"
                     }
                 },
-                "title": "全局更新"
+                "title": "全局更新",
+                "auto_update": {
+                    "interval": {
+                        "label": {
+                            "title": "自动更新间隔",
+                            "value": "{{hours}}$t(global.time.hour_short)"
+                        }
+                    },
+                    "label": {
+                        "title": "自动更新"
+                    }
+                },
+                "entries": {
+                    "label": {
+                        "not_started": "这还没有开始",
+                        "completed": "标记为“已读”",
+                        "unread_chapters": "包含未读章节"
+                    },
+                    "title": "跳过更新作品"
+                },
+                "metadata": {
+                    "label": {
+                        "title": "自动刷新元数据",
+                        "description": "更新书架时检查新的封面和简介"
+                    }
+                },
+                "label": {
+                    "last_update_tooltip": "$t(library.settings.global_update.title) ($t(library.settings.global_update.label.last_update, lowercase))",
+                    "last_update": "最近更新： {{date}}"
+                }
             },
             "title": "书架"
+        },
+        "info": {
+            "label": {
+                "added_to_library": "已将漫画添加进书架！",
+                "removed_from_library": "已将漫画从书架中删除！"
+            }
         }
     },
     "manga": {
@@ -321,7 +408,10 @@
     "reader": {
         "button": {
             "previous_chapter": "上一章",
-            "next_chapter": "下一章"
+            "next_chapter": "下一章",
+            "exit": "离开阅读器",
+            "open_menu": "打开菜单",
+            "close_menu": "关闭菜单"
         },
         "page_info": {
             "label": {
@@ -342,7 +432,8 @@
                 "show_page_number": "显示页数",
                 "static_navigation": "静态导航",
                 "skip_dup_chapters": "跳过重复章节",
-                "fit_page_to_window": "自适应"
+                "fit_page_to_window": "自适应",
+                "offset_first_page": "返回第一页"
             },
             "reader_type": {
                 "label": {
@@ -381,7 +472,25 @@
                 "backup_restore_failed": "备份恢复失败",
                 "restore_backup": "恢复备份"
             },
-            "title": "备份"
+            "title": "备份",
+            "automated": {
+                "cleanup": {
+                    "label": {
+                        "title": "清理备份",
+                        "value": "删除早于 $t(global.date.value.label.day) 的备份"
+                    }
+                },
+                "label": {
+                    "time": "备份时间",
+                    "interval": "备份间隔"
+                },
+                "location": {
+                    "label": {
+                        "title": "备份位置",
+                        "description": "服务器上保存自动备份的目录路径"
+                    }
+                }
+            }
         },
         "label": {
             "dark_theme": "暗黑主题",
@@ -410,6 +519,165 @@
                 "github": "Github"
             },
             "title": "关于"
+        },
+        "server": {
+            "title": {
+                "settings": "服务器设置",
+                "server": "服务器"
+            },
+            "local_source": {
+                "path": {
+                    "label": {
+                        "description": "服务器上保存本地源文件的目录路径",
+                        "title": "本地源位置"
+                    }
+                }
+            },
+            "auth": {
+                "basic": {
+                    "label": {
+                        "password": "基本身份认证 $t(global.label.password, lowercase)",
+                        "username": "基本身份认证 $t(global.label.username, lowercase)",
+                        "enable": "使用基本身份验证"
+                    }
+                },
+                "title": "认证"
+            },
+            "socks_proxy": {
+                "label": {
+                    "host": "SOCKS5 主机",
+                    "enable": "使用 SOCKS5 代理",
+                    "port": "SOCKS5 端口"
+                },
+                "title": "SOCKS5 代理"
+            },
+            "address": {
+                "server": {
+                    "label": {
+                        "port": "端口",
+                        "ip": "IP"
+                    },
+                    "title": "服务器绑定"
+                },
+                "client": {
+                    "label": {
+                        "description": "客户端用于连接服务器的地址"
+                    },
+                    "dialog": {
+                        "label": {
+                            "enter_address": "输入服务器地址"
+                        }
+                    }
+                }
+            },
+            "misc": {
+                "tray_icon": {
+                    "label": {
+                        "title": "在系统托盘中显示图标",
+                        "description": "该图标将显示在运行服务器的系统上"
+                    }
+                },
+                "title": "杂项",
+                "log_level": {
+                    "graphql": {
+                        "label": {
+                            "title": "启用 graphql 调试日志",
+                            "description": "这包括包含非隐私安全信息的日志"
+                        }
+                    },
+                    "label": {
+                        "server": "启用调试日志"
+                    }
+                }
+            },
+            "requests": {
+                "title": "请求",
+                "sources": {
+                    "parallel": {
+                        "label": {
+                            "title": "并行请求图源数",
+                            "value": "{{value}} $t(source.title)"
+                        }
+                    }
+                }
+            }
+        },
+        "webui": {
+            "auto_update": {
+                "label": {
+                    "interval": "更新间隔",
+                    "title": "自动下载最新版本"
+                }
+            },
+            "label": {
+                "initial_open_browser": "在启动服务器时打开 $t(settings.webui.title.webui)"
+            },
+            "channel": {
+                "label": {
+                    "title": "频道"
+                },
+                "option": {
+                    "preview": {
+                        "label": {
+                            "description": "使用最新功能，并协助我们为稳定版本做好准备。",
+                            "disclaimer": "这个版本中的功能和变更可能尚未完全准备好，可能会导致错误。\n确保已启用自动备份，以防止您的书架丢失！",
+                            "title": "预览版"
+                        }
+                    },
+                    "stable": {
+                        "label": {
+                            "title": "稳定版",
+                            "description": "使用最新发布的版本。"
+                        }
+                    },
+                    "bundled": {
+                        "label": {
+                            "title": "捆绑",
+                            "description": "使用随服务器一起提供的版本"
+                        }
+                    }
+                }
+            },
+            "title": {
+                "webui": "WebUI",
+                "settings": "$t(settings.webui.title.webui) 设置"
+            },
+            "interface": {
+                "label": {
+                    "description": "在启动服务器时，从哪里开始处理 $t(settings.webui.title.webui)",
+                    "title": "接口"
+                },
+                "option": {
+                    "label": {
+                        "electron": "Electron",
+                        "browser": "浏览器"
+                    }
+                }
+            },
+            "flavor": {
+                "label": {
+                    "title": "类型"
+                },
+                "option": {
+                    "webui": {
+                        "label": {
+                            "description": "使用默认 $t(settings.webui.title.webui)"
+                        }
+                    },
+                    "custom": {
+                        "label": {
+                            "description": "使用自定义 $t(settings.webui.title.webui)。\n要使用自定义 $t(settings.webui.title.webui) ，请将位于服务器根目录中的 \"webUI\" 目录的内容替换为自定义 $t(settings.webui.title.webui) 的文件",
+                            "title": "自定义"
+                        }
+                    }
+                }
+            },
+            "electron_path": {
+                "label": {
+                    "title": "Electron 路径",
+                    "description": "服务器上 Electron 安装的路径"
+                }
+            }
         }
     },
     "source": {
