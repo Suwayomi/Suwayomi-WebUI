@@ -8,8 +8,8 @@
 
 import { Container } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
-import React from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import React, { useLayoutEffect } from 'react';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { loadErrorMessages, loadDevMessages } from '@apollo/client/dev';
 import { __DEV__ } from '@apollo/client/utilities/globals';
 import { AppContext } from '@/components/context/AppContext';
@@ -42,8 +42,20 @@ if (__DEV__) {
     loadDevMessages();
     loadErrorMessages();
 }
+
+const ScrollToTop = () => {
+    const { pathname } = useLocation();
+
+    useLayoutEffect(() => {
+        window.scrollTo(0, 0);
+    }, [pathname]);
+
+    return null;
+};
+
 export const App: React.FC = () => (
     <AppContext>
+        <ScrollToTop />
         <ServerUpdateChecker />
         <CssBaseline />
         <DefaultNavBar />
