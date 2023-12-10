@@ -17,13 +17,48 @@
                         "unread_badges": "Badges non lus"
                     },
                     "title": "Badges"
+                },
+                "tab": {
+                    "label": {
+                        "show_number_of_items": "Afficher le nombre d'éléments"
+                    },
+                    "title": "Onglets"
                 }
             }
         },
         "error": {
             "label": {
                 "empty": "Votre bibliothèque est vide",
-                "no_matches": "Il n'y a aucun manga correspondant à ces critères"
+                "no_matches": "Il n'y a aucun manga correspondant à ces critères",
+                "remove_from_library": "Impossible d'ajouter le manga à la bibliothèque !",
+                "add_to_library": "Manga ajouté à la bibliothèque !"
+            }
+        },
+        "settings": {
+            "title": "Paramètres de la bibliothèque",
+            "global_update": {
+                "categories": {
+                    "label": {
+                        "info": "Les entrées dans les catégories exclues ne seront pas mises à jour même si elles sont également dans les catégories incluses",
+                        "include": "Inclure : {{includedCategoriesText}}",
+                        "exclude": "Exclure : {{excludedCategoriesText}}"
+                    }
+                },
+                "title": "Mise à jour globale",
+                "entries": {
+                    "label": {
+                        "not_started": "Cela n'a pas été commencé",
+                        "completed": "Avec le statut \"Terminé\"",
+                        "unread_chapters": "Avec chapitre(s) non lu(s)"
+                    },
+                    "title": "Ignorer la mise à jour des entrées"
+                }
+            }
+        },
+        "info": {
+            "label": {
+                "added_to_library": "Manga ajouté à la bibliothèque !",
+                "removed_from_library": "Manga supprimé de la bibliothèque !"
             }
         }
     },
@@ -57,7 +92,8 @@
             "clear": "Effacer",
             "filter": "Filtrer",
             "ok": "Ok",
-            "select_all": "Tout sélectionner"
+            "select_all": "Tout sélectionner",
+            "popular": "Populaire"
         },
         "language": {
             "label": {
@@ -65,7 +101,8 @@
                 "language_with_code": "langue avec le code : {{code}}"
             },
             "title": {
-                "enabled_languages": "Langues activées"
+                "enabled_languages": "Langues activées",
+                "weblate": "Weblate"
             }
         },
         "label": {
@@ -73,7 +110,9 @@
             "browse": "Parcourir",
             "display": "Affichage",
             "sort": "Trier",
-            "loading": "Chargement…"
+            "loading": "Chargement…",
+            "none": "Aucun(e)",
+            "unknown": "Inconnu(e)"
         },
         "date": {
             "label": {
@@ -93,7 +132,9 @@
             "label": {
                 "invalid_file_type": "type de fichier invalide !",
                 "invalid_action": "Ce n'est pas une action valide",
-                "update_failed": "La vérification des mises à jour a échoué !"
+                "update_failed": "La vérification des mises à jour a échoué !",
+                "failed_to_load_data": "Impossible de charger les données",
+                "failed_to_save_changes": "Échec de l'enregistrement des modifications"
             }
         }
     },
@@ -110,7 +151,12 @@
             "label": {
                 "no_downloads": "Aucun téléchargement"
             },
-            "title": "File d'attente de téléchargement"
+            "title": "File d'attente de téléchargement",
+            "error": {
+                "label": {
+                    "failed_to_remove": "Impossible de supprimer le téléchargement de la file d'attente."
+                }
+            }
         },
         "title": "Téléchargements"
     },
@@ -134,7 +180,8 @@
             "show_nsfw": "Afficher les contenus explicites",
             "manga_item_width": "Largeur des mangas",
             "image_cache": "Utiliser le cache des images",
-            "image_cache_description": "La désactivation de la mémoire cache des images accélère le chargement des images si vous avez un disque lent, mais utilise en contrepartie beaucoup plus de trafic internet"
+            "image_cache_description": "La désactivation de la mémoire cache des images accélère le chargement des images si vous avez un disque lent, mais utilise en contrepartie beaucoup plus de trafic internet",
+            "language_description": "N'hésitez pas à traduire le projet sur"
         },
         "about": {
             "title": "À propos",
@@ -188,9 +235,9 @@
                         "success_one": "Marque-page retiré du chapitre",
                         "success_many": "{{count}} marque-pages retirés du chapitre",
                         "success_other": "{{count}} marque-pages retirés du chapitre",
-                        "error_one": "Erreur lors du retrait du marque-page",
-                        "error_many": "Erreur lors du retrait des marque-pages",
-                        "error_other": "Erreur lors du retrait des marque-pages"
+                        "error_one": "Impossible de retirer le marque-page",
+                        "error_many": "Impossible de retirer les marque-pages",
+                        "error_other": "Impossible de retirer les marque-pages"
                     }
                 }
             },
@@ -253,9 +300,9 @@
                         "success_one": "Téléchargement ajouté",
                         "success_many": "{{count}} téléchargements ajoutés",
                         "success_other": "{{count}} téléchargements ajoutés",
-                        "error_one": "Erreur lors de l'ajout du téléchargement",
-                        "error_many": "Erreur lors de l'ajout des téléchargements",
-                        "error_other": "Erreur lors de l'ajout des téléchargements",
+                        "error_one": "Impossible d'ajouter le téléchargement",
+                        "error_many": "Impossible d'ajouter des téléchargements",
+                        "error_other": "Impossible d'ajouter des téléchargements",
                         "action": "Télécharger"
                     }
                 }
@@ -311,7 +358,10 @@
                 "load_next_chapter": "Charger le chapitre suivant à la fin",
                 "reader_type": "Type de lecteur",
                 "show_page_number": "Afficher le numéro de page",
-                "static_navigation": "Navigation statique"
+                "static_navigation": "Navigation statique",
+                "offset_first_page": "Première page décalée",
+                "skip_dup_chapters": "Ignorer les chapitres en double",
+                "fit_page_to_window": "Ajuster la page à l'écran"
             },
             "error": {
                 "label": {
@@ -346,13 +396,19 @@
                 "of_max_pages": "sur {{maxPages}}",
                 "currently_on_page": "Actuellement sur la page"
             }
+        },
+        "error": {
+            "label": {
+                "unable_to_get_next_chapter_skip_dup": "Impossible d'obtenir le chapitre suivant - L'option \"$t(reader.settings.label.skip_dup_chapters)\" est activée",
+                "unable_to_get_prev_chapter_skip_dup": "Impossible d'obtenir le chapitre précédent - L'option \"$t(reader.settings.label.skip_dup_chapters)\" est activée"
+            }
         }
     },
     "category": {
         "error": {
             "no_categories_found": {
                 "label": {
-                    "info": "Aucune catégorie trouvée !",
+                    "info": "Aucune catégorie trouvée.",
                     "hint": "Vous devriez en créer depuis les paramètres."
                 }
             },
@@ -367,8 +423,8 @@
         },
         "dialog": {
             "title": {
-                "edit_category": "Modifier le catalogue",
-                "new_category": "Nouveau catalogue"
+                "edit_category": "Modifier la catégorie",
+                "new_category": "Nouvelle catégorie"
             }
         },
         "label": {
@@ -395,11 +451,14 @@
                 "installing": "en cours d'installation",
                 "updating": "en cours de mise à jour",
                 "obsolete": "obsolète",
-                "uninstalling": "en cours de désinstallation"
+                "uninstalling": "en cours de désinstallation",
+                "update_pending": "Mise à jour en attente",
+                "installed": "Installé"
             }
         },
         "language": {
-            "all": "Tous"
+            "all": "Tous",
+            "other": "Autre"
         }
     },
     "source": {
@@ -407,7 +466,8 @@
             "label": {
                 "guide": "Guide des sources locales",
                 "checkout": "Vérifier"
-            }
+            },
+            "title": "Source locale"
         },
         "title": "Source",
         "configuration": {
@@ -415,17 +475,20 @@
         },
         "error": {
             "label": {
-                "no_sources_found": "Aucune source n'a été trouvée. Commencez par installer des extensions."
+                "no_sources_found": "Aucune source n'a été trouvée. Commencez par installer des extensions.",
+                "source_not_found": "Impossible de trouver la source. Vérifiez vos extensions installées."
             }
         }
     },
     "search": {
         "title": {
-            "global_search": "Recherche globale"
+            "global_search": "Recherche globale",
+            "search": "Rechercher"
         },
         "error": {
             "label": {
-                "failed_to_save_settings": "Échec de l'enregistrement des paramètres de recherche par défaut sur le serveur"
+                "failed_to_save_settings": "Échec de l'enregistrement des paramètres de recherche par défaut sur le serveur",
+                "source_search_failed": "Impossible de rechercher la source"
             }
         },
         "label": {

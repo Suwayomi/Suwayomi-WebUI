@@ -3,15 +3,33 @@
         "backup": {
             "label": {
                 "create_backup": "Crear una copia de seguridad",
-                "legacy_backup_unsupported": "Respaldos legacía no están soportados!",
+                "legacy_backup_unsupported": "¡no se admiten copias de seguridad heredadas!",
                 "restoring_backup": "Restaurando copia de seguridad…",
-                "restore_backup": "Restaurar Respaldo",
+                "restore_backup": "Restaurar la copia de seguridad",
                 "backup_restore_failed": "No se pudo restaurar la copia de seguridad",
                 "restored_backup": "Copia de seguridad restaurada.",
-                "restore_backup_info": "También puedes arrastrar y soltar el archivo de respaldo aquí para restaurarlo",
-                "create_backup_info": "Respaldar biblioteca como una copia de seguridad de Tachiyomi"
+                "restore_backup_info": "También puedes arrastrar y soltar el archivo de la copia de seguridad aquí para restaurarlo",
+                "create_backup_info": "Copia de seguridad de la biblioteca de Tachiyomi"
             },
-            "title": "Respaldo"
+            "title": "Respaldo",
+            "automated": {
+                "cleanup": {
+                    "label": {
+                        "title": "Limpieza de las copias de seguridad",
+                        "value": "Eliminar las copias de seguridad anteriores a $t(global.date.value.label.day)"
+                    }
+                },
+                "label": {
+                    "time": "Hora de la copia de seguridad",
+                    "interval": "Intervalo de la copia de seguridad"
+                },
+                "location": {
+                    "label": {
+                        "title": "Ubicación de la copia de seguridad",
+                        "description": "La ruta al directorio del servidor en el que se guardarán las copias de seguridad automatizadas"
+                    }
+                }
+            }
         },
         "about": {
             "label": {
@@ -22,7 +40,24 @@
                 "build_time": "Tiempo de Ensamblaje",
                 "server_address": "Dirección del servidor"
             },
-            "title": "Acerca de"
+            "title": "Acerca de",
+            "server": {
+                "label": {
+                    "address": "Dirección del servidor",
+                    "build_time": "Fecha de creación",
+                    "github": "$t(global.label.github) $t(settings.server.title.server)",
+                    "version": "Versión del servidor"
+                }
+            },
+            "webui": {
+                "label": {
+                    "update_success": "Actualizado $t(settings.webui.title.webui) a la versión {{version}}. Actualizar requerido",
+                    "version": "$t(settings.webui.title.webui) versión",
+                    "update_failure": "No se ha podido actualizar $t(settings.webui.title.webui)",
+                    "github": "$t(global.label.github) $t(settings.webui.title.webui)",
+                    "channel": "$t(settings.webui.title.webui) canal"
+                }
+            }
         },
         "label": {
             "image_cache": "Usar cache de imagen",
@@ -40,7 +75,171 @@
                 }
             }
         },
-        "title": "Ajustes"
+        "title": "Ajustes",
+        "server": {
+            "local_source": {
+                "path": {
+                    "label": {
+                        "description": "La ruta al directorio del servidor en el que se guardan los archivos fuente locales",
+                        "title": "Ubicación de la fuente local"
+                    }
+                }
+            },
+            "auth": {
+                "basic": {
+                    "label": {
+                        "password": "Autenticación básica $t(global.label.password, lowercase)",
+                        "username": "Autenticación básica $t(global.label.username, lowercase)",
+                        "enable": "Utilizar la autenticación básica"
+                    }
+                },
+                "title": "Autenticación"
+            },
+            "address": {
+                "server": {
+                    "label": {
+                        "port": "Puerto",
+                        "ip": "IP"
+                    },
+                    "title": "Enlaces del servidor"
+                },
+                "client": {
+                    "label": {
+                        "description": "Dirección que utilizará el cliente para conectarse al servidor"
+                    },
+                    "dialog": {
+                        "label": {
+                            "enter_address": "Introduzca la dirección del servidor"
+                        }
+                    }
+                }
+            },
+            "title": {
+                "settings": "Ajustes del servidor",
+                "server": "Servidor"
+            },
+            "socks_proxy": {
+                "label": {
+                    "host": "Host SOCKS5",
+                    "enable": "Utilizar el proxy SOCKS5",
+                    "port": "Puerto SOCKS5"
+                },
+                "title": "Proxy SOCKS"
+            },
+            "misc": {
+                "tray_icon": {
+                    "label": {
+                        "title": "Mostrar el icono en la bandeja del sistema",
+                        "description": "Este icono se mostrará en el sistema que esté ejecutando el servidor"
+                    }
+                },
+                "title": "Varios",
+                "log_level": {
+                    "graphql": {
+                        "label": {
+                            "title": "Activar los registros de depuración de graphql",
+                            "description": "Esto incluye registros con información no segura para la privacidad"
+                        }
+                    },
+                    "label": {
+                        "server": "Activar los registros de depuración"
+                    }
+                }
+            },
+            "requests": {
+                "title": "Solicitudes",
+                "sources": {
+                    "parallel": {
+                        "label": {
+                            "title": "Solicitudes de fuentes paralelas",
+                            "value": "{{value}} $t(source.title)"
+                        }
+                    }
+                }
+            }
+        },
+        "webui": {
+            "auto_update": {
+                "label": {
+                    "interval": "Intervalo de la actualización",
+                    "title": "Descargar automáticamente la última versión"
+                }
+            },
+            "label": {
+                "initial_open_browser": "Abrir el $t(settings.webui.title.webui) al iniciar el servidor"
+            },
+            "channel": {
+                "label": {
+                    "title": "Canal"
+                },
+                "option": {
+                    "preview": {
+                        "label": {
+                            "description": "Utiliza las últimas funciones y ayúdanos a prepararlas para una versión estable.",
+                            "disclaimer": "Es posible que las funciones y los cambios de esta versión aún no estén completamente listos y puedan provocar errores.\n¡Asegúrate de tener activadas las copias de seguridad automáticas para evitar la pérdida de tu biblioteca!",
+                            "title": "Vista previa"
+                        }
+                    },
+                    "stable": {
+                        "label": {
+                            "title": "Estable",
+                            "description": "Utilice la última versión publicada."
+                        }
+                    },
+                    "bundled": {
+                        "label": {
+                            "title": "Incluida",
+                            "description": "Utilice la versión suministrada con el servidor"
+                        }
+                    }
+                }
+            },
+            "title": {
+                "webui": "WebUI",
+                "settings": "$t(settings.webui.title.webui) ajustes"
+            },
+            "interface": {
+                "label": {
+                    "description": "¿Donde iniciar el $t(settings.webui.title.webui) al iniciar el servidor?",
+                    "title": "Interfaz"
+                },
+                "option": {
+                    "label": {
+                        "electron": "Electron",
+                        "browser": "Navegador"
+                    }
+                }
+            },
+            "electron_path": {
+                "label": {
+                    "title": "Ruta a electron",
+                    "description": "La ruta a la instalación de electron en el servidor"
+                }
+            },
+            "flavor": {
+                "option": {
+                    "webui": {
+                        "label": {
+                            "description": "Utilice el valor predeterminado $t(settings.webui.title.webui)"
+                        }
+                    },
+                    "custom": {
+                        "label": {
+                            "description": "Utilice un $t(settings.webui.title.webui) personalizado.\nPara usar un $t(settings.webui.title.webui) personalizado reemplaza el contenido del directorio \"webUI\" en el directorio raíz del servidor con los archivos del $t(settings.webui.title.webui) personalizados",
+                            "title": "Personalizado"
+                        }
+                    }
+                }
+            }
+        },
+        "clear_cache": {
+            "label": {
+                "title": "Borrar la caché del servidor",
+                "success": "Se ha borrado la caché del servidor",
+                "description": "La caché del cliente (navegador, electrón) debe borrarse al mismo tiempo, de lo contrario, la caché del cliente seguirá siendo utilizada",
+                "failure": "No se ha podido borrar la caché del servidor"
+            }
+        }
     },
     "updates": {
         "title": "Actualizaciones",
@@ -94,7 +293,9 @@
         "error": {
             "label": {
                 "empty": "Tu biblioteca está vacía",
-                "no_matches": "Ningún manga coincide con este filtro"
+                "no_matches": "Ningún manga coincide con este filtro",
+                "remove_from_library": "¡No se puede eliminar el manga de la biblioteca!",
+                "add_to_library": "¡No se pudo agregar manga a la biblioteca!"
             }
         },
         "title": "Libreria",
@@ -107,15 +308,50 @@
                         "info": "Las entradas de las categorías excluidas no serán actualizadas aún si se encuentran en categorías incluidas"
                     }
                 },
-                "title": "Actualización global"
+                "title": "Actualización global",
+                "entries": {
+                    "label": {
+                        "not_started": "Que no se han iniciado",
+                        "completed": "Con el estado \"Completado\"",
+                        "unread_chapters": "Con capítulo(s) sin leer"
+                    },
+                    "title": "Omitir la actualización de las entradas"
+                },
+                "auto_update": {
+                    "interval": {
+                        "label": {
+                            "title": "Intervalo de la actualización automática",
+                            "value": "{{hours}}$t(global.time.hour_short)"
+                        }
+                    },
+                    "label": {
+                        "title": "Actualizaciones automáticas"
+                    }
+                },
+                "metadata": {
+                    "label": {
+                        "title": "Actualizar automáticamente los metadatos",
+                        "description": "Comprobar la nueva portada y los detalles al actualizar la biblioteca"
+                    }
+                },
+                "label": {
+                    "last_update_tooltip": "$t(library.settings.global_update.title) ($t(library.settings.global_update.label.last_update, lowercase))",
+                    "last_update": "Última actualización: {{date}}"
+                }
             },
             "title": "Configuración de la biblioteca"
+        },
+        "info": {
+            "label": {
+                "added_to_library": "¡Manga añadido a la biblioteca!",
+                "removed_from_library": "¡Manga eliminado de la biblioteca!"
+            }
         }
     },
     "global": {
         "sort": {
             "label": {
-                "by_source": "Por fuente",
+                "by_source": "Según la fuente",
                 "by_fetch_date": "Por fecha de obtención del capítulo"
             }
         },
@@ -124,7 +360,13 @@
                 "yesterday": "Ayer",
                 "yesterday_at": "Ayer a las {{timeString}}",
                 "today": "Hoy",
-                "today_at": "Hoy a las {{timeString}}"
+                "today_at": "Hoy a las {{timeString}}",
+                "day": "Día"
+            },
+            "value": {
+                "label": {
+                    "day": "{{days}} $t(global.date.label.day, lowercase)"
+                }
             }
         },
         "language": {
@@ -160,7 +402,12 @@
             "open_site": "Abrir Sitio",
             "reset": "Reiniciar",
             "set": "Establecer",
-            "popular": "Popular"
+            "popular": "Popular",
+            "deselect": "Deseleccionar",
+            "stop": "Parar",
+            "edit": "Editar",
+            "select": "Seleccionar",
+            "options": "Opciones"
         },
         "label": {
             "display": "Visualización",
@@ -169,7 +416,16 @@
             "sort": "Ordenar",
             "browse": "Explorar",
             "unknown": "Desconocido",
-            "none": "Ninguno"
+            "none": "Ninguno",
+            "username": "Nombre de usuario",
+            "client": "Cliente",
+            "password": "Contraseña",
+            "never": "Nunca",
+            "discord": "Discord",
+            "close": "Cerrar",
+            "disabled": "Desactivado",
+            "github": "GitHub",
+            "links": "Enlaces"
         },
         "error": {
             "label": {
@@ -185,6 +441,20 @@
                 "bookmarked": "Marcado",
                 "downloaded": "Descargado",
                 "unread": "No leído"
+            }
+        },
+        "time": {
+            "hour_short": "hr."
+        },
+        "update": {
+            "label": {
+                "updating": "{{progress}}% | Actualizando…",
+                "up_to_date": "Esta es la última versión",
+                "update_failure": "Actualización fallida",
+                "checking": "Comprobar la actualización",
+                "available": "Actualización disponible",
+                "check_failure": "No se ha podido comprobar la actualización",
+                "info": "Versión del servidor {{version}} ({{channel}}) disponible para descarga"
             }
         }
     },
@@ -328,7 +598,8 @@
                 "show_page_number": "Mostrar numero de pagina",
                 "reader_type": "Tipo de lector",
                 "skip_dup_chapters": "Omitir capítulos duplicados",
-                "fit_page_to_window": "Ajustar página a la ventana"
+                "fit_page_to_window": "Ajustar página a la ventana",
+                "offset_first_page": "Atenuar la primera página"
             },
             "title": {
                 "default_reader_settings": "Ajustes Defecto del Lector",
@@ -344,7 +615,10 @@
         "title": "Lector — Manga {{mangaId}} Capítulo {{chapterIndex}}",
         "button": {
             "next_chapter": "Siguiente Capitulo",
-            "previous_chapter": "Capitulo Anterior"
+            "previous_chapter": "Capitulo Anterior",
+            "exit": "Salir del lector",
+            "open_menu": "Abrir el menú",
+            "close_menu": "Cerrar el menú"
         },
         "page_info": {
             "label": {
@@ -367,7 +641,7 @@
         "dialog": {
             "title": {
                 "new_category": "Nueva categoría",
-                "edit_category": "Editar categoría"
+                "edit_category": "Editar la categoría"
             }
         },
         "error": {
@@ -411,7 +685,8 @@
             "label": {
                 "update": "Actualizar",
                 "install": "Instalar",
-                "uninstall": "Desinstalar"
+                "uninstall": "Desinstalar",
+                "install_external": "Instalar la extensión externa"
             }
         },
         "state": {
@@ -461,11 +736,13 @@
         "queue": {
             "title": "Cola de descargas",
             "label": {
-                "no_downloads": "No se encontraron descargas"
+                "no_downloads": "No se encontraron descargas",
+                "delete_all": "Borrar todo"
             },
             "error": {
                 "label": {
-                    "failed_to_remove": "No se pudo eliminar la descarga de la cola."
+                    "failed_to_remove": "No se ha podido eliminar la descarga de la cola.",
+                    "failed_delete_all": "No se han podido eliminar todas las descargas de la cola"
                 }
             }
         },
@@ -475,6 +752,58 @@
                 "finished": "Terminada",
                 "queued": "Puesto en cola",
                 "downloading": "Descargando"
+            }
+        },
+        "settings": {
+            "file_type": {
+                "label": {
+                    "cbz": "Guardar como CBZ"
+                }
+            },
+            "auto_download": {
+                "label": {
+                    "new_chapters": "Descargar los nuevos capítulos",
+                    "ignore_with_unread_chapters": "Ignorar las descargas automáticas de los capítulos para las entradas con capítulos no leídos"
+                },
+                "title": "Descarga automática"
+            },
+            "download_ahead": {
+                "label": {
+                    "while_reading": "Descarga automática durante la lectura",
+                    "unread_chapters_to_download": "Número de capítulos no leídos para descargar",
+                    "value": "{{chapters}} $t(chapter.title)",
+                    "disclaimer": "Este límite también se aplicará a la descarga automática de nuevos capítulos durante una actualización",
+                    "description": "Cuántos capítulos deben descargarse al marcar un capítulo como leído durante la lectura."
+                },
+                "title": "Descargar antes"
+            },
+            "download_path": {
+                "label": {
+                    "description": "La ruta al directorio del servidor en el que se guardarán los archivos descargados",
+                    "title": "Ubicación para las descargas"
+                }
+            },
+            "title": "Descargar los ajustes",
+            "delete_chapters": {
+                "while_reading": {
+                    "label": {
+                        "title": "Borrar los capítulos terminados mientras se lee"
+                    },
+                    "option": {
+                        "label": {
+                            "fourth": "Penúltimo capítulo leído",
+                            "second": "Penúltimo capítulo leído",
+                            "third": "Antepenúltimo capítulo leído",
+                            "fifth": "Penúltimo capítulo leído",
+                            "first": "Último capítulo leído"
+                        }
+                    }
+                },
+                "label": {
+                    "allow_deletion_of_bookmarked": "Permitir la eliminación de los capítulos marcados",
+                    "manually_marked_as_read": "Borrar el capítulo después de marcarlo manualmente como leído"
+                },
+                "title": "Borrar los capítulos"
             }
         }
     }
