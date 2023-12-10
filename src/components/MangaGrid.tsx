@@ -9,7 +9,7 @@
 import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import Grid, { GridTypeMap } from '@mui/material/Grid';
 import { Box, Typography } from '@mui/material';
-import { GridItemProps, VirtuosoGrid, VirtuosoGridHandle } from 'react-virtuoso';
+import { GridItemProps, GridStateSnapshot, VirtuosoGrid } from 'react-virtuoso';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { EmptyView } from '@/components/util/EmptyView';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
@@ -89,49 +89,25 @@ const VerticalGrid = ({
     hasNextPage: boolean;
     loadMore: () => void;
 }) => {
-    const [restoredScrollPosition, setRestoredScrollPosition] = useState(mangas.length === 0);
-    const location = useLocation<{ lastScrollPosition?: number }>();
+    const location = useLocation<{ snapshot?: GridStateSnapshot }>();
     const navigate = useNavigate();
-    const virtuoso = useRef<VirtuosoGridHandle>(null);
+    const { snapshot } = location.state ?? {};
 
-    const { lastScrollPosition = 0 } = location.state ?? {};
-
-    useEffect(() => {
-        const updateLastScrollPosition = () => {
-            if (!restoredScrollPosition) {
-                return;
-            }
-
+    const persistGridStateTimeout = useRef<NodeJS.Timeout | undefined>();
+    const persistGridState = (gridState: GridStateSnapshot) => {
+        clearTimeout(persistGridStateTimeout.current);
+        persistGridStateTimeout.current = setTimeout(() => {
             navigate(
                 { pathname: '', search: location.search },
-                { replace: true, state: { ...location.state, lastScrollPosition: window.scrollY } },
+                { replace: true, state: { ...location.state, snapshot: gridState } },
             );
-        };
-
-        window.addEventListener('scroll', updateLastScrollPosition, true);
-        window.addEventListener('resize', updateLastScrollPosition, true);
-
-        return () => {
-            window.removeEventListener('scroll', updateLastScrollPosition, true);
-            window.removeEventListener('resize', updateLastScrollPosition, true);
-        };
-    }, [restoredScrollPosition, location.state, location.search]);
-
-    useEffect(() => {
-        const haveItemsRendered = document.documentElement.offsetHeight >= lastScrollPosition;
-        const restoreScrollPosition = !restoredScrollPosition && haveItemsRendered && virtuoso.current;
-        if (!restoreScrollPosition) {
-            return;
-        }
-
-        virtuoso.current.scrollTo({ top: lastScrollPosition });
-        setRestoredScrollPosition(true);
-    }, [document.documentElement.offsetHeight, virtuoso.current]);
+        }, 250);
+    };
+    useEffect(() => clearTimeout(persistGridStateTimeout.current), []);
 
     return (
         <>
             <VirtuosoGrid
-                ref={virtuoso}
                 useWindowScroll
                 overscan={window.innerHeight * 0.25}
                 totalCount={mangas.length}
@@ -139,6 +115,8 @@ const VerticalGrid = ({
                     List: GridContainer,
                     Item: GridItemContainer,
                 }}
+                restoreStateFrom={snapshot}
+                stateChanged={persistGridState}
                 endReached={() => loadMore()}
                 itemContent={(index) => createMangaCard(mangas[index], gridLayout, inLibraryIndicator)}
             />
