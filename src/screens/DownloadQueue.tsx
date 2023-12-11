@@ -28,6 +28,7 @@ import { EmptyView } from '@/components/util/EmptyView';
 import { ChapterType, DownloadType } from '@/lib/graphql/generated/graphql.ts';
 import { TChapter } from '@/typings.ts';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
+import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
 
 const HeightPreservingItem = ({ children, ...props }: BoxProps) => (
     // the height is necessary to prevent the item container from collapsing, which confuses Virtuoso measurements
@@ -96,7 +97,7 @@ const DownloadChapterItem = ({
 export const DownloadQueue: React.FC = () => {
     const { t } = useTranslation();
 
-    const { data: downloaderData } = requestManager.useDownloadSubscription();
+    const { data: downloaderData, loading: isLoading } = requestManager.useDownloadSubscription();
     const queue = (downloaderData?.downloadChanged.queue as DownloadType[]) ?? [];
     const status = downloaderData?.downloadChanged.state ?? 'STARTED';
     const isQueueEmpty = !queue.length;
@@ -183,6 +184,10 @@ export const DownloadQueue: React.FC = () => {
 
         requestManager.startDownloads().response.catch(() => {});
     };
+
+    if (isLoading) {
+        return <LoadingPlaceholder />;
+    }
 
     if (isQueueEmpty) {
         return <EmptyView message={t('download.queue.label.no_downloads')} />;
