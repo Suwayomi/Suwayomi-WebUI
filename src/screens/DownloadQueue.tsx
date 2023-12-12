@@ -13,7 +13,7 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { Card, CardActionArea, Stack, Box, Tooltip } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import React, { useContext, useEffect } from 'react';
-import { DragDropContext, Draggable, DraggableProvided } from 'react-beautiful-dnd';
+import { DragDropContext, Draggable, DraggableProvided, DropResult } from 'react-beautiful-dnd';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -97,9 +97,14 @@ const DownloadChapterItem = ({
 export const DownloadQueue: React.FC = () => {
     const { t } = useTranslation();
 
-    const { data: downloaderData, loading: isLoading } = requestManager.useDownloadSubscription();
-    const queue = (downloaderData?.downloadChanged.queue as DownloadType[]) ?? [];
-    const status = downloaderData?.downloadChanged.state ?? 'STARTED';
+    requestManager.useDownloadSubscription();
+    const [reorderDownload, { reset: revertReorder }] = requestManager.useReorderChapterInDownloadQueue();
+
+    const { data: downloadStatusData, loading: isLoading } = requestManager.useGetDownloadStatus();
+    const downloaderData = downloadStatusData?.downloadStatus;
+
+    const queue = (downloaderData?.queue as DownloadType[]) ?? [];
+    const status = downloaderData?.state ?? 'STARTED';
     const isQueueEmpty = !queue.length;
 
     const { setTitle, setAction } = useContext(NavBarContext);
@@ -156,7 +161,23 @@ export const DownloadQueue: React.FC = () => {
         return () => window.removeEventListener('error', ignoreError);
     }, []);
 
-    const onDragEnd = () => {};
+    const categoryReorder = (list: DownloadType[], from: number, to: number) => {
+        if (from === to) {
+            return;
+        }
+
+        reorderDownload({ variables: { input: { chapterId: list[from].chapter.id, to } } }).catch(() => {
+            revertReorder();
+        });
+    };
+
+    const onDragEnd = (result: DropResult) => {
+        if (!result.destination) {
+            return;
+        }
+
+        categoryReorder(queue, result.source.index, result.destination.index);
+    };
 
     const handleDelete = async (chapter: TChapter) => {
         const isRunning = status === 'STARTED';
