@@ -23,6 +23,8 @@ const typePolicies: StrictTypedTypePolicies = {
     WebUIUpdateInfo: { keyFields: [] },
     WebUIUpdateCheck: { keyFields: [] },
     SettingsType: { keyFields: [] },
+    DownloadStatus: { keyFields: [] },
+    DownloadType: { keyFields: ['chapter'] },
     Query: {
         fields: {
             chapters: {

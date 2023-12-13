@@ -160,6 +160,8 @@ import {
     WebuiUpdateSubscription,
     ResetWebuiUpdateStatusMutation,
     ResetWebuiUpdateStatusMutationVariables,
+    GetDownloadStatusQuery,
+    GetDownloadStatusQueryVariables,
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_GLOBAL_METADATAS } from '@/lib/graphql/queries/GlobalMetadataQuery.ts';
 import { SET_GLOBAL_METADATA } from '@/lib/graphql/mutations/GlobalMetadataMutation.ts';
@@ -221,10 +223,11 @@ import { DOWNLOAD_STATUS_SUBSCRIPTION } from '@/lib/graphql/subscriptions/Downlo
 import { UPDATER_SUBSCRIPTION } from '@/lib/graphql/subscriptions/UpdaterSubscription.ts';
 import { GET_SERVER_SETTINGS } from '@/lib/graphql/queries/SettingsQuery.ts';
 import { UPDATE_SERVER_SETTINGS } from '@/lib/graphql/mutations/SettingsMutation.ts';
-import { BASE_MANGA_FIELDS, FULL_EXTENSION_FIELDS } from '@/lib/graphql/Fragments.ts';
+import { BASE_MANGA_FIELDS, FULL_DOWNLOAD_STATUS, FULL_EXTENSION_FIELDS } from '@/lib/graphql/Fragments.ts';
 import { CLEAR_SERVER_CACHE } from '@/lib/graphql/mutations/ImageMutation.ts';
 import { RESET_WEBUI_UPDATE_STATUS, UPDATE_WEBUI } from '@/lib/graphql/mutations/ServerInfoMutation.ts';
 import { WEBUI_UPDATE_SUBSCRIPTION } from '@/lib/graphql/subscriptions/ServerInfoSubscription.ts';
+import { GET_DOWNLOAD_STATUS } from '@/lib/graphql/queries/DownloaderQuery.ts';
 
 enum GQLMethod {
     QUERY = 'QUERY',
@@ -323,6 +326,7 @@ export const SPECIAL_ED_SOURCES = {
     ],
 };
 
+// TODO - extract logic to reduce the size of this file... grew waaaaaaaaaaaaay too big peepoFat
 // TODO - correctly update cache after all mutations instead of refetching queries
 export class RequestManager {
     public static readonly API_VERSION = '/api/v1/';
@@ -1865,17 +1869,51 @@ export class RequestManager {
         );
     }
 
-    public reorderChapterInDownloadQueue(
-        chapterId: number,
-        position: number,
-        options?: MutationOptions<ReorderChapterDownloadMutation, ReorderChapterDownloadMutationVariables>,
-    ): AbortableApolloMutationResponse<ReorderChapterDownloadMutation> {
-        return this.doRequest<ReorderChapterDownloadMutation, ReorderChapterDownloadMutationVariables>(
-            GQLMethod.MUTATION,
-            REORDER_CHAPTER_DOWNLOAD,
-            { input: { chapterId, to: position } },
-            options,
-        );
+    public useReorderChapterInDownloadQueue(
+        options?: MutationHookOptions<ReorderChapterDownloadMutation, ReorderChapterDownloadMutationVariables>,
+    ): AbortableApolloUseMutationResponse<ReorderChapterDownloadMutation, ReorderChapterDownloadMutationVariables> {
+        const [mutate, result] = this.doRequest(GQLMethod.USE_MUTATION, REORDER_CHAPTER_DOWNLOAD, undefined, options);
+
+        const wrappedMutate = (mutationOptions: Parameters<typeof mutate>[0]) => {
+            const variables = mutationOptions?.variables?.input;
+            const cachedDownloadStatus = this.graphQLClient.client.readFragment<
+                DownloadStatusSubscription['downloadChanged']
+            >({
+                id: 'DownloadStatus:{}',
+                fragment: FULL_DOWNLOAD_STATUS,
+            });
+
+            if (!variables) {
+                throw new Error('useReorderChapterInDownloadQueue: no variables passed');
+            }
+
+            if (!cachedDownloadStatus) {
+                throw new Error('useReorderChapterInDownloadQueue: there are no cached results');
+            }
+
+            const movedIndex = cachedDownloadStatus.queue.findIndex(
+                ({ chapter }) => chapter.id === variables.chapterId,
+            );
+            const chapterDownload = cachedDownloadStatus.queue[movedIndex];
+            const queueWithoutChapterDownload = cachedDownloadStatus.queue.toSpliced(movedIndex, 1);
+            const updatedQueue = queueWithoutChapterDownload.toSpliced(variables.to, 0, chapterDownload);
+
+            return mutate({
+                optimisticResponse: {
+                    __typename: 'Mutation',
+                    reorderChapterDownload: {
+                        __typename: 'ReorderChapterDownloadPayload',
+                        downloadStatus: {
+                            ...cachedDownloadStatus,
+                            queue: updatedQueue,
+                        },
+                    },
+                },
+                ...mutationOptions,
+            });
+        };
+
+        return [wrappedMutate, result];
     }
 
     public addChaptersToDownloadQueue(
@@ -1981,6 +2019,12 @@ export class RequestManager {
         options?: QueryHookOptions<GetUpdateStatusQuery, GetUpdateStatusQueryVariables>,
     ): AbortableApolloUseQueryResponse<GetUpdateStatusQuery, GetUpdateStatusQueryVariables> {
         return this.doRequest(GQLMethod.USE_QUERY, GET_UPDATE_STATUS, {}, options);
+    }
+
+    public useGetDownloadStatus(
+        options?: SubscriptionHookOptions<GetDownloadStatusQuery, GetDownloadStatusQueryVariables>,
+    ): SubscriptionResult<GetDownloadStatusQuery, GetDownloadStatusQueryVariables> {
+        return this.doRequest(GQLMethod.USE_QUERY, GET_DOWNLOAD_STATUS, {}, options);
     }
 
     public useDownloadSubscription(
