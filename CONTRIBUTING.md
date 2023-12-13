@@ -7,15 +7,6 @@ Everything from https://github.com/Suwayomi/Suwayomi-Server/blob/master/CONTRIBU
 ### Building the app
 See [BUILDING.md](./BUILDING.md) for more information
 
-## Release process
-1. Update the changelog
-   1. Copy the content of the [template changelog](CHANGELOG-TEMPLATE.md) to the top of the actual changelog
-   2. Create the changelog for the new release with `npm run createChangelog -- --sha <latest commit hash of previous release>` (printed in console)
-   3. Copy the changelog to the corresponding position in the template
-   4. Create a TL;DR
-2. Update the [version to server version mapping file](versionToServerVersionMapping.json)
-   1. See [wWen to update](#when-to-update)
-
 ## WebUI to [Server](https://github.com/Suwayomi/Suwayomi-Server) mapping
 ### Explanation
 For the server to be able to automatically download the latest compatible WebUI version, the [version to server version mapping file](versionToServerVersionMapping.json) has to be provided.<br/>
