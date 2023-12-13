@@ -6,7 +6,6 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { execSync } from 'child_process';
 import yargs from 'yargs';
 import githubToken from './github_token.json';
 
@@ -41,6 +40,29 @@ const { sha } = yargs
     })
     .parseSync();
 
+const getHeaderWithAuth = () => ({
+    headers: {
+        // token is optional, might be needed in case of getting rate-limited - to provide a token create a "github_token.json" (see "github_token.template.json") and add your token in there
+        Authorization: githubToken.token ? `token ${githubToken.token}` : '',
+    },
+});
+
+const fetchTotalCommitCount = async (owner: string, repo: string, branch: string = 'master') => {
+    const response = await fetch(
+        `https://api.github.com/repos/${owner}/${repo}/commits?sha=${branch}&per_page=1&page=1`,
+        getHeaderWithAuth(),
+    );
+
+    const linkHeader = response.headers.get('Link');
+    const pageCountMatch = linkHeader?.match(/page=(\d+)>; rel="last"/);
+
+    if (!pageCountMatch) {
+        throw new Error('Page count not found in Link header');
+    }
+
+    return parseInt(pageCountMatch[1], 10);
+};
+
 /**
  * Fetches and returns all commits after the provided commit hash
  */
@@ -51,12 +73,7 @@ const fetchCommits = async (
     page: number = 1,
 ): Promise<GithubCommit[]> => {
     const commitList = (await (
-        await fetch(`https://api.github.com/repos/${owner}/${repo}/commits?page=${page}`, {
-            headers: {
-                // token is optional, might be needed in case of getting rate-limited - to provide a token create a "github_token.json" (see "github_token.template.json") and add your token in there
-                Authorization: githubToken.token ? `token ${githubToken.token}` : '',
-            },
-        })
+        await fetch(`https://api.github.com/repos/${owner}/${repo}/commits?page=${page}`, getHeaderWithAuth())
     ).json()) as GithubCommit[];
     const indexOfOldestCommitToLoad = commitList.findIndex((commit) => commit.sha === loadUntilSha);
 
@@ -92,7 +109,7 @@ const createChangelog = async (prevReleaseLastCommitSha: string) => {
     const owner = 'Suwayomi';
     const repo = 'Tachidesk-WebUI';
 
-    const numberOfCommits = Number(execSync('git rev-list origin/master --count').toString());
+    const numberOfCommits = await fetchTotalCommitCount(owner, repo);
     const githubCommits = await fetchCommits(owner, repo, prevReleaseLastCommitSha);
 
     const commits: Commit[] = githubCommits.map((githubCommit, index) => ({
