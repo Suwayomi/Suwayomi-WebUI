@@ -13,24 +13,91 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { Card, CardActionArea, Stack, Box, Tooltip } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import React, { useContext, useEffect } from 'react';
-import { DragDropContext, Draggable } from 'react-beautiful-dnd';
+import { DragDropContext, Draggable, DraggableProvided } from 'react-beautiful-dnd';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
+import { Virtuoso } from 'react-virtuoso';
+import { BoxProps } from '@mui/material/Box/Box';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { StrictModeDroppable } from '@/lib/StrictModeDroppable';
 import { makeToast } from '@/components/util/Toast';
 import { DownloadStateIndicator } from '@/components/molecules/DownloadStateIndicator';
 import { EmptyView } from '@/components/util/EmptyView';
-import { DownloadType } from '@/lib/graphql/generated/graphql.ts';
+import { ChapterType, DownloadType } from '@/lib/graphql/generated/graphql.ts';
 import { TChapter } from '@/typings.ts';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
+import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
+
+const HeightPreservingItem = ({ children, ...props }: BoxProps) => (
+    // the height is necessary to prevent the item container from collapsing, which confuses Virtuoso measurements
+    <Box {...props} style={{ height: props['data-known-size' as keyof typeof props] || undefined }}>
+        {children}
+    </Box>
+);
+
+const DownloadChapterItem = ({
+    provided,
+    item,
+    isDragging,
+    handleDelete,
+}: {
+    provided: DraggableProvided;
+    item: DownloadType;
+    isDragging: boolean;
+    handleDelete: (chapter: ChapterType) => void;
+}) => {
+    const { t } = useTranslation();
+
+    return (
+        <Box {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} sx={{ p: 1, pb: 2 }}>
+            <Card
+                sx={{
+                    backgroundColor: isDragging ? 'custom.light' : undefined,
+                }}
+            >
+                <CardActionArea
+                    component={Link}
+                    to={`/manga/${item.chapter.manga.id}`}
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        p: 1,
+                    }}
+                >
+                    <IconButton sx={{ pointerEvents: 'none' }}>
+                        <DragHandle />
+                    </IconButton>
+                    <Stack sx={{ flex: 1, ml: 1 }} direction="column">
+                        <Typography variant="h6">{item.chapter.manga.title}</Typography>
+                        <Typography variant="caption" display="block" gutterBottom>
+                            {item.chapter.name}
+                        </Typography>
+                    </Stack>
+                    <DownloadStateIndicator download={item} />
+                    <Tooltip title={t('chapter.action.download.delete.label.action')}>
+                        <IconButton
+                            onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                handleDelete(item.chapter);
+                            }}
+                            size="large"
+                        >
+                            <DeleteIcon />
+                        </IconButton>
+                    </Tooltip>
+                </CardActionArea>
+            </Card>
+        </Box>
+    );
+};
 
 export const DownloadQueue: React.FC = () => {
     const { t } = useTranslation();
 
-    const { data: downloaderData } = requestManager.useDownloadSubscription();
+    const { data: downloaderData, loading: isLoading } = requestManager.useDownloadSubscription();
     const queue = (downloaderData?.downloadChanged.queue as DownloadType[]) ?? [];
     const status = downloaderData?.downloadChanged.state ?? 'STARTED';
     const isQueueEmpty = !queue.length;
@@ -72,6 +139,23 @@ export const DownloadQueue: React.FC = () => {
         );
     }, [t, status, isQueueEmpty]);
 
+    useEffect(() => {
+        const ignoreError = (e: WindowEventMap['error']) => {
+            if (
+                e.message === 'ResizeObserver loop completed with undelivered notifications.' ||
+                e.message === 'ResizeObserver loop limit exceeded'
+            ) {
+                e.stopImmediatePropagation();
+            }
+        };
+
+        // Virtuoso's resize observer can throw this error,
+        // which is caught by DnD and aborts dragging.
+        window.addEventListener('error', ignoreError);
+
+        return () => window.removeEventListener('error', ignoreError);
+    }, []);
+
     const onDragEnd = () => {};
 
     const handleDelete = async (chapter: TChapter) => {
@@ -101,71 +185,54 @@ export const DownloadQueue: React.FC = () => {
         requestManager.startDownloads().response.catch(() => {});
     };
 
+    if (isLoading) {
+        return <LoadingPlaceholder />;
+    }
+
     if (isQueueEmpty) {
         return <EmptyView message={t('download.queue.label.no_downloads')} />;
     }
 
     return (
         <DragDropContext onDragEnd={onDragEnd}>
-            <StrictModeDroppable droppableId="droppable">
+            <StrictModeDroppable
+                droppableId="droppable"
+                mode="virtual"
+                renderClone={(provided, snapshot, rubric) => (
+                    <DownloadChapterItem
+                        provided={provided}
+                        item={queue[rubric.source.index]}
+                        isDragging={snapshot.isDragging}
+                        handleDelete={handleDelete}
+                    />
+                )}
+            >
                 {(droppableProvided) => (
                     <Box ref={droppableProvided.innerRef} sx={{ pt: 1 }}>
-                        {queue.map((item, index) => (
-                            <Draggable
-                                key={`${item.chapter.manga.id}-${item.chapter.sourceOrder}`}
-                                draggableId={`${item.chapter.manga.id}-${item.chapter.sourceOrder}`}
-                                index={index}
-                            >
-                                {(draggableProvided, snapshot) => (
-                                    <Box
-                                        {...draggableProvided.draggableProps}
-                                        {...draggableProvided.dragHandleProps}
-                                        ref={draggableProvided.innerRef}
-                                        sx={{ p: 1, pb: 2 }}
-                                    >
-                                        <Card
-                                            sx={{
-                                                backgroundColor: snapshot.isDragging ? 'custom.light' : undefined,
-                                            }}
-                                        >
-                                            <CardActionArea
-                                                component={Link}
-                                                to={`/manga/${item.chapter.mangaId}`}
-                                                sx={{
-                                                    display: 'flex',
-                                                    alignItems: 'center',
-                                                    p: 1,
-                                                }}
-                                            >
-                                                <IconButton sx={{ pointerEvents: 'none' }}>
-                                                    <DragHandle />
-                                                </IconButton>
-                                                <Stack sx={{ flex: 1, ml: 1 }} direction="column">
-                                                    <Typography variant="h6">{item.chapter.manga.title}</Typography>
-                                                    <Typography variant="caption" display="block" gutterBottom>
-                                                        {item.chapter.name}
-                                                    </Typography>
-                                                </Stack>
-                                                <DownloadStateIndicator download={item} />
-                                                <Tooltip title={t('chapter.action.download.delete.label.action')}>
-                                                    <IconButton
-                                                        onClick={(e) => {
-                                                            e.preventDefault();
-                                                            e.stopPropagation();
-                                                            handleDelete(item.chapter);
-                                                        }}
-                                                        size="large"
-                                                    >
-                                                        <DeleteIcon />
-                                                    </IconButton>
-                                                </Tooltip>
-                                            </CardActionArea>
-                                        </Card>
-                                    </Box>
-                                )}
-                            </Draggable>
-                        ))}
-                        {droppableProvided.placeholder}
+                        <Virtuoso
+                            useWindowScroll
+                            overscan={window.innerHeight * 0.5}
+                            data={queue}
+                            components={{
+                                Item: HeightPreservingItem,
+                            }}
+                            itemContent={(index, item) => (
+                                <Draggable
+                                    key={`${item.chapter.manga.id}-${item.chapter.sourceOrder}`}
+                                    draggableId={`${item.chapter.manga.id}-${item.chapter.sourceOrder}`}
+                                    index={index}
+                                >
+                                    {(draggableProvided) => (
+                                        <DownloadChapterItem
+                                            provided={draggableProvided}
+                                            item={item}
+                                            isDragging={false}
+                                            handleDelete={handleDelete}
+                                        />
+                                    )}
+                                </Draggable>
+                            )}
+                        />
                     </Box>
                 )}
             </StrictModeDroppable>
