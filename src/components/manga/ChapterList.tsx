@@ -8,7 +8,7 @@
 
 import { Button, CircularProgress, Stack, styled } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import React, { ComponentProps, useEffect, useMemo, useRef, useState } from 'react';
+import React, { ComponentProps, useMemo, useState } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 import { useTranslation } from 'react-i18next';
 import { TChapter, TManga, TranslationKey } from '@/typings';
@@ -83,36 +83,14 @@ export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
     const { t } = useTranslation();
 
     const [selection, setSelection] = useState<number[] | null>(null);
-    const prevQueueRef = useRef<DownloadType[]>();
     const { data: downloaderData } = requestManager.useDownloadSubscription();
     const queue = (downloaderData?.downloadChanged.queue as DownloadType[]) ?? [];
 
     const [options, dispatch] = useChapterOptions(manga.id);
-    const { data: chaptersData, loading: isLoading, refetch } = requestManager.useGetMangaChapters(manga.id);
+    const { data: chaptersData, loading: isLoading } = requestManager.useGetMangaChapters(manga.id);
     const chapters = useMemo(() => chaptersData?.chapters.nodes ?? [], [chaptersData?.chapters.nodes]);
 
     const { settings: metadataServerSettings } = useMetadataServerSettings();
-
-    useEffect(() => {
-        if (prevQueueRef.current && queue) {
-            const prevQueue = prevQueueRef.current;
-            const changedDownloads = queue.filter((cd) => {
-                const prevChapterDownload = prevQueue.find(
-                    (pcd) =>
-                        cd.chapter.sourceOrder === pcd.chapter.sourceOrder &&
-                        cd.chapter.manga.id === pcd.chapter.manga.id,
-                );
-                if (!prevChapterDownload) return true;
-                return cd.state !== prevChapterDownload.state;
-            });
-
-            if (changedDownloads.length > 0 || prevQueue?.length !== queue.length) {
-                refetch();
-            }
-        }
-
-        prevQueueRef.current = queue;
-    }, [queue]);
 
     const visibleChapters = useMemo(() => filterAndSortChapters(chapters, options), [chapters, options]);
 
