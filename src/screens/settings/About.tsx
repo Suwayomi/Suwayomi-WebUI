@@ -360,10 +360,10 @@ export function About() {
                 <ListItemLink to={aboutServer.github}>
                     <ListItemText primary={t('settings.about.server.label.github')} secondary={aboutServer.github} />
                 </ListItemLink>
-                <ListItemLink to="https://github.com/Suwayomi/Tachidesk-WebUI">
+                <ListItemLink to="https://github.com/Suwayomi/Suwayomi-WebUI">
                     <ListItemText
                         primary={t('settings.about.webui.label.github')}
-                        secondary="https://github.com/Suwayomi/Tachidesk-WebUI"
+                        secondary="https://github.com/Suwayomi/Suwayomi-WebUI"
                     />
                 </ListItemLink>
                 <ListItemLink to={aboutServer.discord}>

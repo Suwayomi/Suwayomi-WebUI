@@ -57,7 +57,7 @@ export function VerticalPager(props: IReaderProps) {
                 // If scroll is moved all the way to the bottom
                 // This handles cases when last page is show, but is smaller then
                 // window, in which case it would never get marked as read.
-                // See https://github.com/Suwayomi/Tachidesk-WebUI/issues/14 for more info
+                // See https://github.com/Suwayomi/Suwayomi-WebUI/issues/14 for more info
                 currentPageRef.current = pages.length - 1;
                 setCurPage(currentPageRef.current);
 
