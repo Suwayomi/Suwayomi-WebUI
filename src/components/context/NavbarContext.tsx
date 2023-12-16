@@ -30,7 +30,7 @@ type ContextType = {
 export const NavBarContext = React.createContext<ContextType>({
     defaultBackTo: undefined,
     setDefaultBackTo: (): void => {},
-    title: 'Tachidesk',
+    title: 'Suwayomi',
     setTitle: (): void => {},
     action: <div />,
     setAction: (): void => {},
