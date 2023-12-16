@@ -2137,7 +2137,7 @@ export type UpdaterMangaFieldsFragment = { __typename?: 'MangaType', id: number,
 
 export type FullExtensionFieldsFragment = { __typename?: 'ExtensionType', apkName: string, hasUpdate: boolean, iconUrl: string, isInstalled: boolean, isNsfw: boolean, isObsolete: boolean, lang: string, name: string, pkgName: string, versionCode: number, versionName: string };
 
-export type FullDownloadStatusFragment = { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, manga: { __typename?: 'MangaType', id: number, title: string } } }> };
+export type FullDownloadStatusFragment = { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, title: string, downloadCount: number } } }> };
 
 export type PartialUpdaterStatusFragment = { __typename?: 'UpdateStatus', isRunning: boolean };
 
@@ -2285,7 +2285,7 @@ export type ClearDownloaderMutationVariables = Exact<{
 }>;
 
 
-export type ClearDownloaderMutation = { __typename?: 'Mutation', clearDownloader: { __typename?: 'ClearDownloaderPayload', clientMutationId?: string | null, downloadStatus: { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, manga: { __typename?: 'MangaType', id: number, title: string } } }> } } };
+export type ClearDownloaderMutation = { __typename?: 'Mutation', clearDownloader: { __typename?: 'ClearDownloaderPayload', clientMutationId?: string | null, downloadStatus: { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, title: string, downloadCount: number } } }> } } };
 
 export type DeleteDownloadedChapterMutationVariables = Exact<{
   input: DeleteDownloadedChapterInput;
@@ -2306,35 +2306,35 @@ export type DequeueChapterDownloadMutationVariables = Exact<{
 }>;
 
 
-export type DequeueChapterDownloadMutation = { __typename?: 'Mutation', dequeueChapterDownload: { __typename?: 'DequeueChapterDownloadPayload', clientMutationId?: string | null, downloadStatus: { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, manga: { __typename?: 'MangaType', id: number, title: string } } }> } } };
+export type DequeueChapterDownloadMutation = { __typename?: 'Mutation', dequeueChapterDownload: { __typename?: 'DequeueChapterDownloadPayload', clientMutationId?: string | null, downloadStatus: { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, title: string, downloadCount: number } } }> } } };
 
 export type DequeueChapterDownloadsMutationVariables = Exact<{
   input: DequeueChapterDownloadsInput;
 }>;
 
 
-export type DequeueChapterDownloadsMutation = { __typename?: 'Mutation', dequeueChapterDownloads: { __typename?: 'DequeueChapterDownloadsPayload', clientMutationId?: string | null, downloadStatus: { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, manga: { __typename?: 'MangaType', id: number, title: string } } }> } } };
+export type DequeueChapterDownloadsMutation = { __typename?: 'Mutation', dequeueChapterDownloads: { __typename?: 'DequeueChapterDownloadsPayload', clientMutationId?: string | null, downloadStatus: { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, title: string, downloadCount: number } } }> } } };
 
 export type EnqueueChapterDownloadMutationVariables = Exact<{
   input: EnqueueChapterDownloadInput;
 }>;
 
 
-export type EnqueueChapterDownloadMutation = { __typename?: 'Mutation', enqueueChapterDownload: { __typename?: 'EnqueueChapterDownloadPayload', clientMutationId?: string | null, downloadStatus: { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, manga: { __typename?: 'MangaType', id: number, title: string } } }> } } };
+export type EnqueueChapterDownloadMutation = { __typename?: 'Mutation', enqueueChapterDownload: { __typename?: 'EnqueueChapterDownloadPayload', clientMutationId?: string | null, downloadStatus: { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, title: string, downloadCount: number } } }> } } };
 
 export type EnqueueChapterDownloadsMutationVariables = Exact<{
   input: EnqueueChapterDownloadsInput;
 }>;
 
 
-export type EnqueueChapterDownloadsMutation = { __typename?: 'Mutation', enqueueChapterDownloads: { __typename?: 'EnqueueChapterDownloadsPayload', clientMutationId?: string | null, downloadStatus: { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, manga: { __typename?: 'MangaType', id: number, title: string } } }> } } };
+export type EnqueueChapterDownloadsMutation = { __typename?: 'Mutation', enqueueChapterDownloads: { __typename?: 'EnqueueChapterDownloadsPayload', clientMutationId?: string | null, downloadStatus: { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, title: string, downloadCount: number } } }> } } };
 
 export type ReorderChapterDownloadMutationVariables = Exact<{
   input: ReorderChapterDownloadInput;
 }>;
 
 
-export type ReorderChapterDownloadMutation = { __typename?: 'Mutation', reorderChapterDownload: { __typename?: 'ReorderChapterDownloadPayload', clientMutationId?: string | null, downloadStatus: { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, manga: { __typename?: 'MangaType', id: number, title: string } } }> } } };
+export type ReorderChapterDownloadMutation = { __typename?: 'Mutation', reorderChapterDownload: { __typename?: 'ReorderChapterDownloadPayload', clientMutationId?: string | null, downloadStatus: { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, title: string, downloadCount: number } } }> } } };
 
 export type StartDownloaderMutationVariables = Exact<{
   input?: InputMaybe<StartDownloaderInput>;
@@ -2584,7 +2584,7 @@ export type GetChaptersQuery = { __typename?: 'Query', chapters: { __typename?: 
 export type GetDownloadStatusQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetDownloadStatusQuery = { __typename?: 'Query', downloadStatus: { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, manga: { __typename?: 'MangaType', id: number, title: string } } }> } };
+export type GetDownloadStatusQuery = { __typename?: 'Query', downloadStatus: { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, title: string, downloadCount: number } } }> } };
 
 export type GetExtensionQueryVariables = Exact<{
   pkgName: Scalars['String']['input'];
@@ -2702,7 +2702,7 @@ export type GetLastUpdateTimestampQuery = { __typename?: 'Query', lastUpdateTime
 export type DownloadStatusSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type DownloadStatusSubscription = { __typename?: 'Subscription', downloadChanged: { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, manga: { __typename?: 'MangaType', id: number, title: string } } }> } };
+export type DownloadStatusSubscription = { __typename?: 'Subscription', downloadChanged: { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, title: string, downloadCount: number } } }> } };
 
 export type WebuiUpdateSubscriptionVariables = Exact<{ [key: string]: never; }>;
 

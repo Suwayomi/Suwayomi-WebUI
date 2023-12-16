@@ -322,9 +322,11 @@ export const FULL_DOWNLOAD_STATUS = gql`
                 id
                 name
                 sourceOrder
+                isDownloaded
                 manga {
                     id
                     title
+                    downloadCount
                 }
             }
             progress
