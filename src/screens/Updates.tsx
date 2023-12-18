@@ -206,6 +206,9 @@ export const Updates: React.FC = () => {
                                     component={Link}
                                     to={`/manga/${chapter.manga.id}/chapter/${chapter.sourceOrder}`}
                                     state={location.state}
+                                    sx={{
+                                        color: (theme) => theme.palette.text[chapter.isRead ? 'disabled' : 'primary'],
+                                    }}
                                 >
                                     <CardContent
                                         sx={{
