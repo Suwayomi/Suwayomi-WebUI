@@ -12,6 +12,8 @@ import React, { ComponentProps, useMemo, useState } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 import { useTranslation } from 'react-i18next';
 import Checkbox from '@mui/material/Checkbox';
+import IconButton from '@mui/material/IconButton';
+import DownloadIcon from '@mui/icons-material/Download';
 import { TChapter, TManga, TranslationKey } from '@/typings';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { ChapterCard } from '@/components/manga/ChapterCard';
@@ -111,6 +113,8 @@ export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
     const areAllChaptersSelected = selection?.length === chapters.length;
     const areNoneChaptersSelected = !selection;
 
+    const areAllChaptersDownloaded = manga.downloadCount === manga.chapters.totalCount;
+
     const handleSelection = (index: number) => {
         const chapter = visibleChapters[index];
         if (!chapter) return;
@@ -141,7 +145,26 @@ export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
 
     const handleFabAction: ComponentProps<typeof SelectionFAB>['onAction'] = (action, actionChapters) => {
         if (actionChapters.length === 0) return;
-        const chapterIds = actionChapters.map(({ chapter }) => chapter.id);
+        const chapterIds = actionChapters
+            .filter(({ chapter }) => {
+                switch (action) {
+                    case 'download':
+                        return !chapter.isDownloaded;
+                    case 'delete':
+                        return chapter.isDownloaded;
+                    case 'bookmark':
+                        return !chapter.isBookmarked;
+                    case 'unbookmark':
+                        return chapter.isBookmarked;
+                    case 'mark_as_read':
+                        return !chapter.isRead;
+                    case 'mark_as_unread':
+                        return chapter.isRead;
+                    default:
+                        throw new Error(`ChapterList::handleFabAction: unknown action "${action}"`);
+                }
+            })
+            .map(({ chapter }) => chapter.id);
 
         let actionPromise: Promise<any>;
 
@@ -245,6 +268,14 @@ export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
                     </Typography>
 
                     <Stack direction="row" sx={{ paddingRight: '24px' }}>
+                        <Tooltip title={t('chapter.action.download.add.label.action')}>
+                            <IconButton
+                                disabled={areAllChaptersDownloaded}
+                                onClick={() => handleFabAction('download', chaptersWithMeta)}
+                            >
+                                <DownloadIcon />
+                            </IconButton>
+                        </Tooltip>
                         <ChaptersToolbarMenu options={options} optionsDispatch={dispatch} />
                         <Tooltip
                             title={t(!areAllChaptersSelected ? 'global.button.select_all' : 'global.button.clear')}
