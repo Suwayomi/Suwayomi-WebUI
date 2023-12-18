@@ -14,6 +14,7 @@ import { useTranslation } from 'react-i18next';
 import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import DownloadIcon from '@mui/icons-material/Download';
+import DoneAllIcon from '@mui/icons-material/DoneAll';
 import { TChapter, TManga, TranslationKey } from '@/typings';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { ChapterCard } from '@/components/manga/ChapterCard';
@@ -113,6 +114,7 @@ export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
     const areAllChaptersSelected = selection?.length === chapters.length;
     const areNoneChaptersSelected = !selection;
 
+    const areAllChaptersRead = manga.unreadCount === 0;
     const areAllChaptersDownloaded = manga.downloadCount === manga.chapters.totalCount;
 
     const handleSelection = (index: number) => {
@@ -268,6 +270,14 @@ export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
                     </Typography>
 
                     <Stack direction="row" sx={{ paddingRight: '24px' }}>
+                        <Tooltip title={t('chapter.action.mark_as_read.add.label.action.current')}>
+                            <IconButton
+                                disabled={areAllChaptersRead}
+                                onClick={() => handleFabAction('mark_as_read', chaptersWithMeta)}
+                            >
+                                <DoneAllIcon />
+                            </IconButton>
+                        </Tooltip>
                         <Tooltip title={t('chapter.action.download.add.label.action')}>
                             <IconButton
                                 disabled={areAllChaptersDownloaded}
