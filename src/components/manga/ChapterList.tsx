@@ -6,11 +6,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Button, CircularProgress, Stack, styled } from '@mui/material';
+import { CircularProgress, Stack, styled, Tooltip } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import React, { ComponentProps, useMemo, useState } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 import { useTranslation } from 'react-i18next';
+import Checkbox from '@mui/material/Checkbox';
 import { TChapter, TManga, TranslationKey } from '@/typings';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { ChapterCard } from '@/components/manga/ChapterCard';
@@ -23,6 +24,16 @@ import { SelectionFAB } from '@/components/manga/SelectionFAB';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/components/util/StyledFab';
 import { DownloadType, UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
 import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
+
+const ChapterListHeader = styled(Stack)(({ theme }) => ({
+    margin: 8,
+    marginBottom: 0,
+    marginRight: '10px',
+    minHeight: 40,
+    [theme.breakpoints.down('md')]: {
+        marginRight: 0,
+    },
+}));
 
 const StyledVirtuoso = styled(Virtuoso)(({ theme }) => ({
     listStyle: 'none',
@@ -97,6 +108,9 @@ export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
     const nextChapterIndexToRead = (manga.lastReadChapter?.sourceOrder ?? 0) + 1;
     const isLatestChapterRead = manga.chapters.totalCount === manga.lastReadChapter?.sourceOrder;
 
+    const areAllChaptersSelected = selection?.length === chapters.length;
+    const areNoneChaptersSelected = !selection;
+
     const handleSelection = (index: number) => {
         const chapter = visibleChapters[index];
         if (!chapter) return;
@@ -111,14 +125,18 @@ export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
         }
     };
 
-    const handleSelectAll = () => {
-        if (selection === null) return;
-        setSelection(visibleChapters.map((c) => c.id));
-    };
-
-    const handleClear = () => {
-        if (selection === null) return;
-        setSelection(null);
+    const handleSelectAll = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const selectAll = event.target.checked;
+        switch (selectAll) {
+            case true:
+                setSelection(visibleChapters.map((c) => c.id));
+                break;
+            case false:
+                setSelection(null);
+                break;
+            default:
+                break;
+        }
     };
 
     const handleFabAction: ComponentProps<typeof SelectionFAB>['onAction'] = (action, actionChapters) => {
@@ -219,36 +237,27 @@ export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
     return (
         <>
             <Stack direction="column" sx={{ position: 'relative' }}>
-                <Stack
-                    direction="row"
-                    alignItems="center"
-                    justifyContent="space-between"
-                    sx={{
-                        m: 1,
-                        mb: 0,
-                        mr: 2,
-                        minHeight: 40,
-                    }}
-                >
+                <ChapterListHeader direction="row" alignItems="center" justifyContent="space-between">
                     <Typography variant="h5">
                         {`${visibleChapters.length} ${t('chapter.title', {
                             count: visibleChapters.length,
                         })}`}
                     </Typography>
 
-                    {selection === null ? (
+                    <Stack direction="row" sx={{ paddingRight: '24px' }}>
                         <ChaptersToolbarMenu options={options} optionsDispatch={dispatch} />
-                    ) : (
-                        <Stack direction="row">
-                            <Button size="small" onClick={handleSelectAll}>
-                                {t('global.button.select_all')}
-                            </Button>
-                            <Button size="small" onClick={handleClear}>
-                                {t('global.button.clear')}
-                            </Button>
-                        </Stack>
-                    )}
-                </Stack>
+                        <Tooltip
+                            title={t(!areAllChaptersSelected ? 'global.button.select_all' : 'global.button.clear')}
+                        >
+                            <Checkbox
+                                sx={{ padding: '8px' }}
+                                checked={areAllChaptersSelected}
+                                indeterminate={!areAllChaptersSelected && !areNoneChaptersSelected}
+                                onChange={handleSelectAll}
+                            />
+                        </Tooltip>
+                    </Stack>
+                </ChapterListHeader>
 
                 {noChaptersFound && <EmptyView message={t('chapter.error.label.no_chapter_found')} />}
                 {noChaptersMatchingFilter && <EmptyView message={t('chapter.error.label.no_matches')} />}
