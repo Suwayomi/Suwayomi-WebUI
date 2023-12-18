@@ -241,7 +241,7 @@ export const MangaDetails: React.FC<IProps> = ({ manga }) => {
             <BottomContentWrapper>
                 <Description>
                     <h4>{t('settings.about.title')}</h4>
-                    <p>{manga.description}</p>
+                    <p style={{ whiteSpace: 'pre-line' }}>{manga.description}</p>
                 </Description>
                 <Genres>
                     {manga.genre.map((g) => (
