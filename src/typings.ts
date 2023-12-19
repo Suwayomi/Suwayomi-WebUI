@@ -340,6 +340,7 @@ enum GridLayout {
 
 export interface LibraryOptions {
     // display options
+    showContinueReadingButton: boolean;
     showDownloadBadge: boolean;
     showUnreadBadge: boolean;
     gridLayout: GridLayout;

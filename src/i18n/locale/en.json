@@ -141,8 +141,8 @@
     "queue": {
       "error": {
         "label": {
-          "failed_to_remove": "Could not remove the download from the queue.",
-          "failed_delete_all": "Could not remove all downloads from the queue"
+          "failed_delete_all": "Could not remove all downloads from the queue",
+          "failed_to_remove": "Could not remove the download from the queue."
         }
       },
       "label": {
@@ -319,6 +319,7 @@
       "loading": "Loading…",
       "never": "Never",
       "none": "None",
+      "other": "Other",
       "password": "Password",
       "sort": "Sort",
       "unknown": "Unknown",
@@ -378,6 +379,11 @@
             "unread_badges": "Unread badges"
           },
           "title": "Badges"
+        },
+        "other": {
+          "label": {
+            "show_continue_reading_button": "Show continue reading button"
+          }
         },
         "tab": {
           "label": {

@@ -82,7 +82,8 @@ export const LibraryOptionsPanel: React.FC<IProps> = ({ open, onClose }) => {
                     ));
                 }
                 if (key === 'display') {
-                    const { gridLayout, showDownloadBadge, showUnreadBadge, showTabSize } = options;
+                    const { gridLayout, showContinueReadingButton, showDownloadBadge, showUnreadBadge, showTabSize } =
+                        options;
                     return (
                         <>
                             <FormLabel>{t('global.grid_layout.title')}</FormLabel>
@@ -110,12 +111,12 @@ export const LibraryOptionsPanel: React.FC<IProps> = ({ open, onClose }) => {
                             <FormLabel sx={{ mt: 2 }}>{t('library.option.display.badge.title')}</FormLabel>
                             <CheckboxInput
                                 label={t('library.option.display.badge.label.unread_badges')}
-                                checked={showUnreadBadge === true}
+                                checked={showUnreadBadge}
                                 onChange={() => handleFilterChange('showUnreadBadge', !showUnreadBadge)}
                             />
                             <CheckboxInput
                                 label={t('library.option.display.badge.label.download_badges')}
-                                checked={showDownloadBadge === true}
+                                checked={showDownloadBadge}
                                 onChange={() => handleFilterChange('showDownloadBadge', !showDownloadBadge)}
                             />
 
@@ -124,6 +125,15 @@ export const LibraryOptionsPanel: React.FC<IProps> = ({ open, onClose }) => {
                                 label={t('library.option.display.tab.label.show_number_of_items')}
                                 checked={showTabSize}
                                 onChange={() => handleFilterChange('showTabSize', !showTabSize)}
+                            />
+
+                            <FormLabel sx={{ mt: 2 }}>{t('global.label.other')}</FormLabel>
+                            <CheckboxInput
+                                label={t('library.option.display.other.label.show_continue_reading_button')}
+                                checked={showContinueReadingButton}
+                                onChange={() =>
+                                    handleFilterChange('showContinueReadingButton', !showContinueReadingButton)
+                                }
                             />
                         </>
                     );
