@@ -10,12 +10,13 @@ import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
-import { Avatar, Box, CardContent, styled, Tooltip } from '@mui/material';
+import { Avatar, Box, CardContent, Stack, styled, Tooltip } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { GridLayout, useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
 import { SpinnerImage } from '@/components/util/SpinnerImage';
 import { TPartialManga } from '@/typings.ts';
+import { ContinueReadingButton } from '@/components/manga/ContinueReadingButton.tsx';
 
 const BottomGradient = styled('div')({
     position: 'absolute',
@@ -44,11 +45,6 @@ const MangaTitle = styled(Typography)({
 });
 
 const GridMangaTitle = styled(MangaTitle)({
-    width: '100%',
-    position: 'absolute',
-    bottom: 0,
-    margin: '0.5em 0',
-    padding: '0 0.5em',
     fontSize: '1.05rem',
 });
 
@@ -75,16 +71,28 @@ export const MangaCard = (props: IProps) => {
     const { t } = useTranslation();
 
     const {
-        manga: { id, title, thumbnailUrl: tmpThumbnailUrl, downloadCount, unreadCount: unread, inLibrary },
+        manga: {
+            id,
+            title,
+            thumbnailUrl: tmpThumbnailUrl,
+            downloadCount,
+            unreadCount: unread,
+            inLibrary,
+            lastReadChapter,
+            chapters,
+        },
         gridLayout,
         inLibraryIndicator,
     } = props;
     const thumbnailUrl = tmpThumbnailUrl ?? 'nonExistingMangaUrl';
     const {
-        options: { showUnreadBadge, showDownloadBadge },
+        options: { showContinueReadingButton, showUnreadBadge, showDownloadBadge },
     } = useLibraryOptionsContext();
 
     const mangaLinkTo = `/manga/${id}/`;
+
+    const nextChapterIndexToRead = (lastReadChapter?.sourceOrder ?? 0) + 1;
+    const isLatestChapterRead = chapters?.totalCount === lastReadChapter?.sourceOrder;
 
     if (gridLayout !== GridLayout.List) {
         return (
@@ -155,22 +163,42 @@ export const MangaCard = (props: IProps) => {
                                     placeItems: 'center',
                                 }}
                             />
-                            {gridLayout !== GridLayout.Comfortable && (
-                                <>
-                                    <BottomGradient />
-                                    <BottomGradientDoubledDown />
-                                    <Tooltip title={title} placement="top">
-                                        <GridMangaTitle
-                                            sx={{
-                                                color: 'white',
-                                                textShadow: '0px 0px 3px #000000',
-                                            }}
-                                        >
-                                            {title}
-                                        </GridMangaTitle>
-                                    </Tooltip>
-                                </>
-                            )}
+                            <>
+                                <BottomGradient />
+                                <BottomGradientDoubledDown />
+                                <Stack
+                                    direction="row"
+                                    justifyContent={gridLayout !== GridLayout.Comfortable ? 'space-between' : 'end'}
+                                    alignItems="end"
+                                    sx={{
+                                        position: 'absolute',
+                                        bottom: 0,
+                                        width: '100%',
+                                        margin: '0.5em 0',
+                                        padding: '0 0.5em',
+                                        gap: '0.5em',
+                                    }}
+                                >
+                                    {gridLayout !== GridLayout.Comfortable && (
+                                        <Tooltip title={title} placement="top">
+                                            <GridMangaTitle
+                                                sx={{
+                                                    color: 'white',
+                                                    textShadow: '0px 0px 3px #000000',
+                                                }}
+                                            >
+                                                {title}
+                                            </GridMangaTitle>
+                                        </Tooltip>
+                                    )}
+                                    <ContinueReadingButton
+                                        showContinueReadingButton={showContinueReadingButton}
+                                        isLatestChapterRead={isLatestChapterRead}
+                                        nextChapterIndexToRead={nextChapterIndexToRead}
+                                        mangaLinkTo={mangaLinkTo}
+                                    />
+                                </Stack>
+                            </>
                         </CardActionArea>
                     </Card>
                     {gridLayout === GridLayout.Comfortable && (
@@ -178,6 +206,10 @@ export const MangaCard = (props: IProps) => {
                             <GridMangaTitle
                                 sx={{
                                     position: 'relative',
+                                    width: '100%',
+                                    bottom: 0,
+                                    margin: '0.5em 0',
+                                    padding: '0 0.5em',
                                     color: 'text.primary',
                                     height: '3rem',
                                 }}
@@ -237,25 +269,33 @@ export const MangaCard = (props: IProps) => {
                             <MangaTitle variant="h5">{title}</MangaTitle>
                         </Tooltip>
                     </Box>
-                    <BadgeContainer>
-                        {inLibraryIndicator && inLibrary && (
-                            <Typography sx={{ backgroundColor: 'primary.dark' }}>
-                                {t('manga.button.in_library')}
-                            </Typography>
-                        )}
-                        {showUnreadBadge && unread! > 0 && (
-                            <Typography sx={{ backgroundColor: 'primary.dark' }}>{unread}</Typography>
-                        )}
-                        {showDownloadBadge && downloadCount! > 0 && (
-                            <Typography
-                                sx={{
-                                    backgroundColor: 'success.dark',
-                                }}
-                            >
-                                {downloadCount}
-                            </Typography>
-                        )}
-                    </BadgeContainer>
+                    <Stack direction="row" alignItems="center" gap="5px">
+                        <BadgeContainer>
+                            {inLibraryIndicator && inLibrary && (
+                                <Typography sx={{ backgroundColor: 'primary.dark' }}>
+                                    {t('manga.button.in_library')}
+                                </Typography>
+                            )}
+                            {showUnreadBadge && unread! > 0 && (
+                                <Typography sx={{ backgroundColor: 'primary.dark' }}>{unread}</Typography>
+                            )}
+                            {showDownloadBadge && downloadCount! > 0 && (
+                                <Typography
+                                    sx={{
+                                        backgroundColor: 'success.dark',
+                                    }}
+                                >
+                                    {downloadCount}
+                                </Typography>
+                            )}
+                        </BadgeContainer>
+                        <ContinueReadingButton
+                            showContinueReadingButton={showContinueReadingButton}
+                            isLatestChapterRead={isLatestChapterRead}
+                            nextChapterIndexToRead={nextChapterIndexToRead}
+                            mangaLinkTo={mangaLinkTo}
+                        />
+                    </Stack>
                 </CardContent>
             </CardActionArea>
         </Card>

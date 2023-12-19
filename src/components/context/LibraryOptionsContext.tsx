@@ -21,6 +21,7 @@ export enum GridLayout {
 }
 
 export const DefaultLibraryOptions: LibraryOptions = {
+    showContinueReadingButton: false,
     showDownloadBadge: false,
     showUnreadBadge: false,
     gridLayout: GridLayout.Compact,
