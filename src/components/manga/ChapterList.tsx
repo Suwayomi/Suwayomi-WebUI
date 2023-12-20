@@ -8,7 +8,7 @@
 
 import { Box, CircularProgress, Stack, styled, Tooltip } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import React, { ComponentProps, useMemo, useState } from 'react';
+import React, { ComponentProps, useMemo } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 import { useTranslation } from 'react-i18next';
 import Checkbox from '@mui/material/Checkbox';
@@ -27,6 +27,7 @@ import { SelectionFAB } from '@/components/manga/SelectionFAB';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/components/util/StyledFab';
 import { DownloadType, UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
 import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
+import { useSelectableCollection } from '@/components/collection/useSelectableCollection.ts';
 
 const ChapterListHeader = styled(Stack)(({ theme }) => ({
     margin: 8,
@@ -96,13 +97,15 @@ interface IProps {
 export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
     const { t } = useTranslation();
 
-    const [selection, setSelection] = useState<number[] | null>(null);
     const { data: downloaderData } = requestManager.useDownloadSubscription();
     const queue = (downloaderData?.downloadChanged.queue as DownloadType[]) ?? [];
 
     const [options, dispatch] = useChapterOptions(manga.id);
     const { data: chaptersData, loading: isLoading } = requestManager.useGetMangaChapters(manga.id);
     const chapters = useMemo(() => chaptersData?.chapters.nodes ?? [], [chaptersData?.chapters.nodes]);
+
+    const { areNoItemsSelected, areAllItemsSelected, selectedItemIds, handleSelectAll, handleSelection } =
+        useSelectableCollection(chapters.length);
 
     const { settings: metadataServerSettings } = useMetadataServerSettings();
 
@@ -111,39 +114,8 @@ export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
     const nextChapterIndexToRead = (manga.lastReadChapter?.sourceOrder ?? 0) + 1;
     const isLatestChapterRead = manga.chapters.totalCount === manga.lastReadChapter?.sourceOrder;
 
-    const areAllChaptersSelected = selection?.length === chapters.length;
-    const areNoneChaptersSelected = !selection;
-
     const areAllChaptersRead = manga.unreadCount === 0;
     const areAllChaptersDownloaded = manga.downloadCount === manga.chapters.totalCount;
-
-    const handleSelection = (index: number) => {
-        const chapter = visibleChapters[index];
-        if (!chapter) return;
-
-        if (selection === null) {
-            setSelection([chapter.id]);
-        } else if (selection.includes(chapter.id)) {
-            const newSelection = selection.filter((cid) => cid !== chapter.id);
-            setSelection(newSelection.length > 0 ? newSelection : null);
-        } else {
-            setSelection([...selection, chapter.id]);
-        }
-    };
-
-    const handleSelectAll = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const selectAll = event.target.checked;
-        switch (selectAll) {
-            case true:
-                setSelection(visibleChapters.map((c) => c.id));
-                break;
-            case false:
-                setSelection(null);
-                break;
-            default:
-                break;
-        }
-    };
 
     const handleFabAction: ComponentProps<typeof SelectionFAB>['onAction'] = (action, actionChapters) => {
         if (actionChapters.length === 0) return;
@@ -215,26 +187,20 @@ export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
                 const downloadChapter = queue?.find(
                     (cd) => cd.chapter.sourceOrder === chapter.sourceOrder && cd.chapter.manga.id === chapter.manga.id,
                 );
-                const selected = selection?.includes(chapter.id) ?? null;
+                const selected = !areNoItemsSelected ? selectedItemIds.includes(chapter.id) : null;
                 return {
                     chapter,
                     downloadChapter,
                     selected,
                 };
             }),
-        [queue, selection, visibleChapters],
+        [queue, selectedItemIds, visibleChapters],
     );
 
-    const selectedChapters = useMemo(() => {
-        if (!selection) {
-            return null;
-        }
-
-        return chaptersWithMeta.filter(({ chapter }) => selection.includes(chapter.id));
-    }, [selection, chapters]);
-
     const chapterListFAB = useMemo(() => {
-        if (selectedChapters) {
+        const selectedChapters = chaptersWithMeta.filter((chapter) => chapter.selected);
+
+        if (selectedChapters.length) {
             return <SelectionFAB selectedChapters={selectedChapters} onAction={handleFabAction} />;
         }
 
@@ -243,7 +209,7 @@ export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
         }
 
         return null;
-    }, [selectedChapters, isLatestChapterRead]);
+    }, [chaptersWithMeta, isLatestChapterRead]);
 
     if (isLoading || (noChaptersFound && isRefreshing)) {
         return (
@@ -287,14 +253,14 @@ export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
                             </IconButton>
                         </Tooltip>
                         <ChaptersToolbarMenu options={options} optionsDispatch={dispatch} />
-                        <Tooltip
-                            title={t(!areAllChaptersSelected ? 'global.button.select_all' : 'global.button.clear')}
-                        >
+                        <Tooltip title={t(!areAllItemsSelected ? 'global.button.select_all' : 'global.button.clear')}>
                             <Checkbox
                                 sx={{ padding: '8px' }}
-                                checked={areAllChaptersSelected}
-                                indeterminate={!areAllChaptersSelected && !areNoneChaptersSelected}
-                                onChange={handleSelectAll}
+                                checked={areAllItemsSelected}
+                                indeterminate={!areNoItemsSelected && !areAllItemsSelected}
+                                onChange={(_, checked) =>
+                                    handleSelectAll(checked, checked ? chapters.map((chapter) => chapter.id) : [])
+                                }
                             />
                         </Tooltip>
                     </Stack>
@@ -317,7 +283,7 @@ export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
                             {...chaptersWithMeta[index]}
                             allChapters={chapters}
                             showChapterNumber={options.showChapterNumber}
-                            onSelect={() => handleSelection(index)}
+                            onSelect={(selected) => handleSelection(chaptersWithMeta[index].chapter.id, selected)}
                         />
                     )}
                     useWindowScroll={window.innerWidth < 900}
