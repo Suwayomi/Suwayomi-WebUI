@@ -134,17 +134,13 @@ const VerticalGrid = ({
     );
 };
 
-export interface IMangaGridProps {
-    mangas: TPartialManga[];
-    isLoading: boolean;
+export interface IMangaGridProps extends Omit<DefaultGridProps, 'GridItemContainer'> {
     message?: string;
     messageExtra?: JSX.Element;
     hasNextPage: boolean;
     loadMore: () => void;
-    gridLayout?: GridLayout;
     horizontal?: boolean | undefined;
     noFaces?: boolean | undefined;
-    inLibraryIndicator?: boolean;
 }
 
 export const MangaGrid: React.FC<IMangaGridProps> = (props) => {
