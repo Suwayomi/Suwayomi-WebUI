@@ -20,6 +20,7 @@ import { AppbarSearch } from '@/components/util/AppbarSearch';
 import { UpdateChecker } from '@/components/library/UpdateChecker';
 import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
+import { useGetVisibleLibraryMangas } from '@/components/library/useGetVisibleLibraryMangas.ts';
 
 const StyledGridWrapper = styled(Box)(({ theme }) => ({
     // TabsMenu height + TabsMenu bottom padding - grid item top padding
@@ -83,7 +84,8 @@ export function Library() {
         error: mangaError,
         loading: mangaLoading,
     } = requestManager.useGetCategoryMangas(activeTab?.id, { skip: !activeTab, nextFetchPolicy: 'cache-only' });
-    const mangas = categoryMangaResponse?.mangas.nodes ?? [];
+    const categoryMangas = categoryMangaResponse?.mangas.nodes ?? [];
+    const { visibleMangas: mangas, showFilteredOutMessage } = useGetVisibleLibraryMangas(categoryMangas);
 
     const { setTitle, setAction } = useContext(NavBarContext);
     useEffect(() => {
@@ -135,6 +137,7 @@ export function Library() {
                 mangas={mangas}
                 message={t('library.error.label.empty')}
                 isLoading={activeTab != null && mangaLoading}
+                showFilteredOutMessage={showFilteredOutMessage}
             />
         );
     }
@@ -182,6 +185,7 @@ export function Library() {
                                 mangas={mangas}
                                 message={t('library.error.label.empty')}
                                 isLoading={mangaLoading}
+                                showFilteredOutMessage={showFilteredOutMessage}
                             />
                         ))}
                 </TabPanel>
