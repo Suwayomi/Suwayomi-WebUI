@@ -103,7 +103,7 @@ const VerticalGrid = ({
             );
         }, 250);
     };
-    useEffect(() => clearTimeout(persistGridStateTimeout.current), []);
+    useEffect(() => clearTimeout(persistGridStateTimeout.current), [location.key, persistGridStateTimeout.current]);
 
     return (
         <>
