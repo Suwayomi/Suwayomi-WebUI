@@ -11,7 +11,6 @@ import Typography from '@mui/material/Typography';
 import React, { ComponentProps, useMemo } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 import { useTranslation } from 'react-i18next';
-import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import DownloadIcon from '@mui/icons-material/Download';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
@@ -28,6 +27,7 @@ import { DEFAULT_FULL_FAB_HEIGHT } from '@/components/util/StyledFab';
 import { DownloadType, UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
 import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
 import { useSelectableCollection } from '@/components/collection/useSelectableCollection.ts';
+import { SelectableCollectionSelectAll } from '@/components/collection/SelectableCollectionSelectAll.tsx';
 
 const ChapterListHeader = styled(Stack)(({ theme }) => ({
     margin: 8,
@@ -253,16 +253,13 @@ export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
                             </IconButton>
                         </Tooltip>
                         <ChaptersToolbarMenu options={options} optionsDispatch={dispatch} />
-                        <Tooltip title={t(!areAllItemsSelected ? 'global.button.select_all' : 'global.button.clear')}>
-                            <Checkbox
-                                sx={{ padding: '8px' }}
-                                checked={areAllItemsSelected}
-                                indeterminate={!areNoItemsSelected && !areAllItemsSelected}
-                                onChange={(_, checked) =>
-                                    handleSelectAll(checked, checked ? chapters.map((chapter) => chapter.id) : [])
-                                }
-                            />
-                        </Tooltip>
+                        <SelectableCollectionSelectAll
+                            areAllItemsSelected={areAllItemsSelected}
+                            areNoItemsSelected={areNoItemsSelected}
+                            onChange={(checked) =>
+                                handleSelectAll(checked, checked ? chapters.map((chapter) => chapter.id) : [])
+                            }
+                        />
                     </Stack>
                 </ChapterListHeader>
 
