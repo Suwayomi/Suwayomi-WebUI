@@ -28,6 +28,7 @@ import { DownloadType, UpdateChapterPatchInput } from '@/lib/graphql/generated/g
 import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
 import { useSelectableCollection } from '@/components/collection/useSelectableCollection.ts';
 import { SelectableCollectionSelectAll } from '@/components/collection/SelectableCollectionSelectAll.tsx';
+import { ChapterSelectionFABActionItems } from '@/components/manga/ChapterSelectionFABActionItems.tsx';
 
 const ChapterListHeader = styled(Stack)(({ theme }) => ({
     margin: 8,
@@ -117,7 +118,10 @@ export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
     const areAllChaptersRead = manga.unreadCount === 0;
     const areAllChaptersDownloaded = manga.downloadCount === manga.chapters.totalCount;
 
-    const handleFabAction: ComponentProps<typeof SelectionFAB>['onAction'] = (action, actionChapters) => {
+    const handleFabAction: ComponentProps<typeof ChapterSelectionFABActionItems>['onAction'] = (
+        action,
+        actionChapters,
+    ) => {
         if (actionChapters.length === 0) return;
         const chapterIds = actionChapters
             .filter(({ chapter }) => {
@@ -201,7 +205,17 @@ export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
         const selectedChapters = chaptersWithMeta.filter((chapter) => chapter.selected);
 
         if (selectedChapters.length) {
-            return <SelectionFAB selectedChapters={selectedChapters} onAction={handleFabAction} />;
+            return (
+                <SelectionFAB selectedItemsCount={selectedChapters.length} title="chapter.title">
+                    {(handleClose) => (
+                        <ChapterSelectionFABActionItems
+                            selectedChapters={selectedChapters}
+                            onAction={handleFabAction}
+                            handleClose={handleClose}
+                        />
+                    )}
+                </SelectionFAB>
+            );
         }
 
         if (!isLatestChapterRead) {
