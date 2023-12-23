@@ -856,10 +856,7 @@ export class RequestManager {
             GQLMethod.MUTATION,
             SET_GLOBAL_METADATA,
             { input: { meta: { key, value: `${value}` } } },
-            {
-                refetchQueries: [GET_GLOBAL_METADATAS],
-                ...options,
-            },
+            options,
         );
 
         result.response.then(() => {
@@ -1340,8 +1337,6 @@ export class RequestManager {
         const wrappedMutate = (mutateOptions: Parameters<typeof mutate>[0]) =>
             mutate({
                 onCompleted: () => {
-                    this.graphQLClient.client.cache.evict({ fieldName: 'categories' });
-                    this.graphQLClient.client.cache.evict({ fieldName: 'category' });
                     this.graphQLClient.client.cache.evict({ fieldName: 'mangas' });
                 },
                 ...mutateOptions,
@@ -1363,8 +1358,6 @@ export class RequestManager {
         );
 
         result.response.then(() => {
-            this.graphQLClient.client.cache.evict({ fieldName: 'categories' });
-            this.graphQLClient.client.cache.evict({ fieldName: 'category' });
             this.graphQLClient.client.cache.evict({ fieldName: 'mangas' });
         });
 
@@ -1416,7 +1409,7 @@ export class RequestManager {
             GQLMethod.MUTATION,
             GET_MANGA_CHAPTERS_FETCH,
             { input: { mangaId: Number(mangaId) } },
-            { refetchQueries: [GET_MANGA, GET_CHAPTERS], ...options },
+            { refetchQueries: [GET_CHAPTERS], ...options },
         );
     }
 
@@ -1597,7 +1590,7 @@ export class RequestManager {
                 downloadAhead,
                 lastReadChapterIds: downloadAhead ? ids : [],
             },
-            { refetchQueries: [GET_MANGA], ...options },
+            options,
         );
     }
 
