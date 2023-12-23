@@ -7,7 +7,7 @@
  */
 
 import { Chip, Tab, Tabs, styled, Box } from '@mui/material';
-import React, { useContext, useEffect, useMemo } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { useQueryParam, NumberParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
@@ -20,6 +20,9 @@ import { AppbarSearch } from '@/components/util/AppbarSearch';
 import { UpdateChecker } from '@/components/library/UpdateChecker';
 import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
+import { useSelectableCollection } from '@/components/collection/useSelectableCollection.ts';
+import { TManga } from '@/typings.ts';
+import { SelectableCollectionSelectMode } from '@/components/collection/SelectableCollectionSelectMode.tsx';
 import { useGetVisibleLibraryMangas } from '@/components/library/useGetVisibleLibraryMangas.ts';
 
 const StyledGridWrapper = styled(Box)(({ theme }) => ({
@@ -87,28 +90,86 @@ export function Library() {
     const categoryMangas = categoryMangaResponse?.mangas.nodes ?? [];
     const { visibleMangas: mangas, showFilteredOutMessage } = useGetVisibleLibraryMangas(categoryMangas);
 
+    const [isSelectModeActive, setIsSelectModeActive] = useState(false);
+    const {
+        areNoItemsForKeySelected: areNoItemsSelected,
+        areAllItemsForKeySelected: areAllItemsSelected,
+        selectedItemIds,
+        handleSelectAll,
+        handleSelection,
+    } = useSelectableCollection<TManga['id']>(mangas.length, mangas.length, activeTab?.id.toString());
+
+    const handleSelect = (id: number, selected: boolean) => {
+        setIsSelectModeActive(!!(selectedItemIds.length + (selected ? 1 : -1)));
+        handleSelection(id, selected);
+    };
+
+    const selectedMangas = useMemo(
+        () =>
+            selectedItemIds.map(
+                (id) =>
+                    requestManager.graphQLClient.client.cache.readFragment<TManga>({
+                        id: requestManager.graphQLClient.client.cache.identify({ __typename: 'MangaType', id }),
+                        fragment: PARTIAL_MANGA_FIELDS,
+                        fragmentName: 'PARTIAL_MANGA_FIELDS',
+                    })!,
+            ),
+        [selectedItemIds.length],
+    );
+
     const { setTitle, setAction } = useContext(NavBarContext);
     useEffect(() => {
         const title = t('library.title');
         const navBarTitle = (
             <TitleWithSizeTag>
                 {title}
-                {areCategoriesLoading || !options.showTabSize ? null : <TitleSizeTag label={librarySize} />}
+                {options.showTabSize && <TitleSizeTag label={librarySize} />}
             </TitleWithSizeTag>
         );
         setTitle(navBarTitle, title);
         setAction(
             <>
-                <AppbarSearch />
-                <LibraryToolbarMenu />
-                <UpdateChecker />
+                {!isSelectModeActive && (
+                    <>
+                        <AppbarSearch />
+                        <LibraryToolbarMenu />
+                        <UpdateChecker />
+                    </>
+                )}
+                <SelectableCollectionSelectMode
+                    isActive={isSelectModeActive}
+                    areAllItemsSelected={areAllItemsSelected}
+                    areNoItemsSelected={areNoItemsSelected}
+                    onSelectAll={(selectAll) =>
+                        handleSelectAll(selectAll, [...new Set(mangas.map((manga) => manga.id))])
+                    }
+                    onModeChange={(checked) => {
+                        setIsSelectModeActive(checked);
+
+                        if (checked) {
+                            handleSelectAll(true, [...new Set(mangas.map((manga) => manga.id))]);
+                        } else {
+                            tabs.forEach((tab) => handleSelectAll(false, [], tab.id.toString()));
+                        }
+                    }}
+                />
             </>,
         );
         return () => {
             setTitle('');
             setAction(null);
         };
-    }, [t, librarySize, areCategoriesLoading, options]);
+    }, [
+        t,
+        librarySize,
+        areCategoriesLoading,
+        options,
+        isSelectModeActive,
+        areNoItemsSelected,
+        areAllItemsSelected,
+        selectedItemIds.length,
+        mangas.length,
+    ]);
 
     const handleTabChange = (newTab: number) => {
         setTabSearchParam(newTab);
@@ -137,6 +198,9 @@ export function Library() {
                 mangas={mangas}
                 message={t('library.error.label.empty')}
                 isLoading={activeTab != null && mangaLoading}
+                selectedMangaIds={selectedItemIds}
+                isSelectModeActive={isSelectModeActive}
+                handleSelection={handleSelect}
                 showFilteredOutMessage={showFilteredOutMessage}
             />
         );
@@ -185,6 +249,9 @@ export function Library() {
                                 mangas={mangas}
                                 message={t('library.error.label.empty')}
                                 isLoading={mangaLoading}
+                                selectedMangaIds={selectedItemIds}
+                                isSelectModeActive={isSelectModeActive}
+                                handleSelection={handleSelect}
                                 showFilteredOutMessage={showFilteredOutMessage}
                             />
                         ))}

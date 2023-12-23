@@ -15,8 +15,10 @@ import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { GridLayout, useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
 import { SpinnerImage } from '@/components/util/SpinnerImage';
-import { TPartialManga } from '@/typings.ts';
+import { TManga, TPartialManga } from '@/typings.ts';
 import { ContinueReadingButton } from '@/components/manga/ContinueReadingButton.tsx';
+import { SelectableCollectionReturnType } from '@/components/collection/useSelectableCollection.ts';
+import { MangaOptionButton } from '@/components/manga/MangaOptionButton.tsx';
 
 const BottomGradient = styled('div')({
     position: 'absolute',
@@ -65,6 +67,8 @@ interface IProps {
     manga: TPartialManga;
     gridLayout?: GridLayout;
     inLibraryIndicator?: boolean;
+    selected?: boolean | null;
+    handleSelection?: SelectableCollectionReturnType<TManga['id']>['handleSelection'];
 }
 
 export const MangaCard = (props: IProps) => {
@@ -83,6 +87,8 @@ export const MangaCard = (props: IProps) => {
         },
         gridLayout,
         inLibraryIndicator,
+        selected,
+        handleSelection,
     } = props;
     const thumbnailUrl = tmpThumbnailUrl ?? 'nonExistingMangaUrl';
     const {
@@ -96,11 +102,33 @@ export const MangaCard = (props: IProps) => {
 
     if (gridLayout !== GridLayout.List) {
         return (
-            <Link to={mangaLinkTo} style={gridLayout === GridLayout.Comfortable ? { textDecoration: 'none' } : {}}>
+            <Link
+                onClick={(e) => {
+                    if (selected === null) {
+                        return;
+                    }
+
+                    e.preventDefault();
+                    handleSelection?.(id, !selected);
+                }}
+                to={mangaLinkTo}
+                style={gridLayout === GridLayout.Comfortable ? { textDecoration: 'none' } : {}}
+            >
                 <Box
                     sx={{
                         display: 'flex',
                         flexDirection: 'column',
+                        margin: '2px',
+                        outline: selected ? '4px solid' : undefined,
+                        borderRadius: selected ? '1px' : undefined,
+                        outlineColor: (theme) => theme.palette.primary.main,
+                        backgroundColor: (theme) => (selected ? theme.palette.primary.main : undefined),
+                        '@media (hover: hover) and (pointer: fine)': {
+                            '&:hover .manga-option-button': {
+                                visibility: 'visible',
+                                pointerEvents: 'all',
+                            },
+                        },
                     }}
                 >
                     <Card
@@ -116,31 +144,38 @@ export const MangaCard = (props: IProps) => {
                                 height: '100%',
                             }}
                         >
-                            <BadgeContainer
+                            <Stack
+                                alignItems="start"
+                                justifyContent="space-between"
+                                direction="row"
                                 sx={{
                                     position: 'absolute',
                                     top: 5,
                                     left: 5,
+                                    right: 5,
                                 }}
                             >
-                                {inLibraryIndicator && inLibrary && (
-                                    <Typography sx={{ backgroundColor: 'primary.dark', zIndex: '1' }}>
-                                        {t('manga.button.in_library')}
-                                    </Typography>
-                                )}
-                                {showUnreadBadge && (unread ?? 0) > 0 && (
-                                    <Typography sx={{ backgroundColor: 'primary.dark' }}>{unread}</Typography>
-                                )}
-                                {showDownloadBadge && (downloadCount ?? 0) > 0 && (
-                                    <Typography
-                                        sx={{
-                                            backgroundColor: 'success.dark',
-                                        }}
-                                    >
-                                        {downloadCount}
-                                    </Typography>
-                                )}
-                            </BadgeContainer>
+                                <BadgeContainer>
+                                    {inLibraryIndicator && inLibrary && (
+                                        <Typography sx={{ backgroundColor: 'primary.dark', zIndex: '1' }}>
+                                            {t('manga.button.in_library')}
+                                        </Typography>
+                                    )}
+                                    {showUnreadBadge && (unread ?? 0) > 0 && (
+                                        <Typography sx={{ backgroundColor: 'primary.dark' }}>{unread}</Typography>
+                                    )}
+                                    {showDownloadBadge && (downloadCount ?? 0) > 0 && (
+                                        <Typography
+                                            sx={{
+                                                backgroundColor: 'success.dark',
+                                            }}
+                                        >
+                                            {downloadCount}
+                                        </Typography>
+                                    )}
+                                </BadgeContainer>
+                                <MangaOptionButton id={id} selected={selected} handleSelection={handleSelection} />
+                            </Stack>
                             <SpinnerImage
                                 alt={title}
                                 src={requestManager.getValidImgUrlFor(thumbnailUrl)}
@@ -225,7 +260,18 @@ export const MangaCard = (props: IProps) => {
 
     return (
         <Card>
-            <CardActionArea component={Link} to={mangaLinkTo}>
+            <CardActionArea
+                component={Link}
+                to={mangaLinkTo}
+                onClick={(e) => {
+                    if (selected === null) {
+                        return;
+                    }
+
+                    e.preventDefault();
+                    handleSelection?.(id, !selected);
+                }}
+            >
                 <CardContent
                     sx={{
                         display: 'flex',
@@ -295,6 +341,7 @@ export const MangaCard = (props: IProps) => {
                             nextChapterIndexToRead={nextChapterIndexToRead}
                             mangaLinkTo={mangaLinkTo}
                         />
+                        <MangaOptionButton id={id} selected={selected} handleSelection={handleSelection} asCheckbox />
                     </Stack>
                 </CardContent>
             </CardActionArea>

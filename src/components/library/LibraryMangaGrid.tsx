@@ -21,8 +21,15 @@ interface LibraryMangaGridProps
     message?: string;
 }
 
-export const LibraryMangaGrid: React.FC<LibraryMangaGridProps> = ({ mangas, isLoading, message }) => {
+export const LibraryMangaGrid: React.FC<LibraryMangaGridProps> = ({
+    mangas,
     showFilteredOutMessage,
+    isLoading,
+    message,
+    isSelectModeActive,
+    selectedMangaIds,
+    handleSelection,
+}) => {
     const { t } = useTranslation();
 
     const [query] = useQueryParam('query', StringParam);
@@ -41,6 +48,9 @@ export const LibraryMangaGrid: React.FC<LibraryMangaGridProps> = ({ mangas, isLo
             loadMore={() => undefined}
             message={showFilteredOutMessage ? t('library.error.label.no_matches') : message}
             gridLayout={options.gridLayout}
+            isSelectModeActive={isSelectModeActive}
+            selectedMangaIds={selectedMangaIds}
+            handleSelection={handleSelection}
         />
     );
 };

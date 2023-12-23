@@ -16,7 +16,8 @@ import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
 import { MangaCard } from '@/components/MangaCard';
 import { GridLayout } from '@/components/context/LibraryOptionsContext';
 import { useLocalStorage } from '@/util/useLocalStorage';
-import { TPartialManga } from '@/typings.ts';
+import { TManga, TPartialManga } from '@/typings.ts';
+import { SelectableCollectionReturnType } from '@/components/collection/useSelectableCollection.ts';
 
 const GridContainer = React.forwardRef<HTMLDivElement, GridTypeMap['props']>(({ children, ...props }, ref) => (
     <Grid {...props} ref={ref} container sx={{ paddingLeft: '5px', paddingRight: '13px' }}>
@@ -40,8 +41,22 @@ const GridItemContainerWithDimension = (
     );
 };
 
-const createMangaCard = (manga: TPartialManga, gridLayout?: GridLayout, inLibraryIndicator?: boolean) => (
-    <MangaCard key={manga.id} manga={manga} gridLayout={gridLayout} inLibraryIndicator={inLibraryIndicator} />
+const createMangaCard = (
+    manga: TPartialManga,
+    gridLayout?: GridLayout,
+    inLibraryIndicator?: boolean,
+    isSelectModeActive: boolean = false,
+    selectedMangaIds?: TManga['id'][],
+    handleSelection?: DefaultGridProps['handleSelection'],
+) => (
+    <MangaCard
+        key={manga.id}
+        manga={manga}
+        gridLayout={gridLayout}
+        inLibraryIndicator={inLibraryIndicator}
+        selected={isSelectModeActive ? selectedMangaIds?.includes(manga.id) : null}
+        handleSelection={handleSelection}
+    />
 );
 
 type DefaultGridProps = {
@@ -50,9 +65,21 @@ type DefaultGridProps = {
     inLibraryIndicator?: boolean;
     GridItemContainer: (props: GridTypeMap['props'] & Partial<GridItemProps>) => JSX.Element;
     gridLayout?: GridLayout;
+    isSelectModeActive?: boolean;
+    selectedMangaIds?: Required<TManga['id']>[];
+    handleSelection?: SelectableCollectionReturnType<TManga['id']>['handleSelection'];
 };
 
-const HorizontalGrid = ({ isLoading, mangas, inLibraryIndicator, GridItemContainer, gridLayout }: DefaultGridProps) => (
+const HorizontalGrid = ({
+    isLoading,
+    mangas,
+    inLibraryIndicator,
+    GridItemContainer,
+    gridLayout,
+    isSelectModeActive,
+    selectedMangaIds,
+    handleSelection,
+}: DefaultGridProps) => (
     <Grid
         container
         spacing={1}
@@ -70,7 +97,14 @@ const HorizontalGrid = ({ isLoading, mangas, inLibraryIndicator, GridItemContain
         ) : (
             mangas.map((manga) => (
                 <GridItemContainer key={manga.id}>
-                    {createMangaCard(manga, gridLayout, inLibraryIndicator)}
+                    {createMangaCard(
+                        manga,
+                        gridLayout,
+                        inLibraryIndicator,
+                        isSelectModeActive,
+                        selectedMangaIds,
+                        handleSelection,
+                    )}
                 </GridItemContainer>
             ))
         )}
@@ -85,6 +119,9 @@ const VerticalGrid = ({
     gridLayout,
     hasNextPage,
     loadMore,
+    isSelectModeActive,
+    selectedMangaIds,
+    handleSelection,
 }: DefaultGridProps & {
     hasNextPage: boolean;
     loadMore: () => void;
@@ -125,7 +162,16 @@ const VerticalGrid = ({
                 restoreStateFrom={snapshot}
                 stateChanged={persistGridState}
                 endReached={() => loadMore()}
-                itemContent={(index) => createMangaCard(mangas[index], gridLayout, inLibraryIndicator)}
+                itemContent={(index) =>
+                    createMangaCard(
+                        mangas[index],
+                        gridLayout,
+                        inLibraryIndicator,
+                        isSelectModeActive,
+                        selectedMangaIds,
+                        handleSelection,
+                    )
+                }
             />
             {/* render div to prevent UI jumping around when showing/hiding loading placeholder */
             /* eslint-disable-next-line no-nested-ternary */}
@@ -155,6 +201,9 @@ export const MangaGrid: React.FC<IMangaGridProps> = (props) => {
         horizontal,
         noFaces,
         inLibraryIndicator,
+        isSelectModeActive,
+        selectedMangaIds,
+        handleSelection,
     } = props;
 
     const [dimensions, setDimensions] = useState(document.documentElement.offsetWidth);
@@ -217,6 +266,9 @@ export const MangaGrid: React.FC<IMangaGridProps> = (props) => {
                     inLibraryIndicator={inLibraryIndicator}
                     GridItemContainer={GridItemContainer}
                     gridLayout={gridLayout}
+                    isSelectModeActive={isSelectModeActive}
+                    selectedMangaIds={selectedMangaIds}
+                    handleSelection={handleSelection}
                 />
             ) : (
                 <VerticalGrid
@@ -227,6 +279,9 @@ export const MangaGrid: React.FC<IMangaGridProps> = (props) => {
                     hasNextPage={hasNextPage}
                     loadMore={loadMore}
                     gridLayout={gridLayout}
+                    isSelectModeActive={isSelectModeActive}
+                    selectedMangaIds={selectedMangaIds}
+                    handleSelection={handleSelection}
                 />
             )}
         </div>
