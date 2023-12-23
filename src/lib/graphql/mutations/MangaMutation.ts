@@ -106,6 +106,7 @@ export const UPDATE_MANGA_CATEGORIES = gql`
                             totalCount
                         }
                     }
+                    totalCount
                 }
             }
         }
@@ -125,6 +126,7 @@ export const UPDATE_MANGAS_CATEGORIES = gql`
                             totalCount
                         }
                     }
+                    totalCount
                 }
             }
         }
