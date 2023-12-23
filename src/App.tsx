@@ -11,7 +11,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import React, { useLayoutEffect } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { loadErrorMessages, loadDevMessages } from '@apollo/client/dev';
-import { __DEV__ } from '@apollo/client/utilities/globals';
 import { AppContext } from '@/components/context/AppContext';
 import { Browse } from '@/screens/Browse';
 import { DownloadQueue } from '@/screens/DownloadQueue';
@@ -37,7 +36,7 @@ import { ServerSettings } from '@/screens/settings/ServerSettings.tsx';
 import { WebUISettings } from '@/screens/settings/WebUISettings.tsx';
 import { ServerUpdateChecker } from '@/components/settings/ServerUpdateChecker.tsx';
 
-if (__DEV__) {
+if (process.env.NODE_ENV !== 'production') {
     // Adds messages only in a dev environment
     loadDevMessages();
     loadErrorMessages();
