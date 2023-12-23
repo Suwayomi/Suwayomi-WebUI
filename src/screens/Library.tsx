@@ -42,7 +42,6 @@ const TabsMenu = styled(Tabs)(({ theme }) => ({
     width: 'calc(100% - 64px)',
     zIndex: 1,
     backgroundColor: theme.palette.background.default,
-    paddingBottom: '13px',
     [theme.breakpoints.down('sm')]: {
         top: '56px', // header height
         width: '100%',
@@ -146,6 +145,7 @@ export function Library() {
     return (
         <StyledGridWrapper>
             <TabsMenu
+                sx={{ borderBottom: 2, borderColor: 'divider' }}
                 value={activeTab.order}
                 onChange={(e, newTab) => handleTabChange(newTab)}
                 indicatorColor="primary"
