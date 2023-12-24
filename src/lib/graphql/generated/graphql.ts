@@ -2292,14 +2292,14 @@ export type DeleteDownloadedChapterMutationVariables = Exact<{
 }>;
 
 
-export type DeleteDownloadedChapterMutation = { __typename?: 'Mutation', deleteDownloadedChapter: { __typename?: 'DeleteDownloadedChapterPayload', clientMutationId?: string | null, chapters: { __typename?: 'ChapterType', id: number, isDownloaded: boolean } } };
+export type DeleteDownloadedChapterMutation = { __typename?: 'Mutation', deleteDownloadedChapter: { __typename?: 'DeleteDownloadedChapterPayload', clientMutationId?: string | null, chapters: { __typename?: 'ChapterType', id: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, downloadCount: number } } } };
 
 export type DeleteDownloadedChaptersMutationVariables = Exact<{
   input: DeleteDownloadedChaptersInput;
 }>;
 
 
-export type DeleteDownloadedChaptersMutation = { __typename?: 'Mutation', deleteDownloadedChapters: { __typename?: 'DeleteDownloadedChaptersPayload', clientMutationId?: string | null, chapters: Array<{ __typename?: 'ChapterType', id: number, isDownloaded: boolean }> } };
+export type DeleteDownloadedChaptersMutation = { __typename?: 'Mutation', deleteDownloadedChapters: { __typename?: 'DeleteDownloadedChaptersPayload', clientMutationId?: string | null, chapters: Array<{ __typename?: 'ChapterType', id: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, downloadCount: number } }> } };
 
 export type DequeueChapterDownloadMutationVariables = Exact<{
   input: DequeueChapterDownloadInput;
