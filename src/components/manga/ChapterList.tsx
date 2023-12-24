@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { CircularProgress, Stack, styled, Tooltip } from '@mui/material';
+import { Box, CircularProgress, Stack, styled, Tooltip } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import React, { ComponentProps, useMemo, useState } from 'react';
 import { Virtuoso } from 'react-virtuoso';
@@ -310,29 +310,16 @@ export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
                         // 900 is the md breakpoint in MUI
                         overflowY: window.innerWidth < 900 ? 'visible' : 'auto',
                     }}
-                    totalCount={visibleChapters.length + 1}
-                    itemContent={(index: number) => {
-                        // hacky way of adding padding to the bottom of the list, so the FAB doesn't overlay the last chapter
-                        // since I was unable to find another solution on how to achieve this
-                        if (index === visibleChapters.length) {
-                            return (
-                                <div
-                                    style={{
-                                        paddingBottom: DEFAULT_FULL_FAB_HEIGHT,
-                                    }}
-                                />
-                            );
-                        }
-
-                        return (
-                            <ChapterCard
-                                {...chaptersWithMeta[index]}
-                                allChapters={chapters}
-                                showChapterNumber={options.showChapterNumber}
-                                onSelect={() => handleSelection(index)}
-                            />
-                        );
-                    }}
+                    components={{ Footer: () => <Box sx={{ paddingBottom: DEFAULT_FULL_FAB_HEIGHT }} /> }}
+                    totalCount={visibleChapters.length}
+                    itemContent={(index: number) => (
+                        <ChapterCard
+                            {...chaptersWithMeta[index]}
+                            allChapters={chapters}
+                            showChapterNumber={options.showChapterNumber}
+                            onSelect={() => handleSelection(index)}
+                        />
+                    )}
                     useWindowScroll={window.innerWidth < 900}
                     overscan={window.innerHeight * 0.5}
                 />
