@@ -11,6 +11,7 @@ import { createUploadLink } from 'apollo-upload-client';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { Client, createClient } from 'graphql-ws';
 import { getMainDefinition } from '@apollo/client/utilities';
+import { TypePolicies } from '@apollo/client/cache';
 import { BaseClient } from '@/lib/requests/client/BaseClient.ts';
 import { StrictTypedTypePolicies } from '@/lib/graphql/generated/apollo-helpers.ts';
 
@@ -27,9 +28,40 @@ const typePolicies: StrictTypedTypePolicies = {
     DownloadType: { keyFields: ['chapter'] },
     Query: {
         fields: {
+            manga(_, { args, toReference }) {
+                return toReference({
+                    __typename: 'MangaType',
+                    id: args?.id,
+                });
+            },
+            category(_, { args, toReference }) {
+                return toReference({
+                    __typename: 'CategoryType',
+                    id: args?.id,
+                });
+            },
+            source(_, { args, toReference }) {
+                return toReference({
+                    __typename: 'SourceType',
+                    id: args?.id,
+                });
+            },
+            extension(_, { args, toReference }) {
+                return toReference({
+                    __typename: 'ExtensionType',
+                    apkName: args?.pkgName,
+                });
+            },
+            meta(_, { args, toReference }) {
+                return toReference({
+                    __typename: 'GlobalMetaType',
+                    key: args?.key,
+                });
+            },
             chapters: {
                 keyArgs: ['condition', 'filter', 'orderBy', 'orderByType'],
                 merge(existing, incoming) {
+                    console.log('merge chapters', { ...existing }, { ...incoming });
                     if (existing == null) {
                         return incoming;
                     }
@@ -116,7 +148,12 @@ export class GraphQLClient extends BaseClient<
 
         this.client = new ApolloClient({
             cache: new InMemoryCache({
-                typePolicies,
+                // for whatever reason there is some weird TypeError complaining that
+                // "FieldReadFunction<Reference, Reference, FieldFunctionOptions<SomeObject, Record<string, any>>"
+                // is not compatible with "FieldReadFunction<any, any, FieldFunctionOptions<Record<string, any, Record<string, any>>"
+                // Since "typePolicies" is correctly typed as StrictTypedTypePolicies, and it is working as expected,
+                // the TypeError can just be ignored
+                typePolicies: typePolicies as TypePolicies,
             }),
             connectToDevTools: true,
             link: this.createLink(),

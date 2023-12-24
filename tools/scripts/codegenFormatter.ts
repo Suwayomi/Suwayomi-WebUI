@@ -51,8 +51,13 @@ generatedGraphQLFile = fs.readFileSync(generatedGraphQLFilePath, 'utf8');
 const addImports = format(
     generatedGraphQLFile,
     `import { FieldPolicy, FieldReadFunction, TypePolicies, TypePolicy } from '@apollo/client/cache';`,
-    `import { FieldPolicy, FieldReadFunction, TypePolicies, TypePolicy } from '@apollo/client/cache';
-import { GetChaptersQuery } from "@/lib/graphql/generated/graphql.ts";`,
+    `import {FieldPolicy, FieldReadFunction, Reference, TypePolicies, TypePolicy} from '@apollo/client/cache';
+import {
+\tGetCategoryQueryVariables, GetChapterQueryVariables,
+\tGetChaptersQuery, GetExtensionQueryVariables, GetGlobalMetadataQueryVariables,
+\tGetMangaQueryVariables, GetSourceQueryVariables,
+} from "@/lib/graphql/generated/graphql.ts";
+import {FieldFunctionOptions} from "@apollo/client/cache/inmemory/policies";`,
 );
 
 const fixTypingOfQueryTypePolicies = format(
@@ -85,23 +90,23 @@ const fixTypingOfQueryTypePolicies = format(
     `export type QueryFieldPolicy = {
 \tabout?: FieldPolicy<any> | FieldReadFunction<any>,
 \tcategories?: FieldPolicy<any> | FieldReadFunction<any>,
-\tcategory?: FieldPolicy<any> | FieldReadFunction<any>,
-\tchapter?: FieldPolicy<any> | FieldReadFunction<any>,
+\tcategory?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetCategoryQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetCategoryQueryVariables>>,
+\tchapter?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetChapterQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetChapterQueryVariables>>,
 \tchapters?: FieldPolicy<GetChaptersQuery['chapters']> | FieldReadFunction<GetChaptersQuery['chapters']>,
 \tcheckForServerUpdates?: FieldPolicy<any> | FieldReadFunction<any>,
 \tcheckForWebUIUpdate?: FieldPolicy<any> | FieldReadFunction<any>,
 \tdownloadStatus?: FieldPolicy<any> | FieldReadFunction<any>,
-\textension?: FieldPolicy<any> | FieldReadFunction<any>,
+\textension?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetExtensionQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetExtensionQueryVariables>>,
 \textensions?: FieldPolicy<any> | FieldReadFunction<any>,
 \tgetWebUIUpdateStatus?: FieldPolicy<any> | FieldReadFunction<any>,
 \tlastUpdateTimestamp?: FieldPolicy<any> | FieldReadFunction<any>,
-\tmanga?: FieldPolicy<any> | FieldReadFunction<any>,
+\tmanga?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetMangaQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetMangaQueryVariables>>,
 \tmangas?: FieldPolicy<any> | FieldReadFunction<any>,
-\tmeta?: FieldPolicy<any> | FieldReadFunction<any>,
+\tmeta?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetGlobalMetadataQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetGlobalMetadataQueryVariables>>,
 \tmetas?: FieldPolicy<any> | FieldReadFunction<any>,
 \trestoreStatus?: FieldPolicy<any> | FieldReadFunction<any>,
 \tsettings?: FieldPolicy<any> | FieldReadFunction<any>,
-\tsource?: FieldPolicy<any> | FieldReadFunction<any>,
+\tsource?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetSourceQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetSourceQueryVariables>>,
 \tsources?: FieldPolicy<any> | FieldReadFunction<any>,
 \tupdateStatus?: FieldPolicy<any> | FieldReadFunction<any>,
 \tvalidateBackup?: FieldPolicy<any> | FieldReadFunction<any>

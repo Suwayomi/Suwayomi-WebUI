@@ -1,5 +1,10 @@
-import { FieldPolicy, FieldReadFunction, TypePolicies, TypePolicy } from '@apollo/client/cache';
-import { GetChaptersQuery } from "@/lib/graphql/generated/graphql.ts";
+import {FieldPolicy, FieldReadFunction, Reference, TypePolicies, TypePolicy} from '@apollo/client/cache';
+import {
+	GetCategoryQueryVariables, GetChapterQueryVariables,
+	GetChaptersQuery, GetExtensionQueryVariables, GetGlobalMetadataQueryVariables,
+	GetMangaQueryVariables, GetSourceQueryVariables,
+} from "@/lib/graphql/generated/graphql.ts";
+import {FieldFunctionOptions} from "@apollo/client/cache/inmemory/policies";
 export type AboutServerPayloadKeySpecifier = ('buildTime' | 'buildType' | 'discord' | 'github' | 'name' | 'revision' | 'version' | AboutServerPayloadKeySpecifier)[];
 export type AboutServerPayloadFieldPolicy = {
 	buildTime?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -508,23 +513,23 @@ export type QueryKeySpecifier = ('aboutServer' | 'aboutWebUI' | 'categories' | '
 export type QueryFieldPolicy = {
 	about?: FieldPolicy<any> | FieldReadFunction<any>,
 	categories?: FieldPolicy<any> | FieldReadFunction<any>,
-	category?: FieldPolicy<any> | FieldReadFunction<any>,
-	chapter?: FieldPolicy<any> | FieldReadFunction<any>,
+	category?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetCategoryQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetCategoryQueryVariables>>,
+	chapter?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetChapterQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetChapterQueryVariables>>,
 	chapters?: FieldPolicy<GetChaptersQuery['chapters']> | FieldReadFunction<GetChaptersQuery['chapters']>,
 	checkForServerUpdates?: FieldPolicy<any> | FieldReadFunction<any>,
 	checkForWebUIUpdate?: FieldPolicy<any> | FieldReadFunction<any>,
 	downloadStatus?: FieldPolicy<any> | FieldReadFunction<any>,
-	extension?: FieldPolicy<any> | FieldReadFunction<any>,
+	extension?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetExtensionQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetExtensionQueryVariables>>,
 	extensions?: FieldPolicy<any> | FieldReadFunction<any>,
 	getWebUIUpdateStatus?: FieldPolicy<any> | FieldReadFunction<any>,
 	lastUpdateTimestamp?: FieldPolicy<any> | FieldReadFunction<any>,
-	manga?: FieldPolicy<any> | FieldReadFunction<any>,
+	manga?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetMangaQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetMangaQueryVariables>>,
 	mangas?: FieldPolicy<any> | FieldReadFunction<any>,
-	meta?: FieldPolicy<any> | FieldReadFunction<any>,
+	meta?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetGlobalMetadataQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetGlobalMetadataQueryVariables>>,
 	metas?: FieldPolicy<any> | FieldReadFunction<any>,
 	restoreStatus?: FieldPolicy<any> | FieldReadFunction<any>,
 	settings?: FieldPolicy<any> | FieldReadFunction<any>,
-	source?: FieldPolicy<any> | FieldReadFunction<any>,
+	source?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetSourceQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetSourceQueryVariables>>,
 	sources?: FieldPolicy<any> | FieldReadFunction<any>,
 	updateStatus?: FieldPolicy<any> | FieldReadFunction<any>,
 	validateBackup?: FieldPolicy<any> | FieldReadFunction<any>
