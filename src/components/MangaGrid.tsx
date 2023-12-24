@@ -95,8 +95,15 @@ const VerticalGrid = ({
 
     const persistGridStateTimeout = useRef<NodeJS.Timeout | undefined>();
     const persistGridState = (gridState: GridStateSnapshot) => {
+        const currentUrl = window.location.href;
+
         clearTimeout(persistGridStateTimeout.current);
         persistGridStateTimeout.current = setTimeout(() => {
+            const didLocationChange = currentUrl !== window.location.href;
+            if (didLocationChange) {
+                return;
+            }
+
             navigate(
                 { pathname: '', search: location.search },
                 { replace: true, state: { ...location.state, snapshot: gridState } },
