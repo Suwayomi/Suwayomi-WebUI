@@ -265,7 +265,13 @@ export function Library() {
             {isSelectModeActive && (
                 <SelectionFAB selectedItemsCount={selectedItemIds.length} title="manga.title">
                     {(handleClose) => (
-                        <MangasSelectionFABActionItems selectedMangas={selectedMangas} handleClose={handleClose} />
+                        <MangasSelectionFABActionItems
+                            selectedMangas={selectedMangas}
+                            handleClose={(selectionModeState) => {
+                                handleClose();
+                                setIsSelectModeActive(selectionModeState);
+                            }}
+                        />
                     )}
                 </SelectionFAB>
             )}

@@ -20,12 +20,14 @@ import { MangaAction, Mangas } from '@/lib/data/Mangas.ts';
 import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
 import { CategorySelect } from '@/components/navbar/action/CategorySelect.tsx';
 
+const ACTION_DISABLES_SELECTION_MODE: MangaAction[] = ['remove_from_library'] as const;
+
 export const MangasSelectionFABActionItems = ({
     selectedMangas,
     handleClose,
 }: {
     selectedMangas: TManga[];
-    handleClose: () => void;
+    handleClose: (selectionModeState: boolean) => void;
 }) => {
     const { t } = useTranslation();
     const { settings } = useMetadataServerSettings();
@@ -35,7 +37,7 @@ export const MangasSelectionFABActionItems = ({
         Mangas.performAction(action, Mangas.getIds(mangas), {
             autoDeleteChapters: settings.deleteChaptersManuallyMarkedRead,
         }).catch(() => {});
-        handleClose();
+        handleClose(!ACTION_DISABLES_SELECTION_MODE.includes(action));
     };
 
     return (
@@ -93,7 +95,7 @@ export const MangasSelectionFABActionItems = ({
                     open={isCategorySelectOpen}
                     setOpen={(open) => {
                         setIsCategorySelectOpen(open);
-                        handleClose();
+                        handleClose(true);
                     }}
                     mangaIds={Mangas.getIds(selectedMangas)}
                 />
