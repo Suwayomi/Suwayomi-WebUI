@@ -6,33 +6,80 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import Button from '@mui/material/Button';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Dialog from '@mui/material/Dialog';
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { Mangas } from '@/lib/data/Mangas.ts';
+import { useSelectableCollection } from '@/components/collection/useSelectableCollection.ts';
+import { ThreeStateCheckboxInput } from '@/components/atoms/ThreeStateCheckboxInput.tsx';
 
-interface IProps {
+type BaseProps = {
     open: boolean;
     setOpen: (value: boolean) => void;
-    mangaId: number;
-}
+};
 
-export function CategorySelect(props: IProps) {
+type SingleMangaModeProps = {
+    mangaId: number;
+};
+
+type MultiMangaModeProps = {
+    mangaIds: number[];
+};
+
+type Props =
+    | (BaseProps & SingleMangaModeProps & PropertiesNever<MultiMangaModeProps>)
+    | (BaseProps & PropertiesNever<SingleMangaModeProps> & MultiMangaModeProps);
+
+const useGetMangaCategoryIds = (mangaId: number | undefined): number[] => {
+    const { data: mangaResult } = requestManager.useGetManga(mangaId ?? -1, { skip: mangaId === undefined });
+
+    return useMemo(() => {
+        if (mangaId === undefined || !mangaResult) {
+            return [];
+        }
+
+        return mangaResult.manga.categories.nodes.map((category) => category.id);
+    }, [mangaResult?.manga.categories.nodes, mangaId]);
+};
+
+const getCategoryCheckedState = (
+    categoryId: number,
+    categoriesToAdd: number[],
+    categoriesToRemove: number[],
+    isSingleSelectionMode: boolean,
+): boolean | undefined => {
+    if (categoriesToAdd.includes(categoryId)) {
+        return true;
+    }
+
+    if (isSingleSelectionMode) {
+        return undefined;
+    }
+
+    if (categoriesToRemove.includes(categoryId)) {
+        return false;
+    }
+
+    return undefined;
+};
+
+export function CategorySelect(props: Props) {
     const { t } = useTranslation();
 
-    const { open, setOpen, mangaId } = props;
+    const { open, setOpen, mangaId, mangaIds: passedMangaIds } = props;
 
-    const { data: mangaResult } = requestManager.useGetManga(mangaId);
+    const isSingleSelectionMode = mangaId !== undefined;
+    const mangaIds = passedMangaIds ?? [mangaId];
+
+    const mangaCategories = useGetMangaCategoryIds(mangaId);
     const { data } = requestManager.useGetCategories();
     const categoriesData = data?.categories.nodes;
-    const [triggerMutate] = requestManager.useUpdateMangaCategories();
 
     const allCategories = useMemo(() => {
         const cats = [...(categoriesData ?? [])]; // make copy
@@ -42,29 +89,45 @@ export function CategorySelect(props: IProps) {
         return cats;
     }, [categoriesData]);
 
-    const selectedIds = mangaResult?.manga.categories.nodes.map((c) => c.id) ?? [];
+    const { handleSelection, setSelectionForKey, getSelectionForKey } = useSelectableCollection<
+        number,
+        'categoriesToAdd' | 'categoriesToRemove'
+    >(allCategories.length, {
+        currentKey: 'categoriesToAdd',
+        initialState: {
+            categoriesToAdd: mangaCategories,
+            categoriesToRemove: [],
+        },
+    });
+
+    const categoriesToAdd = getSelectionForKey('categoriesToAdd');
+    const categoriesToRemove = getSelectionForKey('categoriesToRemove');
 
     const handleCancel = () => {
+        setSelectionForKey('categoriesToAdd', mangaCategories);
+        setSelectionForKey('categoriesToRemove', []);
         setOpen(false);
     };
 
     const handleOk = () => {
         setOpen(false);
-    };
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>, categoryId: number) => {
-        const { checked } = event.target as HTMLInputElement;
+        const addToCategories = isSingleSelectionMode
+            ? categoriesToAdd.filter((categoryId) => !mangaCategories.includes(categoryId))
+            : categoriesToAdd;
+        const removeFromCategories = isSingleSelectionMode
+            ? mangaCategories.filter((categoryId) => !categoriesToAdd.includes(categoryId))
+            : categoriesToRemove;
 
-        // TODO - update to only update categories when clicking OK - can now be updated in one go with graphql
-        triggerMutate({
-            variables: {
-                input: {
-                    id: mangaId,
-                    patch: {
-                        addToCategories: checked ? [categoryId] : [],
-                        removeFromCategories: !checked ? [categoryId] : [],
-                    },
-                },
+        const isUpdateRequired = !!addToCategories.length || !!removeFromCategories.length;
+        if (!isUpdateRequired) {
+            return;
+        }
+
+        Mangas.performAction('change_categories', mangaIds, {
+            changeCategoriesPatch: {
+                addToCategories,
+                removeFromCategories,
             },
         });
     };
@@ -91,14 +154,25 @@ export function CategorySelect(props: IProps) {
                         </span>
                     )}
                     {allCategories.map((category) => (
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={selectedIds.includes(category.id)}
-                                    onChange={(e) => handleChange(e, category.id)}
-                                    color="default"
-                                />
-                            }
+                        <ThreeStateCheckboxInput
+                            checked={getCategoryCheckedState(
+                                category.id,
+                                categoriesToAdd,
+                                categoriesToRemove,
+                                isSingleSelectionMode,
+                            )}
+                            onChange={(checked) => {
+                                handleSelection(category.id, false, 'categoriesToAdd');
+                                handleSelection(category.id, false, 'categoriesToRemove');
+
+                                if (checked) {
+                                    handleSelection(category.id, true, 'categoriesToAdd');
+                                }
+
+                                if (checked === false) {
+                                    handleSelection(category.id, true, 'categoriesToRemove');
+                                }
+                            }}
                             label={category.name}
                             key={category.id}
                         />

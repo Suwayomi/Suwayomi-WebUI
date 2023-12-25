@@ -7,7 +7,7 @@
  */
 
 import { Chip, Tab, Tabs, styled, Box } from '@mui/material';
-import React, { useContext, useEffect, useMemo } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { useQueryParam, NumberParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
@@ -20,6 +20,13 @@ import { AppbarSearch } from '@/components/util/AppbarSearch';
 import { UpdateChecker } from '@/components/library/UpdateChecker';
 import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
+import { useSelectableCollection } from '@/components/collection/useSelectableCollection.ts';
+import { TManga } from '@/typings.ts';
+import { SelectableCollectionSelectMode } from '@/components/collection/SelectableCollectionSelectMode.tsx';
+import { useGetVisibleLibraryMangas } from '@/components/library/useGetVisibleLibraryMangas.ts';
+import { SelectionFAB } from '@/components/manga/SelectionFAB.tsx';
+import { MangasSelectionFABActionItems } from '@/components/manga/MangasSelectionFABActionItems.tsx';
+import { PARTIAL_MANGA_FIELDS } from '@/lib/graphql/Fragments.ts';
 
 const StyledGridWrapper = styled(Box)(({ theme }) => ({
     // TabsMenu height + TabsMenu bottom padding - grid item top padding
@@ -82,8 +89,36 @@ export function Library() {
         data: categoryMangaResponse,
         error: mangaError,
         loading: mangaLoading,
-    } = requestManager.useGetCategoryMangas(activeTab?.id, { skip: !activeTab, nextFetchPolicy: 'cache-only' });
-    const mangas = categoryMangaResponse?.mangas.nodes ?? [];
+    } = requestManager.useGetCategoryMangas(activeTab?.id, { skip: !activeTab });
+    const categoryMangas = categoryMangaResponse?.mangas.nodes ?? [];
+    const { visibleMangas: mangas, showFilteredOutMessage } = useGetVisibleLibraryMangas(categoryMangas);
+
+    const [isSelectModeActive, setIsSelectModeActive] = useState(false);
+    const {
+        areNoItemsForKeySelected: areNoItemsSelected,
+        areAllItemsForKeySelected: areAllItemsSelected,
+        selectedItemIds,
+        handleSelectAll,
+        handleSelection,
+    } = useSelectableCollection<TManga['id'], string>(mangas.length, { currentKey: activeTab?.id.toString() });
+
+    const handleSelect = (id: number, selected: boolean) => {
+        setIsSelectModeActive(!!(selectedItemIds.length + (selected ? 1 : -1)));
+        handleSelection(id, selected);
+    };
+
+    const selectedMangas = useMemo(
+        () =>
+            selectedItemIds.map(
+                (id) =>
+                    requestManager.graphQLClient.client.cache.readFragment<TManga>({
+                        id: requestManager.graphQLClient.client.cache.identify({ __typename: 'MangaType', id }),
+                        fragment: PARTIAL_MANGA_FIELDS,
+                        fragmentName: 'PARTIAL_MANGA_FIELDS',
+                    })!,
+            ),
+        [selectedItemIds.length],
+    );
 
     const { setTitle, setAction } = useContext(NavBarContext);
     useEffect(() => {
@@ -91,22 +126,53 @@ export function Library() {
         const navBarTitle = (
             <TitleWithSizeTag>
                 {title}
-                {areCategoriesLoading || !options.showTabSize ? null : <TitleSizeTag label={librarySize} />}
+                {options.showTabSize && <TitleSizeTag label={librarySize} />}
             </TitleWithSizeTag>
         );
         setTitle(navBarTitle, title);
         setAction(
             <>
-                <AppbarSearch />
-                <LibraryToolbarMenu />
-                <UpdateChecker />
+                {!isSelectModeActive && (
+                    <>
+                        <AppbarSearch />
+                        <LibraryToolbarMenu />
+                        <UpdateChecker />
+                    </>
+                )}
+                <SelectableCollectionSelectMode
+                    isActive={isSelectModeActive}
+                    areAllItemsSelected={areAllItemsSelected}
+                    areNoItemsSelected={areNoItemsSelected}
+                    onSelectAll={(selectAll) =>
+                        handleSelectAll(selectAll, [...new Set(mangas.map((manga) => manga.id))])
+                    }
+                    onModeChange={(checked) => {
+                        setIsSelectModeActive(checked);
+
+                        if (checked) {
+                            handleSelectAll(true, [...new Set(mangas.map((manga) => manga.id))]);
+                        } else {
+                            tabs.forEach((tab) => handleSelectAll(false, [], tab.id.toString()));
+                        }
+                    }}
+                />
             </>,
         );
         return () => {
             setTitle('');
             setAction(null);
         };
-    }, [t, librarySize, areCategoriesLoading, options]);
+    }, [
+        t,
+        librarySize,
+        areCategoriesLoading,
+        options,
+        isSelectModeActive,
+        areNoItemsSelected,
+        areAllItemsSelected,
+        selectedItemIds.length,
+        mangas.length,
+    ]);
 
     const handleTabChange = (newTab: number) => {
         setTabSearchParam(newTab);
@@ -135,6 +201,10 @@ export function Library() {
                 mangas={mangas}
                 message={t('library.error.label.empty')}
                 isLoading={activeTab != null && mangaLoading}
+                selectedMangaIds={selectedItemIds}
+                isSelectModeActive={isSelectModeActive}
+                handleSelection={handleSelect}
+                showFilteredOutMessage={showFilteredOutMessage}
             />
         );
     }
@@ -143,49 +213,68 @@ export function Library() {
     const scrollableTabs = window.innerWidth < tabs.length * 160;
 
     return (
-        <StyledGridWrapper>
-            <TabsMenu
-                sx={{ borderBottom: 2, borderColor: 'divider' }}
-                value={activeTab.order}
-                onChange={(e, newTab) => handleTabChange(newTab)}
-                indicatorColor="primary"
-                textColor="primary"
-                centered={!scrollableTabs}
-                variant={scrollableTabs ? 'scrollable' : 'fullWidth'}
-                scrollButtons
-                allowScrollButtonsMobile
-            >
+        <>
+            <StyledGridWrapper>
+                <TabsMenu
+                    sx={{ borderBottom: 2, borderColor: 'divider' }}
+                    value={activeTab.order}
+                    onChange={(e, newTab) => handleTabChange(newTab)}
+                    indicatorColor="primary"
+                    textColor="primary"
+                    centered={!scrollableTabs}
+                    variant={scrollableTabs ? 'scrollable' : 'fullWidth'}
+                    scrollButtons
+                    allowScrollButtonsMobile
+                >
+                    {tabs.map((tab) => (
+                        <Tab
+                            sx={{ display: 'flex' }}
+                            key={tab.id}
+                            label={
+                                <TitleWithSizeTag>
+                                    {tab.name}
+                                    {options.showTabSize ? <TitleSizeTag label={tab.mangas.totalCount} /> : null}
+                                </TitleWithSizeTag>
+                            }
+                            value={tab.order}
+                        />
+                    ))}
+                </TabsMenu>
                 {tabs.map((tab) => (
-                    <Tab
-                        sx={{ display: 'flex' }}
-                        key={tab.id}
-                        label={
-                            <TitleWithSizeTag>
-                                {tab.name}
-                                {options.showTabSize ? <TitleSizeTag label={tab.mangas.totalCount} /> : null}
-                            </TitleWithSizeTag>
-                        }
-                        value={tab.order}
-                    />
+                    <TabPanel key={tab.order} index={tab.order} currentIndex={activeTab.order}>
+                        {tab === activeTab &&
+                            (mangaError ? (
+                                <EmptyView
+                                    message={t('manga.error.label.request_failure')}
+                                    messageExtra={mangaError.message ?? mangaError}
+                                />
+                            ) : (
+                                <LibraryMangaGrid
+                                    mangas={mangas}
+                                    message={t('library.error.label.empty')}
+                                    isLoading={mangaLoading}
+                                    selectedMangaIds={selectedItemIds}
+                                    isSelectModeActive={isSelectModeActive}
+                                    handleSelection={handleSelect}
+                                    showFilteredOutMessage={showFilteredOutMessage}
+                                />
+                            ))}
+                    </TabPanel>
                 ))}
-            </TabsMenu>
-            {tabs.map((tab) => (
-                <TabPanel key={tab.order} index={tab.order} currentIndex={activeTab.order}>
-                    {tab === activeTab &&
-                        (mangaError ? (
-                            <EmptyView
-                                message={t('manga.error.label.request_failure')}
-                                messageExtra={mangaError.message ?? mangaError}
-                            />
-                        ) : (
-                            <LibraryMangaGrid
-                                mangas={mangas}
-                                message={t('library.error.label.empty')}
-                                isLoading={mangaLoading}
-                            />
-                        ))}
-                </TabPanel>
-            ))}
-        </StyledGridWrapper>
+            </StyledGridWrapper>
+            {isSelectModeActive && (
+                <SelectionFAB selectedItemsCount={selectedItemIds.length} title="manga.title">
+                    {(handleClose) => (
+                        <MangasSelectionFABActionItems
+                            selectedMangas={selectedMangas}
+                            handleClose={(selectionModeState) => {
+                                handleClose();
+                                setIsSelectModeActive(selectionModeState);
+                            }}
+                        />
+                    )}
+                </SelectionFAB>
+            )}
+        </>
     );
 }

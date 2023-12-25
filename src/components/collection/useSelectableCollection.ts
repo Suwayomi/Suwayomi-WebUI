@@ -8,34 +8,92 @@
 
 import { useState } from 'react';
 
-export const useSelectableCollection = <Id extends number | string>(totalCount: number) => {
-    const [selectedItemIds, setSelectedItemIds] = useState<Id[]>([]);
+export type SelectableCollectionReturnType<Id extends number | string, Key extends string = string> = {
+    selectedItemIds: Id[];
+    keySelectedItemIds: Id[];
+    areAllItemsSelected: boolean;
+    areNoItemsSelected: boolean;
+    areAllItemsForKeySelected: boolean;
+    areNoItemsForKeySelected: boolean;
+    handleSelection: (id: Id, selected: boolean, key?: Key) => void;
+    handleSelectAll: (selectAll: boolean, itemIds: Id[], key?: Key) => void;
+    setSelectionForKey: (key: Key, itemIds: Id[]) => void;
+    getSelectionForKey: (key: Key) => Id[];
+};
 
+export const useSelectableCollection = <Id extends number | string, Key extends string = 'default'>(
+    totalCount: number,
+    {
+        keyCount = totalCount,
+        currentKey,
+        initialState = {} as Record<Key, Id[]>,
+    }: {
+        keyCount?: number;
+        currentKey: Key;
+        initialState?: Record<Key, Id[]>;
+    },
+): SelectableCollectionReturnType<Id, Key> => {
+    const [keyToSelectedItemIds, setKeyToSelectedItemIds] = useState<Record<string, Id[]>>(initialState);
+
+    const selectedItemIds = Object.values(keyToSelectedItemIds).flat();
     const areAllItemsSelected = selectedItemIds.length === totalCount;
     const areNoItemsSelected = !selectedItemIds.length;
 
-    const handleSelection = (id: Id, selected: boolean) => {
+    const keySelectedItemIds = keyToSelectedItemIds[currentKey] ?? [];
+    const areAllItemsForKeySelected = keySelectedItemIds.length === keyCount;
+    const areNoItemsForKeySelected = keySelectedItemIds.length === 0;
+
+    const handleSelection = (id: Id, selected: boolean, key: Key = currentKey) => {
         const deselect = !selected;
         if (deselect) {
-            setSelectedItemIds(selectedItemIds.filter((selectedItemId) => selectedItemId !== id));
+            setKeyToSelectedItemIds((prevState) => ({
+                ...prevState,
+                [key]: prevState[key].filter((selectedItemId) => selectedItemId !== id),
+            }));
             return;
         }
 
-        setSelectedItemIds([...new Set([...selectedItemIds, id])]);
+        setKeyToSelectedItemIds((prevState) => ({
+            ...prevState,
+            [key]: [...new Set([...(prevState[key] ?? []), id])],
+        }));
     };
 
-    const handleSelectAll = (selectAll: boolean, itemIds: Id[]) => {
+    const handleSelectAll = (selectAll: boolean, itemIds: Id[], key: Key = currentKey) => {
         switch (selectAll) {
             case true:
-                setSelectedItemIds([...itemIds]);
+                setKeyToSelectedItemIds((prevState) => ({
+                    ...prevState,
+                    [key]: [...itemIds],
+                }));
                 break;
             case false:
-                setSelectedItemIds([]);
+                setKeyToSelectedItemIds((prevState) => ({
+                    ...prevState,
+                    [key]: [],
+                }));
                 break;
             default:
                 break;
         }
     };
 
-    return { selectedItemIds, handleSelection, handleSelectAll, areAllItemsSelected, areNoItemsSelected };
+    const setSelectionForKey = (key: Key, itemIds: Id[]) => {
+        keyToSelectedItemIds[key] = itemIds;
+    };
+
+    const getSelectionForKey = (key: Key) => keyToSelectedItemIds[key];
+
+    return {
+        selectedItemIds,
+        keySelectedItemIds,
+        handleSelection,
+        handleSelectAll,
+        areAllItemsSelected,
+        areNoItemsSelected,
+        areAllItemsForKeySelected,
+        areNoItemsForKeySelected,
+        setSelectionForKey,
+        getSelectionForKey,
+    };
 };

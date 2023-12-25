@@ -106,7 +106,7 @@ export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
     const chapters = useMemo(() => chaptersData?.chapters.nodes ?? [], [chaptersData?.chapters.nodes]);
 
     const { areNoItemsSelected, areAllItemsSelected, selectedItemIds, handleSelectAll, handleSelection } =
-        useSelectableCollection(chapters.length);
+        useSelectableCollection(chapters.length, { currentKey: 'default' });
 
     const { settings: metadataServerSettings } = useMetadataServerSettings();
 

@@ -2581,6 +2581,16 @@ export type GetChaptersQueryVariables = Exact<{
 
 export type GetChaptersQuery = { __typename?: 'Query', chapters: { __typename?: 'ChapterNodeList', totalCount: number, nodes: Array<{ __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', unreadCount: number, downloadCount: number, artist?: string | null, author?: string | null, chaptersLastFetchedAt?: any | null, description?: string | null, genre: Array<string>, id: number, inLibrary: boolean, inLibraryAt: any, initialized: boolean, lastFetchedAt?: any | null, realUrl?: string | null, status: MangaStatus, thumbnailUrl?: string | null, title: string, url: string, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', default: boolean, id: number, includeInUpdate: IncludeInUpdate, name: string, order: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }>, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> }, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, source?: { __typename?: 'SourceType', displayName: string, iconUrl: string, id: any, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean } | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> }>, pageInfo: { __typename?: 'PageInfo', endCursor?: any | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: any | null } } };
 
+export type GetMangasChapterIdsWithStateQueryVariables = Exact<{
+  mangaIds: Array<Scalars['Int']['input']> | Scalars['Int']['input'];
+  isDownloaded?: InputMaybe<Scalars['Boolean']['input']>;
+  isRead?: InputMaybe<Scalars['Boolean']['input']>;
+  isBookmarked?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type GetMangasChapterIdsWithStateQuery = { __typename?: 'Query', chapters: { __typename?: 'ChapterNodeList', nodes: Array<{ __typename?: 'ChapterType', id: number, isDownloaded: boolean, isRead: boolean, isBookmarked: boolean }> } };
+
 export type GetDownloadStatusQueryVariables = Exact<{ [key: string]: never; }>;
 
 
