@@ -32,3 +32,14 @@ export const useMetadataServerSettings = (): {
 
     return { metadata, settings, loading };
 };
+
+export const getMetadataServerSettings = async (): Promise<MetadataServerSettings> => {
+    const { data, error } = await requestManager.getGlobalMeta().response;
+
+    if (error) {
+        throw error;
+    }
+
+    const metadata = convertFromGqlMeta(data?.metas.nodes);
+    return getMetadataServerSettingsWithDefaultFallback(metadata);
+};

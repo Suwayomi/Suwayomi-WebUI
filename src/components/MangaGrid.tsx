@@ -10,7 +10,7 @@ import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 're
 import Grid, { GridTypeMap } from '@mui/material/Grid';
 import { Box, Typography } from '@mui/material';
 import { GridItemProps, GridStateSnapshot, VirtuosoGrid } from 'react-virtuoso';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { EmptyView } from '@/components/util/EmptyView';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
 import { MangaCard } from '@/components/MangaCard';
@@ -18,6 +18,7 @@ import { GridLayout } from '@/components/context/LibraryOptionsContext';
 import { useLocalStorage } from '@/util/useLocalStorage';
 import { TManga, TPartialManga } from '@/typings.ts';
 import { SelectableCollectionReturnType } from '@/components/collection/useSelectableCollection.ts';
+import { DEFAULT_FULL_FAB_HEIGHT } from '@/components/util/StyledFab.tsx';
 
 const GridContainer = React.forwardRef<HTMLDivElement, GridTypeMap['props']>(({ children, ...props }, ref) => (
     <Grid {...props} ref={ref} container sx={{ paddingLeft: '5px', paddingRight: '13px' }}>
@@ -175,7 +176,14 @@ const VerticalGrid = ({
             />
             {/* render div to prevent UI jumping around when showing/hiding loading placeholder */
             /* eslint-disable-next-line no-nested-ternary */}
-            {isLoading ? <LoadingPlaceholder /> : hasNextPage ? <div style={{ height: '75px' }} /> : null}
+            {isSelectModeActive && gridLayout === GridLayout.List ? (
+                <Box sx={{ paddingBottom: DEFAULT_FULL_FAB_HEIGHT }} />
+            ) : // eslint-disable-next-line no-nested-ternary
+            isLoading ? (
+                <LoadingPlaceholder />
+            ) : hasNextPage ? (
+                <div style={{ height: '75px' }} />
+            ) : null}
         </>
     );
 };

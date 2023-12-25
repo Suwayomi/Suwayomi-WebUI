@@ -162,6 +162,14 @@ import {
     ResetWebuiUpdateStatusMutationVariables,
     GetDownloadStatusQuery,
     GetDownloadStatusQueryVariables,
+    GetMangasChapterIdsWithStateQuery,
+    GetMangasChapterIdsWithStateQueryVariables,
+    ChapterConditionInput,
+    UpdateMangasMutation,
+    UpdateMangasMutationVariables,
+    UpdateMangasCategoriesMutation,
+    UpdateMangasCategoriesMutationVariables,
+    UpdateMangaCategoriesPatchInput,
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_GLOBAL_METADATAS } from '@/lib/graphql/queries/GlobalMetadataQuery.ts';
 import { SET_GLOBAL_METADATA } from '@/lib/graphql/mutations/GlobalMetadataMutation.ts';
@@ -178,6 +186,8 @@ import {
     SET_MANGA_METADATA,
     UPDATE_MANGA,
     UPDATE_MANGA_CATEGORIES,
+    UPDATE_MANGAS,
+    UPDATE_MANGAS_CATEGORIES,
 } from '@/lib/graphql/mutations/MangaMutation.ts';
 import { GET_MANGA, GET_MANGAS } from '@/lib/graphql/queries/MangaQuery.ts';
 import { GET_CATEGORIES, GET_CATEGORY_MANGAS } from '@/lib/graphql/queries/CategoryQuery.ts';
@@ -195,7 +205,7 @@ import {
     START_DOWNLOADER,
     STOP_DOWNLOADER,
 } from '@/lib/graphql/mutations/DownloaderMutation.ts';
-import { GET_CHAPTERS } from '@/lib/graphql/queries/ChapterQuery.ts';
+import { GET_CHAPTERS, GET_MANGAS_CHAPTER_IDS_WITH_STATE } from '@/lib/graphql/queries/ChapterQuery.ts';
 import {
     GET_CHAPTER_PAGES_FETCH,
     GET_MANGA_CHAPTERS_FETCH,
@@ -841,6 +851,12 @@ export class RequestManager {
         }
     }
 
+    public getGlobalMeta(
+        options?: QueryOptions<GetGlobalMetadatasQueryVariables, GetGlobalMetadatasQuery>,
+    ): AbortabaleApolloQueryResponse<GetGlobalMetadatasQuery> {
+        return this.doRequest(GQLMethod.QUERY, GET_GLOBAL_METADATAS, {}, options);
+    }
+
     public useGetGlobalMeta(
         options?: QueryHookOptions<GetGlobalMetadatasQuery, GetGlobalMetadatasQueryVariables>,
     ): AbortableApolloUseQueryResponse<GetGlobalMetadatasQuery, GetGlobalMetadatasQueryVariables> {
@@ -1337,12 +1353,33 @@ export class RequestManager {
         const wrappedMutate = (mutateOptions: Parameters<typeof mutate>[0]) =>
             mutate({
                 onCompleted: () => {
-                    this.graphQLClient.client.cache.evict({ fieldName: 'mangas' });
+                    this.graphQLClient.client.cache.evict({ broadcast: true, fieldName: 'categories' });
+                    this.graphQLClient.client.cache.evict({ broadcast: true, fieldName: 'mangas' });
                 },
                 ...mutateOptions,
             });
 
         return [wrappedMutate, result];
+    }
+
+    public updateMangasCategories(
+        mangaIds: number[],
+        patch: UpdateMangaCategoriesPatchInput,
+        options?: MutationOptions<UpdateMangasCategoriesMutation, UpdateMangasCategoriesMutationVariables>,
+    ): AbortableApolloMutationResponse<UpdateMangasCategoriesMutation> {
+        const response = this.doRequest(
+            GQLMethod.MUTATION,
+            UPDATE_MANGAS_CATEGORIES,
+            { input: { ids: mangaIds, patch } },
+            options,
+        );
+
+        response.response.then(() => {
+            this.graphQLClient.client.cache.evict({ broadcast: true, fieldName: 'categories' });
+            this.graphQLClient.client.cache.evict({ broadcast: true, fieldName: 'mangas' });
+        });
+
+        return response;
     }
 
     public updateManga(
@@ -1358,6 +1395,27 @@ export class RequestManager {
         );
 
         result.response.then(() => {
+            this.graphQLClient.client.cache.evict({ fieldName: 'mangas' });
+        });
+
+        return result;
+    }
+
+    public updateMangas(
+        ids: number[],
+        patch: UpdateMangaPatchInput,
+        options?: MutationOptions<UpdateMangasMutation, UpdateMangasMutationVariables>,
+    ): AbortableApolloMutationResponse<UpdateMangasMutation> {
+        const result = this.doRequest<UpdateMangasMutation, UpdateMangasMutationVariables>(
+            GQLMethod.MUTATION,
+            UPDATE_MANGAS,
+            { input: { ids, patch } },
+            options,
+        );
+
+        result.response.then(() => {
+            this.graphQLClient.client.cache.evict({ fieldName: 'categories' });
+            this.graphQLClient.client.cache.evict({ fieldName: 'category' });
             this.graphQLClient.client.cache.evict({ fieldName: 'mangas' });
         });
 
@@ -1398,6 +1456,22 @@ export class RequestManager {
                 orderByType: SortOrder.Desc,
             },
             options,
+        );
+    }
+
+    public getMangasChapterIdsWithState(
+        mangaIds: number[],
+        states: Pick<ChapterConditionInput, 'isRead' | 'isDownloaded' | 'isBookmarked'>,
+        options?: QueryOptions<GetMangasChapterIdsWithStateQueryVariables, GetMangasChapterIdsWithStateQuery>,
+    ): AbortabaleApolloQueryResponse<GetMangasChapterIdsWithStateQuery> {
+        return this.doRequest(
+            GQLMethod.QUERY,
+            GET_MANGAS_CHAPTER_IDS_WITH_STATE,
+            { mangaIds, ...states },
+            {
+                fetchPolicy: 'no-cache',
+                ...options,
+            },
         );
     }
 

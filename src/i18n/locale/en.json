@@ -446,6 +446,34 @@
     "title": "Library"
   },
   "manga": {
+    "action": {
+      "library": {
+        "remove": {
+          "button": {
+            "selected": "Remove selected from the library"
+          },
+          "label": {
+            "action": "Remove from the library",
+            "error_one": "Could not remove manga from the library",
+            "error_other": "Could not remove manga from the library",
+            "success_one": "Removed manga from the library",
+            "success_other": "Removed {{count}} manga from the library"
+          }
+        }
+      },
+      "category": {
+        "button": {
+          "selected": "Change categories of selected"
+        },
+        "label": {
+          "action": "Change categories",
+          "error_one": "Could not change the categories of the manga",
+          "error_other": "Could not change the categories of the manga",
+          "success_one": "Changed categories of manga",
+          "success_other": "Changed categories of {{count}} manga"
+        }
+      }
+    },
     "button": {
       "add_to_library": "Add To Library",
       "in_library": "In Library"
@@ -464,7 +492,9 @@
       "reload_from_source": "Reload data from source",
       "status": "Status"
     },
-    "title": "Manga"
+    "title": "Manga",
+    "title_one": "Manga",
+    "title_other": "Manga"
   },
   "reader": {
     "button": {
