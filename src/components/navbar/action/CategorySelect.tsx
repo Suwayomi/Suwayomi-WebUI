@@ -12,26 +12,72 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Dialog from '@mui/material/Dialog';
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Mangas } from '@/lib/data/Mangas.ts';
 import { useSelectableCollection } from '@/components/collection/useSelectableCollection.ts';
+import { ThreeStateCheckboxInput } from '@/components/atoms/ThreeStateCheckboxInput.tsx';
 
-interface IProps {
+type BaseProps = {
     open: boolean;
     setOpen: (value: boolean) => void;
-    mangaId: number;
-}
+};
 
-export function CategorySelect(props: IProps) {
+type SingleMangaModeProps = {
+    mangaId: number;
+};
+
+type MultiMangaModeProps = {
+    mangaIds: number[];
+};
+
+type Props =
+    | (BaseProps & SingleMangaModeProps & PropertiesNever<MultiMangaModeProps>)
+    | (BaseProps & PropertiesNever<SingleMangaModeProps> & MultiMangaModeProps);
+
+const useGetMangaCategoryIds = (mangaId: number | undefined): number[] => {
+    const { data: mangaResult } = requestManager.useGetManga(mangaId ?? -1, { skip: mangaId === undefined });
+
+    return useMemo(() => {
+        if (mangaId === undefined || !mangaResult) {
+            return [];
+        }
+
+        return mangaResult.manga.categories.nodes.map((category) => category.id);
+    }, [mangaResult?.manga.categories.nodes, mangaId]);
+};
+
+const getCategoryCheckedState = (
+    categoryId: number,
+    categoriesToAdd: number[],
+    categoriesToRemove: number[],
+    isSingleSelectionMode: boolean,
+): boolean | undefined => {
+    if (categoriesToAdd.includes(categoryId)) {
+        return true;
+    }
+
+    if (isSingleSelectionMode) {
+        return undefined;
+    }
+
+    if (categoriesToRemove.includes(categoryId)) {
+        return false;
+    }
+
+    return undefined;
+};
+
+export function CategorySelect(props: Props) {
     const { t } = useTranslation();
 
-    const { open, setOpen, mangaId } = props;
+    const { open, setOpen, mangaId, mangaIds: passedMangaIds } = props;
 
-    const { data: mangaResult } = requestManager.useGetManga(mangaId);
+    const isSingleSelectionMode = mangaId !== undefined;
+    const mangaIds = passedMangaIds ?? [mangaId];
+
+    const mangaCategories = useGetMangaCategoryIds(mangaId);
     const { data } = requestManager.useGetCategories();
     const categoriesData = data?.categories.nodes;
 
@@ -43,34 +89,45 @@ export function CategorySelect(props: IProps) {
         return cats;
     }, [categoriesData]);
 
-    const mangaCategories = useMemo(
-        () => mangaResult?.manga.categories.nodes.map((category) => category.id) ?? [],
-        [mangaResult?.manga.categories.nodes],
-    );
-
-    const { selectedItemIds, handleSelection, setSelectionForKey } = useSelectableCollection<number>(
-        allCategories.length,
-        {
-            initialState: {
-                default: mangaCategories,
-            },
+    const { handleSelection, setSelectionForKey, getSelectionForKey } = useSelectableCollection<
+        number,
+        'categoriesToAdd' | 'categoriesToRemove'
+    >(allCategories.length, {
+        currentKey: 'categoriesToAdd',
+        initialState: {
+            categoriesToAdd: mangaCategories,
+            categoriesToRemove: [],
         },
-    );
+    });
+
+    const categoriesToAdd = getSelectionForKey('categoriesToAdd');
+    const categoriesToRemove = getSelectionForKey('categoriesToRemove');
 
     const handleCancel = () => {
-        setSelectionForKey('default', mangaCategories);
+        setSelectionForKey('categoriesToAdd', mangaCategories);
+        setSelectionForKey('categoriesToRemove', []);
         setOpen(false);
     };
 
     const handleOk = () => {
         setOpen(false);
 
-        Mangas.performAction('change_categories', [mangaId], {
+        const addToCategories = isSingleSelectionMode
+            ? categoriesToAdd.filter((categoryId) => !mangaCategories.includes(categoryId))
+            : categoriesToAdd;
+        const removeFromCategories = isSingleSelectionMode
+            ? mangaCategories.filter((categoryId) => !categoriesToAdd.includes(categoryId))
+            : categoriesToRemove;
+
+        const isUpdateRequired = !!addToCategories.length || !!removeFromCategories.length;
+        if (!isUpdateRequired) {
+            return;
+        }
+
+        Mangas.performAction('change_categories', mangaIds, {
             changeCategoriesPatch: {
-                addToCategories: selectedItemIds,
-                removeFromCategories: allCategories
-                    .map((category) => category.id)
-                    .filter((categoryId) => !selectedItemIds.includes(categoryId)),
+                addToCategories,
+                removeFromCategories,
             },
         });
     };
@@ -97,14 +154,25 @@ export function CategorySelect(props: IProps) {
                         </span>
                     )}
                     {allCategories.map((category) => (
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={selectedItemIds.includes(category.id)}
-                                    onChange={(_, checked) => handleSelection(category.id, checked)}
-                                    color="default"
-                                />
-                            }
+                        <ThreeStateCheckboxInput
+                            checked={getCategoryCheckedState(
+                                category.id,
+                                categoriesToAdd,
+                                categoriesToRemove,
+                                isSingleSelectionMode,
+                            )}
+                            onChange={(checked) => {
+                                handleSelection(category.id, false, 'categoriesToAdd');
+                                handleSelection(category.id, false, 'categoriesToRemove');
+
+                                if (checked) {
+                                    handleSelection(category.id, true, 'categoriesToAdd');
+                                }
+
+                                if (checked === false) {
+                                    handleSelection(category.id, true, 'categoriesToRemove');
+                                }
+                            }}
                             label={category.name}
                             key={category.id}
                         />

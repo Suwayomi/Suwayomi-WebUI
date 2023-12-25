@@ -12,10 +12,13 @@ import Done from '@mui/icons-material/Done';
 import RemoveDone from '@mui/icons-material/RemoveDone';
 import { useTranslation } from 'react-i18next';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import Label from '@mui/icons-material/Label';
+import { useState } from 'react';
 import { SelectionFABActionItem } from '@/components/manga/SelectionFABActionItem.tsx';
 import { TManga } from '@/typings.ts';
 import { MangaAction, Mangas } from '@/lib/data/Mangas.ts';
 import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
+import { CategorySelect } from '@/components/navbar/action/CategorySelect.tsx';
 
 export const MangasSelectionFABActionItems = ({
     selectedMangas,
@@ -26,6 +29,7 @@ export const MangasSelectionFABActionItems = ({
 }) => {
     const { t } = useTranslation();
     const { settings } = useMetadataServerSettings();
+    const [isCategorySelectOpen, setIsCategorySelectOpen] = useState(false);
 
     const handleAction = (action: MangaAction, mangas: TManga[]) => {
         Mangas.performAction(action, Mangas.getIds(mangas), {
@@ -71,12 +75,29 @@ export const MangasSelectionFABActionItems = ({
                 title={t('chapter.action.mark_as_read.remove.button.selected')}
             />
             <SelectionFABActionItem<MangaAction, TManga>
+                action="change_categories"
+                Icon={Label}
+                matchingItems={selectedMangas}
+                onClick={() => setIsCategorySelectOpen(true)}
+                title={t('manga.action.category.label.action')}
+            />
+            <SelectionFABActionItem<MangaAction, TManga>
                 action="remove_from_library"
                 Icon={FavoriteBorderIcon}
                 matchingItems={[...Mangas.getPartiallyRead(selectedMangas), ...Mangas.getFullyRead(selectedMangas)]}
                 onClick={handleAction}
                 title={t('manga.action.library.remove.button.selected')}
             />
+            {isCategorySelectOpen && (
+                <CategorySelect
+                    open={isCategorySelectOpen}
+                    setOpen={(open) => {
+                        setIsCategorySelectOpen(open);
+                        handleClose();
+                    }}
+                    mangaIds={Mangas.getIds(selectedMangas)}
+                />
+            )}
         </>
     );
 };

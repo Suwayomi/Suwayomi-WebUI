@@ -100,7 +100,7 @@ export function Library() {
         selectedItemIds,
         handleSelectAll,
         handleSelection,
-    } = useSelectableCollection<TManga['id']>(mangas.length, { currentKey: activeTab?.id.toString() });
+    } = useSelectableCollection<TManga['id'], string>(mangas.length, { currentKey: activeTab?.id.toString() });
 
     const handleSelect = (id: number, selected: boolean) => {
         setIsSelectModeActive(!!(selectedItemIds.length + (selected ? 1 : -1)));
