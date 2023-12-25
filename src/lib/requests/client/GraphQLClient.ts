@@ -17,7 +17,7 @@ import { StrictTypedTypePolicies } from '@/lib/graphql/generated/apollo-helpers.
 /* eslint-disable no-underscore-dangle */
 const typePolicies: StrictTypedTypePolicies = {
     GlobalMetaType: { keyFields: ['key'] },
-    ExtensionType: { keyFields: ['apkName'] },
+    ExtensionType: { keyFields: ['pkgName'] },
     AboutServerPayload: { keyFields: [] },
     AboutWebUI: { keyFields: [] },
     WebUIUpdateInfo: { keyFields: [] },
