@@ -17,6 +17,7 @@ export type SelectableCollectionReturnType<Id extends number | string> = {
     areNoItemsForKeySelected: boolean;
     handleSelection: (id: Id, selected: boolean, key?: string) => void;
     handleSelectAll: (selectAll: boolean, itemIds: Id[], key?: string) => void;
+    setSelectionForKey: (key: string, itemIds: Id[]) => void;
 };
 
 export const useSelectableCollection = <Id extends number | string>(
@@ -24,12 +25,14 @@ export const useSelectableCollection = <Id extends number | string>(
     {
         keyCount = totalCount,
         currentKey = 'default',
+        initialState = {},
     }: {
         keyCount?: number;
         currentKey?: string;
+        initialState?: Record<string, Id[]>;
     } = {},
 ): SelectableCollectionReturnType<Id> => {
-    const [keyToSelectedItemIds, setKeyToSelectedItemIds] = useState<Record<string, Id[]>>({});
+    const [keyToSelectedItemIds, setKeyToSelectedItemIds] = useState<Record<string, Id[]>>(initialState);
 
     const selectedItemIds = Object.values(keyToSelectedItemIds).flat();
     const areAllItemsSelected = selectedItemIds.length === totalCount;
@@ -74,6 +77,10 @@ export const useSelectableCollection = <Id extends number | string>(
         }
     };
 
+    const setSelectionForKey = (key: string, itemIds: Id[]) => {
+        keyToSelectedItemIds[key] = itemIds;
+    };
+
     return {
         selectedItemIds,
         keySelectedItemIds,
@@ -83,5 +90,6 @@ export const useSelectableCollection = <Id extends number | string>(
         areNoItemsSelected,
         areAllItemsForKeySelected,
         areNoItemsForKeySelected,
+        setSelectionForKey,
     };
 };

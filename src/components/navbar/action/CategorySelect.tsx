@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import Button from '@mui/material/Button';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -17,6 +17,8 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { Mangas } from '@/lib/data/Mangas.ts';
+import { useSelectableCollection } from '@/components/collection/useSelectableCollection.ts';
 
 interface IProps {
     open: boolean;
@@ -32,7 +34,6 @@ export function CategorySelect(props: IProps) {
     const { data: mangaResult } = requestManager.useGetManga(mangaId);
     const { data } = requestManager.useGetCategories();
     const categoriesData = data?.categories.nodes;
-    const [triggerMutate] = requestManager.useUpdateMangaCategories();
 
     const allCategories = useMemo(() => {
         const cats = [...(categoriesData ?? [])]; // make copy
@@ -42,29 +43,34 @@ export function CategorySelect(props: IProps) {
         return cats;
     }, [categoriesData]);
 
-    const selectedIds = mangaResult?.manga.categories.nodes.map((c) => c.id) ?? [];
+    const mangaCategories = useMemo(
+        () => mangaResult?.manga.categories.nodes.map((category) => category.id) ?? [],
+        [mangaResult?.manga.categories.nodes],
+    );
+
+    const { selectedItemIds, handleSelection, setSelectionForKey } = useSelectableCollection<number>(
+        allCategories.length,
+        {
+            initialState: {
+                default: mangaCategories,
+            },
+        },
+    );
 
     const handleCancel = () => {
+        setSelectionForKey('default', mangaCategories);
         setOpen(false);
     };
 
     const handleOk = () => {
         setOpen(false);
-    };
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>, categoryId: number) => {
-        const { checked } = event.target as HTMLInputElement;
-
-        // TODO - update to only update categories when clicking OK - can now be updated in one go with graphql
-        triggerMutate({
-            variables: {
-                input: {
-                    id: mangaId,
-                    patch: {
-                        addToCategories: checked ? [categoryId] : [],
-                        removeFromCategories: !checked ? [categoryId] : [],
-                    },
-                },
+        Mangas.performAction('change_categories', [mangaId], {
+            changeCategoriesPatch: {
+                addToCategories: selectedItemIds,
+                removeFromCategories: allCategories
+                    .map((category) => category.id)
+                    .filter((categoryId) => !selectedItemIds.includes(categoryId)),
             },
         });
     };
@@ -94,8 +100,8 @@ export function CategorySelect(props: IProps) {
                         <FormControlLabel
                             control={
                                 <Checkbox
-                                    checked={selectedIds.includes(category.id)}
-                                    onChange={(e) => handleChange(e, category.id)}
+                                    checked={selectedItemIds.includes(category.id)}
+                                    onChange={(_, checked) => handleSelection(category.id, checked)}
                                     color="default"
                                 />
                             }
