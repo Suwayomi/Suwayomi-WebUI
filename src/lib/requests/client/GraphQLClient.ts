@@ -61,7 +61,6 @@ const typePolicies: StrictTypedTypePolicies = {
             chapters: {
                 keyArgs: ['condition', 'filter', 'orderBy', 'orderByType'],
                 merge(existing, incoming) {
-                    console.log('merge chapters', { ...existing }, { ...incoming });
                     if (existing == null) {
                         return incoming;
                     }
