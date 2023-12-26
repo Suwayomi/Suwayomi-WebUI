@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import Button from '@mui/material/Button';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -77,7 +77,7 @@ export function CategorySelect(props: Props) {
     const isSingleSelectionMode = mangaId !== undefined;
     const mangaIds = passedMangaIds ?? [mangaId];
 
-    const mangaCategories = useGetMangaCategoryIds(mangaId);
+    const mangaCategoryIds = useGetMangaCategoryIds(mangaId);
     const { data } = requestManager.useGetCategories();
     const categoriesData = data?.categories.nodes;
 
@@ -95,16 +95,21 @@ export function CategorySelect(props: Props) {
     >(allCategories.length, {
         currentKey: 'categoriesToAdd',
         initialState: {
-            categoriesToAdd: mangaCategories,
+            categoriesToAdd: mangaCategoryIds,
             categoriesToRemove: [],
         },
     });
+
+    useEffect(() => {
+        setSelectionForKey('categoriesToAdd', mangaCategoryIds);
+        setSelectionForKey('categoriesToRemove', []);
+    }, [mangaCategoryIds]);
 
     const categoriesToAdd = getSelectionForKey('categoriesToAdd');
     const categoriesToRemove = getSelectionForKey('categoriesToRemove');
 
     const handleCancel = () => {
-        setSelectionForKey('categoriesToAdd', mangaCategories);
+        setSelectionForKey('categoriesToAdd', mangaCategoryIds);
         setSelectionForKey('categoriesToRemove', []);
         setOpen(false);
     };
@@ -113,10 +118,10 @@ export function CategorySelect(props: Props) {
         setOpen(false);
 
         const addToCategories = isSingleSelectionMode
-            ? categoriesToAdd.filter((categoryId) => !mangaCategories.includes(categoryId))
+            ? categoriesToAdd.filter((categoryId) => !mangaCategoryIds.includes(categoryId))
             : categoriesToAdd;
         const removeFromCategories = isSingleSelectionMode
-            ? mangaCategories.filter((categoryId) => !categoriesToAdd.includes(categoryId))
+            ? mangaCategoryIds.filter((categoryId) => !categoriesToAdd.includes(categoryId))
             : categoriesToRemove;
 
         const isUpdateRequired = !!addToCategories.length || !!removeFromCategories.length;
