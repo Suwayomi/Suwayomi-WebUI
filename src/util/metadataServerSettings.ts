@@ -11,9 +11,14 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { convertFromGqlMeta, getMetadataFrom } from '@/util/metadata';
 
 export const getDefaultSettings = (): MetadataServerSettings => ({
+    // downloads
     deleteChaptersManuallyMarkedRead: false,
     deleteChaptersWhileReading: 0,
     deleteChaptersWithBookmark: false,
+
+    // library
+    showAddToLibraryCategorySelectDialog: true,
+    ignoreFilters: false,
 });
 
 const getMetadataServerSettingsWithDefaultFallback = (

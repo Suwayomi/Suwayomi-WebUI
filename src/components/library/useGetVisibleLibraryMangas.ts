@@ -10,7 +10,7 @@ import { StringParam, useQueryParam } from 'use-query-params';
 import { useMemo } from 'react';
 import { LibrarySortMode, NullAndUndefined, TManga } from '@/typings.ts';
 import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext.tsx';
-import { useSearchSettings } from '@/util/searchSettings.ts';
+import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
 
 const unreadFilter = (unread: NullAndUndefined<boolean>, { unreadCount }: TManga): boolean => {
     switch (unread) {
@@ -105,7 +105,7 @@ export const useGetVisibleLibraryMangas = (mangas: TManga[]) => {
     const [query] = useQueryParam('query', StringParam);
     const { options } = useLibraryOptionsContext();
     const { unread, downloaded } = options;
-    const { settings } = useSearchSettings();
+    const { settings } = useMetadataServerSettings();
 
     const filteredMangas = useMemo(
         () => filterManga(mangas, query, unread, downloaded, settings.ignoreFilters),
