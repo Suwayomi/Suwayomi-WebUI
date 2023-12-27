@@ -411,6 +411,14 @@
               "title": "Category selection dialog"
             }
           }
+        },
+        "search": {
+          "ignore_filters": {
+            "label": {
+              "description": "Search results will include manga that do not match the current filters",
+              "title": "Ignore filters when searching"
+            }
+          }
         }
       },
       "global_update": {
@@ -568,9 +576,6 @@
         "failed_to_save_settings": "Could not save the default search settings to the server",
         "source_search_failed": "Could not search source"
       }
-    },
-    "label": {
-      "ignore_filters": "Ignore filters when searching"
     },
     "title": {
       "global_search": "Global Search",

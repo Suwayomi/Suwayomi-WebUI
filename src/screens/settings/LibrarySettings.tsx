@@ -48,7 +48,10 @@ export function LibrarySettings() {
                 }
             >
                 <ListItem>
-                    <ListItemText primary={t('search.label.ignore_filters')} />
+                    <ListItemText
+                        primary={t('library.settings.general.search.ignore_filters.label.title')}
+                        secondary={t('library.settings.general.search.ignore_filters.label.description')}
+                    />
                     <Switch
                         edge="end"
                         checked={settings.ignoreFilters}
