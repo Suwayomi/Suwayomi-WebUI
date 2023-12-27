@@ -93,8 +93,8 @@ export const MangasSelectionFABActionItems = ({
             {isCategorySelectOpen && (
                 <CategorySelect
                     open={isCategorySelectOpen}
-                    setOpen={(open) => {
-                        setIsCategorySelectOpen(open);
+                    onClose={() => {
+                        setIsCategorySelectOpen(false);
                         handleClose(true);
                     }}
                     mangaIds={Mangas.getIds(selectedMangas)}

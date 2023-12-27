@@ -119,7 +119,7 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                 </>
             )}
 
-            <CategorySelect open={editCategories} setOpen={setEditCategories} mangaId={manga.id} />
+            <CategorySelect open={editCategories} onClose={() => setEditCategories(false)} mangaId={manga.id} />
         </>
     );
 };

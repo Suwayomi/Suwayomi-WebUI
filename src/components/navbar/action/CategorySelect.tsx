@@ -21,7 +21,7 @@ import { ThreeStateCheckboxInput } from '@/components/atoms/ThreeStateCheckboxIn
 
 type BaseProps = {
     open: boolean;
-    setOpen: (value: boolean) => void;
+    onClose: (didUpdateCategories: boolean) => void;
 };
 
 type SingleMangaModeProps = {
@@ -72,7 +72,7 @@ const getCategoryCheckedState = (
 export function CategorySelect(props: Props) {
     const { t } = useTranslation();
 
-    const { open, setOpen, mangaId, mangaIds: passedMangaIds } = props;
+    const { open, onClose, mangaId, mangaIds: passedMangaIds } = props;
 
     const isSingleSelectionMode = mangaId !== undefined;
     const mangaIds = passedMangaIds ?? [mangaId];
@@ -111,11 +111,11 @@ export function CategorySelect(props: Props) {
     const handleCancel = () => {
         setSelectionForKey('categoriesToAdd', mangaCategoryIds);
         setSelectionForKey('categoriesToRemove', []);
-        setOpen(false);
+        onClose(false);
     };
 
     const handleOk = () => {
-        setOpen(false);
+        onClose(true);
 
         const addToCategories = isSingleSelectionMode
             ? categoriesToAdd.filter((categoryId) => !mangaCategoryIds.includes(categoryId))

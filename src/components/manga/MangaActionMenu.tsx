@@ -115,8 +115,8 @@ export const MangaActionMenu = ({
             {isCategorySelectOpen && (
                 <CategorySelect
                     open={isCategorySelectOpen}
-                    setOpen={(open) => {
-                        setIsCategorySelectOpen(open);
+                    onClose={() => {
+                        setIsCategorySelectOpen(false);
                         bindMenuProps.onClose();
                     }}
                     mangaId={manga.id}
