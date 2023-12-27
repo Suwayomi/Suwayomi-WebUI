@@ -314,6 +314,7 @@
       "discord": "Discord",
       "display": "Display",
       "filter": "Filter",
+      "general": "General",
       "github": "GitHub",
       "links": "Links",
       "loading": "Loading…",
@@ -402,6 +403,16 @@
       }
     },
     "settings": {
+      "general": {
+        "add_to_library": {
+          "category_selection": {
+            "label": {
+              "description": "Show the category selection dialog when adding a manga to the library",
+              "title": "Category selection dialog"
+            }
+          }
+        }
+      },
       "global_update": {
         "auto_update": {
           "interval": {
@@ -447,6 +458,18 @@
   },
   "manga": {
     "action": {
+      "category": {
+        "button": {
+          "selected": "Change categories of selected"
+        },
+        "label": {
+          "action": "Change categories",
+          "error_one": "Could not change the categories of the manga",
+          "error_other": "Could not change the categories of the manga",
+          "success_one": "Changed categories of manga",
+          "success_other": "Changed categories of {{count}} manga"
+        }
+      },
       "library": {
         "remove": {
           "button": {
@@ -459,18 +482,6 @@
             "success_one": "Removed manga from the library",
             "success_other": "Removed {{count}} manga from the library"
           }
-        }
-      },
-      "category": {
-        "button": {
-          "selected": "Change categories of selected"
-        },
-        "label": {
-          "action": "Change categories",
-          "error_one": "Could not change the categories of the manga",
-          "error_other": "Could not change the categories of the manga",
-          "success_one": "Changed categories of manga",
-          "success_other": "Changed categories of {{count}} manga"
         }
       }
     },

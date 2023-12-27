@@ -213,9 +213,13 @@ export enum ChapterOffset {
 }
 
 export type MetadataServerSettings = {
+    // downloads
     deleteChaptersManuallyMarkedRead: boolean;
     deleteChaptersWhileReading: number;
     deleteChaptersWithBookmark: boolean;
+
+    // library
+    showAddToLibraryCategorySelectDialog: boolean;
 };
 
 export interface ISearchSettings {

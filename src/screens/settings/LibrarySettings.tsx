@@ -13,9 +13,10 @@ import ListSubheader from '@mui/material/ListSubheader';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
 import { GlobalUpdateSettings } from '@/components/settings/globalUpdate/GlobalUpdateSettings.tsx';
 import { useSearchSettings } from '@/util/searchSettings.ts';
-import { SearchMetadataKeys } from '@/typings.ts';
+import { MetadataServerSettingKeys, SearchMetadataKeys } from '@/typings.ts';
 import { convertToGqlMeta, requestUpdateServerMetadata } from '@/util/metadata.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
+import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
 
 export function LibrarySettings() {
     const { t } = useTranslation();
@@ -29,8 +30,9 @@ export function LibrarySettings() {
     useSetDefaultBackTo('settings');
 
     const { metadata, settings } = useSearchSettings();
+    const { settings: serverSettings } = useMetadataServerSettings();
 
-    const setSettingValue = (key: SearchMetadataKeys, value: boolean) => {
+    const setSettingValue = (key: SearchMetadataKeys | MetadataServerSettingKeys, value: boolean) => {
         requestUpdateServerMetadata(convertToGqlMeta(metadata)! ?? {}, [[key, value]]).catch(() =>
             makeToast(t('search.error.label.failed_to_save_settings'), 'warning'),
         );
@@ -40,8 +42,8 @@ export function LibrarySettings() {
         <List>
             <List
                 subheader={
-                    <ListSubheader component="div" id="library-search-filter">
-                        {t('search.title.search')}
+                    <ListSubheader component="div" id="library-general-settings">
+                        {t('global.label.general')}
                     </ListSubheader>
                 }
             >
@@ -51,6 +53,17 @@ export function LibrarySettings() {
                         edge="end"
                         checked={settings.ignoreFilters}
                         onChange={(e) => setSettingValue('ignoreFilters', e.target.checked)}
+                    />
+                </ListItem>
+                <ListItem>
+                    <ListItemText
+                        primary={t('library.settings.general.add_to_library.category_selection.label.title')}
+                        secondary={t('library.settings.general.add_to_library.category_selection.label.description')}
+                    />
+                    <Switch
+                        edge="end"
+                        checked={serverSettings.showAddToLibraryCategorySelectDialog}
+                        onChange={(e) => setSettingValue('showAddToLibraryCategorySelectDialog', e.target.checked)}
                     />
                 </ListItem>
             </List>

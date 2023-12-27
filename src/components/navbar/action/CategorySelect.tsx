@@ -18,6 +18,7 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Mangas } from '@/lib/data/Mangas.ts';
 import { useSelectableCollection } from '@/components/collection/useSelectableCollection.ts';
 import { ThreeStateCheckboxInput } from '@/components/atoms/ThreeStateCheckboxInput.tsx';
+import { TCategory } from '@/typings.ts';
 
 type BaseProps = {
     open: boolean;
@@ -26,6 +27,7 @@ type BaseProps = {
 
 type SingleMangaModeProps = {
     mangaId: number;
+    addToLibrary?: boolean;
 };
 
 type MultiMangaModeProps = {
@@ -69,10 +71,13 @@ const getCategoryCheckedState = (
     return undefined;
 };
 
+const getDefaultCategoryIds = (categories: TCategory[]) =>
+    categories.filter(({ default: isDefault }) => isDefault).map(({ id }) => id);
+
 export function CategorySelect(props: Props) {
     const { t } = useTranslation();
 
-    const { open, onClose, mangaId, mangaIds: passedMangaIds } = props;
+    const { open, onClose, mangaId, mangaIds: passedMangaIds, addToLibrary = false } = props;
 
     const isSingleSelectionMode = mangaId !== undefined;
     const mangaIds = passedMangaIds ?? [mangaId];
@@ -89,19 +94,24 @@ export function CategorySelect(props: Props) {
         return cats;
     }, [categoriesData]);
 
+    const defaultCategoryIds = useMemo(
+        () => (addToLibrary ? getDefaultCategoryIds(allCategories) : []),
+        [allCategories],
+    );
+
     const { handleSelection, setSelectionForKey, getSelectionForKey } = useSelectableCollection<
         number,
         'categoriesToAdd' | 'categoriesToRemove'
     >(allCategories.length, {
         currentKey: 'categoriesToAdd',
         initialState: {
-            categoriesToAdd: mangaCategoryIds,
+            categoriesToAdd: [...mangaCategoryIds, ...defaultCategoryIds],
             categoriesToRemove: [],
         },
     });
 
     useEffect(() => {
-        setSelectionForKey('categoriesToAdd', mangaCategoryIds);
+        setSelectionForKey('categoriesToAdd', [...mangaCategoryIds, ...defaultCategoryIds]);
         setSelectionForKey('categoriesToRemove', []);
     }, [mangaCategoryIds]);
 
