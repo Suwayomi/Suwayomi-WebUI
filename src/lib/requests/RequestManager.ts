@@ -1341,6 +1341,13 @@ export class RequestManager {
         return this.doRequest(GQLMethod.USE_QUERY, GET_MANGAS, variables, options);
     }
 
+    public getMangas(
+        variables: GetMangasQueryVariables,
+        options?: QueryOptions<GetMangasQueryVariables, GetMangasQuery>,
+    ): AbortabaleApolloQueryResponse<GetMangasQuery> {
+        return this.doRequest(GQLMethod.QUERY, GET_MANGAS, variables, options);
+    }
+
     public getMangaThumbnailUrl(mangaId: number): string {
         return this.getValidImgUrlFor(`manga/${mangaId}/thumbnail`);
     }

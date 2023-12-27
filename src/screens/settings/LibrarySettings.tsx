@@ -8,14 +8,36 @@
 
 import { useTranslation } from 'react-i18next';
 import { useContext, useEffect } from 'react';
-import { List, ListItem, ListItemText, Switch } from '@mui/material';
+import { List, ListItem, ListItemButton, ListItemText, Switch } from '@mui/material';
 import ListSubheader from '@mui/material/ListSubheader';
+import { t as translate } from 'i18next';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
 import { GlobalUpdateSettings } from '@/components/settings/globalUpdate/GlobalUpdateSettings.tsx';
 import { MetadataServerSettingKeys, MetadataServerSettings } from '@/typings.ts';
 import { convertToGqlMeta, requestUpdateServerMetadata } from '@/util/metadata.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { Mangas } from '@/lib/data/Mangas.ts';
+
+const removeNonLibraryMangasFromCategories = async (): Promise<void> => {
+    try {
+        const nonLibraryMangas = await requestManager.getMangas({
+            filter: { inLibrary: { equalTo: false }, categoryId: { isNull: false } },
+        }).response;
+
+        const mangaIdsToRemove = Mangas.getIds(nonLibraryMangas.data.mangas.nodes);
+
+        if (!mangaIdsToRemove.length) {
+            await requestManager.updateMangasCategories(mangaIdsToRemove, {
+                clearCategories: true,
+            }).response;
+        }
+        makeToast(translate('library.settings.advanced.database.cleanup.label.success'), 'success');
+    } catch (e) {
+        makeToast(translate('library.settings.advanced.database.cleanup.label.error'), 'error');
+    }
+};
 
 export function LibrarySettings() {
     const { t } = useTranslation();
@@ -72,6 +94,20 @@ export function LibrarySettings() {
                 </ListItem>
             </List>
             <GlobalUpdateSettings />
+            <List
+                subheader={
+                    <ListSubheader component="div" id="library-advanced">
+                        {t('global.label.advanced')}
+                    </ListSubheader>
+                }
+            >
+                <ListItemButton onClick={() => removeNonLibraryMangasFromCategories()}>
+                    <ListItemText
+                        primary={t('library.settings.advanced.database.cleanup.label.title')}
+                        secondary={t('library.settings.advanced.database.cleanup.label.description')}
+                    />
+                </ListItemButton>
+            </List>
         </List>
     );
 }

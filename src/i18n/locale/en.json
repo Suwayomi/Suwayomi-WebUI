@@ -307,6 +307,7 @@
       "title": "Display mode"
     },
     "label": {
+      "advanced": "Advanced",
       "browse": "Browse",
       "client": "Client",
       "close": "Close",
@@ -403,6 +404,18 @@
       }
     },
     "settings": {
+      "advanced": {
+        "database": {
+          "cleanup": {
+            "label": {
+              "description": "Remove non library manga from categories",
+              "error": "Could not remove non library manga from categories",
+              "success": "Removed non library manga from categories",
+              "title": "Cleanup database"
+            }
+          }
+        }
+      },
       "general": {
         "add_to_library": {
           "category_selection": {
