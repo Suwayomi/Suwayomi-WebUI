@@ -8,9 +8,14 @@
 
 import { useTranslation } from 'react-i18next';
 import { useContext, useEffect } from 'react';
+import { List, ListItem, ListItemText, Switch } from '@mui/material';
+import ListSubheader from '@mui/material/ListSubheader';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
 import { GlobalUpdateSettings } from '@/components/settings/globalUpdate/GlobalUpdateSettings.tsx';
-import { SearchSettings } from '@/screens/settings/SearchSettings.tsx';
+import { useSearchSettings } from '@/util/searchSettings.ts';
+import { SearchMetadataKeys } from '@/typings.ts';
+import { convertToGqlMeta, requestUpdateServerMetadata } from '@/util/metadata.ts';
+import { makeToast } from '@/components/util/Toast.tsx';
 
 export function LibrarySettings() {
     const { t } = useTranslation();
@@ -23,10 +28,33 @@ export function LibrarySettings() {
 
     useSetDefaultBackTo('settings');
 
+    const { metadata, settings } = useSearchSettings();
+
+    const setSettingValue = (key: SearchMetadataKeys, value: boolean) => {
+        requestUpdateServerMetadata(convertToGqlMeta(metadata)! ?? {}, [[key, value]]).catch(() =>
+            makeToast(t('search.error.label.failed_to_save_settings'), 'warning'),
+        );
+    };
+
     return (
-        <>
-            <SearchSettings />
+        <List>
+            <List
+                subheader={
+                    <ListSubheader component="div" id="library-search-filter">
+                        {t('search.title.search')}
+                    </ListSubheader>
+                }
+            >
+                <ListItem>
+                    <ListItemText primary={t('search.label.ignore_filters')} />
+                    <Switch
+                        edge="end"
+                        checked={settings.ignoreFilters}
+                        onChange={(e) => setSettingValue('ignoreFilters', e.target.checked)}
+                    />
+                </ListItem>
+            </List>
             <GlobalUpdateSettings />
-        </>
+        </List>
     );
 }
