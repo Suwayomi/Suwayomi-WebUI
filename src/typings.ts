@@ -220,6 +220,7 @@ export type MetadataServerSettings = {
 
     // library
     showAddToLibraryCategorySelectDialog: boolean;
+    ignoreFilters: boolean;
 };
 
 export interface ISearchSettings {

@@ -12,8 +12,7 @@ import { List, ListItem, ListItemText, Switch } from '@mui/material';
 import ListSubheader from '@mui/material/ListSubheader';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
 import { GlobalUpdateSettings } from '@/components/settings/globalUpdate/GlobalUpdateSettings.tsx';
-import { useSearchSettings } from '@/util/searchSettings.ts';
-import { MetadataServerSettingKeys, SearchMetadataKeys } from '@/typings.ts';
+import { MetadataServerSettingKeys, MetadataServerSettings } from '@/typings.ts';
 import { convertToGqlMeta, requestUpdateServerMetadata } from '@/util/metadata.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
@@ -29,11 +28,13 @@ export function LibrarySettings() {
 
     useSetDefaultBackTo('settings');
 
-    const { metadata, settings } = useSearchSettings();
-    const { settings: serverSettings } = useMetadataServerSettings();
+    const { metadata, settings } = useMetadataServerSettings();
 
-    const setSettingValue = (key: SearchMetadataKeys | MetadataServerSettingKeys, value: boolean) => {
-        requestUpdateServerMetadata(convertToGqlMeta(metadata)! ?? {}, [[key, value]]).catch(() =>
+    const setSettingValue = <Setting extends MetadataServerSettingKeys>(
+        setting: Setting,
+        value: MetadataServerSettings[Setting],
+    ) => {
+        requestUpdateServerMetadata(convertToGqlMeta(metadata)! ?? {}, [[setting, value]]).catch(() =>
             makeToast(t('search.error.label.failed_to_save_settings'), 'warning'),
         );
     };
@@ -65,7 +66,7 @@ export function LibrarySettings() {
                     />
                     <Switch
                         edge="end"
-                        checked={serverSettings.showAddToLibraryCategorySelectDialog}
+                        checked={settings.showAddToLibraryCategorySelectDialog}
                         onChange={(e) => setSettingValue('showAddToLibraryCategorySelectDialog', e.target.checked)}
                     />
                 </ListItem>
