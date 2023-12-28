@@ -10,6 +10,8 @@ import { useTranslation } from 'react-i18next';
 import { Button, Tooltip } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
+import { Link } from 'react-router-dom';
+
 export const ContinueReadingButton = ({
     showContinueReadingButton,
     isLatestChapterRead,
@@ -35,7 +37,8 @@ export const ContinueReadingButton = ({
                 variant="contained"
                 size="small"
                 sx={{ minWidth: 'unset' }}
-                href={`${mangaLinkTo}chapter/${nextChapterIndexToRead}`}
+                component={Link}
+                to={`${mangaLinkTo}chapter/${nextChapterIndexToRead}`}
                 onClick={(e) => e.stopPropagation()}
                 onMouseDown={(e) => e.stopPropagation()}
             >
