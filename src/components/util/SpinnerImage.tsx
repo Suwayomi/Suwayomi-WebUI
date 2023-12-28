@@ -59,7 +59,7 @@ export function SpinnerImage(props: IProps) {
         return <Box sx={spinnerStyle} />;
     }
 
-    return <img style={imgStyle} ref={imgRef} src={imageSrc} alt={alt} />;
+    return <img style={imgStyle} ref={imgRef} src={imageSrc} alt={alt} draggable={false} />;
 }
 
 SpinnerImage.defaultProps = {
