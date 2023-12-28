@@ -123,6 +123,11 @@ export function Backup() {
 
     const resetBackupState = () => {
         setCurrentBackupFile(null);
+
+        const input = document.getElementById('backup-file') as HTMLInputElement;
+        if (input) {
+            input.value = '';
+        }
     };
 
     const validateBackup = async (file: File) => {
