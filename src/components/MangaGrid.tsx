@@ -223,7 +223,17 @@ export const MangaGrid: React.FC<IMangaGridProps> = (props) => {
     );
 
     const updateGridWidth = () => {
-        setDimensions(gridRef.current?.offsetWidth ?? document.documentElement.offsetWidth);
+        const getDimensions = () => {
+            const gridWidth = gridRef.current?.offsetWidth;
+
+            if (!gridWidth) {
+                return document.documentElement.offsetWidth;
+            }
+
+            return gridWidth;
+        };
+
+        setDimensions(getDimensions());
     };
 
     useLayoutEffect(updateGridWidth, []);
