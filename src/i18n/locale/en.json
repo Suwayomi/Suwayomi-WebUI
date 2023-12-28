@@ -258,6 +258,7 @@
       "popular": "Popular",
       "reset": "Reset",
       "reset_to_default": "Reset to Default",
+      "restore": "Restore",
       "resume": "Resume",
       "select": "Select",
       "select_all": "Select all",
@@ -617,6 +618,44 @@
       }
     },
     "backup": {
+      "action": {
+        "create": {
+          "label": {
+            "description": "Back up library as a Tachiyomi backup",
+            "title": "Create backup"
+          }
+        },
+        "restore": {
+          "button": "Restore",
+          "error": {
+            "label": {
+              "failure": "Could not restore backup",
+              "legacy_backup_unsupported": "legacy backups are not supported!"
+            }
+          },
+          "label": {
+            "description": "You can also drag and drop the backup file here to restore it",
+            "in_progress": "Restoring backup…",
+            "success": "Backup restored.",
+            "title": "Restore Backup"
+          }
+        },
+        "validate": {
+          "dialog": {
+            "content": {
+              "label": {
+                "missing_sources": "The following sources are not installed:"
+              }
+            },
+            "title": "Backup validation"
+          },
+          "error": {
+            "label": {
+              "failure": "Could not validate backup"
+            }
+          }
+        }
+      },
       "automated": {
         "cleanup": {
           "label": {
@@ -634,16 +673,6 @@
             "title": "Backup location"
           }
         }
-      },
-      "label": {
-        "backup_restore_failed": "Could not restore backup",
-        "create_backup": "Create backup",
-        "create_backup_info": "Back up library as a Tachiyomi backup",
-        "legacy_backup_unsupported": "legacy backups are not supported!",
-        "restore_backup": "Restore Backup",
-        "restore_backup_info": "You can also drag and drop the backup file here to restore it",
-        "restored_backup": "Backup restored.",
-        "restoring_backup": "Restoring backup…"
       },
       "title": "Backup"
     },
