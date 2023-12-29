@@ -15,7 +15,6 @@ import {
     UpdateMangaCategoriesPatchInput,
 } from '@/lib/graphql/generated/graphql.ts';
 import { Chapters } from '@/lib/data/Chapters.ts';
-import { getMetadataServerSettings } from '@/util/metadataServerSettings.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
 
 export type MangaAction =
@@ -124,45 +123,22 @@ export class Mangas {
 
     static async downloadChapters(mangaIds: number[]): Promise<void> {
         const chapters = await Mangas.getChapterIdsWithState(mangaIds, { isDownloaded: false });
-        return Mangas.executeAction(
-            'download',
-            chapters.length,
-            () => requestManager.addChaptersToDownloadQueue(Chapters.getIds(chapters)).response,
-        );
+        return Chapters.download(Chapters.getIds(chapters));
     }
 
     static async deleteChapters(mangaIds: number[]): Promise<void> {
         const chapters = await Mangas.getChapterIdsWithState(mangaIds, { isDownloaded: true });
-        return Mangas.executeAction(
-            'delete',
-            chapters.length,
-            () => requestManager.deleteDownloadedChapters(Chapters.getIds(chapters)).response,
-        );
+        return Chapters.delete(Chapters.getIds(chapters));
     }
 
     static async markAsRead(mangaIds: number[], deleteChapters: boolean = false): Promise<void> {
-        const [chapters, { deleteChaptersWithBookmark }] = await Promise.all([
-            Mangas.getChapterIdsWithState(mangaIds, { isRead: false }),
-            getMetadataServerSettings(),
-        ]);
-        const chapterIdsToDelete = deleteChapters
-            ? Chapters.getIds(Chapters.getAutoDeletable(chapters, deleteChaptersWithBookmark))
-            : [];
-        return Mangas.executeAction(
-            'mark_as_read',
-            chapterIdsToDelete.length,
-            () =>
-                requestManager.updateChapters(Chapters.getIds(chapters), { isRead: true, chapterIdsToDelete }).response,
-        );
+        const chapters = await Mangas.getChapterIdsWithState(mangaIds, { isRead: false });
+        return Chapters.markAsRead(chapters, deleteChapters);
     }
 
     static async markAsUnread(mangaIds: number[]): Promise<void> {
         const chapters = await Mangas.getChapterIdsWithState(mangaIds, { isRead: true });
-        return Mangas.executeAction(
-            'mark_as_unread',
-            chapters.length,
-            () => requestManager.updateChapters(Chapters.getIds(chapters), { isRead: false }).response,
-        );
+        return Chapters.markAsUnread(Chapters.getIds(chapters));
     }
 
     static async removeFromLibrary(mangaIds: number[]): Promise<void> {
@@ -221,7 +197,7 @@ export class Mangas {
             case 'change_categories':
                 return Mangas.changeCategories(mangaIds, changeCategoriesPatch!);
             default:
-                throw new Error(`performMangasAction::performAction: unknown action "${action}"`);
+                throw new Error(`Mangas::performAction: unknown action "${action}"`);
         }
     }
 }

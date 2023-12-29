@@ -1452,6 +1452,13 @@ export class RequestManager {
         return this.doRequest(GQLMethod.USE_QUERY, GET_CHAPTERS, variables, options);
     }
 
+    public getChapters(
+        variables: GetChaptersQueryVariables,
+        options?: QueryOptions<GetChaptersQueryVariables, GetChaptersQuery>,
+    ): AbortabaleApolloQueryResponse<GetChaptersQuery> {
+        return this.doRequest(GQLMethod.QUERY, GET_CHAPTERS, variables, options);
+    }
+
     public useGetMangaChapters(
         mangaId: number | string,
         options?: QueryHookOptions<GetChaptersQuery, GetChaptersQueryVariables>,

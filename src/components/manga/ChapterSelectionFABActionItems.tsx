@@ -15,22 +15,29 @@ import RemoveDone from '@mui/icons-material/RemoveDone';
 import { useTranslation } from 'react-i18next';
 import { SelectionFABActionItem } from '@/components/manga/SelectionFABActionItem.tsx';
 import { IChapterWithMeta } from '@/components/manga/ChapterList.tsx';
-
-type SelectionAction = 'download' | 'delete' | 'bookmark' | 'unbookmark' | 'mark_as_read' | 'mark_as_unread';
+import { ChaptersWithMeta } from '@/lib/data/ChaptersWithMeta.ts';
+import { ChapterAction, Chapters } from '@/lib/data/Chapters.ts';
+import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
 
 export const ChapterSelectionFABActionItems = ({
     selectedChapters,
-    onAction,
     handleClose,
 }: {
     selectedChapters: IChapterWithMeta[];
-    onAction: (action: SelectionAction, chapters: IChapterWithMeta[]) => void;
     handleClose: () => void;
 }) => {
     const { t } = useTranslation();
 
-    const handleAction = (action: SelectionAction, chapters: IChapterWithMeta[]) => {
-        onAction(action, chapters);
+    const {
+        settings: { deleteChaptersManuallyMarkedRead },
+    } = useMetadataServerSettings();
+
+    const handleAction = (action: ChapterAction, chaptersWithMeta: IChapterWithMeta[]) => {
+        const chapters = ChaptersWithMeta.getChapters(chaptersWithMeta);
+        Chapters.performAction(action, Chapters.getIds(chapters), {
+            autoDeleteChapters: deleteChaptersManuallyMarkedRead,
+            chapters,
+        }).catch(() => {});
         handleClose();
     };
 
@@ -39,44 +46,42 @@ export const ChapterSelectionFABActionItems = ({
             <SelectionFABActionItem
                 action="download"
                 Icon={Download}
-                matchingItems={selectedChapters.filter(
-                    ({ chapter: c, downloadChapter: dc }) => !c.isDownloaded && dc === undefined,
-                )}
+                matchingItems={ChaptersWithMeta.getDownloadable(selectedChapters)}
                 onClick={handleAction}
                 title={t('chapter.action.download.add.button.selected')}
             />
             <SelectionFABActionItem
                 action="delete"
                 Icon={Delete}
-                matchingItems={selectedChapters.filter(({ chapter }) => chapter.isDownloaded)}
+                matchingItems={ChaptersWithMeta.getDownloaded(selectedChapters)}
                 onClick={handleAction}
                 title={t('chapter.action.download.delete.button.selected')}
             />
             <SelectionFABActionItem
                 action="bookmark"
                 Icon={BookmarkAdd}
-                matchingItems={selectedChapters.filter(({ chapter }) => !chapter.isBookmarked)}
+                matchingItems={ChaptersWithMeta.getNonBookmarked(selectedChapters)}
                 onClick={handleAction}
                 title={t('chapter.action.bookmark.add.button.selected')}
             />
             <SelectionFABActionItem
                 action="unbookmark"
                 Icon={BookmarkRemove}
-                matchingItems={selectedChapters.filter(({ chapter }) => chapter.isBookmarked)}
+                matchingItems={ChaptersWithMeta.getBookmarked(selectedChapters)}
                 onClick={handleAction}
                 title={t('chapter.action.bookmark.remove.button.selected')}
             />
             <SelectionFABActionItem
                 action="mark_as_read"
                 Icon={Done}
-                matchingItems={selectedChapters.filter(({ chapter }) => !chapter.isRead)}
+                matchingItems={ChaptersWithMeta.getNonRead(selectedChapters)}
                 onClick={handleAction}
                 title={t('chapter.action.mark_as_read.add.button.selected')}
             />
             <SelectionFABActionItem
                 action="mark_as_unread"
                 Icon={RemoveDone}
-                matchingItems={selectedChapters.filter(({ chapter }) => chapter.isRead)}
+                matchingItems={ChaptersWithMeta.getRead(selectedChapters)}
                 onClick={handleAction}
                 title={t('chapter.action.mark_as_read.remove.button.selected')}
             />

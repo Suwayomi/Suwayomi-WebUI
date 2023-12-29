@@ -27,12 +27,12 @@ import Typography from '@mui/material/Typography';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { getUploadDateString } from '@/util/date';
 import { DownloadStateIndicator } from '@/components/molecules/DownloadStateIndicator';
-import { DownloadType, UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
+import { DownloadType } from '@/lib/graphql/generated/graphql.ts';
 import { TChapter } from '@/typings.ts';
 import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
+import { ChapterAction, Chapters } from '@/lib/data/Chapters.ts';
 
 interface IProps {
     chapter: TChapter;
@@ -50,7 +50,9 @@ export const ChapterCard: React.FC<IProps> = (props: IProps) => {
     const { chapter, allChapters, downloadChapter: dc, showChapterNumber, onSelect, selected } = props;
     const isSelecting = selected !== null;
 
-    const { settings: metadataServerSettings } = useMetadataServerSettings();
+    const {
+        settings: { deleteChaptersManuallyMarkedRead },
+    } = useMetadataServerSettings();
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -66,53 +68,29 @@ export const ChapterCard: React.FC<IProps> = (props: IProps) => {
         setAnchorEl(null);
     };
 
-    type UpdatePatchInput = UpdateChapterPatchInput & { markPrevRead?: boolean };
-    const sendChange = <Key extends keyof UpdatePatchInput>(key: Key, value: UpdatePatchInput[Key]) => {
-        handleClose();
+    const performAction = (action: ChapterAction | 'mark_prev_as_read') => {
+        const isMarkPrevAsRead = action === 'mark_prev_as_read';
+        const actualAction: ChapterAction = isMarkPrevAsRead ? 'mark_as_read' : action;
 
-        const shouldDeleteChapter = ({ isBookmarked, isDownloaded }: TChapter) =>
-            isDownloaded && (!isBookmarked || metadataServerSettings.deleteChaptersWithBookmark);
+        const getChapters = (): TChapter[] => {
+            if (!isMarkPrevAsRead) {
+                return [chapter];
+            }
 
-        const isMarkAsRead = (key === 'isRead' && value) || key === 'markPrevRead';
-        const shouldAutoDeleteChapters = isMarkAsRead && metadataServerSettings.deleteChaptersManuallyMarkedRead;
-
-        const chaptersToDelete = key === 'isRead' ? [chapter] : allChapters;
-        const chapterIdsToDelete = shouldAutoDeleteChapters
-            ? chaptersToDelete.filter(shouldDeleteChapter).map(({ id: chapterId }) => chapterId)
-            : [];
-
-        if (key === 'markPrevRead') {
             const index = allChapters.findIndex(({ id: chapterId }) => chapterId === chapter.id);
 
             const isFirstChapter = index + 1 > allChapters.length - 1;
             if (isFirstChapter) {
-                return;
+                return [];
             }
 
-            requestManager.updateChapters(
-                allChapters
-                    .slice(index + 1)
-                    .filter(({ isRead }) => !isRead)
-                    .map(({ id: chapterId }) => chapterId),
-                { isRead: true, chapterIdsToDelete },
-            );
-            return;
-        }
+            return allChapters.slice(index + 1);
+        };
 
-        requestManager.updateChapter(chapter.id, {
-            [key]: value,
-            lastPageRead: key === 'isRead' ? 0 : undefined,
-            chapterIdToDelete: chapterIdsToDelete[0],
+        Chapters.performAction(actualAction, [chapter.id], {
+            chapters: getChapters(),
+            autoDeleteChapters: deleteChaptersManuallyMarkedRead,
         });
-    };
-
-    const downloadChapter = () => {
-        requestManager.addChapterToDownloadQueue(chapter.id);
-        handleClose();
-    };
-
-    const deleteChapter = () => {
-        requestManager.deleteDownloadedChapter(chapter.id);
         handleClose();
     };
 
@@ -197,7 +175,7 @@ export const ChapterCard: React.FC<IProps> = (props: IProps) => {
                         <ListItemText>{t('chapter.action.label.select')}</ListItemText>
                     </MenuItem>
                     {isDownloaded && (
-                        <MenuItem onClick={deleteChapter}>
+                        <MenuItem onClick={() => performAction('delete')}>
                             <ListItemIcon>
                                 <Delete fontSize="small" />
                             </ListItemIcon>
@@ -205,14 +183,14 @@ export const ChapterCard: React.FC<IProps> = (props: IProps) => {
                         </MenuItem>
                     )}
                     {canBeDownloaded && (
-                        <MenuItem onClick={downloadChapter}>
+                        <MenuItem onClick={() => performAction('download')}>
                             <ListItemIcon>
                                 <Download fontSize="small" />
                             </ListItemIcon>
                             <ListItemText>{t('chapter.action.download.add.label.action')}</ListItemText>
                         </MenuItem>
                     )}
-                    <MenuItem onClick={() => sendChange('isBookmarked', !chapter.isBookmarked)}>
+                    <MenuItem onClick={() => performAction(chapter.isBookmarked ? 'unbookmark' : 'bookmark')}>
                         <ListItemIcon>
                             {chapter.isBookmarked && <BookmarkRemove fontSize="small" />}
                             {!chapter.isBookmarked && <BookmarkAdd fontSize="small" />}
@@ -222,7 +200,7 @@ export const ChapterCard: React.FC<IProps> = (props: IProps) => {
                             {!chapter.isBookmarked && t('chapter.action.bookmark.add.label.action')}
                         </ListItemText>
                     </MenuItem>
-                    <MenuItem onClick={() => sendChange('isRead', !chapter.isRead)}>
+                    <MenuItem onClick={() => performAction(chapter.isRead ? 'mark_as_unread' : 'mark_as_read')}>
                         <ListItemIcon>
                             {chapter.isRead && <RemoveDone fontSize="small" />}
                             {!chapter.isRead && <Done fontSize="small" />}
@@ -232,7 +210,7 @@ export const ChapterCard: React.FC<IProps> = (props: IProps) => {
                             {!chapter.isRead && t('chapter.action.mark_as_read.add.label.action.current')}
                         </ListItemText>
                     </MenuItem>
-                    <MenuItem onClick={() => sendChange('markPrevRead', true)}>
+                    <MenuItem onClick={() => performAction('mark_prev_as_read')}>
                         <ListItemIcon>
                             <DoneAll fontSize="small" />
                         </ListItemIcon>
