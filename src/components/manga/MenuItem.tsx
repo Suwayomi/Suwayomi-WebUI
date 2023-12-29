@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ListItemIcon, ListItemText, MenuItem } from '@mui/material';
+import { ListItemIcon, ListItemText, MenuItem as MuiMenuItem } from '@mui/material';
 import { OverridableComponent } from '@mui/material/OverridableComponent';
 import { SvgIconTypeMap } from '@mui/material/SvgIcon/SvgIcon';
 
@@ -18,7 +18,7 @@ interface IProps<Action, Item> {
     onClick: (action: Action, items: Item[]) => void;
 }
 
-export const SelectionFABActionItem = <Action extends string, Item>({
+export const MenuItem = <Action extends string, Item>({
     action,
     matchingItems,
     onClick,
@@ -27,7 +27,7 @@ export const SelectionFABActionItem = <Action extends string, Item>({
 }: IProps<Action, Item>) => {
     const count = matchingItems.length;
     return (
-        <MenuItem onClick={() => onClick(action, matchingItems)} disabled={count === 0}>
+        <MuiMenuItem onClick={() => onClick(action, matchingItems)} disabled={count === 0}>
             <ListItemIcon>
                 <Icon fontSize="small" />
             </ListItemIcon>
@@ -35,6 +35,6 @@ export const SelectionFABActionItem = <Action extends string, Item>({
                 {title}
                 {count > 0 ? ` (${count})` : ''}
             </ListItemText>
-        </MenuItem>
+        </MuiMenuItem>
     );
 };

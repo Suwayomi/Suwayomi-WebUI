@@ -13,7 +13,7 @@ import BookmarkRemove from '@mui/icons-material/BookmarkRemove';
 import Done from '@mui/icons-material/Done';
 import RemoveDone from '@mui/icons-material/RemoveDone';
 import { useTranslation } from 'react-i18next';
-import { SelectionFABActionItem } from '@/components/manga/SelectionFABActionItem.tsx';
+import { MenuItem } from '@/components/manga/MenuItem.tsx';
 import { IChapterWithMeta } from '@/components/manga/ChapterList.tsx';
 import { ChaptersWithMeta } from '@/lib/data/ChaptersWithMeta.ts';
 import { ChapterAction, Chapters } from '@/lib/data/Chapters.ts';
@@ -43,42 +43,42 @@ export const ChapterSelectionFABActionItems = ({
 
     return (
         <>
-            <SelectionFABActionItem
+            <MenuItem
                 action="download"
                 Icon={Download}
                 matchingItems={ChaptersWithMeta.getDownloadable(selectedChapters)}
                 onClick={handleAction}
                 title={t('chapter.action.download.add.button.selected')}
             />
-            <SelectionFABActionItem
+            <MenuItem
                 action="delete"
                 Icon={Delete}
                 matchingItems={ChaptersWithMeta.getDownloaded(selectedChapters)}
                 onClick={handleAction}
                 title={t('chapter.action.download.delete.button.selected')}
             />
-            <SelectionFABActionItem
+            <MenuItem
                 action="bookmark"
                 Icon={BookmarkAdd}
                 matchingItems={ChaptersWithMeta.getNonBookmarked(selectedChapters)}
                 onClick={handleAction}
                 title={t('chapter.action.bookmark.add.button.selected')}
             />
-            <SelectionFABActionItem
+            <MenuItem
                 action="unbookmark"
                 Icon={BookmarkRemove}
                 matchingItems={ChaptersWithMeta.getBookmarked(selectedChapters)}
                 onClick={handleAction}
                 title={t('chapter.action.bookmark.remove.button.selected')}
             />
-            <SelectionFABActionItem
+            <MenuItem
                 action="mark_as_read"
                 Icon={Done}
                 matchingItems={ChaptersWithMeta.getNonRead(selectedChapters)}
                 onClick={handleAction}
                 title={t('chapter.action.mark_as_read.add.button.selected')}
             />
-            <SelectionFABActionItem
+            <MenuItem
                 action="mark_as_unread"
                 Icon={RemoveDone}
                 matchingItems={ChaptersWithMeta.getRead(selectedChapters)}

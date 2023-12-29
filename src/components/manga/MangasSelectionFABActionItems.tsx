@@ -14,7 +14,7 @@ import { useTranslation } from 'react-i18next';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Label from '@mui/icons-material/Label';
 import { useState } from 'react';
-import { SelectionFABActionItem } from '@/components/manga/SelectionFABActionItem.tsx';
+import { MenuItem } from '@/components/manga/MenuItem.tsx';
 import { TManga } from '@/typings.ts';
 import { MangaAction, Mangas } from '@/lib/data/Mangas.ts';
 import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
@@ -42,7 +42,7 @@ export const MangasSelectionFABActionItems = ({
 
     return (
         <>
-            <SelectionFABActionItem<MangaAction, TManga>
+            <MenuItem<MangaAction, TManga>
                 action="download"
                 Icon={Download}
                 matchingItems={[
@@ -52,7 +52,7 @@ export const MangasSelectionFABActionItems = ({
                 onClick={handleAction}
                 title={t('chapter.action.download.add.button.selected')}
             />
-            <SelectionFABActionItem<MangaAction, TManga>
+            <MenuItem<MangaAction, TManga>
                 action="delete"
                 Icon={Delete}
                 matchingItems={[
@@ -62,28 +62,28 @@ export const MangasSelectionFABActionItems = ({
                 onClick={handleAction}
                 title={t('chapter.action.download.delete.button.selected')}
             />
-            <SelectionFABActionItem<MangaAction, TManga>
+            <MenuItem<MangaAction, TManga>
                 action="mark_as_read"
                 Icon={Done}
                 matchingItems={[...Mangas.getUnread(selectedMangas), ...Mangas.getPartiallyRead(selectedMangas)]}
                 onClick={handleAction}
                 title={t('chapter.action.mark_as_read.add.button.selected')}
             />
-            <SelectionFABActionItem<MangaAction, TManga>
+            <MenuItem<MangaAction, TManga>
                 action="mark_as_unread"
                 Icon={RemoveDone}
                 matchingItems={[...Mangas.getPartiallyRead(selectedMangas), ...Mangas.getFullyRead(selectedMangas)]}
                 onClick={handleAction}
                 title={t('chapter.action.mark_as_read.remove.button.selected')}
             />
-            <SelectionFABActionItem<MangaAction, TManga>
+            <MenuItem<MangaAction, TManga>
                 action="change_categories"
                 Icon={Label}
                 matchingItems={selectedMangas}
                 onClick={() => setIsCategorySelectOpen(true)}
                 title={t('manga.action.category.label.action')}
             />
-            <SelectionFABActionItem<MangaAction, TManga>
+            <MenuItem<MangaAction, TManga>
                 action="remove_from_library"
                 Icon={FavoriteBorderIcon}
                 matchingItems={[...Mangas.getPartiallyRead(selectedMangas), ...Mangas.getFullyRead(selectedMangas)]}
