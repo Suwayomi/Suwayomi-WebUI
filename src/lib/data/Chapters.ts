@@ -46,10 +46,10 @@ const actionToTranslationKey: {
     },
 };
 
-type ChapterIdInfo = Pick<TChapter, 'id'>;
-type ChapterDownloadInfo = ChapterIdInfo & Pick<TChapter, 'isDownloaded'>;
-type ChapterBookmarkInfo = ChapterIdInfo & Pick<TChapter, 'isBookmarked'>;
-type ChapterReadInfo = ChapterIdInfo & Pick<TChapter, 'isRead'>;
+export type ChapterIdInfo = Pick<TChapter, 'id'>;
+export type ChapterDownloadInfo = ChapterIdInfo & Pick<TChapter, 'isDownloaded'>;
+export type ChapterBookmarkInfo = ChapterIdInfo & Pick<TChapter, 'isBookmarked'>;
+export type ChapterReadInfo = ChapterIdInfo & Pick<TChapter, 'isRead'>;
 
 export class Chapters {
     static getIds(chapters: { id: number }[]): number[] {
