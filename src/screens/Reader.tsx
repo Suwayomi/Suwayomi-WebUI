@@ -27,7 +27,7 @@ import { VerticalPager } from '@/components/reader/pager/VerticalPager';
 import { ReaderNavBar } from '@/components/navbar/ReaderNavBar';
 import { makeToast } from '@/components/util/Toast';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
-import { useDebounce } from '@/components/manga/hooks.ts';
+import { useDebounce } from '@/util/useDebounce.ts';
 import { UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
 import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
 
