@@ -117,7 +117,7 @@ export function Library() {
                         fragmentName: 'PARTIAL_MANGA_FIELDS',
                     })!,
             ),
-        [selectedItemIds.length],
+        [selectedItemIds.length, mangas],
     );
 
     const { setTitle, setAction } = useContext(NavBarContext);
