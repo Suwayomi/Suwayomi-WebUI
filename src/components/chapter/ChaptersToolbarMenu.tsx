@@ -10,9 +10,9 @@ import FilterList from '@mui/icons-material/FilterList';
 import { IconButton, Tooltip } from '@mui/material';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { ChapterListOptions, ChapterOptionsReducerAction } from '@/typings';
-import { ChapterOptions } from '@/components/manga/ChapterOptions';
-import { isFilterActive } from '@/components/manga/util';
+import { ChapterListOptions, ChapterOptionsReducerAction } from '@/typings.ts';
+import { ChapterOptions } from '@/components/chapter/ChapterOptions.tsx';
+import { isFilterActive } from '@/components/chapter/util.tsx';
 
 interface IProps {
     options: ChapterListOptions;

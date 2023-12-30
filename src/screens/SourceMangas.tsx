@@ -23,7 +23,7 @@ import {
     AbortableApolloUseMutationPaginatedResponse,
     SPECIAL_ED_SOURCES,
 } from '@/lib/requests/RequestManager.ts';
-import { useDebounce } from '@/components/manga/hooks';
+import { useDebounce } from '@/util/useDebounce.ts';
 import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
 import { SourceGridLayout } from '@/components/source/GridLayouts';
 import { AppbarSearch } from '@/components/util/AppbarSearch';

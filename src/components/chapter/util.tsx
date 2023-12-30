@@ -14,8 +14,8 @@ import {
     NullAndUndefined,
     TChapter,
     TranslationKey,
-} from '@/typings';
-import { useReducerLocalStorage } from '@/util/useLocalStorage';
+} from '@/typings.ts';
+import { useReducerLocalStorage } from '@/util/useLocalStorage.tsx';
 
 const defaultChapterOptions: ChapterListOptions = {
     active: false,

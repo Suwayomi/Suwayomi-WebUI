@@ -15,33 +15,14 @@ import { useTranslation } from 'react-i18next';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Label from '@mui/icons-material/Label';
 import { useMemo, useState } from 'react';
-import { t as translate } from 'i18next';
 import { TManga } from '@/typings.ts';
 import { actionToTranslationKey, MangaAction, MangaDownloadInfo, Mangas, MangaUnreadInfo } from '@/lib/data/Mangas.ts';
 import { SelectableCollectionReturnType } from '@/components/collection/useSelectableCollection.ts';
 import { CategorySelect } from '@/components/navbar/action/CategorySelect.tsx';
-import { MenuItem } from '@/components/manga/MenuItem.tsx';
+import { MenuItem } from '@/components/menu/MenuItem.tsx';
+import { createGetMenuItemTitle, createIsMenuItemDisabled, createShouldShowMenuItem } from '@/components/menu/util.ts';
 
 const ACTION_DISABLES_SELECTION_MODE: MangaAction[] = ['remove_from_library'] as const;
-
-const createGetMenuItemTitle =
-    (isSingleMode: boolean) =>
-    (action: MangaAction, count: number): string => {
-        const countSuffix = count > 0 ? ` (${count})` : '';
-        return `${translate(
-            actionToTranslationKey[action].action[isSingleMode ? 'single' : 'selected'],
-        )}${countSuffix}`;
-    };
-
-const createShouldShowMenuItem =
-    (isSingleMode: boolean) =>
-    (shouldBeVisible: boolean = false): boolean =>
-        isSingleMode ? shouldBeVisible : true;
-
-const createIsMenuItemDisabled =
-    (isSingleMode: boolean) =>
-    (shouldBeDisabled: boolean): boolean =>
-        isSingleMode ? false : shouldBeDisabled;
 
 type BaseProps = { onClose: (selectionModeState: boolean) => void; setHideMenu: (hide: boolean) => void };
 
@@ -65,7 +46,7 @@ export const MangaActionMenuItems = ({ manga, handleSelection, selectedMangas = 
 
     const isSingleMode = !!manga;
 
-    const getMenuItemTitle = createGetMenuItemTitle(isSingleMode);
+    const getMenuItemTitle = createGetMenuItemTitle(isSingleMode, actionToTranslationKey);
     const shouldShowMenuItem = createShouldShowMenuItem(isSingleMode);
     const isMenuItemDisabled = createIsMenuItemDisabled(isSingleMode);
 

@@ -21,7 +21,7 @@ import { ContinueReadingButton } from '@/components/manga/ContinueReadingButton.
 import { SelectableCollectionReturnType } from '@/components/collection/useSelectableCollection.ts';
 import { MangaOptionButton } from '@/components/manga/MangaOptionButton.tsx';
 import { MangaActionMenuItems, SingleModeProps } from '@/components/manga/MangaActionMenuItems.tsx';
-import { Menu } from '@/components/manga/Menu.tsx';
+import { Menu } from '@/components/menu/Menu.tsx';
 
 const BottomGradient = styled('div')({
     position: 'absolute',

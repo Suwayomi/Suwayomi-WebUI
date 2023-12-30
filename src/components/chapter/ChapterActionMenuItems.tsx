@@ -15,7 +15,6 @@ import { useTranslation } from 'react-i18next';
 import BookmarkRemove from '@mui/icons-material/BookmarkRemove';
 import BookmarkAdd from '@mui/icons-material/BookmarkAdd';
 import DoneAll from '@mui/icons-material/DoneAll';
-import { t as translate } from 'i18next';
 import { useMemo } from 'react';
 import { SelectableCollectionReturnType } from '@/components/collection/useSelectableCollection.ts';
 import {
@@ -27,28 +26,10 @@ import {
     Chapters,
 } from '@/lib/data/Chapters.ts';
 import { TChapter } from '@/typings.ts';
-import { MenuItem } from '@/components/manga/MenuItem.tsx';
-import { IChapterWithMeta } from '@/components/manga/ChapterList.tsx';
+import { MenuItem } from '@/components/menu/MenuItem.tsx';
+import { IChapterWithMeta } from '@/components/chapter/ChapterList.tsx';
 import { ChaptersWithMeta } from '@/lib/data/ChaptersWithMeta.ts';
-
-const createGetMenuItemTitle =
-    (isSingleMode: boolean) =>
-    (action: ChapterAction, count: number): string => {
-        const countSuffix = count > 0 ? ` (${count})` : '';
-        return `${translate(
-            actionToTranslationKey[action].action[isSingleMode ? 'single' : 'selected'],
-        )}${countSuffix}`;
-    };
-
-const createShouldShowMenuItem =
-    (isSingleMode: boolean) =>
-    (shouldBeVisible: boolean = false): boolean =>
-        isSingleMode ? shouldBeVisible : true;
-
-const createIsMenuItemDisabled =
-    (isSingleMode: boolean) =>
-    (shouldBeDisabled: boolean): boolean =>
-        isSingleMode ? false : shouldBeDisabled;
+import { createGetMenuItemTitle, createIsMenuItemDisabled, createShouldShowMenuItem } from '@/components/menu/util.ts';
 
 type BaseProps = { onClose: () => void };
 
@@ -80,7 +61,7 @@ export const ChapterActionMenuItems = ({
     const isSingleMode = !!chapter;
     const { isDownloaded, isRead, isBookmarked } = chapter ?? {};
 
-    const getMenuItemTitle = createGetMenuItemTitle(isSingleMode);
+    const getMenuItemTitle = createGetMenuItemTitle(isSingleMode, actionToTranslationKey);
     const shouldShowMenuItem = createShouldShowMenuItem(isSingleMode);
     const isMenuItemDisabled = createIsMenuItemDisabled(isSingleMode);
 

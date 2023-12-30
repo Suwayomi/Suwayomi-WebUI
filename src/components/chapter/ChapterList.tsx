@@ -14,21 +14,21 @@ import { useTranslation } from 'react-i18next';
 import IconButton from '@mui/material/IconButton';
 import DownloadIcon from '@mui/icons-material/Download';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
-import { TChapter, TManga } from '@/typings';
+import { TChapter, TManga } from '@/typings.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { ChapterCard } from '@/components/manga/ChapterCard';
-import { ResumeFab } from '@/components/manga/ResumeFAB';
-import { filterAndSortChapters, useChapterOptions } from '@/components/manga/util';
-import { EmptyView } from '@/components/util/EmptyView';
-import { ChaptersToolbarMenu } from '@/components/manga/ChaptersToolbarMenu';
-import { SelectionFAB } from '@/components/manga/SelectionFAB';
-import { DEFAULT_FULL_FAB_HEIGHT } from '@/components/util/StyledFab';
+import { ChapterCard } from '@/components/chapter/ChapterCard.tsx';
+import { ResumeFab } from '@/components/manga/ResumeFAB.tsx';
+import { filterAndSortChapters, useChapterOptions } from '@/components/chapter/util.tsx';
+import { EmptyView } from '@/components/util/EmptyView.tsx';
+import { ChaptersToolbarMenu } from '@/components/chapter/ChaptersToolbarMenu.tsx';
+import { SelectionFAB } from '@/components/collection/SelectionFAB.tsx';
+import { DEFAULT_FULL_FAB_HEIGHT } from '@/components/util/StyledFab.tsx';
 import { DownloadType } from '@/lib/graphql/generated/graphql.ts';
 import { useSelectableCollection } from '@/components/collection/useSelectableCollection.ts';
 import { SelectableCollectionSelectAll } from '@/components/collection/SelectableCollectionSelectAll.tsx';
 import { Chapters } from '@/lib/data/Chapters.ts';
 import { ChaptersWithMeta } from '@/lib/data/ChaptersWithMeta.ts';
-import { ChapterActionMenuItems } from '@/components/manga/ChapterActionMenuItems.tsx';
+import { ChapterActionMenuItems } from '@/components/chapter/ChapterActionMenuItems.tsx';
 
 const ChapterListHeader = styled(Stack)(({ theme }) => ({
     margin: 8,

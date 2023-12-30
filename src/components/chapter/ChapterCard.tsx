@@ -18,12 +18,12 @@ import React, { TouchEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
-import { getUploadDateString } from '@/util/date';
-import { DownloadStateIndicator } from '@/components/molecules/DownloadStateIndicator';
+import { getUploadDateString } from '@/util/date.ts';
+import { DownloadStateIndicator } from '@/components/molecules/DownloadStateIndicator.tsx';
 import { DownloadType } from '@/lib/graphql/generated/graphql.ts';
 import { TChapter } from '@/typings.ts';
-import { ChapterActionMenuItems } from '@/components/manga/ChapterActionMenuItems.tsx';
-import { Menu } from '@/components/manga/Menu.tsx';
+import { ChapterActionMenuItems } from '@/components/chapter/ChapterActionMenuItems.tsx';
+import { Menu } from '@/components/menu/Menu.tsx';
 
 interface IProps {
     chapter: TChapter;
