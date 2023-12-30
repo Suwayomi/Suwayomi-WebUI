@@ -14,33 +14,54 @@ import { getMetadataServerSettings } from '@/util/metadataServerSettings.ts';
 
 export type ChapterAction = 'download' | 'delete' | 'bookmark' | 'unbookmark' | 'mark_as_read' | 'mark_as_unread';
 
-const actionToTranslationKey: {
+export const actionToTranslationKey: {
     [key in ChapterAction]: {
+        action: {
+            selected: TranslationKey;
+        };
         success: TranslationKey;
         error: TranslationKey;
     };
 } = {
     download: {
+        action: {
+            selected: 'chapter.action.download.add.button.selected',
+        },
         success: 'chapter.action.download.add.label.success',
         error: 'chapter.action.download.add.label.error',
     },
     delete: {
+        action: {
+            selected: 'chapter.action.download.delete.button.selected',
+        },
         success: 'chapter.action.download.delete.label.success',
         error: 'chapter.action.download.delete.label.error',
     },
     bookmark: {
+        action: {
+            selected: 'chapter.action.bookmark.add.button.selected',
+        },
         success: 'chapter.action.bookmark.add.label.success',
         error: 'chapter.action.bookmark.add.label.error',
     },
     unbookmark: {
+        action: {
+            selected: 'chapter.action.bookmark.remove.button.selected',
+        },
         success: 'chapter.action.bookmark.remove.label.success',
         error: 'chapter.action.bookmark.remove.label.error',
     },
     mark_as_read: {
+        action: {
+            selected: 'chapter.action.mark_as_read.add.button.selected',
+        },
         success: 'chapter.action.mark_as_read.add.label.success',
         error: 'chapter.action.mark_as_read.add.label.error',
     },
     mark_as_unread: {
+        action: {
+            selected: 'chapter.action.mark_as_read.remove.button.selected',
+        },
         success: 'chapter.action.mark_as_read.remove.label.success',
         error: 'chapter.action.mark_as_read.remove.label.error',
     },

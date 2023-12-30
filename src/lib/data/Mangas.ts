@@ -25,33 +25,54 @@ export type MangaAction =
     | 'remove_from_library'
     | 'change_categories';
 
-const actionToTranslationKey: {
+export const actionToTranslationKey: {
     [key in MangaAction]: {
+        action: {
+            selected: TranslationKey;
+        };
         success: TranslationKey;
         error: TranslationKey;
     };
 } = {
     download: {
+        action: {
+            selected: 'chapter.action.download.add.button.selected',
+        },
         success: 'chapter.action.download.add.label.success',
         error: 'chapter.action.download.add.label.error',
     },
     delete: {
+        action: {
+            selected: 'chapter.action.download.delete.button.selected',
+        },
         success: 'chapter.action.download.delete.label.success',
         error: 'chapter.action.download.delete.label.error',
     },
     mark_as_read: {
+        action: {
+            selected: 'chapter.action.mark_as_read.add.button.selected',
+        },
         success: 'chapter.action.mark_as_read.add.label.success',
         error: 'chapter.action.mark_as_read.add.label.error',
     },
     mark_as_unread: {
+        action: {
+            selected: 'chapter.action.mark_as_read.remove.button.selected',
+        },
         success: 'chapter.action.mark_as_read.remove.label.success',
         error: 'chapter.action.mark_as_read.remove.label.error',
     },
     remove_from_library: {
+        action: {
+            selected: 'manga.action.library.remove.button.selected',
+        },
         success: 'manga.action.library.remove.label.success',
         error: 'manga.action.library.remove.label.error',
     },
     change_categories: {
+        action: {
+            selected: 'manga.action.category.button.selected',
+        },
         success: 'manga.action.category.label.success',
         error: 'manga.action.category.label.error',
     },

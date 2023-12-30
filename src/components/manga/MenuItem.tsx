@@ -10,31 +10,18 @@ import { ListItemIcon, ListItemText, MenuItem as MuiMenuItem } from '@mui/materi
 import { OverridableComponent } from '@mui/material/OverridableComponent';
 import { SvgIconTypeMap } from '@mui/material/SvgIcon/SvgIcon';
 
-interface IProps<Action, Item> {
-    action: Action;
-    matchingItems: Item[];
+interface IProps {
     title: string;
     Icon: OverridableComponent<SvgIconTypeMap> & { muiName: string };
-    onClick: (action: Action, items: Item[]) => void;
+    onClick: () => void;
+    isDisabled?: boolean;
 }
 
-export const MenuItem = <Action extends string, Item>({
-    action,
-    matchingItems,
-    onClick,
-    title,
-    Icon,
-}: IProps<Action, Item>) => {
-    const count = matchingItems.length;
-    return (
-        <MuiMenuItem onClick={() => onClick(action, matchingItems)} disabled={count === 0}>
-            <ListItemIcon>
-                <Icon fontSize="small" />
-            </ListItemIcon>
-            <ListItemText>
-                {title}
-                {count > 0 ? ` (${count})` : ''}
-            </ListItemText>
-        </MuiMenuItem>
-    );
-};
+export const MenuItem = ({ onClick, title, Icon, isDisabled }: IProps) => (
+    <MuiMenuItem onClick={onClick} disabled={isDisabled}>
+        <ListItemIcon>
+            <Icon fontSize="small" />
+        </ListItemIcon>
+        <ListItemText>{title}</ListItemText>
+    </MuiMenuItem>
+);

@@ -12,12 +12,18 @@ import BookmarkAdd from '@mui/icons-material/BookmarkAdd';
 import BookmarkRemove from '@mui/icons-material/BookmarkRemove';
 import Done from '@mui/icons-material/Done';
 import RemoveDone from '@mui/icons-material/RemoveDone';
-import { useTranslation } from 'react-i18next';
+import { useMemo } from 'react';
+import { t as translate } from 'i18next';
 import { MenuItem } from '@/components/manga/MenuItem.tsx';
 import { IChapterWithMeta } from '@/components/manga/ChapterList.tsx';
 import { ChaptersWithMeta } from '@/lib/data/ChaptersWithMeta.ts';
-import { ChapterAction, Chapters } from '@/lib/data/Chapters.ts';
+import { actionToTranslationKey, ChapterAction, Chapters } from '@/lib/data/Chapters.ts';
 import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
+
+const getMenuItemTitle = (action: ChapterAction, count: number): string => {
+    const countSuffix = count > 0 ? ` (${count})` : '';
+    return `${translate(actionToTranslationKey[action].action.selected)}${countSuffix}`;
+};
 
 export const ChapterSelectionFABActionItems = ({
     selectedChapters,
@@ -26,8 +32,6 @@ export const ChapterSelectionFABActionItems = ({
     selectedChapters: IChapterWithMeta[];
     handleClose: () => void;
 }) => {
-    const { t } = useTranslation();
-
     const {
         settings: { deleteChaptersManuallyMarkedRead },
     } = useMetadataServerSettings();
@@ -41,49 +45,62 @@ export const ChapterSelectionFABActionItems = ({
         handleClose();
     };
 
+    const {
+        downloadableChapters,
+        downloadedChapters,
+        unbookmarkedChapters,
+        bookmarkedChapters,
+        unreadChapters,
+        readChapters,
+    } = useMemo(
+        () => ({
+            downloadableChapters: ChaptersWithMeta.getDownloadable(selectedChapters),
+            downloadedChapters: ChaptersWithMeta.getDownloaded(selectedChapters),
+            unbookmarkedChapters: ChaptersWithMeta.getNonBookmarked(selectedChapters),
+            bookmarkedChapters: ChaptersWithMeta.getBookmarked(selectedChapters),
+            unreadChapters: ChaptersWithMeta.getNonRead(selectedChapters),
+            readChapters: ChaptersWithMeta.getRead(selectedChapters),
+        }),
+        [selectedChapters],
+    );
+
     return (
         <>
             <MenuItem
-                action="download"
                 Icon={Download}
-                matchingItems={ChaptersWithMeta.getDownloadable(selectedChapters)}
-                onClick={handleAction}
-                title={t('chapter.action.download.add.button.selected')}
+                isDisabled={!downloadableChapters.length}
+                onClick={() => handleAction('download', downloadableChapters)}
+                title={getMenuItemTitle('download', downloadableChapters.length)}
             />
             <MenuItem
-                action="delete"
                 Icon={Delete}
-                matchingItems={ChaptersWithMeta.getDownloaded(selectedChapters)}
-                onClick={handleAction}
-                title={t('chapter.action.download.delete.button.selected')}
+                isDisabled={!downloadedChapters.length}
+                onClick={() => handleAction('delete', downloadedChapters)}
+                title={getMenuItemTitle('delete', downloadedChapters.length)}
             />
             <MenuItem
-                action="bookmark"
                 Icon={BookmarkAdd}
-                matchingItems={ChaptersWithMeta.getNonBookmarked(selectedChapters)}
-                onClick={handleAction}
-                title={t('chapter.action.bookmark.add.button.selected')}
+                isDisabled={!unbookmarkedChapters.length}
+                onClick={() => handleAction('bookmark', unbookmarkedChapters)}
+                title={getMenuItemTitle('bookmark', unbookmarkedChapters.length)}
             />
             <MenuItem
-                action="unbookmark"
                 Icon={BookmarkRemove}
-                matchingItems={ChaptersWithMeta.getBookmarked(selectedChapters)}
-                onClick={handleAction}
-                title={t('chapter.action.bookmark.remove.button.selected')}
+                isDisabled={!bookmarkedChapters.length}
+                onClick={() => handleAction('unbookmark', bookmarkedChapters)}
+                title={getMenuItemTitle('unbookmark', bookmarkedChapters.length)}
             />
             <MenuItem
-                action="mark_as_read"
                 Icon={Done}
-                matchingItems={ChaptersWithMeta.getNonRead(selectedChapters)}
-                onClick={handleAction}
-                title={t('chapter.action.mark_as_read.add.button.selected')}
+                isDisabled={!unreadChapters.length}
+                onClick={() => handleAction('mark_as_read', unreadChapters)}
+                title={getMenuItemTitle('mark_as_read', unreadChapters.length)}
             />
             <MenuItem
-                action="mark_as_unread"
                 Icon={RemoveDone}
-                matchingItems={ChaptersWithMeta.getRead(selectedChapters)}
-                onClick={handleAction}
-                title={t('chapter.action.mark_as_read.remove.button.selected')}
+                isDisabled={!readChapters.length}
+                onClick={() => handleAction('mark_as_unread', readChapters)}
+                title={getMenuItemTitle('mark_as_unread', readChapters.length)}
             />
         </>
     );

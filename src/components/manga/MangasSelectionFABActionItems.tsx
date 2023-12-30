@@ -10,17 +10,22 @@ import Download from '@mui/icons-material/Download';
 import Delete from '@mui/icons-material/Delete';
 import Done from '@mui/icons-material/Done';
 import RemoveDone from '@mui/icons-material/RemoveDone';
-import { useTranslation } from 'react-i18next';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Label from '@mui/icons-material/Label';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import { t as translate } from 'i18next';
 import { MenuItem } from '@/components/manga/MenuItem.tsx';
 import { TManga } from '@/typings.ts';
-import { MangaAction, Mangas } from '@/lib/data/Mangas.ts';
+import { actionToTranslationKey, MangaAction, Mangas } from '@/lib/data/Mangas.ts';
 import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
 import { CategorySelect } from '@/components/navbar/action/CategorySelect.tsx';
 
 const ACTION_DISABLES_SELECTION_MODE: MangaAction[] = ['remove_from_library'] as const;
+
+const getMenuItemTitle = (action: MangaAction, count: number): string => {
+    const countSuffix = count > 0 ? ` (${count})` : '';
+    return `${translate(actionToTranslationKey[action].action.selected)}${countSuffix}`;
+};
 
 export const MangasSelectionFABActionItems = ({
     selectedMangas,
@@ -29,7 +34,6 @@ export const MangasSelectionFABActionItems = ({
     selectedMangas: TManga[];
     handleClose: (selectionModeState: boolean) => void;
 }) => {
-    const { t } = useTranslation();
     const { settings } = useMetadataServerSettings();
     const [isCategorySelectOpen, setIsCategorySelectOpen] = useState(false);
 
@@ -40,55 +44,57 @@ export const MangasSelectionFABActionItems = ({
         handleClose(!ACTION_DISABLES_SELECTION_MODE.includes(action));
     };
 
+    const { downloadableMangas, downloadedMangas, unreadMangas, readMangas } = useMemo(
+        () => ({
+            downloadableMangas: [
+                ...Mangas.getNotDownloaded(selectedMangas),
+                ...Mangas.getPartiallyDownloaded(selectedMangas),
+            ],
+            downloadedMangas: [
+                ...Mangas.getPartiallyDownloaded(selectedMangas),
+                ...Mangas.getFullyDownloaded(selectedMangas),
+            ],
+            unreadMangas: [...Mangas.getUnread(selectedMangas), ...Mangas.getPartiallyRead(selectedMangas)],
+            readMangas: [...Mangas.getPartiallyRead(selectedMangas), ...Mangas.getFullyRead(selectedMangas)],
+        }),
+        [selectedMangas],
+    );
+
     return (
         <>
-            <MenuItem<MangaAction, TManga>
-                action="download"
+            <MenuItem
                 Icon={Download}
-                matchingItems={[
-                    ...Mangas.getNotDownloaded(selectedMangas),
-                    ...Mangas.getPartiallyDownloaded(selectedMangas),
-                ]}
-                onClick={handleAction}
-                title={t('chapter.action.download.add.button.selected')}
+                isDisabled={!downloadableMangas.length}
+                onClick={() => handleAction('download', downloadableMangas)}
+                title={getMenuItemTitle('download', downloadableMangas.length)}
             />
-            <MenuItem<MangaAction, TManga>
-                action="delete"
+            <MenuItem
                 Icon={Delete}
-                matchingItems={[
-                    ...Mangas.getPartiallyDownloaded(selectedMangas),
-                    ...Mangas.getFullyDownloaded(selectedMangas),
-                ]}
-                onClick={handleAction}
-                title={t('chapter.action.download.delete.button.selected')}
+                isDisabled={!downloadedMangas.length}
+                onClick={() => handleAction('delete', downloadedMangas)}
+                title={getMenuItemTitle('delete', downloadedMangas.length)}
             />
-            <MenuItem<MangaAction, TManga>
-                action="mark_as_read"
+            <MenuItem
                 Icon={Done}
-                matchingItems={[...Mangas.getUnread(selectedMangas), ...Mangas.getPartiallyRead(selectedMangas)]}
-                onClick={handleAction}
-                title={t('chapter.action.mark_as_read.add.button.selected')}
+                isDisabled={!unreadMangas.length}
+                onClick={() => handleAction('mark_as_read', unreadMangas)}
+                title={getMenuItemTitle('mark_as_read', unreadMangas.length)}
             />
-            <MenuItem<MangaAction, TManga>
-                action="mark_as_unread"
+            <MenuItem
                 Icon={RemoveDone}
-                matchingItems={[...Mangas.getPartiallyRead(selectedMangas), ...Mangas.getFullyRead(selectedMangas)]}
-                onClick={handleAction}
-                title={t('chapter.action.mark_as_read.remove.button.selected')}
+                isDisabled={!readMangas.length}
+                onClick={() => handleAction('mark_as_unread', readMangas)}
+                title={getMenuItemTitle('mark_as_unread', readMangas.length)}
             />
-            <MenuItem<MangaAction, TManga>
-                action="change_categories"
+            <MenuItem
                 Icon={Label}
-                matchingItems={selectedMangas}
-                onClick={() => setIsCategorySelectOpen(true)}
-                title={t('manga.action.category.label.action')}
+                onClick={() => handleAction('change_categories', selectedMangas)}
+                title={getMenuItemTitle('change_categories', selectedMangas.length)}
             />
-            <MenuItem<MangaAction, TManga>
-                action="remove_from_library"
+            <MenuItem
                 Icon={FavoriteBorderIcon}
-                matchingItems={[...Mangas.getPartiallyRead(selectedMangas), ...Mangas.getFullyRead(selectedMangas)]}
-                onClick={handleAction}
-                title={t('manga.action.library.remove.button.selected')}
+                onClick={() => handleAction('remove_from_library', selectedMangas)}
+                title={getMenuItemTitle('remove_from_library', selectedMangas.length)}
             />
             {isCategorySelectOpen && (
                 <CategorySelect
