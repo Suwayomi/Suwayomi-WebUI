@@ -7,8 +7,6 @@
  */
 
 import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import { ListItemIcon, ListItemText } from '@mui/material';
 import CheckBoxOutlineBlank from '@mui/icons-material/CheckBoxOutlineBlank';
 import Delete from '@mui/icons-material/Delete';
 import Download from '@mui/icons-material/Download';
@@ -24,6 +22,7 @@ import { MangaAction, MangaDownloadInfo, Mangas, MangaUnreadInfo } from '@/lib/d
 import { SelectableCollectionReturnType } from '@/components/collection/useSelectableCollection.ts';
 import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
 import { CategorySelect } from '@/components/navbar/action/CategorySelect.tsx';
+import { MenuItem } from '@/components/manga/MenuItem.tsx';
 
 export const MangaActionMenu = ({
     manga,
@@ -60,57 +59,50 @@ export const MangaActionMenu = ({
         <>
             <Menu {...bindMenuProps} open={bindMenuProps.open && !isCategorySelectOpen}>
                 {!!handleSelection && (
-                    <MenuItem onClick={handleSelect}>
-                        <ListItemIcon>
-                            <CheckBoxOutlineBlank fontSize="small" />
-                        </ListItemIcon>
-                        <ListItemText>{t('chapter.action.label.select')}</ListItemText>
-                    </MenuItem>
+                    <MenuItem
+                        onClick={handleSelect}
+                        Icon={CheckBoxOutlineBlank}
+                        title={t('chapter.action.label.select')}
+                    />
                 )}
                 {!isFullyDownloaded && (
-                    <MenuItem onClick={() => performAction('download')}>
-                        <ListItemIcon>
-                            <Download fontSize="small" />
-                        </ListItemIcon>
-                        <ListItemText>{t('chapter.action.download.add.label.action')}</ListItemText>
-                    </MenuItem>
+                    <MenuItem
+                        onClick={() => performAction('download')}
+                        Icon={Download}
+                        title={t('chapter.action.download.add.label.action')}
+                    />
                 )}
                 {hasDownloadedChapters && (
-                    <MenuItem onClick={() => performAction('delete')}>
-                        <ListItemIcon>
-                            <Delete fontSize="small" />
-                        </ListItemIcon>
-                        <ListItemText>{t('chapter.action.download.delete.label.action')}</ListItemText>
-                    </MenuItem>
+                    <MenuItem
+                        onClick={() => performAction('delete')}
+                        Icon={Delete}
+                        title={t('chapter.action.download.delete.label.action')}
+                    />
                 )}
                 {hasUnreadChapters && (
-                    <MenuItem onClick={() => performAction('mark_as_read')}>
-                        <ListItemIcon>
-                            <Done fontSize="small" />
-                        </ListItemIcon>
-                        <ListItemText>{t('chapter.action.mark_as_read.add.label.action.current')}</ListItemText>
-                    </MenuItem>
+                    <MenuItem
+                        onClick={() => performAction('mark_as_read')}
+                        Icon={Done}
+                        title={t('chapter.action.mark_as_read.add.label.action.current')}
+                    />
                 )}
                 {hasReadChapters && (
-                    <MenuItem onClick={() => performAction('mark_as_unread')}>
-                        <ListItemIcon>
-                            <RemoveDone fontSize="small" />
-                        </ListItemIcon>
-                        <ListItemText>{t('chapter.action.mark_as_read.remove.label.action')}</ListItemText>
-                    </MenuItem>
+                    <MenuItem
+                        onClick={() => performAction('mark_as_unread')}
+                        Icon={RemoveDone}
+                        title={t('chapter.action.mark_as_read.remove.label.action')}
+                    />
                 )}
-                <MenuItem onClick={() => setIsCategorySelectOpen(true)}>
-                    <ListItemIcon>
-                        <Label fontSize="small" />
-                    </ListItemIcon>
-                    <ListItemText>{t('manga.action.category.label.action')}</ListItemText>
-                </MenuItem>
-                <MenuItem onClick={() => performAction('remove_from_library')}>
-                    <ListItemIcon>
-                        <FavoriteBorderIcon fontSize="small" />
-                    </ListItemIcon>
-                    <ListItemText>{t('manga.action.library.remove.label.action')}</ListItemText>
-                </MenuItem>
+                <MenuItem
+                    onClick={() => setIsCategorySelectOpen(true)}
+                    Icon={Label}
+                    title={t('manga.action.category.label.action')}
+                />
+                <MenuItem
+                    onClick={() => performAction('remove_from_library')}
+                    Icon={FavoriteBorderIcon}
+                    title={t('manga.action.library.remove.label.action')}
+                />
             </Menu>
             {isCategorySelectOpen && (
                 <CategorySelect

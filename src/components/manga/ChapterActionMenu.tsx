@@ -7,8 +7,6 @@
  */
 
 import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import { ListItemIcon, ListItemText } from '@mui/material';
 import CheckBoxOutlineBlank from '@mui/icons-material/CheckBoxOutlineBlank';
 import Delete from '@mui/icons-material/Delete';
 import Download from '@mui/icons-material/Download';
@@ -29,6 +27,7 @@ import {
     Chapters,
 } from '@/lib/data/Chapters.ts';
 import { TChapter } from '@/typings.ts';
+import { MenuItem } from '@/components/manga/MenuItem.tsx';
 
 export const ChapterActionMenu = ({
     chapter,
@@ -83,54 +82,44 @@ export const ChapterActionMenu = ({
 
     return (
         <Menu {...bindMenuProps} open={bindMenuProps.open}>
-            <MenuItem onClick={handleSelect}>
-                <ListItemIcon>
-                    <CheckBoxOutlineBlank fontSize="small" />
-                </ListItemIcon>
-                <ListItemText>{t('chapter.action.label.select')}</ListItemText>
-            </MenuItem>
+            <MenuItem onClick={handleSelect} Icon={CheckBoxOutlineBlank} title={t('chapter.action.label.select')} />
             {isDownloaded && (
-                <MenuItem onClick={() => performAction('delete')}>
-                    <ListItemIcon>
-                        <Delete fontSize="small" />
-                    </ListItemIcon>
-                    <ListItemText>{t('chapter.action.download.delete.label.action')}</ListItemText>
-                </MenuItem>
+                <MenuItem
+                    onClick={() => performAction('delete')}
+                    Icon={Delete}
+                    title={t('chapter.action.download.delete.label.action')}
+                />
             )}
             {canBeDownloaded && (
-                <MenuItem onClick={() => performAction('download')}>
-                    <ListItemIcon>
-                        <Download fontSize="small" />
-                    </ListItemIcon>
-                    <ListItemText>{t('chapter.action.download.add.label.action')}</ListItemText>
-                </MenuItem>
+                <MenuItem
+                    onClick={() => performAction('download')}
+                    Icon={Download}
+                    title={t('chapter.action.download.add.label.action')}
+                />
             )}
-            <MenuItem onClick={() => performAction(chapter.isBookmarked ? 'unbookmark' : 'bookmark')}>
-                <ListItemIcon>
-                    {chapter.isBookmarked && <BookmarkRemove fontSize="small" />}
-                    {!chapter.isBookmarked && <BookmarkAdd fontSize="small" />}
-                </ListItemIcon>
-                <ListItemText>
-                    {chapter.isBookmarked && t('chapter.action.bookmark.remove.label.action')}
-                    {!chapter.isBookmarked && t('chapter.action.bookmark.add.label.action')}
-                </ListItemText>
-            </MenuItem>
-            <MenuItem onClick={() => performAction(chapter.isRead ? 'mark_as_unread' : 'mark_as_read')}>
-                <ListItemIcon>
-                    {chapter.isRead && <RemoveDone fontSize="small" />}
-                    {!chapter.isRead && <Done fontSize="small" />}
-                </ListItemIcon>
-                <ListItemText>
-                    {chapter.isRead && t('chapter.action.mark_as_read.remove.label.action')}
-                    {!chapter.isRead && t('chapter.action.mark_as_read.add.label.action.current')}
-                </ListItemText>
-            </MenuItem>
-            <MenuItem onClick={() => performAction('mark_prev_as_read')}>
-                <ListItemIcon>
-                    <DoneAll fontSize="small" />
-                </ListItemIcon>
-                <ListItemText>{t('chapter.action.mark_as_read.add.label.action.previous')}</ListItemText>
-            </MenuItem>
+            <MenuItem
+                onClick={() => performAction(chapter.isBookmarked ? 'unbookmark' : 'bookmark')}
+                Icon={chapter.isBookmarked ? BookmarkRemove : BookmarkAdd}
+                title={t(
+                    chapter.isBookmarked
+                        ? 'chapter.action.bookmark.remove.label.action'
+                        : 'chapter.action.bookmark.add.label.action',
+                )}
+            />
+            <MenuItem
+                onClick={() => performAction(chapter.isRead ? 'mark_as_unread' : 'mark_as_read')}
+                Icon={chapter.isRead ? RemoveDone : Done}
+                title={t(
+                    chapter.isRead
+                        ? 'chapter.action.mark_as_read.remove.label.action'
+                        : 'chapter.action.mark_as_read.add.label.action.current',
+                )}
+            />
+            <MenuItem
+                onClick={() => performAction('mark_prev_as_read')}
+                Icon={DoneAll}
+                title={t('chapter.action.mark_as_read.add.label.action.previous')}
+            />
         </Menu>
     );
 };
