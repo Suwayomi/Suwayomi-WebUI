@@ -127,12 +127,12 @@ export const MangaActionMenuItems = ({ manga, handleSelection, selectedMangas = 
                     setHideMenu(true);
                 }}
                 Icon={Label}
-                title={t('manga.action.category.label.action')}
+                title={getMenuItemTitle('change_categories', selectedMangas.length)}
             />
             <MenuItem
                 onClick={() => performAction('remove_from_library', selectedMangas)}
                 Icon={FavoriteBorderIcon}
-                title={t('manga.action.library.remove.label.action')}
+                title={getMenuItemTitle('remove_from_library', selectedMangas.length)}
             />
             {isCategorySelectOpen && (
                 <CategorySelect
