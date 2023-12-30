@@ -7,14 +7,16 @@
  */
 
 import MoreHoriz from '@mui/icons-material/MoreHoriz';
-import { Fab, Menu, Box, styled } from '@mui/material';
-import React, { useRef, useState } from 'react';
+import { Fab, Box, styled } from '@mui/material';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
+import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
 import { DEFAULT_FAB_STYLE } from '@/components/util/StyledFab';
 import { TranslationKey } from '@/typings.ts';
+import { Menu } from '@/components/manga/Menu.tsx';
 
 interface SelectionFABProps {
-    children: (handleClose: () => void) => React.ReactNode;
+    children: (handleClose: () => void) => JSX.Element;
     selectedItemsCount: number;
     title: TranslationKey;
 }
@@ -32,29 +34,29 @@ const FabContainer = styled(Box)(({ theme }) => ({
 export const SelectionFAB: React.FC<SelectionFABProps> = ({ children, selectedItemsCount, title }) => {
     const { t } = useTranslation();
 
-    const anchorEl = useRef<HTMLElement>();
-    const [open, setOpen] = useState(false);
-    const handleClose = () => setOpen(false);
-
     return (
-        <FabContainer ref={anchorEl}>
-            <Fab variant="extended" color="primary" id="selectionMenuButton" onClick={() => setOpen(true)}>
-                {`${selectedItemsCount} ${t(title, { count: selectedItemsCount })}`}
-                <MoreHoriz sx={{ ml: 1 }} />
-            </Fab>
-            <Menu
-                id="selectionMenu"
-                anchorEl={anchorEl.current}
-                open={open}
-                onClose={handleClose}
-                anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-                transformOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-                MenuListProps={{
-                    'aria-labelledby': 'selectionMenuButton',
-                }}
-            >
-                {children(handleClose)}
-            </Menu>
-        </FabContainer>
+        <PopupState variant="popover" popupId="selection-fab-menu">
+            {(popupState) => (
+                <>
+                    <FabContainer {...bindTrigger(popupState)}>
+                        <Fab variant="extended" color="primary" id="selectionMenuButton">
+                            {`${selectedItemsCount} ${t(title, { count: selectedItemsCount })}`}
+                            <MoreHoriz sx={{ ml: 1 }} />
+                        </Fab>
+                    </FabContainer>
+                    <Menu
+                        {...bindMenu(popupState)}
+                        id="selectionMenu"
+                        anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+                        transformOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                        MenuListProps={{
+                            'aria-labelledby': 'selectionMenuButton',
+                        }}
+                    >
+                        {(onClose) => children(onClose)}
+                    </Menu>
+                </>
+            )}
+        </PopupState>
     );
 };

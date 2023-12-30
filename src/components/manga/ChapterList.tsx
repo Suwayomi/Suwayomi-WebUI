@@ -26,10 +26,10 @@ import { DEFAULT_FULL_FAB_HEIGHT } from '@/components/util/StyledFab';
 import { DownloadType } from '@/lib/graphql/generated/graphql.ts';
 import { useSelectableCollection } from '@/components/collection/useSelectableCollection.ts';
 import { SelectableCollectionSelectAll } from '@/components/collection/SelectableCollectionSelectAll.tsx';
-import { ChapterSelectionFABActionItems } from '@/components/manga/ChapterSelectionFABActionItems.tsx';
 import { Chapters } from '@/lib/data/Chapters.ts';
 import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
 import { ChaptersWithMeta } from '@/lib/data/ChaptersWithMeta.ts';
+import { ChapterActionMenuItems } from '@/components/manga/ChapterActionMenuItems.tsx';
 
 const ChapterListHeader = styled(Stack)(({ theme }) => ({
     margin: 8,
@@ -115,7 +115,7 @@ export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
             return (
                 <SelectionFAB selectedItemsCount={selectedChapters.length} title="chapter.title">
                     {(handleClose) => (
-                        <ChapterSelectionFABActionItems selectedChapters={selectedChapters} handleClose={handleClose} />
+                        <ChapterActionMenuItems selectedChapters={selectedChapters} onClose={handleClose} />
                     )}
                 </SelectionFAB>
             );

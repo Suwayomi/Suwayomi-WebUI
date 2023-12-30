@@ -17,6 +17,7 @@ export type ChapterAction = 'download' | 'delete' | 'bookmark' | 'unbookmark' | 
 export const actionToTranslationKey: {
     [key in ChapterAction]: {
         action: {
+            single: TranslationKey;
             selected: TranslationKey;
         };
         success: TranslationKey;
@@ -25,6 +26,7 @@ export const actionToTranslationKey: {
 } = {
     download: {
         action: {
+            single: 'chapter.action.download.add.label.action',
             selected: 'chapter.action.download.add.button.selected',
         },
         success: 'chapter.action.download.add.label.success',
@@ -32,6 +34,7 @@ export const actionToTranslationKey: {
     },
     delete: {
         action: {
+            single: 'chapter.action.download.delete.label.action',
             selected: 'chapter.action.download.delete.button.selected',
         },
         success: 'chapter.action.download.delete.label.success',
@@ -39,6 +42,7 @@ export const actionToTranslationKey: {
     },
     bookmark: {
         action: {
+            single: 'chapter.action.bookmark.add.label.action',
             selected: 'chapter.action.bookmark.add.button.selected',
         },
         success: 'chapter.action.bookmark.add.label.success',
@@ -46,6 +50,7 @@ export const actionToTranslationKey: {
     },
     unbookmark: {
         action: {
+            single: 'chapter.action.bookmark.remove.label.action',
             selected: 'chapter.action.bookmark.remove.button.selected',
         },
         success: 'chapter.action.bookmark.remove.label.success',
@@ -53,6 +58,7 @@ export const actionToTranslationKey: {
     },
     mark_as_read: {
         action: {
+            single: 'chapter.action.mark_as_read.add.label.action.current',
             selected: 'chapter.action.mark_as_read.add.button.selected',
         },
         success: 'chapter.action.mark_as_read.add.label.success',
@@ -60,6 +66,7 @@ export const actionToTranslationKey: {
     },
     mark_as_unread: {
         action: {
+            single: 'chapter.action.mark_as_read.remove.label.action',
             selected: 'chapter.action.mark_as_read.remove.button.selected',
         },
         success: 'chapter.action.mark_as_read.remove.label.success',

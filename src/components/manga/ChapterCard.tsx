@@ -22,7 +22,8 @@ import { getUploadDateString } from '@/util/date';
 import { DownloadStateIndicator } from '@/components/molecules/DownloadStateIndicator';
 import { DownloadType } from '@/lib/graphql/generated/graphql.ts';
 import { TChapter } from '@/typings.ts';
-import { ChapterActionMenu } from '@/components/manga/ChapterActionMenu.tsx';
+import { ChapterActionMenuItems } from '@/components/manga/ChapterActionMenuItems.tsx';
+import { Menu } from '@/components/manga/Menu.tsx';
 
 interface IProps {
     chapter: TChapter;
@@ -140,13 +141,17 @@ export const ChapterCard: React.FC<IProps> = (props: IProps) => {
                                 </CardActionArea>
                             </Card>
                             {!isSelecting && popupState.isOpen && (
-                                <ChapterActionMenu
-                                    {...bindMenu(popupState)}
-                                    chapter={chapter}
-                                    allChapters={allChapters}
-                                    handleSelection={() => onSelect(true)}
-                                    canBeDownloaded={!chapter.isDownloaded && !dc}
-                                />
+                                <Menu {...bindMenu(popupState)}>
+                                    {(onClose) => (
+                                        <ChapterActionMenuItems
+                                            onClose={onClose}
+                                            chapter={chapter}
+                                            allChapters={allChapters}
+                                            handleSelection={() => onSelect(true)}
+                                            canBeDownloaded={!chapter.isDownloaded && !dc}
+                                        />
+                                    )}
+                                </Menu>
                             )}
                         </>
                     );
