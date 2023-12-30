@@ -24,7 +24,7 @@ import { useSelectableCollection } from '@/components/collection/useSelectableCo
 import { TManga } from '@/typings.ts';
 import { SelectableCollectionSelectMode } from '@/components/collection/SelectableCollectionSelectMode.tsx';
 import { useGetVisibleLibraryMangas } from '@/components/library/useGetVisibleLibraryMangas.ts';
-import { SelectionFAB } from '@/components/manga/SelectionFAB.tsx';
+import { SelectionFAB } from '@/components/collection/SelectionFAB.tsx';
 import { PARTIAL_MANGA_FIELDS } from '@/lib/graphql/Fragments.ts';
 import { MangaActionMenuItems } from '@/components/manga/MangaActionMenuItems.tsx';
 
