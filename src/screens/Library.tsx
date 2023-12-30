@@ -25,8 +25,8 @@ import { TManga } from '@/typings.ts';
 import { SelectableCollectionSelectMode } from '@/components/collection/SelectableCollectionSelectMode.tsx';
 import { useGetVisibleLibraryMangas } from '@/components/library/useGetVisibleLibraryMangas.ts';
 import { SelectionFAB } from '@/components/manga/SelectionFAB.tsx';
-import { MangasSelectionFABActionItems } from '@/components/manga/MangasSelectionFABActionItems.tsx';
 import { PARTIAL_MANGA_FIELDS } from '@/lib/graphql/Fragments.ts';
+import { MangaActionMenuItems } from '@/components/manga/MangaActionMenuItems.tsx';
 
 const StyledGridWrapper = styled(Box)(({ theme }) => ({
     // TabsMenu height + TabsMenu bottom padding - grid item top padding
@@ -264,13 +264,14 @@ export function Library() {
             </StyledGridWrapper>
             {isSelectModeActive && (
                 <SelectionFAB selectedItemsCount={selectedItemIds.length} title="manga.title">
-                    {(handleClose) => (
-                        <MangasSelectionFABActionItems
+                    {(handleClose, setHideMenu) => (
+                        <MangaActionMenuItems
                             selectedMangas={selectedMangas}
-                            handleClose={(selectionModeState) => {
+                            onClose={(selectionModeState) => {
                                 handleClose();
                                 setIsSelectModeActive(selectionModeState);
                             }}
+                            setHideMenu={setHideMenu}
                         />
                     )}
                 </SelectionFAB>

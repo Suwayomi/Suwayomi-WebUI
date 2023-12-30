@@ -16,7 +16,7 @@ import { TranslationKey } from '@/typings.ts';
 import { Menu } from '@/components/manga/Menu.tsx';
 
 interface SelectionFABProps {
-    children: (handleClose: () => void) => JSX.Element;
+    children: (handleClose: () => void, setHideMenu: (hide: boolean) => void) => JSX.Element;
     selectedItemsCount: number;
     title: TranslationKey;
 }
@@ -53,7 +53,7 @@ export const SelectionFAB: React.FC<SelectionFABProps> = ({ children, selectedIt
                             'aria-labelledby': 'selectionMenuButton',
                         }}
                     >
-                        {(onClose) => children(onClose)}
+                        {(onClose, setHideMenu) => children(onClose, setHideMenu)}
                     </Menu>
                 </>
             )}

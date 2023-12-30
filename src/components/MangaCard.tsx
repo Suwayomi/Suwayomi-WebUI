@@ -12,7 +12,6 @@ import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 import { Avatar, Box, CardContent, Stack, styled, Tooltip } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import React from 'react';
 import PopupState, { bindMenu } from 'material-ui-popup-state';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { GridLayout, useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
@@ -21,7 +20,8 @@ import { TManga, TPartialManga } from '@/typings.ts';
 import { ContinueReadingButton } from '@/components/manga/ContinueReadingButton.tsx';
 import { SelectableCollectionReturnType } from '@/components/collection/useSelectableCollection.ts';
 import { MangaOptionButton } from '@/components/manga/MangaOptionButton.tsx';
-import { MangaActionMenu } from '@/components/manga/MangaActionMenu.tsx';
+import { MangaActionMenuItems, SingleModeProps } from '@/components/manga/MangaActionMenuItems.tsx';
+import { Menu } from '@/components/manga/Menu.tsx';
 
 const BottomGradient = styled('div')({
     position: 'absolute',
@@ -270,11 +270,16 @@ export const MangaCard = (props: IProps) => {
                             </Box>
                         </Link>
                         {!!handleSelection && popupState.isOpen && (
-                            <MangaActionMenu
-                                {...bindMenu(popupState)}
-                                manga={manga as React.ComponentProps<typeof MangaActionMenu>['manga']}
-                                handleSelection={handleSelection}
-                            />
+                            <Menu {...bindMenu(popupState)}>
+                                {(onClose, setHideMenu) => (
+                                    <MangaActionMenuItems
+                                        manga={manga as SingleModeProps['manga']}
+                                        handleSelection={handleSelection}
+                                        onClose={onClose}
+                                        setHideMenu={setHideMenu}
+                                    />
+                                )}
+                            </Menu>
                         )}
                     </>
                 )}
@@ -380,11 +385,16 @@ export const MangaCard = (props: IProps) => {
                         </CardActionArea>
                     </Card>
                     {!!handleSelection && popupState.isOpen && (
-                        <MangaActionMenu
-                            {...bindMenu(popupState)}
-                            manga={manga as React.ComponentProps<typeof MangaActionMenu>['manga']}
-                            handleSelection={handleSelection}
-                        />
+                        <Menu {...bindMenu(popupState)}>
+                            {(onClose, setHideMenu) => (
+                                <MangaActionMenuItems
+                                    manga={manga as SingleModeProps['manga']}
+                                    handleSelection={handleSelection}
+                                    onClose={onClose}
+                                    setHideMenu={setHideMenu}
+                                />
+                            )}
+                        </Menu>
                     )}
                 </>
             )}
