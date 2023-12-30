@@ -23,7 +23,7 @@ import { DownloadStateIndicator } from '@/components/molecules/DownloadStateIndi
 import { DownloadType } from '@/lib/graphql/generated/graphql.ts';
 import { TChapter } from '@/typings.ts';
 import { ChapterActionMenuItems } from '@/components/manga/ChapterActionMenuItems.tsx';
-import { Menu } from '@/components/manga/Menu.tsx';
+import { Menu } from '@/components/menu/Menu.tsx';
 
 interface IProps {
     chapter: TChapter;

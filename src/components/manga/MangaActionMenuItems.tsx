@@ -20,7 +20,7 @@ import { TManga } from '@/typings.ts';
 import { actionToTranslationKey, MangaAction, MangaDownloadInfo, Mangas, MangaUnreadInfo } from '@/lib/data/Mangas.ts';
 import { SelectableCollectionReturnType } from '@/components/collection/useSelectableCollection.ts';
 import { CategorySelect } from '@/components/navbar/action/CategorySelect.tsx';
-import { MenuItem } from '@/components/manga/MenuItem.tsx';
+import { MenuItem } from '@/components/menu/MenuItem.tsx';
 
 const ACTION_DISABLES_SELECTION_MODE: MangaAction[] = ['remove_from_library'] as const;
 

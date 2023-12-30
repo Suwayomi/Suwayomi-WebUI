@@ -27,7 +27,7 @@ import {
     Chapters,
 } from '@/lib/data/Chapters.ts';
 import { TChapter } from '@/typings.ts';
-import { MenuItem } from '@/components/manga/MenuItem.tsx';
+import { MenuItem } from '@/components/menu/MenuItem.tsx';
 import { IChapterWithMeta } from '@/components/manga/ChapterList.tsx';
 import { ChaptersWithMeta } from '@/lib/data/ChaptersWithMeta.ts';
 
