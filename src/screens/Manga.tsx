@@ -14,7 +14,7 @@ import { useParams } from 'react-router-dom';
 import { isNetworkRequestInFlight } from '@apollo/client/core/networkStatus';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext';
-import { ChapterList } from '@/components/manga/ChapterList';
+import { ChapterList } from '@/components/chapter/ChapterList.tsx';
 import { useRefreshManga } from '@/components/manga/hooks';
 import { MangaDetails } from '@/components/manga/MangaDetails';
 import { MangaToolbarMenu } from '@/components/manga/MangaToolbarMenu';

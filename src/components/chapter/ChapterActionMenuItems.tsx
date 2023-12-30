@@ -28,7 +28,7 @@ import {
 } from '@/lib/data/Chapters.ts';
 import { TChapter } from '@/typings.ts';
 import { MenuItem } from '@/components/menu/MenuItem.tsx';
-import { IChapterWithMeta } from '@/components/manga/ChapterList.tsx';
+import { IChapterWithMeta } from '@/components/chapter/ChapterList.tsx';
 import { ChaptersWithMeta } from '@/lib/data/ChaptersWithMeta.ts';
 
 const createGetMenuItemTitle =
