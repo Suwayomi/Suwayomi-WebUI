@@ -17,7 +17,6 @@ import { t as translate } from 'i18next';
 import { MenuItem } from '@/components/manga/MenuItem.tsx';
 import { TManga } from '@/typings.ts';
 import { actionToTranslationKey, MangaAction, Mangas } from '@/lib/data/Mangas.ts';
-import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
 import { CategorySelect } from '@/components/navbar/action/CategorySelect.tsx';
 
 const ACTION_DISABLES_SELECTION_MODE: MangaAction[] = ['remove_from_library'] as const;
@@ -34,12 +33,11 @@ export const MangasSelectionFABActionItems = ({
     selectedMangas: TManga[];
     handleClose: (selectionModeState: boolean) => void;
 }) => {
-    const { settings } = useMetadataServerSettings();
     const [isCategorySelectOpen, setIsCategorySelectOpen] = useState(false);
 
     const handleAction = (action: MangaAction, mangas: TManga[]) => {
         Mangas.performAction(action, Mangas.getIds(mangas), {
-            autoDeleteChapters: settings.deleteChaptersManuallyMarkedRead,
+            wasManuallyMarkedAsRead: true,
         }).catch(() => {});
         handleClose(!ACTION_DISABLES_SELECTION_MODE.includes(action));
     };

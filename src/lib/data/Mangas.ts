@@ -152,9 +152,9 @@ export class Mangas {
         return Chapters.delete(Chapters.getIds(chapters));
     }
 
-    static async markAsRead(mangaIds: number[], deleteChapters: boolean = false): Promise<void> {
+    static async markAsRead(mangaIds: number[], wasManuallyMarkedAsRead: boolean = false): Promise<void> {
         const chapters = await Mangas.getChapterIdsWithState(mangaIds, { isRead: false });
-        return Chapters.markAsRead(chapters, deleteChapters);
+        return Chapters.markAsRead(chapters, wasManuallyMarkedAsRead);
     }
 
     static async markAsUnread(mangaIds: number[]): Promise<void> {
@@ -196,13 +196,13 @@ export class Mangas {
         action: Action,
         mangaIds: number[],
         {
-            autoDeleteChapters,
+            wasManuallyMarkedAsRead,
             changeCategoriesPatch,
         }: Action extends 'mark_as_read'
-            ? { autoDeleteChapters: boolean; changeCategoriesPatch?: never }
+            ? { wasManuallyMarkedAsRead: boolean; changeCategoriesPatch?: never }
             : Action extends 'change_categories'
-              ? { autoDeleteChapters?: never; changeCategoriesPatch: UpdateMangaCategoriesPatchInput }
-              : { autoDeleteChapters?: boolean; changeCategoriesPatch?: UpdateMangaCategoriesPatchInput },
+              ? { wasManuallyMarkedAsRead?: never; changeCategoriesPatch: UpdateMangaCategoriesPatchInput }
+              : { wasManuallyMarkedAsRead?: boolean; changeCategoriesPatch?: UpdateMangaCategoriesPatchInput },
     ): Promise<void> {
         switch (action) {
             case 'download':
@@ -210,7 +210,7 @@ export class Mangas {
             case 'delete':
                 return Mangas.deleteChapters(mangaIds);
             case 'mark_as_read':
-                return Mangas.markAsRead(mangaIds, autoDeleteChapters!);
+                return Mangas.markAsRead(mangaIds, wasManuallyMarkedAsRead!);
             case 'mark_as_unread':
                 return Mangas.markAsUnread(mangaIds);
             case 'remove_from_library':

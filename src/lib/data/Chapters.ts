@@ -148,12 +148,13 @@ export class Chapters {
 
     static async markAsRead(
         chapters: (ChapterDownloadInfo & ChapterBookmarkInfo)[],
-        deleteChapters: boolean = false,
+        wasManuallyMarkedAsRead: boolean = false,
     ): Promise<void> {
-        const { deleteChaptersWithBookmark } = await getMetadataServerSettings();
-        const chapterIdsToDelete = deleteChapters
-            ? Chapters.getIds(Chapters.getAutoDeletable(chapters, deleteChaptersWithBookmark))
-            : [];
+        const { deleteChaptersManuallyMarkedRead, deleteChaptersWithBookmark } = await getMetadataServerSettings();
+        const chapterIdsToDelete =
+            deleteChaptersManuallyMarkedRead && wasManuallyMarkedAsRead
+                ? Chapters.getIds(Chapters.getAutoDeletable(chapters, deleteChaptersWithBookmark))
+                : [];
         return Chapters.executeAction(
             'mark_as_read',
             chapters.length,
@@ -208,17 +209,17 @@ export class Chapters {
         action: Action,
         chapterIds: number[],
         {
-            autoDeleteChapters,
+            wasManuallyMarkedAsRead,
             chapters,
         }: Action extends 'mark_as_read'
-            ? { autoDeleteChapters: boolean; chapters?: never }
+            ? { wasManuallyMarkedAsRead: boolean; chapters?: never }
             : Action extends 'change_categories'
               ? {
-                    autoDeleteChapters?: never;
+                    wasManuallyMarkedAsRead?: never;
                     chapters: (ChapterDownloadInfo & ChapterBookmarkInfo & ChapterReadInfo)[];
                 }
               : {
-                    autoDeleteChapters?: boolean;
+                    wasManuallyMarkedAsRead?: boolean;
                     chapters?: (ChapterDownloadInfo & ChapterBookmarkInfo & ChapterReadInfo)[];
                 },
     ): Promise<void> {
@@ -228,7 +229,7 @@ export class Chapters {
             case 'delete':
                 return Chapters.delete(chapterIds);
             case 'mark_as_read':
-                return Chapters.markAsRead(chapters!, autoDeleteChapters!);
+                return Chapters.markAsRead(chapters!, wasManuallyMarkedAsRead!);
             case 'mark_as_unread':
                 return Chapters.markAsUnread(chapterIds);
             case 'bookmark':

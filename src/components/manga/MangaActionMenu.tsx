@@ -20,7 +20,6 @@ import { useState } from 'react';
 import { TManga } from '@/typings.ts';
 import { MangaAction, MangaDownloadInfo, Mangas, MangaUnreadInfo } from '@/lib/data/Mangas.ts';
 import { SelectableCollectionReturnType } from '@/components/collection/useSelectableCollection.ts';
-import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
 import { CategorySelect } from '@/components/navbar/action/CategorySelect.tsx';
 import { MenuItem } from '@/components/manga/MenuItem.tsx';
 
@@ -34,7 +33,6 @@ export const MangaActionMenu = ({
 } & ReturnType<typeof bindMenu>) => {
     const { t } = useTranslation();
 
-    const { settings } = useMetadataServerSettings();
     const [isCategorySelectOpen, setIsCategorySelectOpen] = useState(false);
 
     const isFullyDownloaded = manga.downloadCount === manga.chapters.totalCount;
@@ -49,7 +47,7 @@ export const MangaActionMenu = ({
 
     const performAction = (action: MangaAction) => {
         Mangas.performAction(action, [manga.id], {
-            autoDeleteChapters: settings.deleteChaptersManuallyMarkedRead,
+            wasManuallyMarkedAsRead: true,
         }).catch(() => {});
 
         bindMenuProps.onClose();

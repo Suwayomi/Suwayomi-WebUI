@@ -27,7 +27,6 @@ import { DownloadType } from '@/lib/graphql/generated/graphql.ts';
 import { useSelectableCollection } from '@/components/collection/useSelectableCollection.ts';
 import { SelectableCollectionSelectAll } from '@/components/collection/SelectableCollectionSelectAll.tsx';
 import { Chapters } from '@/lib/data/Chapters.ts';
-import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
 import { ChaptersWithMeta } from '@/lib/data/ChaptersWithMeta.ts';
 import { ChapterActionMenuItems } from '@/components/manga/ChapterActionMenuItems.tsx';
 
@@ -76,10 +75,6 @@ export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
 
     const { areNoItemsSelected, areAllItemsSelected, selectedItemIds, handleSelectAll, handleSelection } =
         useSelectableCollection(chapters.length, { currentKey: 'default' });
-
-    const {
-        settings: { deleteChaptersManuallyMarkedRead },
-    } = useMetadataServerSettings();
 
     const visibleChapters = useMemo(() => filterAndSortChapters(chapters, options), [chapters, options]);
 
@@ -159,7 +154,7 @@ export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
                                 onClick={() =>
                                     Chapters.markAsRead(
                                         ChaptersWithMeta.getChapters(ChaptersWithMeta.getNonRead(chaptersWithMeta)),
-                                        deleteChaptersManuallyMarkedRead,
+                                        true,
                                     )
                                 }
                             >

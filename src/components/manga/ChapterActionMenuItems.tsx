@@ -18,7 +18,6 @@ import DoneAll from '@mui/icons-material/DoneAll';
 import { t as translate } from 'i18next';
 import { useMemo } from 'react';
 import { SelectableCollectionReturnType } from '@/components/collection/useSelectableCollection.ts';
-import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
 import {
     actionToTranslationKey,
     ChapterAction,
@@ -78,10 +77,6 @@ export const ChapterActionMenuItems = ({
 }: Props) => {
     const { t } = useTranslation();
 
-    const {
-        settings: { deleteChaptersManuallyMarkedRead },
-    } = useMetadataServerSettings();
-
     const isSingleMode = !!chapter;
     const { isDownloaded, isRead, isBookmarked } = chapter ?? {};
 
@@ -139,7 +134,7 @@ export const ChapterActionMenuItems = ({
 
         Chapters.performAction(actualAction, chapter ? [chapter.id] : ChaptersWithMeta.getIds(chaptersWithMeta), {
             chapters: getChapters(),
-            autoDeleteChapters: deleteChaptersManuallyMarkedRead,
+            wasManuallyMarkedAsRead: true,
         });
         onClose();
     };
