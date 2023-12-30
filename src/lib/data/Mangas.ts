@@ -28,6 +28,7 @@ export type MangaAction =
 export const actionToTranslationKey: {
     [key in MangaAction]: {
         action: {
+            single: TranslationKey;
             selected: TranslationKey;
         };
         success: TranslationKey;
@@ -36,6 +37,7 @@ export const actionToTranslationKey: {
 } = {
     download: {
         action: {
+            single: 'chapter.action.download.add.label.action',
             selected: 'chapter.action.download.add.button.selected',
         },
         success: 'chapter.action.download.add.label.success',
@@ -43,6 +45,7 @@ export const actionToTranslationKey: {
     },
     delete: {
         action: {
+            single: 'chapter.action.download.delete.label.action',
             selected: 'chapter.action.download.delete.button.selected',
         },
         success: 'chapter.action.download.delete.label.success',
@@ -50,6 +53,7 @@ export const actionToTranslationKey: {
     },
     mark_as_read: {
         action: {
+            single: 'chapter.action.mark_as_read.add.label.action.current',
             selected: 'chapter.action.mark_as_read.add.button.selected',
         },
         success: 'chapter.action.mark_as_read.add.label.success',
@@ -57,6 +61,7 @@ export const actionToTranslationKey: {
     },
     mark_as_unread: {
         action: {
+            single: 'chapter.action.mark_as_read.remove.label.action',
             selected: 'chapter.action.mark_as_read.remove.button.selected',
         },
         success: 'chapter.action.mark_as_read.remove.label.success',
@@ -64,6 +69,7 @@ export const actionToTranslationKey: {
     },
     remove_from_library: {
         action: {
+            single: 'manga.action.library.remove.label.action',
             selected: 'manga.action.library.remove.button.selected',
         },
         success: 'manga.action.library.remove.label.success',
@@ -71,6 +77,7 @@ export const actionToTranslationKey: {
     },
     change_categories: {
         action: {
+            single: 'manga.action.category.label.action',
             selected: 'manga.action.category.button.selected',
         },
         success: 'manga.action.category.label.success',

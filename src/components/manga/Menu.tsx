@@ -8,14 +8,29 @@
 
 import { MenuProps } from '@mui/material/Menu/Menu';
 import { Menu as MuiMenu } from '@mui/material';
+import { useState } from 'react';
 
 export const Menu = ({
     children,
     onClose,
     ...props
 }: Omit<MenuProps, 'children' | 'onClose'> &
-    Required<Pick<MenuProps, 'onClose'>> & { children: (onClose: () => void) => JSX.Element }) => (
-    <MuiMenu {...props} onClose={onClose}>
-        {children(() => onClose({}, 'backdropClick'))}
-    </MuiMenu>
-);
+    Required<Pick<MenuProps, 'onClose'>> & {
+        children: (onClose: () => void, setHideMenu: (hide: boolean) => void) => JSX.Element;
+    }) => {
+    const [shouldHideMenu, setShouldHideMenu] = useState(false);
+
+    return (
+        <MuiMenu
+            {...props}
+            open={props.open}
+            onClose={onClose}
+            sx={{ visibility: !props.open || shouldHideMenu ? 'hidden' : 'visible' }}
+        >
+            {children(() => {
+                onClose({}, 'backdropClick');
+                setShouldHideMenu(false);
+            }, setShouldHideMenu)}
+        </MuiMenu>
+    );
+};
