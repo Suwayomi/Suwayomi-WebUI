@@ -17,6 +17,7 @@ import { useTranslation } from 'react-i18next';
 import { PartialExtension, TranslationKey } from '@/typings';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { makeToast } from '@/components/util/Toast.tsx';
 
 interface IProps {
     extension: PartialExtension;
@@ -62,6 +63,30 @@ const INSTALLED_STATE_TO_TRANSLATION_KEY_MAP: { [installedState in InstalledStat
     [InstalledState.INSTALLING]: 'extension.state.label.installing',
 } as const;
 
+const EXTENSION_ACTION_TO_FAILURE_TRANSLATION_KEY_MAP: {
+    [action in ExtensionAction]: TranslationKey;
+} = {
+    [ExtensionAction.UPDATE]: 'extension.label.update_failed',
+    [ExtensionAction.INSTALL]: 'extension.label.installation_failed',
+    [ExtensionAction.UNINSTALL]: 'extension.label.uninstallation_failed',
+};
+
+const getInstalledState = (
+    isInstalled: boolean,
+    isObsolete: boolean,
+    hasUpdate: boolean,
+): ExtensionAction | ExtensionState.OBSOLETE => {
+    if (isObsolete) {
+        return InstalledState.OBSOLETE;
+    }
+
+    if (hasUpdate) {
+        return InstalledState.UPDATE;
+    }
+
+    return isInstalled ? InstalledState.UNINSTALL : InstalledState.INSTALL;
+};
+
 export function ExtensionCard(props: IProps) {
     const { t } = useTranslation();
 
@@ -69,15 +94,9 @@ export function ExtensionCard(props: IProps) {
         extension: { name, lang, versionName, isInstalled, hasUpdate, isObsolete, pkgName, iconUrl, isNsfw },
         handleUpdate,
     } = props;
-    const [installedState, setInstalledState] = useState<InstalledStates>(() => {
-        if (isObsolete) {
-            return InstalledState.OBSOLETE;
-        }
-        if (hasUpdate) {
-            return InstalledState.UPDATE;
-        }
-        return isInstalled ? InstalledState.UNINSTALL : InstalledState.INSTALL;
-    });
+    const [installedState, setInstalledState] = useState<InstalledStates>(
+        getInstalledState(isInstalled, isObsolete, hasUpdate),
+    );
 
     const langPress = lang === 'all' ? t('extension.language.all') : lang.toUpperCase();
 
@@ -85,23 +104,28 @@ export function ExtensionCard(props: IProps) {
         const nextAction = EXTENSION_ACTION_TO_NEXT_ACTION_MAP[action];
         const state = EXTENSION_ACTION_TO_STATE_MAP[action];
 
-        setInstalledState(state);
-        switch (action) {
-            case ExtensionAction.INSTALL:
-                await requestManager.updateExtension(pkgName, { install: true }).response;
-                break;
-            case ExtensionAction.UNINSTALL:
-                await requestManager.updateExtension(pkgName, { uninstall: true }).response;
-                break;
-            case ExtensionAction.UPDATE:
-                await requestManager.updateExtension(pkgName, { update: true }).response;
-                break;
-            default:
-                throw new Error(`Unexpected ExtensionAction "${action}"`);
-        }
-        setInstalledState(nextAction);
+        try {
+            setInstalledState(state);
+            switch (action) {
+                case ExtensionAction.INSTALL:
+                    await requestManager.updateExtension(pkgName, { install: true }).response;
+                    break;
+                case ExtensionAction.UNINSTALL:
+                    await requestManager.updateExtension(pkgName, { uninstall: true }).response;
+                    break;
+                case ExtensionAction.UPDATE:
+                    await requestManager.updateExtension(pkgName, { update: true }).response;
+                    break;
+                default:
+                    throw new Error(`Unexpected ExtensionAction "${action}"`);
+            }
+            setInstalledState(nextAction);
 
-        handleUpdate();
+            handleUpdate();
+        } catch (e) {
+            setInstalledState(getInstalledState(isInstalled, isObsolete, hasUpdate));
+            makeToast(t(EXTENSION_ACTION_TO_FAILURE_TRANSLATION_KEY_MAP[action]), 'error');
+        }
     };
 
     function handleButtonClick() {

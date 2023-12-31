@@ -225,7 +225,9 @@
     "label": {
       "installation_failed": "Could not install the extension",
       "installed_successfully": "Extension installed",
-      "installing_file": "Installing extension file…"
+      "installing_file": "Installing extension file…",
+      "uninstallation_failed": "Could not uninstall the extension",
+      "update_failed": "Could not update the extension"
     },
     "language": {
       "all": "All",
