@@ -238,6 +238,7 @@ import { CLEAR_SERVER_CACHE } from '@/lib/graphql/mutations/ImageMutation.ts';
 import { RESET_WEBUI_UPDATE_STATUS, UPDATE_WEBUI } from '@/lib/graphql/mutations/ServerInfoMutation.ts';
 import { WEBUI_UPDATE_SUBSCRIPTION } from '@/lib/graphql/subscriptions/ServerInfoSubscription.ts';
 import { GET_DOWNLOAD_STATUS } from '@/lib/graphql/queries/DownloaderQuery.ts';
+import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
 enum GQLMethod {
     QUERY = 'QUERY',
@@ -514,7 +515,7 @@ export class RequestManager {
             await revalidationPromise;
             setActiveRevalidation(null);
         } catch (e) {
-            // ignore
+            defaultPromiseErrorHandler(`RequestManager..revalidatePages(${getVariablesFor(0)})`)(e);
         } finally {
             setValidating(false);
         }

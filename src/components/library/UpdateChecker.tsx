@@ -15,6 +15,7 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/components/util/Toast';
 import { UpdaterSubscription } from '@/lib/graphql/generated/graphql.ts';
 import { Progress } from '@/components/util/Progress';
+import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
 const calcProgress = (status: UpdaterSubscription['updateStatusChanged'] | undefined) => {
     if (!status) {
@@ -64,14 +65,14 @@ export function UpdateChecker({ handleFinishedUpdate }: { handleFinishedUpdate?:
         lastRunningState = false;
         handleFinishedUpdate?.();
         // this re-fetch is necessary since a running update could have been triggered by the server or another client
-        reFetchLastTimestamp().catch(() => {});
+        reFetchLastTimestamp().catch(defaultPromiseErrorHandler('UpdateChecker::reFetchLastTimestamp'));
     }, [status?.isRunning]);
 
     const onClick = async () => {
         try {
             lastRunningState = true;
             await requestManager.startGlobalUpdate().response;
-            reFetchLastTimestamp().catch(() => {});
+            reFetchLastTimestamp().catch(defaultPromiseErrorHandler('UpdateChecker::reFetchLastTimestamp'));
         } catch (e) {
             lastRunningState = false;
             makeToast(t('global.error.label.update_failed'), 'error');

@@ -25,6 +25,7 @@ import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
 import { GetAboutQuery, UpdateState } from '@/lib/graphql/generated/graphql.ts';
 import { ABOUT_WEBUI, WEBUI_UPDATE_CHECK } from '@/lib/graphql/Fragments.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
+import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
 type AboutServer = GetAboutQuery['aboutServer'];
 
@@ -224,7 +225,9 @@ export function About() {
 
         const resetUpdateStatus = isError || updateFinished;
         if (resetUpdateStatus) {
-            requestManager.resetWebUIUpdateStatus().response.catch(() => {});
+            requestManager
+                .resetWebUIUpdateStatus()
+                .response.catch(defaultPromiseErrorHandler('About::resetWebUIUpdateStatus'));
         }
 
         if (!updateFinished) {
@@ -326,7 +329,11 @@ export function About() {
                                 isUpdateAvailable={isWebUIUpdateAvailable}
                                 updateCheckError={webUIUpdateCheckError}
                                 checkForUpdate={checkForWebUIUpdate}
-                                triggerUpdate={() => requestManager.updateWebUI().response.catch(() => {})}
+                                triggerUpdate={() =>
+                                    requestManager
+                                        .updateWebUI()
+                                        .response.catch(defaultPromiseErrorHandler('About::updateWebUI'))
+                                }
                                 progress={webUIUpdateProgress}
                                 updateState={webUIUpdateState}
                             />

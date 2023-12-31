@@ -29,6 +29,7 @@ import { ChapterType, DownloadType } from '@/lib/graphql/generated/graphql.ts';
 import { TChapter } from '@/typings.ts';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
+import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
 const HeightPreservingItem = ({ children, ...props }: BoxProps) => (
     // the height is necessary to prevent the item container from collapsing, which confuses Virtuoso measurements
@@ -203,7 +204,7 @@ export const DownloadQueue: React.FC = () => {
             return;
         }
 
-        requestManager.startDownloads().response.catch(() => {});
+        requestManager.startDownloads().response.catch(defaultPromiseErrorHandler('DownloadQueue::startDownloads'));
     };
 
     if (isLoading) {

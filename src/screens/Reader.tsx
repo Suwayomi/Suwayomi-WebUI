@@ -30,6 +30,7 @@ import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { useDebounce } from '@/util/useDebounce.ts';
 import { UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
 import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
+import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
 const isDupChapter = async (chapterIndex: number, currentChapter: TChapter) => {
     const nextChapter = await requestManager.getChapter(currentChapter.manga.id, chapterIndex).response;
@@ -209,7 +210,7 @@ export function Reader() {
                 chapterIdToDelete: getChapterIdToDelete(),
                 downloadAheadMangaId: shouldDownloadAhead ? chapter.manga.id : undefined,
             })
-            .response.catch(() => {});
+            .response.catch();
     };
 
     const setSettingValue = (key: keyof IReaderSettings, value: string | boolean) => {
@@ -264,7 +265,9 @@ export function Reader() {
 
     useEffect(() => {
         if (!areDefaultSettingsLoading && !isMangaLoading) {
-            checkAndHandleMissingStoredReaderSettings(manga, 'manga', defaultSettings).catch(() => {});
+            checkAndHandleMissingStoredReaderSettings(manga, 'manga', defaultSettings).catch(
+                defaultPromiseErrorHandler('Reader::checkAndHandleMissingStoredReaderSettings'),
+            );
             setSettings(getReaderSettingsFor(manga, defaultSettings));
         }
     }, [areDefaultSettingsLoading, isMangaLoading]);

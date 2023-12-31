@@ -20,6 +20,7 @@ import {
 import { ReaderSettingsOptions } from '@/components/reader/ReaderSettingsOptions';
 import { makeToast } from '@/components/util/Toast';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext';
+import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
 export function DefaultReaderSettings() {
     const { t } = useTranslation();
@@ -58,7 +59,7 @@ export function DefaultReaderSettings() {
         { meta: convertToGqlMeta(metadata)! },
         'server',
         getDefaultSettings(),
-    ).catch(() => {});
+    ).catch(defaultPromiseErrorHandler('DefaultReaderSettings::checkAndHandleMissingStoredReaderSettings'));
 
     return (
         <ReaderSettingsOptions
