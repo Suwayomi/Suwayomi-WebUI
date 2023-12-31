@@ -17,6 +17,7 @@ import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { getVersion } from '@/screens/settings/About.tsx';
 import { useLocalStorage } from '@/util/useLocalStorage.tsx';
+import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
 const UPDATE_CHECK_INTERVAL = 1000 * 60 * 60 * 24; // 1 day
 
@@ -54,7 +55,7 @@ export const ServerUpdateChecker = () => {
         let timeout: NodeJS.Timeout | undefined;
         const scheduleUpdateCheck = (timeoutMS: number) => {
             timeout = setTimeout(() => {
-                checkForUpdate().catch(() => {});
+                checkForUpdate().catch(defaultPromiseErrorHandler('ServerUpdateChecker::checkForUpdate'));
                 setLastUpdateCheck(Date.now());
                 scheduleUpdateCheck(UPDATE_CHECK_INTERVAL);
             }, timeoutMS);

@@ -16,6 +16,7 @@ import { Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { PartialExtension, TranslationKey } from '@/typings';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
 interface IProps {
     extension: PartialExtension;
@@ -108,10 +109,14 @@ export function ExtensionCard(props: IProps) {
             case ExtensionAction.INSTALL:
             case ExtensionAction.UPDATE:
             case ExtensionAction.UNINSTALL:
-                requestExtensionAction(installedState).catch(() => {});
+                requestExtensionAction(installedState).catch(
+                    defaultPromiseErrorHandler(`ExtensionCard:handleButtonClick(${installedState})`),
+                );
                 break;
             case ExtensionState.OBSOLETE:
-                requestExtensionAction(ExtensionAction.UNINSTALL).catch(() => {});
+                requestExtensionAction(ExtensionAction.UNINSTALL).catch(
+                    defaultPromiseErrorHandler(`ExtensionCard:handleButtonClick(${installedState})`),
+                );
                 break;
             default:
                 break;

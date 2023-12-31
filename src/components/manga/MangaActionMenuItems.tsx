@@ -21,6 +21,7 @@ import { SelectableCollectionReturnType } from '@/components/collection/useSelec
 import { CategorySelect } from '@/components/navbar/action/CategorySelect.tsx';
 import { MenuItem } from '@/components/menu/MenuItem.tsx';
 import { createGetMenuItemTitle, createIsMenuItemDisabled, createShouldShowMenuItem } from '@/components/menu/util.ts';
+import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
 const ACTION_DISABLES_SELECTION_MODE: MangaAction[] = ['remove_from_library'] as const;
 
@@ -63,7 +64,7 @@ export const MangaActionMenuItems = ({ manga, handleSelection, selectedMangas = 
     const performAction = (action: MangaAction, mangas: TManga[]) => {
         Mangas.performAction(action, manga ? [manga.id] : Mangas.getIds(mangas), {
             wasManuallyMarkedAsRead: true,
-        }).catch(() => {});
+        }).catch(defaultPromiseErrorHandler(`MangaActionMenuItems:performAction(${action})`));
 
         onClose(!ACTION_DISABLES_SELECTION_MODE.includes(action));
     };
