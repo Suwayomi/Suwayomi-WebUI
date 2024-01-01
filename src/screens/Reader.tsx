@@ -31,6 +31,7 @@ import { useDebounce } from '@/util/useDebounce.ts';
 import { UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
 import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { FULL_CHAPTER_FIELDS } from '@/lib/graphql/Fragments.ts';
 
 const isDupChapter = async (chapterIndex: number, currentChapter: TChapter) => {
     const nextChapter = await requestManager.getChapter(currentChapter.manga.id, chapterIndex).response;
@@ -191,9 +192,22 @@ export function Reader() {
                 (mangaChapter) => mangaChapter.sourceOrder === chapterToDeleteSourceOrder,
             );
 
+            if (!chapterToDelete) {
+                return -1;
+            }
+
+            const chapterToDeleteUpToDateData = requestManager.graphQLClient.client.cache.readFragment<TChapter>({
+                id: requestManager.graphQLClient.client.cache.identify({
+                    __typename: 'ChapterType',
+                    id: chapterToDelete.id,
+                }),
+                fragment: FULL_CHAPTER_FIELDS,
+                fragmentName: 'FULL_CHAPTER_FIELDS',
+            });
+
             const shouldDeleteChapter =
-                chapterToDelete?.isDownloaded &&
-                (!chapterToDelete?.isBookmarked || metadataSettings.deleteChaptersWithBookmark);
+                chapterToDeleteUpToDateData?.isDownloaded &&
+                (!chapterToDeleteUpToDateData?.isBookmarked || metadataSettings.deleteChaptersWithBookmark);
             if (!shouldDeleteChapter) {
                 return -1;
             }
