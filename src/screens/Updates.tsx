@@ -117,8 +117,8 @@ export const Updates: React.FC = () => {
     const updateEntries = chapterUpdateData?.chapters.nodes ?? [];
     const groupedUpdates = useMemo(() => groupByDate(updateEntries), [updateEntries]);
     const groupCounts: number[] = useMemo(() => groupedUpdates.map((group) => group[1]), [groupedUpdates]);
-    const { data: downloaderData } = requestManager.useDownloadSubscription();
-    const queue = (downloaderData?.downloadChanged.queue as DownloadType[]) ?? [];
+    const { data: downloaderData } = requestManager.useGetDownloadStatus();
+    const queue = (downloaderData?.downloadStatus.queue as DownloadType[]) ?? [];
 
     const lastUpdateTimestampCompRef = useRef<HTMLElement>(null);
     const [lastUpdateTimestampCompHeight, setLastUpdateTimestampCompHeight] = useState(0);

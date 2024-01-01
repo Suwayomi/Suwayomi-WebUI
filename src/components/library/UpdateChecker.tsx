@@ -38,8 +38,8 @@ export function UpdateChecker({ handleFinishedUpdate }: { handleFinishedUpdate?:
     const { data: lastUpdateTimestampData, refetch: reFetchLastTimestamp } =
         requestManager.useGetLastGlobalUpdateTimestamp();
     const lastUpdateTimestamp = lastUpdateTimestampData?.lastUpdateTimestamp.timestamp;
-    const { data: updaterData } = requestManager.useUpdaterSubscription();
-    const status = updaterData?.updateStatusChanged;
+    const { data: updaterData } = requestManager.useGetGlobalUpdateSummary();
+    const status = updaterData?.updateStatus;
 
     const loading = !!status?.isRunning;
     const progress = useMemo(

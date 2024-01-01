@@ -54,8 +54,8 @@ const addImports = format(
     `import {FieldPolicy, FieldReadFunction, Reference, TypePolicies, TypePolicy} from '@apollo/client/cache';
 import {
 \tGetCategoryQueryVariables, GetChapterQueryVariables,
-\tGetChaptersQuery, GetExtensionQueryVariables, GetGlobalMetadataQueryVariables,
-\tGetMangaQueryVariables, GetSourceQueryVariables,
+\tGetChaptersQuery, GetDownloadStatusQueryVariables, GetExtensionQueryVariables, GetGlobalMetadataQueryVariables,
+\tGetMangaQueryVariables, GetSourceQueryVariables, GetUpdateStatusQueryVariables, GetWebuiUpdateStatusQueryVariables,
 } from "@/lib/graphql/generated/graphql.ts";
 import {FieldFunctionOptions} from "@apollo/client/cache/inmemory/policies";`,
 );
@@ -95,10 +95,10 @@ const fixTypingOfQueryTypePolicies = format(
 \tchapters?: FieldPolicy<GetChaptersQuery['chapters']> | FieldReadFunction<GetChaptersQuery['chapters']>,
 \tcheckForServerUpdates?: FieldPolicy<any> | FieldReadFunction<any>,
 \tcheckForWebUIUpdate?: FieldPolicy<any> | FieldReadFunction<any>,
-\tdownloadStatus?: FieldPolicy<any> | FieldReadFunction<any>,
+\tdownloadStatus?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetDownloadStatusQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetDownloadStatusQueryVariables>>,
 \textension?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetExtensionQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetExtensionQueryVariables>>,
 \textensions?: FieldPolicy<any> | FieldReadFunction<any>,
-\tgetWebUIUpdateStatus?: FieldPolicy<any> | FieldReadFunction<any>,
+\tgetWebUIUpdateStatus?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetWebuiUpdateStatusQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetWebuiUpdateStatusQueryVariables>>,
 \tlastUpdateTimestamp?: FieldPolicy<any> | FieldReadFunction<any>,
 \tmanga?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetMangaQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetMangaQueryVariables>>,
 \tmangas?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -108,7 +108,7 @@ const fixTypingOfQueryTypePolicies = format(
 \tsettings?: FieldPolicy<any> | FieldReadFunction<any>,
 \tsource?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetSourceQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetSourceQueryVariables>>,
 \tsources?: FieldPolicy<any> | FieldReadFunction<any>,
-\tupdateStatus?: FieldPolicy<any> | FieldReadFunction<any>,
+\tupdateStatus?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetUpdateStatusQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetUpdateStatusQueryVariables>>,
 \tvalidateBackup?: FieldPolicy<any> | FieldReadFunction<any>
 };`,
 );

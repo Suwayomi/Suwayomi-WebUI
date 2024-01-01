@@ -170,10 +170,17 @@ import {
     UpdateMangasCategoriesMutation,
     UpdateMangasCategoriesMutationVariables,
     UpdateMangaCategoriesPatchInput,
+    GetWebuiUpdateStatusQuery,
+    GetWebuiUpdateStatusQueryVariables,
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_GLOBAL_METADATAS } from '@/lib/graphql/queries/GlobalMetadataQuery.ts';
 import { SET_GLOBAL_METADATA } from '@/lib/graphql/mutations/GlobalMetadataMutation.ts';
-import { CHECK_FOR_SERVER_UPDATES, CHECK_FOR_WEBUI_UPDATE, GET_ABOUT } from '@/lib/graphql/queries/ServerInfoQuery.ts';
+import {
+    CHECK_FOR_SERVER_UPDATES,
+    CHECK_FOR_WEBUI_UPDATE,
+    GET_ABOUT,
+    GET_WEBUI_UPDATE_STATUS,
+} from '@/lib/graphql/queries/ServerInfoQuery.ts';
 import { GET_EXTENSIONS } from '@/lib/graphql/queries/ExtensionQuery.ts';
 import {
     GET_EXTENSIONS_FETCH,
@@ -2104,8 +2111,8 @@ export class RequestManager {
     }
 
     public useGetDownloadStatus(
-        options?: SubscriptionHookOptions<GetDownloadStatusQuery, GetDownloadStatusQueryVariables>,
-    ): SubscriptionResult<GetDownloadStatusQuery, GetDownloadStatusQueryVariables> {
+        options?: QueryHookOptions<GetDownloadStatusQuery, GetDownloadStatusQueryVariables>,
+    ): AbortableApolloUseQueryResponse<GetDownloadStatusQuery, GetDownloadStatusQueryVariables> {
         return this.doRequest(GQLMethod.USE_QUERY, GET_DOWNLOAD_STATUS, {}, options);
     }
 
@@ -2162,6 +2169,12 @@ export class RequestManager {
         options?: MutationOptions<ResetWebuiUpdateStatusMutation, ResetWebuiUpdateStatusMutationVariables>,
     ): AbortableApolloMutationResponse<ResetWebuiUpdateStatusMutation> {
         return this.doRequest(GQLMethod.MUTATION, RESET_WEBUI_UPDATE_STATUS, undefined, options);
+    }
+
+    public useGetWebUIUpdateStatus(
+        options?: QueryHookOptions<GetWebuiUpdateStatusQuery, GetWebuiUpdateStatusQueryVariables>,
+    ): AbortableApolloUseQueryResponse<GetWebuiUpdateStatusQuery, GetWebuiUpdateStatusQueryVariables> {
+        return this.doRequest(GQLMethod.USE_QUERY, GET_WEBUI_UPDATE_STATUS, undefined, options);
     }
 }
 

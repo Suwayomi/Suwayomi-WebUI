@@ -98,7 +98,6 @@ const DownloadChapterItem = ({
 export const DownloadQueue: React.FC = () => {
     const { t } = useTranslation();
 
-    requestManager.useDownloadSubscription();
     const [reorderDownload, { reset: revertReorder }] = requestManager.useReorderChapterInDownloadQueue();
 
     const { data: downloadStatusData, loading: isLoading } = requestManager.useGetDownloadStatus();

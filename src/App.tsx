@@ -35,6 +35,7 @@ import { DownloadSettings } from '@/screens/settings/DownloadSettings.tsx';
 import { ServerSettings } from '@/screens/settings/ServerSettings.tsx';
 import { WebUISettings } from '@/screens/settings/WebUISettings.tsx';
 import { ServerUpdateChecker } from '@/components/settings/ServerUpdateChecker.tsx';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 
 if (process.env.NODE_ENV !== 'production') {
     // Adds messages only in a dev environment
@@ -52,10 +53,25 @@ const ScrollToTop = () => {
     return null;
 };
 
+/**
+ * Creates permanent subscriptions to always have the latest data.
+ *
+ * E.g. in case a view is open, which does not subscribe to the download updates, finished downloads are never received
+ * and thus, data of existing chapters/mangas in the cache get outdated
+ */
+const BackgroundSubscriptions = () => {
+    requestManager.useDownloadSubscription();
+    requestManager.useUpdaterSubscription();
+    requestManager.useWebUIUpdateSubscription();
+
+    return null;
+};
+
 export const App: React.FC = () => (
     <AppContext>
         <ScrollToTop />
         <ServerUpdateChecker />
+        <BackgroundSubscriptions />
         <CssBaseline />
         <DefaultNavBar />
         <Container
