@@ -211,9 +211,11 @@ export function About() {
     } = requestManager.useCheckForWebUIUpdate({ notifyOnNetworkStatusChange: true });
     const webUIUpdateCheckError = orgWebUIUpdateCheckError || webUIUpdateData?.checkForWebUIUpdate.tag === '';
 
-    const { data: webUIUpdateStatusData } = requestManager.useWebUIUpdateSubscription();
-    const { state: webUIUpdateState, progress: webUIUpdateProgress } =
-        webUIUpdateStatusData?.webUIUpdateStatusChange ?? { state: UpdateState.Idle, progress: 0 };
+    const { data: webUIUpdateStatusData } = requestManager.useGetWebUIUpdateStatus();
+    const { state: webUIUpdateState, progress: webUIUpdateProgress } = webUIUpdateStatusData?.getWebUIUpdateStatus ?? {
+        state: UpdateState.Idle,
+        progress: 0,
+    };
 
     useEffect(() => {
         const isError = webUIUpdateState === UpdateState.Error;
@@ -236,7 +238,7 @@ export function About() {
 
         makeToast(
             t('settings.about.webui.label.update_success', {
-                version: webUIUpdateStatusData!.webUIUpdateStatusChange.info.tag,
+                version: webUIUpdateStatusData!.getWebUIUpdateStatus.info.tag,
             }),
             'success',
         );
@@ -245,16 +247,16 @@ export function About() {
             fragment: ABOUT_WEBUI,
             data: {
                 __typename: 'AboutWebUI',
-                channel: webUIUpdateStatusData!.webUIUpdateStatusChange.info.channel,
-                tag: webUIUpdateStatusData!.webUIUpdateStatusChange.info.tag,
+                channel: webUIUpdateStatusData!.getWebUIUpdateStatus.info.channel,
+                tag: webUIUpdateStatusData!.getWebUIUpdateStatus.info.tag,
             },
         });
         requestManager.graphQLClient.client.cache.writeFragment({
             fragment: WEBUI_UPDATE_CHECK,
             data: {
                 __typename: 'WebUIUpdateCheck',
-                channel: webUIUpdateStatusData!.webUIUpdateStatusChange.info.channel,
-                tag: webUIUpdateStatusData!.webUIUpdateStatusChange.info.tag,
+                channel: webUIUpdateStatusData!.getWebUIUpdateStatus.info.channel,
+                tag: webUIUpdateStatusData!.getWebUIUpdateStatus.info.tag,
                 updateAvailable: false,
             },
         });

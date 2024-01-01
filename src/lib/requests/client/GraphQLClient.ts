@@ -26,6 +26,8 @@ const typePolicies: StrictTypedTypePolicies = {
     SettingsType: { keyFields: [] },
     DownloadStatus: { keyFields: [] },
     DownloadType: { keyFields: ['chapter'] },
+    WebUIUpdateStatus: { keyFields: [] },
+    UpdateStatus: { keyFields: [] },
     Query: {
         fields: {
             manga(_, { args, toReference }) {
@@ -57,6 +59,21 @@ const typePolicies: StrictTypedTypePolicies = {
                     __typename: 'GlobalMetaType',
                     key: args?.key,
                 });
+            },
+            downloadStatus(_, { toReference }) {
+                return toReference({
+                    __typename: 'DownloadStatus',
+                    key: {},
+                });
+            },
+            getWebUIUpdateStatus(_, { toReference }) {
+                return toReference({
+                    __typename: 'WebUIUpdateStatus',
+                    key: {},
+                });
+            },
+            updateStatus(_, { toReference }) {
+                return toReference({ __typename: 'UpdateStatus', key: {} });
             },
             chapters: {
                 keyArgs: ['condition', 'filter', 'orderBy', 'orderByType'],

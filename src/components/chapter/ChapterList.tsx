@@ -66,8 +66,8 @@ interface IProps {
 export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
     const { t } = useTranslation();
 
-    const { data: downloaderData } = requestManager.useDownloadSubscription();
-    const queue = (downloaderData?.downloadChanged.queue as DownloadType[]) ?? [];
+    const { data: downloaderData } = requestManager.useGetDownloadStatus();
+    const queue = (downloaderData?.downloadStatus.queue as DownloadType[]) ?? [];
 
     const [options, dispatch] = useChapterOptions(manga.id);
     const { data: chaptersData, loading: isLoading } = requestManager.useGetMangaChapters(manga.id);
