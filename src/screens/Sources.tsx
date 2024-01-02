@@ -7,7 +7,7 @@
  */
 
 import { Fragment, useContext, useEffect } from 'react';
-import { IconButton, Tooltip } from '@mui/material';
+import { IconButton, Tooltip, Typography } from '@mui/material';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -107,9 +107,18 @@ export function Sources() {
                     ([lang, list]) =>
                         shownLangs.indexOf(lang) !== -1 && (
                             <Fragment key={lang}>
-                                <h1 key={lang} style={{ marginLeft: 25 }}>
+                                <Typography
+                                    key={lang}
+                                    variant="h4"
+                                    style={{
+                                        paddingLeft: '24px',
+                                        paddingTop: '6px',
+                                        paddingBottom: '16px',
+                                        fontWeight: 'bold',
+                                    }}
+                                >
                                     {translateExtensionLanguage(lang)}
-                                </h1>
+                                </Typography>
                                 {(list as ISource[])
                                     .filter((source) => showNsfw || !source.isNsfw)
                                     .map((source) => (

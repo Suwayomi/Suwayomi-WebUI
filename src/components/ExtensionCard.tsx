@@ -148,13 +148,16 @@ export function ExtensionCard(props: IProps) {
     }
 
     return (
-        <Card sx={{ margin: '10px' }}>
+        <Card>
             <CardContent
                 sx={{
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
                     p: 2,
+                    '&:last-child': {
+                        paddingBottom: 2,
+                    },
                 }}
             >
                 <Box sx={{ display: 'flex' }}>
@@ -173,10 +176,10 @@ export function ExtensionCard(props: IProps) {
                         <Typography variant="h5" component="h2">
                             {name}
                         </Typography>
-                        <Typography variant="caption" display="block" gutterBottom>
+                        <Typography variant="caption" display="block">
                             {langPress} {versionName}
                             {isNsfw && (
-                                <Typography variant="caption" display="inline" gutterBottom color="red">
+                                <Typography variant="caption" display="inline" color="red">
                                     {' 18+'}
                                 </Typography>
                             )}

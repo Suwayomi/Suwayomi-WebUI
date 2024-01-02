@@ -53,6 +53,7 @@ export const SourceCard: React.FC<IProps> = (props: IProps) => {
         <Card
             sx={{
                 margin: '10px',
+                marginTop: 0,
             }}
         >
             <CardActionArea
