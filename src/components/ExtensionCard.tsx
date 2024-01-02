@@ -155,6 +155,9 @@ export function ExtensionCard(props: IProps) {
                     justifyContent: 'space-between',
                     alignItems: 'center',
                     p: 2,
+                    '&:last-child': {
+                        paddingBottom: 2,
+                    },
                 }}
             >
                 <Box sx={{ display: 'flex' }}>
