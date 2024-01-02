@@ -12,7 +12,7 @@ import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import { StringParam, useQueryParam } from 'use-query-params';
 import { Virtuoso } from 'react-virtuoso';
-import { Tooltip, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Box, Tooltip, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { extensionDefaultLangs, DefaultLanguage, langSortCmp } from '@/util/language';
@@ -96,8 +96,6 @@ export function Extensions() {
     const { setTitle, setAction } = useContext(NavBarContext);
     const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownExtensionLangs', extensionDefaultLangs());
     const [showNsfw] = useLocalStorage<boolean>('showNsfw', true);
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const [query] = useQueryParam('query', StringParam);
 
     const [refetchExtensions, setRefetchExtensions] = useState({});
@@ -207,9 +205,8 @@ export function Extensions() {
                 }}
             />
             <Virtuoso
-                style={{
-                    height: isMobile ? 'calc(100vh - 64px - 64px)' : 'calc(100vh - 64px)',
-                }}
+                useWindowScroll
+                overscan={window.innerHeight * 0.5}
                 totalCount={flatRenderItems.length}
                 itemContent={(index) => {
                     if (typeof flatRenderItems[index] === 'string') {
@@ -217,12 +214,11 @@ export function Extensions() {
                         return (
                             <Typography
                                 key={item}
-                                variant="h2"
+                                variant="h4"
                                 style={{
-                                    paddingLeft: 25,
-                                    paddingBottom: '0.83em',
-                                    paddingTop: '0.83em',
-                                    fontSize: '2em',
+                                    paddingLeft: '24px',
+                                    paddingTop: '6px',
+                                    paddingBottom: '16px',
                                     fontWeight: 'bold',
                                 }}
                             >
@@ -232,7 +228,11 @@ export function Extensions() {
                     }
                     const item = flatRenderItems[index] as PartialExtension;
 
-                    return <ExtensionCard key={item.apkName} extension={item} handleUpdate={handleExtensionUpdate} />;
+                    return (
+                        <Box sx={{ padding: '10px', paddingTop: 0 }}>
+                            <ExtensionCard key={item.apkName} extension={item} handleUpdate={handleExtensionUpdate} />
+                        </Box>
+                    );
                 }}
             />
         </>
