@@ -7,12 +7,13 @@
  */
 
 import { useState } from 'react';
-import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { useTranslation } from 'react-i18next';
 import { Sources } from '@/screens/Sources';
 import { Extensions } from '@/screens/Extensions';
 import { TabPanel } from '@/components/tabs/TabPanel.tsx';
+import { TabsWrapper } from '@/components/tabs/TabsWrapper.tsx';
+import { TabsMenu } from '@/components/tabs/TabsMenu.tsx';
 
 export function Browse() {
     const { t } = useTranslation();
@@ -20,26 +21,17 @@ export function Browse() {
     const [tabNum, setTabNum] = useState<number>(0);
 
     return (
-        <>
-            <Tabs
-                value={tabNum}
-                onChange={(e, newTab) => setTabNum(newTab)}
-                indicatorColor="primary"
-                textColor="primary"
-                centered
-                variant="fullWidth"
-                scrollButtons
-                allowScrollButtonsMobile
-            >
+        <TabsWrapper>
+            <TabsMenu value={tabNum} tabsCount={2} onChange={(e, newTab) => setTabNum(newTab)}>
                 <Tab sx={{ textTransform: 'none' }} label={t('source.title')} />
                 <Tab sx={{ textTransform: 'none' }} label={t('extension.title')} />
-            </Tabs>
+            </TabsMenu>
             <TabPanel index={0} currentIndex={tabNum}>
                 <Sources />
             </TabPanel>
             <TabPanel index={1} currentIndex={tabNum}>
                 <Extensions />
             </TabPanel>
-        </>
+        </TabsWrapper>
     );
 }
