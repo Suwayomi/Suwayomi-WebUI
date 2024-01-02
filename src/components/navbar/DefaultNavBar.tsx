@@ -19,7 +19,6 @@ import NewReleasesIcon from '@mui/icons-material/NewReleases';
 import NewReleasesOutlinedIcon from '@mui/icons-material/NewReleasesOutlined';
 import ExploreIcon from '@mui/icons-material/Explore';
 import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
-import ExtensionIcon from '@mui/icons-material/Extension';
 import GetAppIcon from '@mui/icons-material/GetApp';
 import GetAppOutlinedIcon from '@mui/icons-material/GetAppOutlined';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -28,7 +27,6 @@ import { useLocation } from 'react-router-dom';
 import { createPortal } from 'react-dom';
 import { NavbarItem } from '@/typings';
 import { NavBarContext } from '@/components/context/NavbarContext';
-import { ExtensionOutlinedIcon } from '@/components/util/CustomExtensionOutlinedIcon';
 import { DesktopSideBar } from '@/components/navbar/navigation/DesktopSideBar';
 import { MobileBottomBar } from '@/components/navbar/navigation/MobileBottomBar';
 import { useBackButton } from '@/util/useBackButton.ts';
@@ -49,25 +47,11 @@ const navbarItems: Array<NavbarItem> = [
         show: 'both',
     },
     {
-        path: '/extensions',
-        title: 'extension.title',
-        SelectedIconComponent: ExtensionIcon,
-        IconComponent: ExtensionOutlinedIcon,
-        show: 'desktop',
-    },
-    {
-        path: '/sources',
-        title: 'source.title',
-        SelectedIconComponent: ExploreIcon,
-        IconComponent: ExploreOutlinedIcon,
-        show: 'desktop',
-    },
-    {
         path: '/browse',
         title: 'global.label.browse',
         SelectedIconComponent: ExploreIcon,
         IconComponent: ExploreOutlinedIcon,
-        show: 'mobile',
+        show: 'both',
     },
     {
         path: '/downloads',
