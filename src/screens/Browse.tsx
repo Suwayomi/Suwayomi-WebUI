@@ -12,7 +12,7 @@ import Tab from '@mui/material/Tab';
 import { useTranslation } from 'react-i18next';
 import { Sources } from '@/screens/Sources';
 import { Extensions } from '@/screens/Extensions';
-import { TabPanel } from '@/components/util/TabPanel';
+import { TabPanel } from '@/components/tabs/TabPanel.tsx';
 
 export function Browse() {
     const { t } = useTranslation();

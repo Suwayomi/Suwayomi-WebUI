@@ -6,14 +6,14 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Chip, Tab, Tabs, styled, Box } from '@mui/material';
+import { Chip, Tab, styled } from '@mui/material';
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { useQueryParam, NumberParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { EmptyView } from '@/components/util/EmptyView';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
-import { TabPanel } from '@/components/util/TabPanel';
+import { TabPanel } from '@/components/tabs/TabPanel.tsx';
 import { LibraryToolbarMenu } from '@/components/library/LibraryToolbarMenu';
 import { LibraryMangaGrid } from '@/components/library/LibraryMangaGrid';
 import { AppbarSearch } from '@/components/util/AppbarSearch';
@@ -27,33 +27,8 @@ import { useGetVisibleLibraryMangas } from '@/components/library/useGetVisibleLi
 import { SelectionFAB } from '@/components/collection/SelectionFAB.tsx';
 import { PARTIAL_MANGA_FIELDS } from '@/lib/graphql/Fragments.ts';
 import { MangaActionMenuItems } from '@/components/manga/MangaActionMenuItems.tsx';
-
-const StyledGridWrapper = styled(Box)(({ theme }) => ({
-    // TabsMenu height + TabsMenu bottom padding - grid item top padding
-    marginTop: `calc(48px + 13px - 8px)`,
-    // header height - TabsMenu height - TabsMenu bottom padding + grid item top padding
-    minHeight: 'calc(100vh - 64px - 48px - 13px + 8px)',
-    position: 'relative',
-    [theme.breakpoints.down('sm')]: {
-        // TabsMenu - 8px margin diff header height (56px) + TabsMenu bottom padding - grid item top padding
-        marginTop: `calc(48px - 8px + 13px - 8px)`,
-        // header height (+ 8px margin) - footer height - TabsMenu height
-        minHeight: 'calc(100vh - 64px - 64px - 48px)',
-    },
-}));
-
-const TabsMenu = styled(Tabs)(({ theme }) => ({
-    display: 'flex',
-    position: 'fixed',
-    top: '64px',
-    width: 'calc(100% - 64px)',
-    zIndex: 1,
-    backgroundColor: theme.palette.background.default,
-    [theme.breakpoints.down('sm')]: {
-        top: '56px', // header height
-        width: '100%',
-    },
-}));
+import { TabsMenu } from '@/components/tabs/TabsMenu.tsx';
+import { TabsWrapper } from '@/components/tabs/TabsWrapper.tsx';
 
 const TitleWithSizeTag = styled('span')({
     display: 'flex',
@@ -209,22 +184,13 @@ export function Library() {
         );
     }
 
-    // Visual Hack: 160px is min-width for viewport width of >600
-    const scrollableTabs = window.innerWidth < tabs.length * 160;
-
     return (
         <>
-            <StyledGridWrapper>
+            <TabsWrapper>
                 <TabsMenu
-                    sx={{ borderBottom: 2, borderColor: 'divider' }}
                     value={activeTab.order}
                     onChange={(e, newTab) => handleTabChange(newTab)}
-                    indicatorColor="primary"
-                    textColor="primary"
-                    centered={!scrollableTabs}
-                    variant={scrollableTabs ? 'scrollable' : 'fullWidth'}
-                    scrollButtons
-                    allowScrollButtonsMobile
+                    tabsCount={tabs.length}
                 >
                     {tabs.map((tab) => (
                         <Tab
@@ -261,7 +227,7 @@ export function Library() {
                             ))}
                     </TabPanel>
                 ))}
-            </StyledGridWrapper>
+            </TabsWrapper>
             {isSelectModeActive && (
                 <SelectionFAB selectedItemsCount={selectedItemIds.length} title="manga.title">
                     {(handleClose, setHideMenu) => (
