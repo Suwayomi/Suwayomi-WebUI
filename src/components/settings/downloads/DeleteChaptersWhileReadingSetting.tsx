@@ -43,7 +43,7 @@ const CHAPTERS_TO_DELETE_SELECT_VALUES: SelectSettingValue<(typeof CHAPTERS_TO_D
     ]);
 
 const getNormalizedChapterToDelete = (chapterToDelete?: number | boolean) => {
-    if (!chapterToDelete) {
+    if (chapterToDelete === undefined) {
         return undefined;
     }
 
