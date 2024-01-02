@@ -11,9 +11,9 @@ import { fromEvent } from 'file-selector';
 import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import { StringParam, useQueryParam } from 'use-query-params';
-import { Virtuoso } from 'react-virtuoso';
-import { Box, Tooltip, Typography } from '@mui/material';
+import { Tooltip, useMediaQuery } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from '@mui/material/styles';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { extensionDefaultLangs, DefaultLanguage, langSortCmp } from '@/util/language';
 import { useLocalStorage } from '@/util/useLocalStorage';
@@ -31,6 +31,9 @@ import { LangSelect } from '@/components/navbar/action/LangSelect';
 import { ExtensionCard } from '@/components/ExtensionCard';
 import { PartialExtension } from '@/typings.ts';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
+import { StyledGroupedVirtuoso } from '@/components/virtuoso/StyledGroupedVirtuoso.tsx';
+import { StyledGroupHeader } from '@/components/virtuoso/StyledGroupHeader.tsx';
+import { StyledGroupItemWrapper } from '@/components/virtuoso/StyledGroupItemWrapper.tsx';
 
 const LANGUAGE = 0;
 const EXTENSIONS = 1;
@@ -92,6 +95,9 @@ function getExtensionsInfo(extensions: PartialExtension[]): {
 export function Extensions() {
     const { t } = useTranslation();
 
+    const theme = useTheme();
+    const isMobileWidth = useMediaQuery(theme.breakpoints.down('sm'));
+
     const inputRef = useRef<HTMLInputElement>(null);
     const { setTitle, setAction } = useContext(NavBarContext);
     const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownExtensionLangs', extensionDefaultLangs());
@@ -128,7 +134,14 @@ export function Extensions() {
         [shownLangs, groupedExtensions],
     );
 
-    const flatRenderItems: (PartialExtension | string)[] = filteredGroupedExtensions.flat(2);
+    const groupCounts = useMemo(
+        () => filteredGroupedExtensions.map((extensionGroup) => extensionGroup[EXTENSIONS].length - 1),
+        [filteredGroupedExtensions],
+    );
+    const visibleExtensions = useMemo(
+        () => filteredGroupedExtensions.map(([, extensions]) => extensions).flat(1),
+        [filteredGroupedExtensions],
+    );
 
     const [toasts, makeToast] = makeToaster(useState<React.ReactElement[]>([]));
 
@@ -204,34 +217,46 @@ export function Extensions() {
                     }
                 }}
             />
-            <Virtuoso
-                useWindowScroll
+            <StyledGroupedVirtuoso
+                style={{
+                    // override Virtuoso default values and set them with class
+                    height: 'undefined',
+                }}
+                heightToSubtract={
+                    isMobileWidth
+                        ? // desktop: TabsMenu height
+                          48
+                        : // desktop: TabsMenu height - TabsMenu bottom padding + grid item top padding
+                          48 + 13 - 8
+                }
                 overscan={window.innerHeight * 0.5}
-                totalCount={flatRenderItems.length}
-                itemContent={(index) => {
-                    if (typeof flatRenderItems[index] === 'string') {
-                        const item = flatRenderItems[index] as string;
-                        return (
-                            <Typography
-                                key={item}
-                                variant="h4"
-                                style={{
-                                    paddingLeft: '24px',
-                                    paddingTop: '6px',
-                                    paddingBottom: '16px',
-                                    fontWeight: 'bold',
-                                }}
-                            >
-                                {translateExtensionLanguage(item)}
-                            </Typography>
-                        );
-                    }
-                    const item = flatRenderItems[index] as PartialExtension;
+                groupCounts={groupCounts}
+                groupContent={(index) => {
+                    const [groupName] = filteredGroupedExtensions[index];
 
                     return (
-                        <Box sx={{ padding: '10px', paddingTop: 0 }}>
-                            <ExtensionCard key={item.apkName} extension={item} handleUpdate={handleExtensionUpdate} />
-                        </Box>
+                        <StyledGroupHeader
+                            key={groupName}
+                            variant="h4"
+                            style={{
+                                paddingLeft: '24px',
+                                paddingTop: '6px',
+                                paddingBottom: '16px',
+                                fontWeight: 'bold',
+                            }}
+                            isFirstItem={index === 0}
+                        >
+                            {translateExtensionLanguage(groupName)}
+                        </StyledGroupHeader>
+                    );
+                }}
+                itemContent={(index) => {
+                    const item = visibleExtensions[index];
+
+                    return (
+                        <StyledGroupItemWrapper key={item.apkName} isLastItem={index === visibleExtensions.length - 1}>
+                            <ExtensionCard extension={item} handleUpdate={handleExtensionUpdate} />
+                        </StyledGroupItemWrapper>
                     );
                 }}
             />
