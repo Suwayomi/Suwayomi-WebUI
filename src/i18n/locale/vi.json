@@ -143,7 +143,20 @@
                 "queued": "Xếp hàng"
             }
         },
-        "title": "Tải xuống"
+        "title": "Tải xuống",
+        "settings": {
+            "delete_chapters": {
+                "while_reading": {
+                    "option": {
+                        "label": {
+                            "fourth": "",
+                            "second": "",
+                            "third": ""
+                        }
+                    }
+                }
+            }
+        }
     },
     "extension": {
         "action": {

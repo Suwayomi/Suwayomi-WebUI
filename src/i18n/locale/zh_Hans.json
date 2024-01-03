@@ -126,12 +126,14 @@
     "download": {
         "queue": {
             "label": {
-                "no_downloads": "没有下载"
+                "no_downloads": "没有下载",
+                "delete_all": "全部删除"
             },
             "title": "下载列表",
             "error": {
                 "label": {
-                    "failed_to_remove": "无法从队列中删除下载。"
+                    "failed_to_remove": "无法从队列中删除下载。",
+                    "failed_delete_all": "无法从队列中删除所有下载"
                 }
             }
         },
@@ -163,9 +165,9 @@
                     "unread_chapters_to_download": "要下载的未读章节数",
                     "value": "{{chapters}} $t(chapter.title)",
                     "disclaimer": "此限制也适用于更新期间自动下载新章节",
-                    "description": "阅读时应提前下载多少章节"
+                    "description": "阅读时应提前下载多少章节。"
                 },
-                "title": "下载前"
+                "title": "提前下载"
             },
             "download_path": {
                 "label": {
@@ -173,7 +175,28 @@
                     "title": "下载位置"
                 }
             },
-            "title": "下载设置"
+            "title": "下载设置",
+            "delete_chapters": {
+                "while_reading": {
+                    "label": {
+                        "title": "删除已经阅读完的章节"
+                    },
+                    "option": {
+                        "label": {
+                            "first": "上次阅读章节",
+                            "fourth": "阅读倒数第四章节",
+                            "second": "阅读倒数第二章节",
+                            "third": "阅读倒数第三章节",
+                            "fifth": "阅读倒数第五章节"
+                        }
+                    }
+                },
+                "label": {
+                    "allow_deletion_of_bookmarked": "允许删除已添加书签的章节",
+                    "manually_marked_as_read": "手动标记为已读后删除章节"
+                },
+                "title": "删除章节"
+            }
         }
     },
     "extension": {
@@ -278,7 +301,13 @@
             "username": "用户名",
             "client": "客户端",
             "password": "密码",
-            "never": "从未"
+            "never": "从未",
+            "discord": "Discord",
+            "close": "关闭",
+            "disabled": "禁用",
+            "other": "其他",
+            "github": "GitHub",
+            "links": "链接"
         },
         "language": {
             "label": {
@@ -298,6 +327,17 @@
         },
         "time": {
             "hour_short": "小时"
+        },
+        "update": {
+            "label": {
+                "updating": "{{progress}}% | 正在升级…",
+                "up_to_date": "已经是最新版本",
+                "update_failure": "更新失败",
+                "checking": "正在检查更新",
+                "available": "可用更新",
+                "check_failure": "无法检查更新",
+                "info": "服务器版本 {{version}} ({{channel}}) 可供下载"
+            }
         }
     },
     "library": {
@@ -322,6 +362,11 @@
                     "title": "标签",
                     "label": {
                         "show_number_of_items": "显示项目的数量"
+                    }
+                },
+                "other": {
+                    "label": {
+                        "show_continue_reading_button": "显示继续阅读按钮"
                     }
                 }
             },
@@ -403,7 +448,31 @@
             "status": "状态",
             "reload_from_source": "从图源重新加载数据"
         },
-        "title": "漫画"
+        "title": "漫画",
+        "action": {
+            "library": {
+                "remove": {
+                    "label": {
+                        "error_other": "无法从书架中删除所选漫画",
+                        "action": "从书架中删除",
+                        "success_other": "从书架中删除了 {{count}} 本漫画"
+                    },
+                    "button": {
+                        "selected": "从书架中删除所选内容"
+                    }
+                }
+            },
+            "category": {
+                "button": {
+                    "selected": "更改所选分类名"
+                },
+                "label": {
+                    "action": "更改分类名",
+                    "error_other": "无法更改漫画的分类",
+                    "success_other": "已成功更改 {{count}} 本漫画分类"
+                }
+            }
+        }
     },
     "reader": {
         "button": {
@@ -518,7 +587,24 @@
                 "discord": "Discord",
                 "github": "Github"
             },
-            "title": "关于"
+            "title": "关于",
+            "server": {
+                "label": {
+                    "address": "服务器地址",
+                    "build_time": "构建时间",
+                    "version": "服务器版本",
+                    "github": "$t(global.label.github) $t(settings.server.title.server)"
+                }
+            },
+            "webui": {
+                "label": {
+                    "update_success": "已将 $t(settings.webui.title.webui) 版本更新至 {{version}}. 刷新后生效",
+                    "version": "$t(settings.webui.title.webui) 版本",
+                    "update_failure": "无法更新 $t(settings.webui.title.webui)",
+                    "channel": "$t(settings.webui.title.webui) 版本选择",
+                    "github": "$t(global.label.github) $t(settings.webui.title.webui)"
+                }
+            }
         },
         "server": {
             "title": {
@@ -644,7 +730,7 @@
             },
             "interface": {
                 "label": {
-                    "description": "在启动服务器时，从哪里开始处理 $t(settings.webui.title.webui)",
+                    "description": "启用服务器时启动$t(settings.webui.title.webui)",
                     "title": "接口"
                 },
                 "option": {
@@ -677,6 +763,14 @@
                     "title": "Electron 路径",
                     "description": "服务器上 Electron 安装的路径"
                 }
+            }
+        },
+        "clear_cache": {
+            "label": {
+                "title": "清除服务器缓存",
+                "success": "已清除服务器缓存",
+                "description": "客户端的缓存（浏览器、electron）应该与之一起清除，否则，客户端缓存将继续被使用",
+                "failure": "无法清除服务器缓存"
             }
         }
     },
