@@ -95,6 +95,7 @@ function getExtensionsInfo(extensions: PartialExtension[]): {
 
 export function Extensions() {
     const { t } = useTranslation();
+    const { setAction } = useContext(NavBarContext);
 
     const theme = useTheme();
     const isMobileWidth = useMediaQuery(theme.breakpoints.down('sm'));
@@ -104,7 +105,6 @@ export function Extensions() {
     const areMultipleReposInUse = (serverSettingsData?.settings.extensionRepos.length ?? 0) > 1;
 
     const inputRef = useRef<HTMLInputElement>(null);
-    const { setTitle, setAction } = useContext(NavBarContext);
     const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownExtensionLangs', extensionDefaultLangs());
     const [showNsfw] = useLocalStorage<boolean>('showNsfw', true);
     const [query] = useQueryParam('query', StringParam);
@@ -169,7 +169,6 @@ export function Extensions() {
     };
 
     useEffect(() => {
-        setTitle(t('extension.title'));
         setAction(
             <>
                 <AppbarSearch />

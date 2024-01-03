@@ -28,3 +28,19 @@ export const GET_SOURCES = gql`
         }
     }
 `;
+
+export const GET_MIGRATABLE_SOURCES = gql`
+    query GET_MIGRATABLE_SOURCES {
+        mangas(condition: { inLibrary: true }) {
+            nodes {
+                sourceId
+                source {
+                    id
+                    name
+                    lang
+                    iconUrl
+                }
+            }
+        }
+    }
+`;

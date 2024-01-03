@@ -573,6 +573,9 @@
     "title_one": "Manga",
     "title_other": "Manga"
   },
+  "migrate": {
+    "title": "Migrate"
+  },
   "reader": {
     "button": {
       "close_menu": "Close menu",

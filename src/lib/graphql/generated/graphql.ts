@@ -3035,6 +3035,11 @@ export type GetSourcesQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetSourcesQuery = { __typename?: 'Query', sources: { __typename?: 'SourceNodeList', nodes: Array<{ __typename?: 'SourceType', displayName: string, iconUrl: string, id: any, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } }> } };
 
+export type GetMigratableSourcesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetMigratableSourcesQuery = { __typename?: 'Query', mangas: { __typename?: 'MangaNodeList', nodes: Array<{ __typename?: 'MangaType', sourceId: any, source?: { __typename?: 'SourceType', id: any, name: string, lang: string, iconUrl: string } | null }> } };
+
 export type GetUpdateStatusQueryVariables = Exact<{ [key: string]: never; }>;
 
 

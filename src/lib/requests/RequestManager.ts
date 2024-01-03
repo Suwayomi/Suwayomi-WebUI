@@ -172,6 +172,8 @@ import {
     UpdateMangaCategoriesPatchInput,
     GetWebuiUpdateStatusQuery,
     GetWebuiUpdateStatusQueryVariables,
+    GetMigratableSourcesQuery,
+    GetMigratableSourcesQueryVariables,
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_GLOBAL_METADATAS } from '@/lib/graphql/queries/GlobalMetadataQuery.ts';
 import { SET_GLOBAL_METADATA } from '@/lib/graphql/mutations/GlobalMetadataMutation.ts';
@@ -187,7 +189,7 @@ import {
     INSTALL_EXTERNAL_EXTENSION,
     UPDATE_EXTENSION,
 } from '@/lib/graphql/mutations/ExtensionMutation.ts';
-import { GET_SOURCE, GET_SOURCES } from '@/lib/graphql/queries/SourceQuery.ts';
+import { GET_MIGRATABLE_SOURCES, GET_SOURCE, GET_SOURCES } from '@/lib/graphql/queries/SourceQuery.ts';
 import {
     GET_MANGA_FETCH,
     SET_MANGA_METADATA,
@@ -2181,6 +2183,12 @@ export class RequestManager {
         options?: QueryHookOptions<GetWebuiUpdateStatusQuery, GetWebuiUpdateStatusQueryVariables>,
     ): AbortableApolloUseQueryResponse<GetWebuiUpdateStatusQuery, GetWebuiUpdateStatusQueryVariables> {
         return this.doRequest(GQLMethod.USE_QUERY, GET_WEBUI_UPDATE_STATUS, undefined, options);
+    }
+
+    public useGetMigratableSources(
+        options?: QueryHookOptions<GetMigratableSourcesQuery, GetMigratableSourcesQueryVariables>,
+    ): AbortableApolloUseQueryResponse<GetMigratableSourcesQuery, GetMigratableSourcesQueryVariables> {
+        return this.doRequest(GQLMethod.USE_QUERY, GET_MIGRATABLE_SOURCES, undefined, options);
     }
 }
 
