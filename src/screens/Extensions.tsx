@@ -135,7 +135,7 @@ export function Extensions() {
     );
 
     const groupCounts = useMemo(
-        () => filteredGroupedExtensions.map((extensionGroup) => extensionGroup[EXTENSIONS].length - 1),
+        () => filteredGroupedExtensions.map((extensionGroup) => extensionGroup[EXTENSIONS].length),
         [filteredGroupedExtensions],
     );
     const visibleExtensions = useMemo(
