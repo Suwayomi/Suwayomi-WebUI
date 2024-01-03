@@ -181,6 +181,10 @@ export function Extensions() {
                 <LangSelect shownLangs={shownLangs} setShownLangs={setShownLangs} allLangs={allLangs} />
             </>,
         );
+
+        return () => {
+            setAction(null);
+        };
     }, [t, shownLangs, allLangs]);
 
     useEffect(() => {

@@ -43,6 +43,11 @@ export function Settings() {
     useEffect(() => {
         setTitle(t('settings.title'));
         setAction(null);
+
+        return () => {
+            setTitle('');
+            setAction(null);
+        };
     }, [t]);
 
     const { darkTheme, setDarkTheme } = useContext(DarkTheme);

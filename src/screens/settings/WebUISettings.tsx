@@ -107,6 +107,11 @@ export const WebUISettings = () => {
     useEffect(() => {
         setTitle(t('settings.webui.title.settings'));
         setAction(null);
+
+        return () => {
+            setTitle('');
+            setAction(null);
+        };
     }, [t]);
 
     const { data } = requestManager.useGetServerSettings();

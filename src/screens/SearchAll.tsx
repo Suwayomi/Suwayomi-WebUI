@@ -215,6 +215,11 @@ export const SearchAll: React.FC = () => {
                 />
             </>,
         );
+
+        return () => {
+            setTitle('');
+            setAction(null);
+        };
     }, [t, shownLangs, setShownLangs, sources]);
 
     useEffect(() => {

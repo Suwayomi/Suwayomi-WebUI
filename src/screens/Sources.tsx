@@ -99,6 +99,10 @@ export function Sources() {
                 />
             </>,
         );
+
+        return () => {
+            setAction(null);
+        };
     }, [t, shownLangs, sources]);
 
     if (isLoading) return <LoadingPlaceholder />;

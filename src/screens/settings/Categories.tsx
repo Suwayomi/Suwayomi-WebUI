@@ -50,6 +50,11 @@ export function Categories() {
     useEffect(() => {
         setTitle(t('category.title.categories'));
         setAction(null);
+
+        return () => {
+            setTitle('');
+            setAction(null);
+        };
     }, [t]);
 
     const { data } = requestManager.useGetCategories();

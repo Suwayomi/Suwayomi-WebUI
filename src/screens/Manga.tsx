@@ -58,6 +58,11 @@ export const Manga: React.FC = () => {
     useEffect(() => {
         setTitle(manga?.title ?? t('manga.title'));
         setAction(null);
+
+        return () => {
+            setTitle('');
+            setAction(null);
+        };
     }, [t, manga?.title]);
 
     useEffect(() => {
@@ -86,6 +91,10 @@ export const Manga: React.FC = () => {
                 {manga && <MangaToolbarMenu manga={manga} onRefresh={refresh} refreshing={refreshing} />}
             </Stack>,
         );
+
+        return () => {
+            setAction(null);
+        };
     }, [t, error, isValidating, refreshing, manga, refresh]);
 
     if (error && !manga) {

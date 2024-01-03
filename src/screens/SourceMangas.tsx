@@ -366,6 +366,11 @@ export function SourceMangas() {
                 )}
             </>,
         );
+
+        return () => {
+            setTitle('');
+            setAction(null);
+        };
     }, [t, source]);
 
     useEffect(() => {

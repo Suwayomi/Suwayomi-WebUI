@@ -190,6 +190,11 @@ export function About() {
     useEffect(() => {
         setTitle(t('settings.about.title'));
         setAction(null);
+
+        return () => {
+            setTitle('');
+            setAction(null);
+        };
     }, [t]);
 
     useSetDefaultBackTo('settings');
