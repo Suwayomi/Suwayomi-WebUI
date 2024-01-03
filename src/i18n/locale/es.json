@@ -29,6 +29,44 @@
                         "description": "La ruta al directorio del servidor en el que se guardarán las copias de seguridad automatizadas"
                     }
                 }
+            },
+            "action": {
+                "restore": {
+                    "label": {
+                        "in_progress": "Restaurando la copia de seguridad…",
+                        "description": "También puedes arrastrar y soltar el archivo de la copia de seguridad aquí para restaurarlo",
+                        "success": "Copia de seguridad restaurada.",
+                        "title": "Restaurar la copia de seguridad"
+                    },
+                    "button": "Restaurar",
+                    "error": {
+                        "label": {
+                            "failure": "No se ha podido restaurar la copia de seguridad",
+                            "legacy_backup_unsupported": "¡las copias de seguridad heredadas no son compatibles!"
+                        }
+                    }
+                },
+                "validate": {
+                    "dialog": {
+                        "content": {
+                            "label": {
+                                "missing_sources": "Las siguientes fuentes no están instaladas:"
+                            }
+                        },
+                        "title": "Validación de las copias de seguridad"
+                    },
+                    "error": {
+                        "label": {
+                            "failure": "No se ha podido validar la copia de seguridad"
+                        }
+                    }
+                },
+                "create": {
+                    "label": {
+                        "description": "Hacer una copia de seguridad de la biblioteca como una copia de seguridad de Tachiyomi",
+                        "title": "Crear una copia de seguridad"
+                    }
+                }
             }
         },
         "about": {
@@ -229,6 +267,9 @@
                             "title": "Personalizado"
                         }
                     }
+                },
+                "label": {
+                    "title": "Sabor"
                 }
             }
         },
@@ -287,6 +328,11 @@
                         "show_number_of_items": "Mostrar número de elementos"
                     },
                     "title": "Pestañas"
+                },
+                "other": {
+                    "label": {
+                        "show_continue_reading_button": "Mostrar botón de seguir leyendo"
+                    }
                 }
             }
         },
@@ -339,7 +385,37 @@
                     "last_update": "Última actualización: {{date}}"
                 }
             },
-            "title": "Configuración de la biblioteca"
+            "title": "Configuración de la biblioteca",
+            "advanced": {
+                "database": {
+                    "cleanup": {
+                        "label": {
+                            "title": "Limpiar la base de datos",
+                            "error": "No se puede eliminar de las categorías el manga que no pertenece a la biblioteca",
+                            "success": "Eliminado de las categorías el manga que no pertenece a la biblioteca",
+                            "description": "Eliminar de las categorías los mangas que no pertenecen a la biblioteca"
+                        }
+                    }
+                }
+            },
+            "general": {
+                "search": {
+                    "ignore_filters": {
+                        "label": {
+                            "title": "Ignorar los filtros al buscar",
+                            "description": "Los resultados de la búsqueda incluirán los mangas que no coincidan con los filtros actuales"
+                        }
+                    }
+                },
+                "add_to_library": {
+                    "category_selection": {
+                        "label": {
+                            "title": "Diálogo de selección de la categoría",
+                            "description": "Mostrar el diálogo de selección de categoría al añadir un manga a la biblioteca"
+                        }
+                    }
+                }
+            }
         },
         "info": {
             "label": {
@@ -407,7 +483,8 @@
             "stop": "Parar",
             "edit": "Editar",
             "select": "Seleccionar",
-            "options": "Opciones"
+            "options": "Opciones",
+            "restore": "Restaurar"
         },
         "label": {
             "display": "Visualización",
@@ -425,7 +502,10 @@
             "close": "Cerrar",
             "disabled": "Desactivado",
             "github": "GitHub",
-            "links": "Enlaces"
+            "links": "Enlaces",
+            "other": "Otros",
+            "advanced": "Avanzado",
+            "general": "General"
         },
         "error": {
             "label": {
@@ -702,7 +782,9 @@
         "label": {
             "installing_file": "Instalando el archivo de extensión…",
             "installation_failed": "No se pudo instalar la extensión",
-            "installed_successfully": "Extensión instalada"
+            "installed_successfully": "Extensión instalada",
+            "uninstallation_failed": "No se ha podido desinstalar la extensión",
+            "update_failed": "No se ha podido actualizar la extensión"
         },
         "title": "Extensiones",
         "language": {
@@ -729,6 +811,38 @@
         "button": {
             "add_to_library": "Agregar a Libreria",
             "in_library": "En Libreria"
+        },
+        "action": {
+            "library": {
+                "remove": {
+                    "label": {
+                        "error_one": "No se puede eliminar el manga de la biblioteca",
+                        "error_many": "No se pueden eliminar los mangas de la biblioteca",
+                        "error_other": "No se pueden eliminar los mangas de la biblioteca",
+                        "action": "Eliminar de la biblioteca",
+                        "success_one": "Manga retirado de la biblioteca",
+                        "success_many": "Eliminados {{count}} mangas de la biblioteca",
+                        "success_other": "Eliminados {{count}} mangas de la biblioteca"
+                    },
+                    "button": {
+                        "selected": "Eliminar seleccionados de la biblioteca"
+                    }
+                }
+            },
+            "category": {
+                "button": {
+                    "selected": "Cambiar las categorías de los seleccionados"
+                },
+                "label": {
+                    "action": "Cambiar categorías",
+                    "error_one": "No se pueden cambiar las categorías del manga",
+                    "error_many": "No se pueden cambiar las categorías de los mangas",
+                    "error_other": "No se pueden cambiar las categorías de los mangas",
+                    "success_one": "Categorías modificadas del manga",
+                    "success_many": "Categorías modificadas de {{count}} mangas",
+                    "success_other": "Categorías modificadas de {{count}} mangas"
+                }
+            }
         }
     },
     "download": {
