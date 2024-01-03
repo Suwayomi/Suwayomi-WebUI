@@ -301,6 +301,11 @@
                 "yesterday": "Gestern",
                 "today": "Heute"
             }
+        },
+        "update": {
+            "label": {
+                "info": ""
+            }
         }
     },
     "category": {
