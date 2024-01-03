@@ -15,7 +15,6 @@ import { Link } from 'react-router-dom';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { GetMigratableSourcesQuery } from '@/lib/graphql/generated/graphql.ts';
 import { translateExtensionLanguage } from '@/screens/util/Extensions.ts';
-import { SourceContentType } from '@/screens/SourceMangas.tsx';
 
 export type TMigratableSource = NonNullable<GetMigratableSourcesQuery['mangas']['nodes'][number]['source']> & {
     mangaCount: number;
@@ -24,11 +23,7 @@ export type TMigratableSource = NonNullable<GetMigratableSourcesQuery['mangas'][
 // TODO - cleanup source/extension components
 export const MigrationCard = ({ id, name, lang, iconUrl, mangaCount }: TMigratableSource) => (
     <Card>
-        <CardActionArea
-            component={Link}
-            to={`/migrate/${id}`}
-            state={{ contentType: SourceContentType.POPULAR, clearCache: true }}
-        >
+        <CardActionArea component={Link} to={`/migrate/source/${id}/`}>
             <CardContent
                 sx={{
                     display: 'flex',

@@ -785,7 +785,7 @@ export type TrackRecordNodeListFieldPolicy = {
 	pageInfo?: FieldPolicy<any> | FieldReadFunction<any>,
 	totalCount?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type TrackRecordTypeKeySpecifier = ('displayScore' | 'finishDate' | 'id' | 'lastChapterRead' | 'libraryId' | 'manga' | 'mangaId' | 'remoteId' | 'remoteUrl' | 'score' | 'startDate' | 'status' | 'syncId' | 'title' | 'totalChapters' | 'tracker' | TrackRecordTypeKeySpecifier)[];
+export type TrackRecordTypeKeySpecifier = ('displayScore' | 'finishDate' | 'id' | 'lastChapterRead' | 'libraryId' | 'manga' | 'mangaId' | 'remoteId' | 'remoteUrl' | 'score' | 'startDate' | 'status' | 'title' | 'totalChapters' | 'tracker' | 'trackerId' | TrackRecordTypeKeySpecifier)[];
 export type TrackRecordTypeFieldPolicy = {
 	displayScore?: FieldPolicy<any> | FieldReadFunction<any>,
 	finishDate?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -799,23 +799,24 @@ export type TrackRecordTypeFieldPolicy = {
 	score?: FieldPolicy<any> | FieldReadFunction<any>,
 	startDate?: FieldPolicy<any> | FieldReadFunction<any>,
 	status?: FieldPolicy<any> | FieldReadFunction<any>,
-	syncId?: FieldPolicy<any> | FieldReadFunction<any>,
-	title?: FieldPolicy<any> | FieldReadFunction<any>,
-	totalChapters?: FieldPolicy<any> | FieldReadFunction<any>,
-	tracker?: FieldPolicy<any> | FieldReadFunction<any>
-};
-export type TrackSearchTypeKeySpecifier = ('coverUrl' | 'mediaId' | 'publishingStatus' | 'publishingType' | 'startDate' | 'summary' | 'syncId' | 'title' | 'totalChapters' | 'tracker' | 'trackingUrl' | TrackSearchTypeKeySpecifier)[];
-export type TrackSearchTypeFieldPolicy = {
-	coverUrl?: FieldPolicy<any> | FieldReadFunction<any>,
-	mediaId?: FieldPolicy<any> | FieldReadFunction<any>,
-	publishingStatus?: FieldPolicy<any> | FieldReadFunction<any>,
-	publishingType?: FieldPolicy<any> | FieldReadFunction<any>,
-	startDate?: FieldPolicy<any> | FieldReadFunction<any>,
-	summary?: FieldPolicy<any> | FieldReadFunction<any>,
-	syncId?: FieldPolicy<any> | FieldReadFunction<any>,
 	title?: FieldPolicy<any> | FieldReadFunction<any>,
 	totalChapters?: FieldPolicy<any> | FieldReadFunction<any>,
 	tracker?: FieldPolicy<any> | FieldReadFunction<any>,
+	trackerId?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type TrackSearchTypeKeySpecifier = ('coverUrl' | 'id' | 'publishingStatus' | 'publishingType' | 'remoteId' | 'startDate' | 'summary' | 'title' | 'totalChapters' | 'tracker' | 'trackerId' | 'trackingUrl' | TrackSearchTypeKeySpecifier)[];
+export type TrackSearchTypeFieldPolicy = {
+	coverUrl?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	publishingStatus?: FieldPolicy<any> | FieldReadFunction<any>,
+	publishingType?: FieldPolicy<any> | FieldReadFunction<any>,
+	remoteId?: FieldPolicy<any> | FieldReadFunction<any>,
+	startDate?: FieldPolicy<any> | FieldReadFunction<any>,
+	summary?: FieldPolicy<any> | FieldReadFunction<any>,
+	title?: FieldPolicy<any> | FieldReadFunction<any>,
+	totalChapters?: FieldPolicy<any> | FieldReadFunction<any>,
+	tracker?: FieldPolicy<any> | FieldReadFunction<any>,
+	trackerId?: FieldPolicy<any> | FieldReadFunction<any>,
 	trackingUrl?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type TrackerEdgeKeySpecifier = ('cursor' | 'node' | TrackerEdgeKeySpecifier)[];

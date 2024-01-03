@@ -174,6 +174,8 @@ import {
     GetWebuiUpdateStatusQueryVariables,
     GetMigratableSourcesQuery,
     GetMigratableSourcesQueryVariables,
+    GetMigratableSourceMangasQuery,
+    GetMigratableSourceMangasQueryVariables,
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_GLOBAL_METADATAS } from '@/lib/graphql/queries/GlobalMetadataQuery.ts';
 import { SET_GLOBAL_METADATA } from '@/lib/graphql/mutations/GlobalMetadataMutation.ts';
@@ -198,7 +200,7 @@ import {
     UPDATE_MANGAS,
     UPDATE_MANGAS_CATEGORIES,
 } from '@/lib/graphql/mutations/MangaMutation.ts';
-import { GET_MANGA, GET_MANGAS } from '@/lib/graphql/queries/MangaQuery.ts';
+import { GET_MANGA, GET_MANGAS, GET_MIGRATABLE_SOURCE_MANGAS } from '@/lib/graphql/queries/MangaQuery.ts';
 import { GET_CATEGORIES, GET_CATEGORY_MANGAS } from '@/lib/graphql/queries/CategoryQuery.ts';
 import { GET_SOURCE_MANGAS_FETCH, UPDATE_SOURCE_PREFERENCES } from '@/lib/graphql/mutations/SourceMutation.ts';
 import {
@@ -1360,6 +1362,13 @@ export class RequestManager {
         options?: QueryOptions<GetMangasQueryVariables, GetMangasQuery>,
     ): AbortabaleApolloQueryResponse<GetMangasQuery> {
         return this.doRequest(GQLMethod.QUERY, GET_MANGAS, variables, options);
+    }
+
+    public useGetMigratableSourceMangas(
+        sourceId: string,
+        options?: QueryHookOptions<GetMigratableSourceMangasQuery, GetMigratableSourceMangasQueryVariables>,
+    ): AbortableApolloUseQueryResponse<GetMigratableSourceMangasQuery, GetMigratableSourceMangasQueryVariables> {
+        return this.doRequest(GQLMethod.USE_QUERY, GET_MIGRATABLE_SOURCE_MANGAS, { sourceId }, options);
     }
 
     public getMangaThumbnailUrl(mangaId: number): string {

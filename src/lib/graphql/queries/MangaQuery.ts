@@ -57,3 +57,18 @@ export const GET_MANGAS = gql`
         }
     }
 `;
+
+export const GET_MIGRATABLE_SOURCE_MANGAS = gql`
+    query GET_MIGRATABLE_SOURCE_MANGAS($sourceId: LongString!) {
+        mangas(condition: { sourceId: $sourceId, inLibrary: true }) {
+            nodes {
+                id
+                title
+                thumbnailUrl
+                source {
+                    id
+                }
+            }
+        }
+    }
+`;

@@ -52,7 +52,7 @@ export type BackupRestoreStatus = {
 export type BindTrackInput = {
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
   mangaId: Scalars['Int']['input'];
-  track: TrackSearchTypeInput;
+  trackSearchId: Scalars['Int']['input'];
 };
 
 export type BindTrackPayload = {
@@ -1983,9 +1983,9 @@ export type TrackRecordConditionInput = {
   score?: InputMaybe<Scalars['Float']['input']>;
   startDate?: InputMaybe<Scalars['LongString']['input']>;
   status?: InputMaybe<Scalars['Int']['input']>;
-  syncId?: InputMaybe<Scalars['Int']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
   totalChapters?: InputMaybe<Scalars['Int']['input']>;
+  trackerId?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type TrackRecordEdge = Edge & {
@@ -2008,9 +2008,9 @@ export type TrackRecordFilterInput = {
   score?: InputMaybe<DoubleFilterInput>;
   startDate?: InputMaybe<LongFilterInput>;
   status?: InputMaybe<IntFilterInput>;
-  syncId?: InputMaybe<IntFilterInput>;
   title?: InputMaybe<StringFilterInput>;
   totalChapters?: InputMaybe<IntFilterInput>;
+  trackerId?: InputMaybe<IntFilterInput>;
 };
 
 export type TrackRecordNodeList = NodeList & {
@@ -2029,9 +2029,9 @@ export enum TrackRecordOrderBy {
   RemoteId = 'REMOTE_ID',
   Score = 'SCORE',
   StartDate = 'START_DATE',
-  SyncId = 'SYNC_ID',
   Title = 'TITLE',
-  TotalChapters = 'TOTAL_CHAPTERS'
+  TotalChapters = 'TOTAL_CHAPTERS',
+  TrackerId = 'TRACKER_ID'
 }
 
 export type TrackRecordType = {
@@ -2048,38 +2048,26 @@ export type TrackRecordType = {
   score: Scalars['Float']['output'];
   startDate: Scalars['LongString']['output'];
   status: Scalars['Int']['output'];
-  syncId: Scalars['Int']['output'];
   title: Scalars['String']['output'];
   totalChapters: Scalars['Int']['output'];
   tracker: TrackerType;
+  trackerId: Scalars['Int']['output'];
 };
 
 export type TrackSearchType = {
   __typename?: 'TrackSearchType';
   coverUrl: Scalars['String']['output'];
-  mediaId: Scalars['LongString']['output'];
+  id: Scalars['Int']['output'];
   publishingStatus: Scalars['String']['output'];
   publishingType: Scalars['String']['output'];
+  remoteId: Scalars['LongString']['output'];
   startDate: Scalars['String']['output'];
   summary: Scalars['String']['output'];
-  syncId: Scalars['Int']['output'];
   title: Scalars['String']['output'];
   totalChapters: Scalars['Int']['output'];
   tracker: TrackerType;
+  trackerId: Scalars['Int']['output'];
   trackingUrl: Scalars['String']['output'];
-};
-
-export type TrackSearchTypeInput = {
-  coverUrl: Scalars['String']['input'];
-  mediaId: Scalars['LongString']['input'];
-  publishingStatus: Scalars['String']['input'];
-  publishingType: Scalars['String']['input'];
-  startDate: Scalars['String']['input'];
-  summary: Scalars['String']['input'];
-  syncId: Scalars['Int']['input'];
-  title: Scalars['String']['input'];
-  totalChapters: Scalars['Int']['input'];
-  trackingUrl: Scalars['String']['input'];
 };
 
 export type TrackerConditionInput = {
@@ -2997,6 +2985,13 @@ export type GetMangasQueryVariables = Exact<{
 
 
 export type GetMangasQuery = { __typename?: 'Query', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', unreadCount: number, downloadCount: number, artist?: string | null, author?: string | null, chaptersLastFetchedAt?: any | null, description?: string | null, genre: Array<string>, id: number, inLibrary: boolean, inLibraryAt: any, initialized: boolean, lastFetchedAt?: any | null, realUrl?: string | null, status: MangaStatus, thumbnailUrl?: string | null, title: string, url: string, lastReadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestReadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestFetchedChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestUploadedChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', default: boolean, id: number, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude, name: string, order: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }>, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> }, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, source?: { __typename?: 'SourceType', displayName: string, iconUrl: string, id: any, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } } | null }>, pageInfo: { __typename?: 'PageInfo', endCursor?: any | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: any | null } } };
+
+export type GetMigratableSourceMangasQueryVariables = Exact<{
+  sourceId: Scalars['LongString']['input'];
+}>;
+
+
+export type GetMigratableSourceMangasQuery = { __typename?: 'Query', mangas: { __typename?: 'MangaNodeList', nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null, source?: { __typename?: 'SourceType', id: any } | null }> } };
 
 export type GetAboutQueryVariables = Exact<{ [key: string]: never; }>;
 
