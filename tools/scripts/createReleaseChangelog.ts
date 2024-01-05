@@ -107,7 +107,7 @@ const createChangelogCommitLine = (commit: Commit): string => {
 
 const createChangelog = async (prevReleaseLastCommitSha: string) => {
     const owner = 'Suwayomi';
-    const repo = 'Tachidesk-WebUI';
+    const repo = 'Suwayomi-WebUI';
 
     const numberOfCommits = await fetchTotalCommitCount(owner, repo);
     const githubCommits = await fetchCommits(owner, repo, prevReleaseLastCommitSha);

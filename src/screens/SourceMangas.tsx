@@ -243,7 +243,7 @@ export function SourceMangas() {
     const messageExtra = isLocalSource ? (
         <>
             <span>{t('source.local_source.label.checkout')} </span>
-            <Link href="https://github.com/Suwayomi/Tachidesk-Server/wiki/Local-Source">
+            <Link href="https://github.com/Suwayomi/Suwayomi-Server/wiki/Local-Source">
                 {t('source.local_source.label.guide')}
             </Link>
         </>

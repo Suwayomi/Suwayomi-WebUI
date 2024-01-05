@@ -1,6 +1,6 @@
 # Contributing
 ## Where should I start?
-Everything from https://github.com/Suwayomi/Tachidesk-Server/blob/master/CONTRIBUTING.md#where-should-i-start applies here.
+Everything from https://github.com/Suwayomi/Suwayomi-Server/blob/master/CONTRIBUTING.md#where-should-i-start applies here.
 
 ## About this project
 
@@ -16,7 +16,7 @@ See [BUILDING.md](./BUILDING.md) for more information
 2. Update the [version to server version mapping file](versionToServerVersionMapping.json)
    1. See [wWen to update](#when-to-update)
 
-## WebUI to [Server](https://github.com/Suwayomi/Tachidesk-Server) mapping
+## WebUI to [Server](https://github.com/Suwayomi/Suwayomi-Server) mapping
 ### Explanation
 For the server to be able to automatically download the latest compatible WebUI version, the [version to server version mapping file](versionToServerVersionMapping.json) has to be provided.<br/>
 
