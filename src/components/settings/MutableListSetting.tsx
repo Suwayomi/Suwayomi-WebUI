@@ -36,19 +36,20 @@ const MutableListItem = ({
     );
 };
 
+type MutableListSettingProps = Pick<TextSettingProps, 'settingName' | 'placeholder'> & {
+    values?: string[];
+    description?: string[];
+    addItemButtonTitle?: string;
+    handleChange: (values: string[]) => void;
+};
+
 export const MutableListSetting = ({
     settingName,
     description,
     values,
     handleChange,
     addItemButtonTitle,
-}: {
-    settingName: string;
-    description?: string;
-    values?: string[];
-    handleChange: (values: string[]) => void;
-    addItemButtonTitle?: string;
-}) => {
+}: MutableListSettingProps) => {
     const { t } = useTranslation();
 
     const [isDialogOpen, setIsDialogOpen] = useState(false);
