@@ -49,6 +49,7 @@ export const MutableListSetting = ({
     values,
     handleChange,
     addItemButtonTitle,
+    placeholder,
 }: MutableListSettingProps) => {
     const { t } = useTranslation();
 
@@ -110,7 +111,7 @@ export const MutableListSetting = ({
                         {dialogValues.map((dialogValue, index) => (
                             <MutableListItem
                                 settingName=""
-                                placeholder="https://github.com/MY_ACCOUNT/MY_REPO/tree/repo"
+                                placeholder={placeholder}
                                 handleChange={(newValue: string) => updateSetting(index, newValue)}
                                 handleDelete={() => updateSetting(index, undefined)}
                                 value={dialogValue}
@@ -134,7 +135,7 @@ export const MutableListSetting = ({
             {isAddItemDialogOpen && (
                 <TextSettingDialog
                     settingName=""
-                    placeholder="https://github.com/MY_ACCOUNT/MY_REPO/tree/repo"
+                    placeholder={placeholder}
                     handleChange={(newValue: string) => updateSetting(dialogValues.length, newValue)}
                     isDialogOpen={isAddItemDialogOpen}
                     setIsDialogOpen={setIsAddItemDialogOpen}

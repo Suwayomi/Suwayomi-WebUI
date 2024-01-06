@@ -136,6 +136,7 @@ export const ServerSettings = () => {
                     handleChange={(repos) => updateSetting('extensionRepos', repos)}
                     values={serverSettings?.extensionRepos}
                     addItemButtonTitle={t('extension.settings.repositories.custom.dialog.action.button.add')}
+                    placeholder="https://github.com/MY_ACCOUNT/MY_REPO/tree/repo"
                 />
             </List>
             <List
