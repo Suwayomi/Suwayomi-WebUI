@@ -92,7 +92,7 @@ export const MutableListSetting = ({
     };
 
     const saveChanges = () => {
-        closeDialog();
+        closeDialog(true);
         handleChange(dialogValues.filter((dialogValue) => dialogValue !== ''));
     };
 
