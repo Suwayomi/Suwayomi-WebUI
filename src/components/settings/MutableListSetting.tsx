@@ -41,6 +41,7 @@ type MutableListSettingProps = Pick<TextSettingProps, 'settingName' | 'placehold
     description?: string[];
     addItemButtonTitle?: string;
     handleChange: (values: string[]) => void;
+    allowDuplicates?: boolean;
 };
 
 export const MutableListSetting = ({
@@ -50,6 +51,7 @@ export const MutableListSetting = ({
     handleChange,
     addItemButtonTitle,
     placeholder,
+    allowDuplicates = false,
 }: MutableListSettingProps) => {
     const { t } = useTranslation();
 
@@ -78,6 +80,11 @@ export const MutableListSetting = ({
         const deleteValue = newValue === undefined;
         if (deleteValue) {
             setDialogValues(dialogValues.toSpliced(index, 1));
+            return;
+        }
+
+        const isDuplicate = !allowDuplicates && dialogValues.includes(newValue);
+        if (isDuplicate) {
             return;
         }
 
