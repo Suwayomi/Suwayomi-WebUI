@@ -16,6 +16,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import DialogContentText from '@mui/material/DialogContentText';
 import { TextSetting, TextSettingProps } from '@/components/settings/text/TextSetting.tsx';
+import { TextSettingDialog } from '@/components/settings/text/TextSettingDialog.tsx';
 
 const MutableListItem = ({
     handleDelete,
@@ -52,6 +53,8 @@ export const MutableListSetting = ({
 
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [dialogValues, setDialogValues] = useState(values ?? []);
+
+    const [isAddItemDialogOpen, setIsAddItemDialogOpen] = useState(false);
 
     useEffect(() => {
         if (!values) {
@@ -105,7 +108,7 @@ export const MutableListSetting = ({
                     <List>
                         {dialogValues.map((dialogValue, index) => (
                             <MutableListItem
-                                settingName={dialogValue === '' ? t('global.label.placeholder') : ''}
+                                settingName=""
                                 placeholder="https://github.com/MY_ACCOUNT/MY_REPO/tree/repo"
                                 handleChange={(newValue: string) => updateSetting(index, newValue)}
                                 handleDelete={() => updateSetting(index, undefined)}
@@ -116,7 +119,7 @@ export const MutableListSetting = ({
                 </DialogContent>
                 <DialogActions>
                     <Stack sx={{ width: '100%' }} direction="row" justifyContent="space-between">
-                        <Button onClick={() => updateSetting(dialogValues.length, '')}>
+                        <Button onClick={() => setIsAddItemDialogOpen(true)}>
                             {addItemButtonTitle ?? t('global.button.add')}
                         </Button>
                         <Stack direction="row">
@@ -126,6 +129,16 @@ export const MutableListSetting = ({
                     </Stack>
                 </DialogActions>
             </Dialog>
+
+            {isAddItemDialogOpen && (
+                <TextSettingDialog
+                    settingName=""
+                    placeholder="https://github.com/MY_ACCOUNT/MY_REPO/tree/repo"
+                    handleChange={(newValue: string) => updateSetting(dialogValues.length, newValue)}
+                    isDialogOpen={isAddItemDialogOpen}
+                    setIsDialogOpen={setIsAddItemDialogOpen}
+                />
+            )}
         </>
     );
 };
