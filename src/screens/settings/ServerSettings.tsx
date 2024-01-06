@@ -16,6 +16,7 @@ import { useLocalStorage } from '@/util/useLocalStorage.tsx';
 import { TextSetting } from '@/components/settings/TextSetting.tsx';
 import { ServerSettings as GqlServerSettings } from '@/typings.ts';
 import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
+import { MutableListSetting } from '@/components/settings/MutableListSetting.tsx';
 
 type ServerSettingsType = Pick<
     GqlServerSettings,
@@ -32,6 +33,7 @@ type ServerSettingsType = Pick<
     | 'basicAuthPassword'
     | 'maxSourcesInParallel'
     | 'localSourcePath'
+    | 'extensionRepos'
 >;
 
 const extractDownloadSettings = (settings: GqlServerSettings): ServerSettingsType => ({
@@ -48,6 +50,7 @@ const extractDownloadSettings = (settings: GqlServerSettings): ServerSettingsTyp
     basicAuthPassword: settings.basicAuthPassword,
     maxSourcesInParallel: settings.maxSourcesInParallel,
     localSourcePath: settings.localSourcePath,
+    extensionRepos: settings.extensionRepos,
 });
 
 export const ServerSettings = () => {
@@ -118,6 +121,21 @@ export const ServerSettings = () => {
                     stepSize={1}
                     dialogTitle={t('settings.server.requests.sources.parallel.label.title')}
                     handleUpdate={(parallelSources) => updateSetting('maxSourcesInParallel', parallelSources)}
+                />
+            </List>
+            <List
+                subheader={
+                    <ListSubheader component="div" id="server-settings-extension-repos">
+                        {t('extension.title')}
+                    </ListSubheader>
+                }
+            >
+                <MutableListSetting
+                    settingName={t('extension.settings.repositories.custom.label.title')}
+                    description={t('extension.settings.repositories.custom.label.description')}
+                    handleChange={(repos) => updateSetting('extensionRepos', repos)}
+                    values={serverSettings?.extensionRepos}
+                    addItemButtonTitle={t('extension.settings.repositories.custom.dialog.action.button.add')}
                 />
             </List>
             <List

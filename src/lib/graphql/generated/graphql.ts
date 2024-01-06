@@ -511,6 +511,7 @@ export type ExtensionConditionInput = {
   lang?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   pkgName?: InputMaybe<Scalars['String']['input']>;
+  repo?: InputMaybe<Scalars['String']['input']>;
   versionCode?: InputMaybe<Scalars['Int']['input']>;
   versionName?: InputMaybe<Scalars['String']['input']>;
 };
@@ -534,6 +535,7 @@ export type ExtensionFilterInput = {
   not?: InputMaybe<ExtensionFilterInput>;
   or?: InputMaybe<Array<ExtensionFilterInput>>;
   pkgName?: InputMaybe<StringFilterInput>;
+  repo?: InputMaybe<StringFilterInput>;
   versionCode?: InputMaybe<IntFilterInput>;
   versionName?: InputMaybe<StringFilterInput>;
 };
@@ -563,6 +565,7 @@ export type ExtensionType = {
   lang: Scalars['String']['output'];
   name: Scalars['String']['output'];
   pkgName: Scalars['String']['output'];
+  repo?: Maybe<Scalars['String']['output']>;
   source: SourceNodeList;
   versionCode: Scalars['Int']['output'];
   versionName: Scalars['String']['output'];
@@ -880,6 +883,7 @@ export type MangaType = {
   thumbnailUrl?: Maybe<Scalars['String']['output']>;
   title: Scalars['String']['output'];
   unreadCount: Scalars['Int']['output'];
+  updateStrategy: UpdateStrategy;
   url: Scalars['String']['output'];
 };
 
@@ -1263,6 +1267,7 @@ export type PartialSettingsType = Settings & {
   excludeEntryWithUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
   excludeNotStarted?: Maybe<Scalars['Boolean']['output']>;
   excludeUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
+  extensionRepos?: Maybe<Array<Scalars['String']['output']>>;
   globalUpdateInterval?: Maybe<Scalars['Float']['output']>;
   gqlDebugLogsEnabled?: Maybe<Scalars['Boolean']['output']>;
   initialOpenInBrowserEnabled?: Maybe<Scalars['Boolean']['output']>;
@@ -1299,6 +1304,7 @@ export type PartialSettingsTypeInput = {
   excludeEntryWithUnreadChapters?: InputMaybe<Scalars['Boolean']['input']>;
   excludeNotStarted?: InputMaybe<Scalars['Boolean']['input']>;
   excludeUnreadChapters?: InputMaybe<Scalars['Boolean']['input']>;
+  extensionRepos?: InputMaybe<Array<Scalars['String']['input']>>;
   globalUpdateInterval?: InputMaybe<Scalars['Float']['input']>;
   gqlDebugLogsEnabled?: InputMaybe<Scalars['Boolean']['input']>;
   initialOpenInBrowserEnabled?: InputMaybe<Scalars['Boolean']['input']>;
@@ -1583,6 +1589,7 @@ export type Settings = {
   excludeEntryWithUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
   excludeNotStarted?: Maybe<Scalars['Boolean']['output']>;
   excludeUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
+  extensionRepos?: Maybe<Array<Scalars['String']['output']>>;
   globalUpdateInterval?: Maybe<Scalars['Float']['output']>;
   gqlDebugLogsEnabled?: Maybe<Scalars['Boolean']['output']>;
   initialOpenInBrowserEnabled?: Maybe<Scalars['Boolean']['output']>;
@@ -1620,6 +1627,7 @@ export type SettingsType = Settings & {
   excludeEntryWithUnreadChapters: Scalars['Boolean']['output'];
   excludeNotStarted: Scalars['Boolean']['output'];
   excludeUnreadChapters: Scalars['Boolean']['output'];
+  extensionRepos: Array<Scalars['String']['output']>;
   globalUpdateInterval: Scalars['Float']['output'];
   gqlDebugLogsEnabled: Scalars['Boolean']['output'];
   initialOpenInBrowserEnabled: Scalars['Boolean']['output'];
@@ -1918,7 +1926,7 @@ export type UpdateExtensionPatchInput = {
 export type UpdateExtensionPayload = {
   __typename?: 'UpdateExtensionPayload';
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  extension: ExtensionType;
+  extension?: Maybe<ExtensionType>;
 };
 
 export type UpdateExtensionsInput = {
@@ -2052,6 +2060,11 @@ export type UpdateStopPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
 };
 
+export enum UpdateStrategy {
+  AlwaysUpdate = 'ALWAYS_UPDATE',
+  OnlyFetchOnce = 'ONLY_FETCH_ONCE'
+}
+
 export type ValidateBackupInput = {
   backup: Scalars['Upload']['input'];
 };
@@ -2135,7 +2148,7 @@ export type FullMangaFieldsFragment = { __typename?: 'MangaType', unreadCount: n
 
 export type UpdaterMangaFieldsFragment = { __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null };
 
-export type FullExtensionFieldsFragment = { __typename?: 'ExtensionType', apkName: string, hasUpdate: boolean, iconUrl: string, isInstalled: boolean, isNsfw: boolean, isObsolete: boolean, lang: string, name: string, pkgName: string, versionCode: number, versionName: string };
+export type FullExtensionFieldsFragment = { __typename?: 'ExtensionType', apkName: string, repo?: string | null, hasUpdate: boolean, iconUrl: string, isInstalled: boolean, isNsfw: boolean, isObsolete: boolean, lang: string, name: string, pkgName: string, versionCode: number, versionName: string };
 
 export type FullDownloadStatusFragment = { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, title: string, downloadCount: number } } }> };
 
@@ -2151,7 +2164,7 @@ export type WebuiUpdateInfoFragment = { __typename?: 'WebUIUpdateInfo', channel:
 
 export type WebuiUpdateStatusFragment = { __typename?: 'WebUIUpdateStatus', progress: number, state: UpdateState, info: { __typename?: 'WebUIUpdateInfo', channel: string, tag: string } };
 
-export type ServerSettingsFragment = { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyHost: string, socksProxyPort: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadAheadLimit: number, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, basicAuthEnabled: boolean, basicAuthUsername: string, basicAuthPassword: string, debugLogsEnabled: boolean, gqlDebugLogsEnabled: boolean, systemTrayEnabled: boolean, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string };
+export type ServerSettingsFragment = { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyHost: string, socksProxyPort: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadAheadLimit: number, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, basicAuthEnabled: boolean, basicAuthUsername: string, basicAuthPassword: string, debugLogsEnabled: boolean, gqlDebugLogsEnabled: boolean, systemTrayEnabled: boolean, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string };
 
 export type CreateBackupMutationVariables = Exact<{
   input: CreateBackupInput;
@@ -2362,28 +2375,28 @@ export type GetExtensionsFetchMutationVariables = Exact<{
 }>;
 
 
-export type GetExtensionsFetchMutation = { __typename?: 'Mutation', fetchExtensions: { __typename?: 'FetchExtensionsPayload', clientMutationId?: string | null, extensions: Array<{ __typename?: 'ExtensionType', apkName: string, hasUpdate: boolean, iconUrl: string, isInstalled: boolean, isNsfw: boolean, isObsolete: boolean, lang: string, name: string, pkgName: string, versionCode: number, versionName: string }> } };
+export type GetExtensionsFetchMutation = { __typename?: 'Mutation', fetchExtensions: { __typename?: 'FetchExtensionsPayload', clientMutationId?: string | null, extensions: Array<{ __typename?: 'ExtensionType', apkName: string, repo?: string | null, hasUpdate: boolean, iconUrl: string, isInstalled: boolean, isNsfw: boolean, isObsolete: boolean, lang: string, name: string, pkgName: string, versionCode: number, versionName: string }> } };
 
 export type UpdateExtensionMutationVariables = Exact<{
   input: UpdateExtensionInput;
 }>;
 
 
-export type UpdateExtensionMutation = { __typename?: 'Mutation', updateExtension: { __typename?: 'UpdateExtensionPayload', clientMutationId?: string | null, extension: { __typename?: 'ExtensionType', pkgName: string, apkName: string, versionName: string, versionCode: number, isInstalled: boolean, isObsolete: boolean, hasUpdate: boolean } } };
+export type UpdateExtensionMutation = { __typename?: 'Mutation', updateExtension: { __typename?: 'UpdateExtensionPayload', clientMutationId?: string | null, extension?: { __typename?: 'ExtensionType', pkgName: string, apkName: string, repo?: string | null, versionName: string, versionCode: number, isInstalled: boolean, isObsolete: boolean, hasUpdate: boolean } | null } };
 
 export type UpdateExtensionsMutationVariables = Exact<{
   input: UpdateExtensionsInput;
 }>;
 
 
-export type UpdateExtensionsMutation = { __typename?: 'Mutation', updateExtensions: { __typename?: 'UpdateExtensionsPayload', clientMutationId?: string | null, extensions: Array<{ __typename?: 'ExtensionType', pkgName: string, apkName: string, versionName: string, versionCode: number, isInstalled: boolean, isObsolete: boolean, hasUpdate: boolean }> } };
+export type UpdateExtensionsMutation = { __typename?: 'Mutation', updateExtensions: { __typename?: 'UpdateExtensionsPayload', clientMutationId?: string | null, extensions: Array<{ __typename?: 'ExtensionType', pkgName: string, apkName: string, repo?: string | null, versionName: string, versionCode: number, isInstalled: boolean, isObsolete: boolean, hasUpdate: boolean }> } };
 
 export type InstallExternalExtensionMutationVariables = Exact<{
   file: Scalars['Upload']['input'];
 }>;
 
 
-export type InstallExternalExtensionMutation = { __typename?: 'Mutation', installExternalExtension: { __typename?: 'InstallExternalExtensionPayload', clientMutationId?: string | null, extension: { __typename?: 'ExtensionType', apkName: string, hasUpdate: boolean, iconUrl: string, isInstalled: boolean, isNsfw: boolean, isObsolete: boolean, lang: string, name: string, pkgName: string, versionCode: number, versionName: string } } };
+export type InstallExternalExtensionMutation = { __typename?: 'Mutation', installExternalExtension: { __typename?: 'InstallExternalExtensionPayload', clientMutationId?: string | null, extension: { __typename?: 'ExtensionType', apkName: string, repo?: string | null, hasUpdate: boolean, iconUrl: string, isInstalled: boolean, isNsfw: boolean, isObsolete: boolean, lang: string, name: string, pkgName: string, versionCode: number, versionName: string } } };
 
 export type DeleteGlobalMetadataMutationVariables = Exact<{
   input: DeleteGlobalMetaInput;
@@ -2472,14 +2485,14 @@ export type ResetServerSettingsMutationVariables = Exact<{
 }>;
 
 
-export type ResetServerSettingsMutation = { __typename?: 'Mutation', resetSettings: { __typename?: 'ResetSettingsPayload', clientMutationId?: string | null, settings: { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyHost: string, socksProxyPort: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadAheadLimit: number, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, basicAuthEnabled: boolean, basicAuthUsername: string, basicAuthPassword: string, debugLogsEnabled: boolean, gqlDebugLogsEnabled: boolean, systemTrayEnabled: boolean, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string } } };
+export type ResetServerSettingsMutation = { __typename?: 'Mutation', resetSettings: { __typename?: 'ResetSettingsPayload', clientMutationId?: string | null, settings: { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyHost: string, socksProxyPort: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadAheadLimit: number, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, basicAuthEnabled: boolean, basicAuthUsername: string, basicAuthPassword: string, debugLogsEnabled: boolean, gqlDebugLogsEnabled: boolean, systemTrayEnabled: boolean, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string } } };
 
 export type UpdateServerSettingsMutationVariables = Exact<{
   input: SetSettingsInput;
 }>;
 
 
-export type UpdateServerSettingsMutation = { __typename?: 'Mutation', setSettings: { __typename?: 'SetSettingsPayload', clientMutationId?: string | null, settings: { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyHost: string, socksProxyPort: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadAheadLimit: number, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, basicAuthEnabled: boolean, basicAuthUsername: string, basicAuthPassword: string, debugLogsEnabled: boolean, gqlDebugLogsEnabled: boolean, systemTrayEnabled: boolean, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string } } };
+export type UpdateServerSettingsMutation = { __typename?: 'Mutation', setSettings: { __typename?: 'SetSettingsPayload', clientMutationId?: string | null, settings: { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyHost: string, socksProxyPort: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadAheadLimit: number, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, basicAuthEnabled: boolean, basicAuthUsername: string, basicAuthPassword: string, debugLogsEnabled: boolean, gqlDebugLogsEnabled: boolean, systemTrayEnabled: boolean, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string } } };
 
 export type GetSourceMangasFetchMutationVariables = Exact<{
   input: FetchSourceMangaInput;
@@ -2601,7 +2614,7 @@ export type GetExtensionQueryVariables = Exact<{
 }>;
 
 
-export type GetExtensionQuery = { __typename?: 'Query', extension: { __typename?: 'ExtensionType', apkName: string, hasUpdate: boolean, iconUrl: string, isInstalled: boolean, isNsfw: boolean, isObsolete: boolean, lang: string, name: string, pkgName: string, versionCode: number, versionName: string } };
+export type GetExtensionQuery = { __typename?: 'Query', extension: { __typename?: 'ExtensionType', apkName: string, repo?: string | null, hasUpdate: boolean, iconUrl: string, isInstalled: boolean, isNsfw: boolean, isObsolete: boolean, lang: string, name: string, pkgName: string, versionCode: number, versionName: string } };
 
 export type GetExtensionsQueryVariables = Exact<{
   after?: InputMaybe<Scalars['Cursor']['input']>;
@@ -2616,7 +2629,7 @@ export type GetExtensionsQueryVariables = Exact<{
 }>;
 
 
-export type GetExtensionsQuery = { __typename?: 'Query', extensions: { __typename?: 'ExtensionNodeList', totalCount: number, nodes: Array<{ __typename?: 'ExtensionType', apkName: string, hasUpdate: boolean, iconUrl: string, isInstalled: boolean, isNsfw: boolean, isObsolete: boolean, lang: string, name: string, pkgName: string, versionCode: number, versionName: string }>, pageInfo: { __typename?: 'PageInfo', endCursor?: any | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: any | null } } };
+export type GetExtensionsQuery = { __typename?: 'Query', extensions: { __typename?: 'ExtensionNodeList', totalCount: number, nodes: Array<{ __typename?: 'ExtensionType', apkName: string, repo?: string | null, hasUpdate: boolean, iconUrl: string, isInstalled: boolean, isNsfw: boolean, isObsolete: boolean, lang: string, name: string, pkgName: string, versionCode: number, versionName: string }>, pageInfo: { __typename?: 'PageInfo', endCursor?: any | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: any | null } } };
 
 export type GetGlobalMetadataQueryVariables = Exact<{
   key: Scalars['String']['input'];
@@ -2685,7 +2698,7 @@ export type GetWebuiUpdateStatusQuery = { __typename?: 'Query', getWebUIUpdateSt
 export type GetServerSettingsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetServerSettingsQuery = { __typename?: 'Query', settings: { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyHost: string, socksProxyPort: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadAheadLimit: number, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, basicAuthEnabled: boolean, basicAuthUsername: string, basicAuthPassword: string, debugLogsEnabled: boolean, gqlDebugLogsEnabled: boolean, systemTrayEnabled: boolean, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string } };
+export type GetServerSettingsQuery = { __typename?: 'Query', settings: { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyHost: string, socksProxyPort: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadAheadLimit: number, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, basicAuthEnabled: boolean, basicAuthUsername: string, basicAuthPassword: string, debugLogsEnabled: boolean, gqlDebugLogsEnabled: boolean, systemTrayEnabled: boolean, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string } };
 
 export type GetSourceQueryVariables = Exact<{
   id: Scalars['LongString']['input'];

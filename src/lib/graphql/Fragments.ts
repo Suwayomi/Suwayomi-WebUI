@@ -302,6 +302,7 @@ export const UPDATER_MANGA_FIELDS = gql`
 export const FULL_EXTENSION_FIELDS = gql`
     fragment FULL_EXTENSION_FIELDS on ExtensionType {
         apkName
+        repo
         hasUpdate
         iconUrl
         isInstalled
@@ -472,6 +473,9 @@ export const SERVER_SETTINGS = gql`
         autoDownloadNewChapters
         excludeEntryWithUnreadChapters
         autoDownloadAheadLimit
+
+        # extensions
+        extensionRepos
 
         # requests
         maxSourcesInParallel

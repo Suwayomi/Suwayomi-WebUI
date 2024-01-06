@@ -1026,7 +1026,7 @@ export class RequestManager {
                         ...cachedExtensions.data.fetchExtensions,
                         extensions: cachedExtensions.data.fetchExtensions.extensions.map((extension) => {
                             const isUpdatedExtension =
-                                extension.apkName === response.data?.updateExtension.extension.apkName;
+                                extension.apkName === response.data?.updateExtension.extension?.apkName;
                             if (!isUpdatedExtension) {
                                 return extension;
                             }
