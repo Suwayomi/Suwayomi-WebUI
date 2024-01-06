@@ -28,7 +28,7 @@ import { ListItemLink } from '@/components/util/ListItemLink';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext';
 import { BackupRestoreState, ValidateBackupQuery } from '@/lib/graphql/generated/graphql.ts';
 import { Progress } from '@/components/util/Progress.tsx';
-import { TextSetting } from '@/components/settings/TextSetting.tsx';
+import { TextSetting } from '@/components/settings/text/TextSetting.tsx';
 import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
 import { TimeSetting } from '@/components/settings/TimeSetting.tsx';
 import { ServerSettings } from '@/typings.ts';

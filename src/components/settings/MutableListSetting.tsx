@@ -15,7 +15,7 @@ import List from '@mui/material/List';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import DialogContentText from '@mui/material/DialogContentText';
-import { TextSetting, TextSettingProps } from '@/components/settings/TextSetting.tsx';
+import { TextSetting, TextSettingProps } from '@/components/settings/text/TextSetting.tsx';
 
 const MutableListItem = ({
     handleDelete,
