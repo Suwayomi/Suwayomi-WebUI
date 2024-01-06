@@ -22,6 +22,7 @@ import { makeToast } from '@/components/util/Toast.tsx';
 interface IProps {
     extension: PartialExtension;
     handleUpdate: () => void;
+    usesCustomRepos: boolean;
 }
 
 enum ExtensionAction {
@@ -91,8 +92,9 @@ export function ExtensionCard(props: IProps) {
     const { t } = useTranslation();
 
     const {
-        extension: { name, lang, versionName, isInstalled, hasUpdate, isObsolete, pkgName, iconUrl, isNsfw },
+        extension: { name, lang, versionName, isInstalled, hasUpdate, isObsolete, pkgName, iconUrl, isNsfw, repo },
         handleUpdate,
+        usesCustomRepos,
     } = props;
     const [installedState, setInstalledState] = useState<InstalledStates>(
         getInstalledState(isInstalled, isObsolete, hasUpdate),
@@ -184,6 +186,11 @@ export function ExtensionCard(props: IProps) {
                                 </Typography>
                             )}
                         </Typography>
+                        {usesCustomRepos && (
+                            <Typography variant="caption" display="block">
+                                {repo}
+                            </Typography>
+                        )}
                     </Box>
                 </Box>
 

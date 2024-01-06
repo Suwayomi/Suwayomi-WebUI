@@ -29,6 +29,7 @@ export const UPDATE_EXTENSION = gql`
             extension {
                 pkgName
                 apkName
+                repo
                 versionName
                 versionCode
                 isInstalled
@@ -46,6 +47,7 @@ export const UPDATE_EXTENSIONS = gql`
             extensions {
                 pkgName
                 apkName
+                repo
                 versionName
                 versionCode
                 isInstalled

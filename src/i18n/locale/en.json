@@ -233,6 +233,23 @@
       "all": "All",
       "other": "Other"
     },
+    "settings": {
+      "repositories": {
+        "custom": {
+          "dialog": {
+            "action": {
+              "button": {
+                "add": "Add repository"
+              }
+            }
+          },
+          "label": {
+            "description": "Add custom repositories from which extensions can be installed",
+            "title": "Custom repositories"
+          }
+        }
+      }
+    },
     "state": {
       "label": {
         "installed": "Installed",
@@ -247,6 +264,7 @@
   },
   "global": {
     "button": {
+      "add": "Add",
       "browse": "Browse",
       "cancel": "Cancel",
       "clear": "Clear",
@@ -326,6 +344,7 @@
       "none": "None",
       "other": "Other",
       "password": "Password",
+      "placeholder": "Placeholder",
       "sort": "Sort",
       "unknown": "Unknown",
       "username": "Username"

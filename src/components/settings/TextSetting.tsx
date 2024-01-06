@@ -17,23 +17,27 @@ import DialogContentText from '@mui/material/DialogContentText';
 import IconButton from '@mui/material/IconButton';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
-export const TextSetting = ({
-    settingName,
-    dialogDescription,
-    value,
-    handleChange,
-    isPassword = false,
-    placeholder = '',
-    disabled = false,
-}: {
+export type TextSettingProps = {
     settingName: string;
+    dialogTitle?: string;
     dialogDescription?: string;
     value?: string;
     handleChange: (value: string) => void;
     isPassword?: boolean;
     placeholder?: string;
     disabled?: boolean;
-}) => {
+};
+
+export const TextSetting = ({
+    settingName,
+    dialogTitle = settingName,
+    dialogDescription,
+    value,
+    handleChange,
+    isPassword = false,
+    placeholder = '',
+    disabled = false,
+}: TextSettingProps) => {
     const { t } = useTranslation();
 
     const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -70,13 +74,15 @@ export const TextSetting = ({
                 <ListItemText
                     primary={settingName}
                     secondary={isPassword ? value?.replace(/./g, '*') : value ?? t('global.label.loading')}
-                    secondaryTypographyProps={{ style: { display: 'flex', flexDirection: 'column' } }}
+                    secondaryTypographyProps={{
+                        sx: { display: 'flex', flexDirection: 'column', wordWrap: 'break-word' },
+                    }}
                 />
             </ListItemButton>
 
             <Dialog open={isDialogOpen} onClose={() => closeDialog()} fullWidth>
                 <DialogContent>
-                    <DialogTitle sx={{ paddingLeft: 0 }}>{settingName}</DialogTitle>
+                    <DialogTitle sx={{ paddingLeft: 0 }}>{dialogTitle}</DialogTitle>
                     {!!dialogDescription && (
                         <DialogContentText sx={{ paddingBottom: '10px' }}>{dialogDescription}</DialogContentText>
                     )}

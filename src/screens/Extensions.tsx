@@ -98,6 +98,9 @@ export function Extensions() {
     const theme = useTheme();
     const isMobileWidth = useMediaQuery(theme.breakpoints.down('sm'));
 
+    const { data: serverSettingsData } = requestManager.useGetServerSettings();
+    const usesCustomRepos = !!serverSettingsData?.settings.extensionRepos.length;
+
     const inputRef = useRef<HTMLInputElement>(null);
     const { setTitle, setAction } = useContext(NavBarContext);
     const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownExtensionLangs', extensionDefaultLangs());
@@ -255,7 +258,11 @@ export function Extensions() {
 
                     return (
                         <StyledGroupItemWrapper key={item.apkName} isLastItem={index === visibleExtensions.length - 1}>
-                            <ExtensionCard extension={item} handleUpdate={handleExtensionUpdate} />
+                            <ExtensionCard
+                                extension={item}
+                                handleUpdate={handleExtensionUpdate}
+                                usesCustomRepos={usesCustomRepos}
+                            />
                         </StyledGroupItemWrapper>
                     );
                 }}
