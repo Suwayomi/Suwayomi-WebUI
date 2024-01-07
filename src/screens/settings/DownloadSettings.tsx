@@ -11,7 +11,7 @@ import { useContext, useEffect } from 'react';
 import List from '@mui/material/List';
 import { ListItem, ListItemText, Switch } from '@mui/material';
 import ListSubheader from '@mui/material/ListSubheader';
-import { TextSetting } from '@/components/settings/TextSetting.tsx';
+import { TextSetting } from '@/components/settings/text/TextSetting.tsx';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
 import { MetadataServerSettingKeys, MetadataServerSettings, ServerSettings } from '@/typings.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';

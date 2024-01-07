@@ -14,7 +14,7 @@ import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarC
 import { ServerSettings } from '@/typings.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { WebUIUpdateIntervalSetting } from '@/components/settings/webUI/WebUIUpdateIntervalSetting.tsx';
-import { TextSetting } from '@/components/settings/TextSetting.tsx';
+import { TextSetting } from '@/components/settings/text/TextSetting.tsx';
 import {
     SelectSetting,
     SelectSettingValue,

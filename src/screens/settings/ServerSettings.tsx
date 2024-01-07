@@ -13,7 +13,7 @@ import ListSubheader from '@mui/material/ListSubheader';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { useLocalStorage } from '@/util/useLocalStorage.tsx';
-import { TextSetting } from '@/components/settings/TextSetting.tsx';
+import { TextSetting } from '@/components/settings/text/TextSetting.tsx';
 import { ServerSettings as GqlServerSettings } from '@/typings.ts';
 import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
 import { MutableListSetting } from '@/components/settings/MutableListSetting.tsx';
@@ -136,6 +136,13 @@ export const ServerSettings = () => {
                     handleChange={(repos) => updateSetting('extensionRepos', repos)}
                     values={serverSettings?.extensionRepos}
                     addItemButtonTitle={t('extension.settings.repositories.custom.dialog.action.button.add')}
+                    placeholder="https://github.com/MY_ACCOUNT/MY_REPO/tree/repo"
+                    validateItem={(repo) =>
+                        !!repo.match(
+                            /https:\/\/(?:www|raw)?(?:github|githubusercontent)\.com\/([^/]+)\/([^/]+)(?:\/(?:tree|blob)\/(.*))?\/?/g,
+                        )
+                    }
+                    invalidItemError={t('extension.settings.repositories.custom.error.label.invalid_url')}
                 />
             </List>
             <List
