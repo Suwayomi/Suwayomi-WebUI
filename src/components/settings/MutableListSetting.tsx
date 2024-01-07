@@ -17,6 +17,7 @@ import IconButton from '@mui/material/IconButton';
 import DialogContentText from '@mui/material/DialogContentText';
 import { TextSetting, TextSettingProps } from '@/components/settings/text/TextSetting.tsx';
 import { TextSettingDialog } from '@/components/settings/text/TextSettingDialog.tsx';
+import { makeToast } from '@/components/util/Toast.tsx';
 
 const MutableListItem = ({
     handleDelete,
@@ -38,10 +39,12 @@ const MutableListItem = ({
 
 type MutableListSettingProps = Pick<TextSettingProps, 'settingName' | 'placeholder'> & {
     values?: string[];
-    description?: string[];
+    description?: string;
     addItemButtonTitle?: string;
     handleChange: (values: string[]) => void;
     allowDuplicates?: boolean;
+    validateItem?: (value: string) => boolean;
+    invalidItemError?: string;
 };
 
 export const MutableListSetting = ({
@@ -52,6 +55,8 @@ export const MutableListSetting = ({
     addItemButtonTitle,
     placeholder,
     allowDuplicates = false,
+    validateItem = () => true,
+    invalidItemError,
 }: MutableListSettingProps) => {
     const { t } = useTranslation();
 
@@ -85,6 +90,15 @@ export const MutableListSetting = ({
 
         const isDuplicate = !allowDuplicates && dialogValues.includes(newValue);
         if (isDuplicate) {
+            return;
+        }
+
+        if (newValue === '') {
+            return;
+        }
+
+        if (!validateItem(newValue)) {
+            makeToast(invalidItemError ?? t('global.error.label.invalid_input'), 'error');
             return;
         }
 

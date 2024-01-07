@@ -243,6 +243,11 @@
               }
             }
           },
+          "error": {
+            "label": {
+              "invalid_url": "Invalid repository url"
+            }
+          },
           "label": {
             "description": "Add custom repositories from which extensions can be installed",
             "title": "Custom repositories"
@@ -309,6 +314,7 @@
         "failed_to_save_changes": "Failed to save changes",
         "invalid_action": "This is not a valid action",
         "invalid_file_type": "Invalid filetype",
+        "invalid_input": "Invalid input",
         "update_failed": "Could not check for updates"
       }
     },

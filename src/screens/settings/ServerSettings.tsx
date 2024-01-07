@@ -137,6 +137,12 @@ export const ServerSettings = () => {
                     values={serverSettings?.extensionRepos}
                     addItemButtonTitle={t('extension.settings.repositories.custom.dialog.action.button.add')}
                     placeholder="https://github.com/MY_ACCOUNT/MY_REPO/tree/repo"
+                    validateItem={(repo) =>
+                        !!repo.match(
+                            /https:\/\/(?:www|raw)?(?:github|githubusercontent)\.com\/([^/]+)\/([^/]+)(?:\/(?:tree|blob)\/(.*))?\/?/g,
+                        )
+                    }
+                    invalidItemError={t('extension.settings.repositories.custom.error.label.invalid_url')}
                 />
             </List>
             <List
