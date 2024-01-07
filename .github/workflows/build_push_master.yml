@@ -54,7 +54,7 @@ jobs:
           repository: "Suwayomi/Suwayomi-WebUI-preview"
           ref: main
           path: preview
-          token: ${{ secrets.DEPLOY_PREVIEW_TOKEN }}
+          token: ${{ secrets.BUILD_PREVIEW_TOKEN }}
 
       - name: Create Tag
         run: |
@@ -74,7 +74,7 @@ jobs:
       - name: Upload CI Release
         uses: ncipollo/release-action@v1
         with:
-          token: ${{ secrets.DEPLOY_PREVIEW_TOKEN }}
+          token: ${{ secrets.BUILD_PREVIEW_TOKEN }}
           artifacts: "master/buildZip/*"
           owner: "Suwayomi"
           repo: "Suwayomi-WebUI-preview"
