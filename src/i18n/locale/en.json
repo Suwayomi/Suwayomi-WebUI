@@ -250,6 +250,7 @@
           },
           "label": {
             "description": "Add custom repositories from which extensions can be installed",
+            "disclaimer": "<strong>Suwayomi does not provide any support for 3rd party repositories or extensions!</strong><br/>Use with caution as there could be malicious actors making those repositories.<br/>You as the user need to verify the security and that you trust any repository or extension.",
             "title": "Custom repositories"
           }
         }

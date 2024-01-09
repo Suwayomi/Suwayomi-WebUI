@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { useContext, useEffect } from 'react';
 import { List, ListItem, ListItemText, Switch } from '@mui/material';
 import ListSubheader from '@mui/material/ListSubheader';
@@ -133,6 +133,17 @@ export const ServerSettings = () => {
                 <MutableListSetting
                     settingName={t('extension.settings.repositories.custom.label.title')}
                     description={t('extension.settings.repositories.custom.label.description')}
+                    dialogDisclaimer={
+                        <Trans i18nKey="extension.settings.repositories.custom.label.disclaimer">
+                            <strong>
+                                Suwayomi does not provide any support for 3rd party repositories or extensions!
+                            </strong>
+                            <br />
+                            Use with caution as there could be malicious actors making those repositories.
+                            <br />
+                            You as the user need to verify the security and that you trust any repository or extension.
+                        </Trans>
+                    }
                     handleChange={(repos) => updateSetting('extensionRepos', repos)}
                     values={serverSettings?.extensionRepos}
                     addItemButtonTitle={t('extension.settings.repositories.custom.dialog.action.button.add')}

@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Button, Dialog, DialogTitle, ListItemButton, ListItemText, Stack, Tooltip } from '@mui/material';
+import { Button, Dialog, DialogTitle, ListItemButton, ListItemText, Stack, Tooltip, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
@@ -15,6 +15,7 @@ import List from '@mui/material/List';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import DialogContentText from '@mui/material/DialogContentText';
+import InfoIcon from '@mui/icons-material/Info';
 import { TextSetting, TextSettingProps } from '@/components/settings/text/TextSetting.tsx';
 import { TextSettingDialog } from '@/components/settings/text/TextSettingDialog.tsx';
 import { makeToast } from '@/components/util/Toast.tsx';
@@ -40,6 +41,7 @@ const MutableListItem = ({
 type MutableListSettingProps = Pick<TextSettingProps, 'settingName' | 'placeholder'> & {
     values?: string[];
     description?: string;
+    dialogDisclaimer?: JSX.Element | string;
     addItemButtonTitle?: string;
     handleChange: (values: string[]) => void;
     allowDuplicates?: boolean;
@@ -50,6 +52,7 @@ type MutableListSettingProps = Pick<TextSettingProps, 'settingName' | 'placehold
 export const MutableListSetting = ({
     settingName,
     description,
+    dialogDisclaimer,
     values,
     handleChange,
     addItemButtonTitle,
@@ -122,9 +125,35 @@ export const MutableListSetting = ({
 
             <Dialog open={isDialogOpen} onClose={() => closeDialog()} fullWidth>
                 <DialogTitle>{settingName}</DialogTitle>
-                {!!description && (
+                {(!!description || !!dialogDisclaimer) && (
                     <DialogContent>
-                        <DialogContentText sx={{ paddingBottom: '10px' }}>{description}</DialogContentText>
+                        <DialogContentText sx={{ paddingBottom: '10px' }} component="div">
+                            {description && (
+                                <Typography
+                                    variant="body1"
+                                    sx={{
+                                        whiteSpace: 'pre-line',
+                                    }}
+                                >
+                                    {description}
+                                </Typography>
+                            )}
+                            {dialogDisclaimer && (
+                                <Stack direction="row" alignItems="center">
+                                    <InfoIcon color="warning" />
+                                    <Typography
+                                        variant="body1"
+                                        sx={{
+                                            marginLeft: '10px',
+                                            marginTop: '5px',
+                                            whiteSpace: 'pre-line',
+                                        }}
+                                    >
+                                        {dialogDisclaimer}
+                                    </Typography>
+                                </Stack>
+                            )}
+                        </DialogContentText>
                     </DialogContent>
                 )}
                 <DialogContent dividers sx={{ maxHeight: '300px' }}>
