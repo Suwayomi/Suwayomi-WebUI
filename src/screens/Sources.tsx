@@ -6,12 +6,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Fragment, useContext, useEffect } from 'react';
+import { Fragment, useContext, useEffect, useMemo } from 'react';
 import { IconButton, Tooltip, Typography } from '@mui/material';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ISource } from '@/typings';
+import { ISource, TPartialSource } from '@/typings';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { useLocalStorage } from '@/util/useLocalStorage';
 import { sourceDefualtLangs, sourceForcedDefaultLangs, langSortCmp } from '@/util/language';
@@ -55,6 +55,15 @@ export function Sources() {
 
     const { data, loading: isLoading } = requestManager.useGetSourceList();
     const sources = data?.sources.nodes;
+
+    const areSourcesFromDifferentRepos = useMemo(() => {
+        if (!sources || !!sources?.length) {
+            return false;
+        }
+
+        const { repo } = sources[0].extension;
+        return sources.some((source) => source.extension.repo !== repo);
+    }, [sources]);
 
     const navigate = useNavigate();
 
@@ -119,10 +128,14 @@ export function Sources() {
                                 >
                                     {translateExtensionLanguage(lang)}
                                 </Typography>
-                                {(list as ISource[])
+                                {(list as TPartialSource[])
                                     .filter((source) => showNsfw || !source.isNsfw)
                                     .map((source) => (
-                                        <SourceCard key={source.id} source={source} />
+                                        <SourceCard
+                                            key={source.id}
+                                            source={source}
+                                            showSourceRepo={areSourcesFromDifferentRepos}
+                                        />
                                     ))}
                             </Fragment>
                         ),

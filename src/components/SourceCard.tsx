@@ -15,7 +15,7 @@ import Typography from '@mui/material/Typography';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { ISource } from '@/typings';
+import { TPartialSource } from '@/typings';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { translateExtensionLanguage } from '@/screens/util/Extensions';
 import { SourceContentType } from '@/screens/SourceMangas';
@@ -39,14 +39,24 @@ const WiderWidthButtons = styled('div')(({ theme }) => ({
 }));
 
 interface IProps {
-    source: ISource;
+    source: TPartialSource;
+    showSourceRepo: boolean;
 }
 
 export const SourceCard: React.FC<IProps> = (props: IProps) => {
     const { t } = useTranslation();
 
     const {
-        source: { id, name, lang, iconUrl, supportsLatest, isNsfw },
+        source: {
+            id,
+            name,
+            lang,
+            iconUrl,
+            supportsLatest,
+            isNsfw,
+            extension: { repo },
+        },
+        showSourceRepo,
     } = props;
 
     return (
@@ -97,6 +107,11 @@ export const SourceCard: React.FC<IProps> = (props: IProps) => {
                                     {isNsfw && (
                                         <Typography variant="caption" display="inline" gutterBottom color="red">
                                             {' 18+'}
+                                        </Typography>
+                                    )}
+                                    {showSourceRepo && (
+                                        <Typography variant="caption" display="block">
+                                            {repo}
                                         </Typography>
                                     )}
                                 </Typography>

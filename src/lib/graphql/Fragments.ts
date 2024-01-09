@@ -59,6 +59,10 @@ export const PARTIAL_SOURCE_FIELDS = gql`
         lang
         name
         supportsLatest
+        extension {
+            pkgName
+            repo
+        }
     }
 `;
 

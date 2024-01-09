@@ -730,6 +730,58 @@ export type TextFilterFieldPolicy = {
 	default?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type TrackRecordEdgeKeySpecifier = ('cursor' | 'node' | TrackRecordEdgeKeySpecifier)[];
+export type TrackRecordEdgeFieldPolicy = {
+	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
+	node?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type TrackRecordNodeListKeySpecifier = ('edges' | 'nodes' | 'pageInfo' | 'totalCount' | TrackRecordNodeListKeySpecifier)[];
+export type TrackRecordNodeListFieldPolicy = {
+	edges?: FieldPolicy<any> | FieldReadFunction<any>,
+	nodes?: FieldPolicy<any> | FieldReadFunction<any>,
+	pageInfo?: FieldPolicy<any> | FieldReadFunction<any>,
+	totalCount?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type TrackRecordTypeKeySpecifier = ('displayScore' | 'finishDate' | 'id' | 'lastChapterRead' | 'libraryId' | 'manga' | 'mangaId' | 'remoteId' | 'remoteUrl' | 'score' | 'startDate' | 'status' | 'syncId' | 'title' | 'totalChapters' | 'tracker' | TrackRecordTypeKeySpecifier)[];
+export type TrackRecordTypeFieldPolicy = {
+	displayScore?: FieldPolicy<any> | FieldReadFunction<any>,
+	finishDate?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	lastChapterRead?: FieldPolicy<any> | FieldReadFunction<any>,
+	libraryId?: FieldPolicy<any> | FieldReadFunction<any>,
+	manga?: FieldPolicy<any> | FieldReadFunction<any>,
+	mangaId?: FieldPolicy<any> | FieldReadFunction<any>,
+	remoteId?: FieldPolicy<any> | FieldReadFunction<any>,
+	remoteUrl?: FieldPolicy<any> | FieldReadFunction<any>,
+	score?: FieldPolicy<any> | FieldReadFunction<any>,
+	startDate?: FieldPolicy<any> | FieldReadFunction<any>,
+	status?: FieldPolicy<any> | FieldReadFunction<any>,
+	syncId?: FieldPolicy<any> | FieldReadFunction<any>,
+	title?: FieldPolicy<any> | FieldReadFunction<any>,
+	totalChapters?: FieldPolicy<any> | FieldReadFunction<any>,
+	tracker?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type TrackerEdgeKeySpecifier = ('cursor' | 'node' | TrackerEdgeKeySpecifier)[];
+export type TrackerEdgeFieldPolicy = {
+	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
+	node?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type TrackerNodeListKeySpecifier = ('edges' | 'nodes' | 'pageInfo' | 'totalCount' | TrackerNodeListKeySpecifier)[];
+export type TrackerNodeListFieldPolicy = {
+	edges?: FieldPolicy<any> | FieldReadFunction<any>,
+	nodes?: FieldPolicy<any> | FieldReadFunction<any>,
+	pageInfo?: FieldPolicy<any> | FieldReadFunction<any>,
+	totalCount?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type TrackerTypeKeySpecifier = ('authUrl' | 'icon' | 'id' | 'isLoggedIn' | 'name' | 'trackRecords' | TrackerTypeKeySpecifier)[];
+export type TrackerTypeFieldPolicy = {
+	authUrl?: FieldPolicy<any> | FieldReadFunction<any>,
+	icon?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	isLoggedIn?: FieldPolicy<any> | FieldReadFunction<any>,
+	name?: FieldPolicy<any> | FieldReadFunction<any>,
+	trackRecords?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type TriStateFilterKeySpecifier = ('default' | 'name' | TriStateFilterKeySpecifier)[];
 export type TriStateFilterFieldPolicy = {
 	default?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1200,6 +1252,30 @@ export type StrictTypedTypePolicies = {
 	TextFilter?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | TextFilterKeySpecifier | (() => undefined | TextFilterKeySpecifier),
 		fields?: TextFilterFieldPolicy,
+	},
+	TrackRecordEdge?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | TrackRecordEdgeKeySpecifier | (() => undefined | TrackRecordEdgeKeySpecifier),
+		fields?: TrackRecordEdgeFieldPolicy,
+	},
+	TrackRecordNodeList?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | TrackRecordNodeListKeySpecifier | (() => undefined | TrackRecordNodeListKeySpecifier),
+		fields?: TrackRecordNodeListFieldPolicy,
+	},
+	TrackRecordType?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | TrackRecordTypeKeySpecifier | (() => undefined | TrackRecordTypeKeySpecifier),
+		fields?: TrackRecordTypeFieldPolicy,
+	},
+	TrackerEdge?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | TrackerEdgeKeySpecifier | (() => undefined | TrackerEdgeKeySpecifier),
+		fields?: TrackerEdgeFieldPolicy,
+	},
+	TrackerNodeList?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | TrackerNodeListKeySpecifier | (() => undefined | TrackerNodeListKeySpecifier),
+		fields?: TrackerNodeListFieldPolicy,
+	},
+	TrackerType?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | TrackerTypeKeySpecifier | (() => undefined | TrackerTypeKeySpecifier),
+		fields?: TrackerTypeFieldPolicy,
 	},
 	TriStateFilter?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | TriStateFilterKeySpecifier | (() => undefined | TriStateFilterKeySpecifier),
