@@ -99,7 +99,7 @@ export function Extensions() {
     const isMobileWidth = useMediaQuery(theme.breakpoints.down('sm'));
 
     const { data: serverSettingsData } = requestManager.useGetServerSettings();
-    const usesCustomRepos = !!serverSettingsData?.settings.extensionRepos.length;
+    const areMultipleReposInUse = !!serverSettingsData?.settings.extensionRepos.length; // tachiyomi repo is used by default
 
     const inputRef = useRef<HTMLInputElement>(null);
     const { setTitle, setAction } = useContext(NavBarContext);
@@ -261,7 +261,7 @@ export function Extensions() {
                             <ExtensionCard
                                 extension={item}
                                 handleUpdate={handleExtensionUpdate}
-                                usesCustomRepos={usesCustomRepos}
+                                showSourceRepo={areMultipleReposInUse}
                             />
                         </StyledGroupItemWrapper>
                     );

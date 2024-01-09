@@ -22,7 +22,7 @@ import { makeToast } from '@/components/util/Toast.tsx';
 interface IProps {
     extension: PartialExtension;
     handleUpdate: () => void;
-    usesCustomRepos: boolean;
+    showSourceRepo: boolean;
 }
 
 enum ExtensionAction {
@@ -94,7 +94,7 @@ export function ExtensionCard(props: IProps) {
     const {
         extension: { name, lang, versionName, isInstalled, hasUpdate, isObsolete, pkgName, iconUrl, isNsfw, repo },
         handleUpdate,
-        usesCustomRepos,
+        showSourceRepo,
     } = props;
     const [installedState, setInstalledState] = useState<InstalledStates>(
         getInstalledState(isInstalled, isObsolete, hasUpdate),
@@ -162,7 +162,7 @@ export function ExtensionCard(props: IProps) {
                     },
                 }}
             >
-                <Box sx={{ display: 'flex' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <Avatar
                         variant="rounded"
                         sx={{
@@ -186,7 +186,7 @@ export function ExtensionCard(props: IProps) {
                                 </Typography>
                             )}
                         </Typography>
-                        {usesCustomRepos && (
+                        {showSourceRepo && (
                             <Typography variant="caption" display="block">
                                 {repo}
                             </Typography>

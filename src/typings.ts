@@ -17,6 +17,7 @@ import {
     GetMangaQuery,
     GetServerSettingsQuery,
     GetSourceQuery,
+    GetSourcesQuery,
     MetaType,
     SourcePreferenceChangeInput,
 } from '@/lib/graphql/generated/graphql.ts';
@@ -43,6 +44,8 @@ export interface ISource {
     isNsfw: boolean;
     displayName: string;
 }
+
+export type TPartialSource = GetSourcesQuery['sources']['nodes'][number];
 
 export type SourceFilters = GetSourceQuery['source']['filters'][number];
 
