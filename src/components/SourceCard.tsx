@@ -79,7 +79,7 @@ export const SourceCard: React.FC<IProps> = (props: IProps) => {
                         padding: 2,
                     }}
                 >
-                    <Box sx={{ display: 'flex' }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <Avatar
                             variant="rounded"
                             alt={name}
