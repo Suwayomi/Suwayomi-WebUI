@@ -257,7 +257,6 @@ export const PARTIAL_MANGA_FIELDS = gql`
 `;
 
 export const FULL_CHAPTER_FIELDS = gql`
-    ${PARTIAL_MANGA_FIELDS}
     fragment FULL_CHAPTER_FIELDS on ChapterType {
         chapterNumber
         fetchedAt
@@ -268,7 +267,10 @@ export const FULL_CHAPTER_FIELDS = gql`
         lastPageRead
         lastReadAt
         manga {
-            ...PARTIAL_MANGA_FIELDS
+            id
+            title
+            inLibrary
+            thumbnailUrl
         }
         meta {
             key
@@ -290,6 +292,15 @@ export const FULL_MANGA_FIELDS = gql`
     fragment FULL_MANGA_FIELDS on MangaType {
         ...PARTIAL_MANGA_FIELDS
         lastReadChapter {
+            ...FULL_CHAPTER_FIELDS
+        }
+        latestReadChapter {
+            ...FULL_CHAPTER_FIELDS
+        }
+        latestFetchedChapter {
+            ...FULL_CHAPTER_FIELDS
+        }
+        latestUploadedChapter {
             ...FULL_CHAPTER_FIELDS
         }
     }

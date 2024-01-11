@@ -78,8 +78,8 @@ export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
 
     const visibleChapters = useMemo(() => filterAndSortChapters(chapters, options), [chapters, options]);
 
-    const nextChapterIndexToRead = (manga.lastReadChapter?.sourceOrder ?? 0) + 1;
-    const isLatestChapterRead = manga.chapters.totalCount === manga.lastReadChapter?.sourceOrder;
+    const nextChapterIndexToRead = (manga.latestReadChapter?.sourceOrder ?? 0) + 1;
+    const isLatestChapterRead = manga.chapters.totalCount === manga.latestReadChapter?.sourceOrder;
 
     const areAllChaptersRead = manga.unreadCount === 0;
     const areAllChaptersDownloaded = manga.downloadCount === manga.chapters.totalCount;
