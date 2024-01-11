@@ -28,6 +28,8 @@ const SORT_OPTIONS: [LibrarySortMode, TranslationKey][] = [
     ['sortAlph', 'library.option.sort.label.alphabetically'],
     ['sortDateAdded', 'library.option.sort.label.by_date_added'],
     ['sortLastRead', 'library.option.sort.label.by_last_read'],
+    ['sortLatestFetchedChapter', 'library.option.sort.label.by_latest_fetched_chapter'],
+    ['sortLatestUploadedChapter', 'library.option.sort.label.by_latest_uploaded_chapter'],
 ];
 
 interface IProps {

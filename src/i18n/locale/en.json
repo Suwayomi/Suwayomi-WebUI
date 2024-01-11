@@ -428,6 +428,8 @@
           "alphabetically": "A-Z",
           "by_date_added": "Recently added",
           "by_last_read": "Recently read",
+          "by_latest_fetched_chapter": "Latest fetched chapter",
+          "by_latest_uploaded_chapter": "Latest uploaded chapter",
           "by_unread_chapters": "Unread chapters"
         }
       }
