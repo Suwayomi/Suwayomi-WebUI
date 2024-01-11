@@ -73,7 +73,6 @@ export enum SourceContentType {
     POPULAR,
     LATEST,
     SEARCH,
-    FILTER,
 }
 
 interface IPos {
@@ -86,8 +85,7 @@ interface IPos {
 const SOURCE_CONTENT_TYPE_TO_ERROR_MSG_KEY: { [contentType in SourceContentType]: TranslationKey } = {
     [SourceContentType.POPULAR]: 'manga.error.label.no_mangas_found',
     [SourceContentType.LATEST]: 'manga.error.label.no_mangas_found',
-    [SourceContentType.FILTER]: 'manga.error.label.no_matches',
-    [SourceContentType.SEARCH]: 'manga.error.label.no_mangas_found',
+    [SourceContentType.SEARCH]: 'manga.error.label.no_matches',
 };
 
 const getUniqueMangas = (mangas: TPartialManga[]): TPartialManga[] => {
@@ -128,12 +126,9 @@ const useSourceManga = (
             result = requestManager.useGetSourceLatestMangas(sourceId, initialPages);
             break;
         case SourceContentType.SEARCH:
-            result = requestManager.useSourceSearch(sourceId, searchTerm ?? '', undefined, initialPages);
-            break;
-        case SourceContentType.FILTER:
             result = requestManager.useSourceSearch(
                 sourceId,
-                undefined,
+                searchTerm ?? '',
                 filters.map((filter) => {
                     const { position, state, group } = filter;
 
@@ -205,6 +200,7 @@ export function SourceMangas() {
     const { sourceId } = useParams<{ sourceId: string }>();
 
     const navigate = useNavigate();
+    const { search } = useLocation();
     const {
         contentType: currentLocationContentType = SourceContentType.POPULAR,
         filtersToApply: currentLocationFiltersToApply = [],
@@ -213,9 +209,16 @@ export function SourceMangas() {
         contentType: SourceContentType;
         filtersToApply: IPos[];
         clearCache: boolean;
+        search: string;
     }>().state ?? {};
 
     useSetDefaultBackTo('sources');
+
+    const [isFirstRender, setIsFirstRender] = useState(true);
+
+    useEffect(() => {
+        setIsFirstRender(false);
+    }, []);
 
     const { options } = useLibraryOptionsContext();
     const [query] = useQueryParam('query', StringParam);
@@ -250,9 +253,20 @@ export function SourceMangas() {
     ) : undefined;
 
     const updateContentType = useCallback(
-        (newContentType: SourceContentType, updateLocationState: boolean = true) => {
+        (
+            newContentType: SourceContentType,
+            { updateLocationState = true, search: newSearch }: { updateLocationState?: boolean; search?: string } = {},
+        ) => {
             if (updateLocationState) {
-                navigate('', { replace: true, state: { contentType: newContentType } });
+                navigate(
+                    { pathname: '', search: newSearch },
+                    {
+                        replace: true,
+                        state: {
+                            contentType: newContentType,
+                        },
+                    },
+                );
             }
 
             setContentType(newContentType);
@@ -263,22 +277,26 @@ export function SourceMangas() {
 
     const updateLocationFilters = useCallback(
         (updatedFilters: IPos[]) => {
-            if (contentType === SourceContentType.FILTER) {
-                navigate('', { replace: true, state: { contentType, filtersToApply: updatedFilters } });
+            if (contentType === SourceContentType.SEARCH) {
+                navigate(
+                    { pathname: '', search },
+                    {
+                        replace: true,
+                        state: {
+                            contentType,
+                            filtersToApply: updatedFilters,
+                        },
+                    },
+                );
             }
         },
-        [contentType],
+        [contentType, search],
     );
 
     const isSearchTermAvailable = searchTerm && query?.length;
     const setSearchContentType = isSearchTermAvailable && contentType !== SourceContentType.SEARCH;
     if (setSearchContentType) {
-        updateContentType(SourceContentType.SEARCH, false);
-    }
-
-    const closeSearch = !query?.length && contentType === SourceContentType.SEARCH;
-    if (closeSearch) {
-        updateContentType(currentLocationContentType, false);
+        updateContentType(SourceContentType.SEARCH, { search });
     }
 
     const loadMore = useCallback(() => {
@@ -294,7 +312,7 @@ export function SourceMangas() {
         setFiltersToApply([]);
         updateLocationFilters([]);
         setResetScrollPosition(true);
-    }, [sourceId, contentType]);
+    }, [sourceId, contentType, updateLocationFilters]);
 
     useEffect(() => {
         if (!clearCache) {
@@ -315,17 +333,16 @@ export function SourceMangas() {
 
     useEffect(
         () => () => {
-            if (contentType !== SourceContentType.SEARCH) {
+            if (contentType !== SourceContentType.SEARCH || isFirstRender) {
                 return;
             }
-
             // INFO:
             // with strict mode + dev mode the first request will be aborted. due to using SWR there won't be an
             // immediate second request since it's the same key. instead the "second" request will be the error handling of SWR
             abortRequest(new Error(`SourceMangas(${sourceId}): search string changed`));
             setResetScrollPosition(true);
         },
-        [searchTerm, contentType],
+        [searchTerm],
     );
 
     useEffect(() => {
@@ -381,9 +398,9 @@ export function SourceMangas() {
                     </ContentTypeButton>
                 ) : null}
                 <ContentTypeButton
-                    variant={contentType === SourceContentType.FILTER ? 'contained' : 'outlined'}
+                    variant={contentType === SourceContentType.SEARCH ? 'contained' : 'outlined'}
                     startIcon={<FilterListIcon />}
-                    onClick={() => updateContentType(SourceContentType.FILTER)}
+                    onClick={() => updateContentType(SourceContentType.SEARCH)}
                 >
                     {t('global.button.filter')}
                 </ContentTypeButton>
@@ -398,7 +415,7 @@ export function SourceMangas() {
                 isLoading={isLoading}
                 gridLayout={options.SourcegridLayout}
             />
-            {contentType === SourceContentType.FILTER && (
+            {contentType === SourceContentType.SEARCH && (
                 <SourceOptions
                     sourceFilter={filters}
                     updateFilterValue={setDialogFiltersToApply}
