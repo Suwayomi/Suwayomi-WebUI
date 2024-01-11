@@ -70,6 +70,12 @@ const sortByDateAdded = (a: TManga, b: TManga): number => Number(a.inLibraryAt) 
 const sortByLastRead = (a: TManga, b: TManga): number =>
     Number(b.lastReadChapter?.lastReadAt ?? 0) - Number(a.lastReadChapter?.lastReadAt ?? 0);
 
+const sortByLatestUploadedChapter = (a: TManga, b: TManga): number =>
+    (a.latestUploadedChapter?.fetchedAt ?? 0) - (b.latestUploadedChapter?.fetchedAt ?? 0);
+
+const sortByLatestFetchedChapter = (a: TManga, b: TManga): number =>
+    (a.latestFetchedChapter?.fetchedAt ?? 0) - (b.latestFetchedChapter?.fetchedAt ?? 0);
+
 const sortManga = (
     manga: TManga[],
     sort: NullAndUndefined<LibrarySortMode>,
@@ -89,6 +95,12 @@ const sortManga = (
             break;
         case 'sortLastRead':
             result.sort(sortByLastRead);
+            break;
+        case 'sortLatestUploadedChapter':
+            result.sort(sortByLatestUploadedChapter);
+            break;
+        case 'sortLatestFetchedChapter':
+            result.sort(sortByLatestFetchedChapter);
             break;
         default:
             break;

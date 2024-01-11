@@ -338,7 +338,13 @@ export type ChapterOptionsReducerAction =
     | { type: 'sortReverse' }
     | { type: 'showChapterNumber' };
 
-export type LibrarySortMode = 'sortToRead' | 'sortAlph' | 'sortDateAdded' | 'sortLastRead';
+export type LibrarySortMode =
+    | 'sortToRead'
+    | 'sortAlph'
+    | 'sortDateAdded'
+    | 'sortLastRead'
+    | 'sortLatestFetchedChapter'
+    | 'sortLatestUploadedChapter';
 
 enum GridLayout {
     Compact = 0,
