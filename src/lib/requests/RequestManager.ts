@@ -1684,7 +1684,7 @@ export class RequestManager {
                 deleteChapters: !!chapterIdsToDelete.length,
                 mangaIds,
                 downloadAhead,
-                lastReadChapterIds: downloadAhead ? ids : [],
+                latestReadChapterIds: downloadAhead ? ids : [],
             },
             options,
         );

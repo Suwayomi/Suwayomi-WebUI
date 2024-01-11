@@ -85,7 +85,7 @@ export const MangaCard = (props: IProps) => {
         downloadCount,
         unreadCount: unread,
         inLibrary,
-        lastReadChapter,
+        latestReadChapter,
         chapters,
     } = manga;
     const thumbnailUrl = tmpThumbnailUrl ?? 'nonExistingMangaUrl';
@@ -95,8 +95,8 @@ export const MangaCard = (props: IProps) => {
 
     const mangaLinkTo = `/manga/${id}/`;
 
-    const nextChapterIndexToRead = (lastReadChapter?.sourceOrder ?? 0) + 1;
-    const isLatestChapterRead = chapters?.totalCount === lastReadChapter?.sourceOrder;
+    const nextChapterIndexToRead = (latestReadChapter?.sourceOrder ?? 0) + 1;
+    const isLatestChapterRead = chapters?.totalCount === latestReadChapter?.sourceOrder;
 
     if (gridLayout !== GridLayout.List) {
         return (
