@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import React, { useEffect, useState, CSSProperties } from 'react';
+import React, { useState, CSSProperties, useEffect } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import { Theme, SxProps } from '@mui/material';
@@ -25,41 +25,45 @@ interface IProps {
 
 export function SpinnerImage(props: IProps) {
     const { src, alt, onImageLoad, imgRef, spinnerStyle, imgStyle } = props;
-    const [imageSrc, setImagsrc] = useState<string>('');
+
+    const [isLoading, setIsLoading] = useState<boolean | undefined>(undefined);
+    const [hasError, setHasError] = useState(false);
+
+    const updateImageState = (loading: boolean, error: boolean = false) => {
+        setIsLoading(loading);
+        setHasError(error);
+
+        if (!loading && !error) {
+            onImageLoad?.();
+        }
+    };
 
     useEffect(() => {
-        const img = new Image();
-        img.src = src;
+        // only activate the loading state in case the image has not been cached yet.
+        // otherwise, the loading placeholder will always be visible before the actual image is shown, which looks like flickering
+        const timeout = setTimeout(() => setIsLoading((prevState) => (prevState === undefined ? true : prevState)), 1);
+        return () => clearTimeout(timeout);
+    }, []);
 
-        img.onload = () => {
-            setImagsrc(src);
-            onImageLoad?.();
-        };
-
-        img.onerror = () => {
-            // Setting to an actual image so CSS styling works consistently
-            setImagsrc('/notFound.svg');
-        };
-
-        return () => {
-            img.onload = null;
-            img.onerror = null;
-        };
-    }, [src]);
-
-    if (imageSrc.length === 0) {
-        return (
-            <Box sx={spinnerStyle}>
-                <CircularProgress thickness={5} />
-            </Box>
-        );
-    }
-
-    if (imageSrc === 'Not Found') {
-        return <Box sx={spinnerStyle} />;
-    }
-
-    return <img style={imgStyle} ref={imgRef} src={imageSrc} alt={alt} draggable={false} />;
+    return (
+        <>
+            {isLoading && (
+                <Box sx={spinnerStyle}>
+                    <CircularProgress thickness={5} />
+                </Box>
+            )}
+            {hasError && <Box sx={spinnerStyle} />}
+            <img
+                style={{ ...imgStyle, display: isLoading || hasError ? 'none' : undefined }}
+                ref={imgRef}
+                src={src}
+                alt={alt}
+                onLoad={() => updateImageState(false)}
+                onError={() => updateImageState(false, true)}
+                draggable={false}
+            />
+        </>
+    );
 }
 
 SpinnerImage.defaultProps = {
