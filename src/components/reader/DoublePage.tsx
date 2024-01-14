@@ -6,21 +6,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { forwardRef, useRef } from 'react';
-import { Box, styled } from '@mui/material';
+import { CSSProperties, forwardRef, useRef } from 'react';
+import { Box, SxProps, Theme } from '@mui/material';
 import { IReaderSettings } from '@/typings';
 import { SpinnerImage } from '@/components/util/SpinnerImage';
 
-const Image = styled('img')({
-    marginBottom: 0,
-    width: 'auto',
-    minHeight: '99vh',
-    height: 'auto',
-    maxHeight: '99vh',
-    objectFit: 'contain',
-});
-
-const imgStyles = {
+const imgStyles: CSSProperties = {
     display: 'block',
     marginBottom: 0,
     width: 'auto',
@@ -30,11 +21,17 @@ const imgStyles = {
     objectFit: 'contain',
 };
 
+const spinnerStyle: SxProps<Theme> = {
+    ...imgStyles,
+    width: 'calc((100vw - 300px) * 0.5)',
+    backgroundColor: '#525252',
+};
+
 interface IProps {
     index: number;
     image1src: string;
     image2src: string;
-    onImageLoad: () => void;
+    onImageLoad?: () => void;
     settings: IReaderSettings;
 }
 
@@ -42,8 +39,6 @@ export const DoublePage = forwardRef((props: IProps, ref: any) => {
     const { image1src, image2src, index, onImageLoad, settings } = props;
 
     const imgRef = useRef<HTMLImageElement>(null);
-
-    // const imgStyle = imageStyle(settings);
 
     return (
         <Box
@@ -63,14 +58,7 @@ export const DoublePage = forwardRef((props: IProps, ref: any) => {
                 onImageLoad={onImageLoad}
                 alt={`Page #${index}`}
                 imgRef={imgRef}
-                spinnerStyle={{
-                    ...imgStyles,
-                    height: '100vh',
-                    width: '35vw',
-                    padding: '50px 18vw',
-                    backgroundColor: '#525252',
-                    marginBottom: 10,
-                }}
+                spinnerStyle={spinnerStyle}
                 imgStyle={imgStyles}
             />
             <SpinnerImage
@@ -79,12 +67,9 @@ export const DoublePage = forwardRef((props: IProps, ref: any) => {
                 alt={`Page #${index + 1}`}
                 imgRef={imgRef}
                 spinnerStyle={{
-                    ...imgStyles,
-                    height: '100vh',
-                    width: '35vw',
-                    padding: '50px 18vw',
-                    backgroundColor: '#525252',
-                    marginBottom: 10,
+                    ...spinnerStyle,
+                    width: 'calc((100vw - 300px - 5px) * 0.5)',
+                    marginLeft: '5px',
                 }}
                 imgStyle={imgStyles}
             />
