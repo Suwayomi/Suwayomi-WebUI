@@ -13,6 +13,7 @@ import { Theme, SxProps, Stack, Button } from '@mui/material';
 
 import BrokenImageIcon from '@mui/icons-material/BrokenImage';
 import RefreshIcon from '@mui/icons-material/Refresh';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {
     src: string;
@@ -28,6 +29,8 @@ interface IProps {
 
 export function SpinnerImage(props: IProps) {
     const { src, alt, onImageLoad, imgRef, spinnerStyle, imgStyle } = props;
+
+    const { t } = useTranslation();
 
     const [imgLoadRetryKey, setImgLoadRetryKey] = useState(0);
     const [isLoading, setIsLoading] = useState<boolean | undefined>(undefined);
@@ -69,7 +72,7 @@ export function SpinnerImage(props: IProps) {
                                     }}
                                     size="large"
                                 >
-                                    Retry
+                                    {t('global.button.retry')}
                                 </Button>
                             </>
                         )}
