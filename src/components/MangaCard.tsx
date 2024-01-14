@@ -113,7 +113,7 @@ export const MangaCard = (props: IProps) => {
                                 handleSelection?.(id, !selected);
                             }}
                             to={mangaLinkTo}
-                            style={gridLayout === GridLayout.Comfortable ? { textDecoration: 'none' } : {}}
+                            style={{ textDecoration: 'none' }}
                         >
                             <Box
                                 sx={{

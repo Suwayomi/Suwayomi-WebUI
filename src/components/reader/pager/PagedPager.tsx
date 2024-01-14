@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useEffect, useRef } from 'react';
+import { MouseEvent, useEffect, useRef } from 'react';
 import { Box } from '@mui/material';
 import { IReaderProps } from '@/typings';
 import { Page } from '@/components/reader/Page';
@@ -80,11 +80,9 @@ export function PagedPager(props: IReaderProps) {
 
     useEffect(() => {
         document.addEventListener('keydown', keyboardControl);
-        selfRef.current?.addEventListener('click', clickControl);
 
         return () => {
             document.removeEventListener('keydown', keyboardControl);
-            selfRef.current?.removeEventListener('click', clickControl);
         };
     }, [selfRef, curPage, settings.readerType, prevChapter, nextChapter]);
 
@@ -107,6 +105,7 @@ export function PagedPager(props: IReaderProps) {
                 width: '100%',
                 height: '100vh',
             }}
+            onClick={clickControl}
         >
             <Page key={curPage} index={curPage} onImageLoad={() => {}} src={pages[curPage].src} settings={settings} />
         </Box>

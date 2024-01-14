@@ -82,9 +82,7 @@ export const Page = forwardRef((props: IProps, ref: any) => {
                     ...imgStyle,
                     height: '100vh',
                     width: '70vw',
-                    padding: '50px calc(50% - 20px)',
                     backgroundColor: '#525252',
-                    marginBottom: 10,
                 }}
                 imgStyle={imgStyle}
             />
