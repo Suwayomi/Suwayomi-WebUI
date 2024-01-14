@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useEffect, useRef } from 'react';
+import { MouseEvent as ReactMouseEvent, useEffect, useRef } from 'react';
 import { Box } from '@mui/material';
 import { IReaderProps } from '@/typings';
 import { Page } from '@/components/reader/Page';
@@ -87,7 +87,7 @@ export function HorizontalPager(props: IReaderProps) {
         selfRef.current?.removeEventListener('mousemove', dragScreen);
     }
 
-    function clickControl(e: MouseEvent) {
+    function clickControl(e: ReactMouseEvent) {
         if (e.clientX >= window.innerWidth * 0.85) {
             goRight();
         } else if (e.clientX <= window.innerWidth * 0.15) {
@@ -129,11 +129,9 @@ export function HorizontalPager(props: IReaderProps) {
         if (settings.loadNextOnEnding) {
             document.addEventListener('scroll', handleLoadNextonEnding);
         }
-        selfRef.current?.addEventListener('mousedown', clickControl);
 
         return () => {
             document.removeEventListener('scroll', handleLoadNextonEnding);
-            selfRef.current?.removeEventListener('mousedown', clickControl);
         };
     }, [selfRef, curPage, prevChapter, nextChapter]);
 
@@ -174,6 +172,7 @@ export function HorizontalPager(props: IReaderProps) {
                 overflowX: 'visible',
                 userSelect: 'none',
             }}
+            onClick={clickControl}
         >
             {pages.map((page) => (
                 <Page

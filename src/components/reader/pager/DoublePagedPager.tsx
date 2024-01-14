@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useEffect, useRef, useState } from 'react';
+import { MouseEvent, useEffect, useRef, useState } from 'react';
 import { Box } from '@mui/material';
 import { IReaderProps } from '@/typings';
 import { Page } from '@/components/reader/Page';
@@ -134,11 +134,9 @@ export function DoublePagedPager(props: IReaderProps) {
 
     useEffect(() => {
         document.addEventListener('keydown', keyboardControl);
-        selfRef.current?.addEventListener('click', clickControl);
 
         return () => {
             document.removeEventListener('keydown', keyboardControl);
-            selfRef.current?.removeEventListener('click', clickControl);
         };
     }, [selfRef, curPage, settings.readerType, prevChapter, nextChapter, pagesLoadState, pagesToSpreadState]);
 
@@ -157,7 +155,7 @@ export function DoublePagedPager(props: IReaderProps) {
     }, [settings.offsetFirstPage]);
 
     return (
-        <Box ref={selfRef}>
+        <Box ref={selfRef} onClick={clickControl}>
             <Box id="preload" sx={{ display: 'none' }}>
                 {pages.map((page) => (
                     <img

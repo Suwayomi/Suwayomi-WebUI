@@ -9,7 +9,10 @@
 import React, { useState, CSSProperties, useEffect } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
-import { Theme, SxProps } from '@mui/material';
+import { Theme, SxProps, Stack, Button } from '@mui/material';
+
+import BrokenImageIcon from '@mui/icons-material/BrokenImage';
+import RefreshIcon from '@mui/icons-material/Refresh';
 
 interface IProps {
     src: string;
@@ -26,6 +29,7 @@ interface IProps {
 export function SpinnerImage(props: IProps) {
     const { src, alt, onImageLoad, imgRef, spinnerStyle, imgStyle } = props;
 
+    const [imgLoadRetryKey, setImgLoadRetryKey] = useState(0);
     const [isLoading, setIsLoading] = useState<boolean | undefined>(undefined);
     const [hasError, setHasError] = useState(false);
 
@@ -47,13 +51,33 @@ export function SpinnerImage(props: IProps) {
 
     return (
         <>
-            {isLoading && (
+            {(isLoading || hasError) && (
                 <Box sx={spinnerStyle}>
-                    <CircularProgress thickness={5} />
+                    <Stack height="100%" alignItems="center" justifyContent="center">
+                        {isLoading && <CircularProgress thickness={5} />}
+                        {hasError && (
+                            <>
+                                <BrokenImageIcon />
+                                <Button
+                                    startIcon={<RefreshIcon />}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        e.preventDefault();
+                                        setIsLoading(true);
+                                        setHasError(false);
+                                        setImgLoadRetryKey((prevState) => (prevState + 1) % 100);
+                                    }}
+                                    size="large"
+                                >
+                                    Retry
+                                </Button>
+                            </>
+                        )}
+                    </Stack>
                 </Box>
             )}
-            {hasError && <Box sx={spinnerStyle} />}
             <img
+                key={`${src}_${imgLoadRetryKey}`}
                 style={{ ...imgStyle, display: isLoading || hasError ? 'none' : undefined }}
                 ref={imgRef}
                 src={src}
