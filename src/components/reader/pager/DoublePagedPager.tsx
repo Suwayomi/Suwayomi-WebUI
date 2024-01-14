@@ -6,9 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Box } from '@mui/material';
-import { createRoot } from 'react-dom/client';
 import { IReaderProps } from '@/typings';
 import { Page } from '@/components/reader/Page';
 import { DoublePage } from '@/components/reader/DoublePage';
@@ -35,56 +34,30 @@ export function DoublePagedPager(props: IReaderProps) {
     const selfRef = useRef<HTMLDivElement>(null);
     const pagesRef = useRef<HTMLImageElement[]>([]);
 
-    const pagesDisplayed = useRef<number>(0);
-    const pageLoaded = useRef<boolean[]>(Array(pages.length).fill(false));
-    const spreadPage = useRef<boolean[]>(Array(pages.length).fill(false));
+    const [pagesToSpreadState, setPagesToSpreadState] = useState(Array(pages.length).fill(false));
+    const [pagesLoadState, setPagesLoadState] = useState<boolean[]>(Array(pages.length).fill(false));
 
-    function setPagesToDisplay() {
-        pagesDisplayed.current = 0;
+    function getPagesToDisplay(): number {
+        let pagesToDisplay = 1; // has to be at least one so skipping forward while pages are still loading is possible
         if (curPage < pages.length && pagesRef.current[curPage]) {
-            if (pageLoaded.current[curPage]) {
-                pagesDisplayed.current = 1;
-                if (spreadPage.current[curPage]) return;
+            if (pagesLoadState[curPage]) {
+                pagesToDisplay = 1;
+                if (pagesToSpreadState[curPage]) return pagesToDisplay;
             }
         }
         if (curPage + 1 < pages.length && pagesRef.current[curPage + 1]) {
-            if (pageLoaded.current[curPage + 1]) {
-                if (isSinglePage(curPage, spreadPage.current, settings.offsetFirstPage)) return;
-                pagesDisplayed.current = 2;
+            if (pagesLoadState[curPage + 1]) {
+                if (isSinglePage(curPage, pagesToSpreadState, settings.offsetFirstPage)) return pagesToDisplay;
+                pagesToDisplay = 2;
             }
         }
-    }
 
-    function displayPages() {
-        const container = document.getElementById('display');
-        const root = createRoot(container!);
-
-        if (pagesDisplayed.current === 2) {
-            root.render(
-                <DoublePage
-                    key={curPage}
-                    index={curPage}
-                    image1src={pages[curPage].src}
-                    image2src={pages[curPage + 1].src}
-                    settings={settings}
-                />,
-            );
-        } else {
-            root.render(
-                <Page
-                    key={curPage}
-                    index={curPage}
-                    src={pagesDisplayed.current === 1 ? pages[curPage].src : ''}
-                    onImageLoad={() => {}}
-                    settings={settings}
-                />,
-            );
-        }
+        return pagesToDisplay;
     }
 
     function pagesToGoBack() {
         // If previous page is single page, go only one page pack
-        if (isSinglePage(curPage - 2, spreadPage.current, settings.offsetFirstPage)) {
+        if (isSinglePage(curPage - 2, pagesToSpreadState, settings.offsetFirstPage)) {
             return 1;
         }
 
@@ -94,7 +67,7 @@ export function DoublePagedPager(props: IReaderProps) {
 
     function nextPage() {
         if (curPage < pages.length - 1) {
-            const nextCurPage = curPage + pagesDisplayed.current;
+            const nextCurPage = curPage + getPagesToDisplay();
             setCurPage(nextCurPage >= pages.length ? pages.length - 1 : nextCurPage);
         } else if (settings.loadNextOnEnding) {
             nextChapter();
@@ -153,34 +126,21 @@ export function DoublePagedPager(props: IReaderProps) {
 
     function handleImageLoad(index: number) {
         return () => {
-            pageLoaded.current[index] = true;
+            setPagesLoadState((prevState) => prevState.toSpliced(index, 1, true));
             const image = pagesRef.current[index];
-            spreadPage.current[index] = isSpreadPage(image);
+            setPagesToSpreadState((prevState) => prevState.toSpliced(index, 1, isSpreadPage(image)));
         };
     }
 
     useEffect(() => {
-        const retryDisplay = setInterval(() => {
-            const isLastPage = curPage === pages.length - 1;
-            if (
-                (!isLastPage && pageLoaded.current[curPage] && pageLoaded.current[curPage + 1]) ||
-                pageLoaded.current[curPage]
-            ) {
-                setPagesToDisplay();
-                displayPages();
-                clearInterval(retryDisplay);
-            }
-        }, 50);
-
         document.addEventListener('keydown', keyboardControl);
         selfRef.current?.addEventListener('click', clickControl);
 
         return () => {
-            clearInterval(retryDisplay);
             document.removeEventListener('keydown', keyboardControl);
             selfRef.current?.removeEventListener('click', clickControl);
         };
-    }, [selfRef, curPage, settings.readerType, prevChapter, nextChapter]);
+    }, [selfRef, curPage, settings.readerType, prevChapter, nextChapter, pagesLoadState, pagesToSpreadState]);
 
     useEffect(() => {
         setCurPage(initialPage);
@@ -188,10 +148,10 @@ export function DoublePagedPager(props: IReaderProps) {
 
     useEffect(() => {
         if (settings.offsetFirstPage) {
-            if (pagesDisplayed.current === 2) {
+            if (getPagesToDisplay() === 2) {
                 setCurPage(curPage + 1);
             }
-        } else if (curPage > 0 && !isSinglePage(curPage - 1, spreadPage.current, settings.offsetFirstPage)) {
+        } else if (curPage > 0 && !isSinglePage(curPage - 1, pagesToSpreadState, settings.offsetFirstPage)) {
             setCurPage(curPage - 1);
         }
     }, [settings.offsetFirstPage]);
@@ -222,7 +182,25 @@ export function DoublePagedPager(props: IReaderProps) {
                     height: 'auto',
                     overflowX: 'scroll',
                 }}
-            />
+            >
+                {getPagesToDisplay() === 2 ? (
+                    <DoublePage
+                        key={curPage}
+                        index={curPage}
+                        image1src={pages[curPage].src}
+                        image2src={pages[curPage + 1].src}
+                        settings={settings}
+                    />
+                ) : (
+                    <Page
+                        key={curPage}
+                        index={curPage}
+                        src={pages[curPage].src}
+                        onImageLoad={() => {}}
+                        settings={settings}
+                    />
+                )}
+            </Box>
         </Box>
     );
 }

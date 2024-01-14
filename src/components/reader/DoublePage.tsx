@@ -6,28 +6,39 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { forwardRef } from 'react';
-import { Box, styled } from '@mui/material';
+import { CSSProperties, forwardRef, useRef } from 'react';
+import { Box, SxProps, Theme } from '@mui/material';
 import { IReaderSettings } from '@/typings';
+import { SpinnerImage } from '@/components/util/SpinnerImage';
 
-const Image = styled('img')({
+const imgStyles: CSSProperties = {
+    display: 'block',
     marginBottom: 0,
     width: 'auto',
     minHeight: '99vh',
     height: 'auto',
     maxHeight: '99vh',
     objectFit: 'contain',
-});
+};
+
+const spinnerStyle: SxProps<Theme> = {
+    ...imgStyles,
+    width: 'calc((100vw - 300px) * 0.5)',
+    backgroundColor: '#525252',
+};
 
 interface IProps {
     index: number;
     image1src: string;
     image2src: string;
+    onImageLoad?: () => void;
     settings: IReaderSettings;
 }
 
 export const DoublePage = forwardRef((props: IProps, ref: any) => {
-    const { image1src, image2src, index, settings } = props;
+    const { image1src, image2src, index, onImageLoad, settings } = props;
+
+    const imgRef = useRef<HTMLImageElement>(null);
 
     return (
         <Box
@@ -42,8 +53,26 @@ export const DoublePage = forwardRef((props: IProps, ref: any) => {
                 overflowX: 'scroll',
             }}
         >
-            <Image src={image1src} alt={`Page #${index}`} />
-            <Image src={image2src} alt={`Page #${index + 1}`} />
+            <SpinnerImage
+                src={image1src}
+                onImageLoad={onImageLoad}
+                alt={`Page #${index}`}
+                imgRef={imgRef}
+                spinnerStyle={spinnerStyle}
+                imgStyle={imgStyles}
+            />
+            <SpinnerImage
+                src={image2src}
+                onImageLoad={onImageLoad}
+                alt={`Page #${index + 1}`}
+                imgRef={imgRef}
+                spinnerStyle={{
+                    ...spinnerStyle,
+                    width: 'calc((100vw - 300px - 5px) * 0.5)',
+                    marginLeft: '5px',
+                }}
+                imgStyle={imgStyles}
+            />
         </Box>
     );
 });
