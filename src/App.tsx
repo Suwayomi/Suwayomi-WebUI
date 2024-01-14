@@ -8,10 +8,9 @@
 
 import { Container } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
-import React from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import React, { useLayoutEffect } from 'react';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { loadErrorMessages, loadDevMessages } from '@apollo/client/dev';
-import { __DEV__ } from '@apollo/client/utilities/globals';
 import { AppContext } from '@/components/context/AppContext';
 import { Browse } from '@/screens/Browse';
 import { DownloadQueue } from '@/screens/DownloadQueue';
@@ -35,14 +34,44 @@ import { DefaultNavBar } from '@/components/navbar/DefaultNavBar';
 import { DownloadSettings } from '@/screens/settings/DownloadSettings.tsx';
 import { ServerSettings } from '@/screens/settings/ServerSettings.tsx';
 import { WebUISettings } from '@/screens/settings/WebUISettings.tsx';
+import { ServerUpdateChecker } from '@/components/settings/ServerUpdateChecker.tsx';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 
-if (__DEV__) {
+if (process.env.NODE_ENV !== 'production') {
     // Adds messages only in a dev environment
     loadDevMessages();
     loadErrorMessages();
 }
+
+const ScrollToTop = () => {
+    const { pathname } = useLocation();
+
+    useLayoutEffect(() => {
+        window.scrollTo(0, 0);
+    }, [pathname]);
+
+    return null;
+};
+
+/**
+ * Creates permanent subscriptions to always have the latest data.
+ *
+ * E.g. in case a view is open, which does not subscribe to the download updates, finished downloads are never received
+ * and thus, data of existing chapters/mangas in the cache get outdated
+ */
+const BackgroundSubscriptions = () => {
+    requestManager.useDownloadSubscription();
+    requestManager.useUpdaterSubscription();
+    requestManager.useWebUIUpdateSubscription();
+
+    return null;
+};
+
 export const App: React.FC = () => (
     <AppContext>
+        <ScrollToTop />
+        <ServerUpdateChecker />
+        <BackgroundSubscriptions />
         <CssBaseline />
         <DefaultNavBar />
         <Container

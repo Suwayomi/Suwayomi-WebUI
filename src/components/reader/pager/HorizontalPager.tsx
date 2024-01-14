@@ -151,7 +151,7 @@ export function HorizontalPager(props: IReaderProps) {
             // Special case if scroll is moved all the way to the edge
             // This handles cases when last page is show, but is smaller then
             // window, in which case it would never get marked as read.
-            // See https://github.com/Suwayomi/Tachidesk-WebUI/issues/14 for more info
+            // See https://github.com/Suwayomi/Suwayomi-WebUI/issues/14 for more info
             if (settings.readerType === 'ContinuesHorizontalLTR' ? isAtEnd() : isAtStart()) {
                 currentPageRef.current = pages.length - 1;
                 setCurPage(currentPageRef.current);

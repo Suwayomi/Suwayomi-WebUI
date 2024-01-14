@@ -28,7 +28,7 @@ export const createTheme = (dark?: boolean) => {
         },
     } as Theme);
 
-    const tachideskTheme = createMuiTheme(
+    const suwayomiTheme = createMuiTheme(
         {
             palette: {
                 custom: {
@@ -60,5 +60,5 @@ export const createTheme = (dark?: boolean) => {
         baseTheme,
     );
 
-    return tachideskTheme;
+    return suwayomiTheme;
 };

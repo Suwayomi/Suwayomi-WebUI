@@ -7,7 +7,7 @@
  */
 
 import DownloadIcon from '@mui/icons-material/Download';
-import { Box, CardActionArea, styled, Tooltip } from '@mui/material';
+import { Box, CardActionArea, Tooltip } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -17,7 +17,6 @@ import React, { useCallback, useContext, useEffect, useLayoutEffect, useMemo, us
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { t as translate } from 'i18next';
-import { GroupedVirtuoso } from 'react-virtuoso';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
 import { EmptyView } from '@/components/util/EmptyView';
@@ -26,40 +25,9 @@ import { DownloadType } from '@/lib/graphql/generated/graphql.ts';
 import { TChapter } from '@/typings.ts';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { UpdateChecker } from '@/components/library/UpdateChecker.tsx';
-
-const StyledGroupedVirtuoso = styled(GroupedVirtuoso, { shouldForwardProp: (prop) => prop !== 'heightToSubtract' })<{
-    heightToSubtract: number;
-}>(({ theme, heightToSubtract }) => ({
-    // 64px header
-    height: `calc(100vh - 64px - ${heightToSubtract}px)`,
-    [theme.breakpoints.down('sm')]: {
-        // 64px header (margin); 64px menu (margin);
-        height: `calc(100vh - 64px - 64px - ${heightToSubtract}px)`,
-    },
-}));
-
-const StyledGroupHeader = styled(Typography, { shouldForwardProp: (prop) => prop !== 'isFirstItem' })<{
-    isFirstItem: boolean;
-}>(({ theme, isFirstItem }) => ({
-    paddingLeft: '24px',
-    // 16px - 10px (bottom padding of the group items)
-    paddingTop: '6px',
-    paddingBottom: '16px',
-    fontWeight: 700,
-    textTransform: 'uppercase',
-    backgroundColor: theme.palette.background.default,
-    [theme.breakpoints.down('sm')]: {
-        // 16px - 8px (margin of header)
-        paddingTop: isFirstItem ? '8px' : '6px',
-    },
-}));
-
-const StyledGroupItemWrapper = styled(Box, { shouldForwardProp: (prop) => prop !== 'isLastItem' })<{
-    isLastItem: boolean;
-}>(({ isLastItem }) => ({
-    padding: '0 10px',
-    paddingBottom: isLastItem ? '0' : '10px',
-}));
+import { StyledGroupedVirtuoso } from '@/components/virtuoso/StyledGroupedVirtuoso.tsx';
+import { StyledGroupHeader } from '@/components/virtuoso/StyledGroupHeader.tsx';
+import { StyledGroupItemWrapper } from '@/components/virtuoso/StyledGroupItemWrapper.tsx';
 
 function epochToDate(epoch: number) {
     const date = new Date(0); // The 0 there is the key, which sets the date to the epoch
@@ -117,8 +85,8 @@ export const Updates: React.FC = () => {
     const updateEntries = chapterUpdateData?.chapters.nodes ?? [];
     const groupedUpdates = useMemo(() => groupByDate(updateEntries), [updateEntries]);
     const groupCounts: number[] = useMemo(() => groupedUpdates.map((group) => group[1]), [groupedUpdates]);
-    const { data: downloaderData } = requestManager.useDownloadSubscription();
-    const queue = (downloaderData?.downloadChanged.queue as DownloadType[]) ?? [];
+    const { data: downloaderData } = requestManager.useGetDownloadStatus();
+    const queue = (downloaderData?.downloadStatus.queue as DownloadType[]) ?? [];
 
     const lastUpdateTimestampCompRef = useRef<HTMLElement>(null);
     const [lastUpdateTimestampCompHeight, setLastUpdateTimestampCompHeight] = useState(0);
@@ -206,6 +174,9 @@ export const Updates: React.FC = () => {
                                     component={Link}
                                     to={`/manga/${chapter.manga.id}/chapter/${chapter.sourceOrder}`}
                                     state={location.state}
+                                    sx={{
+                                        color: (theme) => theme.palette.text[chapter.isRead ? 'disabled' : 'primary'],
+                                    }}
                                 >
                                     <CardContent
                                         sx={{

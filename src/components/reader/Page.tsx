@@ -45,7 +45,6 @@ function imageStyle(settings: IReaderSettings): any {
             height: 'auto',
             maxHeight: '99vh',
             objectFit: 'contain',
-            pointerEvents: 'none',
         };
     }
 
@@ -55,7 +54,6 @@ function imageStyle(settings: IReaderSettings): any {
         minWidth: '50vw',
         width: dimensions.width < dimensions.height ? '100vw' : '100%',
         maxWidth: '100%',
-        pointerEvents: 'none',
     };
 }
 

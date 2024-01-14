@@ -27,9 +27,11 @@ import { VerticalPager } from '@/components/reader/pager/VerticalPager';
 import { ReaderNavBar } from '@/components/navbar/ReaderNavBar';
 import { makeToast } from '@/components/util/Toast';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
-import { useDebounce } from '@/components/manga/hooks.ts';
+import { useDebounce } from '@/util/useDebounce.ts';
 import { UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
 import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
+import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { FULL_CHAPTER_FIELDS } from '@/lib/graphql/Fragments.ts';
 
 const isDupChapter = async (chapterIndex: number, currentChapter: TChapter) => {
     const nextChapter = await requestManager.getChapter(currentChapter.manga.id, chapterIndex).response;
@@ -169,6 +171,8 @@ export function Reader() {
     const [pageToScrollTo, setPageToScrollTo] = useState<number | undefined>(undefined);
     const { setOverride, setTitle } = useContext(NavBarContext);
     const [retrievingNextChapter, setRetrievingNextChapter] = useState(false);
+    const { data: mangaChaptersData } = requestManager.useGetMangaChapters(mangaId, { nextFetchPolicy: 'standby' });
+    const mangaChapters = mangaChaptersData?.chapters.nodes;
 
     const { settings: defaultSettings, loading: areDefaultSettingsLoading } = useDefaultReaderSettings();
     const [settings, setSettings] = useState(getReaderSettingsFor(manga, defaultSettings));
@@ -176,11 +180,40 @@ export function Reader() {
     const { settings: metadataSettings } = useMetadataServerSettings();
 
     const updateChapter = (patch: UpdateChapterPatchInput) => {
-        const shouldDeleteChapter =
-            !!patch.isRead &&
-            metadataSettings.deleteChaptersAutoMarkedRead &&
-            chapter.isDownloaded &&
-            (!chapter.isBookmarked || metadataSettings.deleteChaptersWithBookmark);
+        const isAutoDeletionEnabled = !!patch.isRead && !!metadataSettings.deleteChaptersWhileReading;
+
+        const getChapterIdToDelete = () => {
+            if (!isAutoDeletionEnabled || !mangaChapters) {
+                return -1;
+            }
+
+            const chapterToDeleteSourceOrder = Number(chapterIndex) - (metadataSettings.deleteChaptersWhileReading - 1);
+            const chapterToDelete = mangaChapters.find(
+                (mangaChapter) => mangaChapter.sourceOrder === chapterToDeleteSourceOrder,
+            );
+
+            if (!chapterToDelete) {
+                return -1;
+            }
+
+            const chapterToDeleteUpToDateData = requestManager.graphQLClient.client.cache.readFragment<TChapter>({
+                id: requestManager.graphQLClient.client.cache.identify({
+                    __typename: 'ChapterType',
+                    id: chapterToDelete.id,
+                }),
+                fragment: FULL_CHAPTER_FIELDS,
+                fragmentName: 'FULL_CHAPTER_FIELDS',
+            });
+
+            const shouldDeleteChapter =
+                chapterToDeleteUpToDateData?.isDownloaded &&
+                (!chapterToDeleteUpToDateData?.isBookmarked || metadataSettings.deleteChaptersWithBookmark);
+            if (!shouldDeleteChapter) {
+                return -1;
+            }
+
+            return chapterToDelete.id;
+        };
 
         const shouldDownloadAhead =
             chapter.manga.inLibrary && !chapter.isRead && !!patch.isRead && isDownloadAheadEnabled;
@@ -188,10 +221,10 @@ export function Reader() {
         requestManager
             .updateChapter(chapter.id, {
                 ...patch,
-                deleteChapter: shouldDeleteChapter,
+                chapterIdToDelete: getChapterIdToDelete(),
                 downloadAheadMangaId: shouldDownloadAhead ? chapter.manga.id : undefined,
             })
-            .response.catch(() => {});
+            .response.catch();
     };
 
     const setSettingValue = (key: keyof IReaderSettings, value: string | boolean) => {
@@ -246,7 +279,9 @@ export function Reader() {
 
     useEffect(() => {
         if (!areDefaultSettingsLoading && !isMangaLoading) {
-            checkAndHandleMissingStoredReaderSettings(manga, 'manga', defaultSettings).catch(() => {});
+            checkAndHandleMissingStoredReaderSettings(manga, 'manga', defaultSettings).catch(
+                defaultPromiseErrorHandler('Reader::checkAndHandleMissingStoredReaderSettings'),
+            );
             setSettings(getReaderSettingsFor(manga, defaultSettings));
         }
     }, [areDefaultSettingsLoading, isMangaLoading]);

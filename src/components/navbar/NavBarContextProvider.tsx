@@ -16,7 +16,7 @@ interface IProps {
 
 export function NavBarContextProvider({ children }: IProps) {
     const [defaultBackTo, setDefaultBackTo] = useState<string | undefined>();
-    const [title, setTitle] = useState<string | React.ReactNode>('Tachidesk');
+    const [title, setTitle] = useState<string | React.ReactNode>('Suwayomi');
     const [action, setAction] = useState<any>(<div />);
     const [override, setOverride] = useState<INavbarOverride>({
         status: false,
@@ -25,7 +25,7 @@ export function NavBarContextProvider({ children }: IProps) {
 
     const updateTitle = useCallback(
         (newTitle: string | React.ReactNode, browserTitle: string = typeof newTitle === 'string' ? newTitle : '') => {
-            document.title = `${browserTitle} - Tachidesk`;
+            document.title = `${browserTitle} - Suwayomi`;
             setTitle(newTitle);
         },
         [setTitle],

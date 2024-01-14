@@ -10,12 +10,11 @@ import { useTranslation } from 'react-i18next';
 import { useContext, useEffect } from 'react';
 import List from '@mui/material/List';
 import { ListItem, ListItemText, Switch } from '@mui/material';
-import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
 import { ServerSettings } from '@/typings.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { WebUIUpdateIntervalSetting } from '@/components/settings/webUI/WebUIUpdateIntervalSetting.tsx';
-import { TextSetting } from '@/components/settings/TextSetting.tsx';
+import { TextSetting } from '@/components/settings/text/TextSetting.tsx';
 import {
     SelectSetting,
     SelectSettingValue,
@@ -120,6 +119,10 @@ export const WebUISettings = () => {
         setting: Setting,
         value: WebUISettingsType[Setting],
     ) => {
+        if (setting === 'webUIChannel') {
+            requestManager.graphQLClient.client.cache.evict({ fieldName: 'checkForWebUIUpdate' });
+        }
+
         mutateSettings({ variables: { input: { settings: { [setting]: value } } } });
     };
 
@@ -134,13 +137,11 @@ export const WebUISettings = () => {
             />
             <ListItem>
                 <ListItemText primary={t('settings.webui.label.initial_open_browser')} />
-                <ListItemSecondaryAction>
-                    <Switch
-                        edge="end"
-                        checked={!!webUISettings?.initialOpenInBrowserEnabled}
-                        onChange={(e) => updateSetting('initialOpenInBrowserEnabled', e.target.checked)}
-                    />
-                </ListItemSecondaryAction>
+                <Switch
+                    edge="end"
+                    checked={!!webUISettings?.initialOpenInBrowserEnabled}
+                    onChange={(e) => updateSetting('initialOpenInBrowserEnabled', e.target.checked)}
+                />
             </ListItem>
             <SelectSetting<WebUiInterface>
                 settingName={t('settings.webui.interface.label.title')}

@@ -22,7 +22,7 @@ export const i18n = use(initReactI18next)
             format: (value, format) => {
                 switch (format) {
                     case 'lowercase':
-                        return value.toLowerCase();
+                        return value.toLocaleLowerCase();
                     default:
                         return value;
                 }

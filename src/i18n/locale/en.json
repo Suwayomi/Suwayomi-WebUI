@@ -141,10 +141,12 @@
     "queue": {
       "error": {
         "label": {
-          "failed_to_remove": "Could not remove download from queue."
+          "failed_delete_all": "Could not remove all downloads from the queue",
+          "failed_to_remove": "Could not remove the download from the queue."
         }
       },
       "label": {
+        "delete_all": "Delete all",
         "no_downloads": "No downloads"
       },
       "title": "Download Queue"
@@ -156,6 +158,27 @@
           "new_chapters": "Download new chapters"
         },
         "title": "Auto-download"
+      },
+      "delete_chapters": {
+        "label": {
+          "allow_deletion_of_bookmarked": "Allow deleting bookmarked chapters",
+          "manually_marked_as_read": "Delete chapter after manually marking it as read"
+        },
+        "title": "Delete chapters",
+        "while_reading": {
+          "label": {
+            "title": "Delete finished chapters while reading"
+          },
+          "option": {
+            "label": {
+              "fifth": "Fifth to last read chapter",
+              "first": "Last read chapter",
+              "fourth": "Fourth to last read chapter",
+              "second": "Second to last read chapter",
+              "third": "Third to last read chapter"
+            }
+          }
+        }
       },
       "download_ahead": {
         "label": {
@@ -202,11 +225,36 @@
     "label": {
       "installation_failed": "Could not install the extension",
       "installed_successfully": "Extension installed",
-      "installing_file": "Installing extension file…"
+      "installing_file": "Installing extension file…",
+      "uninstallation_failed": "Could not uninstall the extension",
+      "update_failed": "Could not update the extension"
     },
     "language": {
       "all": "All",
       "other": "Other"
+    },
+    "settings": {
+      "repositories": {
+        "custom": {
+          "dialog": {
+            "action": {
+              "button": {
+                "add": "Add repository"
+              }
+            }
+          },
+          "error": {
+            "label": {
+              "invalid_url": "Invalid repository url"
+            }
+          },
+          "label": {
+            "description": "Add custom repositories from which extensions can be installed",
+            "disclaimer": "<strong>Suwayomi does not provide any support for 3rd party repositories or extensions!</strong><br/>Use with caution as there could be malicious actors making those repositories.<br/>You as the user need to verify the security and that you trust any repository or extension.",
+            "title": "Custom repositories"
+          }
+        }
+      }
     },
     "state": {
       "label": {
@@ -222,6 +270,7 @@
   },
   "global": {
     "button": {
+      "add": "Add",
       "browse": "Browse",
       "cancel": "Cancel",
       "clear": "Clear",
@@ -235,6 +284,7 @@
       "popular": "Popular",
       "reset": "Reset",
       "reset_to_default": "Reset to Default",
+      "restore": "Restore",
       "resume": "Resume",
       "select": "Select",
       "select_all": "Select all",
@@ -265,6 +315,7 @@
         "failed_to_save_changes": "Failed to save changes",
         "invalid_action": "This is not a valid action",
         "invalid_file_type": "Invalid filetype",
+        "invalid_input": "Invalid input",
         "update_failed": "Could not check for updates"
       }
     },
@@ -284,14 +335,23 @@
       "title": "Display mode"
     },
     "label": {
+      "advanced": "Advanced",
       "browse": "Browse",
       "client": "Client",
+      "close": "Close",
+      "disabled": "Disabled",
+      "discord": "Discord",
       "display": "Display",
       "filter": "Filter",
+      "general": "General",
+      "github": "GitHub",
+      "links": "Links",
       "loading": "Loading…",
       "never": "Never",
       "none": "None",
+      "other": "Other",
       "password": "Password",
+      "placeholder": "Placeholder",
       "sort": "Sort",
       "unknown": "Unknown",
       "username": "Username"
@@ -314,6 +374,17 @@
     },
     "time": {
       "hour_short": "h"
+    },
+    "update": {
+      "label": {
+        "available": "Update available",
+        "check_failure": "Could not check for update",
+        "checking": "Checking for update",
+        "info": "Server version {{version}} ({{channel}}) available for download",
+        "up_to_date": "This is the latest version",
+        "update_failure": "Update failed",
+        "updating": "{{progress}}% | Updating…"
+      }
     }
   },
   "library": {
@@ -340,6 +411,11 @@
           },
           "title": "Badges"
         },
+        "other": {
+          "label": {
+            "show_continue_reading_button": "Show continue reading button"
+          }
+        },
         "tab": {
           "label": {
             "show_number_of_items": "Show number of items"
@@ -352,11 +428,43 @@
           "alphabetically": "A-Z",
           "by_date_added": "Recently added",
           "by_last_read": "Recently read",
+          "by_latest_fetched_chapter": "Latest fetched chapter",
+          "by_latest_uploaded_chapter": "Latest uploaded chapter",
           "by_unread_chapters": "Unread chapters"
         }
       }
     },
     "settings": {
+      "advanced": {
+        "database": {
+          "cleanup": {
+            "label": {
+              "description": "Remove non library manga from categories",
+              "error": "Could not remove non library manga from categories",
+              "success": "Removed non library manga from categories",
+              "title": "Cleanup database"
+            }
+          }
+        }
+      },
+      "general": {
+        "add_to_library": {
+          "category_selection": {
+            "label": {
+              "description": "Show the category selection dialog when adding a manga to the library",
+              "title": "Category selection dialog"
+            }
+          }
+        },
+        "search": {
+          "ignore_filters": {
+            "label": {
+              "description": "Search results will include manga that do not match the current filters",
+              "title": "Ignore filters when searching"
+            }
+          }
+        }
+      },
       "global_update": {
         "auto_update": {
           "interval": {
@@ -401,6 +509,34 @@
     "title": "Library"
   },
   "manga": {
+    "action": {
+      "category": {
+        "button": {
+          "selected": "Change categories of selected"
+        },
+        "label": {
+          "action": "Change categories",
+          "error_one": "Could not change the categories of the manga",
+          "error_other": "Could not change the categories of the manga",
+          "success_one": "Changed categories of manga",
+          "success_other": "Changed categories of {{count}} manga"
+        }
+      },
+      "library": {
+        "remove": {
+          "button": {
+            "selected": "Remove selected from the library"
+          },
+          "label": {
+            "action": "Remove from the library",
+            "error_one": "Could not remove manga from the library",
+            "error_other": "Could not remove manga from the library",
+            "success_one": "Removed manga from the library",
+            "success_other": "Removed {{count}} manga from the library"
+          }
+        }
+      }
+    },
     "button": {
       "add_to_library": "Add To Library",
       "in_library": "In Library"
@@ -419,7 +555,9 @@
       "reload_from_source": "Reload data from source",
       "status": "Status"
     },
-    "title": "Manga"
+    "title": "Manga",
+    "title_one": "Manga",
+    "title_other": "Manga"
   },
   "reader": {
     "button": {
@@ -483,9 +621,6 @@
         "source_search_failed": "Could not search source"
       }
     },
-    "label": {
-      "ignore_filters": "Ignore filters when searching"
-    },
     "title": {
       "global_search": "Global Search",
       "search": "Search"
@@ -493,16 +628,64 @@
   },
   "settings": {
     "about": {
-      "label": {
-        "build_time": "Build time",
-        "discord": "Discord",
-        "github": "GitHub",
-        "server_address": "Server address",
-        "server_version": "Server version"
+      "server": {
+        "label": {
+          "address": "Server address",
+          "build_time": "Build time",
+          "github": "$t(global.label.github) $t(settings.server.title.server)",
+          "version": "Server version"
+        }
       },
-      "title": "About"
+      "title": "About",
+      "webui": {
+        "label": {
+          "channel": "$t(settings.webui.title.webui) channel",
+          "github": "$t(global.label.github) $t(settings.webui.title.webui)",
+          "update_failure": "Could not update $t(settings.webui.title.webui)",
+          "update_success": "Updated $t(settings.webui.title.webui) to version {{version}}. Refresh required",
+          "version": "$t(settings.webui.title.webui) version"
+        }
+      }
     },
     "backup": {
+      "action": {
+        "create": {
+          "label": {
+            "description": "Back up library as a Tachiyomi backup",
+            "title": "Create backup"
+          }
+        },
+        "restore": {
+          "button": "Restore",
+          "error": {
+            "label": {
+              "failure": "Could not restore backup",
+              "legacy_backup_unsupported": "legacy backups are not supported!"
+            }
+          },
+          "label": {
+            "description": "You can also drag and drop the backup file here to restore it",
+            "in_progress": "Restoring backup…",
+            "success": "Backup restored.",
+            "title": "Restore Backup"
+          }
+        },
+        "validate": {
+          "dialog": {
+            "content": {
+              "label": {
+                "missing_sources": "The following sources are not installed:"
+              }
+            },
+            "title": "Backup validation"
+          },
+          "error": {
+            "label": {
+              "failure": "Could not validate backup"
+            }
+          }
+        }
+      },
       "automated": {
         "cleanup": {
           "label": {
@@ -521,17 +704,15 @@
           }
         }
       },
-      "label": {
-        "backup_restore_failed": "Could not restore backup",
-        "create_backup": "Create backup",
-        "create_backup_info": "Back up library as a Tachiyomi backup",
-        "legacy_backup_unsupported": "legacy backups are not supported!",
-        "restore_backup": "Restore Backup",
-        "restore_backup_info": "You can also drag and drop the backup file here to restore it",
-        "restored_backup": "Backup restored.",
-        "restoring_backup": "Restoring backup…"
-      },
       "title": "Backup"
+    },
+    "clear_cache": {
+      "label": {
+        "description": "The cache of the client (browser, electron) should get cleared alongside it, otherwise, the client cache will keep getting used",
+        "failure": "Could not clear the server cache",
+        "success": "Cleared the server cache",
+        "title": "Clear server cache"
+      }
     },
     "label": {
       "dark_theme": "Dark theme",

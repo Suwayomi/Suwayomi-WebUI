@@ -6,17 +6,17 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { useContext, useEffect } from 'react';
 import { List, ListItem, ListItemText, Switch } from '@mui/material';
 import ListSubheader from '@mui/material/ListSubheader';
-import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { useLocalStorage } from '@/util/useLocalStorage.tsx';
-import { TextSetting } from '@/components/settings/TextSetting.tsx';
+import { TextSetting } from '@/components/settings/text/TextSetting.tsx';
 import { ServerSettings as GqlServerSettings } from '@/typings.ts';
 import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
+import { MutableListSetting } from '@/components/settings/MutableListSetting.tsx';
 
 type ServerSettingsType = Pick<
     GqlServerSettings,
@@ -33,6 +33,7 @@ type ServerSettingsType = Pick<
     | 'basicAuthPassword'
     | 'maxSourcesInParallel'
     | 'localSourcePath'
+    | 'extensionRepos'
 >;
 
 const extractDownloadSettings = (settings: GqlServerSettings): ServerSettingsType => ({
@@ -49,6 +50,7 @@ const extractDownloadSettings = (settings: GqlServerSettings): ServerSettingsTyp
     basicAuthPassword: settings.basicAuthPassword,
     maxSourcesInParallel: settings.maxSourcesInParallel,
     localSourcePath: settings.localSourcePath,
+    extensionRepos: settings.extensionRepos,
 });
 
 export const ServerSettings = () => {
@@ -91,7 +93,7 @@ export const ServerSettings = () => {
                 }
             >
                 <TextSetting
-                    settingName={t('settings.about.label.server_address')}
+                    settingName={t('settings.about.server.label.address')}
                     handleChange={handleServerAddressChange}
                     value={serverAddress}
                     placeholder="http://localhost:4567"
@@ -119,6 +121,39 @@ export const ServerSettings = () => {
                     stepSize={1}
                     dialogTitle={t('settings.server.requests.sources.parallel.label.title')}
                     handleUpdate={(parallelSources) => updateSetting('maxSourcesInParallel', parallelSources)}
+                />
+            </List>
+            <List
+                subheader={
+                    <ListSubheader component="div" id="server-settings-extension-repos">
+                        {t('extension.title')}
+                    </ListSubheader>
+                }
+            >
+                <MutableListSetting
+                    settingName={t('extension.settings.repositories.custom.label.title')}
+                    description={t('extension.settings.repositories.custom.label.description')}
+                    dialogDisclaimer={
+                        <Trans i18nKey="extension.settings.repositories.custom.label.disclaimer">
+                            <strong>
+                                Suwayomi does not provide any support for 3rd party repositories or extensions!
+                            </strong>
+                            <br />
+                            Use with caution as there could be malicious actors making those repositories.
+                            <br />
+                            You as the user need to verify the security and that you trust any repository or extension.
+                        </Trans>
+                    }
+                    handleChange={(repos) => updateSetting('extensionRepos', repos)}
+                    values={serverSettings?.extensionRepos}
+                    addItemButtonTitle={t('extension.settings.repositories.custom.dialog.action.button.add')}
+                    placeholder="https://github.com/MY_ACCOUNT/MY_REPO/tree/repo"
+                    validateItem={(repo) =>
+                        !!repo.match(
+                            /https:\/\/(?:www|raw)?(?:github|githubusercontent)\.com\/([^/]+)\/([^/]+)(?:\/(?:tree|blob)\/(.*))?\/?/g,
+                        )
+                    }
+                    invalidItemError={t('extension.settings.repositories.custom.error.label.invalid_url')}
                 />
             </List>
             <List
@@ -167,13 +202,11 @@ export const ServerSettings = () => {
             >
                 <ListItem>
                     <ListItemText primary={t('settings.server.socks_proxy.label.enable')} />
-                    <ListItemSecondaryAction>
-                        <Switch
-                            edge="end"
-                            checked={!!serverSettings?.socksProxyEnabled}
-                            onChange={(e) => updateSetting('socksProxyEnabled', e.target.checked)}
-                        />
-                    </ListItemSecondaryAction>
+                    <Switch
+                        edge="end"
+                        checked={!!serverSettings?.socksProxyEnabled}
+                        onChange={(e) => updateSetting('socksProxyEnabled', e.target.checked)}
+                    />
                 </ListItem>
                 <TextSetting
                     settingName={t('settings.server.socks_proxy.label.host')}
@@ -197,13 +230,11 @@ export const ServerSettings = () => {
             >
                 <ListItem>
                     <ListItemText primary={t('settings.server.auth.basic.label.enable')} />
-                    <ListItemSecondaryAction>
-                        <Switch
-                            edge="end"
-                            checked={!!serverSettings?.basicAuthEnabled}
-                            onChange={(e) => updateSetting('basicAuthEnabled', e.target.checked)}
-                        />
-                    </ListItemSecondaryAction>
+                    <Switch
+                        edge="end"
+                        checked={!!serverSettings?.basicAuthEnabled}
+                        onChange={(e) => updateSetting('basicAuthEnabled', e.target.checked)}
+                    />
                 </ListItem>
                 <TextSetting
                     settingName={t('settings.server.auth.basic.label.username')}
@@ -228,39 +259,33 @@ export const ServerSettings = () => {
             >
                 <ListItem>
                     <ListItemText primary={t('settings.server.misc.log_level.label.server')} />
-                    <ListItemSecondaryAction>
-                        <Switch
-                            edge="end"
-                            checked={!!serverSettings?.debugLogsEnabled}
-                            onChange={(e) => updateSetting('debugLogsEnabled', e.target.checked)}
-                        />
-                    </ListItemSecondaryAction>
+                    <Switch
+                        edge="end"
+                        checked={!!serverSettings?.debugLogsEnabled}
+                        onChange={(e) => updateSetting('debugLogsEnabled', e.target.checked)}
+                    />
                 </ListItem>
                 <ListItem>
                     <ListItemText
                         primary={t('settings.server.misc.log_level.graphql.label.title')}
                         secondary={t('settings.server.misc.log_level.graphql.label.description')}
                     />
-                    <ListItemSecondaryAction>
-                        <Switch
-                            edge="end"
-                            checked={!!serverSettings?.gqlDebugLogsEnabled}
-                            onChange={(e) => updateSetting('gqlDebugLogsEnabled', e.target.checked)}
-                        />
-                    </ListItemSecondaryAction>
+                    <Switch
+                        edge="end"
+                        checked={!!serverSettings?.gqlDebugLogsEnabled}
+                        onChange={(e) => updateSetting('gqlDebugLogsEnabled', e.target.checked)}
+                    />
                 </ListItem>
                 <ListItem>
                     <ListItemText
                         primary={t('settings.server.misc.tray_icon.label.title')}
                         secondary={t('settings.server.misc.tray_icon.label.description')}
                     />
-                    <ListItemSecondaryAction>
-                        <Switch
-                            edge="end"
-                            checked={!!serverSettings?.systemTrayEnabled}
-                            onChange={(e) => updateSetting('systemTrayEnabled', e.target.checked)}
-                        />
-                    </ListItemSecondaryAction>
+                    <Switch
+                        edge="end"
+                        checked={!!serverSettings?.systemTrayEnabled}
+                        onChange={(e) => updateSetting('systemTrayEnabled', e.target.checked)}
+                    />
                 </ListItem>
             </List>
         </List>

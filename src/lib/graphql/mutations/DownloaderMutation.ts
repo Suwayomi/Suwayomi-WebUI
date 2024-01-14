@@ -28,6 +28,10 @@ export const DELETE_DOWNLOADED_CHAPTER = gql`
             chapters {
                 id
                 isDownloaded
+                manga {
+                    id
+                    downloadCount
+                }
             }
         }
     }
@@ -40,6 +44,10 @@ export const DELETE_DOWNLOADED_CHAPTERS = gql`
             chapters {
                 id
                 isDownloaded
+                manga {
+                    id
+                    downloadCount
+                }
             }
         }
     }

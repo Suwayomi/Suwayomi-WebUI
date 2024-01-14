@@ -55,3 +55,24 @@ export const GET_CHAPTERS = gql`
         }
     }
 `;
+
+export const GET_MANGAS_CHAPTER_IDS_WITH_STATE = gql`
+    query GET_MANGAS_CHAPTER_IDS_WITH_STATE(
+        $mangaIds: [Int!]!
+        $isDownloaded: Boolean = null
+        $isRead: Boolean = null
+        $isBookmarked: Boolean = null
+    ) {
+        chapters(
+            filter: { mangaId: { in: $mangaIds } }
+            condition: { isDownloaded: $isDownloaded, isRead: $isRead, isBookmarked: $isBookmarked }
+        ) {
+            nodes {
+                id
+                isDownloaded
+                isRead
+                isBookmarked
+            }
+        }
+    }
+`;

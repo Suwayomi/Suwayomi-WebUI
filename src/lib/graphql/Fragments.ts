@@ -59,6 +59,10 @@ export const PARTIAL_SOURCE_FIELDS = gql`
         lang
         name
         supportsLatest
+        extension {
+            pkgName
+            repo
+        }
     }
 `;
 
@@ -253,7 +257,6 @@ export const PARTIAL_MANGA_FIELDS = gql`
 `;
 
 export const FULL_CHAPTER_FIELDS = gql`
-    ${PARTIAL_MANGA_FIELDS}
     fragment FULL_CHAPTER_FIELDS on ChapterType {
         chapterNumber
         fetchedAt
@@ -264,7 +267,10 @@ export const FULL_CHAPTER_FIELDS = gql`
         lastPageRead
         lastReadAt
         manga {
-            ...PARTIAL_MANGA_FIELDS
+            id
+            title
+            inLibrary
+            thumbnailUrl
         }
         meta {
             key
@@ -288,6 +294,15 @@ export const FULL_MANGA_FIELDS = gql`
         lastReadChapter {
             ...FULL_CHAPTER_FIELDS
         }
+        latestReadChapter {
+            ...FULL_CHAPTER_FIELDS
+        }
+        latestFetchedChapter {
+            ...FULL_CHAPTER_FIELDS
+        }
+        latestUploadedChapter {
+            ...FULL_CHAPTER_FIELDS
+        }
     }
 `;
 
@@ -302,6 +317,7 @@ export const UPDATER_MANGA_FIELDS = gql`
 export const FULL_EXTENSION_FIELDS = gql`
     fragment FULL_EXTENSION_FIELDS on ExtensionType {
         apkName
+        repo
         hasUpdate
         iconUrl
         isInstalled
@@ -322,9 +338,11 @@ export const FULL_DOWNLOAD_STATUS = gql`
                 id
                 name
                 sourceOrder
+                isDownloaded
                 manga {
                     id
                     title
+                    downloadCount
                 }
             }
             progress
@@ -412,11 +430,25 @@ export const FULL_UPDATER_STATUS = gql`
     }
 `;
 
+export const ABOUT_WEBUI = gql`
+    fragment ABOUT_WEBUI on AboutWebUI {
+        channel
+        tag
+    }
+`;
+
+export const WEBUI_UPDATE_CHECK = gql`
+    fragment WEBUI_UPDATE_CHECK on WebUIUpdateCheck {
+        channel
+        tag
+        updateAvailable
+    }
+`;
+
 export const WEBUI_UPDATE_INFO = gql`
     fragment WEBUI_UPDATE_INFO on WebUIUpdateInfo {
         channel
         tag
-        updateAvailable
     }
 `;
 
@@ -456,6 +488,9 @@ export const SERVER_SETTINGS = gql`
         autoDownloadNewChapters
         excludeEntryWithUnreadChapters
         autoDownloadAheadLimit
+
+        # extensions
+        extensionRepos
 
         # requests
         maxSourcesInParallel

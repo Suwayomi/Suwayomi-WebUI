@@ -16,10 +16,9 @@ import InfoIcon from '@mui/icons-material/Info';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import Switch from '@mui/material/Switch';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { Link, MenuItem, Select } from '@mui/material';
+import { Link, ListItemButton, MenuItem, Select } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import LanguageIcon from '@mui/icons-material/Language';
 import CollectionsOutlinedBookmarkIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
@@ -27,12 +26,15 @@ import GetAppOutlinedIcon from '@mui/icons-material/GetAppOutlined';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import DnsIcon from '@mui/icons-material/Dns';
 import WebIcon from '@mui/icons-material/Web';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { langCodeToName } from '@/util/language';
 import { useLocalStorage } from '@/util/useLocalStorage';
 import { ListItemLink } from '@/components/util/ListItemLink';
 import { DarkTheme } from '@/components/context/DarkTheme';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { makeToast } from '@/components/util/Toast.tsx';
 
 export function Settings() {
     const { t, i18n } = useTranslation();
@@ -49,6 +51,17 @@ export function Settings() {
     const DEFAULT_ITEM_WIDTH = 300;
     const itemWidthIcon = useMemo(() => <ViewModuleIcon />, []);
     const [itemWidth, setItemWidth] = useLocalStorage<number>('ItemWidth', DEFAULT_ITEM_WIDTH);
+
+    const [triggerClearServerCache, { loading: isClearingServerCache }] = requestManager.useClearServerCache();
+
+    const clearServerCache = async () => {
+        try {
+            await triggerClearServerCache();
+            makeToast(t('settings.clear_cache.label.success'), 'success');
+        } catch (e) {
+            makeToast(t('settings.clear_cache.label.failure'), 'error');
+        }
+    };
 
     return (
         <List sx={{ padding: 0 }}>
@@ -87,9 +100,7 @@ export function Settings() {
                     <Brightness6Icon />
                 </ListItemIcon>
                 <ListItemText primary={t('settings.label.dark_theme')} />
-                <ListItemSecondaryAction>
-                    <Switch edge="end" checked={darkTheme} onChange={() => setDarkTheme(!darkTheme)} />
-                </ListItemSecondaryAction>
+                <Switch edge="end" checked={darkTheme} onChange={() => setDarkTheme(!darkTheme)} />
             </ListItem>
             <NumberSetting
                 settingTitle={t('settings.label.manga_item_width')}
@@ -113,9 +124,7 @@ export function Settings() {
                     primary={t('settings.label.show_nsfw')}
                     secondary={t('settings.label.show_nsfw_description')}
                 />
-                <ListItemSecondaryAction>
-                    <Switch edge="end" checked={showNsfw} onChange={() => setShowNsfw(!showNsfw)} />
-                </ListItemSecondaryAction>
+                <Switch edge="end" checked={showNsfw} onChange={() => setShowNsfw(!showNsfw)} />
             </ListItem>
             <ListItem>
                 <ListItemIcon>
@@ -126,26 +135,33 @@ export function Settings() {
                     secondary={
                         <>
                             <span>{t('settings.label.language_description')} </span>
-                            <Link href="https://hosted.weblate.org/projects/suwayomi/tachidesk-webui">
+                            <Link href="https://hosted.weblate.org/projects/suwayomi/suwayomi-webui">
                                 {t('global.language.title.weblate')}
                             </Link>
                         </>
                     }
                 />
-                <ListItemSecondaryAction>
-                    <Select
-                        MenuProps={{ PaperProps: { style: { maxHeight: 150 } } }}
-                        value={i18n.language}
-                        onChange={({ target: { value: language } }) => i18n.changeLanguage(language)}
-                    >
-                        {Object.keys(i18n.services.resourceStore.data).map((language) => (
-                            <MenuItem key={language} value={language}>
-                                {langCodeToName(language)}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </ListItemSecondaryAction>
+                <Select
+                    MenuProps={{ PaperProps: { style: { maxHeight: 150 } } }}
+                    value={i18n.language}
+                    onChange={({ target: { value: language } }) => i18n.changeLanguage(language)}
+                >
+                    {Object.keys(i18n.services.resourceStore.data).map((language) => (
+                        <MenuItem key={language} value={language}>
+                            {langCodeToName(language)}
+                        </MenuItem>
+                    ))}
+                </Select>
             </ListItem>
+            <ListItemButton disabled={isClearingServerCache} onClick={clearServerCache}>
+                <ListItemIcon>
+                    <DeleteForeverIcon />
+                </ListItemIcon>
+                <ListItemText
+                    primary={t('settings.clear_cache.label.title')}
+                    secondary={t('settings.clear_cache.label.description')}
+                />
+            </ListItemButton>
             <ListItemLink to="/settings/webUI">
                 <ListItemIcon>
                     <WebIcon />

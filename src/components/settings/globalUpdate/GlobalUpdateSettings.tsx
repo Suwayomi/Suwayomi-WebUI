@@ -10,7 +10,6 @@ import List from '@mui/material/List';
 import ListSubheader from '@mui/material/ListSubheader';
 import { useTranslation } from 'react-i18next';
 import { ListItem, ListItemText, Switch } from '@mui/material';
-import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import { GlobalUpdateSettingsCategories } from '@/components/settings/globalUpdate/GlobalUpdateSettingsCategories.tsx';
 import { GlobalUpdateSettingsEntries } from '@/components/settings/globalUpdate/GlobalUpdateSettingsEntries.tsx';
 import { GlobalUpdateSettingsInterval } from '@/components/settings/globalUpdate/GlobalUpdateSettingsInterval.tsx';
@@ -54,13 +53,11 @@ export const GlobalUpdateSettings = () => {
                     primary={t('library.settings.global_update.metadata.label.title')}
                     secondary={t('library.settings.global_update.metadata.label.description')}
                 />
-                <ListItemSecondaryAction>
-                    <Switch
-                        edge="end"
-                        checked={updateMangas}
-                        onChange={(e) => updateSetting('updateMangas', e.target.checked)}
-                    />
-                </ListItemSecondaryAction>
+                <Switch
+                    edge="end"
+                    checked={updateMangas}
+                    onChange={(e) => updateSetting('updateMangas', e.target.checked)}
+                />
             </ListItem>
         </List>
     );

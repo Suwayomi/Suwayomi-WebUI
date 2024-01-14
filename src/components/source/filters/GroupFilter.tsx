@@ -10,7 +10,7 @@ import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { Collapse, ListItemButton, ListItemText, Stack, Box } from '@mui/material';
 import React from 'react';
 // eslint-disable-next-line import/no-cycle
-import { ExtractByKeyValue, SourceFilters } from '@/typings';
+import { SourceFilters } from '@/typings';
 import { Options } from '@/components/source/SourceOptions';
 
 interface Props {

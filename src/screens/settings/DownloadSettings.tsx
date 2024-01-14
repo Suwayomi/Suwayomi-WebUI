@@ -10,9 +10,8 @@ import { useTranslation } from 'react-i18next';
 import { useContext, useEffect } from 'react';
 import List from '@mui/material/List';
 import { ListItem, ListItemText, Switch } from '@mui/material';
-import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import ListSubheader from '@mui/material/ListSubheader';
-import { TextSetting } from '@/components/settings/TextSetting.tsx';
+import { TextSetting } from '@/components/settings/text/TextSetting.tsx';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
 import { MetadataServerSettingKeys, MetadataServerSettings, ServerSettings } from '@/typings.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
@@ -20,6 +19,7 @@ import { DownloadAheadSetting } from '@/components/settings/downloads/DownloadAh
 import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
 import { convertToGqlMeta, requestUpdateServerMetadata } from '@/util/metadata.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
+import { DeleteChaptersWhileReadingSetting } from '@/components/settings/downloads/DeleteChaptersWhileReadingSetting.tsx';
 
 type DownloadSettingsType = Pick<
     ServerSettings,
@@ -86,52 +86,40 @@ export const DownloadSettings = () => {
             />
             <ListItem>
                 <ListItemText primary={t('download.settings.file_type.label.cbz')} />
-                <ListItemSecondaryAction>
-                    <Switch
-                        edge="end"
-                        checked={!!downloadSettings?.downloadAsCbz}
-                        onChange={(e) => updateSetting('downloadAsCbz', e.target.checked)}
-                    />
-                </ListItemSecondaryAction>
+                <Switch
+                    edge="end"
+                    checked={!!downloadSettings?.downloadAsCbz}
+                    onChange={(e) => updateSetting('downloadAsCbz', e.target.checked)}
+                />
             </ListItem>
             <List
                 subheader={
                     <ListSubheader component="div" id="download-settings-auto-download">
-                        Delete chapters
+                        {t('download.settings.delete_chapters.title')}
                     </ListSubheader>
                 }
             >
                 <ListItem>
-                    <ListItemText primary="Delete chapter after manually marking it as read" />
-                    <ListItemSecondaryAction>
-                        <Switch
-                            edge="end"
-                            checked={metadataSettings.deleteChaptersManuallyMarkedRead}
-                            onChange={(e) =>
-                                updateMetadataSetting('deleteChaptersManuallyMarkedRead', e.target.checked)
-                            }
-                        />
-                    </ListItemSecondaryAction>
+                    <ListItemText primary={t('download.settings.delete_chapters.label.manually_marked_as_read')} />
+                    <Switch
+                        edge="end"
+                        checked={metadataSettings.deleteChaptersManuallyMarkedRead}
+                        onChange={(e) => updateMetadataSetting('deleteChaptersManuallyMarkedRead', e.target.checked)}
+                    />
                 </ListItem>
+                <DeleteChaptersWhileReadingSetting
+                    chapterToDelete={metadataSettings.deleteChaptersWhileReading}
+                    handleChange={(chapterToDelete) =>
+                        updateMetadataSetting('deleteChaptersWhileReading', chapterToDelete)
+                    }
+                />
                 <ListItem>
-                    <ListItemText primary="Delete finished chapters while reading" />
-                    <ListItemSecondaryAction>
-                        <Switch
-                            edge="end"
-                            checked={metadataSettings.deleteChaptersAutoMarkedRead}
-                            onChange={(e) => updateMetadataSetting('deleteChaptersAutoMarkedRead', e.target.checked)}
-                        />
-                    </ListItemSecondaryAction>
-                </ListItem>
-                <ListItem>
-                    <ListItemText primary="Allow deleting bookmarked chapters" />
-                    <ListItemSecondaryAction>
-                        <Switch
-                            edge="end"
-                            checked={metadataSettings.deleteChaptersWithBookmark}
-                            onChange={(e) => updateMetadataSetting('deleteChaptersWithBookmark', e.target.checked)}
-                        />
-                    </ListItemSecondaryAction>
+                    <ListItemText primary={t('download.settings.delete_chapters.label.allow_deletion_of_bookmarked')} />
+                    <Switch
+                        edge="end"
+                        checked={metadataSettings.deleteChaptersWithBookmark}
+                        onChange={(e) => updateMetadataSetting('deleteChaptersWithBookmark', e.target.checked)}
+                    />
                 </ListItem>
             </List>
             <List
@@ -143,24 +131,20 @@ export const DownloadSettings = () => {
             >
                 <ListItem>
                     <ListItemText primary={t('download.settings.auto_download.label.new_chapters')} />
-                    <ListItemSecondaryAction>
-                        <Switch
-                            edge="end"
-                            checked={!!downloadSettings?.autoDownloadNewChapters}
-                            onChange={(e) => updateSetting('autoDownloadNewChapters', e.target.checked)}
-                        />
-                    </ListItemSecondaryAction>
+                    <Switch
+                        edge="end"
+                        checked={!!downloadSettings?.autoDownloadNewChapters}
+                        onChange={(e) => updateSetting('autoDownloadNewChapters', e.target.checked)}
+                    />
                 </ListItem>
                 <ListItem disabled={!downloadSettings?.autoDownloadNewChapters}>
                     <ListItemText primary={t('download.settings.auto_download.label.ignore_with_unread_chapters')} />
-                    <ListItemSecondaryAction>
-                        <Switch
-                            edge="end"
-                            checked={!!downloadSettings?.excludeEntryWithUnreadChapters}
-                            onChange={(e) => updateSetting('excludeEntryWithUnreadChapters', e.target.checked)}
-                            disabled={!downloadSettings?.autoDownloadNewChapters}
-                        />
-                    </ListItemSecondaryAction>
+                    <Switch
+                        edge="end"
+                        checked={!!downloadSettings?.excludeEntryWithUnreadChapters}
+                        onChange={(e) => updateSetting('excludeEntryWithUnreadChapters', e.target.checked)}
+                        disabled={!downloadSettings?.autoDownloadNewChapters}
+                    />
                 </ListItem>
             </List>
             <List

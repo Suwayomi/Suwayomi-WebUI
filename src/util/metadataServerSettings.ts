@@ -11,9 +11,14 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { convertFromGqlMeta, getMetadataFrom } from '@/util/metadata';
 
 export const getDefaultSettings = (): MetadataServerSettings => ({
+    // downloads
     deleteChaptersManuallyMarkedRead: false,
-    deleteChaptersAutoMarkedRead: false,
+    deleteChaptersWhileReading: 0,
     deleteChaptersWithBookmark: false,
+
+    // library
+    showAddToLibraryCategorySelectDialog: true,
+    ignoreFilters: false,
 });
 
 const getMetadataServerSettingsWithDefaultFallback = (
@@ -31,4 +36,15 @@ export const useMetadataServerSettings = (): {
     const settings = getMetadataServerSettingsWithDefaultFallback(metadata);
 
     return { metadata, settings, loading };
+};
+
+export const getMetadataServerSettings = async (): Promise<MetadataServerSettings> => {
+    const { data, error } = await requestManager.getGlobalMeta().response;
+
+    if (error) {
+        throw error;
+    }
+
+    const metadata = convertFromGqlMeta(data?.metas.nodes);
+    return getMetadataServerSettingsWithDefaultFallback(metadata);
 };

@@ -9,14 +9,16 @@
 import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import Grid, { GridTypeMap } from '@mui/material/Grid';
 import { Box, Typography } from '@mui/material';
-import { GridItemProps, VirtuosoGrid, VirtuosoGridHandle } from 'react-virtuoso';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { GridItemProps, GridStateSnapshot, VirtuosoGrid } from 'react-virtuoso';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { EmptyView } from '@/components/util/EmptyView';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
 import { MangaCard } from '@/components/MangaCard';
 import { GridLayout } from '@/components/context/LibraryOptionsContext';
 import { useLocalStorage } from '@/util/useLocalStorage';
-import { TPartialManga } from '@/typings.ts';
+import { TManga, TPartialManga } from '@/typings.ts';
+import { SelectableCollectionReturnType } from '@/components/collection/useSelectableCollection.ts';
+import { DEFAULT_FULL_FAB_HEIGHT } from '@/components/util/StyledFab.tsx';
 
 const GridContainer = React.forwardRef<HTMLDivElement, GridTypeMap['props']>(({ children, ...props }, ref) => (
     <Grid {...props} ref={ref} container sx={{ paddingLeft: '5px', paddingRight: '13px' }}>
@@ -40,8 +42,22 @@ const GridItemContainerWithDimension = (
     );
 };
 
-const createMangaCard = (manga: TPartialManga, gridLayout?: GridLayout, inLibraryIndicator?: boolean) => (
-    <MangaCard key={manga.id} manga={manga} gridLayout={gridLayout} inLibraryIndicator={inLibraryIndicator} />
+const createMangaCard = (
+    manga: TPartialManga,
+    gridLayout?: GridLayout,
+    inLibraryIndicator?: boolean,
+    isSelectModeActive: boolean = false,
+    selectedMangaIds?: TManga['id'][],
+    handleSelection?: DefaultGridProps['handleSelection'],
+) => (
+    <MangaCard
+        key={manga.id}
+        manga={manga}
+        gridLayout={gridLayout}
+        inLibraryIndicator={inLibraryIndicator}
+        selected={isSelectModeActive ? selectedMangaIds?.includes(manga.id) : null}
+        handleSelection={handleSelection}
+    />
 );
 
 type DefaultGridProps = {
@@ -50,9 +66,21 @@ type DefaultGridProps = {
     inLibraryIndicator?: boolean;
     GridItemContainer: (props: GridTypeMap['props'] & Partial<GridItemProps>) => JSX.Element;
     gridLayout?: GridLayout;
+    isSelectModeActive?: boolean;
+    selectedMangaIds?: Required<TManga['id']>[];
+    handleSelection?: SelectableCollectionReturnType<TManga['id']>['handleSelection'];
 };
 
-const HorizontalGrid = ({ isLoading, mangas, inLibraryIndicator, GridItemContainer, gridLayout }: DefaultGridProps) => (
+const HorizontalGrid = ({
+    isLoading,
+    mangas,
+    inLibraryIndicator,
+    GridItemContainer,
+    gridLayout,
+    isSelectModeActive,
+    selectedMangaIds,
+    handleSelection,
+}: DefaultGridProps) => (
     <Grid
         container
         spacing={1}
@@ -70,7 +98,14 @@ const HorizontalGrid = ({ isLoading, mangas, inLibraryIndicator, GridItemContain
         ) : (
             mangas.map((manga) => (
                 <GridItemContainer key={manga.id}>
-                    {createMangaCard(manga, gridLayout, inLibraryIndicator)}
+                    {createMangaCard(
+                        manga,
+                        gridLayout,
+                        inLibraryIndicator,
+                        isSelectModeActive,
+                        selectedMangaIds,
+                        handleSelection,
+                    )}
                 </GridItemContainer>
             ))
         )}
@@ -85,53 +120,39 @@ const VerticalGrid = ({
     gridLayout,
     hasNextPage,
     loadMore,
+    isSelectModeActive,
+    selectedMangaIds,
+    handleSelection,
 }: DefaultGridProps & {
     hasNextPage: boolean;
     loadMore: () => void;
 }) => {
-    const [restoredScrollPosition, setRestoredScrollPosition] = useState(mangas.length === 0);
-    const location = useLocation<{ lastScrollPosition?: number }>();
+    const location = useLocation<{ snapshot?: GridStateSnapshot }>();
     const navigate = useNavigate();
-    const virtuoso = useRef<VirtuosoGridHandle>(null);
+    const { snapshot } = location.state ?? {};
 
-    const { lastScrollPosition = 0 } = location.state ?? {};
+    const persistGridStateTimeout = useRef<NodeJS.Timeout | undefined>();
+    const persistGridState = (gridState: GridStateSnapshot) => {
+        const currentUrl = window.location.href;
 
-    useEffect(() => {
-        const updateLastScrollPosition = () => {
-            if (!restoredScrollPosition) {
+        clearTimeout(persistGridStateTimeout.current);
+        persistGridStateTimeout.current = setTimeout(() => {
+            const didLocationChange = currentUrl !== window.location.href;
+            if (didLocationChange) {
                 return;
             }
 
             navigate(
                 { pathname: '', search: location.search },
-                { replace: true, state: { ...location.state, lastScrollPosition: window.scrollY } },
+                { replace: true, state: { ...location.state, snapshot: gridState } },
             );
-        };
-
-        window.addEventListener('scroll', updateLastScrollPosition, true);
-        window.addEventListener('resize', updateLastScrollPosition, true);
-
-        return () => {
-            window.removeEventListener('scroll', updateLastScrollPosition, true);
-            window.removeEventListener('resize', updateLastScrollPosition, true);
-        };
-    }, [restoredScrollPosition, location.state, location.search]);
-
-    useEffect(() => {
-        const haveItemsRendered = document.documentElement.offsetHeight >= lastScrollPosition;
-        const restoreScrollPosition = !restoredScrollPosition && haveItemsRendered && virtuoso.current;
-        if (!restoreScrollPosition) {
-            return;
-        }
-
-        virtuoso.current.scrollTo({ top: lastScrollPosition });
-        setRestoredScrollPosition(true);
-    }, [document.documentElement.offsetHeight, virtuoso.current]);
+        }, 250);
+    };
+    useEffect(() => clearTimeout(persistGridStateTimeout.current), [location.key, persistGridStateTimeout.current]);
 
     return (
         <>
             <VirtuosoGrid
-                ref={virtuoso}
                 useWindowScroll
                 overscan={window.innerHeight * 0.25}
                 totalCount={mangas.length}
@@ -139,27 +160,41 @@ const VerticalGrid = ({
                     List: GridContainer,
                     Item: GridItemContainer,
                 }}
+                restoreStateFrom={snapshot}
+                stateChanged={persistGridState}
                 endReached={() => loadMore()}
-                itemContent={(index) => createMangaCard(mangas[index], gridLayout, inLibraryIndicator)}
+                itemContent={(index) =>
+                    createMangaCard(
+                        mangas[index],
+                        gridLayout,
+                        inLibraryIndicator,
+                        isSelectModeActive,
+                        selectedMangaIds,
+                        handleSelection,
+                    )
+                }
             />
             {/* render div to prevent UI jumping around when showing/hiding loading placeholder */
             /* eslint-disable-next-line no-nested-ternary */}
-            {isLoading ? <LoadingPlaceholder /> : hasNextPage ? <div style={{ height: '75px' }} /> : null}
+            {isSelectModeActive && gridLayout === GridLayout.List ? (
+                <Box sx={{ paddingBottom: DEFAULT_FULL_FAB_HEIGHT }} />
+            ) : // eslint-disable-next-line no-nested-ternary
+            isLoading ? (
+                <LoadingPlaceholder />
+            ) : hasNextPage ? (
+                <div style={{ height: '75px' }} />
+            ) : null}
         </>
     );
 };
 
-export interface IMangaGridProps {
-    mangas: TPartialManga[];
-    isLoading: boolean;
+export interface IMangaGridProps extends Omit<DefaultGridProps, 'GridItemContainer'> {
     message?: string;
     messageExtra?: JSX.Element;
     hasNextPage: boolean;
     loadMore: () => void;
-    gridLayout?: GridLayout;
     horizontal?: boolean | undefined;
     noFaces?: boolean | undefined;
-    inLibraryIndicator?: boolean;
 }
 
 export const MangaGrid: React.FC<IMangaGridProps> = (props) => {
@@ -174,6 +209,9 @@ export const MangaGrid: React.FC<IMangaGridProps> = (props) => {
         horizontal,
         noFaces,
         inLibraryIndicator,
+        isSelectModeActive,
+        selectedMangaIds,
+        handleSelection,
     } = props;
 
     const [dimensions, setDimensions] = useState(document.documentElement.offsetWidth);
@@ -185,7 +223,17 @@ export const MangaGrid: React.FC<IMangaGridProps> = (props) => {
     );
 
     const updateGridWidth = () => {
-        setDimensions(gridRef.current?.offsetWidth ?? document.documentElement.offsetWidth);
+        const getDimensions = () => {
+            const gridWidth = gridRef.current?.offsetWidth;
+
+            if (!gridWidth) {
+                return document.documentElement.offsetWidth;
+            }
+
+            return gridWidth;
+        };
+
+        setDimensions(getDimensions());
     };
 
     useLayoutEffect(updateGridWidth, []);
@@ -236,6 +284,9 @@ export const MangaGrid: React.FC<IMangaGridProps> = (props) => {
                     inLibraryIndicator={inLibraryIndicator}
                     GridItemContainer={GridItemContainer}
                     gridLayout={gridLayout}
+                    isSelectModeActive={isSelectModeActive}
+                    selectedMangaIds={selectedMangaIds}
+                    handleSelection={handleSelection}
                 />
             ) : (
                 <VerticalGrid
@@ -246,6 +297,9 @@ export const MangaGrid: React.FC<IMangaGridProps> = (props) => {
                     hasNextPage={hasNextPage}
                     loadMore={loadMore}
                     gridLayout={gridLayout}
+                    isSelectModeActive={isSelectModeActive}
+                    selectedMangaIds={selectedMangaIds}
+                    handleSelection={handleSelection}
                 />
             )}
         </div>

@@ -51,8 +51,13 @@ generatedGraphQLFile = fs.readFileSync(generatedGraphQLFilePath, 'utf8');
 const addImports = format(
     generatedGraphQLFile,
     `import { FieldPolicy, FieldReadFunction, TypePolicies, TypePolicy } from '@apollo/client/cache';`,
-    `import { FieldPolicy, FieldReadFunction, TypePolicies, TypePolicy } from '@apollo/client/cache';
-import { GetChaptersQuery } from "@/lib/graphql/generated/graphql.ts";`,
+    `import {FieldPolicy, FieldReadFunction, Reference, TypePolicies, TypePolicy} from '@apollo/client/cache';
+import {
+\tGetCategoryQueryVariables, GetChapterQueryVariables,
+\tGetChaptersQuery, GetDownloadStatusQueryVariables, GetExtensionQueryVariables, GetGlobalMetadataQueryVariables,
+\tGetMangaQueryVariables, GetSourceQueryVariables, GetUpdateStatusQueryVariables, GetWebuiUpdateStatusQueryVariables,
+} from "@/lib/graphql/generated/graphql.ts";
+import {FieldFunctionOptions} from "@apollo/client/cache/inmemory/policies";`,
 );
 
 const fixTypingOfQueryTypePolicies = format(
@@ -76,34 +81,45 @@ const fixTypingOfQueryTypePolicies = format(
 \tmeta?: FieldPolicy<any> | FieldReadFunction<any>,
 \tmetas?: FieldPolicy<any> | FieldReadFunction<any>,
 \trestoreStatus?: FieldPolicy<any> | FieldReadFunction<any>,
+\tsearchTracker?: FieldPolicy<any> | FieldReadFunction<any>,
 \tsettings?: FieldPolicy<any> | FieldReadFunction<any>,
 \tsource?: FieldPolicy<any> | FieldReadFunction<any>,
 \tsources?: FieldPolicy<any> | FieldReadFunction<any>,
+\ttrackRecord?: FieldPolicy<any> | FieldReadFunction<any>,
+\ttrackRecords?: FieldPolicy<any> | FieldReadFunction<any>,
+\ttracker?: FieldPolicy<any> | FieldReadFunction<any>,
+\ttrackers?: FieldPolicy<any> | FieldReadFunction<any>,
 \tupdateStatus?: FieldPolicy<any> | FieldReadFunction<any>,
 \tvalidateBackup?: FieldPolicy<any> | FieldReadFunction<any>
 };`,
     `export type QueryFieldPolicy = {
-\tabout?: FieldPolicy<any> | FieldReadFunction<any>,
+\taboutServer?: FieldPolicy<any> | FieldReadFunction<any>,
+\taboutWebUI?: FieldPolicy<any> | FieldReadFunction<any>,
 \tcategories?: FieldPolicy<any> | FieldReadFunction<any>,
-\tcategory?: FieldPolicy<any> | FieldReadFunction<any>,
-\tchapter?: FieldPolicy<any> | FieldReadFunction<any>,
+\tcategory?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetCategoryQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetCategoryQueryVariables>>,
+\tchapter?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetChapterQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetChapterQueryVariables>>,
 \tchapters?: FieldPolicy<GetChaptersQuery['chapters']> | FieldReadFunction<GetChaptersQuery['chapters']>,
 \tcheckForServerUpdates?: FieldPolicy<any> | FieldReadFunction<any>,
 \tcheckForWebUIUpdate?: FieldPolicy<any> | FieldReadFunction<any>,
-\tdownloadStatus?: FieldPolicy<any> | FieldReadFunction<any>,
-\textension?: FieldPolicy<any> | FieldReadFunction<any>,
+\tdownloadStatus?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetDownloadStatusQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetDownloadStatusQueryVariables>>,
+\textension?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetExtensionQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetExtensionQueryVariables>>,
 \textensions?: FieldPolicy<any> | FieldReadFunction<any>,
-\tgetWebUIUpdateStatus?: FieldPolicy<any> | FieldReadFunction<any>,
+\tgetWebUIUpdateStatus?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetWebuiUpdateStatusQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetWebuiUpdateStatusQueryVariables>>,
 \tlastUpdateTimestamp?: FieldPolicy<any> | FieldReadFunction<any>,
-\tmanga?: FieldPolicy<any> | FieldReadFunction<any>,
+\tmanga?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetMangaQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetMangaQueryVariables>>,
 \tmangas?: FieldPolicy<any> | FieldReadFunction<any>,
-\tmeta?: FieldPolicy<any> | FieldReadFunction<any>,
+\tmeta?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetGlobalMetadataQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetGlobalMetadataQueryVariables>>,
 \tmetas?: FieldPolicy<any> | FieldReadFunction<any>,
 \trestoreStatus?: FieldPolicy<any> | FieldReadFunction<any>,
+\tsearchTracker?: FieldPolicy<any> | FieldReadFunction<any>,
 \tsettings?: FieldPolicy<any> | FieldReadFunction<any>,
-\tsource?: FieldPolicy<any> | FieldReadFunction<any>,
+\tsource?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetSourceQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetSourceQueryVariables>>,
 \tsources?: FieldPolicy<any> | FieldReadFunction<any>,
-\tupdateStatus?: FieldPolicy<any> | FieldReadFunction<any>,
+\ttrackRecord?: FieldPolicy<any> | FieldReadFunction<any>,
+\ttrackRecords?: FieldPolicy<any> | FieldReadFunction<any>,
+\ttracker?: FieldPolicy<any> | FieldReadFunction<any>,
+\ttrackers?: FieldPolicy<any> | FieldReadFunction<any>,
+\tupdateStatus?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetUpdateStatusQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetUpdateStatusQueryVariables>>,
 \tvalidateBackup?: FieldPolicy<any> | FieldReadFunction<any>
 };`,
 );

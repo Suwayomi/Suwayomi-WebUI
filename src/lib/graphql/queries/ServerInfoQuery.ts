@@ -7,9 +7,10 @@
  */
 
 import gql from 'graphql-tag';
-import { WEBUI_UPDATE_INFO, WEBUI_UPDATE_STATUS } from '@/lib/graphql/Fragments';
+import { ABOUT_WEBUI, WEBUI_UPDATE_CHECK, WEBUI_UPDATE_STATUS } from '@/lib/graphql/Fragments';
 
 export const GET_ABOUT = gql`
+    ${ABOUT_WEBUI}
     query GET_ABOUT {
         aboutServer {
             buildTime
@@ -19,6 +20,9 @@ export const GET_ABOUT = gql`
             name
             revision
             version
+        }
+        aboutWebUI {
+            ...ABOUT_WEBUI
         }
     }
 `;
@@ -34,10 +38,10 @@ export const CHECK_FOR_SERVER_UPDATES = gql`
 `;
 
 export const CHECK_FOR_WEBUI_UPDATE = gql`
-    ${WEBUI_UPDATE_INFO}
+    ${WEBUI_UPDATE_CHECK}
     query CHECK_FOR_WEBUI_UPDATE {
         checkForWebUIUpdate {
-            ...WEBUI_UPDATE_INFO
+            ...WEBUI_UPDATE_CHECK
         }
     }
 `;

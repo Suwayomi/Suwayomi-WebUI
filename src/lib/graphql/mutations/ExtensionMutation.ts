@@ -27,7 +27,9 @@ export const UPDATE_EXTENSION = gql`
         updateExtension(input: $input) {
             clientMutationId
             extension {
+                pkgName
                 apkName
+                repo
                 versionName
                 versionCode
                 isInstalled
@@ -43,7 +45,9 @@ export const UPDATE_EXTENSIONS = gql`
         updateExtensions(input: $input) {
             clientMutationId
             extensions {
+                pkgName
                 apkName
+                repo
                 versionName
                 versionCode
                 isInstalled

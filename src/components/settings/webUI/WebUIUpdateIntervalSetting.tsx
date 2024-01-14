@@ -8,7 +8,6 @@
 
 import { useTranslation } from 'react-i18next';
 import { List, ListItem, ListItemText, Switch } from '@mui/material';
-import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import { useCallback } from 'react';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
@@ -51,14 +50,12 @@ export const WebUIUpdateIntervalSetting = ({ disabled = false }: { disabled?: bo
         <List>
             <ListItem disabled={disabled}>
                 <ListItemText primary={t('settings.webui.auto_update.label.title')} />
-                <ListItemSecondaryAction>
-                    <Switch
-                        disabled={disabled}
-                        edge="end"
-                        checked={shouldAutoUpdate}
-                        onChange={(e) => setDoAutoUpdates(e.target.checked)}
-                    />
-                </ListItemSecondaryAction>
+                <Switch
+                    disabled={disabled}
+                    edge="end"
+                    checked={shouldAutoUpdate}
+                    onChange={(e) => setDoAutoUpdates(e.target.checked)}
+                />
             </ListItem>
             <NumberSetting
                 settingTitle={t('settings.webui.auto_update.label.interval')}

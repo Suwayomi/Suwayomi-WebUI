@@ -10,13 +10,15 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import PublicIcon from '@mui/icons-material/Public';
 import { styled } from '@mui/material/styles';
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { t as translate } from 'i18next';
 import Button from '@mui/material/Button';
 import { ISource, TManga } from '@/typings';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/components/util/Toast';
+import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
+import { CategorySelect } from '@/components/navbar/action/CategorySelect.tsx';
 
 const DetailsWrapper = styled('div')(({ theme }) => ({
     width: '100%',
@@ -167,12 +169,13 @@ function getValueOrUnknown(val?: string | null) {
 
 export const MangaDetails: React.FC<IProps> = ({ manga }) => {
     const { t } = useTranslation();
-    const { data: categoriesData, loading: areCategoriesLoading } = requestManager.useGetCategories();
-    const categories = categoriesData?.categories.nodes ?? [];
-    const defaultCategoryIds = categories
-        .filter((category) => category.default && category.id !== 0)
-        .map((category) => category.id);
-    const [updateMangaCategories] = requestManager.useUpdateMangaCategories();
+
+    const {
+        settings: { showAddToLibraryCategorySelectDialog },
+        loading: areSettingsLoading,
+    } = useMetadataServerSettings();
+
+    const [isCategorySelectOpen, setIsCategorySelectOpen] = useState(false);
 
     useEffect(() => {
         if (!manga.source) {
@@ -181,16 +184,21 @@ export const MangaDetails: React.FC<IProps> = ({ manga }) => {
     }, [manga.source]);
 
     const addToLibrary = () => {
-        Promise.all([
-            requestManager.updateManga(manga.id, { inLibrary: true }).response,
-            updateMangaCategories({
-                variables: { input: { id: manga.id, patch: { addToCategories: defaultCategoryIds } } },
-            }),
-        ])
-            .then(() => makeToast(t('library.info.label.added_to_library'), 'success'))
+        requestManager
+            .updateManga(manga.id, { inLibrary: true })
+            .response.then(() => makeToast(t('library.info.label.added_to_library'), 'success'))
             .catch(() => {
                 makeToast(t('library.error.label.add_to_library'), 'error');
             });
+    };
+
+    const handleAddToLibraryClick = () => {
+        if (!showAddToLibraryCategorySelectDialog) {
+            addToLibrary();
+            return;
+        }
+
+        setIsCategorySelectOpen(true);
     };
 
     const removeFromLibrary = () => {
@@ -202,53 +210,69 @@ export const MangaDetails: React.FC<IProps> = ({ manga }) => {
     };
 
     return (
-        <DetailsWrapper>
-            <TopContentWrapper>
-                <ThumbnailMetadataWrapper>
-                    <Thumbnail>
-                        {manga.thumbnailUrl && (
-                            <img src={requestManager.getValidImgUrlFor(manga.thumbnailUrl)} alt="Manga Thumbnail" />
-                        )}
-                    </Thumbnail>
-                    <Metadata>
-                        <h1>{manga.title}</h1>
-                        <h3>
-                            {`${t('manga.label.author')}: `}
-                            <span>{getValueOrUnknown(manga.author)}</span>
-                        </h3>
-                        <h3>
-                            {`${t('manga.label.artist')}: `}
-                            <span>{getValueOrUnknown(manga.artist)}</span>
-                        </h3>
-                        <h3>{`${t('manga.label.status')}: ${manga.status}`}</h3>
-                        <h3>{`${t('source.title')}: ${getSourceName(manga.source)}`}</h3>
-                    </Metadata>
-                </ThumbnailMetadataWrapper>
-                <MangaButtonsContainer inLibrary={manga.inLibrary}>
-                    <div>
-                        <Button
-                            disabled={areCategoriesLoading}
-                            startIcon={manga.inLibrary ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-                            onClick={manga.inLibrary ? removeFromLibrary : addToLibrary}
-                            size="large"
-                        >
-                            {manga.inLibrary ? t('manga.button.in_library') : t('manga.button.add_to_library')}
-                        </Button>
-                    </div>
-                    <OpenSourceButton url={manga.realUrl} />
-                </MangaButtonsContainer>
-            </TopContentWrapper>
-            <BottomContentWrapper>
-                <Description>
-                    <h4>{t('settings.about.title')}</h4>
-                    <p>{manga.description}</p>
-                </Description>
-                <Genres>
-                    {manga.genre.map((g) => (
-                        <h5 key={g}>{g}</h5>
-                    ))}
-                </Genres>
-            </BottomContentWrapper>
-        </DetailsWrapper>
+        <>
+            <DetailsWrapper>
+                <TopContentWrapper>
+                    <ThumbnailMetadataWrapper>
+                        <Thumbnail>
+                            {manga.thumbnailUrl && (
+                                <img src={requestManager.getValidImgUrlFor(manga.thumbnailUrl)} alt="Manga Thumbnail" />
+                            )}
+                        </Thumbnail>
+                        <Metadata>
+                            <h1>{manga.title}</h1>
+                            <h3>
+                                {`${t('manga.label.author')}: `}
+                                <span>{getValueOrUnknown(manga.author)}</span>
+                            </h3>
+                            <h3>
+                                {`${t('manga.label.artist')}: `}
+                                <span>{getValueOrUnknown(manga.artist)}</span>
+                            </h3>
+                            <h3>{`${t('manga.label.status')}: ${manga.status}`}</h3>
+                            <h3>{`${t('source.title')}: ${getSourceName(manga.source)}`}</h3>
+                        </Metadata>
+                    </ThumbnailMetadataWrapper>
+                    <MangaButtonsContainer inLibrary={manga.inLibrary}>
+                        <div>
+                            <Button
+                                disabled={areSettingsLoading}
+                                startIcon={manga.inLibrary ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                                onClick={manga.inLibrary ? removeFromLibrary : handleAddToLibraryClick}
+                                size="large"
+                            >
+                                {manga.inLibrary ? t('manga.button.in_library') : t('manga.button.add_to_library')}
+                            </Button>
+                        </div>
+                        <OpenSourceButton url={manga.realUrl} />
+                    </MangaButtonsContainer>
+                </TopContentWrapper>
+                <BottomContentWrapper>
+                    <Description>
+                        <h4>{t('settings.about.title')}</h4>
+                        <p style={{ whiteSpace: 'pre-line' }}>{manga.description}</p>
+                    </Description>
+                    <Genres>
+                        {manga.genre.map((g) => (
+                            <h5 key={g}>{g}</h5>
+                        ))}
+                    </Genres>
+                </BottomContentWrapper>
+            </DetailsWrapper>
+            {isCategorySelectOpen && (
+                <CategorySelect
+                    open={isCategorySelectOpen}
+                    onClose={(didUpdateCategories) => {
+                        setIsCategorySelectOpen(false);
+
+                        if (didUpdateCategories) {
+                            addToLibrary();
+                        }
+                    }}
+                    mangaId={manga.id}
+                    addToLibrary
+                />
+            )}
+        </>
     );
 };

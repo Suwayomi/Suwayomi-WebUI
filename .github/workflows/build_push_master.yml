@@ -51,10 +51,10 @@ jobs:
       - name: Checkout preview branch
         uses: actions/checkout@v2
         with:
-          repository: "Suwayomi/Tachidesk-WebUI-preview"
+          repository: "Suwayomi/Suwayomi-WebUI-preview"
           ref: main
           path: preview
-          token: ${{ secrets.DEPLOY_PREVIEW_TOKEN }}
+          token: ${{ secrets.BUILD_PREVIEW_TOKEN }}
 
       - name: Create Tag
         run: |
@@ -74,16 +74,16 @@ jobs:
       - name: Upload CI Release
         uses: ncipollo/release-action@v1
         with:
-          token: ${{ secrets.DEPLOY_PREVIEW_TOKEN }}
+          token: ${{ secrets.BUILD_PREVIEW_TOKEN }}
           artifacts: "master/buildZip/*"
           owner: "Suwayomi"
-          repo: "Tachidesk-WebUI-preview"
+          repo: "Suwayomi-WebUI-preview"
           tag: ${{ steps.GenTagName.outputs.value }}
 
       - name: Checkout github pages repo
         uses: actions/checkout@v2
         with:
-          repository: "Tachidesk-WebUI-preview/tachidesk-webui-preview.github.io"
+          repository: "Suwayomi-WebUI-preview/suwayomi-webui-preview.github.io"
           ref: main
           path: gh-pages
           token: ${{ secrets.DEPLOY_PREVIEW_TOKEN }}

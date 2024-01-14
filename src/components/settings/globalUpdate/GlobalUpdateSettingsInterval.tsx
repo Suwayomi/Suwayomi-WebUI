@@ -8,7 +8,6 @@
 
 import { useTranslation } from 'react-i18next';
 import { List, ListItem, ListItemText, Switch } from '@mui/material';
-import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import { useCallback } from 'react';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
@@ -51,9 +50,7 @@ export const GlobalUpdateSettingsInterval = () => {
         <List>
             <ListItem>
                 <ListItemText primary={t('library.settings.global_update.auto_update.label.title')} />
-                <ListItemSecondaryAction>
-                    <Switch edge="end" checked={doAutoUpdates} onChange={(e) => setDoAutoUpdates(e.target.checked)} />
-                </ListItemSecondaryAction>
+                <Switch edge="end" checked={doAutoUpdates} onChange={(e) => setDoAutoUpdates(e.target.checked)} />
             </ListItem>
             <NumberSetting
                 settingTitle={t('library.settings.global_update.auto_update.interval.label.title')}

@@ -17,25 +17,10 @@ import {
     GetMangaQuery,
     GetServerSettingsQuery,
     GetSourceQuery,
+    GetSourcesQuery,
     MetaType,
     SourcePreferenceChangeInput,
 } from '@/lib/graphql/generated/graphql.ts';
-
-export type ExtractByKeyValue<T, Key extends keyof T, Value extends T[Key]> = T extends
-    | Record<Key, Value>
-    | Partial<Record<Key, Value>>
-    ? T
-    : never;
-
-export type RecursivePartial<T> = {
-    [P in keyof T]?: T[P] extends (infer U)[]
-        ? RecursivePartial<U>[]
-        : T[P] extends object | undefined
-          ? RecursivePartial<T[P]>
-          : T[P];
-};
-
-export type OptionalProperty<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
 type GenericLocation<State = any> = Omit<Location, 'state'> & { state?: State };
 
@@ -59,6 +44,8 @@ export interface ISource {
     isNsfw: boolean;
     displayName: string;
 }
+
+export type TPartialSource = GetSourcesQuery['sources']['nodes'][number];
 
 export type SourceFilters = GetSourceQuery['source']['filters'][number];
 
@@ -229,9 +216,14 @@ export enum ChapterOffset {
 }
 
 export type MetadataServerSettings = {
+    // downloads
     deleteChaptersManuallyMarkedRead: boolean;
-    deleteChaptersAutoMarkedRead: boolean;
+    deleteChaptersWhileReading: number;
     deleteChaptersWithBookmark: boolean;
+
+    // library
+    showAddToLibraryCategorySelectDialog: boolean;
+    ignoreFilters: boolean;
 };
 
 export interface ISearchSettings {
@@ -346,7 +338,13 @@ export type ChapterOptionsReducerAction =
     | { type: 'sortReverse' }
     | { type: 'showChapterNumber' };
 
-export type LibrarySortMode = 'sortToRead' | 'sortAlph' | 'sortDateAdded' | 'sortLastRead';
+export type LibrarySortMode =
+    | 'sortToRead'
+    | 'sortAlph'
+    | 'sortDateAdded'
+    | 'sortLastRead'
+    | 'sortLatestFetchedChapter'
+    | 'sortLatestUploadedChapter';
 
 enum GridLayout {
     Compact = 0,
@@ -356,6 +354,7 @@ enum GridLayout {
 
 export interface LibraryOptions {
     // display options
+    showContinueReadingButton: boolean;
     showDownloadBadge: boolean;
     showUnreadBadge: boolean;
     gridLayout: GridLayout;
