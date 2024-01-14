@@ -38,7 +38,7 @@ export function DoublePagedPager(props: IReaderProps) {
     const [pagesLoadState, setPagesLoadState] = useState<boolean[]>(Array(pages.length).fill(false));
 
     function getPagesToDisplay(): number {
-        let pagesToDisplay = 0;
+        let pagesToDisplay = 1; // has to be at least one so skipping forward while pages are still loading is possible
         if (curPage < pages.length && pagesRef.current[curPage]) {
             if (pagesLoadState[curPage]) {
                 pagesToDisplay = 1;
