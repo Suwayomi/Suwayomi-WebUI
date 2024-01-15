@@ -95,6 +95,27 @@ export function Library() {
         [selectedItemIds.length, mangas],
     );
 
+    const selectionFab = useMemo(() => {
+        if (!isSelectModeActive) {
+            return null;
+        }
+
+        return (
+            <SelectionFAB selectedItemsCount={selectedItemIds.length} title="manga.title">
+                {(handleClose, setHideMenu) => (
+                    <MangaActionMenuItems
+                        selectedMangas={selectedMangas}
+                        onClose={(selectionModeState) => {
+                            handleClose();
+                            setIsSelectModeActive(selectionModeState);
+                        }}
+                        setHideMenu={setHideMenu}
+                    />
+                )}
+            </SelectionFAB>
+        );
+    }, [isSelectModeActive, selectedMangas]);
+
     const { setTitle, setAction } = useContext(NavBarContext);
     useEffect(() => {
         const title = t('library.title');
@@ -172,76 +193,60 @@ export function Library() {
 
     if (tabs.length === 1) {
         return (
-            <LibraryMangaGrid
-                mangas={mangas}
-                message={t('library.error.label.empty')}
-                isLoading={activeTab != null && mangaLoading}
-                selectedMangaIds={selectedItemIds}
-                isSelectModeActive={isSelectModeActive}
-                handleSelection={handleSelect}
-                showFilteredOutMessage={showFilteredOutMessage}
-            />
+            <>
+                <LibraryMangaGrid
+                    mangas={mangas}
+                    message={t('library.error.label.empty')}
+                    isLoading={activeTab != null && mangaLoading}
+                    selectedMangaIds={selectedItemIds}
+                    isSelectModeActive={isSelectModeActive}
+                    handleSelection={handleSelect}
+                    showFilteredOutMessage={showFilteredOutMessage}
+                />
+                {selectionFab}
+            </>
         );
     }
 
     return (
-        <>
-            <TabsWrapper>
-                <TabsMenu
-                    value={activeTab.order}
-                    onChange={(e, newTab) => handleTabChange(newTab)}
-                    tabsCount={tabs.length}
-                >
-                    {tabs.map((tab) => (
-                        <Tab
-                            sx={{ display: 'flex' }}
-                            key={tab.id}
-                            label={
-                                <TitleWithSizeTag>
-                                    {tab.name}
-                                    {options.showTabSize ? <TitleSizeTag label={tab.mangas.totalCount} /> : null}
-                                </TitleWithSizeTag>
-                            }
-                            value={tab.order}
-                        />
-                    ))}
-                </TabsMenu>
+        <TabsWrapper>
+            <TabsMenu value={activeTab.order} onChange={(e, newTab) => handleTabChange(newTab)} tabsCount={tabs.length}>
                 {tabs.map((tab) => (
-                    <TabPanel key={tab.order} index={tab.order} currentIndex={activeTab.order}>
-                        {tab === activeTab &&
-                            (mangaError ? (
-                                <EmptyView
-                                    message={t('manga.error.label.request_failure')}
-                                    messageExtra={mangaError.message ?? mangaError}
-                                />
-                            ) : (
-                                <LibraryMangaGrid
-                                    mangas={mangas}
-                                    message={t('library.error.label.empty')}
-                                    isLoading={mangaLoading}
-                                    selectedMangaIds={selectedItemIds}
-                                    isSelectModeActive={isSelectModeActive}
-                                    handleSelection={handleSelect}
-                                    showFilteredOutMessage={showFilteredOutMessage}
-                                />
-                            ))}
-                    </TabPanel>
+                    <Tab
+                        sx={{ display: 'flex' }}
+                        key={tab.id}
+                        label={
+                            <TitleWithSizeTag>
+                                {tab.name}
+                                {options.showTabSize ? <TitleSizeTag label={tab.mangas.totalCount} /> : null}
+                            </TitleWithSizeTag>
+                        }
+                        value={tab.order}
+                    />
                 ))}
-            </TabsWrapper>
-            {isSelectModeActive && (
-                <SelectionFAB selectedItemsCount={selectedItemIds.length} title="manga.title">
-                    {(handleClose, setHideMenu) => (
-                        <MangaActionMenuItems
-                            selectedMangas={selectedMangas}
-                            onClose={(selectionModeState) => {
-                                handleClose();
-                                setIsSelectModeActive(selectionModeState);
-                            }}
-                            setHideMenu={setHideMenu}
-                        />
-                    )}
-                </SelectionFAB>
-            )}
-        </>
+            </TabsMenu>
+            {tabs.map((tab) => (
+                <TabPanel key={tab.order} index={tab.order} currentIndex={activeTab.order}>
+                    {tab === activeTab &&
+                        (mangaError ? (
+                            <EmptyView
+                                message={t('manga.error.label.request_failure')}
+                                messageExtra={mangaError.message ?? mangaError}
+                            />
+                        ) : (
+                            <LibraryMangaGrid
+                                mangas={mangas}
+                                message={t('library.error.label.empty')}
+                                isLoading={mangaLoading}
+                                selectedMangaIds={selectedItemIds}
+                                isSelectModeActive={isSelectModeActive}
+                                handleSelection={handleSelect}
+                                showFilteredOutMessage={showFilteredOutMessage}
+                            />
+                        ))}
+                </TabPanel>
+            ))}
+            {selectionFab}
+        </TabsWrapper>
     );
 }
