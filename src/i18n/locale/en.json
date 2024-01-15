@@ -223,6 +223,7 @@
       }
     },
     "label": {
+      "add_repository_info": "You have to add a extension repository to be able to install extensions",
       "installation_failed": "Could not install the extension",
       "installed_successfully": "Extension installed",
       "installing_file": "Installing extension file…",
@@ -249,9 +250,9 @@
             }
           },
           "label": {
-            "description": "Add custom repositories from which extensions can be installed",
+            "description": "Add repositories from which extensions can be installed",
             "disclaimer": "<strong>Suwayomi does not provide any support for 3rd party repositories or extensions!</strong><br/>Use with caution as there could be malicious actors making those repositories.<br/>You as the user need to verify the security and that you trust any repository or extension.",
-            "title": "Custom repositories"
+            "title": "Extension repositories"
           }
         }
       }
