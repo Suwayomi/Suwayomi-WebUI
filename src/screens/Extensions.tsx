@@ -213,7 +213,7 @@ export function Extensions() {
         return (
             <Stack sx={{ paddingTop: '20px' }} alignItems="center" justifyContent="center" rowGap="10px">
                 <Typography>{t('extension.label.add_repository_info')}</Typography>
-                <Button component={Link} variant="contained" to="/settings/server">
+                <Button component={Link} variant="contained" to="/settings/extensionSettings">
                     {t('settings.title')}
                 </Button>
             </Stack>

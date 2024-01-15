@@ -33,9 +33,9 @@ import { LibrarySettings } from '@/screens/settings/LibrarySettings';
 import { DefaultNavBar } from '@/components/navbar/DefaultNavBar';
 import { DownloadSettings } from '@/screens/settings/DownloadSettings.tsx';
 import { ServerSettings } from '@/screens/settings/ServerSettings.tsx';
-import { WebUISettings } from '@/screens/settings/WebUISettings.tsx';
 import { ServerUpdateChecker } from '@/components/settings/ServerUpdateChecker.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { ExtensionSettings } from '@/screens/settings/ExtensionSettings.tsx';
 
 if (process.env.NODE_ENV !== 'production') {
     // Adds messages only in a dev environment
@@ -98,7 +98,7 @@ export const App: React.FC = () => (
                     <Route path="downloadSettings" element={<DownloadSettings />} />
                     <Route path="backup" element={<Backup />} />
                     <Route path="server" element={<ServerSettings />} />
-                    <Route path="webUI" element={<WebUISettings />} />
+                    <Route path="extensionSettings" element={<ExtensionSettings />} />
                 </Route>
 
                 {/* Manga Routes */}

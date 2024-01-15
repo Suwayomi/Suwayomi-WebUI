@@ -17,7 +17,6 @@ import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Link, ListItemButton, MenuItem, Select } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import LanguageIcon from '@mui/icons-material/Language';
@@ -27,6 +26,7 @@ import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import DnsIcon from '@mui/icons-material/Dns';
 import WebIcon from '@mui/icons-material/Web';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
 import { langCodeToName } from '@/util/language';
 import { useLocalStorage } from '@/util/useLocalStorage';
 import { ListItemLink } from '@/components/util/ListItemLink';
@@ -46,7 +46,6 @@ export function Settings() {
     }, [t]);
 
     const { darkTheme, setDarkTheme } = useContext(DarkTheme);
-    const [showNsfw, setShowNsfw] = useLocalStorage<boolean>('showNsfw', true);
 
     const DEFAULT_ITEM_WIDTH = 300;
     const itemWidthIcon = useMemo(() => <ViewModuleIcon />, []);
@@ -118,16 +117,6 @@ export function Settings() {
             />
             <ListItem>
                 <ListItemIcon>
-                    <FavoriteIcon />
-                </ListItemIcon>
-                <ListItemText
-                    primary={t('settings.label.show_nsfw')}
-                    secondary={t('settings.label.show_nsfw_description')}
-                />
-                <Switch edge="end" checked={showNsfw} onChange={() => setShowNsfw(!showNsfw)} />
-            </ListItem>
-            <ListItem>
-                <ListItemIcon>
                     <LanguageIcon />
                 </ListItemIcon>
                 <ListItemText
@@ -162,6 +151,12 @@ export function Settings() {
                     secondary={t('settings.clear_cache.label.description')}
                 />
             </ListItemButton>
+            <ListItemLink to="/settings/extensionSettings">
+                <ListItemIcon>
+                    <ExploreOutlinedIcon />
+                </ListItemIcon>
+                <ListItemText primary={t('global.label.browse')} />
+            </ListItemLink>
             <ListItemLink to="/settings/webUI">
                 <ListItemIcon>
                     <WebIcon />

@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useTranslation, Trans } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { useContext, useEffect } from 'react';
 import { List, ListItem, ListItemText, Switch } from '@mui/material';
 import ListSubheader from '@mui/material/ListSubheader';
@@ -16,7 +16,6 @@ import { useLocalStorage } from '@/util/useLocalStorage.tsx';
 import { TextSetting } from '@/components/settings/text/TextSetting.tsx';
 import { ServerSettings as GqlServerSettings } from '@/typings.ts';
 import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
-import { MutableListSetting } from '@/components/settings/MutableListSetting.tsx';
 
 type ServerSettingsType = Pick<
     GqlServerSettings,
@@ -31,12 +30,9 @@ type ServerSettingsType = Pick<
     | 'basicAuthEnabled'
     | 'basicAuthUsername'
     | 'basicAuthPassword'
-    | 'maxSourcesInParallel'
-    | 'localSourcePath'
-    | 'extensionRepos'
 >;
 
-const extractDownloadSettings = (settings: GqlServerSettings): ServerSettingsType => ({
+const extractServerSettings = (settings: GqlServerSettings): ServerSettingsType => ({
     ip: settings.ip,
     port: settings.port,
     socksProxyEnabled: settings.socksProxyEnabled,
@@ -48,9 +44,6 @@ const extractDownloadSettings = (settings: GqlServerSettings): ServerSettingsTyp
     basicAuthEnabled: settings.basicAuthEnabled,
     basicAuthUsername: settings.basicAuthUsername,
     basicAuthPassword: settings.basicAuthPassword,
-    maxSourcesInParallel: settings.maxSourcesInParallel,
-    localSourcePath: settings.localSourcePath,
-    extensionRepos: settings.extensionRepos,
 });
 
 export const ServerSettings = () => {
@@ -65,7 +58,7 @@ export const ServerSettings = () => {
     }, [t]);
 
     const { data } = requestManager.useGetServerSettings();
-    const serverSettings = data ? extractDownloadSettings(data.settings) : undefined;
+    const serverSettings = data ? extractServerSettings(data.settings) : undefined;
     const [mutateSettings] = requestManager.useUpdateServerSettings();
 
     const [serverAddress, setServerAddress] = useLocalStorage<string>('serverBaseURL', '');
@@ -97,80 +90,6 @@ export const ServerSettings = () => {
                     handleChange={handleServerAddressChange}
                     value={serverAddress}
                     placeholder="http://localhost:4567"
-                />
-            </List>
-            <List
-                subheader={
-                    <ListSubheader component="div" id="server-settings-requests">
-                        {t('settings.server.requests.title')}
-                    </ListSubheader>
-                }
-            >
-                <NumberSetting
-                    settingTitle={t('settings.server.requests.sources.parallel.label.title')}
-                    settingValue={t('settings.server.requests.sources.parallel.label.value', {
-                        value: serverSettings?.maxSourcesInParallel,
-                        count: serverSettings?.maxSourcesInParallel,
-                    })}
-                    valueUnit={t('source.title')}
-                    value={serverSettings?.maxSourcesInParallel ?? 6}
-                    defaultValue={6}
-                    minValue={1}
-                    maxValue={20}
-                    showSlider
-                    stepSize={1}
-                    dialogTitle={t('settings.server.requests.sources.parallel.label.title')}
-                    handleUpdate={(parallelSources) => updateSetting('maxSourcesInParallel', parallelSources)}
-                />
-            </List>
-            <List
-                subheader={
-                    <ListSubheader component="div" id="server-settings-extension-repos">
-                        {t('extension.title')}
-                    </ListSubheader>
-                }
-            >
-                <MutableListSetting
-                    settingName={t('extension.settings.repositories.custom.label.title')}
-                    description={t('extension.settings.repositories.custom.label.description')}
-                    dialogDisclaimer={
-                        <Trans i18nKey="extension.settings.repositories.custom.label.disclaimer">
-                            <strong>
-                                Suwayomi does not provide any support for 3rd party repositories or extensions!
-                            </strong>
-                            <br />
-                            Use with caution as there could be malicious actors making those repositories.
-                            <br />
-                            You as the user need to verify the security and that you trust any repository or extension.
-                        </Trans>
-                    }
-                    handleChange={(repos) => {
-                        updateSetting('extensionRepos', repos);
-                        requestManager.clearExtensionCache();
-                    }}
-                    values={serverSettings?.extensionRepos}
-                    addItemButtonTitle={t('extension.settings.repositories.custom.dialog.action.button.add')}
-                    placeholder="https://github.com/MY_ACCOUNT/MY_REPO/tree/repo"
-                    validateItem={(repo) =>
-                        !!repo.match(
-                            /https:\/\/(www\.|raw\.)?(github|githubusercontent)\.com\/([^/]+)\/([^/]+)((\/tree|\/blob)?\/([^/\n]*))?(\/([^/\n]*\.json)?)?/g,
-                        )
-                    }
-                    invalidItemError={t('extension.settings.repositories.custom.error.label.invalid_url')}
-                />
-            </List>
-            <List
-                subheader={
-                    <ListSubheader component="div" id="server-settings-requests">
-                        {t('source.local_source.title')}
-                    </ListSubheader>
-                }
-            >
-                <TextSetting
-                    settingName={t('settings.server.local_source.path.label.title')}
-                    dialogDescription={t('settings.server.local_source.path.label.description')}
-                    value={serverSettings?.localSourcePath}
-                    handleChange={(path) => updateSetting('localSourcePath', path)}
                 />
             </List>
             <List
