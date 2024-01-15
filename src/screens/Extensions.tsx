@@ -11,9 +11,10 @@ import { fromEvent } from 'file-selector';
 import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import { StringParam, useQueryParam } from 'use-query-params';
-import { Tooltip, useMediaQuery } from '@mui/material';
+import { Button, Stack, Tooltip, Typography, useMediaQuery } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/material/styles';
+import { Link } from 'react-router-dom';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { extensionDefaultLangs, DefaultLanguage, langSortCmp } from '@/util/language';
 import { useLocalStorage } from '@/util/useLocalStorage';
@@ -99,7 +100,8 @@ export function Extensions() {
     const isMobileWidth = useMediaQuery(theme.breakpoints.down('sm'));
 
     const { data: serverSettingsData } = requestManager.useGetServerSettings();
-    const areMultipleReposInUse = !!serverSettingsData?.settings.extensionRepos.length; // tachiyomi repo is used by default
+    const areReposDefined = !!serverSettingsData?.settings.extensionRepos.length;
+    const areMultipleReposInUse = (serverSettingsData?.settings.extensionRepos.length ?? 0) > 1;
 
     const inputRef = useRef<HTMLInputElement>(null);
     const { setTitle, setAction } = useContext(NavBarContext);
@@ -204,6 +206,18 @@ export function Extensions() {
 
     if (!allExtensions && (isLoading || !called)) {
         return <LoadingPlaceholder />;
+    }
+
+    const showAddRepoInfo = !allExtensions?.length && !areReposDefined;
+    if (showAddRepoInfo) {
+        return (
+            <Stack sx={{ paddingTop: '20px' }} alignItems="center" justifyContent="center" rowGap="10px">
+                <Typography>{t('extension.label.add_repository_info')}</Typography>
+                <Button component={Link} variant="contained" to="/settings/server">
+                    {t('settings.title')}
+                </Button>
+            </Stack>
+        );
     }
 
     return (

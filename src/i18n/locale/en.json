@@ -223,6 +223,7 @@
       }
     },
     "label": {
+      "add_repository_info": "You have to add a extension repository to be able to install extensions",
       "installation_failed": "Could not install the extension",
       "installed_successfully": "Extension installed",
       "installing_file": "Installing extension file…",
