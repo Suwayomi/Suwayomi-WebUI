@@ -81,7 +81,7 @@ export function SpinnerImage(props: IProps) {
             )}
             <img
                 key={`${src}_${imgLoadRetryKey}`}
-                style={{ ...imgStyle, display: isLoading || hasError ? 'none' : undefined }}
+                style={{ ...imgStyle, display: isLoading || hasError ? 'none' : imgStyle?.display }}
                 ref={imgRef}
                 src={src}
                 alt={alt}
