@@ -380,6 +380,10 @@ export class RequestManager {
         this.cache.clearFor(...cacheKeys);
     }
 
+    public clearExtensionCache() {
+        this.cache.clearFor(this.cache.getKeyFor(EXTENSION_LIST_CACHE_KEY, undefined));
+    }
+
     private createAbortController(): { signal: AbortSignal } & AbortableRequest {
         const abortController = new AbortController();
         const abortRequest = (reason?: any): void => {

@@ -144,7 +144,10 @@ export const ServerSettings = () => {
                             You as the user need to verify the security and that you trust any repository or extension.
                         </Trans>
                     }
-                    handleChange={(repos) => updateSetting('extensionRepos', repos)}
+                    handleChange={(repos) => {
+                        updateSetting('extensionRepos', repos);
+                        requestManager.clearExtensionCache();
+                    }}
                     values={serverSettings?.extensionRepos}
                     addItemButtonTitle={t('extension.settings.repositories.custom.dialog.action.button.add')}
                     placeholder="https://github.com/MY_ACCOUNT/MY_REPO/tree/repo"
