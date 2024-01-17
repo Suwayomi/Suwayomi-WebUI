@@ -40,12 +40,19 @@ type Props =
     | (BaseProps & SingleModeProps & PropertiesNever<SelectModeProps>)
     | (BaseProps & PropertiesNever<SingleModeProps> & SelectModeProps);
 
-export const MangaActionMenuItems = ({ manga, handleSelection, selectedMangas = [], onClose, setHideMenu }: Props) => {
+export const MangaActionMenuItems = ({
+    manga,
+    handleSelection,
+    selectedMangas: passedSelectedMangas,
+    onClose,
+    setHideMenu,
+}: Props) => {
     const { t } = useTranslation();
 
     const [isCategorySelectOpen, setIsCategorySelectOpen] = useState(false);
 
     const isSingleMode = !!manga;
+    const selectedMangas = passedSelectedMangas ?? [];
 
     const getMenuItemTitle = createGetMenuItemTitle(isSingleMode, actionToTranslationKey);
     const shouldShowMenuItem = createShouldShowMenuItem(isSingleMode);
@@ -62,6 +69,7 @@ export const MangaActionMenuItems = ({ manga, handleSelection, selectedMangas = 
     };
 
     const performAction = (action: MangaAction, mangas: TManga[]) => {
+        console.log('MangaActionMenuItem', manga);
         Mangas.performAction(action, manga ? [manga.id] : Mangas.getIds(mangas), {
             wasManuallyMarkedAsRead: true,
         }).catch(defaultPromiseErrorHandler(`MangaActionMenuItems:performAction(${action})`));
@@ -143,7 +151,7 @@ export const MangaActionMenuItems = ({ manga, handleSelection, selectedMangas = 
                         onClose(true);
                     }}
                     mangaId={manga?.id as undefined} // either mangaId or mangaIds is undefined, however, ts is not able to infer it correctly and raises an error
-                    mangaIds={Mangas.getIds(selectedMangas)}
+                    mangaIds={(passedSelectedMangas ? Mangas.getIds(selectedMangas) : undefined) as number[]}
                 />
             )}
         </>
