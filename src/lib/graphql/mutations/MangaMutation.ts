@@ -75,6 +75,15 @@ export const UPDATE_MANGA = gql`
                 id
                 inLibrary
                 inLibraryAt
+                categories {
+                    nodes {
+                        id
+                        mangas {
+                            totalCount
+                        }
+                    }
+                    totalCount
+                }
             }
         }
     }
@@ -88,6 +97,15 @@ export const UPDATE_MANGAS = gql`
                 id
                 inLibrary
                 inLibraryAt
+                categories {
+                    nodes {
+                        id
+                        mangas {
+                            totalCount
+                        }
+                    }
+                    totalCount
+                }
             }
         }
     }
