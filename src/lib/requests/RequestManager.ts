@@ -1414,7 +1414,8 @@ export class RequestManager {
         );
 
         result.response.then(() => {
-            this.graphQLClient.client.cache.evict({ fieldName: 'mangas' });
+            this.graphQLClient.client.cache.evict({ broadcast: true, fieldName: 'categories' });
+            this.graphQLClient.client.cache.evict({ broadcast: true, fieldName: 'mangas' });
         });
 
         return result;
