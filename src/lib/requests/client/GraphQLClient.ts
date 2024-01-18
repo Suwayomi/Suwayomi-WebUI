@@ -160,6 +160,32 @@ export class GraphQLClient extends BaseClient<
         this.wsClient = createClient({
             url: () => this.getBaseUrl().replace(/http(|s)/g, 'ws'),
             keepAlive: 20000,
+            retryAttempts: Infinity,
+            retryWait: async (retries) => {
+                const getDelayInMS = () => {
+                    if (retries < 10) {
+                        return 1000 * 5;
+                    }
+
+                    if (retries < 50) {
+                        return 1000 * 10;
+                    }
+
+                    if (retries < 500) {
+                        return 1000 * 30;
+                    }
+
+                    if (retries < 1000) {
+                        return 1000 * 60;
+                    }
+
+                    return 1000 * 60 * 5;
+                };
+
+                await new Promise((resolve) => {
+                    setTimeout(resolve, getDelayInMS());
+                });
+            },
         });
 
         this.client = new ApolloClient({
