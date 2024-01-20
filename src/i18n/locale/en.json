@@ -596,7 +596,8 @@
         "reader_type": "Reader type",
         "show_page_number": "Show page number",
         "skip_dup_chapters": "Skip duplicate chapters",
-        "static_navigation": "Static navigation"
+        "static_navigation": "Static navigation",
+        "reader_width": "Reader width"
       },
       "reader_type": {
         "label": {

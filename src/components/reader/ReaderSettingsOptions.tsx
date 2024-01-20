@@ -10,10 +10,12 @@ import { List, ListItem, ListItemText, Switch } from '@mui/material';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { useTranslation } from 'react-i18next';
-import { IReaderSettings } from '@/typings';
+import { AllowedMetadataValueTypes, IReaderSettings } from '@/typings';
+import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
+import { isFillsPageReaderType } from '@/components/reader/Page.tsx';
 
 interface IProps extends IReaderSettings {
-    setSettingValue: (key: keyof IReaderSettings, value: string | boolean) => void;
+    setSettingValue: (key: keyof IReaderSettings, value: AllowedMetadataValueTypes) => void;
 }
 
 export function ReaderSettingsOptions({
@@ -25,15 +27,10 @@ export function ReaderSettingsOptions({
     setSettingValue,
     fitPageToWindow,
     offsetFirstPage,
+    readerWidth,
 }: IProps) {
     const { t } = useTranslation();
-    const fitPageToWindowEligible = [
-        'ContinuesVertical',
-        'Webtoon',
-        'SingleVertical',
-        'SingleRTL',
-        'SingleLTR',
-    ].includes(readerType);
+    const fitPageToWindowEligible = !isFillsPageReaderType(readerType);
     return (
         <List>
             <ListItem>
@@ -68,7 +65,7 @@ export function ReaderSettingsOptions({
                     onChange={(e) => setSettingValue('skipDupChapters', e.target.checked)}
                 />
             </ListItem>
-            {fitPageToWindowEligible ? (
+            {fitPageToWindowEligible && (
                 <ListItem>
                     <ListItemText primary={t('reader.settings.label.fit_page_to_window')} />
                     <Switch
@@ -77,8 +74,8 @@ export function ReaderSettingsOptions({
                         onChange={(e) => setSettingValue('fitPageToWindow', e.target.checked)}
                     />
                 </ListItem>
-            ) : null}
-            {readerType === 'DoubleLTR' || readerType === 'DoubleRTL' ? (
+            )}
+            {(readerType === 'DoubleLTR' || readerType === 'DoubleRTL') && (
                 <ListItem>
                     <ListItemText primary={t('reader.settings.label.offset_first_page')} />
                     <Switch
@@ -87,7 +84,22 @@ export function ReaderSettingsOptions({
                         onChange={(e) => setSettingValue('offsetFirstPage', e.target.checked)}
                     />
                 </ListItem>
-            ) : null}
+            )}
+            {fitPageToWindowEligible && !fitPageToWindow && (
+                <NumberSetting
+                    settingTitle={t('reader.settings.label.reader_width')}
+                    dialogTitle={t('reader.settings.label.reader_width')}
+                    settingValue={`${readerWidth}%`}
+                    value={readerWidth}
+                    minValue={10}
+                    maxValue={100}
+                    defaultValue={100}
+                    valueUnit="%"
+                    showSlider
+                    handleUpdate={(width: number) => setSettingValue('readerWidth', width)}
+                    listItemTextSx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
+                />
+            )}
             <ListItem>
                 <ListItemText primary={t('reader.settings.label.reader_type')} />
                 <Select

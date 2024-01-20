@@ -11,7 +11,15 @@ import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'r
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { ChapterOffset, IReaderSettings, ReaderType, TChapter, TManga, TranslationKey } from '@/typings';
+import {
+    AllowedMetadataValueTypes,
+    ChapterOffset,
+    IReaderSettings,
+    ReaderType,
+    TChapter,
+    TManga,
+    TranslationKey,
+} from '@/typings';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import {
     checkAndHandleMissingStoredReaderSettings,
@@ -227,7 +235,7 @@ export function Reader() {
             .response.catch();
     };
 
-    const setSettingValue = (key: keyof IReaderSettings, value: string | boolean) => {
+    const setSettingValue = (key: keyof IReaderSettings, value: AllowedMetadataValueTypes) => {
         setSettings({ ...settings, [key]: value });
         requestUpdateMangaMetadata(manga, [[key, value]]).catch(() =>
             makeToast(t('reader.settings.error.label.failed_to_save_settings'), 'warning'),

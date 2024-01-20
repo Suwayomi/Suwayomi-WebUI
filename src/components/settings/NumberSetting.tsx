@@ -10,7 +10,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
-import { InputAdornment, ListItemText, Stack, Typography } from '@mui/material';
+import { InputAdornment, ListItemText, Stack, SxProps, Typography, Theme } from '@mui/material';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import { useCallback, useEffect, useState } from 'react';
@@ -38,6 +38,7 @@ type BaseProps = {
     handleUpdate: (value: number) => void;
     showSlider?: never;
     disabled?: boolean;
+    listItemTextSx?: SxProps<Theme>;
 };
 
 type PropsWithSlider = Omit<BaseProps, 'defaultValue' | 'minValue' | 'maxValue' | 'showSlider'> &
@@ -61,6 +62,7 @@ export const NumberSetting = ({
     handleUpdate,
     showSlider,
     disabled = false,
+    listItemTextSx: sx,
 }: Props) => {
     const { t } = useTranslation();
 
@@ -107,6 +109,7 @@ export const NumberSetting = ({
                 <ListItemText
                     primary={settingTitle}
                     secondary={settingValue ?? t('global.label.loading')}
+                    sx={sx}
                     secondaryTypographyProps={{ style: { display: 'flex', flexDirection: 'column' } }}
                 />
             </ListItemButton>
@@ -150,7 +153,7 @@ export const NumberSetting = ({
                         }}
                         InputProps={{
                             inputProps: { min: minValue, max: maxValue, step: stepSize },
-                            startAdornment: <InputAdornment position="start">{valueUnit}</InputAdornment>,
+                            endAdornment: <InputAdornment position="end">{valueUnit}</InputAdornment>,
                         }}
                         autoFocus
                         value={dialogValue}

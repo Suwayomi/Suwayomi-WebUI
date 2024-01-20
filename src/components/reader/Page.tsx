@@ -8,8 +8,11 @@
 
 import { useState, useEffect, forwardRef, useRef } from 'react';
 import Box from '@mui/material/Box';
-import { IReaderSettings } from '@/typings';
+import { IReaderSettings, ReaderType } from '@/typings';
 import { SpinnerImage } from '@/components/util/SpinnerImage';
+
+export const isFillsPageReaderType = (readerType: ReaderType): boolean =>
+    ['DoubleRTL', 'DoubleLTR', 'ContinuesHorizontalLTR', 'ContinuesHorizontalRTL'].includes(readerType);
 
 function imageStyle(settings: IReaderSettings): any {
     const [dimensions, setDimensions] = useState({
@@ -29,13 +32,7 @@ function imageStyle(settings: IReaderSettings): any {
             window.removeEventListener('resize', handleResize);
         };
     }, []);
-    if (
-        settings.fitPageToWindow ||
-        settings.readerType === 'DoubleLTR' ||
-        settings.readerType === 'DoubleRTL' ||
-        settings.readerType === 'ContinuesHorizontalLTR' ||
-        settings.readerType === 'ContinuesHorizontalRTL'
-    ) {
+    if (settings.fitPageToWindow || isFillsPageReaderType(settings.readerType)) {
         return {
             display: 'block',
             marginLeft: '7px',
@@ -51,9 +48,11 @@ function imageStyle(settings: IReaderSettings): any {
     return {
         display: 'block',
         marginBottom: settings.readerType === 'ContinuesVertical' ? '15px' : 0,
-        minWidth: '50vw',
-        width: dimensions.width < dimensions.height ? '100vw' : '100%',
+        minWidth: '10vw',
+        width: dimensions.width < dimensions.height ? '100vw' : `${settings.readerWidth}%`,
         maxWidth: '100%',
+        marginLeft: 'auto',
+        marginRight: 'auto',
     };
 }
 

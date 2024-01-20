@@ -208,6 +208,7 @@ export interface IReaderSettings {
     fitPageToWindow: boolean;
     readerType: ReaderType;
     offsetFirstPage: boolean;
+    readerWidth: number;
 }
 
 export enum ChapterOffset {

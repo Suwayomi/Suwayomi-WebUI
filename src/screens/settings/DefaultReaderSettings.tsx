@@ -10,7 +10,7 @@ import { useContext, useEffect } from 'react';
 import { Box } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useTranslation } from 'react-i18next';
-import { IReaderSettings } from '@/typings';
+import { AllowedMetadataValueTypes, IReaderSettings } from '@/typings';
 import { convertToGqlMeta, requestUpdateServerMetadata } from '@/util/metadata';
 import {
     checkAndHandleMissingStoredReaderSettings,
@@ -34,7 +34,7 @@ export function DefaultReaderSettings() {
 
     useSetDefaultBackTo('settings');
 
-    const setSettingValue = (key: keyof IReaderSettings, value: string | boolean) => {
+    const setSettingValue = (key: keyof IReaderSettings, value: AllowedMetadataValueTypes) => {
         requestUpdateServerMetadata(convertToGqlMeta(metadata)! ?? {}, [[key, value]]).catch(() =>
             makeToast(t('reader.settings.error.label.failed_to_save_settings'), 'warning'),
         );
@@ -71,6 +71,7 @@ export function DefaultReaderSettings() {
             fitPageToWindow={settings.fitPageToWindow}
             readerType={settings.readerType}
             offsetFirstPage={settings.offsetFirstPage}
+            readerWidth={settings.readerWidth}
         />
     );
 }
