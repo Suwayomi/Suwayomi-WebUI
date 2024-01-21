@@ -23,7 +23,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
 import { useTranslation } from 'react-i18next';
-import { ChapterOffset, IReaderSettings, TChapter, TManga } from '@/typings';
+import { AllowedMetadataValueTypes, ChapterOffset, IReaderSettings, TChapter, TManga } from '@/typings';
 import { ReaderSettingsOptions } from '@/components/reader/ReaderSettingsOptions';
 
 const Root = styled('div')(({ theme }) => ({
@@ -112,7 +112,7 @@ const OpenDrawerButton = styled(IconButton)(({ theme }) => ({
 
 interface IProps {
     settings: IReaderSettings;
-    setSettingValue: (key: keyof IReaderSettings, value: string | boolean) => void;
+    setSettingValue: (key: keyof IReaderSettings, value: AllowedMetadataValueTypes) => void;
     manga: TManga;
     chapter: TChapter;
     curPage: number;
@@ -141,7 +141,7 @@ export function ReaderNavBar(props: IProps) {
 
     const disableChapterNavButtons = retrievingNextChapter;
 
-    const updateSettingValue = (key: keyof IReaderSettings, value: string | boolean) => {
+    const updateSettingValue = (key: keyof IReaderSettings, value: AllowedMetadataValueTypes) => {
         // prevent closing the navBar when updating the "staticNav" setting
         setUpdateDrawerOnRender(key !== 'staticNav');
         setSettingValue(key, value);
@@ -269,6 +269,7 @@ export function ReaderNavBar(props: IProps) {
                             fitPageToWindow={settings.fitPageToWindow}
                             readerType={settings.readerType}
                             offsetFirstPage={settings.offsetFirstPage}
+                            readerWidth={settings.readerWidth}
                         />
                     </Collapse>
                     <Divider sx={{ my: 1, mx: 2 }} />
