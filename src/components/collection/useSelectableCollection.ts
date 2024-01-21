@@ -48,7 +48,7 @@ export const useSelectableCollection = <Id extends number | string, Key extends 
         if (deselect) {
             setKeyToSelectedItemIds((prevState) => ({
                 ...prevState,
-                [key]: prevState[key].filter((selectedItemId) => selectedItemId !== id),
+                [key]: prevState[key]?.filter((selectedItemId) => selectedItemId !== id) ?? [],
             }));
             return;
         }
