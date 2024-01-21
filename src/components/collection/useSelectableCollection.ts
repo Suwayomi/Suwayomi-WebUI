@@ -19,6 +19,7 @@ export type SelectableCollectionReturnType<Id extends number | string, Key exten
     handleSelectAll: (selectAll: boolean, itemIds: Id[], key?: Key) => void;
     setSelectionForKey: (key: Key, itemIds: Id[]) => void;
     getSelectionForKey: (key: Key) => Id[];
+    clearSelection: () => void;
 };
 
 export const useSelectableCollection = <Id extends number | string, Key extends string = 'default'>(
@@ -35,7 +36,7 @@ export const useSelectableCollection = <Id extends number | string, Key extends 
 ): SelectableCollectionReturnType<Id, Key> => {
     const [keyToSelectedItemIds, setKeyToSelectedItemIds] = useState<Record<string, Id[]>>(initialState);
 
-    const selectedItemIds = Object.values(keyToSelectedItemIds).flat();
+    const selectedItemIds = [...new Set(Object.values(keyToSelectedItemIds).flat())];
     const areAllItemsSelected = selectedItemIds.length === totalCount;
     const areNoItemsSelected = !selectedItemIds.length;
 
@@ -48,7 +49,7 @@ export const useSelectableCollection = <Id extends number | string, Key extends 
         if (deselect) {
             setKeyToSelectedItemIds((prevState) => ({
                 ...prevState,
-                [key]: prevState[key].filter((selectedItemId) => selectedItemId !== id),
+                [key]: prevState[key]?.filter((selectedItemId) => selectedItemId !== id) ?? [],
             }));
             return;
         }
@@ -79,10 +80,17 @@ export const useSelectableCollection = <Id extends number | string, Key extends 
     };
 
     const setSelectionForKey = (key: Key, itemIds: Id[]) => {
-        keyToSelectedItemIds[key] = itemIds;
+        setKeyToSelectedItemIds((prevState) => ({
+            ...prevState,
+            [key]: [...itemIds],
+        }));
     };
 
     const getSelectionForKey = (key: Key) => keyToSelectedItemIds[key];
+
+    const clearSelection = () => {
+        setKeyToSelectedItemIds({});
+    };
 
     return {
         selectedItemIds,
@@ -95,5 +103,6 @@ export const useSelectableCollection = <Id extends number | string, Key extends 
         areNoItemsForKeySelected,
         setSelectionForKey,
         getSelectionForKey,
+        clearSelection,
     };
 };

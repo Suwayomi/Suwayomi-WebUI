@@ -69,7 +69,6 @@ export const MangaActionMenuItems = ({
     };
 
     const performAction = (action: MangaAction, mangas: TManga[]) => {
-        console.log('MangaActionMenuItem', manga);
         Mangas.performAction(action, manga ? [manga.id] : Mangas.getIds(mangas), {
             wasManuallyMarkedAsRead: true,
         }).catch(defaultPromiseErrorHandler(`MangaActionMenuItems:performAction(${action})`));
