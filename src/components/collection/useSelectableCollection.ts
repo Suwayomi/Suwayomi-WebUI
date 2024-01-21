@@ -79,7 +79,10 @@ export const useSelectableCollection = <Id extends number | string, Key extends 
     };
 
     const setSelectionForKey = (key: Key, itemIds: Id[]) => {
-        keyToSelectedItemIds[key] = itemIds;
+        setKeyToSelectedItemIds((prevState) => ({
+            ...prevState,
+            [key]: [...itemIds],
+        }));
     };
 
     const getSelectionForKey = (key: Key) => keyToSelectedItemIds[key];
