@@ -75,6 +75,7 @@ export function Library() {
         selectedItemIds,
         handleSelectAll,
         handleSelection,
+        clearSelection,
     } = useSelectableCollection<TManga['id'], string>(mangas.length, { currentKey: activeTab?.id.toString() });
 
     const handleSelect = (id: number, selected: boolean) => {
@@ -108,6 +109,9 @@ export function Library() {
                         onClose={(selectionModeState) => {
                             handleClose();
                             setIsSelectModeActive(selectionModeState);
+                            if (!selectionModeState) {
+                                clearSelection();
+                            }
                         }}
                         setHideMenu={setHideMenu}
                     />

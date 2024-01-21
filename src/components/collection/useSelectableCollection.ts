@@ -19,6 +19,7 @@ export type SelectableCollectionReturnType<Id extends number | string, Key exten
     handleSelectAll: (selectAll: boolean, itemIds: Id[], key?: Key) => void;
     setSelectionForKey: (key: Key, itemIds: Id[]) => void;
     getSelectionForKey: (key: Key) => Id[];
+    clearSelection: () => void;
 };
 
 export const useSelectableCollection = <Id extends number | string, Key extends string = 'default'>(
@@ -87,6 +88,10 @@ export const useSelectableCollection = <Id extends number | string, Key extends 
 
     const getSelectionForKey = (key: Key) => keyToSelectedItemIds[key];
 
+    const clearSelection = () => {
+        setKeyToSelectedItemIds({});
+    };
+
     return {
         selectedItemIds,
         keySelectedItemIds,
@@ -98,5 +103,6 @@ export const useSelectableCollection = <Id extends number | string, Key extends 
         areNoItemsForKeySelected,
         setSelectionForKey,
         getSelectionForKey,
+        clearSelection,
     };
 };
