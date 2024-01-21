@@ -29,6 +29,7 @@ export const FULL_CATEGORY_FIELDS = gql`
         default
         id
         includeInUpdate
+        includeInDownload
         name
         order
         meta {
@@ -46,6 +47,7 @@ export const UPDATER_CATEGORY_FIELDS = gql`
         id
         name
         includeInUpdate
+        includeInDownload
     }
 `;
 

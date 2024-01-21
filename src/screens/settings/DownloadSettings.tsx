@@ -20,6 +20,7 @@ import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
 import { convertToGqlMeta, requestUpdateServerMetadata } from '@/util/metadata.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { DeleteChaptersWhileReadingSetting } from '@/components/settings/downloads/DeleteChaptersWhileReadingSetting.tsx';
+import { CategoriesInclusionSetting } from '@/components/settings/CategoriesInclusionSetting.tsx';
 
 type DownloadSettingsType = Pick<
     ServerSettings,
@@ -146,6 +147,10 @@ export const DownloadSettings = () => {
                         disabled={!downloadSettings?.autoDownloadNewChapters}
                     />
                 </ListItem>
+                <CategoriesInclusionSetting
+                    includeField="includeInDownload"
+                    dialogText={t('download.settings.auto_download.categories.label.include_in_download')}
+                />
             </List>
             <List
                 subheader={

@@ -19,35 +19,35 @@ import Button from '@mui/material/Button';
 import { t as translate } from 'i18next';
 import { ThreeStateCheckboxInput } from '@/components/atoms/ThreeStateCheckboxInput.tsx';
 import { makeToast } from '@/components/util/Toast.tsx';
-import { IncludeInUpdate } from '@/lib/graphql/generated/graphql.ts';
+import { IncludeOrExclude } from '@/lib/graphql/generated/graphql.ts';
 import { TCategory } from '@/typings.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { CheckboxContainer } from '@/components/settings/globalUpdate/CheckboxContainer.ts';
 
-const booleanToIncludeInStatus = (status: boolean | null | undefined): IncludeInUpdate => {
+const booleanToIncludeOrExcludeStatus = (status: boolean | null | undefined): IncludeOrExclude => {
     switch (status) {
         case false:
-            return IncludeInUpdate.Exclude;
+            return IncludeOrExclude.Exclude;
         case true:
-            return IncludeInUpdate.Include;
+            return IncludeOrExclude.Include;
         case null:
         case undefined:
-            return IncludeInUpdate.Unset;
+            return IncludeOrExclude.Unset;
         default:
-            throw new Error(`booleanToIncludeInStatus: unexpected IncludeInUpdate status "${status}"`);
+            throw new Error(`booleanToIncludeInStatus: unexpected IncludeOrExclude status "${status}"`);
     }
 };
 
-const includeInUpdateStatusToBoolean = (status: IncludeInUpdate): boolean | null => {
+const includeInUpdateStatusToBoolean = (status: IncludeOrExclude): boolean | null => {
     switch (status) {
-        case IncludeInUpdate.Exclude:
+        case IncludeOrExclude.Exclude:
             return false;
-        case IncludeInUpdate.Include:
+        case IncludeOrExclude.Include:
             return true;
-        case IncludeInUpdate.Unset:
+        case IncludeOrExclude.Unset:
             return null;
         default:
-            throw new Error(`includeInUpdateStatusToBoolean: unexpected IncludeInUpdate status "${status}"`);
+            throw new Error(`includeInUpdateStatusToBoolean: unexpected IncludeOrExclude status "${status}"`);
     }
 };
 
@@ -78,9 +78,17 @@ const getCategoryUpdateInfo = (
     return categories.map((category) => category.name).join(', ');
 };
 
-export const GlobalUpdateSettingsCategories = () => {
+type CategoryIncludeField = keyof Pick<TCategory, 'includeInUpdate' | 'includeInDownload'>;
+
+type CategoriesInclusionSettingProps = {
+    includeField: CategoryIncludeField;
+    dialogText?: string;
+};
+
+export const CategoriesInclusionSetting = (props: CategoriesInclusionSettingProps) => {
     const { t } = useTranslation();
 
+    const { includeField, dialogText } = props;
     const { data, error: requestError } = requestManager.useGetCategories();
     const categories = data?.categories.nodes;
     const [dialogCategories, setDialogCategories] = useState<TCategory[]>(categories ?? []);
@@ -95,11 +103,11 @@ export const GlobalUpdateSettingsCategories = () => {
     }, [categories]);
 
     const unsetCategories: TCategory[] =
-        categories?.filter((category) => category.includeInUpdate === IncludeInUpdate.Unset) ?? [];
+        categories?.filter((category) => category[includeField] === IncludeOrExclude.Unset) ?? [];
     const excludedCategories: TCategory[] =
-        categories?.filter((category) => category.includeInUpdate === IncludeInUpdate.Exclude) ?? [];
+        categories?.filter((category) => category[includeField] === IncludeOrExclude.Exclude) ?? [];
     const includedCategories: TCategory[] =
-        categories?.filter((category) => category.includeInUpdate === IncludeInUpdate.Include) ?? [];
+        categories?.filter((category) => category[includeField] === IncludeOrExclude.Include) ?? [];
     const excludedCategoriesText = getCategoryUpdateInfo(
         excludedCategories,
         false,
@@ -116,7 +124,7 @@ export const GlobalUpdateSettingsCategories = () => {
     );
 
     const updateCategory = (category: TCategory) =>
-        requestManager.updateCategory(category.id, { includeInUpdate: category.includeInUpdate }).response;
+        requestManager.updateCategory(category.id, { [includeField]: category[includeField] }).response;
 
     const updateCategories = async () => {
         const categoriesToUpdate = dialogCategories.filter((category) => {
@@ -126,7 +134,7 @@ export const GlobalUpdateSettingsCategories = () => {
                 return false;
             }
 
-            return currentCategory.includeInUpdate !== category.includeInUpdate;
+            return currentCategory[includeField] !== category[includeField];
         });
 
         setIsDialogOpen(false);
@@ -154,12 +162,12 @@ export const GlobalUpdateSettingsCategories = () => {
                     secondary={
                         <>
                             <span>
-                                {t('library.settings.global_update.categories.label.include', {
+                                {t('category.settings.inclusion.label.include', {
                                     includedCategoriesText,
                                 })}
                             </span>
                             <span>
-                                {t('library.settings.global_update.categories.label.exclude', {
+                                {t('category.settings.inclusion.label.exclude', {
                                     excludedCategoriesText,
                                 })}
                             </span>
@@ -172,17 +180,15 @@ export const GlobalUpdateSettingsCategories = () => {
             <Dialog open={isDialogOpen} onClose={closeDialog}>
                 <DialogContent>
                     <DialogTitle sx={{ paddingLeft: 0 }}>{t('category.title.categories')}</DialogTitle>
-                    <DialogContentText sx={{ paddingBottom: '10px' }}>
-                        {t('library.settings.global_update.categories.label.info')}
-                    </DialogContentText>
+                    {dialogText && <DialogContentText sx={{ paddingBottom: '10px' }}>{dialogText}</DialogContentText>}
                     <CheckboxContainer>
                         {dialogCategories.map((category) => (
                             <ThreeStateCheckboxInput
                                 key={category.id}
                                 label={category.name}
-                                checked={includeInUpdateStatusToBoolean(category.includeInUpdate)}
+                                checked={includeInUpdateStatusToBoolean(category[includeField])}
                                 onChange={(checked) => {
-                                    const newIncludeState = booleanToIncludeInStatus(checked);
+                                    const newIncludeState = booleanToIncludeOrExcludeStatus(checked);
 
                                     const categoryIndex = dialogCategories.findIndex(
                                         (category_) => category_ === category,
@@ -191,7 +197,7 @@ export const GlobalUpdateSettingsCategories = () => {
                                         ...dialogCategories.slice(0, categoryIndex),
                                         {
                                             ...category,
-                                            includeInUpdate: newIncludeState,
+                                            [includeField]: newIncludeState,
                                         },
                                         ...dialogCategories.slice(categoryIndex + 1, dialogCategories.length),
                                     ];

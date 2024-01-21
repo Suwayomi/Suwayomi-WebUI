@@ -1846,6 +1846,7 @@ export class RequestManager {
             {
                 input: { id, patch },
                 getIncludeInUpdate: patch.includeInUpdate != null,
+                getIncludeInDownload: patch.includeInDownload != null,
                 getDefault: patch.default != null,
                 getName: patch.name != null,
             },

@@ -50,10 +50,11 @@ export type CategoryNodeListFieldPolicy = {
 	pageInfo?: FieldPolicy<any> | FieldReadFunction<any>,
 	totalCount?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type CategoryTypeKeySpecifier = ('default' | 'id' | 'includeInUpdate' | 'mangas' | 'meta' | 'name' | 'order' | CategoryTypeKeySpecifier)[];
+export type CategoryTypeKeySpecifier = ('default' | 'id' | 'includeInDownload' | 'includeInUpdate' | 'mangas' | 'meta' | 'name' | 'order' | CategoryTypeKeySpecifier)[];
 export type CategoryTypeFieldPolicy = {
 	default?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	includeInDownload?: FieldPolicy<any> | FieldReadFunction<any>,
 	includeInUpdate?: FieldPolicy<any> | FieldReadFunction<any>,
 	mangas?: FieldPolicy<any> | FieldReadFunction<any>,
 	meta?: FieldPolicy<any> | FieldReadFunction<any>,
