@@ -10,7 +10,7 @@ import List from '@mui/material/List';
 import ListSubheader from '@mui/material/ListSubheader';
 import { useTranslation } from 'react-i18next';
 import { ListItem, ListItemText, Switch } from '@mui/material';
-import { GlobalUpdateSettingsCategories } from '@/components/settings/globalUpdate/GlobalUpdateSettingsCategories.tsx';
+import { CategoriesInclusionSetting } from '@/components/settings/CategoriesInclusionSetting.tsx';
 import { GlobalUpdateSettingsEntries } from '@/components/settings/globalUpdate/GlobalUpdateSettingsEntries.tsx';
 import { GlobalUpdateSettingsInterval } from '@/components/settings/globalUpdate/GlobalUpdateSettingsInterval.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
@@ -47,7 +47,10 @@ export const GlobalUpdateSettings = () => {
         >
             <GlobalUpdateSettingsInterval />
             <GlobalUpdateSettingsEntries />
-            <GlobalUpdateSettingsCategories />
+            <CategoriesInclusionSetting
+                includeField="includeInUpdate"
+                dialogText={t('library.settings.global_update.categories.label.info')}
+            />
             <ListItem>
                 <ListItemText
                     primary={t('library.settings.global_update.metadata.label.title')}

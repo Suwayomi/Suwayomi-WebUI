@@ -74,6 +74,7 @@ export const UPDATE_CATEGORY = gql`
         $input: UpdateCategoryInput!
         $getDefault: Boolean!
         $getIncludeInUpdate: Boolean!
+        $getIncludeInDownload: Boolean!
         $getName: Boolean!
     ) {
         updateCategory(input: $input) {
@@ -82,6 +83,7 @@ export const UPDATE_CATEGORY = gql`
                 id
                 default @include(if: $getDefault)
                 includeInUpdate @include(if: $getIncludeInUpdate)
+                includeInDownload @include(if: $getIncludeInDownload)
                 name @include(if: $getName)
             }
         }
@@ -93,6 +95,7 @@ export const UPDATE_CATEGORIES = gql`
         $input: UpdateCategoriesInput!
         $getDefault: Boolean!
         $getIncludeInUpdate: Boolean!
+        $getIncludeInDownload: Boolean!
         $getName: Boolean!
     ) {
         updateCategories(input: $input) {
@@ -101,6 +104,7 @@ export const UPDATE_CATEGORIES = gql`
                 id
                 default @include(if: $getDefault)
                 includeInUpdate @include(if: $getIncludeInUpdate)
+                includeInDownload @include(if: $getIncludeInDownload)
                 name @include(if: $getName)
             }
         }

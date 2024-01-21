@@ -179,6 +179,7 @@ export interface ICategory {
     name: string;
     default: boolean;
     includeInUpdate: IncludeInGlobalUpdate;
+    includeInDownload: IncludeInGlobalUpdate;
     meta: Metadata;
     size: number;
 }
