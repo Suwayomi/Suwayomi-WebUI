@@ -36,6 +36,7 @@ import { ServerSettings } from '@/screens/settings/ServerSettings.tsx';
 import { ServerUpdateChecker } from '@/components/settings/ServerUpdateChecker.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { ExtensionSettings } from '@/screens/settings/ExtensionSettings.tsx';
+import { WebUISettings } from '@/screens/settings/WebUISettings.tsx';
 
 if (process.env.NODE_ENV !== 'production') {
     // Adds messages only in a dev environment
@@ -98,6 +99,7 @@ export const App: React.FC = () => (
                     <Route path="downloadSettings" element={<DownloadSettings />} />
                     <Route path="backup" element={<Backup />} />
                     <Route path="server" element={<ServerSettings />} />
+                    <Route path="webUI" element={<WebUISettings />} />
                     <Route path="extensionSettings" element={<ExtensionSettings />} />
                 </Route>
 
