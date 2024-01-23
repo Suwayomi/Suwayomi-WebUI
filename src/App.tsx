@@ -123,6 +123,7 @@ export const App: React.FC = () => (
                 <Route path="browse" element={<Browse />} />
                 <Route path="migrate/source/:sourceId">
                     <Route index element={<Migrate />} />
+                    <Route path="manga/:mangaId/search" element={<SearchAll />} />
                 </Route>
             </Routes>
         </Container>

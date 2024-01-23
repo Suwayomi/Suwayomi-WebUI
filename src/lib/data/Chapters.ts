@@ -78,6 +78,7 @@ export type ChapterIdInfo = Pick<TChapter, 'id'>;
 export type ChapterDownloadInfo = ChapterIdInfo & Pick<TChapter, 'isDownloaded'>;
 export type ChapterBookmarkInfo = ChapterIdInfo & Pick<TChapter, 'isBookmarked'>;
 export type ChapterReadInfo = ChapterIdInfo & Pick<TChapter, 'isRead'>;
+export type ChapterNumberInfo = ChapterIdInfo & Pick<TChapter, 'chapterNumber'>;
 
 export class Chapters {
     static getIds(chapters: { id: number }[]): number[] {
@@ -128,6 +129,23 @@ export class Chapters {
 
     static getNonRead<Chapter extends ChapterReadInfo>(chapters: Chapter[]): Chapter[] {
         return chapters.filter((chapter) => !Chapters.isRead(chapter));
+    }
+
+    static getMatchingChapterNumberChapters<Chapter extends ChapterNumberInfo>(
+        chaptersA: Chapter[],
+        chaptersB: Chapter[],
+    ): [ChapterA: Chapter, ChapterB: Chapter][] {
+        return chaptersA
+            .map((chapterA) => {
+                const matchingChapter = chaptersB.find((chapterB) => chapterA.chapterNumber === chapterB.chapterNumber);
+
+                if (!matchingChapter) {
+                    return null;
+                }
+
+                return [chapterA, matchingChapter];
+            })
+            .filter((matchingChapters) => matchingChapters !== null) as [Chapter, Chapter][];
     }
 
     static async download(chapterIds: number[]): Promise<void> {

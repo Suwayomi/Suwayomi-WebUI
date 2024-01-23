@@ -52,7 +52,8 @@ export type BackupRestoreStatus = {
 export type BindTrackInput = {
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
   mangaId: Scalars['Int']['input'];
-  trackSearchId: Scalars['Int']['input'];
+  remoteId: Scalars['LongString']['input'];
+  trackerId: Scalars['Int']['input'];
 };
 
 export type BindTrackPayload = {
@@ -1369,6 +1370,11 @@ export type PartialSettingsType = Settings & {
   excludeNotStarted?: Maybe<Scalars['Boolean']['output']>;
   excludeUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
   extensionRepos?: Maybe<Array<Scalars['String']['output']>>;
+  flareSolverrEnabled?: Maybe<Scalars['Boolean']['output']>;
+  flareSolverrSessionName?: Maybe<Scalars['String']['output']>;
+  flareSolverrSessionTtl?: Maybe<Scalars['Int']['output']>;
+  flareSolverrTimeout?: Maybe<Scalars['Int']['output']>;
+  flareSolverrUrl?: Maybe<Scalars['String']['output']>;
   globalUpdateInterval?: Maybe<Scalars['Float']['output']>;
   gqlDebugLogsEnabled?: Maybe<Scalars['Boolean']['output']>;
   initialOpenInBrowserEnabled?: Maybe<Scalars['Boolean']['output']>;
@@ -1406,6 +1412,11 @@ export type PartialSettingsTypeInput = {
   excludeNotStarted?: InputMaybe<Scalars['Boolean']['input']>;
   excludeUnreadChapters?: InputMaybe<Scalars['Boolean']['input']>;
   extensionRepos?: InputMaybe<Array<Scalars['String']['input']>>;
+  flareSolverrEnabled?: InputMaybe<Scalars['Boolean']['input']>;
+  flareSolverrSessionName?: InputMaybe<Scalars['String']['input']>;
+  flareSolverrSessionTtl?: InputMaybe<Scalars['Int']['input']>;
+  flareSolverrTimeout?: InputMaybe<Scalars['Int']['input']>;
+  flareSolverrUrl?: InputMaybe<Scalars['String']['input']>;
   globalUpdateInterval?: InputMaybe<Scalars['Float']['input']>;
   gqlDebugLogsEnabled?: InputMaybe<Scalars['Boolean']['input']>;
   initialOpenInBrowserEnabled?: InputMaybe<Scalars['Boolean']['input']>;
@@ -1746,6 +1757,11 @@ export type Settings = {
   excludeNotStarted?: Maybe<Scalars['Boolean']['output']>;
   excludeUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
   extensionRepos?: Maybe<Array<Scalars['String']['output']>>;
+  flareSolverrEnabled?: Maybe<Scalars['Boolean']['output']>;
+  flareSolverrSessionName?: Maybe<Scalars['String']['output']>;
+  flareSolverrSessionTtl?: Maybe<Scalars['Int']['output']>;
+  flareSolverrTimeout?: Maybe<Scalars['Int']['output']>;
+  flareSolverrUrl?: Maybe<Scalars['String']['output']>;
   globalUpdateInterval?: Maybe<Scalars['Float']['output']>;
   gqlDebugLogsEnabled?: Maybe<Scalars['Boolean']['output']>;
   initialOpenInBrowserEnabled?: Maybe<Scalars['Boolean']['output']>;
@@ -1784,6 +1800,11 @@ export type SettingsType = Settings & {
   excludeNotStarted: Scalars['Boolean']['output'];
   excludeUnreadChapters: Scalars['Boolean']['output'];
   extensionRepos: Array<Scalars['String']['output']>;
+  flareSolverrEnabled: Scalars['Boolean']['output'];
+  flareSolverrSessionName: Scalars['String']['output'];
+  flareSolverrSessionTtl: Scalars['Int']['output'];
+  flareSolverrTimeout: Scalars['Int']['output'];
+  flareSolverrUrl: Scalars['String']['output'];
   globalUpdateInterval: Scalars['Float']['output'];
   gqlDebugLogsEnabled: Scalars['Boolean']['output'];
   initialOpenInBrowserEnabled: Scalars['Boolean']['output'];
@@ -2070,6 +2091,12 @@ export type TrackSearchType = {
   trackingUrl: Scalars['String']['output'];
 };
 
+export type TrackStatusType = {
+  __typename?: 'TrackStatusType';
+  name: Scalars['String']['output'];
+  value: Scalars['Int']['output'];
+};
+
 export type TrackerConditionInput = {
   icon?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['Int']['input']>;
@@ -2104,6 +2131,8 @@ export type TrackerType = {
   id: Scalars['Int']['output'];
   isLoggedIn: Scalars['Boolean']['output'];
   name: Scalars['String']['output'];
+  scores: Array<Scalars['String']['output']>;
+  statuses: Array<TrackStatusType>;
   trackRecords: TrackRecordNodeList;
 };
 
@@ -2744,6 +2773,15 @@ export type GetMangaFetchMutationVariables = Exact<{
 
 export type GetMangaFetchMutation = { __typename?: 'Mutation', fetchManga: { __typename?: 'FetchMangaPayload', clientMutationId?: string | null, manga: { __typename?: 'MangaType', unreadCount: number, downloadCount: number, artist?: string | null, author?: string | null, chaptersLastFetchedAt?: any | null, description?: string | null, genre: Array<string>, id: number, inLibrary: boolean, inLibraryAt: any, initialized: boolean, lastFetchedAt?: any | null, realUrl?: string | null, status: MangaStatus, thumbnailUrl?: string | null, title: string, url: string, lastReadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestReadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestFetchedChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestUploadedChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', default: boolean, id: number, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude, name: string, order: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }>, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> }, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, source?: { __typename?: 'SourceType', displayName: string, iconUrl: string, id: any, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } } | null } } };
 
+export type GetMangaToMigrateToFetchMutationVariables = Exact<{
+  id: Scalars['Int']['input'];
+  migrateChapters: Scalars['Boolean']['input'];
+  migrateCategories: Scalars['Boolean']['input'];
+}>;
+
+
+export type GetMangaToMigrateToFetchMutation = { __typename?: 'Mutation', fetchManga: { __typename?: 'FetchMangaPayload', clientMutationId?: string | null, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, categories?: { __typename?: 'CategoryNodeList', nodes: Array<{ __typename?: 'CategoryType', id: number }> } } }, fetchChapters?: { __typename?: 'FetchChaptersPayload', chapters: Array<{ __typename?: 'ChapterType', id: number, chapterNumber: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean, manga: { __typename?: 'MangaType', id: number } }> } };
+
 export type SetMangaMetadataMutationVariables = Exact<{
   input: SetMangaMetaInput;
 }>;
@@ -2971,6 +3009,15 @@ export type GetMangaQueryVariables = Exact<{
 
 export type GetMangaQuery = { __typename?: 'Query', manga: { __typename?: 'MangaType', unreadCount: number, downloadCount: number, artist?: string | null, author?: string | null, chaptersLastFetchedAt?: any | null, description?: string | null, genre: Array<string>, id: number, inLibrary: boolean, inLibraryAt: any, initialized: boolean, lastFetchedAt?: any | null, realUrl?: string | null, status: MangaStatus, thumbnailUrl?: string | null, title: string, url: string, lastReadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestReadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestFetchedChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestUploadedChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', default: boolean, id: number, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude, name: string, order: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }>, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> }, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, source?: { __typename?: 'SourceType', displayName: string, iconUrl: string, id: any, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } } | null } };
 
+export type GetMangaToMigrateQueryVariables = Exact<{
+  id: Scalars['Int']['input'];
+  migrateChapters: Scalars['Boolean']['input'];
+  migrateCategories: Scalars['Boolean']['input'];
+}>;
+
+
+export type GetMangaToMigrateQuery = { __typename?: 'Query', manga: { __typename?: 'MangaType', id: number, inLibrary: boolean, title: string, chapters?: { __typename?: 'ChapterNodeList', totalCount: number, nodes: Array<{ __typename?: 'ChapterType', id: number, chapterNumber: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean, manga: { __typename?: 'MangaType', id: number } }> }, categories?: { __typename?: 'CategoryNodeList', nodes: Array<{ __typename?: 'CategoryType', id: number }> } } };
+
 export type GetMangasQueryVariables = Exact<{
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
@@ -2991,7 +3038,7 @@ export type GetMigratableSourceMangasQueryVariables = Exact<{
 }>;
 
 
-export type GetMigratableSourceMangasQuery = { __typename?: 'Query', mangas: { __typename?: 'MangaNodeList', nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null, source?: { __typename?: 'SourceType', id: any } | null }> } };
+export type GetMigratableSourceMangasQuery = { __typename?: 'Query', mangas: { __typename?: 'MangaNodeList', nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null, source?: { __typename?: 'SourceType', id: any } | null, categories: { __typename?: 'CategoryNodeList', nodes: Array<{ __typename?: 'CategoryType', id: number }> } }> } };
 
 export type GetAboutQueryVariables = Exact<{ [key: string]: never; }>;
 

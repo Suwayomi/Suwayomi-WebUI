@@ -508,7 +508,7 @@ export type PageInfoFieldPolicy = {
 	hasPreviousPage?: FieldPolicy<any> | FieldReadFunction<any>,
 	startCursor?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type PartialSettingsTypeKeySpecifier = ('autoDownloadAheadLimit' | 'autoDownloadNewChapters' | 'backupInterval' | 'backupPath' | 'backupTTL' | 'backupTime' | 'basicAuthEnabled' | 'basicAuthPassword' | 'basicAuthUsername' | 'debugLogsEnabled' | 'downloadAsCbz' | 'downloadsPath' | 'electronPath' | 'excludeCompleted' | 'excludeEntryWithUnreadChapters' | 'excludeNotStarted' | 'excludeUnreadChapters' | 'extensionRepos' | 'globalUpdateInterval' | 'gqlDebugLogsEnabled' | 'initialOpenInBrowserEnabled' | 'ip' | 'localSourcePath' | 'maxSourcesInParallel' | 'port' | 'socksProxyEnabled' | 'socksProxyHost' | 'socksProxyPort' | 'systemTrayEnabled' | 'updateMangas' | 'webUIChannel' | 'webUIFlavor' | 'webUIInterface' | 'webUIUpdateCheckInterval' | PartialSettingsTypeKeySpecifier)[];
+export type PartialSettingsTypeKeySpecifier = ('autoDownloadAheadLimit' | 'autoDownloadNewChapters' | 'backupInterval' | 'backupPath' | 'backupTTL' | 'backupTime' | 'basicAuthEnabled' | 'basicAuthPassword' | 'basicAuthUsername' | 'debugLogsEnabled' | 'downloadAsCbz' | 'downloadsPath' | 'electronPath' | 'excludeCompleted' | 'excludeEntryWithUnreadChapters' | 'excludeNotStarted' | 'excludeUnreadChapters' | 'extensionRepos' | 'flareSolverrEnabled' | 'flareSolverrSessionName' | 'flareSolverrSessionTtl' | 'flareSolverrTimeout' | 'flareSolverrUrl' | 'globalUpdateInterval' | 'gqlDebugLogsEnabled' | 'initialOpenInBrowserEnabled' | 'ip' | 'localSourcePath' | 'maxSourcesInParallel' | 'port' | 'socksProxyEnabled' | 'socksProxyHost' | 'socksProxyPort' | 'systemTrayEnabled' | 'updateMangas' | 'webUIChannel' | 'webUIFlavor' | 'webUIInterface' | 'webUIUpdateCheckInterval' | PartialSettingsTypeKeySpecifier)[];
 export type PartialSettingsTypeFieldPolicy = {
 	autoDownloadAheadLimit?: FieldPolicy<any> | FieldReadFunction<any>,
 	autoDownloadNewChapters?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -528,6 +528,11 @@ export type PartialSettingsTypeFieldPolicy = {
 	excludeNotStarted?: FieldPolicy<any> | FieldReadFunction<any>,
 	excludeUnreadChapters?: FieldPolicy<any> | FieldReadFunction<any>,
 	extensionRepos?: FieldPolicy<any> | FieldReadFunction<any>,
+	flareSolverrEnabled?: FieldPolicy<any> | FieldReadFunction<any>,
+	flareSolverrSessionName?: FieldPolicy<any> | FieldReadFunction<any>,
+	flareSolverrSessionTtl?: FieldPolicy<any> | FieldReadFunction<any>,
+	flareSolverrTimeout?: FieldPolicy<any> | FieldReadFunction<any>,
+	flareSolverrUrl?: FieldPolicy<any> | FieldReadFunction<any>,
 	globalUpdateInterval?: FieldPolicy<any> | FieldReadFunction<any>,
 	gqlDebugLogsEnabled?: FieldPolicy<any> | FieldReadFunction<any>,
 	initialOpenInBrowserEnabled?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -631,7 +636,7 @@ export type SetSettingsPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	settings?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type SettingsKeySpecifier = ('autoDownloadAheadLimit' | 'autoDownloadNewChapters' | 'backupInterval' | 'backupPath' | 'backupTTL' | 'backupTime' | 'basicAuthEnabled' | 'basicAuthPassword' | 'basicAuthUsername' | 'debugLogsEnabled' | 'downloadAsCbz' | 'downloadsPath' | 'electronPath' | 'excludeCompleted' | 'excludeEntryWithUnreadChapters' | 'excludeNotStarted' | 'excludeUnreadChapters' | 'extensionRepos' | 'globalUpdateInterval' | 'gqlDebugLogsEnabled' | 'initialOpenInBrowserEnabled' | 'ip' | 'localSourcePath' | 'maxSourcesInParallel' | 'port' | 'socksProxyEnabled' | 'socksProxyHost' | 'socksProxyPort' | 'systemTrayEnabled' | 'updateMangas' | 'webUIChannel' | 'webUIFlavor' | 'webUIInterface' | 'webUIUpdateCheckInterval' | SettingsKeySpecifier)[];
+export type SettingsKeySpecifier = ('autoDownloadAheadLimit' | 'autoDownloadNewChapters' | 'backupInterval' | 'backupPath' | 'backupTTL' | 'backupTime' | 'basicAuthEnabled' | 'basicAuthPassword' | 'basicAuthUsername' | 'debugLogsEnabled' | 'downloadAsCbz' | 'downloadsPath' | 'electronPath' | 'excludeCompleted' | 'excludeEntryWithUnreadChapters' | 'excludeNotStarted' | 'excludeUnreadChapters' | 'extensionRepos' | 'flareSolverrEnabled' | 'flareSolverrSessionName' | 'flareSolverrSessionTtl' | 'flareSolverrTimeout' | 'flareSolverrUrl' | 'globalUpdateInterval' | 'gqlDebugLogsEnabled' | 'initialOpenInBrowserEnabled' | 'ip' | 'localSourcePath' | 'maxSourcesInParallel' | 'port' | 'socksProxyEnabled' | 'socksProxyHost' | 'socksProxyPort' | 'systemTrayEnabled' | 'updateMangas' | 'webUIChannel' | 'webUIFlavor' | 'webUIInterface' | 'webUIUpdateCheckInterval' | SettingsKeySpecifier)[];
 export type SettingsFieldPolicy = {
 	autoDownloadAheadLimit?: FieldPolicy<any> | FieldReadFunction<any>,
 	autoDownloadNewChapters?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -651,6 +656,11 @@ export type SettingsFieldPolicy = {
 	excludeNotStarted?: FieldPolicy<any> | FieldReadFunction<any>,
 	excludeUnreadChapters?: FieldPolicy<any> | FieldReadFunction<any>,
 	extensionRepos?: FieldPolicy<any> | FieldReadFunction<any>,
+	flareSolverrEnabled?: FieldPolicy<any> | FieldReadFunction<any>,
+	flareSolverrSessionName?: FieldPolicy<any> | FieldReadFunction<any>,
+	flareSolverrSessionTtl?: FieldPolicy<any> | FieldReadFunction<any>,
+	flareSolverrTimeout?: FieldPolicy<any> | FieldReadFunction<any>,
+	flareSolverrUrl?: FieldPolicy<any> | FieldReadFunction<any>,
 	globalUpdateInterval?: FieldPolicy<any> | FieldReadFunction<any>,
 	gqlDebugLogsEnabled?: FieldPolicy<any> | FieldReadFunction<any>,
 	initialOpenInBrowserEnabled?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -668,7 +678,7 @@ export type SettingsFieldPolicy = {
 	webUIInterface?: FieldPolicy<any> | FieldReadFunction<any>,
 	webUIUpdateCheckInterval?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type SettingsTypeKeySpecifier = ('autoDownloadAheadLimit' | 'autoDownloadNewChapters' | 'backupInterval' | 'backupPath' | 'backupTTL' | 'backupTime' | 'basicAuthEnabled' | 'basicAuthPassword' | 'basicAuthUsername' | 'debugLogsEnabled' | 'downloadAsCbz' | 'downloadsPath' | 'electronPath' | 'excludeCompleted' | 'excludeEntryWithUnreadChapters' | 'excludeNotStarted' | 'excludeUnreadChapters' | 'extensionRepos' | 'globalUpdateInterval' | 'gqlDebugLogsEnabled' | 'initialOpenInBrowserEnabled' | 'ip' | 'localSourcePath' | 'maxSourcesInParallel' | 'port' | 'socksProxyEnabled' | 'socksProxyHost' | 'socksProxyPort' | 'systemTrayEnabled' | 'updateMangas' | 'webUIChannel' | 'webUIFlavor' | 'webUIInterface' | 'webUIUpdateCheckInterval' | SettingsTypeKeySpecifier)[];
+export type SettingsTypeKeySpecifier = ('autoDownloadAheadLimit' | 'autoDownloadNewChapters' | 'backupInterval' | 'backupPath' | 'backupTTL' | 'backupTime' | 'basicAuthEnabled' | 'basicAuthPassword' | 'basicAuthUsername' | 'debugLogsEnabled' | 'downloadAsCbz' | 'downloadsPath' | 'electronPath' | 'excludeCompleted' | 'excludeEntryWithUnreadChapters' | 'excludeNotStarted' | 'excludeUnreadChapters' | 'extensionRepos' | 'flareSolverrEnabled' | 'flareSolverrSessionName' | 'flareSolverrSessionTtl' | 'flareSolverrTimeout' | 'flareSolverrUrl' | 'globalUpdateInterval' | 'gqlDebugLogsEnabled' | 'initialOpenInBrowserEnabled' | 'ip' | 'localSourcePath' | 'maxSourcesInParallel' | 'port' | 'socksProxyEnabled' | 'socksProxyHost' | 'socksProxyPort' | 'systemTrayEnabled' | 'updateMangas' | 'webUIChannel' | 'webUIFlavor' | 'webUIInterface' | 'webUIUpdateCheckInterval' | SettingsTypeKeySpecifier)[];
 export type SettingsTypeFieldPolicy = {
 	autoDownloadAheadLimit?: FieldPolicy<any> | FieldReadFunction<any>,
 	autoDownloadNewChapters?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -688,6 +698,11 @@ export type SettingsTypeFieldPolicy = {
 	excludeNotStarted?: FieldPolicy<any> | FieldReadFunction<any>,
 	excludeUnreadChapters?: FieldPolicy<any> | FieldReadFunction<any>,
 	extensionRepos?: FieldPolicy<any> | FieldReadFunction<any>,
+	flareSolverrEnabled?: FieldPolicy<any> | FieldReadFunction<any>,
+	flareSolverrSessionName?: FieldPolicy<any> | FieldReadFunction<any>,
+	flareSolverrSessionTtl?: FieldPolicy<any> | FieldReadFunction<any>,
+	flareSolverrTimeout?: FieldPolicy<any> | FieldReadFunction<any>,
+	flareSolverrUrl?: FieldPolicy<any> | FieldReadFunction<any>,
 	globalUpdateInterval?: FieldPolicy<any> | FieldReadFunction<any>,
 	gqlDebugLogsEnabled?: FieldPolicy<any> | FieldReadFunction<any>,
 	initialOpenInBrowserEnabled?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -819,6 +834,11 @@ export type TrackSearchTypeFieldPolicy = {
 	trackerId?: FieldPolicy<any> | FieldReadFunction<any>,
 	trackingUrl?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type TrackStatusTypeKeySpecifier = ('name' | 'value' | TrackStatusTypeKeySpecifier)[];
+export type TrackStatusTypeFieldPolicy = {
+	name?: FieldPolicy<any> | FieldReadFunction<any>,
+	value?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type TrackerEdgeKeySpecifier = ('cursor' | 'node' | TrackerEdgeKeySpecifier)[];
 export type TrackerEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -831,13 +851,15 @@ export type TrackerNodeListFieldPolicy = {
 	pageInfo?: FieldPolicy<any> | FieldReadFunction<any>,
 	totalCount?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type TrackerTypeKeySpecifier = ('authUrl' | 'icon' | 'id' | 'isLoggedIn' | 'name' | 'trackRecords' | TrackerTypeKeySpecifier)[];
+export type TrackerTypeKeySpecifier = ('authUrl' | 'icon' | 'id' | 'isLoggedIn' | 'name' | 'scores' | 'statuses' | 'trackRecords' | TrackerTypeKeySpecifier)[];
 export type TrackerTypeFieldPolicy = {
 	authUrl?: FieldPolicy<any> | FieldReadFunction<any>,
 	icon?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	isLoggedIn?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
+	scores?: FieldPolicy<any> | FieldReadFunction<any>,
+	statuses?: FieldPolicy<any> | FieldReadFunction<any>,
 	trackRecords?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type TriStateFilterKeySpecifier = ('default' | 'name' | TriStateFilterKeySpecifier)[];
@@ -1351,6 +1373,10 @@ export type StrictTypedTypePolicies = {
 	TrackSearchType?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | TrackSearchTypeKeySpecifier | (() => undefined | TrackSearchTypeKeySpecifier),
 		fields?: TrackSearchTypeFieldPolicy,
+	},
+	TrackStatusType?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | TrackStatusTypeKeySpecifier | (() => undefined | TrackStatusTypeKeySpecifier),
+		fields?: TrackStatusTypeFieldPolicy,
 	},
 	TrackerEdge?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | TrackerEdgeKeySpecifier | (() => undefined | TrackerEdgeKeySpecifier),

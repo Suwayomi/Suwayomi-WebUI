@@ -104,6 +104,7 @@ export const Migrate = () => {
             isLoading={areMangasLoading}
             mangas={(migratableSourceMangasData?.mangas.nodes ?? []) as TPartialManga[]}
             gridLayout={gridLayout}
+            mode="migrate.search"
         />
     );
 };

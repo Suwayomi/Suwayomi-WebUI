@@ -21,6 +21,35 @@ export const GET_MANGA = gql`
 `;
 
 // returns the current manga from the database
+export const GET_MANGA_TO_MIGRATE = gql`
+    query GET_MANGA_TO_MIGRATE($id: Int!, $migrateChapters: Boolean!, $migrateCategories: Boolean!) {
+        manga(id: $id) {
+            id
+            inLibrary
+            title
+            chapters @include(if: $migrateChapters) {
+                nodes {
+                    id
+                    manga {
+                        id
+                    }
+                    chapterNumber
+                    isRead
+                    isDownloaded
+                    isBookmarked
+                }
+                totalCount
+            }
+            categories @include(if: $migrateCategories) {
+                nodes {
+                    id
+                }
+            }
+        }
+    }
+`;
+
+// returns the current manga from the database
 export const GET_MANGAS = gql`
     ${FULL_MANGA_FIELDS}
     ${FULL_CHAPTER_FIELDS}
@@ -67,6 +96,11 @@ export const GET_MIGRATABLE_SOURCE_MANGAS = gql`
                 thumbnailUrl
                 source {
                     id
+                }
+                categories {
+                    nodes {
+                        id
+                    }
                 }
             }
         }

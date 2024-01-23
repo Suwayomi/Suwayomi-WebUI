@@ -48,7 +48,7 @@ export function Categories() {
 
     const { setTitle, setAction } = useContext(NavBarContext);
     useEffect(() => {
-        setTitle(t('category.title.categories'));
+        setTitle(t('category.title.category_other'));
         setAction(null);
 
         return () => {

@@ -22,10 +22,6 @@
       "category_name": "Category Name",
       "use_as_default_category": "Default category when adding new manga to the library"
     },
-    "title": {
-      "categories": "Categories",
-      "set_categories": "Set categories"
-    },
     "settings": {
       "inclusion": {
         "label": {
@@ -33,6 +29,11 @@
           "include": "Include: {{includedCategoriesText}}"
         }
       }
+    },
+    "title": {
+      "category_one": "Category",
+      "category_other": "Categories",
+      "set_categories": "Set categories"
     }
   },
   "chapter": {
@@ -161,14 +162,14 @@
     },
     "settings": {
       "auto_download": {
-        "label": {
-          "ignore_with_unread_chapters": "Ignore automatic chapter downloads for entries with unread chapters",
-          "new_chapters": "Download new chapters"
-        },
         "categories": {
           "label": {
             "include_in_download": "Entries in excluded categories will not be downloaded even if they are also in included categories"
           }
+        },
+        "label": {
+          "ignore_with_unread_chapters": "Ignore automatic chapter downloads for entries with unread chapters",
+          "new_chapters": "Download new chapters"
         },
         "title": "Auto-download"
       },
@@ -289,10 +290,12 @@
       "browse": "Browse",
       "cancel": "Cancel",
       "clear": "Clear",
+      "copy": "Copy",
       "deselect": "Deselect",
       "edit": "Edit",
       "filter": "Filter",
       "latest": "Latest",
+      "migrate": "Migrate",
       "ok": "Ok",
       "open_site": "Open Site",
       "options": "Options",
@@ -549,6 +552,12 @@
             "success_other": "Removed {{count}} manga from the library"
           }
         }
+      },
+      "migrate": {
+        "label": {
+          "error": "Could not migrate manga",
+          "success": "Successfully migrated manga"
+        }
       }
     },
     "button": {
@@ -574,6 +583,20 @@
     "title_other": "Manga"
   },
   "migrate": {
+    "dialog": {
+      "action": {
+        "button": {
+          "show_entry": "Show entry"
+        }
+      },
+      "title": "Select data to include"
+    },
+    "label": {
+      "info": "Migrating manga…"
+    },
+    "search": {
+      "title": "$t(migrate.title) \"{{title}}\""
+    },
     "title": "Migrate"
   },
   "reader": {
@@ -608,10 +631,10 @@
         "load_next_chapter": "Load next chapter at ending",
         "offset_first_page": "Offset first page",
         "reader_type": "Reader type",
+        "reader_width": "Reader width",
         "show_page_number": "Show page number",
         "skip_dup_chapters": "Skip duplicate chapters",
-        "static_navigation": "Static navigation",
-        "reader_width": "Reader width"
+        "static_navigation": "Static navigation"
       },
       "reader_type": {
         "label": {
