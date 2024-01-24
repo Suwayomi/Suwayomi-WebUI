@@ -178,7 +178,6 @@ export function DoublePagedPager(props: IReaderProps) {
                     margin: '0 auto',
                     width: 'auto',
                     height: 'auto',
-                    overflowX: 'scroll',
                 }}
             >
                 {getPagesToDisplay() === 2 ? (

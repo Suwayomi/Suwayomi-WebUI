@@ -11,10 +11,10 @@ import Box from '@mui/material/Box';
 import { IReaderSettings, ReaderType } from '@/typings';
 import { SpinnerImage } from '@/components/util/SpinnerImage';
 
-export const isFillsPageReaderType = (readerType: ReaderType): boolean =>
-    ['DoubleRTL', 'DoubleLTR', 'ContinuesHorizontalLTR', 'ContinuesHorizontalRTL'].includes(readerType);
+export const isHorizontalReaderType = (readerType: ReaderType): boolean =>
+    ['ContinuesHorizontalLTR', 'ContinuesHorizontalRTL'].includes(readerType);
 
-function imageStyle(settings: IReaderSettings): any {
+export function imageStyle(settings: IReaderSettings): any {
     const [dimensions, setDimensions] = useState({
         height: window.innerHeight,
         width: window.innerWidth,
@@ -32,10 +32,12 @@ function imageStyle(settings: IReaderSettings): any {
             window.removeEventListener('resize', handleResize);
         };
     }, []);
-    if (settings.fitPageToWindow || isFillsPageReaderType(settings.readerType)) {
+
+    const isHorizontal = isHorizontalReaderType(settings.readerType);
+    if (settings.fitPageToWindow || isHorizontal) {
         return {
-            marginLeft: '7px',
-            marginRight: '7px',
+            marginLeft: isHorizontal ? '7px' : 0,
+            marginRight: isHorizontal ? '7px' : 0,
             width: 'auto',
             minHeight: '99vh',
             height: 'auto',
