@@ -26,7 +26,11 @@ import { useTranslation } from 'react-i18next';
 import { AllowedMetadataValueTypes, ChapterOffset, IReaderSettings, TChapter, TManga } from '@/typings';
 import { ReaderSettingsOptions } from '@/components/reader/ReaderSettingsOptions';
 
-const Root = styled('div')(({ theme }) => ({
+const Root = styled('div')({
+    zIndex: 10,
+});
+
+const NavContainer = styled('div')(({ theme }) => ({
     top: 0,
     left: 0,
     width: '300px',
@@ -198,9 +202,9 @@ export function ReaderNavBar(props: IProps) {
     };
 
     return (
-        <>
+        <Root>
             <Slide direction="right" in={drawerOpen} timeout={200} appear={false} mountOnEnter unmountOnExit>
-                <Root
+                <NavContainer
                     sx={{
                         position: 'fixed',
                     }}
@@ -374,7 +378,7 @@ export function ReaderNavBar(props: IProps) {
                             </Tooltip>
                         </ChapterNavigation>
                     </Navigation>
-                </Root>
+                </NavContainer>
             </Slide>
             <Zoom in={!drawerOpen}>
                 <Fade in={!hideOpenButton}>
@@ -392,6 +396,6 @@ export function ReaderNavBar(props: IProps) {
                     </Tooltip>
                 </Fade>
             </Zoom>
-        </>
+        </Root>
     );
 }

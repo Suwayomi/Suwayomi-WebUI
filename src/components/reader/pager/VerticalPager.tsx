@@ -174,7 +174,8 @@ export function VerticalPager(props: IReaderProps) {
                 flexDirection: 'column',
                 justifyContent: 'center',
                 margin: '0 auto',
-                width: '100%',
+                width: 'auto',
+                height: 'auto',
                 userSelect: 'none',
             }}
             onClick={(e) => {

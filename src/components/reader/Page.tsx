@@ -34,7 +34,6 @@ function imageStyle(settings: IReaderSettings): any {
     }, []);
     if (settings.fitPageToWindow || isFillsPageReaderType(settings.readerType)) {
         return {
-            display: 'block',
             marginLeft: '7px',
             marginRight: '7px',
             width: 'auto',
@@ -46,13 +45,11 @@ function imageStyle(settings: IReaderSettings): any {
     }
 
     return {
-        display: 'block',
         marginBottom: settings.readerType === 'ContinuesVertical' ? '15px' : 0,
         minWidth: '10vw',
         width: dimensions.width < dimensions.height ? '100vw' : `${settings.readerWidth}%`,
         maxWidth: '100%',
-        marginLeft: 'auto',
-        marginRight: 'auto',
+        objectFit: 'contain',
     };
 }
 
@@ -71,7 +68,7 @@ export const Page = forwardRef((props: IProps, ref: any) => {
     const imgStyle = imageStyle(settings);
 
     return (
-        <Box ref={ref} sx={{ margin: 'auto' }}>
+        <Box ref={ref} sx={{ display: 'flex', justifyContent: 'center' }}>
             <SpinnerImage
                 src={src}
                 onImageLoad={onImageLoad}

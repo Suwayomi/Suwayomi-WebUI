@@ -25,7 +25,7 @@ export const getDefaultSettings = (): IReaderSettings => ({
     showPageNumber: true,
     loadNextOnEnding: false,
     skipDupChapters: true,
-    fitPageToWindow: false,
+    fitPageToWindow: true,
     readerType: 'ContinuesVertical',
     offsetFirstPage: false,
     readerWidth: 100,

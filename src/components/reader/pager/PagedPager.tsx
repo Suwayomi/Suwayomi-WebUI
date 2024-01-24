@@ -99,11 +99,11 @@ export function PagedPager(props: IReaderProps) {
             ref={selfRef}
             sx={{
                 display: 'flex',
-                flexDirection: 'row',
+                flexDirection: 'column',
                 justifyContent: 'center',
                 margin: '0 auto',
-                width: '100%',
-                height: '100vh',
+                width: 'auto',
+                height: 'auto',
             }}
             onClick={clickControl}
         >
