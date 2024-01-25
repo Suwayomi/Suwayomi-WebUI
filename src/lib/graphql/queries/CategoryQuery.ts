@@ -59,6 +59,7 @@ export const GET_CATEGORY_MANGAS = gql`
     ${PAGE_INFO}
     query GET_CATEGORY_MANGAS($id: Int!) {
         category(id: $id) {
+            id
             mangas {
                 nodes {
                     ...FULL_MANGA_FIELDS
