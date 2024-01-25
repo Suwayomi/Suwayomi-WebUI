@@ -113,7 +113,6 @@ export const ServerSettings = () => {
                 <NumberSetting
                     settingTitle={t('settings.server.address.server.label.port')}
                     settingValue={serverSettings?.port.toString()}
-                    dialogTitle={t('settings.server.address.server.label.port')}
                     handleUpdate={(port) => updateSetting('port', port)}
                     value={serverSettings?.port ?? 4567}
                     defaultValue={4567}

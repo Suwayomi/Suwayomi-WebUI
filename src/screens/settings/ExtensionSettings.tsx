@@ -74,7 +74,6 @@ export const ExtensionSettings = () => {
                 maxValue={20}
                 showSlider
                 stepSize={1}
-                dialogTitle={t('settings.server.requests.sources.parallel.label.title')}
                 handleUpdate={(parallelSources) => updateSetting('maxSourcesInParallel', parallelSources)}
             />
             <MutableListSetting
