@@ -41,7 +41,7 @@ export function imageStyle(settings: IReaderSettings): any {
             marginLeft: isHorizontal ? '7px' : 0,
             marginRight: isHorizontal ? '7px' : 0,
             width: 'auto',
-            minHeight: '100vh',
+            maxWidth: settings.fitPageToWindow ? 'calc(100vw - (100vw - 100%))' : undefined,
             height: 'auto',
             maxHeight: '100vh',
             objectFit: 'contain',
