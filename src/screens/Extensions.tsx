@@ -160,6 +160,7 @@ export function Extensions() {
             requestManager
                 .installExternalExtension(file)
                 .response.then(() => {
+                    handleExtensionUpdate();
                     makeToast(t('extension.label.installed_successfully'), 'success');
                 })
                 .catch(() => makeToast(t('extension.label.installation_failed'), 'error'));

@@ -1005,12 +1005,68 @@ export class RequestManager {
         extensionFile: File,
         options?: MutationOptions<InstallExternalExtensionMutation, InstallExternalExtensionMutationVariables>,
     ): AbortableApolloMutationResponse<InstallExternalExtensionMutation> {
-        return this.doRequest<InstallExternalExtensionMutation, InstallExternalExtensionMutationVariables>(
+        const result = this.doRequest<InstallExternalExtensionMutation, InstallExternalExtensionMutationVariables>(
             GQLMethod.MUTATION,
             INSTALL_EXTERNAL_EXTENSION,
             { file: extensionFile },
             { refetchQueries: [GET_EXTENSIONS], ...options },
         );
+
+        result.response.then((response) => {
+            this.graphQLClient.client.cache.evict({ fieldName: 'sources' });
+            const cachedExtensions = this.cache.getResponseFor<MutationResult<GetExtensionsFetchMutation>>(
+                EXTENSION_LIST_CACHE_KEY,
+                undefined,
+            );
+
+            const installedExtension = response.data?.installExternalExtension.extension;
+
+            if (!cachedExtensions || !cachedExtensions.data) {
+                this.cache.cacheResponse(EXTENSION_LIST_CACHE_KEY, undefined, {
+                    data: {
+                        fetchExtensions: {
+                            extensions: [installedExtension],
+                        },
+                    },
+                });
+                return;
+            }
+
+            const isExtensionCached = cachedExtensions.data.fetchExtensions.extensions.find(
+                (extension) => installedExtension?.pkgName === extension.pkgName,
+            );
+
+            const updatedCachedExtensions: MutationResult<GetExtensionsFetchMutation> = {
+                ...cachedExtensions,
+                data: {
+                    ...cachedExtensions.data,
+                    fetchExtensions: {
+                        ...cachedExtensions.data.fetchExtensions,
+                        extensions: isExtensionCached
+                            ? cachedExtensions.data.fetchExtensions.extensions.map((extension) => {
+                                  const isUpdatedExtension = installedExtension?.pkgName === extension.pkgName;
+                                  if (!isUpdatedExtension) {
+                                      return extension;
+                                  }
+
+                                  return {
+                                      ...extension,
+                                      ...installedExtension,
+                                      hasUpdate: installedExtension?.versionCode < extension.versionCode,
+                                  };
+                              })
+                            : [
+                                  ...cachedExtensions.data.fetchExtensions.extensions,
+                                  installedExtension as (typeof cachedExtensions.data.fetchExtensions.extensions)[number],
+                              ],
+                    },
+                },
+            };
+
+            this.cache.cacheResponse(EXTENSION_LIST_CACHE_KEY, undefined, updatedCachedExtensions);
+        });
+
+        return result;
     }
 
     public updateExtension(
