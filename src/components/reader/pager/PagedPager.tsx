@@ -101,7 +101,6 @@ export function PagedPager(props: IReaderProps) {
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'center',
-                margin: '0 auto',
                 width: 'auto',
                 height: 'auto',
             }}
