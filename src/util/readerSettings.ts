@@ -28,7 +28,7 @@ export const getDefaultSettings = (): IReaderSettings => ({
     fitPageToWindow: true,
     readerType: 'ContinuesVertical',
     offsetFirstPage: false,
-    readerWidth: 100,
+    readerWidth: 50,
 });
 
 const getReaderSettingsWithDefaultValueFallback = <DefaultSettings extends IReaderSettings | UndefinedReaderSettings>(
