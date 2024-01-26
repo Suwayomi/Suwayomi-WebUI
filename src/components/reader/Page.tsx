@@ -41,9 +41,9 @@ export function imageStyle(settings: IReaderSettings): any {
             marginLeft: isHorizontal ? '7px' : 0,
             marginRight: isHorizontal ? '7px' : 0,
             width: 'auto',
-            minHeight: '99vh',
+            minHeight: '100vh',
             height: 'auto',
-            maxHeight: '99vh',
+            maxHeight: '100vh',
             objectFit: 'contain',
         };
     }
