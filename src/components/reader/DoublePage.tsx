@@ -24,7 +24,11 @@ export const DoublePage = forwardRef((props: IProps, ref: any) => {
     const { image1src, image2src, index, onImageLoad, settings } = props;
 
     const imgRef = useRef<HTMLImageElement>(null);
-    const imgStyle = imageStyle(settings);
+    const baseImgStyle = imageStyle(settings);
+    const imgStyle = {
+        ...baseImgStyle,
+        width: settings.fitPageToWindow ? baseImgStyle.width : `calc(${baseImgStyle.width} * 0.5)`,
+    };
 
     const spinnerStyle: SxProps<Theme> = {
         ...imgStyle,
