@@ -33,7 +33,7 @@ export const DoublePage = forwardRef((props: IProps, ref: any) => {
     const spinnerStyle: SxProps<Theme> = {
         ...imgStyle,
         height: '100vh',
-        width: '70vw',
+        width: '50%',
         backgroundColor: '#525252',
     };
 
@@ -61,6 +61,7 @@ export const DoublePage = forwardRef((props: IProps, ref: any) => {
                 imgRef={imgRef}
                 spinnerStyle={{
                     ...spinnerStyle,
+                    width: 'calc(50% - 5px)',
                     marginLeft: '5px',
                 }}
                 imgStyle={imgStyle}
