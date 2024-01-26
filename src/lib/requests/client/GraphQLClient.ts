@@ -157,36 +157,32 @@ export class GraphQLClient extends BaseClient<
     }
 
     protected createClient() {
+        const heartbeatInterval = 1000 * 20;
+
         this.wsClient = createClient({
             url: () => this.getBaseUrl().replace(/http(|s)/g, 'ws'),
-            keepAlive: 20000,
+            keepAlive: heartbeatInterval,
             retryAttempts: Infinity,
-            retryWait: async (retries) => {
-                const getDelayInMS = () => {
-                    if (retries < 10) {
-                        return 1000 * 5;
-                    }
-
-                    if (retries < 50) {
-                        return 1000 * 10;
-                    }
-
-                    if (retries < 500) {
-                        return 1000 * 30;
-                    }
-
-                    if (retries < 1000) {
-                        return 1000 * 60;
-                    }
-
-                    return 1000 * 60 * 5;
-                };
-
-                await new Promise((resolve) => {
-                    setTimeout(resolve, getDelayInMS());
-                });
-            },
         });
+
+        let lastHeartbeat: number = 0;
+        this.wsClient.on('connected', () => {
+            lastHeartbeat = Date.now();
+        });
+        this.wsClient.on('pong', () => {
+            lastHeartbeat = Date.now();
+        });
+
+        const checkHeartbeatInterval = heartbeatInterval + 1000 * 10;
+        // for some reason "this.wsClient" is undefined in the "setInterval" callback
+        const { wsClient } = this;
+        setInterval(() => {
+            const isHeartbeatMissing = Date.now() - lastHeartbeat > checkHeartbeatInterval * 1.1;
+            if (isHeartbeatMissing) {
+                // force a reconnect
+                wsClient.terminate();
+            }
+        }, checkHeartbeatInterval);
 
         this.client = new ApolloClient({
             cache: new InMemoryCache({
