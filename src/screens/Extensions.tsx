@@ -232,6 +232,8 @@ export function Extensions() {
     const showAddRepoInfo = !allExtensions?.length && !areReposDefined;
     if (showAddRepoInfo) {
         return (
+            <>
+                {toasts}
                 {FileInputComponent}
                 <Stack sx={{ paddingTop: '20px' }} alignItems="center" justifyContent="center" rowGap="10px">
                     <Typography>{t('extension.label.add_repository_info')}</Typography>
@@ -239,6 +241,7 @@ export function Extensions() {
                         {t('settings.title')}
                     </Button>
                 </Stack>
+            </>
         );
     }
 
