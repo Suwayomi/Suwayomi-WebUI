@@ -208,25 +208,8 @@ export function Extensions() {
         };
     }, []);
 
-    if (!allExtensions && (isLoading || !called)) {
-        return <LoadingPlaceholder />;
-    }
-
-    const showAddRepoInfo = !allExtensions?.length && !areReposDefined;
-    if (showAddRepoInfo) {
-        return (
-            <Stack sx={{ paddingTop: '20px' }} alignItems="center" justifyContent="center" rowGap="10px">
-                <Typography>{t('extension.label.add_repository_info')}</Typography>
-                <Button component={Link} variant="contained" to="/settings/extensionSettings">
-                    {t('settings.title')}
-                </Button>
-            </Stack>
-        );
-    }
-
-    return (
-        <>
-            {toasts}
+    const FileInputComponent = useMemo(
+        () => (
             <input
                 type="file"
                 style={{ display: 'none' }}
@@ -238,6 +221,31 @@ export function Extensions() {
                     }
                 }}
             />
+        ),
+        [],
+    );
+
+    if (!allExtensions && (isLoading || !called)) {
+        return <LoadingPlaceholder />;
+    }
+
+    const showAddRepoInfo = !allExtensions?.length && !areReposDefined;
+    if (showAddRepoInfo) {
+        return (
+                {FileInputComponent}
+                <Stack sx={{ paddingTop: '20px' }} alignItems="center" justifyContent="center" rowGap="10px">
+                    <Typography>{t('extension.label.add_repository_info')}</Typography>
+                    <Button component={Link} variant="contained" to="/settings/extensionSettings">
+                        {t('settings.title')}
+                    </Button>
+                </Stack>
+        );
+    }
+
+    return (
+        <>
+            {toasts}
+            {FileInputComponent}
             <StyledGroupedVirtuoso
                 style={{
                     // override Virtuoso default values and set them with class
