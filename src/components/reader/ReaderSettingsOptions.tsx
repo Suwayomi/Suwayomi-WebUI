@@ -12,7 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { useTranslation } from 'react-i18next';
 import { AllowedMetadataValueTypes, IReaderSettings } from '@/typings';
 import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
-import { isFillsPageReaderType } from '@/components/reader/Page.tsx';
+import { isHorizontalReaderType } from '@/components/reader/Page.tsx';
 
 interface IProps extends IReaderSettings {
     setSettingValue: (key: keyof IReaderSettings, value: AllowedMetadataValueTypes) => void;
@@ -30,7 +30,7 @@ export function ReaderSettingsOptions({
     readerWidth,
 }: IProps) {
     const { t } = useTranslation();
-    const fitPageToWindowEligible = !isFillsPageReaderType(readerType);
+    const fitPageToWindowEligible = !isHorizontalReaderType(readerType);
     return (
         <List>
             <ListItem>

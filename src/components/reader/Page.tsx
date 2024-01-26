@@ -8,13 +8,15 @@
 
 import { useState, useEffect, forwardRef, useRef } from 'react';
 import Box from '@mui/material/Box';
+import { useTheme } from '@mui/material/styles';
+import { useMediaQuery } from '@mui/material';
 import { IReaderSettings, ReaderType } from '@/typings';
 import { SpinnerImage } from '@/components/util/SpinnerImage';
 
-export const isFillsPageReaderType = (readerType: ReaderType): boolean =>
-    ['DoubleRTL', 'DoubleLTR', 'ContinuesHorizontalLTR', 'ContinuesHorizontalRTL'].includes(readerType);
+export const isHorizontalReaderType = (readerType: ReaderType): boolean =>
+    ['ContinuesHorizontalLTR', 'ContinuesHorizontalRTL'].includes(readerType);
 
-function imageStyle(settings: IReaderSettings): any {
+export function imageStyle(settings: IReaderSettings): any {
     const [dimensions, setDimensions] = useState({
         height: window.innerHeight,
         width: window.innerWidth,
@@ -32,27 +34,26 @@ function imageStyle(settings: IReaderSettings): any {
             window.removeEventListener('resize', handleResize);
         };
     }, []);
-    if (settings.fitPageToWindow || isFillsPageReaderType(settings.readerType)) {
+
+    const isHorizontal = isHorizontalReaderType(settings.readerType);
+    if (settings.fitPageToWindow || isHorizontal) {
         return {
-            display: 'block',
-            marginLeft: '7px',
-            marginRight: '7px',
+            marginLeft: isHorizontal ? '7px' : 0,
+            marginRight: isHorizontal ? '7px' : 0,
             width: 'auto',
-            minHeight: '99vh',
+            minHeight: '100vh',
             height: 'auto',
-            maxHeight: '99vh',
+            maxHeight: '100vh',
             objectFit: 'contain',
         };
     }
 
     return {
-        display: 'block',
         marginBottom: settings.readerType === 'ContinuesVertical' ? '15px' : 0,
         minWidth: '10vw',
         width: dimensions.width < dimensions.height ? '100vw' : `${settings.readerWidth}%`,
         maxWidth: '100%',
-        marginLeft: 'auto',
-        marginRight: 'auto',
+        objectFit: 'contain',
     };
 }
 
@@ -66,12 +67,19 @@ interface IProps {
 export const Page = forwardRef((props: IProps, ref: any) => {
     const { src, index, onImageLoad, settings } = props;
 
+    const theme = useTheme();
+    const isMobileWidth = useMediaQuery(theme.breakpoints.down('md'));
+
     const imgRef = useRef<HTMLImageElement>(null);
 
     const imgStyle = imageStyle(settings);
+    const isDoublePageReader = ['DoubleRTL', 'DoubleLTR'].includes(settings.readerType);
 
     return (
-        <Box ref={ref} sx={{ margin: 'auto' }}>
+        <Box
+            ref={ref}
+            sx={{ display: 'flex', justifyContent: 'center', minWidth: isDoublePageReader ? '100%' : undefined }}
+        >
             <SpinnerImage
                 src={src}
                 onImageLoad={onImageLoad}
@@ -80,7 +88,7 @@ export const Page = forwardRef((props: IProps, ref: any) => {
                 spinnerStyle={{
                     ...imgStyle,
                     height: '100vh',
-                    width: '70vw',
+                    width: isMobileWidth ? '100vw' : 'calc(100% * 0.5)',
                     backgroundColor: '#525252',
                 }}
                 imgStyle={imgStyle}

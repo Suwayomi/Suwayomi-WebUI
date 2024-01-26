@@ -400,7 +400,12 @@ export function Reader() {
     return (
         <Box
             sx={{
-                width: settings.staticNav ? 'calc(100vw - 300px)' : '100vw',
+                display: 'flex',
+                flexDirection: 'column',
+                alignContent: 'center',
+                justifyContent: 'center',
+                minWidth: settings.staticNav ? 'calc((100vw - (100vw - 100%)) - 300px)' : '100vw - (100vw - 100%)', // 100vw = width excluding scrollbar; 100% = width including scrollbar
+                minHeight: '100vh',
                 marginLeft: settings.staticNav ? '300px' : 'unset',
             }}
         >
