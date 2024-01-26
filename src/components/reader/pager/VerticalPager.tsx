@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
 import { Box } from '@mui/material';
 import { IReaderProps } from '@/typings';
 import { Page } from '@/components/reader/Page';
@@ -165,12 +165,18 @@ export function VerticalPager(props: IReaderProps) {
         };
     }, [go]);
 
-    useEffect(() => {
-        // Delay scrolling to next cycle
-        setTimeout(() => {
-            // scroll last read page into view when initialPage changes
-            pagesRef.current[initialPage]?.scrollIntoView();
-        }, 0);
+    useLayoutEffect(() => {
+        const initialPageElement = pagesRef.current[initialPage];
+        if (!initialPageElement) {
+            return () => {};
+        }
+
+        const resizeObserver = new ResizeObserver(() => {
+            initialPageElement.scrollIntoView();
+        });
+        resizeObserver.observe(initialPageElement);
+
+        return () => resizeObserver.disconnect();
     }, [initialPage]);
 
     return (
