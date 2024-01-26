@@ -40,6 +40,7 @@ export function imageStyle(settings: IReaderSettings): any {
         return {
             marginLeft: isHorizontal ? '7px' : 0,
             marginRight: isHorizontal ? '7px' : 0,
+            marginBottom: settings.readerType === 'ContinuesVertical' ? '15px' : 0,
             width: 'auto',
             maxWidth: settings.fitPageToWindow ? 'calc(100vw - (100vw - 100%))' : undefined,
             height: 'auto',
