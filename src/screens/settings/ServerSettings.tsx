@@ -55,6 +55,11 @@ export const ServerSettings = () => {
     useEffect(() => {
         setTitle(t('settings.server.title.settings'));
         setAction(null);
+
+        return () => {
+            setTitle('');
+            setAction(null);
+        };
     }, [t]);
 
     const { data } = requestManager.useGetServerSettings();

@@ -43,6 +43,11 @@ export function SourceConfigure() {
     useEffect(() => {
         setTitle(t('source.configuration.title'));
         setAction(null);
+
+        return () => {
+            setTitle('');
+            setAction(null);
+        };
     }, [t]);
 
     const { sourceId } = useParams<{ sourceId: string }>();

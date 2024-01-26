@@ -62,6 +62,11 @@ export function Backup() {
     useEffect(() => {
         setTitle(t('settings.backup.title'));
         setAction(null);
+
+        return () => {
+            setTitle('');
+            setAction(null);
+        };
     }, [t]);
 
     useSetDefaultBackTo('settings');

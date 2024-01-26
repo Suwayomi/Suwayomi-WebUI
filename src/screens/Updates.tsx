@@ -104,8 +104,12 @@ export const Updates: React.FC = () => {
 
     useEffect(() => {
         setTitle(t('updates.title'));
-
         setAction(<UpdateChecker />);
+
+        return () => {
+            setTitle('');
+            setAction(null);
+        };
     }, [t, lastUpdateTimestamp]);
 
     const downloadForChapter = (chapter: TChapter) => {

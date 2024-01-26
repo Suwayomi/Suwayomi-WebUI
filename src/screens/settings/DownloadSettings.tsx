@@ -48,6 +48,11 @@ export const DownloadSettings = () => {
     useEffect(() => {
         setTitle(t('download.settings.title'));
         setAction(null);
+
+        return () => {
+            setTitle('');
+            setAction(null);
+        };
     }, [t]);
 
     const { data } = requestManager.useGetServerSettings();

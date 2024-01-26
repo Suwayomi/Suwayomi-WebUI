@@ -172,6 +172,14 @@ import {
     UpdateMangaCategoriesPatchInput,
     GetWebuiUpdateStatusQuery,
     GetWebuiUpdateStatusQueryVariables,
+    GetMigratableSourcesQuery,
+    GetMigratableSourcesQueryVariables,
+    GetMigratableSourceMangasQuery,
+    GetMigratableSourceMangasQueryVariables,
+    GetMangaToMigrateQuery,
+    GetMangaToMigrateQueryVariables,
+    GetMangaToMigrateToFetchMutation,
+    GetMangaToMigrateToFetchMutationVariables,
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_GLOBAL_METADATAS } from '@/lib/graphql/queries/GlobalMetadataQuery.ts';
 import { SET_GLOBAL_METADATA } from '@/lib/graphql/mutations/GlobalMetadataMutation.ts';
@@ -187,16 +195,22 @@ import {
     INSTALL_EXTERNAL_EXTENSION,
     UPDATE_EXTENSION,
 } from '@/lib/graphql/mutations/ExtensionMutation.ts';
-import { GET_SOURCE, GET_SOURCES } from '@/lib/graphql/queries/SourceQuery.ts';
+import { GET_MIGRATABLE_SOURCES, GET_SOURCE, GET_SOURCES } from '@/lib/graphql/queries/SourceQuery.ts';
 import {
     GET_MANGA_FETCH,
+    GET_MANGA_TO_MIGRATE_TO_FETCH,
     SET_MANGA_METADATA,
     UPDATE_MANGA,
     UPDATE_MANGA_CATEGORIES,
     UPDATE_MANGAS,
     UPDATE_MANGAS_CATEGORIES,
 } from '@/lib/graphql/mutations/MangaMutation.ts';
-import { GET_MANGA, GET_MANGAS } from '@/lib/graphql/queries/MangaQuery.ts';
+import {
+    GET_MANGA,
+    GET_MANGA_TO_MIGRATE,
+    GET_MANGAS,
+    GET_MIGRATABLE_SOURCE_MANGAS,
+} from '@/lib/graphql/queries/MangaQuery.ts';
 import { GET_CATEGORIES, GET_CATEGORY_MANGAS } from '@/lib/graphql/queries/CategoryQuery.ts';
 import { GET_SOURCE_MANGAS_FETCH, UPDATE_SOURCE_PREFERENCES } from '@/lib/graphql/mutations/SourceMutation.ts';
 import {
@@ -1330,6 +1344,33 @@ export class RequestManager {
         return this.doRequest(GQLMethod.USE_QUERY, GET_MANGA, { id: Number(mangaId) }, options);
     }
 
+    public getManga(
+        mangaId: number | string,
+        options?: QueryOptions<GetMangaQueryVariables, GetMangaQuery>,
+    ): AbortabaleApolloQueryResponse<GetMangaQuery> {
+        return this.doRequest(GQLMethod.QUERY, GET_MANGA, { id: Number(mangaId) }, options);
+    }
+
+    public getMangaToMigrate(
+        mangaId: number | string,
+        {
+            migrateChapters = false,
+            migrateCategories = false,
+            apolloOptions: options,
+        }: {
+            migrateChapters?: boolean;
+            migrateCategories?: boolean;
+            apolloOptions?: QueryOptions<GetMangaToMigrateQueryVariables, GetMangaToMigrateQuery>;
+        } = {},
+    ): AbortabaleApolloQueryResponse<GetMangaToMigrateQuery> {
+        return this.doRequest(
+            GQLMethod.QUERY,
+            GET_MANGA_TO_MIGRATE,
+            { id: Number(mangaId), migrateChapters, migrateCategories },
+            options,
+        );
+    }
+
     public getMangaFetch(
         mangaId: number | string,
         options?: MutationOptions<GetMangaFetchMutation, GetMangaFetchMutationVariables>,
@@ -1341,6 +1382,33 @@ export class RequestManager {
                 input: {
                     id: Number(mangaId),
                 },
+            },
+            options,
+        );
+    }
+
+    public getMangaToMigrateToFetch(
+        mangaId: number | string,
+        {
+            migrateChapters = false,
+            migrateCategories = false,
+            apolloOptions: options,
+        }: {
+            migrateChapters?: boolean;
+            migrateCategories?: boolean;
+            apolloOptions?: MutationOptions<
+                GetMangaToMigrateToFetchMutation,
+                GetMangaToMigrateToFetchMutationVariables
+            >;
+        } = {},
+    ): AbortableApolloMutationResponse<GetMangaToMigrateToFetchMutation> {
+        return this.doRequest<GetMangaToMigrateToFetchMutation, GetMangaToMigrateToFetchMutationVariables>(
+            GQLMethod.MUTATION,
+            GET_MANGA_TO_MIGRATE_TO_FETCH,
+            {
+                id: Number(mangaId),
+                migrateChapters,
+                migrateCategories,
             },
             options,
         );
@@ -1358,6 +1426,13 @@ export class RequestManager {
         options?: QueryOptions<GetMangasQueryVariables, GetMangasQuery>,
     ): AbortabaleApolloQueryResponse<GetMangasQuery> {
         return this.doRequest(GQLMethod.QUERY, GET_MANGAS, variables, options);
+    }
+
+    public useGetMigratableSourceMangas(
+        sourceId: string,
+        options?: QueryHookOptions<GetMigratableSourceMangasQuery, GetMigratableSourceMangasQueryVariables>,
+    ): AbortableApolloUseQueryResponse<GetMigratableSourceMangasQuery, GetMigratableSourceMangasQueryVariables> {
+        return this.doRequest(GQLMethod.USE_QUERY, GET_MIGRATABLE_SOURCE_MANGAS, { sourceId }, options);
     }
 
     public getMangaThumbnailUrl(mangaId: number): string {
@@ -2181,6 +2256,12 @@ export class RequestManager {
         options?: QueryHookOptions<GetWebuiUpdateStatusQuery, GetWebuiUpdateStatusQueryVariables>,
     ): AbortableApolloUseQueryResponse<GetWebuiUpdateStatusQuery, GetWebuiUpdateStatusQueryVariables> {
         return this.doRequest(GQLMethod.USE_QUERY, GET_WEBUI_UPDATE_STATUS, undefined, options);
+    }
+
+    public useGetMigratableSources(
+        options?: QueryHookOptions<GetMigratableSourcesQuery, GetMigratableSourcesQueryVariables>,
+    ): AbortableApolloUseQueryResponse<GetMigratableSourcesQuery, GetMigratableSourcesQueryVariables> {
+        return this.doRequest(GQLMethod.USE_QUERY, GET_MIGRATABLE_SOURCES, undefined, options);
     }
 }
 

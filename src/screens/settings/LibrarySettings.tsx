@@ -46,6 +46,11 @@ export function LibrarySettings() {
     useEffect(() => {
         setTitle(t('library.settings.title'));
         setAction(null);
+
+        return () => {
+            setTitle('');
+            setAction(null);
+        };
     }, [t]);
 
     useSetDefaultBackTo('settings');

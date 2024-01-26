@@ -142,6 +142,11 @@ export const DownloadQueue: React.FC = () => {
                 </Tooltip>
             </>,
         );
+
+        return () => {
+            setTitle('');
+            setAction(null);
+        };
     }, [t, status, isQueueEmpty]);
 
     useEffect(() => {

@@ -13,7 +13,7 @@ import { GridItemProps, GridStateSnapshot, VirtuosoGrid } from 'react-virtuoso';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { EmptyView } from '@/components/util/EmptyView';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
-import { MangaCard } from '@/components/MangaCard';
+import { MangaCard, MangaCardProps } from '@/components/MangaCard';
 import { GridLayout } from '@/components/context/LibraryOptionsContext';
 import { useLocalStorage } from '@/util/useLocalStorage';
 import { TManga, TPartialManga } from '@/typings.ts';
@@ -49,6 +49,7 @@ const createMangaCard = (
     isSelectModeActive: boolean = false,
     selectedMangaIds?: TManga['id'][],
     handleSelection?: DefaultGridProps['handleSelection'],
+    mode?: MangaCardProps['mode'],
 ) => (
     <MangaCard
         key={manga.id}
@@ -57,10 +58,11 @@ const createMangaCard = (
         inLibraryIndicator={inLibraryIndicator}
         selected={isSelectModeActive ? selectedMangaIds?.includes(manga.id) : null}
         handleSelection={handleSelection}
+        mode={mode}
     />
 );
 
-type DefaultGridProps = {
+type DefaultGridProps = Pick<MangaCardProps, 'mode'> & {
     isLoading: boolean;
     mangas: TPartialManga[];
     inLibraryIndicator?: boolean;
@@ -80,6 +82,7 @@ const HorizontalGrid = ({
     isSelectModeActive,
     selectedMangaIds,
     handleSelection,
+    mode,
 }: DefaultGridProps) => (
     <Grid
         container
@@ -105,6 +108,7 @@ const HorizontalGrid = ({
                         isSelectModeActive,
                         selectedMangaIds,
                         handleSelection,
+                        mode,
                     )}
                 </GridItemContainer>
             ))
@@ -123,6 +127,7 @@ const VerticalGrid = ({
     isSelectModeActive,
     selectedMangaIds,
     handleSelection,
+    mode,
 }: DefaultGridProps & {
     hasNextPage: boolean;
     loadMore: () => void;
@@ -171,6 +176,7 @@ const VerticalGrid = ({
                         isSelectModeActive,
                         selectedMangaIds,
                         handleSelection,
+                        mode,
                     )
                 }
             />
@@ -212,6 +218,7 @@ export const MangaGrid: React.FC<IMangaGridProps> = (props) => {
         isSelectModeActive,
         selectedMangaIds,
         handleSelection,
+        mode,
     } = props;
 
     const [dimensions, setDimensions] = useState(document.documentElement.offsetWidth);
@@ -287,6 +294,7 @@ export const MangaGrid: React.FC<IMangaGridProps> = (props) => {
                     isSelectModeActive={isSelectModeActive}
                     selectedMangaIds={selectedMangaIds}
                     handleSelection={handleSelection}
+                    mode={mode}
                 />
             ) : (
                 <VerticalGrid
@@ -300,6 +308,7 @@ export const MangaGrid: React.FC<IMangaGridProps> = (props) => {
                     isSelectModeActive={isSelectModeActive}
                     selectedMangaIds={selectedMangaIds}
                     handleSelection={handleSelection}
+                    mode={mode}
                 />
             )}
         </div>

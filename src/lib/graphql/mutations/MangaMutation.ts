@@ -48,6 +48,37 @@ export const GET_MANGA_FETCH = gql`
     }
 `;
 
+// makes the server fetch and return the manga
+export const GET_MANGA_TO_MIGRATE_TO_FETCH = gql`
+    mutation GET_MANGA_TO_MIGRATE_TO_FETCH($id: Int!, $migrateChapters: Boolean!, $migrateCategories: Boolean!) {
+        fetchManga(input: { id: $id }) {
+            clientMutationId
+            manga {
+                id
+                title
+                inLibrary
+                categories @include(if: $migrateCategories) {
+                    nodes {
+                        id
+                    }
+                }
+            }
+        }
+        fetchChapters(input: { mangaId: $id }) @include(if: $migrateChapters) {
+            chapters {
+                id
+                manga {
+                    id
+                }
+                chapterNumber
+                isRead
+                isDownloaded
+                isBookmarked
+            }
+        }
+    }
+`;
+
 export const SET_MANGA_METADATA = gql`
     mutation SET_MANGA_METADATA($input: SetMangaMetaInput!) {
         setMangaMeta(input: $input) {

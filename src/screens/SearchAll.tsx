@@ -8,7 +8,7 @@
 
 import { Card, CardActionArea, Typography } from '@mui/material';
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { StringParam, useQueryParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
 import { ISource } from '@/typings';
@@ -21,6 +21,7 @@ import { LangSelect } from '@/components/navbar/action/LangSelect';
 import { MangaGrid } from '@/components/MangaGrid';
 import { useDebounce } from '@/util/useDebounce.ts';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
+import { MangaCardProps } from '@/components/MangaCard.tsx';
 
 type SourceLoadingState = { isLoading: boolean; hasResults: boolean; emptySearch: boolean };
 type SourceToLoadingStateMap = Map<string, SourceLoadingState>;
@@ -84,6 +85,7 @@ const SourceSearchPreview = React.memo(
         onSearchRequestFinished,
         searchString,
         emptyQuery,
+        mode,
     }: {
         source: ISource;
         onSearchRequestFinished: (
@@ -94,7 +96,7 @@ const SourceSearchPreview = React.memo(
         ) => void;
         searchString: string | null | undefined;
         emptyQuery: boolean;
-    }) => {
+    } & Pick<MangaCardProps, 'mode'>) => {
         const { t } = useTranslation();
 
         const { id, displayName, lang } = source;
@@ -150,6 +152,7 @@ const SourceSearchPreview = React.memo(
                     noFaces
                     message={errorMessage}
                     inLibraryIndicator
+                    mode={mode}
                 />
             </>
         );
@@ -162,6 +165,11 @@ export const SearchAll: React.FC = () => {
     const { setTitle, setAction } = useContext(NavBarContext);
 
     useSetDefaultBackTo('sources');
+
+    const { pathname, state } = useLocation<{ mangaTitle?: string }>();
+    const isMigrateMode = pathname.startsWith('/migrate/source');
+
+    const mangaTitle = state?.mangaTitle;
 
     const [query] = useQueryParam('query', StringParam);
     const searchString = useDebounce(query, TRIGGER_SEARCH_THRESHOLD);
@@ -203,7 +211,7 @@ export const SearchAll: React.FC = () => {
     );
 
     useEffect(() => {
-        setTitle(t('search.title.global_search'));
+        setTitle(t(isMigrateMode ? 'migrate.search.title' : 'search.title.global_search', { title: mangaTitle }));
         setAction(
             <>
                 <AppbarSearch autoOpen />
@@ -215,6 +223,11 @@ export const SearchAll: React.FC = () => {
                 />
             </>,
         );
+
+        return () => {
+            setTitle('');
+            setAction(null);
+        };
     }, [t, shownLangs, setShownLangs, sources]);
 
     useEffect(() => {
@@ -234,6 +247,7 @@ export const SearchAll: React.FC = () => {
                     onSearchRequestFinished={updateSourceLoadingState}
                     searchString={searchString}
                     emptyQuery={!query}
+                    mode={isMigrateMode ? 'migrate.select' : undefined}
                 />
             ))}
         </>

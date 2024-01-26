@@ -158,7 +158,7 @@ export const CategoriesInclusionSetting = (props: CategoriesInclusionSettingProp
         <>
             <ListItemButton onClick={() => setIsDialogOpen(true)}>
                 <ListItemText
-                    primary={t('category.title.categories')}
+                    primary={t('category.title.category_other')}
                     secondary={
                         <>
                             <span>
@@ -179,7 +179,7 @@ export const CategoriesInclusionSetting = (props: CategoriesInclusionSettingProp
 
             <Dialog open={isDialogOpen} onClose={closeDialog}>
                 <DialogContent>
-                    <DialogTitle sx={{ paddingLeft: 0 }}>{t('category.title.categories')}</DialogTitle>
+                    <DialogTitle sx={{ paddingLeft: 0 }}>{t('category.title.category_other')}</DialogTitle>
                     {dialogText && <DialogContentText sx={{ paddingBottom: '10px' }}>{dialogText}</DialogContentText>}
                     <CheckboxContainer>
                         {dialogCategories.map((category) => (
