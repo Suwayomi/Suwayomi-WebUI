@@ -8,6 +8,8 @@
 
 import { useState, useEffect, forwardRef, useRef } from 'react';
 import Box from '@mui/material/Box';
+import { useTheme } from '@mui/material/styles';
+import { useMediaQuery } from '@mui/material';
 import { IReaderSettings, ReaderType } from '@/typings';
 import { SpinnerImage } from '@/components/util/SpinnerImage';
 
@@ -65,6 +67,9 @@ interface IProps {
 export const Page = forwardRef((props: IProps, ref: any) => {
     const { src, index, onImageLoad, settings } = props;
 
+    const theme = useTheme();
+    const isMobileWidth = useMediaQuery(theme.breakpoints.down('md'));
+
     const imgRef = useRef<HTMLImageElement>(null);
 
     const imgStyle = imageStyle(settings);
@@ -83,7 +88,7 @@ export const Page = forwardRef((props: IProps, ref: any) => {
                 spinnerStyle={{
                     ...imgStyle,
                     height: '100vh',
-                    width: '70vw',
+                    width: isMobileWidth ? '100vw' : 'calc(100% * 0.5)',
                     backgroundColor: '#525252',
                 }}
                 imgStyle={imgStyle}
