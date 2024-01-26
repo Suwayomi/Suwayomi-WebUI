@@ -39,7 +39,7 @@ export const DoublePage = forwardRef((props: IProps, ref: any) => {
             sx={{
                 display: 'flex',
                 justifyContent: 'center',
-                flexGrow: 1,
+                width: '100%',
             }}
         >
             <SpinnerImage

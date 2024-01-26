@@ -68,9 +68,13 @@ export const Page = forwardRef((props: IProps, ref: any) => {
     const imgRef = useRef<HTMLImageElement>(null);
 
     const imgStyle = imageStyle(settings);
+    const isDoublePageReader = ['DoubleRTL', 'DoubleLTR'].includes(settings.readerType);
 
     return (
-        <Box ref={ref} sx={{ display: 'flex', justifyContent: 'center' }}>
+        <Box
+            ref={ref}
+            sx={{ display: 'flex', justifyContent: 'center', minWidth: isDoublePageReader ? '100%' : undefined }}
+        >
             <SpinnerImage
                 src={src}
                 onImageLoad={onImageLoad}
