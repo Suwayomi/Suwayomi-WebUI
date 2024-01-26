@@ -281,8 +281,7 @@ export function Backup() {
                         minValue={1}
                         maxValue={31}
                         stepSize={1}
-                        dialogTitle="Interval"
-                        valueUnit="Day"
+                        valueUnit={t('global.date.label.day')}
                         showSlider
                         handleUpdate={(interval: number) => updateSetting('backupInterval', interval)}
                     />
@@ -294,8 +293,7 @@ export function Backup() {
                         minValue={0}
                         maxValue={1000}
                         stepSize={1}
-                        dialogTitle="Cleanup"
-                        valueUnit="Day"
+                        valueUnit={t('global.date.label.day')}
                         showSlider
                         handleUpdate={(ttl: number) => updateSetting('backupTTL', ttl)}
                     />

@@ -31,7 +31,7 @@ type BaseProps = {
     minValue?: number;
     maxValue?: number;
     stepSize?: number;
-    dialogTitle: string;
+    dialogTitle?: string;
     dialogDescription?: string;
     dialogDisclaimer?: string;
     valueUnit: string;
@@ -57,7 +57,7 @@ export const NumberSetting = ({
     minValue,
     maxValue,
     stepSize,
-    dialogTitle,
+    dialogTitle = settingTitle,
     valueUnit,
     handleUpdate,
     showSlider,

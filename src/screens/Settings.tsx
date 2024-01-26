@@ -115,7 +115,6 @@ export function Settings() {
                 minValue={100}
                 maxValue={1000}
                 stepSize={10}
-                dialogTitle={t('settings.label.manga_item_width')}
                 valueUnit="px"
                 showSlider
                 handleUpdate={setItemWidth}

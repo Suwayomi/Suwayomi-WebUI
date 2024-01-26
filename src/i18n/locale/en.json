@@ -392,7 +392,17 @@
       }
     },
     "time": {
-      "hour_short": "h"
+      "hour_short": "h",
+      "minutes": {
+        "minute_one": "Minute",
+        "minute_other": "Minutes",
+        "value": "{{count}} $t(global.time.minutes.minute, lowercase)"
+      },
+      "seconds": {
+        "second_one": "Second",
+        "second_other": "Seconds",
+        "value": "{{count}} $t(global.time.seconds.second, lowercase)"
+      }
     },
     "update": {
       "label": {
@@ -791,6 +801,42 @@
           }
         },
         "title": "Authentication"
+      },
+      "cloudflare": {
+        "flaresolverr": {
+          "enabled": {
+            "label": {
+              "description": "See <2>FlareSolverr</2> for information on how to set it up",
+              "title": "FlareSolverr enabled"
+            }
+          },
+          "session": {
+            "name": {
+              "label": {
+                "title": "FlareSolverr session name"
+              }
+            },
+            "ttl": {
+              "label": {
+                "description": "FlareSolverr will automatically rotate expired sessions based on the TTL provided in minutes",
+                "title": "FlareSolverr session TTL"
+              }
+            }
+          },
+          "timeout": {
+            "label": {
+              "description": "How much time FlareSolverr has to handle the request",
+              "title": "FlareSolverr request timeout"
+            }
+          },
+          "url": {
+            "label": {
+              "description": "The address of the FlareSolverr server",
+              "title": "FlareSolverr server url"
+            }
+          }
+        },
+        "title": "Cloudflare bypass"
       },
       "local_source": {
         "path": {

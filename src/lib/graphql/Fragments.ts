@@ -522,5 +522,12 @@ export const SERVER_SETTINGS = gql`
 
         # local source
         localSourcePath
+
+        # Cloudflare bypass
+        flareSolverrEnabled
+        flareSolverrUrl
+        flareSolverrTimeout
+        flareSolverrSessionName
+        flareSolverrSessionTtl
     }
 `;

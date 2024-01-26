@@ -88,7 +88,6 @@ export function ReaderSettingsOptions({
             {fitPageToWindowEligible && !fitPageToWindow && (
                 <NumberSetting
                     settingTitle={t('reader.settings.label.reader_width')}
-                    dialogTitle={t('reader.settings.label.reader_width')}
                     settingValue={`${readerWidth}%`}
                     value={readerWidth}
                     minValue={10}

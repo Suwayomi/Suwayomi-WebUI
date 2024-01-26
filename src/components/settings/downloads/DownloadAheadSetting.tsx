@@ -67,7 +67,6 @@ export const DownloadAheadSetting = () => {
                 maxValue={MAX_LIMIT}
                 defaultValue={DEFAULT_LIMIT}
                 showSlider
-                dialogTitle={t('download.settings.download_ahead.label.unread_chapters_to_download')}
                 dialogDescription={t('download.settings.download_ahead.label.description')}
                 dialogDisclaimer={t('download.settings.download_ahead.label.disclaimer')}
                 valueUnit={t('chapter.title')}

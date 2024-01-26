@@ -66,7 +66,6 @@ export const GlobalUpdateSettingsInterval = () => {
                 maxValue={MAX_INTERVAL_HOURS}
                 defaultValue={DEFAULT_INTERVAL_HOURS}
                 showSlider
-                dialogTitle={t('library.settings.global_update.auto_update.interval.label.title')}
                 valueUnit={t('global.time.hour_short')}
                 handleUpdate={updateSetting}
                 disabled={!doAutoUpdates}
