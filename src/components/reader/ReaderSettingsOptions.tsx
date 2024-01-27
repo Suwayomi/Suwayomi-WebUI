@@ -92,7 +92,7 @@ export function ReaderSettingsOptions({
                     value={readerWidth}
                     minValue={10}
                     maxValue={100}
-                    defaultValue={100}
+                    defaultValue={50}
                     valueUnit="%"
                     showSlider
                     handleUpdate={(width: number) => setSettingValue('readerWidth', width)}
