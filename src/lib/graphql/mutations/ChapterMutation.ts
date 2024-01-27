@@ -57,6 +57,12 @@ export const GET_MANGA_CHAPTERS_FETCH = gql`
             clientMutationId
             chapters {
                 ...FULL_CHAPTER_FIELDS
+                manga {
+                    id
+                    chapters {
+                        totalCount
+                    }
+                }
             }
         }
     }
