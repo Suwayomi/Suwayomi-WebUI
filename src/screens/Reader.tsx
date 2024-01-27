@@ -257,11 +257,13 @@ export function Reader() {
             .response.catch();
     };
 
-    const setSettingValue = (key: keyof IReaderSettings, value: AllowedMetadataValueTypes) => {
+    const setSettingValue = (key: keyof IReaderSettings, value: AllowedMetadataValueTypes, persist: boolean = true) => {
         setSettings({ ...settings, [key]: value });
-        requestUpdateMangaMetadata(manga, [[key, value]]).catch(() =>
-            makeToast(t('reader.settings.error.label.failed_to_save_settings'), 'warning'),
-        );
+        if (persist) {
+            requestUpdateMangaMetadata(manga, [[key, value]]).catch(() =>
+                makeToast(t('reader.settings.error.label.failed_to_save_settings'), 'warning'),
+            );
+        }
     };
 
     const openNextChapter = useCallback(
