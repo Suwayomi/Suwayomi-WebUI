@@ -165,7 +165,7 @@
                     "unread_chapters_to_download": "要下载的未读章节数",
                     "value": "{{chapters}} $t(chapter.title)",
                     "disclaimer": "此限制也适用于更新期间自动下载新章节",
-                    "description": "阅读时应提前下载多少章节。"
+                    "description": "阅读时应提前下载多少章节."
                 },
                 "title": "提前下载"
             },
@@ -225,9 +225,36 @@
         "label": {
             "installation_failed": "插件安装失败",
             "installed_successfully": "插件安装成功",
-            "installing_file": "正在安装插件…"
+            "installing_file": "正在安装插件…",
+            "uninstallation_failed": "无法卸载扩展",
+            "update_failed": "无法更新扩展",
+            "add_repository_info": "您必须添加扩展库才能安装扩展程序"
         },
-        "title": "插件"
+        "title": "插件",
+        "settings": {
+            "repositories": {
+                "custom": {
+                    "error": {
+                        "label": {
+                            "invalid_url": "无效的存储库地址"
+                        }
+                    },
+                    "label": {
+                        "description": "添加可以安装扩展的存储库",
+                        "title": "扩展库",
+                        "disclaimer": "<strong>Suwayomi不提供任何对第三方存储库或扩展的支持！</strong><br/>请谨慎使用，因为这些存储库中可能有恶意行为。<br/>作为用户，您需要验证安全性以及是否信任任何存储库或扩展。"
+                    },
+                    "dialog": {
+                        "action": {
+                            "button": {
+                                "add": "添加源"
+                            }
+                        }
+                    }
+                }
+            },
+            "title": "扩展设置"
+        }
     },
     "global": {
         "button": {
@@ -250,7 +277,10 @@
             "stop": "停止",
             "edit": "编辑",
             "select": "选择",
-            "options": "选项"
+            "options": "选项",
+            "add": "添加",
+            "restore": "恢复",
+            "retry": "重试"
         },
         "date": {
             "label": {
@@ -272,7 +302,8 @@
                 "invalid_file_type": "无效的文件类型",
                 "update_failed": "无法检查更新",
                 "failed_to_save_changes": "无法保存更改",
-                "failed_to_load_data": "无法加载数据"
+                "failed_to_load_data": "无法加载数据",
+                "invalid_input": "无效输入"
             }
         },
         "filter": {
@@ -307,7 +338,10 @@
             "disabled": "禁用",
             "other": "其他",
             "github": "GitHub",
-            "links": "链接"
+            "links": "链接",
+            "advanced": "高级",
+            "placeholder": "占位符",
+            "general": "全体"
         },
         "language": {
             "label": {
@@ -375,7 +409,9 @@
                     "by_date_added": "按添加日期",
                     "by_last_read": "按最后一次阅读",
                     "by_unread_chapters": "按未读章节",
-                    "alphabetically": "按字母顺序"
+                    "alphabetically": "按字母顺序",
+                    "by_latest_fetched_chapter": "最新获取的章节",
+                    "by_latest_uploaded_chapter": "最新上传的章节"
                 }
             }
         },
@@ -420,7 +456,37 @@
                     "last_update": "最近更新： {{date}}"
                 }
             },
-            "title": "书架"
+            "title": "书架",
+            "general": {
+                "search": {
+                    "ignore_filters": {
+                        "label": {
+                            "description": "搜索结果将包括与当前过滤器不匹配的漫画",
+                            "title": "搜索时忽略筛选器"
+                        }
+                    }
+                },
+                "add_to_library": {
+                    "category_selection": {
+                        "label": {
+                            "title": "类别选择对话框",
+                            "description": "向库里添加漫画时显示类别选择对话框"
+                        }
+                    }
+                }
+            },
+            "advanced": {
+                "database": {
+                    "cleanup": {
+                        "label": {
+                            "description": "从类别中删除非库漫画",
+                            "error": "无法从类别中删除非库漫画",
+                            "success": "从类别中已经删除非库漫画",
+                            "title": "清理数据库"
+                        }
+                    }
+                }
+            }
         },
         "info": {
             "label": {
@@ -557,6 +623,44 @@
                     "label": {
                         "title": "备份位置",
                         "description": "服务器上保存自动备份的目录路径"
+                    }
+                }
+            },
+            "action": {
+                "restore": {
+                    "label": {
+                        "in_progress": "正在还原备份…",
+                        "success": "备份已恢复。",
+                        "title": "恢复备份",
+                        "description": "您也可以将备份文件拖放到此处进行还原"
+                    },
+                    "button": "恢复",
+                    "error": {
+                        "label": {
+                            "failure": "无法恢复备份",
+                            "legacy_backup_unsupported": "不支持旧备份！"
+                        }
+                    }
+                },
+                "create": {
+                    "label": {
+                        "title": "创建备份",
+                        "description": "将库备份为Tachiyomi备份"
+                    }
+                },
+                "validate": {
+                    "dialog": {
+                        "content": {
+                            "label": {
+                                "missing_sources": "未安装以下源："
+                            }
+                        },
+                        "title": "备份验证"
+                    },
+                    "error": {
+                        "label": {
+                            "failure": "无法验证备份"
+                        }
                     }
                 }
             }
