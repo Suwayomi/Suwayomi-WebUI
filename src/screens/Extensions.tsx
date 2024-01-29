@@ -286,7 +286,10 @@ export function Extensions() {
                     const item = visibleExtensions[index];
 
                     return (
-                        <StyledGroupItemWrapper key={item.pkgName} isLastItem={index === visibleExtensions.length - 1}>
+                        <StyledGroupItemWrapper
+                            key={`${item.pkgName}_${item.isInstalled}_${item.isObsolete}_${item.hasUpdate}`}
+                            isLastItem={index === visibleExtensions.length - 1}
+                        >
                             <ExtensionCard
                                 extension={item}
                                 handleUpdate={handleExtensionUpdate}
