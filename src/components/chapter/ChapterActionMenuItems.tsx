@@ -128,7 +128,7 @@ export const ChapterActionMenuItems = ({
             {shouldShowMenuItem(canBeDownloaded) && (
                 <MenuItem
                     Icon={Download}
-                    isDisabled={isMenuItemDisabled(!downloadableChapters.length)}
+                    disabled={isMenuItemDisabled(!downloadableChapters.length)}
                     onClick={() => performAction('download', downloadableChapters)}
                     title={getMenuItemTitle('download', downloadableChapters.length)}
                 />
@@ -136,7 +136,7 @@ export const ChapterActionMenuItems = ({
             {shouldShowMenuItem(isDownloaded) && (
                 <MenuItem
                     Icon={Delete}
-                    isDisabled={isMenuItemDisabled(!downloadedChapters.length)}
+                    disabled={isMenuItemDisabled(!downloadedChapters.length)}
                     onClick={() => performAction('delete', downloadedChapters)}
                     title={getMenuItemTitle('delete', downloadedChapters.length)}
                 />
@@ -144,7 +144,7 @@ export const ChapterActionMenuItems = ({
             {shouldShowMenuItem(!isBookmarked) && (
                 <MenuItem
                     Icon={BookmarkAdd}
-                    isDisabled={isMenuItemDisabled(!unbookmarkedChapters.length)}
+                    disabled={isMenuItemDisabled(!unbookmarkedChapters.length)}
                     onClick={() => performAction('bookmark', unbookmarkedChapters)}
                     title={getMenuItemTitle('bookmark', unbookmarkedChapters.length)}
                 />
@@ -152,7 +152,7 @@ export const ChapterActionMenuItems = ({
             {shouldShowMenuItem(isBookmarked) && (
                 <MenuItem
                     Icon={BookmarkRemove}
-                    isDisabled={isMenuItemDisabled(!bookmarkedChapters.length)}
+                    disabled={isMenuItemDisabled(!bookmarkedChapters.length)}
                     onClick={() => performAction('unbookmark', bookmarkedChapters)}
                     title={getMenuItemTitle('unbookmark', bookmarkedChapters.length)}
                 />
@@ -160,7 +160,7 @@ export const ChapterActionMenuItems = ({
             {shouldShowMenuItem(!isRead) && (
                 <MenuItem
                     Icon={Done}
-                    isDisabled={isMenuItemDisabled(!unreadChapters.length)}
+                    disabled={isMenuItemDisabled(!unreadChapters.length)}
                     onClick={() => performAction('mark_as_read', unreadChapters)}
                     title={getMenuItemTitle('mark_as_read', unreadChapters.length)}
                 />
@@ -168,7 +168,7 @@ export const ChapterActionMenuItems = ({
             {shouldShowMenuItem(isRead) && (
                 <MenuItem
                     Icon={RemoveDone}
-                    isDisabled={isMenuItemDisabled(!readChapters.length)}
+                    disabled={isMenuItemDisabled(!readChapters.length)}
                     onClick={() => performAction('mark_as_unread', readChapters)}
                     title={getMenuItemTitle('mark_as_unread', readChapters.length)}
                 />

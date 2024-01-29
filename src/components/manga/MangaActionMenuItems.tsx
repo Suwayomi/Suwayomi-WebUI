@@ -104,7 +104,7 @@ export const MangaActionMenuItems = ({
             {shouldShowMenuItem(!isFullyDownloaded) && (
                 <MenuItem
                     Icon={Download}
-                    isDisabled={isMenuItemDisabled(!downloadableMangas.length)}
+                    disabled={isMenuItemDisabled(!downloadableMangas.length)}
                     onClick={() => performAction('download', downloadableMangas)}
                     title={getMenuItemTitle('download', downloadableMangas.length)}
                 />
@@ -112,7 +112,7 @@ export const MangaActionMenuItems = ({
             {shouldShowMenuItem(hasDownloadedChapters) && (
                 <MenuItem
                     Icon={Delete}
-                    isDisabled={isMenuItemDisabled(!downloadedMangas.length)}
+                    disabled={isMenuItemDisabled(!downloadedMangas.length)}
                     onClick={() => performAction('delete', downloadedMangas)}
                     title={getMenuItemTitle('delete', downloadedMangas.length)}
                 />
@@ -120,7 +120,7 @@ export const MangaActionMenuItems = ({
             {shouldShowMenuItem(hasUnreadChapters) && (
                 <MenuItem
                     Icon={Done}
-                    isDisabled={isMenuItemDisabled(!unreadMangas.length)}
+                    disabled={isMenuItemDisabled(!unreadMangas.length)}
                     onClick={() => performAction('mark_as_read', unreadMangas)}
                     title={getMenuItemTitle('mark_as_read', unreadMangas.length)}
                 />
@@ -128,7 +128,7 @@ export const MangaActionMenuItems = ({
             {shouldShowMenuItem(hasReadChapters) && (
                 <MenuItem
                     Icon={RemoveDone}
-                    isDisabled={isMenuItemDisabled(!readMangas.length)}
+                    disabled={isMenuItemDisabled(!readMangas.length)}
                     onClick={() => performAction('mark_as_unread', readMangas)}
                     title={getMenuItemTitle('mark_as_unread', readMangas.length)}
                 />
