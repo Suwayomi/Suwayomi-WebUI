@@ -66,7 +66,7 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                             state={{ mangaTitle: manga.title }}
                             style={{ textDecoration: 'none', color: 'inherit' }}
                         >
-                            <IconButton disabled={refreshing}>
+                            <IconButton>
                                 <SyncAltIcon />
                             </IconButton>
                         </Link>
