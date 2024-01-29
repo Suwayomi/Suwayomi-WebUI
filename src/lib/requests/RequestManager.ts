@@ -1032,7 +1032,7 @@ export class RequestManager {
                 return;
             }
 
-            const isExtensionCached = cachedExtensions.data.fetchExtensions.extensions.find(
+            const isExtensionCached = !!cachedExtensions.data.fetchExtensions.extensions.find(
                 (extension) => installedExtension?.pkgName === extension.pkgName,
             );
 
