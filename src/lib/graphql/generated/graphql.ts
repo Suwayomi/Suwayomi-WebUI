@@ -2594,7 +2594,7 @@ export type GetMangaChaptersFetchMutationVariables = Exact<{
 }>;
 
 
-export type GetMangaChaptersFetchMutation = { __typename?: 'Mutation', fetchChapters: { __typename?: 'FetchChaptersPayload', clientMutationId?: string | null, chapters: Array<{ __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> }> } };
+export type GetMangaChaptersFetchMutation = { __typename?: 'Mutation', fetchChapters: { __typename?: 'FetchChaptersPayload', clientMutationId?: string | null, chapters: Array<{ __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, chapters: { __typename?: 'ChapterNodeList', totalCount: number } }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> }> } };
 
 export type SetChapterMetadataMutationVariables = Exact<{
   input: SetChapterMetaInput;
