@@ -1015,7 +1015,7 @@ export class RequestManager {
 
     public updateExtension(
         id: string,
-        patch: UpdateExtensionPatchInput,
+        { isObsolete = false, ...patch }: UpdateExtensionPatchInput & { isObsolete?: boolean },
         options?: MutationOptions<UpdateExtensionMutation, UpdateExtensionMutationVariables>,
     ): AbortableApolloMutationResponse<UpdateExtensionMutation> {
         const result = this.doRequest<UpdateExtensionMutation, UpdateExtensionMutationVariables>(
@@ -1042,18 +1042,22 @@ export class RequestManager {
                     ...cachedExtensions.data,
                     fetchExtensions: {
                         ...cachedExtensions.data.fetchExtensions,
-                        extensions: cachedExtensions.data.fetchExtensions.extensions.map((extension) => {
-                            const isUpdatedExtension =
-                                extension.apkName === response.data?.updateExtension.extension?.apkName;
-                            if (!isUpdatedExtension) {
-                                return extension;
-                            }
+                        extensions: cachedExtensions.data.fetchExtensions.extensions
+                            .filter((extension) => {
+                                const isUpdatedExtension = id === extension.pkgName;
+                                return isUpdatedExtension && !isObsolete;
+                            })
+                            .map((extension) => {
+                                const isUpdatedExtension = id === extension.pkgName;
+                                if (!isUpdatedExtension) {
+                                    return extension;
+                                }
 
-                            return {
-                                ...extension,
-                                ...response.data?.updateExtension.extension,
-                            };
-                        }),
+                                return {
+                                    ...extension,
+                                    ...response.data?.updateExtension.extension,
+                                };
+                            }),
                     },
                 },
             };
