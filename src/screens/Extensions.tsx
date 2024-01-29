@@ -160,6 +160,7 @@ export function Extensions() {
             requestManager
                 .installExternalExtension(file)
                 .response.then(() => {
+                    handleExtensionUpdate();
                     makeToast(t('extension.label.installed_successfully'), 'success');
                 })
                 .catch(() => makeToast(t('extension.label.installation_failed'), 'error'));
@@ -207,25 +208,8 @@ export function Extensions() {
         };
     }, []);
 
-    if (!allExtensions && (isLoading || !called)) {
-        return <LoadingPlaceholder />;
-    }
-
-    const showAddRepoInfo = !allExtensions?.length && !areReposDefined;
-    if (showAddRepoInfo) {
-        return (
-            <Stack sx={{ paddingTop: '20px' }} alignItems="center" justifyContent="center" rowGap="10px">
-                <Typography>{t('extension.label.add_repository_info')}</Typography>
-                <Button component={Link} variant="contained" to="/settings/extensionSettings">
-                    {t('settings.title')}
-                </Button>
-            </Stack>
-        );
-    }
-
-    return (
-        <>
-            {toasts}
+    const FileInputComponent = useMemo(
+        () => (
             <input
                 type="file"
                 style={{ display: 'none' }}
@@ -237,6 +221,34 @@ export function Extensions() {
                     }
                 }}
             />
+        ),
+        [],
+    );
+
+    if (!allExtensions && (isLoading || !called)) {
+        return <LoadingPlaceholder />;
+    }
+
+    const showAddRepoInfo = !allExtensions?.length && !areReposDefined;
+    if (showAddRepoInfo) {
+        return (
+            <>
+                {toasts}
+                {FileInputComponent}
+                <Stack sx={{ paddingTop: '20px' }} alignItems="center" justifyContent="center" rowGap="10px">
+                    <Typography>{t('extension.label.add_repository_info')}</Typography>
+                    <Button component={Link} variant="contained" to="/settings/extensionSettings">
+                        {t('settings.title')}
+                    </Button>
+                </Stack>
+            </>
+        );
+    }
+
+    return (
+        <>
+            {toasts}
+            {FileInputComponent}
             <StyledGroupedVirtuoso
                 style={{
                     // override Virtuoso default values and set them with class
@@ -274,7 +286,10 @@ export function Extensions() {
                     const item = visibleExtensions[index];
 
                     return (
-                        <StyledGroupItemWrapper key={item.apkName} isLastItem={index === visibleExtensions.length - 1}>
+                        <StyledGroupItemWrapper
+                            key={`${item.pkgName}_${item.isInstalled}_${item.isObsolete}_${item.hasUpdate}`}
+                            isLastItem={index === visibleExtensions.length - 1}
+                        >
                             <ExtensionCard
                                 extension={item}
                                 handleUpdate={handleExtensionUpdate}
