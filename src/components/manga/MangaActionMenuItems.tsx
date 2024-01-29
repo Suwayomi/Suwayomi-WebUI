@@ -16,7 +16,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Label from '@mui/icons-material/Label';
 import { useMemo, useState } from 'react';
 import SyncAltIcon from '@mui/icons-material/SyncAlt';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { TManga } from '@/typings.ts';
 import { actionToTranslationKey, MangaAction, MangaDownloadInfo, Mangas, MangaUnreadInfo } from '@/lib/data/Mangas.ts';
 import { SelectableCollectionReturnType } from '@/components/collection/useSelectableCollection.ts';
@@ -50,8 +50,6 @@ export const MangaActionMenuItems = ({
     setHideMenu,
 }: Props) => {
     const { t } = useTranslation();
-
-    const navigate = useNavigate();
 
     const [isCategorySelectOpen, setIsCategorySelectOpen] = useState(false);
 
@@ -139,15 +137,7 @@ export const MangaActionMenuItems = ({
                     state={{ mangaTitle: manga?.title }}
                     style={{ textDecoration: 'none', color: 'inherit' }}
                 >
-                    <MenuItem
-                        onClick={() =>
-                            navigate(
-                                `/migrate/source/${manga?.source?.id}/manga/${manga?.id}/search?query=${manga?.title}`,
-                            )
-                        }
-                        Icon={SyncAltIcon}
-                        title={getMenuItemTitle('migrate', selectedMangas.length)}
-                    />
+                    <MenuItem Icon={SyncAltIcon} title={getMenuItemTitle('migrate', selectedMangas.length)} />
                 </Link>
             )}
             <MenuItem
