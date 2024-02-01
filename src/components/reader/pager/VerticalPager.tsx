@@ -25,6 +25,7 @@ const findCurrentPageIndex = (wrapper: HTMLDivElement): number => {
 // TODO: make configurable?
 const SCROLL_SAFE_ZONE = 5; // px
 const SCROLL_OFFSET = 0.95;
+const SCROLL_OFFSET_SLIGHT = 0.25;
 const SCROLL_BEHAVIOR: ScrollBehavior = 'smooth';
 
 const isAtBottom = () => {
@@ -111,7 +112,7 @@ export function VerticalPager(props: IReaderProps) {
     }, [selfRef]);
 
     const go = useCallback(
-        (direction: 'up' | 'down') => {
+        (direction: 'up' | 'down', offset: number = SCROLL_OFFSET) => {
             if (direction === 'down' && isAtBottom()) {
                 nextChapter();
                 return;
@@ -123,7 +124,7 @@ export function VerticalPager(props: IReaderProps) {
             }
 
             window.scroll({
-                top: window.scrollY + window.innerHeight * SCROLL_OFFSET * (direction === 'up' ? -1 : 1),
+                top: window.scrollY + window.innerHeight * offset * (direction === 'up' ? -1 : 1),
                 behavior: SCROLL_BEHAVIOR,
             });
         },
@@ -138,11 +139,17 @@ export function VerticalPager(props: IReaderProps) {
                     go(e.shiftKey ? 'up' : 'down');
                     break;
                 case 'ArrowDown':
+                    e.preventDefault();
+                    go(e.shiftKey ? 'up' : 'down', SCROLL_OFFSET_SLIGHT);
+                    break;
                 case 'ArrowRight':
                     e.preventDefault();
                     go(e.shiftKey ? 'up' : 'down');
                     break;
                 case 'ArrowUp':
+                    e.preventDefault();
+                    go(e.shiftKey ? 'down' : 'up', SCROLL_OFFSET_SLIGHT);
+                    break;
                 case 'ArrowLeft':
                     e.preventDefault();
                     go(e.shiftKey ? 'down' : 'up');
