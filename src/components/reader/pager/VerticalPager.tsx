@@ -112,7 +112,7 @@ export function VerticalPager(props: IReaderProps) {
     }, [selfRef]);
 
     const go = useCallback(
-        (direction: 'up' | 'down', slightly = false) => {
+        (direction: 'up' | 'down', offset: number = SCROLL_OFFSET) => {
             if (direction === 'down' && isAtBottom()) {
                 nextChapter();
                 return;
@@ -124,7 +124,7 @@ export function VerticalPager(props: IReaderProps) {
             }
 
             window.scroll({
-                top: window.scrollY + window.innerHeight * (slightly ? SCROLL_OFFSET_SLIGHT : SCROLL_OFFSET) * (direction === 'up' ? -1 : 1),
+                top: window.scrollY + window.innerHeight * offset * (direction === 'up' ? -1 : 1),
                 behavior: SCROLL_BEHAVIOR,
             });
         },
@@ -140,7 +140,7 @@ export function VerticalPager(props: IReaderProps) {
                     break;
                 case 'ArrowDown':
                     e.preventDefault();
-                    go(e.shiftKey ? 'up' : 'down', true);
+                    go(e.shiftKey ? 'up' : 'down', SCROLL_OFFSET_SLIGHT);
                     break;
                 case 'ArrowRight':
                     e.preventDefault();
@@ -148,7 +148,7 @@ export function VerticalPager(props: IReaderProps) {
                     break;
                 case 'ArrowUp':
                     e.preventDefault();
-                    go(e.shiftKey ? 'down' : 'up', true);
+                    go(e.shiftKey ? 'down' : 'up', SCROLL_OFFSET_SLIGHT);
                     break;          
                 case 'ArrowLeft':
                     e.preventDefault();
