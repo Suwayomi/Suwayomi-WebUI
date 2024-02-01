@@ -24,8 +24,8 @@ const findCurrentPageIndex = (wrapper: HTMLDivElement): number => {
 
 // TODO: make configurable?
 const SCROLL_SAFE_ZONE = 5; // px
-const SCROLL_OFFSET = 0.95; // left and right arrows
-const SCROLL_OFFSET_SLIGHT = 0.25; // up and down arrows
+const SCROLL_OFFSET = 0.95;
+const SCROLL_OFFSET_SLIGHT = 0.25;
 const SCROLL_BEHAVIOR: ScrollBehavior = 'smooth';
 
 const isAtBottom = () => {
