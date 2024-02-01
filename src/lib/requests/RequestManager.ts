@@ -1100,8 +1100,12 @@ export class RequestManager {
                         ...cachedExtensions.data.fetchExtensions,
                         extensions: cachedExtensions.data.fetchExtensions.extensions
                             .filter((extension) => {
+                                if (!isObsolete) {
+                                    return true;
+                                }
+
                                 const isUpdatedExtension = id === extension.pkgName;
-                                return isUpdatedExtension && !isObsolete;
+                                return !isUpdatedExtension;
                             })
                             .map((extension) => {
                                 const isUpdatedExtension = id === extension.pkgName;
