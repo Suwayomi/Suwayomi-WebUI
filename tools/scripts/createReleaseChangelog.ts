@@ -47,8 +47,7 @@ type Commit = {
     repoUrl: string;
     revision: number;
     url: string;
-    githubUser: string | undefined;
-    author: string;
+    authors: GithubAuthor[];
     title: string;
 };
 
@@ -139,14 +138,27 @@ const fetchCommits = async (
     return { totalRepoCommitCount: repoHistory.totalCount, commits: loadedCommits };
 };
 
+const createCommitAuthorCredit = (authors: GithubAuthor[]): string => {
+    const authorsWithGithubAccount = authors.filter((author) => !!author.user?.login);
+
+    if (!authorsWithGithubAccount.length) {
+        return `by @${authors[0].name}`;
+    }
+
+    const commitAuthorsString = authorsWithGithubAccount
+        .map((author) => author.user!.login)
+        .reduce((authorCredit, author) => `${authorCredit}, @${author}`);
+
+    return `by @${commitAuthorsString}`;
+};
+
 const createChangelogCommitLine = (commit: Commit): string => {
-    const author = commit.githubUser ?? commit.author;
-    const credit = `by @${author}`;
+    const authorCredit = createCommitAuthorCredit(commit.authors);
     const revision = `([r${commit.revision}](${commit.url}))`;
 
     const includesPrId = commit.title.match(/.*\(#[0-9]+\)$/g);
     if (!includesPrId) {
-        return `${revision} ${commit.title} (${credit})`;
+        return `${revision} ${commit.title} (${authorCredit})`;
     }
 
     const splitTitle = commit.title.split('#');
@@ -154,9 +166,9 @@ const createChangelogCommitLine = (commit: Commit): string => {
     const rawPrId = splitTitle[splitTitle.length - 1]; // = <prId>) e.g. 420)
     const prId = rawPrId.substring(0, rawPrId.length - 1);
     const prUrl = `${commit.repoUrl}/pull/${prId}`;
-    const authorCredit = `[#${prId}](${prUrl}) ${credit}`;
+    const prLink = `[#${prId}](${prUrl})`;
 
-    return `${revision} ${splitTitle.slice(0, splitTitle.length - 1).join('#')}${authorCredit})`;
+    return `${revision} ${splitTitle.slice(0, splitTitle.length - 1).join('#')}${prLink} ${authorCredit})`;
 };
 
 const createChangelog = async (prevReleaseLastCommitSha: string) => {
@@ -173,8 +185,7 @@ const createChangelog = async (prevReleaseLastCommitSha: string) => {
         repoUrl: `https://github.com/${owner}/${repo}`,
         revision: numberOfCommits - index,
         url: githubCommit.url,
-        githubUser: githubCommit.authors.nodes[0]?.user?.login,
-        author: githubCommit.authors.nodes[0]?.name,
+        authors: githubCommit.authors.nodes,
         title: githubCommit.message.split('\n')[0],
     }));
 
