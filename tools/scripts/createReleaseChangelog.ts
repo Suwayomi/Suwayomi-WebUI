@@ -9,27 +9,6 @@
 import yargs from 'yargs';
 import githubToken from './github_token.json';
 
-type GithubCommit = {
-    sha: string;
-    html_url: string;
-    commit: {
-        message: string;
-        author: {
-            name: string;
-        };
-    };
-    author: { login: string } | null;
-};
-
-type Commit = {
-    repoUrl: string;
-    revision: number;
-    url: string;
-    githubUser: string | undefined;
-    author: string;
-    title: string;
-};
-
 const { sha } = yargs
     .options({
         sha: {
@@ -40,85 +19,196 @@ const { sha } = yargs
     })
     .parseSync();
 
-const getHeaderWithAuth = () => ({
-    headers: {
-        // token is optional, might be needed in case of getting rate-limited - to provide a token create a "github_token.json" (see "github_token.template.json") and add your token in there
-        Authorization: githubToken.token ? `token ${githubToken.token}` : '',
-    },
-});
+if (!sha) {
+    throw new Error('Sha of last commit of the previous release has to be passed!');
+}
 
-const fetchTotalCommitCount = async (owner: string, repo: string, branch: string = 'master') => {
-    const response = await fetch(
-        `https://api.github.com/repos/${owner}/${repo}/commits?sha=${branch}&per_page=1&page=1`,
-        getHeaderWithAuth(),
-    );
-
-    const linkHeader = response.headers.get('Link');
-    const pageCountMatch = linkHeader?.match(/page=(\d+)>; rel="last"/);
-
-    if (!pageCountMatch) {
-        throw new Error('Page count not found in Link header');
-    }
-
-    return parseInt(pageCountMatch[1], 10);
+type GithubAuthor = {
+    name: string;
+    user: { login: string } | null;
 };
 
-/**
- * Fetches and returns all commits after the provided commit hash
- */
+type GithubPullRequest = {
+    number: string;
+    url: string;
+};
+
+type GithubCommit = {
+    oid: string;
+    url: string;
+    message: string;
+    authors: {
+        totalCount: number;
+        nodes: GithubAuthor[];
+    };
+    associatedPullRequests: {
+        nodes: GithubPullRequest[];
+    };
+};
+
+type CommitQueryResponse = {
+    data: {
+        repository: {
+            ref: {
+                target: {
+                    history: {
+                        totalCount: number;
+                        pageInfo: {
+                            hasNextPage: boolean;
+                            endCursor: string;
+                        };
+                        nodes: GithubCommit[];
+                    };
+                };
+            };
+        };
+    };
+};
+
+type Commit = {
+    repoUrl: string;
+    revision: number;
+    url: string;
+    authors: GithubAuthor[];
+    title: string;
+    pullRequest?: GithubPullRequest;
+};
+
 const fetchCommits = async (
     owner: string,
     repo: string,
     loadUntilSha: string,
-    page: number = 1,
-): Promise<GithubCommit[]> => {
-    const commitList = (await (
-        await fetch(`https://api.github.com/repos/${owner}/${repo}/commits?page=${page}`, getHeaderWithAuth())
-    ).json()) as GithubCommit[];
-    const indexOfOldestCommitToLoad = commitList.findIndex((commit) => commit.sha === loadUntilSha);
+    endCursor?: string,
+): Promise<{ totalRepoCommitCount: number; commits: GithubCommit[] }> => {
+    const query = `query ($owner: String!, $name: String!, $afterSha: String) {
+  repository(owner: $owner, name: $name) {
+    ref(qualifiedName: "master") {
+      target {
+        ... on Commit {
+          history(first: 100, after: $afterSha) {
+            totalCount
+            pageInfo {
+              hasNextPage
+              endCursor
+            }
+            nodes {
+              oid
+              # use "message" instead of "messageHeadline" because GitHub truncates titles if they are too long
+              message
+              url
+              authors(first: 100) {
+                totalCount
+                nodes {
+                  name
+                  user {
+                    login
+                  }
+                }
+              }
+              associatedPullRequests(first: 1) {
+                nodes {
+                  number
+                  url
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}`;
+
+    const variables = {
+        owner,
+        name: repo,
+        afterSha: endCursor,
+    };
+
+    const response = (await (
+        await fetch('https://api.github.com/graphql', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${githubToken.token}`,
+            },
+            body: JSON.stringify({ query, variables }),
+        })
+    ).json()) as CommitQueryResponse;
+
+    const repoHistory = response.data.repository.ref.target.history;
+    const { hasNextPage, endCursor: repoHistoryEndCursor } = repoHistory.pageInfo;
+    const commits = repoHistory.nodes;
+    const indexOfOldestCommitToLoad = commits.findIndex((commit) => commit.oid === loadUntilSha);
 
     const loadedAllCommits = indexOfOldestCommitToLoad !== -1;
     if (loadedAllCommits) {
-        return commitList.slice(0, indexOfOldestCommitToLoad);
+        return { totalRepoCommitCount: repoHistory.totalCount, commits: commits.slice(0, indexOfOldestCommitToLoad) };
     }
 
-    return [...commitList, ...(await fetchCommits(owner, repo, loadUntilSha, page + 1))];
+    if (!hasNextPage) {
+        throw new Error(`No commit with sha "${loadUntilSha}" found!`);
+    }
+
+    const loadedCommits = [
+        ...commits,
+        ...(await fetchCommits(owner, repo, loadUntilSha, repoHistoryEndCursor)).commits,
+    ];
+    return { totalRepoCommitCount: repoHistory.totalCount, commits: loadedCommits };
+};
+
+const createCommitAuthorCredit = (authors: GithubAuthor[]): string => {
+    const authorsWithGithubAccount = authors.filter((author) => !!author.user?.login);
+
+    if (!authorsWithGithubAccount.length) {
+        return `by @${authors[0].name}`;
+    }
+
+    const commitAuthorsString = authorsWithGithubAccount
+        .map((author) => author.user!.login)
+        .reduce((authorCredit, author) => `${authorCredit}, @${author}`);
+
+    return `by @${commitAuthorsString}`;
 };
 
 const createChangelogCommitLine = (commit: Commit): string => {
-    const author = commit.githubUser ?? commit.author;
-    const credit = `by @${author}`;
-    const revision = `([r${commit.revision}](${commit.url}))`;
+    try {
+        const authorCredit = createCommitAuthorCredit(commit.authors);
+        const revision = `([r${commit.revision}](${commit.url}))`;
 
-    const includesPrId = commit.title.match(/.*\(#[0-9]+\)$/g);
-    if (!includesPrId) {
-        return `${revision} ${commit.title} (${credit})`;
+        if (!commit.pullRequest) {
+            return `${revision} ${commit.title} (${authorCredit})`;
+        }
+
+        const title = commit.title.replace(/(.*) \(#[0-9]+\)$/g, '$1'); // remove the possible pr number from the title (e.g. "my commit title (#420)" => "my commit title")
+        const prId = commit.pullRequest.number;
+        const prUrl = commit.pullRequest.url;
+        const prLink = `[#${prId}](${prUrl})`;
+
+        return `${revision} ${title} (${prLink} ${authorCredit})`;
+    } catch (e) {
+        console.log('Unexpected commit format', commit);
+        throw e;
     }
-
-    const splitTitle = commit.title.split('#');
-
-    const rawPrId = splitTitle[splitTitle.length - 1]; // = <prId>) e.g. 420)
-    const prId = rawPrId.substring(0, rawPrId.length - 1);
-    const prUrl = `${commit.repoUrl}/pull/${prId}`;
-    const authorCredit = `[#${prId}](${prUrl}) ${credit}`;
-
-    return `${revision} ${splitTitle.slice(0, splitTitle.length - 1).join('#')}${authorCredit})`;
 };
 
 const createChangelog = async (prevReleaseLastCommitSha: string) => {
     const owner = 'Suwayomi';
     const repo = 'Suwayomi-WebUI';
 
-    const numberOfCommits = await fetchTotalCommitCount(owner, repo);
-    const githubCommits = await fetchCommits(owner, repo, prevReleaseLastCommitSha);
+    const { totalRepoCommitCount: numberOfCommits, commits: githubCommits } = await fetchCommits(
+        owner,
+        repo,
+        prevReleaseLastCommitSha,
+    );
 
     const commits: Commit[] = githubCommits.map((githubCommit, index) => ({
         repoUrl: `https://github.com/${owner}/${repo}`,
         revision: numberOfCommits - index,
-        url: githubCommit.html_url,
-        githubUser: githubCommit.author?.login,
-        author: githubCommit.commit.author.name,
-        title: githubCommit.commit.message.split('\n')[0],
+        url: githubCommit.url,
+        authors: githubCommit.authors.nodes,
+        title: githubCommit.message.split('\n')[0],
+        pullRequest: githubCommit.associatedPullRequests.nodes[0],
     }));
 
     const commitChangelogLines = commits.map(createChangelogCommitLine);
