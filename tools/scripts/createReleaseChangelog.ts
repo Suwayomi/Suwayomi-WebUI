@@ -14,6 +14,11 @@ type GithubAuthor = {
     user: { login: string } | null;
 };
 
+type GithubPullRequest = {
+    number: string;
+    url: string;
+};
+
 type GithubCommit = {
     oid: string;
     url: string;
@@ -21,6 +26,9 @@ type GithubCommit = {
     authors: {
         totalCount: number;
         nodes: GithubAuthor[];
+    };
+    associatedPullRequests: {
+        nodes: GithubPullRequest[];
     };
 };
 
@@ -49,6 +57,7 @@ type Commit = {
     url: string;
     authors: GithubAuthor[];
     title: string;
+    pullRequest?: GithubPullRequest;
 };
 
 const { sha } = yargs
@@ -90,6 +99,12 @@ const fetchCommits = async (
                   user {
                     login
                   }
+                }
+              }
+              associatedPullRequests(first: 1) {
+                nodes {
+                  number
+                  url
                 }
               }
             }
@@ -156,19 +171,16 @@ const createChangelogCommitLine = (commit: Commit): string => {
     const authorCredit = createCommitAuthorCredit(commit.authors);
     const revision = `([r${commit.revision}](${commit.url}))`;
 
-    const includesPrId = commit.title.match(/.*\(#[0-9]+\)$/g);
-    if (!includesPrId) {
+    if (!commit.pullRequest) {
         return `${revision} ${commit.title} (${authorCredit})`;
     }
 
-    const splitTitle = commit.title.split('#');
-
-    const rawPrId = splitTitle[splitTitle.length - 1]; // = <prId>) e.g. 420)
-    const prId = rawPrId.substring(0, rawPrId.length - 1);
-    const prUrl = `${commit.repoUrl}/pull/${prId}`;
+    const title = commit.title.replace(/(.*) \(#[0-9]+\)$/g, '$1'); // remove the possible pr number from the title (e.g. "my commit title (#420)" => "my commit title")
+    const prId = commit.pullRequest.number;
+    const prUrl = commit.pullRequest.url;
     const prLink = `[#${prId}](${prUrl})`;
 
-    return `${revision} ${splitTitle.slice(0, splitTitle.length - 1).join('#')}${prLink} ${authorCredit})`;
+    return `${revision} ${title} (${prLink} ${authorCredit})`;
 };
 
 const createChangelog = async (prevReleaseLastCommitSha: string) => {
@@ -187,6 +199,7 @@ const createChangelog = async (prevReleaseLastCommitSha: string) => {
         url: githubCommit.url,
         authors: githubCommit.authors.nodes,
         title: githubCommit.message.split('\n')[0],
+        pullRequest: githubCommit.associatedPullRequests.nodes[0],
     }));
 
     const commitChangelogLines = commits.map(createChangelogCommitLine);
