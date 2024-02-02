@@ -168,19 +168,24 @@ const createCommitAuthorCredit = (authors: GithubAuthor[]): string => {
 };
 
 const createChangelogCommitLine = (commit: Commit): string => {
-    const authorCredit = createCommitAuthorCredit(commit.authors);
-    const revision = `([r${commit.revision}](${commit.url}))`;
+    try {
+        const authorCredit = createCommitAuthorCredit(commit.authors);
+        const revision = `([r${commit.revision}](${commit.url}))`;
 
-    if (!commit.pullRequest) {
-        return `${revision} ${commit.title} (${authorCredit})`;
+        if (!commit.pullRequest) {
+            return `${revision} ${commit.title} (${authorCredit})`;
+        }
+
+        const title = commit.title.replace(/(.*) \(#[0-9]+\)$/g, '$1'); // remove the possible pr number from the title (e.g. "my commit title (#420)" => "my commit title")
+        const prId = commit.pullRequest.number;
+        const prUrl = commit.pullRequest.url;
+        const prLink = `[#${prId}](${prUrl})`;
+
+        return `${revision} ${title} (${prLink} ${authorCredit})`;
+    } catch (e) {
+        console.log('Unexpected commit format', commit);
+        throw e;
     }
-
-    const title = commit.title.replace(/(.*) \(#[0-9]+\)$/g, '$1'); // remove the possible pr number from the title (e.g. "my commit title (#420)" => "my commit title")
-    const prId = commit.pullRequest.number;
-    const prUrl = commit.pullRequest.url;
-    const prLink = `[#${prId}](${prUrl})`;
-
-    return `${revision} ${title} (${prLink} ${authorCredit})`;
 };
 
 const createChangelog = async (prevReleaseLastCommitSha: string) => {
