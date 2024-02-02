@@ -9,16 +9,38 @@
 import yargs from 'yargs';
 import githubToken from './github_token.json';
 
+type GithubAuthor = {
+    name: string;
+    user: { login: string } | null;
+};
+
 type GithubCommit = {
-    sha: string;
-    html_url: string;
-    commit: {
-        message: string;
-        author: {
-            name: string;
+    oid: string;
+    url: string;
+    message: string;
+    authors: {
+        totalCount: number;
+        nodes: GithubAuthor[];
+    };
+};
+
+type CommitQueryResponse = {
+    data: {
+        repository: {
+            ref: {
+                target: {
+                    history: {
+                        totalCount: number;
+                        pageInfo: {
+                            hasNextPage: boolean;
+                            endCursor: string;
+                        };
+                        nodes: GithubCommit[];
+                    };
+                };
+            };
         };
     };
-    author: { login: string } | null;
 };
 
 type Commit = {
@@ -40,49 +62,81 @@ const { sha } = yargs
     })
     .parseSync();
 
-const getHeaderWithAuth = () => ({
-    headers: {
-        // token is optional, might be needed in case of getting rate-limited - to provide a token create a "github_token.json" (see "github_token.template.json") and add your token in there
-        Authorization: githubToken.token ? `token ${githubToken.token}` : '',
-    },
-});
-
-const fetchTotalCommitCount = async (owner: string, repo: string, branch: string = 'master') => {
-    const response = await fetch(
-        `https://api.github.com/repos/${owner}/${repo}/commits?sha=${branch}&per_page=1&page=1`,
-        getHeaderWithAuth(),
-    );
-
-    const linkHeader = response.headers.get('Link');
-    const pageCountMatch = linkHeader?.match(/page=(\d+)>; rel="last"/);
-
-    if (!pageCountMatch) {
-        throw new Error('Page count not found in Link header');
-    }
-
-    return parseInt(pageCountMatch[1], 10);
-};
-
-/**
- * Fetches and returns all commits after the provided commit hash
- */
 const fetchCommits = async (
     owner: string,
     repo: string,
     loadUntilSha: string,
-    page: number = 1,
-): Promise<GithubCommit[]> => {
-    const commitList = (await (
-        await fetch(`https://api.github.com/repos/${owner}/${repo}/commits?page=${page}`, getHeaderWithAuth())
-    ).json()) as GithubCommit[];
-    const indexOfOldestCommitToLoad = commitList.findIndex((commit) => commit.sha === loadUntilSha);
+    endCursor?: string,
+): Promise<{ totalRepoCommitCount: number; commits: GithubCommit[] }> => {
+    const query = `query ($owner: String!, $name: String!, $afterSha: String) {
+  repository(owner: $owner, name: $name) {
+    ref(qualifiedName: "master") {
+      target {
+        ... on Commit {
+          history(first: 100, after: $afterSha) {
+            totalCount
+            pageInfo {
+              hasNextPage
+              endCursor
+            }
+            nodes {
+              oid
+              # use "message" instead of "messageHeadline" because GitHub truncates titles if they are too long
+              message
+              url
+              authors(first: 100) {
+                totalCount
+                nodes {
+                  name
+                  user {
+                    login
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}`;
+
+    const variables = {
+        owner,
+        name: repo,
+        afterSha: endCursor,
+    };
+
+    const response = (await (
+        await fetch('https://api.github.com/graphql', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${githubToken.token}`,
+            },
+            body: JSON.stringify({ query, variables }),
+        })
+    ).json()) as CommitQueryResponse;
+
+    const repoHistory = response.data.repository.ref.target.history;
+    const { hasNextPage, endCursor: repoHistoryEndCursor } = repoHistory.pageInfo;
+    const commits = repoHistory.nodes;
+    const indexOfOldestCommitToLoad = commits.findIndex((commit) => commit.oid === loadUntilSha);
 
     const loadedAllCommits = indexOfOldestCommitToLoad !== -1;
     if (loadedAllCommits) {
-        return commitList.slice(0, indexOfOldestCommitToLoad);
+        return { totalRepoCommitCount: repoHistory.totalCount, commits: commits.slice(0, indexOfOldestCommitToLoad) };
     }
 
-    return [...commitList, ...(await fetchCommits(owner, repo, loadUntilSha, page + 1))];
+    if (!hasNextPage) {
+        throw new Error(`No commit with sha "${loadUntilSha}" found!`);
+    }
+
+    const loadedCommits = [
+        ...commits,
+        ...(await fetchCommits(owner, repo, loadUntilSha, repoHistoryEndCursor)).commits,
+    ];
+    return { totalRepoCommitCount: repoHistory.totalCount, commits: loadedCommits };
 };
 
 const createChangelogCommitLine = (commit: Commit): string => {
@@ -109,16 +163,19 @@ const createChangelog = async (prevReleaseLastCommitSha: string) => {
     const owner = 'Suwayomi';
     const repo = 'Suwayomi-WebUI';
 
-    const numberOfCommits = await fetchTotalCommitCount(owner, repo);
-    const githubCommits = await fetchCommits(owner, repo, prevReleaseLastCommitSha);
+    const { totalRepoCommitCount: numberOfCommits, commits: githubCommits } = await fetchCommits(
+        owner,
+        repo,
+        prevReleaseLastCommitSha,
+    );
 
     const commits: Commit[] = githubCommits.map((githubCommit, index) => ({
         repoUrl: `https://github.com/${owner}/${repo}`,
         revision: numberOfCommits - index,
-        url: githubCommit.html_url,
-        githubUser: githubCommit.author?.login,
-        author: githubCommit.commit.author.name,
-        title: githubCommit.commit.message.split('\n')[0],
+        url: githubCommit.url,
+        githubUser: githubCommit.authors.nodes[0]?.user?.login,
+        author: githubCommit.authors.nodes[0]?.name,
+        title: githubCommit.message.split('\n')[0],
     }));
 
     const commitChangelogLines = commits.map(createChangelogCommitLine);
