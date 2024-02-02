@@ -9,6 +9,20 @@
 import yargs from 'yargs';
 import githubToken from './github_token.json';
 
+const { sha } = yargs
+    .options({
+        sha: {
+            description: 'The hash of the last commit of the previous release',
+            type: 'string',
+            demandOption: true,
+        },
+    })
+    .parseSync();
+
+if (!sha) {
+    throw new Error('Sha of last commit of the previous release has to be passed!');
+}
+
 type GithubAuthor = {
     name: string;
     user: { login: string } | null;
@@ -59,16 +73,6 @@ type Commit = {
     title: string;
     pullRequest?: GithubPullRequest;
 };
-
-const { sha } = yargs
-    .options({
-        sha: {
-            description: 'The hash of the last commit of the previous release',
-            type: 'string',
-            demandOption: true,
-        },
-    })
-    .parseSync();
 
 const fetchCommits = async (
     owner: string,
