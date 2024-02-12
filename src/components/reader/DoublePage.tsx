@@ -42,6 +42,7 @@ export const DoublePage = forwardRef((props: IProps, ref: any) => {
             ref={ref}
             sx={{
                 display: 'flex',
+                flexDirection: settings.readerType === 'DoubleLTR' ? 'row' : 'row-reverse',
                 justifyContent: 'center',
                 width: '100%',
             }}
