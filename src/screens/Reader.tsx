@@ -131,7 +131,7 @@ export function Reader() {
     const { data: chapterData, loading: isChapterLoading } = requestManager.useGetMangaChapter(mangaId, chapterIndex, {
         skip: isChapterLoaded,
     });
-    const [arePagesUpdated, setArePagesUpdated] = useState(false);
+    const arePagesUpdatedRef = useRef(false);
 
     const { data: settingsData } = requestManager.useGetServerSettings();
     const isDownloadAheadEnabled = !!settingsData?.settings.autoDownloadAheadLimit;
@@ -144,9 +144,7 @@ export function Reader() {
             return loadedChapter.current;
         }
 
-        if (arePagesUpdated) {
-            setArePagesUpdated(false);
-        }
+        arePagesUpdatedRef.current = false;
 
         if (chapterData?.chapter) {
             return chapterData.chapter;
@@ -170,7 +168,7 @@ export function Reader() {
         }
     }, [chapter.id]);
 
-    const isLoading = isChapterLoading || !arePagesUpdated;
+    const isLoading = isChapterLoading || !arePagesUpdatedRef.current;
     const [wasLastPageReadSet, setWasLastPageReadSet] = useState(false);
     const [curPage, setCurPage] = useState<number>(0);
     const isLastPage = curPage === chapter.pageCount - 1;
