@@ -188,6 +188,16 @@ export function Reader() {
     const { settings: metadataSettings } = useMetadataServerSettings();
 
     const updateChapter = (patch: UpdateChapterPatchInput) => {
+        const getChapterFromCache = (id: number) =>
+            requestManager.graphQLClient.client.cache.readFragment<TChapter>({
+                id: requestManager.graphQLClient.client.cache.identify({
+                    __typename: 'ChapterType',
+                    id,
+                }),
+                fragment: FULL_CHAPTER_FIELDS,
+                fragmentName: 'FULL_CHAPTER_FIELDS',
+            });
+
         const isAutoDeletionEnabled = !!patch.isRead && !!metadataSettings.deleteChaptersWhileReading;
 
         const getChapterIdToDelete = () => {
@@ -204,14 +214,7 @@ export function Reader() {
                 return -1;
             }
 
-            const chapterToDeleteUpToDateData = requestManager.graphQLClient.client.cache.readFragment<TChapter>({
-                id: requestManager.graphQLClient.client.cache.identify({
-                    __typename: 'ChapterType',
-                    id: chapterToDelete.id,
-                }),
-                fragment: FULL_CHAPTER_FIELDS,
-                fragmentName: 'FULL_CHAPTER_FIELDS',
-            });
+            const chapterToDeleteUpToDateData = getChapterFromCache(chapterToDelete.id);
 
             const shouldDeleteChapter =
                 chapterToDeleteUpToDateData?.isDownloaded &&
@@ -223,8 +226,17 @@ export function Reader() {
             return chapterToDelete.id;
         };
 
+        const currentChapter = getChapterFromCache(chapter.id);
+        const nextChapterId = mangaChapters?.[Number(chapterIndex) + 1]?.id;
+        const nextChapter = nextChapterId ? getChapterFromCache(nextChapterId) : null;
+
         const shouldDownloadAhead =
-            chapter.manga.inLibrary && !chapter.isRead && !!patch.isRead && isDownloadAheadEnabled;
+            isDownloadAheadEnabled &&
+            chapter.manga.inLibrary &&
+            !chapter.isRead &&
+            !!patch.isRead &&
+            !!currentChapter?.isDownloaded &&
+            !!nextChapter?.isDownloaded;
 
         requestManager
             .updateChapter(chapter.id, {
