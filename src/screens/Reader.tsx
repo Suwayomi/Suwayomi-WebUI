@@ -128,9 +128,7 @@ export function Reader() {
         Number(chapterIndex) === loadedChapter.current?.sourceOrder &&
         loadedChapter.current?.pageCount !== -1;
     const manga = data?.manga ?? initialManga;
-    const { data: chapterData, loading: isChapterLoading } = requestManager.useGetMangaChapter(mangaId, chapterIndex, {
-        skip: isChapterLoaded,
-    });
+    const { data: chapterData, loading: isChapterLoading } = requestManager.useGetMangaChapter(mangaId, chapterIndex);
     const arePagesUpdatedRef = useRef(false);
 
     const { data: settingsData } = requestManager.useGetServerSettings();
@@ -141,7 +139,9 @@ export function Reader() {
 
         const isSameAsLoadedChapter = isAChapterLoaded && isChapterLoaded;
         if (isSameAsLoadedChapter) {
-            return loadedChapter.current;
+            const didPageCountChange =
+                chapterData?.chapter && loadedChapter.current?.pageCount !== chapterData.chapter.pageCount;
+            return didPageCountChange ? chapterData!.chapter : loadedChapter.current;
         }
 
         arePagesUpdatedRef.current = false;
