@@ -128,10 +128,8 @@ export function Reader() {
         Number(chapterIndex) === loadedChapter.current?.sourceOrder &&
         loadedChapter.current?.pageCount !== -1;
     const manga = data?.manga ?? initialManga;
-    const { data: chapterData, loading: isChapterLoading } = requestManager.useGetMangaChapter(mangaId, chapterIndex, {
-        skip: isChapterLoaded,
-    });
-    const [arePagesUpdated, setArePagesUpdated] = useState(false);
+    const { data: chapterData, loading: isChapterLoading } = requestManager.useGetMangaChapter(mangaId, chapterIndex);
+    const arePagesUpdatedRef = useRef(false);
 
     const { data: settingsData } = requestManager.useGetServerSettings();
     const isDownloadAheadEnabled = !!settingsData?.settings.autoDownloadAheadLimit;
@@ -141,12 +139,12 @@ export function Reader() {
 
         const isSameAsLoadedChapter = isAChapterLoaded && isChapterLoaded;
         if (isSameAsLoadedChapter) {
-            return loadedChapter.current;
+            const didPageCountChange =
+                chapterData?.chapter && loadedChapter.current?.pageCount !== chapterData.chapter.pageCount;
+            return didPageCountChange ? chapterData!.chapter : loadedChapter.current;
         }
 
-        if (arePagesUpdated) {
-            setArePagesUpdated(false);
-        }
+        arePagesUpdatedRef.current = false;
 
         if (chapterData?.chapter) {
             return chapterData.chapter;
@@ -160,18 +158,17 @@ export function Reader() {
     const [fetchPages] = requestManager.useGetChapterPagesFetch(chapter.id);
 
     useEffect(() => {
-        const reCheckPages = !chapter.isDownloaded || chapter.pageCount === -1;
-        const shouldFetchPages = !isChapterLoading && reCheckPages;
+        const shouldFetchPages = !isChapterLoading && !chapter.isDownloaded;
         if (shouldFetchPages) {
-            fetchPages().then(() => setArePagesUpdated(true));
-        }
-
-        if (!reCheckPages && !arePagesUpdated) {
-            setArePagesUpdated(true);
+            fetchPages().then(() => {
+                arePagesUpdatedRef.current = true;
+            });
+        } else {
+            arePagesUpdatedRef.current = true;
         }
     }, [chapter.id]);
 
-    const isLoading = isChapterLoading || !arePagesUpdated;
+    const isLoading = isChapterLoading || !arePagesUpdatedRef.current;
     const [wasLastPageReadSet, setWasLastPageReadSet] = useState(false);
     const [curPage, setCurPage] = useState<number>(0);
     const isLastPage = curPage === chapter.pageCount - 1;
