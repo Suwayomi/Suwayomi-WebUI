@@ -160,14 +160,13 @@ export function Reader() {
     const [fetchPages] = requestManager.useGetChapterPagesFetch(chapter.id);
 
     useEffect(() => {
-        const reCheckPages = !chapter.isDownloaded || chapter.pageCount === -1;
-        const shouldFetchPages = !isChapterLoading && reCheckPages;
+        const shouldFetchPages = !isChapterLoading && !chapter.isDownloaded;
         if (shouldFetchPages) {
-            fetchPages().then(() => setArePagesUpdated(true));
-        }
-
-        if (!reCheckPages && !arePagesUpdated) {
-            setArePagesUpdated(true);
+            fetchPages().then(() => {
+                arePagesUpdatedRef.current = true;
+            });
+        } else {
+            arePagesUpdatedRef.current = true;
         }
     }, [chapter.id]);
 
