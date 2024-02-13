@@ -224,7 +224,7 @@ export function Reader() {
         };
 
         const currentChapter = getChapterFromCache(chapter.id);
-        const nextChapterId = mangaChapters?.[Number(chapterIndex) + 1]?.id;
+        const nextChapterId = mangaChapters?.[(mangaChapters?.length ?? 0) - Number(chapterIndex) - 1]?.id;
         const nextChapter = nextChapterId ? getChapterFromCache(nextChapterId) : null;
 
         const shouldDownloadAhead =
