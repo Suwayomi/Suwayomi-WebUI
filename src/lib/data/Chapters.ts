@@ -307,7 +307,9 @@ export class Chapters {
 
         return [...chapterNumberToChapters.values()].map(
             (groupedChapters) =>
-                groupedChapters.find((chapter) => chapter.id === currentChapter.id) ?? groupedChapters.slice(-1)[0],
+                groupedChapters.find((chapter) => chapter.id === currentChapter.id) ??
+                groupedChapters.findLast((chapter) => chapter.scanlator === currentChapter.scanlator) ??
+                groupedChapters.slice(-1)[0],
         );
     }
 
