@@ -222,6 +222,7 @@ export type MetadataServerSettings = {
     deleteChaptersManuallyMarkedRead: boolean;
     deleteChaptersWhileReading: number;
     deleteChaptersWithBookmark: boolean;
+    downloadAheadLimit: number;
 
     // library
     showAddToLibraryCategorySelectDialog: boolean;

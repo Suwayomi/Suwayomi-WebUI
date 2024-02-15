@@ -21,6 +21,7 @@ import { convertToGqlMeta, requestUpdateServerMetadata } from '@/util/metadata.t
 import { makeToast } from '@/components/util/Toast.tsx';
 import { DeleteChaptersWhileReadingSetting } from '@/components/settings/downloads/DeleteChaptersWhileReadingSetting.tsx';
 import { CategoriesInclusionSetting } from '@/components/settings/CategoriesInclusionSetting.tsx';
+import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
 
 type DownloadSettingsType = Pick<
     ServerSettings,
@@ -100,7 +101,7 @@ export const DownloadSettings = () => {
             </ListItem>
             <List
                 subheader={
-                    <ListSubheader component="div" id="download-settings-auto-download">
+                    <ListSubheader component="div" id="download-settings-auto-delete-downloads">
                         {t('download.settings.delete_chapters.title')}
                     </ListSubheader>
                 }
@@ -143,6 +144,29 @@ export const DownloadSettings = () => {
                         onChange={(e) => updateSetting('autoDownloadNewChapters', e.target.checked)}
                     />
                 </ListItem>
+                <NumberSetting
+                    disabled={!downloadSettings?.autoDownloadNewChapters}
+                    settingTitle={t('download.settings.auto_download.download_limit.label.title')}
+                    dialogDescription={t('download.settings.auto_download.download_limit.label.description')}
+                    value={downloadSettings?.autoDownloadAheadLimit ?? 0}
+                    settingValue={
+                        // eslint-disable-next-line no-nested-ternary
+                        downloadSettings?.autoDownloadAheadLimit !== undefined
+                            ? !downloadSettings.autoDownloadAheadLimit
+                                ? t('global.label.none')
+                                : t('download.settings.download_ahead.label.value', {
+                                      chapters: downloadSettings.autoDownloadAheadLimit,
+                                      count: downloadSettings.autoDownloadAheadLimit,
+                                  })
+                            : undefined
+                    }
+                    defaultValue={0}
+                    minValue={0}
+                    maxValue={20}
+                    showSlider
+                    valueUnit={t('chapter.title')}
+                    handleUpdate={(downloadAheadLimit) => updateSetting('autoDownloadAheadLimit', downloadAheadLimit)}
+                />
                 <ListItem disabled={!downloadSettings?.autoDownloadNewChapters}>
                     <ListItemText primary={t('download.settings.auto_download.label.ignore_with_unread_chapters')} />
                     <Switch
