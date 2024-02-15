@@ -39,7 +39,7 @@ import { useDebounce } from '@/util/useDebounce.ts';
 import { UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
 import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
-import { FULL_CHAPTER_FIELDS } from '@/lib/graphql/Fragments.ts';
+import { Chapters } from '@/lib/data/Chapters.ts';
 
 const isDupChapter = async (chapterIndex: number, currentChapter: TChapter) => {
     const nextChapter = await requestManager.getChapter(currentChapter.manga.id, chapterIndex).response;
@@ -184,17 +184,13 @@ export function Reader() {
 
     const { settings: metadataSettings } = useMetadataServerSettings();
 
-    const updateChapter = (patch: UpdateChapterPatchInput) => {
-        const getChapterFromCache = (id: number) =>
-            requestManager.graphQLClient.client.cache.readFragment<TChapter>({
-                id: requestManager.graphQLClient.client.cache.identify({
-                    __typename: 'ChapterType',
-                    id,
-                }),
-                fragment: FULL_CHAPTER_FIELDS,
-                fragmentName: 'FULL_CHAPTER_FIELDS',
-            });
+    const nextChapters = useMemo(
+        () => Chapters.getNextChapters(chapter, mangaChapters ?? []),
+        [chapter, mangaChapters],
+    );
+    const nextChapter = useMemo(() => Chapters.getNextChapter(chapter, mangaChapters ?? []), [chapter, mangaChapters]);
 
+    const updateChapter = (patch: UpdateChapterPatchInput) => {
         const isAutoDeletionEnabled = !!patch.isRead && !!metadataSettings.deleteChaptersWhileReading;
 
         const getChapterIdToDelete = () => {
@@ -211,7 +207,7 @@ export function Reader() {
                 return -1;
             }
 
-            const chapterToDeleteUpToDateData = getChapterFromCache(chapterToDelete.id);
+            const chapterToDeleteUpToDateData = Chapters.getFromCache<TChapter>(chapterToDelete.id);
 
             const shouldDeleteChapter =
                 chapterToDeleteUpToDateData?.isDownloaded &&
@@ -223,23 +219,47 @@ export function Reader() {
             return chapterToDelete.id;
         };
 
-        const currentChapter = getChapterFromCache(chapter.id);
-        const nextChapterId = mangaChapters?.[(mangaChapters?.length ?? 0) - Number(chapterIndex) - 1]?.id;
-        const nextChapter = nextChapterId ? getChapterFromCache(nextChapterId) : null;
+        const downloadAhead = () => {
+            const currentChapter = Chapters.getFromCache<TChapter>(chapter.id);
 
-        const shouldDownloadAhead =
-            isDownloadAheadEnabled &&
-            chapter.manga.inLibrary &&
-            !chapter.isRead &&
-            !!patch.isRead &&
-            !!currentChapter?.isDownloaded &&
-            !!nextChapter?.isDownloaded;
+            const shouldCheckDownloadAhead =
+                isDownloadAheadEnabled && chapter.manga.inLibrary && !!currentChapter?.isDownloaded && !!patch.isRead;
+
+            if (shouldCheckDownloadAhead) {
+                const nextChapterUpToDate = nextChapter ? Chapters.getFromCache<TChapter>(nextChapter.id) : null;
+
+                if (!nextChapterUpToDate?.isDownloaded) {
+                    return;
+                }
+
+                const nextChaptersUpToDate = Chapters.getNonRead(nextChapters).map(
+                    // the chapters have to be in the cache since the reader fetches the whole chapter list of the manga
+                    (mangaChapter) => Chapters.getFromCache<TChapter>(mangaChapter.id)!,
+                );
+
+                const chapterIdsToDownload = nextChaptersUpToDate
+                    // "settingsData" can't be undefined since this would not get executed otherwise
+                    .slice(-settingsData!.settings.autoDownloadAheadLimit)
+                    .filter((mangaChapter) => !mangaChapter.isDownloaded)
+                    .map((mangaChapter) => mangaChapter.id)
+                    .filter((id) => !Chapters.isDownloading(id));
+
+                if (!chapterIdsToDownload.length) {
+                    return;
+                }
+
+                Chapters.download(chapterIdsToDownload!).catch(
+                    defaultPromiseErrorHandler('Reader::updateChapter: shouldDownloadAhead'),
+                );
+            }
+        };
+
+        downloadAhead();
 
         requestManager
             .updateChapter(chapter.id, {
                 ...patch,
                 chapterIdToDelete: getChapterIdToDelete(),
-                downloadAheadMangaId: shouldDownloadAhead ? chapter.manga.id : undefined,
             })
             .response.catch();
     };
@@ -344,7 +364,7 @@ export function Reader() {
         });
     }, [curPageDebounced, isDownloadAheadEnabled]);
 
-    const nextChapter = useCallback(() => {
+    const loadNextChapter = useCallback(() => {
         const doesNextChapterExist = chapter.sourceOrder < manga.chapters.totalCount;
         if (!doesNextChapterExist) {
             return;
@@ -370,7 +390,7 @@ export function Reader() {
         isDownloadAheadEnabled,
     ]);
 
-    const prevChapter = useCallback(() => {
+    const loadPrevChapter = useCallback(() => {
         if (chapter.sourceOrder > 1) {
             openNextChapter(ChapterOffset.PREV, (prevChapterIndex) =>
                 navigate(`/manga/${manga.id}/chapter/${prevChapterIndex}`, {
@@ -431,8 +451,8 @@ export function Reader() {
                 settings={settings}
                 manga={manga}
                 chapter={chapter}
-                nextChapter={nextChapter}
-                prevChapter={prevChapter}
+                nextChapter={loadNextChapter}
+                prevChapter={loadPrevChapter}
             />
         </Box>
     );

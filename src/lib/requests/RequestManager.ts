@@ -1762,25 +1762,21 @@ export class RequestManager {
         id: number,
         patch: UpdateChapterPatchInput & {
             chapterIdToDelete?: number;
-            downloadAheadMangaId?: number;
         },
         options?: MutationOptions<UpdateChapterMutation, UpdateChapterMutationVariables>,
     ): AbortableApolloMutationResponse<UpdateChapterMutation> {
-        const { chapterIdToDelete = -1, downloadAheadMangaId = -1, ...updatePatch } = patch;
+        const { chapterIdToDelete = -1, ...updatePatch } = patch;
 
         return this.doRequest<UpdateChapterMutation, UpdateChapterMutationVariables>(
             GQLMethod.MUTATION,
             UPDATE_CHAPTER,
             {
-                id,
                 input: { id, patch: updatePatch },
                 getBookmarked: patch.isBookmarked != null,
                 getRead: patch.isRead != null,
                 getLastPageRead: patch.lastPageRead != null,
                 chapterIdToDelete,
                 deleteChapter: chapterIdToDelete >= 0,
-                mangaId: downloadAheadMangaId,
-                downloadAhead: downloadAheadMangaId !== -1,
             },
             options,
         );
@@ -1809,12 +1805,10 @@ export class RequestManager {
 
     public updateChapters(
         ids: number[],
-        patch: UpdateChapterPatchInput & { chapterIdsToDelete?: number[]; mangaIds?: number[] },
+        patch: UpdateChapterPatchInput & { chapterIdsToDelete?: number[] },
         options?: MutationOptions<UpdateChaptersMutation, UpdateChaptersMutationVariables>,
     ): AbortableApolloMutationResponse<UpdateChaptersMutation> {
-        const { chapterIdsToDelete = [], mangaIds = [], ...updatePatch } = patch;
-
-        const downloadAhead = !!mangaIds.length;
+        const { chapterIdsToDelete = [], ...updatePatch } = patch;
 
         return this.doRequest<UpdateChaptersMutation, UpdateChaptersMutationVariables>(
             GQLMethod.MUTATION,
@@ -1826,9 +1820,6 @@ export class RequestManager {
                 getLastPageRead: patch.lastPageRead != null,
                 chapterIdsToDelete,
                 deleteChapters: !!chapterIdsToDelete.length,
-                mangaIds,
-                downloadAhead,
-                latestReadChapterIds: downloadAhead ? ids : [],
             },
             options,
         );
