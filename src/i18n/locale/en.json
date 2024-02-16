@@ -302,6 +302,8 @@
       "edit": "Edit",
       "filter": "Filter",
       "latest": "Latest",
+      "log_in": "Log in",
+      "log_out": "Log out",
       "migrate": "Migrate",
       "ok": "Ok",
       "open_site": "Open Site",
@@ -374,6 +376,7 @@
       "links": "Links",
       "load_in_progress": "Still loading required data…",
       "loading": "Loading…",
+      "logged_in": "Logged in",
       "never": "Never",
       "none": "None",
       "other": "Other",
@@ -1044,6 +1047,34 @@
     "title": "Source",
     "title_one": "Source",
     "title_other": "Sources"
+  },
+  "tracking": {
+    "action": {
+      "login": {
+        "label": {
+          "failure": "Could not log in to {{name}}",
+          "progress": "Logging in to {{name}}…"
+        }
+      },
+      "logout": {
+        "label": {
+          "failure": "Could not log out from {{name}}"
+        }
+      }
+    },
+    "settings": {
+      "dialog": {
+        "title": {
+          "log_in": "Log in to {{name}}",
+          "log_out": "Log out from {{name}}"
+        }
+      },
+      "title": {
+        "settings": "Tracking settings",
+        "trackers": "Trackers"
+      }
+    },
+    "title": "Tracking"
   },
   "updates": {
     "error": {

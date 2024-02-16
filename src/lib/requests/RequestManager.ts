@@ -177,6 +177,14 @@ import {
     GetMangaToMigrateQueryVariables,
     GetMangaToMigrateToFetchMutation,
     GetMangaToMigrateToFetchMutationVariables,
+    GetTrackersQuery,
+    GetTrackersQueryVariables,
+    TrackerLogoutMutation,
+    TrackerLogoutMutationVariables,
+    TrackerLoginOauthMutation,
+    TrackerLoginOauthMutationVariables,
+    TrackerLoginCredentialsMutation,
+    TrackerLoginCredentialsMutationVariables,
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_GLOBAL_METADATAS } from '@/lib/graphql/queries/GlobalMetadataQuery.ts';
 import { SET_GLOBAL_METADATA } from '@/lib/graphql/mutations/GlobalMetadataMutation.ts';
@@ -257,6 +265,12 @@ import { WEBUI_UPDATE_SUBSCRIPTION } from '@/lib/graphql/subscriptions/ServerInf
 import { GET_DOWNLOAD_STATUS } from '@/lib/graphql/queries/DownloaderQuery.ts';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { Queue, QueuePriority } from '@/lib/Queue.ts';
+import { GET_TRACKERS } from '@/lib/graphql/queries/TrackerQuery.ts';
+import {
+    TRACKER_LOGIN_CREDENTIALS,
+    TRACKER_LOGIN_OAUTH,
+    TRACKER_LOGOUT,
+} from '@/lib/graphql/mutations/TrackerMutation.ts';
 
 enum GQLMethod {
     QUERY = 'QUERY',
@@ -2358,6 +2372,30 @@ export class RequestManager {
         options?: QueryHookOptions<GetMigratableSourcesQuery, GetMigratableSourcesQueryVariables>,
     ): AbortableApolloUseQueryResponse<GetMigratableSourcesQuery, GetMigratableSourcesQueryVariables> {
         return this.doRequest(GQLMethod.USE_QUERY, GET_MIGRATABLE_SOURCES, undefined, options);
+    }
+
+    public useGetTrackerList(
+        options?: QueryHookOptions<GetTrackersQuery, GetTrackersQueryVariables>,
+    ): AbortableApolloUseQueryResponse<GetTrackersQuery, GetTrackersQueryVariables> {
+        return this.doRequest(GQLMethod.USE_QUERY, GET_TRACKERS, undefined, options);
+    }
+
+    public useLogoutFromTracker(
+        options?: MutationHookOptions<TrackerLogoutMutation, TrackerLogoutMutationVariables>,
+    ): AbortableApolloUseMutationResponse<TrackerLogoutMutation, TrackerLogoutMutationVariables> {
+        return this.doRequest(GQLMethod.USE_MUTATION, TRACKER_LOGOUT, undefined, options);
+    }
+
+    public useLoginToTrackerOauth(
+        options?: MutationHookOptions<TrackerLoginOauthMutation, TrackerLoginOauthMutationVariables>,
+    ): AbortableApolloUseMutationResponse<TrackerLoginOauthMutation, TrackerLoginOauthMutationVariables> {
+        return this.doRequest(GQLMethod.USE_MUTATION, TRACKER_LOGIN_OAUTH, undefined, options);
+    }
+
+    public useLoginToTrackerCredentials(
+        options?: MutationHookOptions<TrackerLoginCredentialsMutation, TrackerLoginCredentialsMutationVariables>,
+    ): AbortableApolloUseMutationResponse<TrackerLoginCredentialsMutation, TrackerLoginCredentialsMutationVariables> {
+        return this.doRequest(GQLMethod.USE_MUTATION, TRACKER_LOGIN_CREDENTIALS, undefined, options);
     }
 }
 
