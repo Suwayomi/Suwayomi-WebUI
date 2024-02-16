@@ -2904,6 +2904,27 @@ export type UpdateSourcePreferencesMutationVariables = Exact<{
 
 export type UpdateSourcePreferencesMutation = { __typename?: 'Mutation', updateSourcePreference: { __typename?: 'UpdateSourcePreferencePayload', clientMutationId?: string | null, source: { __typename?: 'SourceType', id: any, preferences: Array<{ __typename?: 'CheckBoxPreference', summary?: string | null, key: string, type: 'CheckBoxPreference', CheckBoxCheckBoxCurrentValue?: boolean | null, CheckBoxDefault: boolean, CheckBoxTitle: string } | { __typename?: 'EditTextPreference', text?: string | null, summary?: string | null, key: string, dialogTitle?: string | null, dialogMessage?: string | null, type: 'EditTextPreference', EditTextPreferenceCurrentValue?: string | null, EditTextPreferenceDefault?: string | null, EditTextPreferenceTitle?: string | null } | { __typename?: 'ListPreference', summary?: string | null, key: string, entryValues: Array<string>, entries: Array<string>, type: 'ListPreference', ListPreferenceCurrentValue?: string | null, ListPreferenceDefault?: string | null, ListPreferenceTitle?: string | null } | { __typename?: 'MultiSelectListPreference', dialogMessage?: string | null, dialogTitle?: string | null, summary?: string | null, key: string, entryValues: Array<string>, entries: Array<string>, type: 'MultiSelectListPreference', MultiSelectListPreferenceTitle?: string | null, MultiSelectListPreferenceDefault?: Array<string> | null, MultiSelectListPreferenceCurrentValue?: Array<string> | null } | { __typename?: 'SwitchPreference', summary?: string | null, key: string, type: 'SwitchPreference', SwitchPreferenceCurrentValue?: boolean | null, SwitchPreferenceDefault: boolean, SwitchPreferenceTitle: string }> } } };
 
+export type TrackerLoginOauthMutationVariables = Exact<{
+  input: LoginTrackerOAuthInput;
+}>;
+
+
+export type TrackerLoginOauthMutation = { __typename?: 'Mutation', loginTrackerOAuth: { __typename?: 'LoginTrackerOAuthPayload', tracker: { __typename?: 'TrackerType', id: number, isLoggedIn: boolean, authUrl?: string | null } } };
+
+export type TrackerLoginCredentialsMutationVariables = Exact<{
+  input: LoginTrackerCredentialsInput;
+}>;
+
+
+export type TrackerLoginCredentialsMutation = { __typename?: 'Mutation', loginTrackerCredentials: { __typename?: 'LoginTrackerCredentialsPayload', isLoggedIn: boolean, tracker: { __typename?: 'TrackerType', id: number, isLoggedIn: boolean, authUrl?: string | null } } };
+
+export type TrackerLogoutMutationVariables = Exact<{
+  trackerId: Scalars['Int']['input'];
+}>;
+
+
+export type TrackerLogoutMutation = { __typename?: 'Mutation', logoutTracker: { __typename?: 'LogoutTrackerPayload', clientMutationId?: string | null, tracker: { __typename?: 'TrackerType', id: number, isLoggedIn: boolean, authUrl?: string | null } } };
+
 export type UpdateCategoryMangasMutationVariables = Exact<{
   input: UpdateCategoryMangaInput;
 }>;
@@ -3128,6 +3149,11 @@ export type GetMigratableSourcesQueryVariables = Exact<{ [key: string]: never; }
 
 
 export type GetMigratableSourcesQuery = { __typename?: 'Query', mangas: { __typename?: 'MangaNodeList', nodes: Array<{ __typename?: 'MangaType', sourceId: any, source?: { __typename?: 'SourceType', id: any, name: string, lang: string, iconUrl: string } | null }> } };
+
+export type GetTrackersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetTrackersQuery = { __typename?: 'Query', trackers: { __typename?: 'TrackerNodeList', totalCount: number, pageInfo: { __typename?: 'PageInfo', endCursor?: any | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: any | null }, nodes: Array<{ __typename?: 'TrackerType', id: number, name: string, authUrl?: string | null, icon: string, isLoggedIn: boolean }> } };
 
 export type GetUpdateStatusQueryVariables = Exact<{ [key: string]: never; }>;
 
