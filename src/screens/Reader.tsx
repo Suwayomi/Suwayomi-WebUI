@@ -159,6 +159,14 @@ export function Reader() {
 
     const { settings: metadataSettings } = useMetadataServerSettings();
 
+    const prevChapters = useMemo(
+        () =>
+            Chapters.getNextChapters(chapter, mangaChapters ?? [], {
+                offset: ChapterOffset.PREV,
+                skipDupe: settings.skipDupChapters,
+            }),
+        [chapter, mangaChapters, settings.skipDupChapters],
+    );
     const nextChapters = useMemo(
         () => Chapters.getNextChapters(chapter, mangaChapters ?? [], { skipDupe: settings.skipDupChapters }),
         [chapter, mangaChapters, settings.skipDupChapters],
@@ -180,28 +188,22 @@ export function Reader() {
     );
 
     const updateChapter = (patch: UpdateChapterPatchInput) => {
-        const isAutoDeletionEnabled = !!patch.isRead && !!metadataSettings.deleteChaptersWhileReading;
-
         const getChapterIdToDelete = () => {
+            const isAutoDeletionEnabled = !!patch.isRead && !!metadataSettings.deleteChaptersWhileReading;
             if (!isAutoDeletionEnabled || !mangaChapters) {
                 return -1;
             }
 
-            const chapterToDeleteSourceOrder = Number(chapterIndex) - (metadataSettings.deleteChaptersWhileReading - 1);
-            const chapterToDelete = mangaChapters.find(
-                (mangaChapter) => mangaChapter.sourceOrder === chapterToDeleteSourceOrder,
-            );
+            const chapterToDelete = [chapter, ...prevChapters][metadataSettings.deleteChaptersWhileReading - 1];
 
             if (!chapterToDelete) {
                 return -1;
             }
 
-            const chapterToDeleteUpToDateData = Chapters.getFromCache<TChapter>(chapterToDelete.id);
+            // chapter has to exist in the cache since the reader fetches all chapters of the manga
+            const chapterToDeleteUpToDateData = Chapters.getFromCache<TChapter>(chapterToDelete.id)!;
 
-            const shouldDeleteChapter =
-                chapterToDeleteUpToDateData?.isDownloaded &&
-                (!chapterToDeleteUpToDateData?.isBookmarked || metadataSettings.deleteChaptersWithBookmark);
-            if (!shouldDeleteChapter) {
+            if (!Chapters.isAutoDeletable(chapterToDeleteUpToDateData, metadataSettings.deleteChaptersWithBookmark)) {
                 return -1;
             }
 
