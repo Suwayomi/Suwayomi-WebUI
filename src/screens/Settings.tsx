@@ -28,6 +28,7 @@ import WebIcon from '@mui/icons-material/Web';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
 import DevicesIcon from '@mui/icons-material/Devices';
+import SyncIcon from '@mui/icons-material/Sync';
 import { langCodeToName } from '@/util/language';
 import { useLocalStorage } from '@/util/useLocalStorage';
 import { ListItemLink } from '@/components/util/ListItemLink';
@@ -93,6 +94,12 @@ export function Settings() {
                     <GetAppOutlinedIcon />
                 </ListItemIcon>
                 <ListItemText primary={t('download.title')} />
+            </ListItemLink>
+            <ListItemLink to="/settings/trackingSettings">
+                <ListItemIcon>
+                    <SyncIcon />
+                </ListItemIcon>
+                <ListItemText primary={t('tracking.title')} />
             </ListItemLink>
             <ListItemLink to="/settings/backup">
                 <ListItemIcon>

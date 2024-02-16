@@ -39,6 +39,8 @@ import { BrowseSettings } from '@/screens/settings/BrowseSettings.tsx';
 import { WebUISettings } from '@/screens/settings/WebUISettings.tsx';
 import { Migrate } from '@/screens/Migrate.tsx';
 import { DeviceSetting } from '@/components/settings/DeviceSetting.tsx';
+import { TrackingSettings } from '@/screens/settings/TrackingSettings.tsx';
+import { TrackerOAuthLogin } from '@/screens/TrackerOAuthLogin.tsx';
 
 if (process.env.NODE_ENV !== 'production') {
     // Adds messages only in a dev environment
@@ -104,6 +106,7 @@ export const App: React.FC = () => (
                     <Route path="webUI" element={<WebUISettings />} />
                     <Route path="browseSettings" element={<BrowseSettings />} />
                     <Route path="device" element={<DeviceSetting />} />
+                    <Route path="trackingSettings" element={<TrackingSettings />} />
                 </Route>
 
                 {/* Manga Routes */}
@@ -127,6 +130,7 @@ export const App: React.FC = () => (
                     <Route index element={<Migrate />} />
                     <Route path="manga/:mangaId/search" element={<SearchAll />} />
                 </Route>
+                <Route path="tracker/login/oauth" element={<TrackerOAuthLogin />} />
             </Routes>
         </Container>
         <Routes>
