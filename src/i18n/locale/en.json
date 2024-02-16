@@ -202,7 +202,8 @@
       },
       "download_ahead": {
         "label": {
-          "description": "How many chapters should get downloaded when marking a chapter as read while reading.",
+          "description": "How many chapters should get downloaded while reading.",
+          "disclaimer": "Only works if the current chapter plus the next chapter are already downloaded.",
           "unread_chapters_to_download": "Number of unread chapters to download",
           "value": "{{chapters}} $t(chapter.title)",
           "while_reading": "Auto download while reading"
