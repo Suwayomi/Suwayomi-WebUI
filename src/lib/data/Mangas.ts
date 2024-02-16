@@ -99,6 +99,8 @@ export const actionToTranslationKey: {
 export type MangaChapterCountInfo = { chapters: Pick<TManga['chapters'], 'totalCount'> };
 export type MangaDownloadInfo = Pick<TManga, 'downloadCount'> & MangaChapterCountInfo;
 export type MangaUnreadInfo = Pick<TManga, 'unreadCount'> & MangaChapterCountInfo;
+export type MangaLastFetchedInfo = Pick<TManga, 'lastFetchedAt'>;
+export type MangaThumbnailInfo = Pick<TManga, 'thumbnailUrl'>;
 
 export type MigrateMode = 'copy' | 'migrate';
 
@@ -169,6 +171,10 @@ export class Mangas {
 
     static getPartiallyRead<Mangas extends MangaUnreadInfo>(mangas: Mangas[]): Mangas[] {
         return mangas.filter(Mangas.isPartiallyRead);
+    }
+
+    static getThumbnailUrl(manga: MangaLastFetchedInfo & Partial<MangaThumbnailInfo>): string {
+        return manga.thumbnailUrl ? `${manga.thumbnailUrl}?fetchedAt=${manga.lastFetchedAt}` : 'nonExistingMangaUrl';
     }
 
     static async getChapterIdsWithState(
