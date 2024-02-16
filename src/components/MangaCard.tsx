@@ -24,6 +24,7 @@ import { MangaOptionButton } from '@/components/manga/MangaOptionButton.tsx';
 import { MangaActionMenuItems, SingleModeProps } from '@/components/manga/MangaActionMenuItems.tsx';
 import { Menu } from '@/components/menu/Menu.tsx';
 import { MigrateDialog } from '@/components/MigrateDialog.tsx';
+import { Mangas } from '@/lib/data/Mangas.ts';
 
 const BottomGradient = styled('div')({
     position: 'absolute',
@@ -96,17 +97,8 @@ export const MangaCard = (props: MangaCardProps) => {
     const { t } = useTranslation();
 
     const { manga, gridLayout, inLibraryIndicator, selected, handleSelection, mode = 'default' } = props;
-    const {
-        id,
-        title,
-        thumbnailUrl: tmpThumbnailUrl,
-        downloadCount,
-        unreadCount: unread,
-        inLibrary,
-        latestReadChapter,
-        chapters,
-    } = manga;
-    const thumbnailUrl = tmpThumbnailUrl ?? 'nonExistingMangaUrl';
+    const { id, title, downloadCount, unreadCount: unread, inLibrary, latestReadChapter, chapters } = manga;
+    const thumbnailUrl = Mangas.getThumbnailUrl(manga);
     const {
         options: { showContinueReadingButton, showUnreadBadge, showDownloadBadge },
     } = useLibraryOptionsContext();

@@ -28,6 +28,7 @@ import { UpdateChecker } from '@/components/library/UpdateChecker.tsx';
 import { StyledGroupedVirtuoso } from '@/components/virtuoso/StyledGroupedVirtuoso.tsx';
 import { StyledGroupHeader } from '@/components/virtuoso/StyledGroupHeader.tsx';
 import { StyledGroupItemWrapper } from '@/components/virtuoso/StyledGroupItemWrapper.tsx';
+import { Mangas } from '@/lib/data/Mangas.ts';
 
 function epochToDate(epoch: number) {
     const date = new Date(0); // The 0 there is the key, which sets the date to the epoch
@@ -200,7 +201,7 @@ export const Updates: React.FC = () => {
                                                     marginRight: 2,
                                                     imageRendering: 'pixelated',
                                                 }}
-                                                src={requestManager.getValidImgUrlFor(manga.thumbnailUrl ?? '')}
+                                                src={Mangas.getThumbnailUrl(manga)}
                                             />
                                             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                                                 <Typography variant="h5" component="h2">

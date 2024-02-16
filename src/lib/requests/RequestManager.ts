@@ -1499,10 +1499,6 @@ export class RequestManager {
         return this.doRequest(GQLMethod.USE_QUERY, GET_MIGRATABLE_SOURCE_MANGAS, { sourceId }, options);
     }
 
-    public getMangaThumbnailUrl(mangaId: number): string {
-        return this.getValidImgUrlFor(`manga/${mangaId}/thumbnail`);
-    }
-
     public useUpdateMangaCategories(
         options?: MutationHookOptions<UpdateMangaCategoriesMutation, UpdateMangaCategoriesMutationVariables>,
     ): AbortableApolloUseMutationResponse<UpdateMangaCategoriesMutation, UpdateMangaCategoriesMutationVariables> {
