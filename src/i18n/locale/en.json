@@ -275,8 +275,7 @@
             "title": "Extension repositories"
           }
         }
-      },
-      "title": "Extension Settings"
+      }
     },
     "state": {
       "label": {
@@ -684,6 +683,9 @@
     }
   },
   "settings": {
+    "browse": {
+      "title": "Browse settings"
+    },
     "about": {
       "server": {
         "label": {
