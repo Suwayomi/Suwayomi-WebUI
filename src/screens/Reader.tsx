@@ -222,8 +222,9 @@ export function Reader() {
         const downloadAhead = () => {
             const currentChapter = Chapters.getFromCache<TChapter>(chapter.id);
 
+            const inDownloadRange = (patch.lastPageRead ?? 0) / chapter.pageCount > 0.25;
             const shouldCheckDownloadAhead =
-                isDownloadAheadEnabled && chapter.manga.inLibrary && !!currentChapter?.isDownloaded && !!patch.isRead;
+                isDownloadAheadEnabled && chapter.manga.inLibrary && !!currentChapter?.isDownloaded && inDownloadRange;
 
             if (shouldCheckDownloadAhead) {
                 const nextChapterUpToDate = nextChapter ? Chapters.getFromCache<TChapter>(nextChapter.id) : null;
