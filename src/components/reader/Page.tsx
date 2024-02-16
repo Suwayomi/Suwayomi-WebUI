@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useState, useEffect, forwardRef, useRef } from 'react';
+import { forwardRef, useRef } from 'react';
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
 import { useMediaQuery } from '@mui/material';
@@ -17,24 +17,6 @@ export const isHorizontalReaderType = (readerType: ReaderType): boolean =>
     ['ContinuesHorizontalLTR', 'ContinuesHorizontalRTL'].includes(readerType);
 
 export function imageStyle(settings: IReaderSettings): any {
-    const [dimensions, setDimensions] = useState({
-        height: window.innerHeight,
-        width: window.innerWidth,
-    });
-    useEffect(() => {
-        function handleResize() {
-            setDimensions({
-                height: window.innerHeight,
-                width: window.innerWidth,
-            });
-        }
-
-        window.addEventListener('resize', handleResize);
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
-
     const isHorizontal = isHorizontalReaderType(settings.readerType);
     if (settings.fitPageToWindow || isHorizontal) {
         return {
@@ -52,7 +34,7 @@ export function imageStyle(settings: IReaderSettings): any {
     return {
         marginBottom: settings.readerType === 'ContinuesVertical' ? '15px' : 0,
         minWidth: '10vw',
-        width: dimensions.width < dimensions.height ? '100vw' : `${settings.readerWidth}%`,
+        width: `${settings.readerWidth}%`,
         maxWidth: '100%',
         objectFit: 'contain',
     };
