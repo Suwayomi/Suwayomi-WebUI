@@ -20,6 +20,7 @@ import { makeToast } from '@/components/util/Toast';
 import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
 import { CategorySelect } from '@/components/navbar/action/CategorySelect.tsx';
 import { Mangas } from '@/lib/data/Mangas.ts';
+import { SpinnerImage } from '@/components/util/SpinnerImage.tsx';
 
 const DetailsWrapper = styled('div')(({ theme }) => ({
     width: '100%',
@@ -216,7 +217,7 @@ export const MangaDetails: React.FC<IProps> = ({ manga }) => {
                 <TopContentWrapper>
                     <ThumbnailMetadataWrapper>
                         <Thumbnail>
-                            {manga.thumbnailUrl && <img src={Mangas.getThumbnailUrl(manga)} alt="Manga Thumbnail" />}
+                            <SpinnerImage src={Mangas.getThumbnailUrl(manga)} alt="Manga Thumbnail" />
                         </Thumbnail>
                         <Metadata>
                             <h1>{manga.title}</h1>

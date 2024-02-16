@@ -174,7 +174,10 @@ export class Mangas {
     }
 
     static getThumbnailUrl(manga: MangaLastFetchedInfo & Partial<MangaThumbnailInfo>): string {
-        return manga.thumbnailUrl ? `${manga.thumbnailUrl}?fetchedAt=${manga.lastFetchedAt}` : 'nonExistingMangaUrl';
+        const thumbnailUrl = manga.thumbnailUrl
+            ? `${manga.thumbnailUrl}?fetchedAt=${manga.lastFetchedAt}`
+            : 'nonExistingMangaUrl';
+        return requestManager.getValidImgUrlFor(thumbnailUrl);
     }
 
     static async getChapterIdsWithState(
