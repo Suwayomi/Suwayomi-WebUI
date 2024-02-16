@@ -39,32 +39,7 @@ import { useDebounce } from '@/util/useDebounce.ts';
 import { UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
 import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
-import { FULL_CHAPTER_FIELDS } from '@/lib/graphql/Fragments.ts';
-
-const isDupChapter = async (chapterIndex: number, currentChapter: TChapter) => {
-    const nextChapter = await requestManager.getChapter(currentChapter.manga.id, chapterIndex).response;
-
-    return nextChapter.data.chapter.chapterNumber === currentChapter.chapterNumber;
-};
-
-/**
- * In case duplicated chapters should be skipped the function will check all next/prev chapters until
- *  - a non duplicated chapter was found
- *  - no prev/next chapter exists => chapter request will fail and error will be raised up
- */
-const getOffsetChapter = async (
-    chapterIndex: number,
-    currentChapter: TChapter,
-    skipDupChapters: boolean,
-    offset: ChapterOffset,
-): Promise<number> => {
-    const shouldSkipChapter = skipDupChapters && (await isDupChapter(chapterIndex, currentChapter));
-    if (shouldSkipChapter) {
-        return getOffsetChapter(chapterIndex + offset, currentChapter, skipDupChapters, offset);
-    }
-
-    return chapterIndex;
-};
+import { Chapters } from '@/lib/data/Chapters.ts';
 
 const getReaderComponent = (readerType: ReaderType) => {
     switch (readerType) {
@@ -184,38 +159,53 @@ export function Reader() {
 
     const { settings: metadataSettings } = useMetadataServerSettings();
 
+    const prevChapters = useMemo(
+        () =>
+            Chapters.getNextChapters(chapter, mangaChapters ?? [], {
+                offset: ChapterOffset.PREV,
+                skipDupe: settings.skipDupChapters,
+            }),
+        [chapter, mangaChapters, settings.skipDupChapters],
+    );
+    const nextChapters = useMemo(
+        () => Chapters.getNextChapters(chapter, mangaChapters ?? [], { skipDupe: settings.skipDupChapters }),
+        [chapter, mangaChapters, settings.skipDupChapters],
+    );
+    const prevChapter = useMemo(
+        () =>
+            Chapters.getNextChapter(chapter, mangaChapters ?? [], {
+                offset: ChapterOffset.PREV,
+                skipDupe: settings.skipDupChapters,
+            }),
+        [chapter, mangaChapters, settings.skipDupChapters],
+    );
+    const nextChapter = useMemo(
+        () =>
+            Chapters.getNextChapter(chapter, mangaChapters ?? [], {
+                skipDupe: settings.skipDupChapters,
+            }),
+        [chapter, mangaChapters, settings.skipDupChapters],
+    );
+
     const updateChapter = (patch: UpdateChapterPatchInput) => {
-        const getChapterFromCache = (id: number) =>
-            requestManager.graphQLClient.client.cache.readFragment<TChapter>({
-                id: requestManager.graphQLClient.client.cache.identify({
-                    __typename: 'ChapterType',
-                    id,
-                }),
-                fragment: FULL_CHAPTER_FIELDS,
-                fragmentName: 'FULL_CHAPTER_FIELDS',
-            });
-
-        const isAutoDeletionEnabled = !!patch.isRead && !!metadataSettings.deleteChaptersWhileReading;
-
         const getChapterIdToDelete = () => {
+            const isAutoDeletionEnabled = !!patch.isRead && !!metadataSettings.deleteChaptersWhileReading;
             if (!isAutoDeletionEnabled || !mangaChapters) {
                 return -1;
             }
 
-            const chapterToDeleteSourceOrder = Number(chapterIndex) - (metadataSettings.deleteChaptersWhileReading - 1);
-            const chapterToDelete = mangaChapters.find(
-                (mangaChapter) => mangaChapter.sourceOrder === chapterToDeleteSourceOrder,
-            );
+            const chapterToDelete = [chapter, ...prevChapters][metadataSettings.deleteChaptersWhileReading - 1];
 
             if (!chapterToDelete) {
                 return -1;
             }
 
-            const chapterToDeleteUpToDateData = getChapterFromCache(chapterToDelete.id);
+            // chapter has to exist in the cache since the reader fetches all chapters of the manga
+            const chapterToDeleteUpToDateData = Chapters.getFromCache<TChapter>(chapterToDelete.id)!;
 
             const shouldDeleteChapter =
-                chapterToDeleteUpToDateData?.isDownloaded &&
-                (!chapterToDeleteUpToDateData?.isBookmarked || metadataSettings.deleteChaptersWithBookmark);
+                chapterToDeleteUpToDateData.isRead &&
+                Chapters.isAutoDeletable(chapterToDeleteUpToDateData, metadataSettings.deleteChaptersWithBookmark);
             if (!shouldDeleteChapter) {
                 return -1;
             }
@@ -223,23 +213,48 @@ export function Reader() {
             return chapterToDelete.id;
         };
 
-        const currentChapter = getChapterFromCache(chapter.id);
-        const nextChapterId = mangaChapters?.[(mangaChapters?.length ?? 0) - Number(chapterIndex) - 1]?.id;
-        const nextChapter = nextChapterId ? getChapterFromCache(nextChapterId) : null;
+        const downloadAhead = () => {
+            const currentChapter = Chapters.getFromCache<TChapter>(chapter.id);
 
-        const shouldDownloadAhead =
-            isDownloadAheadEnabled &&
-            chapter.manga.inLibrary &&
-            !chapter.isRead &&
-            !!patch.isRead &&
-            !!currentChapter?.isDownloaded &&
-            !!nextChapter?.isDownloaded;
+            const inDownloadRange = (patch.lastPageRead ?? 0) / chapter.pageCount > 0.25;
+            const shouldCheckDownloadAhead =
+                isDownloadAheadEnabled && chapter.manga.inLibrary && !!currentChapter?.isDownloaded && inDownloadRange;
+
+            if (shouldCheckDownloadAhead) {
+                const nextChapterUpToDate = nextChapter ? Chapters.getFromCache<TChapter>(nextChapter.id) : null;
+
+                if (!nextChapterUpToDate?.isDownloaded) {
+                    return;
+                }
+
+                const nextChaptersUpToDate = Chapters.getNonRead(nextChapters).map(
+                    // the chapters have to be in the cache since the reader fetches the whole chapter list of the manga
+                    (mangaChapter) => Chapters.getFromCache<TChapter>(mangaChapter.id)!,
+                );
+
+                const chapterIdsToDownload = nextChaptersUpToDate
+                    // "settingsData" can't be undefined since this would not get executed otherwise
+                    .slice(-settingsData!.settings.autoDownloadAheadLimit)
+                    .filter((mangaChapter) => !mangaChapter.isDownloaded)
+                    .map((mangaChapter) => mangaChapter.id)
+                    .filter((id) => !Chapters.isDownloading(id));
+
+                if (!chapterIdsToDownload.length) {
+                    return;
+                }
+
+                Chapters.download(chapterIdsToDownload!).catch(
+                    defaultPromiseErrorHandler('Reader::updateChapter: shouldDownloadAhead'),
+                );
+            }
+        };
+
+        downloadAhead();
 
         requestManager
             .updateChapter(chapter.id, {
                 ...patch,
                 chapterIdToDelete: getChapterIdToDelete(),
-                downloadAheadMangaId: shouldDownloadAhead ? chapter.manga.id : undefined,
             })
             .response.catch();
     };
@@ -256,9 +271,12 @@ export function Reader() {
             setRetrievingNextChapter(true);
             setCurPage(0);
             try {
-                setHistory(
-                    await getOffsetChapter(chapter.sourceOrder + offset, chapter, settings.skipDupChapters, offset),
-                );
+                const chapterToOpen = offset === ChapterOffset.NEXT ? nextChapter : prevChapter;
+                if (!chapterToOpen) {
+                    throw new Error('Failed to find next chapter');
+                }
+
+                setHistory(chapterToOpen.sourceOrder);
             } catch (error) {
                 const offsetToTranslationKeyMap: { [chapterOffset in ChapterOffset]: TranslationKey } = {
                     [ChapterOffset.PREV]: 'reader.error.label.unable_to_get_prev_chapter_skip_dup',
@@ -344,7 +362,7 @@ export function Reader() {
         });
     }, [curPageDebounced, isDownloadAheadEnabled]);
 
-    const nextChapter = useCallback(() => {
+    const loadNextChapter = useCallback(() => {
         const doesNextChapterExist = chapter.sourceOrder < manga.chapters.totalCount;
         if (!doesNextChapterExist) {
             return;
@@ -366,11 +384,11 @@ export function Reader() {
         manga.chapters.totalCount,
         chapter.pageCount,
         manga.id,
-        settings.skipDupChapters,
         isDownloadAheadEnabled,
+        nextChapter?.id,
     ]);
 
-    const prevChapter = useCallback(() => {
+    const loadPrevChapter = useCallback(() => {
         if (chapter.sourceOrder > 1) {
             openNextChapter(ChapterOffset.PREV, (prevChapterIndex) =>
                 navigate(`/manga/${manga.id}/chapter/${prevChapterIndex}`, {
@@ -379,7 +397,7 @@ export function Reader() {
                 }),
             );
         }
-    }, [chapter.sourceOrder, manga.id, settings.skipDupChapters]);
+    }, [chapter.sourceOrder, manga.id, prevChapter?.id]);
 
     if (isLoading) {
         return (
@@ -431,8 +449,8 @@ export function Reader() {
                 settings={settings}
                 manga={manga}
                 chapter={chapter}
-                nextChapter={nextChapter}
-                prevChapter={prevChapter}
+                nextChapter={loadNextChapter}
+                prevChapter={loadPrevChapter}
             />
         </Box>
     );

@@ -7,10 +7,13 @@
  */
 
 import { t as translate } from 'i18next';
-import { TChapter, TranslationKey } from '@/typings.ts';
+import gql from 'graphql-tag';
+import { DocumentNode } from '@apollo/client';
+import { ChapterOffset, TChapter, TranslationKey } from '@/typings.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { getMetadataServerSettings } from '@/util/metadataServerSettings.ts';
+import { FULL_CHAPTER_FIELDS } from '@/lib/graphql/Fragments.ts';
 
 export type ChapterAction = 'download' | 'delete' | 'bookmark' | 'unbookmark' | 'mark_as_read' | 'mark_as_unread';
 
@@ -79,10 +82,46 @@ export type ChapterDownloadInfo = ChapterIdInfo & Pick<TChapter, 'isDownloaded'>
 export type ChapterBookmarkInfo = ChapterIdInfo & Pick<TChapter, 'isBookmarked'>;
 export type ChapterReadInfo = ChapterIdInfo & Pick<TChapter, 'isRead'>;
 export type ChapterNumberInfo = ChapterIdInfo & Pick<TChapter, 'chapterNumber'>;
+export type ChapterScanlatorInfo = ChapterIdInfo & Pick<TChapter, 'scanlator'>;
 
 export class Chapters {
     static getIds(chapters: { id: number }[]): number[] {
         return chapters.map((chapter) => chapter.id);
+    }
+
+    static getFromCache<T>(
+        id: number,
+        fragment: DocumentNode = FULL_CHAPTER_FIELDS,
+        fragmentName: string = 'FULL_CHAPTER_FIELDS',
+    ): T | null {
+        return requestManager.graphQLClient.client.cache.readFragment<T>({
+            id: requestManager.graphQLClient.client.cache.identify({
+                __typename: 'ChapterType',
+                id,
+            }),
+            fragment,
+            fragmentName,
+        });
+    }
+
+    static isDownloading(id: number): boolean {
+        return !!requestManager.graphQLClient.client.cache.readFragment<TChapter>({
+            id: requestManager.graphQLClient.client.cache.identify({
+                __typename: 'DownloadType',
+                chapter: {
+                    __ref: requestManager.graphQLClient.client.cache.identify({
+                        __typename: 'ChapterType',
+                        id,
+                    }),
+                },
+            }),
+            fragment: gql`
+                fragment CHAPTER_DOWNLOAD_QUEUE_CHECK on ChapterType {
+                    id
+                }
+            `,
+            fragmentName: 'CHAPTER_DOWNLOAD_QUEUE_CHECK',
+        });
     }
 
     static isDownloaded({ isDownloaded }: ChapterDownloadInfo): boolean {
@@ -257,5 +296,61 @@ export class Chapters {
             default:
                 throw new Error(`Chapters::performAction: unknown action "${action}"`);
         }
+    }
+
+    static removeDuplicates<T extends ChapterScanlatorInfo & ChapterNumberInfo>(currentChapter: T, chapters: T[]): T[] {
+        const chapterNumberToChapters = new Map<ChapterNumberInfo['chapterNumber'], T[]>();
+        chapters.forEach((chapter) => {
+            const duplicateChapters = chapterNumberToChapters.get(chapter.chapterNumber) ?? [];
+            chapterNumberToChapters.set(chapter.chapterNumber, [...duplicateChapters, chapter]);
+        });
+
+        return [...chapterNumberToChapters.values()].map(
+            (groupedChapters) =>
+                groupedChapters.find((chapter) => chapter.id === currentChapter.id) ??
+                groupedChapters.findLast((chapter) => chapter.scanlator === currentChapter.scanlator) ??
+                groupedChapters.slice(-1)[0],
+        );
+    }
+
+    static getNextChapter<Chapter extends ChapterScanlatorInfo & ChapterNumberInfo & ChapterReadInfo>(
+        currentChapter: Chapter,
+        chapters: Chapter[],
+        {
+            offset = ChapterOffset.NEXT,
+            ...options
+        }: { offset?: ChapterOffset; onlyUnread?: boolean; skipDupe?: boolean } = {},
+    ): Chapter | undefined {
+        const nextChapters = Chapters.getNextChapters(currentChapter, chapters, { offset, ...options });
+
+        const isNextChapterOffset = offset === ChapterOffset.NEXT;
+        const sliceStartIndex = isNextChapterOffset ? -1 : 0;
+        const sliceEndIndex = isNextChapterOffset ? undefined : 1;
+
+        return nextChapters.slice(sliceStartIndex, sliceEndIndex)[0];
+    }
+
+    static getNextChapters<Chapter extends ChapterScanlatorInfo & ChapterNumberInfo & ChapterReadInfo>(
+        fromChapter: Chapter,
+        chapters: Chapter[],
+        {
+            offset = ChapterOffset.NEXT,
+            onlyUnread = false,
+            skipDupe = false,
+        }: { offset?: ChapterOffset; onlyUnread?: boolean; skipDupe?: boolean } = {},
+    ): Chapter[] {
+        const fromChapterIndex = chapters.findIndex((chapter) => chapter.id === fromChapter.id);
+
+        const isNextChapterOffset = offset === ChapterOffset.NEXT;
+        const sliceStartIndex = isNextChapterOffset ? 0 : fromChapterIndex;
+        const sliceEndIndex = isNextChapterOffset ? fromChapterIndex + 1 : undefined;
+
+        const nextChaptersIncludingCurrent = chapters.slice(sliceStartIndex, sliceEndIndex);
+        const uniqueNextChapters = skipDupe
+            ? Chapters.removeDuplicates(fromChapter, nextChaptersIncludingCurrent)
+            : nextChaptersIncludingCurrent;
+        const nextChapters = uniqueNextChapters.toSpliced(isNextChapterOffset ? -1 : 0, 1);
+
+        return onlyUnread ? Chapters.getNonRead(nextChapters) : nextChapters;
     }
 }

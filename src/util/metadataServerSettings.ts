@@ -15,6 +15,7 @@ export const getDefaultSettings = (): MetadataServerSettings => ({
     deleteChaptersManuallyMarkedRead: false,
     deleteChaptersWhileReading: 0,
     deleteChaptersWithBookmark: false,
+    downloadAheadLimit: 0,
 
     // library
     showAddToLibraryCategorySelectDialog: true,
