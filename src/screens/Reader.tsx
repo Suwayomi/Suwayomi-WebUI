@@ -203,7 +203,10 @@ export function Reader() {
             // chapter has to exist in the cache since the reader fetches all chapters of the manga
             const chapterToDeleteUpToDateData = Chapters.getFromCache<TChapter>(chapterToDelete.id)!;
 
-            if (!Chapters.isAutoDeletable(chapterToDeleteUpToDateData, metadataSettings.deleteChaptersWithBookmark)) {
+            const shouldDeleteChapter =
+                chapterToDeleteUpToDateData.isRead &&
+                Chapters.isAutoDeletable(chapterToDeleteUpToDateData, metadataSettings.deleteChaptersWithBookmark);
+            if (!shouldDeleteChapter) {
                 return -1;
             }
 
