@@ -41,31 +41,6 @@ import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { Chapters } from '@/lib/data/Chapters.ts';
 
-const isDupChapter = async (chapterIndex: number, currentChapter: TChapter) => {
-    const nextChapter = await requestManager.getChapter(currentChapter.manga.id, chapterIndex).response;
-
-    return nextChapter.data.chapter.chapterNumber === currentChapter.chapterNumber;
-};
-
-/**
- * In case duplicated chapters should be skipped the function will check all next/prev chapters until
- *  - a non duplicated chapter was found
- *  - no prev/next chapter exists => chapter request will fail and error will be raised up
- */
-const getOffsetChapter = async (
-    chapterIndex: number,
-    currentChapter: TChapter,
-    skipDupChapters: boolean,
-    offset: ChapterOffset,
-): Promise<number> => {
-    const shouldSkipChapter = skipDupChapters && (await isDupChapter(chapterIndex, currentChapter));
-    if (shouldSkipChapter) {
-        return getOffsetChapter(chapterIndex + offset, currentChapter, skipDupChapters, offset);
-    }
-
-    return chapterIndex;
-};
-
 const getReaderComponent = (readerType: ReaderType) => {
     switch (readerType) {
         case 'ContinuesVertical':
@@ -185,10 +160,24 @@ export function Reader() {
     const { settings: metadataSettings } = useMetadataServerSettings();
 
     const nextChapters = useMemo(
-        () => Chapters.getNextChapters(chapter, mangaChapters ?? []),
-        [chapter, mangaChapters],
+        () => Chapters.getNextChapters(chapter, mangaChapters ?? [], { skipDupe: settings.skipDupChapters }),
+        [chapter, mangaChapters, settings.skipDupChapters],
     );
-    const nextChapter = useMemo(() => Chapters.getNextChapter(chapter, mangaChapters ?? []), [chapter, mangaChapters]);
+    const prevChapter = useMemo(
+        () =>
+            Chapters.getNextChapter(chapter, mangaChapters ?? [], {
+                offset: ChapterOffset.PREV,
+                skipDupe: settings.skipDupChapters,
+            }),
+        [chapter, mangaChapters, settings.skipDupChapters],
+    );
+    const nextChapter = useMemo(
+        () =>
+            Chapters.getNextChapter(chapter, mangaChapters ?? [], {
+                skipDupe: settings.skipDupChapters,
+            }),
+        [chapter, mangaChapters, settings.skipDupChapters],
+    );
 
     const updateChapter = (patch: UpdateChapterPatchInput) => {
         const isAutoDeletionEnabled = !!patch.isRead && !!metadataSettings.deleteChaptersWhileReading;
@@ -277,9 +266,12 @@ export function Reader() {
             setRetrievingNextChapter(true);
             setCurPage(0);
             try {
-                setHistory(
-                    await getOffsetChapter(chapter.sourceOrder + offset, chapter, settings.skipDupChapters, offset),
-                );
+                const chapterToOpen = offset === ChapterOffset.NEXT ? nextChapter : prevChapter;
+                if (!chapterToOpen) {
+                    throw new Error('Failed to find next chapter');
+                }
+
+                setHistory(chapterToOpen.sourceOrder);
             } catch (error) {
                 const offsetToTranslationKeyMap: { [chapterOffset in ChapterOffset]: TranslationKey } = {
                     [ChapterOffset.PREV]: 'reader.error.label.unable_to_get_prev_chapter_skip_dup',
@@ -387,8 +379,8 @@ export function Reader() {
         manga.chapters.totalCount,
         chapter.pageCount,
         manga.id,
-        settings.skipDupChapters,
         isDownloadAheadEnabled,
+        nextChapter?.id,
     ]);
 
     const loadPrevChapter = useCallback(() => {
@@ -400,7 +392,7 @@ export function Reader() {
                 }),
             );
         }
-    }, [chapter.sourceOrder, manga.id, settings.skipDupChapters]);
+    }, [chapter.sourceOrder, manga.id, prevChapter?.id]);
 
     if (isLoading) {
         return (

@@ -298,10 +298,26 @@ export class Chapters {
         }
     }
 
+    static removeDuplicates<T extends ChapterScanlatorInfo & ChapterNumberInfo>(currentChapter: T, chapters: T[]): T[] {
+        const chapterNumberToChapters = new Map<ChapterNumberInfo['chapterNumber'], T[]>();
+        chapters.forEach((chapter) => {
+            const duplicateChapters = chapterNumberToChapters.get(chapter.chapterNumber) ?? [];
+            chapterNumberToChapters.set(chapter.chapterNumber, [...duplicateChapters, chapter]);
+        });
+
+        return [...chapterNumberToChapters.values()].map(
+            (groupedChapters) =>
+                groupedChapters.find((chapter) => chapter.id === currentChapter.id) ?? groupedChapters.slice(-1)[0],
+        );
+    }
+
     static getNextChapter<Chapter extends ChapterScanlatorInfo & ChapterNumberInfo & ChapterReadInfo>(
         currentChapter: Chapter,
         chapters: Chapter[],
-        { offset = ChapterOffset.NEXT, ...options }: { offset?: ChapterOffset; onlyUnread?: boolean } = {},
+        {
+            offset = ChapterOffset.NEXT,
+            ...options
+        }: { offset?: ChapterOffset; onlyUnread?: boolean; skipDupe?: boolean } = {},
     ): Chapter | undefined {
         const nextChapters = Chapters.getNextChapters(currentChapter, chapters, { offset, ...options });
 
@@ -315,15 +331,23 @@ export class Chapters {
     static getNextChapters<Chapter extends ChapterScanlatorInfo & ChapterNumberInfo & ChapterReadInfo>(
         fromChapter: Chapter,
         chapters: Chapter[],
-        { offset = ChapterOffset.NEXT, onlyUnread = false }: { offset?: ChapterOffset; onlyUnread?: boolean } = {},
+        {
+            offset = ChapterOffset.NEXT,
+            onlyUnread = false,
+            skipDupe = false,
+        }: { offset?: ChapterOffset; onlyUnread?: boolean; skipDupe?: boolean } = {},
     ): Chapter[] {
         const fromChapterIndex = chapters.findIndex((chapter) => chapter.id === fromChapter.id);
 
         const isNextChapterOffset = offset === ChapterOffset.NEXT;
-        const sliceStartIndex = isNextChapterOffset ? 0 : fromChapterIndex + 1;
-        const sliceEndIndex = isNextChapterOffset ? fromChapterIndex : undefined;
+        const sliceStartIndex = isNextChapterOffset ? 0 : fromChapterIndex;
+        const sliceEndIndex = isNextChapterOffset ? fromChapterIndex + 1 : undefined;
 
-        const nextChapters = chapters.slice(sliceStartIndex, sliceEndIndex);
+        const nextChaptersIncludingCurrent = chapters.slice(sliceStartIndex, sliceEndIndex);
+        const uniqueNextChapters = skipDupe
+            ? Chapters.removeDuplicates(fromChapter, nextChaptersIncludingCurrent)
+            : nextChaptersIncludingCurrent;
+        const nextChapters = uniqueNextChapters.toSpliced(isNextChapterOffset ? -1 : 0, 1);
 
         return onlyUnread ? Chapters.getNonRead(nextChapters) : nextChapters;
     }
