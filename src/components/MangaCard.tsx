@@ -14,7 +14,6 @@ import { Avatar, Box, CardContent, Stack, styled, Tooltip } from '@mui/material'
 import { useTranslation } from 'react-i18next';
 import PopupState, { bindMenu } from 'material-ui-popup-state';
 import { useState } from 'react';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { GridLayout, useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
 import { SpinnerImage } from '@/components/util/SpinnerImage';
 import { TManga, TPartialManga } from '@/typings.ts';
@@ -214,7 +213,7 @@ export const MangaCard = (props: MangaCardProps) => {
                                             </Stack>
                                             <SpinnerImage
                                                 alt={title}
-                                                src={requestManager.getValidImgUrlFor(thumbnailUrl)}
+                                                src={thumbnailUrl}
                                                 imgStyle={
                                                     inLibraryIndicator && inLibrary
                                                         ? {
@@ -366,7 +365,7 @@ export const MangaCard = (props: MangaCardProps) => {
                                                       imageRendering: 'pixelated',
                                                   }
                                         }
-                                        src={requestManager.getValidImgUrlFor(thumbnailUrl)}
+                                        src={thumbnailUrl}
                                     />
                                     <Box
                                         sx={{

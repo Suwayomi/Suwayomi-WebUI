@@ -273,6 +273,7 @@ export const FULL_CHAPTER_FIELDS = gql`
             title
             inLibrary
             thumbnailUrl
+            lastFetchedAt
         }
         meta {
             key
