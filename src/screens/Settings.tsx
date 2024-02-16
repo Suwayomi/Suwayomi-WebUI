@@ -155,7 +155,7 @@ export function Settings() {
                     secondary={t('settings.clear_cache.label.description')}
                 />
             </ListItemButton>
-            <ListItemLink to="/settings/extensionSettings">
+            <ListItemLink to="/settings/browseSettings">
                 <ListItemIcon>
                     <ExploreOutlinedIcon />
                 </ListItemIcon>

@@ -35,7 +35,7 @@ import { DownloadSettings } from '@/screens/settings/DownloadSettings.tsx';
 import { ServerSettings } from '@/screens/settings/ServerSettings.tsx';
 import { ServerUpdateChecker } from '@/components/settings/ServerUpdateChecker.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { ExtensionSettings } from '@/screens/settings/ExtensionSettings.tsx';
+import { BrowseSettings } from '@/screens/settings/BrowseSettings.tsx';
 import { WebUISettings } from '@/screens/settings/WebUISettings.tsx';
 import { Migrate } from '@/screens/Migrate.tsx';
 
@@ -101,7 +101,7 @@ export const App: React.FC = () => (
                     <Route path="backup" element={<Backup />} />
                     <Route path="server" element={<ServerSettings />} />
                     <Route path="webUI" element={<WebUISettings />} />
-                    <Route path="extensionSettings" element={<ExtensionSettings />} />
+                    <Route path="browseSettings" element={<BrowseSettings />} />
                 </Route>
 
                 {/* Manga Routes */}
