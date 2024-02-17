@@ -38,6 +38,10 @@ const FLAVOR_TO_TRANSLATION_KEY: { [flavor in WebUiFlavor]: SelectSettingValueDi
         text: 'settings.webui.title.webui',
         description: 'settings.webui.flavor.option.webui.label.description',
     },
+    [WebUiFlavor.Vui]: {
+        text: 'settings.webui.flavor.option.vui.label.title',
+        description: 'settings.webui.flavor.option.vui.label.description',
+    },
     [WebUiFlavor.Custom]: {
         text: 'settings.webui.flavor.option.custom.label.title',
         description: 'settings.webui.flavor.option.custom.label.description',
