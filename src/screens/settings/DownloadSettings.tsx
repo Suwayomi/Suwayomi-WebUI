@@ -28,7 +28,7 @@ type DownloadSettingsType = Pick<
     | 'downloadAsCbz'
     | 'downloadsPath'
     | 'autoDownloadNewChapters'
-    | 'autoDownloadAheadLimit'
+    | 'autoDownloadNewChaptersLimit'
     | 'excludeEntryWithUnreadChapters'
 >;
 
@@ -36,7 +36,7 @@ const extractDownloadSettings = (settings: ServerSettings): DownloadSettingsType
     downloadAsCbz: settings.downloadAsCbz,
     downloadsPath: settings.downloadsPath,
     autoDownloadNewChapters: settings.autoDownloadNewChapters,
-    autoDownloadAheadLimit: settings.autoDownloadAheadLimit,
+    autoDownloadNewChaptersLimit: settings.autoDownloadNewChaptersLimit,
     excludeEntryWithUnreadChapters: settings.excludeEntryWithUnreadChapters,
 });
 
@@ -148,15 +148,15 @@ export const DownloadSettings = () => {
                     disabled={!downloadSettings?.autoDownloadNewChapters}
                     settingTitle={t('download.settings.auto_download.download_limit.label.title')}
                     dialogDescription={t('download.settings.auto_download.download_limit.label.description')}
-                    value={downloadSettings?.autoDownloadAheadLimit ?? 0}
+                    value={downloadSettings?.autoDownloadNewChaptersLimit ?? 0}
                     settingValue={
                         // eslint-disable-next-line no-nested-ternary
-                        downloadSettings?.autoDownloadAheadLimit !== undefined
-                            ? !downloadSettings.autoDownloadAheadLimit
+                        downloadSettings?.autoDownloadNewChaptersLimit !== undefined
+                            ? !downloadSettings.autoDownloadNewChaptersLimit
                                 ? t('global.label.none')
                                 : t('download.settings.download_ahead.label.value', {
-                                      chapters: downloadSettings.autoDownloadAheadLimit,
-                                      count: downloadSettings.autoDownloadAheadLimit,
+                                      chapters: downloadSettings.autoDownloadNewChaptersLimit,
+                                      count: downloadSettings.autoDownloadNewChaptersLimit,
                                   })
                             : undefined
                     }
@@ -165,7 +165,9 @@ export const DownloadSettings = () => {
                     maxValue={20}
                     showSlider
                     valueUnit={t('chapter.title')}
-                    handleUpdate={(downloadAheadLimit) => updateSetting('autoDownloadAheadLimit', downloadAheadLimit)}
+                    handleUpdate={(autoDownloadNewChaptersLimit) =>
+                        updateSetting('autoDownloadNewChaptersLimit', autoDownloadNewChaptersLimit)
+                    }
                 />
                 <ListItem disabled={!downloadSettings?.autoDownloadNewChapters}>
                     <ListItemText primary={t('download.settings.auto_download.label.ignore_with_unread_chapters')} />
