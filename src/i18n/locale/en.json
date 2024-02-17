@@ -920,7 +920,7 @@
           "preview": {
             "label": {
               "description": "Use the latest features and help us get them ready for a stable release.",
-              "disclaimer": "Features and changes in this version might not be completely ready yet and can cause bugs.\nMake sure that you have automatic backups enabled to prevent loss of your library!",
+              "disclaimer": "Features and changes in this version might not be completely ready yet and can cause bugs.\nMake sure that you have automatic backups enabled to prevent loss of your library!\n\n$t(settings.webui.flavor.label.info)",
               "title": "Preview"
             }
           },
@@ -940,6 +940,7 @@
       },
       "flavor": {
         "label": {
+          "info": "After changing this setting go to the \"About\" page and check for a webUI update and install it",
           "title": "Flavor"
         },
         "option": {

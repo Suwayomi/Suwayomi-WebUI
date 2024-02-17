@@ -37,10 +37,12 @@ const FLAVOR_TO_TRANSLATION_KEY: { [flavor in WebUiFlavor]: SelectSettingValueDi
     [WebUiFlavor.Webui]: {
         text: 'settings.webui.title.webui',
         description: 'settings.webui.flavor.option.webui.label.description',
+        disclaimer: 'settings.webui.flavor.label.info',
     },
     [WebUiFlavor.Vui]: {
         text: 'settings.webui.flavor.option.vui.label.title',
         description: 'settings.webui.flavor.option.vui.label.description',
+        disclaimer: 'settings.webui.flavor.label.info',
     },
     [WebUiFlavor.Custom]: {
         text: 'settings.webui.flavor.option.custom.label.title',
@@ -59,10 +61,12 @@ const CHANNEL_TO_TRANSLATION_KEYS: {
     [WebUiChannel.Bundled]: {
         text: 'settings.webui.channel.option.bundled.label.title',
         description: 'settings.webui.channel.option.bundled.label.description',
+        disclaimer: 'settings.webui.flavor.label.info',
     },
     [WebUiChannel.Stable]: {
         text: 'settings.webui.channel.option.stable.label.title',
         description: 'settings.webui.channel.option.stable.label.description',
+        disclaimer: 'settings.webui.flavor.label.info',
     },
     [WebUiChannel.Preview]: {
         text: 'settings.webui.channel.option.preview.label.title',
