@@ -233,6 +233,7 @@ export const BASE_MANGA_FIELDS = gql`
         }
         status
         thumbnailUrl
+        thumbnailUrlLastFetched
         title
         url
     }
