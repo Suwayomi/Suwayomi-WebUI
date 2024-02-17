@@ -37,6 +37,7 @@ import { ServerUpdateChecker } from '@/components/settings/ServerUpdateChecker.t
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { ExtensionSettings } from '@/screens/settings/ExtensionSettings.tsx';
 import { WebUISettings } from '@/screens/settings/WebUISettings.tsx';
+import { AnilistAccessCodeAuth } from '@/components/trackers/anilist/AnilistAccessCodeAuth';
 
 if (process.env.NODE_ENV !== 'production') {
     // Adds messages only in a dev environment
@@ -120,6 +121,9 @@ export const App: React.FC = () => (
                 <Route path="updates" element={<Updates />} />
                 <Route path="extensions" element={<Extensions />} />
                 <Route path="browse" element={<Browse />} />
+            </Routes>
+            <Routes>
+                <Route path="/oath/ainilist/auth" element={<AnilistAccessCodeAuth />} />
             </Routes>
         </Container>
         <Routes>
