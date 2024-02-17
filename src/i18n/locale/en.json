@@ -683,9 +683,6 @@
     }
   },
   "settings": {
-    "browse": {
-      "title": "Browse settings"
-    },
     "about": {
       "server": {
         "label": {
@@ -764,6 +761,9 @@
         }
       },
       "title": "Backup"
+    },
+    "browse": {
+      "title": "Browse settings"
     },
     "clear_cache": {
       "label": {
@@ -947,6 +947,12 @@
             "label": {
               "description": "Use a custom $t(settings.webui.title.webui).\nTo use a custom $t(settings.webui.title.webui) replace the content of the \"webUI\" directory in the root directory on the server with the files of the custom $t(settings.webui.title.webui)",
               "title": "Custom"
+            }
+          },
+          "vui": {
+            "label": {
+              "description": "A preview focused web frontend built with svelte",
+              "title": "VUI"
             }
           },
           "webui": {

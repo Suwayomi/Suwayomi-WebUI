@@ -400,6 +400,19 @@ export type DeleteMangaMetaPayload = {
   meta?: Maybe<MangaMetaType>;
 };
 
+export type DeleteSourceMetaInput = {
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  key: Scalars['String']['input'];
+  sourceId: Scalars['LongString']['input'];
+};
+
+export type DeleteSourceMetaPayload = {
+  __typename?: 'DeleteSourceMetaPayload';
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  meta?: Maybe<SourceMetaType>;
+  source?: Maybe<SourceType>;
+};
+
 export type DequeueChapterDownloadInput = {
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['Int']['input'];
@@ -434,17 +447,6 @@ export type DoubleFilterInput = {
   notDistinctFrom?: InputMaybe<Scalars['Float']['input']>;
   notEqualTo?: InputMaybe<Scalars['Float']['input']>;
   notIn?: InputMaybe<Array<Scalars['Float']['input']>>;
-};
-
-export type DownloadAheadInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  latestReadChapterIds?: InputMaybe<Array<Scalars['Int']['input']>>;
-  mangaIds: Array<Scalars['Int']['input']>;
-};
-
-export type DownloadAheadPayload = {
-  __typename?: 'DownloadAheadPayload';
-  clientMutationId?: Maybe<Scalars['String']['output']>;
 };
 
 export type DownloadEdge = Edge & {
@@ -952,6 +954,7 @@ export type MangaType = {
   sourceId: Scalars['LongString']['output'];
   status: MangaStatus;
   thumbnailUrl?: Maybe<Scalars['String']['output']>;
+  thumbnailUrlLastFetched?: Maybe<Scalars['LongString']['output']>;
   title: Scalars['String']['output'];
   trackRecords: TrackRecordNodeList;
   unreadCount: Scalars['Int']['output'];
@@ -1016,9 +1019,9 @@ export type Mutation = {
   deleteDownloadedChapters: DeleteDownloadedChaptersPayload;
   deleteGlobalMeta: DeleteGlobalMetaPayload;
   deleteMangaMeta: DeleteMangaMetaPayload;
+  deleteSourceMeta: DeleteSourceMetaPayload;
   dequeueChapterDownload: DequeueChapterDownloadPayload;
   dequeueChapterDownloads: DequeueChapterDownloadsPayload;
-  downloadAhead: DownloadAheadPayload;
   enqueueChapterDownload: EnqueueChapterDownloadPayload;
   enqueueChapterDownloads: EnqueueChapterDownloadsPayload;
   fetchChapterPages: FetchChapterPagesPayload;
@@ -1039,6 +1042,7 @@ export type Mutation = {
   setGlobalMeta: SetGlobalMetaPayload;
   setMangaMeta: SetMangaMetaPayload;
   setSettings: SetSettingsPayload;
+  setSourceMeta: SetSourceMetaPayload;
   startDownloader: StartDownloaderPayload;
   stopDownloader: StopDownloaderPayload;
   updateCategories: UpdateCategoriesPayload;
@@ -1121,6 +1125,11 @@ export type MutationDeleteMangaMetaArgs = {
 };
 
 
+export type MutationDeleteSourceMetaArgs = {
+  input: DeleteSourceMetaInput;
+};
+
+
 export type MutationDequeueChapterDownloadArgs = {
   input: DequeueChapterDownloadInput;
 };
@@ -1128,11 +1137,6 @@ export type MutationDequeueChapterDownloadArgs = {
 
 export type MutationDequeueChapterDownloadsArgs = {
   input: DequeueChapterDownloadsInput;
-};
-
-
-export type MutationDownloadAheadArgs = {
-  input: DownloadAheadInput;
 };
 
 
@@ -1231,6 +1235,11 @@ export type MutationSetSettingsArgs = {
 };
 
 
+export type MutationSetSourceMetaArgs = {
+  input: SetSourceMetaInput;
+};
+
+
 export type MutationStartDownloaderArgs = {
   input: StartDownloaderInput;
 };
@@ -1325,7 +1334,7 @@ export type MutationUpdateWebUiArgs = {
   input: WebUiUpdateInput;
 };
 
-export type Node = CategoryMetaType | CategoryType | ChapterMetaType | ChapterType | DownloadType | ExtensionType | GlobalMetaType | MangaMetaType | MangaType | PartialSettingsType | SettingsType | SourceType | TrackRecordType | TrackerType;
+export type Node = CategoryMetaType | CategoryType | ChapterMetaType | ChapterType | DownloadType | ExtensionType | GlobalMetaType | MangaMetaType | MangaType | PartialSettingsType | SettingsType | SourceMetaType | SourceType | TrackRecordType | TrackerType;
 
 export type NodeList = {
   /** A list of edges which contains the [T] and cursor to aid in pagination. */
@@ -1352,8 +1361,10 @@ export type PageInfo = {
 
 export type PartialSettingsType = Settings & {
   __typename?: 'PartialSettingsType';
+  /** @deprecated Replaced with autoDownloadNewChaptersLimit, replace with autoDownloadNewChaptersLimit */
   autoDownloadAheadLimit?: Maybe<Scalars['Int']['output']>;
   autoDownloadNewChapters?: Maybe<Scalars['Boolean']['output']>;
+  autoDownloadNewChaptersLimit?: Maybe<Scalars['Int']['output']>;
   backupInterval?: Maybe<Scalars['Int']['output']>;
   backupPath?: Maybe<Scalars['String']['output']>;
   backupTTL?: Maybe<Scalars['Int']['output']>;
@@ -1394,8 +1405,8 @@ export type PartialSettingsType = Settings & {
 };
 
 export type PartialSettingsTypeInput = {
-  autoDownloadAheadLimit?: InputMaybe<Scalars['Int']['input']>;
   autoDownloadNewChapters?: InputMaybe<Scalars['Boolean']['input']>;
+  autoDownloadNewChaptersLimit?: InputMaybe<Scalars['Int']['input']>;
   backupInterval?: InputMaybe<Scalars['Int']['input']>;
   backupPath?: InputMaybe<Scalars['String']['input']>;
   backupTTL?: InputMaybe<Scalars['Int']['input']>;
@@ -1738,9 +1749,22 @@ export type SetSettingsPayload = {
   settings: SettingsType;
 };
 
+export type SetSourceMetaInput = {
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  meta: SourceMetaTypeInput;
+};
+
+export type SetSourceMetaPayload = {
+  __typename?: 'SetSourceMetaPayload';
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  meta: SourceMetaType;
+};
+
 export type Settings = {
+  /** @deprecated Replaced with autoDownloadNewChaptersLimit, replace with autoDownloadNewChaptersLimit */
   autoDownloadAheadLimit?: Maybe<Scalars['Int']['output']>;
   autoDownloadNewChapters?: Maybe<Scalars['Boolean']['output']>;
+  autoDownloadNewChaptersLimit?: Maybe<Scalars['Int']['output']>;
   backupInterval?: Maybe<Scalars['Int']['output']>;
   backupPath?: Maybe<Scalars['String']['output']>;
   backupTTL?: Maybe<Scalars['Int']['output']>;
@@ -1782,8 +1806,10 @@ export type Settings = {
 
 export type SettingsType = Settings & {
   __typename?: 'SettingsType';
+  /** @deprecated Replaced with autoDownloadNewChaptersLimit, replace with autoDownloadNewChaptersLimit */
   autoDownloadAheadLimit: Scalars['Int']['output'];
   autoDownloadNewChapters: Scalars['Boolean']['output'];
+  autoDownloadNewChaptersLimit: Scalars['Int']['output'];
   backupInterval: Scalars['Int']['output'];
   backupPath: Scalars['String']['output'];
   backupTTL: Scalars['Int']['output'];
@@ -1873,6 +1899,20 @@ export type SourceFilterInput = {
   or?: InputMaybe<Array<SourceFilterInput>>;
 };
 
+export type SourceMetaType = MetaType & {
+  __typename?: 'SourceMetaType';
+  key: Scalars['String']['output'];
+  source: SourceType;
+  sourceId: Scalars['LongString']['output'];
+  value: Scalars['String']['output'];
+};
+
+export type SourceMetaTypeInput = {
+  key: Scalars['String']['input'];
+  sourceId: Scalars['LongString']['input'];
+  value: Scalars['String']['input'];
+};
+
 export type SourceNodeList = NodeList & {
   __typename?: 'SourceNodeList';
   edges: Array<SourceEdge>;
@@ -1907,6 +1947,7 @@ export type SourceType = {
   isNsfw: Scalars['Boolean']['output'];
   lang: Scalars['String']['output'];
   manga: MangaNodeList;
+  meta: Array<SourceMetaType>;
   name: Scalars['String']['output'];
   preferences: Array<Preference>;
   supportsLatest: Scalars['Boolean']['output'];
@@ -2426,6 +2467,7 @@ export enum WebUiChannel {
 
 export enum WebUiFlavor {
   Custom = 'CUSTOM',
+  Vui = 'VUI',
   Webui = 'WEBUI'
 }
 
@@ -2696,13 +2738,6 @@ export type StopDownloaderMutationVariables = Exact<{
 
 
 export type StopDownloaderMutation = { __typename?: 'Mutation', stopDownloader: { __typename?: 'StopDownloaderPayload', clientMutationId?: string | null, downloadStatus: { __typename?: 'DownloadStatus', state: DownloaderState } } };
-
-export type DownloadAheadMutationVariables = Exact<{
-  input: DownloadAheadInput;
-}>;
-
-
-export type DownloadAheadMutation = { __typename?: 'Mutation', downloadAhead: { __typename?: 'DownloadAheadPayload', clientMutationId?: string | null } };
 
 export type GetExtensionsFetchMutationVariables = Exact<{
   input?: InputMaybe<FetchExtensionsInput>;
