@@ -6,15 +6,14 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Button, Dialog, DialogTitle, InputAdornment } from '@mui/material';
+import { Button, Dialog, DialogTitle } from '@mui/material';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import TextField from '@mui/material/TextField';
-import IconButton from '@mui/material/IconButton';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
 import DialogActions from '@mui/material/DialogActions';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { PasswordTextField } from '@/components/atoms/PasswordTextField.tsx';
 
 export type TextSettingDialogProps = {
     settingName: string;
@@ -42,9 +41,8 @@ export const TextSettingDialog = ({
     const { t } = useTranslation();
 
     const [dialogValue, setDialogValue] = useState(value ?? '');
-    const [showPassword, setShowPassword] = useState(false);
 
-    const handleClickShowPassword = () => setShowPassword((show) => !show);
+    const TextFieldComponent = useMemo(() => (isPassword ? PasswordTextField : TextField), [isPassword]);
 
     useEffect(() => {
         if (!value) {
@@ -59,7 +57,6 @@ export const TextSettingDialog = ({
             setDialogValue(value ?? '');
         }
 
-        setShowPassword(false);
         setIsDialogOpen(false);
     };
 
@@ -75,7 +72,7 @@ export const TextSettingDialog = ({
                 {!!dialogDescription && (
                     <DialogContentText sx={{ paddingBottom: '10px' }}>{dialogDescription}</DialogContentText>
                 )}
-                <TextField
+                <TextFieldComponent
                     sx={{
                         width: '100%',
                         margin: 'auto',
@@ -83,21 +80,7 @@ export const TextSettingDialog = ({
                     autoFocus
                     placeholder={placeholder}
                     value={dialogValue}
-                    type={isPassword && !showPassword ? 'password' : 'text'}
                     onChange={(e) => setDialogValue(e.target.value)}
-                    InputProps={{
-                        endAdornment: isPassword ? (
-                            <InputAdornment position="end">
-                                <IconButton
-                                    aria-label="toggle password visibility"
-                                    onClick={handleClickShowPassword}
-                                    edge="end"
-                                >
-                                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                                </IconButton>
-                            </InputAdornment>
-                        ) : null,
-                    }}
                 />
             </DialogContent>
             <DialogActions>
