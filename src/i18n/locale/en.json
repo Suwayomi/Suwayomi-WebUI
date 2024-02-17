@@ -683,9 +683,6 @@
     }
   },
   "settings": {
-    "browse": {
-      "title": "Browse settings"
-    },
     "about": {
       "server": {
         "label": {
@@ -764,6 +761,9 @@
         }
       },
       "title": "Backup"
+    },
+    "browse": {
+      "title": "Browse settings"
     },
     "clear_cache": {
       "label": {
@@ -920,7 +920,7 @@
           "preview": {
             "label": {
               "description": "Use the latest features and help us get them ready for a stable release.",
-              "disclaimer": "Features and changes in this version might not be completely ready yet and can cause bugs.\nMake sure that you have automatic backups enabled to prevent loss of your library!",
+              "disclaimer": "Features and changes in this version might not be completely ready yet and can cause bugs.\nMake sure that you have automatic backups enabled to prevent loss of your library!\n\n$t(settings.webui.flavor.label.info)",
               "title": "Preview"
             }
           },
@@ -940,6 +940,7 @@
       },
       "flavor": {
         "label": {
+          "info": "After changing this setting go to the \"About\" page and check for a webUI update and install it",
           "title": "Flavor"
         },
         "option": {
@@ -947,6 +948,12 @@
             "label": {
               "description": "Use a custom $t(settings.webui.title.webui).\nTo use a custom $t(settings.webui.title.webui) replace the content of the \"webUI\" directory in the root directory on the server with the files of the custom $t(settings.webui.title.webui)",
               "title": "Custom"
+            }
+          },
+          "vui": {
+            "label": {
+              "description": "A preview focused web frontend built with svelte",
+              "title": "VUI"
             }
           },
           "webui": {
