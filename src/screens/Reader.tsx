@@ -106,8 +106,10 @@ export function Reader() {
     const { data: chapterData, loading: isChapterLoading } = requestManager.useGetMangaChapter(mangaId, chapterIndex);
     const arePagesUpdatedRef = useRef(false);
 
-    const { data: settingsData } = requestManager.useGetServerSettings();
-    const isDownloadAheadEnabled = !!settingsData?.settings.autoDownloadAheadLimit;
+    const {
+        settings: { downloadAheadLimit },
+    } = useMetadataServerSettings();
+    const isDownloadAheadEnabled = !!downloadAheadLimit;
 
     const getLoadedChapter = () => {
         const isAChapterLoaded = loadedChapter.current;
@@ -234,7 +236,7 @@ export function Reader() {
 
                 const chapterIdsToDownload = nextChaptersUpToDate
                     // "settingsData" can't be undefined since this would not get executed otherwise
-                    .slice(-settingsData!.settings.autoDownloadAheadLimit)
+                    .slice(-downloadAheadLimit)
                     .filter((mangaChapter) => !mangaChapter.isDownloaded)
                     .map((mangaChapter) => mangaChapter.id)
                     .filter((id) => !Chapters.isDownloading(id));
