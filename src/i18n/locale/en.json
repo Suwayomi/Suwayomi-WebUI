@@ -624,8 +624,8 @@
     },
     "error": {
       "label": {
-        "unable_to_get_next_chapter_skip_dup": "Unable to get the next chapter - \"$t(reader.settings.label.skip_dup_chapters)\" option is enabled",
-        "unable_to_get_prev_chapter_skip_dup": "Unable to get the previous chapter - \"$t(reader.settings.label.skip_dup_chapters)\" option is enabled"
+        "next_chapter_does_not_exist": "There is no next chapter to open",
+        "prev_chapter_does_not_exist": "There is no previous chapter to open"
       }
     },
     "page_info": {

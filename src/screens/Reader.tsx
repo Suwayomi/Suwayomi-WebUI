@@ -11,15 +11,7 @@ import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'r
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import {
-    AllowedMetadataValueTypes,
-    ChapterOffset,
-    IReaderSettings,
-    ReaderType,
-    TChapter,
-    TManga,
-    TranslationKey,
-} from '@/typings';
+import { AllowedMetadataValueTypes, ChapterOffset, IReaderSettings, ReaderType, TChapter, TManga } from '@/typings';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import {
     checkAndHandleMissingStoredReaderSettings,
@@ -269,28 +261,33 @@ export function Reader() {
     };
 
     const openNextChapter = useCallback(
-        async (offset: ChapterOffset, setHistory: (nextChapterIndex: number) => void) => {
+        (offset: ChapterOffset) => {
+            const isOpenNextChapter = offset === ChapterOffset.NEXT;
+            const chapterToOpen = isOpenNextChapter ? nextChapter : prevChapter;
+
+            if (!chapterToOpen) {
+                makeToast(
+                    t(
+                        isOpenNextChapter
+                            ? 'reader.error.label.next_chapter_does_not_exist'
+                            : 'reader.error.label.prev_chapter_does_not_exist',
+                    ),
+                    'error',
+                );
+                return;
+            }
+
             setRetrievingNextChapter(true);
             setCurPage(0);
-            try {
-                const chapterToOpen = offset === ChapterOffset.NEXT ? nextChapter : prevChapter;
-                if (!chapterToOpen) {
-                    throw new Error('Failed to find next chapter');
-                }
 
-                setHistory(chapterToOpen.sourceOrder);
-            } catch (error) {
-                const offsetToTranslationKeyMap: { [chapterOffset in ChapterOffset]: TranslationKey } = {
-                    [ChapterOffset.PREV]: 'reader.error.label.unable_to_get_prev_chapter_skip_dup',
-                    [ChapterOffset.NEXT]: 'reader.error.label.unable_to_get_next_chapter_skip_dup',
-                };
+            navigate(`/manga/${manga.id}/chapter/${chapterToOpen.sourceOrder}`, {
+                replace: true,
+                state: location.state,
+            });
 
-                makeToast(t(offsetToTranslationKeyMap[offset]), 'error');
-            } finally {
-                setRetrievingNextChapter(false);
-            }
+            setRetrievingNextChapter(false);
         },
-        [chapter, settings],
+        [manga.id, prevChapter?.id, nextChapter?.id],
     );
 
     useEffect(() => {
@@ -365,41 +362,17 @@ export function Reader() {
     }, [curPageDebounced, isDownloadAheadEnabled]);
 
     const loadNextChapter = useCallback(() => {
-        const doesNextChapterExist = chapter.sourceOrder < manga.chapters.totalCount;
-        if (!doesNextChapterExist) {
-            return;
-        }
-
         updateChapter({
             lastPageRead: chapter.pageCount - 1,
             isRead: true,
         });
 
-        openNextChapter(ChapterOffset.NEXT, (nextChapterIndex) =>
-            navigate(`/manga/${manga.id}/chapter/${nextChapterIndex}`, {
-                replace: true,
-                state: location.state,
-            }),
-        );
-    }, [
-        chapter.sourceOrder,
-        manga.chapters.totalCount,
-        chapter.pageCount,
-        manga.id,
-        isDownloadAheadEnabled,
-        nextChapter?.id,
-    ]);
+        openNextChapter(ChapterOffset.NEXT);
+    }, [chapter.pageCount, openNextChapter]);
 
     const loadPrevChapter = useCallback(() => {
-        if (chapter.sourceOrder > 1) {
-            openNextChapter(ChapterOffset.PREV, (prevChapterIndex) =>
-                navigate(`/manga/${manga.id}/chapter/${prevChapterIndex}`, {
-                    replace: true,
-                    state: location.state,
-                }),
-            );
-        }
-    }, [chapter.sourceOrder, manga.id, prevChapter?.id]);
+        openNextChapter(ChapterOffset.PREV);
+    }, [openNextChapter]);
 
     if (isLoading) {
         return (
