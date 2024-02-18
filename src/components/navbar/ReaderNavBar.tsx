@@ -121,7 +121,7 @@ interface IProps {
     chapter: TChapter;
     curPage: number;
     scrollToPage: (page: number) => void;
-    openNextChapter: (offset: ChapterOffset, setHistory: (nextChapterIndex: number) => void) => Promise<void>;
+    openNextChapter: (offset: ChapterOffset) => void;
     retrievingNextChapter: boolean;
 }
 
@@ -310,17 +310,7 @@ export function ReaderNavBar(props: IProps) {
                                 <IconButton
                                     sx={{ gridArea: 'pre' }}
                                     disabled={disableChapterNavButtons || chapter.sourceOrder <= 1}
-                                    onClick={() =>
-                                        openNextChapter(ChapterOffset.PREV, (prevChapterIndex) => {
-                                            navigate(`/manga/${manga.id}/chapter/${prevChapterIndex}`, {
-                                                replace: true,
-                                                state: {
-                                                    prevDrawerOpen: drawerOpen,
-                                                    prevSettingsCollapseOpen: settingsCollapseOpen,
-                                                },
-                                            });
-                                        })
-                                    }
+                                    onClick={() => openNextChapter(ChapterOffset.PREV)}
                                 >
                                     <KeyboardArrowLeftIcon />
                                 </IconButton>
@@ -361,17 +351,7 @@ export function ReaderNavBar(props: IProps) {
                                         chapter.sourceOrder < 1 ||
                                         chapter.sourceOrder >= manga.chapters.totalCount
                                     }
-                                    onClick={() => {
-                                        openNextChapter(ChapterOffset.NEXT, (nextChapterIndex) =>
-                                            navigate(`/manga/${manga.id}/chapter/${nextChapterIndex}`, {
-                                                replace: true,
-                                                state: {
-                                                    prevDrawerOpen: drawerOpen,
-                                                    prevSettingsCollapseOpen: settingsCollapseOpen,
-                                                },
-                                            }),
-                                        );
-                                    }}
+                                    onClick={() => openNextChapter(ChapterOffset.NEXT)}
                                 >
                                     <KeyboardArrowRightIcon />
                                 </IconButton>
