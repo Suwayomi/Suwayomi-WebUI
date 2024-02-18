@@ -190,6 +190,10 @@ export function Reader() {
     );
 
     const updateChapter = (patch: UpdateChapterPatchInput) => {
+        if (chapter === initialChapter) {
+            return;
+        }
+
         const getChapterIdToDelete = () => {
             const isAutoDeletionEnabled = !!patch.isRead && !!metadataSettings.deleteChaptersWhileReading;
             if (!isAutoDeletionEnabled || !mangaChapters) {
@@ -347,6 +351,10 @@ export function Reader() {
 
     useEffect(() => {
         if (!wasLastPageReadSet) {
+            return;
+        }
+
+        if (chapter === initialChapter) {
             return;
         }
 
