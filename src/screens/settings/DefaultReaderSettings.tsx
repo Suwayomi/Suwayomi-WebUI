@@ -74,6 +74,7 @@ export function DefaultReaderSettings() {
             loadNextOnEnding={settings.loadNextOnEnding}
             skipDupChapters={settings.skipDupChapters}
             fitPageToWindow={settings.fitPageToWindow}
+            scalePage={settings.scalePage}
             readerType={settings.readerType}
             offsetFirstPage={settings.offsetFirstPage}
             readerWidth={settings.readerWidth}

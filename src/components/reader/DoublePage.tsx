@@ -28,6 +28,10 @@ export const DoublePage = forwardRef((props: IProps, ref: any) => {
     const imgStyle = {
         ...baseImgStyle,
         width: settings.fitPageToWindow ? baseImgStyle.width : `calc(${baseImgStyle.width} * 0.5)`,
+        minWidth:
+            settings.fitPageToWindow && settings.scalePage
+                ? `calc(${baseImgStyle.minWidth} * 0.5)`
+                : baseImgStyle.minWidth,
         maxWidth: settings.fitPageToWindow ? `calc(${baseImgStyle.maxWidth} * 0.5)` : baseImgStyle.maxWidth,
     };
 
@@ -54,7 +58,7 @@ export const DoublePage = forwardRef((props: IProps, ref: any) => {
                 alt={`Page #${index}`}
                 imgRef={imgRef}
                 spinnerStyle={spinnerStyle}
-                imgStyle={imgStyle}
+                imgStyle={{ ...imgStyle, objectPosition: settings.readerType === 'DoubleLTR' ? 'right' : 'left' }}
             />
             <SpinnerImage
                 src={image2src}
@@ -66,7 +70,7 @@ export const DoublePage = forwardRef((props: IProps, ref: any) => {
                     width: 'calc(50% - 5px)',
                     marginLeft: '5px',
                 }}
-                imgStyle={imgStyle}
+                imgStyle={{ ...imgStyle, objectPosition: settings.readerType === 'DoubleLTR' ? 'left' : 'right' }}
             />
         </Box>
     );
