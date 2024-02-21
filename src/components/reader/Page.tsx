@@ -17,27 +17,40 @@ export const isHorizontalReaderType = (readerType: ReaderType): boolean =>
     ['ContinuesHorizontalLTR', 'ContinuesHorizontalRTL'].includes(readerType);
 
 export function imageStyle(settings: IReaderSettings): any {
+    const isVertical = settings.readerType === 'ContinuesVertical';
     const isHorizontal = isHorizontalReaderType(settings.readerType);
-    if (settings.fitPageToWindow || isHorizontal) {
-        return {
-            marginLeft: isHorizontal ? '7px' : 0,
-            marginRight: isHorizontal ? '7px' : 0,
-            marginBottom: settings.readerType === 'ContinuesVertical' ? '15px' : 0,
-            width: 'auto',
-            maxWidth: settings.fitPageToWindow && !isHorizontal ? 'calc(100vw - (100vw - 100%))' : undefined,
-            height: 'auto',
-            minHeight: isHorizontal ? '100vh' : undefined,
-            maxHeight: '100vh',
-            objectFit: 'contain',
-        };
-    }
+    const baseStyling = {
+        margin: 0,
+        width: `${settings.readerWidth}%`,
+        objectFit: 'contain',
+    };
+
+    const continuesVerticalStyling = {
+        marginBottom: '15px',
+    };
+
+    const continuesHorizontalStyling = {
+        width: undefined,
+        minHeight: '100vh',
+        maxHeight: '100vh',
+        marginLeft: '7px',
+        marginRight: '7px',
+    };
+
+    const fitToPageStyling = {
+        width: undefined,
+        height: undefined,
+        minWidth: settings.scalePage ? 'calc(100vw - (100vw - 100%))' : undefined,
+        maxWidth: 'calc(100vw - (100vw - 100%))',
+        minHeight: settings.scalePage ? '100vh' : undefined,
+        maxHeight: '100vh',
+    };
 
     return {
-        marginBottom: settings.readerType === 'ContinuesVertical' ? '15px' : 0,
-        minWidth: '10vw',
-        width: `${settings.readerWidth}%`,
-        maxWidth: '100%',
-        objectFit: 'contain',
+        ...baseStyling,
+        ...(isHorizontal ? continuesHorizontalStyling : undefined),
+        ...(isVertical ? continuesVerticalStyling : undefined),
+        ...(settings.fitPageToWindow && !isHorizontal ? fitToPageStyling : undefined),
     };
 }
 

@@ -647,6 +647,7 @@
         "offset_first_page": "Offset first page",
         "reader_type": "Reader type",
         "reader_width": "Reader width",
+        "scale_page": "Scale small pages",
         "show_page_number": "Show page number",
         "skip_dup_chapters": "Skip duplicate chapters",
         "static_navigation": "Static navigation"

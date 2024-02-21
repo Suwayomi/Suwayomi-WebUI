@@ -26,6 +26,7 @@ export function ReaderSettingsOptions({
     skipDupChapters,
     setSettingValue,
     fitPageToWindow,
+    scalePage,
     offsetFirstPage,
     readerWidth,
 }: IProps) {
@@ -72,6 +73,16 @@ export function ReaderSettingsOptions({
                         edge="end"
                         checked={fitPageToWindow}
                         onChange={(e) => setSettingValue('fitPageToWindow', e.target.checked)}
+                    />
+                </ListItem>
+            )}
+            {fitPageToWindowEligible && fitPageToWindow && (
+                <ListItem>
+                    <ListItemText primary={t('reader.settings.label.scale_page')} />
+                    <Switch
+                        edge="end"
+                        checked={scalePage}
+                        onChange={(e) => setSettingValue('scalePage', e.target.checked)}
                     />
                 </ListItem>
             )}
