@@ -61,7 +61,13 @@ export const Page = forwardRef((props: IProps, ref: any) => {
     return (
         <Box
             ref={ref}
-            sx={{ display: 'flex', justifyContent: 'center', minWidth: isDoublePageReader ? '100%' : undefined }}
+            sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                minWidth: isDoublePageReader ? '100%' : undefined,
+            }}
         >
             <SpinnerImage
                 src={src}
