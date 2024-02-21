@@ -888,9 +888,12 @@
       },
       "socks_proxy": {
         "label": {
-          "enable": "Use SOCKS5 proxy",
-          "host": "SOCKS5 host",
-          "port": "SOCKS5 port"
+          "enable": "Use SOCKS proxy",
+          "host": "SOCKS host",
+          "password": "SOCKS password",
+          "port": "SOCKS port",
+          "username": "SOCKS username",
+          "version": "SOCKS version"
         },
         "title": "SOCKS proxy"
       },

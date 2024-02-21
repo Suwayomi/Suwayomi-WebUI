@@ -1395,7 +1395,10 @@ export type PartialSettingsType = Settings & {
   port?: Maybe<Scalars['Int']['output']>;
   socksProxyEnabled?: Maybe<Scalars['Boolean']['output']>;
   socksProxyHost?: Maybe<Scalars['String']['output']>;
+  socksProxyPassword?: Maybe<Scalars['String']['output']>;
   socksProxyPort?: Maybe<Scalars['String']['output']>;
+  socksProxyUsername?: Maybe<Scalars['String']['output']>;
+  socksProxyVersion?: Maybe<Scalars['Int']['output']>;
   systemTrayEnabled?: Maybe<Scalars['Boolean']['output']>;
   updateMangas?: Maybe<Scalars['Boolean']['output']>;
   webUIChannel?: Maybe<WebUiChannel>;
@@ -1437,7 +1440,10 @@ export type PartialSettingsTypeInput = {
   port?: InputMaybe<Scalars['Int']['input']>;
   socksProxyEnabled?: InputMaybe<Scalars['Boolean']['input']>;
   socksProxyHost?: InputMaybe<Scalars['String']['input']>;
+  socksProxyPassword?: InputMaybe<Scalars['String']['input']>;
   socksProxyPort?: InputMaybe<Scalars['String']['input']>;
+  socksProxyUsername?: InputMaybe<Scalars['String']['input']>;
+  socksProxyVersion?: InputMaybe<Scalars['Int']['input']>;
   systemTrayEnabled?: InputMaybe<Scalars['Boolean']['input']>;
   updateMangas?: InputMaybe<Scalars['Boolean']['input']>;
   webUIChannel?: InputMaybe<WebUiChannel>;
@@ -1795,7 +1801,10 @@ export type Settings = {
   port?: Maybe<Scalars['Int']['output']>;
   socksProxyEnabled?: Maybe<Scalars['Boolean']['output']>;
   socksProxyHost?: Maybe<Scalars['String']['output']>;
+  socksProxyPassword?: Maybe<Scalars['String']['output']>;
   socksProxyPort?: Maybe<Scalars['String']['output']>;
+  socksProxyUsername?: Maybe<Scalars['String']['output']>;
+  socksProxyVersion?: Maybe<Scalars['Int']['output']>;
   systemTrayEnabled?: Maybe<Scalars['Boolean']['output']>;
   updateMangas?: Maybe<Scalars['Boolean']['output']>;
   webUIChannel?: Maybe<WebUiChannel>;
@@ -1840,7 +1849,10 @@ export type SettingsType = Settings & {
   port: Scalars['Int']['output'];
   socksProxyEnabled: Scalars['Boolean']['output'];
   socksProxyHost: Scalars['String']['output'];
+  socksProxyPassword: Scalars['String']['output'];
   socksProxyPort: Scalars['String']['output'];
+  socksProxyUsername: Scalars['String']['output'];
+  socksProxyVersion: Scalars['Int']['output'];
   systemTrayEnabled: Scalars['Boolean']['output'];
   updateMangas: Scalars['Boolean']['output'];
   webUIChannel: WebUiChannel;
@@ -2171,6 +2183,7 @@ export type TrackerType = {
   icon: Scalars['String']['output'];
   id: Scalars['Int']['output'];
   isLoggedIn: Scalars['Boolean']['output'];
+  isTokenExpired: Scalars['Boolean']['output'];
   name: Scalars['String']['output'];
   scores: Array<Scalars['String']['output']>;
   statuses: Array<TrackStatusType>;
@@ -2544,7 +2557,7 @@ export type WebuiUpdateInfoFragment = { __typename?: 'WebUIUpdateInfo', channel:
 
 export type WebuiUpdateStatusFragment = { __typename?: 'WebUIUpdateStatus', progress: number, state: UpdateState, info: { __typename?: 'WebUIUpdateInfo', channel: string, tag: string } };
 
-export type ServerSettingsFragment = { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyHost: string, socksProxyPort: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadNewChaptersLimit: number, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, basicAuthEnabled: boolean, basicAuthUsername: string, basicAuthPassword: string, debugLogsEnabled: boolean, gqlDebugLogsEnabled: boolean, systemTrayEnabled: boolean, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string, flareSolverrEnabled: boolean, flareSolverrUrl: string, flareSolverrTimeout: number, flareSolverrSessionName: string, flareSolverrSessionTtl: number };
+export type ServerSettingsFragment = { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyVersion: number, socksProxyHost: string, socksProxyPort: string, socksProxyUsername: string, socksProxyPassword: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadNewChaptersLimit: number, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, basicAuthEnabled: boolean, basicAuthUsername: string, basicAuthPassword: string, debugLogsEnabled: boolean, gqlDebugLogsEnabled: boolean, systemTrayEnabled: boolean, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string, flareSolverrEnabled: boolean, flareSolverrUrl: string, flareSolverrTimeout: number, flareSolverrSessionName: string, flareSolverrSessionTtl: number };
 
 export type CreateBackupMutationVariables = Exact<{
   input: CreateBackupInput;
@@ -2863,14 +2876,14 @@ export type ResetServerSettingsMutationVariables = Exact<{
 }>;
 
 
-export type ResetServerSettingsMutation = { __typename?: 'Mutation', resetSettings: { __typename?: 'ResetSettingsPayload', clientMutationId?: string | null, settings: { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyHost: string, socksProxyPort: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadNewChaptersLimit: number, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, basicAuthEnabled: boolean, basicAuthUsername: string, basicAuthPassword: string, debugLogsEnabled: boolean, gqlDebugLogsEnabled: boolean, systemTrayEnabled: boolean, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string, flareSolverrEnabled: boolean, flareSolverrUrl: string, flareSolverrTimeout: number, flareSolverrSessionName: string, flareSolverrSessionTtl: number } } };
+export type ResetServerSettingsMutation = { __typename?: 'Mutation', resetSettings: { __typename?: 'ResetSettingsPayload', clientMutationId?: string | null, settings: { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyVersion: number, socksProxyHost: string, socksProxyPort: string, socksProxyUsername: string, socksProxyPassword: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadNewChaptersLimit: number, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, basicAuthEnabled: boolean, basicAuthUsername: string, basicAuthPassword: string, debugLogsEnabled: boolean, gqlDebugLogsEnabled: boolean, systemTrayEnabled: boolean, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string, flareSolverrEnabled: boolean, flareSolverrUrl: string, flareSolverrTimeout: number, flareSolverrSessionName: string, flareSolverrSessionTtl: number } } };
 
 export type UpdateServerSettingsMutationVariables = Exact<{
   input: SetSettingsInput;
 }>;
 
 
-export type UpdateServerSettingsMutation = { __typename?: 'Mutation', setSettings: { __typename?: 'SetSettingsPayload', clientMutationId?: string | null, settings: { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyHost: string, socksProxyPort: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadNewChaptersLimit: number, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, basicAuthEnabled: boolean, basicAuthUsername: string, basicAuthPassword: string, debugLogsEnabled: boolean, gqlDebugLogsEnabled: boolean, systemTrayEnabled: boolean, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string, flareSolverrEnabled: boolean, flareSolverrUrl: string, flareSolverrTimeout: number, flareSolverrSessionName: string, flareSolverrSessionTtl: number } } };
+export type UpdateServerSettingsMutation = { __typename?: 'Mutation', setSettings: { __typename?: 'SetSettingsPayload', clientMutationId?: string | null, settings: { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyVersion: number, socksProxyHost: string, socksProxyPort: string, socksProxyUsername: string, socksProxyPassword: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadNewChaptersLimit: number, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, basicAuthEnabled: boolean, basicAuthUsername: string, basicAuthPassword: string, debugLogsEnabled: boolean, gqlDebugLogsEnabled: boolean, systemTrayEnabled: boolean, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string, flareSolverrEnabled: boolean, flareSolverrUrl: string, flareSolverrTimeout: number, flareSolverrSessionName: string, flareSolverrSessionTtl: number } } };
 
 export type GetSourceMangasFetchMutationVariables = Exact<{
   input: FetchSourceMangaInput;
@@ -3092,7 +3105,7 @@ export type GetWebuiUpdateStatusQuery = { __typename?: 'Query', getWebUIUpdateSt
 export type GetServerSettingsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetServerSettingsQuery = { __typename?: 'Query', settings: { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyHost: string, socksProxyPort: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadNewChaptersLimit: number, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, basicAuthEnabled: boolean, basicAuthUsername: string, basicAuthPassword: string, debugLogsEnabled: boolean, gqlDebugLogsEnabled: boolean, systemTrayEnabled: boolean, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string, flareSolverrEnabled: boolean, flareSolverrUrl: string, flareSolverrTimeout: number, flareSolverrSessionName: string, flareSolverrSessionTtl: number } };
+export type GetServerSettingsQuery = { __typename?: 'Query', settings: { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyVersion: number, socksProxyHost: string, socksProxyPort: string, socksProxyUsername: string, socksProxyPassword: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadNewChaptersLimit: number, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, basicAuthEnabled: boolean, basicAuthUsername: string, basicAuthPassword: string, debugLogsEnabled: boolean, gqlDebugLogsEnabled: boolean, systemTrayEnabled: boolean, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string, flareSolverrEnabled: boolean, flareSolverrUrl: string, flareSolverrTimeout: number, flareSolverrSessionName: string, flareSolverrSessionTtl: number } };
 
 export type GetSourceQueryVariables = Exact<{
   id: Scalars['LongString']['input'];

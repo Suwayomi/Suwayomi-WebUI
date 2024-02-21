@@ -512,7 +512,7 @@ export type PageInfoFieldPolicy = {
 	hasPreviousPage?: FieldPolicy<any> | FieldReadFunction<any>,
 	startCursor?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type PartialSettingsTypeKeySpecifier = ('autoDownloadAheadLimit' | 'autoDownloadNewChapters' | 'autoDownloadNewChaptersLimit' | 'backupInterval' | 'backupPath' | 'backupTTL' | 'backupTime' | 'basicAuthEnabled' | 'basicAuthPassword' | 'basicAuthUsername' | 'debugLogsEnabled' | 'downloadAsCbz' | 'downloadsPath' | 'electronPath' | 'excludeCompleted' | 'excludeEntryWithUnreadChapters' | 'excludeNotStarted' | 'excludeUnreadChapters' | 'extensionRepos' | 'flareSolverrEnabled' | 'flareSolverrSessionName' | 'flareSolverrSessionTtl' | 'flareSolverrTimeout' | 'flareSolverrUrl' | 'globalUpdateInterval' | 'gqlDebugLogsEnabled' | 'initialOpenInBrowserEnabled' | 'ip' | 'localSourcePath' | 'maxSourcesInParallel' | 'port' | 'socksProxyEnabled' | 'socksProxyHost' | 'socksProxyPort' | 'systemTrayEnabled' | 'updateMangas' | 'webUIChannel' | 'webUIFlavor' | 'webUIInterface' | 'webUIUpdateCheckInterval' | PartialSettingsTypeKeySpecifier)[];
+export type PartialSettingsTypeKeySpecifier = ('autoDownloadAheadLimit' | 'autoDownloadNewChapters' | 'autoDownloadNewChaptersLimit' | 'backupInterval' | 'backupPath' | 'backupTTL' | 'backupTime' | 'basicAuthEnabled' | 'basicAuthPassword' | 'basicAuthUsername' | 'debugLogsEnabled' | 'downloadAsCbz' | 'downloadsPath' | 'electronPath' | 'excludeCompleted' | 'excludeEntryWithUnreadChapters' | 'excludeNotStarted' | 'excludeUnreadChapters' | 'extensionRepos' | 'flareSolverrEnabled' | 'flareSolverrSessionName' | 'flareSolverrSessionTtl' | 'flareSolverrTimeout' | 'flareSolverrUrl' | 'globalUpdateInterval' | 'gqlDebugLogsEnabled' | 'initialOpenInBrowserEnabled' | 'ip' | 'localSourcePath' | 'maxSourcesInParallel' | 'port' | 'socksProxyEnabled' | 'socksProxyHost' | 'socksProxyPassword' | 'socksProxyPort' | 'socksProxyUsername' | 'socksProxyVersion' | 'systemTrayEnabled' | 'updateMangas' | 'webUIChannel' | 'webUIFlavor' | 'webUIInterface' | 'webUIUpdateCheckInterval' | PartialSettingsTypeKeySpecifier)[];
 export type PartialSettingsTypeFieldPolicy = {
 	autoDownloadAheadLimit?: FieldPolicy<any> | FieldReadFunction<any>,
 	autoDownloadNewChapters?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -547,7 +547,10 @@ export type PartialSettingsTypeFieldPolicy = {
 	port?: FieldPolicy<any> | FieldReadFunction<any>,
 	socksProxyEnabled?: FieldPolicy<any> | FieldReadFunction<any>,
 	socksProxyHost?: FieldPolicy<any> | FieldReadFunction<any>,
+	socksProxyPassword?: FieldPolicy<any> | FieldReadFunction<any>,
 	socksProxyPort?: FieldPolicy<any> | FieldReadFunction<any>,
+	socksProxyUsername?: FieldPolicy<any> | FieldReadFunction<any>,
+	socksProxyVersion?: FieldPolicy<any> | FieldReadFunction<any>,
 	systemTrayEnabled?: FieldPolicy<any> | FieldReadFunction<any>,
 	updateMangas?: FieldPolicy<any> | FieldReadFunction<any>,
 	webUIChannel?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -646,7 +649,7 @@ export type SetSourceMetaPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	meta?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type SettingsKeySpecifier = ('autoDownloadAheadLimit' | 'autoDownloadNewChapters' | 'autoDownloadNewChaptersLimit' | 'backupInterval' | 'backupPath' | 'backupTTL' | 'backupTime' | 'basicAuthEnabled' | 'basicAuthPassword' | 'basicAuthUsername' | 'debugLogsEnabled' | 'downloadAsCbz' | 'downloadsPath' | 'electronPath' | 'excludeCompleted' | 'excludeEntryWithUnreadChapters' | 'excludeNotStarted' | 'excludeUnreadChapters' | 'extensionRepos' | 'flareSolverrEnabled' | 'flareSolverrSessionName' | 'flareSolverrSessionTtl' | 'flareSolverrTimeout' | 'flareSolverrUrl' | 'globalUpdateInterval' | 'gqlDebugLogsEnabled' | 'initialOpenInBrowserEnabled' | 'ip' | 'localSourcePath' | 'maxSourcesInParallel' | 'port' | 'socksProxyEnabled' | 'socksProxyHost' | 'socksProxyPort' | 'systemTrayEnabled' | 'updateMangas' | 'webUIChannel' | 'webUIFlavor' | 'webUIInterface' | 'webUIUpdateCheckInterval' | SettingsKeySpecifier)[];
+export type SettingsKeySpecifier = ('autoDownloadAheadLimit' | 'autoDownloadNewChapters' | 'autoDownloadNewChaptersLimit' | 'backupInterval' | 'backupPath' | 'backupTTL' | 'backupTime' | 'basicAuthEnabled' | 'basicAuthPassword' | 'basicAuthUsername' | 'debugLogsEnabled' | 'downloadAsCbz' | 'downloadsPath' | 'electronPath' | 'excludeCompleted' | 'excludeEntryWithUnreadChapters' | 'excludeNotStarted' | 'excludeUnreadChapters' | 'extensionRepos' | 'flareSolverrEnabled' | 'flareSolverrSessionName' | 'flareSolverrSessionTtl' | 'flareSolverrTimeout' | 'flareSolverrUrl' | 'globalUpdateInterval' | 'gqlDebugLogsEnabled' | 'initialOpenInBrowserEnabled' | 'ip' | 'localSourcePath' | 'maxSourcesInParallel' | 'port' | 'socksProxyEnabled' | 'socksProxyHost' | 'socksProxyPassword' | 'socksProxyPort' | 'socksProxyUsername' | 'socksProxyVersion' | 'systemTrayEnabled' | 'updateMangas' | 'webUIChannel' | 'webUIFlavor' | 'webUIInterface' | 'webUIUpdateCheckInterval' | SettingsKeySpecifier)[];
 export type SettingsFieldPolicy = {
 	autoDownloadAheadLimit?: FieldPolicy<any> | FieldReadFunction<any>,
 	autoDownloadNewChapters?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -681,7 +684,10 @@ export type SettingsFieldPolicy = {
 	port?: FieldPolicy<any> | FieldReadFunction<any>,
 	socksProxyEnabled?: FieldPolicy<any> | FieldReadFunction<any>,
 	socksProxyHost?: FieldPolicy<any> | FieldReadFunction<any>,
+	socksProxyPassword?: FieldPolicy<any> | FieldReadFunction<any>,
 	socksProxyPort?: FieldPolicy<any> | FieldReadFunction<any>,
+	socksProxyUsername?: FieldPolicy<any> | FieldReadFunction<any>,
+	socksProxyVersion?: FieldPolicy<any> | FieldReadFunction<any>,
 	systemTrayEnabled?: FieldPolicy<any> | FieldReadFunction<any>,
 	updateMangas?: FieldPolicy<any> | FieldReadFunction<any>,
 	webUIChannel?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -689,7 +695,7 @@ export type SettingsFieldPolicy = {
 	webUIInterface?: FieldPolicy<any> | FieldReadFunction<any>,
 	webUIUpdateCheckInterval?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type SettingsTypeKeySpecifier = ('autoDownloadAheadLimit' | 'autoDownloadNewChapters' | 'autoDownloadNewChaptersLimit' | 'backupInterval' | 'backupPath' | 'backupTTL' | 'backupTime' | 'basicAuthEnabled' | 'basicAuthPassword' | 'basicAuthUsername' | 'debugLogsEnabled' | 'downloadAsCbz' | 'downloadsPath' | 'electronPath' | 'excludeCompleted' | 'excludeEntryWithUnreadChapters' | 'excludeNotStarted' | 'excludeUnreadChapters' | 'extensionRepos' | 'flareSolverrEnabled' | 'flareSolverrSessionName' | 'flareSolverrSessionTtl' | 'flareSolverrTimeout' | 'flareSolverrUrl' | 'globalUpdateInterval' | 'gqlDebugLogsEnabled' | 'initialOpenInBrowserEnabled' | 'ip' | 'localSourcePath' | 'maxSourcesInParallel' | 'port' | 'socksProxyEnabled' | 'socksProxyHost' | 'socksProxyPort' | 'systemTrayEnabled' | 'updateMangas' | 'webUIChannel' | 'webUIFlavor' | 'webUIInterface' | 'webUIUpdateCheckInterval' | SettingsTypeKeySpecifier)[];
+export type SettingsTypeKeySpecifier = ('autoDownloadAheadLimit' | 'autoDownloadNewChapters' | 'autoDownloadNewChaptersLimit' | 'backupInterval' | 'backupPath' | 'backupTTL' | 'backupTime' | 'basicAuthEnabled' | 'basicAuthPassword' | 'basicAuthUsername' | 'debugLogsEnabled' | 'downloadAsCbz' | 'downloadsPath' | 'electronPath' | 'excludeCompleted' | 'excludeEntryWithUnreadChapters' | 'excludeNotStarted' | 'excludeUnreadChapters' | 'extensionRepos' | 'flareSolverrEnabled' | 'flareSolverrSessionName' | 'flareSolverrSessionTtl' | 'flareSolverrTimeout' | 'flareSolverrUrl' | 'globalUpdateInterval' | 'gqlDebugLogsEnabled' | 'initialOpenInBrowserEnabled' | 'ip' | 'localSourcePath' | 'maxSourcesInParallel' | 'port' | 'socksProxyEnabled' | 'socksProxyHost' | 'socksProxyPassword' | 'socksProxyPort' | 'socksProxyUsername' | 'socksProxyVersion' | 'systemTrayEnabled' | 'updateMangas' | 'webUIChannel' | 'webUIFlavor' | 'webUIInterface' | 'webUIUpdateCheckInterval' | SettingsTypeKeySpecifier)[];
 export type SettingsTypeFieldPolicy = {
 	autoDownloadAheadLimit?: FieldPolicy<any> | FieldReadFunction<any>,
 	autoDownloadNewChapters?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -724,7 +730,10 @@ export type SettingsTypeFieldPolicy = {
 	port?: FieldPolicy<any> | FieldReadFunction<any>,
 	socksProxyEnabled?: FieldPolicy<any> | FieldReadFunction<any>,
 	socksProxyHost?: FieldPolicy<any> | FieldReadFunction<any>,
+	socksProxyPassword?: FieldPolicy<any> | FieldReadFunction<any>,
 	socksProxyPort?: FieldPolicy<any> | FieldReadFunction<any>,
+	socksProxyUsername?: FieldPolicy<any> | FieldReadFunction<any>,
+	socksProxyVersion?: FieldPolicy<any> | FieldReadFunction<any>,
 	systemTrayEnabled?: FieldPolicy<any> | FieldReadFunction<any>,
 	updateMangas?: FieldPolicy<any> | FieldReadFunction<any>,
 	webUIChannel?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -871,12 +880,13 @@ export type TrackerNodeListFieldPolicy = {
 	pageInfo?: FieldPolicy<any> | FieldReadFunction<any>,
 	totalCount?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type TrackerTypeKeySpecifier = ('authUrl' | 'icon' | 'id' | 'isLoggedIn' | 'name' | 'scores' | 'statuses' | 'trackRecords' | TrackerTypeKeySpecifier)[];
+export type TrackerTypeKeySpecifier = ('authUrl' | 'icon' | 'id' | 'isLoggedIn' | 'isTokenExpired' | 'name' | 'scores' | 'statuses' | 'trackRecords' | TrackerTypeKeySpecifier)[];
 export type TrackerTypeFieldPolicy = {
 	authUrl?: FieldPolicy<any> | FieldReadFunction<any>,
 	icon?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	isLoggedIn?: FieldPolicy<any> | FieldReadFunction<any>,
+	isTokenExpired?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	scores?: FieldPolicy<any> | FieldReadFunction<any>,
 	statuses?: FieldPolicy<any> | FieldReadFunction<any>,

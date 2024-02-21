@@ -16,14 +16,18 @@ import { useLocalStorage } from '@/util/useLocalStorage.tsx';
 import { TextSetting } from '@/components/settings/text/TextSetting.tsx';
 import { ServerSettings as GqlServerSettings } from '@/typings.ts';
 import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
+import { SelectSetting } from '@/components/settings/SelectSetting.tsx';
 
 type ServerSettingsType = Pick<
     GqlServerSettings,
     | 'ip'
     | 'port'
     | 'socksProxyEnabled'
+    | 'socksProxyVersion'
     | 'socksProxyHost'
     | 'socksProxyPort'
+    | 'socksProxyUsername'
+    | 'socksProxyPassword'
     | 'debugLogsEnabled'
     | 'gqlDebugLogsEnabled'
     | 'systemTrayEnabled'
@@ -41,8 +45,11 @@ const extractServerSettings = (settings: GqlServerSettings): ServerSettingsType 
     ip: settings.ip,
     port: settings.port,
     socksProxyEnabled: settings.socksProxyEnabled,
+    socksProxyVersion: settings.socksProxyVersion,
     socksProxyHost: settings.socksProxyHost,
     socksProxyPort: settings.socksProxyPort,
+    socksProxyUsername: settings.socksProxyUsername,
+    socksProxyPassword: settings.socksProxyPassword,
     debugLogsEnabled: settings.debugLogsEnabled,
     gqlDebugLogsEnabled: settings.gqlDebugLogsEnabled,
     systemTrayEnabled: settings.systemTrayEnabled,
@@ -144,6 +151,17 @@ export const ServerSettings = () => {
                         onChange={(e) => updateSetting('socksProxyEnabled', e.target.checked)}
                     />
                 </ListItem>
+                <SelectSetting<number>
+                    settingName={t('settings.server.socks_proxy.label.version')}
+                    value={serverSettings?.socksProxyVersion}
+                    defaultValue={5}
+                    values={[
+                        [4, { text: '4' }],
+                        [5, { text: '5' }],
+                    ]}
+                    handleChange={(socksProxyVersion) => updateSetting('socksProxyVersion', socksProxyVersion)}
+                    disabled={!serverSettings?.socksProxyEnabled}
+                />
                 <TextSetting
                     settingName={t('settings.server.socks_proxy.label.host')}
                     value={serverSettings?.socksProxyHost}
@@ -155,6 +173,19 @@ export const ServerSettings = () => {
                     value={serverSettings?.socksProxyPort}
                     handleChange={(proxyPort) => updateSetting('socksProxyPort', proxyPort)}
                     disabled={!serverSettings?.socksProxyEnabled}
+                />
+                <TextSetting
+                    settingName={t('settings.server.socks_proxy.label.username')}
+                    value={serverSettings?.socksProxyUsername}
+                    handleChange={(proxyUsername) => updateSetting('socksProxyUsername', proxyUsername)}
+                    disabled={!serverSettings?.socksProxyEnabled}
+                />
+                <TextSetting
+                    settingName={t('settings.server.socks_proxy.label.password')}
+                    value={serverSettings?.socksProxyPassword}
+                    handleChange={(proxyPassword) => updateSetting('socksProxyPassword', proxyPassword)}
+                    disabled={!serverSettings?.socksProxyEnabled}
+                    isPassword
                 />
             </List>
             <List
