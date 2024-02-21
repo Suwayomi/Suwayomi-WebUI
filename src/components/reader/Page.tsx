@@ -24,8 +24,9 @@ export function imageStyle(settings: IReaderSettings): any {
             marginRight: isHorizontal ? '7px' : 0,
             marginBottom: settings.readerType === 'ContinuesVertical' ? '15px' : 0,
             width: 'auto',
-            maxWidth: settings.fitPageToWindow ? 'calc(100vw - (100vw - 100%))' : undefined,
+            maxWidth: settings.fitPageToWindow && !isHorizontal ? 'calc(100vw - (100vw - 100%))' : undefined,
             height: 'auto',
+            minHeight: isHorizontal ? '100vh' : undefined,
             maxHeight: '100vh',
             objectFit: 'contain',
         };
