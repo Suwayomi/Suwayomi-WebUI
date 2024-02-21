@@ -475,8 +475,11 @@ export const SERVER_SETTINGS = gql`
 
         # Socks proxy
         socksProxyEnabled
+        socksProxyVersion
         socksProxyHost
         socksProxyPort
+        socksProxyUsername
+        socksProxyPassword
 
         # webUI
         webUIFlavor
