@@ -413,6 +413,7 @@ export function Reader() {
                 display: 'flex',
                 flexDirection: 'column',
                 alignContent: 'center',
+                alignItems: 'center',
                 justifyContent: 'center',
                 minWidth: settings.staticNav
                     ? 'calc((100vw - (100vw - 100%)) - 300px)'
