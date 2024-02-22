@@ -423,19 +423,21 @@ export function Reader() {
             }}
         >
             <PageNumber settings={settings} curPage={curPage} pageCount={chapter.pageCount} />
-            <ReaderComponent
-                key={chapter.id}
-                pages={pages}
-                pageCount={chapter.pageCount}
-                setCurPage={setCurPage}
-                initialPage={initialPage}
-                curPage={curPage}
-                settings={settings}
-                manga={manga}
-                chapter={chapter}
-                nextChapter={loadNextChapter}
-                prevChapter={loadPrevChapter}
-            />
+            <Box sx={{ alignSelf: 'stretch' }}>
+                <ReaderComponent
+                    key={chapter.id}
+                    pages={pages}
+                    pageCount={chapter.pageCount}
+                    setCurPage={setCurPage}
+                    initialPage={initialPage}
+                    curPage={curPage}
+                    settings={settings}
+                    manga={manga}
+                    chapter={chapter}
+                    nextChapter={loadNextChapter}
+                    prevChapter={loadPrevChapter}
+                />
+            </Box>
         </Box>
     );
 }
