@@ -93,7 +93,10 @@
             "filter": "Filtrer",
             "ok": "Ok",
             "select_all": "Tout sélectionner",
-            "popular": "Populaire"
+            "popular": "Populaire",
+            "deselect": "Désélectionner",
+            "edit": "Modifier",
+            "copy": "Copier"
         },
         "language": {
             "label": {
@@ -149,16 +152,42 @@
         },
         "queue": {
             "label": {
-                "no_downloads": "Aucun téléchargement"
+                "no_downloads": "Aucun téléchargement",
+                "delete_all": "Tout supprimer"
             },
             "title": "File d'attente de téléchargement",
             "error": {
                 "label": {
-                    "failed_to_remove": "Impossible de supprimer le téléchargement de la file d'attente."
+                    "failed_to_remove": "Impossible de supprimer le téléchargement de la file d'attente.",
+                    "failed_delete_all": "Impossible de supprimer tous les téléchargements de la file d'attente"
                 }
             }
         },
-        "title": "Téléchargements"
+        "title": "Téléchargements",
+        "settings": {
+            "auto_download": {
+                "categories": {
+                    "label": {
+                        "include_in_download": "Les entrées dans les catégories exclues ne seront pas téléchargées, même si elles figurent également dans des catégories incluses"
+                    }
+                },
+                "label": {
+                    "new_chapters": "Télécharger les nouveaux chapitres"
+                }
+            },
+            "file_type": {
+                "label": {
+                    "cbz": "Enregistrer en tant qu'archive CBZ"
+                }
+            },
+            "delete_chapters": {
+                "label": {
+                    "allow_deletion_of_bookmarked": "Autoriser la suppression de chapitres ayant un marque-page",
+                    "manually_marked_as_read": "Supprimer les chapitres après les avoir manuellement marqués comme lus"
+                },
+                "title": "Supprimer les chapitres"
+            }
+        }
     },
     "settings": {
         "backup": {
@@ -419,7 +448,10 @@
         },
         "title": {
             "set_categories": "Définir les catégories",
-            "categories": "Catégories"
+            "categories": "Catégories",
+            "category_one": "Catégorie",
+            "category_many": "Catégories",
+            "category_other": "Catégories"
         },
         "dialog": {
             "title": {
@@ -430,6 +462,14 @@
         "label": {
             "use_as_default_category": "Catégorie par défaut lors de l'ajout d'un nouveau manga à la bibliothèque",
             "category_name": "Nom de la catégorie"
+        },
+        "settings": {
+            "inclusion": {
+                "label": {
+                    "include": "Inclure : {{includedCategoriesText}}",
+                    "exclude": "Exclure : {{excludedCategoriesText}}"
+                }
+            }
         }
     },
     "extension": {
@@ -444,7 +484,9 @@
         "label": {
             "installing_file": "Installation de l'extension à partir du fichier…",
             "installation_failed": "Échec de l'installation de l'extension !",
-            "installed_successfully": "L'extension a bien été installée !"
+            "installed_successfully": "L'extension a bien été installée !",
+            "uninstallation_failed": "Impossible de désinstaller l'extension",
+            "update_failed": "Impossible de mettre à jour l'extension"
         },
         "state": {
             "label": {
@@ -457,8 +499,30 @@
             }
         },
         "language": {
-            "all": "Tous",
+            "all": "Tout",
             "other": "Autre"
+        },
+        "settings": {
+            "repositories": {
+                "custom": {
+                    "error": {
+                        "label": {
+                            "invalid_url": "URL du dépôt invalide"
+                        }
+                    },
+                    "label": {
+                        "description": "Ajouter des dépôts à partir desquels des extensions peuvent être installées",
+                        "title": "Dépôts d'extensions"
+                    },
+                    "dialog": {
+                        "action": {
+                            "button": {
+                                "add": "Ajouter un dépôt"
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "source": {

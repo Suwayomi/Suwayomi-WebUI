@@ -305,7 +305,9 @@
             "links": "連結",
             "never": "永不",
             "other": "其它",
-            "general": "一般"
+            "general": "一般",
+            "placeholder": "占位符",
+            "discord": "Discord"
         },
         "language": {
             "label": {
@@ -662,7 +664,7 @@
             "language_description": "準確的翻譯離不開大家的指正 ->",
             "manga_item_width": "漫畫單元格寬度",
             "show_nsfw": "NSFW (18+) 內容",
-            "show_nsfw_description": "隱藏 NSFW 擴充套件與來源",
+            "show_nsfw_description": "顯示 NSFW 擴充套件與來源",
             "image_cache_description": "減少流量消耗，同時可以使圖像加載更快"
         },
         "server_address": {
@@ -757,7 +759,8 @@
                         },
                         "ttl": {
                             "label": {
-                                "title": "FlareSolverr 會話 TTL"
+                                "title": "FlareSolverr 會話 TTL",
+                                "description": "FlareSolverr 將會根據以分鐘為單位提供的 TTL 自動輪換過期的會話"
                             }
                         }
                     },
@@ -849,6 +852,9 @@
                             "description": "使用預設 $t(settings.webui.title.webui)"
                         }
                     }
+                },
+                "label": {
+                    "title": "類型"
                 }
             },
             "interface": {
@@ -983,7 +989,12 @@
     },
     "migrate": {
         "dialog": {
-            "title": "選擇要包含的資料"
+            "title": "選擇要包含的資料",
+            "action": {
+                "button": {
+                    "show_entry": "顯示條目"
+                }
+            }
         },
         "label": {
             "info": "正在遷移漫畫…"
