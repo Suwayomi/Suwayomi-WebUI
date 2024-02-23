@@ -192,6 +192,14 @@ const createChangelogCommitLine = (commit: Commit): string => {
     }
 };
 
+const getContributors = (commits: Commit[]): string[] => [
+    ...new Set(
+        commits
+            .map((commit) => commit.authors.map((author) => author.user?.login!).filter((author) => !!author))
+            .flat(),
+    ),
+];
+
 const createChangelog = async (prevReleaseLastCommitSha: string) => {
     const owner = 'Suwayomi';
     const repo = 'Suwayomi-WebUI';
@@ -213,6 +221,10 @@ const createChangelog = async (prevReleaseLastCommitSha: string) => {
 
     const commitChangelogLines = commits.map(createChangelogCommitLine);
     commitChangelogLines.forEach((commit) => console.log('-', commit));
+
+    const contributors = getContributors(commits);
+    const contributorString = contributors.reduce((authorCredit, author) => `${authorCredit}, @${author}`);
+    console.log(`\n\nContributors:\n@${contributorString}`);
 };
 
 createChangelog(sha).catch((error) => {
