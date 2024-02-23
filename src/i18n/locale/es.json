@@ -158,9 +158,12 @@
             },
             "socks_proxy": {
                 "label": {
-                    "host": "Host SOCKS5",
-                    "enable": "Utilizar el proxy SOCKS5",
-                    "port": "Puerto SOCKS5"
+                    "host": "Host SOCKS",
+                    "enable": "Utilizar el proxy SOCKS",
+                    "port": "Puerto SOCKS",
+                    "password": "Contraseña de SOCKS",
+                    "username": "Usuario de SOCKS",
+                    "version": "Versión de SOCKS"
                 },
                 "title": "Proxy SOCKS"
             },
@@ -250,7 +253,7 @@
                     "preview": {
                         "label": {
                             "description": "Utiliza las últimas funciones y ayúdanos a prepararlas para una versión estable.",
-                            "disclaimer": "Las funciones y cambios de esta versión podrían no estar completamente listos y pueden provocar errores.\n¡Asegúrate de tener activadas las copias de seguridad automáticas para evitar la pérdida de tu biblioteca!",
+                            "disclaimer": "Las funciones y cambios de esta versión podrían no estar completamente listos y pueden provocar errores.\n¡Asegúrate de tener activadas las copias de seguridad automáticas para evitar la pérdida de tu biblioteca!\n\n$t(settings.webui.flavor.label.info)",
                             "title": "Vista previa"
                         }
                     },
@@ -302,10 +305,17 @@
                             "description": "Utilice un $t(settings.webui.title.webui) personalizado.\nPara usar un $t(settings.webui.title.webui) personalizado reemplaza el contenido del directorio \"webUI\" en el directorio raíz del servidor con los archivos del $t(settings.webui.title.webui) personalizados",
                             "title": "Personalizado"
                         }
+                    },
+                    "vui": {
+                        "label": {
+                            "title": "VUI",
+                            "description": "Una interfaz web centrada en la previsualización creada con svelte"
+                        }
                     }
                 },
                 "label": {
-                    "title": "Sabor"
+                    "title": "Sabor",
+                    "info": "Después de cambiar este ajuste ve a la página \"Acerca de\" y busca una actualización de webUI e instálala"
                 }
             }
         },
@@ -316,6 +326,9 @@
                 "description": "La caché del cliente (navegador, electrón) debe borrarse al mismo tiempo, de lo contrario, la caché del cliente seguirá siendo utilizada",
                 "failure": "No se ha podido borrar la caché del servidor"
             }
+        },
+        "browse": {
+            "title": "Opciones de búsqueda"
         }
     },
     "updates": {
@@ -736,7 +749,8 @@
                 "skip_dup_chapters": "Omitir capítulos duplicados",
                 "fit_page_to_window": "Ajustar página a la ventana",
                 "offset_first_page": "Atenuar la primera página",
-                "reader_width": "Ancho del lector"
+                "reader_width": "Ancho del lector",
+                "scale_page": "Escalar páginas pequeñas"
             },
             "title": {
                 "default_reader_settings": "Configuración predeterminada del lector",
@@ -766,7 +780,9 @@
         "error": {
             "label": {
                 "unable_to_get_next_chapter_skip_dup": "No se puede obtener el capítulo siguiente - la opción \"$t(reader.settings.label.skip_dup_chapters)\" está activada",
-                "unable_to_get_prev_chapter_skip_dup": "No se puede obtener el capítulo anterior - la opción \"$t(reader.settings.label.skip_dup_chapters)\" está activada"
+                "unable_to_get_prev_chapter_skip_dup": "No se puede obtener el capítulo anterior - la opción \"$t(reader.settings.label.skip_dup_chapters)\" está activada",
+                "next_chapter_does_not_exist": "No hay siguiente capítulo para abrir",
+                "prev_chapter_does_not_exist": "No hay capítulo anterior para abrir"
             }
         }
     },
@@ -983,6 +999,12 @@
                     "label": {
                         "include_in_download": "Las entradas de las categorías excluidas no se descargarán aunque también estén en las categorías incluidas"
                     }
+                },
+                "download_limit": {
+                    "label": {
+                        "description": "Limite la cantidad de capítulos nuevos que se van a descargar.",
+                        "title": "Límite de descarga de capítulos"
+                    }
                 }
             },
             "download_ahead": {
@@ -990,8 +1012,8 @@
                     "while_reading": "Descarga automática durante la lectura",
                     "unread_chapters_to_download": "Número de capítulos no leídos para descargar",
                     "value": "{{chapters}} $t(chapter.title)",
-                    "disclaimer": "Este límite también se aplicará a la descarga automática de nuevos capítulos durante una actualización",
-                    "description": "Cuántos capítulos deben descargarse al marcar un capítulo como leído durante la lectura."
+                    "disclaimer": "Solo funciona si ya se han descargado el capítulo actual y el siguiente.",
+                    "description": "¿Cuántos capítulos deben descargarse durante la lectura?"
                 },
                 "title": "Descargar antes"
             },
