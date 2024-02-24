@@ -9,6 +9,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocalStorage } from '@/util/useLocalStorage';
 
 export const AnilistAccessCodeAuth = () => {
     const navigate = useNavigate();
@@ -16,14 +17,14 @@ export const AnilistAccessCodeAuth = () => {
     const [error, setError] = useState(false);
 
     const code = new URLSearchParams(location.search).get('code');
+    const [serverAddress] = useLocalStorage<string>('serverBaseURL', '');
 
     useEffect(() => {
         const controller = new AbortController();
         if (code) {
             axios
-                .post(`http://localhost:4567/api/v1/anilist/${code}`, {}, { signal: new AbortController().signal })
+                .post(`${serverAddress}/api/v1/anilist/${code}`, {}, { signal: new AbortController().signal })
                 .then((response) => {
-                    console.log(response.status);
                     if (response.status === 201) {
                         navigate('/library');
                     } else {
@@ -35,5 +36,5 @@ export const AnilistAccessCodeAuth = () => {
         return () => controller.abort();
     }, [code, navigate]);
 
-    return <div>{error && <h1>Failed to send the access code: {code}</h1>}</div>;
+    return <div>{error && <h1>Failed to login with access code: {code}</h1>}</div>;
 };
