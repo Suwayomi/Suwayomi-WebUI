@@ -55,8 +55,6 @@ import {
     DequeueChapterDownloadMutationVariables,
     DequeueChapterDownloadsMutation,
     DequeueChapterDownloadsMutationVariables,
-    DownloadAheadMutation,
-    DownloadAheadMutationVariables,
     DownloadStatusSubscription,
     DownloadStatusSubscriptionVariables,
     EnqueueChapterDownloadMutation,
@@ -172,6 +170,14 @@ import {
     UpdateMangaCategoriesPatchInput,
     GetWebuiUpdateStatusQuery,
     GetWebuiUpdateStatusQueryVariables,
+    GetMigratableSourcesQuery,
+    GetMigratableSourcesQueryVariables,
+    GetMigratableSourceMangasQuery,
+    GetMigratableSourceMangasQueryVariables,
+    GetMangaToMigrateQuery,
+    GetMangaToMigrateQueryVariables,
+    GetMangaToMigrateToFetchMutation,
+    GetMangaToMigrateToFetchMutationVariables,
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_GLOBAL_METADATAS } from '@/lib/graphql/queries/GlobalMetadataQuery.ts';
 import { SET_GLOBAL_METADATA } from '@/lib/graphql/mutations/GlobalMetadataMutation.ts';
@@ -187,16 +193,22 @@ import {
     INSTALL_EXTERNAL_EXTENSION,
     UPDATE_EXTENSION,
 } from '@/lib/graphql/mutations/ExtensionMutation.ts';
-import { GET_SOURCE, GET_SOURCES } from '@/lib/graphql/queries/SourceQuery.ts';
+import { GET_MIGRATABLE_SOURCES, GET_SOURCE, GET_SOURCES } from '@/lib/graphql/queries/SourceQuery.ts';
 import {
     GET_MANGA_FETCH,
+    GET_MANGA_TO_MIGRATE_TO_FETCH,
     SET_MANGA_METADATA,
     UPDATE_MANGA,
     UPDATE_MANGA_CATEGORIES,
     UPDATE_MANGAS,
     UPDATE_MANGAS_CATEGORIES,
 } from '@/lib/graphql/mutations/MangaMutation.ts';
-import { GET_MANGA, GET_MANGAS } from '@/lib/graphql/queries/MangaQuery.ts';
+import {
+    GET_MANGA,
+    GET_MANGA_TO_MIGRATE,
+    GET_MANGAS,
+    GET_MIGRATABLE_SOURCE_MANGAS,
+} from '@/lib/graphql/queries/MangaQuery.ts';
 import { GET_CATEGORIES, GET_CATEGORY_MANGAS } from '@/lib/graphql/queries/CategoryQuery.ts';
 import { GET_SOURCE_MANGAS_FETCH, UPDATE_SOURCE_PREFERENCES } from '@/lib/graphql/mutations/SourceMutation.ts';
 import {
@@ -205,7 +217,6 @@ import {
     DELETE_DOWNLOADED_CHAPTERS,
     DEQUEUE_CHAPTER_DOWNLOAD,
     DEQUEUE_CHAPTER_DOWNLOADS,
-    DOWNLOAD_AHEAD,
     ENQUEUE_CHAPTER_DOWNLOAD,
     ENQUEUE_CHAPTER_DOWNLOADS,
     REORDER_CHAPTER_DOWNLOAD,
@@ -991,17 +1002,73 @@ export class RequestManager {
         extensionFile: File,
         options?: MutationOptions<InstallExternalExtensionMutation, InstallExternalExtensionMutationVariables>,
     ): AbortableApolloMutationResponse<InstallExternalExtensionMutation> {
-        return this.doRequest<InstallExternalExtensionMutation, InstallExternalExtensionMutationVariables>(
+        const result = this.doRequest<InstallExternalExtensionMutation, InstallExternalExtensionMutationVariables>(
             GQLMethod.MUTATION,
             INSTALL_EXTERNAL_EXTENSION,
             { file: extensionFile },
             { refetchQueries: [GET_EXTENSIONS], ...options },
         );
+
+        result.response.then((response) => {
+            this.graphQLClient.client.cache.evict({ fieldName: 'sources' });
+            const cachedExtensions = this.cache.getResponseFor<MutationResult<GetExtensionsFetchMutation>>(
+                EXTENSION_LIST_CACHE_KEY,
+                undefined,
+            );
+
+            const installedExtension = response.data?.installExternalExtension.extension;
+
+            if (!cachedExtensions || !cachedExtensions.data) {
+                this.cache.cacheResponse(EXTENSION_LIST_CACHE_KEY, undefined, {
+                    data: {
+                        fetchExtensions: {
+                            extensions: [installedExtension],
+                        },
+                    },
+                });
+                return;
+            }
+
+            const isExtensionCached = !!cachedExtensions.data.fetchExtensions.extensions.find(
+                (extension) => installedExtension?.pkgName === extension.pkgName,
+            );
+
+            const updatedCachedExtensions: MutationResult<GetExtensionsFetchMutation> = {
+                ...cachedExtensions,
+                data: {
+                    ...cachedExtensions.data,
+                    fetchExtensions: {
+                        ...cachedExtensions.data.fetchExtensions,
+                        extensions: isExtensionCached
+                            ? cachedExtensions.data.fetchExtensions.extensions.map((extension) => {
+                                  const isUpdatedExtension = installedExtension?.pkgName === extension.pkgName;
+                                  if (!isUpdatedExtension) {
+                                      return extension;
+                                  }
+
+                                  return {
+                                      ...extension,
+                                      ...installedExtension,
+                                      hasUpdate: installedExtension?.versionCode < extension.versionCode,
+                                  };
+                              })
+                            : [
+                                  ...cachedExtensions.data.fetchExtensions.extensions,
+                                  installedExtension as (typeof cachedExtensions.data.fetchExtensions.extensions)[number],
+                              ],
+                    },
+                },
+            };
+
+            this.cache.cacheResponse(EXTENSION_LIST_CACHE_KEY, undefined, updatedCachedExtensions);
+        });
+
+        return result;
     }
 
     public updateExtension(
         id: string,
-        patch: UpdateExtensionPatchInput,
+        { isObsolete = false, ...patch }: UpdateExtensionPatchInput & { isObsolete?: boolean },
         options?: MutationOptions<UpdateExtensionMutation, UpdateExtensionMutationVariables>,
     ): AbortableApolloMutationResponse<UpdateExtensionMutation> {
         const result = this.doRequest<UpdateExtensionMutation, UpdateExtensionMutationVariables>(
@@ -1028,18 +1095,26 @@ export class RequestManager {
                     ...cachedExtensions.data,
                     fetchExtensions: {
                         ...cachedExtensions.data.fetchExtensions,
-                        extensions: cachedExtensions.data.fetchExtensions.extensions.map((extension) => {
-                            const isUpdatedExtension =
-                                extension.apkName === response.data?.updateExtension.extension?.apkName;
-                            if (!isUpdatedExtension) {
-                                return extension;
-                            }
+                        extensions: cachedExtensions.data.fetchExtensions.extensions
+                            .filter((extension) => {
+                                if (!isObsolete) {
+                                    return true;
+                                }
 
-                            return {
-                                ...extension,
-                                ...response.data?.updateExtension.extension,
-                            };
-                        }),
+                                const isUpdatedExtension = id === extension.pkgName;
+                                return !isUpdatedExtension;
+                            })
+                            .map((extension) => {
+                                const isUpdatedExtension = id === extension.pkgName;
+                                if (!isUpdatedExtension) {
+                                    return extension;
+                                }
+
+                                return {
+                                    ...extension,
+                                    ...response.data?.updateExtension.extension,
+                                };
+                            }),
                     },
                 },
             };
@@ -1330,6 +1405,33 @@ export class RequestManager {
         return this.doRequest(GQLMethod.USE_QUERY, GET_MANGA, { id: Number(mangaId) }, options);
     }
 
+    public getManga(
+        mangaId: number | string,
+        options?: QueryOptions<GetMangaQueryVariables, GetMangaQuery>,
+    ): AbortabaleApolloQueryResponse<GetMangaQuery> {
+        return this.doRequest(GQLMethod.QUERY, GET_MANGA, { id: Number(mangaId) }, options);
+    }
+
+    public getMangaToMigrate(
+        mangaId: number | string,
+        {
+            migrateChapters = false,
+            migrateCategories = false,
+            apolloOptions: options,
+        }: {
+            migrateChapters?: boolean;
+            migrateCategories?: boolean;
+            apolloOptions?: QueryOptions<GetMangaToMigrateQueryVariables, GetMangaToMigrateQuery>;
+        } = {},
+    ): AbortabaleApolloQueryResponse<GetMangaToMigrateQuery> {
+        return this.doRequest(
+            GQLMethod.QUERY,
+            GET_MANGA_TO_MIGRATE,
+            { id: Number(mangaId), migrateChapters, migrateCategories },
+            options,
+        );
+    }
+
     public getMangaFetch(
         mangaId: number | string,
         options?: MutationOptions<GetMangaFetchMutation, GetMangaFetchMutationVariables>,
@@ -1341,6 +1443,33 @@ export class RequestManager {
                 input: {
                     id: Number(mangaId),
                 },
+            },
+            options,
+        );
+    }
+
+    public getMangaToMigrateToFetch(
+        mangaId: number | string,
+        {
+            migrateChapters = false,
+            migrateCategories = false,
+            apolloOptions: options,
+        }: {
+            migrateChapters?: boolean;
+            migrateCategories?: boolean;
+            apolloOptions?: MutationOptions<
+                GetMangaToMigrateToFetchMutation,
+                GetMangaToMigrateToFetchMutationVariables
+            >;
+        } = {},
+    ): AbortableApolloMutationResponse<GetMangaToMigrateToFetchMutation> {
+        return this.doRequest<GetMangaToMigrateToFetchMutation, GetMangaToMigrateToFetchMutationVariables>(
+            GQLMethod.MUTATION,
+            GET_MANGA_TO_MIGRATE_TO_FETCH,
+            {
+                id: Number(mangaId),
+                migrateChapters,
+                migrateCategories,
             },
             options,
         );
@@ -1360,8 +1489,11 @@ export class RequestManager {
         return this.doRequest(GQLMethod.QUERY, GET_MANGAS, variables, options);
     }
 
-    public getMangaThumbnailUrl(mangaId: number): string {
-        return this.getValidImgUrlFor(`manga/${mangaId}/thumbnail`);
+    public useGetMigratableSourceMangas(
+        sourceId: string,
+        options?: QueryHookOptions<GetMigratableSourceMangasQuery, GetMigratableSourceMangasQueryVariables>,
+    ): AbortableApolloUseQueryResponse<GetMigratableSourceMangasQuery, GetMigratableSourceMangasQueryVariables> {
+        return this.doRequest(GQLMethod.USE_QUERY, GET_MIGRATABLE_SOURCE_MANGAS, { sourceId }, options);
     }
 
     public useUpdateMangaCategories(
@@ -1623,25 +1755,21 @@ export class RequestManager {
         id: number,
         patch: UpdateChapterPatchInput & {
             chapterIdToDelete?: number;
-            downloadAheadMangaId?: number;
         },
         options?: MutationOptions<UpdateChapterMutation, UpdateChapterMutationVariables>,
     ): AbortableApolloMutationResponse<UpdateChapterMutation> {
-        const { chapterIdToDelete = -1, downloadAheadMangaId = -1, ...updatePatch } = patch;
+        const { chapterIdToDelete = -1, ...updatePatch } = patch;
 
         return this.doRequest<UpdateChapterMutation, UpdateChapterMutationVariables>(
             GQLMethod.MUTATION,
             UPDATE_CHAPTER,
             {
-                id,
                 input: { id, patch: updatePatch },
                 getBookmarked: patch.isBookmarked != null,
                 getRead: patch.isRead != null,
                 getLastPageRead: patch.lastPageRead != null,
                 chapterIdToDelete,
                 deleteChapter: chapterIdToDelete >= 0,
-                mangaId: downloadAheadMangaId,
-                downloadAhead: downloadAheadMangaId !== -1,
             },
             options,
         );
@@ -1670,12 +1798,10 @@ export class RequestManager {
 
     public updateChapters(
         ids: number[],
-        patch: UpdateChapterPatchInput & { chapterIdsToDelete?: number[]; mangaIds?: number[] },
+        patch: UpdateChapterPatchInput & { chapterIdsToDelete?: number[] },
         options?: MutationOptions<UpdateChaptersMutation, UpdateChaptersMutationVariables>,
     ): AbortableApolloMutationResponse<UpdateChaptersMutation> {
-        const { chapterIdsToDelete = [], mangaIds = [], ...updatePatch } = patch;
-
-        const downloadAhead = !!mangaIds.length;
+        const { chapterIdsToDelete = [], ...updatePatch } = patch;
 
         return this.doRequest<UpdateChaptersMutation, UpdateChaptersMutationVariables>(
             GQLMethod.MUTATION,
@@ -1687,9 +1813,6 @@ export class RequestManager {
                 getLastPageRead: patch.lastPageRead != null,
                 chapterIdsToDelete,
                 deleteChapters: !!chapterIdsToDelete.length,
-                mangaIds,
-                downloadAhead,
-                latestReadChapterIds: downloadAhead ? ids : [],
             },
             options,
         );
@@ -2146,12 +2269,6 @@ export class RequestManager {
         return this.doRequest(GQLMethod.USE_MUTATION, UPDATE_SERVER_SETTINGS, undefined, options);
     }
 
-    public useDownloadAhead(
-        options?: MutationHookOptions<DownloadAheadMutation, DownloadAheadMutationVariables>,
-    ): AbortableApolloUseMutationResponse<DownloadAheadMutation, DownloadAheadMutationVariables> {
-        return this.doRequest(GQLMethod.USE_MUTATION, DOWNLOAD_AHEAD, undefined, options);
-    }
-
     public useGetLastGlobalUpdateTimestamp(
         options?: QueryHookOptions<GetLastUpdateTimestampQuery, GetLastUpdateTimestampQueryVariables>,
     ): AbortableApolloUseQueryResponse<GetLastUpdateTimestampQuery, GetLastUpdateTimestampQueryVariables> {
@@ -2181,6 +2298,12 @@ export class RequestManager {
         options?: QueryHookOptions<GetWebuiUpdateStatusQuery, GetWebuiUpdateStatusQueryVariables>,
     ): AbortableApolloUseQueryResponse<GetWebuiUpdateStatusQuery, GetWebuiUpdateStatusQueryVariables> {
         return this.doRequest(GQLMethod.USE_QUERY, GET_WEBUI_UPDATE_STATUS, undefined, options);
+    }
+
+    public useGetMigratableSources(
+        options?: QueryHookOptions<GetMigratableSourcesQuery, GetMigratableSourcesQueryVariables>,
+    ): AbortableApolloUseQueryResponse<GetMigratableSourcesQuery, GetMigratableSourcesQueryVariables> {
+        return this.doRequest(GQLMethod.USE_QUERY, GET_MIGRATABLE_SOURCES, undefined, options);
     }
 }
 

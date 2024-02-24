@@ -3,11 +3,13 @@
         "settings": {
             "label": {
                 "fit_page_to_window": "自適應",
-                "skip_dup_chapters": "跳過重複章節",
+                "skip_dup_chapters": "略過重複章節",
                 "show_page_number": "顯示頁數",
-                "static_navigation": "靜態導航",
-                "load_next_chapter": "在尾頁加載下一章",
-                "reader_type": "閱讀器類型"
+                "static_navigation": "靜態導覽",
+                "load_next_chapter": "在尾頁載入下一章",
+                "reader_type": "閱讀器類型",
+                "offset_first_page": "返回第一頁",
+                "reader_width": "閱讀器寬度"
             },
             "reader_type": {
                 "label": {
@@ -22,13 +24,13 @@
                 }
             },
             "title": {
-                "default_reader_settings": "默認閱讀器",
-                "reader_settings": "閱讀器設置"
+                "default_reader_settings": "預設閱讀器設定",
+                "reader_settings": "閱讀器設定"
             },
             "error": {
                 "label": {
-                    "failed_to_save_settings": "保存閱讀器設置到伺服器時出現了錯誤",
-                    "failed_to_save_default_settings": "保存默認閱讀器設置到伺服器時出現了錯誤"
+                    "failed_to_save_settings": "無法儲存此閱讀器設定到伺服器",
+                    "failed_to_save_default_settings": "無法儲存此預設閱讀器設定到伺服器"
                 }
             }
         },
@@ -41,40 +43,52 @@
         },
         "page_info": {
             "label": {
-                "currently_on_page": "當前頁面",
+                "currently_on_page": "目前頁面",
                 "of_max_pages": "/ {{maxPages}}"
             }
         },
         "button": {
             "next_chapter": "下一章",
-            "previous_chapter": "上一章"
+            "previous_chapter": "上一章",
+            "open_menu": "開啟選單",
+            "close_menu": "關閉選單",
+            "exit": "退出閱讀器"
         }
     },
     "category": {
         "error": {
             "no_categories_found": {
                 "label": {
-                    "hint": "你應該需要設置一些設定。",
+                    "hint": "您應該需要進行一些設定。",
                     "info": "沒有發現任何分類。"
                 }
             },
             "label": {
                 "empty": "分類為空",
-                "request_failure": "無法加載分類"
+                "request_failure": "無法載入分類"
             }
         },
         "label": {
             "category_name": "分類名稱",
-            "use_as_default_category": "默認添加到此書架"
+            "use_as_default_category": "預設新增到此書櫃"
         },
         "title": {
             "categories": "分類",
-            "set_categories": "設置分類"
+            "set_categories": "設定分類",
+            "category_other": "分類"
         },
         "dialog": {
             "title": {
                 "edit_category": "編輯分類",
                 "new_category": "新分類"
+            }
+        },
+        "settings": {
+            "inclusion": {
+                "label": {
+                    "exclude": "排除：{{excludedCategoriesText}}",
+                    "include": "包含：{{includedCategoriesText}}"
+                }
             }
         }
     },
@@ -83,21 +97,21 @@
             "bookmark": {
                 "add": {
                     "button": {
-                        "selected": "收藏選中的"
+                        "selected": "收藏已選擇的"
                     },
                     "label": {
-                        "action": "添加收藏",
-                        "error_other": "收藏章節出錯",
+                        "action": "新增收藏",
+                        "error_other": "無法收藏此章節",
                         "success_other": "已收藏{{count}}章節"
                     }
                 },
                 "remove": {
                     "button": {
-                        "selected": "取消收藏選中的"
+                        "selected": "取消收藏已選取"
                     },
                     "label": {
                         "action": "取消收藏",
-                        "error_other": "删除收藏出錯",
+                        "error_other": "無法移除收藏",
                         "success_other": "刪除{{count}}章節收藏"
                     }
                 }
@@ -106,21 +120,21 @@
                 "add": {
                     "label": {
                         "action": "下載",
-                        "error_other": "添加下載錯誤",
-                        "success_other": "新增{{count}}下載"
+                        "error_other": "無法新增下載",
+                        "success_other": "已新增{{count}}下載"
                     },
                     "button": {
-                        "selected": "下載選中的"
+                        "selected": "下載已選擇"
                     }
                 },
                 "delete": {
                     "button": {
-                        "selected": "刪除選中"
+                        "selected": "刪除已選擇"
                     },
                     "label": {
                         "action": "刪除",
                         "success_other": "{{count}}章節已刪除",
-                        "error_other": "刪除章節錯誤"
+                        "error_other": "無法刪除章節"
                     }
                 }
             },
@@ -130,24 +144,24 @@
             "mark_as_read": {
                 "add": {
                     "button": {
-                        "selected": "標記為已讀"
+                        "selected": "標記已選擇為已讀"
                     },
                     "label": {
                         "action": {
                             "current": "標記為已讀",
                             "previous": "標記之前的章節為已讀"
                         },
-                        "error_other": "將章節標記為已讀出錯",
-                        "success_other": "{{count}}章節標記為已讀"
+                        "error_other": "無法標記章節為已讀",
+                        "success_other": "{{count}}章節已標記為已讀"
                     }
                 },
                 "remove": {
                     "button": {
-                        "selected": "標記為未讀"
+                        "selected": "標記已選擇為未讀"
                     },
                     "label": {
                         "action": "標記為未讀",
-                        "error_other": "將章節標記為未讀出錯",
+                        "error_other": "無法標記章節為未讀",
                         "success_other": "{{count}}章節標記為未讀"
                     }
                 }
@@ -156,7 +170,7 @@
         "error": {
             "label": {
                 "no_chapter_found": "沒有找到章節",
-                "no_matches": "沒有章節匹配篩選"
+                "no_matches": "沒有符合篩選的章節"
             }
         },
         "option": {
@@ -179,54 +193,98 @@
             "label": {
                 "installed": "已安裝",
                 "update_pending": "待更新",
-                "installing": "安裝中",
-                "updating": "升級中",
+                "installing": "正在安裝",
+                "updating": "更新中",
                 "obsolete": "過時",
-                "uninstalling": "卸載中"
+                "uninstalling": "正在解除安裝"
             }
         },
         "label": {
-            "installed_successfully": "插件安裝成功",
-            "installing_file": "正在安裝插件…",
-            "installation_failed": "插件安裝失敗"
+            "installed_successfully": "擴充套件已安裝",
+            "installing_file": "正在安裝擴充套件檔案…",
+            "installation_failed": "無法安裝此擴充套件",
+            "uninstallation_failed": "無法解除安裝此擴充套件",
+            "update_failed": "無法更新此擴充套件",
+            "add_repository_info": "您必須新增擴充套件儲存庫才能夠安裝擴充套件"
         },
-        "title": "插件",
+        "title": "擴充套件",
         "action": {
             "label": {
                 "install": "安裝",
-                "uninstall": "卸載",
-                "update": "升級"
+                "uninstall": "解除安裝",
+                "update": "更新",
+                "install_external": "安裝額外的擴充套件"
             }
         },
         "language": {
             "all": "全部",
-            "other": "其他"
+            "other": "其它"
+        },
+        "settings": {
+            "title": "擴充套件設定",
+            "repositories": {
+                "custom": {
+                    "error": {
+                        "label": {
+                            "invalid_url": "無效的儲存庫超連結"
+                        }
+                    },
+                    "label": {
+                        "title": "擴充套件儲存庫",
+                        "description": "新增可以安裝擴充套件的儲存庫",
+                        "disclaimer": "<strong>Suwayomi 不提供任何第三方儲存庫或擴充套件的支援！</strong><br/>請謹慎使用，因為可能是惡意行為者製作了這些儲存庫。<br/>作為使用者，您需要確認其安全性以及是否信任任何儲存庫或擴充套件。"
+                    },
+                    "dialog": {
+                        "action": {
+                            "button": {
+                                "add": "新增儲存庫"
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "global": {
         "button": {
             "clear": "清除",
             "reset": "重置",
-            "popular": "受歡迎的",
-            "reset_to_default": "重置為默認值",
-            "resume": "恢復",
+            "popular": "熱門",
+            "reset_to_default": "重置為預設值",
+            "resume": "復原",
             "select_all": "全選",
             "set": "選",
             "browse": "瀏覽",
             "cancel": "取消",
-            "open_site": "打開網站",
+            "open_site": "開啟網站",
             "start": "開始",
             "submit": "提交",
             "filter": "篩選",
             "latest": "最新",
-            "ok": "Ok"
+            "ok": "Ok",
+            "restore": "還原",
+            "select": "選擇",
+            "stop": "停止",
+            "deselect": "取消選擇",
+            "edit": "編輯",
+            "options": "選項",
+            "copy": "複製",
+            "retry": "重試",
+            "migrate": "遷移",
+            "add": "新增"
         },
         "date": {
             "label": {
-                "today": "今天",
-                "yesterday_at": "昨天{{timeString}}",
-                "today_at": "今天{{timeString}}",
-                "yesterday": "昨天"
+                "today": "今日",
+                "yesterday_at": "昨日{{timeString}}",
+                "today_at": "今日{{timeString}}",
+                "yesterday": "昨日",
+                "day": "日"
+            },
+            "value": {
+                "label": {
+                    "day": "{{days}} $t(global.date.label.day, lowercase)"
+                }
             }
         },
         "label": {
@@ -235,12 +293,25 @@
             "browse": "瀏覽",
             "display": "顯示",
             "filter": "篩選",
-            "loading": "加載中…",
-            "sort": "排序"
+            "loading": "正在載入…",
+            "sort": "排序",
+            "advanced": "進階",
+            "client": "客戶端",
+            "close": "關閉",
+            "disabled": "禁用",
+            "username": "使用者名稱",
+            "password": "密碼",
+            "github": "GitHub",
+            "links": "連結",
+            "never": "永不",
+            "other": "其它",
+            "general": "一般",
+            "placeholder": "占位符",
+            "discord": "Discord"
         },
         "language": {
             "label": {
-                "language_with_code": "帶有代碼的語言:{{code}}",
+                "language_with_code": "帶有代碼的語言：{{code}}",
                 "language": "語言"
             },
             "title": {
@@ -250,24 +321,25 @@
         },
         "sort": {
             "label": {
-                "by_source": "按圖源",
-                "by_fetch_date": "按日期"
+                "by_source": "依照來源",
+                "by_fetch_date": "依照獲取日期"
             }
         },
         "error": {
             "label": {
                 "invalid_action": "無效的操作",
-                "invalid_file_type": "無效的文件類型",
+                "invalid_file_type": "無效的檔案類型",
                 "update_failed": "無法檢查更新",
-                "failed_to_save_changes": "無法保存更改",
-                "failed_to_load_data": "無法加載數據"
+                "failed_to_save_changes": "儲存變更失敗",
+                "failed_to_load_data": "無法載入資料",
+                "invalid_input": "無效的輸入"
             }
         },
         "grid_layout": {
             "label": {
                 "comfortable_grid": "鬆散網格",
                 "compact_grid": "緊湊網格",
-                "list": "列表"
+                "list": "清單"
             },
             "title": "顯示模式"
         },
@@ -277,13 +349,37 @@
                 "downloaded": "已下載",
                 "unread": "未讀"
             }
+        },
+        "update": {
+            "label": {
+                "available": "可用更新",
+                "check_failure": "無法檢查更新",
+                "info": "伺服器版本 {{version}} ({{channel}}) 可供下載",
+                "updating": "{{progress}}% | 正在更新…",
+                "update_failure": "更新失敗",
+                "up_to_date": "此為最新的版本",
+                "checking": "正在檢查更新"
+            }
+        },
+        "time": {
+            "hour_short": "時",
+            "minutes": {
+                "minute_other": "分",
+                "value": "{{count}} $t(global.time.minutes.minute, lowercase)"
+            },
+            "seconds": {
+                "second_other": "秒",
+                "value": "{{count}} $t(global.time.seconds.second, lowercase)"
+            }
         }
     },
     "library": {
         "error": {
             "label": {
-                "empty": "你的書架是空的",
-                "no_matches": "沒有漫畫匹配篩選"
+                "empty": "你的書櫃是空的",
+                "no_matches": "沒有漫畫符合篩選",
+                "add_to_library": "無法新增漫畫至書櫃！",
+                "remove_from_library": "無法從書櫃中移除漫畫！"
             }
         },
         "option": {
@@ -300,14 +396,21 @@
                     "label": {
                         "show_number_of_items": "顯示項目的數量"
                     }
+                },
+                "other": {
+                    "label": {
+                        "show_continue_reading_button": "顯示繼續閱讀按鈕"
+                    }
                 }
             },
             "sort": {
                 "label": {
-                    "by_date_added": "按添加日期",
-                    "by_unread_chapters": "按未讀章節",
-                    "alphabetically": "按字母順序",
-                    "by_last_read": "按最後一次閱讀"
+                    "by_date_added": "依照新增的日期",
+                    "by_unread_chapters": "依照未讀章節",
+                    "alphabetically": "A-Z",
+                    "by_last_read": "依照最後一次閱讀",
+                    "by_latest_fetched_chapter": "最新獲取的章節",
+                    "by_latest_uploaded_chapter": "最新上傳的章節"
                 }
             }
         },
@@ -320,46 +423,141 @@
                         "exclude": "排除: {{excludedCategoriesText}}"
                     }
                 },
-                "title": "全局更新"
+                "title": "全域更新",
+                "auto_update": {
+                    "interval": {
+                        "label": {
+                            "value": "{{hours}}$t(global.time.hour_short)",
+                            "title": "自動更新間隔"
+                        }
+                    },
+                    "label": {
+                        "title": "自動更新"
+                    }
+                },
+                "entries": {
+                    "label": {
+                        "unread_chapters": "包含未讀章節",
+                        "not_started": "這尚未開始",
+                        "completed": "狀態為「已讀」"
+                    },
+                    "title": "略過更新作品"
+                },
+                "metadata": {
+                    "label": {
+                        "description": "當更新書櫃時，檢查新封面與詳細資料",
+                        "title": "自動地重新整理詮釋資料"
+                    }
+                },
+                "label": {
+                    "last_update": "最近更新：{{date}}",
+                    "last_update_tooltip": "$t(library.settings.global_update.title) ($t(library.settings.global_update.label.last_update, lowercase))"
+                }
             },
-            "title": "書架"
+            "title": "書櫃設定",
+            "general": {
+                "add_to_library": {
+                    "category_selection": {
+                        "label": {
+                            "description": "當新增漫畫到書櫃時，顯示分類選擇對話框",
+                            "title": "分類選擇對話框"
+                        }
+                    }
+                },
+                "search": {
+                    "ignore_filters": {
+                        "label": {
+                            "title": "搜尋時忽略篩選器",
+                            "description": "搜尋結果將包含不符合目前篩選器的漫畫"
+                        }
+                    }
+                }
+            },
+            "advanced": {
+                "database": {
+                    "cleanup": {
+                        "label": {
+                            "title": "清理資料庫",
+                            "success": "已從分類中移除非書櫃漫畫",
+                            "description": "從分類中刪除非書櫃漫畫",
+                            "error": "無法從分類中移除非書櫃漫畫"
+                        }
+                    }
+                }
+            }
         },
-        "title": "書架"
+        "title": "書櫃",
+        "info": {
+            "label": {
+                "removed_from_library": "已從書櫃中移除漫畫！",
+                "added_to_library": "已新增漫畫到書櫃！"
+            }
+        }
     },
     "manga": {
         "button": {
-            "in_library": "在書架中",
-            "add_to_library": "添加到書架"
+            "in_library": "在書櫃中",
+            "add_to_library": "新增到書櫃"
         },
         "error": {
             "label": {
-                "request_failure": "無法加載漫畫",
+                "request_failure": "無法載入漫畫",
                 "no_mangas_found": "沒有漫畫",
-                "no_matches": "沒有漫畫匹配篩選"
+                "no_matches": "沒有漫畫符合篩選"
             }
         },
         "label": {
             "author": "作者",
             "edit_categories": "編輯漫畫分類",
-            "reload_from_source": "從圖源重新加載數據",
+            "reload_from_source": "從來源重新載入資料",
             "status": "狀態",
-            "artist": "畫師"
+            "artist": "畫家"
         },
-        "title": "漫畫"
+        "title": "漫畫",
+        "action": {
+            "category": {
+                "label": {
+                    "success_other": "已變更{{count}}本漫畫的分類",
+                    "action": "變更分類名稱",
+                    "error_other": "無法變更此漫畫的分類"
+                },
+                "button": {
+                    "selected": "變更已選擇的分類名稱"
+                }
+            },
+            "library": {
+                "remove": {
+                    "label": {
+                        "success_other": "已從書櫃中移除{{count}}本漫畫",
+                        "action": "從書櫃中移除",
+                        "error_other": "無法從書櫃中移除漫畫"
+                    },
+                    "button": {
+                        "selected": "從書櫃中移除選取項目"
+                    }
+                }
+            },
+            "migrate": {
+                "label": {
+                    "error": "無法遷移漫畫",
+                    "success": "成功地遷移了漫畫"
+                }
+            }
+        }
     },
     "search": {
         "error": {
             "label": {
-                "source_search_failed": "無法搜索圖源",
-                "failed_to_save_settings": "保存默認搜索設置到伺服器時出錯"
+                "source_search_failed": "無法搜尋來源",
+                "failed_to_save_settings": "無法儲存預設搜尋設定到伺服器"
             }
         },
         "label": {
             "ignore_filters": "搜索時忽略篩選"
         },
         "title": {
-            "search": "搜索",
-            "global_search": "全局搜索"
+            "search": "搜尋",
+            "global_search": "全域搜尋"
         }
     },
     "settings": {
@@ -372,7 +570,24 @@
                 "server": "伺服器",
                 "server_version": "伺服器版本"
             },
-            "title": "關於"
+            "title": "關於",
+            "server": {
+                "label": {
+                    "version": "伺服器版本",
+                    "build_time": "建置時間",
+                    "github": "$t(global.label.github) $t(settings.server.title.server)",
+                    "address": "伺服器位址"
+                }
+            },
+            "webui": {
+                "label": {
+                    "channel": "$t(settings.webui.title.webui) 頻道",
+                    "github": "$t(global.label.github) $t(settings.webui.title.webui)",
+                    "update_success": "已更新 $t(settings.webui.title.webui) 到版本 {{version}}。需要重新整理",
+                    "update_failure": "無法更新 $t(settings.webui.title.webui)",
+                    "version": "$t(settings.webui.title.webui) 版本"
+                }
+            }
         },
         "backup": {
             "label": {
@@ -385,15 +600,71 @@
                 "create_backup_info": "將書架備份為Tachiyomi支持的備份",
                 "restored_backup": "備份恢復完成。"
             },
-            "title": "備份"
+            "title": "備份",
+            "action": {
+                "validate": {
+                    "error": {
+                        "label": {
+                            "failure": "無法驗證備份"
+                        }
+                    },
+                    "dialog": {
+                        "content": {
+                            "label": {
+                                "missing_sources": "以下來源未安裝："
+                            }
+                        },
+                        "title": "備份驗證"
+                    }
+                },
+                "create": {
+                    "label": {
+                        "description": "備份書櫃為 Tachiyomi 備份",
+                        "title": "建立備份"
+                    }
+                },
+                "restore": {
+                    "button": "還原",
+                    "error": {
+                        "label": {
+                            "legacy_backup_unsupported": "不支援舊的備份！",
+                            "failure": "無法還原備份"
+                        }
+                    },
+                    "label": {
+                        "description": "您也可以拖曳及放下備份檔案至此以還原它",
+                        "in_progress": "正在還原備份…",
+                        "success": "備份已還原。",
+                        "title": "還原備份"
+                    }
+                }
+            },
+            "automated": {
+                "location": {
+                    "label": {
+                        "title": "備份位置",
+                        "description": "伺服器上的自動備份的儲存目錄路徑"
+                    }
+                },
+                "cleanup": {
+                    "label": {
+                        "title": "清理備份",
+                        "value": "刪除早於 $t(global.date.value.label.day) 的備份"
+                    }
+                },
+                "label": {
+                    "interval": "備份間隔",
+                    "time": "備份時間"
+                }
+            }
         },
         "label": {
-            "dark_theme": "暗黑主題",
+            "dark_theme": "深色主題",
             "image_cache": "使用圖片緩存",
             "language_description": "準確的翻譯離不開大家的指正 ->",
             "manga_item_width": "漫畫單元格寬度",
             "show_nsfw": "NSFW (18+) 內容",
-            "show_nsfw_description": "在圖源和插件列表中顯示",
+            "show_nsfw_description": "顯示 NSFW 擴充套件與來源",
             "image_cache_description": "減少流量消耗，同時可以使圖像加載更快"
         },
         "server_address": {
@@ -403,26 +674,229 @@
                 }
             }
         },
-        "title": "設置"
+        "title": "設定",
+        "server": {
+            "auth": {
+                "basic": {
+                    "label": {
+                        "enable": "使用基本的身分驗證",
+                        "password": "基本身分驗證 $t(global.label.password, lowercase)",
+                        "username": "身分驗證 $t(global.label.username, lowercase)"
+                    }
+                },
+                "title": "認證"
+            },
+            "title": {
+                "server": "伺服器",
+                "settings": "伺服器設定"
+            },
+            "misc": {
+                "log_level": {
+                    "graphql": {
+                        "label": {
+                            "description": "這包含非隱私安全資訊的日誌",
+                            "title": "啟用 graphql 除錯日誌"
+                        }
+                    },
+                    "label": {
+                        "server": "啟用除錯日誌"
+                    }
+                },
+                "tray_icon": {
+                    "label": {
+                        "title": "在系統匣中顯示圖示",
+                        "description": "此圖示將被顯示在執行伺服器的系統上"
+                    }
+                },
+                "title": "雜項"
+            },
+            "socks_proxy": {
+                "label": {
+                    "host": "SOCKS5 主機",
+                    "enable": "使用 SOCKS5 Proxy",
+                    "port": "SOCKS5 通訊埠"
+                },
+                "title": "SOCKS Proxy"
+            },
+            "address": {
+                "server": {
+                    "label": {
+                        "ip": "IP",
+                        "port": "通訊埠"
+                    },
+                    "title": "伺服器綁定"
+                },
+                "client": {
+                    "dialog": {
+                        "label": {
+                            "enter_address": "輸入伺服器位址"
+                        }
+                    },
+                    "label": {
+                        "description": "客戶端用於連接伺服器的位址"
+                    }
+                }
+            },
+            "cloudflare": {
+                "flaresolverr": {
+                    "enabled": {
+                        "label": {
+                            "title": "已啟用 FlareSolverr",
+                            "description": "請見 <2>FlareSolverr</2> 以了解如何設定的資訊"
+                        }
+                    },
+                    "url": {
+                        "label": {
+                            "title": "FlareSolverr 伺服器超連結",
+                            "description": "FlareSolverr 伺服器的位址"
+                        }
+                    },
+                    "session": {
+                        "name": {
+                            "label": {
+                                "title": "FlareSolverr 會話名稱"
+                            }
+                        },
+                        "ttl": {
+                            "label": {
+                                "title": "FlareSolverr 會話 TTL",
+                                "description": "FlareSolverr 將會根據以分鐘為單位提供的 TTL 自動輪換過期的會話"
+                            }
+                        }
+                    },
+                    "timeout": {
+                        "label": {
+                            "title": "FlareSolverr 請求逾時",
+                            "description": "FlareSolverr 需要多少時間來處理請求"
+                        }
+                    }
+                },
+                "title": "繞過 Cloudflare"
+            },
+            "requests": {
+                "title": "請求",
+                "sources": {
+                    "parallel": {
+                        "label": {
+                            "value": "{{value}} $t(source.title)",
+                            "title": "並行來源請求數"
+                        }
+                    }
+                }
+            },
+            "local_source": {
+                "path": {
+                    "label": {
+                        "title": "本機來源位置",
+                        "description": "伺服器上的本機來源檔案的儲存目錄路徑"
+                    }
+                }
+            }
+        },
+        "webui": {
+            "auto_update": {
+                "label": {
+                    "interval": "更新間隔",
+                    "title": "自動地下載最新版本"
+                }
+            },
+            "electron_path": {
+                "label": {
+                    "title": "Electron 路徑",
+                    "description": "伺服器上的 Electron 安裝路徑"
+                }
+            },
+            "channel": {
+                "option": {
+                    "bundled": {
+                        "label": {
+                            "description": "使用隨伺服器一起提供的版本",
+                            "title": "綑綁"
+                        }
+                    },
+                    "preview": {
+                        "label": {
+                            "title": "預覽版",
+                            "disclaimer": "在此版本中的功能與變更可能還未完全準備好，並且可能導致錯誤。\n請確保您有啟用自動備份，以防止遺失您的書櫃！",
+                            "description": "使用最新的功能，並協助我們為穩定版本做好準備。"
+                        }
+                    },
+                    "stable": {
+                        "label": {
+                            "description": "使用最新的發行版本。",
+                            "title": "穩定"
+                        }
+                    }
+                },
+                "label": {
+                    "title": "頻道"
+                }
+            },
+            "label": {
+                "initial_open_browser": "伺服器啟動時開啟 $t(settings.webui.title.webui)"
+            },
+            "title": {
+                "settings": "$t(settings.webui.title.webui) 設定",
+                "webui": "WebUI"
+            },
+            "flavor": {
+                "option": {
+                    "custom": {
+                        "label": {
+                            "title": "自訂",
+                            "description": "使用自訂 $t(settings.webui.title.webui).\n要使用自訂 $t(settings.webui.title.webui)，請將在伺服器上的根目錄中「webUI」目錄的內容替換為自訂 $t(settings.webui.title.webui) 的檔案"
+                        }
+                    },
+                    "webui": {
+                        "label": {
+                            "description": "使用預設 $t(settings.webui.title.webui)"
+                        }
+                    }
+                },
+                "label": {
+                    "title": "類型"
+                }
+            },
+            "interface": {
+                "label": {
+                    "description": "啟動伺服器時啟動 $t(settings.webui.title.webui)",
+                    "title": "介面"
+                },
+                "option": {
+                    "label": {
+                        "browser": "瀏覽",
+                        "electron": "Electron"
+                    }
+                }
+            }
+        },
+        "clear_cache": {
+            "label": {
+                "description": "客戶端（瀏覽器、Electron）應與之一併清除。否則，客戶端快取將繼續被使用",
+                "failure": "無法清除伺服器快取",
+                "success": "已清除伺服器快取",
+                "title": "清除伺服器快取"
+            }
+        }
     },
     "source": {
         "configuration": {
-            "title": "圖源配置"
+            "title": "來源組態"
         },
         "error": {
             "label": {
-                "no_sources_found": "沒有找到圖源。請先安裝一些插件。",
-                "source_not_found": "找不到源，請檢查您已安裝的插件。"
+                "no_sources_found": "沒有找到來源。請先安裝一些擴充套件。",
+                "source_not_found": "無法找到來源，請檢查您已安裝的擴充套件。"
             }
         },
         "local_source": {
             "label": {
                 "checkout": "查看",
-                "guide": "本地圖源指南"
+                "guide": "本機來源指南"
             },
-            "title": "本地圖源"
+            "title": "本機來源"
         },
-        "title": "圖源"
+        "title": "來源"
     },
     "updates": {
         "title": "更新",
@@ -436,13 +910,15 @@
         "queue": {
             "error": {
                 "label": {
-                    "failed_to_remove": "無法從隊列中刪除下載。"
+                    "failed_to_remove": "無法從隊列中刪除此下載。",
+                    "failed_delete_all": "無法從隊列中移除所有下載"
                 }
             },
             "label": {
-                "no_downloads": "沒有下載"
+                "no_downloads": "沒有下載",
+                "delete_all": "刪除所有"
             },
-            "title": "下載列表"
+            "title": "下載隊列"
         },
         "state": {
             "label": {
@@ -452,6 +928,80 @@
                 "queued": "排隊中"
             }
         },
-        "title": "下載"
+        "title": "下載",
+        "settings": {
+            "auto_download": {
+                "label": {
+                    "new_chapters": "下載新章節",
+                    "ignore_with_unread_chapters": "忽略包含未讀章節的作品的自動下載"
+                },
+                "categories": {
+                    "label": {
+                        "include_in_download": "在排除分類中的作品將不會被下載，即使它們也在包含的分類中"
+                    }
+                },
+                "title": "自動下載"
+            },
+            "delete_chapters": {
+                "while_reading": {
+                    "option": {
+                        "label": {
+                            "second": "閱讀倒數第二章節",
+                            "third": "閱讀倒數第三章節",
+                            "fourth": "閱讀倒數第四章節",
+                            "fifth": "閱讀倒數第五章節",
+                            "first": "上次閱讀章節"
+                        }
+                    },
+                    "label": {
+                        "title": "刪除已閱讀完畢的章節"
+                    }
+                },
+                "label": {
+                    "allow_deletion_of_bookmarked": "允許刪除已收藏的章節",
+                    "manually_marked_as_read": "手動標記為已讀後刪除章節"
+                },
+                "title": "刪除章節"
+            },
+            "download_ahead": {
+                "label": {
+                    "unread_chapters_to_download": "要下載的未讀章節數量",
+                    "value": "{{chapters}} $t(chapter.title)",
+                    "while_reading": "閱讀時自動下載",
+                    "disclaimer": "此限制也適用於更新期間自動下載章節",
+                    "description": "閱讀前應預先下載多少章節。"
+                },
+                "title": "預先下載"
+            },
+            "download_path": {
+                "label": {
+                    "title": "下載位置",
+                    "description": "伺服器上的下載檔案的儲存目錄路徑"
+                }
+            },
+            "file_type": {
+                "label": {
+                    "cbz": "儲存為 CBZ 壓縮檔"
+                }
+            },
+            "title": "下載設定"
+        }
+    },
+    "migrate": {
+        "dialog": {
+            "title": "選擇要包含的資料",
+            "action": {
+                "button": {
+                    "show_entry": "顯示條目"
+                }
+            }
+        },
+        "label": {
+            "info": "正在遷移漫畫…"
+        },
+        "title": "遷移",
+        "search": {
+            "title": "$t(migrate.title) \"{{title}}\""
+        }
     }
 }

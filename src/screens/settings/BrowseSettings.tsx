@@ -22,27 +22,27 @@ import { useLocalStorage } from '@/util/useLocalStorage.tsx';
 
 type ExtensionsSettings = Pick<GqlServerSettings, 'maxSourcesInParallel' | 'localSourcePath' | 'extensionRepos'>;
 
-const extractExtensionSettings = (settings: GqlServerSettings): ExtensionsSettings => ({
+const extractBrowseSettings = (settings: GqlServerSettings): ExtensionsSettings => ({
     maxSourcesInParallel: settings.maxSourcesInParallel,
     localSourcePath: settings.localSourcePath,
     extensionRepos: settings.extensionRepos,
 });
 
-export const ExtensionSettings = () => {
+export const BrowseSettings = () => {
     const { t } = useTranslation();
     const { setTitle, setAction } = useContext(NavBarContext);
 
     useSetDefaultBackTo('settings');
 
     useEffect(() => {
-        setTitle(t('extension.settings.title'));
+        setTitle(t('settings.browse.title'));
         setAction(null);
     }, [t]);
 
     const [showNsfw, setShowNsfw] = useLocalStorage<boolean>('showNsfw', true);
 
     const { data } = requestManager.useGetServerSettings();
-    const serverSettings = data ? extractExtensionSettings(data.settings) : undefined;
+    const serverSettings = data ? extractBrowseSettings(data.settings) : undefined;
     const [mutateSettings] = requestManager.useUpdateServerSettings();
 
     const updateSetting = <Setting extends keyof ExtensionsSettings>(
@@ -74,7 +74,6 @@ export const ExtensionSettings = () => {
                 maxValue={20}
                 showSlider
                 stepSize={1}
-                dialogTitle={t('settings.server.requests.sources.parallel.label.title')}
                 handleUpdate={(parallelSources) => updateSetting('maxSourcesInParallel', parallelSources)}
             />
             <MutableListSetting

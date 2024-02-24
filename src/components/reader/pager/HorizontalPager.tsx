@@ -166,7 +166,6 @@ export function HorizontalPager(props: IReaderProps) {
                 display: 'flex',
                 flexDirection: settings.readerType === 'ContinuesHorizontalLTR' ? 'row' : 'row-reverse',
                 justifyContent: settings.readerType === 'ContinuesHorizontalLTR' ? 'flex-start' : 'flex-end',
-                margin: '0 auto',
                 width: 'auto',
                 height: 'auto',
                 overflowX: 'visible',

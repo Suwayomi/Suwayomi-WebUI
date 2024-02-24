@@ -24,7 +24,16 @@
         },
         "title": {
             "categories": "分类",
-            "set_categories": "设置分类"
+            "set_categories": "设置分类",
+            "category_other": "分类"
+        },
+        "settings": {
+            "inclusion": {
+                "label": {
+                    "include": "包含: {{includedCategoriesText}}",
+                    "exclude": "排除: {{excludedCategoriesText}}"
+                }
+            }
         }
     },
     "chapter": {
@@ -157,14 +166,25 @@
                     "new_chapters": "下载新章节",
                     "ignore_with_unread_chapters": "忽略带有未读章节的作品的自动下载"
                 },
-                "title": "自动下载"
+                "title": "自动下载",
+                "categories": {
+                    "label": {
+                        "include_in_download": "在排除分类中的作品将不会被下载，即使它们也在包含在分类中"
+                    }
+                },
+                "download_limit": {
+                    "label": {
+                        "description": "限制将要下载的新章节数量。",
+                        "title": "章节下载限制"
+                    }
+                }
             },
             "download_ahead": {
                 "label": {
                     "while_reading": "阅读时自动下载",
                     "unread_chapters_to_download": "要下载的未读章节数",
                     "value": "{{chapters}} $t(chapter.title)",
-                    "disclaimer": "此限制也适用于更新期间自动下载新章节",
+                    "disclaimer": "仅在此章节及下一章节已下载时生效。",
                     "description": "阅读时应提前下载多少章节。"
                 },
                 "title": "提前下载"
@@ -225,9 +245,36 @@
         "label": {
             "installation_failed": "插件安装失败",
             "installed_successfully": "插件安装成功",
-            "installing_file": "正在安装插件…"
+            "installing_file": "正在安装插件…",
+            "uninstallation_failed": "无法卸载扩展",
+            "update_failed": "无法更新扩展",
+            "add_repository_info": "您必须添加扩展库才能安装扩展程序"
         },
-        "title": "插件"
+        "title": "插件",
+        "settings": {
+            "repositories": {
+                "custom": {
+                    "error": {
+                        "label": {
+                            "invalid_url": "无效的存储库地址"
+                        }
+                    },
+                    "label": {
+                        "description": "添加可以安装扩展的存储库",
+                        "title": "扩展库",
+                        "disclaimer": "<strong>Suwayomi不提供任何对第三方存储库或扩展的支持！</strong><br/>请谨慎使用，因为这些存储库中可能有恶意行为。<br/>作为用户，您需要验证安全性以及是否信任任何存储库或扩展。"
+                    },
+                    "dialog": {
+                        "action": {
+                            "button": {
+                                "add": "添加源"
+                            }
+                        }
+                    }
+                }
+            },
+            "title": "扩展设置"
+        }
     },
     "global": {
         "button": {
@@ -250,7 +297,12 @@
             "stop": "停止",
             "edit": "编辑",
             "select": "选择",
-            "options": "选项"
+            "options": "选项",
+            "add": "添加",
+            "restore": "恢复",
+            "retry": "重试",
+            "copy": "复制",
+            "migrate": "迁移"
         },
         "date": {
             "label": {
@@ -272,7 +324,8 @@
                 "invalid_file_type": "无效的文件类型",
                 "update_failed": "无法检查更新",
                 "failed_to_save_changes": "无法保存更改",
-                "failed_to_load_data": "无法加载数据"
+                "failed_to_load_data": "无法加载数据",
+                "invalid_input": "无效输入"
             }
         },
         "filter": {
@@ -307,7 +360,10 @@
             "disabled": "禁用",
             "other": "其他",
             "github": "GitHub",
-            "links": "链接"
+            "links": "链接",
+            "advanced": "高级",
+            "placeholder": "占位符",
+            "general": "全体"
         },
         "language": {
             "label": {
@@ -326,7 +382,15 @@
             }
         },
         "time": {
-            "hour_short": "小时"
+            "hour_short": "小时",
+            "seconds": {
+                "second_other": "秒",
+                "value": "{{count}} $t(global.time.seconds.second, lowercase)"
+            },
+            "minutes": {
+                "minute_other": "分",
+                "value": "{{count}} $t(global.time.minutes.minute, lowercase)"
+            }
         },
         "update": {
             "label": {
@@ -375,7 +439,9 @@
                     "by_date_added": "按添加日期",
                     "by_last_read": "按最后一次阅读",
                     "by_unread_chapters": "按未读章节",
-                    "alphabetically": "按字母顺序"
+                    "alphabetically": "按字母顺序",
+                    "by_latest_fetched_chapter": "最新获取的章节",
+                    "by_latest_uploaded_chapter": "最新上传的章节"
                 }
             }
         },
@@ -420,7 +486,37 @@
                     "last_update": "最近更新： {{date}}"
                 }
             },
-            "title": "书架"
+            "title": "书架",
+            "general": {
+                "search": {
+                    "ignore_filters": {
+                        "label": {
+                            "description": "搜索结果将包括与当前过滤器不匹配的漫画",
+                            "title": "搜索时忽略筛选器"
+                        }
+                    }
+                },
+                "add_to_library": {
+                    "category_selection": {
+                        "label": {
+                            "title": "类别选择对话框",
+                            "description": "向库里添加漫画时显示类别选择对话框"
+                        }
+                    }
+                }
+            },
+            "advanced": {
+                "database": {
+                    "cleanup": {
+                        "label": {
+                            "description": "从类别中删除非库漫画",
+                            "error": "无法从类别中删除非库漫画",
+                            "success": "从类别中已经删除非库漫画",
+                            "title": "清理数据库"
+                        }
+                    }
+                }
+            }
         },
         "info": {
             "label": {
@@ -471,6 +567,12 @@
                     "error_other": "无法更改漫画的分类",
                     "success_other": "已成功更改 {{count}} 本漫画分类"
                 }
+            },
+            "migrate": {
+                "label": {
+                    "error": "无法迁移漫画",
+                    "success": "成功迁移漫画"
+                }
             }
         }
     },
@@ -502,7 +604,9 @@
                 "static_navigation": "静态导航",
                 "skip_dup_chapters": "跳过重复章节",
                 "fit_page_to_window": "自适应",
-                "offset_first_page": "返回第一页"
+                "offset_first_page": "返回第一页",
+                "reader_width": "阅读器宽度",
+                "scale_page": "放大较小的页面"
             },
             "reader_type": {
                 "label": {
@@ -525,7 +629,9 @@
         "error": {
             "label": {
                 "unable_to_get_next_chapter_skip_dup": "无法获取下一章 - \"$t(reader.settings.label.skip_dup_chapters)\" 选项已启用",
-                "unable_to_get_prev_chapter_skip_dup": "无法获取上一章 - \"$t(reader.settings.label.skip_dup_chapters)\" 选项已启用"
+                "unable_to_get_prev_chapter_skip_dup": "无法获取上一章 - \"$t(reader.settings.label.skip_dup_chapters)\" 选项已启用",
+                "next_chapter_does_not_exist": "无下一章节",
+                "prev_chapter_does_not_exist": "无上一章节"
             }
         }
     },
@@ -557,6 +663,44 @@
                     "label": {
                         "title": "备份位置",
                         "description": "服务器上保存自动备份的目录路径"
+                    }
+                }
+            },
+            "action": {
+                "restore": {
+                    "label": {
+                        "in_progress": "正在还原备份…",
+                        "success": "备份已恢复。",
+                        "title": "恢复备份",
+                        "description": "您也可以将备份文件拖放到此处进行还原"
+                    },
+                    "button": "恢复",
+                    "error": {
+                        "label": {
+                            "failure": "无法恢复备份",
+                            "legacy_backup_unsupported": "不支持旧备份！"
+                        }
+                    }
+                },
+                "create": {
+                    "label": {
+                        "title": "创建备份",
+                        "description": "将库备份为Tachiyomi备份"
+                    }
+                },
+                "validate": {
+                    "dialog": {
+                        "content": {
+                            "label": {
+                                "missing_sources": "未安装以下源："
+                            }
+                        },
+                        "title": "备份验证"
+                    },
+                    "error": {
+                        "label": {
+                            "failure": "无法验证备份"
+                        }
                     }
                 }
             }
@@ -631,9 +775,12 @@
             },
             "socks_proxy": {
                 "label": {
-                    "host": "SOCKS5 主机",
-                    "enable": "使用 SOCKS5 代理",
-                    "port": "SOCKS5 端口"
+                    "host": "SOCKS 主机",
+                    "enable": "使用 SOCKS 代理",
+                    "port": "SOCKS 端口",
+                    "username": "SOCKS 用户名",
+                    "version": "SOCKS 版本",
+                    "password": "SOCKS 密码"
                 },
                 "title": "SOCKS5 代理"
             },
@@ -686,6 +833,42 @@
                         }
                     }
                 }
+            },
+            "cloudflare": {
+                "flaresolverr": {
+                    "enabled": {
+                        "label": {
+                            "description": "请见 <2>FlareSolverr</2> 以了解如何设定的信息",
+                            "title": "已启用 FlareSolverr"
+                        }
+                    },
+                    "session": {
+                        "name": {
+                            "label": {
+                                "title": "FlareSolverr 会话名称"
+                            }
+                        },
+                        "ttl": {
+                            "label": {
+                                "description": "FlareSolverr 会根据以分钟为单位提供的 TTL 自动轮换过期会话",
+                                "title": "FlareSolverr 会话 TTL"
+                            }
+                        }
+                    },
+                    "timeout": {
+                        "label": {
+                            "description": "FlareSolverr 处理请求所需的时间",
+                            "title": "FlareSolverr 请求超时"
+                        }
+                    },
+                    "url": {
+                        "label": {
+                            "description": "FlareSolverr 服务器地址",
+                            "title": "FlareSolverr 服务器网址"
+                        }
+                    }
+                },
+                "title": "绕过 Cloudflare"
             }
         },
         "webui": {
@@ -706,7 +889,7 @@
                     "preview": {
                         "label": {
                             "description": "使用最新功能，并协助我们为稳定版本做好准备。",
-                            "disclaimer": "这个版本中的功能和变更可能尚未完全准备好，可能会导致错误。\n确保已启用自动备份，以防止您的书架丢失！",
+                            "disclaimer": "这个版本中的功能和变更可能尚未完全准备好，可能会导致错误。\n确保已启用自动备份，以防止您的书架丢失！\n\n$t(settings.webui.flavor.label.info)",
                             "title": "预览版"
                         }
                     },
@@ -742,7 +925,8 @@
             },
             "flavor": {
                 "label": {
-                    "title": "类型"
+                    "title": "类型",
+                    "info": "在更改设置后，前往“关于”页面，查找并安装webUI的更新"
                 },
                 "option": {
                     "webui": {
@@ -754,6 +938,12 @@
                         "label": {
                             "description": "使用自定义 $t(settings.webui.title.webui)。\n要使用自定义 $t(settings.webui.title.webui) ，请将位于服务器根目录中的 \"webUI\" 目录的内容替换为自定义 $t(settings.webui.title.webui) 的文件",
                             "title": "自定义"
+                        }
+                    },
+                    "vui": {
+                        "label": {
+                            "title": "VUI",
+                            "description": "使用 svelte 构建并专注于预览的 Web 前端"
                         }
                     }
                 }
@@ -772,6 +962,9 @@
                 "description": "客户端的缓存（浏览器、electron）应该与之一起清除，否则，客户端缓存将继续被使用",
                 "failure": "无法清除服务器缓存"
             }
+        },
+        "browse": {
+            "title": "浏览设置"
         }
     },
     "source": {
@@ -815,5 +1008,22 @@
         "label": {
             "ignore_filters": "搜索时忽略筛选"
         }
+    },
+    "migrate": {
+        "dialog": {
+            "title": "选择要包含的数据",
+            "action": {
+                "button": {
+                    "show_entry": "显示条目"
+                }
+            }
+        },
+        "label": {
+            "info": "正在迁移漫画…"
+        },
+        "search": {
+            "title": "$t(migrate.title) \"{{title}}\""
+        },
+        "title": "迁移"
     }
 }

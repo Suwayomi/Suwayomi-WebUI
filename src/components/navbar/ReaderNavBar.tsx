@@ -26,7 +26,11 @@ import { useTranslation } from 'react-i18next';
 import { AllowedMetadataValueTypes, ChapterOffset, IReaderSettings, TChapter, TManga } from '@/typings';
 import { ReaderSettingsOptions } from '@/components/reader/ReaderSettingsOptions';
 
-const Root = styled('div')(({ theme }) => ({
+const Root = styled('div')({
+    zIndex: 10,
+});
+
+const NavContainer = styled('div')(({ theme }) => ({
     top: 0,
     left: 0,
     width: '300px',
@@ -117,7 +121,7 @@ interface IProps {
     chapter: TChapter;
     curPage: number;
     scrollToPage: (page: number) => void;
-    openNextChapter: (offset: ChapterOffset, setHistory: (nextChapterIndex: number) => void) => Promise<void>;
+    openNextChapter: (offset: ChapterOffset) => void;
     retrievingNextChapter: boolean;
 }
 
@@ -198,9 +202,9 @@ export function ReaderNavBar(props: IProps) {
     };
 
     return (
-        <>
+        <Root>
             <Slide direction="right" in={drawerOpen} timeout={200} appear={false} mountOnEnter unmountOnExit>
-                <Root
+                <NavContainer
                     sx={{
                         position: 'fixed',
                     }}
@@ -267,6 +271,7 @@ export function ReaderNavBar(props: IProps) {
                             loadNextOnEnding={settings.loadNextOnEnding}
                             skipDupChapters={settings.skipDupChapters}
                             fitPageToWindow={settings.fitPageToWindow}
+                            scalePage={settings.scalePage}
                             readerType={settings.readerType}
                             offsetFirstPage={settings.offsetFirstPage}
                             readerWidth={settings.readerWidth}
@@ -306,17 +311,7 @@ export function ReaderNavBar(props: IProps) {
                                 <IconButton
                                     sx={{ gridArea: 'pre' }}
                                     disabled={disableChapterNavButtons || chapter.sourceOrder <= 1}
-                                    onClick={() =>
-                                        openNextChapter(ChapterOffset.PREV, (prevChapterIndex) => {
-                                            navigate(`/manga/${manga.id}/chapter/${prevChapterIndex}`, {
-                                                replace: true,
-                                                state: {
-                                                    prevDrawerOpen: drawerOpen,
-                                                    prevSettingsCollapseOpen: settingsCollapseOpen,
-                                                },
-                                            });
-                                        })
-                                    }
+                                    onClick={() => openNextChapter(ChapterOffset.PREV)}
                                 >
                                     <KeyboardArrowLeftIcon />
                                 </IconButton>
@@ -357,24 +352,14 @@ export function ReaderNavBar(props: IProps) {
                                         chapter.sourceOrder < 1 ||
                                         chapter.sourceOrder >= manga.chapters.totalCount
                                     }
-                                    onClick={() => {
-                                        openNextChapter(ChapterOffset.NEXT, (nextChapterIndex) =>
-                                            navigate(`/manga/${manga.id}/chapter/${nextChapterIndex}`, {
-                                                replace: true,
-                                                state: {
-                                                    prevDrawerOpen: drawerOpen,
-                                                    prevSettingsCollapseOpen: settingsCollapseOpen,
-                                                },
-                                            }),
-                                        );
-                                    }}
+                                    onClick={() => openNextChapter(ChapterOffset.NEXT)}
                                 >
                                     <KeyboardArrowRightIcon />
                                 </IconButton>
                             </Tooltip>
                         </ChapterNavigation>
                     </Navigation>
-                </Root>
+                </NavContainer>
             </Slide>
             <Zoom in={!drawerOpen}>
                 <Fade in={!hideOpenButton}>
@@ -392,6 +377,6 @@ export function ReaderNavBar(props: IProps) {
                     </Tooltip>
                 </Fade>
             </Zoom>
-        </>
+        </Root>
     );
 }

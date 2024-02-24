@@ -24,7 +24,6 @@ export function PageNumber(props: IProps) {
                 display: settings.showPageNumber ? 'block' : 'none',
                 position: 'fixed',
                 bottom: '50px',
-                right: settings.staticNav ? 'calc((100vw - 325px)/2)' : 'calc((100vw - 25px)/2)',
                 padding: '2px',
                 paddingLeft: '4px',
                 paddingRight: '4px',

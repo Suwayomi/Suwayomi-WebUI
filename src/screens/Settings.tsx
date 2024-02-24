@@ -43,6 +43,11 @@ export function Settings() {
     useEffect(() => {
         setTitle(t('settings.title'));
         setAction(null);
+
+        return () => {
+            setTitle('');
+            setAction(null);
+        };
     }, [t]);
 
     const { darkTheme, setDarkTheme } = useContext(DarkTheme);
@@ -68,7 +73,7 @@ export function Settings() {
                 <ListItemIcon>
                     <ListAltIcon />
                 </ListItemIcon>
-                <ListItemText primary={t('category.title.categories')} />
+                <ListItemText primary={t('category.title.category_other')} />
             </ListItemLink>
             <ListItemLink to="/settings/defaultReaderSettings">
                 <ListItemIcon>
@@ -110,7 +115,6 @@ export function Settings() {
                 minValue={100}
                 maxValue={1000}
                 stepSize={10}
-                dialogTitle={t('settings.label.manga_item_width')}
                 valueUnit="px"
                 showSlider
                 handleUpdate={setItemWidth}
@@ -151,7 +155,7 @@ export function Settings() {
                     secondary={t('settings.clear_cache.label.description')}
                 />
             </ListItemButton>
-            <ListItemLink to="/settings/extensionSettings">
+            <ListItemLink to="/settings/browseSettings">
                 <ListItemIcon>
                     <ExploreOutlinedIcon />
                 </ListItemIcon>

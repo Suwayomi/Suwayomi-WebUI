@@ -21,6 +21,8 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
+import SyncAltIcon from '@mui/icons-material/SyncAlt';
 import { CategorySelect } from '@/components/navbar/action/CategorySelect';
 import { TManga } from '@/typings.ts';
 
@@ -32,6 +34,7 @@ interface IProps {
 
 export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
     const { t } = useTranslation();
+
     const theme = useTheme();
     const isLargeScreen = useMediaQuery(theme.breakpoints.up('sm'));
 
@@ -56,6 +59,17 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                         >
                             <Refresh />
                         </IconButton>
+                    </Tooltip>
+                    <Tooltip title={t('global.button.migrate')}>
+                        <Link
+                            to={`/migrate/source/${manga.source?.id}/manga/${manga.id}/search?query=${manga.title}`}
+                            state={{ mangaTitle: manga.title }}
+                            style={{ textDecoration: 'none', color: 'inherit' }}
+                        >
+                            <IconButton>
+                                <SyncAltIcon />
+                            </IconButton>
+                        </Link>
                     </Tooltip>
                     {manga.inLibrary && (
                         <Tooltip title={t('manga.label.edit_categories')}>
@@ -103,17 +117,30 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                             <ListItemText>{t('manga.label.reload_from_source')}</ListItemText>
                         </MenuItem>
                         {manga.inLibrary && (
-                            <MenuItem
-                                onClick={() => {
-                                    setEditCategories(true);
-                                    handleClose();
-                                }}
-                            >
-                                <ListItemIcon>
-                                    <Label fontSize="small" />
-                                </ListItemIcon>
-                                <ListItemText>{t('manga.label.edit_categories')}</ListItemText>
-                            </MenuItem>
+                            <>
+                                <MenuItem
+                                    component={Link}
+                                    to={`/migrate/source/${manga.source?.id}/manga/${manga.id}/search?query=${manga.title}`}
+                                    state={{ mangaTitle: manga.title }}
+                                    style={{ textDecoration: 'none', color: 'inherit' }}
+                                >
+                                    <ListItemIcon>
+                                        <SyncAltIcon fontSize="small" />
+                                    </ListItemIcon>
+                                    <ListItemText>{t('migrate.title')}</ListItemText>
+                                </MenuItem>
+                                <MenuItem
+                                    onClick={() => {
+                                        setEditCategories(true);
+                                        handleClose();
+                                    }}
+                                >
+                                    <ListItemIcon>
+                                        <Label fontSize="small" />
+                                    </ListItemIcon>
+                                    <ListItemText>{t('manga.label.edit_categories')}</ListItemText>
+                                </MenuItem>
+                            </>
                         )}
                     </Menu>
                 </>

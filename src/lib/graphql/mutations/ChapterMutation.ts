@@ -57,6 +57,12 @@ export const GET_MANGA_CHAPTERS_FETCH = gql`
             clientMutationId
             chapters {
                 ...FULL_CHAPTER_FIELDS
+                manga {
+                    id
+                    chapters {
+                        totalCount
+                    }
+                }
             }
         }
     }
@@ -87,11 +93,8 @@ export const UPDATE_CHAPTER = gql`
         $getBookmarked: Boolean!
         $getRead: Boolean!
         $getLastPageRead: Boolean!
-        $id: Int!
         $chapterIdToDelete: Int!
         $deleteChapter: Boolean!
-        $mangaId: Int!
-        $downloadAhead: Boolean!
     ) {
         updateChapter(input: $input) {
             clientMutationId
@@ -124,9 +127,6 @@ export const UPDATE_CHAPTER = gql`
                 }
             }
         }
-        downloadAhead(input: { mangaIds: [$mangaId], latestReadChapterIds: [$id] }) @include(if: $downloadAhead) {
-            clientMutationId
-        }
     }
 `;
 
@@ -138,9 +138,6 @@ export const UPDATE_CHAPTERS = gql`
         $getLastPageRead: Boolean!
         $chapterIdsToDelete: [Int!]!
         $deleteChapters: Boolean!
-        $mangaIds: [Int!]!
-        $latestReadChapterIds: [Int!]!
-        $downloadAhead: Boolean!
     ) {
         updateChapters(input: $input) {
             clientMutationId
@@ -172,10 +169,6 @@ export const UPDATE_CHAPTERS = gql`
                     downloadCount
                 }
             }
-        }
-        downloadAhead(input: { mangaIds: $mangaIds, latestReadChapterIds: $latestReadChapterIds })
-            @include(if: $downloadAhead) {
-            clientMutationId
         }
     }
 `;

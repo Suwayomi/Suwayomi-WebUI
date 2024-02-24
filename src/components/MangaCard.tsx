@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
 import { Avatar, Box, CardContent, Stack, styled, Tooltip } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import PopupState, { bindMenu } from 'material-ui-popup-state';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { useState } from 'react';
 import { GridLayout, useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
 import { SpinnerImage } from '@/components/util/SpinnerImage';
 import { TManga, TPartialManga } from '@/typings.ts';
@@ -22,6 +22,8 @@ import { SelectableCollectionReturnType } from '@/components/collection/useSelec
 import { MangaOptionButton } from '@/components/manga/MangaOptionButton.tsx';
 import { MangaActionMenuItems, SingleModeProps } from '@/components/manga/MangaActionMenuItems.tsx';
 import { Menu } from '@/components/menu/Menu.tsx';
+import { MigrateDialog } from '@/components/MigrateDialog.tsx';
+import { Mangas } from '@/lib/data/Mangas.ts';
 
 const BottomGradient = styled('div')({
     position: 'absolute',
@@ -66,209 +68,356 @@ const BadgeContainer = styled('div')({
     },
 });
 
-interface IProps {
+type MangaCardMode = 'default' | 'migrate.search' | 'migrate.select';
+
+export interface MangaCardProps {
     manga: TPartialManga;
     gridLayout?: GridLayout;
     inLibraryIndicator?: boolean;
     selected?: boolean | null;
     handleSelection?: SelectableCollectionReturnType<TManga['id']>['handleSelection'];
+    mode?: MangaCardMode;
 }
 
-export const MangaCard = (props: IProps) => {
+const getMangaLinkTo = (mode: MangaCardMode, mangaId: number, sourceId: string, mangaTitle: string): string => {
+    switch (mode) {
+        case 'default':
+            return `/manga/${mangaId}/`;
+        case 'migrate.search':
+            return `/migrate/source/${sourceId}/manga/${mangaId}/search?query=${mangaTitle}`;
+        case 'migrate.select':
+            return '';
+        default:
+            throw new Error(`getMangaLinkTo: unexpected MangaCardMode "${mode}"`);
+    }
+};
+
+export const MangaCard = (props: MangaCardProps) => {
     const { t } = useTranslation();
 
-    const { manga, gridLayout, inLibraryIndicator, selected, handleSelection } = props;
-    const {
-        id,
-        title,
-        thumbnailUrl: tmpThumbnailUrl,
-        downloadCount,
-        unreadCount: unread,
-        inLibrary,
-        latestReadChapter,
-        chapters,
-    } = manga;
-    const thumbnailUrl = tmpThumbnailUrl ?? 'nonExistingMangaUrl';
+    const { manga, gridLayout, inLibraryIndicator, selected, handleSelection, mode = 'default' } = props;
+    const { id, title, downloadCount, unreadCount: unread, inLibrary, latestReadChapter, chapters } = manga;
+    const thumbnailUrl = Mangas.getThumbnailUrl(manga);
     const {
         options: { showContinueReadingButton, showUnreadBadge, showDownloadBadge },
     } = useLibraryOptionsContext();
 
-    const mangaLinkTo = `/manga/${id}/`;
+    const mangaLinkTo = getMangaLinkTo(mode, manga.id, manga.source?.id, manga.title);
 
     const nextChapterIndexToRead = (latestReadChapter?.sourceOrder ?? 0) + 1;
     const isLatestChapterRead = chapters?.totalCount === latestReadChapter?.sourceOrder;
 
+    const [isMigrateDialogOpen, setIsMigrateDialogOpen] = useState(false);
+
     if (gridLayout !== GridLayout.List) {
         return (
+            <>
+                {isMigrateDialogOpen && (
+                    <MigrateDialog mangaIdToMigrateTo={manga.id} onClose={() => setIsMigrateDialogOpen(false)} />
+                )}
+                <PopupState variant="popover" popupId="manga-card-action-menu">
+                    {(popupState) => (
+                        <>
+                            <Link
+                                onClick={(e) => {
+                                    const isMigrateSelectMode = mode === 'migrate.select';
+                                    const isSelectionMode = selected !== null;
+
+                                    const handleClick = isMigrateSelectMode || isSelectionMode;
+                                    if (!handleClick) {
+                                        return;
+                                    }
+
+                                    e.preventDefault();
+
+                                    if (isMigrateSelectMode) {
+                                        setIsMigrateDialogOpen(true);
+                                        return;
+                                    }
+
+                                    handleSelection?.(id, !selected);
+                                }}
+                                to={mangaLinkTo}
+                                style={{ textDecoration: 'none' }}
+                            >
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        margin: '2px',
+                                        outline: selected ? '4px solid' : undefined,
+                                        borderRadius: selected ? '1px' : undefined,
+                                        outlineColor: (theme) => theme.palette.primary.main,
+                                        backgroundColor: (theme) => (selected ? theme.palette.primary.main : undefined),
+                                        '@media (hover: hover) and (pointer: fine)': {
+                                            '&:hover .manga-option-button': {
+                                                visibility: 'visible',
+                                                pointerEvents: 'all',
+                                            },
+                                        },
+                                    }}
+                                >
+                                    <Card
+                                        sx={{
+                                            // force standard aspect ratio of manga covers
+                                            aspectRatio: '225/350',
+                                            display: 'flex',
+                                        }}
+                                    >
+                                        <CardActionArea
+                                            sx={{
+                                                position: 'relative',
+                                                height: '100%',
+                                            }}
+                                        >
+                                            <Stack
+                                                alignItems="start"
+                                                justifyContent="space-between"
+                                                direction="row"
+                                                sx={{
+                                                    position: 'absolute',
+                                                    top: 5,
+                                                    left: 5,
+                                                    right: 5,
+                                                }}
+                                            >
+                                                <BadgeContainer>
+                                                    {inLibraryIndicator && inLibrary && (
+                                                        <Typography
+                                                            sx={{ backgroundColor: 'primary.dark', zIndex: '1' }}
+                                                        >
+                                                            {t('manga.button.in_library')}
+                                                        </Typography>
+                                                    )}
+                                                    {showUnreadBadge && (unread ?? 0) > 0 && (
+                                                        <Typography sx={{ backgroundColor: 'primary.dark' }}>
+                                                            {unread}
+                                                        </Typography>
+                                                    )}
+                                                    {showDownloadBadge && (downloadCount ?? 0) > 0 && (
+                                                        <Typography
+                                                            sx={{
+                                                                backgroundColor: 'success.dark',
+                                                            }}
+                                                        >
+                                                            {downloadCount}
+                                                        </Typography>
+                                                    )}
+                                                </BadgeContainer>
+                                                <MangaOptionButton
+                                                    popupState={popupState}
+                                                    id={id}
+                                                    selected={selected}
+                                                    handleSelection={handleSelection}
+                                                />
+                                            </Stack>
+                                            <SpinnerImage
+                                                alt={title}
+                                                src={thumbnailUrl}
+                                                imgStyle={
+                                                    inLibraryIndicator && inLibrary
+                                                        ? {
+                                                              height: '100%',
+                                                              width: '100%',
+                                                              objectFit: 'cover',
+                                                              filter: 'brightness(0.4)',
+                                                          }
+                                                        : {
+                                                              height: '100%',
+                                                              width: '100%',
+                                                              objectFit: 'cover',
+                                                          }
+                                                }
+                                                spinnerStyle={{
+                                                    display: 'grid',
+                                                    placeItems: 'center',
+                                                }}
+                                            />
+                                            <>
+                                                {gridLayout !== GridLayout.Comfortable && (
+                                                    <>
+                                                        <BottomGradient />
+                                                        <BottomGradientDoubledDown />
+                                                    </>
+                                                )}
+                                                <Stack
+                                                    direction="row"
+                                                    justifyContent={
+                                                        gridLayout !== GridLayout.Comfortable ? 'space-between' : 'end'
+                                                    }
+                                                    alignItems="end"
+                                                    sx={{
+                                                        position: 'absolute',
+                                                        bottom: 0,
+                                                        width: '100%',
+                                                        margin: '0.5em 0',
+                                                        padding: '0 0.5em',
+                                                        gap: '0.5em',
+                                                    }}
+                                                >
+                                                    {gridLayout !== GridLayout.Comfortable && (
+                                                        <Tooltip title={title} placement="top">
+                                                            <GridMangaTitle
+                                                                sx={{
+                                                                    color: 'white',
+                                                                    textShadow: '0px 0px 3px #000000',
+                                                                }}
+                                                            >
+                                                                {title}
+                                                            </GridMangaTitle>
+                                                        </Tooltip>
+                                                    )}
+                                                    <ContinueReadingButton
+                                                        showContinueReadingButton={showContinueReadingButton}
+                                                        isLatestChapterRead={isLatestChapterRead}
+                                                        nextChapterIndexToRead={nextChapterIndexToRead}
+                                                        mangaLinkTo={mangaLinkTo}
+                                                    />
+                                                </Stack>
+                                            </>
+                                        </CardActionArea>
+                                    </Card>
+                                    {gridLayout === GridLayout.Comfortable && (
+                                        <Tooltip title={title} placement="top">
+                                            <GridMangaTitle
+                                                sx={{
+                                                    position: 'relative',
+                                                    width: '100%',
+                                                    bottom: 0,
+                                                    margin: '0.5em 0',
+                                                    padding: '0 0.5em',
+                                                    color: 'text.primary',
+                                                    height: '3rem',
+                                                }}
+                                            >
+                                                {title}
+                                            </GridMangaTitle>
+                                        </Tooltip>
+                                    )}
+                                </Box>
+                            </Link>
+                            {!!handleSelection && popupState.isOpen && (
+                                <Menu {...bindMenu(popupState)}>
+                                    {(onClose, setHideMenu) => (
+                                        <MangaActionMenuItems
+                                            manga={manga as SingleModeProps['manga']}
+                                            handleSelection={handleSelection}
+                                            onClose={onClose}
+                                            setHideMenu={setHideMenu}
+                                        />
+                                    )}
+                                </Menu>
+                            )}
+                        </>
+                    )}
+                </PopupState>
+            </>
+        );
+    }
+
+    return (
+        <>
+            {isMigrateDialogOpen && (
+                <MigrateDialog mangaIdToMigrateTo={manga.id} onClose={() => setIsMigrateDialogOpen(false)} />
+            )}
             <PopupState variant="popover" popupId="manga-card-action-menu">
                 {(popupState) => (
                     <>
-                        <Link
-                            onClick={(e) => {
-                                if (selected === null) {
-                                    return;
-                                }
+                        <Card>
+                            <CardActionArea
+                                component={Link}
+                                to={mangaLinkTo}
+                                onClick={(e) => {
+                                    if (selected === null) {
+                                        return;
+                                    }
 
-                                e.preventDefault();
-                                handleSelection?.(id, !selected);
-                            }}
-                            to={mangaLinkTo}
-                            style={{ textDecoration: 'none' }}
-                        >
-                            <Box
-                                sx={{
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    margin: '2px',
-                                    outline: selected ? '4px solid' : undefined,
-                                    borderRadius: selected ? '1px' : undefined,
-                                    outlineColor: (theme) => theme.palette.primary.main,
-                                    backgroundColor: (theme) => (selected ? theme.palette.primary.main : undefined),
-                                    '@media (hover: hover) and (pointer: fine)': {
-                                        '&:hover .manga-option-button': {
-                                            visibility: 'visible',
-                                            pointerEvents: 'all',
-                                        },
-                                    },
+                                    e.preventDefault();
+                                    handleSelection?.(id, !selected);
                                 }}
                             >
-                                <Card
+                                <CardContent
                                     sx={{
-                                        // force standard aspect ratio of manga covers
-                                        aspectRatio: '225/350',
                                         display: 'flex',
+                                        justifyContent: 'space-between',
+                                        alignItems: 'center',
+                                        padding: 2,
+                                        position: 'relative',
                                     }}
                                 >
-                                    <CardActionArea
+                                    <Avatar
+                                        variant="rounded"
+                                        sx={
+                                            inLibraryIndicator && inLibrary
+                                                ? {
+                                                      width: 56,
+                                                      height: 56,
+                                                      flex: '0 0 auto',
+                                                      marginRight: 2,
+                                                      imageRendering: 'pixelated',
+                                                      filter: 'brightness(0.4)',
+                                                  }
+                                                : {
+                                                      width: 56,
+                                                      height: 56,
+                                                      flex: '0 0 auto',
+                                                      marginRight: 2,
+                                                      imageRendering: 'pixelated',
+                                                  }
+                                        }
+                                        src={thumbnailUrl}
+                                    />
+                                    <Box
                                         sx={{
-                                            position: 'relative',
-                                            height: '100%',
+                                            display: 'flex',
+                                            flexDirection: 'row',
+                                            flexGrow: 1,
+                                            width: 'min-content',
                                         }}
                                     >
-                                        <Stack
-                                            alignItems="start"
-                                            justifyContent="space-between"
-                                            direction="row"
-                                            sx={{
-                                                position: 'absolute',
-                                                top: 5,
-                                                left: 5,
-                                                right: 5,
-                                            }}
-                                        >
-                                            <BadgeContainer>
-                                                {inLibraryIndicator && inLibrary && (
-                                                    <Typography sx={{ backgroundColor: 'primary.dark', zIndex: '1' }}>
-                                                        {t('manga.button.in_library')}
-                                                    </Typography>
-                                                )}
-                                                {showUnreadBadge && (unread ?? 0) > 0 && (
-                                                    <Typography sx={{ backgroundColor: 'primary.dark' }}>
-                                                        {unread}
-                                                    </Typography>
-                                                )}
-                                                {showDownloadBadge && (downloadCount ?? 0) > 0 && (
-                                                    <Typography
-                                                        sx={{
-                                                            backgroundColor: 'success.dark',
-                                                        }}
-                                                    >
-                                                        {downloadCount}
-                                                    </Typography>
-                                                )}
-                                            </BadgeContainer>
-                                            <MangaOptionButton
-                                                popupState={popupState}
-                                                id={id}
-                                                selected={selected}
-                                                handleSelection={handleSelection}
-                                            />
-                                        </Stack>
-                                        <SpinnerImage
-                                            alt={title}
-                                            src={requestManager.getValidImgUrlFor(thumbnailUrl)}
-                                            imgStyle={
-                                                inLibraryIndicator && inLibrary
-                                                    ? {
-                                                          height: '100%',
-                                                          width: '100%',
-                                                          objectFit: 'cover',
-                                                          filter: 'brightness(0.4)',
-                                                      }
-                                                    : {
-                                                          height: '100%',
-                                                          width: '100%',
-                                                          objectFit: 'cover',
-                                                      }
-                                            }
-                                            spinnerStyle={{
-                                                display: 'grid',
-                                                placeItems: 'center',
-                                            }}
-                                        />
-                                        <>
-                                            {gridLayout !== GridLayout.Comfortable && (
-                                                <>
-                                                    <BottomGradient />
-                                                    <BottomGradientDoubledDown />
-                                                </>
+                                        <Tooltip title={title} placement="top">
+                                            <MangaTitle variant="h5">{title}</MangaTitle>
+                                        </Tooltip>
+                                    </Box>
+                                    <Stack direction="row" alignItems="center" gap="5px">
+                                        <BadgeContainer>
+                                            {inLibraryIndicator && inLibrary && (
+                                                <Typography sx={{ backgroundColor: 'primary.dark' }}>
+                                                    {t('manga.button.in_library')}
+                                                </Typography>
                                             )}
-                                            <Stack
-                                                direction="row"
-                                                justifyContent={
-                                                    gridLayout !== GridLayout.Comfortable ? 'space-between' : 'end'
-                                                }
-                                                alignItems="end"
-                                                sx={{
-                                                    position: 'absolute',
-                                                    bottom: 0,
-                                                    width: '100%',
-                                                    margin: '0.5em 0',
-                                                    padding: '0 0.5em',
-                                                    gap: '0.5em',
-                                                }}
-                                            >
-                                                {gridLayout !== GridLayout.Comfortable && (
-                                                    <Tooltip title={title} placement="top">
-                                                        <GridMangaTitle
-                                                            sx={{
-                                                                color: 'white',
-                                                                textShadow: '0px 0px 3px #000000',
-                                                            }}
-                                                        >
-                                                            {title}
-                                                        </GridMangaTitle>
-                                                    </Tooltip>
-                                                )}
-                                                <ContinueReadingButton
-                                                    showContinueReadingButton={showContinueReadingButton}
-                                                    isLatestChapterRead={isLatestChapterRead}
-                                                    nextChapterIndexToRead={nextChapterIndexToRead}
-                                                    mangaLinkTo={mangaLinkTo}
-                                                />
-                                            </Stack>
-                                        </>
-                                    </CardActionArea>
-                                </Card>
-                                {gridLayout === GridLayout.Comfortable && (
-                                    <Tooltip title={title} placement="top">
-                                        <GridMangaTitle
-                                            sx={{
-                                                position: 'relative',
-                                                width: '100%',
-                                                bottom: 0,
-                                                margin: '0.5em 0',
-                                                padding: '0 0.5em',
-                                                color: 'text.primary',
-                                                height: '3rem',
-                                            }}
-                                        >
-                                            {title}
-                                        </GridMangaTitle>
-                                    </Tooltip>
-                                )}
-                            </Box>
-                        </Link>
+                                            {showUnreadBadge && unread! > 0 && (
+                                                <Typography sx={{ backgroundColor: 'primary.dark' }}>
+                                                    {unread}
+                                                </Typography>
+                                            )}
+                                            {showDownloadBadge && downloadCount! > 0 && (
+                                                <Typography
+                                                    sx={{
+                                                        backgroundColor: 'success.dark',
+                                                    }}
+                                                >
+                                                    {downloadCount}
+                                                </Typography>
+                                            )}
+                                        </BadgeContainer>
+                                        <ContinueReadingButton
+                                            showContinueReadingButton={showContinueReadingButton}
+                                            isLatestChapterRead={isLatestChapterRead}
+                                            nextChapterIndexToRead={nextChapterIndexToRead}
+                                            mangaLinkTo={mangaLinkTo}
+                                        />
+                                        <MangaOptionButton
+                                            popupState={popupState}
+                                            id={id}
+                                            selected={selected}
+                                            handleSelection={handleSelection}
+                                            asCheckbox
+                                        />
+                                    </Stack>
+                                </CardContent>
+                            </CardActionArea>
+                        </Card>
                         {!!handleSelection && popupState.isOpen && (
                             <Menu {...bindMenu(popupState)}>
                                 {(onClose, setHideMenu) => (
@@ -284,120 +433,6 @@ export const MangaCard = (props: IProps) => {
                     </>
                 )}
             </PopupState>
-        );
-    }
-
-    return (
-        <PopupState variant="popover" popupId="manga-card-action-menu">
-            {(popupState) => (
-                <>
-                    <Card>
-                        <CardActionArea
-                            component={Link}
-                            to={mangaLinkTo}
-                            onClick={(e) => {
-                                if (selected === null) {
-                                    return;
-                                }
-
-                                e.preventDefault();
-                                handleSelection?.(id, !selected);
-                            }}
-                        >
-                            <CardContent
-                                sx={{
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    alignItems: 'center',
-                                    padding: 2,
-                                    position: 'relative',
-                                }}
-                            >
-                                <Avatar
-                                    variant="rounded"
-                                    sx={
-                                        inLibraryIndicator && inLibrary
-                                            ? {
-                                                  width: 56,
-                                                  height: 56,
-                                                  flex: '0 0 auto',
-                                                  marginRight: 2,
-                                                  imageRendering: 'pixelated',
-                                                  filter: 'brightness(0.4)',
-                                              }
-                                            : {
-                                                  width: 56,
-                                                  height: 56,
-                                                  flex: '0 0 auto',
-                                                  marginRight: 2,
-                                                  imageRendering: 'pixelated',
-                                              }
-                                    }
-                                    src={requestManager.getValidImgUrlFor(thumbnailUrl)}
-                                />
-                                <Box
-                                    sx={{
-                                        display: 'flex',
-                                        flexDirection: 'row',
-                                        flexGrow: 1,
-                                        width: 'min-content',
-                                    }}
-                                >
-                                    <Tooltip title={title} placement="top">
-                                        <MangaTitle variant="h5">{title}</MangaTitle>
-                                    </Tooltip>
-                                </Box>
-                                <Stack direction="row" alignItems="center" gap="5px">
-                                    <BadgeContainer>
-                                        {inLibraryIndicator && inLibrary && (
-                                            <Typography sx={{ backgroundColor: 'primary.dark' }}>
-                                                {t('manga.button.in_library')}
-                                            </Typography>
-                                        )}
-                                        {showUnreadBadge && unread! > 0 && (
-                                            <Typography sx={{ backgroundColor: 'primary.dark' }}>{unread}</Typography>
-                                        )}
-                                        {showDownloadBadge && downloadCount! > 0 && (
-                                            <Typography
-                                                sx={{
-                                                    backgroundColor: 'success.dark',
-                                                }}
-                                            >
-                                                {downloadCount}
-                                            </Typography>
-                                        )}
-                                    </BadgeContainer>
-                                    <ContinueReadingButton
-                                        showContinueReadingButton={showContinueReadingButton}
-                                        isLatestChapterRead={isLatestChapterRead}
-                                        nextChapterIndexToRead={nextChapterIndexToRead}
-                                        mangaLinkTo={mangaLinkTo}
-                                    />
-                                    <MangaOptionButton
-                                        popupState={popupState}
-                                        id={id}
-                                        selected={selected}
-                                        handleSelection={handleSelection}
-                                        asCheckbox
-                                    />
-                                </Stack>
-                            </CardContent>
-                        </CardActionArea>
-                    </Card>
-                    {!!handleSelection && popupState.isOpen && (
-                        <Menu {...bindMenu(popupState)}>
-                            {(onClose, setHideMenu) => (
-                                <MangaActionMenuItems
-                                    manga={manga as SingleModeProps['manga']}
-                                    handleSelection={handleSelection}
-                                    onClose={onClose}
-                                    setHideMenu={setHideMenu}
-                                />
-                            )}
-                        </Menu>
-                    )}
-                </>
-            )}
-        </PopupState>
+        </>
     );
 };

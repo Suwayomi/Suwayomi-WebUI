@@ -48,7 +48,7 @@ function groupByLang(sources: ISource[]) {
 
 export function Sources() {
     const { t } = useTranslation();
-    const { setTitle, setAction } = useContext(NavBarContext);
+    const { setAction } = useContext(NavBarContext);
 
     const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownSourceLangs', sourceDefualtLangs());
     const [showNsfw] = useLocalStorage<boolean>('showNsfw', true);
@@ -84,7 +84,6 @@ export function Sources() {
     }, []);
 
     useEffect(() => {
-        setTitle(t('source.title'));
         setAction(
             <>
                 <Tooltip title={t('search.title.global_search')}>
@@ -100,6 +99,10 @@ export function Sources() {
                 />
             </>,
         );
+
+        return () => {
+            setAction(null);
+        };
     }, [t, shownLangs, sources]);
 
     if (isLoading) return <LoadingPlaceholder />;

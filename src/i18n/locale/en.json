@@ -22,10 +22,6 @@
       "category_name": "Category Name",
       "use_as_default_category": "Default category when adding new manga to the library"
     },
-    "title": {
-      "categories": "Categories",
-      "set_categories": "Set categories"
-    },
     "settings": {
       "inclusion": {
         "label": {
@@ -33,6 +29,11 @@
           "include": "Include: {{includedCategoriesText}}"
         }
       }
+    },
+    "title": {
+      "category_one": "Category",
+      "category_other": "Categories",
+      "set_categories": "Set categories"
     }
   },
   "chapter": {
@@ -161,14 +162,20 @@
     },
     "settings": {
       "auto_download": {
-        "label": {
-          "ignore_with_unread_chapters": "Ignore automatic chapter downloads for entries with unread chapters",
-          "new_chapters": "Download new chapters"
-        },
         "categories": {
           "label": {
             "include_in_download": "Entries in excluded categories will not be downloaded even if they are also in included categories"
           }
+        },
+        "download_limit": {
+          "label": {
+            "description": "Limit the amount of new chapters that are going to get downloaded.",
+            "title": "Chapter download limit"
+          }
+        },
+        "label": {
+          "ignore_with_unread_chapters": "Ignore automatic chapter downloads for entries with unread chapters",
+          "new_chapters": "Download new chapters"
         },
         "title": "Auto-download"
       },
@@ -195,8 +202,8 @@
       },
       "download_ahead": {
         "label": {
-          "description": "How many chapters should get downloaded when marking a chapter as read while reading.",
-          "disclaimer": "This limit will also be applied to the automatic download of new chapters during an update",
+          "description": "How many chapters should get downloaded while reading.",
+          "disclaimer": "Only works if the current chapter plus the next chapter are already downloaded.",
           "unread_chapters_to_download": "Number of unread chapters to download",
           "value": "{{chapters}} $t(chapter.title)",
           "while_reading": "Auto download while reading"
@@ -268,8 +275,7 @@
             "title": "Extension repositories"
           }
         }
-      },
-      "title": "Extension Settings"
+      }
     },
     "state": {
       "label": {
@@ -289,10 +295,12 @@
       "browse": "Browse",
       "cancel": "Cancel",
       "clear": "Clear",
+      "copy": "Copy",
       "deselect": "Deselect",
       "edit": "Edit",
       "filter": "Filter",
       "latest": "Latest",
+      "migrate": "Migrate",
       "ok": "Ok",
       "open_site": "Open Site",
       "options": "Options",
@@ -389,7 +397,17 @@
       }
     },
     "time": {
-      "hour_short": "h"
+      "hour_short": "h",
+      "minutes": {
+        "minute_one": "Minute",
+        "minute_other": "Minutes",
+        "value": "{{count}} $t(global.time.minutes.minute, lowercase)"
+      },
+      "seconds": {
+        "second_one": "Second",
+        "second_other": "Seconds",
+        "value": "{{count}} $t(global.time.seconds.second, lowercase)"
+      }
     },
     "update": {
       "label": {
@@ -549,6 +567,12 @@
             "success_other": "Removed {{count}} manga from the library"
           }
         }
+      },
+      "migrate": {
+        "label": {
+          "error": "Could not migrate manga",
+          "success": "Successfully migrated manga"
+        }
       }
     },
     "button": {
@@ -573,6 +597,23 @@
     "title_one": "Manga",
     "title_other": "Manga"
   },
+  "migrate": {
+    "dialog": {
+      "action": {
+        "button": {
+          "show_entry": "Show entry"
+        }
+      },
+      "title": "Select data to include"
+    },
+    "label": {
+      "info": "Migrating manga…"
+    },
+    "search": {
+      "title": "$t(migrate.title) \"{{title}}\""
+    },
+    "title": "Migrate"
+  },
   "reader": {
     "button": {
       "close_menu": "Close menu",
@@ -583,8 +624,8 @@
     },
     "error": {
       "label": {
-        "unable_to_get_next_chapter_skip_dup": "Unable to get the next chapter - \"$t(reader.settings.label.skip_dup_chapters)\" option is enabled",
-        "unable_to_get_prev_chapter_skip_dup": "Unable to get the previous chapter - \"$t(reader.settings.label.skip_dup_chapters)\" option is enabled"
+        "next_chapter_does_not_exist": "There is no next chapter to open",
+        "prev_chapter_does_not_exist": "There is no previous chapter to open"
       }
     },
     "page_info": {
@@ -605,10 +646,11 @@
         "load_next_chapter": "Load next chapter at ending",
         "offset_first_page": "Offset first page",
         "reader_type": "Reader type",
+        "reader_width": "Reader width",
+        "scale_page": "Scale small pages",
         "show_page_number": "Show page number",
         "skip_dup_chapters": "Skip duplicate chapters",
-        "static_navigation": "Static navigation",
-        "reader_width": "Reader width"
+        "static_navigation": "Static navigation"
       },
       "reader_type": {
         "label": {
@@ -721,6 +763,9 @@
       },
       "title": "Backup"
     },
+    "browse": {
+      "title": "Browse settings"
+    },
     "clear_cache": {
       "label": {
         "description": "The cache of the client (browser, electron) should get cleared alongside it, otherwise, the client cache will keep getting used",
@@ -766,6 +811,42 @@
         },
         "title": "Authentication"
       },
+      "cloudflare": {
+        "flaresolverr": {
+          "enabled": {
+            "label": {
+              "description": "See <2>FlareSolverr</2> for information on how to set it up",
+              "title": "FlareSolverr enabled"
+            }
+          },
+          "session": {
+            "name": {
+              "label": {
+                "title": "FlareSolverr session name"
+              }
+            },
+            "ttl": {
+              "label": {
+                "description": "FlareSolverr will automatically rotate expired sessions based on the TTL provided in minutes",
+                "title": "FlareSolverr session TTL"
+              }
+            }
+          },
+          "timeout": {
+            "label": {
+              "description": "How much time FlareSolverr has to handle the request",
+              "title": "FlareSolverr request timeout"
+            }
+          },
+          "url": {
+            "label": {
+              "description": "The address of the FlareSolverr server",
+              "title": "FlareSolverr server url"
+            }
+          }
+        },
+        "title": "Cloudflare bypass"
+      },
       "local_source": {
         "path": {
           "label": {
@@ -807,9 +888,12 @@
       },
       "socks_proxy": {
         "label": {
-          "enable": "Use SOCKS5 proxy",
-          "host": "SOCKS5 host",
-          "port": "SOCKS5 port"
+          "enable": "Use SOCKS proxy",
+          "host": "SOCKS host",
+          "password": "SOCKS password",
+          "port": "SOCKS port",
+          "username": "SOCKS username",
+          "version": "SOCKS version"
         },
         "title": "SOCKS proxy"
       },
@@ -840,7 +924,7 @@
           "preview": {
             "label": {
               "description": "Use the latest features and help us get them ready for a stable release.",
-              "disclaimer": "Features and changes in this version might not be completely ready yet and can cause bugs.\nMake sure that you have automatic backups enabled to prevent loss of your library!",
+              "disclaimer": "Features and changes in this version might not be completely ready yet and can cause bugs.\nMake sure that you have automatic backups enabled to prevent loss of your library!\n\n$t(settings.webui.flavor.label.info)",
               "title": "Preview"
             }
           },
@@ -860,6 +944,7 @@
       },
       "flavor": {
         "label": {
+          "info": "After changing this setting go to the \"About\" page and check for a webUI update and install it",
           "title": "Flavor"
         },
         "option": {
@@ -867,6 +952,12 @@
             "label": {
               "description": "Use a custom $t(settings.webui.title.webui).\nTo use a custom $t(settings.webui.title.webui) replace the content of the \"webUI\" directory in the root directory on the server with the files of the custom $t(settings.webui.title.webui)",
               "title": "Custom"
+            }
+          },
+          "vui": {
+            "label": {
+              "description": "A preview focused web frontend built with svelte",
+              "title": "VUI"
             }
           },
           "webui": {

@@ -52,7 +52,8 @@ export type BackupRestoreStatus = {
 export type BindTrackInput = {
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
   mangaId: Scalars['Int']['input'];
-  track: TrackSearchTypeInput;
+  remoteId: Scalars['LongString']['input'];
+  trackerId: Scalars['Int']['input'];
 };
 
 export type BindTrackPayload = {
@@ -399,6 +400,19 @@ export type DeleteMangaMetaPayload = {
   meta?: Maybe<MangaMetaType>;
 };
 
+export type DeleteSourceMetaInput = {
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  key: Scalars['String']['input'];
+  sourceId: Scalars['LongString']['input'];
+};
+
+export type DeleteSourceMetaPayload = {
+  __typename?: 'DeleteSourceMetaPayload';
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  meta?: Maybe<SourceMetaType>;
+  source?: Maybe<SourceType>;
+};
+
 export type DequeueChapterDownloadInput = {
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['Int']['input'];
@@ -433,17 +447,6 @@ export type DoubleFilterInput = {
   notDistinctFrom?: InputMaybe<Scalars['Float']['input']>;
   notEqualTo?: InputMaybe<Scalars['Float']['input']>;
   notIn?: InputMaybe<Array<Scalars['Float']['input']>>;
-};
-
-export type DownloadAheadInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  latestReadChapterIds?: InputMaybe<Array<Scalars['Int']['input']>>;
-  mangaIds: Array<Scalars['Int']['input']>;
-};
-
-export type DownloadAheadPayload = {
-  __typename?: 'DownloadAheadPayload';
-  clientMutationId?: Maybe<Scalars['String']['output']>;
 };
 
 export type DownloadEdge = Edge & {
@@ -951,6 +954,7 @@ export type MangaType = {
   sourceId: Scalars['LongString']['output'];
   status: MangaStatus;
   thumbnailUrl?: Maybe<Scalars['String']['output']>;
+  thumbnailUrlLastFetched?: Maybe<Scalars['LongString']['output']>;
   title: Scalars['String']['output'];
   trackRecords: TrackRecordNodeList;
   unreadCount: Scalars['Int']['output'];
@@ -1015,9 +1019,9 @@ export type Mutation = {
   deleteDownloadedChapters: DeleteDownloadedChaptersPayload;
   deleteGlobalMeta: DeleteGlobalMetaPayload;
   deleteMangaMeta: DeleteMangaMetaPayload;
+  deleteSourceMeta: DeleteSourceMetaPayload;
   dequeueChapterDownload: DequeueChapterDownloadPayload;
   dequeueChapterDownloads: DequeueChapterDownloadsPayload;
-  downloadAhead: DownloadAheadPayload;
   enqueueChapterDownload: EnqueueChapterDownloadPayload;
   enqueueChapterDownloads: EnqueueChapterDownloadsPayload;
   fetchChapterPages: FetchChapterPagesPayload;
@@ -1038,6 +1042,7 @@ export type Mutation = {
   setGlobalMeta: SetGlobalMetaPayload;
   setMangaMeta: SetMangaMetaPayload;
   setSettings: SetSettingsPayload;
+  setSourceMeta: SetSourceMetaPayload;
   startDownloader: StartDownloaderPayload;
   stopDownloader: StopDownloaderPayload;
   updateCategories: UpdateCategoriesPayload;
@@ -1120,6 +1125,11 @@ export type MutationDeleteMangaMetaArgs = {
 };
 
 
+export type MutationDeleteSourceMetaArgs = {
+  input: DeleteSourceMetaInput;
+};
+
+
 export type MutationDequeueChapterDownloadArgs = {
   input: DequeueChapterDownloadInput;
 };
@@ -1127,11 +1137,6 @@ export type MutationDequeueChapterDownloadArgs = {
 
 export type MutationDequeueChapterDownloadsArgs = {
   input: DequeueChapterDownloadsInput;
-};
-
-
-export type MutationDownloadAheadArgs = {
-  input: DownloadAheadInput;
 };
 
 
@@ -1230,6 +1235,11 @@ export type MutationSetSettingsArgs = {
 };
 
 
+export type MutationSetSourceMetaArgs = {
+  input: SetSourceMetaInput;
+};
+
+
 export type MutationStartDownloaderArgs = {
   input: StartDownloaderInput;
 };
@@ -1324,7 +1334,7 @@ export type MutationUpdateWebUiArgs = {
   input: WebUiUpdateInput;
 };
 
-export type Node = CategoryMetaType | CategoryType | ChapterMetaType | ChapterType | DownloadType | ExtensionType | GlobalMetaType | MangaMetaType | MangaType | PartialSettingsType | SettingsType | SourceType | TrackRecordType | TrackerType;
+export type Node = CategoryMetaType | CategoryType | ChapterMetaType | ChapterType | DownloadType | ExtensionType | GlobalMetaType | MangaMetaType | MangaType | PartialSettingsType | SettingsType | SourceMetaType | SourceType | TrackRecordType | TrackerType;
 
 export type NodeList = {
   /** A list of edges which contains the [T] and cursor to aid in pagination. */
@@ -1351,8 +1361,10 @@ export type PageInfo = {
 
 export type PartialSettingsType = Settings & {
   __typename?: 'PartialSettingsType';
+  /** @deprecated Replaced with autoDownloadNewChaptersLimit, replace with autoDownloadNewChaptersLimit */
   autoDownloadAheadLimit?: Maybe<Scalars['Int']['output']>;
   autoDownloadNewChapters?: Maybe<Scalars['Boolean']['output']>;
+  autoDownloadNewChaptersLimit?: Maybe<Scalars['Int']['output']>;
   backupInterval?: Maybe<Scalars['Int']['output']>;
   backupPath?: Maybe<Scalars['String']['output']>;
   backupTTL?: Maybe<Scalars['Int']['output']>;
@@ -1369,6 +1381,11 @@ export type PartialSettingsType = Settings & {
   excludeNotStarted?: Maybe<Scalars['Boolean']['output']>;
   excludeUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
   extensionRepos?: Maybe<Array<Scalars['String']['output']>>;
+  flareSolverrEnabled?: Maybe<Scalars['Boolean']['output']>;
+  flareSolverrSessionName?: Maybe<Scalars['String']['output']>;
+  flareSolverrSessionTtl?: Maybe<Scalars['Int']['output']>;
+  flareSolverrTimeout?: Maybe<Scalars['Int']['output']>;
+  flareSolverrUrl?: Maybe<Scalars['String']['output']>;
   globalUpdateInterval?: Maybe<Scalars['Float']['output']>;
   gqlDebugLogsEnabled?: Maybe<Scalars['Boolean']['output']>;
   initialOpenInBrowserEnabled?: Maybe<Scalars['Boolean']['output']>;
@@ -1378,7 +1395,10 @@ export type PartialSettingsType = Settings & {
   port?: Maybe<Scalars['Int']['output']>;
   socksProxyEnabled?: Maybe<Scalars['Boolean']['output']>;
   socksProxyHost?: Maybe<Scalars['String']['output']>;
+  socksProxyPassword?: Maybe<Scalars['String']['output']>;
   socksProxyPort?: Maybe<Scalars['String']['output']>;
+  socksProxyUsername?: Maybe<Scalars['String']['output']>;
+  socksProxyVersion?: Maybe<Scalars['Int']['output']>;
   systemTrayEnabled?: Maybe<Scalars['Boolean']['output']>;
   updateMangas?: Maybe<Scalars['Boolean']['output']>;
   webUIChannel?: Maybe<WebUiChannel>;
@@ -1388,8 +1408,8 @@ export type PartialSettingsType = Settings & {
 };
 
 export type PartialSettingsTypeInput = {
-  autoDownloadAheadLimit?: InputMaybe<Scalars['Int']['input']>;
   autoDownloadNewChapters?: InputMaybe<Scalars['Boolean']['input']>;
+  autoDownloadNewChaptersLimit?: InputMaybe<Scalars['Int']['input']>;
   backupInterval?: InputMaybe<Scalars['Int']['input']>;
   backupPath?: InputMaybe<Scalars['String']['input']>;
   backupTTL?: InputMaybe<Scalars['Int']['input']>;
@@ -1406,6 +1426,11 @@ export type PartialSettingsTypeInput = {
   excludeNotStarted?: InputMaybe<Scalars['Boolean']['input']>;
   excludeUnreadChapters?: InputMaybe<Scalars['Boolean']['input']>;
   extensionRepos?: InputMaybe<Array<Scalars['String']['input']>>;
+  flareSolverrEnabled?: InputMaybe<Scalars['Boolean']['input']>;
+  flareSolverrSessionName?: InputMaybe<Scalars['String']['input']>;
+  flareSolverrSessionTtl?: InputMaybe<Scalars['Int']['input']>;
+  flareSolverrTimeout?: InputMaybe<Scalars['Int']['input']>;
+  flareSolverrUrl?: InputMaybe<Scalars['String']['input']>;
   globalUpdateInterval?: InputMaybe<Scalars['Float']['input']>;
   gqlDebugLogsEnabled?: InputMaybe<Scalars['Boolean']['input']>;
   initialOpenInBrowserEnabled?: InputMaybe<Scalars['Boolean']['input']>;
@@ -1415,7 +1440,10 @@ export type PartialSettingsTypeInput = {
   port?: InputMaybe<Scalars['Int']['input']>;
   socksProxyEnabled?: InputMaybe<Scalars['Boolean']['input']>;
   socksProxyHost?: InputMaybe<Scalars['String']['input']>;
+  socksProxyPassword?: InputMaybe<Scalars['String']['input']>;
   socksProxyPort?: InputMaybe<Scalars['String']['input']>;
+  socksProxyUsername?: InputMaybe<Scalars['String']['input']>;
+  socksProxyVersion?: InputMaybe<Scalars['Int']['input']>;
   systemTrayEnabled?: InputMaybe<Scalars['Boolean']['input']>;
   updateMangas?: InputMaybe<Scalars['Boolean']['input']>;
   webUIChannel?: InputMaybe<WebUiChannel>;
@@ -1727,9 +1755,22 @@ export type SetSettingsPayload = {
   settings: SettingsType;
 };
 
+export type SetSourceMetaInput = {
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  meta: SourceMetaTypeInput;
+};
+
+export type SetSourceMetaPayload = {
+  __typename?: 'SetSourceMetaPayload';
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  meta: SourceMetaType;
+};
+
 export type Settings = {
+  /** @deprecated Replaced with autoDownloadNewChaptersLimit, replace with autoDownloadNewChaptersLimit */
   autoDownloadAheadLimit?: Maybe<Scalars['Int']['output']>;
   autoDownloadNewChapters?: Maybe<Scalars['Boolean']['output']>;
+  autoDownloadNewChaptersLimit?: Maybe<Scalars['Int']['output']>;
   backupInterval?: Maybe<Scalars['Int']['output']>;
   backupPath?: Maybe<Scalars['String']['output']>;
   backupTTL?: Maybe<Scalars['Int']['output']>;
@@ -1746,6 +1787,11 @@ export type Settings = {
   excludeNotStarted?: Maybe<Scalars['Boolean']['output']>;
   excludeUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
   extensionRepos?: Maybe<Array<Scalars['String']['output']>>;
+  flareSolverrEnabled?: Maybe<Scalars['Boolean']['output']>;
+  flareSolverrSessionName?: Maybe<Scalars['String']['output']>;
+  flareSolverrSessionTtl?: Maybe<Scalars['Int']['output']>;
+  flareSolverrTimeout?: Maybe<Scalars['Int']['output']>;
+  flareSolverrUrl?: Maybe<Scalars['String']['output']>;
   globalUpdateInterval?: Maybe<Scalars['Float']['output']>;
   gqlDebugLogsEnabled?: Maybe<Scalars['Boolean']['output']>;
   initialOpenInBrowserEnabled?: Maybe<Scalars['Boolean']['output']>;
@@ -1755,7 +1801,10 @@ export type Settings = {
   port?: Maybe<Scalars['Int']['output']>;
   socksProxyEnabled?: Maybe<Scalars['Boolean']['output']>;
   socksProxyHost?: Maybe<Scalars['String']['output']>;
+  socksProxyPassword?: Maybe<Scalars['String']['output']>;
   socksProxyPort?: Maybe<Scalars['String']['output']>;
+  socksProxyUsername?: Maybe<Scalars['String']['output']>;
+  socksProxyVersion?: Maybe<Scalars['Int']['output']>;
   systemTrayEnabled?: Maybe<Scalars['Boolean']['output']>;
   updateMangas?: Maybe<Scalars['Boolean']['output']>;
   webUIChannel?: Maybe<WebUiChannel>;
@@ -1766,8 +1815,10 @@ export type Settings = {
 
 export type SettingsType = Settings & {
   __typename?: 'SettingsType';
+  /** @deprecated Replaced with autoDownloadNewChaptersLimit, replace with autoDownloadNewChaptersLimit */
   autoDownloadAheadLimit: Scalars['Int']['output'];
   autoDownloadNewChapters: Scalars['Boolean']['output'];
+  autoDownloadNewChaptersLimit: Scalars['Int']['output'];
   backupInterval: Scalars['Int']['output'];
   backupPath: Scalars['String']['output'];
   backupTTL: Scalars['Int']['output'];
@@ -1784,6 +1835,11 @@ export type SettingsType = Settings & {
   excludeNotStarted: Scalars['Boolean']['output'];
   excludeUnreadChapters: Scalars['Boolean']['output'];
   extensionRepos: Array<Scalars['String']['output']>;
+  flareSolverrEnabled: Scalars['Boolean']['output'];
+  flareSolverrSessionName: Scalars['String']['output'];
+  flareSolverrSessionTtl: Scalars['Int']['output'];
+  flareSolverrTimeout: Scalars['Int']['output'];
+  flareSolverrUrl: Scalars['String']['output'];
   globalUpdateInterval: Scalars['Float']['output'];
   gqlDebugLogsEnabled: Scalars['Boolean']['output'];
   initialOpenInBrowserEnabled: Scalars['Boolean']['output'];
@@ -1793,7 +1849,10 @@ export type SettingsType = Settings & {
   port: Scalars['Int']['output'];
   socksProxyEnabled: Scalars['Boolean']['output'];
   socksProxyHost: Scalars['String']['output'];
+  socksProxyPassword: Scalars['String']['output'];
   socksProxyPort: Scalars['String']['output'];
+  socksProxyUsername: Scalars['String']['output'];
+  socksProxyVersion: Scalars['Int']['output'];
   systemTrayEnabled: Scalars['Boolean']['output'];
   updateMangas: Scalars['Boolean']['output'];
   webUIChannel: WebUiChannel;
@@ -1852,6 +1911,20 @@ export type SourceFilterInput = {
   or?: InputMaybe<Array<SourceFilterInput>>;
 };
 
+export type SourceMetaType = MetaType & {
+  __typename?: 'SourceMetaType';
+  key: Scalars['String']['output'];
+  source: SourceType;
+  sourceId: Scalars['LongString']['output'];
+  value: Scalars['String']['output'];
+};
+
+export type SourceMetaTypeInput = {
+  key: Scalars['String']['input'];
+  sourceId: Scalars['LongString']['input'];
+  value: Scalars['String']['input'];
+};
+
 export type SourceNodeList = NodeList & {
   __typename?: 'SourceNodeList';
   edges: Array<SourceEdge>;
@@ -1886,6 +1959,7 @@ export type SourceType = {
   isNsfw: Scalars['Boolean']['output'];
   lang: Scalars['String']['output'];
   manga: MangaNodeList;
+  meta: Array<SourceMetaType>;
   name: Scalars['String']['output'];
   preferences: Array<Preference>;
   supportsLatest: Scalars['Boolean']['output'];
@@ -1983,9 +2057,9 @@ export type TrackRecordConditionInput = {
   score?: InputMaybe<Scalars['Float']['input']>;
   startDate?: InputMaybe<Scalars['LongString']['input']>;
   status?: InputMaybe<Scalars['Int']['input']>;
-  syncId?: InputMaybe<Scalars['Int']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
   totalChapters?: InputMaybe<Scalars['Int']['input']>;
+  trackerId?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type TrackRecordEdge = Edge & {
@@ -2008,9 +2082,9 @@ export type TrackRecordFilterInput = {
   score?: InputMaybe<DoubleFilterInput>;
   startDate?: InputMaybe<LongFilterInput>;
   status?: InputMaybe<IntFilterInput>;
-  syncId?: InputMaybe<IntFilterInput>;
   title?: InputMaybe<StringFilterInput>;
   totalChapters?: InputMaybe<IntFilterInput>;
+  trackerId?: InputMaybe<IntFilterInput>;
 };
 
 export type TrackRecordNodeList = NodeList & {
@@ -2029,9 +2103,9 @@ export enum TrackRecordOrderBy {
   RemoteId = 'REMOTE_ID',
   Score = 'SCORE',
   StartDate = 'START_DATE',
-  SyncId = 'SYNC_ID',
   Title = 'TITLE',
-  TotalChapters = 'TOTAL_CHAPTERS'
+  TotalChapters = 'TOTAL_CHAPTERS',
+  TrackerId = 'TRACKER_ID'
 }
 
 export type TrackRecordType = {
@@ -2048,38 +2122,32 @@ export type TrackRecordType = {
   score: Scalars['Float']['output'];
   startDate: Scalars['LongString']['output'];
   status: Scalars['Int']['output'];
-  syncId: Scalars['Int']['output'];
   title: Scalars['String']['output'];
   totalChapters: Scalars['Int']['output'];
   tracker: TrackerType;
+  trackerId: Scalars['Int']['output'];
 };
 
 export type TrackSearchType = {
   __typename?: 'TrackSearchType';
   coverUrl: Scalars['String']['output'];
-  mediaId: Scalars['LongString']['output'];
+  id: Scalars['Int']['output'];
   publishingStatus: Scalars['String']['output'];
   publishingType: Scalars['String']['output'];
+  remoteId: Scalars['LongString']['output'];
   startDate: Scalars['String']['output'];
   summary: Scalars['String']['output'];
-  syncId: Scalars['Int']['output'];
   title: Scalars['String']['output'];
   totalChapters: Scalars['Int']['output'];
   tracker: TrackerType;
+  trackerId: Scalars['Int']['output'];
   trackingUrl: Scalars['String']['output'];
 };
 
-export type TrackSearchTypeInput = {
-  coverUrl: Scalars['String']['input'];
-  mediaId: Scalars['LongString']['input'];
-  publishingStatus: Scalars['String']['input'];
-  publishingType: Scalars['String']['input'];
-  startDate: Scalars['String']['input'];
-  summary: Scalars['String']['input'];
-  syncId: Scalars['Int']['input'];
-  title: Scalars['String']['input'];
-  totalChapters: Scalars['Int']['input'];
-  trackingUrl: Scalars['String']['input'];
+export type TrackStatusType = {
+  __typename?: 'TrackStatusType';
+  name: Scalars['String']['output'];
+  value: Scalars['Int']['output'];
 };
 
 export type TrackerConditionInput = {
@@ -2115,7 +2183,10 @@ export type TrackerType = {
   icon: Scalars['String']['output'];
   id: Scalars['Int']['output'];
   isLoggedIn: Scalars['Boolean']['output'];
+  isTokenExpired: Scalars['Boolean']['output'];
   name: Scalars['String']['output'];
+  scores: Array<Scalars['String']['output']>;
+  statuses: Array<TrackStatusType>;
   trackRecords: TrackRecordNodeList;
 };
 
@@ -2409,6 +2480,7 @@ export enum WebUiChannel {
 
 export enum WebUiFlavor {
   Custom = 'CUSTOM',
+  Vui = 'VUI',
   Webui = 'WEBUI'
 }
 
@@ -2459,13 +2531,13 @@ export type PartialSourceFieldsFragment = { __typename?: 'SourceType', displayNa
 
 export type FullSourceFieldsFragment = { __typename?: 'SourceType', displayName: string, iconUrl: string, id: any, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, preferences: Array<{ __typename?: 'CheckBoxPreference', summary?: string | null, key: string, type: 'CheckBoxPreference', CheckBoxCheckBoxCurrentValue?: boolean | null, CheckBoxDefault: boolean, CheckBoxTitle: string } | { __typename?: 'EditTextPreference', text?: string | null, summary?: string | null, key: string, dialogTitle?: string | null, dialogMessage?: string | null, type: 'EditTextPreference', EditTextPreferenceCurrentValue?: string | null, EditTextPreferenceDefault?: string | null, EditTextPreferenceTitle?: string | null } | { __typename?: 'ListPreference', summary?: string | null, key: string, entryValues: Array<string>, entries: Array<string>, type: 'ListPreference', ListPreferenceCurrentValue?: string | null, ListPreferenceDefault?: string | null, ListPreferenceTitle?: string | null } | { __typename?: 'MultiSelectListPreference', dialogMessage?: string | null, dialogTitle?: string | null, summary?: string | null, key: string, entryValues: Array<string>, entries: Array<string>, type: 'MultiSelectListPreference', MultiSelectListPreferenceTitle?: string | null, MultiSelectListPreferenceDefault?: Array<string> | null, MultiSelectListPreferenceCurrentValue?: Array<string> | null } | { __typename?: 'SwitchPreference', summary?: string | null, key: string, type: 'SwitchPreference', SwitchPreferenceCurrentValue?: boolean | null, SwitchPreferenceDefault: boolean, SwitchPreferenceTitle: string }>, filters: Array<{ __typename?: 'CheckBoxFilter', name: string, type: 'CheckBoxFilter', CheckBoxFilterDefault: boolean } | { __typename?: 'GroupFilter', name: string, type: 'GroupFilter', filters: Array<{ __typename?: 'CheckBoxFilter', name: string, type: 'CheckBoxFilter', CheckBoxFilterDefault: boolean } | { __typename?: 'GroupFilter' } | { __typename?: 'HeaderFilter', name: string, type: 'HeaderFilter' } | { __typename?: 'SelectFilter', name: string, values: Array<string>, type: 'SelectFilter', SelectFilterDefault: number } | { __typename?: 'SeparatorFilter', name: string, type: 'SeparatorFilter' } | { __typename?: 'SortFilter', name: string, values: Array<string>, type: 'SortFilter', SortFilterDefault?: { __typename?: 'SortSelection', ascending: boolean, index: number } | null } | { __typename?: 'TextFilter', name: string, type: 'TextFilter', TextFilterDefault: string } | { __typename?: 'TriStateFilter', name: string, type: 'TriStateFilter', TriStateFilterDefault: TriState }> } | { __typename?: 'HeaderFilter', name: string, type: 'HeaderFilter' } | { __typename?: 'SelectFilter', name: string, values: Array<string>, type: 'SelectFilter', SelectFilterDefault: number } | { __typename?: 'SeparatorFilter', name: string, type: 'SeparatorFilter' } | { __typename?: 'SortFilter', name: string, values: Array<string>, type: 'SortFilter', SortFilterDefault?: { __typename?: 'SortSelection', ascending: boolean, index: number } | null } | { __typename?: 'TextFilter', name: string, type: 'TextFilter', TextFilterDefault: string } | { __typename?: 'TriStateFilter', name: string, type: 'TriStateFilter', TriStateFilterDefault: TriState }>, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } };
 
-export type BaseMangaFieldsFragment = { __typename?: 'MangaType', artist?: string | null, author?: string | null, chaptersLastFetchedAt?: any | null, description?: string | null, genre: Array<string>, id: number, inLibrary: boolean, inLibraryAt: any, initialized: boolean, lastFetchedAt?: any | null, realUrl?: string | null, status: MangaStatus, thumbnailUrl?: string | null, title: string, url: string, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, source?: { __typename?: 'SourceType', displayName: string, iconUrl: string, id: any, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } } | null };
+export type BaseMangaFieldsFragment = { __typename?: 'MangaType', artist?: string | null, author?: string | null, chaptersLastFetchedAt?: any | null, description?: string | null, genre: Array<string>, id: number, inLibrary: boolean, inLibraryAt: any, initialized: boolean, lastFetchedAt?: any | null, realUrl?: string | null, status: MangaStatus, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: any | null, title: string, url: string, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, source?: { __typename?: 'SourceType', displayName: string, iconUrl: string, id: any, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } } | null };
 
-export type PartialMangaFieldsFragment = { __typename?: 'MangaType', unreadCount: number, downloadCount: number, artist?: string | null, author?: string | null, chaptersLastFetchedAt?: any | null, description?: string | null, genre: Array<string>, id: number, inLibrary: boolean, inLibraryAt: any, initialized: boolean, lastFetchedAt?: any | null, realUrl?: string | null, status: MangaStatus, thumbnailUrl?: string | null, title: string, url: string, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', default: boolean, id: number, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude, name: string, order: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }>, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> }, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, source?: { __typename?: 'SourceType', displayName: string, iconUrl: string, id: any, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } } | null };
+export type PartialMangaFieldsFragment = { __typename?: 'MangaType', unreadCount: number, downloadCount: number, artist?: string | null, author?: string | null, chaptersLastFetchedAt?: any | null, description?: string | null, genre: Array<string>, id: number, inLibrary: boolean, inLibraryAt: any, initialized: boolean, lastFetchedAt?: any | null, realUrl?: string | null, status: MangaStatus, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: any | null, title: string, url: string, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', default: boolean, id: number, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude, name: string, order: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }>, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> }, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, source?: { __typename?: 'SourceType', displayName: string, iconUrl: string, id: any, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } } | null };
 
-export type FullChapterFieldsFragment = { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> };
+export type FullChapterFieldsFragment = { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: any | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> };
 
-export type FullMangaFieldsFragment = { __typename?: 'MangaType', unreadCount: number, downloadCount: number, artist?: string | null, author?: string | null, chaptersLastFetchedAt?: any | null, description?: string | null, genre: Array<string>, id: number, inLibrary: boolean, inLibraryAt: any, initialized: boolean, lastFetchedAt?: any | null, realUrl?: string | null, status: MangaStatus, thumbnailUrl?: string | null, title: string, url: string, lastReadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestReadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestFetchedChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestUploadedChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', default: boolean, id: number, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude, name: string, order: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }>, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> }, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, source?: { __typename?: 'SourceType', displayName: string, iconUrl: string, id: any, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } } | null };
+export type FullMangaFieldsFragment = { __typename?: 'MangaType', unreadCount: number, downloadCount: number, artist?: string | null, author?: string | null, chaptersLastFetchedAt?: any | null, description?: string | null, genre: Array<string>, id: number, inLibrary: boolean, inLibraryAt: any, initialized: boolean, lastFetchedAt?: any | null, realUrl?: string | null, status: MangaStatus, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: any | null, title: string, url: string, lastReadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: any | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestReadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: any | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestFetchedChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: any | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestUploadedChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: any | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', default: boolean, id: number, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude, name: string, order: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }>, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> }, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, source?: { __typename?: 'SourceType', displayName: string, iconUrl: string, id: any, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } } | null };
 
 export type UpdaterMangaFieldsFragment = { __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null };
 
@@ -2475,7 +2547,7 @@ export type FullDownloadStatusFragment = { __typename?: 'DownloadStatus', state:
 
 export type PartialUpdaterStatusFragment = { __typename?: 'UpdateStatus', isRunning: boolean };
 
-export type FullUpdaterStatusFragment = { __typename?: 'UpdateStatus', isRunning: boolean, completeJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', unreadCount: number, downloadCount: number, artist?: string | null, author?: string | null, chaptersLastFetchedAt?: any | null, description?: string | null, genre: Array<string>, id: number, inLibrary: boolean, inLibraryAt: any, initialized: boolean, lastFetchedAt?: any | null, realUrl?: string | null, status: MangaStatus, thumbnailUrl?: string | null, title: string, url: string, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, source?: { __typename?: 'SourceType', displayName: string, iconUrl: string, id: any, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } } | null }> } }, failedJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, pendingJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, runningJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, skippedJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, updatingCategories: { __typename?: 'UpdateStatusCategoryType', categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, name: string, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude }> } }, skippedCategories: { __typename?: 'UpdateStatusCategoryType', categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, name: string, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude }> } } };
+export type FullUpdaterStatusFragment = { __typename?: 'UpdateStatus', isRunning: boolean, completeJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', unreadCount: number, downloadCount: number, artist?: string | null, author?: string | null, chaptersLastFetchedAt?: any | null, description?: string | null, genre: Array<string>, id: number, inLibrary: boolean, inLibraryAt: any, initialized: boolean, lastFetchedAt?: any | null, realUrl?: string | null, status: MangaStatus, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: any | null, title: string, url: string, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, source?: { __typename?: 'SourceType', displayName: string, iconUrl: string, id: any, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } } | null }> } }, failedJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, pendingJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, runningJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, skippedJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, updatingCategories: { __typename?: 'UpdateStatusCategoryType', categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, name: string, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude }> } }, skippedCategories: { __typename?: 'UpdateStatusCategoryType', categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, name: string, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude }> } } };
 
 export type AboutWebuiFragment = { __typename?: 'AboutWebUI', channel: string, tag: string };
 
@@ -2485,7 +2557,7 @@ export type WebuiUpdateInfoFragment = { __typename?: 'WebUIUpdateInfo', channel:
 
 export type WebuiUpdateStatusFragment = { __typename?: 'WebUIUpdateStatus', progress: number, state: UpdateState, info: { __typename?: 'WebUIUpdateInfo', channel: string, tag: string } };
 
-export type ServerSettingsFragment = { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyHost: string, socksProxyPort: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadAheadLimit: number, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, basicAuthEnabled: boolean, basicAuthUsername: string, basicAuthPassword: string, debugLogsEnabled: boolean, gqlDebugLogsEnabled: boolean, systemTrayEnabled: boolean, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string };
+export type ServerSettingsFragment = { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyVersion: number, socksProxyHost: string, socksProxyPort: string, socksProxyUsername: string, socksProxyPassword: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadNewChaptersLimit: number, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, basicAuthEnabled: boolean, basicAuthUsername: string, basicAuthPassword: string, debugLogsEnabled: boolean, gqlDebugLogsEnabled: boolean, systemTrayEnabled: boolean, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string, flareSolverrEnabled: boolean, flareSolverrUrl: string, flareSolverrTimeout: number, flareSolverrSessionName: string, flareSolverrSessionTtl: number };
 
 export type CreateBackupMutationVariables = Exact<{
   input: CreateBackupInput;
@@ -2577,7 +2649,7 @@ export type GetMangaChaptersFetchMutationVariables = Exact<{
 }>;
 
 
-export type GetMangaChaptersFetchMutation = { __typename?: 'Mutation', fetchChapters: { __typename?: 'FetchChaptersPayload', clientMutationId?: string | null, chapters: Array<{ __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> }> } };
+export type GetMangaChaptersFetchMutation = { __typename?: 'Mutation', fetchChapters: { __typename?: 'FetchChaptersPayload', clientMutationId?: string | null, chapters: Array<{ __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: any | null, chapters: { __typename?: 'ChapterNodeList', totalCount: number } }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> }> } };
 
 export type SetChapterMetadataMutationVariables = Exact<{
   input: SetChapterMetaInput;
@@ -2591,15 +2663,12 @@ export type UpdateChapterMutationVariables = Exact<{
   getBookmarked: Scalars['Boolean']['input'];
   getRead: Scalars['Boolean']['input'];
   getLastPageRead: Scalars['Boolean']['input'];
-  id: Scalars['Int']['input'];
   chapterIdToDelete: Scalars['Int']['input'];
   deleteChapter: Scalars['Boolean']['input'];
-  mangaId: Scalars['Int']['input'];
-  downloadAhead: Scalars['Boolean']['input'];
 }>;
 
 
-export type UpdateChapterMutation = { __typename?: 'Mutation', updateChapter: { __typename?: 'UpdateChapterPayload', clientMutationId?: string | null, chapter: { __typename?: 'ChapterType', id: number, isBookmarked?: boolean, isRead?: boolean, lastReadAt?: any, lastPageRead?: number, manga?: { __typename?: 'MangaType', id: number, unreadCount: number, lastReadChapter?: { __typename?: 'ChapterType', id: number } | null, latestReadChapter?: { __typename?: 'ChapterType', id: number } | null } } }, deleteDownloadedChapter?: { __typename?: 'DeleteDownloadedChapterPayload', clientMutationId?: string | null, chapters: { __typename?: 'ChapterType', id: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, downloadCount: number } } }, downloadAhead?: { __typename?: 'DownloadAheadPayload', clientMutationId?: string | null } };
+export type UpdateChapterMutation = { __typename?: 'Mutation', updateChapter: { __typename?: 'UpdateChapterPayload', clientMutationId?: string | null, chapter: { __typename?: 'ChapterType', id: number, isBookmarked?: boolean, isRead?: boolean, lastReadAt?: any, lastPageRead?: number, manga?: { __typename?: 'MangaType', id: number, unreadCount: number, lastReadChapter?: { __typename?: 'ChapterType', id: number } | null, latestReadChapter?: { __typename?: 'ChapterType', id: number } | null } } }, deleteDownloadedChapter?: { __typename?: 'DeleteDownloadedChapterPayload', clientMutationId?: string | null, chapters: { __typename?: 'ChapterType', id: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, downloadCount: number } } } };
 
 export type UpdateChaptersMutationVariables = Exact<{
   input: UpdateChaptersInput;
@@ -2608,13 +2677,10 @@ export type UpdateChaptersMutationVariables = Exact<{
   getLastPageRead: Scalars['Boolean']['input'];
   chapterIdsToDelete: Array<Scalars['Int']['input']> | Scalars['Int']['input'];
   deleteChapters: Scalars['Boolean']['input'];
-  mangaIds: Array<Scalars['Int']['input']> | Scalars['Int']['input'];
-  latestReadChapterIds: Array<Scalars['Int']['input']> | Scalars['Int']['input'];
-  downloadAhead: Scalars['Boolean']['input'];
 }>;
 
 
-export type UpdateChaptersMutation = { __typename?: 'Mutation', updateChapters: { __typename?: 'UpdateChaptersPayload', clientMutationId?: string | null, chapters: Array<{ __typename?: 'ChapterType', id: number, isBookmarked?: boolean, isRead?: boolean, lastReadAt?: any, lastPageRead?: number, manga?: { __typename?: 'MangaType', id: number, unreadCount: number, lastReadChapter?: { __typename?: 'ChapterType', id: number } | null, latestReadChapter?: { __typename?: 'ChapterType', id: number } | null } }> }, deleteDownloadedChapters?: { __typename?: 'DeleteDownloadedChaptersPayload', clientMutationId?: string | null, chapters: Array<{ __typename?: 'ChapterType', id: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, downloadCount: number } }> }, downloadAhead?: { __typename?: 'DownloadAheadPayload', clientMutationId?: string | null } };
+export type UpdateChaptersMutation = { __typename?: 'Mutation', updateChapters: { __typename?: 'UpdateChaptersPayload', clientMutationId?: string | null, chapters: Array<{ __typename?: 'ChapterType', id: number, isBookmarked?: boolean, isRead?: boolean, lastReadAt?: any, lastPageRead?: number, manga?: { __typename?: 'MangaType', id: number, unreadCount: number, lastReadChapter?: { __typename?: 'ChapterType', id: number } | null, latestReadChapter?: { __typename?: 'ChapterType', id: number } | null } }> }, deleteDownloadedChapters?: { __typename?: 'DeleteDownloadedChaptersPayload', clientMutationId?: string | null, chapters: Array<{ __typename?: 'ChapterType', id: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, downloadCount: number } }> } };
 
 export type ClearDownloaderMutationVariables = Exact<{
   input?: InputMaybe<ClearDownloaderInput>;
@@ -2686,13 +2752,6 @@ export type StopDownloaderMutationVariables = Exact<{
 
 export type StopDownloaderMutation = { __typename?: 'Mutation', stopDownloader: { __typename?: 'StopDownloaderPayload', clientMutationId?: string | null, downloadStatus: { __typename?: 'DownloadStatus', state: DownloaderState } } };
 
-export type DownloadAheadMutationVariables = Exact<{
-  input: DownloadAheadInput;
-}>;
-
-
-export type DownloadAheadMutation = { __typename?: 'Mutation', downloadAhead: { __typename?: 'DownloadAheadPayload', clientMutationId?: string | null } };
-
 export type GetExtensionsFetchMutationVariables = Exact<{
   input?: InputMaybe<FetchExtensionsInput>;
 }>;
@@ -2754,7 +2813,16 @@ export type GetMangaFetchMutationVariables = Exact<{
 }>;
 
 
-export type GetMangaFetchMutation = { __typename?: 'Mutation', fetchManga: { __typename?: 'FetchMangaPayload', clientMutationId?: string | null, manga: { __typename?: 'MangaType', unreadCount: number, downloadCount: number, artist?: string | null, author?: string | null, chaptersLastFetchedAt?: any | null, description?: string | null, genre: Array<string>, id: number, inLibrary: boolean, inLibraryAt: any, initialized: boolean, lastFetchedAt?: any | null, realUrl?: string | null, status: MangaStatus, thumbnailUrl?: string | null, title: string, url: string, lastReadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestReadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestFetchedChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestUploadedChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', default: boolean, id: number, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude, name: string, order: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }>, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> }, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, source?: { __typename?: 'SourceType', displayName: string, iconUrl: string, id: any, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } } | null } } };
+export type GetMangaFetchMutation = { __typename?: 'Mutation', fetchManga: { __typename?: 'FetchMangaPayload', clientMutationId?: string | null, manga: { __typename?: 'MangaType', unreadCount: number, downloadCount: number, artist?: string | null, author?: string | null, chaptersLastFetchedAt?: any | null, description?: string | null, genre: Array<string>, id: number, inLibrary: boolean, inLibraryAt: any, initialized: boolean, lastFetchedAt?: any | null, realUrl?: string | null, status: MangaStatus, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: any | null, title: string, url: string, lastReadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: any | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestReadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: any | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestFetchedChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: any | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestUploadedChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: any | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', default: boolean, id: number, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude, name: string, order: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }>, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> }, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, source?: { __typename?: 'SourceType', displayName: string, iconUrl: string, id: any, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } } | null } } };
+
+export type GetMangaToMigrateToFetchMutationVariables = Exact<{
+  id: Scalars['Int']['input'];
+  migrateChapters: Scalars['Boolean']['input'];
+  migrateCategories: Scalars['Boolean']['input'];
+}>;
+
+
+export type GetMangaToMigrateToFetchMutation = { __typename?: 'Mutation', fetchManga: { __typename?: 'FetchMangaPayload', clientMutationId?: string | null, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, categories?: { __typename?: 'CategoryNodeList', nodes: Array<{ __typename?: 'CategoryType', id: number }> } } }, fetchChapters?: { __typename?: 'FetchChaptersPayload', chapters: Array<{ __typename?: 'ChapterType', id: number, chapterNumber: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean, manga: { __typename?: 'MangaType', id: number } }> } };
 
 export type SetMangaMetadataMutationVariables = Exact<{
   input: SetMangaMetaInput;
@@ -2808,21 +2876,21 @@ export type ResetServerSettingsMutationVariables = Exact<{
 }>;
 
 
-export type ResetServerSettingsMutation = { __typename?: 'Mutation', resetSettings: { __typename?: 'ResetSettingsPayload', clientMutationId?: string | null, settings: { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyHost: string, socksProxyPort: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadAheadLimit: number, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, basicAuthEnabled: boolean, basicAuthUsername: string, basicAuthPassword: string, debugLogsEnabled: boolean, gqlDebugLogsEnabled: boolean, systemTrayEnabled: boolean, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string } } };
+export type ResetServerSettingsMutation = { __typename?: 'Mutation', resetSettings: { __typename?: 'ResetSettingsPayload', clientMutationId?: string | null, settings: { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyVersion: number, socksProxyHost: string, socksProxyPort: string, socksProxyUsername: string, socksProxyPassword: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadNewChaptersLimit: number, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, basicAuthEnabled: boolean, basicAuthUsername: string, basicAuthPassword: string, debugLogsEnabled: boolean, gqlDebugLogsEnabled: boolean, systemTrayEnabled: boolean, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string, flareSolverrEnabled: boolean, flareSolverrUrl: string, flareSolverrTimeout: number, flareSolverrSessionName: string, flareSolverrSessionTtl: number } } };
 
 export type UpdateServerSettingsMutationVariables = Exact<{
   input: SetSettingsInput;
 }>;
 
 
-export type UpdateServerSettingsMutation = { __typename?: 'Mutation', setSettings: { __typename?: 'SetSettingsPayload', clientMutationId?: string | null, settings: { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyHost: string, socksProxyPort: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadAheadLimit: number, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, basicAuthEnabled: boolean, basicAuthUsername: string, basicAuthPassword: string, debugLogsEnabled: boolean, gqlDebugLogsEnabled: boolean, systemTrayEnabled: boolean, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string } } };
+export type UpdateServerSettingsMutation = { __typename?: 'Mutation', setSettings: { __typename?: 'SetSettingsPayload', clientMutationId?: string | null, settings: { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyVersion: number, socksProxyHost: string, socksProxyPort: string, socksProxyUsername: string, socksProxyPassword: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadNewChaptersLimit: number, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, basicAuthEnabled: boolean, basicAuthUsername: string, basicAuthPassword: string, debugLogsEnabled: boolean, gqlDebugLogsEnabled: boolean, systemTrayEnabled: boolean, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string, flareSolverrEnabled: boolean, flareSolverrUrl: string, flareSolverrTimeout: number, flareSolverrSessionName: string, flareSolverrSessionTtl: number } } };
 
 export type GetSourceMangasFetchMutationVariables = Exact<{
   input: FetchSourceMangaInput;
 }>;
 
 
-export type GetSourceMangasFetchMutation = { __typename?: 'Mutation', fetchSourceManga: { __typename?: 'FetchSourceMangaPayload', clientMutationId?: string | null, hasNextPage: boolean, mangas: Array<{ __typename?: 'MangaType', artist?: string | null, author?: string | null, chaptersLastFetchedAt?: any | null, description?: string | null, genre: Array<string>, id: number, inLibrary: boolean, inLibraryAt: any, initialized: boolean, lastFetchedAt?: any | null, realUrl?: string | null, status: MangaStatus, thumbnailUrl?: string | null, title: string, url: string, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, source?: { __typename?: 'SourceType', displayName: string, iconUrl: string, id: any, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } } | null }> } };
+export type GetSourceMangasFetchMutation = { __typename?: 'Mutation', fetchSourceManga: { __typename?: 'FetchSourceMangaPayload', clientMutationId?: string | null, hasNextPage: boolean, mangas: Array<{ __typename?: 'MangaType', artist?: string | null, author?: string | null, chaptersLastFetchedAt?: any | null, description?: string | null, genre: Array<string>, id: number, inLibrary: boolean, inLibraryAt: any, initialized: boolean, lastFetchedAt?: any | null, realUrl?: string | null, status: MangaStatus, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: any | null, title: string, url: string, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, source?: { __typename?: 'SourceType', displayName: string, iconUrl: string, id: any, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } } | null }> } };
 
 export type UpdateSourcePreferencesMutationVariables = Exact<{
   input: UpdateSourcePreferenceInput;
@@ -2893,14 +2961,14 @@ export type GetCategoryMangasQueryVariables = Exact<{
 }>;
 
 
-export type GetCategoryMangasQuery = { __typename?: 'Query', category: { __typename?: 'CategoryType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', unreadCount: number, downloadCount: number, artist?: string | null, author?: string | null, chaptersLastFetchedAt?: any | null, description?: string | null, genre: Array<string>, id: number, inLibrary: boolean, inLibraryAt: any, initialized: boolean, lastFetchedAt?: any | null, realUrl?: string | null, status: MangaStatus, thumbnailUrl?: string | null, title: string, url: string, lastReadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestReadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestFetchedChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestUploadedChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', default: boolean, id: number, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude, name: string, order: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }>, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> }, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, source?: { __typename?: 'SourceType', displayName: string, iconUrl: string, id: any, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } } | null }>, pageInfo: { __typename?: 'PageInfo', endCursor?: any | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: any | null } } } };
+export type GetCategoryMangasQuery = { __typename?: 'Query', category: { __typename?: 'CategoryType', id: number, mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', unreadCount: number, downloadCount: number, artist?: string | null, author?: string | null, chaptersLastFetchedAt?: any | null, description?: string | null, genre: Array<string>, id: number, inLibrary: boolean, inLibraryAt: any, initialized: boolean, lastFetchedAt?: any | null, realUrl?: string | null, status: MangaStatus, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: any | null, title: string, url: string, lastReadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: any | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestReadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: any | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestFetchedChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: any | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestUploadedChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: any | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', default: boolean, id: number, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude, name: string, order: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }>, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> }, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, source?: { __typename?: 'SourceType', displayName: string, iconUrl: string, id: any, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } } | null }>, pageInfo: { __typename?: 'PageInfo', endCursor?: any | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: any | null } } } };
 
 export type GetChapterQueryVariables = Exact<{
   id: Scalars['Int']['input'];
 }>;
 
 
-export type GetChapterQuery = { __typename?: 'Query', chapter: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } };
+export type GetChapterQuery = { __typename?: 'Query', chapter: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: any | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } };
 
 export type GetChaptersQueryVariables = Exact<{
   after?: InputMaybe<Scalars['Cursor']['input']>;
@@ -2915,7 +2983,7 @@ export type GetChaptersQueryVariables = Exact<{
 }>;
 
 
-export type GetChaptersQuery = { __typename?: 'Query', chapters: { __typename?: 'ChapterNodeList', totalCount: number, nodes: Array<{ __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> }>, pageInfo: { __typename?: 'PageInfo', endCursor?: any | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: any | null } } };
+export type GetChaptersQuery = { __typename?: 'Query', chapters: { __typename?: 'ChapterNodeList', totalCount: number, nodes: Array<{ __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: any | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> }>, pageInfo: { __typename?: 'PageInfo', endCursor?: any | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: any | null } } };
 
 export type GetMangasChapterIdsWithStateQueryVariables = Exact<{
   mangaIds: Array<Scalars['Int']['input']> | Scalars['Int']['input'];
@@ -2981,7 +3049,16 @@ export type GetMangaQueryVariables = Exact<{
 }>;
 
 
-export type GetMangaQuery = { __typename?: 'Query', manga: { __typename?: 'MangaType', unreadCount: number, downloadCount: number, artist?: string | null, author?: string | null, chaptersLastFetchedAt?: any | null, description?: string | null, genre: Array<string>, id: number, inLibrary: boolean, inLibraryAt: any, initialized: boolean, lastFetchedAt?: any | null, realUrl?: string | null, status: MangaStatus, thumbnailUrl?: string | null, title: string, url: string, lastReadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestReadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestFetchedChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestUploadedChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', default: boolean, id: number, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude, name: string, order: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }>, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> }, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, source?: { __typename?: 'SourceType', displayName: string, iconUrl: string, id: any, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } } | null } };
+export type GetMangaQuery = { __typename?: 'Query', manga: { __typename?: 'MangaType', unreadCount: number, downloadCount: number, artist?: string | null, author?: string | null, chaptersLastFetchedAt?: any | null, description?: string | null, genre: Array<string>, id: number, inLibrary: boolean, inLibraryAt: any, initialized: boolean, lastFetchedAt?: any | null, realUrl?: string | null, status: MangaStatus, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: any | null, title: string, url: string, lastReadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: any | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestReadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: any | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestFetchedChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: any | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestUploadedChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: any | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', default: boolean, id: number, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude, name: string, order: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }>, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> }, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, source?: { __typename?: 'SourceType', displayName: string, iconUrl: string, id: any, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } } | null } };
+
+export type GetMangaToMigrateQueryVariables = Exact<{
+  id: Scalars['Int']['input'];
+  migrateChapters: Scalars['Boolean']['input'];
+  migrateCategories: Scalars['Boolean']['input'];
+}>;
+
+
+export type GetMangaToMigrateQuery = { __typename?: 'Query', manga: { __typename?: 'MangaType', id: number, inLibrary: boolean, title: string, chapters?: { __typename?: 'ChapterNodeList', totalCount: number, nodes: Array<{ __typename?: 'ChapterType', id: number, chapterNumber: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean, manga: { __typename?: 'MangaType', id: number } }> }, categories?: { __typename?: 'CategoryNodeList', nodes: Array<{ __typename?: 'CategoryType', id: number }> } } };
 
 export type GetMangasQueryVariables = Exact<{
   after?: InputMaybe<Scalars['Cursor']['input']>;
@@ -2996,7 +3073,14 @@ export type GetMangasQueryVariables = Exact<{
 }>;
 
 
-export type GetMangasQuery = { __typename?: 'Query', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', unreadCount: number, downloadCount: number, artist?: string | null, author?: string | null, chaptersLastFetchedAt?: any | null, description?: string | null, genre: Array<string>, id: number, inLibrary: boolean, inLibraryAt: any, initialized: boolean, lastFetchedAt?: any | null, realUrl?: string | null, status: MangaStatus, thumbnailUrl?: string | null, title: string, url: string, lastReadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestReadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestFetchedChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestUploadedChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', default: boolean, id: number, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude, name: string, order: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }>, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> }, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, source?: { __typename?: 'SourceType', displayName: string, iconUrl: string, id: any, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } } | null }>, pageInfo: { __typename?: 'PageInfo', endCursor?: any | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: any | null } } };
+export type GetMangasQuery = { __typename?: 'Query', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', unreadCount: number, downloadCount: number, artist?: string | null, author?: string | null, chaptersLastFetchedAt?: any | null, description?: string | null, genre: Array<string>, id: number, inLibrary: boolean, inLibraryAt: any, initialized: boolean, lastFetchedAt?: any | null, realUrl?: string | null, status: MangaStatus, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: any | null, title: string, url: string, lastReadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: any | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestReadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: any | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestFetchedChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: any | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestUploadedChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: any, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: any, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: any, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: any | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', default: boolean, id: number, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude, name: string, order: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }>, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> }, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, source?: { __typename?: 'SourceType', displayName: string, iconUrl: string, id: any, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } } | null }>, pageInfo: { __typename?: 'PageInfo', endCursor?: any | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: any | null } } };
+
+export type GetMigratableSourceMangasQueryVariables = Exact<{
+  sourceId: Scalars['LongString']['input'];
+}>;
+
+
+export type GetMigratableSourceMangasQuery = { __typename?: 'Query', mangas: { __typename?: 'MangaNodeList', nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null, source?: { __typename?: 'SourceType', id: any } | null, categories: { __typename?: 'CategoryNodeList', nodes: Array<{ __typename?: 'CategoryType', id: number }> } }> } };
 
 export type GetAboutQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -3021,7 +3105,7 @@ export type GetWebuiUpdateStatusQuery = { __typename?: 'Query', getWebUIUpdateSt
 export type GetServerSettingsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetServerSettingsQuery = { __typename?: 'Query', settings: { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyHost: string, socksProxyPort: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadAheadLimit: number, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, basicAuthEnabled: boolean, basicAuthUsername: string, basicAuthPassword: string, debugLogsEnabled: boolean, gqlDebugLogsEnabled: boolean, systemTrayEnabled: boolean, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string } };
+export type GetServerSettingsQuery = { __typename?: 'Query', settings: { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyVersion: number, socksProxyHost: string, socksProxyPort: string, socksProxyUsername: string, socksProxyPassword: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadNewChaptersLimit: number, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, basicAuthEnabled: boolean, basicAuthUsername: string, basicAuthPassword: string, debugLogsEnabled: boolean, gqlDebugLogsEnabled: boolean, systemTrayEnabled: boolean, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string, flareSolverrEnabled: boolean, flareSolverrUrl: string, flareSolverrTimeout: number, flareSolverrSessionName: string, flareSolverrSessionTtl: number } };
 
 export type GetSourceQueryVariables = Exact<{
   id: Scalars['LongString']['input'];
@@ -3035,10 +3119,15 @@ export type GetSourcesQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetSourcesQuery = { __typename?: 'Query', sources: { __typename?: 'SourceNodeList', nodes: Array<{ __typename?: 'SourceType', displayName: string, iconUrl: string, id: any, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } }> } };
 
+export type GetMigratableSourcesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetMigratableSourcesQuery = { __typename?: 'Query', mangas: { __typename?: 'MangaNodeList', nodes: Array<{ __typename?: 'MangaType', sourceId: any, source?: { __typename?: 'SourceType', id: any, name: string, lang: string, iconUrl: string } | null }> } };
+
 export type GetUpdateStatusQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUpdateStatusQuery = { __typename?: 'Query', updateStatus: { __typename?: 'UpdateStatus', isRunning: boolean, completeJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', unreadCount: number, downloadCount: number, artist?: string | null, author?: string | null, chaptersLastFetchedAt?: any | null, description?: string | null, genre: Array<string>, id: number, inLibrary: boolean, inLibraryAt: any, initialized: boolean, lastFetchedAt?: any | null, realUrl?: string | null, status: MangaStatus, thumbnailUrl?: string | null, title: string, url: string, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, source?: { __typename?: 'SourceType', displayName: string, iconUrl: string, id: any, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } } | null }> } }, failedJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, pendingJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, runningJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, skippedJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, updatingCategories: { __typename?: 'UpdateStatusCategoryType', categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, name: string, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude }> } }, skippedCategories: { __typename?: 'UpdateStatusCategoryType', categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, name: string, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude }> } } } };
+export type GetUpdateStatusQuery = { __typename?: 'Query', updateStatus: { __typename?: 'UpdateStatus', isRunning: boolean, completeJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', unreadCount: number, downloadCount: number, artist?: string | null, author?: string | null, chaptersLastFetchedAt?: any | null, description?: string | null, genre: Array<string>, id: number, inLibrary: boolean, inLibraryAt: any, initialized: boolean, lastFetchedAt?: any | null, realUrl?: string | null, status: MangaStatus, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: any | null, title: string, url: string, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, source?: { __typename?: 'SourceType', displayName: string, iconUrl: string, id: any, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } } | null }> } }, failedJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, pendingJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, runningJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, skippedJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, updatingCategories: { __typename?: 'UpdateStatusCategoryType', categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, name: string, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude }> } }, skippedCategories: { __typename?: 'UpdateStatusCategoryType', categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, name: string, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude }> } } } };
 
 export type GetLastUpdateTimestampQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -3058,4 +3147,4 @@ export type WebuiUpdateSubscription = { __typename?: 'Subscription', webUIUpdate
 export type UpdaterSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UpdaterSubscription = { __typename?: 'Subscription', updateStatusChanged: { __typename?: 'UpdateStatus', isRunning: boolean, completeJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', unreadCount: number, downloadCount: number, artist?: string | null, author?: string | null, chaptersLastFetchedAt?: any | null, description?: string | null, genre: Array<string>, id: number, inLibrary: boolean, inLibraryAt: any, initialized: boolean, lastFetchedAt?: any | null, realUrl?: string | null, status: MangaStatus, thumbnailUrl?: string | null, title: string, url: string, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, source?: { __typename?: 'SourceType', displayName: string, iconUrl: string, id: any, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } } | null }> } }, failedJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, pendingJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, runningJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, skippedJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, updatingCategories: { __typename?: 'UpdateStatusCategoryType', categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, name: string, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude }> } }, skippedCategories: { __typename?: 'UpdateStatusCategoryType', categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, name: string, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude }> } } } };
+export type UpdaterSubscription = { __typename?: 'Subscription', updateStatusChanged: { __typename?: 'UpdateStatus', isRunning: boolean, completeJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', unreadCount: number, downloadCount: number, artist?: string | null, author?: string | null, chaptersLastFetchedAt?: any | null, description?: string | null, genre: Array<string>, id: number, inLibrary: boolean, inLibraryAt: any, initialized: boolean, lastFetchedAt?: any | null, realUrl?: string | null, status: MangaStatus, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: any | null, title: string, url: string, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, source?: { __typename?: 'SourceType', displayName: string, iconUrl: string, id: any, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } } | null }> } }, failedJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, pendingJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, runningJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, skippedJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, updatingCategories: { __typename?: 'UpdateStatusCategoryType', categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, name: string, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude }> } }, skippedCategories: { __typename?: 'UpdateStatusCategoryType', categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, name: string, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude }> } } } };

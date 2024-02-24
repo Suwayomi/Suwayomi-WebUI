@@ -25,7 +25,7 @@ import {
 } from '@/lib/requests/RequestManager.ts';
 import { useDebounce } from '@/util/useDebounce.ts';
 import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
-import { SourceGridLayout } from '@/components/source/GridLayouts';
+import { SourceGridLayout } from '@/components/source/SourceGridLayout';
 import { AppbarSearch } from '@/components/util/AppbarSearch';
 import { SourceOptions } from '@/components/source/SourceOptions';
 import { SourceMangaGrid } from '@/components/source/SourceMangaGrid';
@@ -366,6 +366,11 @@ export function SourceMangas() {
                 )}
             </>,
         );
+
+        return () => {
+            setTitle('');
+            setAction(null);
+        };
     }, [t, source]);
 
     useEffect(() => {

@@ -28,7 +28,7 @@ const removeNonLibraryMangasFromCategories = async (): Promise<void> => {
 
         const mangaIdsToRemove = Mangas.getIds(nonLibraryMangas.data.mangas.nodes);
 
-        if (!mangaIdsToRemove.length) {
+        if (mangaIdsToRemove.length) {
             await requestManager.updateMangasCategories(mangaIdsToRemove, {
                 clearCategories: true,
             }).response;
@@ -46,6 +46,11 @@ export function LibrarySettings() {
     useEffect(() => {
         setTitle(t('library.settings.title'));
         setAction(null);
+
+        return () => {
+            setTitle('');
+            setAction(null);
+        };
     }, [t]);
 
     useSetDefaultBackTo('settings');

@@ -6,19 +6,17 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ListItemIcon, ListItemText, MenuItem as MuiMenuItem } from '@mui/material';
+import { ListItemIcon, ListItemText, MenuItem as MuiMenuItem, MenuItemProps } from '@mui/material';
 import { OverridableComponent } from '@mui/material/OverridableComponent';
 import { SvgIconTypeMap } from '@mui/material/SvgIcon/SvgIcon';
 
-interface IProps {
+interface IProps extends MenuItemProps {
     title: string;
     Icon: OverridableComponent<SvgIconTypeMap> & { muiName: string };
-    onClick: () => void;
-    isDisabled?: boolean;
 }
 
-export const MenuItem = ({ onClick, title, Icon, isDisabled }: IProps) => (
-    <MuiMenuItem onClick={onClick} disabled={isDisabled}>
+export const MenuItem = ({ title, Icon, ...menuItemProps }: IProps) => (
+    <MuiMenuItem {...menuItemProps}>
         <ListItemIcon>
             <Icon fontSize="small" />
         </ListItemIcon>

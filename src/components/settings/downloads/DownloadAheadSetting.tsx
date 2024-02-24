@@ -8,10 +8,12 @@
 
 import { useTranslation } from 'react-i18next';
 import { List, ListItem, ListItemText, Switch } from '@mui/material';
-import { useCallback } from 'react';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
 import { getPersistedServerSetting, usePersistedValue } from '@/util/usePersistedValue.tsx';
+import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
+import { MetadataServerSettings } from '@/typings.ts';
+import { convertToGqlMeta, requestUpdateServerMetadata } from '@/util/metadata.ts';
+import { makeToast } from '@/components/util/Toast.tsx';
 
 const MIN_LIMIT = 2;
 const MAX_LIMIT = 10;
@@ -20,10 +22,12 @@ const DEFAULT_LIMIT = MIN_LIMIT;
 export const DownloadAheadSetting = () => {
     const { t } = useTranslation();
 
-    const { data } = requestManager.useGetServerSettings();
-    const downloadAheadLimit = data?.settings.autoDownloadAheadLimit;
+    const {
+        metadata,
+        settings: { downloadAheadLimit },
+    } = useMetadataServerSettings();
+
     const shouldDownloadAhead = !!downloadAheadLimit;
-    const [mutateSettings] = requestManager.useUpdateServerSettings();
     const [currentDownloadAheadLimit, persistDownloadAheadLimit] = usePersistedValue(
         'lastDownloadAheadLimit',
         DEFAULT_LIMIT,
@@ -31,15 +35,12 @@ export const DownloadAheadSetting = () => {
         getPersistedServerSetting,
     );
 
-    const updateSetting = useCallback(
-        (autoDownloadAheadLimit: number) => {
-            persistDownloadAheadLimit(
-                autoDownloadAheadLimit === 0 ? currentDownloadAheadLimit : autoDownloadAheadLimit,
-            );
-            mutateSettings({ variables: { input: { settings: { autoDownloadAheadLimit } } } });
-        },
-        [currentDownloadAheadLimit],
-    );
+    const updateSetting = (value: MetadataServerSettings['downloadAheadLimit']) => {
+        persistDownloadAheadLimit(value === 0 ? currentDownloadAheadLimit : value);
+        requestUpdateServerMetadata(convertToGqlMeta(metadata)! ?? {}, [['downloadAheadLimit', value]]).catch(() =>
+            makeToast(t('search.error.label.failed_to_save_settings'), 'warning'),
+        );
+    };
 
     const setDoAutoUpdates = (enable: boolean) => {
         const globalUpdateInterval = enable ? currentDownloadAheadLimit : 0;
@@ -67,7 +68,6 @@ export const DownloadAheadSetting = () => {
                 maxValue={MAX_LIMIT}
                 defaultValue={DEFAULT_LIMIT}
                 showSlider
-                dialogTitle={t('download.settings.download_ahead.label.unread_chapters_to_download')}
                 dialogDescription={t('download.settings.download_ahead.label.description')}
                 dialogDisclaimer={t('download.settings.download_ahead.label.disclaimer')}
                 valueUnit={t('chapter.title')}

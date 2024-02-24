@@ -10,16 +10,17 @@ import { IconButton, Menu, MenuItem, FormControlLabel, Radio, Tooltip } from '@m
 import React from 'react';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import { useTranslation } from 'react-i18next';
-import { GridLayout, useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
+import { GridLayout } from '@/components/context/LibraryOptionsContext';
 
 // TODO: clean up this to use a FormControl, and remove dependency on name o radio button
-export function SourceGridLayout() {
+export function GridLayouts({
+    gridLayout,
+    onChange,
+}: {
+    gridLayout: GridLayout;
+    onChange: (gridLayout: GridLayout) => void;
+}) {
     const { t } = useTranslation();
-
-    const {
-        options: { SourcegridLayout },
-        setOptions,
-    } = useLibraryOptionsContext();
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -30,10 +31,8 @@ export function SourceGridLayout() {
         setAnchorEl(null);
     };
 
-    function setGridContextOptions(e: React.ChangeEvent<HTMLInputElement>, checked: boolean) {
-        if (checked) {
-            setOptions((prev: any) => ({ ...prev, SourcegridLayout: parseInt(e.target.name, 10) }));
-        }
+    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+        onChange(parseInt(e.target.name, 10));
     }
 
     return (
@@ -64,8 +63,8 @@ export function SourceGridLayout() {
                         control={
                             <Radio
                                 name={GridLayout.Compact.toString()}
-                                checked={SourcegridLayout === GridLayout.Compact || SourcegridLayout === undefined}
-                                onChange={setGridContextOptions}
+                                checked={gridLayout === GridLayout.Compact}
+                                onChange={handleChange}
                             />
                         }
                     />
@@ -76,8 +75,8 @@ export function SourceGridLayout() {
                         control={
                             <Radio
                                 name={GridLayout.Comfortable.toString()}
-                                checked={SourcegridLayout === GridLayout.Comfortable}
-                                onChange={setGridContextOptions}
+                                checked={gridLayout === GridLayout.Comfortable}
+                                onChange={handleChange}
                             />
                         }
                     />
@@ -88,8 +87,8 @@ export function SourceGridLayout() {
                         control={
                             <Radio
                                 name={GridLayout.List.toString()}
-                                checked={SourcegridLayout === GridLayout.List}
-                                onChange={setGridContextOptions}
+                                checked={gridLayout === GridLayout.List}
+                                onChange={handleChange}
                             />
                         }
                     />

@@ -25,10 +25,11 @@ export const getDefaultSettings = (): IReaderSettings => ({
     showPageNumber: true,
     loadNextOnEnding: false,
     skipDupChapters: true,
-    fitPageToWindow: false,
+    fitPageToWindow: true,
+    scalePage: false,
     readerType: 'ContinuesVertical',
     offsetFirstPage: false,
-    readerWidth: 100,
+    readerWidth: 50,
 });
 
 const getReaderSettingsWithDefaultValueFallback = <DefaultSettings extends IReaderSettings | UndefinedReaderSettings>(
@@ -83,6 +84,7 @@ export const checkAndHandleMissingStoredReaderSettings = async (
             loadNextOnEnding: undefined,
             skipDupChapters: undefined,
             fitPageToWindow: undefined,
+            scalePage: undefined,
             readerType: undefined,
             offsetFirstPage: undefined,
             readerWidth: undefined,

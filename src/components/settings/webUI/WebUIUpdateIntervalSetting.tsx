@@ -71,7 +71,6 @@ export const WebUIUpdateIntervalSetting = ({ disabled = false }: { disabled?: bo
                 maxValue={MAX_VALUE}
                 defaultValue={DEFAULT_VALUE}
                 showSlider
-                dialogTitle={t('settings.webui.auto_update.label.interval')}
                 valueUnit={t('global.time.hour_short')}
                 handleUpdate={updateSetting}
                 disabled={disabled || !shouldAutoUpdate}

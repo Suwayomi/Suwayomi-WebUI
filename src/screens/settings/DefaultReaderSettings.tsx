@@ -28,6 +28,11 @@ export function DefaultReaderSettings() {
     useEffect(() => {
         setTitle(t('reader.settings.title.default_reader_settings'));
         setAction(null);
+
+        return () => {
+            setTitle('');
+            setAction(null);
+        };
     }, [t]);
 
     const { metadata, settings, loading } = useDefaultReaderSettings();
@@ -69,6 +74,7 @@ export function DefaultReaderSettings() {
             loadNextOnEnding={settings.loadNextOnEnding}
             skipDupChapters={settings.skipDupChapters}
             fitPageToWindow={settings.fitPageToWindow}
+            scalePage={settings.scalePage}
             readerType={settings.readerType}
             offsetFirstPage={settings.offsetFirstPage}
             readerWidth={settings.readerWidth}

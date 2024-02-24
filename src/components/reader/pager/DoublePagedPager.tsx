@@ -175,10 +175,8 @@ export function DoublePagedPager(props: IReaderProps) {
                     display: 'flex',
                     flexDirection: settings.readerType === 'DoubleLTR' ? 'row' : 'row-reverse',
                     justifyContent: 'center',
-                    margin: '0 auto',
                     width: 'auto',
                     height: 'auto',
-                    overflowX: 'scroll',
                 }}
             >
                 {getPagesToDisplay() === 2 ? (

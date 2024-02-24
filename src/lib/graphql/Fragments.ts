@@ -233,6 +233,7 @@ export const BASE_MANGA_FIELDS = gql`
         }
         status
         thumbnailUrl
+        thumbnailUrlLastFetched
         title
         url
     }
@@ -273,6 +274,7 @@ export const FULL_CHAPTER_FIELDS = gql`
             title
             inLibrary
             thumbnailUrl
+            lastFetchedAt
         }
         meta {
             key
@@ -473,8 +475,11 @@ export const SERVER_SETTINGS = gql`
 
         # Socks proxy
         socksProxyEnabled
+        socksProxyVersion
         socksProxyHost
         socksProxyPort
+        socksProxyUsername
+        socksProxyPassword
 
         # webUI
         webUIFlavor
@@ -489,7 +494,7 @@ export const SERVER_SETTINGS = gql`
         downloadsPath
         autoDownloadNewChapters
         excludeEntryWithUnreadChapters
-        autoDownloadAheadLimit
+        autoDownloadNewChaptersLimit
 
         # extensions
         extensionRepos
@@ -522,5 +527,12 @@ export const SERVER_SETTINGS = gql`
 
         # local source
         localSourcePath
+
+        # Cloudflare bypass
+        flareSolverrEnabled
+        flareSolverrUrl
+        flareSolverrTimeout
+        flareSolverrSessionName
+        flareSolverrSessionTtl
     }
 `;

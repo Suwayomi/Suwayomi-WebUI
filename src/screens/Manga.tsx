@@ -21,8 +21,6 @@ import { MangaToolbarMenu } from '@/components/manga/MangaToolbarMenu';
 import { EmptyView } from '@/components/util/EmptyView';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
 
-const AUTOFETCH_AGE = 1000 * 60 * 60 * 24; // 24 hours
-
 export const Manga: React.FC = () => {
     const { t } = useTranslation();
 
@@ -38,17 +36,9 @@ export const Manga: React.FC = () => {
     useSetDefaultBackTo('library');
 
     useEffect(() => {
-        // Automatically fetch manga from source if data is older then 24 hours OR manga is not initialized yet
-        // Automatic fetch is done only once, to prevent issues when server does
-        // not update age for some reason (ie. error on source side)
         if (manga == null) return;
 
-        const isOutdated =
-            Date.now() - Number(manga.lastFetchedAt) * 1000 > AUTOFETCH_AGE ||
-            Date.now() - Number(manga.chaptersLastFetchedAt) * 1000 > AUTOFETCH_AGE;
-        const refetchBecauseOutdated = manga.inLibrary && isOutdated;
-
-        const doFetch = !autofetchedRef.current && (refetchBecauseOutdated || !manga.initialized);
+        const doFetch = !autofetchedRef.current && !manga.initialized;
         if (doFetch) {
             autofetchedRef.current = true;
             refresh();
@@ -58,6 +48,11 @@ export const Manga: React.FC = () => {
     useEffect(() => {
         setTitle(manga?.title ?? t('manga.title'));
         setAction(null);
+
+        return () => {
+            setTitle('');
+            setAction(null);
+        };
     }, [t, manga?.title]);
 
     useEffect(() => {
@@ -86,6 +81,10 @@ export const Manga: React.FC = () => {
                 {manga && <MangaToolbarMenu manga={manga} onRefresh={refresh} refreshing={refreshing} />}
             </Stack>,
         );
+
+        return () => {
+            setAction(null);
+        };
     }, [t, error, isValidating, refreshing, manga, refresh]);
 
     if (error && !manga) {

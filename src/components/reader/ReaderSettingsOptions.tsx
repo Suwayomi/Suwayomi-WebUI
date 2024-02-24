@@ -12,7 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { useTranslation } from 'react-i18next';
 import { AllowedMetadataValueTypes, IReaderSettings } from '@/typings';
 import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
-import { isFillsPageReaderType } from '@/components/reader/Page.tsx';
+import { isHorizontalReaderType } from '@/components/reader/Page.tsx';
 
 interface IProps extends IReaderSettings {
     setSettingValue: (key: keyof IReaderSettings, value: AllowedMetadataValueTypes) => void;
@@ -26,11 +26,12 @@ export function ReaderSettingsOptions({
     skipDupChapters,
     setSettingValue,
     fitPageToWindow,
+    scalePage,
     offsetFirstPage,
     readerWidth,
 }: IProps) {
     const { t } = useTranslation();
-    const fitPageToWindowEligible = !isFillsPageReaderType(readerType);
+    const fitPageToWindowEligible = !isHorizontalReaderType(readerType);
     return (
         <List>
             <ListItem>
@@ -75,6 +76,16 @@ export function ReaderSettingsOptions({
                     />
                 </ListItem>
             )}
+            {fitPageToWindowEligible && fitPageToWindow && (
+                <ListItem>
+                    <ListItemText primary={t('reader.settings.label.scale_page')} />
+                    <Switch
+                        edge="end"
+                        checked={scalePage}
+                        onChange={(e) => setSettingValue('scalePage', e.target.checked)}
+                    />
+                </ListItem>
+            )}
             {(readerType === 'DoubleLTR' || readerType === 'DoubleRTL') && (
                 <ListItem>
                     <ListItemText primary={t('reader.settings.label.offset_first_page')} />
@@ -88,12 +99,11 @@ export function ReaderSettingsOptions({
             {fitPageToWindowEligible && !fitPageToWindow && (
                 <NumberSetting
                     settingTitle={t('reader.settings.label.reader_width')}
-                    dialogTitle={t('reader.settings.label.reader_width')}
                     settingValue={`${readerWidth}%`}
                     value={readerWidth}
                     minValue={10}
                     maxValue={100}
-                    defaultValue={100}
+                    defaultValue={50}
                     valueUnit="%"
                     showSlider
                     handleUpdate={(width: number) => setSettingValue('readerWidth', width)}

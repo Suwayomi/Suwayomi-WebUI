@@ -35,8 +35,9 @@ import { DownloadSettings } from '@/screens/settings/DownloadSettings.tsx';
 import { ServerSettings } from '@/screens/settings/ServerSettings.tsx';
 import { ServerUpdateChecker } from '@/components/settings/ServerUpdateChecker.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { ExtensionSettings } from '@/screens/settings/ExtensionSettings.tsx';
+import { BrowseSettings } from '@/screens/settings/BrowseSettings.tsx';
 import { WebUISettings } from '@/screens/settings/WebUISettings.tsx';
+import { Migrate } from '@/screens/Migrate.tsx';
 import { AnilistAccessCodeAuth } from '@/components/trackers/anilist/AnilistAccessCodeAuth';
 
 if (process.env.NODE_ENV !== 'production') {
@@ -101,7 +102,7 @@ export const App: React.FC = () => (
                     <Route path="backup" element={<Backup />} />
                     <Route path="server" element={<ServerSettings />} />
                     <Route path="webUI" element={<WebUISettings />} />
-                    <Route path="extensionSettings" element={<ExtensionSettings />} />
+                    <Route path="browseSettings" element={<BrowseSettings />} />
                 </Route>
 
                 {/* Manga Routes */}
@@ -121,6 +122,10 @@ export const App: React.FC = () => (
                 <Route path="updates" element={<Updates />} />
                 <Route path="extensions" element={<Extensions />} />
                 <Route path="browse" element={<Browse />} />
+                <Route path="migrate/source/:sourceId">
+                    <Route index element={<Migrate />} />
+                    <Route path="manga/:mangaId/search" element={<SearchAll />} />
+                </Route>
             </Routes>
             <Routes>
                 <Route path="/oath/ainilist/auth" element={<AnilistAccessCodeAuth />} />

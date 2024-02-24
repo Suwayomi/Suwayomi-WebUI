@@ -21,13 +21,14 @@ import { convertToGqlMeta, requestUpdateServerMetadata } from '@/util/metadata.t
 import { makeToast } from '@/components/util/Toast.tsx';
 import { DeleteChaptersWhileReadingSetting } from '@/components/settings/downloads/DeleteChaptersWhileReadingSetting.tsx';
 import { CategoriesInclusionSetting } from '@/components/settings/CategoriesInclusionSetting.tsx';
+import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
 
 type DownloadSettingsType = Pick<
     ServerSettings,
     | 'downloadAsCbz'
     | 'downloadsPath'
     | 'autoDownloadNewChapters'
-    | 'autoDownloadAheadLimit'
+    | 'autoDownloadNewChaptersLimit'
     | 'excludeEntryWithUnreadChapters'
 >;
 
@@ -35,7 +36,7 @@ const extractDownloadSettings = (settings: ServerSettings): DownloadSettingsType
     downloadAsCbz: settings.downloadAsCbz,
     downloadsPath: settings.downloadsPath,
     autoDownloadNewChapters: settings.autoDownloadNewChapters,
-    autoDownloadAheadLimit: settings.autoDownloadAheadLimit,
+    autoDownloadNewChaptersLimit: settings.autoDownloadNewChaptersLimit,
     excludeEntryWithUnreadChapters: settings.excludeEntryWithUnreadChapters,
 });
 
@@ -48,6 +49,11 @@ export const DownloadSettings = () => {
     useEffect(() => {
         setTitle(t('download.settings.title'));
         setAction(null);
+
+        return () => {
+            setTitle('');
+            setAction(null);
+        };
     }, [t]);
 
     const { data } = requestManager.useGetServerSettings();
@@ -95,7 +101,7 @@ export const DownloadSettings = () => {
             </ListItem>
             <List
                 subheader={
-                    <ListSubheader component="div" id="download-settings-auto-download">
+                    <ListSubheader component="div" id="download-settings-auto-delete-downloads">
                         {t('download.settings.delete_chapters.title')}
                     </ListSubheader>
                 }
@@ -138,6 +144,31 @@ export const DownloadSettings = () => {
                         onChange={(e) => updateSetting('autoDownloadNewChapters', e.target.checked)}
                     />
                 </ListItem>
+                <NumberSetting
+                    disabled={!downloadSettings?.autoDownloadNewChapters}
+                    settingTitle={t('download.settings.auto_download.download_limit.label.title')}
+                    dialogDescription={t('download.settings.auto_download.download_limit.label.description')}
+                    value={downloadSettings?.autoDownloadNewChaptersLimit ?? 0}
+                    settingValue={
+                        // eslint-disable-next-line no-nested-ternary
+                        downloadSettings?.autoDownloadNewChaptersLimit !== undefined
+                            ? !downloadSettings.autoDownloadNewChaptersLimit
+                                ? t('global.label.none')
+                                : t('download.settings.download_ahead.label.value', {
+                                      chapters: downloadSettings.autoDownloadNewChaptersLimit,
+                                      count: downloadSettings.autoDownloadNewChaptersLimit,
+                                  })
+                            : undefined
+                    }
+                    defaultValue={0}
+                    minValue={0}
+                    maxValue={20}
+                    showSlider
+                    valueUnit={t('chapter.title')}
+                    handleUpdate={(autoDownloadNewChaptersLimit) =>
+                        updateSetting('autoDownloadNewChaptersLimit', autoDownloadNewChaptersLimit)
+                    }
+                />
                 <ListItem disabled={!downloadSettings?.autoDownloadNewChapters}>
                     <ListItemText primary={t('download.settings.auto_download.label.ignore_with_unread_chapters')} />
                     <Switch

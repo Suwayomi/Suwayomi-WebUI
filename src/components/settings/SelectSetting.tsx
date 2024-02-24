@@ -27,9 +27,9 @@ import InfoIcon from '@mui/icons-material/Info';
 import { TranslationKey } from '@/typings.ts';
 
 export type SelectSettingValueDisplayInfo = {
-    text: TranslationKey;
-    description?: TranslationKey;
-    disclaimer?: TranslationKey;
+    text: TranslationKey | string;
+    description?: TranslationKey | string;
+    disclaimer?: TranslationKey | string;
 };
 
 export type SelectSettingValue<Value> = [Value: Value, DisplayInfo: SelectSettingValueDisplayInfo];
@@ -85,7 +85,7 @@ export const SelectSetting = <SettingValue extends string | number>({
             <ListItemButton disabled={disabled} onClick={() => setIsDialogOpen(true)}>
                 <ListItemText
                     primary={settingName}
-                    secondary={valueDisplayText ? t(valueDisplayText) : t('global.label.loading')}
+                    secondary={valueDisplayText ? t(valueDisplayText as TranslationKey) : t('global.label.loading')}
                     secondaryTypographyProps={{ style: { display: 'flex', flexDirection: 'column' } }}
                 />
             </ListItemButton>
@@ -105,7 +105,7 @@ export const SelectSetting = <SettingValue extends string | number>({
                                         whiteSpace: 'pre-line',
                                     }}
                                 >
-                                    {t(dialogValueDisplayInfo.description)}
+                                    {t(dialogValueDisplayInfo.description as TranslationKey)}
                                 </Typography>
                             )}
                             {dialogValueDisplayInfo.disclaimer && (
@@ -119,7 +119,7 @@ export const SelectSetting = <SettingValue extends string | number>({
                                             whiteSpace: 'pre-line',
                                         }}
                                     >
-                                        {t(dialogValueDisplayInfo.disclaimer)}
+                                        {t(dialogValueDisplayInfo.disclaimer as TranslationKey)}
                                     </Typography>
                                 </Stack>
                             )}
@@ -133,7 +133,7 @@ export const SelectSetting = <SettingValue extends string | number>({
                         >
                             {values.map(([selectValue, { text: selectText }]) => (
                                 <MenuItem key={selectValue} value={selectValue}>
-                                    {t(selectText)}
+                                    {t(selectText as TranslationKey)}
                                 </MenuItem>
                             ))}
                         </Select>

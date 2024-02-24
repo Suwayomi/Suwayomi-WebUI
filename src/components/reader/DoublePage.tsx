@@ -6,26 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { CSSProperties, forwardRef, useRef } from 'react';
+import { forwardRef, useRef } from 'react';
 import { Box, SxProps, Theme } from '@mui/material';
 import { IReaderSettings } from '@/typings';
 import { SpinnerImage } from '@/components/util/SpinnerImage';
-
-const imgStyles: CSSProperties = {
-    display: 'block',
-    marginBottom: 0,
-    width: 'auto',
-    minHeight: '99vh',
-    height: 'auto',
-    maxHeight: '99vh',
-    objectFit: 'contain',
-};
-
-const spinnerStyle: SxProps<Theme> = {
-    ...imgStyles,
-    width: 'calc((100vw - 300px) * 0.5)',
-    backgroundColor: '#525252',
-};
+import { imageStyle } from '@/components/reader/Page';
 
 interface IProps {
     index: number;
@@ -39,6 +24,23 @@ export const DoublePage = forwardRef((props: IProps, ref: any) => {
     const { image1src, image2src, index, onImageLoad, settings } = props;
 
     const imgRef = useRef<HTMLImageElement>(null);
+    const baseImgStyle = imageStyle(settings);
+    const imgStyle = {
+        ...baseImgStyle,
+        width: settings.fitPageToWindow ? baseImgStyle.width : `calc(${baseImgStyle.width} * 0.5)`,
+        minWidth:
+            settings.fitPageToWindow && settings.scalePage
+                ? `calc(${baseImgStyle.minWidth} * 0.5)`
+                : baseImgStyle.minWidth,
+        maxWidth: settings.fitPageToWindow ? `calc(${baseImgStyle.maxWidth} * 0.5)` : baseImgStyle.maxWidth,
+    };
+
+    const spinnerStyle: SxProps<Theme> = {
+        ...imgStyle,
+        height: '100vh',
+        width: '50%',
+        backgroundColor: '#525252',
+    };
 
     return (
         <Box
@@ -47,10 +49,7 @@ export const DoublePage = forwardRef((props: IProps, ref: any) => {
                 display: 'flex',
                 flexDirection: settings.readerType === 'DoubleLTR' ? 'row' : 'row-reverse',
                 justifyContent: 'center',
-                margin: '0 auto',
-                width: 'auto',
-                height: 'auto',
-                overflowX: 'scroll',
+                width: '100%',
             }}
         >
             <SpinnerImage
@@ -59,7 +58,7 @@ export const DoublePage = forwardRef((props: IProps, ref: any) => {
                 alt={`Page #${index}`}
                 imgRef={imgRef}
                 spinnerStyle={spinnerStyle}
-                imgStyle={imgStyles}
+                imgStyle={{ ...imgStyle, objectPosition: settings.readerType === 'DoubleLTR' ? 'right' : 'left' }}
             />
             <SpinnerImage
                 src={image2src}
@@ -68,10 +67,10 @@ export const DoublePage = forwardRef((props: IProps, ref: any) => {
                 imgRef={imgRef}
                 spinnerStyle={{
                     ...spinnerStyle,
-                    width: 'calc((100vw - 300px - 5px) * 0.5)',
+                    width: 'calc(50% - 5px)',
                     marginLeft: '5px',
                 }}
-                imgStyle={imgStyles}
+                imgStyle={{ ...imgStyle, objectPosition: settings.readerType === 'DoubleLTR' ? 'left' : 'right' }}
             />
         </Box>
     );
