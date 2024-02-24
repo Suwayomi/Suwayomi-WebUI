@@ -35,11 +35,5 @@ export const AnilistAccessCodeAuth = () => {
         return () => controller.abort();
     }, [code, navigate]);
 
-    return (
-        <div>
-            {error && (
-                <h1 onClick={() => navigate('/settings/librarySettings')}>Failed to send the access code: {code}</h1>
-            )}
-        </div>
-    );
+    return <div>{error && <h1>Failed to send the access code: {code}</h1>}</div>;
 };
