@@ -9,7 +9,7 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Link, TextField, Typography } from '@mui/material';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQuery } from '@apollo/client';
 import axios from 'axios';
@@ -29,21 +29,22 @@ export const GlobalUpdateSettingsTracker = ({ aniliClientId, AniliRedirectUri }:
 
     const [serverAddress] = useLocalStorage<string>('serverBaseURL', '');
 
-    const trackerLogin = useQuery(CHECK_LOGIN, { variables: { id: 2 } });
+    const trackerLogin = useQuery(CHECK_LOGIN, { variables: { id: 2 }, fetchPolicy: 'network-only' });
 
-    const closeDialog = () => {
+    const closeDialog = async () => {
         setIsDialogOpen(false);
     };
+    useEffect(() => {
+        trackerLogin.refetch();
+    }, [isDialogOpen]);
 
-    const handleLogout = () => {
-        axios
-            .post(`${serverAddress}/api/v1/track/logout`, { trackerId: 2 })
-            .then(() => {
-                setIsDialogOpen(false);
-            })
-            .catch(() => {
-                throw new Error('Failed to logout');
-            });
+    const handleLogout = async () => {
+        try {
+            await axios.post(`${serverAddress}/api/v1/track/logout`, { trackerId: 2 });
+            setIsDialogOpen(false);
+        } catch (error) {
+            throw new Error('Failed to logout');
+        }
     };
 
     if (trackerLogin.loading) return <div>Loading...</div>;

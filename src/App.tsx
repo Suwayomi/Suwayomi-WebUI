@@ -11,7 +11,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import React, { useLayoutEffect } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { loadErrorMessages, loadDevMessages } from '@apollo/client/dev';
-import { AppContext } from '@/components/context/AppContext';
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import { Browse } from '@/screens/Browse';
 import { DownloadQueue } from '@/screens/DownloadQueue';
 import { Extensions } from '@/screens/Extensions';
@@ -39,8 +39,7 @@ import { BrowseSettings } from '@/screens/settings/BrowseSettings.tsx';
 import { WebUISettings } from '@/screens/settings/WebUISettings.tsx';
 import { Migrate } from '@/screens/Migrate.tsx';
 import { AnilistAccessCodeAuth } from '@/components/trackers/anilist/AnilistAccessCodeAuth';
-import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
-import { useLocalStorage } from './util/useLocalStorage';
+import { useLocalStorage } from '@/util/useLocalStorage';
 
 if (process.env.NODE_ENV !== 'production') {
     // Adds messages only in a dev environment
