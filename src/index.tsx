@@ -12,11 +12,15 @@ import { App } from '@/App';
 import '@/index.css';
 // roboto font
 import '@fontsource/roboto';
+import { AppContext } from '@/components/context/AppContext';
 
 const container = document.getElementById('root');
 const root = createRoot(container!);
+
 root.render(
     <StrictMode>
-        <App />
+        <AppContext>
+            <App />
+        </AppContext>
     </StrictMode>,
 );

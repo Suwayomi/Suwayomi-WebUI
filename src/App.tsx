@@ -39,6 +39,8 @@ import { BrowseSettings } from '@/screens/settings/BrowseSettings.tsx';
 import { WebUISettings } from '@/screens/settings/WebUISettings.tsx';
 import { Migrate } from '@/screens/Migrate.tsx';
 import { AnilistAccessCodeAuth } from '@/components/trackers/anilist/AnilistAccessCodeAuth';
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+import { useLocalStorage } from './util/useLocalStorage';
 
 if (process.env.NODE_ENV !== 'production') {
     // Adds messages only in a dev environment
@@ -70,70 +72,80 @@ const BackgroundSubscriptions = () => {
     return null;
 };
 
-export const App: React.FC = () => (
-    <AppContext>
-        <ScrollToTop />
-        <ServerUpdateChecker />
-        <BackgroundSubscriptions />
-        <CssBaseline />
-        <DefaultNavBar />
-        <Container
-            id="appMainContainer"
-            maxWidth={false}
-            disableGutters
-            sx={{
-                mt: 8,
-                ml: { sm: 8 },
-                mb: { xs: 8, sm: 0 },
-                width: 'auto',
-                overflow: 'auto',
-            }}
-        >
-            <Routes>
-                {/* General Routes */}
-                <Route path="/" element={<Navigate to="/library" replace />} />
-                <Route path="settings">
-                    <Route index element={<Settings />} />
-                    <Route path="about" element={<About />} />
-                    <Route path="categories" element={<Categories />} />
-                    <Route path="defaultReaderSettings" element={<DefaultReaderSettings />} />
-                    <Route path="librarySettings" element={<LibrarySettings />} />
-                    <Route path="downloadSettings" element={<DownloadSettings />} />
-                    <Route path="backup" element={<Backup />} />
-                    <Route path="server" element={<ServerSettings />} />
-                    <Route path="webUI" element={<WebUISettings />} />
-                    <Route path="browseSettings" element={<BrowseSettings />} />
-                </Route>
+export const App: React.FC = () => {
+    const [serverAddress] = useLocalStorage<string>('serverBaseURL', '');
 
-                {/* Manga Routes */}
+    const client = new ApolloClient({
+        cache: new InMemoryCache({}),
+        connectToDevTools: true,
+        uri: `${serverAddress}/api/graphql`,
+    });
 
-                <Route path="sources">
-                    <Route index element={<Sources />} />
-                    <Route path=":sourceId" element={<SourceMangas />} />
-                    <Route path=":sourceId/configure/" element={<SourceConfigure />} />
-                    <Route path="all/search/" element={<SearchAll />} />
-                </Route>
-                <Route path="downloads" element={<DownloadQueue />} />
-                <Route path="manga/:id">
-                    <Route path="chapter/:chapterNum" element={null} />
-                    <Route index element={<Manga />} />
-                </Route>
-                <Route path="library" element={<Library />} />
-                <Route path="updates" element={<Updates />} />
-                <Route path="extensions" element={<Extensions />} />
-                <Route path="browse" element={<Browse />} />
-                <Route path="migrate/source/:sourceId">
-                    <Route index element={<Migrate />} />
-                    <Route path="manga/:mangaId/search" element={<SearchAll />} />
-                </Route>
-            </Routes>
+    return (
+        <ApolloProvider client={client}>
+            <ScrollToTop />
+            <ServerUpdateChecker />
+            <BackgroundSubscriptions />
+            <CssBaseline />
+            <DefaultNavBar />
+            <Container
+                id="appMainContainer"
+                maxWidth={false}
+                disableGutters
+                sx={{
+                    mt: 8,
+                    ml: { sm: 8 },
+                    mb: { xs: 8, sm: 0 },
+                    width: 'auto',
+                    overflow: 'auto',
+                }}
+            >
+                <Routes>
+                    {/* General Routes */}
+                    <Route path="/" element={<Navigate to="/library" replace />} />
+                    <Route path="settings">
+                        <Route index element={<Settings />} />
+                        <Route path="about" element={<About />} />
+                        <Route path="categories" element={<Categories />} />
+                        <Route path="defaultReaderSettings" element={<DefaultReaderSettings />} />
+                        <Route path="librarySettings" element={<LibrarySettings />} />
+                        <Route path="downloadSettings" element={<DownloadSettings />} />
+                        <Route path="backup" element={<Backup />} />
+                        <Route path="server" element={<ServerSettings />} />
+                        <Route path="webUI" element={<WebUISettings />} />
+                        <Route path="browseSettings" element={<BrowseSettings />} />
+                    </Route>
+
+                    {/* Manga Routes */}
+
+                    <Route path="sources">
+                        <Route index element={<Sources />} />
+                        <Route path=":sourceId" element={<SourceMangas />} />
+                        <Route path=":sourceId/configure/" element={<SourceConfigure />} />
+                        <Route path="all/search/" element={<SearchAll />} />
+                    </Route>
+                    <Route path="downloads" element={<DownloadQueue />} />
+                    <Route path="manga/:id">
+                        <Route path="chapter/:chapterNum" element={null} />
+                        <Route index element={<Manga />} />
+                    </Route>
+                    <Route path="library" element={<Library />} />
+                    <Route path="updates" element={<Updates />} />
+                    <Route path="extensions" element={<Extensions />} />
+                    <Route path="browse" element={<Browse />} />
+                    <Route path="migrate/source/:sourceId">
+                        <Route index element={<Migrate />} />
+                        <Route path="manga/:mangaId/search" element={<SearchAll />} />
+                    </Route>
+                </Routes>
+                <Routes>
+                    <Route path="/oath/ainilist/auth" element={<AnilistAccessCodeAuth />} />
+                </Routes>
+            </Container>
             <Routes>
-                <Route path="/oath/ainilist/auth" element={<AnilistAccessCodeAuth />} />
+                <Route path="manga/:mangaId/chapter/:chapterIndex" element={<Reader />} />
+                <Route path="*" element={null} />
             </Routes>
-        </Container>
-        <Routes>
-            <Route path="manga/:mangaId/chapter/:chapterIndex" element={<Reader />} />
-            <Route path="*" element={null} />
-        </Routes>
-    </AppContext>
-);
+        </ApolloProvider>
+    );
+};

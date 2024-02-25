@@ -26,7 +26,7 @@ export const AnilistAccessCodeAuth = () => {
                 .post(`${serverAddress}/api/v1/anilist/${code}`, {}, { signal: new AbortController().signal })
                 .then((response) => {
                     if (response.status === 201) {
-                        navigate('/library');
+                        navigate('/settings/librarySettings');
                     } else {
                         setError(true);
                     }
