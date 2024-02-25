@@ -17,3 +17,27 @@ export const CHECK_LOGIN = gql`
         }
     }
 `;
+export const GET_LOGGED_IN_TRACKERS = gql`
+    query GET_LOGGED_IN_TRACKERS {
+        trackers(condition: { isLoggedIn: true }) {
+            nodes {
+                authUrl
+                icon
+                id
+                name
+            }
+        }
+    }
+`;
+
+export const SEARCH_MANGA_IN_TRACKER = gql`
+    query SEARCH_MANGA_IN_TRACKER {
+        searchTracker(input: { query: $mandaName, trackerId: $trackerId }) {
+            trackSearches {
+                remoteId
+                title
+                coverUrl
+            }
+        }
+    }
+`;
