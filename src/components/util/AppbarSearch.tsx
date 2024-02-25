@@ -8,11 +8,11 @@
 
 import React, { useState, useEffect } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
-import { IconButton, Input, Tooltip } from '@mui/material';
-import CancelIcon from '@mui/icons-material/Cancel';
+import { IconButton, Tooltip } from '@mui/material';
 import { useQueryParam, StringParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { SearchTextField } from '@/components/atoms/SearchTextField.tsx';
 
 interface IProps {
     autoOpen?: boolean;
@@ -122,8 +122,10 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
 
     if (searchOpen) {
         return (
-            <Input
+            <SearchTextField
+                variant="standard"
                 value={searchString}
+                onCancel={cancelSearch}
                 onChange={(e) => setSearchString(e.target.value)}
                 onKeyDown={(e) => {
                     if (e.key === 'Enter') {
@@ -132,11 +134,6 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
                 }}
                 onBlur={handleBlur}
                 inputRef={inputRef}
-                endAdornment={
-                    <IconButton onClick={cancelSearch}>
-                        <CancelIcon />
-                    </IconButton>
-                }
             />
         );
     }
