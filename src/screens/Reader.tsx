@@ -355,6 +355,11 @@ export function Reader() {
             return;
         }
 
+        const chapterUpToDate = Chapters.getFromCache<TChapter>(chapter.id);
+        if (curPageDebounced === chapterUpToDate?.lastPageRead) {
+            return;
+        }
+
         // do not mutate the chapter, this will cause the page to jump around due to always scrolling to the last read page
         const updateLastPageRead = curPageDebounced !== -1;
         const updateIsRead = curPageDebounced === chapter.pageCount - 1;
