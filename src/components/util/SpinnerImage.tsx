@@ -14,6 +14,9 @@ import { Theme, SxProps, Stack, Button } from '@mui/material';
 import BrokenImageIcon from '@mui/icons-material/BrokenImage';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { useTranslation } from 'react-i18next';
+import { CanceledError } from 'axios';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
 interface IProps {
     src: string;
@@ -32,6 +35,7 @@ export function SpinnerImage(props: IProps) {
 
     const { t } = useTranslation();
 
+    const [imageSourceUrl, setImageSourceUrl] = useState('');
     const [imgLoadRetryKey, setImgLoadRetryKey] = useState(0);
     const [isLoading, setIsLoading] = useState<boolean | undefined>(undefined);
     const [hasError, setHasError] = useState(false);
@@ -46,11 +50,39 @@ export function SpinnerImage(props: IProps) {
     };
 
     useEffect(() => {
-        // only activate the loading state in case the image has not been cached yet.
-        // otherwise, the loading placeholder will always be visible before the actual image is shown, which looks like flickering
-        const timeout = setTimeout(() => setIsLoading((prevState) => (prevState === undefined ? true : prevState)), 1);
-        return () => clearTimeout(timeout);
-    }, []);
+        const imageRequest = requestManager.requestImage(src);
+
+        const fetchImage = async () => {
+            try {
+                const updateImage = async () => {
+                    const image = await imageRequest.response;
+
+                    updateImageState(false);
+                    setImageSourceUrl(image);
+                };
+
+                const checkCache = await Promise.race([imageRequest.response, Promise.resolve(false)]);
+                const isImageCached = !!checkCache;
+
+                if (isImageCached) {
+                    await updateImage();
+                    return;
+                }
+
+                updateImageState(true);
+                await updateImage();
+            } catch (e) {
+                const wasAborted = e instanceof CanceledError;
+                updateImageState(false, !wasAborted);
+            }
+        };
+
+        fetchImage().catch(defaultPromiseErrorHandler);
+
+        return () => {
+            imageRequest.abortRequest(new Error('Component was unmounted'));
+        };
+    }, [imgLoadRetryKey]);
 
     return (
         <>
@@ -58,7 +90,7 @@ export function SpinnerImage(props: IProps) {
                 <Box sx={spinnerStyle}>
                     <Stack height="100%" alignItems="center" justifyContent="center">
                         {isLoading && <CircularProgress thickness={5} />}
-                        {hasError && (
+                        {hasError && isLoading === false && (
                             <>
                                 <BrokenImageIcon />
                                 <Button
@@ -66,8 +98,6 @@ export function SpinnerImage(props: IProps) {
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         e.preventDefault();
-                                        setIsLoading(true);
-                                        setHasError(false);
                                         setImgLoadRetryKey((prevState) => (prevState + 1) % 100);
                                     }}
                                     size="large"
@@ -79,14 +109,16 @@ export function SpinnerImage(props: IProps) {
                     </Stack>
                 </Box>
             )}
+
             <img
                 key={`${src}_${imgLoadRetryKey}`}
-                style={{ ...imgStyle, display: isLoading || hasError ? 'none' : imgStyle?.display }}
+                style={{
+                    ...imgStyle,
+                    display: !imageSourceUrl || isLoading || hasError ? 'none' : imgStyle?.display,
+                }}
                 ref={imgRef}
-                src={src}
+                src={imageSourceUrl}
                 alt={alt}
-                onLoad={() => updateImageState(false)}
-                onError={() => updateImageState(false, true)}
                 draggable={false}
             />
         </>
