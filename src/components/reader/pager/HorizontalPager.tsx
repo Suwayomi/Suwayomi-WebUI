@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { MouseEvent as ReactMouseEvent, useEffect, useRef } from 'react';
+import { MouseEvent as ReactMouseEvent, useEffect, useLayoutEffect, useRef } from 'react';
 import { Box } from '@mui/material';
 import { IReaderProps } from '@/typings';
 import { Page } from '@/components/reader/Page';
@@ -107,12 +107,18 @@ export function HorizontalPager(props: IReaderProps) {
         }
     };
 
-    useEffect(() => {
-        // Delay scrolling to next cycle
-        setTimeout(() => {
-            // scroll last read page into view when initialPage changes
-            pagesRef.current[initialPage]?.scrollIntoView({ inline: 'center' });
-        }, 0);
+    useLayoutEffect(() => {
+        const initialPageElement = pagesRef.current[initialPage];
+        if (!initialPageElement) {
+            return () => {};
+        }
+
+        const resizeObserver = new ResizeObserver(() => {
+            initialPageElement.scrollIntoView({ inline: 'center' });
+        });
+        resizeObserver.observe(initialPageElement);
+
+        return () => resizeObserver.disconnect();
     }, [initialPage]);
 
     useEffect(() => {
