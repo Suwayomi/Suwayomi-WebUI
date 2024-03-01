@@ -91,7 +91,12 @@ export const Page = forwardRef((props: IProps, ref: any) => {
                 spinnerStyle={{
                     ...imgStyle,
                     height: '100vh',
-                    width: isMobileWidth ? '100vw' : 'calc(100% * 0.5)',
+                    // eslint-disable-next-line no-nested-ternary
+                    width: isMobileWidth
+                        ? '100vw'
+                        : isHorizontalReaderType(settings.readerType)
+                          ? '50vw'
+                          : 'calc(100% * 0.5)',
                     backgroundColor: '#525252',
                 }}
                 imgStyle={imgStyle}
