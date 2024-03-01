@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import React, { useState, CSSProperties, useEffect } from 'react';
+import { useState, CSSProperties, useEffect, forwardRef, ForwardedRef } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import { Theme, SxProps, Stack, Button } from '@mui/material';
@@ -22,16 +22,14 @@ interface IProps {
     src: string;
     alt: string;
 
-    imgRef?: React.RefObject<HTMLImageElement>;
-
     spinnerStyle?: SxProps<Theme>;
     imgStyle?: CSSProperties;
 
     onImageLoad?: () => void;
 }
 
-export function SpinnerImage(props: IProps) {
-    const { src, alt, onImageLoad, imgRef, spinnerStyle, imgStyle } = props;
+export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTMLImageElement | null>) => {
+    const { src, alt, onImageLoad, spinnerStyle, imgStyle } = props;
 
     const { t } = useTranslation();
 
@@ -123,11 +121,4 @@ export function SpinnerImage(props: IProps) {
             />
         </>
     );
-}
-
-SpinnerImage.defaultProps = {
-    spinnerStyle: {},
-    imgStyle: {},
-    onImageLoad: () => {},
-    imgRef: undefined,
-};
+});
