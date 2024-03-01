@@ -24,7 +24,6 @@ import ListItem from '@mui/material/ListItem';
 import { Link } from 'react-router-dom';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/components/util/Toast';
-import { ListItemLink } from '@/components/util/ListItemLink';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext';
 import { BackupRestoreState, ValidateBackupQuery } from '@/lib/graphql/generated/graphql.ts';
 import { Progress } from '@/components/util/Progress.tsx';
@@ -227,12 +226,12 @@ export function Backup() {
     return (
         <>
             <List sx={{ padding: 0 }}>
-                <ListItemLink to={requestManager.getExportBackupUrl()} download target="_self">
+                <ListItemButton component="a" href={requestManager.getExportBackupUrl()} download>
                     <ListItemText
                         primary={t('settings.backup.action.create.label.title')}
                         secondary={t('settings.backup.action.create.label.description')}
                     />
-                </ListItemLink>
+                </ListItemButton>
                 <ListItemButton
                     onClick={() => document.getElementById('backup-file')?.click()}
                     disabled={!!backupRestoreId}
