@@ -23,12 +23,13 @@ Note that the issue will be automatically closed if you do not fill out the titl
 ---
 
 ## Device information
-- Suwayomi version: (Example: v0.2.3-r255-win32)
+- Suwayomi-WebUI version: (Example: r1234)
+- Suwayomi-Server version: (Example: v1.0.0-r1438-win32)
 - Server Operating System: (Example: Ubuntu 20.04)
 - Server Desktop Environment: N/A or (Example: Gnome 40)
 - Server JVM version: bundled with win32 or (Example: Java 8 Update 281 or OpenJDK 8u281)
 - Client Operating System: <usually the same as above Server Operating System>
-- Client Web Browser: (Example: Google Chrome 89.0.4389.82) 
+- Client Web Browser: (Example: Google Chrome 89.0.4389.82)
 
 ## Steps to reproduce
 1. First Step
@@ -42,3 +43,9 @@ Describe what happens instead. Remove this line after you are done.
 
 ## Other details
 Describe additional details If necessary. Remove this line after you are done.
+
+### Video
+Provide a video showcasing the issue. Remove this line after you are done.
+
+### Screenshots
+Provide screenshots showcasing the issue. Remove this line after you are done.
