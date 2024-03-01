@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { forwardRef, useRef } from 'react';
+import { forwardRef } from 'react';
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
 import { useMediaQuery } from '@mui/material';
@@ -67,8 +67,6 @@ export const Page = forwardRef((props: IProps, ref: any) => {
     const theme = useTheme();
     const isMobileWidth = useMediaQuery(theme.breakpoints.down('md'));
 
-    const imgRef = useRef<HTMLImageElement>(null);
-
     const imgStyle = imageStyle(settings);
     const isDoublePageReader = ['DoubleRTL', 'DoubleLTR'].includes(settings.readerType);
 
@@ -87,7 +85,6 @@ export const Page = forwardRef((props: IProps, ref: any) => {
                 src={src}
                 onImageLoad={onImageLoad}
                 alt={`Page #${index}`}
-                imgRef={imgRef}
                 spinnerStyle={{
                     ...imgStyle,
                     height: '100vh',

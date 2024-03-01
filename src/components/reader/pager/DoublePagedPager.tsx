@@ -11,6 +11,7 @@ import { Box } from '@mui/material';
 import { IReaderProps } from '@/typings';
 import { Page } from '@/components/reader/Page';
 import { DoublePage } from '@/components/reader/DoublePage';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 
 const isSpreadPage = (image: HTMLImageElement): boolean => {
     const aspectRatio = image.height / image.width;
@@ -29,23 +30,22 @@ const isSinglePage = (index: number, spreadPages: boolean[], offsetFirstPage: bo
 };
 
 export function DoublePagedPager(props: IReaderProps) {
-    const { pages, settings, setCurPage, initialPage, curPage, nextChapter, prevChapter } = props;
+    const { pages, settings, setCurPage, initialPage, curPage, chapter, nextChapter, prevChapter } = props;
 
     const selfRef = useRef<HTMLDivElement>(null);
-    const pagesRef = useRef<HTMLImageElement[]>([]);
 
     const [pagesToSpreadState, setPagesToSpreadState] = useState(Array(pages.length).fill(false));
     const [pagesLoadState, setPagesLoadState] = useState<boolean[]>(Array(pages.length).fill(false));
 
     function getPagesToDisplay(): number {
         let pagesToDisplay = 1; // has to be at least one so skipping forward while pages are still loading is possible
-        if (curPage < pages.length && pagesRef.current[curPage]) {
+        if (curPage < pages.length) {
             if (pagesLoadState[curPage]) {
                 pagesToDisplay = 1;
                 if (pagesToSpreadState[curPage]) return pagesToDisplay;
             }
         }
-        if (curPage + 1 < pages.length && pagesRef.current[curPage + 1]) {
+        if (curPage + 1 < pages.length) {
             if (pagesLoadState[curPage + 1]) {
                 if (isSinglePage(curPage, pagesToSpreadState, settings.offsetFirstPage)) return pagesToDisplay;
                 pagesToDisplay = 2;
@@ -124,14 +124,6 @@ export function DoublePagedPager(props: IReaderProps) {
         }
     }
 
-    function handleImageLoad(index: number) {
-        return () => {
-            setPagesLoadState((prevState) => prevState.toSpliced(index, 1, true));
-            const image = pagesRef.current[index];
-            setPagesToSpreadState((prevState) => prevState.toSpliced(index, 1, isSpreadPage(image)));
-        };
-    }
-
     useEffect(() => {
         document.addEventListener('keydown', keyboardControl);
 
@@ -154,21 +146,37 @@ export function DoublePagedPager(props: IReaderProps) {
         }
     }, [settings.offsetFirstPage]);
 
+    useEffect(() => {
+        const imageRequests: [number, ReturnType<(typeof requestManager)['requestImage']>][] = pages.map((page) => [
+            page.index,
+            requestManager.requestImage(page.src),
+        ]);
+
+        imageRequests.forEach(async ([index, imageRequest]) => {
+            try {
+                const imageUrl = await imageRequest.response;
+                const img = new Image();
+                img.onload = () => {
+                    URL.revokeObjectURL(imageUrl);
+
+                    setPagesLoadState((prevState) => prevState.toSpliced(index, 1, true));
+                    setPagesToSpreadState((prevState) => prevState.toSpliced(index, 1, isSpreadPage(img)));
+                };
+                img.src = imageUrl;
+            } catch (e) {
+                // ignore
+            }
+        });
+
+        return () => {
+            imageRequests.forEach(([index, imageRequest]) =>
+                imageRequest.abortRequest(new Error(`DoublePagedPager::preload(${index}): chapter changed`)),
+            );
+        };
+    }, [chapter.id]);
+
     return (
         <Box ref={selfRef} onClick={clickControl}>
-            <Box id="preload" sx={{ display: 'none' }}>
-                {pages.map((page) => (
-                    <img
-                        ref={(e: HTMLImageElement) => {
-                            pagesRef.current[page.index] = e;
-                        }}
-                        key={`${page.index}`}
-                        src={page.src}
-                        onLoad={handleImageLoad(page.index)}
-                        alt={`${page.index}`}
-                    />
-                ))}
-            </Box>
             <Box
                 id="display"
                 sx={{

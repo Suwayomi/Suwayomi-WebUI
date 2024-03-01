@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { forwardRef, useRef } from 'react';
+import { forwardRef } from 'react';
 import { Box, SxProps, Theme } from '@mui/material';
 import { IReaderSettings } from '@/typings';
 import { SpinnerImage } from '@/components/util/SpinnerImage';
@@ -23,7 +23,6 @@ interface IProps {
 export const DoublePage = forwardRef((props: IProps, ref: any) => {
     const { image1src, image2src, index, onImageLoad, settings } = props;
 
-    const imgRef = useRef<HTMLImageElement>(null);
     const baseImgStyle = imageStyle(settings);
     const imgStyle = {
         ...baseImgStyle,
@@ -56,7 +55,6 @@ export const DoublePage = forwardRef((props: IProps, ref: any) => {
                 src={image1src}
                 onImageLoad={onImageLoad}
                 alt={`Page #${index}`}
-                imgRef={imgRef}
                 spinnerStyle={spinnerStyle}
                 imgStyle={{ ...imgStyle, objectPosition: settings.readerType === 'DoubleLTR' ? 'right' : 'left' }}
             />
@@ -64,7 +62,6 @@ export const DoublePage = forwardRef((props: IProps, ref: any) => {
                 src={image2src}
                 onImageLoad={onImageLoad}
                 alt={`Page #${index + 1}`}
-                imgRef={imgRef}
                 spinnerStyle={{
                     ...spinnerStyle,
                     width: 'calc(50% - 5px)',
