@@ -746,6 +746,18 @@ export class RequestManager {
         return `${this.getValidUrlFor(imageUrl, apiVersion)}`;
     }
 
+    public requestImage(url: string): { response: Promise<string> } & AbortableRequest {
+        const { abortRequest, signal } = this.createAbortController();
+        const response = this.restClient
+            .fetcher(url, {
+                checkResponseIsJson: false,
+                config: { signal, responseType: 'blob' },
+            })
+            .then((data) => URL.createObjectURL(data));
+
+        return { response, abortRequest };
+    }
+
     private doRequest<Data, Variables extends OperationVariables = OperationVariables>(
         method: GQLMethod.QUERY,
         operation: DocumentNode | TypedDocumentNode<Data, Variables>,
