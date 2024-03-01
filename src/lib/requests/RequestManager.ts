@@ -746,6 +746,19 @@ export class RequestManager {
         return `${this.getValidUrlFor(imageUrl, apiVersion)}`;
     }
 
+    /**
+     * After the image has been handled, {@see URL#revokeObjectURL} has to be called.
+     *
+     * @example
+     *
+     * const imageRequest = requestManager.requestImage("someUrl");
+     * const imageUrl = await imageRequest.response
+     *
+     * const img = new Image();
+     * img.onLoad = () => URL.revokeObjectURL(imageUrl);
+     * img.src = imageUrl;
+     *
+     */
     public requestImage(url: string): { response: Promise<string> } & AbortableRequest {
         const { abortRequest, signal } = this.createAbortController();
         const response = this.restClient

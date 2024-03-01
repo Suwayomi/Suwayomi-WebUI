@@ -116,6 +116,7 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
                 }}
                 ref={imgRef}
                 src={imageSourceUrl}
+                onLoad={() => URL.revokeObjectURL(imageSourceUrl)}
                 alt={alt}
                 draggable={false}
             />
