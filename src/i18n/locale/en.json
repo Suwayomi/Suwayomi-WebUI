@@ -370,6 +370,7 @@
       "general": "General",
       "github": "GitHub",
       "links": "Links",
+      "load_in_progress": "Still loading required data…",
       "loading": "Loading…",
       "never": "Never",
       "none": "None",
