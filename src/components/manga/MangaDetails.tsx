@@ -21,6 +21,8 @@ import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
 import { CategorySelect } from '@/components/navbar/action/CategorySelect.tsx';
 import { Mangas } from '@/lib/data/Mangas.ts';
 import { SpinnerImage } from '@/components/util/SpinnerImage.tsx';
+import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { Categories } from '@/lib/data/Categories.ts';
 
 const DetailsWrapper = styled('div')(({ theme }) => ({
     width: '100%',
@@ -177,6 +179,12 @@ export const MangaDetails: React.FC<IProps> = ({ manga }) => {
         loading: areSettingsLoading,
     } = useMetadataServerSettings();
 
+    const categories = requestManager.useGetCategories();
+    const userCreatedCategories = useMemo(
+        () => Categories.getUserCreated(categories.data?.categories.nodes ?? []),
+        [categories.data?.categories.nodes],
+    );
+
     const [isCategorySelectOpen, setIsCategorySelectOpen] = useState(false);
 
     useEffect(() => {
@@ -195,7 +203,21 @@ export const MangaDetails: React.FC<IProps> = ({ manga }) => {
     };
 
     const handleAddToLibraryClick = () => {
-        if (!showAddToLibraryCategorySelectDialog) {
+        if (categories.loading) {
+            makeToast(t('global.label.load_in_progress'), 'info');
+            return;
+        }
+
+        if (categories.error) {
+            makeToast(t('category.error.label.request_failure'), 'error');
+            categories
+                .refetch()
+                .catch(defaultPromiseErrorHandler('MangaDetails::handleAddToLibraryClick: refetch categories'));
+            return;
+        }
+
+        const showCategorySelectDialog = showAddToLibraryCategorySelectDialog && !!userCreatedCategories.length;
+        if (!showCategorySelectDialog) {
             addToLibrary();
             return;
         }
@@ -236,7 +258,7 @@ export const MangaDetails: React.FC<IProps> = ({ manga }) => {
                     <MangaButtonsContainer inLibrary={manga.inLibrary}>
                         <div>
                             <Button
-                                disabled={areSettingsLoading}
+                                disabled={areSettingsLoading || categories.loading}
                                 startIcon={manga.inLibrary ? <FavoriteIcon /> : <FavoriteBorderIcon />}
                                 onClick={manga.inLibrary ? removeFromLibrary : handleAddToLibraryClick}
                                 size="large"

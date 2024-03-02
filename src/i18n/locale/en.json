@@ -13,8 +13,7 @@
       },
       "no_categories_found": {
         "label": {
-          "hint": "You should make some from the settings.",
-          "info": "No categories found."
+          "info": "You don't have any categories yet."
         }
       }
     },
@@ -296,7 +295,9 @@
       "cancel": "Cancel",
       "clear": "Clear",
       "copy": "Copy",
+      "create": "Create",
       "deselect": "Deselect",
+      "dont_show_dialog_again": "Don't show this dialog again",
       "edit": "Edit",
       "filter": "Filter",
       "latest": "Latest",
@@ -370,6 +371,7 @@
       "general": "General",
       "github": "GitHub",
       "links": "Links",
+      "load_in_progress": "Still loading required data…",
       "loading": "Loading…",
       "never": "Never",
       "none": "None",
