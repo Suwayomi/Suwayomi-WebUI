@@ -30,6 +30,7 @@ import { MenuItem } from '@/components/menu/MenuItem.tsx';
 import { IChapterWithMeta } from '@/components/chapter/ChapterList.tsx';
 import { ChaptersWithMeta } from '@/lib/data/ChaptersWithMeta.ts';
 import { createGetMenuItemTitle, createIsMenuItemDisabled, createShouldShowMenuItem } from '@/components/menu/util.ts';
+import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
 type BaseProps = { onClose: () => void };
 
@@ -116,7 +117,7 @@ export const ChapterActionMenuItems = ({
         Chapters.performAction(actualAction, chapter ? [chapter.id] : ChaptersWithMeta.getIds(chaptersWithMeta), {
             chapters: getChapters(),
             wasManuallyMarkedAsRead: true,
-        });
+        }).catch(defaultPromiseErrorHandler('ChapterActionMenuItems::performAction'));
         onClose();
     };
 
