@@ -287,11 +287,11 @@ export const MangaDetails: React.FC<IProps> = ({ manga }) => {
             {isCategorySelectOpen && (
                 <CategorySelect
                     open={isCategorySelectOpen}
-                    onClose={(didUpdateCategories) => {
+                    onClose={(didUpdateCategories, addToCategories, removeFromCategories) => {
                         setIsCategorySelectOpen(false);
 
                         if (didUpdateCategories) {
-                            addToLibrary();
+                            addToLibrary(addToCategories, removeFromCategories);
                         }
                     }}
                     mangaId={manga.id}

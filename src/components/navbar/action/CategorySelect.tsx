@@ -28,7 +28,7 @@ import { makeToast } from '@/components/util/Toast.tsx';
 
 type BaseProps = {
     open: boolean;
-    onClose: (didUpdateCategories: boolean) => void;
+    onClose: (didUpdateCategories: boolean, addToCategories?: number[], removeFromCategories?: number[]) => void;
 };
 
 type SingleMangaModeProps = {
@@ -125,14 +125,14 @@ export function CategorySelect(props: Props) {
     };
 
     const handleOk = () => {
-        onClose(true);
-
         const addToCategories = isSingleSelectionMode
             ? categoriesToAdd.filter((categoryId) => !mangaCategoryIds.includes(categoryId))
             : categoriesToAdd;
         const removeFromCategories = isSingleSelectionMode
             ? mangaCategoryIds.filter((categoryId) => !categoriesToAdd.includes(categoryId))
             : categoriesToRemove;
+
+        onClose(true, addToCategories, removeFromCategories);
 
         if (doNotShowAddToLibraryDialogAgain) {
             requestUpdateServerMetadata(convertToGqlMeta(serverMetadata)! ?? {}, [
@@ -142,6 +142,11 @@ export function CategorySelect(props: Props) {
 
         const isUpdateRequired = !!addToCategories.length || !!removeFromCategories.length;
         if (!isUpdateRequired) {
+            return;
+        }
+
+        if (addToLibrary) {
+            // categories get updated in MangaDetails
             return;
         }
 
