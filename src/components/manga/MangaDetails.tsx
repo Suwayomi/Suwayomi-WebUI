@@ -14,6 +14,8 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { t as translate } from 'i18next';
 import Button from '@mui/material/Button';
+import { SpeedDialIcon } from '@mui/material';
+import { useQuery } from '@apollo/client';
 import { ISource, TManga } from '@/typings';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/components/util/Toast';
@@ -21,6 +23,8 @@ import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
 import { CategorySelect } from '@/components/navbar/action/CategorySelect.tsx';
 import { Mangas } from '@/lib/data/Mangas.ts';
 import { SpinnerImage } from '@/components/util/SpinnerImage.tsx';
+import { GET_LOGGED_IN_TRACKERS } from '@/lib/graphql/queries/TrackerQuery';
+import { Tracker, TrackerList } from '@/components/trackers/TrackerList';
 
 const DetailsWrapper = styled('div')(({ theme }) => ({
     width: '100%',
@@ -156,7 +160,12 @@ const OpenSourceButton = ({ url }: { url?: string | null }) => {
 interface IProps {
     manga: TManga;
 }
-
+type TrackersData = {
+    trackers: {
+        __typename: 'TrackerNodeList';
+        nodes: Tracker[];
+    };
+};
 function getSourceName(source?: ISource | null) {
     if (!source) {
         return translate('global.label.unknown');
@@ -170,12 +179,17 @@ function getValueOrUnknown(val?: string | null) {
 }
 
 export const MangaDetails: React.FC<IProps> = ({ manga }) => {
+    const [trackerListDialogOpen, setTrackerListDialogOpen] = useState(false);
+
     const { t } = useTranslation();
 
     const {
         settings: { showAddToLibraryCategorySelectDialog },
         loading: areSettingsLoading,
     } = useMetadataServerSettings();
+
+    const trackers = useQuery<TrackersData>(GET_LOGGED_IN_TRACKERS);
+    console.log(trackers?.data?.trackers.nodes[0].icon);
 
     const [isCategorySelectOpen, setIsCategorySelectOpen] = useState(false);
 
@@ -243,6 +257,14 @@ export const MangaDetails: React.FC<IProps> = ({ manga }) => {
                             >
                                 {manga.inLibrary ? t('manga.button.in_library') : t('manga.button.add_to_library')}
                             </Button>
+                            <Button
+                                disabled={areSettingsLoading}
+                                startIcon={<SpeedDialIcon />}
+                                onClick={() => setTrackerListDialogOpen(true)}
+                                size="large"
+                            >
+                                {manga.inLibrary ? t('manga.button.in_library') : t('manga.button.add_to_library')}
+                            </Button>
                         </div>
                         <OpenSourceButton url={manga.realUrl} />
                     </MangaButtonsContainer>
@@ -271,6 +293,14 @@ export const MangaDetails: React.FC<IProps> = ({ manga }) => {
                     }}
                     mangaId={manga.id}
                     addToLibrary
+                />
+            )}
+            {trackerListDialogOpen && (
+                <TrackerList
+                    open={trackerListDialogOpen}
+                    setOpen={setTrackerListDialogOpen}
+                    trackers={trackers?.data?.trackers?.nodes ?? []}
+                    mangaName={manga.title}
                 />
             )}
         </>

@@ -9,3 +9,7 @@ build/*
 tools/scripts/github_token.json
 
 src/lib/graphql/schema.json
+
+# local dev
+pnpm-lock.yaml
+compose.yml

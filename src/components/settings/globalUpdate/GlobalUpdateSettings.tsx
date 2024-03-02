@@ -16,6 +16,7 @@ import { GlobalUpdateSettingsInterval } from '@/components/settings/globalUpdate
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { ServerSettings } from '@/typings.ts';
+import { GlobalUpdateSettingsTracker } from '@/components/settings/globalUpdate/GlobalUpdateSettingsTracker';
 
 type LibrarySettingsType = Pick<ServerSettings, 'updateMangas'>;
 
@@ -47,6 +48,7 @@ export const GlobalUpdateSettings = () => {
         >
             <GlobalUpdateSettingsInterval />
             <GlobalUpdateSettingsEntries />
+            <GlobalUpdateSettingsTracker />
             <CategoriesInclusionSetting
                 includeField="includeInUpdate"
                 dialogText={t('library.settings.global_update.categories.label.info')}
