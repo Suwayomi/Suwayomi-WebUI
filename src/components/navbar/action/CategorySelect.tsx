@@ -14,6 +14,8 @@ import DialogActions from '@mui/material/DialogActions';
 import Dialog from '@mui/material/Dialog';
 import FormGroup from '@mui/material/FormGroup';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
+import { Stack } from '@mui/material';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Mangas } from '@/lib/data/Mangas.ts';
 import { useSelectableCollection } from '@/components/collection/useSelectableCollection.ts';
@@ -152,13 +154,7 @@ export function CategorySelect(props: Props) {
             <DialogTitle>{t('category.title.set_categories')}</DialogTitle>
             <DialogContent dividers>
                 <FormGroup>
-                    {allCategories.length === 0 && (
-                        <span>
-                            {t('category.error.no_categories_found.label.info')}
-                            <br />
-                            {t('category.error.no_categories_found.label.hint')}
-                        </span>
-                    )}
+                    {allCategories.length === 0 && <span>{t('category.error.no_categories_found.label.info')}</span>}
                     {allCategories.map((category) => (
                         <ThreeStateCheckboxInput
                             checked={getCategoryCheckedState(
@@ -186,12 +182,21 @@ export function CategorySelect(props: Props) {
                 </FormGroup>
             </DialogContent>
             <DialogActions>
-                <Button autoFocus onClick={handleCancel} color="primary">
-                    {t('global.button.cancel')}
-                </Button>
-                <Button onClick={handleOk} color="primary">
-                    {t('global.button.ok')}
-                </Button>
+                <Stack sx={{ width: '100%' }} direction="row" justifyContent="space-between" alignItems="end">
+                    <Button component={Link} to="/settings/categories">
+                        {t(allCategories.length ? 'global.button.edit' : 'global.button.create')}
+                    </Button>
+                    <Stack direction="row">
+                        <Button autoFocus onClick={handleCancel} color="primary">
+                            {t('global.button.cancel')}
+                        </Button>
+                        {!!allCategories.length && (
+                            <Button onClick={handleOk} color="primary">
+                                {t('global.button.ok')}
+                            </Button>
+                        )}
+                    </Stack>
+                </Stack>
             </DialogActions>
         </Dialog>
     );

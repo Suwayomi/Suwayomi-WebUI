@@ -13,8 +13,7 @@
       },
       "no_categories_found": {
         "label": {
-          "hint": "You should make some from the settings.",
-          "info": "No categories found."
+          "info": "You don't have any categories yet."
         }
       }
     },
@@ -296,6 +295,7 @@
       "cancel": "Cancel",
       "clear": "Clear",
       "copy": "Copy",
+      "create": "Create",
       "deselect": "Deselect",
       "edit": "Edit",
       "filter": "Filter",
