@@ -97,6 +97,19 @@ export function LibrarySettings() {
                         onChange={(e) => setSettingValue('showAddToLibraryCategorySelectDialog', e.target.checked)}
                     />
                 </ListItem>
+                <ListItem>
+                    <ListItemText
+                        primary={t('library.settings.general.remove_from_library.remove_from_categories.label.title')}
+                        secondary={t(
+                            'library.settings.general.remove_from_library.remove_from_categories.label.description',
+                        )}
+                    />
+                    <Switch
+                        edge="end"
+                        checked={settings.removeMangaFromCategories}
+                        onChange={(e) => setSettingValue('removeMangaFromCategories', e.target.checked)}
+                    />
+                </ListItem>
             </List>
             <GlobalUpdateSettings />
             <List

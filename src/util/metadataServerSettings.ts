@@ -20,6 +20,7 @@ export const getDefaultSettings = (): MetadataServerSettings => ({
     // library
     showAddToLibraryCategorySelectDialog: true,
     ignoreFilters: false,
+    removeMangaFromCategories: false,
 });
 
 const getMetadataServerSettingsWithDefaultFallback = (

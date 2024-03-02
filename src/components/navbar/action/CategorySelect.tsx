@@ -25,6 +25,7 @@ import { CheckboxInput } from '@/components/atoms/CheckboxInput.tsx';
 import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
 import { convertToGqlMeta, requestUpdateServerMetadata } from '@/util/metadata.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
+import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
 type BaseProps = {
     open: boolean;
@@ -155,7 +156,7 @@ export function CategorySelect(props: Props) {
                 addToCategories,
                 removeFromCategories,
             },
-        });
+        }).catch(defaultPromiseErrorHandler('CategorySelect::handleOk'));
     };
 
     return (

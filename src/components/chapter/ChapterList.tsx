@@ -29,6 +29,7 @@ import { SelectableCollectionSelectAll } from '@/components/collection/Selectabl
 import { Chapters } from '@/lib/data/Chapters.ts';
 import { ChaptersWithMeta } from '@/lib/data/ChaptersWithMeta.ts';
 import { ChapterActionMenuItems } from '@/components/chapter/ChapterActionMenuItems.tsx';
+import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
 const ChapterListHeader = styled(Stack)(({ theme }) => ({
     margin: 8,
@@ -167,7 +168,7 @@ export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
                                 onClick={() =>
                                     Chapters.download(
                                         ChaptersWithMeta.getIds(ChaptersWithMeta.getNonDownloaded(chaptersWithMeta)),
-                                    )
+                                    ).catch(defaultPromiseErrorHandler('ChapterList::download'))
                                 }
                             >
                                 <DownloadIcon />

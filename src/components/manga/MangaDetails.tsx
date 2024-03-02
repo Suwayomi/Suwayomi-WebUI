@@ -229,11 +229,7 @@ export const MangaDetails: React.FC<IProps> = ({ manga }) => {
     };
 
     const removeFromLibrary = () => {
-        Promise.all([requestManager.updateManga(manga.id, { updateManga: { inLibrary: false } }).response])
-            .then(() => makeToast(t('library.info.label.removed_from_library'), 'success'))
-            .catch(() => {
-                makeToast(t('library.error.label.remove_from_library'), 'error');
-            });
+        Mangas.removeFromLibrary([manga.id]).catch(defaultPromiseErrorHandler('MangaDetails::removeFromLibrary'));
     };
 
     return (

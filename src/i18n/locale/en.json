@@ -492,6 +492,14 @@
             }
           }
         },
+        "remove_from_library": {
+          "remove_from_categories": {
+            "label": {
+              "description": "Remove manga from categories when removing them from the library",
+              "title": "Forget manga categories"
+            }
+          }
+        },
         "search": {
           "ignore_filters": {
             "label": {
