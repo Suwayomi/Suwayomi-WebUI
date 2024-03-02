@@ -18,6 +18,7 @@ import {
 } from '@/lib/graphql/generated/graphql.ts';
 import { Chapters } from '@/lib/data/Chapters.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
+import { getMetadataServerSettings } from '@/util/metadataServerSettings.ts';
 
 export type MangaAction =
     | 'download'
@@ -208,10 +209,15 @@ export class Mangas {
     }
 
     static async removeFromLibrary(mangaIds: number[]): Promise<void> {
+        const { removeMangaFromCategories } = await getMetadataServerSettings();
         return Mangas.executeAction(
             'remove_from_library',
             mangaIds.length,
-            () => requestManager.updateMangas(mangaIds, { inLibrary: false }).response,
+            () =>
+                requestManager.updateMangas(mangaIds, {
+                    updateMangas: { inLibrary: false },
+                    updateMangasCategories: removeMangaFromCategories ? { clearCategories: true } : undefined,
+                }).response,
         );
     }
 
