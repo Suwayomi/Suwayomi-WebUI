@@ -193,9 +193,12 @@ export const MangaDetails: React.FC<IProps> = ({ manga }) => {
         }
     }, [manga.source]);
 
-    const addToLibrary = () => {
+    const addToLibrary = (addToCategories: number[] = [], removeFromCategories: number[] = []) => {
         requestManager
-            .updateManga(manga.id, { inLibrary: true })
+            .updateManga(manga.id, {
+                updateManga: { inLibrary: true },
+                updateMangaCategories: { addToCategories, removeFromCategories },
+            })
             .response.then(() => makeToast(t('library.info.label.added_to_library'), 'success'))
             .catch(() => {
                 makeToast(t('library.error.label.add_to_library'), 'error');
@@ -218,7 +221,7 @@ export const MangaDetails: React.FC<IProps> = ({ manga }) => {
 
         const showCategorySelectDialog = showAddToLibraryCategorySelectDialog && !!userCreatedCategories.length;
         if (!showCategorySelectDialog) {
-            addToLibrary();
+            addToLibrary(Categories.getIds(Categories.getDefaults(userCreatedCategories!)));
             return;
         }
 
@@ -226,7 +229,7 @@ export const MangaDetails: React.FC<IProps> = ({ manga }) => {
     };
 
     const removeFromLibrary = () => {
-        Promise.all([requestManager.updateManga(manga.id, { inLibrary: false }).response])
+        Promise.all([requestManager.updateManga(manga.id, { updateManga: { inLibrary: false } }).response])
             .then(() => makeToast(t('library.info.label.removed_from_library'), 'success'))
             .catch(() => {
                 makeToast(t('library.error.label.remove_from_library'), 'error');

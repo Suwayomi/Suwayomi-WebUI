@@ -2833,10 +2833,12 @@ export type SetMangaMetadataMutation = { __typename?: 'Mutation', setMangaMeta: 
 
 export type UpdateMangaMutationVariables = Exact<{
   input: UpdateMangaInput;
+  updateCategoryInput: UpdateMangaCategoriesInput;
+  updateCategories: Scalars['Boolean']['input'];
 }>;
 
 
-export type UpdateMangaMutation = { __typename?: 'Mutation', updateManga: { __typename?: 'UpdateMangaPayload', clientMutationId?: string | null, manga: { __typename?: 'MangaType', id: number, inLibrary: boolean, inLibraryAt: any, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> } } } };
+export type UpdateMangaMutation = { __typename?: 'Mutation', updateManga: { __typename?: 'UpdateMangaPayload', clientMutationId?: string | null, manga: { __typename?: 'MangaType', id: number, inLibrary: boolean, inLibraryAt: any } }, updateMangaCategories?: { __typename?: 'UpdateMangaCategoriesPayload', manga: { __typename?: 'MangaType', id: number, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> } } } };
 
 export type UpdateMangasMutationVariables = Exact<{
   input: UpdateMangasInput;
