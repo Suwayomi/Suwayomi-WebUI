@@ -18,7 +18,7 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Mangas } from '@/lib/data/Mangas.ts';
 import { useSelectableCollection } from '@/components/collection/useSelectableCollection.ts';
 import { ThreeStateCheckboxInput } from '@/components/atoms/ThreeStateCheckboxInput.tsx';
-import { TCategory } from '@/typings.ts';
+import { Categories } from '@/lib/data/Categories.ts';
 
 type BaseProps = {
     open: boolean;
@@ -46,7 +46,7 @@ const useGetMangaCategoryIds = (mangaId: number | undefined): number[] => {
             return [];
         }
 
-        return mangaResult.manga.categories.nodes.map((category) => category.id);
+        return Categories.getIds(mangaResult.manga.categories.nodes);
     }, [mangaResult?.manga.categories.nodes, mangaId]);
 };
 
@@ -71,9 +71,6 @@ const getCategoryCheckedState = (
     return undefined;
 };
 
-const getDefaultCategoryIds = (categories: TCategory[]) =>
-    categories.filter(({ default: isDefault }) => isDefault).map(({ id }) => id);
-
 export function CategorySelect(props: Props) {
     const { t } = useTranslation();
 
@@ -86,16 +83,10 @@ export function CategorySelect(props: Props) {
     const { data } = requestManager.useGetCategories();
     const categoriesData = data?.categories.nodes;
 
-    const allCategories = useMemo(() => {
-        const cats = [...(categoriesData ?? [])]; // make copy
-        if (cats.length > 0 && cats[0].name === 'Default') {
-            cats.shift(); // remove first category if it is 'Default'
-        }
-        return cats;
-    }, [categoriesData]);
+    const allCategories = useMemo(() => Categories.getUserCreated(categoriesData ?? []), [categoriesData]);
 
     const defaultCategoryIds = useMemo(
-        () => (addToLibrary ? getDefaultCategoryIds(allCategories) : []),
+        () => (addToLibrary ? Categories.getIds(Categories.getDefaults(allCategories)) : []),
         [allCategories],
     );
 
