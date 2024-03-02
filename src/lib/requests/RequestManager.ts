@@ -1560,13 +1560,17 @@ export class RequestManager {
 
     public updateManga(
         id: number,
-        patch: UpdateMangaPatchInput,
+        patch: { updateManga: UpdateMangaPatchInput; updateMangaCategories?: UpdateMangaCategoriesPatchInput },
         options?: MutationOptions<UpdateMangaMutation, UpdateMangaMutationVariables>,
     ): AbortableApolloMutationResponse<UpdateMangaMutation> {
         const result = this.doRequest<UpdateMangaMutation, UpdateMangaMutationVariables>(
             GQLMethod.MUTATION,
             UPDATE_MANGA,
-            { input: { id, patch } },
+            {
+                input: { id, patch: patch.updateManga },
+                updateCategoryInput: { id, patch: patch.updateMangaCategories ?? {} },
+                updateCategories: !!patch.updateMangaCategories,
+            },
             options,
         );
 

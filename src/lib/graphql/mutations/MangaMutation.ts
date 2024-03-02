@@ -99,13 +99,22 @@ export const SET_MANGA_METADATA = gql`
 `;
 
 export const UPDATE_MANGA = gql`
-    mutation UPDATE_MANGA($input: UpdateMangaInput!) {
+    mutation UPDATE_MANGA(
+        $input: UpdateMangaInput!
+        $updateCategoryInput: UpdateMangaCategoriesInput!
+        $updateCategories: Boolean!
+    ) {
         updateManga(input: $input) {
             clientMutationId
             manga {
                 id
                 inLibrary
                 inLibraryAt
+            }
+        }
+        updateMangaCategories(input: $updateCategoryInput) @include(if: $updateCategories) {
+            manga {
+                id
                 categories {
                     nodes {
                         id

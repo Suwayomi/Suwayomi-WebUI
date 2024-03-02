@@ -299,9 +299,11 @@ export class Mangas {
                     ? Mangas.migrateCategories(mangaToMigrateData.manga, mangaToMigrateToData.fetchManga.manga)
                     : undefined,
                 !mangaToMigrateToData.fetchManga.manga.inLibrary
-                    ? requestManager.updateManga(mangaIdToMigrateTo, { inLibrary: true }).response
+                    ? requestManager.updateManga(mangaIdToMigrateTo, { updateManga: { inLibrary: true } }).response
                     : undefined,
-                mode === 'migrate' ? requestManager.updateManga(mangaId, { inLibrary: false }).response : undefined,
+                mode === 'migrate'
+                    ? requestManager.updateManga(mangaId, { updateManga: { inLibrary: false } }).response
+                    : undefined,
             ]);
         });
     }
