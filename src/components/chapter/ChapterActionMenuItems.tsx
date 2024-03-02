@@ -16,6 +16,7 @@ import BookmarkRemove from '@mui/icons-material/BookmarkRemove';
 import BookmarkAdd from '@mui/icons-material/BookmarkAdd';
 import DoneAll from '@mui/icons-material/DoneAll';
 import { useMemo } from 'react';
+import PublicIcon from '@mui/icons-material/Public';
 import { SelectableCollectionReturnType } from '@/components/collection/useSelectableCollection.ts';
 import {
     actionToTranslationKey,
@@ -23,6 +24,7 @@ import {
     ChapterBookmarkInfo,
     ChapterDownloadInfo,
     ChapterReadInfo,
+    ChapterRealUrlInfo,
     Chapters,
 } from '@/lib/data/Chapters.ts';
 import { TChapter } from '@/typings.ts';
@@ -35,7 +37,7 @@ import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts
 type BaseProps = { onClose: () => void };
 
 type SingleModeProps = {
-    chapter: ChapterDownloadInfo & ChapterBookmarkInfo & ChapterReadInfo;
+    chapter: ChapterDownloadInfo & ChapterBookmarkInfo & ChapterReadInfo & ChapterRealUrlInfo;
     allChapters: TChapter[];
     handleSelection?: SelectableCollectionReturnType<TChapter['id']>['handleSelection'];
     canBeDownloaded: boolean;
@@ -125,6 +127,17 @@ export const ChapterActionMenuItems = ({
         <>
             {isSingleMode && (
                 <MenuItem onClick={handleSelect} Icon={CheckBoxOutlineBlank} title={t('chapter.action.label.select')} />
+            )}
+            {isSingleMode && (
+                <MenuItem
+                    Icon={PublicIcon}
+                    disabled={!chapter!.realUrl}
+                    onClick={() => {
+                        window.open(chapter!.realUrl!, '_blank', 'noopener,noreferrer');
+                        onClose();
+                    }}
+                    title={t('chapter.action.label.open_on_source')}
+                />
             )}
             {shouldShowMenuItem(canBeDownloaded) && (
                 <MenuItem

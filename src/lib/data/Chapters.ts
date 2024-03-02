@@ -83,6 +83,7 @@ export type ChapterBookmarkInfo = ChapterIdInfo & Pick<TChapter, 'isBookmarked'>
 export type ChapterReadInfo = ChapterIdInfo & Pick<TChapter, 'isRead'>;
 export type ChapterNumberInfo = ChapterIdInfo & Pick<TChapter, 'chapterNumber'>;
 export type ChapterScanlatorInfo = ChapterIdInfo & Pick<TChapter, 'scanlator'>;
+export type ChapterRealUrlInfo = Pick<TChapter, 'realUrl'>;
 
 export class Chapters {
     static getIds(chapters: { id: number }[]): number[] {

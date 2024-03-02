@@ -90,6 +90,7 @@
         }
       },
       "label": {
+        "open_on_source": "Open on source",
         "select": "Select"
       },
       "mark_as_read": {
