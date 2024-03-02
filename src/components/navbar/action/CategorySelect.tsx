@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Button from '@mui/material/Button';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -21,6 +21,10 @@ import { Mangas } from '@/lib/data/Mangas.ts';
 import { useSelectableCollection } from '@/components/collection/useSelectableCollection.ts';
 import { ThreeStateCheckboxInput } from '@/components/atoms/ThreeStateCheckboxInput.tsx';
 import { Categories } from '@/lib/data/Categories.ts';
+import { CheckboxInput } from '@/components/atoms/CheckboxInput.tsx';
+import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
+import { convertToGqlMeta, requestUpdateServerMetadata } from '@/util/metadata.ts';
+import { makeToast } from '@/components/util/Toast.tsx';
 
 type BaseProps = {
     open: boolean;
@@ -81,6 +85,9 @@ export function CategorySelect(props: Props) {
     const isSingleSelectionMode = mangaId !== undefined;
     const mangaIds = passedMangaIds ?? [mangaId];
 
+    const [doNotShowAddToLibraryDialogAgain, setDoNotShowAddToLibraryDialogAgain] = useState(false);
+    const { metadata: serverMetadata } = useMetadataServerSettings();
+
     const mangaCategoryIds = useGetMangaCategoryIds(mangaId);
     const { data } = requestManager.useGetCategories();
     const categoriesData = data?.categories.nodes;
@@ -126,6 +133,12 @@ export function CategorySelect(props: Props) {
         const removeFromCategories = isSingleSelectionMode
             ? mangaCategoryIds.filter((categoryId) => !categoriesToAdd.includes(categoryId))
             : categoriesToRemove;
+
+        if (doNotShowAddToLibraryDialogAgain) {
+            requestUpdateServerMetadata(convertToGqlMeta(serverMetadata)! ?? {}, [
+                ['showAddToLibraryCategorySelectDialog', false],
+            ]).catch(() => makeToast(t('search.error.label.failed_to_save_settings'), 'error'));
+        }
 
         const isUpdateRequired = !!addToCategories.length || !!removeFromCategories.length;
         if (!isUpdateRequired) {
@@ -182,19 +195,29 @@ export function CategorySelect(props: Props) {
                 </FormGroup>
             </DialogContent>
             <DialogActions>
-                <Stack sx={{ width: '100%' }} direction="row" justifyContent="space-between" alignItems="end">
-                    <Button component={Link} to="/settings/categories">
-                        {t(allCategories.length ? 'global.button.edit' : 'global.button.create')}
-                    </Button>
-                    <Stack direction="row">
-                        <Button autoFocus onClick={handleCancel} color="primary">
-                            {t('global.button.cancel')}
+                <Stack sx={{ width: '100%' }}>
+                    {addToLibrary && (
+                        <CheckboxInput
+                            sx={{ margin: 0 }}
+                            size="small"
+                            label={t('global.button.dont_show_dialog_again')}
+                            onChange={(e) => setDoNotShowAddToLibraryDialogAgain(e.target.checked)}
+                        />
+                    )}
+                    <Stack sx={{ width: '100%' }} direction="row" justifyContent="space-between" alignItems="end">
+                        <Button component={Link} to="/settings/categories">
+                            {t(allCategories.length ? 'global.button.edit' : 'global.button.create')}
                         </Button>
-                        {!!allCategories.length && (
-                            <Button onClick={handleOk} color="primary">
-                                {t('global.button.ok')}
+                        <Stack direction="row">
+                            <Button autoFocus onClick={handleCancel} color="primary">
+                                {t('global.button.cancel')}
                             </Button>
-                        )}
+                            {!!allCategories.length && (
+                                <Button onClick={handleOk} color="primary">
+                                    {t('global.button.ok')}
+                                </Button>
+                            )}
+                        </Stack>
                     </Stack>
                 </Stack>
             </DialogActions>

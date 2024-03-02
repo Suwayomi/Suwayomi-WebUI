@@ -297,6 +297,7 @@
       "copy": "Copy",
       "create": "Create",
       "deselect": "Deselect",
+      "dont_show_dialog_again": "Don't show this dialog again",
       "edit": "Edit",
       "filter": "Filter",
       "latest": "Latest",
