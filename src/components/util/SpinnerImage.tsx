@@ -48,6 +48,7 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
     };
 
     useEffect(() => {
+        let tmpImageSourceUrl: string;
         const imageRequest = requestManager.requestImage(src);
 
         const fetchImage = async () => {
@@ -57,6 +58,7 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
 
                     updateImageState(false);
                     setImageSourceUrl(image);
+                    tmpImageSourceUrl = image;
                 };
 
                 const checkCache = await Promise.race([imageRequest.response, Promise.resolve(false)]);
@@ -78,6 +80,9 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
         fetchImage().catch(defaultPromiseErrorHandler);
 
         return () => {
+            if (tmpImageSourceUrl) {
+                URL.revokeObjectURL(tmpImageSourceUrl);
+            }
             imageRequest.abortRequest(new Error('Component was unmounted'));
         };
     }, [imgLoadRetryKey]);
@@ -116,7 +121,6 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
                 }}
                 ref={imgRef}
                 src={imageSourceUrl}
-                onLoad={() => URL.revokeObjectURL(imageSourceUrl)}
                 alt={alt}
                 draggable={false}
             />
