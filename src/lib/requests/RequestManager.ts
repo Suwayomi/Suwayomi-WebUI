@@ -6,7 +6,6 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { AxiosInstance } from 'axios';
 import {
     ApolloError,
     ApolloQueryResult,
@@ -370,13 +369,13 @@ export class RequestManager {
         return this.restClient;
     }
 
-    public updateClient(config: Partial<AxiosInstance['defaults']>): void {
+    public updateClient(config: RequestInit): void {
         this.restClient.updateConfig(config);
         this.graphQLClient.updateConfig();
     }
 
     public getBaseUrl(): string {
-        return this.restClient.getClient().defaults.baseURL!;
+        return this.restClient.getBaseUrl();
     }
 
     public getValidUrlFor(endpoint: string, apiVersion: string = RequestManager.API_VERSION): string {
@@ -764,8 +763,9 @@ export class RequestManager {
         const response = this.restClient
             .fetcher(url, {
                 checkResponseIsJson: false,
-                config: { signal, responseType: 'blob' },
+                config: { signal },
             })
+            .then((data) => data.blob())
             .then((data) => URL.createObjectURL(data));
 
         return { response, abortRequest };

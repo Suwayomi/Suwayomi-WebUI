@@ -6,33 +6,30 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { BaseClient } from '@/lib/requests/client/BaseClient.ts';
 
 export enum HttpMethod {
-    GET = 'get',
-    POST = 'post',
-    PATCH = 'patch',
-    DELETE = 'delete',
+    GET = 'GET',
+    POST = 'POST',
+    PATCH = 'PATCH',
+    DELETE = 'DELETE',
 }
 
-type SimpleRestResponse<Data = any> = {
-    data: Data;
-};
-
 export interface IRestClient {
-    get<Data = any, Response = SimpleRestResponse<Data>>(url: string): Promise<Response>;
-    delete<Data = any, Response = SimpleRestResponse<Data>>(url: string): Promise<Response>;
-    post<Data = any, Response = SimpleRestResponse<Data>>(url: string, data?: any): Promise<Response>;
-    put<Data = any, Response = SimpleRestResponse<Data>>(url: string, data?: any): Promise<Response>;
-    patch<Data = any, Response = SimpleRestResponse<Data>>(url: string, data?: any): Promise<Response>;
+    get(url: string): Promise<Response>;
+    delete(url: string): Promise<Response>;
+    post(url: string, data?: any): Promise<Response>;
+    put(url: string, data?: any): Promise<Response>;
+    patch(url: string, data?: any): Promise<Response>;
 }
 
 export class RestClient
-    extends BaseClient<AxiosInstance, AxiosInstance['defaults'], <Data = any>(url: string, data: any) => Promise<Data>>
+    extends BaseClient<typeof fetch, RequestInit, (url: string, data: any) => Promise<Response>>
     implements IRestClient
 {
-    public readonly fetcher = async <Data = any>(
+    private config: RequestInit = {};
+
+    public readonly fetcher = async (
         url: string,
         {
             data,
@@ -42,20 +39,27 @@ export class RestClient
         }: {
             data?: any;
             httpMethod?: HttpMethod;
-            config?: AxiosRequestConfig;
+            config?: RequestInit;
             checkResponseIsJson?: boolean;
         } = {},
-    ): Promise<Data> => {
-        let result: AxiosResponse<Data>;
+    ): Promise<Response> => {
+        const updatedUrl = url.startsWith('http') ? url : `${this.getBaseUrl()}${url}`;
+
+        let result: Response;
 
         switch (httpMethod) {
             case HttpMethod.GET:
-                result = await this.client[httpMethod](url, config);
+                result = await this.client(updatedUrl, { ...this.config, ...config, method: httpMethod });
                 break;
             case HttpMethod.POST:
             case HttpMethod.PATCH:
             case HttpMethod.DELETE:
-                result = await this.client[httpMethod](url, data, config);
+                result = await this.client(updatedUrl, {
+                    ...this.config,
+                    ...config,
+                    method: httpMethod,
+                    body: JSON.stringify(data),
+                });
                 break;
             default:
                 throw new Error(`Unexpected HttpMethod "${httpMethod}"`);
@@ -65,54 +69,42 @@ export class RestClient
             throw new Error(result.statusText);
         }
 
-        if (checkResponseIsJson && result.headers['content-type'] !== 'application/json') {
+        if (checkResponseIsJson && result.headers.get('content-type') !== 'application/json') {
             throw new Error('Response is not json');
         }
 
-        return result.data;
+        return result;
     };
 
     protected override createClient(): void {
-        const baseURL = this.getBaseUrl();
-
-        this.client = axios.create({
-            // baseURL must not have trailing slash
-            baseURL,
-        });
-
-        this.client.interceptors.request.use((config) => {
-            if (config.data instanceof FormData) {
-                Object.assign(config.headers, { 'Content-Type': 'multipart/form-data' });
-            }
-            return config;
-        });
+        this.client = fetch.bind(window);
     }
 
-    public updateConfig(config: Partial<AxiosInstance['defaults']>): void {
-        this.client.defaults = { ...this.client.defaults, ...config };
+    public updateConfig(config: RequestInit): void {
+        this.config = { ...this.config, ...config };
     }
 
-    public getClient(): AxiosInstance {
+    public getClient(): typeof fetch {
         return this.client;
     }
 
     get get() {
-        return this.client.get;
+        return (url: string) => this.fetcher(url);
     }
 
     get post() {
-        return this.client.post;
+        return (url: string, data?: any) => this.fetcher(url, { data, httpMethod: HttpMethod.POST });
     }
 
     get put() {
-        return this.client.put;
+        return (url: string, data?: any) => this.fetcher(url, { data, httpMethod: HttpMethod.POST });
     }
 
     get patch() {
-        return this.client.patch;
+        return (url: string, data?: any) => this.fetcher(url, { data, httpMethod: HttpMethod.PATCH });
     }
 
     get delete() {
-        return this.client.delete;
+        return (url: string) => this.fetcher(url, { httpMethod: HttpMethod.DELETE });
     }
 }

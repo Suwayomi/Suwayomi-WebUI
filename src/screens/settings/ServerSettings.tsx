@@ -88,7 +88,6 @@ export const ServerSettings = () => {
     const handleServerAddressChange = (address: string) => {
         const serverBaseUrl = address.replaceAll(/(\/)+$/g, '');
         setServerAddress(serverBaseUrl);
-        requestManager.updateClient({ baseURL: serverBaseUrl });
     };
 
     const updateSetting = <Setting extends keyof ServerSettingsType>(
