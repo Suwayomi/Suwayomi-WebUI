@@ -60,27 +60,29 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                             <Refresh />
                         </IconButton>
                     </Tooltip>
-                    <Tooltip title={t('global.button.migrate')}>
-                        <Link
-                            to={`/migrate/source/${manga.source?.id}/manga/${manga.id}/search?query=${manga.title}`}
-                            state={{ mangaTitle: manga.title }}
-                            style={{ textDecoration: 'none', color: 'inherit' }}
-                        >
-                            <IconButton>
-                                <SyncAltIcon />
-                            </IconButton>
-                        </Link>
-                    </Tooltip>
                     {manga.inLibrary && (
-                        <Tooltip title={t('manga.label.edit_categories')}>
-                            <IconButton
-                                onClick={() => {
-                                    setEditCategories(true);
-                                }}
-                            >
-                                <Label />
-                            </IconButton>
-                        </Tooltip>
+                        <>
+                            <Tooltip title={t('global.button.migrate')}>
+                                <Link
+                                    to={`/migrate/source/${manga.source?.id}/manga/${manga.id}/search?query=${manga.title}`}
+                                    state={{ mangaTitle: manga.title }}
+                                    style={{ textDecoration: 'none', color: 'inherit' }}
+                                >
+                                    <IconButton>
+                                        <SyncAltIcon />
+                                    </IconButton>
+                                </Link>
+                            </Tooltip>
+                            <Tooltip title={t('manga.label.edit_categories')}>
+                                <IconButton
+                                    onClick={() => {
+                                        setEditCategories(true);
+                                    }}
+                                >
+                                    <Label />
+                                </IconButton>
+                            </Tooltip>
+                        </>
                     )}
                 </>
             )}
