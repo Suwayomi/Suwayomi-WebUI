@@ -25,6 +25,8 @@ import Collapse from '@mui/material/Collapse';
 import { useTranslation } from 'react-i18next';
 import { AllowedMetadataValueTypes, ChapterOffset, IReaderSettings, TChapter, TManga } from '@/typings';
 import { ReaderSettingsOptions } from '@/components/reader/ReaderSettingsOptions';
+import { useBackButton } from '@/util/useBackButton.ts';
+import { useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
 
 const Root = styled('div')({
     zIndex: 10,
@@ -137,6 +139,9 @@ export function ReaderNavBar(props: IProps) {
     const { settings, setSettingValue, manga, chapter, curPage, scrollToPage, openNextChapter, retrievingNextChapter } =
         props;
 
+    const handleBack = useBackButton();
+    useSetDefaultBackTo(`/manga/${manga.id}`);
+
     const [drawerOpen, setDrawerOpen] = useState(settings.staticNav || prevDrawerOpen);
     const [updateDrawerOnRender, setUpdateDrawerOnRender] = useState(true);
     const [hideOpenButton, setHideOpenButton] = useState(settings.staticNav || prevDrawerOpen);
@@ -188,19 +193,6 @@ export function ReaderNavBar(props: IProps) {
         };
     }, [handleScroll]); // handleScroll changes on every render
 
-    const handleClose = () => {
-        const isLastPageInHistory = location.key === 'default';
-
-        if (isLastPageInHistory) {
-            navigate(`/manga/${manga.id}`);
-            return;
-        }
-
-        // this works because opening previous/next chapter will replace the current history element.
-        // in case this gets changed this has to be updated
-        navigate(-1);
-    };
-
     return (
         <Root>
             <Slide direction="right" in={drawerOpen} timeout={200} appear={false} mountOnEnter unmountOnExit>
@@ -233,7 +225,7 @@ export function ReaderNavBar(props: IProps) {
                                 color="inherit"
                                 aria-label="menu"
                                 disableRipple
-                                onClick={handleClose}
+                                onClick={handleBack}
                                 size="large"
                                 sx={{ mr: -1 }}
                             >
