@@ -18,14 +18,20 @@ export const useBackButton = () => {
     const { defaultBackTo: backToUrl } = useContext(NavBarContext);
 
     return () => {
-        const isLastPageInHistory = location.key === 'default';
-        const wasPreviousPageReader = history[history.length - 2]?.match(/\/manga\/[0-9]+\/chapter\/[0-9]+.*/g);
+        const isHistoryEmpty = !history.length;
+        const isLastPageInHistoryCurrentPage = history.length === 1 && history[0] === location.pathname;
 
-        if (isLastPageInHistory || wasPreviousPageReader) {
-            navigate(backToUrl ?? '');
+        const canNavigateBack = !isHistoryEmpty && !isLastPageInHistoryCurrentPage;
+        if (canNavigateBack) {
+            navigate(-1);
             return;
         }
 
-        navigate(-1);
+        if (backToUrl) {
+            navigate(backToUrl);
+            return;
+        }
+
+        navigate('/library');
     };
 };
