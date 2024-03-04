@@ -763,7 +763,11 @@ export class RequestManager {
         const response = this.restClient
             .fetcher(url, {
                 checkResponseIsJson: false,
-                config: { signal },
+                config: {
+                    signal,
+                    // @ts-ignore - typing has not been updated yet
+                    priority: 'low',
+                },
             })
             .then((data) => data.blob())
             .then((data) => URL.createObjectURL(data));
