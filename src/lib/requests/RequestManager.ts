@@ -27,6 +27,7 @@ import {
 } from '@apollo/client';
 import { OperationVariables } from '@apollo/client/core';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import pLimit from 'p-limit';
 import { IRestClient, RestClient } from '@/lib/requests/client/RestClient.ts';
 import { GraphQLClient } from '@/lib/requests/client/GraphQLClient.ts';
 import {
@@ -364,6 +365,8 @@ export class RequestManager {
     private readonly restClient: RestClient = new RestClient();
 
     private readonly cache = new CustomCache();
+
+    private readonly imageQueue = pLimit(5);
 
     public getClient(): IRestClient {
         return this.restClient;
@@ -760,17 +763,19 @@ export class RequestManager {
      */
     public requestImage(url: string): { response: Promise<string> } & AbortableRequest {
         const { abortRequest, signal } = this.createAbortController();
-        const response = this.restClient
-            .fetcher(url, {
-                checkResponseIsJson: false,
-                config: {
-                    signal,
-                    // @ts-ignore - typing has not been updated yet
-                    priority: 'low',
-                },
-            })
-            .then((data) => data.blob())
-            .then((data) => URL.createObjectURL(data));
+        const response = this.imageQueue(() =>
+            this.restClient
+                .fetcher(url, {
+                    checkResponseIsJson: false,
+                    config: {
+                        signal,
+                        // @ts-ignore - typing has not been updated yet
+                        priority: 'low',
+                    },
+                })
+                .then((data) => data.blob())
+                .then((data) => URL.createObjectURL(data)),
+        );
 
         return { response, abortRequest };
     }

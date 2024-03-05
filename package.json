@@ -45,6 +45,7 @@
     "i18next": "^23.8.1",
     "i18next-browser-languagedetector": "^7.2.0",
     "material-ui-popup-state": "^5.0.10",
+    "p-limit": "^5.0.0",
     "react": "^18.2.0",
     "react-beautiful-dnd": "^13.1.1",
     "react-device-detect": "^2.2.3",
