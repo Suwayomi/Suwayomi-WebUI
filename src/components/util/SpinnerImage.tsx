@@ -14,7 +14,6 @@ import { Theme, SxProps, Stack, Button } from '@mui/material';
 import BrokenImageIcon from '@mui/icons-material/BrokenImage';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { useTranslation } from 'react-i18next';
-import { CanceledError } from 'axios';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
@@ -72,7 +71,7 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
                 updateImageState(true);
                 await updateImage();
             } catch (e) {
-                const wasAborted = e instanceof CanceledError;
+                const wasAborted = e instanceof Error && e.name === 'AbortError';
                 updateImageState(false, !wasAborted);
             }
         };
