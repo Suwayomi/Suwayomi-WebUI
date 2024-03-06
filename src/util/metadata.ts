@@ -24,7 +24,21 @@ import { DEFAULT_DEVICE, getActiveDevice } from '@/util/device.ts';
 
 const APP_METADATA_KEY_PREFIX = 'webUI_';
 
-const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = ['devices', 'activeDevice'];
+const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
+    // downloads
+    'deleteChaptersManuallyMarkedRead',
+    'deleteChaptersWhileReading',
+    'deleteChaptersWithBookmark',
+
+    // library
+    'showAddToLibraryCategorySelectDialog',
+    'ignoreFilters',
+    'removeMangaFromCategories',
+
+    // client
+    'devices',
+    'activeDevice',
+];
 
 /**
  * Once all changes have been done in the current branch, a new migration for all changes should be
