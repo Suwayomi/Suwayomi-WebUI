@@ -6,8 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { forwardRef } from 'react';
-import { Box, SxProps, Theme } from '@mui/material';
+import { CSSProperties, forwardRef } from 'react';
+import { Box } from '@mui/material';
 import { IReaderSettings } from '@/typings';
 import { SpinnerImage } from '@/components/util/SpinnerImage';
 import { imageStyle } from '@/components/reader/Page';
@@ -34,7 +34,7 @@ export const DoublePage = forwardRef((props: IProps, ref: any) => {
         maxWidth: settings.fitPageToWindow ? `calc(${baseImgStyle.maxWidth} * 0.5)` : baseImgStyle.maxWidth,
     };
 
-    const spinnerStyle: SxProps<Theme> = {
+    const spinnerStyle: CSSProperties = {
         ...imgStyle,
         height: '100vh',
         width: '50%',

@@ -19,6 +19,7 @@ import { TPartialSource } from '@/typings';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { translateExtensionLanguage } from '@/screens/util/Extensions';
 import { SourceContentType } from '@/screens/SourceMangas';
+import { SpinnerImage } from '@/components/util/SpinnerImage.tsx';
 
 const MobileWidthButtons = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -88,9 +89,16 @@ export const SourceCard: React.FC<IProps> = (props: IProps) => {
                                 height: 56,
                                 flex: '0 0 auto',
                                 mr: 2,
+                                background: 'transparent',
                             }}
-                            src={requestManager.getValidImgUrlFor(iconUrl)}
-                        />
+                        >
+                            <SpinnerImage
+                                spinnerStyle={{ small: true }}
+                                imgStyle={{ objectFit: 'cover', width: '100%', height: '100%' }}
+                                alt={name}
+                                src={requestManager.getValidImgUrlFor(iconUrl)}
+                            />
+                        </Avatar>
                         <Box
                             sx={{
                                 display: 'flex',

@@ -21,14 +21,14 @@ interface IProps {
     src: string;
     alt: string;
 
-    spinnerStyle?: SxProps<Theme>;
+    spinnerStyle?: SxProps<Theme> & { small?: boolean };
     imgStyle?: CSSProperties;
 
     onImageLoad?: () => void;
 }
 
 export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTMLImageElement | null>) => {
-    const { src, alt, onImageLoad, spinnerStyle, imgStyle } = props;
+    const { src, alt, onImageLoad, spinnerStyle: { small, ...spinnerStyle } = {}, imgStyle } = props;
 
     const { t } = useTranslation();
 
@@ -96,15 +96,15 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
                             <>
                                 <BrokenImageIcon />
                                 <Button
-                                    startIcon={<RefreshIcon />}
+                                    startIcon={!small && <RefreshIcon />}
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         e.preventDefault();
                                         setImgLoadRetryKey((prevState) => (prevState + 1) % 100);
                                     }}
-                                    size="large"
+                                    size={small ? 'small' : 'large'}
                                 >
-                                    {t('global.button.retry')}
+                                    {small ? <RefreshIcon /> : t('global.button.retry')}
                                 </Button>
                             </>
                         )}

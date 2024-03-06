@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { forwardRef } from 'react';
+import { CSSProperties, forwardRef } from 'react';
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
 import { useMediaQuery } from '@mui/material';
@@ -16,20 +16,20 @@ import { SpinnerImage } from '@/components/util/SpinnerImage';
 export const isHorizontalReaderType = (readerType: ReaderType): boolean =>
     ['ContinuesHorizontalLTR', 'ContinuesHorizontalRTL'].includes(readerType);
 
-export function imageStyle(settings: IReaderSettings): any {
+export function imageStyle(settings: IReaderSettings): CSSProperties {
     const isVertical = settings.readerType === 'ContinuesVertical';
     const isHorizontal = isHorizontalReaderType(settings.readerType);
-    const baseStyling = {
+    const baseStyling: CSSProperties = {
         margin: 0,
         width: `${settings.readerWidth}%`,
         objectFit: 'contain',
     };
 
-    const continuesVerticalStyling = {
+    const continuesVerticalStyling: CSSProperties = {
         marginBottom: '15px',
     };
 
-    const continuesHorizontalStyling = {
+    const continuesHorizontalStyling: CSSProperties = {
         width: undefined,
         minHeight: '100vh',
         maxHeight: '100vh',
@@ -37,7 +37,7 @@ export function imageStyle(settings: IReaderSettings): any {
         marginRight: '7px',
     };
 
-    const fitToPageStyling = {
+    const fitToPageStyling: CSSProperties = {
         width: undefined,
         height: undefined,
         minWidth: settings.scalePage ? 'calc(100vw - (100vw - 100%))' : undefined,
