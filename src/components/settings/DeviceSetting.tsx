@@ -71,6 +71,8 @@ export const DeviceSetting = () => {
                 }}
                 valueInfos={devices.map((device) => [device, { mutable: false, deletable: device !== DEFAULT_DEVICE }])}
                 addItemButtonTitle={t('global.button.create')}
+                validateItem={(device) => device.length <= 16 && !!device.match(/^[a-zA-Z0-9\-_]+$/g)}
+                placeholder={t('settings.device.label.placeholder')}
             />
             <ListItem>
                 <ListItemText
