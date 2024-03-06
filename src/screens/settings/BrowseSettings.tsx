@@ -92,7 +92,7 @@ export const BrowseSettings = () => {
                     updateSetting('extensionRepos', repos);
                     requestManager.clearExtensionCache();
                 }}
-                values={serverSettings?.extensionRepos}
+                valueInfos={serverSettings?.extensionRepos.map((extensionRepo) => [extensionRepo]) as [string][]}
                 addItemButtonTitle={t('extension.settings.repositories.custom.dialog.action.button.add')}
                 placeholder="https://github.com/MY_ACCOUNT/MY_REPO/tree/repo"
                 validateItem={(repo) =>
