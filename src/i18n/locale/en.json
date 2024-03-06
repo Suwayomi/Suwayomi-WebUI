@@ -798,6 +798,9 @@
           "title": "Devices"
         }
       },
+      "label": {
+        "placeholder": "Smartphone_Name-1 | length: 16, chars: letters, numbers, -, _"
+      },
       "title": {
         "device": "Device",
         "settings": "Device settings"
