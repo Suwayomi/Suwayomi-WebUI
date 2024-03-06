@@ -16,7 +16,7 @@ import { GlobalUpdateSettings } from '@/components/settings/globalUpdate/GlobalU
 import { MetadataServerSettingKeys, MetadataServerSettings } from '@/typings.ts';
 import { convertToGqlMeta, requestUpdateServerMetadata } from '@/util/metadata.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
-import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
+import { convertSettingsToMetadata, useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Mangas } from '@/lib/data/Mangas.ts';
 
@@ -61,9 +61,9 @@ export function LibrarySettings() {
         setting: Setting,
         value: MetadataServerSettings[Setting],
     ) => {
-        requestUpdateServerMetadata(convertToGqlMeta(metadata)! ?? {}, [[setting, value]]).catch(() =>
-            makeToast(t('search.error.label.failed_to_save_settings'), 'warning'),
-        );
+        requestUpdateServerMetadata(convertToGqlMeta(metadata)! ?? {}, [
+            [setting, convertSettingsToMetadata({ [setting]: value })[setting]],
+        ]).catch(() => makeToast(t('search.error.label.failed_to_save_settings'), 'warning'));
     };
 
     return (

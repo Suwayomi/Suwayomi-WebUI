@@ -785,6 +785,24 @@
         "title": "Clear server cache"
       }
     },
+    "device": {
+      "active_device": {
+        "label": {
+          "description": "Select a device to use its server stored UI settings",
+          "title": "Active device"
+        }
+      },
+      "devices": {
+        "label": {
+          "description": "Manage your existing devices.\nUI specific settings that are stored on the server are per device.\nThis makes it possible to have e.g. different settings on a desktop and a smartphone",
+          "title": "Devices"
+        }
+      },
+      "title": {
+        "device": "Device",
+        "settings": "Device settings"
+      }
+    },
     "label": {
       "dark_theme": "Dark theme",
       "language_description": "Feel free to translate the project on",

@@ -27,6 +27,7 @@ import DnsIcon from '@mui/icons-material/Dns';
 import WebIcon from '@mui/icons-material/Web';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
+import DevicesIcon from '@mui/icons-material/Devices';
 import { langCodeToName } from '@/util/language';
 import { useLocalStorage } from '@/util/useLocalStorage';
 import { ListItemLink } from '@/components/util/ListItemLink';
@@ -160,6 +161,12 @@ export function Settings() {
                     <ExploreOutlinedIcon />
                 </ListItemIcon>
                 <ListItemText primary={t('global.label.browse')} />
+            </ListItemLink>
+            <ListItemLink to="/settings/device">
+                <ListItemIcon>
+                    <DevicesIcon />
+                </ListItemIcon>
+                <ListItemText primary={t('settings.device.title.device')} />
             </ListItemLink>
             <ListItemLink to="/settings/webUI">
                 <ListItemIcon>

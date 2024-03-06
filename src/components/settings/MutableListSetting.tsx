@@ -6,7 +6,17 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Button, Dialog, DialogTitle, ListItemButton, ListItemText, Stack, Tooltip, Typography } from '@mui/material';
+import {
+    Button,
+    Dialog,
+    DialogTitle,
+    ListItem,
+    ListItemButton,
+    ListItemText,
+    Stack,
+    Tooltip,
+    Typography,
+} from '@mui/material';
 import { useEffect, useState } from 'react';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
@@ -22,15 +32,27 @@ import { makeToast } from '@/components/util/Toast.tsx';
 
 const MutableListItem = ({
     handleDelete,
+    mutable = true,
+    deletable = true,
     ...textSettingProps
-}: Omit<TextSettingProps, 'isPassword' | 'disabled'> & { handleDelete: () => void }) => {
+}: Omit<TextSettingProps, 'isPassword' | 'disabled'> & {
+    handleDelete: () => void;
+    mutable?: boolean;
+    deletable?: boolean;
+}) => {
     const { t } = useTranslation();
 
     return (
         <Stack direction="row">
-            <TextSetting {...textSettingProps} dialogTitle="" />
+            {mutable ? (
+                <TextSetting {...textSettingProps} dialogTitle="" />
+            ) : (
+                <ListItem>
+                    <ListItemText secondary={textSettingProps.value} />
+                </ListItem>
+            )}
             <Tooltip title={t('chapter.action.download.delete.label.action')}>
-                <IconButton size="large" onClick={handleDelete}>
+                <IconButton disabled={!deletable} size="large" onClick={handleDelete}>
                     <DeleteIcon />
                 </IconButton>
             </Tooltip>
@@ -39,7 +61,10 @@ const MutableListItem = ({
 };
 
 type MutableListSettingProps = Pick<TextSettingProps, 'settingName' | 'placeholder'> & {
-    values?: string[];
+    valueInfos?: (
+        | [value: string]
+        | [value: string, Pick<React.ComponentProps<typeof MutableListItem>, 'mutable' | 'deletable'>]
+    )[];
     description?: string;
     dialogDisclaimer?: JSX.Element | string;
     addItemButtonTitle?: string;
@@ -49,11 +74,14 @@ type MutableListSettingProps = Pick<TextSettingProps, 'settingName' | 'placehold
     invalidItemError?: string;
 };
 
+const getValues = (valueInfos: MutableListSettingProps['valueInfos']): string[] =>
+    valueInfos?.map((valueInfo) => valueInfo[0]) ?? [];
+
 export const MutableListSetting = ({
     settingName,
     description,
     dialogDisclaimer,
-    values,
+    valueInfos,
     handleChange,
     addItemButtonTitle,
     placeholder,
@@ -63,22 +91,24 @@ export const MutableListSetting = ({
 }: MutableListSettingProps) => {
     const { t } = useTranslation();
 
+    const values = getValues(valueInfos);
+
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [dialogValues, setDialogValues] = useState(values ?? []);
+    const [dialogValues, setDialogValues] = useState(values);
 
     const [isAddItemDialogOpen, setIsAddItemDialogOpen] = useState(false);
 
     useEffect(() => {
-        if (!values) {
+        if (!valueInfos) {
             return;
         }
 
         setDialogValues(values);
-    }, [values]);
+    }, [valueInfos]);
 
     const closeDialog = (resetValue: boolean = true) => {
         if (resetValue) {
-            setDialogValues(values ?? []);
+            setDialogValues(values);
         }
 
         setIsDialogOpen(false);
@@ -165,6 +195,8 @@ export const MutableListSetting = ({
                                 handleChange={(newValue: string) => updateSetting(index, newValue)}
                                 handleDelete={() => updateSetting(index, undefined)}
                                 value={dialogValue}
+                                mutable={valueInfos?.find(([value]) => value === dialogValue)?.[1]?.mutable}
+                                deletable={valueInfos?.find(([value]) => value === dialogValue)?.[1]?.deletable}
                             />
                         ))}
                     </List>

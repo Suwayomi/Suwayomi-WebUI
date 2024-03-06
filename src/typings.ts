@@ -229,6 +229,10 @@ export type MetadataServerSettings = {
     showAddToLibraryCategorySelectDialog: boolean;
     ignoreFilters: boolean;
     removeMangaFromCategories: boolean;
+
+    // client
+    devices: string[];
+    activeDevice: string;
 };
 
 export interface ISearchSettings {

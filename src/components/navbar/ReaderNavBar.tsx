@@ -184,6 +184,7 @@ export function ReaderNavBar(props: IProps) {
 
         // main container and root div need to change styles...
         rootEl.style.display = 'flex';
+        rootEl.style.flexDirection = 'column';
         mainContainer.style.display = 'none';
 
         return () => {
