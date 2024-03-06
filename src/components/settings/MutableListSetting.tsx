@@ -41,7 +41,7 @@ const MutableListItem = ({
     deletable?: boolean;
 }) => {
     const { t } = useTranslation();
-    console.log(textSettingProps);
+
     return (
         <Stack direction="row">
             {mutable ? (

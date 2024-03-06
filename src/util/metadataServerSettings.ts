@@ -6,9 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Metadata, MetadataServerSettings } from '@/typings';
+import { AllowedMetadataValueTypes, AppMetadataKeys, Metadata, MetadataServerSettings } from '@/typings';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { convertFromGqlMeta, getMetadataFrom } from '@/util/metadata';
+import { jsonSaveParse } from '@/util/HelperFunctions.ts';
+import { DEFAULT_DEVICE } from '@/util/device.ts';
 
 export const getDefaultSettings = (): MetadataServerSettings => ({
     // downloads
@@ -21,13 +23,36 @@ export const getDefaultSettings = (): MetadataServerSettings => ({
     showAddToLibraryCategorySelectDialog: true,
     ignoreFilters: false,
     removeMangaFromCategories: false,
+
+    // client
+    devices: [DEFAULT_DEVICE],
+    activeDevice: DEFAULT_DEVICE,
 });
+
+export const convertSettingsToMetadata = (
+    settings: Partial<MetadataServerSettings>,
+): Metadata<string, AllowedMetadataValueTypes> => ({
+    ...settings,
+    devices: JSON.stringify(settings.devices),
+});
+
+export const convertMetadataToSettings = (
+    metadata: Partial<Metadata<AppMetadataKeys, AllowedMetadataValueTypes>>,
+): MetadataServerSettings =>
+    ({
+        ...getDefaultSettings(),
+        ...(metadata as unknown as MetadataServerSettings),
+        devices: jsonSaveParse<string[]>((metadata.devices as string) ?? '') ?? getDefaultSettings().devices,
+    }) satisfies MetadataServerSettings;
 
 const getMetadataServerSettingsWithDefaultFallback = (
     meta?: Metadata,
     defaultSettings: MetadataServerSettings = getDefaultSettings(),
     applyMetadataMigration: boolean = true,
-): MetadataServerSettings => getMetadataFrom({ meta }, defaultSettings, applyMetadataMigration);
+): MetadataServerSettings =>
+    convertMetadataToSettings(
+        getMetadataFrom({ meta }, convertSettingsToMetadata(defaultSettings), applyMetadataMigration),
+    );
 export const useMetadataServerSettings = (): {
     metadata?: Metadata;
     settings: MetadataServerSettings;

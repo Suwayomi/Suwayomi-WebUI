@@ -20,8 +20,11 @@ import {
 } from '@/typings';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { MetaType } from '@/lib/graphql/generated/graphql.ts';
+import { DEFAULT_DEVICE, getActiveDevice } from '@/util/device.ts';
 
 const APP_METADATA_KEY_PREFIX = 'webUI_';
+
+const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = ['devices', 'activeDevice'];
 
 /**
  * Once all changes have been done in the current branch, a new migration for all changes should be
@@ -97,7 +100,12 @@ const getAppKeyPrefixForMigration = (migrationId: number): string => {
     return appKeyPrefix?.appKeyPrefix?.newPrefix ?? APP_METADATA_KEY_PREFIX;
 };
 
-const getMetadataKey = (key: string, appPrefix: string = APP_METADATA_KEY_PREFIX) => `${appPrefix}${key}`;
+const getMetadataKey = (key: string, appPrefix: string = APP_METADATA_KEY_PREFIX) => {
+    const isGlobalMetadataKey = GLOBAL_METADATA_KEYS.includes(key as AppMetadataKeys);
+    const addActiveDevicePrefix = !isGlobalMetadataKey && getActiveDevice() !== DEFAULT_DEVICE;
+
+    return `${appPrefix}${addActiveDevicePrefix ? `${getActiveDevice()}_` : ''}${key}`;
+};
 
 const doesMetadataKeyExistIn = (meta: Metadata | undefined, key: string, appPrefix?: string): boolean =>
     Object.prototype.hasOwnProperty.call(meta ?? {}, getMetadataKey(key, appPrefix));
