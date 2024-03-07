@@ -6,9 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Box, Container } from '@mui/material';
+import { Container } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
-import React, { useEffect, useLayoutEffect, useMemo } from 'react';
+import React, { useLayoutEffect } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { loadErrorMessages, loadDevMessages } from '@apollo/client/dev';
 import { AppContext } from '@/components/context/AppContext';
@@ -38,8 +38,6 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { BrowseSettings } from '@/screens/settings/BrowseSettings.tsx';
 import { WebUISettings } from '@/screens/settings/WebUISettings.tsx';
 import { Migrate } from '@/screens/Migrate.tsx';
-import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
-import { getActiveDevice, setActiveDevice } from '@/util/device.ts';
 import { DeviceSetting } from '@/components/settings/DeviceSetting.tsx';
 
 if (process.env.NODE_ENV !== 'production') {
@@ -72,88 +70,68 @@ const BackgroundSubscriptions = () => {
     return null;
 };
 
-const ActiveDeviceListener = ({ children }: { children?: React.ReactNode }) => {
-    const {
-        settings: { devices, activeDevice },
-    } = useMetadataServerSettings();
-
-    useEffect(() => {
-        if (activeDevice === getActiveDevice()) {
-            return;
-        }
-
-        setActiveDevice(activeDevice);
-    }, [devices, activeDevice]);
-
-    const memorizedChildren = useMemo(() => children, [activeDevice]);
-
-    return <Box key={activeDevice}>{memorizedChildren}</Box>;
-};
-
 export const App: React.FC = () => (
     <AppContext>
-        <ActiveDeviceListener>
-            <ScrollToTop />
-            <ServerUpdateChecker />
-            <BackgroundSubscriptions />
-            <CssBaseline />
-            <DefaultNavBar />
-            <Container
-                id="appMainContainer"
-                maxWidth={false}
-                disableGutters
-                sx={{
-                    mt: 8,
-                    ml: { sm: 8 },
-                    mb: { xs: 8, sm: 0 },
-                    width: 'auto',
-                    overflow: 'auto',
-                }}
-            >
-                <Routes>
-                    {/* General Routes */}
-                    <Route path="/" element={<Navigate to="/library" replace />} />
-                    <Route path="settings">
-                        <Route index element={<Settings />} />
-                        <Route path="about" element={<About />} />
-                        <Route path="categories" element={<Categories />} />
-                        <Route path="defaultReaderSettings" element={<DefaultReaderSettings />} />
-                        <Route path="librarySettings" element={<LibrarySettings />} />
-                        <Route path="downloadSettings" element={<DownloadSettings />} />
-                        <Route path="backup" element={<Backup />} />
-                        <Route path="server" element={<ServerSettings />} />
-                        <Route path="webUI" element={<WebUISettings />} />
-                        <Route path="browseSettings" element={<BrowseSettings />} />
-                        <Route path="device" element={<DeviceSetting />} />
-                    </Route>
-
-                    {/* Manga Routes */}
-
-                    <Route path="sources">
-                        <Route index element={<Sources />} />
-                        <Route path=":sourceId" element={<SourceMangas />} />
-                        <Route path=":sourceId/configure/" element={<SourceConfigure />} />
-                        <Route path="all/search/" element={<SearchAll />} />
-                    </Route>
-                    <Route path="downloads" element={<DownloadQueue />} />
-                    <Route path="manga/:id">
-                        <Route path="chapter/:chapterNum" element={null} />
-                        <Route index element={<Manga />} />
-                    </Route>
-                    <Route path="library" element={<Library />} />
-                    <Route path="updates" element={<Updates />} />
-                    <Route path="extensions" element={<Extensions />} />
-                    <Route path="browse" element={<Browse />} />
-                    <Route path="migrate/source/:sourceId">
-                        <Route index element={<Migrate />} />
-                        <Route path="manga/:mangaId/search" element={<SearchAll />} />
-                    </Route>
-                </Routes>
-            </Container>
+        <ScrollToTop />
+        <ServerUpdateChecker />
+        <BackgroundSubscriptions />
+        <CssBaseline />
+        <DefaultNavBar />
+        <Container
+            id="appMainContainer"
+            maxWidth={false}
+            disableGutters
+            sx={{
+                mt: 8,
+                ml: { sm: 8 },
+                mb: { xs: 8, sm: 0 },
+                width: 'auto',
+                overflow: 'auto',
+            }}
+        >
             <Routes>
-                <Route path="manga/:mangaId/chapter/:chapterIndex" element={<Reader />} />
-                <Route path="*" element={null} />
+                {/* General Routes */}
+                <Route path="/" element={<Navigate to="/library" replace />} />
+                <Route path="settings">
+                    <Route index element={<Settings />} />
+                    <Route path="about" element={<About />} />
+                    <Route path="categories" element={<Categories />} />
+                    <Route path="defaultReaderSettings" element={<DefaultReaderSettings />} />
+                    <Route path="librarySettings" element={<LibrarySettings />} />
+                    <Route path="downloadSettings" element={<DownloadSettings />} />
+                    <Route path="backup" element={<Backup />} />
+                    <Route path="server" element={<ServerSettings />} />
+                    <Route path="webUI" element={<WebUISettings />} />
+                    <Route path="browseSettings" element={<BrowseSettings />} />
+                    <Route path="device" element={<DeviceSetting />} />
+                </Route>
+
+                {/* Manga Routes */}
+
+                <Route path="sources">
+                    <Route index element={<Sources />} />
+                    <Route path=":sourceId" element={<SourceMangas />} />
+                    <Route path=":sourceId/configure/" element={<SourceConfigure />} />
+                    <Route path="all/search/" element={<SearchAll />} />
+                </Route>
+                <Route path="downloads" element={<DownloadQueue />} />
+                <Route path="manga/:id">
+                    <Route path="chapter/:chapterNum" element={null} />
+                    <Route index element={<Manga />} />
+                </Route>
+                <Route path="library" element={<Library />} />
+                <Route path="updates" element={<Updates />} />
+                <Route path="extensions" element={<Extensions />} />
+                <Route path="browse" element={<Browse />} />
+                <Route path="migrate/source/:sourceId">
+                    <Route index element={<Migrate />} />
+                    <Route path="manga/:mangaId/search" element={<SearchAll />} />
+                </Route>
             </Routes>
-        </ActiveDeviceListener>
+        </Container>
+        <Routes>
+            <Route path="manga/:mangaId/chapter/:chapterIndex" element={<Reader />} />
+            <Route path="*" element={null} />
+        </Routes>
     </AppContext>
 );

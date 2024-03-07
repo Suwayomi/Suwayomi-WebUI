@@ -16,6 +16,7 @@ import { useLocalStorage } from '@/util/useLocalStorage';
 import { DarkTheme } from '@/components/context/DarkTheme';
 import { NavBarContextProvider } from '@/components/navbar/NavBarContextProvider';
 import { LibraryOptionsContextProvider } from '@/components/library/LibraryOptionsProvider';
+import { ActiveDevice, DEFAULT_DEVICE, setActiveDevice } from '@/util/device.ts';
 
 interface Props {
     children: React.ReactNode;
@@ -23,6 +24,7 @@ interface Props {
 
 export const AppContext: React.FC<Props> = ({ children }) => {
     const [darkTheme, setDarkTheme] = useLocalStorage<boolean>('darkTheme', true);
+    const [activeDevice, setActiveDeviceContext] = useLocalStorage('activeDevice', DEFAULT_DEVICE);
 
     const darkThemeContext = useMemo(
         () => ({
@@ -32,7 +34,14 @@ export const AppContext: React.FC<Props> = ({ children }) => {
         [darkTheme],
     );
 
+    const activeDeviceContext = useMemo(
+        () => ({ activeDevice, setActiveDevice: setActiveDeviceContext }),
+        [activeDevice],
+    );
+
     const theme = useMemo(() => createTheme(darkTheme), [darkTheme]);
+
+    setActiveDevice(activeDevice);
 
     return (
         <Router>
@@ -41,7 +50,11 @@ export const AppContext: React.FC<Props> = ({ children }) => {
                     <DarkTheme.Provider value={darkThemeContext}>
                         <QueryParamProvider adapter={ReactRouter6Adapter}>
                             <LibraryOptionsContextProvider>
-                                <NavBarContextProvider>{children}</NavBarContextProvider>
+                                <NavBarContextProvider>
+                                    <ActiveDevice.Provider value={activeDeviceContext}>
+                                        {children}
+                                    </ActiveDevice.Provider>
+                                </NavBarContextProvider>
                             </LibraryOptionsContextProvider>
                         </QueryParamProvider>
                     </DarkTheme.Provider>

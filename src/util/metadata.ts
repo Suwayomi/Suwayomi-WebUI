@@ -37,7 +37,6 @@ const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
 
     // client
     'devices',
-    'activeDevice',
 ];
 
 /**

@@ -14,12 +14,14 @@ import { MetadataServerSettingKeys, MetadataServerSettings } from '@/typings.ts'
 import { convertToGqlMeta, requestUpdateServerMetadata } from '@/util/metadata.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { MutableListSetting } from '@/components/settings/MutableListSetting.tsx';
-import { NavBarContext } from '@/components/context/NavbarContext.tsx';
-import { DEFAULT_DEVICE } from '@/util/device.ts';
+import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
+import { ActiveDevice, DEFAULT_DEVICE } from '@/util/device.ts';
 
 export const DeviceSetting = () => {
     const { t } = useTranslation();
     const { setTitle, setAction } = useContext(NavBarContext);
+
+    useSetDefaultBackTo('settings');
 
     useEffect(() => {
         setTitle(t('settings.device.title.settings'));
@@ -33,10 +35,12 @@ export const DeviceSetting = () => {
 
     const {
         metadata,
-        settings: { devices, activeDevice },
+        settings: { devices },
     } = useMetadataServerSettings();
 
-    const updateMetadataSetting = async <Setting extends MetadataServerSettingKeys>(
+    const { activeDevice, setActiveDevice } = useContext(ActiveDevice);
+
+    const updateMetadataSetting = <Setting extends MetadataServerSettingKeys>(
         setting: Setting,
         value: MetadataServerSettings[Setting],
     ) => {
@@ -46,14 +50,7 @@ export const DeviceSetting = () => {
 
         const wasActiveDeviceDeleted = setting === 'devices' && !(value as string[]).includes(activeDevice);
         if (wasActiveDeviceDeleted) {
-            try {
-                await requestUpdateServerMetadata(convertToGqlMeta(metadata) ?? [], [
-                    ['activeDevice', convertSettingsToMetadata({ activeDevice: DEFAULT_DEVICE }).activeDevice],
-                ]);
-            } catch (e) {
-                makeToast(t('global.error.label.failed_to_save_changes'), 'error');
-                return;
-            }
+            setActiveDevice(DEFAULT_DEVICE);
         }
 
         requestUpdateServerMetadata(convertToGqlMeta(metadata) ?? [], [
@@ -82,7 +79,7 @@ export const DeviceSetting = () => {
                 <Select
                     MenuProps={{ PaperProps: { style: { maxHeight: 150 } } }}
                     value={activeDevice}
-                    onChange={({ target: { value: device } }) => updateMetadataSetting('activeDevice', device)}
+                    onChange={({ target: { value: device } }) => setActiveDevice(device)}
                 >
                     {devices.map((device) => (
                         <MenuItem key={device} value={device}>

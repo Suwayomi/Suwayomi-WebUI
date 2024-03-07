@@ -26,7 +26,6 @@ export const getDefaultSettings = (): MetadataServerSettings => ({
 
     // client
     devices: [DEFAULT_DEVICE],
-    activeDevice: DEFAULT_DEVICE,
 });
 
 export const convertSettingsToMetadata = (
