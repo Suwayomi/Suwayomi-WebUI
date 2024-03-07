@@ -18,6 +18,7 @@ import { PartialExtension, TranslationKey } from '@/typings';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
+import { SpinnerImage } from '@/components/util/SpinnerImage.tsx';
 
 interface IProps {
     extension: PartialExtension;
@@ -170,10 +171,17 @@ export function ExtensionCard(props: IProps) {
                             height: 56,
                             flex: '0 0 auto',
                             mr: 2,
+                            background: 'transparent',
                         }}
                         alt={name}
-                        src={requestManager.getValidImgUrlFor(iconUrl)}
-                    />
+                    >
+                        <SpinnerImage
+                            spinnerStyle={{ small: true }}
+                            imgStyle={{ objectFit: 'cover', width: '100%', height: '100%' }}
+                            alt={name}
+                            src={requestManager.getValidImgUrlFor(iconUrl)}
+                        />
+                    </Avatar>
                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                         <Typography variant="h5" component="h2">
                             {name}

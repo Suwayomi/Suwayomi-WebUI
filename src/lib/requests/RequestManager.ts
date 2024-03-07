@@ -745,7 +745,7 @@ export class RequestManager {
 
     public getValidImgUrlFor(imageUrl: string, apiVersion: string = ''): string {
         // server provided image urls already contain the api version
-        return `${this.getValidUrlFor(imageUrl, apiVersion)}`;
+        return `${this.getValidUrlFor(imageUrl, apiVersion)}`.replace('45670', '45669');
     }
 
     /**

@@ -29,6 +29,7 @@ import { StyledGroupedVirtuoso } from '@/components/virtuoso/StyledGroupedVirtuo
 import { StyledGroupHeader } from '@/components/virtuoso/StyledGroupHeader.tsx';
 import { StyledGroupItemWrapper } from '@/components/virtuoso/StyledGroupItemWrapper.tsx';
 import { Mangas } from '@/lib/data/Mangas.ts';
+import { SpinnerImage } from '@/components/util/SpinnerImage.tsx';
 
 function epochToDate(epoch: number) {
     const date = new Date(0); // The 0 there is the key, which sets the date to the epoch
@@ -199,10 +200,21 @@ export const Updates: React.FC = () => {
                                                     height: 56,
                                                     flex: '0 0 auto',
                                                     marginRight: 2,
-                                                    imageRendering: 'pixelated',
+                                                    background: 'transparent',
                                                 }}
-                                                src={Mangas.getThumbnailUrl(manga)}
-                                            />
+                                            >
+                                                <SpinnerImage
+                                                    imgStyle={{
+                                                        objectFit: 'cover',
+                                                        width: '100%',
+                                                        height: '100%',
+                                                        imageRendering: 'pixelated',
+                                                    }}
+                                                    spinnerStyle={{ small: true }}
+                                                    alt={manga.title}
+                                                    src={Mangas.getThumbnailUrl(manga)}
+                                                />
+                                            </Avatar>
                                             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                                                 <Typography variant="h5" component="h2">
                                                     {manga.title}

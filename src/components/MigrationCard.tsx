@@ -15,6 +15,7 @@ import { Link } from 'react-router-dom';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { GetMigratableSourcesQuery } from '@/lib/graphql/generated/graphql.ts';
 import { translateExtensionLanguage } from '@/screens/util/Extensions.ts';
+import { SpinnerImage } from '@/components/util/SpinnerImage.tsx';
 
 export type TMigratableSource = NonNullable<GetMigratableSourcesQuery['mangas']['nodes'][number]['source']> & {
     mangaCount: number;
@@ -40,10 +41,16 @@ export const MigrationCard = ({ id, name, lang, iconUrl, mangaCount }: TMigratab
                             height: 56,
                             flex: '0 0 auto',
                             mr: 2,
+                            background: 'transparent',
                         }}
-                        alt={name}
-                        src={requestManager.getValidImgUrlFor(iconUrl)}
-                    />
+                    >
+                        <SpinnerImage
+                            spinnerStyle={{ small: true }}
+                            imgStyle={{ objectFit: 'cover', width: '100%', height: '100%' }}
+                            alt={name}
+                            src={requestManager.getValidImgUrlFor(iconUrl)}
+                        />
+                    </Avatar>
                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                         <Typography variant="h5" component="h2">
                             {name}

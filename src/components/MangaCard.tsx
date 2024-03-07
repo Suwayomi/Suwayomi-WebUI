@@ -347,26 +347,26 @@ export const MangaCard = (props: MangaCardProps) => {
                                 >
                                     <Avatar
                                         variant="rounded"
-                                        sx={
-                                            inLibraryIndicator && inLibrary
-                                                ? {
-                                                      width: 56,
-                                                      height: 56,
-                                                      flex: '0 0 auto',
-                                                      marginRight: 2,
-                                                      imageRendering: 'pixelated',
-                                                      filter: 'brightness(0.4)',
-                                                  }
-                                                : {
-                                                      width: 56,
-                                                      height: 56,
-                                                      flex: '0 0 auto',
-                                                      marginRight: 2,
-                                                      imageRendering: 'pixelated',
-                                                  }
-                                        }
-                                        src={thumbnailUrl}
-                                    />
+                                        sx={{
+                                            width: 56,
+                                            height: 56,
+                                            flex: '0 0 auto',
+                                            marginRight: 2,
+                                        }}
+                                    >
+                                        <SpinnerImage
+                                            spinnerStyle={{ small: true }}
+                                            imgStyle={{
+                                                objectFit: 'cover',
+                                                width: '100%',
+                                                height: '100%',
+                                                imageRendering: 'pixelated',
+                                                filter: inLibraryIndicator && inLibrary ? 'brightness(0.4)' : undefined,
+                                            }}
+                                            alt={manga.title}
+                                            src={thumbnailUrl}
+                                        />
+                                    </Avatar>
                                     <Box
                                         sx={{
                                             display: 'flex',
