@@ -232,7 +232,6 @@ export type MetadataServerSettings = {
 
     // client
     devices: string[];
-    activeDevice: string;
 };
 
 export interface ISearchSettings {
