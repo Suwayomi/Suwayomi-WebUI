@@ -14,12 +14,14 @@ import { MetadataServerSettingKeys, MetadataServerSettings } from '@/typings.ts'
 import { convertToGqlMeta, requestUpdateServerMetadata } from '@/util/metadata.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { MutableListSetting } from '@/components/settings/MutableListSetting.tsx';
-import { NavBarContext } from '@/components/context/NavbarContext.tsx';
+import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
 import { ActiveDevice, DEFAULT_DEVICE } from '@/util/device.ts';
 
 export const DeviceSetting = () => {
     const { t } = useTranslation();
     const { setTitle, setAction } = useContext(NavBarContext);
+
+    useSetDefaultBackTo('settings');
 
     useEffect(() => {
         setTitle(t('settings.device.title.settings'));
