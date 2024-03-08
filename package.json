@@ -14,7 +14,8 @@
     "updateDeps": "yarn upgrade && yarn syncyarnlock -s -k && yarn && git add package.json yarn.lock && git commit -m \"Update dependencies\" && echo Updated non breaking dependencies. Check potential breaking changes below... && yarn outdated",
     "gql:codegen-base": "graphql-codegen --config gql_codegen.ts",
     "gql:codegen-formatter": "ts-node tools/scripts/codegenFormatter.ts",
-    "gql:codegen": "yarn gql:codegen-base & yarn gql:codegen-formatter"
+    "gql:codegen": "yarn gql:codegen-base & yarn gql:codegen-formatter",
+    "prepare": "husky"
   },
   "browserslist": {
     "production": [
@@ -27,6 +28,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": "eslint --fix"
   },
   "dependencies": {
     "@apollo/client": "^3.8.10",
@@ -82,6 +86,8 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-unused-imports": "^3.0.0",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
     "prettier": "^3.2.4",
     "syncyarnlock": "^1.0.19",
     "ts-node": "^10.9.2",
