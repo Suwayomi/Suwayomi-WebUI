@@ -17,13 +17,17 @@
             },
             "no_categories_found": {
                 "label": {
-                    "info": "Nessuna categoria trovata."
+                    "info": "Nessuna categoria trovata.",
+                    "hint": "Dovresti crearne alcune dai settaggi."
                 }
             }
         },
         "title": {
             "categories": "Categorie",
-            "set_categories": "Imposta categorie"
+            "set_categories": "Imposta categorie",
+            "category_one": "Categoria",
+            "category_many": "Categorie",
+            "category_other": "Categorie"
         }
     },
     "chapter": {
@@ -68,6 +72,14 @@
                         "error_one": "Impossibile aggiungerlo agli scaricamenti",
                         "error_many": "Impossibile aggiungerli agli scaricamenti",
                         "error_other": "Impossibile aggiungerli agli scaricamenti"
+                    }
+                },
+                "delete": {
+                    "button": {
+                        "selected": "Cancella i selezionati"
+                    },
+                    "label": {
+                        "action": "Cancella"
                     }
                 }
             }

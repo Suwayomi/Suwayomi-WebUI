@@ -329,6 +329,27 @@
         },
         "browse": {
             "title": "Opciones de búsqueda"
+        },
+        "device": {
+            "active_device": {
+                "label": {
+                    "title": "Dispositivo activo",
+                    "description": "Selecciona un dispositivo para usar su configuración de interfaz almacenada en el servidor"
+                }
+            },
+            "devices": {
+                "label": {
+                    "title": "Dispositivos",
+                    "description": "Gestiona tus dispositivos existentes.\nLa interfaz especifica la configuración almacenada en el servidor por dispositivo.\nEsto permite tener por ejemplo distintas configuraciones en un escritorio y un móvil"
+                }
+            },
+            "title": {
+                "device": "Dispositivo",
+                "settings": "Opciones de dispositivo"
+            },
+            "label": {
+                "placeholder": "Nombre_movil-1 | longitud: 16, caracteres: letras, números, -, _"
+            }
         }
     },
     "updates": {
@@ -465,6 +486,14 @@
                             "description": "Mostrar el diálogo de selección de categoría al añadir un manga a la biblioteca"
                         }
                     }
+                },
+                "remove_from_library": {
+                    "remove_from_categories": {
+                        "label": {
+                            "description": "Quitar los mangas de las categorías al eliminarlos de la biblioteca",
+                            "title": "Olvidar las categorías de los mangas"
+                        }
+                    }
                 }
             }
         },
@@ -539,7 +568,9 @@
             "add": "Añadir",
             "retry": "Reintentar",
             "copy": "Copiar",
-            "migrate": "Migrar"
+            "migrate": "Migrar",
+            "create": "Crear",
+            "dont_show_dialog_again": "No volver a mostrar este diálogo"
         },
         "label": {
             "display": "Visualización",
@@ -561,7 +592,8 @@
             "other": "Otros",
             "advanced": "Avanzado",
             "general": "General",
-            "placeholder": "Marcador de posición"
+            "placeholder": "Marcador de posición",
+            "load_in_progress": "Cargando los datos requeridos…"
         },
         "error": {
             "label": {
@@ -703,7 +735,8 @@
                 }
             },
             "label": {
-                "select": "Seleccionar"
+                "select": "Seleccionar",
+                "open_on_source": "Abrir en el origen"
             }
         },
         "option": {
@@ -803,7 +836,7 @@
         "error": {
             "no_categories_found": {
                 "label": {
-                    "info": "No se encontraron categorías.",
+                    "info": "Aún no tienes categorías.",
                     "hint": "Deberías crear algunas desde la configuración."
                 }
             },
