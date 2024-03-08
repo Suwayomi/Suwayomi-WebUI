@@ -17,6 +17,9 @@
     "gql:codegen": "yarn gql:codegen-base & yarn gql:codegen-formatter",
     "prepare": "husky"
   },
+  "engines": {
+    "node": "20.11.1"
+  },
   "browserslist": {
     "production": [
       ">0.2%",
