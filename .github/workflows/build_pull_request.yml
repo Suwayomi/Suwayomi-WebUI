@@ -6,7 +6,13 @@ jobs:
     name: ci-pull-request
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
+
+      - name: Set up NodeJs
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: 'package.json'
+
       - name: Install modules
         run: yarn
 
