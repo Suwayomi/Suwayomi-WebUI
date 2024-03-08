@@ -281,7 +281,7 @@ export function ReaderNavBar(props: IProps) {
                             >
                                 <Select
                                     MenuProps={MenuProps}
-                                    value={chapter.pageCount > -1 ? curPage : ''}
+                                    value={chapter.pageCount > -1 ? `${curPage}` : ''}
                                     displayEmpty
                                     onChange={({ target: { value: selectedPage } }) => {
                                         scrollToPage(Number(selectedPage));
@@ -316,7 +316,7 @@ export function ReaderNavBar(props: IProps) {
                             >
                                 <Select
                                     MenuProps={MenuProps}
-                                    value={chapter.sourceOrder >= 1 ? chapter.sourceOrder : ''}
+                                    value={chapter.sourceOrder >= 1 ? `${chapter.sourceOrder}` : ''}
                                     displayEmpty
                                     onChange={({ target: { value: selectedChapter } }) => {
                                         navigate(`/manga/${manga.id}/chapter/${selectedChapter}`, {
