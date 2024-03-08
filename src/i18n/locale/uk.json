@@ -11,9 +11,9 @@
                         "error_one": "Не вдалося видалити закладку",
                         "error_few": "Не вдалося видалити закладки",
                         "error_many": "Не вдалося видалити закладок",
-                        "success_one": "закладку розділу видалено",
-                        "success_few": "{{count}} закладки розділів видалено",
-                        "success_many": "{{count}} закладок розділів видалено"
+                        "success_one": "Закладку видалено",
+                        "success_few": "{{count}} закладки видалено",
+                        "success_many": "{{count}} закладок видалено"
                     }
                 },
                 "add": {
@@ -22,12 +22,12 @@
                     },
                     "label": {
                         "action": "Додати закладку",
-                        "error_one": "Не вдалося додати розділ до закладок",
-                        "error_few": "Не вдалося додати розділи до закладок",
-                        "error_many": "Не вдалося додати розділів до закладок",
-                        "success_one": "розділ додано до закладок",
-                        "success_few": "{{count}} розділи додано до закладок",
-                        "success_many": "{{count}} розділів додано до закладок"
+                        "error_one": "Не вдалося додати главу до закладок",
+                        "error_few": "Не вдалося додати глави до закладок",
+                        "error_many": "Не вдалося додати глави до закладок",
+                        "success_one": "Главу додано до закладок",
+                        "success_few": "{{count}} глави додано до закладок",
+                        "success_many": "{{count}} глав додано до закладок"
                     }
                 }
             },
@@ -51,13 +51,13 @@
                         "selected": "Видалити вибране"
                     },
                     "label": {
-                        "error_one": "Не вдалося видалити розділ",
-                        "error_few": "Не вдалося видалити розділи",
-                        "error_many": "Не вдалося видалити розділів",
+                        "error_one": "Не вдалося видалити главу",
+                        "error_few": "Не вдалося видалити глави",
+                        "error_many": "Не вдалося видалити глави",
                         "action": "Видалити",
-                        "success_one": "Розділ видалено",
-                        "success_few": "{{count}} розділи видалено",
-                        "success_many": "{{count}} розділів видалено"
+                        "success_one": "Главу видалено",
+                        "success_few": "{{count}} глави видалено",
+                        "success_many": "{{count}} глав видалено"
                     }
                 }
             },
@@ -68,12 +68,12 @@
                             "current": "Позначити як прочитане",
                             "previous": "Позначити попереднє як прочитане"
                         },
-                        "success_one": "Розділ позначено як прочитаний",
-                        "success_few": "{{count}} розділи позначені як прочитані",
-                        "success_many": "{{count}} розділів позначені як прочитані",
-                        "error_one": "Не вдалося позначити розділ як прочитане",
-                        "error_few": "Не вдалося позначити розділи як прочитане",
-                        "error_many": "Не вдалося позначити розділів як прочитане"
+                        "success_one": "Глава позначена як прочитана",
+                        "success_few": "{{count}} глави позначені як прочитані",
+                        "success_many": "{{count}} глав позначені як прочитані",
+                        "error_one": "Не вдалося позначити главу як прочитану",
+                        "error_few": "Не вдалося позначити глави як прочитані",
+                        "error_many": "Не вдалося позначити глави як прочитані"
                     },
                     "button": {
                         "selected": "Позначити вибране як прочитане"
@@ -82,12 +82,12 @@
                 "remove": {
                     "label": {
                         "action": "Позначити як непрочитане",
-                        "success_one": "Розділ позначено як непрочитаний",
-                        "success_few": "{{count}} розділи позначені як непрочитані",
-                        "success_many": "{{count}} розділів позначено як непрочитані",
-                        "error_one": "Не вдалося позначити розділ як непрочитане",
-                        "error_few": "Не вдалося позначити розділи як непрочитане",
-                        "error_many": "Не вдалося позначити розділів як непрочитане"
+                        "success_one": "Главу позначено як непрочитану",
+                        "success_few": "{{count}} глави позначено як непрочитані",
+                        "success_many": "{{count}} глав позначено як непрочитані",
+                        "error_one": "Не вдалося позначити главу як непрочитану",
+                        "error_few": "Не вдалося позначити глави як непрочитані",
+                        "error_many": "Не вдалося позначити глави як непрочитані"
                     },
                     "button": {
                         "selected": "Позначити вибране як непрочитане"
@@ -95,19 +95,20 @@
                 }
             },
             "label": {
-                "select": "Вибрати"
+                "select": "Вибрати",
+                "open_on_source": "Відкрити в джерелі"
             }
         },
         "error": {
             "label": {
-                "no_chapter_found": "Не знайдено жодного розділу",
-                "no_matches": "Немає розділів, що відповідають фільтру"
+                "no_chapter_found": "Не знайдено жодної глави",
+                "no_matches": "Немає глав, що відповідають фільтру"
             }
         },
         "option": {
             "display": {
                 "label": {
-                    "chapter_number": "Номер розділу",
+                    "chapter_number": "Номер глави",
                     "source_title": "Назва джерела"
                 }
             }
@@ -117,7 +118,7 @@
                 "downloaded": "Завантажено"
             }
         },
-        "title": "Розділ"
+        "title": "Глава"
     },
     "category": {
         "dialog": {
@@ -134,7 +135,7 @@
             "no_categories_found": {
                 "label": {
                     "hint": "Ви повинні зробити деякі з налаштувань.",
-                    "info": "Не знайдено жодної категорії."
+                    "info": "У вас поки немає жодної категорії."
                 }
             }
         },
@@ -144,18 +145,31 @@
         },
         "title": {
             "categories": "Категорії",
-            "set_categories": "Встановити категорії"
+            "set_categories": "Встановити категорії",
+            "category_one": "Категорія",
+            "category_few": "Категорії",
+            "category_many": "Категорій"
+        },
+        "settings": {
+            "inclusion": {
+                "label": {
+                    "exclude": "Виключити: {{excludedCategoriesText}}",
+                    "include": "Включити: {{includedCategoriesText}}"
+                }
+            }
         }
     },
     "download": {
         "queue": {
             "label": {
-                "no_downloads": "Немає завантажень"
+                "no_downloads": "Немає завантажень",
+                "delete_all": "Видалити все"
             },
             "title": "Черга завантажень",
             "error": {
                 "label": {
-                    "failed_to_remove": "Не вдалося видалити завантаження з черги."
+                    "failed_to_remove": "Не вдалося видалити завантаження з черги.",
+                    "failed_delete_all": "Не вдалося видалити завантаження з черги"
                 }
             }
         },
@@ -167,20 +181,87 @@
                 "error": "Помилка"
             }
         },
-        "title": "Завантаження"
+        "title": "Завантаження",
+        "settings": {
+            "auto_download": {
+                "title": "Автоматичне завантаження",
+                "categories": {
+                    "label": {
+                        "include_in_download": "Елементи у виключених категоріях не будуть завантажені, навіть якщо вони є у включених категоріях"
+                    }
+                },
+                "download_limit": {
+                    "label": {
+                        "title": "Обмеження на завантаження глав",
+                        "description": "Обмежте кількість нових глав, що будуть завантажені."
+                    }
+                },
+                "label": {
+                    "new_chapters": "Завантажити нові глави",
+                    "ignore_with_unread_chapters": "Ігнорувати автоматичне завантаження глав для елементів з непрочитаними главами"
+                }
+            },
+            "download_ahead": {
+                "title": "Попереднє завантаження",
+                "label": {
+                    "unread_chapters_to_download": "Кількість непрочитаних глав для завантаження",
+                    "while_reading": "Автоматичне завантаження під час читання",
+                    "value": "{{chapters}} $t(chapter.title)",
+                    "description": "Скільки глав має бути завантажено під час читання.",
+                    "disclaimer": "Працює, якщо поточна та наступна глава вже завантажена."
+                }
+            },
+            "download_path": {
+                "label": {
+                    "description": "Шлях до каталогу на сервері, в який повинні зберігатися завантажені файли",
+                    "title": "Місце завантаження"
+                }
+            },
+            "title": "Налаштування завантаження",
+            "file_type": {
+                "label": {
+                    "cbz": "Зберегти як CBZ архів"
+                }
+            },
+            "delete_chapters": {
+                "label": {
+                    "allow_deletion_of_bookmarked": "Дозволити видалення глав із закладками",
+                    "manually_marked_as_read": "Видалити главу після того, як вручну позначили її як прочитану"
+                },
+                "title": "Видалити глави",
+                "while_reading": {
+                    "label": {
+                        "title": "Видаляти прочитані глави в процесі читання"
+                    },
+                    "option": {
+                        "label": {
+                            "first": "Остання прочитана глава",
+                            "second": "Передостання прочитана глава",
+                            "fifth": "П'ята з кінця прочитана глава",
+                            "fourth": "Четверта з кінця прочитана глава",
+                            "third": "Третя з кінця прочитана глава"
+                        }
+                    }
+                }
+            }
+        }
     },
     "extension": {
         "action": {
             "label": {
                 "install": "Встановити",
                 "uninstall": "Видалити",
-                "update": "Оновити"
+                "update": "Оновити",
+                "install_external": "Встановлення стороннього розширення"
             }
         },
         "label": {
             "installed_successfully": "Розширення встановлено",
             "installing_file": "Встановлення файлу розширення…",
-            "installation_failed": "Не вдалося встановити розширення"
+            "installation_failed": "Не вдалося встановити розширення",
+            "update_failed": "Не вдалося оновити розширення",
+            "uninstallation_failed": "Не вдалося видалити розширення",
+            "add_repository_info": "Ви повинні додати репозиторій розширень, щоб мати змогу встановлювати розширення"
         },
         "language": {
             "all": "Всі",
@@ -196,11 +277,34 @@
                 "uninstalling": "Видалення"
             }
         },
-        "title": "Розширення"
+        "title": "Розширення",
+        "settings": {
+            "repositories": {
+                "custom": {
+                    "dialog": {
+                        "action": {
+                            "button": {
+                                "add": "Додати репозиторій"
+                            }
+                        }
+                    },
+                    "label": {
+                        "title": "Репозиторії розширень",
+                        "description": "Додати репозиторії, з яких можуть бути встановлені розширення",
+                        "disclaimer": "<strong>Suwayomi не надає жодної підтримки стороннім репозиторіям або розширенням!</strong><br/>Використовуйте з обережністю, оскільки ці репозиторії можуть створюватися зловмисниками.<br/>Вам, як користувачу, потрібно довіряти тільки перевіреним репозиторіям та розширенням."
+                    },
+                    "error": {
+                        "label": {
+                            "invalid_url": "Недійсна URL-адреса репозиторія"
+                        }
+                    }
+                }
+            }
+        }
     },
     "global": {
         "button": {
-            "browse": "Переглянути",
+            "browse": "Огляд",
             "cancel": "Скасувати",
             "filter": "Фільтр",
             "latest": "Останні",
@@ -214,14 +318,32 @@
             "clear": "Очистити",
             "select_all": "Вибрати все",
             "open_site": "Відкрити сайт",
-            "popular": "Популярне"
+            "popular": "Популярне",
+            "create": "Створити",
+            "dont_show_dialog_again": "Більше не показувати цей діалог",
+            "edit": "Редагувати",
+            "options": "Параметри",
+            "add": "Додати",
+            "deselect": "Скасувати вибір",
+            "stop": "Зупинити",
+            "migrate": "Мігрувати",
+            "copy": "Скопіювати",
+            "retry": "Спробуйте ще",
+            "select": "Вибрати",
+            "restore": "Відновити"
         },
         "date": {
             "label": {
                 "today_at": "Сьогодні о {{timeString}}",
                 "yesterday": "Вчора",
                 "yesterday_at": "Вчора о {{timeString}}",
-                "today": "Сьогодні"
+                "today": "Сьогодні",
+                "day": "День"
+            },
+            "value": {
+                "label": {
+                    "day": "{{days}} $t(global.date.label.day, lowercase)"
+                }
             }
         },
         "error": {
@@ -230,7 +352,8 @@
                 "invalid_action": "Ця дія не є дійсною",
                 "invalid_file_type": "Неправильний тип файлу",
                 "update_failed": "Не вдалося перевірити наявність оновлень",
-                "failed_to_save_changes": "Не вдалося зберегти зміни"
+                "failed_to_save_changes": "Не вдалося зберегти зміни",
+                "invalid_input": "Невірно введені дані"
             }
         },
         "filter": {
@@ -255,7 +378,21 @@
             "loading": "Завантаження…",
             "none": "Нічого",
             "sort": "Сортувати",
-            "unknown": "Невідомо"
+            "unknown": "Невідомо",
+            "username": "Ім'я користувача",
+            "github": "GitHub",
+            "load_in_progress": "Все ще завантажуються необхідні дані…",
+            "password": "Пароль",
+            "placeholder": "Місце для заповнення",
+            "general": "Загальне",
+            "disabled": "Вимкнено",
+            "discord": "Discord",
+            "close": "Закрити",
+            "links": "Посилання",
+            "advanced": "Розширений",
+            "client": "Клієнт",
+            "never": "Ніколи",
+            "other": "Інше"
         },
         "language": {
             "label": {
@@ -272,13 +409,41 @@
                 "by_fetch_date": "За датою отримання",
                 "by_source": "За джерелом"
             }
+        },
+        "time": {
+            "hour_short": "г",
+            "minutes": {
+                "value": "{{count}} $t(global.time.minutes.minute, lowercase)",
+                "minute_one": "Хвилина",
+                "minute_few": "Хвилини",
+                "minute_many": "Хвилин"
+            },
+            "seconds": {
+                "second_one": "Секунда",
+                "second_few": "Секунди",
+                "second_many": "Секунд",
+                "value": "{{count}} $t(global.time.seconds.second, lowercase)"
+            }
+        },
+        "update": {
+            "label": {
+                "check_failure": "Не вдалося перевірити наявність оновлення",
+                "checking": "Перевірка наявності оновлення",
+                "info": "Версія сервера {{version}} ({{channel}}) доступна для завантаження",
+                "up_to_date": "Це остання версія",
+                "available": "Доступне оновлення",
+                "update_failure": "Не вдалося оновити",
+                "updating": "{{progress}}% | Оновлення…"
+            }
         }
     },
     "library": {
         "error": {
             "label": {
                 "empty": "Ваша бібліотека порожня",
-                "no_matches": "Жодна манґа не відповідає цьому фільтру"
+                "no_matches": "Жодна манґа не відповідає цьому фільтру",
+                "remove_from_library": "Не вдалося видалити манґу з бібліотеки!",
+                "add_to_library": "Не вдалося додати манґу до бібліотеки!"
             }
         },
         "option": {
@@ -295,14 +460,21 @@
                     "label": {
                         "show_number_of_items": "Показати кількість елементів"
                     }
+                },
+                "other": {
+                    "label": {
+                        "show_continue_reading_button": "Показувати кнопку продовження читання"
+                    }
                 }
             },
             "sort": {
                 "label": {
                     "alphabetically": "А-Я",
                     "by_date_added": "Нещодавно додані",
-                    "by_unread_chapters": "Непрочитані розділи",
-                    "by_last_read": "Нещодавно прочитане"
+                    "by_unread_chapters": "Непрочитані глави",
+                    "by_last_read": "Нещодавно прочитане",
+                    "by_latest_uploaded_chapter": "Остання завантажена глава",
+                    "by_latest_fetched_chapter": "Остання завантажена глава"
                 }
             }
         },
@@ -310,16 +482,89 @@
             "global_update": {
                 "categories": {
                     "label": {
-                        "info": "Записи у виключених категоріях не будуть оновлюватися, навіть якщо вони є у включених категоріях",
+                        "info": "Елементи у виключених категоріях не будуть оновлюватися, навіть якщо вони є у включених категоріях",
                         "exclude": "Виключити: {{excludedCategoriesText}}",
                         "include": "Включити: {{includedCategoriesText}}"
                     }
                 },
-                "title": "Глобальне оновлення"
+                "title": "Глобальне оновлення",
+                "entries": {
+                    "label": {
+                        "unread_chapters": "З непрочитаними главами",
+                        "not_started": "Що не були розпочаті",
+                        "completed": "Зі статусом \"Завершено\""
+                    },
+                    "title": "Пропустити оновлення елементів"
+                },
+                "label": {
+                    "last_update_tooltip": "$t(library.settings.global_update.title) ($t(library.settings.global_update.label.last_update, lowercase))",
+                    "last_update": "Останнє оновлення: {{date}}"
+                },
+                "metadata": {
+                    "label": {
+                        "title": "Автоматично оновлювати метадані",
+                        "description": "Перевіряти наявність нової обкладинки та деталей під час оновлення бібліотеки"
+                    }
+                },
+                "auto_update": {
+                    "interval": {
+                        "label": {
+                            "title": "Інтервал автоматичних оновлень",
+                            "value": "{{hours}}$t(global.time.hour_short)"
+                        }
+                    },
+                    "label": {
+                        "title": "Автоматичні оновлення"
+                    }
+                }
             },
-            "title": "Налаштування бібліотеки"
+            "title": "Налаштування бібліотеки",
+            "advanced": {
+                "database": {
+                    "cleanup": {
+                        "label": {
+                            "error": "Не вдалося видалити з категорій мангу, що не є в бібліотеці",
+                            "title": "Очистити базу даних",
+                            "description": "Видалити з категорій манґу, що не є в бібліотеці",
+                            "success": "Видалено з категорій мангу, якої не було в бібліотеці"
+                        }
+                    }
+                }
+            },
+            "general": {
+                "remove_from_library": {
+                    "remove_from_categories": {
+                        "label": {
+                            "description": "Видаляти манґу з категорій, коли видаляєте її з бібліотеки",
+                            "title": "Забути категорії манґи"
+                        }
+                    }
+                },
+                "add_to_library": {
+                    "category_selection": {
+                        "label": {
+                            "description": "Показувати діалогове вікно вибору категорії під час додавання манґи до бібліотеки",
+                            "title": "Діалогове вікно вибору категорії"
+                        }
+                    }
+                },
+                "search": {
+                    "ignore_filters": {
+                        "label": {
+                            "description": "Результати пошуку включатимуть манґу, яка не відповідає поточним фільтрам",
+                            "title": "Ігнорувати фільтри під час пошуку"
+                        }
+                    }
+                }
+            }
         },
-        "title": "Бібліотека"
+        "title": "Бібліотека",
+        "info": {
+            "label": {
+                "removed_from_library": "Видалено манґу з бібліотеки!",
+                "added_to_library": "Додано манґу до бібліотеки!"
+            }
+        }
     },
     "manga": {
         "button": {
@@ -328,7 +573,7 @@
         },
         "error": {
             "label": {
-                "no_mangas_found": "Манґи не знайдено",
+                "no_mangas_found": "Жодної манґи не знайдено",
                 "request_failure": "Не вдалося завантажити манґу",
                 "no_matches": "Жодна манґа не відповідає цьому фільтру"
             }
@@ -340,17 +585,60 @@
             "author": "Автор",
             "artist": "Художник"
         },
-        "title": "Манґа"
+        "title": "Манґа",
+        "action": {
+            "category": {
+                "button": {
+                    "selected": "Змінити категорії обраних"
+                },
+                "label": {
+                    "success_one": "Категорії манґи змінені",
+                    "success_few": "Змінено категорії для {{count}} манґ",
+                    "success_many": "Змінено категорії для {{count}} манґ",
+                    "error_one": "Не вдалося змінити категорії манґи",
+                    "error_few": "Не вдалося змінити категорії манґ",
+                    "error_many": "Не вдалося змінити категорії манґ",
+                    "action": "Змінити категорії"
+                }
+            },
+            "library": {
+                "remove": {
+                    "label": {
+                        "error_one": "Не вдалося видалити манґу з бібліотеки",
+                        "error_few": "Не вдалося видалити манґу з бібліотеки",
+                        "error_many": "Не вдалося видалити манґу з бібліотеки",
+                        "success_one": "Манґу видалено з бібліотеки",
+                        "success_few": "З бібліотеки видалено {{count}} манґи",
+                        "success_many": "З бібліотеки видалено {{count}} манґ",
+                        "action": "Видалити з бібліотеки"
+                    },
+                    "button": {
+                        "selected": "Видалити обрані з бібліотеки"
+                    }
+                }
+            },
+            "migrate": {
+                "label": {
+                    "success": "Манґу мігровано успішно",
+                    "error": "Не вдалося мігрувати манґу"
+                }
+            }
+        }
     },
     "reader": {
         "button": {
-            "previous_chapter": "Попередній розділ",
-            "next_chapter": "Наступний розділ"
+            "previous_chapter": "Попередня глава",
+            "next_chapter": "Наступна глава",
+            "open_menu": "Відкрити меню",
+            "exit": "Вийти",
+            "close_menu": "Закрити меню"
         },
         "error": {
             "label": {
                 "unable_to_get_prev_chapter_skip_dup": "Не вдалося отримати попередній розділ - ввімкнено опцію \"$t(reader.settings.label.skip_dup_chapters)\"",
-                "unable_to_get_next_chapter_skip_dup": "Не вдається отримати наступний розділ - ввімкнено опцію \"$t(reader.settings.label.skip_dup_chapters)\""
+                "unable_to_get_next_chapter_skip_dup": "Не вдається отримати наступний розділ - ввімкнено опцію \"$t(reader.settings.label.skip_dup_chapters)\"",
+                "prev_chapter_does_not_exist": "Відсутня попередня глава для відкриття",
+                "next_chapter_does_not_exist": "Відсутня наступна глава для відкриття"
             }
         },
         "page_info": {
@@ -363,10 +651,13 @@
             "label": {
                 "reader_type": "Тип читача",
                 "show_page_number": "Показати номер сторінки",
-                "skip_dup_chapters": "Пропуск повторюваних розділів",
+                "skip_dup_chapters": "Пропускати дублікати глав",
                 "static_navigation": "Статична навігація",
-                "load_next_chapter": "Завантажувати наступний розділ після закінчення",
-                "fit_page_to_window": "Підгонка сторінки до вікна"
+                "load_next_chapter": "Завантажувати наступну главу наприкінці поточної",
+                "fit_page_to_window": "Підгонка сторінки до вікна",
+                "reader_width": "Ширина сторінки",
+                "offset_first_page": "Зміщення першої сторінки",
+                "scale_page": "Масштабування маленьких сторінок"
             },
             "reader_type": {
                 "label": {
@@ -377,7 +668,7 @@
                     "double_page_rtl": "Подвійна сторінка (справа наліво) ⬅️",
                     "single_page_ltr": "Одна сторінка (зліва направо) ➡️",
                     "single_page_rtl": "Одна сторінка (справа наліво) ⬅️",
-                    "webtoon": "Webtoon"
+                    "webtoon": "Вебтун"
                 }
             },
             "title": {
@@ -391,7 +682,7 @@
                 }
             }
         },
-        "title": "Читач — Манґа {{mangaId}} Розділ {{chapterIndex}}"
+        "title": "Читати Манґу {{mangaId}} Розділ {{chapterIndex}}"
     },
     "search": {
         "label": {
@@ -418,7 +709,24 @@
                 "server_version": "Версія сервера",
                 "discord": "Discord"
             },
-            "title": "Про застосунок"
+            "title": "Про застосунок",
+            "server": {
+                "label": {
+                    "address": "Адреса сервера",
+                    "github": "$t(global.label.github) $t(settings.server.title.server)",
+                    "version": "Версія сервера",
+                    "build_time": "Дата збірки"
+                }
+            },
+            "webui": {
+                "label": {
+                    "update_failure": "Не вдалося оновити $t(settings.webui.title.webui)",
+                    "channel": "Канал $t(settings.webui.title.webui)",
+                    "version": "Версія $t(settings.webui.title.webui)",
+                    "update_success": "Оновлено $t(settings.webui.title.webui) до версії {{version}}. Необхідно оновити сторінку",
+                    "github": "$t(global.label.github) $t(settings.webui.title.webui)"
+                }
+            }
         },
         "backup": {
             "label": {
@@ -431,7 +739,63 @@
                 "restored_backup": "Резервну копію відновлено.",
                 "restore_backup": "Відновити резервну копію"
             },
-            "title": "Резервна копія"
+            "title": "Резервна копія",
+            "automated": {
+                "location": {
+                    "label": {
+                        "title": "Місце резервної копії",
+                        "description": "Шлях до каталогу на сервері, куди повинні зберігатися автоматично створені резервні копії"
+                    }
+                },
+                "cleanup": {
+                    "label": {
+                        "title": "Очищення резервної копії",
+                        "value": "Видалити резервні копії, які старіші за $t(global.date.value.label.day)"
+                    }
+                },
+                "label": {
+                    "time": "Дата резервного копіювання",
+                    "interval": "Інтервал резервного копіювання"
+                }
+            },
+            "action": {
+                "create": {
+                    "label": {
+                        "title": "Створити резервну копію",
+                        "description": "Створити резервну копію бібліотеки у вигляді Tachiyomi"
+                    }
+                },
+                "restore": {
+                    "label": {
+                        "title": "Відновити резервну копію",
+                        "description": "Ви також можете перетягнути файл резервної копії сюди, щоб відновити його",
+                        "in_progress": "Відновлення резервної копії…",
+                        "success": "Резервну копію відновлено."
+                    },
+                    "button": "Відновити",
+                    "error": {
+                        "label": {
+                            "failure": "Не вдалося відновити резервну копію",
+                            "legacy_backup_unsupported": "застарілі резервні копії не підтримуються!"
+                        }
+                    }
+                },
+                "validate": {
+                    "dialog": {
+                        "title": "Перевірка резервної копії",
+                        "content": {
+                            "label": {
+                                "missing_sources": "Наступні джерела не встановлено:"
+                            }
+                        }
+                    },
+                    "error": {
+                        "label": {
+                            "failure": "Не вдалося перевірити резервну копію"
+                        }
+                    }
+                }
+            }
         },
         "label": {
             "dark_theme": "Темна тема",
@@ -449,7 +813,223 @@
                 }
             }
         },
-        "title": "Налаштування"
+        "title": "Налаштування",
+        "server": {
+            "misc": {
+                "log_level": {
+                    "label": {
+                        "server": "Увімкнути журнали налагодження"
+                    },
+                    "graphql": {
+                        "label": {
+                            "title": "Увімкнути журнали налагодження graphql",
+                            "description": "Сюди входять журнали з інформацією, яка не є безпечною для конфіденційності"
+                        }
+                    }
+                },
+                "tray_icon": {
+                    "label": {
+                        "title": "Показати іконку в системному треї",
+                        "description": "Ця іконка буде відображатися в системі, в якій запущено сервер"
+                    }
+                },
+                "title": "Інше"
+            },
+            "requests": {
+                "title": "Запити",
+                "sources": {
+                    "parallel": {
+                        "label": {
+                            "title": "Паралельні запити до джерел",
+                            "value": "{{value}} $t(source.title)"
+                        }
+                    }
+                }
+            },
+            "address": {
+                "client": {
+                    "label": {
+                        "description": "Адреса, за якою клієнт буде підключатися до сервера"
+                    },
+                    "dialog": {
+                        "label": {
+                            "enter_address": "Введіть адресу сервера"
+                        }
+                    }
+                },
+                "server": {
+                    "label": {
+                        "ip": "IP",
+                        "port": "Порт"
+                    },
+                    "title": "Посилання на сервер"
+                }
+            },
+            "cloudflare": {
+                "flaresolverr": {
+                    "enabled": {
+                        "label": {
+                            "title": "FlareSolverr увімкнено",
+                            "description": "Див. <2>FlareSolverr</2> для отримання інформації щодо налаштування"
+                        }
+                    },
+                    "session": {
+                        "name": {
+                            "label": {
+                                "title": "Назва сеансу FlareSolverr"
+                            }
+                        },
+                        "ttl": {
+                            "label": {
+                                "description": "FlareSolverr автоматично ротуватиме прострочені сесії на основі наданого TTL в хвилинах",
+                                "title": "TTL сесії FlareSolverr"
+                            }
+                        }
+                    },
+                    "timeout": {
+                        "label": {
+                            "description": "Скільки часу FlareSolverr повинен обробляти запит",
+                            "title": "Таймаут запиту FlareSolverr"
+                        }
+                    },
+                    "url": {
+                        "label": {
+                            "description": "Адреса сервера FlareSolverr",
+                            "title": "URL-адреса сервера FlareSolverr"
+                        }
+                    }
+                },
+                "title": "Обхід Cloudflare"
+            },
+            "socks_proxy": {
+                "label": {
+                    "port": "Порт SOCKS",
+                    "password": "Пароль SOCKS",
+                    "username": "Ім'я користувача SOCKS",
+                    "version": "Версія SOCKS",
+                    "enable": "Використовувати проксі SOCKS",
+                    "host": "Хост SOCKS"
+                },
+                "title": "Проксі SOCKS"
+            },
+            "title": {
+                "settings": "Налаштування сервера",
+                "server": "Сервер"
+            },
+            "local_source": {
+                "path": {
+                    "label": {
+                        "description": "Шлях до каталогу на сервері, в якому зберігаються локальні вихідні файли",
+                        "title": "Місцезнаходження локального джерела"
+                    }
+                }
+            },
+            "auth": {
+                "basic": {
+                    "label": {
+                        "enable": "Використовуйте базову автентифікацію",
+                        "password": "$t(global.label.password, lowercase) для базової автентифікації",
+                        "username": "$t(global.label.username, lowercase) для базової автентифікації"
+                    }
+                },
+                "title": "Автентифікація"
+            }
+        },
+        "webui": {
+            "channel": {
+                "option": {
+                    "bundled": {
+                        "label": {
+                            "description": "Використовувати версію, що постачається з випуском сервера",
+                            "title": "У комплекті"
+                        }
+                    },
+                    "preview": {
+                        "label": {
+                            "title": "Попередній перегляд",
+                            "disclaimer": "Функції та зміни в цій версії можуть бути ще не повністю готові та можуть спричиняти помилки.\nПереконайтеся, що у вас увімкнено автоматичне резервне копіювання, щоб запобігти втраті вашої бібліотеки!\n\n$t(settings.webui.flavor.label.info)",
+                            "description": "Використовувати найновіші функції та допомогти нам підготувати їх до стабільного випуску."
+                        }
+                    },
+                    "stable": {
+                        "label": {
+                            "description": "Використовувати випуск останньої версії.",
+                            "title": "Стабільний"
+                        }
+                    }
+                },
+                "label": {
+                    "title": "Канал"
+                }
+            },
+            "electron_path": {
+                "label": {
+                    "title": "Шлях до electron",
+                    "description": "Шлях до каталогу на сервері, де встановлено electron"
+                }
+            },
+            "flavor": {
+                "option": {
+                    "vui": {
+                        "label": {
+                            "description": "Вебінтерфейс, орієнтований на попередній перегляд, створений за допомогою svelte",
+                            "title": "VUI"
+                        }
+                    },
+                    "custom": {
+                        "label": {
+                            "description": "Використовувати власний $t(settings.webui.title.webui).\nДля використання власного $t(settings.webui.title.webui) замініть вміст каталогу \"webUI\" в кореневому каталозі на сервері на файли власного $t(settings.webui.title.webui)",
+                            "title": "Власний"
+                        }
+                    },
+                    "webui": {
+                        "label": {
+                            "description": "Використовувати стандартний $t(settings.webui.title.webui)"
+                        }
+                    }
+                },
+                "label": {
+                    "info": "Після зміни цього налаштування перейдіть на сторінку \"Про застосунок\", перевірте наявність оновлення веб-інтерфейсу та встановіть його",
+                    "title": "Варіант"
+                }
+            },
+            "title": {
+                "settings": "Налаштування $t(settings.webui.title.webui)",
+                "webui": "WebUI"
+            },
+            "interface": {
+                "label": {
+                    "description": "Де відкривати $t(settings.webui.title.webui) при запуску сервера",
+                    "title": "Інтерфейс"
+                },
+                "option": {
+                    "label": {
+                        "browser": "Браузер",
+                        "electron": "Electron"
+                    }
+                }
+            },
+            "auto_update": {
+                "label": {
+                    "interval": "Інтервал оновлення",
+                    "title": "Автоматично завантажувати останню версію"
+                }
+            },
+            "label": {
+                "initial_open_browser": "Відкривати $t(settings.webui.title.webui) під час запуску сервера"
+            }
+        },
+        "browse": {
+            "title": "Налаштування огляду"
+        },
+        "clear_cache": {
+            "label": {
+                "description": "Кеш клієнта (браузер, electron) також повинен очищатися, інакше кеш клієнта буде продовжувати використовуватися",
+                "failure": "Не вдалося очистити кеш сервера",
+                "success": "Кеш сервера був очищений",
+                "title": "Очистити кеш сервера"
+            }
+        }
     },
     "source": {
         "error": {
@@ -477,5 +1057,22 @@
             }
         },
         "title": "Оновлення"
+    },
+    "migrate": {
+        "search": {
+            "title": "$t(migrate.title) \"{{title}}\""
+        },
+        "title": "Мігрувати",
+        "dialog": {
+            "action": {
+                "button": {
+                    "show_entry": "Показати елемент"
+                }
+            },
+            "title": "Вибрати дані, які потрібно включити"
+        },
+        "label": {
+            "info": "Міграція манґи…"
+        }
     }
 }

@@ -1,0 +1,57 @@
+{
+    "category": {
+        "dialog": {
+            "title": {
+                "edit_category": "Redigera kategori",
+                "new_category": "Ny kategori"
+            }
+        },
+        "error": {
+            "label": {
+                "empty": "Kategorin är tom",
+                "request_failure": "Kunde inte ladda kategorier"
+            },
+            "no_categories_found": {
+                "label": {
+                    "hint": "Du borde göra några från inställningarna.",
+                    "info": "Inga kategorier hittades."
+                }
+            }
+        },
+        "settings": {
+            "inclusion": {
+                "label": {
+                    "exclude": "Utesluta: {{excludedCategoriesText}}",
+                    "include": "Inkludera: {{includedCategoriesText}}"
+                }
+            }
+        },
+        "title": {
+            "category_one": "Kategori",
+            "category_other": "Kategorier",
+            "set_categories": "Ställ in kategorier"
+        },
+        "label": {
+            "category_name": "Kategori namn",
+            "use_as_default_category": "Standard kategori när man lägger till ny manga i biblioteket"
+        }
+    },
+    "chapter": {
+        "action": {
+            "bookmark": {
+                "add": {
+                    "button": {
+                        "selected": "Bokmärke valt"
+                    },
+                    "label": {
+                        "action": "Lägg till bokmärke",
+                        "error_one": "Det gick inte att bokmärka kapitalet",
+                        "error_other": "Det gick inte att bokmärka kapitlet",
+                        "success_one": "Kapitel bokmärktes",
+                        "success_other": "{{count}} kapitel bokmärktes"
+                    }
+                }
+            }
+        }
+    }
+}
