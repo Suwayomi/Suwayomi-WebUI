@@ -6,14 +6,14 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { createElement, useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
 import Checkbox from '@mui/material/Checkbox';
 import { CheckBoxPreferenceProps, SwitchPreferenceCompatProps, TwoStatePreferenceProps } from '@/typings';
 
-function getTwoStateType(type: 'Checkbox' | 'Switch') {
+function getTwoStateType(type: TwoStatePreferenceProps['twoStateType']) {
     if (type === 'Switch') {
         return Switch;
     }
@@ -53,19 +53,23 @@ function TwoSatePreference(props: TwoStatePreferenceProps) {
         setInternalCurrentValue(currentValue ?? defaultValue);
     }, [currentValue]);
 
+    const TwoStateComponent = useMemo(() => getTwoStateType(twoStateType), [twoStateType]);
+
     return (
         <ListItem>
             <ListItemText primary={title} secondary={summary} />
-            {createElement(getTwoStateType(twoStateType), {
-                edge: 'end',
-                checked: internalCurrentValue,
-                onChange: () => {
-                    updateValue(twoStateType === 'Switch' ? 'switchState' : 'checkBoxState', !currentValue);
+            <TwoStateComponent
+                {...{
+                    edge: 'end',
+                    checked: internalCurrentValue,
+                    onChange: () => {
+                        updateValue(twoStateType === 'Switch' ? 'switchState' : 'checkBoxState', !currentValue);
 
-                    // appear smooth
-                    setInternalCurrentValue(!currentValue);
-                },
-            })}
+                        // appear smooth
+                        setInternalCurrentValue(!currentValue);
+                    },
+                }}
+            />
         </ListItem>
     );
 }
