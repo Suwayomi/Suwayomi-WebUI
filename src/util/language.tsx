@@ -65,6 +65,12 @@ export const ISOLanguages = [
     { dayjsImport: () => import('dayjs/locale/bg.js'), code: 'bg', name: 'Bulgarian', nativeName: 'български' },
     { dayjsImport: () => import('dayjs/locale/cs.js'), code: 'cs', name: 'Czech', nativeName: 'čeština' },
     { dayjsImport: () => import('dayjs/locale/pl.js'), code: 'pl', name: 'Polish', nativeName: 'polski' },
+    {
+        dayjsImport: () => import('dayjs/locale/nb.js'),
+        code: 'nb',
+        name: 'Norwegian Bokmål',
+        nativeName: 'Norsk bokmål',
+    },
     { dayjsImport: () => import('dayjs/locale/nb.js'), code: 'no', name: 'Norwegian', nativeName: 'Norsk' },
     { dayjsImport: () => import('dayjs/locale/nl.js'), code: 'nl', name: 'Dutch', nativeName: 'Nederlands' },
     { dayjsImport: () => import('dayjs/locale/my.js'), code: 'my', name: 'Burmese', nativeName: 'ဗမာစာ' },
