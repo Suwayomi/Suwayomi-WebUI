@@ -27,7 +27,7 @@ jobs:
       - name: Set up NodeJs
         uses: actions/setup-node@v4
         with:
-          node-version-file: 'package.json'
+          node-version-file: './master/package.json'
 
       - name: Cache node_modules
         uses: actions/cache@v4
