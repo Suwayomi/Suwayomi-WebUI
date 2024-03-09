@@ -41,7 +41,7 @@ export const resources = {
     it: translationHelper(it),
     ja: translationHelper(ja),
     ko: translationHelper(ko),
-    nb: translationHelper(nb_NO),
+    'nb-NO': translationHelper(nb_NO),
     pt: translationHelper(pt),
     sv: translationHelper(sv),
     uk: translationHelper(uk),

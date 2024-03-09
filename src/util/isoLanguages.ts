@@ -68,6 +68,11 @@ export const ISOLanguages: Record<ISOLanguageCode, ISOLanguage> = {
         nativeName: 'srpskohrvatski',
         dayjsImport: loadDefaultDayJsLocale,
     },
+    'nb-NO': {
+        name: 'Norwegian Bokmål',
+        nativeName: 'Norsk bokmål',
+        dayjsImport: () => import('dayjs/locale/nb.js'),
+    },
     // #############################
     // ###                       ###
     // ### END: manually added   ###
