@@ -38,6 +38,7 @@
     "file-selector": "^0.6.0",
     "graphql-tag": "^2.12.6",
     "graphql-ws": "^5.15.0",
+    "html-react-parser": "^5.1.8",
     "i18next": "^23.10.1",
     "i18next-browser-languagedetector": "^7.2.0",
     "material-ui-popup-state": "^5.0.10",

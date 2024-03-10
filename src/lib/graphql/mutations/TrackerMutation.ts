@@ -45,3 +45,34 @@ export const TRACKER_LOGOUT = gql`
         }
     }
 `;
+
+export const TRACKER_BIND = gql`
+    mutation TRACKER_BIND($mangaId: Int!, $remoteId: LongString!, $trackerId: Int!) {
+        bindTrack(input: { mangaId: $mangaId, remoteId: $remoteId, trackerId: $trackerId }) {
+            trackRecord {
+                id
+                title
+                status
+                lastChapterRead
+                totalChapters
+                score
+                startDate
+                finishDate
+                remoteUrl
+                remoteId
+                tracker {
+                    id
+                }
+                manga {
+                    id
+                    trackRecords {
+                        totalCount
+                        nodes {
+                            id
+                        }
+                    }
+                }
+            }
+        }
+    }
+`;

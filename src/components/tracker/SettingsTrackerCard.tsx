@@ -21,10 +21,10 @@ import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import { PasswordTextField } from '@/components/atoms/PasswordTextField.tsx';
 import { makeToast } from '@/components/util/Toast.tsx';
-import { GetTrackersQuery } from '@/lib/graphql/generated/graphql.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { TBaseTracker } from '@/lib/data/Trackers.ts';
 
-export const SettingsTrackerCard = ({ tracker }: { tracker: GetTrackersQuery['trackers']['nodes'][number] }) => {
+export const SettingsTrackerCard = ({ tracker }: { tracker: TBaseTracker }) => {
     const { t } = useTranslation();
 
     const [loginTrackerCredentials, { loading: isCredentialLoginInProgress }] =
@@ -64,20 +64,23 @@ export const SettingsTrackerCard = ({ tracker }: { tracker: GetTrackersQuery['tr
         }
     };
 
+    const onClick = (openPopup: () => void) => {
+        if (!isOAuthLogin) {
+            openPopup();
+            return;
+        }
+
+        handleLogin();
+    };
+
     return (
         <PopupState variant="popover" popupId="tracker-dialog">
             {(popupState) => (
                 <>
                     <ListItemButton
                         {...bindTrigger(popupState)}
-                        onClick={() => {
-                            if (!isOAuthLogin) {
-                                popupState.open();
-                                return;
-                            }
-
-                            handleLogin();
-                        }}
+                        onClick={() => onClick(popupState.open)}
+                        onTouchStart={() => onClick(popupState.open)}
                     >
                         <ListItemAvatar sx={{ paddingRight: '20px' }}>
                             <Avatar

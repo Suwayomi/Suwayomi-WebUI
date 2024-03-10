@@ -317,6 +317,8 @@
       "select": "Select",
       "select_all": "Select all",
       "set": "Set",
+      "show_less": "Show less",
+      "show_more": "Show more",
       "start": "Start",
       "stop": "Stop",
       "submit": "Submit"
@@ -383,6 +385,8 @@
       "password": "Password",
       "placeholder": "Placeholder",
       "sort": "Sort",
+      "started": "Started",
+      "type": "Type",
       "unknown": "Unknown",
       "username": "Username"
     },
@@ -587,11 +591,25 @@
           "error": "Could not migrate manga",
           "success": "Successfully migrated manga"
         }
+      },
+      "track": {
+        "add": {
+          "label": {
+            "action": "Track",
+            "error": "Could not track manga",
+            "success": "Tracked manga"
+          }
+        }
       }
     },
     "button": {
       "add_to_library": "Add To Library",
-      "in_library": "In Library"
+      "in_library": "In Library",
+      "track": {
+        "active_one": "{{count}} Tracker",
+        "active_other": "{{count}} Tracker",
+        "start": "Tracking"
+      }
     },
     "error": {
       "label": {
@@ -1050,6 +1068,9 @@
   },
   "tracking": {
     "action": {
+      "button": {
+        "add_tracking": "Add tracking"
+      },
       "login": {
         "label": {
           "failure": "Could not log in to {{name}}",
@@ -1060,6 +1081,11 @@
         "label": {
           "failure": "Could not log out from {{name}}"
         }
+      }
+    },
+    "error": {
+      "label": {
+        "could_not_load_track_info": "Could not load track info"
       }
     },
     "settings": {
