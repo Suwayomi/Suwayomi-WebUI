@@ -14,6 +14,7 @@ import { Theme, SxProps, Stack, Button } from '@mui/material';
 import BrokenImageIcon from '@mui/icons-material/BrokenImage';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { useTranslation } from 'react-i18next';
+import ImageIcon from '@mui/icons-material/Image';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { Priority } from '@/lib/Queue.ts';
@@ -33,6 +34,8 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
 
     const { t } = useTranslation();
 
+    const showMissingImageIcon = !src.length;
+
     const [imageSourceUrl, setImageSourceUrl] = useState('');
     const [imgLoadRetryKey, setImgLoadRetryKey] = useState(0);
     const [isLoading, setIsLoading] = useState<boolean | undefined>(undefined);
@@ -48,6 +51,10 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
     };
 
     useEffect(() => {
+        if (showMissingImageIcon) {
+            return () => {};
+        }
+
         let tmpImageSourceUrl: string;
         const imageRequest = requestManager.requestImage(src, Priority.HIGH);
         let cacheTimeout: NodeJS.Timeout;
@@ -121,17 +128,28 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
                 </Box>
             )}
 
-            <img
-                key={`${src}_${imgLoadRetryKey}`}
-                style={{
-                    ...imgStyle,
-                    display: !imageSourceUrl || isLoading || hasError ? 'none' : imgStyle?.display,
-                }}
-                ref={imgRef}
-                src={imageSourceUrl}
-                alt={alt}
-                draggable={false}
-            />
+            {showMissingImageIcon ? (
+                <Stack
+                    height="100%"
+                    alignItems="center"
+                    justifyContent="center"
+                    sx={{ background: (theme) => theme.palette.background.default }}
+                >
+                    <ImageIcon fontSize="large" />
+                </Stack>
+            ) : (
+                <img
+                    key={`${src}_${imgLoadRetryKey}`}
+                    style={{
+                        ...imgStyle,
+                        display: !imageSourceUrl || isLoading || hasError ? 'none' : imgStyle?.display,
+                    }}
+                    ref={imgRef}
+                    src={imageSourceUrl}
+                    alt={alt}
+                    draggable={false}
+                />
+            )}
         </>
     );
 });
