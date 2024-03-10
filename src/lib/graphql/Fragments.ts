@@ -210,8 +210,44 @@ export const FULL_SOURCE_FIELDS = gql`
     }
 `;
 
+export const FULL_TRACKER_FIELDS = gql`
+    fragment FULL_TRACKER_FIELDS on TrackerType {
+        id
+        name
+        authUrl
+        icon
+        isLoggedIn
+        isTokenExpired
+        scores
+        statuses {
+            name
+            value
+        }
+    }
+`;
+
+export const FULL_TRACK_RECORD_FIELDS = gql`
+    ${FULL_TRACKER_FIELDS}
+    fragment FULL_TRACK_RECORD_FIELDS on TrackRecordType {
+        id
+        title
+        status
+        lastChapterRead
+        totalChapters
+        score
+        startDate
+        finishDate
+        remoteUrl
+        remoteId
+        tracker {
+            ...FULL_TRACKER_FIELDS
+        }
+    }
+`;
+
 export const BASE_MANGA_FIELDS = gql`
     ${PARTIAL_SOURCE_FIELDS}
+    ${FULL_TRACK_RECORD_FIELDS}
     fragment BASE_MANGA_FIELDS on MangaType {
         artist
         author
@@ -236,6 +272,12 @@ export const BASE_MANGA_FIELDS = gql`
         thumbnailUrlLastFetched
         title
         url
+        trackRecords {
+            totalCount
+            nodes {
+                ...FULL_TRACK_RECORD_FIELDS
+            }
+        }
     }
 `;
 
