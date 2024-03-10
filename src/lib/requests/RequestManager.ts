@@ -411,15 +411,32 @@ export class RequestManager {
         this.cache.clearFor(this.cache.getKeyFor(EXTENSION_LIST_CACHE_KEY, undefined));
     }
 
-    private createAbortController(): { signal: AbortSignal } & AbortableRequest {
-        const abortController = new AbortController();
-        const abortRequest = (reason?: any): void => {
-            if (!abortController.signal.aborted) {
-                abortController.abort(reason);
-            }
+    private getOrCreateAbortController(data?: any): { signal: AbortSignal } & AbortableRequest {
+        const createAbortController = () => {
+            const abortController = new AbortController();
+            const abortRequest = (reason?: any): void => {
+                if (!abortController.signal.aborted) {
+                    abortController.abort(reason);
+                }
+            };
+
+            return { signal: abortController.signal, abortRequest };
         };
 
-        return { signal: abortController.signal, abortRequest };
+        const abortControllerCacheKey = 'abortControllerCacheKey';
+        const cachedController =
+            data &&
+            this.cache.getResponseFor<{ signal: AbortSignal } & AbortableRequest>(abortControllerCacheKey, data);
+        const isCachedControllerAborted = !!cachedController?.signal.aborted;
+
+        const abortController =
+            isCachedControllerAborted || !cachedController ? createAbortController() : cachedController;
+
+        if (!cachedController) {
+            this.cache.cacheResponse(abortControllerCacheKey, data, abortController);
+        }
+
+        return abortController;
     }
 
     private createPaginatedResult<Result extends AbortableApolloUseMutationPaginatedResponse[1][number]>(
@@ -601,7 +618,7 @@ export class RequestManager {
 
         let response: FetchResult<Data> = {};
         try {
-            const { signal, abortRequest } = this.createAbortController();
+            const { signal, abortRequest } = this.getOrCreateAbortController();
             setAbortRequest(abortRequest);
 
             setResult({
@@ -754,7 +771,7 @@ export class RequestManager {
             if (shouldRevalidateData) {
                 setRevalidationDone(true);
 
-                const { signal, abortRequest } = this.createAbortController();
+                const { signal, abortRequest } = this.getOrCreateAbortController();
                 revalidate(Math.max(...cachedPages), abortRequest, signal);
             }
         }, [isMountedRef.current, isRevalidationDone]);
@@ -783,7 +800,7 @@ export class RequestManager {
      *
      */
     public requestImage(url: string, priority?: QueuePriority): { response: Promise<string> } & AbortableRequest {
-        const { abortRequest, signal } = this.createAbortController();
+        const { abortRequest, signal } = this.getOrCreateAbortController();
         const response = this.imageQueue.enqueue(
             url,
             () =>
@@ -855,7 +872,8 @@ export class RequestManager {
         | AbortableApolloUseMutationResponse<Data, Variables>
         | AbortableApolloMutationResponse<Data>
         | SubscriptionResult<Data, Variables> {
-        const { signal, abortRequest } = this.createAbortController();
+        const { signal, abortRequest } = this.getOrCreateAbortController({ method, operation, variables });
+
         switch (method) {
             case GQLMethod.QUERY:
                 return {
