@@ -7,10 +7,11 @@
  */
 
 import gql from 'graphql-tag';
-import { PAGE_INFO } from '@/lib/graphql/Fragments.ts';
+import { FULL_TRACKER_FIELDS, PAGE_INFO } from '@/lib/graphql/Fragments.ts';
 
 export const GET_TRACKERS = gql`
     ${PAGE_INFO}
+    ${FULL_TRACKER_FIELDS}
     query GET_TRACKERS {
         trackers {
             totalCount
@@ -18,11 +19,27 @@ export const GET_TRACKERS = gql`
                 ...PAGE_INFO
             }
             nodes {
+                ...FULL_TRACKER_FIELDS
+            }
+        }
+    }
+`;
+
+export const TRACKER_SEARCH = gql`
+    query TRACKER_SEARCH($query: String!, $trackerId: Int!) {
+        searchTracker(input: { query: $query, trackerId: $trackerId }) {
+            trackSearches {
                 id
-                name
-                authUrl
-                icon
-                isLoggedIn
+                title
+                coverUrl
+                publishingStatus
+                publishingType
+                remoteId
+                startDate
+                summary
+                totalChapters
+                trackerId
+                trackingUrl
             }
         }
     }

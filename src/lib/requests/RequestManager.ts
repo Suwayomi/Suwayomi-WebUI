@@ -185,6 +185,10 @@ import {
     TrackerLoginOauthMutationVariables,
     TrackerLoginCredentialsMutation,
     TrackerLoginCredentialsMutationVariables,
+    TrackerSearchQuery,
+    TrackerSearchQueryVariables,
+    TrackerBindMutation,
+    TrackerBindMutationVariables,
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_GLOBAL_METADATAS } from '@/lib/graphql/queries/GlobalMetadataQuery.ts';
 import { SET_GLOBAL_METADATA } from '@/lib/graphql/mutations/GlobalMetadataMutation.ts';
@@ -265,8 +269,9 @@ import { WEBUI_UPDATE_SUBSCRIPTION } from '@/lib/graphql/subscriptions/ServerInf
 import { GET_DOWNLOAD_STATUS } from '@/lib/graphql/queries/DownloaderQuery.ts';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { Queue, QueuePriority } from '@/lib/Queue.ts';
-import { GET_TRACKERS } from '@/lib/graphql/queries/TrackerQuery.ts';
+import { GET_TRACKERS, TRACKER_SEARCH } from '@/lib/graphql/queries/TrackerQuery.ts';
 import {
+    TRACKER_BIND,
     TRACKER_LOGIN_CREDENTIALS,
     TRACKER_LOGIN_OAUTH,
     TRACKER_LOGOUT,
@@ -2396,6 +2401,20 @@ export class RequestManager {
         options?: MutationHookOptions<TrackerLoginCredentialsMutation, TrackerLoginCredentialsMutationVariables>,
     ): AbortableApolloUseMutationResponse<TrackerLoginCredentialsMutation, TrackerLoginCredentialsMutationVariables> {
         return this.doRequest(GQLMethod.USE_MUTATION, TRACKER_LOGIN_CREDENTIALS, undefined, options);
+    }
+
+    public useTrackerSearch(
+        trackerId: number,
+        query: string,
+        options?: QueryHookOptions<TrackerSearchQuery, TrackerSearchQueryVariables>,
+    ): AbortableApolloUseQueryResponse<TrackerSearchQuery, TrackerSearchQueryVariables> {
+        return this.doRequest(GQLMethod.USE_QUERY, TRACKER_SEARCH, { trackerId, query }, options);
+    }
+
+    public useBindTracker(
+        options?: MutationHookOptions<TrackerBindMutation, TrackerBindMutationVariables>,
+    ): AbortableApolloUseMutationResponse<TrackerBindMutation, TrackerBindMutationVariables> {
+        return this.doRequest(GQLMethod.USE_MUTATION, TRACKER_BIND, undefined, options);
     }
 }
 

@@ -24,6 +24,7 @@ import { SpinnerImage } from '@/components/util/SpinnerImage.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { Categories } from '@/lib/data/Categories.ts';
 import { CustomIconButton } from '@/components/atoms/CustomIconButton';
+import { TrackMangaButton } from '@/components/manga/TrackMangaButton.tsx';
 
 const DetailsWrapper = styled('div')(({ theme }) => ({
     width: '100%',
@@ -258,6 +259,7 @@ export const MangaDetails: React.FC<IProps> = ({ manga }) => {
                             {manga.inLibrary ? <FavoriteIcon /> : <FavoriteBorderIcon />}
                             {manga.inLibrary ? t('manga.button.in_library') : t('manga.button.add_to_library')}
                         </CustomIconButton>
+                        <TrackMangaButton manga={manga} />
                         <OpenSourceButton url={manga.realUrl} />
                     </MangaButtonsContainer>
                 </TopContentWrapper>
