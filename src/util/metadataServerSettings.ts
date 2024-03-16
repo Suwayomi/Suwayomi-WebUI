@@ -26,6 +26,11 @@ export const getDefaultSettings = (): MetadataServerSettings => ({
 
     // client
     devices: [DEFAULT_DEVICE],
+
+    // migration
+    includeChapters: true,
+    includeCategories: true,
+    deleteChapters: true,
 });
 
 export const convertSettingsToMetadata = (

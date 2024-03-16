@@ -232,6 +232,11 @@ export type MetadataServerSettings = {
 
     // client
     devices: string[];
+
+    // migration
+    includeChapters: boolean;
+    includeCategories: boolean;
+    deleteChapters: boolean;
 };
 
 export interface ISearchSettings {

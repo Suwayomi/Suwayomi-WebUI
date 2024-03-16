@@ -19,6 +19,12 @@ import FormGroup from '@mui/material/FormGroup';
 import { CheckboxInput } from '@/components/atoms/CheckboxInput.tsx';
 import { Mangas, MigrateMode } from '@/lib/data/Mangas.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
+import { convertSettingsToMetadata, useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
+import { MetadataServerSettings } from '@/typings.ts';
+import { convertToGqlMeta, requestUpdateServerMetadata } from '@/util/metadata.ts';
+import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+
+type MigrationSettingsType = Pick<MetadataServerSettings, 'includeChapters' | 'includeCategories' | 'deleteChapters'>;
 
 export const MigrateDialog = ({ mangaIdToMigrateTo, onClose }: { mangaIdToMigrateTo: number; onClose: () => void }) => {
     const { t } = useTranslation();
@@ -28,11 +34,21 @@ export const MigrateDialog = ({ mangaIdToMigrateTo, onClose }: { mangaIdToMigrat
     const { mangaId: mangaIdAsString } = useParams<{ mangaId: string }>();
     const mangaId = Number(mangaIdAsString);
 
-    const [includeChapters, setIncludeChapters] = useState(true);
-    const [includeCategories, setIncludeCategories] = useState(true);
-    const [deleteChapters, setDeleteChapters] = useState(true);
+    const {
+        metadata,
+        settings: { includeChapters, includeCategories, deleteChapters },
+    } = useMetadataServerSettings();
 
     const [isMigrationInProcess, setIsMigrationInProcess] = useState(false);
+
+    const setMigrationFlag = <Setting extends keyof MigrationSettingsType>(
+        setting: Setting,
+        value: MigrationSettingsType[Setting],
+    ) => {
+        requestUpdateServerMetadata(convertToGqlMeta(metadata) ?? [], [
+            [setting, convertSettingsToMetadata({ [setting]: value })[setting]],
+        ]).catch(defaultPromiseErrorHandler('MigrateDialog::updateSetting'));
+    };
 
     const migrate = async (mode: MigrateMode) => {
         if (mangaId == null) {
@@ -66,19 +82,19 @@ export const MigrateDialog = ({ mangaIdToMigrateTo, onClose }: { mangaIdToMigrat
                         disabled={isMigrationInProcess}
                         label={t('chapter.title')}
                         checked={includeChapters}
-                        onChange={(_, checked) => setIncludeChapters(checked)}
+                        onChange={(_, checked) => setMigrationFlag('includeChapters', checked)}
                     />
                     <CheckboxInput
                         disabled={isMigrationInProcess}
                         label={t('category.title.category_one')}
                         checked={includeCategories}
-                        onChange={(_, checked) => setIncludeCategories(checked)}
+                        onChange={(_, checked) => setMigrationFlag('includeCategories', checked)}
                     />
                     <CheckboxInput
                         disabled={isMigrationInProcess}
                         label={t('migrate.dialog.label.delete_downloaded')}
                         checked={deleteChapters}
-                        onChange={(_, checked) => setDeleteChapters(checked)}
+                        onChange={(_, checked) => setMigrationFlag('deleteChapters', checked)}
                     />
                 </FormGroup>
             </DialogContent>
