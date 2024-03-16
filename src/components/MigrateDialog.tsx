@@ -19,12 +19,9 @@ import FormGroup from '@mui/material/FormGroup';
 import { CheckboxInput } from '@/components/atoms/CheckboxInput.tsx';
 import { Mangas, MigrateMode } from '@/lib/data/Mangas.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
-import { convertSettingsToMetadata, useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
-import { MetadataServerSettings } from '@/typings.ts';
-import { requestUpdateServerMetadata } from '@/util/metadata.ts';
+import { createUpdateMetadataServerSettings, useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
+import { MetadataMigrationSettings } from '@/typings.ts';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
-
-type MigrationSettingsType = Pick<MetadataServerSettings, 'includeChapters' | 'includeCategories' | 'deleteChapters'>;
 
 export const MigrateDialog = ({ mangaIdToMigrateTo, onClose }: { mangaIdToMigrateTo: number; onClose: () => void }) => {
     const { t } = useTranslation();
@@ -40,14 +37,9 @@ export const MigrateDialog = ({ mangaIdToMigrateTo, onClose }: { mangaIdToMigrat
 
     const [isMigrationInProcess, setIsMigrationInProcess] = useState(false);
 
-    const setMigrationFlag = <Setting extends keyof MigrationSettingsType>(
-        setting: Setting,
-        value: MigrationSettingsType[Setting],
-    ) => {
-        requestUpdateServerMetadata([[setting, convertSettingsToMetadata({ [setting]: value })[setting]]]).catch(
-            defaultPromiseErrorHandler('MigrateDialog::updateSetting'),
-        );
-    };
+    const setMigrationFlag = createUpdateMetadataServerSettings<keyof MetadataMigrationSettings>(
+        defaultPromiseErrorHandler('MigrateDialog::updateSetting'),
+    );
 
     const migrate = async (mode: MigrateMode) => {
         if (mangaId == null) {

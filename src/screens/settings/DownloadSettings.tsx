@@ -13,11 +13,10 @@ import { ListItem, ListItemText, Switch } from '@mui/material';
 import ListSubheader from '@mui/material/ListSubheader';
 import { TextSetting } from '@/components/settings/text/TextSetting.tsx';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
-import { MetadataServerSettingKeys, MetadataServerSettings, ServerSettings } from '@/typings.ts';
+import { MetadataDownloadSettings, ServerSettings } from '@/typings.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { DownloadAheadSetting } from '@/components/settings/downloads/DownloadAheadSetting.tsx';
-import { convertSettingsToMetadata, useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
-import { requestUpdateServerMetadata } from '@/util/metadata.ts';
+import { createUpdateMetadataServerSettings, useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { DeleteChaptersWhileReadingSetting } from '@/components/settings/downloads/DeleteChaptersWhileReadingSetting.tsx';
 import { CategoriesInclusionSetting } from '@/components/settings/CategoriesInclusionSetting.tsx';
@@ -59,7 +58,7 @@ export const DownloadSettings = () => {
     const { data } = requestManager.useGetServerSettings();
     const downloadSettings = data ? extractDownloadSettings(data.settings) : undefined;
     const [mutateSettings] = requestManager.useUpdateServerSettings();
-    const { metadata, settings: metadataSettings } = useMetadataServerSettings();
+    const { settings: metadataSettings } = useMetadataServerSettings();
 
     const updateSetting = <Setting extends keyof DownloadSettingsType>(
         setting: Setting,
@@ -70,18 +69,9 @@ export const DownloadSettings = () => {
         );
     };
 
-    const updateMetadataSetting = <Setting extends MetadataServerSettingKeys>(
-        setting: Setting,
-        value: MetadataServerSettings[Setting],
-    ) => {
-        if (!metadata) {
-            return;
-        }
-
-        requestUpdateServerMetadata([[setting, convertSettingsToMetadata({ [setting]: value })[setting]]]).catch(() =>
-            makeToast(t('global.error.label.failed_to_save_changes'), 'error'),
-        );
-    };
+    const updateMetadataSetting = createUpdateMetadataServerSettings<keyof MetadataDownloadSettings>(() =>
+        makeToast(t('global.error.label.failed_to_save_changes'), 'error'),
+    );
 
     return (
         <List>

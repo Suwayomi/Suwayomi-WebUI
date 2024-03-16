@@ -6,11 +6,18 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { AllowedMetadataValueTypes, AppMetadataKeys, Metadata, MetadataServerSettings } from '@/typings';
+import {
+    AllowedMetadataValueTypes,
+    AppMetadataKeys,
+    Metadata,
+    MetadataServerSettingKeys,
+    MetadataServerSettings,
+} from '@/typings';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { convertFromGqlMeta, getMetadataFrom } from '@/util/metadata';
+import { convertFromGqlMeta, getMetadataFrom, requestUpdateServerMetadata } from '@/util/metadata';
 import { jsonSaveParse } from '@/util/HelperFunctions.ts';
 import { DEFAULT_DEVICE } from '@/util/device.ts';
+import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
 export const getDefaultSettings = (): MetadataServerSettings => ({
     // downloads
@@ -79,3 +86,19 @@ export const getMetadataServerSettings = async (): Promise<MetadataServerSetting
     const metadata = convertFromGqlMeta(data?.metas.nodes);
     return getMetadataServerSettingsWithDefaultFallback(metadata);
 };
+
+export const updateMetadataServerSettings = async <
+    Settings extends MetadataServerSettingKeys = MetadataServerSettingKeys,
+    Setting extends Settings = Settings,
+>(
+    setting: Setting,
+    value: MetadataServerSettings[Setting],
+): Promise<void[]> =>
+    requestUpdateServerMetadata([[setting, convertSettingsToMetadata({ [setting]: value })[setting]]]);
+
+export const createUpdateMetadataServerSettings =
+    <Settings extends MetadataServerSettingKeys>(
+        handleError: (error: any) => void = defaultPromiseErrorHandler('createUpdateMetadataServerSettings'),
+    ): ((...args: Parameters<typeof updateMetadataServerSettings<Settings>>) => Promise<void | void[]>) =>
+    (setting, value) =>
+        updateMetadataServerSettings(setting, value).catch(handleError);

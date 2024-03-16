@@ -10,9 +10,8 @@ import { useTranslation } from 'react-i18next';
 import { List, ListItem, ListItemText, Switch } from '@mui/material';
 import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
 import { getPersistedServerSetting, usePersistedValue } from '@/util/usePersistedValue.tsx';
-import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
-import { MetadataServerSettings } from '@/typings.ts';
-import { requestUpdateServerMetadata } from '@/util/metadata.ts';
+import { updateMetadataServerSettings, useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
+import { MetadataDownloadSettings } from '@/typings.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
 
 const MIN_LIMIT = 2;
@@ -34,9 +33,9 @@ export const DownloadAheadSetting = () => {
         getPersistedServerSetting,
     );
 
-    const updateSetting = (value: MetadataServerSettings['downloadAheadLimit']) => {
+    const updateSetting = (value: MetadataDownloadSettings['downloadAheadLimit']) => {
         persistDownloadAheadLimit(value === 0 ? currentDownloadAheadLimit : value);
-        requestUpdateServerMetadata([['downloadAheadLimit', value]]).catch(() =>
+        updateMetadataServerSettings('downloadAheadLimit', value).catch(() =>
             makeToast(t('search.error.label.failed_to_save_settings'), 'warning'),
         );
     };

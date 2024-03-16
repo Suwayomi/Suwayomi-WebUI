@@ -13,10 +13,9 @@ import ListSubheader from '@mui/material/ListSubheader';
 import { t as translate } from 'i18next';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
 import { GlobalUpdateSettings } from '@/components/settings/globalUpdate/GlobalUpdateSettings.tsx';
-import { MetadataServerSettingKeys, MetadataServerSettings } from '@/typings.ts';
-import { requestUpdateServerMetadata } from '@/util/metadata.ts';
+import { MetadataLibrarySettings } from '@/typings.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
-import { convertSettingsToMetadata, useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
+import { createUpdateMetadataServerSettings, useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Mangas } from '@/lib/data/Mangas.ts';
 
@@ -57,14 +56,9 @@ export function LibrarySettings() {
 
     const { settings } = useMetadataServerSettings();
 
-    const setSettingValue = <Setting extends MetadataServerSettingKeys>(
-        setting: Setting,
-        value: MetadataServerSettings[Setting],
-    ) => {
-        requestUpdateServerMetadata([[setting, convertSettingsToMetadata({ [setting]: value })[setting]]]).catch(() =>
-            makeToast(t('search.error.label.failed_to_save_settings'), 'warning'),
-        );
-    };
+    const setSettingValue = createUpdateMetadataServerSettings<keyof MetadataLibrarySettings>(() =>
+        makeToast(t('search.error.label.failed_to_save_settings'), 'warning'),
+    );
 
     return (
         <List>

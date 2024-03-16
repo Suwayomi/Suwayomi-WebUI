@@ -22,9 +22,9 @@ import { useSelectableCollection } from '@/components/collection/useSelectableCo
 import { ThreeStateCheckboxInput } from '@/components/atoms/ThreeStateCheckboxInput.tsx';
 import { Categories } from '@/lib/data/Categories.ts';
 import { CheckboxInput } from '@/components/atoms/CheckboxInput.tsx';
-import { requestUpdateServerMetadata } from '@/util/metadata.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { updateMetadataServerSettings } from '@/util/metadataServerSettings.ts';
 
 type BaseProps = {
     open: boolean;
@@ -134,7 +134,7 @@ export function CategorySelect(props: Props) {
         onClose(true, addToCategories, removeFromCategories);
 
         if (doNotShowAddToLibraryDialogAgain) {
-            requestUpdateServerMetadata([['showAddToLibraryCategorySelectDialog', false]]).catch(() =>
+            updateMetadataServerSettings('showAddToLibraryCategorySelectDialog', false).catch(() =>
                 makeToast(t('search.error.label.failed_to_save_settings'), 'error'),
             );
         }

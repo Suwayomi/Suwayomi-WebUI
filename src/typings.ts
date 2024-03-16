@@ -218,26 +218,33 @@ export enum ChapterOffset {
     NEXT = 1,
 }
 
-export type MetadataServerSettings = {
-    // downloads
+export type MetadataDownloadSettings = {
     deleteChaptersManuallyMarkedRead: boolean;
     deleteChaptersWhileReading: number;
     deleteChaptersWithBookmark: boolean;
     downloadAheadLimit: number;
+};
 
-    // library
+export type MetadataLibrarySettings = {
     showAddToLibraryCategorySelectDialog: boolean;
     ignoreFilters: boolean;
     removeMangaFromCategories: boolean;
+};
 
-    // client
+export type MetadataClientSettings = {
     devices: string[];
+};
 
-    // migration
+export type MetadataMigrationSettings = {
     includeChapters: boolean;
     includeCategories: boolean;
     deleteChapters: boolean;
 };
+
+export type MetadataServerSettings = MetadataDownloadSettings &
+    MetadataLibrarySettings &
+    MetadataClientSettings &
+    MetadataMigrationSettings;
 
 export interface ISearchSettings {
     ignoreFilters: boolean;
