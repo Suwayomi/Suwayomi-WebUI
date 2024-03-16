@@ -938,6 +938,7 @@ export type MangaType = {
   chaptersLastFetchedAt?: Maybe<Scalars['LongString']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   downloadCount: Scalars['Int']['output'];
+  firstUnreadChapter?: Maybe<ChapterType>;
   genre: Array<Scalars['String']['output']>;
   id: Scalars['Int']['output'];
   inLibrary: Scalars['Boolean']['output'];
@@ -3057,7 +3058,7 @@ export type GetMangaQuery = { __typename?: 'Query', manga: { __typename?: 'Manga
 
 export type GetMangaToMigrateQueryVariables = Exact<{
   id: Scalars['Int']['input'];
-  migrateChapters: Scalars['Boolean']['input'];
+  getChapterData: Scalars['Boolean']['input'];
   migrateCategories: Scalars['Boolean']['input'];
 }>;
 

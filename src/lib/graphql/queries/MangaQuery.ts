@@ -22,12 +22,12 @@ export const GET_MANGA = gql`
 
 // returns the current manga from the database
 export const GET_MANGA_TO_MIGRATE = gql`
-    query GET_MANGA_TO_MIGRATE($id: Int!, $migrateChapters: Boolean!, $migrateCategories: Boolean!) {
+    query GET_MANGA_TO_MIGRATE($id: Int!, $getChapterData: Boolean!, $migrateCategories: Boolean!) {
         manga(id: $id) {
             id
             inLibrary
             title
-            chapters @include(if: $migrateChapters) {
+            chapters @include(if: $getChapterData) {
                 nodes {
                     id
                     manga {

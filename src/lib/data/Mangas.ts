@@ -111,6 +111,7 @@ type MigrateOptions = {
     mode: MigrateMode;
     migrateChapters?: boolean;
     migrateCategories?: boolean;
+    deleteChapters?: boolean;
 };
 type PerformActionOptions<Action extends MangaAction> = Action extends 'mark_as_read'
     ? MarkAsReadOptions & PropertiesNever<ChangeCategoriesOptions> & PropertiesNever<MigrateOptions>
@@ -279,11 +280,12 @@ export class Mangas {
     static async migrate(
         mangaId: number,
         mangaIdToMigrateTo: number,
-        { mode, migrateChapters, migrateCategories }: Omit<MigrateOptions, 'mangaIdToMigrateTo'>,
+        { mode, migrateChapters, migrateCategories, deleteChapters }: Omit<MigrateOptions, 'mangaIdToMigrateTo'>,
     ): Promise<void> {
         return Mangas.executeAction('migrate', 1, async () => {
             const [{ data: mangaToMigrateData }, { data: mangaToMigrateToData }] = await Promise.all([
-                requestManager.getMangaToMigrate(mangaId, { migrateChapters, migrateCategories }).response,
+                requestManager.getMangaToMigrate(mangaId, { migrateChapters, migrateCategories, deleteChapters })
+                    .response,
                 requestManager.getMangaToMigrateToFetch(mangaIdToMigrateTo, { migrateChapters, migrateCategories })
                     .response,
             ]);
@@ -301,6 +303,11 @@ export class Mangas {
 
             await Promise.all([
                 migrateChapters ? Mangas.migrateChapters(mangaToMigrateData.manga, mangaToMigrateToData) : undefined,
+                deleteChapters
+                    ? requestManager.deleteDownloadedChapters(
+                          Chapters.getIds(Chapters.getDownloaded(mangaToMigrateData.manga.chapters?.nodes ?? [])),
+                      ).response
+                    : undefined,
                 migrateCategories
                     ? Mangas.migrateCategories(mangaToMigrateData.manga, mangaToMigrateToData.fetchManga.manga)
                     : undefined,
