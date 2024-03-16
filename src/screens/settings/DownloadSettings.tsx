@@ -17,7 +17,7 @@ import { MetadataServerSettingKeys, MetadataServerSettings, ServerSettings } fro
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { DownloadAheadSetting } from '@/components/settings/downloads/DownloadAheadSetting.tsx';
 import { convertSettingsToMetadata, useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
-import { convertToGqlMeta, requestUpdateServerMetadata } from '@/util/metadata.ts';
+import { requestUpdateServerMetadata } from '@/util/metadata.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { DeleteChaptersWhileReadingSetting } from '@/components/settings/downloads/DeleteChaptersWhileReadingSetting.tsx';
 import { CategoriesInclusionSetting } from '@/components/settings/CategoriesInclusionSetting.tsx';
@@ -78,9 +78,9 @@ export const DownloadSettings = () => {
             return;
         }
 
-        requestUpdateServerMetadata(convertToGqlMeta(metadata) ?? [], [
-            [setting, convertSettingsToMetadata({ [setting]: value })[setting]],
-        ]).catch(() => makeToast(t('global.error.label.failed_to_save_changes'), 'error'));
+        requestUpdateServerMetadata([[setting, convertSettingsToMetadata({ [setting]: value })[setting]]]).catch(() =>
+            makeToast(t('global.error.label.failed_to_save_changes'), 'error'),
+        );
     };
 
     return (

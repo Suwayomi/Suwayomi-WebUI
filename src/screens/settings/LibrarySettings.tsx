@@ -14,7 +14,7 @@ import { t as translate } from 'i18next';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
 import { GlobalUpdateSettings } from '@/components/settings/globalUpdate/GlobalUpdateSettings.tsx';
 import { MetadataServerSettingKeys, MetadataServerSettings } from '@/typings.ts';
-import { convertToGqlMeta, requestUpdateServerMetadata } from '@/util/metadata.ts';
+import { requestUpdateServerMetadata } from '@/util/metadata.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { convertSettingsToMetadata, useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
@@ -55,15 +55,15 @@ export function LibrarySettings() {
 
     useSetDefaultBackTo('settings');
 
-    const { metadata, settings } = useMetadataServerSettings();
+    const { settings } = useMetadataServerSettings();
 
     const setSettingValue = <Setting extends MetadataServerSettingKeys>(
         setting: Setting,
         value: MetadataServerSettings[Setting],
     ) => {
-        requestUpdateServerMetadata(convertToGqlMeta(metadata)! ?? {}, [
-            [setting, convertSettingsToMetadata({ [setting]: value })[setting]],
-        ]).catch(() => makeToast(t('search.error.label.failed_to_save_settings'), 'warning'));
+        requestUpdateServerMetadata([[setting, convertSettingsToMetadata({ [setting]: value })[setting]]]).catch(() =>
+            makeToast(t('search.error.label.failed_to_save_settings'), 'warning'),
+        );
     };
 
     return (

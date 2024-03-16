@@ -40,7 +40,7 @@ export function DefaultReaderSettings() {
     useSetDefaultBackTo('settings');
 
     const setSettingValue = (key: keyof IReaderSettings, value: AllowedMetadataValueTypes) => {
-        requestUpdateServerMetadata(convertToGqlMeta(metadata)! ?? {}, [[key, value]]).catch(() =>
+        requestUpdateServerMetadata([[key, value]]).catch(() =>
             makeToast(t('reader.settings.error.label.failed_to_save_settings'), 'warning'),
         );
     };

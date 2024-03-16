@@ -12,7 +12,7 @@ import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
 import { getPersistedServerSetting, usePersistedValue } from '@/util/usePersistedValue.tsx';
 import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
 import { MetadataServerSettings } from '@/typings.ts';
-import { convertToGqlMeta, requestUpdateServerMetadata } from '@/util/metadata.ts';
+import { requestUpdateServerMetadata } from '@/util/metadata.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
 
 const MIN_LIMIT = 2;
@@ -23,7 +23,6 @@ export const DownloadAheadSetting = () => {
     const { t } = useTranslation();
 
     const {
-        metadata,
         settings: { downloadAheadLimit },
     } = useMetadataServerSettings();
 
@@ -37,7 +36,7 @@ export const DownloadAheadSetting = () => {
 
     const updateSetting = (value: MetadataServerSettings['downloadAheadLimit']) => {
         persistDownloadAheadLimit(value === 0 ? currentDownloadAheadLimit : value);
-        requestUpdateServerMetadata(convertToGqlMeta(metadata)! ?? {}, [['downloadAheadLimit', value]]).catch(() =>
+        requestUpdateServerMetadata([['downloadAheadLimit', value]]).catch(() =>
             makeToast(t('search.error.label.failed_to_save_settings'), 'warning'),
         );
     };

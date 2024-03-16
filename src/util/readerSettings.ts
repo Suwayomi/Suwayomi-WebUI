@@ -111,5 +111,5 @@ export const checkAndHandleMissingStoredReaderSettings = async (
         return;
     }
 
-    await requestUpdateServerMetadata(metadataHolder as MetaType[], settingsToUpdate);
+    await requestUpdateServerMetadata(settingsToUpdate);
 };

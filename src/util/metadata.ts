@@ -372,10 +372,8 @@ export const requestUpdateMetadata = async (
 ): Promise<void[]> =>
     Promise.all(keysToValues.map(([key, value]) => requestUpdateMetadataValue(metadataHolder, holderType, key, value)));
 
-export const requestUpdateServerMetadata = async (
-    serverMetadata: MetaType[],
-    keysToValues: MetadataKeyValuePair[],
-): Promise<void[]> => requestUpdateMetadata({ meta: serverMetadata }, 'global', keysToValues);
+export const requestUpdateServerMetadata = async (keysToValues: MetadataKeyValuePair[]): Promise<void[]> =>
+    requestUpdateMetadata({}, 'global', keysToValues);
 
 export const requestUpdateMangaMetadata = async (
     manga: TManga,
