@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { List, ListItem, ListItemText, Switch } from '@mui/material';
 import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
 import { getPersistedServerSetting, usePersistedValue } from '@/util/usePersistedValue.tsx';
-import { updateMetadataServerSettings, useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
+import { updateMetadataServerSettings, useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 import { MetadataDownloadSettings } from '@/typings.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
 

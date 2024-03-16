@@ -19,7 +19,10 @@ import FormGroup from '@mui/material/FormGroup';
 import { CheckboxInput } from '@/components/atoms/CheckboxInput.tsx';
 import { Mangas, MigrateMode } from '@/lib/data/Mangas.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
-import { createUpdateMetadataServerSettings, useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
+import {
+    createUpdateMetadataServerSettings,
+    useMetadataServerSettings,
+} from '@/lib/metadata/metadataServerSettings.ts';
 import { MetadataMigrationSettings } from '@/typings.ts';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 

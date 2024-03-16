@@ -9,7 +9,7 @@
 import { List, ListItem, ListItemText, MenuItem, Select } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useContext, useEffect } from 'react';
-import { updateMetadataServerSettings, useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
+import { updateMetadataServerSettings, useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 import { MetadataServerSettingKeys, MetadataServerSettings } from '@/typings.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { MutableListSetting } from '@/components/settings/MutableListSetting.tsx';

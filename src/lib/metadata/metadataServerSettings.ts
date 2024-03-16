@@ -12,9 +12,9 @@ import {
     Metadata,
     MetadataServerSettingKeys,
     MetadataServerSettings,
-} from '@/typings';
+} from '@/typings.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { convertFromGqlMeta, getMetadataFrom, requestUpdateServerMetadata } from '@/util/metadata';
+import { convertFromGqlMeta, getMetadataFrom, requestUpdateServerMetadata } from '@/lib/metadata/metadata.ts';
 import { jsonSaveParse } from '@/util/HelperFunctions.ts';
 import { DEFAULT_DEVICE } from '@/util/device.ts';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';

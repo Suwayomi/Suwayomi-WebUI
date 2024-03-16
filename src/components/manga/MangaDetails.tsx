@@ -17,7 +17,7 @@ import Button from '@mui/material/Button';
 import { ISource, TManga } from '@/typings';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/components/util/Toast';
-import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
+import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 import { CategorySelect } from '@/components/navbar/action/CategorySelect.tsx';
 import { Mangas } from '@/lib/data/Mangas.ts';
 import { SpinnerImage } from '@/components/util/SpinnerImage.tsx';

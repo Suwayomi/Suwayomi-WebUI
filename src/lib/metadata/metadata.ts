@@ -17,7 +17,7 @@ import {
     TCategory,
     TChapter,
     TManga,
-} from '@/typings';
+} from '@/typings.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { MetaType } from '@/lib/graphql/generated/graphql.ts';
 import { DEFAULT_DEVICE, getActiveDevice } from '@/util/device.ts';

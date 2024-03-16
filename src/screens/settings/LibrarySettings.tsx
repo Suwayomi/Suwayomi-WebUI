@@ -15,7 +15,10 @@ import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarC
 import { GlobalUpdateSettings } from '@/components/settings/globalUpdate/GlobalUpdateSettings.tsx';
 import { MetadataLibrarySettings } from '@/typings.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
-import { createUpdateMetadataServerSettings, useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
+import {
+    createUpdateMetadataServerSettings,
+    useMetadataServerSettings,
+} from '@/lib/metadata/metadataServerSettings.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Mangas } from '@/lib/data/Mangas.ts';
 

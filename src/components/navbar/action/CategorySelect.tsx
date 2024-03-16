@@ -24,7 +24,7 @@ import { Categories } from '@/lib/data/Categories.ts';
 import { CheckboxInput } from '@/components/atoms/CheckboxInput.tsx';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
-import { updateMetadataServerSettings } from '@/util/metadataServerSettings.ts';
+import { updateMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 
 type BaseProps = {
     open: boolean;

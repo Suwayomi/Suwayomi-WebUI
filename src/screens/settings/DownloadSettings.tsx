@@ -16,7 +16,10 @@ import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarC
 import { MetadataDownloadSettings, ServerSettings } from '@/typings.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { DownloadAheadSetting } from '@/components/settings/downloads/DownloadAheadSetting.tsx';
-import { createUpdateMetadataServerSettings, useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
+import {
+    createUpdateMetadataServerSettings,
+    useMetadataServerSettings,
+} from '@/lib/metadata/metadataServerSettings.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { DeleteChaptersWhileReadingSetting } from '@/components/settings/downloads/DeleteChaptersWhileReadingSetting.tsx';
 import { CategoriesInclusionSetting } from '@/components/settings/CategoriesInclusionSetting.tsx';
