@@ -30,6 +30,7 @@ export const MigrateDialog = ({ mangaIdToMigrateTo, onClose }: { mangaIdToMigrat
 
     const [includeChapters, setIncludeChapters] = useState(true);
     const [includeCategories, setIncludeCategories] = useState(true);
+    const [deleteChapters, setDeleteChapters] = useState(true);
 
     const [isMigrationInProcess, setIsMigrationInProcess] = useState(false);
 
@@ -47,6 +48,7 @@ export const MigrateDialog = ({ mangaIdToMigrateTo, onClose }: { mangaIdToMigrat
                 mode,
                 migrateChapters: includeChapters,
                 migrateCategories: includeCategories,
+                deleteChapters,
             });
 
             navigate(`/manga/${mangaIdToMigrateTo}`, { replace: true });
@@ -71,6 +73,12 @@ export const MigrateDialog = ({ mangaIdToMigrateTo, onClose }: { mangaIdToMigrat
                         label={t('category.title.category_one')}
                         checked={includeCategories}
                         onChange={(_, checked) => setIncludeCategories(checked)}
+                    />
+                    <CheckboxInput
+                        disabled={isMigrationInProcess}
+                        label={t('migrate.dialog.label.delete_downloaded')}
+                        checked={deleteChapters}
+                        onChange={(_, checked) => setDeleteChapters(checked)}
                     />
                 </FormGroup>
             </DialogContent>

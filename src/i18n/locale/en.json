@@ -615,6 +615,9 @@
           "show_entry": "Show entry"
         }
       },
+      "label": {
+        "delete_downloaded": "Delete downloaded"
+      },
       "title": "Select data to include"
     },
     "label": {

@@ -1451,17 +1451,19 @@ export class RequestManager {
         {
             migrateChapters = false,
             migrateCategories = false,
+            deleteChapters = false,
             apolloOptions: options,
         }: {
             migrateChapters?: boolean;
             migrateCategories?: boolean;
+            deleteChapters?: boolean;
             apolloOptions?: QueryOptions<GetMangaToMigrateQueryVariables, GetMangaToMigrateQuery>;
         } = {},
     ): AbortabaleApolloQueryResponse<GetMangaToMigrateQuery> {
         return this.doRequest(
             GQLMethod.QUERY,
             GET_MANGA_TO_MIGRATE,
-            { id: Number(mangaId), migrateChapters, migrateCategories },
+            { id: Number(mangaId), getChapterData: migrateChapters || deleteChapters, migrateCategories },
             options,
         );
     }
