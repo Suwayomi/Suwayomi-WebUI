@@ -49,7 +49,7 @@ export const MigrateDialog = ({ mangaIdToMigrateTo, onClose }: { mangaIdToMigrat
                 migrateCategories: includeCategories,
             });
 
-            navigate(`/manga/${mangaIdToMigrateTo}`);
+            navigate(`/manga/${mangaIdToMigrateTo}`, { replace: true });
         } catch (e) {
             setIsMigrationInProcess(false);
         }
