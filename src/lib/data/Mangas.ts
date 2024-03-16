@@ -18,7 +18,7 @@ import {
 } from '@/lib/graphql/generated/graphql.ts';
 import { Chapters } from '@/lib/data/Chapters.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
-import { getMetadataServerSettings } from '@/util/metadataServerSettings.ts';
+import { getMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 
 export type MangaAction =
     | 'download'

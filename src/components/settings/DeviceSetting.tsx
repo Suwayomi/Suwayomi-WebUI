@@ -9,9 +9,8 @@
 import { List, ListItem, ListItemText, MenuItem, Select } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useContext, useEffect } from 'react';
-import { convertSettingsToMetadata, useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
+import { updateMetadataServerSettings, useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 import { MetadataServerSettingKeys, MetadataServerSettings } from '@/typings.ts';
-import { convertToGqlMeta, requestUpdateServerMetadata } from '@/util/metadata.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { MutableListSetting } from '@/components/settings/MutableListSetting.tsx';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
@@ -53,9 +52,9 @@ export const DeviceSetting = () => {
             setActiveDevice(DEFAULT_DEVICE);
         }
 
-        requestUpdateServerMetadata(convertToGqlMeta(metadata) ?? [], [
-            [setting, convertSettingsToMetadata({ [setting]: value })[setting]],
-        ]).catch(() => makeToast(t('global.error.label.failed_to_save_changes'), 'error'));
+        updateMetadataServerSettings(setting, value).catch(() =>
+            makeToast(t('global.error.label.failed_to_save_changes'), 'error'),
+        );
     };
 
     return (

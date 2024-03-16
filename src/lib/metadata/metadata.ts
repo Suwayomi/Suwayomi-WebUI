@@ -17,7 +17,7 @@ import {
     TCategory,
     TChapter,
     TManga,
-} from '@/typings';
+} from '@/typings.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { MetaType } from '@/lib/graphql/generated/graphql.ts';
 import { DEFAULT_DEVICE, getActiveDevice } from '@/util/device.ts';
@@ -372,10 +372,8 @@ export const requestUpdateMetadata = async (
 ): Promise<void[]> =>
     Promise.all(keysToValues.map(([key, value]) => requestUpdateMetadataValue(metadataHolder, holderType, key, value)));
 
-export const requestUpdateServerMetadata = async (
-    serverMetadata: MetaType[],
-    keysToValues: MetadataKeyValuePair[],
-): Promise<void[]> => requestUpdateMetadata({ meta: serverMetadata }, 'global', keysToValues);
+export const requestUpdateServerMetadata = async (keysToValues: MetadataKeyValuePair[]): Promise<void[]> =>
+    requestUpdateMetadata({}, 'global', keysToValues);
 
 export const requestUpdateMangaMetadata = async (
     manga: TManga,

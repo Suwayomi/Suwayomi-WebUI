@@ -17,8 +17,8 @@ import {
     checkAndHandleMissingStoredReaderSettings,
     getReaderSettingsFor,
     useDefaultReaderSettings,
-} from '@/util/readerSettings';
-import { requestUpdateMangaMetadata } from '@/util/metadata';
+} from '@/lib/metadata/readerSettings.ts';
+import { requestUpdateMangaMetadata } from '@/lib/metadata/metadata.ts';
 import { HorizontalPager } from '@/components/reader/pager/HorizontalPager';
 import { PageNumber } from '@/components/reader/PageNumber';
 import { PagedPager } from '@/components/reader/pager/PagedPager';
@@ -29,7 +29,7 @@ import { makeToast } from '@/components/util/Toast';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { useDebounce } from '@/util/useDebounce.ts';
 import { UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
-import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
+import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { Chapters } from '@/lib/data/Chapters.ts';
 

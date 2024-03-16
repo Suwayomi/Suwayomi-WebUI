@@ -11,12 +11,12 @@ import { Box } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useTranslation } from 'react-i18next';
 import { AllowedMetadataValueTypes, IReaderSettings } from '@/typings';
-import { convertToGqlMeta, requestUpdateServerMetadata } from '@/util/metadata';
+import { convertToGqlMeta, requestUpdateServerMetadata } from '@/lib/metadata/metadata.ts';
 import {
     checkAndHandleMissingStoredReaderSettings,
     getDefaultSettings,
     useDefaultReaderSettings,
-} from '@/util/readerSettings';
+} from '@/lib/metadata/readerSettings.ts';
 import { ReaderSettingsOptions } from '@/components/reader/ReaderSettingsOptions';
 import { makeToast } from '@/components/util/Toast';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext';
@@ -40,7 +40,7 @@ export function DefaultReaderSettings() {
     useSetDefaultBackTo('settings');
 
     const setSettingValue = (key: keyof IReaderSettings, value: AllowedMetadataValueTypes) => {
-        requestUpdateServerMetadata(convertToGqlMeta(metadata)! ?? {}, [[key, value]]).catch(() =>
+        requestUpdateServerMetadata([[key, value]]).catch(() =>
             makeToast(t('reader.settings.error.label.failed_to_save_settings'), 'warning'),
         );
     };

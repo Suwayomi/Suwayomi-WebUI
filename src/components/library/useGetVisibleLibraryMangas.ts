@@ -10,7 +10,7 @@ import { StringParam, useQueryParam } from 'use-query-params';
 import { useMemo } from 'react';
 import { LibrarySortMode, NullAndUndefined, TManga } from '@/typings.ts';
 import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext.tsx';
-import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
+import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 
 const unreadFilter = (unread: NullAndUndefined<boolean>, { unreadCount }: TManga): boolean => {
     switch (unread) {

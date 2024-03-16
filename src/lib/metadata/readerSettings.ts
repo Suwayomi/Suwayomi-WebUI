@@ -6,14 +6,14 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Metadata, IReaderSettings, MetadataKeyValuePair, GqlMetaHolder, TManga } from '@/typings';
+import { Metadata, IReaderSettings, MetadataKeyValuePair, GqlMetaHolder, TManga } from '@/typings.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import {
     convertFromGqlMeta,
     getMetadataFrom,
     requestUpdateMangaMetadata,
     requestUpdateServerMetadata,
-} from '@/util/metadata';
+} from '@/lib/metadata/metadata.ts';
 import { MetaType } from '@/lib/graphql/generated/graphql.ts';
 
 type UndefinedReaderSettings = {
@@ -111,5 +111,5 @@ export const checkAndHandleMissingStoredReaderSettings = async (
         return;
     }
 
-    await requestUpdateServerMetadata(metadataHolder as MetaType[], settingsToUpdate);
+    await requestUpdateServerMetadata(settingsToUpdate);
 };

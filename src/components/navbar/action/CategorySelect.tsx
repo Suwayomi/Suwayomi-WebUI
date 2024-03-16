@@ -22,10 +22,9 @@ import { useSelectableCollection } from '@/components/collection/useSelectableCo
 import { ThreeStateCheckboxInput } from '@/components/atoms/ThreeStateCheckboxInput.tsx';
 import { Categories } from '@/lib/data/Categories.ts';
 import { CheckboxInput } from '@/components/atoms/CheckboxInput.tsx';
-import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
-import { convertToGqlMeta, requestUpdateServerMetadata } from '@/util/metadata.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { updateMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 
 type BaseProps = {
     open: boolean;
@@ -87,7 +86,6 @@ export function CategorySelect(props: Props) {
     const mangaIds = passedMangaIds ?? [mangaId];
 
     const [doNotShowAddToLibraryDialogAgain, setDoNotShowAddToLibraryDialogAgain] = useState(false);
-    const { metadata: serverMetadata } = useMetadataServerSettings();
 
     const mangaCategoryIds = useGetMangaCategoryIds(mangaId);
     const { data } = requestManager.useGetCategories();
@@ -136,9 +134,9 @@ export function CategorySelect(props: Props) {
         onClose(true, addToCategories, removeFromCategories);
 
         if (doNotShowAddToLibraryDialogAgain) {
-            requestUpdateServerMetadata(convertToGqlMeta(serverMetadata)! ?? {}, [
-                ['showAddToLibraryCategorySelectDialog', false],
-            ]).catch(() => makeToast(t('search.error.label.failed_to_save_settings'), 'error'));
+            updateMetadataServerSettings('showAddToLibraryCategorySelectDialog', false).catch(() =>
+                makeToast(t('search.error.label.failed_to_save_settings'), 'error'),
+            );
         }
 
         const isUpdateRequired = !!addToCategories.length || !!removeFromCategories.length;

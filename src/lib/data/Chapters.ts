@@ -12,7 +12,7 @@ import { DocumentNode } from '@apollo/client';
 import { ChapterOffset, TChapter, TranslationKey } from '@/typings.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { getMetadataServerSettings } from '@/util/metadataServerSettings.ts';
+import { getMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 import { FULL_CHAPTER_FIELDS } from '@/lib/graphql/Fragments.ts';
 
 export type ChapterAction = 'download' | 'delete' | 'bookmark' | 'unbookmark' | 'mark_as_read' | 'mark_as_unread';
