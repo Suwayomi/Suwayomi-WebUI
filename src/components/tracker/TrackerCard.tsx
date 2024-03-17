@@ -9,7 +9,7 @@
 import { TBaseTracker, TTrackRecord } from '@/lib/data/Trackers.ts';
 import { TrackerUntrackedCard } from '@/components/tracker/TrackerUntrackedCard.tsx';
 import { TrackerSearch } from '@/components/tracker/TrackerSearch.tsx';
-import { TManga } from '@/typings.ts';
+import { TrackerActiveCard } from '@/components/tracker/TrackerActiveCard.tsx';
 
 export enum TrackerMode {
     UNTRACKED,
@@ -45,5 +45,16 @@ export const TrackerCard = ({
         );
     }
 
-    return 'tracked';
+    if (mode === TrackerMode.INFO && !trackRecord) {
+        throw new Error(`TrackerCard: unable to find track record for tracker "${tracker.id}" of manga "${mangaId}"}`);
+    }
+
+    return (
+        <TrackerActiveCard
+            trackRecord={trackRecord!}
+            onClick={() => {
+                setSearchMode(tracker.id);
+            }}
+        />
+    );
 };

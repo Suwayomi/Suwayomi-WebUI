@@ -76,3 +76,18 @@ export const TRACKER_BIND = gql`
         }
     }
 `;
+
+export const TRACKER_UPDATE_BIND = gql`
+    mutation TRACKER_UPDATE_BIND($input: UpdateTrackInput!) {
+        updateTrack(input: $input) {
+            trackRecord {
+                id
+                status
+                lastChapterRead
+                score
+                startDate
+                finishDate
+            }
+        }
+    }
+`;

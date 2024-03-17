@@ -14,6 +14,8 @@ import {
     TrackRecordType,
 } from '@/lib/graphql/generated/graphql.ts';
 
+export const UNSET_DATE = '0';
+
 export type TTrackRecord = GetMangaQuery['manga']['trackRecords']['nodes'][number];
 
 export type TrackerManga = TrackerSearchQuery['searchTracker']['trackSearches'][number];
@@ -27,6 +29,14 @@ type TrackRecordTrackerInfo = { tracker: Partial<TrackRecordType['tracker']> };
 export class Trackers {
     static getIds(trackers: { id: number }[]): number[] {
         return trackers.map((tracker) => tracker.id);
+    }
+
+    static isUnsetDate(date: string): boolean {
+        return date === UNSET_DATE;
+    }
+
+    static getDateString(date: string): string | undefined {
+        return this.isUnsetDate(date) ? undefined : date;
     }
 
     static getLoggedIn<Tracker extends LoggedInInfo>(trackers: Tracker[]): Tracker[] {

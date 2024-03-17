@@ -309,6 +309,7 @@
       "open_site": "Open Site",
       "options": "Options",
       "popular": "Popular",
+      "remove": "Remove",
       "reset": "Reset",
       "reset_to_default": "Reset to Default",
       "restore": "Restore",
@@ -381,6 +382,7 @@
       "logged_in": "Logged in",
       "never": "Never",
       "none": "None",
+      "open_in_browser": "Open in browser",
       "other": "Other",
       "password": "Password",
       "placeholder": "Placeholder",
@@ -598,6 +600,18 @@
             "action": "Track",
             "error": "Could not track manga",
             "success": "Tracked manga"
+          }
+        },
+        "remove": {
+          "dialog": {
+            "label": {
+              "description": "This will remove the tracking locally.",
+              "title": "Remove {{tracker}} tracking?"
+            }
+          },
+          "label": {
+            "error": "Could not untrack manga",
+            "success": "Untracked manga"
           }
         }
       }
@@ -1098,6 +1112,13 @@
       "title": {
         "settings": "Tracking settings",
         "trackers": "Trackers"
+      }
+    },
+    "track_record": {
+      "label": {
+        "score": "Score",
+        "start_date": "Start date",
+        "finish_date": "Finish date"
       }
     },
     "title": "Tracking"

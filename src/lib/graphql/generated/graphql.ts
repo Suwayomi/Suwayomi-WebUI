@@ -2938,6 +2938,13 @@ export type TrackerBindMutationVariables = Exact<{
 
 export type TrackerBindMutation = { __typename?: 'Mutation', bindTrack: { __typename?: 'BindTrackPayload', trackRecord: { __typename?: 'TrackRecordType', id: number, title: string, status: number, lastChapterRead: number, totalChapters: number, score: number, startDate: any, finishDate: any, remoteUrl: string, remoteId: any, tracker: { __typename?: 'TrackerType', id: number }, manga: { __typename?: 'MangaType', id: number, trackRecords: { __typename?: 'TrackRecordNodeList', totalCount: number, nodes: Array<{ __typename?: 'TrackRecordType', id: number }> } } } } };
 
+export type TrackerUpdateBindMutationVariables = Exact<{
+  input: UpdateTrackInput;
+}>;
+
+
+export type TrackerUpdateBindMutation = { __typename?: 'Mutation', updateTrack: { __typename?: 'UpdateTrackPayload', trackRecord?: { __typename?: 'TrackRecordType', id: number, status: number, lastChapterRead: number, score: number, startDate: any, finishDate: any } | null } };
+
 export type UpdateCategoryMangasMutationVariables = Exact<{
   input: UpdateCategoryMangaInput;
 }>;
