@@ -235,6 +235,7 @@ export const FULL_TRACK_RECORD_FIELDS = gql`
         lastChapterRead
         totalChapters
         score
+        displayScore
         startDate
         finishDate
         remoteUrl

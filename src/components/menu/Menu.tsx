@@ -16,7 +16,7 @@ export const Menu = ({
     ...props
 }: Omit<MenuProps, 'children' | 'onClose'> &
     Required<Pick<MenuProps, 'onClose'>> & {
-        children: (onClose: () => void, setHideMenu: (hide: boolean) => void) => JSX.Element;
+        children: (onClose: () => void, setHideMenu: (hide: boolean) => void) => JSX.Element | JSX.Element[];
     }) => {
     const [shouldHideMenu, setShouldHideMenu] = useState(false);
 
