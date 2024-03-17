@@ -189,6 +189,9 @@ import {
     TrackerSearchQueryVariables,
     TrackerBindMutation,
     TrackerBindMutationVariables,
+    TrackerUpdateBindMutation,
+    TrackerUpdateBindMutationVariables,
+    UpdateTrackInput,
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_GLOBAL_METADATAS } from '@/lib/graphql/queries/GlobalMetadataQuery.ts';
 import { SET_GLOBAL_METADATA } from '@/lib/graphql/mutations/GlobalMetadataMutation.ts';
@@ -275,6 +278,7 @@ import {
     TRACKER_LOGIN_CREDENTIALS,
     TRACKER_LOGIN_OAUTH,
     TRACKER_LOGOUT,
+    TRACKER_UPDATE_BIND,
 } from '@/lib/graphql/mutations/TrackerMutation.ts';
 
 enum GQLMethod {
@@ -2415,6 +2419,19 @@ export class RequestManager {
         options?: MutationHookOptions<TrackerBindMutation, TrackerBindMutationVariables>,
     ): AbortableApolloUseMutationResponse<TrackerBindMutation, TrackerBindMutationVariables> {
         return this.doRequest(GQLMethod.USE_MUTATION, TRACKER_BIND, undefined, options);
+    }
+
+    public updateTrackerBind(
+        id: number,
+        patch: Omit<UpdateTrackInput, 'clientMutationId' | 'recordId'>,
+        options?: MutationOptions<TrackerUpdateBindMutation, TrackerUpdateBindMutationVariables>,
+    ): AbortableApolloMutationResponse<TrackerUpdateBindMutation> {
+        return this.doRequest(
+            GQLMethod.MUTATION,
+            TRACKER_UPDATE_BIND,
+            { input: { ...patch, recordId: id } },
+            { refetchQueries: patch.unbind ? [GET_MANGA, GET_CATEGORY_MANGAS] : undefined, ...options },
+        );
     }
 }
 

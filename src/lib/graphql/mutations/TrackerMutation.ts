@@ -56,6 +56,39 @@ export const TRACKER_BIND = gql`
                 lastChapterRead
                 totalChapters
                 score
+                displayScore
+                startDate
+                finishDate
+                remoteUrl
+                remoteId
+                tracker {
+                    id
+                }
+                manga {
+                    id
+                    trackRecords {
+                        totalCount
+                        nodes {
+                            id
+                        }
+                    }
+                }
+            }
+        }
+    }
+`;
+
+export const TRACKER_UPDATE_BIND = gql`
+    mutation TRACKER_UPDATE_BIND($input: UpdateTrackInput!) {
+        updateTrack(input: $input) {
+            trackRecord {
+                id
+                title
+                status
+                lastChapterRead
+                totalChapters
+                score
+                displayScore
                 startDate
                 finishDate
                 remoteUrl
