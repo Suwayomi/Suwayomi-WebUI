@@ -15,7 +15,7 @@ import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
 import { isHorizontalReaderType } from '@/components/reader/Page.tsx';
 
 interface IProps extends IReaderSettings {
-    setSettingValue: (key: keyof IReaderSettings, value: AllowedMetadataValueTypes) => void;
+    setSettingValue: (key: keyof IReaderSettings, value: AllowedMetadataValueTypes, persist?: boolean) => void;
 }
 
 export function ReaderSettingsOptions({
@@ -107,6 +107,7 @@ export function ReaderSettingsOptions({
                     valueUnit="%"
                     showSlider
                     handleUpdate={(width: number) => setSettingValue('readerWidth', width)}
+                    handleLiveUpdate={(width: number) => setSettingValue('readerWidth', width, false)}
                     listItemTextSx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
                 />
             )}

@@ -118,7 +118,7 @@ const OpenDrawerButton = styled(IconButton)(({ theme }) => ({
 
 interface IProps {
     settings: IReaderSettings;
-    setSettingValue: (key: keyof IReaderSettings, value: AllowedMetadataValueTypes) => void;
+    setSettingValue: (key: keyof IReaderSettings, value: AllowedMetadataValueTypes, persist?: boolean) => void;
     manga: TManga;
     chapter: TChapter;
     curPage: number;
@@ -150,10 +150,10 @@ export function ReaderNavBar(props: IProps) {
 
     const disableChapterNavButtons = retrievingNextChapter;
 
-    const updateSettingValue = (key: keyof IReaderSettings, value: AllowedMetadataValueTypes) => {
+    const updateSettingValue = (key: keyof IReaderSettings, value: AllowedMetadataValueTypes, persist?: boolean) => {
         // prevent closing the navBar when updating the "staticNav" setting
         setUpdateDrawerOnRender(key !== 'staticNav');
-        setSettingValue(key, value);
+        setSettingValue(key, value, persist);
     };
 
     const updateDrawer = (open: boolean) => {

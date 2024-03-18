@@ -39,10 +39,12 @@ export function DefaultReaderSettings() {
 
     useSetDefaultBackTo('settings');
 
-    const setSettingValue = (key: keyof IReaderSettings, value: AllowedMetadataValueTypes) => {
-        requestUpdateServerMetadata([[key, value]]).catch(() =>
-            makeToast(t('reader.settings.error.label.failed_to_save_settings'), 'warning'),
-        );
+    const setSettingValue = (key: keyof IReaderSettings, value: AllowedMetadataValueTypes, persist: boolean = true) => {
+        if (persist) {
+            requestUpdateServerMetadata([[key, value]]).catch(() =>
+                makeToast(t('reader.settings.error.label.failed_to_save_settings'), 'warning'),
+            );
+        }
     };
 
     if (loading) {
