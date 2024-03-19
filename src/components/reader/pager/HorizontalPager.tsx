@@ -115,6 +115,7 @@ export function HorizontalPager(props: IReaderProps) {
 
         const resizeObserver = new ResizeObserver(() => {
             initialPageElement.scrollIntoView({ inline: 'center' });
+            resizeObserver.disconnect();
         });
         resizeObserver.observe(initialPageElement);
 
