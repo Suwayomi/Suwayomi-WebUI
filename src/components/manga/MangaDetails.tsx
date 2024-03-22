@@ -133,17 +133,12 @@ const Genres = styled('div')(() => ({
 const OpenSourceButton = ({ url }: { url?: string | null }) => {
     const { t } = useTranslation();
 
-    const button = useMemo(
-        () => (
-            <Button disabled={!!url} startIcon={<PublicIcon />} size="large">
+    if (!url) {
+        return (
+            <Button disabled={!url} startIcon={<PublicIcon />} size="large">
                 {t('global.button.open_site')}
             </Button>
-        ),
-        [url],
-    );
-
-    if (!url) {
-        return button;
+        );
     }
 
     return (
