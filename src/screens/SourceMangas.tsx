@@ -13,7 +13,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import { useQueryParam, StringParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
 import Link from '@mui/material/Link';
-import { Box, Button, styled, useTheme, useMediaQuery, Tooltip } from '@mui/material';
+import { Box, Button, styled, Tooltip } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import NewReleasesIcon from '@mui/icons-material/NewReleases';
 import FilterListIcon from '@mui/icons-material/FilterList';
@@ -194,9 +194,6 @@ export function SourceMangas() {
     const { t } = useTranslation();
     const { setTitle, setAction } = useContext(NavBarContext);
 
-    const theme = useTheme();
-    const isLargeScreen = useMediaQuery(theme.breakpoints.up('sm'));
-
     const { sourceId } = useParams<{ sourceId: string }>();
 
     const navigate = useNavigate();
@@ -232,7 +229,7 @@ export function SourceMangas() {
         contentType,
         searchTerm,
         filtersToApply,
-        isLargeScreen ? 2 : 1,
+        1,
     );
     const mangas = data?.fetchSourceManga.mangas ?? [];
     const hasNextPage = data?.fetchSourceManga.hasNextPage ?? false;
