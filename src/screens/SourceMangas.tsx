@@ -34,6 +34,7 @@ import {
     GetSourceMangasFetchMutationVariables,
 } from '@/lib/graphql/generated/graphql.ts';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
+import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 
 const ContentTypeMenu = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -107,12 +108,13 @@ const useSourceManga = (
     searchTerm: string | null | undefined,
     filters: IPos[],
     initialPages: number,
+    hideLibraryEntries: boolean,
 ): [
     AbortableApolloUseMutationPaginatedResponse<GetSourceMangasFetchMutation, GetSourceMangasFetchMutationVariables>[0],
     AbortableApolloUseMutationPaginatedResponse<
         GetSourceMangasFetchMutation,
         GetSourceMangasFetchMutationVariables
-    >[1][number],
+    >[1][number] & { filteredOutAllItemsOfFetchedPage: boolean },
 ] => {
     let result: AbortableApolloUseMutationPaginatedResponse<
         GetSourceMangasFetchMutation,
@@ -158,17 +160,32 @@ const useSourceManga = (
     const pages = result[1]!;
     const lastLoadedPageIndex = pages.findLastIndex((page) => !!page.data?.fetchSourceManga);
     const lastLoadedPage = pages[lastLoadedPageIndex];
-    const items = useMemo(
-        () =>
-            (pages ?? [])
-                .map((page) => page.data?.fetchSourceManga.mangas ?? [])
-                .reduce((prevList, list) => [...prevList, ...list], []),
-        [pages],
-    );
-    const uniqueItems = useMemo(() => getUniqueMangas(items), [items]);
 
-    if (!uniqueItems.length) {
-        return [result[0] as any, result[1][result[1].length - 1]];
+    const isPageLoading = pages.slice(-1)[0].isLoading;
+    let filteredOutAllItemsOfFetchedPage = !isPageLoading;
+    const items = useMemo(() => {
+        type FetchItemsResult = GetSourceMangasFetchMutation['fetchSourceManga']['mangas'];
+        let allItems: FetchItemsResult = [];
+
+        pages.forEach((page, index) => {
+            const pageItems = page.data?.fetchSourceManga.mangas ?? ([] as FetchItemsResult);
+            const uniqueItems = getUniqueMangas([...allItems, ...pageItems]);
+            const uniquePageItems = pageItems.filter(
+                (pageItem) => !!uniqueItems.find((uniqueItem) => uniqueItem.id === pageItem.id),
+            );
+            const nonLibraryItems = uniquePageItems.filter((item) => !hideLibraryEntries || !item.inLibrary);
+            // const nonLibraryItems = uniquePageItems;
+
+            const isLastPage = !isPageLoading && pages.length === index + 1;
+            filteredOutAllItemsOfFetchedPage = isLastPage && !nonLibraryItems.length && !!pageItems.length;
+            allItems = [...allItems, ...nonLibraryItems];
+        });
+
+        return allItems;
+    }, [pages, hideLibraryEntries]);
+
+    if (lastLoadedPageIndex === -1) {
+        return [result[0], { ...result[1][result[1].length - 1], filteredOutAllItemsOfFetchedPage }];
     }
 
     return [
@@ -183,9 +200,10 @@ const useSourceManga = (
                         pages.length > lastLoadedPageIndex + 1
                             ? false
                             : lastLoadedPage!.data!.fetchSourceManga.hasNextPage,
-                    mangas: uniqueItems,
+                    mangas: items,
                 },
             },
+            filteredOutAllItemsOfFetchedPage,
         },
     ];
 };
@@ -217,6 +235,10 @@ export function SourceMangas() {
         setIsFirstRender(false);
     }, []);
 
+    const {
+        settings: { hideLibraryEntries },
+    } = useMetadataServerSettings();
+
     const { options } = useLibraryOptionsContext();
     const [query] = useQueryParam('query', StringParam);
     const [dialogFiltersToApply, setDialogFiltersToApply] = useState<IPos[]>(currentLocationFiltersToApply);
@@ -224,13 +246,9 @@ export function SourceMangas() {
     const searchTerm = useDebounce(query, 1000);
     const [resetScrollPosition, setResetScrollPosition] = useState(false);
     const [contentType, setContentType] = useState(currentLocationContentType);
-    const [loadPage, { data, isLoading, size: lastPageNum, abortRequest }] = useSourceManga(
-        sourceId,
-        contentType,
-        searchTerm,
-        filtersToApply,
-        1,
-    );
+    const [loadPage, { data, isLoading: loading, size: lastPageNum, abortRequest, filteredOutAllItemsOfFetchedPage }] =
+        useSourceManga(sourceId, contentType, searchTerm, filtersToApply, 1, hideLibraryEntries);
+    const isLoading = loading || filteredOutAllItemsOfFetchedPage;
     const mangas = data?.fetchSourceManga.mangas ?? [];
     const hasNextPage = data?.fetchSourceManga.hasNextPage ?? false;
 
@@ -310,6 +328,12 @@ export function SourceMangas() {
         updateLocationFilters([]);
         setResetScrollPosition(true);
     }, [sourceId, contentType, updateLocationFilters]);
+
+    useEffect(() => {
+        if (filteredOutAllItemsOfFetchedPage && hasNextPage && !loading) {
+            loadPage(lastPageNum + 1);
+        }
+    }, [filteredOutAllItemsOfFetchedPage, loading]);
 
     useEffect(() => {
         if (!clearCache) {

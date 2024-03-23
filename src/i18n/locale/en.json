@@ -811,6 +811,7 @@
     },
     "label": {
       "dark_theme": "Dark theme",
+      "hide_library_entries": "Hide entries already in library",
       "language_description": "Feel free to translate the project on",
       "manga_item_width": "Manga item width",
       "show_nsfw": "Show NSFW",
