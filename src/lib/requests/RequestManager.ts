@@ -449,6 +449,15 @@ export class RequestManager {
             return;
         }
 
+        const isFirstPage = pageToRevalidate === 1;
+        const isTtlReached =
+            Date.now() - (this.cache.getFetchTimestampFor(cacheResultsKey, getVariablesFor(pageToRevalidate)) ?? 0) >=
+            1000 * 60 * 5;
+
+        if (isFirstPage && !isTtlReached) {
+            return;
+        }
+
         const { response: revalidationRequest } = this.doRequest(
             GQLMethod.MUTATION,
             GET_SOURCE_MANGAS_FETCH,
@@ -463,11 +472,9 @@ export class RequestManager {
         const cachedPageData = this.cache.getResponseFor<
             AbortableApolloUseMutationPaginatedResponse<Data, Variables>[1][number]
         >(cacheResultsKey, getVariablesFor(pageToRevalidate));
-
         const isCachedPageInvalid = checkIfCachedPageIsInvalid(cachedPageData, revalidationResponse);
-        if (isCachedPageInvalid) {
-            this.cache.cacheResponse(cacheResultsKey, getVariablesFor(pageToRevalidate), revalidationResponse);
-        }
+
+        this.cache.cacheResponse(cacheResultsKey, getVariablesFor(pageToRevalidate), revalidationResponse);
 
         if (!hasNextPage(revalidationResponse)) {
             const currentCachedPages = this.cache.getResponseFor<Set<number>>(cachePagesKey, getVariablesFor(0))!;
