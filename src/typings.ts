@@ -241,10 +241,15 @@ export type MetadataMigrationSettings = {
     deleteChapters: boolean;
 };
 
+export type MetadataBrowseSettings = {
+    hideLibraryEntries: boolean;
+};
+
 export type MetadataServerSettings = MetadataDownloadSettings &
     MetadataLibrarySettings &
     MetadataClientSettings &
-    MetadataMigrationSettings;
+    MetadataMigrationSettings &
+    MetadataBrowseSettings;
 
 export interface ISearchSettings {
     ignoreFilters: boolean;

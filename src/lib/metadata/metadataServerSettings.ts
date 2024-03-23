@@ -38,6 +38,9 @@ export const getDefaultSettings = (): MetadataServerSettings => ({
     includeChapters: true,
     includeCategories: true,
     deleteChapters: true,
+
+    // browse
+    hideLibraryEntries: false,
 });
 
 export const convertSettingsToMetadata = (
