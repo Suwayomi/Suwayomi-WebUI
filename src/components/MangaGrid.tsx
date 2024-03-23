@@ -223,7 +223,7 @@ export const MangaGrid: React.FC<IMangaGridProps> = (props) => {
 
     const [dimensions, setDimensions] = useState(document.documentElement.offsetWidth);
     const [gridItemWidth] = useLocalStorage<number>('ItemWidth', 300);
-    const gridRef = useRef<HTMLDivElement>(null);
+    const gridWrapperRef = useRef<HTMLDivElement>(null);
     const GridItemContainer = useMemo(
         () => GridItemContainerWithDimension(dimensions, gridItemWidth, gridLayout),
         [dimensions, gridItemWidth, gridLayout],
@@ -231,7 +231,7 @@ export const MangaGrid: React.FC<IMangaGridProps> = (props) => {
 
     const updateGridWidth = () => {
         const getDimensions = () => {
-            const gridWidth = gridRef.current?.offsetWidth;
+            const gridWidth = gridWrapperRef.current?.offsetWidth;
 
             if (!gridWidth) {
                 return document.documentElement.offsetWidth;
@@ -278,7 +278,7 @@ export const MangaGrid: React.FC<IMangaGridProps> = (props) => {
 
     return (
         <div
-            ref={gridRef}
+            ref={gridWrapperRef}
             style={{
                 overflow: 'hidden',
                 paddingBottom: '13px',
