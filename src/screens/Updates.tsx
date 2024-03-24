@@ -193,28 +193,34 @@ export const Updates: React.FC = () => {
                                         }}
                                     >
                                         <Box sx={{ display: 'flex' }}>
-                                            <Avatar
-                                                variant="rounded"
-                                                sx={{
-                                                    width: 56,
-                                                    height: 56,
-                                                    flex: '0 0 auto',
-                                                    marginRight: 2,
-                                                    background: 'transparent',
-                                                }}
+                                            <Link
+                                                to={`/manga/${chapter.manga.id}`}
+                                                style={{ textDecoration: 'none' }}
                                             >
-                                                <SpinnerImage
-                                                    imgStyle={{
-                                                        objectFit: 'cover',
-                                                        width: '100%',
-                                                        height: '100%',
-                                                        imageRendering: 'pixelated',
+                                                <Avatar
+                                                    variant="rounded"
+                                                    sx={{
+                                                        width: 56,
+                                                        height: 56,
+                                                        flex: '0 0 auto',
+                                                        marginRight: 2,
+                                                        background: 'transparent',
                                                     }}
-                                                    spinnerStyle={{ small: true }}
-                                                    alt={manga.title}
-                                                    src={Mangas.getThumbnailUrl(manga)}
-                                                />
-                                            </Avatar>
+                                                >
+                                                    <SpinnerImage
+                                                        imgStyle={{
+                                                            objectFit: 'cover',
+                                                            width: '100%',
+                                                            height: '100%',
+                                                            imageRendering: 'pixelated',
+                                                        }}
+                                                        spinnerStyle={{ small: true }}
+                                                        alt={manga.title}
+                                                        src={Mangas.getThumbnailUrl(manga)}
+                                                    />
+                                                </Avatar>
+                                            </Link>
+                                            
                                             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                                                 <Typography variant="h5" component="h2">
                                                     {manga.title}
