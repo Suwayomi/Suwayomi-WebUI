@@ -27,7 +27,6 @@ import {
 } from '@apollo/client';
 import { OperationVariables } from '@apollo/client/core';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import pLimit from 'p-limit';
 import { IRestClient, RestClient } from '@/lib/requests/client/RestClient.ts';
 import { GraphQLClient } from '@/lib/requests/client/GraphQLClient.ts';
 import {
@@ -257,6 +256,7 @@ import { RESET_WEBUI_UPDATE_STATUS, UPDATE_WEBUI } from '@/lib/graphql/mutations
 import { WEBUI_UPDATE_SUBSCRIPTION } from '@/lib/graphql/subscriptions/ServerInfoSubscription.ts';
 import { GET_DOWNLOAD_STATUS } from '@/lib/graphql/queries/DownloaderQuery.ts';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { Queue, QueuePriority } from '@/lib/Queue.ts';
 
 enum GQLMethod {
     QUERY = 'QUERY',
@@ -366,7 +366,7 @@ export class RequestManager {
 
     private readonly cache = new CustomCache();
 
-    private readonly imageQueue = pLimit(5);
+    private readonly imageQueue = new Queue(5);
 
     public getClient(): IRestClient {
         return this.restClient;
@@ -768,20 +768,23 @@ export class RequestManager {
      * img.src = imageUrl;
      *
      */
-    public requestImage(url: string): { response: Promise<string> } & AbortableRequest {
+    public requestImage(url: string, priority?: QueuePriority): { response: Promise<string> } & AbortableRequest {
         const { abortRequest, signal } = this.createAbortController();
-        const response = this.imageQueue(() =>
-            this.restClient
-                .fetcher(url, {
-                    checkResponseIsJson: false,
-                    config: {
-                        signal,
-                        // @ts-ignore - typing has not been updated yet
-                        priority: 'low',
-                    },
-                })
-                .then((data) => data.blob())
-                .then((data) => URL.createObjectURL(data)),
+        const response = this.imageQueue.enqueue(
+            url,
+            () =>
+                this.restClient
+                    .fetcher(url, {
+                        checkResponseIsJson: false,
+                        config: {
+                            signal,
+                            // @ts-ignore - typing has not been updated yet
+                            priority: 'low',
+                        },
+                    })
+                    .then((data) => data.blob())
+                    .then((data) => URL.createObjectURL(data)),
+            priority,
         );
 
         return { response, abortRequest };

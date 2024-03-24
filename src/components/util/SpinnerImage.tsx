@@ -16,6 +16,7 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { Priority } from '@/lib/Queue.ts';
 
 interface IProps {
     src: string;
@@ -48,7 +49,7 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
 
     useEffect(() => {
         let tmpImageSourceUrl: string;
-        const imageRequest = requestManager.requestImage(src);
+        const imageRequest = requestManager.requestImage(src, Priority.HIGH);
         let cacheTimeout: NodeJS.Timeout;
 
         const fetchImage = async () => {
