@@ -49,6 +49,7 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
     useEffect(() => {
         let tmpImageSourceUrl: string;
         const imageRequest = requestManager.requestImage(src);
+        let cacheTimeout: NodeJS.Timeout;
 
         const fetchImage = async () => {
             try {
@@ -60,7 +61,12 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
                     tmpImageSourceUrl = image;
                 };
 
-                const checkCache = await Promise.race([imageRequest.response, Promise.resolve(false)]);
+                const checkCache = await Promise.race([
+                    imageRequest.response,
+                    new Promise((resolve) => {
+                        cacheTimeout = setTimeout(resolve, 50);
+                    }),
+                ]);
                 const isImageCached = !!checkCache;
 
                 if (isImageCached) {
@@ -82,6 +88,7 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
             if (tmpImageSourceUrl) {
                 URL.revokeObjectURL(tmpImageSourceUrl);
             }
+            clearTimeout(cacheTimeout);
             imageRequest.abortRequest(new Error('Component was unmounted'));
         };
     }, [imgLoadRetryKey]);
