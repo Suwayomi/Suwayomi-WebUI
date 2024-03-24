@@ -10,11 +10,26 @@ import { MouseEvent, useEffect, useRef } from 'react';
 import { Box } from '@mui/material';
 import { IReaderProps } from '@/typings';
 import { Page } from '@/components/reader/Page';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 
 export function PagedPager(props: IReaderProps) {
-    const { pages, settings, setCurPage, initialPage, curPage, nextChapter, prevChapter } = props;
+    const { pages, settings, setCurPage, initialPage, curPage, nextChapter, prevChapter, chapter } = props;
 
     const selfRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const imageRequests = pages.map((page) => {
+            const imageRequest = requestManager.requestImage(page.src);
+            imageRequest.response.catch(() => {});
+            return imageRequest;
+        });
+
+        return () => {
+            imageRequests.forEach((imageRequest) =>
+                imageRequest.abortRequest(new Error(`PagedPager::preload: chapter changed`)),
+            );
+        };
+    }, [chapter.id]);
 
     const changePage = (newPage: number) => {
         setCurPage(newPage);
