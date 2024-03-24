@@ -77,7 +77,8 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
                 updateImageState(true);
                 await updateImage();
             } catch (e) {
-                const wasAborted = e instanceof Error && e.name === 'AbortError';
+                const wasAborted =
+                    e instanceof Error && (e.name === 'AbortError' || e.message === 'Component was unmounted');
                 updateImageState(false, !wasAborted);
             }
         };
