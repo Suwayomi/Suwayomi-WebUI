@@ -20,18 +20,6 @@
   "engines": {
     "node": "20.11.1"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": "eslint --fix --cache"
   },
@@ -43,6 +31,7 @@
     "@mui/icons-material": "^5.15.12",
     "@mui/material": "^5.15.12",
     "@mui/x-date-pickers": "^6.19.6",
+    "@vitejs/plugin-legacy": "^5.3.2",
     "@vitejs/plugin-react-swc": "^3.6.0",
     "apollo-upload-client": "^17.0.0",
     "dayjs": "^1.11.10",
@@ -93,6 +82,7 @@
     "lint-staged": "^15.2.2",
     "prettier": "^3.2.5",
     "syncyarnlock": "^1.0.19",
+    "terser": "^5.29.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.2",
     "yargs": "^17.7.2"
