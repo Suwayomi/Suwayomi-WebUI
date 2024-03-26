@@ -33,6 +33,7 @@ import { IChapterWithMeta } from '@/components/chapter/ChapterList.tsx';
 import { ChaptersWithMeta } from '@/lib/data/ChaptersWithMeta.ts';
 import { createGetMenuItemTitle, createIsMenuItemDisabled, createShouldShowMenuItem } from '@/components/menu/util.ts';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 
 type BaseProps = { onClose: () => void };
 
@@ -63,6 +64,10 @@ export const ChapterActionMenuItems = ({
 
     const isSingleMode = !!chapter;
     const { isDownloaded, isRead, isBookmarked } = chapter ?? {};
+
+    const {
+        settings: { deleteChaptersWithBookmark },
+    } = useMetadataServerSettings();
 
     const getMenuItemTitle = createGetMenuItemTitle(isSingleMode, actionToTranslationKey);
     const shouldShowMenuItem = createShouldShowMenuItem(isSingleMode);
@@ -95,6 +100,19 @@ export const ChapterActionMenuItems = ({
     const performAction = (action: ChapterAction | 'mark_prev_as_read', chaptersWithMeta: IChapterWithMeta[]) => {
         const isMarkPrevAsRead = action === 'mark_prev_as_read';
         const actualAction: ChapterAction = isMarkPrevAsRead ? 'mark_as_read' : action;
+
+        if (actualAction === 'delete' && chapter) {
+            const isDeletable = Chapters.isDeletable(chapter, deleteChaptersWithBookmark);
+            if (!isDeletable) {
+                onClose();
+                return;
+            }
+        }
+
+        if (!chaptersWithMeta.length) {
+            onClose();
+            return;
+        }
 
         const getChapters = (): (ChapterDownloadInfo & ChapterBookmarkInfo & ChapterReadInfo)[] => {
             // select mode
@@ -151,7 +169,12 @@ export const ChapterActionMenuItems = ({
                 <MenuItem
                     Icon={Delete}
                     disabled={isMenuItemDisabled(!downloadedChapters.length)}
-                    onClick={() => performAction('delete', downloadedChapters)}
+                    onClick={() =>
+                        performAction(
+                            'delete',
+                            ChaptersWithMeta.getDeletable(downloadedChapters, deleteChaptersWithBookmark),
+                        )
+                    }
                     title={getMenuItemTitle('delete', downloadedChapters.length)}
                 />
             )}
