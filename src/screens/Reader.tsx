@@ -203,7 +203,7 @@ export function Reader() {
 
             const shouldDeleteChapter =
                 chapterToDeleteUpToDateData.isRead &&
-                Chapters.isAutoDeletable(chapterToDeleteUpToDateData, metadataSettings.deleteChaptersWithBookmark);
+                Chapters.isDeletable(chapterToDeleteUpToDateData, metadataSettings.deleteChaptersWithBookmark);
             if (!shouldDeleteChapter) {
                 return -1;
             }

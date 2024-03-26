@@ -133,7 +133,7 @@ export class Chapters {
         return chapters.filter(Chapters.isDownloaded);
     }
 
-    static isAutoDeletable(
+    static isDeletable(
         { isBookmarked, ...chapter }: ChapterDownloadInfo & ChapterBookmarkInfo,
         canDeleteBookmarked: boolean = false,
     ): boolean {
@@ -144,7 +144,7 @@ export class Chapters {
         chapters: Chapters[],
         canDeleteBookmarked?: boolean,
     ): Chapters[] {
-        return chapters.filter((chapter) => Chapters.isAutoDeletable(chapter, canDeleteBookmarked));
+        return chapters.filter((chapter) => Chapters.isDeletable(chapter, canDeleteBookmarked));
     }
 
     static isBookmarked({ isBookmarked }: ChapterBookmarkInfo): boolean {
