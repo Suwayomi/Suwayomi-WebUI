@@ -140,7 +140,7 @@ export class Chapters {
         return Chapters.isDownloaded(chapter) && (!isBookmarked || canDeleteBookmarked);
     }
 
-    static getAutoDeletable<Chapters extends ChapterDownloadInfo & ChapterBookmarkInfo>(
+    static getDeletable<Chapters extends ChapterDownloadInfo & ChapterBookmarkInfo>(
         chapters: Chapters[],
         canDeleteBookmarked?: boolean,
     ): Chapters[] {
@@ -211,7 +211,7 @@ export class Chapters {
         const { deleteChaptersManuallyMarkedRead, deleteChaptersWithBookmark } = await getMetadataServerSettings();
         const chapterIdsToDelete =
             deleteChaptersManuallyMarkedRead && wasManuallyMarkedAsRead
-                ? Chapters.getIds(Chapters.getAutoDeletable(chapters, deleteChaptersWithBookmark))
+                ? Chapters.getIds(Chapters.getDeletable(chapters, deleteChaptersWithBookmark))
                 : [];
         return Chapters.executeAction(
             'mark_as_read',
