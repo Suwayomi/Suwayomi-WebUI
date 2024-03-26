@@ -28,6 +28,13 @@ export class ChaptersWithMeta {
         return chapters.filter(({ chapter }) => Chapters.isDownloaded(chapter));
     }
 
+    static getDeletable<Chapter extends ChapterWithMetaType>(
+        chapters: Chapter[],
+        canDeleteBookmarked?: boolean,
+    ): Chapter[] {
+        return chapters.filter(({ chapter }) => Chapters.isDeletable(chapter, canDeleteBookmarked));
+    }
+
     static getNonDownloaded<Chapter extends ChapterWithMetaType>(chapters: Chapter[]): Chapter[] {
         return chapters.filter(({ chapter }) => !Chapters.isDownloaded(chapter));
     }
