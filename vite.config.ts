@@ -10,6 +10,7 @@ import path from 'path';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import viteTsconfigPaths from 'vite-tsconfig-paths';
+import legacy from '@vitejs/plugin-legacy';
 
 // TODO - switch to ESM - with Vite v5.x the CJS build is deprecated (https://vitejs.dev/guide/migration)
 
@@ -26,5 +27,16 @@ export default defineConfig(() => ({
             '@': path.resolve(__dirname, './src'),
         },
     },
-    plugins: [react(), viteTsconfigPaths()],
+    plugins: [
+        react(),
+        viteTsconfigPaths(),
+        legacy({
+            modernPolyfills: [
+                'es/array/to-spliced',
+                'es/array/to-sorted',
+                'es/array/find-last',
+                'es/array/find-last-index',
+            ],
+        }),
+    ],
 }));
