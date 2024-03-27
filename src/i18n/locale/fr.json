@@ -283,8 +283,8 @@
                         "success_one": "Chapitre marqué comme lu",
                         "success_many": "{{count}} chapitres marqués comme lus",
                         "success_other": "{{count}} chapitres marqués comme lus",
-                        "error_one": "Erreur lors du marquage du chapitre comme lu",
-                        "error_many": "Erreur lors du marquage des chapitres comme lus",
+                        "error_one": "Marquage du chapitre comme lu impossible",
+                        "error_many": "Marquage des chapitres comme lus impossible",
                         "error_other": "Erreur lors du marquage des chapitres comme lus"
                     },
                     "button": {
@@ -313,8 +313,8 @@
                     },
                     "label": {
                         "action": "Supprimer",
-                        "error_one": "Erreur de suppression du chapitre",
-                        "error_many": "Erreur de suppression des chapitres",
+                        "error_one": "Suppression du chapitre impossible",
+                        "error_many": "Suppression des chapitres impossible",
                         "error_other": "Erreur de suppression des chapitres",
                         "success_one": "Chapitre supprimé",
                         "success_many": "{{count}} chapitres supprimés",

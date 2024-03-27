@@ -274,7 +274,9 @@
             "copy": "複製",
             "retry": "重試",
             "migrate": "遷移",
-            "add": "新增"
+            "add": "新增",
+            "create": "建立",
+            "dont_show_dialog_again": "不要再次顯示此對話方塊"
         },
         "date": {
             "label": {
@@ -718,9 +720,9 @@
                     "host": "SOCKS 主機",
                     "enable": "使用 SOCKS Proxy",
                     "port": "SOCKS 通訊埠",
-                    "username": "SOCKS用戶名",
-                    "password": "SOCKS密碼",
-                    "version": "SOCKS版本"
+                    "username": "SOCKS 使用者名稱",
+                    "password": "SOCKS 密碼",
+                    "version": "SOCKS 版本"
                 },
                 "title": "SOCKS Proxy"
             },
@@ -850,7 +852,7 @@
                     "custom": {
                         "label": {
                             "title": "自訂",
-                            "description": "使用自訂 $t(settings.webui.title.webui).\n要使用自訂 $t(settings.webui.title.webui)，請將在伺服器上的根目錄中「webUI」目錄的內容替換為自訂 $t(settings.webui.title.webui) 的檔案"
+                            "description": "使用自訂 $t(settings.webui.title.webui)。\n要使用自訂 $t(settings.webui.title.webui)，請將在伺服器上的根目錄中「webUI」目錄的內容替換為自訂 $t(settings.webui.title.webui) 的檔案"
                         }
                     },
                     "webui": {

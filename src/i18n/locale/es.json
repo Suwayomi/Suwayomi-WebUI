@@ -104,7 +104,8 @@
             "show_nsfw": "Mostrar NSFW",
             "dark_theme": "Modo oscuro",
             "image_cache_description": "Reduce el consumo de los datos y mejora el rendimiento cuando se vuelve a solicitar una imagen ya solicitada",
-            "language_description": "No dude en traducir el proyecto en"
+            "language_description": "No dude en traducir el proyecto en",
+            "hide_library_entries": "Ocultar entradas en biblioteca"
         },
         "server_address": {
             "dialog": {
@@ -1087,6 +1088,9 @@
                 "button": {
                     "show_entry": "Mostrar entrada"
                 }
+            },
+            "label": {
+                "delete_downloaded": "Eliminar descargados"
             }
         },
         "label": {
