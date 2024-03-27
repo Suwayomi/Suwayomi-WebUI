@@ -109,11 +109,6 @@ export const ChapterActionMenuItems = ({
             }
         }
 
-        if (!chaptersWithMeta.length) {
-            onClose();
-            return;
-        }
-
         const getChapters = (): (ChapterDownloadInfo & ChapterBookmarkInfo & ChapterReadInfo)[] => {
             // select mode
             if (!chapter) {
@@ -133,6 +128,13 @@ export const ChapterActionMenuItems = ({
 
             return allChapters.slice(index + 1);
         };
+
+        const chapters = getChapters();
+
+        if (!chapters.length) {
+            onClose();
+            return;
+        }
 
         Chapters.performAction(actualAction, chapter ? [chapter.id] : ChaptersWithMeta.getIds(chaptersWithMeta), {
             chapters: getChapters(),
