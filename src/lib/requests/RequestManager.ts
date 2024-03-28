@@ -280,6 +280,7 @@ import {
     TRACKER_LOGOUT,
     TRACKER_UPDATE_BIND,
 } from '@/lib/graphql/mutations/TrackerMutation.ts';
+import { ControlledPromise } from '@/lib/ControlledPromise.ts';
 
 enum GQLMethod {
     QUERY = 'QUERY',
@@ -329,6 +330,8 @@ type SubscriptionHookOptions<Data = any, Variables extends OperationVariables = 
     Omit<CustomApolloOptions, 'addAbortSignal'> & { addAbortSignal?: never };
 
 type AbortableRequest = { abortRequest: AbortController['abort'] };
+
+type ImageRequest = { response: Promise<string>; cleanup: () => void } & AbortableRequest;
 
 export type AbortabaleApolloQueryResponse<Data = any> = {
     response: Promise<ApolloQueryResult<Data>>;
@@ -778,6 +781,39 @@ export class RequestManager {
         return `${this.getValidUrlFor(imageUrl, apiVersion)}`;
     }
 
+    private fetchImageViaTag(url: string, priority?: QueuePriority): ImageRequest {
+        const imgRequest = new ControlledPromise<string>();
+        imgRequest.promise.catch(defaultPromiseErrorHandler(`fetchImageViaTag(${url})`));
+
+        const img = new Image();
+        const abortRequest = (reason?: any) => {
+            img.src = '';
+            img.onload = null;
+            img.onerror = null;
+            img.onabort = null;
+            imgRequest.reject(reason);
+        };
+
+        const response = this.imageQueue.enqueue(
+            url,
+            async () => {
+                // throws error in case request was already aborted
+                await Promise.race([imgRequest.promise, Promise.resolve()]);
+
+                img.src = url;
+
+                img.onload = () => imgRequest.resolve(url);
+                img.onerror = (error) => imgRequest.reject(error);
+                img.onabort = (error) => imgRequest.reject(error);
+
+                return imgRequest.promise;
+            },
+            priority,
+        );
+
+        return { response, abortRequest, cleanup: () => {} };
+    }
+
     /**
      * After the image has been handled, {@see URL#revokeObjectURL} has to be called.
      *
@@ -787,11 +823,12 @@ export class RequestManager {
      * const imageUrl = await imageRequest.response
      *
      * const img = new Image();
-     * img.onLoad = () => URL.revokeObjectURL(imageUrl);
+     * img.onLoad = () => imageRequest.cleanup();
      * img.src = imageUrl;
      *
      */
-    public requestImage(url: string, priority?: QueuePriority): { response: Promise<string> } & AbortableRequest {
+    private fetchImageViaFetchApi(url: string, priority?: QueuePriority): ImageRequest {
+        let objectUrl: string = '';
         const { abortRequest, signal } = this.createAbortController();
         const response = this.imageQueue.enqueue(
             url,
@@ -806,11 +843,26 @@ export class RequestManager {
                         },
                     })
                     .then((data) => data.blob())
-                    .then((data) => URL.createObjectURL(data)),
+                    .then((data) => URL.createObjectURL(data))
+                    .then((imageUrl) => {
+                        objectUrl = imageUrl;
+                        return imageUrl;
+                    }),
             priority,
         );
 
-        return { response, abortRequest };
+        return { response, abortRequest, cleanup: () => URL.revokeObjectURL(objectUrl) };
+    }
+
+    /**
+     * Make sure to call "cleanup" once the image is not needed anymore (only required if fetched via "fetch api")
+     */
+    public requestImage(url: string, priority?: QueuePriority, useFetchApi: boolean = true): ImageRequest {
+        if (useFetchApi) {
+            return this.fetchImageViaFetchApi(url, priority);
+        }
+
+        return this.fetchImageViaTag(url, priority);
     }
 
     private doRequest<Data, Variables extends OperationVariables = OperationVariables>(

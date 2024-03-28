@@ -27,10 +27,12 @@ interface IProps {
     imgStyle?: CSSProperties;
 
     onImageLoad?: () => void;
+
+    useFetchApi?: boolean;
 }
 
 export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTMLImageElement | null>) => {
-    const { src, alt, onImageLoad, spinnerStyle: { small, ...spinnerStyle } = {}, imgStyle } = props;
+    const { useFetchApi, src, alt, onImageLoad, spinnerStyle: { small, ...spinnerStyle } = {}, imgStyle } = props;
 
     const { t } = useTranslation();
 
@@ -55,8 +57,7 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
             return () => {};
         }
 
-        let tmpImageSourceUrl: string;
-        const imageRequest = requestManager.requestImage(src, Priority.HIGH);
+        const imageRequest = requestManager.requestImage(src, Priority.HIGH, useFetchApi);
         let cacheTimeout: NodeJS.Timeout;
 
         const fetchImage = async () => {
@@ -66,7 +67,6 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
 
                     updateImageState(false);
                     setImageSourceUrl(image);
-                    tmpImageSourceUrl = image;
                 };
 
                 const checkCache = await Promise.race([
@@ -94,9 +94,7 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
         fetchImage().catch(defaultPromiseErrorHandler);
 
         return () => {
-            if (tmpImageSourceUrl) {
-                URL.revokeObjectURL(tmpImageSourceUrl);
-            }
+            imageRequest.cleanup();
             clearTimeout(cacheTimeout);
             imageRequest.abortRequest(new Error('Component was unmounted'));
         };
