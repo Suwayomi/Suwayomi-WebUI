@@ -34,7 +34,7 @@ export const getVersion = (aboutServer: AboutServer) => {
     return `${aboutServer.version}-${aboutServer.revision}`;
 };
 
-const getBuildTime = (aboutServer: AboutServer) => new Date(aboutServer.buildTime * 1000).toUTCString();
+const getBuildTime = (aboutServer: AboutServer) => new Date(Number(aboutServer.buildTime) * 1000).toUTCString();
 
 const getUpdateCheckButtonIcon = (
     isLoading: boolean,

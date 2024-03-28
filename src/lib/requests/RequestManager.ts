@@ -177,6 +177,21 @@ import {
     GetMangaToMigrateQueryVariables,
     GetMangaToMigrateToFetchMutation,
     GetMangaToMigrateToFetchMutationVariables,
+    GetTrackersQuery,
+    GetTrackersQueryVariables,
+    TrackerLogoutMutation,
+    TrackerLogoutMutationVariables,
+    TrackerLoginOauthMutation,
+    TrackerLoginOauthMutationVariables,
+    TrackerLoginCredentialsMutation,
+    TrackerLoginCredentialsMutationVariables,
+    TrackerSearchQuery,
+    TrackerSearchQueryVariables,
+    TrackerBindMutation,
+    TrackerBindMutationVariables,
+    TrackerUpdateBindMutation,
+    TrackerUpdateBindMutationVariables,
+    UpdateTrackInput,
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_GLOBAL_METADATAS } from '@/lib/graphql/queries/GlobalMetadataQuery.ts';
 import { SET_GLOBAL_METADATA } from '@/lib/graphql/mutations/GlobalMetadataMutation.ts';
@@ -257,6 +272,14 @@ import { WEBUI_UPDATE_SUBSCRIPTION } from '@/lib/graphql/subscriptions/ServerInf
 import { GET_DOWNLOAD_STATUS } from '@/lib/graphql/queries/DownloaderQuery.ts';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { Queue, QueuePriority } from '@/lib/Queue.ts';
+import { GET_TRACKERS, TRACKER_SEARCH } from '@/lib/graphql/queries/TrackerQuery.ts';
+import {
+    TRACKER_BIND,
+    TRACKER_LOGIN_CREDENTIALS,
+    TRACKER_LOGIN_OAUTH,
+    TRACKER_LOGOUT,
+    TRACKER_UPDATE_BIND,
+} from '@/lib/graphql/mutations/TrackerMutation.ts';
 
 enum GQLMethod {
     QUERY = 'QUERY',
@@ -397,15 +420,32 @@ export class RequestManager {
         this.cache.clearFor(this.cache.getKeyFor(EXTENSION_LIST_CACHE_KEY, undefined));
     }
 
-    private createAbortController(): { signal: AbortSignal } & AbortableRequest {
-        const abortController = new AbortController();
-        const abortRequest = (reason?: any): void => {
-            if (!abortController.signal.aborted) {
-                abortController.abort(reason);
-            }
+    private getOrCreateAbortController(data?: any): { signal: AbortSignal } & AbortableRequest {
+        const createAbortController = () => {
+            const abortController = new AbortController();
+            const abortRequest = (reason?: any): void => {
+                if (!abortController.signal.aborted) {
+                    abortController.abort(reason);
+                }
+            };
+
+            return { signal: abortController.signal, abortRequest };
         };
 
-        return { signal: abortController.signal, abortRequest };
+        const abortControllerCacheKey = 'abortControllerCacheKey';
+        const cachedController =
+            data &&
+            this.cache.getResponseFor<{ signal: AbortSignal } & AbortableRequest>(abortControllerCacheKey, data);
+        const isCachedControllerAborted = !!cachedController?.signal.aborted;
+
+        const abortController =
+            isCachedControllerAborted || !cachedController ? createAbortController() : cachedController;
+
+        if (!cachedController) {
+            this.cache.cacheResponse(abortControllerCacheKey, data, abortController);
+        }
+
+        return abortController;
     }
 
     private createPaginatedResult<Result extends AbortableApolloUseMutationPaginatedResponse[1][number]>(
@@ -587,7 +627,7 @@ export class RequestManager {
 
         let response: FetchResult<Data> = {};
         try {
-            const { signal, abortRequest } = this.createAbortController();
+            const { signal, abortRequest } = this.getOrCreateAbortController();
             setAbortRequest(abortRequest);
 
             setResult({
@@ -740,7 +780,7 @@ export class RequestManager {
             if (shouldRevalidateData) {
                 setRevalidationDone(true);
 
-                const { signal, abortRequest } = this.createAbortController();
+                const { signal, abortRequest } = this.getOrCreateAbortController();
                 revalidate(Math.max(...cachedPages), abortRequest, signal);
             }
         }, [isMountedRef.current, isRevalidationDone]);
@@ -769,7 +809,7 @@ export class RequestManager {
      *
      */
     public requestImage(url: string, priority?: QueuePriority): { response: Promise<string> } & AbortableRequest {
-        const { abortRequest, signal } = this.createAbortController();
+        const { abortRequest, signal } = this.getOrCreateAbortController();
         const response = this.imageQueue.enqueue(
             url,
             () =>
@@ -841,7 +881,8 @@ export class RequestManager {
         | AbortableApolloUseMutationResponse<Data, Variables>
         | AbortableApolloMutationResponse<Data>
         | SubscriptionResult<Data, Variables> {
-        const { signal, abortRequest } = this.createAbortController();
+        const { signal, abortRequest } = this.getOrCreateAbortController({ method, operation, variables });
+
         switch (method) {
             case GQLMethod.QUERY:
                 return {
@@ -2358,6 +2399,57 @@ export class RequestManager {
         options?: QueryHookOptions<GetMigratableSourcesQuery, GetMigratableSourcesQueryVariables>,
     ): AbortableApolloUseQueryResponse<GetMigratableSourcesQuery, GetMigratableSourcesQueryVariables> {
         return this.doRequest(GQLMethod.USE_QUERY, GET_MIGRATABLE_SOURCES, undefined, options);
+    }
+
+    public useGetTrackerList(
+        options?: QueryHookOptions<GetTrackersQuery, GetTrackersQueryVariables>,
+    ): AbortableApolloUseQueryResponse<GetTrackersQuery, GetTrackersQueryVariables> {
+        return this.doRequest(GQLMethod.USE_QUERY, GET_TRACKERS, undefined, options);
+    }
+
+    public useLogoutFromTracker(
+        options?: MutationHookOptions<TrackerLogoutMutation, TrackerLogoutMutationVariables>,
+    ): AbortableApolloUseMutationResponse<TrackerLogoutMutation, TrackerLogoutMutationVariables> {
+        return this.doRequest(GQLMethod.USE_MUTATION, TRACKER_LOGOUT, undefined, options);
+    }
+
+    public useLoginToTrackerOauth(
+        options?: MutationHookOptions<TrackerLoginOauthMutation, TrackerLoginOauthMutationVariables>,
+    ): AbortableApolloUseMutationResponse<TrackerLoginOauthMutation, TrackerLoginOauthMutationVariables> {
+        return this.doRequest(GQLMethod.USE_MUTATION, TRACKER_LOGIN_OAUTH, undefined, options);
+    }
+
+    public useLoginToTrackerCredentials(
+        options?: MutationHookOptions<TrackerLoginCredentialsMutation, TrackerLoginCredentialsMutationVariables>,
+    ): AbortableApolloUseMutationResponse<TrackerLoginCredentialsMutation, TrackerLoginCredentialsMutationVariables> {
+        return this.doRequest(GQLMethod.USE_MUTATION, TRACKER_LOGIN_CREDENTIALS, undefined, options);
+    }
+
+    public useTrackerSearch(
+        trackerId: number,
+        query: string,
+        options?: QueryHookOptions<TrackerSearchQuery, TrackerSearchQueryVariables>,
+    ): AbortableApolloUseQueryResponse<TrackerSearchQuery, TrackerSearchQueryVariables> {
+        return this.doRequest(GQLMethod.USE_QUERY, TRACKER_SEARCH, { trackerId, query }, options);
+    }
+
+    public useBindTracker(
+        options?: MutationHookOptions<TrackerBindMutation, TrackerBindMutationVariables>,
+    ): AbortableApolloUseMutationResponse<TrackerBindMutation, TrackerBindMutationVariables> {
+        return this.doRequest(GQLMethod.USE_MUTATION, TRACKER_BIND, undefined, options);
+    }
+
+    public updateTrackerBind(
+        id: number,
+        patch: Omit<UpdateTrackInput, 'clientMutationId' | 'recordId'>,
+        options?: MutationOptions<TrackerUpdateBindMutation, TrackerUpdateBindMutationVariables>,
+    ): AbortableApolloMutationResponse<TrackerUpdateBindMutation> {
+        return this.doRequest(
+            GQLMethod.MUTATION,
+            TRACKER_UPDATE_BIND,
+            { input: { ...patch, recordId: id } },
+            { refetchQueries: patch.unbind ? [GET_MANGA] : undefined, ...options },
+        );
     }
 }
 

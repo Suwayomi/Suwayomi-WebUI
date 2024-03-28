@@ -26,6 +26,10 @@ const config: CodegenConfig = {
                     typeNames: 'change-case-all#pascalCase',
                     transformUnderscore: true,
                 },
+                scalars: {
+                    LongString: 'string',
+                    Cursor: 'string',
+                },
             },
         },
         'src/lib/graphql/generated/apollo-helpers.ts': {
