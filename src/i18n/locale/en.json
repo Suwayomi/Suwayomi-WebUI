@@ -354,6 +354,7 @@
       "label": {
         "bookmarked": "Bookmarked",
         "downloaded": "Downloaded",
+        "tracked": "Tracked",
         "unread": "Unread"
       }
     },

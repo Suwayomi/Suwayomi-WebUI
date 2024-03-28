@@ -31,6 +31,7 @@ export const DefaultLibraryOptions: LibraryOptions = {
     sortDesc: undefined,
     sorts: undefined,
     unread: undefined,
+    tracker: {},
 
     showTabSize: false,
 };

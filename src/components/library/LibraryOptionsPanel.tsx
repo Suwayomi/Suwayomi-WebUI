@@ -16,6 +16,8 @@ import { SortRadioInput } from '@/components/atoms/SortRadioInput';
 import { ThreeStateCheckboxInput } from '@/components/atoms/ThreeStateCheckboxInput';
 import { GridLayout, useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
 import { OptionsTabs } from '@/components/molecules/OptionsTabs';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { Trackers } from '@/lib/data/Trackers.ts';
 
 const TITLES: { [key in 'filter' | 'sort' | 'display']: TranslationKey } = {
     filter: 'global.label.filter',
@@ -41,6 +43,9 @@ export const LibraryOptionsPanel: React.FC<IProps> = ({ open, onClose }) => {
     const { t } = useTranslation();
     const { options, setOptions } = useLibraryOptionsContext();
 
+    const trackerList = requestManager.useGetTrackerList();
+    const loggedInTrackers = Trackers.getLoggedIn(trackerList.data?.trackers.nodes ?? []);
+
     const handleFilterChange = <T extends keyof LibraryOptions>(key: T, value: LibraryOptions[T]) => {
         setOptions((v) => ({ ...v, [key]: value }));
     };
@@ -65,6 +70,17 @@ export const LibraryOptionsPanel: React.FC<IProps> = ({ open, onClose }) => {
                                 checked={options.downloaded}
                                 onChange={(c) => handleFilterChange('downloaded', c)}
                             />
+                            <FormLabel sx={{ mt: 2 }}>{t('global.grid_layout.title')}</FormLabel>
+                            {loggedInTrackers.map((tracker) => (
+                                <ThreeStateCheckboxInput
+                                    key={tracker.id}
+                                    label={tracker.name}
+                                    checked={options.tracker[tracker.id]}
+                                    onChange={(checked) =>
+                                        handleFilterChange('tracker', { ...options.tracker, [tracker.id]: checked })
+                                    }
+                                />
+                            ))}
                         </>
                     );
                 }
