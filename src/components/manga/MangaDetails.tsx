@@ -13,7 +13,6 @@ import { styled } from '@mui/material/styles';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { t as translate } from 'i18next';
-import Button from '@mui/material/Button';
 import { ISource, TManga } from '@/typings';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/components/util/Toast';
@@ -23,6 +22,7 @@ import { Mangas } from '@/lib/data/Mangas.ts';
 import { SpinnerImage } from '@/components/util/SpinnerImage.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { Categories } from '@/lib/data/Categories.ts';
+import { CustomIconButton } from '@/components/atoms/CustomIconButton';
 
 const DetailsWrapper = styled('div')(({ theme }) => ({
     width: '100%',
@@ -133,19 +133,23 @@ const Genres = styled('div')(() => ({
 const OpenSourceButton = ({ url }: { url?: string | null }) => {
     const { t } = useTranslation();
 
-    if (!url) {
-        return (
-            <Button disabled={!url} startIcon={<PublicIcon />} size="large">
+    const button = useMemo(
+        () => (
+            <CustomIconButton size="large" disabled={!url} sx={{ color: 'inherit' }}>
+                <PublicIcon />
                 {t('global.button.open_site')}
-            </Button>
-        );
+            </CustomIconButton>
+        ),
+        [url],
+    );
+
+    if (!url) {
+        return button;
     }
 
     return (
-        <a href={url} target="_blank" rel="noreferrer">
-            <Button startIcon={<PublicIcon />} size="large">
-                {t('global.button.open_site')}
-            </Button>
+        <a href={url} target="_blank" rel="noreferrer" style={{ color: 'inherit' }}>
+            {button}
         </a>
     );
 };
@@ -250,16 +254,14 @@ export const MangaDetails: React.FC<IProps> = ({ manga }) => {
                         </Metadata>
                     </ThumbnailMetadataWrapper>
                     <MangaButtonsContainer inLibrary={manga.inLibrary}>
-                        <div>
-                            <Button
-                                disabled={areSettingsLoading || categories.loading}
-                                startIcon={manga.inLibrary ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-                                onClick={manga.inLibrary ? removeFromLibrary : handleAddToLibraryClick}
-                                size="large"
-                            >
-                                {manga.inLibrary ? t('manga.button.in_library') : t('manga.button.add_to_library')}
-                            </Button>
-                        </div>
+                        <CustomIconButton
+                            disabled={areSettingsLoading || categories.loading}
+                            onClick={manga.inLibrary ? removeFromLibrary : handleAddToLibraryClick}
+                            size="large"
+                        >
+                            {manga.inLibrary ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                            {manga.inLibrary ? t('manga.button.in_library') : t('manga.button.add_to_library')}
+                        </CustomIconButton>
                         <OpenSourceButton url={manga.realUrl} />
                     </MangaButtonsContainer>
                 </TopContentWrapper>
