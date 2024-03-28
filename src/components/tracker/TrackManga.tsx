@@ -29,7 +29,7 @@ const getTrackerMode = (id: number, trackersInUse: number[], searchModeForTracke
     return TrackerMode.UNTRACKED;
 };
 
-export const TrackManga = ({ manga }: { manga: TManga }) => {
+export const TrackManga = ({ manga }: { manga: Pick<TManga, 'id' | 'trackRecords'> }) => {
     const navigate = useNavigate();
 
     const [searchModeForTracker, setSearchModeForTracker] = useState<number>();
