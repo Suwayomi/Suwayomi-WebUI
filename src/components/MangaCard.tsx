@@ -79,7 +79,12 @@ export interface MangaCardProps {
     mode?: MangaCardMode;
 }
 
-const getMangaLinkTo = (mode: MangaCardMode, mangaId: number, sourceId: string, mangaTitle: string): string => {
+const getMangaLinkTo = (
+    mode: MangaCardMode,
+    mangaId: number,
+    sourceId: string | undefined,
+    mangaTitle: string,
+): string => {
     switch (mode) {
         case 'default':
             return `/manga/${mangaId}/`;
