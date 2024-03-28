@@ -70,7 +70,7 @@ export const LibraryOptionsPanel: React.FC<IProps> = ({ open, onClose }) => {
                                 checked={options.downloaded}
                                 onChange={(c) => handleFilterChange('downloaded', c)}
                             />
-                            <FormLabel sx={{ mt: 2 }}>{t('global.grid_layout.title')}</FormLabel>
+                            <FormLabel sx={{ mt: 2 }}>{t('global.filter.label.tracked')}</FormLabel>
                             {loggedInTrackers.map((tracker) => (
                                 <ThreeStateCheckboxInput
                                     key={tracker.id}
