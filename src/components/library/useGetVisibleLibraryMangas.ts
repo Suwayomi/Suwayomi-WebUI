@@ -71,10 +71,10 @@ const sortByLastRead = (a: TManga, b: TManga): number =>
     Number(b.lastReadChapter?.lastReadAt ?? 0) - Number(a.lastReadChapter?.lastReadAt ?? 0);
 
 const sortByLatestUploadedChapter = (a: TManga, b: TManga): number =>
-    (a.latestUploadedChapter?.fetchedAt ?? 0) - (b.latestUploadedChapter?.fetchedAt ?? 0);
+    Number(a.latestUploadedChapter?.fetchedAt ?? 0) - Number(b.latestUploadedChapter?.fetchedAt ?? 0);
 
 const sortByLatestFetchedChapter = (a: TManga, b: TManga): number =>
-    (a.latestFetchedChapter?.fetchedAt ?? 0) - (b.latestFetchedChapter?.fetchedAt ?? 0);
+    Number(a.latestFetchedChapter?.fetchedAt ?? 0) - Number(b.latestFetchedChapter?.fetchedAt ?? 0);
 
 const sortManga = (
     manga: TManga[],
