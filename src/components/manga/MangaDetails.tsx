@@ -13,6 +13,7 @@ import { styled } from '@mui/material/styles';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { t as translate } from 'i18next';
+import { Link } from '@mui/material';
 import { ISource, TManga } from '@/typings';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/components/util/Toast';
@@ -74,7 +75,7 @@ const Metadata = styled('div')(({ theme }) => ({
 const MangaButtonsContainer = styled('div')(({ theme }) => ({
     display: 'flex',
     justifyContent: 'space-around',
-    '& button': {
+    '& button, a': {
         borderRadius: '25px',
         textTransform: 'none',
         paddingLeft: '20px',
@@ -125,7 +126,15 @@ const OpenSourceButton = ({ url }: { url?: string | null }) => {
 
     const button = useMemo(
         () => (
-            <CustomIconButton size="large" disabled={!url} sx={{ color: 'inherit' }}>
+            <CustomIconButton
+                size="large"
+                disabled={!url}
+                sx={{ color: 'inherit' }}
+                component={Link}
+                href={url ?? undefined}
+                target="_blank"
+                rel="noreferrer"
+            >
                 <PublicIcon />
                 {t('global.button.open_site')}
             </CustomIconButton>
@@ -137,11 +146,7 @@ const OpenSourceButton = ({ url }: { url?: string | null }) => {
         return button;
     }
 
-    return (
-        <a href={url} target="_blank" rel="noreferrer" style={{ color: 'inherit' }}>
-            {button}
-        </a>
-    );
+    return button;
 };
 
 interface IProps {
