@@ -18,7 +18,10 @@ interface IProps {
 export const LibraryOptionsContextProvider: React.FC<IProps> = ({ children }) => {
     const [options, setOptions] = useLocalStorage<LibraryOptions>('libraryOptions', DefaultLibraryOptions);
 
-    const value = useMemo(() => ({ options, setOptions }), [options, setOptions]);
+    const value = useMemo(
+        () => ({ options: { ...DefaultLibraryOptions, ...options }, setOptions }),
+        [options, setOptions],
+    );
 
     return <LibraryOptionsContext.Provider value={value}>{children}</LibraryOptionsContext.Provider>;
 };
