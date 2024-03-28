@@ -118,32 +118,32 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                             </ListItemIcon>
                             <ListItemText>{t('manga.label.reload_from_source')}</ListItemText>
                         </MenuItem>
-                        {manga.inLibrary && (
-                            <>
-                                <MenuItem
-                                    component={Link}
-                                    to={`/migrate/source/${manga.source?.id}/manga/${manga.id}/search?query=${manga.title}`}
-                                    state={{ mangaTitle: manga.title }}
-                                    style={{ textDecoration: 'none', color: 'inherit' }}
-                                >
-                                    <ListItemIcon>
-                                        <SyncAltIcon fontSize="small" />
-                                    </ListItemIcon>
-                                    <ListItemText>{t('migrate.title')}</ListItemText>
-                                </MenuItem>
-                                <MenuItem
-                                    onClick={() => {
-                                        setEditCategories(true);
-                                        handleClose();
-                                    }}
-                                >
-                                    <ListItemIcon>
-                                        <Label fontSize="small" />
-                                    </ListItemIcon>
-                                    <ListItemText>{t('manga.label.edit_categories')}</ListItemText>
-                                </MenuItem>
-                            </>
-                        )}
+                        {manga.inLibrary && [
+                            <MenuItem
+                                key="migrate"
+                                component={Link}
+                                to={`/migrate/source/${manga.source?.id}/manga/${manga.id}/search?query=${manga.title}`}
+                                state={{ mangaTitle: manga.title }}
+                                style={{ textDecoration: 'none', color: 'inherit' }}
+                            >
+                                <ListItemIcon>
+                                    <SyncAltIcon fontSize="small" />
+                                </ListItemIcon>
+                                <ListItemText>{t('migrate.title')}</ListItemText>
+                            </MenuItem>,
+                            <MenuItem
+                                key="categories"
+                                onClick={() => {
+                                    setEditCategories(true);
+                                    handleClose();
+                                }}
+                            >
+                                <ListItemIcon>
+                                    <Label fontSize="small" />
+                                </ListItemIcon>
+                                <ListItemText>{t('manga.label.edit_categories')}</ListItemText>
+                            </MenuItem>,
+                        ]}
                     </Menu>
                 </>
             )}
