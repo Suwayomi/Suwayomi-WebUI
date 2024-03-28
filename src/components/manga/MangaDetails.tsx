@@ -71,13 +71,10 @@ const Metadata = styled('div')(({ theme }) => ({
         fontSize: '1.3em',
     },
 }));
-const MangaButtonsContainer = styled('div', { shouldForwardProp: (prop) => prop !== 'inLibrary' })<{
-    inLibrary: boolean;
-}>(({ theme, inLibrary }) => ({
+const MangaButtonsContainer = styled('div')(({ theme }) => ({
     display: 'flex',
     justifyContent: 'space-around',
     '& button': {
-        color: inLibrary ? '#2196f3' : 'inherit',
         borderRadius: '25px',
         textTransform: 'none',
         paddingLeft: '20px',
@@ -85,13 +82,6 @@ const MangaButtonsContainer = styled('div', { shouldForwardProp: (prop) => prop 
         fontSize: 'x-large',
         [theme.breakpoints.down('sm')]: {
             fontSize: 'larger',
-        },
-    },
-    '& a': {
-        textDecoration: 'none',
-        color: '#858585',
-        '& button': {
-            color: 'inherit',
         },
     },
 }));
@@ -253,11 +243,12 @@ export const MangaDetails: React.FC<IProps> = ({ manga }) => {
                             <h3>{`${t('source.title')}: ${getSourceName(manga.source)}`}</h3>
                         </Metadata>
                     </ThumbnailMetadataWrapper>
-                    <MangaButtonsContainer inLibrary={manga.inLibrary}>
+                    <MangaButtonsContainer>
                         <CustomIconButton
                             disabled={areSettingsLoading || categories.loading}
                             onClick={manga.inLibrary ? removeFromLibrary : handleAddToLibraryClick}
                             size="large"
+                            sx={{ color: manga.inLibrary ? '#2196f3' : 'inherit' }}
                         >
                             {manga.inLibrary ? <FavoriteIcon /> : <FavoriteBorderIcon />}
                             {manga.inLibrary ? t('manga.button.in_library') : t('manga.button.add_to_library')}
