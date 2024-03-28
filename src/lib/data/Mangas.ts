@@ -27,7 +27,8 @@ export type MangaAction =
     | 'mark_as_unread'
     | 'remove_from_library'
     | 'change_categories'
-    | 'migrate';
+    | 'migrate'
+    | 'track';
 
 export const actionToTranslationKey: {
     [key in MangaAction]: {
@@ -94,6 +95,14 @@ export const actionToTranslationKey: {
         },
         success: 'manga.action.migrate.label.success',
         error: 'manga.action.migrate.label.error',
+    },
+    track: {
+        action: {
+            single: 'manga.action.track.add.label.action',
+            selected: 'manga.action.track.add.label.action', // not supported
+        },
+        success: 'manga.action.track.add.label.success',
+        error: 'manga.action.track.add.label.error',
     },
 };
 
