@@ -32,7 +32,7 @@ const TrackerMangaCardTitle = ({ title, selected }: { title: string; selected: b
         <Typography variant="h5" component="h1">
             {title}
         </Typography>
-        {selected && <CheckCircleIcon color="primary" />}
+        <CheckCircleIcon sx={{ visibility: selected ? 'visible' : 'hidden' }} color="primary" />
     </Stack>
 );
 
