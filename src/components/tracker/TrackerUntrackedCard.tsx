@@ -14,12 +14,20 @@ import { useTranslation } from 'react-i18next';
 import { Stack } from '@mui/material';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { TBaseTracker } from '@/lib/data/Trackers.ts';
+import { DIALOG_PADDING } from '@/components/tracker/constants.ts';
 
 export const TrackerUntrackedCard = ({ tracker, onClick }: { tracker: TBaseTracker; onClick: () => void }) => {
     const { t } = useTranslation();
 
     return (
-        <Card sx={{ backgroundColor: 'transparent', boxShadow: 'unset', backgroundImage: 'unset' }}>
+        <Card
+            sx={{
+                padding: DIALOG_PADDING,
+                backgroundColor: 'transparent',
+                boxShadow: 'unset',
+                backgroundImage: 'unset',
+            }}
+        >
             <CardContent sx={{ padding: '0' }}>
                 <Stack direction="row" gap="25px">
                     <Avatar

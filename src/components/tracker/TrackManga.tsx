@@ -83,7 +83,14 @@ export const TrackManga = ({ manga }: { manga: Pick<TManga, 'id' | 'trackRecords
 
     if (!isSearchActive) {
         return (
-            <OptionalDialogContent sx={{ '.MuiPaper-root:last-child .MuiCardContent-root': { paddingBottom: '0' } }}>
+            <OptionalDialogContent
+                sx={{
+                    padding: 0,
+                    // MUI adds a bottom padding to the last child of type CardContent which can only be removed via actual css styling
+                    // do it here, so it is done in one place for all track related CardContent components
+                    '.MuiPaper-root .MuiCardContent-root': { paddingBottom: '0' },
+                }}
+            >
                 {trackerComponents}
             </OptionalDialogContent>
         );

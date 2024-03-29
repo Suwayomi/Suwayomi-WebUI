@@ -21,6 +21,7 @@ import { TBaseTracker } from '@/lib/data/Trackers.ts';
 import { SearchTextField } from '@/components/atoms/SearchTextField.tsx';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { TrackerMangaCard } from '@/components/tracker/TrackerMangaCard.tsx';
+import { DIALOG_PADDING } from '@/components/tracker/constants.ts';
 
 export const TrackerSearch = ({
     mangaId,
@@ -82,7 +83,7 @@ export const TrackerSearch = ({
 
     return (
         <>
-            <DialogTitle sx={{ padding: '15px' }}>
+            <DialogTitle sx={{ padding: DIALOG_PADDING }}>
                 <Stack direction="row" gap="10px" alignItems="center">
                     <IconButton onClick={closeSearchMode}>
                         <ArrowBack />
@@ -101,7 +102,7 @@ export const TrackerSearch = ({
                     />
                 </Stack>
             </DialogTitle>
-            <DialogContent dividers sx={{ padding: '15px', height: '100vh' }}>
+            <DialogContent dividers sx={{ padding: DIALOG_PADDING, height: '100vh' }}>
                 {!trackerSearch.loading && !trackerSearch.error && !hasResults && (
                     <EmptyView message={t('manga.error.label.no_mangas_found')} />
                 )}
@@ -132,7 +133,7 @@ export const TrackerSearch = ({
                             left: 0,
                             right: 0,
                             bottom: 0,
-                            paddingBottom: '15px',
+                            paddingBottom: DIALOG_PADDING,
                         }}
                     >
                         <Button
