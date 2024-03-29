@@ -24,6 +24,7 @@ import { MangaActionMenuItems, SingleModeProps } from '@/components/manga/MangaA
 import { Menu } from '@/components/menu/Menu.tsx';
 import { MigrateDialog } from '@/components/MigrateDialog.tsx';
 import { Mangas } from '@/lib/data/Mangas.ts';
+import { TypographyMaxLines } from '@/components/atoms/TypographyMaxLines.tsx';
 
 const BottomGradient = styled('div')({
     position: 'absolute',
@@ -41,15 +42,7 @@ const BottomGradientDoubledDown = styled('div')({
     background: 'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%)',
 });
 
-const MangaTitle = styled(Typography)({
-    lineHeight: '1.5rem',
-    maxHeight: '3rem',
-    display: '-webkit-box',
-    WebkitLineClamp: '2',
-    WebkitBoxOrient: 'vertical',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-});
+const MangaTitle = TypographyMaxLines;
 
 const GridMangaTitle = styled(MangaTitle)({
     fontSize: '1.05rem',
