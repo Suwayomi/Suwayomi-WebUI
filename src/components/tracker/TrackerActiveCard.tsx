@@ -28,6 +28,7 @@ import {
 } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import PopupState, { bindDialog, bindMenu, bindTrigger } from 'material-ui-popup-state';
+import { useMemo } from 'react';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Trackers, TTrackRecord, UNSET_DATE } from '@/lib/data/Trackers.ts';
 import { ListPreference } from '@/components/sourceConfiguration/ListPreference.tsx';
@@ -37,6 +38,7 @@ import { makeToast } from '@/components/util/Toast.tsx';
 import { Menu } from '@/components/menu/Menu';
 import { CARD_STYLING } from '@/components/tracker/constants.ts';
 import { TypographyMaxLines } from '@/components/atoms/TypographyMaxLines.tsx';
+import { SelectSetting, SelectSettingValue } from '@/components/settings/SelectSetting.tsx';
 
 const TrackerActiveLink = ({ children, url }: { children: React.ReactNode; url: string }) => (
     <Link href={url} rel="noreferrer" target="_blank" underline="none" color="inherit">
@@ -198,6 +200,8 @@ const TrackerActiveCardInfoRow = ({ children }: { children: React.ReactNode }) =
     </Stack>
 );
 
+const isUnsetScore = (score: string | number): boolean => !Math.trunc(Number(score));
+
 export const TrackerActiveCard = ({
     trackRecord: { tracker, ...trackRecord },
     onClick,
@@ -206,6 +210,20 @@ export const TrackerActiveCard = ({
     onClick: () => void;
 }) => {
     const { t } = useTranslation();
+
+    const isScoreUnset = isUnsetScore(trackRecord.displayScore);
+    const currentScore = isScoreUnset ? tracker.scores[0] : trackRecord.displayScore;
+
+    const selectSettingValues = useMemo(
+        () =>
+            tracker.scores.map(
+                (score) =>
+                    [score, { text: isUnsetScore(score) ? '-' : score }] satisfies SelectSettingValue<
+                        TTrackRecord['tracker']['scores'][number]
+                    >,
+            ),
+        [tracker.scores],
+    );
 
     const updateTrackerBind = (patch: Parameters<typeof requestManager.updateTrackerBind>[1]) => {
         requestManager
@@ -245,25 +263,12 @@ export const TrackerActiveCard = ({
                                     handleUpdate={(lastChapterRead) => updateTrackerBind({ lastChapterRead })}
                                 />
                                 <Divider orientation="vertical" flexItem />
-                                <NumberSetting
-                                    settingTitle={t('tracking.track_record.label.score')}
-                                    dialogTitle={t('manga.label.status')}
-                                    settingValue={trackRecord.displayScore}
-                                    value={trackRecord.score ?? 0}
-                                    minValue={0}
-                                    maxValue={Number(tracker.scores.slice(-1)[0])}
-                                    stepSize={Number(
-                                        (Number(tracker.scores[2] ?? 0) - Number(tracker.scores[1] ?? 0)).toFixed(1),
-                                    )}
-                                    valueUnit=""
-                                    handleUpdate={(newScore) =>
-                                        updateTrackerBind({
-                                            scoreString:
-                                                newScore === 0
-                                                    ? tracker.scores[0]
-                                                    : tracker.scores.find((score) => Number(score) === newScore),
-                                        })
-                                    }
+                                <SelectSetting<string>
+                                    settingName={t('tracking.track_record.label.score')}
+                                    defaultValue={tracker.scores[0]}
+                                    value={currentScore}
+                                    values={selectSettingValues}
+                                    handleChange={(score) => updateTrackerBind({ scoreString: score })}
                                 />
                             </TrackerActiveCardInfoRow>
                             <Divider />
