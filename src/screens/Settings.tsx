@@ -17,7 +17,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
-import { Link, ListItemButton, MenuItem, Select } from '@mui/material';
+import { Link, ListItemButton, MenuItem } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import LanguageIcon from '@mui/icons-material/Language';
 import CollectionsOutlinedBookmarkIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
@@ -37,6 +37,7 @@ import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
+import { Select } from '@/components/atoms/Select.tsx';
 
 export function Settings() {
     const { t, i18n } = useTranslation();
@@ -143,7 +144,6 @@ export function Settings() {
                     }
                 />
                 <Select
-                    MenuProps={{ PaperProps: { style: { maxHeight: 150 } } }}
                     value={i18n.language}
                     onChange={({ target: { value: language } }) => i18n.changeLanguage(language)}
                 >
