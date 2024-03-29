@@ -34,7 +34,7 @@ import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
 import { DateSetting } from '@/components/settings/DateSetting.tsx';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { Menu } from '@/components/menu/Menu';
-import { DIALOG_PADDING } from '@/components/tracker/constants.ts';
+import { CARD_STYLING } from '@/components/tracker/constants.ts';
 
 const TrackerActiveLink = ({ children, url }: { children: React.ReactNode; url: string }) => (
     <Link href={url} rel="noreferrer" target="_blank" underline="none" color="inherit">
@@ -208,14 +208,7 @@ export const TrackerActiveCard = ({
     };
 
     return (
-        <Card
-            sx={{
-                padding: DIALOG_PADDING,
-                backgroundColor: 'transparent',
-                boxShadow: 'unset',
-                backgroundImage: 'unset',
-            }}
-        >
+        <Card sx={CARD_STYLING}>
             <CardContent sx={{ padding: 0 }}>
                 <TrackerActiveHeader trackRecord={{ tracker, ...trackRecord }} openSearch={onClick} />
                 <Card>
