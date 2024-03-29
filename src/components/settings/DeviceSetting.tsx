@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { List, ListItem, ListItemText, MenuItem, Select } from '@mui/material';
+import { List, ListItem, ListItemText, MenuItem } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useContext, useEffect } from 'react';
 import { updateMetadataServerSettings, useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
@@ -15,6 +15,7 @@ import { makeToast } from '@/components/util/Toast.tsx';
 import { MutableListSetting } from '@/components/settings/MutableListSetting.tsx';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
 import { ActiveDevice, DEFAULT_DEVICE } from '@/util/device.ts';
+import { Select } from '@/components/atoms/Select.tsx';
 
 export const DeviceSetting = () => {
     const { t } = useTranslation();
@@ -75,11 +76,7 @@ export const DeviceSetting = () => {
                     primary={t('settings.device.active_device.label.title')}
                     secondary={t('settings.device.active_device.label.description')}
                 />
-                <Select
-                    MenuProps={{ PaperProps: { style: { maxHeight: 150 } } }}
-                    value={activeDevice}
-                    onChange={({ target: { value: device } }) => setActiveDevice(device)}
-                >
+                <Select value={activeDevice} onChange={({ target: { value: device } }) => setActiveDevice(device)}>
                     {devices.map((device) => (
                         <MenuItem key={device} value={device}>
                             {device}

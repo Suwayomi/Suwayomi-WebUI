@@ -18,7 +18,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Slide from '@mui/material/Slide';
 import Fade from '@mui/material/Fade';
 import Zoom from '@mui/material/Zoom';
-import { Divider, FormControl, MenuItem, Select, styled, Tooltip } from '@mui/material';
+import { Divider, FormControl, MenuItem, styled, Tooltip } from '@mui/material';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
@@ -27,6 +27,7 @@ import { AllowedMetadataValueTypes, ChapterOffset, IReaderSettings, TChapter, TM
 import { ReaderSettingsOptions } from '@/components/reader/ReaderSettingsOptions';
 import { useBackButton } from '@/util/useBackButton.ts';
 import { useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
+import { Select } from '@/components/atoms/Select.tsx';
 
 const Root = styled('div')({
     zIndex: 10,
@@ -100,8 +101,6 @@ const ChapterNavigation = styled('div')({
         alignContent: 'center',
     },
 });
-
-const MenuProps = { PaperProps: { style: { maxHeight: 150 } } };
 
 const OpenDrawerButton = styled(IconButton)(({ theme }) => ({
     position: 'fixed',
@@ -280,7 +279,6 @@ export function ReaderNavBar(props: IProps) {
                                 disabled={disableChapterNavButtons || chapter.pageCount === -1}
                             >
                                 <Select
-                                    MenuProps={MenuProps}
                                     value={chapter.pageCount > -1 ? `${curPage}` : ''}
                                     displayEmpty
                                     onChange={({ target: { value: selectedPage } }) => {
@@ -315,7 +313,6 @@ export function ReaderNavBar(props: IProps) {
                                 disabled={disableChapterNavButtons || chapter.sourceOrder < 1}
                             >
                                 <Select
-                                    MenuProps={MenuProps}
                                     value={chapter.sourceOrder >= 1 ? `${chapter.sourceOrder}` : ''}
                                     displayEmpty
                                     onChange={({ target: { value: selectedChapter } }) => {
