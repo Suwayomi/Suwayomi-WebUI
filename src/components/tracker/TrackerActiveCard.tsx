@@ -23,6 +23,7 @@ import {
     ListItemButton,
     MenuItem,
     Stack,
+    Tooltip,
     Typography,
 } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -34,6 +35,8 @@ import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
 import { DateSetting } from '@/components/settings/DateSetting.tsx';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { Menu } from '@/components/menu/Menu';
+import { CARD_STYLING } from '@/components/tracker/constants.ts';
+import { TypographyMaxLines } from '@/components/atoms/TypographyMaxLines.tsx';
 
 const TrackerActiveLink = ({ children, url }: { children: React.ReactNode; url: string }) => (
     <Link href={url} rel="noreferrer" target="_blank" underline="none" color="inherit">
@@ -150,7 +153,11 @@ const TrackerActiveHeader = ({
             </TrackerActiveLink>
 
             <ListItemButton sx={{ flexGrow: 1 }} onClick={openSearch}>
-                <Typography flexGrow={1}>{trackRecord.title}</Typography>
+                <Tooltip title={trackRecord.title}>
+                    <TypographyMaxLines flexGrow={1} lines={1}>
+                        {trackRecord.title}
+                    </TypographyMaxLines>
+                </Tooltip>
             </ListItemButton>
             <Stack justifyContent="center">
                 <PopupState variant="popover" popupId={`tracker-active-menu-popup-${tracker.id}`}>
@@ -207,12 +214,12 @@ export const TrackerActiveCard = ({
     };
 
     return (
-        <Card sx={{ backgroundColor: 'transparent', boxShadow: 'unset', backgroundImage: 'unset' }}>
-            <CardContent sx={{ padding: '0' }}>
+        <Card sx={CARD_STYLING}>
+            <CardContent sx={{ padding: 0 }}>
                 <TrackerActiveHeader trackRecord={{ tracker, ...trackRecord }} openSearch={onClick} />
                 <Card>
-                    <CardContent sx={{ padding: 0 }}>
-                        <Box sx={{ padding: 2 }}>
+                    <CardContent sx={{ padding: '0' }}>
+                        <Box sx={{ padding: 1 }}>
                             <TrackerActiveCardInfoRow>
                                 <ListPreference
                                     ListPreferenceTitle={t('manga.label.status')}

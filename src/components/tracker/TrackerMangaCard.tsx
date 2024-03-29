@@ -17,6 +17,7 @@ import {
     Collapse,
     Link,
     Stack,
+    Tooltip,
     Typography,
     useMediaQuery,
     useTheme,
@@ -26,13 +27,16 @@ import parseHtml from 'html-react-parser';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { SpinnerImage } from '@/components/util/SpinnerImage.tsx';
 import { TrackerManga } from '@/lib/data/Trackers.ts';
+import { TypographyMaxLines } from '@/components/atoms/TypographyMaxLines.tsx';
 
 const TrackerMangaCardTitle = ({ title, selected }: { title: string; selected: boolean }) => (
     <Stack direction="row" gap="5px" justifyContent="space-between">
-        <Typography variant="h5" component="h1">
-            {title}
-        </Typography>
-        {selected && <CheckCircleIcon color="primary" />}
+        <Tooltip title={title}>
+            <TypographyMaxLines variant="h5" component="h1">
+                {title}
+            </TypographyMaxLines>
+        </Tooltip>
+        <CheckCircleIcon sx={{ visibility: selected ? 'visible' : 'hidden' }} color="primary" />
     </Stack>
 );
 
