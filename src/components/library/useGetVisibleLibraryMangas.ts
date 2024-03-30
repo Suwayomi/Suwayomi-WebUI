@@ -148,8 +148,11 @@ export const useGetVisibleLibraryMangas = (mangas: TManga[]) => {
         [filteredMangas, options.sorts, options.sortDesc],
     );
 
+    const isATrackFilterActive = Object.values(options.tracker).some((trackFilterState) => trackFilterState != null);
     const showFilteredOutMessage =
-        (unread != null || downloaded != null || !!query) && filteredMangas.length === 0 && mangas.length > 0;
+        (unread != null || downloaded != null || !!query || isATrackFilterActive) &&
+        filteredMangas.length === 0 &&
+        mangas.length > 0;
 
     return {
         visibleMangas: sortedMangas,
