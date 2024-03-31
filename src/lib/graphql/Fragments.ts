@@ -216,6 +216,7 @@ export const FULL_TRACKER_FIELDS = gql`
         name
         authUrl
         icon
+        supportsTrackDeletion
         isLoggedIn
         isTokenExpired
         scores
