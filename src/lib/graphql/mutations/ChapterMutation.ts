@@ -7,7 +7,7 @@
  */
 
 import gql from 'graphql-tag';
-import { FULL_CHAPTER_FIELDS } from '@/lib/graphql/Fragments';
+import { BASE_TRACK_RECORD_FIELDS, FULL_CHAPTER_FIELDS } from '@/lib/graphql/Fragments';
 
 export const DELETE_CHAPTER_METADATA = gql`
     mutation DELETE_CHAPTER_METADATA($input: DeleteChapterMetaInput!) {
@@ -88,6 +88,7 @@ export const SET_CHAPTER_METADATA = gql`
 `;
 
 export const UPDATE_CHAPTER = gql`
+    ${BASE_TRACK_RECORD_FIELDS}
     mutation UPDATE_CHAPTER(
         $input: UpdateChapterInput!
         $getBookmarked: Boolean!
@@ -95,6 +96,8 @@ export const UPDATE_CHAPTER = gql`
         $getLastPageRead: Boolean!
         $chapterIdToDelete: Int!
         $deleteChapter: Boolean!
+        $mangaId: Int!
+        $trackProgress: Boolean!
     ) {
         updateChapter(input: $input) {
             clientMutationId
@@ -132,6 +135,11 @@ export const UPDATE_CHAPTER = gql`
                     id
                     downloadCount
                 }
+            }
+        }
+        trackProgress(input: { mangaId: $mangaId }) @include(if: $trackProgress) {
+            trackRecords {
+                ...BASE_TRACK_RECORD_FIELDS
             }
         }
     }

@@ -7,6 +7,7 @@
  */
 
 import gql from 'graphql-tag';
+import { BASE_TRACK_RECORD_FIELDS, QUERY_TRACK_RECORD_FIELDS } from '@/lib/graphql/Fragments.ts';
 
 export const TRACKER_LOGIN_OAUTH = gql`
     mutation TRACKER_LOGIN_OAUTH($input: LoginTrackerOAuthInput!) {
@@ -47,20 +48,11 @@ export const TRACKER_LOGOUT = gql`
 `;
 
 export const TRACKER_BIND = gql`
+    ${QUERY_TRACK_RECORD_FIELDS}
     mutation TRACKER_BIND($mangaId: Int!, $remoteId: LongString!, $trackerId: Int!) {
         bindTrack(input: { mangaId: $mangaId, remoteId: $remoteId, trackerId: $trackerId }) {
             trackRecord {
-                id
-                title
-                status
-                lastChapterRead
-                totalChapters
-                score
-                displayScore
-                startDate
-                finishDate
-                remoteUrl
-                remoteId
+                ...QUERY_TRACK_RECORD_FIELDS
                 tracker {
                     id
                 }
@@ -98,23 +90,11 @@ export const TRACKER_UNBIND = gql`
 `;
 
 export const TRACKER_UPDATE_BIND = gql`
+    ${QUERY_TRACK_RECORD_FIELDS}
     mutation TRACKER_UPDATE_BIND($input: UpdateTrackInput!) {
         updateTrack(input: $input) {
             trackRecord {
-                id
-                title
-                status
-                lastChapterRead
-                totalChapters
-                score
-                displayScore
-                startDate
-                finishDate
-                remoteUrl
-                remoteId
-                tracker {
-                    id
-                }
+                ...QUERY_TRACK_RECORD_FIELDS
                 manga {
                     id
                     trackRecords {
@@ -124,6 +104,17 @@ export const TRACKER_UPDATE_BIND = gql`
                         }
                     }
                 }
+            }
+        }
+    }
+`;
+
+export const TRACKER_TRACK_PROGRESS = gql`
+    ${BASE_TRACK_RECORD_FIELDS}
+    mutation TRACKER_TRACK_PROGRESS($mangaId: Int!) {
+        trackProgress(input: { mangaId: $mangaId }) {
+            trackRecords {
+                ...BASE_TRACK_RECORD_FIELDS
             }
         }
     }
