@@ -94,7 +94,16 @@ export const MangaCard = (props: MangaCardProps) => {
     const { t } = useTranslation();
 
     const { manga, gridLayout, inLibraryIndicator, selected, handleSelection, mode = 'default' } = props;
-    const { id, title, downloadCount, unreadCount: unread, inLibrary, latestReadChapter, chapters } = manga;
+    const {
+        id,
+        title,
+        downloadCount,
+        unreadCount: unread,
+        inLibrary,
+        latestReadChapter,
+        firstUnreadChapter,
+        chapters,
+    } = manga;
     const thumbnailUrl = Mangas.getThumbnailUrl(manga);
     const {
         options: { showContinueReadingButton, showUnreadBadge, showDownloadBadge },
@@ -102,7 +111,7 @@ export const MangaCard = (props: MangaCardProps) => {
 
     const mangaLinkTo = getMangaLinkTo(mode, manga.id, manga.source?.id, manga.title);
 
-    const nextChapterIndexToRead = (latestReadChapter?.sourceOrder ?? 0) + 1;
+    const nextChapterIndexToRead = firstUnreadChapter?.sourceOrder ?? 1;
     const isLatestChapterRead = chapters?.totalCount === latestReadChapter?.sourceOrder;
 
     const [isMigrateDialogOpen, setIsMigrateDialogOpen] = useState(false);

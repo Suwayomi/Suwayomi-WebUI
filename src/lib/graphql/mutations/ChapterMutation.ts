@@ -113,6 +113,9 @@ export const UPDATE_CHAPTER = gql`
                     latestReadChapter {
                         id
                     }
+                    firstUnreadChapter {
+                        id
+                    }
                 }
             }
         }
@@ -154,6 +157,9 @@ export const UPDATE_CHAPTERS = gql`
                         id
                     }
                     latestReadChapter {
+                        id
+                    }
+                    firstUnreadChapter {
                         id
                     }
                 }
