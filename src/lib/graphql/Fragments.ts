@@ -351,6 +351,9 @@ export const FULL_MANGA_FIELDS = gql`
         latestUploadedChapter {
             ...FULL_CHAPTER_FIELDS
         }
+        firstUnreadChapter {
+            ...FULL_CHAPTER_FIELDS
+        }
     }
 `;
 
