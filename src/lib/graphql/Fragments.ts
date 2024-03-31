@@ -291,6 +291,7 @@ export const PARTIAL_MANGA_FIELDS = gql`
         ...BASE_MANGA_FIELDS
         unreadCount
         downloadCount
+        bookmarkCount
         categories {
             nodes {
                 ...FULL_CATEGORY_FIELDS
