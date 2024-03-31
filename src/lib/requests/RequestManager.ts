@@ -192,6 +192,8 @@ import {
     TrackerUpdateBindMutation,
     TrackerUpdateBindMutationVariables,
     UpdateTrackInput,
+    TrackerUnbindMutation,
+    TrackerUnbindMutationVariables,
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_GLOBAL_METADATAS } from '@/lib/graphql/queries/GlobalMetadataQuery.ts';
 import { SET_GLOBAL_METADATA } from '@/lib/graphql/mutations/GlobalMetadataMutation.ts';
@@ -278,6 +280,7 @@ import {
     TRACKER_LOGIN_CREDENTIALS,
     TRACKER_LOGIN_OAUTH,
     TRACKER_LOGOUT,
+    TRACKER_UNBIND,
     TRACKER_UPDATE_BIND,
 } from '@/lib/graphql/mutations/TrackerMutation.ts';
 import { ControlledPromise } from '@/lib/ControlledPromise.ts';
@@ -2473,17 +2476,25 @@ export class RequestManager {
         return this.doRequest(GQLMethod.USE_MUTATION, TRACKER_BIND, undefined, options);
     }
 
+    public unbindTracker(
+        recordId: number,
+        deleteRemoteTrack?: boolean,
+        options?: MutationHookOptions<TrackerUnbindMutation, TrackerUnbindMutationVariables>,
+    ): AbortableApolloMutationResponse<TrackerUnbindMutation> {
+        return this.doRequest<TrackerUnbindMutation, TrackerUnbindMutationVariables>(
+            GQLMethod.MUTATION,
+            TRACKER_UNBIND,
+            { input: { recordId, deleteRemoteTrack } },
+            { refetchQueries: [GET_MANGA, GET_CATEGORY_MANGAS, GET_MANGAS], ...options },
+        );
+    }
+
     public updateTrackerBind(
         id: number,
         patch: Omit<UpdateTrackInput, 'clientMutationId' | 'recordId'>,
         options?: MutationOptions<TrackerUpdateBindMutation, TrackerUpdateBindMutationVariables>,
     ): AbortableApolloMutationResponse<TrackerUpdateBindMutation> {
-        return this.doRequest(
-            GQLMethod.MUTATION,
-            TRACKER_UPDATE_BIND,
-            { input: { ...patch, recordId: id } },
-            { refetchQueries: patch.unbind ? [GET_MANGA, GET_CATEGORY_MANGAS, GET_MANGAS] : undefined, ...options },
-        );
+        return this.doRequest(GQLMethod.MUTATION, TRACKER_UPDATE_BIND, { input: { ...patch, recordId: id } }, options);
     }
 }
 

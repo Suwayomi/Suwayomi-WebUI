@@ -18,6 +18,7 @@ import {
     DialogContent,
     DialogTitle,
     Divider,
+    FormGroup,
     IconButton,
     Link,
     ListItemButton,
@@ -28,7 +29,7 @@ import {
 } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import PopupState, { bindDialog, bindMenu, bindTrigger } from 'material-ui-popup-state';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Trackers, TTrackRecord, UNSET_DATE } from '@/lib/data/Trackers.ts';
 import { ListPreference } from '@/components/sourceConfiguration/ListPreference.tsx';
@@ -39,6 +40,7 @@ import { Menu } from '@/components/menu/Menu';
 import { CARD_STYLING } from '@/components/tracker/constants.ts';
 import { TypographyMaxLines } from '@/components/atoms/TypographyMaxLines.tsx';
 import { SelectSetting, SelectSettingValue } from '@/components/settings/SelectSetting.tsx';
+import { CheckboxInput } from '@/components/atoms/CheckboxInput';
 
 const TrackerActiveLink = ({ children, url }: { children: React.ReactNode; url: string }) => (
     <Link href={url} rel="noreferrer" target="_blank" underline="none" color="inherit">
@@ -63,7 +65,7 @@ const TrackerActiveRemoveBind = ({
     const removeBind = () => {
         onClose();
         requestManager
-            .updateTrackerBind(trackRecord.id, { unbind: true })
+            .unbindTracker(trackRecord.id)
             .response.then(() => makeToast(t('manga.action.track.remove.label.success'), 'success'))
             .catch(() => makeToast(t('manga.action.track.remove.label.error'), 'error'));
     };
