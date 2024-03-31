@@ -6,14 +6,14 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Select as MuiSelect, SelectVariants } from '@mui/material';
+import { Select as MuiSelect } from '@mui/material';
 
-export const Select = <Value, Variant extends SelectVariants>({
+export const Select = <Value,>({
     children,
     maxSelectionHeightPx = 250,
     ...props
-}: React.ComponentProps<typeof MuiSelect<Value, Variant>> & { maxSelectionHeightPx?: number }) => (
-    <MuiSelect<any, any> MenuProps={{ PaperProps: { style: { maxHeight: maxSelectionHeightPx } } }} {...props}>
+}: React.ComponentProps<typeof MuiSelect<Value>> & { maxSelectionHeightPx?: number }) => (
+    <MuiSelect<Value> MenuProps={{ PaperProps: { style: { maxHeight: maxSelectionHeightPx } } }} {...props}>
         {children}
     </MuiSelect>
 );
