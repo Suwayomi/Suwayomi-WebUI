@@ -117,6 +117,10 @@ export const UPDATE_CHAPTER = gql`
                         id
                     }
                 }
+                manga @include(if: $getBookmarked) {
+                    id
+                    bookmarkCount
+                }
             }
         }
         deleteDownloadedChapter(input: { id: $chapterIdToDelete }) @include(if: $deleteChapter) {
@@ -162,6 +166,10 @@ export const UPDATE_CHAPTERS = gql`
                     firstUnreadChapter {
                         id
                     }
+                }
+                manga @include(if: $getBookmarked) {
+                    id
+                    bookmarkCount
                 }
             }
         }

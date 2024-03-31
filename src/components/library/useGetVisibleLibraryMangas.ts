@@ -35,6 +35,17 @@ const downloadedFilter = (downloaded: NullAndUndefined<boolean>, { downloadCount
     }
 };
 
+const bookmarkedFilter = (bookmarked: NullAndUndefined<boolean>, { bookmarkCount }: TManga): boolean => {
+    switch (bookmarked) {
+        case true:
+            return !!bookmarkCount && bookmarkCount >= 1;
+        case false:
+            return bookmarkCount === 0;
+        default:
+            return true;
+    }
+};
+
 const queryFilter = (query: NullAndUndefined<string>, { title }: TManga): boolean => {
     if (!query) return true;
     return title.toLowerCase().includes(query.toLowerCase());
@@ -68,6 +79,7 @@ const filterManga = (
     query: NullAndUndefined<string>,
     unread: NullAndUndefined<boolean>,
     downloaded: NullAndUndefined<boolean>,
+    bookmarked: NullAndUndefined<boolean>,
     tracker: LibraryOptions['tracker'],
     ignoreFilters: boolean,
 ): TManga[] =>
@@ -76,7 +88,10 @@ const filterManga = (
         const matchesSearch = queryFilter(query, manga) || queryGenreFilter(query, manga);
         const matchesFilters =
             ignoreFiltersWhileSearching ||
-            (downloadedFilter(downloaded, manga) && unreadFilter(unread, manga) && trackerFilter(tracker, manga));
+            (downloadedFilter(downloaded, manga) &&
+                unreadFilter(unread, manga) &&
+                bookmarkedFilter(bookmarked, manga) &&
+                trackerFilter(tracker, manga));
 
         return matchesSearch && matchesFilters;
     });
@@ -136,12 +151,12 @@ const sortManga = (
 export const useGetVisibleLibraryMangas = (mangas: TManga[]) => {
     const [query] = useQueryParam('query', StringParam);
     const { options } = useLibraryOptionsContext();
-    const { unread, downloaded, tracker } = options;
+    const { unread, downloaded, bookmarked, tracker } = options;
     const { settings } = useMetadataServerSettings();
 
     const filteredMangas = useMemo(
-        () => filterManga(mangas, query, unread, downloaded, tracker, settings.ignoreFilters),
-        [mangas, query, unread, downloaded, tracker, settings.ignoreFilters],
+        () => filterManga(mangas, query, unread, downloaded, bookmarked, tracker, settings.ignoreFilters),
+        [mangas, query, unread, downloaded, bookmarked, tracker, settings.ignoreFilters],
     );
     const sortedMangas = useMemo(
         () => sortManga(filteredMangas, options.sorts, options.sortDesc),
@@ -150,7 +165,7 @@ export const useGetVisibleLibraryMangas = (mangas: TManga[]) => {
 
     const isATrackFilterActive = Object.values(options.tracker).some((trackFilterState) => trackFilterState != null);
     const showFilteredOutMessage =
-        (unread != null || downloaded != null || !!query || isATrackFilterActive) &&
+        (unread != null || downloaded != null || bookmarked != null || !!query || isATrackFilterActive) &&
         filteredMangas.length === 0 &&
         mangas.length > 0;
 
