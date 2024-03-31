@@ -2482,7 +2482,7 @@ export class RequestManager {
             GQLMethod.MUTATION,
             TRACKER_UPDATE_BIND,
             { input: { ...patch, recordId: id } },
-            { refetchQueries: patch.unbind ? [GET_MANGA, GET_CATEGORY_MANGAS] : undefined, ...options },
+            { refetchQueries: patch.unbind ? [GET_MANGA, GET_CATEGORY_MANGAS, GET_MANGAS] : undefined, ...options },
         );
     }
 }
