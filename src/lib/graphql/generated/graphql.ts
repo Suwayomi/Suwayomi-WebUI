@@ -668,6 +668,17 @@ export enum FetchSourceMangaType {
   Search = 'SEARCH'
 }
 
+export type FetchTrackInput = {
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  recordId: Scalars['Int']['input'];
+};
+
+export type FetchTrackPayload = {
+  __typename?: 'FetchTrackPayload';
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  trackRecord: TrackRecordType;
+};
+
 export type Filter = CheckBoxFilter | GroupFilter | HeaderFilter | SelectFilter | SeparatorFilter | SortFilter | TextFilter | TriStateFilter;
 
 export type FilterChangeInput = {
@@ -932,6 +943,7 @@ export type MangaType = {
   age?: Maybe<Scalars['LongString']['output']>;
   artist?: Maybe<Scalars['String']['output']>;
   author?: Maybe<Scalars['String']['output']>;
+  bookmarkCount: Scalars['Int']['output'];
   categories: CategoryNodeList;
   chapters: ChapterNodeList;
   chaptersAge?: Maybe<Scalars['LongString']['output']>;
@@ -1030,6 +1042,7 @@ export type Mutation = {
   fetchExtensions: FetchExtensionsPayload;
   fetchManga: FetchMangaPayload;
   fetchSourceManga: FetchSourceMangaPayload;
+  fetchTrack: FetchTrackPayload;
   installExternalExtension: InstallExternalExtensionPayload;
   loginTrackerCredentials: LoginTrackerCredentialsPayload;
   loginTrackerOAuth: LoginTrackerOAuthPayload;
@@ -1046,6 +1059,8 @@ export type Mutation = {
   setSourceMeta: SetSourceMetaPayload;
   startDownloader: StartDownloaderPayload;
   stopDownloader: StopDownloaderPayload;
+  trackProgress: TrackProgressPayload;
+  unbindTrack: UnbindTrackPayload;
   updateCategories: UpdateCategoriesPayload;
   updateCategory: UpdateCategoryPayload;
   updateCategoryManga: UpdateCategoryMangaPayload;
@@ -1176,6 +1191,11 @@ export type MutationFetchSourceMangaArgs = {
 };
 
 
+export type MutationFetchTrackArgs = {
+  input: FetchTrackInput;
+};
+
+
 export type MutationInstallExternalExtensionArgs = {
   input: InstallExternalExtensionInput;
 };
@@ -1248,6 +1268,16 @@ export type MutationStartDownloaderArgs = {
 
 export type MutationStopDownloaderArgs = {
   input: StopDownloaderInput;
+};
+
+
+export type MutationTrackProgressArgs = {
+  input: TrackProgressInput;
+};
+
+
+export type MutationUnbindTrackArgs = {
+  input: UnbindTrackInput;
 };
 
 
@@ -2047,6 +2077,17 @@ export type TextFilter = {
   name: Scalars['String']['output'];
 };
 
+export type TrackProgressInput = {
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  mangaId: Scalars['Int']['input'];
+};
+
+export type TrackProgressPayload = {
+  __typename?: 'TrackProgressPayload';
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  trackRecords: Array<TrackRecordType>;
+};
+
 export type TrackRecordConditionInput = {
   finishDate?: InputMaybe<Scalars['LongString']['input']>;
   id?: InputMaybe<Scalars['Int']['input']>;
@@ -2188,6 +2229,7 @@ export type TrackerType = {
   name: Scalars['String']['output'];
   scores: Array<Scalars['String']['output']>;
   statuses: Array<TrackStatusType>;
+  supportsTrackDeletion?: Maybe<Scalars['Boolean']['output']>;
   trackRecords: TrackRecordNodeList;
 };
 
@@ -2201,6 +2243,19 @@ export type TriStateFilter = {
   __typename?: 'TriStateFilter';
   default: TriState;
   name: Scalars['String']['output'];
+};
+
+export type UnbindTrackInput = {
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  /** This will only work if the tracker of the track record supports deleting tracks */
+  deleteRemoteTrack?: InputMaybe<Scalars['Boolean']['input']>;
+  recordId: Scalars['Int']['input'];
+};
+
+export type UnbindTrackPayload = {
+  __typename?: 'UnbindTrackPayload';
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  trackRecord?: Maybe<TrackRecordType>;
 };
 
 export type UpdateCategoriesInput = {
@@ -2449,7 +2504,6 @@ export type UpdateTrackInput = {
   scoreString?: InputMaybe<Scalars['String']['input']>;
   startDate?: InputMaybe<Scalars['LongString']['input']>;
   status?: InputMaybe<Scalars['Int']['input']>;
-  unbind?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type UpdateTrackPayload = {
