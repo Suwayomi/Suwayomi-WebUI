@@ -2032,7 +2032,7 @@
     prop-types "^15.8.1"
     react-is "^18.2.0"
 
-"@mui/x-date-pickers@^7.0.0":
+"@mui/x-date-pickers@^7.1.0":
   version "7.1.0"
   resolved "https://registry.yarnpkg.com/@mui/x-date-pickers/-/x-date-pickers-7.1.0.tgz#49562bcaaca9f5fb1b3aae05adf1ce694b1795e9"
   integrity sha512-1ufsYdbaOW0KJriAcu8NSwXRLVnzVgf8fvxPDbJU7Y981doNBPz02nwF8P2Fsza4aVgHNXnEl6ZzSzndxCbL8w==
@@ -4365,7 +4365,7 @@ graphql-ws@^5.14.0, graphql-ws@^5.16.0:
   resolved "https://registry.yarnpkg.com/graphql-ws/-/graphql-ws-5.16.0.tgz#849efe02f384b4332109329be01d74c345842729"
   integrity sha512-Ju2RCU2dQMgSKtArPbEtsK5gNLnsQyTNIo/T7cZNp96niC1x0KdJNZV0TIoilceBPQwfb5itrGl8pkFeOUMl4A==
 
-"graphql@14 - 16":
+"graphql@14 - 16", graphql@^16.8.1:
   version "16.8.1"
   resolved "https://registry.yarnpkg.com/graphql/-/graphql-16.8.1.tgz#1930a965bef1170603702acdb68aedd3f3cf6f07"
   integrity sha512-59LZHPdGZVh695Ud9lRzPBVTtlX9ZCV150Er2W43ro37wVof0ctenSaskPPjN7lVTIN8mSZt8PHUNKZuNQUuxw==
