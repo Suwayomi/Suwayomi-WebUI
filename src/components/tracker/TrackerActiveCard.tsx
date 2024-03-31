@@ -59,13 +59,12 @@ const TrackerActiveRemoveBind = ({
 }) => {
     const { t } = useTranslation();
 
-    // TODO - enable once server supports removing track binding on tracker source
-    // const [removeRemoteTracking, setRemoveRemoteTracking] = useState(false);
+    const [removeRemoteTracking, setRemoveRemoteTracking] = useState(false);
 
     const removeBind = () => {
         onClose();
         requestManager
-            .unbindTracker(trackRecord.id)
+            .unbindTracker(trackRecord.id, removeRemoteTracking)
             .response.then(() => makeToast(t('manga.action.track.remove.label.success'), 'success'))
             .catch(() => makeToast(t('manga.action.track.remove.label.error'), 'error'));
     };
@@ -99,15 +98,16 @@ const TrackerActiveRemoveBind = ({
                         </DialogTitle>
                         <DialogContent dividers>
                             <Typography>{t('manga.action.track.remove.dialog.label.description')}</Typography>
-                            {/* TODO - enable once server supports removing track binding on tracker source */}
-                            {/* <FormGroup> */}
-                            {/*    <CheckboxInput */}
-                            {/*        disabled={false} */}
-                            {/*        label={t('chapter.title')} */}
-                            {/*        checked={removeRemoteTracking} */}
-                            {/*        onChange={(_, checked) => setRemoveRemoteTracking(checked)} */}
-                            {/*    /> */}
-                            {/* </FormGroup> */}
+                            {tracker.supportsTrackDeletion && (
+                                <FormGroup>
+                                    <CheckboxInput
+                                        disabled={false}
+                                        label={t('chapter.title')}
+                                        checked={removeRemoteTracking}
+                                        onChange={(_, checked) => setRemoveRemoteTracking(checked)}
+                                    />
+                                </FormGroup>
+                            )}
                         </DialogContent>
                         <DialogActions>
                             <Button

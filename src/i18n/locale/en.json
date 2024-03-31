@@ -606,6 +606,7 @@
         "remove": {
           "dialog": {
             "label": {
+              "delete_remote_track": "Also remove from {{tracker}}",
               "description": "This will remove the tracking locally.",
               "title": "Remove {{tracker}} tracking?"
             }
