@@ -102,7 +102,9 @@ const TrackerActiveRemoveBind = ({
                                 <FormGroup>
                                     <CheckboxInput
                                         disabled={false}
-                                        label={t('chapter.title')}
+                                        label={t('manga.action.track.remove.dialog.label.delete_remote_track', {
+                                            tracker: tracker.name,
+                                        })}
                                         checked={removeRemoteTracking}
                                         onChange={(_, checked) => setRemoveRemoteTracking(checked)}
                                     />
