@@ -7,11 +7,7 @@
  */
 
 import gql from 'graphql-tag';
-import {
-    BASE_TRACK_RECORD_FIELDS,
-    QUERY_TRACK_RECORD_FIELDS,
-    FULL_TRACK_RECORD_FIELDS,
-} from '@/lib/graphql/Fragments.ts';
+import { BASE_TRACK_RECORD_FIELDS, QUERY_TRACK_RECORD_FIELDS } from '@/lib/graphql/Fragments.ts';
 
 export const TRACKER_LOGIN_OAUTH = gql`
     mutation TRACKER_LOGIN_OAUTH($input: LoginTrackerOAuthInput!) {
@@ -119,17 +115,6 @@ export const TRACKER_FETCH_BIND = gql`
         fetchTrack(input: { recordId: $recordId }) {
             trackRecord {
                 ...BASE_TRACK_RECORD_FIELDS
-            }
-        }
-    }
-`;
-
-export const TRACKER_REFRESH = gql`
-    ${FULL_TRACK_RECORD_FIELDS}
-    mutation TRACKER_REFRESH($input: FetchTrackInput!) {
-        fetchTrack(input: $input) {
-            trackRecord {
-                ...FULL_TRACK_RECORD_FIELDS
             }
         }
     }

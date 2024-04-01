@@ -7,3284 +7,6792 @@ export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> =
 export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string; }
-  String: { input: string; output: string; }
-  Boolean: { input: boolean; output: boolean; }
-  Int: { input: number; output: number; }
-  Float: { input: number; output: number; }
-  Cursor: { input: string; output: string; }
-  LongString: { input: string; output: string; }
-  Upload: { input: any; output: any; }
+    ID: { input: string; output: string };
+    String: { input: string; output: string };
+    Boolean: { input: boolean; output: boolean };
+    Int: { input: number; output: number };
+    Float: { input: number; output: number };
+    Cursor: { input: string; output: string };
+    LongString: { input: string; output: string };
+    Upload: { input: any; output: any };
 };
 
 export type AboutServerPayload = {
-  __typename?: 'AboutServerPayload';
-  buildTime: Scalars['LongString']['output'];
-  buildType: Scalars['String']['output'];
-  discord: Scalars['String']['output'];
-  github: Scalars['String']['output'];
-  name: Scalars['String']['output'];
-  revision: Scalars['String']['output'];
-  version: Scalars['String']['output'];
+    __typename?: 'AboutServerPayload';
+    buildTime: Scalars['LongString']['output'];
+    buildType: Scalars['String']['output'];
+    discord: Scalars['String']['output'];
+    github: Scalars['String']['output'];
+    name: Scalars['String']['output'];
+    revision: Scalars['String']['output'];
+    version: Scalars['String']['output'];
 };
 
 export type AboutWebUi = {
-  __typename?: 'AboutWebUI';
-  channel: Scalars['String']['output'];
-  tag: Scalars['String']['output'];
+    __typename?: 'AboutWebUI';
+    channel: Scalars['String']['output'];
+    tag: Scalars['String']['output'];
 };
 
 export enum BackupRestoreState {
-  Failure = 'FAILURE',
-  Idle = 'IDLE',
-  RestoringCategories = 'RESTORING_CATEGORIES',
-  RestoringManga = 'RESTORING_MANGA',
-  Success = 'SUCCESS'
+    Failure = 'FAILURE',
+    Idle = 'IDLE',
+    RestoringCategories = 'RESTORING_CATEGORIES',
+    RestoringManga = 'RESTORING_MANGA',
+    Success = 'SUCCESS',
 }
 
 export type BackupRestoreStatus = {
-  __typename?: 'BackupRestoreStatus';
-  mangaProgress: Scalars['Int']['output'];
-  state: BackupRestoreState;
-  totalManga: Scalars['Int']['output'];
+    __typename?: 'BackupRestoreStatus';
+    mangaProgress: Scalars['Int']['output'];
+    state: BackupRestoreState;
+    totalManga: Scalars['Int']['output'];
 };
 
 export type BindTrackInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  mangaId: Scalars['Int']['input'];
-  remoteId: Scalars['LongString']['input'];
-  trackerId: Scalars['Int']['input'];
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    mangaId: Scalars['Int']['input'];
+    remoteId: Scalars['LongString']['input'];
+    trackerId: Scalars['Int']['input'];
 };
 
 export type BindTrackPayload = {
-  __typename?: 'BindTrackPayload';
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  trackRecord: TrackRecordType;
+    __typename?: 'BindTrackPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    trackRecord: TrackRecordType;
 };
 
 export type BooleanFilterInput = {
-  distinctFrom?: InputMaybe<Scalars['Boolean']['input']>;
-  equalTo?: InputMaybe<Scalars['Boolean']['input']>;
-  greaterThan?: InputMaybe<Scalars['Boolean']['input']>;
-  greaterThanOrEqualTo?: InputMaybe<Scalars['Boolean']['input']>;
-  in?: InputMaybe<Array<Scalars['Boolean']['input']>>;
-  isNull?: InputMaybe<Scalars['Boolean']['input']>;
-  lessThan?: InputMaybe<Scalars['Boolean']['input']>;
-  lessThanOrEqualTo?: InputMaybe<Scalars['Boolean']['input']>;
-  notDistinctFrom?: InputMaybe<Scalars['Boolean']['input']>;
-  notEqualTo?: InputMaybe<Scalars['Boolean']['input']>;
-  notIn?: InputMaybe<Array<Scalars['Boolean']['input']>>;
+    distinctFrom?: InputMaybe<Scalars['Boolean']['input']>;
+    equalTo?: InputMaybe<Scalars['Boolean']['input']>;
+    greaterThan?: InputMaybe<Scalars['Boolean']['input']>;
+    greaterThanOrEqualTo?: InputMaybe<Scalars['Boolean']['input']>;
+    in?: InputMaybe<Array<Scalars['Boolean']['input']>>;
+    isNull?: InputMaybe<Scalars['Boolean']['input']>;
+    lessThan?: InputMaybe<Scalars['Boolean']['input']>;
+    lessThanOrEqualTo?: InputMaybe<Scalars['Boolean']['input']>;
+    notDistinctFrom?: InputMaybe<Scalars['Boolean']['input']>;
+    notEqualTo?: InputMaybe<Scalars['Boolean']['input']>;
+    notIn?: InputMaybe<Array<Scalars['Boolean']['input']>>;
 };
 
 export type CategoryConditionInput = {
-  default?: InputMaybe<Scalars['Boolean']['input']>;
-  id?: InputMaybe<Scalars['Int']['input']>;
-  name?: InputMaybe<Scalars['String']['input']>;
-  order?: InputMaybe<Scalars['Int']['input']>;
+    default?: InputMaybe<Scalars['Boolean']['input']>;
+    id?: InputMaybe<Scalars['Int']['input']>;
+    name?: InputMaybe<Scalars['String']['input']>;
+    order?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type CategoryEdge = Edge & {
-  __typename?: 'CategoryEdge';
-  cursor: Scalars['Cursor']['output'];
-  node: CategoryType;
+    __typename?: 'CategoryEdge';
+    cursor: Scalars['Cursor']['output'];
+    node: CategoryType;
 };
 
 export type CategoryFilterInput = {
-  and?: InputMaybe<Array<CategoryFilterInput>>;
-  default?: InputMaybe<BooleanFilterInput>;
-  id?: InputMaybe<IntFilterInput>;
-  name?: InputMaybe<StringFilterInput>;
-  not?: InputMaybe<CategoryFilterInput>;
-  or?: InputMaybe<Array<CategoryFilterInput>>;
-  order?: InputMaybe<IntFilterInput>;
+    and?: InputMaybe<Array<CategoryFilterInput>>;
+    default?: InputMaybe<BooleanFilterInput>;
+    id?: InputMaybe<IntFilterInput>;
+    name?: InputMaybe<StringFilterInput>;
+    not?: InputMaybe<CategoryFilterInput>;
+    or?: InputMaybe<Array<CategoryFilterInput>>;
+    order?: InputMaybe<IntFilterInput>;
 };
 
 export type CategoryMetaType = MetaType & {
-  __typename?: 'CategoryMetaType';
-  category: CategoryType;
-  categoryId: Scalars['Int']['output'];
-  key: Scalars['String']['output'];
-  value: Scalars['String']['output'];
+    __typename?: 'CategoryMetaType';
+    category: CategoryType;
+    categoryId: Scalars['Int']['output'];
+    key: Scalars['String']['output'];
+    value: Scalars['String']['output'];
 };
 
 export type CategoryMetaTypeInput = {
-  categoryId: Scalars['Int']['input'];
-  key: Scalars['String']['input'];
-  value: Scalars['String']['input'];
+    categoryId: Scalars['Int']['input'];
+    key: Scalars['String']['input'];
+    value: Scalars['String']['input'];
 };
 
 export type CategoryNodeList = NodeList & {
-  __typename?: 'CategoryNodeList';
-  edges: Array<CategoryEdge>;
-  nodes: Array<CategoryType>;
-  pageInfo: PageInfo;
-  totalCount: Scalars['Int']['output'];
+    __typename?: 'CategoryNodeList';
+    edges: Array<CategoryEdge>;
+    nodes: Array<CategoryType>;
+    pageInfo: PageInfo;
+    totalCount: Scalars['Int']['output'];
 };
 
 export enum CategoryOrderBy {
-  Id = 'ID',
-  Name = 'NAME',
-  Order = 'ORDER'
+    Id = 'ID',
+    Name = 'NAME',
+    Order = 'ORDER',
 }
 
 export type CategoryType = {
-  __typename?: 'CategoryType';
-  default: Scalars['Boolean']['output'];
-  id: Scalars['Int']['output'];
-  includeInDownload: IncludeOrExclude;
-  includeInUpdate: IncludeOrExclude;
-  mangas: MangaNodeList;
-  meta: Array<CategoryMetaType>;
-  name: Scalars['String']['output'];
-  order: Scalars['Int']['output'];
+    __typename?: 'CategoryType';
+    default: Scalars['Boolean']['output'];
+    id: Scalars['Int']['output'];
+    includeInDownload: IncludeOrExclude;
+    includeInUpdate: IncludeOrExclude;
+    mangas: MangaNodeList;
+    meta: Array<CategoryMetaType>;
+    name: Scalars['String']['output'];
+    order: Scalars['Int']['output'];
 };
 
 export type ChapterConditionInput = {
-  chapterNumber?: InputMaybe<Scalars['Float']['input']>;
-  fetchedAt?: InputMaybe<Scalars['LongString']['input']>;
-  id?: InputMaybe<Scalars['Int']['input']>;
-  isBookmarked?: InputMaybe<Scalars['Boolean']['input']>;
-  isDownloaded?: InputMaybe<Scalars['Boolean']['input']>;
-  isRead?: InputMaybe<Scalars['Boolean']['input']>;
-  lastPageRead?: InputMaybe<Scalars['Int']['input']>;
-  lastReadAt?: InputMaybe<Scalars['LongString']['input']>;
-  mangaId?: InputMaybe<Scalars['Int']['input']>;
-  name?: InputMaybe<Scalars['String']['input']>;
-  pageCount?: InputMaybe<Scalars['Int']['input']>;
-  realUrl?: InputMaybe<Scalars['String']['input']>;
-  scanlator?: InputMaybe<Scalars['String']['input']>;
-  sourceOrder?: InputMaybe<Scalars['Int']['input']>;
-  uploadDate?: InputMaybe<Scalars['LongString']['input']>;
-  url?: InputMaybe<Scalars['String']['input']>;
+    chapterNumber?: InputMaybe<Scalars['Float']['input']>;
+    fetchedAt?: InputMaybe<Scalars['LongString']['input']>;
+    id?: InputMaybe<Scalars['Int']['input']>;
+    isBookmarked?: InputMaybe<Scalars['Boolean']['input']>;
+    isDownloaded?: InputMaybe<Scalars['Boolean']['input']>;
+    isRead?: InputMaybe<Scalars['Boolean']['input']>;
+    lastPageRead?: InputMaybe<Scalars['Int']['input']>;
+    lastReadAt?: InputMaybe<Scalars['LongString']['input']>;
+    mangaId?: InputMaybe<Scalars['Int']['input']>;
+    name?: InputMaybe<Scalars['String']['input']>;
+    pageCount?: InputMaybe<Scalars['Int']['input']>;
+    realUrl?: InputMaybe<Scalars['String']['input']>;
+    scanlator?: InputMaybe<Scalars['String']['input']>;
+    sourceOrder?: InputMaybe<Scalars['Int']['input']>;
+    uploadDate?: InputMaybe<Scalars['LongString']['input']>;
+    url?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ChapterEdge = Edge & {
-  __typename?: 'ChapterEdge';
-  cursor: Scalars['Cursor']['output'];
-  node: ChapterType;
+    __typename?: 'ChapterEdge';
+    cursor: Scalars['Cursor']['output'];
+    node: ChapterType;
 };
 
 export type ChapterFilterInput = {
-  and?: InputMaybe<Array<ChapterFilterInput>>;
-  chapterNumber?: InputMaybe<FloatFilterInput>;
-  fetchedAt?: InputMaybe<LongFilterInput>;
-  id?: InputMaybe<IntFilterInput>;
-  inLibrary?: InputMaybe<BooleanFilterInput>;
-  isBookmarked?: InputMaybe<BooleanFilterInput>;
-  isDownloaded?: InputMaybe<BooleanFilterInput>;
-  isRead?: InputMaybe<BooleanFilterInput>;
-  lastPageRead?: InputMaybe<IntFilterInput>;
-  lastReadAt?: InputMaybe<LongFilterInput>;
-  mangaId?: InputMaybe<IntFilterInput>;
-  name?: InputMaybe<StringFilterInput>;
-  not?: InputMaybe<ChapterFilterInput>;
-  or?: InputMaybe<Array<ChapterFilterInput>>;
-  pageCount?: InputMaybe<IntFilterInput>;
-  realUrl?: InputMaybe<StringFilterInput>;
-  scanlator?: InputMaybe<StringFilterInput>;
-  sourceOrder?: InputMaybe<IntFilterInput>;
-  uploadDate?: InputMaybe<LongFilterInput>;
-  url?: InputMaybe<StringFilterInput>;
+    and?: InputMaybe<Array<ChapterFilterInput>>;
+    chapterNumber?: InputMaybe<FloatFilterInput>;
+    fetchedAt?: InputMaybe<LongFilterInput>;
+    id?: InputMaybe<IntFilterInput>;
+    inLibrary?: InputMaybe<BooleanFilterInput>;
+    isBookmarked?: InputMaybe<BooleanFilterInput>;
+    isDownloaded?: InputMaybe<BooleanFilterInput>;
+    isRead?: InputMaybe<BooleanFilterInput>;
+    lastPageRead?: InputMaybe<IntFilterInput>;
+    lastReadAt?: InputMaybe<LongFilterInput>;
+    mangaId?: InputMaybe<IntFilterInput>;
+    name?: InputMaybe<StringFilterInput>;
+    not?: InputMaybe<ChapterFilterInput>;
+    or?: InputMaybe<Array<ChapterFilterInput>>;
+    pageCount?: InputMaybe<IntFilterInput>;
+    realUrl?: InputMaybe<StringFilterInput>;
+    scanlator?: InputMaybe<StringFilterInput>;
+    sourceOrder?: InputMaybe<IntFilterInput>;
+    uploadDate?: InputMaybe<LongFilterInput>;
+    url?: InputMaybe<StringFilterInput>;
 };
 
 export type ChapterMetaType = MetaType & {
-  __typename?: 'ChapterMetaType';
-  chapter: ChapterType;
-  chapterId: Scalars['Int']['output'];
-  key: Scalars['String']['output'];
-  value: Scalars['String']['output'];
+    __typename?: 'ChapterMetaType';
+    chapter: ChapterType;
+    chapterId: Scalars['Int']['output'];
+    key: Scalars['String']['output'];
+    value: Scalars['String']['output'];
 };
 
 export type ChapterMetaTypeInput = {
-  chapterId: Scalars['Int']['input'];
-  key: Scalars['String']['input'];
-  value: Scalars['String']['input'];
+    chapterId: Scalars['Int']['input'];
+    key: Scalars['String']['input'];
+    value: Scalars['String']['input'];
 };
 
 export type ChapterNodeList = NodeList & {
-  __typename?: 'ChapterNodeList';
-  edges: Array<ChapterEdge>;
-  nodes: Array<ChapterType>;
-  pageInfo: PageInfo;
-  totalCount: Scalars['Int']['output'];
+    __typename?: 'ChapterNodeList';
+    edges: Array<ChapterEdge>;
+    nodes: Array<ChapterType>;
+    pageInfo: PageInfo;
+    totalCount: Scalars['Int']['output'];
 };
 
 export enum ChapterOrderBy {
-  ChapterNumber = 'CHAPTER_NUMBER',
-  FetchedAt = 'FETCHED_AT',
-  Id = 'ID',
-  LastReadAt = 'LAST_READ_AT',
-  Name = 'NAME',
-  SourceOrder = 'SOURCE_ORDER',
-  UploadDate = 'UPLOAD_DATE'
+    ChapterNumber = 'CHAPTER_NUMBER',
+    FetchedAt = 'FETCHED_AT',
+    Id = 'ID',
+    LastReadAt = 'LAST_READ_AT',
+    Name = 'NAME',
+    SourceOrder = 'SOURCE_ORDER',
+    UploadDate = 'UPLOAD_DATE',
 }
 
 export type ChapterType = {
-  __typename?: 'ChapterType';
-  chapterNumber: Scalars['Float']['output'];
-  fetchedAt: Scalars['LongString']['output'];
-  id: Scalars['Int']['output'];
-  isBookmarked: Scalars['Boolean']['output'];
-  isDownloaded: Scalars['Boolean']['output'];
-  isRead: Scalars['Boolean']['output'];
-  lastPageRead: Scalars['Int']['output'];
-  lastReadAt: Scalars['LongString']['output'];
-  manga: MangaType;
-  mangaId: Scalars['Int']['output'];
-  meta: Array<ChapterMetaType>;
-  name: Scalars['String']['output'];
-  pageCount: Scalars['Int']['output'];
-  realUrl?: Maybe<Scalars['String']['output']>;
-  scanlator?: Maybe<Scalars['String']['output']>;
-  sourceOrder: Scalars['Int']['output'];
-  uploadDate: Scalars['LongString']['output'];
-  url: Scalars['String']['output'];
+    __typename?: 'ChapterType';
+    chapterNumber: Scalars['Float']['output'];
+    fetchedAt: Scalars['LongString']['output'];
+    id: Scalars['Int']['output'];
+    isBookmarked: Scalars['Boolean']['output'];
+    isDownloaded: Scalars['Boolean']['output'];
+    isRead: Scalars['Boolean']['output'];
+    lastPageRead: Scalars['Int']['output'];
+    lastReadAt: Scalars['LongString']['output'];
+    manga: MangaType;
+    mangaId: Scalars['Int']['output'];
+    meta: Array<ChapterMetaType>;
+    name: Scalars['String']['output'];
+    pageCount: Scalars['Int']['output'];
+    realUrl?: Maybe<Scalars['String']['output']>;
+    scanlator?: Maybe<Scalars['String']['output']>;
+    sourceOrder: Scalars['Int']['output'];
+    uploadDate: Scalars['LongString']['output'];
+    url: Scalars['String']['output'];
 };
 
 export type CheckBoxFilter = {
-  __typename?: 'CheckBoxFilter';
-  default: Scalars['Boolean']['output'];
-  name: Scalars['String']['output'];
+    __typename?: 'CheckBoxFilter';
+    default: Scalars['Boolean']['output'];
+    name: Scalars['String']['output'];
 };
 
 export type CheckBoxPreference = {
-  __typename?: 'CheckBoxPreference';
-  currentValue?: Maybe<Scalars['Boolean']['output']>;
-  default: Scalars['Boolean']['output'];
-  key: Scalars['String']['output'];
-  summary?: Maybe<Scalars['String']['output']>;
-  title: Scalars['String']['output'];
-  visible: Scalars['Boolean']['output'];
+    __typename?: 'CheckBoxPreference';
+    currentValue?: Maybe<Scalars['Boolean']['output']>;
+    default: Scalars['Boolean']['output'];
+    key: Scalars['String']['output'];
+    summary?: Maybe<Scalars['String']['output']>;
+    title: Scalars['String']['output'];
+    visible: Scalars['Boolean']['output'];
 };
 
 export type CheckForServerUpdatesPayload = {
-  __typename?: 'CheckForServerUpdatesPayload';
-  channel: Scalars['String']['output'];
-  tag: Scalars['String']['output'];
-  url: Scalars['String']['output'];
+    __typename?: 'CheckForServerUpdatesPayload';
+    channel: Scalars['String']['output'];
+    tag: Scalars['String']['output'];
+    url: Scalars['String']['output'];
 };
 
 export type ClearCachedImagesInput = {
-  cachedPages?: InputMaybe<Scalars['Boolean']['input']>;
-  cachedThumbnails?: InputMaybe<Scalars['Boolean']['input']>;
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  downloadedThumbnails?: InputMaybe<Scalars['Boolean']['input']>;
+    cachedPages?: InputMaybe<Scalars['Boolean']['input']>;
+    cachedThumbnails?: InputMaybe<Scalars['Boolean']['input']>;
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    downloadedThumbnails?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type ClearCachedImagesPayload = {
-  __typename?: 'ClearCachedImagesPayload';
-  cachedPages?: Maybe<Scalars['Boolean']['output']>;
-  cachedThumbnails?: Maybe<Scalars['Boolean']['output']>;
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  downloadedThumbnails?: Maybe<Scalars['Boolean']['output']>;
+    __typename?: 'ClearCachedImagesPayload';
+    cachedPages?: Maybe<Scalars['Boolean']['output']>;
+    cachedThumbnails?: Maybe<Scalars['Boolean']['output']>;
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    downloadedThumbnails?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type ClearDownloaderInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ClearDownloaderPayload = {
-  __typename?: 'ClearDownloaderPayload';
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  downloadStatus: DownloadStatus;
+    __typename?: 'ClearDownloaderPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    downloadStatus: DownloadStatus;
 };
 
 export type CreateBackupInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  includeCategories?: InputMaybe<Scalars['Boolean']['input']>;
-  includeChapters?: InputMaybe<Scalars['Boolean']['input']>;
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    includeCategories?: InputMaybe<Scalars['Boolean']['input']>;
+    includeChapters?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type CreateBackupPayload = {
-  __typename?: 'CreateBackupPayload';
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  url: Scalars['String']['output'];
+    __typename?: 'CreateBackupPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    url: Scalars['String']['output'];
 };
 
 export type CreateCategoryInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  default?: InputMaybe<Scalars['Boolean']['input']>;
-  includeInDownload?: InputMaybe<IncludeOrExclude>;
-  includeInUpdate?: InputMaybe<IncludeOrExclude>;
-  name: Scalars['String']['input'];
-  order?: InputMaybe<Scalars['Int']['input']>;
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    default?: InputMaybe<Scalars['Boolean']['input']>;
+    includeInDownload?: InputMaybe<IncludeOrExclude>;
+    includeInUpdate?: InputMaybe<IncludeOrExclude>;
+    name: Scalars['String']['input'];
+    order?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type CreateCategoryPayload = {
-  __typename?: 'CreateCategoryPayload';
-  category: CategoryType;
-  clientMutationId?: Maybe<Scalars['String']['output']>;
+    __typename?: 'CreateCategoryPayload';
+    category: CategoryType;
+    clientMutationId?: Maybe<Scalars['String']['output']>;
 };
 
 export type DeleteCategoryInput = {
-  categoryId: Scalars['Int']['input'];
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    categoryId: Scalars['Int']['input'];
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type DeleteCategoryMetaInput = {
-  categoryId: Scalars['Int']['input'];
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  key: Scalars['String']['input'];
+    categoryId: Scalars['Int']['input'];
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    key: Scalars['String']['input'];
 };
 
 export type DeleteCategoryMetaPayload = {
-  __typename?: 'DeleteCategoryMetaPayload';
-  category: CategoryType;
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  meta?: Maybe<CategoryMetaType>;
+    __typename?: 'DeleteCategoryMetaPayload';
+    category: CategoryType;
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    meta?: Maybe<CategoryMetaType>;
 };
 
 export type DeleteCategoryPayload = {
-  __typename?: 'DeleteCategoryPayload';
-  category?: Maybe<CategoryType>;
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  mangas: Array<MangaType>;
+    __typename?: 'DeleteCategoryPayload';
+    category?: Maybe<CategoryType>;
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    mangas: Array<MangaType>;
 };
 
 export type DeleteChapterMetaInput = {
-  chapterId: Scalars['Int']['input'];
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  key: Scalars['String']['input'];
+    chapterId: Scalars['Int']['input'];
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    key: Scalars['String']['input'];
 };
 
 export type DeleteChapterMetaPayload = {
-  __typename?: 'DeleteChapterMetaPayload';
-  chapter: ChapterType;
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  meta?: Maybe<ChapterMetaType>;
+    __typename?: 'DeleteChapterMetaPayload';
+    chapter: ChapterType;
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    meta?: Maybe<ChapterMetaType>;
 };
 
 export type DeleteDownloadedChapterInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  id: Scalars['Int']['input'];
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    id: Scalars['Int']['input'];
 };
 
 export type DeleteDownloadedChapterPayload = {
-  __typename?: 'DeleteDownloadedChapterPayload';
-  chapters: ChapterType;
-  clientMutationId?: Maybe<Scalars['String']['output']>;
+    __typename?: 'DeleteDownloadedChapterPayload';
+    chapters: ChapterType;
+    clientMutationId?: Maybe<Scalars['String']['output']>;
 };
 
 export type DeleteDownloadedChaptersInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  ids: Array<Scalars['Int']['input']>;
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    ids: Array<Scalars['Int']['input']>;
 };
 
 export type DeleteDownloadedChaptersPayload = {
-  __typename?: 'DeleteDownloadedChaptersPayload';
-  chapters: Array<ChapterType>;
-  clientMutationId?: Maybe<Scalars['String']['output']>;
+    __typename?: 'DeleteDownloadedChaptersPayload';
+    chapters: Array<ChapterType>;
+    clientMutationId?: Maybe<Scalars['String']['output']>;
 };
 
 export type DeleteGlobalMetaInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  key: Scalars['String']['input'];
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    key: Scalars['String']['input'];
 };
 
 export type DeleteGlobalMetaPayload = {
-  __typename?: 'DeleteGlobalMetaPayload';
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  meta?: Maybe<GlobalMetaType>;
+    __typename?: 'DeleteGlobalMetaPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    meta?: Maybe<GlobalMetaType>;
 };
 
 export type DeleteMangaMetaInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  key: Scalars['String']['input'];
-  mangaId: Scalars['Int']['input'];
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    key: Scalars['String']['input'];
+    mangaId: Scalars['Int']['input'];
 };
 
 export type DeleteMangaMetaPayload = {
-  __typename?: 'DeleteMangaMetaPayload';
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  manga: MangaType;
-  meta?: Maybe<MangaMetaType>;
+    __typename?: 'DeleteMangaMetaPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    manga: MangaType;
+    meta?: Maybe<MangaMetaType>;
 };
 
 export type DeleteSourceMetaInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  key: Scalars['String']['input'];
-  sourceId: Scalars['LongString']['input'];
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    key: Scalars['String']['input'];
+    sourceId: Scalars['LongString']['input'];
 };
 
 export type DeleteSourceMetaPayload = {
-  __typename?: 'DeleteSourceMetaPayload';
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  meta?: Maybe<SourceMetaType>;
-  source?: Maybe<SourceType>;
+    __typename?: 'DeleteSourceMetaPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    meta?: Maybe<SourceMetaType>;
+    source?: Maybe<SourceType>;
 };
 
 export type DequeueChapterDownloadInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  id: Scalars['Int']['input'];
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    id: Scalars['Int']['input'];
 };
 
 export type DequeueChapterDownloadPayload = {
-  __typename?: 'DequeueChapterDownloadPayload';
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  downloadStatus: DownloadStatus;
+    __typename?: 'DequeueChapterDownloadPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    downloadStatus: DownloadStatus;
 };
 
 export type DequeueChapterDownloadsInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  ids: Array<Scalars['Int']['input']>;
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    ids: Array<Scalars['Int']['input']>;
 };
 
 export type DequeueChapterDownloadsPayload = {
-  __typename?: 'DequeueChapterDownloadsPayload';
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  downloadStatus: DownloadStatus;
+    __typename?: 'DequeueChapterDownloadsPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    downloadStatus: DownloadStatus;
 };
 
 export type DoubleFilterInput = {
-  distinctFrom?: InputMaybe<Scalars['Float']['input']>;
-  equalTo?: InputMaybe<Scalars['Float']['input']>;
-  greaterThan?: InputMaybe<Scalars['Float']['input']>;
-  greaterThanOrEqualTo?: InputMaybe<Scalars['Float']['input']>;
-  in?: InputMaybe<Array<Scalars['Float']['input']>>;
-  isNull?: InputMaybe<Scalars['Boolean']['input']>;
-  lessThan?: InputMaybe<Scalars['Float']['input']>;
-  lessThanOrEqualTo?: InputMaybe<Scalars['Float']['input']>;
-  notDistinctFrom?: InputMaybe<Scalars['Float']['input']>;
-  notEqualTo?: InputMaybe<Scalars['Float']['input']>;
-  notIn?: InputMaybe<Array<Scalars['Float']['input']>>;
+    distinctFrom?: InputMaybe<Scalars['Float']['input']>;
+    equalTo?: InputMaybe<Scalars['Float']['input']>;
+    greaterThan?: InputMaybe<Scalars['Float']['input']>;
+    greaterThanOrEqualTo?: InputMaybe<Scalars['Float']['input']>;
+    in?: InputMaybe<Array<Scalars['Float']['input']>>;
+    isNull?: InputMaybe<Scalars['Boolean']['input']>;
+    lessThan?: InputMaybe<Scalars['Float']['input']>;
+    lessThanOrEqualTo?: InputMaybe<Scalars['Float']['input']>;
+    notDistinctFrom?: InputMaybe<Scalars['Float']['input']>;
+    notEqualTo?: InputMaybe<Scalars['Float']['input']>;
+    notIn?: InputMaybe<Array<Scalars['Float']['input']>>;
 };
 
 export type DownloadEdge = Edge & {
-  __typename?: 'DownloadEdge';
-  cursor: Scalars['Cursor']['output'];
-  node: DownloadType;
+    __typename?: 'DownloadEdge';
+    cursor: Scalars['Cursor']['output'];
+    node: DownloadType;
 };
 
 export type DownloadNodeList = NodeList & {
-  __typename?: 'DownloadNodeList';
-  edges: Array<DownloadEdge>;
-  nodes: Array<DownloadType>;
-  pageInfo: PageInfo;
-  totalCount: Scalars['Int']['output'];
+    __typename?: 'DownloadNodeList';
+    edges: Array<DownloadEdge>;
+    nodes: Array<DownloadType>;
+    pageInfo: PageInfo;
+    totalCount: Scalars['Int']['output'];
 };
 
 export enum DownloadState {
-  Downloading = 'DOWNLOADING',
-  Error = 'ERROR',
-  Finished = 'FINISHED',
-  Queued = 'QUEUED'
+    Downloading = 'DOWNLOADING',
+    Error = 'ERROR',
+    Finished = 'FINISHED',
+    Queued = 'QUEUED',
 }
 
 export type DownloadStatus = {
-  __typename?: 'DownloadStatus';
-  queue: Array<DownloadType>;
-  state: DownloaderState;
+    __typename?: 'DownloadStatus';
+    queue: Array<DownloadType>;
+    state: DownloaderState;
 };
 
 export type DownloadType = {
-  __typename?: 'DownloadType';
-  chapter: ChapterType;
-  manga: MangaType;
-  progress: Scalars['Float']['output'];
-  state: DownloadState;
-  tries: Scalars['Int']['output'];
+    __typename?: 'DownloadType';
+    chapter: ChapterType;
+    manga: MangaType;
+    progress: Scalars['Float']['output'];
+    state: DownloadState;
+    tries: Scalars['Int']['output'];
 };
 
 export enum DownloaderState {
-  Started = 'STARTED',
-  Stopped = 'STOPPED'
+    Started = 'STARTED',
+    Stopped = 'STOPPED',
 }
 
 export type Edge = {
-  /** A cursor for use in pagination. */
-  cursor: Scalars['Cursor']['output'];
-  /** The [T] at the end of the edge. */
-  node: Node;
+    /** A cursor for use in pagination. */
+    cursor: Scalars['Cursor']['output'];
+    /** The [T] at the end of the edge. */
+    node: Node;
 };
 
 export type EditTextPreference = {
-  __typename?: 'EditTextPreference';
-  currentValue?: Maybe<Scalars['String']['output']>;
-  default?: Maybe<Scalars['String']['output']>;
-  dialogMessage?: Maybe<Scalars['String']['output']>;
-  dialogTitle?: Maybe<Scalars['String']['output']>;
-  key: Scalars['String']['output'];
-  summary?: Maybe<Scalars['String']['output']>;
-  text?: Maybe<Scalars['String']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
-  visible: Scalars['Boolean']['output'];
+    __typename?: 'EditTextPreference';
+    currentValue?: Maybe<Scalars['String']['output']>;
+    default?: Maybe<Scalars['String']['output']>;
+    dialogMessage?: Maybe<Scalars['String']['output']>;
+    dialogTitle?: Maybe<Scalars['String']['output']>;
+    key: Scalars['String']['output'];
+    summary?: Maybe<Scalars['String']['output']>;
+    text?: Maybe<Scalars['String']['output']>;
+    title?: Maybe<Scalars['String']['output']>;
+    visible: Scalars['Boolean']['output'];
 };
 
 export type EnqueueChapterDownloadInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  id: Scalars['Int']['input'];
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    id: Scalars['Int']['input'];
 };
 
 export type EnqueueChapterDownloadPayload = {
-  __typename?: 'EnqueueChapterDownloadPayload';
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  downloadStatus: DownloadStatus;
+    __typename?: 'EnqueueChapterDownloadPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    downloadStatus: DownloadStatus;
 };
 
 export type EnqueueChapterDownloadsInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  ids: Array<Scalars['Int']['input']>;
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    ids: Array<Scalars['Int']['input']>;
 };
 
 export type EnqueueChapterDownloadsPayload = {
-  __typename?: 'EnqueueChapterDownloadsPayload';
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  downloadStatus: DownloadStatus;
+    __typename?: 'EnqueueChapterDownloadsPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    downloadStatus: DownloadStatus;
 };
 
 export type ExtensionConditionInput = {
-  apkName?: InputMaybe<Scalars['String']['input']>;
-  hasUpdate?: InputMaybe<Scalars['Boolean']['input']>;
-  iconUrl?: InputMaybe<Scalars['String']['input']>;
-  isInstalled?: InputMaybe<Scalars['Boolean']['input']>;
-  isNsfw?: InputMaybe<Scalars['Boolean']['input']>;
-  isObsolete?: InputMaybe<Scalars['Boolean']['input']>;
-  lang?: InputMaybe<Scalars['String']['input']>;
-  name?: InputMaybe<Scalars['String']['input']>;
-  pkgName?: InputMaybe<Scalars['String']['input']>;
-  repo?: InputMaybe<Scalars['String']['input']>;
-  versionCode?: InputMaybe<Scalars['Int']['input']>;
-  versionName?: InputMaybe<Scalars['String']['input']>;
+    apkName?: InputMaybe<Scalars['String']['input']>;
+    hasUpdate?: InputMaybe<Scalars['Boolean']['input']>;
+    iconUrl?: InputMaybe<Scalars['String']['input']>;
+    isInstalled?: InputMaybe<Scalars['Boolean']['input']>;
+    isNsfw?: InputMaybe<Scalars['Boolean']['input']>;
+    isObsolete?: InputMaybe<Scalars['Boolean']['input']>;
+    lang?: InputMaybe<Scalars['String']['input']>;
+    name?: InputMaybe<Scalars['String']['input']>;
+    pkgName?: InputMaybe<Scalars['String']['input']>;
+    repo?: InputMaybe<Scalars['String']['input']>;
+    versionCode?: InputMaybe<Scalars['Int']['input']>;
+    versionName?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ExtensionEdge = Edge & {
-  __typename?: 'ExtensionEdge';
-  cursor: Scalars['Cursor']['output'];
-  node: ExtensionType;
+    __typename?: 'ExtensionEdge';
+    cursor: Scalars['Cursor']['output'];
+    node: ExtensionType;
 };
 
 export type ExtensionFilterInput = {
-  and?: InputMaybe<Array<ExtensionFilterInput>>;
-  apkName?: InputMaybe<StringFilterInput>;
-  hasUpdate?: InputMaybe<BooleanFilterInput>;
-  iconUrl?: InputMaybe<StringFilterInput>;
-  isInstalled?: InputMaybe<BooleanFilterInput>;
-  isNsfw?: InputMaybe<BooleanFilterInput>;
-  isObsolete?: InputMaybe<BooleanFilterInput>;
-  lang?: InputMaybe<StringFilterInput>;
-  name?: InputMaybe<StringFilterInput>;
-  not?: InputMaybe<ExtensionFilterInput>;
-  or?: InputMaybe<Array<ExtensionFilterInput>>;
-  pkgName?: InputMaybe<StringFilterInput>;
-  repo?: InputMaybe<StringFilterInput>;
-  versionCode?: InputMaybe<IntFilterInput>;
-  versionName?: InputMaybe<StringFilterInput>;
+    and?: InputMaybe<Array<ExtensionFilterInput>>;
+    apkName?: InputMaybe<StringFilterInput>;
+    hasUpdate?: InputMaybe<BooleanFilterInput>;
+    iconUrl?: InputMaybe<StringFilterInput>;
+    isInstalled?: InputMaybe<BooleanFilterInput>;
+    isNsfw?: InputMaybe<BooleanFilterInput>;
+    isObsolete?: InputMaybe<BooleanFilterInput>;
+    lang?: InputMaybe<StringFilterInput>;
+    name?: InputMaybe<StringFilterInput>;
+    not?: InputMaybe<ExtensionFilterInput>;
+    or?: InputMaybe<Array<ExtensionFilterInput>>;
+    pkgName?: InputMaybe<StringFilterInput>;
+    repo?: InputMaybe<StringFilterInput>;
+    versionCode?: InputMaybe<IntFilterInput>;
+    versionName?: InputMaybe<StringFilterInput>;
 };
 
 export type ExtensionNodeList = NodeList & {
-  __typename?: 'ExtensionNodeList';
-  edges: Array<ExtensionEdge>;
-  nodes: Array<ExtensionType>;
-  pageInfo: PageInfo;
-  totalCount: Scalars['Int']['output'];
+    __typename?: 'ExtensionNodeList';
+    edges: Array<ExtensionEdge>;
+    nodes: Array<ExtensionType>;
+    pageInfo: PageInfo;
+    totalCount: Scalars['Int']['output'];
 };
 
 export enum ExtensionOrderBy {
-  ApkName = 'APK_NAME',
-  Name = 'NAME',
-  PkgName = 'PKG_NAME'
+    ApkName = 'APK_NAME',
+    Name = 'NAME',
+    PkgName = 'PKG_NAME',
 }
 
 export type ExtensionType = {
-  __typename?: 'ExtensionType';
-  apkName: Scalars['String']['output'];
-  hasUpdate: Scalars['Boolean']['output'];
-  iconUrl: Scalars['String']['output'];
-  isInstalled: Scalars['Boolean']['output'];
-  isNsfw: Scalars['Boolean']['output'];
-  isObsolete: Scalars['Boolean']['output'];
-  lang: Scalars['String']['output'];
-  name: Scalars['String']['output'];
-  pkgName: Scalars['String']['output'];
-  repo?: Maybe<Scalars['String']['output']>;
-  source: SourceNodeList;
-  versionCode: Scalars['Int']['output'];
-  versionName: Scalars['String']['output'];
+    __typename?: 'ExtensionType';
+    apkName: Scalars['String']['output'];
+    hasUpdate: Scalars['Boolean']['output'];
+    iconUrl: Scalars['String']['output'];
+    isInstalled: Scalars['Boolean']['output'];
+    isNsfw: Scalars['Boolean']['output'];
+    isObsolete: Scalars['Boolean']['output'];
+    lang: Scalars['String']['output'];
+    name: Scalars['String']['output'];
+    pkgName: Scalars['String']['output'];
+    repo?: Maybe<Scalars['String']['output']>;
+    source: SourceNodeList;
+    versionCode: Scalars['Int']['output'];
+    versionName: Scalars['String']['output'];
 };
 
 export type FetchChapterPagesInput = {
-  chapterId: Scalars['Int']['input'];
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    chapterId: Scalars['Int']['input'];
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type FetchChapterPagesPayload = {
-  __typename?: 'FetchChapterPagesPayload';
-  chapter: ChapterType;
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  pages: Array<Scalars['String']['output']>;
+    __typename?: 'FetchChapterPagesPayload';
+    chapter: ChapterType;
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    pages: Array<Scalars['String']['output']>;
 };
 
 export type FetchChaptersInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  mangaId: Scalars['Int']['input'];
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    mangaId: Scalars['Int']['input'];
 };
 
 export type FetchChaptersPayload = {
-  __typename?: 'FetchChaptersPayload';
-  chapters: Array<ChapterType>;
-  clientMutationId?: Maybe<Scalars['String']['output']>;
+    __typename?: 'FetchChaptersPayload';
+    chapters: Array<ChapterType>;
+    clientMutationId?: Maybe<Scalars['String']['output']>;
 };
 
 export type FetchExtensionsInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type FetchExtensionsPayload = {
-  __typename?: 'FetchExtensionsPayload';
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  extensions: Array<ExtensionType>;
+    __typename?: 'FetchExtensionsPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    extensions: Array<ExtensionType>;
 };
 
 export type FetchMangaInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  id: Scalars['Int']['input'];
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    id: Scalars['Int']['input'];
 };
 
 export type FetchMangaPayload = {
-  __typename?: 'FetchMangaPayload';
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  manga: MangaType;
+    __typename?: 'FetchMangaPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    manga: MangaType;
 };
 
 export type FetchSourceMangaInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  filters?: InputMaybe<Array<FilterChangeInput>>;
-  page: Scalars['Int']['input'];
-  query?: InputMaybe<Scalars['String']['input']>;
-  source: Scalars['LongString']['input'];
-  type: FetchSourceMangaType;
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    filters?: InputMaybe<Array<FilterChangeInput>>;
+    page: Scalars['Int']['input'];
+    query?: InputMaybe<Scalars['String']['input']>;
+    source: Scalars['LongString']['input'];
+    type: FetchSourceMangaType;
 };
 
 export type FetchSourceMangaPayload = {
-  __typename?: 'FetchSourceMangaPayload';
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  hasNextPage: Scalars['Boolean']['output'];
-  mangas: Array<MangaType>;
+    __typename?: 'FetchSourceMangaPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    hasNextPage: Scalars['Boolean']['output'];
+    mangas: Array<MangaType>;
 };
 
 export enum FetchSourceMangaType {
-  Latest = 'LATEST',
-  Popular = 'POPULAR',
-  Search = 'SEARCH'
+    Latest = 'LATEST',
+    Popular = 'POPULAR',
+    Search = 'SEARCH',
 }
 
 export type FetchTrackInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  recordId: Scalars['Int']['input'];
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    recordId: Scalars['Int']['input'];
 };
 
 export type FetchTrackPayload = {
-  __typename?: 'FetchTrackPayload';
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  trackRecord: TrackRecordType;
+    __typename?: 'FetchTrackPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    trackRecord: TrackRecordType;
 };
 
-export type Filter = CheckBoxFilter | GroupFilter | HeaderFilter | SelectFilter | SeparatorFilter | SortFilter | TextFilter | TriStateFilter;
+export type Filter =
+    | CheckBoxFilter
+    | GroupFilter
+    | HeaderFilter
+    | SelectFilter
+    | SeparatorFilter
+    | SortFilter
+    | TextFilter
+    | TriStateFilter;
 
 export type FilterChangeInput = {
-  checkBoxState?: InputMaybe<Scalars['Boolean']['input']>;
-  groupChange?: InputMaybe<FilterChangeInput>;
-  position: Scalars['Int']['input'];
-  selectState?: InputMaybe<Scalars['Int']['input']>;
-  sortState?: InputMaybe<SortSelectionInput>;
-  textState?: InputMaybe<Scalars['String']['input']>;
-  triState?: InputMaybe<TriState>;
+    checkBoxState?: InputMaybe<Scalars['Boolean']['input']>;
+    groupChange?: InputMaybe<FilterChangeInput>;
+    position: Scalars['Int']['input'];
+    selectState?: InputMaybe<Scalars['Int']['input']>;
+    sortState?: InputMaybe<SortSelectionInput>;
+    textState?: InputMaybe<Scalars['String']['input']>;
+    triState?: InputMaybe<TriState>;
 };
 
 export type FloatFilterInput = {
-  distinctFrom?: InputMaybe<Scalars['Float']['input']>;
-  equalTo?: InputMaybe<Scalars['Float']['input']>;
-  greaterThan?: InputMaybe<Scalars['Float']['input']>;
-  greaterThanOrEqualTo?: InputMaybe<Scalars['Float']['input']>;
-  in?: InputMaybe<Array<Scalars['Float']['input']>>;
-  isNull?: InputMaybe<Scalars['Boolean']['input']>;
-  lessThan?: InputMaybe<Scalars['Float']['input']>;
-  lessThanOrEqualTo?: InputMaybe<Scalars['Float']['input']>;
-  notDistinctFrom?: InputMaybe<Scalars['Float']['input']>;
-  notEqualTo?: InputMaybe<Scalars['Float']['input']>;
-  notIn?: InputMaybe<Array<Scalars['Float']['input']>>;
+    distinctFrom?: InputMaybe<Scalars['Float']['input']>;
+    equalTo?: InputMaybe<Scalars['Float']['input']>;
+    greaterThan?: InputMaybe<Scalars['Float']['input']>;
+    greaterThanOrEqualTo?: InputMaybe<Scalars['Float']['input']>;
+    in?: InputMaybe<Array<Scalars['Float']['input']>>;
+    isNull?: InputMaybe<Scalars['Boolean']['input']>;
+    lessThan?: InputMaybe<Scalars['Float']['input']>;
+    lessThanOrEqualTo?: InputMaybe<Scalars['Float']['input']>;
+    notDistinctFrom?: InputMaybe<Scalars['Float']['input']>;
+    notEqualTo?: InputMaybe<Scalars['Float']['input']>;
+    notIn?: InputMaybe<Array<Scalars['Float']['input']>>;
 };
 
 export type GlobalMetaNodeList = NodeList & {
-  __typename?: 'GlobalMetaNodeList';
-  edges: Array<MetaEdge>;
-  nodes: Array<GlobalMetaType>;
-  pageInfo: PageInfo;
-  totalCount: Scalars['Int']['output'];
+    __typename?: 'GlobalMetaNodeList';
+    edges: Array<MetaEdge>;
+    nodes: Array<GlobalMetaType>;
+    pageInfo: PageInfo;
+    totalCount: Scalars['Int']['output'];
 };
 
 export type GlobalMetaType = MetaType & {
-  __typename?: 'GlobalMetaType';
-  key: Scalars['String']['output'];
-  value: Scalars['String']['output'];
+    __typename?: 'GlobalMetaType';
+    key: Scalars['String']['output'];
+    value: Scalars['String']['output'];
 };
 
 export type GlobalMetaTypeInput = {
-  key: Scalars['String']['input'];
-  value: Scalars['String']['input'];
+    key: Scalars['String']['input'];
+    value: Scalars['String']['input'];
 };
 
 export type GroupFilter = {
-  __typename?: 'GroupFilter';
-  filters: Array<Filter>;
-  name: Scalars['String']['output'];
+    __typename?: 'GroupFilter';
+    filters: Array<Filter>;
+    name: Scalars['String']['output'];
 };
 
 export type HeaderFilter = {
-  __typename?: 'HeaderFilter';
-  name: Scalars['String']['output'];
+    __typename?: 'HeaderFilter';
+    name: Scalars['String']['output'];
 };
 
 export enum IncludeOrExclude {
-  Exclude = 'EXCLUDE',
-  Include = 'INCLUDE',
-  Unset = 'UNSET'
+    Exclude = 'EXCLUDE',
+    Include = 'INCLUDE',
+    Unset = 'UNSET',
 }
 
 export type InstallExternalExtensionInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  extensionFile: Scalars['Upload']['input'];
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    extensionFile: Scalars['Upload']['input'];
 };
 
 export type InstallExternalExtensionPayload = {
-  __typename?: 'InstallExternalExtensionPayload';
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  extension: ExtensionType;
+    __typename?: 'InstallExternalExtensionPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    extension: ExtensionType;
 };
 
 export type IntFilterInput = {
-  distinctFrom?: InputMaybe<Scalars['Int']['input']>;
-  equalTo?: InputMaybe<Scalars['Int']['input']>;
-  greaterThan?: InputMaybe<Scalars['Int']['input']>;
-  greaterThanOrEqualTo?: InputMaybe<Scalars['Int']['input']>;
-  in?: InputMaybe<Array<Scalars['Int']['input']>>;
-  isNull?: InputMaybe<Scalars['Boolean']['input']>;
-  lessThan?: InputMaybe<Scalars['Int']['input']>;
-  lessThanOrEqualTo?: InputMaybe<Scalars['Int']['input']>;
-  notDistinctFrom?: InputMaybe<Scalars['Int']['input']>;
-  notEqualTo?: InputMaybe<Scalars['Int']['input']>;
-  notIn?: InputMaybe<Array<Scalars['Int']['input']>>;
+    distinctFrom?: InputMaybe<Scalars['Int']['input']>;
+    equalTo?: InputMaybe<Scalars['Int']['input']>;
+    greaterThan?: InputMaybe<Scalars['Int']['input']>;
+    greaterThanOrEqualTo?: InputMaybe<Scalars['Int']['input']>;
+    in?: InputMaybe<Array<Scalars['Int']['input']>>;
+    isNull?: InputMaybe<Scalars['Boolean']['input']>;
+    lessThan?: InputMaybe<Scalars['Int']['input']>;
+    lessThanOrEqualTo?: InputMaybe<Scalars['Int']['input']>;
+    notDistinctFrom?: InputMaybe<Scalars['Int']['input']>;
+    notEqualTo?: InputMaybe<Scalars['Int']['input']>;
+    notIn?: InputMaybe<Array<Scalars['Int']['input']>>;
 };
 
 export type LastUpdateTimestampPayload = {
-  __typename?: 'LastUpdateTimestampPayload';
-  timestamp: Scalars['LongString']['output'];
+    __typename?: 'LastUpdateTimestampPayload';
+    timestamp: Scalars['LongString']['output'];
 };
 
 export type ListPreference = {
-  __typename?: 'ListPreference';
-  currentValue?: Maybe<Scalars['String']['output']>;
-  default?: Maybe<Scalars['String']['output']>;
-  entries: Array<Scalars['String']['output']>;
-  entryValues: Array<Scalars['String']['output']>;
-  key: Scalars['String']['output'];
-  summary?: Maybe<Scalars['String']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
-  visible: Scalars['Boolean']['output'];
+    __typename?: 'ListPreference';
+    currentValue?: Maybe<Scalars['String']['output']>;
+    default?: Maybe<Scalars['String']['output']>;
+    entries: Array<Scalars['String']['output']>;
+    entryValues: Array<Scalars['String']['output']>;
+    key: Scalars['String']['output'];
+    summary?: Maybe<Scalars['String']['output']>;
+    title?: Maybe<Scalars['String']['output']>;
+    visible: Scalars['Boolean']['output'];
 };
 
 export type LoginTrackerCredentialsInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  password: Scalars['String']['input'];
-  trackerId: Scalars['Int']['input'];
-  username: Scalars['String']['input'];
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    password: Scalars['String']['input'];
+    trackerId: Scalars['Int']['input'];
+    username: Scalars['String']['input'];
 };
 
 export type LoginTrackerCredentialsPayload = {
-  __typename?: 'LoginTrackerCredentialsPayload';
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  isLoggedIn: Scalars['Boolean']['output'];
-  tracker: TrackerType;
+    __typename?: 'LoginTrackerCredentialsPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    isLoggedIn: Scalars['Boolean']['output'];
+    tracker: TrackerType;
 };
 
 export type LoginTrackerOAuthInput = {
-  callbackUrl: Scalars['String']['input'];
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  trackerId: Scalars['Int']['input'];
+    callbackUrl: Scalars['String']['input'];
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    trackerId: Scalars['Int']['input'];
 };
 
 export type LoginTrackerOAuthPayload = {
-  __typename?: 'LoginTrackerOAuthPayload';
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  isLoggedIn: Scalars['Boolean']['output'];
-  tracker: TrackerType;
+    __typename?: 'LoginTrackerOAuthPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    isLoggedIn: Scalars['Boolean']['output'];
+    tracker: TrackerType;
 };
 
 export type LogoutTrackerInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  trackerId: Scalars['Int']['input'];
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    trackerId: Scalars['Int']['input'];
 };
 
 export type LogoutTrackerPayload = {
-  __typename?: 'LogoutTrackerPayload';
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  isLoggedIn: Scalars['Boolean']['output'];
-  tracker: TrackerType;
+    __typename?: 'LogoutTrackerPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    isLoggedIn: Scalars['Boolean']['output'];
+    tracker: TrackerType;
 };
 
 export type LongFilterInput = {
-  distinctFrom?: InputMaybe<Scalars['LongString']['input']>;
-  equalTo?: InputMaybe<Scalars['LongString']['input']>;
-  greaterThan?: InputMaybe<Scalars['LongString']['input']>;
-  greaterThanOrEqualTo?: InputMaybe<Scalars['LongString']['input']>;
-  in?: InputMaybe<Array<Scalars['LongString']['input']>>;
-  isNull?: InputMaybe<Scalars['Boolean']['input']>;
-  lessThan?: InputMaybe<Scalars['LongString']['input']>;
-  lessThanOrEqualTo?: InputMaybe<Scalars['LongString']['input']>;
-  notDistinctFrom?: InputMaybe<Scalars['LongString']['input']>;
-  notEqualTo?: InputMaybe<Scalars['LongString']['input']>;
-  notIn?: InputMaybe<Array<Scalars['LongString']['input']>>;
+    distinctFrom?: InputMaybe<Scalars['LongString']['input']>;
+    equalTo?: InputMaybe<Scalars['LongString']['input']>;
+    greaterThan?: InputMaybe<Scalars['LongString']['input']>;
+    greaterThanOrEqualTo?: InputMaybe<Scalars['LongString']['input']>;
+    in?: InputMaybe<Array<Scalars['LongString']['input']>>;
+    isNull?: InputMaybe<Scalars['Boolean']['input']>;
+    lessThan?: InputMaybe<Scalars['LongString']['input']>;
+    lessThanOrEqualTo?: InputMaybe<Scalars['LongString']['input']>;
+    notDistinctFrom?: InputMaybe<Scalars['LongString']['input']>;
+    notEqualTo?: InputMaybe<Scalars['LongString']['input']>;
+    notIn?: InputMaybe<Array<Scalars['LongString']['input']>>;
 };
 
 export type MangaConditionInput = {
-  artist?: InputMaybe<Scalars['String']['input']>;
-  author?: InputMaybe<Scalars['String']['input']>;
-  categoryIds?: InputMaybe<Array<Scalars['Int']['input']>>;
-  chaptersLastFetchedAt?: InputMaybe<Scalars['LongString']['input']>;
-  description?: InputMaybe<Scalars['String']['input']>;
-  genre?: InputMaybe<Array<Scalars['String']['input']>>;
-  id?: InputMaybe<Scalars['Int']['input']>;
-  inLibrary?: InputMaybe<Scalars['Boolean']['input']>;
-  inLibraryAt?: InputMaybe<Scalars['LongString']['input']>;
-  initialized?: InputMaybe<Scalars['Boolean']['input']>;
-  lastFetchedAt?: InputMaybe<Scalars['LongString']['input']>;
-  realUrl?: InputMaybe<Scalars['String']['input']>;
-  sourceId?: InputMaybe<Scalars['LongString']['input']>;
-  status?: InputMaybe<MangaStatus>;
-  thumbnailUrl?: InputMaybe<Scalars['String']['input']>;
-  title?: InputMaybe<Scalars['String']['input']>;
-  url?: InputMaybe<Scalars['String']['input']>;
+    artist?: InputMaybe<Scalars['String']['input']>;
+    author?: InputMaybe<Scalars['String']['input']>;
+    categoryIds?: InputMaybe<Array<Scalars['Int']['input']>>;
+    chaptersLastFetchedAt?: InputMaybe<Scalars['LongString']['input']>;
+    description?: InputMaybe<Scalars['String']['input']>;
+    genre?: InputMaybe<Array<Scalars['String']['input']>>;
+    id?: InputMaybe<Scalars['Int']['input']>;
+    inLibrary?: InputMaybe<Scalars['Boolean']['input']>;
+    inLibraryAt?: InputMaybe<Scalars['LongString']['input']>;
+    initialized?: InputMaybe<Scalars['Boolean']['input']>;
+    lastFetchedAt?: InputMaybe<Scalars['LongString']['input']>;
+    realUrl?: InputMaybe<Scalars['String']['input']>;
+    sourceId?: InputMaybe<Scalars['LongString']['input']>;
+    status?: InputMaybe<MangaStatus>;
+    thumbnailUrl?: InputMaybe<Scalars['String']['input']>;
+    title?: InputMaybe<Scalars['String']['input']>;
+    url?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MangaEdge = Edge & {
-  __typename?: 'MangaEdge';
-  cursor: Scalars['Cursor']['output'];
-  node: MangaType;
+    __typename?: 'MangaEdge';
+    cursor: Scalars['Cursor']['output'];
+    node: MangaType;
 };
 
 export type MangaFilterInput = {
-  and?: InputMaybe<Array<MangaFilterInput>>;
-  artist?: InputMaybe<StringFilterInput>;
-  author?: InputMaybe<StringFilterInput>;
-  categoryId?: InputMaybe<IntFilterInput>;
-  chaptersLastFetchedAt?: InputMaybe<LongFilterInput>;
-  description?: InputMaybe<StringFilterInput>;
-  genre?: InputMaybe<StringFilterInput>;
-  id?: InputMaybe<IntFilterInput>;
-  inLibrary?: InputMaybe<BooleanFilterInput>;
-  inLibraryAt?: InputMaybe<LongFilterInput>;
-  initialized?: InputMaybe<BooleanFilterInput>;
-  lastFetchedAt?: InputMaybe<LongFilterInput>;
-  not?: InputMaybe<MangaFilterInput>;
-  or?: InputMaybe<Array<MangaFilterInput>>;
-  realUrl?: InputMaybe<StringFilterInput>;
-  sourceId?: InputMaybe<LongFilterInput>;
-  status?: InputMaybe<MangaStatusFilterInput>;
-  thumbnailUrl?: InputMaybe<StringFilterInput>;
-  title?: InputMaybe<StringFilterInput>;
-  url?: InputMaybe<StringFilterInput>;
+    and?: InputMaybe<Array<MangaFilterInput>>;
+    artist?: InputMaybe<StringFilterInput>;
+    author?: InputMaybe<StringFilterInput>;
+    categoryId?: InputMaybe<IntFilterInput>;
+    chaptersLastFetchedAt?: InputMaybe<LongFilterInput>;
+    description?: InputMaybe<StringFilterInput>;
+    genre?: InputMaybe<StringFilterInput>;
+    id?: InputMaybe<IntFilterInput>;
+    inLibrary?: InputMaybe<BooleanFilterInput>;
+    inLibraryAt?: InputMaybe<LongFilterInput>;
+    initialized?: InputMaybe<BooleanFilterInput>;
+    lastFetchedAt?: InputMaybe<LongFilterInput>;
+    not?: InputMaybe<MangaFilterInput>;
+    or?: InputMaybe<Array<MangaFilterInput>>;
+    realUrl?: InputMaybe<StringFilterInput>;
+    sourceId?: InputMaybe<LongFilterInput>;
+    status?: InputMaybe<MangaStatusFilterInput>;
+    thumbnailUrl?: InputMaybe<StringFilterInput>;
+    title?: InputMaybe<StringFilterInput>;
+    url?: InputMaybe<StringFilterInput>;
 };
 
 export type MangaMetaType = MetaType & {
-  __typename?: 'MangaMetaType';
-  key: Scalars['String']['output'];
-  manga: MangaType;
-  mangaId: Scalars['Int']['output'];
-  value: Scalars['String']['output'];
+    __typename?: 'MangaMetaType';
+    key: Scalars['String']['output'];
+    manga: MangaType;
+    mangaId: Scalars['Int']['output'];
+    value: Scalars['String']['output'];
 };
 
 export type MangaMetaTypeInput = {
-  key: Scalars['String']['input'];
-  mangaId: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
+    key: Scalars['String']['input'];
+    mangaId: Scalars['Int']['input'];
+    value: Scalars['String']['input'];
 };
 
 export type MangaNodeList = NodeList & {
-  __typename?: 'MangaNodeList';
-  edges: Array<MangaEdge>;
-  nodes: Array<MangaType>;
-  pageInfo: PageInfo;
-  totalCount: Scalars['Int']['output'];
+    __typename?: 'MangaNodeList';
+    edges: Array<MangaEdge>;
+    nodes: Array<MangaType>;
+    pageInfo: PageInfo;
+    totalCount: Scalars['Int']['output'];
 };
 
 export enum MangaOrderBy {
-  Id = 'ID',
-  InLibraryAt = 'IN_LIBRARY_AT',
-  LastFetchedAt = 'LAST_FETCHED_AT',
-  Title = 'TITLE'
+    Id = 'ID',
+    InLibraryAt = 'IN_LIBRARY_AT',
+    LastFetchedAt = 'LAST_FETCHED_AT',
+    Title = 'TITLE',
 }
 
 export enum MangaStatus {
-  Cancelled = 'CANCELLED',
-  Completed = 'COMPLETED',
-  Licensed = 'LICENSED',
-  Ongoing = 'ONGOING',
-  OnHiatus = 'ON_HIATUS',
-  PublishingFinished = 'PUBLISHING_FINISHED',
-  Unknown = 'UNKNOWN'
+    Cancelled = 'CANCELLED',
+    Completed = 'COMPLETED',
+    Licensed = 'LICENSED',
+    Ongoing = 'ONGOING',
+    OnHiatus = 'ON_HIATUS',
+    PublishingFinished = 'PUBLISHING_FINISHED',
+    Unknown = 'UNKNOWN',
 }
 
 export type MangaStatusFilterInput = {
-  distinctFrom?: InputMaybe<MangaStatus>;
-  equalTo?: InputMaybe<MangaStatus>;
-  greaterThan?: InputMaybe<MangaStatus>;
-  greaterThanOrEqualTo?: InputMaybe<MangaStatus>;
-  in?: InputMaybe<Array<MangaStatus>>;
-  isNull?: InputMaybe<Scalars['Boolean']['input']>;
-  lessThan?: InputMaybe<MangaStatus>;
-  lessThanOrEqualTo?: InputMaybe<MangaStatus>;
-  notDistinctFrom?: InputMaybe<MangaStatus>;
-  notEqualTo?: InputMaybe<MangaStatus>;
-  notIn?: InputMaybe<Array<MangaStatus>>;
+    distinctFrom?: InputMaybe<MangaStatus>;
+    equalTo?: InputMaybe<MangaStatus>;
+    greaterThan?: InputMaybe<MangaStatus>;
+    greaterThanOrEqualTo?: InputMaybe<MangaStatus>;
+    in?: InputMaybe<Array<MangaStatus>>;
+    isNull?: InputMaybe<Scalars['Boolean']['input']>;
+    lessThan?: InputMaybe<MangaStatus>;
+    lessThanOrEqualTo?: InputMaybe<MangaStatus>;
+    notDistinctFrom?: InputMaybe<MangaStatus>;
+    notEqualTo?: InputMaybe<MangaStatus>;
+    notIn?: InputMaybe<Array<MangaStatus>>;
 };
 
 export type MangaType = {
-  __typename?: 'MangaType';
-  age?: Maybe<Scalars['LongString']['output']>;
-  artist?: Maybe<Scalars['String']['output']>;
-  author?: Maybe<Scalars['String']['output']>;
-  bookmarkCount: Scalars['Int']['output'];
-  categories: CategoryNodeList;
-  chapters: ChapterNodeList;
-  chaptersAge?: Maybe<Scalars['LongString']['output']>;
-  chaptersLastFetchedAt?: Maybe<Scalars['LongString']['output']>;
-  description?: Maybe<Scalars['String']['output']>;
-  downloadCount: Scalars['Int']['output'];
-  firstUnreadChapter?: Maybe<ChapterType>;
-  genre: Array<Scalars['String']['output']>;
-  id: Scalars['Int']['output'];
-  inLibrary: Scalars['Boolean']['output'];
-  inLibraryAt: Scalars['LongString']['output'];
-  initialized: Scalars['Boolean']['output'];
-  lastFetchedAt?: Maybe<Scalars['LongString']['output']>;
-  lastReadChapter?: Maybe<ChapterType>;
-  latestFetchedChapter?: Maybe<ChapterType>;
-  latestReadChapter?: Maybe<ChapterType>;
-  latestUploadedChapter?: Maybe<ChapterType>;
-  meta: Array<MangaMetaType>;
-  realUrl?: Maybe<Scalars['String']['output']>;
-  source?: Maybe<SourceType>;
-  sourceId: Scalars['LongString']['output'];
-  status: MangaStatus;
-  thumbnailUrl?: Maybe<Scalars['String']['output']>;
-  thumbnailUrlLastFetched?: Maybe<Scalars['LongString']['output']>;
-  title: Scalars['String']['output'];
-  trackRecords: TrackRecordNodeList;
-  unreadCount: Scalars['Int']['output'];
-  updateStrategy: UpdateStrategy;
-  url: Scalars['String']['output'];
+    __typename?: 'MangaType';
+    age?: Maybe<Scalars['LongString']['output']>;
+    artist?: Maybe<Scalars['String']['output']>;
+    author?: Maybe<Scalars['String']['output']>;
+    bookmarkCount: Scalars['Int']['output'];
+    categories: CategoryNodeList;
+    chapters: ChapterNodeList;
+    chaptersAge?: Maybe<Scalars['LongString']['output']>;
+    chaptersLastFetchedAt?: Maybe<Scalars['LongString']['output']>;
+    description?: Maybe<Scalars['String']['output']>;
+    downloadCount: Scalars['Int']['output'];
+    firstUnreadChapter?: Maybe<ChapterType>;
+    genre: Array<Scalars['String']['output']>;
+    id: Scalars['Int']['output'];
+    inLibrary: Scalars['Boolean']['output'];
+    inLibraryAt: Scalars['LongString']['output'];
+    initialized: Scalars['Boolean']['output'];
+    lastFetchedAt?: Maybe<Scalars['LongString']['output']>;
+    lastReadChapter?: Maybe<ChapterType>;
+    latestFetchedChapter?: Maybe<ChapterType>;
+    latestReadChapter?: Maybe<ChapterType>;
+    latestUploadedChapter?: Maybe<ChapterType>;
+    meta: Array<MangaMetaType>;
+    realUrl?: Maybe<Scalars['String']['output']>;
+    source?: Maybe<SourceType>;
+    sourceId: Scalars['LongString']['output'];
+    status: MangaStatus;
+    thumbnailUrl?: Maybe<Scalars['String']['output']>;
+    thumbnailUrlLastFetched?: Maybe<Scalars['LongString']['output']>;
+    title: Scalars['String']['output'];
+    trackRecords: TrackRecordNodeList;
+    unreadCount: Scalars['Int']['output'];
+    updateStrategy: UpdateStrategy;
+    url: Scalars['String']['output'];
 };
 
 export type MetaConditionInput = {
-  key?: InputMaybe<Scalars['String']['input']>;
-  value?: InputMaybe<Scalars['String']['input']>;
+    key?: InputMaybe<Scalars['String']['input']>;
+    value?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MetaEdge = Edge & {
-  __typename?: 'MetaEdge';
-  cursor: Scalars['Cursor']['output'];
-  node: GlobalMetaType;
+    __typename?: 'MetaEdge';
+    cursor: Scalars['Cursor']['output'];
+    node: GlobalMetaType;
 };
 
 export type MetaFilterInput = {
-  and?: InputMaybe<Array<MetaFilterInput>>;
-  key?: InputMaybe<StringFilterInput>;
-  not?: InputMaybe<MetaFilterInput>;
-  or?: InputMaybe<Array<MetaFilterInput>>;
-  value?: InputMaybe<StringFilterInput>;
+    and?: InputMaybe<Array<MetaFilterInput>>;
+    key?: InputMaybe<StringFilterInput>;
+    not?: InputMaybe<MetaFilterInput>;
+    or?: InputMaybe<Array<MetaFilterInput>>;
+    value?: InputMaybe<StringFilterInput>;
 };
 
 export enum MetaOrderBy {
-  Key = 'KEY',
-  Value = 'VALUE'
+    Key = 'KEY',
+    Value = 'VALUE',
 }
 
 export type MetaType = {
-  key: Scalars['String']['output'];
-  value: Scalars['String']['output'];
+    key: Scalars['String']['output'];
+    value: Scalars['String']['output'];
 };
 
 export type MultiSelectListPreference = {
-  __typename?: 'MultiSelectListPreference';
-  currentValue?: Maybe<Array<Scalars['String']['output']>>;
-  default?: Maybe<Array<Scalars['String']['output']>>;
-  dialogMessage?: Maybe<Scalars['String']['output']>;
-  dialogTitle?: Maybe<Scalars['String']['output']>;
-  entries: Array<Scalars['String']['output']>;
-  entryValues: Array<Scalars['String']['output']>;
-  key: Scalars['String']['output'];
-  summary?: Maybe<Scalars['String']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
-  visible: Scalars['Boolean']['output'];
+    __typename?: 'MultiSelectListPreference';
+    currentValue?: Maybe<Array<Scalars['String']['output']>>;
+    default?: Maybe<Array<Scalars['String']['output']>>;
+    dialogMessage?: Maybe<Scalars['String']['output']>;
+    dialogTitle?: Maybe<Scalars['String']['output']>;
+    entries: Array<Scalars['String']['output']>;
+    entryValues: Array<Scalars['String']['output']>;
+    key: Scalars['String']['output'];
+    summary?: Maybe<Scalars['String']['output']>;
+    title?: Maybe<Scalars['String']['output']>;
+    visible: Scalars['Boolean']['output'];
 };
 
 export type Mutation = {
-  __typename?: 'Mutation';
-  bindTrack: BindTrackPayload;
-  clearCachedImages: ClearCachedImagesPayload;
-  clearDownloader: ClearDownloaderPayload;
-  createBackup: CreateBackupPayload;
-  createCategory: CreateCategoryPayload;
-  deleteCategory: DeleteCategoryPayload;
-  deleteCategoryMeta: DeleteCategoryMetaPayload;
-  deleteChapterMeta: DeleteChapterMetaPayload;
-  deleteDownloadedChapter: DeleteDownloadedChapterPayload;
-  deleteDownloadedChapters: DeleteDownloadedChaptersPayload;
-  deleteGlobalMeta: DeleteGlobalMetaPayload;
-  deleteMangaMeta: DeleteMangaMetaPayload;
-  deleteSourceMeta: DeleteSourceMetaPayload;
-  dequeueChapterDownload: DequeueChapterDownloadPayload;
-  dequeueChapterDownloads: DequeueChapterDownloadsPayload;
-  enqueueChapterDownload: EnqueueChapterDownloadPayload;
-  enqueueChapterDownloads: EnqueueChapterDownloadsPayload;
-  fetchChapterPages: FetchChapterPagesPayload;
-  fetchChapters: FetchChaptersPayload;
-  fetchExtensions: FetchExtensionsPayload;
-  fetchManga: FetchMangaPayload;
-  fetchSourceManga: FetchSourceMangaPayload;
-  fetchTrack: FetchTrackPayload;
-  installExternalExtension: InstallExternalExtensionPayload;
-  loginTrackerCredentials: LoginTrackerCredentialsPayload;
-  loginTrackerOAuth: LoginTrackerOAuthPayload;
-  logoutTracker: LogoutTrackerPayload;
-  reorderChapterDownload: ReorderChapterDownloadPayload;
-  resetSettings: ResetSettingsPayload;
-  resetWebUIUpdateStatus: WebUiUpdateStatus;
-  restoreBackup: RestoreBackupPayload;
-  setCategoryMeta: SetCategoryMetaPayload;
-  setChapterMeta: SetChapterMetaPayload;
-  setGlobalMeta: SetGlobalMetaPayload;
-  setMangaMeta: SetMangaMetaPayload;
-  setSettings: SetSettingsPayload;
-  setSourceMeta: SetSourceMetaPayload;
-  startDownloader: StartDownloaderPayload;
-  stopDownloader: StopDownloaderPayload;
-  trackProgress: TrackProgressPayload;
-  unbindTrack: UnbindTrackPayload;
-  updateCategories: UpdateCategoriesPayload;
-  updateCategory: UpdateCategoryPayload;
-  updateCategoryManga: UpdateCategoryMangaPayload;
-  updateCategoryOrder: UpdateCategoryOrderPayload;
-  updateChapter: UpdateChapterPayload;
-  updateChapters: UpdateChaptersPayload;
-  updateExtension: UpdateExtensionPayload;
-  updateExtensions: UpdateExtensionsPayload;
-  updateLibraryManga: UpdateLibraryMangaPayload;
-  updateManga: UpdateMangaPayload;
-  updateMangaCategories: UpdateMangaCategoriesPayload;
-  updateMangas: UpdateMangasPayload;
-  updateMangasCategories: UpdateMangasCategoriesPayload;
-  updateSourcePreference: UpdateSourcePreferencePayload;
-  updateStop: UpdateStopPayload;
-  updateTrack: UpdateTrackPayload;
-  updateWebUI: WebUiUpdatePayload;
+    __typename?: 'Mutation';
+    bindTrack: BindTrackPayload;
+    clearCachedImages: ClearCachedImagesPayload;
+    clearDownloader: ClearDownloaderPayload;
+    createBackup: CreateBackupPayload;
+    createCategory: CreateCategoryPayload;
+    deleteCategory: DeleteCategoryPayload;
+    deleteCategoryMeta: DeleteCategoryMetaPayload;
+    deleteChapterMeta: DeleteChapterMetaPayload;
+    deleteDownloadedChapter: DeleteDownloadedChapterPayload;
+    deleteDownloadedChapters: DeleteDownloadedChaptersPayload;
+    deleteGlobalMeta: DeleteGlobalMetaPayload;
+    deleteMangaMeta: DeleteMangaMetaPayload;
+    deleteSourceMeta: DeleteSourceMetaPayload;
+    dequeueChapterDownload: DequeueChapterDownloadPayload;
+    dequeueChapterDownloads: DequeueChapterDownloadsPayload;
+    enqueueChapterDownload: EnqueueChapterDownloadPayload;
+    enqueueChapterDownloads: EnqueueChapterDownloadsPayload;
+    fetchChapterPages: FetchChapterPagesPayload;
+    fetchChapters: FetchChaptersPayload;
+    fetchExtensions: FetchExtensionsPayload;
+    fetchManga: FetchMangaPayload;
+    fetchSourceManga: FetchSourceMangaPayload;
+    fetchTrack: FetchTrackPayload;
+    installExternalExtension: InstallExternalExtensionPayload;
+    loginTrackerCredentials: LoginTrackerCredentialsPayload;
+    loginTrackerOAuth: LoginTrackerOAuthPayload;
+    logoutTracker: LogoutTrackerPayload;
+    reorderChapterDownload: ReorderChapterDownloadPayload;
+    resetSettings: ResetSettingsPayload;
+    resetWebUIUpdateStatus: WebUiUpdateStatus;
+    restoreBackup: RestoreBackupPayload;
+    setCategoryMeta: SetCategoryMetaPayload;
+    setChapterMeta: SetChapterMetaPayload;
+    setGlobalMeta: SetGlobalMetaPayload;
+    setMangaMeta: SetMangaMetaPayload;
+    setSettings: SetSettingsPayload;
+    setSourceMeta: SetSourceMetaPayload;
+    startDownloader: StartDownloaderPayload;
+    stopDownloader: StopDownloaderPayload;
+    trackProgress: TrackProgressPayload;
+    unbindTrack: UnbindTrackPayload;
+    updateCategories: UpdateCategoriesPayload;
+    updateCategory: UpdateCategoryPayload;
+    updateCategoryManga: UpdateCategoryMangaPayload;
+    updateCategoryOrder: UpdateCategoryOrderPayload;
+    updateChapter: UpdateChapterPayload;
+    updateChapters: UpdateChaptersPayload;
+    updateExtension: UpdateExtensionPayload;
+    updateExtensions: UpdateExtensionsPayload;
+    updateLibraryManga: UpdateLibraryMangaPayload;
+    updateManga: UpdateMangaPayload;
+    updateMangaCategories: UpdateMangaCategoriesPayload;
+    updateMangas: UpdateMangasPayload;
+    updateMangasCategories: UpdateMangasCategoriesPayload;
+    updateSourcePreference: UpdateSourcePreferencePayload;
+    updateStop: UpdateStopPayload;
+    updateTrack: UpdateTrackPayload;
+    updateWebUI: WebUiUpdatePayload;
 };
-
 
 export type MutationBindTrackArgs = {
-  input: BindTrackInput;
+    input: BindTrackInput;
 };
-
 
 export type MutationClearCachedImagesArgs = {
-  input: ClearCachedImagesInput;
+    input: ClearCachedImagesInput;
 };
-
 
 export type MutationClearDownloaderArgs = {
-  input: ClearDownloaderInput;
+    input: ClearDownloaderInput;
 };
-
 
 export type MutationCreateBackupArgs = {
-  input?: InputMaybe<CreateBackupInput>;
+    input?: InputMaybe<CreateBackupInput>;
 };
-
 
 export type MutationCreateCategoryArgs = {
-  input: CreateCategoryInput;
+    input: CreateCategoryInput;
 };
-
 
 export type MutationDeleteCategoryArgs = {
-  input: DeleteCategoryInput;
+    input: DeleteCategoryInput;
 };
-
 
 export type MutationDeleteCategoryMetaArgs = {
-  input: DeleteCategoryMetaInput;
+    input: DeleteCategoryMetaInput;
 };
-
 
 export type MutationDeleteChapterMetaArgs = {
-  input: DeleteChapterMetaInput;
+    input: DeleteChapterMetaInput;
 };
-
 
 export type MutationDeleteDownloadedChapterArgs = {
-  input: DeleteDownloadedChapterInput;
+    input: DeleteDownloadedChapterInput;
 };
-
 
 export type MutationDeleteDownloadedChaptersArgs = {
-  input: DeleteDownloadedChaptersInput;
+    input: DeleteDownloadedChaptersInput;
 };
-
 
 export type MutationDeleteGlobalMetaArgs = {
-  input: DeleteGlobalMetaInput;
+    input: DeleteGlobalMetaInput;
 };
-
 
 export type MutationDeleteMangaMetaArgs = {
-  input: DeleteMangaMetaInput;
+    input: DeleteMangaMetaInput;
 };
-
 
 export type MutationDeleteSourceMetaArgs = {
-  input: DeleteSourceMetaInput;
+    input: DeleteSourceMetaInput;
 };
-
 
 export type MutationDequeueChapterDownloadArgs = {
-  input: DequeueChapterDownloadInput;
+    input: DequeueChapterDownloadInput;
 };
-
 
 export type MutationDequeueChapterDownloadsArgs = {
-  input: DequeueChapterDownloadsInput;
+    input: DequeueChapterDownloadsInput;
 };
-
 
 export type MutationEnqueueChapterDownloadArgs = {
-  input: EnqueueChapterDownloadInput;
+    input: EnqueueChapterDownloadInput;
 };
-
 
 export type MutationEnqueueChapterDownloadsArgs = {
-  input: EnqueueChapterDownloadsInput;
+    input: EnqueueChapterDownloadsInput;
 };
-
 
 export type MutationFetchChapterPagesArgs = {
-  input: FetchChapterPagesInput;
+    input: FetchChapterPagesInput;
 };
-
 
 export type MutationFetchChaptersArgs = {
-  input: FetchChaptersInput;
+    input: FetchChaptersInput;
 };
-
 
 export type MutationFetchExtensionsArgs = {
-  input: FetchExtensionsInput;
+    input: FetchExtensionsInput;
 };
-
 
 export type MutationFetchMangaArgs = {
-  input: FetchMangaInput;
+    input: FetchMangaInput;
 };
-
 
 export type MutationFetchSourceMangaArgs = {
-  input: FetchSourceMangaInput;
+    input: FetchSourceMangaInput;
 };
-
 
 export type MutationFetchTrackArgs = {
-  input: FetchTrackInput;
+    input: FetchTrackInput;
 };
-
 
 export type MutationInstallExternalExtensionArgs = {
-  input: InstallExternalExtensionInput;
+    input: InstallExternalExtensionInput;
 };
-
 
 export type MutationLoginTrackerCredentialsArgs = {
-  input: LoginTrackerCredentialsInput;
+    input: LoginTrackerCredentialsInput;
 };
-
 
 export type MutationLoginTrackerOAuthArgs = {
-  input: LoginTrackerOAuthInput;
+    input: LoginTrackerOAuthInput;
 };
-
 
 export type MutationLogoutTrackerArgs = {
-  input: LogoutTrackerInput;
+    input: LogoutTrackerInput;
 };
-
 
 export type MutationReorderChapterDownloadArgs = {
-  input: ReorderChapterDownloadInput;
+    input: ReorderChapterDownloadInput;
 };
-
 
 export type MutationResetSettingsArgs = {
-  input: ResetSettingsInput;
+    input: ResetSettingsInput;
 };
-
 
 export type MutationRestoreBackupArgs = {
-  input: RestoreBackupInput;
+    input: RestoreBackupInput;
 };
-
 
 export type MutationSetCategoryMetaArgs = {
-  input: SetCategoryMetaInput;
+    input: SetCategoryMetaInput;
 };
-
 
 export type MutationSetChapterMetaArgs = {
-  input: SetChapterMetaInput;
+    input: SetChapterMetaInput;
 };
-
 
 export type MutationSetGlobalMetaArgs = {
-  input: SetGlobalMetaInput;
+    input: SetGlobalMetaInput;
 };
-
 
 export type MutationSetMangaMetaArgs = {
-  input: SetMangaMetaInput;
+    input: SetMangaMetaInput;
 };
-
 
 export type MutationSetSettingsArgs = {
-  input: SetSettingsInput;
+    input: SetSettingsInput;
 };
-
 
 export type MutationSetSourceMetaArgs = {
-  input: SetSourceMetaInput;
+    input: SetSourceMetaInput;
 };
-
 
 export type MutationStartDownloaderArgs = {
-  input: StartDownloaderInput;
+    input: StartDownloaderInput;
 };
-
 
 export type MutationStopDownloaderArgs = {
-  input: StopDownloaderInput;
+    input: StopDownloaderInput;
 };
-
 
 export type MutationTrackProgressArgs = {
-  input: TrackProgressInput;
+    input: TrackProgressInput;
 };
-
 
 export type MutationUnbindTrackArgs = {
-  input: UnbindTrackInput;
+    input: UnbindTrackInput;
 };
-
 
 export type MutationUpdateCategoriesArgs = {
-  input: UpdateCategoriesInput;
+    input: UpdateCategoriesInput;
 };
-
 
 export type MutationUpdateCategoryArgs = {
-  input: UpdateCategoryInput;
+    input: UpdateCategoryInput;
 };
-
 
 export type MutationUpdateCategoryMangaArgs = {
-  input: UpdateCategoryMangaInput;
+    input: UpdateCategoryMangaInput;
 };
-
 
 export type MutationUpdateCategoryOrderArgs = {
-  input: UpdateCategoryOrderInput;
+    input: UpdateCategoryOrderInput;
 };
-
 
 export type MutationUpdateChapterArgs = {
-  input: UpdateChapterInput;
+    input: UpdateChapterInput;
 };
-
 
 export type MutationUpdateChaptersArgs = {
-  input: UpdateChaptersInput;
+    input: UpdateChaptersInput;
 };
-
 
 export type MutationUpdateExtensionArgs = {
-  input: UpdateExtensionInput;
+    input: UpdateExtensionInput;
 };
-
 
 export type MutationUpdateExtensionsArgs = {
-  input: UpdateExtensionsInput;
+    input: UpdateExtensionsInput;
 };
-
 
 export type MutationUpdateLibraryMangaArgs = {
-  input: UpdateLibraryMangaInput;
+    input: UpdateLibraryMangaInput;
 };
-
 
 export type MutationUpdateMangaArgs = {
-  input: UpdateMangaInput;
+    input: UpdateMangaInput;
 };
-
 
 export type MutationUpdateMangaCategoriesArgs = {
-  input: UpdateMangaCategoriesInput;
+    input: UpdateMangaCategoriesInput;
 };
-
 
 export type MutationUpdateMangasArgs = {
-  input: UpdateMangasInput;
+    input: UpdateMangasInput;
 };
-
 
 export type MutationUpdateMangasCategoriesArgs = {
-  input: UpdateMangasCategoriesInput;
+    input: UpdateMangasCategoriesInput;
 };
-
 
 export type MutationUpdateSourcePreferenceArgs = {
-  input: UpdateSourcePreferenceInput;
+    input: UpdateSourcePreferenceInput;
 };
-
 
 export type MutationUpdateStopArgs = {
-  input: UpdateStopInput;
+    input: UpdateStopInput;
 };
-
 
 export type MutationUpdateTrackArgs = {
-  input: UpdateTrackInput;
+    input: UpdateTrackInput;
 };
-
 
 export type MutationUpdateWebUiArgs = {
-  input: WebUiUpdateInput;
+    input: WebUiUpdateInput;
 };
 
-export type Node = CategoryMetaType | CategoryType | ChapterMetaType | ChapterType | DownloadType | ExtensionType | GlobalMetaType | MangaMetaType | MangaType | PartialSettingsType | SettingsType | SourceMetaType | SourceType | TrackRecordType | TrackerType;
+export type Node =
+    | CategoryMetaType
+    | CategoryType
+    | ChapterMetaType
+    | ChapterType
+    | DownloadType
+    | ExtensionType
+    | GlobalMetaType
+    | MangaMetaType
+    | MangaType
+    | PartialSettingsType
+    | SettingsType
+    | SourceMetaType
+    | SourceType
+    | TrackRecordType
+    | TrackerType;
 
 export type NodeList = {
-  /** A list of edges which contains the [T] and cursor to aid in pagination. */
-  edges: Array<Edge>;
-  /** A list of [T] objects. */
-  nodes: Array<Node>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of all nodes you could get from the connection. */
-  totalCount: Scalars['Int']['output'];
+    /** A list of edges which contains the [T] and cursor to aid in pagination. */
+    edges: Array<Edge>;
+    /** A list of [T] objects. */
+    nodes: Array<Node>;
+    /** Information to aid in pagination. */
+    pageInfo: PageInfo;
+    /** The count of all nodes you could get from the connection. */
+    totalCount: Scalars['Int']['output'];
 };
 
 export type PageInfo = {
-  __typename?: 'PageInfo';
-  /** When paginating forwards, the cursor to continue. */
-  endCursor?: Maybe<Scalars['Cursor']['output']>;
-  /** When paginating forwards, are there more items? */
-  hasNextPage: Scalars['Boolean']['output'];
-  /** When paginating backwards, are there more items? */
-  hasPreviousPage: Scalars['Boolean']['output'];
-  /** When paginating backwards, the cursor to continue. */
-  startCursor?: Maybe<Scalars['Cursor']['output']>;
+    __typename?: 'PageInfo';
+    /** When paginating forwards, the cursor to continue. */
+    endCursor?: Maybe<Scalars['Cursor']['output']>;
+    /** When paginating forwards, are there more items? */
+    hasNextPage: Scalars['Boolean']['output'];
+    /** When paginating backwards, are there more items? */
+    hasPreviousPage: Scalars['Boolean']['output'];
+    /** When paginating backwards, the cursor to continue. */
+    startCursor?: Maybe<Scalars['Cursor']['output']>;
 };
 
 export type PartialSettingsType = Settings & {
-  __typename?: 'PartialSettingsType';
-  /** @deprecated Replaced with autoDownloadNewChaptersLimit, replace with autoDownloadNewChaptersLimit */
-  autoDownloadAheadLimit?: Maybe<Scalars['Int']['output']>;
-  autoDownloadNewChapters?: Maybe<Scalars['Boolean']['output']>;
-  autoDownloadNewChaptersLimit?: Maybe<Scalars['Int']['output']>;
-  backupInterval?: Maybe<Scalars['Int']['output']>;
-  backupPath?: Maybe<Scalars['String']['output']>;
-  backupTTL?: Maybe<Scalars['Int']['output']>;
-  backupTime?: Maybe<Scalars['String']['output']>;
-  basicAuthEnabled?: Maybe<Scalars['Boolean']['output']>;
-  basicAuthPassword?: Maybe<Scalars['String']['output']>;
-  basicAuthUsername?: Maybe<Scalars['String']['output']>;
-  debugLogsEnabled?: Maybe<Scalars['Boolean']['output']>;
-  downloadAsCbz?: Maybe<Scalars['Boolean']['output']>;
-  downloadsPath?: Maybe<Scalars['String']['output']>;
-  electronPath?: Maybe<Scalars['String']['output']>;
-  excludeCompleted?: Maybe<Scalars['Boolean']['output']>;
-  excludeEntryWithUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
-  excludeNotStarted?: Maybe<Scalars['Boolean']['output']>;
-  excludeUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
-  extensionRepos?: Maybe<Array<Scalars['String']['output']>>;
-  flareSolverrEnabled?: Maybe<Scalars['Boolean']['output']>;
-  flareSolverrSessionName?: Maybe<Scalars['String']['output']>;
-  flareSolverrSessionTtl?: Maybe<Scalars['Int']['output']>;
-  flareSolverrTimeout?: Maybe<Scalars['Int']['output']>;
-  flareSolverrUrl?: Maybe<Scalars['String']['output']>;
-  globalUpdateInterval?: Maybe<Scalars['Float']['output']>;
-  gqlDebugLogsEnabled?: Maybe<Scalars['Boolean']['output']>;
-  initialOpenInBrowserEnabled?: Maybe<Scalars['Boolean']['output']>;
-  ip?: Maybe<Scalars['String']['output']>;
-  localSourcePath?: Maybe<Scalars['String']['output']>;
-  maxSourcesInParallel?: Maybe<Scalars['Int']['output']>;
-  port?: Maybe<Scalars['Int']['output']>;
-  socksProxyEnabled?: Maybe<Scalars['Boolean']['output']>;
-  socksProxyHost?: Maybe<Scalars['String']['output']>;
-  socksProxyPassword?: Maybe<Scalars['String']['output']>;
-  socksProxyPort?: Maybe<Scalars['String']['output']>;
-  socksProxyUsername?: Maybe<Scalars['String']['output']>;
-  socksProxyVersion?: Maybe<Scalars['Int']['output']>;
-  systemTrayEnabled?: Maybe<Scalars['Boolean']['output']>;
-  updateMangas?: Maybe<Scalars['Boolean']['output']>;
-  webUIChannel?: Maybe<WebUiChannel>;
-  webUIFlavor?: Maybe<WebUiFlavor>;
-  webUIInterface?: Maybe<WebUiInterface>;
-  webUIUpdateCheckInterval?: Maybe<Scalars['Float']['output']>;
+    __typename?: 'PartialSettingsType';
+    /** @deprecated Replaced with autoDownloadNewChaptersLimit, replace with autoDownloadNewChaptersLimit */
+    autoDownloadAheadLimit?: Maybe<Scalars['Int']['output']>;
+    autoDownloadNewChapters?: Maybe<Scalars['Boolean']['output']>;
+    autoDownloadNewChaptersLimit?: Maybe<Scalars['Int']['output']>;
+    backupInterval?: Maybe<Scalars['Int']['output']>;
+    backupPath?: Maybe<Scalars['String']['output']>;
+    backupTTL?: Maybe<Scalars['Int']['output']>;
+    backupTime?: Maybe<Scalars['String']['output']>;
+    basicAuthEnabled?: Maybe<Scalars['Boolean']['output']>;
+    basicAuthPassword?: Maybe<Scalars['String']['output']>;
+    basicAuthUsername?: Maybe<Scalars['String']['output']>;
+    debugLogsEnabled?: Maybe<Scalars['Boolean']['output']>;
+    downloadAsCbz?: Maybe<Scalars['Boolean']['output']>;
+    downloadsPath?: Maybe<Scalars['String']['output']>;
+    electronPath?: Maybe<Scalars['String']['output']>;
+    excludeCompleted?: Maybe<Scalars['Boolean']['output']>;
+    excludeEntryWithUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
+    excludeNotStarted?: Maybe<Scalars['Boolean']['output']>;
+    excludeUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
+    extensionRepos?: Maybe<Array<Scalars['String']['output']>>;
+    flareSolverrEnabled?: Maybe<Scalars['Boolean']['output']>;
+    flareSolverrSessionName?: Maybe<Scalars['String']['output']>;
+    flareSolverrSessionTtl?: Maybe<Scalars['Int']['output']>;
+    flareSolverrTimeout?: Maybe<Scalars['Int']['output']>;
+    flareSolverrUrl?: Maybe<Scalars['String']['output']>;
+    globalUpdateInterval?: Maybe<Scalars['Float']['output']>;
+    gqlDebugLogsEnabled?: Maybe<Scalars['Boolean']['output']>;
+    initialOpenInBrowserEnabled?: Maybe<Scalars['Boolean']['output']>;
+    ip?: Maybe<Scalars['String']['output']>;
+    localSourcePath?: Maybe<Scalars['String']['output']>;
+    maxSourcesInParallel?: Maybe<Scalars['Int']['output']>;
+    port?: Maybe<Scalars['Int']['output']>;
+    socksProxyEnabled?: Maybe<Scalars['Boolean']['output']>;
+    socksProxyHost?: Maybe<Scalars['String']['output']>;
+    socksProxyPassword?: Maybe<Scalars['String']['output']>;
+    socksProxyPort?: Maybe<Scalars['String']['output']>;
+    socksProxyUsername?: Maybe<Scalars['String']['output']>;
+    socksProxyVersion?: Maybe<Scalars['Int']['output']>;
+    systemTrayEnabled?: Maybe<Scalars['Boolean']['output']>;
+    updateMangas?: Maybe<Scalars['Boolean']['output']>;
+    webUIChannel?: Maybe<WebUiChannel>;
+    webUIFlavor?: Maybe<WebUiFlavor>;
+    webUIInterface?: Maybe<WebUiInterface>;
+    webUIUpdateCheckInterval?: Maybe<Scalars['Float']['output']>;
 };
 
 export type PartialSettingsTypeInput = {
-  autoDownloadNewChapters?: InputMaybe<Scalars['Boolean']['input']>;
-  autoDownloadNewChaptersLimit?: InputMaybe<Scalars['Int']['input']>;
-  backupInterval?: InputMaybe<Scalars['Int']['input']>;
-  backupPath?: InputMaybe<Scalars['String']['input']>;
-  backupTTL?: InputMaybe<Scalars['Int']['input']>;
-  backupTime?: InputMaybe<Scalars['String']['input']>;
-  basicAuthEnabled?: InputMaybe<Scalars['Boolean']['input']>;
-  basicAuthPassword?: InputMaybe<Scalars['String']['input']>;
-  basicAuthUsername?: InputMaybe<Scalars['String']['input']>;
-  debugLogsEnabled?: InputMaybe<Scalars['Boolean']['input']>;
-  downloadAsCbz?: InputMaybe<Scalars['Boolean']['input']>;
-  downloadsPath?: InputMaybe<Scalars['String']['input']>;
-  electronPath?: InputMaybe<Scalars['String']['input']>;
-  excludeCompleted?: InputMaybe<Scalars['Boolean']['input']>;
-  excludeEntryWithUnreadChapters?: InputMaybe<Scalars['Boolean']['input']>;
-  excludeNotStarted?: InputMaybe<Scalars['Boolean']['input']>;
-  excludeUnreadChapters?: InputMaybe<Scalars['Boolean']['input']>;
-  extensionRepos?: InputMaybe<Array<Scalars['String']['input']>>;
-  flareSolverrEnabled?: InputMaybe<Scalars['Boolean']['input']>;
-  flareSolverrSessionName?: InputMaybe<Scalars['String']['input']>;
-  flareSolverrSessionTtl?: InputMaybe<Scalars['Int']['input']>;
-  flareSolverrTimeout?: InputMaybe<Scalars['Int']['input']>;
-  flareSolverrUrl?: InputMaybe<Scalars['String']['input']>;
-  globalUpdateInterval?: InputMaybe<Scalars['Float']['input']>;
-  gqlDebugLogsEnabled?: InputMaybe<Scalars['Boolean']['input']>;
-  initialOpenInBrowserEnabled?: InputMaybe<Scalars['Boolean']['input']>;
-  ip?: InputMaybe<Scalars['String']['input']>;
-  localSourcePath?: InputMaybe<Scalars['String']['input']>;
-  maxSourcesInParallel?: InputMaybe<Scalars['Int']['input']>;
-  port?: InputMaybe<Scalars['Int']['input']>;
-  socksProxyEnabled?: InputMaybe<Scalars['Boolean']['input']>;
-  socksProxyHost?: InputMaybe<Scalars['String']['input']>;
-  socksProxyPassword?: InputMaybe<Scalars['String']['input']>;
-  socksProxyPort?: InputMaybe<Scalars['String']['input']>;
-  socksProxyUsername?: InputMaybe<Scalars['String']['input']>;
-  socksProxyVersion?: InputMaybe<Scalars['Int']['input']>;
-  systemTrayEnabled?: InputMaybe<Scalars['Boolean']['input']>;
-  updateMangas?: InputMaybe<Scalars['Boolean']['input']>;
-  webUIChannel?: InputMaybe<WebUiChannel>;
-  webUIFlavor?: InputMaybe<WebUiFlavor>;
-  webUIInterface?: InputMaybe<WebUiInterface>;
-  webUIUpdateCheckInterval?: InputMaybe<Scalars['Float']['input']>;
+    autoDownloadNewChapters?: InputMaybe<Scalars['Boolean']['input']>;
+    autoDownloadNewChaptersLimit?: InputMaybe<Scalars['Int']['input']>;
+    backupInterval?: InputMaybe<Scalars['Int']['input']>;
+    backupPath?: InputMaybe<Scalars['String']['input']>;
+    backupTTL?: InputMaybe<Scalars['Int']['input']>;
+    backupTime?: InputMaybe<Scalars['String']['input']>;
+    basicAuthEnabled?: InputMaybe<Scalars['Boolean']['input']>;
+    basicAuthPassword?: InputMaybe<Scalars['String']['input']>;
+    basicAuthUsername?: InputMaybe<Scalars['String']['input']>;
+    debugLogsEnabled?: InputMaybe<Scalars['Boolean']['input']>;
+    downloadAsCbz?: InputMaybe<Scalars['Boolean']['input']>;
+    downloadsPath?: InputMaybe<Scalars['String']['input']>;
+    electronPath?: InputMaybe<Scalars['String']['input']>;
+    excludeCompleted?: InputMaybe<Scalars['Boolean']['input']>;
+    excludeEntryWithUnreadChapters?: InputMaybe<Scalars['Boolean']['input']>;
+    excludeNotStarted?: InputMaybe<Scalars['Boolean']['input']>;
+    excludeUnreadChapters?: InputMaybe<Scalars['Boolean']['input']>;
+    extensionRepos?: InputMaybe<Array<Scalars['String']['input']>>;
+    flareSolverrEnabled?: InputMaybe<Scalars['Boolean']['input']>;
+    flareSolverrSessionName?: InputMaybe<Scalars['String']['input']>;
+    flareSolverrSessionTtl?: InputMaybe<Scalars['Int']['input']>;
+    flareSolverrTimeout?: InputMaybe<Scalars['Int']['input']>;
+    flareSolverrUrl?: InputMaybe<Scalars['String']['input']>;
+    globalUpdateInterval?: InputMaybe<Scalars['Float']['input']>;
+    gqlDebugLogsEnabled?: InputMaybe<Scalars['Boolean']['input']>;
+    initialOpenInBrowserEnabled?: InputMaybe<Scalars['Boolean']['input']>;
+    ip?: InputMaybe<Scalars['String']['input']>;
+    localSourcePath?: InputMaybe<Scalars['String']['input']>;
+    maxSourcesInParallel?: InputMaybe<Scalars['Int']['input']>;
+    port?: InputMaybe<Scalars['Int']['input']>;
+    socksProxyEnabled?: InputMaybe<Scalars['Boolean']['input']>;
+    socksProxyHost?: InputMaybe<Scalars['String']['input']>;
+    socksProxyPassword?: InputMaybe<Scalars['String']['input']>;
+    socksProxyPort?: InputMaybe<Scalars['String']['input']>;
+    socksProxyUsername?: InputMaybe<Scalars['String']['input']>;
+    socksProxyVersion?: InputMaybe<Scalars['Int']['input']>;
+    systemTrayEnabled?: InputMaybe<Scalars['Boolean']['input']>;
+    updateMangas?: InputMaybe<Scalars['Boolean']['input']>;
+    webUIChannel?: InputMaybe<WebUiChannel>;
+    webUIFlavor?: InputMaybe<WebUiFlavor>;
+    webUIInterface?: InputMaybe<WebUiInterface>;
+    webUIUpdateCheckInterval?: InputMaybe<Scalars['Float']['input']>;
 };
 
-export type Preference = CheckBoxPreference | EditTextPreference | ListPreference | MultiSelectListPreference | SwitchPreference;
+export type Preference =
+    | CheckBoxPreference
+    | EditTextPreference
+    | ListPreference
+    | MultiSelectListPreference
+    | SwitchPreference;
 
 export type Query = {
-  __typename?: 'Query';
-  aboutServer: AboutServerPayload;
-  aboutWebUI: AboutWebUi;
-  categories: CategoryNodeList;
-  category: CategoryType;
-  chapter: ChapterType;
-  chapters: ChapterNodeList;
-  checkForServerUpdates: Array<CheckForServerUpdatesPayload>;
-  checkForWebUIUpdate: WebUiUpdateCheck;
-  downloadStatus: DownloadStatus;
-  extension: ExtensionType;
-  extensions: ExtensionNodeList;
-  getWebUIUpdateStatus: WebUiUpdateStatus;
-  lastUpdateTimestamp: LastUpdateTimestampPayload;
-  manga: MangaType;
-  mangas: MangaNodeList;
-  meta: GlobalMetaType;
-  metas: GlobalMetaNodeList;
-  restoreStatus?: Maybe<BackupRestoreStatus>;
-  searchTracker: SearchTrackerPayload;
-  settings: SettingsType;
-  source: SourceType;
-  sources: SourceNodeList;
-  trackRecord: TrackRecordType;
-  trackRecords: TrackRecordNodeList;
-  tracker: TrackerType;
-  trackers: TrackerNodeList;
-  updateStatus: UpdateStatus;
-  validateBackup: ValidateBackupResult;
+    __typename?: 'Query';
+    aboutServer: AboutServerPayload;
+    aboutWebUI: AboutWebUi;
+    categories: CategoryNodeList;
+    category: CategoryType;
+    chapter: ChapterType;
+    chapters: ChapterNodeList;
+    checkForServerUpdates: Array<CheckForServerUpdatesPayload>;
+    checkForWebUIUpdate: WebUiUpdateCheck;
+    downloadStatus: DownloadStatus;
+    extension: ExtensionType;
+    extensions: ExtensionNodeList;
+    getWebUIUpdateStatus: WebUiUpdateStatus;
+    lastUpdateTimestamp: LastUpdateTimestampPayload;
+    manga: MangaType;
+    mangas: MangaNodeList;
+    meta: GlobalMetaType;
+    metas: GlobalMetaNodeList;
+    restoreStatus?: Maybe<BackupRestoreStatus>;
+    searchTracker: SearchTrackerPayload;
+    settings: SettingsType;
+    source: SourceType;
+    sources: SourceNodeList;
+    trackRecord: TrackRecordType;
+    trackRecords: TrackRecordNodeList;
+    tracker: TrackerType;
+    trackers: TrackerNodeList;
+    updateStatus: UpdateStatus;
+    validateBackup: ValidateBackupResult;
 };
-
 
 export type QueryCategoriesArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
-  condition?: InputMaybe<CategoryConditionInput>;
-  filter?: InputMaybe<CategoryFilterInput>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<CategoryOrderBy>;
-  orderByType?: InputMaybe<SortOrder>;
+    after?: InputMaybe<Scalars['Cursor']['input']>;
+    before?: InputMaybe<Scalars['Cursor']['input']>;
+    condition?: InputMaybe<CategoryConditionInput>;
+    filter?: InputMaybe<CategoryFilterInput>;
+    first?: InputMaybe<Scalars['Int']['input']>;
+    last?: InputMaybe<Scalars['Int']['input']>;
+    offset?: InputMaybe<Scalars['Int']['input']>;
+    orderBy?: InputMaybe<CategoryOrderBy>;
+    orderByType?: InputMaybe<SortOrder>;
 };
-
 
 export type QueryCategoryArgs = {
-  id: Scalars['Int']['input'];
+    id: Scalars['Int']['input'];
 };
-
 
 export type QueryChapterArgs = {
-  id: Scalars['Int']['input'];
+    id: Scalars['Int']['input'];
 };
-
 
 export type QueryChaptersArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
-  condition?: InputMaybe<ChapterConditionInput>;
-  filter?: InputMaybe<ChapterFilterInput>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<ChapterOrderBy>;
-  orderByType?: InputMaybe<SortOrder>;
+    after?: InputMaybe<Scalars['Cursor']['input']>;
+    before?: InputMaybe<Scalars['Cursor']['input']>;
+    condition?: InputMaybe<ChapterConditionInput>;
+    filter?: InputMaybe<ChapterFilterInput>;
+    first?: InputMaybe<Scalars['Int']['input']>;
+    last?: InputMaybe<Scalars['Int']['input']>;
+    offset?: InputMaybe<Scalars['Int']['input']>;
+    orderBy?: InputMaybe<ChapterOrderBy>;
+    orderByType?: InputMaybe<SortOrder>;
 };
-
 
 export type QueryExtensionArgs = {
-  pkgName: Scalars['String']['input'];
+    pkgName: Scalars['String']['input'];
 };
-
 
 export type QueryExtensionsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
-  condition?: InputMaybe<ExtensionConditionInput>;
-  filter?: InputMaybe<ExtensionFilterInput>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<ExtensionOrderBy>;
-  orderByType?: InputMaybe<SortOrder>;
+    after?: InputMaybe<Scalars['Cursor']['input']>;
+    before?: InputMaybe<Scalars['Cursor']['input']>;
+    condition?: InputMaybe<ExtensionConditionInput>;
+    filter?: InputMaybe<ExtensionFilterInput>;
+    first?: InputMaybe<Scalars['Int']['input']>;
+    last?: InputMaybe<Scalars['Int']['input']>;
+    offset?: InputMaybe<Scalars['Int']['input']>;
+    orderBy?: InputMaybe<ExtensionOrderBy>;
+    orderByType?: InputMaybe<SortOrder>;
 };
-
 
 export type QueryMangaArgs = {
-  id: Scalars['Int']['input'];
+    id: Scalars['Int']['input'];
 };
-
 
 export type QueryMangasArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
-  condition?: InputMaybe<MangaConditionInput>;
-  filter?: InputMaybe<MangaFilterInput>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<MangaOrderBy>;
-  orderByType?: InputMaybe<SortOrder>;
+    after?: InputMaybe<Scalars['Cursor']['input']>;
+    before?: InputMaybe<Scalars['Cursor']['input']>;
+    condition?: InputMaybe<MangaConditionInput>;
+    filter?: InputMaybe<MangaFilterInput>;
+    first?: InputMaybe<Scalars['Int']['input']>;
+    last?: InputMaybe<Scalars['Int']['input']>;
+    offset?: InputMaybe<Scalars['Int']['input']>;
+    orderBy?: InputMaybe<MangaOrderBy>;
+    orderByType?: InputMaybe<SortOrder>;
 };
-
 
 export type QueryMetaArgs = {
-  key: Scalars['String']['input'];
+    key: Scalars['String']['input'];
 };
-
 
 export type QueryMetasArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
-  condition?: InputMaybe<MetaConditionInput>;
-  filter?: InputMaybe<MetaFilterInput>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<MetaOrderBy>;
-  orderByType?: InputMaybe<SortOrder>;
+    after?: InputMaybe<Scalars['Cursor']['input']>;
+    before?: InputMaybe<Scalars['Cursor']['input']>;
+    condition?: InputMaybe<MetaConditionInput>;
+    filter?: InputMaybe<MetaFilterInput>;
+    first?: InputMaybe<Scalars['Int']['input']>;
+    last?: InputMaybe<Scalars['Int']['input']>;
+    offset?: InputMaybe<Scalars['Int']['input']>;
+    orderBy?: InputMaybe<MetaOrderBy>;
+    orderByType?: InputMaybe<SortOrder>;
 };
-
 
 export type QueryRestoreStatusArgs = {
-  id: Scalars['String']['input'];
+    id: Scalars['String']['input'];
 };
-
 
 export type QuerySearchTrackerArgs = {
-  input: SearchTrackerInput;
+    input: SearchTrackerInput;
 };
-
 
 export type QuerySourceArgs = {
-  id: Scalars['LongString']['input'];
+    id: Scalars['LongString']['input'];
 };
-
 
 export type QuerySourcesArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
-  condition?: InputMaybe<SourceConditionInput>;
-  filter?: InputMaybe<SourceFilterInput>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<SourceOrderBy>;
-  orderByType?: InputMaybe<SortOrder>;
+    after?: InputMaybe<Scalars['Cursor']['input']>;
+    before?: InputMaybe<Scalars['Cursor']['input']>;
+    condition?: InputMaybe<SourceConditionInput>;
+    filter?: InputMaybe<SourceFilterInput>;
+    first?: InputMaybe<Scalars['Int']['input']>;
+    last?: InputMaybe<Scalars['Int']['input']>;
+    offset?: InputMaybe<Scalars['Int']['input']>;
+    orderBy?: InputMaybe<SourceOrderBy>;
+    orderByType?: InputMaybe<SortOrder>;
 };
-
 
 export type QueryTrackRecordArgs = {
-  id: Scalars['Int']['input'];
+    id: Scalars['Int']['input'];
 };
-
 
 export type QueryTrackRecordsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
-  condition?: InputMaybe<TrackRecordConditionInput>;
-  filter?: InputMaybe<TrackRecordFilterInput>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<TrackRecordOrderBy>;
-  orderByType?: InputMaybe<SortOrder>;
+    after?: InputMaybe<Scalars['Cursor']['input']>;
+    before?: InputMaybe<Scalars['Cursor']['input']>;
+    condition?: InputMaybe<TrackRecordConditionInput>;
+    filter?: InputMaybe<TrackRecordFilterInput>;
+    first?: InputMaybe<Scalars['Int']['input']>;
+    last?: InputMaybe<Scalars['Int']['input']>;
+    offset?: InputMaybe<Scalars['Int']['input']>;
+    orderBy?: InputMaybe<TrackRecordOrderBy>;
+    orderByType?: InputMaybe<SortOrder>;
 };
-
 
 export type QueryTrackerArgs = {
-  id: Scalars['Int']['input'];
+    id: Scalars['Int']['input'];
 };
-
 
 export type QueryTrackersArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
-  condition?: InputMaybe<TrackerConditionInput>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<TrackerOrderBy>;
-  orderByType?: InputMaybe<SortOrder>;
+    after?: InputMaybe<Scalars['Cursor']['input']>;
+    before?: InputMaybe<Scalars['Cursor']['input']>;
+    condition?: InputMaybe<TrackerConditionInput>;
+    first?: InputMaybe<Scalars['Int']['input']>;
+    last?: InputMaybe<Scalars['Int']['input']>;
+    offset?: InputMaybe<Scalars['Int']['input']>;
+    orderBy?: InputMaybe<TrackerOrderBy>;
+    orderByType?: InputMaybe<SortOrder>;
 };
 
-
 export type QueryValidateBackupArgs = {
-  input: ValidateBackupInput;
+    input: ValidateBackupInput;
 };
 
 export type ReorderChapterDownloadInput = {
-  chapterId: Scalars['Int']['input'];
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  to: Scalars['Int']['input'];
+    chapterId: Scalars['Int']['input'];
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    to: Scalars['Int']['input'];
 };
 
 export type ReorderChapterDownloadPayload = {
-  __typename?: 'ReorderChapterDownloadPayload';
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  downloadStatus: DownloadStatus;
+    __typename?: 'ReorderChapterDownloadPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    downloadStatus: DownloadStatus;
 };
 
 export type ResetSettingsInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ResetSettingsPayload = {
-  __typename?: 'ResetSettingsPayload';
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  settings: SettingsType;
+    __typename?: 'ResetSettingsPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    settings: SettingsType;
 };
 
 export type RestoreBackupInput = {
-  backup: Scalars['Upload']['input'];
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    backup: Scalars['Upload']['input'];
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type RestoreBackupPayload = {
-  __typename?: 'RestoreBackupPayload';
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  id: Scalars['String']['output'];
-  status?: Maybe<BackupRestoreStatus>;
+    __typename?: 'RestoreBackupPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    id: Scalars['String']['output'];
+    status?: Maybe<BackupRestoreStatus>;
 };
 
 export type SearchTrackerInput = {
-  query: Scalars['String']['input'];
-  trackerId: Scalars['Int']['input'];
+    query: Scalars['String']['input'];
+    trackerId: Scalars['Int']['input'];
 };
 
 export type SearchTrackerPayload = {
-  __typename?: 'SearchTrackerPayload';
-  trackSearches: Array<TrackSearchType>;
+    __typename?: 'SearchTrackerPayload';
+    trackSearches: Array<TrackSearchType>;
 };
 
 export type SelectFilter = {
-  __typename?: 'SelectFilter';
-  default: Scalars['Int']['output'];
-  name: Scalars['String']['output'];
-  values: Array<Scalars['String']['output']>;
+    __typename?: 'SelectFilter';
+    default: Scalars['Int']['output'];
+    name: Scalars['String']['output'];
+    values: Array<Scalars['String']['output']>;
 };
 
 export type SeparatorFilter = {
-  __typename?: 'SeparatorFilter';
-  name: Scalars['String']['output'];
+    __typename?: 'SeparatorFilter';
+    name: Scalars['String']['output'];
 };
 
 export type SetCategoryMetaInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  meta: CategoryMetaTypeInput;
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    meta: CategoryMetaTypeInput;
 };
 
 export type SetCategoryMetaPayload = {
-  __typename?: 'SetCategoryMetaPayload';
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  meta: CategoryMetaType;
+    __typename?: 'SetCategoryMetaPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    meta: CategoryMetaType;
 };
 
 export type SetChapterMetaInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  meta: ChapterMetaTypeInput;
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    meta: ChapterMetaTypeInput;
 };
 
 export type SetChapterMetaPayload = {
-  __typename?: 'SetChapterMetaPayload';
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  meta: ChapterMetaType;
+    __typename?: 'SetChapterMetaPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    meta: ChapterMetaType;
 };
 
 export type SetGlobalMetaInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  meta: GlobalMetaTypeInput;
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    meta: GlobalMetaTypeInput;
 };
 
 export type SetGlobalMetaPayload = {
-  __typename?: 'SetGlobalMetaPayload';
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  meta: GlobalMetaType;
+    __typename?: 'SetGlobalMetaPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    meta: GlobalMetaType;
 };
 
 export type SetMangaMetaInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  meta: MangaMetaTypeInput;
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    meta: MangaMetaTypeInput;
 };
 
 export type SetMangaMetaPayload = {
-  __typename?: 'SetMangaMetaPayload';
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  meta: MangaMetaType;
+    __typename?: 'SetMangaMetaPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    meta: MangaMetaType;
 };
 
 export type SetSettingsInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  settings: PartialSettingsTypeInput;
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    settings: PartialSettingsTypeInput;
 };
 
 export type SetSettingsPayload = {
-  __typename?: 'SetSettingsPayload';
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  settings: SettingsType;
+    __typename?: 'SetSettingsPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    settings: SettingsType;
 };
 
 export type SetSourceMetaInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  meta: SourceMetaTypeInput;
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    meta: SourceMetaTypeInput;
 };
 
 export type SetSourceMetaPayload = {
-  __typename?: 'SetSourceMetaPayload';
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  meta: SourceMetaType;
+    __typename?: 'SetSourceMetaPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    meta: SourceMetaType;
 };
 
 export type Settings = {
-  /** @deprecated Replaced with autoDownloadNewChaptersLimit, replace with autoDownloadNewChaptersLimit */
-  autoDownloadAheadLimit?: Maybe<Scalars['Int']['output']>;
-  autoDownloadNewChapters?: Maybe<Scalars['Boolean']['output']>;
-  autoDownloadNewChaptersLimit?: Maybe<Scalars['Int']['output']>;
-  backupInterval?: Maybe<Scalars['Int']['output']>;
-  backupPath?: Maybe<Scalars['String']['output']>;
-  backupTTL?: Maybe<Scalars['Int']['output']>;
-  backupTime?: Maybe<Scalars['String']['output']>;
-  basicAuthEnabled?: Maybe<Scalars['Boolean']['output']>;
-  basicAuthPassword?: Maybe<Scalars['String']['output']>;
-  basicAuthUsername?: Maybe<Scalars['String']['output']>;
-  debugLogsEnabled?: Maybe<Scalars['Boolean']['output']>;
-  downloadAsCbz?: Maybe<Scalars['Boolean']['output']>;
-  downloadsPath?: Maybe<Scalars['String']['output']>;
-  electronPath?: Maybe<Scalars['String']['output']>;
-  excludeCompleted?: Maybe<Scalars['Boolean']['output']>;
-  excludeEntryWithUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
-  excludeNotStarted?: Maybe<Scalars['Boolean']['output']>;
-  excludeUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
-  extensionRepos?: Maybe<Array<Scalars['String']['output']>>;
-  flareSolverrEnabled?: Maybe<Scalars['Boolean']['output']>;
-  flareSolverrSessionName?: Maybe<Scalars['String']['output']>;
-  flareSolverrSessionTtl?: Maybe<Scalars['Int']['output']>;
-  flareSolverrTimeout?: Maybe<Scalars['Int']['output']>;
-  flareSolverrUrl?: Maybe<Scalars['String']['output']>;
-  globalUpdateInterval?: Maybe<Scalars['Float']['output']>;
-  gqlDebugLogsEnabled?: Maybe<Scalars['Boolean']['output']>;
-  initialOpenInBrowserEnabled?: Maybe<Scalars['Boolean']['output']>;
-  ip?: Maybe<Scalars['String']['output']>;
-  localSourcePath?: Maybe<Scalars['String']['output']>;
-  maxSourcesInParallel?: Maybe<Scalars['Int']['output']>;
-  port?: Maybe<Scalars['Int']['output']>;
-  socksProxyEnabled?: Maybe<Scalars['Boolean']['output']>;
-  socksProxyHost?: Maybe<Scalars['String']['output']>;
-  socksProxyPassword?: Maybe<Scalars['String']['output']>;
-  socksProxyPort?: Maybe<Scalars['String']['output']>;
-  socksProxyUsername?: Maybe<Scalars['String']['output']>;
-  socksProxyVersion?: Maybe<Scalars['Int']['output']>;
-  systemTrayEnabled?: Maybe<Scalars['Boolean']['output']>;
-  updateMangas?: Maybe<Scalars['Boolean']['output']>;
-  webUIChannel?: Maybe<WebUiChannel>;
-  webUIFlavor?: Maybe<WebUiFlavor>;
-  webUIInterface?: Maybe<WebUiInterface>;
-  webUIUpdateCheckInterval?: Maybe<Scalars['Float']['output']>;
+    /** @deprecated Replaced with autoDownloadNewChaptersLimit, replace with autoDownloadNewChaptersLimit */
+    autoDownloadAheadLimit?: Maybe<Scalars['Int']['output']>;
+    autoDownloadNewChapters?: Maybe<Scalars['Boolean']['output']>;
+    autoDownloadNewChaptersLimit?: Maybe<Scalars['Int']['output']>;
+    backupInterval?: Maybe<Scalars['Int']['output']>;
+    backupPath?: Maybe<Scalars['String']['output']>;
+    backupTTL?: Maybe<Scalars['Int']['output']>;
+    backupTime?: Maybe<Scalars['String']['output']>;
+    basicAuthEnabled?: Maybe<Scalars['Boolean']['output']>;
+    basicAuthPassword?: Maybe<Scalars['String']['output']>;
+    basicAuthUsername?: Maybe<Scalars['String']['output']>;
+    debugLogsEnabled?: Maybe<Scalars['Boolean']['output']>;
+    downloadAsCbz?: Maybe<Scalars['Boolean']['output']>;
+    downloadsPath?: Maybe<Scalars['String']['output']>;
+    electronPath?: Maybe<Scalars['String']['output']>;
+    excludeCompleted?: Maybe<Scalars['Boolean']['output']>;
+    excludeEntryWithUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
+    excludeNotStarted?: Maybe<Scalars['Boolean']['output']>;
+    excludeUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
+    extensionRepos?: Maybe<Array<Scalars['String']['output']>>;
+    flareSolverrEnabled?: Maybe<Scalars['Boolean']['output']>;
+    flareSolverrSessionName?: Maybe<Scalars['String']['output']>;
+    flareSolverrSessionTtl?: Maybe<Scalars['Int']['output']>;
+    flareSolverrTimeout?: Maybe<Scalars['Int']['output']>;
+    flareSolverrUrl?: Maybe<Scalars['String']['output']>;
+    globalUpdateInterval?: Maybe<Scalars['Float']['output']>;
+    gqlDebugLogsEnabled?: Maybe<Scalars['Boolean']['output']>;
+    initialOpenInBrowserEnabled?: Maybe<Scalars['Boolean']['output']>;
+    ip?: Maybe<Scalars['String']['output']>;
+    localSourcePath?: Maybe<Scalars['String']['output']>;
+    maxSourcesInParallel?: Maybe<Scalars['Int']['output']>;
+    port?: Maybe<Scalars['Int']['output']>;
+    socksProxyEnabled?: Maybe<Scalars['Boolean']['output']>;
+    socksProxyHost?: Maybe<Scalars['String']['output']>;
+    socksProxyPassword?: Maybe<Scalars['String']['output']>;
+    socksProxyPort?: Maybe<Scalars['String']['output']>;
+    socksProxyUsername?: Maybe<Scalars['String']['output']>;
+    socksProxyVersion?: Maybe<Scalars['Int']['output']>;
+    systemTrayEnabled?: Maybe<Scalars['Boolean']['output']>;
+    updateMangas?: Maybe<Scalars['Boolean']['output']>;
+    webUIChannel?: Maybe<WebUiChannel>;
+    webUIFlavor?: Maybe<WebUiFlavor>;
+    webUIInterface?: Maybe<WebUiInterface>;
+    webUIUpdateCheckInterval?: Maybe<Scalars['Float']['output']>;
 };
 
 export type SettingsType = Settings & {
-  __typename?: 'SettingsType';
-  /** @deprecated Replaced with autoDownloadNewChaptersLimit, replace with autoDownloadNewChaptersLimit */
-  autoDownloadAheadLimit: Scalars['Int']['output'];
-  autoDownloadNewChapters: Scalars['Boolean']['output'];
-  autoDownloadNewChaptersLimit: Scalars['Int']['output'];
-  backupInterval: Scalars['Int']['output'];
-  backupPath: Scalars['String']['output'];
-  backupTTL: Scalars['Int']['output'];
-  backupTime: Scalars['String']['output'];
-  basicAuthEnabled: Scalars['Boolean']['output'];
-  basicAuthPassword: Scalars['String']['output'];
-  basicAuthUsername: Scalars['String']['output'];
-  debugLogsEnabled: Scalars['Boolean']['output'];
-  downloadAsCbz: Scalars['Boolean']['output'];
-  downloadsPath: Scalars['String']['output'];
-  electronPath: Scalars['String']['output'];
-  excludeCompleted: Scalars['Boolean']['output'];
-  excludeEntryWithUnreadChapters: Scalars['Boolean']['output'];
-  excludeNotStarted: Scalars['Boolean']['output'];
-  excludeUnreadChapters: Scalars['Boolean']['output'];
-  extensionRepos: Array<Scalars['String']['output']>;
-  flareSolverrEnabled: Scalars['Boolean']['output'];
-  flareSolverrSessionName: Scalars['String']['output'];
-  flareSolverrSessionTtl: Scalars['Int']['output'];
-  flareSolverrTimeout: Scalars['Int']['output'];
-  flareSolverrUrl: Scalars['String']['output'];
-  globalUpdateInterval: Scalars['Float']['output'];
-  gqlDebugLogsEnabled: Scalars['Boolean']['output'];
-  initialOpenInBrowserEnabled: Scalars['Boolean']['output'];
-  ip: Scalars['String']['output'];
-  localSourcePath: Scalars['String']['output'];
-  maxSourcesInParallel: Scalars['Int']['output'];
-  port: Scalars['Int']['output'];
-  socksProxyEnabled: Scalars['Boolean']['output'];
-  socksProxyHost: Scalars['String']['output'];
-  socksProxyPassword: Scalars['String']['output'];
-  socksProxyPort: Scalars['String']['output'];
-  socksProxyUsername: Scalars['String']['output'];
-  socksProxyVersion: Scalars['Int']['output'];
-  systemTrayEnabled: Scalars['Boolean']['output'];
-  updateMangas: Scalars['Boolean']['output'];
-  webUIChannel: WebUiChannel;
-  webUIFlavor: WebUiFlavor;
-  webUIInterface: WebUiInterface;
-  webUIUpdateCheckInterval: Scalars['Float']['output'];
+    __typename?: 'SettingsType';
+    /** @deprecated Replaced with autoDownloadNewChaptersLimit, replace with autoDownloadNewChaptersLimit */
+    autoDownloadAheadLimit: Scalars['Int']['output'];
+    autoDownloadNewChapters: Scalars['Boolean']['output'];
+    autoDownloadNewChaptersLimit: Scalars['Int']['output'];
+    backupInterval: Scalars['Int']['output'];
+    backupPath: Scalars['String']['output'];
+    backupTTL: Scalars['Int']['output'];
+    backupTime: Scalars['String']['output'];
+    basicAuthEnabled: Scalars['Boolean']['output'];
+    basicAuthPassword: Scalars['String']['output'];
+    basicAuthUsername: Scalars['String']['output'];
+    debugLogsEnabled: Scalars['Boolean']['output'];
+    downloadAsCbz: Scalars['Boolean']['output'];
+    downloadsPath: Scalars['String']['output'];
+    electronPath: Scalars['String']['output'];
+    excludeCompleted: Scalars['Boolean']['output'];
+    excludeEntryWithUnreadChapters: Scalars['Boolean']['output'];
+    excludeNotStarted: Scalars['Boolean']['output'];
+    excludeUnreadChapters: Scalars['Boolean']['output'];
+    extensionRepos: Array<Scalars['String']['output']>;
+    flareSolverrEnabled: Scalars['Boolean']['output'];
+    flareSolverrSessionName: Scalars['String']['output'];
+    flareSolverrSessionTtl: Scalars['Int']['output'];
+    flareSolverrTimeout: Scalars['Int']['output'];
+    flareSolverrUrl: Scalars['String']['output'];
+    globalUpdateInterval: Scalars['Float']['output'];
+    gqlDebugLogsEnabled: Scalars['Boolean']['output'];
+    initialOpenInBrowserEnabled: Scalars['Boolean']['output'];
+    ip: Scalars['String']['output'];
+    localSourcePath: Scalars['String']['output'];
+    maxSourcesInParallel: Scalars['Int']['output'];
+    port: Scalars['Int']['output'];
+    socksProxyEnabled: Scalars['Boolean']['output'];
+    socksProxyHost: Scalars['String']['output'];
+    socksProxyPassword: Scalars['String']['output'];
+    socksProxyPort: Scalars['String']['output'];
+    socksProxyUsername: Scalars['String']['output'];
+    socksProxyVersion: Scalars['Int']['output'];
+    systemTrayEnabled: Scalars['Boolean']['output'];
+    updateMangas: Scalars['Boolean']['output'];
+    webUIChannel: WebUiChannel;
+    webUIFlavor: WebUiFlavor;
+    webUIInterface: WebUiInterface;
+    webUIUpdateCheckInterval: Scalars['Float']['output'];
 };
 
 export type SortFilter = {
-  __typename?: 'SortFilter';
-  default?: Maybe<SortSelection>;
-  name: Scalars['String']['output'];
-  values: Array<Scalars['String']['output']>;
+    __typename?: 'SortFilter';
+    default?: Maybe<SortSelection>;
+    name: Scalars['String']['output'];
+    values: Array<Scalars['String']['output']>;
 };
 
 export enum SortOrder {
-  Asc = 'ASC',
-  AscNullsFirst = 'ASC_NULLS_FIRST',
-  AscNullsLast = 'ASC_NULLS_LAST',
-  Desc = 'DESC',
-  DescNullsFirst = 'DESC_NULLS_FIRST',
-  DescNullsLast = 'DESC_NULLS_LAST'
+    Asc = 'ASC',
+    AscNullsFirst = 'ASC_NULLS_FIRST',
+    AscNullsLast = 'ASC_NULLS_LAST',
+    Desc = 'DESC',
+    DescNullsFirst = 'DESC_NULLS_FIRST',
+    DescNullsLast = 'DESC_NULLS_LAST',
 }
 
 export type SortSelection = {
-  __typename?: 'SortSelection';
-  ascending: Scalars['Boolean']['output'];
-  index: Scalars['Int']['output'];
+    __typename?: 'SortSelection';
+    ascending: Scalars['Boolean']['output'];
+    index: Scalars['Int']['output'];
 };
 
 export type SortSelectionInput = {
-  ascending: Scalars['Boolean']['input'];
-  index: Scalars['Int']['input'];
+    ascending: Scalars['Boolean']['input'];
+    index: Scalars['Int']['input'];
 };
 
 export type SourceConditionInput = {
-  id?: InputMaybe<Scalars['LongString']['input']>;
-  isNsfw?: InputMaybe<Scalars['Boolean']['input']>;
-  lang?: InputMaybe<Scalars['String']['input']>;
-  name?: InputMaybe<Scalars['String']['input']>;
+    id?: InputMaybe<Scalars['LongString']['input']>;
+    isNsfw?: InputMaybe<Scalars['Boolean']['input']>;
+    lang?: InputMaybe<Scalars['String']['input']>;
+    name?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type SourceEdge = Edge & {
-  __typename?: 'SourceEdge';
-  cursor: Scalars['Cursor']['output'];
-  node: SourceType;
+    __typename?: 'SourceEdge';
+    cursor: Scalars['Cursor']['output'];
+    node: SourceType;
 };
 
 export type SourceFilterInput = {
-  and?: InputMaybe<Array<SourceFilterInput>>;
-  id?: InputMaybe<LongFilterInput>;
-  isNsfw?: InputMaybe<BooleanFilterInput>;
-  lang?: InputMaybe<StringFilterInput>;
-  name?: InputMaybe<StringFilterInput>;
-  not?: InputMaybe<SourceFilterInput>;
-  or?: InputMaybe<Array<SourceFilterInput>>;
+    and?: InputMaybe<Array<SourceFilterInput>>;
+    id?: InputMaybe<LongFilterInput>;
+    isNsfw?: InputMaybe<BooleanFilterInput>;
+    lang?: InputMaybe<StringFilterInput>;
+    name?: InputMaybe<StringFilterInput>;
+    not?: InputMaybe<SourceFilterInput>;
+    or?: InputMaybe<Array<SourceFilterInput>>;
 };
 
 export type SourceMetaType = MetaType & {
-  __typename?: 'SourceMetaType';
-  key: Scalars['String']['output'];
-  source: SourceType;
-  sourceId: Scalars['LongString']['output'];
-  value: Scalars['String']['output'];
+    __typename?: 'SourceMetaType';
+    key: Scalars['String']['output'];
+    source: SourceType;
+    sourceId: Scalars['LongString']['output'];
+    value: Scalars['String']['output'];
 };
 
 export type SourceMetaTypeInput = {
-  key: Scalars['String']['input'];
-  sourceId: Scalars['LongString']['input'];
-  value: Scalars['String']['input'];
+    key: Scalars['String']['input'];
+    sourceId: Scalars['LongString']['input'];
+    value: Scalars['String']['input'];
 };
 
 export type SourceNodeList = NodeList & {
-  __typename?: 'SourceNodeList';
-  edges: Array<SourceEdge>;
-  nodes: Array<SourceType>;
-  pageInfo: PageInfo;
-  totalCount: Scalars['Int']['output'];
+    __typename?: 'SourceNodeList';
+    edges: Array<SourceEdge>;
+    nodes: Array<SourceType>;
+    pageInfo: PageInfo;
+    totalCount: Scalars['Int']['output'];
 };
 
 export enum SourceOrderBy {
-  Id = 'ID',
-  Lang = 'LANG',
-  Name = 'NAME'
+    Id = 'ID',
+    Lang = 'LANG',
+    Name = 'NAME',
 }
 
 export type SourcePreferenceChangeInput = {
-  checkBoxState?: InputMaybe<Scalars['Boolean']['input']>;
-  editTextState?: InputMaybe<Scalars['String']['input']>;
-  listState?: InputMaybe<Scalars['String']['input']>;
-  multiSelectState?: InputMaybe<Array<Scalars['String']['input']>>;
-  position: Scalars['Int']['input'];
-  switchState?: InputMaybe<Scalars['Boolean']['input']>;
+    checkBoxState?: InputMaybe<Scalars['Boolean']['input']>;
+    editTextState?: InputMaybe<Scalars['String']['input']>;
+    listState?: InputMaybe<Scalars['String']['input']>;
+    multiSelectState?: InputMaybe<Array<Scalars['String']['input']>>;
+    position: Scalars['Int']['input'];
+    switchState?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type SourceType = {
-  __typename?: 'SourceType';
-  displayName: Scalars['String']['output'];
-  extension: ExtensionType;
-  filters: Array<Filter>;
-  iconUrl: Scalars['String']['output'];
-  id: Scalars['LongString']['output'];
-  isConfigurable: Scalars['Boolean']['output'];
-  isNsfw: Scalars['Boolean']['output'];
-  lang: Scalars['String']['output'];
-  manga: MangaNodeList;
-  meta: Array<SourceMetaType>;
-  name: Scalars['String']['output'];
-  preferences: Array<Preference>;
-  supportsLatest: Scalars['Boolean']['output'];
+    __typename?: 'SourceType';
+    displayName: Scalars['String']['output'];
+    extension: ExtensionType;
+    filters: Array<Filter>;
+    iconUrl: Scalars['String']['output'];
+    id: Scalars['LongString']['output'];
+    isConfigurable: Scalars['Boolean']['output'];
+    isNsfw: Scalars['Boolean']['output'];
+    lang: Scalars['String']['output'];
+    manga: MangaNodeList;
+    meta: Array<SourceMetaType>;
+    name: Scalars['String']['output'];
+    preferences: Array<Preference>;
+    supportsLatest: Scalars['Boolean']['output'];
 };
 
 export type StartDownloaderInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type StartDownloaderPayload = {
-  __typename?: 'StartDownloaderPayload';
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  downloadStatus: DownloadStatus;
+    __typename?: 'StartDownloaderPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    downloadStatus: DownloadStatus;
 };
 
 export type StopDownloaderInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type StopDownloaderPayload = {
-  __typename?: 'StopDownloaderPayload';
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  downloadStatus: DownloadStatus;
+    __typename?: 'StopDownloaderPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    downloadStatus: DownloadStatus;
 };
 
 export type StringFilterInput = {
-  distinctFrom?: InputMaybe<Scalars['String']['input']>;
-  distinctFromInsensitive?: InputMaybe<Scalars['String']['input']>;
-  endsWith?: InputMaybe<Scalars['String']['input']>;
-  endsWithInsensitive?: InputMaybe<Scalars['String']['input']>;
-  equalTo?: InputMaybe<Scalars['String']['input']>;
-  greaterThan?: InputMaybe<Scalars['String']['input']>;
-  greaterThanInsensitive?: InputMaybe<Scalars['String']['input']>;
-  greaterThanOrEqualTo?: InputMaybe<Scalars['String']['input']>;
-  greaterThanOrEqualToInsensitive?: InputMaybe<Scalars['String']['input']>;
-  in?: InputMaybe<Array<Scalars['String']['input']>>;
-  inInsensitive?: InputMaybe<Array<Scalars['String']['input']>>;
-  includes?: InputMaybe<Scalars['String']['input']>;
-  includesInsensitive?: InputMaybe<Scalars['String']['input']>;
-  isNull?: InputMaybe<Scalars['Boolean']['input']>;
-  lessThan?: InputMaybe<Scalars['String']['input']>;
-  lessThanInsensitive?: InputMaybe<Scalars['String']['input']>;
-  lessThanOrEqualTo?: InputMaybe<Scalars['String']['input']>;
-  lessThanOrEqualToInsensitive?: InputMaybe<Scalars['String']['input']>;
-  like?: InputMaybe<Scalars['String']['input']>;
-  likeInsensitive?: InputMaybe<Scalars['String']['input']>;
-  notDistinctFrom?: InputMaybe<Scalars['String']['input']>;
-  notDistinctFromInsensitive?: InputMaybe<Scalars['String']['input']>;
-  notEndsWith?: InputMaybe<Scalars['String']['input']>;
-  notEndsWithInsensitive?: InputMaybe<Scalars['String']['input']>;
-  notEqualTo?: InputMaybe<Scalars['String']['input']>;
-  notIn?: InputMaybe<Array<Scalars['String']['input']>>;
-  notInInsensitive?: InputMaybe<Array<Scalars['String']['input']>>;
-  notIncludes?: InputMaybe<Scalars['String']['input']>;
-  notIncludesInsensitive?: InputMaybe<Scalars['String']['input']>;
-  notLike?: InputMaybe<Scalars['String']['input']>;
-  notLikeInsensitive?: InputMaybe<Scalars['String']['input']>;
-  notStartsWith?: InputMaybe<Scalars['String']['input']>;
-  notStartsWithInsensitive?: InputMaybe<Scalars['String']['input']>;
-  startsWith?: InputMaybe<Scalars['String']['input']>;
-  startsWithInsensitive?: InputMaybe<Scalars['String']['input']>;
+    distinctFrom?: InputMaybe<Scalars['String']['input']>;
+    distinctFromInsensitive?: InputMaybe<Scalars['String']['input']>;
+    endsWith?: InputMaybe<Scalars['String']['input']>;
+    endsWithInsensitive?: InputMaybe<Scalars['String']['input']>;
+    equalTo?: InputMaybe<Scalars['String']['input']>;
+    greaterThan?: InputMaybe<Scalars['String']['input']>;
+    greaterThanInsensitive?: InputMaybe<Scalars['String']['input']>;
+    greaterThanOrEqualTo?: InputMaybe<Scalars['String']['input']>;
+    greaterThanOrEqualToInsensitive?: InputMaybe<Scalars['String']['input']>;
+    in?: InputMaybe<Array<Scalars['String']['input']>>;
+    inInsensitive?: InputMaybe<Array<Scalars['String']['input']>>;
+    includes?: InputMaybe<Scalars['String']['input']>;
+    includesInsensitive?: InputMaybe<Scalars['String']['input']>;
+    isNull?: InputMaybe<Scalars['Boolean']['input']>;
+    lessThan?: InputMaybe<Scalars['String']['input']>;
+    lessThanInsensitive?: InputMaybe<Scalars['String']['input']>;
+    lessThanOrEqualTo?: InputMaybe<Scalars['String']['input']>;
+    lessThanOrEqualToInsensitive?: InputMaybe<Scalars['String']['input']>;
+    like?: InputMaybe<Scalars['String']['input']>;
+    likeInsensitive?: InputMaybe<Scalars['String']['input']>;
+    notDistinctFrom?: InputMaybe<Scalars['String']['input']>;
+    notDistinctFromInsensitive?: InputMaybe<Scalars['String']['input']>;
+    notEndsWith?: InputMaybe<Scalars['String']['input']>;
+    notEndsWithInsensitive?: InputMaybe<Scalars['String']['input']>;
+    notEqualTo?: InputMaybe<Scalars['String']['input']>;
+    notIn?: InputMaybe<Array<Scalars['String']['input']>>;
+    notInInsensitive?: InputMaybe<Array<Scalars['String']['input']>>;
+    notIncludes?: InputMaybe<Scalars['String']['input']>;
+    notIncludesInsensitive?: InputMaybe<Scalars['String']['input']>;
+    notLike?: InputMaybe<Scalars['String']['input']>;
+    notLikeInsensitive?: InputMaybe<Scalars['String']['input']>;
+    notStartsWith?: InputMaybe<Scalars['String']['input']>;
+    notStartsWithInsensitive?: InputMaybe<Scalars['String']['input']>;
+    startsWith?: InputMaybe<Scalars['String']['input']>;
+    startsWithInsensitive?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Subscription = {
-  __typename?: 'Subscription';
-  downloadChanged: DownloadStatus;
-  updateStatusChanged: UpdateStatus;
-  webUIUpdateStatusChange: WebUiUpdateStatus;
+    __typename?: 'Subscription';
+    downloadChanged: DownloadStatus;
+    updateStatusChanged: UpdateStatus;
+    webUIUpdateStatusChange: WebUiUpdateStatus;
 };
 
 export type SwitchPreference = {
-  __typename?: 'SwitchPreference';
-  currentValue?: Maybe<Scalars['Boolean']['output']>;
-  default: Scalars['Boolean']['output'];
-  key: Scalars['String']['output'];
-  summary?: Maybe<Scalars['String']['output']>;
-  title: Scalars['String']['output'];
-  visible: Scalars['Boolean']['output'];
+    __typename?: 'SwitchPreference';
+    currentValue?: Maybe<Scalars['Boolean']['output']>;
+    default: Scalars['Boolean']['output'];
+    key: Scalars['String']['output'];
+    summary?: Maybe<Scalars['String']['output']>;
+    title: Scalars['String']['output'];
+    visible: Scalars['Boolean']['output'];
 };
 
 export type TextFilter = {
-  __typename?: 'TextFilter';
-  default: Scalars['String']['output'];
-  name: Scalars['String']['output'];
+    __typename?: 'TextFilter';
+    default: Scalars['String']['output'];
+    name: Scalars['String']['output'];
 };
 
 export type TrackProgressInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  mangaId: Scalars['Int']['input'];
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    mangaId: Scalars['Int']['input'];
 };
 
 export type TrackProgressPayload = {
-  __typename?: 'TrackProgressPayload';
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  trackRecords: Array<TrackRecordType>;
+    __typename?: 'TrackProgressPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    trackRecords: Array<TrackRecordType>;
 };
 
 export type TrackRecordConditionInput = {
-  finishDate?: InputMaybe<Scalars['LongString']['input']>;
-  id?: InputMaybe<Scalars['Int']['input']>;
-  lastChapterRead?: InputMaybe<Scalars['Float']['input']>;
-  libraryId?: InputMaybe<Scalars['LongString']['input']>;
-  mangaId?: InputMaybe<Scalars['Int']['input']>;
-  remoteId?: InputMaybe<Scalars['LongString']['input']>;
-  remoteUrl?: InputMaybe<Scalars['String']['input']>;
-  score?: InputMaybe<Scalars['Float']['input']>;
-  startDate?: InputMaybe<Scalars['LongString']['input']>;
-  status?: InputMaybe<Scalars['Int']['input']>;
-  title?: InputMaybe<Scalars['String']['input']>;
-  totalChapters?: InputMaybe<Scalars['Int']['input']>;
-  trackerId?: InputMaybe<Scalars['Int']['input']>;
+    finishDate?: InputMaybe<Scalars['LongString']['input']>;
+    id?: InputMaybe<Scalars['Int']['input']>;
+    lastChapterRead?: InputMaybe<Scalars['Float']['input']>;
+    libraryId?: InputMaybe<Scalars['LongString']['input']>;
+    mangaId?: InputMaybe<Scalars['Int']['input']>;
+    remoteId?: InputMaybe<Scalars['LongString']['input']>;
+    remoteUrl?: InputMaybe<Scalars['String']['input']>;
+    score?: InputMaybe<Scalars['Float']['input']>;
+    startDate?: InputMaybe<Scalars['LongString']['input']>;
+    status?: InputMaybe<Scalars['Int']['input']>;
+    title?: InputMaybe<Scalars['String']['input']>;
+    totalChapters?: InputMaybe<Scalars['Int']['input']>;
+    trackerId?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type TrackRecordEdge = Edge & {
-  __typename?: 'TrackRecordEdge';
-  cursor: Scalars['Cursor']['output'];
-  node: TrackRecordType;
+    __typename?: 'TrackRecordEdge';
+    cursor: Scalars['Cursor']['output'];
+    node: TrackRecordType;
 };
 
 export type TrackRecordFilterInput = {
-  and?: InputMaybe<Array<TrackRecordFilterInput>>;
-  finishDate?: InputMaybe<LongFilterInput>;
-  id?: InputMaybe<IntFilterInput>;
-  lastChapterRead?: InputMaybe<DoubleFilterInput>;
-  libraryId?: InputMaybe<LongFilterInput>;
-  mangaId?: InputMaybe<IntFilterInput>;
-  not?: InputMaybe<TrackRecordFilterInput>;
-  or?: InputMaybe<Array<TrackRecordFilterInput>>;
-  remoteId?: InputMaybe<LongFilterInput>;
-  remoteUrl?: InputMaybe<StringFilterInput>;
-  score?: InputMaybe<DoubleFilterInput>;
-  startDate?: InputMaybe<LongFilterInput>;
-  status?: InputMaybe<IntFilterInput>;
-  title?: InputMaybe<StringFilterInput>;
-  totalChapters?: InputMaybe<IntFilterInput>;
-  trackerId?: InputMaybe<IntFilterInput>;
+    and?: InputMaybe<Array<TrackRecordFilterInput>>;
+    finishDate?: InputMaybe<LongFilterInput>;
+    id?: InputMaybe<IntFilterInput>;
+    lastChapterRead?: InputMaybe<DoubleFilterInput>;
+    libraryId?: InputMaybe<LongFilterInput>;
+    mangaId?: InputMaybe<IntFilterInput>;
+    not?: InputMaybe<TrackRecordFilterInput>;
+    or?: InputMaybe<Array<TrackRecordFilterInput>>;
+    remoteId?: InputMaybe<LongFilterInput>;
+    remoteUrl?: InputMaybe<StringFilterInput>;
+    score?: InputMaybe<DoubleFilterInput>;
+    startDate?: InputMaybe<LongFilterInput>;
+    status?: InputMaybe<IntFilterInput>;
+    title?: InputMaybe<StringFilterInput>;
+    totalChapters?: InputMaybe<IntFilterInput>;
+    trackerId?: InputMaybe<IntFilterInput>;
 };
 
 export type TrackRecordNodeList = NodeList & {
-  __typename?: 'TrackRecordNodeList';
-  edges: Array<TrackRecordEdge>;
-  nodes: Array<TrackRecordType>;
-  pageInfo: PageInfo;
-  totalCount: Scalars['Int']['output'];
+    __typename?: 'TrackRecordNodeList';
+    edges: Array<TrackRecordEdge>;
+    nodes: Array<TrackRecordType>;
+    pageInfo: PageInfo;
+    totalCount: Scalars['Int']['output'];
 };
 
 export enum TrackRecordOrderBy {
-  FinishDate = 'FINISH_DATE',
-  Id = 'ID',
-  LastChapterRead = 'LAST_CHAPTER_READ',
-  MangaId = 'MANGA_ID',
-  RemoteId = 'REMOTE_ID',
-  Score = 'SCORE',
-  StartDate = 'START_DATE',
-  Title = 'TITLE',
-  TotalChapters = 'TOTAL_CHAPTERS',
-  TrackerId = 'TRACKER_ID'
+    FinishDate = 'FINISH_DATE',
+    Id = 'ID',
+    LastChapterRead = 'LAST_CHAPTER_READ',
+    MangaId = 'MANGA_ID',
+    RemoteId = 'REMOTE_ID',
+    Score = 'SCORE',
+    StartDate = 'START_DATE',
+    Title = 'TITLE',
+    TotalChapters = 'TOTAL_CHAPTERS',
+    TrackerId = 'TRACKER_ID',
 }
 
 export type TrackRecordType = {
-  __typename?: 'TrackRecordType';
-  displayScore: Scalars['String']['output'];
-  finishDate: Scalars['LongString']['output'];
-  id: Scalars['Int']['output'];
-  lastChapterRead: Scalars['Float']['output'];
-  libraryId?: Maybe<Scalars['LongString']['output']>;
-  manga: MangaType;
-  mangaId: Scalars['Int']['output'];
-  remoteId: Scalars['LongString']['output'];
-  remoteUrl: Scalars['String']['output'];
-  score: Scalars['Float']['output'];
-  startDate: Scalars['LongString']['output'];
-  status: Scalars['Int']['output'];
-  title: Scalars['String']['output'];
-  totalChapters: Scalars['Int']['output'];
-  tracker: TrackerType;
-  trackerId: Scalars['Int']['output'];
+    __typename?: 'TrackRecordType';
+    displayScore: Scalars['String']['output'];
+    finishDate: Scalars['LongString']['output'];
+    id: Scalars['Int']['output'];
+    lastChapterRead: Scalars['Float']['output'];
+    libraryId?: Maybe<Scalars['LongString']['output']>;
+    manga: MangaType;
+    mangaId: Scalars['Int']['output'];
+    remoteId: Scalars['LongString']['output'];
+    remoteUrl: Scalars['String']['output'];
+    score: Scalars['Float']['output'];
+    startDate: Scalars['LongString']['output'];
+    status: Scalars['Int']['output'];
+    title: Scalars['String']['output'];
+    totalChapters: Scalars['Int']['output'];
+    tracker: TrackerType;
+    trackerId: Scalars['Int']['output'];
 };
 
 export type TrackSearchType = {
-  __typename?: 'TrackSearchType';
-  coverUrl: Scalars['String']['output'];
-  id: Scalars['Int']['output'];
-  publishingStatus: Scalars['String']['output'];
-  publishingType: Scalars['String']['output'];
-  remoteId: Scalars['LongString']['output'];
-  startDate: Scalars['String']['output'];
-  summary: Scalars['String']['output'];
-  title: Scalars['String']['output'];
-  totalChapters: Scalars['Int']['output'];
-  tracker: TrackerType;
-  trackerId: Scalars['Int']['output'];
-  trackingUrl: Scalars['String']['output'];
+    __typename?: 'TrackSearchType';
+    coverUrl: Scalars['String']['output'];
+    id: Scalars['Int']['output'];
+    publishingStatus: Scalars['String']['output'];
+    publishingType: Scalars['String']['output'];
+    remoteId: Scalars['LongString']['output'];
+    startDate: Scalars['String']['output'];
+    summary: Scalars['String']['output'];
+    title: Scalars['String']['output'];
+    totalChapters: Scalars['Int']['output'];
+    tracker: TrackerType;
+    trackerId: Scalars['Int']['output'];
+    trackingUrl: Scalars['String']['output'];
 };
 
 export type TrackStatusType = {
-  __typename?: 'TrackStatusType';
-  name: Scalars['String']['output'];
-  value: Scalars['Int']['output'];
+    __typename?: 'TrackStatusType';
+    name: Scalars['String']['output'];
+    value: Scalars['Int']['output'];
 };
 
 export type TrackerConditionInput = {
-  icon?: InputMaybe<Scalars['String']['input']>;
-  id?: InputMaybe<Scalars['Int']['input']>;
-  isLoggedIn?: InputMaybe<Scalars['Boolean']['input']>;
-  name?: InputMaybe<Scalars['String']['input']>;
+    icon?: InputMaybe<Scalars['String']['input']>;
+    id?: InputMaybe<Scalars['Int']['input']>;
+    isLoggedIn?: InputMaybe<Scalars['Boolean']['input']>;
+    name?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type TrackerEdge = Edge & {
-  __typename?: 'TrackerEdge';
-  cursor: Scalars['Cursor']['output'];
-  node: TrackerType;
+    __typename?: 'TrackerEdge';
+    cursor: Scalars['Cursor']['output'];
+    node: TrackerType;
 };
 
 export type TrackerNodeList = NodeList & {
-  __typename?: 'TrackerNodeList';
-  edges: Array<TrackerEdge>;
-  nodes: Array<TrackerType>;
-  pageInfo: PageInfo;
-  totalCount: Scalars['Int']['output'];
+    __typename?: 'TrackerNodeList';
+    edges: Array<TrackerEdge>;
+    nodes: Array<TrackerType>;
+    pageInfo: PageInfo;
+    totalCount: Scalars['Int']['output'];
 };
 
 export enum TrackerOrderBy {
-  Id = 'ID',
-  IsLoggedIn = 'IS_LOGGED_IN',
-  Name = 'NAME'
+    Id = 'ID',
+    IsLoggedIn = 'IS_LOGGED_IN',
+    Name = 'NAME',
 }
 
 export type TrackerType = {
-  __typename?: 'TrackerType';
-  authUrl?: Maybe<Scalars['String']['output']>;
-  icon: Scalars['String']['output'];
-  id: Scalars['Int']['output'];
-  isLoggedIn: Scalars['Boolean']['output'];
-  isTokenExpired: Scalars['Boolean']['output'];
-  name: Scalars['String']['output'];
-  scores: Array<Scalars['String']['output']>;
-  statuses: Array<TrackStatusType>;
-  supportsTrackDeletion?: Maybe<Scalars['Boolean']['output']>;
-  trackRecords: TrackRecordNodeList;
+    __typename?: 'TrackerType';
+    authUrl?: Maybe<Scalars['String']['output']>;
+    icon: Scalars['String']['output'];
+    id: Scalars['Int']['output'];
+    isLoggedIn: Scalars['Boolean']['output'];
+    isTokenExpired: Scalars['Boolean']['output'];
+    name: Scalars['String']['output'];
+    scores: Array<Scalars['String']['output']>;
+    statuses: Array<TrackStatusType>;
+    supportsTrackDeletion?: Maybe<Scalars['Boolean']['output']>;
+    trackRecords: TrackRecordNodeList;
 };
 
 export enum TriState {
-  Exclude = 'EXCLUDE',
-  Ignore = 'IGNORE',
-  Include = 'INCLUDE'
+    Exclude = 'EXCLUDE',
+    Ignore = 'IGNORE',
+    Include = 'INCLUDE',
 }
 
 export type TriStateFilter = {
-  __typename?: 'TriStateFilter';
-  default: TriState;
-  name: Scalars['String']['output'];
+    __typename?: 'TriStateFilter';
+    default: TriState;
+    name: Scalars['String']['output'];
 };
 
 export type UnbindTrackInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** This will only work if the tracker of the track record supports deleting tracks */
-  deleteRemoteTrack?: InputMaybe<Scalars['Boolean']['input']>;
-  recordId: Scalars['Int']['input'];
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    /** This will only work if the tracker of the track record supports deleting tracks */
+    deleteRemoteTrack?: InputMaybe<Scalars['Boolean']['input']>;
+    recordId: Scalars['Int']['input'];
 };
 
 export type UnbindTrackPayload = {
-  __typename?: 'UnbindTrackPayload';
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  trackRecord?: Maybe<TrackRecordType>;
+    __typename?: 'UnbindTrackPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    trackRecord?: Maybe<TrackRecordType>;
 };
 
 export type UpdateCategoriesInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  ids: Array<Scalars['Int']['input']>;
-  patch: UpdateCategoryPatchInput;
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    ids: Array<Scalars['Int']['input']>;
+    patch: UpdateCategoryPatchInput;
 };
 
 export type UpdateCategoriesPayload = {
-  __typename?: 'UpdateCategoriesPayload';
-  categories: Array<CategoryType>;
-  clientMutationId?: Maybe<Scalars['String']['output']>;
+    __typename?: 'UpdateCategoriesPayload';
+    categories: Array<CategoryType>;
+    clientMutationId?: Maybe<Scalars['String']['output']>;
 };
 
 export type UpdateCategoryInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  id: Scalars['Int']['input'];
-  patch: UpdateCategoryPatchInput;
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    id: Scalars['Int']['input'];
+    patch: UpdateCategoryPatchInput;
 };
 
 export type UpdateCategoryMangaInput = {
-  categories: Array<Scalars['Int']['input']>;
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    categories: Array<Scalars['Int']['input']>;
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateCategoryMangaPayload = {
-  __typename?: 'UpdateCategoryMangaPayload';
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  updateStatus: UpdateStatus;
+    __typename?: 'UpdateCategoryMangaPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    updateStatus: UpdateStatus;
 };
 
 export type UpdateCategoryOrderInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  id: Scalars['Int']['input'];
-  position: Scalars['Int']['input'];
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    id: Scalars['Int']['input'];
+    position: Scalars['Int']['input'];
 };
 
 export type UpdateCategoryOrderPayload = {
-  __typename?: 'UpdateCategoryOrderPayload';
-  categories: Array<CategoryType>;
-  clientMutationId?: Maybe<Scalars['String']['output']>;
+    __typename?: 'UpdateCategoryOrderPayload';
+    categories: Array<CategoryType>;
+    clientMutationId?: Maybe<Scalars['String']['output']>;
 };
 
 export type UpdateCategoryPatchInput = {
-  default?: InputMaybe<Scalars['Boolean']['input']>;
-  includeInDownload?: InputMaybe<IncludeOrExclude>;
-  includeInUpdate?: InputMaybe<IncludeOrExclude>;
-  name?: InputMaybe<Scalars['String']['input']>;
+    default?: InputMaybe<Scalars['Boolean']['input']>;
+    includeInDownload?: InputMaybe<IncludeOrExclude>;
+    includeInUpdate?: InputMaybe<IncludeOrExclude>;
+    name?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateCategoryPayload = {
-  __typename?: 'UpdateCategoryPayload';
-  category: CategoryType;
-  clientMutationId?: Maybe<Scalars['String']['output']>;
+    __typename?: 'UpdateCategoryPayload';
+    category: CategoryType;
+    clientMutationId?: Maybe<Scalars['String']['output']>;
 };
 
 export type UpdateChapterInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  id: Scalars['Int']['input'];
-  patch: UpdateChapterPatchInput;
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    id: Scalars['Int']['input'];
+    patch: UpdateChapterPatchInput;
 };
 
 export type UpdateChapterPatchInput = {
-  isBookmarked?: InputMaybe<Scalars['Boolean']['input']>;
-  isRead?: InputMaybe<Scalars['Boolean']['input']>;
-  lastPageRead?: InputMaybe<Scalars['Int']['input']>;
+    isBookmarked?: InputMaybe<Scalars['Boolean']['input']>;
+    isRead?: InputMaybe<Scalars['Boolean']['input']>;
+    lastPageRead?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type UpdateChapterPayload = {
-  __typename?: 'UpdateChapterPayload';
-  chapter: ChapterType;
-  clientMutationId?: Maybe<Scalars['String']['output']>;
+    __typename?: 'UpdateChapterPayload';
+    chapter: ChapterType;
+    clientMutationId?: Maybe<Scalars['String']['output']>;
 };
 
 export type UpdateChaptersInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  ids: Array<Scalars['Int']['input']>;
-  patch: UpdateChapterPatchInput;
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    ids: Array<Scalars['Int']['input']>;
+    patch: UpdateChapterPatchInput;
 };
 
 export type UpdateChaptersPayload = {
-  __typename?: 'UpdateChaptersPayload';
-  chapters: Array<ChapterType>;
-  clientMutationId?: Maybe<Scalars['String']['output']>;
+    __typename?: 'UpdateChaptersPayload';
+    chapters: Array<ChapterType>;
+    clientMutationId?: Maybe<Scalars['String']['output']>;
 };
 
 export type UpdateExtensionInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  id: Scalars['String']['input'];
-  patch: UpdateExtensionPatchInput;
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    id: Scalars['String']['input'];
+    patch: UpdateExtensionPatchInput;
 };
 
 export type UpdateExtensionPatchInput = {
-  install?: InputMaybe<Scalars['Boolean']['input']>;
-  uninstall?: InputMaybe<Scalars['Boolean']['input']>;
-  update?: InputMaybe<Scalars['Boolean']['input']>;
+    install?: InputMaybe<Scalars['Boolean']['input']>;
+    uninstall?: InputMaybe<Scalars['Boolean']['input']>;
+    update?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type UpdateExtensionPayload = {
-  __typename?: 'UpdateExtensionPayload';
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  extension?: Maybe<ExtensionType>;
+    __typename?: 'UpdateExtensionPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    extension?: Maybe<ExtensionType>;
 };
 
 export type UpdateExtensionsInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  ids: Array<Scalars['String']['input']>;
-  patch: UpdateExtensionPatchInput;
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    ids: Array<Scalars['String']['input']>;
+    patch: UpdateExtensionPatchInput;
 };
 
 export type UpdateExtensionsPayload = {
-  __typename?: 'UpdateExtensionsPayload';
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  extensions: Array<ExtensionType>;
+    __typename?: 'UpdateExtensionsPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    extensions: Array<ExtensionType>;
 };
 
 export type UpdateLibraryMangaInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateLibraryMangaPayload = {
-  __typename?: 'UpdateLibraryMangaPayload';
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  updateStatus: UpdateStatus;
+    __typename?: 'UpdateLibraryMangaPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    updateStatus: UpdateStatus;
 };
 
 export type UpdateMangaCategoriesInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  id: Scalars['Int']['input'];
-  patch: UpdateMangaCategoriesPatchInput;
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    id: Scalars['Int']['input'];
+    patch: UpdateMangaCategoriesPatchInput;
 };
 
 export type UpdateMangaCategoriesPatchInput = {
-  addToCategories?: InputMaybe<Array<Scalars['Int']['input']>>;
-  clearCategories?: InputMaybe<Scalars['Boolean']['input']>;
-  removeFromCategories?: InputMaybe<Array<Scalars['Int']['input']>>;
+    addToCategories?: InputMaybe<Array<Scalars['Int']['input']>>;
+    clearCategories?: InputMaybe<Scalars['Boolean']['input']>;
+    removeFromCategories?: InputMaybe<Array<Scalars['Int']['input']>>;
 };
 
 export type UpdateMangaCategoriesPayload = {
-  __typename?: 'UpdateMangaCategoriesPayload';
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  manga: MangaType;
+    __typename?: 'UpdateMangaCategoriesPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    manga: MangaType;
 };
 
 export type UpdateMangaInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  id: Scalars['Int']['input'];
-  patch: UpdateMangaPatchInput;
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    id: Scalars['Int']['input'];
+    patch: UpdateMangaPatchInput;
 };
 
 export type UpdateMangaPatchInput = {
-  inLibrary?: InputMaybe<Scalars['Boolean']['input']>;
+    inLibrary?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type UpdateMangaPayload = {
-  __typename?: 'UpdateMangaPayload';
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  manga: MangaType;
+    __typename?: 'UpdateMangaPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    manga: MangaType;
 };
 
 export type UpdateMangasCategoriesInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  ids: Array<Scalars['Int']['input']>;
-  patch: UpdateMangaCategoriesPatchInput;
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    ids: Array<Scalars['Int']['input']>;
+    patch: UpdateMangaCategoriesPatchInput;
 };
 
 export type UpdateMangasCategoriesPayload = {
-  __typename?: 'UpdateMangasCategoriesPayload';
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  mangas: Array<MangaType>;
+    __typename?: 'UpdateMangasCategoriesPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    mangas: Array<MangaType>;
 };
 
 export type UpdateMangasInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  ids: Array<Scalars['Int']['input']>;
-  patch: UpdateMangaPatchInput;
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    ids: Array<Scalars['Int']['input']>;
+    patch: UpdateMangaPatchInput;
 };
 
 export type UpdateMangasPayload = {
-  __typename?: 'UpdateMangasPayload';
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  mangas: Array<MangaType>;
+    __typename?: 'UpdateMangasPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    mangas: Array<MangaType>;
 };
 
 export type UpdateSourcePreferenceInput = {
-  change: SourcePreferenceChangeInput;
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  source: Scalars['LongString']['input'];
+    change: SourcePreferenceChangeInput;
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    source: Scalars['LongString']['input'];
 };
 
 export type UpdateSourcePreferencePayload = {
-  __typename?: 'UpdateSourcePreferencePayload';
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  preferences: Array<Preference>;
-  source: SourceType;
+    __typename?: 'UpdateSourcePreferencePayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    preferences: Array<Preference>;
+    source: SourceType;
 };
 
 export enum UpdateState {
-  Downloading = 'DOWNLOADING',
-  Error = 'ERROR',
-  Finished = 'FINISHED',
-  Idle = 'IDLE'
+    Downloading = 'DOWNLOADING',
+    Error = 'ERROR',
+    Finished = 'FINISHED',
+    Idle = 'IDLE',
 }
 
 export type UpdateStatus = {
-  __typename?: 'UpdateStatus';
-  completeJobs: UpdateStatusType;
-  failedJobs: UpdateStatusType;
-  isRunning: Scalars['Boolean']['output'];
-  pendingJobs: UpdateStatusType;
-  runningJobs: UpdateStatusType;
-  skippedCategories: UpdateStatusCategoryType;
-  skippedJobs: UpdateStatusType;
-  updatingCategories: UpdateStatusCategoryType;
+    __typename?: 'UpdateStatus';
+    completeJobs: UpdateStatusType;
+    failedJobs: UpdateStatusType;
+    isRunning: Scalars['Boolean']['output'];
+    pendingJobs: UpdateStatusType;
+    runningJobs: UpdateStatusType;
+    skippedCategories: UpdateStatusCategoryType;
+    skippedJobs: UpdateStatusType;
+    updatingCategories: UpdateStatusCategoryType;
 };
 
 export type UpdateStatusCategoryType = {
-  __typename?: 'UpdateStatusCategoryType';
-  categories: CategoryNodeList;
+    __typename?: 'UpdateStatusCategoryType';
+    categories: CategoryNodeList;
 };
 
 export type UpdateStatusType = {
-  __typename?: 'UpdateStatusType';
-  mangas: MangaNodeList;
+    __typename?: 'UpdateStatusType';
+    mangas: MangaNodeList;
 };
 
 export type UpdateStopInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateStopPayload = {
-  __typename?: 'UpdateStopPayload';
-  clientMutationId?: Maybe<Scalars['String']['output']>;
+    __typename?: 'UpdateStopPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
 };
 
 export enum UpdateStrategy {
-  AlwaysUpdate = 'ALWAYS_UPDATE',
-  OnlyFetchOnce = 'ONLY_FETCH_ONCE'
+    AlwaysUpdate = 'ALWAYS_UPDATE',
+    OnlyFetchOnce = 'ONLY_FETCH_ONCE',
 }
 
 export type UpdateTrackInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  finishDate?: InputMaybe<Scalars['LongString']['input']>;
-  lastChapterRead?: InputMaybe<Scalars['Float']['input']>;
-  recordId: Scalars['Int']['input'];
-  scoreString?: InputMaybe<Scalars['String']['input']>;
-  startDate?: InputMaybe<Scalars['LongString']['input']>;
-  status?: InputMaybe<Scalars['Int']['input']>;
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    finishDate?: InputMaybe<Scalars['LongString']['input']>;
+    lastChapterRead?: InputMaybe<Scalars['Float']['input']>;
+    recordId: Scalars['Int']['input'];
+    scoreString?: InputMaybe<Scalars['String']['input']>;
+    startDate?: InputMaybe<Scalars['LongString']['input']>;
+    status?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type UpdateTrackPayload = {
-  __typename?: 'UpdateTrackPayload';
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  trackRecord?: Maybe<TrackRecordType>;
+    __typename?: 'UpdateTrackPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    trackRecord?: Maybe<TrackRecordType>;
 };
 
 export type ValidateBackupInput = {
-  backup: Scalars['Upload']['input'];
+    backup: Scalars['Upload']['input'];
 };
 
 export type ValidateBackupResult = {
-  __typename?: 'ValidateBackupResult';
-  missingSources: Array<ValidateBackupSource>;
+    __typename?: 'ValidateBackupResult';
+    missingSources: Array<ValidateBackupSource>;
 };
 
 export type ValidateBackupSource = {
-  __typename?: 'ValidateBackupSource';
-  id: Scalars['LongString']['output'];
-  name: Scalars['String']['output'];
+    __typename?: 'ValidateBackupSource';
+    id: Scalars['LongString']['output'];
+    name: Scalars['String']['output'];
 };
 
 export enum WebUiChannel {
-  Bundled = 'BUNDLED',
-  Preview = 'PREVIEW',
-  Stable = 'STABLE'
+    Bundled = 'BUNDLED',
+    Preview = 'PREVIEW',
+    Stable = 'STABLE',
 }
 
 export enum WebUiFlavor {
-  Custom = 'CUSTOM',
-  Vui = 'VUI',
-  Webui = 'WEBUI'
+    Custom = 'CUSTOM',
+    Vui = 'VUI',
+    Webui = 'WEBUI',
 }
 
 export enum WebUiInterface {
-  Browser = 'BROWSER',
-  Electron = 'ELECTRON'
+    Browser = 'BROWSER',
+    Electron = 'ELECTRON',
 }
 
 export type WebUiUpdateCheck = {
-  __typename?: 'WebUIUpdateCheck';
-  channel: Scalars['String']['output'];
-  tag: Scalars['String']['output'];
-  updateAvailable: Scalars['Boolean']['output'];
+    __typename?: 'WebUIUpdateCheck';
+    channel: Scalars['String']['output'];
+    tag: Scalars['String']['output'];
+    updateAvailable: Scalars['Boolean']['output'];
 };
 
 export type WebUiUpdateInfo = {
-  __typename?: 'WebUIUpdateInfo';
-  channel: Scalars['String']['output'];
-  tag: Scalars['String']['output'];
+    __typename?: 'WebUIUpdateInfo';
+    channel: Scalars['String']['output'];
+    tag: Scalars['String']['output'];
 };
 
 export type WebUiUpdateInput = {
-  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type WebUiUpdatePayload = {
-  __typename?: 'WebUIUpdatePayload';
-  clientMutationId?: Maybe<Scalars['String']['output']>;
-  updateStatus: WebUiUpdateStatus;
+    __typename?: 'WebUIUpdatePayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    updateStatus: WebUiUpdateStatus;
 };
 
 export type WebUiUpdateStatus = {
-  __typename?: 'WebUIUpdateStatus';
-  info: WebUiUpdateInfo;
-  progress: Scalars['Int']['output'];
-  state: UpdateState;
+    __typename?: 'WebUIUpdateStatus';
+    info: WebUiUpdateInfo;
+    progress: Scalars['Int']['output'];
+    state: UpdateState;
 };
 
-export type PageInfoFragment = { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null };
+export type PageInfoFragment = {
+    __typename?: 'PageInfo';
+    endCursor?: string | null;
+    hasNextPage: boolean;
+    hasPreviousPage: boolean;
+    startCursor?: string | null;
+};
 
-export type GlobalMetadataFragment = { __typename?: 'GlobalMetaType', key: string, value: string };
+export type GlobalMetadataFragment = { __typename?: 'GlobalMetaType'; key: string; value: string };
 
-export type FullCategoryFieldsFragment = { __typename?: 'CategoryType', default: boolean, id: number, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude, name: string, order: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }>, mangas: { __typename?: 'MangaNodeList', totalCount: number } };
+export type FullCategoryFieldsFragment = {
+    __typename?: 'CategoryType';
+    default: boolean;
+    id: number;
+    includeInUpdate: IncludeOrExclude;
+    includeInDownload: IncludeOrExclude;
+    name: string;
+    order: number;
+    meta: Array<{ __typename?: 'CategoryMetaType'; key: string; value: string }>;
+    mangas: { __typename?: 'MangaNodeList'; totalCount: number };
+};
 
-export type UpdaterCategoryFieldsFragment = { __typename?: 'CategoryType', id: number, name: string, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude };
+export type UpdaterCategoryFieldsFragment = {
+    __typename?: 'CategoryType';
+    id: number;
+    name: string;
+    includeInUpdate: IncludeOrExclude;
+    includeInDownload: IncludeOrExclude;
+};
 
-export type PartialSourceFieldsFragment = { __typename?: 'SourceType', displayName: string, iconUrl: string, id: string, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } };
+export type PartialSourceFieldsFragment = {
+    __typename?: 'SourceType';
+    displayName: string;
+    iconUrl: string;
+    id: string;
+    isConfigurable: boolean;
+    isNsfw: boolean;
+    lang: string;
+    name: string;
+    supportsLatest: boolean;
+    extension: { __typename?: 'ExtensionType'; pkgName: string; repo?: string | null };
+};
 
-export type FullSourceFieldsFragment = { __typename?: 'SourceType', displayName: string, iconUrl: string, id: string, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, preferences: Array<{ __typename?: 'CheckBoxPreference', summary?: string | null, key: string, type: 'CheckBoxPreference', CheckBoxCheckBoxCurrentValue?: boolean | null, CheckBoxDefault: boolean, CheckBoxTitle: string } | { __typename?: 'EditTextPreference', text?: string | null, summary?: string | null, key: string, dialogTitle?: string | null, dialogMessage?: string | null, type: 'EditTextPreference', EditTextPreferenceCurrentValue?: string | null, EditTextPreferenceDefault?: string | null, EditTextPreferenceTitle?: string | null } | { __typename?: 'ListPreference', summary?: string | null, key: string, entryValues: Array<string>, entries: Array<string>, type: 'ListPreference', ListPreferenceCurrentValue?: string | null, ListPreferenceDefault?: string | null, ListPreferenceTitle?: string | null } | { __typename?: 'MultiSelectListPreference', dialogMessage?: string | null, dialogTitle?: string | null, summary?: string | null, key: string, entryValues: Array<string>, entries: Array<string>, type: 'MultiSelectListPreference', MultiSelectListPreferenceTitle?: string | null, MultiSelectListPreferenceDefault?: Array<string> | null, MultiSelectListPreferenceCurrentValue?: Array<string> | null } | { __typename?: 'SwitchPreference', summary?: string | null, key: string, type: 'SwitchPreference', SwitchPreferenceCurrentValue?: boolean | null, SwitchPreferenceDefault: boolean, SwitchPreferenceTitle: string }>, filters: Array<{ __typename?: 'CheckBoxFilter', name: string, type: 'CheckBoxFilter', CheckBoxFilterDefault: boolean } | { __typename?: 'GroupFilter', name: string, type: 'GroupFilter', filters: Array<{ __typename?: 'CheckBoxFilter', name: string, type: 'CheckBoxFilter', CheckBoxFilterDefault: boolean } | { __typename?: 'GroupFilter' } | { __typename?: 'HeaderFilter', name: string, type: 'HeaderFilter' } | { __typename?: 'SelectFilter', name: string, values: Array<string>, type: 'SelectFilter', SelectFilterDefault: number } | { __typename?: 'SeparatorFilter', name: string, type: 'SeparatorFilter' } | { __typename?: 'SortFilter', name: string, values: Array<string>, type: 'SortFilter', SortFilterDefault?: { __typename?: 'SortSelection', ascending: boolean, index: number } | null } | { __typename?: 'TextFilter', name: string, type: 'TextFilter', TextFilterDefault: string } | { __typename?: 'TriStateFilter', name: string, type: 'TriStateFilter', TriStateFilterDefault: TriState }> } | { __typename?: 'HeaderFilter', name: string, type: 'HeaderFilter' } | { __typename?: 'SelectFilter', name: string, values: Array<string>, type: 'SelectFilter', SelectFilterDefault: number } | { __typename?: 'SeparatorFilter', name: string, type: 'SeparatorFilter' } | { __typename?: 'SortFilter', name: string, values: Array<string>, type: 'SortFilter', SortFilterDefault?: { __typename?: 'SortSelection', ascending: boolean, index: number } | null } | { __typename?: 'TextFilter', name: string, type: 'TextFilter', TextFilterDefault: string } | { __typename?: 'TriStateFilter', name: string, type: 'TriStateFilter', TriStateFilterDefault: TriState }>, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } };
+export type FullSourceFieldsFragment = {
+    __typename?: 'SourceType';
+    displayName: string;
+    iconUrl: string;
+    id: string;
+    isConfigurable: boolean;
+    isNsfw: boolean;
+    lang: string;
+    name: string;
+    supportsLatest: boolean;
+    preferences: Array<
+        | {
+              __typename?: 'CheckBoxPreference';
+              summary?: string | null;
+              key: string;
+              type: 'CheckBoxPreference';
+              CheckBoxCheckBoxCurrentValue?: boolean | null;
+              CheckBoxDefault: boolean;
+              CheckBoxTitle: string;
+          }
+        | {
+              __typename?: 'EditTextPreference';
+              text?: string | null;
+              summary?: string | null;
+              key: string;
+              dialogTitle?: string | null;
+              dialogMessage?: string | null;
+              type: 'EditTextPreference';
+              EditTextPreferenceCurrentValue?: string | null;
+              EditTextPreferenceDefault?: string | null;
+              EditTextPreferenceTitle?: string | null;
+          }
+        | {
+              __typename?: 'ListPreference';
+              summary?: string | null;
+              key: string;
+              entryValues: Array<string>;
+              entries: Array<string>;
+              type: 'ListPreference';
+              ListPreferenceCurrentValue?: string | null;
+              ListPreferenceDefault?: string | null;
+              ListPreferenceTitle?: string | null;
+          }
+        | {
+              __typename?: 'MultiSelectListPreference';
+              dialogMessage?: string | null;
+              dialogTitle?: string | null;
+              summary?: string | null;
+              key: string;
+              entryValues: Array<string>;
+              entries: Array<string>;
+              type: 'MultiSelectListPreference';
+              MultiSelectListPreferenceTitle?: string | null;
+              MultiSelectListPreferenceDefault?: Array<string> | null;
+              MultiSelectListPreferenceCurrentValue?: Array<string> | null;
+          }
+        | {
+              __typename?: 'SwitchPreference';
+              summary?: string | null;
+              key: string;
+              type: 'SwitchPreference';
+              SwitchPreferenceCurrentValue?: boolean | null;
+              SwitchPreferenceDefault: boolean;
+              SwitchPreferenceTitle: string;
+          }
+    >;
+    filters: Array<
+        | { __typename?: 'CheckBoxFilter'; name: string; type: 'CheckBoxFilter'; CheckBoxFilterDefault: boolean }
+        | {
+              __typename?: 'GroupFilter';
+              name: string;
+              type: 'GroupFilter';
+              filters: Array<
+                  | {
+                        __typename?: 'CheckBoxFilter';
+                        name: string;
+                        type: 'CheckBoxFilter';
+                        CheckBoxFilterDefault: boolean;
+                    }
+                  | { __typename?: 'GroupFilter' }
+                  | { __typename?: 'HeaderFilter'; name: string; type: 'HeaderFilter' }
+                  | {
+                        __typename?: 'SelectFilter';
+                        name: string;
+                        values: Array<string>;
+                        type: 'SelectFilter';
+                        SelectFilterDefault: number;
+                    }
+                  | { __typename?: 'SeparatorFilter'; name: string; type: 'SeparatorFilter' }
+                  | {
+                        __typename?: 'SortFilter';
+                        name: string;
+                        values: Array<string>;
+                        type: 'SortFilter';
+                        SortFilterDefault?: { __typename?: 'SortSelection'; ascending: boolean; index: number } | null;
+                    }
+                  | { __typename?: 'TextFilter'; name: string; type: 'TextFilter'; TextFilterDefault: string }
+                  | {
+                        __typename?: 'TriStateFilter';
+                        name: string;
+                        type: 'TriStateFilter';
+                        TriStateFilterDefault: TriState;
+                    }
+              >;
+          }
+        | { __typename?: 'HeaderFilter'; name: string; type: 'HeaderFilter' }
+        | {
+              __typename?: 'SelectFilter';
+              name: string;
+              values: Array<string>;
+              type: 'SelectFilter';
+              SelectFilterDefault: number;
+          }
+        | { __typename?: 'SeparatorFilter'; name: string; type: 'SeparatorFilter' }
+        | {
+              __typename?: 'SortFilter';
+              name: string;
+              values: Array<string>;
+              type: 'SortFilter';
+              SortFilterDefault?: { __typename?: 'SortSelection'; ascending: boolean; index: number } | null;
+          }
+        | { __typename?: 'TextFilter'; name: string; type: 'TextFilter'; TextFilterDefault: string }
+        | { __typename?: 'TriStateFilter'; name: string; type: 'TriStateFilter'; TriStateFilterDefault: TriState }
+    >;
+    extension: { __typename?: 'ExtensionType'; pkgName: string; repo?: string | null };
+};
 
-export type FullTrackerFieldsFragment = { __typename?: 'TrackerType', id: number, name: string, authUrl?: string | null, icon: string, supportsTrackDeletion?: boolean | null, isLoggedIn: boolean, isTokenExpired: boolean, scores: Array<string>, statuses: Array<{ __typename?: 'TrackStatusType', name: string, value: number }> };
+export type FullTrackerFieldsFragment = {
+    __typename?: 'TrackerType';
+    id: number;
+    name: string;
+    authUrl?: string | null;
+    icon: string;
+    supportsTrackDeletion?: boolean | null;
+    isLoggedIn: boolean;
+    isTokenExpired: boolean;
+    scores: Array<string>;
+    statuses: Array<{ __typename?: 'TrackStatusType'; name: string; value: number }>;
+};
 
-export type BaseTrackRecordFieldsFragment = { __typename?: 'TrackRecordType', id: number, status: number, lastChapterRead: number, totalChapters: number, score: number, displayScore: string, startDate: string, finishDate: string };
+export type BaseTrackRecordFieldsFragment = {
+    __typename?: 'TrackRecordType';
+    id: number;
+    status: number;
+    lastChapterRead: number;
+    totalChapters: number;
+    score: number;
+    displayScore: string;
+    startDate: string;
+    finishDate: string;
+};
 
-export type QueryTrackRecordFieldsFragment = { __typename?: 'TrackRecordType', title: string, remoteUrl: string, remoteId: string, id: number, status: number, lastChapterRead: number, totalChapters: number, score: number, displayScore: string, startDate: string, finishDate: string };
+export type QueryTrackRecordFieldsFragment = {
+    __typename?: 'TrackRecordType';
+    title: string;
+    remoteUrl: string;
+    remoteId: string;
+    id: number;
+    status: number;
+    lastChapterRead: number;
+    totalChapters: number;
+    score: number;
+    displayScore: string;
+    startDate: string;
+    finishDate: string;
+};
 
-export type FullTrackRecordFieldsFragment = { __typename?: 'TrackRecordType', title: string, remoteUrl: string, remoteId: string, id: number, status: number, lastChapterRead: number, totalChapters: number, score: number, displayScore: string, startDate: string, finishDate: string, tracker: { __typename?: 'TrackerType', id: number, name: string, authUrl?: string | null, icon: string, supportsTrackDeletion?: boolean | null, isLoggedIn: boolean, isTokenExpired: boolean, scores: Array<string>, statuses: Array<{ __typename?: 'TrackStatusType', name: string, value: number }> } };
+export type FullTrackRecordFieldsFragment = {
+    __typename?: 'TrackRecordType';
+    title: string;
+    remoteUrl: string;
+    remoteId: string;
+    id: number;
+    status: number;
+    lastChapterRead: number;
+    totalChapters: number;
+    score: number;
+    displayScore: string;
+    startDate: string;
+    finishDate: string;
+    tracker: {
+        __typename?: 'TrackerType';
+        id: number;
+        name: string;
+        authUrl?: string | null;
+        icon: string;
+        supportsTrackDeletion?: boolean | null;
+        isLoggedIn: boolean;
+        isTokenExpired: boolean;
+        scores: Array<string>;
+        statuses: Array<{ __typename?: 'TrackStatusType'; name: string; value: number }>;
+    };
+};
 
-export type BaseMangaFieldsFragment = { __typename?: 'MangaType', artist?: string | null, author?: string | null, chaptersLastFetchedAt?: string | null, description?: string | null, genre: Array<string>, id: number, inLibrary: boolean, inLibraryAt: string, initialized: boolean, lastFetchedAt?: string | null, realUrl?: string | null, status: MangaStatus, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: string | null, title: string, url: string, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, source?: { __typename?: 'SourceType', displayName: string, iconUrl: string, id: string, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } } | null, trackRecords: { __typename?: 'TrackRecordNodeList', totalCount: number, nodes: Array<{ __typename?: 'TrackRecordType', title: string, remoteUrl: string, remoteId: string, id: number, status: number, lastChapterRead: number, totalChapters: number, score: number, displayScore: string, startDate: string, finishDate: string, tracker: { __typename?: 'TrackerType', id: number, name: string, authUrl?: string | null, icon: string, supportsTrackDeletion?: boolean | null, isLoggedIn: boolean, isTokenExpired: boolean, scores: Array<string>, statuses: Array<{ __typename?: 'TrackStatusType', name: string, value: number }> } }> } };
+export type BaseMangaFieldsFragment = {
+    __typename?: 'MangaType';
+    artist?: string | null;
+    author?: string | null;
+    chaptersLastFetchedAt?: string | null;
+    description?: string | null;
+    genre: Array<string>;
+    id: number;
+    inLibrary: boolean;
+    inLibraryAt: string;
+    initialized: boolean;
+    lastFetchedAt?: string | null;
+    realUrl?: string | null;
+    status: MangaStatus;
+    thumbnailUrl?: string | null;
+    thumbnailUrlLastFetched?: string | null;
+    title: string;
+    url: string;
+    meta: Array<{ __typename?: 'MangaMetaType'; key: string; value: string }>;
+    source?: {
+        __typename?: 'SourceType';
+        displayName: string;
+        iconUrl: string;
+        id: string;
+        isConfigurable: boolean;
+        isNsfw: boolean;
+        lang: string;
+        name: string;
+        supportsLatest: boolean;
+        extension: { __typename?: 'ExtensionType'; pkgName: string; repo?: string | null };
+    } | null;
+    trackRecords: {
+        __typename?: 'TrackRecordNodeList';
+        totalCount: number;
+        nodes: Array<{
+            __typename?: 'TrackRecordType';
+            title: string;
+            remoteUrl: string;
+            remoteId: string;
+            id: number;
+            status: number;
+            lastChapterRead: number;
+            totalChapters: number;
+            score: number;
+            displayScore: string;
+            startDate: string;
+            finishDate: string;
+            tracker: {
+                __typename?: 'TrackerType';
+                id: number;
+                name: string;
+                authUrl?: string | null;
+                icon: string;
+                supportsTrackDeletion?: boolean | null;
+                isLoggedIn: boolean;
+                isTokenExpired: boolean;
+                scores: Array<string>;
+                statuses: Array<{ __typename?: 'TrackStatusType'; name: string; value: number }>;
+            };
+        }>;
+    };
+};
 
-export type PartialMangaFieldsFragment = { __typename?: 'MangaType', unreadCount: number, downloadCount: number, bookmarkCount: number, artist?: string | null, author?: string | null, chaptersLastFetchedAt?: string | null, description?: string | null, genre: Array<string>, id: number, inLibrary: boolean, inLibraryAt: string, initialized: boolean, lastFetchedAt?: string | null, realUrl?: string | null, status: MangaStatus, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: string | null, title: string, url: string, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', default: boolean, id: number, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude, name: string, order: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }>, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> }, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, source?: { __typename?: 'SourceType', displayName: string, iconUrl: string, id: string, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } } | null, trackRecords: { __typename?: 'TrackRecordNodeList', totalCount: number, nodes: Array<{ __typename?: 'TrackRecordType', title: string, remoteUrl: string, remoteId: string, id: number, status: number, lastChapterRead: number, totalChapters: number, score: number, displayScore: string, startDate: string, finishDate: string, tracker: { __typename?: 'TrackerType', id: number, name: string, authUrl?: string | null, icon: string, supportsTrackDeletion?: boolean | null, isLoggedIn: boolean, isTokenExpired: boolean, scores: Array<string>, statuses: Array<{ __typename?: 'TrackStatusType', name: string, value: number }> } }> } };
+export type PartialMangaFieldsFragment = {
+    __typename?: 'MangaType';
+    unreadCount: number;
+    downloadCount: number;
+    bookmarkCount: number;
+    artist?: string | null;
+    author?: string | null;
+    chaptersLastFetchedAt?: string | null;
+    description?: string | null;
+    genre: Array<string>;
+    id: number;
+    inLibrary: boolean;
+    inLibraryAt: string;
+    initialized: boolean;
+    lastFetchedAt?: string | null;
+    realUrl?: string | null;
+    status: MangaStatus;
+    thumbnailUrl?: string | null;
+    thumbnailUrlLastFetched?: string | null;
+    title: string;
+    url: string;
+    categories: {
+        __typename?: 'CategoryNodeList';
+        totalCount: number;
+        nodes: Array<{
+            __typename?: 'CategoryType';
+            default: boolean;
+            id: number;
+            includeInUpdate: IncludeOrExclude;
+            includeInDownload: IncludeOrExclude;
+            name: string;
+            order: number;
+            meta: Array<{ __typename?: 'CategoryMetaType'; key: string; value: string }>;
+            mangas: { __typename?: 'MangaNodeList'; totalCount: number };
+        }>;
+    };
+    chapters: { __typename?: 'ChapterNodeList'; totalCount: number };
+    meta: Array<{ __typename?: 'MangaMetaType'; key: string; value: string }>;
+    source?: {
+        __typename?: 'SourceType';
+        displayName: string;
+        iconUrl: string;
+        id: string;
+        isConfigurable: boolean;
+        isNsfw: boolean;
+        lang: string;
+        name: string;
+        supportsLatest: boolean;
+        extension: { __typename?: 'ExtensionType'; pkgName: string; repo?: string | null };
+    } | null;
+    trackRecords: {
+        __typename?: 'TrackRecordNodeList';
+        totalCount: number;
+        nodes: Array<{
+            __typename?: 'TrackRecordType';
+            title: string;
+            remoteUrl: string;
+            remoteId: string;
+            id: number;
+            status: number;
+            lastChapterRead: number;
+            totalChapters: number;
+            score: number;
+            displayScore: string;
+            startDate: string;
+            finishDate: string;
+            tracker: {
+                __typename?: 'TrackerType';
+                id: number;
+                name: string;
+                authUrl?: string | null;
+                icon: string;
+                supportsTrackDeletion?: boolean | null;
+                isLoggedIn: boolean;
+                isTokenExpired: boolean;
+                scores: Array<string>;
+                statuses: Array<{ __typename?: 'TrackStatusType'; name: string; value: number }>;
+            };
+        }>;
+    };
+};
 
-export type FullChapterFieldsFragment = { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> };
+export type FullChapterFieldsFragment = {
+    __typename?: 'ChapterType';
+    chapterNumber: number;
+    fetchedAt: string;
+    id: number;
+    isBookmarked: boolean;
+    isDownloaded: boolean;
+    isRead: boolean;
+    lastPageRead: number;
+    lastReadAt: string;
+    name: string;
+    pageCount: number;
+    realUrl?: string | null;
+    scanlator?: string | null;
+    sourceOrder: number;
+    uploadDate: string;
+    url: string;
+    manga: {
+        __typename?: 'MangaType';
+        id: number;
+        title: string;
+        inLibrary: boolean;
+        thumbnailUrl?: string | null;
+        lastFetchedAt?: string | null;
+    };
+    meta: Array<{ __typename?: 'ChapterMetaType'; key: string; value: string }>;
+};
 
-export type FullMangaFieldsFragment = { __typename?: 'MangaType', unreadCount: number, downloadCount: number, bookmarkCount: number, artist?: string | null, author?: string | null, chaptersLastFetchedAt?: string | null, description?: string | null, genre: Array<string>, id: number, inLibrary: boolean, inLibraryAt: string, initialized: boolean, lastFetchedAt?: string | null, realUrl?: string | null, status: MangaStatus, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: string | null, title: string, url: string, lastReadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestReadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestFetchedChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestUploadedChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, firstUnreadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', default: boolean, id: number, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude, name: string, order: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }>, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> }, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, source?: { __typename?: 'SourceType', displayName: string, iconUrl: string, id: string, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } } | null, trackRecords: { __typename?: 'TrackRecordNodeList', totalCount: number, nodes: Array<{ __typename?: 'TrackRecordType', title: string, remoteUrl: string, remoteId: string, id: number, status: number, lastChapterRead: number, totalChapters: number, score: number, displayScore: string, startDate: string, finishDate: string, tracker: { __typename?: 'TrackerType', id: number, name: string, authUrl?: string | null, icon: string, supportsTrackDeletion?: boolean | null, isLoggedIn: boolean, isTokenExpired: boolean, scores: Array<string>, statuses: Array<{ __typename?: 'TrackStatusType', name: string, value: number }> } }> } };
+export type FullMangaFieldsFragment = {
+    __typename?: 'MangaType';
+    unreadCount: number;
+    downloadCount: number;
+    bookmarkCount: number;
+    artist?: string | null;
+    author?: string | null;
+    chaptersLastFetchedAt?: string | null;
+    description?: string | null;
+    genre: Array<string>;
+    id: number;
+    inLibrary: boolean;
+    inLibraryAt: string;
+    initialized: boolean;
+    lastFetchedAt?: string | null;
+    realUrl?: string | null;
+    status: MangaStatus;
+    thumbnailUrl?: string | null;
+    thumbnailUrlLastFetched?: string | null;
+    title: string;
+    url: string;
+    lastReadChapter?: {
+        __typename?: 'ChapterType';
+        chapterNumber: number;
+        fetchedAt: string;
+        id: number;
+        isBookmarked: boolean;
+        isDownloaded: boolean;
+        isRead: boolean;
+        lastPageRead: number;
+        lastReadAt: string;
+        name: string;
+        pageCount: number;
+        realUrl?: string | null;
+        scanlator?: string | null;
+        sourceOrder: number;
+        uploadDate: string;
+        url: string;
+        manga: {
+            __typename?: 'MangaType';
+            id: number;
+            title: string;
+            inLibrary: boolean;
+            thumbnailUrl?: string | null;
+            lastFetchedAt?: string | null;
+        };
+        meta: Array<{ __typename?: 'ChapterMetaType'; key: string; value: string }>;
+    } | null;
+    latestReadChapter?: {
+        __typename?: 'ChapterType';
+        chapterNumber: number;
+        fetchedAt: string;
+        id: number;
+        isBookmarked: boolean;
+        isDownloaded: boolean;
+        isRead: boolean;
+        lastPageRead: number;
+        lastReadAt: string;
+        name: string;
+        pageCount: number;
+        realUrl?: string | null;
+        scanlator?: string | null;
+        sourceOrder: number;
+        uploadDate: string;
+        url: string;
+        manga: {
+            __typename?: 'MangaType';
+            id: number;
+            title: string;
+            inLibrary: boolean;
+            thumbnailUrl?: string | null;
+            lastFetchedAt?: string | null;
+        };
+        meta: Array<{ __typename?: 'ChapterMetaType'; key: string; value: string }>;
+    } | null;
+    latestFetchedChapter?: {
+        __typename?: 'ChapterType';
+        chapterNumber: number;
+        fetchedAt: string;
+        id: number;
+        isBookmarked: boolean;
+        isDownloaded: boolean;
+        isRead: boolean;
+        lastPageRead: number;
+        lastReadAt: string;
+        name: string;
+        pageCount: number;
+        realUrl?: string | null;
+        scanlator?: string | null;
+        sourceOrder: number;
+        uploadDate: string;
+        url: string;
+        manga: {
+            __typename?: 'MangaType';
+            id: number;
+            title: string;
+            inLibrary: boolean;
+            thumbnailUrl?: string | null;
+            lastFetchedAt?: string | null;
+        };
+        meta: Array<{ __typename?: 'ChapterMetaType'; key: string; value: string }>;
+    } | null;
+    latestUploadedChapter?: {
+        __typename?: 'ChapterType';
+        chapterNumber: number;
+        fetchedAt: string;
+        id: number;
+        isBookmarked: boolean;
+        isDownloaded: boolean;
+        isRead: boolean;
+        lastPageRead: number;
+        lastReadAt: string;
+        name: string;
+        pageCount: number;
+        realUrl?: string | null;
+        scanlator?: string | null;
+        sourceOrder: number;
+        uploadDate: string;
+        url: string;
+        manga: {
+            __typename?: 'MangaType';
+            id: number;
+            title: string;
+            inLibrary: boolean;
+            thumbnailUrl?: string | null;
+            lastFetchedAt?: string | null;
+        };
+        meta: Array<{ __typename?: 'ChapterMetaType'; key: string; value: string }>;
+    } | null;
+    firstUnreadChapter?: {
+        __typename?: 'ChapterType';
+        chapterNumber: number;
+        fetchedAt: string;
+        id: number;
+        isBookmarked: boolean;
+        isDownloaded: boolean;
+        isRead: boolean;
+        lastPageRead: number;
+        lastReadAt: string;
+        name: string;
+        pageCount: number;
+        realUrl?: string | null;
+        scanlator?: string | null;
+        sourceOrder: number;
+        uploadDate: string;
+        url: string;
+        manga: {
+            __typename?: 'MangaType';
+            id: number;
+            title: string;
+            inLibrary: boolean;
+            thumbnailUrl?: string | null;
+            lastFetchedAt?: string | null;
+        };
+        meta: Array<{ __typename?: 'ChapterMetaType'; key: string; value: string }>;
+    } | null;
+    categories: {
+        __typename?: 'CategoryNodeList';
+        totalCount: number;
+        nodes: Array<{
+            __typename?: 'CategoryType';
+            default: boolean;
+            id: number;
+            includeInUpdate: IncludeOrExclude;
+            includeInDownload: IncludeOrExclude;
+            name: string;
+            order: number;
+            meta: Array<{ __typename?: 'CategoryMetaType'; key: string; value: string }>;
+            mangas: { __typename?: 'MangaNodeList'; totalCount: number };
+        }>;
+    };
+    chapters: { __typename?: 'ChapterNodeList'; totalCount: number };
+    meta: Array<{ __typename?: 'MangaMetaType'; key: string; value: string }>;
+    source?: {
+        __typename?: 'SourceType';
+        displayName: string;
+        iconUrl: string;
+        id: string;
+        isConfigurable: boolean;
+        isNsfw: boolean;
+        lang: string;
+        name: string;
+        supportsLatest: boolean;
+        extension: { __typename?: 'ExtensionType'; pkgName: string; repo?: string | null };
+    } | null;
+    trackRecords: {
+        __typename?: 'TrackRecordNodeList';
+        totalCount: number;
+        nodes: Array<{
+            __typename?: 'TrackRecordType';
+            title: string;
+            remoteUrl: string;
+            remoteId: string;
+            id: number;
+            status: number;
+            lastChapterRead: number;
+            totalChapters: number;
+            score: number;
+            displayScore: string;
+            startDate: string;
+            finishDate: string;
+            tracker: {
+                __typename?: 'TrackerType';
+                id: number;
+                name: string;
+                authUrl?: string | null;
+                icon: string;
+                supportsTrackDeletion?: boolean | null;
+                isLoggedIn: boolean;
+                isTokenExpired: boolean;
+                scores: Array<string>;
+                statuses: Array<{ __typename?: 'TrackStatusType'; name: string; value: number }>;
+            };
+        }>;
+    };
+};
 
-export type UpdaterMangaFieldsFragment = { __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null };
+export type UpdaterMangaFieldsFragment = {
+    __typename?: 'MangaType';
+    id: number;
+    title: string;
+    thumbnailUrl?: string | null;
+};
 
-export type FullExtensionFieldsFragment = { __typename?: 'ExtensionType', apkName: string, repo?: string | null, hasUpdate: boolean, iconUrl: string, isInstalled: boolean, isNsfw: boolean, isObsolete: boolean, lang: string, name: string, pkgName: string, versionCode: number, versionName: string };
+export type FullExtensionFieldsFragment = {
+    __typename?: 'ExtensionType';
+    apkName: string;
+    repo?: string | null;
+    hasUpdate: boolean;
+    iconUrl: string;
+    isInstalled: boolean;
+    isNsfw: boolean;
+    isObsolete: boolean;
+    lang: string;
+    name: string;
+    pkgName: string;
+    versionCode: number;
+    versionName: string;
+};
 
-export type FullDownloadStatusFragment = { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, title: string, downloadCount: number } } }> };
+export type FullDownloadStatusFragment = {
+    __typename?: 'DownloadStatus';
+    state: DownloaderState;
+    queue: Array<{
+        __typename?: 'DownloadType';
+        progress: number;
+        state: DownloadState;
+        tries: number;
+        chapter: {
+            __typename?: 'ChapterType';
+            id: number;
+            name: string;
+            sourceOrder: number;
+            isDownloaded: boolean;
+            manga: { __typename?: 'MangaType'; id: number; title: string; downloadCount: number };
+        };
+    }>;
+};
 
-export type PartialUpdaterStatusFragment = { __typename?: 'UpdateStatus', isRunning: boolean };
+export type PartialUpdaterStatusFragment = { __typename?: 'UpdateStatus'; isRunning: boolean };
 
-export type FullUpdaterStatusFragment = { __typename?: 'UpdateStatus', isRunning: boolean, completeJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', unreadCount: number, downloadCount: number, artist?: string | null, author?: string | null, chaptersLastFetchedAt?: string | null, description?: string | null, genre: Array<string>, id: number, inLibrary: boolean, inLibraryAt: string, initialized: boolean, lastFetchedAt?: string | null, realUrl?: string | null, status: MangaStatus, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: string | null, title: string, url: string, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, source?: { __typename?: 'SourceType', displayName: string, iconUrl: string, id: string, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } } | null, trackRecords: { __typename?: 'TrackRecordNodeList', totalCount: number, nodes: Array<{ __typename?: 'TrackRecordType', title: string, remoteUrl: string, remoteId: string, id: number, status: number, lastChapterRead: number, totalChapters: number, score: number, displayScore: string, startDate: string, finishDate: string, tracker: { __typename?: 'TrackerType', id: number, name: string, authUrl?: string | null, icon: string, supportsTrackDeletion?: boolean | null, isLoggedIn: boolean, isTokenExpired: boolean, scores: Array<string>, statuses: Array<{ __typename?: 'TrackStatusType', name: string, value: number }> } }> } }> } }, failedJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, pendingJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, runningJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, skippedJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, updatingCategories: { __typename?: 'UpdateStatusCategoryType', categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, name: string, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude }> } }, skippedCategories: { __typename?: 'UpdateStatusCategoryType', categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, name: string, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude }> } } };
+export type FullUpdaterStatusFragment = {
+    __typename?: 'UpdateStatus';
+    isRunning: boolean;
+    completeJobs: {
+        __typename?: 'UpdateStatusType';
+        mangas: {
+            __typename?: 'MangaNodeList';
+            totalCount: number;
+            nodes: Array<{
+                __typename?: 'MangaType';
+                unreadCount: number;
+                downloadCount: number;
+                artist?: string | null;
+                author?: string | null;
+                chaptersLastFetchedAt?: string | null;
+                description?: string | null;
+                genre: Array<string>;
+                id: number;
+                inLibrary: boolean;
+                inLibraryAt: string;
+                initialized: boolean;
+                lastFetchedAt?: string | null;
+                realUrl?: string | null;
+                status: MangaStatus;
+                thumbnailUrl?: string | null;
+                thumbnailUrlLastFetched?: string | null;
+                title: string;
+                url: string;
+                chapters: { __typename?: 'ChapterNodeList'; totalCount: number };
+                meta: Array<{ __typename?: 'MangaMetaType'; key: string; value: string }>;
+                source?: {
+                    __typename?: 'SourceType';
+                    displayName: string;
+                    iconUrl: string;
+                    id: string;
+                    isConfigurable: boolean;
+                    isNsfw: boolean;
+                    lang: string;
+                    name: string;
+                    supportsLatest: boolean;
+                    extension: { __typename?: 'ExtensionType'; pkgName: string; repo?: string | null };
+                } | null;
+                trackRecords: {
+                    __typename?: 'TrackRecordNodeList';
+                    totalCount: number;
+                    nodes: Array<{
+                        __typename?: 'TrackRecordType';
+                        title: string;
+                        remoteUrl: string;
+                        remoteId: string;
+                        id: number;
+                        status: number;
+                        lastChapterRead: number;
+                        totalChapters: number;
+                        score: number;
+                        displayScore: string;
+                        startDate: string;
+                        finishDate: string;
+                        tracker: {
+                            __typename?: 'TrackerType';
+                            id: number;
+                            name: string;
+                            authUrl?: string | null;
+                            icon: string;
+                            supportsTrackDeletion?: boolean | null;
+                            isLoggedIn: boolean;
+                            isTokenExpired: boolean;
+                            scores: Array<string>;
+                            statuses: Array<{ __typename?: 'TrackStatusType'; name: string; value: number }>;
+                        };
+                    }>;
+                };
+            }>;
+        };
+    };
+    failedJobs: {
+        __typename?: 'UpdateStatusType';
+        mangas: {
+            __typename?: 'MangaNodeList';
+            totalCount: number;
+            nodes: Array<{ __typename?: 'MangaType'; id: number; title: string; thumbnailUrl?: string | null }>;
+        };
+    };
+    pendingJobs: {
+        __typename?: 'UpdateStatusType';
+        mangas: {
+            __typename?: 'MangaNodeList';
+            totalCount: number;
+            nodes: Array<{ __typename?: 'MangaType'; id: number; title: string; thumbnailUrl?: string | null }>;
+        };
+    };
+    runningJobs: {
+        __typename?: 'UpdateStatusType';
+        mangas: {
+            __typename?: 'MangaNodeList';
+            totalCount: number;
+            nodes: Array<{ __typename?: 'MangaType'; id: number; title: string; thumbnailUrl?: string | null }>;
+        };
+    };
+    skippedJobs: {
+        __typename?: 'UpdateStatusType';
+        mangas: {
+            __typename?: 'MangaNodeList';
+            totalCount: number;
+            nodes: Array<{ __typename?: 'MangaType'; id: number; title: string; thumbnailUrl?: string | null }>;
+        };
+    };
+    updatingCategories: {
+        __typename?: 'UpdateStatusCategoryType';
+        categories: {
+            __typename?: 'CategoryNodeList';
+            totalCount: number;
+            nodes: Array<{
+                __typename?: 'CategoryType';
+                id: number;
+                name: string;
+                includeInUpdate: IncludeOrExclude;
+                includeInDownload: IncludeOrExclude;
+            }>;
+        };
+    };
+    skippedCategories: {
+        __typename?: 'UpdateStatusCategoryType';
+        categories: {
+            __typename?: 'CategoryNodeList';
+            totalCount: number;
+            nodes: Array<{
+                __typename?: 'CategoryType';
+                id: number;
+                name: string;
+                includeInUpdate: IncludeOrExclude;
+                includeInDownload: IncludeOrExclude;
+            }>;
+        };
+    };
+};
 
-export type AboutWebuiFragment = { __typename?: 'AboutWebUI', channel: string, tag: string };
+export type AboutWebuiFragment = { __typename?: 'AboutWebUI'; channel: string; tag: string };
 
-export type WebuiUpdateCheckFragment = { __typename?: 'WebUIUpdateCheck', channel: string, tag: string, updateAvailable: boolean };
+export type WebuiUpdateCheckFragment = {
+    __typename?: 'WebUIUpdateCheck';
+    channel: string;
+    tag: string;
+    updateAvailable: boolean;
+};
 
-export type WebuiUpdateInfoFragment = { __typename?: 'WebUIUpdateInfo', channel: string, tag: string };
+export type WebuiUpdateInfoFragment = { __typename?: 'WebUIUpdateInfo'; channel: string; tag: string };
 
-export type WebuiUpdateStatusFragment = { __typename?: 'WebUIUpdateStatus', progress: number, state: UpdateState, info: { __typename?: 'WebUIUpdateInfo', channel: string, tag: string } };
+export type WebuiUpdateStatusFragment = {
+    __typename?: 'WebUIUpdateStatus';
+    progress: number;
+    state: UpdateState;
+    info: { __typename?: 'WebUIUpdateInfo'; channel: string; tag: string };
+};
 
-export type ServerSettingsFragment = { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyVersion: number, socksProxyHost: string, socksProxyPort: string, socksProxyUsername: string, socksProxyPassword: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadNewChaptersLimit: number, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, basicAuthEnabled: boolean, basicAuthUsername: string, basicAuthPassword: string, debugLogsEnabled: boolean, gqlDebugLogsEnabled: boolean, systemTrayEnabled: boolean, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string, flareSolverrEnabled: boolean, flareSolverrUrl: string, flareSolverrTimeout: number, flareSolverrSessionName: string, flareSolverrSessionTtl: number };
+export type ServerSettingsFragment = {
+    __typename?: 'SettingsType';
+    ip: string;
+    port: number;
+    socksProxyEnabled: boolean;
+    socksProxyVersion: number;
+    socksProxyHost: string;
+    socksProxyPort: string;
+    socksProxyUsername: string;
+    socksProxyPassword: string;
+    webUIFlavor: WebUiFlavor;
+    initialOpenInBrowserEnabled: boolean;
+    webUIInterface: WebUiInterface;
+    electronPath: string;
+    webUIChannel: WebUiChannel;
+    webUIUpdateCheckInterval: number;
+    downloadAsCbz: boolean;
+    downloadsPath: string;
+    autoDownloadNewChapters: boolean;
+    excludeEntryWithUnreadChapters: boolean;
+    autoDownloadNewChaptersLimit: number;
+    extensionRepos: Array<string>;
+    maxSourcesInParallel: number;
+    excludeUnreadChapters: boolean;
+    excludeNotStarted: boolean;
+    excludeCompleted: boolean;
+    globalUpdateInterval: number;
+    updateMangas: boolean;
+    basicAuthEnabled: boolean;
+    basicAuthUsername: string;
+    basicAuthPassword: string;
+    debugLogsEnabled: boolean;
+    gqlDebugLogsEnabled: boolean;
+    systemTrayEnabled: boolean;
+    backupPath: string;
+    backupTime: string;
+    backupInterval: number;
+    backupTTL: number;
+    localSourcePath: string;
+    flareSolverrEnabled: boolean;
+    flareSolverrUrl: string;
+    flareSolverrTimeout: number;
+    flareSolverrSessionName: string;
+    flareSolverrSessionTtl: number;
+};
 
 export type CreateBackupMutationVariables = Exact<{
-  input: CreateBackupInput;
+    input: CreateBackupInput;
 }>;
 
-
-export type CreateBackupMutation = { __typename?: 'Mutation', createBackup: { __typename?: 'CreateBackupPayload', clientMutationId?: string | null, url: string } };
+export type CreateBackupMutation = {
+    __typename?: 'Mutation';
+    createBackup: { __typename?: 'CreateBackupPayload'; clientMutationId?: string | null; url: string };
+};
 
 export type RestoreBackupMutationVariables = Exact<{
-  backup: Scalars['Upload']['input'];
+    backup: Scalars['Upload']['input'];
 }>;
 
-
-export type RestoreBackupMutation = { __typename?: 'Mutation', restoreBackup: { __typename?: 'RestoreBackupPayload', clientMutationId?: string | null, id: string, status?: { __typename?: 'BackupRestoreStatus', mangaProgress: number, state: BackupRestoreState, totalManga: number } | null } };
+export type RestoreBackupMutation = {
+    __typename?: 'Mutation';
+    restoreBackup: {
+        __typename?: 'RestoreBackupPayload';
+        clientMutationId?: string | null;
+        id: string;
+        status?: {
+            __typename?: 'BackupRestoreStatus';
+            mangaProgress: number;
+            state: BackupRestoreState;
+            totalManga: number;
+        } | null;
+    };
+};
 
 export type CreateCategoryMutationVariables = Exact<{
-  input: CreateCategoryInput;
+    input: CreateCategoryInput;
 }>;
 
-
-export type CreateCategoryMutation = { __typename?: 'Mutation', createCategory: { __typename?: 'CreateCategoryPayload', clientMutationId?: string | null, category: { __typename?: 'CategoryType', default: boolean, id: number, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude, name: string, order: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }>, mangas: { __typename?: 'MangaNodeList', totalCount: number } } } };
+export type CreateCategoryMutation = {
+    __typename?: 'Mutation';
+    createCategory: {
+        __typename?: 'CreateCategoryPayload';
+        clientMutationId?: string | null;
+        category: {
+            __typename?: 'CategoryType';
+            default: boolean;
+            id: number;
+            includeInUpdate: IncludeOrExclude;
+            includeInDownload: IncludeOrExclude;
+            name: string;
+            order: number;
+            meta: Array<{ __typename?: 'CategoryMetaType'; key: string; value: string }>;
+            mangas: { __typename?: 'MangaNodeList'; totalCount: number };
+        };
+    };
+};
 
 export type DeleteCategoryMutationVariables = Exact<{
-  input: DeleteCategoryInput;
+    input: DeleteCategoryInput;
 }>;
 
-
-export type DeleteCategoryMutation = { __typename?: 'Mutation', deleteCategory: { __typename?: 'DeleteCategoryPayload', clientMutationId?: string | null, category?: { __typename?: 'CategoryType', id: number } | null } };
+export type DeleteCategoryMutation = {
+    __typename?: 'Mutation';
+    deleteCategory: {
+        __typename?: 'DeleteCategoryPayload';
+        clientMutationId?: string | null;
+        category?: { __typename?: 'CategoryType'; id: number } | null;
+    };
+};
 
 export type DeleteCategoryMetadataMutationVariables = Exact<{
-  input: DeleteCategoryMetaInput;
+    input: DeleteCategoryMetaInput;
 }>;
 
-
-export type DeleteCategoryMetadataMutation = { __typename?: 'Mutation', deleteCategoryMeta: { __typename?: 'DeleteCategoryMetaPayload', clientMutationId?: string | null, meta?: { __typename?: 'CategoryMetaType', key: string } | null, category: { __typename?: 'CategoryType', id: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }> } } };
+export type DeleteCategoryMetadataMutation = {
+    __typename?: 'Mutation';
+    deleteCategoryMeta: {
+        __typename?: 'DeleteCategoryMetaPayload';
+        clientMutationId?: string | null;
+        meta?: { __typename?: 'CategoryMetaType'; key: string } | null;
+        category: {
+            __typename?: 'CategoryType';
+            id: number;
+            meta: Array<{ __typename?: 'CategoryMetaType'; key: string; value: string }>;
+        };
+    };
+};
 
 export type SetCategoryMetadataMutationVariables = Exact<{
-  input: SetCategoryMetaInput;
+    input: SetCategoryMetaInput;
 }>;
 
-
-export type SetCategoryMetadataMutation = { __typename?: 'Mutation', setCategoryMeta: { __typename?: 'SetCategoryMetaPayload', clientMutationId?: string | null, meta: { __typename?: 'CategoryMetaType', key: string, value: string, category: { __typename?: 'CategoryType', id: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }> } } } };
+export type SetCategoryMetadataMutation = {
+    __typename?: 'Mutation';
+    setCategoryMeta: {
+        __typename?: 'SetCategoryMetaPayload';
+        clientMutationId?: string | null;
+        meta: {
+            __typename?: 'CategoryMetaType';
+            key: string;
+            value: string;
+            category: {
+                __typename?: 'CategoryType';
+                id: number;
+                meta: Array<{ __typename?: 'CategoryMetaType'; key: string; value: string }>;
+            };
+        };
+    };
+};
 
 export type UpdateCategoryMutationVariables = Exact<{
-  input: UpdateCategoryInput;
-  getDefault: Scalars['Boolean']['input'];
-  getIncludeInUpdate: Scalars['Boolean']['input'];
-  getIncludeInDownload: Scalars['Boolean']['input'];
-  getName: Scalars['Boolean']['input'];
+    input: UpdateCategoryInput;
+    getDefault: Scalars['Boolean']['input'];
+    getIncludeInUpdate: Scalars['Boolean']['input'];
+    getIncludeInDownload: Scalars['Boolean']['input'];
+    getName: Scalars['Boolean']['input'];
 }>;
 
-
-export type UpdateCategoryMutation = { __typename?: 'Mutation', updateCategory: { __typename?: 'UpdateCategoryPayload', clientMutationId?: string | null, category: { __typename?: 'CategoryType', id: number, default?: boolean, includeInUpdate?: IncludeOrExclude, includeInDownload?: IncludeOrExclude, name?: string } } };
+export type UpdateCategoryMutation = {
+    __typename?: 'Mutation';
+    updateCategory: {
+        __typename?: 'UpdateCategoryPayload';
+        clientMutationId?: string | null;
+        category: {
+            __typename?: 'CategoryType';
+            id: number;
+            default?: boolean;
+            includeInUpdate?: IncludeOrExclude;
+            includeInDownload?: IncludeOrExclude;
+            name?: string;
+        };
+    };
+};
 
 export type UpdateCategoriesMutationVariables = Exact<{
-  input: UpdateCategoriesInput;
-  getDefault: Scalars['Boolean']['input'];
-  getIncludeInUpdate: Scalars['Boolean']['input'];
-  getIncludeInDownload: Scalars['Boolean']['input'];
-  getName: Scalars['Boolean']['input'];
+    input: UpdateCategoriesInput;
+    getDefault: Scalars['Boolean']['input'];
+    getIncludeInUpdate: Scalars['Boolean']['input'];
+    getIncludeInDownload: Scalars['Boolean']['input'];
+    getName: Scalars['Boolean']['input'];
 }>;
 
-
-export type UpdateCategoriesMutation = { __typename?: 'Mutation', updateCategories: { __typename?: 'UpdateCategoriesPayload', clientMutationId?: string | null, categories: Array<{ __typename?: 'CategoryType', id: number, default?: boolean, includeInUpdate?: IncludeOrExclude, includeInDownload?: IncludeOrExclude, name?: string }> } };
+export type UpdateCategoriesMutation = {
+    __typename?: 'Mutation';
+    updateCategories: {
+        __typename?: 'UpdateCategoriesPayload';
+        clientMutationId?: string | null;
+        categories: Array<{
+            __typename?: 'CategoryType';
+            id: number;
+            default?: boolean;
+            includeInUpdate?: IncludeOrExclude;
+            includeInDownload?: IncludeOrExclude;
+            name?: string;
+        }>;
+    };
+};
 
 export type UpdateCategoryOrderMutationVariables = Exact<{
-  input: UpdateCategoryOrderInput;
+    input: UpdateCategoryOrderInput;
 }>;
 
-
-export type UpdateCategoryOrderMutation = { __typename?: 'Mutation', updateCategoryOrder: { __typename?: 'UpdateCategoryOrderPayload', clientMutationId?: string | null, categories: Array<{ __typename?: 'CategoryType', id: number, order: number }> } };
+export type UpdateCategoryOrderMutation = {
+    __typename?: 'Mutation';
+    updateCategoryOrder: {
+        __typename?: 'UpdateCategoryOrderPayload';
+        clientMutationId?: string | null;
+        categories: Array<{ __typename?: 'CategoryType'; id: number; order: number }>;
+    };
+};
 
 export type DeleteChapterMetadataMutationVariables = Exact<{
-  input: DeleteChapterMetaInput;
+    input: DeleteChapterMetaInput;
 }>;
 
-
-export type DeleteChapterMetadataMutation = { __typename?: 'Mutation', deleteChapterMeta: { __typename?: 'DeleteChapterMetaPayload', clientMutationId?: string | null, meta?: { __typename?: 'ChapterMetaType', key: string, value: string, chapter: { __typename?: 'ChapterType', id: number, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } } | null, chapter: { __typename?: 'ChapterType', id: number, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } } };
+export type DeleteChapterMetadataMutation = {
+    __typename?: 'Mutation';
+    deleteChapterMeta: {
+        __typename?: 'DeleteChapterMetaPayload';
+        clientMutationId?: string | null;
+        meta?: {
+            __typename?: 'ChapterMetaType';
+            key: string;
+            value: string;
+            chapter: {
+                __typename?: 'ChapterType';
+                id: number;
+                meta: Array<{ __typename?: 'ChapterMetaType'; key: string; value: string }>;
+            };
+        } | null;
+        chapter: {
+            __typename?: 'ChapterType';
+            id: number;
+            meta: Array<{ __typename?: 'ChapterMetaType'; key: string; value: string }>;
+        };
+    };
+};
 
 export type GetChapterPagesFetchMutationVariables = Exact<{
-  input: FetchChapterPagesInput;
+    input: FetchChapterPagesInput;
 }>;
 
-
-export type GetChapterPagesFetchMutation = { __typename?: 'Mutation', fetchChapterPages: { __typename?: 'FetchChapterPagesPayload', clientMutationId?: string | null, pages: Array<string>, chapter: { __typename?: 'ChapterType', id: number, pageCount: number } } };
+export type GetChapterPagesFetchMutation = {
+    __typename?: 'Mutation';
+    fetchChapterPages: {
+        __typename?: 'FetchChapterPagesPayload';
+        clientMutationId?: string | null;
+        pages: Array<string>;
+        chapter: { __typename?: 'ChapterType'; id: number; pageCount: number };
+    };
+};
 
 export type GetMangaChaptersFetchMutationVariables = Exact<{
-  input: FetchChaptersInput;
+    input: FetchChaptersInput;
 }>;
 
-
-export type GetMangaChaptersFetchMutation = { __typename?: 'Mutation', fetchChapters: { __typename?: 'FetchChaptersPayload', clientMutationId?: string | null, chapters: Array<{ __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null, chapters: { __typename?: 'ChapterNodeList', totalCount: number } }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> }> } };
+export type GetMangaChaptersFetchMutation = {
+    __typename?: 'Mutation';
+    fetchChapters: {
+        __typename?: 'FetchChaptersPayload';
+        clientMutationId?: string | null;
+        chapters: Array<{
+            __typename?: 'ChapterType';
+            chapterNumber: number;
+            fetchedAt: string;
+            id: number;
+            isBookmarked: boolean;
+            isDownloaded: boolean;
+            isRead: boolean;
+            lastPageRead: number;
+            lastReadAt: string;
+            name: string;
+            pageCount: number;
+            realUrl?: string | null;
+            scanlator?: string | null;
+            sourceOrder: number;
+            uploadDate: string;
+            url: string;
+            manga: {
+                __typename?: 'MangaType';
+                id: number;
+                title: string;
+                inLibrary: boolean;
+                thumbnailUrl?: string | null;
+                lastFetchedAt?: string | null;
+                chapters: { __typename?: 'ChapterNodeList'; totalCount: number };
+            };
+            meta: Array<{ __typename?: 'ChapterMetaType'; key: string; value: string }>;
+        }>;
+    };
+};
 
 export type SetChapterMetadataMutationVariables = Exact<{
-  input: SetChapterMetaInput;
+    input: SetChapterMetaInput;
 }>;
 
-
-export type SetChapterMetadataMutation = { __typename?: 'Mutation', setChapterMeta: { __typename?: 'SetChapterMetaPayload', clientMutationId?: string | null, meta: { __typename?: 'ChapterMetaType', key: string, value: string, chapter: { __typename?: 'ChapterType', id: number, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } } } };
+export type SetChapterMetadataMutation = {
+    __typename?: 'Mutation';
+    setChapterMeta: {
+        __typename?: 'SetChapterMetaPayload';
+        clientMutationId?: string | null;
+        meta: {
+            __typename?: 'ChapterMetaType';
+            key: string;
+            value: string;
+            chapter: {
+                __typename?: 'ChapterType';
+                id: number;
+                meta: Array<{ __typename?: 'ChapterMetaType'; key: string; value: string }>;
+            };
+        };
+    };
+};
 
 export type UpdateChapterMutationVariables = Exact<{
-  input: UpdateChapterInput;
-  getBookmarked: Scalars['Boolean']['input'];
-  getRead: Scalars['Boolean']['input'];
-  getLastPageRead: Scalars['Boolean']['input'];
-  chapterIdToDelete: Scalars['Int']['input'];
-  deleteChapter: Scalars['Boolean']['input'];
-  mangaId: Scalars['Int']['input'];
-  trackProgress: Scalars['Boolean']['input'];
+    input: UpdateChapterInput;
+    getBookmarked: Scalars['Boolean']['input'];
+    getRead: Scalars['Boolean']['input'];
+    getLastPageRead: Scalars['Boolean']['input'];
+    chapterIdToDelete: Scalars['Int']['input'];
+    deleteChapter: Scalars['Boolean']['input'];
+    mangaId: Scalars['Int']['input'];
+    trackProgress: Scalars['Boolean']['input'];
 }>;
 
-
-export type UpdateChapterMutation = { __typename?: 'Mutation', updateChapter: { __typename?: 'UpdateChapterPayload', clientMutationId?: string | null, chapter: { __typename?: 'ChapterType', id: number, isBookmarked?: boolean, isRead?: boolean, lastReadAt?: string, lastPageRead?: number, manga?: { __typename?: 'MangaType', id: number, unreadCount: number, bookmarkCount: number, lastReadChapter?: { __typename?: 'ChapterType', id: number } | null, latestReadChapter?: { __typename?: 'ChapterType', id: number } | null, firstUnreadChapter?: { __typename?: 'ChapterType', id: number } | null } } }, deleteDownloadedChapter?: { __typename?: 'DeleteDownloadedChapterPayload', clientMutationId?: string | null, chapters: { __typename?: 'ChapterType', id: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, downloadCount: number } } }, trackProgress?: { __typename?: 'TrackProgressPayload', trackRecords: Array<{ __typename?: 'TrackRecordType', id: number, status: number, lastChapterRead: number, totalChapters: number, score: number, displayScore: string, startDate: string, finishDate: string }> } };
+export type UpdateChapterMutation = {
+    __typename?: 'Mutation';
+    updateChapter: {
+        __typename?: 'UpdateChapterPayload';
+        clientMutationId?: string | null;
+        chapter: {
+            __typename?: 'ChapterType';
+            id: number;
+            isBookmarked?: boolean;
+            isRead?: boolean;
+            lastReadAt?: string;
+            lastPageRead?: number;
+            manga?: {
+                __typename?: 'MangaType';
+                id: number;
+                unreadCount: number;
+                bookmarkCount: number;
+                lastReadChapter?: { __typename?: 'ChapterType'; id: number } | null;
+                latestReadChapter?: { __typename?: 'ChapterType'; id: number } | null;
+                firstUnreadChapter?: { __typename?: 'ChapterType'; id: number } | null;
+            };
+        };
+    };
+    deleteDownloadedChapter?: {
+        __typename?: 'DeleteDownloadedChapterPayload';
+        clientMutationId?: string | null;
+        chapters: {
+            __typename?: 'ChapterType';
+            id: number;
+            isDownloaded: boolean;
+            manga: { __typename?: 'MangaType'; id: number; downloadCount: number };
+        };
+    };
+    trackProgress?: {
+        __typename?: 'TrackProgressPayload';
+        trackRecords: Array<{
+            __typename?: 'TrackRecordType';
+            id: number;
+            status: number;
+            lastChapterRead: number;
+            totalChapters: number;
+            score: number;
+            displayScore: string;
+            startDate: string;
+            finishDate: string;
+        }>;
+    };
+};
 
 export type UpdateChaptersMutationVariables = Exact<{
-  input: UpdateChaptersInput;
-  getBookmarked: Scalars['Boolean']['input'];
-  getRead: Scalars['Boolean']['input'];
-  getLastPageRead: Scalars['Boolean']['input'];
-  chapterIdsToDelete: Array<Scalars['Int']['input']> | Scalars['Int']['input'];
-  deleteChapters: Scalars['Boolean']['input'];
+    input: UpdateChaptersInput;
+    getBookmarked: Scalars['Boolean']['input'];
+    getRead: Scalars['Boolean']['input'];
+    getLastPageRead: Scalars['Boolean']['input'];
+    chapterIdsToDelete: Array<Scalars['Int']['input']> | Scalars['Int']['input'];
+    deleteChapters: Scalars['Boolean']['input'];
 }>;
 
-
-export type UpdateChaptersMutation = { __typename?: 'Mutation', updateChapters: { __typename?: 'UpdateChaptersPayload', clientMutationId?: string | null, chapters: Array<{ __typename?: 'ChapterType', id: number, isBookmarked?: boolean, isRead?: boolean, lastReadAt?: string, lastPageRead?: number, manga?: { __typename?: 'MangaType', id: number, unreadCount: number, bookmarkCount: number, lastReadChapter?: { __typename?: 'ChapterType', id: number } | null, latestReadChapter?: { __typename?: 'ChapterType', id: number } | null, firstUnreadChapter?: { __typename?: 'ChapterType', id: number } | null } }> }, deleteDownloadedChapters?: { __typename?: 'DeleteDownloadedChaptersPayload', clientMutationId?: string | null, chapters: Array<{ __typename?: 'ChapterType', id: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, downloadCount: number } }> } };
+export type UpdateChaptersMutation = {
+    __typename?: 'Mutation';
+    updateChapters: {
+        __typename?: 'UpdateChaptersPayload';
+        clientMutationId?: string | null;
+        chapters: Array<{
+            __typename?: 'ChapterType';
+            id: number;
+            isBookmarked?: boolean;
+            isRead?: boolean;
+            lastReadAt?: string;
+            lastPageRead?: number;
+            manga?: {
+                __typename?: 'MangaType';
+                id: number;
+                unreadCount: number;
+                bookmarkCount: number;
+                lastReadChapter?: { __typename?: 'ChapterType'; id: number } | null;
+                latestReadChapter?: { __typename?: 'ChapterType'; id: number } | null;
+                firstUnreadChapter?: { __typename?: 'ChapterType'; id: number } | null;
+            };
+        }>;
+    };
+    deleteDownloadedChapters?: {
+        __typename?: 'DeleteDownloadedChaptersPayload';
+        clientMutationId?: string | null;
+        chapters: Array<{
+            __typename?: 'ChapterType';
+            id: number;
+            isDownloaded: boolean;
+            manga: { __typename?: 'MangaType'; id: number; downloadCount: number };
+        }>;
+    };
+};
 
 export type ClearDownloaderMutationVariables = Exact<{
-  input?: InputMaybe<ClearDownloaderInput>;
+    input?: InputMaybe<ClearDownloaderInput>;
 }>;
 
-
-export type ClearDownloaderMutation = { __typename?: 'Mutation', clearDownloader: { __typename?: 'ClearDownloaderPayload', clientMutationId?: string | null, downloadStatus: { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, title: string, downloadCount: number } } }> } } };
+export type ClearDownloaderMutation = {
+    __typename?: 'Mutation';
+    clearDownloader: {
+        __typename?: 'ClearDownloaderPayload';
+        clientMutationId?: string | null;
+        downloadStatus: {
+            __typename?: 'DownloadStatus';
+            state: DownloaderState;
+            queue: Array<{
+                __typename?: 'DownloadType';
+                progress: number;
+                state: DownloadState;
+                tries: number;
+                chapter: {
+                    __typename?: 'ChapterType';
+                    id: number;
+                    name: string;
+                    sourceOrder: number;
+                    isDownloaded: boolean;
+                    manga: { __typename?: 'MangaType'; id: number; title: string; downloadCount: number };
+                };
+            }>;
+        };
+    };
+};
 
 export type DeleteDownloadedChapterMutationVariables = Exact<{
-  input: DeleteDownloadedChapterInput;
+    input: DeleteDownloadedChapterInput;
 }>;
 
-
-export type DeleteDownloadedChapterMutation = { __typename?: 'Mutation', deleteDownloadedChapter: { __typename?: 'DeleteDownloadedChapterPayload', clientMutationId?: string | null, chapters: { __typename?: 'ChapterType', id: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, downloadCount: number } } } };
+export type DeleteDownloadedChapterMutation = {
+    __typename?: 'Mutation';
+    deleteDownloadedChapter: {
+        __typename?: 'DeleteDownloadedChapterPayload';
+        clientMutationId?: string | null;
+        chapters: {
+            __typename?: 'ChapterType';
+            id: number;
+            isDownloaded: boolean;
+            manga: { __typename?: 'MangaType'; id: number; downloadCount: number };
+        };
+    };
+};
 
 export type DeleteDownloadedChaptersMutationVariables = Exact<{
-  input: DeleteDownloadedChaptersInput;
+    input: DeleteDownloadedChaptersInput;
 }>;
 
-
-export type DeleteDownloadedChaptersMutation = { __typename?: 'Mutation', deleteDownloadedChapters: { __typename?: 'DeleteDownloadedChaptersPayload', clientMutationId?: string | null, chapters: Array<{ __typename?: 'ChapterType', id: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, downloadCount: number } }> } };
+export type DeleteDownloadedChaptersMutation = {
+    __typename?: 'Mutation';
+    deleteDownloadedChapters: {
+        __typename?: 'DeleteDownloadedChaptersPayload';
+        clientMutationId?: string | null;
+        chapters: Array<{
+            __typename?: 'ChapterType';
+            id: number;
+            isDownloaded: boolean;
+            manga: { __typename?: 'MangaType'; id: number; downloadCount: number };
+        }>;
+    };
+};
 
 export type DequeueChapterDownloadMutationVariables = Exact<{
-  input: DequeueChapterDownloadInput;
+    input: DequeueChapterDownloadInput;
 }>;
 
-
-export type DequeueChapterDownloadMutation = { __typename?: 'Mutation', dequeueChapterDownload: { __typename?: 'DequeueChapterDownloadPayload', clientMutationId?: string | null, downloadStatus: { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, title: string, downloadCount: number } } }> } } };
+export type DequeueChapterDownloadMutation = {
+    __typename?: 'Mutation';
+    dequeueChapterDownload: {
+        __typename?: 'DequeueChapterDownloadPayload';
+        clientMutationId?: string | null;
+        downloadStatus: {
+            __typename?: 'DownloadStatus';
+            state: DownloaderState;
+            queue: Array<{
+                __typename?: 'DownloadType';
+                progress: number;
+                state: DownloadState;
+                tries: number;
+                chapter: {
+                    __typename?: 'ChapterType';
+                    id: number;
+                    name: string;
+                    sourceOrder: number;
+                    isDownloaded: boolean;
+                    manga: { __typename?: 'MangaType'; id: number; title: string; downloadCount: number };
+                };
+            }>;
+        };
+    };
+};
 
 export type DequeueChapterDownloadsMutationVariables = Exact<{
-  input: DequeueChapterDownloadsInput;
+    input: DequeueChapterDownloadsInput;
 }>;
 
-
-export type DequeueChapterDownloadsMutation = { __typename?: 'Mutation', dequeueChapterDownloads: { __typename?: 'DequeueChapterDownloadsPayload', clientMutationId?: string | null, downloadStatus: { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, title: string, downloadCount: number } } }> } } };
+export type DequeueChapterDownloadsMutation = {
+    __typename?: 'Mutation';
+    dequeueChapterDownloads: {
+        __typename?: 'DequeueChapterDownloadsPayload';
+        clientMutationId?: string | null;
+        downloadStatus: {
+            __typename?: 'DownloadStatus';
+            state: DownloaderState;
+            queue: Array<{
+                __typename?: 'DownloadType';
+                progress: number;
+                state: DownloadState;
+                tries: number;
+                chapter: {
+                    __typename?: 'ChapterType';
+                    id: number;
+                    name: string;
+                    sourceOrder: number;
+                    isDownloaded: boolean;
+                    manga: { __typename?: 'MangaType'; id: number; title: string; downloadCount: number };
+                };
+            }>;
+        };
+    };
+};
 
 export type EnqueueChapterDownloadMutationVariables = Exact<{
-  input: EnqueueChapterDownloadInput;
+    input: EnqueueChapterDownloadInput;
 }>;
 
-
-export type EnqueueChapterDownloadMutation = { __typename?: 'Mutation', enqueueChapterDownload: { __typename?: 'EnqueueChapterDownloadPayload', clientMutationId?: string | null, downloadStatus: { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, title: string, downloadCount: number } } }> } } };
+export type EnqueueChapterDownloadMutation = {
+    __typename?: 'Mutation';
+    enqueueChapterDownload: {
+        __typename?: 'EnqueueChapterDownloadPayload';
+        clientMutationId?: string | null;
+        downloadStatus: {
+            __typename?: 'DownloadStatus';
+            state: DownloaderState;
+            queue: Array<{
+                __typename?: 'DownloadType';
+                progress: number;
+                state: DownloadState;
+                tries: number;
+                chapter: {
+                    __typename?: 'ChapterType';
+                    id: number;
+                    name: string;
+                    sourceOrder: number;
+                    isDownloaded: boolean;
+                    manga: { __typename?: 'MangaType'; id: number; title: string; downloadCount: number };
+                };
+            }>;
+        };
+    };
+};
 
 export type EnqueueChapterDownloadsMutationVariables = Exact<{
-  input: EnqueueChapterDownloadsInput;
+    input: EnqueueChapterDownloadsInput;
 }>;
 
-
-export type EnqueueChapterDownloadsMutation = { __typename?: 'Mutation', enqueueChapterDownloads: { __typename?: 'EnqueueChapterDownloadsPayload', clientMutationId?: string | null, downloadStatus: { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, title: string, downloadCount: number } } }> } } };
+export type EnqueueChapterDownloadsMutation = {
+    __typename?: 'Mutation';
+    enqueueChapterDownloads: {
+        __typename?: 'EnqueueChapterDownloadsPayload';
+        clientMutationId?: string | null;
+        downloadStatus: {
+            __typename?: 'DownloadStatus';
+            state: DownloaderState;
+            queue: Array<{
+                __typename?: 'DownloadType';
+                progress: number;
+                state: DownloadState;
+                tries: number;
+                chapter: {
+                    __typename?: 'ChapterType';
+                    id: number;
+                    name: string;
+                    sourceOrder: number;
+                    isDownloaded: boolean;
+                    manga: { __typename?: 'MangaType'; id: number; title: string; downloadCount: number };
+                };
+            }>;
+        };
+    };
+};
 
 export type ReorderChapterDownloadMutationVariables = Exact<{
-  input: ReorderChapterDownloadInput;
+    input: ReorderChapterDownloadInput;
 }>;
 
-
-export type ReorderChapterDownloadMutation = { __typename?: 'Mutation', reorderChapterDownload: { __typename?: 'ReorderChapterDownloadPayload', clientMutationId?: string | null, downloadStatus: { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, title: string, downloadCount: number } } }> } } };
+export type ReorderChapterDownloadMutation = {
+    __typename?: 'Mutation';
+    reorderChapterDownload: {
+        __typename?: 'ReorderChapterDownloadPayload';
+        clientMutationId?: string | null;
+        downloadStatus: {
+            __typename?: 'DownloadStatus';
+            state: DownloaderState;
+            queue: Array<{
+                __typename?: 'DownloadType';
+                progress: number;
+                state: DownloadState;
+                tries: number;
+                chapter: {
+                    __typename?: 'ChapterType';
+                    id: number;
+                    name: string;
+                    sourceOrder: number;
+                    isDownloaded: boolean;
+                    manga: { __typename?: 'MangaType'; id: number; title: string; downloadCount: number };
+                };
+            }>;
+        };
+    };
+};
 
 export type StartDownloaderMutationVariables = Exact<{
-  input?: InputMaybe<StartDownloaderInput>;
+    input?: InputMaybe<StartDownloaderInput>;
 }>;
 
-
-export type StartDownloaderMutation = { __typename?: 'Mutation', startDownloader: { __typename?: 'StartDownloaderPayload', clientMutationId?: string | null, downloadStatus: { __typename?: 'DownloadStatus', state: DownloaderState } } };
+export type StartDownloaderMutation = {
+    __typename?: 'Mutation';
+    startDownloader: {
+        __typename?: 'StartDownloaderPayload';
+        clientMutationId?: string | null;
+        downloadStatus: { __typename?: 'DownloadStatus'; state: DownloaderState };
+    };
+};
 
 export type StopDownloaderMutationVariables = Exact<{
-  input?: InputMaybe<StopDownloaderInput>;
+    input?: InputMaybe<StopDownloaderInput>;
 }>;
 
-
-export type StopDownloaderMutation = { __typename?: 'Mutation', stopDownloader: { __typename?: 'StopDownloaderPayload', clientMutationId?: string | null, downloadStatus: { __typename?: 'DownloadStatus', state: DownloaderState } } };
+export type StopDownloaderMutation = {
+    __typename?: 'Mutation';
+    stopDownloader: {
+        __typename?: 'StopDownloaderPayload';
+        clientMutationId?: string | null;
+        downloadStatus: { __typename?: 'DownloadStatus'; state: DownloaderState };
+    };
+};
 
 export type GetExtensionsFetchMutationVariables = Exact<{
-  input?: InputMaybe<FetchExtensionsInput>;
+    input?: InputMaybe<FetchExtensionsInput>;
 }>;
 
-
-export type GetExtensionsFetchMutation = { __typename?: 'Mutation', fetchExtensions: { __typename?: 'FetchExtensionsPayload', clientMutationId?: string | null, extensions: Array<{ __typename?: 'ExtensionType', apkName: string, repo?: string | null, hasUpdate: boolean, iconUrl: string, isInstalled: boolean, isNsfw: boolean, isObsolete: boolean, lang: string, name: string, pkgName: string, versionCode: number, versionName: string }> } };
+export type GetExtensionsFetchMutation = {
+    __typename?: 'Mutation';
+    fetchExtensions: {
+        __typename?: 'FetchExtensionsPayload';
+        clientMutationId?: string | null;
+        extensions: Array<{
+            __typename?: 'ExtensionType';
+            apkName: string;
+            repo?: string | null;
+            hasUpdate: boolean;
+            iconUrl: string;
+            isInstalled: boolean;
+            isNsfw: boolean;
+            isObsolete: boolean;
+            lang: string;
+            name: string;
+            pkgName: string;
+            versionCode: number;
+            versionName: string;
+        }>;
+    };
+};
 
 export type UpdateExtensionMutationVariables = Exact<{
-  input: UpdateExtensionInput;
+    input: UpdateExtensionInput;
 }>;
 
-
-export type UpdateExtensionMutation = { __typename?: 'Mutation', updateExtension: { __typename?: 'UpdateExtensionPayload', clientMutationId?: string | null, extension?: { __typename?: 'ExtensionType', pkgName: string, apkName: string, repo?: string | null, versionName: string, versionCode: number, isInstalled: boolean, isObsolete: boolean, hasUpdate: boolean } | null } };
+export type UpdateExtensionMutation = {
+    __typename?: 'Mutation';
+    updateExtension: {
+        __typename?: 'UpdateExtensionPayload';
+        clientMutationId?: string | null;
+        extension?: {
+            __typename?: 'ExtensionType';
+            pkgName: string;
+            apkName: string;
+            repo?: string | null;
+            versionName: string;
+            versionCode: number;
+            isInstalled: boolean;
+            isObsolete: boolean;
+            hasUpdate: boolean;
+        } | null;
+    };
+};
 
 export type UpdateExtensionsMutationVariables = Exact<{
-  input: UpdateExtensionsInput;
+    input: UpdateExtensionsInput;
 }>;
 
-
-export type UpdateExtensionsMutation = { __typename?: 'Mutation', updateExtensions: { __typename?: 'UpdateExtensionsPayload', clientMutationId?: string | null, extensions: Array<{ __typename?: 'ExtensionType', pkgName: string, apkName: string, repo?: string | null, versionName: string, versionCode: number, isInstalled: boolean, isObsolete: boolean, hasUpdate: boolean }> } };
+export type UpdateExtensionsMutation = {
+    __typename?: 'Mutation';
+    updateExtensions: {
+        __typename?: 'UpdateExtensionsPayload';
+        clientMutationId?: string | null;
+        extensions: Array<{
+            __typename?: 'ExtensionType';
+            pkgName: string;
+            apkName: string;
+            repo?: string | null;
+            versionName: string;
+            versionCode: number;
+            isInstalled: boolean;
+            isObsolete: boolean;
+            hasUpdate: boolean;
+        }>;
+    };
+};
 
 export type InstallExternalExtensionMutationVariables = Exact<{
-  file: Scalars['Upload']['input'];
+    file: Scalars['Upload']['input'];
 }>;
 
-
-export type InstallExternalExtensionMutation = { __typename?: 'Mutation', installExternalExtension: { __typename?: 'InstallExternalExtensionPayload', clientMutationId?: string | null, extension: { __typename?: 'ExtensionType', apkName: string, repo?: string | null, hasUpdate: boolean, iconUrl: string, isInstalled: boolean, isNsfw: boolean, isObsolete: boolean, lang: string, name: string, pkgName: string, versionCode: number, versionName: string } } };
+export type InstallExternalExtensionMutation = {
+    __typename?: 'Mutation';
+    installExternalExtension: {
+        __typename?: 'InstallExternalExtensionPayload';
+        clientMutationId?: string | null;
+        extension: {
+            __typename?: 'ExtensionType';
+            apkName: string;
+            repo?: string | null;
+            hasUpdate: boolean;
+            iconUrl: string;
+            isInstalled: boolean;
+            isNsfw: boolean;
+            isObsolete: boolean;
+            lang: string;
+            name: string;
+            pkgName: string;
+            versionCode: number;
+            versionName: string;
+        };
+    };
+};
 
 export type DeleteGlobalMetadataMutationVariables = Exact<{
-  input: DeleteGlobalMetaInput;
+    input: DeleteGlobalMetaInput;
 }>;
 
-
-export type DeleteGlobalMetadataMutation = { __typename?: 'Mutation', deleteGlobalMeta: { __typename?: 'DeleteGlobalMetaPayload', clientMutationId?: string | null, meta?: { __typename?: 'GlobalMetaType', key: string, value: string } | null } };
+export type DeleteGlobalMetadataMutation = {
+    __typename?: 'Mutation';
+    deleteGlobalMeta: {
+        __typename?: 'DeleteGlobalMetaPayload';
+        clientMutationId?: string | null;
+        meta?: { __typename?: 'GlobalMetaType'; key: string; value: string } | null;
+    };
+};
 
 export type SetGlobalMetadataMutationVariables = Exact<{
-  input: SetGlobalMetaInput;
+    input: SetGlobalMetaInput;
 }>;
 
-
-export type SetGlobalMetadataMutation = { __typename?: 'Mutation', setGlobalMeta: { __typename?: 'SetGlobalMetaPayload', clientMutationId?: string | null, meta: { __typename?: 'GlobalMetaType', key: string, value: string } } };
+export type SetGlobalMetadataMutation = {
+    __typename?: 'Mutation';
+    setGlobalMeta: {
+        __typename?: 'SetGlobalMetaPayload';
+        clientMutationId?: string | null;
+        meta: { __typename?: 'GlobalMetaType'; key: string; value: string };
+    };
+};
 
 export type ClearServerCacheMutationVariables = Exact<{
-  input: ClearCachedImagesInput;
+    input: ClearCachedImagesInput;
 }>;
 
-
-export type ClearServerCacheMutation = { __typename?: 'Mutation', clearCachedImages: { __typename?: 'ClearCachedImagesPayload', clientMutationId?: string | null, cachedPages?: boolean | null, cachedThumbnails?: boolean | null, downloadedThumbnails?: boolean | null } };
+export type ClearServerCacheMutation = {
+    __typename?: 'Mutation';
+    clearCachedImages: {
+        __typename?: 'ClearCachedImagesPayload';
+        clientMutationId?: string | null;
+        cachedPages?: boolean | null;
+        cachedThumbnails?: boolean | null;
+        downloadedThumbnails?: boolean | null;
+    };
+};
 
 export type DeleteMangaMetadataMutationVariables = Exact<{
-  input: DeleteMangaMetaInput;
+    input: DeleteMangaMetaInput;
 }>;
 
-
-export type DeleteMangaMetadataMutation = { __typename?: 'Mutation', deleteMangaMeta: { __typename?: 'DeleteMangaMetaPayload', clientMutationId?: string | null, meta?: { __typename?: 'MangaMetaType', key: string, value: string, manga: { __typename?: 'MangaType', id: number, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }> } } | null, manga: { __typename?: 'MangaType', id: number, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }> } } };
+export type DeleteMangaMetadataMutation = {
+    __typename?: 'Mutation';
+    deleteMangaMeta: {
+        __typename?: 'DeleteMangaMetaPayload';
+        clientMutationId?: string | null;
+        meta?: {
+            __typename?: 'MangaMetaType';
+            key: string;
+            value: string;
+            manga: {
+                __typename?: 'MangaType';
+                id: number;
+                meta: Array<{ __typename?: 'MangaMetaType'; key: string; value: string }>;
+            };
+        } | null;
+        manga: {
+            __typename?: 'MangaType';
+            id: number;
+            meta: Array<{ __typename?: 'MangaMetaType'; key: string; value: string }>;
+        };
+    };
+};
 
 export type GetMangaFetchMutationVariables = Exact<{
-  input: FetchMangaInput;
+    input: FetchMangaInput;
 }>;
 
-
-export type GetMangaFetchMutation = { __typename?: 'Mutation', fetchManga: { __typename?: 'FetchMangaPayload', clientMutationId?: string | null, manga: { __typename?: 'MangaType', unreadCount: number, downloadCount: number, bookmarkCount: number, artist?: string | null, author?: string | null, chaptersLastFetchedAt?: string | null, description?: string | null, genre: Array<string>, id: number, inLibrary: boolean, inLibraryAt: string, initialized: boolean, lastFetchedAt?: string | null, realUrl?: string | null, status: MangaStatus, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: string | null, title: string, url: string, lastReadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestReadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestFetchedChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestUploadedChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, firstUnreadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', default: boolean, id: number, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude, name: string, order: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }>, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> }, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, source?: { __typename?: 'SourceType', displayName: string, iconUrl: string, id: string, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } } | null, trackRecords: { __typename?: 'TrackRecordNodeList', totalCount: number, nodes: Array<{ __typename?: 'TrackRecordType', title: string, remoteUrl: string, remoteId: string, id: number, status: number, lastChapterRead: number, totalChapters: number, score: number, displayScore: string, startDate: string, finishDate: string, tracker: { __typename?: 'TrackerType', id: number, name: string, authUrl?: string | null, icon: string, supportsTrackDeletion?: boolean | null, isLoggedIn: boolean, isTokenExpired: boolean, scores: Array<string>, statuses: Array<{ __typename?: 'TrackStatusType', name: string, value: number }> } }> } } } };
+export type GetMangaFetchMutation = {
+    __typename?: 'Mutation';
+    fetchManga: {
+        __typename?: 'FetchMangaPayload';
+        clientMutationId?: string | null;
+        manga: {
+            __typename?: 'MangaType';
+            unreadCount: number;
+            downloadCount: number;
+            bookmarkCount: number;
+            artist?: string | null;
+            author?: string | null;
+            chaptersLastFetchedAt?: string | null;
+            description?: string | null;
+            genre: Array<string>;
+            id: number;
+            inLibrary: boolean;
+            inLibraryAt: string;
+            initialized: boolean;
+            lastFetchedAt?: string | null;
+            realUrl?: string | null;
+            status: MangaStatus;
+            thumbnailUrl?: string | null;
+            thumbnailUrlLastFetched?: string | null;
+            title: string;
+            url: string;
+            lastReadChapter?: {
+                __typename?: 'ChapterType';
+                chapterNumber: number;
+                fetchedAt: string;
+                id: number;
+                isBookmarked: boolean;
+                isDownloaded: boolean;
+                isRead: boolean;
+                lastPageRead: number;
+                lastReadAt: string;
+                name: string;
+                pageCount: number;
+                realUrl?: string | null;
+                scanlator?: string | null;
+                sourceOrder: number;
+                uploadDate: string;
+                url: string;
+                manga: {
+                    __typename?: 'MangaType';
+                    id: number;
+                    title: string;
+                    inLibrary: boolean;
+                    thumbnailUrl?: string | null;
+                    lastFetchedAt?: string | null;
+                };
+                meta: Array<{ __typename?: 'ChapterMetaType'; key: string; value: string }>;
+            } | null;
+            latestReadChapter?: {
+                __typename?: 'ChapterType';
+                chapterNumber: number;
+                fetchedAt: string;
+                id: number;
+                isBookmarked: boolean;
+                isDownloaded: boolean;
+                isRead: boolean;
+                lastPageRead: number;
+                lastReadAt: string;
+                name: string;
+                pageCount: number;
+                realUrl?: string | null;
+                scanlator?: string | null;
+                sourceOrder: number;
+                uploadDate: string;
+                url: string;
+                manga: {
+                    __typename?: 'MangaType';
+                    id: number;
+                    title: string;
+                    inLibrary: boolean;
+                    thumbnailUrl?: string | null;
+                    lastFetchedAt?: string | null;
+                };
+                meta: Array<{ __typename?: 'ChapterMetaType'; key: string; value: string }>;
+            } | null;
+            latestFetchedChapter?: {
+                __typename?: 'ChapterType';
+                chapterNumber: number;
+                fetchedAt: string;
+                id: number;
+                isBookmarked: boolean;
+                isDownloaded: boolean;
+                isRead: boolean;
+                lastPageRead: number;
+                lastReadAt: string;
+                name: string;
+                pageCount: number;
+                realUrl?: string | null;
+                scanlator?: string | null;
+                sourceOrder: number;
+                uploadDate: string;
+                url: string;
+                manga: {
+                    __typename?: 'MangaType';
+                    id: number;
+                    title: string;
+                    inLibrary: boolean;
+                    thumbnailUrl?: string | null;
+                    lastFetchedAt?: string | null;
+                };
+                meta: Array<{ __typename?: 'ChapterMetaType'; key: string; value: string }>;
+            } | null;
+            latestUploadedChapter?: {
+                __typename?: 'ChapterType';
+                chapterNumber: number;
+                fetchedAt: string;
+                id: number;
+                isBookmarked: boolean;
+                isDownloaded: boolean;
+                isRead: boolean;
+                lastPageRead: number;
+                lastReadAt: string;
+                name: string;
+                pageCount: number;
+                realUrl?: string | null;
+                scanlator?: string | null;
+                sourceOrder: number;
+                uploadDate: string;
+                url: string;
+                manga: {
+                    __typename?: 'MangaType';
+                    id: number;
+                    title: string;
+                    inLibrary: boolean;
+                    thumbnailUrl?: string | null;
+                    lastFetchedAt?: string | null;
+                };
+                meta: Array<{ __typename?: 'ChapterMetaType'; key: string; value: string }>;
+            } | null;
+            firstUnreadChapter?: {
+                __typename?: 'ChapterType';
+                chapterNumber: number;
+                fetchedAt: string;
+                id: number;
+                isBookmarked: boolean;
+                isDownloaded: boolean;
+                isRead: boolean;
+                lastPageRead: number;
+                lastReadAt: string;
+                name: string;
+                pageCount: number;
+                realUrl?: string | null;
+                scanlator?: string | null;
+                sourceOrder: number;
+                uploadDate: string;
+                url: string;
+                manga: {
+                    __typename?: 'MangaType';
+                    id: number;
+                    title: string;
+                    inLibrary: boolean;
+                    thumbnailUrl?: string | null;
+                    lastFetchedAt?: string | null;
+                };
+                meta: Array<{ __typename?: 'ChapterMetaType'; key: string; value: string }>;
+            } | null;
+            categories: {
+                __typename?: 'CategoryNodeList';
+                totalCount: number;
+                nodes: Array<{
+                    __typename?: 'CategoryType';
+                    default: boolean;
+                    id: number;
+                    includeInUpdate: IncludeOrExclude;
+                    includeInDownload: IncludeOrExclude;
+                    name: string;
+                    order: number;
+                    meta: Array<{ __typename?: 'CategoryMetaType'; key: string; value: string }>;
+                    mangas: { __typename?: 'MangaNodeList'; totalCount: number };
+                }>;
+            };
+            chapters: { __typename?: 'ChapterNodeList'; totalCount: number };
+            meta: Array<{ __typename?: 'MangaMetaType'; key: string; value: string }>;
+            source?: {
+                __typename?: 'SourceType';
+                displayName: string;
+                iconUrl: string;
+                id: string;
+                isConfigurable: boolean;
+                isNsfw: boolean;
+                lang: string;
+                name: string;
+                supportsLatest: boolean;
+                extension: { __typename?: 'ExtensionType'; pkgName: string; repo?: string | null };
+            } | null;
+            trackRecords: {
+                __typename?: 'TrackRecordNodeList';
+                totalCount: number;
+                nodes: Array<{
+                    __typename?: 'TrackRecordType';
+                    title: string;
+                    remoteUrl: string;
+                    remoteId: string;
+                    id: number;
+                    status: number;
+                    lastChapterRead: number;
+                    totalChapters: number;
+                    score: number;
+                    displayScore: string;
+                    startDate: string;
+                    finishDate: string;
+                    tracker: {
+                        __typename?: 'TrackerType';
+                        id: number;
+                        name: string;
+                        authUrl?: string | null;
+                        icon: string;
+                        supportsTrackDeletion?: boolean | null;
+                        isLoggedIn: boolean;
+                        isTokenExpired: boolean;
+                        scores: Array<string>;
+                        statuses: Array<{ __typename?: 'TrackStatusType'; name: string; value: number }>;
+                    };
+                }>;
+            };
+        };
+    };
+};
 
 export type GetMangaToMigrateToFetchMutationVariables = Exact<{
-  id: Scalars['Int']['input'];
-  migrateChapters: Scalars['Boolean']['input'];
-  migrateCategories: Scalars['Boolean']['input'];
+    id: Scalars['Int']['input'];
+    migrateChapters: Scalars['Boolean']['input'];
+    migrateCategories: Scalars['Boolean']['input'];
 }>;
 
-
-export type GetMangaToMigrateToFetchMutation = { __typename?: 'Mutation', fetchManga: { __typename?: 'FetchMangaPayload', clientMutationId?: string | null, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, categories?: { __typename?: 'CategoryNodeList', nodes: Array<{ __typename?: 'CategoryType', id: number }> } } }, fetchChapters?: { __typename?: 'FetchChaptersPayload', chapters: Array<{ __typename?: 'ChapterType', id: number, chapterNumber: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean, manga: { __typename?: 'MangaType', id: number } }> } };
+export type GetMangaToMigrateToFetchMutation = {
+    __typename?: 'Mutation';
+    fetchManga: {
+        __typename?: 'FetchMangaPayload';
+        clientMutationId?: string | null;
+        manga: {
+            __typename?: 'MangaType';
+            id: number;
+            title: string;
+            inLibrary: boolean;
+            categories?: { __typename?: 'CategoryNodeList'; nodes: Array<{ __typename?: 'CategoryType'; id: number }> };
+        };
+    };
+    fetchChapters?: {
+        __typename?: 'FetchChaptersPayload';
+        chapters: Array<{
+            __typename?: 'ChapterType';
+            id: number;
+            chapterNumber: number;
+            isRead: boolean;
+            isDownloaded: boolean;
+            isBookmarked: boolean;
+            manga: { __typename?: 'MangaType'; id: number };
+        }>;
+    };
+};
 
 export type SetMangaMetadataMutationVariables = Exact<{
-  input: SetMangaMetaInput;
+    input: SetMangaMetaInput;
 }>;
 
-
-export type SetMangaMetadataMutation = { __typename?: 'Mutation', setMangaMeta: { __typename?: 'SetMangaMetaPayload', clientMutationId?: string | null, meta: { __typename?: 'MangaMetaType', key: string, value: string, manga: { __typename?: 'MangaType', id: number, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }> } } } };
+export type SetMangaMetadataMutation = {
+    __typename?: 'Mutation';
+    setMangaMeta: {
+        __typename?: 'SetMangaMetaPayload';
+        clientMutationId?: string | null;
+        meta: {
+            __typename?: 'MangaMetaType';
+            key: string;
+            value: string;
+            manga: {
+                __typename?: 'MangaType';
+                id: number;
+                meta: Array<{ __typename?: 'MangaMetaType'; key: string; value: string }>;
+            };
+        };
+    };
+};
 
 export type UpdateMangaMutationVariables = Exact<{
-  input: UpdateMangaInput;
-  updateCategoryInput: UpdateMangaCategoriesInput;
-  updateCategories: Scalars['Boolean']['input'];
+    input: UpdateMangaInput;
+    updateCategoryInput: UpdateMangaCategoriesInput;
+    updateCategories: Scalars['Boolean']['input'];
 }>;
 
-
-export type UpdateMangaMutation = { __typename?: 'Mutation', updateManga: { __typename?: 'UpdateMangaPayload', clientMutationId?: string | null, manga: { __typename?: 'MangaType', id: number, inLibrary: boolean, inLibraryAt: string } }, updateMangaCategories?: { __typename?: 'UpdateMangaCategoriesPayload', manga: { __typename?: 'MangaType', id: number, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> } } } };
+export type UpdateMangaMutation = {
+    __typename?: 'Mutation';
+    updateManga: {
+        __typename?: 'UpdateMangaPayload';
+        clientMutationId?: string | null;
+        manga: { __typename?: 'MangaType'; id: number; inLibrary: boolean; inLibraryAt: string };
+    };
+    updateMangaCategories?: {
+        __typename?: 'UpdateMangaCategoriesPayload';
+        manga: {
+            __typename?: 'MangaType';
+            id: number;
+            categories: {
+                __typename?: 'CategoryNodeList';
+                totalCount: number;
+                nodes: Array<{
+                    __typename?: 'CategoryType';
+                    id: number;
+                    mangas: { __typename?: 'MangaNodeList'; totalCount: number };
+                }>;
+            };
+        };
+    };
+};
 
 export type UpdateMangasMutationVariables = Exact<{
-  input: UpdateMangasInput;
-  updateCategoryInput: UpdateMangasCategoriesInput;
-  updateCategories: Scalars['Boolean']['input'];
+    input: UpdateMangasInput;
+    updateCategoryInput: UpdateMangasCategoriesInput;
+    updateCategories: Scalars['Boolean']['input'];
 }>;
 
-
-export type UpdateMangasMutation = { __typename?: 'Mutation', updateMangas: { __typename?: 'UpdateMangasPayload', clientMutationId?: string | null, mangas: Array<{ __typename?: 'MangaType', id: number, inLibrary: boolean, inLibraryAt: string, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> } }> }, updateMangasCategories?: { __typename?: 'UpdateMangasCategoriesPayload', mangas: Array<{ __typename?: 'MangaType', id: number, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> } }> } };
+export type UpdateMangasMutation = {
+    __typename?: 'Mutation';
+    updateMangas: {
+        __typename?: 'UpdateMangasPayload';
+        clientMutationId?: string | null;
+        mangas: Array<{
+            __typename?: 'MangaType';
+            id: number;
+            inLibrary: boolean;
+            inLibraryAt: string;
+            categories: {
+                __typename?: 'CategoryNodeList';
+                totalCount: number;
+                nodes: Array<{
+                    __typename?: 'CategoryType';
+                    id: number;
+                    mangas: { __typename?: 'MangaNodeList'; totalCount: number };
+                }>;
+            };
+        }>;
+    };
+    updateMangasCategories?: {
+        __typename?: 'UpdateMangasCategoriesPayload';
+        mangas: Array<{
+            __typename?: 'MangaType';
+            id: number;
+            categories: {
+                __typename?: 'CategoryNodeList';
+                totalCount: number;
+                nodes: Array<{
+                    __typename?: 'CategoryType';
+                    id: number;
+                    mangas: { __typename?: 'MangaNodeList'; totalCount: number };
+                }>;
+            };
+        }>;
+    };
+};
 
 export type UpdateMangaCategoriesMutationVariables = Exact<{
-  input: UpdateMangaCategoriesInput;
+    input: UpdateMangaCategoriesInput;
 }>;
 
-
-export type UpdateMangaCategoriesMutation = { __typename?: 'Mutation', updateMangaCategories: { __typename?: 'UpdateMangaCategoriesPayload', clientMutationId?: string | null, manga: { __typename?: 'MangaType', id: number, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> } } } };
+export type UpdateMangaCategoriesMutation = {
+    __typename?: 'Mutation';
+    updateMangaCategories: {
+        __typename?: 'UpdateMangaCategoriesPayload';
+        clientMutationId?: string | null;
+        manga: {
+            __typename?: 'MangaType';
+            id: number;
+            categories: {
+                __typename?: 'CategoryNodeList';
+                totalCount: number;
+                nodes: Array<{
+                    __typename?: 'CategoryType';
+                    id: number;
+                    mangas: { __typename?: 'MangaNodeList'; totalCount: number };
+                }>;
+            };
+        };
+    };
+};
 
 export type UpdateMangasCategoriesMutationVariables = Exact<{
-  input: UpdateMangasCategoriesInput;
+    input: UpdateMangasCategoriesInput;
 }>;
 
-
-export type UpdateMangasCategoriesMutation = { __typename?: 'Mutation', updateMangasCategories: { __typename?: 'UpdateMangasCategoriesPayload', clientMutationId?: string | null, mangas: Array<{ __typename?: 'MangaType', id: number, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> } }> } };
+export type UpdateMangasCategoriesMutation = {
+    __typename?: 'Mutation';
+    updateMangasCategories: {
+        __typename?: 'UpdateMangasCategoriesPayload';
+        clientMutationId?: string | null;
+        mangas: Array<{
+            __typename?: 'MangaType';
+            id: number;
+            categories: {
+                __typename?: 'CategoryNodeList';
+                totalCount: number;
+                nodes: Array<{
+                    __typename?: 'CategoryType';
+                    id: number;
+                    mangas: { __typename?: 'MangaNodeList'; totalCount: number };
+                }>;
+            };
+        }>;
+    };
+};
 
 export type UpdateWebuiMutationVariables = Exact<{
-  input?: InputMaybe<WebUiUpdateInput>;
+    input?: InputMaybe<WebUiUpdateInput>;
 }>;
 
+export type UpdateWebuiMutation = {
+    __typename?: 'Mutation';
+    updateWebUI: {
+        __typename?: 'WebUIUpdatePayload';
+        clientMutationId?: string | null;
+        updateStatus: {
+            __typename?: 'WebUIUpdateStatus';
+            progress: number;
+            state: UpdateState;
+            info: { __typename?: 'WebUIUpdateInfo'; channel: string; tag: string };
+        };
+    };
+};
 
-export type UpdateWebuiMutation = { __typename?: 'Mutation', updateWebUI: { __typename?: 'WebUIUpdatePayload', clientMutationId?: string | null, updateStatus: { __typename?: 'WebUIUpdateStatus', progress: number, state: UpdateState, info: { __typename?: 'WebUIUpdateInfo', channel: string, tag: string } } } };
+export type ResetWebuiUpdateStatusMutationVariables = Exact<{ [key: string]: never }>;
 
-export type ResetWebuiUpdateStatusMutationVariables = Exact<{ [key: string]: never; }>;
-
-
-export type ResetWebuiUpdateStatusMutation = { __typename?: 'Mutation', resetWebUIUpdateStatus: { __typename?: 'WebUIUpdateStatus', state: UpdateState, info: { __typename?: 'WebUIUpdateInfo', channel: string, tag: string } } };
+export type ResetWebuiUpdateStatusMutation = {
+    __typename?: 'Mutation';
+    resetWebUIUpdateStatus: {
+        __typename?: 'WebUIUpdateStatus';
+        state: UpdateState;
+        info: { __typename?: 'WebUIUpdateInfo'; channel: string; tag: string };
+    };
+};
 
 export type ResetServerSettingsMutationVariables = Exact<{
-  input: ResetSettingsInput;
+    input: ResetSettingsInput;
 }>;
 
-
-export type ResetServerSettingsMutation = { __typename?: 'Mutation', resetSettings: { __typename?: 'ResetSettingsPayload', clientMutationId?: string | null, settings: { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyVersion: number, socksProxyHost: string, socksProxyPort: string, socksProxyUsername: string, socksProxyPassword: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadNewChaptersLimit: number, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, basicAuthEnabled: boolean, basicAuthUsername: string, basicAuthPassword: string, debugLogsEnabled: boolean, gqlDebugLogsEnabled: boolean, systemTrayEnabled: boolean, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string, flareSolverrEnabled: boolean, flareSolverrUrl: string, flareSolverrTimeout: number, flareSolverrSessionName: string, flareSolverrSessionTtl: number } } };
+export type ResetServerSettingsMutation = {
+    __typename?: 'Mutation';
+    resetSettings: {
+        __typename?: 'ResetSettingsPayload';
+        clientMutationId?: string | null;
+        settings: {
+            __typename?: 'SettingsType';
+            ip: string;
+            port: number;
+            socksProxyEnabled: boolean;
+            socksProxyVersion: number;
+            socksProxyHost: string;
+            socksProxyPort: string;
+            socksProxyUsername: string;
+            socksProxyPassword: string;
+            webUIFlavor: WebUiFlavor;
+            initialOpenInBrowserEnabled: boolean;
+            webUIInterface: WebUiInterface;
+            electronPath: string;
+            webUIChannel: WebUiChannel;
+            webUIUpdateCheckInterval: number;
+            downloadAsCbz: boolean;
+            downloadsPath: string;
+            autoDownloadNewChapters: boolean;
+            excludeEntryWithUnreadChapters: boolean;
+            autoDownloadNewChaptersLimit: number;
+            extensionRepos: Array<string>;
+            maxSourcesInParallel: number;
+            excludeUnreadChapters: boolean;
+            excludeNotStarted: boolean;
+            excludeCompleted: boolean;
+            globalUpdateInterval: number;
+            updateMangas: boolean;
+            basicAuthEnabled: boolean;
+            basicAuthUsername: string;
+            basicAuthPassword: string;
+            debugLogsEnabled: boolean;
+            gqlDebugLogsEnabled: boolean;
+            systemTrayEnabled: boolean;
+            backupPath: string;
+            backupTime: string;
+            backupInterval: number;
+            backupTTL: number;
+            localSourcePath: string;
+            flareSolverrEnabled: boolean;
+            flareSolverrUrl: string;
+            flareSolverrTimeout: number;
+            flareSolverrSessionName: string;
+            flareSolverrSessionTtl: number;
+        };
+    };
+};
 
 export type UpdateServerSettingsMutationVariables = Exact<{
-  input: SetSettingsInput;
+    input: SetSettingsInput;
 }>;
 
-
-export type UpdateServerSettingsMutation = { __typename?: 'Mutation', setSettings: { __typename?: 'SetSettingsPayload', clientMutationId?: string | null, settings: { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyVersion: number, socksProxyHost: string, socksProxyPort: string, socksProxyUsername: string, socksProxyPassword: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadNewChaptersLimit: number, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, basicAuthEnabled: boolean, basicAuthUsername: string, basicAuthPassword: string, debugLogsEnabled: boolean, gqlDebugLogsEnabled: boolean, systemTrayEnabled: boolean, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string, flareSolverrEnabled: boolean, flareSolverrUrl: string, flareSolverrTimeout: number, flareSolverrSessionName: string, flareSolverrSessionTtl: number } } };
+export type UpdateServerSettingsMutation = {
+    __typename?: 'Mutation';
+    setSettings: {
+        __typename?: 'SetSettingsPayload';
+        clientMutationId?: string | null;
+        settings: {
+            __typename?: 'SettingsType';
+            ip: string;
+            port: number;
+            socksProxyEnabled: boolean;
+            socksProxyVersion: number;
+            socksProxyHost: string;
+            socksProxyPort: string;
+            socksProxyUsername: string;
+            socksProxyPassword: string;
+            webUIFlavor: WebUiFlavor;
+            initialOpenInBrowserEnabled: boolean;
+            webUIInterface: WebUiInterface;
+            electronPath: string;
+            webUIChannel: WebUiChannel;
+            webUIUpdateCheckInterval: number;
+            downloadAsCbz: boolean;
+            downloadsPath: string;
+            autoDownloadNewChapters: boolean;
+            excludeEntryWithUnreadChapters: boolean;
+            autoDownloadNewChaptersLimit: number;
+            extensionRepos: Array<string>;
+            maxSourcesInParallel: number;
+            excludeUnreadChapters: boolean;
+            excludeNotStarted: boolean;
+            excludeCompleted: boolean;
+            globalUpdateInterval: number;
+            updateMangas: boolean;
+            basicAuthEnabled: boolean;
+            basicAuthUsername: string;
+            basicAuthPassword: string;
+            debugLogsEnabled: boolean;
+            gqlDebugLogsEnabled: boolean;
+            systemTrayEnabled: boolean;
+            backupPath: string;
+            backupTime: string;
+            backupInterval: number;
+            backupTTL: number;
+            localSourcePath: string;
+            flareSolverrEnabled: boolean;
+            flareSolverrUrl: string;
+            flareSolverrTimeout: number;
+            flareSolverrSessionName: string;
+            flareSolverrSessionTtl: number;
+        };
+    };
+};
 
 export type GetSourceMangasFetchMutationVariables = Exact<{
-  input: FetchSourceMangaInput;
+    input: FetchSourceMangaInput;
 }>;
 
-
-export type GetSourceMangasFetchMutation = { __typename?: 'Mutation', fetchSourceManga: { __typename?: 'FetchSourceMangaPayload', clientMutationId?: string | null, hasNextPage: boolean, mangas: Array<{ __typename?: 'MangaType', artist?: string | null, author?: string | null, chaptersLastFetchedAt?: string | null, description?: string | null, genre: Array<string>, id: number, inLibrary: boolean, inLibraryAt: string, initialized: boolean, lastFetchedAt?: string | null, realUrl?: string | null, status: MangaStatus, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: string | null, title: string, url: string, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, source?: { __typename?: 'SourceType', displayName: string, iconUrl: string, id: string, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } } | null, trackRecords: { __typename?: 'TrackRecordNodeList', totalCount: number, nodes: Array<{ __typename?: 'TrackRecordType', title: string, remoteUrl: string, remoteId: string, id: number, status: number, lastChapterRead: number, totalChapters: number, score: number, displayScore: string, startDate: string, finishDate: string, tracker: { __typename?: 'TrackerType', id: number, name: string, authUrl?: string | null, icon: string, supportsTrackDeletion?: boolean | null, isLoggedIn: boolean, isTokenExpired: boolean, scores: Array<string>, statuses: Array<{ __typename?: 'TrackStatusType', name: string, value: number }> } }> } }> } };
+export type GetSourceMangasFetchMutation = {
+    __typename?: 'Mutation';
+    fetchSourceManga: {
+        __typename?: 'FetchSourceMangaPayload';
+        clientMutationId?: string | null;
+        hasNextPage: boolean;
+        mangas: Array<{
+            __typename?: 'MangaType';
+            artist?: string | null;
+            author?: string | null;
+            chaptersLastFetchedAt?: string | null;
+            description?: string | null;
+            genre: Array<string>;
+            id: number;
+            inLibrary: boolean;
+            inLibraryAt: string;
+            initialized: boolean;
+            lastFetchedAt?: string | null;
+            realUrl?: string | null;
+            status: MangaStatus;
+            thumbnailUrl?: string | null;
+            thumbnailUrlLastFetched?: string | null;
+            title: string;
+            url: string;
+            meta: Array<{ __typename?: 'MangaMetaType'; key: string; value: string }>;
+            source?: {
+                __typename?: 'SourceType';
+                displayName: string;
+                iconUrl: string;
+                id: string;
+                isConfigurable: boolean;
+                isNsfw: boolean;
+                lang: string;
+                name: string;
+                supportsLatest: boolean;
+                extension: { __typename?: 'ExtensionType'; pkgName: string; repo?: string | null };
+            } | null;
+            trackRecords: {
+                __typename?: 'TrackRecordNodeList';
+                totalCount: number;
+                nodes: Array<{
+                    __typename?: 'TrackRecordType';
+                    title: string;
+                    remoteUrl: string;
+                    remoteId: string;
+                    id: number;
+                    status: number;
+                    lastChapterRead: number;
+                    totalChapters: number;
+                    score: number;
+                    displayScore: string;
+                    startDate: string;
+                    finishDate: string;
+                    tracker: {
+                        __typename?: 'TrackerType';
+                        id: number;
+                        name: string;
+                        authUrl?: string | null;
+                        icon: string;
+                        supportsTrackDeletion?: boolean | null;
+                        isLoggedIn: boolean;
+                        isTokenExpired: boolean;
+                        scores: Array<string>;
+                        statuses: Array<{ __typename?: 'TrackStatusType'; name: string; value: number }>;
+                    };
+                }>;
+            };
+        }>;
+    };
+};
 
 export type UpdateSourcePreferencesMutationVariables = Exact<{
-  input: UpdateSourcePreferenceInput;
+    input: UpdateSourcePreferenceInput;
 }>;
 
-
-export type UpdateSourcePreferencesMutation = { __typename?: 'Mutation', updateSourcePreference: { __typename?: 'UpdateSourcePreferencePayload', clientMutationId?: string | null, source: { __typename?: 'SourceType', id: string, preferences: Array<{ __typename?: 'CheckBoxPreference', summary?: string | null, key: string, type: 'CheckBoxPreference', CheckBoxCheckBoxCurrentValue?: boolean | null, CheckBoxDefault: boolean, CheckBoxTitle: string } | { __typename?: 'EditTextPreference', text?: string | null, summary?: string | null, key: string, dialogTitle?: string | null, dialogMessage?: string | null, type: 'EditTextPreference', EditTextPreferenceCurrentValue?: string | null, EditTextPreferenceDefault?: string | null, EditTextPreferenceTitle?: string | null } | { __typename?: 'ListPreference', summary?: string | null, key: string, entryValues: Array<string>, entries: Array<string>, type: 'ListPreference', ListPreferenceCurrentValue?: string | null, ListPreferenceDefault?: string | null, ListPreferenceTitle?: string | null } | { __typename?: 'MultiSelectListPreference', dialogMessage?: string | null, dialogTitle?: string | null, summary?: string | null, key: string, entryValues: Array<string>, entries: Array<string>, type: 'MultiSelectListPreference', MultiSelectListPreferenceTitle?: string | null, MultiSelectListPreferenceDefault?: Array<string> | null, MultiSelectListPreferenceCurrentValue?: Array<string> | null } | { __typename?: 'SwitchPreference', summary?: string | null, key: string, type: 'SwitchPreference', SwitchPreferenceCurrentValue?: boolean | null, SwitchPreferenceDefault: boolean, SwitchPreferenceTitle: string }> } } };
+export type UpdateSourcePreferencesMutation = {
+    __typename?: 'Mutation';
+    updateSourcePreference: {
+        __typename?: 'UpdateSourcePreferencePayload';
+        clientMutationId?: string | null;
+        source: {
+            __typename?: 'SourceType';
+            id: string;
+            preferences: Array<
+                | {
+                      __typename?: 'CheckBoxPreference';
+                      summary?: string | null;
+                      key: string;
+                      type: 'CheckBoxPreference';
+                      CheckBoxCheckBoxCurrentValue?: boolean | null;
+                      CheckBoxDefault: boolean;
+                      CheckBoxTitle: string;
+                  }
+                | {
+                      __typename?: 'EditTextPreference';
+                      text?: string | null;
+                      summary?: string | null;
+                      key: string;
+                      dialogTitle?: string | null;
+                      dialogMessage?: string | null;
+                      type: 'EditTextPreference';
+                      EditTextPreferenceCurrentValue?: string | null;
+                      EditTextPreferenceDefault?: string | null;
+                      EditTextPreferenceTitle?: string | null;
+                  }
+                | {
+                      __typename?: 'ListPreference';
+                      summary?: string | null;
+                      key: string;
+                      entryValues: Array<string>;
+                      entries: Array<string>;
+                      type: 'ListPreference';
+                      ListPreferenceCurrentValue?: string | null;
+                      ListPreferenceDefault?: string | null;
+                      ListPreferenceTitle?: string | null;
+                  }
+                | {
+                      __typename?: 'MultiSelectListPreference';
+                      dialogMessage?: string | null;
+                      dialogTitle?: string | null;
+                      summary?: string | null;
+                      key: string;
+                      entryValues: Array<string>;
+                      entries: Array<string>;
+                      type: 'MultiSelectListPreference';
+                      MultiSelectListPreferenceTitle?: string | null;
+                      MultiSelectListPreferenceDefault?: Array<string> | null;
+                      MultiSelectListPreferenceCurrentValue?: Array<string> | null;
+                  }
+                | {
+                      __typename?: 'SwitchPreference';
+                      summary?: string | null;
+                      key: string;
+                      type: 'SwitchPreference';
+                      SwitchPreferenceCurrentValue?: boolean | null;
+                      SwitchPreferenceDefault: boolean;
+                      SwitchPreferenceTitle: string;
+                  }
+            >;
+        };
+    };
+};
 
 export type TrackerLoginOauthMutationVariables = Exact<{
-  input: LoginTrackerOAuthInput;
+    input: LoginTrackerOAuthInput;
 }>;
 
-
-export type TrackerLoginOauthMutation = { __typename?: 'Mutation', loginTrackerOAuth: { __typename?: 'LoginTrackerOAuthPayload', tracker: { __typename?: 'TrackerType', id: number, isLoggedIn: boolean, authUrl?: string | null } } };
+export type TrackerLoginOauthMutation = {
+    __typename?: 'Mutation';
+    loginTrackerOAuth: {
+        __typename?: 'LoginTrackerOAuthPayload';
+        tracker: { __typename?: 'TrackerType'; id: number; isLoggedIn: boolean; authUrl?: string | null };
+    };
+};
 
 export type TrackerLoginCredentialsMutationVariables = Exact<{
-  input: LoginTrackerCredentialsInput;
+    input: LoginTrackerCredentialsInput;
 }>;
 
-
-export type TrackerLoginCredentialsMutation = { __typename?: 'Mutation', loginTrackerCredentials: { __typename?: 'LoginTrackerCredentialsPayload', isLoggedIn: boolean, tracker: { __typename?: 'TrackerType', id: number, isLoggedIn: boolean, authUrl?: string | null } } };
+export type TrackerLoginCredentialsMutation = {
+    __typename?: 'Mutation';
+    loginTrackerCredentials: {
+        __typename?: 'LoginTrackerCredentialsPayload';
+        isLoggedIn: boolean;
+        tracker: { __typename?: 'TrackerType'; id: number; isLoggedIn: boolean; authUrl?: string | null };
+    };
+};
 
 export type TrackerLogoutMutationVariables = Exact<{
-  trackerId: Scalars['Int']['input'];
+    trackerId: Scalars['Int']['input'];
 }>;
 
-
-export type TrackerLogoutMutation = { __typename?: 'Mutation', logoutTracker: { __typename?: 'LogoutTrackerPayload', clientMutationId?: string | null, tracker: { __typename?: 'TrackerType', id: number, isLoggedIn: boolean, authUrl?: string | null } } };
+export type TrackerLogoutMutation = {
+    __typename?: 'Mutation';
+    logoutTracker: {
+        __typename?: 'LogoutTrackerPayload';
+        clientMutationId?: string | null;
+        tracker: { __typename?: 'TrackerType'; id: number; isLoggedIn: boolean; authUrl?: string | null };
+    };
+};
 
 export type TrackerBindMutationVariables = Exact<{
-  mangaId: Scalars['Int']['input'];
-  remoteId: Scalars['LongString']['input'];
-  trackerId: Scalars['Int']['input'];
+    mangaId: Scalars['Int']['input'];
+    remoteId: Scalars['LongString']['input'];
+    trackerId: Scalars['Int']['input'];
 }>;
 
-
-export type TrackerBindMutation = { __typename?: 'Mutation', bindTrack: { __typename?: 'BindTrackPayload', trackRecord: { __typename?: 'TrackRecordType', title: string, remoteUrl: string, remoteId: string, id: number, status: number, lastChapterRead: number, totalChapters: number, score: number, displayScore: string, startDate: string, finishDate: string, tracker: { __typename?: 'TrackerType', id: number }, manga: { __typename?: 'MangaType', id: number, trackRecords: { __typename?: 'TrackRecordNodeList', totalCount: number, nodes: Array<{ __typename?: 'TrackRecordType', id: number }> } } } } };
+export type TrackerBindMutation = {
+    __typename?: 'Mutation';
+    bindTrack: {
+        __typename?: 'BindTrackPayload';
+        trackRecord: {
+            __typename?: 'TrackRecordType';
+            title: string;
+            remoteUrl: string;
+            remoteId: string;
+            id: number;
+            status: number;
+            lastChapterRead: number;
+            totalChapters: number;
+            score: number;
+            displayScore: string;
+            startDate: string;
+            finishDate: string;
+            tracker: { __typename?: 'TrackerType'; id: number };
+            manga: {
+                __typename?: 'MangaType';
+                id: number;
+                trackRecords: {
+                    __typename?: 'TrackRecordNodeList';
+                    totalCount: number;
+                    nodes: Array<{ __typename?: 'TrackRecordType'; id: number }>;
+                };
+            };
+        };
+    };
+};
 
 export type TrackerUnbindMutationVariables = Exact<{
-  input: UnbindTrackInput;
+    input: UnbindTrackInput;
 }>;
 
-
-export type TrackerUnbindMutation = { __typename?: 'Mutation', unbindTrack: { __typename?: 'UnbindTrackPayload', trackRecord?: { __typename?: 'TrackRecordType', id: number, manga: { __typename?: 'MangaType', id: number, trackRecords: { __typename?: 'TrackRecordNodeList', totalCount: number, nodes: Array<{ __typename?: 'TrackRecordType', id: number }> } } } | null } };
+export type TrackerUnbindMutation = {
+    __typename?: 'Mutation';
+    unbindTrack: {
+        __typename?: 'UnbindTrackPayload';
+        trackRecord?: {
+            __typename?: 'TrackRecordType';
+            id: number;
+            manga: {
+                __typename?: 'MangaType';
+                id: number;
+                trackRecords: {
+                    __typename?: 'TrackRecordNodeList';
+                    totalCount: number;
+                    nodes: Array<{ __typename?: 'TrackRecordType'; id: number }>;
+                };
+            };
+        } | null;
+    };
+};
 
 export type TrackerUpdateBindMutationVariables = Exact<{
-  input: UpdateTrackInput;
+    input: UpdateTrackInput;
 }>;
 
-
-export type TrackerUpdateBindMutation = { __typename?: 'Mutation', updateTrack: { __typename?: 'UpdateTrackPayload', trackRecord?: { __typename?: 'TrackRecordType', title: string, remoteUrl: string, remoteId: string, id: number, status: number, lastChapterRead: number, totalChapters: number, score: number, displayScore: string, startDate: string, finishDate: string, manga: { __typename?: 'MangaType', id: number, trackRecords: { __typename?: 'TrackRecordNodeList', totalCount: number, nodes: Array<{ __typename?: 'TrackRecordType', id: number }> } } } | null } };
+export type TrackerUpdateBindMutation = {
+    __typename?: 'Mutation';
+    updateTrack: {
+        __typename?: 'UpdateTrackPayload';
+        trackRecord?: {
+            __typename?: 'TrackRecordType';
+            title: string;
+            remoteUrl: string;
+            remoteId: string;
+            id: number;
+            status: number;
+            lastChapterRead: number;
+            totalChapters: number;
+            score: number;
+            displayScore: string;
+            startDate: string;
+            finishDate: string;
+            manga: {
+                __typename?: 'MangaType';
+                id: number;
+                trackRecords: {
+                    __typename?: 'TrackRecordNodeList';
+                    totalCount: number;
+                    nodes: Array<{ __typename?: 'TrackRecordType'; id: number }>;
+                };
+            };
+        } | null;
+    };
+};
 
 export type TrackerFetchBindMutationVariables = Exact<{
-  recordId: Scalars['Int']['input'];
+    recordId: Scalars['Int']['input'];
 }>;
 
-
-export type TrackerFetchBindMutation = { __typename?: 'Mutation', fetchTrack: { __typename?: 'FetchTrackPayload', trackRecord: { __typename?: 'TrackRecordType', id: number, status: number, lastChapterRead: number, totalChapters: number, score: number, displayScore: string, startDate: string, finishDate: string } } };
-
-export type TrackerRefreshMutationVariables = Exact<{
-  input: FetchTrackInput;
-}>;
-
-
-export type TrackerRefreshMutation = { __typename?: 'Mutation', fetchTrack: { __typename?: 'FetchTrackPayload', trackRecord: { __typename?: 'TrackRecordType', title: string, remoteUrl: string, remoteId: string, id: number, status: number, lastChapterRead: number, totalChapters: number, score: number, displayScore: string, startDate: string, finishDate: string, tracker: { __typename?: 'TrackerType', id: number, name: string, authUrl?: string | null, icon: string, supportsTrackDeletion?: boolean | null, isLoggedIn: boolean, isTokenExpired: boolean, scores: Array<string>, statuses: Array<{ __typename?: 'TrackStatusType', name: string, value: number }> } } } };
+export type TrackerFetchBindMutation = {
+    __typename?: 'Mutation';
+    fetchTrack: {
+        __typename?: 'FetchTrackPayload';
+        trackRecord: {
+            __typename?: 'TrackRecordType';
+            id: number;
+            status: number;
+            lastChapterRead: number;
+            totalChapters: number;
+            score: number;
+            displayScore: string;
+            startDate: string;
+            finishDate: string;
+        };
+    };
+};
 
 export type UpdateCategoryMangasMutationVariables = Exact<{
-  input: UpdateCategoryMangaInput;
+    input: UpdateCategoryMangaInput;
 }>;
 
-
-export type UpdateCategoryMangasMutation = { __typename?: 'Mutation', updateCategoryManga: { __typename?: 'UpdateCategoryMangaPayload', clientMutationId?: string | null, updateStatus: { __typename?: 'UpdateStatus', isRunning: boolean } } };
+export type UpdateCategoryMangasMutation = {
+    __typename?: 'Mutation';
+    updateCategoryManga: {
+        __typename?: 'UpdateCategoryMangaPayload';
+        clientMutationId?: string | null;
+        updateStatus: { __typename?: 'UpdateStatus'; isRunning: boolean };
+    };
+};
 
 export type UpdateLibraryMangasMutationVariables = Exact<{
-  input?: InputMaybe<UpdateLibraryMangaInput>;
+    input?: InputMaybe<UpdateLibraryMangaInput>;
 }>;
 
-
-export type UpdateLibraryMangasMutation = { __typename?: 'Mutation', updateLibraryManga: { __typename?: 'UpdateLibraryMangaPayload', clientMutationId?: string | null, updateStatus: { __typename?: 'UpdateStatus', isRunning: boolean } } };
+export type UpdateLibraryMangasMutation = {
+    __typename?: 'Mutation';
+    updateLibraryManga: {
+        __typename?: 'UpdateLibraryMangaPayload';
+        clientMutationId?: string | null;
+        updateStatus: { __typename?: 'UpdateStatus'; isRunning: boolean };
+    };
+};
 
 export type StopUpdaterMutationVariables = Exact<{
-  input?: InputMaybe<UpdateStopInput>;
+    input?: InputMaybe<UpdateStopInput>;
 }>;
 
-
-export type StopUpdaterMutation = { __typename?: 'Mutation', updateStop: { __typename?: 'UpdateStopPayload', clientMutationId?: string | null } };
+export type StopUpdaterMutation = {
+    __typename?: 'Mutation';
+    updateStop: { __typename?: 'UpdateStopPayload'; clientMutationId?: string | null };
+};
 
 export type ValidateBackupQueryVariables = Exact<{
-  backup: Scalars['Upload']['input'];
+    backup: Scalars['Upload']['input'];
 }>;
 
-
-export type ValidateBackupQuery = { __typename?: 'Query', validateBackup: { __typename?: 'ValidateBackupResult', missingSources: Array<{ __typename?: 'ValidateBackupSource', id: string, name: string }> } };
+export type ValidateBackupQuery = {
+    __typename?: 'Query';
+    validateBackup: {
+        __typename?: 'ValidateBackupResult';
+        missingSources: Array<{ __typename?: 'ValidateBackupSource'; id: string; name: string }>;
+    };
+};
 
 export type GetRestoreStatusQueryVariables = Exact<{
-  id: Scalars['String']['input'];
+    id: Scalars['String']['input'];
 }>;
 
-
-export type GetRestoreStatusQuery = { __typename?: 'Query', restoreStatus?: { __typename?: 'BackupRestoreStatus', mangaProgress: number, state: BackupRestoreState, totalManga: number } | null };
+export type GetRestoreStatusQuery = {
+    __typename?: 'Query';
+    restoreStatus?: {
+        __typename?: 'BackupRestoreStatus';
+        mangaProgress: number;
+        state: BackupRestoreState;
+        totalManga: number;
+    } | null;
+};
 
 export type GetCategoriesQueryVariables = Exact<{
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
-  condition?: InputMaybe<CategoryConditionInput>;
-  filter?: InputMaybe<CategoryFilterInput>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<CategoryOrderBy>;
-  orderByType?: InputMaybe<SortOrder>;
+    after?: InputMaybe<Scalars['Cursor']['input']>;
+    before?: InputMaybe<Scalars['Cursor']['input']>;
+    condition?: InputMaybe<CategoryConditionInput>;
+    filter?: InputMaybe<CategoryFilterInput>;
+    first?: InputMaybe<Scalars['Int']['input']>;
+    last?: InputMaybe<Scalars['Int']['input']>;
+    offset?: InputMaybe<Scalars['Int']['input']>;
+    orderBy?: InputMaybe<CategoryOrderBy>;
+    orderByType?: InputMaybe<SortOrder>;
 }>;
 
-
-export type GetCategoriesQuery = { __typename?: 'Query', categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', default: boolean, id: number, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude, name: string, order: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }>, mangas: { __typename?: 'MangaNodeList', totalCount: number } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } };
+export type GetCategoriesQuery = {
+    __typename?: 'Query';
+    categories: {
+        __typename?: 'CategoryNodeList';
+        totalCount: number;
+        nodes: Array<{
+            __typename?: 'CategoryType';
+            default: boolean;
+            id: number;
+            includeInUpdate: IncludeOrExclude;
+            includeInDownload: IncludeOrExclude;
+            name: string;
+            order: number;
+            meta: Array<{ __typename?: 'CategoryMetaType'; key: string; value: string }>;
+            mangas: { __typename?: 'MangaNodeList'; totalCount: number };
+        }>;
+        pageInfo: {
+            __typename?: 'PageInfo';
+            endCursor?: string | null;
+            hasNextPage: boolean;
+            hasPreviousPage: boolean;
+            startCursor?: string | null;
+        };
+    };
+};
 
 export type GetCategoryQueryVariables = Exact<{
-  id: Scalars['Int']['input'];
+    id: Scalars['Int']['input'];
 }>;
 
-
-export type GetCategoryQuery = { __typename?: 'Query', category: { __typename?: 'CategoryType', default: boolean, id: number, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude, name: string, order: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }>, mangas: { __typename?: 'MangaNodeList', totalCount: number } } };
+export type GetCategoryQuery = {
+    __typename?: 'Query';
+    category: {
+        __typename?: 'CategoryType';
+        default: boolean;
+        id: number;
+        includeInUpdate: IncludeOrExclude;
+        includeInDownload: IncludeOrExclude;
+        name: string;
+        order: number;
+        meta: Array<{ __typename?: 'CategoryMetaType'; key: string; value: string }>;
+        mangas: { __typename?: 'MangaNodeList'; totalCount: number };
+    };
+};
 
 export type GetCategoryMangasQueryVariables = Exact<{
-  id: Scalars['Int']['input'];
+    id: Scalars['Int']['input'];
 }>;
 
-
-export type GetCategoryMangasQuery = { __typename?: 'Query', category: { __typename?: 'CategoryType', id: number, mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', unreadCount: number, downloadCount: number, bookmarkCount: number, artist?: string | null, author?: string | null, chaptersLastFetchedAt?: string | null, description?: string | null, genre: Array<string>, id: number, inLibrary: boolean, inLibraryAt: string, initialized: boolean, lastFetchedAt?: string | null, realUrl?: string | null, status: MangaStatus, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: string | null, title: string, url: string, lastReadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestReadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestFetchedChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestUploadedChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, firstUnreadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', default: boolean, id: number, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude, name: string, order: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }>, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> }, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, source?: { __typename?: 'SourceType', displayName: string, iconUrl: string, id: string, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } } | null, trackRecords: { __typename?: 'TrackRecordNodeList', totalCount: number, nodes: Array<{ __typename?: 'TrackRecordType', title: string, remoteUrl: string, remoteId: string, id: number, status: number, lastChapterRead: number, totalChapters: number, score: number, displayScore: string, startDate: string, finishDate: string, tracker: { __typename?: 'TrackerType', id: number, name: string, authUrl?: string | null, icon: string, supportsTrackDeletion?: boolean | null, isLoggedIn: boolean, isTokenExpired: boolean, scores: Array<string>, statuses: Array<{ __typename?: 'TrackStatusType', name: string, value: number }> } }> } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } } };
+export type GetCategoryMangasQuery = {
+    __typename?: 'Query';
+    category: {
+        __typename?: 'CategoryType';
+        id: number;
+        mangas: {
+            __typename?: 'MangaNodeList';
+            totalCount: number;
+            nodes: Array<{
+                __typename?: 'MangaType';
+                unreadCount: number;
+                downloadCount: number;
+                bookmarkCount: number;
+                artist?: string | null;
+                author?: string | null;
+                chaptersLastFetchedAt?: string | null;
+                description?: string | null;
+                genre: Array<string>;
+                id: number;
+                inLibrary: boolean;
+                inLibraryAt: string;
+                initialized: boolean;
+                lastFetchedAt?: string | null;
+                realUrl?: string | null;
+                status: MangaStatus;
+                thumbnailUrl?: string | null;
+                thumbnailUrlLastFetched?: string | null;
+                title: string;
+                url: string;
+                lastReadChapter?: {
+                    __typename?: 'ChapterType';
+                    chapterNumber: number;
+                    fetchedAt: string;
+                    id: number;
+                    isBookmarked: boolean;
+                    isDownloaded: boolean;
+                    isRead: boolean;
+                    lastPageRead: number;
+                    lastReadAt: string;
+                    name: string;
+                    pageCount: number;
+                    realUrl?: string | null;
+                    scanlator?: string | null;
+                    sourceOrder: number;
+                    uploadDate: string;
+                    url: string;
+                    manga: {
+                        __typename?: 'MangaType';
+                        id: number;
+                        title: string;
+                        inLibrary: boolean;
+                        thumbnailUrl?: string | null;
+                        lastFetchedAt?: string | null;
+                    };
+                    meta: Array<{ __typename?: 'ChapterMetaType'; key: string; value: string }>;
+                } | null;
+                latestReadChapter?: {
+                    __typename?: 'ChapterType';
+                    chapterNumber: number;
+                    fetchedAt: string;
+                    id: number;
+                    isBookmarked: boolean;
+                    isDownloaded: boolean;
+                    isRead: boolean;
+                    lastPageRead: number;
+                    lastReadAt: string;
+                    name: string;
+                    pageCount: number;
+                    realUrl?: string | null;
+                    scanlator?: string | null;
+                    sourceOrder: number;
+                    uploadDate: string;
+                    url: string;
+                    manga: {
+                        __typename?: 'MangaType';
+                        id: number;
+                        title: string;
+                        inLibrary: boolean;
+                        thumbnailUrl?: string | null;
+                        lastFetchedAt?: string | null;
+                    };
+                    meta: Array<{ __typename?: 'ChapterMetaType'; key: string; value: string }>;
+                } | null;
+                latestFetchedChapter?: {
+                    __typename?: 'ChapterType';
+                    chapterNumber: number;
+                    fetchedAt: string;
+                    id: number;
+                    isBookmarked: boolean;
+                    isDownloaded: boolean;
+                    isRead: boolean;
+                    lastPageRead: number;
+                    lastReadAt: string;
+                    name: string;
+                    pageCount: number;
+                    realUrl?: string | null;
+                    scanlator?: string | null;
+                    sourceOrder: number;
+                    uploadDate: string;
+                    url: string;
+                    manga: {
+                        __typename?: 'MangaType';
+                        id: number;
+                        title: string;
+                        inLibrary: boolean;
+                        thumbnailUrl?: string | null;
+                        lastFetchedAt?: string | null;
+                    };
+                    meta: Array<{ __typename?: 'ChapterMetaType'; key: string; value: string }>;
+                } | null;
+                latestUploadedChapter?: {
+                    __typename?: 'ChapterType';
+                    chapterNumber: number;
+                    fetchedAt: string;
+                    id: number;
+                    isBookmarked: boolean;
+                    isDownloaded: boolean;
+                    isRead: boolean;
+                    lastPageRead: number;
+                    lastReadAt: string;
+                    name: string;
+                    pageCount: number;
+                    realUrl?: string | null;
+                    scanlator?: string | null;
+                    sourceOrder: number;
+                    uploadDate: string;
+                    url: string;
+                    manga: {
+                        __typename?: 'MangaType';
+                        id: number;
+                        title: string;
+                        inLibrary: boolean;
+                        thumbnailUrl?: string | null;
+                        lastFetchedAt?: string | null;
+                    };
+                    meta: Array<{ __typename?: 'ChapterMetaType'; key: string; value: string }>;
+                } | null;
+                firstUnreadChapter?: {
+                    __typename?: 'ChapterType';
+                    chapterNumber: number;
+                    fetchedAt: string;
+                    id: number;
+                    isBookmarked: boolean;
+                    isDownloaded: boolean;
+                    isRead: boolean;
+                    lastPageRead: number;
+                    lastReadAt: string;
+                    name: string;
+                    pageCount: number;
+                    realUrl?: string | null;
+                    scanlator?: string | null;
+                    sourceOrder: number;
+                    uploadDate: string;
+                    url: string;
+                    manga: {
+                        __typename?: 'MangaType';
+                        id: number;
+                        title: string;
+                        inLibrary: boolean;
+                        thumbnailUrl?: string | null;
+                        lastFetchedAt?: string | null;
+                    };
+                    meta: Array<{ __typename?: 'ChapterMetaType'; key: string; value: string }>;
+                } | null;
+                categories: {
+                    __typename?: 'CategoryNodeList';
+                    totalCount: number;
+                    nodes: Array<{
+                        __typename?: 'CategoryType';
+                        default: boolean;
+                        id: number;
+                        includeInUpdate: IncludeOrExclude;
+                        includeInDownload: IncludeOrExclude;
+                        name: string;
+                        order: number;
+                        meta: Array<{ __typename?: 'CategoryMetaType'; key: string; value: string }>;
+                        mangas: { __typename?: 'MangaNodeList'; totalCount: number };
+                    }>;
+                };
+                chapters: { __typename?: 'ChapterNodeList'; totalCount: number };
+                meta: Array<{ __typename?: 'MangaMetaType'; key: string; value: string }>;
+                source?: {
+                    __typename?: 'SourceType';
+                    displayName: string;
+                    iconUrl: string;
+                    id: string;
+                    isConfigurable: boolean;
+                    isNsfw: boolean;
+                    lang: string;
+                    name: string;
+                    supportsLatest: boolean;
+                    extension: { __typename?: 'ExtensionType'; pkgName: string; repo?: string | null };
+                } | null;
+                trackRecords: {
+                    __typename?: 'TrackRecordNodeList';
+                    totalCount: number;
+                    nodes: Array<{
+                        __typename?: 'TrackRecordType';
+                        title: string;
+                        remoteUrl: string;
+                        remoteId: string;
+                        id: number;
+                        status: number;
+                        lastChapterRead: number;
+                        totalChapters: number;
+                        score: number;
+                        displayScore: string;
+                        startDate: string;
+                        finishDate: string;
+                        tracker: {
+                            __typename?: 'TrackerType';
+                            id: number;
+                            name: string;
+                            authUrl?: string | null;
+                            icon: string;
+                            supportsTrackDeletion?: boolean | null;
+                            isLoggedIn: boolean;
+                            isTokenExpired: boolean;
+                            scores: Array<string>;
+                            statuses: Array<{ __typename?: 'TrackStatusType'; name: string; value: number }>;
+                        };
+                    }>;
+                };
+            }>;
+            pageInfo: {
+                __typename?: 'PageInfo';
+                endCursor?: string | null;
+                hasNextPage: boolean;
+                hasPreviousPage: boolean;
+                startCursor?: string | null;
+            };
+        };
+    };
+};
 
 export type GetChapterQueryVariables = Exact<{
-  id: Scalars['Int']['input'];
+    id: Scalars['Int']['input'];
 }>;
 
-
-export type GetChapterQuery = { __typename?: 'Query', chapter: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } };
+export type GetChapterQuery = {
+    __typename?: 'Query';
+    chapter: {
+        __typename?: 'ChapterType';
+        chapterNumber: number;
+        fetchedAt: string;
+        id: number;
+        isBookmarked: boolean;
+        isDownloaded: boolean;
+        isRead: boolean;
+        lastPageRead: number;
+        lastReadAt: string;
+        name: string;
+        pageCount: number;
+        realUrl?: string | null;
+        scanlator?: string | null;
+        sourceOrder: number;
+        uploadDate: string;
+        url: string;
+        manga: {
+            __typename?: 'MangaType';
+            id: number;
+            title: string;
+            inLibrary: boolean;
+            thumbnailUrl?: string | null;
+            lastFetchedAt?: string | null;
+        };
+        meta: Array<{ __typename?: 'ChapterMetaType'; key: string; value: string }>;
+    };
+};
 
 export type GetChaptersQueryVariables = Exact<{
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
-  condition?: InputMaybe<ChapterConditionInput>;
-  filter?: InputMaybe<ChapterFilterInput>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<ChapterOrderBy>;
-  orderByType?: InputMaybe<SortOrder>;
+    after?: InputMaybe<Scalars['Cursor']['input']>;
+    before?: InputMaybe<Scalars['Cursor']['input']>;
+    condition?: InputMaybe<ChapterConditionInput>;
+    filter?: InputMaybe<ChapterFilterInput>;
+    first?: InputMaybe<Scalars['Int']['input']>;
+    last?: InputMaybe<Scalars['Int']['input']>;
+    offset?: InputMaybe<Scalars['Int']['input']>;
+    orderBy?: InputMaybe<ChapterOrderBy>;
+    orderByType?: InputMaybe<SortOrder>;
 }>;
 
-
-export type GetChaptersQuery = { __typename?: 'Query', chapters: { __typename?: 'ChapterNodeList', totalCount: number, nodes: Array<{ __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } };
+export type GetChaptersQuery = {
+    __typename?: 'Query';
+    chapters: {
+        __typename?: 'ChapterNodeList';
+        totalCount: number;
+        nodes: Array<{
+            __typename?: 'ChapterType';
+            chapterNumber: number;
+            fetchedAt: string;
+            id: number;
+            isBookmarked: boolean;
+            isDownloaded: boolean;
+            isRead: boolean;
+            lastPageRead: number;
+            lastReadAt: string;
+            name: string;
+            pageCount: number;
+            realUrl?: string | null;
+            scanlator?: string | null;
+            sourceOrder: number;
+            uploadDate: string;
+            url: string;
+            manga: {
+                __typename?: 'MangaType';
+                id: number;
+                title: string;
+                inLibrary: boolean;
+                thumbnailUrl?: string | null;
+                lastFetchedAt?: string | null;
+            };
+            meta: Array<{ __typename?: 'ChapterMetaType'; key: string; value: string }>;
+        }>;
+        pageInfo: {
+            __typename?: 'PageInfo';
+            endCursor?: string | null;
+            hasNextPage: boolean;
+            hasPreviousPage: boolean;
+            startCursor?: string | null;
+        };
+    };
+};
 
 export type GetMangasChapterIdsWithStateQueryVariables = Exact<{
-  mangaIds: Array<Scalars['Int']['input']> | Scalars['Int']['input'];
-  isDownloaded?: InputMaybe<Scalars['Boolean']['input']>;
-  isRead?: InputMaybe<Scalars['Boolean']['input']>;
-  isBookmarked?: InputMaybe<Scalars['Boolean']['input']>;
+    mangaIds: Array<Scalars['Int']['input']> | Scalars['Int']['input'];
+    isDownloaded?: InputMaybe<Scalars['Boolean']['input']>;
+    isRead?: InputMaybe<Scalars['Boolean']['input']>;
+    isBookmarked?: InputMaybe<Scalars['Boolean']['input']>;
 }>;
 
+export type GetMangasChapterIdsWithStateQuery = {
+    __typename?: 'Query';
+    chapters: {
+        __typename?: 'ChapterNodeList';
+        nodes: Array<{
+            __typename?: 'ChapterType';
+            id: number;
+            isDownloaded: boolean;
+            isRead: boolean;
+            isBookmarked: boolean;
+        }>;
+    };
+};
 
-export type GetMangasChapterIdsWithStateQuery = { __typename?: 'Query', chapters: { __typename?: 'ChapterNodeList', nodes: Array<{ __typename?: 'ChapterType', id: number, isDownloaded: boolean, isRead: boolean, isBookmarked: boolean }> } };
+export type GetDownloadStatusQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GetDownloadStatusQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetDownloadStatusQuery = { __typename?: 'Query', downloadStatus: { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, title: string, downloadCount: number } } }> } };
+export type GetDownloadStatusQuery = {
+    __typename?: 'Query';
+    downloadStatus: {
+        __typename?: 'DownloadStatus';
+        state: DownloaderState;
+        queue: Array<{
+            __typename?: 'DownloadType';
+            progress: number;
+            state: DownloadState;
+            tries: number;
+            chapter: {
+                __typename?: 'ChapterType';
+                id: number;
+                name: string;
+                sourceOrder: number;
+                isDownloaded: boolean;
+                manga: { __typename?: 'MangaType'; id: number; title: string; downloadCount: number };
+            };
+        }>;
+    };
+};
 
 export type GetExtensionQueryVariables = Exact<{
-  pkgName: Scalars['String']['input'];
+    pkgName: Scalars['String']['input'];
 }>;
 
-
-export type GetExtensionQuery = { __typename?: 'Query', extension: { __typename?: 'ExtensionType', apkName: string, repo?: string | null, hasUpdate: boolean, iconUrl: string, isInstalled: boolean, isNsfw: boolean, isObsolete: boolean, lang: string, name: string, pkgName: string, versionCode: number, versionName: string } };
+export type GetExtensionQuery = {
+    __typename?: 'Query';
+    extension: {
+        __typename?: 'ExtensionType';
+        apkName: string;
+        repo?: string | null;
+        hasUpdate: boolean;
+        iconUrl: string;
+        isInstalled: boolean;
+        isNsfw: boolean;
+        isObsolete: boolean;
+        lang: string;
+        name: string;
+        pkgName: string;
+        versionCode: number;
+        versionName: string;
+    };
+};
 
 export type GetExtensionsQueryVariables = Exact<{
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
-  condition?: InputMaybe<ExtensionConditionInput>;
-  filter?: InputMaybe<ExtensionFilterInput>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<ExtensionOrderBy>;
-  orderByType?: InputMaybe<SortOrder>;
+    after?: InputMaybe<Scalars['Cursor']['input']>;
+    before?: InputMaybe<Scalars['Cursor']['input']>;
+    condition?: InputMaybe<ExtensionConditionInput>;
+    filter?: InputMaybe<ExtensionFilterInput>;
+    first?: InputMaybe<Scalars['Int']['input']>;
+    last?: InputMaybe<Scalars['Int']['input']>;
+    offset?: InputMaybe<Scalars['Int']['input']>;
+    orderBy?: InputMaybe<ExtensionOrderBy>;
+    orderByType?: InputMaybe<SortOrder>;
 }>;
 
-
-export type GetExtensionsQuery = { __typename?: 'Query', extensions: { __typename?: 'ExtensionNodeList', totalCount: number, nodes: Array<{ __typename?: 'ExtensionType', apkName: string, repo?: string | null, hasUpdate: boolean, iconUrl: string, isInstalled: boolean, isNsfw: boolean, isObsolete: boolean, lang: string, name: string, pkgName: string, versionCode: number, versionName: string }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } };
+export type GetExtensionsQuery = {
+    __typename?: 'Query';
+    extensions: {
+        __typename?: 'ExtensionNodeList';
+        totalCount: number;
+        nodes: Array<{
+            __typename?: 'ExtensionType';
+            apkName: string;
+            repo?: string | null;
+            hasUpdate: boolean;
+            iconUrl: string;
+            isInstalled: boolean;
+            isNsfw: boolean;
+            isObsolete: boolean;
+            lang: string;
+            name: string;
+            pkgName: string;
+            versionCode: number;
+            versionName: string;
+        }>;
+        pageInfo: {
+            __typename?: 'PageInfo';
+            endCursor?: string | null;
+            hasNextPage: boolean;
+            hasPreviousPage: boolean;
+            startCursor?: string | null;
+        };
+    };
+};
 
 export type GetGlobalMetadataQueryVariables = Exact<{
-  key: Scalars['String']['input'];
+    key: Scalars['String']['input'];
 }>;
 
-
-export type GetGlobalMetadataQuery = { __typename?: 'Query', meta: { __typename?: 'GlobalMetaType', key: string, value: string } };
+export type GetGlobalMetadataQuery = {
+    __typename?: 'Query';
+    meta: { __typename?: 'GlobalMetaType'; key: string; value: string };
+};
 
 export type GetGlobalMetadatasQueryVariables = Exact<{
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
-  condition?: InputMaybe<MetaConditionInput>;
-  filter?: InputMaybe<MetaFilterInput>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<MetaOrderBy>;
-  orderByType?: InputMaybe<SortOrder>;
+    after?: InputMaybe<Scalars['Cursor']['input']>;
+    before?: InputMaybe<Scalars['Cursor']['input']>;
+    condition?: InputMaybe<MetaConditionInput>;
+    filter?: InputMaybe<MetaFilterInput>;
+    first?: InputMaybe<Scalars['Int']['input']>;
+    last?: InputMaybe<Scalars['Int']['input']>;
+    offset?: InputMaybe<Scalars['Int']['input']>;
+    orderBy?: InputMaybe<MetaOrderBy>;
+    orderByType?: InputMaybe<SortOrder>;
 }>;
 
-
-export type GetGlobalMetadatasQuery = { __typename?: 'Query', metas: { __typename?: 'GlobalMetaNodeList', totalCount: number, nodes: Array<{ __typename?: 'GlobalMetaType', key: string, value: string }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } };
+export type GetGlobalMetadatasQuery = {
+    __typename?: 'Query';
+    metas: {
+        __typename?: 'GlobalMetaNodeList';
+        totalCount: number;
+        nodes: Array<{ __typename?: 'GlobalMetaType'; key: string; value: string }>;
+        pageInfo: {
+            __typename?: 'PageInfo';
+            endCursor?: string | null;
+            hasNextPage: boolean;
+            hasPreviousPage: boolean;
+            startCursor?: string | null;
+        };
+    };
+};
 
 export type GetMangaQueryVariables = Exact<{
-  id: Scalars['Int']['input'];
+    id: Scalars['Int']['input'];
 }>;
 
-
-export type GetMangaQuery = { __typename?: 'Query', manga: { __typename?: 'MangaType', unreadCount: number, downloadCount: number, bookmarkCount: number, artist?: string | null, author?: string | null, chaptersLastFetchedAt?: string | null, description?: string | null, genre: Array<string>, id: number, inLibrary: boolean, inLibraryAt: string, initialized: boolean, lastFetchedAt?: string | null, realUrl?: string | null, status: MangaStatus, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: string | null, title: string, url: string, lastReadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestReadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestFetchedChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestUploadedChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, firstUnreadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', default: boolean, id: number, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude, name: string, order: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }>, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> }, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, source?: { __typename?: 'SourceType', displayName: string, iconUrl: string, id: string, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } } | null, trackRecords: { __typename?: 'TrackRecordNodeList', totalCount: number, nodes: Array<{ __typename?: 'TrackRecordType', title: string, remoteUrl: string, remoteId: string, id: number, status: number, lastChapterRead: number, totalChapters: number, score: number, displayScore: string, startDate: string, finishDate: string, tracker: { __typename?: 'TrackerType', id: number, name: string, authUrl?: string | null, icon: string, supportsTrackDeletion?: boolean | null, isLoggedIn: boolean, isTokenExpired: boolean, scores: Array<string>, statuses: Array<{ __typename?: 'TrackStatusType', name: string, value: number }> } }> } } };
+export type GetMangaQuery = {
+    __typename?: 'Query';
+    manga: {
+        __typename?: 'MangaType';
+        unreadCount: number;
+        downloadCount: number;
+        bookmarkCount: number;
+        artist?: string | null;
+        author?: string | null;
+        chaptersLastFetchedAt?: string | null;
+        description?: string | null;
+        genre: Array<string>;
+        id: number;
+        inLibrary: boolean;
+        inLibraryAt: string;
+        initialized: boolean;
+        lastFetchedAt?: string | null;
+        realUrl?: string | null;
+        status: MangaStatus;
+        thumbnailUrl?: string | null;
+        thumbnailUrlLastFetched?: string | null;
+        title: string;
+        url: string;
+        lastReadChapter?: {
+            __typename?: 'ChapterType';
+            chapterNumber: number;
+            fetchedAt: string;
+            id: number;
+            isBookmarked: boolean;
+            isDownloaded: boolean;
+            isRead: boolean;
+            lastPageRead: number;
+            lastReadAt: string;
+            name: string;
+            pageCount: number;
+            realUrl?: string | null;
+            scanlator?: string | null;
+            sourceOrder: number;
+            uploadDate: string;
+            url: string;
+            manga: {
+                __typename?: 'MangaType';
+                id: number;
+                title: string;
+                inLibrary: boolean;
+                thumbnailUrl?: string | null;
+                lastFetchedAt?: string | null;
+            };
+            meta: Array<{ __typename?: 'ChapterMetaType'; key: string; value: string }>;
+        } | null;
+        latestReadChapter?: {
+            __typename?: 'ChapterType';
+            chapterNumber: number;
+            fetchedAt: string;
+            id: number;
+            isBookmarked: boolean;
+            isDownloaded: boolean;
+            isRead: boolean;
+            lastPageRead: number;
+            lastReadAt: string;
+            name: string;
+            pageCount: number;
+            realUrl?: string | null;
+            scanlator?: string | null;
+            sourceOrder: number;
+            uploadDate: string;
+            url: string;
+            manga: {
+                __typename?: 'MangaType';
+                id: number;
+                title: string;
+                inLibrary: boolean;
+                thumbnailUrl?: string | null;
+                lastFetchedAt?: string | null;
+            };
+            meta: Array<{ __typename?: 'ChapterMetaType'; key: string; value: string }>;
+        } | null;
+        latestFetchedChapter?: {
+            __typename?: 'ChapterType';
+            chapterNumber: number;
+            fetchedAt: string;
+            id: number;
+            isBookmarked: boolean;
+            isDownloaded: boolean;
+            isRead: boolean;
+            lastPageRead: number;
+            lastReadAt: string;
+            name: string;
+            pageCount: number;
+            realUrl?: string | null;
+            scanlator?: string | null;
+            sourceOrder: number;
+            uploadDate: string;
+            url: string;
+            manga: {
+                __typename?: 'MangaType';
+                id: number;
+                title: string;
+                inLibrary: boolean;
+                thumbnailUrl?: string | null;
+                lastFetchedAt?: string | null;
+            };
+            meta: Array<{ __typename?: 'ChapterMetaType'; key: string; value: string }>;
+        } | null;
+        latestUploadedChapter?: {
+            __typename?: 'ChapterType';
+            chapterNumber: number;
+            fetchedAt: string;
+            id: number;
+            isBookmarked: boolean;
+            isDownloaded: boolean;
+            isRead: boolean;
+            lastPageRead: number;
+            lastReadAt: string;
+            name: string;
+            pageCount: number;
+            realUrl?: string | null;
+            scanlator?: string | null;
+            sourceOrder: number;
+            uploadDate: string;
+            url: string;
+            manga: {
+                __typename?: 'MangaType';
+                id: number;
+                title: string;
+                inLibrary: boolean;
+                thumbnailUrl?: string | null;
+                lastFetchedAt?: string | null;
+            };
+            meta: Array<{ __typename?: 'ChapterMetaType'; key: string; value: string }>;
+        } | null;
+        firstUnreadChapter?: {
+            __typename?: 'ChapterType';
+            chapterNumber: number;
+            fetchedAt: string;
+            id: number;
+            isBookmarked: boolean;
+            isDownloaded: boolean;
+            isRead: boolean;
+            lastPageRead: number;
+            lastReadAt: string;
+            name: string;
+            pageCount: number;
+            realUrl?: string | null;
+            scanlator?: string | null;
+            sourceOrder: number;
+            uploadDate: string;
+            url: string;
+            manga: {
+                __typename?: 'MangaType';
+                id: number;
+                title: string;
+                inLibrary: boolean;
+                thumbnailUrl?: string | null;
+                lastFetchedAt?: string | null;
+            };
+            meta: Array<{ __typename?: 'ChapterMetaType'; key: string; value: string }>;
+        } | null;
+        categories: {
+            __typename?: 'CategoryNodeList';
+            totalCount: number;
+            nodes: Array<{
+                __typename?: 'CategoryType';
+                default: boolean;
+                id: number;
+                includeInUpdate: IncludeOrExclude;
+                includeInDownload: IncludeOrExclude;
+                name: string;
+                order: number;
+                meta: Array<{ __typename?: 'CategoryMetaType'; key: string; value: string }>;
+                mangas: { __typename?: 'MangaNodeList'; totalCount: number };
+            }>;
+        };
+        chapters: { __typename?: 'ChapterNodeList'; totalCount: number };
+        meta: Array<{ __typename?: 'MangaMetaType'; key: string; value: string }>;
+        source?: {
+            __typename?: 'SourceType';
+            displayName: string;
+            iconUrl: string;
+            id: string;
+            isConfigurable: boolean;
+            isNsfw: boolean;
+            lang: string;
+            name: string;
+            supportsLatest: boolean;
+            extension: { __typename?: 'ExtensionType'; pkgName: string; repo?: string | null };
+        } | null;
+        trackRecords: {
+            __typename?: 'TrackRecordNodeList';
+            totalCount: number;
+            nodes: Array<{
+                __typename?: 'TrackRecordType';
+                title: string;
+                remoteUrl: string;
+                remoteId: string;
+                id: number;
+                status: number;
+                lastChapterRead: number;
+                totalChapters: number;
+                score: number;
+                displayScore: string;
+                startDate: string;
+                finishDate: string;
+                tracker: {
+                    __typename?: 'TrackerType';
+                    id: number;
+                    name: string;
+                    authUrl?: string | null;
+                    icon: string;
+                    supportsTrackDeletion?: boolean | null;
+                    isLoggedIn: boolean;
+                    isTokenExpired: boolean;
+                    scores: Array<string>;
+                    statuses: Array<{ __typename?: 'TrackStatusType'; name: string; value: number }>;
+                };
+            }>;
+        };
+    };
+};
 
 export type GetMangaToMigrateQueryVariables = Exact<{
-  id: Scalars['Int']['input'];
-  getChapterData: Scalars['Boolean']['input'];
-  migrateCategories: Scalars['Boolean']['input'];
+    id: Scalars['Int']['input'];
+    getChapterData: Scalars['Boolean']['input'];
+    migrateCategories: Scalars['Boolean']['input'];
 }>;
 
-
-export type GetMangaToMigrateQuery = { __typename?: 'Query', manga: { __typename?: 'MangaType', id: number, inLibrary: boolean, title: string, chapters?: { __typename?: 'ChapterNodeList', totalCount: number, nodes: Array<{ __typename?: 'ChapterType', id: number, chapterNumber: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean, manga: { __typename?: 'MangaType', id: number } }> }, categories?: { __typename?: 'CategoryNodeList', nodes: Array<{ __typename?: 'CategoryType', id: number }> } } };
+export type GetMangaToMigrateQuery = {
+    __typename?: 'Query';
+    manga: {
+        __typename?: 'MangaType';
+        id: number;
+        inLibrary: boolean;
+        title: string;
+        chapters?: {
+            __typename?: 'ChapterNodeList';
+            totalCount: number;
+            nodes: Array<{
+                __typename?: 'ChapterType';
+                id: number;
+                chapterNumber: number;
+                isRead: boolean;
+                isDownloaded: boolean;
+                isBookmarked: boolean;
+                manga: { __typename?: 'MangaType'; id: number };
+            }>;
+        };
+        categories?: { __typename?: 'CategoryNodeList'; nodes: Array<{ __typename?: 'CategoryType'; id: number }> };
+    };
+};
 
 export type GetMangasQueryVariables = Exact<{
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
-  condition?: InputMaybe<MangaConditionInput>;
-  filter?: InputMaybe<MangaFilterInput>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<MangaOrderBy>;
-  orderByType?: InputMaybe<SortOrder>;
+    after?: InputMaybe<Scalars['Cursor']['input']>;
+    before?: InputMaybe<Scalars['Cursor']['input']>;
+    condition?: InputMaybe<MangaConditionInput>;
+    filter?: InputMaybe<MangaFilterInput>;
+    first?: InputMaybe<Scalars['Int']['input']>;
+    last?: InputMaybe<Scalars['Int']['input']>;
+    offset?: InputMaybe<Scalars['Int']['input']>;
+    orderBy?: InputMaybe<MangaOrderBy>;
+    orderByType?: InputMaybe<SortOrder>;
 }>;
 
-
-export type GetMangasQuery = { __typename?: 'Query', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', unreadCount: number, downloadCount: number, bookmarkCount: number, artist?: string | null, author?: string | null, chaptersLastFetchedAt?: string | null, description?: string | null, genre: Array<string>, id: number, inLibrary: boolean, inLibraryAt: string, initialized: boolean, lastFetchedAt?: string | null, realUrl?: string | null, status: MangaStatus, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: string | null, title: string, url: string, lastReadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestReadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestFetchedChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestUploadedChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, firstUnreadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', default: boolean, id: number, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude, name: string, order: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }>, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> }, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, source?: { __typename?: 'SourceType', displayName: string, iconUrl: string, id: string, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } } | null, trackRecords: { __typename?: 'TrackRecordNodeList', totalCount: number, nodes: Array<{ __typename?: 'TrackRecordType', title: string, remoteUrl: string, remoteId: string, id: number, status: number, lastChapterRead: number, totalChapters: number, score: number, displayScore: string, startDate: string, finishDate: string, tracker: { __typename?: 'TrackerType', id: number, name: string, authUrl?: string | null, icon: string, supportsTrackDeletion?: boolean | null, isLoggedIn: boolean, isTokenExpired: boolean, scores: Array<string>, statuses: Array<{ __typename?: 'TrackStatusType', name: string, value: number }> } }> } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } };
+export type GetMangasQuery = {
+    __typename?: 'Query';
+    mangas: {
+        __typename?: 'MangaNodeList';
+        totalCount: number;
+        nodes: Array<{
+            __typename?: 'MangaType';
+            unreadCount: number;
+            downloadCount: number;
+            bookmarkCount: number;
+            artist?: string | null;
+            author?: string | null;
+            chaptersLastFetchedAt?: string | null;
+            description?: string | null;
+            genre: Array<string>;
+            id: number;
+            inLibrary: boolean;
+            inLibraryAt: string;
+            initialized: boolean;
+            lastFetchedAt?: string | null;
+            realUrl?: string | null;
+            status: MangaStatus;
+            thumbnailUrl?: string | null;
+            thumbnailUrlLastFetched?: string | null;
+            title: string;
+            url: string;
+            lastReadChapter?: {
+                __typename?: 'ChapterType';
+                chapterNumber: number;
+                fetchedAt: string;
+                id: number;
+                isBookmarked: boolean;
+                isDownloaded: boolean;
+                isRead: boolean;
+                lastPageRead: number;
+                lastReadAt: string;
+                name: string;
+                pageCount: number;
+                realUrl?: string | null;
+                scanlator?: string | null;
+                sourceOrder: number;
+                uploadDate: string;
+                url: string;
+                manga: {
+                    __typename?: 'MangaType';
+                    id: number;
+                    title: string;
+                    inLibrary: boolean;
+                    thumbnailUrl?: string | null;
+                    lastFetchedAt?: string | null;
+                };
+                meta: Array<{ __typename?: 'ChapterMetaType'; key: string; value: string }>;
+            } | null;
+            latestReadChapter?: {
+                __typename?: 'ChapterType';
+                chapterNumber: number;
+                fetchedAt: string;
+                id: number;
+                isBookmarked: boolean;
+                isDownloaded: boolean;
+                isRead: boolean;
+                lastPageRead: number;
+                lastReadAt: string;
+                name: string;
+                pageCount: number;
+                realUrl?: string | null;
+                scanlator?: string | null;
+                sourceOrder: number;
+                uploadDate: string;
+                url: string;
+                manga: {
+                    __typename?: 'MangaType';
+                    id: number;
+                    title: string;
+                    inLibrary: boolean;
+                    thumbnailUrl?: string | null;
+                    lastFetchedAt?: string | null;
+                };
+                meta: Array<{ __typename?: 'ChapterMetaType'; key: string; value: string }>;
+            } | null;
+            latestFetchedChapter?: {
+                __typename?: 'ChapterType';
+                chapterNumber: number;
+                fetchedAt: string;
+                id: number;
+                isBookmarked: boolean;
+                isDownloaded: boolean;
+                isRead: boolean;
+                lastPageRead: number;
+                lastReadAt: string;
+                name: string;
+                pageCount: number;
+                realUrl?: string | null;
+                scanlator?: string | null;
+                sourceOrder: number;
+                uploadDate: string;
+                url: string;
+                manga: {
+                    __typename?: 'MangaType';
+                    id: number;
+                    title: string;
+                    inLibrary: boolean;
+                    thumbnailUrl?: string | null;
+                    lastFetchedAt?: string | null;
+                };
+                meta: Array<{ __typename?: 'ChapterMetaType'; key: string; value: string }>;
+            } | null;
+            latestUploadedChapter?: {
+                __typename?: 'ChapterType';
+                chapterNumber: number;
+                fetchedAt: string;
+                id: number;
+                isBookmarked: boolean;
+                isDownloaded: boolean;
+                isRead: boolean;
+                lastPageRead: number;
+                lastReadAt: string;
+                name: string;
+                pageCount: number;
+                realUrl?: string | null;
+                scanlator?: string | null;
+                sourceOrder: number;
+                uploadDate: string;
+                url: string;
+                manga: {
+                    __typename?: 'MangaType';
+                    id: number;
+                    title: string;
+                    inLibrary: boolean;
+                    thumbnailUrl?: string | null;
+                    lastFetchedAt?: string | null;
+                };
+                meta: Array<{ __typename?: 'ChapterMetaType'; key: string; value: string }>;
+            } | null;
+            firstUnreadChapter?: {
+                __typename?: 'ChapterType';
+                chapterNumber: number;
+                fetchedAt: string;
+                id: number;
+                isBookmarked: boolean;
+                isDownloaded: boolean;
+                isRead: boolean;
+                lastPageRead: number;
+                lastReadAt: string;
+                name: string;
+                pageCount: number;
+                realUrl?: string | null;
+                scanlator?: string | null;
+                sourceOrder: number;
+                uploadDate: string;
+                url: string;
+                manga: {
+                    __typename?: 'MangaType';
+                    id: number;
+                    title: string;
+                    inLibrary: boolean;
+                    thumbnailUrl?: string | null;
+                    lastFetchedAt?: string | null;
+                };
+                meta: Array<{ __typename?: 'ChapterMetaType'; key: string; value: string }>;
+            } | null;
+            categories: {
+                __typename?: 'CategoryNodeList';
+                totalCount: number;
+                nodes: Array<{
+                    __typename?: 'CategoryType';
+                    default: boolean;
+                    id: number;
+                    includeInUpdate: IncludeOrExclude;
+                    includeInDownload: IncludeOrExclude;
+                    name: string;
+                    order: number;
+                    meta: Array<{ __typename?: 'CategoryMetaType'; key: string; value: string }>;
+                    mangas: { __typename?: 'MangaNodeList'; totalCount: number };
+                }>;
+            };
+            chapters: { __typename?: 'ChapterNodeList'; totalCount: number };
+            meta: Array<{ __typename?: 'MangaMetaType'; key: string; value: string }>;
+            source?: {
+                __typename?: 'SourceType';
+                displayName: string;
+                iconUrl: string;
+                id: string;
+                isConfigurable: boolean;
+                isNsfw: boolean;
+                lang: string;
+                name: string;
+                supportsLatest: boolean;
+                extension: { __typename?: 'ExtensionType'; pkgName: string; repo?: string | null };
+            } | null;
+            trackRecords: {
+                __typename?: 'TrackRecordNodeList';
+                totalCount: number;
+                nodes: Array<{
+                    __typename?: 'TrackRecordType';
+                    title: string;
+                    remoteUrl: string;
+                    remoteId: string;
+                    id: number;
+                    status: number;
+                    lastChapterRead: number;
+                    totalChapters: number;
+                    score: number;
+                    displayScore: string;
+                    startDate: string;
+                    finishDate: string;
+                    tracker: {
+                        __typename?: 'TrackerType';
+                        id: number;
+                        name: string;
+                        authUrl?: string | null;
+                        icon: string;
+                        supportsTrackDeletion?: boolean | null;
+                        isLoggedIn: boolean;
+                        isTokenExpired: boolean;
+                        scores: Array<string>;
+                        statuses: Array<{ __typename?: 'TrackStatusType'; name: string; value: number }>;
+                    };
+                }>;
+            };
+        }>;
+        pageInfo: {
+            __typename?: 'PageInfo';
+            endCursor?: string | null;
+            hasNextPage: boolean;
+            hasPreviousPage: boolean;
+            startCursor?: string | null;
+        };
+    };
+};
 
 export type GetMigratableSourceMangasQueryVariables = Exact<{
-  sourceId: Scalars['LongString']['input'];
+    sourceId: Scalars['LongString']['input'];
 }>;
 
+export type GetMigratableSourceMangasQuery = {
+    __typename?: 'Query';
+    mangas: {
+        __typename?: 'MangaNodeList';
+        nodes: Array<{
+            __typename?: 'MangaType';
+            id: number;
+            title: string;
+            thumbnailUrl?: string | null;
+            source?: { __typename?: 'SourceType'; id: string } | null;
+            categories: { __typename?: 'CategoryNodeList'; nodes: Array<{ __typename?: 'CategoryType'; id: number }> };
+        }>;
+    };
+};
 
-export type GetMigratableSourceMangasQuery = { __typename?: 'Query', mangas: { __typename?: 'MangaNodeList', nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null, source?: { __typename?: 'SourceType', id: string } | null, categories: { __typename?: 'CategoryNodeList', nodes: Array<{ __typename?: 'CategoryType', id: number }> } }> } };
+export type GetAboutQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GetAboutQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetAboutQuery = {
+    __typename?: 'Query';
+    aboutServer: {
+        __typename?: 'AboutServerPayload';
+        buildTime: string;
+        buildType: string;
+        discord: string;
+        github: string;
+        name: string;
+        revision: string;
+        version: string;
+    };
+    aboutWebUI: { __typename?: 'AboutWebUI'; channel: string; tag: string };
+};
 
+export type CheckForServerUpdatesQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GetAboutQuery = { __typename?: 'Query', aboutServer: { __typename?: 'AboutServerPayload', buildTime: string, buildType: string, discord: string, github: string, name: string, revision: string, version: string }, aboutWebUI: { __typename?: 'AboutWebUI', channel: string, tag: string } };
+export type CheckForServerUpdatesQuery = {
+    __typename?: 'Query';
+    checkForServerUpdates: Array<{
+        __typename?: 'CheckForServerUpdatesPayload';
+        channel: string;
+        tag: string;
+        url: string;
+    }>;
+};
 
-export type CheckForServerUpdatesQueryVariables = Exact<{ [key: string]: never; }>;
+export type CheckForWebuiUpdateQueryVariables = Exact<{ [key: string]: never }>;
 
+export type CheckForWebuiUpdateQuery = {
+    __typename?: 'Query';
+    checkForWebUIUpdate: { __typename?: 'WebUIUpdateCheck'; channel: string; tag: string; updateAvailable: boolean };
+};
 
-export type CheckForServerUpdatesQuery = { __typename?: 'Query', checkForServerUpdates: Array<{ __typename?: 'CheckForServerUpdatesPayload', channel: string, tag: string, url: string }> };
+export type GetWebuiUpdateStatusQueryVariables = Exact<{ [key: string]: never }>;
 
-export type CheckForWebuiUpdateQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetWebuiUpdateStatusQuery = {
+    __typename?: 'Query';
+    getWebUIUpdateStatus: {
+        __typename?: 'WebUIUpdateStatus';
+        progress: number;
+        state: UpdateState;
+        info: { __typename?: 'WebUIUpdateInfo'; channel: string; tag: string };
+    };
+};
 
+export type GetServerSettingsQueryVariables = Exact<{ [key: string]: never }>;
 
-export type CheckForWebuiUpdateQuery = { __typename?: 'Query', checkForWebUIUpdate: { __typename?: 'WebUIUpdateCheck', channel: string, tag: string, updateAvailable: boolean } };
-
-export type GetWebuiUpdateStatusQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetWebuiUpdateStatusQuery = { __typename?: 'Query', getWebUIUpdateStatus: { __typename?: 'WebUIUpdateStatus', progress: number, state: UpdateState, info: { __typename?: 'WebUIUpdateInfo', channel: string, tag: string } } };
-
-export type GetServerSettingsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetServerSettingsQuery = { __typename?: 'Query', settings: { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyVersion: number, socksProxyHost: string, socksProxyPort: string, socksProxyUsername: string, socksProxyPassword: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadNewChaptersLimit: number, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, basicAuthEnabled: boolean, basicAuthUsername: string, basicAuthPassword: string, debugLogsEnabled: boolean, gqlDebugLogsEnabled: boolean, systemTrayEnabled: boolean, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string, flareSolverrEnabled: boolean, flareSolverrUrl: string, flareSolverrTimeout: number, flareSolverrSessionName: string, flareSolverrSessionTtl: number } };
+export type GetServerSettingsQuery = {
+    __typename?: 'Query';
+    settings: {
+        __typename?: 'SettingsType';
+        ip: string;
+        port: number;
+        socksProxyEnabled: boolean;
+        socksProxyVersion: number;
+        socksProxyHost: string;
+        socksProxyPort: string;
+        socksProxyUsername: string;
+        socksProxyPassword: string;
+        webUIFlavor: WebUiFlavor;
+        initialOpenInBrowserEnabled: boolean;
+        webUIInterface: WebUiInterface;
+        electronPath: string;
+        webUIChannel: WebUiChannel;
+        webUIUpdateCheckInterval: number;
+        downloadAsCbz: boolean;
+        downloadsPath: string;
+        autoDownloadNewChapters: boolean;
+        excludeEntryWithUnreadChapters: boolean;
+        autoDownloadNewChaptersLimit: number;
+        extensionRepos: Array<string>;
+        maxSourcesInParallel: number;
+        excludeUnreadChapters: boolean;
+        excludeNotStarted: boolean;
+        excludeCompleted: boolean;
+        globalUpdateInterval: number;
+        updateMangas: boolean;
+        basicAuthEnabled: boolean;
+        basicAuthUsername: string;
+        basicAuthPassword: string;
+        debugLogsEnabled: boolean;
+        gqlDebugLogsEnabled: boolean;
+        systemTrayEnabled: boolean;
+        backupPath: string;
+        backupTime: string;
+        backupInterval: number;
+        backupTTL: number;
+        localSourcePath: string;
+        flareSolverrEnabled: boolean;
+        flareSolverrUrl: string;
+        flareSolverrTimeout: number;
+        flareSolverrSessionName: string;
+        flareSolverrSessionTtl: number;
+    };
+};
 
 export type GetSourceQueryVariables = Exact<{
-  id: Scalars['LongString']['input'];
+    id: Scalars['LongString']['input'];
 }>;
 
+export type GetSourceQuery = {
+    __typename?: 'Query';
+    source: {
+        __typename?: 'SourceType';
+        displayName: string;
+        iconUrl: string;
+        id: string;
+        isConfigurable: boolean;
+        isNsfw: boolean;
+        lang: string;
+        name: string;
+        supportsLatest: boolean;
+        preferences: Array<
+            | {
+                  __typename?: 'CheckBoxPreference';
+                  summary?: string | null;
+                  key: string;
+                  type: 'CheckBoxPreference';
+                  CheckBoxCheckBoxCurrentValue?: boolean | null;
+                  CheckBoxDefault: boolean;
+                  CheckBoxTitle: string;
+              }
+            | {
+                  __typename?: 'EditTextPreference';
+                  text?: string | null;
+                  summary?: string | null;
+                  key: string;
+                  dialogTitle?: string | null;
+                  dialogMessage?: string | null;
+                  type: 'EditTextPreference';
+                  EditTextPreferenceCurrentValue?: string | null;
+                  EditTextPreferenceDefault?: string | null;
+                  EditTextPreferenceTitle?: string | null;
+              }
+            | {
+                  __typename?: 'ListPreference';
+                  summary?: string | null;
+                  key: string;
+                  entryValues: Array<string>;
+                  entries: Array<string>;
+                  type: 'ListPreference';
+                  ListPreferenceCurrentValue?: string | null;
+                  ListPreferenceDefault?: string | null;
+                  ListPreferenceTitle?: string | null;
+              }
+            | {
+                  __typename?: 'MultiSelectListPreference';
+                  dialogMessage?: string | null;
+                  dialogTitle?: string | null;
+                  summary?: string | null;
+                  key: string;
+                  entryValues: Array<string>;
+                  entries: Array<string>;
+                  type: 'MultiSelectListPreference';
+                  MultiSelectListPreferenceTitle?: string | null;
+                  MultiSelectListPreferenceDefault?: Array<string> | null;
+                  MultiSelectListPreferenceCurrentValue?: Array<string> | null;
+              }
+            | {
+                  __typename?: 'SwitchPreference';
+                  summary?: string | null;
+                  key: string;
+                  type: 'SwitchPreference';
+                  SwitchPreferenceCurrentValue?: boolean | null;
+                  SwitchPreferenceDefault: boolean;
+                  SwitchPreferenceTitle: string;
+              }
+        >;
+        filters: Array<
+            | { __typename?: 'CheckBoxFilter'; name: string; type: 'CheckBoxFilter'; CheckBoxFilterDefault: boolean }
+            | {
+                  __typename?: 'GroupFilter';
+                  name: string;
+                  type: 'GroupFilter';
+                  filters: Array<
+                      | {
+                            __typename?: 'CheckBoxFilter';
+                            name: string;
+                            type: 'CheckBoxFilter';
+                            CheckBoxFilterDefault: boolean;
+                        }
+                      | { __typename?: 'GroupFilter' }
+                      | { __typename?: 'HeaderFilter'; name: string; type: 'HeaderFilter' }
+                      | {
+                            __typename?: 'SelectFilter';
+                            name: string;
+                            values: Array<string>;
+                            type: 'SelectFilter';
+                            SelectFilterDefault: number;
+                        }
+                      | { __typename?: 'SeparatorFilter'; name: string; type: 'SeparatorFilter' }
+                      | {
+                            __typename?: 'SortFilter';
+                            name: string;
+                            values: Array<string>;
+                            type: 'SortFilter';
+                            SortFilterDefault?: {
+                                __typename?: 'SortSelection';
+                                ascending: boolean;
+                                index: number;
+                            } | null;
+                        }
+                      | { __typename?: 'TextFilter'; name: string; type: 'TextFilter'; TextFilterDefault: string }
+                      | {
+                            __typename?: 'TriStateFilter';
+                            name: string;
+                            type: 'TriStateFilter';
+                            TriStateFilterDefault: TriState;
+                        }
+                  >;
+              }
+            | { __typename?: 'HeaderFilter'; name: string; type: 'HeaderFilter' }
+            | {
+                  __typename?: 'SelectFilter';
+                  name: string;
+                  values: Array<string>;
+                  type: 'SelectFilter';
+                  SelectFilterDefault: number;
+              }
+            | { __typename?: 'SeparatorFilter'; name: string; type: 'SeparatorFilter' }
+            | {
+                  __typename?: 'SortFilter';
+                  name: string;
+                  values: Array<string>;
+                  type: 'SortFilter';
+                  SortFilterDefault?: { __typename?: 'SortSelection'; ascending: boolean; index: number } | null;
+              }
+            | { __typename?: 'TextFilter'; name: string; type: 'TextFilter'; TextFilterDefault: string }
+            | { __typename?: 'TriStateFilter'; name: string; type: 'TriStateFilter'; TriStateFilterDefault: TriState }
+        >;
+        extension: { __typename?: 'ExtensionType'; pkgName: string; repo?: string | null };
+    };
+};
 
-export type GetSourceQuery = { __typename?: 'Query', source: { __typename?: 'SourceType', displayName: string, iconUrl: string, id: string, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, preferences: Array<{ __typename?: 'CheckBoxPreference', summary?: string | null, key: string, type: 'CheckBoxPreference', CheckBoxCheckBoxCurrentValue?: boolean | null, CheckBoxDefault: boolean, CheckBoxTitle: string } | { __typename?: 'EditTextPreference', text?: string | null, summary?: string | null, key: string, dialogTitle?: string | null, dialogMessage?: string | null, type: 'EditTextPreference', EditTextPreferenceCurrentValue?: string | null, EditTextPreferenceDefault?: string | null, EditTextPreferenceTitle?: string | null } | { __typename?: 'ListPreference', summary?: string | null, key: string, entryValues: Array<string>, entries: Array<string>, type: 'ListPreference', ListPreferenceCurrentValue?: string | null, ListPreferenceDefault?: string | null, ListPreferenceTitle?: string | null } | { __typename?: 'MultiSelectListPreference', dialogMessage?: string | null, dialogTitle?: string | null, summary?: string | null, key: string, entryValues: Array<string>, entries: Array<string>, type: 'MultiSelectListPreference', MultiSelectListPreferenceTitle?: string | null, MultiSelectListPreferenceDefault?: Array<string> | null, MultiSelectListPreferenceCurrentValue?: Array<string> | null } | { __typename?: 'SwitchPreference', summary?: string | null, key: string, type: 'SwitchPreference', SwitchPreferenceCurrentValue?: boolean | null, SwitchPreferenceDefault: boolean, SwitchPreferenceTitle: string }>, filters: Array<{ __typename?: 'CheckBoxFilter', name: string, type: 'CheckBoxFilter', CheckBoxFilterDefault: boolean } | { __typename?: 'GroupFilter', name: string, type: 'GroupFilter', filters: Array<{ __typename?: 'CheckBoxFilter', name: string, type: 'CheckBoxFilter', CheckBoxFilterDefault: boolean } | { __typename?: 'GroupFilter' } | { __typename?: 'HeaderFilter', name: string, type: 'HeaderFilter' } | { __typename?: 'SelectFilter', name: string, values: Array<string>, type: 'SelectFilter', SelectFilterDefault: number } | { __typename?: 'SeparatorFilter', name: string, type: 'SeparatorFilter' } | { __typename?: 'SortFilter', name: string, values: Array<string>, type: 'SortFilter', SortFilterDefault?: { __typename?: 'SortSelection', ascending: boolean, index: number } | null } | { __typename?: 'TextFilter', name: string, type: 'TextFilter', TextFilterDefault: string } | { __typename?: 'TriStateFilter', name: string, type: 'TriStateFilter', TriStateFilterDefault: TriState }> } | { __typename?: 'HeaderFilter', name: string, type: 'HeaderFilter' } | { __typename?: 'SelectFilter', name: string, values: Array<string>, type: 'SelectFilter', SelectFilterDefault: number } | { __typename?: 'SeparatorFilter', name: string, type: 'SeparatorFilter' } | { __typename?: 'SortFilter', name: string, values: Array<string>, type: 'SortFilter', SortFilterDefault?: { __typename?: 'SortSelection', ascending: boolean, index: number } | null } | { __typename?: 'TextFilter', name: string, type: 'TextFilter', TextFilterDefault: string } | { __typename?: 'TriStateFilter', name: string, type: 'TriStateFilter', TriStateFilterDefault: TriState }>, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } } };
+export type GetSourcesQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GetSourcesQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetSourcesQuery = {
+    __typename?: 'Query';
+    sources: {
+        __typename?: 'SourceNodeList';
+        nodes: Array<{
+            __typename?: 'SourceType';
+            displayName: string;
+            iconUrl: string;
+            id: string;
+            isConfigurable: boolean;
+            isNsfw: boolean;
+            lang: string;
+            name: string;
+            supportsLatest: boolean;
+            extension: { __typename?: 'ExtensionType'; pkgName: string; repo?: string | null };
+        }>;
+    };
+};
 
+export type GetMigratableSourcesQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GetSourcesQuery = { __typename?: 'Query', sources: { __typename?: 'SourceNodeList', nodes: Array<{ __typename?: 'SourceType', displayName: string, iconUrl: string, id: string, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } }> } };
+export type GetMigratableSourcesQuery = {
+    __typename?: 'Query';
+    mangas: {
+        __typename?: 'MangaNodeList';
+        nodes: Array<{
+            __typename?: 'MangaType';
+            sourceId: string;
+            source?: { __typename?: 'SourceType'; id: string; name: string; lang: string; iconUrl: string } | null;
+        }>;
+    };
+};
 
-export type GetMigratableSourcesQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetTrackersQueryVariables = Exact<{ [key: string]: never }>;
 
-
-export type GetMigratableSourcesQuery = { __typename?: 'Query', mangas: { __typename?: 'MangaNodeList', nodes: Array<{ __typename?: 'MangaType', sourceId: string, source?: { __typename?: 'SourceType', id: string, name: string, lang: string, iconUrl: string } | null }> } };
-
-export type GetTrackersQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetTrackersQuery = { __typename?: 'Query', trackers: { __typename?: 'TrackerNodeList', totalCount: number, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null }, nodes: Array<{ __typename?: 'TrackerType', id: number, name: string, authUrl?: string | null, icon: string, supportsTrackDeletion?: boolean | null, isLoggedIn: boolean, isTokenExpired: boolean, scores: Array<string>, statuses: Array<{ __typename?: 'TrackStatusType', name: string, value: number }> }> } };
+export type GetTrackersQuery = {
+    __typename?: 'Query';
+    trackers: {
+        __typename?: 'TrackerNodeList';
+        totalCount: number;
+        pageInfo: {
+            __typename?: 'PageInfo';
+            endCursor?: string | null;
+            hasNextPage: boolean;
+            hasPreviousPage: boolean;
+            startCursor?: string | null;
+        };
+        nodes: Array<{
+            __typename?: 'TrackerType';
+            id: number;
+            name: string;
+            authUrl?: string | null;
+            icon: string;
+            supportsTrackDeletion?: boolean | null;
+            isLoggedIn: boolean;
+            isTokenExpired: boolean;
+            scores: Array<string>;
+            statuses: Array<{ __typename?: 'TrackStatusType'; name: string; value: number }>;
+        }>;
+    };
+};
 
 export type TrackerSearchQueryVariables = Exact<{
-  query: Scalars['String']['input'];
-  trackerId: Scalars['Int']['input'];
+    query: Scalars['String']['input'];
+    trackerId: Scalars['Int']['input'];
 }>;
 
+export type TrackerSearchQuery = {
+    __typename?: 'Query';
+    searchTracker: {
+        __typename?: 'SearchTrackerPayload';
+        trackSearches: Array<{
+            __typename?: 'TrackSearchType';
+            id: number;
+            title: string;
+            coverUrl: string;
+            publishingStatus: string;
+            publishingType: string;
+            remoteId: string;
+            startDate: string;
+            summary: string;
+            totalChapters: number;
+            trackerId: number;
+            trackingUrl: string;
+        }>;
+    };
+};
 
-export type TrackerSearchQuery = { __typename?: 'Query', searchTracker: { __typename?: 'SearchTrackerPayload', trackSearches: Array<{ __typename?: 'TrackSearchType', id: number, title: string, coverUrl: string, publishingStatus: string, publishingType: string, remoteId: string, startDate: string, summary: string, totalChapters: number, trackerId: number, trackingUrl: string }> } };
+export type GetUpdateStatusQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GetUpdateStatusQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetUpdateStatusQuery = {
+    __typename?: 'Query';
+    updateStatus: {
+        __typename?: 'UpdateStatus';
+        isRunning: boolean;
+        completeJobs: {
+            __typename?: 'UpdateStatusType';
+            mangas: {
+                __typename?: 'MangaNodeList';
+                totalCount: number;
+                nodes: Array<{
+                    __typename?: 'MangaType';
+                    unreadCount: number;
+                    downloadCount: number;
+                    artist?: string | null;
+                    author?: string | null;
+                    chaptersLastFetchedAt?: string | null;
+                    description?: string | null;
+                    genre: Array<string>;
+                    id: number;
+                    inLibrary: boolean;
+                    inLibraryAt: string;
+                    initialized: boolean;
+                    lastFetchedAt?: string | null;
+                    realUrl?: string | null;
+                    status: MangaStatus;
+                    thumbnailUrl?: string | null;
+                    thumbnailUrlLastFetched?: string | null;
+                    title: string;
+                    url: string;
+                    chapters: { __typename?: 'ChapterNodeList'; totalCount: number };
+                    meta: Array<{ __typename?: 'MangaMetaType'; key: string; value: string }>;
+                    source?: {
+                        __typename?: 'SourceType';
+                        displayName: string;
+                        iconUrl: string;
+                        id: string;
+                        isConfigurable: boolean;
+                        isNsfw: boolean;
+                        lang: string;
+                        name: string;
+                        supportsLatest: boolean;
+                        extension: { __typename?: 'ExtensionType'; pkgName: string; repo?: string | null };
+                    } | null;
+                    trackRecords: {
+                        __typename?: 'TrackRecordNodeList';
+                        totalCount: number;
+                        nodes: Array<{
+                            __typename?: 'TrackRecordType';
+                            title: string;
+                            remoteUrl: string;
+                            remoteId: string;
+                            id: number;
+                            status: number;
+                            lastChapterRead: number;
+                            totalChapters: number;
+                            score: number;
+                            displayScore: string;
+                            startDate: string;
+                            finishDate: string;
+                            tracker: {
+                                __typename?: 'TrackerType';
+                                id: number;
+                                name: string;
+                                authUrl?: string | null;
+                                icon: string;
+                                supportsTrackDeletion?: boolean | null;
+                                isLoggedIn: boolean;
+                                isTokenExpired: boolean;
+                                scores: Array<string>;
+                                statuses: Array<{ __typename?: 'TrackStatusType'; name: string; value: number }>;
+                            };
+                        }>;
+                    };
+                }>;
+            };
+        };
+        failedJobs: {
+            __typename?: 'UpdateStatusType';
+            mangas: {
+                __typename?: 'MangaNodeList';
+                totalCount: number;
+                nodes: Array<{ __typename?: 'MangaType'; id: number; title: string; thumbnailUrl?: string | null }>;
+            };
+        };
+        pendingJobs: {
+            __typename?: 'UpdateStatusType';
+            mangas: {
+                __typename?: 'MangaNodeList';
+                totalCount: number;
+                nodes: Array<{ __typename?: 'MangaType'; id: number; title: string; thumbnailUrl?: string | null }>;
+            };
+        };
+        runningJobs: {
+            __typename?: 'UpdateStatusType';
+            mangas: {
+                __typename?: 'MangaNodeList';
+                totalCount: number;
+                nodes: Array<{ __typename?: 'MangaType'; id: number; title: string; thumbnailUrl?: string | null }>;
+            };
+        };
+        skippedJobs: {
+            __typename?: 'UpdateStatusType';
+            mangas: {
+                __typename?: 'MangaNodeList';
+                totalCount: number;
+                nodes: Array<{ __typename?: 'MangaType'; id: number; title: string; thumbnailUrl?: string | null }>;
+            };
+        };
+        updatingCategories: {
+            __typename?: 'UpdateStatusCategoryType';
+            categories: {
+                __typename?: 'CategoryNodeList';
+                totalCount: number;
+                nodes: Array<{
+                    __typename?: 'CategoryType';
+                    id: number;
+                    name: string;
+                    includeInUpdate: IncludeOrExclude;
+                    includeInDownload: IncludeOrExclude;
+                }>;
+            };
+        };
+        skippedCategories: {
+            __typename?: 'UpdateStatusCategoryType';
+            categories: {
+                __typename?: 'CategoryNodeList';
+                totalCount: number;
+                nodes: Array<{
+                    __typename?: 'CategoryType';
+                    id: number;
+                    name: string;
+                    includeInUpdate: IncludeOrExclude;
+                    includeInDownload: IncludeOrExclude;
+                }>;
+            };
+        };
+    };
+};
 
+export type GetLastUpdateTimestampQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GetUpdateStatusQuery = { __typename?: 'Query', updateStatus: { __typename?: 'UpdateStatus', isRunning: boolean, completeJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', unreadCount: number, downloadCount: number, artist?: string | null, author?: string | null, chaptersLastFetchedAt?: string | null, description?: string | null, genre: Array<string>, id: number, inLibrary: boolean, inLibraryAt: string, initialized: boolean, lastFetchedAt?: string | null, realUrl?: string | null, status: MangaStatus, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: string | null, title: string, url: string, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, source?: { __typename?: 'SourceType', displayName: string, iconUrl: string, id: string, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } } | null, trackRecords: { __typename?: 'TrackRecordNodeList', totalCount: number, nodes: Array<{ __typename?: 'TrackRecordType', title: string, remoteUrl: string, remoteId: string, id: number, status: number, lastChapterRead: number, totalChapters: number, score: number, displayScore: string, startDate: string, finishDate: string, tracker: { __typename?: 'TrackerType', id: number, name: string, authUrl?: string | null, icon: string, supportsTrackDeletion?: boolean | null, isLoggedIn: boolean, isTokenExpired: boolean, scores: Array<string>, statuses: Array<{ __typename?: 'TrackStatusType', name: string, value: number }> } }> } }> } }, failedJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, pendingJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, runningJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, skippedJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, updatingCategories: { __typename?: 'UpdateStatusCategoryType', categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, name: string, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude }> } }, skippedCategories: { __typename?: 'UpdateStatusCategoryType', categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, name: string, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude }> } } } };
+export type GetLastUpdateTimestampQuery = {
+    __typename?: 'Query';
+    lastUpdateTimestamp: { __typename?: 'LastUpdateTimestampPayload'; timestamp: string };
+};
 
-export type GetLastUpdateTimestampQueryVariables = Exact<{ [key: string]: never; }>;
+export type DownloadStatusSubscriptionVariables = Exact<{ [key: string]: never }>;
 
+export type DownloadStatusSubscription = {
+    __typename?: 'Subscription';
+    downloadChanged: {
+        __typename?: 'DownloadStatus';
+        state: DownloaderState;
+        queue: Array<{
+            __typename?: 'DownloadType';
+            progress: number;
+            state: DownloadState;
+            tries: number;
+            chapter: {
+                __typename?: 'ChapterType';
+                id: number;
+                name: string;
+                sourceOrder: number;
+                isDownloaded: boolean;
+                manga: { __typename?: 'MangaType'; id: number; title: string; downloadCount: number };
+            };
+        }>;
+    };
+};
 
-export type GetLastUpdateTimestampQuery = { __typename?: 'Query', lastUpdateTimestamp: { __typename?: 'LastUpdateTimestampPayload', timestamp: string } };
+export type WebuiUpdateSubscriptionVariables = Exact<{ [key: string]: never }>;
 
-export type DownloadStatusSubscriptionSubscriptionVariables = Exact<{ [key: string]: never; }>;
+export type WebuiUpdateSubscription = {
+    __typename?: 'Subscription';
+    webUIUpdateStatusChange: {
+        __typename?: 'WebUIUpdateStatus';
+        progress: number;
+        state: UpdateState;
+        info: { __typename?: 'WebUIUpdateInfo'; channel: string; tag: string };
+    };
+};
 
+export type UpdaterSubscriptionVariables = Exact<{ [key: string]: never }>;
 
-export type DownloadStatusSubscriptionSubscription = { __typename?: 'Subscription', downloadChanged: { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, title: string, downloadCount: number } } }> } };
-
-export type WebuiUpdateSubscriptionSubscriptionVariables = Exact<{ [key: string]: never; }>;
-
-
-export type WebuiUpdateSubscriptionSubscription = { __typename?: 'Subscription', webUIUpdateStatusChange: { __typename?: 'WebUIUpdateStatus', progress: number, state: UpdateState, info: { __typename?: 'WebUIUpdateInfo', channel: string, tag: string } } };
-
-export type UpdaterSubscriptionSubscriptionVariables = Exact<{ [key: string]: never; }>;
-
-
-export type UpdaterSubscriptionSubscription = { __typename?: 'Subscription', updateStatusChanged: { __typename?: 'UpdateStatus', isRunning: boolean, completeJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', unreadCount: number, downloadCount: number, artist?: string | null, author?: string | null, chaptersLastFetchedAt?: string | null, description?: string | null, genre: Array<string>, id: number, inLibrary: boolean, inLibraryAt: string, initialized: boolean, lastFetchedAt?: string | null, realUrl?: string | null, status: MangaStatus, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: string | null, title: string, url: string, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, source?: { __typename?: 'SourceType', displayName: string, iconUrl: string, id: string, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } } | null, trackRecords: { __typename?: 'TrackRecordNodeList', totalCount: number, nodes: Array<{ __typename?: 'TrackRecordType', title: string, remoteUrl: string, remoteId: string, id: number, status: number, lastChapterRead: number, totalChapters: number, score: number, displayScore: string, startDate: string, finishDate: string, tracker: { __typename?: 'TrackerType', id: number, name: string, authUrl?: string | null, icon: string, supportsTrackDeletion?: boolean | null, isLoggedIn: boolean, isTokenExpired: boolean, scores: Array<string>, statuses: Array<{ __typename?: 'TrackStatusType', name: string, value: number }> } }> } }> } }, failedJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, pendingJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, runningJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, skippedJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, updatingCategories: { __typename?: 'UpdateStatusCategoryType', categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, name: string, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude }> } }, skippedCategories: { __typename?: 'UpdateStatusCategoryType', categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, name: string, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude }> } } } };
+export type UpdaterSubscription = {
+    __typename?: 'Subscription';
+    updateStatusChanged: {
+        __typename?: 'UpdateStatus';
+        isRunning: boolean;
+        completeJobs: {
+            __typename?: 'UpdateStatusType';
+            mangas: {
+                __typename?: 'MangaNodeList';
+                totalCount: number;
+                nodes: Array<{
+                    __typename?: 'MangaType';
+                    unreadCount: number;
+                    downloadCount: number;
+                    artist?: string | null;
+                    author?: string | null;
+                    chaptersLastFetchedAt?: string | null;
+                    description?: string | null;
+                    genre: Array<string>;
+                    id: number;
+                    inLibrary: boolean;
+                    inLibraryAt: string;
+                    initialized: boolean;
+                    lastFetchedAt?: string | null;
+                    realUrl?: string | null;
+                    status: MangaStatus;
+                    thumbnailUrl?: string | null;
+                    thumbnailUrlLastFetched?: string | null;
+                    title: string;
+                    url: string;
+                    chapters: { __typename?: 'ChapterNodeList'; totalCount: number };
+                    meta: Array<{ __typename?: 'MangaMetaType'; key: string; value: string }>;
+                    source?: {
+                        __typename?: 'SourceType';
+                        displayName: string;
+                        iconUrl: string;
+                        id: string;
+                        isConfigurable: boolean;
+                        isNsfw: boolean;
+                        lang: string;
+                        name: string;
+                        supportsLatest: boolean;
+                        extension: { __typename?: 'ExtensionType'; pkgName: string; repo?: string | null };
+                    } | null;
+                    trackRecords: {
+                        __typename?: 'TrackRecordNodeList';
+                        totalCount: number;
+                        nodes: Array<{
+                            __typename?: 'TrackRecordType';
+                            title: string;
+                            remoteUrl: string;
+                            remoteId: string;
+                            id: number;
+                            status: number;
+                            lastChapterRead: number;
+                            totalChapters: number;
+                            score: number;
+                            displayScore: string;
+                            startDate: string;
+                            finishDate: string;
+                            tracker: {
+                                __typename?: 'TrackerType';
+                                id: number;
+                                name: string;
+                                authUrl?: string | null;
+                                icon: string;
+                                supportsTrackDeletion?: boolean | null;
+                                isLoggedIn: boolean;
+                                isTokenExpired: boolean;
+                                scores: Array<string>;
+                                statuses: Array<{ __typename?: 'TrackStatusType'; name: string; value: number }>;
+                            };
+                        }>;
+                    };
+                }>;
+            };
+        };
+        failedJobs: {
+            __typename?: 'UpdateStatusType';
+            mangas: {
+                __typename?: 'MangaNodeList';
+                totalCount: number;
+                nodes: Array<{ __typename?: 'MangaType'; id: number; title: string; thumbnailUrl?: string | null }>;
+            };
+        };
+        pendingJobs: {
+            __typename?: 'UpdateStatusType';
+            mangas: {
+                __typename?: 'MangaNodeList';
+                totalCount: number;
+                nodes: Array<{ __typename?: 'MangaType'; id: number; title: string; thumbnailUrl?: string | null }>;
+            };
+        };
+        runningJobs: {
+            __typename?: 'UpdateStatusType';
+            mangas: {
+                __typename?: 'MangaNodeList';
+                totalCount: number;
+                nodes: Array<{ __typename?: 'MangaType'; id: number; title: string; thumbnailUrl?: string | null }>;
+            };
+        };
+        skippedJobs: {
+            __typename?: 'UpdateStatusType';
+            mangas: {
+                __typename?: 'MangaNodeList';
+                totalCount: number;
+                nodes: Array<{ __typename?: 'MangaType'; id: number; title: string; thumbnailUrl?: string | null }>;
+            };
+        };
+        updatingCategories: {
+            __typename?: 'UpdateStatusCategoryType';
+            categories: {
+                __typename?: 'CategoryNodeList';
+                totalCount: number;
+                nodes: Array<{
+                    __typename?: 'CategoryType';
+                    id: number;
+                    name: string;
+                    includeInUpdate: IncludeOrExclude;
+                    includeInDownload: IncludeOrExclude;
+                }>;
+            };
+        };
+        skippedCategories: {
+            __typename?: 'UpdateStatusCategoryType';
+            categories: {
+                __typename?: 'CategoryNodeList';
+                totalCount: number;
+                nodes: Array<{
+                    __typename?: 'CategoryType';
+                    id: number;
+                    name: string;
+                    includeInUpdate: IncludeOrExclude;
+                    includeInDownload: IncludeOrExclude;
+                }>;
+            };
+        };
+    };
+};

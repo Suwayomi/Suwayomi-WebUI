@@ -31,10 +31,10 @@ export const TrackMangaButton = ({ manga }: { manga: TManga }) => {
     const trackersInUse = Trackers.getLoggedIn(Trackers.getTrackers(mangaTrackers));
 
     const handleClick = (openPopup: () => void) => {
-        mangaTrackers.map((tracker) =>
-            Promise.resolve(
-                requestManager.useFetchTrack(tracker.id).response.then((res) => res.data?.fetchTrack.trackRecord),
-            ),
+        mangaTrackers.map((trackRecord) =>
+            requestManager
+                .fetchTrackBind(trackRecord.id)
+                .response.catch(() => makeToast(t('tracking.error.label.could_not_fetch_track_info'), 'error')),
         );
         if (trackerList.error) {
             makeToast(t('tracking.error.label.could_not_load_track_info'), 'error');
