@@ -114,6 +114,10 @@ export function HorizontalPager(props: IReaderProps) {
         }
 
         const resizeObserver = new ResizeObserver(() => {
+            if (!initialPageElement.offsetHeight) {
+                return;
+            }
+
             initialPageElement.scrollIntoView({ inline: 'center' });
             resizeObserver.disconnect();
         });
