@@ -183,6 +183,13 @@ export const MangaDetails: React.FC<IProps> = ({ manga }) => {
     const [isCategorySelectOpen, setIsCategorySelectOpen] = useState(false);
 
     useEffect(() => {
+        manga.trackRecords.nodes.map((trackRecord) =>
+            requestManager
+                .fetchTrackBind(trackRecord.id)
+                .response.catch(() => makeToast(t('tracking.error.label.could_not_fetch_track_info'), 'error')),
+        );
+    }, []);
+    useEffect(() => {
         if (!manga.source) {
             makeToast(translate('source.error.label.source_not_found'), 'error');
         }
