@@ -12,7 +12,7 @@ import { Button, Tooltip } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { PopupState } from 'material-ui-popup-state/es/hooks';
+import { PopupState } from 'material-ui-popup-state/hooks';
 import { bindTrigger } from 'material-ui-popup-state';
 import { isMobile } from 'react-device-detect';
 import { SelectableCollectionReturnType } from '@/components/collection/useSelectableCollection.ts';

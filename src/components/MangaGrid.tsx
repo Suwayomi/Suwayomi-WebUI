@@ -35,7 +35,8 @@ const GridItemContainerWithDimension = (
     const itemsPerRow = Math.ceil(dimensions / itemWidth);
     const columnsPerItem = gridLayout === GridLayout.List ? maxColumns : maxColumns / itemsPerRow;
 
-    return ({ children, ...itemProps }: GridTypeMap['props'] & Partial<GridItemProps>) => (
+    // MUI GridProps and Virtuoso GridItemProps use different types for the "ref" prop which conflict with each other
+    return ({ children, ...itemProps }: GridTypeMap['props'] & Omit<Partial<GridItemProps>, 'ref'>) => (
         <Grid {...itemProps} item xs={columnsPerItem} sx={{ width: '100%', paddingTop: '8px', paddingLeft: '8px' }}>
             {children}
         </Grid>

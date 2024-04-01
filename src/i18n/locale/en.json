@@ -606,6 +606,7 @@
         "remove": {
           "dialog": {
             "label": {
+              "delete_remote_track": "Also remove from {{tracker}}",
               "description": "This will remove the tracking locally.",
               "title": "Remove {{tracker}} tracking?"
             }
@@ -1100,6 +1101,7 @@
     },
     "error": {
       "label": {
+        "could_not_fetch_track_info": "Could not load latest track info from tracker",
         "could_not_load_track_info": "Could not load track info"
       }
     },

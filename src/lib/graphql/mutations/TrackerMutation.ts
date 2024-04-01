@@ -7,7 +7,11 @@
  */
 
 import gql from 'graphql-tag';
-import { FULL_TRACK_RECORD_FIELDS } from '@/lib/graphql/Fragments';
+import {
+    BASE_TRACK_RECORD_FIELDS,
+    QUERY_TRACK_RECORD_FIELDS,
+    FULL_TRACK_RECORD_FIELDS,
+} from '@/lib/graphql/Fragments.ts';
 
 export const TRACKER_LOGIN_OAUTH = gql`
     mutation TRACKER_LOGIN_OAUTH($input: LoginTrackerOAuthInput!) {
@@ -48,20 +52,11 @@ export const TRACKER_LOGOUT = gql`
 `;
 
 export const TRACKER_BIND = gql`
+    ${QUERY_TRACK_RECORD_FIELDS}
     mutation TRACKER_BIND($mangaId: Int!, $remoteId: LongString!, $trackerId: Int!) {
         bindTrack(input: { mangaId: $mangaId, remoteId: $remoteId, trackerId: $trackerId }) {
             trackRecord {
-                id
-                title
-                status
-                lastChapterRead
-                totalChapters
-                score
-                displayScore
-                startDate
-                finishDate
-                remoteUrl
-                remoteId
+                ...QUERY_TRACK_RECORD_FIELDS
                 tracker {
                     id
                 }
@@ -79,24 +74,11 @@ export const TRACKER_BIND = gql`
     }
 `;
 
-export const TRACKER_UPDATE_BIND = gql`
-    mutation TRACKER_UPDATE_BIND($input: UpdateTrackInput!) {
-        updateTrack(input: $input) {
+export const TRACKER_UNBIND = gql`
+    mutation TRACKER_UNBIND($input: UnbindTrackInput!) {
+        unbindTrack(input: $input) {
             trackRecord {
                 id
-                title
-                status
-                lastChapterRead
-                totalChapters
-                score
-                displayScore
-                startDate
-                finishDate
-                remoteUrl
-                remoteId
-                tracker {
-                    id
-                }
                 manga {
                     id
                     trackRecords {
@@ -106,6 +88,37 @@ export const TRACKER_UPDATE_BIND = gql`
                         }
                     }
                 }
+            }
+        }
+    }
+`;
+
+export const TRACKER_UPDATE_BIND = gql`
+    ${QUERY_TRACK_RECORD_FIELDS}
+    mutation TRACKER_UPDATE_BIND($input: UpdateTrackInput!) {
+        updateTrack(input: $input) {
+            trackRecord {
+                ...QUERY_TRACK_RECORD_FIELDS
+                manga {
+                    id
+                    trackRecords {
+                        totalCount
+                        nodes {
+                            id
+                        }
+                    }
+                }
+            }
+        }
+    }
+`;
+
+export const TRACKER_FETCH_BIND = gql`
+    ${BASE_TRACK_RECORD_FIELDS}
+    mutation TRACKER_FETCH_BIND($recordId: Int!) {
+        fetchTrack(input: { recordId: $recordId }) {
+            trackRecord {
+                ...BASE_TRACK_RECORD_FIELDS
             }
         }
     }

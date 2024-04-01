@@ -192,6 +192,10 @@ import {
     TrackerUpdateBindMutation,
     TrackerUpdateBindMutationVariables,
     UpdateTrackInput,
+    TrackerUnbindMutation,
+    TrackerUnbindMutationVariables,
+    TrackerFetchBindMutation,
+    TrackerFetchBindMutationVariables,
     TrackerRefreshMutation,
     TrackerRefreshMutationVariables,
 } from '@/lib/graphql/generated/graphql.ts';
@@ -277,9 +281,11 @@ import { Queue, QueuePriority } from '@/lib/Queue.ts';
 import { GET_TRACKERS, TRACKER_SEARCH } from '@/lib/graphql/queries/TrackerQuery.ts';
 import {
     TRACKER_BIND,
+    TRACKER_FETCH_BIND,
     TRACKER_LOGIN_CREDENTIALS,
     TRACKER_LOGIN_OAUTH,
     TRACKER_LOGOUT,
+    TRACKER_UNBIND,
     TRACKER_REFRESH,
     TRACKER_UPDATE_BIND,
 } from '@/lib/graphql/mutations/TrackerMutation.ts';
@@ -1887,10 +1893,11 @@ export class RequestManager {
         id: number,
         patch: UpdateChapterPatchInput & {
             chapterIdToDelete?: number;
+            trackProgressMangaId?: number;
         },
         options?: MutationOptions<UpdateChapterMutation, UpdateChapterMutationVariables>,
     ): AbortableApolloMutationResponse<UpdateChapterMutation> {
-        const { chapterIdToDelete = -1, ...updatePatch } = patch;
+        const { chapterIdToDelete = -1, trackProgressMangaId = -1, ...updatePatch } = patch;
 
         return this.doRequest<UpdateChapterMutation, UpdateChapterMutationVariables>(
             GQLMethod.MUTATION,
@@ -1902,6 +1909,8 @@ export class RequestManager {
                 getLastPageRead: patch.lastPageRead != null,
                 chapterIdToDelete,
                 deleteChapter: chapterIdToDelete >= 0,
+                mangaId: trackProgressMangaId,
+                trackProgress: trackProgressMangaId >= 0,
             },
             options,
         );
@@ -2476,16 +2485,36 @@ export class RequestManager {
         return this.doRequest(GQLMethod.USE_MUTATION, TRACKER_BIND, undefined, options);
     }
 
+    public unbindTracker(
+        recordId: number,
+        deleteRemoteTrack?: boolean,
+        options?: MutationHookOptions<TrackerUnbindMutation, TrackerUnbindMutationVariables>,
+    ): AbortableApolloMutationResponse<TrackerUnbindMutation> {
+        return this.doRequest<TrackerUnbindMutation, TrackerUnbindMutationVariables>(
+            GQLMethod.MUTATION,
+            TRACKER_UNBIND,
+            { input: { recordId, deleteRemoteTrack } },
+            { refetchQueries: [GET_MANGA, GET_CATEGORY_MANGAS, GET_MANGAS], ...options },
+        );
+    }
+
     public updateTrackerBind(
         id: number,
         patch: Omit<UpdateTrackInput, 'clientMutationId' | 'recordId'>,
         options?: MutationOptions<TrackerUpdateBindMutation, TrackerUpdateBindMutationVariables>,
     ): AbortableApolloMutationResponse<TrackerUpdateBindMutation> {
-        return this.doRequest(
+        return this.doRequest(GQLMethod.MUTATION, TRACKER_UPDATE_BIND, { input: { ...patch, recordId: id } }, options);
+    }
+
+    public fetchTrackBind(
+        recordId: number,
+        options?: MutationOptions<TrackerFetchBindMutation, TrackerFetchBindMutationVariables>,
+    ): AbortableApolloMutationResponse<TrackerFetchBindMutation> {
+        return this.doRequest<TrackerFetchBindMutation, TrackerFetchBindMutationVariables>(
             GQLMethod.MUTATION,
-            TRACKER_UPDATE_BIND,
-            { input: { ...patch, recordId: id } },
-            { refetchQueries: patch.unbind ? [GET_MANGA, GET_CATEGORY_MANGAS, GET_MANGAS] : undefined, ...options },
+            TRACKER_FETCH_BIND,
+            { recordId },
+            options,
         );
     }
 

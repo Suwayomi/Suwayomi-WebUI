@@ -101,7 +101,10 @@ export interface IMangaCard {
 
 export type TManga = GetMangaQuery['manga'];
 
-export type TPartialManga = OptionalProperty<TManga, 'unreadCount' | 'downloadCount' | 'categories' | 'chapters'>;
+export type TPartialManga = OptionalProperty<
+    TManga,
+    'unreadCount' | 'downloadCount' | 'bookmarkCount' | 'categories' | 'chapters'
+>;
 
 export interface IManga {
     id: number;
@@ -388,6 +391,7 @@ export interface LibraryOptions {
 
     // filter options
     downloaded: NullAndUndefined<boolean>;
+    bookmarked: NullAndUndefined<boolean>;
     unread: NullAndUndefined<boolean>;
     sorts: NullAndUndefined<LibrarySortMode>;
     sortDesc: NullAndUndefined<boolean>;

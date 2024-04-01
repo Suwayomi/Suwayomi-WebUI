@@ -216,6 +216,7 @@ export const FULL_TRACKER_FIELDS = gql`
         name
         authUrl
         icon
+        supportsTrackDeletion
         isLoggedIn
         isTokenExpired
         scores
@@ -226,11 +227,9 @@ export const FULL_TRACKER_FIELDS = gql`
     }
 `;
 
-export const FULL_TRACK_RECORD_FIELDS = gql`
-    ${FULL_TRACKER_FIELDS}
-    fragment FULL_TRACK_RECORD_FIELDS on TrackRecordType {
+export const BASE_TRACK_RECORD_FIELDS = gql`
+    fragment BASE_TRACK_RECORD_FIELDS on TrackRecordType {
         id
-        title
         status
         lastChapterRead
         totalChapters
@@ -238,8 +237,24 @@ export const FULL_TRACK_RECORD_FIELDS = gql`
         displayScore
         startDate
         finishDate
+    }
+`;
+
+export const QUERY_TRACK_RECORD_FIELDS = gql`
+    ${BASE_TRACK_RECORD_FIELDS}
+    fragment QUERY_TRACK_RECORD_FIELDS on TrackRecordType {
+        ...BASE_TRACK_RECORD_FIELDS
+        title
         remoteUrl
         remoteId
+    }
+`;
+
+export const FULL_TRACK_RECORD_FIELDS = gql`
+    ${QUERY_TRACK_RECORD_FIELDS}
+    ${FULL_TRACKER_FIELDS}
+    fragment FULL_TRACK_RECORD_FIELDS on TrackRecordType {
+        ...QUERY_TRACK_RECORD_FIELDS
         tracker {
             ...FULL_TRACKER_FIELDS
         }
@@ -290,6 +305,7 @@ export const PARTIAL_MANGA_FIELDS = gql`
         ...BASE_MANGA_FIELDS
         unreadCount
         downloadCount
+        bookmarkCount
         categories {
             nodes {
                 ...FULL_CATEGORY_FIELDS
@@ -348,6 +364,9 @@ export const FULL_MANGA_FIELDS = gql`
             ...FULL_CHAPTER_FIELDS
         }
         latestUploadedChapter {
+            ...FULL_CHAPTER_FIELDS
+        }
+        firstUnreadChapter {
             ...FULL_CHAPTER_FIELDS
         }
     }
