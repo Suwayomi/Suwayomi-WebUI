@@ -109,11 +109,11 @@ export const TRACKER_UPDATE_BIND = gql`
     }
 `;
 
-export const TRACKER_TRACK_PROGRESS = gql`
+export const TRACKER_FETCH_BIND = gql`
     ${BASE_TRACK_RECORD_FIELDS}
-    mutation TRACKER_TRACK_PROGRESS($mangaId: Int!) {
-        trackProgress(input: { mangaId: $mangaId }) {
-            trackRecords {
+    mutation TRACKER_FETCH_BIND($recordId: Int!) {
+        fetchTrack(input: { recordId: $recordId }) {
+            trackRecord {
                 ...BASE_TRACK_RECORD_FIELDS
             }
         }

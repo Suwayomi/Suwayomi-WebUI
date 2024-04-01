@@ -3012,12 +3012,12 @@ export type TrackerUpdateBindMutationVariables = Exact<{
 
 export type TrackerUpdateBindMutation = { __typename?: 'Mutation', updateTrack: { __typename?: 'UpdateTrackPayload', trackRecord?: { __typename?: 'TrackRecordType', title: string, remoteUrl: string, remoteId: string, id: number, status: number, lastChapterRead: number, totalChapters: number, score: number, displayScore: string, startDate: string, finishDate: string, manga: { __typename?: 'MangaType', id: number, trackRecords: { __typename?: 'TrackRecordNodeList', totalCount: number, nodes: Array<{ __typename?: 'TrackRecordType', id: number }> } } } | null } };
 
-export type TrackerTrackProgressMutationVariables = Exact<{
-  mangaId: Scalars['Int']['input'];
+export type TrackerFetchBindMutationVariables = Exact<{
+  recordId: Scalars['Int']['input'];
 }>;
 
 
-export type TrackerTrackProgressMutation = { __typename?: 'Mutation', trackProgress: { __typename?: 'TrackProgressPayload', trackRecords: Array<{ __typename?: 'TrackRecordType', id: number, status: number, lastChapterRead: number, totalChapters: number, score: number, displayScore: string, startDate: string, finishDate: string }> } };
+export type TrackerFetchBindMutation = { __typename?: 'Mutation', fetchTrack: { __typename?: 'FetchTrackPayload', trackRecord: { __typename?: 'TrackRecordType', id: number, status: number, lastChapterRead: number, totalChapters: number, score: number, displayScore: string, startDate: string, finishDate: string } } };
 
 export type UpdateCategoryMangasMutationVariables = Exact<{
   input: UpdateCategoryMangaInput;

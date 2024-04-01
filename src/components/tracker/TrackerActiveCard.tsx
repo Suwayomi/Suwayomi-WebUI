@@ -29,7 +29,7 @@ import {
 } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import PopupState, { bindDialog, bindMenu, bindTrigger } from 'material-ui-popup-state';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Trackers, TTrackRecord, UNSET_DATE } from '@/lib/data/Trackers.ts';
 import { ListPreference } from '@/components/sourceConfiguration/ListPreference.tsx';
@@ -234,6 +234,12 @@ export const TrackerActiveCard = ({
             .updateTrackerBind(trackRecord.id, patch)
             .response.catch(() => makeToast(t('global.error.label.failed_to_save_changes'), 'error'));
     };
+
+    useEffect(() => {
+        requestManager
+            .fetchTrackBind(trackRecord.id)
+            .response.catch(() => makeToast(t('tracking.error.label.could_not_fetch_track_info'), 'error'));
+    }, [trackRecord.id]);
 
     return (
         <Card sx={CARD_STYLING}>
