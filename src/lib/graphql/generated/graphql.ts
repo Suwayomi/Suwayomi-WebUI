@@ -668,6 +668,17 @@ export enum FetchSourceMangaType {
   Search = 'SEARCH'
 }
 
+export type FetchTrackInput = {
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  recordId: Scalars['Int']['input'];
+};
+
+export type FetchTrackPayload = {
+  __typename?: 'FetchTrackPayload';
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  trackRecord: TrackRecordType;
+};
+
 export type Filter = CheckBoxFilter | GroupFilter | HeaderFilter | SelectFilter | SeparatorFilter | SortFilter | TextFilter | TriStateFilter;
 
 export type FilterChangeInput = {
@@ -932,6 +943,7 @@ export type MangaType = {
   age?: Maybe<Scalars['LongString']['output']>;
   artist?: Maybe<Scalars['String']['output']>;
   author?: Maybe<Scalars['String']['output']>;
+  bookmarkCount: Scalars['Int']['output'];
   categories: CategoryNodeList;
   chapters: ChapterNodeList;
   chaptersAge?: Maybe<Scalars['LongString']['output']>;
@@ -1030,6 +1042,7 @@ export type Mutation = {
   fetchExtensions: FetchExtensionsPayload;
   fetchManga: FetchMangaPayload;
   fetchSourceManga: FetchSourceMangaPayload;
+  fetchTrack: FetchTrackPayload;
   installExternalExtension: InstallExternalExtensionPayload;
   loginTrackerCredentials: LoginTrackerCredentialsPayload;
   loginTrackerOAuth: LoginTrackerOAuthPayload;
@@ -1046,6 +1059,8 @@ export type Mutation = {
   setSourceMeta: SetSourceMetaPayload;
   startDownloader: StartDownloaderPayload;
   stopDownloader: StopDownloaderPayload;
+  trackProgress: TrackProgressPayload;
+  unbindTrack: UnbindTrackPayload;
   updateCategories: UpdateCategoriesPayload;
   updateCategory: UpdateCategoryPayload;
   updateCategoryManga: UpdateCategoryMangaPayload;
@@ -1176,6 +1191,11 @@ export type MutationFetchSourceMangaArgs = {
 };
 
 
+export type MutationFetchTrackArgs = {
+  input: FetchTrackInput;
+};
+
+
 export type MutationInstallExternalExtensionArgs = {
   input: InstallExternalExtensionInput;
 };
@@ -1248,6 +1268,16 @@ export type MutationStartDownloaderArgs = {
 
 export type MutationStopDownloaderArgs = {
   input: StopDownloaderInput;
+};
+
+
+export type MutationTrackProgressArgs = {
+  input: TrackProgressInput;
+};
+
+
+export type MutationUnbindTrackArgs = {
+  input: UnbindTrackInput;
 };
 
 
@@ -2047,6 +2077,17 @@ export type TextFilter = {
   name: Scalars['String']['output'];
 };
 
+export type TrackProgressInput = {
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  mangaId: Scalars['Int']['input'];
+};
+
+export type TrackProgressPayload = {
+  __typename?: 'TrackProgressPayload';
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  trackRecords: Array<TrackRecordType>;
+};
+
 export type TrackRecordConditionInput = {
   finishDate?: InputMaybe<Scalars['LongString']['input']>;
   id?: InputMaybe<Scalars['Int']['input']>;
@@ -2188,6 +2229,7 @@ export type TrackerType = {
   name: Scalars['String']['output'];
   scores: Array<Scalars['String']['output']>;
   statuses: Array<TrackStatusType>;
+  supportsTrackDeletion?: Maybe<Scalars['Boolean']['output']>;
   trackRecords: TrackRecordNodeList;
 };
 
@@ -2201,6 +2243,19 @@ export type TriStateFilter = {
   __typename?: 'TriStateFilter';
   default: TriState;
   name: Scalars['String']['output'];
+};
+
+export type UnbindTrackInput = {
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  /** This will only work if the tracker of the track record supports deleting tracks */
+  deleteRemoteTrack?: InputMaybe<Scalars['Boolean']['input']>;
+  recordId: Scalars['Int']['input'];
+};
+
+export type UnbindTrackPayload = {
+  __typename?: 'UnbindTrackPayload';
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  trackRecord?: Maybe<TrackRecordType>;
 };
 
 export type UpdateCategoriesInput = {
@@ -2449,7 +2504,6 @@ export type UpdateTrackInput = {
   scoreString?: InputMaybe<Scalars['String']['input']>;
   startDate?: InputMaybe<Scalars['LongString']['input']>;
   status?: InputMaybe<Scalars['Int']['input']>;
-  unbind?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type UpdateTrackPayload = {
@@ -2945,6 +2999,13 @@ export type TrackerUpdateBindMutationVariables = Exact<{
 
 export type TrackerUpdateBindMutation = { __typename?: 'Mutation', updateTrack: { __typename?: 'UpdateTrackPayload', trackRecord?: { __typename?: 'TrackRecordType', id: number, title: string, status: number, lastChapterRead: number, totalChapters: number, score: number, displayScore: string, startDate: string, finishDate: string, remoteUrl: string, remoteId: string, tracker: { __typename?: 'TrackerType', id: number }, manga: { __typename?: 'MangaType', id: number, trackRecords: { __typename?: 'TrackRecordNodeList', totalCount: number, nodes: Array<{ __typename?: 'TrackRecordType', id: number }> } } } | null } };
 
+export type TrackerRefreshMutationVariables = Exact<{
+  input: FetchTrackInput;
+}>;
+
+
+export type TrackerRefreshMutation = { __typename?: 'Mutation', fetchTrack: { __typename?: 'FetchTrackPayload', trackRecord: { __typename?: 'TrackRecordType', title: string, lastChapterRead: number, remoteId: string, mangaId: number, trackerId: number } } };
+
 export type UpdateCategoryMangasMutationVariables = Exact<{
   input: UpdateCategoryMangaInput;
 }>;
@@ -3193,17 +3254,17 @@ export type GetLastUpdateTimestampQueryVariables = Exact<{ [key: string]: never;
 
 export type GetLastUpdateTimestampQuery = { __typename?: 'Query', lastUpdateTimestamp: { __typename?: 'LastUpdateTimestampPayload', timestamp: string } };
 
-export type DownloadStatusSubscriptionVariables = Exact<{ [key: string]: never; }>;
+export type DownloadStatusSubscriptionSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type DownloadStatusSubscription = { __typename?: 'Subscription', downloadChanged: { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, title: string, downloadCount: number } } }> } };
+export type DownloadStatusSubscriptionSubscription = { __typename?: 'Subscription', downloadChanged: { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, title: string, downloadCount: number } } }> } };
 
-export type WebuiUpdateSubscriptionVariables = Exact<{ [key: string]: never; }>;
-
-
-export type WebuiUpdateSubscription = { __typename?: 'Subscription', webUIUpdateStatusChange: { __typename?: 'WebUIUpdateStatus', progress: number, state: UpdateState, info: { __typename?: 'WebUIUpdateInfo', channel: string, tag: string } } };
-
-export type UpdaterSubscriptionVariables = Exact<{ [key: string]: never; }>;
+export type WebuiUpdateSubscriptionSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UpdaterSubscription = { __typename?: 'Subscription', updateStatusChanged: { __typename?: 'UpdateStatus', isRunning: boolean, completeJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', unreadCount: number, downloadCount: number, artist?: string | null, author?: string | null, chaptersLastFetchedAt?: string | null, description?: string | null, genre: Array<string>, id: number, inLibrary: boolean, inLibraryAt: string, initialized: boolean, lastFetchedAt?: string | null, realUrl?: string | null, status: MangaStatus, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: string | null, title: string, url: string, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, source?: { __typename?: 'SourceType', displayName: string, iconUrl: string, id: string, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } } | null, trackRecords: { __typename?: 'TrackRecordNodeList', totalCount: number, nodes: Array<{ __typename?: 'TrackRecordType', id: number, title: string, status: number, lastChapterRead: number, totalChapters: number, score: number, displayScore: string, startDate: string, finishDate: string, remoteUrl: string, remoteId: string, tracker: { __typename?: 'TrackerType', id: number, name: string, authUrl?: string | null, icon: string, isLoggedIn: boolean, isTokenExpired: boolean, scores: Array<string>, statuses: Array<{ __typename?: 'TrackStatusType', name: string, value: number }> } }> } }> } }, failedJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, pendingJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, runningJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, skippedJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, updatingCategories: { __typename?: 'UpdateStatusCategoryType', categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, name: string, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude }> } }, skippedCategories: { __typename?: 'UpdateStatusCategoryType', categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, name: string, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude }> } } } };
+export type WebuiUpdateSubscriptionSubscription = { __typename?: 'Subscription', webUIUpdateStatusChange: { __typename?: 'WebUIUpdateStatus', progress: number, state: UpdateState, info: { __typename?: 'WebUIUpdateInfo', channel: string, tag: string } } };
+
+export type UpdaterSubscriptionSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type UpdaterSubscriptionSubscription = { __typename?: 'Subscription', updateStatusChanged: { __typename?: 'UpdateStatus', isRunning: boolean, completeJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', unreadCount: number, downloadCount: number, artist?: string | null, author?: string | null, chaptersLastFetchedAt?: string | null, description?: string | null, genre: Array<string>, id: number, inLibrary: boolean, inLibraryAt: string, initialized: boolean, lastFetchedAt?: string | null, realUrl?: string | null, status: MangaStatus, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: string | null, title: string, url: string, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, source?: { __typename?: 'SourceType', displayName: string, iconUrl: string, id: string, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } } | null, trackRecords: { __typename?: 'TrackRecordNodeList', totalCount: number, nodes: Array<{ __typename?: 'TrackRecordType', id: number, title: string, status: number, lastChapterRead: number, totalChapters: number, score: number, displayScore: string, startDate: string, finishDate: string, remoteUrl: string, remoteId: string, tracker: { __typename?: 'TrackerType', id: number, name: string, authUrl?: string | null, icon: string, isLoggedIn: boolean, isTokenExpired: boolean, scores: Array<string>, statuses: Array<{ __typename?: 'TrackStatusType', name: string, value: number }> } }> } }> } }, failedJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, pendingJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, runningJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, skippedJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, updatingCategories: { __typename?: 'UpdateStatusCategoryType', categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, name: string, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude }> } }, skippedCategories: { __typename?: 'UpdateStatusCategoryType', categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, name: string, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude }> } } } };

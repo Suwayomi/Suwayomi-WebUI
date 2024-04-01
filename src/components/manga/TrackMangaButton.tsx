@@ -25,11 +25,17 @@ export const TrackMangaButton = ({ manga }: { manga: TManga }) => {
 
     const trackerList = requestManager.useGetTrackerList();
     const mangaTrackers = manga.trackRecords.nodes;
+    // const testRecord = requestManager.useFetchTrack(9);
 
     const loggedInTrackers = Trackers.getLoggedIn(trackerList.data?.trackers.nodes ?? []);
     const trackersInUse = Trackers.getLoggedIn(Trackers.getTrackers(mangaTrackers));
 
     const handleClick = (openPopup: () => void) => {
+        mangaTrackers.map((tracker) =>
+            Promise.resolve(
+                requestManager.useFetchTrack(tracker.id).response.then((res) => res.data?.fetchTrack.trackRecord),
+            ),
+        );
         if (trackerList.error) {
             makeToast(t('tracking.error.label.could_not_load_track_info'), 'error');
             return;

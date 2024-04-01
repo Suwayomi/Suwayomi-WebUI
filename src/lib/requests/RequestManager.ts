@@ -192,6 +192,8 @@ import {
     TrackerUpdateBindMutation,
     TrackerUpdateBindMutationVariables,
     UpdateTrackInput,
+    TrackerRefreshMutation,
+    TrackerRefreshMutationVariables,
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_GLOBAL_METADATAS } from '@/lib/graphql/queries/GlobalMetadataQuery.ts';
 import { SET_GLOBAL_METADATA } from '@/lib/graphql/mutations/GlobalMetadataMutation.ts';
@@ -278,6 +280,7 @@ import {
     TRACKER_LOGIN_CREDENTIALS,
     TRACKER_LOGIN_OAUTH,
     TRACKER_LOGOUT,
+    TRACKER_REFRESH,
     TRACKER_UPDATE_BIND,
 } from '@/lib/graphql/mutations/TrackerMutation.ts';
 import { ControlledPromise } from '@/lib/ControlledPromise.ts';
@@ -2484,6 +2487,13 @@ export class RequestManager {
             { input: { ...patch, recordId: id } },
             { refetchQueries: patch.unbind ? [GET_MANGA, GET_CATEGORY_MANGAS, GET_MANGAS] : undefined, ...options },
         );
+    }
+
+    public useFetchTrack(
+        id: number,
+        options?: MutationHookOptions<TrackerRefreshMutation, TrackerRefreshMutationVariables>,
+    ): AbortableApolloMutationResponse<TrackerRefreshMutation> {
+        return this.doRequest(GQLMethod.MUTATION, TRACKER_REFRESH, { input: { recordId: id } }, { ...options });
     }
 }
 
