@@ -194,6 +194,8 @@ import {
     UpdateTrackInput,
     TrackerUnbindMutation,
     TrackerUnbindMutationVariables,
+    TrackerFetchBindMutation,
+    TrackerFetchBindMutationVariables,
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_GLOBAL_METADATAS } from '@/lib/graphql/queries/GlobalMetadataQuery.ts';
 import { SET_GLOBAL_METADATA } from '@/lib/graphql/mutations/GlobalMetadataMutation.ts';
@@ -277,6 +279,7 @@ import { Queue, QueuePriority } from '@/lib/Queue.ts';
 import { GET_TRACKERS, TRACKER_SEARCH } from '@/lib/graphql/queries/TrackerQuery.ts';
 import {
     TRACKER_BIND,
+    TRACKER_FETCH_BIND,
     TRACKER_LOGIN_CREDENTIALS,
     TRACKER_LOGIN_OAUTH,
     TRACKER_LOGOUT,
@@ -2498,6 +2501,18 @@ export class RequestManager {
         options?: MutationOptions<TrackerUpdateBindMutation, TrackerUpdateBindMutationVariables>,
     ): AbortableApolloMutationResponse<TrackerUpdateBindMutation> {
         return this.doRequest(GQLMethod.MUTATION, TRACKER_UPDATE_BIND, { input: { ...patch, recordId: id } }, options);
+    }
+
+    public fetchTrackBind(
+        recordId: number,
+        options?: MutationOptions<TrackerFetchBindMutation, TrackerFetchBindMutationVariables>,
+    ): AbortableApolloMutationResponse<TrackerFetchBindMutation> {
+        return this.doRequest<TrackerFetchBindMutation, TrackerFetchBindMutationVariables>(
+            GQLMethod.MUTATION,
+            TRACKER_FETCH_BIND,
+            { recordId },
+            options,
+        );
     }
 }
 
