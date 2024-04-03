@@ -44,6 +44,11 @@ jobs:
                 "message": "The title is too short to provide any valuable short description"
               },
               {
+                "type": "title",
+                "regex": ".*\?.*)",
+                "message": "The title is not supposed to be a question"
+              },
+              {
                 "type": "body",
                 "regex": "^(?!## (Device information|What feature should be added to Suwayomi\?))",
                 "message": "The acknowledgment section was not removed"
