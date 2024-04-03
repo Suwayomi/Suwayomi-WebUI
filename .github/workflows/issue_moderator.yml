@@ -34,6 +34,16 @@ jobs:
                 "message": "You did not remove Angle brackets(< and >) from the title"
               },
               {
+                "type": "title",
+                "regex": "^\[(Feature Request|Bug)\](?!.{0,75}$)",
+                "message": "The title is too long, keep it short and descriptive"
+              },
+              {
+                "type": "title",
+                "regex": "^\[(Feature Request|Bug)\](?!.{10,75}$)",
+                "message": "The title is too short to provide any valuable short description"
+              },
+              {
                 "type": "body",
                 "regex": "^(?!## (Device information|What feature should be added to Suwayomi\?))",
                 "message": "The acknowledgment section was not removed"
