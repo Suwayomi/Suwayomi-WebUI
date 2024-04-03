@@ -20,6 +20,11 @@ jobs:
             [
               {
                 "type": "title",
+                "regex": "^(?!(\[(Feature Request|Bug\] )))",
+                "message": "Invalid title. Must start with either \"[Feature Request]\" or \"[Bug]\""
+              },
+              {
+                "type": "title",
                 "regex": ".*<short description>.*",
                 "message": "You did not fill out the description in the title"
               },
