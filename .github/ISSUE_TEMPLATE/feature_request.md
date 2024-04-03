@@ -18,7 +18,7 @@ I acknowledge that:
 
 Note that the issue will be automatically closed if you do not fill out the title or requested information.
 
-**DELETE THIS SECTION IF YOU HAVE READ AND ACKNOWLEDGED IT**
+**Delete everything up to "## What feature should be added to Suwayomi" if you've read and acknowledged this section**
 
 ---
 

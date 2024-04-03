@@ -20,6 +20,11 @@ jobs:
             [
               {
                 "type": "title",
+                "regex": "^(?!(\[(Feature Request|Bug\] )))",
+                "message": "Invalid title. Must start with either \"[Feature Request]\" or \"[Bug]\""
+              },
+              {
+                "type": "title",
                 "regex": ".*<short description>.*",
                 "message": "You did not fill out the description in the title"
               },
@@ -29,8 +34,23 @@ jobs:
                 "message": "You did not remove Angle brackets(< and >) from the title"
               },
               {
+                "type": "title",
+                "regex": "^\[(Feature Request|Bug)\](?!.{0,75}$)",
+                "message": "The title is too long, keep it short and descriptive"
+              },
+              {
+                "type": "title",
+                "regex": "^\[(Feature Request|Bug)\](?!.{10,75}$)",
+                "message": "The title is too short to provide any valuable short description"
+              },
+              {
+                "type": "title",
+                "regex": ".*\?.*)",
+                "message": "The title is not supposed to be a question"
+              },
+              {
                 "type": "body",
-                "regex": ".*DELETE THIS SECTION IF YOU HAVE READ AND ACKNOWLEDGED IT.*",
+                "regex": "^(?!## (Device information|What feature should be added to Suwayomi\?))",
                 "message": "The acknowledgment section was not removed"
               },
               {
