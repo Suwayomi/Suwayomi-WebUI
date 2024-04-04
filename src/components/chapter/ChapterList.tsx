@@ -74,8 +74,10 @@ export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
     const { data: chaptersData, loading: isLoading } = requestManager.useGetMangaChapters(manga.id);
     const chapters = useMemo(() => chaptersData?.chapters.nodes ?? [], [chaptersData?.chapters.nodes]);
 
+    const chapterIds = useMemo(() => chapters.map((chapter) => chapter.id), [chapters]);
+
     const { areNoItemsSelected, areAllItemsSelected, selectedItemIds, handleSelectAll, handleSelection } =
-        useSelectableCollection(chapters.length, { currentKey: 'default' });
+        useSelectableCollection(chapters.length, { itemIds: chapterIds, currentKey: 'default' });
 
     const visibleChapters = useMemo(() => filterAndSortChapters(chapters, options), [chapters, options]);
 
@@ -202,7 +204,9 @@ export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
                             {...chaptersWithMeta[index]}
                             allChapters={chapters}
                             showChapterNumber={options.showChapterNumber}
-                            onSelect={(selected) => handleSelection(chaptersWithMeta[index].chapter.id, selected)}
+                            onSelect={(selected, selectRange) =>
+                                handleSelection(chaptersWithMeta[index].chapter.id, selected, { selectRange })
+                            }
                         />
                     )}
                     useWindowScroll={window.innerWidth < 900}
