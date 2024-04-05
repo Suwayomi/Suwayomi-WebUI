@@ -52,6 +52,7 @@
     "react-i18next": "^14.1.0",
     "react-router-dom": "^6.22.3",
     "react-virtuoso": "^4.7.7",
+    "use-long-press": "^3.2.0",
     "use-query-params": "^2.2.1",
     "vite": "^5.2.7",
     "vite-tsconfig-paths": "^4.3.2"

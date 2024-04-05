@@ -181,15 +181,15 @@ export function CategorySelect(props: Props) {
                                 isSingleSelectionMode,
                             )}
                             onChange={(checked) => {
-                                handleSelection(category.id, false, 'categoriesToAdd');
-                                handleSelection(category.id, false, 'categoriesToRemove');
+                                handleSelection(category.id, false, { key: 'categoriesToAdd' });
+                                handleSelection(category.id, false, { key: 'categoriesToRemove' });
 
                                 if (checked) {
-                                    handleSelection(category.id, true, 'categoriesToAdd');
+                                    handleSelection(category.id, true, { key: 'categoriesToAdd' });
                                 }
 
                                 if (checked === false) {
-                                    handleSelection(category.id, true, 'categoriesToRemove');
+                                    handleSelection(category.id, true, { key: 'categoriesToRemove' });
                                 }
                             }}
                             label={category.name}

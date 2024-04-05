@@ -68,6 +68,8 @@ export function Library() {
     const categoryMangas = categoryMangaResponse?.mangas.nodes ?? [];
     const { visibleMangas: mangas, showFilteredOutMessage } = useGetVisibleLibraryMangas(categoryMangas);
 
+    const mangaIds = useMemo(() => mangas.map((manga) => manga.id), [mangas]);
+
     const [isSelectModeActive, setIsSelectModeActive] = useState(false);
     const {
         areNoItemsForKeySelected: areNoItemsSelected,
@@ -76,11 +78,14 @@ export function Library() {
         handleSelectAll,
         handleSelection,
         clearSelection,
-    } = useSelectableCollection<TManga['id'], string>(mangas.length, { currentKey: activeTab?.id.toString() });
+    } = useSelectableCollection<TManga['id'], string>(mangas.length, {
+        itemIds: mangaIds,
+        currentKey: activeTab?.id.toString(),
+    });
 
-    const handleSelect = (id: number, selected: boolean) => {
+    const handleSelect: typeof handleSelection = (id, selected, selectOptions) => {
         setIsSelectModeActive(!!(selectedItemIds.length + (selected ? 1 : -1)));
-        handleSelection(id, selected);
+        handleSelection(id, selected, selectOptions);
     };
 
     const selectedMangas = useMemo(

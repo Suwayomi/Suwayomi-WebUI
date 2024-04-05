@@ -14,6 +14,7 @@ import { Avatar, Box, CardContent, Stack, styled, Tooltip } from '@mui/material'
 import { useTranslation } from 'react-i18next';
 import PopupState, { bindMenu } from 'material-ui-popup-state';
 import { useState } from 'react';
+import { useLongPress } from 'use-long-press';
 import { GridLayout, useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
 import { SpinnerImage } from '@/components/util/SpinnerImage';
 import { TManga, TPartialManga } from '@/typings.ts';
@@ -116,6 +117,20 @@ export const MangaCard = (props: MangaCardProps) => {
 
     const [isMigrateDialogOpen, setIsMigrateDialogOpen] = useState(false);
 
+    const handleClick = (e: React.MouseEvent | React.TouchEvent) => {
+        if (selected === null) {
+            return;
+        }
+
+        e.preventDefault();
+        handleSelection?.(id, !selected, { selectRange: e.shiftKey });
+    };
+
+    const longPressBind = useLongPress((e) => {
+        e.shiftKey = true;
+        handleClick(e);
+    });
+
     if (gridLayout !== GridLayout.List) {
         return (
             <>
@@ -126,12 +141,13 @@ export const MangaCard = (props: MangaCardProps) => {
                     {(popupState) => (
                         <>
                             <Link
+                                {...longPressBind()}
                                 onClick={(e) => {
                                     const isMigrateSelectMode = mode === 'migrate.select';
                                     const isSelectionMode = selected !== null;
 
-                                    const handleClick = isMigrateSelectMode || isSelectionMode;
-                                    if (!handleClick) {
+                                    const shouldHandleClick = isMigrateSelectMode || isSelectionMode;
+                                    if (!shouldHandleClick) {
                                         return;
                                     }
 
@@ -142,7 +158,7 @@ export const MangaCard = (props: MangaCardProps) => {
                                         return;
                                     }
 
-                                    handleSelection?.(id, !selected);
+                                    handleClick(e);
                                 }}
                                 to={mangaLinkTo}
                                 style={{ textDecoration: 'none' }}
@@ -334,14 +350,8 @@ export const MangaCard = (props: MangaCardProps) => {
                             <CardActionArea
                                 component={Link}
                                 to={mangaLinkTo}
-                                onClick={(e) => {
-                                    if (selected === null) {
-                                        return;
-                                    }
-
-                                    e.preventDefault();
-                                    handleSelection?.(id, !selected);
-                                }}
+                                onClick={handleClick}
+                                {...longPressBind()}
                             >
                                 <CardContent
                                     sx={{
