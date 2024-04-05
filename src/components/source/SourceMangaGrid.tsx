@@ -31,6 +31,7 @@ export function SourceMangaGrid(props: IMangaGridProps) {
             messageExtra={messageExtra}
             gridLayout={gridLayout}
             inLibraryIndicator
+            mode="source"
         />
     );
 }

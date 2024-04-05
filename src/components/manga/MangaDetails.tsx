@@ -10,7 +10,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import PublicIcon from '@mui/icons-material/Public';
 import { styled } from '@mui/material/styles';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { t as translate } from 'i18next';
 import { Link } from '@mui/material';
@@ -18,13 +18,13 @@ import { ISource, TManga } from '@/typings';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/components/util/Toast';
 import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
-import { CategorySelect } from '@/components/navbar/action/CategorySelect.tsx';
 import { Mangas } from '@/lib/data/Mangas.ts';
 import { SpinnerImage } from '@/components/util/SpinnerImage.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { Categories } from '@/lib/data/Categories.ts';
 import { CustomIconButton } from '@/components/atoms/CustomIconButton';
 import { TrackMangaButton } from '@/components/manga/TrackMangaButton.tsx';
+import { useCategorySelect } from '@/components/navbar/action/useCategorySelect.tsx';
 
 const DetailsWrapper = styled('div')(({ theme }) => ({
     width: '100%',
@@ -180,25 +180,36 @@ export const MangaDetails: React.FC<IProps> = ({ manga }) => {
         [categories.data?.categories.nodes],
     );
 
-    const [isCategorySelectOpen, setIsCategorySelectOpen] = useState(false);
-
     useEffect(() => {
         if (!manga.source) {
             makeToast(translate('source.error.label.source_not_found'), 'error');
         }
     }, [manga.source]);
 
-    const addToLibrary = (addToCategories: number[] = [], removeFromCategories: number[] = []) => {
-        requestManager
-            .updateManga(manga.id, {
-                updateManga: { inLibrary: true },
-                updateMangaCategories: { addToCategories, removeFromCategories },
-            })
-            .response.then(() => makeToast(t('library.info.label.added_to_library'), 'success'))
-            .catch(() => {
-                makeToast(t('library.error.label.add_to_library'), 'error');
-            });
-    };
+    const addToLibrary = useCallback(
+        (didSubmit: boolean, addToCategories: number[] = [], removeFromCategories: number[] = []) => {
+            if (!didSubmit) {
+                return;
+            }
+
+            requestManager
+                .updateManga(manga.id, {
+                    updateManga: { inLibrary: true },
+                    updateMangaCategories: { addToCategories, removeFromCategories },
+                })
+                .response.then(() => makeToast(t('library.info.label.added_to_library'), 'success'))
+                .catch(() => {
+                    makeToast(t('library.error.label.add_to_library'), 'error');
+                });
+        },
+        [manga.id],
+    );
+
+    const { openCategorySelect, CategorySelectComponent } = useCategorySelect({
+        mangaId: manga.id,
+        onClose: addToLibrary,
+        addToLibrary: true,
+    });
 
     const handleAddToLibraryClick = () => {
         if (categories.loading) {
@@ -216,11 +227,11 @@ export const MangaDetails: React.FC<IProps> = ({ manga }) => {
 
         const showCategorySelectDialog = showAddToLibraryCategorySelectDialog && !!userCreatedCategories.length;
         if (!showCategorySelectDialog) {
-            addToLibrary(Categories.getIds(Categories.getDefaults(userCreatedCategories!)));
+            addToLibrary(true, Categories.getIds(Categories.getDefaults(userCreatedCategories!)));
             return;
         }
 
-        setIsCategorySelectOpen(true);
+        openCategorySelect(true);
     };
 
     const removeFromLibrary = () => {
@@ -275,20 +286,7 @@ export const MangaDetails: React.FC<IProps> = ({ manga }) => {
                     </Genres>
                 </BottomContentWrapper>
             </DetailsWrapper>
-            {isCategorySelectOpen && (
-                <CategorySelect
-                    open={isCategorySelectOpen}
-                    onClose={(didUpdateCategories, addToCategories, removeFromCategories) => {
-                        setIsCategorySelectOpen(false);
-
-                        if (didUpdateCategories) {
-                            addToLibrary(addToCategories, removeFromCategories);
-                        }
-                    }}
-                    mangaId={manga.id}
-                    addToLibrary
-                />
-            )}
+            {CategorySelectComponent}
         </>
     );
 };
