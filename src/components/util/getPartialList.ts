@@ -32,6 +32,9 @@ export const getPartialList = <T>(
         if (index + indexOffset > allElements.length - 1) {
             return [] as T[];
         }
+        if (index === 0) {
+            return allElements;
+        }
         return allElements.slice(index + indexOffset);
     }
 
