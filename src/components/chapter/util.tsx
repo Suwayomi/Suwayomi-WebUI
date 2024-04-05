@@ -16,6 +16,7 @@ import {
     TranslationKey,
 } from '@/typings.ts';
 import { useReducerLocalStorage } from '@/util/useLocalStorage.tsx';
+import { getPartialList } from '@/components/util/getPartialList';
 
 const defaultChapterOptions: ChapterListOptions = {
     active: false,
@@ -114,3 +115,21 @@ export const isFilterActive = (options: ChapterListOptions) => {
     const { unread, downloaded, bookmarked } = options;
     return unread != null || downloaded != null || bookmarked != null;
 };
+
+/**
+ * @param chapterId The id of the chapter to be use as a pivot
+ * @param allChapters There list of chapters
+ * @returns The second half of the list. By the default the chapters are sorted
+ * in descending order, so it returns the previous chapters, not including the pivot chapter.
+ */
+export const getPreviousChapters = (chapterId: TChapter['id'], allChapters: TChapter[]): TChapter[] =>
+    getPartialList(chapterId, allChapters, 'second');
+
+/**
+ * @param chapterId The id of the chapter to be use as a pivot
+ * @param allChapters There list of chapters
+ * @returns The second half of the list. By the default the chapters are sorted
+ * in descending order, so it returns the previous chapters, not including the pivot chapter.
+ */
+export const getNextChapters = (chapterId: TChapter['id'], allChapters: TChapter[]): TChapter[] =>
+    getPartialList(chapterId, allChapters, 'first');
