@@ -14,10 +14,11 @@ import CardContent from '@mui/material/CardContent';
 import IconButton from '@mui/material/IconButton';
 import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import React, { TouchEvent } from 'react';
+import React, { MouseEvent, TouchEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
+import { useLongPress } from 'use-long-press';
 import { getUploadDateString } from '@/util/date.ts';
 import { DownloadStateIndicator } from '@/components/molecules/DownloadStateIndicator.tsx';
 import { DownloadType } from '@/lib/graphql/generated/graphql.ts';
@@ -30,7 +31,7 @@ interface IProps {
     allChapters: TChapter[];
     downloadChapter: DownloadType | undefined;
     showChapterNumber: boolean;
-    onSelect: (selected: boolean) => void;
+    onSelect: (selected: boolean, isShiftKey?: boolean) => void;
     selected: boolean | null;
 }
 
@@ -41,15 +42,20 @@ export const ChapterCard: React.FC<IProps> = (props: IProps) => {
     const { chapter, allChapters, downloadChapter: dc, showChapterNumber, onSelect, selected } = props;
     const isSelecting = selected !== null;
 
-    const handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
-        if (isSelecting) {
-            event.preventDefault();
-            event.stopPropagation();
-            onSelect(!selected);
-        }
+    const { isDownloaded } = chapter;
+
+    const handleClick = (e: MouseEvent | TouchEvent) => {
+        if (!isSelecting) return;
+
+        e.preventDefault();
+        e.stopPropagation();
+        onSelect(!selected, e.shiftKey);
     };
 
-    const { isDownloaded } = chapter;
+    const longPressBind = useLongPress((e) => {
+        e.shiftKey = true;
+        handleClick(e);
+    });
 
     return (
         <li>
@@ -86,7 +92,8 @@ export const ChapterCard: React.FC<IProps> = (props: IProps) => {
                                     style={{
                                         color: theme.palette.text[chapter.isRead ? 'disabled' : 'primary'],
                                     }}
-                                    onClick={handleClick}
+                                    onClick={(e) => handleClick(e)}
+                                    {...longPressBind()}
                                 >
                                     <CardContent
                                         sx={{
