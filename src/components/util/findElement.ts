@@ -15,16 +15,6 @@ export const findElement = <T>(
     fieldToMatch: unknown,
     isFieldToSearchArray?: boolean,
 ): T | undefined => {
-    // let ElementFoundIndex: number;
-
-    // if (isFieldToSearchArray) {
-    //     ElementFoundIndex = elements.findIndex((element: T | any) =>
-    //         element[fieldToSearch].some((field: any) => field === fieldToMatch),
-    //     );
-    // } else {
-    //     // do a some() logic checking for boolean, so fieldToMatch fieldToMatch
-    //     ElementFoundIndex = elements.findIndex((element: T | any) => element[fieldToSearch] === fieldToMatch);
-    // }
     const index = findIndexOfElement(elements, fieldToSearch, fieldToMatch, isFieldToSearchArray);
 
     if (!index) {
