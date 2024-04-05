@@ -9,11 +9,11 @@
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import Typography from '@mui/material/Typography';
-import { Link } from 'react-router-dom';
-import { Avatar, Box, CardContent, Stack, styled, Tooltip } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
+import { Avatar, Box, CardContent, Link, Stack, styled, Tooltip } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import PopupState, { bindMenu } from 'material-ui-popup-state';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useLongPress } from 'use-long-press';
 import { GridLayout, useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
 import { SpinnerImage } from '@/components/util/SpinnerImage';
@@ -94,6 +94,8 @@ const getMangaLinkTo = (
 export const MangaCard = (props: MangaCardProps) => {
     const { t } = useTranslation();
 
+    const optionButtonRef = useRef<HTMLButtonElement>(null);
+
     const { manga, gridLayout, inLibraryIndicator, selected, handleSelection, mode = 'default' } = props;
     const {
         id,
@@ -117,18 +119,36 @@ export const MangaCard = (props: MangaCardProps) => {
 
     const [isMigrateDialogOpen, setIsMigrateDialogOpen] = useState(false);
 
-    const handleClick = (e: React.MouseEvent | React.TouchEvent) => {
-        if (selected === null) {
+    const handleClick = (event: React.MouseEvent | React.TouchEvent, openMenu?: () => void) => {
+        const isDefaultMode = mode === 'default';
+        const isMigrateSelectMode = mode === 'migrate.select';
+        const isSelectionMode = selected !== null;
+
+        const shouldHandleClick = isMigrateSelectMode || isSelectionMode || (isDefaultMode && !!openMenu);
+        if (!shouldHandleClick) {
             return;
         }
 
-        e.preventDefault();
-        handleSelection?.(id, !selected, { selectRange: e.shiftKey });
+        event.preventDefault();
+
+        if (isSelectionMode) {
+            handleSelection?.(id, !selected, { selectRange: event.shiftKey });
+            return;
+        }
+
+        if (isDefaultMode) {
+            openMenu?.();
+            return;
+        }
+
+        if (isMigrateSelectMode) {
+            setIsMigrateDialogOpen(true);
+        }
     };
 
-    const longPressBind = useLongPress((e) => {
+    const longPressBind = useLongPress((e, { context }) => {
         e.shiftKey = true;
-        handleClick(e);
+        handleClick(e, context as () => {});
     });
 
     if (gridLayout !== GridLayout.List) {
@@ -141,27 +161,11 @@ export const MangaCard = (props: MangaCardProps) => {
                     {(popupState) => (
                         <>
                             <Link
-                                {...longPressBind()}
-                                onClick={(e) => {
-                                    const isMigrateSelectMode = mode === 'migrate.select';
-                                    const isSelectionMode = selected !== null;
-
-                                    const shouldHandleClick = isMigrateSelectMode || isSelectionMode;
-                                    if (!shouldHandleClick) {
-                                        return;
-                                    }
-
-                                    e.preventDefault();
-
-                                    if (isMigrateSelectMode) {
-                                        setIsMigrateDialogOpen(true);
-                                        return;
-                                    }
-
-                                    handleClick(e);
-                                }}
+                                component={RouterLink}
+                                {...longPressBind(() => popupState.open(optionButtonRef.current))}
+                                onClick={handleClick}
                                 to={mangaLinkTo}
-                                style={{ textDecoration: 'none' }}
+                                sx={{ textDecoration: 'none', touchCallout: 'none' }}
                             >
                                 <Box
                                     sx={{
@@ -228,6 +232,7 @@ export const MangaCard = (props: MangaCardProps) => {
                                                     )}
                                                 </BadgeContainer>
                                                 <MangaOptionButton
+                                                    ref={optionButtonRef}
                                                     popupState={popupState}
                                                     id={id}
                                                     selected={selected}
@@ -348,10 +353,11 @@ export const MangaCard = (props: MangaCardProps) => {
                     <>
                         <Card>
                             <CardActionArea
-                                component={Link}
+                                component={RouterLink}
                                 to={mangaLinkTo}
                                 onClick={handleClick}
                                 {...longPressBind()}
+                                sx={{ touchCallout: 'none' }}
                             >
                                 <CardContent
                                     sx={{
@@ -425,6 +431,7 @@ export const MangaCard = (props: MangaCardProps) => {
                                             mangaLinkTo={mangaLinkTo}
                                         />
                                         <MangaOptionButton
+                                            ref={optionButtonRef}
                                             popupState={popupState}
                                             id={id}
                                             selected={selected}
