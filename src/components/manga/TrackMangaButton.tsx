@@ -16,8 +16,9 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { TrackManga } from '@/components/tracker/TrackManga.tsx';
 import { Trackers } from '@/lib/data/Trackers.ts';
-import { TManga } from '@/typings.ts';
+import { TChapter, TManga } from '@/typings.ts';
 import { CustomIconButton } from '@/components/atoms/CustomIconButton.tsx';
+import { setChapterAsLastRead } from '@/components/chapter/util.tsx';
 
 export const TrackMangaButton = ({ manga }: { manga: TManga }) => {
     const { t } = useTranslation();
@@ -28,8 +29,36 @@ export const TrackMangaButton = ({ manga }: { manga: TManga }) => {
 
     const loggedInTrackers = Trackers.getLoggedIn(trackerList.data?.trackers.nodes ?? []);
     const trackersInUse = Trackers.getLoggedIn(Trackers.getTrackers(mangaTrackers));
+    const mangaChaptersQuery = requestManager.useGetMangaChapters(manga.id);
+    const mangaChapters = mangaChaptersQuery.data?.chapters.nodes;
+
+    const refreshTracker = () => {
+        mangaTrackers.map((trackRecord) =>
+            requestManager
+                .fetchTrackBind(trackRecord.id)
+                .response.catch(() => makeToast(t('tracking.error.label.could_not_fetch_track_info'), 'error')),
+        );
+    };
+
+    const updateChapterFromTracker = () => {
+        const lastestTrackersRead = Math.max(...mangaTrackers.map((trackRecord) => trackRecord.lastChapterRead));
+        const latestLocalRead = manga.latestReadChapter?.chapterNumber ?? 0;
+        const localBehindTracker = !mangaChapters?.some((chapter) => chapter.chapterNumber === lastestTrackersRead);
+        if (localBehindTracker) {
+            requestManager.getMangaChaptersFetch(manga.id);
+        }
+        if (!localBehindTracker) {
+            const chapterToBeUpdated = mangaChapters?.find((chapter) => chapter.chapterNumber === lastestTrackersRead);
+            if (chapterToBeUpdated && latestLocalRead < lastestTrackersRead) {
+                setChapterAsLastRead(chapterToBeUpdated?.id, mangaChapters as TChapter[]);
+            }
+        }
+    };
 
     const handleClick = (openPopup: () => void) => {
+        refreshTracker();
+        updateChapterFromTracker();
+
         if (trackerList.error) {
             makeToast(t('tracking.error.label.could_not_load_track_info'), 'error');
             return;

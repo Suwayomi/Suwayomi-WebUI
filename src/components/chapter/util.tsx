@@ -121,16 +121,25 @@ export const isFilterActive = (options: ChapterListOptions) => {
 /**
  * @param chapterId The id of the chapter to be use as a pivot
  * @param allChapters There list of chapters
+ * @param includePivotChapter Whether to return the chapter with the passed chapterId in the list
  * @returns The second half of the list. By the default the chapters are sorted
  * in descending order, so it returns the previous chapters, not including the pivot chapter.
  */
-export const getPreviousChapters = (chapterId: TChapter['id'], allChapters: TChapter[]): TChapter[] =>
-    getPartialList(chapterId, allChapters, 'second');
+export const getPreviousChapters = (
+    chapterId: TChapter['id'],
+    allChapters: TChapter[],
+    includePivotChapter: boolean = false,
+): TChapter[] => {
+    if (includePivotChapter) {
+        return getPartialList(chapterId, allChapters, 'second', 0);
+    }
+    return getPartialList(chapterId, allChapters, 'second');
+};
 
 /**
  * @param chapterId The id of the chapter to be use as a pivot
  * @param allChapters There list of chapters
- * @param includePivotChapter Whether to return the chapter with the chapterId passed in the list
+ * @param includePivotChapter Whether to return the chapter with the passed chapterId in the list
  * @returns The second half of the list. By the default the chapters are sorted
  * in descending order, so it returns the previous chapters, not including the pivot chapter.
  */
@@ -145,9 +154,15 @@ export const getNextChapters = (
     return getPartialList(chapterId, allChapters, 'first', 0);
 };
 
+/**
+ * @description This fucntion takes a chapter Id and set all chapters with index bellow the index of the chapter to that id
+ * to read, and the rest of the chapters as unread. Technically setting the chapter with the passed id as the current unread chapter.
+ * @param chapterId Chapter Id
+ * @param allChapters List of chapters
+ */
 export const setChapterAsLastRead = (chapterId: TChapter['id'], allChapters: TChapter[]) => {
-    const readChapters = getPreviousChapters(chapterId, allChapters);
-    const unreadChapterId = getNextChapters(chapterId, allChapters, true).map((chapter) => chapter.id);
+    const readChapters = getPreviousChapters(chapterId, allChapters, true);
+    const unreadChapterId = getNextChapters(chapterId, allChapters).map((chapter) => chapter.id);
 
     Chapters.markAsRead(readChapters, true).catch(defaultPromiseErrorHandler('ChapterActionMenuItems::performAction'));
     Chapters.markAsUnread(unreadChapterId).catch(defaultPromiseErrorHandler('ChapterActionMenuItems::performAction'));

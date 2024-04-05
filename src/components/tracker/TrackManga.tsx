@@ -8,16 +8,14 @@
 
 import { useNavigate } from 'react-router-dom';
 import { Box } from '@mui/material';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import DialogContent from '@mui/material/DialogContent';
-import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { EmptyView } from '@/components/util/EmptyView.tsx';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
 import { Trackers } from '@/lib/data/Trackers.ts';
 import { TrackerCard, TrackerMode } from '@/components/tracker/TrackerCard.tsx';
 import { TManga } from '@/typings.ts';
-import { makeToast } from '@/components/util/Toast.tsx';
 
 const getTrackerMode = (id: number, trackersInUse: number[], searchModeForTracker?: number): TrackerMode => {
     if (id === searchModeForTracker) {
@@ -32,7 +30,6 @@ const getTrackerMode = (id: number, trackersInUse: number[], searchModeForTracke
 };
 
 export const TrackManga = ({ manga }: { manga: Pick<TManga, 'id' | 'trackRecords'> }) => {
-    const { t } = useTranslation();
     const navigate = useNavigate();
 
     const [searchModeForTracker, setSearchModeForTracker] = useState<number>();
@@ -46,12 +43,6 @@ export const TrackManga = ({ manga }: { manga: Pick<TManga, 'id' | 'trackRecords
 
     const isSearchActive = searchModeForTracker !== undefined;
     const OptionalDialogContent = useMemo(() => (isSearchActive ? Box : DialogContent), [isSearchActive]);
-
-    useEffect(() => {
-        Promise.all(manga.trackRecords.nodes.map((trackRecord) => requestManager.fetchTrackBind(trackRecord.id))).catch(
-            () => makeToast(t('tracking.error.label.could_not_fetch_track_info'), 'error'),
-        );
-    }, [manga.id]);
 
     const trackerComponents = useMemo(
         () =>
