@@ -368,6 +368,7 @@
     },
     "label": {
       "advanced": "Advanced",
+      "are_you_sure": "Are you sure?",
       "browse": "Browse",
       "client": "Client",
       "close": "Close",
@@ -579,6 +580,11 @@
         "remove": {
           "button": {
             "selected": "Remove selected from the library"
+          },
+          "dialog": {
+            "label": {
+              "message": "You are about to remove \"{{title}}\" from your library"
+            }
           },
           "label": {
             "action": "Remove from the library",

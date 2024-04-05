@@ -10,11 +10,12 @@ import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import Typography from '@mui/material/Typography';
 import { Link as RouterLink } from 'react-router-dom';
-import { Avatar, Box, CardContent, Link, Stack, styled, Tooltip } from '@mui/material';
+import { Avatar, Box, Button, CardContent, Link, Stack, styled, Tooltip } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import PopupState, { bindMenu } from 'material-ui-popup-state';
 import { useRef, useState } from 'react';
 import { useLongPress } from 'use-long-press';
+import { isMobile } from 'react-device-detect';
 import { GridLayout, useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
 import { SpinnerImage } from '@/components/util/SpinnerImage';
 import { TManga, TPartialManga } from '@/typings.ts';
@@ -26,6 +27,7 @@ import { Menu } from '@/components/menu/Menu.tsx';
 import { MigrateDialog } from '@/components/MigrateDialog.tsx';
 import { Mangas } from '@/lib/data/Mangas.ts';
 import { TypographyMaxLines } from '@/components/atoms/TypographyMaxLines.tsx';
+import { useManageMangaLibraryState } from '@/components/manga/useManageMangaLibraryState.tsx';
 
 const BottomGradient = styled('div')({
     position: 'absolute',
@@ -62,7 +64,7 @@ const BadgeContainer = styled('div')({
     },
 });
 
-type MangaCardMode = 'default' | 'migrate.search' | 'migrate.select';
+type MangaCardMode = 'default' | 'source' | 'migrate.search' | 'migrate.select';
 
 export interface MangaCardProps {
     manga: TPartialManga;
@@ -81,6 +83,7 @@ const getMangaLinkTo = (
 ): string => {
     switch (mode) {
         case 'default':
+        case 'source':
             return `/manga/${mangaId}/`;
         case 'migrate.search':
             return `/migrate/source/${sourceId}/manga/${mangaId}/search?query=${mangaTitle}`;
@@ -97,20 +100,13 @@ export const MangaCard = (props: MangaCardProps) => {
     const optionButtonRef = useRef<HTMLButtonElement>(null);
 
     const { manga, gridLayout, inLibraryIndicator, selected, handleSelection, mode = 'default' } = props;
-    const {
-        id,
-        title,
-        downloadCount,
-        unreadCount: unread,
-        inLibrary,
-        latestReadChapter,
-        firstUnreadChapter,
-        chapters,
-    } = manga;
+    const { id, title, downloadCount, unreadCount: unread, latestReadChapter, firstUnreadChapter, chapters } = manga;
     const thumbnailUrl = Mangas.getThumbnailUrl(manga);
     const {
         options: { showContinueReadingButton, showUnreadBadge, showDownloadBadge },
     } = useLibraryOptionsContext();
+
+    const { CategorySelectComponent, updateLibraryState, isInLibrary } = useManageMangaLibraryState(manga);
 
     const mangaLinkTo = getMangaLinkTo(mode, manga.id, manga.source?.id, manga.title);
 
@@ -121,15 +117,23 @@ export const MangaCard = (props: MangaCardProps) => {
 
     const handleClick = (event: React.MouseEvent | React.TouchEvent, openMenu?: () => void) => {
         const isDefaultMode = mode === 'default';
+        const isSourceMode = mode === 'source';
         const isMigrateSelectMode = mode === 'migrate.select';
         const isSelectionMode = selected !== null;
+        const isLongPress = !!openMenu;
 
-        const shouldHandleClick = isMigrateSelectMode || isSelectionMode || (isDefaultMode && !!openMenu);
+        const shouldHandleClick =
+            isMigrateSelectMode || isSelectionMode || ((isDefaultMode || isSourceMode) && isLongPress);
         if (!shouldHandleClick) {
             return;
         }
 
         event.preventDefault();
+
+        if (isSourceMode) {
+            updateLibraryState();
+            return;
+        }
 
         if (isSelectionMode) {
             handleSelection?.(id, !selected, { selectRange: event.shiftKey });
@@ -182,6 +186,12 @@ export const MangaCard = (props: MangaCardProps) => {
                                                 pointerEvents: 'all',
                                             },
                                         },
+                                        '&:hover .source-manga-library-state-button': {
+                                            display: isMobile ? 'none' : 'inline-flex',
+                                        },
+                                        '&:hover .source-manga-library-state-indicator': {
+                                            display: 'none',
+                                        },
                                     }}
                                 >
                                     <Card
@@ -201,7 +211,7 @@ export const MangaCard = (props: MangaCardProps) => {
                                                 alt={title}
                                                 src={thumbnailUrl}
                                                 imgStyle={
-                                                    inLibraryIndicator && inLibrary
+                                                    inLibraryIndicator && isInLibrary
                                                         ? {
                                                               height: '100%',
                                                               width: '100%',
@@ -231,8 +241,35 @@ export const MangaCard = (props: MangaCardProps) => {
                                                 }}
                                             >
                                                 <BadgeContainer>
-                                                    {inLibraryIndicator && inLibrary && (
-                                                        <Typography sx={{ backgroundColor: 'primary.dark' }}>
+                                                    {inLibraryIndicator && (
+                                                        <Button
+                                                            className="source-manga-library-state-button"
+                                                            component="div"
+                                                            variant="contained"
+                                                            size="small"
+                                                            onMouseDown={(e) => e.stopPropagation()}
+                                                            onClick={(e) => {
+                                                                e.preventDefault();
+                                                                e.stopPropagation();
+                                                                updateLibraryState();
+                                                            }}
+                                                            sx={{
+                                                                display: 'none',
+                                                            }}
+                                                            color={isInLibrary ? 'error' : 'primary'}
+                                                        >
+                                                            {t(
+                                                                isInLibrary
+                                                                    ? 'manga.action.library.remove.label.action'
+                                                                    : 'manga.button.add_to_library',
+                                                            )}
+                                                        </Button>
+                                                    )}
+                                                    {inLibraryIndicator && isInLibrary && (
+                                                        <Typography
+                                                            className="source-manga-library-state-indicator"
+                                                            sx={{ backgroundColor: 'primary.dark' }}
+                                                        >
                                                             {t('manga.button.in_library')}
                                                         </Typography>
                                                     )}
@@ -334,6 +371,7 @@ export const MangaCard = (props: MangaCardProps) => {
                                     )}
                                 </Menu>
                             )}
+                            {CategorySelectComponent}
                         </>
                     )}
                 </PopupState>
@@ -382,7 +420,8 @@ export const MangaCard = (props: MangaCardProps) => {
                                                 width: '100%',
                                                 height: '100%',
                                                 imageRendering: 'pixelated',
-                                                filter: inLibraryIndicator && inLibrary ? 'brightness(0.4)' : undefined,
+                                                filter:
+                                                    inLibraryIndicator && isInLibrary ? 'brightness(0.4)' : undefined,
                                             }}
                                             alt={manga.title}
                                             src={thumbnailUrl}
@@ -402,7 +441,7 @@ export const MangaCard = (props: MangaCardProps) => {
                                     </Box>
                                     <Stack direction="row" alignItems="center" gap="5px">
                                         <BadgeContainer>
-                                            {inLibraryIndicator && inLibrary && (
+                                            {inLibraryIndicator && isInLibrary && (
                                                 <Typography sx={{ backgroundColor: 'primary.dark' }}>
                                                     {t('manga.button.in_library')}
                                                 </Typography>
@@ -452,6 +491,7 @@ export const MangaCard = (props: MangaCardProps) => {
                                 )}
                             </Menu>
                         )}
+                        {CategorySelectComponent}
                     </>
                 )}
             </PopupState>

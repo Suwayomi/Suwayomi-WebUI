@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useCategorySelect } from '@/components/navbar/action/useCategorySelect.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
@@ -16,9 +16,12 @@ import { Categories } from '@/lib/data/Categories.ts';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { Mangas } from '@/lib/data/Mangas.ts';
 import { TManga } from '@/typings.ts';
+import { awaitConfirmation } from '@/lib/ui/AwaitableDialog.tsx';
 
 export const useManageMangaLibraryState = (manga: Pick<TManga, 'id' | 'title' | 'inLibrary'>) => {
     const { t } = useTranslation();
+
+    const [isInLibrary, setIsInLibrary] = useState(manga.inLibrary);
 
     const {
         settings: { showAddToLibraryCategorySelectDialog },
@@ -43,6 +46,7 @@ export const useManageMangaLibraryState = (manga: Pick<TManga, 'id' | 'title' | 
                     updateMangaCategories: { addToCategories, removeFromCategories },
                 })
                 .response.then(() => makeToast(t('library.info.label.added_to_library'), 'success'))
+                .then(() => setIsInLibrary(true))
                 .catch(() => {
                     makeToast(t('library.error.label.add_to_library'), 'error');
                 });
@@ -50,8 +54,16 @@ export const useManageMangaLibraryState = (manga: Pick<TManga, 'id' | 'title' | 
         [manga.id],
     );
 
-    const removeFromLibrary = useCallback(() => {
-        Mangas.removeFromLibrary([manga.id]).catch(defaultPromiseErrorHandler('MangaDetails::removeFromLibrary'));
+    const removeFromLibrary = useCallback(async () => {
+        await awaitConfirmation({
+            title: t('global.label.are_you_sure'),
+            message: t('manga.action.library.remove.dialog.label.message', { title: manga.title }),
+            actions: {
+                confirm: { title: t('global.button.remove') },
+            },
+        });
+        await Mangas.removeFromLibrary([manga.id]);
+        setIsInLibrary(false);
     }, [manga.id]);
 
     const { openCategorySelect, CategorySelectComponent } = useCategorySelect({
@@ -61,8 +73,10 @@ export const useManageMangaLibraryState = (manga: Pick<TManga, 'id' | 'title' | 
     });
 
     const updateLibraryState = useCallback(() => {
-        if (manga.inLibrary) {
-            removeFromLibrary();
+        if (isInLibrary) {
+            removeFromLibrary().catch(
+                defaultPromiseErrorHandler('useManageMangaLibraryState::updateLibraryState::removeFromLibrary'),
+            );
             return;
         }
 
@@ -86,7 +100,18 @@ export const useManageMangaLibraryState = (manga: Pick<TManga, 'id' | 'title' | 
         }
 
         openCategorySelect(true);
-    }, [manga.inLibrary, removeFromLibrary, addToLibrary]);
+    }, [isInLibrary, removeFromLibrary, addToLibrary, areSettingsLoading, categories.loading]);
 
-    return { CategorySelectComponent, updateLibraryState };
+    return {
+        CategorySelectComponent,
+        updateLibraryState,
+        /**
+         * In case of browsing the source, the data has to be fetched via a mutation.
+         * Thus, the source browse data never has the updated in library state unless it has to rerender, which does not get
+         * triggered by updating the manga in this hook.
+         *
+         * To work around this issue, the currently known in library state gets returned here
+         */
+        isInLibrary: Mangas.getFromCache<TManga>(manga.id)?.inLibrary ?? isInLibrary,
+    };
 };
