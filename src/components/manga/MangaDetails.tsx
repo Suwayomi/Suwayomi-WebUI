@@ -41,9 +41,6 @@ const DetailsWrapper = styled('div')(({ theme }) => ({
 
 const TopContentWrapper = styled('div')(() => ({
     padding: '10px',
-    // [theme.breakpoints.up('md')]: {
-    //     minWidth: '50%',
-    // },
 }));
 
 const ThumbnailMetadataWrapper = styled('div')(() => ({
@@ -58,9 +55,6 @@ const Thumbnail = styled('div')(() => ({
         height: 'auto',
     },
     maxWidth: '50%',
-    // [theme.breakpoints.up('md')]: {
-    //     minWidth: '100px',
-    // },
 }));
 
 const Metadata = styled('div')(({ theme }) => ({
@@ -92,7 +86,6 @@ const BottomContentWrapper = styled('div')(({ theme }) => ({
     paddingRight: '10px',
     [theme.breakpoints.up('md')]: {
         fontSize: '1.2em',
-        // maxWidth: '50%',
     },
     [theme.breakpoints.up('lg')]: {
         fontSize: '1.3em',

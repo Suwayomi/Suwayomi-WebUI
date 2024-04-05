@@ -34,6 +34,7 @@ import { ChaptersWithMeta } from '@/lib/data/ChaptersWithMeta.ts';
 import { createGetMenuItemTitle, createIsMenuItemDisabled, createShouldShowMenuItem } from '@/components/menu/util.ts';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
+import { getPreviousChapters } from '@/components/chapter/util';
 
 type BaseProps = { onClose: () => void };
 
@@ -118,15 +119,7 @@ export const ChapterActionMenuItems = ({
             if (!isMarkPrevAsRead) {
                 return [chapter];
             }
-
-            const index = allChapters.findIndex(({ id: chapterId }) => chapterId === chapter.id);
-
-            const isFirstChapter = index + 1 > allChapters.length - 1;
-            if (isFirstChapter) {
-                return [];
-            }
-
-            return allChapters.slice(index + 1);
+            return getPreviousChapters(chapter.id, allChapters);
         };
 
         const chapters = getChapters();

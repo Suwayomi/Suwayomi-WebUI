@@ -17,6 +17,8 @@ import {
 } from '@/typings.ts';
 import { useReducerLocalStorage } from '@/util/useLocalStorage.tsx';
 import { getPartialList } from '@/components/util/getPartialList';
+import { Chapters } from '@/lib/data/Chapters.ts';
+import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler';
 
 const defaultChapterOptions: ChapterListOptions = {
     active: false,
@@ -128,8 +130,25 @@ export const getPreviousChapters = (chapterId: TChapter['id'], allChapters: TCha
 /**
  * @param chapterId The id of the chapter to be use as a pivot
  * @param allChapters There list of chapters
+ * @param includePivotChapter Whether to return the chapter with the chapterId passed in the list
  * @returns The second half of the list. By the default the chapters are sorted
  * in descending order, so it returns the previous chapters, not including the pivot chapter.
  */
-export const getNextChapters = (chapterId: TChapter['id'], allChapters: TChapter[]): TChapter[] =>
-    getPartialList(chapterId, allChapters, 'first');
+export const getNextChapters = (
+    chapterId: TChapter['id'],
+    allChapters: TChapter[],
+    includePivotChapter: boolean = false,
+): TChapter[] => {
+    if (includePivotChapter) {
+        return getPartialList(chapterId, allChapters, 'first');
+    }
+    return getPartialList(chapterId, allChapters, 'first', 0);
+};
+
+export const setChapterAsLastRead = (chapterId: TChapter['id'], allChapters: TChapter[]) => {
+    const readChapters = getPreviousChapters(chapterId, allChapters);
+    const unreadChapterId = getNextChapters(chapterId, allChapters, true).map((chapter) => chapter.id);
+
+    Chapters.markAsRead(readChapters, true).catch(defaultPromiseErrorHandler('ChapterActionMenuItems::performAction'));
+    Chapters.markAsUnread(unreadChapterId).catch(defaultPromiseErrorHandler('ChapterActionMenuItems::performAction'));
+};
