@@ -12,7 +12,7 @@ import { findIndexOfElement } from '@/components/util/findIndexOfElement.ts';
  *@description This function takes a element's id and a list of the same element, and it return either the first
  of second half of the list using the element id as the pivot point.
  * @param elementId The Id of the emeent to be use as pivot.
- * @param allEmenets The list of elements to be firtered.
+ * @param allElements The list of elements to be firtered.
  * @param halfOfList There part of the list to be return. Either the first half or the second.
  * @param indexOffset The offsett to set for the index. By default set to 1, so the first have will not include the pivot element
  * and the second half will include the first element.
@@ -20,20 +20,20 @@ import { findIndexOfElement } from '@/components/util/findIndexOfElement.ts';
  */
 export const getPartialList = <T>(
     elementId: number,
-    allEmenets: T[],
+    allElements: T[],
     halfOfList: 'first' | 'second' = 'first',
     indexOffset: number = 1,
 ): T[] => {
-    const index = findIndexOfElement(allEmenets, 'id', elementId);
-    if (!index) {
+    const index = findIndexOfElement(allElements, 'id', elementId);
+    if (index === undefined) {
         return [] as T[];
     }
     if (halfOfList === 'second') {
-        if (index + indexOffset > allEmenets.length - 1) {
+        if (index + indexOffset > allElements.length - 1) {
             return [] as T[];
         }
-        return allEmenets.slice(index + indexOffset);
+        return allElements.slice(index + indexOffset);
     }
 
-    return allEmenets.slice(0, index + indexOffset);
+    return allElements.slice(0, index + indexOffset);
 };
