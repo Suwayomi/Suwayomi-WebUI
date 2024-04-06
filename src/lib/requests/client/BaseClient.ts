@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { localStorage } from '@/util/Storage.ts';
+import { appStorage } from '@/util/AppStorage.ts';
 
 export abstract class BaseClient<Client, ClientConfig, Fetcher> {
     protected client!: Client;
@@ -22,7 +22,7 @@ export abstract class BaseClient<Client, ClientConfig, Fetcher> {
 
         // if port is 3000 it's probably running from webpack development server
         const inferredPort = port === '3000' ? '4567' : port;
-        return localStorage.getItem('serverBaseURL', `${protocol}//${hostname}:${inferredPort}`);
+        return appStorage.local.getItem('serverBaseURL', `${protocol}//${hostname}:${inferredPort}`);
     }
 
     protected abstract createClient(): void;

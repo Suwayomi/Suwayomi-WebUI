@@ -13,6 +13,11 @@ type GetItem = <T>(
 ) => T;
 type SetItem = <T>(storage: typeof window.sessionStorage | typeof window.localStorage, key: string, value: T) => void;
 
+export type Storage = {
+    getItem: <T>(key: string, defaultValue: T) => T;
+    setItem: <T>(key: string, value: T) => void;
+};
+
 const getItem: GetItem = (storage, key, defaultValue) => {
     const item = storage.getItem(key);
 
@@ -28,14 +33,12 @@ const setItem: SetItem = (storage, key, value) => {
     storage.setItem(key, JSON.stringify(value));
 };
 
-const createStorage = (
-    storage: typeof window.sessionStorage | typeof window.localStorage,
-): {
-    getItem: <T>(key: string, defaultValue: T) => T;
-    setItem: <T>(key: string, value: T) => void;
-} => ({
+const createStorage = (storage: typeof window.sessionStorage | typeof window.localStorage): Storage => ({
     getItem: (key, defaultValue) => getItem(storage, key, defaultValue),
     setItem: (key, value) => setItem(storage, key, value),
 });
 
-export const localStorage = createStorage(window.localStorage);
+export const appStorage = {
+    local: createStorage(window.localStorage),
+    session: createStorage(window.sessionStorage),
+};

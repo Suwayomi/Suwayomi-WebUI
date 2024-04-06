@@ -7,10 +7,10 @@
  */
 
 import { useState, Dispatch, SetStateAction, useReducer, Reducer, useCallback } from 'react';
-import { localStorage } from '@/util/Storage.ts';
+import { appStorage, Storage } from '@/util/AppStorage.ts';
 
 const useStorage = <T,>(
-    storage: typeof localStorage,
+    storage: Storage,
     key: string,
     defaultValue: T | (() => T),
 ): [T, Dispatch<SetStateAction<T>>] => {
@@ -32,7 +32,7 @@ const useStorage = <T,>(
     return [storedValue, setValue];
 };
 const useReducerStorage = <S, A>(
-    storage: typeof localStorage,
+    storage: Storage,
     reducer: Reducer<S, A>,
     key: string,
     defaultState: S | (() => S),
@@ -46,9 +46,17 @@ const useReducerStorage = <S, A>(
 };
 
 export function useLocalStorage<T>(key: string, defaultValue: T | (() => T)): [T, Dispatch<SetStateAction<T>>] {
-    return useStorage(localStorage, key, defaultValue);
+    return useStorage(appStorage.local, key, defaultValue);
 }
 
 export function useReducerLocalStorage<S, A>(reducer: Reducer<S, A>, key: string, defaultState: S | (() => S)) {
-    return useReducerStorage(localStorage, reducer, key, defaultState);
+    return useReducerStorage(appStorage.local, reducer, key, defaultState);
+}
+
+export function useSessionStorage<T>(key: string, defaultValue: T | (() => T)): [T, Dispatch<SetStateAction<T>>] {
+    return useStorage(appStorage.session, key, defaultValue);
+}
+
+export function useReducerSessionStorage<S, A>(reducer: Reducer<S, A>, key: string, defaultState: S | (() => S)) {
+    return useReducerStorage(appStorage.session, reducer, key, defaultState);
 }
