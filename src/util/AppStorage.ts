@@ -6,16 +6,20 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-type GetItem = <T>(
+type GetItem = <T = any>(
     storage: typeof window.sessionStorage | typeof window.localStorage,
     key: string,
     defaultValue: T,
 ) => T;
-type SetItem = <T>(storage: typeof window.sessionStorage | typeof window.localStorage, key: string, value: T) => void;
+type SetItem = <T = any>(
+    storage: typeof window.sessionStorage | typeof window.localStorage,
+    key: string,
+    value: T,
+) => void;
 
 export type Storage = {
-    getItem: <T>(key: string, defaultValue: T) => T;
-    setItem: <T>(key: string, value: T) => void;
+    getItem: <T = any>(key: string, defaultValue: T) => T;
+    setItem: <T = any>(key: string, value: T) => void;
 };
 
 const getItem: GetItem = (storage, key, defaultValue) => {
@@ -25,11 +29,14 @@ const getItem: GetItem = (storage, key, defaultValue) => {
         return JSON.parse(item);
     }
 
-    storage.setItem(key, JSON.stringify(defaultValue));
     return defaultValue;
 };
 
 const setItem: SetItem = (storage, key, value) => {
+    if (value === undefined) {
+        return;
+    }
+
     storage.setItem(key, JSON.stringify(value));
 };
 
