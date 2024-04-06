@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ISource, TPartialSource } from '@/typings';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { useLocalStorage } from '@/util/useLocalStorage';
+import { useLocalStorage } from '@/util/useStorage.tsx';
 import { sourceDefualtLangs, sourceForcedDefaultLangs, langSortCmp } from '@/util/language';
 import { translateExtensionLanguage } from '@/screens/util/Extensions';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';

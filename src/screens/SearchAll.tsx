@@ -13,7 +13,7 @@ import { StringParam, useQueryParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
 import { ISource } from '@/typings';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { useLocalStorage } from '@/util/useLocalStorage';
+import { useLocalStorage } from '@/util/useStorage.tsx';
 import { langSortCmp, sourceDefualtLangs, sourceForcedDefaultLangs } from '@/util/language';
 import { translateExtensionLanguage } from '@/screens/util/Extensions';
 import { AppbarSearch } from '@/components/util/AppbarSearch';

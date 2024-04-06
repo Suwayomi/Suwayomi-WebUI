@@ -30,7 +30,7 @@ import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
 import DevicesIcon from '@mui/icons-material/Devices';
 import SyncIcon from '@mui/icons-material/Sync';
 import { langCodeToName } from '@/util/language';
-import { useLocalStorage } from '@/util/useLocalStorage';
+import { useLocalStorage } from '@/util/useStorage.tsx';
 import { ListItemLink } from '@/components/util/ListItemLink';
 import { DarkTheme } from '@/components/context/DarkTheme';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';

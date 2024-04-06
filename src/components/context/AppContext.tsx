@@ -12,7 +12,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
 import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
 import { createTheme } from '@/theme';
-import { useLocalStorage } from '@/util/useLocalStorage';
+import { useLocalStorage } from '@/util/useStorage.tsx';
 import { DarkTheme } from '@/components/context/DarkTheme';
 import { NavBarContextProvider } from '@/components/navbar/NavBarContextProvider';
 import { LibraryOptionsContextProvider } from '@/components/library/LibraryOptionsProvider';

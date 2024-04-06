@@ -18,7 +18,7 @@ import { EmptyView } from '@/components/util/EmptyView.tsx';
 import { MangaGrid } from '@/components/MangaGrid.tsx';
 import { TPartialManga } from '@/typings.ts';
 import { GridLayouts } from '@/components/source/GridLayouts.tsx';
-import { useLocalStorage } from '@/util/useLocalStorage.tsx';
+import { useLocalStorage } from '@/util/useStorage.tsx';
 import { GridLayout } from '@/components/context/LibraryOptionsContext.tsx';
 
 export const Migrate = () => {

@@ -15,7 +15,7 @@ import { EmptyView } from '@/components/util/EmptyView';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
 import { MangaCard, MangaCardProps } from '@/components/MangaCard';
 import { GridLayout } from '@/components/context/LibraryOptionsContext';
-import { useLocalStorage } from '@/util/useLocalStorage';
+import { useLocalStorage } from '@/util/useStorage.tsx';
 import { TManga, TPartialManga } from '@/typings.ts';
 import { SelectableCollectionReturnType } from '@/components/collection/useSelectableCollection.ts';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/components/util/StyledFab.tsx';

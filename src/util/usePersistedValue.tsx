@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useLocalStorage } from '@/util/useLocalStorage.tsx';
+import { useLocalStorage } from '@/util/useStorage.tsx';
 
 export const getPersistedServerSetting = <T,>(serverValue: T | undefined, lastValue: T): T => {
     const isDisabled = serverValue === 0;
