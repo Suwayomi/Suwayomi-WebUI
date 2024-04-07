@@ -214,7 +214,7 @@ export const SearchAll: React.FC = () => {
         setTitle(t(isMigrateMode ? 'migrate.search.title' : 'search.title.global_search', { title: mangaTitle }));
         setAction(
             <>
-                <AppbarSearch autoOpen />
+                <AppbarSearch isClosable={false} />
                 <LangSelect
                     shownLangs={shownLangs}
                     setShownLangs={setShownLangs}
