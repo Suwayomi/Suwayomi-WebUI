@@ -197,6 +197,28 @@ export const MangaCard = (props: MangaCardProps) => {
                                                 height: '100%',
                                             }}
                                         >
+                                            <SpinnerImage
+                                                alt={title}
+                                                src={thumbnailUrl}
+                                                imgStyle={
+                                                    inLibraryIndicator && inLibrary
+                                                        ? {
+                                                              height: '100%',
+                                                              width: '100%',
+                                                              objectFit: 'cover',
+                                                              filter: 'brightness(0.4)',
+                                                          }
+                                                        : {
+                                                              height: '100%',
+                                                              width: '100%',
+                                                              objectFit: 'cover',
+                                                          }
+                                                }
+                                                spinnerStyle={{
+                                                    display: 'grid',
+                                                    placeItems: 'center',
+                                                }}
+                                            />
                                             <Stack
                                                 alignItems="start"
                                                 justifyContent="space-between"
@@ -210,9 +232,7 @@ export const MangaCard = (props: MangaCardProps) => {
                                             >
                                                 <BadgeContainer>
                                                     {inLibraryIndicator && inLibrary && (
-                                                        <Typography
-                                                            sx={{ backgroundColor: 'primary.dark', zIndex: '1' }}
-                                                        >
+                                                        <Typography sx={{ backgroundColor: 'primary.dark' }}>
                                                             {t('manga.button.in_library')}
                                                         </Typography>
                                                     )}
@@ -239,28 +259,6 @@ export const MangaCard = (props: MangaCardProps) => {
                                                     handleSelection={handleSelection}
                                                 />
                                             </Stack>
-                                            <SpinnerImage
-                                                alt={title}
-                                                src={thumbnailUrl}
-                                                imgStyle={
-                                                    inLibraryIndicator && inLibrary
-                                                        ? {
-                                                              height: '100%',
-                                                              width: '100%',
-                                                              objectFit: 'cover',
-                                                              filter: 'brightness(0.4)',
-                                                          }
-                                                        : {
-                                                              height: '100%',
-                                                              width: '100%',
-                                                              objectFit: 'cover',
-                                                          }
-                                                }
-                                                spinnerStyle={{
-                                                    display: 'grid',
-                                                    placeItems: 'center',
-                                                }}
-                                            />
                                             <>
                                                 {gridLayout !== GridLayout.Comfortable && (
                                                     <>
