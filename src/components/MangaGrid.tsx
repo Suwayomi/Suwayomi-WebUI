@@ -13,13 +13,14 @@ import { GridItemProps, GridStateSnapshot, VirtuosoGrid } from 'react-virtuoso';
 import { useLocation } from 'react-router-dom';
 import { EmptyView } from '@/components/util/EmptyView';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
-import { MangaCard, MangaCardProps } from '@/components/MangaCard';
+import { MangaCard } from '@/components/MangaCard';
 import { GridLayout } from '@/components/context/LibraryOptionsContext';
 import { useLocalStorage, useSessionStorage } from '@/util/useStorage.tsx';
 import { TManga, TPartialManga } from '@/typings.ts';
 import { SelectableCollectionReturnType } from '@/components/collection/useSelectableCollection.ts';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/components/util/StyledFab.tsx';
 import { AppStorage } from '@/util/AppStorage.ts';
+import { MangaCardProps } from '@/components/manga/MangaCard.types.tsx';
 
 const GridContainer = React.forwardRef<HTMLDivElement, GridTypeMap['props']>(({ children, ...props }, ref) => (
     <Grid {...props} ref={ref} container sx={{ paddingLeft: '5px', paddingRight: '13px' }}>
