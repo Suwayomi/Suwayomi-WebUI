@@ -6,31 +6,45 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useState, Dispatch, SetStateAction, useReducer, Reducer, useCallback } from 'react';
-import { appStorage, Storage } from '@/util/AppStorage.ts';
+import { Dispatch, Reducer, SetStateAction, useCallback, useMemo, useReducer, useSyncExternalStore } from 'react';
+import { AppStorage, Storage } from '@/util/AppStorage.ts';
 
-const useStorage = <T,>(
+const subscribeToStorageUpdates = (callback: () => void) => {
+    window.addEventListener('storage', callback);
+    return () => window.removeEventListener('storage', callback);
+};
+
+function useStorage<T>(storage: Storage, key: string, defaultValue: T | (() => T)): [T, Dispatch<SetStateAction<T>>];
+function useStorage<T = undefined>(
     storage: Storage,
     key: string,
-    defaultValue: T | (() => T),
-): [T, Dispatch<SetStateAction<T>>] => {
-    const initialState = defaultValue instanceof Function ? defaultValue() : defaultValue;
-    const [storedValue, setStoredValue] = useState<T>(storage.getItem(key, initialState));
+): [T | undefined, Dispatch<SetStateAction<T | undefined>>];
 
-    const setValue = useCallback<React.Dispatch<React.SetStateAction<T>>>(
+function useStorage<T>(
+    storage: Storage,
+    key: string,
+    defaultValue?: T | (() => T) | undefined,
+): [T | undefined, Dispatch<SetStateAction<T | undefined>>] {
+    const initialState = defaultValue instanceof Function ? defaultValue() : defaultValue;
+    const storedValueRaw = useSyncExternalStore(subscribeToStorageUpdates, () => storage.getItem(key));
+
+    const setValue = useCallback<React.Dispatch<React.SetStateAction<T | undefined>>>(
         (value) => {
-            setStoredValue((prevValue) => {
-                // Allow value to be a function so we have same API as useState
-                const valueToStore = value instanceof Function ? value(prevValue) : value;
-                storage.setItem(key, valueToStore);
-                return valueToStore;
-            });
+            // Allow value to be a function so we have same API as useState
+            const valueToStore = value instanceof Function ? value(storage.getItemParsed(key, initialState)) : value;
+            storage.setItem(key, valueToStore);
         },
         [key],
     );
 
+    const storedValue = useMemo(
+        () => (storedValueRaw !== null ? JSON.parse(storedValueRaw) : initialState),
+        [storedValueRaw, key],
+    );
+
     return [storedValue, setValue];
-};
+}
+
 const useReducerStorage = <S, A>(
     storage: Storage,
     reducer: Reducer<S, A>,
@@ -45,18 +59,30 @@ const useReducerStorage = <S, A>(
     }, storedValue);
 };
 
-export function useLocalStorage<T>(key: string, defaultValue: T | (() => T)): [T, Dispatch<SetStateAction<T>>] {
-    return useStorage(appStorage.local, key, defaultValue);
+export function useLocalStorage<T>(key: string, defaultValue: T | (() => T)): [T, Dispatch<SetStateAction<T>>];
+export function useLocalStorage<T = undefined>(key: string): [T | undefined, Dispatch<SetStateAction<T | undefined>>];
+
+export function useLocalStorage<T>(
+    key: string,
+    defaultValue?: T | undefined | (() => T | undefined),
+): [T | undefined, Dispatch<SetStateAction<T | undefined>>] {
+    return useStorage(AppStorage.local, key, defaultValue);
 }
 
 export function useReducerLocalStorage<S, A>(reducer: Reducer<S, A>, key: string, defaultState: S | (() => S)) {
-    return useReducerStorage(appStorage.local, reducer, key, defaultState);
+    return useReducerStorage(AppStorage.local, reducer, key, defaultState);
 }
 
-export function useSessionStorage<T>(key: string, defaultValue: T | (() => T)): [T, Dispatch<SetStateAction<T>>] {
-    return useStorage(appStorage.session, key, defaultValue);
+export function useSessionStorage<T>(key: string, defaultValue: T | (() => T)): [T, Dispatch<SetStateAction<T>>];
+export function useSessionStorage<T = undefined>(key: string): [T | undefined, Dispatch<SetStateAction<T | undefined>>];
+
+export function useSessionStorage<T>(
+    key: string,
+    defaultValue?: T | (() => T),
+): [T | undefined, Dispatch<SetStateAction<T | undefined>>] {
+    return useStorage(AppStorage.session, key, defaultValue);
 }
 
 export function useReducerSessionStorage<S, A>(reducer: Reducer<S, A>, key: string, defaultState: S | (() => S)) {
-    return useReducerStorage(appStorage.session, reducer, key, defaultState);
+    return useReducerStorage(AppStorage.session, reducer, key, defaultState);
 }

@@ -6,46 +6,46 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-type GetItem = <T = any>(
-    storage: typeof window.sessionStorage | typeof window.localStorage,
-    key: string,
-    defaultValue: T,
-) => T;
-type SetItem = <T = any>(
-    storage: typeof window.sessionStorage | typeof window.localStorage,
-    key: string,
-    value: T,
-) => void;
+// eslint-disable-next-line max-classes-per-file
+export class Storage {
+    constructor(private readonly storage: typeof window.localStorage) {}
 
-export type Storage = {
-    getItem: <T = any>(key: string, defaultValue: T) => T;
-    setItem: <T = any>(key: string, value: T) => void;
-};
+    parseValue<T>(value: string | null, defaultValue: T): T {
+        if (value === null) {
+            return defaultValue;
+        }
 
-const getItem: GetItem = (storage, key, defaultValue) => {
-    const item = storage.getItem(key);
-
-    if (item !== null) {
-        return JSON.parse(item);
+        return JSON.parse(value);
     }
 
-    return defaultValue;
-};
-
-const setItem: SetItem = (storage, key, value) => {
-    if (value === undefined) {
-        return;
+    getItem(key: string): string | null {
+        return this.storage.getItem(key);
     }
 
-    storage.setItem(key, JSON.stringify(value));
-};
+    getItemParsed<T>(key: string, defaultValue: T): T {
+        return this.parseValue(this.getItem(key), defaultValue);
+    }
 
-const createStorage = (storage: typeof window.sessionStorage | typeof window.localStorage): Storage => ({
-    getItem: (key, defaultValue) => getItem(storage, key, defaultValue),
-    setItem: (key, value) => setItem(storage, key, value),
-});
+    setItem(key: string, value: unknown): void {
+        if (value === undefined) {
+            return;
+        }
 
-export const appStorage = {
-    local: createStorage(window.localStorage),
-    session: createStorage(window.sessionStorage),
-};
+        const valueToStore = JSON.stringify(value);
+
+        this.storage.setItem(key, valueToStore);
+        window.dispatchEvent(
+            new StorageEvent('storage', {
+                key,
+                oldValue: this.getItem(key),
+                newValue: valueToStore,
+            }),
+        );
+    }
+}
+
+export class AppStorage {
+    static readonly local: Storage = new Storage(window.localStorage);
+
+    static readonly session: Storage = new Storage(window.sessionStorage);
+}

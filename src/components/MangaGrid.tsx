@@ -19,7 +19,7 @@ import { useLocalStorage, useSessionStorage } from '@/util/useStorage.tsx';
 import { TManga, TPartialManga } from '@/typings.ts';
 import { SelectableCollectionReturnType } from '@/components/collection/useSelectableCollection.ts';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/components/util/StyledFab.tsx';
-import { appStorage } from '@/util/AppStorage.ts';
+import { AppStorage } from '@/util/AppStorage.ts';
 
 const GridContainer = React.forwardRef<HTMLDivElement, GridTypeMap['props']>(({ children, ...props }, ref) => (
     <Grid {...props} ref={ref} container sx={{ paddingLeft: '5px', paddingRight: '13px' }}>
@@ -160,7 +160,7 @@ const VerticalGrid = forwardRef(
                     return;
                 }
 
-                appStorage.session.setItem(snapshotSessionKey, gridState);
+                AppStorage.session.setItem(snapshotSessionKey, gridState);
             }, 250);
         };
         useEffect(() => clearTimeout(persistGridStateTimeout.current), [location.key, persistGridStateTimeout.current]);
