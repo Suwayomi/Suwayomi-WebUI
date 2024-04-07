@@ -283,8 +283,8 @@ export const MangaGrid: React.FC<IMangaGridProps> = (props) => {
             return () => {};
         }
 
-        const resizeObserver = new ResizeObserver(() => {
-            const gridHeight = gridRef.current!.offsetHeight;
+        const resizeObserver = new ResizeObserver((entries) => {
+            const gridHeight = entries[0].target.clientHeight;
             const isScrollbarVisible = gridHeight > document.documentElement.clientHeight;
 
             if (!gridHeight) {
