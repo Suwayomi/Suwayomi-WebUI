@@ -8,7 +8,7 @@
 
 import React, { useMemo } from 'react';
 import { LibraryOptions } from '@/typings';
-import { useLocalStorage } from '@/util/useLocalStorage';
+import { useLocalStorage } from '@/util/useStorage.tsx';
 import { LibraryOptionsContext, DefaultLibraryOptions } from '@/components/context/LibraryOptionsContext';
 
 interface IProps {

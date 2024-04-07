@@ -10,15 +10,16 @@ import React, { ForwardedRef, forwardRef, useEffect, useLayoutEffect, useMemo, u
 import Grid, { GridTypeMap } from '@mui/material/Grid';
 import { Box, Typography } from '@mui/material';
 import { GridItemProps, GridStateSnapshot, VirtuosoGrid } from 'react-virtuoso';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { EmptyView } from '@/components/util/EmptyView';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
 import { MangaCard, MangaCardProps } from '@/components/MangaCard';
 import { GridLayout } from '@/components/context/LibraryOptionsContext';
-import { useLocalStorage } from '@/util/useLocalStorage';
+import { useLocalStorage, useSessionStorage } from '@/util/useStorage.tsx';
 import { TManga, TPartialManga } from '@/typings.ts';
 import { SelectableCollectionReturnType } from '@/components/collection/useSelectableCollection.ts';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/components/util/StyledFab.tsx';
+import { AppStorage } from '@/util/AppStorage.ts';
 
 const GridContainer = React.forwardRef<HTMLDivElement, GridTypeMap['props']>(({ children, ...props }, ref) => (
     <Grid {...props} ref={ref} container sx={{ paddingLeft: '5px', paddingRight: '13px' }}>
@@ -144,8 +145,9 @@ const VerticalGrid = forwardRef(
         ref: ForwardedRef<HTMLDivElement | null>,
     ) => {
         const location = useLocation<{ snapshot?: GridStateSnapshot }>();
-        const navigate = useNavigate();
-        const { snapshot } = location.state ?? {};
+
+        const snapshotSessionKey = `MangaGrid-snapshot-location-${location.key}`;
+        const [snapshot] = useSessionStorage<GridStateSnapshot | undefined>(snapshotSessionKey, undefined);
 
         const persistGridStateTimeout = useRef<NodeJS.Timeout | undefined>();
         const persistGridState = (gridState: GridStateSnapshot) => {
@@ -158,10 +160,7 @@ const VerticalGrid = forwardRef(
                     return;
                 }
 
-                navigate(
-                    { pathname: '', search: location.search },
-                    { replace: true, state: { ...location.state, snapshot: gridState } },
-                );
+                AppStorage.session.setItem(snapshotSessionKey, gridState);
             }, 250);
         };
         useEffect(() => clearTimeout(persistGridStateTimeout.current), [location.key, persistGridStateTimeout.current]);
