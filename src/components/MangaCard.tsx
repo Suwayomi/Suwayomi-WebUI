@@ -392,8 +392,22 @@ export const MangaCard = (props: MangaCardProps) => {
                                 component={RouterLink}
                                 to={mangaLinkTo}
                                 onClick={handleClick}
-                                {...longPressBind()}
-                                sx={{ touchCallout: 'none' }}
+                                {...longPressBind(() => popupState.open(optionButtonRef.current))}
+                                sx={{
+                                    touchCallout: 'none',
+                                    '@media (hover: hover) and (pointer: fine)': {
+                                        '&:hover .manga-option-button': {
+                                            visibility: 'visible',
+                                            pointerEvents: 'all',
+                                        },
+                                    },
+                                    '&:hover .source-manga-library-state-button': {
+                                        display: isMobile ? 'none' : 'inline-flex',
+                                    },
+                                    '&:hover .source-manga-library-state-indicator': {
+                                        display: 'none',
+                                    },
+                                }}
                             >
                                 <CardContent
                                     sx={{
@@ -441,17 +455,44 @@ export const MangaCard = (props: MangaCardProps) => {
                                     </Box>
                                     <Stack direction="row" alignItems="center" gap="5px">
                                         <BadgeContainer>
+                                            {inLibraryIndicator && (
+                                                <Button
+                                                    className="source-manga-library-state-button"
+                                                    component="div"
+                                                    variant="contained"
+                                                    size="small"
+                                                    onMouseDown={(e) => e.stopPropagation()}
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        e.stopPropagation();
+                                                        updateLibraryState();
+                                                    }}
+                                                    sx={{
+                                                        display: 'none',
+                                                    }}
+                                                    color={isInLibrary ? 'error' : 'primary'}
+                                                >
+                                                    {t(
+                                                        isInLibrary
+                                                            ? 'manga.action.library.remove.label.action'
+                                                            : 'manga.button.add_to_library',
+                                                    )}
+                                                </Button>
+                                            )}
                                             {inLibraryIndicator && isInLibrary && (
-                                                <Typography sx={{ backgroundColor: 'primary.dark' }}>
+                                                <Typography
+                                                    className="source-manga-library-state-indicator"
+                                                    sx={{ backgroundColor: 'primary.dark' }}
+                                                >
                                                     {t('manga.button.in_library')}
                                                 </Typography>
                                             )}
-                                            {showUnreadBadge && unread! > 0 && (
+                                            {showUnreadBadge && (unread ?? 0) > 0 && (
                                                 <Typography sx={{ backgroundColor: 'primary.dark' }}>
                                                     {unread}
                                                 </Typography>
                                             )}
-                                            {showDownloadBadge && downloadCount! > 0 && (
+                                            {showDownloadBadge && (downloadCount ?? 0) > 0 && (
                                                 <Typography
                                                     sx={{
                                                         backgroundColor: 'success.dark',

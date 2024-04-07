@@ -78,6 +78,7 @@ export const MangaOptionButton = forwardRef(
             return (
                 <Tooltip title={t('global.button.options')}>
                     <IconButton
+                        ref={ref}
                         {...bindTriggerProps}
                         onClick={handleClick}
                         onTouchStart={handleClick}
