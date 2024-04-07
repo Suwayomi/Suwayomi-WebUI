@@ -8,10 +8,8 @@
 
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
-import Typography from '@mui/material/Typography';
 import { Link as RouterLink } from 'react-router-dom';
-import { Avatar, Box, Button, CardContent, Link, Stack, styled, Tooltip } from '@mui/material';
-import { useTranslation } from 'react-i18next';
+import { Avatar, Box, CardContent, Link, Stack, styled, Tooltip } from '@mui/material';
 import PopupState, { bindMenu } from 'material-ui-popup-state';
 import { useRef, useState } from 'react';
 import { useLongPress } from 'use-long-press';
@@ -28,6 +26,7 @@ import { MigrateDialog } from '@/components/MigrateDialog.tsx';
 import { Mangas } from '@/lib/data/Mangas.ts';
 import { TypographyMaxLines } from '@/components/atoms/TypographyMaxLines.tsx';
 import { useManageMangaLibraryState } from '@/components/manga/useManageMangaLibraryState.tsx';
+import { MangaBadges } from '@/components/manga/MangaBadges.tsx';
 
 const BottomGradient = styled('div')({
     position: 'absolute',
@@ -49,19 +48,6 @@ const MangaTitle = TypographyMaxLines;
 
 const GridMangaTitle = styled(MangaTitle)({
     fontSize: '1.05rem',
-});
-
-const BadgeContainer = styled('div')({
-    display: 'flex',
-    height: 'fit-content',
-    borderRadius: '5px',
-    overflow: 'hidden',
-    '& p': {
-        color: 'white',
-        padding: '0.1em',
-        paddingInline: '0.2em',
-        fontSize: '1.05rem',
-    },
 });
 
 type MangaCardMode = 'default' | 'source' | 'migrate.search' | 'migrate.select';
@@ -95,15 +81,13 @@ const getMangaLinkTo = (
 };
 
 export const MangaCard = (props: MangaCardProps) => {
-    const { t } = useTranslation();
-
     const optionButtonRef = useRef<HTMLButtonElement>(null);
 
     const { manga, gridLayout, inLibraryIndicator, selected, handleSelection, mode = 'default' } = props;
     const { id, title, downloadCount, unreadCount: unread, latestReadChapter, firstUnreadChapter, chapters } = manga;
     const thumbnailUrl = Mangas.getThumbnailUrl(manga);
     const {
-        options: { showContinueReadingButton, showUnreadBadge, showDownloadBadge },
+        options: { showContinueReadingButton },
     } = useLibraryOptionsContext();
 
     const { CategorySelectComponent, updateLibraryState, isInLibrary } = useManageMangaLibraryState(manga);
@@ -240,54 +224,13 @@ export const MangaCard = (props: MangaCardProps) => {
                                                     right: 5,
                                                 }}
                                             >
-                                                <BadgeContainer>
-                                                    {inLibraryIndicator && (
-                                                        <Button
-                                                            className="source-manga-library-state-button"
-                                                            component="div"
-                                                            variant="contained"
-                                                            size="small"
-                                                            onMouseDown={(e) => e.stopPropagation()}
-                                                            onClick={(e) => {
-                                                                e.preventDefault();
-                                                                e.stopPropagation();
-                                                                updateLibraryState();
-                                                            }}
-                                                            sx={{
-                                                                display: 'none',
-                                                            }}
-                                                            color={isInLibrary ? 'error' : 'primary'}
-                                                        >
-                                                            {t(
-                                                                isInLibrary
-                                                                    ? 'manga.action.library.remove.label.action'
-                                                                    : 'manga.button.add_to_library',
-                                                            )}
-                                                        </Button>
-                                                    )}
-                                                    {inLibraryIndicator && isInLibrary && (
-                                                        <Typography
-                                                            className="source-manga-library-state-indicator"
-                                                            sx={{ backgroundColor: 'primary.dark' }}
-                                                        >
-                                                            {t('manga.button.in_library')}
-                                                        </Typography>
-                                                    )}
-                                                    {showUnreadBadge && (unread ?? 0) > 0 && (
-                                                        <Typography sx={{ backgroundColor: 'primary.dark' }}>
-                                                            {unread}
-                                                        </Typography>
-                                                    )}
-                                                    {showDownloadBadge && (downloadCount ?? 0) > 0 && (
-                                                        <Typography
-                                                            sx={{
-                                                                backgroundColor: 'success.dark',
-                                                            }}
-                                                        >
-                                                            {downloadCount}
-                                                        </Typography>
-                                                    )}
-                                                </BadgeContainer>
+                                                <MangaBadges
+                                                    inLibraryIndicator={inLibraryIndicator}
+                                                    isInLibrary={isInLibrary}
+                                                    unread={unread}
+                                                    downloadCount={downloadCount}
+                                                    updateLibraryState={updateLibraryState}
+                                                />
                                                 <MangaOptionButton
                                                     ref={optionButtonRef}
                                                     popupState={popupState}
@@ -454,54 +397,13 @@ export const MangaCard = (props: MangaCardProps) => {
                                         </Tooltip>
                                     </Box>
                                     <Stack direction="row" alignItems="center" gap="5px">
-                                        <BadgeContainer>
-                                            {inLibraryIndicator && (
-                                                <Button
-                                                    className="source-manga-library-state-button"
-                                                    component="div"
-                                                    variant="contained"
-                                                    size="small"
-                                                    onMouseDown={(e) => e.stopPropagation()}
-                                                    onClick={(e) => {
-                                                        e.preventDefault();
-                                                        e.stopPropagation();
-                                                        updateLibraryState();
-                                                    }}
-                                                    sx={{
-                                                        display: 'none',
-                                                    }}
-                                                    color={isInLibrary ? 'error' : 'primary'}
-                                                >
-                                                    {t(
-                                                        isInLibrary
-                                                            ? 'manga.action.library.remove.label.action'
-                                                            : 'manga.button.add_to_library',
-                                                    )}
-                                                </Button>
-                                            )}
-                                            {inLibraryIndicator && isInLibrary && (
-                                                <Typography
-                                                    className="source-manga-library-state-indicator"
-                                                    sx={{ backgroundColor: 'primary.dark' }}
-                                                >
-                                                    {t('manga.button.in_library')}
-                                                </Typography>
-                                            )}
-                                            {showUnreadBadge && (unread ?? 0) > 0 && (
-                                                <Typography sx={{ backgroundColor: 'primary.dark' }}>
-                                                    {unread}
-                                                </Typography>
-                                            )}
-                                            {showDownloadBadge && (downloadCount ?? 0) > 0 && (
-                                                <Typography
-                                                    sx={{
-                                                        backgroundColor: 'success.dark',
-                                                    }}
-                                                >
-                                                    {downloadCount}
-                                                </Typography>
-                                            )}
-                                        </BadgeContainer>
+                                        <MangaBadges
+                                            inLibraryIndicator={inLibraryIndicator}
+                                            isInLibrary={isInLibrary}
+                                            unread={unread}
+                                            downloadCount={downloadCount}
+                                            updateLibraryState={updateLibraryState}
+                                        />
                                         <ContinueReadingButton
                                             showContinueReadingButton={showContinueReadingButton}
                                             isLatestChapterRead={isLatestChapterRead}
