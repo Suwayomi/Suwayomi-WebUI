@@ -6,6 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-export const defaultPromiseErrorHandler = (name: string) => (error: any) =>
+export const defaultPromiseErrorHandler = (name: string) => (error: any) => {
+    if (process.env.NODE_ENV === 'production') {
+        return;
+    }
+
     // eslint-disable-next-line no-console
     console.error(`${name} failed due to`, error);
+};
