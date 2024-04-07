@@ -557,6 +557,7 @@ export const SERVER_SETTINGS = gql`
         autoDownloadNewChapters
         excludeEntryWithUnreadChapters
         autoDownloadNewChaptersLimit
+        autoDownloadIgnoreReUploads
 
         # extensions
         extensionRepos

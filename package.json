@@ -11,10 +11,10 @@
     "build-md5": "find build -type f | sort | xargs md5sum | awk '{ print $1 }' | tr -d '\n' | md5sum| awk '{ print $1 }' > buildZip/md5sum ",
     "build-zip": "cd build && rev=$(git rev-list HEAD --count) && echo r$rev > revision && zip -9 -r ../buildZip/Suwayomi-WebUI-r$rev *",
     "lint": "eslint src --ext .ts,.tsx,.js,.jsx --max-warnings=0 --cache",
-    "createChangelog": "ts-node tools/scripts/createReleaseChangelog.ts",
+    "createChangelog": "ts-node -T tools/scripts/createReleaseChangelog.ts",
     "updateDeps": "yarn upgrade && yarn syncyarnlock -s -k && yarn && git add package.json yarn.lock && git commit -m \"Update dependencies\" && echo Updated non breaking dependencies. Check potential breaking changes below... && yarn outdated",
     "gql:codegen-base": "graphql-codegen --config gql_codegen.ts",
-    "gql:codegen-formatter": "ts-node tools/scripts/codegenFormatter.ts",
+    "gql:codegen-formatter": "ts-node -T tools/scripts/codegenFormatter.ts",
     "gql:codegen": "yarn gql:codegen-base & yarn gql:codegen-formatter",
     "prepare": "husky"
   },

@@ -174,6 +174,7 @@
           }
         },
         "label": {
+          "ignore_re_uploads": "Ignore re-uploaded chapters",
           "ignore_with_unread_chapters": "Ignore automatic chapter downloads for entries with unread chapters",
           "new_chapters": "Download new chapters"
         },
