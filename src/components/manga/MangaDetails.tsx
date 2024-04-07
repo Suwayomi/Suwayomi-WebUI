@@ -10,21 +10,17 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import PublicIcon from '@mui/icons-material/Public';
 import { styled } from '@mui/material/styles';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { t as translate } from 'i18next';
 import { Link } from '@mui/material';
 import { ISource, TManga } from '@/typings';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/components/util/Toast';
-import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
-import { CategorySelect } from '@/components/navbar/action/CategorySelect.tsx';
 import { Mangas } from '@/lib/data/Mangas.ts';
 import { SpinnerImage } from '@/components/util/SpinnerImage.tsx';
-import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
-import { Categories } from '@/lib/data/Categories.ts';
 import { CustomIconButton } from '@/components/atoms/CustomIconButton';
 import { TrackMangaButton } from '@/components/manga/TrackMangaButton.tsx';
+import { useManageMangaLibraryState } from '@/components/manga/useManageMangaLibraryState.tsx';
 
 const DetailsWrapper = styled('div')(({ theme }) => ({
     width: '100%',
@@ -169,63 +165,13 @@ function getValueOrUnknown(val?: string | null) {
 export const MangaDetails: React.FC<IProps> = ({ manga }) => {
     const { t } = useTranslation();
 
-    const {
-        settings: { showAddToLibraryCategorySelectDialog },
-        loading: areSettingsLoading,
-    } = useMetadataServerSettings();
-
-    const categories = requestManager.useGetCategories();
-    const userCreatedCategories = useMemo(
-        () => Categories.getUserCreated(categories.data?.categories.nodes ?? []),
-        [categories.data?.categories.nodes],
-    );
-
-    const [isCategorySelectOpen, setIsCategorySelectOpen] = useState(false);
-
     useEffect(() => {
         if (!manga.source) {
             makeToast(translate('source.error.label.source_not_found'), 'error');
         }
     }, [manga.source]);
 
-    const addToLibrary = (addToCategories: number[] = [], removeFromCategories: number[] = []) => {
-        requestManager
-            .updateManga(manga.id, {
-                updateManga: { inLibrary: true },
-                updateMangaCategories: { addToCategories, removeFromCategories },
-            })
-            .response.then(() => makeToast(t('library.info.label.added_to_library'), 'success'))
-            .catch(() => {
-                makeToast(t('library.error.label.add_to_library'), 'error');
-            });
-    };
-
-    const handleAddToLibraryClick = () => {
-        if (categories.loading) {
-            makeToast(t('global.label.load_in_progress'), 'info');
-            return;
-        }
-
-        if (categories.error) {
-            makeToast(t('category.error.label.request_failure'), 'error');
-            categories
-                .refetch()
-                .catch(defaultPromiseErrorHandler('MangaDetails::handleAddToLibraryClick: refetch categories'));
-            return;
-        }
-
-        const showCategorySelectDialog = showAddToLibraryCategorySelectDialog && !!userCreatedCategories.length;
-        if (!showCategorySelectDialog) {
-            addToLibrary(Categories.getIds(Categories.getDefaults(userCreatedCategories!)));
-            return;
-        }
-
-        setIsCategorySelectOpen(true);
-    };
-
-    const removeFromLibrary = () => {
-        Mangas.removeFromLibrary([manga.id]).catch(defaultPromiseErrorHandler('MangaDetails::removeFromLibrary'));
-    };
+    const { CategorySelectComponent, updateLibraryState } = useManageMangaLibraryState(manga);
 
     return (
         <>
@@ -251,8 +197,7 @@ export const MangaDetails: React.FC<IProps> = ({ manga }) => {
                     </ThumbnailMetadataWrapper>
                     <MangaButtonsContainer>
                         <CustomIconButton
-                            disabled={areSettingsLoading || categories.loading}
-                            onClick={manga.inLibrary ? removeFromLibrary : handleAddToLibraryClick}
+                            onClick={updateLibraryState}
                             size="large"
                             sx={{ color: manga.inLibrary ? '#2196f3' : 'inherit' }}
                         >
@@ -275,20 +220,7 @@ export const MangaDetails: React.FC<IProps> = ({ manga }) => {
                     </Genres>
                 </BottomContentWrapper>
             </DetailsWrapper>
-            {isCategorySelectOpen && (
-                <CategorySelect
-                    open={isCategorySelectOpen}
-                    onClose={(didUpdateCategories, addToCategories, removeFromCategories) => {
-                        setIsCategorySelectOpen(false);
-
-                        if (didUpdateCategories) {
-                            addToLibrary(addToCategories, removeFromCategories);
-                        }
-                    }}
-                    mangaId={manga.id}
-                    addToLibrary
-                />
-            )}
+            {CategorySelectComponent}
         </>
     );
 };
