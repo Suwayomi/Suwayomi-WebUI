@@ -1394,6 +1394,7 @@ export type PartialSettingsType = Settings & {
   __typename?: 'PartialSettingsType';
   /** @deprecated Replaced with autoDownloadNewChaptersLimit, replace with autoDownloadNewChaptersLimit */
   autoDownloadAheadLimit?: Maybe<Scalars['Int']['output']>;
+  autoDownloadIgnoreReUploads?: Maybe<Scalars['Boolean']['output']>;
   autoDownloadNewChapters?: Maybe<Scalars['Boolean']['output']>;
   autoDownloadNewChaptersLimit?: Maybe<Scalars['Int']['output']>;
   backupInterval?: Maybe<Scalars['Int']['output']>;
@@ -1439,6 +1440,7 @@ export type PartialSettingsType = Settings & {
 };
 
 export type PartialSettingsTypeInput = {
+  autoDownloadIgnoreReUploads?: InputMaybe<Scalars['Boolean']['input']>;
   autoDownloadNewChapters?: InputMaybe<Scalars['Boolean']['input']>;
   autoDownloadNewChaptersLimit?: InputMaybe<Scalars['Int']['input']>;
   backupInterval?: InputMaybe<Scalars['Int']['input']>;
@@ -1800,6 +1802,7 @@ export type SetSourceMetaPayload = {
 export type Settings = {
   /** @deprecated Replaced with autoDownloadNewChaptersLimit, replace with autoDownloadNewChaptersLimit */
   autoDownloadAheadLimit?: Maybe<Scalars['Int']['output']>;
+  autoDownloadIgnoreReUploads?: Maybe<Scalars['Boolean']['output']>;
   autoDownloadNewChapters?: Maybe<Scalars['Boolean']['output']>;
   autoDownloadNewChaptersLimit?: Maybe<Scalars['Int']['output']>;
   backupInterval?: Maybe<Scalars['Int']['output']>;
@@ -1848,6 +1851,7 @@ export type SettingsType = Settings & {
   __typename?: 'SettingsType';
   /** @deprecated Replaced with autoDownloadNewChaptersLimit, replace with autoDownloadNewChaptersLimit */
   autoDownloadAheadLimit: Scalars['Int']['output'];
+  autoDownloadIgnoreReUploads?: Maybe<Scalars['Boolean']['output']>;
   autoDownloadNewChapters: Scalars['Boolean']['output'];
   autoDownloadNewChaptersLimit: Scalars['Int']['output'];
   backupInterval: Scalars['Int']['output'];
