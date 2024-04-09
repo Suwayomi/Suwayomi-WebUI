@@ -410,7 +410,7 @@ export class RequestManager {
     }
 
     public reset(): void {
-        this.graphQLClient.client.cache.reset();
+        this.graphQLClient.client.resetStore();
         this.cache.clear();
         this.imageQueue.clear();
     }
