@@ -409,6 +409,11 @@ export class RequestManager {
         this.graphQLClient.updateConfig();
     }
 
+    public reset(): void {
+        this.graphQLClient.client.cache.reset();
+        this.cache.clear();
+    }
+
     public getBaseUrl(): string {
         return this.restClient.getBaseUrl();
     }
@@ -2143,8 +2148,7 @@ export class RequestManager {
         );
 
         result.response.then(() => {
-            this.graphQLClient.client.cache.reset();
-            this.cache.clear();
+            this.reset();
         });
 
         return result;
