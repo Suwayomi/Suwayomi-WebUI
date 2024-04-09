@@ -12,6 +12,18 @@ import { App } from '@/App';
 import '@/index.css';
 // roboto font
 import '@fontsource/roboto';
+import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.ready.then((registration) => {
+        registration.unregister().catch(defaultPromiseErrorHandler('unregister service workers'));
+        if (caches) {
+            caches.keys().then(async (names) => {
+                await Promise.all(names.map((name) => caches.delete(name)));
+            });
+        }
+    });
+}
 
 const container = document.getElementById('root');
 const root = createRoot(container!);
