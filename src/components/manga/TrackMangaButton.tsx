@@ -30,35 +30,62 @@ export const TrackMangaButton = ({ manga }: { manga: TManga }) => {
     const loggedInTrackers = Trackers.getLoggedIn(trackerList.data?.trackers.nodes ?? []);
     const trackersInUse = Trackers.getLoggedIn(Trackers.getTrackers(mangaTrackers));
     const mangaChaptersQuery = requestManager.useGetMangaChapters(manga.id);
-    const mangaChapters = mangaChaptersQuery.data?.chapters.nodes;
 
-    const refreshTracker = () => {
-        mangaTrackers.map((trackRecord) =>
+    /**
+     * @description This function fetch the last read for the loged in trackers.
+     */
+    const refreshTracker = async () => {
+        await mangaTrackers.map((trackRecord) =>
             requestManager
                 .fetchTrackBind(trackRecord.id)
                 .response.catch(() => makeToast(t('tracking.error.label.could_not_fetch_track_info'), 'error')),
         );
     };
-
-    const updateChapterFromTracker = () => {
-        const lastestTrackersRead = Math.max(...mangaTrackers.map((trackRecord) => trackRecord.lastChapterRead));
+    /**
+     * @description This function update the tracker reads, and set the local read to the higher chapter read if the local source is lower.
+     * It will set all chapters part to read based on the tracker read, so if you have read chapter 100; parts 100.1 100.5 and 100.8 will be marked as read.
+     */
+    const updateChapterFromTracker = async () => {
+        const latestTrackersRead = Math.max(...mangaTrackers.map((trackRecord) => trackRecord.lastChapterRead));
         const latestLocalRead = manga.latestReadChapter?.chapterNumber ?? 0;
-        const localBehindTracker = !mangaChapters?.some((chapter) => chapter.chapterNumber === lastestTrackersRead);
+
+        // Return a list of all the chapter and chapters parts that match the last chapter in the tracker
+        const latestLocalChapterOrParts: number[] =
+            mangaChaptersQuery.data?.chapters.nodes?.reduce((acc: number[], chapter) => {
+                if (
+                    chapter.chapterNumber === latestTrackersRead ||
+                    Math.floor(chapter.chapterNumber) === latestTrackersRead
+                ) {
+                    acc.push(chapter.chapterNumber);
+                }
+                return acc;
+            }, []) ?? [];
+
+        // The last part of a chapter
+        const lastLocalChapter = Math.max(...latestLocalChapterOrParts);
+
+        // If the last chapter fetched is lower that the tracker's last read
+        const localBehindTracker = lastLocalChapter < latestTrackersRead;
+
+        // Fetch new chapters if behind tracker
         if (localBehindTracker) {
-            requestManager.getMangaChaptersFetch(manga.id);
+            requestManager.getMangaChaptersFetch(manga.id, { awaitRefetchQueries: true });
         }
         if (!localBehindTracker) {
-            const chapterToBeUpdated = mangaChapters?.find((chapter) => chapter.chapterNumber === lastestTrackersRead);
-            if (chapterToBeUpdated && latestLocalRead < lastestTrackersRead) {
-                setChapterAsLastRead(chapterToBeUpdated?.id, mangaChapters as TChapter[]);
+            const chapterToBeUpdated =
+                mangaChaptersQuery.data?.chapters.nodes?.find(
+                    (chapter) => chapter.chapterNumber === lastLocalChapter,
+                ) ?? mangaChaptersQuery.data?.chapters.nodes[0];
+            if (
+                chapterToBeUpdated &&
+                (latestLocalRead < latestTrackersRead ||
+                    Math.floor(chapterToBeUpdated.chapterNumber) === latestTrackersRead)
+            ) {
+                setChapterAsLastRead(chapterToBeUpdated?.id, mangaChaptersQuery.data?.chapters.nodes as TChapter[]);
             }
         }
     };
-
     const handleClick = (openPopup: () => void) => {
-        refreshTracker();
-        updateChapterFromTracker();
-
         if (trackerList.error) {
             makeToast(t('tracking.error.label.could_not_load_track_info'), 'error');
             return;
@@ -70,6 +97,10 @@ export const TrackMangaButton = ({ manga }: { manga: TManga }) => {
         }
 
         openPopup();
+        (async () => {
+            await refreshTracker();
+            await updateChapterFromTracker();
+        })();
     };
 
     return (
