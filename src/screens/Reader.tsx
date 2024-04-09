@@ -17,8 +17,8 @@ import {
     checkAndHandleMissingStoredReaderSettings,
     getReaderSettingsFor,
     useDefaultReaderSettings,
-} from '@/util/readerSettings';
-import { requestUpdateMangaMetadata } from '@/util/metadata';
+} from '@/lib/metadata/readerSettings.ts';
+import { requestUpdateMangaMetadata } from '@/lib/metadata/metadata.ts';
 import { HorizontalPager } from '@/components/reader/pager/HorizontalPager';
 import { PageNumber } from '@/components/reader/PageNumber';
 import { PagedPager } from '@/components/reader/pager/PagedPager';
@@ -29,7 +29,7 @@ import { makeToast } from '@/components/util/Toast';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { useDebounce } from '@/util/useDebounce.ts';
 import { UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
-import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
+import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { Chapters } from '@/lib/data/Chapters.ts';
 
@@ -203,7 +203,7 @@ export function Reader() {
 
             const shouldDeleteChapter =
                 chapterToDeleteUpToDateData.isRead &&
-                Chapters.isAutoDeletable(chapterToDeleteUpToDateData, metadataSettings.deleteChaptersWithBookmark);
+                Chapters.isDeletable(chapterToDeleteUpToDateData, metadataSettings.deleteChaptersWithBookmark);
             if (!shouldDeleteChapter) {
                 return -1;
             }
@@ -253,15 +253,18 @@ export function Reader() {
             .updateChapter(chapter.id, {
                 ...patch,
                 chapterIdToDelete: getChapterIdToDelete(),
+                trackProgressMangaId: patch.isRead && manga.trackRecords.totalCount ? manga.id : undefined,
             })
             .response.catch();
     };
 
-    const setSettingValue = (key: keyof IReaderSettings, value: AllowedMetadataValueTypes) => {
+    const setSettingValue = (key: keyof IReaderSettings, value: AllowedMetadataValueTypes, persist: boolean = true) => {
         setSettings({ ...settings, [key]: value });
-        requestUpdateMangaMetadata(manga, [[key, value]]).catch(() =>
-            makeToast(t('reader.settings.error.label.failed_to_save_settings'), 'warning'),
-        );
+        if (persist) {
+            requestUpdateMangaMetadata(manga, [[key, value]]).catch(() =>
+                makeToast(t('reader.settings.error.label.failed_to_save_settings'), 'warning'),
+            );
+        }
     };
 
     const openNextChapter = useCallback(

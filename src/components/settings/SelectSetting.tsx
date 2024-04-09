@@ -6,17 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import {
-    Button,
-    Dialog,
-    DialogTitle,
-    FormControl,
-    ListItemText,
-    MenuItem,
-    Select,
-    Stack,
-    Typography,
-} from '@mui/material';
+import { Button, Dialog, DialogTitle, FormControl, ListItemText, MenuItem, Stack, Typography } from '@mui/material';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -25,6 +15,7 @@ import { useTranslation } from 'react-i18next';
 import DialogContentText from '@mui/material/DialogContentText';
 import InfoIcon from '@mui/icons-material/Info';
 import { TranslationKey } from '@/typings.ts';
+import { Select } from '@/components/atoms/Select.tsx';
 
 export type SelectSettingValueDisplayInfo = {
     text: TranslationKey | string;

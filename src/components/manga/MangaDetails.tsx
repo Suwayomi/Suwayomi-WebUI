@@ -10,19 +10,17 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import PublicIcon from '@mui/icons-material/Public';
 import { styled } from '@mui/material/styles';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { t as translate } from 'i18next';
-import Button from '@mui/material/Button';
+import { Link } from '@mui/material';
 import { ISource, TManga } from '@/typings';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/components/util/Toast';
-import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
-import { CategorySelect } from '@/components/navbar/action/CategorySelect.tsx';
 import { Mangas } from '@/lib/data/Mangas.ts';
 import { SpinnerImage } from '@/components/util/SpinnerImage.tsx';
-import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
-import { Categories } from '@/lib/data/Categories.ts';
+import { CustomIconButton } from '@/components/atoms/CustomIconButton';
+import { TrackMangaButton } from '@/components/manga/TrackMangaButton.tsx';
+import { useManageMangaLibraryState } from '@/components/manga/useManageMangaLibraryState.tsx';
 
 const DetailsWrapper = styled('div')(({ theme }) => ({
     width: '100%',
@@ -71,13 +69,10 @@ const Metadata = styled('div')(({ theme }) => ({
         fontSize: '1.3em',
     },
 }));
-const MangaButtonsContainer = styled('div', { shouldForwardProp: (prop) => prop !== 'inLibrary' })<{
-    inLibrary: boolean;
-}>(({ theme, inLibrary }) => ({
+const MangaButtonsContainer = styled('div')(({ theme }) => ({
     display: 'flex',
     justifyContent: 'space-around',
-    '& button': {
-        color: inLibrary ? '#2196f3' : 'inherit',
+    '& button, a': {
         borderRadius: '25px',
         textTransform: 'none',
         paddingLeft: '20px',
@@ -85,13 +80,6 @@ const MangaButtonsContainer = styled('div', { shouldForwardProp: (prop) => prop 
         fontSize: 'x-large',
         [theme.breakpoints.down('sm')]: {
             fontSize: 'larger',
-        },
-    },
-    '& a': {
-        textDecoration: 'none',
-        color: '#858585',
-        '& button': {
-            color: 'inherit',
         },
     },
 }));
@@ -135,9 +123,18 @@ const OpenSourceButton = ({ url }: { url?: string | null }) => {
 
     const button = useMemo(
         () => (
-            <Button disabled={!!url} startIcon={<PublicIcon />} size="large">
+            <CustomIconButton
+                size="large"
+                disabled={!url}
+                sx={{ color: 'inherit' }}
+                component={Link}
+                href={url ?? undefined}
+                target="_blank"
+                rel="noreferrer"
+            >
+                <PublicIcon />
                 {t('global.button.open_site')}
-            </Button>
+            </CustomIconButton>
         ),
         [url],
     );
@@ -146,13 +143,7 @@ const OpenSourceButton = ({ url }: { url?: string | null }) => {
         return button;
     }
 
-    return (
-        <a href={url} target="_blank" rel="noreferrer">
-            <Button startIcon={<PublicIcon />} size="large">
-                {t('global.button.open_site')}
-            </Button>
-        </a>
-    );
+    return button;
 };
 
 interface IProps {
@@ -174,63 +165,13 @@ function getValueOrUnknown(val?: string | null) {
 export const MangaDetails: React.FC<IProps> = ({ manga }) => {
     const { t } = useTranslation();
 
-    const {
-        settings: { showAddToLibraryCategorySelectDialog },
-        loading: areSettingsLoading,
-    } = useMetadataServerSettings();
-
-    const categories = requestManager.useGetCategories();
-    const userCreatedCategories = useMemo(
-        () => Categories.getUserCreated(categories.data?.categories.nodes ?? []),
-        [categories.data?.categories.nodes],
-    );
-
-    const [isCategorySelectOpen, setIsCategorySelectOpen] = useState(false);
-
     useEffect(() => {
         if (!manga.source) {
             makeToast(translate('source.error.label.source_not_found'), 'error');
         }
     }, [manga.source]);
 
-    const addToLibrary = (addToCategories: number[] = [], removeFromCategories: number[] = []) => {
-        requestManager
-            .updateManga(manga.id, {
-                updateManga: { inLibrary: true },
-                updateMangaCategories: { addToCategories, removeFromCategories },
-            })
-            .response.then(() => makeToast(t('library.info.label.added_to_library'), 'success'))
-            .catch(() => {
-                makeToast(t('library.error.label.add_to_library'), 'error');
-            });
-    };
-
-    const handleAddToLibraryClick = () => {
-        if (categories.loading) {
-            makeToast(t('global.label.load_in_progress'), 'info');
-            return;
-        }
-
-        if (categories.error) {
-            makeToast(t('category.error.label.request_failure'), 'error');
-            categories
-                .refetch()
-                .catch(defaultPromiseErrorHandler('MangaDetails::handleAddToLibraryClick: refetch categories'));
-            return;
-        }
-
-        const showCategorySelectDialog = showAddToLibraryCategorySelectDialog && !!userCreatedCategories.length;
-        if (!showCategorySelectDialog) {
-            addToLibrary(Categories.getIds(Categories.getDefaults(userCreatedCategories!)));
-            return;
-        }
-
-        setIsCategorySelectOpen(true);
-    };
-
-    const removeFromLibrary = () => {
-        Mangas.removeFromLibrary([manga.id]).catch(defaultPromiseErrorHandler('MangaDetails::removeFromLibrary'));
-    };
+    const { CategorySelectComponent, updateLibraryState } = useManageMangaLibraryState(manga);
 
     return (
         <>
@@ -254,17 +195,16 @@ export const MangaDetails: React.FC<IProps> = ({ manga }) => {
                             <h3>{`${t('source.title')}: ${getSourceName(manga.source)}`}</h3>
                         </Metadata>
                     </ThumbnailMetadataWrapper>
-                    <MangaButtonsContainer inLibrary={manga.inLibrary}>
-                        <div>
-                            <Button
-                                disabled={areSettingsLoading || categories.loading}
-                                startIcon={manga.inLibrary ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-                                onClick={manga.inLibrary ? removeFromLibrary : handleAddToLibraryClick}
-                                size="large"
-                            >
-                                {manga.inLibrary ? t('manga.button.in_library') : t('manga.button.add_to_library')}
-                            </Button>
-                        </div>
+                    <MangaButtonsContainer>
+                        <CustomIconButton
+                            onClick={updateLibraryState}
+                            size="large"
+                            sx={{ color: manga.inLibrary ? '#2196f3' : 'inherit' }}
+                        >
+                            {manga.inLibrary ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                            {manga.inLibrary ? t('manga.button.in_library') : t('manga.button.add_to_library')}
+                        </CustomIconButton>
+                        <TrackMangaButton manga={manga} />
                         <OpenSourceButton url={manga.realUrl} />
                     </MangaButtonsContainer>
                 </TopContentWrapper>
@@ -280,20 +220,7 @@ export const MangaDetails: React.FC<IProps> = ({ manga }) => {
                     </Genres>
                 </BottomContentWrapper>
             </DetailsWrapper>
-            {isCategorySelectOpen && (
-                <CategorySelect
-                    open={isCategorySelectOpen}
-                    onClose={(didUpdateCategories, addToCategories, removeFromCategories) => {
-                        setIsCategorySelectOpen(false);
-
-                        if (didUpdateCategories) {
-                            addToLibrary(addToCategories, removeFromCategories);
-                        }
-                    }}
-                    mangaId={manga.id}
-                    addToLibrary
-                />
-            )}
+            {CategorySelectComponent}
         </>
     );
 };

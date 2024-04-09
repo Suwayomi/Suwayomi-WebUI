@@ -16,7 +16,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { getVersion } from '@/screens/settings/About.tsx';
-import { useLocalStorage } from '@/util/useLocalStorage.tsx';
+import { useLocalStorage } from '@/util/useStorage.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
 const UPDATE_CHECK_INTERVAL = 1000 * 60 * 60 * 24; // 1 day

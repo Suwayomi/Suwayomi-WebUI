@@ -172,7 +172,12 @@ export function VerticalPager(props: IReaderProps) {
         }
 
         const resizeObserver = new ResizeObserver(() => {
+            if (!initialPageElement.offsetHeight) {
+                return;
+            }
+
             initialPageElement.scrollIntoView();
+            resizeObserver.disconnect();
         });
         resizeObserver.observe(initialPageElement);
 

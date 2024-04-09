@@ -13,7 +13,7 @@ import TextField from '@mui/material/TextField';
 import { InputAdornment, ListItemText, Stack, SxProps, Typography, Theme } from '@mui/material';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ListItemButton from '@mui/material/ListItemButton';
 import * as React from 'react';
@@ -39,6 +39,7 @@ type BaseProps = {
     showSlider?: never;
     disabled?: boolean;
     listItemTextSx?: SxProps<Theme>;
+    handleLiveUpdate?: (value: number) => void;
 };
 
 type PropsWithSlider = Omit<BaseProps, 'defaultValue' | 'minValue' | 'maxValue' | 'showSlider'> &
@@ -62,45 +63,49 @@ export const NumberSetting = ({
     handleUpdate,
     showSlider,
     disabled = false,
+    handleLiveUpdate,
     listItemTextSx: sx,
 }: Props) => {
     const { t } = useTranslation();
 
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [dialogValue, setDialogValue] = useState(value);
+    const [originalValue, setOriginalValue] = useState(value);
 
-    const closeDialog = useCallback(
-        (resetValue: boolean) => {
+    const updateValue = useCallback(
+        (newValue: number, persist: boolean) => {
+            setDialogValue(newValue);
+            const didValueChange = newValue !== originalValue;
+            // Call handleUpdate if the value changed and 'persist' is true,
+            // otherwise call handleLiveUpdate if it's defined.
+            if (persist && didValueChange) {
+                handleUpdate(newValue);
+            } else if (handleLiveUpdate) {
+                handleLiveUpdate(newValue);
+            }
+        },
+        [originalValue, setDialogValue, handleLiveUpdate, handleUpdate],
+    );
+
+    const cancel = useCallback(() => {
+        updateValue(originalValue, true);
+        setOriginalValue(originalValue);
+        setIsDialogOpen(false);
+    }, [originalValue, handleUpdate]);
+
+    const resetToDefault = useCallback(() => {
+        if (defaultValue !== undefined) {
+            updateValue(defaultValue, true);
+            setOriginalValue(defaultValue);
             setIsDialogOpen(false);
+        }
+    }, [defaultValue, handleUpdate]);
 
-            if (resetValue) {
-                setDialogValue(value);
-            }
-        },
-        [value],
-    );
-
-    const closeDialogWithReset = useCallback(() => closeDialog(true), [closeDialog]);
-
-    const updateSetting = useCallback(
-        (newValue: number, shouldCloseDialog: boolean = true) => {
-            if (shouldCloseDialog) {
-                closeDialog(false);
-            }
-
-            const didValueChange = value !== newValue;
-            if (!didValueChange) {
-                return;
-            }
-
-            handleUpdate(newValue);
-        },
-        [value, handleUpdate, closeDialog],
-    );
-
-    useEffect(() => {
-        setDialogValue(value);
-    }, [value]);
+    const submit = () => {
+        updateValue(dialogValue, true);
+        setOriginalValue(dialogValue);
+        setIsDialogOpen(false);
+    };
 
     return (
         <>
@@ -114,7 +119,7 @@ export const NumberSetting = ({
                 />
             </ListItemButton>
 
-            <Dialog open={isDialogOpen} onClose={closeDialogWithReset}>
+            <Dialog open={isDialogOpen} onClose={cancel}>
                 <DialogContent>
                     <DialogTitle sx={{ paddingLeft: 0 }}>{dialogTitle}</DialogTitle>
                     {(!!dialogDescription || !!dialogDisclaimer) && (
@@ -158,7 +163,10 @@ export const NumberSetting = ({
                         autoFocus
                         value={dialogValue}
                         type="number"
-                        onChange={(e) => setDialogValue(Number(e.target.value))}
+                        onChange={(e) => {
+                            const newValue = Number(e.target.value);
+                            updateValue(newValue, false);
+                        }}
                     />
                     {showSlider ? (
                         <Slider
@@ -168,31 +176,22 @@ export const NumberSetting = ({
                             step={stepSize}
                             min={minValue}
                             max={maxValue}
-                            onChange={(_, newValue) => setDialogValue(newValue as number)}
+                            onChange={(_, newValue) => {
+                                updateValue(newValue as number, false);
+                            }}
                         />
                     ) : null}
                 </DialogContent>
                 <DialogActions>
                     {defaultValue !== undefined ? (
-                        <Button
-                            onClick={() => {
-                                setDialogValue(defaultValue);
-                                updateSetting(defaultValue, false);
-                            }}
-                            color="primary"
-                        >
+                        <Button onClick={resetToDefault} color="primary">
                             {t('global.button.reset_to_default')}
                         </Button>
                     ) : null}
-                    <Button onClick={closeDialogWithReset} color="primary">
+                    <Button onClick={cancel} color="primary">
                         {t('global.button.cancel')}
                     </Button>
-                    <Button
-                        onClick={() => {
-                            updateSetting(dialogValue);
-                        }}
-                        color="primary"
-                    >
+                    <Button onClick={submit} color="primary">
                         {t('global.button.ok')}
                     </Button>
                 </DialogActions>

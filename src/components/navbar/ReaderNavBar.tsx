@@ -18,7 +18,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Slide from '@mui/material/Slide';
 import Fade from '@mui/material/Fade';
 import Zoom from '@mui/material/Zoom';
-import { Divider, FormControl, MenuItem, Select, styled, Tooltip } from '@mui/material';
+import { Divider, FormControl, MenuItem, styled, Tooltip } from '@mui/material';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
@@ -27,6 +27,7 @@ import { AllowedMetadataValueTypes, ChapterOffset, IReaderSettings, TChapter, TM
 import { ReaderSettingsOptions } from '@/components/reader/ReaderSettingsOptions';
 import { useBackButton } from '@/util/useBackButton.ts';
 import { useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
+import { Select } from '@/components/atoms/Select.tsx';
 
 const Root = styled('div')({
     zIndex: 10,
@@ -101,8 +102,6 @@ const ChapterNavigation = styled('div')({
     },
 });
 
-const MenuProps = { PaperProps: { style: { maxHeight: 150 } } };
-
 const OpenDrawerButton = styled(IconButton)(({ theme }) => ({
     position: 'fixed',
     top: 0 + 20,
@@ -118,7 +117,7 @@ const OpenDrawerButton = styled(IconButton)(({ theme }) => ({
 
 interface IProps {
     settings: IReaderSettings;
-    setSettingValue: (key: keyof IReaderSettings, value: AllowedMetadataValueTypes) => void;
+    setSettingValue: (key: keyof IReaderSettings, value: AllowedMetadataValueTypes, persist?: boolean) => void;
     manga: TManga;
     chapter: TChapter;
     curPage: number;
@@ -150,10 +149,10 @@ export function ReaderNavBar(props: IProps) {
 
     const disableChapterNavButtons = retrievingNextChapter;
 
-    const updateSettingValue = (key: keyof IReaderSettings, value: AllowedMetadataValueTypes) => {
+    const updateSettingValue = (key: keyof IReaderSettings, value: AllowedMetadataValueTypes, persist?: boolean) => {
         // prevent closing the navBar when updating the "staticNav" setting
         setUpdateDrawerOnRender(key !== 'staticNav');
-        setSettingValue(key, value);
+        setSettingValue(key, value, persist);
     };
 
     const updateDrawer = (open: boolean) => {
@@ -280,8 +279,7 @@ export function ReaderNavBar(props: IProps) {
                                 disabled={disableChapterNavButtons || chapter.pageCount === -1}
                             >
                                 <Select
-                                    MenuProps={MenuProps}
-                                    value={chapter.pageCount > -1 ? curPage : ''}
+                                    value={chapter.pageCount > -1 ? `${curPage}` : ''}
                                     displayEmpty
                                     onChange={({ target: { value: selectedPage } }) => {
                                         scrollToPage(Number(selectedPage));
@@ -315,8 +313,7 @@ export function ReaderNavBar(props: IProps) {
                                 disabled={disableChapterNavButtons || chapter.sourceOrder < 1}
                             >
                                 <Select
-                                    MenuProps={MenuProps}
-                                    value={chapter.sourceOrder >= 1 ? chapter.sourceOrder : ''}
+                                    value={chapter.sourceOrder >= 1 ? `${chapter.sourceOrder}` : ''}
                                     displayEmpty
                                     onChange={({ target: { value: selectedChapter } }) => {
                                         navigate(`/manga/${manga.id}/chapter/${selectedChapter}`, {

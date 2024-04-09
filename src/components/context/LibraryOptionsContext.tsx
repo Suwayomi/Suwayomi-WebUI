@@ -28,9 +28,11 @@ export const DefaultLibraryOptions: LibraryOptions = {
     SourcegridLayout: GridLayout.Compact,
 
     downloaded: undefined,
+    bookmarked: undefined,
     sortDesc: undefined,
     sorts: undefined,
     unread: undefined,
+    tracker: {},
 
     showTabSize: false,
 };

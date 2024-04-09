@@ -13,19 +13,24 @@ jobs:
 
     steps:
       - name: Cancel previous runs
-        uses: styfle/cancel-workflow-action@0.9.0
+        uses: styfle/cancel-workflow-action@0.12.1
         with:
           access_token: ${{ github.token }}
 
       - name: Checkout master branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           ref: master
           path: master
           fetch-depth: 0
 
+      - name: Set up NodeJs
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: './master/package.json'
+
       - name: Cache node_modules
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: |
             **/node_modules
@@ -34,7 +39,7 @@ jobs:
       - name: Build webUI
         run: |
           cd master
-          yarn install
+          yarn ci
           yarn build
           yarn build-zip
           yarn build-md5
@@ -49,7 +54,7 @@ jobs:
           echo "::set-output name=value::$genTag"
 
       - name: Checkout preview branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           repository: "Suwayomi/Suwayomi-WebUI-preview"
           ref: main
@@ -81,7 +86,7 @@ jobs:
           tag: ${{ steps.GenTagName.outputs.value }}
 
       - name: Checkout github pages repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           repository: "Suwayomi-WebUI-preview/suwayomi-webui-preview.github.io"
           ref: main

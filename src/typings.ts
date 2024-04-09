@@ -21,6 +21,7 @@ import {
     MetaType,
     SourcePreferenceChangeInput,
 } from '@/lib/graphql/generated/graphql.ts';
+import { TBaseTracker } from '@/lib/data/Trackers.ts';
 
 type GenericLocation<State = any> = Omit<Location, 'state'> & { state?: State };
 
@@ -100,7 +101,10 @@ export interface IMangaCard {
 
 export type TManga = GetMangaQuery['manga'];
 
-export type TPartialManga = OptionalProperty<TManga, 'unreadCount' | 'downloadCount' | 'categories' | 'chapters'>;
+export type TPartialManga = OptionalProperty<
+    TManga,
+    'unreadCount' | 'downloadCount' | 'bookmarkCount' | 'categories' | 'chapters'
+>;
 
 export interface IManga {
     id: number;
@@ -218,21 +222,38 @@ export enum ChapterOffset {
     NEXT = 1,
 }
 
-export type MetadataServerSettings = {
-    // downloads
+export type MetadataDownloadSettings = {
     deleteChaptersManuallyMarkedRead: boolean;
     deleteChaptersWhileReading: number;
     deleteChaptersWithBookmark: boolean;
     downloadAheadLimit: number;
+};
 
-    // library
+export type MetadataLibrarySettings = {
     showAddToLibraryCategorySelectDialog: boolean;
     ignoreFilters: boolean;
     removeMangaFromCategories: boolean;
+};
 
-    // client
+export type MetadataClientSettings = {
     devices: string[];
 };
+
+export type MetadataMigrationSettings = {
+    includeChapters: boolean;
+    includeCategories: boolean;
+    deleteChapters: boolean;
+};
+
+export type MetadataBrowseSettings = {
+    hideLibraryEntries: boolean;
+};
+
+export type MetadataServerSettings = MetadataDownloadSettings &
+    MetadataLibrarySettings &
+    MetadataClientSettings &
+    MetadataMigrationSettings &
+    MetadataBrowseSettings;
 
 export interface ISearchSettings {
     ignoreFilters: boolean;
@@ -370,10 +391,12 @@ export interface LibraryOptions {
 
     // filter options
     downloaded: NullAndUndefined<boolean>;
+    bookmarked: NullAndUndefined<boolean>;
     unread: NullAndUndefined<boolean>;
     sorts: NullAndUndefined<LibrarySortMode>;
     sortDesc: NullAndUndefined<boolean>;
     showTabSize: boolean;
+    tracker: Record<TBaseTracker['id'], NullAndUndefined<boolean>>;
 }
 
 export type UpdateCheck = {

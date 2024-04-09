@@ -14,8 +14,10 @@ import { Theme, SxProps, Stack, Button } from '@mui/material';
 import BrokenImageIcon from '@mui/icons-material/BrokenImage';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { useTranslation } from 'react-i18next';
+import ImageIcon from '@mui/icons-material/Image';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { Priority } from '@/lib/Queue.ts';
 
 interface IProps {
     src: string;
@@ -25,12 +27,16 @@ interface IProps {
     imgStyle?: CSSProperties;
 
     onImageLoad?: () => void;
+
+    useFetchApi?: boolean;
 }
 
 export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTMLImageElement | null>) => {
-    const { src, alt, onImageLoad, spinnerStyle: { small, ...spinnerStyle } = {}, imgStyle } = props;
+    const { useFetchApi, src, alt, onImageLoad, spinnerStyle: { small, ...spinnerStyle } = {}, imgStyle } = props;
 
     const { t } = useTranslation();
+
+    const showMissingImageIcon = !src.length;
 
     const [imageSourceUrl, setImageSourceUrl] = useState('');
     const [imgLoadRetryKey, setImgLoadRetryKey] = useState(0);
@@ -47,8 +53,12 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
     };
 
     useEffect(() => {
-        let tmpImageSourceUrl: string;
-        const imageRequest = requestManager.requestImage(src);
+        if (showMissingImageIcon) {
+            return () => {};
+        }
+
+        const imageRequest = requestManager.requestImage(src, Priority.HIGH, useFetchApi);
+        let cacheTimeout: NodeJS.Timeout;
 
         const fetchImage = async () => {
             try {
@@ -57,10 +67,14 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
 
                     updateImageState(false);
                     setImageSourceUrl(image);
-                    tmpImageSourceUrl = image;
                 };
 
-                const checkCache = await Promise.race([imageRequest.response, Promise.resolve(false)]);
+                const checkCache = await Promise.race([
+                    imageRequest.response,
+                    new Promise((resolve) => {
+                        cacheTimeout = setTimeout(resolve, 50);
+                    }),
+                ]);
                 const isImageCached = !!checkCache;
 
                 if (isImageCached) {
@@ -71,7 +85,8 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
                 updateImageState(true);
                 await updateImage();
             } catch (e) {
-                const wasAborted = e instanceof Error && e.name === 'AbortError';
+                const wasAborted =
+                    e instanceof Error && (e.name === 'AbortError' || e.message === 'Component was unmounted');
                 updateImageState(false, !wasAborted);
             }
         };
@@ -79,9 +94,8 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
         fetchImage().catch(defaultPromiseErrorHandler);
 
         return () => {
-            if (tmpImageSourceUrl) {
-                URL.revokeObjectURL(tmpImageSourceUrl);
-            }
+            imageRequest.cleanup();
+            clearTimeout(cacheTimeout);
             imageRequest.abortRequest(new Error('Component was unmounted'));
         };
     }, [imgLoadRetryKey]);
@@ -112,17 +126,28 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
                 </Box>
             )}
 
-            <img
-                key={`${src}_${imgLoadRetryKey}`}
-                style={{
-                    ...imgStyle,
-                    display: !imageSourceUrl || isLoading || hasError ? 'none' : imgStyle?.display,
-                }}
-                ref={imgRef}
-                src={imageSourceUrl}
-                alt={alt}
-                draggable={false}
-            />
+            {showMissingImageIcon ? (
+                <Stack
+                    height="100%"
+                    alignItems="center"
+                    justifyContent="center"
+                    sx={{ background: (theme) => theme.palette.background.default }}
+                >
+                    <ImageIcon fontSize="large" />
+                </Stack>
+            ) : (
+                <img
+                    key={`${src}_${imgLoadRetryKey}`}
+                    style={{
+                        ...imgStyle,
+                        display: !imageSourceUrl || isLoading || hasError ? 'none' : imgStyle?.display,
+                    }}
+                    ref={imgRef}
+                    src={imageSourceUrl}
+                    alt={alt}
+                    draggable={false}
+                />
+            )}
         </>
     );
 });

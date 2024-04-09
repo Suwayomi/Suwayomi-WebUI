@@ -8,9 +8,9 @@
                         "success_many": "{{count}} Favoritos removidos do capítulo",
                         "success_other": "{{count}} Favoritos removidos do capítulo",
                         "action": "Remover favorito",
-                        "error_one": "Erro ao remover favorito",
-                        "error_many": "Erro ao remover seus favoritos",
-                        "error_other": "Erro ao remover seus favoritos"
+                        "error_one": "Erro ao remover dos favoritos",
+                        "error_many": "Erro ao remover dos favoritos",
+                        "error_other": "Erro ao remover dos favoritos"
                     },
                     "button": {
                         "selected": "Remover favoritos dos selecionados"
@@ -22,9 +22,9 @@
                         "success_many": "{{count}} Capítulos Marcados",
                         "success_other": "{{count}} Capítulos Marcados",
                         "action": "Adicionar favorito",
-                        "error_one": "Erro ao marcar capitulo",
-                        "error_many": "Erro ao marcar capítulos",
-                        "error_other": "Erro ao marcar capítulos"
+                        "error_one": "Erro ao marcar o capitulo",
+                        "error_many": "Erro ao marcar os capítulos",
+                        "error_other": "Erro ao marcar os capítulos"
                     },
                     "button": {
                         "selected": "Favorito selecionado"
@@ -32,7 +32,8 @@
                 }
             },
             "label": {
-                "select": "Selecionar"
+                "select": "Selecionar",
+                "open_on_source": "Abrir na fonte"
             },
             "mark_as_read": {
                 "add": {
@@ -44,9 +45,9 @@
                             "current": "Marcar como lido",
                             "previous": "Marcar capítulos anteriores como lidos"
                         },
-                        "error_one": "Erro ao marcar capitulo como lido",
-                        "error_many": "Erro ao marcar capítulos como lido",
-                        "error_other": "Erro ao marcar capítulos como lido"
+                        "error_one": "Erro ao marcar o capitulo como lido",
+                        "error_many": "Erro ao marcar os capítulos como lidos",
+                        "error_other": "Erro ao marcar os capítulos como lidos"
                     },
                     "button": {
                         "selected": "Marcar seleção como lida"
@@ -58,9 +59,9 @@
                     },
                     "label": {
                         "action": "Marcar como não lido",
-                        "error_one": "Erro ao marcar capitulo como não lido",
-                        "error_many": "Erro ao marcar capítulos como não lido",
-                        "error_other": "Erro ao marcar capítulos como não lido",
+                        "error_one": "Erro ao marcar o capitulo como não lido",
+                        "error_many": "Erro ao marcar os capítulos como não lidos",
+                        "error_other": "Erro ao marcar os capítulos como não lidos",
                         "success_one": "Capitulo marcado como não lido",
                         "success_many": "{{count}} Capítulos marcados como não lidos",
                         "success_other": "{{count}} Capítulos marcados como não lidos"
@@ -74,9 +75,9 @@
                     },
                     "label": {
                         "action": "Deletar",
-                        "error_one": "Erro ao deletar capitulo",
-                        "error_many": "Erro ao deletar capitulos",
-                        "error_other": "Erro ao deletar capitulos",
+                        "error_one": "Erro ao deletar o capitulo",
+                        "error_many": "Erro ao deletar os capitulos",
+                        "error_other": "Erro ao deletar os capitulos",
                         "success_one": "Capitulo deletado",
                         "success_many": "{{count}} Capítulos deletados",
                         "success_other": "{{count}} Capítulos deletados"
@@ -152,7 +153,7 @@
         "dialog": {
             "title": {
                 "edit_category": "Editar catálogo",
-                "new_category": "Novo Catálogo"
+                "new_category": "Nova Categoria"
             }
         },
         "error": {
@@ -163,17 +164,28 @@
             "no_categories_found": {
                 "label": {
                     "hint": "Deve fazer alguns partir das configurações.",
-                    "info": "Não foram encontradas categorias!"
+                    "info": "Não foram encontradas categorias."
                 }
             }
         },
         "label": {
             "category_name": "Nome da categoria",
-            "use_as_default_category": "Categoria predefinida ao adicionar nova manga à biblioteca"
+            "use_as_default_category": "Categoria padrão quando adicionar um novo manga a biblioteca"
         },
         "title": {
             "categories": "Categorias",
-            "set_categories": "Defina as categorias"
+            "set_categories": "Defina as categorias",
+            "category_one": "Categoria",
+            "category_many": "Categorias",
+            "category_other": "Categorias"
+        },
+        "settings": {
+            "inclusion": {
+                "label": {
+                    "include": "Incluir: {{includedCategoriesText}}",
+                    "exclude": "Excluir: {{excludedCategoriesText}}"
+                }
+            }
         }
     },
     "global": {
@@ -216,7 +228,14 @@
         "queue": {
             "title": "Fila de downloads",
             "label": {
-                "no_downloads": "Sem downloads"
+                "no_downloads": "Sem downloads",
+                "delete_all": "Deletar todos"
+            },
+            "error": {
+                "label": {
+                    "failed_to_remove": "Erro ao remover o download da fila.",
+                    "failed_delete_all": "Erro ao remover todos os downloads da fila"
+                }
             }
         },
         "state": {
@@ -227,6 +246,69 @@
                 "queued": "Na fila"
             }
         },
-        "title": "Baixados"
+        "title": "Baixados",
+        "settings": {
+            "auto_download": {
+                "download_limit": {
+                    "label": {
+                        "description": "Limitar a quantidade de capítulos que serão baixados.",
+                        "title": "Limite de download de capítulo"
+                    }
+                },
+                "title": "Download automático",
+                "label": {
+                    "new_chapters": "Baixar novos capítulos",
+                    "ignore_with_unread_chapters": "Ignorar downloads automáticos de capítulos para entradas com capítulos não lidos"
+                },
+                "categories": {
+                    "label": {
+                        "include_in_download": "As entradas nas categorias excluídas não serão baixadas, mesmo que também estejam nas categorias incluídas"
+                    }
+                }
+            },
+            "delete_chapters": {
+                "while_reading": {
+                    "option": {
+                        "label": {
+                            "third": "Terceiro ao último capítulo lido",
+                            "first": "Último capítulo lido",
+                            "fifth": "Quinto ao último capítulo lido",
+                            "fourth": "Quarto ao último capítulo lido",
+                            "second": "Segundo ao último capítulo lido"
+                        }
+                    },
+                    "label": {
+                        "title": "Exclua capítulos concluídos durante a leitura"
+                    }
+                },
+                "label": {
+                    "allow_deletion_of_bookmarked": "Permitir exclusão de capítulos marcados como favoritos",
+                    "manually_marked_as_read": "Deletar o capítulo após marcá-lo manualmente como lido"
+                },
+                "title": "Deletar capítulos"
+            },
+            "download_ahead": {
+                "label": {
+                    "description": "Quantos capítulos devem ser baixados durante a leitura.",
+                    "unread_chapters_to_download": "Número de capítulos não lidos para download",
+                    "while_reading": "Download automático durante a leitura",
+                    "value": "{{chapters}} $t(chapter.title)",
+                    "disclaimer": "Só funciona se o capítulo atual e o próximo capítulo já tiverem sido baixados."
+                },
+                "title": "Baixe com antecedência"
+            },
+            "title": "Configurações de download",
+            "download_path": {
+                "label": {
+                    "title": "Local do download",
+                    "description": "O caminho do diretório no servidor onde os arquivos baixados devem ser salvos"
+                }
+            },
+            "file_type": {
+                "label": {
+                    "cbz": "Salvar como arquivo CDZ"
+                }
+            }
+        }
     }
 }

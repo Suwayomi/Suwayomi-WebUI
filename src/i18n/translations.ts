@@ -15,7 +15,9 @@ import id from '@/i18n/locale/id.json';
 import it from '@/i18n/locale/it.json';
 import ja from '@/i18n/locale/ja.json';
 import ko from '@/i18n/locale/ko.json';
+import nb_NO from '@/i18n/locale/nb-NO.json';
 import pt from '@/i18n/locale/pt.json';
+import sv from '@/i18n/locale/sv.json';
 import uk from '@/i18n/locale/uk.json';
 import vi from '@/i18n/locale/vi.json';
 import zh_Hans from '@/i18n/locale/zh_Hans.json';
@@ -32,14 +34,16 @@ const translationHelper = <T>(lng: T) => ({
 export const resources = {
     ar: translationHelper(ar),
     de: translationHelper(de),
-    es: translationHelper(es),
     en: translationHelper(en), // default language
+    es: translationHelper(es),
     fr: translationHelper(fr),
     id: translationHelper(id),
     it: translationHelper(it),
     ja: translationHelper(ja),
     ko: translationHelper(ko),
+    'nb-NO': translationHelper(nb_NO),
     pt: translationHelper(pt),
+    sv: translationHelper(sv),
     uk: translationHelper(uk),
     vi: translationHelper(vi),
     'zh-Hans': translationHelper(zh_Hans),

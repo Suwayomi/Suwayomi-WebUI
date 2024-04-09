@@ -17,7 +17,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
-import { Link, ListItemButton, MenuItem, Select } from '@mui/material';
+import { Link, ListItemButton, MenuItem } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import LanguageIcon from '@mui/icons-material/Language';
 import CollectionsOutlinedBookmarkIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
@@ -28,14 +28,16 @@ import WebIcon from '@mui/icons-material/Web';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
 import DevicesIcon from '@mui/icons-material/Devices';
+import SyncIcon from '@mui/icons-material/Sync';
 import { langCodeToName } from '@/util/language';
-import { useLocalStorage } from '@/util/useLocalStorage';
+import { useLocalStorage } from '@/util/useStorage.tsx';
 import { ListItemLink } from '@/components/util/ListItemLink';
 import { DarkTheme } from '@/components/context/DarkTheme';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
+import { Select } from '@/components/atoms/Select.tsx';
 
 export function Settings() {
     const { t, i18n } = useTranslation();
@@ -94,6 +96,12 @@ export function Settings() {
                 </ListItemIcon>
                 <ListItemText primary={t('download.title')} />
             </ListItemLink>
+            <ListItemLink to="/settings/trackingSettings">
+                <ListItemIcon>
+                    <SyncIcon />
+                </ListItemIcon>
+                <ListItemText primary={t('tracking.title')} />
+            </ListItemLink>
             <ListItemLink to="/settings/backup">
                 <ListItemIcon>
                     <BackupIcon />
@@ -136,7 +144,6 @@ export function Settings() {
                     }
                 />
                 <Select
-                    MenuProps={{ PaperProps: { style: { maxHeight: 150 } } }}
                     value={i18n.language}
                     onChange={({ target: { value: language } }) => i18n.changeLanguage(language)}
                 >

@@ -210,8 +210,60 @@ export const FULL_SOURCE_FIELDS = gql`
     }
 `;
 
+export const FULL_TRACKER_FIELDS = gql`
+    fragment FULL_TRACKER_FIELDS on TrackerType {
+        id
+        name
+        authUrl
+        icon
+        supportsTrackDeletion
+        isLoggedIn
+        isTokenExpired
+        scores
+        statuses {
+            name
+            value
+        }
+    }
+`;
+
+export const BASE_TRACK_RECORD_FIELDS = gql`
+    fragment BASE_TRACK_RECORD_FIELDS on TrackRecordType {
+        id
+        status
+        lastChapterRead
+        totalChapters
+        score
+        displayScore
+        startDate
+        finishDate
+    }
+`;
+
+export const QUERY_TRACK_RECORD_FIELDS = gql`
+    ${BASE_TRACK_RECORD_FIELDS}
+    fragment QUERY_TRACK_RECORD_FIELDS on TrackRecordType {
+        ...BASE_TRACK_RECORD_FIELDS
+        title
+        remoteUrl
+        remoteId
+    }
+`;
+
+export const FULL_TRACK_RECORD_FIELDS = gql`
+    ${QUERY_TRACK_RECORD_FIELDS}
+    ${FULL_TRACKER_FIELDS}
+    fragment FULL_TRACK_RECORD_FIELDS on TrackRecordType {
+        ...QUERY_TRACK_RECORD_FIELDS
+        tracker {
+            ...FULL_TRACKER_FIELDS
+        }
+    }
+`;
+
 export const BASE_MANGA_FIELDS = gql`
     ${PARTIAL_SOURCE_FIELDS}
+    ${FULL_TRACK_RECORD_FIELDS}
     fragment BASE_MANGA_FIELDS on MangaType {
         artist
         author
@@ -236,6 +288,12 @@ export const BASE_MANGA_FIELDS = gql`
         thumbnailUrlLastFetched
         title
         url
+        trackRecords {
+            totalCount
+            nodes {
+                ...FULL_TRACK_RECORD_FIELDS
+            }
+        }
     }
 `;
 
@@ -247,6 +305,7 @@ export const PARTIAL_MANGA_FIELDS = gql`
         ...BASE_MANGA_FIELDS
         unreadCount
         downloadCount
+        bookmarkCount
         categories {
             nodes {
                 ...FULL_CATEGORY_FIELDS
@@ -305,6 +364,9 @@ export const FULL_MANGA_FIELDS = gql`
             ...FULL_CHAPTER_FIELDS
         }
         latestUploadedChapter {
+            ...FULL_CHAPTER_FIELDS
+        }
+        firstUnreadChapter {
             ...FULL_CHAPTER_FIELDS
         }
     }
@@ -495,6 +557,7 @@ export const SERVER_SETTINGS = gql`
         autoDownloadNewChapters
         excludeEntryWithUnreadChapters
         autoDownloadNewChaptersLimit
+        autoDownloadIgnoreReUploads
 
         # extensions
         extensionRepos

@@ -7,15 +7,15 @@
  */
 
 import { List, ListItem, ListItemText, Switch } from '@mui/material';
-import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { useTranslation } from 'react-i18next';
 import { AllowedMetadataValueTypes, IReaderSettings } from '@/typings';
 import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
 import { isHorizontalReaderType } from '@/components/reader/Page.tsx';
+import { Select } from '@/components/atoms/Select.tsx';
 
 interface IProps extends IReaderSettings {
-    setSettingValue: (key: keyof IReaderSettings, value: AllowedMetadataValueTypes) => void;
+    setSettingValue: (key: keyof IReaderSettings, value: AllowedMetadataValueTypes, persist?: boolean) => void;
 }
 
 export function ReaderSettingsOptions({
@@ -107,6 +107,7 @@ export function ReaderSettingsOptions({
                     valueUnit="%"
                     showSlider
                     handleUpdate={(width: number) => setSettingValue('readerWidth', width)}
+                    handleLiveUpdate={(width: number) => setSettingValue('readerWidth', width, false)}
                     listItemTextSx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
                 />
             )}

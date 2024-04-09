@@ -18,7 +18,10 @@ export const LibraryToolbarMenu: React.FC = () => {
 
     const [open, setOpen] = useState(false);
     const { options } = useLibraryOptionsContext();
-    const active = options.downloaded != null || options.unread != null;
+    const active =
+        options.downloaded != null ||
+        options.unread != null ||
+        Object.values(options.tracker).some((trackerFilterStatus) => trackerFilterStatus != null);
 
     return (
         <>

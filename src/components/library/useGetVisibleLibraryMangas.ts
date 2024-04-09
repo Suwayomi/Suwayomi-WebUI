@@ -8,9 +8,10 @@
 
 import { StringParam, useQueryParam } from 'use-query-params';
 import { useMemo } from 'react';
-import { LibrarySortMode, NullAndUndefined, TManga } from '@/typings.ts';
+import { LibraryOptions, LibrarySortMode, NullAndUndefined, TManga } from '@/typings.ts';
 import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext.tsx';
-import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
+import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
+import { Trackers } from '@/lib/data/Trackers.ts';
 
 const unreadFilter = (unread: NullAndUndefined<boolean>, { unreadCount }: TManga): boolean => {
     switch (unread) {
@@ -34,6 +35,17 @@ const downloadedFilter = (downloaded: NullAndUndefined<boolean>, { downloadCount
     }
 };
 
+const bookmarkedFilter = (bookmarked: NullAndUndefined<boolean>, { bookmarkCount }: TManga): boolean => {
+    switch (bookmarked) {
+        case true:
+            return !!bookmarkCount && bookmarkCount >= 1;
+        case false:
+            return bookmarkCount === 0;
+        default:
+            return true;
+    }
+};
+
 const queryFilter = (query: NullAndUndefined<string>, { title }: TManga): boolean => {
     if (!query) return true;
     return title.toLowerCase().includes(query.toLowerCase());
@@ -45,18 +57,41 @@ const queryGenreFilter = (query: NullAndUndefined<string>, { genre }: TManga): b
     return queries.every((element) => genre.map((el) => el.toLowerCase()).includes(element));
 };
 
+const trackerFilter = (trackFilters: LibraryOptions['tracker'], manga: TManga): boolean =>
+    Object.entries(trackFilters)
+        .map(([trackFilterId, trackFilterState]) => {
+            const mangaTrackers = Trackers.getTrackers(manga.trackRecords.nodes);
+            const isTrackerBound = mangaTrackers.some((tracker) => tracker.id === Number(trackFilterId));
+
+            switch (trackFilterState) {
+                case true:
+                    return isTrackerBound;
+                case false:
+                    return !isTrackerBound;
+                default:
+                    return true;
+            }
+        })
+        .every((matchesFilter) => matchesFilter);
+
 const filterManga = (
     mangas: TManga[],
     query: NullAndUndefined<string>,
     unread: NullAndUndefined<boolean>,
     downloaded: NullAndUndefined<boolean>,
+    bookmarked: NullAndUndefined<boolean>,
+    tracker: LibraryOptions['tracker'],
     ignoreFilters: boolean,
 ): TManga[] =>
     mangas.filter((manga) => {
         const ignoreFiltersWhileSearching = ignoreFilters && query?.length;
         const matchesSearch = queryFilter(query, manga) || queryGenreFilter(query, manga);
         const matchesFilters =
-            ignoreFiltersWhileSearching || (downloadedFilter(downloaded, manga) && unreadFilter(unread, manga));
+            ignoreFiltersWhileSearching ||
+            (downloadedFilter(downloaded, manga) &&
+                unreadFilter(unread, manga) &&
+                bookmarkedFilter(bookmarked, manga) &&
+                trackerFilter(tracker, manga));
 
         return matchesSearch && matchesFilters;
     });
@@ -71,10 +106,10 @@ const sortByLastRead = (a: TManga, b: TManga): number =>
     Number(b.lastReadChapter?.lastReadAt ?? 0) - Number(a.lastReadChapter?.lastReadAt ?? 0);
 
 const sortByLatestUploadedChapter = (a: TManga, b: TManga): number =>
-    (a.latestUploadedChapter?.fetchedAt ?? 0) - (b.latestUploadedChapter?.fetchedAt ?? 0);
+    Number(a.latestUploadedChapter?.fetchedAt ?? 0) - Number(b.latestUploadedChapter?.fetchedAt ?? 0);
 
 const sortByLatestFetchedChapter = (a: TManga, b: TManga): number =>
-    (a.latestFetchedChapter?.fetchedAt ?? 0) - (b.latestFetchedChapter?.fetchedAt ?? 0);
+    Number(a.latestFetchedChapter?.fetchedAt ?? 0) - Number(b.latestFetchedChapter?.fetchedAt ?? 0);
 
 const sortManga = (
     manga: TManga[],
@@ -116,20 +151,23 @@ const sortManga = (
 export const useGetVisibleLibraryMangas = (mangas: TManga[]) => {
     const [query] = useQueryParam('query', StringParam);
     const { options } = useLibraryOptionsContext();
-    const { unread, downloaded } = options;
+    const { unread, downloaded, bookmarked, tracker } = options;
     const { settings } = useMetadataServerSettings();
 
     const filteredMangas = useMemo(
-        () => filterManga(mangas, query, unread, downloaded, settings.ignoreFilters),
-        [mangas, query, unread, downloaded, settings.ignoreFilters],
+        () => filterManga(mangas, query, unread, downloaded, bookmarked, tracker, settings.ignoreFilters),
+        [mangas, query, unread, downloaded, bookmarked, tracker, settings.ignoreFilters],
     );
     const sortedMangas = useMemo(
         () => sortManga(filteredMangas, options.sorts, options.sortDesc),
         [filteredMangas, options.sorts, options.sortDesc],
     );
 
+    const isATrackFilterActive = Object.values(options.tracker).some((trackFilterState) => trackFilterState != null);
     const showFilteredOutMessage =
-        (unread != null || downloaded != null || !!query) && filteredMangas.length === 0 && mangas.length > 0;
+        (unread != null || downloaded != null || bookmarked != null || !!query || isATrackFilterActive) &&
+        filteredMangas.length === 0 &&
+        mangas.length > 0;
 
     return {
         visibleMangas: sortedMangas,

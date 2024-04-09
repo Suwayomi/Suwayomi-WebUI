@@ -23,19 +23,7 @@ let generatedGraphQLFile = fs.readFileSync(generatedGraphQLFilePath, 'utf8');
 /*                                             */
 /* ******************************************* */
 
-const fixCursorTyping = format(
-    generatedGraphQLFile,
-    /Cursor: \{ input: any; output: any; }/g,
-    'Cursor: { input: string; output: string; }',
-);
-
-const fixLongStringTyping = format(
-    fixCursorTyping,
-    /LongString: \{ input: any; output: any; }/g,
-    'LongString: { input: string; output: string; }',
-);
-
-const fixSubscriptionHookNameSuffix = format(fixLongStringTyping, /SubscriptionSubscription/g, 'Subscription');
+const fixSubscriptionHookNameSuffix = format(generatedGraphQLFile, /SubscriptionSubscription/g, 'Subscription');
 
 fs.writeFileSync(generatedGraphQLFilePath, fixSubscriptionHookNameSuffix);
 

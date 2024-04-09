@@ -16,9 +16,13 @@ import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarC
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
 import { MutableListSetting } from '@/components/settings/MutableListSetting.tsx';
-import { ServerSettings as GqlServerSettings } from '@/typings.ts';
+import { MetadataBrowseSettings, ServerSettings as GqlServerSettings } from '@/typings.ts';
 import { TextSetting } from '@/components/settings/text/TextSetting.tsx';
-import { useLocalStorage } from '@/util/useLocalStorage.tsx';
+import { useLocalStorage } from '@/util/useStorage.tsx';
+import {
+    createUpdateMetadataServerSettings,
+    useMetadataServerSettings,
+} from '@/lib/metadata/metadataServerSettings.ts';
 
 type ExtensionsSettings = Pick<GqlServerSettings, 'maxSourcesInParallel' | 'localSourcePath' | 'extensionRepos'>;
 
@@ -52,8 +56,21 @@ export const BrowseSettings = () => {
         mutateSettings({ variables: { input: { settings: { [setting]: value } } } });
     };
 
+    const {
+        settings: { hideLibraryEntries },
+    } = useMetadataServerSettings();
+    const updateMetadataServerSettings = createUpdateMetadataServerSettings<keyof MetadataBrowseSettings>();
+
     return (
         <List>
+            <ListItem>
+                <ListItemText primary={t('settings.label.hide_library_entries')} />
+                <Switch
+                    edge="end"
+                    checked={hideLibraryEntries}
+                    onChange={() => updateMetadataServerSettings('hideLibraryEntries', !hideLibraryEntries)}
+                />
+            </ListItem>
             <ListItem>
                 <ListItemText
                     primary={t('settings.label.show_nsfw')}

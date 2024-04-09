@@ -9,7 +9,8 @@
                 "load_next_chapter": "在尾頁載入下一章",
                 "reader_type": "閱讀器類型",
                 "offset_first_page": "返回第一頁",
-                "reader_width": "閱讀器寬度"
+                "reader_width": "閱讀器寬度",
+                "scale_page": "縮放頁面"
             },
             "reader_type": {
                 "label": {
@@ -38,7 +39,9 @@
         "error": {
             "label": {
                 "unable_to_get_prev_chapter_skip_dup": "無法獲取上一章 - \"$t(reader.settings.label.skip_dup_chapters)\" 選項已啟用",
-                "unable_to_get_next_chapter_skip_dup": "無法獲取下一章 - \"$t(reader.settings.label.skip_dup_chapters)\" 選項已啟用"
+                "unable_to_get_next_chapter_skip_dup": "無法獲取下一章 - \"$t(reader.settings.label.skip_dup_chapters)\" 選項已啟用",
+                "prev_chapter_does_not_exist": "沒有可打開的前一章",
+                "next_chapter_does_not_exist": "沒有可打開的下一章"
             }
         },
         "page_info": {
@@ -712,9 +715,12 @@
             },
             "socks_proxy": {
                 "label": {
-                    "host": "SOCKS5 主機",
-                    "enable": "使用 SOCKS5 Proxy",
-                    "port": "SOCKS5 通訊埠"
+                    "host": "SOCKS 主機",
+                    "enable": "使用 SOCKS Proxy",
+                    "port": "SOCKS 通訊埠",
+                    "username": "SOCKS用戶名",
+                    "password": "SOCKS密碼",
+                    "version": "SOCKS版本"
                 },
                 "title": "SOCKS Proxy"
             },
@@ -817,7 +823,7 @@
                     "preview": {
                         "label": {
                             "title": "預覽版",
-                            "disclaimer": "在此版本中的功能與變更可能還未完全準備好，並且可能導致錯誤。\n請確保您有啟用自動備份，以防止遺失您的書櫃！",
+                            "disclaimer": "在此版本中的功能與變更可能還未完全準備好，並且可能導致錯誤。\n請確保您有啟用自動備份，以防止遺失您的書櫃！\n\n$t(settings.webui.flavor.label.info)",
                             "description": "使用最新的功能，並協助我們為穩定版本做好準備。"
                         }
                     },
@@ -851,10 +857,17 @@
                         "label": {
                             "description": "使用預設 $t(settings.webui.title.webui)"
                         }
+                    },
+                    "vui": {
+                        "label": {
+                            "description": "以預覽為重點的網絡前端，採用纖瘦設計",
+                            "title": "VUI"
+                        }
                     }
                 },
                 "label": {
-                    "title": "類型"
+                    "title": "類型",
+                    "info": "更改此設定後，轉到“關於”頁面，檢查webUI更新並安裝它"
                 }
             },
             "interface": {
@@ -877,6 +890,9 @@
                 "success": "已清除伺服器快取",
                 "title": "清除伺服器快取"
             }
+        },
+        "browse": {
+            "title": "瀏覽設定"
         }
     },
     "source": {
@@ -940,7 +956,13 @@
                         "include_in_download": "在排除分類中的作品將不會被下載，即使它們也在包含的分類中"
                     }
                 },
-                "title": "自動下載"
+                "title": "自動下載",
+                "download_limit": {
+                    "label": {
+                        "description": "限制將要下載的新章節的數量。",
+                        "title": "章節下載限制"
+                    }
+                }
             },
             "delete_chapters": {
                 "while_reading": {
@@ -968,8 +990,8 @@
                     "unread_chapters_to_download": "要下載的未讀章節數量",
                     "value": "{{chapters}} $t(chapter.title)",
                     "while_reading": "閱讀時自動下載",
-                    "disclaimer": "此限制也適用於更新期間自動下載章節",
-                    "description": "閱讀前應預先下載多少章節。"
+                    "disclaimer": "當前章節加上下一章已經下載時才有效。",
+                    "description": "閱讀時應下載多少章節。"
                 },
                 "title": "預先下載"
             },

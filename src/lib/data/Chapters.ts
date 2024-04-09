@@ -12,7 +12,7 @@ import { DocumentNode } from '@apollo/client';
 import { ChapterOffset, TChapter, TranslationKey } from '@/typings.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { getMetadataServerSettings } from '@/util/metadataServerSettings.ts';
+import { getMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 import { FULL_CHAPTER_FIELDS } from '@/lib/graphql/Fragments.ts';
 
 export type ChapterAction = 'download' | 'delete' | 'bookmark' | 'unbookmark' | 'mark_as_read' | 'mark_as_unread';
@@ -133,18 +133,18 @@ export class Chapters {
         return chapters.filter(Chapters.isDownloaded);
     }
 
-    static isAutoDeletable(
+    static isDeletable(
         { isBookmarked, ...chapter }: ChapterDownloadInfo & ChapterBookmarkInfo,
         canDeleteBookmarked: boolean = false,
     ): boolean {
         return Chapters.isDownloaded(chapter) && (!isBookmarked || canDeleteBookmarked);
     }
 
-    static getAutoDeletable<Chapters extends ChapterDownloadInfo & ChapterBookmarkInfo>(
+    static getDeletable<Chapters extends ChapterDownloadInfo & ChapterBookmarkInfo>(
         chapters: Chapters[],
         canDeleteBookmarked?: boolean,
     ): Chapters[] {
-        return chapters.filter((chapter) => Chapters.isAutoDeletable(chapter, canDeleteBookmarked));
+        return chapters.filter((chapter) => Chapters.isDeletable(chapter, canDeleteBookmarked));
     }
 
     static isBookmarked({ isBookmarked }: ChapterBookmarkInfo): boolean {
@@ -211,7 +211,7 @@ export class Chapters {
         const { deleteChaptersManuallyMarkedRead, deleteChaptersWithBookmark } = await getMetadataServerSettings();
         const chapterIdsToDelete =
             deleteChaptersManuallyMarkedRead && wasManuallyMarkedAsRead
-                ? Chapters.getIds(Chapters.getAutoDeletable(chapters, deleteChaptersWithBookmark))
+                ? Chapters.getIds(Chapters.getDeletable(chapters, deleteChaptersWithBookmark))
                 : [];
         return Chapters.executeAction(
             'mark_as_read',

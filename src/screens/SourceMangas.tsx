@@ -13,7 +13,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import { useQueryParam, StringParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
 import Link from '@mui/material/Link';
-import { Box, Button, styled, useTheme, useMediaQuery, Tooltip } from '@mui/material';
+import { Box, Button, styled, Tooltip } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import NewReleasesIcon from '@mui/icons-material/NewReleases';
 import FilterListIcon from '@mui/icons-material/FilterList';
@@ -23,7 +23,6 @@ import {
     AbortableApolloUseMutationPaginatedResponse,
     SPECIAL_ED_SOURCES,
 } from '@/lib/requests/RequestManager.ts';
-import { useDebounce } from '@/util/useDebounce.ts';
 import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
 import { SourceGridLayout } from '@/components/source/SourceGridLayout';
 import { AppbarSearch } from '@/components/util/AppbarSearch';
@@ -34,6 +33,8 @@ import {
     GetSourceMangasFetchMutationVariables,
 } from '@/lib/graphql/generated/graphql.ts';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
+import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
+import { useSessionStorage } from '@/util/useStorage.tsx';
 
 const ContentTypeMenu = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -107,12 +108,13 @@ const useSourceManga = (
     searchTerm: string | null | undefined,
     filters: IPos[],
     initialPages: number,
+    hideLibraryEntries: boolean,
 ): [
     AbortableApolloUseMutationPaginatedResponse<GetSourceMangasFetchMutation, GetSourceMangasFetchMutationVariables>[0],
     AbortableApolloUseMutationPaginatedResponse<
         GetSourceMangasFetchMutation,
         GetSourceMangasFetchMutationVariables
-    >[1][number],
+    >[1][number] & { filteredOutAllItemsOfFetchedPage: boolean },
 ] => {
     let result: AbortableApolloUseMutationPaginatedResponse<
         GetSourceMangasFetchMutation,
@@ -158,17 +160,32 @@ const useSourceManga = (
     const pages = result[1]!;
     const lastLoadedPageIndex = pages.findLastIndex((page) => !!page.data?.fetchSourceManga);
     const lastLoadedPage = pages[lastLoadedPageIndex];
-    const items = useMemo(
-        () =>
-            (pages ?? [])
-                .map((page) => page.data?.fetchSourceManga.mangas ?? [])
-                .reduce((prevList, list) => [...prevList, ...list], []),
-        [pages],
-    );
-    const uniqueItems = useMemo(() => getUniqueMangas(items), [items]);
 
-    if (!uniqueItems.length) {
-        return [result[0] as any, result[1][result[1].length - 1]];
+    const isPageLoading = pages.slice(-1)[0].isLoading;
+    let filteredOutAllItemsOfFetchedPage = !isPageLoading;
+    const items = useMemo(() => {
+        type FetchItemsResult = GetSourceMangasFetchMutation['fetchSourceManga']['mangas'];
+        let allItems: FetchItemsResult = [];
+
+        pages.forEach((page, index) => {
+            const pageItems = page.data?.fetchSourceManga.mangas ?? ([] as FetchItemsResult);
+            const uniqueItems = getUniqueMangas([...allItems, ...pageItems]);
+            const uniquePageItems = pageItems.filter(
+                (pageItem) => !!uniqueItems.find((uniqueItem) => uniqueItem.id === pageItem.id),
+            );
+            const nonLibraryItems = uniquePageItems.filter((item) => !hideLibraryEntries || !item.inLibrary);
+            // const nonLibraryItems = uniquePageItems;
+
+            const isLastPage = !isPageLoading && pages.length === index + 1;
+            filteredOutAllItemsOfFetchedPage = isLastPage && !nonLibraryItems.length && !!pageItems.length;
+            allItems = [...allItems, ...nonLibraryItems];
+        });
+
+        return allItems;
+    }, [pages, hideLibraryEntries]);
+
+    if (lastLoadedPageIndex === -1) {
+        return [result[0], { ...result[1][result[1].length - 1], filteredOutAllItemsOfFetchedPage }];
     }
 
     return [
@@ -183,9 +200,10 @@ const useSourceManga = (
                         pages.length > lastLoadedPageIndex + 1
                             ? false
                             : lastLoadedPage!.data!.fetchSourceManga.hasNextPage,
-                    mangas: uniqueItems,
+                    mangas: items,
                 },
             },
+            filteredOutAllItemsOfFetchedPage,
         },
     ];
 };
@@ -194,23 +212,15 @@ export function SourceMangas() {
     const { t } = useTranslation();
     const { setTitle, setAction } = useContext(NavBarContext);
 
-    const theme = useTheme();
-    const isLargeScreen = useMediaQuery(theme.breakpoints.up('sm'));
-
     const { sourceId } = useParams<{ sourceId: string }>();
 
     const navigate = useNavigate();
-    const { search } = useLocation();
-    const {
-        contentType: currentLocationContentType = SourceContentType.POPULAR,
-        filtersToApply: currentLocationFiltersToApply = [],
-        clearCache = false,
-    } = useLocation<{
-        contentType: SourceContentType;
-        filtersToApply: IPos[];
-        clearCache: boolean;
-        search: string;
-    }>().state ?? {};
+    const { key: locationKey, state: locationState } = useLocation();
+    const { contentType: initialContentType = SourceContentType.POPULAR, clearCache = false } =
+        useLocation<{
+            contentType: SourceContentType;
+            clearCache: boolean;
+        }>().state ?? {};
 
     useSetDefaultBackTo('sources');
 
@@ -220,20 +230,26 @@ export function SourceMangas() {
         setIsFirstRender(false);
     }, []);
 
+    const {
+        settings: { hideLibraryEntries },
+    } = useMetadataServerSettings();
+
     const { options } = useLibraryOptionsContext();
     const [query] = useQueryParam('query', StringParam);
-    const [dialogFiltersToApply, setDialogFiltersToApply] = useState<IPos[]>(currentLocationFiltersToApply);
-    const [filtersToApply, setFiltersToApply] = useState<IPos[]>(currentLocationFiltersToApply);
-    const searchTerm = useDebounce(query, 1000);
-    const [resetScrollPosition, setResetScrollPosition] = useState(false);
-    const [contentType, setContentType] = useState(currentLocationContentType);
-    const [loadPage, { data, isLoading, size: lastPageNum, abortRequest }] = useSourceManga(
-        sourceId,
-        contentType,
-        searchTerm,
-        filtersToApply,
-        isLargeScreen ? 2 : 1,
+    const [filtersToApply, setFiltersToApply] = useSessionStorage<IPos[]>(
+        `source-mangas-location-${locationKey}-${sourceId}-filters`,
+        [],
     );
+    const [dialogFiltersToApply, setDialogFiltersToApply] = useState<IPos[]>(filtersToApply);
+    const [resetScrollPosition, setResetScrollPosition] = useState(false);
+    const [contentType, setContentType] = useSessionStorage(
+        `source-mangas-location-${locationKey}-${sourceId}-content-type`,
+        query ? SourceContentType.SEARCH : initialContentType,
+    );
+
+    const [loadPage, { data, isLoading: loading, size: lastPageNum, abortRequest, filteredOutAllItemsOfFetchedPage }] =
+        useSourceManga(sourceId, contentType, query, filtersToApply, 1, hideLibraryEntries);
+    const isLoading = loading || filteredOutAllItemsOfFetchedPage;
     const mangas = data?.fetchSourceManga.mangas ?? [];
     const hasNextPage = data?.fetchSourceManga.hasNextPage ?? false;
 
@@ -253,50 +269,36 @@ export function SourceMangas() {
     ) : undefined;
 
     const updateContentType = useCallback(
-        (
-            newContentType: SourceContentType,
-            { updateLocationState = true, search: newSearch }: { updateLocationState?: boolean; search?: string } = {},
-        ) => {
-            if (updateLocationState) {
+        (newContentType: SourceContentType, newSearch?: string | null) => {
+            setContentType(newContentType);
+            setResetScrollPosition(true);
+
+            if (query && !newSearch) {
                 navigate(
-                    { pathname: '', search: newSearch },
                     {
-                        replace: true,
-                        state: {
-                            contentType: newContentType,
-                        },
+                        pathname: '',
+                    },
+                    {
+                        state: { ...locationState, contentType: newContentType },
                     },
                 );
             }
-
-            setContentType(newContentType);
-            setResetScrollPosition(true);
         },
-        [setContentType],
+        [setContentType, query],
     );
 
     const updateLocationFilters = useCallback(
         (updatedFilters: IPos[]) => {
             if (contentType === SourceContentType.SEARCH) {
-                navigate(
-                    { pathname: '', search },
-                    {
-                        replace: true,
-                        state: {
-                            contentType,
-                            filtersToApply: updatedFilters,
-                        },
-                    },
-                );
+                setFiltersToApply(updatedFilters);
             }
         },
-        [contentType, search],
+        [contentType, query],
     );
 
-    const isSearchTermAvailable = searchTerm && query?.length;
-    const setSearchContentType = isSearchTermAvailable && contentType !== SourceContentType.SEARCH;
+    const setSearchContentType = !!query && contentType !== SourceContentType.SEARCH;
     if (setSearchContentType) {
-        updateContentType(SourceContentType.SEARCH, { search });
+        updateContentType(SourceContentType.SEARCH, query);
     }
 
     const loadMore = useCallback(() => {
@@ -315,6 +317,12 @@ export function SourceMangas() {
     }, [sourceId, contentType, updateLocationFilters]);
 
     useEffect(() => {
+        if (filteredOutAllItemsOfFetchedPage && hasNextPage && !loading) {
+            loadPage(lastPageNum + 1);
+        }
+    }, [filteredOutAllItemsOfFetchedPage, loading]);
+
+    useEffect(() => {
         if (!clearCache) {
             return;
         }
@@ -325,10 +333,6 @@ export function SourceMangas() {
         }
 
         requestManager.clearBrowseCacheFor(sourceId);
-        navigate('', {
-            replace: true,
-            state: { contentType: currentLocationContentType, filters: currentLocationFiltersToApply },
-        });
     }, [clearCache]);
 
     useEffect(
@@ -342,7 +346,7 @@ export function SourceMangas() {
             abortRequest(new Error(`SourceMangas(${sourceId}): search string changed`));
             setResetScrollPosition(true);
         },
-        [searchTerm],
+        [query],
     );
 
     useEffect(() => {
@@ -405,7 +409,7 @@ export function SourceMangas() {
                 <ContentTypeButton
                     variant={contentType === SourceContentType.SEARCH ? 'contained' : 'outlined'}
                     startIcon={<FilterListIcon />}
-                    onClick={() => updateContentType(SourceContentType.SEARCH)}
+                    onClick={() => updateContentType(SourceContentType.SEARCH, query)}
                 >
                     {t('global.button.filter')}
                 </ContentTypeButton>

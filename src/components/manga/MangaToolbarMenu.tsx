@@ -19,12 +19,12 @@ import {
     useMediaQuery,
     useTheme,
 } from '@mui/material';
-import React, { useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import SyncAltIcon from '@mui/icons-material/SyncAlt';
-import { CategorySelect } from '@/components/navbar/action/CategorySelect';
 import { TManga } from '@/typings.ts';
+import { useCategorySelect } from '@/components/navbar/action/useCategorySelect.tsx';
 
 interface IProps {
     manga: TManga;
@@ -44,7 +44,9 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
         setAnchorEl(null);
     };
 
-    const [editCategories, setEditCategories] = useState(false);
+    const { openCategorySelect, CategorySelectComponent } = useCategorySelect({
+        mangaId: manga.id,
+    });
 
     return (
         <>
@@ -76,7 +78,7 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                             <Tooltip title={t('manga.label.edit_categories')}>
                                 <IconButton
                                     onClick={() => {
-                                        setEditCategories(true);
+                                        openCategorySelect(true);
                                     }}
                                 >
                                     <Label />
@@ -118,37 +120,37 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                             </ListItemIcon>
                             <ListItemText>{t('manga.label.reload_from_source')}</ListItemText>
                         </MenuItem>
-                        {manga.inLibrary && (
-                            <>
-                                <MenuItem
-                                    component={Link}
-                                    to={`/migrate/source/${manga.source?.id}/manga/${manga.id}/search?query=${manga.title}`}
-                                    state={{ mangaTitle: manga.title }}
-                                    style={{ textDecoration: 'none', color: 'inherit' }}
-                                >
-                                    <ListItemIcon>
-                                        <SyncAltIcon fontSize="small" />
-                                    </ListItemIcon>
-                                    <ListItemText>{t('migrate.title')}</ListItemText>
-                                </MenuItem>
-                                <MenuItem
-                                    onClick={() => {
-                                        setEditCategories(true);
-                                        handleClose();
-                                    }}
-                                >
-                                    <ListItemIcon>
-                                        <Label fontSize="small" />
-                                    </ListItemIcon>
-                                    <ListItemText>{t('manga.label.edit_categories')}</ListItemText>
-                                </MenuItem>
-                            </>
-                        )}
+                        {manga.inLibrary && [
+                            <MenuItem
+                                key="migrate"
+                                component={Link}
+                                to={`/migrate/source/${manga.source?.id}/manga/${manga.id}/search?query=${manga.title}`}
+                                state={{ mangaTitle: manga.title }}
+                                style={{ textDecoration: 'none', color: 'inherit' }}
+                            >
+                                <ListItemIcon>
+                                    <SyncAltIcon fontSize="small" />
+                                </ListItemIcon>
+                                <ListItemText>{t('migrate.title')}</ListItemText>
+                            </MenuItem>,
+                            <MenuItem
+                                key="categories"
+                                onClick={() => {
+                                    openCategorySelect(true);
+                                    handleClose();
+                                }}
+                            >
+                                <ListItemIcon>
+                                    <Label fontSize="small" />
+                                </ListItemIcon>
+                                <ListItemText>{t('manga.label.edit_categories')}</ListItemText>
+                            </MenuItem>,
+                        ]}
                     </Menu>
                 </>
             )}
 
-            <CategorySelect open={editCategories} onClose={() => setEditCategories(false)} mangaId={manga.id} />
+            {CategorySelectComponent}
         </>
     );
 };

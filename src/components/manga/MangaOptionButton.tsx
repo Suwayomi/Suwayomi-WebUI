@@ -7,108 +7,113 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import React, { TouchEvent, useMemo } from 'react';
+import { BaseSyntheticEvent, MouseEvent, TouchEvent, ChangeEvent, useMemo, forwardRef, ForwardedRef } from 'react';
 import { Button, Tooltip } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { PopupState } from 'material-ui-popup-state/es/hooks';
+import { PopupState } from 'material-ui-popup-state/hooks';
 import { bindTrigger } from 'material-ui-popup-state';
 import { isMobile } from 'react-device-detect';
 import { SelectableCollectionReturnType } from '@/components/collection/useSelectableCollection.ts';
 import { TManga } from '@/typings.ts';
 
-export const MangaOptionButton = ({
-    id,
-    selected,
-    handleSelection,
-    asCheckbox = false,
-    popupState,
-}: {
-    id: number;
-    selected?: boolean | null;
-    handleSelection?: SelectableCollectionReturnType<TManga['id']>['handleSelection'];
-    asCheckbox?: boolean;
-    popupState: PopupState;
-}) => {
-    const { t } = useTranslation();
+export const MangaOptionButton = forwardRef(
+    (
+        {
+            id,
+            selected,
+            handleSelection,
+            asCheckbox = false,
+            popupState,
+        }: {
+            id: number;
+            selected?: boolean | null;
+            handleSelection?: SelectableCollectionReturnType<TManga['id']>['handleSelection'];
+            asCheckbox?: boolean;
+            popupState: PopupState;
+        },
+        ref: ForwardedRef<HTMLButtonElement | null>,
+    ) => {
+        const { t } = useTranslation();
 
-    const bindTriggerProps = useMemo(() => bindTrigger(popupState), [popupState]);
+        const bindTriggerProps = useMemo(() => bindTrigger(popupState), [popupState]);
 
-    const preventDefaultAction = (e: React.BaseSyntheticEvent<unknown>) => {
-        e.stopPropagation();
-        e.preventDefault();
-    };
+        const preventDefaultAction = (e: BaseSyntheticEvent) => {
+            e.stopPropagation();
+            e.preventDefault();
+        };
 
-    const handleSelectionChange = (e: React.BaseSyntheticEvent<unknown>, isSelected: boolean) => {
-        preventDefaultAction(e);
-        handleSelection?.(id, isSelected);
-    };
+        const handleSelectionChange = (e: ChangeEvent, isSelected: boolean) => {
+            preventDefaultAction(e);
+            handleSelection?.(id, isSelected);
+        };
 
-    const handleClick = (e: React.BaseSyntheticEvent<unknown>) => {
-        preventDefaultAction(e);
-        bindTriggerProps.onClick(e as any);
-    };
+        const handleClick = (e: MouseEvent | TouchEvent) => {
+            if (isMobile) return;
 
-    const handleTouchStart = (e: React.BaseSyntheticEvent<unknown>) => {
-        preventDefaultAction(e);
-        bindTriggerProps.onTouchStart(e as TouchEvent);
-    };
+            preventDefaultAction(e);
+            popupState.open(e);
+            bindTriggerProps.onClick(e as any);
+        };
 
-    if (!handleSelection) {
-        return null;
-    }
-
-    const isSelected = selected !== null;
-    if (isSelected) {
-        if (!asCheckbox) {
+        if (!handleSelection) {
             return null;
         }
 
-        return (
-            <Tooltip title={t(selected ? 'global.button.deselect' : 'global.button.select')}>
-                <Checkbox checked={selected} onMouseDown={preventDefaultAction} onChange={handleSelectionChange} />
-            </Tooltip>
-        );
-    }
+        const isSelected = selected !== null;
+        if (isSelected) {
+            if (!asCheckbox) {
+                return null;
+            }
 
-    if (asCheckbox) {
+            return (
+                <Tooltip title={t(selected ? 'global.button.deselect' : 'global.button.select')}>
+                    <Checkbox checked={selected} onMouseDown={preventDefaultAction} onChange={handleSelectionChange} />
+                </Tooltip>
+            );
+        }
+
+        if (asCheckbox) {
+            return (
+                <Tooltip title={t('global.button.options')}>
+                    <IconButton
+                        ref={ref}
+                        {...bindTriggerProps}
+                        onClick={handleClick}
+                        onTouchStart={handleClick}
+                        aria-label="more"
+                        size="large"
+                        onMouseDown={preventDefaultAction}
+                    >
+                        <MoreVertIcon />
+                    </IconButton>
+                </Tooltip>
+            );
+        }
+
         return (
             <Tooltip title={t('global.button.options')}>
-                <IconButton
+                <Button
+                    ref={ref}
                     {...bindTriggerProps}
                     onClick={handleClick}
-                    onTouchStart={handleTouchStart}
-                    aria-label="more"
-                    size="large"
-                    onMouseDown={preventDefaultAction}
+                    onTouchStart={handleClick}
+                    className="manga-option-button"
+                    size="small"
+                    variant="contained"
+                    sx={{
+                        minWidth: 'unset',
+                        paddingX: '0',
+                        paddingY: '2.5px',
+                        visibility: popupState.isOpen && !isMobile ? 'visible' : 'hidden',
+                        pointerEvents: isMobile ? undefined : 'none',
+                    }}
+                    onMouseDown={(e) => e.stopPropagation()}
                 >
                     <MoreVertIcon />
-                </IconButton>
+                </Button>
             </Tooltip>
         );
-    }
-
-    return (
-        <Tooltip title={t('global.button.options')}>
-            <Button
-                {...bindTriggerProps}
-                onClick={handleClick}
-                onTouchStart={handleTouchStart}
-                className="manga-option-button"
-                size="small"
-                variant="contained"
-                sx={{
-                    minWidth: 'unset',
-                    paddingX: '0',
-                    paddingY: '2.5px',
-                    visibility: popupState.isOpen || isMobile ? 'visible' : 'hidden',
-                    pointerEvents: isMobile ? undefined : 'none',
-                }}
-                onMouseDown={(e) => e.stopPropagation()}
-            >
-                <MoreVertIcon />
-            </Button>
-        </Tooltip>
-    );
-};
+    },
+);

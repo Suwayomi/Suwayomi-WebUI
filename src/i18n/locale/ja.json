@@ -17,6 +17,22 @@
                     "info": "カテゴリーが見つかりませんでした。"
                 }
             }
+        },
+        "label": {
+            "use_as_default_category": "ライブラリに新しい漫画を追加するときに使用するカテゴリーです",
+            "category_name": "カテゴリー名"
+        },
+        "settings": {
+            "inclusion": {
+                "label": {
+                    "exclude": "この文字列を含まない: {{excludedCategoriesText}}",
+                    "include": "この文字列を含む: {{includedCategoriesText}}"
+                }
+            }
+        },
+        "title": {
+            "set_categories": "カテゴリーを設定",
+            "category_other": "カテゴリー"
         }
     }
 }

@@ -27,7 +27,6 @@ import {
 } from '@apollo/client';
 import { OperationVariables } from '@apollo/client/core';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import pLimit from 'p-limit';
 import { IRestClient, RestClient } from '@/lib/requests/client/RestClient.ts';
 import { GraphQLClient } from '@/lib/requests/client/GraphQLClient.ts';
 import {
@@ -178,6 +177,25 @@ import {
     GetMangaToMigrateQueryVariables,
     GetMangaToMigrateToFetchMutation,
     GetMangaToMigrateToFetchMutationVariables,
+    GetTrackersQuery,
+    GetTrackersQueryVariables,
+    TrackerLogoutMutation,
+    TrackerLogoutMutationVariables,
+    TrackerLoginOauthMutation,
+    TrackerLoginOauthMutationVariables,
+    TrackerLoginCredentialsMutation,
+    TrackerLoginCredentialsMutationVariables,
+    TrackerSearchQuery,
+    TrackerSearchQueryVariables,
+    TrackerBindMutation,
+    TrackerBindMutationVariables,
+    TrackerUpdateBindMutation,
+    TrackerUpdateBindMutationVariables,
+    UpdateTrackInput,
+    TrackerUnbindMutation,
+    TrackerUnbindMutationVariables,
+    TrackerFetchBindMutation,
+    TrackerFetchBindMutationVariables,
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_GLOBAL_METADATAS } from '@/lib/graphql/queries/GlobalMetadataQuery.ts';
 import { SET_GLOBAL_METADATA } from '@/lib/graphql/mutations/GlobalMetadataMutation.ts';
@@ -257,6 +275,18 @@ import { RESET_WEBUI_UPDATE_STATUS, UPDATE_WEBUI } from '@/lib/graphql/mutations
 import { WEBUI_UPDATE_SUBSCRIPTION } from '@/lib/graphql/subscriptions/ServerInfoSubscription.ts';
 import { GET_DOWNLOAD_STATUS } from '@/lib/graphql/queries/DownloaderQuery.ts';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { Queue, QueuePriority } from '@/lib/Queue.ts';
+import { GET_TRACKERS, TRACKER_SEARCH } from '@/lib/graphql/queries/TrackerQuery.ts';
+import {
+    TRACKER_BIND,
+    TRACKER_FETCH_BIND,
+    TRACKER_LOGIN_CREDENTIALS,
+    TRACKER_LOGIN_OAUTH,
+    TRACKER_LOGOUT,
+    TRACKER_UNBIND,
+    TRACKER_UPDATE_BIND,
+} from '@/lib/graphql/mutations/TrackerMutation.ts';
+import { ControlledPromise } from '@/lib/ControlledPromise.ts';
 
 enum GQLMethod {
     QUERY = 'QUERY',
@@ -306,6 +336,8 @@ type SubscriptionHookOptions<Data = any, Variables extends OperationVariables = 
     Omit<CustomApolloOptions, 'addAbortSignal'> & { addAbortSignal?: never };
 
 type AbortableRequest = { abortRequest: AbortController['abort'] };
+
+type ImageRequest = { response: Promise<string>; cleanup: () => void } & AbortableRequest;
 
 export type AbortabaleApolloQueryResponse<Data = any> = {
     response: Promise<ApolloQueryResult<Data>>;
@@ -366,7 +398,7 @@ export class RequestManager {
 
     private readonly cache = new CustomCache();
 
-    private readonly imageQueue = pLimit(5);
+    private readonly imageQueue = new Queue(5);
 
     public getClient(): IRestClient {
         return this.restClient;
@@ -449,6 +481,15 @@ export class RequestManager {
             return;
         }
 
+        const isFirstPage = pageToRevalidate === 1;
+        const isTtlReached =
+            Date.now() - (this.cache.getFetchTimestampFor(cacheResultsKey, getVariablesFor(pageToRevalidate)) ?? 0) >=
+            1000 * 60 * 5;
+
+        if (isFirstPage && !isTtlReached) {
+            return;
+        }
+
         const { response: revalidationRequest } = this.doRequest(
             GQLMethod.MUTATION,
             GET_SOURCE_MANGAS_FETCH,
@@ -463,11 +504,9 @@ export class RequestManager {
         const cachedPageData = this.cache.getResponseFor<
             AbortableApolloUseMutationPaginatedResponse<Data, Variables>[1][number]
         >(cacheResultsKey, getVariablesFor(pageToRevalidate));
-
         const isCachedPageInvalid = checkIfCachedPageIsInvalid(cachedPageData, revalidationResponse);
-        if (isCachedPageInvalid) {
-            this.cache.cacheResponse(cacheResultsKey, getVariablesFor(pageToRevalidate), revalidationResponse);
-        }
+
+        this.cache.cacheResponse(cacheResultsKey, getVariablesFor(pageToRevalidate), revalidationResponse);
 
         if (!hasNextPage(revalidationResponse)) {
             const currentCachedPages = this.cache.getResponseFor<Set<number>>(cachePagesKey, getVariablesFor(0))!;
@@ -745,7 +784,40 @@ export class RequestManager {
 
     public getValidImgUrlFor(imageUrl: string, apiVersion: string = ''): string {
         // server provided image urls already contain the api version
-        return `${this.getValidUrlFor(imageUrl, apiVersion)}`.replace('45670', '45669');
+        return `${this.getValidUrlFor(imageUrl, apiVersion)}`;
+    }
+
+    private fetchImageViaTag(url: string, priority?: QueuePriority): ImageRequest {
+        const imgRequest = new ControlledPromise<string>();
+        imgRequest.promise.catch(defaultPromiseErrorHandler(`fetchImageViaTag(${url})`));
+
+        const img = new Image();
+        const abortRequest = (reason?: any) => {
+            img.src = '';
+            img.onload = null;
+            img.onerror = null;
+            img.onabort = null;
+            imgRequest.reject(reason);
+        };
+
+        const response = this.imageQueue.enqueue(
+            url,
+            async () => {
+                // throws error in case request was already aborted
+                await Promise.race([imgRequest.promise, Promise.resolve()]);
+
+                img.src = url;
+
+                img.onload = () => imgRequest.resolve(url);
+                img.onerror = (error) => imgRequest.reject(error);
+                img.onabort = (error) => imgRequest.reject(error);
+
+                return imgRequest.promise;
+            },
+            priority,
+        );
+
+        return { response, abortRequest, cleanup: () => {} };
     }
 
     /**
@@ -757,27 +829,46 @@ export class RequestManager {
      * const imageUrl = await imageRequest.response
      *
      * const img = new Image();
-     * img.onLoad = () => URL.revokeObjectURL(imageUrl);
+     * img.onLoad = () => imageRequest.cleanup();
      * img.src = imageUrl;
      *
      */
-    public requestImage(url: string): { response: Promise<string> } & AbortableRequest {
+    private fetchImageViaFetchApi(url: string, priority?: QueuePriority): ImageRequest {
+        let objectUrl: string = '';
         const { abortRequest, signal } = this.createAbortController();
-        const response = this.imageQueue(() =>
-            this.restClient
-                .fetcher(url, {
-                    checkResponseIsJson: false,
-                    config: {
-                        signal,
-                        // @ts-ignore - typing has not been updated yet
-                        priority: 'low',
-                    },
-                })
-                .then((data) => data.blob())
-                .then((data) => URL.createObjectURL(data)),
+        const response = this.imageQueue.enqueue(
+            url,
+            () =>
+                this.restClient
+                    .fetcher(url, {
+                        checkResponseIsJson: false,
+                        config: {
+                            signal,
+                            // @ts-ignore - typing has not been updated yet
+                            priority: 'low',
+                        },
+                    })
+                    .then((data) => data.blob())
+                    .then((data) => URL.createObjectURL(data))
+                    .then((imageUrl) => {
+                        objectUrl = imageUrl;
+                        return imageUrl;
+                    }),
+            priority,
         );
 
-        return { response, abortRequest };
+        return { response, abortRequest, cleanup: () => URL.revokeObjectURL(objectUrl) };
+    }
+
+    /**
+     * Make sure to call "cleanup" once the image is not needed anymore (only required if fetched via "fetch api")
+     */
+    public requestImage(url: string, priority?: QueuePriority, useFetchApi: boolean = true): ImageRequest {
+        if (useFetchApi) {
+            return this.fetchImageViaFetchApi(url, priority);
+        }
+
+        return this.fetchImageViaTag(url, priority);
     }
 
     private doRequest<Data, Variables extends OperationVariables = OperationVariables>(
@@ -1451,17 +1542,19 @@ export class RequestManager {
         {
             migrateChapters = false,
             migrateCategories = false,
+            deleteChapters = false,
             apolloOptions: options,
         }: {
             migrateChapters?: boolean;
             migrateCategories?: boolean;
+            deleteChapters?: boolean;
             apolloOptions?: QueryOptions<GetMangaToMigrateQueryVariables, GetMangaToMigrateQuery>;
         } = {},
     ): AbortabaleApolloQueryResponse<GetMangaToMigrateQuery> {
         return this.doRequest(
             GQLMethod.QUERY,
             GET_MANGA_TO_MIGRATE,
-            { id: Number(mangaId), migrateChapters, migrateCategories },
+            { id: Number(mangaId), getChapterData: migrateChapters || deleteChapters, migrateCategories },
             options,
         );
     }
@@ -1797,10 +1890,11 @@ export class RequestManager {
         id: number,
         patch: UpdateChapterPatchInput & {
             chapterIdToDelete?: number;
+            trackProgressMangaId?: number;
         },
         options?: MutationOptions<UpdateChapterMutation, UpdateChapterMutationVariables>,
     ): AbortableApolloMutationResponse<UpdateChapterMutation> {
-        const { chapterIdToDelete = -1, ...updatePatch } = patch;
+        const { chapterIdToDelete = -1, trackProgressMangaId = -1, ...updatePatch } = patch;
 
         return this.doRequest<UpdateChapterMutation, UpdateChapterMutationVariables>(
             GQLMethod.MUTATION,
@@ -1812,6 +1906,8 @@ export class RequestManager {
                 getLastPageRead: patch.lastPageRead != null,
                 chapterIdToDelete,
                 deleteChapter: chapterIdToDelete >= 0,
+                mangaId: trackProgressMangaId,
+                trackProgress: trackProgressMangaId >= 0,
             },
             options,
         );
@@ -2346,6 +2442,77 @@ export class RequestManager {
         options?: QueryHookOptions<GetMigratableSourcesQuery, GetMigratableSourcesQueryVariables>,
     ): AbortableApolloUseQueryResponse<GetMigratableSourcesQuery, GetMigratableSourcesQueryVariables> {
         return this.doRequest(GQLMethod.USE_QUERY, GET_MIGRATABLE_SOURCES, undefined, options);
+    }
+
+    public useGetTrackerList(
+        options?: QueryHookOptions<GetTrackersQuery, GetTrackersQueryVariables>,
+    ): AbortableApolloUseQueryResponse<GetTrackersQuery, GetTrackersQueryVariables> {
+        return this.doRequest(GQLMethod.USE_QUERY, GET_TRACKERS, undefined, options);
+    }
+
+    public useLogoutFromTracker(
+        options?: MutationHookOptions<TrackerLogoutMutation, TrackerLogoutMutationVariables>,
+    ): AbortableApolloUseMutationResponse<TrackerLogoutMutation, TrackerLogoutMutationVariables> {
+        return this.doRequest(GQLMethod.USE_MUTATION, TRACKER_LOGOUT, undefined, options);
+    }
+
+    public useLoginToTrackerOauth(
+        options?: MutationHookOptions<TrackerLoginOauthMutation, TrackerLoginOauthMutationVariables>,
+    ): AbortableApolloUseMutationResponse<TrackerLoginOauthMutation, TrackerLoginOauthMutationVariables> {
+        return this.doRequest(GQLMethod.USE_MUTATION, TRACKER_LOGIN_OAUTH, undefined, options);
+    }
+
+    public useLoginToTrackerCredentials(
+        options?: MutationHookOptions<TrackerLoginCredentialsMutation, TrackerLoginCredentialsMutationVariables>,
+    ): AbortableApolloUseMutationResponse<TrackerLoginCredentialsMutation, TrackerLoginCredentialsMutationVariables> {
+        return this.doRequest(GQLMethod.USE_MUTATION, TRACKER_LOGIN_CREDENTIALS, undefined, options);
+    }
+
+    public useTrackerSearch(
+        trackerId: number,
+        query: string,
+        options?: QueryHookOptions<TrackerSearchQuery, TrackerSearchQueryVariables>,
+    ): AbortableApolloUseQueryResponse<TrackerSearchQuery, TrackerSearchQueryVariables> {
+        return this.doRequest(GQLMethod.USE_QUERY, TRACKER_SEARCH, { trackerId, query }, options);
+    }
+
+    public useBindTracker(
+        options?: MutationHookOptions<TrackerBindMutation, TrackerBindMutationVariables>,
+    ): AbortableApolloUseMutationResponse<TrackerBindMutation, TrackerBindMutationVariables> {
+        return this.doRequest(GQLMethod.USE_MUTATION, TRACKER_BIND, undefined, options);
+    }
+
+    public unbindTracker(
+        recordId: number,
+        deleteRemoteTrack?: boolean,
+        options?: MutationHookOptions<TrackerUnbindMutation, TrackerUnbindMutationVariables>,
+    ): AbortableApolloMutationResponse<TrackerUnbindMutation> {
+        return this.doRequest<TrackerUnbindMutation, TrackerUnbindMutationVariables>(
+            GQLMethod.MUTATION,
+            TRACKER_UNBIND,
+            { input: { recordId, deleteRemoteTrack } },
+            { refetchQueries: [GET_MANGA, GET_CATEGORY_MANGAS, GET_MANGAS], ...options },
+        );
+    }
+
+    public updateTrackerBind(
+        id: number,
+        patch: Omit<UpdateTrackInput, 'clientMutationId' | 'recordId'>,
+        options?: MutationOptions<TrackerUpdateBindMutation, TrackerUpdateBindMutationVariables>,
+    ): AbortableApolloMutationResponse<TrackerUpdateBindMutation> {
+        return this.doRequest(GQLMethod.MUTATION, TRACKER_UPDATE_BIND, { input: { ...patch, recordId: id } }, options);
+    }
+
+    public fetchTrackBind(
+        recordId: number,
+        options?: MutationOptions<TrackerFetchBindMutation, TrackerFetchBindMutationVariables>,
+    ): AbortableApolloMutationResponse<TrackerFetchBindMutation> {
+        return this.doRequest<TrackerFetchBindMutation, TrackerFetchBindMutationVariables>(
+            GQLMethod.MUTATION,
+            TRACKER_FETCH_BIND,
+            { recordId },
+            options,
+        );
     }
 }
 

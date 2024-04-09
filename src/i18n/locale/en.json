@@ -174,6 +174,7 @@
           }
         },
         "label": {
+          "ignore_re_uploads": "Ignore re-uploaded chapters",
           "ignore_with_unread_chapters": "Ignore automatic chapter downloads for entries with unread chapters",
           "new_chapters": "Download new chapters"
         },
@@ -302,11 +303,14 @@
       "edit": "Edit",
       "filter": "Filter",
       "latest": "Latest",
+      "log_in": "Log in",
+      "log_out": "Log out",
       "migrate": "Migrate",
       "ok": "Ok",
       "open_site": "Open Site",
       "options": "Options",
       "popular": "Popular",
+      "remove": "Remove",
       "reset": "Reset",
       "reset_to_default": "Reset to Default",
       "restore": "Restore",
@@ -315,6 +319,8 @@
       "select": "Select",
       "select_all": "Select all",
       "set": "Set",
+      "show_less": "Show less",
+      "show_more": "Show more",
       "start": "Start",
       "stop": "Stop",
       "submit": "Submit"
@@ -349,6 +355,7 @@
       "label": {
         "bookmarked": "Bookmarked",
         "downloaded": "Downloaded",
+        "tracked": "Tracked",
         "unread": "Unread"
       }
     },
@@ -362,6 +369,7 @@
     },
     "label": {
       "advanced": "Advanced",
+      "are_you_sure": "Are you sure?",
       "browse": "Browse",
       "client": "Client",
       "close": "Close",
@@ -374,12 +382,16 @@
       "links": "Links",
       "load_in_progress": "Still loading required data…",
       "loading": "Loading…",
+      "logged_in": "Logged in",
       "never": "Never",
       "none": "None",
+      "open_in_browser": "Open in browser",
       "other": "Other",
       "password": "Password",
       "placeholder": "Placeholder",
       "sort": "Sort",
+      "started": "Started",
+      "type": "Type",
       "unknown": "Unknown",
       "username": "Username"
     },
@@ -570,6 +582,11 @@
           "button": {
             "selected": "Remove selected from the library"
           },
+          "dialog": {
+            "label": {
+              "message": "You are about to remove \"{{title}}\" from your library"
+            }
+          },
           "label": {
             "action": "Remove from the library",
             "error_one": "Could not remove manga from the library",
@@ -584,11 +601,38 @@
           "error": "Could not migrate manga",
           "success": "Successfully migrated manga"
         }
+      },
+      "track": {
+        "add": {
+          "label": {
+            "action": "Track",
+            "error": "Could not track manga",
+            "success": "Tracked manga"
+          }
+        },
+        "remove": {
+          "dialog": {
+            "label": {
+              "delete_remote_track": "Also remove from {{tracker}}",
+              "description": "This will remove the tracking locally.",
+              "title": "Remove {{tracker}} tracking?"
+            }
+          },
+          "label": {
+            "error": "Could not untrack manga",
+            "success": "Untracked manga"
+          }
+        }
       }
     },
     "button": {
       "add_to_library": "Add To Library",
-      "in_library": "In Library"
+      "in_library": "In Library",
+      "track": {
+        "active_one": "{{count}} Tracker",
+        "active_other": "{{count}} Tracker",
+        "start": "Tracking"
+      }
     },
     "error": {
       "label": {
@@ -614,6 +658,9 @@
         "button": {
           "show_entry": "Show entry"
         }
+      },
+      "label": {
+        "delete_downloaded": "Delete downloaded"
       },
       "title": "Select data to include"
     },
@@ -808,6 +855,7 @@
     },
     "label": {
       "dark_theme": "Dark theme",
+      "hide_library_entries": "Hide entries already in library",
       "language_description": "Feel free to translate the project on",
       "manga_item_width": "Manga item width",
       "show_nsfw": "Show NSFW",
@@ -1040,6 +1088,50 @@
     "title": "Source",
     "title_one": "Source",
     "title_other": "Sources"
+  },
+  "tracking": {
+    "action": {
+      "button": {
+        "add_tracking": "Add tracking"
+      },
+      "login": {
+        "label": {
+          "failure": "Could not log in to {{name}}",
+          "progress": "Logging in to {{name}}…"
+        }
+      },
+      "logout": {
+        "label": {
+          "failure": "Could not log out from {{name}}"
+        }
+      }
+    },
+    "error": {
+      "label": {
+        "could_not_fetch_track_info": "Could not load latest track info from tracker",
+        "could_not_load_track_info": "Could not load track info"
+      }
+    },
+    "settings": {
+      "dialog": {
+        "title": {
+          "log_in": "Log in to {{name}}",
+          "log_out": "Log out from {{name}}"
+        }
+      },
+      "title": {
+        "settings": "Tracking settings",
+        "trackers": "Trackers"
+      }
+    },
+    "title": "Tracking",
+    "track_record": {
+      "label": {
+        "finish_date": "Finish date",
+        "score": "Score",
+        "start_date": "Start date"
+      }
+    }
   },
   "updates": {
     "error": {

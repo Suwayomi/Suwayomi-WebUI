@@ -22,10 +22,9 @@ import { useSelectableCollection } from '@/components/collection/useSelectableCo
 import { ThreeStateCheckboxInput } from '@/components/atoms/ThreeStateCheckboxInput.tsx';
 import { Categories } from '@/lib/data/Categories.ts';
 import { CheckboxInput } from '@/components/atoms/CheckboxInput.tsx';
-import { useMetadataServerSettings } from '@/util/metadataServerSettings.ts';
-import { convertToGqlMeta, requestUpdateServerMetadata } from '@/util/metadata.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { updateMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 
 type BaseProps = {
     open: boolean;
@@ -41,7 +40,7 @@ type MultiMangaModeProps = {
     mangaIds: number[];
 };
 
-type Props =
+export type CategorySelectProps =
     | (BaseProps & SingleMangaModeProps & PropertiesNever<MultiMangaModeProps>)
     | (BaseProps & PropertiesNever<SingleMangaModeProps> & MultiMangaModeProps);
 
@@ -78,7 +77,7 @@ const getCategoryCheckedState = (
     return undefined;
 };
 
-export function CategorySelect(props: Props) {
+export function CategorySelect(props: CategorySelectProps) {
     const { t } = useTranslation();
 
     const { open, onClose, mangaId, mangaIds: passedMangaIds, addToLibrary = false } = props;
@@ -87,7 +86,6 @@ export function CategorySelect(props: Props) {
     const mangaIds = passedMangaIds ?? [mangaId];
 
     const [doNotShowAddToLibraryDialogAgain, setDoNotShowAddToLibraryDialogAgain] = useState(false);
-    const { metadata: serverMetadata } = useMetadataServerSettings();
 
     const mangaCategoryIds = useGetMangaCategoryIds(mangaId);
     const { data } = requestManager.useGetCategories();
@@ -136,9 +134,9 @@ export function CategorySelect(props: Props) {
         onClose(true, addToCategories, removeFromCategories);
 
         if (doNotShowAddToLibraryDialogAgain) {
-            requestUpdateServerMetadata(convertToGqlMeta(serverMetadata)! ?? {}, [
-                ['showAddToLibraryCategorySelectDialog', false],
-            ]).catch(() => makeToast(t('search.error.label.failed_to_save_settings'), 'error'));
+            updateMetadataServerSettings('showAddToLibraryCategorySelectDialog', false).catch(() =>
+                makeToast(t('search.error.label.failed_to_save_settings'), 'error'),
+            );
         }
 
         const isUpdateRequired = !!addToCategories.length || !!removeFromCategories.length;
@@ -183,15 +181,15 @@ export function CategorySelect(props: Props) {
                                 isSingleSelectionMode,
                             )}
                             onChange={(checked) => {
-                                handleSelection(category.id, false, 'categoriesToAdd');
-                                handleSelection(category.id, false, 'categoriesToRemove');
+                                handleSelection(category.id, false, { key: 'categoriesToAdd' });
+                                handleSelection(category.id, false, { key: 'categoriesToRemove' });
 
                                 if (checked) {
-                                    handleSelection(category.id, true, 'categoriesToAdd');
+                                    handleSelection(category.id, true, { key: 'categoriesToAdd' });
                                 }
 
                                 if (checked === false) {
-                                    handleSelection(category.id, true, 'categoriesToRemove');
+                                    handleSelection(category.id, true, { key: 'categoriesToRemove' });
                                 }
                             }}
                             label={category.name}

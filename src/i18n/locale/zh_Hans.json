@@ -14,7 +14,7 @@
             "no_categories_found": {
                 "label": {
                     "hint": "你应该需要设置一些设定。",
-                    "info": "没有发现任何分类。"
+                    "info": "您目前没有任何分类。"
                 }
             }
         },
@@ -83,7 +83,8 @@
                 }
             },
             "label": {
-                "select": "选择"
+                "select": "选择",
+                "open_on_source": "在来源中打开"
             },
             "mark_as_read": {
                 "add": {
@@ -302,7 +303,9 @@
             "restore": "恢复",
             "retry": "重试",
             "copy": "复制",
-            "migrate": "迁移"
+            "migrate": "迁移",
+            "create": "创建",
+            "dont_show_dialog_again": "不再显示此消息"
         },
         "date": {
             "label": {
@@ -363,7 +366,8 @@
             "links": "链接",
             "advanced": "高级",
             "placeholder": "占位符",
-            "general": "全体"
+            "general": "全体",
+            "load_in_progress": "正在加载所需的资源…"
         },
         "language": {
             "label": {
@@ -469,9 +473,9 @@
                 },
                 "entries": {
                     "label": {
-                        "not_started": "这还没有开始",
-                        "completed": "标记为“已读”",
-                        "unread_chapters": "包含未读章节"
+                        "not_started": "未开始阅读的作品",
+                        "completed": "状态为“已读”的作品",
+                        "unread_chapters": "包含未读章节的作品"
                     },
                     "title": "跳过更新作品"
                 },
@@ -501,6 +505,14 @@
                         "label": {
                             "title": "类别选择对话框",
                             "description": "向库里添加漫画时显示类别选择对话框"
+                        }
+                    }
+                },
+                "remove_from_library": {
+                    "remove_from_categories": {
+                        "label": {
+                            "title": "忘记漫画分类偏好",
+                            "description": "将漫画从库里移除时也一并将它从对应的分类中移除"
                         }
                     }
                 }
@@ -672,13 +684,13 @@
                         "in_progress": "正在还原备份…",
                         "success": "备份已恢复。",
                         "title": "恢复备份",
-                        "description": "您也可以将备份文件拖放到此处进行还原"
+                        "description": "您可以将备份文件拖放到此处进行还原"
                     },
                     "button": "恢复",
                     "error": {
                         "label": {
                             "failure": "无法恢复备份",
-                            "legacy_backup_unsupported": "不支持旧备份！"
+                            "legacy_backup_unsupported": "不支持旧版本的备份！"
                         }
                     }
                 },
@@ -782,7 +794,7 @@
                     "version": "SOCKS 版本",
                     "password": "SOCKS 密码"
                 },
-                "title": "SOCKS5 代理"
+                "title": "SOCKS 代理"
             },
             "address": {
                 "server": {
@@ -908,7 +920,7 @@
                 }
             },
             "title": {
-                "webui": "WebUI",
+                "webui": "Web面板",
                 "settings": "$t(settings.webui.title.webui) 设置"
             },
             "interface": {

@@ -7,6 +7,7 @@
  */
 
 import { t as translate } from 'i18next';
+import { DocumentNode } from '@apollo/client/core';
 import { TManga, TranslationKey } from '@/typings.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import {
@@ -18,7 +19,8 @@ import {
 } from '@/lib/graphql/generated/graphql.ts';
 import { Chapters } from '@/lib/data/Chapters.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
-import { getMetadataServerSettings } from '@/util/metadataServerSettings.ts';
+import { getMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
+import { FULL_MANGA_FIELDS } from '@/lib/graphql/Fragments.ts';
 
 export type MangaAction =
     | 'download'
@@ -27,7 +29,8 @@ export type MangaAction =
     | 'mark_as_unread'
     | 'remove_from_library'
     | 'change_categories'
-    | 'migrate';
+    | 'migrate'
+    | 'track';
 
 export const actionToTranslationKey: {
     [key in MangaAction]: {
@@ -95,6 +98,14 @@ export const actionToTranslationKey: {
         success: 'manga.action.migrate.label.success',
         error: 'manga.action.migrate.label.error',
     },
+    track: {
+        action: {
+            single: 'manga.action.track.add.label.action',
+            selected: 'manga.action.track.add.label.action', // not supported
+        },
+        success: 'manga.action.track.add.label.success',
+        error: 'manga.action.track.add.label.error',
+    },
 };
 
 export type MangaChapterCountInfo = { chapters: Pick<TManga['chapters'], 'totalCount'> };
@@ -111,6 +122,7 @@ type MigrateOptions = {
     mode: MigrateMode;
     migrateChapters?: boolean;
     migrateCategories?: boolean;
+    deleteChapters?: boolean;
 };
 type PerformActionOptions<Action extends MangaAction> = Action extends 'mark_as_read'
     ? MarkAsReadOptions & PropertiesNever<ChangeCategoriesOptions> & PropertiesNever<MigrateOptions>
@@ -123,6 +135,21 @@ type PerformActionOptions<Action extends MangaAction> = Action extends 'mark_as_
 export class Mangas {
     static getIds(mangas: { id: number }[]): number[] {
         return mangas.map((manga) => manga.id);
+    }
+
+    static getFromCache<T>(
+        id: number,
+        fragment: DocumentNode = FULL_MANGA_FIELDS,
+        fragmentName: string = 'FULL_MANGA_FIELDS',
+    ): T | null {
+        return requestManager.graphQLClient.client.cache.readFragment<T>({
+            id: requestManager.graphQLClient.client.cache.identify({
+                __typename: 'MangaType',
+                id,
+            }),
+            fragment,
+            fragmentName,
+        });
     }
 
     static isNotDownloaded({ downloadCount }: MangaDownloadInfo): boolean {
@@ -279,11 +306,12 @@ export class Mangas {
     static async migrate(
         mangaId: number,
         mangaIdToMigrateTo: number,
-        { mode, migrateChapters, migrateCategories }: Omit<MigrateOptions, 'mangaIdToMigrateTo'>,
+        { mode, migrateChapters, migrateCategories, deleteChapters }: Omit<MigrateOptions, 'mangaIdToMigrateTo'>,
     ): Promise<void> {
         return Mangas.executeAction('migrate', 1, async () => {
             const [{ data: mangaToMigrateData }, { data: mangaToMigrateToData }] = await Promise.all([
-                requestManager.getMangaToMigrate(mangaId, { migrateChapters, migrateCategories }).response,
+                requestManager.getMangaToMigrate(mangaId, { migrateChapters, migrateCategories, deleteChapters })
+                    .response,
                 requestManager.getMangaToMigrateToFetch(mangaIdToMigrateTo, { migrateChapters, migrateCategories })
                     .response,
             ]);
@@ -301,6 +329,11 @@ export class Mangas {
 
             await Promise.all([
                 migrateChapters ? Mangas.migrateChapters(mangaToMigrateData.manga, mangaToMigrateToData) : undefined,
+                deleteChapters
+                    ? requestManager.deleteDownloadedChapters(
+                          Chapters.getIds(Chapters.getDownloaded(mangaToMigrateData.manga.chapters?.nodes ?? [])),
+                      ).response
+                    : undefined,
                 migrateCategories
                     ? Mangas.migrateCategories(mangaToMigrateData.manga, mangaToMigrateToData.fetchManga.manga)
                     : undefined,

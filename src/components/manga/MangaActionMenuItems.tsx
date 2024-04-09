@@ -17,20 +17,23 @@ import Label from '@mui/icons-material/Label';
 import { useMemo, useState } from 'react';
 import SyncAltIcon from '@mui/icons-material/SyncAlt';
 import { Link } from 'react-router-dom';
+import SyncIcon from '@mui/icons-material/Sync';
+import { Dialog } from '@mui/material';
 import { TManga } from '@/typings.ts';
 import { actionToTranslationKey, MangaAction, MangaDownloadInfo, Mangas, MangaUnreadInfo } from '@/lib/data/Mangas.ts';
 import { SelectableCollectionReturnType } from '@/components/collection/useSelectableCollection.ts';
-import { CategorySelect } from '@/components/navbar/action/CategorySelect.tsx';
 import { MenuItem } from '@/components/menu/MenuItem.tsx';
 import { createGetMenuItemTitle, createIsMenuItemDisabled, createShouldShowMenuItem } from '@/components/menu/util.ts';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { TrackManga } from '@/components/tracker/TrackManga.tsx';
+import { useCategorySelect } from '@/components/navbar/action/useCategorySelect.tsx';
 
 const ACTION_DISABLES_SELECTION_MODE: MangaAction[] = ['remove_from_library'] as const;
 
 type BaseProps = { onClose: (selectionModeState: boolean) => void; setHideMenu: (hide: boolean) => void };
 
 export type SingleModeProps = {
-    manga: Pick<TManga, 'id' | 'title' | 'source'> & MangaDownloadInfo & MangaUnreadInfo;
+    manga: Pick<TManga, 'id' | 'title' | 'source' | 'trackRecords'> & MangaDownloadInfo & MangaUnreadInfo;
     handleSelection?: SelectableCollectionReturnType<TManga['id']>['handleSelection'];
 };
 
@@ -51,7 +54,7 @@ export const MangaActionMenuItems = ({
 }: Props) => {
     const { t } = useTranslation();
 
-    const [isCategorySelectOpen, setIsCategorySelectOpen] = useState(false);
+    const [isTrackDialogOpen, setIsTrackDialogOpen] = useState(false);
 
     const isSingleMode = !!manga;
     const selectedMangas = passedSelectedMangas ?? [];
@@ -64,6 +67,13 @@ export const MangaActionMenuItems = ({
     const hasDownloadedChapters = !!manga?.downloadCount;
     const hasUnreadChapters = !!manga?.unreadCount;
     const hasReadChapters = !!manga && manga.unreadCount !== manga.chapters.totalCount;
+
+    const { openCategorySelect, CategorySelectComponent } = useCategorySelect({
+        mangaId: manga?.id,
+        mangaIds: passedSelectedMangas ? Mangas.getIds(selectedMangas) : undefined,
+        onClose: () => onClose(true),
+        addToLibrary: false,
+    });
 
     const handleSelect = () => {
         handleSelection?.(manga.id, true);
@@ -140,9 +150,19 @@ export const MangaActionMenuItems = ({
                     <MenuItem Icon={SyncAltIcon} title={getMenuItemTitle('migrate', selectedMangas.length)} />
                 </Link>
             )}
+            {isSingleMode && (
+                <MenuItem
+                    onClick={() => {
+                        setIsTrackDialogOpen(true);
+                        setHideMenu(true);
+                    }}
+                    Icon={SyncIcon}
+                    title={getMenuItemTitle('track', selectedMangas.length)}
+                />
+            )}
             <MenuItem
                 onClick={() => {
-                    setIsCategorySelectOpen(true);
+                    openCategorySelect(true);
                     setHideMenu(true);
                 }}
                 Icon={Label}
@@ -153,16 +173,20 @@ export const MangaActionMenuItems = ({
                 Icon={FavoriteBorderIcon}
                 title={getMenuItemTitle('remove_from_library', selectedMangas.length)}
             />
-            {isCategorySelectOpen && (
-                <CategorySelect
-                    open={isCategorySelectOpen}
+            {CategorySelectComponent}
+            {isTrackDialogOpen && (
+                <Dialog
+                    open
+                    maxWidth="md"
+                    fullWidth
+                    scroll="paper"
                     onClose={() => {
-                        setIsCategorySelectOpen(false);
+                        setIsTrackDialogOpen(false);
                         onClose(true);
                     }}
-                    mangaId={manga?.id as undefined} // either mangaId or mangaIds is undefined, however, ts is not able to infer it correctly and raises an error
-                    mangaIds={(passedSelectedMangas ? Mangas.getIds(selectedMangas) : undefined) as number[]}
-                />
+                >
+                    <TrackManga manga={manga!} />
+                </Dialog>
             )}
         </>
     );
