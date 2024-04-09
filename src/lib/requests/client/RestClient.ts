@@ -27,10 +27,13 @@ export class RestClient
     extends BaseClient<typeof fetch, RequestInit, (url: string, data: any) => Promise<Response>>
     implements IRestClient
 {
-    private config: RequestInit = {};
+    private config: RequestInit = {
+        credentials: 'include',
+    };
 
     public readonly fetcher = async (
         url: string,
+
         {
             data,
             httpMethod = HttpMethod.GET,
