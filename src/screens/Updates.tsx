@@ -193,10 +193,7 @@ export const Updates: React.FC = () => {
                                         }}
                                     >
                                         <Box sx={{ display: 'flex' }}>
-                                            <Link
-                                                to={`/manga/${chapter.manga.id}`}
-                                                style={{ textDecoration: 'none' }}
-                                            >
+                                            <Link to={`/manga/${chapter.manga.id}`} style={{ textDecoration: 'none' }}>
                                                 <Avatar
                                                     variant="rounded"
                                                     sx={{
@@ -220,7 +217,6 @@ export const Updates: React.FC = () => {
                                                     />
                                                 </Avatar>
                                             </Link>
-                                            
                                             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                                                 <Typography variant="h5" component="h2">
                                                     {manga.title}
