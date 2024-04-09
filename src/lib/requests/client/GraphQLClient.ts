@@ -138,7 +138,7 @@ export class GraphQLClient extends BaseClient<
     }
 
     private createUploadLink() {
-        return createUploadLink({ uri: () => this.getBaseUrl() });
+        return createUploadLink({ uri: () => this.getBaseUrl(), credentials: 'include' });
     }
 
     private createWSLink() {
