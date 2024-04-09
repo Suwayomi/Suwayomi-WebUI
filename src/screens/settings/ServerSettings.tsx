@@ -159,31 +159,26 @@ export const ServerSettings = () => {
                         [5, { text: '5' }],
                     ]}
                     handleChange={(socksProxyVersion) => updateSetting('socksProxyVersion', socksProxyVersion)}
-                    disabled={!serverSettings?.socksProxyEnabled}
                 />
                 <TextSetting
                     settingName={t('settings.server.socks_proxy.label.host')}
                     value={serverSettings?.socksProxyHost}
                     handleChange={(proxyHost) => updateSetting('socksProxyHost', proxyHost)}
-                    disabled={!serverSettings?.socksProxyEnabled}
                 />
                 <TextSetting
                     settingName={t('settings.server.socks_proxy.label.port')}
                     value={serverSettings?.socksProxyPort}
                     handleChange={(proxyPort) => updateSetting('socksProxyPort', proxyPort)}
-                    disabled={!serverSettings?.socksProxyEnabled}
                 />
                 <TextSetting
                     settingName={t('settings.server.socks_proxy.label.username')}
                     value={serverSettings?.socksProxyUsername}
                     handleChange={(proxyUsername) => updateSetting('socksProxyUsername', proxyUsername)}
-                    disabled={!serverSettings?.socksProxyEnabled}
                 />
                 <TextSetting
                     settingName={t('settings.server.socks_proxy.label.password')}
                     value={serverSettings?.socksProxyPassword}
                     handleChange={(proxyPassword) => updateSetting('socksProxyPassword', proxyPassword)}
-                    disabled={!serverSettings?.socksProxyEnabled}
                     isPassword
                 />
             </List>
@@ -206,14 +201,12 @@ export const ServerSettings = () => {
                     settingName={t('settings.server.auth.basic.label.username')}
                     value={serverSettings?.basicAuthUsername}
                     handleChange={(authUsername) => updateSetting('basicAuthUsername', authUsername)}
-                    disabled={!serverSettings?.basicAuthEnabled}
                 />
                 <TextSetting
                     settingName={t('settings.server.auth.basic.label.password')}
                     value={serverSettings?.basicAuthPassword}
                     isPassword
                     handleChange={(authPassword) => updateSetting('basicAuthPassword', authPassword)}
-                    disabled={!serverSettings?.basicAuthEnabled}
                 />
             </List>
             <List
