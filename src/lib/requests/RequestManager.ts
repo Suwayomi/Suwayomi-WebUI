@@ -863,7 +863,7 @@ export class RequestManager {
     /**
      * Make sure to call "cleanup" once the image is not needed anymore (only required if fetched via "fetch api")
      */
-    public requestImage(url: string, priority?: QueuePriority, useFetchApi: boolean = true): ImageRequest {
+    public requestImage(url: string, priority?: QueuePriority, useFetchApi: boolean = false): ImageRequest {
         if (useFetchApi) {
             return this.fetchImageViaFetchApi(url, priority);
         }
