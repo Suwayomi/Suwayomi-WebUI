@@ -412,6 +412,7 @@ export class RequestManager {
     public reset(): void {
         this.graphQLClient.client.cache.reset();
         this.cache.clear();
+        this.imageQueue.clear();
     }
 
     public getBaseUrl(): string {

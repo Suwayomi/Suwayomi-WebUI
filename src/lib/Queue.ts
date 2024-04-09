@@ -34,6 +34,16 @@ export class Queue {
         this.queue = pLimit(concurrency);
     }
 
+    clear(): void {
+        this.pendingKeyToPromiseMap.forEach((promise) => {
+            promise.reject(new Error('Queue::clear: called'));
+        });
+
+        this.pendingKeyToPriorityMap.clear();
+        this.pendingKeyToFnMap.clear();
+        this.pendingKeyToPromiseMap.clear();
+    }
+
     enqueue<T>(key: Key, fn: () => PromiseLike<T> | T, priority: QueuePriority = Priority.NORMAL): Promise<T> {
         this.counter = (this.counter + 1) % Infinity;
         const actualKey = `${key}_${this.counter}`;
