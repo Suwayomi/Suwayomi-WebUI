@@ -24,7 +24,7 @@ export interface MangaCardProps {
     mode?: MangaCardMode;
 }
 
-export type SpecificMangaCardProps = Omit<MangaCardProps, 'mode'> &
+export type SpecificMangaCardProps = MangaCardProps &
     Pick<ReturnType<typeof useManageMangaLibraryState>, 'isInLibrary'> & {
         longPressBind: LongPressResult<LongPressPointerHandlers>;
         popupState: PopupState;
