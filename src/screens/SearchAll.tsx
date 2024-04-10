@@ -247,7 +247,7 @@ export const SearchAll: React.FC = () => {
                     onSearchRequestFinished={updateSourceLoadingState}
                     searchString={searchString}
                     emptyQuery={!query}
-                    mode={isMigrateMode ? 'migrate.select' : undefined}
+                    mode={isMigrateMode ? 'migrate.select' : 'source'}
                 />
             ))}
         </>
