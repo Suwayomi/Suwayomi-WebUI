@@ -44,6 +44,7 @@ export const MangaListCard = ({
             <CardActionArea
                 component={RouterLink}
                 to={mangaLinkTo}
+                state={{ mangaTitle: title }}
                 onClick={handleClick}
                 {...longPressBind(() => popupState.open(optionButtonRef.current))}
                 sx={{
