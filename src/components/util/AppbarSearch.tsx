@@ -13,7 +13,6 @@ import { useQueryParam, StringParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { SearchTextField } from '@/components/atoms/SearchTextField.tsx';
-import { useSessionStorage } from '@/util/useStorage.tsx';
 
 interface IProps {
     isClosable?: boolean;
@@ -33,15 +32,13 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
 
     const [searchString, setSearchString] = useState(query ?? '');
 
-    const [locationQuery, setLocationQuery] = useSessionStorage<string | null>(`appbarsearch-location-${location.key}`);
     if (prevLocationKey !== location.key) {
         setPrevLocationKey(location.key);
-        setLocationQuery(query);
         setSearchString(query ?? '');
-        setIsSearchOpen(!isClosable || !!locationQuery);
+        setIsSearchOpen(!isClosable || !!query);
     }
 
-    const isOpen = isSearchOpen || !!locationQuery;
+    const isOpen = isSearchOpen || !!query;
 
     const updateSearchOpenState = (open: boolean) => {
         if (!isClosable) {
