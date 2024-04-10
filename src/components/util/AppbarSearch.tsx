@@ -37,7 +37,7 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
     if (prevLocationKey !== location.key) {
         setPrevLocationKey(location.key);
         setLocationQuery(query);
-        setSearchString(locationQuery ?? '');
+        setSearchString(query ?? '');
         setIsSearchOpen(!isClosable || !!locationQuery);
     }
 
