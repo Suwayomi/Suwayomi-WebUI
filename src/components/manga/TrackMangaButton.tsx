@@ -79,7 +79,7 @@ export const TrackMangaButton = ({ manga }: { manga: TManga }) => {
             if (
                 chapterToBeUpdated &&
                 (latestLocalRead < latestTrackersRead ||
-                    Math.floor(chapterToBeUpdated.chapterNumber) === latestTrackersRead)
+                    (Math.floor(chapterToBeUpdated.chapterNumber) === latestTrackersRead && !chapterToBeUpdated.isRead))
             ) {
                 setChapterAsLastRead(chapterToBeUpdated?.id, mangaChaptersQuery.data?.chapters.nodes as TChapter[]);
             }
