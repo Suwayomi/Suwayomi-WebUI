@@ -120,6 +120,7 @@ export const MangaCard = (props: MangaCardProps) => {
                 unread={unreadCount}
                 downloadCount={downloadCount}
                 updateLibraryState={updateLibraryState}
+                mode={mode}
             />
         ),
         [inLibraryIndicator, isInLibrary, unreadCount, downloadCount, updateLibraryState],

@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import Button from '@mui/material/Button/Button';
 import Typography from '@mui/material/Typography/Typography';
 import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext.tsx';
+import { MangaCardMode } from '@/components/manga/MangaCard.types.tsx';
 
 const BadgeContainer = styled('div')({
     display: 'flex',
@@ -31,12 +32,14 @@ export const MangaBadges = ({
     isInLibrary,
     unread,
     downloadCount,
+    mode,
 }: {
     inLibraryIndicator?: boolean;
     updateLibraryState: () => void;
     isInLibrary: boolean;
     unread?: number;
     downloadCount?: number;
+    mode: MangaCardMode;
 }) => {
     const { t } = useTranslation();
 
@@ -46,7 +49,7 @@ export const MangaBadges = ({
 
     return (
         <BadgeContainer>
-            {inLibraryIndicator && (
+            {inLibraryIndicator && mode === 'source' && (
                 <Button
                     className="source-manga-library-state-button"
                     component="div"

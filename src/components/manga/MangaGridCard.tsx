@@ -56,6 +56,7 @@ export const MangaGridCard = ({
     handleSelection,
     continueReadingButton,
     mangaBadges,
+    mode,
 }: SpecificMangaCardProps) => {
     const optionButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -88,7 +89,7 @@ export const MangaGridCard = ({
                         display: isMobile ? 'none' : 'inline-flex',
                     },
                     '&:hover .source-manga-library-state-indicator': {
-                        display: 'none',
+                        display: mode === 'source' ? 'none' : 'flex',
                     },
                 }}
             >
