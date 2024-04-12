@@ -8,7 +8,7 @@
         },
         "error": {
             "label": {
-                "empty": "分类为空",
+                "empty": "翻译",
                 "request_failure": "无法加载分类"
             },
             "no_categories_found": {
@@ -165,7 +165,8 @@
             "auto_download": {
                 "label": {
                     "new_chapters": "下载新章节",
-                    "ignore_with_unread_chapters": "忽略带有未读章节的作品的自动下载"
+                    "ignore_with_unread_chapters": "忽略带有未读章节的作品的自动下载",
+                    "ignore_re_uploads": "忽略重新上传的章节"
                 },
                 "title": "自动下载",
                 "categories": {
@@ -305,7 +306,12 @@
             "copy": "复制",
             "migrate": "迁移",
             "create": "创建",
-            "dont_show_dialog_again": "不再显示此消息"
+            "dont_show_dialog_again": "不再显示此消息",
+            "log_in": "登录",
+            "log_out": "注销",
+            "show_less": "显示更少项目",
+            "show_more": "显示更多项目",
+            "remove": "移除"
         },
         "date": {
             "label": {
@@ -335,7 +341,8 @@
             "label": {
                 "bookmarked": "已收藏",
                 "downloaded": "已下载",
-                "unread": "未读"
+                "unread": "未读",
+                "tracked": "已追踪"
             }
         },
         "grid_layout": {
@@ -367,7 +374,12 @@
             "advanced": "高级",
             "placeholder": "占位符",
             "general": "全体",
-            "load_in_progress": "正在加载所需的资源…"
+            "load_in_progress": "正在加载所需的资源…",
+            "type": "类别",
+            "started": "已开始",
+            "logged_in": "已登录",
+            "open_in_browser": "在浏览器中打开",
+            "are_you_sure": "你确定吗？"
         },
         "language": {
             "label": {
@@ -474,7 +486,7 @@
                 "entries": {
                     "label": {
                         "not_started": "未开始阅读的作品",
-                        "completed": "状态为“已读”的作品",
+                        "completed": "状态为“已完结”的作品",
                         "unread_chapters": "包含未读章节的作品"
                     },
                     "title": "跳过更新作品"
@@ -540,7 +552,11 @@
     "manga": {
         "button": {
             "add_to_library": "添加到书架",
-            "in_library": "在书架中"
+            "in_library": "在书架中",
+            "track": {
+                "start": "追踪中",
+                "active_other": "{{count}} 个追踪"
+            }
         },
         "error": {
             "label": {
@@ -567,6 +583,11 @@
                     },
                     "button": {
                         "selected": "从书架中删除所选内容"
+                    },
+                    "dialog": {
+                        "label": {
+                            "message": "你将要从书架中移除\"{{title}}\""
+                        }
                     }
                 }
             },
@@ -584,6 +605,28 @@
                 "label": {
                     "error": "无法迁移漫画",
                     "success": "成功迁移漫画"
+                }
+            },
+            "track": {
+                "remove": {
+                    "label": {
+                        "error": "无法取消此漫画的追踪",
+                        "success": "已取消追踪漫画"
+                    },
+                    "dialog": {
+                        "label": {
+                            "title": "移除追踪{{tracker}}？",
+                            "description": "这将会移除本地追踪。",
+                            "delete_remote_track": "也从 {{tracker}}中删除"
+                        }
+                    }
+                },
+                "add": {
+                    "label": {
+                        "action": "追踪",
+                        "success": "已追踪漫画",
+                        "error": "无法追踪漫画"
+                    }
                 }
             }
         }
@@ -724,7 +767,8 @@
             "show_nsfw": "NSFW (18+) 内容",
             "manga_item_width": "漫画单元格宽度",
             "show_nsfw_description": "在图源和插件列表中显示",
-            "language_description": "准确的翻译离不开大家的指正 ->"
+            "language_description": "准确的翻译离不开大家的指正 ->",
+            "hide_library_entries": "隐藏已在书架中的条目"
         },
         "server_address": {
             "dialog": {
@@ -977,6 +1021,27 @@
         },
         "browse": {
             "title": "浏览设置"
+        },
+        "device": {
+            "active_device": {
+                "label": {
+                    "title": "活动中的设备",
+                    "description": "选择一个设备以使用其存储在服务器中的UI设置"
+                }
+            },
+            "devices": {
+                "label": {
+                    "title": "设备",
+                    "description": "管理你现有的设备。\n存储在服务器上的某些UI设置将依据设备不同而不同。\n这可以使不同的设备（比如桌面端和移动端）的UI设置不同"
+                }
+            },
+            "title": {
+                "device": "设备",
+                "settings": "设备设置"
+            },
+            "label": {
+                "placeholder": "移动端_Name-1 | length: 16, chars: letters, numbers, -, _"
+            }
         }
     },
     "source": {
@@ -1028,6 +1093,9 @@
                 "button": {
                     "show_entry": "显示条目"
                 }
+            },
+            "label": {
+                "delete_downloaded": "删除已下载项"
             }
         },
         "label": {
@@ -1037,5 +1105,49 @@
             "title": "$t(migrate.title) \"{{title}}\""
         },
         "title": "迁移"
+    },
+    "tracking": {
+        "settings": {
+            "dialog": {
+                "title": {
+                    "log_in": "登录 {{name}}",
+                    "log_out": "注销{{name}}"
+                }
+            },
+            "title": {
+                "settings": "追踪设置",
+                "trackers": "追踪列表"
+            }
+        },
+        "action": {
+            "button": {
+                "add_tracking": "添加追踪"
+            },
+            "login": {
+                "label": {
+                    "failure": "无法登录 {{name}}",
+                    "progress": "正在登录 {{name}}…"
+                }
+            },
+            "logout": {
+                "label": {
+                    "failure": "无法注销 {{name}}"
+                }
+            }
+        },
+        "error": {
+            "label": {
+                "could_not_load_track_info": "无法载入追踪信息",
+                "could_not_fetch_track_info": "无法从追踪列表中载入最新的追踪信息"
+            }
+        },
+        "track_record": {
+            "label": {
+                "start_date": "起始日期",
+                "finish_date": "完成日期",
+                "score": "评分"
+            }
+        },
+        "title": "追踪"
     }
 }

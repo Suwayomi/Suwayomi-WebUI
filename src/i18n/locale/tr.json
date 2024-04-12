@@ -1,0 +1,24 @@
+{
+    "category": {
+        "dialog": {
+            "title": {
+                "edit_category": "Kategoriyi düzenle",
+                "new_category": "Yeni kategori"
+            }
+        },
+        "error": {
+            "label": {
+                "empty": "Kategori boştur",
+                "request_failure": "Kategoriler yüklenemedi"
+            },
+            "no_categories_found": {
+                "label": {
+                    "info": "Henüz herhangi bir kategoriniz yok."
+                }
+            }
+        },
+        "label": {
+            "category_name": "Kategori İsmi"
+        }
+    }
+}

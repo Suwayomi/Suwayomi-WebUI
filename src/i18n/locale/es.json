@@ -104,7 +104,8 @@
             "show_nsfw": "Mostrar NSFW",
             "dark_theme": "Modo oscuro",
             "image_cache_description": "Reduce el consumo de los datos y mejora el rendimiento cuando se vuelve a solicitar una imagen ya solicitada",
-            "language_description": "No dude en traducir el proyecto en"
+            "language_description": "No dude en traducir el proyecto en",
+            "hide_library_entries": "Ocultar entradas en biblioteca"
         },
         "server_address": {
             "dialog": {
@@ -570,7 +571,12 @@
             "copy": "Copiar",
             "migrate": "Migrar",
             "create": "Crear",
-            "dont_show_dialog_again": "No volver a mostrar este diálogo"
+            "dont_show_dialog_again": "No volver a mostrar este diálogo",
+            "log_in": "Conectarse",
+            "log_out": "Donectarse",
+            "remove": "Quitar",
+            "show_more": "Mostrar más",
+            "show_less": "Mostrar menos"
         },
         "label": {
             "display": "Visualización",
@@ -593,7 +599,12 @@
             "advanced": "Avanzado",
             "general": "General",
             "placeholder": "Marcador de posición",
-            "load_in_progress": "Cargando los datos requeridos…"
+            "load_in_progress": "Cargando los datos requeridos…",
+            "logged_in": "Conectado",
+            "open_in_browser": "Abrir en el navegador",
+            "started": "Iniciado",
+            "type": "Tipo",
+            "are_you_sure": "¿Estás seguro?"
         },
         "error": {
             "label": {
@@ -609,7 +620,8 @@
             "label": {
                 "bookmarked": "Marcado",
                 "downloaded": "Descargado",
-                "unread": "No leído"
+                "unread": "No leído",
+                "tracked": "Rastreado"
             }
         },
         "time": {
@@ -952,7 +964,13 @@
         "title": "Manga",
         "button": {
             "add_to_library": "Añadir a la biblioteca",
-            "in_library": "En la biblioteca"
+            "in_library": "En la biblioteca",
+            "track": {
+                "active_one": "{{count}} Rastreador",
+                "active_many": "{{count}} Rastreadores",
+                "active_other": "{{count}} Rastreadores",
+                "start": "Rastrear"
+            }
         },
         "action": {
             "library": {
@@ -968,6 +986,11 @@
                     },
                     "button": {
                         "selected": "Eliminar seleccionados de la biblioteca"
+                    },
+                    "dialog": {
+                        "label": {
+                            "message": "Vas a eliminar \"{{title}}\" de tu biblioteca"
+                        }
                     }
                 }
             },
@@ -989,6 +1012,28 @@
                 "label": {
                     "error": "No se pudo migrar el manga",
                     "success": "Manga migrado correctamente"
+                }
+            },
+            "track": {
+                "remove": {
+                    "label": {
+                        "success": "Manga sin rastrear",
+                        "error": "No se puede dejar de seguir el manga"
+                    },
+                    "dialog": {
+                        "label": {
+                            "description": "Esto eliminará el rastreo localmente.",
+                            "title": "¿Eliminar el rastreo de {{tracker}} ?",
+                            "delete_remote_track": "Eliminar también de {{tracker}}"
+                        }
+                    }
+                },
+                "add": {
+                    "label": {
+                        "action": "Pista",
+                        "error": "No se puede rastrear el manga",
+                        "success": "Manga rastreado"
+                    }
                 }
             }
         }
@@ -1025,7 +1070,8 @@
             "auto_download": {
                 "label": {
                     "new_chapters": "Descargar los nuevos capítulos",
-                    "ignore_with_unread_chapters": "Ignorar las descargas automáticas de los capítulos para las entradas con capítulos no leídos"
+                    "ignore_with_unread_chapters": "Ignorar las descargas automáticas de los capítulos para las entradas con capítulos no leídos",
+                    "ignore_re_uploads": "Ignorar capítulos resubidos"
                 },
                 "title": "Descarga automática",
                 "categories": {
@@ -1087,6 +1133,9 @@
                 "button": {
                     "show_entry": "Mostrar entrada"
                 }
+            },
+            "label": {
+                "delete_downloaded": "Eliminar descargados"
             }
         },
         "label": {
@@ -1096,5 +1145,49 @@
             "title": "$t(migrate.title) \"{{title}}\""
         },
         "title": "Migrar"
+    },
+    "tracking": {
+        "action": {
+            "button": {
+                "add_tracking": "Añadir rastreo"
+            },
+            "login": {
+                "label": {
+                    "failure": "No se pudo iniciar sesión en {{name}}",
+                    "progress": "Iniciando sesión en {{name}}…"
+                }
+            },
+            "logout": {
+                "label": {
+                    "failure": "No se pudo cerrar la sesión de {{name}}"
+                }
+            }
+        },
+        "error": {
+            "label": {
+                "could_not_load_track_info": "No se ha podido cargar la información de la pista",
+                "could_not_fetch_track_info": "No se pudo cargar la información más reciente del rastreador"
+            }
+        },
+        "settings": {
+            "dialog": {
+                "title": {
+                    "log_in": "Conéctate a {{name}}",
+                    "log_out": "Desconectarse de {{name}}"
+                }
+            },
+            "title": {
+                "settings": "Ajustes del rastreo",
+                "trackers": "Rastreadores"
+            }
+        },
+        "title": "Rastreo",
+        "track_record": {
+            "label": {
+                "finish_date": "Fecha de finalización",
+                "score": "Puntuación",
+                "start_date": "Fecha de comienzo"
+            }
+        }
     }
 }
