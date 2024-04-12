@@ -37,6 +37,11 @@ const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
 
     // client
     'devices',
+
+    // migration
+    'includeChapters',
+    'includeCategories',
+    'deleteChapters',
 ];
 
 /**
