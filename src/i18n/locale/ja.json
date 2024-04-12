@@ -14,7 +14,7 @@
             "no_categories_found": {
                 "label": {
                     "hint": "設定から作成してください。",
-                    "info": "カテゴリーが見つかりませんでした。"
+                    "info": "まだカテゴリーがありません。"
                 }
             }
         },
@@ -33,6 +33,47 @@
         "title": {
             "set_categories": "カテゴリーを設定",
             "category_other": "カテゴリー"
+        }
+    },
+    "chapter": {
+        "action": {
+            "bookmark": {
+                "add": {
+                    "label": {
+                        "error_other": "章をブックマークできませんでした",
+                        "action": "ブックマークを追加"
+                    },
+                    "button": {
+                        "selected": "選択したものをブックマーク"
+                    }
+                },
+                "remove": {
+                    "button": {
+                        "selected": "選択したものをブックマークから削除"
+                    },
+                    "label": {
+                        "action": "ブックマークを削除"
+                    }
+                }
+            },
+            "download": {
+                "delete": {
+                    "label": {
+                        "action": "削除"
+                    },
+                    "button": {
+                        "selected": "選択したものを削除"
+                    }
+                },
+                "add": {
+                    "button": {
+                        "selected": "選択したものをダウンロード"
+                    },
+                    "label": {
+                        "action": "ダウンロード"
+                    }
+                }
+            }
         }
     }
 }

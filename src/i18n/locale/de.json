@@ -4,10 +4,10 @@
         "option": {
             "sort": {
                 "label": {
-                    "by_last_read": "Nach zuletzt gelesen",
-                    "by_unread_chapters": "Nach ungelesenen Kapiteln",
-                    "alphabetically": "Alphabetisch",
-                    "by_date_added": "Nach Hinzufügedatum"
+                    "by_last_read": "Kürzlich gelesen",
+                    "by_unread_chapters": "Ungelesene Kapitel",
+                    "alphabetically": "A-Z",
+                    "by_date_added": "Kürzlich hinzugefügt"
                 }
             },
             "display": {
@@ -23,14 +23,23 @@
         "error": {
             "label": {
                 "no_matches": "Keine Manga stimmen mit dem Filter überein",
-                "empty": "Deine Bibliothek ist leer"
+                "empty": "Deine Bibliothek ist leer",
+                "add_to_library": "Manga konnte nicht zu Bibliothek hinzugefügt werden!",
+                "remove_from_library": "Manga konnte nicht von der Bibliothek entfernen!"
+            }
+        },
+        "info": {
+            "label": {
+                "removed_from_library": "Manga von Bibliothek entfernt!",
+                "added_to_library": "Manga zu Bibliothek hinzugefügt!"
             }
         }
     },
     "chapter": {
         "action": {
             "label": {
-                "select": "Auswählen"
+                "select": "Auswählen",
+                "open_on_source": "In der Quelle öffnen"
             },
             "download": {
                 "add": {
@@ -87,8 +96,8 @@
             "mark_as_read": {
                 "remove": {
                     "label": {
-                        "error_one": "Kapitel konnte nicht als ungelesen markiert werden",
-                        "error_other": "Kapitel konnten nicht als ungelesen markiert werden",
+                        "error_one": "Das Kapitel konnte nicht als ungelesen markiert werden",
+                        "error_other": "Die Kapitel konnten nicht als ungelesen markiert werden",
                         "action": "Als ungelesen markieren",
                         "success_one": "Kapitel wurde als ungelesen markiert",
                         "success_other": "{{count}} Kapitel wurden als ungelesen markiert"
@@ -108,8 +117,8 @@
                         },
                         "success_one": "Kapitel wurde als gelesen markiert",
                         "success_other": "{{count}} Kapitel wurden als gelesen markiert",
-                        "error_one": "Kapitel konnte nicht als gelesen markiert werden",
-                        "error_other": "Kapitel konnten nicht als gelesen markiert werden"
+                        "error_one": "Das Kapitel konnte nicht als gelesen markiert werden",
+                        "error_other": "Die Kapitel konnten nicht als gelesen markiert werden"
                     }
                 }
             }
@@ -129,7 +138,7 @@
         "option": {
             "display": {
                 "label": {
-                    "chapter_number": "Kapitel Nummer",
+                    "chapter_number": "Kapitelnummer",
                     "source_title": "Name der Quelle"
                 }
             }
@@ -197,7 +206,7 @@
         "error": {
             "label": {
                 "request_failure": "Manga konnten nicht geladen werden",
-                "no_mangas_found": "Keine Manga gefunden!",
+                "no_mangas_found": "Keine Manga gefunden",
                 "no_matches": "Keine Manga stimmen mit dem Filter überein"
             }
         },
@@ -213,24 +222,53 @@
             "label": {
                 "install": "Installieren",
                 "uninstall": "Deinstallieren",
-                "update": "Aktualisieren"
+                "update": "Aktualisieren",
+                "install_external": "Externe Erweiterung installieren"
             }
         },
         "label": {
-            "installed_successfully": "Erweiterung erfolgreich installiert!",
-            "installation_failed": "Installation der Erweiterung fehlgeschlagen!",
-            "installing_file": "Erweiterungsdatei wird installiert..."
+            "installed_successfully": "Erweiterung installiert",
+            "installation_failed": "Die Erweiterung konnte nicht installiert werden",
+            "installing_file": "Erweiterungsdatei wird installiert…",
+            "update_failed": "Die Erweiterung konnte nicht aktualisiert werden",
+            "uninstallation_failed": "Die Erweiterung konnte nicht deinstalliert werden"
         },
         "state": {
             "label": {
-                "installing": "installiert",
-                "uninstalling": "deinstalliert",
-                "updating": "aktualisiert",
-                "obsolete": "veraltet"
+                "installing": "Wird installiert",
+                "uninstalling": "Wird deinstalliert",
+                "updating": "Wird aktualisiert",
+                "obsolete": "Veraltet",
+                "installed": "Installiert",
+                "update_pending": "Aktualisierung ausstehend"
             }
         },
         "language": {
-            "all": "Alle"
+            "all": "Alle",
+            "other": "Andere"
+        },
+        "settings": {
+            "repositories": {
+                "custom": {
+                    "label": {
+                        "disclaimer": "<strong>Suwayomi bietet keine Unterstützung für Repositories oder Erweiterungen von Drittanbietern an!</strong><br/>Sei vorsichtig, da diese Repositories von böswilligen Akteuren erstellt werden könnten.<br/>Du als Benutzer musst die Sicherheit des Repositories oder der Erweiterung überprüfen, bevor du diesen vertraust.",
+                        "title": "Erweiterungs-Repositories",
+                        "description": "Füge zusätzliche Repositories mit installierbaren Erweiterungen hinzu"
+                    },
+                    "dialog": {
+                        "action": {
+                            "button": {
+                                "add": "Repository hinzufügen"
+                            }
+                        }
+                    },
+                    "error": {
+                        "label": {
+                            "invalid_url": "Ungültige Repository-URL"
+                        }
+                    }
+                }
+            }
         }
     },
     "global": {
@@ -254,9 +292,22 @@
         "label": {
             "filter": "Filter",
             "browse": "Suchen",
-            "loading": "Lädt...",
+            "loading": "Lädt…",
             "display": "Anzeige",
-            "sort": "Sortieren"
+            "sort": "Sortieren",
+            "advanced": "Erweitert",
+            "general": "Allgemein",
+            "never": "Nie",
+            "other": "Andere",
+            "password": "Passwort",
+            "client": "Endgerät",
+            "disabled": "Deaktiviert",
+            "placeholder": "Platzhalter",
+            "unknown": "Unbekannt",
+            "username": "Benutzername",
+            "discord": "Discord",
+            "none": "Keine",
+            "close": "Schließen"
         },
         "button": {
             "ok": "OK",
@@ -272,18 +323,34 @@
             "submit": "Übernehmen",
             "latest": "Neueste",
             "reset": "Zurücksetzen",
-            "start": "Start"
+            "start": "Start",
+            "stop": "Stop",
+            "restore": "Wiederherstellen",
+            "select": "Auswählen",
+            "create": "Erstellen",
+            "dont_show_dialog_again": "Dieses Dialogfeld nicht erneut anzeigen",
+            "retry": "Erneut versuchen",
+            "popular": "Beliebt",
+            "add": "Hinzufügen",
+            "deselect": "Selektierung aufheben",
+            "edit": "Bearbeiten",
+            "options": "Optionen",
+            "copy": "Kopieren",
+            "migrate": "Migrieren"
         },
         "error": {
             "label": {
-                "invalid_action": "Dies ist keine zulässige Aktion",
-                "update_failed": "Das Prüfen auf Aktualisierungen ist fehlgeschlagen!",
-                "invalid_file_type": "Nicht unterstützter Dateityp!"
+                "invalid_action": "Das ist keine zulässige Aktion",
+                "update_failed": "Es konnte nicht auf Aktualisierungen geprüft werden",
+                "invalid_file_type": "Nicht unterstützter Dateityp",
+                "invalid_input": "Ungültige Eingabe",
+                "failed_to_load_data": "Es konnten keine Daten geladen werden",
+                "failed_to_save_changes": "Das Speichern der Änderungen ist fehlgeschlagen"
             }
         },
         "filter": {
             "label": {
-                "downloaded": "Downloaded",
+                "downloaded": "Heruntergeladen",
                 "unread": "Ungelesen",
                 "bookmarked": "Als Lesezeichen markiert"
             }
@@ -299,12 +366,32 @@
                 "today_at": "Heute um {{timeString}}",
                 "yesterday_at": "Gestern um {{timeString}}",
                 "yesterday": "Gestern",
-                "today": "Heute"
+                "today": "Heute",
+                "day": "Tag"
             }
         },
         "update": {
             "label": {
-                "info": ""
+                "info": "Server-Version {{version}}({{channel}}) ist zum Download verfügbar",
+                "update_failure": "Update fehlgeschlagen",
+                "available": "Aktualisierung verfügbar",
+                "updating": "{{progress}}% | Aktualisiere…",
+                "check_failure": "Konnte nicht auf Aktualisierungen prüfen",
+                "checking": "Suche nach Aktualisierung",
+                "up_to_date": "Die Version ist aktuell"
+            }
+        },
+        "time": {
+            "hour_short": "H",
+            "seconds": {
+                "value": "{{count}}$t(global.time.seconds.second)",
+                "second_one": "Sekunde",
+                "second_other": "Sekunden"
+            },
+            "minutes": {
+                "value": "{{count}}$t(global.time.minutes.minute)",
+                "minute_one": "Minute",
+                "minute_other": "Minuten"
             }
         }
     },
@@ -317,12 +404,12 @@
         },
         "error": {
             "label": {
-                "empty": "Kategorie ist leer",
+                "empty": "Die Kategorie ist leer",
                 "request_failure": "Kategorien konnten nicht geladen werden"
             },
             "no_categories_found": {
                 "label": {
-                    "info": "Keine Kategorien gefunden.",
+                    "info": "Du hast noch keine Kategorien.",
                     "hint": "Kategorien können in den Einstellungn erstellt werden."
                 }
             }
@@ -333,7 +420,17 @@
         },
         "title": {
             "categories": "Kategorien",
-            "set_categories": "Kategorien setzen"
+            "set_categories": "Kategorien setzen",
+            "category_one": "Kategorie",
+            "category_other": "Kategorien"
+        },
+        "settings": {
+            "inclusion": {
+                "label": {
+                    "include": "Eingeschlossen: {{includedCategoriesText}}",
+                    "exclude": "Ausgeschlossen: {{excludedCategoriesText}}"
+                }
+            }
         }
     },
     "settings": {
@@ -380,20 +477,87 @@
     },
     "download": {
         "queue": {
-            "title": "Download Warteschlange",
+            "title": "Download-Warteschlange",
             "label": {
-                "no_downloads": "Keine downloads"
+                "no_downloads": "Keine Downloads",
+                "delete_all": "Alle löschen"
+            },
+            "error": {
+                "label": {
+                    "failed_delete_all": "Es konnten nicht alle Downloads aus der Warteschlange entfernt werden",
+                    "failed_to_remove": "Der Download konnte nicht aus der Warteschlange entfernt werden."
+                }
             }
         },
         "state": {
             "label": {
-                "downloading": "Downloading",
+                "downloading": "Wird heruntergeladen",
                 "error": "Fehler",
                 "finished": "Fertiggestellt",
                 "queued": "Eingereiht"
             }
         },
-        "title": "Downloads"
+        "title": "Downloads",
+        "settings": {
+            "auto_download": {
+                "download_limit": {
+                    "label": {
+                        "description": "Begrenze die Menge an neuen Kapiteln, die heruntergeladen werden.",
+                        "title": "Kapitel-Downloadgrenze"
+                    }
+                },
+                "title": "Auto-Download",
+                "label": {
+                    "ignore_with_unread_chapters": "Automatische Kapitel-Downloads für Einträge mit ungelesenen Kapiteln ignorieren",
+                    "new_chapters": "Neue Kapitel herunterladen"
+                },
+                "categories": {
+                    "label": {
+                        "include_in_download": "Einträge in ausgeschlossenen Kategorien werden nicht heruntergeladen, auch wenn diese in eingeschlossenen Kategorien vorhanden sind"
+                    }
+                }
+            },
+            "delete_chapters": {
+                "while_reading": {
+                    "option": {
+                        "label": {
+                            "fourth": "Viertletztes gelesenes Kapitel",
+                            "second": "Zweitletztes gelesenes Kapitel",
+                            "third": "Drittletztes gelesenes Kapitel",
+                            "first": "Letztes gelesenes Kapitel",
+                            "fifth": "Fünftletztes gelesenes Kapitel"
+                        }
+                    },
+                    "label": {
+                        "title": "Lösche beim Lesen beendete Kapitel"
+                    }
+                },
+                "label": {
+                    "manually_marked_as_read": "Lösche Kapitel, nach sie manuell als gelesen markiert wurden",
+                    "allow_deletion_of_bookmarked": "Erlaube das Löschen von mit Lesezeichen versehenen Kapiteln"
+                },
+                "title": "Lösche Kapitel"
+            },
+            "download_ahead": {
+                "label": {
+                    "disclaimer": "Funktioniert nur, wenn das aktuelle Kapitel und das nächste Kapitel bereits heruntergeladen sind.",
+                    "unread_chapters_to_download": "Anzahl an ungelesenen Kapiteln die heruntergeladen werden sollen",
+                    "while_reading": "Automatischer Download während des Lesens",
+                    "description": "Wie viele Kapitel beim Lesen heruntergeladen werden sollen."
+                }
+            },
+            "download_path": {
+                "label": {
+                    "title": "Download-Speicherort"
+                }
+            },
+            "file_type": {
+                "label": {
+                    "cbz": "Als CBZ-Archiv speichern"
+                }
+            },
+            "title": "Download-Einstellungen"
+        }
     },
     "source": {
         "local_source": {
