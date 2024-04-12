@@ -42,6 +42,9 @@ const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
     'includeChapters',
     'includeCategories',
     'deleteChapters',
+
+    // browse
+    'hideLibraryEntries',
 ];
 
 /**
