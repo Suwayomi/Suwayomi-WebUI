@@ -29,24 +29,28 @@ export const TrackMangaButton = ({ manga }: { manga: TManga }) => {
 
     const loggedInTrackers = Trackers.getLoggedIn(trackerList.data?.trackers.nodes ?? []);
     const trackersInUse = Trackers.getLoggedIn(Trackers.getTrackers(mangaTrackers));
-    const mangaChaptersQuery = requestManager.useGetMangaChapters(manga.id);
+    const mangaChaptersQuery = requestManager.useGetMangaChapters(manga.id, {});
 
     /**
      * @description This function fetch the last read for the loged in trackers.
      */
-    const refreshTracker = async () => {
-        await mangaTrackers.map((trackRecord) =>
-            requestManager
-                .fetchTrackBind(trackRecord.id)
-                .response.catch(() => makeToast(t('tracking.error.label.could_not_fetch_track_info'), 'error')),
+    const refreshTracker = () =>
+        mangaTrackers.map(
+            async (trackRecord) =>
+                (await requestManager.fetchTrackBind(trackRecord.id).response).data?.fetchTrack.trackRecord
+                    .lastChapterRead,
         );
-    };
+
     /**
      * @description This function update the tracker reads, and set the local read to the higher chapter read if the local source is lower.
      * It will set all chapters part to read based on the tracker read, so if you have read chapter 100; parts 100.1 100.5 and 100.8 will be marked as read.
      */
     const updateChapterFromTracker = async () => {
-        const latestTrackersRead = Math.max(...mangaTrackers.map((trackRecord) => trackRecord.lastChapterRead));
+        const updatedTrackerRecords = (await Promise.all(refreshTracker())) as number[];
+
+        const latestTrackersRead =
+            Math.max(...updatedTrackerRecords.map((trackData) => trackData)) ??
+            manga.trackRecords.nodes.map((trackRecord) => trackRecord.lastChapterRead);
         const latestLocalRead = manga.latestReadChapter?.chapterNumber ?? 0;
 
         // Return a list of all the chapter and chapters parts that match the last chapter in the tracker
@@ -69,7 +73,7 @@ export const TrackMangaButton = ({ manga }: { manga: TManga }) => {
 
         // Fetch new chapters if behind tracker
         if (localBehindTracker) {
-            requestManager.getMangaChaptersFetch(manga.id, { awaitRefetchQueries: true });
+            await requestManager.getMangaChaptersFetch(manga.id, { awaitRefetchQueries: true }).response;
         }
         if (!localBehindTracker) {
             const chapterToBeUpdated =
@@ -85,7 +89,7 @@ export const TrackMangaButton = ({ manga }: { manga: TManga }) => {
             }
         }
     };
-    const handleClick = (openPopup: () => void) => {
+    const handleClick = async (openPopup: () => void) => {
         if (trackerList.error) {
             makeToast(t('tracking.error.label.could_not_load_track_info'), 'error');
             return;
@@ -97,10 +101,12 @@ export const TrackMangaButton = ({ manga }: { manga: TManga }) => {
         }
 
         openPopup();
-        (async () => {
-            await refreshTracker();
+
+        try {
             await updateChapterFromTracker();
-        })();
+        } catch (error) {
+            makeToast(t('tracking.error.label.could_not_load_track_info'), 'error');
+        }
     };
 
     return (
