@@ -21,6 +21,8 @@ declare module '@mui/material/styles/createPalette' {
 type DefaultMuiPalette = Omit<MuiPalette, 'custom'>;
 type DefaultMuiTheme = Omit<Theme, 'palette'> & { palette: DefaultMuiPalette };
 
+let theme: Theme;
+export const getCurrentTheme = () => theme;
 export const createTheme = (dark?: boolean) => {
     const baseTheme: DefaultMuiTheme = createMuiTheme({
         palette: {
@@ -59,6 +61,8 @@ export const createTheme = (dark?: boolean) => {
         },
         baseTheme,
     );
+
+    theme = suwayomiTheme;
 
     return suwayomiTheme;
 };

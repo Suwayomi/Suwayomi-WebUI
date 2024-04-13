@@ -32,6 +32,7 @@ type DownloadSettingsType = Pick<
     | 'autoDownloadNewChapters'
     | 'autoDownloadNewChaptersLimit'
     | 'excludeEntryWithUnreadChapters'
+    | 'autoDownloadIgnoreReUploads'
 >;
 
 const extractDownloadSettings = (settings: ServerSettings): DownloadSettingsType => ({
@@ -40,6 +41,7 @@ const extractDownloadSettings = (settings: ServerSettings): DownloadSettingsType
     autoDownloadNewChapters: settings.autoDownloadNewChapters,
     autoDownloadNewChaptersLimit: settings.autoDownloadNewChaptersLimit,
     excludeEntryWithUnreadChapters: settings.excludeEntryWithUnreadChapters,
+    autoDownloadIgnoreReUploads: settings.autoDownloadIgnoreReUploads,
 });
 
 export const DownloadSettings = () => {
@@ -168,6 +170,15 @@ export const DownloadSettings = () => {
                         edge="end"
                         checked={!!downloadSettings?.excludeEntryWithUnreadChapters}
                         onChange={(e) => updateSetting('excludeEntryWithUnreadChapters', e.target.checked)}
+                        disabled={!downloadSettings?.autoDownloadNewChapters}
+                    />
+                </ListItem>
+                <ListItem disabled={!downloadSettings?.autoDownloadNewChapters}>
+                    <ListItemText primary={t('download.settings.auto_download.label.ignore_re_uploads')} />
+                    <Switch
+                        edge="end"
+                        checked={!!downloadSettings?.autoDownloadIgnoreReUploads}
+                        onChange={(e) => updateSetting('autoDownloadIgnoreReUploads', e.target.checked)}
                         disabled={!downloadSettings?.autoDownloadNewChapters}
                     />
                 </ListItem>

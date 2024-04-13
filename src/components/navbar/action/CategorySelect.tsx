@@ -40,7 +40,7 @@ type MultiMangaModeProps = {
     mangaIds: number[];
 };
 
-type Props =
+export type CategorySelectProps =
     | (BaseProps & SingleMangaModeProps & PropertiesNever<MultiMangaModeProps>)
     | (BaseProps & PropertiesNever<SingleMangaModeProps> & MultiMangaModeProps);
 
@@ -77,7 +77,7 @@ const getCategoryCheckedState = (
     return undefined;
 };
 
-export function CategorySelect(props: Props) {
+export function CategorySelect(props: CategorySelectProps) {
     const { t } = useTranslation();
 
     const { open, onClose, mangaId, mangaIds: passedMangaIds, addToLibrary = false } = props;

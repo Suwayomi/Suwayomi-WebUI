@@ -23,7 +23,6 @@ import {
     AbortableApolloUseMutationPaginatedResponse,
     SPECIAL_ED_SOURCES,
 } from '@/lib/requests/RequestManager.ts';
-import { useDebounce } from '@/util/useDebounce.ts';
 import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
 import { SourceGridLayout } from '@/components/source/SourceGridLayout';
 import { AppbarSearch } from '@/components/util/AppbarSearch';
@@ -35,6 +34,7 @@ import {
 } from '@/lib/graphql/generated/graphql.ts';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
 import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
+import { useSessionStorage } from '@/util/useStorage.tsx';
 
 const ContentTypeMenu = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -215,17 +215,12 @@ export function SourceMangas() {
     const { sourceId } = useParams<{ sourceId: string }>();
 
     const navigate = useNavigate();
-    const { search } = useLocation();
-    const {
-        contentType: currentLocationContentType = SourceContentType.POPULAR,
-        filtersToApply: currentLocationFiltersToApply = [],
-        clearCache = false,
-    } = useLocation<{
-        contentType: SourceContentType;
-        filtersToApply: IPos[];
-        clearCache: boolean;
-        search: string;
-    }>().state ?? {};
+    const { key: locationKey, state: locationState } = useLocation();
+    const { contentType: initialContentType = SourceContentType.POPULAR, clearCache = false } =
+        useLocation<{
+            contentType: SourceContentType;
+            clearCache: boolean;
+        }>().state ?? {};
 
     useSetDefaultBackTo('sources');
 
@@ -241,13 +236,19 @@ export function SourceMangas() {
 
     const { options } = useLibraryOptionsContext();
     const [query] = useQueryParam('query', StringParam);
-    const [dialogFiltersToApply, setDialogFiltersToApply] = useState<IPos[]>(currentLocationFiltersToApply);
-    const [filtersToApply, setFiltersToApply] = useState<IPos[]>(currentLocationFiltersToApply);
-    const searchTerm = useDebounce(query, 1000);
+    const [filtersToApply, setFiltersToApply] = useSessionStorage<IPos[]>(
+        `source-mangas-location-${locationKey}-${sourceId}-filters`,
+        [],
+    );
+    const [dialogFiltersToApply, setDialogFiltersToApply] = useState<IPos[]>(filtersToApply);
     const [resetScrollPosition, setResetScrollPosition] = useState(false);
-    const [contentType, setContentType] = useState(currentLocationContentType);
+    const [contentType, setContentType] = useSessionStorage(
+        `source-mangas-location-${locationKey}-${sourceId}-content-type`,
+        query ? SourceContentType.SEARCH : initialContentType,
+    );
+
     const [loadPage, { data, isLoading: loading, size: lastPageNum, abortRequest, filteredOutAllItemsOfFetchedPage }] =
-        useSourceManga(sourceId, contentType, searchTerm, filtersToApply, 1, hideLibraryEntries);
+        useSourceManga(sourceId, contentType, query, filtersToApply, 1, hideLibraryEntries);
     const isLoading = loading || filteredOutAllItemsOfFetchedPage;
     const mangas = data?.fetchSourceManga.mangas ?? [];
     const hasNextPage = data?.fetchSourceManga.hasNextPage ?? false;
@@ -268,50 +269,36 @@ export function SourceMangas() {
     ) : undefined;
 
     const updateContentType = useCallback(
-        (
-            newContentType: SourceContentType,
-            { updateLocationState = true, search: newSearch }: { updateLocationState?: boolean; search?: string } = {},
-        ) => {
-            if (updateLocationState) {
+        (newContentType: SourceContentType, newSearch?: string | null) => {
+            setContentType(newContentType);
+            setResetScrollPosition(true);
+
+            if (query && !newSearch) {
                 navigate(
-                    { pathname: '', search: newSearch },
                     {
-                        replace: true,
-                        state: {
-                            contentType: newContentType,
-                        },
+                        pathname: '',
+                    },
+                    {
+                        state: { ...locationState, contentType: newContentType },
                     },
                 );
             }
-
-            setContentType(newContentType);
-            setResetScrollPosition(true);
         },
-        [setContentType],
+        [setContentType, query],
     );
 
     const updateLocationFilters = useCallback(
         (updatedFilters: IPos[]) => {
             if (contentType === SourceContentType.SEARCH) {
-                navigate(
-                    { pathname: '', search },
-                    {
-                        replace: true,
-                        state: {
-                            contentType,
-                            filtersToApply: updatedFilters,
-                        },
-                    },
-                );
+                setFiltersToApply(updatedFilters);
             }
         },
-        [contentType, search],
+        [contentType, query],
     );
 
-    const isSearchTermAvailable = searchTerm && query?.length;
-    const setSearchContentType = isSearchTermAvailable && contentType !== SourceContentType.SEARCH;
+    const setSearchContentType = !!query && contentType !== SourceContentType.SEARCH;
     if (setSearchContentType) {
-        updateContentType(SourceContentType.SEARCH, { search });
+        updateContentType(SourceContentType.SEARCH, query);
     }
 
     const loadMore = useCallback(() => {
@@ -346,10 +333,6 @@ export function SourceMangas() {
         }
 
         requestManager.clearBrowseCacheFor(sourceId);
-        navigate('', {
-            replace: true,
-            state: { contentType: currentLocationContentType, filters: currentLocationFiltersToApply },
-        });
     }, [clearCache]);
 
     useEffect(
@@ -363,7 +346,7 @@ export function SourceMangas() {
             abortRequest(new Error(`SourceMangas(${sourceId}): search string changed`));
             setResetScrollPosition(true);
         },
-        [searchTerm],
+        [query],
     );
 
     useEffect(() => {
@@ -426,7 +409,7 @@ export function SourceMangas() {
                 <ContentTypeButton
                     variant={contentType === SourceContentType.SEARCH ? 'contained' : 'outlined'}
                     startIcon={<FilterListIcon />}
-                    onClick={() => updateContentType(SourceContentType.SEARCH)}
+                    onClick={() => updateContentType(SourceContentType.SEARCH, query)}
                 >
                     {t('global.button.filter')}
                 </ContentTypeButton>

@@ -18,7 +18,7 @@ import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
 import { MutableListSetting } from '@/components/settings/MutableListSetting.tsx';
 import { MetadataBrowseSettings, ServerSettings as GqlServerSettings } from '@/typings.ts';
 import { TextSetting } from '@/components/settings/text/TextSetting.tsx';
-import { useLocalStorage } from '@/util/useLocalStorage.tsx';
+import { useLocalStorage } from '@/util/useStorage.tsx';
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,

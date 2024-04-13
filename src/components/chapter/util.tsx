@@ -15,7 +15,7 @@ import {
     TChapter,
     TranslationKey,
 } from '@/typings.ts';
-import { useReducerLocalStorage } from '@/util/useLocalStorage.tsx';
+import { useReducerLocalStorage } from '@/util/useStorage.tsx';
 import { getPartialList } from '@/components/util/getPartialList';
 import { Chapters } from '@/lib/data/Chapters.ts';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler';

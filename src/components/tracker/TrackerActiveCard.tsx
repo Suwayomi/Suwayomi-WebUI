@@ -262,7 +262,7 @@ export const TrackerActiveCard = ({
                                     settingValue={`${trackRecord.lastChapterRead}/${trackRecord.totalChapters}`}
                                     value={trackRecord.lastChapterRead}
                                     minValue={0}
-                                    maxValue={trackRecord.totalChapters}
+                                    maxValue={Infinity}
                                     valueUnit=""
                                     handleUpdate={(lastChapterRead) => updateTrackerBind({ lastChapterRead })}
                                 />

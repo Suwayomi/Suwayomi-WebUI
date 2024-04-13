@@ -12,7 +12,7 @@ import { Link, List, ListItem, ListItemText, Switch } from '@mui/material';
 import ListSubheader from '@mui/material/ListSubheader';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { useLocalStorage } from '@/util/useLocalStorage.tsx';
+import { useLocalStorage } from '@/util/useStorage.tsx';
 import { TextSetting } from '@/components/settings/text/TextSetting.tsx';
 import { ServerSettings as GqlServerSettings } from '@/typings.ts';
 import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
@@ -88,6 +88,7 @@ export const ServerSettings = () => {
     const handleServerAddressChange = (address: string) => {
         const serverBaseUrl = address.replaceAll(/(\/)+$/g, '');
         setServerAddress(serverBaseUrl);
+        requestManager.reset();
     };
 
     const updateSetting = <Setting extends keyof ServerSettingsType>(
@@ -159,31 +160,26 @@ export const ServerSettings = () => {
                         [5, { text: '5' }],
                     ]}
                     handleChange={(socksProxyVersion) => updateSetting('socksProxyVersion', socksProxyVersion)}
-                    disabled={!serverSettings?.socksProxyEnabled}
                 />
                 <TextSetting
                     settingName={t('settings.server.socks_proxy.label.host')}
                     value={serverSettings?.socksProxyHost}
                     handleChange={(proxyHost) => updateSetting('socksProxyHost', proxyHost)}
-                    disabled={!serverSettings?.socksProxyEnabled}
                 />
                 <TextSetting
                     settingName={t('settings.server.socks_proxy.label.port')}
                     value={serverSettings?.socksProxyPort}
                     handleChange={(proxyPort) => updateSetting('socksProxyPort', proxyPort)}
-                    disabled={!serverSettings?.socksProxyEnabled}
                 />
                 <TextSetting
                     settingName={t('settings.server.socks_proxy.label.username')}
                     value={serverSettings?.socksProxyUsername}
                     handleChange={(proxyUsername) => updateSetting('socksProxyUsername', proxyUsername)}
-                    disabled={!serverSettings?.socksProxyEnabled}
                 />
                 <TextSetting
                     settingName={t('settings.server.socks_proxy.label.password')}
                     value={serverSettings?.socksProxyPassword}
                     handleChange={(proxyPassword) => updateSetting('socksProxyPassword', proxyPassword)}
-                    disabled={!serverSettings?.socksProxyEnabled}
                     isPassword
                 />
             </List>
@@ -206,14 +202,12 @@ export const ServerSettings = () => {
                     settingName={t('settings.server.auth.basic.label.username')}
                     value={serverSettings?.basicAuthUsername}
                     handleChange={(authUsername) => updateSetting('basicAuthUsername', authUsername)}
-                    disabled={!serverSettings?.basicAuthEnabled}
                 />
                 <TextSetting
                     settingName={t('settings.server.auth.basic.label.password')}
                     value={serverSettings?.basicAuthPassword}
                     isPassword
                     handleChange={(authPassword) => updateSetting('basicAuthPassword', authPassword)}
-                    disabled={!serverSettings?.basicAuthEnabled}
                 />
             </List>
             <List

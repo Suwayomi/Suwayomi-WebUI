@@ -7,6 +7,7 @@
  */
 
 import { t as translate } from 'i18next';
+import { DocumentNode } from '@apollo/client/core';
 import { TManga, TranslationKey } from '@/typings.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import {
@@ -19,6 +20,7 @@ import {
 import { Chapters } from '@/lib/data/Chapters.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { getMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
+import { FULL_MANGA_FIELDS } from '@/lib/graphql/Fragments.ts';
 
 export type MangaAction =
     | 'download'
@@ -133,6 +135,21 @@ type PerformActionOptions<Action extends MangaAction> = Action extends 'mark_as_
 export class Mangas {
     static getIds(mangas: { id: number }[]): number[] {
         return mangas.map((manga) => manga.id);
+    }
+
+    static getFromCache<T>(
+        id: number,
+        fragment: DocumentNode = FULL_MANGA_FIELDS,
+        fragmentName: string = 'FULL_MANGA_FIELDS',
+    ): T | null {
+        return requestManager.graphQLClient.client.cache.readFragment<T>({
+            id: requestManager.graphQLClient.client.cache.identify({
+                __typename: 'MangaType',
+                id,
+            }),
+            fragment,
+            fragmentName,
+        });
     }
 
     static isNotDownloaded({ downloadCount }: MangaDownloadInfo): boolean {

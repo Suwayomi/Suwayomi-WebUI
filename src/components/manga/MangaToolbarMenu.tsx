@@ -19,12 +19,12 @@ import {
     useMediaQuery,
     useTheme,
 } from '@mui/material';
-import React, { useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import SyncAltIcon from '@mui/icons-material/SyncAlt';
-import { CategorySelect } from '@/components/navbar/action/CategorySelect';
 import { TManga } from '@/typings.ts';
+import { useCategorySelect } from '@/components/navbar/action/useCategorySelect.tsx';
 
 interface IProps {
     manga: TManga;
@@ -44,7 +44,9 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
         setAnchorEl(null);
     };
 
-    const [editCategories, setEditCategories] = useState(false);
+    const { openCategorySelect, CategorySelectComponent } = useCategorySelect({
+        mangaId: manga.id,
+    });
 
     return (
         <>
@@ -76,7 +78,7 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                             <Tooltip title={t('manga.label.edit_categories')}>
                                 <IconButton
                                     onClick={() => {
-                                        setEditCategories(true);
+                                        openCategorySelect(true);
                                     }}
                                 >
                                     <Label />
@@ -134,7 +136,7 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                             <MenuItem
                                 key="categories"
                                 onClick={() => {
-                                    setEditCategories(true);
+                                    openCategorySelect(true);
                                     handleClose();
                                 }}
                             >
@@ -148,7 +150,7 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                 </>
             )}
 
-            <CategorySelect open={editCategories} onClose={() => setEditCategories(false)} mangaId={manga.id} />
+            {CategorySelectComponent}
         </>
     );
 };

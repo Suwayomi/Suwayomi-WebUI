@@ -11,35 +11,41 @@ import SearchIcon from '@mui/icons-material/Search';
 import { IconButton, Tooltip } from '@mui/material';
 import { useQueryParam, StringParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { SearchTextField } from '@/components/atoms/SearchTextField.tsx';
 
 interface IProps {
-    autoOpen?: boolean;
+    isClosable?: boolean;
 }
 
-const defaultProps = {
-    autoOpen: false,
-};
-
 export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
-    const { autoOpen } = props;
+    const { isClosable = true } = props;
 
     const { t } = useTranslation();
 
-    const { pathname, search: locationSearch, state: fullLocationState } = useLocation<{ wasSearchOpen?: boolean }>();
-    const { wasSearchOpen, ...locationState } = fullLocationState ?? {};
-
-    const navigate = useNavigate();
+    const [prevLocationKey, setPrevLocationKey] = useState<string>();
+    const location = useLocation();
 
     const [query, setQuery] = useQueryParam('query', StringParam);
-    const [searchOpen, setSearchOpen] = useState(!!query);
+    const [isSearchOpen, setIsSearchOpen] = useState(!isClosable || !!query);
     const inputRef = React.useRef<HTMLInputElement>();
 
     const [searchString, setSearchString] = useState(query ?? '');
 
+    if (prevLocationKey !== location.key) {
+        setPrevLocationKey(location.key);
+        setSearchString(query ?? '');
+        setIsSearchOpen(!isClosable || !!query);
+    }
+
+    const isOpen = isSearchOpen || !!query;
+
     const updateSearchOpenState = (open: boolean) => {
-        setSearchOpen(open);
+        if (!isClosable) {
+            return;
+        }
+
+        setIsSearchOpen(open);
 
         // try to focus input component since in case of navigating to the previous/next page in the browser history
         // the "openSearch" state might not change and thus, won't trigger a focus
@@ -54,6 +60,7 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
         }
 
         setQuery(newQuery);
+        updateSearchOpenState(false);
     }
 
     const cancelSearch = () => {
@@ -73,46 +80,6 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
     };
 
     useEffect(() => {
-        if ((autoOpen && wasSearchOpen === undefined) || (wasSearchOpen && query)) {
-            updateSearchOpenState(true);
-            return;
-        }
-
-        updateSearchOpenState(false);
-    }, [autoOpen, pathname]);
-
-    useEffect(() => {
-        if (!searchOpen || !inputRef.current) {
-            return;
-        }
-
-        inputRef.current.focus();
-    }, [searchOpen, inputRef.current]);
-
-    useEffect(() => {
-        if (wasSearchOpen === searchOpen) {
-            return;
-        }
-
-        navigate(
-            { pathname, search: locationSearch },
-            { replace: true, state: { ...locationState, wasSearchOpen: searchOpen } },
-        );
-    }, [searchOpen]);
-
-    useEffect(() => {
-        if (query === undefined && searchString !== undefined) {
-            setSearchString('');
-            return;
-        }
-
-        if (query && searchString !== query) {
-            setSearchString(query);
-            updateSearchOpenState(true);
-        }
-    }, [query]);
-
-    useEffect(() => {
         window.addEventListener('keydown', handleKeyboardEvent);
 
         return () => {
@@ -120,9 +87,10 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
         };
     }, [handleKeyboardEvent]);
 
-    if (searchOpen) {
+    if (isOpen) {
         return (
             <SearchTextField
+                autoFocus
                 variant="standard"
                 value={searchString}
                 onCancel={cancelSearch}
@@ -146,5 +114,3 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
         </Tooltip>
     );
 };
-
-AppbarSearch.defaultProps = defaultProps;

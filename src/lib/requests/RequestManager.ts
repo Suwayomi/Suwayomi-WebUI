@@ -409,6 +409,12 @@ export class RequestManager {
         this.graphQLClient.updateConfig();
     }
 
+    public reset(): void {
+        this.graphQLClient.client.resetStore();
+        this.cache.clear();
+        this.imageQueue.clear();
+    }
+
     public getBaseUrl(): string {
         return this.restClient.getBaseUrl();
     }
@@ -863,7 +869,7 @@ export class RequestManager {
     /**
      * Make sure to call "cleanup" once the image is not needed anymore (only required if fetched via "fetch api")
      */
-    public requestImage(url: string, priority?: QueuePriority, useFetchApi: boolean = true): ImageRequest {
+    public requestImage(url: string, priority?: QueuePriority, useFetchApi: boolean = false): ImageRequest {
         if (useFetchApi) {
             return this.fetchImageViaFetchApi(url, priority);
         }
@@ -2143,8 +2149,7 @@ export class RequestManager {
         );
 
         result.response.then(() => {
-            this.graphQLClient.client.cache.reset();
-            this.cache.clear();
+            this.reset();
         });
 
         return result;

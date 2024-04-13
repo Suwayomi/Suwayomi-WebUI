@@ -13,7 +13,7 @@ import { StringParam, useQueryParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
 import { ISource } from '@/typings';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { useLocalStorage } from '@/util/useLocalStorage';
+import { useLocalStorage } from '@/util/useStorage.tsx';
 import { langSortCmp, sourceDefualtLangs, sourceForcedDefaultLangs } from '@/util/language';
 import { translateExtensionLanguage } from '@/screens/util/Extensions';
 import { AppbarSearch } from '@/components/util/AppbarSearch';
@@ -21,7 +21,7 @@ import { LangSelect } from '@/components/navbar/action/LangSelect';
 import { MangaGrid } from '@/components/MangaGrid';
 import { useDebounce } from '@/util/useDebounce.ts';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
-import { MangaCardProps } from '@/components/MangaCard.tsx';
+import { MangaCardProps } from '@/components/manga/MangaCard.types.tsx';
 
 type SourceLoadingState = { isLoading: boolean; hasResults: boolean; emptySearch: boolean };
 type SourceToLoadingStateMap = Map<string, SourceLoadingState>;
@@ -214,7 +214,7 @@ export const SearchAll: React.FC = () => {
         setTitle(t(isMigrateMode ? 'migrate.search.title' : 'search.title.global_search', { title: mangaTitle }));
         setAction(
             <>
-                <AppbarSearch autoOpen />
+                <AppbarSearch isClosable={false} />
                 <LangSelect
                     shownLangs={shownLangs}
                     setShownLangs={setShownLangs}
@@ -247,7 +247,7 @@ export const SearchAll: React.FC = () => {
                     onSearchRequestFinished={updateSourceLoadingState}
                     searchString={searchString}
                     emptyQuery={!query}
-                    mode={isMigrateMode ? 'migrate.select' : undefined}
+                    mode={isMigrateMode ? 'migrate.select' : 'source'}
                 />
             ))}
         </>
