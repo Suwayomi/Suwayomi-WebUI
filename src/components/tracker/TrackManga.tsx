@@ -7,7 +7,7 @@
  */
 
 import { useNavigate } from 'react-router-dom';
-import { Box } from '@mui/material';
+import Box from '@mui/material/Box';
 import { useEffect, useMemo, useState } from 'react';
 import DialogContent from '@mui/material/DialogContent';
 import { useTranslation } from 'react-i18next';

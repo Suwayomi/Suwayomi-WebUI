@@ -8,7 +8,8 @@
 
 import { useTranslation } from 'react-i18next';
 import { BaseSyntheticEvent, MouseEvent, TouchEvent, ChangeEvent, useMemo, forwardRef, ForwardedRef } from 'react';
-import { Button, Tooltip } from '@mui/material';
+import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
 import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';

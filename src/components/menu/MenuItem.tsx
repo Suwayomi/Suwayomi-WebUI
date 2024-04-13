@@ -6,9 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ListItemIcon, ListItemText, MenuItem as MuiMenuItem, MenuItemProps } from '@mui/material';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import MuiMenuItem, { MenuItemProps } from '@mui/material/MenuItem';
 import { OverridableComponent } from '@mui/material/OverridableComponent';
-import { SvgIconTypeMap } from '@mui/material/SvgIcon/SvgIcon';
+import { SvgIconTypeMap } from '@mui/material/SvgIcon';
 
 interface IProps extends MenuItemProps {
     title: string;

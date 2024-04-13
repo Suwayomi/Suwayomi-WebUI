@@ -7,7 +7,9 @@
  */
 
 import { Fragment, useContext, useEffect, useMemo } from 'react';
-import { IconButton, Tooltip, Typography } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';

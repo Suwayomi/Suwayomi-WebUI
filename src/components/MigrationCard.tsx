@@ -8,7 +8,9 @@
 
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import { Box, CardActionArea, Chip } from '@mui/material';
+import Box from '@mui/material/Box';
+import CardActionArea from '@mui/material/CardActionArea';
+import Chip from '@mui/material/Chip';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';

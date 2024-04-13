@@ -8,7 +8,8 @@
 
 import Button from '@mui/material/Button';
 import { useTranslation } from 'react-i18next';
-import { List, Stack } from '@mui/material';
+import List from '@mui/material/List';
+import Stack from '@mui/material/Stack';
 import { useEffect, useMemo, useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import ArrowBack from '@mui/icons-material/ArrowBack';

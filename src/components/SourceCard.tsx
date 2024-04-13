@@ -6,7 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { CardActionArea, Box, styled } from '@mui/material';
+import CardActionArea from '@mui/material/CardActionArea';
+import Box from '@mui/material/Box';
+import { styled } from '@mui/material/styles';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';

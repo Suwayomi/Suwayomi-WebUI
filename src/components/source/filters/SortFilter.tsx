@@ -6,8 +6,13 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ExpandLess, ExpandMore } from '@mui/icons-material';
-import { Collapse, ListItemButton, ListItemText, Stack, Box } from '@mui/material';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import Collapse from '@mui/material/Collapse';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box';
 import React from 'react';
 import { SortRadioInput } from '@/components/atoms/SortRadioInput';
 import { SortSelectionInput } from '@/lib/graphql/generated/graphql.ts';

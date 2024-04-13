@@ -6,8 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { DisabledByDefaultRounded } from '@mui/icons-material';
-import { Checkbox, CheckboxProps } from '@mui/material';
+import DisabledByDefaultRounded from '@mui/icons-material/DisabledByDefaultRounded';
+import Checkbox, { CheckboxProps } from '@mui/material/Checkbox';
 import React, { useCallback } from 'react';
 
 type CheckState = boolean | undefined | null;

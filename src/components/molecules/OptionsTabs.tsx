@@ -6,7 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Stack, Tab, Tabs } from '@mui/material';
+import Stack from '@mui/material/Stack';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
 import React, { useState } from 'react';
 import { TabPanel } from '@/components/tabs/TabPanel.tsx';
 import { OptionsPanel } from '@/components/molecules/OptionsPanel';

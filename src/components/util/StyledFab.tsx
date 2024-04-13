@@ -6,7 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Fab, styled } from '@mui/material';
+import Fab from '@mui/material/Fab';
+import { styled } from '@mui/material/styles';
 
 export const DEFAULT_FAB_STYLE = {
     position: 'fixed',

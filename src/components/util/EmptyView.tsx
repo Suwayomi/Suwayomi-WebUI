@@ -11,7 +11,8 @@
 import { useMemo } from 'react';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
-import { Box, useMediaQuery } from '@mui/material';
+import Box from '@mui/material/Box';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 const ERROR_FACES = ['(･o･;)', 'Σ(ಠ_ಠ)', 'ಥ_ಥ', '(˘･_･˘)', '(；￣Д￣)', '(･Д･。'];
 

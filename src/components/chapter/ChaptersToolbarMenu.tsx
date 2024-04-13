@@ -7,7 +7,8 @@
  */
 
 import FilterList from '@mui/icons-material/FilterList';
-import { IconButton, Tooltip } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { ChapterListOptions, ChapterOptionsReducerAction } from '@/typings.ts';

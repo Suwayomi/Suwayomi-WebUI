@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Box } from '@mui/material';
+import Box from '@mui/material/Box';
 import { IReaderSettings } from '@/typings';
 
 interface IProps {

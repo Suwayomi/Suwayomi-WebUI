@@ -69,6 +69,20 @@ module.exports = {
                     },
                 ],
 
+                'no-restricted-imports': [
+                    'error',
+                    {
+                        patterns: [
+                            {
+                                group: ['@mui/*', '!@mui/material/', '!@mui/icons-material/', '!@mui/x-date-pickers/'],
+                            },
+                            {
+                                group: ['@mui/*/*/*'],
+                            },
+                        ],
+                    },
+                ],
+
                 'no-restricted-syntax': [
                     'error',
                     {

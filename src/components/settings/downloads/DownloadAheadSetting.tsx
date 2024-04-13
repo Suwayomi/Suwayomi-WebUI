@@ -7,7 +7,10 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { List, ListItem, ListItemText, Switch } from '@mui/material';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import Switch from '@mui/material/Switch';
 import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
 import { getPersistedServerSetting, usePersistedValue } from '@/util/usePersistedValue.tsx';
 import { updateMetadataServerSettings, useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';

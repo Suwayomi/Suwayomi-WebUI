@@ -9,12 +9,13 @@
 import { useState, CSSProperties, useEffect, forwardRef, ForwardedRef } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
-import { Theme, SxProps, Stack, Button } from '@mui/material';
-
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
 import BrokenImageIcon from '@mui/icons-material/BrokenImage';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { useTranslation } from 'react-i18next';
 import ImageIcon from '@mui/icons-material/Image';
+import { SxProps, Theme } from '@mui/material/styles';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { Priority } from '@/lib/Queue.ts';

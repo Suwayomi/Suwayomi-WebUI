@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Container } from '@mui/material';
+import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
 import React, { useLayoutEffect } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';

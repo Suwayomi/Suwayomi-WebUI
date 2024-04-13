@@ -10,21 +10,19 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import { useTranslation } from 'react-i18next';
-import {
-    Box,
-    CardActionArea,
-    CardMedia,
-    Collapse,
-    Link,
-    Stack,
-    Tooltip,
-    Typography,
-    useMediaQuery,
-    useTheme,
-} from '@mui/material';
+import Box from '@mui/material/Box';
+import CardActionArea from '@mui/material/CardActionArea';
+import CardMedia from '@mui/material/CardMedia';
+import Collapse from '@mui/material/Collapse';
+import Link from '@mui/material/Link';
+import Stack from '@mui/material/Stack';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
 import { useLayoutEffect, useRef, useState } from 'react';
 import parseHtml from 'html-react-parser';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { SpinnerImage } from '@/components/util/SpinnerImage.tsx';
 import { TrackerManga } from '@/lib/data/Trackers.ts';
 import { TypographyMaxLines } from '@/components/atoms/TypographyMaxLines.tsx';

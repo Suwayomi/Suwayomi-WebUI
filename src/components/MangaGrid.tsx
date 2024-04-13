@@ -8,7 +8,8 @@
 
 import React, { ForwardedRef, forwardRef, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import Grid, { GridTypeMap } from '@mui/material/Grid';
-import { Box, Typography } from '@mui/material';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import { GridItemProps, GridStateSnapshot, VirtuosoGrid } from 'react-virtuoso';
 import { useLocation } from 'react-router-dom';
 import { EmptyView } from '@/components/util/EmptyView';

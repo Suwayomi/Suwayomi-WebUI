@@ -7,7 +7,9 @@
  */
 
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { Button, Stack, Box } from '@mui/material';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { SourceFilters } from '@/typings';

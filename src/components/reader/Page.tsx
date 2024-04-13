@@ -9,7 +9,7 @@
 import { CSSProperties, forwardRef } from 'react';
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
-import { useMediaQuery } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { IReaderSettings, ReaderType } from '@/typings';
 import { SpinnerImage } from '@/components/util/SpinnerImage';
 
