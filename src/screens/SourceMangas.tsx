@@ -236,9 +236,13 @@ export function SourceMangas() {
 
     const { options } = useLibraryOptionsContext();
     const [query] = useQueryParam('query', StringParam);
-    const [filtersToApply, setFiltersToApply] = useSessionStorage<IPos[]>(
-        `source-mangas-location-${locationKey}-${sourceId}-filters`,
+    const [currentFiltersToApply, setCurrentFiltersToApply] = useSessionStorage<IPos[] | undefined>(
+        `source-mangas-${sourceId}-filters`,
         [],
+    );
+    const [filtersToApply, setLocationFiltersToApply] = useSessionStorage<IPos[]>(
+        `source-mangas-location-${locationKey}-${sourceId}-filters`,
+        currentFiltersToApply ?? [],
     );
     const [dialogFiltersToApply, setDialogFiltersToApply] = useState<IPos[]>(filtersToApply);
     const [resetScrollPosition, setResetScrollPosition] = useState(false);
@@ -246,6 +250,18 @@ export function SourceMangas() {
         `source-mangas-location-${locationKey}-${sourceId}-content-type`,
         query ? SourceContentType.SEARCH : initialContentType,
     );
+
+    useEffect(
+        () => () => {
+            setCurrentFiltersToApply(undefined);
+        },
+        [sourceId],
+    );
+
+    const setFiltersToApply = (filters: IPos[]) => {
+        setCurrentFiltersToApply(filters);
+        setLocationFiltersToApply(filters);
+    };
 
     const [loadPage, { data, isLoading: loading, size: lastPageNum, abortRequest, filteredOutAllItemsOfFetchedPage }] =
         useSourceManga(sourceId, contentType, query, filtersToApply, 1, hideLibraryEntries);
