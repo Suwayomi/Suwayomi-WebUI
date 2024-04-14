@@ -6,8 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { MenuProps } from '@mui/material/Menu/Menu';
-import { Menu as MuiMenu } from '@mui/material';
+import MuiMenu, { MenuProps } from '@mui/material/Menu';
 import { useState } from 'react';
 
 export const Menu = ({

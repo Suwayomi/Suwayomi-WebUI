@@ -6,7 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { FormControlLabel, Radio, RadioProps } from '@mui/material';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Radio, { RadioProps } from '@mui/material/Radio';
 import React from 'react';
 
 export interface RadioInputProps extends RadioProps {

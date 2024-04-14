@@ -6,12 +6,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import Dialog from '@mui/material/Dialog/Dialog';
-import DialogActions from '@mui/material/DialogActions/DialogActions';
-import DialogContent from '@mui/material/DialogContent/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle/DialogTitle';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
 import { useTranslation } from 'react-i18next';
-import Button from '@mui/material/Button/Button';
+import Button from '@mui/material/Button';
 
 type Action = {
     show?: boolean;

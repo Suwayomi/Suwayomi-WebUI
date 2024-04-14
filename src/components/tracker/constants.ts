@@ -6,17 +6,17 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { SxProps } from '@mui/material';
+import { SxProps, Theme } from '@mui/material/styles';
 
 export const DIALOG_PADDING: number = 2;
 
-export const CARD_BACKGROUND: SxProps = {
+export const CARD_BACKGROUND: SxProps<Theme> = {
     backgroundColor: 'transparent',
     boxShadow: 'unset',
     backgroundImage: 'unset',
 };
 
-export const CARD_STYLING: SxProps = {
+export const CARD_STYLING: SxProps<Theme> = {
     padding: DIALOG_PADDING,
     ...CARD_BACKGROUND,
 };

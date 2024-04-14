@@ -6,9 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ListItemIcon, Tooltip, styled, ListItemButton } from '@mui/material';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Tooltip from '@mui/material/Tooltip';
+import ListItemButton from '@mui/material/ListItemButton';
+import { styled, useTheme } from '@mui/material/styles';
 import { Link, useLocation } from 'react-router-dom';
-import { useTheme } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
 import { NavbarItem } from '@/typings';
 

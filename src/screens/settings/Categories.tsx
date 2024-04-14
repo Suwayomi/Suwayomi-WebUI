@@ -7,7 +7,12 @@
  */
 
 import { useMemo, useState, useContext, useEffect } from 'react';
-import { List, ListItem, ListItemText, ListItemIcon, IconButton, Tooltip } from '@mui/material';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
 import { DragDropContext, Draggable, DropResult, DraggingStyle, NotDraggingStyle } from 'react-beautiful-dnd';
 import DragHandleIcon from '@mui/icons-material/DragHandle';
 import EditIcon from '@mui/icons-material/Edit';

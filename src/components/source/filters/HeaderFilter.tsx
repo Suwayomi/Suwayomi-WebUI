@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Typography } from '@mui/material';
+import Typography from '@mui/material/Typography';
 import React from 'react';
 
 interface Props {

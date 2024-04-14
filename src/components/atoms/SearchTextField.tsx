@@ -6,8 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import TextField from '@mui/material/TextField';
-import { IconButton, InputAdornment, TextFieldProps } from '@mui/material';
+import TextField, { TextFieldProps } from '@mui/material/TextField';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
 import CancelIcon from '@mui/icons-material/Cancel';
 
 export const SearchTextField = ({ onCancel, ...textFieldProps }: TextFieldProps & { onCancel: () => void }) => (

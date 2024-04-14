@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { styled } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { GroupedVirtuoso } from 'react-virtuoso';
 
 export const StyledGroupedVirtuoso = styled(GroupedVirtuoso, {

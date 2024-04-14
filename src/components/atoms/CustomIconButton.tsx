@@ -6,7 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Button, ButtonProps, Stack, TypographyProps } from '@mui/material';
+import Button, { ButtonProps } from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+import { TypographyProps } from '@mui/material/Typography';
 
 export const CustomIconButton = <C extends React.ElementType>({
     children,

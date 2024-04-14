@@ -11,7 +11,7 @@ import CardContent from '@mui/material/CardContent';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import { useTranslation } from 'react-i18next';
-import { Stack } from '@mui/material';
+import Stack from '@mui/material/Stack';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { TBaseTracker } from '@/lib/data/Trackers.ts';
 import { CARD_STYLING } from '@/components/tracker/constants.ts';

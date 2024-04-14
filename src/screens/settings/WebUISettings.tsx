@@ -9,7 +9,9 @@
 import { useTranslation } from 'react-i18next';
 import { useContext, useEffect } from 'react';
 import List from '@mui/material/List';
-import { ListItem, ListItemText, Switch } from '@mui/material';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import Switch from '@mui/material/Switch';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
 import { ServerSettings } from '@/typings.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';

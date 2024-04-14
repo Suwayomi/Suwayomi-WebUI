@@ -8,7 +8,11 @@
 
 import { useTranslation, Trans } from 'react-i18next';
 import { useContext, useEffect } from 'react';
-import { Link, List, ListItem, ListItemText, Switch } from '@mui/material';
+import Link from '@mui/material/Link';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import Switch from '@mui/material/Switch';
 import ListSubheader from '@mui/material/ListSubheader';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';

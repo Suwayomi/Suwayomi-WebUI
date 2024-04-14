@@ -9,7 +9,7 @@
 import CircularProgress from '@mui/material/CircularProgress';
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { Box } from '@mui/material';
+import Box from '@mui/material/Box';
 import { useTranslation } from 'react-i18next';
 import { AllowedMetadataValueTypes, ChapterOffset, IReaderSettings, ReaderType, TChapter, TManga } from '@/typings';
 import { requestManager } from '@/lib/requests/RequestManager.ts';

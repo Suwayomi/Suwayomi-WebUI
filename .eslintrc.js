@@ -1,6 +1,13 @@
 module.exports = {
     extends: ['airbnb', 'airbnb-typescript', 'prettier'],
-    plugins: ['unused-imports', 'eslint-plugin-import', '@typescript-eslint', 'no-relative-import-paths', 'prettier', 'header'],
+    plugins: [
+        'unused-imports',
+        'eslint-plugin-import',
+        '@typescript-eslint',
+        'no-relative-import-paths',
+        'prettier',
+        'header',
+    ],
     parserOptions: {
         project: ['./tsconfig.json', './tsconfig.node.json', './tools/scripts/tsconfig.json'],
     },
@@ -59,6 +66,28 @@ module.exports = {
                     {
                         rootDir: 'src',
                         prefix: '@',
+                    },
+                ],
+
+                'no-restricted-imports': [
+                    'error',
+                    {
+                        patterns: [
+                            {
+                                group: ['@mui/*', '!@mui/material/', '!@mui/icons-material/', '!@mui/x-date-pickers/'],
+                            },
+                            {
+                                group: ['@mui/*/*/*'],
+                            },
+                        ],
+                    },
+                ],
+
+                'no-restricted-syntax': [
+                    'error',
+                    {
+                        selector: 'TSTypeReference[typeName.name="SxProps"]:not([typeParameters])',
+                        message: 'SxProps must have Theme parameter to avoid significant compiler slowdown.',
                     },
                 ],
             },

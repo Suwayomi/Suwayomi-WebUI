@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { RadioGroup } from '@mui/material';
+import RadioGroup from '@mui/material/RadioGroup';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { ChapterListOptions, ChapterOptionsReducerAction, TranslationKey } from '@/typings.ts';

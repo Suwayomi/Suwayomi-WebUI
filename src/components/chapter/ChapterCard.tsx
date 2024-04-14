@@ -8,7 +8,10 @@
 
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { CardActionArea, Checkbox, Stack, Tooltip } from '@mui/material';
+import CardActionArea from '@mui/material/CardActionArea';
+import Checkbox from '@mui/material/Checkbox';
+import Stack from '@mui/material/Stack';
+import Tooltip from '@mui/material/Tooltip';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import IconButton from '@mui/material/IconButton';

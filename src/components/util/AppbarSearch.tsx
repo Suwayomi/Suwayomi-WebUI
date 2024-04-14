@@ -8,7 +8,8 @@
 
 import React, { useState, useEffect } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
-import { IconButton, Tooltip } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
 import { useQueryParam, StringParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';

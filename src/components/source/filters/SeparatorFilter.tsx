@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Divider } from '@mui/material';
+import Divider from '@mui/material/Divider';
 import React from 'react';
 
 interface Props {

@@ -7,7 +7,7 @@
  */
 
 import styled from '@emotion/styled';
-import { Typography, TypographyProps } from '@mui/material';
+import Typography, { TypographyProps } from '@mui/material/Typography';
 
 export const TypographyMaxLines = styled(Typography, {
     shouldForwardProp: (prop) => prop !== 'lines',

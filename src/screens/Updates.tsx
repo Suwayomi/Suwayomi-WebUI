@@ -7,7 +7,9 @@
  */
 
 import DownloadIcon from '@mui/icons-material/Download';
-import { Box, CardActionArea, Tooltip } from '@mui/material';
+import Box from '@mui/material/Box';
+import CardActionArea from '@mui/material/CardActionArea';
+import Tooltip from '@mui/material/Tooltip';
 import Avatar from '@mui/material/Avatar';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';

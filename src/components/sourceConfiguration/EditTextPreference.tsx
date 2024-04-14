@@ -16,7 +16,7 @@ import DialogActions from '@mui/material/DialogActions';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useTranslation } from 'react-i18next';
-import { ListItemButton } from '@mui/material';
+import ListItemButton from '@mui/material/ListItemButton';
 import { EditTextPreferenceProps } from '@/typings';
 
 export function EditTextPreference(props: EditTextPreferenceProps) {

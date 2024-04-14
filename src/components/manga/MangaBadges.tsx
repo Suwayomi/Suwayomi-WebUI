@@ -6,10 +6,10 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import styled from '@mui/material/styles/styled';
+import { styled } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
-import Button from '@mui/material/Button/Button';
-import Typography from '@mui/material/Typography/Typography';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext.tsx';
 import { MangaCardMode } from '@/components/manga/MangaCard.types.tsx';
 

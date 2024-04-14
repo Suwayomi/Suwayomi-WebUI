@@ -17,7 +17,7 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Button from '@mui/material/Button';
 import { useTranslation } from 'react-i18next';
-import { ListItemButton } from '@mui/material';
+import ListItemButton from '@mui/material/ListItemButton';
 import { MultiSelectListPreferenceProps } from '@/typings';
 import { cloneObject } from '@/util/cloneObject';
 

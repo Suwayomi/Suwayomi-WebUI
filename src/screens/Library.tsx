@@ -6,7 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Chip, Tab, styled } from '@mui/material';
+import Chip from '@mui/material/Chip';
+import Tab from '@mui/material/Tab';
+import { styled } from '@mui/material/styles';
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { useQueryParam, NumberParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';

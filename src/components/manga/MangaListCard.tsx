@@ -6,13 +6,13 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import Card from '@mui/material/Card/Card';
-import CardContent from '@mui/material/CardContent/CardContent';
-import CardActionArea from '@mui/material/CardActionArea/CardActionArea';
-import Avatar from '@mui/material/Avatar/Avatar';
-import Box from '@mui/material/Box/Box';
-import Stack from '@mui/material/Stack/Stack';
-import Tooltip from '@mui/material/Tooltip/Tooltip';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardActionArea from '@mui/material/CardActionArea';
+import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import Tooltip from '@mui/material/Tooltip';
 import { isMobile } from 'react-device-detect';
 import { Link as RouterLink } from 'react-router-dom';
 import { useRef } from 'react';

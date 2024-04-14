@@ -7,7 +7,8 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { Button, Tooltip } from '@mui/material';
+import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
 import { Link } from 'react-router-dom';

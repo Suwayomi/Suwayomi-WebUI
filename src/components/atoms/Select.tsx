@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Select as MuiSelect } from '@mui/material';
+import MuiSelect from '@mui/material/Select';
 
 export const Select = <Value,>({
     children,

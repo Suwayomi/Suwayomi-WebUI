@@ -6,8 +6,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Warning } from '@mui/icons-material';
-import { CircularProgress, IconButton, Stack, Tooltip, Box } from '@mui/material';
+import Warning from '@mui/icons-material/Warning';
+import CircularProgress from '@mui/material/CircularProgress';
+import IconButton from '@mui/material/IconButton';
+import Stack from '@mui/material/Stack';
+import Tooltip from '@mui/material/Tooltip';
+import Box from '@mui/material/Box';
 import React, { useContext, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';

@@ -6,7 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Box, CircularProgress, Stack, styled, Tooltip } from '@mui/material';
+import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
+import Stack from '@mui/material/Stack';
+import Tooltip from '@mui/material/Tooltip';
+import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import React, { useMemo } from 'react';
 import { Virtuoso } from 'react-virtuoso';
