@@ -8,7 +8,7 @@
 
 import { Container } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
-import React, { useEffect, useLayoutEffect } from 'react';
+import React, { useLayoutEffect } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { loadErrorMessages, loadDevMessages } from '@apollo/client/dev';
 import { AppContext } from '@/components/context/AppContext';
@@ -47,18 +47,6 @@ if (process.env.NODE_ENV !== 'production') {
     loadDevMessages();
     loadErrorMessages();
 }
-
-const fetchAndCacheManifest = async () => {
-    try {
-        const response = (await fetch('/manifest.json')).json;
-        // eslint-disable-next-line
-        console.log(response);
-    } catch (error) {
-        // eslint-disable-next-line
-        console.error('Failed to fetch manifest:', error);
-    }
-};
-
 const ScrollToTop = () => {
     const { pathname } = useLocation();
 
@@ -83,75 +71,70 @@ const BackgroundSubscriptions = () => {
     return null;
 };
 
-export const App: React.FC = () => {
-    useEffect(() => {
-        fetchAndCacheManifest();
-    }, []);
-    return (
-        <AppContext>
-            <ScrollToTop />
-            <ServerUpdateChecker />
-            <BackgroundSubscriptions />
-            <CssBaseline />
-            <DefaultNavBar />
-            <Container
-                id="appMainContainer"
-                maxWidth={false}
-                disableGutters
-                sx={{
-                    mt: 8,
-                    ml: { sm: 8 },
-                    mb: { xs: 8, sm: 0 },
-                    width: 'auto',
-                    overflow: 'auto',
-                }}
-            >
-                <Routes>
-                    {/* General Routes */}
-                    <Route path="/" element={<Navigate to="/library" replace />} />
-                    <Route path="settings">
-                        <Route index element={<Settings />} />
-                        <Route path="about" element={<About />} />
-                        <Route path="categories" element={<Categories />} />
-                        <Route path="defaultReaderSettings" element={<DefaultReaderSettings />} />
-                        <Route path="librarySettings" element={<LibrarySettings />} />
-                        <Route path="downloadSettings" element={<DownloadSettings />} />
-                        <Route path="backup" element={<Backup />} />
-                        <Route path="server" element={<ServerSettings />} />
-                        <Route path="webUI" element={<WebUISettings />} />
-                        <Route path="browseSettings" element={<BrowseSettings />} />
-                        <Route path="device" element={<DeviceSetting />} />
-                        <Route path="trackingSettings" element={<TrackingSettings />} />
-                    </Route>
-
-                    {/* Manga Routes */}
-
-                    <Route path="sources">
-                        <Route index element={<Sources />} />
-                        <Route path=":sourceId" element={<SourceMangas />} />
-                        <Route path=":sourceId/configure/" element={<SourceConfigure />} />
-                        <Route path="all/search/" element={<SearchAll />} />
-                    </Route>
-                    <Route path="downloads" element={<DownloadQueue />} />
-                    <Route path="manga/:id">
-                        <Route path="chapter/:chapterNum" element={null} />
-                        <Route index element={<Manga />} />
-                    </Route>
-                    <Route path="library" element={<Library />} />
-                    <Route path="updates" element={<Updates />} />
-                    <Route path="extensions" element={<Extensions />} />
-                    <Route path="browse" element={<Browse />} />
-                    <Route path="migrate/source/:sourceId">
-                        <Route index element={<Migrate />} />
-                        <Route path="manga/:mangaId/search" element={<SearchAll />} />
-                    </Route>
-                    <Route path="tracker/login/oauth" element={<TrackerOAuthLogin />} />
-                </Routes>
-            </Container>
+export const App: React.FC = () => (
+    <AppContext>
+        <ScrollToTop />
+        <ServerUpdateChecker />
+        <BackgroundSubscriptions />
+        <CssBaseline />
+        <DefaultNavBar />
+        <Container
+            id="appMainContainer"
+            maxWidth={false}
+            disableGutters
+            sx={{
+                mt: 8,
+                ml: { sm: 8 },
+                mb: { xs: 8, sm: 0 },
+                width: 'auto',
+                overflow: 'auto',
+            }}
+        >
             <Routes>
-                <Route path="manga/:mangaId/chapter/:chapterIndex" element={<Reader />} />
-                <Route path="*" element={null} />
+                {/* General Routes */}
+                <Route path="/" element={<Navigate to="/library" replace />} />
+                <Route path="settings">
+                    <Route index element={<Settings />} />
+                    <Route path="about" element={<About />} />
+                    <Route path="categories" element={<Categories />} />
+                    <Route path="defaultReaderSettings" element={<DefaultReaderSettings />} />
+                    <Route path="librarySettings" element={<LibrarySettings />} />
+                    <Route path="downloadSettings" element={<DownloadSettings />} />
+                    <Route path="backup" element={<Backup />} />
+                    <Route path="server" element={<ServerSettings />} />
+                    <Route path="webUI" element={<WebUISettings />} />
+                    <Route path="browseSettings" element={<BrowseSettings />} />
+                    <Route path="device" element={<DeviceSetting />} />
+                    <Route path="trackingSettings" element={<TrackingSettings />} />
+                </Route>
+
+                {/* Manga Routes */}
+
+                <Route path="sources">
+                    <Route index element={<Sources />} />
+                    <Route path=":sourceId" element={<SourceMangas />} />
+                    <Route path=":sourceId/configure/" element={<SourceConfigure />} />
+                    <Route path="all/search/" element={<SearchAll />} />
+                </Route>
+                <Route path="downloads" element={<DownloadQueue />} />
+                <Route path="manga/:id">
+                    <Route path="chapter/:chapterNum" element={null} />
+                    <Route index element={<Manga />} />
+                </Route>
+                <Route path="library" element={<Library />} />
+                <Route path="updates" element={<Updates />} />
+                <Route path="extensions" element={<Extensions />} />
+                <Route path="browse" element={<Browse />} />
+                <Route path="migrate/source/:sourceId">
+                    <Route index element={<Migrate />} />
+                    <Route path="manga/:mangaId/search" element={<SearchAll />} />
+                </Route>
+                <Route path="tracker/login/oauth" element={<TrackerOAuthLogin />} />
             </Routes>
-        </AppContext>
-    );
-};
+        </Container>
+        <Routes>
+            <Route path="manga/:mangaId/chapter/:chapterIndex" element={<Reader />} />
+            <Route path="*" element={null} />
+        </Routes>
+    </AppContext>
+);
