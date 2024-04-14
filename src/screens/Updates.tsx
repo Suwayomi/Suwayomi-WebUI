@@ -69,7 +69,7 @@ const groupByDate = (updates: TChapter[]): [date: string, items: number][] => {
     return [...dateToItemMap.entries()];
 };
 
-export const Updates: React.FC = () => {
+const Updates: React.FC = () => {
     const { t } = useTranslation();
     const location = useLocation();
 
@@ -251,3 +251,4 @@ export const Updates: React.FC = () => {
         </>
     );
 };
+export default Updates;

@@ -159,7 +159,7 @@ const SourceSearchPreview = React.memo(
     },
 );
 
-export const SearchAll: React.FC = () => {
+const SearchAll: React.FC = () => {
     const { t } = useTranslation();
 
     const { setTitle, setAction } = useContext(NavBarContext);
@@ -253,3 +253,4 @@ export const SearchAll: React.FC = () => {
         </>
     );
 };
+export default SearchAll;

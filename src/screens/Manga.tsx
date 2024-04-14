@@ -21,7 +21,7 @@ import { MangaToolbarMenu } from '@/components/manga/MangaToolbarMenu';
 import { EmptyView } from '@/components/util/EmptyView';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
 
-export const Manga: React.FC = () => {
+const Manga: React.FC = () => {
     const { t } = useTranslation();
 
     const { setTitle, setAction } = useContext(NavBarContext);
@@ -99,3 +99,4 @@ export const Manga: React.FC = () => {
         </Box>
     );
 };
+export default Manga;

@@ -43,7 +43,7 @@ const getItemStyle = (
     }),
 });
 
-export function Categories() {
+export default function Categories() {
     const { t } = useTranslation();
 
     const { setTitle, setAction } = useContext(NavBarContext);

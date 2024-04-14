@@ -38,23 +38,19 @@ const getReaderComponent = (readerType: ReaderType) => {
         case 'ContinuesVertical':
         case 'Webtoon':
             return VerticalPager;
-            break;
         case 'SingleVertical':
         case 'SingleRTL':
         case 'SingleLTR':
             return PagedPager;
-            break;
         case 'DoubleVertical':
         case 'DoubleRTL':
         case 'DoubleLTR':
             return DoublePagedPager;
-            break;
         case 'ContinuesHorizontalLTR':
         case 'ContinuesHorizontalRTL':
             return HorizontalPager;
         default:
             return VerticalPager;
-            break;
     }
 };
 
@@ -67,7 +63,7 @@ const initialChapter = {
     name: 'Loading...',
 } as unknown as TChapter;
 
-export function Reader() {
+export default function Reader() {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const location = useLocation();

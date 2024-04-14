@@ -17,7 +17,7 @@ import { EmptyView } from '@/components/util/EmptyView.tsx';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
 import { SettingsTrackerCard } from '@/components/tracker/SettingsTrackerCard.tsx';
 
-export const TrackingSettings = () => {
+const TrackingSettings = () => {
     const { t } = useTranslation();
     const { setTitle } = useContext(NavBarContext);
 
@@ -50,3 +50,5 @@ export const TrackingSettings = () => {
         </List>
     );
 };
+
+export default TrackingSettings;

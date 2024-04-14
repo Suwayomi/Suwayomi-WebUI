@@ -106,7 +106,7 @@ const extractWebUISettings = (settings: ServerSettings): WebUISettingsType => ({
     webUIUpdateCheckInterval: settings.webUIUpdateCheckInterval,
 });
 
-export const WebUISettings = () => {
+const WebUISettings = () => {
     const { t } = useTranslation();
     const { setTitle, setAction } = useContext(NavBarContext);
 
@@ -181,3 +181,4 @@ export const WebUISettings = () => {
         </List>
     );
 };
+export default WebUISettings;

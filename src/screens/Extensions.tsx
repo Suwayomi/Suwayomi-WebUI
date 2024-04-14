@@ -93,7 +93,7 @@ function getExtensionsInfo(extensions: PartialExtension[]): {
     };
 }
 
-export function Extensions() {
+export default function Extensions() {
     const { t } = useTranslation();
     const { setAction } = useContext(NavBarContext);
 

@@ -41,7 +41,7 @@ const removeNonLibraryMangasFromCategories = async (): Promise<void> => {
     }
 };
 
-export function LibrarySettings() {
+export default function LibrarySettings() {
     const { t } = useTranslation();
     const { setTitle, setAction } = useContext(NavBarContext);
 

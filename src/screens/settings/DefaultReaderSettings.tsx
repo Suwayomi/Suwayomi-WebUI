@@ -22,7 +22,7 @@ import { makeToast } from '@/components/util/Toast';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
-export function DefaultReaderSettings() {
+export default function DefaultReaderSettings() {
     const { t } = useTranslation();
     const { setTitle, setAction } = useContext(NavBarContext);
     useEffect(() => {

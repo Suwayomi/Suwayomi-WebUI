@@ -36,7 +36,7 @@ function getPrefComponent(type: string) {
     }
 }
 
-export function SourceConfigure() {
+export default function SourceConfigure() {
     const { t } = useTranslation();
     const { setTitle, setAction } = useContext(NavBarContext);
 

@@ -40,7 +40,7 @@ const getMigratableSources = (mangas?: TMigratableSourcesResult): TMigratableSou
     return uniqueSources;
 };
 
-export const Migration = () => {
+const Migration = () => {
     const { t } = useTranslation();
 
     const { data, loading, error } = requestManager.useGetMigratableSources();
@@ -67,3 +67,4 @@ export const Migration = () => {
         </List>
     );
 };
+export default Migration;

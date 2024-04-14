@@ -32,7 +32,7 @@ const extractBrowseSettings = (settings: GqlServerSettings): ExtensionsSettings 
     extensionRepos: settings.extensionRepos,
 });
 
-export const BrowseSettings = () => {
+const BrowseSettings = () => {
     const { t } = useTranslation();
     const { setTitle, setAction } = useContext(NavBarContext);
 
@@ -128,3 +128,4 @@ export const BrowseSettings = () => {
         </List>
     );
 };
+export default BrowseSettings;

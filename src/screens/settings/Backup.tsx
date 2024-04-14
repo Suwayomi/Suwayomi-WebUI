@@ -55,7 +55,7 @@ const getBackupCleanupDisplayValue = (ttl?: number) => {
 
 let backupRestoreId: string | undefined;
 
-export function Backup() {
+export default function Backup() {
     const { t } = useTranslation();
     const { setTitle, setAction } = useContext(NavBarContext);
     useEffect(() => {

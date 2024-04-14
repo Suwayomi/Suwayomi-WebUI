@@ -9,15 +9,15 @@
 import { useContext, useEffect, useState } from 'react';
 import Tab from '@mui/material/Tab';
 import { useTranslation } from 'react-i18next';
-import { Sources } from '@/screens/Sources';
-import { Extensions } from '@/screens/Extensions';
+import Sources from '@/screens/Sources';
+import Extensions from '@/screens/Extensions';
 import { TabPanel } from '@/components/tabs/TabPanel.tsx';
 import { TabsWrapper } from '@/components/tabs/TabsWrapper.tsx';
 import { TabsMenu } from '@/components/tabs/TabsMenu.tsx';
-import { Migration } from '@/screens/Migration.tsx';
+import Migration from '@/screens/Migration.tsx';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 
-export function Browse() {
+export default function Browse() {
     const { t } = useTranslation();
     const { setTitle } = useContext(NavBarContext);
 

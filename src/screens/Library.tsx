@@ -39,7 +39,7 @@ const TitleSizeTag = (props: React.ComponentProps<typeof Chip>) => (
     <Chip {...props} size="small" sx={{ marginLeft: '5px' }} />
 );
 
-export function Library() {
+export default function Library() {
     const { t } = useTranslation();
 
     const { options } = useLibraryOptionsContext();

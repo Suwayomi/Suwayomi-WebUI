@@ -17,7 +17,7 @@ import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarC
 import { ActiveDevice, DEFAULT_DEVICE } from '@/util/device.ts';
 import { Select } from '@/components/atoms/Select.tsx';
 
-export const DeviceSetting = () => {
+const DeviceSetting = () => {
     const { t } = useTranslation();
     const { setTitle, setAction } = useContext(NavBarContext);
 
@@ -87,3 +87,4 @@ export const DeviceSetting = () => {
         </List>
     );
 };
+export default DeviceSetting;

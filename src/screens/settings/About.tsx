@@ -183,7 +183,7 @@ const VersionInfo = ({
     );
 };
 
-export function About() {
+export default function About() {
     const { t } = useTranslation();
     const { setTitle, setAction } = useContext(NavBarContext);
 

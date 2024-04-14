@@ -63,7 +63,7 @@ const extractServerSettings = (settings: GqlServerSettings): ServerSettingsType 
     flareSolverrSessionTtl: settings.flareSolverrSessionTtl,
 });
 
-export const ServerSettings = () => {
+const ServerSettings = () => {
     const { t } = useTranslation();
     const { setTitle, setAction } = useContext(NavBarContext);
 
@@ -327,3 +327,4 @@ export const ServerSettings = () => {
         </List>
     );
 };
+export default ServerSettings;

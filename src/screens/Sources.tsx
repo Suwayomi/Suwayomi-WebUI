@@ -46,7 +46,7 @@ function groupByLang(sources: ISource[]) {
     return result;
 }
 
-export function Sources() {
+export default function Sources() {
     const { t } = useTranslation();
     const { setAction } = useContext(NavBarContext);
 

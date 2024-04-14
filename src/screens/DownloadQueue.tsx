@@ -95,7 +95,7 @@ const DownloadChapterItem = ({
     );
 };
 
-export const DownloadQueue: React.FC = () => {
+const DownloadQueue: React.FC = () => {
     const { t } = useTranslation();
 
     const [reorderDownload, { reset: revertReorder }] = requestManager.useReorderChapterInDownloadQueue();
@@ -265,3 +265,4 @@ export const DownloadQueue: React.FC = () => {
         </DragDropContext>
     );
 };
+export default DownloadQueue;

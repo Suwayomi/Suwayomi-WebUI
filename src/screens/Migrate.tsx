@@ -21,7 +21,7 @@ import { GridLayouts } from '@/components/source/GridLayouts.tsx';
 import { useLocalStorage } from '@/util/useStorage.tsx';
 import { GridLayout } from '@/components/context/LibraryOptionsContext.tsx';
 
-export const Migrate = () => {
+const Migrate = () => {
     const { t } = useTranslation();
     const { setTitle, setAction } = useContext(NavBarContext);
 
@@ -108,3 +108,4 @@ export const Migrate = () => {
         />
     );
 };
+export default Migrate;

@@ -44,7 +44,7 @@ const extractDownloadSettings = (settings: ServerSettings): DownloadSettingsType
     autoDownloadIgnoreReUploads: settings.autoDownloadIgnoreReUploads,
 });
 
-export const DownloadSettings = () => {
+const DownloadSettings = () => {
     const { t } = useTranslation();
     const { setTitle, setAction } = useContext(NavBarContext);
 
@@ -199,3 +199,4 @@ export const DownloadSettings = () => {
         </List>
     );
 };
+export default DownloadSettings;

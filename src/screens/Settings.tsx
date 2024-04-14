@@ -39,7 +39,7 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { Select } from '@/components/atoms/Select.tsx';
 
-export function Settings() {
+export default function Settings() {
     const { t, i18n } = useTranslation();
 
     const { setTitle, setAction } = useContext(NavBarContext);

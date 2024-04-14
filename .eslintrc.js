@@ -1,6 +1,13 @@
 module.exports = {
     extends: ['airbnb', 'airbnb-typescript', 'prettier'],
-    plugins: ['unused-imports', 'eslint-plugin-import', '@typescript-eslint', 'no-relative-import-paths', 'prettier', 'header'],
+    plugins: [
+        'unused-imports',
+        'eslint-plugin-import',
+        '@typescript-eslint',
+        'no-relative-import-paths',
+        'prettier',
+        'header',
+    ],
     parserOptions: {
         project: ['./tsconfig.json', './tsconfig.node.json', './tools/scripts/tsconfig.json'],
     },
@@ -11,7 +18,7 @@ module.exports = {
                 'unused-imports/no-unused-imports': 'error',
 
                 'import/prefer-default-export': 'off',
-                'import/no-default-export': 'error',
+                'import/no-default-export': 'off',
 
                 'header/header': [
                     'error',

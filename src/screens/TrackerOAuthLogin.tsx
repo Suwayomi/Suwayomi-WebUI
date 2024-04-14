@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
 
-export const TrackerOAuthLogin = () => {
+const TrackerOAuthLogin = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
 
@@ -50,3 +50,5 @@ export const TrackerOAuthLogin = () => {
 
     return null;
 };
+
+export default TrackerOAuthLogin;

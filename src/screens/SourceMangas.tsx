@@ -208,7 +208,7 @@ const useSourceManga = (
     ];
 };
 
-export function SourceMangas() {
+export default function SourceMangas() {
     const { t } = useTranslation();
     const { setTitle, setAction } = useContext(NavBarContext);
 
