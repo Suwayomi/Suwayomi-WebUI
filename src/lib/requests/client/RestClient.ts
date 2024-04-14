@@ -33,6 +33,7 @@ export class RestClient
 
     public readonly fetcher = async (
         url: string,
+
         {
             data,
             httpMethod = HttpMethod.GET,

@@ -16,6 +16,9 @@ import {
     TranslationKey,
 } from '@/typings.ts';
 import { useReducerLocalStorage } from '@/util/useStorage.tsx';
+import { getPartialList } from '@/components/util/getPartialList';
+import { Chapters } from '@/lib/data/Chapters.ts';
+import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler';
 
 const defaultChapterOptions: ChapterListOptions = {
     active: false,
@@ -113,4 +116,54 @@ export const SORT_OPTIONS: [ChapterSortMode, TranslationKey][] = [
 export const isFilterActive = (options: ChapterListOptions) => {
     const { unread, downloaded, bookmarked } = options;
     return unread != null || downloaded != null || bookmarked != null;
+};
+
+/**
+ * @param chapterId The id of the chapter to be use as a pivot
+ * @param allChapters There list of chapters
+ * @param includePivotChapter Whether to return the chapter with the passed chapterId in the list
+ * @returns The second half of the list. By the default the chapters are sorted
+ * in descending order, so it returns the previous chapters, not including the pivot chapter.
+ */
+export const getPreviousChapters = (
+    chapterId: TChapter['id'],
+    allChapters: TChapter[],
+    includePivotChapter: boolean = false,
+): TChapter[] => {
+    if (includePivotChapter) {
+        return getPartialList(chapterId, allChapters, 'second', 0);
+    }
+    return getPartialList(chapterId, allChapters, 'second');
+};
+
+/**
+ * @param chapterId The id of the chapter to be use as a pivot
+ * @param allChapters There list of chapters
+ * @param includePivotChapter Whether to return the chapter with the passed chapterId in the list
+ * @returns The second half of the list. By the default the chapters are sorted
+ * in descending order, so it returns the previous chapters, not including the pivot chapter.
+ */
+export const getNextChapters = (
+    chapterId: TChapter['id'],
+    allChapters: TChapter[],
+    includePivotChapter: boolean = false,
+): TChapter[] => {
+    if (includePivotChapter) {
+        return getPartialList(chapterId, allChapters, 'first');
+    }
+    return getPartialList(chapterId, allChapters, 'first', 0);
+};
+
+/**
+ * @description This fucntion takes a chapter Id and set all chapters with index bellow the index of the chapter to that id
+ * to read, and the rest of the chapters as unread. Technically setting the chapter with the passed id as the current unread chapter.
+ * @param chapterId Chapter Id
+ * @param allChapters List of chapters
+ */
+export const setChapterAsLastRead = (chapterId: TChapter['id'], allChapters: TChapter[]) => {
+    const readChapters = getPreviousChapters(chapterId, allChapters, true);
+    const unreadChapterId = getNextChapters(chapterId, allChapters).map((chapter) => chapter.id);
+
+    Chapters.markAsRead(readChapters, true).catch(defaultPromiseErrorHandler('ChapterActionMenuItems::performAction'));
+    Chapters.markAsUnread(unreadChapterId).catch(defaultPromiseErrorHandler('ChapterActionMenuItems::performAction'));
 };

@@ -20,7 +20,6 @@ import { ChapterCard } from '@/components/chapter/ChapterCard.tsx';
 import { ResumeFab } from '@/components/manga/ResumeFAB.tsx';
 import { filterAndSortChapters, useChapterOptions } from '@/components/chapter/util.tsx';
 import { EmptyView } from '@/components/util/EmptyView.tsx';
-import { ChaptersToolbarMenu } from '@/components/chapter/ChaptersToolbarMenu.tsx';
 import { SelectionFAB } from '@/components/collection/SelectionFAB.tsx';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/components/util/StyledFab.tsx';
 import { DownloadType } from '@/lib/graphql/generated/graphql.ts';
@@ -30,6 +29,7 @@ import { Chapters } from '@/lib/data/Chapters.ts';
 import { ChaptersWithMeta } from '@/lib/data/ChaptersWithMeta.ts';
 import { ChapterActionMenuItems } from '@/components/chapter/ChapterActionMenuItems.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { ChaptersToolbarMenu } from '@/components/chapter/ChaptersToolbarMenu';
 
 const ChapterListHeader = styled(Stack)(({ theme }) => ({
     margin: 8,
