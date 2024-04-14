@@ -16,7 +16,8 @@
     "gql:codegen-base": "graphql-codegen --config gql_codegen.ts",
     "gql:codegen-formatter": "ts-node -T tools/scripts/codegenFormatter.ts",
     "gql:codegen": "yarn gql:codegen-base & yarn gql:codegen-formatter",
-    "prepare": "husky"
+    "prepare": "husky",
+    "generate-pwa-assets": "pwa-assets-generator --preset minimal-2023 public/favicon.png"
   },
   "engines": {
     "node": "20.11.1"
@@ -70,6 +71,7 @@
     "@types/yargs": "^17.0.32",
     "@typescript-eslint/eslint-plugin": "^7.4.0",
     "@typescript-eslint/parser": "^7.4.0",
+    "@vite-pwa/assets-generator": "^0.2.4",
     "eslint": "^8.57.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^18.0.0",
@@ -89,6 +91,7 @@
     "terser": "^5.30.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.3",
+    "vite-plugin-pwa": "^0.19.8",
     "yargs": "^17.7.2"
   }
 }

@@ -11,6 +11,8 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import viteTsconfigPaths from 'vite-tsconfig-paths';
 import legacy from '@vitejs/plugin-legacy';
+// eslint-disable-next-line
+import { VitePWA } from 'vite-plugin-pwa';
 
 // TODO - switch to ESM - with Vite v5.x the CJS build is deprecated (https://vitejs.dev/guide/migration)
 
@@ -37,6 +39,17 @@ export default defineConfig(() => ({
                 'es/array/find-last',
                 'es/array/find-last-index',
             ],
+        }),
+        VitePWA({
+            includeAssets: ['favicon.ico', 'favicon.png'],
+            registerType: 'autoUpdate',
+            manifest: false,
+            workbox: {
+                globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+            },
+            devOptions: {
+                enabled: true,
+            },
         }),
     ],
 }));
