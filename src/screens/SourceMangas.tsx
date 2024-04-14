@@ -246,14 +246,19 @@ export function SourceMangas() {
     );
     const [dialogFiltersToApply, setDialogFiltersToApply] = useState<IPos[]>(filtersToApply);
     const [resetScrollPosition, setResetScrollPosition] = useState(false);
-    const [contentType, setContentType] = useSessionStorage(
+    const [currentContentType, setCurrentContentType] = useSessionStorage<SourceContentType | undefined>(
+        `source-mangas-${sourceId}-content-type`,
+        initialContentType,
+    );
+    const [contentType, setLocationContentType] = useSessionStorage(
         `source-mangas-location-${locationKey}-${sourceId}-content-type`,
-        query ? SourceContentType.SEARCH : initialContentType,
+        query ? SourceContentType.SEARCH : currentContentType!,
     );
 
     useEffect(
         () => () => {
             setCurrentFiltersToApply(undefined);
+            setCurrentContentType(undefined);
         },
         [sourceId],
     );
@@ -261,6 +266,11 @@ export function SourceMangas() {
     const setFiltersToApply = (filters: IPos[]) => {
         setCurrentFiltersToApply(filters);
         setLocationFiltersToApply(filters);
+    };
+
+    const setContentType = (newContentType: SourceContentType) => {
+        setCurrentContentType(newContentType);
+        setLocationContentType(newContentType);
     };
 
     const [loadPage, { data, isLoading: loading, size: lastPageNum, abortRequest, filteredOutAllItemsOfFetchedPage }] =
