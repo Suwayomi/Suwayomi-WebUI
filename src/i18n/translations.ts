@@ -8,8 +8,8 @@
 
 import ar from '@/i18n/locale/ar.json';
 import de from '@/i18n/locale/de.json';
-import es from '@/i18n/locale/es.json';
 import en from '@/i18n/locale/en.json'; // default language
+import es from '@/i18n/locale/es.json';
 import fr from '@/i18n/locale/fr.json';
 import id from '@/i18n/locale/id.json';
 import it from '@/i18n/locale/it.json';
@@ -18,6 +18,7 @@ import ko from '@/i18n/locale/ko.json';
 import nb_NO from '@/i18n/locale/nb-NO.json';
 import pt from '@/i18n/locale/pt.json';
 import sv from '@/i18n/locale/sv.json';
+import tr from '@/i18n/locale/tr.json';
 import uk from '@/i18n/locale/uk.json';
 import vi from '@/i18n/locale/vi.json';
 import zh_Hans from '@/i18n/locale/zh_Hans.json';
@@ -44,6 +45,7 @@ export const resources = {
     'nb-NO': translationHelper(nb_NO),
     pt: translationHelper(pt),
     sv: translationHelper(sv),
+    tr: translationHelper(tr),
     uk: translationHelper(uk),
     vi: translationHelper(vi),
     'zh-Hans': translationHelper(zh_Hans),
