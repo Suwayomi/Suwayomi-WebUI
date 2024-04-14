@@ -6,7 +6,14 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ApolloClient, ApolloClientOptions, InMemoryCache, NormalizedCacheObject, split } from '@apollo/client';
+import {
+    ApolloClient,
+    ApolloClientOptions,
+    ApolloLink,
+    InMemoryCache,
+    NormalizedCacheObject,
+    split,
+} from '@apollo/client';
 import { createUploadLink } from 'apollo-upload-client';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { Client, createClient } from 'graphql-ws';
@@ -152,7 +159,8 @@ export class GraphQLClient extends BaseClient<
                 return definition.kind === 'OperationDefinition' && definition.operation === 'subscription';
             },
             this.createWSLink(),
-            this.createUploadLink(),
+            // apollo-upload-client dependency is outdated (see 134e47763faae9e62db4d4e3a8387a74e32e5568) and thus types are not matching, but they are still correct
+            this.createUploadLink() as unknown as ApolloLink,
         );
     }
 
