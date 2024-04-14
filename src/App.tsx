@@ -14,7 +14,6 @@ import { loadErrorMessages, loadDevMessages } from '@apollo/client/dev';
 import { AppContext } from '@/components/context/AppContext';
 import { Browse } from '@/screens/Browse';
 import { DownloadQueue } from '@/screens/DownloadQueue';
-import { Extensions } from '@/screens/Extensions';
 import { Library } from '@/screens/Library';
 import { Manga } from '@/screens/Manga';
 import { Reader } from '@/screens/Reader';
@@ -26,7 +25,6 @@ import { Categories } from '@/screens/settings/Categories';
 import { DefaultReaderSettings } from '@/screens/settings/DefaultReaderSettings';
 import { SourceConfigure } from '@/screens/SourceConfigure';
 import { SourceMangas } from '@/screens/SourceMangas';
-import { Sources } from '@/screens/Sources';
 import { Updates } from '@/screens/Updates';
 import '@/i18n';
 import { LibrarySettings } from '@/screens/settings/LibrarySettings';
@@ -94,6 +92,7 @@ export const App: React.FC = () => (
             <Routes>
                 {/* General Routes */}
                 <Route path="/" element={<Navigate to="/library" replace />} />
+                <Route path="*" element={<Navigate to="/" replace />} />
                 <Route path="settings">
                     <Route index element={<Settings />} />
                     <Route path="about" element={<About />} />
@@ -112,7 +111,7 @@ export const App: React.FC = () => (
                 {/* Manga Routes */}
 
                 <Route path="sources">
-                    <Route index element={<Sources />} />
+                    <Route index element={<Navigate to="/" replace />} />
                     <Route path=":sourceId" element={<SourceMangas />} />
                     <Route path=":sourceId/configure/" element={<SourceConfigure />} />
                     <Route path="all/search/" element={<SearchAll />} />
@@ -124,7 +123,6 @@ export const App: React.FC = () => (
                 </Route>
                 <Route path="library" element={<Library />} />
                 <Route path="updates" element={<Updates />} />
-                <Route path="extensions" element={<Extensions />} />
                 <Route path="browse" element={<Browse />} />
                 <Route path="migrate/source/:sourceId">
                     <Route index element={<Migrate />} />

@@ -166,7 +166,7 @@ export const SearchAll: React.FC = () => {
 
     const { setTitle, setAction } = useContext(NavBarContext);
 
-    useSetDefaultBackTo('sources');
+    useSetDefaultBackTo('browse');
 
     const { pathname, state } = useLocation<{ mangaTitle?: string }>();
     const isMigrateMode = pathname.startsWith('/migrate/source');

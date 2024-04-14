@@ -225,7 +225,7 @@ export function SourceMangas() {
             clearCache: boolean;
         }>().state ?? {};
 
-    useSetDefaultBackTo('sources');
+    useSetDefaultBackTo('browse');
 
     const [isFirstRender, setIsFirstRender] = useState(true);
 
