@@ -51,8 +51,10 @@ if (process.env.NODE_ENV !== 'production') {
 const fetchAndCacheManifest = async () => {
     try {
         const response = (await fetch('/manifest.json')).json;
+        // eslint-disable-next-line
         console.log(response);
     } catch (error) {
+        // eslint-disable-next-line
         console.error('Failed to fetch manifest:', error);
     }
 };
