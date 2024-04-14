@@ -28,6 +28,7 @@ export class Storage {
 
     setItem(key: string, value: unknown): void {
         if (value === undefined) {
+            this.storage.removeItem(key);
             return;
         }
 
