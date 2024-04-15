@@ -18,7 +18,7 @@ jobs:
             [
               {
                 "type": "title",
-                "regex": "^(?!\\[(Feature Request|Bug)\\] )",
+                "regex": "^(?!\\[(Feature Request|Bug|Meta)\\] )",
                 "message": "Title must start with either \"[Feature Request]\" or \"[Bug]\""
               },
               {
@@ -43,7 +43,7 @@ jobs:
               },
               {
                 "type": "title",
-                "regex": ".*\\?.*",
+                "regex": "^\\[(Feature Request|Bug)\\] .*\\?.*",
                 "message": "The title is not supposed to be a question"
               },
               {
