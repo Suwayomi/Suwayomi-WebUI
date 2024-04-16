@@ -38,6 +38,8 @@ import {
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
 import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 import { useSessionStorage } from '@/util/useStorage.tsx';
+import { AppStorage } from '@/util/AppStorage.ts';
+import { getGridSnapshotKey } from '@/components/MangaGrid.tsx';
 
 const ContentTypeMenu = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -218,7 +220,8 @@ export function SourceMangas() {
     const { sourceId } = useParams<{ sourceId: string }>();
 
     const navigate = useNavigate();
-    const { key: locationKey, state: locationState } = useLocation();
+    const location = useLocation();
+    const { key: locationKey, state: locationState } = location;
     const { contentType: initialContentType = SourceContentType.POPULAR, clearCache = false } =
         useLocation<{
             contentType: SourceContentType;
@@ -248,7 +251,6 @@ export function SourceMangas() {
         currentFiltersToApply ?? [],
     );
     const [dialogFiltersToApply, setDialogFiltersToApply] = useState<IPos[]>(filtersToApply);
-    const [resetScrollPosition, setResetScrollPosition] = useState(false);
     const [currentContentType, setCurrentContentType] = useSessionStorage<SourceContentType | undefined>(
         `source-mangas-${sourceId}-content-type`,
         initialContentType,
@@ -266,9 +268,15 @@ export function SourceMangas() {
         [sourceId],
     );
 
+    const scrollToTop = useCallback(() => {
+        AppStorage.session.setItem(getGridSnapshotKey(location), undefined);
+        window.scrollTo(0, 0);
+    }, [locationKey]);
+
     const setFiltersToApply = (filters: IPos[]) => {
         setCurrentFiltersToApply(filters);
         setLocationFiltersToApply(filters);
+        scrollToTop();
     };
 
     const setContentType = (newContentType: SourceContentType) => {
@@ -300,7 +308,7 @@ export function SourceMangas() {
     const updateContentType = useCallback(
         (newContentType: SourceContentType, newSearch?: string | null) => {
             setContentType(newContentType);
-            setResetScrollPosition(true);
+            scrollToTop();
 
             if (query && !newSearch) {
                 navigate(
@@ -313,16 +321,7 @@ export function SourceMangas() {
                 );
             }
         },
-        [setContentType, query],
-    );
-
-    const updateLocationFilters = useCallback(
-        (updatedFilters: IPos[]) => {
-            if (contentType === SourceContentType.SEARCH) {
-                setFiltersToApply(updatedFilters);
-            }
-        },
-        [contentType, query],
+        [setContentType, query, scrollToTop],
     );
 
     const setSearchContentType = !!query && contentType !== SourceContentType.SEARCH;
@@ -338,12 +337,10 @@ export function SourceMangas() {
         loadPage(lastPageNum + 1);
     }, [lastPageNum, hasNextPage, contentType]);
 
-    const resetFilters = useCallback(async () => {
+    const resetFilters = useCallback(() => {
         setDialogFiltersToApply([]);
         setFiltersToApply([]);
-        updateLocationFilters([]);
-        setResetScrollPosition(true);
-    }, [sourceId, contentType, updateLocationFilters]);
+    }, [sourceId, contentType]);
 
     useEffect(() => {
         if (filteredOutAllItemsOfFetchedPage && hasNextPage && !loading) {
@@ -373,7 +370,7 @@ export function SourceMangas() {
             // with strict mode + dev mode the first request will be aborted. due to using SWR there won't be an
             // immediate second request since it's the same key. instead the "second" request will be the error handling of SWR
             abortRequest(new Error(`SourceMangas(${sourceId}): search string changed`));
-            setResetScrollPosition(true);
+            scrollToTop();
         },
         [query],
     );
@@ -405,15 +402,6 @@ export function SourceMangas() {
             setAction(null);
         };
     }, [t, source]);
-
-    useEffect(() => {
-        if (!resetScrollPosition) {
-            return;
-        }
-
-        window.scrollTo(0, 0);
-        setResetScrollPosition(false);
-    }, [resetScrollPosition]);
 
     return (
         <StyledGridWrapper hasContent={!!mangas.length}>
@@ -459,7 +447,6 @@ export function SourceMangas() {
                     updateFilterValue={setDialogFiltersToApply}
                     setTriggerUpdate={() => {
                         setFiltersToApply(dialogFiltersToApply);
-                        updateLocationFilters(dialogFiltersToApply);
                     }}
                     resetFilterValue={resetFilters}
                     update={dialogFiltersToApply}
