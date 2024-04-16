@@ -1,0 +1,151 @@
+{
+    "category": {
+        "dialog": {
+            "title": {
+                "new_category": "Kategori baru",
+                "edit_category": "Ubah kategori"
+            }
+        },
+        "error": {
+            "label": {
+                "empty": "Kategori ini kosong",
+                "request_failure": "Tidak dapat memuat kategori"
+            },
+            "no_categories_found": {
+                "label": {
+                    "info": "Kategori tak ditemukan.",
+                    "hint": "Buatlah di pengaturan."
+                }
+            }
+        },
+        "label": {
+            "category_name": "Nama kategori",
+            "use_as_default_category": "Kategori saat menambahkan manga ke perpustakaan"
+        },
+        "title": {
+            "set_categories": "Atur kategori",
+            "categories": "Kategori",
+            "category_other": "Kategori"
+        },
+        "settings": {
+            "inclusion": {
+                "label": {
+                    "exclude": "Pengecualian: {{excludedCategoriesText}}",
+                    "include": "Disertakan: {{includedCategoriesText}}"
+                }
+            }
+        }
+    },
+    "chapter": {
+        "action": {
+            "bookmark": {
+                "remove": {
+                    "button": {
+                        "selected": "Hapus yang terpilih dari favorit"
+                    },
+                    "label": {
+                        "action": "Hapus favorit",
+                        "success_other": "Telah menghapus {{count}} dari favorit",
+                        "error_other": "Tidak dapat menghapus favorit"
+                    }
+                },
+                "add": {
+                    "label": {
+                        "action": "Tambahkan ke favorit",
+                        "error_other": "Tidak dapat mengatur favorit pada bab",
+                        "success_other": "{{count}} bab telah difavorit"
+                    },
+                    "button": {
+                        "selected": "Telah difavorit"
+                    }
+                }
+            },
+            "download": {
+                "delete": {
+                    "label": {
+                        "success_other": "{{count}} bab dihapus",
+                        "action": "Hapus",
+                        "error_other": "Tidak dapat menghapus bab"
+                    },
+                    "button": {
+                        "selected": "Hapus Pilihan"
+                    }
+                },
+                "add": {
+                    "label": {
+                        "success_other": "{{count}} download ditambahkan",
+                        "error_other": "Tidak dapat menambah unduhan",
+                        "action": "Unduh"
+                    },
+                    "button": {
+                        "selected": "Memilih Unduhan"
+                    }
+                }
+            },
+            "label": {
+                "open_on_source": "Buka sumber",
+                "select": "Pilih"
+            },
+            "mark_as_read": {
+                "add": {
+                    "label": {
+                        "action": {
+                            "current": "Tandai telah dibaca",
+                            "previous": "Tandai sebelumnya telah dibaca"
+                        },
+                        "error_other": "Tidak dapat menandai bab telah dibaca",
+                        "success_other": "{{count}} chapter ditandai telah dibaca"
+                    },
+                    "button": {
+                        "selected": "Tandai pilihan telah dibaca"
+                    }
+                },
+                "remove": {
+                    "button": {
+                        "selected": "Tandai pilihan belum dibaca"
+                    },
+                    "label": {
+                        "action": "Tandai belum dibaca",
+                        "error_other": "Tidak dapat menandai bab belum dibaca",
+                        "success_other": "{{count}} bab ditandai belum dibaca"
+                    }
+                }
+            }
+        },
+        "error": {
+            "label": {
+                "no_matches": "Tidak menemukan bab berdasarkan filter",
+                "no_chapter_found": "Bab tidak ditemukan"
+            }
+        },
+        "status": {
+            "label": {
+                "downloaded": "Telah diunduh"
+            }
+        },
+        "title": "Bab",
+        "option": {
+            "display": {
+                "label": {
+                    "chapter_number": "Nomor Bab",
+                    "source_title": "Judul sumber"
+                }
+            }
+        }
+    },
+    "download": {
+        "queue": {
+            "label": {
+                "no_downloads": "Tidak ada unduhan",
+                "delete_all": "Hapus semua"
+            },
+            "error": {
+                "label": {
+                    "failed_delete_all": "Tidak dapat menghapus seluruh unduhan dari barisan",
+                    "failed_to_remove": "Tidak dapat menghilangkan unduhan dari barisan"
+                }
+            },
+            "title": "Baris unduhan"
+        }
+    }
+}

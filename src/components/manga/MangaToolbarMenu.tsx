@@ -9,20 +9,18 @@
 import Label from '@mui/icons-material/Label';
 import MoreHoriz from '@mui/icons-material/MoreHoriz';
 import Refresh from '@mui/icons-material/Refresh';
-import {
-    IconButton,
-    ListItemIcon,
-    ListItemText,
-    Menu,
-    MenuItem,
-    Tooltip,
-    useMediaQuery,
-    useTheme,
-} from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Tooltip from '@mui/material/Tooltip';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import SyncAltIcon from '@mui/icons-material/SyncAlt';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { TManga } from '@/typings.ts';
 import { useCategorySelect } from '@/components/navbar/action/useCategorySelect.tsx';
 

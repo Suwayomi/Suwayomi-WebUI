@@ -7,7 +7,10 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { List, ListItem, ListItemText, Switch } from '@mui/material';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import Switch from '@mui/material/Switch';
 import { useCallback } from 'react';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { NumberSetting } from '@/components/settings/NumberSetting.tsx';

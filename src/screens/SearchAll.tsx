@@ -6,7 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Card, CardActionArea, Typography } from '@mui/material';
+import Card from '@mui/material/Card';
+import CardActionArea from '@mui/material/CardActionArea';
+import Typography from '@mui/material/Typography';
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { StringParam, useQueryParam } from 'use-query-params';
@@ -164,7 +166,7 @@ export const SearchAll: React.FC = () => {
 
     const { setTitle, setAction } = useContext(NavBarContext);
 
-    useSetDefaultBackTo('sources');
+    useSetDefaultBackTo('browse');
 
     const { pathname, state } = useLocation<{ mangaTitle?: string }>();
     const isMigrateMode = pathname.startsWith('/migrate/source');

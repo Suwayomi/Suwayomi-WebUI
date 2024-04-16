@@ -10,7 +10,10 @@ import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
-import { InputAdornment, ListItemText, Stack, SxProps, Typography, Theme } from '@mui/material';
+import InputAdornment from '@mui/material/InputAdornment';
+import ListItemText from '@mui/material/ListItemText';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import { useCallback, useState } from 'react';
@@ -21,6 +24,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Slider from '@mui/material/Slider';
 import DialogContentText from '@mui/material/DialogContentText';
 import InfoIcon from '@mui/icons-material/Info';
+import { SxProps, Theme } from '@mui/material/styles';
 
 type BaseProps = {
     settingTitle: string;

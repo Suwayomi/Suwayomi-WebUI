@@ -11,7 +11,7 @@ import List from '@mui/material/List';
 import ListItemText from '@mui/material/ListItemText';
 import { fromEvent } from 'file-selector';
 import { useTranslation } from 'react-i18next';
-import { ListItemButton } from '@mui/material';
+import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListSubheader from '@mui/material/ListSubheader';
 import { t as translate } from 'i18next';

@@ -13,7 +13,7 @@ import { styled } from '@mui/material/styles';
 import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { t as translate } from 'i18next';
-import { Link } from '@mui/material';
+import Link from '@mui/material/Link';
 import { ISource, TManga } from '@/typings';
 import { makeToast } from '@/components/util/Toast';
 import { Mangas } from '@/lib/data/Mangas.ts';

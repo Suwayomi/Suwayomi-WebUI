@@ -18,7 +18,7 @@ import { useMemo, useState } from 'react';
 import SyncAltIcon from '@mui/icons-material/SyncAlt';
 import { Link } from 'react-router-dom';
 import SyncIcon from '@mui/icons-material/Sync';
-import { Dialog } from '@mui/material';
+import Dialog from '@mui/material/Dialog';
 import { TManga } from '@/typings.ts';
 import { actionToTranslationKey, MangaAction, MangaDownloadInfo, Mangas, MangaUnreadInfo } from '@/lib/data/Mangas.ts';
 import { SelectableCollectionReturnType } from '@/components/collection/useSelectableCollection.ts';

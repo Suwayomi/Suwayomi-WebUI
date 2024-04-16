@@ -18,7 +18,7 @@ jobs:
             [
               {
                 "type": "title",
-                "regex": "^(?!\\[(Feature Request|Bug)\\] )",
+                "regex": "^(?!\\[(Feature Request|Bug|Meta)\\] )",
                 "message": "Title must start with either \"[Feature Request]\" or \"[Bug]\""
               },
               {
@@ -43,12 +43,12 @@ jobs:
               },
               {
                 "type": "title",
-                "regex": ".*\\?.*",
+                "regex": "^\\[(Feature Request|Bug)\\] .*\\?.*",
                 "message": "The title is not supposed to be a question"
               },
               {
                 "type": "body",
-                "regex": "^(?!## (Device information|What feature should be added to Suwayomi\\?))",
+                "regex": "^(?!## (Meta|Device information|What feature should be added to Suwayomi\\?))",
                 "message": "The acknowledgment section was not removed"
               },
               {

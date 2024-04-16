@@ -8,7 +8,8 @@
 
 import React, { ForwardedRef, forwardRef, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import Grid, { GridTypeMap } from '@mui/material/Grid';
-import { Box, Typography } from '@mui/material';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import { GridItemProps, GridStateSnapshot, VirtuosoGrid } from 'react-virtuoso';
 import { useLocation } from 'react-router-dom';
 import { EmptyView } from '@/components/util/EmptyView';
@@ -125,6 +126,9 @@ const HorizontalGrid = forwardRef(
     ),
 );
 
+export const getGridSnapshotKey = (location: ReturnType<typeof useLocation>) =>
+    `MangaGrid-snapshot-location-${location.key}`;
+
 const VerticalGrid = forwardRef(
     (
         {
@@ -147,7 +151,7 @@ const VerticalGrid = forwardRef(
     ) => {
         const location = useLocation<{ snapshot?: GridStateSnapshot }>();
 
-        const snapshotSessionKey = `MangaGrid-snapshot-location-${location.key}`;
+        const snapshotSessionKey = getGridSnapshotKey(location);
         const [snapshot] = useSessionStorage<GridStateSnapshot | undefined>(snapshotSessionKey, undefined);
 
         const persistGridStateTimeout = useRef<NodeJS.Timeout | undefined>();
@@ -161,7 +165,7 @@ const VerticalGrid = forwardRef(
                     return;
                 }
 
-                AppStorage.session.setItem(snapshotSessionKey, gridState);
+                AppStorage.session.setItem(snapshotSessionKey, gridState, false);
             }, 250);
         };
         useEffect(() => clearTimeout(persistGridStateTimeout.current), [location.key, persistGridStateTimeout.current]);

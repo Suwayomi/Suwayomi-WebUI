@@ -15,7 +15,7 @@ import Dialog from '@mui/material/Dialog';
 import FormGroup from '@mui/material/FormGroup';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { Stack } from '@mui/material';
+import Stack from '@mui/material/Stack';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Mangas } from '@/lib/data/Mangas.ts';
 import { useSelectableCollection } from '@/components/collection/useSelectableCollection.ts';

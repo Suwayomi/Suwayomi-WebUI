@@ -7,7 +7,7 @@
  */
 
 import { OverridableComponent } from '@mui/material/OverridableComponent';
-import { SvgIconTypeMap } from '@mui/material/SvgIcon/SvgIcon';
+import { SvgIconTypeMap } from '@mui/material/SvgIcon';
 import { ParseKeys } from 'i18next';
 import { Location } from 'react-router-dom';
 import {

@@ -1,0 +1,191 @@
+{
+    "category": {
+        "dialog": {
+            "title": {
+                "edit_category": "Modifica categoria",
+                "new_category": "Nuova categoria"
+            }
+        },
+        "label": {
+            "use_as_default_category": "Categoria di default quando aggiungi manga alla libreria",
+            "category_name": "Nome della categoria"
+        },
+        "error": {
+            "label": {
+                "empty": "La categoria è vuota",
+                "request_failure": "Impossibile caricare le categorie"
+            },
+            "no_categories_found": {
+                "label": {
+                    "info": "Non sono ancora presenti categorie.",
+                    "hint": "Dovresti crearne alcune dai settaggi."
+                }
+            }
+        },
+        "title": {
+            "categories": "Categorie",
+            "set_categories": "Imposta categorie",
+            "category_one": "Categoria",
+            "category_many": "Categorie",
+            "category_other": "Categorie"
+        },
+        "settings": {
+            "inclusion": {
+                "label": {
+                    "include": "Includi: {{includedCategoriesText}}",
+                    "exclude": "Escludi: {{excludedCategoriesText}}"
+                }
+            }
+        }
+    },
+    "chapter": {
+        "action": {
+            "bookmark": {
+                "add": {
+                    "label": {
+                        "error_one": "Impossibile aggiungere il segnalibro al capitolo",
+                        "error_many": "Impossibile aggiungere i segnalibri al capitolo",
+                        "error_other": "Impossibile aggiungere i segnalibri al capitolo",
+                        "action": "Aggiungi segnalibro",
+                        "success_one": "Capitolo aggiunto ai segnalibri",
+                        "success_many": "{{count}} capitoli aggiunti ai segnalibri",
+                        "success_other": "{{count}} capitoli aggiunti ai segnalibri"
+                    },
+                    "button": {
+                        "selected": "Segnalibro selezionato"
+                    }
+                },
+                "remove": {
+                    "label": {
+                        "success_one": "Segnalibro rimosso",
+                        "success_many": "{{count}} segnalibri rimossi",
+                        "success_other": "{{count}} segnalibri rimossi",
+                        "action": "Rimuovi segnalibro",
+                        "error_one": "Impossibile rimuovere il segnalibro",
+                        "error_many": "Impossibile rimuovere i segnalibri",
+                        "error_other": "Impossibile rimuovere i segnalibri"
+                    },
+                    "button": {
+                        "selected": "Rimuovi i segnalibri dalla selezione"
+                    }
+                }
+            },
+            "download": {
+                "add": {
+                    "button": {
+                        "selected": "Scarica i selezionati"
+                    },
+                    "label": {
+                        "action": "Scarica",
+                        "error_one": "Impossibile aggiungerlo ai download",
+                        "error_many": "Impossibile aggiungerli ai download",
+                        "error_other": "Impossibile aggiungerli ai download",
+                        "success_one": "Download aggiunto",
+                        "success_many": "{{count}} download aggiunti",
+                        "success_other": "{{count}} download aggiunti"
+                    }
+                },
+                "delete": {
+                    "button": {
+                        "selected": "Elimina selezionati"
+                    },
+                    "label": {
+                        "action": "Elimina",
+                        "success_one": "Capitolo eliminato",
+                        "success_many": "{{count}} capitoli eliminati",
+                        "success_other": "{{count}} capitoli eliminati",
+                        "error_one": "Impossibile eliminare il capitolo",
+                        "error_many": "Impossibile eliminare i capitoli",
+                        "error_other": "Impossibile eliminare i capitoli"
+                    }
+                }
+            },
+            "mark_as_read": {
+                "add": {
+                    "button": {
+                        "selected": "Contrassegna come letti"
+                    },
+                    "label": {
+                        "error_one": "Impossibile contrassegnare il capitolo come letto",
+                        "error_many": "Impossibile contrassegnare i capitoli come letto",
+                        "error_other": "Impossibile contrassegnare i capitoli come letto",
+                        "success_one": "Capitolo contrassegnato come letto",
+                        "success_many": "{{count}} capitoli contrassegnati come letti",
+                        "success_other": "{{count}} capitoli contrassegnati come letti",
+                        "action": {
+                            "current": "Contrassegna come letto",
+                            "previous": "Contrassegna i precedenti come letti"
+                        }
+                    }
+                },
+                "remove": {
+                    "label": {
+                        "error_one": "Impossibile contrassegnare il capitolo come non letto",
+                        "error_many": "Impossibile contrassegnare i capitoli come non letti",
+                        "error_other": "Impossibile contrassegnare i capitoli come non letti",
+                        "action": "Contrassegna come non letto",
+                        "success_one": "Capitolo contrassegnato come non letto",
+                        "success_many": "{{count}} capitoli contrassegnati come non letti",
+                        "success_other": "{{count}} capitoli contrassegnati come non letti"
+                    },
+                    "button": {
+                        "selected": "Contrassegna come non letti"
+                    }
+                }
+            },
+            "label": {
+                "select": "Seleziona"
+            }
+        },
+        "option": {
+            "display": {
+                "label": {
+                    "source_title": "Titolo della sorgente",
+                    "chapter_number": "Numero del capitolo"
+                }
+            }
+        },
+        "title": "Capitolo",
+        "error": {
+            "label": {
+                "no_matches": "Nessun capitolo corrispondente ai filtri",
+                "no_chapter_found": "Nessun capitolo trovato"
+            }
+        },
+        "status": {
+            "label": {
+                "downloaded": "Scaricato"
+            }
+        }
+    },
+    "download": {
+        "settings": {
+            "auto_download": {
+                "download_limit": {
+                    "label": {
+                        "title": "Limite download capitoli",
+                        "description": "Limita il numero di nuovi capitoli che verranno scaricati."
+                    }
+                },
+                "categories": {
+                    "label": {
+                        "include_in_download": "Le voci appartenenti a categorie escluse non verranno scaricate anche se presenti in categorie incluse"
+                    }
+                }
+            }
+        },
+        "queue": {
+            "error": {
+                "label": {
+                    "failed_delete_all": "Impossibile rimuovere i download dalla coda",
+                    "failed_to_remove": "Impossibile rimuovere il download dalla coda."
+                }
+            },
+            "label": {
+                "delete_all": "Elimina tutti",
+                "no_downloads": "No downloads"
+            },
+            "title": "Coda Download"
+        }
+    }
+}

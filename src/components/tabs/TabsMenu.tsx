@@ -6,7 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { styled, Tabs, TabsProps } from '@mui/material';
+import Tabs, { TabsProps } from '@mui/material/Tabs';
+import { styled } from '@mui/material/styles';
 
 const StyledTabsMenu = styled(Tabs)(({ theme }) => ({
     display: 'flex',

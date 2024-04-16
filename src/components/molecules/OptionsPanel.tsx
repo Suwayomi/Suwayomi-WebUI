@@ -6,7 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Drawer, Box } from '@mui/material';
+import Drawer from '@mui/material/Drawer';
+import Box from '@mui/material/Box';
 import React from 'react';
 
 interface IProps {

@@ -6,7 +6,8 @@
         },
         "title": {
             "categories": "Phân loại",
-            "set_categories": "Đặt danh mục"
+            "set_categories": "Đặt danh mục",
+            "category_other": "Danh mục"
         },
         "dialog": {
             "title": {
@@ -22,7 +23,15 @@
             "no_categories_found": {
                 "label": {
                     "hint": "Bạn cần phải thiết lập một số cài đặt.",
-                    "info": "Không tìm thấy danh mục nào."
+                    "info": "Bạn không có danh mục nào."
+                }
+            }
+        },
+        "settings": {
+            "inclusion": {
+                "label": {
+                    "exclude": "Ngoại trừ: {{excludedCategoriesText}}",
+                    "include": "Bao gồm: {{includedCategoriesText}}"
                 }
             }
         }
@@ -127,12 +136,14 @@
         "queue": {
             "error": {
                 "label": {
-                    "failed_to_remove": "Không thể xóa tải xuống khỏi hàng đợi."
+                    "failed_to_remove": "Không thể xóa tải xuống khỏi hàng đợi.",
+                    "failed_delete_all": "Không thể xóa tất cả các mục ra khỏi hàng đợi"
                 }
             },
             "title": "Danh sách tải xuống",
             "label": {
-                "no_downloads": "Không tải xuống"
+                "no_downloads": "Không tải xuống",
+                "delete_all": "Xóa tất cả"
             }
         },
         "state": {
@@ -149,13 +160,53 @@
                 "while_reading": {
                     "option": {
                         "label": {
-                            "fourth": "",
-                            "second": "",
-                            "third": ""
+                            "fourth": "Thứ tư sau chương đã đọc",
+                            "second": "Thứ hai sau chương đã đọc",
+                            "third": "Thứ ba sau chương đã đọc",
+                            "fifth": "Thứ năm sau chương đã đọc",
+                            "first": "Sau chương đã đọc"
                         }
+                    },
+                    "label": {
+                        "title": "Xóa chương khi đọc xong"
                     }
+                },
+                "title": "Xóa chương",
+                "label": {
+                    "allow_deletion_of_bookmarked": "Cho phép tự động xóa chương được đánh dấu",
+                    "manually_marked_as_read": "Xóa chương sau khi được đánh dấu là đã đọc"
                 }
-            }
+            },
+            "auto_download": {
+                "download_limit": {
+                    "label": {
+                        "description": "Giới hạn số lượng chương mới sẽ được tải về.",
+                        "title": "Giới hạn chương được tải về"
+                    }
+                },
+                "label": {
+                    "new_chapters": "Tải chương mới"
+                },
+                "title": "Tự động tải về"
+            },
+            "download_ahead": {
+                "label": {
+                    "while_reading": "Tự động tải về khi đọc",
+                    "value": "{{chapters}} $t(chapter.title)",
+                    "disclaimer": "Chỉ hoạt động khi tập hiện tại và tập kế tiếp đã được tải về."
+                }
+            },
+            "download_path": {
+                "label": {
+                    "title": "Nơi tải về"
+                }
+            },
+            "file_type": {
+                "label": {
+                    "cbz": "Lưu bằng định dạng nén CBZ"
+                }
+            },
+            "title": "Cài đặt tải về"
         }
     },
     "extension": {
@@ -163,13 +214,17 @@
             "label": {
                 "install": "Cài đặt",
                 "uninstall": "Gỡ cài đặt",
-                "update": "Cập nhật"
+                "update": "Cập nhật",
+                "install_external": "Cài đặt tiện ích bên ngoài"
             }
         },
         "label": {
             "installation_failed": "Không thể cài đặt tiện ích mở rộng",
             "installed_successfully": "Tiện ích mở rộng được cài đặt",
-            "installing_file": "Cài đặt tệp tiện ích mở rộng…"
+            "installing_file": "Cài đặt tệp tiện ích mở rộng…",
+            "update_failed": "Không thể cập nhật tiện ích",
+            "uninstallation_failed": "Không thể xóa tiện ích",
+            "add_repository_info": "Bạn phải thêm kho tiện ích trước khi cài đặt tiện ích"
         },
         "language": {
             "all": "Tất cả",
@@ -185,7 +240,28 @@
                 "updating": "Cập nhật"
             }
         },
-        "title": "Phần tiện ích mở rộng"
+        "title": "Phần tiện ích mở rộng",
+        "settings": {
+            "repositories": {
+                "custom": {
+                    "dialog": {
+                        "action": {
+                            "button": {
+                                "add": "Thêm kho tiện ích"
+                            }
+                        }
+                    },
+                    "error": {
+                        "label": {
+                            "invalid_url": "Địa chỉ kho tiện ích không chính xác"
+                        }
+                    },
+                    "label": {
+                        "title": "Kho tiện ích"
+                    }
+                }
+            }
+        }
     },
     "global": {
         "button": {
@@ -203,14 +279,31 @@
             "select_all": "Chọn tất cả",
             "set": "Lựa chọn",
             "start": "Bắt đầu",
-            "submit": "Nộp"
+            "submit": "Nộp",
+            "create": "Tạo",
+            "dont_show_dialog_again": "Không hiển thị thông báo này thêm lần nữa",
+            "restore": "Khôi phục",
+            "stop": "Dừng",
+            "retry": "Thử lại",
+            "deselect": "Hủy chọn",
+            "select": "Chọn",
+            "edit": "Chỉnh sửa",
+            "options": "Lựa chọn",
+            "copy": "Sao chép",
+            "add": "Thêm"
         },
         "date": {
             "label": {
                 "today": "Hôm nay",
                 "today_at": "Hôm nay {{timeString}}",
                 "yesterday_at": "Hôm qua {{timeString}}",
-                "yesterday": "Hôm qua"
+                "yesterday": "Hôm qua",
+                "day": "Ngày"
+            },
+            "value": {
+                "label": {
+                    "day": "{{days}} $t(global.date.label.day, lowercase)"
+                }
             }
         },
         "error": {
@@ -244,7 +337,18 @@
             "loading": "Đang tải…",
             "none": "Trống",
             "sort": "Sắp xếp",
-            "unknown": "Không xác định"
+            "unknown": "Không xác định",
+            "close": "Đóng",
+            "general": "Chung",
+            "other": "Khác",
+            "discord": "Discord",
+            "client": "Người dùng",
+            "password": "Mật khẩu",
+            "github": "GitHub",
+            "links": "Đường dẫn",
+            "never": "Không bao giờ",
+            "username": "Tên người dùng",
+            "advanced": "Nâng cao"
         },
         "language": {
             "label": {
@@ -261,13 +365,37 @@
                 "by_fetch_date": "Theo ngày",
                 "by_source": "Theo nguồn"
             }
+        },
+        "update": {
+            "label": {
+                "available": "Có bản cập nhật mới",
+                "check_failure": "Không thể kiểm tra cập nhật mới",
+                "checking": "Kiểm tra cập nhật mới",
+                "info": "Phiên bản máy chủ {{version}} ({{channel}}) có thể tải về",
+                "updating": "{{progress}}% | Đang cập nhật…",
+                "up_to_date": "Đây là phiên bản mới nhất",
+                "update_failure": "Cập nhật thất bại"
+            }
+        },
+        "time": {
+            "hour_short": "h",
+            "minutes": {
+                "minute_other": "Phút",
+                "value": "{{count}} $t(global.time.minutes.minute, lowercase)"
+            },
+            "seconds": {
+                "second_other": "Giây",
+                "value": "{{count}} $t(global.time.seconds.second, lowercase)"
+            }
         }
     },
     "library": {
         "error": {
             "label": {
                 "empty": "Thư viện của bạn trống",
-                "no_matches": "Không có manga nào phù hợp với bộ lọc này"
+                "no_matches": "Không có manga nào phù hợp với bộ lọc này",
+                "add_to_library": "Không thể thêm manga vào thư viện!",
+                "remove_from_library": "Không thể xóa manga ra khỏi thư viện!"
             }
         },
         "option": {
@@ -283,6 +411,11 @@
                     "title": "Nhãn",
                     "label": {
                         "show_number_of_items": "Hiển thị số lượng mục"
+                    }
+                },
+                "other": {
+                    "label": {
+                        "show_continue_reading_button": "Hiển thị nút tiếp tục đọc"
                     }
                 }
             },
@@ -304,11 +437,60 @@
                         "info": "Các mục trong danh mục bị loại trừ sẽ không được cập nhật ngay cả khi chúng cũng nằm trong danh mục được bao gồm"
                     }
                 },
-                "title": "Cập nhật toàn cầu"
+                "title": "Cập nhật toàn cầu",
+                "label": {
+                    "last_update_tooltip": "$t(library.settings.global_update.title) ($t(library.settings.global_update.label.last_update, lowercase))",
+                    "last_update": "Lần cuối cập nhật: {{date}}"
+                },
+                "metadata": {
+                    "label": {
+                        "title": "Tự động làm mới metadata",
+                        "description": "Kiểm tra bìa truyện và chi tiết khi cập nhật thư viện"
+                    }
+                },
+                "auto_update": {
+                    "interval": {
+                        "label": {
+                            "value": "{{hours}}$t(global.time.hour_short)"
+                        }
+                    },
+                    "label": {
+                        "title": "Tự động cập nhật"
+                    }
+                },
+                "entries": {
+                    "label": {
+                        "completed": "Với trạng thái \"Hoàn thành\""
+                    }
+                }
             },
-            "title": "Cài đặt thư viện"
+            "title": "Cài đặt thư viện",
+            "general": {
+                "search": {
+                    "ignore_filters": {
+                        "label": {
+                            "title": "Bỏ qua bộ lọc khi tìm kiếm"
+                        }
+                    }
+                }
+            },
+            "advanced": {
+                "database": {
+                    "cleanup": {
+                        "label": {
+                            "title": "Dọn cơ sở dữ liệu"
+                        }
+                    }
+                }
+            }
         },
-        "title": "Thư viện"
+        "title": "Thư viện",
+        "info": {
+            "label": {
+                "removed_from_library": "Manga đã được xóa khỏi thư viện!",
+                "added_to_library": "Manga đã được thêm vào thư viện!"
+            }
+        }
     },
     "manga": {
         "button": {
@@ -334,7 +516,8 @@
     "reader": {
         "button": {
             "next_chapter": "Chương tiếp theo",
-            "previous_chapter": "Chương trước"
+            "previous_chapter": "Chương trước",
+            "open_menu": "Mở bảng chọn"
         },
         "error": {
             "label": {
@@ -407,7 +590,22 @@
                 "server_address": "Địa chỉ máy chủ",
                 "server_version": "Phiên bản máy chủ"
             },
-            "title": "Về"
+            "title": "Về",
+            "server": {
+                "label": {
+                    "version": "Phiên bản máy chủ",
+                    "build_time": "Thời gian xây dựng",
+                    "github": "",
+                    "address": "Địa chỉ máy chủ"
+                }
+            },
+            "webui": {
+                "label": {
+                    "version": "Phiên bản $t(settings.webui.title.webui)",
+                    "update_failure": "Không thể cập nhật $t(settings.webui.title.webui)",
+                    "github": "$t(global.label.github) $t(settings.webui.title.webui)"
+                }
+            }
         },
         "backup": {
             "label": {
@@ -420,7 +618,52 @@
                 "restoring_backup": "Khôi phục bản sao lưu…",
                 "create_backup_info": "Sao lưu thư viện dưới dạng bản sao lưu Tachiyomi"
             },
-            "title": "Sao lưu"
+            "title": "Sao lưu",
+            "action": {
+                "restore": {
+                    "label": {
+                        "in_progress": "Khôi phục bản sao lưu…",
+                        "title": "Khôi phục bản sao lưu",
+                        "success": "Bản sao lưu đã được khôi phục."
+                    },
+                    "button": "Khôi phục",
+                    "error": {
+                        "label": {
+                            "failure": "Không thể khôi phục bản sao lưu"
+                        }
+                    }
+                },
+                "validate": {
+                    "dialog": {
+                        "content": {
+                            "label": {
+                                "missing_sources": "Những nguồn sau chưa được cài đặt:"
+                            }
+                        }
+                    }
+                },
+                "create": {
+                    "label": {
+                        "title": "Tạo bản sao lưu"
+                    }
+                }
+            },
+            "automated": {
+                "cleanup": {
+                    "label": {
+                        "title": "Dọn dẹp bản sao lưu",
+                        "value": "Xóa những bản sau lưu cũ hơn ngày $t(global.date.value.label.day)"
+                    }
+                },
+                "label": {
+                    "time": "Thời gian sao lưu"
+                },
+                "location": {
+                    "label": {
+                        "title": "Nơi lưu trữ bản sao lưu"
+                    }
+                }
+            }
         },
         "label": {
             "dark_theme": "Chủ đề tối",
@@ -438,7 +681,25 @@
                 }
             }
         },
-        "title": "Cài đặt"
+        "title": "Cài đặt",
+        "server": {
+            "address": {
+                "server": {
+                    "label": {
+                        "ip": "IP",
+                        "port": "Cổng"
+                    }
+                }
+            },
+            "auth": {
+                "basic": {
+                    "label": {
+                        "enable": "Sử dụng xác thực đơn giản",
+                        "password": "Xác thực đơn giản $t(global.label.password, lowercase)"
+                    }
+                }
+            }
+        }
     },
     "source": {
         "configuration": {
@@ -466,5 +727,19 @@
             }
         },
         "title": "Cập nhật"
+    },
+    "migrate": {
+        "dialog": {
+            "label": {
+                "delete_downloaded": "Xóa tải về"
+            }
+        }
+    },
+    "tracking": {
+        "track_record": {
+            "label": {
+                "start_date": "Ngày bắt đầu"
+            }
+        }
     }
 }

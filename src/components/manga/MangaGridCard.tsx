@@ -6,14 +6,14 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import Link from '@mui/material/Link/Link';
+import Link from '@mui/material/Link';
 import { Link as RouterLink } from 'react-router-dom';
-import Box from '@mui/material/Box/Box';
-import Card from '@mui/material/Card/Card';
-import CardActionArea from '@mui/material/CardActionArea/CardActionArea';
-import Stack from '@mui/material/Stack/Stack';
-import Tooltip from '@mui/material/Tooltip/Tooltip';
-import styled from '@mui/material/styles/styled';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardActionArea from '@mui/material/CardActionArea';
+import Stack from '@mui/material/Stack';
+import Tooltip from '@mui/material/Tooltip';
+import { styled } from '@mui/material/styles';
 import { isMobile } from 'react-device-detect';
 import { useRef } from 'react';
 import { SpinnerImage } from '@/components/util/SpinnerImage.tsx';

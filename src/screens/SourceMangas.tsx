@@ -13,7 +13,10 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import { useQueryParam, StringParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
 import Link from '@mui/material/Link';
-import { Box, Button, styled, Tooltip } from '@mui/material';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
+import { styled } from '@mui/material/styles';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import NewReleasesIcon from '@mui/icons-material/NewReleases';
 import FilterListIcon from '@mui/icons-material/FilterList';
@@ -35,6 +38,8 @@ import {
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
 import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 import { useSessionStorage } from '@/util/useStorage.tsx';
+import { AppStorage } from '@/util/AppStorage.ts';
+import { getGridSnapshotKey } from '@/components/MangaGrid.tsx';
 
 const ContentTypeMenu = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -215,14 +220,15 @@ export function SourceMangas() {
     const { sourceId } = useParams<{ sourceId: string }>();
 
     const navigate = useNavigate();
-    const { key: locationKey, state: locationState } = useLocation();
+    const location = useLocation();
+    const { key: locationKey, state: locationState } = location;
     const { contentType: initialContentType = SourceContentType.POPULAR, clearCache = false } =
         useLocation<{
             contentType: SourceContentType;
             clearCache: boolean;
         }>().state ?? {};
 
-    useSetDefaultBackTo('sources');
+    useSetDefaultBackTo('browse');
 
     const [isFirstRender, setIsFirstRender] = useState(true);
 
@@ -236,16 +242,47 @@ export function SourceMangas() {
 
     const { options } = useLibraryOptionsContext();
     const [query] = useQueryParam('query', StringParam);
-    const [filtersToApply, setFiltersToApply] = useSessionStorage<IPos[]>(
-        `source-mangas-location-${locationKey}-${sourceId}-filters`,
+    const [currentFiltersToApply, setCurrentFiltersToApply] = useSessionStorage<IPos[] | undefined>(
+        `source-mangas-${sourceId}-filters`,
         [],
     );
-    const [dialogFiltersToApply, setDialogFiltersToApply] = useState<IPos[]>(filtersToApply);
-    const [resetScrollPosition, setResetScrollPosition] = useState(false);
-    const [contentType, setContentType] = useSessionStorage(
-        `source-mangas-location-${locationKey}-${sourceId}-content-type`,
-        query ? SourceContentType.SEARCH : initialContentType,
+    const [filtersToApply, setLocationFiltersToApply] = useSessionStorage<IPos[]>(
+        `source-mangas-location-${locationKey}-${sourceId}-filters`,
+        currentFiltersToApply ?? [],
     );
+    const [dialogFiltersToApply, setDialogFiltersToApply] = useState<IPos[]>(filtersToApply);
+    const [currentContentType, setCurrentContentType] = useSessionStorage<SourceContentType | undefined>(
+        `source-mangas-${sourceId}-content-type`,
+        initialContentType,
+    );
+    const [contentType, setLocationContentType] = useSessionStorage(
+        `source-mangas-location-${locationKey}-${sourceId}-content-type`,
+        query ? SourceContentType.SEARCH : currentContentType!,
+    );
+
+    useEffect(
+        () => () => {
+            setCurrentFiltersToApply(undefined);
+            setCurrentContentType(undefined);
+        },
+        [sourceId],
+    );
+
+    const scrollToTop = useCallback(() => {
+        AppStorage.session.setItem(getGridSnapshotKey(location), undefined, false);
+        window.scrollTo(0, 0);
+    }, [locationKey]);
+
+    const setFiltersToApply = (filters: IPos[]) => {
+        setCurrentFiltersToApply(filters);
+        setLocationFiltersToApply(filters);
+        scrollToTop();
+    };
+
+    const setContentType = (newContentType: SourceContentType) => {
+        setCurrentContentType(newContentType);
+        setLocationContentType(newContentType);
+    };
 
     const [loadPage, { data, isLoading: loading, size: lastPageNum, abortRequest, filteredOutAllItemsOfFetchedPage }] =
         useSourceManga(sourceId, contentType, query, filtersToApply, 1, hideLibraryEntries);
@@ -271,7 +308,7 @@ export function SourceMangas() {
     const updateContentType = useCallback(
         (newContentType: SourceContentType, newSearch?: string | null) => {
             setContentType(newContentType);
-            setResetScrollPosition(true);
+            scrollToTop();
 
             if (query && !newSearch) {
                 navigate(
@@ -284,16 +321,7 @@ export function SourceMangas() {
                 );
             }
         },
-        [setContentType, query],
-    );
-
-    const updateLocationFilters = useCallback(
-        (updatedFilters: IPos[]) => {
-            if (contentType === SourceContentType.SEARCH) {
-                setFiltersToApply(updatedFilters);
-            }
-        },
-        [contentType, query],
+        [setContentType, query, scrollToTop],
     );
 
     const setSearchContentType = !!query && contentType !== SourceContentType.SEARCH;
@@ -309,12 +337,10 @@ export function SourceMangas() {
         loadPage(lastPageNum + 1);
     }, [lastPageNum, hasNextPage, contentType]);
 
-    const resetFilters = useCallback(async () => {
+    const resetFilters = useCallback(() => {
         setDialogFiltersToApply([]);
         setFiltersToApply([]);
-        updateLocationFilters([]);
-        setResetScrollPosition(true);
-    }, [sourceId, contentType, updateLocationFilters]);
+    }, [sourceId, contentType]);
 
     useEffect(() => {
         if (filteredOutAllItemsOfFetchedPage && hasNextPage && !loading) {
@@ -344,7 +370,7 @@ export function SourceMangas() {
             // with strict mode + dev mode the first request will be aborted. due to using SWR there won't be an
             // immediate second request since it's the same key. instead the "second" request will be the error handling of SWR
             abortRequest(new Error(`SourceMangas(${sourceId}): search string changed`));
-            setResetScrollPosition(true);
+            scrollToTop();
         },
         [query],
     );
@@ -376,15 +402,6 @@ export function SourceMangas() {
             setAction(null);
         };
     }, [t, source]);
-
-    useEffect(() => {
-        if (!resetScrollPosition) {
-            return;
-        }
-
-        window.scrollTo(0, 0);
-        setResetScrollPosition(false);
-    }, [resetScrollPosition]);
 
     return (
         <StyledGridWrapper hasContent={!!mangas.length}>
@@ -430,7 +447,6 @@ export function SourceMangas() {
                     updateFilterValue={setDialogFiltersToApply}
                     setTriggerUpdate={() => {
                         setFiltersToApply(dialogFiltersToApply);
-                        updateLocationFilters(dialogFiltersToApply);
                     }}
                     resetFilterValue={resetFilters}
                     update={dialogFiltersToApply}

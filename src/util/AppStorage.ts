@@ -26,21 +26,31 @@ export class Storage {
         return this.parseValue(this.getItem(key), defaultValue);
     }
 
-    setItem(key: string, value: unknown): void {
+    setItem(key: string, value: unknown, emitEvent: boolean = true): void {
+        const fireEvent = (valueToStore: string | undefined) => {
+            if (!emitEvent) {
+                return;
+            }
+
+            window.dispatchEvent(
+                new StorageEvent('storage', {
+                    key,
+                    oldValue: this.getItem(key),
+                    newValue: valueToStore,
+                }),
+            );
+        };
+
         if (value === undefined) {
+            this.storage.removeItem(key);
+            fireEvent(undefined);
             return;
         }
 
         const valueToStore = JSON.stringify(value);
 
         this.storage.setItem(key, valueToStore);
-        window.dispatchEvent(
-            new StorageEvent('storage', {
-                key,
-                oldValue: this.getItem(key),
-                newValue: valueToStore,
-            }),
-        );
+        fireEvent(valueToStore);
     }
 }
 

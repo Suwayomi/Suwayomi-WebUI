@@ -12,7 +12,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import { useTranslation } from 'react-i18next';
-import { Stack } from '@mui/material';
+import Stack from '@mui/material/Stack';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useState } from 'react';
 import FormGroup from '@mui/material/FormGroup';

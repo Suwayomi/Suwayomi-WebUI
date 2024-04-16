@@ -12,7 +12,7 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
-import { Box } from '@mui/material';
+import Box from '@mui/material/Box';
 import { useTranslation } from 'react-i18next';
 import { PartialExtension, TranslationKey } from '@/typings';
 import { requestManager } from '@/lib/requests/RequestManager.ts';

@@ -1,0 +1,79 @@
+{
+    "category": {
+        "dialog": {
+            "title": {
+                "new_category": "新しいカテゴリー",
+                "edit_category": "カテゴリーを編集します"
+            }
+        },
+        "error": {
+            "label": {
+                "empty": "カテゴリーは空です",
+                "request_failure": "カテゴリーを読み込めませんでした"
+            },
+            "no_categories_found": {
+                "label": {
+                    "hint": "設定から作成してください。",
+                    "info": "まだカテゴリーがありません。"
+                }
+            }
+        },
+        "label": {
+            "use_as_default_category": "ライブラリに新しい漫画を追加するときに使用するカテゴリーです",
+            "category_name": "カテゴリー名"
+        },
+        "settings": {
+            "inclusion": {
+                "label": {
+                    "exclude": "この文字列を含まない: {{excludedCategoriesText}}",
+                    "include": "この文字列を含む: {{includedCategoriesText}}"
+                }
+            }
+        },
+        "title": {
+            "set_categories": "カテゴリーを設定",
+            "category_other": "カテゴリー"
+        }
+    },
+    "chapter": {
+        "action": {
+            "bookmark": {
+                "add": {
+                    "label": {
+                        "error_other": "章をブックマークできませんでした",
+                        "action": "ブックマークを追加"
+                    },
+                    "button": {
+                        "selected": "選択したものをブックマーク"
+                    }
+                },
+                "remove": {
+                    "button": {
+                        "selected": "選択したものをブックマークから削除"
+                    },
+                    "label": {
+                        "action": "ブックマークを削除"
+                    }
+                }
+            },
+            "download": {
+                "delete": {
+                    "label": {
+                        "action": "削除"
+                    },
+                    "button": {
+                        "selected": "選択したものを削除"
+                    }
+                },
+                "add": {
+                    "button": {
+                        "selected": "選択したものをダウンロード"
+                    },
+                    "label": {
+                        "action": "ダウンロード"
+                    }
+                }
+            }
+        }
+    }
+}

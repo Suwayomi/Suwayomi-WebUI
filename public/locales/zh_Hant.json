@@ -63,7 +63,7 @@
             "no_categories_found": {
                 "label": {
                     "hint": "您應該需要進行一些設定。",
-                    "info": "沒有發現任何分類。"
+                    "info": "您還沒有任何分類。"
                 }
             },
             "label": {
@@ -142,7 +142,8 @@
                 }
             },
             "label": {
-                "select": "選擇"
+                "select": "選擇",
+                "open_on_source": "在來源網站開啟"
             },
             "mark_as_read": {
                 "add": {
@@ -274,7 +275,14 @@
             "copy": "複製",
             "retry": "重試",
             "migrate": "遷移",
-            "add": "新增"
+            "add": "新增",
+            "create": "建立",
+            "dont_show_dialog_again": "不要再次顯示此對話方塊",
+            "log_out": "登出",
+            "remove": "移除",
+            "log_in": "登入",
+            "show_less": "顯示較少項目",
+            "show_more": "顯示更多項目"
         },
         "date": {
             "label": {
@@ -310,7 +318,12 @@
             "other": "其它",
             "general": "一般",
             "placeholder": "占位符",
-            "discord": "Discord"
+            "discord": "Discord",
+            "open_in_browser": "在瀏覽器中開啟",
+            "started": "已開始",
+            "type": "類型",
+            "load_in_progress": "正在載入所需的資料…",
+            "logged_in": "已登入"
         },
         "language": {
             "label": {
@@ -350,7 +363,8 @@
             "label": {
                 "bookmarked": "已收藏",
                 "downloaded": "已下載",
-                "unread": "未讀"
+                "unread": "未讀",
+                "tracked": "已追蹤"
             }
         },
         "update": {
@@ -474,6 +488,14 @@
                             "description": "搜尋結果將包含不符合目前篩選器的漫畫"
                         }
                     }
+                },
+                "remove_from_library": {
+                    "remove_from_categories": {
+                        "label": {
+                            "description": "當從書櫃中刪除漫畫時也一併將其從分類中移除",
+                            "title": "忘記漫畫分類偏好"
+                        }
+                    }
                 }
             },
             "advanced": {
@@ -500,7 +522,11 @@
     "manga": {
         "button": {
             "in_library": "在書櫃中",
-            "add_to_library": "新增到書櫃"
+            "add_to_library": "新增到書櫃",
+            "track": {
+                "start": "正在追蹤",
+                "active_other": "{{count}} 個追蹤"
+            }
         },
         "error": {
             "label": {
@@ -544,6 +570,28 @@
                 "label": {
                     "error": "無法遷移漫畫",
                     "success": "成功地遷移了漫畫"
+                }
+            },
+            "track": {
+                "add": {
+                    "label": {
+                        "action": "追蹤",
+                        "error": "無法追蹤漫畫",
+                        "success": "已追蹤漫畫"
+                    }
+                },
+                "remove": {
+                    "label": {
+                        "error": "無法取消追蹤漫畫",
+                        "success": "已取消追蹤漫畫"
+                    },
+                    "dialog": {
+                        "label": {
+                            "delete_remote_track": "也從 {{tracker}} 中移除",
+                            "description": "這將會移除本機追蹤。",
+                            "title": "移除追蹤 {{tracker}}？"
+                        }
+                    }
                 }
             }
         }
@@ -668,7 +716,8 @@
             "manga_item_width": "漫畫單元格寬度",
             "show_nsfw": "NSFW (18+) 內容",
             "show_nsfw_description": "顯示 NSFW 擴充套件與來源",
-            "image_cache_description": "減少流量消耗，同時可以使圖像加載更快"
+            "image_cache_description": "減少流量消耗，同時可以使圖像加載更快",
+            "hide_library_entries": "隱藏已在書櫃中的條目"
         },
         "server_address": {
             "dialog": {
@@ -718,9 +767,9 @@
                     "host": "SOCKS 主機",
                     "enable": "使用 SOCKS Proxy",
                     "port": "SOCKS 通訊埠",
-                    "username": "SOCKS用戶名",
-                    "password": "SOCKS密碼",
-                    "version": "SOCKS版本"
+                    "username": "SOCKS 使用者名稱",
+                    "password": "SOCKS 密碼",
+                    "version": "SOCKS 版本"
                 },
                 "title": "SOCKS Proxy"
             },
@@ -850,7 +899,7 @@
                     "custom": {
                         "label": {
                             "title": "自訂",
-                            "description": "使用自訂 $t(settings.webui.title.webui).\n要使用自訂 $t(settings.webui.title.webui)，請將在伺服器上的根目錄中「webUI」目錄的內容替換為自訂 $t(settings.webui.title.webui) 的檔案"
+                            "description": "使用自訂 $t(settings.webui.title.webui)。\n要使用自訂 $t(settings.webui.title.webui)，請將在伺服器上的根目錄中「webUI」目錄的內容替換為自訂 $t(settings.webui.title.webui) 的檔案"
                         }
                     },
                     "webui": {
@@ -893,6 +942,23 @@
         },
         "browse": {
             "title": "瀏覽設定"
+        },
+        "device": {
+            "title": {
+                "settings": "裝置設定",
+                "device": "裝置"
+            },
+            "devices": {
+                "label": {
+                    "title": "裝置"
+                }
+            },
+            "active_device": {
+                "label": {
+                    "title": "活動中的裝置",
+                    "description": "選擇一個裝置以使用它儲存在伺服器中的 UI 設定"
+                }
+            }
         }
     },
     "source": {
@@ -1016,6 +1082,9 @@
                 "button": {
                     "show_entry": "顯示條目"
                 }
+            },
+            "label": {
+                "delete_downloaded": "刪除已下載項目"
             }
         },
         "label": {
@@ -1024,6 +1093,48 @@
         "title": "遷移",
         "search": {
             "title": "$t(migrate.title) \"{{title}}\""
+        }
+    },
+    "tracking": {
+        "settings": {
+            "dialog": {
+                "title": {
+                    "log_in": "登入 {{name}}",
+                    "log_out": "登出 {{name}}"
+                }
+            },
+            "title": {
+                "settings": "追蹤設定"
+            }
+        },
+        "action": {
+            "button": {
+                "add_tracking": "新增追蹤"
+            },
+            "login": {
+                "label": {
+                    "failure": "無法登入 {{name}}",
+                    "progress": "正在登入 {{name}}…"
+                }
+            },
+            "logout": {
+                "label": {
+                    "failure": "無法登出 {{name}}"
+                }
+            }
+        },
+        "error": {
+            "label": {
+                "could_not_load_track_info": "無法載入追蹤資訊"
+            }
+        },
+        "title": "追蹤",
+        "track_record": {
+            "label": {
+                "finish_date": "完成日期",
+                "score": "評分",
+                "start_date": "開始日期"
+            }
         }
     }
 }

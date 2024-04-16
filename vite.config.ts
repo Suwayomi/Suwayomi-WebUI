@@ -29,6 +29,9 @@ export default defineConfig(() => ({
             '@': path.resolve(__dirname, './src'),
         },
     },
+    optimizeDeps: {
+        include: ['@mui/material/Tooltip'],
+    },
     plugins: [
         react(),
         viteTsconfigPaths(),

@@ -7,7 +7,10 @@
  */
 
 import SearchIcon from '@mui/icons-material/Search';
-import { FormControl, Input, InputAdornment, InputLabel } from '@mui/material';
+import FormControl from '@mui/material/FormControl';
+import Input from '@mui/material/Input';
+import InputAdornment from '@mui/material/InputAdornment';
+import InputLabel from '@mui/material/InputLabel';
 import React, { useEffect } from 'react';
 import { useDebounce } from '@/util/useDebounce.ts';
 

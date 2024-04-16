@@ -17,7 +17,9 @@ import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
-import { Link, ListItemButton, MenuItem } from '@mui/material';
+import Link from '@mui/material/Link';
+import ListItemButton from '@mui/material/ListItemButton';
+import MenuItem from '@mui/material/MenuItem';
 import { useTranslation } from 'react-i18next';
 import LanguageIcon from '@mui/icons-material/Language';
 import CollectionsOutlinedBookmarkIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
@@ -38,6 +40,7 @@ import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { Select } from '@/components/atoms/Select.tsx';
+import { i18nResources } from '@/i18n';
 
 export function Settings() {
     const { t, i18n } = useTranslation();
@@ -147,7 +150,7 @@ export function Settings() {
                     value={i18n.language}
                     onChange={({ target: { value: language } }) => i18n.changeLanguage(language)}
                 >
-                    {Object.keys(i18n.services.resourceStore.data).map((language) => (
+                    {i18nResources.map((language) => (
                         <MenuItem key={language} value={language}>
                             {langCodeToName(language)}
                         </MenuItem>

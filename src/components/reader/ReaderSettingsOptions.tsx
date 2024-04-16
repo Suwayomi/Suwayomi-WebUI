@@ -6,7 +6,10 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { List, ListItem, ListItemText, Switch } from '@mui/material';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import Switch from '@mui/material/Switch';
 import MenuItem from '@mui/material/MenuItem';
 import { useTranslation } from 'react-i18next';
 import { AllowedMetadataValueTypes, IReaderSettings } from '@/typings';

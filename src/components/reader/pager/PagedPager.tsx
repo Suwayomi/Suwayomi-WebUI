@@ -7,7 +7,7 @@
  */
 
 import { MouseEvent, useEffect, useRef } from 'react';
-import { Box } from '@mui/material';
+import Box from '@mui/material/Box';
 import { IReaderProps } from '@/typings';
 import { Page } from '@/components/reader/Page';
 import { requestManager } from '@/lib/requests/RequestManager.ts';

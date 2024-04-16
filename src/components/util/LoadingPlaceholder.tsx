@@ -8,7 +8,7 @@
 
 import React from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
-import { Box } from '@mui/material';
+import Box from '@mui/material/Box';
 
 interface IProps {
     shouldRender?: boolean | (() => boolean);

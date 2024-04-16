@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { FormControlLabel } from '@mui/material';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import React from 'react';
 import { ThreeStateCheckbox, ThreeStateCheckboxProps } from '@/components/atoms/ThreeStateCheckbox';
 
