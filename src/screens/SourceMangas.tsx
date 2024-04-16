@@ -269,7 +269,7 @@ export function SourceMangas() {
     );
 
     const scrollToTop = useCallback(() => {
-        AppStorage.session.setItem(getGridSnapshotKey(location), undefined);
+        AppStorage.session.setItem(getGridSnapshotKey(location), undefined, false);
         window.scrollTo(0, 0);
     }, [locationKey]);
 

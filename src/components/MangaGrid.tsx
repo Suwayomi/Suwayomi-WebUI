@@ -165,7 +165,7 @@ const VerticalGrid = forwardRef(
                     return;
                 }
 
-                AppStorage.session.setItem(snapshotSessionKey, gridState);
+                AppStorage.session.setItem(snapshotSessionKey, gridState, false);
             }, 250);
         };
         useEffect(() => clearTimeout(persistGridStateTimeout.current), [location.key, persistGridStateTimeout.current]);
