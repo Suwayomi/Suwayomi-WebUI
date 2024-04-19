@@ -43,6 +43,7 @@
     "i18next-browser-languagedetector": "7.2.1",
     "i18next-http-backend": "2.5.0",
     "material-ui-popup-state": "5.1.0",
+    "mui-nested-menu": "3.3.0",
     "p-limit": "5.0.0",
     "react": "18.2.0",
     "react-beautiful-dnd": "13.1.1",

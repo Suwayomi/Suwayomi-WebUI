@@ -70,10 +70,17 @@
           },
           "label": {
             "action": "Download",
+            "ahead": "$t(download.settings.download_ahead.title) ({{count}})",
+            "all": "$t(extension.language.all)",
             "error_one": "Could not add the download",
             "error_other": "Could not add downloads",
+            "next": "$t(reader.button.next_chapter)",
+            "next_five": "Next 5 chapters",
+            "next_ten": "Next 10 chapters",
+            "next_twentyfive": "Next 25 chapters",
             "success_one": "Download added",
-            "success_other": "{{count}} downloads added"
+            "success_other": "{{count}} downloads added",
+            "unread": "$t(global.filter.label.unread)"
           }
         },
         "delete": {

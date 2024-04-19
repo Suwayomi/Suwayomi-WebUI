@@ -18,6 +18,8 @@ import { useTranslation } from 'react-i18next';
 import IconButton from '@mui/material/IconButton';
 import DownloadIcon from '@mui/icons-material/Download';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
+import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
+import Menu from '@mui/material/Menu';
 import { TChapter, TManga } from '@/typings.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { ChapterCard } from '@/components/chapter/ChapterCard.tsx';
@@ -33,7 +35,7 @@ import { SelectableCollectionSelectAll } from '@/components/collection/Selectabl
 import { Chapters } from '@/lib/data/Chapters.ts';
 import { ChaptersWithMeta } from '@/lib/data/ChaptersWithMeta.ts';
 import { ChapterActionMenuItems } from '@/components/chapter/ChapterActionMenuItems.tsx';
-import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { ChaptersDownloadActionMenuItems } from '@/components/chapter/ChaptersDownloadActionMenuItems.tsx';
 
 const ChapterListHeader = styled(Stack)(({ theme }) => ({
     margin: 8,
@@ -168,18 +170,26 @@ export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
                                 <DoneAllIcon />
                             </IconButton>
                         </Tooltip>
-                        <Tooltip title={t('chapter.action.download.add.label.action')}>
-                            <IconButton
-                                disabled={areAllChaptersDownloaded}
-                                onClick={() =>
-                                    Chapters.download(
-                                        ChaptersWithMeta.getIds(ChaptersWithMeta.getNonDownloaded(chaptersWithMeta)),
-                                    ).catch(defaultPromiseErrorHandler('ChapterList::download'))
-                                }
-                            >
-                                <DownloadIcon />
-                            </IconButton>
-                        </Tooltip>
+                        <PopupState variant="popover" popupId="chapterlist-download-button">
+                            {(popupState) => (
+                                <>
+                                    <Tooltip title={t('chapter.action.download.add.label.action')}>
+                                        <IconButton disabled={areAllChaptersDownloaded} {...bindTrigger(popupState)}>
+                                            <DownloadIcon />
+                                        </IconButton>
+                                    </Tooltip>
+                                    {popupState.isOpen && (
+                                        <Menu {...bindMenu(popupState)}>
+                                            <ChaptersDownloadActionMenuItems
+                                                mangaIds={[manga.id]}
+                                                closeMenu={popupState.close}
+                                            />
+                                        </Menu>
+                                    )}
+                                </>
+                            )}
+                        </PopupState>
+
                         <ChaptersToolbarMenu options={options} optionsDispatch={dispatch} />
                         <SelectableCollectionSelectAll
                             areAllItemsSelected={areAllItemsSelected}

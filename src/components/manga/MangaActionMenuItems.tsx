@@ -27,6 +27,8 @@ import { createGetMenuItemTitle, createIsMenuItemDisabled, createShouldShowMenuI
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { TrackManga } from '@/components/tracker/TrackManga.tsx';
 import { useCategorySelect } from '@/components/navbar/action/useCategorySelect.tsx';
+import { ChaptersDownloadActionMenuItems } from '@/components/chapter/ChaptersDownloadActionMenuItems.tsx';
+import { NestedMenuItem } from '@/components/menu/NestedMenuItem.tsx';
 
 const ACTION_DISABLES_SELECTION_MODE: MangaAction[] = ['remove_from_library'] as const;
 
@@ -110,12 +112,17 @@ export const MangaActionMenuItems = ({
                 <MenuItem onClick={handleSelect} Icon={CheckBoxOutlineBlank} title={t('chapter.action.label.select')} />
             )}
             {shouldShowMenuItem(!isFullyDownloaded) && (
-                <MenuItem
-                    Icon={Download}
+                <NestedMenuItem
                     disabled={isMenuItemDisabled(!downloadableMangas.length)}
-                    onClick={() => performAction('download', downloadableMangas)}
-                    title={getMenuItemTitle('download', downloadableMangas.length)}
-                />
+                    LeftIcon={Download}
+                    label={getMenuItemTitle('download', downloadableMangas.length)}
+                    parentMenuOpen
+                >
+                    <ChaptersDownloadActionMenuItems
+                        mangaIds={isSingleMode ? [manga.id] : Mangas.getIds(selectedMangas)}
+                        closeMenu={() => onClose(true)}
+                    />
+                </NestedMenuItem>
             )}
             {shouldShowMenuItem(hasDownloadedChapters) && (
                 <MenuItem

@@ -115,6 +115,10 @@ export type MangaThumbnailInfo = Pick<TManga, 'thumbnailUrl' | 'thumbnailUrlLast
 
 export type MigrateMode = 'copy' | 'migrate';
 
+type DownloadChaptersOptions = {
+    size?: number;
+    onlyUnread?: boolean;
+};
 type MarkAsReadOptions = { wasManuallyMarkedAsRead: boolean };
 type ChangeCategoriesOptions = { changeCategoriesPatch: UpdateMangaCategoriesPatchInput };
 type MigrateOptions = {
@@ -127,14 +131,24 @@ type MigrateOptions = {
 
 type MarkAsReadActionOption = MarkAsReadOptions &
     PropertiesNever<ChangeCategoriesOptions> &
-    PropertiesNever<MigrateOptions>;
+    PropertiesNever<MigrateOptions> &
+    PropertiesNever<DownloadChaptersOptions>;
 type ChangeCategoriesActionOption = PropertiesNever<MarkAsReadOptions> &
     ChangeCategoriesOptions &
-    PropertiesNever<MigrateOptions>;
+    PropertiesNever<MigrateOptions> &
+    PropertiesNever<DownloadChaptersOptions>;
 type MigrateActionOption = PropertiesNever<MarkAsReadOptions> &
     PropertiesNever<ChangeCategoriesOptions> &
-    MigrateOptions;
-type DefaultActionOption = Partial<MarkAsReadOptions> & Partial<ChangeCategoriesOptions> & Partial<MigrateOptions>;
+    MigrateOptions &
+    PropertiesNever<DownloadChaptersOptions>;
+type DownloadActionOption = PropertiesNever<MarkAsReadOptions> &
+    PropertiesNever<ChangeCategoriesOptions> &
+    PropertiesNever<MigrateOptions> &
+    DownloadChaptersOptions;
+type DefaultActionOption = Partial<MarkAsReadOptions> &
+    Partial<ChangeCategoriesOptions> &
+    Partial<MigrateOptions> &
+    Partial<DownloadChaptersOptions>;
 
 type PerformActionOptions<Action extends MangaAction> = Action extends 'mark_as_read'
     ? MarkAsReadActionOption
@@ -142,7 +156,9 @@ type PerformActionOptions<Action extends MangaAction> = Action extends 'mark_as_
       ? ChangeCategoriesActionOption
       : Action extends 'migrate'
         ? MigrateActionOption
-        : DefaultActionOption;
+        : Action extends 'download'
+          ? DownloadActionOption
+          : DefaultActionOption;
 
 export class Mangas {
     static getIds(mangas: { id: number }[]): number[] {
@@ -227,9 +243,25 @@ export class Mangas {
         return data.chapters.nodes;
     }
 
-    static async downloadChapters(mangaIds: number[]): Promise<void> {
-        const chapters = await Mangas.getChapterIdsWithState(mangaIds, { isDownloaded: false });
-        return Chapters.download(Chapters.getIds(chapters));
+    static async downloadChapters(
+        mangaIds: number[],
+        { size, onlyUnread }: DownloadChaptersOptions = {},
+    ): Promise<void> {
+        const chapters = await Mangas.getChapterIdsWithState(mangaIds, {
+            isRead: onlyUnread ? false : undefined,
+            isDownloaded: false,
+        });
+
+        if (!chapters.length) {
+            return Promise.resolve();
+        }
+
+        const mangaIdToChapters = Object.groupBy(chapters, ({ mangaId }) => mangaId);
+        const chapterIdsToDownload = Object.values(mangaIdToChapters)
+            .map((mangaChapters) => mangaChapters!.slice(0, size)) // the result of groupBy can't result in undefined values
+            .flat();
+
+        return Chapters.download(Chapters.getIds(chapterIdsToDownload));
     }
 
     static async deleteChapters(mangaIds: number[]): Promise<void> {
@@ -380,12 +412,14 @@ export class Mangas {
             wasManuallyMarkedAsRead,
             changeCategoriesPatch,
             mangaIdToMigrateTo,
+            onlyUnread,
+            size,
             ...migrateOptions
         }: PerformActionOptions<Action>,
     ): Promise<void> {
         switch (action) {
             case 'download':
-                return Mangas.downloadChapters(mangaIds);
+                return Mangas.downloadChapters(mangaIds, { onlyUnread, size });
             case 'delete':
                 return Mangas.deleteChapters(mangaIds);
             case 'mark_as_read':
