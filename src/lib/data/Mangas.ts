@@ -124,13 +124,25 @@ type MigrateOptions = {
     migrateCategories?: boolean;
     deleteChapters?: boolean;
 };
+
+type MarkAsReadActionOption = MarkAsReadOptions &
+    PropertiesNever<ChangeCategoriesOptions> &
+    PropertiesNever<MigrateOptions>;
+type ChangeCategoriesActionOption = PropertiesNever<MarkAsReadOptions> &
+    ChangeCategoriesOptions &
+    PropertiesNever<MigrateOptions>;
+type MigrateActionOption = PropertiesNever<MarkAsReadOptions> &
+    PropertiesNever<ChangeCategoriesOptions> &
+    MigrateOptions;
+type DefaultActionOption = Partial<MarkAsReadOptions> & Partial<ChangeCategoriesOptions> & Partial<MigrateOptions>;
+
 type PerformActionOptions<Action extends MangaAction> = Action extends 'mark_as_read'
-    ? MarkAsReadOptions & PropertiesNever<ChangeCategoriesOptions> & PropertiesNever<MigrateOptions>
+    ? MarkAsReadActionOption
     : Action extends 'change_categories'
-      ? PropertiesNever<MarkAsReadOptions> & ChangeCategoriesOptions & PropertiesNever<MigrateOptions>
+      ? ChangeCategoriesActionOption
       : Action extends 'migrate'
-        ? PropertiesNever<MarkAsReadOptions> & PropertiesNever<ChangeCategoriesOptions> & MigrateOptions
-        : Partial<MarkAsReadOptions> & Partial<ChangeCategoriesOptions> & Partial<MigrateOptions>;
+        ? MigrateActionOption
+        : DefaultActionOption;
 
 export class Mangas {
     static getIds(mangas: { id: number }[]): number[] {
