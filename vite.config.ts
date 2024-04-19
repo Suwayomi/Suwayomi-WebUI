@@ -41,6 +41,7 @@ export default defineConfig(() => ({
                 'es/array/to-sorted',
                 'es/array/find-last',
                 'es/array/find-last-index',
+                'es/object/group-by',
             ],
         }),
     ],

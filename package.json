@@ -19,7 +19,7 @@
     "prepare": "husky"
   },
   "engines": {
-    "node": "20.11.1"
+    "node": "21.7.3"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": "eslint --fix --cache"
