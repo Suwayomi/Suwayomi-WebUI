@@ -23,6 +23,8 @@ import {
     ChapterAction,
     ChapterBookmarkInfo,
     ChapterDownloadInfo,
+    ChapterIdInfo,
+    ChapterMangaInfo,
     ChapterReadInfo,
     ChapterRealUrlInfo,
     Chapters,
@@ -38,7 +40,12 @@ import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings
 type BaseProps = { onClose: () => void };
 
 type SingleModeProps = {
-    chapter: ChapterDownloadInfo & ChapterBookmarkInfo & ChapterReadInfo & ChapterRealUrlInfo;
+    chapter: ChapterIdInfo &
+        ChapterMangaInfo &
+        ChapterDownloadInfo &
+        ChapterBookmarkInfo &
+        ChapterReadInfo &
+        ChapterRealUrlInfo;
     allChapters: TChapter[];
     handleSelection?: SelectableCollectionReturnType<TChapter['id']>['handleSelection'];
     canBeDownloaded: boolean;
@@ -109,7 +116,7 @@ export const ChapterActionMenuItems = ({
             }
         }
 
-        const getChapters = (): (ChapterDownloadInfo & ChapterBookmarkInfo & ChapterReadInfo)[] => {
+        const getChapters = (): SingleModeProps['chapter'][] => {
             // select mode
             if (!chapter) {
                 return ChaptersWithMeta.getChapters(chaptersWithMeta);
@@ -139,6 +146,7 @@ export const ChapterActionMenuItems = ({
         Chapters.performAction(actualAction, Chapters.getIds(chapters), {
             chapters,
             wasManuallyMarkedAsRead: true,
+            trackProgressMangaId: chapters[0]?.mangaId,
         }).catch(defaultPromiseErrorHandler('ChapterActionMenuItems::performAction'));
         onClose();
     };

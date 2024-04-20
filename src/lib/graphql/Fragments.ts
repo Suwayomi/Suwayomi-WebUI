@@ -328,6 +328,7 @@ export const FULL_CHAPTER_FIELDS = gql`
         isRead
         lastPageRead
         lastReadAt
+        mangaId
         manga {
             id
             title

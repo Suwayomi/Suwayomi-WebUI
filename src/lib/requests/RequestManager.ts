@@ -287,6 +287,7 @@ import {
     TRACKER_UPDATE_BIND,
 } from '@/lib/graphql/mutations/TrackerMutation.ts';
 import { ControlledPromise } from '@/lib/ControlledPromise.ts';
+import { TManga } from '@/typings.ts';
 
 enum GQLMethod {
     QUERY = 'QUERY',
@@ -1942,10 +1943,10 @@ export class RequestManager {
 
     public updateChapters(
         ids: number[],
-        patch: UpdateChapterPatchInput & { chapterIdsToDelete?: number[] },
+        patch: UpdateChapterPatchInput & { chapterIdsToDelete?: number[]; trackProgressMangaId?: TManga['id'] },
         options?: MutationOptions<UpdateChaptersMutation, UpdateChaptersMutationVariables>,
     ): AbortableApolloMutationResponse<UpdateChaptersMutation> {
-        const { chapterIdsToDelete = [], ...updatePatch } = patch;
+        const { chapterIdsToDelete = [], trackProgressMangaId = -1, ...updatePatch } = patch;
 
         return this.doRequest<UpdateChaptersMutation, UpdateChaptersMutationVariables>(
             GQLMethod.MUTATION,
@@ -1957,6 +1958,8 @@ export class RequestManager {
                 getLastPageRead: patch.lastPageRead != null,
                 chapterIdsToDelete,
                 deleteChapters: !!chapterIdsToDelete.length,
+                mangaId: trackProgressMangaId,
+                trackProgress: trackProgressMangaId >= 0,
             },
             options,
         );

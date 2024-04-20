@@ -44,6 +44,7 @@ export const getDefaultSettings = (): MetadataServerSettings => ({
 
     // tracking
     updateProgressAfterReading: true,
+    updateProgressManualMarkRead: false,
 });
 
 export const convertSettingsToMetadata = (

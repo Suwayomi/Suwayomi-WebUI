@@ -1127,7 +1127,9 @@
         }
       },
       "label": {
-        "update_progress_reading": "Update progress after reading"
+        "update_progress_manual": "Update progress after manually marking as read",
+        "update_progress_reading": "Update progress after reading",
+        "update_progress_reading_description": "Does not work when marking multiple manga as read at once"
       },
       "title": {
         "settings": "Tracking settings",

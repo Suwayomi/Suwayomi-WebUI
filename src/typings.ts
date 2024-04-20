@@ -251,6 +251,7 @@ export type MetadataBrowseSettings = {
 
 export type MetadataTrackingSettings = {
     updateProgressAfterReading: boolean;
+    updateProgressManualMarkRead: boolean;
 };
 
 export type MetadataServerSettings = MetadataDownloadSettings &

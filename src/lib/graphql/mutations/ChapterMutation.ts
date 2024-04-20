@@ -146,6 +146,7 @@ export const UPDATE_CHAPTER = gql`
 `;
 
 export const UPDATE_CHAPTERS = gql`
+    ${BASE_TRACK_RECORD_FIELDS}
     mutation UPDATE_CHAPTERS(
         $input: UpdateChaptersInput!
         $getBookmarked: Boolean!
@@ -153,6 +154,8 @@ export const UPDATE_CHAPTERS = gql`
         $getLastPageRead: Boolean!
         $chapterIdsToDelete: [Int!]!
         $deleteChapters: Boolean!
+        $mangaId: Int!
+        $trackProgress: Boolean!
     ) {
         updateChapters(input: $input) {
             clientMutationId
@@ -190,6 +193,11 @@ export const UPDATE_CHAPTERS = gql`
                     id
                     downloadCount
                 }
+            }
+        }
+        trackProgress(input: { mangaId: $mangaId }) @include(if: $trackProgress) {
+            trackRecords {
+                ...BASE_TRACK_RECORD_FIELDS
             }
         }
     }

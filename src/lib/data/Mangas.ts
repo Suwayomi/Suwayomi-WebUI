@@ -300,7 +300,7 @@ export class Mangas {
 
     static async markAsRead(mangaIds: number[], wasManuallyMarkedAsRead: boolean = false): Promise<void> {
         const chapters = await Mangas.getChapterIdsWithState(mangaIds, { isRead: false });
-        return Chapters.markAsRead(chapters, wasManuallyMarkedAsRead);
+        return Chapters.markAsRead(chapters, wasManuallyMarkedAsRead, mangaIds.length === 1 ? mangaIds[0] : undefined);
     }
 
     static async markAsUnread(mangaIds: number[]): Promise<void> {

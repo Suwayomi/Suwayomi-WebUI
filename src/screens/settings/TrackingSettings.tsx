@@ -35,7 +35,7 @@ export const TrackingSettings = () => {
     }, [t]);
 
     const {
-        settings: { updateProgressAfterReading },
+        settings: { updateProgressAfterReading, updateProgressManualMarkRead },
     } = useMetadataServerSettings();
     const updateTrackingSettings = createUpdateMetadataServerSettings<keyof MetadataTrackingSettings>(() =>
         makeToast(t('global.error.label.failed_to_save_changes'), 'error'),
@@ -61,6 +61,17 @@ export const TrackingSettings = () => {
                         edge="end"
                         checked={updateProgressAfterReading}
                         onChange={(e) => updateTrackingSettings('updateProgressAfterReading', e.target.checked)}
+                    />
+                </ListItem>
+                <ListItem>
+                    <ListItemText
+                        primary={t('tracking.settings.label.update_progress_manual')}
+                        secondary={t('tracking.setting.label.update_progress_reading_description')}
+                    />
+                    <Switch
+                        edge="end"
+                        checked={updateProgressManualMarkRead}
+                        onChange={(e) => updateTrackingSettings('updateProgressManualMarkRead', e.target.checked)}
                     />
                 </ListItem>
             </List>

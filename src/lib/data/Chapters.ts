@@ -9,7 +9,7 @@
 import { t as translate } from 'i18next';
 import gql from 'graphql-tag';
 import { DocumentNode } from '@apollo/client';
-import { ChapterOffset, TChapter, TranslationKey } from '@/typings.ts';
+import { ChapterOffset, TChapter, TManga, TranslationKey } from '@/typings.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { getMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
@@ -78,6 +78,7 @@ export const actionToTranslationKey: {
 };
 
 export type ChapterIdInfo = Pick<TChapter, 'id'>;
+export type ChapterMangaInfo = Pick<TChapter, 'mangaId'>;
 export type ChapterDownloadInfo = ChapterIdInfo & Pick<TChapter, 'isDownloaded'>;
 export type ChapterBookmarkInfo = ChapterIdInfo & Pick<TChapter, 'isBookmarked'>;
 export type ChapterReadInfo = ChapterIdInfo & Pick<TChapter, 'isRead'>;
@@ -207,8 +208,10 @@ export class Chapters {
     static async markAsRead(
         chapters: (ChapterDownloadInfo & ChapterBookmarkInfo)[],
         wasManuallyMarkedAsRead: boolean = false,
+        trackProgressMangaId?: TManga['id'],
     ): Promise<void> {
-        const { deleteChaptersManuallyMarkedRead, deleteChaptersWithBookmark } = await getMetadataServerSettings();
+        const { deleteChaptersManuallyMarkedRead, deleteChaptersWithBookmark, updateProgressManualMarkRead } =
+            await getMetadataServerSettings();
         const chapterIdsToDelete =
             deleteChaptersManuallyMarkedRead && wasManuallyMarkedAsRead
                 ? Chapters.getIds(Chapters.getDeletable(chapters, deleteChaptersWithBookmark))
@@ -221,6 +224,8 @@ export class Chapters {
                     isRead: true,
                     lastPageRead: 0,
                     chapterIdsToDelete,
+                    trackProgressMangaId:
+                        updateProgressManualMarkRead && wasManuallyMarkedAsRead ? trackProgressMangaId : undefined,
                 }).response,
         );
     }
@@ -268,14 +273,17 @@ export class Chapters {
         chapterIds: number[],
         {
             wasManuallyMarkedAsRead,
+            trackProgressMangaId,
             chapters,
         }: Action extends 'mark_as_read'
             ? {
                   wasManuallyMarkedAsRead: boolean;
+                  trackProgressMangaId?: TManga['id'];
                   chapters: (ChapterDownloadInfo & ChapterBookmarkInfo & ChapterReadInfo)[];
               }
             : {
                   wasManuallyMarkedAsRead?: never;
+                  trackProgressMangaId?: never;
                   chapters?: never;
               },
     ): Promise<void> {
@@ -285,7 +293,7 @@ export class Chapters {
             case 'delete':
                 return Chapters.delete(chapterIds);
             case 'mark_as_read':
-                return Chapters.markAsRead(chapters!, wasManuallyMarkedAsRead!);
+                return Chapters.markAsRead(chapters!, wasManuallyMarkedAsRead!, trackProgressMangaId);
             case 'mark_as_unread':
                 return Chapters.markAsUnread(chapterIds);
             case 'bookmark':
