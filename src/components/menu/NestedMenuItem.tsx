@@ -7,7 +7,7 @@
  */
 
 /*
- * src: https://github.com/webzep/mui-nested-menu (2024-04-20 01:42)
+ * src: https://github.com/webzep/mui-nested-menu/blob/main/packages/mui-nested-menu/src/components/NestedMenuItem.tsx (2024-04-20 01:42)
  *
  * with a few changes to fix a bug on mobile devices where opening the sub menu immediately triggered the on click of the underlying menu item
  */
