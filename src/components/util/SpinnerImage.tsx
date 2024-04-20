@@ -99,7 +99,7 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
             clearTimeout(cacheTimeout);
             imageRequest.abortRequest(new Error('Component was unmounted'));
         };
-    }, [imgLoadRetryKey]);
+    }, [src, imgLoadRetryKey]);
 
     return (
         <>
