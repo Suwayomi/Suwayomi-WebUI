@@ -248,7 +248,7 @@ export class Mangas {
         mangaIds: number[],
         { size, onlyUnread, downloadAhead = false }: DownloadChaptersOptions = {},
     ): Promise<void> {
-        const [unReadUnDownloadedChapters, unReadDownloadedChapters] = await Promise.all([
+        const [chaptersToConsider, unReadDownloadedChapters] = await Promise.all([
             Mangas.getChapterIdsWithState(mangaIds, {
                 isRead: onlyUnread ? false : undefined,
                 isDownloaded: false,
@@ -256,12 +256,34 @@ export class Mangas {
             downloadAhead ? Mangas.getChapterIdsWithState(mangaIds, { isRead: false, isDownloaded: true }) : [],
         ]);
 
-        const downloadAheadSize = Math.abs(unReadDownloadedChapters.length - (size ?? unReadDownloadedChapters.length));
-        const actualSize = downloadAhead ? downloadAheadSize : size;
+        type MangaIdToDownloadSize = [MangaId: string, DownloadSize: number | undefined];
 
-        const mangaIdToChapters = Object.groupBy(unReadUnDownloadedChapters, ({ mangaId }) => mangaId);
-        const chapterIdsToDownload = Object.values(mangaIdToChapters)
-            .map((mangaChapters) => mangaChapters!.slice(0, actualSize)) // the result of groupBy can't result in undefined values
+        const mangaIdToDefaultDownloadSize = mangaIds.map((mangaId) => [
+            String(mangaId),
+            size,
+        ]) satisfies MangaIdToDownloadSize[];
+
+        const mangaIdToChaptersToConsider = Object.groupBy(chaptersToConsider, ({ mangaId }) => mangaId);
+        const mangaIdToUnReadDownloadedChapters = Object.groupBy(unReadDownloadedChapters, ({ mangaId }) => mangaId);
+
+        const mangaIdToDownloadSize = Object.entries(mangaIdToUnReadDownloadedChapters).map(
+            ([mangaId, downloadedChapters]) => {
+                const downloadAheadSize = Math.max(
+                    0,
+                    (size ?? downloadedChapters!.length) - downloadedChapters!.length,
+                );
+                const actualSize = downloadAhead ? downloadAheadSize : size;
+
+                return [mangaId, actualSize];
+            },
+        ) satisfies MangaIdToDownloadSize[];
+
+        const mangaIdToActualDownloadSize = Object.entries(
+            Object.fromEntries([...mangaIdToDefaultDownloadSize, ...mangaIdToDownloadSize]),
+        ) satisfies MangaIdToDownloadSize[];
+
+        const chapterIdsToDownload = mangaIdToActualDownloadSize
+            .map(([mangaId, actualSize]) => mangaIdToChaptersToConsider[Number(mangaId)]!.slice(0, actualSize))
             .flat();
 
         if (!chapterIdsToDownload.length) {
