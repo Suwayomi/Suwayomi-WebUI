@@ -270,16 +270,14 @@ export class Chapters {
             wasManuallyMarkedAsRead,
             chapters,
         }: Action extends 'mark_as_read'
-            ? { wasManuallyMarkedAsRead: boolean; chapters?: never }
-            : Action extends 'change_categories'
-              ? {
-                    wasManuallyMarkedAsRead?: never;
-                    chapters: (ChapterDownloadInfo & ChapterBookmarkInfo & ChapterReadInfo)[];
-                }
-              : {
-                    wasManuallyMarkedAsRead?: boolean;
-                    chapters?: (ChapterDownloadInfo & ChapterBookmarkInfo & ChapterReadInfo)[];
-                },
+            ? {
+                  wasManuallyMarkedAsRead: boolean;
+                  chapters: (ChapterDownloadInfo & ChapterBookmarkInfo & ChapterReadInfo)[];
+              }
+            : {
+                  wasManuallyMarkedAsRead?: never;
+                  chapters?: never;
+              },
     ): Promise<void> {
         switch (action) {
             case 'download':
