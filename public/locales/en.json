@@ -1126,6 +1126,9 @@
           "log_out": "Log out from {{name}}"
         }
       },
+      "label": {
+        "update_progress_reading": "Update progress after reading"
+      },
       "title": {
         "settings": "Tracking settings",
         "trackers": "Trackers"

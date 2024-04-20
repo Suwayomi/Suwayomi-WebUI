@@ -41,6 +41,9 @@ export const getDefaultSettings = (): MetadataServerSettings => ({
 
     // browse
     hideLibraryEntries: false,
+
+    // tracking
+    updateProgressAfterReading: true,
 });
 
 export const convertSettingsToMetadata = (

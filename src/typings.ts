@@ -249,11 +249,16 @@ export type MetadataBrowseSettings = {
     hideLibraryEntries: boolean;
 };
 
+export type MetadataTrackingSettings = {
+    updateProgressAfterReading: boolean;
+};
+
 export type MetadataServerSettings = MetadataDownloadSettings &
     MetadataLibrarySettings &
     MetadataClientSettings &
     MetadataMigrationSettings &
-    MetadataBrowseSettings;
+    MetadataBrowseSettings &
+    MetadataTrackingSettings;
 
 export interface ISearchSettings {
     ignoreFilters: boolean;

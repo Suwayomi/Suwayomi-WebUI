@@ -45,6 +45,9 @@ const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
 
     // browse
     'hideLibraryEntries',
+
+    // tracking
+    'updateProgressAfterReading',
 ];
 
 /**

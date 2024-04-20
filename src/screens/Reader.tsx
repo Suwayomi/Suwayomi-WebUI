@@ -253,7 +253,10 @@ export function Reader() {
             .updateChapter(chapter.id, {
                 ...patch,
                 chapterIdToDelete: getChapterIdToDelete(),
-                trackProgressMangaId: patch.isRead && manga.trackRecords.totalCount ? manga.id : undefined,
+                trackProgressMangaId:
+                    metadataSettings.updateProgressAfterReading && patch.isRead && manga.trackRecords.totalCount
+                        ? manga.id
+                        : undefined,
             })
             .response.catch();
     };
