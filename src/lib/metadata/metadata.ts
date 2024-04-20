@@ -39,8 +39,8 @@ const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
     'devices',
 
     // migration
-    'includeChapters',
-    'includeCategories',
+    'migrateChapters',
+    'migrateCategories',
     'deleteChapters',
 
     // browse

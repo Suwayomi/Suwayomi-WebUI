@@ -35,8 +35,8 @@ export const getDefaultSettings = (): MetadataServerSettings => ({
     devices: [DEFAULT_DEVICE],
 
     // migration
-    includeChapters: true,
-    includeCategories: true,
+    migrateChapters: true,
+    migrateCategories: true,
     deleteChapters: true,
 
     // browse

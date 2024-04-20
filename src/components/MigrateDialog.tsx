@@ -35,7 +35,7 @@ export const MigrateDialog = ({ mangaIdToMigrateTo, onClose }: { mangaIdToMigrat
     const mangaId = Number(mangaIdAsString);
 
     const {
-        settings: { includeChapters, includeCategories, deleteChapters },
+        settings: { migrateChapters, migrateCategories, deleteChapters },
     } = useMetadataServerSettings();
 
     const [isMigrationInProcess, setIsMigrationInProcess] = useState(false);
@@ -56,8 +56,8 @@ export const MigrateDialog = ({ mangaIdToMigrateTo, onClose }: { mangaIdToMigrat
         try {
             await Mangas.migrate(mangaId, mangaIdToMigrateTo, {
                 mode,
-                migrateChapters: includeChapters,
-                migrateCategories: includeCategories,
+                migrateChapters,
+                migrateCategories,
                 deleteChapters,
             });
 
@@ -75,14 +75,14 @@ export const MigrateDialog = ({ mangaIdToMigrateTo, onClose }: { mangaIdToMigrat
                     <CheckboxInput
                         disabled={isMigrationInProcess}
                         label={t('chapter.title')}
-                        checked={includeChapters}
-                        onChange={(_, checked) => setMigrationFlag('includeChapters', checked)}
+                        checked={migrateChapters}
+                        onChange={(_, checked) => setMigrationFlag('migrateChapters', checked)}
                     />
                     <CheckboxInput
                         disabled={isMigrationInProcess}
                         label={t('category.title.category_one')}
-                        checked={includeCategories}
-                        onChange={(_, checked) => setMigrationFlag('includeCategories', checked)}
+                        checked={migrateCategories}
+                        onChange={(_, checked) => setMigrationFlag('migrateCategories', checked)}
                     />
                     <CheckboxInput
                         disabled={isMigrationInProcess}

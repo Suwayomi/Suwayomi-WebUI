@@ -8,7 +8,7 @@
 
 import { t as translate } from 'i18next';
 import { DocumentNode } from '@apollo/client/core';
-import { TManga, TranslationKey } from '@/typings.ts';
+import { MetadataMigrationSettings, TManga, TranslationKey } from '@/typings.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import {
     ChapterConditionInput,
@@ -125,10 +125,7 @@ type ChangeCategoriesOptions = { changeCategoriesPatch: UpdateMangaCategoriesPat
 type MigrateOptions = {
     mangaIdToMigrateTo: number;
     mode: MigrateMode;
-    migrateChapters?: boolean;
-    migrateCategories?: boolean;
-    deleteChapters?: boolean;
-};
+} & Partial<MetadataMigrationSettings>;
 
 type MarkAsReadActionOption = MarkAsReadOptions &
     PropertiesNever<ChangeCategoriesOptions> &

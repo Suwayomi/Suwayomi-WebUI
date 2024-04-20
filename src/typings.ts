@@ -240,8 +240,8 @@ export type MetadataClientSettings = {
 };
 
 export type MetadataMigrationSettings = {
-    includeChapters: boolean;
-    includeCategories: boolean;
+    migrateChapters: boolean;
+    migrateCategories: boolean;
     deleteChapters: boolean;
 };
 
