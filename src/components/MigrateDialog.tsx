@@ -35,7 +35,7 @@ export const MigrateDialog = ({ mangaIdToMigrateTo, onClose }: { mangaIdToMigrat
     const mangaId = Number(mangaIdAsString);
 
     const {
-        settings: { migrateChapters, migrateCategories, deleteChapters },
+        settings: { migrateChapters, migrateCategories, migrateTracking, deleteChapters },
     } = useMetadataServerSettings();
 
     const [isMigrationInProcess, setIsMigrationInProcess] = useState(false);
@@ -58,6 +58,7 @@ export const MigrateDialog = ({ mangaIdToMigrateTo, onClose }: { mangaIdToMigrat
                 mode,
                 migrateChapters,
                 migrateCategories,
+                migrateTracking,
                 deleteChapters,
             });
 
@@ -83,6 +84,12 @@ export const MigrateDialog = ({ mangaIdToMigrateTo, onClose }: { mangaIdToMigrat
                         label={t('category.title.category_one')}
                         checked={migrateCategories}
                         onChange={(_, checked) => setMigrationFlag('migrateCategories', checked)}
+                    />
+                    <CheckboxInput
+                        disabled={isMigrationInProcess}
+                        label={t('tracking.title')}
+                        checked={migrateTracking}
+                        onChange={(_, checked) => setMigrationFlag('migrateTracking', checked)}
                     />
                     <CheckboxInput
                         disabled={isMigrationInProcess}

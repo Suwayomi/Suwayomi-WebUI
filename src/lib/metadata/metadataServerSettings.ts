@@ -37,6 +37,7 @@ export const getDefaultSettings = (): MetadataServerSettings => ({
     // migration
     migrateChapters: true,
     migrateCategories: true,
+    migrateTracking: true,
     deleteChapters: true,
 
     // browse

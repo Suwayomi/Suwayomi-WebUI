@@ -22,7 +22,12 @@ export const GET_MANGA = gql`
 
 // returns the current manga from the database
 export const GET_MANGA_TO_MIGRATE = gql`
-    query GET_MANGA_TO_MIGRATE($id: Int!, $getChapterData: Boolean!, $migrateCategories: Boolean!) {
+    query GET_MANGA_TO_MIGRATE(
+        $id: Int!
+        $getChapterData: Boolean!
+        $migrateCategories: Boolean!
+        $migrateTracking: Boolean!
+    ) {
         manga(id: $id) {
             id
             inLibrary
@@ -43,6 +48,13 @@ export const GET_MANGA_TO_MIGRATE = gql`
             categories @include(if: $migrateCategories) {
                 nodes {
                     id
+                }
+            }
+            trackRecords @include(if: $migrateTracking) {
+                nodes {
+                    id
+                    remoteId
+                    trackerId
                 }
             }
         }

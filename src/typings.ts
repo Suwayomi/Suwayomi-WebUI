@@ -242,6 +242,7 @@ export type MetadataClientSettings = {
 export type MetadataMigrationSettings = {
     migrateChapters: boolean;
     migrateCategories: boolean;
+    migrateTracking: boolean;
     deleteChapters: boolean;
 };
 

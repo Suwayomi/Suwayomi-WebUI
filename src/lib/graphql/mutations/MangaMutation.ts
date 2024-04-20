@@ -50,7 +50,12 @@ export const GET_MANGA_FETCH = gql`
 
 // makes the server fetch and return the manga
 export const GET_MANGA_TO_MIGRATE_TO_FETCH = gql`
-    mutation GET_MANGA_TO_MIGRATE_TO_FETCH($id: Int!, $migrateChapters: Boolean!, $migrateCategories: Boolean!) {
+    mutation GET_MANGA_TO_MIGRATE_TO_FETCH(
+        $id: Int!
+        $migrateChapters: Boolean!
+        $migrateCategories: Boolean!
+        $migrateTracking: Boolean!
+    ) {
         fetchManga(input: { id: $id }) {
             clientMutationId
             manga {
@@ -60,6 +65,13 @@ export const GET_MANGA_TO_MIGRATE_TO_FETCH = gql`
                 categories @include(if: $migrateCategories) {
                     nodes {
                         id
+                    }
+                }
+                trackRecords @include(if: $migrateTracking) {
+                    nodes {
+                        id
+                        remoteId
+                        trackerId
                     }
                 }
             }

@@ -2890,10 +2890,11 @@ export type GetMangaToMigrateToFetchMutationVariables = Exact<{
   id: Scalars['Int']['input'];
   migrateChapters: Scalars['Boolean']['input'];
   migrateCategories: Scalars['Boolean']['input'];
+  migrateTracking: Scalars['Boolean']['input'];
 }>;
 
 
-export type GetMangaToMigrateToFetchMutation = { __typename?: 'Mutation', fetchManga: { __typename?: 'FetchMangaPayload', clientMutationId?: string | null, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, categories?: { __typename?: 'CategoryNodeList', nodes: Array<{ __typename?: 'CategoryType', id: number }> } } }, fetchChapters?: { __typename?: 'FetchChaptersPayload', chapters: Array<{ __typename?: 'ChapterType', id: number, chapterNumber: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean, manga: { __typename?: 'MangaType', id: number } }> } };
+export type GetMangaToMigrateToFetchMutation = { __typename?: 'Mutation', fetchManga: { __typename?: 'FetchMangaPayload', clientMutationId?: string | null, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, categories?: { __typename?: 'CategoryNodeList', nodes: Array<{ __typename?: 'CategoryType', id: number }> }, trackRecords?: { __typename?: 'TrackRecordNodeList', nodes: Array<{ __typename?: 'TrackRecordType', id: number, remoteId: string, trackerId: number }> } } }, fetchChapters?: { __typename?: 'FetchChaptersPayload', chapters: Array<{ __typename?: 'ChapterType', id: number, chapterNumber: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean, manga: { __typename?: 'MangaType', id: number } }> } };
 
 export type SetMangaMetadataMutationVariables = Exact<{
   input: SetMangaMetaInput;
@@ -3181,10 +3182,11 @@ export type GetMangaToMigrateQueryVariables = Exact<{
   id: Scalars['Int']['input'];
   getChapterData: Scalars['Boolean']['input'];
   migrateCategories: Scalars['Boolean']['input'];
+  migrateTracking: Scalars['Boolean']['input'];
 }>;
 
 
-export type GetMangaToMigrateQuery = { __typename?: 'Query', manga: { __typename?: 'MangaType', id: number, inLibrary: boolean, title: string, chapters?: { __typename?: 'ChapterNodeList', totalCount: number, nodes: Array<{ __typename?: 'ChapterType', id: number, chapterNumber: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean, manga: { __typename?: 'MangaType', id: number } }> }, categories?: { __typename?: 'CategoryNodeList', nodes: Array<{ __typename?: 'CategoryType', id: number }> } } };
+export type GetMangaToMigrateQuery = { __typename?: 'Query', manga: { __typename?: 'MangaType', id: number, inLibrary: boolean, title: string, chapters?: { __typename?: 'ChapterNodeList', totalCount: number, nodes: Array<{ __typename?: 'ChapterType', id: number, chapterNumber: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean, manga: { __typename?: 'MangaType', id: number } }> }, categories?: { __typename?: 'CategoryNodeList', nodes: Array<{ __typename?: 'CategoryType', id: number }> }, trackRecords?: { __typename?: 'TrackRecordNodeList', nodes: Array<{ __typename?: 'TrackRecordType', id: number, remoteId: string, trackerId: number }> } } };
 
 export type GetMangasQueryVariables = Exact<{
   after?: InputMaybe<Scalars['Cursor']['input']>;

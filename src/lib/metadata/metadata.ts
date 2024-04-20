@@ -41,6 +41,7 @@ const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
     // migration
     'migrateChapters',
     'migrateCategories',
+    'migrateTracking',
     'deleteChapters',
 
     // browse

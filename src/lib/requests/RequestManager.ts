@@ -287,7 +287,7 @@ import {
     TRACKER_UPDATE_BIND,
 } from '@/lib/graphql/mutations/TrackerMutation.ts';
 import { ControlledPromise } from '@/lib/ControlledPromise.ts';
-import { TManga } from '@/typings.ts';
+import { MetadataMigrationSettings, TManga } from '@/typings.ts';
 
 enum GQLMethod {
     QUERY = 'QUERY',
@@ -1549,19 +1549,22 @@ export class RequestManager {
         {
             migrateChapters = false,
             migrateCategories = false,
+            migrateTracking = false,
             deleteChapters = false,
             apolloOptions: options,
-        }: {
-            migrateChapters?: boolean;
-            migrateCategories?: boolean;
-            deleteChapters?: boolean;
+        }: Partial<MetadataMigrationSettings> & {
             apolloOptions?: QueryOptions<GetMangaToMigrateQueryVariables, GetMangaToMigrateQuery>;
         } = {},
     ): AbortabaleApolloQueryResponse<GetMangaToMigrateQuery> {
         return this.doRequest(
             GQLMethod.QUERY,
             GET_MANGA_TO_MIGRATE,
-            { id: Number(mangaId), getChapterData: migrateChapters || deleteChapters, migrateCategories },
+            {
+                id: Number(mangaId),
+                getChapterData: migrateChapters || deleteChapters,
+                migrateCategories,
+                migrateTracking,
+            },
             options,
         );
     }
@@ -1587,10 +1590,9 @@ export class RequestManager {
         {
             migrateChapters = false,
             migrateCategories = false,
+            migrateTracking = false,
             apolloOptions: options,
-        }: {
-            migrateChapters?: boolean;
-            migrateCategories?: boolean;
+        }: Partial<Omit<MetadataMigrationSettings, 'deleteChapters'>> & {
             apolloOptions?: MutationOptions<
                 GetMangaToMigrateToFetchMutation,
                 GetMangaToMigrateToFetchMutationVariables
@@ -1604,6 +1606,7 @@ export class RequestManager {
                 id: Number(mangaId),
                 migrateChapters,
                 migrateCategories,
+                migrateTracking,
             },
             options,
         );
@@ -2488,6 +2491,15 @@ export class RequestManager {
         options?: MutationHookOptions<TrackerBindMutation, TrackerBindMutationVariables>,
     ): AbortableApolloUseMutationResponse<TrackerBindMutation, TrackerBindMutationVariables> {
         return this.doRequest(GQLMethod.USE_MUTATION, TRACKER_BIND, undefined, options);
+    }
+
+    public bindTracker(
+        mangaId: number,
+        trackerId: number,
+        remoteId: string,
+        options?: MutationOptions<TrackerBindMutation, TrackerBindMutationVariables>,
+    ): AbortableApolloMutationResponse<TrackerBindMutation> {
+        return this.doRequest(GQLMethod.MUTATION, TRACKER_BIND, { mangaId, remoteId, trackerId }, options);
     }
 
     public unbindTracker(
