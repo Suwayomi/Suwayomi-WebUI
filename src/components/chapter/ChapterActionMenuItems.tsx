@@ -136,8 +136,8 @@ export const ChapterActionMenuItems = ({
             return;
         }
 
-        Chapters.performAction(actualAction, chapter ? [chapter.id] : ChaptersWithMeta.getIds(chaptersWithMeta), {
-            chapters: getChapters(),
+        Chapters.performAction(actualAction, Chapters.getIds(chapters), {
+            chapters,
             wasManuallyMarkedAsRead: true,
         }).catch(defaultPromiseErrorHandler('ChapterActionMenuItems::performAction'));
         onClose();
