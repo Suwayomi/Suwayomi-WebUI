@@ -66,7 +66,7 @@ export const TrackingSettings = () => {
                 <ListItem>
                     <ListItemText
                         primary={t('tracking.settings.label.update_progress_manual')}
-                        secondary={t('tracking.setting.label.update_progress_reading_description')}
+                        secondary={t('tracking.settings.label.update_progress_reading_description')}
                     />
                     <Switch
                         edge="end"
