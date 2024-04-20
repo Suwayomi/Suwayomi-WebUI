@@ -118,6 +118,7 @@ export type MigrateMode = 'copy' | 'migrate';
 type DownloadChaptersOptions = {
     size?: number;
     onlyUnread?: boolean;
+    downloadAhead?: boolean;
 };
 type MarkAsReadOptions = { wasManuallyMarkedAsRead: boolean };
 type ChangeCategoriesOptions = { changeCategoriesPatch: UpdateMangaCategoriesPatchInput };
@@ -245,21 +246,27 @@ export class Mangas {
 
     static async downloadChapters(
         mangaIds: number[],
-        { size, onlyUnread }: DownloadChaptersOptions = {},
+        { size, onlyUnread, downloadAhead = false }: DownloadChaptersOptions = {},
     ): Promise<void> {
-        const chapters = await Mangas.getChapterIdsWithState(mangaIds, {
-            isRead: onlyUnread ? false : undefined,
-            isDownloaded: false,
-        });
+        const [unReadUnDownloadedChapters, unReadDownloadedChapters] = await Promise.all([
+            Mangas.getChapterIdsWithState(mangaIds, {
+                isRead: onlyUnread ? false : undefined,
+                isDownloaded: false,
+            }),
+            downloadAhead ? Mangas.getChapterIdsWithState(mangaIds, { isRead: false, isDownloaded: true }) : [],
+        ]);
 
-        if (!chapters.length) {
+        const downloadAheadSize = Math.abs(unReadDownloadedChapters.length - (size ?? unReadDownloadedChapters.length));
+        const actualSize = downloadAhead ? downloadAheadSize : size;
+
+        const mangaIdToChapters = Object.groupBy(unReadUnDownloadedChapters, ({ mangaId }) => mangaId);
+        const chapterIdsToDownload = Object.values(mangaIdToChapters)
+            .map((mangaChapters) => mangaChapters!.slice(0, actualSize)) // the result of groupBy can't result in undefined values
+            .flat();
+
+        if (!chapterIdsToDownload.length) {
             return Promise.resolve();
         }
-
-        const mangaIdToChapters = Object.groupBy(chapters, ({ mangaId }) => mangaId);
-        const chapterIdsToDownload = Object.values(mangaIdToChapters)
-            .map((mangaChapters) => mangaChapters!.slice(0, size)) // the result of groupBy can't result in undefined values
-            .flat();
 
         return Chapters.download(Chapters.getIds(chapterIdsToDownload));
     }
@@ -412,6 +419,7 @@ export class Mangas {
             wasManuallyMarkedAsRead,
             changeCategoriesPatch,
             mangaIdToMigrateTo,
+            downloadAhead,
             onlyUnread,
             size,
             ...migrateOptions
@@ -419,7 +427,7 @@ export class Mangas {
     ): Promise<void> {
         switch (action) {
             case 'download':
-                return Mangas.downloadChapters(mangaIds, { onlyUnread, size });
+                return Mangas.downloadChapters(mangaIds, { downloadAhead, onlyUnread, size });
             case 'delete':
                 return Mangas.deleteChapters(mangaIds);
             case 'mark_as_read':

@@ -34,8 +34,9 @@ export const ChaptersDownloadActionMenuItems = ({
         settings: { downloadAheadLimit },
     } = useMetadataServerSettings();
 
-    const handleSelect = (size?: number, onlyUnread: boolean = true) => {
+    const handleSelect = (size?: number, onlyUnread: boolean = true, downloadAhead: boolean = false) => {
         Mangas.performAction('download', mangaIds, {
+            downloadAhead,
             onlyUnread,
             size,
         }).catch(defaultPromiseErrorHandler('ChapterDownloadButton::handleSelect'));
@@ -56,7 +57,7 @@ export const ChaptersDownloadActionMenuItems = ({
             <MenuItem onClick={() => handleSelect(DownloadRange.NEXT_25)}>
                 {t('chapter.action.download.add.label.next_twentyfive')}
             </MenuItem>
-            <MenuItem onClick={() => handleSelect(downloadAheadLimit)}>
+            <MenuItem onClick={() => handleSelect(downloadAheadLimit, undefined, true)}>
                 {t('chapter.action.download.add.label.ahead', { count: downloadAheadLimit })}
             </MenuItem>
             <MenuItem onClick={() => handleSelect(DownloadRange.UNREAD)}>
