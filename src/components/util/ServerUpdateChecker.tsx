@@ -78,7 +78,6 @@ export const ServerUpdateChecker = () => {
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleClose}>{t('global.label.close')}</Button>
                 <Button
                     onClick={() => {
                         updateChecker.remindLater();
@@ -86,6 +85,14 @@ export const ServerUpdateChecker = () => {
                     }}
                 >
                     {t('global.button.remind_later')}
+                </Button>
+                <Button
+                    onClick={() => {
+                        updateChecker.ignoreUpdate();
+                        handleClose();
+                    }}
+                >
+                    {t('global.button.ignore')}
                 </Button>
                 <Button onClick={handleClose} variant="contained" href={selectedServerChannelInfo.url} target="_blank">
                     {t('chapter.action.download.add.label.action')}
