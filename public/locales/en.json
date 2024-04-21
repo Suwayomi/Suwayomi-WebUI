@@ -310,6 +310,7 @@
       "dont_show_dialog_again": "Don't show this dialog again",
       "edit": "Edit",
       "filter": "Filter",
+      "ignore": "Ignore",
       "latest": "Latest",
       "log_in": "Log in",
       "log_out": "Log out",
@@ -319,6 +320,7 @@
       "options": "Options",
       "popular": "Popular",
       "refresh": "Refresh",
+      "remind_later": "Remind later",
       "remove": "Remove",
       "reset": "Reset",
       "reset_to_default": "Reset to Default",
@@ -765,6 +767,7 @@
         "label": {
           "channel": "$t(settings.webui.title.webui) channel",
           "github": "$t(global.label.github) $t(settings.webui.title.webui)",
+          "info": "$t(settings.webui.title.webui) version {{version}} ({{channel}}) available for download",
           "update_failure": "Could not update $t(settings.webui.title.webui)",
           "update_success": "Updated $t(settings.webui.title.webui) to version {{version}}.",
           "updated": "Updated version",

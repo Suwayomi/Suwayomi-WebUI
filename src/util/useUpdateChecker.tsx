@@ -6,18 +6,27 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useEffect } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { useLocalStorage } from '@/util/useStorage.tsx';
 
-const UPDATE_CHECK_INTERVAL = 1000 * 60 * 60 * 24; // 1 day
+const UPDATE_CHECK_INTERVAL = 1000 * 60 * 60; // 1 hour
+const UPDATE_REMINDER_THRESHOLD = 1000 * 60 * 60; // 1 hour
 
 export const useUpdateChecker = (
     storageKey: string,
     checkForUpdate: () => Promise<unknown>,
+    version?: string,
     interval: number = UPDATE_CHECK_INTERVAL,
-): void => {
-    const [lastUpdateCheck, setLastUpdateCheck] = useLocalStorage(`UpdateChecker::${storageKey}`, 0);
+): { handleUpdate: boolean; ignoreUpdate: () => void; remindLater: () => void } => {
+    const [lastUpdateCheck, setLastUpdateCheck] = useLocalStorage(`UpdateChecker::${storageKey}::lastUpdateCheck`, 0);
+    const [ignoreVersionUpdate, setIgnoreVersionUpdate] = useLocalStorage<string>(
+        `UpdateChecker::${storageKey}::ignoreUpdate`,
+    );
+    const [updateClosedTimestamp, setUpdateClosedTimestamp] = useLocalStorage(
+        `UpdateChecker::${storageKey}::closeTimestamp`,
+        0,
+    );
 
     useEffect(() => {
         const remainingTimeTillNextUpdateCheck = (interval - (Date.now() - lastUpdateCheck)) % interval;
@@ -35,4 +44,18 @@ export const useUpdateChecker = (
 
         return () => clearTimeout(timeout);
     }, [storageKey, checkForUpdate, interval]);
+
+    const ignoreUpdate = useCallback(() => {
+        setIgnoreVersionUpdate(version);
+    }, [storageKey, version]);
+
+    const remindLater = useCallback(() => {
+        setUpdateClosedTimestamp(Date.now());
+    }, [storageKey]);
+
+    const wasRecentlyClosed = Date.now() - updateClosedTimestamp < UPDATE_REMINDER_THRESHOLD;
+    const wasUpdateIgnored = !!ignoreVersionUpdate && ignoreVersionUpdate === version;
+    const handleUpdate = !wasRecentlyClosed && !wasUpdateIgnored;
+
+    return useMemo(() => ({ handleUpdate, ignoreUpdate, remindLater }), [handleUpdate, ignoreUpdate, remindLater]);
 };

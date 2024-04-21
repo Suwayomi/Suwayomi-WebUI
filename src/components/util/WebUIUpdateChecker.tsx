@@ -14,12 +14,14 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { UpdateState, WebUiChannel, WebUiUpdateStatus } from '@/lib/graphql/generated/graphql.ts';
 import { useLocalStorage } from '@/util/useStorage.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { ABOUT_WEBUI, WEBUI_UPDATE_CHECK } from '@/lib/graphql/Fragments.ts';
+import { useUpdateChecker } from '@/util/useUpdateChecker.tsx';
 
 export const WebUIUpdateChecker = () => {
     const { t } = useTranslation();
@@ -27,12 +29,22 @@ export const WebUIUpdateChecker = () => {
     const [webUIVersion, setWebUIVersion] = useLocalStorage<string>('webUIVersion');
     const [open, setOpen] = useState(false);
 
+    const serverSettings = requestManager.useGetServerSettings();
+    const isAutoUpdateEnabled = !serverSettings.data?.settings.webUIUpdateCheckInterval;
+
+    const { data: webUIUpdateData, refetch: checkForUpdate } = requestManager.useCheckForWebUIUpdate({
+        skip: isAutoUpdateEnabled,
+        notifyOnNetworkStatusChange: true,
+    });
+
     const { data: webUIUpdateStatusData } = requestManager.useGetWebUIUpdateStatus();
     const { state: webUIUpdateState, ...updateStatus } = (webUIUpdateStatusData?.getWebUIUpdateStatus ?? {
         state: UpdateState.Idle,
         progress: 0,
         info: undefined,
     }) satisfies OptionalProperty<WebUiUpdateStatus, 'info'>;
+
+    const updateChecker = useUpdateChecker('webUI', checkForUpdate, webUIUpdateData?.checkForWebUIUpdate.tag);
 
     const changelogUrl =
         updateStatus.info?.channel === WebUiChannel.Stable
@@ -90,6 +102,67 @@ export const WebUIUpdateChecker = () => {
 
         setOpen(true);
     }, [webUIUpdateState]);
+
+    const isUpdateAvailable = updateChecker.handleUpdate && webUIUpdateData?.checkForWebUIUpdate.updateAvailable;
+    if (isUpdateAvailable) {
+        const isUpdateInProgress = webUIUpdateState === UpdateState.Downloading;
+
+        return (
+            <Dialog open>
+                <DialogTitle>{t('global.update.label.available')}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        {t('settings.about.webui.label.info', {
+                            version: webUIUpdateData.checkForWebUIUpdate.tag,
+                            channel: webUIUpdateData.checkForWebUIUpdate.channel,
+                        })}
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Stack sx={{ width: '100%' }} direction="row" justifyContent="space-between">
+                        <Button href={changelogUrl} target="_blank">
+                            {t('global.button.changelog')}
+                        </Button>
+                        <Stack direction="row">
+                            <Button
+                                disabled={isUpdateInProgress}
+                                onClick={() => {
+                                    updateChecker.remindLater();
+                                    setOpen(false);
+                                }}
+                            >
+                                {t('global.button.remind_later')}
+                            </Button>
+                            <Button
+                                disabled={isUpdateInProgress}
+                                onClick={() => {
+                                    updateChecker.ignoreUpdate();
+                                    setOpen(false);
+                                }}
+                            >
+                                {t('global.button.ignore')}
+                            </Button>
+                            <Button
+                                disabled={isUpdateInProgress}
+                                onClick={() => {
+                                    requestManager
+                                        .updateWebUI()
+                                        .response.catch(() =>
+                                            makeToast(t('settings.about.webui.label.update_failure'), 'error'),
+                                        );
+                                }}
+                                variant="contained"
+                            >
+                                {isUpdateInProgress
+                                    ? t('global.update.label.updating', { progress: updateStatus.progress })
+                                    : t('extension.action.label.update')}
+                            </Button>
+                        </Stack>
+                    </Stack>
+                </DialogActions>
+            </Dialog>
+        );
+    }
 
     const handleUpdate = open && webUIUpdateState === UpdateState.Idle;
     if (!handleUpdate) {
