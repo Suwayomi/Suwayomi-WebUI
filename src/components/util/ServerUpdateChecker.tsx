@@ -12,19 +12,14 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import DialogContentText from '@mui/material/DialogContentText';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { getVersion } from '@/screens/settings/About.tsx';
-import { useLocalStorage } from '@/util/useStorage.tsx';
-import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
-
-const UPDATE_CHECK_INTERVAL = 1000 * 60 * 60 * 24; // 1 day
+import { useUpdateChecker } from '@/util/useUpdateChecker.tsx';
 
 export const ServerUpdateChecker = () => {
     const { t } = useTranslation();
-
-    const [lastUpdateCheck, setLastUpdateCheck] = useLocalStorage('lastAutomatedServerUpdateCheck', 0);
 
     const {
         data: serverUpdateCheckData,
@@ -48,23 +43,7 @@ export const ServerUpdateChecker = () => {
         setOpen(false);
     };
 
-    useEffect(() => {
-        const remainingTimeTillNextUpdateCheck =
-            (UPDATE_CHECK_INTERVAL - (Date.now() - lastUpdateCheck)) % UPDATE_CHECK_INTERVAL;
-
-        let timeout: NodeJS.Timeout | undefined;
-        const scheduleUpdateCheck = (timeoutMS: number) => {
-            timeout = setTimeout(() => {
-                checkForUpdate().catch(defaultPromiseErrorHandler('ServerUpdateChecker::checkForUpdate'));
-                setLastUpdateCheck(Date.now());
-                scheduleUpdateCheck(UPDATE_CHECK_INTERVAL);
-            }, timeoutMS);
-        };
-
-        scheduleUpdateCheck(remainingTimeTillNextUpdateCheck);
-
-        return () => clearTimeout(timeout);
-    }, []);
+    useUpdateChecker('server', checkForUpdate);
 
     if (isCheckingForServerUpdate) {
         return null;
