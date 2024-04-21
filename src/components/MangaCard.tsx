@@ -46,7 +46,10 @@ export const MangaCard = (props: MangaCardProps) => {
         options: { showContinueReadingButton },
     } = useLibraryOptionsContext();
 
-    const { CategorySelectComponent, updateLibraryState, isInLibrary } = useManageMangaLibraryState(manga);
+    const { CategorySelectComponent, updateLibraryState, isInLibrary } = useManageMangaLibraryState(
+        manga,
+        mode === 'source',
+    );
 
     const mangaLinkTo = getMangaLinkTo(mode, manga.id, manga.source?.id, manga.title);
 

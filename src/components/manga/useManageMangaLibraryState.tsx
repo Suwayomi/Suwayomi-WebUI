@@ -18,7 +18,10 @@ import { Mangas } from '@/lib/data/Mangas.ts';
 import { TManga } from '@/typings.ts';
 import { awaitConfirmation } from '@/lib/ui/AwaitableDialog.tsx';
 
-export const useManageMangaLibraryState = (manga: Pick<TManga, 'id' | 'title' | 'inLibrary'>) => {
+export const useManageMangaLibraryState = (
+    manga: Pick<TManga, 'id' | 'title' | 'inLibrary'>,
+    confirmRemoval: boolean = false,
+) => {
     const { t } = useTranslation();
 
     const [isInLibrary, setIsInLibrary] = useState(manga.inLibrary);
@@ -55,16 +58,19 @@ export const useManageMangaLibraryState = (manga: Pick<TManga, 'id' | 'title' | 
     );
 
     const removeFromLibrary = useCallback(async () => {
-        await awaitConfirmation({
-            title: t('global.label.are_you_sure'),
-            message: t('manga.action.library.remove.dialog.label.message', { title: manga.title }),
-            actions: {
-                confirm: { title: t('global.button.remove') },
-            },
-        });
+        if (confirmRemoval) {
+            await awaitConfirmation({
+                title: t('global.label.are_you_sure'),
+                message: t('manga.action.library.remove.dialog.label.message', { title: manga.title }),
+                actions: {
+                    confirm: { title: t('global.button.remove') },
+                },
+            });
+        }
+
         await Mangas.removeFromLibrary([manga.id]);
         setIsInLibrary(false);
-    }, [manga.id]);
+    }, [manga.id, confirmRemoval]);
 
     const { openCategorySelect, CategorySelectComponent } = useCategorySelect({
         mangaId: manga.id,
