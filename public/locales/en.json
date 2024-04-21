@@ -302,6 +302,7 @@
       "add": "Add",
       "browse": "Browse",
       "cancel": "Cancel",
+      "changelog": "Changelog",
       "clear": "Clear",
       "copy": "Copy",
       "create": "Create",
@@ -317,6 +318,7 @@
       "open_site": "Open Site",
       "options": "Options",
       "popular": "Popular",
+      "refresh": "Refresh",
       "remove": "Remove",
       "reset": "Reset",
       "reset_to_default": "Reset to Default",
@@ -764,7 +766,8 @@
           "channel": "$t(settings.webui.title.webui) channel",
           "github": "$t(global.label.github) $t(settings.webui.title.webui)",
           "update_failure": "Could not update $t(settings.webui.title.webui)",
-          "update_success": "Updated $t(settings.webui.title.webui) to version {{version}}. Refresh required",
+          "update_success": "Updated $t(settings.webui.title.webui) to version {{version}}.",
+          "updated": "Updated version",
           "version": "$t(settings.webui.title.webui) version"
         }
       }

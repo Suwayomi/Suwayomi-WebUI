@@ -39,6 +39,7 @@ import { Migrate } from '@/screens/Migrate.tsx';
 import { DeviceSetting } from '@/components/settings/DeviceSetting.tsx';
 import { TrackingSettings } from '@/screens/settings/TrackingSettings.tsx';
 import { TrackerOAuthLogin } from '@/screens/TrackerOAuthLogin.tsx';
+import { WebUIUpdateChecker } from '@/components/util/WebUIUpdateChecker.tsx';
 
 if (process.env.NODE_ENV !== 'production') {
     // Adds messages only in a dev environment
@@ -74,6 +75,7 @@ export const App: React.FC = () => (
     <AppContext>
         <ScrollToTop />
         <ServerUpdateChecker />
+        <WebUIUpdateChecker />
         <BackgroundSubscriptions />
         <CssBaseline />
         <DefaultNavBar />

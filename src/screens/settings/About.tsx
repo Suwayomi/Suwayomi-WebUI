@@ -27,8 +27,6 @@ import { ListItemLink } from '@/components/util/ListItemLink';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
 import { GetAboutQuery, UpdateState } from '@/lib/graphql/generated/graphql.ts';
-import { ABOUT_WEBUI, WEBUI_UPDATE_CHECK } from '@/lib/graphql/Fragments.ts';
-import { makeToast } from '@/components/util/Toast.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
 type AboutServer = GetAboutQuery['aboutServer'];
@@ -225,51 +223,6 @@ export function About() {
         state: UpdateState.Idle,
         progress: 0,
     };
-
-    useEffect(() => {
-        const isError = webUIUpdateState === UpdateState.Error;
-        if (isError) {
-            makeToast(t('settings.about.webui.label.update_failure'), 'error');
-        }
-
-        const updateFinished = webUIUpdateState === UpdateState.Finished;
-
-        const resetUpdateStatus = isError || updateFinished;
-        if (resetUpdateStatus) {
-            requestManager
-                .resetWebUIUpdateStatus()
-                .response.catch(defaultPromiseErrorHandler('About::resetWebUIUpdateStatus'));
-        }
-
-        if (!updateFinished) {
-            return;
-        }
-
-        makeToast(
-            t('settings.about.webui.label.update_success', {
-                version: webUIUpdateStatusData!.getWebUIUpdateStatus.info.tag,
-            }),
-            'success',
-        );
-
-        requestManager.graphQLClient.client.cache.writeFragment({
-            fragment: ABOUT_WEBUI,
-            data: {
-                __typename: 'AboutWebUI',
-                channel: webUIUpdateStatusData!.getWebUIUpdateStatus.info.channel,
-                tag: webUIUpdateStatusData!.getWebUIUpdateStatus.info.tag,
-            },
-        });
-        requestManager.graphQLClient.client.cache.writeFragment({
-            fragment: WEBUI_UPDATE_CHECK,
-            data: {
-                __typename: 'WebUIUpdateCheck',
-                channel: webUIUpdateStatusData!.getWebUIUpdateStatus.info.channel,
-                tag: webUIUpdateStatusData!.getWebUIUpdateStatus.info.tag,
-                updateAvailable: false,
-            },
-        });
-    }, [webUIUpdateState]);
 
     if (!aboutServer || !aboutWebUI) {
         return <LoadingPlaceholder />;
