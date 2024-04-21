@@ -43,7 +43,7 @@ export const ServerUpdateChecker = () => {
         setOpen(false);
     };
 
-    useUpdateChecker('server', checkForUpdate);
+    const updateChecker = useUpdateChecker('server', checkForUpdate, selectedServerChannelInfo?.tag);
 
     if (isCheckingForServerUpdate) {
         return null;
@@ -62,13 +62,12 @@ export const ServerUpdateChecker = () => {
         return null;
     }
 
+    if (!updateChecker.handleUpdate) {
+        return null;
+    }
+
     return (
-        <Dialog
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-        >
+        <Dialog open={open} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
             <DialogTitle id="alert-dialog-title">{t('global.update.label.available')}</DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
@@ -80,6 +79,14 @@ export const ServerUpdateChecker = () => {
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose}>{t('global.label.close')}</Button>
+                <Button
+                    onClick={() => {
+                        updateChecker.remindLater();
+                        handleClose();
+                    }}
+                >
+                    {t('global.button.remind_later')}
+                </Button>
                 <Button onClick={handleClose} variant="contained" href={selectedServerChannelInfo.url} target="_blank">
                     {t('chapter.action.download.add.label.action')}
                 </Button>
