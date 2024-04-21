@@ -332,6 +332,12 @@ export function About() {
             >
                 <ListItem>
                     <ListItemText
+                        primary={t('settings.about.webui.label.channel')}
+                        secondary={aboutWebUI.channel.toLocaleUpperCase()}
+                    />
+                </ListItem>
+                <ListItem>
+                    <ListItemText
                         primary={t('settings.about.webui.label.version')}
                         secondary={
                             <VersionInfo
@@ -349,12 +355,6 @@ export function About() {
                                 updateState={webUIUpdateState}
                             />
                         }
-                    />
-                </ListItem>
-                <ListItem>
-                    <ListItemText
-                        primary={t('settings.about.webui.label.channel')}
-                        secondary={aboutWebUI.channel.toLocaleUpperCase()}
                     />
                 </ListItem>
             </List>
