@@ -23,6 +23,8 @@ import { makeToast } from '@/components/util/Toast.tsx';
 import { ABOUT_WEBUI, WEBUI_UPDATE_CHECK } from '@/lib/graphql/Fragments.ts';
 import { useUpdateChecker } from '@/util/useUpdateChecker.tsx';
 
+const disabledUpdateCheck = () => Promise.resolve();
+
 export const WebUIUpdateChecker = () => {
     const { t } = useTranslation();
 
@@ -30,11 +32,11 @@ export const WebUIUpdateChecker = () => {
     const [open, setOpen] = useState(false);
 
     const serverSettings = requestManager.useGetServerSettings();
-    const isAutoUpdateEnabled = !serverSettings.data?.settings.webUIUpdateCheckInterval;
+    const isAutoUpdateEnabled = !!serverSettings.data?.settings.webUIUpdateCheckInterval;
 
     const { data: webUIUpdateData, refetch: checkForUpdate } = requestManager.useCheckForWebUIUpdate({
-        skip: isAutoUpdateEnabled,
         notifyOnNetworkStatusChange: true,
+        fetchPolicy: 'cache-only',
     });
 
     const { data: webUIUpdateStatusData } = requestManager.useGetWebUIUpdateStatus();
@@ -44,7 +46,11 @@ export const WebUIUpdateChecker = () => {
         info: undefined,
     }) satisfies OptionalProperty<WebUiUpdateStatus, 'info'>;
 
-    const updateChecker = useUpdateChecker('webUI', checkForUpdate, webUIUpdateData?.checkForWebUIUpdate.tag);
+    const updateChecker = useUpdateChecker(
+        'webUI',
+        isAutoUpdateEnabled ? disabledUpdateCheck : checkForUpdate,
+        webUIUpdateData?.checkForWebUIUpdate.tag,
+    );
 
     const changelogUrl =
         updateStatus.info?.channel === WebUiChannel.Stable
