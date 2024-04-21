@@ -164,6 +164,7 @@ export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
                                     Chapters.markAsRead(
                                         ChaptersWithMeta.getChapters(ChaptersWithMeta.getNonRead(chaptersWithMeta)),
                                         true,
+                                        manga.id,
                                     )
                                 }
                             >
