@@ -442,6 +442,19 @@ export const FULL_UPDATER_STATUS = gql`
                     chapters {
                         totalCount
                     }
+                    firstUnreadChapter {
+                        id
+                        chapterNumber
+                        sourceOrder
+                    }
+                    latestUploadedChapter {
+                        id
+                        uploadDate
+                    }
+                    latestFetchedChapter {
+                        id
+                        fetchedAt
+                    }
                 }
                 totalCount
             }
