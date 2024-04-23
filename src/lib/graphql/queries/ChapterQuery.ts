@@ -73,6 +73,8 @@ export const GET_MANGAS_CHAPTER_IDS_WITH_STATE = gql`
                 isRead
                 isBookmarked
                 mangaId
+                scanlator
+                chapterNumber
             }
         }
     }

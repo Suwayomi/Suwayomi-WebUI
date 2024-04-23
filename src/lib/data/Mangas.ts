@@ -280,7 +280,23 @@ export class Mangas {
         ) satisfies MangaIdToDownloadSize[];
 
         const chapterIdsToDownload = mangaIdToActualDownloadSize
-            .map(([mangaId, actualSize]) => mangaIdToChaptersToConsider[Number(mangaId)]!.slice(0, actualSize))
+            .map(([mangaId, actualSize]) => {
+                const mangaChapters = mangaIdToChaptersToConsider[Number(mangaId)]!;
+
+                if (!mangaChapters.length) {
+                    return [];
+                }
+
+                const shouldDownloadAll = actualSize === undefined;
+                if (shouldDownloadAll) {
+                    return mangaChapters;
+                }
+
+                const uniqueMangaChapters = Chapters.removeDuplicates(mangaChapters[0], mangaChapters);
+                const uniqueMangaChaptersToDownload = uniqueMangaChapters.slice(0, actualSize);
+
+                return Chapters.addDuplicates(uniqueMangaChaptersToDownload, mangaChapters);
+            })
             .flat();
 
         if (!chapterIdsToDownload.length) {

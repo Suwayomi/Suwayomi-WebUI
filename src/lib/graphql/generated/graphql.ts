@@ -3120,7 +3120,7 @@ export type GetMangasChapterIdsWithStateQueryVariables = Exact<{
 }>;
 
 
-export type GetMangasChapterIdsWithStateQuery = { __typename?: 'Query', chapters: { __typename?: 'ChapterNodeList', nodes: Array<{ __typename?: 'ChapterType', id: number, isDownloaded: boolean, isRead: boolean, isBookmarked: boolean, mangaId: number }> } };
+export type GetMangasChapterIdsWithStateQuery = { __typename?: 'Query', chapters: { __typename?: 'ChapterNodeList', nodes: Array<{ __typename?: 'ChapterType', id: number, isDownloaded: boolean, isRead: boolean, isBookmarked: boolean, mangaId: number, scanlator?: string | null, chapterNumber: number }> } };
 
 export type GetDownloadStatusQueryVariables = Exact<{ [key: string]: never; }>;
 

@@ -305,6 +305,18 @@ export class Chapters {
         }
     }
 
+    /**
+     * Returns the provided "uniqueChapters" plus their duplicates found in "allChapters"
+     */
+    static addDuplicates<T extends ChapterScanlatorInfo & ChapterNumberInfo>(
+        uniqueChapters: T[],
+        allChapters: T[],
+    ): T[] {
+        const chapterNumberToChapters = Object.groupBy(allChapters, ({ chapterNumber }) => chapterNumber);
+
+        return uniqueChapters.map(({ chapterNumber }) => chapterNumberToChapters[chapterNumber]!).flat();
+    }
+
     static removeDuplicates<T extends ChapterScanlatorInfo & ChapterNumberInfo>(currentChapter: T, chapters: T[]): T[] {
         const chapterNumberToChapters = Object.groupBy(chapters, ({ chapterNumber }) => chapterNumber);
 
