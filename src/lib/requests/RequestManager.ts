@@ -1768,15 +1768,7 @@ export class RequestManager {
         states: Pick<ChapterConditionInput, 'isRead' | 'isDownloaded' | 'isBookmarked'>,
         options?: QueryOptions<GetMangasChapterIdsWithStateQueryVariables, GetMangasChapterIdsWithStateQuery>,
     ): AbortabaleApolloQueryResponse<GetMangasChapterIdsWithStateQuery> {
-        return this.doRequest(
-            GQLMethod.QUERY,
-            GET_MANGAS_CHAPTER_IDS_WITH_STATE,
-            { mangaIds, ...states },
-            {
-                fetchPolicy: 'no-cache',
-                ...options,
-            },
-        );
+        return this.doRequest(GQLMethod.QUERY, GET_MANGAS_CHAPTER_IDS_WITH_STATE, { mangaIds, ...states }, options);
     }
 
     public getMangaChaptersFetch(
