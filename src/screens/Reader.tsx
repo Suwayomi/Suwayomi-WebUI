@@ -186,16 +186,16 @@ export function Reader() {
             return;
         }
 
-        const getChapterIdToDelete = () => {
+        const getChapterIdsToDelete = () => {
             const isAutoDeletionEnabled = !!patch.isRead && !!metadataSettings.deleteChaptersWhileReading;
             if (!isAutoDeletionEnabled || !mangaChapters) {
-                return -1;
+                return [];
             }
 
             const chapterToDelete = [chapter, ...prevChapters][metadataSettings.deleteChaptersWhileReading - 1];
 
             if (!chapterToDelete) {
-                return -1;
+                return [];
             }
 
             // chapter has to exist in the cache since the reader fetches all chapters of the manga
@@ -205,10 +205,14 @@ export function Reader() {
                 chapterToDeleteUpToDateData.isRead &&
                 Chapters.isDeletable(chapterToDeleteUpToDateData, metadataSettings.deleteChaptersWithBookmark);
             if (!shouldDeleteChapter) {
-                return -1;
+                return [];
             }
 
-            return chapterToDelete.id;
+            if (!settings.skipDupChapters) {
+                return Chapters.getIds([chapterToDelete]);
+            }
+
+            return Chapters.getIds(Chapters.addDuplicates([chapterToDelete], mangaChapters));
         };
 
         const downloadAhead = () => {
@@ -241,7 +245,7 @@ export function Reader() {
                     return;
                 }
 
-                Chapters.download(chapterIdsToDownload!).catch(
+                Chapters.download(chapterIdsToDownload).catch(
                     defaultPromiseErrorHandler('Reader::updateChapter: shouldDownloadAhead'),
                 );
             }
@@ -250,9 +254,9 @@ export function Reader() {
         downloadAhead();
 
         requestManager
-            .updateChapter(chapter.id, {
+            .updateChapters([chapter.id], {
                 ...patch,
-                chapterIdToDelete: getChapterIdToDelete(),
+                chapterIdsToDelete: getChapterIdsToDelete(),
                 trackProgressMangaId:
                     metadataSettings.updateProgressAfterReading && patch.isRead && manga.trackRecords.totalCount
                         ? manga.id
