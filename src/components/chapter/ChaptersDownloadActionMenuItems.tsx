@@ -18,7 +18,7 @@ const DownloadRange = {
     NEXT_5: 5,
     NEXT_10: 10,
     NEXT_25: 25,
-    UNREAD: undefined,
+    ALL: undefined,
 };
 
 export const ChaptersDownloadActionMenuItems = ({
@@ -60,11 +60,11 @@ export const ChaptersDownloadActionMenuItems = ({
             <MenuItem onClick={() => handleSelect(downloadAheadLimit, undefined, true)}>
                 {t('chapter.action.download.add.label.ahead', { count: downloadAheadLimit })}
             </MenuItem>
-            <MenuItem onClick={() => handleSelect(DownloadRange.UNREAD)}>
+            <MenuItem onClick={() => handleSelect(DownloadRange.ALL, true)}>
                 {t('chapter.action.download.add.label.unread')}
             </MenuItem>
-            <MenuItem onClick={() => handleSelect(downloadAheadLimit)}>
-                {t('chapter.action.download.add.label.all', { onlyUnread: false })}
+            <MenuItem onClick={() => handleSelect(DownloadRange.ALL, false)}>
+                {t('chapter.action.download.add.label.all')}
             </MenuItem>
         </>
     );
