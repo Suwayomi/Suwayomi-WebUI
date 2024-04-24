@@ -40,7 +40,7 @@ import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { Select } from '@/components/atoms/Select.tsx';
-import { i18nResources } from '@/i18n';
+import { I18nResourceCode, i18nResources } from '@/i18n';
 
 export function Settings() {
     const { t, i18n } = useTranslation();
@@ -147,7 +147,7 @@ export function Settings() {
                     }
                 />
                 <Select
-                    value={i18n.language}
+                    value={i18nResources.includes(i18n.language as I18nResourceCode) ? i18n.language : 'en'}
                     onChange={({ target: { value: language } }) => i18n.changeLanguage(language)}
                 >
                     {i18nResources.map((language) => (
