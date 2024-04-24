@@ -6,9 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-export const loadDefaultDayJsLocale = () => import('dayjs/locale/en.js');
+import { I18nResourceCode } from '@/i18n';
 
-export type ISOLanguageCode = string;
+export const loadDefaultDayJsLocale = () => import('dayjs/locale/en.js');
 
 export type ISOLanguage = {
     name: string;
@@ -17,7 +17,7 @@ export type ISOLanguage = {
 };
 
 // full list: https://github.com/meikidd/iso-639-1/blob/master/src/data.js
-export const ISOLanguages: Record<ISOLanguageCode, ISOLanguage> = {
+export const ISOLanguages: { [languageCode in I18nResourceCode]: ISOLanguage } & Record<string, ISOLanguage> = {
     // #############################
     // ###                       ###
     // ### START: manually added ###

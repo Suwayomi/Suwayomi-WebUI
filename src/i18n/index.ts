@@ -33,7 +33,9 @@ export const i18nResources = [
     'vi',
     'zh_Hans',
     'zh_Hant',
-];
+] as const;
+
+export type I18nResourceCode = (typeof i18nResources)[number];
 
 export const i18n = use(initReactI18next)
     .use(HttpBackend)
