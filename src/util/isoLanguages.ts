@@ -38,12 +38,12 @@ export const ISOLanguages: Record<ISOLanguageCode, ISOLanguage> = {
         nativeName: 'Português (Brasil)',
         dayjsImport: () => import('dayjs/locale/pt-br.js'),
     },
-    'zh-hans': {
+    zh_Hans: {
         name: 'Chinese (Simplified)',
         nativeName: '中文 (HANS)',
         dayjsImport: () => import('dayjs/locale/zh-cn.js'),
     },
-    'zh-hant': {
+    zh_Hant: {
         name: 'Chinese (Traditional)',
         nativeName: '中文 (HANT)',
         dayjsImport: () => import('dayjs/locale/zh-hk.js'),
