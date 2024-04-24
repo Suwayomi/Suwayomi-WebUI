@@ -16,6 +16,7 @@
     "gql:codegen-base": "graphql-codegen --config gql_codegen.ts",
     "gql:codegen-formatter": "ts-node -T tools/scripts/codegenFormatter.ts",
     "gql:codegen": "yarn gql:codegen-base & yarn gql:codegen-formatter",
+    "i18n:gen-resources": "ts-node -T tools/scripts/generatei18nResources.ts",
     "prepare": "husky"
   },
   "engines": {
