@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { createTheme as createMuiTheme, Palette as MuiPalette, Theme } from '@mui/material/styles';
+import { createTheme as createMuiTheme, Direction, Palette as MuiPalette, Theme } from '@mui/material/styles';
 
 declare module '@mui/material/styles/createPalette' {
     interface Palette {
@@ -23,8 +23,9 @@ type DefaultMuiTheme = Omit<Theme, 'palette'> & { palette: DefaultMuiPalette };
 
 let theme: Theme;
 export const getCurrentTheme = () => theme;
-export const createTheme = (dark?: boolean) => {
+export const createTheme = (dark?: boolean, direction: Direction = 'ltr') => {
     const baseTheme: DefaultMuiTheme = createMuiTheme({
+        direction,
         palette: {
             mode: dark ? 'dark' : 'light',
         },

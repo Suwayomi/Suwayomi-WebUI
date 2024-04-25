@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "@apollo/client": "3.9.11",
+    "@emotion/cache": "^11.11.0",
     "@emotion/react": "11.11.4",
     "@emotion/styled": "11.11.5",
     "@fontsource/roboto": "5.0.12",
@@ -53,6 +54,8 @@
     "react-i18next": "14.1.0",
     "react-router-dom": "6.22.3",
     "react-virtuoso": "4.7.8",
+    "stylis": "^4.3.2",
+    "stylis-plugin-rtl": "^2.1.1",
     "use-long-press": "3.2.0",
     "use-query-params": "2.2.1"
   },
@@ -66,6 +69,7 @@
     "@types/react": "18.2.78",
     "@types/react-beautiful-dnd": "13.1.8",
     "@types/react-dom": "18.2.25",
+    "@types/stylis": "^4.2.5",
     "@types/yargs": "17.0.32",
     "@typescript-eslint/eslint-plugin": "7.6.0",
     "@typescript-eslint/parser": "7.6.0",
