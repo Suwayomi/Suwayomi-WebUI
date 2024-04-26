@@ -87,7 +87,7 @@ export const ServerSettings = () => {
     const serverSettings = data ? extractServerSettings(data.settings) : undefined;
     const [mutateSettings] = requestManager.useUpdateServerSettings();
 
-    const [serverAddress, setServerAddress] = useLocalStorage<string>('serverBaseURL', '');
+    const [serverAddress, setServerAddress] = useLocalStorage<string>('serverBaseURL', window.location.origin);
 
     const handleServerAddressChange = (address: string) => {
         const serverBaseUrl = address.replaceAll(/(\/)+$/g, '');
