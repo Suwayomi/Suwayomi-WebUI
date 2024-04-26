@@ -17,7 +17,6 @@ import { useTranslation } from 'react-i18next';
 import ImageIcon from '@mui/icons-material/Image';
 import { SxProps, Theme } from '@mui/material/styles';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { Priority } from '@/lib/Queue.ts';
 
 interface IProps {
@@ -92,7 +91,7 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
             }
         };
 
-        fetchImage().catch(defaultPromiseErrorHandler);
+        fetchImage().catch(() => {});
 
         return () => {
             imageRequest.cleanup();

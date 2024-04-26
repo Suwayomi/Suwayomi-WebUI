@@ -796,7 +796,7 @@ export class RequestManager {
 
     private fetchImageViaTag(url: string, priority?: QueuePriority): ImageRequest {
         const imgRequest = new ControlledPromise<string>();
-        imgRequest.promise.catch(defaultPromiseErrorHandler(`fetchImageViaTag(${url})`));
+        imgRequest.promise.catch(() => {});
 
         const img = new Image();
         const abortRequest = (reason?: any) => {
