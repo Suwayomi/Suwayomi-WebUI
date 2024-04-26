@@ -26,11 +26,13 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import ArrowBack from '@mui/icons-material/ArrowBack';
 import { useLocation } from 'react-router-dom';
 import { createPortal } from 'react-dom';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { NavbarItem } from '@/typings';
 import { NavBarContext } from '@/components/context/NavbarContext';
 import { DesktopSideBar } from '@/components/navbar/navigation/DesktopSideBar';
 import { MobileBottomBar } from '@/components/navbar/navigation/MobileBottomBar';
 import { useBackButton } from '@/util/useBackButton.ts';
+import { getOptionForDirection } from '@/theme.ts';
 
 const navbarItems: Array<NavbarItem> = [
     {
@@ -107,7 +109,7 @@ export function DefaultNavBar() {
                             size="large"
                             onClick={handleBack}
                         >
-                            <ArrowBack />
+                            {getOptionForDirection(<ArrowBack />, <ArrowForwardIcon />)}
                         </IconButton>
                     )}
                     <Typography

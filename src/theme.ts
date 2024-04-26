@@ -67,3 +67,6 @@ export const createTheme = (dark?: boolean, direction: Direction = 'ltr') => {
 
     return suwayomiTheme;
 };
+
+export const getOptionForDirection = <T>(ltrOption: T, rtlOption: T): T =>
+    (theme?.direction ?? 'ltr') === 'ltr' ? ltrOption : rtlOption;

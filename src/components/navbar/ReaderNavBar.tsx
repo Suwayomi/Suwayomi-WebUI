@@ -22,7 +22,7 @@ import Divider from '@mui/material/Divider';
 import FormControl from '@mui/material/FormControl';
 import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
-import { styled, useTheme } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
@@ -32,6 +32,7 @@ import { ReaderSettingsOptions } from '@/components/reader/ReaderSettingsOptions
 import { useBackButton } from '@/util/useBackButton.ts';
 import { useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
 import { Select } from '@/components/atoms/Select.tsx';
+import { getOptionForDirection } from '@/theme.ts';
 
 const Root = styled('div')({
     zIndex: 10,
@@ -132,7 +133,6 @@ interface IProps {
 
 export function ReaderNavBar(props: IProps) {
     const { t } = useTranslation();
-    const theme = useTheme();
 
     const navigate = useNavigate();
     const location = useLocation<{
@@ -201,7 +201,14 @@ export function ReaderNavBar(props: IProps) {
 
     return (
         <Root>
-            <Slide direction="right" in={drawerOpen} timeout={200} appear={false} mountOnEnter unmountOnExit>
+            <Slide
+                direction={getOptionForDirection('right', 'left')}
+                in={drawerOpen}
+                timeout={200}
+                appear={false}
+                mountOnEnter
+                unmountOnExit
+            >
                 <NavContainer
                     sx={{
                         position: 'fixed',
@@ -218,7 +225,7 @@ export function ReaderNavBar(props: IProps) {
                                     onClick={() => updateDrawer(false)}
                                     size="large"
                                 >
-                                    <KeyboardArrowLeftIcon />
+                                    {getOptionForDirection(<KeyboardArrowLeftIcon />, <KeyboardArrowRightIcon />)}
                                 </IconButton>
                             </Tooltip>
                         )}
@@ -310,7 +317,7 @@ export function ReaderNavBar(props: IProps) {
                                     disabled={disableChapterNavButtons || chapter.sourceOrder <= 1}
                                     onClick={() => openNextChapter(ChapterOffset.PREV)}
                                 >
-                                    {theme.direction === 'ltr' ? <KeyboardArrowLeftIcon /> : <KeyboardArrowRightIcon />}
+                                    {getOptionForDirection(<KeyboardArrowLeftIcon />, <KeyboardArrowRightIcon />)}
                                 </IconButton>
                             </Tooltip>
                             <FormControl
@@ -350,7 +357,7 @@ export function ReaderNavBar(props: IProps) {
                                     }
                                     onClick={() => openNextChapter(ChapterOffset.NEXT)}
                                 >
-                                    {theme.direction === 'ltr' ? <KeyboardArrowRightIcon /> : <KeyboardArrowLeftIcon />}
+                                    {getOptionForDirection(<KeyboardArrowRightIcon />, <KeyboardArrowLeftIcon />)}
                                 </IconButton>
                             </Tooltip>
                         </ChapterNavigation>
@@ -368,7 +375,7 @@ export function ReaderNavBar(props: IProps) {
                             onClick={() => updateDrawer(true)}
                             size="large"
                         >
-                            <KeyboardArrowRightIcon />
+                            {getOptionForDirection(<KeyboardArrowRightIcon />, <KeyboardArrowLeftIcon />)}
                         </OpenDrawerButton>
                     </Tooltip>
                 </Fade>

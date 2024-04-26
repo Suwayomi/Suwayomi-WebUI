@@ -29,12 +29,14 @@ import {
     Ref,
 } from 'react';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import Box from '@mui/material/Box';
 
 import { OverridableComponent } from '@mui/material/OverridableComponent';
 import { SvgIconTypeMap } from '@mui/material/SvgIcon';
 import { isMobile } from 'react-device-detect';
 import { IconMenuItem } from '@/components/menu/IconMenuItem.tsx';
+import { getOptionForDirection } from '@/theme.ts';
 
 export type NestedMenuItemProps = Omit<MuiMenuItemProps, 'button'> & {
     parentMenuOpen: boolean;
@@ -57,7 +59,7 @@ const NestedMenuItem = forwardRef<HTMLLIElement | null, NestedMenuItemProps>((pr
         parentMenuOpen,
         label,
         renderLabel,
-        RightIcon = ChevronRightIcon,
+        RightIcon = getOptionForDirection(ChevronRightIcon, ChevronLeftIcon),
         LeftIcon,
         children,
         className,
@@ -191,11 +193,11 @@ const NestedMenuItem = forwardRef<HTMLLIElement | null, NestedMenuItemProps>((pr
                 style={{ pointerEvents: 'none' }}
                 anchorEl={menuItemRef.current}
                 anchorOrigin={{
-                    horizontal: 'right',
+                    horizontal: getOptionForDirection('right', 'left'),
                     vertical: 'top',
                 }}
                 transformOrigin={{
-                    horizontal: 'left',
+                    horizontal: getOptionForDirection('left', 'right'),
                     vertical: 'top',
                 }}
                 open={open}

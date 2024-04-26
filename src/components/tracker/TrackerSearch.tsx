@@ -13,6 +13,7 @@ import Stack from '@mui/material/Stack';
 import { useEffect, useMemo, useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import ArrowBack from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
@@ -23,6 +24,7 @@ import { SearchTextField } from '@/components/atoms/SearchTextField.tsx';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { TrackerMangaCard } from '@/components/tracker/TrackerMangaCard.tsx';
 import { DIALOG_PADDING } from '@/components/tracker/constants.ts';
+import { getOptionForDirection } from '@/theme.ts';
 
 export const TrackerSearch = ({
     mangaId,
@@ -87,7 +89,7 @@ export const TrackerSearch = ({
             <DialogTitle sx={{ padding: DIALOG_PADDING }}>
                 <Stack direction="row" gap="10px" alignItems="center">
                     <IconButton onClick={closeSearchMode}>
-                        <ArrowBack />
+                        {getOptionForDirection(<ArrowBack />, <ArrowForwardIcon />)}
                     </IconButton>
                     <SearchTextField
                         sx={{ width: '100%' }}
