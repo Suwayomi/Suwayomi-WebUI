@@ -2417,7 +2417,7 @@ export class RequestManager {
     }
 
     public useClearServerCache(
-        input: ClearCachedImagesInput = { cachedPages: true, cachedThumbnails: true, downloadedThumbnails: true },
+        input: ClearCachedImagesInput = { cachedPages: true, cachedThumbnails: true },
         options?: MutationHookOptions<ClearServerCacheMutation, ClearServerCacheMutationVariables>,
     ): AbortableApolloUseMutationResponse<ClearServerCacheMutation, ClearServerCacheMutationVariables> {
         return this.doRequest(GQLMethod.USE_MUTATION, CLEAR_SERVER_CACHE, { input }, options);
