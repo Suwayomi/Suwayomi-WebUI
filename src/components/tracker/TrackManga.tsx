@@ -79,7 +79,7 @@ export const TrackManga = ({ manga }: { manga: Pick<TManga, 'id' | 'trackRecords
     );
 
     if (trackerList.error) {
-        return <EmptyView message={trackerList.error.message ?? trackerList.error} />;
+        return <EmptyView message={trackerList.error.message} />;
     }
 
     if (trackerList.loading) {

@@ -45,7 +45,7 @@ export const TrackingSettings = () => {
     const trackers = data?.trackers.nodes ?? [];
 
     if (error) {
-        return <EmptyView message={error.message ?? error} />;
+        return <EmptyView message={error.message} />;
     }
 
     if (loading) {

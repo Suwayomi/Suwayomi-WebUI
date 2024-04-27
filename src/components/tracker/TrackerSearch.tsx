@@ -113,7 +113,7 @@ export const TrackerSearch = ({
                 {trackerSearch.error && !trackerSearch.loading && (
                     <EmptyView
                         message={t('global.error.label.failed_to_load_data')}
-                        messageExtra={trackerSearch.error.message ?? trackerSearch.error}
+                        messageExtra={trackerSearch.error.message}
                     />
                 )}
                 <List sx={{ padding: 0 }}>

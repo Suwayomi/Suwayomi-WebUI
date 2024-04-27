@@ -92,7 +92,7 @@ export const Manga: React.FC = () => {
     }, [t, error, isValidating, refreshing, manga, refresh]);
 
     if (error && !manga) {
-        return <EmptyView message={t('manga.error.label.request_failure')} messageExtra={error.message ?? error} />;
+        return <EmptyView message={t('manga.error.label.request_failure')} messageExtra={error.message} />;
     }
     return (
         <Box sx={{ display: { md: 'flex' }, overflow: 'hidden' }}>
