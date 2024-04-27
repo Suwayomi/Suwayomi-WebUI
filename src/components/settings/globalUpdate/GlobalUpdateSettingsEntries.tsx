@@ -33,15 +33,7 @@ const settingToTextMap: { [setting in keyof GlobalUpdateSkipEntriesSettings]: Tr
     excludeCompleted: 'library.settings.global_update.entries.label.completed',
 };
 
-const getSkipMangasText = (settings: GlobalUpdateSkipEntriesSettings | undefined, isLoading: boolean, error: any) => {
-    if (error) {
-        return translate('global.error.label.failed_to_load_data');
-    }
-
-    if (!settings || isLoading) {
-        return translate('global.label.loading');
-    }
-
+const getSkipMangasText = (settings: GlobalUpdateSkipEntriesSettings) => {
     const skipSettings: string[] = [];
 
     if (settings.excludeUnreadChapters) {
@@ -70,10 +62,10 @@ const extractSkipEntriesSettings = (serverSettings: ServerSettings): GlobalUpdat
     excludeUnreadChapters: serverSettings.excludeUnreadChapters,
 });
 
-export const GlobalUpdateSettingsEntries = () => {
+export const GlobalUpdateSettingsEntries = ({ serverSettings }: { serverSettings: ServerSettings }) => {
     const { t } = useTranslation();
-    const { data, loading, error: requestError } = requestManager.useGetServerSettings();
-    const globalUpdateSettings = data ? extractSkipEntriesSettings(data.settings) : undefined;
+
+    const globalUpdateSettings = extractSkipEntriesSettings(serverSettings);
     const [mutateSettings] = requestManager.useUpdateServerSettings();
 
     const [dialogSettings, setDialogSettings] = useState<GlobalUpdateSkipEntriesSettings>(
@@ -81,7 +73,7 @@ export const GlobalUpdateSettingsEntries = () => {
     );
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-    const skipEntriesText = getSkipMangasText(globalUpdateSettings, loading, requestError);
+    const skipEntriesText = getSkipMangasText(globalUpdateSettings);
 
     const updateSettings = async () => {
         const didSettingsChange =

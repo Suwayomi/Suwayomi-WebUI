@@ -12,7 +12,10 @@ import { useTranslation } from 'react-i18next';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
-import { CategoriesInclusionSetting } from '@/components/settings/CategoriesInclusionSetting.tsx';
+import {
+    CategoriesInclusionSetting,
+    CategoriesInclusionSettingProps,
+} from '@/components/settings/CategoriesInclusionSetting.tsx';
 import { GlobalUpdateSettingsEntries } from '@/components/settings/globalUpdate/GlobalUpdateSettingsEntries.tsx';
 import { GlobalUpdateSettingsInterval } from '@/components/settings/globalUpdate/GlobalUpdateSettingsInterval.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
@@ -21,11 +24,16 @@ import { ServerSettings } from '@/typings.ts';
 
 type LibrarySettingsType = Pick<ServerSettings, 'updateMangas'>;
 
-export const GlobalUpdateSettings = () => {
+export const GlobalUpdateSettings = ({
+    serverSettings,
+    categories,
+}: {
+    serverSettings: ServerSettings;
+    categories: CategoriesInclusionSettingProps['categories'];
+}) => {
     const { t } = useTranslation();
 
-    const { data } = requestManager.useGetServerSettings();
-    const updateMangas = !!data?.settings.updateMangas;
+    const { updateMangas } = serverSettings;
     const [mutateSettings] = requestManager.useUpdateServerSettings();
 
     const updateSetting = async <Setting extends keyof LibrarySettingsType>(
@@ -47,9 +55,10 @@ export const GlobalUpdateSettings = () => {
                 </ListSubheader>
             }
         >
-            <GlobalUpdateSettingsInterval />
-            <GlobalUpdateSettingsEntries />
+            <GlobalUpdateSettingsInterval globalUpdateInterval={serverSettings.globalUpdateInterval} />
+            <GlobalUpdateSettingsEntries serverSettings={serverSettings} />
             <CategoriesInclusionSetting
+                categories={categories}
                 includeField="includeInUpdate"
                 dialogText={t('library.settings.global_update.categories.label.info')}
             />

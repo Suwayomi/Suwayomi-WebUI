@@ -13,20 +13,20 @@ import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
 import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
 import { getPersistedServerSetting, usePersistedValue } from '@/util/usePersistedValue.tsx';
-import { updateMetadataServerSettings, useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
-import { MetadataDownloadSettings } from '@/typings.ts';
+import { updateMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
+import { MetadataDownloadSettings, MetadataServerSettings } from '@/typings.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
 
 const MIN_LIMIT = 2;
 const MAX_LIMIT = 10;
 const DEFAULT_LIMIT = MIN_LIMIT;
 
-export const DownloadAheadSetting = () => {
+export const DownloadAheadSetting = ({
+    downloadAheadLimit,
+}: {
+    downloadAheadLimit: MetadataServerSettings['downloadAheadLimit'];
+}) => {
     const { t } = useTranslation();
-
-    const {
-        settings: { downloadAheadLimit },
-    } = useMetadataServerSettings();
 
     const shouldDownloadAhead = !!downloadAheadLimit;
     const [currentDownloadAheadLimit, persistDownloadAheadLimit] = usePersistedValue(

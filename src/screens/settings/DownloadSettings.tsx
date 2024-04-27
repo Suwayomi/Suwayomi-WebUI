@@ -65,12 +65,48 @@ export const DownloadSettings = () => {
         };
     }, [t]);
 
-    const { data, loading, error, refetch } = requestManager.useGetServerSettings({
-        notifyOnNetworkStatusChange: true,
-    });
-    const downloadSettings = data ? extractDownloadSettings(data.settings) : undefined;
+    const categories = requestManager.useGetCategories();
+    const serverSettings = requestManager.useGetServerSettings({ notifyOnNetworkStatusChange: true });
     const [mutateSettings] = requestManager.useUpdateServerSettings();
-    const { settings: metadataSettings } = useMetadataServerSettings();
+    const {
+        settings: metadataSettings,
+        loading: areMetadataServerSettingsLoading,
+        request: { error: metadataServerSettingsError, refetch: refetchMetadataServerSettings },
+    } = useMetadataServerSettings();
+
+    const loading = serverSettings.loading || areMetadataServerSettingsLoading || categories.loading;
+    if (loading) {
+        return <LoadingPlaceholder />;
+    }
+
+    const error = serverSettings.error ?? metadataServerSettingsError ?? categories.error;
+    if (error) {
+        return (
+            <EmptyView
+                message={t('global.error.label.failed_to_load_data')}
+                messageExtra={error.message}
+                retry={() => {
+                    if (serverSettings.error) {
+                        serverSettings
+                            .refetch()
+                            .catch(defaultPromiseErrorHandler('DownloadSettings::refetchServerSettings'));
+                    }
+
+                    if (metadataServerSettingsError) {
+                        refetchMetadataServerSettings().catch(
+                            defaultPromiseErrorHandler('refetchMetadataServerSettings::'),
+                        );
+                    }
+
+                    if (categories.error) {
+                        categories.refetch().catch(defaultPromiseErrorHandler('LibrarySettings::refetchCategories'));
+                    }
+                }}
+            />
+        );
+    }
+
+    const downloadSettings = extractDownloadSettings(serverSettings.data!.settings);
 
     const updateSetting = <Setting extends keyof DownloadSettingsType>(
         setting: Setting,
@@ -84,20 +120,6 @@ export const DownloadSettings = () => {
     const updateMetadataSetting = createUpdateMetadataServerSettings<keyof MetadataDownloadSettings>(() =>
         makeToast(t('global.error.label.failed_to_save_changes'), 'error'),
     );
-
-    if (loading) {
-        return <LoadingPlaceholder />;
-    }
-
-    if (error) {
-        return (
-            <EmptyView
-                message={t('global.error.label.failed_to_load_data')}
-                messageExtra={error.message}
-                retry={() => refetch().catch(defaultPromiseErrorHandler('DownloadSettings::refetch'))}
-            />
-        );
-    }
 
     return (
         <List>
@@ -204,6 +226,7 @@ export const DownloadSettings = () => {
                     />
                 </ListItem>
                 <CategoriesInclusionSetting
+                    categories={categories.data!.categories.nodes}
                     includeField="includeInDownload"
                     dialogText={t('download.settings.auto_download.categories.label.include_in_download')}
                 />
@@ -215,7 +238,7 @@ export const DownloadSettings = () => {
                     </ListSubheader>
                 }
             >
-                <DownloadAheadSetting />
+                <DownloadAheadSetting downloadAheadLimit={metadataSettings.downloadAheadLimit} />
             </List>
         </List>
     );

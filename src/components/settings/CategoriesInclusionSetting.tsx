@@ -23,6 +23,14 @@ import { IncludeOrExclude } from '@/lib/graphql/generated/graphql.ts';
 import { TCategory } from '@/typings.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { CheckboxContainer } from '@/components/settings/globalUpdate/CheckboxContainer.ts';
+import {
+    CategoryDownloadInclusionInfo,
+    CategoryIdInfo,
+    CategoryNameInfo,
+    CategoryUpdateInclusionInfo,
+} from '@/lib/data/Categories.ts';
+
+type CategoryType = CategoryIdInfo & CategoryNameInfo & CategoryUpdateInclusionInfo & CategoryDownloadInclusionInfo;
 
 const booleanToIncludeOrExcludeStatus = (status: boolean | null | undefined): IncludeOrExclude => {
     switch (status) {
@@ -52,19 +60,11 @@ const includeInUpdateStatusToBoolean = (status: IncludeOrExclude): boolean | nul
 };
 
 const getCategoryUpdateInfo = (
-    categories: TCategory[],
+    categories: CategoryType[],
     areIncluded: boolean,
     unsetCategories: number,
     allCategories: number,
-    error: any,
 ) => {
-    if (error) {
-        return translate('global.error.label.failed_to_load_data');
-    }
-    if (allCategories === -1) {
-        return translate('global.label.loading');
-    }
-
     const noSpecificallyIncludedCategories = areIncluded && !categories.length && unsetCategories;
     const includesAllCategories = categories.length === allCategories;
     if (noSpecificallyIncludedCategories || includesAllCategories) {
@@ -80,18 +80,20 @@ const getCategoryUpdateInfo = (
 
 type CategoryIncludeField = keyof Pick<TCategory, 'includeInUpdate' | 'includeInDownload'>;
 
-type CategoriesInclusionSettingProps = {
+export type CategoriesInclusionSettingProps = {
+    categories: CategoryType[];
     includeField: CategoryIncludeField;
     dialogText?: string;
 };
 
-export const CategoriesInclusionSetting = (props: CategoriesInclusionSettingProps) => {
+export const CategoriesInclusionSetting = ({
+    categories,
+    includeField,
+    dialogText,
+}: CategoriesInclusionSettingProps) => {
     const { t } = useTranslation();
 
-    const { includeField, dialogText } = props;
-    const { data, error: requestError } = requestManager.useGetCategories();
-    const categories = data?.categories.nodes;
-    const [dialogCategories, setDialogCategories] = useState<TCategory[]>(categories ?? []);
+    const [dialogCategories, setDialogCategories] = useState(categories);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     useEffect(() => {
@@ -102,28 +104,23 @@ export const CategoriesInclusionSetting = (props: CategoriesInclusionSettingProp
         setDialogCategories(categories);
     }, [categories]);
 
-    const unsetCategories: TCategory[] =
-        categories?.filter((category) => category[includeField] === IncludeOrExclude.Unset) ?? [];
-    const excludedCategories: TCategory[] =
-        categories?.filter((category) => category[includeField] === IncludeOrExclude.Exclude) ?? [];
-    const includedCategories: TCategory[] =
-        categories?.filter((category) => category[includeField] === IncludeOrExclude.Include) ?? [];
+    const unsetCategories = categories.filter((category) => category[includeField] === IncludeOrExclude.Unset);
+    const excludedCategories = categories.filter((category) => category[includeField] === IncludeOrExclude.Exclude);
+    const includedCategories = categories.filter((category) => category[includeField] === IncludeOrExclude.Include);
     const excludedCategoriesText = getCategoryUpdateInfo(
         excludedCategories,
         false,
         unsetCategories.length,
-        categories?.length ?? -1,
-        requestError,
+        categories.length,
     );
     const includedCategoriesText = getCategoryUpdateInfo(
         includedCategories,
         true,
         unsetCategories.length,
-        categories?.length ?? -1,
-        requestError,
+        categories.length,
     );
 
-    const updateCategory = (category: TCategory) =>
+    const updateCategory = (category: CategoryType) =>
         requestManager.updateCategory(category.id, { [includeField]: category[includeField] }).response;
 
     const updateCategories = async () => {
@@ -150,7 +147,7 @@ export const CategoriesInclusionSetting = (props: CategoriesInclusionSettingProp
     };
 
     const closeDialog = () => {
-        setDialogCategories(categories ?? []);
+        setDialogCategories(categories);
         setIsDialogOpen(false);
     };
 
@@ -193,7 +190,7 @@ export const CategoriesInclusionSetting = (props: CategoriesInclusionSettingProp
                                     const categoryIndex = dialogCategories.findIndex(
                                         (category_) => category_ === category,
                                     );
-                                    const updatedDialogCategories: TCategory[] = [
+                                    const updatedDialogCategories = [
                                         ...dialogCategories.slice(0, categoryIndex),
                                         {
                                             ...category,

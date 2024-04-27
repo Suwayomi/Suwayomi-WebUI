@@ -15,16 +15,20 @@ import { useCallback } from 'react';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
 import { getPersistedServerSetting, usePersistedValue } from '@/util/usePersistedValue.tsx';
+import { ServerSettings } from '@/typings.ts';
 
 const DEFAULT_INTERVAL_HOURS = 12;
 const MIN_INTERVAL_HOURS = 6;
 const MAX_INTERVAL_HOURS = 24 * 7 * 4; // 1 month
 
-export const GlobalUpdateSettingsInterval = () => {
+export const GlobalUpdateSettingsInterval = ({
+    globalUpdateInterval,
+}: {
+    globalUpdateInterval: ServerSettings['globalUpdateInterval'];
+}) => {
     const { t } = useTranslation();
 
-    const { data } = requestManager.useGetServerSettings();
-    const autoUpdateIntervalHours = data?.settings.globalUpdateInterval;
+    const autoUpdateIntervalHours = globalUpdateInterval;
     const doAutoUpdates = !!autoUpdateIntervalHours;
     const [mutateSettings] = requestManager.useUpdateServerSettings();
     const [currentAutoUpdateIntervalHours, persistAutoUpdateIntervalHours] = usePersistedValue(
@@ -35,18 +39,18 @@ export const GlobalUpdateSettingsInterval = () => {
     );
 
     const updateSetting = useCallback(
-        (globalUpdateInterval: number) => {
+        (newGlobalUpdateInterval: number) => {
             persistAutoUpdateIntervalHours(
-                globalUpdateInterval === 0 ? currentAutoUpdateIntervalHours : globalUpdateInterval,
+                newGlobalUpdateInterval === 0 ? currentAutoUpdateIntervalHours : newGlobalUpdateInterval,
             );
-            mutateSettings({ variables: { input: { settings: { globalUpdateInterval } } } });
+            mutateSettings({ variables: { input: { settings: { globalUpdateInterval: newGlobalUpdateInterval } } } });
         },
         [currentAutoUpdateIntervalHours],
     );
 
     const setDoAutoUpdates = (enable: boolean) => {
-        const globalUpdateInterval = enable ? currentAutoUpdateIntervalHours : 0;
-        updateSetting(globalUpdateInterval);
+        const newGlobalUpdateInterval = enable ? currentAutoUpdateIntervalHours : 0;
+        updateSetting(newGlobalUpdateInterval);
     };
 
     return (

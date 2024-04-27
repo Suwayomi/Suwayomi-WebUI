@@ -15,16 +15,21 @@ import { useCallback } from 'react';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
 import { getPersistedServerSetting, usePersistedValue } from '@/util/usePersistedValue.tsx';
+import { ServerSettings } from '@/typings.ts';
 
 const DEFAULT_VALUE = 23;
 const MIN_VALUE = 1;
 const MAX_VALUE = 23; // 1 month
 
-export const WebUIUpdateIntervalSetting = ({ disabled = false }: { disabled?: boolean }) => {
+export const WebUIUpdateIntervalSetting = ({
+    disabled = false,
+    updateCheckInterval,
+}: {
+    disabled?: boolean;
+    updateCheckInterval: ServerSettings['webUIUpdateCheckInterval'];
+}) => {
     const { t } = useTranslation();
 
-    const { data } = requestManager.useGetServerSettings();
-    const updateCheckInterval = data?.settings.webUIUpdateCheckInterval;
     const shouldAutoUpdate = !!updateCheckInterval;
     const [mutateSettings] = requestManager.useUpdateServerSettings();
     const [currentUpdateCheckInterval, persistUpdateCheckInterval] = usePersistedValue(

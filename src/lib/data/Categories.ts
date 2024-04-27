@@ -11,7 +11,10 @@ import { TCategory } from '@/typings.ts';
 export const DEFAULT_CATEGORY_ID = 0;
 
 export type CategoryIdInfo = Pick<TCategory, 'id'>;
+export type CategoryNameInfo = Pick<TCategory, 'name'>;
 export type CategoryDefaultInfo = Pick<TCategory, 'default'>;
+export type CategoryUpdateInclusionInfo = Pick<TCategory, 'includeInUpdate'>;
+export type CategoryDownloadInclusionInfo = Pick<TCategory, 'includeInDownload'>;
 
 export class Categories {
     static getIds(categories: CategoryIdInfo[]): number[] {

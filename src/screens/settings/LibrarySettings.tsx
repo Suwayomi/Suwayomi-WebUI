@@ -25,6 +25,9 @@ import {
 } from '@/lib/metadata/metadataServerSettings.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Mangas } from '@/lib/data/Mangas.ts';
+import { EmptyView } from '@/components/util/EmptyView';
+import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
 
 const removeNonLibraryMangasFromCategories = async (): Promise<void> => {
     try {
@@ -61,11 +64,49 @@ export function LibrarySettings() {
 
     useSetDefaultBackTo('settings');
 
-    const { settings } = useMetadataServerSettings();
+    const categories = requestManager.useGetCategories();
+    const serverSettings = requestManager.useGetServerSettings({ notifyOnNetworkStatusChange: true });
+    const {
+        settings,
+        loading: areMetadataServerSettingsLoading,
+        request: { error: metadataServerSettingsError, refetch: refetchMetadataServerSettings },
+    } = useMetadataServerSettings();
 
     const setSettingValue = createUpdateMetadataServerSettings<keyof MetadataLibrarySettings>(() =>
         makeToast(t('search.error.label.failed_to_save_settings'), 'warning'),
     );
+
+    const loading = serverSettings.loading || areMetadataServerSettingsLoading || categories.loading;
+    if (loading) {
+        return <LoadingPlaceholder />;
+    }
+
+    const error = serverSettings.error ?? metadataServerSettingsError ?? categories.error;
+    if (error) {
+        return (
+            <EmptyView
+                message={t('global.error.label.failed_to_load_data')}
+                messageExtra={error.message}
+                retry={() => {
+                    if (serverSettings.error) {
+                        serverSettings
+                            ?.refetch()
+                            .catch(defaultPromiseErrorHandler('LibrarySettings::refetchServerSettings'));
+                    }
+
+                    if (metadataServerSettingsError) {
+                        refetchMetadataServerSettings().catch(
+                            defaultPromiseErrorHandler('LibrarySettings::refetchMetadataServerSettings'),
+                        );
+                    }
+
+                    if (categories.error) {
+                        categories.refetch().catch(defaultPromiseErrorHandler('LibrarySettings::refetchCategories'));
+                    }
+                }}
+            />
+        );
+    }
 
     return (
         <List>
@@ -112,7 +153,10 @@ export function LibrarySettings() {
                     />
                 </ListItem>
             </List>
-            <GlobalUpdateSettings />
+            <GlobalUpdateSettings
+                serverSettings={serverSettings.data!.settings}
+                categories={categories.data!.categories.nodes}
+            />
             <List
                 subheader={
                     <ListSubheader component="div" id="library-advanced">
