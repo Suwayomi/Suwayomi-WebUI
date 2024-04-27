@@ -20,6 +20,7 @@ import { TPartialManga } from '@/typings.ts';
 import { GridLayouts } from '@/components/source/GridLayouts.tsx';
 import { useLocalStorage } from '@/util/useStorage.tsx';
 import { GridLayout } from '@/components/context/LibraryOptionsContext.tsx';
+import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
 export const Migrate = () => {
     const { t } = useTranslation();
@@ -46,7 +47,8 @@ export const Migrate = () => {
         data: migratableSourceData,
         loading: isSourceLoading,
         error: sourceError,
-    } = requestManager.useGetSource(paramSourceId, { skip: !!isKnownSource });
+        refetch: refetchSource,
+    } = requestManager.useGetSource(paramSourceId, { skip: !!isKnownSource, notifyOnNetworkStatusChange: true });
 
     const { sourceId, name } = {
         sourceId: paramSourceId,
@@ -59,8 +61,10 @@ export const Migrate = () => {
         data: migratableSourceMangasData,
         loading: areMangasLoading,
         error: mangasError,
+        refetch: refetchMangas,
     } = requestManager.useGetMigratableSourceMangas(sourceId, {
         skip: !isKnownSource,
+        notifyOnNetworkStatusChange: true,
     });
 
     useEffect(() => {
@@ -94,7 +98,21 @@ export const Migrate = () => {
     const hasError = hasErrorSource || mangasError;
     if (hasError) {
         const error = (hasErrorSource ? sourceError : mangasError)!;
-        return <EmptyView message={t('global.error.label.failed_to_load_data')} messageExtra={error.message} />;
+        return (
+            <EmptyView
+                message={t('global.error.label.failed_to_load_data')}
+                messageExtra={error.message}
+                retry={() => {
+                    if (hasErrorSource) {
+                        refetchSource().catch(defaultPromiseErrorHandler('Migrate::refetchSource'));
+                    }
+
+                    if (mangasError) {
+                        refetchMangas().catch(defaultPromiseErrorHandler('Migrate::refetchMangas'));
+                    }
+                }}
+            />
+        );
     }
 
     return (

@@ -15,6 +15,7 @@ import { EmptyView } from '@/components/util/EmptyView.tsx';
 import { GetMigratableSourcesQuery } from '@/lib/graphql/generated/graphql.ts';
 import { MigrationCard, TMigratableSource } from '@/components/MigrationCard.tsx';
 import { StyledGroupItemWrapper } from '@/components/virtuoso/StyledGroupItemWrapper.tsx';
+import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
 type TMigratableSourcesResult = GetMigratableSourcesQuery['mangas']['nodes'];
 type TMigratableSources = Record<string, TMigratableSource>;
@@ -43,7 +44,7 @@ const getMigratableSources = (mangas?: TMigratableSourcesResult): TMigratableSou
 export const Migration = () => {
     const { t } = useTranslation();
 
-    const { data, loading, error } = requestManager.useGetMigratableSources({
+    const { data, loading, error, refetch } = requestManager.useGetMigratableSources({
         notifyOnNetworkStatusChange: true,
     });
     const migratableSources = useMemo(() => getMigratableSources(data?.mangas.nodes), [data?.mangas.nodes]);
@@ -53,7 +54,13 @@ export const Migration = () => {
     }
 
     if (error) {
-        return <EmptyView message={t('global.error.label.failed_to_load_data')} messageExtra={error.message} />;
+        return (
+            <EmptyView
+                message={t('global.error.label.failed_to_load_data')}
+                messageExtra={error.message}
+                retry={() => refetch().catch(defaultPromiseErrorHandler('Migration::refetch'))}
+            />
+        );
     }
 
     return (

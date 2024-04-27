@@ -25,6 +25,7 @@ import { makeToast } from '@/components/util/Toast.tsx';
 import { TrackerMangaCard } from '@/components/tracker/TrackerMangaCard.tsx';
 import { DIALOG_PADDING } from '@/components/tracker/constants.ts';
 import { getOptionForDirection } from '@/theme.ts';
+import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
 export const TrackerSearch = ({
     mangaId,
@@ -114,6 +115,9 @@ export const TrackerSearch = ({
                     <EmptyView
                         message={t('global.error.label.failed_to_load_data')}
                         messageExtra={trackerSearch.error.message}
+                        retry={() =>
+                            trackerSearch.refetch().catch(defaultPromiseErrorHandler('TrackerSearch::refetch'))
+                        }
                     />
                 )}
                 <List sx={{ padding: 0 }}>

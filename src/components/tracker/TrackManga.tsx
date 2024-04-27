@@ -18,6 +18,7 @@ import { Trackers } from '@/lib/data/Trackers.ts';
 import { TrackerCard, TrackerMode } from '@/components/tracker/TrackerCard.tsx';
 import { TManga } from '@/typings.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
+import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
 const getTrackerMode = (id: number, trackersInUse: number[], searchModeForTracker?: number): TrackerMode => {
     if (id === searchModeForTracker) {
@@ -37,7 +38,7 @@ export const TrackManga = ({ manga }: { manga: Pick<TManga, 'id' | 'trackRecords
 
     const [searchModeForTracker, setSearchModeForTracker] = useState<number>();
 
-    const trackerList = requestManager.useGetTrackerList();
+    const trackerList = requestManager.useGetTrackerList({ notifyOnNetworkStatusChange: true });
     const mangaTrackers = manga.trackRecords.nodes;
 
     const loggedInTrackers = Trackers.getLoggedIn(trackerList.data?.trackers.nodes ?? []);
@@ -79,7 +80,13 @@ export const TrackManga = ({ manga }: { manga: Pick<TManga, 'id' | 'trackRecords
     );
 
     if (trackerList.error) {
-        return <EmptyView message={trackerList.error.message} />;
+        return (
+            <EmptyView
+                message={t('global.error.label.failed_to_load_data')}
+                messageExtra={trackerList.error.message}
+                retry={() => trackerList.refetch().catch(defaultPromiseErrorHandler('TrackManga::refetch'))}
+            />
+        );
     }
 
     if (trackerList.loading) {
