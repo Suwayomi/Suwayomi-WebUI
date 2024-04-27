@@ -26,6 +26,7 @@ import { makeToast } from '@/components/util/Toast.tsx';
 import { DeleteChaptersWhileReadingSetting } from '@/components/settings/downloads/DeleteChaptersWhileReadingSetting.tsx';
 import { CategoriesInclusionSetting } from '@/components/settings/CategoriesInclusionSetting.tsx';
 import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
+import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
 
 type DownloadSettingsType = Pick<
     ServerSettings,
@@ -79,6 +80,10 @@ export const DownloadSettings = () => {
     const updateMetadataSetting = createUpdateMetadataServerSettings<keyof MetadataDownloadSettings>(() =>
         makeToast(t('global.error.label.failed_to_save_changes'), 'error'),
     );
+
+    if (loading) {
+        return <LoadingPlaceholder />;
+    }
 
     return (
         <List>

@@ -21,6 +21,7 @@ import { TextSetting } from '@/components/settings/text/TextSetting.tsx';
 import { ServerSettings as GqlServerSettings } from '@/typings.ts';
 import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
 import { SelectSetting } from '@/components/settings/SelectSetting.tsx';
+import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
 
 type ServerSettingsType = Pick<
     GqlServerSettings,
@@ -83,7 +84,7 @@ export const ServerSettings = () => {
         };
     }, [t]);
 
-    const { data } = requestManager.useGetServerSettings();
+    const { data, loading } = requestManager.useGetServerSettings();
     const serverSettings = data ? extractServerSettings(data.settings) : undefined;
     const [mutateSettings] = requestManager.useUpdateServerSettings();
 
@@ -101,6 +102,10 @@ export const ServerSettings = () => {
     ) => {
         mutateSettings({ variables: { input: { settings: { [setting]: value } } } });
     };
+
+    if (loading) {
+        return <LoadingPlaceholder />;
+    }
 
     return (
         <List>

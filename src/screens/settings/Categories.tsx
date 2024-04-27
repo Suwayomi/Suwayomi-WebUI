@@ -34,6 +34,7 @@ import { StrictModeDroppable } from '@/lib/StrictModeDroppable';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/components/util/StyledFab';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext';
 import { TCategory } from '@/typings.ts';
+import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
 
 const getItemStyle = (
     isDragging: boolean,
@@ -62,7 +63,7 @@ export function Categories() {
         };
     }, [t]);
 
-    const { data } = requestManager.useGetCategories();
+    const { data, loading } = requestManager.useGetCategories({ notifyOnNetworkStatusChange: true });
     const categories = useMemo(() => {
         const res = [...(data?.categories.nodes ?? [])];
         if (res.length > 0 && res[0].name === 'Default') {
@@ -134,6 +135,10 @@ export function Categories() {
         const category = categories[index];
         requestManager.deleteCategory(category.id);
     };
+
+    if (loading) {
+        return <LoadingPlaceholder />;
+    }
 
     return (
         <>

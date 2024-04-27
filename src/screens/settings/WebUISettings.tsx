@@ -23,6 +23,7 @@ import {
     SelectSettingValueDisplayInfo,
 } from '@/components/settings/SelectSetting.tsx';
 import { WebUiChannel, WebUiFlavor, WebUiInterface } from '@/lib/graphql/generated/graphql.ts';
+import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
 
 type WebUISettingsType = Pick<
     ServerSettings,
@@ -124,7 +125,7 @@ export const WebUISettings = () => {
         };
     }, [t]);
 
-    const { data } = requestManager.useGetServerSettings();
+    const { data, loading } = requestManager.useGetServerSettings();
     const webUISettings = data ? extractWebUISettings(data.settings) : undefined;
     const [mutateSettings] = requestManager.useUpdateServerSettings();
 
@@ -140,6 +141,10 @@ export const WebUISettings = () => {
 
         mutateSettings({ variables: { input: { settings: { [setting]: value } } } });
     };
+
+    if (loading) {
+        return <LoadingPlaceholder />;
+    }
 
     return (
         <List>

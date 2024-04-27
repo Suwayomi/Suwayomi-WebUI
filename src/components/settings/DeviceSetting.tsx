@@ -19,6 +19,7 @@ import { MutableListSetting } from '@/components/settings/MutableListSetting.tsx
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
 import { ActiveDevice, DEFAULT_DEVICE } from '@/util/device.ts';
 import { Select } from '@/components/atoms/Select.tsx';
+import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
 
 export const DeviceSetting = () => {
     const { t } = useTranslation();
@@ -39,6 +40,7 @@ export const DeviceSetting = () => {
     const {
         metadata,
         settings: { devices },
+        loading,
     } = useMetadataServerSettings();
 
     const { activeDevice, setActiveDevice } = useContext(ActiveDevice);
@@ -60,6 +62,10 @@ export const DeviceSetting = () => {
             makeToast(t('global.error.label.failed_to_save_changes'), 'error'),
         );
     };
+
+    if (loading) {
+        return <LoadingPlaceholder />;
+    }
 
     return (
         <List>

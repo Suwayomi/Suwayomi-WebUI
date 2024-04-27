@@ -23,6 +23,7 @@ import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/lib/metadata/metadataServerSettings.ts';
+import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
 
 type ExtensionsSettings = Pick<GqlServerSettings, 'maxSourcesInParallel' | 'localSourcePath' | 'extensionRepos'>;
 
@@ -45,7 +46,7 @@ export const BrowseSettings = () => {
 
     const [showNsfw, setShowNsfw] = useLocalStorage<boolean>('showNsfw', true);
 
-    const { data } = requestManager.useGetServerSettings();
+    const { data, loading } = requestManager.useGetServerSettings();
     const serverSettings = data ? extractBrowseSettings(data.settings) : undefined;
     const [mutateSettings] = requestManager.useUpdateServerSettings();
 
@@ -60,6 +61,10 @@ export const BrowseSettings = () => {
         settings: { hideLibraryEntries },
     } = useMetadataServerSettings();
     const updateMetadataServerSettings = createUpdateMetadataServerSettings<keyof MetadataBrowseSettings>();
+
+    if (loading) {
+        return <LoadingPlaceholder />;
+    }
 
     return (
         <List>

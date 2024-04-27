@@ -18,6 +18,7 @@ import { EditTextPreference } from '@/components/sourceConfiguration/EditTextPre
 import { MultiSelectListPreference } from '@/components/sourceConfiguration/MultiSelectListPreference';
 import { PreferenceProps } from '@/typings.ts';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
+import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
 
 function getPrefComponent(type: string) {
     switch (type) {
@@ -51,7 +52,7 @@ export function SourceConfigure() {
     }, [t]);
 
     const { sourceId } = useParams<{ sourceId: string }>();
-    const { data } = requestManager.useGetSource(sourceId);
+    const { data, loading } = requestManager.useGetSource(sourceId);
     const sourcePreferences = data?.source.preferences ?? [];
 
     const updateValue =
@@ -59,6 +60,10 @@ export function SourceConfigure() {
         (type, value) => {
             requestManager.setSourcePreferences(sourceId, { position, [type]: value });
         };
+
+    if (loading) {
+        return <LoadingPlaceholder />;
+    }
 
     return (
         <List sx={{ padding: 0 }}>

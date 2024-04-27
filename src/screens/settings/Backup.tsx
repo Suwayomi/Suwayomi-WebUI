@@ -31,6 +31,7 @@ import { TextSetting } from '@/components/settings/text/TextSetting.tsx';
 import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
 import { TimeSetting } from '@/components/settings/TimeSetting.tsx';
 import { ServerSettings } from '@/typings.ts';
+import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
 
 type BackupSettingsType = Pick<ServerSettings, 'backupPath' | 'backupTime' | 'backupInterval' | 'backupTTL'>;
 
@@ -70,7 +71,7 @@ export function Backup() {
 
     useSetDefaultBackTo('settings');
 
-    const { data: settingsData } = requestManager.useGetServerSettings();
+    const { data: settingsData, loading } = requestManager.useGetServerSettings();
     const [mutateSettings] = requestManager.useUpdateServerSettings();
 
     const backupSettings = settingsData ? extractBackupSettings(settingsData.settings) : undefined;
@@ -222,6 +223,10 @@ export function Backup() {
             input?.removeEventListener('change', handleFileSelection);
         };
     }, []);
+
+    if (loading) {
+        return <LoadingPlaceholder />;
+    }
 
     return (
         <>

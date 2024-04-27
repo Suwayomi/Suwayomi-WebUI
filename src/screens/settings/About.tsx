@@ -201,7 +201,7 @@ export function About() {
 
     useSetDefaultBackTo('settings');
 
-    const { data } = requestManager.useGetAbout();
+    const { data, loading } = requestManager.useGetAbout();
     const { aboutServer, aboutWebUI } = data ?? {};
 
     const {
@@ -234,6 +234,10 @@ export function About() {
     const isServerUpdateAvailable =
         !!selectedServerChannelInfo?.tag && selectedServerChannelInfo.tag !== getVersion(aboutServer);
     const isWebUIUpdateAvailable = !!webUIUpdateData?.checkForWebUIUpdate.updateAvailable;
+
+    if (loading) {
+        return <LoadingPlaceholder />;
+    }
 
     return (
         <List>
