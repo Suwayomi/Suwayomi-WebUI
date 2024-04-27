@@ -22,6 +22,8 @@ import { ServerSettings as GqlServerSettings } from '@/typings.ts';
 import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
 import { SelectSetting } from '@/components/settings/SelectSetting.tsx';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
+import { EmptyView } from '@/components/util/EmptyView.tsx';
+import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
 type ServerSettingsType = Pick<
     GqlServerSettings,
@@ -84,7 +86,9 @@ export const ServerSettings = () => {
         };
     }, [t]);
 
-    const { data, loading } = requestManager.useGetServerSettings();
+    const { data, loading, error, refetch } = requestManager.useGetServerSettings({
+        notifyOnNetworkStatusChange: true,
+    });
     const serverSettings = data ? extractServerSettings(data.settings) : undefined;
     const [mutateSettings] = requestManager.useUpdateServerSettings();
 
@@ -105,6 +109,16 @@ export const ServerSettings = () => {
 
     if (loading) {
         return <LoadingPlaceholder />;
+    }
+
+    if (error) {
+        return (
+            <EmptyView
+                message={t('global.error.label.failed_to_load_data')}
+                messageExtra={error.message}
+                retry={() => refetch().catch(defaultPromiseErrorHandler('ServerSettings::refetch'))}
+            />
+        );
     }
 
     return (

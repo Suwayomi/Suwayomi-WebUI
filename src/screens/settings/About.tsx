@@ -28,6 +28,7 @@ import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarC
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
 import { GetAboutQuery, UpdateState } from '@/lib/graphql/generated/graphql.ts';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { EmptyView } from '@/components/util/EmptyView.tsx';
 
 type AboutServer = GetAboutQuery['aboutServer'];
 
@@ -201,7 +202,7 @@ export function About() {
 
     useSetDefaultBackTo('settings');
 
-    const { data, loading } = requestManager.useGetAbout();
+    const { data, loading, error, refetch } = requestManager.useGetAbout({ notifyOnNetworkStatusChange: true });
     const { aboutServer, aboutWebUI } = data ?? {};
 
     const {
@@ -237,6 +238,16 @@ export function About() {
 
     if (loading) {
         return <LoadingPlaceholder />;
+    }
+
+    if (error) {
+        return (
+            <EmptyView
+                message={t('global.error.label.failed_to_load_data')}
+                messageExtra={error.message}
+                retry={() => refetch().catch(defaultPromiseErrorHandler('About::refetch'))}
+            />
+        );
     }
 
     return (

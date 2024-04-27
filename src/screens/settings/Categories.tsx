@@ -35,6 +35,8 @@ import { DEFAULT_FULL_FAB_HEIGHT } from '@/components/util/StyledFab';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext';
 import { TCategory } from '@/typings.ts';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
+import { EmptyView } from '@/components/util/EmptyView.tsx';
+import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
 const getItemStyle = (
     isDragging: boolean,
@@ -63,7 +65,7 @@ export function Categories() {
         };
     }, [t]);
 
-    const { data, loading } = requestManager.useGetCategories({ notifyOnNetworkStatusChange: true });
+    const { data, loading, error, refetch } = requestManager.useGetCategories({ notifyOnNetworkStatusChange: true });
     const categories = useMemo(() => {
         const res = [...(data?.categories.nodes ?? [])];
         if (res.length > 0 && res[0].name === 'Default') {
@@ -138,6 +140,16 @@ export function Categories() {
 
     if (loading) {
         return <LoadingPlaceholder />;
+    }
+
+    if (error) {
+        return (
+            <EmptyView
+                message={t('category.error.label.request_failure')}
+                messageExtra={error.message}
+                retry={() => refetch().catch(defaultPromiseErrorHandler('Categories::refetch'))}
+            />
+        );
     }
 
     return (

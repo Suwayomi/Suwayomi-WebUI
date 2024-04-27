@@ -19,6 +19,8 @@ import { MultiSelectListPreference } from '@/components/sourceConfiguration/Mult
 import { PreferenceProps } from '@/typings.ts';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
+import { EmptyView } from '@/components/util/EmptyView.tsx';
+import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
 function getPrefComponent(type: string) {
     switch (type) {
@@ -52,7 +54,9 @@ export function SourceConfigure() {
     }, [t]);
 
     const { sourceId } = useParams<{ sourceId: string }>();
-    const { data, loading } = requestManager.useGetSource(sourceId);
+    const { data, loading, error, refetch } = requestManager.useGetSource(sourceId, {
+        notifyOnNetworkStatusChange: true,
+    });
     const sourcePreferences = data?.source.preferences ?? [];
 
     const updateValue =
@@ -63,6 +67,16 @@ export function SourceConfigure() {
 
     if (loading) {
         return <LoadingPlaceholder />;
+    }
+
+    if (error) {
+        return (
+            <EmptyView
+                message={t('global.error.label.failed_to_load_data')}
+                messageExtra={error.message}
+                retry={() => refetch().catch(defaultPromiseErrorHandler('SourceConfigure::refetch'))}
+            />
+        );
     }
 
     return (

@@ -20,6 +20,8 @@ import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarC
 import { ActiveDevice, DEFAULT_DEVICE } from '@/util/device.ts';
 import { Select } from '@/components/atoms/Select.tsx';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
+import { EmptyView } from '@/components/util/EmptyView.tsx';
+import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
 export const DeviceSetting = () => {
     const { t } = useTranslation();
@@ -41,6 +43,7 @@ export const DeviceSetting = () => {
         metadata,
         settings: { devices },
         loading,
+        request: { error, refetch },
     } = useMetadataServerSettings();
 
     const { activeDevice, setActiveDevice } = useContext(ActiveDevice);
@@ -65,6 +68,16 @@ export const DeviceSetting = () => {
 
     if (loading) {
         return <LoadingPlaceholder />;
+    }
+
+    if (error) {
+        return (
+            <EmptyView
+                message={t('global.error.label.failed_to_load_data')}
+                messageExtra={error.message}
+                retry={() => refetch().catch(defaultPromiseErrorHandler('DeviceSetting::refetch'))}
+            />
+        );
     }
 
     return (

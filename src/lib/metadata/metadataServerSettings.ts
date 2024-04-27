@@ -76,12 +76,14 @@ export const useMetadataServerSettings = (): {
     metadata?: Metadata;
     settings: MetadataServerSettings;
     loading: boolean;
+    request: ReturnType<typeof requestManager.useGetGlobalMeta>;
 } => {
-    const { data, loading } = requestManager.useGetGlobalMeta();
+    const request = requestManager.useGetGlobalMeta({ notifyOnNetworkStatusChange: true });
+    const { data, loading } = request;
     const metadata = convertFromGqlMeta(data?.metas.nodes);
     const settings = getMetadataServerSettingsWithDefaultFallback(metadata);
 
-    return { metadata, settings, loading };
+    return { metadata, settings, loading, request };
 };
 
 export const getMetadataServerSettings = async (): Promise<MetadataServerSettings> => {

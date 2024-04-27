@@ -24,6 +24,8 @@ import {
 } from '@/components/settings/SelectSetting.tsx';
 import { WebUiChannel, WebUiFlavor, WebUiInterface } from '@/lib/graphql/generated/graphql.ts';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
+import { EmptyView } from '@/components/util/EmptyView.tsx';
+import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
 type WebUISettingsType = Pick<
     ServerSettings,
@@ -125,7 +127,9 @@ export const WebUISettings = () => {
         };
     }, [t]);
 
-    const { data, loading } = requestManager.useGetServerSettings();
+    const { data, loading, error, refetch } = requestManager.useGetServerSettings({
+        notifyOnNetworkStatusChange: true,
+    });
     const webUISettings = data ? extractWebUISettings(data.settings) : undefined;
     const [mutateSettings] = requestManager.useUpdateServerSettings();
 
@@ -144,6 +148,16 @@ export const WebUISettings = () => {
 
     if (loading) {
         return <LoadingPlaceholder />;
+    }
+
+    if (error) {
+        return (
+            <EmptyView
+                message={t('global.error.label.failed_to_load_data')}
+                messageExtra={error.message}
+                retry={() => refetch().catch(defaultPromiseErrorHandler('WebUISettings::refetch'))}
+            />
+        );
     }
 
     return (

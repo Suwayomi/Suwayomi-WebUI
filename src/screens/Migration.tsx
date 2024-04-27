@@ -43,7 +43,9 @@ const getMigratableSources = (mangas?: TMigratableSourcesResult): TMigratableSou
 export const Migration = () => {
     const { t } = useTranslation();
 
-    const { data, loading, error } = requestManager.useGetMigratableSources();
+    const { data, loading, error } = requestManager.useGetMigratableSources({
+        notifyOnNetworkStatusChange: true,
+    });
     const migratableSources = useMemo(() => getMigratableSources(data?.mangas.nodes), [data?.mangas.nodes]);
 
     if (loading) {

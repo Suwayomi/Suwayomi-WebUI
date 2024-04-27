@@ -24,6 +24,8 @@ import {
     useMetadataServerSettings,
 } from '@/lib/metadata/metadataServerSettings.ts';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
+import { EmptyView } from '@/components/util/EmptyView.tsx';
+import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
 type ExtensionsSettings = Pick<GqlServerSettings, 'maxSourcesInParallel' | 'localSourcePath' | 'extensionRepos'>;
 
@@ -46,7 +48,9 @@ export const BrowseSettings = () => {
 
     const [showNsfw, setShowNsfw] = useLocalStorage<boolean>('showNsfw', true);
 
-    const { data, loading } = requestManager.useGetServerSettings();
+    const { data, loading, error, refetch } = requestManager.useGetServerSettings({
+        notifyOnNetworkStatusChange: true,
+    });
     const serverSettings = data ? extractBrowseSettings(data.settings) : undefined;
     const [mutateSettings] = requestManager.useUpdateServerSettings();
 
@@ -64,6 +68,16 @@ export const BrowseSettings = () => {
 
     if (loading) {
         return <LoadingPlaceholder />;
+    }
+
+    if (error) {
+        return (
+            <EmptyView
+                message={t('global.error.label.failed_to_load_data')}
+                messageExtra={error.message}
+                retry={() => refetch().catch(defaultPromiseErrorHandler('BrowseSettings::refetch'))}
+            />
+        );
     }
 
     return (

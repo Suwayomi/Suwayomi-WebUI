@@ -54,12 +54,14 @@ export const useDefaultReaderSettings = (): {
     metadata?: Metadata;
     settings: IReaderSettings;
     loading: boolean;
+    request: ReturnType<typeof requestManager.useGetGlobalMeta>;
 } => {
-    const { data, loading } = requestManager.useGetGlobalMeta();
+    const request = requestManager.useGetGlobalMeta({ notifyOnNetworkStatusChange: true });
+    const { data, loading } = request;
     const metadata = convertFromGqlMeta(data?.metas.nodes);
     const settings = getReaderSettingsWithDefaultValueFallback<IReaderSettings>(metadata);
 
-    return { metadata, settings, loading };
+    return { metadata, settings, loading, request };
 };
 
 /**

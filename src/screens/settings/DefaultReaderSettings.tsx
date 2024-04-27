@@ -7,8 +7,6 @@
  */
 
 import { useContext, useEffect } from 'react';
-import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
 import { useTranslation } from 'react-i18next';
 import { AllowedMetadataValueTypes, IReaderSettings } from '@/typings';
 import { convertToGqlMeta, requestUpdateServerMetadata } from '@/lib/metadata/metadata.ts';
@@ -21,6 +19,8 @@ import { ReaderSettingsOptions } from '@/components/reader/ReaderSettingsOptions
 import { makeToast } from '@/components/util/Toast';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { EmptyView } from '@/components/util/EmptyView.tsx';
+import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
 
 export function DefaultReaderSettings() {
     const { t } = useTranslation();
@@ -35,7 +35,12 @@ export function DefaultReaderSettings() {
         };
     }, [t]);
 
-    const { metadata, settings, loading } = useDefaultReaderSettings();
+    const {
+        metadata,
+        settings,
+        loading,
+        request: { error, refetch },
+    } = useDefaultReaderSettings();
 
     useSetDefaultBackTo('settings');
 
@@ -48,17 +53,16 @@ export function DefaultReaderSettings() {
     };
 
     if (loading) {
+        return <LoadingPlaceholder />;
+    }
+
+    if (error) {
         return (
-            <Box
-                sx={{
-                    height: '100vh',
-                    width: '100vw',
-                    display: 'grid',
-                    placeItems: 'center',
-                }}
-            >
-                <CircularProgress thickness={5} />
-            </Box>
+            <EmptyView
+                message={t('global.error.label.failed_to_load_data')}
+                messageExtra={error.message}
+                retry={() => refetch().catch(defaultPromiseErrorHandler('DefaultReaderSettings::refetch'))}
+            />
         );
     }
 

@@ -22,6 +22,8 @@ import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
 import { SourceCard } from '@/components/SourceCard';
 import { LangSelect } from '@/components/navbar/action/LangSelect';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
+import { EmptyView } from '@/components/util/EmptyView.tsx';
+import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
 function sourceToLangList(sources: ISource[]) {
     const result: string[] = [];
@@ -55,7 +57,12 @@ export function Sources() {
     const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownSourceLangs', sourceDefualtLangs());
     const [showNsfw] = useLocalStorage<boolean>('showNsfw', true);
 
-    const { data, loading: isLoading } = requestManager.useGetSourceList();
+    const {
+        data,
+        loading: isLoading,
+        error,
+        refetch,
+    } = requestManager.useGetSourceList({ notifyOnNetworkStatusChange: true });
     const sources = data?.sources.nodes;
 
     const areSourcesFromDifferentRepos = useMemo(() => {
@@ -109,8 +116,18 @@ export function Sources() {
 
     if (isLoading) return <LoadingPlaceholder />;
 
+    if (error) {
+        return (
+            <EmptyView
+                message={t('global.error.label.failed_to_load_data')}
+                messageExtra={error.message}
+                retry={() => refetch().catch(defaultPromiseErrorHandler('Sources::refetch'))}
+            />
+        );
+    }
+
     if (sources?.length === 0) {
-        return <h3>{t('source.error.label.no_sources_found')}</h3>;
+        return <EmptyView message={t('source.error.label.no_sources_found')} />;
     }
 
     return (

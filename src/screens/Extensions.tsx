@@ -39,6 +39,8 @@ import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { StyledGroupedVirtuoso } from '@/components/virtuoso/StyledGroupedVirtuoso.tsx';
 import { StyledGroupHeader } from '@/components/virtuoso/StyledGroupHeader.tsx';
 import { StyledGroupItemWrapper } from '@/components/virtuoso/StyledGroupItemWrapper.tsx';
+import { EmptyView } from '@/components/util/EmptyView.tsx';
+import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
 const LANGUAGE = 0;
 const EXTENSIONS = 1;
@@ -114,7 +116,7 @@ export function Extensions() {
     const [query] = useQueryParam('query', StringParam);
 
     const [refetchExtensions, setRefetchExtensions] = useState({});
-    const [fetchExtensions, { data, loading: isLoading, called }] = requestManager.useExtensionListFetch();
+    const [fetchExtensions, { data, loading: isLoading, error }] = requestManager.useExtensionListFetch();
     const allExtensions = data?.fetchExtensions.extensions;
 
     const handleExtensionUpdate = useCallback(() => setRefetchExtensions({}), []);
@@ -229,8 +231,18 @@ export function Extensions() {
         [],
     );
 
-    if (!allExtensions && (isLoading || !called)) {
+    if (isLoading) {
         return <LoadingPlaceholder />;
+    }
+
+    if (error) {
+        return (
+            <EmptyView
+                message={t('global.error.label.failed_to_load_data')}
+                messageExtra={error.message}
+                retry={() => fetchExtensions().catch(defaultPromiseErrorHandler('Extensions::refetch'))}
+            />
+        );
     }
 
     const showAddRepoInfo = !allExtensions?.length && !areReposDefined;

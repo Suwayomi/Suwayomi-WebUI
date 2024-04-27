@@ -27,6 +27,8 @@ import { DeleteChaptersWhileReadingSetting } from '@/components/settings/downloa
 import { CategoriesInclusionSetting } from '@/components/settings/CategoriesInclusionSetting.tsx';
 import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
+import { EmptyView } from '@/components/util/EmptyView.tsx';
+import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
 type DownloadSettingsType = Pick<
     ServerSettings,
@@ -63,7 +65,9 @@ export const DownloadSettings = () => {
         };
     }, [t]);
 
-    const { data } = requestManager.useGetServerSettings();
+    const { data, loading, error, refetch } = requestManager.useGetServerSettings({
+        notifyOnNetworkStatusChange: true,
+    });
     const downloadSettings = data ? extractDownloadSettings(data.settings) : undefined;
     const [mutateSettings] = requestManager.useUpdateServerSettings();
     const { settings: metadataSettings } = useMetadataServerSettings();
@@ -83,6 +87,16 @@ export const DownloadSettings = () => {
 
     if (loading) {
         return <LoadingPlaceholder />;
+    }
+
+    if (error) {
+        return (
+            <EmptyView
+                message={t('global.error.label.failed_to_load_data')}
+                messageExtra={error.message}
+                retry={() => refetch().catch(defaultPromiseErrorHandler('DownloadSettings::refetch'))}
+            />
+        );
     }
 
     return (

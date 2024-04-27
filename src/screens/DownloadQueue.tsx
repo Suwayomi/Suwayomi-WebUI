@@ -103,7 +103,12 @@ export const DownloadQueue: React.FC = () => {
 
     const [reorderDownload, { reset: revertReorder }] = requestManager.useReorderChapterInDownloadQueue();
 
-    const { data: downloadStatusData, loading: isLoading } = requestManager.useGetDownloadStatus();
+    const {
+        data: downloadStatusData,
+        loading: isLoading,
+        error,
+        refetch,
+    } = requestManager.useGetDownloadStatus({ notifyOnNetworkStatusChange: true });
     const downloaderData = downloadStatusData?.downloadStatus;
 
     const queue = (downloaderData?.queue as DownloadType[]) ?? [];
@@ -203,7 +208,7 @@ export const DownloadQueue: React.FC = () => {
                 // bug: The folder and the last image downloaded are not deleted
                 requestManager.deleteDownloadedChapter(chapter.id).response,
             ]);
-        } catch (error) {
+        } catch (e) {
             makeToast(t('download.queue.error.label.failed_to_remove'), 'error');
         }
 
@@ -216,6 +221,16 @@ export const DownloadQueue: React.FC = () => {
 
     if (isLoading) {
         return <LoadingPlaceholder />;
+    }
+
+    if (error) {
+        return (
+            <EmptyView
+                message={t('global.error.label.failed_to_load_data')}
+                messageExtra={error.message}
+                retry={() => refetch().catch(defaultPromiseErrorHandler('DownloadQueue::refetch'))}
+            />
+        );
     }
 
     if (isQueueEmpty) {

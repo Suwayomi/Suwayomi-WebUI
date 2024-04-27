@@ -11,8 +11,10 @@
 import { useMemo } from 'react';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTranslation } from 'react-i18next';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 
 const ERROR_FACES = ['(･o･;)', 'Σ(ಠ_ಠ)', 'ಥ_ಥ', '(˘･_･˘)', '(；￣Д￣)', '(･Д･。'];
 
@@ -24,30 +26,34 @@ function getRandomErrorFace() {
 interface IProps {
     message: string;
     messageExtra?: JSX.Element | string;
+    retry?: () => void;
 }
 
-export function EmptyView({ message, messageExtra }: IProps) {
+export function EmptyView({ message, messageExtra, retry }: IProps) {
+    const { t } = useTranslation();
     const theme = useTheme();
     const isMobileWidth = useMediaQuery(theme.breakpoints.down('sm'));
 
     const errorFace = useMemo(() => getRandomErrorFace(), []);
 
     return (
-        <Box
+        <Stack
             sx={{
                 position: 'absolute',
                 left: `calc(50% + ${isMobileWidth ? '0px' : theme.spacing(8 / 2)})`,
                 top: '50%',
                 transform: 'translate(-50%, -50%)',
                 textAlign: 'center',
+                alignItems: 'center',
             }}
         >
             <Typography variant="h3" gutterBottom>
                 {errorFace}
             </Typography>
+            {retry && <Button onClick={retry}>{t('global.button.retry')}</Button>}
             <Typography variant="h5">{message}</Typography>
             {messageExtra}
-        </Box>
+        </Stack>
     );
 }
 

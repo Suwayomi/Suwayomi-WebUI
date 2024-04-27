@@ -7,7 +7,6 @@
  */
 
 import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
 import Stack from '@mui/material/Stack';
 import Tooltip from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
@@ -36,6 +35,8 @@ import { Chapters } from '@/lib/data/Chapters.ts';
 import { ChaptersWithMeta } from '@/lib/data/ChaptersWithMeta.ts';
 import { ChapterActionMenuItems } from '@/components/chapter/ChapterActionMenuItems.tsx';
 import { ChaptersDownloadActionMenuItems } from '@/components/chapter/ChaptersDownloadActionMenuItems.tsx';
+import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
 
 const ChapterListHeader = styled(Stack)(({ theme }) => ({
     margin: 8,
@@ -77,7 +78,12 @@ export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
     const queue = (downloaderData?.downloadStatus.queue as DownloadType[]) ?? [];
 
     const [options, dispatch] = useChapterOptions(manga.id);
-    const { data: chaptersData, loading: isLoading } = requestManager.useGetMangaChapters(manga.id);
+    const {
+        data: chaptersData,
+        loading: isLoading,
+        error,
+        refetch,
+    } = requestManager.useGetMangaChapters(manga.id, { notifyOnNetworkStatusChange: true });
     const chapters = useMemo(() => chaptersData?.chapters.nodes ?? [], [chaptersData?.chapters.nodes]);
 
     const chapterIds = useMemo(() => chapters.map((chapter) => chapter.id), [chapters]);
@@ -134,15 +140,21 @@ export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
 
     if (isLoading || (noChaptersFound && isRefreshing)) {
         return (
-            <div
-                style={{
-                    margin: '10px auto',
-                    display: 'flex',
-                    justifyContent: 'center',
-                }}
-            >
-                <CircularProgress thickness={5} />
-            </div>
+            <Stack sx={{ justifyContent: 'center', alignItems: 'center', position: 'relative', flexGrow: 1 }}>
+                <LoadingPlaceholder />
+            </Stack>
+        );
+    }
+
+    if (error) {
+        return (
+            <Stack sx={{ justifyContent: 'center', position: 'relative', flexGrow: 1 }}>
+                <EmptyView
+                    message={t('global.error.label.failed_to_load_data')}
+                    messageExtra={error.message}
+                    retry={() => refetch().catch(defaultPromiseErrorHandler('ChapterList::refetch'))}
+                />
+            </Stack>
         );
     }
 

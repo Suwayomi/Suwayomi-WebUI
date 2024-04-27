@@ -32,6 +32,7 @@ import { UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
 import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { Chapters } from '@/lib/data/Chapters.ts';
+import { EmptyView } from '@/components/util/EmptyView.tsx';
 
 const getReaderComponent = (readerType: ReaderType) => {
     switch (readerType) {
@@ -95,7 +96,12 @@ export function Reader() {
         Number(chapterIndex) === loadedChapter.current?.sourceOrder &&
         loadedChapter.current?.pageCount !== -1;
     const manga = data?.manga ?? initialManga;
-    const { data: chapterData, loading: isChapterLoading } = requestManager.useGetMangaChapter(mangaId, chapterIndex);
+    const {
+        data: chapterData,
+        loading: isChapterLoading,
+        error: chapterError,
+        refetch: fetchChapter,
+    } = requestManager.useGetMangaChapter(mangaId, chapterIndex, { notifyOnNetworkStatusChange: true });
     const arePagesUpdatedRef = useRef(false);
 
     const {
@@ -124,20 +130,30 @@ export function Reader() {
     loadedChapter.current = getLoadedChapter();
 
     const chapter = loadedChapter.current ?? initialChapter;
-    const [fetchPages] = requestManager.useGetChapterPagesFetch(chapter.id);
+    const [fetchPages, { loading: arePagesLoading, error: pagesError }] = requestManager.useGetChapterPagesFetch(
+        chapter.id,
+    );
 
-    useEffect(() => {
+    const doFetchPages = () => {
         const shouldFetchPages = !isChapterLoading && !chapter.isDownloaded;
         if (shouldFetchPages) {
-            fetchPages().then(() => {
-                arePagesUpdatedRef.current = true;
-            });
+            fetchPages()
+                .then(() => {
+                    arePagesUpdatedRef.current = true;
+                })
+                .catch(defaultPromiseErrorHandler('Reader::fetchPages'));
         } else {
             arePagesUpdatedRef.current = true;
         }
+    };
+
+    useEffect(() => {
+        doFetchPages();
     }, [chapter.id]);
 
-    const isLoading = isChapterLoading || !arePagesUpdatedRef.current;
+    const isLoading =
+        isChapterLoading || arePagesLoading || (!arePagesUpdatedRef.current && !chapterError && !pagesError);
+    const error = chapterError ?? pagesError;
     const [wasLastPageReadSet, setWasLastPageReadSet] = useState(false);
     const [curPage, setCurPage] = useState<number>(0);
     const isLastPage = curPage === chapter.pageCount - 1;
@@ -413,6 +429,24 @@ export function Reader() {
             >
                 <CircularProgress thickness={5} />
             </Box>
+        );
+    }
+
+    if (error) {
+        return (
+            <EmptyView
+                message={t('global.error.label.failed_to_load_data')}
+                messageExtra={error.message}
+                retry={() => {
+                    if (chapterError) {
+                        fetchChapter().catch(defaultPromiseErrorHandler('Reader::refetchChapter'));
+                    }
+
+                    if (pagesError) {
+                        doFetchPages();
+                    }
+                }}
+            />
         );
     }
 

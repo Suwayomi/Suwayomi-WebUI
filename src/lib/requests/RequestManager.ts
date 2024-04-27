@@ -25,7 +25,7 @@ import {
     useQuery,
     useSubscription,
 } from '@apollo/client';
-import { OperationVariables } from '@apollo/client/core';
+import { OperationVariables, Reference } from '@apollo/client/core';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { IRestClient, RestClient } from '@/lib/requests/client/RestClient.ts';
 import { GraphQLClient } from '@/lib/requests/client/GraphQLClient.ts';
@@ -269,7 +269,12 @@ import { DOWNLOAD_STATUS_SUBSCRIPTION } from '@/lib/graphql/subscriptions/Downlo
 import { UPDATER_SUBSCRIPTION } from '@/lib/graphql/subscriptions/UpdaterSubscription.ts';
 import { GET_SERVER_SETTINGS } from '@/lib/graphql/queries/SettingsQuery.ts';
 import { UPDATE_SERVER_SETTINGS } from '@/lib/graphql/mutations/SettingsMutation.ts';
-import { BASE_MANGA_FIELDS, FULL_DOWNLOAD_STATUS, FULL_EXTENSION_FIELDS } from '@/lib/graphql/Fragments.ts';
+import {
+    BASE_MANGA_FIELDS,
+    FULL_DOWNLOAD_STATUS,
+    FULL_EXTENSION_FIELDS,
+    GLOBAL_METADATA,
+} from '@/lib/graphql/Fragments.ts';
 import { CLEAR_SERVER_CACHE } from '@/lib/graphql/mutations/ImageMutation.ts';
 import { RESET_WEBUI_UPDATE_STATUS, UPDATE_WEBUI } from '@/lib/graphql/mutations/ServerInfoMutation.ts';
 import { WEBUI_UPDATE_SUBSCRIPTION } from '@/lib/graphql/subscriptions/ServerInfoSubscription.ts';
@@ -1023,18 +1028,40 @@ export class RequestManager {
         value: any,
         options?: MutationOptions<SetGlobalMetadataMutation, SetGlobalMetadataMutationVariables>,
     ): AbortableApolloMutationResponse<SetGlobalMetadataMutation> {
-        const result = this.doRequest<SetGlobalMetadataMutation, SetGlobalMetadataMutationVariables>(
+        return this.doRequest<SetGlobalMetadataMutation, SetGlobalMetadataMutationVariables>(
             GQLMethod.MUTATION,
             SET_GLOBAL_METADATA,
             { input: { meta: { key, value: `${value}` } } },
-            options,
+            {
+                update(cache, { data }) {
+                    cache.modify({
+                        fields: {
+                            metas(existingMetas, { readField }) {
+                                if (!existingMetas) {
+                                    return existingMetas;
+                                }
+
+                                const exists = existingMetas.nodes.some(
+                                    // eslint-disable-next-line no-underscore-dangle
+                                    (meta: Reference) => readField('key', meta) === key,
+                                );
+                                if (exists) {
+                                    return existingMetas;
+                                }
+
+                                const newMetaRef = cache.writeFragment({
+                                    data: data!.setGlobalMeta.meta,
+                                    fragment: GLOBAL_METADATA,
+                                });
+
+                                return [...existingMetas, newMetaRef];
+                            },
+                        },
+                    });
+                },
+                ...options,
+            },
         );
-
-        result.response.then(() => {
-            this.graphQLClient.client.cache.evict({ fieldName: 'metas' });
-        });
-
-        return result;
     }
 
     public useGetAbout(
@@ -1116,7 +1143,7 @@ export class RequestManager {
                                     },
                                 },
                       },
-            [this.cache.getFetchTimestampFor(EXTENSION_LIST_CACHE_KEY, undefined)],
+            [this.cache.getFetchTimestampFor(EXTENSION_LIST_CACHE_KEY, undefined), result.loading],
         );
 
         const wrappedMutate = async (mutateOptions: Parameters<typeof mutate>[0]) => {
@@ -2063,6 +2090,7 @@ export class RequestManager {
                 GQLMethod.USE_QUERY,
                 GET_CATEGORY_MANGAS,
                 { id },
+                options as QueryHookOptions<GetCategoryMangasQuery, GetCategoryMangasQueryVariables>,
             );
 
             return {
