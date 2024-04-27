@@ -9,7 +9,7 @@
 import Chip from '@mui/material/Chip';
 import Tab from '@mui/material/Tab';
 import { styled } from '@mui/material/styles';
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useQueryParam, NumberParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
@@ -31,6 +31,7 @@ import { PARTIAL_MANGA_FIELDS } from '@/lib/graphql/Fragments.ts';
 import { MangaActionMenuItems } from '@/components/manga/MangaActionMenuItems.tsx';
 import { TabsMenu } from '@/components/tabs/TabsMenu.tsx';
 import { TabsWrapper } from '@/components/tabs/TabsWrapper.tsx';
+import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
 const TitleWithSizeTag = styled('span')({
     display: 'flex',
@@ -49,7 +50,8 @@ export function Library() {
         data: categoriesResponse,
         error: tabsError,
         loading: areCategoriesLoading,
-    } = requestManager.useGetCategories();
+        refetch: refetchCategories,
+    } = requestManager.useGetCategories({ notifyOnNetworkStatusChange: true });
     const tabsData = categoriesResponse?.categories.nodes.filter(
         (category) => category.id !== 0 || (category.id === 0 && category.mangas.totalCount),
     );
@@ -66,9 +68,15 @@ export function Library() {
         data: categoryMangaResponse,
         error: mangaError,
         loading: mangaLoading,
-    } = requestManager.useGetCategoryMangas(activeTab?.id, { skip: !activeTab });
+        refetch: refetchCategoryMangas,
+    } = requestManager.useGetCategoryMangas(activeTab?.id, { skip: !activeTab, notifyOnNetworkStatusChange: true });
     const categoryMangas = categoryMangaResponse?.mangas.nodes ?? [];
     const { visibleMangas: mangas, showFilteredOutMessage } = useGetVisibleLibraryMangas(categoryMangas);
+
+    const retryFetchCategoryMangas = useCallback(
+        () => refetchCategoryMangas().catch(defaultPromiseErrorHandler('Library::refetchCategoryMangas')),
+        [refetchCategoryMangas, activeTab],
+    );
 
     const mangaIds = useMemo(() => mangas.map((manga) => manga.id), [mangas]);
 
@@ -189,7 +197,8 @@ export function Library() {
         return (
             <EmptyView
                 message={t('category.error.label.request_failure')}
-                messageExtra={tabsError.message ?? tabsError}
+                messageExtra={tabsError.message}
+                retry={() => refetchCategories().catch(defaultPromiseErrorHandler('Library::refetchCategories'))}
             />
         );
     }
@@ -207,12 +216,14 @@ export function Library() {
             <>
                 <LibraryMangaGrid
                     mangas={mangas}
-                    message={t('library.error.label.empty')}
-                    isLoading={activeTab != null && mangaLoading}
+                    message={mangaError ? t('manga.error.label.request_failure') : t('library.error.label.empty')}
+                    messageExtra={mangaError?.message}
+                    isLoading={mangaLoading}
                     selectedMangaIds={selectedItemIds}
                     isSelectModeActive={isSelectModeActive}
                     handleSelection={handleSelect}
-                    showFilteredOutMessage={showFilteredOutMessage}
+                    showFilteredOutMessage={!mangaError && showFilteredOutMessage}
+                    retry={mangaError && retryFetchCategoryMangas}
                 />
                 {selectionFab}
             </>
@@ -238,23 +249,21 @@ export function Library() {
             </TabsMenu>
             {tabs.map((tab) => (
                 <TabPanel key={tab.order} index={tab.order} currentIndex={activeTab.order}>
-                    {tab === activeTab &&
-                        (mangaError ? (
-                            <EmptyView
-                                message={t('manga.error.label.request_failure')}
-                                messageExtra={mangaError.message ?? mangaError}
-                            />
-                        ) : (
-                            <LibraryMangaGrid
-                                mangas={mangas}
-                                message={t('library.error.label.empty')}
-                                isLoading={mangaLoading}
-                                selectedMangaIds={selectedItemIds}
-                                isSelectModeActive={isSelectModeActive}
-                                handleSelection={handleSelect}
-                                showFilteredOutMessage={showFilteredOutMessage}
-                            />
-                        ))}
+                    {tab === activeTab && (
+                        <LibraryMangaGrid
+                            mangas={mangas}
+                            message={
+                                mangaError ? t('manga.error.label.request_failure') : t('library.error.label.empty')
+                            }
+                            messageExtra={mangaError?.message}
+                            isLoading={mangaLoading}
+                            selectedMangaIds={selectedItemIds}
+                            isSelectModeActive={isSelectModeActive}
+                            handleSelection={handleSelect}
+                            showFilteredOutMessage={!mangaError && showFilteredOutMessage}
+                            retry={mangaError && retryFetchCategoryMangas}
+                        />
+                    )}
                 </TabPanel>
             ))}
             {selectionFab}

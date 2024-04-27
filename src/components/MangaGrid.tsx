@@ -9,7 +9,6 @@
 import React, { ForwardedRef, forwardRef, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import Grid, { GridTypeMap } from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import { GridItemProps, GridStateSnapshot, VirtuosoGrid } from 'react-virtuoso';
 import { useLocation } from 'react-router-dom';
 import { EmptyView } from '@/components/util/EmptyView';
@@ -212,9 +211,9 @@ const VerticalGrid = forwardRef(
     },
 );
 
-export interface IMangaGridProps extends Omit<DefaultGridProps, 'GridItemContainer'> {
-    message?: string;
-    messageExtra?: JSX.Element;
+export interface IMangaGridProps
+    extends Omit<DefaultGridProps, 'GridItemContainer'>,
+        Partial<React.ComponentProps<typeof EmptyView>> {
     hasNextPage: boolean;
     loadMore: () => void;
     horizontal?: boolean | undefined;
@@ -237,6 +236,7 @@ export const MangaGrid: React.FC<IMangaGridProps> = (props) => {
         selectedMangaIds,
         handleSelection,
         mode,
+        retry,
     } = props;
 
     const gridRef = useRef<HTMLDivElement>(null);
@@ -314,20 +314,7 @@ export const MangaGrid: React.FC<IMangaGridProps> = (props) => {
 
     const hasNoItems = !isLoading && mangas.length === 0;
     if (hasNoItems) {
-        if (noFaces) {
-            return (
-                <Box
-                    sx={{
-                        margin: 'auto',
-                    }}
-                >
-                    <Typography variant="h5">{message}</Typography>
-                    {messageExtra}
-                </Box>
-            );
-        }
-
-        return <EmptyView message={message!} messageExtra={messageExtra} />;
+        return <EmptyView noFaces={noFaces} message={message!} messageExtra={messageExtra} retry={retry} />;
     }
 
     return (
@@ -369,9 +356,4 @@ export const MangaGrid: React.FC<IMangaGridProps> = (props) => {
             )}
         </div>
     );
-};
-
-MangaGrid.defaultProps = {
-    message: '',
-    messageExtra: undefined,
 };

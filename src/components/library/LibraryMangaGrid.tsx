@@ -14,21 +14,18 @@ import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsCon
 import { IMangaGridProps, MangaGrid } from '@/components/MangaGrid';
 
 interface LibraryMangaGridProps
-    extends Required<Pick<IMangaGridProps, 'isSelectModeActive' | 'selectedMangaIds' | 'handleSelection'>> {
+    extends Required<Pick<IMangaGridProps, 'isSelectModeActive' | 'selectedMangaIds' | 'handleSelection'>>,
+        Pick<IMangaGridProps, 'retry' | 'message' | 'messageExtra'> {
     mangas: TManga[];
     showFilteredOutMessage: boolean;
     isLoading: boolean;
-    message?: string;
 }
 
 export const LibraryMangaGrid: React.FC<LibraryMangaGridProps> = ({
-    mangas,
     showFilteredOutMessage,
-    isLoading,
     message,
-    isSelectModeActive,
-    selectedMangaIds,
-    handleSelection,
+    messageExtra,
+    ...gridProps
 }) => {
     const { t } = useTranslation();
 
@@ -42,15 +39,12 @@ export const LibraryMangaGrid: React.FC<LibraryMangaGridProps> = ({
 
     return (
         <MangaGrid
-            mangas={mangas}
-            isLoading={isLoading}
+            {...gridProps}
             hasNextPage={false}
             loadMore={() => undefined}
             message={showFilteredOutMessage ? t('library.error.label.no_matches') : message}
+            messageExtra={showFilteredOutMessage ? undefined : messageExtra}
             gridLayout={options.gridLayout}
-            isSelectModeActive={isSelectModeActive}
-            selectedMangaIds={selectedMangaIds}
-            handleSelection={handleSelection}
         />
     );
 };

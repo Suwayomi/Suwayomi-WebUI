@@ -27,9 +27,10 @@ interface IProps {
     message: string;
     messageExtra?: JSX.Element | string;
     retry?: () => void;
+    noFaces?: boolean;
 }
 
-export function EmptyView({ message, messageExtra, retry }: IProps) {
+export function EmptyView({ message, messageExtra, retry, noFaces }: IProps) {
     const { t } = useTranslation();
     const theme = useTheme();
     const isMobileWidth = useMediaQuery(theme.breakpoints.down('sm'));
@@ -47,9 +48,11 @@ export function EmptyView({ message, messageExtra, retry }: IProps) {
                 alignItems: 'center',
             }}
         >
-            <Typography variant="h3" gutterBottom>
-                {errorFace}
-            </Typography>
+            {!noFaces && (
+                <Typography variant="h3" gutterBottom>
+                    {errorFace}
+                </Typography>
+            )}
             {retry && <Button onClick={retry}>{t('global.button.retry')}</Button>}
             <Typography variant="h5">{message}</Typography>
             {messageExtra}
