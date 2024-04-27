@@ -130,10 +130,7 @@ export const WebUISettings = () => {
     const { data, loading, error, refetch } = requestManager.useGetServerSettings({
         notifyOnNetworkStatusChange: true,
     });
-    const webUISettings = data ? extractWebUISettings(data.settings) : undefined;
     const [mutateSettings] = requestManager.useUpdateServerSettings();
-
-    const isDefaultWebUI = webUISettings?.webUIFlavor === WebUiFlavor.Webui;
 
     const updateSetting = <Setting extends keyof WebUISettingsType>(
         setting: Setting,
@@ -160,12 +157,14 @@ export const WebUISettings = () => {
         );
     }
 
+    const webUISettings = extractWebUISettings(data!.settings);
+    const isDefaultWebUI = webUISettings.webUIFlavor === WebUiFlavor.Webui;
+
     return (
         <List>
             <SelectSetting<WebUiFlavor>
                 settingName={t('settings.webui.flavor.label.title')}
-                value={webUISettings?.webUIFlavor}
-                defaultValue={WebUiFlavor.Webui}
+                value={webUISettings.webUIFlavor}
                 values={FLAVOR_SELECT_VALUES}
                 handleChange={(flavor) => updateSetting('webUIFlavor', flavor)}
             />
@@ -173,32 +172,33 @@ export const WebUISettings = () => {
                 <ListItemText primary={t('settings.webui.label.initial_open_browser')} />
                 <Switch
                     edge="end"
-                    checked={!!webUISettings?.initialOpenInBrowserEnabled}
+                    checked={webUISettings.initialOpenInBrowserEnabled}
                     onChange={(e) => updateSetting('initialOpenInBrowserEnabled', e.target.checked)}
                 />
             </ListItem>
             <SelectSetting<WebUiInterface>
                 settingName={t('settings.webui.interface.label.title')}
-                value={webUISettings?.webUIInterface}
-                defaultValue={WebUiInterface.Browser}
+                value={webUISettings.webUIInterface}
                 values={INTERFACE_SELECT_VALUES}
                 handleChange={(webUIInterface) => updateSetting('webUIInterface', webUIInterface)}
             />
             <TextSetting
                 settingName={t('settings.webui.electron_path.label.title')}
                 dialogDescription={t('settings.webui.electron_path.label.description')}
-                value={webUISettings?.electronPath}
+                value={webUISettings.electronPath}
                 handleChange={(path) => updateSetting('electronPath', path)}
             />
             <SelectSetting<WebUiChannel>
                 settingName={t('settings.webui.channel.label.title')}
-                value={webUISettings?.webUIChannel}
-                defaultValue={WebUiChannel.Stable}
+                value={webUISettings.webUIChannel}
                 values={CHANNEL_SELECT_VALUES}
                 handleChange={(channel) => updateSetting('webUIChannel', channel)}
                 disabled={!isDefaultWebUI}
             />
-            <WebUIUpdateIntervalSetting disabled={!isDefaultWebUI} />
+            <WebUIUpdateIntervalSetting
+                disabled={!isDefaultWebUI}
+                updateCheckInterval={data!.settings.webUIUpdateCheckInterval}
+            />
         </List>
     );
 };

@@ -267,7 +267,6 @@ export const TrackerActiveCard = ({
                                 <Divider orientation="vertical" flexItem />
                                 <SelectSetting<string>
                                     settingName={t('tracking.track_record.label.score')}
-                                    defaultValue={tracker.scores[0]}
                                     value={currentScore}
                                     values={selectSettingValues}
                                     handleChange={(score) => updateTrackerBind({ scoreString: score })}

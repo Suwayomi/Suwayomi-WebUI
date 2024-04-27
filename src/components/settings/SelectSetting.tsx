@@ -36,15 +36,13 @@ export const SelectSetting = <SettingValue extends string | number>({
     settingName,
     dialogDescription,
     value,
-    defaultValue,
     values,
     handleChange,
     disabled = false,
 }: {
     settingName: string;
     dialogDescription?: string;
-    value?: SettingValue;
-    defaultValue: SettingValue;
+    value: SettingValue;
     values: SelectSettingValue<SettingValue>[];
     handleChange: (value: SettingValue) => void;
     disabled?: boolean;
@@ -52,7 +50,7 @@ export const SelectSetting = <SettingValue extends string | number>({
     const { t } = useTranslation();
 
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [dialogValue, setDialogValue] = useState(value ?? defaultValue);
+    const [dialogValue, setDialogValue] = useState(value);
 
     const valueDisplayText = useMemo(() => values.find(([key]) => key === value)?.[1]?.text, [value]);
     const dialogValueDisplayInfo = useMemo(() => values.find(([key]) => key === dialogValue)![1], [dialogValue]);
@@ -67,7 +65,7 @@ export const SelectSetting = <SettingValue extends string | number>({
 
     const closeDialog = (resetValue: boolean = true) => {
         if (resetValue) {
-            setDialogValue(value ?? defaultValue);
+            setDialogValue(value);
         }
 
         setIsDialogOpen(false);

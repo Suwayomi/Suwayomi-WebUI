@@ -188,15 +188,12 @@ export const DownloadSettings = () => {
                     dialogDescription={t('download.settings.auto_download.download_limit.label.description')}
                     value={downloadSettings?.autoDownloadNewChaptersLimit ?? 0}
                     settingValue={
-                        // eslint-disable-next-line no-nested-ternary
-                        downloadSettings?.autoDownloadNewChaptersLimit !== undefined
-                            ? !downloadSettings.autoDownloadNewChaptersLimit
-                                ? t('global.label.none')
-                                : t('download.settings.download_ahead.label.value', {
-                                      chapters: downloadSettings.autoDownloadNewChaptersLimit,
-                                      count: downloadSettings.autoDownloadNewChaptersLimit,
-                                  })
-                            : undefined
+                        !downloadSettings.autoDownloadNewChaptersLimit
+                            ? t('global.label.none')
+                            : t('download.settings.download_ahead.label.value', {
+                                  chapters: downloadSettings.autoDownloadNewChaptersLimit,
+                                  count: downloadSettings.autoDownloadNewChaptersLimit,
+                              })
                     }
                     defaultValue={0}
                     minValue={0}

@@ -44,11 +44,7 @@ const extractBackupSettings = (settings: ServerSettings): BackupSettingsType => 
     backupTTL: settings.backupTTL,
 });
 
-const getBackupCleanupDisplayValue = (ttl?: number) => {
-    if (ttl === undefined) {
-        return undefined;
-    }
-
+const getBackupCleanupDisplayValue = (ttl: number): string => {
     if (ttl === 0) {
         return translate('global.label.never');
     }
@@ -80,8 +76,6 @@ export function Backup() {
         refetch,
     } = requestManager.useGetServerSettings({ notifyOnNetworkStatusChange: true });
     const [mutateSettings] = requestManager.useUpdateServerSettings();
-
-    const backupSettings = settingsData ? extractBackupSettings(settingsData.settings) : undefined;
 
     const { data } = requestManager.useGetBackupRestoreStatus(backupRestoreId ?? '', {
         skip: !backupRestoreId,
@@ -245,6 +239,8 @@ export function Backup() {
         );
     }
 
+    const backupSettings = extractBackupSettings(settingsData!.settings);
+
     return (
         <>
             <List sx={{ padding: 0 }}>
@@ -278,26 +274,22 @@ export function Backup() {
                     <TextSetting
                         settingName={t('settings.backup.automated.location.label.title')}
                         dialogDescription={t('settings.backup.automated.location.label.description')}
-                        value={backupSettings?.backupPath}
+                        value={backupSettings.backupPath}
                         handleChange={(path) => updateSetting('backupPath', path)}
                     />
                     <TimeSetting
                         settingName={t('settings.backup.automated.label.time')}
-                        value={backupSettings?.backupTime}
+                        value={backupSettings.backupTime}
                         defaultValue="00:00"
                         handleChange={(time: string) => updateSetting('backupTime', time)}
                     />
                     <NumberSetting
                         settingTitle={t('settings.backup.automated.label.interval')}
-                        settingValue={
-                            backupSettings?.backupInterval
-                                ? t('global.date.value.label.day', {
-                                      days: backupSettings.backupInterval,
-                                      count: backupSettings.backupInterval,
-                                  })
-                                : undefined
-                        }
-                        value={backupSettings?.backupInterval ?? 1}
+                        settingValue={t('global.date.value.label.day', {
+                            days: backupSettings.backupInterval,
+                            count: backupSettings.backupInterval,
+                        })}
+                        value={backupSettings.backupInterval}
                         defaultValue={1}
                         minValue={1}
                         maxValue={31}
@@ -308,8 +300,8 @@ export function Backup() {
                     />
                     <NumberSetting
                         settingTitle={t('settings.backup.automated.cleanup.label.title')}
-                        settingValue={getBackupCleanupDisplayValue(backupSettings?.backupTTL)}
-                        value={backupSettings?.backupTTL ?? 14}
+                        settingValue={getBackupCleanupDisplayValue(backupSettings.backupTTL)}
+                        value={backupSettings.backupTTL}
                         defaultValue={14}
                         minValue={0}
                         maxValue={1000}

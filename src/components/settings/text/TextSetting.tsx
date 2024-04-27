@@ -9,16 +9,14 @@
 import ListItemText from '@mui/material/ListItemText';
 import ListItemButton from '@mui/material/ListItemButton';
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { TextSettingDialog, TextSettingDialogProps } from '@/components/settings/text/TextSettingDialog.tsx';
 
-export type TextSettingProps = Omit<TextSettingDialogProps, 'isDialogOpen' | 'setIsDialogOpen'> & {
-    disabled?: boolean;
-};
+export type TextSettingProps = Omit<TextSettingDialogProps, 'isDialogOpen' | 'setIsDialogOpen' | 'value'> &
+    Required<Pick<TextSettingDialogProps, 'value'>> & {
+        disabled?: boolean;
+    };
 
 export const TextSetting = (props: TextSettingProps) => {
-    const { t } = useTranslation();
-
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     const { settingName, value, isPassword = false, disabled = false } = props;
@@ -28,7 +26,7 @@ export const TextSetting = (props: TextSettingProps) => {
             <ListItemButton disabled={disabled} onClick={() => setIsDialogOpen(true)}>
                 <ListItemText
                     primary={settingName}
-                    secondary={isPassword ? value?.replace(/./g, '*') : value ?? t('global.label.loading')}
+                    secondary={isPassword ? value.replace(/./g, '*') : value}
                     secondaryTypographyProps={{
                         sx: { display: 'flex', flexDirection: 'column', wordWrap: 'break-word' },
                     }}

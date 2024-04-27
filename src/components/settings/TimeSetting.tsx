@@ -28,14 +28,14 @@ export const TimeSetting = ({
     handleChange,
 }: {
     settingName: string;
-    value?: string;
+    value: string;
     defaultValue: string;
     handleChange: (path: string) => void;
 }) => {
     const { t, i18n } = useTranslation();
 
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [dialogValue, setDialogValue] = useState(value ?? defaultValue);
+    const [dialogValue, setDialogValue] = useState(value);
 
     const [locale, setLocale] = useState('en');
 
@@ -58,7 +58,7 @@ export const TimeSetting = ({
             setIsDialogOpen(false);
 
             if (resetValue) {
-                setDialogValue(value ?? defaultValue);
+                setDialogValue(value);
             }
         },
         [value],
@@ -87,9 +87,7 @@ export const TimeSetting = ({
             <ListItemButton onClick={() => setIsDialogOpen(true)}>
                 <ListItemText
                     primary={settingName}
-                    secondary={
-                        value ? dayjs(value, 'HH:mm').locale(currentLocale).format('LT') : t('global.label.loading')
-                    }
+                    secondary={dayjs(value, 'HH:mm').locale(currentLocale).format('LT')}
                     secondaryTypographyProps={{ style: { display: 'flex', flexDirection: 'column' } }}
                 />
             </ListItemButton>

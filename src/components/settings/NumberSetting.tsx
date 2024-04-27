@@ -28,7 +28,7 @@ import { SxProps, Theme } from '@mui/material/styles';
 
 type BaseProps = {
     settingTitle: string;
-    settingValue?: string;
+    settingValue: string;
     settingIcon?: React.ReactNode;
     value: number;
     defaultValue?: number;
@@ -117,7 +117,7 @@ export const NumberSetting = ({
                 {settingIcon ? <ListItemIcon>{settingIcon}</ListItemIcon> : null}
                 <ListItemText
                     primary={settingTitle}
-                    secondary={settingValue ?? t('global.label.loading')}
+                    secondary={settingValue}
                     sx={sx}
                     secondaryTypographyProps={{ style: { display: 'flex', flexDirection: 'column' } }}
                 />

@@ -61,13 +61,9 @@ export const GlobalUpdateSettingsInterval = ({
             </ListItem>
             <NumberSetting
                 settingTitle={t('library.settings.global_update.auto_update.interval.label.title')}
-                settingValue={
-                    autoUpdateIntervalHours !== undefined
-                        ? t('library.settings.global_update.auto_update.interval.label.value', {
-                              hours: currentAutoUpdateIntervalHours,
-                          })
-                        : undefined
-                }
+                settingValue={t('library.settings.global_update.auto_update.interval.label.value', {
+                    hours: currentAutoUpdateIntervalHours,
+                })}
                 value={currentAutoUpdateIntervalHours}
                 minValue={MIN_INTERVAL_HOURS}
                 maxValue={MAX_INTERVAL_HOURS}

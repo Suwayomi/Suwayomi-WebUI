@@ -42,11 +42,7 @@ const CHAPTERS_TO_DELETE_SELECT_VALUES: SelectSettingValue<(typeof CHAPTERS_TO_D
         CHAPTERS_TO_DELETE_TO_TRANSLATION_KEY[chapterToDelete],
     ]);
 
-const getNormalizedChapterToDelete = (chapterToDelete?: number | boolean) => {
-    if (chapterToDelete === undefined) {
-        return undefined;
-    }
-
+const getNormalizedChapterToDelete = (chapterToDelete: number | boolean) => {
     const isMigrationVersion0 = typeof chapterToDelete === 'boolean';
     if (isMigrationVersion0) {
         return Number(chapterToDelete);
@@ -59,7 +55,7 @@ export const DeleteChaptersWhileReadingSetting = ({
     chapterToDelete,
     handleChange,
 }: {
-    chapterToDelete?: number;
+    chapterToDelete: number;
     handleChange: (chapterToDelete: number) => void;
 }) => {
     const { t } = useTranslation();
@@ -70,7 +66,6 @@ export const DeleteChaptersWhileReadingSetting = ({
         <SelectSetting
             settingName={t('download.settings.delete_chapters.while_reading.label.title')}
             value={normalizedChapterToDelete}
-            defaultValue={0}
             values={CHAPTERS_TO_DELETE_SELECT_VALUES}
             handleChange={handleChange}
         />

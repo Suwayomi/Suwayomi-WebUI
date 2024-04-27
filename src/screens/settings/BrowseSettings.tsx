@@ -51,7 +51,6 @@ export const BrowseSettings = () => {
     const { data, loading, error, refetch } = requestManager.useGetServerSettings({
         notifyOnNetworkStatusChange: true,
     });
-    const serverSettings = data ? extractBrowseSettings(data.settings) : undefined;
     const [mutateSettings] = requestManager.useUpdateServerSettings();
 
     const updateSetting = <Setting extends keyof ExtensionsSettings>(
@@ -80,6 +79,8 @@ export const BrowseSettings = () => {
         );
     }
 
+    const serverSettings = extractBrowseSettings(data!.settings);
+
     return (
         <List>
             <ListItem>
@@ -100,11 +101,11 @@ export const BrowseSettings = () => {
             <NumberSetting
                 settingTitle={t('settings.server.requests.sources.parallel.label.title')}
                 settingValue={t('settings.server.requests.sources.parallel.label.value', {
-                    value: serverSettings?.maxSourcesInParallel,
-                    count: serverSettings?.maxSourcesInParallel,
+                    value: serverSettings.maxSourcesInParallel,
+                    count: serverSettings.maxSourcesInParallel,
                 })}
                 valueUnit={t('source.title')}
-                value={serverSettings?.maxSourcesInParallel ?? 6}
+                value={serverSettings.maxSourcesInParallel}
                 defaultValue={6}
                 minValue={1}
                 maxValue={20}
@@ -128,7 +129,7 @@ export const BrowseSettings = () => {
                     updateSetting('extensionRepos', repos);
                     requestManager.clearExtensionCache();
                 }}
-                valueInfos={serverSettings?.extensionRepos.map((extensionRepo) => [extensionRepo]) as [string][]}
+                valueInfos={serverSettings.extensionRepos.map((extensionRepo) => [extensionRepo]) as [string][]}
                 addItemButtonTitle={t('extension.settings.repositories.custom.dialog.action.button.add')}
                 placeholder="https://github.com/MY_ACCOUNT/MY_REPO/tree/repo"
                 validateItem={(repo) =>
@@ -141,7 +142,7 @@ export const BrowseSettings = () => {
             <TextSetting
                 settingName={t('settings.server.local_source.path.label.title')}
                 dialogDescription={t('settings.server.local_source.path.label.description')}
-                value={serverSettings?.localSourcePath}
+                value={serverSettings.localSourcePath}
                 handleChange={(path) => updateSetting('localSourcePath', path)}
             />
         </List>

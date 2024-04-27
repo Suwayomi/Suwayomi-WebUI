@@ -89,7 +89,6 @@ export const ServerSettings = () => {
     const { data, loading, error, refetch } = requestManager.useGetServerSettings({
         notifyOnNetworkStatusChange: true,
     });
-    const serverSettings = data ? extractServerSettings(data.settings) : undefined;
     const [mutateSettings] = requestManager.useUpdateServerSettings();
 
     const [serverAddress, setServerAddress] = useLocalStorage<string>('serverBaseURL', window.location.origin);
@@ -121,6 +120,8 @@ export const ServerSettings = () => {
         );
     }
 
+    const serverSettings = extractServerSettings(data!.settings);
+
     return (
         <List>
             <List
@@ -147,14 +148,14 @@ export const ServerSettings = () => {
                 <TextSetting
                     settingName={t('settings.server.address.server.label.ip')}
                     handleChange={(ip) => updateSetting('ip', ip)}
-                    value={serverSettings?.ip}
+                    value={serverSettings.ip}
                     placeholder="0.0.0.0"
                 />
                 <NumberSetting
                     settingTitle={t('settings.server.address.server.label.port')}
-                    settingValue={serverSettings?.port.toString()}
+                    settingValue={serverSettings.port.toString()}
                     handleUpdate={(port) => updateSetting('port', port)}
-                    value={serverSettings?.port ?? 4567}
+                    value={serverSettings.port}
                     defaultValue={4567}
                     valueUnit={t('settings.server.address.server.label.port')}
                 />
@@ -170,14 +171,13 @@ export const ServerSettings = () => {
                     <ListItemText primary={t('settings.server.socks_proxy.label.enable')} />
                     <Switch
                         edge="end"
-                        checked={!!serverSettings?.socksProxyEnabled}
+                        checked={serverSettings.socksProxyEnabled}
                         onChange={(e) => updateSetting('socksProxyEnabled', e.target.checked)}
                     />
                 </ListItem>
                 <SelectSetting<number>
                     settingName={t('settings.server.socks_proxy.label.version')}
-                    value={serverSettings?.socksProxyVersion}
-                    defaultValue={5}
+                    value={serverSettings.socksProxyVersion}
                     values={[
                         [4, { text: '4' }],
                         [5, { text: '5' }],
@@ -186,22 +186,22 @@ export const ServerSettings = () => {
                 />
                 <TextSetting
                     settingName={t('settings.server.socks_proxy.label.host')}
-                    value={serverSettings?.socksProxyHost}
+                    value={serverSettings.socksProxyHost}
                     handleChange={(proxyHost) => updateSetting('socksProxyHost', proxyHost)}
                 />
                 <TextSetting
                     settingName={t('settings.server.socks_proxy.label.port')}
-                    value={serverSettings?.socksProxyPort}
+                    value={serverSettings.socksProxyPort}
                     handleChange={(proxyPort) => updateSetting('socksProxyPort', proxyPort)}
                 />
                 <TextSetting
                     settingName={t('settings.server.socks_proxy.label.username')}
-                    value={serverSettings?.socksProxyUsername}
+                    value={serverSettings.socksProxyUsername}
                     handleChange={(proxyUsername) => updateSetting('socksProxyUsername', proxyUsername)}
                 />
                 <TextSetting
                     settingName={t('settings.server.socks_proxy.label.password')}
-                    value={serverSettings?.socksProxyPassword}
+                    value={serverSettings.socksProxyPassword}
                     handleChange={(proxyPassword) => updateSetting('socksProxyPassword', proxyPassword)}
                     isPassword
                 />
@@ -217,18 +217,18 @@ export const ServerSettings = () => {
                     <ListItemText primary={t('settings.server.auth.basic.label.enable')} />
                     <Switch
                         edge="end"
-                        checked={!!serverSettings?.basicAuthEnabled}
+                        checked={serverSettings.basicAuthEnabled}
                         onChange={(e) => updateSetting('basicAuthEnabled', e.target.checked)}
                     />
                 </ListItem>
                 <TextSetting
                     settingName={t('settings.server.auth.basic.label.username')}
-                    value={serverSettings?.basicAuthUsername}
+                    value={serverSettings.basicAuthUsername}
                     handleChange={(authUsername) => updateSetting('basicAuthUsername', authUsername)}
                 />
                 <TextSetting
                     settingName={t('settings.server.auth.basic.label.password')}
-                    value={serverSettings?.basicAuthPassword}
+                    value={serverSettings.basicAuthPassword}
                     isPassword
                     handleChange={(authPassword) => updateSetting('basicAuthPassword', authPassword)}
                 />
@@ -259,25 +259,21 @@ export const ServerSettings = () => {
                     />
                     <Switch
                         edge="end"
-                        checked={!!serverSettings?.flareSolverrEnabled}
+                        checked={serverSettings.flareSolverrEnabled}
                         onChange={(e) => updateSetting('flareSolverrEnabled', e.target.checked)}
                     />
                 </ListItem>
                 <TextSetting
                     settingName={t('settings.server.cloudflare.flaresolverr.url.label.title')}
                     dialogDescription={t('settings.server.cloudflare.flaresolverr.url.label.description')}
-                    value={serverSettings?.flareSolverrUrl}
+                    value={serverSettings.flareSolverrUrl}
                     handleChange={(url) => updateSetting('flareSolverrUrl', url)}
                 />
                 <NumberSetting
                     settingTitle={t('settings.server.cloudflare.flaresolverr.timeout.label.title')}
-                    settingValue={
-                        serverSettings?.flareSolverrTimeout !== undefined
-                            ? t('global.time.seconds.value', { count: serverSettings.flareSolverrTimeout })
-                            : undefined
-                    }
+                    settingValue={t('global.time.seconds.value', { count: serverSettings.flareSolverrTimeout })}
                     dialogDescription={t('settings.server.cloudflare.flaresolverr.timeout.label.description')}
-                    value={serverSettings?.flareSolverrTimeout ?? 60}
+                    value={serverSettings.flareSolverrTimeout}
                     defaultValue={60}
                     minValue={20}
                     maxValue={60 * 5}
@@ -288,18 +284,14 @@ export const ServerSettings = () => {
                 />
                 <TextSetting
                     settingName={t('settings.server.cloudflare.flaresolverr.session.name.label.title')}
-                    value={serverSettings?.flareSolverrSessionName}
+                    value={serverSettings.flareSolverrSessionName}
                     handleChange={(sessionName) => updateSetting('flareSolverrSessionName', sessionName)}
                 />
                 <NumberSetting
                     settingTitle={t('settings.server.cloudflare.flaresolverr.session.ttl.label.title')}
-                    settingValue={
-                        serverSettings?.flareSolverrTimeout !== undefined
-                            ? t('global.time.minutes.value', { count: serverSettings.flareSolverrSessionTtl })
-                            : undefined
-                    }
+                    settingValue={t('global.time.minutes.value', { count: serverSettings.flareSolverrSessionTtl })}
                     dialogDescription={t('settings.server.cloudflare.flaresolverr.session.ttl.label.description')}
-                    value={serverSettings?.flareSolverrSessionTtl ?? 15}
+                    value={serverSettings.flareSolverrSessionTtl}
                     defaultValue={15}
                     minValue={1}
                     maxValue={60}
@@ -320,7 +312,7 @@ export const ServerSettings = () => {
                     <ListItemText primary={t('settings.server.misc.log_level.label.server')} />
                     <Switch
                         edge="end"
-                        checked={!!serverSettings?.debugLogsEnabled}
+                        checked={serverSettings.debugLogsEnabled}
                         onChange={(e) => updateSetting('debugLogsEnabled', e.target.checked)}
                     />
                 </ListItem>
@@ -331,7 +323,7 @@ export const ServerSettings = () => {
                     />
                     <Switch
                         edge="end"
-                        checked={!!serverSettings?.gqlDebugLogsEnabled}
+                        checked={serverSettings.gqlDebugLogsEnabled}
                         onChange={(e) => updateSetting('gqlDebugLogsEnabled', e.target.checked)}
                     />
                 </ListItem>
@@ -342,7 +334,7 @@ export const ServerSettings = () => {
                     />
                     <Switch
                         edge="end"
-                        checked={!!serverSettings?.systemTrayEnabled}
+                        checked={serverSettings.systemTrayEnabled}
                         onChange={(e) => updateSetting('systemTrayEnabled', e.target.checked)}
                     />
                 </ListItem>

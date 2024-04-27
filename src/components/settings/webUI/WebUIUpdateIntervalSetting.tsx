@@ -67,13 +67,9 @@ export const WebUIUpdateIntervalSetting = ({
             </ListItem>
             <NumberSetting
                 settingTitle={t('settings.webui.auto_update.label.interval')}
-                settingValue={
-                    updateCheckInterval !== undefined
-                        ? t('library.settings.global_update.auto_update.interval.label.value', {
-                              hours: currentUpdateCheckInterval,
-                          })
-                        : undefined
-                }
+                settingValue={t('library.settings.global_update.auto_update.interval.label.value', {
+                    hours: currentUpdateCheckInterval,
+                })}
                 value={currentUpdateCheckInterval}
                 minValue={MIN_VALUE}
                 maxValue={MAX_VALUE}

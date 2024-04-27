@@ -56,14 +56,10 @@ export const DownloadAheadSetting = ({
             </ListItem>
             <NumberSetting
                 settingTitle={t('download.settings.download_ahead.label.unread_chapters_to_download')}
-                settingValue={
-                    downloadAheadLimit !== undefined
-                        ? t('download.settings.download_ahead.label.value', {
-                              chapters: currentDownloadAheadLimit,
-                              count: currentDownloadAheadLimit,
-                          })
-                        : undefined
-                }
+                settingValue={t('download.settings.download_ahead.label.value', {
+                    chapters: currentDownloadAheadLimit,
+                    count: currentDownloadAheadLimit,
+                })}
                 value={currentDownloadAheadLimit}
                 minValue={MIN_LIMIT}
                 maxValue={MAX_LIMIT}
