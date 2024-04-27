@@ -253,8 +253,12 @@ export function Reader() {
 
         downloadAhead();
 
+        const chapterIds = settings.skipDupChapters
+            ? Chapters.getIds(Chapters.addDuplicates([chapter], mangaChapters ?? [chapter]))
+            : [chapter.id];
+
         requestManager
-            .updateChapters([chapter.id], {
+            .updateChapters(chapterIds, {
                 ...patch,
                 chapterIdsToDelete: getChapterIdsToDelete(),
                 trackProgressMangaId:
