@@ -81,19 +81,32 @@ const NestedMenuItem = forwardRef<HTMLLIElement | null, NestedMenuItemProps>((pr
 
     const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
 
+    const changeMenuOpenState = (open: boolean) => {
+        if (isSubMenuOpen === open) {
+            return;
+        }
+
+        if (props.disabled) {
+            setIsSubMenuOpen(false);
+            return;
+        }
+
+        setIsSubMenuOpen(open);
+    };
+
     const handleMouseEnter = (e: MouseEvent<HTMLElement>) => {
         if (isMobile) {
             return;
         }
 
-        setIsSubMenuOpen(true);
+        changeMenuOpenState(true);
 
         if (ContainerProps.onMouseEnter) {
             ContainerProps.onMouseEnter(e);
         }
     };
     const handleMouseLeave = (e: MouseEvent<HTMLElement>) => {
-        setIsSubMenuOpen(false);
+        changeMenuOpenState(false);
 
         if (ContainerProps.onMouseLeave) {
             ContainerProps.onMouseLeave(e);
@@ -121,7 +134,7 @@ const NestedMenuItem = forwardRef<HTMLLIElement | null, NestedMenuItemProps>((pr
         }
 
         if (e.target === containerRef.current) {
-            setIsSubMenuOpen(true);
+            changeMenuOpenState(true);
         }
 
         if (ContainerProps.onFocus) {
@@ -130,7 +143,7 @@ const NestedMenuItem = forwardRef<HTMLLIElement | null, NestedMenuItemProps>((pr
     };
 
     const handleClick = (e: MouseEvent<HTMLElement>) => {
-        setIsSubMenuOpen(!isSubMenuOpen);
+        changeMenuOpenState(!isSubMenuOpen);
 
         if (ContainerProps.onClick) {
             ContainerProps.onClick(e);
@@ -205,7 +218,7 @@ const NestedMenuItem = forwardRef<HTMLLIElement | null, NestedMenuItemProps>((pr
                 disableAutoFocus
                 disableEnforceFocus
                 onClose={() => {
-                    setIsSubMenuOpen(false);
+                    changeMenuOpenState(false);
                 }}
                 {...MenuProps}
             >
