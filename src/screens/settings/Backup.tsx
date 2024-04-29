@@ -32,7 +32,7 @@ import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
 import { TimeSetting } from '@/components/settings/TimeSetting.tsx';
 import { ServerSettings } from '@/typings.ts';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
-import { EmptyView } from '@/components/util/EmptyView.tsx';
+import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
 type BackupSettingsType = Pick<ServerSettings, 'backupPath' | 'backupTime' | 'backupInterval' | 'backupTTL'>;
@@ -231,7 +231,7 @@ export function Backup() {
 
     if (error) {
         return (
-            <EmptyView
+            <EmptyViewAbsoluteCentered
                 message={t('global.error.label.failed_to_load_data')}
                 messageExtra={error.message}
                 retry={() => refetch().catch(defaultPromiseErrorHandler('Backup::refetch'))}

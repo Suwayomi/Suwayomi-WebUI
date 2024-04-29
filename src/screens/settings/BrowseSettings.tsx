@@ -24,7 +24,7 @@ import {
     useMetadataServerSettings,
 } from '@/lib/metadata/metadataServerSettings.ts';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
-import { EmptyView } from '@/components/util/EmptyView.tsx';
+import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
 type ExtensionsSettings = Pick<GqlServerSettings, 'maxSourcesInParallel' | 'localSourcePath' | 'extensionRepos'>;
@@ -71,7 +71,7 @@ export const BrowseSettings = () => {
 
     if (error) {
         return (
-            <EmptyView
+            <EmptyViewAbsoluteCentered
                 message={t('global.error.label.failed_to_load_data')}
                 messageExtra={error.message}
                 retry={() => refetch().catch(defaultPromiseErrorHandler('BrowseSettings::refetch'))}

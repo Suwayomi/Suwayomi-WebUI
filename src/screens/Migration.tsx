@@ -11,7 +11,7 @@ import { useMemo } from 'react';
 import List from '@mui/material/List';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
-import { EmptyView } from '@/components/util/EmptyView.tsx';
+import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 import { GetMigratableSourcesQuery } from '@/lib/graphql/generated/graphql.ts';
 import { MigrationCard, TMigratableSource } from '@/components/MigrationCard.tsx';
 import { StyledGroupItemWrapper } from '@/components/virtuoso/StyledGroupItemWrapper.tsx';
@@ -55,7 +55,7 @@ export const Migration = () => {
 
     if (error) {
         return (
-            <EmptyView
+            <EmptyViewAbsoluteCentered
                 message={t('global.error.label.failed_to_load_data')}
                 messageExtra={error.message}
                 retry={() => refetch().catch(defaultPromiseErrorHandler('Migration::refetch'))}

@@ -11,7 +11,7 @@ import Grid, { GridTypeMap } from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import { GridItemProps, GridStateSnapshot, VirtuosoGrid } from 'react-virtuoso';
 import { useLocation } from 'react-router-dom';
-import { EmptyView } from '@/components/util/EmptyView';
+import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
 import { MangaCard } from '@/components/MangaCard';
 import { GridLayout } from '@/components/context/LibraryOptionsContext';
@@ -213,7 +213,7 @@ const VerticalGrid = forwardRef(
 
 export interface IMangaGridProps
     extends Omit<DefaultGridProps, 'GridItemContainer'>,
-        Partial<React.ComponentProps<typeof EmptyView>> {
+        Partial<React.ComponentProps<typeof EmptyViewAbsoluteCentered>> {
     hasNextPage: boolean;
     loadMore: () => void;
     horizontal?: boolean | undefined;
@@ -314,7 +314,9 @@ export const MangaGrid: React.FC<IMangaGridProps> = (props) => {
 
     const hasNoItems = !isLoading && mangas.length === 0;
     if (hasNoItems) {
-        return <EmptyView noFaces={noFaces} message={message!} messageExtra={messageExtra} retry={retry} />;
+        return (
+            <EmptyViewAbsoluteCentered noFaces={noFaces} message={message!} messageExtra={messageExtra} retry={retry} />
+        );
     }
 
     return (

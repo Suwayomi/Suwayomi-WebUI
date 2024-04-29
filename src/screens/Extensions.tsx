@@ -39,7 +39,7 @@ import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { StyledGroupedVirtuoso } from '@/components/virtuoso/StyledGroupedVirtuoso.tsx';
 import { StyledGroupHeader } from '@/components/virtuoso/StyledGroupHeader.tsx';
 import { StyledGroupItemWrapper } from '@/components/virtuoso/StyledGroupItemWrapper.tsx';
-import { EmptyView } from '@/components/util/EmptyView.tsx';
+import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
 const LANGUAGE = 0;
@@ -237,7 +237,7 @@ export function Extensions() {
 
     if (error) {
         return (
-            <EmptyView
+            <EmptyViewAbsoluteCentered
                 message={t('global.error.label.failed_to_load_data')}
                 messageExtra={error.message}
                 retry={() => fetchExtensions().catch(defaultPromiseErrorHandler('Extensions::refetch'))}

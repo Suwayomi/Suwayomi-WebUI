@@ -32,7 +32,7 @@ import { UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
 import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { Chapters } from '@/lib/data/Chapters.ts';
-import { EmptyView } from '@/components/util/EmptyView.tsx';
+import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 
 const getReaderComponent = (readerType: ReaderType) => {
     switch (readerType) {
@@ -434,7 +434,7 @@ export function Reader() {
 
     if (error) {
         return (
-            <EmptyView
+            <EmptyViewAbsoluteCentered
                 message={t('global.error.label.failed_to_load_data')}
                 messageExtra={error.message}
                 retry={() => {

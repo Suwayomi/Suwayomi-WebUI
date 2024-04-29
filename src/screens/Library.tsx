@@ -13,7 +13,7 @@ import React, { useCallback, useContext, useEffect, useMemo, useState } from 're
 import { useQueryParam, NumberParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { EmptyView } from '@/components/util/EmptyView';
+import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
 import { TabPanel } from '@/components/tabs/TabPanel.tsx';
 import { LibraryToolbarMenu } from '@/components/library/LibraryToolbarMenu';
@@ -195,7 +195,7 @@ export function Library() {
 
     if (tabsError != null) {
         return (
-            <EmptyView
+            <EmptyViewAbsoluteCentered
                 message={t('category.error.label.request_failure')}
                 messageExtra={tabsError.message}
                 retry={() => refetchCategories().catch(defaultPromiseErrorHandler('Library::refetchCategories'))}
@@ -208,7 +208,7 @@ export function Library() {
     }
 
     if (tabs.length === 0) {
-        return <EmptyView message={t('library.error.label.empty')} />;
+        return <EmptyViewAbsoluteCentered message={t('library.error.label.empty')} />;
     }
 
     if (tabs.length === 1) {

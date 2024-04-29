@@ -27,7 +27,7 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { StrictModeDroppable } from '@/lib/StrictModeDroppable';
 import { makeToast } from '@/components/util/Toast';
 import { DownloadStateIndicator } from '@/components/molecules/DownloadStateIndicator';
-import { EmptyView } from '@/components/util/EmptyView';
+import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 import { ChapterType, DownloadType } from '@/lib/graphql/generated/graphql.ts';
 import { TChapter } from '@/typings.ts';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
@@ -225,7 +225,7 @@ export const DownloadQueue: React.FC = () => {
 
     if (error) {
         return (
-            <EmptyView
+            <EmptyViewAbsoluteCentered
                 message={t('global.error.label.failed_to_load_data')}
                 messageExtra={error.message}
                 retry={() => refetch().catch(defaultPromiseErrorHandler('DownloadQueue::refetch'))}
@@ -234,7 +234,7 @@ export const DownloadQueue: React.FC = () => {
     }
 
     if (isQueueEmpty) {
-        return <EmptyView message={t('download.queue.label.no_downloads')} />;
+        return <EmptyViewAbsoluteCentered message={t('download.queue.label.no_downloads')} />;
     }
 
     return (

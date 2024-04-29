@@ -25,7 +25,7 @@ import {
 } from '@/lib/metadata/metadataServerSettings.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Mangas } from '@/lib/data/Mangas.ts';
-import { EmptyView } from '@/components/util/EmptyView';
+import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
 
@@ -84,7 +84,7 @@ export function LibrarySettings() {
     const error = serverSettings.error ?? metadataServerSettingsError ?? categories.error;
     if (error) {
         return (
-            <EmptyView
+            <EmptyViewAbsoluteCentered
                 message={t('global.error.label.failed_to_load_data')}
                 messageExtra={error.message}
                 retry={() => {

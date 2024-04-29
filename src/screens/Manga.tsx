@@ -22,7 +22,7 @@ import { ChapterList } from '@/components/chapter/ChapterList.tsx';
 import { useRefreshManga } from '@/components/manga/useRefreshManga.ts';
 import { MangaDetails } from '@/components/manga/MangaDetails';
 import { MangaToolbarMenu } from '@/components/manga/MangaToolbarMenu';
-import { EmptyView } from '@/components/util/EmptyView';
+import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
 
 export const Manga: React.FC = () => {
@@ -92,7 +92,9 @@ export const Manga: React.FC = () => {
     }, [t, error, isValidating, refreshing, manga, refresh]);
 
     if (error && !manga) {
-        return <EmptyView message={t('manga.error.label.request_failure')} messageExtra={error.message} />;
+        return (
+            <EmptyViewAbsoluteCentered message={t('manga.error.label.request_failure')} messageExtra={error.message} />
+        );
     }
     return (
         <Box sx={{ display: { md: 'flex' }, overflow: 'hidden' }}>

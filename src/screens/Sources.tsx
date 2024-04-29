@@ -22,7 +22,7 @@ import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
 import { SourceCard } from '@/components/SourceCard';
 import { LangSelect } from '@/components/navbar/action/LangSelect';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
-import { EmptyView } from '@/components/util/EmptyView.tsx';
+import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
 function sourceToLangList(sources: ISource[]) {
@@ -118,7 +118,7 @@ export function Sources() {
 
     if (error) {
         return (
-            <EmptyView
+            <EmptyViewAbsoluteCentered
                 message={t('global.error.label.failed_to_load_data')}
                 messageExtra={error.message}
                 retry={() => refetch().catch(defaultPromiseErrorHandler('Sources::refetch'))}
@@ -127,7 +127,7 @@ export function Sources() {
     }
 
     if (sources?.length === 0) {
-        return <EmptyView message={t('source.error.label.no_sources_found')} />;
+        return <EmptyViewAbsoluteCentered message={t('source.error.label.no_sources_found')} />;
     }
 
     return (

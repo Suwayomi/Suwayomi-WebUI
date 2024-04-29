@@ -27,7 +27,7 @@ import { DeleteChaptersWhileReadingSetting } from '@/components/settings/downloa
 import { CategoriesInclusionSetting } from '@/components/settings/CategoriesInclusionSetting.tsx';
 import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
-import { EmptyView } from '@/components/util/EmptyView.tsx';
+import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
 type DownloadSettingsType = Pick<
@@ -82,7 +82,7 @@ export const DownloadSettings = () => {
     const error = serverSettings.error ?? metadataServerSettingsError ?? categories.error;
     if (error) {
         return (
-            <EmptyView
+            <EmptyViewAbsoluteCentered
                 message={t('global.error.label.failed_to_load_data')}
                 messageExtra={error.message}
                 retry={() => {

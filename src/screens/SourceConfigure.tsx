@@ -19,7 +19,7 @@ import { MultiSelectListPreference } from '@/components/sourceConfiguration/Mult
 import { PreferenceProps } from '@/typings.ts';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
-import { EmptyView } from '@/components/util/EmptyView.tsx';
+import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
 function getPrefComponent(type: string) {
@@ -71,7 +71,7 @@ export function SourceConfigure() {
 
     if (error) {
         return (
-            <EmptyView
+            <EmptyViewAbsoluteCentered
                 message={t('global.error.label.failed_to_load_data')}
                 messageExtra={error.message}
                 retry={() => refetch().catch(defaultPromiseErrorHandler('SourceConfigure::refetch'))}

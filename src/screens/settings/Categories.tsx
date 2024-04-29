@@ -35,7 +35,7 @@ import { DEFAULT_FULL_FAB_HEIGHT } from '@/components/util/StyledFab';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext';
 import { TCategory } from '@/typings.ts';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
-import { EmptyView } from '@/components/util/EmptyView.tsx';
+import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
 const getItemStyle = (
@@ -144,7 +144,7 @@ export function Categories() {
 
     if (error) {
         return (
-            <EmptyView
+            <EmptyViewAbsoluteCentered
                 message={t('category.error.label.request_failure')}
                 messageExtra={error.message}
                 retry={() => refetch().catch(defaultPromiseErrorHandler('Categories::refetch'))}

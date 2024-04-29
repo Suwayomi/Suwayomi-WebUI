@@ -28,7 +28,7 @@ import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarC
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
 import { GetAboutQuery, UpdateState } from '@/lib/graphql/generated/graphql.ts';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
-import { EmptyView } from '@/components/util/EmptyView.tsx';
+import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 
 type AboutServer = GetAboutQuery['aboutServer'];
 
@@ -242,7 +242,7 @@ export function About() {
 
     if (error) {
         return (
-            <EmptyView
+            <EmptyViewAbsoluteCentered
                 message={t('global.error.label.failed_to_load_data')}
                 messageExtra={error.message}
                 retry={() => refetch().catch(defaultPromiseErrorHandler('About::refetch'))}

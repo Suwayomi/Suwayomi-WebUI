@@ -17,7 +17,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { EmptyView } from '@/components/util/EmptyView.tsx';
+import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
 import { TBaseTracker } from '@/lib/data/Trackers.ts';
 import { SearchTextField } from '@/components/atoms/SearchTextField.tsx';
@@ -108,11 +108,11 @@ export const TrackerSearch = ({
             </DialogTitle>
             <DialogContent dividers sx={{ padding: DIALOG_PADDING, height: '100vh' }}>
                 {!trackerSearch.loading && !trackerSearch.error && !hasResults && (
-                    <EmptyView message={t('manga.error.label.no_mangas_found')} />
+                    <EmptyViewAbsoluteCentered message={t('manga.error.label.no_mangas_found')} />
                 )}
                 {trackerSearch.loading && <LoadingPlaceholder />}
                 {trackerSearch.error && !trackerSearch.loading && (
-                    <EmptyView
+                    <EmptyViewAbsoluteCentered
                         message={t('global.error.label.failed_to_load_data')}
                         messageExtra={trackerSearch.error.message}
                         retry={() =>

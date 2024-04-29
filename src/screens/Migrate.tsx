@@ -14,7 +14,7 @@ import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { TMigratableSource } from '@/components/MigrationCard.tsx';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
-import { EmptyView } from '@/components/util/EmptyView.tsx';
+import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 import { MangaGrid } from '@/components/MangaGrid.tsx';
 import { TPartialManga } from '@/typings.ts';
 import { GridLayouts } from '@/components/source/GridLayouts.tsx';
@@ -99,7 +99,7 @@ export const Migrate = () => {
     if (hasError) {
         const error = (hasErrorSource ? sourceError : mangasError)!;
         return (
-            <EmptyView
+            <EmptyViewAbsoluteCentered
                 message={t('global.error.label.failed_to_load_data')}
                 messageExtra={error.message}
                 retry={() => {

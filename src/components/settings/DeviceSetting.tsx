@@ -20,7 +20,7 @@ import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarC
 import { ActiveDevice, DEFAULT_DEVICE } from '@/util/device.ts';
 import { Select } from '@/components/atoms/Select.tsx';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
-import { EmptyView } from '@/components/util/EmptyView.tsx';
+import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
 export const DeviceSetting = () => {
@@ -72,7 +72,7 @@ export const DeviceSetting = () => {
 
     if (error) {
         return (
-            <EmptyView
+            <EmptyViewAbsoluteCentered
                 message={t('global.error.label.failed_to_load_data')}
                 messageExtra={error.message}
                 retry={() => refetch().catch(defaultPromiseErrorHandler('DeviceSetting::refetch'))}

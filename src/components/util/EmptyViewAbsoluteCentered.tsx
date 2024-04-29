@@ -30,7 +30,7 @@ interface IProps {
     noFaces?: boolean;
 }
 
-export function EmptyView({ message, messageExtra, retry, noFaces }: IProps) {
+export function EmptyViewAbsoluteCentered({ message, messageExtra, retry, noFaces }: IProps) {
     const { t } = useTranslation();
     const theme = useTheme();
     const isMobileWidth = useMediaQuery(theme.breakpoints.down('sm'));
@@ -60,6 +60,6 @@ export function EmptyView({ message, messageExtra, retry, noFaces }: IProps) {
     );
 }
 
-EmptyView.defaultProps = {
+EmptyViewAbsoluteCentered.defaultProps = {
     messageExtra: undefined,
 };

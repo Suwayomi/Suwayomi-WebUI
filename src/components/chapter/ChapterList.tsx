@@ -24,7 +24,7 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { ChapterCard } from '@/components/chapter/ChapterCard.tsx';
 import { ResumeFab } from '@/components/manga/ResumeFAB.tsx';
 import { filterAndSortChapters, useChapterOptions } from '@/components/chapter/util.tsx';
-import { EmptyView } from '@/components/util/EmptyView.tsx';
+import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 import { ChaptersToolbarMenu } from '@/components/chapter/ChaptersToolbarMenu.tsx';
 import { SelectionFAB } from '@/components/collection/SelectionFAB.tsx';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/components/util/StyledFab.tsx';
@@ -149,7 +149,7 @@ export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
     if (error) {
         return (
             <Stack sx={{ justifyContent: 'center', position: 'relative', flexGrow: 1 }}>
-                <EmptyView
+                <EmptyViewAbsoluteCentered
                     message={t('global.error.label.failed_to_load_data')}
                     messageExtra={error.message}
                     retry={() => refetch().catch(defaultPromiseErrorHandler('ChapterList::refetch'))}
@@ -214,8 +214,10 @@ export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
                     </Stack>
                 </ChapterListHeader>
 
-                {noChaptersFound && <EmptyView message={t('chapter.error.label.no_chapter_found')} />}
-                {noChaptersMatchingFilter && <EmptyView message={t('chapter.error.label.no_matches')} />}
+                {noChaptersFound && <EmptyViewAbsoluteCentered message={t('chapter.error.label.no_chapter_found')} />}
+                {noChaptersMatchingFilter && (
+                    <EmptyViewAbsoluteCentered message={t('chapter.error.label.no_matches')} />
+                )}
 
                 <StyledVirtuoso
                     style={{

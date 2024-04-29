@@ -16,7 +16,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { EmptyView } from '@/components/util/EmptyView.tsx';
+import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
 import { SettingsTrackerCard } from '@/components/tracker/SettingsTrackerCard.tsx';
 import {
@@ -45,7 +45,7 @@ export const TrackingSettings = () => {
     const trackers = data?.trackers.nodes ?? [];
 
     if (error) {
-        return <EmptyView message={error.message} />;
+        return <EmptyViewAbsoluteCentered message={error.message} />;
     }
 
     if (loading) {

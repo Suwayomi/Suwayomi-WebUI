@@ -12,7 +12,7 @@ import { useEffect, useMemo, useState } from 'react';
 import DialogContent from '@mui/material/DialogContent';
 import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { EmptyView } from '@/components/util/EmptyView.tsx';
+import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
 import { Trackers } from '@/lib/data/Trackers.ts';
 import { TrackerCard, TrackerMode } from '@/components/tracker/TrackerCard.tsx';
@@ -81,7 +81,7 @@ export const TrackManga = ({ manga }: { manga: Pick<TManga, 'id' | 'trackRecords
 
     if (trackerList.error) {
         return (
-            <EmptyView
+            <EmptyViewAbsoluteCentered
                 message={t('global.error.label.failed_to_load_data')}
                 messageExtra={trackerList.error.message}
                 retry={() => trackerList.refetch().catch(defaultPromiseErrorHandler('TrackManga::refetch'))}

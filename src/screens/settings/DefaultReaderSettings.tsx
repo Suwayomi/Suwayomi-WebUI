@@ -19,7 +19,7 @@ import { ReaderSettingsOptions } from '@/components/reader/ReaderSettingsOptions
 import { makeToast } from '@/components/util/Toast';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
-import { EmptyView } from '@/components/util/EmptyView.tsx';
+import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
 
 export function DefaultReaderSettings() {
@@ -58,7 +58,7 @@ export function DefaultReaderSettings() {
 
     if (error) {
         return (
-            <EmptyView
+            <EmptyViewAbsoluteCentered
                 message={t('global.error.label.failed_to_load_data')}
                 messageExtra={error.message}
                 retry={() => refetch().catch(defaultPromiseErrorHandler('DefaultReaderSettings::refetch'))}

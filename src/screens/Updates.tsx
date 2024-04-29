@@ -21,7 +21,7 @@ import { useTranslation } from 'react-i18next';
 import { t as translate } from 'i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
-import { EmptyView } from '@/components/util/EmptyView';
+import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 import { DownloadStateIndicator } from '@/components/molecules/DownloadStateIndicator';
 import { DownloadType } from '@/lib/graphql/generated/graphql.ts';
 import { TChapter } from '@/typings.ts';
@@ -137,7 +137,7 @@ export const Updates: React.FC = () => {
     }, [hasNextPage, endCursor]);
 
     if (!isLoading && updateEntries.length === 0) {
-        return <EmptyView message={t('updates.error.label.no_updates_available')} />;
+        return <EmptyViewAbsoluteCentered message={t('updates.error.label.no_updates_available')} />;
     }
 
     return (
