@@ -314,7 +314,9 @@ export class Chapters {
     ): T[] {
         const chapterNumberToChapters = Object.groupBy(allChapters, ({ chapterNumber }) => chapterNumber);
 
-        return uniqueChapters.map(({ chapterNumber }) => chapterNumberToChapters[chapterNumber]!).flat();
+        return uniqueChapters
+            .map((uniqueChapter) => chapterNumberToChapters[uniqueChapter.chapterNumber] ?? [uniqueChapter])
+            .flat();
     }
 
     static removeDuplicates<T extends ChapterScanlatorInfo & ChapterNumberInfo>(currentChapter: T, chapters: T[]): T[] {

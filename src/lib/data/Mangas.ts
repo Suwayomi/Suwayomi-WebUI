@@ -264,11 +264,8 @@ export class Mangas {
         const mangaIdToUnReadDownloadedChapters = Object.groupBy(unReadDownloadedChapters, ({ mangaId }) => mangaId);
 
         const mangaIdToDownloadSize = Object.entries(mangaIdToUnReadDownloadedChapters).map(
-            ([mangaId, downloadedChapters]) => {
-                const downloadAheadSize = Math.max(
-                    0,
-                    (size ?? downloadedChapters!.length) - downloadedChapters!.length,
-                );
+            ([mangaId, downloadedChapters = []]) => {
+                const downloadAheadSize = Math.max(0, (size ?? downloadedChapters.length) - downloadedChapters.length);
                 const actualSize = downloadAhead ? downloadAheadSize : size;
 
                 return [mangaId, actualSize];
@@ -281,7 +278,7 @@ export class Mangas {
 
         const chapterIdsToDownload = mangaIdToActualDownloadSize
             .map(([mangaId, actualSize]) => {
-                const mangaChapters = mangaIdToChaptersToConsider[Number(mangaId)]!;
+                const mangaChapters = mangaIdToChaptersToConsider[Number(mangaId)] ?? [];
 
                 if (!mangaChapters.length) {
                     return [];
