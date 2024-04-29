@@ -24,6 +24,7 @@ import { MangaGrid } from '@/components/MangaGrid';
 import { useDebounce } from '@/util/useDebounce.ts';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
 import { MangaCardProps } from '@/components/manga/MangaCard.types.tsx';
+import { EmptyView } from '@/components/util/EmptyView';
 
 type SourceLoadingState = { isLoading: boolean; hasResults: boolean; emptySearch: boolean };
 type SourceToLoadingStateMap = Map<string, SourceLoadingState>;
@@ -145,17 +146,21 @@ const SourceSearchPreview = React.memo(
                         <Typography variant="caption">{translateExtensionLanguage(lang)}</Typography>
                     </CardActionArea>
                 </Card>
-                <MangaGrid
-                    mangas={mangas}
-                    isLoading={isLoading}
-                    hasNextPage={false}
-                    loadMore={() => undefined}
-                    horizontal
-                    noFaces
-                    message={errorMessage}
-                    inLibraryIndicator
-                    mode={mode}
-                />
+                {errorMessage ? (
+                    <EmptyView sx={{ alignItems: 'start' }} noFaces message={errorMessage} />
+                ) : (
+                    <MangaGrid
+                        mangas={mangas}
+                        isLoading={isLoading}
+                        hasNextPage={false}
+                        loadMore={() => undefined}
+                        horizontal
+                        noFaces
+                        message={errorMessage}
+                        inLibraryIndicator
+                        mode={mode}
+                    />
+                )}
             </>
         );
     },
