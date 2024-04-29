@@ -320,15 +320,18 @@ export class Chapters {
     static removeDuplicates<T extends ChapterScanlatorInfo & ChapterNumberInfo>(currentChapter: T, chapters: T[]): T[] {
         const chapterNumberToChapters = Object.groupBy(chapters, ({ chapterNumber }) => chapterNumber);
 
-        return Object.values(chapterNumberToChapters)
-            .map(
-                (groupedChapters) =>
-                    // the result of groupBy can't result in undefined values
-                    groupedChapters!.find((chapter) => chapter.id === currentChapter.id) ??
-                    groupedChapters!.findLast((chapter) => chapter.scanlator === currentChapter.scanlator) ??
-                    groupedChapters!.slice(-1)[0],
-            )
-            .sort((a, b) => b.chapterNumber - a.chapterNumber);
+        const uniqueChapters = Object.values(chapterNumberToChapters).map(
+            (groupedChapters) =>
+                // the result of groupBy can't result in undefined values
+                groupedChapters!.find((chapter) => chapter.id === currentChapter.id) ??
+                groupedChapters!.findLast((chapter) => chapter.scanlator === currentChapter.scanlator) ??
+                groupedChapters!.slice(-1)[0],
+        );
+
+        // keep the chapters in the same order as they were passed
+        return chapters
+            .map(({ id }) => uniqueChapters.find((chapter) => chapter.id === id))
+            .filter((chapter): chapter is T => !!chapter);
     }
 
     static getNextChapter<Chapter extends ChapterScanlatorInfo & ChapterNumberInfo & ChapterReadInfo>(
