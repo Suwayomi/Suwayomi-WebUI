@@ -40,6 +40,7 @@ export function EmptyView({ message, messageExtra, retry, noFaces, sx }: EmptyVi
             sx={{
                 textAlign: 'center',
                 alignItems: 'center',
+                justifyContent: 'center',
                 height: '100%',
                 ...sx,
             }}
