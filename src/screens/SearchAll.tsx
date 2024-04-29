@@ -25,6 +25,7 @@ import { useDebounce } from '@/util/useDebounce.ts';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
 import { MangaCardProps } from '@/components/manga/MangaCard.types.tsx';
 import { EmptyView } from '@/components/util/EmptyView';
+import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
 type SourceLoadingState = { isLoading: boolean; hasResults: boolean; emptySearch: boolean };
 type SourceToLoadingStateMap = Map<string, SourceLoadingState>;
@@ -103,7 +104,7 @@ const SourceSearchPreview = React.memo(
         const { t } = useTranslation();
 
         const { id, displayName, lang } = source;
-        const [, results] = requestManager.useSourceSearch(id, searchString ?? '', undefined, 1, {
+        const [refetch, results] = requestManager.useSourceSearch(id, searchString ?? '', undefined, 1, {
             skipRequest: !searchString,
             addAbortSignal: true,
         });
@@ -147,7 +148,20 @@ const SourceSearchPreview = React.memo(
                     </CardActionArea>
                 </Card>
                 {errorMessage ? (
-                    <EmptyView sx={{ alignItems: 'start' }} noFaces message={errorMessage} />
+                    <EmptyView
+                        sx={{ alignItems: 'start' }}
+                        noFaces
+                        message={errorMessage}
+                        messageExtra={error && error.message}
+                        retry={
+                            error
+                                ? () =>
+                                      refetch(1).catch(
+                                          defaultPromiseErrorHandler(`SourceSearchPreview(${source.id})::refetch`),
+                                      )
+                                : undefined
+                        }
+                    />
                 ) : (
                     <MangaGrid
                         mangas={mangas}
