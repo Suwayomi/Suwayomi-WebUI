@@ -11,6 +11,7 @@ import Grid, { GridTypeMap } from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import { GridItemProps, GridStateSnapshot, VirtuosoGrid } from 'react-virtuoso';
 import { useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
 import { MangaCard } from '@/components/MangaCard';
@@ -220,24 +221,24 @@ export interface IMangaGridProps
     noFaces?: boolean | undefined;
 }
 
-export const MangaGrid: React.FC<IMangaGridProps> = (props) => {
-    const {
-        mangas,
-        isLoading,
-        message,
-        messageExtra,
-        hasNextPage,
-        loadMore,
-        gridLayout,
-        horizontal,
-        noFaces,
-        inLibraryIndicator,
-        isSelectModeActive,
-        selectedMangaIds,
-        handleSelection,
-        mode,
-        retry,
-    } = props;
+export const MangaGrid: React.FC<IMangaGridProps> = ({
+    mangas,
+    isLoading,
+    message,
+    messageExtra,
+    hasNextPage,
+    loadMore,
+    gridLayout,
+    horizontal,
+    noFaces,
+    inLibraryIndicator,
+    isSelectModeActive,
+    selectedMangaIds,
+    handleSelection,
+    mode,
+    retry,
+}) => {
+    const { t } = useTranslation();
 
     const gridRef = useRef<HTMLDivElement>(null);
 
@@ -315,7 +316,12 @@ export const MangaGrid: React.FC<IMangaGridProps> = (props) => {
     const hasNoItems = !isLoading && mangas.length === 0;
     if (hasNoItems) {
         return (
-            <EmptyViewAbsoluteCentered noFaces={noFaces} message={message!} messageExtra={messageExtra} retry={retry} />
+            <EmptyViewAbsoluteCentered
+                noFaces={noFaces}
+                message={message ?? t('manga.error.label.no_mangas_found')}
+                messageExtra={messageExtra}
+                retry={retry}
+            />
         );
     }
 
