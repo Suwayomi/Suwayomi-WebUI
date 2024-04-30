@@ -89,7 +89,12 @@ export function Reader() {
         [mangaId],
     );
 
-    const { data, loading: isMangaLoading } = requestManager.useGetManga(mangaId);
+    const {
+        data,
+        loading: isMangaLoading,
+        error: mangaError,
+        refetch: refetchManga,
+    } = requestManager.useGetManga(mangaId);
     const loadedChapter = useRef<TChapter | null>(null);
     const isChapterLoaded =
         Number(mangaId) === loadedChapter.current?.manga.id &&
@@ -151,9 +156,6 @@ export function Reader() {
         doFetchPages();
     }, [chapter.id]);
 
-    const isLoading =
-        isChapterLoading || arePagesLoading || (!arePagesUpdatedRef.current && !chapterError && !pagesError);
-    const error = chapterError ?? pagesError;
     const [wasLastPageReadSet, setWasLastPageReadSet] = useState(false);
     const [curPage, setCurPage] = useState<number>(0);
     const isLastPage = curPage === chapter.pageCount - 1;
@@ -161,8 +163,21 @@ export function Reader() {
     const [pageToScrollTo, setPageToScrollTo] = useState<number | undefined>(undefined);
     const { setOverride, setTitle } = useContext(NavBarContext);
     const [retrievingNextChapter, setRetrievingNextChapter] = useState(false);
-    const { data: mangaChaptersData } = requestManager.useGetMangaChapters(mangaId, { nextFetchPolicy: 'standby' });
+    const {
+        data: mangaChaptersData,
+        loading: areChaptersLoading,
+        error: chaptersError,
+        refetch: refetchChapters,
+    } = requestManager.useGetMangaChapters(mangaId, { nextFetchPolicy: 'standby' });
     const mangaChapters = mangaChaptersData?.chapters.nodes;
+
+    const isLoading =
+        isMangaLoading ||
+        isChapterLoading ||
+        areChaptersLoading ||
+        arePagesLoading ||
+        (!arePagesUpdatedRef.current && !chapterError && !pagesError);
+    const error = mangaError ?? chapterError ?? chaptersError ?? pagesError;
 
     const { settings: defaultSettings, loading: areDefaultSettingsLoading } = useDefaultReaderSettings();
     const [settings, setSettings] = useState(getReaderSettingsFor(manga, defaultSettings));
@@ -282,7 +297,7 @@ export function Reader() {
                         ? manga.id
                         : undefined,
             })
-            .response.catch();
+            .response.catch(defaultPromiseErrorHandler('Reader::updateChapter'));
     };
 
     const setSettingValue = (key: keyof IReaderSettings, value: AllowedMetadataValueTypes, persist: boolean = true) => {
@@ -438,8 +453,16 @@ export function Reader() {
                 message={t('global.error.label.failed_to_load_data')}
                 messageExtra={error.message}
                 retry={() => {
+                    if (mangaError) {
+                        refetchManga().catch(defaultPromiseErrorHandler('Reader::refetchManga'));
+                    }
+
                     if (chapterError) {
                         fetchChapter().catch(defaultPromiseErrorHandler('Reader::refetchChapter'));
+                    }
+
+                    if (chaptersError) {
+                        refetchChapters().catch(defaultPromiseErrorHandler('Reader::refetchChapters'));
                     }
 
                     if (pagesError) {
