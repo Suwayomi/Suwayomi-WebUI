@@ -85,6 +85,7 @@ export function Reader() {
                 inLibraryAt: 0,
                 lastReadAt: 0,
                 chapters: { totalCount: 0 },
+                trackRecords: { totalCount: 0 },
             }) as unknown as TManga,
         [mangaId],
     );
@@ -426,7 +427,7 @@ export function Reader() {
         });
 
         openNextChapter(ChapterOffset.NEXT);
-    }, [chapter.pageCount, openNextChapter]);
+    }, [chapter.pageCount, openNextChapter, chapter, manga]);
 
     const loadPrevChapter = useCallback(() => {
         openNextChapter(ChapterOffset.PREV);
