@@ -1020,13 +1020,18 @@ export type UpdateTrackPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	trackRecord?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type ValidateBackupResultKeySpecifier = ('missingSources' | ValidateBackupResultKeySpecifier)[];
+export type ValidateBackupResultKeySpecifier = ('missingSources' | 'missingTrackers' | ValidateBackupResultKeySpecifier)[];
 export type ValidateBackupResultFieldPolicy = {
-	missingSources?: FieldPolicy<any> | FieldReadFunction<any>
+	missingSources?: FieldPolicy<any> | FieldReadFunction<any>,
+	missingTrackers?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type ValidateBackupSourceKeySpecifier = ('id' | 'name' | ValidateBackupSourceKeySpecifier)[];
 export type ValidateBackupSourceFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	name?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type ValidateBackupTrackerKeySpecifier = ('name' | ValidateBackupTrackerKeySpecifier)[];
+export type ValidateBackupTrackerFieldPolicy = {
 	name?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type WebUIUpdateCheckKeySpecifier = ('channel' | 'tag' | 'updateAvailable' | WebUIUpdateCheckKeySpecifier)[];
@@ -1551,6 +1556,10 @@ export type StrictTypedTypePolicies = {
 	ValidateBackupSource?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | ValidateBackupSourceKeySpecifier | (() => undefined | ValidateBackupSourceKeySpecifier),
 		fields?: ValidateBackupSourceFieldPolicy,
+	},
+	ValidateBackupTracker?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | ValidateBackupTrackerKeySpecifier | (() => undefined | ValidateBackupTrackerKeySpecifier),
+		fields?: ValidateBackupTrackerFieldPolicy,
 	},
 	WebUIUpdateCheck?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | WebUIUpdateCheckKeySpecifier | (() => undefined | WebUIUpdateCheckKeySpecifier),

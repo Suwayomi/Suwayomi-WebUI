@@ -2523,11 +2523,17 @@ export type ValidateBackupInput = {
 export type ValidateBackupResult = {
   __typename?: 'ValidateBackupResult';
   missingSources: Array<ValidateBackupSource>;
+  missingTrackers: Array<ValidateBackupTracker>;
 };
 
 export type ValidateBackupSource = {
   __typename?: 'ValidateBackupSource';
   id: Scalars['LongString']['output'];
+  name: Scalars['String']['output'];
+};
+
+export type ValidateBackupTracker = {
+  __typename?: 'ValidateBackupTracker';
   name: Scalars['String']['output'];
 };
 
@@ -3052,7 +3058,7 @@ export type ValidateBackupQueryVariables = Exact<{
 }>;
 
 
-export type ValidateBackupQuery = { __typename?: 'Query', validateBackup: { __typename?: 'ValidateBackupResult', missingSources: Array<{ __typename?: 'ValidateBackupSource', id: string, name: string }> } };
+export type ValidateBackupQuery = { __typename?: 'Query', validateBackup: { __typename?: 'ValidateBackupResult', missingSources: Array<{ __typename?: 'ValidateBackupSource', id: string, name: string }>, missingTrackers: Array<{ __typename?: 'ValidateBackupTracker', name: string }> } };
 
 export type GetRestoreStatusQueryVariables = Exact<{
   id: Scalars['String']['input'];

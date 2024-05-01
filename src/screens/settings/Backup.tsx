@@ -22,6 +22,7 @@ import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import ListItem from '@mui/material/ListItem';
 import { Link } from 'react-router-dom';
+import Stack from '@mui/material/Stack';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/components/util/Toast';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext';
@@ -84,7 +85,7 @@ export function Backup() {
 
     const [currentBackupFile, setCurrentBackupFile] = useState<File | null>(null);
     const [isInvalidBackupDialogOpen, setIsInvalidBackupDialogOpen] = useState(false);
-    const [missingSources, setMissingSources] = useState<ValidateBackupQuery['validateBackup']['missingSources']>([]);
+    const [validationResult, setValidationResult] = useState<ValidateBackupQuery['validateBackup']>();
 
     const [, setTriggerReRender] = useState(0);
 
@@ -142,8 +143,8 @@ export function Backup() {
                 data: { validateBackup: validateBackupData },
             } = await requestManager.validateBackupFile(file, { fetchPolicy: 'network-only' }).response;
 
-            if (validateBackupData.missingSources.length) {
-                setMissingSources([...validateBackupData.missingSources]);
+            if (validateBackupData.missingSources.length || validateBackupData.missingTrackers.length) {
+                setValidationResult(validateBackupData);
                 setIsInvalidBackupDialogOpen(true);
                 return false;
             }
@@ -316,38 +317,77 @@ export function Backup() {
             <Dialog open={isInvalidBackupDialogOpen}>
                 <DialogTitle>{t('settings.backup.action.validate.dialog.title')}</DialogTitle>
                 <DialogContent dividers>
-                    <List
-                        sx={{ listStyleType: 'initial', listStylePosition: 'inside' }}
-                        subheader={t('settings.backup.action.validate.dialog.content.label.missing_sources')}
-                    >
-                        {missingSources.map(({ id, name }) => (
-                            <ListItem sx={{ display: 'list-item' }} key={id}>
-                                {`${name} (${id})`}
-                            </ListItem>
-                        ))}
-                    </List>
+                    {!!validationResult?.missingSources.length && (
+                        <List
+                            sx={{ listStyleType: 'initial', listStylePosition: 'inside' }}
+                            subheader={t('settings.backup.action.validate.dialog.content.label.missing_sources')}
+                        >
+                            {validationResult?.missingSources.map(({ id, name }) => (
+                                <ListItem sx={{ display: 'list-item' }} key={id}>
+                                    {`${name} (${id})`}
+                                </ListItem>
+                            ))}
+                        </List>
+                    )}
+                    {!!validationResult?.missingTrackers.length && (
+                        <List
+                            sx={{ listStyleType: 'initial', listStylePosition: 'inside' }}
+                            subheader={t('settings.backup.action.validate.dialog.content.label.missing_trackers')}
+                        >
+                            {validationResult?.missingTrackers.map(({ name }) => (
+                                <ListItem sx={{ display: 'list-item' }} key={name}>
+                                    {`${name}`}
+                                </ListItem>
+                            ))}
+                        </List>
+                    )}
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={closeInvalidBackupDialog}>{t('global.button.cancel')}</Button>
-                    <Button
-                        onClick={closeInvalidBackupDialog}
-                        component={Link}
-                        to="/extensions"
-                        autoFocus={!!missingSources.length}
-                        variant={missingSources.length ? 'contained' : 'text'}
-                    >
-                        {t('extension.action.label.install')}
-                    </Button>
-                    <Button
-                        onClick={() => {
-                            closeInvalidBackupDialog();
-                            restoreBackup(currentBackupFile!);
-                        }}
-                        autoFocus={!missingSources.length}
-                        variant={!missingSources.length ? 'contained' : 'text'}
-                    >
-                        {t('global.button.restore')}
-                    </Button>
+                    <Stack sx={{ width: '100%' }} direction="row" justifyContent="space-between">
+                        {!!validationResult?.missingSources.length && (
+                            <Button
+                                onClick={closeInvalidBackupDialog}
+                                component={Link}
+                                to="/extensions"
+                                autoFocus={!!validationResult?.missingSources.length}
+                                variant={validationResult?.missingSources.length ? 'contained' : 'text'}
+                            >
+                                {t('extension.action.label.install')}
+                            </Button>
+                        )}
+                        {!!validationResult?.missingTrackers.length && (
+                            <Button
+                                onClick={closeInvalidBackupDialog}
+                                component={Link}
+                                to="/settings/trackingSettings"
+                                autoFocus={!!validationResult?.missingTrackers.length}
+                                variant={validationResult?.missingTrackers.length ? 'contained' : 'text'}
+                            >
+                                {t('global.button.log_in')}
+                            </Button>
+                        )}
+                        <Stack direction="row">
+                            <Button onClick={closeInvalidBackupDialog}>{t('global.button.cancel')}</Button>
+                            <Button
+                                onClick={() => {
+                                    closeInvalidBackupDialog();
+                                    restoreBackup(currentBackupFile!);
+                                }}
+                                autoFocus={
+                                    !validationResult?.missingSources.length &&
+                                    !validationResult?.missingTrackers.length
+                                }
+                                variant={
+                                    !validationResult?.missingSources.length &&
+                                    !validationResult?.missingTrackers.length
+                                        ? 'contained'
+                                        : 'text'
+                                }
+                            >
+                                {t('global.button.restore')}
+                            </Button>
+                        </Stack>
+                    </Stack>
                 </DialogActions>
             </Dialog>
         </>

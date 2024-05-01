@@ -15,6 +15,9 @@ export const VALIDATE_BACKUP = gql`
                 id
                 name
             }
+            missingTrackers {
+                name
+            }
         }
     }
 `;

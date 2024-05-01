@@ -826,7 +826,8 @@
           "dialog": {
             "content": {
               "label": {
-                "missing_sources": "The following sources are not installed:"
+                "missing_sources": "The following sources are not installed:",
+                "missing_trackers": "The following trackers are not logged in:"
               }
             },
             "title": "Backup validation"
