@@ -348,7 +348,7 @@ export function Backup() {
                             <Button
                                 onClick={closeInvalidBackupDialog}
                                 component={Link}
-                                to="/extensions"
+                                to="/browse"
                                 autoFocus={!!validationResult?.missingSources.length}
                                 variant={validationResult?.missingSources.length ? 'contained' : 'text'}
                             >
