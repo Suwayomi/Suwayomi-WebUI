@@ -15,6 +15,9 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
+import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { UpdateState, WebUiChannel, WebUiUpdateStatus } from '@/lib/graphql/generated/graphql.ts';
 import { useLocalStorage } from '@/util/useStorage.tsx';
@@ -131,24 +134,33 @@ export const WebUIUpdateChecker = () => {
                             {t('global.button.changelog')}
                         </Button>
                         <Stack direction="row">
-                            <Button
-                                disabled={isUpdateInProgress}
-                                onClick={() => {
-                                    updateChecker.remindLater();
-                                    setOpen(false);
-                                }}
-                            >
-                                {t('global.button.remind_later')}
-                            </Button>
-                            <Button
-                                disabled={isUpdateInProgress}
-                                onClick={() => {
-                                    updateChecker.ignoreUpdate();
-                                    setOpen(false);
-                                }}
-                            >
-                                {t('global.button.ignore')}
-                            </Button>
+                            <PopupState variant="popover" popupId="webui-update-checker-close-menu">
+                                {(popupState) => (
+                                    <>
+                                        <Button {...bindTrigger(popupState)}>{t('global.label.close')}</Button>
+                                        <Menu {...bindMenu(popupState)}>
+                                            <MenuItem
+                                                onClick={() => {
+                                                    updateChecker.remindLater();
+                                                    popupState.close();
+                                                    setOpen(false);
+                                                }}
+                                            >
+                                                {t('global.button.remind_later')}
+                                            </MenuItem>
+                                            <MenuItem
+                                                onClick={() => {
+                                                    updateChecker.ignoreUpdate();
+                                                    popupState.close();
+                                                    setOpen(false);
+                                                }}
+                                            >
+                                                {t('global.button.ignore')}
+                                            </MenuItem>
+                                        </Menu>
+                                    </>
+                                )}
+                            </PopupState>
                             <Button
                                 disabled={isUpdateInProgress}
                                 onClick={() => {

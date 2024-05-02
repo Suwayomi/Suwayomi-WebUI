@@ -14,6 +14,9 @@ import Button from '@mui/material/Button';
 import DialogContentText from '@mui/material/DialogContentText';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { getVersion } from '@/screens/settings/About.tsx';
 import { useUpdateChecker } from '@/util/useUpdateChecker.tsx';
@@ -78,22 +81,33 @@ export const ServerUpdateChecker = () => {
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button
-                    onClick={() => {
-                        updateChecker.remindLater();
-                        handleClose();
-                    }}
-                >
-                    {t('global.button.remind_later')}
-                </Button>
-                <Button
-                    onClick={() => {
-                        updateChecker.ignoreUpdate();
-                        handleClose();
-                    }}
-                >
-                    {t('global.button.ignore')}
-                </Button>
+                <PopupState variant="popover" popupId="server-update-checker-close-menu">
+                    {(popupState) => (
+                        <>
+                            <Button {...bindTrigger(popupState)}>{t('global.label.close')}</Button>
+                            <Menu {...bindMenu(popupState)}>
+                                <MenuItem
+                                    onClick={() => {
+                                        updateChecker.remindLater();
+                                        popupState.close();
+                                        handleClose();
+                                    }}
+                                >
+                                    {t('global.button.remind_later')}
+                                </MenuItem>
+                                <MenuItem
+                                    onClick={() => {
+                                        updateChecker.ignoreUpdate();
+                                        popupState.close();
+                                        handleClose();
+                                    }}
+                                >
+                                    {t('global.button.ignore')}
+                                </MenuItem>
+                            </Menu>
+                        </>
+                    )}
+                </PopupState>
                 <Button onClick={handleClose} variant="contained" href={selectedServerChannelInfo.url} target="_blank">
                     {t('chapter.action.download.add.label.action')}
                 </Button>
