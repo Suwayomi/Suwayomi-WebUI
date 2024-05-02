@@ -20,7 +20,6 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { loadDayJsLocale } from '@/util/language.tsx';
 
 export const DateSetting = ({
     settingName,
@@ -35,18 +34,10 @@ export const DateSetting = ({
     handleChange: (path?: string | null) => void;
     remove?: boolean;
 }) => {
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
 
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [dialogValue, setDialogValue] = useState(value ?? defaultValue);
-
-    const [locale, setLocale] = useState('en');
-
-    const currentLocale = i18n.language;
-
-    useEffect(() => {
-        loadDayJsLocale(currentLocale).then((wasLoaded) => setLocale(wasLoaded ? currentLocale : 'en'));
-    }, [currentLocale]);
 
     useEffect(() => {
         if (!value) {
@@ -90,7 +81,7 @@ export const DateSetting = ({
             <ListItemButton onClick={() => setIsDialogOpen(true)}>
                 <ListItemText
                     primary={settingName}
-                    secondary={value ? dayjs(Number(value)).locale(currentLocale).format('L') : '-'}
+                    secondary={value ? dayjs(Number(value)).format('L') : '-'}
                     secondaryTypographyProps={{ style: { display: 'flex', flexDirection: 'column' } }}
                 />
             </ListItemButton>
@@ -98,7 +89,7 @@ export const DateSetting = ({
             <Dialog open={isDialogOpen} onClose={closeDialog}>
                 <DialogContent>
                     <DialogTitle sx={{ paddingLeft: 0 }}>{settingName}</DialogTitle>
-                    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={locale}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={navigator.language}>
                         <DatePicker
                             value={dialogValue ? dayjs(Number(dialogValue)) : null}
                             onChange={(date) => {

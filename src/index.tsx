@@ -15,8 +15,13 @@ import '@/index.css';
 // roboto font
 import '@fontsource/roboto';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { loadDayJsLocale } from '@/util/language.tsx';
 
 dayjs.extend(customParseFormat);
+
+loadDayJsLocale(navigator.language).then(() => {
+    dayjs.locale(navigator.language);
+});
 
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.ready.then((registration) => {

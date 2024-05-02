@@ -19,7 +19,6 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import dayjs from 'dayjs';
-import { loadDayJsLocale } from '@/util/language.tsx';
 
 export const TimeSetting = ({
     settingName,
@@ -32,18 +31,10 @@ export const TimeSetting = ({
     defaultValue: string;
     handleChange: (path: string) => void;
 }) => {
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
 
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [dialogValue, setDialogValue] = useState(value);
-
-    const [locale, setLocale] = useState('en');
-
-    const currentLocale = i18n.language;
-
-    useEffect(() => {
-        loadDayJsLocale(currentLocale).then((wasLoaded) => setLocale(wasLoaded ? currentLocale : 'en'));
-    }, [currentLocale]);
 
     useEffect(() => {
         if (!value) {
@@ -81,13 +72,13 @@ export const TimeSetting = ({
         },
         [value, handleChange, closeDialog],
     );
-
+    console.log(navigator.language);
     return (
         <>
             <ListItemButton onClick={() => setIsDialogOpen(true)}>
                 <ListItemText
                     primary={settingName}
-                    secondary={dayjs(value, 'HH:mm').locale(currentLocale).format('LT')}
+                    secondary={dayjs(value, 'HH:mm').format('LT')}
                     secondaryTypographyProps={{ style: { display: 'flex', flexDirection: 'column' } }}
                 />
             </ListItemButton>
@@ -95,7 +86,7 @@ export const TimeSetting = ({
             <Dialog open={isDialogOpen} onClose={closeDialog}>
                 <DialogContent>
                     <DialogTitle sx={{ paddingLeft: 0 }}>{settingName}</DialogTitle>
-                    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={locale}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={navigator.language}>
                         <TimePicker
                             value={dayjs(dialogValue, 'HH:mm')}
                             defaultValue={dayjs(defaultValue, 'HH:mm')}
