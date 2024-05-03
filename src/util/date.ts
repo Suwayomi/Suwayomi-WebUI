@@ -22,55 +22,65 @@ export const dateTimeFormatter = new Intl.DateTimeFormat(navigator.language, {
     minute: '2-digit',
 });
 
-export const isWithinLastXMillis = (date: Date, timeMS: number) => {
-    const timeDifference = Date.now() - date.getTime();
-    return timeDifference <= timeMS;
+export const epochToDate = (epoch: number): Date => {
+    const date = new Date(0); // The 0 there is the key, which sets the date to the epoch
+    date.setUTCSeconds(epoch);
+    return date;
 };
 
-export const getElapsedTimeSinceStartOfDay = (date: Date) => {
-    const startOfDay = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-    return date.getTime() - startOfDay.getTime();
-};
+export const isTheSameDay = (first: Date, second: Date): boolean =>
+    first.getDate() === second.getDate() &&
+    first.getMonth() === second.getMonth() &&
+    first.getFullYear() === second.getFullYear();
 
 /**
  * Returns a string in localized format for the passed date.
  *
  * In case the date is from today or yesterday a special string will be returned including "Today"
- * or "Yesterday" with the localized time of the passed date.
+ * or "Yesterday".
+ * Optionally this special string can include the localized time of the passed date ("Today/Yesterday at HH:mm").
  *
  * @example
  * const today = new Date();
  * const yesterday = new Date(today.getTime() - 1000 * 60 * 60 * 24);
  * const someDate = new Date(1337, 4, 20);
  *
- * const todayAsString = getDateString(today); // => "Today at 02:50 AM"
- * const yesterdayAsString = getDateString(yesterday) // => "Yesterday at 02:50 AM"
+ * const todayAsString = getDateString(today); // => "Today"
+ * const yesterdayAsString = getDateString(yesterday, true) // => "Yesterday at 02:50 AM"
  * const someDate = getDateString(someDate) // => "04/20/1337"
  *
  *
  * @param date
+ * @param withTime
  */
-export const getUploadDateString = (date: Date | number) => {
-    const uploadDate = date instanceof Date ? date : new Date(date);
+export const getDateString = (date: Date | number, withTime: boolean = false) => {
+    const actualDate = date instanceof Date ? date : new Date(date);
 
     const today = new Date();
-    const todayElapsedTime = getElapsedTimeSinceStartOfDay(today);
-    const yesterday = new Date(today.getTime() - todayElapsedTime - 1000 * 60 * 60 * 24);
-    const elapsedTimeSinceYesterday = today.getTime() - yesterday.getTime();
+    const yesterday = new Date();
+    yesterday.setDate(today.getDate() - 1);
 
-    const wasUploadedToday = isWithinLastXMillis(uploadDate, todayElapsedTime);
-    const wasUploadedYesterday = isWithinLastXMillis(uploadDate, elapsedTimeSinceYesterday);
+    const wasUploadedToday = isTheSameDay(today, actualDate);
+    const wasUploadedYesterday = isTheSameDay(yesterday, actualDate);
 
     const addTimeString = wasUploadedToday || wasUploadedYesterday;
-    const timeString = addTimeString ? timeFormatter.format(uploadDate) : '';
+    const timeString = addTimeString ? timeFormatter.format(actualDate) : '';
 
     if (wasUploadedToday) {
-        return t('global.date.label.today_at', { timeString });
+        if (withTime) {
+            return t('global.date.label.today_at', { timeString });
+        }
+
+        return t('global.date.label.today');
     }
 
     if (wasUploadedYesterday) {
-        return t('global.date.label.yesterday_at', { timeString });
+        if (withTime) {
+            return t('global.date.label.yesterday_at', { timeString });
+        }
+
+        return t('global.date.label.yesterday');
     }
 
-    return dateFormatter.format(uploadDate);
+    return dateFormatter.format(actualDate);
 };

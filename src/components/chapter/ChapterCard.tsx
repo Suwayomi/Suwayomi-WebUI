@@ -22,7 +22,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
 import { useLongPress } from 'use-long-press';
-import { getUploadDateString } from '@/util/date.ts';
+import { getDateString } from '@/util/date.ts';
 import { DownloadStateIndicator } from '@/components/molecules/DownloadStateIndicator.tsx';
 import { DownloadType } from '@/lib/graphql/generated/graphql.ts';
 import { TChapter } from '@/typings.ts';
@@ -121,7 +121,7 @@ export const ChapterCard: React.FC<IProps> = (props: IProps) => {
                                         </Typography>
                                         <Typography variant="caption">{chapter.scanlator}</Typography>
                                         <Typography variant="caption">
-                                            {getUploadDateString(Number(chapter.uploadDate ?? 0))}
+                                            {getDateString(Number(chapter.uploadDate ?? 0), true)}
                                             {isDownloaded && ` • ${t('chapter.status.label.downloaded')}`}
                                         </Typography>
                                     </Stack>

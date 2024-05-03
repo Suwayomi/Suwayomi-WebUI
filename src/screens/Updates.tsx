@@ -18,7 +18,6 @@ import Typography from '@mui/material/Typography';
 import React, { useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { t as translate } from 'i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
 import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
@@ -32,31 +31,7 @@ import { StyledGroupHeader } from '@/components/virtuoso/StyledGroupHeader.tsx';
 import { StyledGroupItemWrapper } from '@/components/virtuoso/StyledGroupItemWrapper.tsx';
 import { Mangas } from '@/lib/data/Mangas.ts';
 import { SpinnerImage } from '@/components/util/SpinnerImage.tsx';
-import { dateFormatter, dateTimeFormatter } from '@/util/date.ts';
-
-function epochToDate(epoch: number) {
-    const date = new Date(0); // The 0 there is the key, which sets the date to the epoch
-    date.setUTCSeconds(epoch);
-    return date;
-}
-
-function isTheSameDay(first: Date, second: Date) {
-    return (
-        first.getDate() === second.getDate() &&
-        first.getMonth() === second.getMonth() &&
-        first.getFullYear() === second.getFullYear()
-    );
-}
-
-function getDateString(date: Date) {
-    const today = new Date();
-    if (isTheSameDay(today, date)) return translate('global.date.label.today');
-    // calculate yesterday
-    const yesterday = new Date();
-    yesterday.setDate(today.getDate() - 1);
-    if (isTheSameDay(yesterday, date)) return translate('global.date.label.yesterday');
-    return dateFormatter.format(date);
-}
+import { dateTimeFormatter, epochToDate, getDateString } from '@/util/date.ts';
 
 const groupByDate = (updates: TChapter[]): [date: string, items: number][] => {
     if (!updates.length) {
