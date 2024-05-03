@@ -6,20 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import Button from '@mui/material/Button';
-import DialogContentText from '@mui/material/DialogContentText';
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { getVersion } from '@/screens/settings/About.tsx';
 import { useUpdateChecker } from '@/util/useUpdateChecker.tsx';
+import { VersionUpdateInfoDialog } from '@/components/util/VersionUpdateInfoDialog.tsx';
 
 export const ServerUpdateChecker = () => {
     const { t } = useTranslation();
@@ -34,17 +25,11 @@ export const ServerUpdateChecker = () => {
     const { data } = requestManager.useGetAbout();
     const { aboutServer } = data ?? {};
 
-    const [open, setOpen] = useState(true);
-
     const selectedServerChannelInfo = serverUpdateCheckData?.checkForServerUpdates?.find(
         (channel) => channel.channel === aboutServer?.buildType,
     );
     const version = aboutServer ? getVersion(aboutServer) : undefined;
     const isServerUpdateAvailable = !!selectedServerChannelInfo?.tag && selectedServerChannelInfo.tag !== version;
-
-    const handleClose = () => {
-        setOpen(false);
-    };
 
     const updateChecker = useUpdateChecker('server', checkForUpdate, selectedServerChannelInfo?.tag);
 
@@ -70,48 +55,14 @@ export const ServerUpdateChecker = () => {
     }
 
     return (
-        <Dialog open={open} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
-            <DialogTitle id="alert-dialog-title">{t('global.update.label.available')}</DialogTitle>
-            <DialogContent>
-                <DialogContentText id="alert-dialog-description">
-                    {t('global.update.label.info', {
-                        channel: selectedServerChannelInfo.channel,
-                        version: selectedServerChannelInfo.tag,
-                    })}
-                </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-                <PopupState variant="popover" popupId="server-update-checker-close-menu">
-                    {(popupState) => (
-                        <>
-                            <Button {...bindTrigger(popupState)}>{t('global.label.close')}</Button>
-                            <Menu {...bindMenu(popupState)}>
-                                <MenuItem
-                                    onClick={() => {
-                                        updateChecker.remindLater();
-                                        popupState.close();
-                                        handleClose();
-                                    }}
-                                >
-                                    {t('global.button.remind_later')}
-                                </MenuItem>
-                                <MenuItem
-                                    onClick={() => {
-                                        updateChecker.ignoreUpdate();
-                                        popupState.close();
-                                        handleClose();
-                                    }}
-                                >
-                                    {t('global.button.ignore')}
-                                </MenuItem>
-                            </Menu>
-                        </>
-                    )}
-                </PopupState>
-                <Button onClick={handleClose} variant="contained" href={selectedServerChannelInfo.url} target="_blank">
-                    {t('chapter.action.download.add.label.action')}
-                </Button>
-            </DialogActions>
-        </Dialog>
+        <VersionUpdateInfoDialog
+            info={t('global.update.label.info', {
+                channel: selectedServerChannelInfo.channel,
+                version: selectedServerChannelInfo.tag,
+            })}
+            actionTitle={t('chapter.action.download.add.label.action')}
+            actionUrl={selectedServerChannelInfo.url}
+            updateCheckerProps={['server', checkForUpdate, selectedServerChannelInfo?.tag]}
+        />
     );
 };
