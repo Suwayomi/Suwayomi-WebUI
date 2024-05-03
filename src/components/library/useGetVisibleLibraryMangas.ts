@@ -106,7 +106,7 @@ const sortByLastRead = (a: TManga, b: TManga): number =>
     Number(b.lastReadChapter?.lastReadAt ?? 0) - Number(a.lastReadChapter?.lastReadAt ?? 0);
 
 const sortByLatestUploadedChapter = (a: TManga, b: TManga): number =>
-    Number(a.latestUploadedChapter?.fetchedAt ?? 0) - Number(b.latestUploadedChapter?.fetchedAt ?? 0);
+    Number(a.latestUploadedChapter?.uploadDate ?? 0) - Number(b.latestUploadedChapter?.uploadDate ?? 0);
 
 const sortByLatestFetchedChapter = (a: TManga, b: TManga): number =>
     Number(a.latestFetchedChapter?.fetchedAt ?? 0) - Number(b.latestFetchedChapter?.fetchedAt ?? 0);
