@@ -11,6 +11,7 @@ import Box from '@mui/material/Box';
 import { IReaderSettings } from '@/typings';
 import { SpinnerImage } from '@/components/util/SpinnerImage';
 import { imageStyle } from '@/components/reader/Page';
+import { getOptionForDirection } from '@/theme.ts';
 
 interface IProps {
     index: number;
@@ -56,7 +57,13 @@ export const DoublePage = forwardRef((props: IProps, ref: any) => {
                 onImageLoad={onImageLoad}
                 alt={`Page #${index}`}
                 spinnerStyle={spinnerStyle}
-                imgStyle={{ ...imgStyle, objectPosition: settings.readerType === 'DoubleLTR' ? 'right' : 'left' }}
+                imgStyle={{
+                    ...imgStyle,
+                    objectPosition:
+                        settings.readerType === 'DoubleLTR'
+                            ? getOptionForDirection('right', 'left')
+                            : getOptionForDirection('left', 'right'),
+                }}
             />
             <SpinnerImage
                 src={image2src}
@@ -67,7 +74,13 @@ export const DoublePage = forwardRef((props: IProps, ref: any) => {
                     width: 'calc(50% - 5px)',
                     marginLeft: '5px',
                 }}
-                imgStyle={{ ...imgStyle, objectPosition: settings.readerType === 'DoubleLTR' ? 'left' : 'right' }}
+                imgStyle={{
+                    ...imgStyle,
+                    objectPosition:
+                        settings.readerType === 'DoubleLTR'
+                            ? getOptionForDirection('left', 'right')
+                            : getOptionForDirection('right', 'left'),
+                }}
             />
         </Box>
     );
