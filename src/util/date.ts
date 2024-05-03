@@ -8,6 +8,20 @@
 
 import { t } from 'i18next';
 
+export const timeFormatter = new Intl.DateTimeFormat(navigator.language, { hour: '2-digit', minute: '2-digit' });
+export const dateFormatter = new Intl.DateTimeFormat(navigator.language, {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+});
+export const dateTimeFormatter = new Intl.DateTimeFormat(navigator.language, {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+});
+
 export const isWithinLastXMillis = (date: Date, timeMS: number) => {
     const timeDifference = Date.now() - date.getTime();
     return timeDifference <= timeMS;
@@ -48,12 +62,7 @@ export const getUploadDateString = (date: Date | number) => {
     const wasUploadedYesterday = isWithinLastXMillis(uploadDate, elapsedTimeSinceYesterday);
 
     const addTimeString = wasUploadedToday || wasUploadedYesterday;
-    const timeString = addTimeString
-        ? uploadDate.toLocaleTimeString(undefined, {
-              hour: '2-digit',
-              minute: '2-digit',
-          })
-        : '';
+    const timeString = addTimeString ? timeFormatter.format(uploadDate) : '';
 
     if (wasUploadedToday) {
         return t('global.date.label.today_at', { timeString });
@@ -63,9 +72,5 @@ export const getUploadDateString = (date: Date | number) => {
         return t('global.date.label.yesterday_at', { timeString });
     }
 
-    return uploadDate.toLocaleDateString(undefined, {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-    });
+    return dateFormatter.format(uploadDate);
 };

@@ -16,6 +16,7 @@ import { makeToast } from '@/components/util/Toast';
 import { UpdaterSubscription } from '@/lib/graphql/generated/graphql.ts';
 import { Progress } from '@/components/util/Progress';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { dateTimeFormatter } from '@/util/date.ts';
 
 const calcProgress = (status: UpdaterSubscription['updateStatusChanged'] | undefined) => {
     if (!status) {
@@ -82,7 +83,7 @@ export function UpdateChecker({ handleFinishedUpdate }: { handleFinishedUpdate?:
     return (
         <Tooltip
             title={t('library.settings.global_update.label.last_update_tooltip', {
-                date: lastUpdateTimestamp ? new Date(+lastUpdateTimestamp).toLocaleString() : '-',
+                date: lastUpdateTimestamp ? dateTimeFormatter.format(+lastUpdateTimestamp) : '-',
             })}
         >
             <IconButton onClick={onClick} disabled={loading}>

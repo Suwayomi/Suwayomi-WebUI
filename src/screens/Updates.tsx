@@ -32,6 +32,7 @@ import { StyledGroupHeader } from '@/components/virtuoso/StyledGroupHeader.tsx';
 import { StyledGroupItemWrapper } from '@/components/virtuoso/StyledGroupItemWrapper.tsx';
 import { Mangas } from '@/lib/data/Mangas.ts';
 import { SpinnerImage } from '@/components/util/SpinnerImage.tsx';
+import { dateFormatter, dateTimeFormatter } from '@/util/date.ts';
 
 function epochToDate(epoch: number) {
     const date = new Date(0); // The 0 there is the key, which sets the date to the epoch
@@ -54,7 +55,7 @@ function getDateString(date: Date) {
     const yesterday = new Date();
     yesterday.setDate(today.getDate() - 1);
     if (isTheSameDay(yesterday, date)) return translate('global.date.label.yesterday');
-    return date.toLocaleDateString();
+    return dateFormatter.format(date);
 }
 
 const groupByDate = (updates: TChapter[]): [date: string, items: number][] => {
@@ -150,7 +151,7 @@ export const Updates: React.FC = () => {
                 }}
             >
                 {t('library.settings.global_update.label.last_update', {
-                    date: lastUpdateTimestamp ? new Date(+lastUpdateTimestamp).toLocaleString() : '-',
+                    date: lastUpdateTimestamp ? dateTimeFormatter.format(+lastUpdateTimestamp) : '-',
                 })}
             </Typography>
             <StyledGroupedVirtuoso
