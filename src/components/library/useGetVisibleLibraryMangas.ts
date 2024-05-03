@@ -13,38 +13,27 @@ import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsCon
 import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 import { Trackers } from '@/lib/data/Trackers.ts';
 
-const unreadFilter = (unread: NullAndUndefined<boolean>, { unreadCount }: TManga): boolean => {
-    switch (unread) {
+const triStateFilter = (
+    triState: NullAndUndefined<boolean>,
+    enabledFilter: () => boolean,
+    disabledFilter: () => boolean,
+): boolean => {
+    switch (triState) {
         case true:
-            return !!unreadCount && unreadCount >= 1;
+            return enabledFilter();
         case false:
-            return unreadCount === 0;
+            return disabledFilter();
         default:
             return true;
     }
 };
 
-const downloadedFilter = (downloaded: NullAndUndefined<boolean>, { downloadCount }: TManga): boolean => {
-    switch (downloaded) {
-        case true:
-            return !!downloadCount && downloadCount >= 1;
-        case false:
-            return downloadCount === 0;
-        default:
-            return true;
-    }
-};
-
-const bookmarkedFilter = (bookmarked: NullAndUndefined<boolean>, { bookmarkCount }: TManga): boolean => {
-    switch (bookmarked) {
-        case true:
-            return !!bookmarkCount && bookmarkCount >= 1;
-        case false:
-            return bookmarkCount === 0;
-        default:
-            return true;
-    }
-};
+const triStateFilterNumber = (triState: NullAndUndefined<boolean>, count?: number): boolean =>
+    triStateFilter(
+        triState,
+        () => !!count && count >= 1,
+        () => count === 0,
+    );
 
 const queryFilter = (query: NullAndUndefined<string>, { title }: TManga): boolean => {
     if (!query) return true;
@@ -63,14 +52,11 @@ const trackerFilter = (trackFilters: LibraryOptions['tracker'], manga: TManga): 
             const mangaTrackers = Trackers.getTrackers(manga.trackRecords.nodes);
             const isTrackerBound = mangaTrackers.some((tracker) => tracker.id === Number(trackFilterId));
 
-            switch (trackFilterState) {
-                case true:
-                    return isTrackerBound;
-                case false:
-                    return !isTrackerBound;
-                default:
-                    return true;
-            }
+            return triStateFilter(
+                trackFilterState,
+                () => isTrackerBound,
+                () => !isTrackerBound,
+            );
         })
         .every((matchesFilter) => matchesFilter);
 
@@ -88,28 +74,17 @@ const filterManga = (
         const matchesSearch = queryFilter(query, manga) || queryGenreFilter(query, manga);
         const matchesFilters =
             ignoreFiltersWhileSearching ||
-            (downloadedFilter(downloaded, manga) &&
-                unreadFilter(unread, manga) &&
-                bookmarkedFilter(bookmarked, manga) &&
+            (triStateFilterNumber(downloaded, manga.downloadCount) &&
+                triStateFilterNumber(unread, manga.unreadCount) &&
+                triStateFilterNumber(bookmarked, manga.bookmarkCount) &&
                 trackerFilter(tracker, manga));
 
         return matchesSearch && matchesFilters;
     });
 
-const sortByUnread = (a: TManga, b: TManga): number => (a.unreadCount ?? 0) - (b.unreadCount ?? 0);
+const sortByNumber = (a: number | string = 0, b: number | string = 0) => Number(a) - Number(b);
 
-const sortByTitle = (a: TManga, b: TManga): number => a.title.localeCompare(b.title);
-
-const sortByDateAdded = (a: TManga, b: TManga): number => Number(a.inLibraryAt) - Number(b.inLibraryAt);
-
-const sortByLastRead = (a: TManga, b: TManga): number =>
-    Number(b.lastReadChapter?.lastReadAt ?? 0) - Number(a.lastReadChapter?.lastReadAt ?? 0);
-
-const sortByLatestUploadedChapter = (a: TManga, b: TManga): number =>
-    Number(a.latestUploadedChapter?.uploadDate ?? 0) - Number(b.latestUploadedChapter?.uploadDate ?? 0);
-
-const sortByLatestFetchedChapter = (a: TManga, b: TManga): number =>
-    Number(a.latestFetchedChapter?.fetchedAt ?? 0) - Number(b.latestFetchedChapter?.fetchedAt ?? 0);
+const sortByString = (a: string, b: string): number => a.localeCompare(b);
 
 const sortManga = (
     manga: TManga[],
@@ -120,28 +95,30 @@ const sortManga = (
 
     switch (sort) {
         case 'sortAlph':
-            result.sort(sortByTitle);
+            result.sort((a, b) => sortByString(a.title, b.title));
             break;
         case 'sortDateAdded':
-            result.sort(sortByDateAdded);
+            result.sort((a, b) => sortByNumber(a.inLibraryAt, b.inLibraryAt));
             break;
         case 'sortToRead':
-            result.sort(sortByUnread);
+            result.sort((a, b) => sortByNumber(a.unreadCount, b.unreadCount));
             break;
         case 'sortLastRead':
-            result.sort(sortByLastRead);
+            result.sort((a, b) => sortByNumber(a.lastReadChapter?.lastReadAt, b.lastReadChapter?.lastReadAt));
             break;
         case 'sortLatestUploadedChapter':
-            result.sort(sortByLatestUploadedChapter);
+            result.sort((a, b) =>
+                sortByNumber(a.latestUploadedChapter?.uploadDate, b.latestUploadedChapter?.uploadDate),
+            );
             break;
         case 'sortLatestFetchedChapter':
-            result.sort(sortByLatestFetchedChapter);
+            result.sort((a, b) => sortByNumber(a.latestFetchedChapter?.fetchedAt, b.latestFetchedChapter?.fetchedAt));
             break;
         default:
             break;
     }
 
-    if (desc === true) {
+    if (desc) {
         result.reverse();
     }
 
