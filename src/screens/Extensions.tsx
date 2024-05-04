@@ -106,7 +106,12 @@ export function Extensions() {
     const theme = useTheme();
     const isMobileWidth = useMediaQuery(theme.breakpoints.down('sm'));
 
-    const { data: serverSettingsData } = requestManager.useGetServerSettings();
+    const {
+        data: serverSettingsData,
+        loading: areServerSettingsLoading,
+        error: serverSettingsError,
+        refetch: refetchServerSettings,
+    } = requestManager.useGetServerSettings({ notifyOnNetworkStatusChange: true });
     const areReposDefined = !!serverSettingsData?.settings.extensionRepos.length;
     const areMultipleReposInUse = (serverSettingsData?.settings.extensionRepos.length ?? 0) > 1;
 
@@ -116,7 +121,8 @@ export function Extensions() {
     const [query] = useQueryParam('query', StringParam);
 
     const [refetchExtensions, setRefetchExtensions] = useState({});
-    const [fetchExtensions, { data, loading: isLoading, error }] = requestManager.useExtensionListFetch();
+    const [fetchExtensions, { data, loading: areExtensionsLoading, error: extensionsError }] =
+        requestManager.useExtensionListFetch();
     const allExtensions = data?.fetchExtensions.extensions;
 
     const handleExtensionUpdate = useCallback(() => setRefetchExtensions({}), []);
@@ -231,6 +237,9 @@ export function Extensions() {
         [],
     );
 
+    const isLoading = areServerSettingsLoading || areExtensionsLoading;
+    const error = serverSettingsError ?? extensionsError;
+
     if (isLoading) {
         return <LoadingPlaceholder />;
     }
@@ -240,7 +249,15 @@ export function Extensions() {
             <EmptyViewAbsoluteCentered
                 message={t('global.error.label.failed_to_load_data')}
                 messageExtra={error.message}
-                retry={() => fetchExtensions().catch(defaultPromiseErrorHandler('Extensions::refetch'))}
+                retry={() => {
+                    if (serverSettingsError) {
+                        refetchServerSettings().catch(defaultPromiseErrorHandler('Extensions::refetchServerSettings'));
+                    }
+
+                    if (extensionsError) {
+                        fetchExtensions().catch(defaultPromiseErrorHandler('Extensions::refetchExtensions'));
+                    }
+                }}
             />
         );
     }
