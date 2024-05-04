@@ -12,6 +12,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useTranslation } from 'react-i18next';
 import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 
 type Action = {
     show?: boolean;
@@ -19,6 +20,7 @@ type Action = {
 };
 
 type Actions = {
+    extra?: Action;
     cancel?: Action;
     confirm?: Action;
 };
@@ -27,18 +29,24 @@ export const ConfirmDialog = ({
     title,
     message,
     actions: passedActions,
+    onExtra,
     onCancel,
     onConfirm,
 }: {
     title: string;
     message: string;
     actions?: Actions;
+    onExtra?: () => void;
     onCancel: () => void;
     onConfirm: () => void;
 }) => {
     const { t } = useTranslation();
 
     const actions = {
+        extra: {
+            show: passedActions?.extra?.show ?? false,
+            title: passedActions?.extra?.title ?? '',
+        },
         cancel: {
             show: passedActions?.cancel?.show ?? true,
             title: passedActions?.cancel?.title ?? t('global.button.cancel'),
@@ -52,10 +60,25 @@ export const ConfirmDialog = ({
     return (
         <Dialog open>
             <DialogTitle>{title}</DialogTitle>
-            <DialogContent>{message}</DialogContent>
+            <DialogContent
+                sx={{
+                    whiteSpace: 'pre-line',
+                }}
+            >
+                {message}
+            </DialogContent>
             <DialogActions>
-                {actions.cancel.show && <Button onClick={onCancel}>{actions.cancel.title}</Button>}
-                {actions.confirm.show && <Button onClick={onConfirm}>{actions.confirm.title}</Button>}
+                <Stack
+                    sx={{ width: '100%' }}
+                    direction="row"
+                    justifyContent={actions.extra.show ? 'space-between' : 'end'}
+                >
+                    {actions.extra.show && <Button onClick={onExtra}>{actions.extra.title}</Button>}
+                    <Stack direction="row">
+                        {actions.cancel.show && <Button onClick={onCancel}>{actions.cancel.title}</Button>}
+                        {actions.confirm.show && <Button onClick={onConfirm}>{actions.confirm.title}</Button>}
+                    </Stack>
+                </Stack>
             </DialogActions>
         </Dialog>
     );

@@ -8,6 +8,7 @@
 
 import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { useCategorySelect } from '@/components/navbar/action/useCategorySelect.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
@@ -23,6 +24,7 @@ export const useManageMangaLibraryState = (
     confirmRemoval: boolean = false,
 ) => {
     const { t } = useTranslation();
+    const navigate = useNavigate();
 
     const [isInLibrary, setIsInLibrary] = useState(manga.inLibrary);
 
@@ -79,33 +81,76 @@ export const useManageMangaLibraryState = (
     });
 
     const updateLibraryState = useCallback(() => {
-        if (isInLibrary) {
-            removeFromLibrary().catch(
-                defaultPromiseErrorHandler('useManageMangaLibraryState::updateLibraryState::removeFromLibrary'),
-            );
-            return;
-        }
+        const update = async () => {
+            if (isInLibrary) {
+                removeFromLibrary().catch(
+                    defaultPromiseErrorHandler('useManageMangaLibraryState::updateLibraryState::removeFromLibrary'),
+                );
+                return;
+            }
 
-        if (areSettingsLoading || categories.loading) {
-            makeToast(t('global.label.load_in_progress'), 'info');
-            return;
-        }
+            if (areSettingsLoading || categories.loading) {
+                makeToast(t('global.label.load_in_progress'), 'info');
+                return;
+            }
 
-        if (categories.error) {
-            makeToast(t('category.error.label.request_failure'), 'error');
-            categories
-                .refetch()
-                .catch(defaultPromiseErrorHandler('MangaDetails::handleAddToLibraryClick: refetch categories'));
-            return;
-        }
+            if (categories.error) {
+                makeToast(t('category.error.label.request_failure'), 'error');
+                categories
+                    .refetch()
+                    .catch(
+                        defaultPromiseErrorHandler(
+                            'useManageMangaLibraryState::updateLibraryState: refetch categories',
+                        ),
+                    );
+                return;
+            }
 
-        const showCategorySelectDialog = showAddToLibraryCategorySelectDialog && !!userCreatedCategories.length;
-        if (!showCategorySelectDialog) {
-            addToLibrary(true, Categories.getIds(Categories.getDefaults(userCreatedCategories!)));
-            return;
-        }
+            let duplicatedLibraryMangas:
+                | Awaited<ReturnType<typeof Mangas.getDuplicateLibraryMangas>['response']>
+                | undefined;
+            try {
+                duplicatedLibraryMangas = await Mangas.getDuplicateLibraryMangas(manga.title).response;
+            } catch (e: any) {
+                await awaitConfirmation({
+                    title: t('global.error.label.failed_to_load_data'),
+                    message: t('manga.action.library.add.dialog.duplicate.label.failure', {
+                        error: e.message,
+                    }),
+                    actions: {
+                        extra: { show: true, title: t('global.button.retry') },
+                        confirm: { title: t('global.button.add') },
+                    },
+                    onExtra: () =>
+                        update().catch(
+                            defaultPromiseErrorHandler('useManageMangaLibraryState::update: retry duplicate check'),
+                        ),
+                });
+            }
 
-        openCategorySelect(true);
+            const doDuplicatesExist = duplicatedLibraryMangas?.data.mangas.totalCount;
+            if (doDuplicatesExist) {
+                await awaitConfirmation({
+                    title: t('global.label.are_you_sure'),
+                    message: t('manga.action.library.add.dialog.duplicate.label.info'),
+                    actions: {
+                        extra: { show: true, title: t('migrate.dialog.action.button.show_entry') },
+                        confirm: { title: t('global.button.add') },
+                    },
+                    onExtra: () => navigate(`/manga/${duplicatedLibraryMangas!.data.mangas.nodes[0].id}`),
+                });
+            }
+
+            const showCategorySelectDialog = showAddToLibraryCategorySelectDialog && !!userCreatedCategories.length;
+            if (!showCategorySelectDialog) {
+                addToLibrary(true, Categories.getIds(Categories.getDefaults(userCreatedCategories!)));
+                return;
+            }
+
+            openCategorySelect(true);
+        };
+
+        update().catch(defaultPromiseErrorHandler('useManageMangaLibraryState::updateLibraryState'));
     }, [isInLibrary, removeFromLibrary, addToLibrary, areSettingsLoading, categories.loading]);
 
     return {

@@ -36,6 +36,10 @@ export const awaitConfirmation = async (
         <ThemeProvider theme={getCurrentTheme()}>
             <ConfirmDialog
                 {...dialogProps}
+                onExtra={() => {
+                    handleConfirmation(false);
+                    dialogProps.onExtra?.();
+                }}
                 onCancel={() => handleConfirmation(false)}
                 onConfirm={() => handleConfirmation(true)}
             />

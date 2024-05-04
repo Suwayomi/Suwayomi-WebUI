@@ -233,6 +233,13 @@ export class Mangas {
         return requestManager.getValidImgUrlFor(thumbnailUrl);
     }
 
+    static getDuplicateLibraryMangas(title: string): ReturnType<typeof requestManager.getMangas> {
+        return requestManager.getMangas({
+            condition: { inLibrary: true },
+            filter: { title: { likeInsensitive: title } },
+        });
+    }
+
     static async getChapterIdsWithState(
         mangaIds: number[],
         state: Pick<ChapterConditionInput, 'isRead' | 'isDownloaded' | 'isBookmarked'>,
