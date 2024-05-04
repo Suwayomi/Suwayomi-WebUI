@@ -24,6 +24,7 @@ interface BaseProps {
     actionTitle: string;
     updateCheckerProps: Parameters<typeof useUpdateChecker>;
     changelogUrl?: string;
+    disabled?: boolean;
 }
 
 interface UrlActionProps extends BaseProps {
@@ -45,6 +46,7 @@ export const VersionUpdateInfoDialog = ({
     actionTitle,
     updateCheckerProps,
     changelogUrl,
+    disabled,
 }: VersionUpdateInfoDialogProps) => {
     const { t } = useTranslation();
 
@@ -71,7 +73,9 @@ export const VersionUpdateInfoDialog = ({
                         <PopupState variant="popover" popupId="update-checker-close-menu">
                             {(popupState) => (
                                 <>
-                                    <Button {...bindTrigger(popupState)}>{t('global.label.close')}</Button>
+                                    <Button disabled={disabled} {...bindTrigger(popupState)}>
+                                        {t('global.label.close')}
+                                    </Button>
                                     <Menu {...bindMenu(popupState)}>
                                         <MenuItem
                                             onClick={() => {
@@ -94,11 +98,11 @@ export const VersionUpdateInfoDialog = ({
                             )}
                         </PopupState>
                         {actionUrl ? (
-                            <Button variant="contained" href={actionUrl} target="_blank">
+                            <Button disabled={disabled} variant="contained" href={actionUrl} target="_blank">
                                 {actionTitle}
                             </Button>
                         ) : (
-                            <Button onClick={onAction} variant="contained">
+                            <Button disabled={disabled} onClick={onAction} variant="contained">
                                 {actionTitle}
                             </Button>
                         )}
