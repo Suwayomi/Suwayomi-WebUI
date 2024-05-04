@@ -20,7 +20,7 @@ import { GridLayouts } from '@/components/source/GridLayouts.tsx';
 export const LibraryDuplicates = () => {
     const { t } = useTranslation();
 
-    const [gridLayout, setGridLayout] = useLocalStorage('migrateGridLayout', GridLayout.List);
+    const [gridLayout, setGridLayout] = useLocalStorage('libraryDuplicatesGridLayout', GridLayout.List);
 
     const { setTitle, setAction } = useContext(NavBarContext);
     useEffect(() => {
