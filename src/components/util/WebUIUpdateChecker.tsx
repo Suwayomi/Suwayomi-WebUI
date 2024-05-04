@@ -156,7 +156,7 @@ export const WebUIUpdateChecker = () => {
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button href={changelogUrl} target="_blank">
+                <Button href={changelogUrl} target="_blank" rel="noreferrer">
                     {t('global.button.changelog')}
                 </Button>
                 <Button

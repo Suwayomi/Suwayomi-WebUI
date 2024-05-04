@@ -334,16 +334,16 @@ export function About() {
                     </ListSubheader>
                 }
             >
-                <ListItemLink to={aboutServer.github}>
+                <ListItemLink to={aboutServer.github} target="_blank" rel="noreferrer">
                     <ListItemText primary={t('settings.about.server.label.github')} secondary={aboutServer.github} />
                 </ListItemLink>
-                <ListItemLink to="https://github.com/Suwayomi/Suwayomi-WebUI">
+                <ListItemLink to="https://github.com/Suwayomi/Suwayomi-WebUI" target="_blank" rel="noreferrer">
                     <ListItemText
                         primary={t('settings.about.webui.label.github')}
                         secondary="https://github.com/Suwayomi/Suwayomi-WebUI"
                     />
                 </ListItemLink>
-                <ListItemLink to={aboutServer.discord}>
+                <ListItemLink to={aboutServer.discord} target="_blank" rel="noreferrer">
                     <ListItemText primary={t('global.label.discord')} secondary={aboutServer.discord} />
                 </ListItemLink>
             </List>

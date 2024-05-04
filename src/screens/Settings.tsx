@@ -140,7 +140,11 @@ export function Settings() {
                     secondary={
                         <>
                             <span>{t('settings.label.language_description')} </span>
-                            <Link href="https://hosted.weblate.org/projects/suwayomi/suwayomi-webui">
+                            <Link
+                                href="https://hosted.weblate.org/projects/suwayomi/suwayomi-webui"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
                                 {t('global.language.title.weblate')}
                             </Link>
                         </>

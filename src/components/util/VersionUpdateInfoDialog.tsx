@@ -65,7 +65,7 @@ export const VersionUpdateInfoDialog = ({
             <DialogActions>
                 <Stack sx={{ width: '100%' }} direction="row" justifyContent={changelogUrl ? 'space-between' : 'end'}>
                     {changelogUrl && (
-                        <Button href={changelogUrl} target="_blank">
+                        <Button href={changelogUrl} target="_blank" rel="noreferrer">
                             {t('global.button.changelog')}
                         </Button>
                     )}
@@ -98,7 +98,13 @@ export const VersionUpdateInfoDialog = ({
                             )}
                         </PopupState>
                         {actionUrl ? (
-                            <Button disabled={disabled} variant="contained" href={actionUrl} target="_blank">
+                            <Button
+                                disabled={disabled}
+                                variant="contained"
+                                href={actionUrl}
+                                target="_blank"
+                                rel="noreferrer"
+                            >
                                 {actionTitle}
                             </Button>
                         ) : (
