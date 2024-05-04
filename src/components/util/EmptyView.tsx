@@ -50,9 +50,9 @@ export function EmptyView({ message, messageExtra, retry, noFaces, sx }: EmptyVi
                     {errorFace}
                 </Typography>
             )}
-            {retry && <Button onClick={retry}>{t('global.button.retry')}</Button>}
             <Typography variant="h5">{message}</Typography>
             {messageExtra}
+            {retry && <Button onClick={retry}>{t('global.button.retry')}</Button>}
         </Stack>
     );
 }
