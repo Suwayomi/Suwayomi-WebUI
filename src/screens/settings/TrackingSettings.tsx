@@ -25,6 +25,7 @@ import {
 } from '@/lib/metadata/metadataServerSettings.ts';
 import { MetadataTrackingSettings } from '@/typings.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
+import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
 export const TrackingSettings = () => {
     const { t } = useTranslation();
@@ -36,16 +37,44 @@ export const TrackingSettings = () => {
 
     const {
         settings: { updateProgressAfterReading, updateProgressManualMarkRead },
+        loading: areMetadataServerSettingsLoading,
+        request: { error: metadataServerSettingsError, refetch: refetchServerMetadataSettings },
     } = useMetadataServerSettings();
     const updateTrackingSettings = createUpdateMetadataServerSettings<keyof MetadataTrackingSettings>(() =>
         makeToast(t('global.error.label.failed_to_save_changes'), 'error'),
     );
 
-    const { data, loading, error } = requestManager.useGetTrackerList();
+    const {
+        data,
+        loading: areTrackersLoading,
+        error: trackersError,
+        refetch: refetchTrackersList,
+    } = requestManager.useGetTrackerList({ notifyOnNetworkStatusChange: true });
     const trackers = data?.trackers.nodes ?? [];
 
+    const loading = areMetadataServerSettingsLoading || areTrackersLoading;
+    const error = metadataServerSettingsError ?? trackersError;
+
     if (error) {
-        return <EmptyViewAbsoluteCentered message={error.message} />;
+        return (
+            <EmptyViewAbsoluteCentered
+                message={t('global.error.label.failed_to_load_data')}
+                messageExtra={error.message}
+                retry={() => {
+                    if (metadataServerSettingsError) {
+                        refetchServerMetadataSettings().catch(
+                            defaultPromiseErrorHandler('TrackingSettings::refetchMetadataServerSettings'),
+                        );
+                    }
+
+                    if (trackersError) {
+                        refetchTrackersList().catch(
+                            defaultPromiseErrorHandler('TrackingSettings::refetchTrackersList'),
+                        );
+                    }
+                }}
+            />
+        );
     }
 
     if (loading) {
