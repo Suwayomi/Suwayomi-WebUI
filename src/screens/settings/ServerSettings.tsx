@@ -7,7 +7,7 @@
  */
 
 import { useTranslation, Trans } from 'react-i18next';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useMemo } from 'react';
 import Link from '@mui/material/Link';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -106,24 +106,8 @@ export const ServerSettings = () => {
         mutateSettings({ variables: { input: { settings: { [setting]: value } } } });
     };
 
-    if (loading) {
-        return <LoadingPlaceholder />;
-    }
-
-    if (error) {
-        return (
-            <EmptyViewAbsoluteCentered
-                message={t('global.error.label.failed_to_load_data')}
-                messageExtra={error.message}
-                retry={() => refetch().catch(defaultPromiseErrorHandler('ServerSettings::refetch'))}
-            />
-        );
-    }
-
-    const serverSettings = extractServerSettings(data!.settings);
-
-    return (
-        <List>
+    const localSettings = useMemo(
+        () => (
             <List
                 subheader={
                     <ListSubheader component="div" id="server-settings-client">
@@ -138,6 +122,37 @@ export const ServerSettings = () => {
                     placeholder="http://localhost:4567"
                 />
             </List>
+        ),
+        [],
+    );
+
+    if (loading) {
+        return (
+            <>
+                {localSettings}
+                <LoadingPlaceholder />
+            </>
+        );
+    }
+
+    if (error) {
+        return (
+            <>
+                {localSettings}
+                <EmptyViewAbsoluteCentered
+                    message={t('global.error.label.failed_to_load_data')}
+                    messageExtra={error.message}
+                    retry={() => refetch().catch(defaultPromiseErrorHandler('ServerSettings::refetch'))}
+                />
+            </>
+        );
+    }
+
+    const serverSettings = extractServerSettings(data!.settings);
+
+    return (
+        <List>
+            {localSettings}
             <List
                 subheader={
                     <ListSubheader component="div" id="server-settings-server-address">
