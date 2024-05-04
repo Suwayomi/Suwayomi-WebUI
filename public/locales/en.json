@@ -505,6 +505,12 @@
               "title": "Cleanup database"
             }
           }
+        },
+        "duplicates": {
+          "label": {
+            "description": "Show all duplicated entries in your library",
+            "title": "Duplicated entries"
+          }
         }
       },
       "general": {

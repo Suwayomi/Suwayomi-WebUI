@@ -28,6 +28,7 @@ import { Mangas } from '@/lib/data/Mangas.ts';
 import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
+import { ListItemLink } from '@/components/util/ListItemLink.tsx';
 
 const removeNonLibraryMangasFromCategories = async (): Promise<void> => {
     try {
@@ -170,6 +171,12 @@ export function LibrarySettings() {
                         secondary={t('library.settings.advanced.database.cleanup.label.description')}
                     />
                 </ListItemButton>
+                <ListItemLink to="duplicates">
+                    <ListItemText
+                        primary={t('library.settings.advanced.duplicates.label.title')}
+                        secondary={t('library.settings.advanced.duplicates.label.description')}
+                    />
+                </ListItemLink>
             </List>
         </List>
     );

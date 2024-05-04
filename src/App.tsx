@@ -44,6 +44,7 @@ const { Migrate } = loadable(() => import('@/screens/Migrate.tsx'), lazyLoadFall
 const { DeviceSetting } = loadable(() => import('@/components/settings/DeviceSetting.tsx'), lazyLoadFallback);
 const { TrackingSettings } = loadable(() => import('@/screens/settings/TrackingSettings.tsx'), lazyLoadFallback);
 const { TrackerOAuthLogin } = loadable(() => import('@/screens/TrackerOAuthLogin.tsx'), lazyLoadFallback);
+const { LibraryDuplicates } = loadable(() => import('@/screens/settings/LibraryDuplicates.tsx'), lazyLoadFallback);
 
 if (process.env.NODE_ENV !== 'production') {
     // Adds messages only in a dev environment
@@ -105,7 +106,10 @@ export const App: React.FC = () => (
                         <Route path="about" element={<About />} />
                         <Route path="categories" element={<Categories />} />
                         <Route path="defaultReaderSettings" element={<DefaultReaderSettings />} />
-                        <Route path="librarySettings" element={<LibrarySettings />} />
+                        <Route path="librarySettings">
+                            <Route index element={<LibrarySettings />} />
+                            <Route path="duplicates" element={<LibraryDuplicates />} />
+                        </Route>
                         <Route path="downloadSettings" element={<DownloadSettings />} />
                         <Route path="backup" element={<Backup />} />
                         <Route path="server" element={<ServerSettings />} />

@@ -74,10 +74,10 @@ export const MangaBadges = ({
                     {t('manga.button.in_library')}
                 </Typography>
             )}
-            {showUnreadBadge && (unread ?? 0) > 0 && (
+            {showUnreadBadge && mode === 'default' && (unread ?? 0) > 0 && (
                 <Typography sx={{ backgroundColor: 'primary.dark' }}>{unread}</Typography>
             )}
-            {showDownloadBadge && (downloadCount ?? 0) > 0 && (
+            {showDownloadBadge && mode === 'default' && (downloadCount ?? 0) > 0 && (
                 <Typography
                     sx={{
                         backgroundColor: 'success.dark',
