@@ -32,6 +32,7 @@ import { StyledGroupItemWrapper } from '@/components/virtuoso/StyledGroupItemWra
 import { Mangas } from '@/lib/data/Mangas.ts';
 import { SpinnerImage } from '@/components/util/SpinnerImage.tsx';
 import { dateTimeFormatter, epochToDate, getDateString } from '@/util/date.ts';
+import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
 const groupByDate = (updates: TChapter[]): [date: string, items: number][] => {
     if (!updates.length) {
@@ -55,7 +56,9 @@ export const Updates: React.FC = () => {
     const {
         data: chapterUpdateData,
         loading: isLoading,
+        error,
         fetchMore,
+        refetch,
     } = requestManager.useGetRecentlyUpdatedChapters(undefined, {
         fetchPolicy: 'cache-and-network',
         notifyOnNetworkStatusChange: true,
@@ -111,6 +114,16 @@ export const Updates: React.FC = () => {
 
         fetchMore({ variables: { offset: updateEntries.length } });
     }, [hasNextPage, endCursor]);
+
+    if (error) {
+        return (
+            <EmptyViewAbsoluteCentered
+                message={t('global.error.label.failed_to_load_data')}
+                messageExtra={error.message}
+                retry={() => refetch().catch(defaultPromiseErrorHandler('Updates::refetch'))}
+            />
+        );
+    }
 
     if (!isLoading && updateEntries.length === 0) {
         return <EmptyViewAbsoluteCentered message={t('updates.error.label.no_updates_available')} />;
