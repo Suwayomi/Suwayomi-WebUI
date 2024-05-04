@@ -120,6 +120,7 @@ export const WebUIUpdateChecker = () => {
                     version: webUIUpdateData?.checkForWebUIUpdate.tag,
                     channel: webUIUpdateData?.checkForWebUIUpdate.channel,
                 })}
+                changelogUrl={changelogUrl}
                 disabled={isUpdateInProgress}
                 onAction={() =>
                     requestManager
