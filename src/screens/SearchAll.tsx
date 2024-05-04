@@ -26,6 +26,8 @@ import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarC
 import { MangaCardProps } from '@/components/manga/MangaCard.types.tsx';
 import { EmptyView } from '@/components/util/EmptyView';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
+import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 
 type SourceLoadingState = { isLoading: boolean; hasResults: boolean; emptySearch: boolean };
 type SourceToLoadingStateMap = Map<string, SourceLoadingState>;
@@ -198,7 +200,7 @@ export const SearchAll: React.FC = () => {
     const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownSourceLangs', sourceDefualtLangs());
     const [showNsfw] = useLocalStorage<boolean>('showNsfw', true);
 
-    const { data } = requestManager.useGetSourceList();
+    const { data, loading, error, refetch } = requestManager.useGetSourceList({ notifyOnNetworkStatusChange: true });
     const sources = data?.sources.nodes ?? [];
     const [sourceToLoadingStateMap, setSourceToLoadingStateMap] = useState<SourceToLoadingStateMap>(new Map());
     const debouncedSourceToLoadingStateMap = useDebounce(sourceToLoadingStateMap, 500);
@@ -258,6 +260,20 @@ export const SearchAll: React.FC = () => {
         );
         setShownLangs([...shownLangs, ...missingDefaultLangs]);
     }, []);
+
+    if (loading) {
+        return <LoadingPlaceholder />;
+    }
+
+    if (error) {
+        return (
+            <EmptyViewAbsoluteCentered
+                message={t('global.error.label.failed_to_load_data')}
+                messageExtra={error.message}
+                retry={() => refetch().catch(defaultPromiseErrorHandler('SearchAll::refetch'))}
+            />
+        );
+    }
 
     return (
         <>
