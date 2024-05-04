@@ -203,7 +203,6 @@ export function About() {
     useSetDefaultBackTo('settings');
 
     const { data, loading, error, refetch } = requestManager.useGetAbout({ notifyOnNetworkStatusChange: true });
-    const { aboutServer, aboutWebUI } = data ?? {};
 
     const {
         data: serverUpdateCheckData,
@@ -225,17 +224,6 @@ export function About() {
         progress: 0,
     };
 
-    if (!aboutServer || !aboutWebUI) {
-        return <LoadingPlaceholder />;
-    }
-
-    const selectedServerChannelInfo = serverUpdateCheckData?.checkForServerUpdates?.find(
-        (channel) => channel.channel === aboutServer.buildType,
-    );
-    const isServerUpdateAvailable =
-        !!selectedServerChannelInfo?.tag && selectedServerChannelInfo.tag !== getVersion(aboutServer);
-    const isWebUIUpdateAvailable = !!webUIUpdateData?.checkForWebUIUpdate.updateAvailable;
-
     if (loading) {
         return <LoadingPlaceholder />;
     }
@@ -249,6 +237,14 @@ export function About() {
             />
         );
     }
+
+    const { aboutServer, aboutWebUI } = data!;
+    const selectedServerChannelInfo = serverUpdateCheckData?.checkForServerUpdates?.find(
+        (channel) => channel.channel === aboutServer.buildType,
+    );
+    const isServerUpdateAvailable =
+        !!selectedServerChannelInfo?.tag && selectedServerChannelInfo.tag !== getVersion(aboutServer);
+    const isWebUIUpdateAvailable = !!webUIUpdateData?.checkForWebUIUpdate.updateAvailable;
 
     return (
         <List>
