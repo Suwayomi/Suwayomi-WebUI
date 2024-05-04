@@ -17,6 +17,7 @@ import Stack from '@mui/material/Stack';
 type Action = {
     show?: boolean;
     title?: string;
+    contain?: boolean;
 };
 
 type Actions = {
@@ -46,14 +47,21 @@ export const ConfirmDialog = ({
         extra: {
             show: passedActions?.extra?.show ?? false,
             title: passedActions?.extra?.title ?? '',
+            contain: passedActions?.extra?.contain ?? false,
         },
         cancel: {
             show: passedActions?.cancel?.show ?? true,
             title: passedActions?.cancel?.title ?? t('global.button.cancel'),
+            contain: passedActions?.cancel?.contain ?? false,
         },
         confirm: {
             show: passedActions?.confirm?.show ?? true,
             title: passedActions?.confirm?.title ?? t('global.button.ok'),
+            contain:
+                !passedActions?.extra?.contain &&
+                !passedActions?.cancel?.contain &&
+                !passedActions?.confirm?.contain &&
+                true,
         },
     } satisfies Actions;
 
@@ -73,10 +81,22 @@ export const ConfirmDialog = ({
                     direction="row"
                     justifyContent={actions.extra.show ? 'space-between' : 'end'}
                 >
-                    {actions.extra.show && <Button onClick={onExtra}>{actions.extra.title}</Button>}
+                    {actions.extra.show && (
+                        <Button onClick={onExtra} variant={actions.extra.contain ? 'contained' : undefined}>
+                            {actions.extra.title}
+                        </Button>
+                    )}
                     <Stack direction="row">
-                        {actions.cancel.show && <Button onClick={onCancel}>{actions.cancel.title}</Button>}
-                        {actions.confirm.show && <Button onClick={onConfirm}>{actions.confirm.title}</Button>}
+                        {actions.cancel.show && (
+                            <Button onClick={onCancel} variant={actions.cancel.contain ? 'contained' : undefined}>
+                                {actions.cancel.title}
+                            </Button>
+                        )}
+                        {actions.confirm.show && (
+                            <Button onClick={onConfirm} variant={actions.confirm.contain ? 'contained' : undefined}>
+                                {actions.confirm.title}
+                            </Button>
+                        )}
                     </Stack>
                 </Stack>
             </DialogActions>

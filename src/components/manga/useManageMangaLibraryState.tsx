@@ -118,7 +118,7 @@ export const useManageMangaLibraryState = (
                         error: e.message,
                     }),
                     actions: {
-                        extra: { show: true, title: t('global.button.retry') },
+                        extra: { show: true, title: t('global.button.retry'), contain: true },
                         confirm: { title: t('global.button.add') },
                     },
                     onExtra: () =>
@@ -134,7 +134,7 @@ export const useManageMangaLibraryState = (
                     title: t('global.label.are_you_sure'),
                     message: t('manga.action.library.add.dialog.duplicate.label.info'),
                     actions: {
-                        extra: { show: true, title: t('migrate.dialog.action.button.show_entry') },
+                        extra: { show: true, title: t('migrate.dialog.action.button.show_entry'), contain: true },
                         confirm: { title: t('global.button.add') },
                     },
                     onExtra: () => navigate(`/manga/${duplicatedLibraryMangas!.data.mangas.nodes[0].id}`),
