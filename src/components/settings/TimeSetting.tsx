@@ -72,7 +72,7 @@ export const TimeSetting = ({
         },
         [value, handleChange, closeDialog],
     );
-    console.log(navigator.language);
+
     return (
         <>
             <ListItemButton onClick={() => setIsDialogOpen(true)}>
