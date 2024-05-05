@@ -95,11 +95,13 @@ const SOURCE_CONTENT_TYPE_TO_ERROR_MSG_KEY: { [contentType in SourceContentType]
 };
 
 const getUniqueMangas = (mangas: TPartialManga[]): TPartialManga[] => {
+    const mangaIdToManga: Record<TPartialManga['id'], TPartialManga> = {};
     const uniqueMangas: TPartialManga[] = [];
 
     mangas.forEach((manga) => {
-        const isDuplicate = uniqueMangas.some((uniqueManga) => uniqueManga.id === manga.id);
+        const isDuplicate = !!mangaIdToManga[manga.id];
         if (!isDuplicate) {
+            mangaIdToManga[manga.id] = manga;
             uniqueMangas.push(manga);
         }
     });
@@ -174,16 +176,12 @@ const useSourceManga = (
 
         pages.forEach((page, index) => {
             const pageItems = page.data?.fetchSourceManga.mangas ?? ([] as FetchItemsResult);
-            const uniqueItems = getUniqueMangas([...allItems, ...pageItems]);
-            const uniquePageItems = pageItems.filter(
-                (pageItem) => !!uniqueItems.find((uniqueItem) => uniqueItem.id === pageItem.id),
-            );
-            const nonLibraryItems = uniquePageItems.filter((item) => !hideLibraryEntries || !item.inLibrary);
-            // const nonLibraryItems = uniquePageItems;
+            const nonLibraryPageItems = pageItems.filter((item) => !hideLibraryEntries || !item.inLibrary);
+            const uniqueItems = getUniqueMangas([...allItems, ...nonLibraryPageItems]);
 
             const isLastPage = !isPageLoading && pages.length === index + 1;
-            filteredOutAllItemsOfFetchedPage = isLastPage && !nonLibraryItems.length && !!pageItems.length;
-            allItems = [...allItems, ...nonLibraryItems];
+            filteredOutAllItemsOfFetchedPage = isLastPage && !nonLibraryPageItems.length && !!pageItems.length;
+            allItems = uniqueItems;
         });
 
         return allItems;
