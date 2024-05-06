@@ -40,6 +40,9 @@ export const WebUIUpdateChecker = () => {
 
     const shouldCheckForUpdate = !isAutoUpdateEnabled && webUIInformAvailableUpdate;
 
+    const { data: aboutData } = requestManager.useGetAbout();
+    const { aboutWebUI } = aboutData ?? {};
+
     const { data: webUIUpdateData, refetch: checkForUpdate } = requestManager.useCheckForWebUIUpdate({
         notifyOnNetworkStatusChange: true,
         fetchPolicy: 'cache-only',
@@ -63,6 +66,13 @@ export const WebUIUpdateChecker = () => {
             ? `https://github.com/Suwayomi/Suwayomi-WebUI/releases/tag/${updateStatus.info?.tag}`
             : `https://github.com/Suwayomi/Suwayomi-WebUI/issues/749`;
 
+    const newVersion = aboutWebUI?.tag;
+    const isSameAsCurrent = !newVersion || webUIVersion === newVersion;
+
+    if (!isSameAsCurrent && !open) {
+        setOpen(true);
+    }
+
     useEffect(() => {
         const isError = webUIUpdateState === UpdateState.Error;
         if (isError) {
@@ -85,6 +95,7 @@ export const WebUIUpdateChecker = () => {
         if (!updateStatus.info) {
             return;
         }
+
         requestManager.graphQLClient.client.cache.writeFragment({
             fragment: ABOUT_WEBUI,
             data: {
@@ -102,17 +113,6 @@ export const WebUIUpdateChecker = () => {
                 updateAvailable: false,
             },
         });
-
-        const newVersion = updateStatus.info.tag;
-        const isSameAsCurrent = webUIVersion === newVersion;
-
-        setWebUIVersion(newVersion);
-
-        if (isSameAsCurrent) {
-            return;
-        }
-
-        setOpen(true);
     }, [webUIUpdateState]);
 
     const isUpdateAvailable =
@@ -147,8 +147,7 @@ export const WebUIUpdateChecker = () => {
         );
     }
 
-    const handleUpdate = open && webUIUpdateState === UpdateState.Idle;
-    if (!handleUpdate) {
+    if (!open) {
         return null;
     }
 
@@ -168,6 +167,7 @@ export const WebUIUpdateChecker = () => {
                 </Button>
                 <Button
                     onClick={() => {
+                        setWebUIVersion(newVersion);
                         setOpen(false);
                         window.location.reload();
                     }}
