@@ -7,16 +7,27 @@
  */
 
 import { useTranslation } from 'react-i18next';
+import { useState } from 'react';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { getVersion } from '@/screens/settings/About.tsx';
 import { useUpdateChecker } from '@/util/useUpdateChecker.tsx';
 import { VersionUpdateInfoDialog } from '@/components/util/VersionUpdateInfoDialog.tsx';
 import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
+import { useLocalStorage } from '@/util/useStorage.tsx';
 
 const disabledUpdateCheck = () => Promise.resolve();
 
 export const ServerUpdateChecker = () => {
     const { t } = useTranslation();
+
+    const [serverVersion, setServerVersion] = useLocalStorage<string>('serverVersion');
+    const [open, setOpen] = useState(false);
 
     const {
         settings: { serverInformAvailableUpdate },
@@ -47,6 +58,16 @@ export const ServerUpdateChecker = () => {
         selectedServerChannelInfo?.tag,
     );
 
+    const changelogUrl =
+        aboutServer?.buildType.toLowerCase() === 'stable'
+            ? `https://github.com/Suwayomi/Suwayomi-Server/releases/tag/${aboutServer.version}`
+            : undefined;
+
+    const isSameAsCurrent = !version || serverVersion === version;
+    if (!isSameAsCurrent && !open) {
+        setOpen(true);
+    }
+
     if (!serverInformAvailableUpdate) {
         return null;
     }
@@ -59,28 +80,61 @@ export const ServerUpdateChecker = () => {
         return null;
     }
 
-    if (!isServerUpdateAvailable) {
-        return null;
+    if (isServerUpdateAvailable) {
+        const isAboutPage = window.location.pathname === '/settings/about';
+        if (isAboutPage) {
+            return null;
+        }
+
+        if (!updateChecker.handleUpdate) {
+            return null;
+        }
+
+        return (
+            <VersionUpdateInfoDialog
+                info={t('global.update.label.info', {
+                    channel: selectedServerChannelInfo.channel,
+                    version: selectedServerChannelInfo.tag,
+                })}
+                actionTitle={t('chapter.action.download.add.label.action')}
+                actionUrl={selectedServerChannelInfo.url}
+                updateCheckerProps={['server', checkForUpdate, selectedServerChannelInfo?.tag]}
+            />
+        );
     }
 
-    const isAboutPage = window.location.pathname === '/settings/about';
-    if (isAboutPage) {
-        return null;
-    }
-
-    if (!updateChecker.handleUpdate) {
+    if (!open) {
         return null;
     }
 
     return (
-        <VersionUpdateInfoDialog
-            info={t('global.update.label.info', {
-                channel: selectedServerChannelInfo.channel,
-                version: selectedServerChannelInfo.tag,
-            })}
-            actionTitle={t('chapter.action.download.add.label.action')}
-            actionUrl={selectedServerChannelInfo.url}
-            updateCheckerProps={['server', checkForUpdate, selectedServerChannelInfo?.tag]}
-        />
+        <Dialog open={open}>
+            <DialogTitle>{t('settings.about.webui.label.updated')}</DialogTitle>
+            <DialogContent>
+                <DialogContentText>
+                    {t('global.update.label.update_success', {
+                        name: t('settings.server.title.server'),
+                        version,
+                        channel: aboutServer?.buildType,
+                    })}
+                </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+                {changelogUrl && (
+                    <Button href={changelogUrl} target="_blank" rel="noreferrer">
+                        {t('global.button.changelog')}
+                    </Button>
+                )}
+                <Button
+                    onClick={() => {
+                        setServerVersion(version);
+                        setOpen(false);
+                    }}
+                    variant="contained"
+                >
+                    {t('global.button.ok')}
+                </Button>
+            </DialogActions>
+        </Dialog>
     );
 };

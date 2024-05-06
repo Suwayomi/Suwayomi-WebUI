@@ -443,13 +443,14 @@
         "info": "Server version {{version}} ({{channel}}) available for download",
         "up_to_date": "This is the latest version",
         "update_failure": "Update failed",
+        "update_success": "{{name}} was updated to version {{version}} ({{channel}})",
         "updating": "{{progress}}% | Updating…"
       },
       "settings": {
         "inform": {
           "label": {
-            "title": "Inform about available update",
-            "description": "Shows a dialog in case a new version is available"
+            "description": "Shows a dialog in case a new version is available",
+            "title": "Inform about available update"
           }
         }
       }
@@ -793,7 +794,6 @@
           "github": "$t(global.label.github) $t(settings.webui.title.webui)",
           "info": "$t(settings.webui.title.webui) version {{version}} ({{channel}}) available for download",
           "update_failure": "Could not update $t(settings.webui.title.webui)",
-          "update_success": "Updated $t(settings.webui.title.webui) to version {{version}}.",
           "updated": "Updated version",
           "version": "$t(settings.webui.title.webui) version"
         }

@@ -156,8 +156,10 @@ export const WebUIUpdateChecker = () => {
             <DialogTitle>{t('settings.about.webui.label.updated')}</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    {t('settings.about.webui.label.update_success', {
-                        version: webUIVersion,
+                    {t('global.update.label.update_success', {
+                        name: t('settings.webui.title.webui'),
+                        version: newVersion,
+                        channel: aboutWebUI?.channel,
                     })}
                 </DialogContentText>
             </DialogContent>
