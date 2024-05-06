@@ -255,12 +255,17 @@ export type MetadataTrackingSettings = {
     updateProgressManualMarkRead: boolean;
 };
 
+export type MetadataUpdateSettings = {
+    webUIInformAvailableUpdate: boolean;
+};
+
 export type MetadataServerSettings = MetadataDownloadSettings &
     MetadataLibrarySettings &
     MetadataClientSettings &
     MetadataMigrationSettings &
     MetadataBrowseSettings &
-    MetadataTrackingSettings;
+    MetadataTrackingSettings &
+    MetadataUpdateSettings;
 
 export interface ISearchSettings {
     ignoreFilters: boolean;

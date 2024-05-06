@@ -50,6 +50,9 @@ const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
     // tracking
     'updateProgressAfterReading',
     'updateProgressManualMarkRead',
+
+    // updates
+    'webUIInformAvailableUpdate',
 ];
 
 /**

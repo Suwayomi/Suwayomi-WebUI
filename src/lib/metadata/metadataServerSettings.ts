@@ -46,6 +46,9 @@ export const getDefaultSettings = (): MetadataServerSettings => ({
     // tracking
     updateProgressAfterReading: true,
     updateProgressManualMarkRead: false,
+
+    // updates
+    webUIInformAvailableUpdate: true,
 });
 
 export const convertSettingsToMetadata = (

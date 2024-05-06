@@ -13,7 +13,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
 import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
-import { ServerSettings } from '@/typings.ts';
+import { MetadataUpdateSettings, ServerSettings } from '@/typings.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { WebUIUpdateIntervalSetting } from '@/components/settings/webUI/WebUIUpdateIntervalSetting.tsx';
 import { TextSetting } from '@/components/settings/text/TextSetting.tsx';
@@ -26,6 +26,11 @@ import { WebUiChannel, WebUiFlavor, WebUiInterface } from '@/lib/graphql/generat
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import {
+    createUpdateMetadataServerSettings,
+    useMetadataServerSettings,
+} from '@/lib/metadata/metadataServerSettings.ts';
+import { makeToast } from '@/components/util/Toast.tsx';
 
 type WebUISettingsType = Pick<
     ServerSettings,
@@ -127,7 +132,21 @@ export const WebUISettings = () => {
         };
     }, [t]);
 
-    const { data, loading, error, refetch } = requestManager.useGetServerSettings({
+    const {
+        settings: { webUIInformAvailableUpdate },
+        loading: areMetadataServerSettingsLoading,
+        request: { error: metadataServerSettingsError, refetch: refetchServerMetadataSettings },
+    } = useMetadataServerSettings();
+    const updateMetadataServerSettings = createUpdateMetadataServerSettings<
+        keyof Pick<MetadataUpdateSettings, 'webUIInformAvailableUpdate'>
+    >(() => makeToast(t('global.error.label.failed_to_save_changes'), 'error'));
+
+    const {
+        data,
+        loading: areServerSettingsLoading,
+        error: serverSettingsError,
+        refetch: refetchServerSettings,
+    } = requestManager.useGetServerSettings({
         notifyOnNetworkStatusChange: true,
     });
     const [mutateSettings] = requestManager.useUpdateServerSettings();
@@ -140,19 +159,35 @@ export const WebUISettings = () => {
             requestManager.graphQLClient.client.cache.evict({ fieldName: 'checkForWebUIUpdate' });
         }
 
-        mutateSettings({ variables: { input: { settings: { [setting]: value } } } });
+        mutateSettings({ variables: { input: { settings: { [setting]: value } } } }).catch(() =>
+            makeToast(t('global.error.label.failed_to_save_changes'), 'error'),
+        );
     };
 
+    const loading = areMetadataServerSettingsLoading || areServerSettingsLoading;
     if (loading) {
         return <LoadingPlaceholder />;
     }
 
+    const error = metadataServerSettingsError ?? serverSettingsError;
     if (error) {
         return (
             <EmptyViewAbsoluteCentered
                 message={t('global.error.label.failed_to_load_data')}
                 messageExtra={error.message}
-                retry={() => refetch().catch(defaultPromiseErrorHandler('WebUISettings::refetch'))}
+                retry={() => {
+                    if (metadataServerSettingsError) {
+                        refetchServerMetadataSettings().catch(
+                            defaultPromiseErrorHandler('WebUISettings::refetchServerMetadataSettings'),
+                        );
+                    }
+
+                    if (serverSettingsError) {
+                        refetchServerSettings().catch(
+                            defaultPromiseErrorHandler('WebUISettings::refetchServerSettings'),
+                        );
+                    }
+                }}
             />
         );
     }
@@ -197,8 +232,21 @@ export const WebUISettings = () => {
             />
             <WebUIUpdateIntervalSetting
                 disabled={!isDefaultWebUI}
-                updateCheckInterval={data!.settings.webUIUpdateCheckInterval}
+                updateCheckInterval={webUISettings.webUIUpdateCheckInterval}
             />
+            {!webUISettings.webUIUpdateCheckInterval && (
+                <ListItem>
+                    <ListItemText
+                        primary={t('global.update.settings.inform.label.title')}
+                        secondary={t('global.update.settings.inform.label.description')}
+                    />
+                    <Switch
+                        edge="end"
+                        checked={webUIInformAvailableUpdate}
+                        onChange={(e) => updateMetadataServerSettings('webUIInformAvailableUpdate', e.target.checked)}
+                    />
+                </ListItem>
+            )}
         </List>
     );
 };

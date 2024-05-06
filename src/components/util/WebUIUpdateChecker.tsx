@@ -22,6 +22,7 @@ import { makeToast } from '@/components/util/Toast.tsx';
 import { ABOUT_WEBUI, WEBUI_UPDATE_CHECK } from '@/lib/graphql/Fragments.ts';
 import { VersionUpdateInfoDialog } from '@/components/util/VersionUpdateInfoDialog.tsx';
 import { useUpdateChecker } from '@/util/useUpdateChecker';
+import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 
 const disabledUpdateCheck = () => Promise.resolve();
 
@@ -31,8 +32,13 @@ export const WebUIUpdateChecker = () => {
     const [webUIVersion, setWebUIVersion] = useLocalStorage<string>('webUIVersion');
     const [open, setOpen] = useState(false);
 
+    const {
+        settings: { webUIInformAvailableUpdate },
+    } = useMetadataServerSettings();
     const serverSettings = requestManager.useGetServerSettings();
     const isAutoUpdateEnabled = !!serverSettings.data?.settings.webUIUpdateCheckInterval;
+
+    const shouldCheckForUpdate = !isAutoUpdateEnabled && webUIInformAvailableUpdate;
 
     const { data: webUIUpdateData, refetch: checkForUpdate } = requestManager.useCheckForWebUIUpdate({
         notifyOnNetworkStatusChange: true,
@@ -48,7 +54,7 @@ export const WebUIUpdateChecker = () => {
 
     const updateChecker = useUpdateChecker(
         'webUI',
-        isAutoUpdateEnabled ? disabledUpdateCheck : checkForUpdate,
+        shouldCheckForUpdate ? checkForUpdate : disabledUpdateCheck,
         webUIUpdateData?.checkForWebUIUpdate.tag,
     );
 
@@ -110,7 +116,7 @@ export const WebUIUpdateChecker = () => {
     }, [webUIUpdateState]);
 
     const isUpdateAvailable =
-        !isAutoUpdateEnabled && updateChecker.handleUpdate && webUIUpdateData?.checkForWebUIUpdate.updateAvailable;
+        shouldCheckForUpdate && updateChecker.handleUpdate && webUIUpdateData?.checkForWebUIUpdate.updateAvailable;
     if (isUpdateAvailable) {
         const isUpdateInProgress = webUIUpdateState === UpdateState.Downloading;
 

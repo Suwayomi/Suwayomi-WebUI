@@ -444,6 +444,14 @@
         "up_to_date": "This is the latest version",
         "update_failure": "Update failed",
         "updating": "{{progress}}% | Updating…"
+      },
+      "settings": {
+        "inform": {
+          "label": {
+            "title": "Inform about available update",
+            "description": "Shows a dialog in case a new version is available"
+          }
+        }
       }
     }
   },
