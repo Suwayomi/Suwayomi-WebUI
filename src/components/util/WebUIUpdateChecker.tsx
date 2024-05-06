@@ -110,7 +110,7 @@ export const WebUIUpdateChecker = () => {
     }, [webUIUpdateState]);
 
     const isUpdateAvailable =
-        isAutoUpdateEnabled && updateChecker.handleUpdate && webUIUpdateData?.checkForWebUIUpdate.updateAvailable;
+        !isAutoUpdateEnabled && updateChecker.handleUpdate && webUIUpdateData?.checkForWebUIUpdate.updateAvailable;
     if (isUpdateAvailable) {
         const isUpdateInProgress = webUIUpdateState === UpdateState.Downloading;
 
