@@ -812,7 +812,7 @@ export class RequestManager {
             imgRequest.reject(reason);
         };
 
-        const response = this.imageQueue.enqueue(
+        const { key, promise: response } = this.imageQueue.enqueue(
             url,
             async () => {
                 // throws error in case request was already aborted
@@ -829,7 +829,21 @@ export class RequestManager {
             priority,
         );
 
-        return { response, abortRequest, cleanup: () => {} };
+        return {
+            response,
+            abortRequest: (reason?: any) => {
+                if (this.imageQueue.isProcessing(key)) {
+                    // prevent aborting image requests that are already in progress
+                    // e.g. for source image requests, ongoing requests are already handled by the server and aborting them
+                    // will just cause new source image requests to be sent to the server, which then will cause the server
+                    // to become really slow for image requests to the same source
+                    return;
+                }
+
+                abortRequest(reason);
+            },
+            cleanup: () => {},
+        };
     }
 
     /**
@@ -848,7 +862,7 @@ export class RequestManager {
     private fetchImageViaFetchApi(url: string, priority?: QueuePriority): ImageRequest {
         let objectUrl: string = '';
         const { abortRequest, signal } = this.createAbortController();
-        const response = this.imageQueue.enqueue(
+        const { key, promise: response } = this.imageQueue.enqueue(
             url,
             () =>
                 this.restClient
@@ -869,7 +883,21 @@ export class RequestManager {
             priority,
         );
 
-        return { response, abortRequest, cleanup: () => URL.revokeObjectURL(objectUrl) };
+        return {
+            response,
+            abortRequest: (reason?: any) => {
+                if (this.imageQueue.isProcessing(key)) {
+                    // prevent aborting image requests that are already in progress
+                    // e.g. for source image requests, ongoing requests are already handled by the server and aborting them
+                    // will just cause new source image requests to be sent to the server, which then will cause the server
+                    // to become really slow for image requests to the same source
+                    return;
+                }
+
+                abortRequest(reason);
+            },
+            cleanup: () => URL.revokeObjectURL(objectUrl),
+        };
     }
 
     /**

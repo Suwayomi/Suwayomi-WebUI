@@ -44,7 +44,11 @@ export class Queue {
         this.pendingKeyToPromiseMap.clear();
     }
 
-    enqueue<T>(key: Key, fn: () => PromiseLike<T> | T, priority: QueuePriority = Priority.NORMAL): Promise<T> {
+    enqueue<T>(
+        key: Key,
+        fn: () => PromiseLike<T> | T,
+        priority: QueuePriority = Priority.NORMAL,
+    ): { key: string; promise: Promise<T> } {
         this.counter = (this.counter + 1) % Infinity;
         const actualKey = `${key}_${this.counter}`;
 
@@ -56,7 +60,11 @@ export class Queue {
 
         this.queue(() => this.process());
 
-        return processPromise.promise;
+        return { key: actualKey, promise: processPromise.promise };
+    }
+
+    isProcessing(key: string): boolean {
+        return !this.pendingKeyToFnMap.has(key);
     }
 
     private async process(): Promise<void> {
