@@ -11,16 +11,26 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { getVersion } from '@/screens/settings/About.tsx';
 import { useUpdateChecker } from '@/util/useUpdateChecker.tsx';
 import { VersionUpdateInfoDialog } from '@/components/util/VersionUpdateInfoDialog.tsx';
+import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
+
+const disabledUpdateCheck = () => Promise.resolve();
 
 export const ServerUpdateChecker = () => {
     const { t } = useTranslation();
+
+    const {
+        settings: { serverInformAvailableUpdate },
+    } = useMetadataServerSettings();
 
     const {
         data: serverUpdateCheckData,
         loading: isCheckingForServerUpdate,
         error: serverUpdateCheckError,
         refetch: checkForUpdate,
-    } = requestManager.useCheckForServerUpdate({ notifyOnNetworkStatusChange: true, fetchPolicy: 'cache-only' });
+    } = requestManager.useCheckForServerUpdate({
+        notifyOnNetworkStatusChange: true,
+        fetchPolicy: 'cache-only',
+    });
 
     const { data } = requestManager.useGetAbout();
     const { aboutServer } = data ?? {};
@@ -31,7 +41,15 @@ export const ServerUpdateChecker = () => {
     const version = aboutServer ? getVersion(aboutServer) : undefined;
     const isServerUpdateAvailable = !!selectedServerChannelInfo?.tag && selectedServerChannelInfo.tag !== version;
 
-    const updateChecker = useUpdateChecker('server', checkForUpdate, selectedServerChannelInfo?.tag);
+    const updateChecker = useUpdateChecker(
+        'server',
+        serverInformAvailableUpdate ? checkForUpdate : disabledUpdateCheck,
+        selectedServerChannelInfo?.tag,
+    );
+
+    if (!serverInformAvailableUpdate) {
+        return null;
+    }
 
     if (isCheckingForServerUpdate) {
         return null;

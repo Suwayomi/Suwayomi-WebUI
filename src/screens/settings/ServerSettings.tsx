@@ -18,12 +18,17 @@ import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarC
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { useLocalStorage } from '@/util/useStorage.tsx';
 import { TextSetting } from '@/components/settings/text/TextSetting.tsx';
-import { ServerSettings as GqlServerSettings } from '@/typings.ts';
+import { MetadataUpdateSettings, ServerSettings as GqlServerSettings } from '@/typings.ts';
 import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
 import { SelectSetting } from '@/components/settings/SelectSetting.tsx';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import {
+    createUpdateMetadataServerSettings,
+    useMetadataServerSettings,
+} from '@/lib/metadata/metadataServerSettings.ts';
+import { makeToast } from '@/components/util/Toast.tsx';
 
 type ServerSettingsType = Pick<
     GqlServerSettings,
@@ -86,7 +91,21 @@ export const ServerSettings = () => {
         };
     }, [t]);
 
-    const { data, loading, error, refetch } = requestManager.useGetServerSettings({
+    const {
+        settings: { serverInformAvailableUpdate },
+        loading: areMetadataServerSettingsLoading,
+        request: { error: metadataServerSettingsError, refetch: refetchServerMetadataSettings },
+    } = useMetadataServerSettings();
+    const updateMetadataServerSettings = createUpdateMetadataServerSettings<
+        keyof Pick<MetadataUpdateSettings, 'serverInformAvailableUpdate'>
+    >(() => makeToast(t('global.error.label.failed_to_save_changes'), 'error'));
+
+    const {
+        data,
+        loading: areServerSettingsLoading,
+        error: serverSettingsError,
+        refetch: refetchServerSettings,
+    } = requestManager.useGetServerSettings({
         notifyOnNetworkStatusChange: true,
     });
     const [mutateSettings] = requestManager.useUpdateServerSettings();
@@ -121,11 +140,23 @@ export const ServerSettings = () => {
                     value={serverAddress}
                     placeholder="http://localhost:4567"
                 />
+                <ListItem>
+                    <ListItemText
+                        primary={t('global.update.settings.inform.label.title')}
+                        secondary={t('global.update.settings.inform.label.description')}
+                    />
+                    <Switch
+                        edge="end"
+                        checked={serverInformAvailableUpdate}
+                        onChange={(e) => updateMetadataServerSettings('serverInformAvailableUpdate', e.target.checked)}
+                    />
+                </ListItem>
             </List>
         ),
-        [],
+        [serverAddress, serverInformAvailableUpdate],
     );
 
+    const loading = areMetadataServerSettingsLoading || areServerSettingsLoading;
     if (loading) {
         return (
             <>
@@ -135,6 +166,7 @@ export const ServerSettings = () => {
         );
     }
 
+    const error = metadataServerSettingsError ?? serverSettingsError;
     if (error) {
         return (
             <>
@@ -142,7 +174,19 @@ export const ServerSettings = () => {
                 <EmptyViewAbsoluteCentered
                     message={t('global.error.label.failed_to_load_data')}
                     messageExtra={error.message}
-                    retry={() => refetch().catch(defaultPromiseErrorHandler('ServerSettings::refetch'))}
+                    retry={() => {
+                        if (metadataServerSettingsError) {
+                            refetchServerMetadataSettings().catch(
+                                defaultPromiseErrorHandler('ServerSettings::refetchServerMetadataSettings'),
+                            );
+                        }
+
+                        if (serverSettingsError) {
+                            refetchServerSettings().catch(
+                                defaultPromiseErrorHandler('ServerSettings::refetchServerSettings'),
+                            );
+                        }
+                    }}
                 />
             </>
         );

@@ -53,6 +53,7 @@ const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
 
     // updates
     'webUIInformAvailableUpdate',
+    'serverInformAvailableUpdate',
 ];
 
 /**

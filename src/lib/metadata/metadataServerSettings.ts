@@ -49,6 +49,7 @@ export const getDefaultSettings = (): MetadataServerSettings => ({
 
     // updates
     webUIInformAvailableUpdate: true,
+    serverInformAvailableUpdate: true,
 });
 
 export const convertSettingsToMetadata = (

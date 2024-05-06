@@ -257,6 +257,7 @@ export type MetadataTrackingSettings = {
 
 export type MetadataUpdateSettings = {
     webUIInformAvailableUpdate: boolean;
+    serverInformAvailableUpdate: boolean;
 };
 
 export type MetadataServerSettings = MetadataDownloadSettings &
