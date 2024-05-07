@@ -14,6 +14,10 @@ import {
     TrackRecordType,
 } from '@/lib/graphql/generated/graphql.ts';
 
+export enum Tracker {
+    MYANIMELIST = 1,
+}
+
 export const UNSET_DATE = '0';
 
 export type TTrackRecord = GetMangaQuery['manga']['trackRecords']['nodes'][number];

@@ -16,10 +16,15 @@ import ArrowBack from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import InputAdornment from '@mui/material/InputAdornment';
+import InfoIcon from '@mui/icons-material/Info';
+import PopupState, { bindPopover, bindTrigger } from 'material-ui-popup-state';
+import Popover from '@mui/material/Popover';
+import Typography from '@mui/material/Typography';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
-import { TBaseTracker } from '@/lib/data/Trackers.ts';
+import { TBaseTracker, Tracker } from '@/lib/data/Trackers.ts';
 import { SearchTextField } from '@/components/atoms/SearchTextField.tsx';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { TrackerMangaCard } from '@/components/tracker/TrackerMangaCard.tsx';
@@ -103,6 +108,32 @@ export const TrackerSearch = ({
                             }
                         }}
                         onCancel={() => setTmpSearchString('')}
+                        InputProps={{
+                            startAdornment: tracker.id === Tracker.MYANIMELIST && (
+                                <InputAdornment position="start">
+                                    <PopupState variant="popover" popupId="tracker-search-info">
+                                        {(popupState) => (
+                                            <>
+                                                <IconButton {...bindTrigger(popupState)}>
+                                                    <InfoIcon />
+                                                </IconButton>
+                                                <Popover
+                                                    {...bindPopover(popupState)}
+                                                    anchorOrigin={{
+                                                        vertical: 'bottom',
+                                                        horizontal: 'left',
+                                                    }}
+                                                >
+                                                    <Typography sx={{ padding: 1, whiteSpace: 'pre-line' }}>
+                                                        {t('tracking.my_anime_list.search.label.hint')}
+                                                    </Typography>
+                                                </Popover>
+                                            </>
+                                        )}
+                                    </PopupState>
+                                </InputAdornment>
+                            ),
+                        }}
                     />
                 </Stack>
             </DialogTitle>
