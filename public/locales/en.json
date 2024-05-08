@@ -520,6 +520,11 @@
           "label": {
             "description": "Show all duplicated entries in your library",
             "title": "Duplicated entries"
+          },
+          "settings": {
+            "label": {
+              "check_description": "Check description"
+            }
           }
         }
       },
