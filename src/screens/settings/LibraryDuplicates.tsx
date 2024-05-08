@@ -38,7 +38,7 @@ export const LibraryDuplicates = () => {
     const duplicatedMangas = useMemo(() => {
         const libraryMangas: TManga[] = data?.mangas.nodes ?? [];
 
-        const titleToMangas = Object.groupBy(libraryMangas, ({ title }) => title);
+        const titleToMangas = Object.groupBy(libraryMangas, ({ title }) => title.toLowerCase().trim());
 
         return Object.entries(titleToMangas)
             .filter(([, mangasWithTitle]) => (mangasWithTitle?.length ?? 0) > 1)
