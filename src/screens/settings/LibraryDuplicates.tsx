@@ -13,28 +13,35 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import Box from '@mui/material/Box';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { MangaGrid } from '@/components/MangaGrid.tsx';
-import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { TManga } from '@/typings';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { useLocalStorage } from '@/util/useStorage.tsx';
 import { GridLayout } from '@/components/context/LibraryOptionsContext.tsx';
 import { GridLayouts } from '@/components/source/GridLayouts.tsx';
 import { CheckboxInput } from '@/components/atoms/CheckboxInput.tsx';
+import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
+import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
+import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { MangaCard } from '@/components/MangaCard.tsx';
+import { StyledGroupedVirtuoso } from '@/components/virtuoso/StyledGroupedVirtuoso.tsx';
+import { StyledGroupHeader } from '@/components/virtuoso/StyledGroupHeader.tsx';
 
-const findDuplicatesByTitle = (libraryMangas: TManga[]): TManga[] => {
+const findDuplicatesByTitle = (libraryMangas: TManga[]): Record<string, TManga[]> => {
     const titleToMangas = Object.groupBy(libraryMangas, ({ title }) => title.toLowerCase().trim());
 
-    return Object.entries(titleToMangas)
-        .filter(([, mangasWithTitle]) => (mangasWithTitle?.length ?? 0) > 1)
-        .map(([, mangasWithTitle]) => mangasWithTitle ?? [])
-        .flat();
+    return Object.fromEntries(
+        Object.entries(titleToMangas)
+            .filter((titleToMangaMap): titleToMangaMap is [string, TManga[]] => (titleToMangaMap[1]?.length ?? 0) > 1)
+            .map(([, mangas]) => [mangas[0].title, mangas]),
+    );
 };
 
-const findDuplicatesByTitleAndAlternativeTitles = (libraryMangas: TManga[]): TManga[] => {
+const findDuplicatesByTitleAndAlternativeTitles = (libraryMangas: TManga[]): Record<string, TManga[]> => {
     const idToDuplicateStatus: Record<TManga['id'], boolean> = {};
-    const duplicatedMangas: TManga[] = [];
+    const titleToMangas: Record<string, TManga[]> = {};
 
     libraryMangas.forEach((mangaToCheck) =>
         libraryMangas.forEach((libraryManga) => {
@@ -56,7 +63,7 @@ const findDuplicatesByTitleAndAlternativeTitles = (libraryMangas: TManga[]): TMa
             const markMangaToCheckAsDuplicate = !idToDuplicateStatus[mangaToCheck.id];
             if (markMangaToCheckAsDuplicate) {
                 idToDuplicateStatus[mangaToCheck.id] = true;
-                duplicatedMangas.push(mangaToCheck);
+                titleToMangas[mangaToCheck.title] = [...(titleToMangas[mangaToCheck.title] ?? []), mangaToCheck];
             }
 
             const wasAlreadyDetected = idToDuplicateStatus[libraryManga.id];
@@ -65,11 +72,11 @@ const findDuplicatesByTitleAndAlternativeTitles = (libraryMangas: TManga[]): TMa
             }
 
             idToDuplicateStatus[libraryManga.id] = true;
-            duplicatedMangas.push(libraryManga);
+            titleToMangas[mangaToCheck.title] = [...(titleToMangas[mangaToCheck.title] ?? []), libraryManga];
         }),
     );
 
-    return duplicatedMangas;
+    return titleToMangas;
 };
 
 export const LibraryDuplicates = () => {
@@ -118,7 +125,7 @@ export const LibraryDuplicates = () => {
 
     const { data, loading, error, refetch } = requestManager.useGetMangas({ condition: { inLibrary: true } });
 
-    const duplicatedMangas = useMemo(() => {
+    const mangasByTitle = useMemo(() => {
         const libraryMangas: TManga[] = data?.mangas.nodes ?? [];
 
         if (checkAlternativeTitles) {
@@ -128,16 +135,62 @@ export const LibraryDuplicates = () => {
         return findDuplicatesByTitle(libraryMangas);
     }, [data?.mangas.nodes, checkAlternativeTitles]);
 
-    return (
-        <MangaGrid
-            mangas={duplicatedMangas}
-            hasNextPage={false}
-            loadMore={() => {}}
-            message={error ? t('manga.error.label.request_failure') : t('library.error.label.empty')}
-            messageExtra={error?.message}
-            isLoading={loading}
-            retry={error ? () => refetch().catch(defaultPromiseErrorHandler('LibraryDuplicates::refetch')) : undefined}
-            gridLayout={gridLayout}
-        />
+    const duplicatedTitles = useMemo(() => Object.keys(mangasByTitle), [mangasByTitle]);
+    const duplicatedMangas = useMemo(() => Object.values(mangasByTitle).flat(), [mangasByTitle]);
+    const mangasCountByTitle = useMemo(
+        () => Object.values(mangasByTitle).map((mangas) => mangas.length),
+        [mangasByTitle],
     );
+
+    if (loading) {
+        return <LoadingPlaceholder />;
+    }
+
+    if (error) {
+        return (
+            <EmptyViewAbsoluteCentered
+                message={t('')}
+                messageExtra={error.message}
+                retry={() => refetch().catch(defaultPromiseErrorHandler('LibraryDuplicates::refetch'))}
+            />
+        );
+    }
+
+    if (gridLayout === GridLayout.List) {
+        return (
+            <StyledGroupedVirtuoso
+                style={{
+                    // override Virtuoso default values and set them with class
+                    height: 'undefined',
+                }}
+                groupCounts={mangasCountByTitle}
+                groupContent={(index) => (
+                    <StyledGroupHeader variant="h5" isFirstItem={index === 0}>
+                        {duplicatedTitles[index]}
+                    </StyledGroupHeader>
+                )}
+                itemContent={(index) => (
+                    <Box key={duplicatedMangas[index].id} sx={{ px: 1, pb: 1 }}>
+                        <MangaCard manga={duplicatedMangas[index]} gridLayout={gridLayout} selected={null} />
+                    </Box>
+                )}
+            />
+        );
+    }
+
+    return duplicatedTitles.map((title, index) => (
+        <Box key={title}>
+            <StyledGroupHeader sx={{ pt: index === 0 ? undefined : 0, pb: 0 }} variant="h5" isFirstItem={false}>
+                {title}
+            </StyledGroupHeader>
+            <MangaGrid
+                mangas={mangasByTitle[title]}
+                hasNextPage={false}
+                loadMore={() => {}}
+                isLoading={false}
+                gridLayout={gridLayout}
+                horizontal
+            />
+        </Box>
+    ));
 };
