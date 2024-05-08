@@ -13,7 +13,7 @@ import { GridLayout } from '@/components/context/LibraryOptionsContext.tsx';
 import { SelectableCollectionReturnType } from '@/components/collection/useSelectableCollection.ts';
 import { useManageMangaLibraryState } from '@/components/manga/useManageMangaLibraryState.tsx';
 
-export type MangaCardMode = 'default' | 'source' | 'migrate.search' | 'migrate.select';
+export type MangaCardMode = 'default' | 'source' | 'migrate.search' | 'migrate.select' | 'duplicate';
 
 export interface MangaCardProps {
     manga: TPartialManga;

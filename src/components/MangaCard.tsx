@@ -29,6 +29,7 @@ const getMangaLinkTo = (
     switch (mode) {
         case 'default':
         case 'source':
+        case 'duplicate':
             return `/manga/${mangaId}/`;
         case 'migrate.search':
             return `/migrate/source/${sourceId}/manga/${mangaId}/search?query=${mangaTitle}`;
@@ -106,7 +107,7 @@ export const MangaCard = (props: MangaCardProps) => {
     const continueReadingButton = useMemo(
         () => (
             <ContinueReadingButton
-                showContinueReadingButton={showContinueReadingButton}
+                showContinueReadingButton={showContinueReadingButton && mode === 'default'}
                 isLatestChapterRead={isLatestChapterRead}
                 nextChapterIndexToRead={nextChapterIndexToRead}
                 mangaLinkTo={mangaLinkTo}

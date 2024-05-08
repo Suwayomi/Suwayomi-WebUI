@@ -171,7 +171,12 @@ export const LibraryDuplicates = () => {
                 )}
                 itemContent={(index) => (
                     <Box key={duplicatedMangas[index].id} sx={{ px: 1, pb: 1 }}>
-                        <MangaCard manga={duplicatedMangas[index]} gridLayout={gridLayout} selected={null} />
+                        <MangaCard
+                            manga={duplicatedMangas[index]}
+                            gridLayout={gridLayout}
+                            selected={null}
+                            mode="duplicate"
+                        />
                     </Box>
                 )}
             />
@@ -190,6 +195,7 @@ export const LibraryDuplicates = () => {
                 isLoading={false}
                 gridLayout={gridLayout}
                 horizontal
+                mode="duplicate"
             />
         </Box>
     ));
