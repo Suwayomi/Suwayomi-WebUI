@@ -67,7 +67,7 @@ export const WebUIUpdateChecker = () => {
             : `https://github.com/Suwayomi/Suwayomi-WebUI/issues/749`;
 
     const newVersion = aboutWebUI?.tag;
-    const isSameAsCurrent = !newVersion || webUIVersion === newVersion;
+    const isSameAsCurrent = !newVersion || !webUIVersion || webUIVersion === newVersion;
 
     if (!isSameAsCurrent && !open) {
         setOpen(true);

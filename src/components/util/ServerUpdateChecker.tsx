@@ -63,7 +63,7 @@ export const ServerUpdateChecker = () => {
             ? `https://github.com/Suwayomi/Suwayomi-Server/releases/tag/${aboutServer.version}`
             : undefined;
 
-    const isSameAsCurrent = !version || serverVersion === version;
+    const isSameAsCurrent = !version || !serverVersion || serverVersion === version;
     if (!isSameAsCurrent && !open) {
         setOpen(true);
     }
