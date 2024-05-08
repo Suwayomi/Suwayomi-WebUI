@@ -1153,7 +1153,7 @@
     "my_anime_list": {
       "search": {
         "label": {
-          "hint": "Search for a ID via \"id:<ID>\" (e.g. \"id:13\")\nLimit search to your lists via \"my:<Title>\" (e.g. \"my:One Piece\""
+          "hint": "Search for a ID via \"id:<ID>\" (e.g. \"id:13\")\nLimit search to your lists via \"my:<Title>\" (e.g. \"my:One Piece\")"
         }
       }
     },
