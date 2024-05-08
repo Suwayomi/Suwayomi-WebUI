@@ -2036,6 +2036,19 @@ export class RequestManager {
         );
     }
 
+    public getCategories(
+        options?: QueryOptions<GetCategoriesQueryVariables, GetCategoriesQuery>,
+    ): AbortabaleApolloQueryResponse<GetCategoriesQuery> {
+        return this.doRequest(
+            GQLMethod.QUERY,
+            GET_CATEGORIES,
+            {
+                orderBy: CategoryOrderBy.Order,
+            },
+            options,
+        );
+    }
+
     public createCategory(
         input: CreateCategoryInput,
         options?: MutationOptions<CreateCategoryMutation, CreateCategoryMutationVariables>,

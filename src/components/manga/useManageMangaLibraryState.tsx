@@ -6,13 +6,13 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useCategorySelect } from '@/components/navbar/action/useCategorySelect.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
-import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
+import { getMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 import { Categories } from '@/lib/data/Categories.ts';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { Mangas } from '@/lib/data/Mangas.ts';
@@ -27,17 +27,6 @@ export const useManageMangaLibraryState = (
     const navigate = useNavigate();
 
     const [isInLibrary, setIsInLibrary] = useState(manga.inLibrary);
-
-    const {
-        settings: { showAddToLibraryCategorySelectDialog },
-        loading: areSettingsLoading,
-    } = useMetadataServerSettings();
-
-    const categories = requestManager.useGetCategories();
-    const userCreatedCategories = useMemo(
-        () => Categories.getUserCreated(categories.data?.categories.nodes ?? []),
-        [categories.data?.categories.nodes],
-    );
 
     const addToLibrary = useCallback(
         (didSubmit: boolean, addToCategories: number[] = [], removeFromCategories: number[] = []) => {
@@ -89,22 +78,23 @@ export const useManageMangaLibraryState = (
                 return;
             }
 
-            if (areSettingsLoading || categories.loading) {
-                makeToast(t('global.label.load_in_progress'), 'info');
+            let showAddToLibraryCategorySelectDialog: boolean;
+            try {
+                showAddToLibraryCategorySelectDialog = (await getMetadataServerSettings())
+                    .showAddToLibraryCategorySelectDialog;
+            } catch (e) {
+                makeToast(t('global.error.label.failed_to_load_data'), 'error');
                 return;
             }
 
-            if (categories.error) {
+            let categories: Awaited<ReturnType<typeof requestManager.getCategories>['response']>;
+            try {
+                categories = await requestManager.getCategories().response;
+            } catch (e) {
                 makeToast(t('category.error.label.request_failure'), 'error');
-                categories
-                    .refetch()
-                    .catch(
-                        defaultPromiseErrorHandler(
-                            'useManageMangaLibraryState::updateLibraryState: refetch categories',
-                        ),
-                    );
                 return;
             }
+            const userCreatedCategories = Categories.getUserCreated(categories.data.categories.nodes);
 
             let duplicatedLibraryMangas:
                 | Awaited<ReturnType<typeof Mangas.getDuplicateLibraryMangas>['response']>
@@ -151,7 +141,7 @@ export const useManageMangaLibraryState = (
         };
 
         update().catch(defaultPromiseErrorHandler('useManageMangaLibraryState::updateLibraryState'));
-    }, [isInLibrary, removeFromLibrary, addToLibrary, areSettingsLoading, categories.loading]);
+    }, [isInLibrary, removeFromLibrary, addToLibrary]);
 
     return {
         CategorySelectComponent,
