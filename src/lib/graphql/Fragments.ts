@@ -65,6 +65,10 @@ export const PARTIAL_SOURCE_FIELDS = gql`
             pkgName
             repo
         }
+        meta {
+            key
+            value
+        }
     }
 `;
 

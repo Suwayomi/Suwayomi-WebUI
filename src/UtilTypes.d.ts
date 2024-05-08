@@ -23,3 +23,5 @@ type RecursivePartial<T> = {
 type OptionalProperty<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
 type PropertiesNever<T> = { [key in keyof T]?: never };
+
+type OmitFirst<T extends any[]> = T extends [any, ...infer R] ? R : never;

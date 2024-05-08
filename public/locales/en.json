@@ -306,6 +306,7 @@
       "clear": "Clear",
       "copy": "Copy",
       "create": "Create",
+      "delete": "Delete",
       "deselect": "Deselect",
       "dont_show_dialog_again": "Don't show this dialog again",
       "edit": "Edit",
@@ -1114,6 +1115,20 @@
       "label": {
         "no_sources_found": "No sources found. Install Some extensions first.",
         "source_not_found": "Could not find source. Check your installed extensions."
+      }
+    },
+    "filter": {
+      "save_search": {
+        "dialog": {
+          "label": {
+            "delete": "This will delete the saved search \"{{name}}\"",
+            "title": "Save current search"
+          }
+        },
+        "label": {
+          "delete": "Delete search",
+          "save": "Save search"
+        }
       }
     },
     "local_source": {

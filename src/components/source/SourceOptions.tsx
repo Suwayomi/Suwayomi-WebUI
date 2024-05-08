@@ -12,7 +12,19 @@ import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { SourceFilters } from '@/typings';
+import IconButton from '@mui/material/IconButton';
+import SaveIcon from '@mui/icons-material/Save';
+import Chip from '@mui/material/Chip';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Typography from '@mui/material/Typography';
+import PopupState, { bindDialog, bindTrigger } from 'material-ui-popup-state';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import TextField from '@mui/material/TextField';
+import Tooltip from '@mui/material/Tooltip';
+import { ISourceMetadata, SourceFilters } from '@/typings';
 import { OptionsPanel } from '@/components/molecules/OptionsPanel';
 import { CheckBoxFilter } from '@/components/source/filters/CheckBoxFilter';
 import { HeaderFilter } from '@/components/source/filters/HeaderFilter';
@@ -25,6 +37,8 @@ import { TriStateFilter } from '@/components/source/filters/TriStateFilter';
 import { GroupFilter } from '@/components/source/filters/GroupFilter';
 import { SeparatorFilter } from '@/components/source/filters/SeparatorFilter';
 import { StyledFab } from '@/components/util/StyledFab';
+import { awaitConfirmation } from '@/lib/ui/AwaitableDialog.tsx';
+import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
 interface IFilters {
     sourceFilter: SourceFilters[];
@@ -34,6 +48,9 @@ interface IFilters {
 }
 
 interface IFilters1 {
+    savedSearches: ISourceMetadata['savedSearches'];
+    selectSavedSearch: (savedSearch: string) => void;
+    updateSavedSearches: (savedSearch: string, updateType: 'create' | 'delete') => void;
     sourceFilter: SourceFilters[];
     updateFilterValue: Function;
     resetFilterValue: Function;
@@ -142,6 +159,9 @@ export function Options({ sourceFilter, group, updateFilterValue, update }: IFil
 }
 
 export function SourceOptions({
+    savedSearches = {},
+    selectSavedSearch,
+    updateSavedSearches,
     sourceFilter,
     updateFilterValue,
     resetFilterValue,
@@ -150,6 +170,10 @@ export function SourceOptions({
 }: IFilters1) {
     const { t } = useTranslation();
     const [FilterOptions, setFilterOptions] = useState(false);
+    const [newSavedSearch, setNewSavedSearch] = useState('');
+
+    const savedSearchNames = Object.keys(savedSearches);
+    const savedSearchesExist = !!savedSearchNames.length;
 
     function handleReset() {
         resetFilterValue(0);
@@ -169,11 +193,90 @@ export function SourceOptions({
             </StyledFab>
 
             <OptionsPanel open={FilterOptions} onClose={() => setFilterOptions(false)}>
-                <Box sx={{ display: 'flex', p: 2, pb: 0 }}>
-                    <Button onClick={handleReset}>{t('global.button.reset')}</Button>
-                    <Button sx={{ marginLeft: 'auto' }} variant="contained" onClick={handleSubmit}>
-                        {t('global.button.submit')}
-                    </Button>
+                <Box sx={{ p: 2, pb: savedSearchesExist ? undefined : 0 }}>
+                    <Box sx={{ display: 'flex', pb: 1 }}>
+                        <Button onClick={handleReset}>{t('global.button.reset')}</Button>
+                        <PopupState variant="dialog" popupId="source-browse-save-search">
+                            {(popupState) => (
+                                <>
+                                    <Tooltip title={t('source.filter.save_search.label.save')}>
+                                        <IconButton sx={{ marginLeft: 'auto' }} {...bindTrigger(popupState)}>
+                                            <SaveIcon />
+                                        </IconButton>
+                                    </Tooltip>
+                                    <Dialog {...bindDialog(popupState)} maxWidth="xs" fullWidth>
+                                        <DialogTitle>{t('source.filter.save_search.dialog.label.title')}</DialogTitle>
+                                        <DialogContent>
+                                            <TextField
+                                                sx={{ width: '100%' }}
+                                                inputProps={{ maxLength: 50 }}
+                                                value={newSavedSearch}
+                                                onChange={(e) => setNewSavedSearch(e.target.value as string)}
+                                            />
+                                        </DialogContent>
+                                        <DialogActions>
+                                            <Button
+                                                onClick={() => {
+                                                    setNewSavedSearch('');
+                                                    popupState.close();
+                                                }}
+                                            >
+                                                {t('global.button.cancel')}
+                                            </Button>
+                                            <Button
+                                                onClick={() => {
+                                                    updateSavedSearches(newSavedSearch, 'create');
+                                                    setNewSavedSearch('');
+                                                    popupState.close();
+                                                }}
+                                            >
+                                                {t('global.button.ok')}
+                                            </Button>
+                                        </DialogActions>
+                                    </Dialog>
+                                </>
+                            )}
+                        </PopupState>
+
+                        <Button variant="contained" onClick={handleSubmit}>
+                            {t('global.button.submit')}
+                        </Button>
+                    </Box>
+                    {savedSearchesExist && (
+                        <>
+                            <Typography sx={{ pb: 1 }}>Saved searches</Typography>
+                            <Stack sx={{ flexDirection: 'row' }}>
+                                {savedSearchNames.map((savedSearch) => (
+                                    <Chip
+                                        label={savedSearch}
+                                        onClick={() => {
+                                            setFilterOptions(false);
+                                            selectSavedSearch(savedSearch);
+                                        }}
+                                        onDelete={() => {
+                                            awaitConfirmation({
+                                                title: t('global.label.are_you_sure'),
+                                                message: t('source.filter.save_search.dialog.label.delete', {
+                                                    name: savedSearch,
+                                                }),
+                                                actions: {
+                                                    confirm: { title: t('global.button.delete') },
+                                                },
+                                            })
+                                                .then(() => updateSavedSearches(savedSearch, 'delete'))
+                                                .catch(defaultPromiseErrorHandler('SourceOptions::deleteSavedSearch'));
+                                        }}
+                                        deleteIcon={
+                                            <Tooltip title={t('source.filter.save_search.label.delete')}>
+                                                <DeleteIcon />
+                                            </Tooltip>
+                                        }
+                                        variant="outlined"
+                                    />
+                                ))}
+                            </Stack>
+                        </>
+                    )}
                 </Box>
                 <Box
                     sx={{

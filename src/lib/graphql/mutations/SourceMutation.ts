@@ -83,3 +83,22 @@ export const UPDATE_SOURCE_PREFERENCES = gql`
         }
     }
 `;
+
+export const SET_SOURCE_METADATA = gql`
+    mutation SET_SOURCE_METADATA($input: SetSourceMetaInput!) {
+        setSourceMeta(input: $input) {
+            clientMutationId
+            meta {
+                key
+                value
+                source {
+                    id
+                    meta {
+                        key
+                        value
+                    }
+                }
+            }
+        }
+    }
+`;

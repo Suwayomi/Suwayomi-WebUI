@@ -20,7 +20,7 @@ import { styled } from '@mui/material/styles';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import NewReleasesIcon from '@mui/icons-material/NewReleases';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { TPartialManga, TranslationKey } from '@/typings';
+import { IPos, TPartialManga, TPartialSource, TranslationKey } from '@/typings';
 import {
     requestManager,
     AbortableApolloUseMutationPaginatedResponse,
@@ -40,6 +40,8 @@ import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings
 import { useSessionStorage } from '@/util/useStorage.tsx';
 import { AppStorage } from '@/util/AppStorage.ts';
 import { getGridSnapshotKey } from '@/components/MangaGrid.tsx';
+import { createUpdateSourceMetadata, getSourceMetadata } from '@/lib/metadata/sourceMetadata.ts';
+import { makeToast } from '@/components/util/Toast.tsx';
 
 const ContentTypeMenu = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -79,13 +81,6 @@ export enum SourceContentType {
     POPULAR,
     LATEST,
     SEARCH,
-}
-
-interface IPos {
-    type: 'selectState' | 'textState' | 'checkBoxState' | 'triState' | 'sortState';
-    position: number;
-    state: any;
-    group?: number;
 }
 
 const SOURCE_CONTENT_TYPE_TO_ERROR_MSG_KEY: { [contentType in SourceContentType]: TranslationKey } = {
@@ -287,10 +282,53 @@ export function SourceMangas() {
     const isLoading = loading || filteredOutAllItemsOfFetchedPage;
     const mangas = data?.fetchSourceManga.mangas ?? [];
     const hasNextPage = data?.fetchSourceManga.hasNextPage ?? false;
-
     const { data: sourceData } = requestManager.useGetSource(sourceId);
     const source = sourceData?.source;
+
     const filters = source?.filters ?? [];
+    const { savedSearches = {} } = useMemo(() => getSourceMetadata(source), [source, source?.meta]);
+    const updateSourceMetadata = createUpdateSourceMetadata<'savedSearches'>(
+        source ?? ({ id: sourceId } as TPartialSource),
+        () => makeToast(t('global.error.label.failed_to_save_changes'), 'error'),
+    );
+
+    const selectSavedSearch = useCallback(
+        (savedSearch: string) => {
+            const { query: savedSearchQuery, filters: savedSearchFilters } = savedSearches[savedSearch];
+
+            if (savedSearchFilters) {
+                setDialogFiltersToApply(savedSearchFilters);
+                setFiltersToApply(savedSearchFilters);
+            }
+
+            navigate(
+                {
+                    pathname: '',
+                    search: savedSearchQuery ? `query=${savedSearchQuery}` : undefined,
+                },
+                { state: { ...locationState, contentType: SourceContentType.SEARCH } },
+            );
+        },
+        [savedSearches, locationState],
+    );
+
+    const handleSavedSearchesUpdate = useCallback(
+        (savedSearch: string, updateType: 'create' | 'delete') => {
+            if (updateType === 'delete') {
+                const savedSearchesCopy = { ...savedSearches };
+                delete savedSearchesCopy[savedSearch];
+                updateSourceMetadata('savedSearches', savedSearchesCopy);
+                return;
+            }
+
+            const updatedSavedSearches = {
+                ...savedSearches,
+                [savedSearch]: { query: query ?? undefined, filters: filtersToApply },
+            };
+            updateSourceMetadata('savedSearches', updatedSavedSearches);
+        },
+        [savedSearches, query, filtersToApply],
+    );
 
     const message = !isLoading ? t(SOURCE_CONTENT_TYPE_TO_ERROR_MSG_KEY[contentType]) : undefined;
     const isLocalSource = sourceId === '0';
@@ -335,10 +373,10 @@ export function SourceMangas() {
         loadPage(lastPageNum + 1);
     }, [lastPageNum, hasNextPage, contentType]);
 
-    const resetFilters = useCallback(() => {
+    const resetFilters = () => {
         setDialogFiltersToApply([]);
         setFiltersToApply([]);
-    }, [sourceId, contentType]);
+    };
 
     useEffect(() => {
         if (filteredOutAllItemsOfFetchedPage && hasNextPage && !loading) {
@@ -441,6 +479,9 @@ export function SourceMangas() {
             />
             {contentType === SourceContentType.SEARCH && (
                 <SourceOptions
+                    savedSearches={savedSearches}
+                    selectSavedSearch={selectSavedSearch}
+                    updateSavedSearches={handleSavedSearchesUpdate}
                     sourceFilter={filters}
                     updateFilterValue={setDialogFiltersToApply}
                     setTriggerUpdate={() => {

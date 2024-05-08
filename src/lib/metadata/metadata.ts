@@ -17,6 +17,7 @@ import {
     TCategory,
     TChapter,
     TManga,
+    TPartialSource,
 } from '@/typings.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { MetaType } from '@/lib/graphql/generated/graphql.ts';
@@ -54,6 +55,9 @@ const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
     // updates
     'webUIInformAvailableUpdate',
     'serverInformAvailableUpdate',
+
+    // sources
+    'savedSearches',
 ];
 
 /**
@@ -354,7 +358,7 @@ const wrapMetadataWithMetaKey = (wrap: boolean, metadata: Metadata): MetadataHol
     };
 };
 
-type MetadataHolderType = 'manga' | 'chapter' | 'category' | 'global';
+type MetadataHolderType = 'manga' | 'chapter' | 'category' | 'global' | 'source';
 
 export const requestUpdateMetadataValue = async (
     metadataHolder: GqlMetaHolder,
@@ -376,6 +380,9 @@ export const requestUpdateMetadataValue = async (
             break;
         case 'manga':
             await requestManager.setMangaMeta((metadataHolder as TManga).id, metadataKey, value).response;
+            break;
+        case 'source':
+            await requestManager.setSourceMeta((metadataHolder as TPartialSource).id, metadataKey, value).response;
             break;
         default:
             throw new Error(`requestUpdateMetadataValue: unknown holderType "${holderType}"`);
@@ -406,3 +413,8 @@ export const requestUpdateCategoryMetadata = async (
     category: TCategory,
     keysToValues: MetadataKeyValuePair[],
 ): Promise<void[]> => requestUpdateMetadata(category, 'category', keysToValues);
+
+export const requestUpdateSourceMetadata = async (
+    source: TPartialSource,
+    keysToValue: MetadataKeyValuePair[],
+): Promise<void[]> => requestUpdateMetadata(source, 'source', keysToValue);

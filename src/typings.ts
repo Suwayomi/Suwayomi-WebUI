@@ -35,6 +35,19 @@ export type TranslationKey = ParseKeys;
 
 export type PartialExtension = GetExtensionQuery['extension'];
 
+export interface IPos {
+    type: 'selectState' | 'textState' | 'checkBoxState' | 'triState' | 'sortState';
+    position: number;
+    state: any;
+    group?: number;
+}
+
+export type SavedSourceSearch = { query?: string; filters?: IPos[] };
+
+export interface ISourceMetadata {
+    savedSearches?: Record<string, SavedSourceSearch>;
+}
+
 export interface ISource {
     id: string;
     name: string;
@@ -82,7 +95,9 @@ export type MangaMetadataKeys = keyof IReaderSettings;
 
 export type SearchMetadataKeys = keyof ISearchSettings;
 
-export type AppMetadataKeys = MetadataServerSettingKeys | MangaMetadataKeys | SearchMetadataKeys;
+export type SourceMetadataKeys = keyof ISourceMetadata;
+
+export type AppMetadataKeys = MetadataServerSettingKeys | MangaMetadataKeys | SearchMetadataKeys | SourceMetadataKeys;
 
 export type MetadataKeyValuePair = [AppMetadataKeys, AllowedMetadataValueTypes];
 

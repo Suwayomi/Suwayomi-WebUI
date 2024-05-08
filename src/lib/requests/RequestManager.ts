@@ -196,6 +196,9 @@ import {
     TrackerUnbindMutationVariables,
     TrackerFetchBindMutation,
     TrackerFetchBindMutationVariables,
+    GetServerSettingsQueryVariables,
+    SetSourceMetadataMutation,
+    SetSourceMetadataMutationVariables,
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_GLOBAL_METADATAS } from '@/lib/graphql/queries/GlobalMetadataQuery.ts';
 import { SET_GLOBAL_METADATA } from '@/lib/graphql/mutations/GlobalMetadataMutation.ts';
@@ -228,7 +231,11 @@ import {
     GET_MIGRATABLE_SOURCE_MANGAS,
 } from '@/lib/graphql/queries/MangaQuery.ts';
 import { GET_CATEGORIES, GET_CATEGORY_MANGAS } from '@/lib/graphql/queries/CategoryQuery.ts';
-import { GET_SOURCE_MANGAS_FETCH, UPDATE_SOURCE_PREFERENCES } from '@/lib/graphql/mutations/SourceMutation.ts';
+import {
+    GET_SOURCE_MANGAS_FETCH,
+    SET_SOURCE_METADATA,
+    UPDATE_SOURCE_PREFERENCES,
+} from '@/lib/graphql/mutations/SourceMutation.ts';
 import {
     CLEAR_DOWNLOADER,
     DELETE_DOWNLOADED_CHAPTER,
@@ -1327,6 +1334,22 @@ export class RequestManager {
         options?: QueryHookOptions<GetSourceQuery, GetSourceQueryVariables>,
     ): AbortableApolloUseQueryResponse<GetSourceQuery, GetSourceQueryVariables> {
         return this.doRequest(GQLMethod.USE_QUERY, GET_SOURCE, { id }, options);
+    }
+
+    public setSourceMeta(
+        sourceId: string,
+        key: string,
+        value: any,
+        options?: MutationOptions<SetSourceMetadataMutation, SetSourceMetadataMutationVariables>,
+    ): AbortableApolloMutationResponse<SetSourceMetadataMutation> {
+        return this.doRequest(
+            GQLMethod.MUTATION,
+            SET_SOURCE_METADATA,
+            {
+                input: { meta: { sourceId, key, value: `${value}` } },
+            },
+            options,
+        );
     }
 
     public useGetSourceMangas(
@@ -2476,8 +2499,8 @@ export class RequestManager {
     }
 
     public useGetServerSettings(
-        options?: QueryHookOptions<GetServerSettingsQuery, GetSourcesQueryVariables>,
-    ): AbortableApolloUseQueryResponse<GetServerSettingsQuery, GetSourcesQueryVariables> {
+        options?: QueryHookOptions<GetServerSettingsQuery, GetServerSettingsQueryVariables>,
+    ): AbortableApolloUseQueryResponse<GetServerSettingsQuery, GetServerSettingsQueryVariables> {
         return this.doRequest(GQLMethod.USE_QUERY, GET_SERVER_SETTINGS, undefined, options);
     }
 
