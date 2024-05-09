@@ -390,7 +390,7 @@ export function Reader() {
 
         // clean up for when we leave the reader
         return () => setOverride({ status: false, value: <div /> });
-    }, [manga, chapter, settings, curPage, chapterIndex, retrievingNextChapter]);
+    }, [manga, chapter, settings, curPage, chapterIndex, retrievingNextChapter, openNextChapter]);
 
     useEffect(() => {
         if (!wasLastPageReadSet) {
