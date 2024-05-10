@@ -50,7 +50,8 @@
                     "dialog": {
                         "content": {
                             "label": {
-                                "missing_sources": "Las siguientes fuentes no están instaladas:"
+                                "missing_sources": "Las siguientes fuentes no están instaladas:",
+                                "missing_trackers": "Los siguientes trackers no están conectados:"
                             }
                         },
                         "title": "Validación de las copias de seguridad"
@@ -89,11 +90,13 @@
             },
             "webui": {
                 "label": {
-                    "update_success": "Actualizado $t(settings.webui.title.webui) a la versión {{version}}. Se requiere actualizar",
+                    "update_success": "Actualizado $t(settings.webui.title.webui) a la versión {{version}}.",
                     "version": "$t(settings.webui.title.webui) versión",
                     "update_failure": "No se ha podido actualizar $t(settings.webui.title.webui)",
                     "github": "$t(global.label.github) $t(settings.webui.title.webui)",
-                    "channel": "$t(settings.webui.title.webui) canal"
+                    "channel": "$t(settings.webui.title.webui) canal",
+                    "info": "$t(settings.webui.title.webui) versión {{version}} ({{channel}}) disponible para descargar",
+                    "updated": "Versión actualizada"
                 }
             }
         },
@@ -469,6 +472,17 @@
                             "description": "Eliminar de las categorías los mangas que no pertenecen a la biblioteca"
                         }
                     }
+                },
+                "duplicates": {
+                    "label": {
+                        "title": "Entradas duplicadas",
+                        "description": "Mostrar todas las entradas duplicadas en tu biblioteca"
+                    },
+                    "settings": {
+                        "label": {
+                            "check_description": "Comprobar descripción"
+                        }
+                    }
                 }
             },
             "general": {
@@ -576,7 +590,12 @@
             "log_out": "Donectarse",
             "remove": "Quitar",
             "show_more": "Mostrar más",
-            "show_less": "Mostrar menos"
+            "show_less": "Mostrar menos",
+            "changelog": "Registro de cambios",
+            "ignore": "Ignorar",
+            "refresh": "Refrescar",
+            "remind_later": "Recordar más tarde",
+            "delete": "Borrar"
         },
         "label": {
             "display": "Visualización",
@@ -647,7 +666,16 @@
                 "checking": "Comprobar la actualización",
                 "available": "Actualización disponible",
                 "check_failure": "No se ha podido comprobar la actualización",
-                "info": "Versión del servidor {{version}} ({{channel}}) disponible para descarga"
+                "info": "Versión del servidor {{version}} ({{channel}}) disponible para descarga",
+                "update_success": "{{name}} fue actualizado a la versión {{version}} ({{channel}})"
+            },
+            "settings": {
+                "inform": {
+                    "label": {
+                        "title": "Informar de actualización disponible",
+                        "description": "Muestra un diálogo en caso de que haya una nueva versión disponible"
+                    }
+                }
             }
         }
     },
@@ -709,7 +737,14 @@
                         "error_other": "No se pudieron añadir las descargas",
                         "success_one": "Descarga añadida",
                         "success_many": "{{count}} descargas añadidas",
-                        "success_other": "{{count}} descargas añadidas"
+                        "success_other": "{{count}} descargas añadidas",
+                        "ahead": "$t(download.settings.download_ahead.title) ({{count}})",
+                        "next_twentyfive": "25 capítulos siguientes",
+                        "unread": "$t(global.filter.label.unread)",
+                        "all": "$t(extension.language.all)",
+                        "next": "$t(reader.button.next_chapter)",
+                        "next_five": "5 capítulos siguientes",
+                        "next_ten": "10 capítulos siguientes"
                     }
                 }
             },
@@ -887,6 +922,20 @@
                 "no_sources_found": "No se han encontrado fuentes. Instala primero algunas extensiones.",
                 "source_not_found": "No se pudo encontrar la fuente. Comprueba las extensiones instaladas."
             }
+        },
+        "filter": {
+            "save_search": {
+                "dialog": {
+                    "label": {
+                        "title": "Guardar búsqueda actual",
+                        "delete": "Esto eliminará la búsqueda guardada como «{{name}}»"
+                    }
+                },
+                "label": {
+                    "delete": "Borrar búsqueda",
+                    "save": "Guardar búsqueda"
+                }
+            }
         }
     },
     "extension": {
@@ -990,6 +1039,16 @@
                     "dialog": {
                         "label": {
                             "message": "Vas a eliminar \"{{title}}\" de tu biblioteca"
+                        }
+                    }
+                },
+                "add": {
+                    "dialog": {
+                        "duplicate": {
+                            "label": {
+                                "info": "Tienes una entrada en tu biblioteca con el mismo nombre.",
+                                "failure": "No se pudo comprobar si hay manga duplicado en tu biblioteca.\n\nError: {{error}}"
+                            }
                         }
                     }
                 }
@@ -1179,6 +1238,11 @@
             "title": {
                 "settings": "Ajustes del rastreo",
                 "trackers": "Rastreadores"
+            },
+            "label": {
+                "update_progress_reading_description": "No funciona cuando se marcan varios mangas como leídos a la vez",
+                "update_progress_manual": "Actualizar el progreso después de marcar manualmente como leído",
+                "update_progress_reading": "Actualizar el progreso tras la lectura"
             }
         },
         "title": "Rastreo",
@@ -1187,6 +1251,13 @@
                 "finish_date": "Fecha de finalización",
                 "score": "Puntuación",
                 "start_date": "Fecha de comienzo"
+            }
+        },
+        "my_anime_list": {
+            "search": {
+                "label": {
+                    "hint": "Busque un ID a través de «id:<ID>» (por ejemplo, «id:13»)\nLimite la búsqueda a sus listas a través de «my:<Title>» (por ejemplo, «mi:One Piece»)"
+                }
             }
         }
     }

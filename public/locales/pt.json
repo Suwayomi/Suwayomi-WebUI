@@ -8,7 +8,7 @@
                         "success_many": "{{count}} Favoritos removidos do capítulo",
                         "success_other": "{{count}} Favoritos removidos do capítulo",
                         "action": "Remover favorito",
-                        "error_one": "Erro ao remover dos favoritos",
+                        "error_one": "Erro ao remover do favorito",
                         "error_many": "Erro ao remover dos favoritos",
                         "error_other": "Erro ao remover dos favoritos"
                     },
@@ -22,7 +22,7 @@
                         "success_many": "{{count}} Capítulos Marcados",
                         "success_other": "{{count}} Capítulos Marcados",
                         "action": "Adicionar favorito",
-                        "error_one": "Erro ao marcar o capitulo",
+                        "error_one": "Erro ao marcar o capítulo",
                         "error_many": "Erro ao marcar os capítulos",
                         "error_other": "Erro ao marcar os capítulos"
                     },

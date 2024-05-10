@@ -3,7 +3,7 @@
         "dialog": {
             "title": {
                 "new_category": "新しいカテゴリー",
-                "edit_category": "カテゴリーを編集します"
+                "edit_category": "カテゴリーを編集"
             }
         },
         "error": {

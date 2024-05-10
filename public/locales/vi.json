@@ -65,7 +65,12 @@
                     "label": {
                         "action": "Tải xuống",
                         "error_other": "Không thể thêm tải xuống",
-                        "success_other": "Đã thêm {{count}} lượt tải xuống"
+                        "success_other": "Đã thêm {{count}} lượt tải xuống",
+                        "next_five": "5 Chương tiếp theo",
+                        "next_ten": "10 Chương tiếp theo",
+                        "next_twentyfive": "25 Chương tiếp theo",
+                        "next": "$t(reader.button.next_chapter)1 Chương tiếp theo",
+                        "unread": "$t(global.filter.label.unread)Chưa đọc"
                     },
                     "button": {
                         "selected": "Tải xuống đã chọn"
@@ -83,7 +88,8 @@
                 }
             },
             "label": {
-                "select": "Chọn"
+                "select": "Chọn",
+                "open_on_source": "Mở trên trình duyệt"
             },
             "mark_as_read": {
                 "add": {
@@ -290,7 +296,16 @@
             "edit": "Chỉnh sửa",
             "options": "Lựa chọn",
             "copy": "Sao chép",
-            "add": "Thêm"
+            "add": "Thêm",
+            "migrate": "Di chuyển",
+            "log_in": "Đăng nhập",
+            "log_out": "Đăng xuất",
+            "remove": "Xóa bỏ",
+            "show_more": "Hiển thị thêm",
+            "show_less": "Ẩn đi",
+            "changelog": "Nhật ký thay đổi",
+            "ignore": "Phớt lờ",
+            "refresh": "Làm mới"
         },
         "date": {
             "label": {
@@ -461,7 +476,8 @@
                 "entries": {
                     "label": {
                         "completed": "Với trạng thái \"Hoàn thành\""
-                    }
+                    },
+                    "title": "Bỏ qua các mục cập nhật"
                 }
             },
             "title": "Cài đặt thư viện",
@@ -495,7 +511,10 @@
     "manga": {
         "button": {
             "add_to_library": "Thêm vào thư viện",
-            "in_library": "Trong thư viện"
+            "in_library": "Trong thư viện",
+            "track": {
+                "start": "Theo dõi"
+            }
         },
         "error": {
             "label": {
@@ -511,7 +530,18 @@
             "reload_from_source": "Tải lại dữ liệu từ nguồn",
             "status": "Trạng thái"
         },
-        "title": "Manga"
+        "title": "Manga",
+        "action": {
+            "track": {
+                "remove": {
+                    "dialog": {
+                        "label": {
+                            "description": "Điều này sẽ loại bỏ theo dõi cục bộ."
+                        }
+                    }
+                }
+            }
+        }
     },
     "reader": {
         "button": {
@@ -540,7 +570,7 @@
             },
             "label": {
                 "load_next_chapter": "Tải chương tiếp theo trên trang cuối cùng",
-                "reader_type": "Loại đầu đọc",
+                "reader_type": "Kiểu đọc",
                 "show_page_number": "Hiển thị số trang",
                 "skip_dup_chapters": "Bỏ qua các chương trùng lặp",
                 "static_navigation": "Điều hướng tĩnh",

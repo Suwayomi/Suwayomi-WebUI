@@ -67,8 +67,15 @@
                     },
                     "label": {
                         "action": "下载",
-                        "success_other": "新增{{count}}下载",
-                        "error_other": "添加下载错误"
+                        "success_other": "新增{{count}}个下载",
+                        "error_other": "添加下载错误",
+                        "ahead": "$t(download.settings.download_ahead.title) ({{count}})",
+                        "all": "$t(extension.language.all)",
+                        "next": "$t(reader.button.next_chapter)",
+                        "next_five": "后5个章节",
+                        "next_ten": "后10个章节",
+                        "next_twentyfive": "后25个章节",
+                        "unread": "$t(global.filter.label.unread)"
                     }
                 },
                 "delete": {
@@ -311,7 +318,12 @@
             "log_out": "注销",
             "show_less": "显示更少项目",
             "show_more": "显示更多项目",
-            "remove": "移除"
+            "remove": "移除",
+            "changelog": "更新记录",
+            "refresh": "刷新",
+            "ignore": "忽略",
+            "remind_later": "稍后提醒",
+            "delete": "删除"
         },
         "date": {
             "label": {
@@ -416,7 +428,16 @@
                 "checking": "正在检查更新",
                 "available": "可用更新",
                 "check_failure": "无法检查更新",
-                "info": "服务器版本 {{version}} ({{channel}}) 可供下载"
+                "info": "服务器版本 {{version}} ({{channel}}) 可供下载",
+                "update_success": "{{name}} 已升级到版本 {{version}} ({{channel}})"
+            },
+            "settings": {
+                "inform": {
+                    "label": {
+                        "description": "在新版本可用时弹窗",
+                        "title": "提示可用的更新"
+                    }
+                }
             }
         }
     },
@@ -539,6 +560,17 @@
                             "title": "清理数据库"
                         }
                     }
+                },
+                "duplicates": {
+                    "label": {
+                        "title": "重复的项目",
+                        "description": "显示书架中所有的重复项"
+                    },
+                    "settings": {
+                        "label": {
+                            "check_description": "检查描述"
+                        }
+                    }
                 }
             }
         },
@@ -554,7 +586,7 @@
             "add_to_library": "添加到书架",
             "in_library": "在书架中",
             "track": {
-                "start": "追踪中",
+                "start": "追踪",
                 "active_other": "{{count}} 个追踪"
             }
         },
@@ -587,6 +619,16 @@
                     "dialog": {
                         "label": {
                             "message": "你将要从书架中移除\"{{title}}\""
+                        }
+                    }
+                },
+                "add": {
+                    "dialog": {
+                        "duplicate": {
+                            "label": {
+                                "info": "您的书架中存在一个名称相同的项目。",
+                                "failure": "无法查询书架中重复的漫画。\n\n错误: {{error}}"
+                            }
                         }
                     }
                 }
@@ -747,7 +789,8 @@
                     "dialog": {
                         "content": {
                             "label": {
-                                "missing_sources": "未安装以下源："
+                                "missing_sources": "未安装以下源：",
+                                "missing_trackers": "以下追踪列表未登录："
                             }
                         },
                         "title": "备份验证"
@@ -798,11 +841,13 @@
             },
             "webui": {
                 "label": {
-                    "update_success": "已将 $t(settings.webui.title.webui) 版本更新至 {{version}}. 刷新后生效",
+                    "update_success": "已将 $t(settings.webui.title.webui) 版本更新至 {{version}}。",
                     "version": "$t(settings.webui.title.webui) 版本",
                     "update_failure": "无法更新 $t(settings.webui.title.webui)",
                     "channel": "$t(settings.webui.title.webui) 版本选择",
-                    "github": "$t(global.label.github) $t(settings.webui.title.webui)"
+                    "github": "$t(global.label.github) $t(settings.webui.title.webui)",
+                    "info": "$t(settings.webui.title.webui) 版本 {{version}} ({{channel}}) 可供下载",
+                    "updated": "已升级的版本"
                 }
             }
         },
@@ -1061,7 +1106,21 @@
                 "source_not_found": "找不到源，请检查您已安装的插件。"
             }
         },
-        "title": "图源"
+        "title": "图源",
+        "filter": {
+            "save_search": {
+                "dialog": {
+                    "label": {
+                        "delete": "这将删除已保存的搜索“{{name}}”",
+                        "title": "保存当前搜索"
+                    }
+                },
+                "label": {
+                    "delete": "删除搜索",
+                    "save": "保存搜索"
+                }
+            }
+        }
     },
     "updates": {
         "error": {
@@ -1117,6 +1176,11 @@
             "title": {
                 "settings": "追踪设置",
                 "trackers": "追踪列表"
+            },
+            "label": {
+                "update_progress_reading_description": "在同时将多部漫画标记为已读时不会生效",
+                "update_progress_manual": "手动标记为已读后的更新进度",
+                "update_progress_reading": "阅读后的更新进度"
             }
         },
         "action": {
@@ -1148,6 +1212,13 @@
                 "score": "评分"
             }
         },
-        "title": "追踪"
+        "title": "追踪",
+        "my_anime_list": {
+            "search": {
+                "label": {
+                    "hint": "通过“id:<ID>”搜索ID（例如“id:13”）\n通过“my:<Title>”将搜索范围限制为你的列表内（例如“my:航海王”）"
+                }
+            }
+        }
     }
 }
