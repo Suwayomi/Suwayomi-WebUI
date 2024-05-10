@@ -1,141 +1,59 @@
 # v1.0.0 (r1411)
 ## New
-### General
-- added internationalization (help translating on [Weblate](https://hosted.weblate.org/projects/suwayomi/suwayomi-webui/))
-- get notified when a new server version has been released
-- manually check for new versions (server and webUI)
-
-### Download
-- download ahead: automatically download next unread chapters while reading (requires the current and next chapters to be downloaded)
-- automatically delete downloaded chapters after reading
-- automatically delete downloaded chapters when manually marking them as read
-- prevent automatic deletion of bookmarked chapters
-
-### Library
-- migrate manga between sources
-- improved library management (single and bulk actions)
-  - download
-  - delete
-  - mark as read
-  - mark as unread
-  - migrate (single action only)
-  - change categories
-  - remove from library
-- search by genre (`genre1, genre2 genre3, ...`, e.g.: `action, adventure, fantasy`)
-- sort options
-  - by last read
-  - by latest fetched chapter
-  - by latest uploaded chapter
-- show number of manga in whole library and each category (these numbers are based on category manga and will include non library manga)
-- optional continue read button
-
-### Reader
-- settings
-  - skip duplicate chapters (opens the previous/next chapter from the same scanlator as the current one if it exists)
-  - fit page to window
-  - scale small pages (only when "fit page to window" is enabled)
-  - reader width (only when "fit page to window" is disabled)
-  - double page mode: offset first page
-- retry failed image requests button
-
-### Settings
-- server settings can now be changed from the UI
+- (**General**) Added internationalization (help translating on [Weblate](https://hosted.weblate.org/projects/suwayomi/suwayomi-webui/))
+- (**General**) Get notified when a new server version has been released
+- (**General**) Manually check for new versions (server and webUI)
+- (**Download**) Download ahead: automatically download next unread chapters while reading (requires the current and next chapters to be downloaded)
+- (**Download**) Automatically delete downloaded chapters after reading
+- (**Download**) Automatically delete downloaded chapters when manually marking them as read
+- (**Download**) Prevent automatic deletion of bookmarked chapters
+- (**Library**) Migrate manga between sources
+- (**Library**) Improved library management (single and bulk actions)
+  - Download
+  - Delete
+  - Mark as read
+  - Mark as unread
+  - Migrate (single action only)
+  - Change categories
+  - Remove from library
+- (**Library**) Search by genre (`genre1, genre2 genre3, ...`, e.g.: `action, adventure, fantasy`)
+- (**Library**) Sort options
+  - By last read
+  - By latest fetched chapter
+  - By latest uploaded chapter
+- (**Library**) Show number of manga in whole library and each category (these numbers are based on category manga and will include non library manga)
+- (**Library**) Optional continue read button
+- (**Reader**) Added new settings
+  - Skip duplicate chapters (opens the previous/next chapter from the same scanlator as the current one if it exists)
+  - Fit page to window
+  - Scale small pages (only when "fit page to window" is enabled)
+  - Reader width (only when "fit page to window" is disabled)
+  - Double page mode: offset first page
+- (**Reader**) Retry failed image requests button
+- (**Settings**) Server settings can now be changed from the UI
 
 ## Bug fixes
-- a lot (and added new ones for the future, lul)
+- A lot (and added new ones for the future, lul)
 
 ## Translations
 Feel free to translate the project on [Weblate](https://hosted.weblate.org/projects/suwayomi/suwayomi-webui/).
 
 Thank you for your contribution to the translation of the project.
 
-- (added) Arabic
-
-  - abdelbasset jabrane
-  - Bander AL-shreef
-  - caref
-
-
-- (added) Chinese (Simplified)
-
-  - misaka10843
-  - 蓝云Reyes
-  - Nite07
-  - 志明
-  - ccms
-  - 宮河ひより
-  - 清水汐音
-  - DevCoz
-  - guohuageng
-  - 娃哈哈
-  - Yuhyeong
-  - QuietBlade
-
-
-- (added) Chinese (Traditional)
-
-  - plum7x
-  - 蓝云Reyes
-
-
-- (added) French
-
-  - Nathan
-  - Alexandre Journet
-  - anvstin
-  - Ibaraki Douji
-
-
-- (added) German
-
-  - Fumo Vite
-  - 志明
-
-
-- (added) Indonesian
-
-  - Rafie Rafie
-
-
-- (added) Italian
-
-  - Wip -Sama (Wip-Sama SmasterMega)
-
-
-- (added) Japanese
-
-  - Super Mario
-
-
-- (added) Korean
-
-  - jun
-  - Deleted User
-
-
-- (added) Portuguese
-
-  - Shinzo wo name
-
-
-- (added) Spanish
-
-  - gallegonovato
-  - Yon
-  - Fordas
-  - Carlos Nahuel Morocho
-  - PedroJLR
-
-
-- (added) Ukrainian
-
-  - Dan
-
-
-- (added) Vietnamese
-
-  - xconkhi9x
-  - 志明
+### Added
+- Arabic (by abdelbasset jabrane, Bander AL-shreef)
+- Chinese (Simplified) (by misaka10843, 蓝云Reyes, Nite07, 志明, ccms, 宮河ひより, 清水汐音, DevCoz)
+- Chinese (Traditional) (by plum7x, 蓝云Reyes)
+- French (by Nathan, Alexandre Journet, anvstin)
+- German (by Fumo Vite)
+- Indonesian (by Rafie Rafie)
+- Italian (by Wip -Sama (Wip-Sama SmasterMega))
+- Japanese (by Super Mario)
+- Korean (by jun)
+- Portuguese (by Shinzo wo name)
+- Spanish (by gallegonovato, Yon, Fordas, Carlos Nahuel Morocho)
+- Ukrainian (by Dan)
+- Vietnamese (by xconkhi9x)
 
 ## Full Changelog
 - ([r1410](https://github.com/Suwayomi/Suwayomi-WebUI/commit/e34a30a79b16db474d2aa843d7774deb73774b1d)) Translations update from Hosted Weblate ([#589](https://github.com/Suwayomi/Suwayomi-WebUI/pull/589) by @weblate, @jesusFx, @QuietBlade, @anvstin, @guohuageng, @plum7x, @HiyoriTUK, @aizhimoran)
