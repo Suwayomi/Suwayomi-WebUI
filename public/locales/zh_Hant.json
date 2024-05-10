@@ -124,7 +124,8 @@
                     "label": {
                         "action": "下載",
                         "error_other": "無法新增下載",
-                        "success_other": "已新增{{count}}下載"
+                        "success_other": "已新增{{count}}下載",
+                        "ahead": "漫畫"
                     },
                     "button": {
                         "selected": "下載已選擇"

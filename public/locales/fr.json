@@ -332,7 +332,10 @@
                         "error_one": "Impossible d'ajouter le téléchargement",
                         "error_many": "Impossible d'ajouter des téléchargements",
                         "error_other": "Impossible d'ajouter des téléchargements",
-                        "action": "Télécharger"
+                        "action": "Télécharger",
+                        "next_twentyfive": "25 prochains chapitres",
+                        "next_ten": "10 prochains chapitres",
+                        "next_five": "5 prochains chapitres"
                     }
                 }
             }
