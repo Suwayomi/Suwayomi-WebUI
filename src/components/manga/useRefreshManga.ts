@@ -11,14 +11,18 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 
 export const useRefreshManga = (mangaId: string) => {
     const [fetchingOnline, setFetchingOnline] = useState(false);
+    const [error, setError] = useState(null);
 
     const handleRefresh = useCallback(async () => {
         setFetchingOnline(true);
+        setError(null);
         await Promise.all([
             requestManager.getMangaFetch(mangaId, { awaitRefetchQueries: true }).response,
             requestManager.getMangaChaptersFetch(mangaId, { awaitRefetchQueries: true }).response,
-        ]).finally(() => setFetchingOnline(false));
+        ])
+            .catch((e) => setError(e))
+            .finally(() => setFetchingOnline(false));
     }, [mangaId]);
 
-    return [handleRefresh, { loading: fetchingOnline }] as const;
+    return [handleRefresh, { loading: fetchingOnline, error }] as const;
 };

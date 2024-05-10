@@ -32,12 +32,14 @@ export const Manga: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const autofetchedRef = useRef(false);
 
-    const { data, error, loading: isLoading, networkStatus, refetch } = requestManager.useGetManga(id);
+    const { data, error: mangaError, loading: isLoading, networkStatus, refetch } = requestManager.useGetManga(id);
     const isValidating = isNetworkRequestInFlight(networkStatus);
     const manga = data?.manga;
 
-    const [refresh, { loading: refreshing }] = useRefreshManga(id);
+    const [refresh, { loading: refreshing, error: refreshError }] = useRefreshManga(id);
     useSetDefaultBackTo('library');
+
+    const error = mangaError ?? refreshError;
 
     useEffect(() => {
         if (manga == null) return;
