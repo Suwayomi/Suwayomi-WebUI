@@ -6,6 +6,6 @@ node_modules/
 
 build/*
 
-tools/scripts/github_token.json
+tools/scripts/tokens.json
 
 src/lib/graphql/schema.json

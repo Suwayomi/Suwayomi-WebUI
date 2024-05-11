@@ -7,7 +7,7 @@
  */
 
 import yargs from 'yargs';
-import githubToken from './github_token.json';
+import tokens from './tokens.json';
 
 const { sha } = yargs
     .options({
@@ -130,7 +130,7 @@ const fetchCommits = async (
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${githubToken.token}`,
+                Authorization: `Bearer ${tokens.githubToken}`,
             },
             body: JSON.stringify({ query, variables }),
         })
