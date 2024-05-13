@@ -409,7 +409,6 @@ export function Reader() {
                     scrollToPage={setPageToScrollTo}
                     openNextChapter={openNextChapter}
                     retrievingNextChapter={retrievingNextChapter}
-                    hasDuplicatedChapters={settings.skipDupChapters && mangaChapters?.length !== uniqueChapters.length}
                 />
             ),
         });

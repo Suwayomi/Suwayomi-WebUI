@@ -130,7 +130,6 @@ interface IProps {
     scrollToPage: (page: number) => void;
     openNextChapter: (offset: ChapterOffset) => void;
     retrievingNextChapter: boolean;
-    hasDuplicatedChapters: boolean;
 }
 
 export function ReaderNavBar(props: IProps) {
@@ -153,14 +152,12 @@ export function ReaderNavBar(props: IProps) {
         scrollToPage,
         openNextChapter,
         retrievingNextChapter,
-        hasDuplicatedChapters,
     } = props;
 
     const handleBack = useBackButton();
     useSetDefaultBackTo(`/manga/${manga.id}`);
 
     const hasMultipleScanlators = useMemo(() => !!new Set(chapters.map(({ scanlator }) => scanlator)).size, [chapters]);
-    const chapterSelectShowScanlator = !hasDuplicatedChapters && hasMultipleScanlators;
 
     const [drawerOpen, setDrawerOpen] = useState(settings.staticNav || prevDrawerOpen);
     const [updateDrawerOnRender, setUpdateDrawerOnRender] = useState(true);
@@ -357,7 +354,7 @@ export function ReaderNavBar(props: IProps) {
                                         <MenuItem
                                             key={id}
                                             value={sourceOrder}
-                                        >{`#${chapterNumber}${chapterSelectShowScanlator && scanlator != null ? ` (${scanlator})` : ''} | ${name}`}</MenuItem>
+                                        >{`#${chapterNumber}${hasMultipleScanlators && scanlator != null ? ` (${scanlator})` : ''} | ${name}`}</MenuItem>
                                     ))}
                                 </Select>
                             </FormControl>
