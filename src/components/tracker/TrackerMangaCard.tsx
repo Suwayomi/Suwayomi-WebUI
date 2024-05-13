@@ -23,6 +23,7 @@ import parseHtml from 'html-react-parser';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import sanitizeHtml from 'sanitize-html';
 import { SpinnerImage } from '@/components/util/SpinnerImage.tsx';
 import { TrackerManga } from '@/lib/data/Trackers.ts';
 import { TypographyMaxLines } from '@/components/atoms/TypographyMaxLines.tsx';
@@ -64,13 +65,12 @@ const TrackerMangaCardSummary = ({ summary }: { summary: string }) => {
         setShowSummaryExpandButton(shouldCollapseSummary);
         setIsSummaryExpanded(!shouldCollapseSummary);
     }, []);
-
     return (
         <>
             {summary.length && (
                 <Collapse collapsedSize={summaryCollapsedSize} in={isSummaryExpanded}>
                     <Typography ref={summaryRef} variant="body1" component="p">
-                        {parseHtml(summary)}
+                        {parseHtml(sanitizeHtml(summary, { disallowedTagsMode: 'escape' }))}
                     </Typography>
                 </Collapse>
             )}
