@@ -60,12 +60,13 @@ const getReaderComponent = (readerType: ReaderType) => {
 };
 
 const range = (n: number) => Array.from({ length: n }, (value, key) => key);
-const initialChapter = {
+const fallbackChapter = {
     pageCount: -1,
     sourceOrder: -1,
     chapterCount: 0,
     lastPageRead: 0,
     name: 'Loading...',
+    manga: { id: -1 },
 } as unknown as TChapter;
 
 export function Reader() {
@@ -75,7 +76,7 @@ export function Reader() {
 
     const { chapterIndex, mangaId } = useParams<{ chapterIndex: string; mangaId: string }>();
 
-    const initialManga = useMemo(
+    const fallbackManga = useMemo(
         () =>
             ({
                 id: +mangaId,
@@ -101,7 +102,7 @@ export function Reader() {
         Number(mangaId) === loadedChapter.current?.manga.id &&
         Number(chapterIndex) === loadedChapter.current?.sourceOrder &&
         loadedChapter.current?.pageCount !== -1;
-    const manga = data?.manga ?? initialManga;
+    const manga = data?.manga ?? fallbackManga;
     const {
         data: chapterData,
         loading: isChapterLoading,
@@ -135,7 +136,16 @@ export function Reader() {
     };
     loadedChapter.current = getLoadedChapter();
 
-    const chapter = loadedChapter.current ?? initialChapter;
+    const chapter = loadedChapter.current ?? fallbackChapter;
+
+    const initialChapterRef = useRef<TChapter>(fallbackChapter);
+    if (initialChapterRef.current === fallbackChapter) {
+        initialChapterRef.current = chapter;
+    }
+    if (chapter.manga.id !== initialChapterRef.current?.manga.id) {
+        initialChapterRef.current = fallbackChapter;
+    }
+
     const [fetchPages, { loading: arePagesLoading, error: pagesError }] = requestManager.useGetChapterPagesFetch(
         chapter.id,
     );
@@ -187,39 +197,48 @@ export function Reader() {
 
     const uniqueChapters = useMemo(
         () =>
-            settings.skipDupChapters ? Chapters.removeDuplicates(chapter, mangaChapters ?? []) : mangaChapters ?? [],
-        [chapter, mangaChapters, settings.skipDupChapters],
+            settings.skipDupChapters
+                ? Chapters.removeDuplicates(initialChapterRef.current, mangaChapters ?? [])
+                : mangaChapters ?? [],
+        [initialChapterRef.current, mangaChapters, settings.skipDupChapters],
     );
     const prevChapters = useMemo(
         () =>
             Chapters.getNextChapters(chapter, mangaChapters ?? [], {
                 offset: ChapterOffset.PREV,
                 skipDupe: settings.skipDupChapters,
+                skipDupeChapter: initialChapterRef.current,
             }),
-        [chapter, mangaChapters, settings.skipDupChapters],
+        [chapter, initialChapterRef.current, mangaChapters, settings.skipDupChapters],
     );
     const nextChapters = useMemo(
-        () => Chapters.getNextChapters(chapter, mangaChapters ?? [], { skipDupe: settings.skipDupChapters }),
-        [chapter, mangaChapters, settings.skipDupChapters],
+        () =>
+            Chapters.getNextChapters(chapter, mangaChapters ?? [], {
+                skipDupe: settings.skipDupChapters,
+                skipDupeChapter: initialChapterRef.current,
+            }),
+        [chapter, initialChapterRef.current, mangaChapters, settings.skipDupChapters],
     );
     const prevChapter = useMemo(
         () =>
             Chapters.getNextChapter(chapter, mangaChapters ?? [], {
                 offset: ChapterOffset.PREV,
                 skipDupe: settings.skipDupChapters,
+                skipDupeChapter: initialChapterRef.current,
             }),
-        [chapter, mangaChapters, settings.skipDupChapters],
+        [chapter, initialChapterRef.current, mangaChapters, settings.skipDupChapters],
     );
     const nextChapter = useMemo(
         () =>
             Chapters.getNextChapter(chapter, mangaChapters ?? [], {
                 skipDupe: settings.skipDupChapters,
+                skipDupeChapter: initialChapterRef.current,
             }),
-        [chapter, mangaChapters, settings.skipDupChapters],
+        [chapter, initialChapterRef.current, mangaChapters, settings.skipDupChapters],
     );
 
     const updateChapter = (patch: UpdateChapterPatchInput) => {
-        if (chapter === initialChapter) {
+        if (chapter === fallbackChapter) {
             return;
         }
 
@@ -404,7 +423,7 @@ export function Reader() {
             return;
         }
 
-        if (chapter === initialChapter) {
+        if (chapter === fallbackChapter) {
             return;
         }
 

@@ -342,7 +342,7 @@ export class Chapters {
         {
             offset = ChapterOffset.NEXT,
             ...options
-        }: { offset?: ChapterOffset; onlyUnread?: boolean; skipDupe?: boolean } = {},
+        }: { offset?: ChapterOffset; onlyUnread?: boolean; skipDupe?: boolean; skipDupeChapter?: Chapter } = {},
     ): Chapter | undefined {
         const nextChapters = Chapters.getNextChapters(currentChapter, chapters, { offset, ...options });
 
@@ -360,7 +360,8 @@ export class Chapters {
             offset = ChapterOffset.NEXT,
             onlyUnread = false,
             skipDupe = false,
-        }: { offset?: ChapterOffset; onlyUnread?: boolean; skipDupe?: boolean } = {},
+            skipDupeChapter = fromChapter,
+        }: { offset?: ChapterOffset; onlyUnread?: boolean; skipDupe?: boolean; skipDupeChapter?: Chapter } = {},
     ): Chapter[] {
         const fromChapterIndex = chapters.findIndex((chapter) => chapter.id === fromChapter.id);
 
@@ -370,7 +371,7 @@ export class Chapters {
 
         const nextChaptersIncludingCurrent = chapters.slice(sliceStartIndex, sliceEndIndex);
         const uniqueNextChapters = skipDupe
-            ? Chapters.removeDuplicates(fromChapter, nextChaptersIncludingCurrent)
+            ? Chapters.removeDuplicates(skipDupeChapter, nextChaptersIncludingCurrent)
             : nextChaptersIncludingCurrent;
         const nextChapters = uniqueNextChapters.toSpliced(isNextChapterOffset ? -1 : 0, 1);
 
