@@ -12,7 +12,7 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Slide from '@mui/material/Slide';
@@ -125,10 +125,12 @@ interface IProps {
     setSettingValue: (key: keyof IReaderSettings, value: AllowedMetadataValueTypes, persist?: boolean) => void;
     manga: TManga;
     chapter: TChapter;
+    chapters: TChapter[];
     curPage: number;
     scrollToPage: (page: number) => void;
     openNextChapter: (offset: ChapterOffset) => void;
     retrievingNextChapter: boolean;
+    hasDuplicatedChapters: boolean;
 }
 
 export function ReaderNavBar(props: IProps) {
@@ -141,11 +143,24 @@ export function ReaderNavBar(props: IProps) {
     }>();
     const { prevDrawerOpen, prevSettingsCollapseOpen } = location.state ?? {};
 
-    const { settings, setSettingValue, manga, chapter, curPage, scrollToPage, openNextChapter, retrievingNextChapter } =
-        props;
+    const {
+        settings,
+        setSettingValue,
+        manga,
+        chapter,
+        chapters,
+        curPage,
+        scrollToPage,
+        openNextChapter,
+        retrievingNextChapter,
+        hasDuplicatedChapters,
+    } = props;
 
     const handleBack = useBackButton();
     useSetDefaultBackTo(`/manga/${manga.id}`);
+
+    const hasMultipleScanlators = useMemo(() => !!new Set(chapters.map(({ scanlator }) => scanlator)).size, [chapters]);
+    const chapterSelectShowScanlator = !hasDuplicatedChapters && hasMultipleScanlators;
 
     const [drawerOpen, setDrawerOpen] = useState(settings.staticNav || prevDrawerOpen);
     const [updateDrawerOnRender, setUpdateDrawerOnRender] = useState(true);
@@ -338,13 +353,12 @@ export function ReaderNavBar(props: IProps) {
                                         });
                                     }}
                                 >
-                                    {Array(Math.max(0, manga.chapters.totalCount))
-                                        .fill(1)
-                                        .map((ignoreValue, index) => (
-                                            <MenuItem key={`Chapter#${index + 1}`} value={index + 1}>{`${t(
-                                                'chapter.title',
-                                            )} ${index + 1}`}</MenuItem>
-                                        ))}
+                                    {chapters.map(({ id, sourceOrder, name, chapterNumber, scanlator }) => (
+                                        <MenuItem
+                                            key={id}
+                                            value={sourceOrder}
+                                        >{`#${chapterNumber}${chapterSelectShowScanlator && scanlator != null ? ` (${scanlator})` : ''} | ${name}`}</MenuItem>
+                                    ))}
                                 </Select>
                             </FormControl>
                             <Tooltip title={t('reader.button.next_chapter')}>

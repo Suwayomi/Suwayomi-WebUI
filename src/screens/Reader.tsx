@@ -185,6 +185,11 @@ export function Reader() {
 
     const { settings: metadataSettings } = useMetadataServerSettings();
 
+    const uniqueChapters = useMemo(
+        () =>
+            settings.skipDupChapters ? Chapters.removeDuplicates(chapter, mangaChapters ?? []) : mangaChapters ?? [],
+        [chapter, mangaChapters, settings.skipDupChapters],
+    );
     const prevChapters = useMemo(
         () =>
             Chapters.getNextChapters(chapter, mangaChapters ?? [], {
@@ -380,17 +385,19 @@ export function Reader() {
                     setSettingValue={setSettingValue}
                     manga={manga}
                     chapter={chapter}
+                    chapters={uniqueChapters}
                     curPage={curPage}
                     scrollToPage={setPageToScrollTo}
                     openNextChapter={openNextChapter}
                     retrievingNextChapter={retrievingNextChapter}
+                    hasDuplicatedChapters={settings.skipDupChapters && mangaChapters?.length !== uniqueChapters.length}
                 />
             ),
         });
 
         // clean up for when we leave the reader
         return () => setOverride({ status: false, value: <div /> });
-    }, [manga, chapter, settings, curPage, chapterIndex, retrievingNextChapter, openNextChapter]);
+    }, [manga, chapter, settings, curPage, chapterIndex, retrievingNextChapter, openNextChapter, uniqueChapters]);
 
     useEffect(() => {
         if (!wasLastPageReadSet) {
