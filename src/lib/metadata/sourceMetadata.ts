@@ -35,7 +35,7 @@ export const convertGqlMetadataToAppMetadata = (
 
 export const getSourceMetadata = ({ meta }: GqlMetaHolder = {}, applyMetadataMigration?: boolean): ISourceMetadata =>
     convertGqlMetadataToAppMetadata(
-        getMetadataFrom({ meta: convertFromGqlMeta(meta) } ?? {}, { savedSearches: undefined }, applyMetadataMigration),
+        getMetadataFrom({ meta: convertFromGqlMeta(meta) }, { savedSearches: undefined }, applyMetadataMigration),
     );
 
 export const updateSourceMetadata = async <
