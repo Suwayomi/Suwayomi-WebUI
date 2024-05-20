@@ -82,7 +82,7 @@ export const App: React.FC = () => (
         <ServerUpdateChecker />
         <WebUIUpdateChecker />
         <BackgroundSubscriptions />
-        <CssBaseline />
+        <CssBaseline enableColorScheme />
         <DefaultNavBar />
         <Container
             id="appMainContainer"
