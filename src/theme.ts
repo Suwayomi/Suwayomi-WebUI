@@ -6,7 +6,14 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { createTheme as createMuiTheme, Direction, Palette as MuiPalette, Theme } from '@mui/material/styles';
+import {
+    createTheme as createMuiTheme,
+    darken,
+    Direction,
+    lighten,
+    Palette as MuiPalette,
+    Theme,
+} from '@mui/material/styles';
 
 declare module '@mui/material/styles/createPalette' {
     interface Palette {
@@ -47,16 +54,19 @@ export const createTheme = (dark?: boolean, direction: Direction = 'ltr') => {
                 },
                 MuiCssBaseline: {
                     styleOverrides: `
-                *::-webkit-scrollbar {
-                    width: 10px;
-                    background: ${dark ? '#222' : '#e1e1e1'};   
-                }
-                
-                *::-webkit-scrollbar-thumb {
-                    background: ${dark ? '#111' : '#aaa'};
-                    border-radius: 5px;
-                }
-            `,
+                        *::-webkit-scrollbar {
+                          width: 14px;
+                        }
+                        *::-webkit-scrollbar-thumb {
+                          border: 4px solid rgba(0, 0, 0, 0);
+                          background-clip: padding-box;
+                          border-radius: 9999px;
+                          background-color: ${dark ? lighten(baseTheme.palette.background.default, 0.4) : darken(baseTheme.palette.background.default, 0.4)};
+                        }
+                        *::-webkit-scrollbar-thumb:hover {
+                          border-width: 2px;
+                        }
+                    `,
                 },
             },
         },
