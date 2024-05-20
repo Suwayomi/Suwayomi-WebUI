@@ -266,6 +266,35 @@ export const MangaGrid: React.FC<IMangaGridProps> = ({
 
     useLayoutEffect(updateGridWidth, []);
 
+    // always show vertical scrollbar to prevent https://github.com/Suwayomi/Suwayomi-WebUI/issues/758
+    useLayoutEffect(() => {
+        // in case "overflow" is currently set to "hidden" that (most likely) means that a MUI modal is open and locks the scrollbar
+        // once this modal is closed MUI restores the previous "overflow" value, thus, reverting the just set "overflow" value
+        let timeout: NodeJS.Timeout;
+        const changeStyle = (timeoutMS: number) => {
+            timeout = setTimeout(() => {
+                if (document.documentElement.style.overflow.includes('hidden')) {
+                    changeStyle(250);
+                    return;
+                }
+
+                document.documentElement.style.overflowY = gridLayout === GridLayout.List ? 'auto' : 'scroll';
+            }, timeoutMS);
+        };
+
+        changeStyle(0);
+
+        return () => {
+            clearTimeout(timeout);
+        };
+    }, [gridLayout]);
+    useEffect(
+        () => () => {
+            document.documentElement.style.overflowY = 'auto';
+        },
+        [],
+    );
+
     useEffect(() => {
         let movementTimer: NodeJS.Timeout;
 
