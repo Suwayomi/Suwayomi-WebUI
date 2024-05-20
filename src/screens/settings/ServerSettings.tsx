@@ -304,14 +304,14 @@ export const ServerSettings = () => {
                         primary={t('settings.server.cloudflare.flaresolverr.enabled.label.title')}
                         secondary={
                             <Trans i18nKey="settings.server.cloudflare.flaresolverr.enabled.label.description">
-                                See
+                                See{' '}
                                 <Link
                                     href="https://github.com/FlareSolverr/FlareSolverr?tab=readme-ov-file#installation"
                                     target="_blank"
                                     rel="noreferrer"
                                 >
                                     FlareSolverr
-                                </Link>
+                                </Link>{' '}
                                 for information on how to set it up
                             </Trans>
                         }
