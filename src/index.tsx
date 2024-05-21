@@ -8,20 +8,12 @@
 
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import dayjs from 'dayjs';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { App } from '@/App';
 import '@/index.css';
 // roboto font
 import '@fontsource/roboto';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
-import { loadDayJsLocale } from '@/util/language.tsx';
-
-dayjs.extend(customParseFormat);
-
-loadDayJsLocale(navigator.language).then(() => {
-    dayjs.locale(navigator.language);
-});
+import '@/lib/dayjs/Setup.ts';
 
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.ready.then((registration) => {
