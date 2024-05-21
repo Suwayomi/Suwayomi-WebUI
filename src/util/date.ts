@@ -6,6 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import dayjs, { Dayjs } from 'dayjs';
 import { t } from 'i18next';
 
 export const timeFormatter = new Intl.DateTimeFormat(navigator.language, { hour: '2-digit', minute: '2-digit' });
@@ -22,16 +23,9 @@ export const dateTimeFormatter = new Intl.DateTimeFormat(navigator.language, {
     minute: '2-digit',
 });
 
-export const epochToDate = (epoch: number): Date => {
-    const date = new Date(0); // The 0 there is the key, which sets the date to the epoch
-    date.setUTCSeconds(epoch);
-    return date;
-};
+export const epochToDate = (epoch: number): Dayjs => dayjs.unix(epoch);
 
-export const isTheSameDay = (first: Date, second: Date): boolean =>
-    first.getDate() === second.getDate() &&
-    first.getMonth() === second.getMonth() &&
-    first.getFullYear() === second.getFullYear();
+export const isSameDay = (first: Dayjs, second: Dayjs): boolean => first.isSame(second, 'day');
 
 /**
  * Returns a string in localized format for the passed date.
@@ -41,9 +35,9 @@ export const isTheSameDay = (first: Date, second: Date): boolean =>
  * Optionally this special string can include the localized time of the passed date ("Today/Yesterday at HH:mm").
  *
  * @example
- * const today = new Date();
- * const yesterday = new Date(today.getTime() - 1000 * 60 * 60 * 24);
- * const someDate = new Date(1337, 4, 20);
+ * const today = dayjs();
+ * const yesterday = today.subtract(1, 'day');
+ * const someDate = dayjs('1377-04-20');
  *
  * const todayAsString = getDateString(today); // => "Today"
  * const yesterdayAsString = getDateString(yesterday, true) // => "Yesterday at 02:50 AM"
@@ -53,20 +47,11 @@ export const isTheSameDay = (first: Date, second: Date): boolean =>
  * @param date
  * @param withTime
  */
-export const getDateString = (date: Date | number, withTime: boolean = false) => {
-    const actualDate = date instanceof Date ? date : new Date(date);
+export const getDateString = (date: Dayjs | number, withTime: boolean = false) => {
+    const actualDate = date instanceof dayjs ? date : dayjs(date);
+    const timeString = timeFormatter.format(actualDate.toDate());
 
-    const today = new Date();
-    const yesterday = new Date();
-    yesterday.setDate(today.getDate() - 1);
-
-    const wasUploadedToday = isTheSameDay(today, actualDate);
-    const wasUploadedYesterday = isTheSameDay(yesterday, actualDate);
-
-    const addTimeString = wasUploadedToday || wasUploadedYesterday;
-    const timeString = addTimeString ? timeFormatter.format(actualDate) : '';
-
-    if (wasUploadedToday) {
+    if (actualDate.isToday()) {
         if (withTime) {
             return t('global.date.label.today_at', { timeString });
         }
@@ -74,7 +59,7 @@ export const getDateString = (date: Date | number, withTime: boolean = false) =>
         return t('global.date.label.today');
     }
 
-    if (wasUploadedYesterday) {
+    if (actualDate.isYesterday()) {
         if (withTime) {
             return t('global.date.label.yesterday_at', { timeString });
         }
@@ -82,5 +67,5 @@ export const getDateString = (date: Date | number, withTime: boolean = false) =>
         return t('global.date.label.yesterday');
     }
 
-    return dateFormatter.format(actualDate);
+    return dateFormatter.format(actualDate.toDate());
 };

@@ -29,6 +29,7 @@ import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
 import { GetAboutQuery, UpdateState } from '@/lib/graphql/generated/graphql.ts';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
+import { epochToDate } from '@/util/date.ts';
 
 type AboutServer = GetAboutQuery['aboutServer'];
 
@@ -37,7 +38,7 @@ export const getVersion = (aboutServer: AboutServer) => {
     return `${aboutServer.version}-${aboutServer.revision}`;
 };
 
-const getBuildTime = (aboutServer: AboutServer) => new Date(Number(aboutServer.buildTime) * 1000).toUTCString();
+const getBuildTime = (aboutServer: AboutServer) => epochToDate(Number(aboutServer.buildTime)).toString();
 
 const getUpdateCheckButtonIcon = (
     isLoading: boolean,
