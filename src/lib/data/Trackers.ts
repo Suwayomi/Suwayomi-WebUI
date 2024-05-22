@@ -26,7 +26,7 @@ export type TrackerManga = TrackerSearchQuery['searchTracker']['trackSearches'][
 
 export type TBaseTracker = GetTrackersQuery['trackers']['nodes'][number];
 
-type LoggedInInfo = Pick<TrackerType, 'isLoggedIn'>;
+type LoggedInInfo = Pick<TrackerType, 'isLoggedIn' | 'isTokenExpired'>;
 
 type TrackRecordTrackerInfo = { tracker: Partial<TrackRecordType['tracker']> };
 
@@ -43,8 +43,12 @@ export class Trackers {
         return this.isUnsetDate(date) ? undefined : date;
     }
 
+    static isLoggedIn<Tracker extends LoggedInInfo>(tracker: Tracker): boolean {
+        return tracker.isLoggedIn && !tracker.isTokenExpired;
+    }
+
     static getLoggedIn<Tracker extends LoggedInInfo>(trackers: Tracker[]): Tracker[] {
-        return trackers.filter((tracker) => tracker.isLoggedIn);
+        return trackers.filter(this.isLoggedIn);
     }
 
     static getTrackers<TrackRecord extends TrackRecordTrackerInfo>(

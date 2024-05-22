@@ -24,7 +24,7 @@ import Button from '@mui/material/Button';
 import { PasswordTextField } from '@/components/atoms/PasswordTextField.tsx';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { TBaseTracker } from '@/lib/data/Trackers.ts';
+import { TBaseTracker, Trackers } from '@/lib/data/Trackers.ts';
 
 export const SettingsTrackerCard = ({ tracker }: { tracker: TBaseTracker }) => {
     const { t } = useTranslation();
@@ -93,7 +93,7 @@ export const SettingsTrackerCard = ({ tracker }: { tracker: TBaseTracker }) => {
                             />
                         </ListItemAvatar>
                         <ListItemText primary={tracker.name} />
-                        {tracker.isLoggedIn && (
+                        {Trackers.isLoggedIn(tracker) && (
                             <ListItemSecondaryAction>
                                 <Chip label={t('global.label.logged_in')} color="success" />
                             </ListItemSecondaryAction>
@@ -101,12 +101,12 @@ export const SettingsTrackerCard = ({ tracker }: { tracker: TBaseTracker }) => {
                     </ListItemButton>
                     <Dialog
                         {...bindDialog(popupState)}
-                        open={(tracker.isLoggedIn || !tracker.authUrl) && popupState.isOpen}
+                        open={(Trackers.isLoggedIn(tracker) || !tracker.authUrl) && popupState.isOpen}
                         disableRestoreFocus
                     >
                         <DialogTitle>
                             {t(
-                                tracker.isLoggedIn
+                                Trackers.isLoggedIn(tracker)
                                     ? 'tracking.settings.dialog.title.log_out'
                                     : 'tracking.settings.dialog.title.log_in',
                                 { name: tracker.name },
@@ -142,9 +142,9 @@ export const SettingsTrackerCard = ({ tracker }: { tracker: TBaseTracker }) => {
                                     !tracker.isLoggedIn &&
                                     (isCredentialLoginInProgress || !username.length || !password.length)
                                 }
-                                onClick={() => (tracker.isLoggedIn ? handleLogout() : handleLogin())}
+                                onClick={() => (Trackers.isLoggedIn(tracker) ? handleLogout() : handleLogin())}
                             >
-                                {t(tracker.isLoggedIn ? 'global.button.log_out' : 'global.button.log_in')}
+                                {t(Trackers.isLoggedIn(tracker) ? 'global.button.log_out' : 'global.button.log_in')}
                             </Button>
                         </DialogActions>
                     </Dialog>
