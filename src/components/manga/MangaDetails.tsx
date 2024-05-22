@@ -10,10 +10,11 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import PublicIcon from '@mui/icons-material/Public';
 import { styled } from '@mui/material/styles';
-import React, { useEffect, useMemo } from 'react';
+import React, { ComponentProps, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { t as translate } from 'i18next';
 import Link from '@mui/material/Link';
+import Typography from '@mui/material/Typography';
 import { ISource, TManga } from '@/typings';
 import { makeToast } from '@/components/util/Toast';
 import { Mangas } from '@/lib/data/Mangas.ts';
@@ -21,6 +22,7 @@ import { SpinnerImage } from '@/components/util/SpinnerImage.tsx';
 import { CustomIconButton } from '@/components/atoms/CustomIconButton';
 import { TrackMangaButton } from '@/components/manga/TrackMangaButton.tsx';
 import { useManageMangaLibraryState } from '@/components/manga/useManageMangaLibraryState.tsx';
+import { Metadata as BaseMetadata } from '@/components/atoms/Metadata.tsx';
 
 const DetailsWrapper = styled('div')(({ theme }) => ({
     width: '100%',
@@ -59,7 +61,7 @@ const Thumbnail = styled('div')(() => ({
     // },
 }));
 
-const Metadata = styled('div')(({ theme }) => ({
+const MetadataContainer = styled('div')(({ theme }) => ({
     marginLeft: 15,
     maxWidth: '100%',
     '& span': {
@@ -69,6 +71,11 @@ const Metadata = styled('div')(({ theme }) => ({
         fontSize: '1.3em',
     },
 }));
+
+const Metadata = (props: ComponentProps<typeof BaseMetadata>) => (
+    <BaseMetadata {...props} titleProps={{ variant: 'h6' }} valueProps={{ variant: 'h6' }} />
+);
+
 const MangaButtonsContainer = styled('div')(({ theme }) => ({
     display: 'flex',
     justifyContent: 'space-around',
@@ -181,19 +188,15 @@ export const MangaDetails: React.FC<IProps> = ({ manga }) => {
                         <Thumbnail>
                             <SpinnerImage src={Mangas.getThumbnailUrl(manga)} alt="Manga Thumbnail" />
                         </Thumbnail>
-                        <Metadata>
-                            <h1>{manga.title}</h1>
-                            <h3>
-                                {`${t('manga.label.author')}: `}
-                                <span>{getValueOrUnknown(manga.author)}</span>
-                            </h3>
-                            <h3>
-                                {`${t('manga.label.artist')}: `}
-                                <span>{getValueOrUnknown(manga.artist)}</span>
-                            </h3>
-                            <h3>{`${t('manga.label.status')}: ${manga.status}`}</h3>
-                            <h3>{`${t('source.title')}: ${getSourceName(manga.source)}`}</h3>
-                        </Metadata>
+                        <MetadataContainer>
+                            <Typography variant="h4" component="h1" sx={{ mb: 1 }}>
+                                {manga.title}
+                            </Typography>
+                            <Metadata title={t('manga.label.author')} value={getValueOrUnknown(manga.author)} />
+                            <Metadata title={t('manga.label.artist')} value={getValueOrUnknown(manga.artist)} />
+                            <Metadata title={t('manga.label.status')} value={getValueOrUnknown(manga.status)} />
+                            <Metadata title={t('source.title')} value={getSourceName(manga.source)} />
+                        </MetadataContainer>
                     </ThumbnailMetadataWrapper>
                     <MangaButtonsContainer>
                         <CustomIconButton

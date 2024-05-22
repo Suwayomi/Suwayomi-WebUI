@@ -27,6 +27,7 @@ import sanitizeHtml from 'sanitize-html';
 import { SpinnerImage } from '@/components/util/SpinnerImage.tsx';
 import { TrackerManga } from '@/lib/data/Trackers.ts';
 import { TypographyMaxLines } from '@/components/atoms/TypographyMaxLines.tsx';
+import { Metadata } from '@/components/atoms/Metadata.tsx';
 
 const TrackerMangaCardTitle = ({ title, selected }: { title: string; selected: boolean }) => (
     <Stack direction="row" gap="5px" justifyContent="space-between">
@@ -36,15 +37,6 @@ const TrackerMangaCardTitle = ({ title, selected }: { title: string; selected: b
             </TypographyMaxLines>
         </Tooltip>
         <CheckCircleIcon sx={{ visibility: selected ? 'visible' : 'hidden' }} color="primary" />
-    </Stack>
-);
-
-const TrackerMangaCardInfo = ({ title, value }: { title: string; value: string }) => (
-    <Stack direction="row" gap="5px" flexWrap="wrap">
-        <Typography variant="body1">{title}</Typography>
-        <Typography variant="body1" color="text.secondary">
-            {value}
-        </Typography>
     </Stack>
 );
 
@@ -164,9 +156,9 @@ export const TrackerMangaCard = ({
                                 <TrackerMangaCardLink url={manga.trackingUrl}>
                                     <TrackerMangaCardTitle title={manga.title} selected={selected} />
                                 </TrackerMangaCardLink>
-                                <TrackerMangaCardInfo title={t('global.label.type')} value={manga.publishingType} />
-                                <TrackerMangaCardInfo title={t('global.label.started')} value={manga.startDate} />
-                                <TrackerMangaCardInfo title={t('manga.label.status')} value={manga.publishingStatus} />
+                                <Metadata title={t('global.label.type')} value={manga.publishingType} />
+                                <Metadata title={t('global.label.started')} value={manga.startDate} />
+                                <Metadata title={t('manga.label.status')} value={manga.publishingStatus} />
                             </Stack>
                         </Stack>
                         <TrackerMangaCardSummary summary={manga.summary} />
