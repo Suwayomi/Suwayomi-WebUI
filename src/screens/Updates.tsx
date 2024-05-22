@@ -212,10 +212,15 @@ export const Updates: React.FC = () => {
                                             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                                                 <TypographyMaxLines variant="h5" component="h2">
                                                     {manga.title}
-                                                <Typography variant="caption" display="block" gutterBottom>
                                                 </TypographyMaxLines>
+                                                <TypographyMaxLines
+                                                    variant="caption"
+                                                    display="block"
+                                                    gutterBottom
+                                                    lines={1}
+                                                >
                                                     {chapter.name}
-                                                </Typography>
+                                                </TypographyMaxLines>
                                             </Box>
                                         </Box>
                                         {download && <DownloadStateIndicator download={download} />}
