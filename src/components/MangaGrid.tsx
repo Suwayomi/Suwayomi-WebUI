@@ -273,12 +273,12 @@ export const MangaGrid: React.FC<IMangaGridProps> = ({
         let timeout: NodeJS.Timeout;
         const changeStyle = (timeoutMS: number) => {
             timeout = setTimeout(() => {
-                if (document.documentElement.style.overflow.includes('hidden')) {
+                if (document.body.style.overflow.includes('hidden')) {
                     changeStyle(250);
                     return;
                 }
 
-                document.documentElement.style.overflowY = gridLayout === GridLayout.List ? 'auto' : 'scroll';
+                document.body.style.overflowY = gridLayout === GridLayout.List ? 'auto' : 'scroll';
             }, timeoutMS);
         };
 
@@ -290,7 +290,7 @@ export const MangaGrid: React.FC<IMangaGridProps> = ({
     }, [gridLayout]);
     useEffect(
         () => () => {
-            document.documentElement.style.overflowY = 'auto';
+            document.body.style.overflowY = 'auto';
         },
         [],
     );
