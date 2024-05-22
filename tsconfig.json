@@ -27,6 +27,7 @@
     "jsx": "react-jsx",
     /* Linting */
     "strict": true,
+    "strictNullChecks": true,
     "noUnusedLocals": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true
@@ -34,7 +35,7 @@
   "include": [
     "src"
   ],
-  "exclude": ["**/node_modules", "**/.*/"],
+  "exclude": ["**/node_modules"],
   "references": [
     {
       "path": "./tsconfig.node.json"
