@@ -166,7 +166,7 @@ function getSourceName(source?: ISource | null) {
 }
 
 function getValueOrUnknown(val?: string | null) {
-    return val || 'UNKNOWN';
+    return val ?? translate('global.label.unknown');
 }
 
 export const MangaDetails: React.FC<IProps> = ({ manga }) => {
