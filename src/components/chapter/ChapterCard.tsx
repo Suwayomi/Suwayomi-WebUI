@@ -28,6 +28,7 @@ import { DownloadType } from '@/lib/graphql/generated/graphql.ts';
 import { TChapter } from '@/typings.ts';
 import { ChapterActionMenuItems } from '@/components/chapter/ChapterActionMenuItems.tsx';
 import { Menu } from '@/components/menu/Menu.tsx';
+import { TypographyMaxLines } from '@/components/atoms/TypographyMaxLines.tsx';
 
 interface IProps {
     chapter: TChapter;
@@ -108,7 +109,7 @@ export const ChapterCard: React.FC<IProps> = (props: IProps) => {
                                     }}
                                 >
                                     <Stack direction="column" flex={1}>
-                                        <Typography variant="h5" component="h2">
+                                        <TypographyMaxLines variant="h5" component="h2">
                                             {chapter.isBookmarked && (
                                                 <BookmarkIcon
                                                     color="primary"
@@ -118,7 +119,7 @@ export const ChapterCard: React.FC<IProps> = (props: IProps) => {
                                             {showChapterNumber
                                                 ? `${t('chapter.title')} ${chapter.chapterNumber}`
                                                 : chapter.name}
-                                        </Typography>
+                                        </TypographyMaxLines>
                                         <Typography variant="caption">{chapter.scanlator}</Typography>
                                         <Typography variant="caption">
                                             {getDateString(Number(chapter.uploadDate ?? 0), true)}
