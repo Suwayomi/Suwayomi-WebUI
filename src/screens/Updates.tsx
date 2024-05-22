@@ -33,6 +33,7 @@ import { Mangas } from '@/lib/data/Mangas.ts';
 import { SpinnerImage } from '@/components/util/SpinnerImage.tsx';
 import { dateTimeFormatter, epochToDate, getDateString } from '@/util/date.ts';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { TypographyMaxLines } from '@/components/atoms/TypographyMaxLines.tsx';
 
 const groupByDate = (updates: TChapter[]): [date: string, items: number][] => {
     if (!updates.length) {
@@ -209,10 +210,10 @@ export const Updates: React.FC = () => {
                                                 </Avatar>
                                             </Link>
                                             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                                                <Typography variant="h5" component="h2">
+                                                <TypographyMaxLines variant="h5" component="h2">
                                                     {manga.title}
-                                                </Typography>
                                                 <Typography variant="caption" display="block" gutterBottom>
+                                                </TypographyMaxLines>
                                                     {chapter.name}
                                                 </Typography>
                                             </Box>
