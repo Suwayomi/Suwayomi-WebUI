@@ -55,7 +55,7 @@ const DownloadChapterItem = ({
     const { t } = useTranslation();
 
     return (
-        <Box {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} sx={{ p: 1, pb: 2 }}>
+        <Box {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} sx={{ pt: 1, px: 1 }}>
             <Card
                 sx={{
                     backgroundColor: isDragging ? 'custom.light' : undefined,
@@ -252,7 +252,7 @@ export const DownloadQueue: React.FC = () => {
                 )}
             >
                 {(droppableProvided) => (
-                    <Box ref={droppableProvided.innerRef} sx={{ pt: 1 }}>
+                    <Box ref={droppableProvided.innerRef}>
                         <Virtuoso
                             useWindowScroll
                             overscan={window.innerHeight * 0.5}
