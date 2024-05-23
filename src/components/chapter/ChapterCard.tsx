@@ -83,12 +83,7 @@ export const ChapterCard: React.FC<IProps> = (props: IProps) => {
             <PopupState variant="popover" popupId="chapter-card-action-menu">
                 {(popupState) => (
                     <Stack sx={{ pt: 1, px: 1 }}>
-                        <Card
-                            sx={{
-                                position: 'relative',
-                                touchCallout: 'none',
-                            }}
-                        >
+                        <Card sx={{ touchCallout: 'none' }}>
                             <CardActionArea
                                 component={Link}
                                 to={`/manga/${chapter.manga.id}/chapter/${chapter.sourceOrder}`}
@@ -108,17 +103,20 @@ export const ChapterCard: React.FC<IProps> = (props: IProps) => {
                                     }}
                                 >
                                     <Stack direction="column" flex={1}>
-                                        <TypographyMaxLines variant="h5" component="h2">
-                                            {chapter.isBookmarked && (
-                                                <BookmarkIcon
-                                                    color="primary"
-                                                    sx={{ mr: 0.5, position: 'relative', top: '0.15em' }}
-                                                />
-                                            )}
-                                            {showChapterNumber
-                                                ? `${t('chapter.title')} ${chapter.chapterNumber}`
-                                                : chapter.name}
-                                        </TypographyMaxLines>
+                                        <Stack
+                                            sx={{
+                                                flexDirection: 'row',
+                                                gap: 0.5,
+                                                alignItems: 'center',
+                                            }}
+                                        >
+                                            {chapter.isBookmarked && <BookmarkIcon color="primary" />}
+                                            <TypographyMaxLines variant="h5" component="h2">
+                                                {showChapterNumber
+                                                    ? `${t('chapter.title')} ${chapter.chapterNumber}`
+                                                    : chapter.name}
+                                            </TypographyMaxLines>
+                                        </Stack>
                                         <Typography variant="caption">{chapter.scanlator}</Typography>
                                         <Typography variant="caption">
                                             {getDateString(Number(chapter.uploadDate ?? 0), true)}
