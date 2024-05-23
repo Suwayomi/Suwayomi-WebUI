@@ -82,11 +82,10 @@ export const ChapterCard: React.FC<IProps> = (props: IProps) => {
         <li>
             <PopupState variant="popover" popupId="chapter-card-action-menu">
                 {(popupState) => (
-                    <>
+                    <Stack sx={{ pt: 1, px: 1 }}>
                         <Card
                             sx={{
                                 position: 'relative',
-                                margin: 1,
                                 touchCallout: 'none',
                             }}
                         >
@@ -165,7 +164,7 @@ export const ChapterCard: React.FC<IProps> = (props: IProps) => {
                                 )}
                             </Menu>
                         )}
-                    </>
+                    </Stack>
                 )}
             </PopupState>
         </li>
