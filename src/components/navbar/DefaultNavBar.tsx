@@ -12,8 +12,6 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import Box from '@mui/material/Box';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme } from '@mui/material/styles';
 import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark';
 import CollectionsOutlinedBookmarkIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
 import NewReleasesIcon from '@mui/icons-material/NewReleases';
@@ -33,6 +31,7 @@ import { DesktopSideBar } from '@/components/navbar/navigation/DesktopSideBar';
 import { MobileBottomBar } from '@/components/navbar/navigation/MobileBottomBar';
 import { useBackButton } from '@/util/useBackButton.ts';
 import { getOptionForDirection } from '@/theme.ts';
+import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
 
 const navbarItems: Array<NavbarItem> = [
     {
@@ -75,11 +74,10 @@ const navbarItems: Array<NavbarItem> = [
 export function DefaultNavBar() {
     const { title, action, override } = useContext(NavBarContext);
 
-    const theme = useTheme();
     const { pathname } = useLocation();
     const handleBack = useBackButton();
 
-    const isMobileWidth = useMediaQuery(theme.breakpoints.down('sm'));
+    const isMobileWidth = MediaQuery.useIsMobileWidth();
     const isMainRoute = navbarItems.some(({ path }) => path === pathname);
 
     // Allow default navbar to be overrided
@@ -102,7 +100,7 @@ export function DefaultNavBar() {
                         <IconButton
                             component="button"
                             edge="start"
-                            sx={{ marginRight: theme.spacing(2) }}
+                            sx={{ marginRight: 2 }}
                             color="inherit"
                             aria-label="menu"
                             disableRipple

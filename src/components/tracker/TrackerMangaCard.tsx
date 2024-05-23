@@ -21,13 +21,12 @@ import Typography from '@mui/material/Typography';
 import { useLayoutEffect, useRef, useState } from 'react';
 import parseHtml from 'html-react-parser';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import sanitizeHtml from 'sanitize-html';
 import { SpinnerImage } from '@/components/util/SpinnerImage.tsx';
 import { TrackerManga } from '@/lib/data/Trackers.ts';
 import { TypographyMaxLines } from '@/components/atoms/TypographyMaxLines.tsx';
 import { Metadata } from '@/components/atoms/Metadata.tsx';
+import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
 
 const TrackerMangaCardTitle = ({ title, selected }: { title: string; selected: boolean }) => (
     <Stack direction="row" gap="5px" justifyContent="space-between">
@@ -107,8 +106,7 @@ export const TrackerMangaCard = ({
     onSelect: () => void;
 }) => {
     const { t } = useTranslation();
-    const theme = useTheme();
-    const isMobileWidth = useMediaQuery(theme.breakpoints.down('sm'));
+    const isMobileWidth = MediaQuery.useIsMobileWidth();
 
     return (
         <Card
@@ -124,7 +122,7 @@ export const TrackerMangaCard = ({
                             padding: '10px',
                             border: '3px solid',
                             borderRadius: 'inherit',
-                            borderColor: selected ? theme.palette.primary.main : 'transparent',
+                            borderColor: selected ? 'primary.main' : 'transparent',
                         }}
                     >
                         <Stack direction="row" gap="15px" marginBottom="15px">

@@ -7,9 +7,14 @@
  */
 
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { getCurrentTheme } from '@/theme.ts';
 
 export class MediaQuery {
     static useIsTouchDevice(): boolean {
         return useMediaQuery('not (pointer: fine)');
+    }
+
+    static useIsMobileWidth(): boolean {
+        return useMediaQuery(getCurrentTheme().breakpoints.down('sm'));
     }
 }

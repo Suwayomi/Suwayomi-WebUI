@@ -15,9 +15,7 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTranslation } from 'react-i18next';
-import { useTheme } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { extensionDefaultLangs, DefaultLanguage, langSortCmp } from '@/util/language';
@@ -41,6 +39,7 @@ import { StyledGroupHeader } from '@/components/virtuoso/StyledGroupHeader.tsx';
 import { StyledGroupItemWrapper } from '@/components/virtuoso/StyledGroupItemWrapper.tsx';
 import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
 
 const LANGUAGE = 0;
 const EXTENSIONS = 1;
@@ -103,8 +102,7 @@ export function Extensions() {
     const { t } = useTranslation();
     const { setAction } = useContext(NavBarContext);
 
-    const theme = useTheme();
-    const isMobileWidth = useMediaQuery(theme.breakpoints.down('sm'));
+    const isMobileWidth = MediaQuery.useIsMobileWidth();
 
     const {
         data: serverSettingsData,
