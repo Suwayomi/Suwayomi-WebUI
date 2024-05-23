@@ -34,9 +34,9 @@ import Box from '@mui/material/Box';
 
 import { OverridableComponent } from '@mui/material/OverridableComponent';
 import { SvgIconTypeMap } from '@mui/material/SvgIcon';
-import { isMobile } from 'react-device-detect';
 import { IconMenuItem } from '@/components/menu/IconMenuItem.tsx';
 import { getOptionForDirection } from '@/theme.ts';
+import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
 
 export type NestedMenuItemProps = Omit<MuiMenuItemProps, 'button'> & {
     parentMenuOpen: boolean;
@@ -69,6 +69,8 @@ const NestedMenuItem = forwardRef<HTMLLIElement | null, NestedMenuItemProps>((pr
         ...MenuItemProps
     } = props;
 
+    const isTouchDevice = MediaQuery.useIsTouchDevice();
+
     const { ref: containerRefProp, ...ContainerProps } = ContainerPropsProp;
 
     const menuItemRef = useRef<HTMLLIElement | null>(null);
@@ -95,7 +97,7 @@ const NestedMenuItem = forwardRef<HTMLLIElement | null, NestedMenuItemProps>((pr
     };
 
     const handleMouseEnter = (e: MouseEvent<HTMLElement>) => {
-        if (isMobile) {
+        if (isTouchDevice) {
             return;
         }
 
@@ -129,7 +131,7 @@ const NestedMenuItem = forwardRef<HTMLLIElement | null, NestedMenuItemProps>((pr
     };
 
     const handleFocus = (e: FocusEvent<HTMLElement>) => {
-        if (isMobile) {
+        if (isTouchDevice) {
             return;
         }
 

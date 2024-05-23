@@ -12,6 +12,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext.tsx';
 import { MangaCardMode } from '@/components/manga/MangaCard.types.tsx';
+import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
 
 const BadgeContainer = styled('div')({
     display: 'flex',
@@ -43,13 +44,15 @@ export const MangaBadges = ({
 }) => {
     const { t } = useTranslation();
 
+    const isTouchDevice = MediaQuery.useIsTouchDevice();
+
     const {
         options: { showUnreadBadge, showDownloadBadge },
     } = useLibraryOptionsContext();
 
     return (
         <BadgeContainer>
-            {inLibraryIndicator && mode === 'source' && (
+            {!isTouchDevice && inLibraryIndicator && mode === 'source' && (
                 <Button
                     className="source-manga-library-state-button"
                     component="div"

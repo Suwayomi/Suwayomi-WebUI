@@ -14,7 +14,6 @@ import CardActionArea from '@mui/material/CardActionArea';
 import Stack from '@mui/material/Stack';
 import Tooltip from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
-import { isMobile } from 'react-device-detect';
 import { useRef } from 'react';
 import { SpinnerImage } from '@/components/util/SpinnerImage.tsx';
 import { MangaOptionButton } from '@/components/manga/MangaOptionButton.tsx';
@@ -85,12 +84,12 @@ export const MangaGridCard = ({
                             visibility: 'visible',
                             pointerEvents: 'all',
                         },
-                    },
-                    '&:hover .source-manga-library-state-button': {
-                        display: isMobile ? 'none' : 'inline-flex',
-                    },
-                    '&:hover .source-manga-library-state-indicator': {
-                        display: mode === 'source' ? 'none' : 'flex',
+                        '&:hover .source-manga-library-state-button': {
+                            display: 'inline-flex',
+                        },
+                        '&:hover .source-manga-library-state-indicator': {
+                            display: mode === 'source' ? 'none' : 'flex',
+                        },
                     },
                 }}
             >

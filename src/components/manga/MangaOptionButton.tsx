@@ -15,9 +15,9 @@ import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { PopupState } from 'material-ui-popup-state/hooks';
 import { bindTrigger } from 'material-ui-popup-state';
-import { isMobile } from 'react-device-detect';
 import { SelectableCollectionReturnType } from '@/components/collection/useSelectableCollection.ts';
 import { TManga } from '@/typings.ts';
+import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
 
 export const MangaOptionButton = forwardRef(
     (
@@ -38,6 +38,8 @@ export const MangaOptionButton = forwardRef(
     ) => {
         const { t } = useTranslation();
 
+        const isTouchDevice = MediaQuery.useIsTouchDevice();
+
         const bindTriggerProps = useMemo(() => bindTrigger(popupState), [popupState]);
 
         const preventDefaultAction = (e: BaseSyntheticEvent) => {
@@ -51,7 +53,7 @@ export const MangaOptionButton = forwardRef(
         };
 
         const handleClick = (e: MouseEvent | TouchEvent) => {
-            if (isMobile) return;
+            if (isTouchDevice) return;
 
             preventDefaultAction(e);
             popupState.open(e);
@@ -107,8 +109,12 @@ export const MangaOptionButton = forwardRef(
                         minWidth: 'unset',
                         paddingX: '0',
                         paddingY: '2.5px',
-                        visibility: popupState.isOpen && !isMobile ? 'visible' : 'hidden',
-                        pointerEvents: isMobile ? undefined : 'none',
+                        visibility: popupState.isOpen ? 'visible' : 'hidden',
+                        pointerEvents: 'none',
+                        '@media not (pointer: fine)': {
+                            visibility: 'hidden',
+                            pointerEvents: undefined,
+                        },
                     }}
                     onMouseDown={(e) => e.stopPropagation()}
                 >
