@@ -15,6 +15,7 @@ import { useTranslation } from 'react-i18next';
 import { t as translate } from 'i18next';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
+import { useLongPress } from 'use-long-press';
 import { ISource, TManga } from '@/typings';
 import { makeToast } from '@/components/util/Toast';
 import { Mangas } from '@/lib/data/Mangas.ts';
@@ -23,6 +24,7 @@ import { CustomIconButton } from '@/components/atoms/CustomIconButton';
 import { TrackMangaButton } from '@/components/manga/TrackMangaButton.tsx';
 import { useManageMangaLibraryState } from '@/components/manga/useManageMangaLibraryState.tsx';
 import { Metadata as BaseMetadata } from '@/components/atoms/Metadata.tsx';
+import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
 const DetailsWrapper = styled('div')(({ theme }) => ({
     width: '100%',
@@ -180,6 +182,15 @@ export const MangaDetails: React.FC<IProps> = ({ manga }) => {
 
     const { CategorySelectComponent, updateLibraryState } = useManageMangaLibraryState(manga);
 
+    const copyTitleLongPressBind = useLongPress(async () => {
+        try {
+            await navigator.clipboard.writeText(manga.title);
+            makeToast(t('global.label.copied'), 'info');
+        } catch (e) {
+            defaultPromiseErrorHandler('MangaDetails::copyTitleLongPress')(e);
+        }
+    });
+
     return (
         <>
             <DetailsWrapper>
@@ -189,7 +200,12 @@ export const MangaDetails: React.FC<IProps> = ({ manga }) => {
                             <SpinnerImage src={Mangas.getThumbnailUrl(manga)} alt="Manga Thumbnail" />
                         </Thumbnail>
                         <MetadataContainer>
-                            <Typography variant="h4" component="h1" sx={{ mb: 1 }}>
+                            <Typography
+                                variant="h4"
+                                component="h1"
+                                sx={{ mb: 1, '@media not (pointer: fine)': { userSelect: 'none' } }}
+                                {...copyTitleLongPressBind()}
+                            >
                                 {manga.title}
                             </Typography>
                             <Metadata title={t('manga.label.author')} value={getValueOrUnknown(manga.author)} />
