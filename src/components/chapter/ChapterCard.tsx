@@ -128,26 +128,28 @@ export const ChapterCard: React.FC<IProps> = (props: IProps) => {
 
                                     {dc && <DownloadStateIndicator download={dc} />}
 
-                                    {selected === null ? (
-                                        <Tooltip title={t('global.button.options')}>
-                                            <IconButton
-                                                ref={menuButtonRef}
-                                                {...bindTrigger(popupState)}
-                                                onClick={(e) => handleClickOpenMenu(e, popupState.open)}
-                                                onTouchStart={(e) => handleClickOpenMenu(e, popupState.open)}
-                                                aria-label="more"
-                                                size="large"
+                                    <Stack sx={{ minHeight: '48px' }}>
+                                        {selected === null ? (
+                                            <Tooltip title={t('global.button.options')}>
+                                                <IconButton
+                                                    ref={menuButtonRef}
+                                                    {...bindTrigger(popupState)}
+                                                    onClick={(e) => handleClickOpenMenu(e, popupState.open)}
+                                                    onTouchStart={(e) => handleClickOpenMenu(e, popupState.open)}
+                                                    aria-label="more"
+                                                    size="large"
+                                                >
+                                                    <MoreVertIcon />
+                                                </IconButton>
+                                            </Tooltip>
+                                        ) : (
+                                            <Tooltip
+                                                title={t(selected ? 'global.button.deselect' : 'global.button.select')}
                                             >
-                                                <MoreVertIcon />
-                                            </IconButton>
-                                        </Tooltip>
-                                    ) : (
-                                        <Tooltip
-                                            title={t(selected ? 'global.button.deselect' : 'global.button.select')}
-                                        >
-                                            <Checkbox checked={selected} />
-                                        </Tooltip>
-                                    )}
+                                                <Checkbox checked={selected} />
+                                            </Tooltip>
+                                        )}
+                                    </Stack>
                                 </CardContent>
                             </CardActionArea>
                         </Card>
