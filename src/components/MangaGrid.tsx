@@ -288,7 +288,7 @@ export const MangaGrid: React.FC<IMangaGridProps> = ({
             clearTimeout(timeout);
         };
     }, [gridLayout]);
-    useEffect(
+    useLayoutEffect(
         () => () => {
             document.body.style.overflowY = 'auto';
         },
