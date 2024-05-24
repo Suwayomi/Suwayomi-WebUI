@@ -149,7 +149,7 @@ export const LibraryDuplicates = () => {
     if (error) {
         return (
             <EmptyViewAbsoluteCentered
-                message={t('')}
+                message={t('global.error.label.failed_to_load_data')}
                 messageExtra={error.message}
                 retry={() => refetch().catch(defaultPromiseErrorHandler('LibraryDuplicates::refetch'))}
             />
