@@ -13,42 +13,6 @@ import yargs from 'yargs';
 import { ControlledPromise } from '@/lib/ControlledPromise.ts';
 import tokens from './tokens.json';
 
-interface WeblateChangeResult {
-    translation: string;
-    action: number;
-    action_name: string;
-    user: string;
-}
-
-interface WeblateChangePayload {
-    next: string;
-    results: WeblateChangeResult[];
-}
-
-interface WeblateUserPayload {
-    full_name: string;
-}
-
-interface WeblateLanguagePayload {
-    language: {
-        name: string;
-    };
-}
-
-type UsernameByUserUrl = Record<string, string>;
-type LanguageNameByTranslationUrl = Record<string, string>;
-type UserUrlsByTranslationUrl = Record<string, string[]>;
-type ActionByTranslationUrlByUserUrl = Record<
-    string,
-    Record<string, { count: number; actions: Record<number, number> }>
->;
-
-interface Contributor {
-    username: string;
-    contributionCount: number;
-}
-type ContributionsByLanguage = Record<string, Contributor[]>;
-
 enum WeblateChangeActions {
     RESOURCE_UPDATED = 0,
     TRANSLATION_COMPLETED = 1,
@@ -79,7 +43,7 @@ enum WeblateChangeActions {
     ADD_ON_CONFIGURATION_CHANGED = 61,
 }
 
-const creditRelevantActions = [
+const creditRelevantActions: WeblateChangeActions[] = [
     WeblateChangeActions.TRANSLATION_CHANGED,
     WeblateChangeActions.TRANSLATION_ADDED,
     WeblateChangeActions.TRANSLATION_REVERTED,
@@ -87,6 +51,48 @@ const creditRelevantActions = [
     WeblateChangeActions.TRANSLATION_REMOVED,
     WeblateChangeActions.MARKED_FOR_EDIT,
 ];
+
+interface WeblateChangeResult {
+    translation: string;
+    action: WeblateChangeActions;
+    action_name: keyof WeblateChangeActions;
+    user: string;
+}
+
+interface WeblateChangePayload {
+    next: string;
+    results: WeblateChangeResult[];
+}
+
+interface WeblateUserPayload {
+    full_name: string;
+}
+
+interface WeblateLanguagePayload {
+    language: {
+        name: string;
+    };
+}
+
+type Username = string;
+type UserUrl = string;
+
+type LanguageName = string;
+type TranslationUrl = string;
+
+type UsernameByUserUrl = Record<UserUrl, Username>;
+type LanguageNameByTranslationUrl = Record<TranslationUrl, LanguageName>;
+type UserUrlsByTranslationUrl = Record<TranslationUrl, UserUrl[]>;
+type ActionByTranslationUrlByUserUrl = Record<
+    UserUrl,
+    Record<TranslationUrl, { count: number; actions: Record<WeblateChangeActions, number> }>
+>;
+
+interface Contributor {
+    username: Username;
+    contributionCount: number;
+}
+type ContributionsByLanguage = Record<LanguageName, Contributor[]>;
 
 const { afterDate, beforeDate, requiredContributionCount, keepKnownContributors } = yargs
     .options({
