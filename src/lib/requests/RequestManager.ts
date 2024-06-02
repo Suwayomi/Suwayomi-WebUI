@@ -1076,6 +1076,10 @@ export class RequestManager {
                                     return existingMetas;
                                 }
 
+                                if (!data?.setGlobalMeta) {
+                                    return existingMetas;
+                                }
+
                                 const exists = existingMetas.nodes.some(
                                     // eslint-disable-next-line no-underscore-dangle
                                     (meta: Reference) => readField('key', meta) === key,
@@ -1145,7 +1149,7 @@ export class RequestManager {
                 return;
             }
 
-            if (!result.data?.fetchExtensions.extensions) {
+            if (!result.data?.fetchExtensions?.extensions) {
                 return;
             }
 
@@ -1160,7 +1164,7 @@ export class RequestManager {
                     ? result
                     : {
                           ...cachedResult,
-                          data: !cachedResult?.data?.fetchExtensions.extensions
+                          data: !cachedResult?.data?.fetchExtensions?.extensions
                               ? cachedResult?.data
                               : {
                                     ...cachedResult.data,
@@ -1169,7 +1173,9 @@ export class RequestManager {
                                         extensions: cachedResult.data.fetchExtensions.extensions.map(
                                             (extension) =>
                                                 this.graphQLClient.client.cache.readFragment<
-                                                    GetExtensionsFetchMutation['fetchExtensions']['extensions'][0]
+                                                    NonNullable<
+                                                        GetExtensionsFetchMutation['fetchExtensions']
+                                                    >['extensions'][0]
                                                 >({
                                                     id: this.graphQLClient.client.cache.identify(extension),
                                                     fragment: FULL_EXTENSION_FIELDS,
@@ -1204,6 +1210,10 @@ export class RequestManager {
         );
 
         result.response.then((response) => {
+            if (!response.data?.installExternalExtension?.extension) {
+                return;
+            }
+
             this.graphQLClient.client.cache.evict({ fieldName: 'sources' });
             const cachedExtensions = this.cache.getResponseFor<MutationResult<GetExtensionsFetchMutation>>(
                 EXTENSION_LIST_CACHE_KEY,
@@ -1223,7 +1233,7 @@ export class RequestManager {
                 return;
             }
 
-            const isExtensionCached = !!cachedExtensions.data.fetchExtensions.extensions.find(
+            const isExtensionCached = !!cachedExtensions.data.fetchExtensions?.extensions.find(
                 (extension) => installedExtension?.pkgName === extension.pkgName,
             );
 
@@ -1234,7 +1244,7 @@ export class RequestManager {
                     fetchExtensions: {
                         ...cachedExtensions.data.fetchExtensions,
                         extensions: isExtensionCached
-                            ? cachedExtensions.data.fetchExtensions.extensions.map((extension) => {
+                            ? cachedExtensions.data.fetchExtensions!.extensions.map((extension) => {
                                   const isUpdatedExtension = installedExtension?.pkgName === extension.pkgName;
                                   if (!isUpdatedExtension) {
                                       return extension;
@@ -1247,8 +1257,10 @@ export class RequestManager {
                                   };
                               })
                             : [
-                                  ...cachedExtensions.data.fetchExtensions.extensions,
-                                  installedExtension as (typeof cachedExtensions.data.fetchExtensions.extensions)[number],
+                                  ...(cachedExtensions.data.fetchExtensions?.extensions ?? []),
+                                  installedExtension as NonNullable<
+                                      GetExtensionsFetchMutation['fetchExtensions']
+                                  >['extensions'][number],
                               ],
                     },
                 },
@@ -1273,6 +1285,10 @@ export class RequestManager {
         );
 
         result.response.then((response) => {
+            if (response.errors) {
+                return;
+            }
+
             this.graphQLClient.client.cache.evict({ fieldName: 'sources' });
             const cachedExtensions = this.cache.getResponseFor<MutationResult<GetExtensionsFetchMutation>>(
                 EXTENSION_LIST_CACHE_KEY,
@@ -1289,26 +1305,27 @@ export class RequestManager {
                     ...cachedExtensions.data,
                     fetchExtensions: {
                         ...cachedExtensions.data.fetchExtensions,
-                        extensions: cachedExtensions.data.fetchExtensions.extensions
-                            .filter((extension) => {
-                                if (!isObsolete) {
-                                    return true;
-                                }
+                        extensions:
+                            cachedExtensions.data.fetchExtensions?.extensions
+                                .filter((extension) => {
+                                    if (!isObsolete) {
+                                        return true;
+                                    }
 
-                                const isUpdatedExtension = id === extension.pkgName;
-                                return !isUpdatedExtension;
-                            })
-                            .map((extension) => {
-                                const isUpdatedExtension = id === extension.pkgName;
-                                if (!isUpdatedExtension) {
-                                    return extension;
-                                }
+                                    const isUpdatedExtension = id === extension.pkgName;
+                                    return !isUpdatedExtension;
+                                })
+                                .map((extension) => {
+                                    const isUpdatedExtension = id === extension.pkgName;
+                                    if (!isUpdatedExtension) {
+                                        return extension;
+                                    }
 
-                                return {
-                                    ...extension,
-                                    ...response.data?.updateExtension.extension,
-                                };
-                            }),
+                                    return {
+                                        ...extension,
+                                        ...(response.data?.updateExtension?.extension ?? []),
+                                    };
+                                }) ?? [],
                     },
                 },
             };
@@ -1412,7 +1429,7 @@ export class RequestManager {
 
         const areInitialPagesFetched =
             cachedResults.length >= initialPages ||
-            (!!cachedResults.length && !cachedResults[cachedResults.length - 1].data?.fetchSourceManga.hasNextPage);
+            (!!cachedResults.length && !cachedResults[cachedResults.length - 1].data?.fetchSourceManga?.hasNextPage);
         const isResultForCurrentInput = result?.forInput === JSON.stringify(getVariablesFor(0));
         const lastPage = cachedPages.size ? Math.max(...cachedPages) : input.page;
         const nextPage = isResultForCurrentInput ? result.size : lastPage;
@@ -1435,11 +1452,11 @@ export class RequestManager {
                 options,
                 (cachedResult, revalidatedResult) =>
                     !cachedResult ||
-                    !cachedResult.data?.fetchSourceManga.mangas.length ||
+                    !cachedResult.data?.fetchSourceManga?.mangas.length ||
                     cachedResult.data.fetchSourceManga.mangas.some(
-                        (manga, index) => manga.id !== revalidatedResult.data?.fetchSourceManga.mangas[index]?.id,
+                        (manga, index) => manga.id !== revalidatedResult.data?.fetchSourceManga?.mangas[index]?.id,
                     ),
-                (revalidatedResult) => !!revalidatedResult.data?.fetchSourceManga.hasNextPage,
+                (revalidatedResult) => !!revalidatedResult.data?.fetchSourceManga?.hasNextPage,
                 pageToRevalidate,
                 maxPage,
                 signal,
@@ -1502,7 +1519,7 @@ export class RequestManager {
             getVariablesFor,
             initialPages,
             wrappedMutate,
-            (fetchedResult) => !!fetchedResult.data?.fetchSourceManga.hasNextPage,
+            (fetchedResult) => !!fetchedResult.data?.fetchSourceManga?.hasNextPage,
         );
 
         this.revalidateInitialPages(
@@ -1518,7 +1535,7 @@ export class RequestManager {
         );
 
         const normalizedCachedResults = cachedResults.map((cachedResult) => {
-            const hasResults = cachedResult.data?.fetchSourceManga.mangas;
+            const hasResults = !!cachedResult.data?.fetchSourceManga?.mangas;
             if (!hasResults) {
                 return cachedResult;
             }
@@ -1529,7 +1546,7 @@ export class RequestManager {
                     ...cachedResult.data,
                     fetchSourceManga: {
                         ...cachedResult.data?.fetchSourceManga,
-                        mangas: cachedResult.data?.fetchSourceManga.mangas.map(
+                        mangas: cachedResult.data?.fetchSourceManga?.mangas.map(
                             (manga) =>
                                 this.graphQLClient.client.cache.readFragment<typeof manga>({
                                     id: this.graphQLClient.client.cache.identify(manga),

@@ -166,11 +166,11 @@ const useSourceManga = (
     const isPageLoading = pages.slice(-1)[0].isLoading;
     let filteredOutAllItemsOfFetchedPage = !isPageLoading;
     const items = useMemo(() => {
-        type FetchItemsResult = GetSourceMangasFetchMutation['fetchSourceManga']['mangas'];
+        type FetchItemsResult = NonNullable<GetSourceMangasFetchMutation['fetchSourceManga']>['mangas'];
         let allItems: FetchItemsResult = [];
 
         pages.forEach((page, index) => {
-            const pageItems = page.data?.fetchSourceManga.mangas ?? ([] as FetchItemsResult);
+            const pageItems = page.data?.fetchSourceManga?.mangas ?? ([] as FetchItemsResult);
             const nonLibraryPageItems = pageItems.filter((item) => !hideLibraryEntries || !item.inLibrary);
             const uniqueItems = getUniqueMangas([...allItems, ...nonLibraryPageItems]);
 
@@ -197,7 +197,7 @@ const useSourceManga = (
                     hasNextPage:
                         pages.length > lastLoadedPageIndex + 1
                             ? false
-                            : lastLoadedPage!.data!.fetchSourceManga.hasNextPage,
+                            : !!lastLoadedPage!.data!.fetchSourceManga?.hasNextPage,
                     mangas: items,
                 },
             },
@@ -280,8 +280,8 @@ export function SourceMangas() {
     const [loadPage, { data, isLoading: loading, size: lastPageNum, abortRequest, filteredOutAllItemsOfFetchedPage }] =
         useSourceManga(sourceId, contentType, query, filtersToApply, 1, hideLibraryEntries);
     const isLoading = loading || filteredOutAllItemsOfFetchedPage;
-    const mangas = data?.fetchSourceManga.mangas ?? [];
-    const hasNextPage = data?.fetchSourceManga.hasNextPage ?? false;
+    const mangas = data?.fetchSourceManga?.mangas ?? [];
+    const hasNextPage = !!data?.fetchSourceManga?.hasNextPage;
     const { data: sourceData } = requestManager.useGetSource(sourceId);
     const source = sourceData?.source;
 

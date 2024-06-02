@@ -1022,62 +1022,62 @@ export type Mutation = {
   __typename?: 'Mutation';
   bindTrack: BindTrackPayload;
   clearCachedImages: ClearCachedImagesPayload;
-  clearDownloader: ClearDownloaderPayload;
+  clearDownloader?: Maybe<ClearDownloaderPayload>;
   createBackup: CreateBackupPayload;
-  createCategory: CreateCategoryPayload;
-  deleteCategory: DeleteCategoryPayload;
-  deleteCategoryMeta: DeleteCategoryMetaPayload;
-  deleteChapterMeta: DeleteChapterMetaPayload;
-  deleteDownloadedChapter: DeleteDownloadedChapterPayload;
-  deleteDownloadedChapters: DeleteDownloadedChaptersPayload;
-  deleteGlobalMeta: DeleteGlobalMetaPayload;
-  deleteMangaMeta: DeleteMangaMetaPayload;
-  deleteSourceMeta: DeleteSourceMetaPayload;
-  dequeueChapterDownload: DequeueChapterDownloadPayload;
-  dequeueChapterDownloads: DequeueChapterDownloadsPayload;
-  enqueueChapterDownload: EnqueueChapterDownloadPayload;
-  enqueueChapterDownloads: EnqueueChapterDownloadsPayload;
-  fetchChapterPages: FetchChapterPagesPayload;
-  fetchChapters: FetchChaptersPayload;
-  fetchExtensions: FetchExtensionsPayload;
-  fetchManga: FetchMangaPayload;
-  fetchSourceManga: FetchSourceMangaPayload;
+  createCategory?: Maybe<CreateCategoryPayload>;
+  deleteCategory?: Maybe<DeleteCategoryPayload>;
+  deleteCategoryMeta?: Maybe<DeleteCategoryMetaPayload>;
+  deleteChapterMeta?: Maybe<DeleteChapterMetaPayload>;
+  deleteDownloadedChapter?: Maybe<DeleteDownloadedChapterPayload>;
+  deleteDownloadedChapters?: Maybe<DeleteDownloadedChaptersPayload>;
+  deleteGlobalMeta?: Maybe<DeleteGlobalMetaPayload>;
+  deleteMangaMeta?: Maybe<DeleteMangaMetaPayload>;
+  deleteSourceMeta?: Maybe<DeleteSourceMetaPayload>;
+  dequeueChapterDownload?: Maybe<DequeueChapterDownloadPayload>;
+  dequeueChapterDownloads?: Maybe<DequeueChapterDownloadsPayload>;
+  enqueueChapterDownload?: Maybe<EnqueueChapterDownloadPayload>;
+  enqueueChapterDownloads?: Maybe<EnqueueChapterDownloadsPayload>;
+  fetchChapterPages?: Maybe<FetchChapterPagesPayload>;
+  fetchChapters?: Maybe<FetchChaptersPayload>;
+  fetchExtensions?: Maybe<FetchExtensionsPayload>;
+  fetchManga?: Maybe<FetchMangaPayload>;
+  fetchSourceManga?: Maybe<FetchSourceMangaPayload>;
   fetchTrack: FetchTrackPayload;
-  installExternalExtension: InstallExternalExtensionPayload;
+  installExternalExtension?: Maybe<InstallExternalExtensionPayload>;
   loginTrackerCredentials: LoginTrackerCredentialsPayload;
   loginTrackerOAuth: LoginTrackerOAuthPayload;
   logoutTracker: LogoutTrackerPayload;
-  reorderChapterDownload: ReorderChapterDownloadPayload;
+  reorderChapterDownload?: Maybe<ReorderChapterDownloadPayload>;
   resetSettings: ResetSettingsPayload;
-  resetWebUIUpdateStatus: WebUiUpdateStatus;
+  resetWebUIUpdateStatus?: Maybe<WebUiUpdateStatus>;
   restoreBackup: RestoreBackupPayload;
-  setCategoryMeta: SetCategoryMetaPayload;
-  setChapterMeta: SetChapterMetaPayload;
-  setGlobalMeta: SetGlobalMetaPayload;
-  setMangaMeta: SetMangaMetaPayload;
+  setCategoryMeta?: Maybe<SetCategoryMetaPayload>;
+  setChapterMeta?: Maybe<SetChapterMetaPayload>;
+  setGlobalMeta?: Maybe<SetGlobalMetaPayload>;
+  setMangaMeta?: Maybe<SetMangaMetaPayload>;
   setSettings: SetSettingsPayload;
-  setSourceMeta: SetSourceMetaPayload;
-  startDownloader: StartDownloaderPayload;
-  stopDownloader: StopDownloaderPayload;
-  trackProgress: TrackProgressPayload;
+  setSourceMeta?: Maybe<SetSourceMetaPayload>;
+  startDownloader?: Maybe<StartDownloaderPayload>;
+  stopDownloader?: Maybe<StopDownloaderPayload>;
+  trackProgress?: Maybe<TrackProgressPayload>;
   unbindTrack: UnbindTrackPayload;
-  updateCategories: UpdateCategoriesPayload;
-  updateCategory: UpdateCategoryPayload;
-  updateCategoryManga: UpdateCategoryMangaPayload;
-  updateCategoryOrder: UpdateCategoryOrderPayload;
-  updateChapter: UpdateChapterPayload;
-  updateChapters: UpdateChaptersPayload;
-  updateExtension: UpdateExtensionPayload;
-  updateExtensions: UpdateExtensionsPayload;
-  updateLibraryManga: UpdateLibraryMangaPayload;
-  updateManga: UpdateMangaPayload;
-  updateMangaCategories: UpdateMangaCategoriesPayload;
-  updateMangas: UpdateMangasPayload;
-  updateMangasCategories: UpdateMangasCategoriesPayload;
-  updateSourcePreference: UpdateSourcePreferencePayload;
+  updateCategories?: Maybe<UpdateCategoriesPayload>;
+  updateCategory?: Maybe<UpdateCategoryPayload>;
+  updateCategoryManga?: Maybe<UpdateCategoryMangaPayload>;
+  updateCategoryOrder?: Maybe<UpdateCategoryOrderPayload>;
+  updateChapter?: Maybe<UpdateChapterPayload>;
+  updateChapters?: Maybe<UpdateChaptersPayload>;
+  updateExtension?: Maybe<UpdateExtensionPayload>;
+  updateExtensions?: Maybe<UpdateExtensionsPayload>;
+  updateLibraryManga?: Maybe<UpdateLibraryMangaPayload>;
+  updateManga?: Maybe<UpdateMangaPayload>;
+  updateMangaCategories?: Maybe<UpdateMangaCategoriesPayload>;
+  updateMangas?: Maybe<UpdateMangasPayload>;
+  updateMangasCategories?: Maybe<UpdateMangasCategoriesPayload>;
+  updateSourcePreference?: Maybe<UpdateSourcePreferencePayload>;
   updateStop: UpdateStopPayload;
   updateTrack: UpdateTrackPayload;
-  updateWebUI: WebUiUpdatePayload;
+  updateWebUI?: Maybe<WebUiUpdatePayload>;
 };
 
 
@@ -2651,28 +2651,28 @@ export type CreateCategoryMutationVariables = Exact<{
 }>;
 
 
-export type CreateCategoryMutation = { __typename?: 'Mutation', createCategory: { __typename?: 'CreateCategoryPayload', clientMutationId?: string | null, category: { __typename?: 'CategoryType', default: boolean, id: number, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude, name: string, order: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }>, mangas: { __typename?: 'MangaNodeList', totalCount: number } } } };
+export type CreateCategoryMutation = { __typename?: 'Mutation', createCategory?: { __typename?: 'CreateCategoryPayload', clientMutationId?: string | null, category: { __typename?: 'CategoryType', default: boolean, id: number, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude, name: string, order: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }>, mangas: { __typename?: 'MangaNodeList', totalCount: number } } } | null };
 
 export type DeleteCategoryMutationVariables = Exact<{
   input: DeleteCategoryInput;
 }>;
 
 
-export type DeleteCategoryMutation = { __typename?: 'Mutation', deleteCategory: { __typename?: 'DeleteCategoryPayload', clientMutationId?: string | null, category?: { __typename?: 'CategoryType', id: number } | null } };
+export type DeleteCategoryMutation = { __typename?: 'Mutation', deleteCategory?: { __typename?: 'DeleteCategoryPayload', clientMutationId?: string | null, category?: { __typename?: 'CategoryType', id: number } | null } | null };
 
 export type DeleteCategoryMetadataMutationVariables = Exact<{
   input: DeleteCategoryMetaInput;
 }>;
 
 
-export type DeleteCategoryMetadataMutation = { __typename?: 'Mutation', deleteCategoryMeta: { __typename?: 'DeleteCategoryMetaPayload', clientMutationId?: string | null, meta?: { __typename?: 'CategoryMetaType', key: string } | null, category: { __typename?: 'CategoryType', id: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }> } } };
+export type DeleteCategoryMetadataMutation = { __typename?: 'Mutation', deleteCategoryMeta?: { __typename?: 'DeleteCategoryMetaPayload', clientMutationId?: string | null, meta?: { __typename?: 'CategoryMetaType', key: string } | null, category: { __typename?: 'CategoryType', id: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }> } } | null };
 
 export type SetCategoryMetadataMutationVariables = Exact<{
   input: SetCategoryMetaInput;
 }>;
 
 
-export type SetCategoryMetadataMutation = { __typename?: 'Mutation', setCategoryMeta: { __typename?: 'SetCategoryMetaPayload', clientMutationId?: string | null, meta: { __typename?: 'CategoryMetaType', key: string, value: string, category: { __typename?: 'CategoryType', id: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }> } } } };
+export type SetCategoryMetadataMutation = { __typename?: 'Mutation', setCategoryMeta?: { __typename?: 'SetCategoryMetaPayload', clientMutationId?: string | null, meta: { __typename?: 'CategoryMetaType', key: string, value: string, category: { __typename?: 'CategoryType', id: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }> } } } | null };
 
 export type UpdateCategoryMutationVariables = Exact<{
   input: UpdateCategoryInput;
@@ -2683,7 +2683,7 @@ export type UpdateCategoryMutationVariables = Exact<{
 }>;
 
 
-export type UpdateCategoryMutation = { __typename?: 'Mutation', updateCategory: { __typename?: 'UpdateCategoryPayload', clientMutationId?: string | null, category: { __typename?: 'CategoryType', id: number, default?: boolean, includeInUpdate?: IncludeOrExclude, includeInDownload?: IncludeOrExclude, name?: string } } };
+export type UpdateCategoryMutation = { __typename?: 'Mutation', updateCategory?: { __typename?: 'UpdateCategoryPayload', clientMutationId?: string | null, category: { __typename?: 'CategoryType', id: number, default?: boolean, includeInUpdate?: IncludeOrExclude, includeInDownload?: IncludeOrExclude, name?: string } } | null };
 
 export type UpdateCategoriesMutationVariables = Exact<{
   input: UpdateCategoriesInput;
@@ -2694,42 +2694,42 @@ export type UpdateCategoriesMutationVariables = Exact<{
 }>;
 
 
-export type UpdateCategoriesMutation = { __typename?: 'Mutation', updateCategories: { __typename?: 'UpdateCategoriesPayload', clientMutationId?: string | null, categories: Array<{ __typename?: 'CategoryType', id: number, default?: boolean, includeInUpdate?: IncludeOrExclude, includeInDownload?: IncludeOrExclude, name?: string }> } };
+export type UpdateCategoriesMutation = { __typename?: 'Mutation', updateCategories?: { __typename?: 'UpdateCategoriesPayload', clientMutationId?: string | null, categories: Array<{ __typename?: 'CategoryType', id: number, default?: boolean, includeInUpdate?: IncludeOrExclude, includeInDownload?: IncludeOrExclude, name?: string }> } | null };
 
 export type UpdateCategoryOrderMutationVariables = Exact<{
   input: UpdateCategoryOrderInput;
 }>;
 
 
-export type UpdateCategoryOrderMutation = { __typename?: 'Mutation', updateCategoryOrder: { __typename?: 'UpdateCategoryOrderPayload', clientMutationId?: string | null, categories: Array<{ __typename?: 'CategoryType', id: number, order: number }> } };
+export type UpdateCategoryOrderMutation = { __typename?: 'Mutation', updateCategoryOrder?: { __typename?: 'UpdateCategoryOrderPayload', clientMutationId?: string | null, categories: Array<{ __typename?: 'CategoryType', id: number, order: number }> } | null };
 
 export type DeleteChapterMetadataMutationVariables = Exact<{
   input: DeleteChapterMetaInput;
 }>;
 
 
-export type DeleteChapterMetadataMutation = { __typename?: 'Mutation', deleteChapterMeta: { __typename?: 'DeleteChapterMetaPayload', clientMutationId?: string | null, meta?: { __typename?: 'ChapterMetaType', key: string, value: string, chapter: { __typename?: 'ChapterType', id: number, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } } | null, chapter: { __typename?: 'ChapterType', id: number, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } } };
+export type DeleteChapterMetadataMutation = { __typename?: 'Mutation', deleteChapterMeta?: { __typename?: 'DeleteChapterMetaPayload', clientMutationId?: string | null, meta?: { __typename?: 'ChapterMetaType', key: string, value: string, chapter: { __typename?: 'ChapterType', id: number, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } } | null, chapter: { __typename?: 'ChapterType', id: number, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } } | null };
 
 export type GetChapterPagesFetchMutationVariables = Exact<{
   input: FetchChapterPagesInput;
 }>;
 
 
-export type GetChapterPagesFetchMutation = { __typename?: 'Mutation', fetchChapterPages: { __typename?: 'FetchChapterPagesPayload', clientMutationId?: string | null, pages: Array<string>, chapter: { __typename?: 'ChapterType', id: number, pageCount: number } } };
+export type GetChapterPagesFetchMutation = { __typename?: 'Mutation', fetchChapterPages?: { __typename?: 'FetchChapterPagesPayload', clientMutationId?: string | null, pages: Array<string>, chapter: { __typename?: 'ChapterType', id: number, pageCount: number } } | null };
 
 export type GetMangaChaptersFetchMutationVariables = Exact<{
   input: FetchChaptersInput;
 }>;
 
 
-export type GetMangaChaptersFetchMutation = { __typename?: 'Mutation', fetchChapters: { __typename?: 'FetchChaptersPayload', clientMutationId?: string | null, chapters: Array<{ __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, mangaId: number, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null, chapters: { __typename?: 'ChapterNodeList', totalCount: number } }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> }> } };
+export type GetMangaChaptersFetchMutation = { __typename?: 'Mutation', fetchChapters?: { __typename?: 'FetchChaptersPayload', clientMutationId?: string | null, chapters: Array<{ __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, mangaId: number, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null, chapters: { __typename?: 'ChapterNodeList', totalCount: number } }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> }> } | null };
 
 export type SetChapterMetadataMutationVariables = Exact<{
   input: SetChapterMetaInput;
 }>;
 
 
-export type SetChapterMetadataMutation = { __typename?: 'Mutation', setChapterMeta: { __typename?: 'SetChapterMetaPayload', clientMutationId?: string | null, meta: { __typename?: 'ChapterMetaType', key: string, value: string, chapter: { __typename?: 'ChapterType', id: number, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } } } };
+export type SetChapterMetadataMutation = { __typename?: 'Mutation', setChapterMeta?: { __typename?: 'SetChapterMetaPayload', clientMutationId?: string | null, meta: { __typename?: 'ChapterMetaType', key: string, value: string, chapter: { __typename?: 'ChapterType', id: number, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } } } | null };
 
 export type UpdateChapterMutationVariables = Exact<{
   input: UpdateChapterInput;
@@ -2743,7 +2743,7 @@ export type UpdateChapterMutationVariables = Exact<{
 }>;
 
 
-export type UpdateChapterMutation = { __typename?: 'Mutation', updateChapter: { __typename?: 'UpdateChapterPayload', clientMutationId?: string | null, chapter: { __typename?: 'ChapterType', id: number, isBookmarked?: boolean, isRead?: boolean, lastReadAt?: string, lastPageRead?: number, manga?: { __typename?: 'MangaType', id: number, unreadCount: number, bookmarkCount: number, lastReadChapter?: { __typename?: 'ChapterType', id: number } | null, latestReadChapter?: { __typename?: 'ChapterType', id: number } | null, firstUnreadChapter?: { __typename?: 'ChapterType', id: number } | null } } }, deleteDownloadedChapter?: { __typename?: 'DeleteDownloadedChapterPayload', clientMutationId?: string | null, chapters: { __typename?: 'ChapterType', id: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, downloadCount: number } } }, trackProgress?: { __typename?: 'TrackProgressPayload', trackRecords: Array<{ __typename?: 'TrackRecordType', id: number, status: number, lastChapterRead: number, totalChapters: number, score: number, displayScore: string, startDate: string, finishDate: string }> } };
+export type UpdateChapterMutation = { __typename?: 'Mutation', updateChapter?: { __typename?: 'UpdateChapterPayload', clientMutationId?: string | null, chapter: { __typename?: 'ChapterType', id: number, isBookmarked?: boolean, isRead?: boolean, lastReadAt?: string, lastPageRead?: number, manga?: { __typename?: 'MangaType', id: number, unreadCount: number, bookmarkCount: number, lastReadChapter?: { __typename?: 'ChapterType', id: number } | null, latestReadChapter?: { __typename?: 'ChapterType', id: number } | null, firstUnreadChapter?: { __typename?: 'ChapterType', id: number } | null } } } | null, deleteDownloadedChapter?: { __typename?: 'DeleteDownloadedChapterPayload', clientMutationId?: string | null, chapters: { __typename?: 'ChapterType', id: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, downloadCount: number } } } | null, trackProgress?: { __typename?: 'TrackProgressPayload', trackRecords: Array<{ __typename?: 'TrackRecordType', id: number, status: number, lastChapterRead: number, totalChapters: number, score: number, displayScore: string, startDate: string, finishDate: string }> } | null };
 
 export type UpdateChaptersMutationVariables = Exact<{
   input: UpdateChaptersInput;
@@ -2757,119 +2757,119 @@ export type UpdateChaptersMutationVariables = Exact<{
 }>;
 
 
-export type UpdateChaptersMutation = { __typename?: 'Mutation', updateChapters: { __typename?: 'UpdateChaptersPayload', clientMutationId?: string | null, chapters: Array<{ __typename?: 'ChapterType', id: number, isBookmarked?: boolean, isRead?: boolean, lastReadAt?: string, lastPageRead?: number, manga?: { __typename?: 'MangaType', id: number, unreadCount: number, bookmarkCount: number, lastReadChapter?: { __typename?: 'ChapterType', id: number } | null, latestReadChapter?: { __typename?: 'ChapterType', id: number } | null, firstUnreadChapter?: { __typename?: 'ChapterType', id: number } | null } }> }, deleteDownloadedChapters?: { __typename?: 'DeleteDownloadedChaptersPayload', clientMutationId?: string | null, chapters: Array<{ __typename?: 'ChapterType', id: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, downloadCount: number } }> }, trackProgress?: { __typename?: 'TrackProgressPayload', trackRecords: Array<{ __typename?: 'TrackRecordType', id: number, status: number, lastChapterRead: number, totalChapters: number, score: number, displayScore: string, startDate: string, finishDate: string }> } };
+export type UpdateChaptersMutation = { __typename?: 'Mutation', updateChapters?: { __typename?: 'UpdateChaptersPayload', clientMutationId?: string | null, chapters: Array<{ __typename?: 'ChapterType', id: number, isBookmarked?: boolean, isRead?: boolean, lastReadAt?: string, lastPageRead?: number, manga?: { __typename?: 'MangaType', id: number, unreadCount: number, bookmarkCount: number, lastReadChapter?: { __typename?: 'ChapterType', id: number } | null, latestReadChapter?: { __typename?: 'ChapterType', id: number } | null, firstUnreadChapter?: { __typename?: 'ChapterType', id: number } | null } }> } | null, deleteDownloadedChapters?: { __typename?: 'DeleteDownloadedChaptersPayload', clientMutationId?: string | null, chapters: Array<{ __typename?: 'ChapterType', id: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, downloadCount: number } }> } | null, trackProgress?: { __typename?: 'TrackProgressPayload', trackRecords: Array<{ __typename?: 'TrackRecordType', id: number, status: number, lastChapterRead: number, totalChapters: number, score: number, displayScore: string, startDate: string, finishDate: string }> } | null };
 
 export type ClearDownloaderMutationVariables = Exact<{
   input?: InputMaybe<ClearDownloaderInput>;
 }>;
 
 
-export type ClearDownloaderMutation = { __typename?: 'Mutation', clearDownloader: { __typename?: 'ClearDownloaderPayload', clientMutationId?: string | null, downloadStatus: { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, title: string, downloadCount: number } } }> } } };
+export type ClearDownloaderMutation = { __typename?: 'Mutation', clearDownloader?: { __typename?: 'ClearDownloaderPayload', clientMutationId?: string | null, downloadStatus: { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, title: string, downloadCount: number } } }> } } | null };
 
 export type DeleteDownloadedChapterMutationVariables = Exact<{
   input: DeleteDownloadedChapterInput;
 }>;
 
 
-export type DeleteDownloadedChapterMutation = { __typename?: 'Mutation', deleteDownloadedChapter: { __typename?: 'DeleteDownloadedChapterPayload', clientMutationId?: string | null, chapters: { __typename?: 'ChapterType', id: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, downloadCount: number } } } };
+export type DeleteDownloadedChapterMutation = { __typename?: 'Mutation', deleteDownloadedChapter?: { __typename?: 'DeleteDownloadedChapterPayload', clientMutationId?: string | null, chapters: { __typename?: 'ChapterType', id: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, downloadCount: number } } } | null };
 
 export type DeleteDownloadedChaptersMutationVariables = Exact<{
   input: DeleteDownloadedChaptersInput;
 }>;
 
 
-export type DeleteDownloadedChaptersMutation = { __typename?: 'Mutation', deleteDownloadedChapters: { __typename?: 'DeleteDownloadedChaptersPayload', clientMutationId?: string | null, chapters: Array<{ __typename?: 'ChapterType', id: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, downloadCount: number } }> } };
+export type DeleteDownloadedChaptersMutation = { __typename?: 'Mutation', deleteDownloadedChapters?: { __typename?: 'DeleteDownloadedChaptersPayload', clientMutationId?: string | null, chapters: Array<{ __typename?: 'ChapterType', id: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, downloadCount: number } }> } | null };
 
 export type DequeueChapterDownloadMutationVariables = Exact<{
   input: DequeueChapterDownloadInput;
 }>;
 
 
-export type DequeueChapterDownloadMutation = { __typename?: 'Mutation', dequeueChapterDownload: { __typename?: 'DequeueChapterDownloadPayload', clientMutationId?: string | null, downloadStatus: { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, title: string, downloadCount: number } } }> } } };
+export type DequeueChapterDownloadMutation = { __typename?: 'Mutation', dequeueChapterDownload?: { __typename?: 'DequeueChapterDownloadPayload', clientMutationId?: string | null, downloadStatus: { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, title: string, downloadCount: number } } }> } } | null };
 
 export type DequeueChapterDownloadsMutationVariables = Exact<{
   input: DequeueChapterDownloadsInput;
 }>;
 
 
-export type DequeueChapterDownloadsMutation = { __typename?: 'Mutation', dequeueChapterDownloads: { __typename?: 'DequeueChapterDownloadsPayload', clientMutationId?: string | null, downloadStatus: { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, title: string, downloadCount: number } } }> } } };
+export type DequeueChapterDownloadsMutation = { __typename?: 'Mutation', dequeueChapterDownloads?: { __typename?: 'DequeueChapterDownloadsPayload', clientMutationId?: string | null, downloadStatus: { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, title: string, downloadCount: number } } }> } } | null };
 
 export type EnqueueChapterDownloadMutationVariables = Exact<{
   input: EnqueueChapterDownloadInput;
 }>;
 
 
-export type EnqueueChapterDownloadMutation = { __typename?: 'Mutation', enqueueChapterDownload: { __typename?: 'EnqueueChapterDownloadPayload', clientMutationId?: string | null, downloadStatus: { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, title: string, downloadCount: number } } }> } } };
+export type EnqueueChapterDownloadMutation = { __typename?: 'Mutation', enqueueChapterDownload?: { __typename?: 'EnqueueChapterDownloadPayload', clientMutationId?: string | null, downloadStatus: { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, title: string, downloadCount: number } } }> } } | null };
 
 export type EnqueueChapterDownloadsMutationVariables = Exact<{
   input: EnqueueChapterDownloadsInput;
 }>;
 
 
-export type EnqueueChapterDownloadsMutation = { __typename?: 'Mutation', enqueueChapterDownloads: { __typename?: 'EnqueueChapterDownloadsPayload', clientMutationId?: string | null, downloadStatus: { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, title: string, downloadCount: number } } }> } } };
+export type EnqueueChapterDownloadsMutation = { __typename?: 'Mutation', enqueueChapterDownloads?: { __typename?: 'EnqueueChapterDownloadsPayload', clientMutationId?: string | null, downloadStatus: { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, title: string, downloadCount: number } } }> } } | null };
 
 export type ReorderChapterDownloadMutationVariables = Exact<{
   input: ReorderChapterDownloadInput;
 }>;
 
 
-export type ReorderChapterDownloadMutation = { __typename?: 'Mutation', reorderChapterDownload: { __typename?: 'ReorderChapterDownloadPayload', clientMutationId?: string | null, downloadStatus: { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, title: string, downloadCount: number } } }> } } };
+export type ReorderChapterDownloadMutation = { __typename?: 'Mutation', reorderChapterDownload?: { __typename?: 'ReorderChapterDownloadPayload', clientMutationId?: string | null, downloadStatus: { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, title: string, downloadCount: number } } }> } } | null };
 
 export type StartDownloaderMutationVariables = Exact<{
   input?: InputMaybe<StartDownloaderInput>;
 }>;
 
 
-export type StartDownloaderMutation = { __typename?: 'Mutation', startDownloader: { __typename?: 'StartDownloaderPayload', clientMutationId?: string | null, downloadStatus: { __typename?: 'DownloadStatus', state: DownloaderState } } };
+export type StartDownloaderMutation = { __typename?: 'Mutation', startDownloader?: { __typename?: 'StartDownloaderPayload', clientMutationId?: string | null, downloadStatus: { __typename?: 'DownloadStatus', state: DownloaderState } } | null };
 
 export type StopDownloaderMutationVariables = Exact<{
   input?: InputMaybe<StopDownloaderInput>;
 }>;
 
 
-export type StopDownloaderMutation = { __typename?: 'Mutation', stopDownloader: { __typename?: 'StopDownloaderPayload', clientMutationId?: string | null, downloadStatus: { __typename?: 'DownloadStatus', state: DownloaderState } } };
+export type StopDownloaderMutation = { __typename?: 'Mutation', stopDownloader?: { __typename?: 'StopDownloaderPayload', clientMutationId?: string | null, downloadStatus: { __typename?: 'DownloadStatus', state: DownloaderState } } | null };
 
 export type GetExtensionsFetchMutationVariables = Exact<{
   input?: InputMaybe<FetchExtensionsInput>;
 }>;
 
 
-export type GetExtensionsFetchMutation = { __typename?: 'Mutation', fetchExtensions: { __typename?: 'FetchExtensionsPayload', clientMutationId?: string | null, extensions: Array<{ __typename?: 'ExtensionType', apkName: string, repo?: string | null, hasUpdate: boolean, iconUrl: string, isInstalled: boolean, isNsfw: boolean, isObsolete: boolean, lang: string, name: string, pkgName: string, versionCode: number, versionName: string }> } };
+export type GetExtensionsFetchMutation = { __typename?: 'Mutation', fetchExtensions?: { __typename?: 'FetchExtensionsPayload', clientMutationId?: string | null, extensions: Array<{ __typename?: 'ExtensionType', apkName: string, repo?: string | null, hasUpdate: boolean, iconUrl: string, isInstalled: boolean, isNsfw: boolean, isObsolete: boolean, lang: string, name: string, pkgName: string, versionCode: number, versionName: string }> } | null };
 
 export type UpdateExtensionMutationVariables = Exact<{
   input: UpdateExtensionInput;
 }>;
 
 
-export type UpdateExtensionMutation = { __typename?: 'Mutation', updateExtension: { __typename?: 'UpdateExtensionPayload', clientMutationId?: string | null, extension?: { __typename?: 'ExtensionType', pkgName: string, apkName: string, repo?: string | null, versionName: string, versionCode: number, isInstalled: boolean, isObsolete: boolean, hasUpdate: boolean } | null } };
+export type UpdateExtensionMutation = { __typename?: 'Mutation', updateExtension?: { __typename?: 'UpdateExtensionPayload', clientMutationId?: string | null, extension?: { __typename?: 'ExtensionType', pkgName: string, apkName: string, repo?: string | null, versionName: string, versionCode: number, isInstalled: boolean, isObsolete: boolean, hasUpdate: boolean } | null } | null };
 
 export type UpdateExtensionsMutationVariables = Exact<{
   input: UpdateExtensionsInput;
 }>;
 
 
-export type UpdateExtensionsMutation = { __typename?: 'Mutation', updateExtensions: { __typename?: 'UpdateExtensionsPayload', clientMutationId?: string | null, extensions: Array<{ __typename?: 'ExtensionType', pkgName: string, apkName: string, repo?: string | null, versionName: string, versionCode: number, isInstalled: boolean, isObsolete: boolean, hasUpdate: boolean }> } };
+export type UpdateExtensionsMutation = { __typename?: 'Mutation', updateExtensions?: { __typename?: 'UpdateExtensionsPayload', clientMutationId?: string | null, extensions: Array<{ __typename?: 'ExtensionType', pkgName: string, apkName: string, repo?: string | null, versionName: string, versionCode: number, isInstalled: boolean, isObsolete: boolean, hasUpdate: boolean }> } | null };
 
 export type InstallExternalExtensionMutationVariables = Exact<{
   file: Scalars['Upload']['input'];
 }>;
 
 
-export type InstallExternalExtensionMutation = { __typename?: 'Mutation', installExternalExtension: { __typename?: 'InstallExternalExtensionPayload', clientMutationId?: string | null, extension: { __typename?: 'ExtensionType', apkName: string, repo?: string | null, hasUpdate: boolean, iconUrl: string, isInstalled: boolean, isNsfw: boolean, isObsolete: boolean, lang: string, name: string, pkgName: string, versionCode: number, versionName: string } } };
+export type InstallExternalExtensionMutation = { __typename?: 'Mutation', installExternalExtension?: { __typename?: 'InstallExternalExtensionPayload', clientMutationId?: string | null, extension: { __typename?: 'ExtensionType', apkName: string, repo?: string | null, hasUpdate: boolean, iconUrl: string, isInstalled: boolean, isNsfw: boolean, isObsolete: boolean, lang: string, name: string, pkgName: string, versionCode: number, versionName: string } } | null };
 
 export type DeleteGlobalMetadataMutationVariables = Exact<{
   input: DeleteGlobalMetaInput;
 }>;
 
 
-export type DeleteGlobalMetadataMutation = { __typename?: 'Mutation', deleteGlobalMeta: { __typename?: 'DeleteGlobalMetaPayload', clientMutationId?: string | null, meta?: { __typename?: 'GlobalMetaType', key: string, value: string } | null } };
+export type DeleteGlobalMetadataMutation = { __typename?: 'Mutation', deleteGlobalMeta?: { __typename?: 'DeleteGlobalMetaPayload', clientMutationId?: string | null, meta?: { __typename?: 'GlobalMetaType', key: string, value: string } | null } | null };
 
 export type SetGlobalMetadataMutationVariables = Exact<{
   input: SetGlobalMetaInput;
 }>;
 
 
-export type SetGlobalMetadataMutation = { __typename?: 'Mutation', setGlobalMeta: { __typename?: 'SetGlobalMetaPayload', clientMutationId?: string | null, meta: { __typename?: 'GlobalMetaType', key: string, value: string } } };
+export type SetGlobalMetadataMutation = { __typename?: 'Mutation', setGlobalMeta?: { __typename?: 'SetGlobalMetaPayload', clientMutationId?: string | null, meta: { __typename?: 'GlobalMetaType', key: string, value: string } } | null };
 
 export type ClearServerCacheMutationVariables = Exact<{
   input: ClearCachedImagesInput;
@@ -2883,14 +2883,14 @@ export type DeleteMangaMetadataMutationVariables = Exact<{
 }>;
 
 
-export type DeleteMangaMetadataMutation = { __typename?: 'Mutation', deleteMangaMeta: { __typename?: 'DeleteMangaMetaPayload', clientMutationId?: string | null, meta?: { __typename?: 'MangaMetaType', key: string, value: string, manga: { __typename?: 'MangaType', id: number, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }> } } | null, manga: { __typename?: 'MangaType', id: number, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }> } } };
+export type DeleteMangaMetadataMutation = { __typename?: 'Mutation', deleteMangaMeta?: { __typename?: 'DeleteMangaMetaPayload', clientMutationId?: string | null, meta?: { __typename?: 'MangaMetaType', key: string, value: string, manga: { __typename?: 'MangaType', id: number, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }> } } | null, manga: { __typename?: 'MangaType', id: number, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }> } } | null };
 
 export type GetMangaFetchMutationVariables = Exact<{
   input: FetchMangaInput;
 }>;
 
 
-export type GetMangaFetchMutation = { __typename?: 'Mutation', fetchManga: { __typename?: 'FetchMangaPayload', clientMutationId?: string | null, manga: { __typename?: 'MangaType', unreadCount: number, downloadCount: number, bookmarkCount: number, artist?: string | null, author?: string | null, chaptersLastFetchedAt?: string | null, description?: string | null, genre: Array<string>, id: number, inLibrary: boolean, inLibraryAt: string, initialized: boolean, lastFetchedAt?: string | null, realUrl?: string | null, status: MangaStatus, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: string | null, title: string, url: string, lastReadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, mangaId: number, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestReadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, mangaId: number, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestFetchedChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, mangaId: number, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestUploadedChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, mangaId: number, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, firstUnreadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, mangaId: number, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', default: boolean, id: number, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude, name: string, order: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }>, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> }, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, source?: { __typename?: 'SourceType', displayName: string, iconUrl: string, id: string, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null }, meta: Array<{ __typename?: 'SourceMetaType', key: string, value: string }> } | null, trackRecords: { __typename?: 'TrackRecordNodeList', totalCount: number, nodes: Array<{ __typename?: 'TrackRecordType', title: string, remoteUrl: string, remoteId: string, id: number, status: number, lastChapterRead: number, totalChapters: number, score: number, displayScore: string, startDate: string, finishDate: string, tracker: { __typename?: 'TrackerType', id: number, name: string, authUrl?: string | null, icon: string, supportsTrackDeletion?: boolean | null, isLoggedIn: boolean, isTokenExpired: boolean, scores: Array<string>, statuses: Array<{ __typename?: 'TrackStatusType', name: string, value: number }> } }> } } } };
+export type GetMangaFetchMutation = { __typename?: 'Mutation', fetchManga?: { __typename?: 'FetchMangaPayload', clientMutationId?: string | null, manga: { __typename?: 'MangaType', unreadCount: number, downloadCount: number, bookmarkCount: number, artist?: string | null, author?: string | null, chaptersLastFetchedAt?: string | null, description?: string | null, genre: Array<string>, id: number, inLibrary: boolean, inLibraryAt: string, initialized: boolean, lastFetchedAt?: string | null, realUrl?: string | null, status: MangaStatus, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: string | null, title: string, url: string, lastReadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, mangaId: number, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestReadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, mangaId: number, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestFetchedChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, mangaId: number, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestUploadedChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, mangaId: number, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, firstUnreadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, mangaId: number, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', default: boolean, id: number, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude, name: string, order: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }>, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> }, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, source?: { __typename?: 'SourceType', displayName: string, iconUrl: string, id: string, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null }, meta: Array<{ __typename?: 'SourceMetaType', key: string, value: string }> } | null, trackRecords: { __typename?: 'TrackRecordNodeList', totalCount: number, nodes: Array<{ __typename?: 'TrackRecordType', title: string, remoteUrl: string, remoteId: string, id: number, status: number, lastChapterRead: number, totalChapters: number, score: number, displayScore: string, startDate: string, finishDate: string, tracker: { __typename?: 'TrackerType', id: number, name: string, authUrl?: string | null, icon: string, supportsTrackDeletion?: boolean | null, isLoggedIn: boolean, isTokenExpired: boolean, scores: Array<string>, statuses: Array<{ __typename?: 'TrackStatusType', name: string, value: number }> } }> } } } | null };
 
 export type GetMangaToMigrateToFetchMutationVariables = Exact<{
   id: Scalars['Int']['input'];
@@ -2900,14 +2900,14 @@ export type GetMangaToMigrateToFetchMutationVariables = Exact<{
 }>;
 
 
-export type GetMangaToMigrateToFetchMutation = { __typename?: 'Mutation', fetchManga: { __typename?: 'FetchMangaPayload', clientMutationId?: string | null, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, categories?: { __typename?: 'CategoryNodeList', nodes: Array<{ __typename?: 'CategoryType', id: number }> }, trackRecords?: { __typename?: 'TrackRecordNodeList', nodes: Array<{ __typename?: 'TrackRecordType', id: number, remoteId: string, trackerId: number }> } } }, fetchChapters?: { __typename?: 'FetchChaptersPayload', chapters: Array<{ __typename?: 'ChapterType', id: number, chapterNumber: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean, manga: { __typename?: 'MangaType', id: number } }> } };
+export type GetMangaToMigrateToFetchMutation = { __typename?: 'Mutation', fetchManga?: { __typename?: 'FetchMangaPayload', clientMutationId?: string | null, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, categories?: { __typename?: 'CategoryNodeList', nodes: Array<{ __typename?: 'CategoryType', id: number }> }, trackRecords?: { __typename?: 'TrackRecordNodeList', nodes: Array<{ __typename?: 'TrackRecordType', id: number, remoteId: string, trackerId: number }> } } } | null, fetchChapters?: { __typename?: 'FetchChaptersPayload', chapters: Array<{ __typename?: 'ChapterType', id: number, chapterNumber: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean, manga: { __typename?: 'MangaType', id: number } }> } | null };
 
 export type SetMangaMetadataMutationVariables = Exact<{
   input: SetMangaMetaInput;
 }>;
 
 
-export type SetMangaMetadataMutation = { __typename?: 'Mutation', setMangaMeta: { __typename?: 'SetMangaMetaPayload', clientMutationId?: string | null, meta: { __typename?: 'MangaMetaType', key: string, value: string, manga: { __typename?: 'MangaType', id: number, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }> } } } };
+export type SetMangaMetadataMutation = { __typename?: 'Mutation', setMangaMeta?: { __typename?: 'SetMangaMetaPayload', clientMutationId?: string | null, meta: { __typename?: 'MangaMetaType', key: string, value: string, manga: { __typename?: 'MangaType', id: number, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }> } } } | null };
 
 export type UpdateMangaMutationVariables = Exact<{
   input: UpdateMangaInput;
@@ -2916,7 +2916,7 @@ export type UpdateMangaMutationVariables = Exact<{
 }>;
 
 
-export type UpdateMangaMutation = { __typename?: 'Mutation', updateManga: { __typename?: 'UpdateMangaPayload', clientMutationId?: string | null, manga: { __typename?: 'MangaType', id: number, inLibrary: boolean, inLibraryAt: string } }, updateMangaCategories?: { __typename?: 'UpdateMangaCategoriesPayload', manga: { __typename?: 'MangaType', id: number, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> } } } };
+export type UpdateMangaMutation = { __typename?: 'Mutation', updateManga?: { __typename?: 'UpdateMangaPayload', clientMutationId?: string | null, manga: { __typename?: 'MangaType', id: number, inLibrary: boolean, inLibraryAt: string } } | null, updateMangaCategories?: { __typename?: 'UpdateMangaCategoriesPayload', manga: { __typename?: 'MangaType', id: number, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> } } } | null };
 
 export type UpdateMangasMutationVariables = Exact<{
   input: UpdateMangasInput;
@@ -2925,33 +2925,33 @@ export type UpdateMangasMutationVariables = Exact<{
 }>;
 
 
-export type UpdateMangasMutation = { __typename?: 'Mutation', updateMangas: { __typename?: 'UpdateMangasPayload', clientMutationId?: string | null, mangas: Array<{ __typename?: 'MangaType', id: number, inLibrary: boolean, inLibraryAt: string, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> } }> }, updateMangasCategories?: { __typename?: 'UpdateMangasCategoriesPayload', mangas: Array<{ __typename?: 'MangaType', id: number, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> } }> } };
+export type UpdateMangasMutation = { __typename?: 'Mutation', updateMangas?: { __typename?: 'UpdateMangasPayload', clientMutationId?: string | null, mangas: Array<{ __typename?: 'MangaType', id: number, inLibrary: boolean, inLibraryAt: string, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> } }> } | null, updateMangasCategories?: { __typename?: 'UpdateMangasCategoriesPayload', mangas: Array<{ __typename?: 'MangaType', id: number, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> } }> } | null };
 
 export type UpdateMangaCategoriesMutationVariables = Exact<{
   input: UpdateMangaCategoriesInput;
 }>;
 
 
-export type UpdateMangaCategoriesMutation = { __typename?: 'Mutation', updateMangaCategories: { __typename?: 'UpdateMangaCategoriesPayload', clientMutationId?: string | null, manga: { __typename?: 'MangaType', id: number, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> } } } };
+export type UpdateMangaCategoriesMutation = { __typename?: 'Mutation', updateMangaCategories?: { __typename?: 'UpdateMangaCategoriesPayload', clientMutationId?: string | null, manga: { __typename?: 'MangaType', id: number, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> } } } | null };
 
 export type UpdateMangasCategoriesMutationVariables = Exact<{
   input: UpdateMangasCategoriesInput;
 }>;
 
 
-export type UpdateMangasCategoriesMutation = { __typename?: 'Mutation', updateMangasCategories: { __typename?: 'UpdateMangasCategoriesPayload', clientMutationId?: string | null, mangas: Array<{ __typename?: 'MangaType', id: number, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> } }> } };
+export type UpdateMangasCategoriesMutation = { __typename?: 'Mutation', updateMangasCategories?: { __typename?: 'UpdateMangasCategoriesPayload', clientMutationId?: string | null, mangas: Array<{ __typename?: 'MangaType', id: number, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> } }> } | null };
 
 export type UpdateWebuiMutationVariables = Exact<{
   input?: InputMaybe<WebUiUpdateInput>;
 }>;
 
 
-export type UpdateWebuiMutation = { __typename?: 'Mutation', updateWebUI: { __typename?: 'WebUIUpdatePayload', clientMutationId?: string | null, updateStatus: { __typename?: 'WebUIUpdateStatus', progress: number, state: UpdateState, info: { __typename?: 'WebUIUpdateInfo', channel: string, tag: string } } } };
+export type UpdateWebuiMutation = { __typename?: 'Mutation', updateWebUI?: { __typename?: 'WebUIUpdatePayload', clientMutationId?: string | null, updateStatus: { __typename?: 'WebUIUpdateStatus', progress: number, state: UpdateState, info: { __typename?: 'WebUIUpdateInfo', channel: string, tag: string } } } | null };
 
 export type ResetWebuiUpdateStatusMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ResetWebuiUpdateStatusMutation = { __typename?: 'Mutation', resetWebUIUpdateStatus: { __typename?: 'WebUIUpdateStatus', state: UpdateState, info: { __typename?: 'WebUIUpdateInfo', channel: string, tag: string } } };
+export type ResetWebuiUpdateStatusMutation = { __typename?: 'Mutation', resetWebUIUpdateStatus?: { __typename?: 'WebUIUpdateStatus', state: UpdateState, info: { __typename?: 'WebUIUpdateInfo', channel: string, tag: string } } | null };
 
 export type ResetServerSettingsMutationVariables = Exact<{
   input: ResetSettingsInput;
@@ -2972,21 +2972,21 @@ export type GetSourceMangasFetchMutationVariables = Exact<{
 }>;
 
 
-export type GetSourceMangasFetchMutation = { __typename?: 'Mutation', fetchSourceManga: { __typename?: 'FetchSourceMangaPayload', clientMutationId?: string | null, hasNextPage: boolean, mangas: Array<{ __typename?: 'MangaType', artist?: string | null, author?: string | null, chaptersLastFetchedAt?: string | null, description?: string | null, genre: Array<string>, id: number, inLibrary: boolean, inLibraryAt: string, initialized: boolean, lastFetchedAt?: string | null, realUrl?: string | null, status: MangaStatus, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: string | null, title: string, url: string, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, source?: { __typename?: 'SourceType', displayName: string, iconUrl: string, id: string, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null }, meta: Array<{ __typename?: 'SourceMetaType', key: string, value: string }> } | null, trackRecords: { __typename?: 'TrackRecordNodeList', totalCount: number, nodes: Array<{ __typename?: 'TrackRecordType', title: string, remoteUrl: string, remoteId: string, id: number, status: number, lastChapterRead: number, totalChapters: number, score: number, displayScore: string, startDate: string, finishDate: string, tracker: { __typename?: 'TrackerType', id: number, name: string, authUrl?: string | null, icon: string, supportsTrackDeletion?: boolean | null, isLoggedIn: boolean, isTokenExpired: boolean, scores: Array<string>, statuses: Array<{ __typename?: 'TrackStatusType', name: string, value: number }> } }> } }> } };
+export type GetSourceMangasFetchMutation = { __typename?: 'Mutation', fetchSourceManga?: { __typename?: 'FetchSourceMangaPayload', clientMutationId?: string | null, hasNextPage: boolean, mangas: Array<{ __typename?: 'MangaType', artist?: string | null, author?: string | null, chaptersLastFetchedAt?: string | null, description?: string | null, genre: Array<string>, id: number, inLibrary: boolean, inLibraryAt: string, initialized: boolean, lastFetchedAt?: string | null, realUrl?: string | null, status: MangaStatus, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: string | null, title: string, url: string, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, source?: { __typename?: 'SourceType', displayName: string, iconUrl: string, id: string, isConfigurable: boolean, isNsfw: boolean, lang: string, name: string, supportsLatest: boolean, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null }, meta: Array<{ __typename?: 'SourceMetaType', key: string, value: string }> } | null, trackRecords: { __typename?: 'TrackRecordNodeList', totalCount: number, nodes: Array<{ __typename?: 'TrackRecordType', title: string, remoteUrl: string, remoteId: string, id: number, status: number, lastChapterRead: number, totalChapters: number, score: number, displayScore: string, startDate: string, finishDate: string, tracker: { __typename?: 'TrackerType', id: number, name: string, authUrl?: string | null, icon: string, supportsTrackDeletion?: boolean | null, isLoggedIn: boolean, isTokenExpired: boolean, scores: Array<string>, statuses: Array<{ __typename?: 'TrackStatusType', name: string, value: number }> } }> } }> } | null };
 
 export type UpdateSourcePreferencesMutationVariables = Exact<{
   input: UpdateSourcePreferenceInput;
 }>;
 
 
-export type UpdateSourcePreferencesMutation = { __typename?: 'Mutation', updateSourcePreference: { __typename?: 'UpdateSourcePreferencePayload', clientMutationId?: string | null, source: { __typename?: 'SourceType', id: string, preferences: Array<{ __typename?: 'CheckBoxPreference', summary?: string | null, key: string, type: 'CheckBoxPreference', CheckBoxCheckBoxCurrentValue?: boolean | null, CheckBoxDefault: boolean, CheckBoxTitle: string } | { __typename?: 'EditTextPreference', text?: string | null, summary?: string | null, key: string, dialogTitle?: string | null, dialogMessage?: string | null, type: 'EditTextPreference', EditTextPreferenceCurrentValue?: string | null, EditTextPreferenceDefault?: string | null, EditTextPreferenceTitle?: string | null } | { __typename?: 'ListPreference', summary?: string | null, key: string, entryValues: Array<string>, entries: Array<string>, type: 'ListPreference', ListPreferenceCurrentValue?: string | null, ListPreferenceDefault?: string | null, ListPreferenceTitle?: string | null } | { __typename?: 'MultiSelectListPreference', dialogMessage?: string | null, dialogTitle?: string | null, summary?: string | null, key: string, entryValues: Array<string>, entries: Array<string>, type: 'MultiSelectListPreference', MultiSelectListPreferenceTitle?: string | null, MultiSelectListPreferenceDefault?: Array<string> | null, MultiSelectListPreferenceCurrentValue?: Array<string> | null } | { __typename?: 'SwitchPreference', summary?: string | null, key: string, type: 'SwitchPreference', SwitchPreferenceCurrentValue?: boolean | null, SwitchPreferenceDefault: boolean, SwitchPreferenceTitle: string }> } } };
+export type UpdateSourcePreferencesMutation = { __typename?: 'Mutation', updateSourcePreference?: { __typename?: 'UpdateSourcePreferencePayload', clientMutationId?: string | null, source: { __typename?: 'SourceType', id: string, preferences: Array<{ __typename?: 'CheckBoxPreference', summary?: string | null, key: string, type: 'CheckBoxPreference', CheckBoxCheckBoxCurrentValue?: boolean | null, CheckBoxDefault: boolean, CheckBoxTitle: string } | { __typename?: 'EditTextPreference', text?: string | null, summary?: string | null, key: string, dialogTitle?: string | null, dialogMessage?: string | null, type: 'EditTextPreference', EditTextPreferenceCurrentValue?: string | null, EditTextPreferenceDefault?: string | null, EditTextPreferenceTitle?: string | null } | { __typename?: 'ListPreference', summary?: string | null, key: string, entryValues: Array<string>, entries: Array<string>, type: 'ListPreference', ListPreferenceCurrentValue?: string | null, ListPreferenceDefault?: string | null, ListPreferenceTitle?: string | null } | { __typename?: 'MultiSelectListPreference', dialogMessage?: string | null, dialogTitle?: string | null, summary?: string | null, key: string, entryValues: Array<string>, entries: Array<string>, type: 'MultiSelectListPreference', MultiSelectListPreferenceTitle?: string | null, MultiSelectListPreferenceDefault?: Array<string> | null, MultiSelectListPreferenceCurrentValue?: Array<string> | null } | { __typename?: 'SwitchPreference', summary?: string | null, key: string, type: 'SwitchPreference', SwitchPreferenceCurrentValue?: boolean | null, SwitchPreferenceDefault: boolean, SwitchPreferenceTitle: string }> } } | null };
 
 export type SetSourceMetadataMutationVariables = Exact<{
   input: SetSourceMetaInput;
 }>;
 
 
-export type SetSourceMetadataMutation = { __typename?: 'Mutation', setSourceMeta: { __typename?: 'SetSourceMetaPayload', clientMutationId?: string | null, meta: { __typename?: 'SourceMetaType', key: string, value: string, source: { __typename?: 'SourceType', id: string, meta: Array<{ __typename?: 'SourceMetaType', key: string, value: string }> } } } };
+export type SetSourceMetadataMutation = { __typename?: 'Mutation', setSourceMeta?: { __typename?: 'SetSourceMetaPayload', clientMutationId?: string | null, meta: { __typename?: 'SourceMetaType', key: string, value: string, source: { __typename?: 'SourceType', id: string, meta: Array<{ __typename?: 'SourceMetaType', key: string, value: string }> } } } | null };
 
 export type TrackerLoginOauthMutationVariables = Exact<{
   input: LoginTrackerOAuthInput;
@@ -3044,14 +3044,14 @@ export type UpdateCategoryMangasMutationVariables = Exact<{
 }>;
 
 
-export type UpdateCategoryMangasMutation = { __typename?: 'Mutation', updateCategoryManga: { __typename?: 'UpdateCategoryMangaPayload', clientMutationId?: string | null, updateStatus: { __typename?: 'UpdateStatus', isRunning: boolean } } };
+export type UpdateCategoryMangasMutation = { __typename?: 'Mutation', updateCategoryManga?: { __typename?: 'UpdateCategoryMangaPayload', clientMutationId?: string | null, updateStatus: { __typename?: 'UpdateStatus', isRunning: boolean } } | null };
 
 export type UpdateLibraryMangasMutationVariables = Exact<{
   input?: InputMaybe<UpdateLibraryMangaInput>;
 }>;
 
 
-export type UpdateLibraryMangasMutation = { __typename?: 'Mutation', updateLibraryManga: { __typename?: 'UpdateLibraryMangaPayload', clientMutationId?: string | null, updateStatus: { __typename?: 'UpdateStatus', isRunning: boolean } } };
+export type UpdateLibraryMangasMutation = { __typename?: 'Mutation', updateLibraryManga?: { __typename?: 'UpdateLibraryMangaPayload', clientMutationId?: string | null, updateStatus: { __typename?: 'UpdateStatus', isRunning: boolean } } | null };
 
 export type StopUpdaterMutationVariables = Exact<{
   input?: InputMaybe<UpdateStopInput>;

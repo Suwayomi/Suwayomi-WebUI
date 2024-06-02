@@ -121,7 +121,7 @@ export function Extensions() {
     const [refetchExtensions, setRefetchExtensions] = useState({});
     const [fetchExtensions, { data, loading: areExtensionsLoading, error: extensionsError }] =
         requestManager.useExtensionListFetch();
-    const allExtensions = data?.fetchExtensions.extensions;
+    const allExtensions = data?.fetchExtensions?.extensions;
 
     const handleExtensionUpdate = useCallback(() => setRefetchExtensions({}), []);
 

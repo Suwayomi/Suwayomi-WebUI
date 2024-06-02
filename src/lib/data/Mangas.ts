@@ -115,6 +115,9 @@ export type MangaThumbnailInfo = Pick<TManga, 'thumbnailUrl' | 'thumbnailUrlLast
 
 export type MigrateMode = 'copy' | 'migrate';
 
+type MangaToMigrate = NonNullable<GetMangaToMigrateQuery['manga']>;
+type MangaToMigrateTo = NonNullable<GetMangaToMigrateToFetchMutation['fetchManga']>['manga'];
+
 type DownloadChaptersOptions = {
     size?: number;
     onlyUnread?: boolean;
@@ -381,8 +384,8 @@ export class Mangas {
     }
 
     private static async migrateCategories(
-        mangaToMigrate: GetMangaToMigrateQuery['manga'],
-        mangaToMigrateTo: GetMangaToMigrateToFetchMutation['fetchManga']['manga'],
+        mangaToMigrate: MangaToMigrate,
+        mangaToMigrateTo: MangaToMigrateTo,
     ): Promise<void> {
         if (!mangaToMigrate?.categories) {
             throw new Error('Categories are missing');
@@ -395,8 +398,8 @@ export class Mangas {
 
     private static async migrateTracking(
         mode: MigrateMode,
-        mangaToMigrate: GetMangaToMigrateQuery['manga'],
-        mangaToMigrateTo: GetMangaToMigrateToFetchMutation['fetchManga']['manga'],
+        mangaToMigrate: MangaToMigrate,
+        mangaToMigrateTo: MangaToMigrateTo,
     ): Promise<void> {
         if (!mangaToMigrate.trackRecords) {
             throw new Error('TrackRecords of manga to migrate are missing');
@@ -450,7 +453,7 @@ export class Mangas {
                 }).response,
             ]);
 
-            if (!mangaToMigrateData.manga || !mangaToMigrateToData?.fetchManga.manga) {
+            if (!mangaToMigrateData.manga || !mangaToMigrateToData?.fetchManga?.manga) {
                 throw new Error('Mangas::migrate: missing manga data');
             }
 
