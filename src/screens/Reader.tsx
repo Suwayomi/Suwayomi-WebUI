@@ -314,14 +314,18 @@ export function Reader() {
             : [chapter.id];
 
         requestManager
-            .updateChapters(chapterIds, {
-                ...patch,
-                chapterIdsToDelete: getChapterIdsToDelete(),
-                trackProgressMangaId:
-                    metadataSettings.updateProgressAfterReading && patch.isRead && manga.trackRecords.totalCount
-                        ? manga.id
-                        : undefined,
-            })
+            .updateChapters(
+                chapterIds,
+                {
+                    ...patch,
+                    chapterIdsToDelete: getChapterIdsToDelete(),
+                    trackProgressMangaId:
+                        metadataSettings.updateProgressAfterReading && patch.isRead && manga.trackRecords.totalCount
+                            ? manga.id
+                            : undefined,
+                },
+                { errorPolicy: 'all' },
+            )
             .response.catch(defaultPromiseErrorHandler('Reader::updateChapter'));
     };
 
