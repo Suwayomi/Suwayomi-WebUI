@@ -13,7 +13,7 @@ export const useHistory = () => {
     const location = useLocation();
     const navigationType = useNavigationType();
 
-    const [history, setHistory] = useState<string[]>([location.pathname]);
+    const [history, setHistory] = useState<string[]>([]);
 
     useEffect(() => {
         const isLastPageInHistory = location.key === 'default';
