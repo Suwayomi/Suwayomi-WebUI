@@ -17,7 +17,7 @@ import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { isNetworkRequestInFlight } from '@apollo/client/core/networkStatus';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext';
+import { NavBarContext } from '@/components/context/NavbarContext';
 import { ChapterList } from '@/components/chapter/ChapterList.tsx';
 import { useRefreshManga } from '@/components/manga/useRefreshManga.ts';
 import { MangaDetails } from '@/components/manga/MangaDetails';
@@ -37,7 +37,6 @@ export const Manga: React.FC = () => {
     const manga = data?.manga;
 
     const [refresh, { loading: refreshing, error: refreshError }] = useRefreshManga(id);
-    useSetDefaultBackTo('library');
 
     const error = mangaError ?? refreshError;
 

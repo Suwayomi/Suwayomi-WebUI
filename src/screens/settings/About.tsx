@@ -24,7 +24,7 @@ import { t as translate } from 'i18next';
 import DownloadingIcon from '@mui/icons-material/Downloading';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { ListItemLink } from '@/components/util/ListItemLink';
-import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext';
+import { NavBarContext } from '@/components/context/NavbarContext';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
 import { GetAboutQuery, UpdateState } from '@/lib/graphql/generated/graphql.ts';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
@@ -200,8 +200,6 @@ export function About() {
             setAction(null);
         };
     }, [t]);
-
-    useSetDefaultBackTo('settings');
 
     const { data, loading, error, refetch } = requestManager.useGetAbout({ notifyOnNetworkStatusChange: true });
 

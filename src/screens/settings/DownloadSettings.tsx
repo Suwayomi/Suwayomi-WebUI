@@ -14,7 +14,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
 import ListSubheader from '@mui/material/ListSubheader';
 import { TextSetting } from '@/components/settings/text/TextSetting.tsx';
-import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
+import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { MetadataDownloadSettings, ServerSettings } from '@/typings.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { DownloadAheadSetting } from '@/components/settings/downloads/DownloadAheadSetting.tsx';
@@ -52,8 +52,6 @@ const extractDownloadSettings = (settings: ServerSettings): DownloadSettingsType
 export const DownloadSettings = () => {
     const { t } = useTranslation();
     const { setTitle, setAction } = useContext(NavBarContext);
-
-    useSetDefaultBackTo('settings');
 
     useEffect(() => {
         setTitle(t('download.settings.title'));

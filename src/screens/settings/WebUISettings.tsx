@@ -12,7 +12,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
-import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
+import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { MetadataUpdateSettings, ServerSettings } from '@/typings.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { WebUIUpdateIntervalSetting } from '@/components/settings/webUI/WebUIUpdateIntervalSetting.tsx';
@@ -119,8 +119,6 @@ const extractWebUISettings = (settings: ServerSettings): WebUISettingsType => ({
 export const WebUISettings = () => {
     const { t } = useTranslation();
     const { setTitle, setAction } = useContext(NavBarContext);
-
-    useSetDefaultBackTo('settings');
 
     useEffect(() => {
         setTitle(t('settings.webui.title.settings'));

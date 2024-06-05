@@ -35,7 +35,7 @@ import {
     GetSourceMangasFetchMutation,
     GetSourceMangasFetchMutationVariables,
 } from '@/lib/graphql/generated/graphql.ts';
-import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
+import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 import { useSessionStorage } from '@/util/useStorage.tsx';
 import { AppStorage } from '@/util/AppStorage.ts';
@@ -220,8 +220,6 @@ export function SourceMangas() {
             contentType: SourceContentType;
             clearCache: boolean;
         }>().state ?? {};
-
-    useSetDefaultBackTo('browse');
 
     const [isFirstRender, setIsFirstRender] = useState(true);
 

@@ -15,7 +15,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
 import ListSubheader from '@mui/material/ListSubheader';
 import { t as translate } from 'i18next';
-import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
+import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { GlobalUpdateSettings } from '@/components/settings/globalUpdate/GlobalUpdateSettings.tsx';
 import { MetadataLibrarySettings } from '@/typings.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
@@ -62,8 +62,6 @@ export function LibrarySettings() {
             setAction(null);
         };
     }, [t]);
-
-    useSetDefaultBackTo('settings');
 
     const categories = requestManager.useGetCategories();
     const serverSettings = requestManager.useGetServerSettings({ notifyOnNetworkStatusChange: true });

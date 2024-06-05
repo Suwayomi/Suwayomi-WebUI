@@ -22,7 +22,7 @@ import { AppbarSearch } from '@/components/util/AppbarSearch';
 import { LangSelect } from '@/components/navbar/action/LangSelect';
 import { MangaGrid } from '@/components/MangaGrid';
 import { useDebounce } from '@/util/useDebounce.ts';
-import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
+import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { MangaCardProps } from '@/components/manga/MangaCard.types.tsx';
 import { EmptyView } from '@/components/util/EmptyView';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
@@ -186,8 +186,6 @@ export const SearchAll: React.FC = () => {
     const { t } = useTranslation();
 
     const { setTitle, setAction } = useContext(NavBarContext);
-
-    useSetDefaultBackTo('browse');
 
     const { pathname, state } = useLocation<{ mangaTitle?: string }>();
     const isMigrateMode = pathname.startsWith('/migrate/source');

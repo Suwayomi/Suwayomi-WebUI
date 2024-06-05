@@ -12,7 +12,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
-import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
+import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
 import { MutableListSetting } from '@/components/settings/MutableListSetting.tsx';
@@ -38,8 +38,6 @@ const extractBrowseSettings = (settings: GqlServerSettings): ExtensionsSettings 
 export const BrowseSettings = () => {
     const { t } = useTranslation();
     const { setTitle, setAction } = useContext(NavBarContext);
-
-    useSetDefaultBackTo('settings');
 
     useEffect(() => {
         setTitle(t('settings.browse.title'));

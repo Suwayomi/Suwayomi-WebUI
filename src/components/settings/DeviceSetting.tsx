@@ -16,7 +16,7 @@ import { updateMetadataServerSettings, useMetadataServerSettings } from '@/lib/m
 import { MetadataServerSettingKeys, MetadataServerSettings } from '@/typings.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { MutableListSetting } from '@/components/settings/MutableListSetting.tsx';
-import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
+import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { ActiveDevice, DEFAULT_DEVICE } from '@/util/device.ts';
 import { Select } from '@/components/atoms/Select.tsx';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
@@ -26,8 +26,6 @@ import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts
 export const DeviceSetting = () => {
     const { t } = useTranslation();
     const { setTitle, setAction } = useContext(NavBarContext);
-
-    useSetDefaultBackTo('settings');
 
     useEffect(() => {
         setTitle(t('settings.device.title.settings'));

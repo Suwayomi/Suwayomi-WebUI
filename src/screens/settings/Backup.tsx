@@ -25,7 +25,7 @@ import { Link } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/components/util/Toast';
-import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext';
+import { NavBarContext } from '@/components/context/NavbarContext';
 import { BackupRestoreState, ValidateBackupQuery } from '@/lib/graphql/generated/graphql.ts';
 import { Progress } from '@/components/util/Progress.tsx';
 import { TextSetting } from '@/components/settings/text/TextSetting.tsx';
@@ -67,8 +67,6 @@ export function Backup() {
             setAction(null);
         };
     }, [t]);
-
-    useSetDefaultBackTo('settings');
 
     const {
         data: settingsData,

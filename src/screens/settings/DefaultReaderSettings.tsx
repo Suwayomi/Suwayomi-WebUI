@@ -17,7 +17,7 @@ import {
 } from '@/lib/metadata/readerSettings.ts';
 import { ReaderSettingsOptions } from '@/components/reader/ReaderSettingsOptions';
 import { makeToast } from '@/components/util/Toast';
-import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext';
+import { NavBarContext } from '@/components/context/NavbarContext';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
@@ -41,8 +41,6 @@ export function DefaultReaderSettings() {
         loading,
         request: { error, refetch },
     } = useDefaultReaderSettings();
-
-    useSetDefaultBackTo('settings');
 
     const setSettingValue = (key: keyof IReaderSettings, value: AllowedMetadataValueTypes, persist: boolean = true) => {
         if (persist) {

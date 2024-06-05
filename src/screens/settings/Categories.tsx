@@ -32,7 +32,7 @@ import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { StrictModeDroppable } from '@/lib/StrictModeDroppable';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/components/util/StyledFab';
-import { NavBarContext, useSetDefaultBackTo } from '@/components/context/NavbarContext';
+import { NavBarContext } from '@/components/context/NavbarContext';
 import { TCategory } from '@/typings.ts';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
@@ -80,8 +80,6 @@ export function Categories() {
     const [dialogDefault, setDialogDefault] = useState<boolean>(false);
     const [reorderCategory, { reset: revertReorder }] = requestManager.useReorderCategory();
     const theme = useTheme();
-
-    useSetDefaultBackTo('settings');
 
     const categoryReorder = (list: TCategory[], from: number, to: number) => {
         const reorderedCategory = list[from];
