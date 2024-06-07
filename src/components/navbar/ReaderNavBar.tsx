@@ -233,7 +233,6 @@ export function ReaderNavBar(props: IProps) {
                                     edge="start"
                                     color="inherit"
                                     aria-label="menu"
-                                    disableRipple
                                     onClick={() => updateDrawer(false)}
                                     size="large"
                                 >
@@ -249,7 +248,6 @@ export function ReaderNavBar(props: IProps) {
                                 edge="start"
                                 color="inherit"
                                 aria-label="menu"
-                                disableRipple
                                 onClick={handleBack}
                                 size="large"
                                 sx={{ mr: -1 }}

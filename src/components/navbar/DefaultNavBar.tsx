@@ -103,7 +103,6 @@ export function DefaultNavBar() {
                             sx={{ marginRight: 2 }}
                             color="inherit"
                             aria-label="menu"
-                            disableRipple
                             size="large"
                             onClick={handleBack}
                         >
