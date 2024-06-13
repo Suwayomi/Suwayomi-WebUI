@@ -48,7 +48,7 @@ jobs:
               },
               {
                 "type": "body",
-                "regex": "^(?!## (Meta|Device information|What feature should be added to Suwayomi\\?))",
+                "regex": "^(?![\\n\\r\\s]*## (Meta|Device information|What feature should be added to Suwayomi\\?))",
                 "message": "The acknowledgment section was not removed"
               },
               {
