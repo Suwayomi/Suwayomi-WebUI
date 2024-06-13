@@ -121,12 +121,10 @@ export function Library() {
                 {(handleClose, setHideMenu) => (
                     <MangaActionMenuItems
                         selectedMangas={selectedMangas}
-                        onClose={(selectionModeState) => {
+                        onClose={() => {
                             handleClose();
-                            setIsSelectModeActive(selectionModeState);
-                            if (!selectionModeState) {
-                                clearSelection();
-                            }
+                            setIsSelectModeActive(false);
+                            clearSelection();
                         }}
                         setHideMenu={setHideMenu}
                     />
