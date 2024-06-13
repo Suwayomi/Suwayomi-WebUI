@@ -94,7 +94,14 @@
                         "error_one": "Erro ao adicionar o download",
                         "error_many": "Erro ao adicionas os downloads",
                         "error_other": "Erro ao adicionas os downloads",
-                        "action": "Baixado"
+                        "action": "Baixado",
+                        "ahead": "$t(download.settings.download_ahead.title) ({{count}})",
+                        "all": "$t(extension.language.all)",
+                        "next": "$t(reader.button.next_chapter)",
+                        "next_five": "Próximos 5 capítulos",
+                        "unread": "$t(global.filter.label.unread)",
+                        "next_ten": "Próximos 10 capítulos",
+                        "next_twentyfive": "Próximos 25 capítulos"
                     }
                 }
             }
@@ -135,19 +142,45 @@
             "label": {
                 "install": "Instalar",
                 "uninstall": "desinstalar",
-                "update": "atualizar"
+                "update": "atualizar",
+                "install_external": "Instalar extensão externa"
             }
         },
         "label": {
-            "installed_successfully": "Extensão instalada com sucesso!",
-            "installing_file": "Instalando arquivo da extensão...",
-            "installation_failed": "Falha na instalação da extensão!"
+            "installed_successfully": "Extensão instalada com sucesso",
+            "installing_file": "Instalando arquivo da extensão…",
+            "installation_failed": "Falha na instalação da extensão",
+            "add_repository_info": "Você precisa adicionar um repositório de extensões para instalar extensões",
+            "uninstallation_failed": "Falha ao desinstalar a extensão",
+            "update_failed": "Falha ao atualizar a extensão"
         },
         "language": {
             "all": "Todos",
             "other": "Outros"
         },
-        "title": "Extensões"
+        "title": "Extensões",
+        "settings": {
+            "repositories": {
+                "custom": {
+                    "dialog": {
+                        "action": {
+                            "button": {
+                                "add": "Adicionar repositório"
+                            }
+                        }
+                    },
+                    "error": {
+                        "label": {
+                            "invalid_url": "URL do repositório invalida"
+                        }
+                    },
+                    "label": {
+                        "title": "Repositórios de extensões",
+                        "description": "Adicionar um repositório de onde as extensões podem ser instaladas"
+                    }
+                }
+            }
+        }
     },
     "category": {
         "dialog": {
@@ -202,25 +235,87 @@
             "ok": "Ok",
             "filter": "Filtro",
             "start": "Iniciar",
-            "cancel": "Cancelar"
+            "cancel": "Cancelar",
+            "dont_show_dialog_again": "Não mostre esse aviso novamente",
+            "edit": "Editar",
+            "restore": "Restaurar",
+            "stop": "Parar",
+            "create": "Criar",
+            "deselect": "Desselecionar",
+            "options": "Opções",
+            "popular": "Popular",
+            "add": "Adicionar",
+            "copy": "Copiar",
+            "migrate": "Migrar",
+            "delete": "Deletar",
+            "log_in": "Entrar",
+            "log_out": "Sair",
+            "show_less": "Mostrar menos",
+            "show_more": "Mostrar mais",
+            "remove": "Remover",
+            "ignore": "Ignorar",
+            "refresh": "Atualizar",
+            "changelog": "Registro de alterações",
+            "remind_later": "Lembrar depois",
+            "retry": "Tentar novamente",
+            "select": "Selecionar",
+            "set": "Definir"
         },
         "date": {
             "label": {
                 "today_at": "Hoje {{timeString}}",
                 "yesterday": "Ontem",
                 "yesterday_at": "Ontem {{timeString}}",
-                "today": "Hoje"
+                "today": "Hoje",
+                "day": "Dia"
+            },
+            "value": {
+                "label": {
+                    "day": "{{days}} $t(global.date.label.day, lowercase)"
+                }
             }
         },
         "label": {
-            "display": "Tela"
+            "display": "Tela",
+            "github": "GitHub",
+            "links": "Links",
+            "advanced": "Avançado",
+            "client": "Cliente",
+            "loading": "Carregando…",
+            "browse": "Procurar",
+            "close": "Fechar",
+            "disabled": "Desativado",
+            "general": "Geral",
+            "copied": "Copiado",
+            "load_in_progress": "Ainda carregando dados necessários…",
+            "discord": "Discord",
+            "are_you_sure": "Tem a certeza?",
+            "filter": "Filtro"
         },
         "error": {
             "label": {
-                "invalid_file_type": "Tipo de arquivo inválido!",
+                "invalid_file_type": "Tipo de arquivo inválido",
                 "invalid_action": "Essa não é uma ação válida",
                 "failed_to_load_data": "Não foi possível carregar os dados",
-                "failed_to_save_changes": "Falha ao salvar as alterações"
+                "failed_to_save_changes": "Falha ao salvar as alterações",
+                "update_failed": "Não foi possível verificar as atualizações",
+                "invalid_input": "Entrada inválida"
+            }
+        },
+        "grid_layout": {
+            "title": "Modo de exibição",
+            "label": {
+                "compact_grid": "Grade compacta",
+                "comfortable_grid": "Grade confortável",
+                "list": "Lista"
+            }
+        },
+        "filter": {
+            "label": {
+                "bookmarked": "Marcado",
+                "unread": "Não lido",
+                "tracked": "Acompanhado",
+                "downloaded": "Baixado"
             }
         }
     },
@@ -258,7 +353,8 @@
                 "title": "Download automático",
                 "label": {
                     "new_chapters": "Baixar novos capítulos",
-                    "ignore_with_unread_chapters": "Ignorar downloads automáticos de capítulos para entradas com capítulos não lidos"
+                    "ignore_with_unread_chapters": "Ignorar downloads automáticos de capítulos para entradas com capítulos não lidos",
+                    "ignore_re_uploads": "Ignorar uploads repetidos de capítulos"
                 },
                 "categories": {
                     "label": {
@@ -307,6 +403,54 @@
             "file_type": {
                 "label": {
                     "cbz": "Salvar como arquivo CDZ"
+                }
+            }
+        }
+    },
+    "updates": {
+        "title": "Atualizações"
+    },
+    "migrate": {
+        "dialog": {
+            "label": {
+                "delete_downloaded": "Excluir baixado"
+            }
+        }
+    },
+    "source": {
+        "filter": {
+            "save_search": {
+                "label": {
+                    "delete": "Excluir pesquisa"
+                },
+                "dialog": {
+                    "label": {
+                        "delete": "Isso excluirá a pesquisa salva \"{{name}}\""
+                    }
+                }
+            }
+        }
+    },
+    "manga": {
+        "action": {
+            "track": {
+                "remove": {
+                    "dialog": {
+                        "label": {
+                            "delete_remote_track": "Também remover de {{tracker}}"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "settings": {
+        "backup": {
+            "automated": {
+                "cleanup": {
+                    "label": {
+                        "value": "Excluir backups que são mais antigos do que $t(global.date.value.label.day)"
+                    }
                 }
             }
         }

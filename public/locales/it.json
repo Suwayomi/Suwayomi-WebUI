@@ -82,7 +82,10 @@
                         "error_other": "Impossibile aggiungerli ai download",
                         "success_one": "Download aggiunto",
                         "success_many": "{{count}} download aggiunti",
-                        "success_other": "{{count}} download aggiunti"
+                        "success_other": "{{count}} download aggiunti",
+                        "next_five": "Prossimi 5 capitoli",
+                        "next_ten": "Prossimi 10 capitoli",
+                        "next_twentyfive": "Prossimi 25 capitoli"
                     }
                 },
                 "delete": {
@@ -171,6 +174,42 @@
                     "label": {
                         "include_in_download": "Le voci appartenenti a categorie escluse non verranno scaricate anche se presenti in categorie incluse"
                     }
+                },
+                "title": "Download automatico",
+                "label": {
+                    "ignore_re_uploads": "Ignora i capitoli ricaricati",
+                    "ignore_with_unread_chapters": "Ignora il download automatico dei capitoli per le voci con capitoli non letti",
+                    "new_chapters": "Scarica nuovi capitoli"
+                }
+            },
+            "delete_chapters": {
+                "label": {
+                    "manually_marked_as_read": "Cancella un capitolo dopo averlo manualmente segnato come letto",
+                    "allow_deletion_of_bookmarked": "Permetti la cancellazione di capitoli con segnalibro"
+                },
+                "while_reading": {
+                    "option": {
+                        "label": {
+                            "fourth": "Quartultimo capitolo letto",
+                            "first": "Ultimo capitolo letto",
+                            "fifth": "Quintultimo capitolo letto"
+                        }
+                    },
+                    "label": {
+                        "title": "Cancella i capitoli terminati durante la lettura"
+                    }
+                },
+                "title": "Cancella capitoli"
+            },
+            "download_ahead": {
+                "label": {
+                    "unread_chapters_to_download": "Numero di capitoli non letti da scaricare"
+                }
+            },
+            "title": "Impostazioni di download",
+            "file_type": {
+                "label": {
+                    "cbz": "Salva come archivio CBZ"
                 }
             }
         },
@@ -183,9 +222,58 @@
             },
             "label": {
                 "delete_all": "Elimina tutti",
-                "no_downloads": "No downloads"
+                "no_downloads": "Nessun download"
             },
-            "title": "Coda Download"
+            "title": "Coda di download"
+        },
+        "state": {
+            "label": {
+                "error": "Errore",
+                "finished": "Completato",
+                "queued": "In coda"
+            }
+        }
+    },
+    "extension": {
+        "action": {
+            "label": {
+                "install": "Installa",
+                "uninstall": "Disinstalla",
+                "install_external": "Installa estensione esterna",
+                "update": "Aggiorna"
+            }
+        },
+        "label": {
+            "update_failed": "Impossibile aggiornare l'estensione",
+            "installing_file": "Installando il file dell'estensione…",
+            "installation_failed": "Impossibile installare l'estensione",
+            "uninstallation_failed": "Impossibile disinstallare l'estensione",
+            "installed_successfully": "Estensione installata"
+        }
+    },
+    "global": {
+        "button": {
+            "create": "Crea",
+            "cancel": "Annulla",
+            "edit": "Modifica",
+            "browse": "Esplora",
+            "copy": "Copia",
+            "delete": "Cancella",
+            "ignore": "Ignora"
+        }
+    },
+    "tracking": {
+        "settings": {
+            "label": {
+                "update_progress_reading": "Aggiorna progresso dopo la lettura"
+            }
+        },
+        "track_record": {
+            "label": {
+                "start_date": "Data di inizio",
+                "score": "Punteggio",
+                "finish_date": "Data di conclusione"
+            }
         }
     }
 }

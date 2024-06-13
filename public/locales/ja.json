@@ -41,7 +41,8 @@
                 "add": {
                     "label": {
                         "error_other": "章をブックマークできませんでした",
-                        "action": "ブックマークを追加"
+                        "action": "ブックマークを追加",
+                        "success_other": "{{count}} ブックマークした章"
                     },
                     "button": {
                         "selected": "選択したものをブックマーク"
@@ -52,14 +53,18 @@
                         "selected": "選択したものをブックマークから削除"
                     },
                     "label": {
-                        "action": "ブックマークを削除"
+                        "action": "ブックマークを削除",
+                        "error_other": "ブックマークを削除できません",
+                        "success_other": "{{count}} 章のブックマークが削除されました"
                     }
                 }
             },
             "download": {
                 "delete": {
                     "label": {
-                        "action": "削除"
+                        "action": "削除",
+                        "error_other": "章を削除できません",
+                        "success_other": "{{count}} 削除された章"
                     },
                     "button": {
                         "selected": "選択したものを削除"
@@ -70,10 +75,566 @@
                         "selected": "選択したものをダウンロード"
                     },
                     "label": {
-                        "action": "ダウンロード"
+                        "action": "ダウンロード",
+                        "error_other": "ダウンロードを追加することができません",
+                        "success_other": "{{count}} 追加されたダウンロード",
+                        "next_five": "次の5章",
+                        "next_ten": "次の10章",
+                        "next_twentyfive": "次の25章"
+                    }
+                }
+            },
+            "mark_as_read": {
+                "add": {
+                    "label": {
+                        "action": {
+                            "previous": "前を既読にする",
+                            "current": "既読にする"
+                        },
+                        "error_other": "章を既読にできませんでした",
+                        "success_other": "{{count}} 章を既読にする"
+                    },
+                    "button": {
+                        "selected": "選択したものを既読にする"
+                    }
+                },
+                "remove": {
+                    "button": {
+                        "selected": "選択したものを未読にする"
+                    },
+                    "label": {
+                        "error_other": "章を未読にできません",
+                        "action": "未読にする",
+                        "success_other": "{{count}} 章を未読にする"
+                    }
+                }
+            },
+            "label": {
+                "open_on_source": "ソースで開く",
+                "select": "選択"
+            }
+        },
+        "error": {
+            "label": {
+                "no_chapter_found": "章が見つかりません",
+                "no_matches": "フィルターに合う章がありません"
+            }
+        },
+        "option": {
+            "display": {
+                "label": {
+                    "chapter_number": "章番号",
+                    "source_title": "ソースタイトル"
+                }
+            }
+        },
+        "title": "章",
+        "status": {
+            "label": {
+                "downloaded": "ダウンロード済"
+            }
+        }
+    },
+    "download": {
+        "settings": {
+            "delete_chapters": {
+                "while_reading": {
+                    "label": {
+                        "title": "読書中に読み終えた章を削除"
+                    },
+                    "option": {
+                        "label": {
+                            "first": "最後に読んだ章"
+                        }
+                    }
+                },
+                "label": {
+                    "manually_marked_as_read": "手動で既読にした後に章を削除",
+                    "allow_deletion_of_bookmarked": "ブックマークされた章を削除できるようにする"
+                },
+                "title": "章を削除"
+            },
+            "auto_download": {
+                "title": "自動ダウンロード",
+                "download_limit": {
+                    "label": {
+                        "description": "ダウンロードする新しい章の量を制限します.",
+                        "title": "章ダウンロード制限"
+                    }
+                },
+                "label": {
+                    "ignore_re_uploads": "再アップロードされた章を無視する",
+                    "new_chapters": "新しい章をダウンロード"
+                }
+            },
+            "download_ahead": {
+                "label": {
+                    "disclaimer": "現在の章と次の章が既にダウンロードされていない場合にのみ動作します。",
+                    "unread_chapters_to_download": "ダウンロードする未読の章の数",
+                    "while_reading": "読書中の自動ダウンロード"
+                }
+            },
+            "title": "ダウンロード設定",
+            "download_path": {
+                "label": {
+                    "description": "ダウンロードしたファイルが保存されるサーバーのディレクトリへのパス",
+                    "title": "ダウンロード場所"
+                }
+            },
+            "file_type": {
+                "label": {
+                    "cbz": "CBZアーカイブとして保存"
+                }
+            }
+        },
+        "state": {
+            "label": {
+                "error": "エラー",
+                "downloading": "ダウンロード中",
+                "finished": "完了"
+            }
+        },
+        "queue": {
+            "title": "ダウンロードキュー",
+            "error": {
+                "label": {
+                    "failed_to_remove": "キューからダウンロードを削除できませんでした。",
+                    "failed_delete_all": "全てのダウンロードをキューから削除できませんでした"
+                }
+            },
+            "label": {
+                "delete_all": "全てを削除"
+            }
+        },
+        "title": "ダウンロード"
+    },
+    "global": {
+        "error": {
+            "label": {
+                "failed_to_save_changes": "変更を保存できませんでした",
+                "update_failed": "更新が確認できません",
+                "invalid_file_type": "無効なファイルタイプ",
+                "failed_to_load_data": "データをロードできません",
+                "invalid_action": "これは有効なアクションではありません",
+                "invalid_input": "無効な入力"
+            }
+        },
+        "button": {
+            "stop": "ストップ",
+            "retry": "再試行",
+            "add": "追加",
+            "cancel": "キャンセル",
+            "popular": "人気",
+            "start": "スタート",
+            "submit": "送信",
+            "deselect": "選択解除",
+            "latest": "最新",
+            "open_site": "サイトを開く",
+            "refresh": "更新",
+            "show_less": "表示を減らす",
+            "show_more": "もっと表示",
+            "log_in": "ログイン",
+            "ignore": "無視",
+            "dont_show_dialog_again": "このダイアログをもう一度表示しない",
+            "copy": "コピー",
+            "create": "作成",
+            "delete": "削除",
+            "edit": "編集",
+            "options": "オプション",
+            "select": "選択",
+            "filter": "フィルター",
+            "log_out": "ログアウト",
+            "migrate": "移行",
+            "ok": "OK",
+            "remove": "削除",
+            "reset_to_default": "デフォルトにリセット",
+            "remind_later": "後でリマインド",
+            "restore": "復元",
+            "reset": "リセット",
+            "resume": "再開",
+            "select_all": "すべて選択"
+        },
+        "label": {
+            "display": "表示",
+            "disabled": "無効",
+            "links": "リンク",
+            "advanced": "高度",
+            "general": "一般",
+            "filter": "フィルター",
+            "username": "ユーザー名",
+            "loading": "読み込み中…",
+            "copied": "コピー済",
+            "close": "閉じる",
+            "logged_in": "ログイン済",
+            "none": "なし",
+            "open_in_browser": "ブラウザで開く",
+            "other": "その他",
+            "password": "パスワード",
+            "sort": "並び替え",
+            "started": "開始済",
+            "unknown": "不明",
+            "type": "タイプ",
+            "are_you_sure": "よろしいですか？",
+            "load_in_progress": "必要なデータを読み込み中…"
+        },
+        "language": {
+            "label": {
+                "language_with_code": "言語とコード: {{code}}",
+                "language": "言語"
+            },
+            "title": {
+                "enabled_languages": "許可された言語"
+            }
+        },
+        "update": {
+            "label": {
+                "updating": "{{progress}}% | アップデート中…",
+                "available": "アップデートが利用可能",
+                "check_failure": "アップデートを確認できませんでした",
+                "update_success": "{{name}} はバージョン {{version}} ({{channel}}) にアップデートされました",
+                "up_to_date": "最新版です",
+                "checking": "アップデートを確認中",
+                "update_failure": "アップデート失敗",
+                "info": "サーバーバージョン {{version}} ({{channel}}) が利用可能"
+            },
+            "settings": {
+                "inform": {
+                    "label": {
+                        "description": "新しいバージョンが利用可能な時ダイアログが表示されます",
+                        "title": "利用可能な更新情報"
                     }
                 }
             }
+        },
+        "date": {
+            "label": {
+                "day": "日",
+                "yesterday": "昨日",
+                "today": "今日",
+                "today_at": "今日の {{timeString}}",
+                "yesterday_at": "昨日の {{timeString}}"
+            }
+        },
+        "filter": {
+            "label": {
+                "bookmarked": "ブックマーク済",
+                "downloaded": "ダウンロード済",
+                "unread": "未読",
+                "tracked": "追跡済"
+            }
+        },
+        "sort": {
+            "label": {
+                "by_fetch_date": "取得した日付",
+                "by_source": "ソース"
+            }
+        },
+        "time": {
+            "seconds": {
+                "second_other": "秒"
+            },
+            "minutes": {
+                "minute_other": "分"
+            }
+        },
+        "grid_layout": {
+            "label": {
+                "list": "リスト"
+            },
+            "title": "表示モード"
+        }
+    },
+    "migrate": {
+        "dialog": {
+            "action": {
+                "button": {
+                    "show_entry": "エントリーを表示"
+                }
+            },
+            "label": {
+                "delete_downloaded": "ダウンロード済を削除"
+            }
+        }
+    },
+    "library": {
+        "settings": {
+            "global_update": {
+                "entries": {
+                    "title": "アップデートをスキップするエントリ",
+                    "label": {
+                        "not_started": "まだ始まっていない",
+                        "completed": "「完了」ステータス",
+                        "unread_chapters": "未読の章"
+                    }
+                },
+                "auto_update": {
+                    "interval": {
+                        "label": {
+                            "title": "自動更新間隔"
+                        }
+                    },
+                    "label": {
+                        "title": "自動更新"
+                    }
+                },
+                "metadata": {
+                    "label": {
+                        "title": "メタデータを自動更新",
+                        "description": "ライブラリの更新時に新しいカバーと詳細をチェック"
+                    }
+                },
+                "title": "グローバルアップデート",
+                "categories": {
+                    "label": {
+                        "info": "除外されたカテゴリ内のエントリは、それらが除外されていないカテゴリにあっても更新されません"
+                    }
+                },
+                "label": {
+                    "last_update": "最終更新: {{date}}"
+                }
+            },
+            "advanced": {
+                "database": {
+                    "cleanup": {
+                        "label": {
+                            "title": "データベースのクリーンアップ",
+                            "error": "カテゴリから非ライブラリのマンガを削除できません",
+                            "description": "カテゴリから非ライブラリのマンガを削除",
+                            "success": "カテゴリから非ライブラリのマンガを削除しました"
+                        }
+                    }
+                },
+                "duplicates": {
+                    "label": {
+                        "title": "重複したエントリ",
+                        "description": "ライブラリ内の重複したエントリをすべて表示する"
+                    },
+                    "settings": {
+                        "label": {
+                            "check_description": "説明を確認"
+                        }
+                    }
+                }
+            },
+            "general": {
+                "remove_from_library": {
+                    "remove_from_categories": {
+                        "label": {
+                            "description": "ライブラリから削除するときにカテゴリからマンガを削除します"
+                        }
+                    }
+                },
+                "search": {
+                    "ignore_filters": {
+                        "label": {
+                            "title": "検索時にフィルタを無視する",
+                            "description": "検索結果には、現在のフィルタに一致しないマンガが含まれます"
+                        }
+                    }
+                },
+                "add_to_library": {
+                    "category_selection": {
+                        "label": {
+                            "description": "ライブラリにマンガを追加するときにカテゴリ選択が表示されます",
+                            "title": "カテゴリー選択ダイアログ"
+                        }
+                    }
+                }
+            },
+            "title": "ライブラリ設定"
+        },
+        "option": {
+            "sort": {
+                "label": {
+                    "by_date_added": "最近追加された",
+                    "by_latest_uploaded_chapter": "最近アップロードされた章",
+                    "alphabetically": "A-Z",
+                    "by_latest_fetched_chapter": "最近追加された章",
+                    "by_last_read": "最近読んだ",
+                    "by_unread_chapters": "未読の章"
+                }
+            },
+            "display": {
+                "badge": {
+                    "title": "バッジ",
+                    "label": {
+                        "unread_badges": "未読バッジ"
+                    }
+                },
+                "other": {
+                    "label": {
+                        "show_continue_reading_button": "続きを読むボタンを表示"
+                    }
+                },
+                "tab": {
+                    "label": {
+                        "show_number_of_items": "アイテム数を表示"
+                    },
+                    "title": "タブ"
+                }
+            }
+        },
+        "error": {
+            "label": {
+                "remove_from_library": "ライブラリからマンガを削除できません!",
+                "no_matches": "このフィルターにマッチするマンガがありません",
+                "add_to_library": "ライブラリにマンガを追加できません!",
+                "empty": "あなたのライブラリは空です"
+            }
+        },
+        "title": "ライブラリ",
+        "info": {
+            "label": {
+                "added_to_library": "ライブラリにマンガが追加されました!",
+                "removed_from_library": "ライブラリからマンガが削除されました!"
+            }
+        }
+    },
+    "manga": {
+        "label": {
+            "artist": "作者",
+            "author": "著者",
+            "reload_from_source": "ソースからデータを再読み込みする",
+            "edit_categories": "マンガのカテゴリーの編集"
+        },
+        "action": {
+            "library": {
+                "remove": {
+                    "dialog": {
+                        "label": {
+                            "message": "ライブラリから \"{{title}}\" を削除しようとしています"
+                        }
+                    },
+                    "label": {
+                        "action": "ライブラリから削除する",
+                        "error_other": "ライブラリからマンガを削除できません",
+                        "success_other": "ライブラリから{{count}}マンガを削除しました"
+                    },
+                    "button": {
+                        "selected": "ライブラリから選択したものを削除"
+                    }
+                },
+                "add": {
+                    "dialog": {
+                        "duplicate": {
+                            "label": {
+                                "info": "同じ名前のエントリーがあなたのライブラリにあります。",
+                                "failure": "ライブラリで重複したマンガをチェックすることができません。\n\nエラー: {{error}}"
+                            }
+                        }
+                    }
+                }
+            },
+            "track": {
+                "remove": {
+                    "label": {
+                        "success": "未追跡のマンガ",
+                        "error": "マンガを追跡解除できません"
+                    },
+                    "dialog": {
+                        "label": {
+                            "title": "{{tracker}}のトラッキングを削除しますか?",
+                            "description": "ローカルで追跡を解除します。",
+                            "delete_remote_track": "{{tracker}} からも削除する"
+                        }
+                    }
+                },
+                "add": {
+                    "label": {
+                        "action": "追跡",
+                        "error": "マンガを追跡できません",
+                        "success": "追跡したマンガ"
+                    }
+                }
+            },
+            "migrate": {
+                "label": {
+                    "error": "マンガを移行できません",
+                    "success": "マンガの移行に成功しました"
+                }
+            },
+            "category": {
+                "label": {
+                    "success_other": "{{count}}マンガのカテゴリーを変更しました",
+                    "action": "カテゴリーを変更",
+                    "error_other": "マンガのカテゴリを変更できませんでした"
+                },
+                "button": {
+                    "selected": "選択したもののカテゴリを変更"
+                }
+            }
+        },
+        "button": {
+            "add_to_library": "ライブラリに追加",
+            "in_library": "ライブラリ内",
+            "track": {
+                "active_other": "{{count}} トラッカー",
+                "start": "追跡中"
+            }
+        },
+        "title": "マンガ",
+        "error": {
+            "label": {
+                "request_failure": "マンガを読み込めません",
+                "no_matches": "このフィルターにマッチするマンガがありません",
+                "no_mangas_found": "マンガが見つかりません"
+            }
+        }
+    },
+    "extension": {
+        "state": {
+            "label": {
+                "updating": "アップデート中",
+                "installed": "インストール済",
+                "obsolete": "廃止済",
+                "uninstalling": "アンインストール中",
+                "update_pending": "アップデート保留中",
+                "installing": "インストール中"
+            }
+        },
+        "title": "拡張機能",
+        "label": {
+            "installed_successfully": "拡張機能インストール完了",
+            "add_repository_info": "拡張機能をインストールできるように、拡張機能リポジトリを追加する必要があります",
+            "installation_failed": "拡張機能をインストールできません",
+            "installing_file": "拡張機能ファイルをインストール中…",
+            "uninstallation_failed": "拡張機能をアンインストールできませんでした",
+            "update_failed": "拡張機能を更新できませんでした"
+        },
+        "action": {
+            "label": {
+                "install": "インストール",
+                "install_external": "外部の拡張機能をインストールする",
+                "uninstall": "アンインストール",
+                "update": "更新"
+            }
+        },
+        "settings": {
+            "repositories": {
+                "custom": {
+                    "dialog": {
+                        "action": {
+                            "button": {
+                                "add": "リポジトリの追加"
+                            }
+                        }
+                    },
+                    "error": {
+                        "label": {
+                            "invalid_url": "無効なリポジトリURL"
+                        }
+                    },
+                    "label": {
+                        "description": "拡張機能をインストールできるリポジトリを追加する",
+                        "title": "拡張機能リポジトリ",
+                        "disclaimer": "<strong>Suwayomi はサードパーティのリポジトリや拡張機能のサポートを提供しません!</strong><br/>悪意のある攻撃者がこれらのリポジトリを作成している可能性があるため、使用には注意してください。<br/>ユーザーは、セキュリティを確認し、リポジトリまたは拡張機能を信頼していることを確認する必要があります。"
+                    }
+                }
+            }
+        },
+        "language": {
+            "all": "全て",
+            "other": "その他"
         }
     }
 }

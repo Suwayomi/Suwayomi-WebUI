@@ -391,7 +391,8 @@
             "started": "已开始",
             "logged_in": "已登录",
             "open_in_browser": "在浏览器中打开",
-            "are_you_sure": "你确定吗？"
+            "are_you_sure": "你确定吗？",
+            "copied": "已复制"
         },
         "language": {
             "label": {
