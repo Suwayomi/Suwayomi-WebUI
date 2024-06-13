@@ -623,7 +623,8 @@
             "open_in_browser": "Abrir en el navegador",
             "started": "Iniciado",
             "type": "Tipo",
-            "are_you_sure": "¿Estás seguro?"
+            "are_you_sure": "¿Estás seguro?",
+            "copied": "Copiado"
         },
         "error": {
             "label": {

@@ -215,7 +215,7 @@
                         }
                     },
                     "label": {
-                        "title": "Удаляйте прочитанные главы во время чтения"
+                        "title": "Удаление законченных глав во время чтения"
                     }
                 }
             },
@@ -258,7 +258,7 @@
             "global_update": {
                 "label": {
                     "last_update": "Последнее обновление: {{date}}",
-                    "last_update_tooltip": "$t(library.settings.global_update.title) ($t(library.settings.global_update.label.last_update, lowercase))"
+                    "last_update_tooltip": "$t(library.settings.global_update.title) ($t(library.settings.global_update.label.last_update, lowercase)"
                 },
                 "categories": {
                     "label": {
@@ -328,6 +328,16 @@
                             "title": "Очистить базу данных"
                         }
                     }
+                },
+                "duplicates": {
+                    "settings": {
+                        "label": {
+                            "check_description": "Описание"
+                        }
+                    },
+                    "label": {
+                        "description": "Показать все дублирующиеся записи в вашей библиотеке"
+                    }
                 }
             }
         },
@@ -360,7 +370,7 @@
                 "badge": {
                     "title": "Значки",
                     "label": {
-                        "download_badges": "Скачать значки",
+                        "download_badges": "Скачать обложки",
                         "unread_badges": "Непрочитанные значки"
                     }
                 },
@@ -416,7 +426,8 @@
             "set": "Установить",
             "show_less": "Показывать меньше",
             "stop": "Остановить",
-            "submit": "Подтвердить"
+            "submit": "Подтвердить",
+            "delete": "Удалить"
         },
         "label": {
             "browse": "Поисковик",
@@ -444,7 +455,8 @@
             "password": "Пароль",
             "started": "Начато",
             "type": "Тип",
-            "unknown": "Неизвестно"
+            "unknown": "Неизвестно",
+            "copied": "Скопировано"
         },
         "time": {
             "hour_short": "ч",
@@ -469,7 +481,8 @@
                 "checking": "Проверка обновлений",
                 "info": "Версия сервера {{version}} ({{channel}}) доступна для обновления",
                 "up_to_date": "Это самая последняя версия",
-                "update_failure": "Обновление не удалось"
+                "update_failure": "Обновление не удалось",
+                "update_success": "{{name}} был обновлен до версии {{version}} ({{channel}})"
             }
         },
         "date": {
@@ -811,7 +824,7 @@
                     "custom": {
                         "label": {
                             "description": "Используйте кастомную $t(settings.webui.title.webui).\nДля использования кастомной $t(settings.webui.title.webui) замените содержимое каталога «webUI» в корневом каталоге на сервере на файлы пользовательского каталога $t(settings.webui.title.webui)",
-                            "title": "Кастомая"
+                            "title": "Собственный"
                         }
                     },
                     "vui": {
@@ -957,6 +970,15 @@
                     "button": {
                         "selected": "Убрать выделенное из библиотеки"
                     }
+                },
+                "add": {
+                    "dialog": {
+                        "duplicate": {
+                            "label": {
+                                "info": "В вашей библиотеке есть одноименная запись."
+                            }
+                        }
+                    }
                 }
             },
             "migrate": {
@@ -1098,6 +1120,52 @@
     "source": {
         "configuration": {
             "title": "Настройки источника"
+        },
+        "title": "Источник",
+        "filter": {
+            "save_search": {
+                "dialog": {
+                    "label": {
+                        "title": "Сохранить текущий поиск"
+                    }
+                },
+                "label": {
+                    "delete": "Удалить поиск",
+                    "save": "Сохранить поиск"
+                }
+            }
+        },
+        "local_source": {
+            "label": {
+                "checkout": "Проверить"
+            }
+        },
+        "error": {
+            "label": {
+                "no_sources_found": "Источники не найдены. Сначала установите расширения.",
+                "source_not_found": "Не удалось найти источник. Проверьте установленные расширения."
+            }
+        }
+    },
+    "tracking": {
+        "title": "Отслеживание",
+        "track_record": {
+            "label": {
+                "start_date": "Дата начала"
+            }
+        },
+        "settings": {
+            "label": {
+                "update_progress_reading": "Обновить прогресс после чтения"
+            }
+        }
+    },
+    "updates": {
+        "title": "Обновления",
+        "error": {
+            "label": {
+                "no_updates_available": "У вас пока нет никаких обновлений."
+            }
         }
     }
 }
