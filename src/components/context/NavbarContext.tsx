@@ -10,6 +10,8 @@ import React, { useContext, useEffect } from 'react';
 import { INavbarOverride } from '@/typings';
 
 type ContextType = {
+    history: string[];
+
     // Default back button url
     defaultBackTo: string | undefined;
     setDefaultBackTo: React.Dispatch<React.SetStateAction<string | undefined>>;
@@ -28,6 +30,7 @@ type ContextType = {
 };
 
 export const NavBarContext = React.createContext<ContextType>({
+    history: [],
     defaultBackTo: undefined,
     setDefaultBackTo: (): void => {},
     title: 'Suwayomi',

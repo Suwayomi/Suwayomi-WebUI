@@ -9,6 +9,7 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { INavbarOverride } from '@/typings';
 import { NavBarContext } from '@/components/context/NavbarContext';
+import { useHistory } from '@/util/useHistory.ts';
 
 interface IProps {
     children: React.ReactNode;
@@ -23,6 +24,8 @@ export function NavBarContextProvider({ children }: IProps) {
         value: <div />,
     });
 
+    const history = useHistory();
+
     const updateTitle = useCallback(
         (newTitle: string | React.ReactNode, browserTitle: string = typeof newTitle === 'string' ? newTitle : '') => {
             document.title = `${browserTitle} - Suwayomi`;
@@ -33,6 +36,7 @@ export function NavBarContextProvider({ children }: IProps) {
 
     const value = useMemo(
         () => ({
+            history,
             defaultBackTo,
             setDefaultBackTo,
             title,
@@ -42,7 +46,7 @@ export function NavBarContextProvider({ children }: IProps) {
             override,
             setOverride,
         }),
-        [defaultBackTo, setDefaultBackTo, title, updateTitle, action, setAction, override, setOverride],
+        [history, defaultBackTo, setDefaultBackTo, title, updateTitle, action, setAction, override, setOverride],
     );
     return <NavBarContext.Provider value={value}>{children}</NavBarContext.Provider>;
 }
