@@ -4,6 +4,11 @@
     "serverVersion": "r1527"
   },
   {
+    "tag": "v1.1.0",
+    "uiVersion": "r1689",
+    "serverVersion": "r1527"
+  },
+  {
     "tag": "v1.0.0",
     "uiVersion": "r1411",
     "serverVersion": "r1498"
