@@ -30,7 +30,6 @@ import { useTranslation } from 'react-i18next';
 import { AllowedMetadataValueTypes, ChapterOffset, IReaderSettings, TChapter, TManga } from '@/typings';
 import { ReaderSettingsOptions } from '@/components/reader/ReaderSettingsOptions';
 import { useBackButton } from '@/util/useBackButton.ts';
-import { useSetDefaultBackTo } from '@/components/context/NavbarContext.tsx';
 import { Select } from '@/components/atoms/Select.tsx';
 import { getOptionForDirection } from '@/theme.ts';
 
@@ -155,7 +154,6 @@ export function ReaderNavBar(props: IProps) {
     } = props;
 
     const handleBack = useBackButton();
-    useSetDefaultBackTo(`/manga/${manga.id}`);
 
     const hasMultipleScanlators = useMemo(() => !!new Set(chapters.map(({ scanlator }) => scanlator)).size, [chapters]);
 

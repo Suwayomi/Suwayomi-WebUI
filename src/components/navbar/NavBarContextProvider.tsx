@@ -16,7 +16,6 @@ interface IProps {
 }
 
 export function NavBarContextProvider({ children }: IProps) {
-    const [defaultBackTo, setDefaultBackTo] = useState<string | undefined>();
     const [title, setTitle] = useState<string | React.ReactNode>('Suwayomi');
     const [action, setAction] = useState<any>(<div />);
     const [override, setOverride] = useState<INavbarOverride>({
@@ -37,8 +36,6 @@ export function NavBarContextProvider({ children }: IProps) {
     const value = useMemo(
         () => ({
             history,
-            defaultBackTo,
-            setDefaultBackTo,
             title,
             setTitle: updateTitle,
             action,
@@ -46,7 +43,7 @@ export function NavBarContextProvider({ children }: IProps) {
             override,
             setOverride,
         }),
-        [history, defaultBackTo, setDefaultBackTo, title, updateTitle, action, setAction, override, setOverride],
+        [history, title, updateTitle, action, setAction, override, setOverride],
     );
     return <NavBarContext.Provider value={value}>{children}</NavBarContext.Provider>;
 }

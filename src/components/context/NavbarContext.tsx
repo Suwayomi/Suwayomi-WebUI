@@ -6,15 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { INavbarOverride } from '@/typings';
 
 type ContextType = {
     history: string[];
-
-    // Default back button url
-    defaultBackTo: string | undefined;
-    setDefaultBackTo: React.Dispatch<React.SetStateAction<string | undefined>>;
 
     // AppBar title
     title: string | React.ReactNode;
@@ -31,8 +27,6 @@ type ContextType = {
 
 export const NavBarContext = React.createContext<ContextType>({
     history: [],
-    defaultBackTo: undefined,
-    setDefaultBackTo: (): void => {},
     title: 'Suwayomi',
     setTitle: (): void => {},
     action: <div />,
@@ -42,12 +36,3 @@ export const NavBarContext = React.createContext<ContextType>({
 });
 
 export const useNavBarContext = () => useContext(NavBarContext);
-
-export const useSetDefaultBackTo = (value: string) => {
-    const { setDefaultBackTo } = useNavBarContext();
-
-    useEffect(() => {
-        setDefaultBackTo(value);
-        return () => setDefaultBackTo(undefined);
-    }, [value]);
-};

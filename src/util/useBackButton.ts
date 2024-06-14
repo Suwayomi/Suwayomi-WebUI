@@ -13,7 +13,7 @@ import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 export const useBackButton = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const { history, defaultBackTo: backToUrl } = useContext(NavBarContext);
+    const { history } = useContext(NavBarContext);
 
     return () => {
         const isHistoryEmpty = !history.length;
@@ -22,11 +22,6 @@ export const useBackButton = () => {
         const canNavigateBack = !isHistoryEmpty && !isLastPageInHistoryCurrentPage;
         if (canNavigateBack) {
             navigate(-1);
-            return;
-        }
-
-        if (backToUrl) {
-            navigate(backToUrl);
             return;
         }
 
