@@ -39,10 +39,10 @@ export const useHistory = () => {
                 updateHistory([...history.slice(0, -1)]);
                 break;
             case NavigationType.Push:
-                updateHistory([...history, location.pathname]);
+                updateHistory([...history, location.pathname + location.search]);
                 break;
             case NavigationType.Replace:
-                updateHistory([...history.slice(0, -1), location.pathname]);
+                updateHistory([...history.slice(0, -1), location.pathname + location.search]);
                 break;
             default:
                 throw new Error(`Unexpected NavigationType "${navigationType}"`);
