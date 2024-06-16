@@ -191,7 +191,7 @@ export const WebUISettings = () => {
     }
 
     const webUISettings = extractWebUISettings(data!.settings);
-    const isDefaultWebUI = webUISettings.webUIFlavor === WebUiFlavor.Webui;
+    const isCustomWebUI = webUISettings.webUIFlavor === WebUiFlavor.Custom;
 
     return (
         <List>
@@ -226,10 +226,10 @@ export const WebUISettings = () => {
                 value={webUISettings.webUIChannel}
                 values={CHANNEL_SELECT_VALUES}
                 handleChange={(channel) => updateSetting('webUIChannel', channel)}
-                disabled={!isDefaultWebUI}
+                disabled={isCustomWebUI}
             />
             <WebUIUpdateIntervalSetting
-                disabled={!isDefaultWebUI}
+                disabled={isCustomWebUI}
                 updateCheckInterval={webUISettings.webUIUpdateCheckInterval}
             />
             {!webUISettings.webUIUpdateCheckInterval && (
