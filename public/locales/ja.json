@@ -25,8 +25,8 @@
         "settings": {
             "inclusion": {
                 "label": {
-                    "exclude": "この文字列を含まない: {{excludedCategoriesText}}",
-                    "include": "この文字列を含む: {{includedCategoriesText}}"
+                    "exclude": "このカテゴリーを含まない: {{excludedCategoriesText}}",
+                    "include": "このカテゴリーを含む: {{includedCategoriesText}}"
                 }
             }
         },
@@ -144,7 +144,11 @@
                     },
                     "option": {
                         "label": {
-                            "first": "最後に読んだ章"
+                            "first": "最後に読んだ章",
+                            "fourth": "最後に読んだ章から4つ",
+                            "second": "最後に読んだ章から2つ",
+                            "fifth": "最後に読んだ章から5つ",
+                            "third": "最後に読んだ章から3つ"
                         }
                     }
                 },
@@ -158,7 +162,7 @@
                 "title": "自動ダウンロード",
                 "download_limit": {
                     "label": {
-                        "description": "ダウンロードする新しい章の量を制限します.",
+                        "description": "ダウンロードする新しい章の量を制限します。",
                         "title": "章ダウンロード制限"
                     }
                 },
@@ -171,7 +175,8 @@
                 "label": {
                     "disclaimer": "現在の章と次の章が既にダウンロードされていない場合にのみ動作します。",
                     "unread_chapters_to_download": "ダウンロードする未読の章の数",
-                    "while_reading": "読書中の自動ダウンロード"
+                    "while_reading": "読書中の自動ダウンロード",
+                    "description": "読書中にダウンロードするチャプターの数。"
                 }
             },
             "title": "ダウンロード設定",
@@ -203,7 +208,8 @@
                 }
             },
             "label": {
-                "delete_all": "全てを削除"
+                "delete_all": "全てを削除",
+                "no_downloads": "ダウンロードがありません"
             }
         },
         "title": "ダウンロード"
@@ -353,8 +359,13 @@
             },
             "label": {
                 "delete_downloaded": "ダウンロード済を削除"
-            }
-        }
+            },
+            "title": "含めるデータを選択"
+        },
+        "label": {
+            "info": "マンガを移行中…"
+        },
+        "title": "移行"
     },
     "library": {
         "settings": {
@@ -363,7 +374,7 @@
                     "title": "アップデートをスキップするエントリ",
                     "label": {
                         "not_started": "まだ始まっていない",
-                        "completed": "「完了」ステータス",
+                        "completed": "「完結済」ステータス",
                         "unread_chapters": "未読の章"
                     }
                 },
@@ -636,5 +647,455 @@
             "all": "全て",
             "other": "その他"
         }
+    },
+    "reader": {
+        "settings": {
+            "reader_type": {
+                "label": {
+                    "webtoon": "ウェブトゥーン",
+                    "continuous_horizontal_ltr": "水平（左から右）→",
+                    "continuous_horizontal_rtl": "水平（右から左）←",
+                    "continuous_vertical": "垂直に連続",
+                    "single_page_ltr": "1ページ（左から右）→",
+                    "single_page_rtl": "1ページ（右から左）←",
+                    "double_page_rtl": "2ページ（右から左）←",
+                    "double_page_ltr": "2ページ（左から右）→"
+                }
+            },
+            "title": {
+                "default_reader_settings": "標準リーダー設定",
+                "reader_settings": "リーダー設定"
+            },
+            "label": {
+                "fit_page_to_window": "ページをウィンドウに合わせる",
+                "skip_dup_chapters": "重複した章をスキップする",
+                "static_navigation": "静的ナビゲーション",
+                "show_page_number": "ページ番号を表示する",
+                "reader_width": "リーダーの横幅"
+            },
+            "error": {
+                "label": {
+                    "failed_to_save_settings": "リーダーの設定をサーバーに保存できませんでした",
+                    "failed_to_save_default_settings": "デフォルトのリーダー設定をサーバーに保存できませんでした"
+                }
+            }
+        },
+        "button": {
+            "next_chapter": "次の章",
+            "open_menu": "メニューを開く",
+            "close_menu": "メニューを閉じる",
+            "previous_chapter": "前の章"
+        },
+        "error": {
+            "label": {
+                "next_chapter_does_not_exist": "開くことのできる次の章がありません",
+                "prev_chapter_does_not_exist": "開くことのできる前の章がありません"
+            }
+        }
+    },
+    "settings": {
+        "server": {
+            "auth": {
+                "title": "認証",
+                "basic": {
+                    "label": {
+                        "enable": "BASIC認証を使用する",
+                        "password": "BASIC認証 $t(global.label.password, lowercase)",
+                        "username": "BASIC認証 $t(global.label.username, lowercase)"
+                    }
+                }
+            },
+            "cloudflare": {
+                "flaresolverr": {
+                    "url": {
+                        "label": {
+                            "title": "FlareSolverrサーバーURL",
+                            "description": "FlareSolverrサーバーのアドレス"
+                        }
+                    },
+                    "session": {
+                        "name": {
+                            "label": {
+                                "title": "FlareSolverrセッション名"
+                            }
+                        },
+                        "ttl": {
+                            "label": {
+                                "description": "FlareSolverr は、TTL に基づいて期限切れのセッションを自動的に使いまわします",
+                                "title": "FlareSolverrセッションTTL"
+                            }
+                        }
+                    },
+                    "enabled": {
+                        "label": {
+                            "description": "設定方法に関する情報は、<2>FlareSolverr</2>を参照してください",
+                            "title": "FlareSolverrが有効"
+                        }
+                    },
+                    "timeout": {
+                        "label": {
+                            "description": "FlareSolverrがリクエストを処理する時間",
+                            "title": "FlareSolverrリクエストタイムアウト"
+                        }
+                    }
+                },
+                "title": "Cloudflare バイパス"
+            },
+            "local_source": {
+                "path": {
+                    "label": {
+                        "title": "ローカルソースの場所",
+                        "description": "ローカルソースファイルが保存されるサーバーのディレクトリへのパス"
+                    }
+                }
+            },
+            "socks_proxy": {
+                "label": {
+                    "password": "SOCKSパスワード",
+                    "username": "SOCKSユーザー名",
+                    "version": "SOCKSバージョン",
+                    "host": "SOCKSホスト",
+                    "enable": "SOCKSプロキシを使用する",
+                    "port": "SOCKSポート"
+                },
+                "title": "SOCKSプロキシ"
+            },
+            "address": {
+                "client": {
+                    "label": {
+                        "description": "クライアントがサーバーに接続するために使用するアドレス"
+                    },
+                    "dialog": {
+                        "label": {
+                            "enter_address": "サーバアドレスを入力"
+                        }
+                    }
+                },
+                "server": {
+                    "label": {
+                        "ip": "IPアドレス",
+                        "port": "ポート"
+                    }
+                }
+            },
+            "misc": {
+                "log_level": {
+                    "graphql": {
+                        "label": {
+                            "description": "このログはプライバシーにかかわる情報を含みます",
+                            "title": "Graphql デバッグログを有効にする"
+                        }
+                    },
+                    "label": {
+                        "server": "デバッグログを有効にする"
+                    }
+                },
+                "tray_icon": {
+                    "label": {
+                        "description": "サーバを実行しているシステムにアイコンが表示されます",
+                        "title": "システムトレイにアイコンを表示する"
+                    }
+                },
+                "title": "その他"
+            },
+            "title": {
+                "server": "サーバー",
+                "settings": "サーバー設定"
+            },
+            "requests": {
+                "sources": {
+                    "parallel": {
+                        "label": {
+                            "title": "ソースリクエストの並列化"
+                        }
+                    }
+                },
+                "title": "リクエスト"
+            }
+        },
+        "webui": {
+            "auto_update": {
+                "label": {
+                    "interval": "更新間隔",
+                    "title": "最新のバージョンを自動的にダウンロード"
+                }
+            },
+            "flavor": {
+                "label": {
+                    "info": "この設定を変更した後、\"About\"ページに移動し、WebUI のアップデートを確認してインストールします"
+                },
+                "option": {
+                    "custom": {
+                        "label": {
+                            "description": "カスタム$t(settings.webui.title.webui)を使用します。\nカスタム$t(settings.webui.title.webui)を使用するには、カスタム$t(settings.webui.title.webui)のファイルでサーバーのルートディレクトリにある「webUI」ディレクトリの内容を置き換えます",
+                            "title": "カスタム"
+                        }
+                    },
+                    "webui": {
+                        "label": {
+                            "description": "デフォルト $t(settings.webui.title.webui) を使用"
+                        }
+                    }
+                }
+            },
+            "channel": {
+                "label": {
+                    "title": "チャンネル"
+                },
+                "option": {
+                    "bundled": {
+                        "label": {
+                            "description": "サーバーリリースで配信されたバージョンを使用する",
+                            "title": "同梱"
+                        }
+                    },
+                    "preview": {
+                        "label": {
+                            "description": "最新の機能を使用して、安定版リリースの準備にご協力ください。",
+                            "disclaimer": "このバージョンはまだ完全に準備ができていない可能性があり、バグが発生する可能性があります。 \nライブラリの損失を防ぐために、自動バックアップが有効になっていることを確認してください！\n\n$t(settings.webui.flavor.label.info)",
+                            "title": "プレビュー"
+                        }
+                    },
+                    "stable": {
+                        "label": {
+                            "title": "安定版"
+                        }
+                    }
+                }
+            },
+            "interface": {
+                "label": {
+                    "description": "サーバ起動時に$t(settings.webui.title.webui)を起動する場所",
+                    "title": "インターフェース"
+                },
+                "option": {
+                    "label": {
+                        "browser": "ブラウザ"
+                    }
+                }
+            },
+            "label": {
+                "initial_open_browser": "サーバ起動時に $t(settings.webui.title.webui) を開きます"
+            },
+            "title": {
+                "settings": "$t(settings.webui.title.webui) 設定"
+            },
+            "electron_path": {
+                "label": {
+                    "title": "Electron パス",
+                    "description": "サーバ上のElectronのインストールパス"
+                }
+            }
+        },
+        "backup": {
+            "action": {
+                "validate": {
+                    "dialog": {
+                        "title": "バックアップ検証",
+                        "content": {
+                            "label": {
+                                "missing_trackers": "以下のトラッカーにログインしていません :",
+                                "missing_sources": "以下のソースはインストールされていません :"
+                            }
+                        }
+                    },
+                    "error": {
+                        "label": {
+                            "failure": "バックアップを検証できません"
+                        }
+                    }
+                },
+                "create": {
+                    "label": {
+                        "description": "ライブラリをTachiyomiバックアップとしてバックアップする",
+                        "title": "バックアップの作成"
+                    }
+                },
+                "restore": {
+                    "label": {
+                        "success": "バックアップから復元されました。",
+                        "description": "バックアップファイルをドラッグ&ドロップして復元することもできます",
+                        "in_progress": "バックアップから復元しています…",
+                        "title": "バックアップから復元する"
+                    },
+                    "button": "復元",
+                    "error": {
+                        "label": {
+                            "failure": "バックアップから復元できません",
+                            "legacy_backup_unsupported": "古いバックアップはサポートされていません!"
+                        }
+                    }
+                }
+            },
+            "automated": {
+                "cleanup": {
+                    "label": {
+                        "title": "バックアップのクリーンアップ",
+                        "value": "$t(global.date.value.label.day)よりも古いバックアップを削除"
+                    }
+                },
+                "label": {
+                    "interval": "バックアップ間隔",
+                    "time": "バックアップ時刻"
+                },
+                "location": {
+                    "label": {
+                        "description": "自動バックアップが保存されるサーバーのディレクトリへのパス",
+                        "title": "バックアップ場所"
+                    }
+                }
+            },
+            "title": "バックアップ"
+        },
+        "about": {
+            "server": {
+                "label": {
+                    "address": "サーバーアドレス",
+                    "build_time": "ビルドタイム",
+                    "version": "サーバーバージョン"
+                }
+            },
+            "webui": {
+                "label": {
+                    "info": "$t(settings.webui.title.webui) バージョン{{version}} ({{channel}}) が利用可能です",
+                    "update_failure": "$t(settings.webui.title.webui) を更新できません",
+                    "channel": "$t(settings.webui.title.webui) チャンネル",
+                    "version": "$t(settings.webui.title.webui) バージョン",
+                    "updated": "アップデート済"
+                }
+            }
+        },
+        "clear_cache": {
+            "label": {
+                "description": "クライアント (ブラウザ、Electron) のキャッシュも同時にクリアされる必要があります。そうしないと、クライアント キャッシュが使用され続けます",
+                "success": "サーバキャッシュをクリアしました",
+                "title": "サーバーキャッシュをクリア",
+                "failure": "サーバキャッシュをクリアできません"
+            }
+        },
+        "label": {
+            "manga_item_width": "マンガアイテムの幅",
+            "show_nsfw": "NSFWを表示する",
+            "dark_theme": "ダークテーマ",
+            "language_description": "プロジェクトの翻訳はお気軽にこちらから",
+            "show_nsfw_description": "NSFW拡張機能とソースを隠す",
+            "hide_library_entries": "すでにライブラリにあるエントリを非表示にする"
+        },
+        "device": {
+            "devices": {
+                "label": {
+                    "description": "既存のデバイスを管理します。\nサーバーに保存される UI の設定はデバイスごとに固有です。\nこれにより、例えばデスクトップとスマートフォンで異なる設定を利用することができます",
+                    "title": "デバイス"
+                }
+            },
+            "title": {
+                "settings": "デバイス設定",
+                "device": "デバイス"
+            },
+            "active_device": {
+                "label": {
+                    "description": "サーバーに保存された UI 設定を使用するデバイスを選択してください",
+                    "title": "アクティブなデバイス"
+                }
+            }
+        },
+        "title": "設定"
+    },
+    "search": {
+        "error": {
+            "label": {
+                "failed_to_save_settings": "デフォルトの検索設定をサーバーに保存できません",
+                "source_search_failed": "ソースを検索できません"
+            }
+        },
+        "title": {
+            "global_search": "グローバル検索",
+            "search": "検索"
+        }
+    },
+    "source": {
+        "configuration": {
+            "title": "ソース構成"
+        },
+        "error": {
+            "label": {
+                "no_sources_found": "ソースが見つかりません。 まずいくつかの拡張機能をインストールしてください。",
+                "source_not_found": "ソースが見つかりませんでした。 インストールされている拡張機能を確認してください."
+            }
+        },
+        "filter": {
+            "save_search": {
+                "dialog": {
+                    "label": {
+                        "title": "現在の検索を保存",
+                        "delete": "保存した検索 \"{{name}}\" を削除します"
+                    }
+                },
+                "label": {
+                    "delete": "検索を削除",
+                    "save": "検索を保存"
+                }
+            }
+        },
+        "local_source": {
+            "title": "ローカルソース",
+            "label": {
+                "guide": "ローカルソースガイド"
+            }
+        },
+        "title": "ソース"
+    },
+    "tracking": {
+        "action": {
+            "login": {
+                "label": {
+                    "failure": "{{name}} にログインできません",
+                    "progress": "{{name}}にログイン中…"
+                }
+            },
+            "button": {
+                "add_tracking": "トラッキングを追加"
+            },
+            "logout": {
+                "label": {
+                    "failure": "{{name}} からログアウトできません"
+                }
+            }
+        },
+        "settings": {
+            "label": {
+                "update_progress_manual": "手動で既読としてマークした後に更新する",
+                "update_progress_reading_description": "複数のマンガを一度に既読としてマークすると機能しません"
+            },
+            "dialog": {
+                "title": {
+                    "log_out": "{{name}}からログアウト",
+                    "log_in": "{{name}} にログイン"
+                }
+            },
+            "title": {
+                "settings": "トラッキング設定",
+                "trackers": "トラッカー"
+            }
+        },
+        "track_record": {
+            "label": {
+                "start_date": "開始日"
+            }
+        },
+        "error": {
+            "label": {
+                "could_not_fetch_track_info": "トラッカーから最新のトラッキング情報を読み込むことができません",
+                "could_not_load_track_info": "トラッキング情報を読み込めません"
+            }
+        }
+    },
+    "updates": {
+        "error": {
+            "label": {
+                "no_updates_available": "アップデートはありません."
+            }
+        },
+        "title": "アップデート"
     }
 }

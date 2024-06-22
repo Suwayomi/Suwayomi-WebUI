@@ -176,7 +176,8 @@
                     },
                     "label": {
                         "title": "Repositórios de extensões",
-                        "description": "Adicionar um repositório de onde as extensões podem ser instaladas"
+                        "description": "Adicionar um repositório de onde as extensões podem ser instaladas",
+                        "disclaimer": "<strong>Suwayomi não fornece suporte para repositórios ou extensões de terceiros!</strong><br/>Use com cuidado, pois pode haver autores mal-intencionados criando esses repositórios.<br/>Você, como usuário, precisa verificar a segurança e confiar em qualquer repositório ou extensão."
                     }
                 }
             }
@@ -290,7 +291,19 @@
             "load_in_progress": "Ainda carregando dados necessários…",
             "discord": "Discord",
             "are_you_sure": "Tem a certeza?",
-            "filter": "Filtro"
+            "filter": "Filtro",
+            "never": "Nunca",
+            "password": "Senha",
+            "sort": "Organizar",
+            "unknown": "Desconhecido",
+            "username": "Nome de usuário",
+            "placeholder": "Espaço reservado",
+            "none": "Nenhum",
+            "other": "Outro",
+            "started": "Iniciado",
+            "type": "Tipo",
+            "logged_in": "Logado",
+            "open_in_browser": "Abra no navegador"
         },
         "error": {
             "label": {
@@ -316,6 +329,11 @@
                 "unread": "Não lido",
                 "tracked": "Acompanhado",
                 "downloaded": "Baixado"
+            }
+        },
+        "language": {
+            "label": {
+                "language": "Linguagem"
             }
         }
     },
