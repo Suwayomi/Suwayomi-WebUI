@@ -125,7 +125,13 @@
                         "action": "下載",
                         "error_other": "無法新增下載",
                         "success_other": "已新增{{count}}下載",
-                        "ahead": "漫畫"
+                        "ahead": "漫畫",
+                        "all": "$t(extension.language.all)",
+                        "unread": "$t(global.filter.label.unread)",
+                        "next_five": "後 5 個章節",
+                        "next_ten": "後 10 個章節",
+                        "next_twentyfive": "後 25 個章節",
+                        "next": "$t(reader.button.next_chapter)"
                     },
                     "button": {
                         "selected": "下載已選擇"
@@ -283,7 +289,12 @@
             "remove": "移除",
             "log_in": "登入",
             "show_less": "顯示較少項目",
-            "show_more": "顯示更多項目"
+            "show_more": "顯示更多項目",
+            "delete": "刪除",
+            "changelog": "變更日誌",
+            "ignore": "忽略",
+            "refresh": "重新整理",
+            "remind_later": "稍後提醒"
         },
         "date": {
             "label": {
@@ -324,7 +335,9 @@
             "started": "已開始",
             "type": "類型",
             "load_in_progress": "正在載入所需的資料…",
-            "logged_in": "已登入"
+            "logged_in": "已登入",
+            "are_you_sure": "您確定嗎？",
+            "copied": "已複製"
         },
         "language": {
             "label": {
@@ -376,7 +389,16 @@
                 "updating": "{{progress}}% | 正在更新…",
                 "update_failure": "更新失敗",
                 "up_to_date": "此為最新的版本",
-                "checking": "正在檢查更新"
+                "checking": "正在檢查更新",
+                "update_success": "{{name}} 已經更新至版本 {{version}} ({{channel}})"
+            },
+            "settings": {
+                "inform": {
+                    "label": {
+                        "description": "在新版本可用時顯示對話方塊",
+                        "title": "通知可用的更新"
+                    }
+                }
             }
         },
         "time": {
@@ -509,6 +531,17 @@
                             "error": "無法從分類中移除非書櫃漫畫"
                         }
                     }
+                },
+                "duplicates": {
+                    "settings": {
+                        "label": {
+                            "check_description": "檢查描述"
+                        }
+                    },
+                    "label": {
+                        "description": "顯示在您的書櫃中所有重複的項目",
+                        "title": "重複的項目"
+                    }
                 }
             }
         },
@@ -564,6 +597,21 @@
                     },
                     "button": {
                         "selected": "從書櫃中移除選取項目"
+                    },
+                    "dialog": {
+                        "label": {
+                            "message": "您將要從您的書櫃中刪除「{{title}}」"
+                        }
+                    }
+                },
+                "add": {
+                    "dialog": {
+                        "duplicate": {
+                            "label": {
+                                "failure": "無法檢查在您的書櫃中重複的漫畫。\n\n錯誤：{{error}}",
+                                "info": "您的書櫃中存在相同名稱的項目。"
+                            }
+                        }
                     }
                 }
             },
@@ -637,7 +685,9 @@
                     "github": "$t(global.label.github) $t(settings.webui.title.webui)",
                     "update_success": "已更新 $t(settings.webui.title.webui) 到版本 {{version}}。需要重新整理",
                     "update_failure": "無法更新 $t(settings.webui.title.webui)",
-                    "version": "$t(settings.webui.title.webui) 版本"
+                    "version": "$t(settings.webui.title.webui) 版本",
+                    "updated": "已更新的版本",
+                    "info": "$t(settings.webui.title.webui) 版本 {{version}} ({{channel}}) 可供下載"
                 }
             }
         },
@@ -663,7 +713,8 @@
                     "dialog": {
                         "content": {
                             "label": {
-                                "missing_sources": "以下來源未安裝："
+                                "missing_sources": "以下來源未安裝：",
+                                "missing_trackers": "以下追蹤器尚未登入："
                             }
                         },
                         "title": "備份驗證"
@@ -951,7 +1002,8 @@
             },
             "devices": {
                 "label": {
-                    "title": "裝置"
+                    "title": "裝置",
+                    "description": "管理您現有的裝置。\n儲存在伺服器上的個別裝置裝置的具體 UI 設定。\n這可以使例如桌面或智慧型手機擁有不同的設定"
                 }
             },
             "active_device": {
@@ -979,7 +1031,21 @@
             },
             "title": "本機來源"
         },
-        "title": "來源"
+        "title": "來源",
+        "filter": {
+            "save_search": {
+                "label": {
+                    "delete": "刪除搜尋",
+                    "save": "儲存搜尋"
+                },
+                "dialog": {
+                    "label": {
+                        "delete": "這將會刪除已儲存的搜尋「{{name}}」",
+                        "title": "儲存目前的搜尋"
+                    }
+                }
+            }
+        }
     },
     "updates": {
         "title": "更新",
@@ -1016,7 +1082,8 @@
             "auto_download": {
                 "label": {
                     "new_chapters": "下載新章節",
-                    "ignore_with_unread_chapters": "忽略包含未讀章節的作品的自動下載"
+                    "ignore_with_unread_chapters": "忽略包含未讀章節的作品的自動下載",
+                    "ignore_re_uploads": "忽略重新上傳的章節"
                 },
                 "categories": {
                     "label": {
@@ -1105,7 +1172,13 @@
                 }
             },
             "title": {
-                "settings": "追蹤設定"
+                "settings": "追蹤設定",
+                "trackers": "追蹤器"
+            },
+            "label": {
+                "update_progress_manual": "在手動標記為已讀後更新進度",
+                "update_progress_reading_description": "當同時標記多個漫畫為已讀時沒有作用",
+                "update_progress_reading": "在閱讀後更新進度"
             }
         },
         "action": {
@@ -1126,7 +1199,8 @@
         },
         "error": {
             "label": {
-                "could_not_load_track_info": "無法載入追蹤資訊"
+                "could_not_load_track_info": "無法載入追蹤資訊",
+                "could_not_fetch_track_info": "無法從追蹤器載入最新的追蹤資訊"
             }
         },
         "title": "追蹤",
@@ -1135,6 +1209,13 @@
                 "finish_date": "完成日期",
                 "score": "評分",
                 "start_date": "開始日期"
+            }
+        },
+        "my_anime_list": {
+            "search": {
+                "label": {
+                    "hint": "通過 \"id:<ID>\" 搜尋 ID（例如： \"id:13\"）\n通過 \"my:<Title>\" 限制搜尋在您的清單內（例如：\"my:One Piece\"）"
+                }
             }
         }
     }
