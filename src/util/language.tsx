@@ -7,7 +7,7 @@
  */
 
 import { t } from 'i18next';
-import { ISOLanguage, ISOLanguages, loadDefaultDayJsLocale } from '@/util/isoLanguages.ts';
+import { ISOLanguage, ISOLanguages } from '@/util/isoLanguages.ts';
 
 export enum DefaultLanguage {
     ALL = 'all',
@@ -77,21 +77,4 @@ export const langSortCmp = (a: string, b: string) => {
     if (b === DefaultLanguage.LOCAL_SOURCE) return -1;
 
     return aLang > bLang ? 1 : -1;
-};
-
-export const loadDayJsLocale = async (locale: string) => {
-    const lang = getISOLanguage(locale);
-
-    try {
-        if (!lang) {
-            await loadDefaultDayJsLocale();
-            return false;
-        }
-
-        await lang.dayjsImport();
-        return true;
-    } catch (e) {
-        return false;
-        // ignore - dayjs falls back to en anyway
-    }
 };

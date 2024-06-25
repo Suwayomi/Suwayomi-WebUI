@@ -89,7 +89,7 @@ export const DateSetting = ({
             <Dialog open={isDialogOpen} onClose={closeDialog}>
                 <DialogContent>
                     <DialogTitle sx={{ paddingLeft: 0 }}>{settingName}</DialogTitle>
-                    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={navigator.language}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={dayjs.locale()}>
                         <DatePicker
                             value={dialogValue ? dayjs(Number(dialogValue)) : null}
                             onChange={(date) => {

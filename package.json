@@ -18,6 +18,9 @@
     "gql:codegen-formatter": "ts-node -T tools/scripts/codegenFormatter.ts",
     "gql:codegen": "yarn gql:codegen-base & yarn gql:codegen-formatter",
     "i18n:gen-resources": "ts-node -T tools/scripts/generatei18nResources.ts",
+    "dayjs:gen-locales-array": "ts-node -T tools/scripts/generateDayJsLocales.ts",
+    "dayjs:gen-locales-import": "ts-node -T tools/scripts/generateDayJsLocalesImport.ts",
+    "dayjs:gen-locales": "yarn dayjs:gen-locales-array && yarn dayjs:gen-locales-import",
     "prepare": "husky"
   },
   "engines": {

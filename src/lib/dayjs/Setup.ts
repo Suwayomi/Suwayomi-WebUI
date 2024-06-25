@@ -12,11 +12,10 @@ import calendar from 'dayjs/plugin/calendar';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import isToday from 'dayjs/plugin/isToday';
 import isYesterday from 'dayjs/plugin/isYesterday';
+import { importDayJsLocale } from '@/lib/dayjs/LocaleImporter.ts';
 // import localizedFormat from 'dayjs/plugin/localizedFormat';
 // import updateLocale from 'dayjs/plugin/updateLocale';
 // import { t } from 'i18next';
-
-import { loadDayJsLocale } from '@/util/language.tsx';
 
 dayjs.extend(customParseFormat);
 dayjs.extend(calendar);
@@ -26,8 +25,8 @@ dayjs.extend(isYesterday);
 // dayjs.extend(localizedFormat);
 // dayjs.extend(updateLocale);
 
-loadDayJsLocale(navigator.language).then(() => {
-    dayjs.locale(navigator.language);
+importDayJsLocale(navigator.language).then((dayjsLocale) => {
+    dayjs.locale(dayjsLocale);
     // dayjs.updateLocale(navigator.language, {
     //     calendar: {
     //         lastDay: `[${t('global.date.label.yesterday_at')}] LT`,
