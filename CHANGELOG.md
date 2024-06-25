@@ -128,7 +128,7 @@ Thank you for your contribution to the translation of the project.
 - French (by Graham Morin)
 - Indonesian (by Axel C)
 
-## Full changelog
+## Full Changelog
 - ([r1688](https://github.com/Suwayomi/Suwayomi-WebUI/commit/7d1f2dfe017dead41cc07772b0c11dfd034161fb)) [Codegen] Fix gql schema url (by @schroda)
 - ([r1687](https://github.com/Suwayomi/Suwayomi-WebUI/commit/a9fc2f13aaf45f3e7547b91d4ff2530300df05fd)) Translations update from Hosted Weblate ([#757](https://github.com/Suwayomi/Suwayomi-WebUI/pull/757) by @weblate, @leollo98, @kiritsumafuyu, @marimo-nekomimi, @tizio04, @aizhimoran)
 - ([r1686](https://github.com/Suwayomi/Suwayomi-WebUI/commit/36e943214c7861eadc4681ae72f908d4deb803c3)) Remove "default back to" functionality (by @schroda)

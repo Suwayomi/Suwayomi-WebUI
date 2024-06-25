@@ -285,7 +285,7 @@ const getLanguageLinesFromChangelog = (): Promise<string[]> => {
     const fileReadPromise = new ControlledPromise<string[]>();
 
     const changelogFile = path.resolve(__dirname, '../../CHANGELOG.md');
-    const fileStream = fs.createReadStream(changelogFile); // Replace 'input.txt' with your file path
+    const fileStream = fs.createReadStream(changelogFile);
     const fileLineReader = readline.createInterface({
         input: fileStream,
         crlfDelay: Infinity, // Recognize all line breaks (CR LF) as a single line break
@@ -294,12 +294,12 @@ const getLanguageLinesFromChangelog = (): Promise<string[]> => {
     const translationRelevantLines: string[] = [];
     let isTranslationSection = false;
     fileLineReader.on('line', (line) => {
-        if (line === '## Translations') {
+        if (line.toLowerCase() === '## Translations'.toLowerCase()) {
             isTranslationSection = true;
             return;
         }
 
-        if (isTranslationSection && line === '## Full Changelog') {
+        if (isTranslationSection && line.toLowerCase() === '## Full Changelog'.toLowerCase()) {
             isTranslationSection = false;
             return;
         }
