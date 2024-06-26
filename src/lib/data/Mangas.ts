@@ -378,8 +378,9 @@ export class Mangas {
         });
 
         await Promise.all([
-            requestManager.updateChapters(readChapters, { isRead: true }).response,
-            requestManager.updateChapters(bookmarkedChapters, { isBookmarked: true }).response,
+            readChapters.length && requestManager.updateChapters(readChapters, { isRead: true }).response,
+            bookmarkedChapters.length &&
+                requestManager.updateChapters(bookmarkedChapters, { isBookmarked: true }).response,
         ]);
     }
 
