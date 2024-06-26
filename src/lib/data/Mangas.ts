@@ -440,19 +440,21 @@ export class Mangas {
         }: Omit<MigrateOptions, 'mangaIdToMigrateTo'>,
     ): Promise<void> {
         return Mangas.executeAction('migrate', 1, async () => {
-            const [{ data: mangaToMigrateData }, { data: mangaToMigrateToData }] = await Promise.all([
-                requestManager.getMangaToMigrate(mangaId, {
-                    migrateChapters,
-                    migrateCategories,
-                    migrateTracking,
-                    deleteChapters,
-                }).response,
-                requestManager.getMangaToMigrateToFetch(mangaIdToMigrateTo, {
-                    migrateChapters,
-                    migrateCategories,
-                    migrateTracking,
-                }).response,
-            ]);
+            const [{ data: mangaToMigrateData }, { data: mangaToMigrateToData }, { removeMangaFromCategories }] =
+                await Promise.all([
+                    requestManager.getMangaToMigrate(mangaId, {
+                        migrateChapters,
+                        migrateCategories,
+                        migrateTracking,
+                        deleteChapters,
+                    }).response,
+                    requestManager.getMangaToMigrateToFetch(mangaIdToMigrateTo, {
+                        migrateChapters,
+                        migrateCategories,
+                        migrateTracking,
+                    }).response,
+                    getMetadataServerSettings(),
+                ]);
 
             if (!mangaToMigrateData.manga || !mangaToMigrateToData?.fetchManga?.manga) {
                 throw new Error('Mangas::migrate: missing manga data');
@@ -482,7 +484,10 @@ export class Mangas {
                     ? requestManager.updateManga(mangaIdToMigrateTo, { updateManga: { inLibrary: true } }).response
                     : undefined,
                 mode === 'migrate'
-                    ? requestManager.updateManga(mangaId, { updateManga: { inLibrary: false } }).response
+                    ? requestManager.updateManga(mangaId, {
+                          updateManga: { inLibrary: false },
+                          updateMangaCategories: removeMangaFromCategories ? { clearCategories: true } : undefined,
+                      }).response
                     : undefined,
             ]);
         });
