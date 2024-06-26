@@ -459,6 +459,12 @@
     }
   },
   "library": {
+    "action": {
+      "label": {
+        "update_category": "Update category",
+        "update_library": "Update library"
+      }
+    },
     "error": {
       "label": {
         "add_to_library": "Could not add manga to library!",

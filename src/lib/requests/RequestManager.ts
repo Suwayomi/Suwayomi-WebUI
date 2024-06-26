@@ -2455,7 +2455,7 @@ export class RequestManager {
     ): AbortableApolloMutationResponse<UpdateLibraryMangasMutation>;
 
     public startGlobalUpdate(
-        categories: number[],
+        categories?: number[],
         options?: MutationOptions<UpdateCategoryMangasMutation, UpdateCategoryMangasMutationVariables>,
     ): AbortableApolloMutationResponse<UpdateCategoryMangasMutation>;
 
