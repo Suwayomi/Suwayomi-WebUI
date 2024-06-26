@@ -10,11 +10,13 @@ import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
 
-export const Progress = ({ progress }: { progress: number }) => (
+export const Progress = ({ progress, showText = true }: { progress: number; showText?: boolean }) => (
     <Box sx={{ display: 'grid', placeItems: 'center', position: 'relative' }}>
         <CircularProgress variant="determinate" value={progress} />
-        <Box sx={{ position: 'absolute' }}>
-            <Typography fontSize="0.8rem">{`${Math.round(progress)}%`}</Typography>
-        </Box>
+        {showText && (
+            <Box sx={{ position: 'absolute' }}>
+                <Typography fontSize="0.8rem">{`${Math.round(progress)}%`}</Typography>
+            </Box>
+        )}
     </Box>
 );

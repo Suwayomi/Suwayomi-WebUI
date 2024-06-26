@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { useTranslation } from 'react-i18next';
@@ -14,6 +14,8 @@ import Tooltip from '@mui/material/Tooltip';
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import ClearIcon from '@mui/icons-material/Clear';
+import Stack from '@mui/material/Stack';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/components/util/Toast';
 import { UpdaterSubscription } from '@/lib/graphql/generated/graphql.ts';
@@ -21,6 +23,7 @@ import { Progress } from '@/components/util/Progress';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { dateTimeFormatter } from '@/util/date.ts';
 import { TCategory } from '@/typings.ts';
+import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
 
 const calcProgress = (status: UpdaterSubscription['updateStatusChanged'] | undefined) => {
     if (!status) {
@@ -45,6 +48,9 @@ export function UpdateChecker({
     handleFinishedUpdate?: () => void;
 }) {
     const { t } = useTranslation();
+    const isTouchDevice = MediaQuery.useIsTouchDevice();
+
+    const [isHovered, setIsHovered] = useState(false);
 
     const { data: lastUpdateTimestampData, refetch: reFetchLastTimestamp } =
         requestManager.useGetLastGlobalUpdateTimestamp();
@@ -52,7 +58,7 @@ export function UpdateChecker({
     const { data: updaterData } = requestManager.useGetGlobalUpdateSummary();
     const status = updaterData?.updateStatus;
 
-    const loading = !!status?.isRunning;
+    const isRunning = !!status?.isRunning;
     const progress = useMemo(
         () => calcProgress(status),
         [
@@ -79,7 +85,7 @@ export function UpdateChecker({
         reFetchLastTimestamp().catch(defaultPromiseErrorHandler('UpdateChecker::reFetchLastTimestamp'));
     }, [status?.isRunning]);
 
-    const onClick = async (category?: TCategory['id']) => {
+    const startUpdate = async (category?: TCategory['id']) => {
         try {
             lastRunningState = true;
             await requestManager.startGlobalUpdate(category !== undefined ? [category] : undefined).response;
@@ -90,42 +96,75 @@ export function UpdateChecker({
         }
     };
 
+    const stopUpdate = async () => {
+        try {
+            await requestManager.resetGlobalUpdate();
+        } catch (e) {
+            makeToast(t('library.error.label.stop_global_update'), 'error');
+        }
+    };
+
+    const onClick = async (category?: TCategory['id']) => {
+        if (isRunning) {
+            stopUpdate();
+        } else {
+            startUpdate(category);
+        }
+    };
+
     return (
-        <Tooltip
-            title={t('library.settings.global_update.label.last_update_tooltip', {
-                date: lastUpdateTimestamp ? dateTimeFormatter.format(+lastUpdateTimestamp) : '-',
-            })}
-        >
-            <PopupState variant="popover" popupId="library-update-checker-menu">
-                {(popupState) => (
-                    <>
+        <PopupState variant="popover" popupId="library-update-checker-menu">
+            {(popupState) => (
+                <>
+                    <Tooltip
+                        title={
+                            isRunning
+                                ? t('library.action.label.stop_update')
+                                : t('library.settings.global_update.label.last_update_tooltip', {
+                                      date: lastUpdateTimestamp ? dateTimeFormatter.format(+lastUpdateTimestamp) : '-',
+                                  })
+                        }
+                    >
                         <IconButton
-                            {...(categoryId !== undefined ? bindTrigger(popupState) : { onClick: () => onClick() })}
-                            disabled={loading}
+                            sx={{ position: 'relative' }}
+                            {...(categoryId !== undefined && !isRunning
+                                ? bindTrigger(popupState)
+                                : { onClick: () => onClick() })}
+                            onMouseEnter={() => setIsHovered(true)}
+                            onMouseLeave={() => setIsHovered(false)}
                         >
-                            {loading ? <Progress progress={progress} /> : <RefreshIcon />}
+                            {!isRunning ? (
+                                <RefreshIcon />
+                            ) : (
+                                <>
+                                    <ClearIcon sx={{ opacity: Number(isTouchDevice || isHovered) }} />
+                                    <Stack sx={{ position: 'absolute' }}>
+                                        <Progress progress={progress} showText={!isTouchDevice && !isHovered} />
+                                    </Stack>
+                                </>
+                            )}
                         </IconButton>
-                        <Menu {...bindMenu(popupState)}>
-                            <MenuItem
-                                onClick={() => {
-                                    popupState.close();
-                                    onClick();
-                                }}
-                            >
-                                {t('library.action.label.update_library')}
-                            </MenuItem>
-                            <MenuItem
-                                onClick={() => {
-                                    popupState.close();
-                                    onClick(categoryId);
-                                }}
-                            >
-                                {t('library.action.label.update_category')}
-                            </MenuItem>
-                        </Menu>
-                    </>
-                )}
-            </PopupState>
-        </Tooltip>
+                    </Tooltip>
+                    <Menu {...bindMenu(popupState)}>
+                        <MenuItem
+                            onClick={() => {
+                                popupState.close();
+                                onClick();
+                            }}
+                        >
+                            {t('library.action.label.update_library')}
+                        </MenuItem>
+                        <MenuItem
+                            onClick={() => {
+                                popupState.close();
+                                onClick(categoryId);
+                            }}
+                        >
+                            {t('library.action.label.update_category')}
+                        </MenuItem>
+                    </Menu>
+                </>
+            )}
+        </PopupState>
     );
 }

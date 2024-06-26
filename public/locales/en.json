@@ -461,6 +461,7 @@
   "library": {
     "action": {
       "label": {
+        "stop_update": "Stop global update",
         "update_category": "Update category",
         "update_library": "Update library"
       }
@@ -470,7 +471,8 @@
         "add_to_library": "Could not add manga to library!",
         "empty": "Your library is empty",
         "no_matches": "No manga matches this filter",
-        "remove_from_library": "Could not remove manga from library!"
+        "remove_from_library": "Could not remove manga from library!",
+        "stop_global_update": "Could not stop global update"
       }
     },
     "info": {
