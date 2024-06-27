@@ -734,6 +734,7 @@
     "error": {
       "label": {
         "next_chapter_does_not_exist": "There is no next chapter to open",
+        "no_pages_found": "No pages found",
         "prev_chapter_does_not_exist": "There is no previous chapter to open"
       }
     },

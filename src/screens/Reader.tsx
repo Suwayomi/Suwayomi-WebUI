@@ -503,6 +503,10 @@ export function Reader() {
         );
     }
 
+    if (!chapter.pageCount) {
+        return <EmptyViewAbsoluteCentered message={t('reader.error.label.no_pages_found')} retry={doFetchPages} />;
+    }
+
     const pages = range(chapter.pageCount).map((index) => ({
         index,
         src: requestManager.getChapterPageUrl(mangaId, chapterIndex, index),
