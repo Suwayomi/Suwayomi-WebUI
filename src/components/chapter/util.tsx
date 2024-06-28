@@ -22,7 +22,7 @@ const defaultChapterOptions: ChapterListOptions = {
     unread: undefined,
     downloaded: undefined,
     bookmarked: undefined,
-    reverse: false,
+    reverse: true,
     sortBy: 'source',
     showChapterNumber: false,
 };
@@ -88,14 +88,14 @@ export function filterAndSortChapters(chapters: TChapter[], options: ChapterList
                   bookmarkedFilter(options.bookmarked, chp),
           )
         : [...chapters];
-    const Sorted =
+    const sorted =
         options.sortBy === 'fetchedAt'
-            ? filtered.sort((a, b) => Number(a.fetchedAt ?? 0) - Number(b.fetchedAt ?? 0))
-            : filtered;
+            ? filtered.toSorted((a, b) => Number(a.fetchedAt ?? 0) - Number(b.fetchedAt ?? 0))
+            : filtered.toSorted((a, b) => a.chapterNumber - b.chapterNumber);
     if (options.reverse) {
-        Sorted.reverse();
+        sorted.reverse();
     }
-    return Sorted;
+    return sorted;
 }
 
 export const useChapterOptions = (mangaId: number) =>
