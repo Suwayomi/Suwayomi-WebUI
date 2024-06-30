@@ -129,12 +129,12 @@ export const useChapterOptions = (mangaId: number) =>
         defaultChapterOptions,
     );
 
-export const SORT_OPTIONS: [ChapterSortMode, TranslationKey][] = [
-    ['source', 'global.sort.label.by_source'],
-    ['chapterNumber', 'global.sort.label.by_chapter_number'],
-    ['uploadedAt', 'global.sort.label.by_upload_date'],
-    ['fetchedAt', 'global.sort.label.by_fetch_date'],
-];
+export const SORT_OPTIONS: Record<ChapterSortMode, TranslationKey> = {
+    source: 'global.sort.label.by_source',
+    chapterNumber: 'global.sort.label.by_chapter_number',
+    uploadedAt: 'global.sort.label.by_upload_date',
+    fetchedAt: 'global.sort.label.by_fetch_date',
+};
 
 export const isFilterActive = (options: ChapterListOptions) => {
     const { unread, downloaded, bookmarked } = options;

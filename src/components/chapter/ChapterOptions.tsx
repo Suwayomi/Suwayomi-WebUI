@@ -80,7 +80,7 @@ export const ChapterOptions: React.FC<IProps> = ({ open, onClose, options, optio
                     );
                 }
                 if (key === 'sort') {
-                    return SORT_OPTIONS.map(([mode, label]) => (
+                    return Object.entries(SORT_OPTIONS).map(([mode, label]) => (
                         <SortRadioInput
                             key={mode}
                             label={t(label)}
@@ -88,7 +88,7 @@ export const ChapterOptions: React.FC<IProps> = ({ open, onClose, options, optio
                             sortDescending={options.reverse}
                             onClick={() =>
                                 mode !== options.sortBy
-                                    ? optionsDispatch({ type: 'sortBy', sortBy: mode })
+                                    ? optionsDispatch({ type: 'sortBy', sortBy: mode as keyof typeof SORT_OPTIONS })
                                     : optionsDispatch({ type: 'sortReverse' })
                             }
                         />
