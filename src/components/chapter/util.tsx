@@ -91,7 +91,7 @@ export function filterAndSortChapters(chapters: TChapter[], options: ChapterList
     const sorted =
         options.sortBy === 'fetchedAt'
             ? filtered.toSorted((a, b) => Number(a.fetchedAt ?? 0) - Number(b.fetchedAt ?? 0))
-            : filtered.toSorted((a, b) => a.chapterNumber - b.chapterNumber);
+            : filtered.toSorted((a, b) => a.sourceOrder - b.sourceOrder);
     if (options.reverse) {
         sorted.reverse();
     }
