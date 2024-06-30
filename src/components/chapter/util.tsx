@@ -79,6 +79,30 @@ function bookmarkedFilter(bookmarked: NullAndUndefined<boolean>, { isBookmarked:
     }
 }
 
+const sortChapters = (
+    chapters: TChapter[],
+    { sortBy, reverse }: Pick<ChapterListOptions, 'sortBy' | 'reverse'>,
+): TChapter[] => {
+    const sortedChapters: TChapter[] = [...chapters];
+
+    switch (sortBy) {
+        case 'source':
+            sortedChapters.sort((a, b) => a.sourceOrder - b.sourceOrder);
+            break;
+        case 'fetchedAt':
+            sortedChapters.sort((a, b) => Number(a.fetchedAt ?? 0) - Number(b.fetchedAt ?? 0));
+            break;
+        default:
+        // nothing to do
+    }
+
+    if (reverse) {
+        sortedChapters.reverse();
+    }
+
+    return sortedChapters;
+};
+
 export function filterAndSortChapters(chapters: TChapter[], options: ChapterListOptions): TChapter[] {
     const filtered = options.active
         ? chapters.filter(
@@ -88,14 +112,8 @@ export function filterAndSortChapters(chapters: TChapter[], options: ChapterList
                   bookmarkedFilter(options.bookmarked, chp),
           )
         : [...chapters];
-    const sorted =
-        options.sortBy === 'fetchedAt'
-            ? filtered.toSorted((a, b) => Number(a.fetchedAt ?? 0) - Number(b.fetchedAt ?? 0))
-            : filtered.toSorted((a, b) => a.sourceOrder - b.sourceOrder);
-    if (options.reverse) {
-        sorted.reverse();
-    }
-    return sorted;
+
+    return sortChapters(filtered, options);
 }
 
 export const useChapterOptions = (mangaId: number) =>
