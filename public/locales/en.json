@@ -420,8 +420,10 @@
     },
     "sort": {
       "label": {
+        "by_chapter_number": "By chapter number",
         "by_fetch_date": "By date fetched",
-        "by_source": "By source"
+        "by_source": "By source",
+        "by_upload_date": "By upload date"
       }
     },
     "time": {

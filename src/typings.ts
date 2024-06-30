@@ -377,7 +377,7 @@ export type PaginatedMangaList = {
 
 export type NullAndUndefined<T> = T | null | undefined;
 
-export type ChapterSortMode = 'fetchedAt' | 'source';
+export type ChapterSortMode = 'fetchedAt' | 'source' | 'chapterNumber' | 'uploadedAt';
 
 export interface ChapterListOptions {
     active: boolean;

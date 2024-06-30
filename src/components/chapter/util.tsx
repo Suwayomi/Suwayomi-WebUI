@@ -92,6 +92,12 @@ const sortChapters = (
         case 'fetchedAt':
             sortedChapters.sort((a, b) => Number(a.fetchedAt ?? 0) - Number(b.fetchedAt ?? 0));
             break;
+        case 'chapterNumber':
+            sortedChapters.sort((a, b) => a.chapterNumber - b.chapterNumber);
+            break;
+        case 'uploadedAt':
+            sortedChapters.sort((a, b) => Number(a.uploadDate ?? 0) - Number(b.uploadDate ?? 0));
+            break;
         default:
         // nothing to do
     }
@@ -125,6 +131,8 @@ export const useChapterOptions = (mangaId: number) =>
 
 export const SORT_OPTIONS: [ChapterSortMode, TranslationKey][] = [
     ['source', 'global.sort.label.by_source'],
+    ['chapterNumber', 'global.sort.label.by_chapter_number'],
+    ['uploadedAt', 'global.sort.label.by_upload_date'],
     ['fetchedAt', 'global.sort.label.by_fetch_date'],
 ];
 
