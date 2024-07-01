@@ -58,7 +58,7 @@ const typePolicies: StrictTypedTypePolicies = {
             extension(_, { args, toReference }) {
                 return toReference({
                     __typename: 'ExtensionType',
-                    apkName: args?.pkgName,
+                    pkgName: args?.pkgName,
                 });
             },
             meta(_, { args, toReference }) {
