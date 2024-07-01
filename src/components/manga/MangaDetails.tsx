@@ -211,7 +211,7 @@ export const MangaDetails: React.FC<IProps> = ({ manga }) => {
                             <Metadata title={t('manga.label.author')} value={getValueOrUnknown(manga.author)} />
                             <Metadata title={t('manga.label.artist')} value={getValueOrUnknown(manga.artist)} />
                             <Metadata title={t('manga.label.status')} value={getValueOrUnknown(manga.status)} />
-                            <Metadata title={t('source.title')} value={getSourceName(manga.source)} />
+                            <Metadata title={t('source.title_one')} value={getSourceName(manga.source)} />
                         </MetadataContainer>
                     </ThumbnailMetadataWrapper>
                     <MangaButtonsContainer>

@@ -197,7 +197,7 @@ export const DownloadSettings = () => {
                     minValue={0}
                     maxValue={20}
                     showSlider
-                    valueUnit={t('chapter.title')}
+                    valueUnit={t('chapter.title_one')}
                     handleUpdate={(autoDownloadNewChaptersLimit) =>
                         updateSetting('autoDownloadNewChaptersLimit', autoDownloadNewChaptersLimit)
                     }

@@ -149,7 +149,6 @@
         "downloaded": "Downloaded"
       }
     },
-    "title": "Chapter",
     "title_one": "Chapter",
     "title_other": "Chapters"
   },
@@ -295,7 +294,8 @@
         "updating": "Updating"
       }
     },
-    "title": "Extensions"
+    "title_one": "Extension",
+    "title_other": "Extensions"
   },
   "global": {
     "button": {
@@ -339,7 +339,6 @@
     },
     "date": {
       "label": {
-        "day": "Day",
         "day_one": "Day",
         "day_other": "Days",
         "today": "Today",
@@ -701,7 +700,6 @@
       "reload_from_source": "Reload data from source",
       "status": "Status"
     },
-    "title": "Manga",
     "title_one": "Manga",
     "title_other": "Manga"
   },
@@ -1155,7 +1153,6 @@
       },
       "title": "Local source"
     },
-    "title": "Source",
     "title_one": "Source",
     "title_other": "Sources"
   },

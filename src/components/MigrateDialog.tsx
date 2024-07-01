@@ -75,7 +75,7 @@ export const MigrateDialog = ({ mangaIdToMigrateTo, onClose }: { mangaIdToMigrat
                 <FormGroup>
                     <CheckboxInput
                         disabled={isMigrationInProcess}
-                        label={t('chapter.title')}
+                        label={t('chapter.title_one')}
                         checked={migrateChapters}
                         onChange={(_, checked) => setMigrationFlag('migrateChapters', checked)}
                     />

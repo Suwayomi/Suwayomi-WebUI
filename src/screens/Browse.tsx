@@ -30,8 +30,8 @@ export function Browse() {
     return (
         <TabsWrapper>
             <TabsMenu value={tabNum} tabsCount={2} onChange={(e, newTab) => setTabNum(newTab)}>
-                <Tab sx={{ textTransform: 'none' }} label={t('source.title')} />
-                <Tab sx={{ textTransform: 'none' }} label={t('extension.title')} />
+                <Tab sx={{ textTransform: 'none' }} label={t('source.title_one')} />
+                <Tab sx={{ textTransform: 'none' }} label={t('extension.title_other')} />
                 <Tab sx={{ textTransform: 'none' }} label={t('migrate.title')} />
             </TabsMenu>
             <TabPanel index={0} currentIndex={tabNum}>

@@ -410,7 +410,7 @@ export function SourceMangas() {
     );
 
     useEffect(() => {
-        setTitle(source?.displayName ?? t('source.title'));
+        setTitle(source?.displayName ?? t('source.title_one'));
         setAction(
             <>
                 <AppbarSearch />

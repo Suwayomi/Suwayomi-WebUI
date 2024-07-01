@@ -51,7 +51,7 @@ export const Manga: React.FC = () => {
     }, [manga]);
 
     useEffect(() => {
-        setTitle(manga?.title ?? t('manga.title'));
+        setTitle(manga?.title ?? t('manga.title_one'));
         setAction(null);
 
         return () => {

@@ -123,7 +123,7 @@ export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
 
         if (selectedChapters.length) {
             return (
-                <SelectionFAB selectedItemsCount={selectedChapters.length} title="chapter.title">
+                <SelectionFAB selectedItemsCount={selectedChapters.length} title="chapter.title_one">
                     {(handleClose) => (
                         <ChapterActionMenuItems selectedChapters={selectedChapters} onClose={handleClose} />
                     )}
@@ -163,7 +163,7 @@ export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
             <Stack direction="column" sx={{ position: 'relative' }}>
                 <ChapterListHeader direction="row" alignItems="center" justifyContent="space-between">
                     <Typography variant="h5">
-                        {`${visibleChapters.length} ${t('chapter.title', {
+                        {`${visibleChapters.length} ${t('chapter.title_one', {
                             count: visibleChapters.length,
                         })}`}
                     </Typography>

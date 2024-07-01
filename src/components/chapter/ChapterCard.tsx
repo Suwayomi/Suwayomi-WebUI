@@ -113,7 +113,7 @@ export const ChapterCard: React.FC<IProps> = (props: IProps) => {
                                             {chapter.isBookmarked && <BookmarkIcon color="primary" />}
                                             <TypographyMaxLines variant="h5" component="h2">
                                                 {showChapterNumber
-                                                    ? `${t('chapter.title')} ${chapter.chapterNumber}`
+                                                    ? `${t('chapter.title_one')} ${chapter.chapterNumber}`
                                                     : chapter.name}
                                             </TypographyMaxLines>
                                         </Stack>

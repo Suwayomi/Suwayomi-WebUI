@@ -102,7 +102,7 @@ export const BrowseSettings = () => {
                     value: serverSettings.maxSourcesInParallel,
                     count: serverSettings.maxSourcesInParallel,
                 })}
-                valueUnit={t('source.title')}
+                valueUnit={t('source.title_one')}
                 value={serverSettings.maxSourcesInParallel}
                 defaultValue={6}
                 minValue={1}

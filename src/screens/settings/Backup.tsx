@@ -293,7 +293,7 @@ export function Backup() {
                         minValue={1}
                         maxValue={31}
                         stepSize={1}
-                        valueUnit={t('global.date.label.day')}
+                        valueUnit={t('global.date.label.day_one')}
                         showSlider
                         handleUpdate={(interval: number) => updateSetting('backupInterval', interval)}
                     />
@@ -305,7 +305,7 @@ export function Backup() {
                         minValue={0}
                         maxValue={1000}
                         stepSize={1}
-                        valueUnit={t('global.date.label.day')}
+                        valueUnit={t('global.date.label.day_one')}
                         showSlider
                         handleUpdate={(ttl: number) => updateSetting('backupTTL', ttl)}
                     />

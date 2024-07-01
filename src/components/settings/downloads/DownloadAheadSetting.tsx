@@ -67,7 +67,7 @@ export const DownloadAheadSetting = ({
                 showSlider
                 dialogDescription={t('download.settings.download_ahead.label.description')}
                 dialogDisclaimer={t('download.settings.download_ahead.label.disclaimer')}
-                valueUnit={t('chapter.title')}
+                valueUnit={t('chapter.title_one')}
                 handleUpdate={updateSetting}
                 disabled={!shouldDownloadAhead}
             />
