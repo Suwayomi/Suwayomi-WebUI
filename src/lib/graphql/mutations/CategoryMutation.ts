@@ -7,15 +7,15 @@
  */
 
 import gql from 'graphql-tag';
-import { FULL_CATEGORY_FIELDS } from '@/lib/graphql/Fragments';
+import { CATEGORY_SETTING_FIELDS } from '@/lib/graphql/fragments/CategoryFragments.ts';
 
 export const CREATE_CATEGORY = gql`
-    ${FULL_CATEGORY_FIELDS}
+    ${CATEGORY_SETTING_FIELDS}
     mutation CREATE_CATEGORY($input: CreateCategoryInput!) {
         createCategory(input: $input) {
             clientMutationId
             category {
-                ...FULL_CATEGORY_FIELDS
+                ...CATEGORY_SETTING_FIELDS
             }
         }
     }

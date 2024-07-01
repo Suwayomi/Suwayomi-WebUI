@@ -32,6 +32,8 @@ import { MangaActionMenuItems } from '@/components/manga/MangaActionMenuItems.ts
 import { TabsMenu } from '@/components/tabs/TabsMenu.tsx';
 import { TabsWrapper } from '@/components/tabs/TabsWrapper.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { GetCategoriesLibraryQuery, GetCategoriesLibraryQueryVariables } from '@/lib/graphql/generated/graphql.ts';
+import { GET_CATEGORIES_LIBRARY } from '@/lib/graphql/queries/CategoryQuery.ts';
 
 const TitleWithSizeTag = styled('span')({
     display: 'flex',
@@ -51,7 +53,12 @@ export function Library() {
         error: tabsError,
         loading: areCategoriesLoading,
         refetch: refetchCategories,
-    } = requestManager.useGetCategories({ notifyOnNetworkStatusChange: true });
+    } = requestManager.useGetCategories<GetCategoriesLibraryQuery, GetCategoriesLibraryQueryVariables>(
+        GET_CATEGORIES_LIBRARY,
+        {
+            notifyOnNetworkStatusChange: true,
+        },
+    );
     const tabsData = categoriesResponse?.categories.nodes.filter(
         (category) => category.id !== 0 || (category.id === 0 && category.mangas.totalCount),
     );

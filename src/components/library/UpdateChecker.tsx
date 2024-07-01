@@ -22,8 +22,8 @@ import { UpdaterSubscription } from '@/lib/graphql/generated/graphql.ts';
 import { Progress } from '@/components/util/Progress';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { dateTimeFormatter } from '@/util/date.ts';
-import { TCategory } from '@/typings.ts';
 import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
+import { CategoryIdInfo } from '@/lib/data/Categories.ts';
 
 const calcProgress = (status: UpdaterSubscription['updateStatusChanged'] | undefined) => {
     if (!status) {
@@ -44,7 +44,7 @@ export function UpdateChecker({
     categoryId,
     handleFinishedUpdate,
 }: {
-    categoryId?: TCategory['id'];
+    categoryId?: CategoryIdInfo['id'];
     handleFinishedUpdate?: () => void;
 }) {
     const { t } = useTranslation();
@@ -85,7 +85,7 @@ export function UpdateChecker({
         reFetchLastTimestamp().catch(defaultPromiseErrorHandler('UpdateChecker::reFetchLastTimestamp'));
     }, [status?.isRunning]);
 
-    const startUpdate = async (category?: TCategory['id']) => {
+    const startUpdate = async (category?: CategoryIdInfo['id']) => {
         try {
             lastRunningState = true;
             await requestManager.startGlobalUpdate(category !== undefined ? [category] : undefined).response;
@@ -104,7 +104,7 @@ export function UpdateChecker({
         }
     };
 
-    const onClick = async (category?: TCategory['id']) => {
+    const onClick = async (category?: CategoryIdInfo['id']) => {
         if (isRunning) {
             stopUpdate();
         } else {

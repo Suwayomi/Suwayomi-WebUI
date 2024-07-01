@@ -11,7 +11,6 @@ import { SvgIconTypeMap } from '@mui/material/SvgIcon';
 import { ParseKeys } from 'i18next';
 import { Location } from 'react-router-dom';
 import {
-    GetCategoryQuery,
     GetChapterQuery,
     GetExtensionQuery,
     GetMangaQuery,
@@ -189,8 +188,6 @@ export enum IncludeInGlobalUpdate {
     INCLUDE = 1,
     UNSET = -1,
 }
-
-export type TCategory = GetCategoryQuery['category'];
 
 export interface ICategory {
     id: number;

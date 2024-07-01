@@ -29,6 +29,8 @@ import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCe
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
 import { ListItemLink } from '@/components/util/ListItemLink.tsx';
+import { GetCategoriesSettingsQuery, GetCategoriesSettingsQueryVariables } from '@/lib/graphql/generated/graphql.ts';
+import { GET_CATEGORIES_SETTINGS } from '@/lib/graphql/queries/CategoryQuery.ts';
 
 const removeNonLibraryMangasFromCategories = async (): Promise<void> => {
     try {
@@ -63,7 +65,9 @@ export function LibrarySettings() {
         };
     }, [t]);
 
-    const categories = requestManager.useGetCategories();
+    const categories = requestManager.useGetCategories<GetCategoriesSettingsQuery, GetCategoriesSettingsQueryVariables>(
+        GET_CATEGORIES_SETTINGS,
+    );
     const serverSettings = requestManager.useGetServerSettings({ notifyOnNetworkStatusChange: true });
     const {
         settings,

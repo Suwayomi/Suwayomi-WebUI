@@ -20,7 +20,6 @@ import { t as translate } from 'i18next';
 import { ThreeStateCheckboxInput } from '@/components/atoms/ThreeStateCheckboxInput.tsx';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { IncludeOrExclude } from '@/lib/graphql/generated/graphql.ts';
-import { TCategory } from '@/typings.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { CheckboxContainer } from '@/components/settings/globalUpdate/CheckboxContainer.ts';
 import {
@@ -78,7 +77,7 @@ const getCategoryUpdateInfo = (
     return categories.map((category) => category.name).join(', ');
 };
 
-type CategoryIncludeField = keyof Pick<TCategory, 'includeInUpdate' | 'includeInDownload'>;
+type CategoryIncludeField = keyof Pick<CategoryType, 'includeInUpdate' | 'includeInDownload'>;
 
 export type CategoriesInclusionSettingProps = {
     categories: CategoryType[];

@@ -18,6 +18,8 @@ import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts
 import { Mangas } from '@/lib/data/Mangas.ts';
 import { TManga } from '@/typings.ts';
 import { awaitConfirmation } from '@/lib/ui/AwaitableDialog.tsx';
+import { GetCategoriesBaseQuery, GetCategoriesBaseQueryVariables } from '@/lib/graphql/generated/graphql.ts';
+import { GET_CATEGORIES_BASE } from '@/lib/graphql/queries/CategoryQuery.ts';
 
 export const useManageMangaLibraryState = (
     manga: Pick<TManga, 'id' | 'title' | 'inLibrary'>,
@@ -87,9 +89,16 @@ export const useManageMangaLibraryState = (
                 return;
             }
 
-            let categories: Awaited<ReturnType<typeof requestManager.getCategories>['response']>;
+            let categories: Awaited<
+                ReturnType<
+                    typeof requestManager.getCategories<GetCategoriesBaseQuery, GetCategoriesBaseQueryVariables>
+                >['response']
+            >;
             try {
-                categories = await requestManager.getCategories().response;
+                categories = await requestManager.getCategories<
+                    GetCategoriesBaseQuery,
+                    GetCategoriesBaseQueryVariables
+                >(GET_CATEGORIES_BASE).response;
             } catch (e) {
                 makeToast(t('category.error.label.request_failure'), 'error');
                 return;

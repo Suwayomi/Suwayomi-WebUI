@@ -65,8 +65,6 @@ import {
     FilterChangeInput,
     GetAboutQuery,
     GetAboutQueryVariables,
-    GetCategoriesQuery,
-    GetCategoriesQueryVariables,
     GetCategoryMangasQuery,
     GetCategoryMangasQueryVariables,
     GetChapterPagesFetchMutation,
@@ -199,6 +197,8 @@ import {
     GetServerSettingsQueryVariables,
     SetSourceMetadataMutation,
     SetSourceMetadataMutationVariables,
+    GetCategoriesSettingsQuery,
+    GetCategoriesSettingsQueryVariables,
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_GLOBAL_METADATAS } from '@/lib/graphql/queries/GlobalMetadataQuery.ts';
 import { SET_GLOBAL_METADATA } from '@/lib/graphql/mutations/GlobalMetadataMutation.ts';
@@ -230,7 +230,12 @@ import {
     GET_MANGAS,
     GET_MIGRATABLE_SOURCE_MANGAS,
 } from '@/lib/graphql/queries/MangaQuery.ts';
-import { GET_CATEGORIES, GET_CATEGORY_MANGAS } from '@/lib/graphql/queries/CategoryQuery.ts';
+import {
+    GET_CATEGORIES_BASE,
+    GET_CATEGORIES_LIBRARY,
+    GET_CATEGORIES_SETTINGS,
+    GET_CATEGORY_MANGAS,
+} from '@/lib/graphql/queries/CategoryQuery.ts';
 import {
     GET_SOURCE_MANGAS_FETCH,
     SET_SOURCE_METADATA,
@@ -2063,28 +2068,30 @@ export class RequestManager {
         );
     }
 
-    public useGetCategories(
-        options?: QueryHookOptions<GetCategoriesQuery, GetCategoriesQueryVariables>,
-    ): AbortableApolloUseQueryResponse<GetCategoriesQuery, GetCategoriesQueryVariables> {
-        return this.doRequest<GetCategoriesQuery, GetCategoriesQueryVariables>(
+    public useGetCategories<Data, Variables extends OperationVariables>(
+        document: DocumentNode | TypedDocumentNode<Data, Variables>,
+        options?: QueryHookOptions<Data, Variables>,
+    ): AbortableApolloUseQueryResponse<Data, Variables> {
+        return this.doRequest<Data, Variables>(
             GQLMethod.USE_QUERY,
-            GET_CATEGORIES,
+            document,
             {
                 orderBy: CategoryOrderBy.Order,
-            },
+            } as unknown as Variables,
             options,
         );
     }
 
-    public getCategories(
-        options?: QueryOptions<GetCategoriesQueryVariables, GetCategoriesQuery>,
-    ): AbortabaleApolloQueryResponse<GetCategoriesQuery> {
-        return this.doRequest(
+    public getCategories<Data, Variables extends OperationVariables>(
+        document: DocumentNode | TypedDocumentNode<Data, Variables>,
+        options?: QueryOptions<Variables, Data>,
+    ): AbortabaleApolloQueryResponse<Data> {
+        return this.doRequest<Data, Variables>(
             GQLMethod.QUERY,
-            GET_CATEGORIES,
+            document,
             {
                 orderBy: CategoryOrderBy.Order,
-            },
+            } as unknown as Variables,
             options,
         );
     }
@@ -2097,7 +2104,7 @@ export class RequestManager {
             GQLMethod.MUTATION,
             CREATE_CATEGORY,
             { input },
-            { refetchQueries: [GET_CATEGORIES], ...options },
+            { refetchQueries: [GET_CATEGORIES_BASE, GET_CATEGORIES_LIBRARY, GET_CATEGORIES_SETTINGS], ...options },
         );
     }
 
@@ -2108,16 +2115,16 @@ export class RequestManager {
             GQLMethod.USE_MUTATION,
             UPDATE_CATEGORY_ORDER,
             undefined,
-            options,
+            { refetchQueries: [GET_CATEGORIES_BASE, GET_CATEGORIES_LIBRARY], ...options },
         );
 
         const wrappedMutate = (mutateOptions: Parameters<typeof mutate>[0]) => {
             const variables = mutateOptions?.variables?.input;
             const cachedCategories = this.graphQLClient.client.readQuery<
-                GetCategoriesQuery,
-                GetCategoriesQueryVariables
+                GetCategoriesSettingsQuery,
+                GetCategoriesSettingsQueryVariables
             >({
-                query: GET_CATEGORIES,
+                query: GET_CATEGORIES_SETTINGS,
                 variables: { orderBy: CategoryOrderBy.Order },
             })?.categories.nodes;
 
@@ -2138,10 +2145,10 @@ export class RequestManager {
 
             return mutate({
                 update: (cache) => {
-                    cache.updateQuery<GetCategoriesQuery, GetCategoriesQueryVariables>(
+                    cache.updateQuery<GetCategoriesSettingsQuery, GetCategoriesSettingsQueryVariables>(
                         {
                             id: cache.identify({ __typename: 'CategoryNodeList' }),
-                            query: GET_CATEGORIES,
+                            query: GET_CATEGORIES_SETTINGS,
                             variables: { orderBy: CategoryOrderBy.Order },
                         },
                         (data) => ({
@@ -2205,7 +2212,7 @@ export class RequestManager {
             DELETE_CATEGORY,
             { input: { categoryId } },
             {
-                refetchQueries: [GET_CATEGORIES],
+                refetchQueries: [GET_CATEGORIES_BASE, GET_CATEGORIES_LIBRARY, GET_CATEGORIES_SETTINGS],
                 ...options,
             },
         );

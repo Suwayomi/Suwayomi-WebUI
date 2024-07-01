@@ -7,12 +7,18 @@
  */
 
 import gql from 'graphql-tag';
-import { FULL_CATEGORY_FIELDS, FULL_MANGA_FIELDS, PAGE_INFO } from '@/lib/graphql/Fragments';
+import { FULL_MANGA_FIELDS, PAGE_INFO } from '@/lib/graphql/Fragments';
+import {
+    CATEGORY_BASE_FIELDS,
+    CATEGORY_LIBRARY_FIELDS,
+    CATEGORY_SETTING_FIELDS,
+} from '@/lib/graphql/fragments/CategoryFragments.ts';
 
-export const GET_CATEGORIES = gql`
-    ${FULL_CATEGORY_FIELDS}
+export const GET_CATEGORIES_BASE = gql`
+    ${CATEGORY_BASE_FIELDS}
     ${PAGE_INFO}
-    query GET_CATEGORIES(
+
+    query GET_CATEGORIES_BASE(
         $after: Cursor
         $before: Cursor
         $condition: CategoryConditionInput
@@ -35,7 +41,7 @@ export const GET_CATEGORIES = gql`
             orderByType: $orderByType
         ) {
             nodes {
-                ...FULL_CATEGORY_FIELDS
+                ...CATEGORY_BASE_FIELDS
             }
             pageInfo {
                 ...PAGE_INFO
@@ -45,11 +51,76 @@ export const GET_CATEGORIES = gql`
     }
 `;
 
-export const GET_CATEGORY = gql`
-    ${FULL_CATEGORY_FIELDS}
-    query GET_CATEGORY($id: Int!) {
-        category(id: $id) {
-            ...FULL_CATEGORY_FIELDS
+export const GET_CATEGORIES_LIBRARY = gql`
+    ${CATEGORY_LIBRARY_FIELDS}
+    ${PAGE_INFO}
+
+    query GET_CATEGORIES_LIBRARY(
+        $after: Cursor
+        $before: Cursor
+        $condition: CategoryConditionInput
+        $filter: CategoryFilterInput
+        $first: Int
+        $last: Int
+        $offset: Int
+        $orderBy: CategoryOrderBy
+        $orderByType: SortOrder
+    ) {
+        categories(
+            after: $after
+            before: $before
+            condition: $condition
+            filter: $filter
+            first: $first
+            last: $last
+            offset: $offset
+            orderBy: $orderBy
+            orderByType: $orderByType
+        ) {
+            nodes {
+                ...CATEGORY_LIBRARY_FIELDS
+            }
+            pageInfo {
+                ...PAGE_INFO
+            }
+            totalCount
+        }
+    }
+`;
+
+export const GET_CATEGORIES_SETTINGS = gql`
+    ${CATEGORY_SETTING_FIELDS}
+    ${PAGE_INFO}
+
+    query GET_CATEGORIES_SETTINGS(
+        $after: Cursor
+        $before: Cursor
+        $condition: CategoryConditionInput
+        $filter: CategoryFilterInput
+        $first: Int
+        $last: Int
+        $offset: Int
+        $orderBy: CategoryOrderBy
+        $orderByType: SortOrder
+    ) {
+        categories(
+            after: $after
+            before: $before
+            condition: $condition
+            filter: $filter
+            first: $first
+            last: $last
+            offset: $offset
+            orderBy: $orderBy
+            orderByType: $orderByType
+        ) {
+            nodes {
+                ...CATEGORY_SETTING_FIELDS
+            }
+            pageInfo {
+                ...PAGE_INFO
+            }
+            totalCount
         }
     }
 `;

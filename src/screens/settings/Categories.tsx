@@ -33,10 +33,12 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { StrictModeDroppable } from '@/lib/StrictModeDroppable';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/components/util/StyledFab';
 import { NavBarContext } from '@/components/context/NavbarContext';
-import { TCategory } from '@/typings.ts';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { GetCategoriesSettingsQuery, GetCategoriesSettingsQueryVariables } from '@/lib/graphql/generated/graphql.ts';
+import { GET_CATEGORIES_SETTINGS } from '@/lib/graphql/queries/CategoryQuery.ts';
+import { CategoryIdInfo } from '@/lib/data/Categories.ts';
 
 const getItemStyle = (
     isDragging: boolean,
@@ -65,7 +67,10 @@ export function Categories() {
         };
     }, [t]);
 
-    const { data, loading, error, refetch } = requestManager.useGetCategories({ notifyOnNetworkStatusChange: true });
+    const { data, loading, error, refetch } = requestManager.useGetCategories<
+        GetCategoriesSettingsQuery,
+        GetCategoriesSettingsQueryVariables
+    >(GET_CATEGORIES_SETTINGS, { notifyOnNetworkStatusChange: true });
     const categories = useMemo(() => {
         const res = [...(data?.categories.nodes ?? [])];
         if (res.length > 0 && res[0].name === 'Default') {
@@ -81,7 +86,7 @@ export function Categories() {
     const [reorderCategory, { reset: revertReorder }] = requestManager.useReorderCategory();
     const theme = useTheme();
 
-    const categoryReorder = (list: TCategory[], from: number, to: number) => {
+    const categoryReorder = (list: CategoryIdInfo[], from: number, to: number) => {
         const reorderedCategory = list[from];
 
         reorderCategory({ variables: { input: { id: reorderedCategory.id, position: to + 1 } } }).catch(() =>

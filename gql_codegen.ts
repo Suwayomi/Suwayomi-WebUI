@@ -15,6 +15,7 @@ const config: CodegenConfig = {
         'src/lib/graphql/queries/**',
         'src/lib/graphql/mutations/**',
         'src/lib/graphql/subscriptions/**',
+        'src/lib/graphql/fragments/**',
         'src/lib/graphql/Fragments.ts',
     ],
     ignoreNoDocuments: true,
@@ -38,4 +39,5 @@ const config: CodegenConfig = {
     },
 };
 
+// eslint-disable-next-line import/no-default-export
 export default config;

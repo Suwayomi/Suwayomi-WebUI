@@ -29,6 +29,8 @@ import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { GetCategoriesSettingsQuery, GetCategoriesSettingsQueryVariables } from '@/lib/graphql/generated/graphql.ts';
+import { GET_CATEGORIES_SETTINGS } from '@/lib/graphql/queries/CategoryQuery.ts';
 
 type DownloadSettingsType = Pick<
     ServerSettings,
@@ -63,7 +65,9 @@ export const DownloadSettings = () => {
         };
     }, [t]);
 
-    const categories = requestManager.useGetCategories();
+    const categories = requestManager.useGetCategories<GetCategoriesSettingsQuery, GetCategoriesSettingsQueryVariables>(
+        GET_CATEGORIES_SETTINGS,
+    );
     const serverSettings = requestManager.useGetServerSettings({ notifyOnNetworkStatusChange: true });
     const [mutateSettings] = requestManager.useUpdateServerSettings();
     const {

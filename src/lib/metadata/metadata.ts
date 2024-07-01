@@ -14,7 +14,6 @@ import {
     Metadata,
     MetadataHolder,
     MetadataKeyValuePair,
-    TCategory,
     TChapter,
     TManga,
     TPartialSource,
@@ -22,6 +21,7 @@ import {
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { MetaType } from '@/lib/graphql/generated/graphql.ts';
 import { DEFAULT_DEVICE, getActiveDevice } from '@/util/device.ts';
+import { CategoryIdInfo } from '@/lib/data/Categories.ts';
 
 const APP_METADATA_KEY_PREFIX = 'webUI_';
 
@@ -370,7 +370,7 @@ export const requestUpdateMetadataValue = async (
 
     switch (holderType) {
         case 'category':
-            await requestManager.setCategoryMeta((metadataHolder as TCategory).id, metadataKey, value).response;
+            await requestManager.setCategoryMeta((metadataHolder as CategoryIdInfo).id, metadataKey, value).response;
             break;
         case 'chapter':
             await requestManager.setChapterMeta((metadataHolder as TChapter).id, metadataKey, value).response;
@@ -410,7 +410,7 @@ export const requestUpdateChapterMetadata = async (
 ): Promise<void[]> => requestUpdateMetadata(chapter, 'chapter', keysToValues);
 
 export const requestUpdateCategoryMetadata = async (
-    category: TCategory,
+    category: CategoryIdInfo & GqlMetaHolder,
     keysToValues: MetadataKeyValuePair[],
 ): Promise<void[]> => requestUpdateMetadata(category, 'category', keysToValues);
 
