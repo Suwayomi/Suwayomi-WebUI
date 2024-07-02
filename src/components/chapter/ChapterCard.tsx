@@ -24,11 +24,28 @@ import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
 import { useLongPress } from 'use-long-press';
 import { getDateString } from '@/util/date.ts';
 import { DownloadStateIndicator } from '@/components/molecules/DownloadStateIndicator.tsx';
-import { DownloadType } from '@/lib/graphql/generated/graphql.ts';
-import { TChapter } from '@/typings.ts';
+import { ChapterType, DownloadType } from '@/lib/graphql/generated/graphql.ts';
 import { ChapterActionMenuItems } from '@/components/chapter/ChapterActionMenuItems.tsx';
 import { Menu } from '@/components/menu/Menu.tsx';
 import { TypographyMaxLines } from '@/components/atoms/TypographyMaxLines.tsx';
+import {
+    ChapterBookmarkInfo,
+    ChapterDownloadInfo,
+    ChapterIdInfo,
+    ChapterMangaInfo,
+    ChapterNumberInfo,
+    ChapterReadInfo,
+    ChapterScanlatorInfo,
+} from '@/lib/data/Chapters.ts';
+
+type TChapter = ChapterIdInfo &
+    ChapterMangaInfo &
+    ChapterDownloadInfo &
+    ChapterReadInfo &
+    ChapterBookmarkInfo &
+    ChapterNumberInfo &
+    ChapterScanlatorInfo &
+    Pick<ChapterType, 'name' | 'sourceOrder' | 'uploadDate'>;
 
 interface IProps {
     chapter: TChapter;
@@ -86,7 +103,7 @@ export const ChapterCard: React.FC<IProps> = (props: IProps) => {
                         <Card sx={{ touchCallout: 'none' }}>
                             <CardActionArea
                                 component={Link}
-                                to={`/manga/${chapter.manga.id}/chapter/${chapter.sourceOrder}`}
+                                to={`/manga/${chapter.mangaId}/chapter/${chapter.sourceOrder}`}
                                 style={{
                                     color: theme.palette.text[chapter.isRead ? 'disabled' : 'primary'],
                                 }}

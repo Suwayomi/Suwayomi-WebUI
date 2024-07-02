@@ -19,7 +19,7 @@ import DownloadIcon from '@mui/icons-material/Download';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
 import Menu from '@mui/material/Menu';
-import { TChapter, TManga } from '@/typings.ts';
+import { TManga } from '@/typings.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { ChapterCard } from '@/components/chapter/ChapterCard.tsx';
 import { ResumeFab } from '@/components/manga/ResumeFAB.tsx';
@@ -28,7 +28,11 @@ import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCe
 import { ChaptersToolbarMenu } from '@/components/chapter/ChaptersToolbarMenu.tsx';
 import { SelectionFAB } from '@/components/collection/SelectionFAB.tsx';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/components/util/StyledFab.tsx';
-import { DownloadType } from '@/lib/graphql/generated/graphql.ts';
+import {
+    DownloadType,
+    GetChaptersMangaQuery,
+    GetChaptersMangaQueryVariables,
+} from '@/lib/graphql/generated/graphql.ts';
 import { useSelectableCollection } from '@/components/collection/useSelectableCollection.ts';
 import { SelectableCollectionSelectAll } from '@/components/collection/SelectableCollectionSelectAll.tsx';
 import { Chapters } from '@/lib/data/Chapters.ts';
@@ -37,6 +41,7 @@ import { ChapterActionMenuItems } from '@/components/chapter/ChapterActionMenuIt
 import { ChaptersDownloadActionMenuItems } from '@/components/chapter/ChaptersDownloadActionMenuItems.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
+import { GET_CHAPTERS_MANGA } from '@/lib/graphql/queries/ChapterQuery.ts';
 
 const ChapterListHeader = styled(Stack)(({ theme }) => ({
     margin: 8,
@@ -61,7 +66,7 @@ const StyledVirtuoso = styled(Virtuoso)(({ theme }) => ({
 }));
 
 export interface IChapterWithMeta {
-    chapter: TChapter;
+    chapter: React.ComponentProps<typeof ChapterCard>['chapter'];
     downloadChapter: DownloadType | undefined;
     selected: boolean | null;
 }
@@ -83,7 +88,11 @@ export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
         loading: isLoading,
         error,
         refetch,
-    } = requestManager.useGetMangaChapters(manga.id, { notifyOnNetworkStatusChange: true });
+    } = requestManager.useGetMangaChapters<GetChaptersMangaQuery, GetChaptersMangaQueryVariables>(
+        GET_CHAPTERS_MANGA,
+        manga.id,
+        { notifyOnNetworkStatusChange: true },
+    );
     const chapters = useMemo(() => chaptersData?.chapters.nodes ?? [], [chaptersData?.chapters.nodes]);
 
     const chapterIds = useMemo(() => chapters.map((chapter) => chapter.id), [chapters]);
@@ -106,7 +115,7 @@ export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
         () =>
             visibleChapters.map((chapter) => {
                 const downloadChapter = queue?.find(
-                    (cd) => cd.chapter.sourceOrder === chapter.sourceOrder && cd.chapter.manga.id === chapter.manga.id,
+                    (cd) => cd.chapter.sourceOrder === chapter.sourceOrder && cd.chapter.manga.id === chapter.mangaId,
                 );
                 const selected = !areNoItemsSelected ? selectedItemIds.includes(chapter.id) : null;
                 return {

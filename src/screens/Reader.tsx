@@ -11,7 +11,7 @@ import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'r
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import { useTranslation } from 'react-i18next';
-import { AllowedMetadataValueTypes, ChapterOffset, IReaderSettings, ReaderType, TChapter, TManga } from '@/typings';
+import { AllowedMetadataValueTypes, ChapterOffset, IReaderSettings, ReaderType, TManga } from '@/typings';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import {
     checkAndHandleMissingStoredReaderSettings,
@@ -28,11 +28,18 @@ import { ReaderNavBar } from '@/components/navbar/ReaderNavBar';
 import { makeToast } from '@/components/util/Toast';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { useDebounce } from '@/util/useDebounce.ts';
-import { UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
+import {
+    GetChaptersReaderQuery,
+    GetChaptersReaderQueryVariables,
+    UpdateChapterPatchInput,
+} from '@/lib/graphql/generated/graphql.ts';
 import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { Chapters } from '@/lib/data/Chapters.ts';
 import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
+import { GET_CHAPTERS_READER } from '@/lib/graphql/queries/ChapterQuery.ts';
+
+type TChapter = GetChaptersReaderQuery['chapters']['nodes'][number];
 
 const getReaderComponent = (readerType: ReaderType) => {
     switch (readerType) {
@@ -99,16 +106,25 @@ export function Reader() {
     } = requestManager.useGetManga(mangaId);
     const loadedChapter = useRef<TChapter | null>(null);
     const isChapterLoaded =
-        Number(mangaId) === loadedChapter.current?.manga.id &&
+        Number(mangaId) === loadedChapter.current?.mangaId &&
         Number(chapterIndex) === loadedChapter.current?.sourceOrder &&
         loadedChapter.current?.pageCount !== -1;
     const manga = data?.manga ?? fallbackManga;
     const {
-        data: chapterData,
+        data: chaptersData,
         loading: isChapterLoading,
         error: chapterError,
         refetch: fetchChapter,
-    } = requestManager.useGetMangaChapter(mangaId, chapterIndex, { notifyOnNetworkStatusChange: true });
+    } = requestManager.useGetChapters<GetChaptersReaderQuery, GetChaptersReaderQueryVariables>(
+        GET_CHAPTERS_READER,
+        {
+            condition: { mangaId: Number(mangaId), sourceOrder: Number(chapterIndex) },
+        },
+        {
+            notifyOnNetworkStatusChange: true,
+        },
+    );
+    const chapterData = chaptersData?.chapters.nodes[0];
     const arePagesUpdatedRef = useRef(false);
 
     const {
@@ -121,15 +137,14 @@ export function Reader() {
 
         const isSameAsLoadedChapter = isAChapterLoaded && isChapterLoaded;
         if (isSameAsLoadedChapter) {
-            const didPageCountChange =
-                chapterData?.chapter && loadedChapter.current?.pageCount !== chapterData.chapter.pageCount;
-            return didPageCountChange ? chapterData!.chapter : loadedChapter.current;
+            const didPageCountChange = chapterData && loadedChapter.current?.pageCount !== chapterData.pageCount;
+            return didPageCountChange ? chapterData! : loadedChapter.current;
         }
 
         arePagesUpdatedRef.current = false;
 
-        if (chapterData?.chapter) {
-            return chapterData.chapter;
+        if (chapterData) {
+            return chapterData;
         }
 
         return null;
@@ -142,7 +157,7 @@ export function Reader() {
     if (initialChapterRef.current === fallbackChapter) {
         initialChapterRef.current = chapter;
     }
-    if (chapter.manga.id !== initialChapterRef.current?.manga.id) {
+    if (chapter.mangaId !== initialChapterRef.current?.mangaId) {
         initialChapterRef.current = fallbackChapter;
     }
 
@@ -179,7 +194,11 @@ export function Reader() {
         loading: areChaptersLoading,
         error: chaptersError,
         refetch: refetchChapters,
-    } = requestManager.useGetMangaChapters(mangaId, { nextFetchPolicy: 'standby' });
+    } = requestManager.useGetMangaChapters<GetChaptersReaderQuery, GetChaptersReaderQueryVariables>(
+        GET_CHAPTERS_READER,
+        mangaId,
+        { nextFetchPolicy: 'standby' },
+    );
     const mangaChapters = mangaChaptersData?.chapters.nodes;
 
     const isLoading =
@@ -276,7 +295,7 @@ export function Reader() {
 
             const inDownloadRange = (patch.lastPageRead ?? 0) / chapter.pageCount > 0.25;
             const shouldCheckDownloadAhead =
-                isDownloadAheadEnabled && chapter.manga.inLibrary && !!currentChapter?.isDownloaded && inDownloadRange;
+                isDownloadAheadEnabled && manga.inLibrary && !!currentChapter?.isDownloaded && inDownloadRange;
 
             if (shouldCheckDownloadAhead) {
                 const nextChapterUpToDate = nextChapter ? Chapters.getFromCache<TChapter>(nextChapter.id) : null;

@@ -9,11 +9,12 @@
 import { t as translate } from 'i18next';
 import gql from 'graphql-tag';
 import { DocumentNode } from '@apollo/client';
-import { ChapterOffset, TChapter, TManga, TranslationKey } from '@/typings.ts';
+import { ChapterOffset, TManga, TranslationKey } from '@/typings.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { getMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
-import { FULL_CHAPTER_FIELDS } from '@/lib/graphql/Fragments.ts';
+import { ChapterListFieldsFragment, ChapterType } from '@/lib/graphql/generated/graphql.ts';
+import { CHAPTER_LIST_FIELDS } from '@/lib/graphql/fragments/ChapterFragments.ts';
 
 export type ChapterAction = 'download' | 'delete' | 'bookmark' | 'unbookmark' | 'mark_as_read' | 'mark_as_unread';
 
@@ -77,24 +78,24 @@ export const actionToTranslationKey: {
     },
 };
 
-export type ChapterIdInfo = Pick<TChapter, 'id'>;
-export type ChapterMangaInfo = Pick<TChapter, 'mangaId'>;
-export type ChapterDownloadInfo = ChapterIdInfo & Pick<TChapter, 'isDownloaded'>;
-export type ChapterBookmarkInfo = ChapterIdInfo & Pick<TChapter, 'isBookmarked'>;
-export type ChapterReadInfo = ChapterIdInfo & Pick<TChapter, 'isRead'>;
-export type ChapterNumberInfo = ChapterIdInfo & Pick<TChapter, 'chapterNumber'>;
-export type ChapterScanlatorInfo = ChapterIdInfo & Pick<TChapter, 'scanlator'>;
-export type ChapterRealUrlInfo = Pick<TChapter, 'realUrl'>;
+export type ChapterIdInfo = Pick<ChapterType, 'id'>;
+export type ChapterMangaInfo = Pick<ChapterType, 'mangaId'>;
+export type ChapterDownloadInfo = ChapterIdInfo & Pick<ChapterType, 'isDownloaded'>;
+export type ChapterBookmarkInfo = ChapterIdInfo & Pick<ChapterType, 'isBookmarked'>;
+export type ChapterReadInfo = ChapterIdInfo & Pick<ChapterType, 'isRead'>;
+export type ChapterNumberInfo = ChapterIdInfo & Pick<ChapterType, 'chapterNumber'>;
+export type ChapterScanlatorInfo = ChapterIdInfo & Pick<ChapterType, 'scanlator'>;
+export type ChapterRealUrlInfo = Pick<ChapterType, 'realUrl'>;
 
 export class Chapters {
     static getIds(chapters: { id: number }[]): number[] {
         return chapters.map((chapter) => chapter.id);
     }
 
-    static getFromCache<T>(
+    static getFromCache<T = ChapterListFieldsFragment>(
         id: number,
-        fragment: DocumentNode = FULL_CHAPTER_FIELDS,
-        fragmentName: string = 'FULL_CHAPTER_FIELDS',
+        fragment: DocumentNode = CHAPTER_LIST_FIELDS,
+        fragmentName: string = 'CHAPTER_LIST_FIELDS',
     ): T | null {
         return requestManager.graphQLClient.client.cache.readFragment<T>({
             id: requestManager.graphQLClient.client.cache.identify({
@@ -107,7 +108,7 @@ export class Chapters {
     }
 
     static isDownloading(id: number): boolean {
-        return !!requestManager.graphQLClient.client.cache.readFragment<TChapter>({
+        return !!requestManager.graphQLClient.client.cache.readFragment<ChapterType>({
             id: requestManager.graphQLClient.client.cache.identify({
                 __typename: 'DownloadType',
                 chapter: {

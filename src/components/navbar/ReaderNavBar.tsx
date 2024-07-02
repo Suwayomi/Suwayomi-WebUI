@@ -27,11 +27,12 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
 import { useTranslation } from 'react-i18next';
-import { AllowedMetadataValueTypes, ChapterOffset, IReaderSettings, TChapter, TManga } from '@/typings';
+import { AllowedMetadataValueTypes, ChapterOffset, IReaderSettings, TManga } from '@/typings';
 import { ReaderSettingsOptions } from '@/components/reader/ReaderSettingsOptions';
 import { useBackButton } from '@/util/useBackButton.ts';
 import { Select } from '@/components/atoms/Select.tsx';
 import { getOptionForDirection } from '@/theme.ts';
+import { ChapterType } from '@/lib/graphql/generated/graphql.ts';
 
 const Root = styled('div')({
     zIndex: 10,
@@ -123,8 +124,8 @@ interface IProps {
     settings: IReaderSettings;
     setSettingValue: (key: keyof IReaderSettings, value: AllowedMetadataValueTypes, persist?: boolean) => void;
     manga: TManga;
-    chapter: TChapter;
-    chapters: TChapter[];
+    chapter: Pick<ChapterType, 'name' | 'sourceOrder' | 'pageCount'>;
+    chapters: Pick<ChapterType, 'id' | 'sourceOrder' | 'name' | 'chapterNumber' | 'scanlator'>[];
     curPage: number;
     scrollToPage: (page: number) => void;
     openNextChapter: (offset: ChapterOffset) => void;

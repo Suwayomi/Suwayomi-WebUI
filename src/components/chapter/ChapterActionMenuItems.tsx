@@ -29,7 +29,6 @@ import {
     ChapterRealUrlInfo,
     Chapters,
 } from '@/lib/data/Chapters.ts';
-import { TChapter } from '@/typings.ts';
 import { MenuItem } from '@/components/menu/MenuItem.tsx';
 import { IChapterWithMeta } from '@/components/chapter/ChapterList.tsx';
 import { ChaptersWithMeta } from '@/lib/data/ChaptersWithMeta.ts';
@@ -39,13 +38,15 @@ import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings
 
 type BaseProps = { onClose: () => void };
 
+type TChapter = ChapterIdInfo &
+    ChapterMangaInfo &
+    ChapterDownloadInfo &
+    ChapterBookmarkInfo &
+    ChapterReadInfo &
+    ChapterRealUrlInfo;
+
 type SingleModeProps = {
-    chapter: ChapterIdInfo &
-        ChapterMangaInfo &
-        ChapterDownloadInfo &
-        ChapterBookmarkInfo &
-        ChapterReadInfo &
-        ChapterRealUrlInfo;
+    chapter: TChapter;
     allChapters: TChapter[];
     handleSelection?: SelectableCollectionReturnType<TChapter['id']>['handleSelection'];
     canBeDownloaded: boolean;

@@ -22,8 +22,7 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
 import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 import { DownloadStateIndicator } from '@/components/molecules/DownloadStateIndicator';
-import { DownloadType } from '@/lib/graphql/generated/graphql.ts';
-import { TChapter } from '@/typings.ts';
+import { ChapterType, DownloadType } from '@/lib/graphql/generated/graphql.ts';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { UpdateChecker } from '@/components/library/UpdateChecker.tsx';
 import { StyledGroupedVirtuoso } from '@/components/virtuoso/StyledGroupedVirtuoso.tsx';
@@ -34,8 +33,9 @@ import { SpinnerImage } from '@/components/util/SpinnerImage.tsx';
 import { dateTimeFormatter, epochToDate, getDateString } from '@/util/date.ts';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { TypographyMaxLines } from '@/components/atoms/TypographyMaxLines.tsx';
+import { ChapterIdInfo, ChapterMangaInfo } from '@/lib/data/Chapters.ts';
 
-const groupByDate = (updates: TChapter[]): [date: string, items: number][] => {
+const groupByDate = (updates: Pick<ChapterType, 'fetchedAt'>[]): [date: string, items: number][] => {
     if (!updates.length) {
         return [];
     }
@@ -96,15 +96,12 @@ export const Updates: React.FC = () => {
         };
     }, [t, lastUpdateTimestamp]);
 
-    const downloadForChapter = (chapter: TChapter) => {
-        const {
-            sourceOrder,
-            manga: { id: mangaId },
-        } = chapter;
+    const downloadForChapter = (chapter: Pick<ChapterType, 'sourceOrder'> & ChapterMangaInfo) => {
+        const { sourceOrder, mangaId } = chapter;
         return queue.find((q) => sourceOrder === q.chapter.sourceOrder && mangaId === q.chapter.manga.id);
     };
 
-    const downloadChapter = (chapter: TChapter) => {
+    const downloadChapter = (chapter: ChapterIdInfo) => {
         requestManager.addChapterToDownloadQueue(chapter.id);
     };
 

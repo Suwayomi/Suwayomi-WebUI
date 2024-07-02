@@ -12,10 +12,11 @@ import {
     ChapterOptionsReducerAction,
     ChapterSortMode,
     NullAndUndefined,
-    TChapter,
     TranslationKey,
 } from '@/typings.ts';
 import { useReducerLocalStorage } from '@/util/useStorage.tsx';
+import { ChapterBookmarkInfo, ChapterDownloadInfo, ChapterReadInfo } from '@/lib/data/Chapters.ts';
+import { ChapterType } from '@/lib/graphql/generated/graphql.ts';
 
 const defaultChapterOptions: ChapterListOptions = {
     active: false,
@@ -46,7 +47,7 @@ function chapterOptionsReducer(state: ChapterListOptions, actions: ChapterOption
     }
 }
 
-export function unreadFilter(unread: NullAndUndefined<boolean>, { isRead: isChapterRead }: TChapter) {
+export function unreadFilter(unread: NullAndUndefined<boolean>, { isRead: isChapterRead }: ChapterReadInfo) {
     switch (unread) {
         case true:
             return !isChapterRead;
@@ -57,7 +58,7 @@ export function unreadFilter(unread: NullAndUndefined<boolean>, { isRead: isChap
     }
 }
 
-function downloadFilter(downloaded: NullAndUndefined<boolean>, { isDownloaded: chapterDownload }: TChapter) {
+function downloadFilter(downloaded: NullAndUndefined<boolean>, { isDownloaded: chapterDownload }: ChapterDownloadInfo) {
     switch (downloaded) {
         case true:
             return chapterDownload;
@@ -68,7 +69,10 @@ function downloadFilter(downloaded: NullAndUndefined<boolean>, { isDownloaded: c
     }
 }
 
-function bookmarkedFilter(bookmarked: NullAndUndefined<boolean>, { isBookmarked: chapterBookmarked }: TChapter) {
+function bookmarkedFilter(
+    bookmarked: NullAndUndefined<boolean>,
+    { isBookmarked: chapterBookmarked }: ChapterBookmarkInfo,
+) {
     switch (bookmarked) {
         case true:
             return chapterBookmarked;
@@ -79,11 +83,12 @@ function bookmarkedFilter(bookmarked: NullAndUndefined<boolean>, { isBookmarked:
     }
 }
 
-const sortChapters = (
-    chapters: TChapter[],
+type TChapterSort = Pick<ChapterType, 'sourceOrder' | 'fetchedAt' | 'chapterNumber' | 'uploadDate'>;
+const sortChapters = <T extends TChapterSort>(
+    chapters: T[],
     { sortBy, reverse }: Pick<ChapterListOptions, 'sortBy' | 'reverse'>,
-): TChapter[] => {
-    const sortedChapters: TChapter[] = [...chapters];
+): T[] => {
+    const sortedChapters: T[] = [...chapters];
 
     switch (sortBy) {
         case 'source':
@@ -109,7 +114,11 @@ const sortChapters = (
     return sortedChapters;
 };
 
-export function filterAndSortChapters(chapters: TChapter[], options: ChapterListOptions): TChapter[] {
+type TChapterFilter = TChapterSort & ChapterReadInfo & ChapterDownloadInfo & ChapterBookmarkInfo;
+export function filterAndSortChapters<Chapters extends TChapterFilter>(
+    chapters: Chapters[],
+    options: ChapterListOptions,
+): Chapters[] {
     const filtered = options.active
         ? chapters.filter(
               (chp) =>

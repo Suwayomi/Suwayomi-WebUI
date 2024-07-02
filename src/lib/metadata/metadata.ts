@@ -14,7 +14,6 @@ import {
     Metadata,
     MetadataHolder,
     MetadataKeyValuePair,
-    TChapter,
     TManga,
     TPartialSource,
 } from '@/typings.ts';
@@ -22,6 +21,7 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { MetaType } from '@/lib/graphql/generated/graphql.ts';
 import { DEFAULT_DEVICE, getActiveDevice } from '@/util/device.ts';
 import { CategoryIdInfo } from '@/lib/data/Categories.ts';
+import { ChapterIdInfo } from '@/lib/data/Chapters.ts';
 
 const APP_METADATA_KEY_PREFIX = 'webUI_';
 
@@ -373,7 +373,7 @@ export const requestUpdateMetadataValue = async (
             await requestManager.setCategoryMeta((metadataHolder as CategoryIdInfo).id, metadataKey, value).response;
             break;
         case 'chapter':
-            await requestManager.setChapterMeta((metadataHolder as TChapter).id, metadataKey, value).response;
+            await requestManager.setChapterMeta((metadataHolder as ChapterIdInfo).id, metadataKey, value).response;
             break;
         case 'global':
             await requestManager.setGlobalMetadata(metadataKey, value).response;
@@ -405,7 +405,7 @@ export const requestUpdateMangaMetadata = async (
 ): Promise<void[]> => requestUpdateMetadata(manga, 'manga', keysToValues);
 
 export const requestUpdateChapterMetadata = async (
-    chapter: TChapter,
+    chapter: ChapterIdInfo & GqlMetaHolder,
     keysToValues: MetadataKeyValuePair[],
 ): Promise<void[]> => requestUpdateMetadata(chapter, 'chapter', keysToValues);
 

@@ -29,10 +29,10 @@ import { makeToast } from '@/components/util/Toast';
 import { DownloadStateIndicator } from '@/components/molecules/DownloadStateIndicator';
 import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 import { ChapterType, DownloadType } from '@/lib/graphql/generated/graphql.ts';
-import { TChapter } from '@/typings.ts';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { ChapterIdInfo } from '@/lib/data/Chapters.ts';
 
 const HeightPreservingItem = ({ children, ...props }: BoxProps) => (
     // the height is necessary to prevent the item container from collapsing, which confuses Virtuoso measurements
@@ -192,7 +192,7 @@ export const DownloadQueue: React.FC = () => {
         categoryReorder(queue, result.source.index, result.destination.index);
     };
 
-    const handleDelete = async (chapter: TChapter) => {
+    const handleDelete = async (chapter: ChapterIdInfo) => {
         const isRunning = status === 'STARTED';
 
         try {

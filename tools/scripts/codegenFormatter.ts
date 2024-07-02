@@ -41,8 +41,7 @@ const addImports = format(
     `import { FieldPolicy, FieldReadFunction, TypePolicies, TypePolicy } from '@apollo/client/cache';`,
     `import {FieldPolicy, FieldReadFunction, Reference, TypePolicies, TypePolicy} from '@apollo/client/cache';
 import {
-\tGetChapterQueryVariables,
-\tGetChaptersQuery, GetDownloadStatusQueryVariables, GetExtensionQueryVariables, GetGlobalMetadataQueryVariables,
+\tGetChaptersMangaQuery, GetDownloadStatusQueryVariables, GetExtensionQueryVariables, GetGlobalMetadataQueryVariables,
 \tGetMangaQueryVariables, GetSourceQueryVariables, GetUpdateStatusQueryVariables, GetWebuiUpdateStatusQueryVariables,
 } from "@/lib/graphql/generated/graphql.ts";
 import {FieldFunctionOptions} from "@apollo/client/cache/inmemory/policies";`,
@@ -85,8 +84,8 @@ const fixTypingOfQueryTypePolicies = format(
 \taboutWebUI?: FieldPolicy<any> | FieldReadFunction<any>,
 \tcategories?: FieldPolicy<any> | FieldReadFunction<any>,
 \tcategory?: FieldPolicy<any> | FieldReadFunction<any>,
-\tchapter?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetChapterQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetChapterQueryVariables>>,
-\tchapters?: FieldPolicy<GetChaptersQuery['chapters']> | FieldReadFunction<GetChaptersQuery['chapters']>,
+\tchapter?: FieldPolicy<any> | FieldReadFunction<any>,
+\tchapters?: FieldPolicy<GetChaptersMangaQuery['chapters']> | FieldReadFunction<GetChaptersMangaQuery['chapters']>,
 \tcheckForServerUpdates?: FieldPolicy<any> | FieldReadFunction<any>,
 \tcheckForWebUIUpdate?: FieldPolicy<any> | FieldReadFunction<any>,
 \tdownloadStatus?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetDownloadStatusQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetDownloadStatusQueryVariables>>,

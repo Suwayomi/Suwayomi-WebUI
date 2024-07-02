@@ -69,8 +69,6 @@ import {
     GetCategoryMangasQueryVariables,
     GetChapterPagesFetchMutation,
     GetChapterPagesFetchMutationVariables,
-    GetChaptersQuery,
-    GetChaptersQueryVariables,
     GetExtensionsFetchMutation,
     GetExtensionsFetchMutationVariables,
     GetExtensionsQuery,
@@ -199,6 +197,10 @@ import {
     SetSourceMetadataMutationVariables,
     GetCategoriesSettingsQuery,
     GetCategoriesSettingsQueryVariables,
+    GetChaptersMangaQuery,
+    GetChaptersMangaQueryVariables,
+    GetChaptersUpdatesQuery,
+    GetChaptersUpdatesQueryVariables,
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_GLOBAL_METADATAS } from '@/lib/graphql/queries/GlobalMetadataQuery.ts';
 import { SET_GLOBAL_METADATA } from '@/lib/graphql/mutations/GlobalMetadataMutation.ts';
@@ -253,7 +255,11 @@ import {
     START_DOWNLOADER,
     STOP_DOWNLOADER,
 } from '@/lib/graphql/mutations/DownloaderMutation.ts';
-import { GET_CHAPTERS, GET_MANGAS_CHAPTER_IDS_WITH_STATE } from '@/lib/graphql/queries/ChapterQuery.ts';
+import {
+    GET_CHAPTERS_MANGA,
+    GET_CHAPTERS_UPDATES,
+    GET_MANGAS_CHAPTER_IDS_WITH_STATE,
+} from '@/lib/graphql/queries/ChapterQuery.ts';
 import {
     GET_CHAPTER_PAGES_FETCH,
     GET_MANGA_CHAPTERS_FETCH,
@@ -1835,30 +1841,34 @@ export class RequestManager {
         );
     }
 
-    public useGetChapters(
-        variables: GetChaptersQueryVariables,
-        options?: QueryHookOptions<GetChaptersQuery, GetChaptersQueryVariables>,
-    ): AbortableApolloUseQueryResponse<GetChaptersQuery, GetChaptersQueryVariables> {
-        return this.doRequest(GQLMethod.USE_QUERY, GET_CHAPTERS, variables, options);
+    public useGetChapters<Data, Variables extends OperationVariables>(
+        document: DocumentNode | TypedDocumentNode<Data, Variables>,
+        variables: Variables,
+        options?: QueryHookOptions<Data, Variables>,
+    ): AbortableApolloUseQueryResponse<Data, Variables> {
+        return this.doRequest(GQLMethod.USE_QUERY, document, variables, options);
     }
 
-    public getChapters(
-        variables: GetChaptersQueryVariables,
-        options?: QueryOptions<GetChaptersQueryVariables, GetChaptersQuery>,
-    ): AbortabaleApolloQueryResponse<GetChaptersQuery> {
-        return this.doRequest(GQLMethod.QUERY, GET_CHAPTERS, variables, options);
+    public getChapters<Data, Variables extends OperationVariables>(
+        document: DocumentNode | TypedDocumentNode<Data, Variables>,
+        variables: Variables,
+        options?: QueryOptions<Variables, Data>,
+    ): AbortabaleApolloQueryResponse<Data> {
+        return this.doRequest(GQLMethod.QUERY, document, variables, options);
     }
 
-    public useGetMangaChapters(
+    public useGetMangaChapters<Data, Variables extends OperationVariables>(
+        document: DocumentNode | TypedDocumentNode<Data, Variables>,
         mangaId: number | string,
-        options?: QueryHookOptions<GetChaptersQuery, GetChaptersQueryVariables>,
-    ): AbortableApolloUseQueryResponse<GetChaptersQuery, GetChaptersQueryVariables> {
+        options?: QueryHookOptions<Data, Variables>,
+    ): AbortableApolloUseQueryResponse<Data, Variables> {
         return this.useGetChapters(
+            document,
             {
                 condition: { mangaId: Number(mangaId) },
                 orderBy: ChapterOrderBy.SourceOrder,
                 orderByType: SortOrder.Desc,
-            },
+            } as unknown as Variables,
             options,
         );
     }
@@ -1887,24 +1897,25 @@ export class RequestManager {
             GQLMethod.MUTATION,
             GET_MANGA_CHAPTERS_FETCH,
             { input: { mangaId: Number(mangaId) } },
-            { refetchQueries: [GET_CHAPTERS], ...options },
+            { refetchQueries: [GET_CHAPTERS_MANGA], ...options },
         );
     }
 
     public useGetMangaChapter(
         mangaId: number | string,
         chapterIndex: number | string,
-        options?: QueryHookOptions<GetChaptersQuery, GetChaptersQueryVariables>,
+        options?: QueryHookOptions<GetChaptersMangaQuery, GetChaptersMangaQueryVariables>,
     ): AbortableApolloUseQueryResponse<
-        Omit<GetChaptersQuery, 'chapters'> & { chapter: GetChaptersQuery['chapters']['nodes'][number] },
-        GetChaptersQueryVariables
+        Omit<GetChaptersMangaQuery, 'chapters'> & { chapter: GetChaptersMangaQuery['chapters']['nodes'][number] },
+        GetChaptersMangaQueryVariables
     > {
         type Response = AbortableApolloUseQueryResponse<
-            Omit<GetChaptersQuery, 'chapters'> & { chapter: GetChaptersQuery['chapters']['nodes'][number] },
-            GetChaptersQueryVariables
+            Omit<GetChaptersMangaQuery, 'chapters'> & { chapter: GetChaptersMangaQuery['chapters']['nodes'][number] },
+            GetChaptersMangaQueryVariables
         >;
 
-        const chapterResponse = this.useGetChapters(
+        const chapterResponse = this.useGetChapters<GetChaptersMangaQuery, GetChaptersMangaQueryVariables>(
+            GET_CHAPTERS_MANGA,
             { condition: { mangaId: Number(mangaId), sourceOrder: Number(chapterIndex) } },
             options,
         );
@@ -1919,43 +1930,6 @@ export class RequestManager {
                 chapter: chapterResponse.data.chapters.nodes[0],
             },
         } as unknown as Response;
-    }
-
-    public getChapter(
-        mangaId: number | string,
-        chapterIndex: number | string,
-        options?: QueryOptions<GetChaptersQueryVariables, GetChaptersQuery>,
-    ): AbortabaleApolloQueryResponse<
-        Omit<GetChaptersQuery, 'chapters'> & { chapter: GetChaptersQuery['chapters']['nodes'][number] }
-    > {
-        type ResponseData = Omit<GetChaptersQuery, 'chapters'> & {
-            chapter: GetChaptersQuery['chapters']['nodes'][number];
-        };
-
-        const chapterRequest = this.doRequest<GetChaptersQuery, GetChaptersQueryVariables>(
-            GQLMethod.QUERY,
-            GET_CHAPTERS,
-            {
-                condition: { mangaId: Number(mangaId), sourceOrder: Number(chapterIndex) },
-            },
-            options,
-        );
-
-        return {
-            ...chapterRequest,
-            response: chapterRequest.response.then((chapterResponse) => {
-                if (!chapterResponse.data) {
-                    return chapterResponse;
-                }
-
-                return {
-                    ...chapterResponse,
-                    data: {
-                        chapter: chapterResponse.data.chapters.nodes[0],
-                    },
-                };
-            }) as Promise<ApolloQueryResult<ResponseData>>,
-        };
     }
 
     public useGetChapterPagesFetch(
@@ -2425,15 +2399,16 @@ export class RequestManager {
 
     public useGetRecentlyUpdatedChapters(
         initialPages: number = 1,
-        options?: QueryHookOptions<GetChaptersQuery, GetChaptersQueryVariables>,
-    ): AbortableApolloUseQueryResponse<GetChaptersQuery, GetChaptersQueryVariables> {
+        options?: QueryHookOptions<GetChaptersUpdatesQuery, GetChaptersUpdatesQueryVariables>,
+    ): AbortableApolloUseQueryResponse<GetChaptersUpdatesQuery, GetChaptersUpdatesQueryVariables> {
         const PAGE_SIZE = 50;
         const CACHE_KEY = 'useGetRecentlyUpdatedChapters';
 
         const offset = this.cache.getResponseFor<number>(CACHE_KEY, undefined) ?? 0;
         const [lastOffset] = useState(offset);
 
-        const result = this.useGetChapters(
+        const result = this.useGetChapters<GetChaptersUpdatesQuery, GetChaptersUpdatesQueryVariables>(
+            GET_CHAPTERS_UPDATES,
             {
                 filter: { inLibrary: { equalTo: true } },
                 orderBy: ChapterOrderBy.FetchedAt,

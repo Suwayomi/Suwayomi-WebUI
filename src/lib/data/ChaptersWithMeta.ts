@@ -6,17 +6,18 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { TChapter } from '@/typings.ts';
 import { DownloadType } from '@/lib/graphql/generated/graphql.ts';
-import { Chapters } from '@/lib/data/Chapters.ts';
+import { ChapterBookmarkInfo, ChapterDownloadInfo, ChapterReadInfo, Chapters } from '@/lib/data/Chapters.ts';
 
 export type ChapterWithMetaType = {
-    chapter: TChapter;
+    chapter: ChapterDownloadInfo & ChapterReadInfo & ChapterBookmarkInfo;
     downloadChapter: DownloadType | undefined;
 };
 
 export class ChaptersWithMeta {
-    static getChapters(chapters: ChapterWithMetaType[]): TChapter[] {
+    static getChapters<ChaptersWithMeta extends ChapterWithMetaType>(
+        chapters: ChaptersWithMeta[],
+    ): ChaptersWithMeta['chapter'][] {
         return chapters.map(({ chapter }) => chapter);
     }
 

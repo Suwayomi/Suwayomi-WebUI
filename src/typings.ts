@@ -11,7 +11,7 @@ import { SvgIconTypeMap } from '@mui/material/SvgIcon';
 import { ParseKeys } from 'i18next';
 import { Location } from 'react-router-dom';
 import {
-    GetChapterQuery,
+    GetChaptersReaderQuery,
     GetExtensionQuery,
     GetMangaQuery,
     GetServerSettingsQuery,
@@ -181,8 +181,6 @@ export interface IMangaChapter {
     chapter: IChapter;
 }
 
-export type TChapter = GetChapterQuery['chapter'];
-
 export enum IncludeInGlobalUpdate {
     EXCLUDE = 0,
     INCLUDE = 1,
@@ -297,7 +295,7 @@ export interface IReaderProps {
     initialPage: number;
     settings: IReaderSettings;
     manga: TManga;
-    chapter: TChapter;
+    chapter: GetChaptersReaderQuery['chapters']['nodes'][number];
     nextChapter: () => void;
     prevChapter: () => void;
 }

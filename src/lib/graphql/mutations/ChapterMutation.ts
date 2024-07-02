@@ -7,7 +7,8 @@
  */
 
 import gql from 'graphql-tag';
-import { BASE_TRACK_RECORD_FIELDS, FULL_CHAPTER_FIELDS } from '@/lib/graphql/Fragments';
+import { BASE_TRACK_RECORD_FIELDS } from '@/lib/graphql/Fragments';
+import { CHAPTER_LIST_FIELDS } from '@/lib/graphql/fragments/ChapterFragments.ts';
 
 export const DELETE_CHAPTER_METADATA = gql`
     mutation DELETE_CHAPTER_METADATA($input: DeleteChapterMetaInput!) {
@@ -51,12 +52,13 @@ export const GET_CHAPTER_PAGES_FETCH = gql`
 
 // makes the server fetch and return the chapters of the manga
 export const GET_MANGA_CHAPTERS_FETCH = gql`
-    ${FULL_CHAPTER_FIELDS}
+    ${CHAPTER_LIST_FIELDS}
+
     mutation GET_MANGA_CHAPTERS_FETCH($input: FetchChaptersInput!) {
         fetchChapters(input: $input) {
             clientMutationId
             chapters {
-                ...FULL_CHAPTER_FIELDS
+                ...CHAPTER_LIST_FIELDS
                 manga {
                     id
                     chapters {

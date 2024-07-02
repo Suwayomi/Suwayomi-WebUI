@@ -7,23 +7,20 @@
  */
 
 import gql from 'graphql-tag';
-import { FULL_CHAPTER_FIELDS, PAGE_INFO } from '@/lib/graphql/Fragments';
-
-// returns the current chapter from the database
-export const GET_CHAPTER = gql`
-    ${FULL_CHAPTER_FIELDS}
-    query GET_CHAPTER($id: Int!) {
-        chapter(id: $id) {
-            ...FULL_CHAPTER_FIELDS
-        }
-    }
-`;
+import { PAGE_INFO } from '@/lib/graphql/Fragments';
+import {
+    CHAPTER_LIST_FIELDS,
+    CHAPTER_READER_FIELDS,
+    CHAPTER_STATE_FIELDS,
+    CHAPTER_UPDATE_LIST_FIELDS,
+} from '@/lib/graphql/fragments/ChapterFragments.ts';
 
 // returns the current chapters from the database
-export const GET_CHAPTERS = gql`
-    ${FULL_CHAPTER_FIELDS}
+export const GET_CHAPTERS_READER = gql`
+    ${CHAPTER_READER_FIELDS}
     ${PAGE_INFO}
-    query GET_CHAPTERS(
+
+    query GET_CHAPTERS_READER(
         $after: Cursor
         $before: Cursor
         $condition: ChapterConditionInput
@@ -46,7 +43,83 @@ export const GET_CHAPTERS = gql`
             orderByType: $orderByType
         ) {
             nodes {
-                ...FULL_CHAPTER_FIELDS
+                ...CHAPTER_READER_FIELDS
+            }
+            pageInfo {
+                ...PAGE_INFO
+            }
+            totalCount
+        }
+    }
+`;
+
+// returns the current chapters from the database
+export const GET_CHAPTERS_MANGA = gql`
+    ${CHAPTER_LIST_FIELDS}
+    ${PAGE_INFO}
+
+    query GET_CHAPTERS_MANGA(
+        $after: Cursor
+        $before: Cursor
+        $condition: ChapterConditionInput
+        $filter: ChapterFilterInput
+        $first: Int
+        $last: Int
+        $offset: Int
+        $orderBy: ChapterOrderBy
+        $orderByType: SortOrder
+    ) {
+        chapters(
+            after: $after
+            before: $before
+            condition: $condition
+            filter: $filter
+            first: $first
+            last: $last
+            offset: $offset
+            orderBy: $orderBy
+            orderByType: $orderByType
+        ) {
+            nodes {
+                ...CHAPTER_LIST_FIELDS
+            }
+            pageInfo {
+                ...PAGE_INFO
+            }
+            totalCount
+        }
+    }
+`;
+
+// returns the current chapters from the database
+export const GET_CHAPTERS_UPDATES = gql`
+    ${CHAPTER_UPDATE_LIST_FIELDS}
+    ${PAGE_INFO}
+
+    query GET_CHAPTERS_UPDATES(
+        $after: Cursor
+        $before: Cursor
+        $condition: ChapterConditionInput
+        $filter: ChapterFilterInput
+        $first: Int
+        $last: Int
+        $offset: Int
+        $orderBy: ChapterOrderBy
+        $orderByType: SortOrder
+    ) {
+        chapters(
+            after: $after
+            before: $before
+            condition: $condition
+            filter: $filter
+            first: $first
+            last: $last
+            offset: $offset
+            orderBy: $orderBy
+            orderByType: $orderByType
+        ) {
+            nodes {
+                ...CHAPTER_UPDATE_LIST_FIELDS
             }
             pageInfo {
                 ...PAGE_INFO
@@ -57,6 +130,8 @@ export const GET_CHAPTERS = gql`
 `;
 
 export const GET_MANGAS_CHAPTER_IDS_WITH_STATE = gql`
+    ${CHAPTER_STATE_FIELDS}
+
     query GET_MANGAS_CHAPTER_IDS_WITH_STATE(
         $mangaIds: [Int!]!
         $isDownloaded: Boolean = null
@@ -69,10 +144,7 @@ export const GET_MANGAS_CHAPTER_IDS_WITH_STATE = gql`
             orderBy: SOURCE_ORDER
         ) {
             nodes {
-                id
-                isDownloaded
-                isRead
-                isBookmarked
+                ...CHAPTER_STATE_FIELDS
                 mangaId
                 scanlator
                 chapterNumber
