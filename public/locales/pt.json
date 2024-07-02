@@ -333,7 +333,53 @@
         },
         "language": {
             "label": {
-                "language": "Linguagem"
+                "language": "Linguagem",
+                "language_with_code": "Língua com código: {{code}}"
+            },
+            "title": {
+                "weblate": "Weblate",
+                "enabled_languages": "Línguas permitidas"
+            }
+        },
+        "update": {
+            "label": {
+                "updating": "{{progress}}% | Atualizando…",
+                "update_failure": "Atualização falhou",
+                "available": "Actualização disponível",
+                "check_failure": "Não foi possível verificar por atualizações",
+                "checking": "Verificando atualizações",
+                "up_to_date": "Esta é a versão mais recente",
+                "info": "Versão do servidor {{version}} ({{channel}}) disponível para download",
+                "update_success": "{{name}} foi atualizado para a versão {{version}} ({{channel}})"
+            },
+            "settings": {
+                "inform": {
+                    "label": {
+                        "description": "Mostra uma caixa de diálogo caso uma nova versão esteja disponível",
+                        "title": "Informe sobre a atualização disponível"
+                    }
+                }
+            }
+        },
+        "sort": {
+            "label": {
+                "by_source": "Por fonte",
+                "by_fetch_date": "Até à data"
+            }
+        },
+        "time": {
+            "seconds": {
+                "second_one": "Segundo",
+                "second_many": "Segundos",
+                "second_other": "Segundos",
+                "value": "{{count}} $t(global.time.seconds.second, lowercase)"
+            },
+            "hour_short": "h",
+            "minutes": {
+                "value": "{{count}} $t(global.time.minutes.minute, lowercase)",
+                "minute_one": "Minuto",
+                "minute_many": "Minutos",
+                "minute_other": "Minutos"
             }
         }
     },
@@ -470,6 +516,79 @@
                         "value": "Excluir backups que são mais antigos do que $t(global.date.value.label.day)"
                     }
                 }
+            }
+        }
+    },
+    "library": {
+        "option": {
+            "display": {
+                "other": {
+                    "label": {
+                        "show_continue_reading_button": "Mostrar o botão de continue lendo"
+                    }
+                },
+                "tab": {
+                    "title": "Abas",
+                    "label": {
+                        "show_number_of_items": "Mostrar número de itens"
+                    }
+                },
+                "badge": {
+                    "label": {
+                        "unread_badges": "Distintivos não lidos",
+                        "download_badges": "Baixar distintivos"
+                    },
+                    "title": "Distintivos"
+                }
+            },
+            "sort": {
+                "label": {
+                    "by_last_read": "Lidos recentemente",
+                    "alphabetically": "A-Z",
+                    "by_latest_fetched_chapter": "Último capítulo buscado",
+                    "by_unread_chapters": "Capítulos não lidos",
+                    "by_latest_uploaded_chapter": "Último capítulo upado",
+                    "by_date_added": "Adicionados recentemente"
+                }
+            }
+        },
+        "error": {
+            "label": {
+                "no_matches": "Nenhum mangá combina com este filtro",
+                "remove_from_library": "Não foi possível remover o manga da biblioteca!",
+                "empty": "Sua biblioteca está vazia",
+                "add_to_library": "Não foi possível adicionar o manga a biblioteca!"
+            }
+        },
+        "settings": {
+            "advanced": {
+                "database": {
+                    "cleanup": {
+                        "label": {
+                            "success": "mangas que não estão na biblioteca de categorias foram removidos",
+                            "description": "Remover mangas que não estão na biblioteca de categorias",
+                            "error": "não foi possível remover mangas que não estão na biblioteca de categorias",
+                            "title": "Limpar o banco de dados"
+                        }
+                    }
+                },
+                "duplicates": {
+                    "label": {
+                        "description": "Mostrar todas as entradas duplicadas em sua biblioteca",
+                        "title": "Entradas duplicadas"
+                    },
+                    "settings": {
+                        "label": {
+                            "check_description": "Verifica a descrição"
+                        }
+                    }
+                }
+            }
+        },
+        "info": {
+            "label": {
+                "added_to_library": "Manga Adicionado a biblioteca!",
+                "removed_from_library": "Manga removido da biblioteca!"
             }
         }
     }
