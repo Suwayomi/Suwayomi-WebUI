@@ -155,7 +155,10 @@ export function ReaderNavBar(props: IProps) {
 
     const handleBack = useBackButton();
 
-    const hasMultipleScanlators = useMemo(() => !!new Set(chapters.map(({ scanlator }) => scanlator)).size, [chapters]);
+    const hasMultipleScanlators = useMemo(
+        () => new Set(chapters.map(({ scanlator }) => scanlator)).size > 1,
+        [chapters],
+    );
 
     const [drawerOpen, setDrawerOpen] = useState(settings.staticNav || prevDrawerOpen);
     const [updateDrawerOnRender, setUpdateDrawerOnRender] = useState(true);
