@@ -8,7 +8,6 @@
 
 import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import gql from 'graphql-tag';
 import { useTranslation } from 'react-i18next';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
@@ -21,6 +20,9 @@ import { GridLayouts } from '@/components/source/GridLayouts.tsx';
 import { useLocalStorage } from '@/util/useStorage.tsx';
 import { GridLayout } from '@/components/context/LibraryOptionsContext.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { GetSourceMigratableQuery, GetSourceMigratableQueryVariables } from '@/lib/graphql/generated/graphql.ts';
+import { GET_SOURCE_MIGRATABLE } from '@/lib/graphql/queries/SourceQuery.ts';
+import { SOURCE_BASE_FIELDS } from '@/lib/graphql/fragments/SourceFragments.ts';
 
 export const Migrate = () => {
     const { t } = useTranslation();
@@ -34,12 +36,7 @@ export const Migrate = () => {
         Pick<TMigratableSource, 'id' | 'name'>
     >({
         id: requestManager.graphQLClient.client.cache.identify({ __typename: 'SourceType', id: paramSourceId }),
-        fragment: gql`
-            fragment MigratableSource on SourceType {
-                id
-                name
-            }
-        `,
+        fragment: SOURCE_BASE_FIELDS,
     });
 
     const [isKnownSource, setIsKnownSource] = useState(fragmentSource !== null ? true : undefined);
@@ -48,7 +45,11 @@ export const Migrate = () => {
         loading: isSourceLoading,
         error: sourceError,
         refetch: refetchSource,
-    } = requestManager.useGetSource(paramSourceId, { skip: !!isKnownSource, notifyOnNetworkStatusChange: true });
+    } = requestManager.useGetSource<GetSourceMigratableQuery, GetSourceMigratableQueryVariables>(
+        GET_SOURCE_MIGRATABLE,
+        paramSourceId,
+        { skip: !!isKnownSource, notifyOnNetworkStatusChange: true },
+    );
 
     const { sourceId, name } = {
         sourceId: paramSourceId,

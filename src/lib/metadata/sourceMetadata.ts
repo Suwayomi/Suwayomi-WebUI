@@ -13,11 +13,11 @@ import {
     ISourceMetadata,
     Metadata,
     SourceMetadataKeys,
-    TPartialSource,
 } from '@/typings.ts';
 import { jsonSaveParse } from '@/util/HelperFunctions.ts';
 import { convertFromGqlMeta, getMetadataFrom, requestUpdateSourceMetadata } from '@/lib/metadata/metadata.ts';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { SourceType } from '@/lib/graphql/generated/graphql.ts';
 
 const convertAppMetadataToGqlMetadata = (
     metadata: Partial<ISourceMetadata>,
@@ -42,7 +42,7 @@ export const updateSourceMetadata = async <
     MetadataKeys extends SourceMetadataKeys = SourceMetadataKeys,
     MetadataKey extends MetadataKeys = MetadataKeys,
 >(
-    source: TPartialSource,
+    source: Pick<SourceType, 'id'> & GqlMetaHolder,
     metadataKey: MetadataKey,
     value: ISourceMetadata[MetadataKey],
 ): Promise<void[]> =>
@@ -52,7 +52,7 @@ export const updateSourceMetadata = async <
 
 export const createUpdateSourceMetadata =
     <Settings extends SourceMetadataKeys>(
-        source: TPartialSource,
+        source: Pick<SourceType, 'id'> & GqlMetaHolder,
         handleError: (error: any) => void = defaultPromiseErrorHandler('createUpdateSourceMetadata'),
     ): ((...args: OmitFirst<Parameters<typeof updateSourceMetadata<Settings>>>) => Promise<void | void[]>) =>
     (metadataKey, value) =>

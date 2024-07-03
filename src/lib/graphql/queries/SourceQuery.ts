@@ -7,38 +7,64 @@
  */
 
 import gql from 'graphql-tag';
-import { FULL_SOURCE_FIELDS, PARTIAL_SOURCE_FIELDS } from '@/lib/graphql/Fragments';
+import {
+    SOURCE_BROWSE_FIELDS,
+    SOURCE_LIST_FIELDS,
+    SOURCE_MIGRATABLE_FIELDS,
+    SOURCE_SETTING_FIELDS,
+} from '@/lib/graphql/fragments/SourceFragments.ts';
 
-export const GET_SOURCE = gql`
-    ${FULL_SOURCE_FIELDS}
-    query GET_SOURCE($id: LongString!) {
+export const GET_SOURCE_BROWSE = gql`
+    ${SOURCE_BROWSE_FIELDS}
+
+    query GET_SOURCE_BROWSE($id: LongString!) {
         source(id: $id) {
-            ...FULL_SOURCE_FIELDS
+            ...SOURCE_BROWSE_FIELDS
         }
     }
 `;
 
-export const GET_SOURCES = gql`
-    ${PARTIAL_SOURCE_FIELDS}
-    query GET_SOURCES {
+export const GET_SOURCE_SETTINGS = gql`
+    ${SOURCE_SETTING_FIELDS}
+
+    query GET_SOURCE_SETTINGS($id: LongString!) {
+        source(id: $id) {
+            ...SOURCE_SETTING_FIELDS
+        }
+    }
+`;
+
+export const GET_SOURCE_MIGRATABLE = gql`
+    ${SOURCE_MIGRATABLE_FIELDS}
+
+    query GET_SOURCE_MIGRATABLE($id: LongString!) {
+        source(id: $id) {
+            ...SOURCE_MIGRATABLE_FIELDS
+        }
+    }
+`;
+
+export const GET_SOURCES_LIST = gql`
+    ${SOURCE_LIST_FIELDS}
+
+    query GET_SOURCES_LIST {
         sources {
             nodes {
-                ...PARTIAL_SOURCE_FIELDS
+                ...SOURCE_LIST_FIELDS
             }
         }
     }
 `;
 
 export const GET_MIGRATABLE_SOURCES = gql`
+    ${SOURCE_MIGRATABLE_FIELDS}
+
     query GET_MIGRATABLE_SOURCES {
         mangas(condition: { inLibrary: true }) {
             nodes {
                 sourceId
                 source {
-                    id
-                    name
-                    lang
-                    iconUrl
+                    ...SOURCE_MIGRATABLE_FIELDS
                 }
             }
         }

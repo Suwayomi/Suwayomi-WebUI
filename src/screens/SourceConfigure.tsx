@@ -21,6 +21,8 @@ import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { GetCategoriesSettingsQueryVariables, GetSourceSettingsQuery } from '@/lib/graphql/generated/graphql.ts';
+import { GET_SOURCE_SETTINGS } from '@/lib/graphql/queries/SourceQuery.ts';
 
 function getPrefComponent(type: string) {
     switch (type) {
@@ -54,7 +56,10 @@ export function SourceConfigure() {
     }, [t]);
 
     const { sourceId } = useParams<{ sourceId: string }>();
-    const { data, loading, error, refetch } = requestManager.useGetSource(sourceId, {
+    const { data, loading, error, refetch } = requestManager.useGetSource<
+        GetSourceSettingsQuery,
+        GetCategoriesSettingsQueryVariables
+    >(GET_SOURCE_SETTINGS, sourceId, {
         notifyOnNetworkStatusChange: true,
     });
     const sourcePreferences = data?.source.preferences ?? [];

@@ -15,10 +15,9 @@ import {
     MetadataHolder,
     MetadataKeyValuePair,
     TManga,
-    TPartialSource,
 } from '@/typings.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { MetaType } from '@/lib/graphql/generated/graphql.ts';
+import { MetaType, SourceType } from '@/lib/graphql/generated/graphql.ts';
 import { DEFAULT_DEVICE, getActiveDevice } from '@/util/device.ts';
 import { CategoryIdInfo } from '@/lib/data/Categories.ts';
 import { ChapterIdInfo } from '@/lib/data/Chapters.ts';
@@ -382,7 +381,8 @@ export const requestUpdateMetadataValue = async (
             await requestManager.setMangaMeta((metadataHolder as TManga).id, metadataKey, value).response;
             break;
         case 'source':
-            await requestManager.setSourceMeta((metadataHolder as TPartialSource).id, metadataKey, value).response;
+            await requestManager.setSourceMeta((metadataHolder as Pick<SourceType, 'id'>).id, metadataKey, value)
+                .response;
             break;
         default:
             throw new Error(`requestUpdateMetadataValue: unknown holderType "${holderType}"`);
@@ -415,6 +415,6 @@ export const requestUpdateCategoryMetadata = async (
 ): Promise<void[]> => requestUpdateMetadata(category, 'category', keysToValues);
 
 export const requestUpdateSourceMetadata = async (
-    source: TPartialSource,
+    source: Pick<SourceType, 'id'> & GqlMetaHolder,
     keysToValue: MetadataKeyValuePair[],
 ): Promise<void[]> => requestUpdateMetadata(source, 'source', keysToValue);

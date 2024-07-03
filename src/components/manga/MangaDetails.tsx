@@ -16,7 +16,7 @@ import { t as translate } from 'i18next';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import { useLongPress } from 'use-long-press';
-import { ISource, TManga } from '@/typings';
+import { TManga } from '@/typings';
 import { makeToast } from '@/components/util/Toast';
 import { Mangas } from '@/lib/data/Mangas.ts';
 import { SpinnerImage } from '@/components/util/SpinnerImage.tsx';
@@ -25,6 +25,7 @@ import { TrackMangaButton } from '@/components/manga/TrackMangaButton.tsx';
 import { useManageMangaLibraryState } from '@/components/manga/useManageMangaLibraryState.tsx';
 import { Metadata as BaseMetadata } from '@/components/atoms/Metadata.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { SourceType } from '@/lib/graphql/generated/graphql.ts';
 
 const DetailsWrapper = styled('div')(({ theme }) => ({
     width: '100%',
@@ -159,7 +160,7 @@ interface IProps {
     manga: TManga;
 }
 
-function getSourceName(source?: ISource | null) {
+function getSourceName(source?: Pick<SourceType, 'id' | 'displayName'> | null): string {
     if (!source) {
         return translate('global.label.unknown');
     }

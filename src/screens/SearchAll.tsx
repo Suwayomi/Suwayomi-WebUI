@@ -13,7 +13,6 @@ import React, { useCallback, useContext, useEffect, useMemo, useState } from 're
 import { Link, useLocation } from 'react-router-dom';
 import { StringParam, useQueryParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
-import { ISource } from '@/typings';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { useLocalStorage } from '@/util/useStorage.tsx';
 import { langSortCmp, sourceDefualtLangs, sourceForcedDefaultLangs } from '@/util/language';
@@ -28,11 +27,12 @@ import { EmptyView } from '@/components/util/EmptyView';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
+import { SourceType } from '@/lib/graphql/generated/graphql.ts';
 
 type SourceLoadingState = { isLoading: boolean; hasResults: boolean; emptySearch: boolean };
 type SourceToLoadingStateMap = Map<string, SourceLoadingState>;
 
-function sourceToLangList(sources: ISource[]) {
+function sourceToLangList(sources: Pick<SourceType, 'lang'>[]) {
     const result: string[] = [];
 
     sources.forEach((source) => {
@@ -45,7 +45,10 @@ function sourceToLangList(sources: ISource[]) {
     return result;
 }
 
-const compareSourceByName = (sourceA: ISource, sourceB: ISource): -1 | 0 | 1 => {
+const compareSourceByName = (
+    sourceA: Pick<SourceType, 'displayName'>,
+    sourceB: Pick<SourceType, 'displayName'>,
+): -1 | 0 | 1 => {
     if (sourceA.displayName < sourceB.displayName) {
         return -1;
     }
@@ -56,8 +59,8 @@ const compareSourceByName = (sourceA: ISource, sourceB: ISource): -1 | 0 | 1 => 
 };
 
 const compareSourcesBySearchResult = (
-    sourceA: ISource,
-    sourceB: ISource,
+    sourceA: Pick<SourceType, 'id'>,
+    sourceB: Pick<SourceType, 'id'>,
     sourceToFetchedStateMap: SourceToLoadingStateMap,
 ): -1 | 0 | 1 => {
     const isSourceAFetched = !sourceToFetchedStateMap.get(sourceA.id)?.isLoading;
@@ -93,9 +96,9 @@ const SourceSearchPreview = React.memo(
         emptyQuery,
         mode,
     }: {
-        source: ISource;
+        source: Pick<SourceType, 'id' | 'displayName' | 'lang'>;
         onSearchRequestFinished: (
-            source: ISource,
+            source: Pick<SourceType, 'id'>,
             isLoading: boolean,
             hasResults: boolean,
             emptySearch: boolean,
@@ -130,9 +133,7 @@ const SourceSearchPreview = React.memo(
                 // INFO:
                 // with strict mode + dev mode the first request will be aborted. due to using SWR there won't be an
                 // immediate second request since it's the same key. instead the "second" request will be the error handling of SWR
-                abortRequest(
-                    new Error(`SourceSearchPreview(${source.id}, ${source.displayName}): search string changed`),
-                );
+                abortRequest(new Error(`SourceSearchPreview(${id}, ${displayName}): search string changed`));
             },
             [searchString],
         );
@@ -221,7 +222,7 @@ export const SearchAll: React.FC = () => {
     );
 
     const updateSourceLoadingState = useCallback(
-        ({ id }: ISource, isLoading: boolean, hasResults: boolean, emptySearch: boolean) => {
+        ({ id }: Pick<SourceType, 'id'>, isLoading: boolean, hasResults: boolean, emptySearch: boolean) => {
             setSourceToLoadingStateMap((currentMap) => {
                 const mapCopy = new Map(currentMap);
                 mapCopy.set(id, { isLoading, hasResults, emptySearch });

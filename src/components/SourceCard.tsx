@@ -17,11 +17,11 @@ import Typography from '@mui/material/Typography';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { TPartialSource } from '@/typings';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { translateExtensionLanguage } from '@/screens/util/Extensions';
 import { SourceContentType } from '@/screens/SourceMangas';
 import { SpinnerImage } from '@/components/util/SpinnerImage.tsx';
+import { GetSourcesListQuery } from '@/lib/graphql/generated/graphql.ts';
 
 const MobileWidthButtons = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -42,7 +42,7 @@ const WiderWidthButtons = styled('div')(({ theme }) => ({
 }));
 
 interface IProps {
-    source: TPartialSource;
+    source: GetSourcesListQuery['sources']['nodes'][number];
     showSourceRepo: boolean;
 }
 

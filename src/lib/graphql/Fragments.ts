@@ -7,6 +7,7 @@
  */
 
 import gql from 'graphql-tag';
+import { SOURCE_BASE_FIELDS } from '@/lib/graphql/fragments/SourceFragments.ts';
 
 export const PAGE_INFO = gql`
     fragment PAGE_INFO on PageInfo {
@@ -48,169 +49,6 @@ export const UPDATER_CATEGORY_FIELDS = gql`
         name
         includeInUpdate
         includeInDownload
-    }
-`;
-
-export const PARTIAL_SOURCE_FIELDS = gql`
-    fragment PARTIAL_SOURCE_FIELDS on SourceType {
-        displayName
-        iconUrl
-        id
-        isConfigurable
-        isNsfw
-        lang
-        name
-        supportsLatest
-        extension {
-            pkgName
-            repo
-        }
-        meta {
-            key
-            value
-        }
-    }
-`;
-
-export const FULL_SOURCE_FIELDS = gql`
-    ${PARTIAL_SOURCE_FIELDS}
-    fragment FULL_SOURCE_FIELDS on SourceType {
-        ...PARTIAL_SOURCE_FIELDS
-        preferences {
-            ... on CheckBoxPreference {
-                type: __typename
-                CheckBoxCheckBoxCurrentValue: currentValue
-                summary
-                CheckBoxDefault: default
-                key
-                CheckBoxTitle: title
-            }
-            ... on EditTextPreference {
-                type: __typename
-                EditTextPreferenceCurrentValue: currentValue
-                EditTextPreferenceDefault: default
-                EditTextPreferenceTitle: title
-                text
-                summary
-                key
-                dialogTitle
-                dialogMessage
-            }
-            ... on SwitchPreference {
-                type: __typename
-                SwitchPreferenceCurrentValue: currentValue
-                summary
-                key
-                SwitchPreferenceDefault: default
-                SwitchPreferenceTitle: title
-            }
-            ... on MultiSelectListPreference {
-                type: __typename
-                dialogMessage
-                dialogTitle
-                MultiSelectListPreferenceTitle: title
-                summary
-                key
-                entryValues
-                entries
-                MultiSelectListPreferenceDefault: default
-                MultiSelectListPreferenceCurrentValue: currentValue
-            }
-            ... on ListPreference {
-                type: __typename
-                ListPreferenceCurrentValue: currentValue
-                ListPreferenceDefault: default
-                ListPreferenceTitle: title
-                summary
-                key
-                entryValues
-                entries
-            }
-        }
-        filters {
-            ... on CheckBoxFilter {
-                type: __typename
-                CheckBoxFilterDefault: default
-                name
-            }
-            ... on HeaderFilter {
-                type: __typename
-                name
-            }
-            ... on SelectFilter {
-                type: __typename
-                SelectFilterDefault: default
-                name
-                values
-            }
-            ... on TriStateFilter {
-                type: __typename
-                TriStateFilterDefault: default
-                name
-            }
-            ... on TextFilter {
-                type: __typename
-                TextFilterDefault: default
-                name
-            }
-            ... on SortFilter {
-                type: __typename
-                SortFilterDefault: default {
-                    ascending
-                    index
-                }
-                name
-                values
-            }
-            ... on SeparatorFilter {
-                type: __typename
-                name
-            }
-            ... on GroupFilter {
-                type: __typename
-                name
-                filters {
-                    ... on CheckBoxFilter {
-                        type: __typename
-                        CheckBoxFilterDefault: default
-                        name
-                    }
-                    ... on HeaderFilter {
-                        type: __typename
-                        name
-                    }
-                    ... on SelectFilter {
-                        type: __typename
-                        SelectFilterDefault: default
-                        name
-                        values
-                    }
-                    ... on TriStateFilter {
-                        type: __typename
-                        TriStateFilterDefault: default
-                        name
-                    }
-                    ... on TextFilter {
-                        type: __typename
-                        TextFilterDefault: default
-                        name
-                    }
-                    ... on SortFilter {
-                        type: __typename
-                        SortFilterDefault: default {
-                            ascending
-                            index
-                        }
-                        name
-                        values
-                    }
-                    ... on SeparatorFilter {
-                        type: __typename
-                        name
-                    }
-                }
-            }
-        }
     }
 `;
 
@@ -266,7 +104,7 @@ export const FULL_TRACK_RECORD_FIELDS = gql`
 `;
 
 export const BASE_MANGA_FIELDS = gql`
-    ${PARTIAL_SOURCE_FIELDS}
+    ${SOURCE_BASE_FIELDS}
     ${FULL_TRACK_RECORD_FIELDS}
     fragment BASE_MANGA_FIELDS on MangaType {
         artist
@@ -285,7 +123,7 @@ export const BASE_MANGA_FIELDS = gql`
         }
         realUrl
         source {
-            ...PARTIAL_SOURCE_FIELDS
+            ...SOURCE_BASE_FIELDS
         }
         status
         thumbnailUrl
@@ -304,7 +142,6 @@ export const BASE_MANGA_FIELDS = gql`
 export const PARTIAL_MANGA_FIELDS = gql`
     ${BASE_MANGA_FIELDS}
     ${FULL_CATEGORY_FIELDS}
-    ${PARTIAL_SOURCE_FIELDS}
     fragment PARTIAL_MANGA_FIELDS on MangaType {
         ...BASE_MANGA_FIELDS
         unreadCount

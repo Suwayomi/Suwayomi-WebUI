@@ -42,7 +42,7 @@ const addImports = format(
     `import {FieldPolicy, FieldReadFunction, Reference, TypePolicies, TypePolicy} from '@apollo/client/cache';
 import {
 \tGetChaptersMangaQuery, GetDownloadStatusQueryVariables, GetExtensionQueryVariables, GetGlobalMetadataQueryVariables,
-\tGetMangaQueryVariables, GetSourceQueryVariables, GetUpdateStatusQueryVariables, GetWebuiUpdateStatusQueryVariables,
+\tGetMangaQueryVariables, GetSourceBrowseQueryVariables, GetUpdateStatusQueryVariables, GetWebuiUpdateStatusQueryVariables,
 } from "@/lib/graphql/generated/graphql.ts";
 import {FieldFunctionOptions} from "@apollo/client/cache/inmemory/policies";`,
 );
@@ -100,7 +100,7 @@ const fixTypingOfQueryTypePolicies = format(
 \trestoreStatus?: FieldPolicy<any> | FieldReadFunction<any>,
 \tsearchTracker?: FieldPolicy<any> | FieldReadFunction<any>,
 \tsettings?: FieldPolicy<any> | FieldReadFunction<any>,
-\tsource?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetSourceQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetSourceQueryVariables>>,
+\tsource?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetSourceBrowseQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetSourceBrowseQueryVariables>>,
 \tsources?: FieldPolicy<any> | FieldReadFunction<any>,
 \ttrackRecord?: FieldPolicy<any> | FieldReadFunction<any>,
 \ttrackRecords?: FieldPolicy<any> | FieldReadFunction<any>,

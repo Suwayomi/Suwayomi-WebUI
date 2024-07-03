@@ -20,7 +20,7 @@ import { styled } from '@mui/material/styles';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import NewReleasesIcon from '@mui/icons-material/NewReleases';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { IPos, TPartialManga, TPartialSource, TranslationKey } from '@/typings';
+import { IPos, TPartialManga, TranslationKey } from '@/typings';
 import {
     requestManager,
     AbortableApolloUseMutationPaginatedResponse,
@@ -32,6 +32,8 @@ import { AppbarSearch } from '@/components/util/AppbarSearch';
 import { SourceOptions } from '@/components/source/SourceOptions';
 import { SourceMangaGrid } from '@/components/source/SourceMangaGrid';
 import {
+    GetSourceBrowseQuery,
+    GetSourceBrowseQueryVariables,
     GetSourceMangasFetchMutation,
     GetSourceMangasFetchMutationVariables,
 } from '@/lib/graphql/generated/graphql.ts';
@@ -42,6 +44,7 @@ import { AppStorage } from '@/util/AppStorage.ts';
 import { getGridSnapshotKey } from '@/components/MangaGrid.tsx';
 import { createUpdateSourceMetadata, getSourceMetadata } from '@/lib/metadata/sourceMetadata.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
+import { GET_SOURCE_BROWSE } from '@/lib/graphql/queries/SourceQuery.ts';
 
 const ContentTypeMenu = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -280,14 +283,16 @@ export function SourceMangas() {
     const isLoading = loading || filteredOutAllItemsOfFetchedPage;
     const mangas = data?.fetchSourceManga?.mangas ?? [];
     const hasNextPage = !!data?.fetchSourceManga?.hasNextPage;
-    const { data: sourceData } = requestManager.useGetSource(sourceId);
+    const { data: sourceData } = requestManager.useGetSource<GetSourceBrowseQuery, GetSourceBrowseQueryVariables>(
+        GET_SOURCE_BROWSE,
+        sourceId,
+    );
     const source = sourceData?.source;
 
     const filters = source?.filters ?? [];
     const { savedSearches = {} } = useMemo(() => getSourceMetadata(source), [source, source?.meta]);
-    const updateSourceMetadata = createUpdateSourceMetadata<'savedSearches'>(
-        source ?? ({ id: sourceId } as TPartialSource),
-        () => makeToast(t('global.error.label.failed_to_save_changes'), 'error'),
+    const updateSourceMetadata = createUpdateSourceMetadata<'savedSearches'>(source ?? { id: sourceId }, () =>
+        makeToast(t('global.error.label.failed_to_save_changes'), 'error'),
     );
 
     const selectSavedSearch = useCallback(

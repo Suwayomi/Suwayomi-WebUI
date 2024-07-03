@@ -90,10 +90,6 @@ import {
     GetServerSettingsQuery,
     GetSourceMangasFetchMutation,
     GetSourceMangasFetchMutationVariables,
-    GetSourceQuery,
-    GetSourceQueryVariables,
-    GetSourcesQuery,
-    GetSourcesQueryVariables,
     GetUpdateStatusQuery,
     GetUpdateStatusQueryVariables,
     InstallExternalExtensionMutation,
@@ -201,6 +197,8 @@ import {
     GetChaptersMangaQueryVariables,
     GetChaptersUpdatesQuery,
     GetChaptersUpdatesQueryVariables,
+    GetSourcesListQuery,
+    GetSourcesListQueryVariables,
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_GLOBAL_METADATAS } from '@/lib/graphql/queries/GlobalMetadataQuery.ts';
 import { SET_GLOBAL_METADATA } from '@/lib/graphql/mutations/GlobalMetadataMutation.ts';
@@ -216,7 +214,7 @@ import {
     INSTALL_EXTERNAL_EXTENSION,
     UPDATE_EXTENSION,
 } from '@/lib/graphql/mutations/ExtensionMutation.ts';
-import { GET_MIGRATABLE_SOURCES, GET_SOURCE, GET_SOURCES } from '@/lib/graphql/queries/SourceQuery.ts';
+import { GET_MIGRATABLE_SOURCES, GET_SOURCES_LIST } from '@/lib/graphql/queries/SourceQuery.ts';
 import {
     GET_MANGA_FETCH,
     GET_MANGA_TO_MIGRATE_TO_FETCH,
@@ -1352,16 +1350,17 @@ export class RequestManager {
     }
 
     public useGetSourceList(
-        options?: QueryHookOptions<GetSourcesQuery, GetSourcesQueryVariables>,
-    ): AbortableApolloUseQueryResponse<GetSourcesQuery, GetSourcesQueryVariables> {
-        return this.doRequest(GQLMethod.USE_QUERY, GET_SOURCES, {}, options);
+        options?: QueryHookOptions<GetSourcesListQuery, GetSourcesListQueryVariables>,
+    ): AbortableApolloUseQueryResponse<GetSourcesListQuery, GetSourcesListQueryVariables> {
+        return this.doRequest(GQLMethod.USE_QUERY, GET_SOURCES_LIST, {}, options);
     }
 
-    public useGetSource(
+    public useGetSource<Data, Variables extends OperationVariables>(
+        document: DocumentNode | TypedDocumentNode<Data, Variables>,
         id: string,
-        options?: QueryHookOptions<GetSourceQuery, GetSourceQueryVariables>,
-    ): AbortableApolloUseQueryResponse<GetSourceQuery, GetSourceQueryVariables> {
-        return this.doRequest(GQLMethod.USE_QUERY, GET_SOURCE, { id }, options);
+        options?: QueryHookOptions<Data, Variables>,
+    ): AbortableApolloUseQueryResponse<Data, Variables> {
+        return this.doRequest(GQLMethod.USE_QUERY, document, { id } as unknown as Variables, options);
     }
 
     public setSourceMeta(

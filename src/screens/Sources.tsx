@@ -13,7 +13,6 @@ import Typography from '@mui/material/Typography';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ISource, TPartialSource } from '@/typings';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { useLocalStorage } from '@/util/useStorage.tsx';
 import { sourceDefualtLangs, sourceForcedDefaultLangs, langSortCmp } from '@/util/language';
@@ -24,8 +23,9 @@ import { LangSelect } from '@/components/navbar/action/LangSelect';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { SourceType } from '@/lib/graphql/generated/graphql.ts';
 
-function sourceToLangList(sources: ISource[]) {
+function sourceToLangList(sources: Pick<SourceType, 'lang'>[]) {
     const result: string[] = [];
 
     sources.forEach((source) => {
@@ -38,11 +38,11 @@ function sourceToLangList(sources: ISource[]) {
     return result;
 }
 
-function groupByLang(sources: ISource[]) {
-    const result = {} as any;
+function groupByLang<Source extends Pick<SourceType, 'lang'>>(sources: Source[]): Record<string, Source[]> {
+    const result: Record<string, Source[]> = {};
     sources.forEach((source) => {
         if (result[source.lang] === undefined) {
-            result[source.lang] = [] as ISource[];
+            result[source.lang] = [];
         }
         result[source.lang].push(source);
     });
@@ -150,7 +150,7 @@ export function Sources() {
                                 >
                                     {translateExtensionLanguage(lang)}
                                 </Typography>
-                                {(list as TPartialSource[])
+                                {list
                                     .filter((source) => showNsfw || !source.isNsfw)
                                     .map((source) => (
                                         <SourceCard

@@ -15,8 +15,8 @@ import {
     GetExtensionQuery,
     GetMangaQuery,
     GetServerSettingsQuery,
-    GetSourceQuery,
-    GetSourcesQuery,
+    GetSourceBrowseQuery,
+    GetSourceSettingsQuery,
     MetaType,
     SourcePreferenceChangeInput,
 } from '@/lib/graphql/generated/graphql.ts';
@@ -47,20 +47,7 @@ export interface ISourceMetadata {
     savedSearches?: Record<string, SavedSourceSearch>;
 }
 
-export interface ISource {
-    id: string;
-    name: string;
-    lang: string;
-    iconUrl: string;
-    supportsLatest: boolean;
-    isConfigurable: boolean;
-    isNsfw: boolean;
-    displayName: string;
-}
-
-export type TPartialSource = GetSourcesQuery['sources']['nodes'][number];
-
-export type SourceFilters = GetSourceQuery['source']['filters'][number];
+export type SourceFilters = GetSourceBrowseQuery['source']['filters'][number];
 
 export interface IMetadataMigration {
     appKeyPrefix?: { oldPrefix: string; newPrefix: string };
@@ -100,103 +87,12 @@ export type AppMetadataKeys = MetadataServerSettingKeys | MangaMetadataKeys | Se
 
 export type MetadataKeyValuePair = [AppMetadataKeys, AllowedMetadataValueTypes];
 
-export interface IMangaCard {
-    id: number;
-    title: string;
-    genre: string[];
-    thumbnailUrl: string;
-    unreadCount?: number;
-    downloadCount?: number;
-    inLibrary?: boolean;
-    meta?: Metadata;
-    inLibraryAt: number;
-    lastReadAt: number;
-}
-
 export type TManga = GetMangaQuery['manga'];
 
 export type TPartialManga = OptionalProperty<
     TManga,
     'unreadCount' | 'downloadCount' | 'bookmarkCount' | 'categories' | 'chapters'
 >;
-
-export interface IManga {
-    id: number;
-    sourceId: string;
-
-    url: string;
-    title: string;
-    thumbnailUrl: string;
-
-    artist: string;
-    author: string;
-    description: string;
-    genre: string[];
-    status: string;
-
-    inLibrary: boolean;
-    source: ISource;
-
-    meta: Metadata;
-
-    realUrl: string;
-    freshData: boolean;
-    unreadCount?: number;
-    downloadCount?: number;
-
-    age: number;
-    chaptersAge: number;
-    chaptersLastFetchedAt: number;
-    inLibraryAt: number;
-    initialized: boolean;
-    lastChapterRead: NullAndUndefined<IChapter>;
-    lastFetchedAt: number;
-    lastReadAt: number;
-    thumbnailUrlLastFetched: number;
-    updateStrategy: string;
-}
-
-export interface IChapter {
-    id: number;
-    url: string;
-    name: string;
-    uploadDate: number;
-    chapterNumber: number;
-    scanlator: string;
-    mangaId: number;
-    read: boolean;
-    bookmarked: boolean;
-    lastPageRead: number;
-    lastReadAt: number;
-    index: number;
-    fetchedAt: number;
-    chapterCount: number;
-    pageCount: number;
-    downloaded: boolean;
-    meta: Metadata;
-}
-
-export interface IMangaChapter {
-    manga: IManga;
-    chapter: IChapter;
-}
-
-export enum IncludeInGlobalUpdate {
-    EXCLUDE = 0,
-    INCLUDE = 1,
-    UNSET = -1,
-}
-
-export interface ICategory {
-    id: number;
-    order: number;
-    name: string;
-    default: boolean;
-    includeInUpdate: IncludeInGlobalUpdate;
-    includeInDownload: IncludeInGlobalUpdate;
-    meta: Metadata;
-    size: number;
-}
 
 export interface INavbarOverride {
     status: boolean;
@@ -300,30 +196,7 @@ export interface IReaderProps {
     prevChapter: () => void;
 }
 
-export interface IDownloadChapter {
-    chapterIndex: number;
-    mangaId: number;
-    state: 'Queued' | 'Downloading' | 'Finished' | 'Error';
-    progress: number;
-    chapter: IChapter;
-    manga: IManga;
-}
-
-export interface IQueue {
-    status: 'Stopped' | 'Started';
-    queue: IDownloadChapter[];
-}
-
-export interface IUpdateStatus {
-    running: boolean;
-    mangaStatusMap: {
-        COMPLETE?: IManga[];
-        RUNNING?: IManga[];
-        PENDING?: IManga[];
-    };
-}
-
-export type SourcePreferences = GetSourceQuery['source']['preferences'][number];
+export type SourcePreferences = GetSourceSettingsQuery['source']['preferences'][number];
 
 export interface PreferenceProps {
     updateValue: <Key extends keyof Omit<SourcePreferenceChangeInput, 'position'>>(
@@ -359,16 +232,6 @@ export interface NavbarItem {
     IconComponent: OverridableComponent<SvgIconTypeMap<{}, 'svg'>>;
     show: 'mobile' | 'desktop' | 'both';
 }
-
-export interface PaginatedList<T> {
-    page: T[];
-    hasNextPage: boolean;
-}
-
-export type PaginatedMangaList = {
-    mangaList: IManga[];
-    hasNextPage: boolean;
-};
 
 export type NullAndUndefined<T> = T | null | undefined;
 
@@ -421,22 +284,5 @@ export interface LibraryOptions {
     showTabSize: boolean;
     tracker: Record<TBaseTracker['id'], NullAndUndefined<boolean>>;
 }
-
-export type UpdateCheck = {
-    channel: 'Stable' | 'Preview';
-    tag: string;
-    url: string;
-};
-
-export type SourceSearchResult = {
-    mangaList: IManga[];
-    hasNextPage: boolean;
-};
-
-export type BackupValidationResult = {
-    missingSources: string[];
-    missingTrackers: string[];
-    mangasMissingSources: string[];
-};
 
 export type ServerSettings = GetServerSettingsQuery['settings'];
