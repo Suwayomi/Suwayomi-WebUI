@@ -7,8 +7,8 @@
  */
 
 import gql from 'graphql-tag';
-import { BASE_TRACK_RECORD_FIELDS } from '@/lib/graphql/Fragments';
 import { CHAPTER_LIST_FIELDS } from '@/lib/graphql/fragments/ChapterFragments.ts';
+import { TRACK_RECORD_BIND_FIELDS } from '@/lib/graphql/fragments/TrackRecordFragments.ts';
 
 export const DELETE_CHAPTER_METADATA = gql`
     mutation DELETE_CHAPTER_METADATA($input: DeleteChapterMetaInput!) {
@@ -90,7 +90,8 @@ export const SET_CHAPTER_METADATA = gql`
 `;
 
 export const UPDATE_CHAPTER = gql`
-    ${BASE_TRACK_RECORD_FIELDS}
+    ${TRACK_RECORD_BIND_FIELDS}
+
     mutation UPDATE_CHAPTER(
         $input: UpdateChapterInput!
         $getBookmarked: Boolean!
@@ -141,14 +142,15 @@ export const UPDATE_CHAPTER = gql`
         }
         trackProgress(input: { mangaId: $mangaId }) @include(if: $trackProgress) {
             trackRecords {
-                ...BASE_TRACK_RECORD_FIELDS
+                ...TRACK_RECORD_BIND_FIELDS
             }
         }
     }
 `;
 
 export const UPDATE_CHAPTERS = gql`
-    ${BASE_TRACK_RECORD_FIELDS}
+    ${TRACK_RECORD_BIND_FIELDS}
+
     mutation UPDATE_CHAPTERS(
         $input: UpdateChaptersInput!
         $getBookmarked: Boolean!
@@ -199,7 +201,7 @@ export const UPDATE_CHAPTERS = gql`
         }
         trackProgress(input: { mangaId: $mangaId }) @include(if: $trackProgress) {
             trackRecords {
-                ...BASE_TRACK_RECORD_FIELDS
+                ...TRACK_RECORD_BIND_FIELDS
             }
         }
     }

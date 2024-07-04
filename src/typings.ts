@@ -19,8 +19,8 @@ import {
     GetSourceSettingsQuery,
     MetaType,
     SourcePreferenceChangeInput,
+    TrackerType,
 } from '@/lib/graphql/generated/graphql.ts';
-import { TBaseTracker } from '@/lib/data/Trackers.ts';
 
 type GenericLocation<State = any> = Omit<Location, 'state'> & { state?: State };
 
@@ -282,7 +282,7 @@ export interface LibraryOptions {
     sorts: NullAndUndefined<LibrarySortMode>;
     sortDesc: NullAndUndefined<boolean>;
     showTabSize: boolean;
-    tracker: Record<TBaseTracker['id'], NullAndUndefined<boolean>>;
+    tracker: Record<TrackerType['id'], NullAndUndefined<boolean>>;
 }
 
 export type ServerSettings = GetServerSettingsQuery['settings'];

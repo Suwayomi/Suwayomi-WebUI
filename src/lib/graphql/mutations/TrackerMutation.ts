@@ -7,52 +7,54 @@
  */
 
 import gql from 'graphql-tag';
-import { BASE_TRACK_RECORD_FIELDS, QUERY_TRACK_RECORD_FIELDS } from '@/lib/graphql/Fragments.ts';
+import { TRACK_RECORD_BIND_FIELDS } from '@/lib/graphql/fragments/TrackRecordFragments.ts';
+import { TRACKER_SETTING_FIELDS } from '@/lib/graphql/fragments/TrackFragments.ts';
 
 export const TRACKER_LOGIN_OAUTH = gql`
+    ${TRACKER_SETTING_FIELDS}
+
     mutation TRACKER_LOGIN_OAUTH($input: LoginTrackerOAuthInput!) {
         loginTrackerOAuth(input: $input) {
             tracker {
-                id
-                isLoggedIn
-                authUrl
+                ...TRACKER_SETTING_FIELDS
             }
         }
     }
 `;
 
 export const TRACKER_LOGIN_CREDENTIALS = gql`
+    ${TRACKER_SETTING_FIELDS}
+
     mutation TRACKER_LOGIN_CREDENTIALS($input: LoginTrackerCredentialsInput!) {
         loginTrackerCredentials(input: $input) {
             isLoggedIn
             tracker {
-                id
-                isLoggedIn
-                authUrl
+                ...TRACKER_SETTING_FIELDS
             }
         }
     }
 `;
 
 export const TRACKER_LOGOUT = gql`
+    ${TRACKER_SETTING_FIELDS}
+
     mutation TRACKER_LOGOUT($trackerId: Int!) {
         logoutTracker(input: { trackerId: $trackerId }) {
             clientMutationId
             tracker {
-                id
-                isLoggedIn
-                authUrl
+                ...TRACKER_SETTING_FIELDS
             }
         }
     }
 `;
 
 export const TRACKER_BIND = gql`
-    ${QUERY_TRACK_RECORD_FIELDS}
+    ${TRACK_RECORD_BIND_FIELDS}
+
     mutation TRACKER_BIND($mangaId: Int!, $remoteId: LongString!, $trackerId: Int!) {
         bindTrack(input: { mangaId: $mangaId, remoteId: $remoteId, trackerId: $trackerId }) {
             trackRecord {
-                ...QUERY_TRACK_RECORD_FIELDS
+                ...TRACK_RECORD_BIND_FIELDS
                 tracker {
                     id
                 }
@@ -90,11 +92,12 @@ export const TRACKER_UNBIND = gql`
 `;
 
 export const TRACKER_UPDATE_BIND = gql`
-    ${QUERY_TRACK_RECORD_FIELDS}
+    ${TRACK_RECORD_BIND_FIELDS}
+
     mutation TRACKER_UPDATE_BIND($input: UpdateTrackInput!) {
         updateTrack(input: $input) {
             trackRecord {
-                ...QUERY_TRACK_RECORD_FIELDS
+                ...TRACK_RECORD_BIND_FIELDS
                 manga {
                     id
                     trackRecords {
@@ -110,11 +113,12 @@ export const TRACKER_UPDATE_BIND = gql`
 `;
 
 export const TRACKER_FETCH_BIND = gql`
-    ${BASE_TRACK_RECORD_FIELDS}
+    ${TRACK_RECORD_BIND_FIELDS}
+
     mutation TRACKER_FETCH_BIND($recordId: Int!) {
         fetchTrack(input: { recordId: $recordId }) {
             trackRecord {
-                ...BASE_TRACK_RECORD_FIELDS
+                ...TRACK_RECORD_BIND_FIELDS
             }
         }
     }

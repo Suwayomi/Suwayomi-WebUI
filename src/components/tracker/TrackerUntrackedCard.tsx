@@ -13,10 +13,16 @@ import Button from '@mui/material/Button';
 import { useTranslation } from 'react-i18next';
 import Stack from '@mui/material/Stack';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { TBaseTracker } from '@/lib/data/Trackers.ts';
 import { CARD_STYLING } from '@/components/tracker/constants.ts';
+import { TTrackerBase } from '@/lib/data/Trackers.ts';
 
-export const TrackerUntrackedCard = ({ tracker, onClick }: { tracker: TBaseTracker; onClick: () => void }) => {
+export const TrackerUntrackedCard = ({
+    tracker,
+    onClick,
+}: {
+    tracker: Pick<TTrackerBase, 'name' | 'icon'>;
+    onClick: () => void;
+}) => {
     const { t } = useTranslation();
 
     return (

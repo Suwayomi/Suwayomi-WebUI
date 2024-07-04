@@ -19,6 +19,8 @@ import { GridLayout, useLibraryOptionsContext } from '@/components/context/Libra
 import { OptionsTabs } from '@/components/molecules/OptionsTabs';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Trackers } from '@/lib/data/Trackers.ts';
+import { GetTrackersSettingsQuery } from '@/lib/graphql/generated/graphql.ts';
+import { GET_TRACKERS_SETTINGS } from '@/lib/graphql/queries/TrackerQuery.ts';
 
 const TITLES: { [key in 'filter' | 'sort' | 'display']: TranslationKey } = {
     filter: 'global.label.filter',
@@ -44,7 +46,7 @@ export const LibraryOptionsPanel: React.FC<IProps> = ({ open, onClose }) => {
     const { t } = useTranslation();
     const { options, setOptions } = useLibraryOptionsContext();
 
-    const trackerList = requestManager.useGetTrackerList();
+    const trackerList = requestManager.useGetTrackerList<GetTrackersSettingsQuery>(GET_TRACKERS_SETTINGS);
     const loggedInTrackers = Trackers.getLoggedIn(trackerList.data?.trackers.nodes ?? []);
 
     const handleFilterChange = <T extends keyof LibraryOptions>(key: T, value: LibraryOptions[T]) => {

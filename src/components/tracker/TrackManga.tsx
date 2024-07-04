@@ -19,6 +19,8 @@ import { TrackerCard, TrackerMode } from '@/components/tracker/TrackerCard.tsx';
 import { TManga } from '@/typings.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { GetTrackersBindQuery } from '@/lib/graphql/generated/graphql.ts';
+import { GET_TRACKERS_BIND } from '@/lib/graphql/queries/TrackerQuery.ts';
 
 const getTrackerMode = (id: number, trackersInUse: number[], searchModeForTracker?: number): TrackerMode => {
     if (id === searchModeForTracker) {
@@ -38,7 +40,9 @@ export const TrackManga = ({ manga }: { manga: Pick<TManga, 'id' | 'trackRecords
 
     const [searchModeForTracker, setSearchModeForTracker] = useState<number>();
 
-    const trackerList = requestManager.useGetTrackerList({ notifyOnNetworkStatusChange: true });
+    const trackerList = requestManager.useGetTrackerList<GetTrackersBindQuery>(GET_TRACKERS_BIND, {
+        notifyOnNetworkStatusChange: true,
+    });
     const mangaTrackers = manga.trackRecords.nodes;
 
     const loggedInTrackers = Trackers.getLoggedIn(trackerList.data?.trackers.nodes ?? []);

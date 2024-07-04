@@ -24,7 +24,7 @@ import Typography from '@mui/material/Typography';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
-import { TBaseTracker, Tracker } from '@/lib/data/Trackers.ts';
+import { Tracker, TTrackerBase } from '@/lib/data/Trackers.ts';
 import { SearchTextField } from '@/components/atoms/SearchTextField.tsx';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { TrackerMangaCard } from '@/components/tracker/TrackerMangaCard.tsx';
@@ -39,7 +39,7 @@ export const TrackerSearch = ({
     trackedId,
 }: {
     mangaId: number;
-    tracker: TBaseTracker;
+    tracker: Pick<TTrackerBase, 'id'>;
     closeSearchMode: () => void;
     trackedId?: string;
 }) => {

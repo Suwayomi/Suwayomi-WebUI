@@ -26,6 +26,8 @@ import {
 import { MetadataTrackingSettings } from '@/typings.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { GET_TRACKERS_SETTINGS } from '@/lib/graphql/queries/TrackerQuery.ts';
+import { GetTrackersSettingsQuery } from '@/lib/graphql/generated/graphql.ts';
 
 export const TrackingSettings = () => {
     const { t } = useTranslation();
@@ -49,7 +51,9 @@ export const TrackingSettings = () => {
         loading: areTrackersLoading,
         error: trackersError,
         refetch: refetchTrackersList,
-    } = requestManager.useGetTrackerList({ notifyOnNetworkStatusChange: true });
+    } = requestManager.useGetTrackerList<GetTrackersSettingsQuery>(GET_TRACKERS_SETTINGS, {
+        notifyOnNetworkStatusChange: true,
+    });
     const trackers = data?.trackers.nodes ?? [];
 
     const loading = areMetadataServerSettingsLoading || areTrackersLoading;

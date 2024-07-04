@@ -29,7 +29,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import PopupState, { bindDialog, bindMenu, bindTrigger } from 'material-ui-popup-state';
 import { useMemo, useState } from 'react';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { Trackers, TTrackRecord, UNSET_DATE } from '@/lib/data/Trackers.ts';
+import { Trackers, TTrackerBind, TTrackRecordBind, UNSET_DATE } from '@/lib/data/Trackers.ts';
 import { ListPreference } from '@/components/sourceConfiguration/ListPreference.tsx';
 import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
 import { DateSetting } from '@/components/settings/DateSetting.tsx';
@@ -39,6 +39,7 @@ import { CARD_STYLING } from '@/components/tracker/constants.ts';
 import { TypographyMaxLines } from '@/components/atoms/TypographyMaxLines.tsx';
 import { SelectSetting, SelectSettingValue } from '@/components/settings/SelectSetting.tsx';
 import { CheckboxInput } from '@/components/atoms/CheckboxInput';
+import { TrackRecordType } from '@/lib/graphql/generated/graphql.ts';
 
 const TrackerActiveLink = ({ children, url }: { children: React.ReactNode; url: string }) => (
     <Link href={url} rel="noreferrer" target="_blank" underline="none" color="inherit">
@@ -46,12 +47,16 @@ const TrackerActiveLink = ({ children, url }: { children: React.ReactNode; url: 
     </Link>
 );
 
+type TTrackerActive = Pick<TTrackerBind, 'id' | 'name' | 'icon' | 'supportsTrackDeletion'>;
+type TTrackRecordActive = Pick<TTrackRecordBind, 'id' | 'remoteUrl' | 'title'>;
 const TrackerActiveRemoveBind = ({
-    trackRecord: { tracker, ...trackRecord },
+    trackerRecordId,
+    tracker,
     onClick,
     onClose,
 }: {
-    trackRecord: TTrackRecord;
+    trackerRecordId: TrackRecordType['id'];
+    tracker: TTrackerActive;
     onClick: () => void;
     onClose: () => void;
 }) => {
@@ -62,7 +67,7 @@ const TrackerActiveRemoveBind = ({
     const removeBind = () => {
         onClose();
         requestManager
-            .unbindTracker(trackRecord.id, removeRemoteTracking)
+            .unbindTracker(trackerRecordId, removeRemoteTracking)
             .response.then(() => makeToast(t('manga.action.track.remove.label.success'), 'success'))
             .catch(() => makeToast(t('manga.action.track.remove.label.error'), 'error'));
     };
@@ -137,10 +142,12 @@ const TrackerActiveRemoveBind = ({
 };
 
 const TrackerActiveHeader = ({
-    trackRecord: { tracker, ...trackRecord },
+    trackRecord,
+    tracker,
     openSearch,
 }: {
-    trackRecord: TTrackRecord;
+    trackRecord: TTrackRecordActive;
+    tracker: TTrackerActive;
     openSearch: () => void;
 }) => {
     const { t } = useTranslation();
@@ -182,7 +189,8 @@ const TrackerActiveHeader = ({
                                     </TrackerActiveLink>,
                                     <TrackerActiveRemoveBind
                                         key={`tracker-active-menu-item-remove-${tracker.id}`}
-                                        trackRecord={{ tracker, ...trackRecord }}
+                                        trackerRecordId={trackRecord.id}
+                                        tracker={tracker}
                                         onClick={() => setHideMenu(true)}
                                         onClose={onClose}
                                     />,
@@ -205,10 +213,12 @@ const TrackerActiveCardInfoRow = ({ children }: { children: React.ReactNode }) =
 const isUnsetScore = (score: string | number): boolean => !Math.trunc(Number(score));
 
 export const TrackerActiveCard = ({
-    trackRecord: { tracker, ...trackRecord },
+    trackRecord,
+    tracker,
     onClick,
 }: {
-    trackRecord: TTrackRecord;
+    trackRecord: TTrackRecordBind;
+    tracker: TTrackerBind;
     onClick: () => void;
 }) => {
     const { t } = useTranslation();
@@ -221,7 +231,7 @@ export const TrackerActiveCard = ({
             tracker.scores.map(
                 (score) =>
                     [score, { text: isUnsetScore(score) ? '-' : score }] satisfies SelectSettingValue<
-                        TTrackRecord['tracker']['scores'][number]
+                        TTrackerBind['scores'][number]
                     >,
             ),
         [tracker.scores],
@@ -236,7 +246,7 @@ export const TrackerActiveCard = ({
     return (
         <Card sx={CARD_STYLING}>
             <CardContent sx={{ padding: 0 }}>
-                <TrackerActiveHeader trackRecord={{ tracker, ...trackRecord }} openSearch={onClick} />
+                <TrackerActiveHeader trackRecord={trackRecord} tracker={tracker} openSearch={onClick} />
                 <Card>
                     <CardContent sx={{ padding: '0' }}>
                         <Box sx={{ padding: 1 }}>

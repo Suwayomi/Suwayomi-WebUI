@@ -169,8 +169,6 @@ import {
     GetMangaToMigrateQueryVariables,
     GetMangaToMigrateToFetchMutation,
     GetMangaToMigrateToFetchMutationVariables,
-    GetTrackersQuery,
-    GetTrackersQueryVariables,
     TrackerLogoutMutation,
     TrackerLogoutMutationVariables,
     TrackerLoginOauthMutation,
@@ -297,7 +295,7 @@ import { WEBUI_UPDATE_SUBSCRIPTION } from '@/lib/graphql/subscriptions/ServerInf
 import { GET_DOWNLOAD_STATUS } from '@/lib/graphql/queries/DownloaderQuery.ts';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { Queue, QueuePriority } from '@/lib/Queue.ts';
-import { GET_TRACKERS, TRACKER_SEARCH } from '@/lib/graphql/queries/TrackerQuery.ts';
+import { TRACKER_SEARCH } from '@/lib/graphql/queries/TrackerQuery.ts';
 import {
     TRACKER_BIND,
     TRACKER_FETCH_BIND,
@@ -2545,10 +2543,11 @@ export class RequestManager {
         return this.doRequest(GQLMethod.USE_QUERY, GET_MIGRATABLE_SOURCES, undefined, options);
     }
 
-    public useGetTrackerList(
-        options?: QueryHookOptions<GetTrackersQuery, GetTrackersQueryVariables>,
-    ): AbortableApolloUseQueryResponse<GetTrackersQuery, GetTrackersQueryVariables> {
-        return this.doRequest(GQLMethod.USE_QUERY, GET_TRACKERS, undefined, options);
+    public useGetTrackerList<Data, Variables extends OperationVariables = never>(
+        document: DocumentNode | TypedDocumentNode<Data, Variables>,
+        options?: QueryHookOptions<Data, Variables>,
+    ): AbortableApolloUseQueryResponse<Data, Variables> {
+        return this.doRequest(GQLMethod.USE_QUERY, document, undefined, options);
     }
 
     public useLogoutFromTracker(
@@ -2601,7 +2600,7 @@ export class RequestManager {
             GQLMethod.MUTATION,
             TRACKER_UNBIND,
             { input: { recordId, deleteRemoteTrack } },
-            { refetchQueries: [GET_MANGA, GET_CATEGORY_MANGAS, GET_MANGAS], ...options },
+            { refetchQueries: [GET_MANGA], ...options },
         );
     }
 

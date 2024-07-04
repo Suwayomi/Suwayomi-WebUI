@@ -18,12 +18,14 @@ import { TrackManga } from '@/components/tracker/TrackManga.tsx';
 import { Trackers } from '@/lib/data/Trackers.ts';
 import { TManga } from '@/typings.ts';
 import { CustomIconButton } from '@/components/atoms/CustomIconButton.tsx';
+import { GetTrackersSettingsQuery } from '@/lib/graphql/generated/graphql.ts';
+import { GET_TRACKERS_SETTINGS } from '@/lib/graphql/queries/TrackerQuery.ts';
 
 export const TrackMangaButton = ({ manga }: { manga: TManga }) => {
     const { t } = useTranslation();
     const navigate = useNavigate();
 
-    const trackerList = requestManager.useGetTrackerList();
+    const trackerList = requestManager.useGetTrackerList<GetTrackersSettingsQuery>(GET_TRACKERS_SETTINGS);
     const mangaTrackers = manga.trackRecords.nodes;
 
     const loggedInTrackers = Trackers.getLoggedIn(trackerList.data?.trackers.nodes ?? []);

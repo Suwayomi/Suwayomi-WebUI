@@ -7,39 +7,51 @@
  */
 
 import gql from 'graphql-tag';
-import { FULL_TRACKER_FIELDS, PAGE_INFO } from '@/lib/graphql/Fragments.ts';
+import { PAGE_INFO } from '@/lib/graphql/Fragments.ts';
+import { TRACKER_BIND_FIELDS, TRACKER_SETTING_FIELDS } from '@/lib/graphql/fragments/TrackFragments.ts';
+import { TRACK_RECORD_SEARCH_FIELDS } from '@/lib/graphql/fragments/TrackRecordFragments.ts';
 
-export const GET_TRACKERS = gql`
+export const GET_TRACKERS_SETTINGS = gql`
     ${PAGE_INFO}
-    ${FULL_TRACKER_FIELDS}
-    query GET_TRACKERS {
+    ${TRACKER_SETTING_FIELDS}
+
+    query GET_TRACKERS_SETTINGS {
         trackers {
             totalCount
             pageInfo {
                 ...PAGE_INFO
             }
             nodes {
-                ...FULL_TRACKER_FIELDS
+                ...TRACKER_SETTING_FIELDS
+            }
+        }
+    }
+`;
+
+export const GET_TRACKERS_BIND = gql`
+    ${PAGE_INFO}
+    ${TRACKER_BIND_FIELDS}
+
+    query GET_TRACKERS_BIND {
+        trackers {
+            totalCount
+            pageInfo {
+                ...PAGE_INFO
+            }
+            nodes {
+                ...TRACKER_BIND_FIELDS
             }
         }
     }
 `;
 
 export const TRACKER_SEARCH = gql`
+    ${TRACK_RECORD_SEARCH_FIELDS}
+
     query TRACKER_SEARCH($query: String!, $trackerId: Int!) {
         searchTracker(input: { query: $query, trackerId: $trackerId }) {
             trackSearches {
-                id
-                title
-                coverUrl
-                publishingStatus
-                publishingType
-                remoteId
-                startDate
-                summary
-                totalChapters
-                trackerId
-                trackingUrl
+                ...TRACK_RECORD_SEARCH_FIELDS
             }
         }
     }

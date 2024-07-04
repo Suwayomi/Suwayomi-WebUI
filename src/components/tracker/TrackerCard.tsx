@@ -6,10 +6,10 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { TBaseTracker, TTrackRecord } from '@/lib/data/Trackers.ts';
 import { TrackerUntrackedCard } from '@/components/tracker/TrackerUntrackedCard.tsx';
 import { TrackerSearch } from '@/components/tracker/TrackerSearch.tsx';
 import { TrackerActiveCard } from '@/components/tracker/TrackerActiveCard.tsx';
+import { TTrackerBind, TTrackRecordBind } from '@/lib/data/Trackers.ts';
 
 export enum TrackerMode {
     UNTRACKED,
@@ -24,9 +24,9 @@ export const TrackerCard = ({
     mode,
     setSearchMode,
 }: {
-    tracker: TBaseTracker;
+    tracker: TTrackerBind;
     mangaId: number;
-    trackRecord?: TTrackRecord;
+    trackRecord?: TTrackRecordBind;
     mode: TrackerMode;
     setSearchMode: (id?: number) => void;
 }) => {
@@ -51,6 +51,7 @@ export const TrackerCard = ({
 
     return (
         <TrackerActiveCard
+            tracker={tracker}
             trackRecord={trackRecord!}
             onClick={() => {
                 setSearchMode(tracker.id);

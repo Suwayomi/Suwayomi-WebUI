@@ -24,9 +24,9 @@ import Button from '@mui/material/Button';
 import { PasswordTextField } from '@/components/atoms/PasswordTextField.tsx';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { TBaseTracker, Trackers } from '@/lib/data/Trackers.ts';
+import { Trackers, TTrackerSearch } from '@/lib/data/Trackers.ts';
 
-export const SettingsTrackerCard = ({ tracker }: { tracker: TBaseTracker }) => {
+export const SettingsTrackerCard = ({ tracker }: { tracker: TTrackerSearch }) => {
     const { t } = useTranslation();
 
     const [loginTrackerCredentials, { loading: isCredentialLoginInProgress }] =

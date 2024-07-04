@@ -23,10 +23,10 @@ import parseHtml from 'html-react-parser';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import sanitizeHtml from 'sanitize-html';
 import { SpinnerImage } from '@/components/util/SpinnerImage.tsx';
-import { TrackerManga } from '@/lib/data/Trackers.ts';
 import { TypographyMaxLines } from '@/components/atoms/TypographyMaxLines.tsx';
 import { Metadata } from '@/components/atoms/Metadata.tsx';
 import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
+import { TTrackerManga } from '@/lib/data/Trackers.ts';
 
 const TrackerMangaCardTitle = ({ title, selected }: { title: string; selected: boolean }) => (
     <Stack direction="row" gap="5px" justifyContent="space-between">
@@ -101,7 +101,7 @@ export const TrackerMangaCard = ({
     selected,
     onSelect,
 }: {
-    manga: TrackerManga;
+    manga: TTrackerManga;
     selected: boolean;
     onSelect: () => void;
 }) => {

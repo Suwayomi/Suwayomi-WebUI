@@ -8,6 +8,8 @@
 
 import gql from 'graphql-tag';
 import { SOURCE_BASE_FIELDS } from '@/lib/graphql/fragments/SourceFragments.ts';
+import { TRACKER_BIND_FIELDS } from '@/lib/graphql/fragments/TrackFragments.ts';
+import { TRACK_RECORD_BIND_FIELDS } from '@/lib/graphql/fragments/TrackRecordFragments.ts';
 
 export const PAGE_INFO = gql`
     fragment PAGE_INFO on PageInfo {
@@ -52,53 +54,14 @@ export const UPDATER_CATEGORY_FIELDS = gql`
     }
 `;
 
-export const FULL_TRACKER_FIELDS = gql`
-    fragment FULL_TRACKER_FIELDS on TrackerType {
-        id
-        name
-        authUrl
-        icon
-        supportsTrackDeletion
-        isLoggedIn
-        isTokenExpired
-        scores
-        statuses {
-            name
-            value
-        }
-    }
-`;
-
-export const BASE_TRACK_RECORD_FIELDS = gql`
-    fragment BASE_TRACK_RECORD_FIELDS on TrackRecordType {
-        id
-        status
-        lastChapterRead
-        totalChapters
-        score
-        displayScore
-        startDate
-        finishDate
-    }
-`;
-
-export const QUERY_TRACK_RECORD_FIELDS = gql`
-    ${BASE_TRACK_RECORD_FIELDS}
-    fragment QUERY_TRACK_RECORD_FIELDS on TrackRecordType {
-        ...BASE_TRACK_RECORD_FIELDS
-        title
-        remoteUrl
-        remoteId
-    }
-`;
-
 export const FULL_TRACK_RECORD_FIELDS = gql`
-    ${QUERY_TRACK_RECORD_FIELDS}
-    ${FULL_TRACKER_FIELDS}
+    ${TRACK_RECORD_BIND_FIELDS}
+    ${TRACKER_BIND_FIELDS}
+
     fragment FULL_TRACK_RECORD_FIELDS on TrackRecordType {
-        ...QUERY_TRACK_RECORD_FIELDS
+        ...TRACK_RECORD_BIND_FIELDS
         tracker {
-            ...FULL_TRACKER_FIELDS
+            ...TRACKER_BIND_FIELDS
         }
     }
 `;
