@@ -25,6 +25,7 @@ import {
     GroupedExtensions,
     GroupedExtensionsResult,
     isExtensionStateOrLanguage,
+    TExtension,
     translateExtensionLanguage,
 } from '@/screens/util/Extensions';
 import { AppbarSearch } from '@/components/util/AppbarSearch';
@@ -32,7 +33,6 @@ import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
 import { makeToaster } from '@/components/util/Toast';
 import { LangSelect } from '@/components/navbar/action/LangSelect';
 import { ExtensionCard } from '@/components/ExtensionCard';
-import { PartialExtension } from '@/typings.ts';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { StyledGroupedVirtuoso } from '@/components/virtuoso/StyledGroupedVirtuoso.tsx';
 import { StyledGroupHeader } from '@/components/virtuoso/StyledGroupHeader.tsx';
@@ -44,7 +44,7 @@ import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
 const LANGUAGE = 0;
 const EXTENSIONS = 1;
 
-function getExtensionsInfo(extensions: PartialExtension[]): {
+function getExtensionsInfo(extensions: TExtension[]): {
     allLangs: string[];
     groupedExtensions: GroupedExtensionsResult;
 } {

@@ -7,8 +7,9 @@
  */
 
 import { t } from 'i18next';
-import { PartialExtension, TranslationKey } from '@/typings';
+import { TranslationKey } from '@/typings';
 import { DefaultLanguage, langCodeToName } from '@/util/language';
+import { ExtensionType } from '@/lib/graphql/generated/graphql.ts';
 
 export enum ExtensionState {
     INSTALLED = 'INSTALLED',
@@ -16,16 +17,31 @@ export enum ExtensionState {
     OBSOLETE = 'OBSOLETE',
 }
 
-export type GroupedExtensionsResult<KEY extends string = string> = [KEY, PartialExtension[]][];
+export type TExtension = Pick<
+    ExtensionType,
+    | 'pkgName'
+    | 'name'
+    | 'lang'
+    | 'versionCode'
+    | 'versionName'
+    | 'iconUrl'
+    | 'repo'
+    | 'isNsfw'
+    | 'isInstalled'
+    | 'isObsolete'
+    | 'hasUpdate'
+>;
+
+export type GroupedExtensionsResult<KEY extends string = string> = [KEY, TExtension[]][];
 
 export type GroupedByExtensionState = {
-    [state in ExtensionState]: PartialExtension[];
+    [state in ExtensionState]: TExtension[];
 };
 
 export type GroupedByLanguage = {
-    [language in DefaultLanguage]: PartialExtension[];
+    [language in DefaultLanguage]: TExtension[];
 } & {
-    [language: string]: PartialExtension[];
+    [language: string]: TExtension[];
 };
 
 export type GroupedExtensions = GroupedByExtensionState & GroupedByLanguage;

@@ -168,23 +168,6 @@ export const FULL_MANGA_FIELDS = gql`
     }
 `;
 
-export const FULL_EXTENSION_FIELDS = gql`
-    fragment FULL_EXTENSION_FIELDS on ExtensionType {
-        apkName
-        repo
-        hasUpdate
-        iconUrl
-        isInstalled
-        isNsfw
-        isObsolete
-        lang
-        name
-        pkgName
-        versionCode
-        versionName
-    }
-`;
-
 export const ABOUT_WEBUI = gql`
     fragment ABOUT_WEBUI on AboutWebUI {
         channel

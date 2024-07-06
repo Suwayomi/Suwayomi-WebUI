@@ -12,7 +12,6 @@ import { ParseKeys } from 'i18next';
 import { Location } from 'react-router-dom';
 import {
     GetChaptersReaderQuery,
-    GetExtensionQuery,
     GetMangaQuery,
     GetServerSettingsQuery,
     GetSourceBrowseQuery,
@@ -31,8 +30,6 @@ declare module 'react-router-dom' {
 }
 
 export type TranslationKey = ParseKeys;
-
-export type PartialExtension = GetExtensionQuery['extension'];
 
 export interface IPos {
     type: 'selectState' | 'textState' | 'checkBoxState' | 'triState' | 'sortState';

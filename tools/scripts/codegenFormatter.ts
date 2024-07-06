@@ -41,7 +41,7 @@ const addImports = format(
     `import { FieldPolicy, FieldReadFunction, TypePolicies, TypePolicy } from '@apollo/client/cache';`,
     `import {FieldPolicy, FieldReadFunction, Reference, TypePolicies, TypePolicy} from '@apollo/client/cache';
 import {
-\tGetChaptersMangaQuery, GetDownloadStatusQueryVariables, GetExtensionQueryVariables, GetGlobalMetadataQueryVariables,
+\tGetChaptersMangaQuery, GetDownloadStatusQueryVariables, GetGlobalMetadataQueryVariables,
 \tGetMangaQueryVariables, GetSourceBrowseQueryVariables, GetUpdateStatusQueryVariables, GetWebuiUpdateStatusQueryVariables,
 } from "@/lib/graphql/generated/graphql.ts";
 import {FieldFunctionOptions} from "@apollo/client/cache/inmemory/policies";`,
@@ -89,7 +89,7 @@ const fixTypingOfQueryTypePolicies = format(
 \tcheckForServerUpdates?: FieldPolicy<any> | FieldReadFunction<any>,
 \tcheckForWebUIUpdate?: FieldPolicy<any> | FieldReadFunction<any>,
 \tdownloadStatus?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetDownloadStatusQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetDownloadStatusQueryVariables>>,
-\textension?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetExtensionQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetExtensionQueryVariables>>,
+\textension?: FieldPolicy<any> | FieldReadFunction<any>,
 \textensions?: FieldPolicy<any> | FieldReadFunction<any>,
 \tgetWebUIUpdateStatus?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetWebuiUpdateStatusQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetWebuiUpdateStatusQueryVariables>>,
 \tlastUpdateTimestamp?: FieldPolicy<any> | FieldReadFunction<any>,

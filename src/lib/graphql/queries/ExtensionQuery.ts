@@ -7,22 +7,14 @@
  */
 
 import gql from 'graphql-tag';
-import { FULL_EXTENSION_FIELDS, PAGE_INFO } from '@/lib/graphql/Fragments';
-
-// returns the current extension from the database
-export const GET_EXTENSION = gql`
-    ${FULL_EXTENSION_FIELDS}
-    query GET_EXTENSION($pkgName: String!) {
-        extension(pkgName: $pkgName) {
-            ...FULL_EXTENSION_FIELDS
-        }
-    }
-`;
+import { PAGE_INFO } from '@/lib/graphql/Fragments';
+import { EXTENSION_LIST_FIELDS } from '@/lib/graphql/fragments/ExtensionFragments.ts';
 
 // returns the current extensions from the database
 export const GET_EXTENSIONS = gql`
-    ${FULL_EXTENSION_FIELDS}
+    ${EXTENSION_LIST_FIELDS}
     ${PAGE_INFO}
+
     query GET_EXTENSIONS(
         $after: Cursor
         $before: Cursor
@@ -46,7 +38,7 @@ export const GET_EXTENSIONS = gql`
             orderByType: $orderByType
         ) {
             nodes {
-                ...FULL_EXTENSION_FIELDS
+                ...EXTENSION_LIST_FIELDS
             }
             pageInfo {
                 ...PAGE_INFO

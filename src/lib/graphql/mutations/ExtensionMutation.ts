@@ -7,64 +7,56 @@
  */
 
 import gql from 'graphql-tag';
-import { FULL_EXTENSION_FIELDS } from '@/lib/graphql/Fragments';
+import { EXTENSION_LIST_FIELDS } from '@/lib/graphql/fragments/ExtensionFragments.ts';
 
 // makes the server fetch and return the latest extensions
 export const GET_EXTENSIONS_FETCH = gql`
-    ${FULL_EXTENSION_FIELDS}
+    ${EXTENSION_LIST_FIELDS}
+
     mutation GET_EXTENSIONS_FETCH($input: FetchExtensionsInput = {}) {
         fetchExtensions(input: $input) {
             clientMutationId
             extensions {
-                ...FULL_EXTENSION_FIELDS
+                ...EXTENSION_LIST_FIELDS
             }
         }
     }
 `;
 
 export const UPDATE_EXTENSION = gql`
+    ${EXTENSION_LIST_FIELDS}
+
     mutation UPDATE_EXTENSION($input: UpdateExtensionInput!) {
         updateExtension(input: $input) {
             clientMutationId
             extension {
-                pkgName
-                apkName
-                repo
-                versionName
-                versionCode
-                isInstalled
-                isObsolete
-                hasUpdate
+                ...EXTENSION_LIST_FIELDS
             }
         }
     }
 `;
 
 export const UPDATE_EXTENSIONS = gql`
+    ${EXTENSION_LIST_FIELDS}
+
     mutation UPDATE_EXTENSIONS($input: UpdateExtensionsInput!) {
         updateExtensions(input: $input) {
             clientMutationId
             extensions {
-                pkgName
-                apkName
-                repo
-                versionName
-                versionCode
-                isInstalled
-                isObsolete
-                hasUpdate
+                ...EXTENSION_LIST_FIELDS
             }
         }
     }
 `;
 
 export const INSTALL_EXTERNAL_EXTENSION = gql`
-    ${FULL_EXTENSION_FIELDS}
+    ${EXTENSION_LIST_FIELDS}
+
     mutation INSTALL_EXTERNAL_EXTENSION($file: Upload!) {
         installExternalExtension(input: { extensionFile: $file }) {
             clientMutationId
             extension {
-                ...FULL_EXTENSION_FIELDS
+                ...EXTENSION_LIST_FIELDS
             }
         }
     }

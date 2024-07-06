@@ -2602,8 +2602,6 @@ export type FullChapterFieldsFragment = { __typename?: 'ChapterType', chapterNum
 
 export type FullMangaFieldsFragment = { __typename?: 'MangaType', unreadCount: number, downloadCount: number, bookmarkCount: number, artist?: string | null, author?: string | null, chaptersLastFetchedAt?: string | null, description?: string | null, genre: Array<string>, id: number, inLibrary: boolean, inLibraryAt: string, initialized: boolean, lastFetchedAt?: string | null, realUrl?: string | null, status: MangaStatus, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: string | null, title: string, url: string, lastReadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, mangaId: number, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestReadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, mangaId: number, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestFetchedChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, mangaId: number, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, latestUploadedChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, mangaId: number, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, firstUnreadChapter?: { __typename?: 'ChapterType', chapterNumber: number, fetchedAt: string, id: number, isBookmarked: boolean, isDownloaded: boolean, isRead: boolean, lastPageRead: number, lastReadAt: string, mangaId: number, name: string, pageCount: number, realUrl?: string | null, scanlator?: string | null, sourceOrder: number, uploadDate: string, url: string, manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, thumbnailUrl?: string | null, lastFetchedAt?: string | null }, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } | null, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', default: boolean, id: number, includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude, name: string, order: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }>, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> }, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, source?: { __typename?: 'SourceType', id: string, name: string, displayName: string } | null, trackRecords: { __typename?: 'TrackRecordNodeList', totalCount: number, nodes: Array<{ __typename?: 'TrackRecordType', id: number, remoteId: string, trackerId: number, remoteUrl: string, title: string, status: number, lastChapterRead: number, totalChapters: number, score: number, displayScore: string, startDate: string, finishDate: string, tracker: { __typename?: 'TrackerType', icon: string, supportsTrackDeletion?: boolean | null, scores: Array<string>, id: number, name: string, isLoggedIn: boolean, isTokenExpired: boolean, statuses: Array<{ __typename?: 'TrackStatusType', name: string, value: number }>, trackRecords: { __typename?: 'TrackRecordNodeList', nodes: Array<{ __typename?: 'TrackRecordType', id: number, remoteId: string, trackerId: number, remoteUrl: string, title: string, status: number, lastChapterRead: number, totalChapters: number, score: number, displayScore: string, startDate: string, finishDate: string }> } } }> } };
 
-export type FullExtensionFieldsFragment = { __typename?: 'ExtensionType', apkName: string, repo?: string | null, hasUpdate: boolean, iconUrl: string, isInstalled: boolean, isNsfw: boolean, isObsolete: boolean, lang: string, name: string, pkgName: string, versionCode: number, versionName: string };
-
 export type AboutWebuiFragment = { __typename?: 'AboutWebUI', channel: string, tag: string };
 
 export type WebuiUpdateCheckFragment = { __typename?: 'WebUIUpdateCheck', channel: string, tag: string, updateAvailable: boolean };
@@ -2633,6 +2631,8 @@ export type ChapterListFieldsFragment = { __typename?: 'ChapterType', fetchedAt:
 export type ChapterUpdateListFieldsFragment = { __typename?: 'ChapterType', fetchedAt: string, uploadDate: string, id: number, name: string, mangaId: number, scanlator?: string | null, realUrl?: string | null, sourceOrder: number, chapterNumber: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean, manga: { __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: string | null, inLibrary: boolean, initialized: boolean } };
 
 export type DownloadStatusFieldsFragment = { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, isDownloaded: boolean }, manga: { __typename?: 'MangaType', id: number, title: string, downloadCount: number } }> };
+
+export type ExtensionListFieldsFragment = { __typename?: 'ExtensionType', pkgName: string, name: string, lang: string, versionCode: number, versionName: string, iconUrl: string, repo?: string | null, isNsfw: boolean, isInstalled: boolean, isObsolete: boolean, hasUpdate: boolean };
 
 export type SourceBaseFieldsFragment = { __typename?: 'SourceType', id: string, name: string, displayName: string };
 
@@ -2862,28 +2862,28 @@ export type GetExtensionsFetchMutationVariables = Exact<{
 }>;
 
 
-export type GetExtensionsFetchMutation = { __typename?: 'Mutation', fetchExtensions?: { __typename?: 'FetchExtensionsPayload', clientMutationId?: string | null, extensions: Array<{ __typename?: 'ExtensionType', apkName: string, repo?: string | null, hasUpdate: boolean, iconUrl: string, isInstalled: boolean, isNsfw: boolean, isObsolete: boolean, lang: string, name: string, pkgName: string, versionCode: number, versionName: string }> } | null };
+export type GetExtensionsFetchMutation = { __typename?: 'Mutation', fetchExtensions?: { __typename?: 'FetchExtensionsPayload', clientMutationId?: string | null, extensions: Array<{ __typename?: 'ExtensionType', pkgName: string, name: string, lang: string, versionCode: number, versionName: string, iconUrl: string, repo?: string | null, isNsfw: boolean, isInstalled: boolean, isObsolete: boolean, hasUpdate: boolean }> } | null };
 
 export type UpdateExtensionMutationVariables = Exact<{
   input: UpdateExtensionInput;
 }>;
 
 
-export type UpdateExtensionMutation = { __typename?: 'Mutation', updateExtension?: { __typename?: 'UpdateExtensionPayload', clientMutationId?: string | null, extension?: { __typename?: 'ExtensionType', pkgName: string, apkName: string, repo?: string | null, versionName: string, versionCode: number, isInstalled: boolean, isObsolete: boolean, hasUpdate: boolean } | null } | null };
+export type UpdateExtensionMutation = { __typename?: 'Mutation', updateExtension?: { __typename?: 'UpdateExtensionPayload', clientMutationId?: string | null, extension?: { __typename?: 'ExtensionType', pkgName: string, name: string, lang: string, versionCode: number, versionName: string, iconUrl: string, repo?: string | null, isNsfw: boolean, isInstalled: boolean, isObsolete: boolean, hasUpdate: boolean } | null } | null };
 
 export type UpdateExtensionsMutationVariables = Exact<{
   input: UpdateExtensionsInput;
 }>;
 
 
-export type UpdateExtensionsMutation = { __typename?: 'Mutation', updateExtensions?: { __typename?: 'UpdateExtensionsPayload', clientMutationId?: string | null, extensions: Array<{ __typename?: 'ExtensionType', pkgName: string, apkName: string, repo?: string | null, versionName: string, versionCode: number, isInstalled: boolean, isObsolete: boolean, hasUpdate: boolean }> } | null };
+export type UpdateExtensionsMutation = { __typename?: 'Mutation', updateExtensions?: { __typename?: 'UpdateExtensionsPayload', clientMutationId?: string | null, extensions: Array<{ __typename?: 'ExtensionType', pkgName: string, name: string, lang: string, versionCode: number, versionName: string, iconUrl: string, repo?: string | null, isNsfw: boolean, isInstalled: boolean, isObsolete: boolean, hasUpdate: boolean }> } | null };
 
 export type InstallExternalExtensionMutationVariables = Exact<{
   file: Scalars['Upload']['input'];
 }>;
 
 
-export type InstallExternalExtensionMutation = { __typename?: 'Mutation', installExternalExtension?: { __typename?: 'InstallExternalExtensionPayload', clientMutationId?: string | null, extension: { __typename?: 'ExtensionType', apkName: string, repo?: string | null, hasUpdate: boolean, iconUrl: string, isInstalled: boolean, isNsfw: boolean, isObsolete: boolean, lang: string, name: string, pkgName: string, versionCode: number, versionName: string } } | null };
+export type InstallExternalExtensionMutation = { __typename?: 'Mutation', installExternalExtension?: { __typename?: 'InstallExternalExtensionPayload', clientMutationId?: string | null, extension: { __typename?: 'ExtensionType', pkgName: string, name: string, lang: string, versionCode: number, versionName: string, iconUrl: string, repo?: string | null, isNsfw: boolean, isInstalled: boolean, isObsolete: boolean, hasUpdate: boolean } } | null };
 
 export type DeleteGlobalMetadataMutationVariables = Exact<{
   input: DeleteGlobalMetaInput;
@@ -3214,13 +3214,6 @@ export type GetDownloadStatusQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetDownloadStatusQuery = { __typename?: 'Query', downloadStatus: { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, isDownloaded: boolean }, manga: { __typename?: 'MangaType', id: number, title: string, downloadCount: number } }> } };
 
-export type GetExtensionQueryVariables = Exact<{
-  pkgName: Scalars['String']['input'];
-}>;
-
-
-export type GetExtensionQuery = { __typename?: 'Query', extension: { __typename?: 'ExtensionType', apkName: string, repo?: string | null, hasUpdate: boolean, iconUrl: string, isInstalled: boolean, isNsfw: boolean, isObsolete: boolean, lang: string, name: string, pkgName: string, versionCode: number, versionName: string } };
-
 export type GetExtensionsQueryVariables = Exact<{
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
@@ -3234,7 +3227,7 @@ export type GetExtensionsQueryVariables = Exact<{
 }>;
 
 
-export type GetExtensionsQuery = { __typename?: 'Query', extensions: { __typename?: 'ExtensionNodeList', totalCount: number, nodes: Array<{ __typename?: 'ExtensionType', apkName: string, repo?: string | null, hasUpdate: boolean, iconUrl: string, isInstalled: boolean, isNsfw: boolean, isObsolete: boolean, lang: string, name: string, pkgName: string, versionCode: number, versionName: string }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } };
+export type GetExtensionsQuery = { __typename?: 'Query', extensions: { __typename?: 'ExtensionNodeList', totalCount: number, nodes: Array<{ __typename?: 'ExtensionType', pkgName: string, name: string, lang: string, versionCode: number, versionName: string, iconUrl: string, repo?: string | null, isNsfw: boolean, isInstalled: boolean, isObsolete: boolean, hasUpdate: boolean }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } };
 
 export type GetGlobalMetadataQueryVariables = Exact<{
   key: Scalars['String']['input'];

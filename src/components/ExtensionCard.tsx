@@ -14,14 +14,15 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { useTranslation } from 'react-i18next';
-import { PartialExtension, TranslationKey } from '@/typings';
+import { TranslationKey } from '@/typings';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { SpinnerImage } from '@/components/util/SpinnerImage.tsx';
+import { TExtension } from '@/screens/util/Extensions.ts';
 
 interface IProps {
-    extension: PartialExtension;
+    extension: TExtension;
     handleUpdate: () => void;
     showSourceRepo: boolean;
 }
