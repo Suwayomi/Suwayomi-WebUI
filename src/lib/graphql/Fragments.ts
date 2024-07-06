@@ -45,15 +45,6 @@ export const FULL_CATEGORY_FIELDS = gql`
     }
 `;
 
-export const UPDATER_CATEGORY_FIELDS = gql`
-    fragment UPDATER_CATEGORY_FIELDS on CategoryType {
-        id
-        name
-        includeInUpdate
-        includeInDownload
-    }
-`;
-
 export const FULL_TRACK_RECORD_FIELDS = gql`
     ${TRACK_RECORD_BIND_FIELDS}
     ${TRACKER_BIND_FIELDS}
@@ -177,14 +168,6 @@ export const FULL_MANGA_FIELDS = gql`
     }
 `;
 
-export const UPDATER_MANGA_FIELDS = gql`
-    fragment UPDATER_MANGA_FIELDS on MangaType {
-        id
-        title
-        thumbnailUrl
-    }
-`;
-
 export const FULL_EXTENSION_FIELDS = gql`
     fragment FULL_EXTENSION_FIELDS on ExtensionType {
         apkName
@@ -221,96 +204,6 @@ export const FULL_DOWNLOAD_STATUS = gql`
             tries
         }
         state
-    }
-`;
-
-export const PARTIAL_UPDATER_STATUS = gql`
-    fragment PARTIAL_UPDATER_STATUS on UpdateStatus {
-        isRunning
-    }
-`;
-
-export const FULL_UPDATER_STATUS = gql`
-    ${UPDATER_MANGA_FIELDS}
-    ${BASE_MANGA_FIELDS}
-    ${PARTIAL_UPDATER_STATUS}
-    ${UPDATER_CATEGORY_FIELDS}
-    fragment FULL_UPDATER_STATUS on UpdateStatus {
-        ...PARTIAL_UPDATER_STATUS
-        completeJobs {
-            mangas {
-                nodes {
-                    ...BASE_MANGA_FIELDS
-                    unreadCount
-                    downloadCount
-                    chapters {
-                        totalCount
-                    }
-                    firstUnreadChapter {
-                        id
-                        chapterNumber
-                        sourceOrder
-                    }
-                    latestUploadedChapter {
-                        id
-                        uploadDate
-                    }
-                    latestFetchedChapter {
-                        id
-                        fetchedAt
-                    }
-                }
-                totalCount
-            }
-        }
-        failedJobs {
-            mangas {
-                nodes {
-                    ...UPDATER_MANGA_FIELDS
-                }
-                totalCount
-            }
-        }
-        pendingJobs {
-            mangas {
-                nodes {
-                    ...UPDATER_MANGA_FIELDS
-                }
-                totalCount
-            }
-        }
-        runningJobs {
-            mangas {
-                nodes {
-                    ...UPDATER_MANGA_FIELDS
-                }
-                totalCount
-            }
-        }
-        skippedJobs {
-            mangas {
-                nodes {
-                    ...UPDATER_MANGA_FIELDS
-                }
-                totalCount
-            }
-        }
-        updatingCategories {
-            categories {
-                nodes {
-                    ...UPDATER_CATEGORY_FIELDS
-                }
-                totalCount
-            }
-        }
-        skippedCategories {
-            categories {
-                nodes {
-                    ...UPDATER_CATEGORY_FIELDS
-                }
-                totalCount
-            }
-        }
     }
 `;
 

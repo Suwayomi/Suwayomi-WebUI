@@ -7,13 +7,14 @@
  */
 
 import gql from 'graphql-tag';
-import { FULL_UPDATER_STATUS } from '@/lib/graphql/Fragments';
+import { UPDATER_SUBSCRIPTION_FIELDS } from '@/lib/graphql/fragments/UpdaterFragments.ts';
 
 export const UPDATER_SUBSCRIPTION = gql`
-    ${FULL_UPDATER_STATUS}
+    ${UPDATER_SUBSCRIPTION_FIELDS}
+
     subscription UPDATER_SUBSCRIPTION {
         updateStatusChanged {
-            ...FULL_UPDATER_STATUS
+            ...UPDATER_SUBSCRIPTION_FIELDS
         }
     }
 `;
