@@ -7,13 +7,14 @@
  */
 
 import gql from 'graphql-tag';
-import { FULL_DOWNLOAD_STATUS } from '@/lib/graphql/Fragments';
+import { DOWNLOAD_STATUS_FIELDS } from '@/lib/graphql/fragments/DownloadFragments.ts';
 
 export const DOWNLOAD_STATUS_SUBSCRIPTION = gql`
-    ${FULL_DOWNLOAD_STATUS}
+    ${DOWNLOAD_STATUS_FIELDS}
+
     subscription DOWNLOAD_STATUS_SUBSCRIPTION {
         downloadChanged {
-            ...FULL_DOWNLOAD_STATUS
+            ...DOWNLOAD_STATUS_FIELDS
         }
     }
 `;

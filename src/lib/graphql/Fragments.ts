@@ -185,28 +185,6 @@ export const FULL_EXTENSION_FIELDS = gql`
     }
 `;
 
-export const FULL_DOWNLOAD_STATUS = gql`
-    fragment FULL_DOWNLOAD_STATUS on DownloadStatus {
-        queue {
-            chapter {
-                id
-                name
-                sourceOrder
-                isDownloaded
-                manga {
-                    id
-                    title
-                    downloadCount
-                }
-            }
-            progress
-            state
-            tries
-        }
-        state
-    }
-`;
-
 export const ABOUT_WEBUI = gql`
     fragment ABOUT_WEBUI on AboutWebUI {
         channel

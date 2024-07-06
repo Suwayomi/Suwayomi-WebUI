@@ -283,12 +283,7 @@ import { DOWNLOAD_STATUS_SUBSCRIPTION } from '@/lib/graphql/subscriptions/Downlo
 import { UPDATER_SUBSCRIPTION } from '@/lib/graphql/subscriptions/UpdaterSubscription.ts';
 import { GET_SERVER_SETTINGS } from '@/lib/graphql/queries/SettingsQuery.ts';
 import { UPDATE_SERVER_SETTINGS } from '@/lib/graphql/mutations/SettingsMutation.ts';
-import {
-    BASE_MANGA_FIELDS,
-    FULL_DOWNLOAD_STATUS,
-    FULL_EXTENSION_FIELDS,
-    GLOBAL_METADATA,
-} from '@/lib/graphql/Fragments.ts';
+import { BASE_MANGA_FIELDS, FULL_EXTENSION_FIELDS, GLOBAL_METADATA } from '@/lib/graphql/Fragments.ts';
 import { CLEAR_SERVER_CACHE } from '@/lib/graphql/mutations/ImageMutation.ts';
 import { RESET_WEBUI_UPDATE_STATUS, UPDATE_WEBUI } from '@/lib/graphql/mutations/ServerInfoMutation.ts';
 import { WEBUI_UPDATE_SUBSCRIPTION } from '@/lib/graphql/subscriptions/ServerInfoSubscription.ts';
@@ -307,6 +302,7 @@ import {
 } from '@/lib/graphql/mutations/TrackerMutation.ts';
 import { ControlledPromise } from '@/lib/ControlledPromise.ts';
 import { MetadataMigrationSettings, TManga } from '@/typings.ts';
+import { DOWNLOAD_STATUS_FIELDS } from '@/lib/graphql/fragments/DownloadFragments.ts';
 
 enum GQLMethod {
     QUERY = 'QUERY',
@@ -2334,7 +2330,7 @@ export class RequestManager {
                 DownloadStatusSubscription['downloadChanged']
             >({
                 id: 'DownloadStatus:{}',
-                fragment: FULL_DOWNLOAD_STATUS,
+                fragment: DOWNLOAD_STATUS_FIELDS,
             });
 
             if (!variables) {

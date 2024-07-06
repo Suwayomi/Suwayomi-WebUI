@@ -7,15 +7,16 @@
  */
 
 import gql from 'graphql-tag';
-import { FULL_DOWNLOAD_STATUS } from '@/lib/graphql/Fragments';
+import { DOWNLOAD_STATUS_FIELDS } from '@/lib/graphql/fragments/DownloadFragments.ts';
 
 export const CLEAR_DOWNLOADER = gql`
-    ${FULL_DOWNLOAD_STATUS}
+    ${DOWNLOAD_STATUS_FIELDS}
+
     mutation CLEAR_DOWNLOADER($input: ClearDownloaderInput = {}) {
         clearDownloader(input: $input) {
             clientMutationId
             downloadStatus {
-                ...FULL_DOWNLOAD_STATUS
+                ...DOWNLOAD_STATUS_FIELDS
             }
         }
     }
@@ -54,60 +55,65 @@ export const DELETE_DOWNLOADED_CHAPTERS = gql`
 `;
 
 export const DEQUEUE_CHAPTER_DOWNLOAD = gql`
-    ${FULL_DOWNLOAD_STATUS}
+    ${DOWNLOAD_STATUS_FIELDS}
+
     mutation DEQUEUE_CHAPTER_DOWNLOAD($input: DequeueChapterDownloadInput!) {
         dequeueChapterDownload(input: $input) {
             clientMutationId
             downloadStatus {
-                ...FULL_DOWNLOAD_STATUS
+                ...DOWNLOAD_STATUS_FIELDS
             }
         }
     }
 `;
 
 export const DEQUEUE_CHAPTER_DOWNLOADS = gql`
-    ${FULL_DOWNLOAD_STATUS}
+    ${DOWNLOAD_STATUS_FIELDS}
+
     mutation DEQUEUE_CHAPTER_DOWNLOADS($input: DequeueChapterDownloadsInput!) {
         dequeueChapterDownloads(input: $input) {
             clientMutationId
             downloadStatus {
-                ...FULL_DOWNLOAD_STATUS
+                ...DOWNLOAD_STATUS_FIELDS
             }
         }
     }
 `;
 
 export const ENQUEUE_CHAPTER_DOWNLOAD = gql`
-    ${FULL_DOWNLOAD_STATUS}
+    ${DOWNLOAD_STATUS_FIELDS}
+
     mutation ENQUEUE_CHAPTER_DOWNLOAD($input: EnqueueChapterDownloadInput!) {
         enqueueChapterDownload(input: $input) {
             clientMutationId
             downloadStatus {
-                ...FULL_DOWNLOAD_STATUS
+                ...DOWNLOAD_STATUS_FIELDS
             }
         }
     }
 `;
 
 export const ENQUEUE_CHAPTER_DOWNLOADS = gql`
-    ${FULL_DOWNLOAD_STATUS}
+    ${DOWNLOAD_STATUS_FIELDS}
+
     mutation ENQUEUE_CHAPTER_DOWNLOADS($input: EnqueueChapterDownloadsInput!) {
         enqueueChapterDownloads(input: $input) {
             clientMutationId
             downloadStatus {
-                ...FULL_DOWNLOAD_STATUS
+                ...DOWNLOAD_STATUS_FIELDS
             }
         }
     }
 `;
 
 export const REORDER_CHAPTER_DOWNLOAD = gql`
-    ${FULL_DOWNLOAD_STATUS}
+    ${DOWNLOAD_STATUS_FIELDS}
+
     mutation REORDER_CHAPTER_DOWNLOAD($input: ReorderChapterDownloadInput!) {
         reorderChapterDownload(input: $input) {
             clientMutationId
             downloadStatus {
-                ...FULL_DOWNLOAD_STATUS
+                ...DOWNLOAD_STATUS_FIELDS
             }
         }
     }
