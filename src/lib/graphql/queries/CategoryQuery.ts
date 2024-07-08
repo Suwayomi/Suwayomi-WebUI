@@ -7,7 +7,7 @@
  */
 
 import gql from 'graphql-tag';
-import { PAGE_INFO } from '@/lib/graphql/Fragments';
+import { PAGE_INFO } from '@/lib/graphql/fragments/Fragments.ts';
 import {
     CATEGORY_BASE_FIELDS,
     CATEGORY_LIBRARY_FIELDS,

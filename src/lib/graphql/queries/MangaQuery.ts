@@ -7,7 +7,7 @@
  */
 
 import gql from 'graphql-tag';
-import { PAGE_INFO } from '@/lib/graphql/Fragments';
+import { PAGE_INFO } from '@/lib/graphql/fragments/Fragments.ts';
 import {
     MANGA_BASE_FIELDS,
     MANGA_LIBRARY_DUPLICATE_SCREEN_FIELDS,

@@ -7,7 +7,7 @@
  */
 
 import gql from 'graphql-tag';
-import { PAGE_INFO } from '@/lib/graphql/Fragments.ts';
+import { PAGE_INFO } from '@/lib/graphql/fragments/Fragments.ts';
 import { TRACKER_BIND_FIELDS, TRACKER_SETTING_FIELDS } from '@/lib/graphql/fragments/TrackFragments.ts';
 import { TRACK_RECORD_SEARCH_FIELDS } from '@/lib/graphql/fragments/TrackRecordFragments.ts';
 

@@ -7,7 +7,7 @@
  */
 
 import gql from 'graphql-tag';
-import { PAGE_INFO } from '@/lib/graphql/Fragments';
+import { PAGE_INFO } from '@/lib/graphql/fragments/Fragments.ts';
 import { EXTENSION_LIST_FIELDS } from '@/lib/graphql/fragments/ExtensionFragments.ts';
 
 // returns the current extensions from the database

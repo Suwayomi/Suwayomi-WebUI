@@ -7,7 +7,7 @@
  */
 
 import gql from 'graphql-tag';
-import { GLOBAL_METADATA } from '@/lib/graphql/Fragments';
+import { GLOBAL_METADATA } from '@/lib/graphql/fragments/Fragments.ts';
 
 export const DELETE_GLOBAL_METADATA = gql`
     ${GLOBAL_METADATA}
