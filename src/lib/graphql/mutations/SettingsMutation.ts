@@ -7,7 +7,7 @@
  */
 
 import gql from 'graphql-tag';
-import { SERVER_SETTINGS } from '@/lib/graphql/Fragments';
+import { SERVER_SETTINGS } from '@/lib/graphql/fragments/SettingsFragments.ts';
 
 export const RESET_SERVER_SETTINGS = gql`
     ${SERVER_SETTINGS}
