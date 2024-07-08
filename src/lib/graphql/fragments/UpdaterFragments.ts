@@ -29,6 +29,29 @@ export const UPDATER_SUBSCRIPTION_FIELDS = gql`
                 totalCount
                 nodes {
                     ...MANGA_CHAPTER_STAT_FIELDS
+
+                    firstUnreadChapter {
+                        id
+                        sourceOrder
+                    }
+                    lastReadChapter {
+                        id
+                        sourceOrder
+                        lastReadAt
+                    }
+                    latestReadChapter {
+                        id
+                        sourceOrder
+                        lastReadAt
+                    }
+                    latestFetchedChapter {
+                        id
+                        fetchedAt
+                    }
+                    latestUploadedChapter {
+                        id
+                        uploadDate
+                    }
                 }
             }
         }
