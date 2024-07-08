@@ -2588,14 +2588,6 @@ export type PageInfoFragment = { __typename?: 'PageInfo', endCursor?: string | n
 
 export type GlobalMetadataFragment = { __typename?: 'GlobalMetaType', key: string, value: string };
 
-export type AboutWebuiFragment = { __typename?: 'AboutWebUI', channel: string, tag: string };
-
-export type WebuiUpdateCheckFragment = { __typename?: 'WebUIUpdateCheck', channel: string, tag: string, updateAvailable: boolean };
-
-export type WebuiUpdateInfoFragment = { __typename?: 'WebUIUpdateInfo', channel: string, tag: string };
-
-export type WebuiUpdateStatusFragment = { __typename?: 'WebUIUpdateStatus', progress: number, state: UpdateState, info: { __typename?: 'WebUIUpdateInfo', channel: string, tag: string } };
-
 export type CategoryBaseFieldsFragment = { __typename?: 'CategoryType', id: number, name: string, default: boolean, order: number };
 
 export type CategoryLibraryFieldsFragment = { __typename?: 'CategoryType', id: number, name: string, default: boolean, order: number, mangas: { __typename?: 'MangaNodeList', totalCount: number } };
@@ -2615,6 +2607,14 @@ export type ChapterUpdateListFieldsFragment = { __typename?: 'ChapterType', fetc
 export type DownloadStatusFieldsFragment = { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, isDownloaded: boolean }, manga: { __typename?: 'MangaType', id: number, title: string, downloadCount: number } }> };
 
 export type ExtensionListFieldsFragment = { __typename?: 'ExtensionType', pkgName: string, name: string, lang: string, versionCode: number, versionName: string, iconUrl: string, repo?: string | null, isNsfw: boolean, isInstalled: boolean, isObsolete: boolean, hasUpdate: boolean };
+
+export type AboutWebuiFragment = { __typename?: 'AboutWebUI', channel: string, tag: string };
+
+export type WebuiUpdateCheckFragment = { __typename?: 'WebUIUpdateCheck', channel: string, tag: string, updateAvailable: boolean };
+
+export type WebuiUpdateInfoFragment = { __typename?: 'WebUIUpdateInfo', channel: string, tag: string };
+
+export type WebuiUpdateStatusFragment = { __typename?: 'WebUIUpdateStatus', progress: number, state: UpdateState, info: { __typename?: 'WebUIUpdateInfo', channel: string, tag: string } };
 
 export type MangaBaseFieldsFragment = { __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: string | null, inLibrary: boolean, initialized: boolean, sourceId: string };
 
