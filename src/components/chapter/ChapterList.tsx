@@ -19,7 +19,6 @@ import DownloadIcon from '@mui/icons-material/Download';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
 import Menu from '@mui/material/Menu';
-import { TManga } from '@/typings.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { ChapterCard } from '@/components/chapter/ChapterCard.tsx';
 import { ResumeFab } from '@/components/manga/ResumeFAB.tsx';
@@ -32,6 +31,7 @@ import {
     DownloadType,
     GetChaptersMangaQuery,
     GetChaptersMangaQueryVariables,
+    MangaScreenFieldsFragment,
 } from '@/lib/graphql/generated/graphql.ts';
 import { useSelectableCollection } from '@/components/collection/useSelectableCollection.ts';
 import { SelectableCollectionSelectAll } from '@/components/collection/SelectableCollectionSelectAll.tsx';
@@ -72,7 +72,10 @@ export interface IChapterWithMeta {
 }
 
 interface IProps {
-    manga: TManga;
+    manga: Pick<
+        MangaScreenFieldsFragment,
+        'id' | 'firstUnreadChapter' | 'chapters' | 'latestReadChapter' | 'unreadCount' | 'downloadCount'
+    >;
     isRefreshing: boolean;
 }
 

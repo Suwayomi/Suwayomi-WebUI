@@ -7,15 +7,68 @@
  */
 
 import gql from 'graphql-tag';
-import { FULL_CHAPTER_FIELDS, FULL_MANGA_FIELDS, PAGE_INFO } from '@/lib/graphql/Fragments';
+import { PAGE_INFO } from '@/lib/graphql/Fragments';
+import {
+    MANGA_BASE_FIELDS,
+    MANGA_LIBRARY_DUPLICATE_SCREEN_FIELDS,
+    MANGA_LIBRARY_FIELDS,
+    MANGA_READER_FIELDS,
+    MANGA_SCREEN_FIELDS,
+} from '@/lib/graphql/fragments/MangaFragments.ts';
+import { TRACK_RECORD_BIND_FIELDS } from '@/lib/graphql/fragments/TrackRecordFragments.ts';
 
 // returns the current manga from the database
-export const GET_MANGA = gql`
-    ${FULL_MANGA_FIELDS}
-    ${FULL_CHAPTER_FIELDS}
-    query GET_MANGA($id: Int!) {
+export const GET_MANGA_SCREEN = gql`
+    ${MANGA_SCREEN_FIELDS}
+
+    query GET_MANGA_SCREEN($id: Int!) {
         manga(id: $id) {
-            ...FULL_MANGA_FIELDS
+            ...MANGA_SCREEN_FIELDS
+        }
+    }
+`;
+
+// returns the current manga from the database
+export const GET_MANGA_READER = gql`
+    ${MANGA_READER_FIELDS}
+
+    query GET_MANGA_READER($id: Int!) {
+        manga(id: $id) {
+            ...MANGA_READER_FIELDS
+        }
+    }
+`;
+
+// returns the current manga from the database
+export const GET_MANGA_TRACK_RECORDS = gql`
+    ${TRACK_RECORD_BIND_FIELDS}
+
+    query GET_MANGA_TRACK_RECORDS($id: Int!) {
+        manga(id: $id) {
+            id
+
+            trackRecords {
+                totalCount
+
+                nodes {
+                    ...TRACK_RECORD_BIND_FIELDS
+                }
+            }
+        }
+    }
+`;
+
+// returns the current manga from the database
+export const GET_MANGA_CATEGORIES = gql`
+    query GET_MANGA_CATEGORIES($id: Int!) {
+        manga(id: $id) {
+            id
+            categories {
+                totalCount
+                nodes {
+                    id
+                }
+            }
         }
     }
 `;
@@ -62,11 +115,11 @@ export const GET_MANGA_TO_MIGRATE = gql`
 `;
 
 // returns the current manga from the database
-export const GET_MANGAS = gql`
-    ${FULL_MANGA_FIELDS}
-    ${FULL_CHAPTER_FIELDS}
+export const GET_MANGAS_BASE = gql`
+    ${MANGA_BASE_FIELDS}
     ${PAGE_INFO}
-    query GET_MANGAS(
+
+    query GET_MANGAS_BASE(
         $after: Cursor
         $before: Cursor
         $condition: MangaConditionInput
@@ -89,7 +142,83 @@ export const GET_MANGAS = gql`
             orderByType: $orderByType
         ) {
             nodes {
-                ...FULL_MANGA_FIELDS
+                ...MANGA_BASE_FIELDS
+            }
+            pageInfo {
+                ...PAGE_INFO
+            }
+            totalCount
+        }
+    }
+`;
+
+// returns the current manga from the database
+export const GET_MANGAS_LIBRARY = gql`
+    ${MANGA_LIBRARY_FIELDS}
+    ${PAGE_INFO}
+
+    query GET_MANGAS_LIBRARY(
+        $after: Cursor
+        $before: Cursor
+        $condition: MangaConditionInput
+        $filter: MangaFilterInput
+        $first: Int
+        $last: Int
+        $offset: Int
+        $orderBy: MangaOrderBy
+        $orderByType: SortOrder
+    ) {
+        mangas(
+            after: $after
+            before: $before
+            condition: $condition
+            filter: $filter
+            first: $first
+            last: $last
+            offset: $offset
+            orderBy: $orderBy
+            orderByType: $orderByType
+        ) {
+            nodes {
+                ...MANGA_LIBRARY_FIELDS
+            }
+            pageInfo {
+                ...PAGE_INFO
+            }
+            totalCount
+        }
+    }
+`;
+
+// returns the current manga from the database
+export const GET_MANGAS_DUPLICATES = gql`
+    ${MANGA_LIBRARY_DUPLICATE_SCREEN_FIELDS}
+    ${PAGE_INFO}
+
+    query GET_MANGAS_DUPLICATES(
+        $after: Cursor
+        $before: Cursor
+        $condition: MangaConditionInput
+        $filter: MangaFilterInput
+        $first: Int
+        $last: Int
+        $offset: Int
+        $orderBy: MangaOrderBy
+        $orderByType: SortOrder
+    ) {
+        mangas(
+            after: $after
+            before: $before
+            condition: $condition
+            filter: $filter
+            first: $first
+            last: $last
+            offset: $offset
+            orderBy: $orderBy
+            orderByType: $orderByType
+        ) {
+            nodes {
+                ...MANGA_LIBRARY_DUPLICATE_SCREEN_FIELDS
             }
             pageInfo {
                 ...PAGE_INFO
@@ -106,9 +235,7 @@ export const GET_MIGRATABLE_SOURCE_MANGAS = gql`
                 id
                 title
                 thumbnailUrl
-                source {
-                    id
-                }
+                sourceId
                 categories {
                     nodes {
                         id

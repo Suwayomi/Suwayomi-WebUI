@@ -16,20 +16,21 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { TrackManga } from '@/components/tracker/TrackManga.tsx';
 import { Trackers } from '@/lib/data/Trackers.ts';
-import { TManga } from '@/typings.ts';
 import { CustomIconButton } from '@/components/atoms/CustomIconButton.tsx';
-import { GetTrackersSettingsQuery } from '@/lib/graphql/generated/graphql.ts';
+import { GetTrackersSettingsQuery, MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { GET_TRACKERS_SETTINGS } from '@/lib/graphql/queries/TrackerQuery.ts';
+import { MangaTrackRecordInfo } from '@/lib/data/Mangas.ts';
 
-export const TrackMangaButton = ({ manga }: { manga: TManga }) => {
+export const TrackMangaButton = ({ manga }: { manga: MangaTrackRecordInfo & Pick<MangaType, 'title'> }) => {
     const { t } = useTranslation();
     const navigate = useNavigate();
 
     const trackerList = requestManager.useGetTrackerList<GetTrackersSettingsQuery>(GET_TRACKERS_SETTINGS);
+    const trackers = trackerList.data?.trackers.nodes ?? [];
     const mangaTrackers = manga.trackRecords.nodes;
 
-    const loggedInTrackers = Trackers.getLoggedIn(trackerList.data?.trackers.nodes ?? []);
-    const trackersInUse = Trackers.getLoggedIn(Trackers.getTrackers(mangaTrackers));
+    const loggedInTrackers = Trackers.getLoggedIn(trackers);
+    const trackersInUse = Trackers.getLoggedIn(Trackers.getTrackers(mangaTrackers, trackers));
 
     const handleClick = (openPopup: () => void) => {
         if (trackerList.error) {

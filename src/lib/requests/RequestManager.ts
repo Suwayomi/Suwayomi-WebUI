@@ -81,10 +81,6 @@ import {
     GetMangaChaptersFetchMutationVariables,
     GetMangaFetchMutation,
     GetMangaFetchMutationVariables,
-    GetMangaQuery,
-    GetMangaQueryVariables,
-    GetMangasQuery,
-    GetMangasQueryVariables,
     GetRestoreStatusQuery,
     GetRestoreStatusQueryVariables,
     GetServerSettingsQuery,
@@ -197,6 +193,8 @@ import {
     GetChaptersUpdatesQueryVariables,
     GetSourcesListQuery,
     GetSourcesListQueryVariables,
+    GetMangasLibraryQuery,
+    GetMangasLibraryQueryVariables,
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_GLOBAL_METADATAS } from '@/lib/graphql/queries/GlobalMetadataQuery.ts';
 import { SET_GLOBAL_METADATA } from '@/lib/graphql/mutations/GlobalMetadataMutation.ts';
@@ -223,9 +221,9 @@ import {
     UPDATE_MANGAS_CATEGORIES,
 } from '@/lib/graphql/mutations/MangaMutation.ts';
 import {
-    GET_MANGA,
     GET_MANGA_TO_MIGRATE,
-    GET_MANGAS,
+    GET_MANGA_TRACK_RECORDS,
+    GET_MANGAS_LIBRARY,
     GET_MIGRATABLE_SOURCE_MANGAS,
 } from '@/lib/graphql/queries/MangaQuery.ts';
 import {
@@ -283,7 +281,7 @@ import { DOWNLOAD_STATUS_SUBSCRIPTION } from '@/lib/graphql/subscriptions/Downlo
 import { UPDATER_SUBSCRIPTION } from '@/lib/graphql/subscriptions/UpdaterSubscription.ts';
 import { GET_SERVER_SETTINGS } from '@/lib/graphql/queries/SettingsQuery.ts';
 import { UPDATE_SERVER_SETTINGS } from '@/lib/graphql/mutations/SettingsMutation.ts';
-import { BASE_MANGA_FIELDS, GLOBAL_METADATA } from '@/lib/graphql/Fragments.ts';
+import { GLOBAL_METADATA } from '@/lib/graphql/Fragments.ts';
 import { CLEAR_SERVER_CACHE } from '@/lib/graphql/mutations/ImageMutation.ts';
 import { RESET_WEBUI_UPDATE_STATUS, UPDATE_WEBUI } from '@/lib/graphql/mutations/ServerInfoMutation.ts';
 import { WEBUI_UPDATE_SUBSCRIPTION } from '@/lib/graphql/subscriptions/ServerInfoSubscription.ts';
@@ -301,9 +299,11 @@ import {
     TRACKER_UPDATE_BIND,
 } from '@/lib/graphql/mutations/TrackerMutation.ts';
 import { ControlledPromise } from '@/lib/ControlledPromise.ts';
-import { MetadataMigrationSettings, TManga } from '@/typings.ts';
+import { MetadataMigrationSettings } from '@/typings.ts';
 import { DOWNLOAD_STATUS_FIELDS } from '@/lib/graphql/fragments/DownloadFragments.ts';
 import { EXTENSION_LIST_FIELDS } from '@/lib/graphql/fragments/ExtensionFragments.ts';
+import { MANGA_BASE_FIELDS } from '@/lib/graphql/fragments/MangaFragments.ts';
+import { MangaIdInfo } from '@/lib/data/Mangas.ts';
 
 enum GQLMethod {
     QUERY = 'QUERY',
@@ -1555,8 +1555,8 @@ export class RequestManager {
                             (manga) =>
                                 this.graphQLClient.client.cache.readFragment<typeof manga>({
                                     id: this.graphQLClient.client.cache.identify(manga),
-                                    fragment: BASE_MANGA_FIELDS,
-                                    fragmentName: 'BASE_MANGA_FIELDS',
+                                    fragment: MANGA_BASE_FIELDS,
+                                    fragmentName: 'MANGA_BASE_FIELDS',
                                 }) ?? manga,
                         ),
                     },
@@ -1630,18 +1630,20 @@ export class RequestManager {
         );
     }
 
-    public useGetManga(
+    public useGetManga<Data, Variables extends OperationVariables = OperationVariables>(
+        document: DocumentNode | TypedDocumentNode<Data, Variables>,
         mangaId: number | string,
-        options?: QueryHookOptions<GetMangaQuery, GetMangaQueryVariables>,
-    ): AbortableApolloUseQueryResponse<GetMangaQuery, GetMangaQueryVariables> {
-        return this.doRequest(GQLMethod.USE_QUERY, GET_MANGA, { id: Number(mangaId) }, options);
+        options?: QueryHookOptions<Data, Variables>,
+    ): AbortableApolloUseQueryResponse<Data, Variables> {
+        return this.doRequest(GQLMethod.USE_QUERY, document, { id: Number(mangaId) } as unknown as Variables, options);
     }
 
-    public getManga(
+    public getManga<Data, Variables extends OperationVariables = OperationVariables>(
+        document: DocumentNode | TypedDocumentNode<Data, Variables>,
         mangaId: number | string,
-        options?: QueryOptions<GetMangaQueryVariables, GetMangaQuery>,
-    ): AbortabaleApolloQueryResponse<GetMangaQuery> {
-        return this.doRequest(GQLMethod.QUERY, GET_MANGA, { id: Number(mangaId) }, options);
+        options?: QueryOptions<Variables, Data>,
+    ): AbortabaleApolloQueryResponse<Data> {
+        return this.doRequest(GQLMethod.QUERY, document, { id: Number(mangaId) } as unknown as Variables, options);
     }
 
     public getMangaToMigrate(
@@ -1712,18 +1714,20 @@ export class RequestManager {
         );
     }
 
-    public useGetMangas(
-        variables: GetMangasQueryVariables,
-        options?: QueryHookOptions<GetMangasQuery, GetMangasQueryVariables>,
-    ): AbortableApolloUseQueryResponse<GetMangasQuery, GetMangasQueryVariables> {
-        return this.doRequest(GQLMethod.USE_QUERY, GET_MANGAS, variables, options);
+    public useGetMangas<Data, Variables extends OperationVariables = OperationVariables>(
+        document: DocumentNode | TypedDocumentNode<Data, Variables>,
+        variables: Variables,
+        options?: QueryHookOptions<Data, Variables>,
+    ): AbortableApolloUseQueryResponse<Data, Variables> {
+        return this.doRequest(GQLMethod.USE_QUERY, document, variables, options);
     }
 
-    public getMangas(
-        variables: GetMangasQueryVariables,
-        options?: QueryOptions<GetMangasQueryVariables, GetMangasQuery>,
-    ): AbortabaleApolloQueryResponse<GetMangasQuery> {
-        return this.doRequest(GQLMethod.QUERY, GET_MANGAS, variables, options);
+    public getMangas<Data, Variables extends OperationVariables = OperationVariables>(
+        document: DocumentNode | TypedDocumentNode<Data, Variables>,
+        variables: Variables,
+        options?: QueryOptions<Variables, Data>,
+    ): AbortabaleApolloQueryResponse<Data> {
+        return this.doRequest(GQLMethod.QUERY, document, variables, options);
     }
 
     public useGetMigratableSourceMangas(
@@ -2014,7 +2018,7 @@ export class RequestManager {
 
     public updateChapters(
         ids: number[],
-        patch: UpdateChapterPatchInput & { chapterIdsToDelete?: number[]; trackProgressMangaId?: TManga['id'] },
+        patch: UpdateChapterPatchInput & { chapterIdsToDelete?: number[]; trackProgressMangaId?: MangaIdInfo['id'] },
         options?: MutationOptions<UpdateChaptersMutation, UpdateChaptersMutationVariables>,
     ): AbortableApolloMutationResponse<UpdateChaptersMutation> {
         const { chapterIdsToDelete = [], trackProgressMangaId = -1, ...updatePatch } = patch;
@@ -2144,8 +2148,8 @@ export class RequestManager {
 
     public useGetCategoryMangas(
         id: number,
-        options?: QueryHookOptions<GetMangasQuery, GetMangasQueryVariables>,
-    ): AbortableApolloUseQueryResponse<GetMangasQuery, GetMangasQueryVariables> {
+        options?: QueryHookOptions<GetMangasLibraryQuery, GetMangasLibraryQueryVariables>,
+    ): AbortableApolloUseQueryResponse<GetMangasLibraryQuery, GetMangasLibraryQueryVariables> {
         const isDefaultCategory = id === 0;
         if (isDefaultCategory) {
             // hacky way of loading the default category mangas - some stuff won't work but since that is not used anyway, it won't be a problem
@@ -2165,10 +2169,10 @@ export class RequestManager {
                           __typename: 'Query',
                       }
                     : undefined,
-            } as unknown as AbortableApolloUseQueryResponse<GetMangasQuery, GetMangasQueryVariables>;
+            } as unknown as AbortableApolloUseQueryResponse<GetMangasLibraryQuery, GetMangasLibraryQueryVariables>;
         }
 
-        return this.useGetMangas({ condition: { inLibrary: true, categoryIds: [id] } }, options);
+        return this.useGetMangas(GET_MANGAS_LIBRARY, { condition: { inLibrary: true, categoryIds: [id] } }, options);
     }
 
     public deleteCategory(
@@ -2597,7 +2601,7 @@ export class RequestManager {
             GQLMethod.MUTATION,
             TRACKER_UNBIND,
             { input: { recordId, deleteRemoteTrack } },
-            { refetchQueries: [GET_MANGA], ...options },
+            { refetchQueries: [GET_MANGA_TRACK_RECORDS], ...options },
         );
     }
 

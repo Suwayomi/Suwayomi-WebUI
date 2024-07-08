@@ -42,7 +42,7 @@ const addImports = format(
     `import {FieldPolicy, FieldReadFunction, Reference, TypePolicies, TypePolicy} from '@apollo/client/cache';
 import {
 \tGetChaptersMangaQuery, GetDownloadStatusQueryVariables, GetGlobalMetadataQueryVariables,
-\tGetMangaQueryVariables, GetSourceBrowseQueryVariables, GetUpdateStatusQueryVariables, GetWebuiUpdateStatusQueryVariables,
+\tGetMangaScreenQueryVariables, GetSourceBrowseQueryVariables, GetUpdateStatusQueryVariables, GetWebuiUpdateStatusQueryVariables,
 } from "@/lib/graphql/generated/graphql.ts";
 import {FieldFunctionOptions} from "@apollo/client/cache/inmemory/policies";`,
 );
@@ -93,7 +93,7 @@ const fixTypingOfQueryTypePolicies = format(
 \textensions?: FieldPolicy<any> | FieldReadFunction<any>,
 \tgetWebUIUpdateStatus?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetWebuiUpdateStatusQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetWebuiUpdateStatusQueryVariables>>,
 \tlastUpdateTimestamp?: FieldPolicy<any> | FieldReadFunction<any>,
-\tmanga?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetMangaQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetMangaQueryVariables>>,
+\tmanga?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetMangaScreenQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetMangaScreenQueryVariables>>,
 \tmangas?: FieldPolicy<any> | FieldReadFunction<any>,
 \tmeta?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetGlobalMetadataQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetGlobalMetadataQueryVariables>>,
 \tmetas?: FieldPolicy<any> | FieldReadFunction<any>,

@@ -21,11 +21,11 @@ import { Link } from 'react-router-dom';
 import SyncAltIcon from '@mui/icons-material/SyncAlt';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { TManga } from '@/typings.ts';
 import { useCategorySelect } from '@/components/navbar/action/useCategorySelect.tsx';
+import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 
 interface IProps {
-    manga: TManga;
+    manga: Pick<MangaType, 'id' | 'inLibrary' | 'sourceId' | 'title'>;
     onRefresh: () => any;
     refreshing: boolean;
 }
@@ -64,7 +64,7 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                         <>
                             <Tooltip title={t('global.button.migrate')}>
                                 <Link
-                                    to={`/migrate/source/${manga.source?.id}/manga/${manga.id}/search?query=${manga.title}`}
+                                    to={`/migrate/source/${manga.sourceId}/manga/${manga.id}/search?query=${manga.title}`}
                                     state={{ mangaTitle: manga.title }}
                                     style={{ textDecoration: 'none', color: 'inherit' }}
                                 >
@@ -122,7 +122,7 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                             <MenuItem
                                 key="migrate"
                                 component={Link}
-                                to={`/migrate/source/${manga.source?.id}/manga/${manga.id}/search?query=${manga.title}`}
+                                to={`/migrate/source/${manga.sourceId}/manga/${manga.id}/search?query=${manga.title}`}
                                 state={{ mangaTitle: manga.title }}
                                 style={{ textDecoration: 'none', color: 'inherit' }}
                             >

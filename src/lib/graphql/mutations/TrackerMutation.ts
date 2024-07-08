@@ -55,15 +55,13 @@ export const TRACKER_BIND = gql`
         bindTrack(input: { mangaId: $mangaId, remoteId: $remoteId, trackerId: $trackerId }) {
             trackRecord {
                 ...TRACK_RECORD_BIND_FIELDS
-                tracker {
-                    id
-                }
                 manga {
                     id
                     trackRecords {
                         totalCount
                         nodes {
                             id
+                            trackerId
                         }
                     }
                 }
@@ -83,6 +81,7 @@ export const TRACKER_UNBIND = gql`
                         totalCount
                         nodes {
                             id
+                            trackerId
                         }
                     }
                 }
@@ -104,6 +103,7 @@ export const TRACKER_UPDATE_BIND = gql`
                         totalCount
                         nodes {
                             id
+                            trackerId
                         }
                     }
                 }

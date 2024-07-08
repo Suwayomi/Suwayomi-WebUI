@@ -7,12 +7,13 @@
  */
 
 import gql from 'graphql-tag';
-import { FULL_MANGA_FIELDS, PAGE_INFO } from '@/lib/graphql/Fragments';
+import { PAGE_INFO } from '@/lib/graphql/Fragments';
 import {
     CATEGORY_BASE_FIELDS,
     CATEGORY_LIBRARY_FIELDS,
     CATEGORY_SETTING_FIELDS,
 } from '@/lib/graphql/fragments/CategoryFragments.ts';
+import { MANGA_LIBRARY_FIELDS } from '@/lib/graphql/fragments/MangaFragments.ts';
 
 export const GET_CATEGORIES_BASE = gql`
     ${CATEGORY_BASE_FIELDS}
@@ -126,14 +127,15 @@ export const GET_CATEGORIES_SETTINGS = gql`
 `;
 
 export const GET_CATEGORY_MANGAS = gql`
-    ${FULL_MANGA_FIELDS}
+    ${MANGA_LIBRARY_FIELDS}
     ${PAGE_INFO}
+
     query GET_CATEGORY_MANGAS($id: Int!) {
         category(id: $id) {
             id
             mangas {
                 nodes {
-                    ...FULL_MANGA_FIELDS
+                    ...MANGA_LIBRARY_FIELDS
                 }
                 pageInfo {
                     ...PAGE_INFO

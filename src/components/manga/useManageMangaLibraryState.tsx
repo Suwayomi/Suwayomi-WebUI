@@ -16,19 +16,18 @@ import { getMetadataServerSettings } from '@/lib/metadata/metadataServerSettings
 import { Categories } from '@/lib/data/Categories.ts';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { Mangas } from '@/lib/data/Mangas.ts';
-import { TManga } from '@/typings.ts';
 import { awaitConfirmation } from '@/lib/ui/AwaitableDialog.tsx';
-import { GetCategoriesBaseQuery, GetCategoriesBaseQueryVariables } from '@/lib/graphql/generated/graphql.ts';
+import { GetCategoriesBaseQuery, GetCategoriesBaseQueryVariables, MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { GET_CATEGORIES_BASE } from '@/lib/graphql/queries/CategoryQuery.ts';
 
 export const useManageMangaLibraryState = (
-    manga: Pick<TManga, 'id' | 'title' | 'inLibrary'>,
+    manga: Pick<MangaType, 'id' | 'title'> & Partial<Pick<MangaType, 'inLibrary'>>,
     confirmRemoval: boolean = false,
 ) => {
     const { t } = useTranslation();
     const navigate = useNavigate();
 
-    const [isInLibrary, setIsInLibrary] = useState(manga.inLibrary);
+    const [isInLibrary, setIsInLibrary] = useState(!!manga.inLibrary);
 
     const addToLibrary = useCallback(
         (didSubmit: boolean, addToCategories: number[] = [], removeFromCategories: number[] = []) => {
@@ -162,6 +161,6 @@ export const useManageMangaLibraryState = (
          *
          * To work around this issue, the currently known in library state gets returned here
          */
-        isInLibrary: Mangas.getFromCache<TManga>(manga.id)?.inLibrary ?? isInLibrary,
+        isInLibrary: Mangas.getFromCache(manga.id)?.inLibrary ?? isInLibrary,
     };
 };

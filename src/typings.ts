@@ -12,10 +12,10 @@ import { ParseKeys } from 'i18next';
 import { Location } from 'react-router-dom';
 import {
     GetChaptersReaderQuery,
-    GetMangaQuery,
     GetServerSettingsQuery,
     GetSourceBrowseQuery,
     GetSourceSettingsQuery,
+    MangaReaderFieldsFragment,
     MetaType,
     SourcePreferenceChangeInput,
     TrackerType,
@@ -83,13 +83,6 @@ export type SourceMetadataKeys = keyof ISourceMetadata;
 export type AppMetadataKeys = MetadataServerSettingKeys | MangaMetadataKeys | SearchMetadataKeys | SourceMetadataKeys;
 
 export type MetadataKeyValuePair = [AppMetadataKeys, AllowedMetadataValueTypes];
-
-export type TManga = GetMangaQuery['manga'];
-
-export type TPartialManga = OptionalProperty<
-    TManga,
-    'unreadCount' | 'downloadCount' | 'bookmarkCount' | 'categories' | 'chapters'
->;
 
 export interface INavbarOverride {
     status: boolean;
@@ -187,7 +180,7 @@ export interface IReaderProps {
     curPage: number;
     initialPage: number;
     settings: IReaderSettings;
-    manga: TManga;
+    manga: MangaReaderFieldsFragment;
     chapter: GetChaptersReaderQuery['chapters']['nodes'][number];
     nextChapter: () => void;
     prevChapter: () => void;

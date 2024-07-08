@@ -10,22 +10,21 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import PublicIcon from '@mui/icons-material/Public';
 import { styled } from '@mui/material/styles';
-import React, { ComponentProps, useEffect, useMemo } from 'react';
+import { ComponentProps, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { t as translate } from 'i18next';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import { useLongPress } from 'use-long-press';
-import { TManga } from '@/typings';
 import { makeToast } from '@/components/util/Toast';
-import { Mangas } from '@/lib/data/Mangas.ts';
+import { Mangas, MangaThumbnailInfo, MangaTrackRecordInfo } from '@/lib/data/Mangas.ts';
 import { SpinnerImage } from '@/components/util/SpinnerImage.tsx';
 import { CustomIconButton } from '@/components/atoms/CustomIconButton';
 import { TrackMangaButton } from '@/components/manga/TrackMangaButton.tsx';
 import { useManageMangaLibraryState } from '@/components/manga/useManageMangaLibraryState.tsx';
 import { Metadata as BaseMetadata } from '@/components/atoms/Metadata.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
-import { SourceType } from '@/lib/graphql/generated/graphql.ts';
+import { MangaType, SourceType } from '@/lib/graphql/generated/graphql.ts';
 
 const DetailsWrapper = styled('div')(({ theme }) => ({
     width: '100%',
@@ -156,10 +155,6 @@ const OpenSourceButton = ({ url }: { url?: string | null }) => {
     return button;
 };
 
-interface IProps {
-    manga: TManga;
-}
-
 function getSourceName(source?: Pick<SourceType, 'id' | 'displayName'> | null): string {
     if (!source) {
         return translate('global.label.unknown');
@@ -172,7 +167,18 @@ function getValueOrUnknown(val?: string | null) {
     return val ?? translate('global.label.unknown');
 }
 
-export const MangaDetails: React.FC<IProps> = ({ manga }) => {
+export const MangaDetails = ({
+    manga,
+}: {
+    manga: Pick<
+        MangaType,
+        'id' | 'title' | 'author' | 'artist' | 'status' | 'inLibrary' | 'realUrl' | 'description' | 'genre'
+    > &
+        MangaThumbnailInfo &
+        MangaTrackRecordInfo & {
+            source?: Pick<SourceType, 'id' | 'displayName'> | null;
+        };
+}) => {
     const { t } = useTranslation();
 
     useEffect(() => {

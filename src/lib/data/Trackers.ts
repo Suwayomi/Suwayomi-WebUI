@@ -49,12 +49,13 @@ export type TTrackerSearch = TTrackerBase & Pick<TrackerType, 'authUrl'>;
 
 export type TTrackerBind = TTrackerBase & Pick<TrackerType, 'icon' | 'supportsTrackDeletion' | 'scores' | 'statuses'>;
 
+type TrackerIdInfo = Pick<TrackerType, 'id'>;
 type LoggedInInfo = Pick<TrackerType, 'isLoggedIn' | 'isTokenExpired'>;
 
-type TrackRecordTrackerInfo = { tracker: TTrackerBind };
+type TrackRecordTrackerInfo = Pick<TrackRecordType, 'trackerId'>;
 
 export class Trackers {
-    static getIds(trackers: { id: number }[]): number[] {
+    static getIds(trackers: TrackerIdInfo[]): number[] {
         return trackers.map((tracker) => tracker.id);
     }
 
@@ -74,16 +75,19 @@ export class Trackers {
         return trackers.filter(this.isLoggedIn);
     }
 
-    static getTrackers<TrackRecord extends TrackRecordTrackerInfo>(
+    static getTrackers<TrackRecord extends TrackRecordTrackerInfo, Tracker extends TrackerIdInfo>(
         trackRecords: TrackRecord[],
-    ): TrackRecord['tracker'][] {
-        return trackRecords.map((trackRecord) => trackRecord.tracker);
+        trackers: Tracker[],
+    ): Tracker[] {
+        return trackRecords
+            .map((trackRecord) => trackers.find((tracker) => tracker.id === trackRecord.trackerId))
+            .filter((tracker) => !!tracker);
     }
 
     static getTrackRecordFor<TrackRecord extends TrackRecordTrackerInfo>(
-        tracker: { id: number },
+        tracker: TrackerIdInfo,
         trackRecords: TrackRecord[],
     ): TrackRecord | undefined {
-        return trackRecords.find((trackRecord) => trackRecord.tracker.id === tracker.id);
+        return trackRecords.find((trackRecord) => trackRecord.trackerId === tracker.id);
     }
 }

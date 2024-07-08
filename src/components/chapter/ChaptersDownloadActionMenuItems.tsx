@@ -8,10 +8,10 @@
 
 import MenuItem from '@mui/material/MenuItem';
 import { useTranslation } from 'react-i18next';
-import { TManga } from '@/typings.ts';
 import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 import { Mangas } from '@/lib/data/Mangas.ts';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 
 const DownloadRange = {
     NEXT_1: 1,
@@ -25,7 +25,7 @@ export const ChaptersDownloadActionMenuItems = ({
     mangaIds,
     closeMenu,
 }: {
-    mangaIds: TManga['id'][];
+    mangaIds: MangaType['id'][];
     closeMenu: () => void;
 }) => {
     const { t } = useTranslation();

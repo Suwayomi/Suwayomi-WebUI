@@ -31,24 +31,23 @@ import { TrackerMangaCard } from '@/components/tracker/TrackerMangaCard.tsx';
 import { DIALOG_PADDING } from '@/components/tracker/constants.ts';
 import { getOptionForDirection } from '@/theme.ts';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { MangaType } from '@/lib/graphql/generated/graphql.ts';
+import { MangaIdInfo } from '@/lib/data/Mangas.ts';
 
 export const TrackerSearch = ({
-    mangaId,
+    manga,
     tracker,
     closeSearchMode,
     trackedId,
 }: {
-    mangaId: number;
+    manga: MangaIdInfo & Pick<MangaType, 'title'>;
     tracker: Pick<TTrackerBase, 'id'>;
     closeSearchMode: () => void;
     trackedId?: string;
 }) => {
     const { t } = useTranslation();
 
-    // can't be undefined, since this can only be opened from the manga screen
-    const manga = requestManager.useGetManga(mangaId);
-
-    const [searchString, setSearchString] = useState<string>(manga.data!.manga.title);
+    const [searchString, setSearchString] = useState<string>(manga.title);
     const [tmpSearchString, setTmpSearchString] = useState(searchString);
 
     const [selectedTrackerRemoteId, setSelectedTrackerRemoteId] = useState<string | undefined>(trackedId);
@@ -62,7 +61,7 @@ export const TrackerSearch = ({
         setSelectedTrackerRemoteId(trackedId);
 
         return () =>
-            trackerSearch.abortRequest(new Error(`MangaTrackerSearchCard(${tracker.id}, ${mangaId}): search changed`));
+            trackerSearch.abortRequest(new Error(`MangaTrackerSearchCard(${tracker.id}, ${manga.id}): search changed`));
     }, [searchString]);
 
     const [bindTracker, bindTrackerMutation] = requestManager.useBindTracker();
@@ -82,7 +81,7 @@ export const TrackerSearch = ({
             return;
         }
 
-        bindTracker({ variables: { mangaId, remoteId: selectedTrackerRemoteId, trackerId: tracker.id } })
+        bindTracker({ variables: { mangaId: manga.id, remoteId: selectedTrackerRemoteId, trackerId: tracker.id } })
             .then(() => {
                 makeToast(t('manga.action.track.add.label.success'), 'success');
                 closeSearchMode();

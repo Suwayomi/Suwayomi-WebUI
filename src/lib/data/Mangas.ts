@@ -8,19 +8,26 @@
 
 import { t as translate } from 'i18next';
 import { DocumentNode } from '@apollo/client/core';
-import { MetadataMigrationSettings, TManga, TranslationKey } from '@/typings.ts';
+import { MetadataMigrationSettings, TranslationKey } from '@/typings.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import {
     ChapterConditionInput,
+    GetMangasBaseQuery,
+    GetMangasBaseQueryVariables,
     GetMangasChapterIdsWithStateQuery,
     GetMangaToMigrateQuery,
     GetMangaToMigrateToFetchMutation,
+    MangaBaseFieldsFragment,
+    MangaReaderFieldsFragment,
+    MangaType,
+    TrackRecordType,
     UpdateMangaCategoriesPatchInput,
 } from '@/lib/graphql/generated/graphql.ts';
 import { Chapters } from '@/lib/data/Chapters.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { getMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
-import { FULL_MANGA_FIELDS } from '@/lib/graphql/Fragments.ts';
+import { GET_MANGAS_BASE } from '@/lib/graphql/queries/MangaQuery.ts';
+import { MANGA_BASE_FIELDS } from '@/lib/graphql/fragments/MangaFragments.ts';
 
 export type MangaAction =
     | 'download'
@@ -108,10 +115,16 @@ export const actionToTranslationKey: {
     },
 };
 
-export type MangaChapterCountInfo = { chapters: Pick<TManga['chapters'], 'totalCount'> };
-export type MangaDownloadInfo = Pick<TManga, 'downloadCount'> & MangaChapterCountInfo;
-export type MangaUnreadInfo = Pick<TManga, 'unreadCount'> & MangaChapterCountInfo;
-export type MangaThumbnailInfo = Pick<TManga, 'thumbnailUrl' | 'thumbnailUrlLastFetched'>;
+export type TMangaReader = MangaReaderFieldsFragment;
+
+export type MangaIdInfo = Pick<MangaType, 'id'>;
+export type MangaChapterCountInfo = { chapters: Pick<MangaType['chapters'], 'totalCount'> };
+export type MangaDownloadInfo = Pick<MangaType, 'downloadCount'> & MangaChapterCountInfo;
+export type MangaUnreadInfo = Pick<MangaType, 'unreadCount'> & MangaChapterCountInfo;
+export type MangaThumbnailInfo = Pick<MangaType, 'thumbnailUrl' | 'thumbnailUrlLastFetched'>;
+export type MangaTrackRecordInfo = MangaIdInfo & {
+    trackRecords: { nodes: Pick<TrackRecordType, 'id' | 'trackerId'>[] };
+};
 
 export type MigrateMode = 'copy' | 'migrate';
 
@@ -162,14 +175,14 @@ type PerformActionOptions<Action extends MangaAction> = Action extends 'mark_as_
           : DefaultActionOption;
 
 export class Mangas {
-    static getIds(mangas: { id: number }[]): number[] {
+    static getIds(mangas: MangaIdInfo[]): number[] {
         return mangas.map((manga) => manga.id);
     }
 
-    static getFromCache<T>(
-        id: number,
-        fragment: DocumentNode = FULL_MANGA_FIELDS,
-        fragmentName: string = 'FULL_MANGA_FIELDS',
+    static getFromCache<T = MangaBaseFieldsFragment>(
+        id: MangaIdInfo['id'],
+        fragment: DocumentNode = MANGA_BASE_FIELDS,
+        fragmentName: string = 'MANGA_BASE_FIELDS',
     ): T | null {
         return requestManager.graphQLClient.client.cache.readFragment<T>({
             id: requestManager.graphQLClient.client.cache.identify({
@@ -236,8 +249,10 @@ export class Mangas {
         return requestManager.getValidImgUrlFor(thumbnailUrl);
     }
 
-    static getDuplicateLibraryMangas(title: string): ReturnType<typeof requestManager.getMangas> {
-        return requestManager.getMangas({
+    static getDuplicateLibraryMangas(
+        title: string,
+    ): ReturnType<typeof requestManager.getMangas<GetMangasBaseQuery, GetMangasBaseQueryVariables>> {
+        return requestManager.getMangas<GetMangasBaseQuery, GetMangasBaseQueryVariables>(GET_MANGAS_BASE, {
             condition: { inLibrary: true },
             filter: { title: { likeInsensitive: title } },
         });
@@ -429,7 +444,7 @@ export class Mangas {
     }
 
     static async migrate(
-        mangaId: number,
+        mangaId: MangaIdInfo['id'],
         mangaIdToMigrateTo: number,
         {
             mode,

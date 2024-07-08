@@ -7,19 +7,7 @@
  */
 
 import gql from 'graphql-tag';
-
-const MANGA_BASE_FIELDS = gql`
-    fragment MANGA_BASE_FIELDS on MangaType {
-        id
-        title
-
-        thumbnailUrl
-        thumbnailUrlLastFetched
-
-        inLibrary
-        initialized
-    }
-`;
+import { MANGA_BASE_FIELDS } from '@/lib/graphql/fragments/MangaFragments.ts';
 
 export const CHAPTER_BASE_FIELDS = gql`
     fragment CHAPTER_BASE_FIELDS on ChapterType {

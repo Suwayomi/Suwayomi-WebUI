@@ -24,6 +24,8 @@ import { MangaDetails } from '@/components/manga/MangaDetails';
 import { MangaToolbarMenu } from '@/components/manga/MangaToolbarMenu';
 import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
+import { GetMangaScreenQuery } from '@/lib/graphql/generated/graphql.ts';
+import { GET_MANGA_SCREEN } from '@/lib/graphql/queries/MangaQuery.ts';
 
 export const Manga: React.FC = () => {
     const { t } = useTranslation();
@@ -32,7 +34,13 @@ export const Manga: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const autofetchedRef = useRef(false);
 
-    const { data, error: mangaError, loading: isLoading, networkStatus, refetch } = requestManager.useGetManga(id);
+    const {
+        data,
+        error: mangaError,
+        loading: isLoading,
+        networkStatus,
+        refetch,
+    } = requestManager.useGetManga<GetMangaScreenQuery>(GET_MANGA_SCREEN, id);
     const isValidating = isNetworkRequestInFlight(networkStatus);
     const manga = data?.manga;
 

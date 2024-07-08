@@ -16,8 +16,8 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { PopupState } from 'material-ui-popup-state/hooks';
 import { bindTrigger } from 'material-ui-popup-state';
 import { SelectableCollectionReturnType } from '@/components/collection/useSelectableCollection.ts';
-import { TManga } from '@/typings.ts';
 import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
+import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 
 export const MangaOptionButton = forwardRef(
     (
@@ -30,7 +30,7 @@ export const MangaOptionButton = forwardRef(
         }: {
             id: number;
             selected?: boolean | null;
-            handleSelection?: SelectableCollectionReturnType<TManga['id']>['handleSelection'];
+            handleSelection?: SelectableCollectionReturnType<MangaType['id']>['handleSelection'];
             asCheckbox?: boolean;
             popupState: PopupState;
         },

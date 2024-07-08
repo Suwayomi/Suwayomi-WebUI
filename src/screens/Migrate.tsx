@@ -14,8 +14,6 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { TMigratableSource } from '@/components/MigrationCard.tsx';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
-import { MangaGrid } from '@/components/MangaGrid.tsx';
-import { TPartialManga } from '@/typings.ts';
 import { GridLayouts } from '@/components/source/GridLayouts.tsx';
 import { useLocalStorage } from '@/util/useStorage.tsx';
 import { GridLayout } from '@/components/context/LibraryOptionsContext.tsx';
@@ -23,6 +21,7 @@ import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts
 import { GetSourceMigratableQuery, GetSourceMigratableQueryVariables } from '@/lib/graphql/generated/graphql.ts';
 import { GET_SOURCE_MIGRATABLE } from '@/lib/graphql/queries/SourceQuery.ts';
 import { SOURCE_BASE_FIELDS } from '@/lib/graphql/fragments/SourceFragments.ts';
+import { BaseMangaGrid } from '@/components/source/BaseMangaGrid.tsx';
 
 export const Migrate = () => {
     const { t } = useTranslation();
@@ -117,11 +116,11 @@ export const Migrate = () => {
     }
 
     return (
-        <MangaGrid
+        <BaseMangaGrid
             hasNextPage={false}
             loadMore={() => {}}
             isLoading={areMangasLoading}
-            mangas={(migratableSourceMangasData?.mangas.nodes ?? []) as TPartialManga[]}
+            mangas={migratableSourceMangasData?.mangas.nodes ?? []}
             gridLayout={gridLayout}
             mode="migrate.search"
         />

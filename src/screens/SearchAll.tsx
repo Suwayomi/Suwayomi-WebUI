@@ -19,7 +19,6 @@ import { langSortCmp, sourceDefualtLangs, sourceForcedDefaultLangs } from '@/uti
 import { translateExtensionLanguage } from '@/screens/util/Extensions';
 import { AppbarSearch } from '@/components/util/AppbarSearch';
 import { LangSelect } from '@/components/navbar/action/LangSelect';
-import { MangaGrid } from '@/components/MangaGrid';
 import { useDebounce } from '@/util/useDebounce.ts';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { MangaCardProps } from '@/components/manga/MangaCard.types.tsx';
@@ -28,6 +27,7 @@ import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 import { SourceType } from '@/lib/graphql/generated/graphql.ts';
+import { BaseMangaGrid } from '@/components/source/BaseMangaGrid.tsx';
 
 type SourceLoadingState = { isLoading: boolean; hasResults: boolean; emptySearch: boolean };
 type SourceToLoadingStateMap = Map<string, SourceLoadingState>;
@@ -166,7 +166,7 @@ const SourceSearchPreview = React.memo(
                         }
                     />
                 ) : (
-                    <MangaGrid
+                    <BaseMangaGrid
                         mangas={mangas}
                         isLoading={isLoading}
                         hasNextPage={false}

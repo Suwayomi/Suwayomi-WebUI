@@ -7,7 +7,7 @@
  */
 
 import gql from 'graphql-tag';
-import { FULL_MANGA_FIELDS } from '@/lib/graphql/Fragments';
+import { MANGA_SCREEN_FIELDS } from '@/lib/graphql/fragments/MangaFragments.ts';
 
 export const DELETE_MANGA_METADATA = gql`
     mutation DELETE_MANGA_METADATA($input: DeleteMangaMetaInput!) {
@@ -37,12 +37,13 @@ export const DELETE_MANGA_METADATA = gql`
 
 // makes the server fetch and return the manga
 export const GET_MANGA_FETCH = gql`
-    ${FULL_MANGA_FIELDS}
+    ${MANGA_SCREEN_FIELDS}
+
     mutation GET_MANGA_FETCH($input: FetchMangaInput!) {
         fetchManga(input: $input) {
             clientMutationId
             manga {
-                ...FULL_MANGA_FIELDS
+                ...MANGA_SCREEN_FIELDS
             }
         }
     }

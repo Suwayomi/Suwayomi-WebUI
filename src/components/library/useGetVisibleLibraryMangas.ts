@@ -8,10 +8,11 @@
 
 import { StringParam, useQueryParam } from 'use-query-params';
 import { useMemo } from 'react';
-import { LibraryOptions, LibrarySortMode, NullAndUndefined, TManga } from '@/typings.ts';
+import { LibraryOptions, LibrarySortMode, NullAndUndefined } from '@/typings.ts';
 import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext.tsx';
 import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
-import { Trackers } from '@/lib/data/Trackers.ts';
+import { ChapterType, MangaType, TrackRecordType } from '@/lib/graphql/generated/graphql.ts';
+import { MangaIdInfo } from '@/lib/data/Mangas.ts';
 
 const triStateFilter = (
     triState: NullAndUndefined<boolean>,
@@ -35,22 +36,26 @@ const triStateFilterNumber = (triState: NullAndUndefined<boolean>, count?: numbe
         () => count === 0,
     );
 
-const queryFilter = (query: NullAndUndefined<string>, { title }: TManga): boolean => {
+type TMangaQueryFilter = Pick<MangaType, 'title'>;
+const queryFilter = (query: NullAndUndefined<string>, { title }: TMangaQueryFilter): boolean => {
     if (!query) return true;
     return title.toLowerCase().includes(query.toLowerCase());
 };
 
-const queryGenreFilter = (query: NullAndUndefined<string>, { genre }: TManga): boolean => {
+type TMangaQueryGenreFilter = Pick<MangaType, 'genre'>;
+const queryGenreFilter = (query: NullAndUndefined<string>, { genre }: TMangaQueryGenreFilter): boolean => {
     if (!query) return true;
     const queries = query.split(',').map((str) => str.toLowerCase().trim());
     return queries.every((element) => genre.map((el) => el.toLowerCase()).includes(element));
 };
 
-const trackerFilter = (trackFilters: LibraryOptions['tracker'], manga: TManga): boolean =>
+type TMangaTrackerFilter = { trackRecords: { nodes: Pick<TrackRecordType, 'id' | 'trackerId'>[] } };
+const trackerFilter = (trackFilters: LibraryOptions['tracker'], manga: TMangaTrackerFilter): boolean =>
     Object.entries(trackFilters)
         .map(([trackFilterId, trackFilterState]) => {
-            const mangaTrackers = Trackers.getTrackers(manga.trackRecords.nodes);
-            const isTrackerBound = mangaTrackers.some((tracker) => tracker.id === Number(trackFilterId));
+            const isTrackerBound = manga.trackRecords.nodes.some(
+                (trackRecord) => trackRecord.trackerId === Number(trackFilterId),
+            );
 
             return triStateFilter(
                 trackFilterState,
@@ -60,15 +65,19 @@ const trackerFilter = (trackFilters: LibraryOptions['tracker'], manga: TManga): 
         })
         .every((matchesFilter) => matchesFilter);
 
-const filterManga = (
-    mangas: TManga[],
+type TMangaFilter = TMangaQueryFilter &
+    TMangaQueryGenreFilter &
+    TMangaTrackerFilter &
+    Pick<MangaType, 'downloadCount' | 'unreadCount' | 'bookmarkCount'>;
+const filterManga = <Manga extends TMangaFilter>(
+    mangas: Manga[],
     query: NullAndUndefined<string>,
     unread: NullAndUndefined<boolean>,
     downloaded: NullAndUndefined<boolean>,
     bookmarked: NullAndUndefined<boolean>,
     tracker: LibraryOptions['tracker'],
     ignoreFilters: boolean,
-): TManga[] =>
+): Manga[] =>
     mangas.filter((manga) => {
         const ignoreFiltersWhileSearching = ignoreFilters && query?.length;
         const matchesSearch = queryFilter(query, manga) || queryGenreFilter(query, manga);
@@ -86,11 +95,16 @@ const sortByNumber = (a: number | string = 0, b: number | string = 0) => Number(
 
 const sortByString = (a: string, b: string): number => a.localeCompare(b);
 
-const sortManga = (
-    manga: TManga[],
+type TMangaSort = Pick<MangaType, 'title' | 'inLibraryAt' | 'unreadCount'> & {
+    lastReadChapter?: Pick<ChapterType, 'lastReadAt'> | null;
+    latestUploadedChapter?: Pick<ChapterType, 'uploadDate'> | null;
+    latestFetchedChapter?: Pick<ChapterType, 'fetchedAt'> | null;
+};
+const sortManga = <Manga extends TMangaSort>(
+    manga: Manga[],
     sort: NullAndUndefined<LibrarySortMode>,
     desc: NullAndUndefined<boolean>,
-): TManga[] => {
+): Manga[] => {
     const result = [...manga];
 
     switch (sort) {
@@ -125,7 +139,12 @@ const sortManga = (
     return result;
 };
 
-export const useGetVisibleLibraryMangas = (mangas: TManga[]) => {
+export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangaFilter & TMangaSort>(
+    mangas: Manga[],
+): {
+    visibleMangas: Manga[];
+    showFilteredOutMessage: boolean;
+} => {
     const [query] = useQueryParam('query', StringParam);
     const { options } = useLibraryOptionsContext();
     const { unread, downloaded, bookmarked, tracker } = options;

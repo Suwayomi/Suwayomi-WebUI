@@ -23,17 +23,22 @@ import { UpdateChecker } from '@/components/library/UpdateChecker';
 import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { useSelectableCollection } from '@/components/collection/useSelectableCollection.ts';
-import { TManga } from '@/typings.ts';
 import { SelectableCollectionSelectMode } from '@/components/collection/SelectableCollectionSelectMode.tsx';
 import { useGetVisibleLibraryMangas } from '@/components/library/useGetVisibleLibraryMangas.ts';
 import { SelectionFAB } from '@/components/collection/SelectionFAB.tsx';
-import { PARTIAL_MANGA_FIELDS } from '@/lib/graphql/Fragments.ts';
 import { MangaActionMenuItems } from '@/components/manga/MangaActionMenuItems.tsx';
 import { TabsMenu } from '@/components/tabs/TabsMenu.tsx';
 import { TabsWrapper } from '@/components/tabs/TabsWrapper.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
-import { GetCategoriesLibraryQuery, GetCategoriesLibraryQueryVariables } from '@/lib/graphql/generated/graphql.ts';
+import {
+    GetCategoriesLibraryQuery,
+    GetCategoriesLibraryQueryVariables,
+    MangaChapterStatFieldsFragment,
+    MangaType,
+} from '@/lib/graphql/generated/graphql.ts';
 import { GET_CATEGORIES_LIBRARY } from '@/lib/graphql/queries/CategoryQuery.ts';
+import { Mangas } from '@/lib/data/Mangas.ts';
+import { MANGA_CHAPTER_STAT_FIELDS } from '@/lib/graphql/fragments/MangaFragments.ts';
 
 const TitleWithSizeTag = styled('span')({
     display: 'flex',
@@ -95,7 +100,7 @@ export function Library() {
         handleSelectAll,
         handleSelection,
         clearSelection,
-    } = useSelectableCollection<TManga['id'], string>(mangas.length, {
+    } = useSelectableCollection<MangaType['id'], string>(mangas.length, {
         itemIds: mangaIds,
         currentKey: activeTab?.id.toString(),
     });
@@ -107,14 +112,15 @@ export function Library() {
 
     const selectedMangas = useMemo(
         () =>
-            selectedItemIds.map(
-                (id) =>
-                    requestManager.graphQLClient.client.cache.readFragment<TManga>({
-                        id: requestManager.graphQLClient.client.cache.identify({ __typename: 'MangaType', id }),
-                        fragment: PARTIAL_MANGA_FIELDS,
-                        fragmentName: 'PARTIAL_MANGA_FIELDS',
-                    })!,
-            ),
+            selectedItemIds
+                .map((id) =>
+                    Mangas.getFromCache<MangaChapterStatFieldsFragment>(
+                        id,
+                        MANGA_CHAPTER_STAT_FIELDS,
+                        'MANGA_CHAPTER_STAT_FIELDS',
+                    ),
+                )
+                .filter((manga) => !!manga),
         [selectedItemIds.length, mangas],
     );
 

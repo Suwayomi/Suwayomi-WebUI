@@ -15,8 +15,6 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { MangaGrid } from '@/components/MangaGrid.tsx';
-import { TManga } from '@/typings';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { useLocalStorage } from '@/util/useStorage.tsx';
 import { GridLayout } from '@/components/context/LibraryOptionsContext.tsx';
@@ -28,20 +26,34 @@ import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts
 import { MangaCard } from '@/components/MangaCard.tsx';
 import { StyledGroupedVirtuoso } from '@/components/virtuoso/StyledGroupedVirtuoso.tsx';
 import { StyledGroupHeader } from '@/components/virtuoso/StyledGroupHeader.tsx';
+import {
+    GetMangasDuplicatesQuery,
+    GetMangasDuplicatesQueryVariables,
+    MangaType,
+} from '@/lib/graphql/generated/graphql.ts';
+import { GET_MANGAS_DUPLICATES } from '@/lib/graphql/queries/MangaQuery.ts';
+import { MangaIdInfo } from '@/lib/data/Mangas.ts';
+import { BaseMangaGrid } from '@/components/source/BaseMangaGrid.tsx';
+import { IMangaGridProps } from '@/components/MangaGrid.tsx';
 
-const findDuplicatesByTitle = (libraryMangas: TManga[]): Record<string, TManga[]> => {
+const findDuplicatesByTitle = <Manga extends Pick<MangaType, 'title'>>(
+    libraryMangas: Manga[],
+): Record<string, Manga[]> => {
     const titleToMangas = Object.groupBy(libraryMangas, ({ title }) => title.toLowerCase().trim());
 
     return Object.fromEntries(
         Object.entries(titleToMangas)
-            .filter((titleToMangaMap): titleToMangaMap is [string, TManga[]] => (titleToMangaMap[1]?.length ?? 0) > 1)
+            .filter((titleToMangaMap): titleToMangaMap is [string, Manga[]] => (titleToMangaMap[1]?.length ?? 0) > 1)
             .map(([, mangas]) => [mangas[0].title, mangas]),
     );
 };
 
-const findDuplicatesByTitleAndAlternativeTitles = (libraryMangas: TManga[]): Record<string, TManga[]> => {
-    const idToDuplicateStatus: Record<TManga['id'], boolean> = {};
-    const titleToMangas: Record<string, TManga[]> = {};
+type TMangaDuplicate = Pick<MangaType, 'id' | 'title' | 'description'>;
+const findDuplicatesByTitleAndAlternativeTitles = <Manga extends TMangaDuplicate>(
+    libraryMangas: Manga[],
+): Record<string, Manga[]> => {
+    const idToDuplicateStatus: Record<MangaIdInfo['id'], boolean> = {};
+    const titleToMangas: Record<string, Manga[]> = {};
 
     libraryMangas.forEach((mangaToCheck) =>
         libraryMangas.forEach((libraryManga) => {
@@ -123,10 +135,13 @@ export const LibraryDuplicates = () => {
         };
     }, [t, gridLayout, checkAlternativeTitles]);
 
-    const { data, loading, error, refetch } = requestManager.useGetMangas({ condition: { inLibrary: true } });
+    const { data, loading, error, refetch } = requestManager.useGetMangas<
+        GetMangasDuplicatesQuery,
+        GetMangasDuplicatesQueryVariables
+    >(GET_MANGAS_DUPLICATES, { condition: { inLibrary: true } });
 
     const mangasByTitle = useMemo(() => {
-        const libraryMangas: TManga[] = data?.mangas.nodes ?? [];
+        const libraryMangas: TMangaDuplicate[] = data?.mangas.nodes ?? [];
 
         if (checkAlternativeTitles) {
             return findDuplicatesByTitleAndAlternativeTitles(libraryMangas);
@@ -172,7 +187,7 @@ export const LibraryDuplicates = () => {
                 itemContent={(index) => (
                     <Box key={duplicatedMangas[index].id} sx={{ px: 1, pb: 1 }}>
                         <MangaCard
-                            manga={duplicatedMangas[index]}
+                            manga={duplicatedMangas[index] as IMangaGridProps['mangas'][number]}
                             gridLayout={gridLayout}
                             selected={null}
                             mode="duplicate"
@@ -188,12 +203,13 @@ export const LibraryDuplicates = () => {
             <StyledGroupHeader sx={{ pt: index === 0 ? undefined : 0, pb: 0 }} variant="h5" isFirstItem={false}>
                 {title}
             </StyledGroupHeader>
-            <MangaGrid
-                mangas={mangasByTitle[title]}
+            <BaseMangaGrid
+                mangas={mangasByTitle[title] as IMangaGridProps['mangas']}
                 hasNextPage={false}
                 loadMore={() => {}}
                 isLoading={false}
                 gridLayout={gridLayout}
+                inLibraryIndicator={false}
                 horizontal
                 mode="duplicate"
             />

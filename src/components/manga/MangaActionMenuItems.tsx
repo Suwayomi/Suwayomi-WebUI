@@ -19,8 +19,14 @@ import SyncAltIcon from '@mui/icons-material/SyncAlt';
 import { Link } from 'react-router-dom';
 import SyncIcon from '@mui/icons-material/Sync';
 import Dialog from '@mui/material/Dialog';
-import { TManga } from '@/typings.ts';
-import { actionToTranslationKey, MangaAction, MangaDownloadInfo, Mangas, MangaUnreadInfo } from '@/lib/data/Mangas.ts';
+import {
+    actionToTranslationKey,
+    MangaAction,
+    MangaDownloadInfo,
+    MangaIdInfo,
+    Mangas,
+    MangaUnreadInfo,
+} from '@/lib/data/Mangas.ts';
 import { SelectableCollectionReturnType } from '@/components/collection/useSelectableCollection.ts';
 import { MenuItem } from '@/components/menu/MenuItem.tsx';
 import { createGetMenuItemTitle, createIsMenuItemDisabled, createShouldShowMenuItem } from '@/components/menu/util.ts';
@@ -29,18 +35,19 @@ import { TrackManga } from '@/components/tracker/TrackManga.tsx';
 import { useCategorySelect } from '@/components/navbar/action/useCategorySelect.tsx';
 import { ChaptersDownloadActionMenuItems } from '@/components/chapter/ChaptersDownloadActionMenuItems.tsx';
 import { NestedMenuItem } from '@/components/menu/NestedMenuItem.tsx';
+import { MangaChapterStatFieldsFragment, MangaType } from '@/lib/graphql/generated/graphql.ts';
 
 const ACTION_DISABLES_SELECTION_MODE: MangaAction[] = ['remove_from_library'] as const;
 
 type BaseProps = { onClose: (selectionModeState: boolean) => void; setHideMenu: (hide: boolean) => void };
 
 export type SingleModeProps = {
-    manga: Pick<TManga, 'id' | 'title' | 'source' | 'trackRecords'> & MangaDownloadInfo & MangaUnreadInfo;
-    handleSelection?: SelectableCollectionReturnType<TManga['id']>['handleSelection'];
+    manga: Pick<MangaType, 'id' | 'title' | 'sourceId'> & MangaDownloadInfo & MangaUnreadInfo;
+    handleSelection?: SelectableCollectionReturnType<MangaType['id']>['handleSelection'];
 };
 
 type SelectModeProps = {
-    selectedMangas: TManga[];
+    selectedMangas: MangaChapterStatFieldsFragment[];
 };
 
 type Props =
@@ -82,7 +89,7 @@ export const MangaActionMenuItems = ({
         onClose(true);
     };
 
-    const performAction = (action: MangaAction, mangas: TManga[]) => {
+    const performAction = (action: MangaAction, mangas: MangaIdInfo[]) => {
         Mangas.performAction(action, manga ? [manga.id] : Mangas.getIds(mangas), {
             wasManuallyMarkedAsRead: true,
         }).catch(defaultPromiseErrorHandler(`MangaActionMenuItems:performAction(${action})`));
@@ -150,7 +157,7 @@ export const MangaActionMenuItems = ({
             )}
             {isSingleMode && (
                 <Link
-                    to={`/migrate/source/${manga?.source?.id}/manga/${manga?.id}/search?query=${manga?.title}`}
+                    to={`/migrate/source/${manga?.sourceId}/manga/${manga?.id}/search?query=${manga?.title}`}
                     state={{ mangaTitle: manga?.title }}
                     style={{ textDecoration: 'none', color: 'inherit' }}
                 >

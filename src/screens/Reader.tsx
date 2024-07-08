@@ -11,7 +11,7 @@ import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'r
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import { useTranslation } from 'react-i18next';
-import { AllowedMetadataValueTypes, ChapterOffset, IReaderSettings, ReaderType, TManga } from '@/typings';
+import { AllowedMetadataValueTypes, ChapterOffset, IReaderSettings, ReaderType } from '@/typings';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import {
     checkAndHandleMissingStoredReaderSettings,
@@ -31,6 +31,7 @@ import { useDebounce } from '@/util/useDebounce.ts';
 import {
     GetChaptersReaderQuery,
     GetChaptersReaderQueryVariables,
+    GetMangaReaderQuery,
     UpdateChapterPatchInput,
 } from '@/lib/graphql/generated/graphql.ts';
 import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
@@ -38,6 +39,8 @@ import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts
 import { Chapters } from '@/lib/data/Chapters.ts';
 import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 import { GET_CHAPTERS_READER } from '@/lib/graphql/queries/ChapterQuery.ts';
+import { GET_MANGA_READER } from '@/lib/graphql/queries/MangaQuery.ts';
+import { TMangaReader } from '@/lib/data/Mangas.ts';
 
 type TChapter = GetChaptersReaderQuery['chapters']['nodes'][number];
 
@@ -94,7 +97,7 @@ export function Reader() {
                 lastReadAt: 0,
                 chapters: { totalCount: 0 },
                 trackRecords: { totalCount: 0 },
-            }) as unknown as TManga,
+            }) as unknown as TMangaReader,
         [mangaId],
     );
 
@@ -103,7 +106,7 @@ export function Reader() {
         loading: isMangaLoading,
         error: mangaError,
         refetch: refetchManga,
-    } = requestManager.useGetManga(mangaId);
+    } = requestManager.useGetManga<GetMangaReaderQuery>(GET_MANGA_READER, mangaId);
     const loadedChapter = useRef<TChapter | null>(null);
     const isChapterLoaded =
         Number(mangaId) === loadedChapter.current?.mangaId &&

@@ -29,14 +29,23 @@ import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCe
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
 import { ListItemLink } from '@/components/util/ListItemLink.tsx';
-import { GetCategoriesSettingsQuery, GetCategoriesSettingsQueryVariables } from '@/lib/graphql/generated/graphql.ts';
+import {
+    GetCategoriesSettingsQuery,
+    GetCategoriesSettingsQueryVariables,
+    GetMangasBaseQuery,
+    GetMangasBaseQueryVariables,
+} from '@/lib/graphql/generated/graphql.ts';
 import { GET_CATEGORIES_SETTINGS } from '@/lib/graphql/queries/CategoryQuery.ts';
+import { GET_MANGAS_BASE } from '@/lib/graphql/queries/MangaQuery.ts';
 
 const removeNonLibraryMangasFromCategories = async (): Promise<void> => {
     try {
-        const nonLibraryMangas = await requestManager.getMangas({
-            filter: { inLibrary: { equalTo: false }, categoryId: { isNull: false } },
-        }).response;
+        const nonLibraryMangas = await requestManager.getMangas<GetMangasBaseQuery, GetMangasBaseQueryVariables>(
+            GET_MANGAS_BASE,
+            {
+                filter: { inLibrary: { equalTo: false }, categoryId: { isNull: false } },
+            },
+        ).response;
 
         const mangaIdsToRemove = Mangas.getIds(nonLibraryMangas.data.mangas.nodes);
 

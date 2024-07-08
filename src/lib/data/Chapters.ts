@@ -9,12 +9,13 @@
 import { t as translate } from 'i18next';
 import gql from 'graphql-tag';
 import { DocumentNode } from '@apollo/client';
-import { ChapterOffset, TManga, TranslationKey } from '@/typings.ts';
+import { ChapterOffset, TranslationKey } from '@/typings.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { getMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 import { ChapterListFieldsFragment, ChapterType } from '@/lib/graphql/generated/graphql.ts';
 import { CHAPTER_LIST_FIELDS } from '@/lib/graphql/fragments/ChapterFragments.ts';
+import { MangaIdInfo } from '@/lib/data/Mangas.ts';
 
 export type ChapterAction = 'download' | 'delete' | 'bookmark' | 'unbookmark' | 'mark_as_read' | 'mark_as_unread';
 
@@ -209,7 +210,7 @@ export class Chapters {
     static async markAsRead(
         chapters: (ChapterDownloadInfo & ChapterBookmarkInfo)[],
         wasManuallyMarkedAsRead: boolean = false,
-        trackProgressMangaId?: TManga['id'],
+        trackProgressMangaId?: MangaIdInfo['id'],
     ): Promise<void> {
         const { deleteChaptersManuallyMarkedRead, deleteChaptersWithBookmark, updateProgressManualMarkRead } =
             await getMetadataServerSettings();
@@ -279,7 +280,7 @@ export class Chapters {
         }: Action extends 'mark_as_read'
             ? {
                   wasManuallyMarkedAsRead: boolean;
-                  trackProgressMangaId?: TManga['id'];
+                  trackProgressMangaId?: MangaIdInfo['id'];
                   chapters: (ChapterDownloadInfo & ChapterBookmarkInfo & ChapterReadInfo)[];
               }
             : {

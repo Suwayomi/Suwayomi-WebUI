@@ -7,7 +7,7 @@
  */
 
 import gql from 'graphql-tag';
-import { FULL_MANGA_FIELDS } from '@/lib/graphql/Fragments.ts';
+import { MANGA_CHAPTER_STAT_FIELDS } from '@/lib/graphql/fragments/MangaFragments.ts';
 
 const UPDATER_MANGA_FIELDS = gql`
     fragment UPDATER_MANGA_FIELDS on MangaType {
@@ -19,7 +19,7 @@ const UPDATER_MANGA_FIELDS = gql`
 
 export const UPDATER_SUBSCRIPTION_FIELDS = gql`
     ${UPDATER_MANGA_FIELDS}
-    ${FULL_MANGA_FIELDS}
+    ${MANGA_CHAPTER_STAT_FIELDS}
 
     fragment UPDATER_SUBSCRIPTION_FIELDS on UpdateStatus {
         isRunning
@@ -28,7 +28,7 @@ export const UPDATER_SUBSCRIPTION_FIELDS = gql`
             mangas {
                 totalCount
                 nodes {
-                    ...FULL_MANGA_FIELDS
+                    ...MANGA_CHAPTER_STAT_FIELDS
                 }
             }
         }

@@ -1,7 +1,7 @@
 import {FieldPolicy, FieldReadFunction, Reference, TypePolicies, TypePolicy} from '@apollo/client/cache';
 import {
 	GetChaptersMangaQuery, GetDownloadStatusQueryVariables, GetGlobalMetadataQueryVariables,
-	GetMangaQueryVariables, GetSourceBrowseQueryVariables, GetUpdateStatusQueryVariables, GetWebuiUpdateStatusQueryVariables,
+	GetMangaScreenQueryVariables, GetSourceBrowseQueryVariables, GetUpdateStatusQueryVariables, GetWebuiUpdateStatusQueryVariables,
 } from "@/lib/graphql/generated/graphql.ts";
 import {FieldFunctionOptions} from "@apollo/client/cache/inmemory/policies";
 export type AboutServerPayloadKeySpecifier = ('buildTime' | 'buildType' | 'discord' | 'github' | 'name' | 'revision' | 'version' | AboutServerPayloadKeySpecifier)[];
@@ -583,7 +583,7 @@ export type QueryFieldPolicy = {
 	extensions?: FieldPolicy<any> | FieldReadFunction<any>,
 	getWebUIUpdateStatus?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetWebuiUpdateStatusQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetWebuiUpdateStatusQueryVariables>>,
 	lastUpdateTimestamp?: FieldPolicy<any> | FieldReadFunction<any>,
-	manga?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetMangaQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetMangaQueryVariables>>,
+	manga?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetMangaScreenQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetMangaScreenQueryVariables>>,
 	mangas?: FieldPolicy<any> | FieldReadFunction<any>,
 	meta?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetGlobalMetadataQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetGlobalMetadataQueryVariables>>,
 	metas?: FieldPolicy<any> | FieldReadFunction<any>,

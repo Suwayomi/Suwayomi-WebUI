@@ -16,11 +16,12 @@ import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCe
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
 import { Trackers } from '@/lib/data/Trackers.ts';
 import { TrackerCard, TrackerMode } from '@/components/tracker/TrackerCard.tsx';
-import { TManga } from '@/typings.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
-import { GetTrackersBindQuery } from '@/lib/graphql/generated/graphql.ts';
+import { GetMangaTrackRecordsQuery, GetTrackersBindQuery, MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { GET_TRACKERS_BIND } from '@/lib/graphql/queries/TrackerQuery.ts';
+import { MangaIdInfo } from '@/lib/data/Mangas.ts';
+import { GET_MANGA_TRACK_RECORDS } from '@/lib/graphql/queries/MangaQuery.ts';
 
 const getTrackerMode = (id: number, trackersInUse: number[], searchModeForTracker?: number): TrackerMode => {
     if (id === searchModeForTracker) {
@@ -34,7 +35,7 @@ const getTrackerMode = (id: number, trackersInUse: number[], searchModeForTracke
     return TrackerMode.UNTRACKED;
 };
 
-export const TrackManga = ({ manga }: { manga: Pick<TManga, 'id' | 'trackRecords'> }) => {
+export const TrackManga = ({ manga }: { manga: MangaIdInfo & Pick<MangaType, 'title'> }) => {
     const { t } = useTranslation();
     const navigate = useNavigate();
 
@@ -43,26 +44,32 @@ export const TrackManga = ({ manga }: { manga: Pick<TManga, 'id' | 'trackRecords
     const trackerList = requestManager.useGetTrackerList<GetTrackersBindQuery>(GET_TRACKERS_BIND, {
         notifyOnNetworkStatusChange: true,
     });
-    const mangaTrackers = manga.trackRecords.nodes;
+    const trackers = trackerList.data?.trackers.nodes ?? [];
 
-    const loggedInTrackers = Trackers.getLoggedIn(trackerList.data?.trackers.nodes ?? []);
-    const trackersInUse = Trackers.getLoggedIn(Trackers.getTrackers(mangaTrackers));
+    const mangaTrackRecordsList = requestManager.useGetManga<GetMangaTrackRecordsQuery>(
+        GET_MANGA_TRACK_RECORDS,
+        manga.id,
+    );
+    const mangaTrackRecords = mangaTrackRecordsList.data?.manga.trackRecords.nodes ?? [];
+
+    const loggedInTrackers = Trackers.getLoggedIn(trackers);
+    const trackersInUse = Trackers.getLoggedIn(Trackers.getTrackers(mangaTrackRecords, trackers));
     const trackersInUseIds = Trackers.getIds(trackersInUse);
 
     const isSearchActive = searchModeForTracker !== undefined;
     const OptionalDialogContent = useMemo(() => (isSearchActive ? Box : DialogContent), [isSearchActive]);
 
     useEffect(() => {
-        Promise.all(manga.trackRecords.nodes.map((trackRecord) => requestManager.fetchTrackBind(trackRecord.id))).catch(
-            () => makeToast(t('tracking.error.label.could_not_fetch_track_info'), 'error'),
+        Promise.all(mangaTrackRecords.map((trackRecord) => requestManager.fetchTrackBind(trackRecord.id))).catch(() =>
+            makeToast(t('tracking.error.label.could_not_fetch_track_info'), 'error'),
         );
-    }, [manga.id]);
+    }, [mangaTrackRecords]);
 
     const trackerComponents = useMemo(
         () =>
             loggedInTrackers.map((tracker) => {
                 const mode = getTrackerMode(tracker.id, trackersInUseIds, searchModeForTracker);
-                const trackRecord = Trackers.getTrackRecordFor(tracker, manga.trackRecords.nodes);
+                const trackRecord = Trackers.getTrackRecordFor(tracker, mangaTrackRecords);
 
                 const isSearchForTracker = mode === TrackerMode.SEARCH;
                 if (isSearchActive && !isSearchForTracker) {
@@ -73,27 +80,39 @@ export const TrackManga = ({ manga }: { manga: Pick<TManga, 'id' | 'trackRecords
                     <TrackerCard
                         key={tracker.id}
                         tracker={tracker}
-                        mangaId={manga.id}
+                        manga={manga}
                         trackRecord={trackRecord}
                         mode={mode}
                         setSearchMode={(id) => setSearchModeForTracker(id)}
                     />
                 );
             }),
-        [trackersInUseIds, searchModeForTracker, manga.id],
+        [trackersInUseIds, searchModeForTracker, mangaTrackRecords],
     );
 
-    if (trackerList.error) {
+    const error = trackerList.error ?? mangaTrackRecordsList.error;
+    if (error) {
         return (
             <EmptyViewAbsoluteCentered
                 message={t('global.error.label.failed_to_load_data')}
-                messageExtra={trackerList.error.message}
-                retry={() => trackerList.refetch().catch(defaultPromiseErrorHandler('TrackManga::refetch'))}
+                messageExtra={error.message}
+                retry={() => {
+                    if (trackerList.error) {
+                        trackerList.refetch().catch(defaultPromiseErrorHandler('TrackManga::refetch: trackerList'));
+                    }
+
+                    if (mangaTrackRecordsList.error) {
+                        mangaTrackRecordsList
+                            .refetch()
+                            .catch(defaultPromiseErrorHandler('TrackManga::refetch: mangaTrackRecordsList'));
+                    }
+                }}
             />
         );
     }
 
-    if (trackerList.loading) {
+    const loading = trackerList.loading || mangaTrackRecordsList.loading;
+    if (loading) {
         return <LoadingPlaceholder />;
     }
 

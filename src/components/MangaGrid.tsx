@@ -17,11 +17,11 @@ import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
 import { MangaCard } from '@/components/MangaCard';
 import { GridLayout } from '@/components/context/LibraryOptionsContext';
 import { useLocalStorage, useSessionStorage } from '@/util/useStorage.tsx';
-import { TManga, TPartialManga } from '@/typings.ts';
 import { SelectableCollectionReturnType } from '@/components/collection/useSelectableCollection.ts';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/components/util/StyledFab.tsx';
 import { AppStorage } from '@/util/AppStorage.ts';
 import { MangaCardProps } from '@/components/manga/MangaCard.types.tsx';
+import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 
 const GridContainer = React.forwardRef<HTMLDivElement, GridTypeMap['props']>(({ children, ...props }, ref) => (
     <Grid {...props} ref={ref} container sx={{ paddingLeft: '5px', paddingRight: '13px' }}>
@@ -46,12 +46,14 @@ const GridItemContainerWithDimension = (
     );
 };
 
+type TManga = MangaCardProps['manga'];
+
 const createMangaCard = (
-    manga: TPartialManga,
+    manga: TManga,
     gridLayout?: GridLayout,
     inLibraryIndicator?: boolean,
     isSelectModeActive: boolean = false,
-    selectedMangaIds?: TManga['id'][],
+    selectedMangaIds?: MangaType['id'][],
     handleSelection?: DefaultGridProps['handleSelection'],
     mode?: MangaCardProps['mode'],
 ) => (
@@ -68,13 +70,13 @@ const createMangaCard = (
 
 type DefaultGridProps = Pick<MangaCardProps, 'mode'> & {
     isLoading: boolean;
-    mangas: TPartialManga[];
+    mangas: TManga[];
     inLibraryIndicator?: boolean;
     GridItemContainer: (props: GridTypeMap['props'] & Partial<GridItemProps>) => JSX.Element;
     gridLayout?: GridLayout;
     isSelectModeActive?: boolean;
-    selectedMangaIds?: Required<TManga['id']>[];
-    handleSelection?: SelectableCollectionReturnType<TManga['id']>['handleSelection'];
+    selectedMangaIds?: Required<MangaType['id']>[];
+    handleSelection?: SelectableCollectionReturnType<MangaType['id']>['handleSelection'];
 };
 
 const HorizontalGrid = forwardRef(

@@ -52,7 +52,7 @@ export const MangaCard = (props: MangaCardProps) => {
         mode === 'source',
     );
 
-    const mangaLinkTo = getMangaLinkTo(mode, manga.id, manga.source?.id, manga.title);
+    const mangaLinkTo = getMangaLinkTo(mode, manga.id, manga.sourceId, manga.title);
 
     const nextChapterIndexToRead = firstUnreadChapter?.sourceOrder ?? 1;
     const isLatestChapterRead = chapters?.totalCount === latestReadChapter?.sourceOrder;

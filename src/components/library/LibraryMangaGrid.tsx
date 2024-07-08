@@ -9,14 +9,12 @@
 import React, { useEffect, useLayoutEffect } from 'react';
 import { StringParam, useQueryParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
-import { TManga } from '@/typings';
 import { GridLayout, useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
 import { IMangaGridProps, MangaGrid } from '@/components/MangaGrid';
 
 interface LibraryMangaGridProps
-    extends Required<Pick<IMangaGridProps, 'isSelectModeActive' | 'selectedMangaIds' | 'handleSelection'>>,
+    extends Required<Pick<IMangaGridProps, 'isSelectModeActive' | 'selectedMangaIds' | 'handleSelection' | 'mangas'>>,
         Pick<IMangaGridProps, 'retry' | 'message' | 'messageExtra'> {
-    mangas: TManga[];
     showFilteredOutMessage: boolean;
     isLoading: boolean;
 }

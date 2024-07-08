@@ -20,7 +20,7 @@ import { styled } from '@mui/material/styles';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import NewReleasesIcon from '@mui/icons-material/NewReleases';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { IPos, TPartialManga, TranslationKey } from '@/typings';
+import { IPos, TranslationKey } from '@/typings';
 import {
     requestManager,
     AbortableApolloUseMutationPaginatedResponse,
@@ -30,7 +30,7 @@ import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsCon
 import { SourceGridLayout } from '@/components/source/SourceGridLayout';
 import { AppbarSearch } from '@/components/util/AppbarSearch';
 import { SourceOptions } from '@/components/source/SourceOptions';
-import { SourceMangaGrid } from '@/components/source/SourceMangaGrid';
+import { BaseMangaGrid } from '@/components/source/BaseMangaGrid.tsx';
 import {
     GetSourceBrowseQuery,
     GetSourceBrowseQueryVariables,
@@ -45,6 +45,7 @@ import { getGridSnapshotKey } from '@/components/MangaGrid.tsx';
 import { createUpdateSourceMetadata, getSourceMetadata } from '@/lib/metadata/sourceMetadata.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { GET_SOURCE_BROWSE } from '@/lib/graphql/queries/SourceQuery.ts';
+import { MangaIdInfo } from '@/lib/data/Mangas.ts';
 
 const ContentTypeMenu = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -92,9 +93,9 @@ const SOURCE_CONTENT_TYPE_TO_ERROR_MSG_KEY: { [contentType in SourceContentType]
     [SourceContentType.SEARCH]: 'manga.error.label.no_matches',
 };
 
-const getUniqueMangas = (mangas: TPartialManga[]): TPartialManga[] => {
-    const mangaIdToManga: Record<TPartialManga['id'], TPartialManga> = {};
-    const uniqueMangas: TPartialManga[] = [];
+const getUniqueMangas = <Manga extends MangaIdInfo>(mangas: Manga[]): Manga[] => {
+    const mangaIdToManga: Record<string, Manga> = {};
+    const uniqueMangas: Manga[] = [];
 
     mangas.forEach((manga) => {
         const isDuplicate = !!mangaIdToManga[manga.id];
@@ -470,7 +471,7 @@ export function SourceMangas() {
                     {t('global.button.filter')}
                 </ContentTypeButton>
             </ContentTypeMenu>
-            <SourceMangaGrid
+            <BaseMangaGrid
                 key={contentType}
                 mangas={mangas}
                 hasNextPage={hasNextPage}
@@ -479,6 +480,8 @@ export function SourceMangas() {
                 messageExtra={messageExtra}
                 isLoading={isLoading}
                 gridLayout={options.SourcegridLayout}
+                mode="source"
+                inLibraryIndicator
             />
             {contentType === SourceContentType.SEARCH && (
                 <SourceOptions
