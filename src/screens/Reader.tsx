@@ -36,13 +36,17 @@ import {
 } from '@/lib/graphql/generated/graphql.ts';
 import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
-import { Chapters } from '@/lib/data/Chapters.ts';
+import { ChapterIdInfo, Chapters } from '@/lib/data/Chapters.ts';
 import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 import { GET_CHAPTERS_READER } from '@/lib/graphql/queries/ChapterQuery.ts';
 import { GET_MANGA_READER } from '@/lib/graphql/queries/MangaQuery.ts';
 import { TMangaReader } from '@/lib/data/Mangas.ts';
+import { CHAPTER_READER_FIELDS } from '@/lib/graphql/fragments/ChapterFragments.ts';
 
 type TChapter = GetChaptersReaderQuery['chapters']['nodes'][number];
+
+const getChapterFromCache = (id: ChapterIdInfo['id']): TChapter | null =>
+    Chapters.getFromCache<TChapter>(id, CHAPTER_READER_FIELDS, 'CHAPTER_READER_FIELDS')!;
 
 const getReaderComponent = (readerType: ReaderType) => {
     switch (readerType) {
@@ -277,7 +281,7 @@ export function Reader() {
             }
 
             // chapter has to exist in the cache since the reader fetches all chapters of the manga
-            const chapterToDeleteUpToDateData = Chapters.getFromCache<TChapter>(chapterToDelete.id)!;
+            const chapterToDeleteUpToDateData = getChapterFromCache(chapterToDelete.id)!;
 
             const shouldDeleteChapter =
                 chapterToDeleteUpToDateData.isRead &&
@@ -294,14 +298,14 @@ export function Reader() {
         };
 
         const downloadAhead = () => {
-            const currentChapter = Chapters.getFromCache<TChapter>(chapter.id);
+            const currentChapter = getChapterFromCache(chapter.id);
 
             const inDownloadRange = (patch.lastPageRead ?? 0) / chapter.pageCount > 0.25;
             const shouldCheckDownloadAhead =
                 isDownloadAheadEnabled && manga.inLibrary && !!currentChapter?.isDownloaded && inDownloadRange;
 
             if (shouldCheckDownloadAhead) {
-                const nextChapterUpToDate = nextChapter ? Chapters.getFromCache<TChapter>(nextChapter.id) : null;
+                const nextChapterUpToDate = nextChapter ? getChapterFromCache(nextChapter.id) : null;
 
                 if (!nextChapterUpToDate?.isDownloaded) {
                     return;
@@ -309,7 +313,7 @@ export function Reader() {
 
                 const nextChaptersUpToDate = Chapters.getNonRead(nextChapters).map(
                     // the chapters have to be in the cache since the reader fetches the whole chapter list of the manga
-                    (mangaChapter) => Chapters.getFromCache<TChapter>(mangaChapter.id)!,
+                    (mangaChapter) => getChapterFromCache(mangaChapter.id)!,
                 );
 
                 const chapterIdsToDownload = nextChaptersUpToDate
@@ -452,7 +456,7 @@ export function Reader() {
             return;
         }
 
-        const chapterUpToDate = Chapters.getFromCache<TChapter>(chapter.id);
+        const chapterUpToDate = getChapterFromCache(chapter.id);
         if (curPageDebounced === chapterUpToDate?.lastPageRead) {
             return;
         }
