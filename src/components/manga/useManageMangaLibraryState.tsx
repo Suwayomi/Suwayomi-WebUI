@@ -9,6 +9,7 @@
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import gql from 'graphql-tag';
 import { useCategorySelect } from '@/components/navbar/action/useCategorySelect.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
@@ -161,6 +162,15 @@ export const useManageMangaLibraryState = (
          *
          * To work around this issue, the currently known in library state gets returned here
          */
-        isInLibrary: Mangas.getFromCache(manga.id)?.inLibrary ?? isInLibrary,
+        isInLibrary:
+            Mangas.getFromCache(
+                manga.id,
+                gql`
+                    fragment MangaInLibraryState on MangaType {
+                        inLibrary
+                    }
+                `,
+                'MangaInLibraryState',
+            )?.inLibrary ?? isInLibrary,
     };
 };
