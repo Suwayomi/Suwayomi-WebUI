@@ -40,7 +40,6 @@ export const TRACKER_LOGOUT = gql`
 
     mutation TRACKER_LOGOUT($trackerId: Int!) {
         logoutTracker(input: { trackerId: $trackerId }) {
-            clientMutationId
             tracker {
                 ...TRACKER_SETTING_FIELDS
             }

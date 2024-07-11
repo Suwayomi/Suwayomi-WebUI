@@ -11,7 +11,6 @@ import gql from 'graphql-tag';
 export const CREATE_BACKUP = gql`
     mutation CREATE_BACKUP($input: CreateBackupInput!) {
         createBackup(input: $input) {
-            clientMutationId
             url
         }
     }
@@ -20,7 +19,6 @@ export const CREATE_BACKUP = gql`
 export const RESTORE_BACKUP = gql`
     mutation RESTORE_BACKUP($backup: Upload!) {
         restoreBackup(input: { backup: $backup }) {
-            clientMutationId
             id
             status {
                 mangaProgress

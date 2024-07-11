@@ -13,7 +13,6 @@ export const UPDATE_WEBUI = gql`
     ${WEBUI_UPDATE_STATUS}
     mutation UPDATE_WEBUI($input: WebUIUpdateInput = {}) {
         updateWebUI(input: $input) {
-            clientMutationId
             updateStatus {
                 ...WEBUI_UPDATE_STATUS
             }

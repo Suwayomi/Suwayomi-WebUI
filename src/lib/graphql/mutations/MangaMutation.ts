@@ -12,7 +12,6 @@ import { MANGA_SCREEN_FIELDS } from '@/lib/graphql/fragments/MangaFragments.ts';
 export const DELETE_MANGA_METADATA = gql`
     mutation DELETE_MANGA_METADATA($input: DeleteMangaMetaInput!) {
         deleteMangaMeta(input: $input) {
-            clientMutationId
             meta {
                 key
                 value
@@ -41,7 +40,6 @@ export const GET_MANGA_FETCH = gql`
 
     mutation GET_MANGA_FETCH($input: FetchMangaInput!) {
         fetchManga(input: $input) {
-            clientMutationId
             manga {
                 ...MANGA_SCREEN_FIELDS
             }
@@ -58,7 +56,6 @@ export const GET_MANGA_TO_MIGRATE_TO_FETCH = gql`
         $migrateTracking: Boolean!
     ) {
         fetchManga(input: { id: $id }) {
-            clientMutationId
             manga {
                 id
                 title
@@ -95,7 +92,6 @@ export const GET_MANGA_TO_MIGRATE_TO_FETCH = gql`
 export const SET_MANGA_METADATA = gql`
     mutation SET_MANGA_METADATA($input: SetMangaMetaInput!) {
         setMangaMeta(input: $input) {
-            clientMutationId
             meta {
                 key
                 value
@@ -118,7 +114,6 @@ export const UPDATE_MANGA = gql`
         $updateCategories: Boolean!
     ) {
         updateManga(input: $input) {
-            clientMutationId
             manga {
                 id
                 inLibrary
@@ -149,7 +144,6 @@ export const UPDATE_MANGAS = gql`
         $updateCategories: Boolean!
     ) {
         updateMangas(input: $input) {
-            clientMutationId
             mangas {
                 id
                 inLibrary
@@ -185,7 +179,6 @@ export const UPDATE_MANGAS = gql`
 export const UPDATE_MANGA_CATEGORIES = gql`
     mutation UPDATE_MANGA_CATEGORIES($input: UpdateMangaCategoriesInput!) {
         updateMangaCategories(input: $input) {
-            clientMutationId
             manga {
                 id
                 categories {
@@ -205,7 +198,6 @@ export const UPDATE_MANGA_CATEGORIES = gql`
 export const UPDATE_MANGAS_CATEGORIES = gql`
     mutation UPDATE_MANGAS_CATEGORIES($input: UpdateMangasCategoriesInput!) {
         updateMangasCategories(input: $input) {
-            clientMutationId
             mangas {
                 id
                 categories {

@@ -15,7 +15,6 @@ export const GET_EXTENSIONS_FETCH = gql`
 
     mutation GET_EXTENSIONS_FETCH($input: FetchExtensionsInput = {}) {
         fetchExtensions(input: $input) {
-            clientMutationId
             extensions {
                 ...EXTENSION_LIST_FIELDS
             }
@@ -28,7 +27,6 @@ export const UPDATE_EXTENSION = gql`
 
     mutation UPDATE_EXTENSION($input: UpdateExtensionInput!) {
         updateExtension(input: $input) {
-            clientMutationId
             extension {
                 ...EXTENSION_LIST_FIELDS
             }
@@ -41,7 +39,6 @@ export const UPDATE_EXTENSIONS = gql`
 
     mutation UPDATE_EXTENSIONS($input: UpdateExtensionsInput!) {
         updateExtensions(input: $input) {
-            clientMutationId
             extensions {
                 ...EXTENSION_LIST_FIELDS
             }
@@ -54,7 +51,6 @@ export const INSTALL_EXTERNAL_EXTENSION = gql`
 
     mutation INSTALL_EXTERNAL_EXTENSION($file: Upload!) {
         installExternalExtension(input: { extensionFile: $file }) {
-            clientMutationId
             extension {
                 ...EXTENSION_LIST_FIELDS
             }

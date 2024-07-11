@@ -13,7 +13,6 @@ import { TRACK_RECORD_BIND_FIELDS } from '@/lib/graphql/fragments/TrackRecordFra
 export const DELETE_CHAPTER_METADATA = gql`
     mutation DELETE_CHAPTER_METADATA($input: DeleteChapterMetaInput!) {
         deleteChapterMeta(input: $input) {
-            clientMutationId
             meta {
                 key
                 value
@@ -40,7 +39,6 @@ export const DELETE_CHAPTER_METADATA = gql`
 export const GET_CHAPTER_PAGES_FETCH = gql`
     mutation GET_CHAPTER_PAGES_FETCH($input: FetchChapterPagesInput!) {
         fetchChapterPages(input: $input) {
-            clientMutationId
             chapter {
                 id
                 pageCount
@@ -56,7 +54,6 @@ export const GET_MANGA_CHAPTERS_FETCH = gql`
 
     mutation GET_MANGA_CHAPTERS_FETCH($input: FetchChaptersInput!) {
         fetchChapters(input: $input) {
-            clientMutationId
             chapters {
                 ...CHAPTER_LIST_FIELDS
                 manga {
@@ -73,7 +70,6 @@ export const GET_MANGA_CHAPTERS_FETCH = gql`
 export const SET_CHAPTER_METADATA = gql`
     mutation SET_CHAPTER_METADATA($input: SetChapterMetaInput!) {
         setChapterMeta(input: $input) {
-            clientMutationId
             meta {
                 key
                 value
@@ -103,7 +99,6 @@ export const UPDATE_CHAPTER = gql`
         $trackProgress: Boolean!
     ) {
         updateChapter(input: $input) {
-            clientMutationId
             chapter {
                 id
                 isBookmarked @include(if: $getBookmarked)
@@ -130,7 +125,6 @@ export const UPDATE_CHAPTER = gql`
             }
         }
         deleteDownloadedChapter(input: { id: $chapterIdToDelete }) @include(if: $deleteChapter) {
-            clientMutationId
             chapters {
                 id
                 isDownloaded
@@ -162,7 +156,6 @@ export const UPDATE_CHAPTERS = gql`
         $trackProgress: Boolean!
     ) {
         updateChapters(input: $input) {
-            clientMutationId
             chapters {
                 id
                 isBookmarked @include(if: $getBookmarked)
@@ -189,7 +182,6 @@ export const UPDATE_CHAPTERS = gql`
             }
         }
         deleteDownloadedChapters(input: { ids: $chapterIdsToDelete }) @include(if: $deleteChapters) {
-            clientMutationId
             chapters {
                 id
                 isDownloaded

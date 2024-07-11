@@ -13,7 +13,6 @@ export const CREATE_CATEGORY = gql`
     ${CATEGORY_SETTING_FIELDS}
     mutation CREATE_CATEGORY($input: CreateCategoryInput!) {
         createCategory(input: $input) {
-            clientMutationId
             category {
                 ...CATEGORY_SETTING_FIELDS
             }
@@ -24,7 +23,6 @@ export const CREATE_CATEGORY = gql`
 export const DELETE_CATEGORY = gql`
     mutation DELETE_CATEGORY($input: DeleteCategoryInput!) {
         deleteCategory(input: $input) {
-            clientMutationId
             category {
                 id
             }
@@ -35,7 +33,6 @@ export const DELETE_CATEGORY = gql`
 export const DELETE_CATEGORY_METADATA = gql`
     mutation DELETE_CATEGORY_METADATA($input: DeleteCategoryMetaInput!) {
         deleteCategoryMeta(input: $input) {
-            clientMutationId
             meta {
                 key
             }
@@ -53,7 +50,6 @@ export const DELETE_CATEGORY_METADATA = gql`
 export const SET_CATEGORY_METADATA = gql`
     mutation SET_CATEGORY_METADATA($input: SetCategoryMetaInput!) {
         setCategoryMeta(input: $input) {
-            clientMutationId
             meta {
                 key
                 value
@@ -78,7 +74,6 @@ export const UPDATE_CATEGORY = gql`
         $getName: Boolean!
     ) {
         updateCategory(input: $input) {
-            clientMutationId
             category {
                 id
                 default @include(if: $getDefault)
@@ -99,7 +94,6 @@ export const UPDATE_CATEGORIES = gql`
         $getName: Boolean!
     ) {
         updateCategories(input: $input) {
-            clientMutationId
             categories {
                 id
                 default @include(if: $getDefault)
@@ -114,7 +108,6 @@ export const UPDATE_CATEGORIES = gql`
 export const UPDATE_CATEGORY_ORDER = gql`
     mutation UPDATE_CATEGORY_ORDER($input: UpdateCategoryOrderInput!) {
         updateCategoryOrder(input: $input) {
-            clientMutationId
             categories {
                 id
                 order

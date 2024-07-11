@@ -15,7 +15,6 @@ export const GET_SOURCE_MANGAS_FETCH = gql`
 
     mutation GET_SOURCE_MANGAS_FETCH($input: FetchSourceMangaInput!) {
         fetchSourceManga(input: $input) {
-            clientMutationId
             hasNextPage
             mangas {
                 ...MANGA_BASE_FIELDS
@@ -29,7 +28,6 @@ export const UPDATE_SOURCE_PREFERENCES = gql`
 
     mutation UPDATE_SOURCE_PREFERENCES($input: UpdateSourcePreferenceInput!) {
         updateSourcePreference(input: $input) {
-            clientMutationId
             source {
                 ...SOURCE_SETTING_FIELDS
             }
@@ -40,7 +38,6 @@ export const UPDATE_SOURCE_PREFERENCES = gql`
 export const SET_SOURCE_METADATA = gql`
     mutation SET_SOURCE_METADATA($input: SetSourceMetaInput!) {
         setSourceMeta(input: $input) {
-            clientMutationId
             meta {
                 key
                 value

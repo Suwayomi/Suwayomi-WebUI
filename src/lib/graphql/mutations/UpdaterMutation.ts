@@ -14,7 +14,6 @@ export const UPDATE_CATEGORY_MANGAS = gql`
 
     mutation UPDATE_CATEGORY_MANGAS($input: UpdateCategoryMangaInput!) {
         updateCategoryManga(input: $input) {
-            clientMutationId
             updateStatus {
                 ...UPDATER_START_STOP_FIELDS
             }
@@ -27,7 +26,6 @@ export const UPDATE_LIBRARY_MANGAS = gql`
 
     mutation UPDATE_LIBRARY_MANGAS($input: UpdateLibraryMangaInput = {}) {
         updateLibraryManga(input: $input) {
-            clientMutationId
             updateStatus {
                 ...UPDATER_START_STOP_FIELDS
             }

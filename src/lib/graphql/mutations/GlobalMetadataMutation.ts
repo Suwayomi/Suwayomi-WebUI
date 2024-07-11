@@ -13,7 +13,6 @@ export const DELETE_GLOBAL_METADATA = gql`
     ${GLOBAL_METADATA}
     mutation DELETE_GLOBAL_METADATA($input: DeleteGlobalMetaInput!) {
         deleteGlobalMeta(input: $input) {
-            clientMutationId
             meta {
                 ...GLOBAL_METADATA
             }
@@ -25,7 +24,6 @@ export const SET_GLOBAL_METADATA = gql`
     ${GLOBAL_METADATA}
     mutation SET_GLOBAL_METADATA($input: SetGlobalMetaInput!) {
         setGlobalMeta(input: $input) {
-            clientMutationId
             meta {
                 ...GLOBAL_METADATA
             }
