@@ -174,7 +174,7 @@ const useSourceManga = (
         let allItems: FetchItemsResult = [];
 
         pages.forEach((page, index) => {
-            const pageItems = page.data?.fetchSourceManga?.mangas ?? ([] as FetchItemsResult);
+            const pageItems = page.data?.fetchSourceManga?.mangas ?? [];
             const nonLibraryPageItems = pageItems.filter((item) => !hideLibraryEntries || !item.inLibrary);
             const uniqueItems = getUniqueMangas([...allItems, ...nonLibraryPageItems]);
 

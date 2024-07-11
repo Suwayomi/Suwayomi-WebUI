@@ -194,7 +194,7 @@ export class Chapters {
 
                 return [chapterA, matchingChapter];
             })
-            .filter((matchingChapters) => matchingChapters !== null) as [Chapter, Chapter][];
+            .filter((matchingChapters): matchingChapters is [Chapter, Chapter] => matchingChapters !== null);
     }
 
     static async download(chapterIds: number[]): Promise<void> {

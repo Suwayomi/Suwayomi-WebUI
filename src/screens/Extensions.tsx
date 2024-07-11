@@ -94,7 +94,7 @@ function getExtensionsInfo(extensions: TExtension[]): {
 
     return {
         allLangs,
-        groupedExtensions: (result as GroupedExtensionsResult).concat(langExt),
+        groupedExtensions: result.concat(langExt),
     };
 }
 

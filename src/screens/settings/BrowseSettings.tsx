@@ -127,7 +127,7 @@ export const BrowseSettings = () => {
                     updateSetting('extensionRepos', repos);
                     requestManager.clearExtensionCache();
                 }}
-                valueInfos={serverSettings.extensionRepos.map((extensionRepo) => [extensionRepo]) as [string][]}
+                valueInfos={serverSettings.extensionRepos.map((extensionRepo) => [extensionRepo])}
                 addItemButtonTitle={t('extension.settings.repositories.custom.dialog.action.button.add')}
                 placeholder="https://github.com/MY_ACCOUNT/MY_REPO/tree/repo"
                 validateItem={(repo) =>

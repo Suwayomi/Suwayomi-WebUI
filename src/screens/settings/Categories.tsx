@@ -165,7 +165,7 @@ export function Categories() {
                                 <Draggable key={item.id} draggableId={item.id.toString()} index={index}>
                                     {(draggableProvided, snapshot) => (
                                         <ListItem
-                                            ContainerProps={{ ref: draggableProvided.innerRef } as any}
+                                            ref={draggableProvided.innerRef}
                                             {...draggableProvided.draggableProps}
                                             {...draggableProvided.dragHandleProps}
                                             style={getItemStyle(
@@ -173,7 +173,6 @@ export function Categories() {
                                                 draggableProvided.draggableProps.style,
                                                 theme.palette,
                                             )}
-                                            ref={draggableProvided.innerRef}
                                         >
                                             <ListItemIcon>
                                                 <DragHandleIcon />
