@@ -16,6 +16,9 @@ type ContextType = {
     title: string | React.ReactNode;
     setTitle: (title: ContextType['title'], browserTitle?: string) => void;
 
+    appBarHeight: number;
+    setAppBarHeight: React.Dispatch<React.SetStateAction<number>>;
+
     // AppBar action buttons
     action: any;
     setAction: React.Dispatch<React.SetStateAction<any>>;
@@ -23,16 +26,34 @@ type ContextType = {
     // Allow default navbar to be overrided
     override: INavbarOverride;
     setOverride: React.Dispatch<React.SetStateAction<INavbarOverride>>;
+
+    // NavBar
+    isCollapsed: boolean;
+    setIsCollapsed: React.Dispatch<React.SetStateAction<boolean>>;
+
+    navBarWidth: number;
+    setNavBarWidth: React.Dispatch<React.SetStateAction<number>>;
+
+    bottomBarHeight: number;
+    setBottomBarHeight: React.Dispatch<React.SetStateAction<number>>;
 };
 
 export const NavBarContext = React.createContext<ContextType>({
     history: [],
     title: 'Suwayomi',
     setTitle: (): void => {},
+    appBarHeight: 0,
+    setAppBarHeight: (): void => {},
     action: <div />,
     setAction: (): void => {},
     override: { status: false, value: <div /> },
     setOverride: (): void => {},
+    isCollapsed: false,
+    setIsCollapsed: (): void => {},
+    navBarWidth: 0,
+    setNavBarWidth: (): void => {},
+    bottomBarHeight: 0,
+    setBottomBarHeight: (): void => {},
 });
 
 export const useNavBarContext = () => useContext(NavBarContext);

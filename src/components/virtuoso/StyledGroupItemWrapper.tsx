@@ -9,9 +9,6 @@
 import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
 
-export const StyledGroupItemWrapper = styled(Box, { shouldForwardProp: (prop) => prop !== 'isLastItem' })<{
-    isLastItem: boolean;
-}>(({ isLastItem }) => ({
-    padding: '0 10px',
-    paddingBottom: isLastItem ? '0' : '10px',
+export const StyledGroupItemWrapper = styled(Box)(() => ({
+    padding: '1px 10px 10px 10px',
 }));

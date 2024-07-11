@@ -6,12 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import React, { useContext } from 'react';
+import { useCallback, useContext, useMemo, useRef } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import Box from '@mui/material/Box';
 import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark';
 import CollectionsOutlinedBookmarkIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
 import NewReleasesIcon from '@mui/icons-material/NewReleases';
@@ -23,15 +22,17 @@ import GetAppOutlinedIcon from '@mui/icons-material/GetAppOutlined';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ArrowBack from '@mui/icons-material/ArrowBack';
 import { useLocation } from 'react-router-dom';
-import { createPortal } from 'react-dom';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import MenuIcon from '@mui/icons-material/Menu';
+import Stack from '@mui/material/Stack';
 import { NavbarItem } from '@/typings';
 import { NavBarContext } from '@/components/context/NavbarContext';
-import { DesktopSideBar } from '@/components/navbar/navigation/DesktopSideBar';
-import { MobileBottomBar } from '@/components/navbar/navigation/MobileBottomBar';
 import { useBackButton } from '@/util/useBackButton.ts';
 import { getOptionForDirection } from '@/theme.ts';
 import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
+import { DesktopSideBar } from '@/components/navbar/navigation/DesktopSideBar.tsx';
+import { useResizeObserver } from '@/util/useResizeObserver.tsx';
+import { MobileBottomBar } from '@/components/navbar/navigation/MobileBottomBar.tsx';
 
 const navbarItems: Array<NavbarItem> = [
     {
@@ -72,7 +73,8 @@ const navbarItems: Array<NavbarItem> = [
 ];
 
 export function DefaultNavBar() {
-    const { title, action, override } = useContext(NavBarContext);
+    const { title, action, override, isCollapsed, setIsCollapsed, setAppBarHeight, navBarWidth } =
+        useContext(NavBarContext);
 
     const { pathname } = useLocation();
     const handleBack = useBackButton();
@@ -80,59 +82,91 @@ export function DefaultNavBar() {
     const isMobileWidth = MediaQuery.useIsMobileWidth();
     const isMainRoute = navbarItems.some(({ path }) => path === pathname);
 
+    const actualNavBarWidth = isMobileWidth || isCollapsed ? 0 : navBarWidth;
+
+    const appBarRef = useRef<HTMLDivElement | null>(null);
+    useResizeObserver(
+        appBarRef,
+        useCallback(() => setAppBarHeight(appBarRef.current?.clientHeight ?? 0), [appBarRef]),
+    );
+
+    const activeNavBar: NavbarItem['show'] = isMobileWidth ? 'mobile' : 'desktop';
+    const visibleNavBarItems = useMemo(
+        () => navbarItems.filter(({ show }) => ['both', activeNavBar].includes(show)),
+        [isMobileWidth],
+    );
+    const NavBarComponent = useMemo(() => (isMobileWidth ? MobileBottomBar : DesktopSideBar), [isMobileWidth]);
+
+    const navBar = useMemo(
+        () => <NavBarComponent navBarItems={visibleNavBarItems} />,
+        [NavBarComponent, visibleNavBarItems],
+    );
+
     // Allow default navbar to be overrided
     if (override.status) return override.value;
 
-    let navbar: JSX.Element | null = null;
-    if (isMobileWidth) {
-        if (isMainRoute) {
-            navbar = <MobileBottomBar navBarItems={navbarItems.filter((it) => it.show !== 'desktop')} />;
-        }
-    } else {
-        navbar = <DesktopSideBar navBarItems={navbarItems.filter((it) => it.show !== 'mobile')} />;
-    }
-
     return (
-        <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="fixed" color="default">
-                <Toolbar>
-                    {!isMainRoute && (
-                        <IconButton
-                            component="button"
-                            edge="start"
-                            sx={{ marginRight: 2 }}
-                            color="inherit"
-                            aria-label="menu"
-                            size="large"
-                            onClick={handleBack}
+        <>
+            <AppBar
+                ref={appBarRef}
+                sx={{
+                    position: 'fixed',
+                    marginLeft: actualNavBarWidth,
+                    width: `calc(100% - ${actualNavBarWidth}px)`,
+                    zIndex: (theme) => theme.zIndex.drawer + 1,
+                }}
+                color="default"
+            >
+                <Toolbar sx={{ position: 'relative' }}>
+                    {!isMobileWidth && (
+                        <Stack
+                            sx={{
+                                position: 'absolute',
+                                left: 0,
+                                width: navBarWidth,
+                                ...(!isCollapsed && { display: 'none' }),
+                                alignItems: 'center',
+                            }}
                         >
-                            {getOptionForDirection(<ArrowBack />, <ArrowForwardIcon />)}
-                        </IconButton>
+                            <IconButton color="inherit" aria-label="open drawer" onClick={() => setIsCollapsed(false)}>
+                                <MenuIcon />
+                            </IconButton>
+                        </Stack>
                     )}
-                    <Typography
-                        variant={isMobileWidth ? 'h6' : 'h5'}
-                        sx={{ flexGrow: 1 }}
-                        noWrap
-                        textOverflow="ellipsis"
+                    <Stack
+                        sx={{
+                            ml: `${isCollapsed ? navBarWidth : 0}px`,
+                            width: '100%',
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                        }}
                     >
-                        {title}
-                    </Typography>
-                    {action}
-                    <div id="navbarToolbar" />
+                        {!isMainRoute && (
+                            <IconButton
+                                edge="start"
+                                component="button"
+                                sx={{ marginRight: 2 }}
+                                size="large"
+                                color="inherit"
+                                aria-label="menu"
+                                onClick={handleBack}
+                            >
+                                {getOptionForDirection(<ArrowBack />, <ArrowForwardIcon />)}
+                            </IconButton>
+                        )}
+                        <Typography
+                            variant={isMobileWidth ? 'h6' : 'h5'}
+                            sx={{ flexGrow: 1 }}
+                            noWrap
+                            textOverflow="ellipsis"
+                        >
+                            {title}
+                        </Typography>
+                        {action}
+                    </Stack>
                 </Toolbar>
             </AppBar>
-            {navbar}
-        </Box>
+            {!isMobileWidth || isMainRoute ? navBar : null}
+        </>
     );
 }
-
-interface INavbarToolbarProps {
-    children?: React.ReactNode;
-}
-
-export const NavbarToolbar: React.FC<INavbarToolbarProps> = ({ children }) => {
-    const container = document.getElementById('navbarToolbar');
-    if (!container) return null;
-
-    return createPortal(children, container);
-};

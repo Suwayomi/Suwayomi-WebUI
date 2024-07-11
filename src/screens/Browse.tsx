@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import Tab from '@mui/material/Tab';
 import { useTranslation } from 'react-i18next';
 import { Sources } from '@/screens/Sources';
@@ -16,10 +16,18 @@ import { TabsWrapper } from '@/components/tabs/TabsWrapper.tsx';
 import { TabsMenu } from '@/components/tabs/TabsMenu.tsx';
 import { Migration } from '@/screens/Migration.tsx';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
+import { useResizeObserver } from '@/util/useResizeObserver.tsx';
 
 export function Browse() {
     const { t } = useTranslation();
     const { setTitle } = useContext(NavBarContext);
+
+    const tabsMenuRef = useRef<HTMLDivElement | null>(null);
+    const [tabsMenuHeight, setTabsMenuHeight] = useState(0);
+    useResizeObserver(
+        tabsMenuRef,
+        useCallback(() => setTabsMenuHeight(tabsMenuRef.current!.offsetHeight), [tabsMenuRef]),
+    );
 
     const [tabNum, setTabNum] = useState<number>(0);
 
@@ -29,7 +37,7 @@ export function Browse() {
 
     return (
         <TabsWrapper>
-            <TabsMenu value={tabNum} tabsCount={2} onChange={(e, newTab) => setTabNum(newTab)}>
+            <TabsMenu ref={tabsMenuRef} value={tabNum} tabsCount={2} onChange={(e, newTab) => setTabNum(newTab)}>
                 <Tab sx={{ textTransform: 'none' }} label={t('source.title_one')} />
                 <Tab sx={{ textTransform: 'none' }} label={t('extension.title_other')} />
                 <Tab sx={{ textTransform: 'none' }} label={t('migrate.title')} />
@@ -38,7 +46,7 @@ export function Browse() {
                 <Sources />
             </TabPanel>
             <TabPanel index={1} currentIndex={tabNum}>
-                <Extensions />
+                <Extensions tabsMenuHeight={tabsMenuHeight} />
             </TabPanel>
             <TabPanel index={2} currentIndex={tabNum}>
                 <Migration />

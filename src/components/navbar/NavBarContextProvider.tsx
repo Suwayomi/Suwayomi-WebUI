@@ -10,6 +10,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { INavbarOverride } from '@/typings';
 import { NavBarContext } from '@/components/context/NavbarContext';
 import { useHistory } from '@/util/useHistory.ts';
+import { useLocalStorage } from '@/util/useStorage.tsx';
 
 interface IProps {
     children: React.ReactNode;
@@ -18,10 +19,14 @@ interface IProps {
 export function NavBarContextProvider({ children }: IProps) {
     const [title, setTitle] = useState<string | React.ReactNode>('Suwayomi');
     const [action, setAction] = useState<any>(<div />);
+    const [appBarHeight, setAppBarHeight] = useState(0);
     const [override, setOverride] = useState<INavbarOverride>({
         status: false,
         value: <div />,
     });
+    const [isCollapsed, setIsCollapsed] = useLocalStorage('NavBar::isCollapsed', false);
+    const [navBarWidth, setNavBarWidth] = useState(0);
+    const [bottomBarHeight, setBottomBarHeight] = useState(0);
 
     const history = useHistory();
 
@@ -38,12 +43,36 @@ export function NavBarContextProvider({ children }: IProps) {
             history,
             title,
             setTitle: updateTitle,
+            appBarHeight,
+            setAppBarHeight,
             action,
             setAction,
             override,
             setOverride,
+            isCollapsed,
+            setIsCollapsed,
+            navBarWidth,
+            setNavBarWidth,
+            bottomBarHeight,
+            setBottomBarHeight,
         }),
-        [history, title, updateTitle, action, setAction, override, setOverride],
+        [
+            history,
+            title,
+            updateTitle,
+            appBarHeight,
+            setAppBarHeight,
+            action,
+            setAction,
+            override,
+            setOverride,
+            isCollapsed,
+            setIsCollapsed,
+            navBarWidth,
+            setNavBarWidth,
+            bottomBarHeight,
+            setBottomBarHeight,
+        ],
     );
     return <NavBarContext.Provider value={value}>{children}</NavBarContext.Provider>;
 }

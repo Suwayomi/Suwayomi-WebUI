@@ -25,9 +25,9 @@ import { MangaCardProps } from '@/components/manga/MangaCard.types.tsx';
 import { EmptyView } from '@/components/util/EmptyView';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
-import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 import { SourceType } from '@/lib/graphql/generated/graphql.ts';
 import { BaseMangaGrid } from '@/components/source/BaseMangaGrid.tsx';
+import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 
 type SourceLoadingState = { isLoading: boolean; hasResults: boolean; emptySearch: boolean };
 type SourceToLoadingStateMap = Map<string, SourceLoadingState>;
@@ -152,7 +152,7 @@ const SourceSearchPreview = React.memo(
                 </Card>
                 {errorMessage ? (
                     <EmptyView
-                        sx={{ alignItems: 'start' }}
+                        sx={{ alignItems: 'start', height: undefined }}
                         noFaces
                         message={errorMessage}
                         messageExtra={error && error.message}

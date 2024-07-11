@@ -6,56 +6,116 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import Drawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import Tooltip from '@mui/material/Tooltip';
-import ListItemButton from '@mui/material/ListItemButton';
-import { styled, useTheme } from '@mui/material/styles';
-import { Link, useLocation } from 'react-router-dom';
+import ListItemText from '@mui/material/ListItemText';
 import { useTranslation } from 'react-i18next';
-import { NavbarItem } from '@/typings';
+import { useLocation } from 'react-router-dom';
+import IconButton from '@mui/material/IconButton';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import Divider from '@mui/material/Divider';
+import { styled, useTheme } from '@mui/material/styles';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
+import Box from '@mui/material/Box';
+import ListItem from '@mui/material/ListItem';
+import Tooltip from '@mui/material/Tooltip';
+import { NavbarItem } from '@/typings.ts';
+import { ListItemLink } from '@/components/util/ListItemLink.tsx';
+import { getOptionForDirection } from '@/theme.ts';
+import { useNavBarContext } from '@/components/context/NavbarContext.tsx';
+import { useResizeObserver } from '@/util/useResizeObserver.tsx';
 
-const SideNavBarContainer = styled('div')(({ theme }) => ({
-    height: '100vh',
-    width: theme.spacing(8),
-    backgroundColor: theme.palette.custom.dark,
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    paddingTop: theme.spacing(8),
+const DrawerHeader = styled('div')(({ theme }) => ({
     display: 'flex',
-    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
 }));
 
-interface IProps {
-    navBarItems: Array<NavbarItem>;
-}
-
-export function DesktopSideBar({ navBarItems }: IProps) {
+const NavigationBarItem = ({ path, title, IconComponent, SelectedIconComponent }: NavbarItem) => {
     const { t } = useTranslation();
     const location = useLocation();
+    const { isCollapsed } = useNavBarContext();
     const theme = useTheme();
 
-    const iconFor = (path: string, IconComponent: any, SelectedIconComponent: any) => {
-        if (location.pathname === path)
-            return <SelectedIconComponent sx={{ color: 'primary.main' }} fontSize="large" />;
-        return (
-            <IconComponent sx={{ color: theme.palette.mode === 'dark' ? 'grey.A400' : 'grey.600' }} fontSize="large" />
-        );
-    };
+    const isActive = path === location.pathname;
+    const Icon = isActive ? SelectedIconComponent : IconComponent;
+
+    const { listItemProps, listItemIconProps } = useMemo(
+        () => ({
+            listItemProps: isCollapsed ? { p: 0.5, display: 'flex', flexDirection: 'column' } : {},
+            listItemIconProps: isCollapsed ? { justifyContent: 'center' } : {},
+        }),
+        [isCollapsed],
+    );
 
     return (
-        <SideNavBarContainer>
-            {navBarItems.map(({ path, title, IconComponent, SelectedIconComponent }: NavbarItem) => (
-                <Link to={path} style={{ color: 'inherit', textDecoration: 'none' }} key={path}>
-                    <ListItemButton disableRipple key={title}>
-                        <ListItemIcon sx={{ minWidth: '0' }}>
-                            <Tooltip placement="right" title={t(title)}>
-                                {iconFor(path, IconComponent, SelectedIconComponent)}
-                            </Tooltip>
-                        </ListItemIcon>
-                    </ListItemButton>
-                </Link>
-            ))}
-        </SideNavBarContainer>
+        <ListItemLink selected={!isCollapsed && isActive} sx={{ p: 0, m: 0 }} to={path}>
+            <Tooltip title={t(title)} placement="right">
+                <ListItem sx={listItemProps}>
+                    <ListItemIcon sx={listItemIconProps}>
+                        <Icon sx={{ color: isActive ? 'primary.main' : undefined }} />
+                    </ListItemIcon>
+                    <ListItemText
+                        primary={t(title)}
+                        sx={{ maxWidth: '100%' }}
+                        primaryTypographyProps={{
+                            sx: {
+                                maxWidth: '100%',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                                ...(isCollapsed ? theme.typography.caption : {}),
+                                color: isActive ? 'primary.main' : undefined,
+                            },
+                        }}
+                    />
+                </ListItem>
+            </Tooltip>
+        </ListItemLink>
     );
-}
+};
+
+const MIN_WIDTH_COLLAPSED = undefined;
+const MAX_WIDTH_COLLAPSED = 120;
+const MIN_WIDTH_EXTENDED = 240;
+const MAX_WIDTH_EXTENDED = 400;
+
+export const DesktopSideBar = ({ navBarItems }: { navBarItems: NavbarItem[] }) => {
+    const { isCollapsed, setIsCollapsed, navBarWidth, setNavBarWidth } = useNavBarContext();
+
+    useEffect(() => () => setNavBarWidth(0), []);
+
+    const ref = useRef<HTMLDivElement | null>(null);
+    useResizeObserver(
+        ref,
+        useCallback(() => setNavBarWidth(ref.current?.clientWidth ?? 0), [ref]),
+    );
+
+    return (
+        <Drawer variant="permanent" sx={{ width: navBarWidth }}>
+            <Box
+                ref={ref}
+                sx={{
+                    minWidth: isCollapsed ? MIN_WIDTH_COLLAPSED : MIN_WIDTH_EXTENDED,
+                    maxWidth: isCollapsed ? MAX_WIDTH_COLLAPSED : MAX_WIDTH_EXTENDED,
+                }}
+            >
+                <DrawerHeader>
+                    <IconButton onClick={() => setIsCollapsed(true)}>
+                        {getOptionForDirection(<ChevronLeftIcon />, <ChevronRightIcon />)}
+                    </IconButton>
+                </DrawerHeader>
+                <Divider />
+                <List sx={{ p: 1 }} dense={isCollapsed}>
+                    {navBarItems.map((navBarItem) => (
+                        <NavigationBarItem key={navBarItem.path} {...navBarItem} />
+                    ))}
+                </List>
+            </Box>
+        </Drawer>
+    );
+};

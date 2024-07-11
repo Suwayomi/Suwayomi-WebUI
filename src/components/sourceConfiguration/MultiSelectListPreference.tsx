@@ -79,7 +79,6 @@ function ListDialog(props: IListDialogProps) {
                                 <Checkbox
                                     checked={selectedValues.some((selectedValue) => value === selectedValue)}
                                     onChange={(e) => handleChange(e, value)}
-                                    color="default"
                                 />
                             }
                             label={value}

@@ -238,11 +238,7 @@ export function Categories() {
                     />
                     <FormControlLabel
                         control={
-                            <Checkbox
-                                checked={dialogDefault}
-                                onChange={(e) => setDialogDefault(e.target.checked)}
-                                color="default"
-                            />
+                            <Checkbox checked={dialogDefault} onChange={(e) => setDialogDefault(e.target.checked)} />
                         }
                         label={t('category.label.use_as_default_category')}
                     />

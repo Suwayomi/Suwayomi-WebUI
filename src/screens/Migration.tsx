@@ -65,11 +65,8 @@ export const Migration = () => {
 
     return (
         <List>
-            {Object.values(migratableSources).map((migratableSource, index) => (
-                <StyledGroupItemWrapper
-                    key={migratableSource.id}
-                    isLastItem={index === Object.values(migratableSources).length - 1}
-                >
+            {Object.values(migratableSources).map((migratableSource) => (
+                <StyledGroupItemWrapper key={migratableSource.id}>
                     <MigrationCard {...migratableSource} />
                 </StyledGroupItemWrapper>
             ))}

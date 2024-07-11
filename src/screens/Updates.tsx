@@ -163,7 +163,7 @@ export const Updates: React.FC = () => {
                     const download = downloadForChapter(chapter);
 
                     return (
-                        <StyledGroupItemWrapper key={index} isLastItem={index === updateEntries.length - 1}>
+                        <StyledGroupItemWrapper key={index}>
                             <Card>
                                 <CardActionArea
                                     component={Link}

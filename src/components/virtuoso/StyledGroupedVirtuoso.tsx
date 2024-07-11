@@ -6,18 +6,24 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { styled } from '@mui/material/styles';
 import { GroupedVirtuoso } from 'react-virtuoso';
+import { ComponentProps } from 'react';
+import { useNavBarContext } from '@/components/context/NavbarContext.tsx';
 
-export const StyledGroupedVirtuoso = styled(GroupedVirtuoso, {
-    shouldForwardProp: (prop) => prop !== 'heightToSubtract',
-})<{
-    heightToSubtract?: number;
-}>(({ theme, heightToSubtract = 0 }) => ({
-    // 64px header
-    height: `calc(100vh - 64px - ${heightToSubtract}px)`,
-    [theme.breakpoints.down('sm')]: {
-        // 64px header (margin); 64px menu (margin);
-        height: `calc(100vh - 64px - 64px - ${heightToSubtract}px)`,
-    },
-}));
+export const StyledGroupedVirtuoso = ({
+    heightToSubtract = 0,
+    style,
+    ...props
+}: ComponentProps<typeof GroupedVirtuoso> & { heightToSubtract?: number }) => {
+    const { appBarHeight, bottomBarHeight } = useNavBarContext();
+
+    return (
+        <GroupedVirtuoso
+            {...props}
+            style={{
+                ...style,
+                height: `calc(100vh - ${heightToSubtract}px - ${appBarHeight}px - ${bottomBarHeight}px)`,
+            }}
+        />
+    );
+};

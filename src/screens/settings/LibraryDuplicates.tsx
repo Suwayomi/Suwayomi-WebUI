@@ -35,6 +35,7 @@ import { GET_MANGAS_DUPLICATES } from '@/lib/graphql/queries/MangaQuery.ts';
 import { MangaIdInfo } from '@/lib/data/Mangas.ts';
 import { BaseMangaGrid } from '@/components/source/BaseMangaGrid.tsx';
 import { IMangaGridProps } from '@/components/MangaGrid.tsx';
+import { StyledGroupItemWrapper } from '@/components/virtuoso/StyledGroupItemWrapper.tsx';
 
 const findDuplicatesByTitle = <Manga extends Pick<MangaType, 'title'>>(
     libraryMangas: Manga[],
@@ -174,10 +175,6 @@ export const LibraryDuplicates = () => {
     if (gridLayout === GridLayout.List) {
         return (
             <StyledGroupedVirtuoso
-                style={{
-                    // override Virtuoso default values and set them with class
-                    height: 'undefined',
-                }}
                 groupCounts={mangasCountByTitle}
                 groupContent={(index) => (
                     <StyledGroupHeader variant="h5" isFirstItem={index === 0}>
@@ -185,14 +182,14 @@ export const LibraryDuplicates = () => {
                     </StyledGroupHeader>
                 )}
                 itemContent={(index) => (
-                    <Box key={duplicatedMangas[index].id} sx={{ px: 1, pb: 1 }}>
+                    <StyledGroupItemWrapper key={duplicatedMangas[index].id}>
                         <MangaCard
                             manga={duplicatedMangas[index] as IMangaGridProps['mangas'][number]}
                             gridLayout={gridLayout}
                             selected={null}
                             mode="duplicate"
                         />
-                    </Box>
+                    </StyledGroupItemWrapper>
                 )}
             />
         );

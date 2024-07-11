@@ -6,12 +6,13 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
 import React, { useLayoutEffect } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { loadErrorMessages, loadDevMessages } from '@apollo/client/dev';
 import { loadable } from 'react-lazily/loadable';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
 import { AppContext } from '@/components/context/AppContext';
 import '@/i18n';
 import { DefaultNavBar } from '@/components/navbar/DefaultNavBar';
@@ -20,6 +21,7 @@ import { WebUIUpdateChecker } from '@/components/util/WebUIUpdateChecker.tsx';
 import { ServerUpdateChecker } from '@/components/util/ServerUpdateChecker.tsx';
 import { lazyLoadFallback } from '@/util/LazyLoad.tsx';
 import { ErrorBoundary } from '@/util/ErrorBoundary.tsx';
+import { useNavBarContext } from '@/components/context/NavbarContext.tsx';
 
 const { Browse } = loadable(() => import('@/screens/Browse'), lazyLoadFallback);
 const { DownloadQueue } = loadable(() => import('@/screens/DownloadQueue'), lazyLoadFallback);
@@ -76,26 +78,23 @@ const BackgroundSubscriptions = () => {
     return null;
 };
 
-export const App: React.FC = () => (
-    <AppContext>
-        <ScrollToTop />
-        <ServerUpdateChecker />
-        <WebUIUpdateChecker />
-        <BackgroundSubscriptions />
-        <CssBaseline enableColorScheme />
-        <DefaultNavBar />
-        <Container
+const MainApp = () => {
+    const { navBarWidth, bottomBarHeight } = useNavBarContext();
+
+    return (
+        <Box
             id="appMainContainer"
-            maxWidth={false}
-            disableGutters
+            component="main"
             sx={{
-                mt: 8,
-                ml: { sm: 8 },
-                mb: { xs: 8, sm: 0 },
-                width: 'auto',
-                overflow: 'auto',
+                flexGrow: 1,
+                minHeight: `calc(100vh - ${bottomBarHeight}px)`,
+                maxWidth: `calc(100vw - ${navBarWidth}px)`,
+                position: 'relative',
+                mb: `${bottomBarHeight}px`,
             }}
         >
+            <Toolbar />
+
             <ErrorBoundary>
                 <Routes>
                     {/* General Routes */}
@@ -142,12 +141,32 @@ export const App: React.FC = () => (
                     <Route path="tracker/login/oauth" element={<TrackerOAuthLogin />} />
                 </Routes>
             </ErrorBoundary>
-        </Container>
-        <ErrorBoundary>
-            <Routes>
-                <Route path="manga/:mangaId/chapter/:chapterIndex" element={<Reader />} />
-                <Route path="*" element={null} />
-            </Routes>
-        </ErrorBoundary>
+        </Box>
+    );
+};
+
+const ReaderApp = () => (
+    <ErrorBoundary>
+        <Routes>
+            <Route path="manga/:mangaId/chapter/:chapterIndex" element={<Reader />} />
+            <Route path="*" element={null} />
+        </Routes>
+    </ErrorBoundary>
+);
+
+export const App: React.FC = () => (
+    <AppContext>
+        <ScrollToTop />
+        <ServerUpdateChecker />
+        <WebUIUpdateChecker />
+        <BackgroundSubscriptions />
+        <CssBaseline enableColorScheme />
+        <Box sx={{ display: 'flex' }}>
+            <Box sx={{ flexShrink: 0 }}>
+                <DefaultNavBar />
+            </Box>
+            <MainApp />
+            <ReaderApp />
+        </Box>
     </AppContext>
 );

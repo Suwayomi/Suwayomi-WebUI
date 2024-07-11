@@ -39,7 +39,6 @@ import { StyledGroupHeader } from '@/components/virtuoso/StyledGroupHeader.tsx';
 import { StyledGroupItemWrapper } from '@/components/virtuoso/StyledGroupItemWrapper.tsx';
 import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
-import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
 
 const LANGUAGE = 0;
 const EXTENSIONS = 1;
@@ -98,11 +97,9 @@ function getExtensionsInfo(extensions: TExtension[]): {
     };
 }
 
-export function Extensions() {
+export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     const { t } = useTranslation();
     const { setAction } = useContext(NavBarContext);
-
-    const isMobileWidth = MediaQuery.useIsMobileWidth();
 
     const {
         data: serverSettingsData,
@@ -281,34 +278,14 @@ export function Extensions() {
             {toasts}
             {FileInputComponent}
             <StyledGroupedVirtuoso
-                style={{
-                    // override Virtuoso default values and set them with class
-                    height: 'undefined',
-                }}
-                heightToSubtract={
-                    isMobileWidth
-                        ? // desktop: TabsMenu height
-                          48
-                        : // desktop: TabsMenu height - TabsMenu bottom padding + grid item top padding
-                          48 + 13 - 8
-                }
+                heightToSubtract={tabsMenuHeight}
                 overscan={window.innerHeight * 0.5}
                 groupCounts={groupCounts}
                 groupContent={(index) => {
                     const [groupName] = filteredGroupedExtensions[index];
 
                     return (
-                        <StyledGroupHeader
-                            key={groupName}
-                            variant="h4"
-                            style={{
-                                paddingLeft: '24px',
-                                paddingTop: '6px',
-                                paddingBottom: '16px',
-                                fontWeight: 'bold',
-                            }}
-                            isFirstItem={index === 0}
-                        >
+                        <StyledGroupHeader key={groupName} variant="h4" isFirstItem={index === 0}>
                             {translateExtensionLanguage(groupName)}
                         </StyledGroupHeader>
                     );
@@ -319,7 +296,6 @@ export function Extensions() {
                     return (
                         <StyledGroupItemWrapper
                             key={`${item.pkgName}_${item.isInstalled}_${item.isObsolete}_${item.hasUpdate}`}
-                            isLastItem={index === visibleExtensions.length - 1}
                         >
                             <ExtensionCard
                                 extension={item}

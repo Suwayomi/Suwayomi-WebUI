@@ -6,76 +6,58 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import Box from '@mui/material/Box';
-import ListItemButton from '@mui/material/ListItemButton';
-import { styled, useTheme } from '@mui/material/styles';
-import { Link as RRDLink, useLocation } from 'react-router-dom';
+import BottomNavigation from '@mui/material/BottomNavigation';
+import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import { useTranslation } from 'react-i18next';
-import { NavbarItem } from '@/typings';
+import Paper from '@mui/material/Paper';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { NavbarItem } from '@/typings.ts';
+import { useResizeObserver } from '@/util/useResizeObserver.tsx';
+import { useNavBarContext } from '@/components/context/NavbarContext.tsx';
 
-const BottomNavContainer = styled('div')(({ theme }) => ({
-    bottom: 0,
-    left: 0,
-    height: theme.spacing(7),
-    width: '100vw',
-    backgroundColor: theme.palette.custom.light,
-    position: 'fixed',
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-    // For Some reason the theme is throwing and error when accessing the Zindex object,
-    // This is the zIndex of the appBar in the default theme
-    zIndex: 1100,
-}));
-
-const Link = styled(RRDLink)({
-    textDecoration: 'none',
-    flex: 1,
-});
-
-interface IProps {
-    navBarItems: Array<NavbarItem>;
-}
-
-export function MobileBottomBar({ navBarItems }: IProps) {
+export const MobileBottomBar = ({ navBarItems }: { navBarItems: NavbarItem[] }) => {
     const { t } = useTranslation();
+    const { setBottomBarHeight } = useNavBarContext();
     const location = useLocation();
-    const theme = useTheme();
+    const navigate = useNavigate();
 
-    const iconFor = (path: string, IconComponent: any, SelectedIconComponent: any) => {
-        if (location.pathname === path)
-            return <SelectedIconComponent sx={{ color: 'primary.main' }} fontSize="medium" />;
-        return (
-            <IconComponent sx={{ color: theme.palette.mode === 'dark' ? 'grey.A400' : 'grey.600' }} fontSize="medium" />
-        );
-    };
+    useEffect(() => () => setBottomBarHeight(0), []);
+
+    const ref = useRef<HTMLDivElement | null>(null);
+    useResizeObserver(
+        ref,
+        useCallback(() => setBottomBarHeight(ref.current?.clientHeight ?? 0), [ref]),
+    );
+
+    const [selectedNavBarItem, setSelectedNavBarItem] = useState(
+        navBarItems.find((navBarItem) => navBarItem.path === location.pathname)?.path,
+    );
 
     return (
-        <BottomNavContainer>
-            {navBarItems.map(({ path, title, IconComponent, SelectedIconComponent }: NavbarItem) => (
-                <Link to={path} key={path}>
-                    <ListItemButton disableRipple sx={{ justifyContent: 'center', padding: '8px' }} key={title}>
-                        <Box display="flex" flexDirection="column" alignItems="center">
-                            {iconFor(path, IconComponent, SelectedIconComponent)}
-                            <Box
-                                sx={{
-                                    fontSize: '0.65rem',
-                                    color:
-                                        // eslint-disable-next-line no-nested-ternary
-                                        location.pathname === path
-                                            ? 'primary.main'
-                                            : theme.palette.mode === 'dark'
-                                              ? 'grey.A400'
-                                              : 'grey.600',
-                                }}
-                            >
-                                {t(title)}
-                            </Box>
-                        </Box>
-                    </ListItemButton>
-                </Link>
-            ))}
-        </BottomNavContainer>
+        <Paper
+            ref={ref}
+            sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: (theme) => theme.zIndex.drawer - 1 }}
+            elevation={3}
+        >
+            <BottomNavigation
+                sx={{ backgroundColor: 'custom.light' }}
+                showLabels
+                value={selectedNavBarItem}
+                onChange={(_, newValue: string) => {
+                    setSelectedNavBarItem(newValue);
+                    navigate(newValue);
+                }}
+            >
+                {navBarItems.map(({ path, title, IconComponent, SelectedIconComponent }) => (
+                    <BottomNavigationAction
+                        key={path}
+                        value={path}
+                        label={t(title)}
+                        icon={selectedNavBarItem === path ? <SelectedIconComponent /> : <IconComponent />}
+                    />
+                ))}
+            </BottomNavigation>
+        </Paper>
     );
-}
+};

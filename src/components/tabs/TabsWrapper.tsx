@@ -6,19 +6,15 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import Box from '@mui/material/Box';
-import { styled } from '@mui/material/styles';
+import Box, { BoxProps } from '@mui/material/Box';
+import { useNavBarContext } from '@/components/context/NavbarContext.tsx';
 
-export const TabsWrapper = styled(Box)(({ theme }) => ({
-    // TabsMenu height + TabsMenu bottom padding - grid item top padding
-    marginTop: `calc(48px + 13px - 8px)`,
-    // header height - TabsMenu height - TabsMenu bottom padding + grid item top padding
-    minHeight: 'calc(100vh - 64px - 48px - 13px + 8px)',
-    position: 'relative',
-    [theme.breakpoints.down('sm')]: {
-        // TabsMenu - 8px margin diff header height (56px) + TabsMenu bottom padding - grid item top padding
-        marginTop: `calc(48px - 8px + 13px - 8px)`,
-        // header height (+ 8px margin) - footer height - TabsMenu height
-        minHeight: 'calc(100vh - 64px - 64px - 48px)',
-    },
-}));
+export const TabsWrapper = ({ children, ...props }: BoxProps) => {
+    const { appBarHeight } = useNavBarContext();
+
+    return (
+        <Box {...props} sx={{ ...props.sx, position: 'relative', height: `calc(100% - ${appBarHeight}px)` }}>
+            {children}
+        </Box>
+    );
+};
