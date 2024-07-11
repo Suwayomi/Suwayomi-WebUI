@@ -64,6 +64,8 @@ export type BindTrackPayload = {
 
 export type BooleanFilterInput = {
   distinctFrom?: InputMaybe<Scalars['Boolean']['input']>;
+  distinctFromAll?: InputMaybe<Array<Scalars['Boolean']['input']>>;
+  distinctFromAny?: InputMaybe<Array<Scalars['Boolean']['input']>>;
   equalTo?: InputMaybe<Scalars['Boolean']['input']>;
   greaterThan?: InputMaybe<Scalars['Boolean']['input']>;
   greaterThanOrEqualTo?: InputMaybe<Scalars['Boolean']['input']>;
@@ -73,6 +75,8 @@ export type BooleanFilterInput = {
   lessThanOrEqualTo?: InputMaybe<Scalars['Boolean']['input']>;
   notDistinctFrom?: InputMaybe<Scalars['Boolean']['input']>;
   notEqualTo?: InputMaybe<Scalars['Boolean']['input']>;
+  notEqualToAll?: InputMaybe<Array<Scalars['Boolean']['input']>>;
+  notEqualToAny?: InputMaybe<Array<Scalars['Boolean']['input']>>;
   notIn?: InputMaybe<Array<Scalars['Boolean']['input']>>;
 };
 
@@ -126,6 +130,11 @@ export enum CategoryOrderBy {
   Name = 'NAME',
   Order = 'ORDER'
 }
+
+export type CategoryOrderInput = {
+  by: CategoryOrderBy;
+  byType?: InputMaybe<SortOrder>;
+};
 
 export type CategoryType = {
   __typename?: 'CategoryType';
@@ -218,6 +227,11 @@ export enum ChapterOrderBy {
   SourceOrder = 'SOURCE_ORDER',
   UploadDate = 'UPLOAD_DATE'
 }
+
+export type ChapterOrderInput = {
+  by: ChapterOrderBy;
+  byType?: InputMaybe<SortOrder>;
+};
 
 export type ChapterType = {
   __typename?: 'ChapterType';
@@ -437,6 +451,8 @@ export type DequeueChapterDownloadsPayload = {
 
 export type DoubleFilterInput = {
   distinctFrom?: InputMaybe<Scalars['Float']['input']>;
+  distinctFromAll?: InputMaybe<Array<Scalars['Float']['input']>>;
+  distinctFromAny?: InputMaybe<Array<Scalars['Float']['input']>>;
   equalTo?: InputMaybe<Scalars['Float']['input']>;
   greaterThan?: InputMaybe<Scalars['Float']['input']>;
   greaterThanOrEqualTo?: InputMaybe<Scalars['Float']['input']>;
@@ -446,6 +462,8 @@ export type DoubleFilterInput = {
   lessThanOrEqualTo?: InputMaybe<Scalars['Float']['input']>;
   notDistinctFrom?: InputMaybe<Scalars['Float']['input']>;
   notEqualTo?: InputMaybe<Scalars['Float']['input']>;
+  notEqualToAll?: InputMaybe<Array<Scalars['Float']['input']>>;
+  notEqualToAny?: InputMaybe<Array<Scalars['Float']['input']>>;
   notIn?: InputMaybe<Array<Scalars['Float']['input']>>;
 };
 
@@ -585,6 +603,11 @@ export enum ExtensionOrderBy {
   PkgName = 'PKG_NAME'
 }
 
+export type ExtensionOrderInput = {
+  by: ExtensionOrderBy;
+  byType?: InputMaybe<SortOrder>;
+};
+
 export type ExtensionType = {
   __typename?: 'ExtensionType';
   apkName: Scalars['String']['output'];
@@ -693,6 +716,8 @@ export type FilterChangeInput = {
 
 export type FloatFilterInput = {
   distinctFrom?: InputMaybe<Scalars['Float']['input']>;
+  distinctFromAll?: InputMaybe<Array<Scalars['Float']['input']>>;
+  distinctFromAny?: InputMaybe<Array<Scalars['Float']['input']>>;
   equalTo?: InputMaybe<Scalars['Float']['input']>;
   greaterThan?: InputMaybe<Scalars['Float']['input']>;
   greaterThanOrEqualTo?: InputMaybe<Scalars['Float']['input']>;
@@ -702,6 +727,8 @@ export type FloatFilterInput = {
   lessThanOrEqualTo?: InputMaybe<Scalars['Float']['input']>;
   notDistinctFrom?: InputMaybe<Scalars['Float']['input']>;
   notEqualTo?: InputMaybe<Scalars['Float']['input']>;
+  notEqualToAll?: InputMaybe<Array<Scalars['Float']['input']>>;
+  notEqualToAny?: InputMaybe<Array<Scalars['Float']['input']>>;
   notIn?: InputMaybe<Array<Scalars['Float']['input']>>;
 };
 
@@ -754,6 +781,8 @@ export type InstallExternalExtensionPayload = {
 
 export type IntFilterInput = {
   distinctFrom?: InputMaybe<Scalars['Int']['input']>;
+  distinctFromAll?: InputMaybe<Array<Scalars['Int']['input']>>;
+  distinctFromAny?: InputMaybe<Array<Scalars['Int']['input']>>;
   equalTo?: InputMaybe<Scalars['Int']['input']>;
   greaterThan?: InputMaybe<Scalars['Int']['input']>;
   greaterThanOrEqualTo?: InputMaybe<Scalars['Int']['input']>;
@@ -763,6 +792,8 @@ export type IntFilterInput = {
   lessThanOrEqualTo?: InputMaybe<Scalars['Int']['input']>;
   notDistinctFrom?: InputMaybe<Scalars['Int']['input']>;
   notEqualTo?: InputMaybe<Scalars['Int']['input']>;
+  notEqualToAll?: InputMaybe<Array<Scalars['Int']['input']>>;
+  notEqualToAny?: InputMaybe<Array<Scalars['Int']['input']>>;
   notIn?: InputMaybe<Array<Scalars['Int']['input']>>;
 };
 
@@ -824,6 +855,8 @@ export type LogoutTrackerPayload = {
 
 export type LongFilterInput = {
   distinctFrom?: InputMaybe<Scalars['LongString']['input']>;
+  distinctFromAll?: InputMaybe<Array<Scalars['LongString']['input']>>;
+  distinctFromAny?: InputMaybe<Array<Scalars['LongString']['input']>>;
   equalTo?: InputMaybe<Scalars['LongString']['input']>;
   greaterThan?: InputMaybe<Scalars['LongString']['input']>;
   greaterThanOrEqualTo?: InputMaybe<Scalars['LongString']['input']>;
@@ -833,6 +866,8 @@ export type LongFilterInput = {
   lessThanOrEqualTo?: InputMaybe<Scalars['LongString']['input']>;
   notDistinctFrom?: InputMaybe<Scalars['LongString']['input']>;
   notEqualTo?: InputMaybe<Scalars['LongString']['input']>;
+  notEqualToAll?: InputMaybe<Array<Scalars['LongString']['input']>>;
+  notEqualToAny?: InputMaybe<Array<Scalars['LongString']['input']>>;
   notIn?: InputMaybe<Array<Scalars['LongString']['input']>>;
 };
 
@@ -914,6 +949,11 @@ export enum MangaOrderBy {
   Title = 'TITLE'
 }
 
+export type MangaOrderInput = {
+  by: MangaOrderBy;
+  byType?: InputMaybe<SortOrder>;
+};
+
 export enum MangaStatus {
   Cancelled = 'CANCELLED',
   Completed = 'COMPLETED',
@@ -926,6 +966,8 @@ export enum MangaStatus {
 
 export type MangaStatusFilterInput = {
   distinctFrom?: InputMaybe<MangaStatus>;
+  distinctFromAll?: InputMaybe<Array<MangaStatus>>;
+  distinctFromAny?: InputMaybe<Array<MangaStatus>>;
   equalTo?: InputMaybe<MangaStatus>;
   greaterThan?: InputMaybe<MangaStatus>;
   greaterThanOrEqualTo?: InputMaybe<MangaStatus>;
@@ -935,6 +977,8 @@ export type MangaStatusFilterInput = {
   lessThanOrEqualTo?: InputMaybe<MangaStatus>;
   notDistinctFrom?: InputMaybe<MangaStatus>;
   notEqualTo?: InputMaybe<MangaStatus>;
+  notEqualToAll?: InputMaybe<Array<MangaStatus>>;
+  notEqualToAny?: InputMaybe<Array<MangaStatus>>;
   notIn?: InputMaybe<Array<MangaStatus>>;
 };
 
@@ -998,6 +1042,11 @@ export enum MetaOrderBy {
   Key = 'KEY',
   Value = 'VALUE'
 }
+
+export type MetaOrderInput = {
+  by: MetaOrderBy;
+  byType?: InputMaybe<SortOrder>;
+};
 
 export type MetaType = {
   key: Scalars['String']['output'];
@@ -1528,6 +1577,7 @@ export type QueryCategoriesArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
+  order?: InputMaybe<Array<CategoryOrderInput>>;
   orderBy?: InputMaybe<CategoryOrderBy>;
   orderByType?: InputMaybe<SortOrder>;
 };
@@ -1551,6 +1601,7 @@ export type QueryChaptersArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
+  order?: InputMaybe<Array<ChapterOrderInput>>;
   orderBy?: InputMaybe<ChapterOrderBy>;
   orderByType?: InputMaybe<SortOrder>;
 };
@@ -1569,6 +1620,7 @@ export type QueryExtensionsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
+  order?: InputMaybe<Array<ExtensionOrderInput>>;
   orderBy?: InputMaybe<ExtensionOrderBy>;
   orderByType?: InputMaybe<SortOrder>;
 };
@@ -1587,6 +1639,7 @@ export type QueryMangasArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
+  order?: InputMaybe<Array<MangaOrderInput>>;
   orderBy?: InputMaybe<MangaOrderBy>;
   orderByType?: InputMaybe<SortOrder>;
 };
@@ -1605,6 +1658,7 @@ export type QueryMetasArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
+  order?: InputMaybe<Array<MetaOrderInput>>;
   orderBy?: InputMaybe<MetaOrderBy>;
   orderByType?: InputMaybe<SortOrder>;
 };
@@ -1633,6 +1687,7 @@ export type QuerySourcesArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
+  order?: InputMaybe<Array<SourceOrderInput>>;
   orderBy?: InputMaybe<SourceOrderBy>;
   orderByType?: InputMaybe<SortOrder>;
 };
@@ -1651,6 +1706,7 @@ export type QueryTrackRecordsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
+  order?: InputMaybe<Array<TrackRecordOrderInput>>;
   orderBy?: InputMaybe<TrackRecordOrderBy>;
   orderByType?: InputMaybe<SortOrder>;
 };
@@ -1668,6 +1724,7 @@ export type QueryTrackersArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
+  order?: InputMaybe<Array<TrackerOrderInput>>;
   orderBy?: InputMaybe<TrackerOrderBy>;
   orderByType?: InputMaybe<SortOrder>;
 };
@@ -1974,6 +2031,11 @@ export enum SourceOrderBy {
   Name = 'NAME'
 }
 
+export type SourceOrderInput = {
+  by: SourceOrderBy;
+  byType?: InputMaybe<SortOrder>;
+};
+
 export type SourcePreferenceChangeInput = {
   checkBoxState?: InputMaybe<Scalars['Boolean']['input']>;
   editTextState?: InputMaybe<Scalars['String']['input']>;
@@ -2022,9 +2084,17 @@ export type StopDownloaderPayload = {
 
 export type StringFilterInput = {
   distinctFrom?: InputMaybe<Scalars['String']['input']>;
+  distinctFromAll?: InputMaybe<Array<Scalars['String']['input']>>;
+  distinctFromAny?: InputMaybe<Array<Scalars['String']['input']>>;
   distinctFromInsensitive?: InputMaybe<Scalars['String']['input']>;
+  distinctFromInsensitiveAll?: InputMaybe<Array<Scalars['String']['input']>>;
+  distinctFromInsensitiveAny?: InputMaybe<Array<Scalars['String']['input']>>;
   endsWith?: InputMaybe<Scalars['String']['input']>;
+  endsWithAll?: InputMaybe<Array<Scalars['String']['input']>>;
+  endsWithAny?: InputMaybe<Array<Scalars['String']['input']>>;
   endsWithInsensitive?: InputMaybe<Scalars['String']['input']>;
+  endsWithInsensitiveAll?: InputMaybe<Array<Scalars['String']['input']>>;
+  endsWithInsensitiveAny?: InputMaybe<Array<Scalars['String']['input']>>;
   equalTo?: InputMaybe<Scalars['String']['input']>;
   greaterThan?: InputMaybe<Scalars['String']['input']>;
   greaterThanInsensitive?: InputMaybe<Scalars['String']['input']>;
@@ -2033,29 +2103,59 @@ export type StringFilterInput = {
   in?: InputMaybe<Array<Scalars['String']['input']>>;
   inInsensitive?: InputMaybe<Array<Scalars['String']['input']>>;
   includes?: InputMaybe<Scalars['String']['input']>;
+  includesAll?: InputMaybe<Array<Scalars['String']['input']>>;
+  includesAny?: InputMaybe<Array<Scalars['String']['input']>>;
   includesInsensitive?: InputMaybe<Scalars['String']['input']>;
+  includesInsensitiveAll?: InputMaybe<Array<Scalars['String']['input']>>;
+  includesInsensitiveAny?: InputMaybe<Array<Scalars['String']['input']>>;
   isNull?: InputMaybe<Scalars['Boolean']['input']>;
   lessThan?: InputMaybe<Scalars['String']['input']>;
   lessThanInsensitive?: InputMaybe<Scalars['String']['input']>;
   lessThanOrEqualTo?: InputMaybe<Scalars['String']['input']>;
   lessThanOrEqualToInsensitive?: InputMaybe<Scalars['String']['input']>;
   like?: InputMaybe<Scalars['String']['input']>;
+  likeAll?: InputMaybe<Array<Scalars['String']['input']>>;
+  likeAny?: InputMaybe<Array<Scalars['String']['input']>>;
   likeInsensitive?: InputMaybe<Scalars['String']['input']>;
+  likeInsensitiveAll?: InputMaybe<Array<Scalars['String']['input']>>;
+  likeInsensitiveAny?: InputMaybe<Array<Scalars['String']['input']>>;
   notDistinctFrom?: InputMaybe<Scalars['String']['input']>;
   notDistinctFromInsensitive?: InputMaybe<Scalars['String']['input']>;
   notEndsWith?: InputMaybe<Scalars['String']['input']>;
+  notEndsWithAll?: InputMaybe<Array<Scalars['String']['input']>>;
+  notEndsWithAny?: InputMaybe<Array<Scalars['String']['input']>>;
   notEndsWithInsensitive?: InputMaybe<Scalars['String']['input']>;
+  notEndsWithInsensitiveAll?: InputMaybe<Array<Scalars['String']['input']>>;
+  notEndsWithInsensitiveAny?: InputMaybe<Array<Scalars['String']['input']>>;
   notEqualTo?: InputMaybe<Scalars['String']['input']>;
+  notEqualToAll?: InputMaybe<Array<Scalars['String']['input']>>;
+  notEqualToAny?: InputMaybe<Array<Scalars['String']['input']>>;
   notIn?: InputMaybe<Array<Scalars['String']['input']>>;
   notInInsensitive?: InputMaybe<Array<Scalars['String']['input']>>;
   notIncludes?: InputMaybe<Scalars['String']['input']>;
+  notIncludesAll?: InputMaybe<Array<Scalars['String']['input']>>;
+  notIncludesAny?: InputMaybe<Array<Scalars['String']['input']>>;
   notIncludesInsensitive?: InputMaybe<Scalars['String']['input']>;
+  notIncludesInsensitiveAll?: InputMaybe<Array<Scalars['String']['input']>>;
+  notIncludesInsensitiveAny?: InputMaybe<Array<Scalars['String']['input']>>;
   notLike?: InputMaybe<Scalars['String']['input']>;
+  notLikeAll?: InputMaybe<Array<Scalars['String']['input']>>;
+  notLikeAny?: InputMaybe<Array<Scalars['String']['input']>>;
   notLikeInsensitive?: InputMaybe<Scalars['String']['input']>;
+  notLikeInsensitiveAll?: InputMaybe<Array<Scalars['String']['input']>>;
+  notLikeInsensitiveAny?: InputMaybe<Array<Scalars['String']['input']>>;
   notStartsWith?: InputMaybe<Scalars['String']['input']>;
+  notStartsWithAll?: InputMaybe<Array<Scalars['String']['input']>>;
+  notStartsWithAny?: InputMaybe<Array<Scalars['String']['input']>>;
   notStartsWithInsensitive?: InputMaybe<Scalars['String']['input']>;
+  notStartsWithInsensitiveAll?: InputMaybe<Array<Scalars['String']['input']>>;
+  notStartsWithInsensitiveAny?: InputMaybe<Array<Scalars['String']['input']>>;
   startsWith?: InputMaybe<Scalars['String']['input']>;
+  startsWithAll?: InputMaybe<Array<Scalars['String']['input']>>;
+  startsWithAny?: InputMaybe<Array<Scalars['String']['input']>>;
   startsWithInsensitive?: InputMaybe<Scalars['String']['input']>;
+  startsWithInsensitiveAll?: InputMaybe<Array<Scalars['String']['input']>>;
+  startsWithInsensitiveAny?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
 export type Subscription = {
@@ -2154,6 +2254,11 @@ export enum TrackRecordOrderBy {
   TrackerId = 'TRACKER_ID'
 }
 
+export type TrackRecordOrderInput = {
+  by: TrackRecordOrderBy;
+  byType?: InputMaybe<SortOrder>;
+};
+
 export type TrackRecordType = {
   __typename?: 'TrackRecordType';
   displayScore: Scalars['String']['output'];
@@ -2222,6 +2327,11 @@ export enum TrackerOrderBy {
   IsLoggedIn = 'IS_LOGGED_IN',
   Name = 'NAME'
 }
+
+export type TrackerOrderInput = {
+  by: TrackerOrderBy;
+  byType?: InputMaybe<SortOrder>;
+};
 
 export type TrackerType = {
   __typename?: 'TrackerType';

@@ -34,7 +34,3 @@ export const OptionsPanel: React.FC<IProps> = ({ open, onClose, children, minHei
         <Box>{children}</Box>
     </Drawer>
 );
-
-OptionsPanel.defaultProps = {
-    minHeight: undefined,
-};

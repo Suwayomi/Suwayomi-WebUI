@@ -44,9 +44,9 @@ interface IProps {
 export function LangSelect(props: IProps) {
     const { t } = useTranslation();
 
-    const { shownLangs, setShownLangs, allLangs, forcedLangs } = props;
+    const { shownLangs, setShownLangs, allLangs, forcedLangs = [] } = props;
     // hold a copy and only sate state on parent when OK pressed, improves performance
-    const [mShownLangs, setMShownLangs] = useState(removeAll(cloneObject(shownLangs), forcedLangs!));
+    const [mShownLangs, setMShownLangs] = useState(removeAll(cloneObject(shownLangs), forcedLangs));
     const [open, setOpen] = useState<boolean>(false);
 
     const handleCancel = () => {
@@ -120,7 +120,3 @@ export function LangSelect(props: IProps) {
         </>
     );
 }
-
-LangSelect.defaultProps = {
-    forcedLangs: [] as string[],
-};

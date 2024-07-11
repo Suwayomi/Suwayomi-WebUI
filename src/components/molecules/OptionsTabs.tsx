@@ -53,7 +53,3 @@ export const OptionsTabs = <T extends string = string>({
         </OptionsPanel>
     );
 };
-
-OptionsTabs.defaultProps = {
-    minHeight: undefined,
-};

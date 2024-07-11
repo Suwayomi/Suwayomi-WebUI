@@ -23,7 +23,3 @@ export function EmptyViewAbsoluteCentered({ sx, ...emptyViewProps }: EmptyViewPr
         />
     );
 }
-
-EmptyViewAbsoluteCentered.defaultProps = {
-    messageExtra: undefined,
-};
