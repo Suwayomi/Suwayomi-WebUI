@@ -24,13 +24,14 @@ import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
 import { useLongPress } from 'use-long-press';
 import { getDateString } from '@/util/date.ts';
 import { DownloadStateIndicator } from '@/components/molecules/DownloadStateIndicator.tsx';
-import { ChapterType, DownloadType } from '@/lib/graphql/generated/graphql.ts';
+import { ChapterType } from '@/lib/graphql/generated/graphql.ts';
 import { ChapterActionMenuItems } from '@/components/chapter/ChapterActionMenuItems.tsx';
 import { Menu } from '@/components/menu/Menu.tsx';
 import { TypographyMaxLines } from '@/components/atoms/TypographyMaxLines.tsx';
 import {
     ChapterBookmarkInfo,
     ChapterDownloadInfo,
+    ChapterDownloadStatus,
     ChapterIdInfo,
     ChapterMangaInfo,
     ChapterNumberInfo,
@@ -50,7 +51,7 @@ type TChapter = ChapterIdInfo &
 interface IProps {
     chapter: TChapter;
     allChapters: TChapter[];
-    downloadChapter: DownloadType | undefined;
+    downloadChapter: ChapterDownloadStatus | undefined;
     showChapterNumber: boolean;
     onSelect: (selected: boolean, isShiftKey?: boolean) => void;
     selected: boolean | null;

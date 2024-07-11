@@ -28,11 +28,10 @@ import { StrictModeDroppable } from '@/lib/StrictModeDroppable';
 import { makeToast } from '@/components/util/Toast';
 import { DownloadStateIndicator } from '@/components/molecules/DownloadStateIndicator';
 import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
-import { ChapterType, DownloadType } from '@/lib/graphql/generated/graphql.ts';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
-import { ChapterIdInfo } from '@/lib/data/Chapters.ts';
+import { ChapterDownloadStatus, ChapterIdInfo } from '@/lib/data/Chapters.ts';
 
 const HeightPreservingItem = ({ children, ...props }: BoxProps) => (
     // the height is necessary to prevent the item container from collapsing, which confuses Virtuoso measurements
@@ -48,9 +47,9 @@ const DownloadChapterItem = ({
     handleDelete,
 }: {
     provided: DraggableProvided;
-    item: DownloadType;
+    item: ChapterDownloadStatus;
     isDragging: boolean;
-    handleDelete: (chapter: ChapterType) => void;
+    handleDelete: (chapter: ChapterIdInfo) => void;
 }) => {
     const { t } = useTranslation();
 
@@ -63,7 +62,7 @@ const DownloadChapterItem = ({
             >
                 <CardActionArea
                     component={Link}
-                    to={`/manga/${item.chapter.manga.id}`}
+                    to={`/manga/${item.manga.id}`}
                     sx={{
                         display: 'flex',
                         alignItems: 'center',
@@ -74,7 +73,7 @@ const DownloadChapterItem = ({
                         <DragHandle />
                     </IconButton>
                     <Stack sx={{ flex: 1, ml: 1 }} direction="column">
-                        <Typography variant="h6">{item.chapter.manga.title}</Typography>
+                        <Typography variant="h6">{item.manga.title}</Typography>
                         <Typography variant="caption" display="block" gutterBottom>
                             {item.chapter.name}
                         </Typography>
@@ -111,7 +110,7 @@ export const DownloadQueue: React.FC = () => {
     } = requestManager.useGetDownloadStatus({ notifyOnNetworkStatusChange: true });
     const downloaderData = downloadStatusData?.downloadStatus;
 
-    const queue = (downloaderData?.queue as DownloadType[]) ?? [];
+    const queue = downloaderData?.queue ?? [];
     const status = downloaderData?.state ?? 'STARTED';
     const isQueueEmpty = !queue.length;
 
@@ -174,7 +173,7 @@ export const DownloadQueue: React.FC = () => {
         return () => window.removeEventListener('error', ignoreError);
     }, []);
 
-    const categoryReorder = (list: DownloadType[], from: number, to: number) => {
+    const categoryReorder = (list: ChapterDownloadStatus[], from: number, to: number) => {
         if (from === to) {
             return;
         }
@@ -262,8 +261,8 @@ export const DownloadQueue: React.FC = () => {
                             }}
                             itemContent={(index, item) => (
                                 <Draggable
-                                    key={`${item.chapter.manga.id}-${item.chapter.sourceOrder}`}
-                                    draggableId={`${item.chapter.manga.id}-${item.chapter.sourceOrder}`}
+                                    key={`${item.manga.id}-${item.chapter.sourceOrder}`}
+                                    draggableId={`${item.manga.id}-${item.chapter.sourceOrder}`}
                                     index={index}
                                 >
                                     {(draggableProvided) => (

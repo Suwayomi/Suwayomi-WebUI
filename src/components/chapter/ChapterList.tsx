@@ -11,7 +11,7 @@ import Stack from '@mui/material/Stack';
 import Tooltip from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import React, { useMemo } from 'react';
+import { ComponentProps, useMemo } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 import { useTranslation } from 'react-i18next';
 import IconButton from '@mui/material/IconButton';
@@ -28,7 +28,6 @@ import { ChaptersToolbarMenu } from '@/components/chapter/ChaptersToolbarMenu.ts
 import { SelectionFAB } from '@/components/collection/SelectionFAB.tsx';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/components/util/StyledFab.tsx';
 import {
-    DownloadType,
     GetChaptersMangaQuery,
     GetChaptersMangaQueryVariables,
     MangaScreenFieldsFragment,
@@ -36,7 +35,7 @@ import {
 import { useSelectableCollection } from '@/components/collection/useSelectableCollection.ts';
 import { SelectableCollectionSelectAll } from '@/components/collection/SelectableCollectionSelectAll.tsx';
 import { Chapters } from '@/lib/data/Chapters.ts';
-import { ChaptersWithMeta } from '@/lib/data/ChaptersWithMeta.ts';
+import { ChaptersWithMeta, ChapterWithMetaType } from '@/lib/data/ChaptersWithMeta.ts';
 import { ChapterActionMenuItems } from '@/components/chapter/ChapterActionMenuItems.tsx';
 import { ChaptersDownloadActionMenuItems } from '@/components/chapter/ChaptersDownloadActionMenuItems.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
@@ -65,25 +64,24 @@ const StyledVirtuoso = styled(Virtuoso)(({ theme }) => ({
     },
 }));
 
-export interface IChapterWithMeta {
-    chapter: React.ComponentProps<typeof ChapterCard>['chapter'];
-    downloadChapter: DownloadType | undefined;
+export interface IChapterWithMeta extends ChapterWithMetaType<ComponentProps<typeof ChapterCard>['chapter']> {
     selected: boolean | null;
 }
 
-interface IProps {
+export const ChapterList = ({
+    manga,
+    isRefreshing,
+}: {
     manga: Pick<
         MangaScreenFieldsFragment,
         'id' | 'firstUnreadChapter' | 'chapters' | 'latestReadChapter' | 'unreadCount' | 'downloadCount'
     >;
     isRefreshing: boolean;
-}
-
-export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
+}) => {
     const { t } = useTranslation();
 
     const { data: downloaderData } = requestManager.useGetDownloadStatus();
-    const queue = (downloaderData?.downloadStatus.queue as DownloadType[]) ?? [];
+    const queue = downloaderData?.downloadStatus.queue ?? [];
 
     const [options, dispatch] = useChapterOptions(manga.id);
     const {
@@ -117,9 +115,7 @@ export const ChapterList: React.FC<IProps> = ({ manga, isRefreshing }) => {
     const chaptersWithMeta: IChapterWithMeta[] = useMemo(
         () =>
             visibleChapters.map((chapter) => {
-                const downloadChapter = queue?.find(
-                    (cd) => cd.chapter.sourceOrder === chapter.sourceOrder && cd.chapter.manga.id === chapter.mangaId,
-                );
+                const downloadChapter = queue?.find((cd) => cd.chapter.id === chapter.id);
                 const selected = !areNoItemsSelected ? selectedItemIds.includes(chapter.id) : null;
                 return {
                     chapter,

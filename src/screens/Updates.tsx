@@ -22,7 +22,7 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
 import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 import { DownloadStateIndicator } from '@/components/molecules/DownloadStateIndicator';
-import { ChapterType, DownloadType } from '@/lib/graphql/generated/graphql.ts';
+import { ChapterType } from '@/lib/graphql/generated/graphql.ts';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { UpdateChecker } from '@/components/library/UpdateChecker.tsx';
 import { StyledGroupedVirtuoso } from '@/components/virtuoso/StyledGroupedVirtuoso.tsx';
@@ -70,7 +70,7 @@ export const Updates: React.FC = () => {
     const groupedUpdates = useMemo(() => groupByDate(updateEntries), [updateEntries]);
     const groupCounts: number[] = useMemo(() => groupedUpdates.map((group) => group[1]), [groupedUpdates]);
     const { data: downloaderData } = requestManager.useGetDownloadStatus();
-    const queue = (downloaderData?.downloadStatus.queue as DownloadType[]) ?? [];
+    const queue = downloaderData?.downloadStatus.queue ?? [];
 
     const lastUpdateTimestampCompRef = useRef<HTMLElement>(null);
     const [lastUpdateTimestampCompHeight, setLastUpdateTimestampCompHeight] = useState(0);
@@ -98,7 +98,7 @@ export const Updates: React.FC = () => {
 
     const downloadForChapter = (chapter: Pick<ChapterType, 'sourceOrder'> & ChapterMangaInfo) => {
         const { sourceOrder, mangaId } = chapter;
-        return queue.find((q) => sourceOrder === q.chapter.sourceOrder && mangaId === q.chapter.manga.id);
+        return queue.find((q) => sourceOrder === q.chapter.sourceOrder && mangaId === q.manga.id);
     };
 
     const downloadChapter = (chapter: ChapterIdInfo) => {

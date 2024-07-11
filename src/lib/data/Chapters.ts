@@ -13,7 +13,11 @@ import { ChapterOffset, TranslationKey } from '@/typings.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { getMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
-import { ChapterListFieldsFragment, ChapterType } from '@/lib/graphql/generated/graphql.ts';
+import {
+    ChapterListFieldsFragment,
+    ChapterType,
+    DownloadStatusFieldsFragment,
+} from '@/lib/graphql/generated/graphql.ts';
 import { CHAPTER_LIST_FIELDS } from '@/lib/graphql/fragments/ChapterFragments.ts';
 import { MangaIdInfo } from '@/lib/data/Mangas.ts';
 
@@ -78,6 +82,8 @@ export const actionToTranslationKey: {
         error: 'chapter.action.mark_as_read.remove.label.error',
     },
 };
+
+export type ChapterDownloadStatus = DownloadStatusFieldsFragment['queue'][number];
 
 export type ChapterIdInfo = Pick<ChapterType, 'id'>;
 export type ChapterMangaInfo = Pick<ChapterType, 'mangaId'>;

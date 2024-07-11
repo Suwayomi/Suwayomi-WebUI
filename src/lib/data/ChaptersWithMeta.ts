@@ -6,12 +6,21 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { DownloadType } from '@/lib/graphql/generated/graphql.ts';
-import { ChapterBookmarkInfo, ChapterDownloadInfo, ChapterReadInfo, Chapters } from '@/lib/data/Chapters.ts';
+import {
+    ChapterBookmarkInfo,
+    ChapterDownloadInfo,
+    ChapterDownloadStatus,
+    ChapterReadInfo,
+    Chapters,
+} from '@/lib/data/Chapters.ts';
 
-export type ChapterWithMetaType = {
-    chapter: ChapterDownloadInfo & ChapterReadInfo & ChapterBookmarkInfo;
-    downloadChapter: DownloadType | undefined;
+export type ChapterWithMetaType<
+    Chapter extends ChapterDownloadInfo & ChapterReadInfo & ChapterBookmarkInfo = ChapterDownloadInfo &
+        ChapterReadInfo &
+        ChapterBookmarkInfo,
+> = {
+    chapter: Chapter;
+    downloadChapter: ChapterDownloadStatus | undefined;
 };
 
 export class ChaptersWithMeta {
