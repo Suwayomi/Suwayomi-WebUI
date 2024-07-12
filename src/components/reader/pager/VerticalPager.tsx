@@ -6,10 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import Box from '@mui/material/Box';
 import { IReaderProps } from '@/typings';
 import { Page } from '@/components/reader/Page';
+import { useResizeObserver } from '@/util/useResizeObserver.tsx';
 
 const findCurrentPageIndex = (wrapper: HTMLDivElement): number => {
     for (let i = 0; i < wrapper.children.length; i++) {
@@ -165,24 +166,21 @@ export function VerticalPager(props: IReaderProps) {
         };
     }, [go]);
 
-    useLayoutEffect(() => {
-        const initialPageElement = pagesRef.current[initialPage];
-        if (!initialPageElement) {
-            return () => {};
-        }
+    useResizeObserver(
+        pagesRef.current[initialPage],
+        useCallback(
+            (_, resizeObserver) => {
+                const initialPageElement = pagesRef.current[initialPage];
+                if (!initialPageElement?.offsetHeight) {
+                    return;
+                }
 
-        const resizeObserver = new ResizeObserver(() => {
-            if (!initialPageElement.offsetHeight) {
-                return;
-            }
-
-            initialPageElement.scrollIntoView();
-            resizeObserver.disconnect();
-        });
-        resizeObserver.observe(initialPageElement);
-
-        return () => resizeObserver.disconnect();
-    }, [initialPage]);
+                initialPageElement.scrollIntoView();
+                resizeObserver.disconnect();
+            },
+            [pagesRef.current[initialPage], initialPage],
+        ),
+    );
 
     return (
         <Box

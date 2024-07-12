@@ -6,7 +6,16 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import React, { ForwardedRef, forwardRef, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, {
+    ForwardedRef,
+    forwardRef,
+    useCallback,
+    useEffect,
+    useLayoutEffect,
+    useMemo,
+    useRef,
+    useState,
+} from 'react';
 import Grid, { GridTypeMap } from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import { GridItemProps, GridStateSnapshot, VirtuosoGrid } from 'react-virtuoso';
@@ -22,6 +31,7 @@ import { DEFAULT_FULL_FAB_HEIGHT } from '@/components/util/StyledFab.tsx';
 import { AppStorage } from '@/util/AppStorage.ts';
 import { MangaCardProps } from '@/components/manga/MangaCard.types.tsx';
 import { MangaType } from '@/lib/graphql/generated/graphql.ts';
+import { useResizeObserver } from '@/util/useResizeObserver.tsx';
 
 const GridContainer = React.forwardRef<HTMLDivElement, GridTypeMap['props']>(({ children, ...props }, ref) => (
     <Grid {...props} ref={ref} container sx={{ paddingLeft: '5px', paddingRight: '13px' }}>
@@ -310,39 +320,32 @@ export const MangaGrid: React.FC<IMangaGridProps> = ({
         return () => window.removeEventListener('resize', onResize);
     }, []);
 
-    useEffect(() => {
-        if (!gridRef.current) {
-            return () => {};
-        }
+    useResizeObserver(
+        gridRef,
+        useCallback(
+            (entries, resizeObserver) => {
+                const gridHeight = entries[0].target.clientHeight;
+                const isScrollbarVisible = gridHeight > document.documentElement.clientHeight;
 
-        if (gridRef.current.offsetHeight > document.documentElement.clientHeight) {
-            return () => {};
-        }
+                if (isLoading) {
+                    return;
+                }
 
-        const resizeObserver = new ResizeObserver((entries) => {
-            const gridHeight = entries[0].target.clientHeight;
-            const isScrollbarVisible = gridHeight > document.documentElement.clientHeight;
+                if (!gridHeight) {
+                    return;
+                }
 
-            if (isLoading) {
-                return;
-            }
+                if (isScrollbarVisible) {
+                    resizeObserver.disconnect();
+                    return;
+                }
 
-            if (!gridHeight) {
-                return;
-            }
-
-            if (isScrollbarVisible) {
+                loadMore();
                 resizeObserver.disconnect();
-                return;
-            }
-
-            loadMore();
-            resizeObserver.disconnect();
-        });
-        resizeObserver.observe(gridRef.current);
-
-        return () => resizeObserver.disconnect();
-    }, [loadMore, isLoading]);
+            },
+            [gridRef, loadMore, isLoading],
+        ),
+    );
 
     const hasNoItems = !isLoading && mangas.length === 0;
     if (hasNoItems) {
