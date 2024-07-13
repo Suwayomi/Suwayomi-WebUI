@@ -156,56 +156,60 @@ export function ExtensionCard(props: IProps) {
             <CardContent
                 sx={{
                     display: 'flex',
-                    justifyContent: 'space-between',
                     alignItems: 'center',
+                    gap: 2,
                     p: 2,
                     '&:last-child': {
                         paddingBottom: 2,
                     },
                 }}
             >
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Avatar
-                        variant="rounded"
-                        sx={{
-                            width: 56,
-                            height: 56,
-                            flex: '0 0 auto',
-                            mr: 2,
-                            background: 'transparent',
-                        }}
+                <Avatar
+                    variant="rounded"
+                    sx={{
+                        width: 56,
+                        height: 56,
+                        flex: '0 0 auto',
+                        background: 'transparent',
+                    }}
+                    alt={name}
+                >
+                    <SpinnerImage
+                        spinnerStyle={{ small: true }}
+                        imgStyle={{ objectFit: 'cover', width: '100%', height: '100%' }}
                         alt={name}
-                    >
-                        <SpinnerImage
-                            spinnerStyle={{ small: true }}
-                            imgStyle={{ objectFit: 'cover', width: '100%', height: '100%' }}
-                            alt={name}
-                            src={requestManager.getValidImgUrlFor(iconUrl)}
-                        />
-                    </Avatar>
-                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                        <Typography variant="h5" component="h2">
-                            {name}
-                        </Typography>
-                        <Typography variant="caption" display="block">
-                            {langPress} {versionName}
-                            {isNsfw && (
-                                <Typography variant="caption" display="inline" color="red">
-                                    {' 18+'}
-                                </Typography>
-                            )}
-                        </Typography>
-                        {showSourceRepo && (
-                            <Typography variant="caption" display="block">
-                                {repo}
+                        src={requestManager.getValidImgUrlFor(iconUrl)}
+                    />
+                </Avatar>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        flexGrow: 1,
+                        flexShrink: 1,
+                        wordBreak: 'break-word',
+                    }}
+                >
+                    <Typography variant="h5" component="h2">
+                        {name}
+                    </Typography>
+                    <Typography variant="caption" display="block">
+                        {langPress} {versionName}
+                        {isNsfw && (
+                            <Typography variant="caption" display="inline" color="red">
+                                {' 18+'}
                             </Typography>
                         )}
-                    </Box>
+                    </Typography>
+                    {showSourceRepo && (
+                        <Typography variant="caption" display="block">
+                            {repo}
+                        </Typography>
+                    )}
                 </Box>
-
                 <Button
                     variant="outlined"
-                    sx={{ color: installedState === InstalledState.OBSOLETE ? 'red' : 'inherit' }}
+                    sx={{ color: installedState === InstalledState.OBSOLETE ? 'red' : 'inherit', flexShrink: 0 }}
                     onClick={() => handleButtonClick()}
                 >
                     {t(INSTALLED_STATE_TO_TRANSLATION_KEY_MAP[installedState])}
