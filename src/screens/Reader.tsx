@@ -194,7 +194,7 @@ export function Reader() {
     const isLastPage = curPage === chapter.pageCount - 1;
     const curPageDebounced = useDebounce(curPage, isLastPage ? 0 : 1000);
     const [pageToScrollTo, setPageToScrollTo] = useState<number | undefined>(undefined);
-    const { setOverride, setTitle } = useContext(NavBarContext);
+    const { setOverride, setTitle, navBarWidth: currentNavBarWidth } = useContext(NavBarContext);
     const [retrievingNextChapter, setRetrievingNextChapter] = useState(false);
     const {
         data: mangaChaptersData,
@@ -543,6 +543,8 @@ export function Reader() {
     // last page, also probably read = true, we will load the first page.
     const initialPage = pageToScrollTo ?? (chapter.lastPageRead === chapter.pageCount - 1 ? 0 : chapter.lastPageRead);
 
+    const navBarWidth = settings.staticNav ? currentNavBarWidth : 0;
+
     return (
         <Box
             sx={{
@@ -551,11 +553,9 @@ export function Reader() {
                 alignContent: 'center',
                 alignItems: 'center',
                 justifyContent: 'center',
-                minWidth: settings.staticNav
-                    ? 'calc((100vw - (100vw - 100%)) - 300px)'
-                    : 'calc(100vw - (100vw - 100%))', // 100vw = width excluding scrollbar; 100% = width including scrollbar
+                minWidth: `calc((100vw - (100vw - 100%)) - ${navBarWidth}px)`, // 100vw = width excluding scrollbar; 100% = width including scrollbar
                 minHeight: '100vh',
-                marginLeft: settings.staticNav ? '300px' : 'unset',
+                marginLeft: `${navBarWidth}px`,
             }}
         >
             <PageNumber settings={settings} curPage={curPage} pageCount={chapter.pageCount} />

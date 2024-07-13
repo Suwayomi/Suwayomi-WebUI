@@ -12,7 +12,7 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Slide from '@mui/material/Slide';
@@ -34,16 +34,19 @@ import { Select } from '@/components/atoms/Select.tsx';
 import { getOptionForDirection } from '@/theme.ts';
 import { ChapterType } from '@/lib/graphql/generated/graphql.ts';
 import { MangaChapterCountInfo, MangaIdInfo } from '@/lib/data/Mangas.ts';
+import { useNavBarContext } from '@/components/context/NavbarContext.tsx';
+import { useResizeObserver } from '@/util/useResizeObserver.tsx';
 
 const Root = styled('div')({
     zIndex: 10,
 });
 
 const NavContainer = styled('div')(({ theme }) => ({
+    position: 'fixed',
     top: 0,
     left: 0,
-    width: '300px',
-    minWidth: '300px',
+    minWidth: '240px',
+    maxWidth: '400px',
     height: '100vh',
     overflowY: 'auto',
     backgroundColor: theme.palette.background.default,
@@ -135,6 +138,7 @@ interface IProps {
 
 export function ReaderNavBar(props: IProps) {
     const { t } = useTranslation();
+    const { setNavBarWidth } = useNavBarContext();
 
     const navigate = useNavigate();
     const location = useLocation<{
@@ -142,6 +146,19 @@ export function ReaderNavBar(props: IProps) {
         prevSettingsCollapseOpen?: boolean;
     }>();
     const { prevDrawerOpen, prevSettingsCollapseOpen } = location.state ?? {};
+
+    const navBarRef = useRef<HTMLDivElement | null>(null);
+    useResizeObserver(
+        navBarRef,
+        useCallback(() => {
+            if (navBarRef.current?.offsetWidth === undefined) {
+                return;
+            }
+
+            setNavBarWidth(navBarRef.current.offsetWidth);
+        }, [navBarRef.current]),
+    );
+    useEffect(() => () => setNavBarWidth(0), [navBarRef]);
 
     const {
         settings,
@@ -224,11 +241,7 @@ export function ReaderNavBar(props: IProps) {
                 mountOnEnter
                 unmountOnExit
             >
-                <NavContainer
-                    sx={{
-                        position: 'fixed',
-                    }}
-                >
+                <NavContainer ref={navBarRef}>
                     <header>
                         {!settings.staticNav && (
                             <Tooltip title={t('reader.button.close_menu')}>
