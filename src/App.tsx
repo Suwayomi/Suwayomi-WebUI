@@ -88,7 +88,7 @@ const MainApp = () => {
             sx={{
                 flexGrow: 1,
                 minHeight: `calc(100vh - ${bottomBarHeight}px)`,
-                maxWidth: `calc(100vw - ${navBarWidth}px)`,
+                maxWidth: `calc(100vw - (100vw - 100%) - ${navBarWidth}px)`,
                 position: 'relative',
                 mb: `${bottomBarHeight}px`,
             }}
