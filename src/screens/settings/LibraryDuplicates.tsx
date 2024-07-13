@@ -32,7 +32,6 @@ import {
     MangaType,
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_MANGAS_DUPLICATES } from '@/lib/graphql/queries/MangaQuery.ts';
-import { MangaIdInfo } from '@/lib/data/Mangas.ts';
 import { BaseMangaGrid } from '@/components/source/BaseMangaGrid.tsx';
 import { IMangaGridProps } from '@/components/MangaGrid.tsx';
 import { StyledGroupItemWrapper } from '@/components/virtuoso/StyledGroupItemWrapper.tsx';
@@ -59,7 +58,6 @@ type TMangaDuplicate = Pick<MangaType, 'id' | 'title' | 'description'>;
 const findDuplicatesByTitleAndAlternativeTitles = <Manga extends TMangaDuplicate>(
     libraryMangas: Manga[],
 ): Record<string, Manga[]> => {
-    const idToDuplicateStatus: Record<MangaIdInfo['id'], boolean> = {};
     const titleToMangas: Record<string, Set<Manga>> = {};
     const titleToAlternativeTitleMatches: Record<string, Set<Manga>> = {};
 
@@ -85,14 +83,6 @@ const findDuplicatesByTitleAndAlternativeTitles = <Manga extends TMangaDuplicate
             if (!isDuplicate) {
                 return;
             }
-
-            const wasAlreadyDetected = idToDuplicateStatus[libraryManga.id];
-            if (wasAlreadyDetected) {
-                return;
-            }
-
-            idToDuplicateStatus[mangaToCheck.id] = true;
-            idToDuplicateStatus[libraryManga.id] = true;
 
             if (doesTitleMatch) {
                 titleToMangas[titleToCheck].add(libraryManga);
