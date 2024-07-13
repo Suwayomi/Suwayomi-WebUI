@@ -37,10 +37,16 @@ import { BaseMangaGrid } from '@/components/source/BaseMangaGrid.tsx';
 import { IMangaGridProps } from '@/components/MangaGrid.tsx';
 import { StyledGroupItemWrapper } from '@/components/virtuoso/StyledGroupItemWrapper.tsx';
 
+const cleanupTitle = (title: string): string =>
+    title
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-zA-Z0-9]/g, '');
+
 const findDuplicatesByTitle = <Manga extends Pick<MangaType, 'title'>>(
     libraryMangas: Manga[],
 ): Record<string, Manga[]> => {
-    const titleToMangas = Object.groupBy(libraryMangas, ({ title }) => title.toLowerCase().trim());
+    const titleToMangas = Object.groupBy(libraryMangas, ({ title }) => cleanupTitle(title));
 
     return Object.fromEntries(
         Object.entries(titleToMangas)
@@ -63,10 +69,10 @@ const findDuplicatesByTitleAndAlternativeTitles = <Manga extends TMangaDuplicate
                 return;
             }
 
-            const titleToCheck = mangaToCheck.title.toLowerCase().trim();
+            const titleToCheck = cleanupTitle(mangaToCheck.title);
 
-            const doesTitleMatch = libraryManga.title.toLowerCase().trim() === titleToCheck;
-            const doesAlternativeTitleMatch = !!libraryManga.description?.toLowerCase().trim().includes(titleToCheck);
+            const doesTitleMatch = cleanupTitle(libraryManga.title) === titleToCheck;
+            const doesAlternativeTitleMatch = cleanupTitle(libraryManga?.description ?? '').includes(titleToCheck);
 
             const isDuplicate = doesTitleMatch || doesAlternativeTitleMatch;
             if (!isDuplicate) {
