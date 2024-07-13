@@ -22,13 +22,12 @@ export const MobileBottomBar = ({ navBarItems }: { navBarItems: NavbarItem[] }) 
     const location = useLocation();
     const navigate = useNavigate();
 
-    useEffect(() => () => setBottomBarHeight(0), []);
-
     const ref = useRef<HTMLDivElement | null>(null);
     useResizeObserver(
         ref,
         useCallback(() => setBottomBarHeight(ref.current?.clientHeight ?? 0), [ref]),
     );
+    useEffect(() => () => setBottomBarHeight(0), []);
 
     const [selectedNavBarItem, setSelectedNavBarItem] = useState(
         navBarItems.find((navBarItem) => navBarItem.path === location.pathname)?.path,

@@ -87,13 +87,12 @@ const MAX_WIDTH_EXTENDED = 400;
 export const DesktopSideBar = ({ navBarItems }: { navBarItems: NavbarItem[] }) => {
     const { isCollapsed, setIsCollapsed, navBarWidth, setNavBarWidth } = useNavBarContext();
 
-    useEffect(() => () => setNavBarWidth(0), []);
-
     const ref = useRef<HTMLDivElement | null>(null);
     useResizeObserver(
         ref,
         useCallback(() => setNavBarWidth(ref.current?.clientWidth ?? 0), [ref]),
     );
+    useEffect(() => () => setNavBarWidth(0), []);
 
     return (
         <Drawer variant="permanent" sx={{ width: navBarWidth }}>

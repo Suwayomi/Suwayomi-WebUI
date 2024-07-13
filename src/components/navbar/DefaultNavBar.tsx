@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useCallback, useContext, useMemo, useRef } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useRef } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -89,6 +89,7 @@ export function DefaultNavBar() {
         appBarRef,
         useCallback(() => setAppBarHeight(appBarRef.current?.clientHeight ?? 0), [appBarRef]),
     );
+    useEffect(() => setAppBarHeight(0), []);
 
     const activeNavBar: NavbarItem['show'] = isMobileWidth ? 'mobile' : 'desktop';
     const visibleNavBarItems = useMemo(
