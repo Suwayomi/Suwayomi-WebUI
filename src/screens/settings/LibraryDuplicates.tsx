@@ -60,16 +60,23 @@ const findDuplicatesByTitleAndAlternativeTitles = <Manga extends TMangaDuplicate
     libraryMangas: Manga[],
 ): Record<string, Manga[]> => {
     const idToDuplicateStatus: Record<MangaIdInfo['id'], boolean> = {};
-    const titleToMangas: Record<string, Manga[]> = {};
+    const titleToMangas: Record<string, Set<Manga>> = {};
+    const titleToAlternativeTitleMatches: Record<string, Set<Manga>> = {};
 
-    libraryMangas.forEach((mangaToCheck) =>
+    libraryMangas.forEach((mangaToCheck) => {
+        const titleToCheck = cleanupTitle(mangaToCheck.title);
+
+        titleToMangas[titleToCheck] ??= new Set();
+        titleToMangas[titleToCheck].add(mangaToCheck);
+
+        titleToAlternativeTitleMatches[titleToCheck] ??= new Set();
+        titleToAlternativeTitleMatches[titleToCheck].add(mangaToCheck);
+
         libraryMangas.forEach((libraryManga) => {
             const isDifferentManga = mangaToCheck.id !== libraryManga.id;
             if (!isDifferentManga) {
                 return;
             }
-
-            const titleToCheck = cleanupTitle(mangaToCheck.title);
 
             const doesTitleMatch = cleanupTitle(libraryManga.title) === titleToCheck;
             const doesAlternativeTitleMatch = cleanupTitle(libraryManga?.description ?? '').includes(titleToCheck);
@@ -79,23 +86,41 @@ const findDuplicatesByTitleAndAlternativeTitles = <Manga extends TMangaDuplicate
                 return;
             }
 
-            const markMangaToCheckAsDuplicate = !idToDuplicateStatus[mangaToCheck.id];
-            if (markMangaToCheckAsDuplicate) {
-                idToDuplicateStatus[mangaToCheck.id] = true;
-                titleToMangas[mangaToCheck.title] = [...(titleToMangas[mangaToCheck.title] ?? []), mangaToCheck];
-            }
-
             const wasAlreadyDetected = idToDuplicateStatus[libraryManga.id];
             if (wasAlreadyDetected) {
                 return;
             }
 
+            idToDuplicateStatus[mangaToCheck.id] = true;
             idToDuplicateStatus[libraryManga.id] = true;
-            titleToMangas[mangaToCheck.title] = [...(titleToMangas[mangaToCheck.title] ?? []), libraryManga];
-        }),
-    );
 
-    return titleToMangas;
+            if (doesTitleMatch) {
+                titleToMangas[titleToCheck].add(libraryManga);
+            }
+
+            if (doesAlternativeTitleMatch) {
+                titleToAlternativeTitleMatches[titleToCheck].add(libraryManga);
+            }
+        });
+    });
+
+    const titleToDuplicatesEntries = Object.entries(titleToMangas)
+        .map(([title, titleMatches]) => {
+            const originalTitle = [...titleMatches][0].title;
+
+            const combinedDuplicates = [...titleMatches, ...(titleToAlternativeTitleMatches[title] ?? [])];
+            const duplicates = [...new Set([...combinedDuplicates])];
+
+            const noDuplicatesFound = duplicates.length === 1;
+            if (noDuplicatesFound) {
+                return null;
+            }
+
+            return [originalTitle, duplicates];
+        })
+        .filter((entry) => !!entry);
+
+    return Object.fromEntries(titleToDuplicatesEntries);
 };
 
 export const LibraryDuplicates = () => {
