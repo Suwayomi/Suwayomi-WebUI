@@ -136,7 +136,7 @@
                 "downloaded": "Tải về"
             }
         },
-        "title": "Chương"
+        "title_other": "Chương"
     },
     "download": {
         "queue": {
@@ -246,7 +246,7 @@
                 "updating": "Cập nhật"
             }
         },
-        "title": "Phần tiện ích mở rộng",
+        "title_other": "Phần tiện ích mở rộng",
         "settings": {
             "repositories": {
                 "custom": {
@@ -313,7 +313,7 @@
                 "today_at": "Hôm nay {{timeString}}",
                 "yesterday_at": "Hôm qua {{timeString}}",
                 "yesterday": "Hôm qua",
-                "day": "Ngày"
+                "day_other": "Ngày"
             },
             "value": {
                 "label": {
@@ -530,7 +530,7 @@
             "reload_from_source": "Tải lại dữ liệu từ nguồn",
             "status": "Trạng thái"
         },
-        "title": "Manga",
+        "title_other": "Manga",
         "action": {
             "track": {
                 "remove": {
@@ -748,7 +748,7 @@
             },
             "title": "Nguồn cục bộ"
         },
-        "title": "Nguồn"
+        "title_other": "Nguồn"
     },
     "updates": {
         "error": {

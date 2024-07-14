@@ -197,7 +197,7 @@
                 "downloaded": "已下載"
             }
         },
-        "title": "章節"
+        "title_other": "章節"
     },
     "extension": {
         "state": {
@@ -218,7 +218,7 @@
             "update_failed": "無法更新此擴充套件",
             "add_repository_info": "您必須新增擴充套件儲存庫才能夠安裝擴充套件"
         },
-        "title": "擴充套件",
+        "title_other": "擴充套件",
         "action": {
             "label": {
                 "install": "安裝",
@@ -302,7 +302,7 @@
                 "yesterday_at": "昨日{{timeString}}",
                 "today_at": "今日{{timeString}}",
                 "yesterday": "昨日",
-                "day": "日"
+                "day_other": "日"
             },
             "value": {
                 "label": {
@@ -576,7 +576,7 @@
             "status": "狀態",
             "artist": "畫家"
         },
-        "title": "漫畫",
+        "title_other": "漫畫",
         "action": {
             "category": {
                 "label": {
@@ -1031,7 +1031,7 @@
             },
             "title": "本機來源"
         },
-        "title": "來源",
+        "title_other": "來源",
         "filter": {
             "save_search": {
                 "label": {

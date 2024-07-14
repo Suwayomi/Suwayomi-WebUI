@@ -138,7 +138,7 @@
                 "downloaded": "已下载"
             }
         },
-        "title": "章节"
+        "title_other": "章节"
     },
     "download": {
         "queue": {
@@ -259,7 +259,7 @@
             "update_failed": "无法更新扩展",
             "add_repository_info": "您必须添加扩展库才能安装扩展程序"
         },
-        "title": "插件",
+        "title_other": "插件",
         "settings": {
             "repositories": {
                 "custom": {
@@ -331,7 +331,7 @@
                 "today_at": "今天{{timeString}}",
                 "yesterday_at": "昨天{{timeString}}",
                 "yesterday": "昨天",
-                "day": "日"
+                "day_other": "日"
             },
             "value": {
                 "label": {
@@ -407,7 +407,9 @@
         "sort": {
             "label": {
                 "by_source": "按图源",
-                "by_fetch_date": "按日期"
+                "by_fetch_date": "按日期",
+                "by_chapter_number": "按章节序号",
+                "by_upload_date": "按上传日期"
             }
         },
         "time": {
@@ -448,7 +450,8 @@
                 "empty": "你的书架是空的",
                 "no_matches": "没有漫画匹配筛选",
                 "remove_from_library": "无法将漫画从书架中删除！",
-                "add_to_library": "无法将漫画添加到书架！"
+                "add_to_library": "无法将漫画添加到书架！",
+                "stop_global_update": "无法停止全局更新"
             }
         },
         "option": {
@@ -580,6 +583,13 @@
                 "added_to_library": "已将漫画添加进书架！",
                 "removed_from_library": "已将漫画从书架中删除！"
             }
+        },
+        "action": {
+            "label": {
+                "stop_update": "停止全局更新",
+                "update_category": "更新分类",
+                "update_library": "更新书架"
+            }
         }
     },
     "manga": {
@@ -605,7 +615,7 @@
             "status": "状态",
             "reload_from_source": "从图源重新加载数据"
         },
-        "title": "漫画",
+        "title_other": "漫画",
         "action": {
             "library": {
                 "remove": {
@@ -729,7 +739,8 @@
                 "unable_to_get_next_chapter_skip_dup": "无法获取下一章 - \"$t(reader.settings.label.skip_dup_chapters)\" 选项已启用",
                 "unable_to_get_prev_chapter_skip_dup": "无法获取上一章 - \"$t(reader.settings.label.skip_dup_chapters)\" 选项已启用",
                 "next_chapter_does_not_exist": "无下一章节",
-                "prev_chapter_does_not_exist": "无上一章节"
+                "prev_chapter_does_not_exist": "无上一章节",
+                "no_pages_found": "未找到内容"
             }
         }
     },
@@ -1107,7 +1118,7 @@
                 "source_not_found": "找不到源，请检查您已安装的插件。"
             }
         },
-        "title": "图源",
+        "title_other": "图源",
         "filter": {
             "save_search": {
                 "dialog": {

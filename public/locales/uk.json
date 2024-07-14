@@ -118,7 +118,9 @@
                 "downloaded": "Завантажено"
             }
         },
-        "title": "Глава"
+        "title_one": "Глава",
+        "title_few": "",
+        "title_many": ""
     },
     "category": {
         "dialog": {
@@ -277,7 +279,9 @@
                 "uninstalling": "Видалення"
             }
         },
-        "title": "Розширення",
+        "title_one": "Розширення",
+        "title_few": "",
+        "title_many": "",
         "settings": {
             "repositories": {
                 "custom": {
@@ -338,7 +342,9 @@
                 "yesterday": "Вчора",
                 "yesterday_at": "Вчора о {{timeString}}",
                 "today": "Сьогодні",
-                "day": "День"
+                "day_one": "День",
+                "day_few": "",
+                "day_many": ""
             },
             "value": {
                 "label": {
@@ -585,7 +591,9 @@
             "author": "Автор",
             "artist": "Художник"
         },
-        "title": "Манґа",
+        "title_one": "Манґа",
+        "title_few": "",
+        "title_many": "",
         "action": {
             "category": {
                 "button": {
@@ -1066,7 +1074,9 @@
             },
             "title": "Локальне джерело"
         },
-        "title": "Джерело",
+        "title_one": "Джерело",
+        "title_few": "",
+        "title_many": "",
         "configuration": {
             "title": "Конфігурація джерела"
         }

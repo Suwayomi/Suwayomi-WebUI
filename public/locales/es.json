@@ -417,7 +417,8 @@
                 "empty": "Tu biblioteca está vacía",
                 "no_matches": "Ningún manga coincide con este filtro",
                 "remove_from_library": "¡No se puede eliminar el manga de la biblioteca!",
-                "add_to_library": "¡No se pudo añadir manga a la biblioteca!"
+                "add_to_library": "¡No se pudo añadir manga a la biblioteca!",
+                "stop_global_update": "No se pudo detener la actualización global"
             }
         },
         "title": "Biblioteca",
@@ -517,13 +518,22 @@
                 "added_to_library": "¡Manga añadido a la biblioteca!",
                 "removed_from_library": "¡Manga eliminado de la biblioteca!"
             }
+        },
+        "action": {
+            "label": {
+                "update_library": "Actualizar biblioteca",
+                "stop_update": "Detener actualización global",
+                "update_category": "Actualizar categoría"
+            }
         }
     },
     "global": {
         "sort": {
             "label": {
                 "by_source": "Según la fuente",
-                "by_fetch_date": "Por fecha de obtención del capítulo"
+                "by_fetch_date": "Por fecha de obtención del capítulo",
+                "by_upload_date": "Por fecha de subida",
+                "by_chapter_number": "Por número de capítulo"
             }
         },
         "date": {
@@ -532,7 +542,9 @@
                 "yesterday_at": "Ayer a las {{timeString}}",
                 "today": "Hoy",
                 "today_at": "Hoy a las {{timeString}}",
-                "day": "Día"
+                "day_one": "Día",
+                "day_many": "Días",
+                "day_other": "Días"
             },
             "value": {
                 "label": {
@@ -795,7 +807,9 @@
                 }
             }
         },
-        "title": "Capítulo",
+        "title_one": "Capítulo",
+        "title_many": "Capítulos",
+        "title_other": "Capítulos",
         "error": {
             "label": {
                 "no_matches": "No se encontraron capítulos que coincidan con el filtro",
@@ -863,7 +877,8 @@
                 "unable_to_get_next_chapter_skip_dup": "No se puede obtener el capítulo siguiente - la opción \"$t(reader.settings.label.skip_dup_chapters)\" está activada",
                 "unable_to_get_prev_chapter_skip_dup": "No se puede obtener el capítulo anterior - la opción \"$t(reader.settings.label.skip_dup_chapters)\" está activada",
                 "next_chapter_does_not_exist": "No hay siguiente capítulo para abrir",
-                "prev_chapter_does_not_exist": "No hay capítulo anterior para abrir"
+                "prev_chapter_does_not_exist": "No hay capítulo anterior para abrir",
+                "no_pages_found": "Ninguna página encontrada"
             }
         }
     },
@@ -889,12 +904,12 @@
                 }
             },
             "label": {
-                "empty": "Categoría vacía",
+                "empty": "La categoría está vacía",
                 "request_failure": "No se pudieron cargar las categorías"
             }
         },
         "label": {
-            "category_name": "Nombre de Categoría",
+            "category_name": "Nombre de categoría",
             "use_as_default_category": "Categoría predeterminada cuando se añade un nuevo manga a la biblioteca"
         },
         "settings": {
@@ -914,7 +929,9 @@
             },
             "title": "Fuente local"
         },
-        "title": "Fuente",
+        "title_one": "Fuente",
+        "title_many": "Fuentes",
+        "title_other": "Fuentes",
         "configuration": {
             "title": "Configuración de fuente"
         },
@@ -966,7 +983,9 @@
             "update_failed": "No se ha podido actualizar la extensión",
             "add_repository_info": "Tienes que añadir un repositorio de extensiones para poder instalar extensiones"
         },
-        "title": "Extensiones",
+        "title_one": "Extensión",
+        "title_many": "Extensiones",
+        "title_other": "Extensiones",
         "language": {
             "all": "Todo",
             "other": "Otro"
@@ -1011,7 +1030,9 @@
                 "no_mangas_found": "No se encontró ningún manga"
             }
         },
-        "title": "Manga",
+        "title_one": "Manga",
+        "title_many": "Mangas",
+        "title_other": "Mangas",
         "button": {
             "add_to_library": "Añadir a la biblioteca",
             "in_library": "En la biblioteca",
@@ -1060,7 +1081,7 @@
                 },
                 "label": {
                     "action": "Cambiar categorías",
-                    "error_one": "No se pudo cambiar las categorías del manga",
+                    "error_one": "No se pudieron cambiar las categorías del manga",
                     "error_many": "No se pudieron cambiar las categorías de los mangas",
                     "error_other": "No se pudieron cambiar las categorías de los mangas",
                     "success_one": "Categorías modificadas del manga",

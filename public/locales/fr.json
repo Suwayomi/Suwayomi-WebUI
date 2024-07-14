@@ -348,7 +348,9 @@
                 }
             }
         },
-        "title": "Chapitre",
+        "title_one": "Chapitre",
+        "title_many": "",
+        "title_other": "",
         "status": {
             "label": {
                 "downloaded": "Téléchargé"
@@ -375,7 +377,9 @@
             "add_to_library": "Ajouter à la bibliothèque",
             "in_library": "Dans la bibliothèque"
         },
-        "title": "Manga",
+        "title_one": "Manga",
+        "title_many": "",
+        "title_other": "",
         "error": {
             "label": {
                 "no_matches": "Il n'y a aucun manga correspondant à ce critère",
@@ -483,7 +487,9 @@
                 "install": "installer"
             }
         },
-        "title": "Extensions",
+        "title_one": "Extensions",
+        "title_many": "",
+        "title_other": "",
         "label": {
             "installing_file": "Installation de l'extension à partir du fichier…",
             "installation_failed": "Échec de l'installation de l'extension !",
@@ -536,7 +542,9 @@
             },
             "title": "Source locale"
         },
-        "title": "Source",
+        "title_one": "Source",
+        "title_many": "",
+        "title_other": "",
         "configuration": {
             "title": "Configuration de la source"
         },
