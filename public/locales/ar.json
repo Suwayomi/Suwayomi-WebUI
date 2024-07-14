@@ -526,7 +526,12 @@
                 "today_at": "اليوم الساعة {{timeString}}",
                 "yesterday": "أمس",
                 "today": "اليوم",
-                "day": "يوم",
+                "day_zero": "يوم",
+                "day_one": "",
+                "day_two": "",
+                "day_few": "",
+                "day_many": "",
+                "day_other": "",
                 "yesterday_at": "أمس الساعة {{timeString}}"
             },
             "value": {
@@ -750,7 +755,12 @@
                 "downloaded": "تم التنزيل"
             }
         },
-        "title": "الفصل"
+        "title_zero": "الفصل",
+        "title_one": "",
+        "title_two": "",
+        "title_few": "",
+        "title_many": "",
+        "title_other": ""
     },
     "download": {
         "settings": {
@@ -850,7 +860,12 @@
             },
             "title": "مصدر محلي"
         },
-        "title": "مصدر"
+        "title_zero": "مصدر",
+        "title_one": "",
+        "title_two": "",
+        "title_few": "",
+        "title_many": "",
+        "title_other": ""
     },
     "updates": {
         "error": {
@@ -891,7 +906,12 @@
                 "updating": "تحديث"
             }
         },
-        "title": "ملحقات",
+        "title_zero": "ملحقات",
+        "title_one": "",
+        "title_two": "",
+        "title_few": "",
+        "title_many": "",
+        "title_other": "",
         "action": {
             "label": {
                 "update": "تحديث",
@@ -1000,7 +1020,12 @@
             "edit_categories": "تحرير فئات المانجا",
             "reload_from_source": "إعادة تحميل البيانات من المصدر"
         },
-        "title": "مانغا",
+        "title_zero": "مانغا",
+        "title_one": "",
+        "title_two": "",
+        "title_few": "",
+        "title_many": "",
+        "title_other": "",
         "action": {
             "category": {
                 "button": {

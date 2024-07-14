@@ -75,7 +75,11 @@
                     "label": {
                         "success_other": "{{count}} download ditambahkan",
                         "error_other": "Tidak dapat menambah unduhan",
-                        "action": "Unduh"
+                        "action": "Unduh",
+                        "next_five": "5 bab berikutnya",
+                        "next_ten": "10 bab berikutnya",
+                        "next_twentyfive": "25 bab berikutnya",
+                        "unread": "$t(global.filter.label.unread)"
                     },
                     "button": {
                         "selected": "Memilih Unduhan"
@@ -123,7 +127,7 @@
                 "downloaded": "Telah diunduh"
             }
         },
-        "title": "Bab",
+        "title_other": "Bab",
         "option": {
             "display": {
                 "label": {
@@ -146,6 +150,47 @@
                 }
             },
             "title": "Baris unduhan"
+        },
+        "settings": {
+            "auto_download": {
+                "download_limit": {
+                    "label": {
+                        "description": "Batasi jumlah bab baru yang akan diunduh.",
+                        "title": "Batas pengunduhan bab"
+                    }
+                },
+                "label": {
+                    "new_chapters": "Unduh bab baru",
+                    "ignore_re_uploads": "Abaikan bab yang diunggah ulang",
+                    "ignore_with_unread_chapters": "Abaikan pengunduhan bab otomatis untuk entri dengan bab yang belum dibaca"
+                },
+                "title": "Unduh otomatis",
+                "categories": {
+                    "label": {
+                        "include_in_download": "Entri dalam kategori yang dikecualikan tidak akan diunduh meskipun entri tersebut juga termasuk dalam kategori yang disertakan"
+                    }
+                }
+            },
+            "download_path": {
+                "label": {
+                    "title": "Lokasi pengunduhan",
+                    "description": "Jalur ke direktori di server tempat file yang diunduh harus disimpan"
+                }
+            },
+            "download_ahead": {
+                "title": "Unduh terlebih dahulu",
+                "label": {
+                    "value": "{{chapters}} $t(chapter.title)",
+                    "unread_chapters_to_download": "Jumlah bab yang belum dibaca untuk diunduh",
+                    "while_reading": "Unduh otomatis saat membaca"
+                }
+            },
+            "file_type": {
+                "label": {
+                    "cbz": "Simpan sebagai arsip CBZ"
+                }
+            },
+            "title": "Unduh pengaturan"
         }
     }
 }

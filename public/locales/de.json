@@ -134,7 +134,8 @@
                 "downloaded": "Heruntergeladen"
             }
         },
-        "title": "Kapitel",
+        "title_one": "Kapitel",
+        "title_other": "",
         "option": {
             "display": {
                 "label": {
@@ -210,14 +211,16 @@
                 "no_matches": "Keine Manga stimmen mit dem Filter überein"
             }
         },
-        "title": "Manga",
+        "title_one": "Manga",
+        "title_other": "",
         "button": {
             "in_library": "In Bibliothek",
             "add_to_library": "Zur Bibliothek hinzufügen"
         }
     },
     "extension": {
-        "title": "Erweiterungen",
+        "title_one": "Erweiterungen",
+        "title_other": "",
         "action": {
             "label": {
                 "install": "Installieren",
@@ -367,7 +370,8 @@
                 "yesterday_at": "Gestern um {{timeString}}",
                 "yesterday": "Gestern",
                 "today": "Heute",
-                "day": "Tag"
+                "day_one": "Tag",
+                "day_other": ""
             }
         },
         "update": {
@@ -566,7 +570,8 @@
                 "checkout": "Lese die"
             }
         },
-        "title": "Quelle",
+        "title_one": "Quelle",
+        "title_other": "",
         "error": {
             "label": {
                 "no_sources_found": "Keine Quellen gefunden. Installiere zuerst ein paar Erweiterungen."

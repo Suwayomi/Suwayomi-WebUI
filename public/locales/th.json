@@ -1,0 +1,13 @@
+{
+    "category": {
+        "dialog": {
+            "title": {
+                "new_category": "หมวดหมู่ใหม่",
+                "edit_category": "แก้ไขหมวดหมู่"
+            }
+        },
+        "label": {
+            "category_name": "ชื่อหมวดหมู่"
+        }
+    }
+}

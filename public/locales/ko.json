@@ -93,7 +93,7 @@
                 "downloaded": "다운로드됨"
             }
         },
-        "title": "장"
+        "title_other": "장"
     },
     "download": {
         "queue": {
@@ -142,7 +142,7 @@
                 "installing": "설치 중"
             }
         },
-        "title": "확장 기능"
+        "title_other": "확장 기능"
     },
     "global": {
         "button": {

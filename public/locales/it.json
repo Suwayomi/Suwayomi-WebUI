@@ -153,7 +153,9 @@
                 }
             }
         },
-        "title": "Capitolo",
+        "title_one": "Capitolo",
+        "title_many": "",
+        "title_other": "",
         "error": {
             "label": {
                 "no_matches": "Nessun capitolo corrispondente ai filtri",
@@ -308,7 +310,9 @@
                 }
             }
         },
-        "title": "Estensioni"
+        "title_one": "Estensioni",
+        "title_many": "",
+        "title_other": ""
     },
     "global": {
         "button": {
@@ -355,7 +359,9 @@
                 "today": "Oggi",
                 "today_at": "Oggi alle {{timeString}}",
                 "yesterday": "Ieri",
-                "day": "Giorno",
+                "day_one": "Giorno",
+                "day_many": "",
+                "day_other": "",
                 "yesterday_at": "Ieri alle {{timeString}}"
             },
             "value": {
@@ -620,7 +626,9 @@
             "artist": "Artista",
             "status": "Stato"
         },
-        "title": "Manga",
+        "title_one": "Manga",
+        "title_many": "",
+        "title_other": "",
         "error": {
             "label": {
                 "no_mangas_found": "Nessun manga trovato",
@@ -1216,7 +1224,9 @@
         "configuration": {
             "title": "Configurazione della fonte"
         },
-        "title": "Fonte"
+        "title_one": "Fonte",
+        "title_many": "",
+        "title_other": ""
     },
     "updates": {
         "error": {

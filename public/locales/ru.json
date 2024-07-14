@@ -125,7 +125,9 @@
                 "downloaded": "Загрузили"
             }
         },
-        "title": "Глава"
+        "title_one": "Глава",
+        "title_few": "",
+        "title_many": ""
     },
     "category": {
         "error": {
@@ -489,7 +491,9 @@
             "label": {
                 "today_at": "Сегодня в {{timeString}}",
                 "yesterday": "Вчера",
-                "day": "День",
+                "day_one": "День",
+                "day_few": "",
+                "day_many": "",
                 "today": "Сегодня",
                 "yesterday_at": "Вчера в {{timeString}}"
             },
@@ -903,7 +907,9 @@
                 }
             }
         },
-        "title": "Расширения",
+        "title_one": "Расширения",
+        "title_few": "",
+        "title_many": "",
         "action": {
             "label": {
                 "install": "Установить",
@@ -935,7 +941,9 @@
             "edit_categories": "Изменить категории манги",
             "reload_from_source": "Перезагрузить данные из источника"
         },
-        "title": "Манга",
+        "title_one": "Манга",
+        "title_few": "",
+        "title_many": "",
         "action": {
             "category": {
                 "button": {
@@ -1121,7 +1129,9 @@
         "configuration": {
             "title": "Настройки источника"
         },
-        "title": "Источник",
+        "title_one": "Источник",
+        "title_few": "",
+        "title_many": "",
         "filter": {
             "save_search": {
                 "dialog": {
