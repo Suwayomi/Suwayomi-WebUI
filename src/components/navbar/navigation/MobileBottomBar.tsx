@@ -25,7 +25,7 @@ export const MobileBottomBar = ({ navBarItems }: { navBarItems: NavbarItem[] }) 
     const ref = useRef<HTMLDivElement | null>(null);
     useResizeObserver(
         ref,
-        useCallback(() => setBottomBarHeight(ref.current?.clientHeight ?? 0), [ref]),
+        useCallback(() => setBottomBarHeight(ref.current?.clientHeight ?? 0), [ref.current]),
     );
     useEffect(() => () => setBottomBarHeight(0), []);
 

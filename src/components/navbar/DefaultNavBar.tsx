@@ -87,7 +87,7 @@ export function DefaultNavBar() {
     const appBarRef = useRef<HTMLDivElement | null>(null);
     useResizeObserver(
         appBarRef,
-        useCallback(() => setAppBarHeight(appBarRef.current?.clientHeight ?? 0), [appBarRef]),
+        useCallback(() => setAppBarHeight(appBarRef.current?.clientHeight ?? 0), [appBarRef.current]),
     );
     useEffect(() => setAppBarHeight(0), []);
 

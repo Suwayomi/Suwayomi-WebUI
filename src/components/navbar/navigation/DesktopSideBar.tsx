@@ -90,7 +90,7 @@ export const DesktopSideBar = ({ navBarItems }: { navBarItems: NavbarItem[] }) =
     const ref = useRef<HTMLDivElement | null>(null);
     useResizeObserver(
         ref,
-        useCallback(() => setNavBarWidth(ref.current?.clientWidth ?? 0), [ref]),
+        useCallback(() => setNavBarWidth(ref.current?.clientWidth ?? 0), [ref.current]),
     );
     useEffect(() => () => setNavBarWidth(0), []);
 

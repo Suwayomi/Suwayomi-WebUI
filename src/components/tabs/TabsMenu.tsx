@@ -37,7 +37,7 @@ export const TabsMenu = forwardRef(
         const [width, setWidth] = useState<number>();
         useResizeObserver(
             tabsMenuRef,
-            useCallback(() => setWidth(tabsMenuRef.current?.clientWidth), [tabsMenuRef]),
+            useCallback(() => setWidth(tabsMenuRef.current?.clientWidth), [tabsMenuRef.current]),
         );
 
         // Visual Hack: 160px is min-width for viewport width of >600

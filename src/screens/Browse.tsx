@@ -26,7 +26,7 @@ export function Browse() {
     const [tabsMenuHeight, setTabsMenuHeight] = useState(0);
     useResizeObserver(
         tabsMenuRef,
-        useCallback(() => setTabsMenuHeight(tabsMenuRef.current!.offsetHeight), [tabsMenuRef]),
+        useCallback(() => setTabsMenuHeight(tabsMenuRef.current!.offsetHeight), [tabsMenuRef.current]),
     );
 
     const [tabNum, setTabNum] = useState<number>(0);
