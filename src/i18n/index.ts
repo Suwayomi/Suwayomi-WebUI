@@ -34,6 +34,7 @@ export const i18nResources = [
     'pt',
     'ru',
     'sv',
+    'th',
     'tr',
     'uk',
     'vi',
