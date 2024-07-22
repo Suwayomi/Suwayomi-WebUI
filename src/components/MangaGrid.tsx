@@ -32,6 +32,7 @@ import { AppStorage } from '@/util/AppStorage.ts';
 import { MangaCardProps } from '@/components/manga/MangaCard.types.tsx';
 import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { useResizeObserver } from '@/util/useResizeObserver.tsx';
+import { useDebounce } from '@/util/useDebounce.ts';
 
 const GridContainer = React.forwardRef<HTMLDivElement, GridTypeMap['props']>(({ children, ...props }, ref) => (
     <Grid {...props} ref={ref} container sx={{ paddingLeft: '5px', paddingRight: '13px' }}>
@@ -254,29 +255,14 @@ export const MangaGrid: React.FC<IMangaGridProps> = ({
 
     const gridRef = useRef<HTMLDivElement>(null);
 
-    const [dimensions, setDimensions] = useState(document.documentElement.offsetWidth);
+    const [actualDimensions, setDimensions] = useState(document.documentElement.offsetWidth);
+    const dimensions = useDebounce(actualDimensions, 500);
     const [gridItemWidth] = useLocalStorage<number>('ItemWidth', 300);
     const gridWrapperRef = useRef<HTMLDivElement>(null);
     const GridItemContainer = useMemo(
         () => GridItemContainerWithDimension(dimensions, gridItemWidth, gridLayout),
         [dimensions, gridItemWidth, gridLayout],
     );
-
-    const updateGridWidth = () => {
-        const getDimensions = () => {
-            const gridWidth = gridWrapperRef.current?.offsetWidth;
-
-            if (!gridWidth) {
-                return document.documentElement.offsetWidth;
-            }
-
-            return gridWidth;
-        };
-
-        setDimensions(getDimensions());
-    };
-
-    useLayoutEffect(updateGridWidth, []);
 
     // always show vertical scrollbar to prevent https://github.com/Suwayomi/Suwayomi-WebUI/issues/758
     useLayoutEffect(() => {
@@ -307,18 +293,22 @@ export const MangaGrid: React.FC<IMangaGridProps> = ({
         [],
     );
 
-    useEffect(() => {
-        let movementTimer: NodeJS.Timeout;
+    useResizeObserver(
+        gridWrapperRef,
+        useCallback(() => {
+            const getDimensions = () => {
+                const gridWidth = gridWrapperRef.current?.offsetWidth;
 
-        const onResize = () => {
-            clearInterval(movementTimer);
-            movementTimer = setTimeout(updateGridWidth, 100);
-        };
+                if (!gridWidth) {
+                    return document.documentElement.offsetWidth;
+                }
 
-        window.addEventListener('resize', onResize);
+                return gridWidth;
+            };
 
-        return () => window.removeEventListener('resize', onResize);
-    }, []);
+            setDimensions(getDimensions());
+        }, []),
+    );
 
     useResizeObserver(
         gridRef,
