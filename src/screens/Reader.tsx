@@ -225,7 +225,7 @@ export function Reader() {
         () =>
             settings.skipDupChapters
                 ? Chapters.removeDuplicates(initialChapterRef.current, mangaChapters ?? [])
-                : mangaChapters ?? [],
+                : (mangaChapters ?? []),
         [initialChapterRef.current, mangaChapters, settings.skipDupChapters],
     );
     const prevChapters = useMemo(
