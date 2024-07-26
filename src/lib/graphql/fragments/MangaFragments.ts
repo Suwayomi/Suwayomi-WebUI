@@ -34,6 +34,33 @@ export const MANGA_CHAPTER_STAT_FIELDS = gql`
     }
 `;
 
+export const MANGA_CHAPTER_NODE_FIELDS = gql`
+    fragment MANGA_CHAPTER_NODE_FIELDS on MangaType {
+        firstUnreadChapter {
+            id
+            sourceOrder
+        }
+        lastReadChapter {
+            id
+            sourceOrder
+            lastReadAt
+        }
+        latestReadChapter {
+            id
+            sourceOrder
+            lastReadAt
+        }
+        latestFetchedChapter {
+            id
+            fetchedAt
+        }
+        latestUploadedChapter {
+            id
+            uploadDate
+        }
+    }
+`;
+
 export const MANGA_READER_FIELDS = gql`
     ${MANGA_BASE_FIELDS}
 
@@ -58,10 +85,12 @@ export const MANGA_READER_FIELDS = gql`
 export const MANGA_LIBRARY_FIELDS = gql`
     ${MANGA_BASE_FIELDS}
     ${MANGA_CHAPTER_STAT_FIELDS}
+    ${MANGA_CHAPTER_NODE_FIELDS}
 
     fragment MANGA_LIBRARY_FIELDS on MangaType {
         ...MANGA_BASE_FIELDS
         ...MANGA_CHAPTER_STAT_FIELDS
+        ...MANGA_CHAPTER_NODE_FIELDS
 
         genre
         lastFetchedAt
@@ -74,29 +103,6 @@ export const MANGA_LIBRARY_FIELDS = gql`
                 id
                 trackerId
             }
-        }
-
-        firstUnreadChapter {
-            id
-            sourceOrder
-        }
-        lastReadChapter {
-            id
-            sourceOrder
-            lastReadAt
-        }
-        latestReadChapter {
-            id
-            sourceOrder
-            lastReadAt
-        }
-        latestFetchedChapter {
-            id
-            fetchedAt
-        }
-        latestUploadedChapter {
-            id
-            uploadDate
         }
     }
 `;
