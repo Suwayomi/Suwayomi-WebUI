@@ -18,9 +18,9 @@ import { SingleModeProps } from '@/components/manga/MangaActionMenuItems.tsx';
 export type MangaCardMode = 'default' | 'source' | 'migrate.search' | 'migrate.select' | 'duplicate';
 
 type MangaCardBaseProps = Pick<MangaType, 'id' | 'title' | 'sourceId'> &
-    SingleModeProps['manga'] &
+    Omit<SingleModeProps['manga'], 'downloadCount' | 'unreadCount' | 'chapters'> &
     Partial<Pick<MangaType, 'inLibrary' | 'downloadCount' | 'unreadCount'>> &
-    MangaChapterCountInfo & {
+    Partial<MangaChapterCountInfo> & {
         latestReadChapter?: Pick<ChapterType, 'id' | 'sourceOrder'> | null;
         firstUnreadChapter?: Pick<ChapterType, 'id' | 'sourceOrder'> | null;
     };

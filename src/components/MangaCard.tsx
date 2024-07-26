@@ -107,7 +107,9 @@ export const MangaCard = (props: MangaCardProps) => {
     const continueReadingButton = useMemo(
         () => (
             <ContinueReadingButton
-                showContinueReadingButton={showContinueReadingButton && mode === 'default'}
+                showContinueReadingButton={
+                    showContinueReadingButton && mode === 'default' && !!manga.chapters?.totalCount
+                }
                 isLatestChapterRead={isLatestChapterRead}
                 nextChapterIndexToRead={nextChapterIndexToRead}
                 mangaLinkTo={mangaLinkTo}
