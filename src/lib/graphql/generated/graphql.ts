@@ -3218,8 +3218,7 @@ export type GetCategoriesBaseQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<CategoryOrderBy>;
-  orderByType?: InputMaybe<SortOrder>;
+  order?: InputMaybe<Array<CategoryOrderInput> | CategoryOrderInput>;
 }>;
 
 
@@ -3233,8 +3232,7 @@ export type GetCategoriesLibraryQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<CategoryOrderBy>;
-  orderByType?: InputMaybe<SortOrder>;
+  order?: InputMaybe<Array<CategoryOrderInput> | CategoryOrderInput>;
 }>;
 
 
@@ -3248,8 +3246,7 @@ export type GetCategoriesSettingsQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<CategoryOrderBy>;
-  orderByType?: InputMaybe<SortOrder>;
+  order?: InputMaybe<Array<CategoryOrderInput> | CategoryOrderInput>;
 }>;
 
 
@@ -3270,8 +3267,7 @@ export type GetChaptersReaderQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<ChapterOrderBy>;
-  orderByType?: InputMaybe<SortOrder>;
+  order?: InputMaybe<Array<ChapterOrderInput> | ChapterOrderInput>;
 }>;
 
 
@@ -3285,8 +3281,7 @@ export type GetChaptersMangaQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<ChapterOrderBy>;
-  orderByType?: InputMaybe<SortOrder>;
+  order?: InputMaybe<Array<ChapterOrderInput> | ChapterOrderInput>;
 }>;
 
 
@@ -3300,8 +3295,7 @@ export type GetChaptersUpdatesQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<ChapterOrderBy>;
-  orderByType?: InputMaybe<SortOrder>;
+  order?: InputMaybe<Array<ChapterOrderInput> | ChapterOrderInput>;
 }>;
 
 
@@ -3330,8 +3324,7 @@ export type GetExtensionsQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<ExtensionOrderBy>;
-  orderByType?: InputMaybe<SortOrder>;
+  order?: InputMaybe<Array<ExtensionOrderInput> | ExtensionOrderInput>;
 }>;
 
 
@@ -3352,8 +3345,7 @@ export type GetGlobalMetadatasQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<MetaOrderBy>;
-  orderByType?: InputMaybe<SortOrder>;
+  order?: InputMaybe<Array<MetaOrderInput> | MetaOrderInput>;
 }>;
 
 
@@ -3405,8 +3397,7 @@ export type GetMangasBaseQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<MangaOrderBy>;
-  orderByType?: InputMaybe<SortOrder>;
+  order?: InputMaybe<Array<MangaOrderInput> | MangaOrderInput>;
 }>;
 
 
@@ -3420,8 +3411,7 @@ export type GetMangasLibraryQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<MangaOrderBy>;
-  orderByType?: InputMaybe<SortOrder>;
+  order?: InputMaybe<Array<MangaOrderInput> | MangaOrderInput>;
 }>;
 
 
@@ -3435,8 +3425,7 @@ export type GetMangasDuplicatesQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<MangaOrderBy>;
-  orderByType?: InputMaybe<SortOrder>;
+  order?: InputMaybe<Array<MangaOrderInput> | MangaOrderInput>;
 }>;
 
 

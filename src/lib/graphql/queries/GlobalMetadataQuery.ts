@@ -29,8 +29,7 @@ export const GET_GLOBAL_METADATAS = gql`
         $first: Int
         $last: Int
         $offset: Int
-        $orderBy: MetaOrderBy
-        $orderByType: SortOrder
+        $order: [MetaOrderInput!]
     ) {
         metas(
             after: $after
@@ -40,8 +39,7 @@ export const GET_GLOBAL_METADATAS = gql`
             first: $first
             last: $last
             offset: $offset
-            orderBy: $orderBy
-            orderByType: $orderByType
+            order: $order
         ) {
             nodes {
                 ...GLOBAL_METADATA

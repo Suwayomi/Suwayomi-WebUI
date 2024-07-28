@@ -23,8 +23,7 @@ export const GET_EXTENSIONS = gql`
         $first: Int
         $last: Int
         $offset: Int
-        $orderBy: ExtensionOrderBy
-        $orderByType: SortOrder
+        $order: [ExtensionOrderInput!]
     ) {
         extensions(
             after: $after
@@ -34,8 +33,7 @@ export const GET_EXTENSIONS = gql`
             first: $first
             last: $last
             offset: $offset
-            orderBy: $orderBy
-            orderByType: $orderByType
+            order: $order
         ) {
             nodes {
                 ...EXTENSION_LIST_FIELDS

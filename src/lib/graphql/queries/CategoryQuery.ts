@@ -27,8 +27,7 @@ export const GET_CATEGORIES_BASE = gql`
         $first: Int
         $last: Int
         $offset: Int
-        $orderBy: CategoryOrderBy
-        $orderByType: SortOrder
+        $order: [CategoryOrderInput!]
     ) {
         categories(
             after: $after
@@ -38,8 +37,7 @@ export const GET_CATEGORIES_BASE = gql`
             first: $first
             last: $last
             offset: $offset
-            orderBy: $orderBy
-            orderByType: $orderByType
+            order: $order
         ) {
             nodes {
                 ...CATEGORY_BASE_FIELDS
@@ -64,8 +62,7 @@ export const GET_CATEGORIES_LIBRARY = gql`
         $first: Int
         $last: Int
         $offset: Int
-        $orderBy: CategoryOrderBy
-        $orderByType: SortOrder
+        $order: [CategoryOrderInput!]
     ) {
         categories(
             after: $after
@@ -75,8 +72,7 @@ export const GET_CATEGORIES_LIBRARY = gql`
             first: $first
             last: $last
             offset: $offset
-            orderBy: $orderBy
-            orderByType: $orderByType
+            order: $order
         ) {
             nodes {
                 ...CATEGORY_LIBRARY_FIELDS
@@ -101,8 +97,7 @@ export const GET_CATEGORIES_SETTINGS = gql`
         $first: Int
         $last: Int
         $offset: Int
-        $orderBy: CategoryOrderBy
-        $orderByType: SortOrder
+        $order: [CategoryOrderInput!]
     ) {
         categories(
             after: $after
@@ -112,8 +107,7 @@ export const GET_CATEGORIES_SETTINGS = gql`
             first: $first
             last: $last
             offset: $offset
-            orderBy: $orderBy
-            orderByType: $orderByType
+            order: $order
         ) {
             nodes {
                 ...CATEGORY_SETTING_FIELDS

@@ -127,8 +127,7 @@ export const GET_MANGAS_BASE = gql`
         $first: Int
         $last: Int
         $offset: Int
-        $orderBy: MangaOrderBy
-        $orderByType: SortOrder
+        $order: [MangaOrderInput!]
     ) {
         mangas(
             after: $after
@@ -138,8 +137,7 @@ export const GET_MANGAS_BASE = gql`
             first: $first
             last: $last
             offset: $offset
-            orderBy: $orderBy
-            orderByType: $orderByType
+            order: $order
         ) {
             nodes {
                 ...MANGA_BASE_FIELDS
@@ -165,8 +163,7 @@ export const GET_MANGAS_LIBRARY = gql`
         $first: Int
         $last: Int
         $offset: Int
-        $orderBy: MangaOrderBy
-        $orderByType: SortOrder
+        $order: [MangaOrderInput!]
     ) {
         mangas(
             after: $after
@@ -176,8 +173,7 @@ export const GET_MANGAS_LIBRARY = gql`
             first: $first
             last: $last
             offset: $offset
-            orderBy: $orderBy
-            orderByType: $orderByType
+            order: $order
         ) {
             nodes {
                 ...MANGA_LIBRARY_FIELDS
@@ -203,8 +199,7 @@ export const GET_MANGAS_DUPLICATES = gql`
         $first: Int
         $last: Int
         $offset: Int
-        $orderBy: MangaOrderBy
-        $orderByType: SortOrder
+        $order: [MangaOrderInput!]
     ) {
         mangas(
             after: $after
@@ -214,8 +209,7 @@ export const GET_MANGAS_DUPLICATES = gql`
             first: $first
             last: $last
             offset: $offset
-            orderBy: $orderBy
-            orderByType: $orderByType
+            order: $order
         ) {
             nodes {
                 ...MANGA_LIBRARY_DUPLICATE_SCREEN_FIELDS

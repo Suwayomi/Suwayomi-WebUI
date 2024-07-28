@@ -28,8 +28,7 @@ export const GET_CHAPTERS_READER = gql`
         $first: Int
         $last: Int
         $offset: Int
-        $orderBy: ChapterOrderBy
-        $orderByType: SortOrder
+        $order: [ChapterOrderInput!]
     ) {
         chapters(
             after: $after
@@ -39,8 +38,7 @@ export const GET_CHAPTERS_READER = gql`
             first: $first
             last: $last
             offset: $offset
-            orderBy: $orderBy
-            orderByType: $orderByType
+            order: $order
         ) {
             nodes {
                 ...CHAPTER_READER_FIELDS
@@ -66,8 +64,7 @@ export const GET_CHAPTERS_MANGA = gql`
         $first: Int
         $last: Int
         $offset: Int
-        $orderBy: ChapterOrderBy
-        $orderByType: SortOrder
+        $order: [ChapterOrderInput!]
     ) {
         chapters(
             after: $after
@@ -77,8 +74,7 @@ export const GET_CHAPTERS_MANGA = gql`
             first: $first
             last: $last
             offset: $offset
-            orderBy: $orderBy
-            orderByType: $orderByType
+            order: $order
         ) {
             nodes {
                 ...CHAPTER_LIST_FIELDS
@@ -104,8 +100,7 @@ export const GET_CHAPTERS_UPDATES = gql`
         $first: Int
         $last: Int
         $offset: Int
-        $orderBy: ChapterOrderBy
-        $orderByType: SortOrder
+        $order: [ChapterOrderInput!]
     ) {
         chapters(
             after: $after
@@ -115,8 +110,7 @@ export const GET_CHAPTERS_UPDATES = gql`
             first: $first
             last: $last
             offset: $offset
-            orderBy: $orderBy
-            orderByType: $orderByType
+            order: $order
         ) {
             nodes {
                 ...CHAPTER_UPDATE_LIST_FIELDS
