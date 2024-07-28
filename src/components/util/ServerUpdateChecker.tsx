@@ -68,10 +68,6 @@ export const ServerUpdateChecker = () => {
         setOpen(true);
     }
 
-    if (!serverInformAvailableUpdate) {
-        return null;
-    }
-
     if (isCheckingForServerUpdate) {
         return null;
     }
@@ -81,6 +77,10 @@ export const ServerUpdateChecker = () => {
     }
 
     if (isServerUpdateAvailable) {
+        if (!serverInformAvailableUpdate) {
+            return null;
+        }
+
         const isAboutPage = window.location.pathname === '/settings/about';
         if (isAboutPage) {
             return null;
