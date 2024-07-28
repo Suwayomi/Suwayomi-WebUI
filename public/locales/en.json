@@ -953,6 +953,12 @@
               "title": "FlareSolverr enabled"
             }
           },
+          "response_fallback": {
+            "label": {
+              "description": "Use the FlareSolverr response in case the server runs into a Cloudflare challenge while FlareSolverr does not and is therefore unable to solve the challenge (does not work for images)",
+              "title": "Response fallback"
+            }
+          },
           "session": {
             "name": {
               "label": {

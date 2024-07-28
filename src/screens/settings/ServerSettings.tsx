@@ -51,6 +51,7 @@ type ServerSettingsType = Pick<
     | 'flareSolverrUrl'
     | 'flareSolverrSessionName'
     | 'flareSolverrSessionTtl'
+    | 'flareSolverrAsResponseFallback'
 >;
 
 const extractServerSettings = (settings: GqlServerSettings): ServerSettingsType => ({
@@ -73,6 +74,7 @@ const extractServerSettings = (settings: GqlServerSettings): ServerSettingsType 
     flareSolverrUrl: settings.flareSolverrUrl,
     flareSolverrSessionName: settings.flareSolverrSessionName,
     flareSolverrSessionTtl: settings.flareSolverrSessionTtl,
+    flareSolverrAsResponseFallback: settings.flareSolverrAsResponseFallback,
 });
 
 export const ServerSettings = () => {
@@ -357,6 +359,17 @@ export const ServerSettings = () => {
                     valueUnit={t('global.time.minutes.minute_other')}
                     handleUpdate={(sessionTTL) => updateSetting('flareSolverrSessionTtl', sessionTTL)}
                 />
+                <ListItem>
+                    <ListItemText
+                        primary={t('settings.server.cloudflare.flaresolverr.response_fallback.label.title')}
+                        secondary={t('settings.server.cloudflare.flaresolverr.response_fallback.label.description')}
+                    />
+                    <Switch
+                        edge="end"
+                        checked={serverSettings.flareSolverrAsResponseFallback}
+                        onChange={(e) => updateSetting('flareSolverrAsResponseFallback', e.target.checked)}
+                    />
+                </ListItem>
             </List>
             <List
                 subheader={

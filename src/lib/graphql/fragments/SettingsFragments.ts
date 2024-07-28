@@ -76,5 +76,6 @@ export const SERVER_SETTINGS = gql`
         flareSolverrTimeout
         flareSolverrSessionName
         flareSolverrSessionTtl
+        flareSolverrAsResponseFallback
     }
 `;
