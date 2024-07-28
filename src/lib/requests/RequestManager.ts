@@ -2409,7 +2409,10 @@ export class RequestManager {
             GET_CHAPTERS_UPDATES,
             {
                 filter: { inLibrary: { equalTo: true } },
-                order: [{ by: ChapterOrderBy.FetchedAt, byType: SortOrder.Desc }],
+                order: [
+                    { by: ChapterOrderBy.FetchedAt, byType: SortOrder.Desc },
+                    { by: ChapterOrderBy.SourceOrder, byType: SortOrder.Desc },
+                ],
                 first: initialPages * PAGE_SIZE + lastOffset,
             },
             options,
