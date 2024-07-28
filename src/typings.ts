@@ -269,6 +269,7 @@ export interface LibraryOptions {
     downloaded: NullAndUndefined<boolean>;
     bookmarked: NullAndUndefined<boolean>;
     unread: NullAndUndefined<boolean>;
+    hasDuplicateChapters: NullAndUndefined<boolean>;
     sorts: NullAndUndefined<LibrarySortMode>;
     sortDesc: NullAndUndefined<boolean>;
     showTabSize: boolean;

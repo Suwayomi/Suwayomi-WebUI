@@ -32,6 +32,7 @@ export const DefaultLibraryOptions: LibraryOptions = {
     sortDesc: undefined,
     sorts: undefined,
     unread: undefined,
+    hasDuplicateChapters: undefined,
     tracker: {},
 
     showTabSize: false,

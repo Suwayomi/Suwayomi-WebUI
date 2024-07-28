@@ -78,6 +78,11 @@ export const LibraryOptionsPanel: React.FC<IProps> = ({ open, onClose }) => {
                                 checked={options.bookmarked}
                                 onChange={(c) => handleFilterChange('bookmarked', c)}
                             />
+                            <ThreeStateCheckboxInput
+                                label={t('global.filter.label.duplicate_chapters')}
+                                checked={options.hasDuplicateChapters}
+                                onChange={(c) => handleFilterChange('hasDuplicateChapters', c)}
+                            />
                             <FormLabel sx={{ mt: 2 }}>{t('global.filter.label.tracked')}</FormLabel>
                             {loggedInTrackers.map((tracker) => (
                                 <ThreeStateCheckboxInput

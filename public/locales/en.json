@@ -366,6 +366,7 @@
       "label": {
         "bookmarked": "Bookmarked",
         "downloaded": "Downloaded",
+        "duplicate_chapters": "Duplicate chapters",
         "tracked": "Tracked",
         "unread": "Unread"
       }
