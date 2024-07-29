@@ -1864,9 +1864,8 @@ export class RequestManager {
             document,
             {
                 condition: { mangaId: Number(mangaId) },
-                orderBy: ChapterOrderBy.SourceOrder,
-                orderByType: SortOrder.Desc,
-            } as unknown as Variables,
+                order: [{ by: ChapterOrderBy.SourceOrder, byType: SortOrder.Desc }],
+            } satisfies GetChaptersMangaQueryVariables as unknown as Variables,
             options,
         );
     }
@@ -2048,8 +2047,8 @@ export class RequestManager {
             GQLMethod.USE_QUERY,
             document,
             {
-                orderBy: CategoryOrderBy.Order,
-            } as unknown as Variables,
+                order: [{ by: CategoryOrderBy.Order }],
+            } satisfies GetCategoriesSettingsQueryVariables as unknown as Variables,
             options,
         );
     }
@@ -2062,8 +2061,8 @@ export class RequestManager {
             GQLMethod.QUERY,
             document,
             {
-                orderBy: CategoryOrderBy.Order,
-            } as unknown as Variables,
+                order: [{ by: CategoryOrderBy.Order }],
+            } satisfies GetCategoriesSettingsQueryVariables as unknown as Variables,
             options,
         );
     }
