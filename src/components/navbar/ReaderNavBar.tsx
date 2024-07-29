@@ -12,7 +12,7 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Slide from '@mui/material/Slide';
@@ -138,7 +138,7 @@ interface IProps {
 
 export function ReaderNavBar(props: IProps) {
     const { t } = useTranslation();
-    const { setNavBarWidth } = useNavBarContext();
+    const { setReaderNavBarWidth } = useNavBarContext();
 
     const navigate = useNavigate();
     const location = useLocation<{
@@ -155,10 +155,10 @@ export function ReaderNavBar(props: IProps) {
                 return;
             }
 
-            setNavBarWidth(navBarRef.current.offsetWidth);
+            setReaderNavBarWidth(navBarRef.current.offsetWidth);
         }, [navBarRef.current]),
     );
-    useEffect(() => () => setNavBarWidth(0), [navBarRef]);
+    useLayoutEffect(() => () => setReaderNavBarWidth(0), [navBarRef]);
 
     const {
         settings,

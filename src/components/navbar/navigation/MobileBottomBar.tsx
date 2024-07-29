@@ -10,7 +10,7 @@ import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import { useTranslation } from 'react-i18next';
 import Paper from '@mui/material/Paper';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { NavbarItem } from '@/typings.ts';
 import { useResizeObserver } from '@/util/useResizeObserver.tsx';
@@ -27,7 +27,7 @@ export const MobileBottomBar = ({ navBarItems }: { navBarItems: NavbarItem[] }) 
         ref,
         useCallback(() => setBottomBarHeight(ref.current?.clientHeight ?? 0), [ref.current]),
     );
-    useEffect(() => () => setBottomBarHeight(0), []);
+    useLayoutEffect(() => () => setBottomBarHeight(0), []);
 
     const [selectedNavBarItem, setSelectedNavBarItem] = useState(
         navBarItems.find((navBarItem) => navBarItem.path === location.pathname)?.path,

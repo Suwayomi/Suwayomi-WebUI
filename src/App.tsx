@@ -86,8 +86,9 @@ const MainApp = () => {
             id="appMainContainer"
             component="main"
             sx={{
-                flexGrow: 1,
                 minHeight: `calc(100vh - ${bottomBarHeight}px)`,
+                width: `calc(100vw - (100vw - 100%) - ${navBarWidth}px)`,
+                minWidth: `calc(100vw - (100vw - 100%) - ${navBarWidth}px)`,
                 maxWidth: `calc(100vw - (100vw - 100%) - ${navBarWidth}px)`,
                 position: 'relative',
                 mb: `${bottomBarHeight}px`,

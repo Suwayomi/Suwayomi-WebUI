@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useCallback, useContext, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -73,7 +73,7 @@ const navbarItems: Array<NavbarItem> = [
 ];
 
 export function DefaultNavBar() {
-    const { title, action, override, isCollapsed, setIsCollapsed, setAppBarHeight, navBarWidth } =
+    const { title, action, override, isCollapsed, setIsCollapsed, setAppBarHeight, navBarWidth, setNavBarWidth } =
         useContext(NavBarContext);
 
     const { pathname } = useLocation();
@@ -97,6 +97,15 @@ export function DefaultNavBar() {
         [isMobileWidth],
     );
     const NavBarComponent = useMemo(() => (isMobileWidth ? MobileBottomBar : DesktopSideBar), [isMobileWidth]);
+
+    useLayoutEffect(() => {
+        if (!isMobileWidth) {
+            // do not reset navbar width to prevent grid from jumping due to the changing grid item width
+            return;
+        }
+
+        setNavBarWidth(0);
+    }, [isMobileWidth]);
 
     const navBar = useMemo(
         () => <NavBarComponent navBarItems={visibleNavBarItems} />,

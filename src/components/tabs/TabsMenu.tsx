@@ -8,8 +8,7 @@
 
 import Tabs, { TabsProps } from '@mui/material/Tabs';
 import { styled } from '@mui/material/styles';
-import { ForwardedRef, forwardRef, useCallback, useImperativeHandle, useRef, useState } from 'react';
-import { useResizeObserver } from '@/util/useResizeObserver.tsx';
+import { ForwardedRef, forwardRef } from 'react';
 import { useNavBarContext } from '@/components/context/NavbarContext.tsx';
 
 const StyledTabsMenu = styled(Tabs)(({ theme }) => ({
@@ -27,33 +26,21 @@ const StyledTabsMenu = styled(Tabs)(({ theme }) => ({
 
 export const TabsMenu = forwardRef(
     (
-        { children, tabsCount, ...props }: TabsProps & { tabsCount: number },
+        { children, tabsCount, sx, ...props }: TabsProps & { tabsCount: number },
         ref: ForwardedRef<HTMLDivElement | null>,
     ) => {
         const { appBarHeight } = useNavBarContext();
 
-        const tabsMenuRef = useRef<HTMLDivElement | null>(null);
-        useImperativeHandle(ref, () => tabsMenuRef.current!);
-        const [width, setWidth] = useState<number>();
-        useResizeObserver(
-            tabsMenuRef,
-            useCallback(() => setWidth(tabsMenuRef.current?.clientWidth), [tabsMenuRef.current]),
-        );
-
-        // Visual Hack: 160px is min-width for viewport width of >600
-        const scrollableTabs = !width ? false : width < tabsCount * 160;
-
         return (
             <StyledTabsMenu
-                {...props}
-                sx={{ ...props.sx, top: appBarHeight }}
-                ref={tabsMenuRef}
+                sx={{ ...sx, top: appBarHeight }}
+                ref={ref}
                 indicatorColor="primary"
                 textColor="primary"
-                centered={!scrollableTabs}
-                variant={scrollableTabs ? 'scrollable' : 'fullWidth'}
+                variant="scrollable"
                 scrollButtons
                 allowScrollButtonsMobile
+                {...props}
             >
                 {children}
             </StyledTabsMenu>

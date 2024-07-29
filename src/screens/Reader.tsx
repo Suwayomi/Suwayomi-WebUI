@@ -194,7 +194,7 @@ export function Reader() {
     const isLastPage = curPage === chapter.pageCount - 1;
     const curPageDebounced = useDebounce(curPage, isLastPage ? 0 : 1000);
     const [pageToScrollTo, setPageToScrollTo] = useState<number | undefined>(undefined);
-    const { setOverride, setTitle, navBarWidth: currentNavBarWidth } = useContext(NavBarContext);
+    const { setOverride, setTitle, readerNavBarWidth: currentNavBarWidth } = useContext(NavBarContext);
     const [retrievingNextChapter, setRetrievingNextChapter] = useState(false);
     const {
         data: mangaChaptersData,

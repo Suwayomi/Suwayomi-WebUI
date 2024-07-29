@@ -34,6 +34,9 @@ type ContextType = {
     navBarWidth: number;
     setNavBarWidth: React.Dispatch<React.SetStateAction<number>>;
 
+    readerNavBarWidth: number;
+    setReaderNavBarWidth: React.Dispatch<React.SetStateAction<number>>;
+
     bottomBarHeight: number;
     setBottomBarHeight: React.Dispatch<React.SetStateAction<number>>;
 };
@@ -52,6 +55,8 @@ export const NavBarContext = React.createContext<ContextType>({
     setIsCollapsed: (): void => {},
     navBarWidth: 0,
     setNavBarWidth: (): void => {},
+    readerNavBarWidth: 0,
+    setReaderNavBarWidth: (): void => {},
     bottomBarHeight: 0,
     setBottomBarHeight: (): void => {},
 });

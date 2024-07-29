@@ -37,7 +37,13 @@ export function Browse() {
 
     return (
         <TabsWrapper>
-            <TabsMenu ref={tabsMenuRef} value={tabNum} tabsCount={2} onChange={(e, newTab) => setTabNum(newTab)}>
+            <TabsMenu
+                ref={tabsMenuRef}
+                variant="fullWidth"
+                value={tabNum}
+                tabsCount={2}
+                onChange={(e, newTab) => setTabNum(newTab)}
+            >
                 <Tab sx={{ textTransform: 'none' }} label={t('source.title_one')} />
                 <Tab sx={{ textTransform: 'none' }} label={t('extension.title_other')} />
                 <Tab sx={{ textTransform: 'none' }} label={t('migrate.title')} />

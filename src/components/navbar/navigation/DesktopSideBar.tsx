@@ -17,7 +17,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import Divider from '@mui/material/Divider';
 import { styled, useTheme } from '@mui/material/styles';
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 import Box from '@mui/material/Box';
 import ListItem from '@mui/material/ListItem';
 import Tooltip from '@mui/material/Tooltip';
@@ -92,7 +92,6 @@ export const DesktopSideBar = ({ navBarItems }: { navBarItems: NavbarItem[] }) =
         ref,
         useCallback(() => setNavBarWidth(ref.current?.clientWidth ?? 0), [ref.current]),
     );
-    useEffect(() => () => setNavBarWidth(0), []);
 
     return (
         <Drawer variant="permanent" sx={{ width: navBarWidth }}>

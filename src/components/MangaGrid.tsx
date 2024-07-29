@@ -32,7 +32,7 @@ import { AppStorage } from '@/util/AppStorage.ts';
 import { MangaCardProps } from '@/components/manga/MangaCard.types.tsx';
 import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { useResizeObserver } from '@/util/useResizeObserver.tsx';
-import { useDebounce } from '@/util/useDebounce.ts';
+import { useNavBarContext } from '@/components/context/NavbarContext.tsx';
 
 const GridContainer = React.forwardRef<HTMLDivElement, GridTypeMap['props']>(({ children, ...props }, ref) => (
     <Grid {...props} ref={ref} container sx={{ paddingLeft: '5px', paddingRight: '13px' }}>
@@ -253,12 +253,15 @@ export const MangaGrid: React.FC<IMangaGridProps> = ({
 }) => {
     const { t } = useTranslation();
 
-    const gridRef = useRef<HTMLDivElement>(null);
+    const { navBarWidth } = useNavBarContext();
 
-    const [actualDimensions, setDimensions] = useState(document.documentElement.offsetWidth);
-    const dimensions = useDebounce(actualDimensions, 500);
-    const [gridItemWidth] = useLocalStorage<number>('ItemWidth', 300);
+    const gridRef = useRef<HTMLDivElement>(null);
     const gridWrapperRef = useRef<HTMLDivElement>(null);
+
+    const [dimensions, setDimensions] = useState(
+        gridWrapperRef.current?.offsetWidth ?? Math.max(0, document.documentElement.offsetWidth - navBarWidth),
+    );
+    const [gridItemWidth] = useLocalStorage<number>('ItemWidth', 300);
     const GridItemContainer = useMemo(
         () => GridItemContainerWithDimension(dimensions, gridItemWidth, gridLayout),
         [dimensions, gridItemWidth, gridLayout],
@@ -300,14 +303,14 @@ export const MangaGrid: React.FC<IMangaGridProps> = ({
                 const gridWidth = gridWrapperRef.current?.offsetWidth;
 
                 if (!gridWidth) {
-                    return document.documentElement.offsetWidth;
+                    return document.documentElement.offsetWidth - navBarWidth;
                 }
 
                 return gridWidth;
             };
 
             setDimensions(getDimensions());
-        }, []),
+        }, [navBarWidth]),
     );
 
     useResizeObserver(
