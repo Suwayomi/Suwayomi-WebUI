@@ -437,8 +437,10 @@ export class Mangas {
                       (trackRecord) => requestManager.unbindTracker(trackRecord.id).response,
                   )
                 : []),
-            ...trackBindingsToAdd.map((trackRecord) =>
-                requestManager.bindTracker(mangaToMigrateTo.id, trackRecord.trackerId, trackRecord.remoteId),
+            ...trackBindingsToAdd.map(
+                (trackRecord) =>
+                    requestManager.bindTracker(mangaToMigrateTo.id, trackRecord.trackerId, trackRecord.remoteId)
+                        .response,
             ),
         ]);
     }
