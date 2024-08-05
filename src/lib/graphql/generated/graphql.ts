@@ -3057,7 +3057,7 @@ export type UpdateMangaMutationVariables = Exact<{
 }>;
 
 
-export type UpdateMangaMutation = { __typename?: 'Mutation', updateManga?: { __typename?: 'UpdateMangaPayload', manga: { __typename?: 'MangaType', id: number, inLibrary: boolean, inLibraryAt: string } } | null, updateMangaCategories?: { __typename?: 'UpdateMangaCategoriesPayload', manga: { __typename?: 'MangaType', id: number, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> } } } | null };
+export type UpdateMangaMutation = { __typename?: 'Mutation', updateMangaCategories?: { __typename?: 'UpdateMangaCategoriesPayload', manga: { __typename?: 'MangaType', id: number, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> } } } | null, updateManga?: { __typename?: 'UpdateMangaPayload', manga: { __typename?: 'MangaType', id: number, inLibrary: boolean, inLibraryAt: string } } | null };
 
 export type UpdateMangasMutationVariables = Exact<{
   input: UpdateMangasInput;
@@ -3066,7 +3066,7 @@ export type UpdateMangasMutationVariables = Exact<{
 }>;
 
 
-export type UpdateMangasMutation = { __typename?: 'Mutation', updateMangas?: { __typename?: 'UpdateMangasPayload', mangas: Array<{ __typename?: 'MangaType', id: number, inLibrary: boolean, inLibraryAt: string, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> } }> } | null, updateMangasCategories?: { __typename?: 'UpdateMangasCategoriesPayload', mangas: Array<{ __typename?: 'MangaType', id: number, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> } }> } | null };
+export type UpdateMangasMutation = { __typename?: 'Mutation', updateMangasCategories?: { __typename?: 'UpdateMangasCategoriesPayload', mangas: Array<{ __typename?: 'MangaType', id: number, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> } }> } | null, updateMangas?: { __typename?: 'UpdateMangasPayload', mangas: Array<{ __typename?: 'MangaType', id: number, inLibrary: boolean, inLibraryAt: string, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> } }> } | null };
 
 export type UpdateMangaCategoriesMutationVariables = Exact<{
   input: UpdateMangaCategoriesInput;
