@@ -60,9 +60,9 @@ export const TrackManga = ({ manga }: { manga: MangaIdInfo & Pick<MangaType, 'ti
     const OptionalDialogContent = useMemo(() => (isSearchActive ? Box : DialogContent), [isSearchActive]);
 
     useEffect(() => {
-        Promise.all(mangaTrackRecords.map((trackRecord) => requestManager.fetchTrackBind(trackRecord.id))).catch(() =>
-            makeToast(t('tracking.error.label.could_not_fetch_track_info'), 'error'),
-        );
+        Promise.all(
+            mangaTrackRecords.map((trackRecord) => requestManager.fetchTrackBind(trackRecord.id).response),
+        ).catch(() => makeToast(t('tracking.error.label.could_not_fetch_track_info'), 'error'));
     }, [mangaTrackRecords]);
 
     const trackerComponents = useMemo(
