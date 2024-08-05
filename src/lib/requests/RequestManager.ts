@@ -1097,7 +1097,7 @@ export class RequestManager {
                                     fragment: GLOBAL_METADATA,
                                 });
 
-                                return [...existingMetas, newMetaRef];
+                                return [...existingMetas.nodes, newMetaRef];
                             },
                         },
                     });
