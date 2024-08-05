@@ -174,6 +174,8 @@ type PerformActionOptions<Action extends MangaAction> = Action extends 'mark_as_
           ? DownloadActionOption
           : DefaultActionOption;
 
+type MigrateFuncReturn = { copy: () => Promise<unknown>[]; cleanup: () => Promise<unknown>[] };
+
 export class Mangas {
     static getIds(mangas: MangaIdInfo[]): number[] {
         return mangas.map((manga) => manga.id);
@@ -364,10 +366,11 @@ export class Mangas {
         );
     }
 
-    private static async migrateChapters(
+    private static migrateChapters(
+        mode: MigrateMode,
         mangaToMigrate: GetMangaToMigrateQuery['manga'],
         mangaToMigrateToInfo: GetMangaToMigrateToFetchMutation,
-    ): Promise<void> {
+    ): MigrateFuncReturn {
         if (!mangaToMigrate.chapters || !mangaToMigrateToInfo.fetchChapters?.chapters) {
             throw new Error('Chapters are missing');
         }
@@ -392,31 +395,48 @@ export class Mangas {
             }
         });
 
-        await Promise.all([
-            readChapters.length && requestManager.updateChapters(readChapters, { isRead: true }).response,
-            bookmarkedChapters.length &&
-                requestManager.updateChapters(bookmarkedChapters, { isBookmarked: true }).response,
-        ]);
+        return {
+            copy: () =>
+                [
+                    readChapters.length && requestManager.updateChapters(readChapters, { isRead: true }).response,
+                    bookmarkedChapters.length &&
+                        requestManager.updateChapters(bookmarkedChapters, { isBookmarked: true }).response,
+                ].filter((promise) => !!promise),
+            cleanup: () =>
+                mode === 'migrate'
+                    ? [
+                          requestManager.deleteDownloadedChapters(
+                              Chapters.getIds(Chapters.getDownloaded(mangaToMigrate.chapters?.nodes ?? [])),
+                          ).response,
+                      ]
+                    : [],
+        };
     }
 
-    private static async migrateCategories(
+    private static migrateCategories(
+        mode: MigrateMode,
         mangaToMigrate: MangaToMigrate,
         mangaToMigrateTo: MangaToMigrateTo,
-    ): Promise<void> {
+    ): MigrateFuncReturn {
         if (!mangaToMigrate?.categories) {
             throw new Error('Categories are missing');
         }
 
-        await requestManager.updateMangasCategories([mangaToMigrateTo.id], {
-            addToCategories: mangaToMigrate.categories.nodes.map((category) => category.id),
-        }).response;
+        return {
+            copy: () => [
+                requestManager.updateMangasCategories([mangaToMigrateTo.id], {
+                    addToCategories: mangaToMigrate.categories?.nodes.map((category) => category.id),
+                }).response,
+            ],
+            cleanup: () => [],
+        };
     }
 
-    private static async migrateTracking(
+    private static migrateTracking(
         mode: MigrateMode,
         mangaToMigrate: MangaToMigrate,
         mangaToMigrateTo: MangaToMigrateTo,
-    ): Promise<void> {
+    ): MigrateFuncReturn {
         if (!mangaToMigrate.trackRecords) {
             throw new Error('TrackRecords of manga to migrate are missing');
         }
@@ -426,23 +446,44 @@ export class Mangas {
         }
 
         const trackBindingsToAdd = mangaToMigrate.trackRecords.nodes.filter((trackRecordToMigrate) =>
-            mangaToMigrateTo.trackRecords!.nodes.every(
+            mangaToMigrateTo.trackRecords?.nodes.every(
                 (trackRecord) => trackRecordToMigrate.remoteId !== trackRecord.remoteId,
             ),
         );
 
-        await Promise.all([
-            ...(mode === 'migrate'
-                ? mangaToMigrate.trackRecords.nodes.map(
-                      (trackRecord) => requestManager.unbindTracker(trackRecord.id).response,
-                  )
-                : []),
-            ...trackBindingsToAdd.map(
-                (trackRecord) =>
-                    requestManager.bindTracker(mangaToMigrateTo.id, trackRecord.trackerId, trackRecord.remoteId)
-                        .response,
-            ),
-        ]);
+        return {
+            copy: () =>
+                trackBindingsToAdd.map(
+                    (trackRecord) =>
+                        requestManager.bindTracker(mangaToMigrateTo.id, trackRecord.trackerId, trackRecord.remoteId)
+                            .response,
+                ),
+            cleanup: () =>
+                mode === 'migrate'
+                    ? (mangaToMigrate.trackRecords?.nodes.map(
+                          (trackRecord) => requestManager.unbindTracker(trackRecord.id).response,
+                      ) ?? [])
+                    : [],
+        };
+    }
+
+    private static migrateManga(
+        mode: MigrateMode,
+        removeMangaFromCategories: boolean,
+        mangaToMigrate: MangaToMigrate,
+    ): MigrateFuncReturn {
+        return {
+            copy: () => [],
+            cleanup: () =>
+                mode === 'migrate'
+                    ? [
+                          requestManager.updateManga(mangaToMigrate.id, {
+                              updateManga: { inLibrary: false },
+                              updateMangaCategories: removeMangaFromCategories ? { clearCategories: true } : undefined,
+                          }).response,
+                      ]
+                    : [],
+        };
     }
 
     static async migrate(
@@ -484,29 +525,40 @@ export class Mangas {
                 throw new Error('Mangas::migrate: missing chapters data');
             }
 
-            await Promise.all([
-                migrateChapters ? Mangas.migrateChapters(mangaToMigrateData.manga, mangaToMigrateToData) : undefined,
-                deleteChapters
-                    ? requestManager.deleteDownloadedChapters(
-                          Chapters.getIds(Chapters.getDownloaded(mangaToMigrateData.manga.chapters?.nodes ?? [])),
-                      ).response
-                    : undefined,
-                migrateCategories
-                    ? Mangas.migrateCategories(mangaToMigrateData.manga, mangaToMigrateToData.fetchManga.manga)
-                    : undefined,
-                migrateTracking
-                    ? Mangas.migrateTracking(mode, mangaToMigrateData.manga, mangaToMigrateToData.fetchManga.manga)
-                    : undefined,
-                !mangaToMigrateToData.fetchManga.manga.inLibrary
-                    ? requestManager.updateManga(mangaIdToMigrateTo, { updateManga: { inLibrary: true } }).response
-                    : undefined,
-                mode === 'migrate'
-                    ? requestManager.updateManga(mangaId, {
-                          updateManga: { inLibrary: false },
-                          updateMangaCategories: removeMangaFromCategories ? { clearCategories: true } : undefined,
-                      }).response
-                    : undefined,
-            ]);
+            const performMigrationAction = async (
+                migrateAction: keyof MigrateFuncReturn,
+                ...actions: [boolean | undefined, MigrateFuncReturn][]
+            ) =>
+                Promise.all(
+                    actions
+                        .filter(([performAction]) => performAction)
+                        .map(([, action]) => action[migrateAction]())
+                        .flat(),
+                );
+
+            const performMigrationActions = async (...actions: [boolean | undefined, MigrateFuncReturn][]) => {
+                const migrationActions: TupleUnion<keyof MigrateFuncReturn> = ['copy', 'cleanup'];
+
+                for (const migrationAction of migrationActions) {
+                    // the migration actions (copy, cleanup) are supposed to be run sequentially to ensure that the cleanup
+                    // only happens in case the copy succeeded
+                    // eslint-disable-next-line no-await-in-loop
+                    await performMigrationAction(migrationAction, ...actions);
+                }
+            };
+
+            await performMigrationActions(
+                [migrateChapters, Mangas.migrateChapters(mode, mangaToMigrateData.manga, mangaToMigrateToData)],
+                [
+                    migrateCategories,
+                    Mangas.migrateCategories(mode, mangaToMigrateData.manga, mangaToMigrateToData.fetchManga.manga),
+                ],
+                [
+                    migrateTracking,
+                    Mangas.migrateTracking(mode, mangaToMigrateData.manga, mangaToMigrateToData.fetchManga.manga),
+                ],
+                [true, Mangas.migrateManga(mode, removeMangaFromCategories, mangaToMigrateData.manga)],
+            );
         });
     }
 
