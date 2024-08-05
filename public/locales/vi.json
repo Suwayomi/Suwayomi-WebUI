@@ -12,7 +12,7 @@
         "dialog": {
             "title": {
                 "new_category": "Danh mục mới",
-                "edit_category": "Chỉnh sửa thể loại"
+                "edit_category": "Chỉnh sửa danh mục"
             }
         },
         "error": {
@@ -70,7 +70,9 @@
                         "next_ten": "10 Chương tiếp theo",
                         "next_twentyfive": "25 Chương tiếp theo",
                         "next": "$t(reader.button.next_chapter)1 Chương tiếp theo",
-                        "unread": "$t(global.filter.label.unread)Chưa đọc"
+                        "unread": "$t(global.filter.label.unread)Chưa đọc",
+                        "ahead": "$t(download.settings.download_ahead.title) ({{count}})",
+                        "all": "$t(extension.language.all)"
                     },
                     "button": {
                         "selected": "Tải xuống đã chọn"
@@ -191,20 +193,31 @@
                     }
                 },
                 "label": {
-                    "new_chapters": "Tải chương mới"
+                    "new_chapters": "Tải chương mới",
+                    "ignore_re_uploads": "Bỏ qua chương đã được tải lên",
+                    "ignore_with_unread_chapters": "Bỏ qua tự động tải về cho truyện với chương chưa đọc"
                 },
-                "title": "Tự động tải về"
+                "title": "Tự động tải về",
+                "categories": {
+                    "label": {
+                        "include_in_download": "Danh mục ở danh sách ngoại trừ sẽ không được tải về kể cả khi chúng ở trong danh sách bao gồm"
+                    }
+                }
             },
             "download_ahead": {
                 "label": {
                     "while_reading": "Tự động tải về khi đọc",
                     "value": "{{chapters}} $t(chapter.title)",
-                    "disclaimer": "Chỉ hoạt động khi tập hiện tại và tập kế tiếp đã được tải về."
-                }
+                    "disclaimer": "Chỉ hoạt động khi tập hiện tại và tập kế tiếp đã được tải về.",
+                    "unread_chapters_to_download": "Số tập chưa đọc sẽ được tải về",
+                    "description": "Bao nhiêu tập nên được tải khi đang đọc truyện."
+                },
+                "title": "Tải về phía trước"
             },
             "download_path": {
                 "label": {
-                    "title": "Nơi tải về"
+                    "title": "Nơi tải về",
+                    "description": "Thư mục nào nên được lưu vào khi truyện được tải về"
                 }
             },
             "file_type": {
@@ -263,7 +276,9 @@
                         }
                     },
                     "label": {
-                        "title": "Kho tiện ích"
+                        "title": "Kho tiện ích",
+                        "description": "Thêm kho tiện ích",
+                        "disclaimer": "<strong>Suwayomi không cung cấp bất cứ hỗ trờ gì cho kho tiện ích hay tiện ích của bên thứ 3!</strong><br/>Cẩn trọng với những tiện ích vì chúng có thể được tạo bởi những kẻ xấu. <br/>Bạn với tư cách là người dùng nên kiểm tra trước khi tin tưởng bất kì kho tiện ích hay tiện ích nào."
                     }
                 }
             }
@@ -305,7 +320,9 @@
             "show_less": "Ẩn đi",
             "changelog": "Nhật ký thay đổi",
             "ignore": "Phớt lờ",
-            "refresh": "Làm mới"
+            "refresh": "Làm mới",
+            "delete": "Xóa",
+            "remind_later": "Nhắc sau"
         },
         "date": {
             "label": {
@@ -327,14 +344,17 @@
                 "invalid_action": "Đây không phải là một hành động hợp lệ",
                 "update_failed": "Không thể kiểm tra các bản cập nhật",
                 "failed_to_save_changes": "Không thể lưu thay đổi",
-                "invalid_file_type": "Loại tệp không hợp lệ"
+                "invalid_file_type": "Loại tệp không hợp lệ",
+                "invalid_input": "Ô nhập không hợp lệ"
             }
         },
         "filter": {
             "label": {
                 "bookmarked": "Đã đánh dấu trang",
                 "downloaded": "Tải về",
-                "unread": "Chưa đọc"
+                "unread": "Chưa đọc",
+                "duplicate_chapters": "Chương bị trùng",
+                "tracked": "Đã theo dõi"
             }
         },
         "grid_layout": {
@@ -363,7 +383,16 @@
             "links": "Đường dẫn",
             "never": "Không bao giờ",
             "username": "Tên người dùng",
-            "advanced": "Nâng cao"
+            "advanced": "Nâng cao",
+            "load_in_progress": "Đang tải dữ liệu cần thiết…",
+            "disabled": "Vô hiệu hóa",
+            "open_in_browser": "Mở bằng trình duyệt",
+            "placeholder": "Phần dữ chỗ",
+            "started": "Đã bắt đầu",
+            "logged_in": "Đã đăng nhập",
+            "copied": "Đã sao chép",
+            "type": "Thể loại",
+            "are_you_sure": "Bạn đã chắc chắn chứ?"
         },
         "language": {
             "label": {
@@ -378,7 +407,9 @@
         "sort": {
             "label": {
                 "by_fetch_date": "Theo ngày",
-                "by_source": "Theo nguồn"
+                "by_source": "Theo nguồn",
+                "by_upload_date": "Bằng ngày tải lên",
+                "by_chapter_number": "Bằng số chương"
             }
         },
         "update": {
@@ -389,7 +420,16 @@
                 "info": "Phiên bản máy chủ {{version}} ({{channel}}) có thể tải về",
                 "updating": "{{progress}}% | Đang cập nhật…",
                 "up_to_date": "Đây là phiên bản mới nhất",
-                "update_failure": "Cập nhật thất bại"
+                "update_failure": "Cập nhật thất bại",
+                "update_success": "{{name}} đã cập nhật lên phiên bản {{version}} ({{channel}})"
+            },
+            "settings": {
+                "inform": {
+                    "label": {
+                        "description": "Hiển thị thông báo khi có phiên bản mới",
+                        "title": "Thông báo khi có bản cập nhật mới"
+                    }
+                }
             }
         },
         "time": {
@@ -439,7 +479,8 @@
                     "by_date_added": "Đã thêm gần đây",
                     "by_unread_chapters": "Các chương chưa đọc",
                     "alphabetically": "A-Z",
-                    "by_last_read": "Đọc gần đây"
+                    "by_last_read": "Đọc gần đây",
+                    "by_latest_uploaded_chapter": "Chương mới nhất được tải lên"
                 }
             }
         },
@@ -466,7 +507,8 @@
                 "auto_update": {
                     "interval": {
                         "label": {
-                            "value": "{{hours}}$t(global.time.hour_short)"
+                            "value": "{{hours}}$t(global.time.hour_short)",
+                            "title": "Thời gian tự động cập nhật"
                         }
                     },
                     "label": {
@@ -475,7 +517,8 @@
                 },
                 "entries": {
                     "label": {
-                        "completed": "Với trạng thái \"Hoàn thành\""
+                        "completed": "Với trạng thái \"Hoàn thành\"",
+                        "unread_chapters": "Với chương chưa đọc"
                     },
                     "title": "Bỏ qua các mục cập nhật"
                 }
@@ -485,7 +528,23 @@
                 "search": {
                     "ignore_filters": {
                         "label": {
-                            "title": "Bỏ qua bộ lọc khi tìm kiếm"
+                            "title": "Bỏ qua bộ lọc khi tìm kiếm",
+                            "description": "Kết quả tìm kiếm sẽ bao gồm manga không thuộc bộ lọc hiện tại"
+                        }
+                    }
+                },
+                "remove_from_library": {
+                    "remove_from_categories": {
+                        "label": {
+                            "description": "Xóa manga khỏi danh mục khi chúng được xóa khỏi thư viện"
+                        }
+                    }
+                },
+                "add_to_library": {
+                    "category_selection": {
+                        "label": {
+                            "title": "Hộp lựa chọn danh mục",
+                            "description": "Hiển thị hộp lựa chọn danh mục khi thêm manga vào thư viện"
                         }
                     }
                 }
@@ -497,6 +556,12 @@
                             "title": "Dọn cơ sở dữ liệu"
                         }
                     }
+                },
+                "duplicates": {
+                    "label": {
+                        "title": "Mục trùng lặp",
+                        "description": "Hiển thị tất cả các mục trùng lặp trong thư viện"
+                    }
                 }
             }
         },
@@ -506,6 +571,12 @@
                 "removed_from_library": "Manga đã được xóa khỏi thư viện!",
                 "added_to_library": "Manga đã được thêm vào thư viện!"
             }
+        },
+        "action": {
+            "label": {
+                "update_category": "Câp nhật danh mục",
+                "update_library": "Cập nhật thư viện"
+            }
         }
     },
     "manga": {
@@ -513,7 +584,8 @@
             "add_to_library": "Thêm vào thư viện",
             "in_library": "Trong thư viện",
             "track": {
-                "start": "Theo dõi"
+                "start": "Theo dõi",
+                "active_other": "{{count}} theo dõi"
             }
         },
         "error": {
@@ -536,9 +608,62 @@
                 "remove": {
                     "dialog": {
                         "label": {
-                            "description": "Điều này sẽ loại bỏ theo dõi cục bộ."
+                            "description": "Điều này sẽ loại bỏ theo dõi cục bộ.",
+                            "delete_remote_track": "Cùng lúc xóa khỏi {{tracker}}",
+                            "title": "Xóa {{tracker}} khỏi theo dõi?"
+                        }
+                    },
+                    "label": {
+                        "error": "Không thể bỏ theo dõi manga",
+                        "success": "Đã bỏ theo dõi manga"
+                    }
+                },
+                "add": {
+                    "label": {
+                        "success": "Manga đã được theo dõi",
+                        "action": "Theo dõi",
+                        "error": "Không thể theo dõi manga"
+                    }
+                }
+            },
+            "migrate": {
+                "label": {
+                    "success": "Sáp nhập manga thành công",
+                    "error": "Không thể sáp nhập manga"
+                }
+            },
+            "library": {
+                "remove": {
+                    "button": {
+                        "selected": "Xóa những mục được lựa trọn trong thư viện"
+                    },
+                    "label": {
+                        "error_other": "Bạn không thể xóa manga khỏi thư viện",
+                        "action": "Xóa khỏi thư viện",
+                        "success_other": "Xóa {{count}} manga khỏi thư viện"
+                    },
+                    "dialog": {
+                        "label": {
+                            "message": "Bạn đang chuẩn bị xóa \"{{title}}\" khỏi thư viện"
                         }
                     }
+                },
+                "add": {
+                    "dialog": {
+                        "duplicate": {
+                            "label": {
+                                "failure": "Không thể kiểm tra những manga bị trùng trong thư viện.\n\nError: {{error}}",
+                                "info": "Bạn có một mục trong thư viện với tên trùng nhau."
+                            }
+                        }
+                    }
+                }
+            },
+            "category": {
+                "label": {
+                    "success_other": "Không thể chuyển danh mục của {{count}} manga",
+                    "error_other": "Không thể chuyển danh mục của manga",
+                    "action": "Chuyển danh mục"
                 }
             }
         }
@@ -547,12 +672,17 @@
         "button": {
             "next_chapter": "Chương tiếp theo",
             "previous_chapter": "Chương trước",
-            "open_menu": "Mở bảng chọn"
+            "open_menu": "Mở bảng chọn",
+            "close_menu": "Đóng bảng chọn",
+            "exit": "Thoát khỏi trình đọc"
         },
         "error": {
             "label": {
                 "unable_to_get_next_chapter_skip_dup": "Không thể tải chương tiếp theo - Đã bật tùy chọn \"$t(reader.settings.label.skip_dup_chapters)\"",
-                "unable_to_get_prev_chapter_skip_dup": "Không thể tải chương trước - Đã bật tùy chọn \"$t(reader.settings.label.skip_dup_chapters)\""
+                "unable_to_get_prev_chapter_skip_dup": "Không thể tải chương trước - Đã bật tùy chọn \"$t(reader.settings.label.skip_dup_chapters)\"",
+                "next_chapter_does_not_exist": "Không còn chương tiếp theo để mở",
+                "no_pages_found": "Không tìm thấy trang",
+                "prev_chapter_does_not_exist": "Không còn chương phía trước để mở"
             }
         },
         "page_info": {
@@ -574,7 +704,10 @@
                 "show_page_number": "Hiển thị số trang",
                 "skip_dup_chapters": "Bỏ qua các chương trùng lặp",
                 "static_navigation": "Điều hướng tĩnh",
-                "fit_page_to_window": "Vừa trang với cửa sổ"
+                "fit_page_to_window": "Vừa trang với cửa sổ",
+                "reader_width": "Độ dài trình đọc",
+                "scale_page": "Tỷ lệ kích thước trang",
+                "offset_first_page": "Bù khoảng trống phía trước trang đầu"
             },
             "reader_type": {
                 "label": {
@@ -625,7 +758,7 @@
                 "label": {
                     "version": "Phiên bản máy chủ",
                     "build_time": "Thời gian xây dựng",
-                    "github": "",
+                    "github": "$t(global.label.github)$t(settings.server.title.server)",
                     "address": "Địa chỉ máy chủ"
                 }
             },
@@ -633,7 +766,10 @@
                 "label": {
                     "version": "Phiên bản $t(settings.webui.title.webui)",
                     "update_failure": "Không thể cập nhật $t(settings.webui.title.webui)",
-                    "github": "$t(global.label.github) $t(settings.webui.title.webui)"
+                    "github": "$t(global.label.github) $t(settings.webui.title.webui)",
+                    "channel": "kênh $t(settings.webui.title.webui)",
+                    "info": "$t(settings.webui.title.webui) Phiên bản {{version}} ({{channel}}) đã sẵn sàng để tải về",
+                    "updated": "Phiên bản đã được cập nhật"
                 }
             }
         },
@@ -654,12 +790,14 @@
                     "label": {
                         "in_progress": "Khôi phục bản sao lưu…",
                         "title": "Khôi phục bản sao lưu",
-                        "success": "Bản sao lưu đã được khôi phục."
+                        "success": "Bản sao lưu đã được khôi phục.",
+                        "description": "Bạn có thể kéo và thả bản sao lưu để khôi phục nó"
                     },
                     "button": "Khôi phục",
                     "error": {
                         "label": {
-                            "failure": "Không thể khôi phục bản sao lưu"
+                            "failure": "Không thể khôi phục bản sao lưu",
+                            "legacy_backup_unsupported": "Bản sao lưu cũ không được hỗ trợ!"
                         }
                     }
                 },
@@ -667,14 +805,22 @@
                     "dialog": {
                         "content": {
                             "label": {
-                                "missing_sources": "Những nguồn sau chưa được cài đặt:"
+                                "missing_sources": "Những nguồn sau chưa được cài đặt:",
+                                "missing_trackers": "Những tracker chưa được đăng nhập:"
                             }
+                        },
+                        "title": "Kiểm tra bản sao lưu"
+                    },
+                    "error": {
+                        "label": {
+                            "failure": "Không thể kiểm tra bản sao lưu"
                         }
                     }
                 },
                 "create": {
                     "label": {
-                        "title": "Tạo bản sao lưu"
+                        "title": "Tạo bản sao lưu",
+                        "description": "Sao lưu thư viện bằng định dạng Tachiyomi"
                     }
                 }
             },
@@ -686,11 +832,13 @@
                     }
                 },
                 "label": {
-                    "time": "Thời gian sao lưu"
+                    "time": "Thời gian sao lưu",
+                    "interval": "Thời gian sao lưu"
                 },
                 "location": {
                     "label": {
-                        "title": "Nơi lưu trữ bản sao lưu"
+                        "title": "Nơi lưu trữ bản sao lưu",
+                        "description": "Địa chỉ đến thư mục trên máy chủ mà bản sao lưu nên lưu vào"
                     }
                 }
             }
@@ -702,7 +850,8 @@
             "manga_item_width": "Chiều rộng ô truyện tranh",
             "show_nsfw": "Nội dung NSFW (18+)",
             "image_cache_description": "Giảm mức tiêu thụ lưu lượng trong khi làm cho hình ảnh tải nhanh hơn",
-            "show_nsfw_description": "Ẩn các tiện ích mở rộng và nguồn NSFW (18+)"
+            "show_nsfw_description": "Ẩn các tiện ích mở rộng và nguồn NSFW (18+)",
+            "hide_library_entries": "Ẩn mục đã có sẵn trong thư viện"
         },
         "server_address": {
             "dialog": {
@@ -719,6 +868,16 @@
                         "ip": "IP",
                         "port": "Cổng"
                     }
+                },
+                "client": {
+                    "dialog": {
+                        "label": {
+                            "enter_address": "Nhập địa chỉ máy chủ"
+                        }
+                    },
+                    "label": {
+                        "description": "Địa chỉ mà người dùng sẽ kết nối tới máy chủ"
+                    }
                 }
             },
             "auth": {
@@ -728,6 +887,53 @@
                         "password": "Xác thực đơn giản $t(global.label.password, lowercase)"
                     }
                 }
+            },
+            "cloudflare": {
+                "flaresolverr": {
+                    "enabled": {
+                        "label": {
+                            "title": "FlareSolverr đã được kích hoạt"
+                        }
+                    },
+                    "session": {
+                        "name": {
+                            "label": {
+                                "title": "Tên của phiên FlareSolverr"
+                            }
+                        },
+                        "ttl": {
+                            "label": {
+                                "title": "TTL của phiên FlareSolverr"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "device": {
+            "devices": {
+                "label": {
+                    "title": "Thiết bị"
+                }
+            },
+            "title": {
+                "settings": "Cài đặt thiết bị",
+                "device": "Thiết bị"
+            },
+            "label": {
+                "placeholder": "Smartphone_Name-1 | độ dài: 16, kí tự: chữ, số, -, _"
+            },
+            "active_device": {
+                "label": {
+                    "title": "Thiết bị hoạt động"
+                }
+            }
+        },
+        "clear_cache": {
+            "label": {
+                "success": "Đã xóa dữ liệu tạm thời của máy chủ",
+                "title": "Xóa dữ liệu tạm thời của máy chủ",
+                "failure": "Không thể xóa dữ liệu dữ liệu tạm thời của máy chủ"
             }
         }
     },
@@ -762,8 +968,21 @@
         "dialog": {
             "label": {
                 "delete_downloaded": "Xóa tải về"
-            }
-        }
+            },
+            "action": {
+                "button": {
+                    "show_entry": "Hiển thị mục"
+                }
+            },
+            "title": "Lụa chọn dữ liệu để thêm vào"
+        },
+        "label": {
+            "info": "Sáp nhập manga…"
+        },
+        "search": {
+            "title": "$t(migrate.title) \"{{title}}\""
+        },
+        "title": "Sáp nhập"
     },
     "tracking": {
         "track_record": {

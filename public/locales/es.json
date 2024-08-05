@@ -234,6 +234,12 @@
                             "description": "La dirección del servidor de FlareSolverr",
                             "title": "URL del servidor FlareSolverr"
                         }
+                    },
+                    "response_fallback": {
+                        "label": {
+                            "title": "Respuesta de respaldo",
+                            "description": "Utiliza la respuesta de FlareSolverr en caso de que el servidor se encuentre con un desafío de Cloudflare mientras que FlareSolverr no y, por lo tanto, no pueda resolver el desafío (no funciona con imágenes)."
+                        }
                     }
                 },
                 "title": "Bypass de Cloudflare"
@@ -653,7 +659,8 @@
                 "bookmarked": "Marcado",
                 "downloaded": "Descargado",
                 "unread": "No leído",
-                "tracked": "Rastreado"
+                "tracked": "Rastreado",
+                "duplicate_chapters": "Capítulos duplicados"
             }
         },
         "time": {

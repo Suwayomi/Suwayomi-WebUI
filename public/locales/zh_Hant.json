@@ -41,7 +41,8 @@
                 "unable_to_get_prev_chapter_skip_dup": "無法獲取上一章 - \"$t(reader.settings.label.skip_dup_chapters)\" 選項已啟用",
                 "unable_to_get_next_chapter_skip_dup": "無法獲取下一章 - \"$t(reader.settings.label.skip_dup_chapters)\" 選項已啟用",
                 "prev_chapter_does_not_exist": "沒有可打開的前一章",
-                "next_chapter_does_not_exist": "沒有可打開的下一章"
+                "next_chapter_does_not_exist": "沒有可打開的下一章",
+                "no_pages_found": "找不到頁面"
             }
         },
         "page_info": {
@@ -125,7 +126,7 @@
                         "action": "下載",
                         "error_other": "無法新增下載",
                         "success_other": "已新增{{count}}下載",
-                        "ahead": "漫畫",
+                        "ahead": "$t(download.settings.download_ahead.title) ({{count}})",
                         "all": "$t(extension.language.all)",
                         "unread": "$t(global.filter.label.unread)",
                         "next_five": "後 5 個章節",
@@ -352,7 +353,9 @@
         "sort": {
             "label": {
                 "by_source": "依照來源",
-                "by_fetch_date": "依照獲取日期"
+                "by_fetch_date": "依照獲取日期",
+                "by_upload_date": "依照更新日期",
+                "by_chapter_number": "依照章節編號"
             }
         },
         "error": {
@@ -378,7 +381,8 @@
                 "bookmarked": "已收藏",
                 "downloaded": "已下載",
                 "unread": "未讀",
-                "tracked": "已追蹤"
+                "tracked": "已追蹤",
+                "duplicate_chapters": "重複章節"
             }
         },
         "update": {
@@ -416,10 +420,11 @@
     "library": {
         "error": {
             "label": {
-                "empty": "你的書櫃是空的",
+                "empty": "您的書櫃是空的",
                 "no_matches": "沒有漫畫符合篩選",
                 "add_to_library": "無法新增漫畫至書櫃！",
-                "remove_from_library": "無法從書櫃中移除漫畫！"
+                "remove_from_library": "無法從書櫃中移除漫畫！",
+                "stop_global_update": "無法停止全域更新"
             }
         },
         "option": {
@@ -550,6 +555,13 @@
             "label": {
                 "removed_from_library": "已從書櫃中移除漫畫！",
                 "added_to_library": "已新增漫畫到書櫃！"
+            }
+        },
+        "action": {
+            "label": {
+                "update_category": "更新分類",
+                "stop_update": "停止全域更新",
+                "update_library": "更新書櫃"
             }
         }
     },
