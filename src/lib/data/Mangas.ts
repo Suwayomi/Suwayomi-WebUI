@@ -413,25 +413,6 @@ export class Mangas {
         };
     }
 
-    private static migrateCategories(
-        mode: MigrateMode,
-        mangaToMigrate: MangaToMigrate,
-        mangaToMigrateTo: MangaToMigrateTo,
-    ): MigrateFuncReturn {
-        if (!mangaToMigrate?.categories) {
-            throw new Error('Categories are missing');
-        }
-
-        return {
-            copy: () => [
-                requestManager.updateMangasCategories([mangaToMigrateTo.id], {
-                    addToCategories: mangaToMigrate.categories?.nodes.map((category) => category.id),
-                }).response,
-            ],
-            cleanup: () => [],
-        };
-    }
-
     private static migrateTracking(
         mode: MigrateMode,
         mangaToMigrate: MangaToMigrate,
@@ -469,15 +450,30 @@ export class Mangas {
 
     private static migrateManga(
         mode: MigrateMode,
+        mangaToMigrateFrom: MangaToMigrate,
+        mangaToMigrateTo: MangaToMigrateTo,
+        migrateCategories: boolean,
         removeMangaFromCategories: boolean,
-        mangaToMigrate: MangaToMigrate,
     ): MigrateFuncReturn {
+        if (!mangaToMigrateFrom?.categories) {
+            throw new Error('Categories are missing');
+        }
+
         return {
-            copy: () => [],
+            copy: () => [
+                requestManager.updateManga(mangaToMigrateTo.id, {
+                    updateManga: { inLibrary: true },
+                    updateMangaCategories: migrateCategories
+                        ? {
+                              addToCategories: mangaToMigrateFrom.categories?.nodes.map((category) => category.id),
+                          }
+                        : undefined,
+                }).response,
+            ],
             cleanup: () =>
                 mode === 'migrate'
                     ? [
-                          requestManager.updateManga(mangaToMigrate.id, {
+                          requestManager.updateManga(mangaToMigrateFrom.id, {
                               updateManga: { inLibrary: false },
                               updateMangaCategories: removeMangaFromCategories ? { clearCategories: true } : undefined,
                           }).response,
@@ -550,14 +546,19 @@ export class Mangas {
             await performMigrationActions(
                 [migrateChapters, Mangas.migrateChapters(mode, mangaToMigrateData.manga, mangaToMigrateToData)],
                 [
-                    migrateCategories,
-                    Mangas.migrateCategories(mode, mangaToMigrateData.manga, mangaToMigrateToData.fetchManga.manga),
-                ],
-                [
                     migrateTracking,
                     Mangas.migrateTracking(mode, mangaToMigrateData.manga, mangaToMigrateToData.fetchManga.manga),
                 ],
-                [true, Mangas.migrateManga(mode, removeMangaFromCategories, mangaToMigrateData.manga)],
+                [
+                    true,
+                    Mangas.migrateManga(
+                        mode,
+                        mangaToMigrateData.manga,
+                        mangaToMigrateToData.fetchManga.manga,
+                        !!migrateCategories,
+                        removeMangaFromCategories,
+                    ),
+                ],
             );
         });
     }
