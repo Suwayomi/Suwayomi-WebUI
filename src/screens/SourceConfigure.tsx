@@ -23,6 +23,7 @@ import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCe
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { GetCategoriesSettingsQueryVariables, GetSourceSettingsQuery } from '@/lib/graphql/generated/graphql.ts';
 import { GET_SOURCE_SETTINGS } from '@/lib/graphql/queries/SourceQuery.ts';
+import { makeToast } from '@/components/util/Toast.tsx';
 
 function getPrefComponent(type: string) {
     switch (type) {
@@ -67,7 +68,9 @@ export function SourceConfigure() {
     const updateValue =
         (position: number): PreferenceProps['updateValue'] =>
         (type, value) => {
-            requestManager.setSourcePreferences(sourceId, { position, [type]: value });
+            requestManager
+                .setSourcePreferences(sourceId, { position, [type]: value })
+                .response.catch(() => makeToast(t('global.error.label.failed_to_save_changes'), 'error'));
         };
 
     if (loading) {

@@ -34,6 +34,7 @@ import { dateTimeFormatter, epochToDate, getDateString } from '@/util/date.ts';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { TypographyMaxLines } from '@/components/atoms/TypographyMaxLines.tsx';
 import { ChapterIdInfo, ChapterMangaInfo } from '@/lib/data/Chapters.ts';
+import { makeToast } from '@/components/util/Toast.tsx';
 
 const groupByDate = (updates: Pick<ChapterType, 'fetchedAt'>[]): [date: string, items: number][] => {
     if (!updates.length) {
@@ -102,7 +103,9 @@ export const Updates: React.FC = () => {
     };
 
     const downloadChapter = (chapter: ChapterIdInfo) => {
-        requestManager.addChapterToDownloadQueue(chapter.id);
+        requestManager
+            .addChapterToDownloadQueue(chapter.id)
+            .response.catch(() => makeToast(t('global.error.label.failed_to_save_changes'), 'error'));
     };
 
     const loadMore = useCallback(() => {
