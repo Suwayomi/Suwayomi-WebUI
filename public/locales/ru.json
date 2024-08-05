@@ -126,8 +126,8 @@
             }
         },
         "title_one": "Глава",
-        "title_few": "",
-        "title_many": ""
+        "title_few": "Главы",
+        "title_many": "Глав"
     },
     "category": {
         "error": {
@@ -338,7 +338,8 @@
                         }
                     },
                     "label": {
-                        "description": "Показать все дублирующиеся записи в вашей библиотеке"
+                        "description": "Показать все дублирующиеся записи в вашей библиотеке",
+                        "title": "Повторяющиеся записи"
                     }
                 }
             }
@@ -348,7 +349,8 @@
                 "empty": "Ваша библиотека пуста",
                 "no_matches": "Ни одна манга не соответствует этому фильтру",
                 "add_to_library": "Не получилось добавить мангу в библиотеку!",
-                "remove_from_library": "Не получилось удалить мангу из библиотеки"
+                "remove_from_library": "Не получилось удалить мангу из библиотеки",
+                "stop_global_update": "Не удалось остановить глобальное обновление"
             }
         },
         "option": {
@@ -389,7 +391,14 @@
                 "removed_from_library": "Манга убрана из библиотеки!"
             }
         },
-        "title": "Библиотека"
+        "title": "Библиотека",
+        "action": {
+            "label": {
+                "stop_update": "Остановить глобальное обновление",
+                "update_category": "Обновить категорию",
+                "update_library": "Обновить библиотеку"
+            }
+        }
     },
     "global": {
         "button": {
@@ -485,6 +494,14 @@
                 "up_to_date": "Это самая последняя версия",
                 "update_failure": "Обновление не удалось",
                 "update_success": "{{name}} был обновлен до версии {{version}} ({{channel}})"
+            },
+            "settings": {
+                "inform": {
+                    "label": {
+                        "description": "Показывает предупреждение, если доступна новая версия",
+                        "title": "Информировать о доступном обновлении"
+                    }
+                }
             }
         },
         "date": {
@@ -492,8 +509,8 @@
                 "today_at": "Сегодня в {{timeString}}",
                 "yesterday": "Вчера",
                 "day_one": "День",
-                "day_few": "",
-                "day_many": "",
+                "day_few": "Дни",
+                "day_many": "Дни",
                 "today": "Сегодня",
                 "yesterday_at": "Вчера в {{timeString}}"
             },
@@ -536,13 +553,16 @@
                 "bookmarked": "В закладках",
                 "downloaded": "Скачанное",
                 "tracked": "Отслеживаемое",
-                "unread": "Непрочитанное"
+                "unread": "Непрочитанное",
+                "duplicate_chapters": "Повторяющиеся главы"
             }
         },
         "sort": {
             "label": {
                 "by_fetch_date": "По выбранной дате",
-                "by_source": "По источнику"
+                "by_source": "По источнику",
+                "by_chapter_number": "По номеру главы",
+                "by_upload_date": "По дате публикации"
             }
         }
     },
@@ -575,7 +595,8 @@
                     "dialog": {
                         "content": {
                             "label": {
-                                "missing_sources": "Следующие расширения не установлены:"
+                                "missing_sources": "Следующие расширения не установлены:",
+                                "missing_trackers": "Вход не осуществлён в следующих трекерах:"
                             }
                         },
                         "title": "Проверка резервной копии"
@@ -776,6 +797,12 @@
                             "description": "Адрес сервера FlareSolverr",
                             "title": "url сервера FlareSolverr"
                         }
+                    },
+                    "response_fallback": {
+                        "label": {
+                            "title": "Запасной ответ",
+                            "description": "Использовать ответ FlareSolverr в случае, если сервер встречает проверку Cloudflare, а Flaresolverr не встречает и, соответственно, не может её обойти (не работает для изображений)"
+                        }
                     }
                 },
                 "title": "Обход Cloudflare"
@@ -908,8 +935,8 @@
             }
         },
         "title_one": "Расширения",
-        "title_few": "",
-        "title_many": "",
+        "title_few": "Расширения",
+        "title_many": "Расширения",
         "action": {
             "label": {
                 "install": "Установить",
@@ -942,8 +969,8 @@
             "reload_from_source": "Перезагрузить данные из источника"
         },
         "title_one": "Манга",
-        "title_few": "",
-        "title_many": "",
+        "title_few": "Манги",
+        "title_many": "Манги",
         "action": {
             "category": {
                 "button": {
@@ -983,7 +1010,8 @@
                     "dialog": {
                         "duplicate": {
                             "label": {
-                                "info": "В вашей библиотеке есть одноименная запись."
+                                "info": "В вашей библиотеке есть одноименная запись.",
+                                "failure": "Не удалось выполнить проверку на повторяющиеся главы в Вашей библиотеке.\n\nОшибка: {{error}}"
                             }
                         }
                     }
@@ -1047,7 +1075,8 @@
         "error": {
             "label": {
                 "next_chapter_does_not_exist": "Следующей главы нет",
-                "prev_chapter_does_not_exist": "Предыдущей главы нет"
+                "prev_chapter_does_not_exist": "Предыдущей главы нет",
+                "no_pages_found": "Страницы не найдены"
             }
         },
         "settings": {
@@ -1130,13 +1159,14 @@
             "title": "Настройки источника"
         },
         "title_one": "Источник",
-        "title_few": "",
-        "title_many": "",
+        "title_few": "Источника",
+        "title_many": "Источники",
         "filter": {
             "save_search": {
                 "dialog": {
                     "label": {
-                        "title": "Сохранить текущий поиск"
+                        "title": "Сохранить текущий поиск",
+                        "delete": "Это удалит сохранённый поиск \"{{name}}\""
                     }
                 },
                 "label": {
@@ -1147,8 +1177,10 @@
         },
         "local_source": {
             "label": {
-                "checkout": "Проверить"
-            }
+                "checkout": "Проверить",
+                "guide": "Руководство по локальным источникам"
+            },
+            "title": "Локальный источник"
         },
         "error": {
             "label": {
@@ -1167,6 +1199,28 @@
         "settings": {
             "label": {
                 "update_progress_reading": "Обновить прогресс после чтения"
+            }
+        },
+        "error": {
+            "label": {
+                "could_not_fetch_track_info": "Не удалось загрузить актуальную информацию из трекера",
+                "could_not_load_track_info": "Не удалось загрузить информацию отслеживания"
+            }
+        },
+        "action": {
+            "button": {
+                "add_tracking": "Добавить отслеживание"
+            },
+            "login": {
+                "label": {
+                    "failure": "Не удалось войти в {{name}}",
+                    "progress": "Вход в {{name}}…"
+                }
+            },
+            "logout": {
+                "label": {
+                    "failure": "Не удалось выйти из {{name}}"
+                }
             }
         }
     },
