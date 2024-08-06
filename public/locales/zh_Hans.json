@@ -354,7 +354,8 @@
                 "bookmarked": "已收藏",
                 "downloaded": "已下载",
                 "unread": "未读",
-                "tracked": "已追踪"
+                "tracked": "已追踪",
+                "duplicate_chapters": "重复章节"
             }
         },
         "grid_layout": {
