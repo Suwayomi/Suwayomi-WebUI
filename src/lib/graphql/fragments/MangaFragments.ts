@@ -13,6 +13,7 @@ export const MANGA_BASE_FIELDS = gql`
         id
         title
 
+        description
         thumbnailUrl
         thumbnailUrlLastFetched
         inLibrary

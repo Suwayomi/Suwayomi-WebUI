@@ -48,9 +48,9 @@ type TMangaQueryFilter = Pick<MangaType, 'title'>;
 const queryFilter = (query: NullAndUndefined<string>, { title }: TMangaQueryFilter): boolean => {
     if (!query) return true;
 
-    const cleanupQuery = baseCleanup(query);
+    const cleanedUpQuery = baseCleanup(query);
 
-    return baseCleanup(title).includes(cleanupQuery) || enhancedCleanup(title).includes(cleanupQuery);
+    return baseCleanup(title).includes(cleanedUpQuery) || enhancedCleanup(title).includes(cleanedUpQuery);
 };
 
 type TMangaQueryGenreFilter = Pick<MangaType, 'genre'>;
@@ -68,6 +68,16 @@ const queryGenreFilter = (query: NullAndUndefined<string>, { genre: mangaGenres 
         .join(', ');
 
     return genreQueries.every((genreQuery) => genres.includes(genreQuery));
+};
+
+type TMangaDescriptionFilter = Pick<MangaType, 'description'>;
+const queryDescriptionFilter = (query: NullAndUndefined<string>, { description }: TMangaDescriptionFilter): boolean => {
+    if (!query) return true;
+    if (!description) return false;
+
+    const cleanedUpQuery = baseCleanup(query);
+
+    return baseCleanup(description).includes(cleanedUpQuery) || enhancedCleanup(description).includes(cleanedUpQuery);
 };
 
 type TMangaTrackerFilter = { trackRecords: { nodes: Pick<TrackRecordType, 'id' | 'trackerId'>[] } };
@@ -89,6 +99,7 @@ const trackerFilter = (trackFilters: LibraryOptions['tracker'], manga: TMangaTra
 type TMangaFilter = TMangaQueryFilter &
     TMangaQueryGenreFilter &
     TMangaTrackerFilter &
+    TMangaDescriptionFilter &
     Pick<MangaType, 'downloadCount' | 'unreadCount' | 'bookmarkCount' | 'hasDuplicateChapters'>;
 const filterManga = <Manga extends TMangaFilter>(
     mangas: Manga[],
@@ -102,7 +113,8 @@ const filterManga = <Manga extends TMangaFilter>(
 ): Manga[] =>
     mangas.filter((manga) => {
         const ignoreFiltersWhileSearching = ignoreFilters && query?.length;
-        const matchesSearch = queryFilter(query, manga) || queryGenreFilter(query, manga);
+        const matchesSearch =
+            queryFilter(query, manga) || queryGenreFilter(query, manga) || queryDescriptionFilter(query, manga);
         const matchesFilters =
             ignoreFiltersWhileSearching ||
             (triStateFilterNumber(downloaded, manga.downloadCount) &&
