@@ -35,17 +35,12 @@ import { GET_MANGAS_DUPLICATES } from '@/lib/graphql/queries/MangaQuery.ts';
 import { BaseMangaGrid } from '@/components/source/BaseMangaGrid.tsx';
 import { IMangaGridProps } from '@/components/MangaGrid.tsx';
 import { StyledGroupItemWrapper } from '@/components/virtuoso/StyledGroupItemWrapper.tsx';
-
-const cleanupTitle = (title: string): string =>
-    title
-        .toLowerCase()
-        .trim()
-        .replace(/[^a-zA-Z0-9]/g, '');
+import { enhancedCleanup } from '@/lib/data/Strings.ts';
 
 const findDuplicatesByTitle = <Manga extends Pick<MangaType, 'title'>>(
     libraryMangas: Manga[],
 ): Record<string, Manga[]> => {
-    const titleToMangas = Object.groupBy(libraryMangas, ({ title }) => cleanupTitle(title));
+    const titleToMangas = Object.groupBy(libraryMangas, ({ title }) => enhancedCleanup(title));
 
     return Object.fromEntries(
         Object.entries(titleToMangas)
@@ -62,7 +57,7 @@ const findDuplicatesByTitleAndAlternativeTitles = <Manga extends TMangaDuplicate
     const titleToAlternativeTitleMatches: Record<string, Set<Manga>> = {};
 
     libraryMangas.forEach((mangaToCheck) => {
-        const titleToCheck = cleanupTitle(mangaToCheck.title);
+        const titleToCheck = enhancedCleanup(mangaToCheck.title);
 
         titleToMangas[titleToCheck] ??= new Set();
         titleToMangas[titleToCheck].add(mangaToCheck);
@@ -76,8 +71,8 @@ const findDuplicatesByTitleAndAlternativeTitles = <Manga extends TMangaDuplicate
                 return;
             }
 
-            const doesTitleMatch = cleanupTitle(libraryManga.title) === titleToCheck;
-            const doesAlternativeTitleMatch = cleanupTitle(libraryManga?.description ?? '').includes(titleToCheck);
+            const doesTitleMatch = enhancedCleanup(libraryManga.title) === titleToCheck;
+            const doesAlternativeTitleMatch = enhancedCleanup(libraryManga?.description ?? '').includes(titleToCheck);
 
             const isDuplicate = doesTitleMatch || doesAlternativeTitleMatch;
             if (!isDuplicate) {

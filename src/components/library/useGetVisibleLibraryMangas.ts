@@ -13,6 +13,7 @@ import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsCon
 import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 import { ChapterType, MangaType, TrackRecordType } from '@/lib/graphql/generated/graphql.ts';
 import { MangaIdInfo } from '@/lib/data/Mangas.ts';
+import { baseCleanup, enhancedCleanup } from '@/lib/data/Strings.ts';
 
 const triStateFilter = (
     triState: NullAndUndefined<boolean>,
@@ -46,14 +47,27 @@ const triStateFilterBoolean = (triState: NullAndUndefined<boolean>, status?: boo
 type TMangaQueryFilter = Pick<MangaType, 'title'>;
 const queryFilter = (query: NullAndUndefined<string>, { title }: TMangaQueryFilter): boolean => {
     if (!query) return true;
-    return title.toLowerCase().includes(query.toLowerCase());
+
+    const cleanupQuery = baseCleanup(query);
+
+    return baseCleanup(title).includes(cleanupQuery) || enhancedCleanup(title).includes(cleanupQuery);
 };
 
 type TMangaQueryGenreFilter = Pick<MangaType, 'genre'>;
-const queryGenreFilter = (query: NullAndUndefined<string>, { genre }: TMangaQueryGenreFilter): boolean => {
+const queryGenreFilter = (query: NullAndUndefined<string>, { genre: mangaGenres }: TMangaQueryGenreFilter): boolean => {
     if (!query) return true;
-    const queries = query.split(',').map((str) => str.toLowerCase().trim());
-    return queries.every((element) => genre.map((el) => el.toLowerCase()).includes(element));
+
+    const genreQueries = query.split(',').map(baseCleanup);
+    const genres = mangaGenres
+        .map((genre) => {
+            const baseCleanedUpGenre = baseCleanup(genre);
+            const fullyCleanedUpGenre = enhancedCleanup(baseCleanedUpGenre);
+
+            return `${baseCleanedUpGenre}, ${fullyCleanedUpGenre}`;
+        })
+        .join(', ');
+
+    return genreQueries.every((genreQuery) => genres.includes(genreQuery));
 };
 
 type TMangaTrackerFilter = { trackRecords: { nodes: Pick<TrackRecordType, 'id' | 'trackerId'>[] } };
