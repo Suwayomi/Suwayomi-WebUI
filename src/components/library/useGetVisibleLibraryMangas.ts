@@ -13,7 +13,7 @@ import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsCon
 import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 import { ChapterType, MangaType, SourceType, TrackRecordType } from '@/lib/graphql/generated/graphql.ts';
 import { MangaIdInfo } from '@/lib/data/Mangas.ts';
-import { baseCleanup, enhancedCleanup } from '@/lib/data/Strings.ts';
+import { enhancedCleanup } from '@/lib/data/Strings.ts';
 
 const triStateFilter = (
     triState: NullAndUndefined<boolean>,
@@ -44,65 +44,37 @@ const triStateFilterBoolean = (triState: NullAndUndefined<boolean>, status?: boo
         () => !status,
     );
 
-type TMangaQueryFilter = Pick<MangaType, 'title'>;
-const queryFilter = (query: NullAndUndefined<string>, { title }: TMangaQueryFilter): boolean => {
-    if (!query) return true;
+const performSearch = (
+    queries: NullAndUndefined<string>[] | undefined,
+    strings: NullAndUndefined<string>[],
+): boolean => {
+    const actualQueries = queries?.filter((query) => query != null);
+    const actualStrings = strings?.filter((str) => str != null);
 
-    const cleanedUpQuery = baseCleanup(query);
+    if (!actualQueries?.length) return true;
 
-    return baseCleanup(title).includes(cleanedUpQuery) || enhancedCleanup(title).includes(cleanedUpQuery);
+    const cleanedUpQueries = actualQueries.map(enhancedCleanup);
+    const cleanedUpStrings = actualStrings.map(enhancedCleanup).join(', ');
+
+    return cleanedUpQueries.every((query) => cleanedUpStrings.includes(query));
 };
 
-type TMangaQueryGenreFilter = Pick<MangaType, 'genre'>;
-const queryGenreFilter = (query: NullAndUndefined<string>, { genre: mangaGenres }: TMangaQueryGenreFilter): boolean => {
-    if (!query) return true;
-
-    const genreQueries = query.split(',').map(baseCleanup);
-    const genres = mangaGenres
-        .map((genre) => {
-            const baseCleanedUpGenre = baseCleanup(genre);
-            const fullyCleanedUpGenre = enhancedCleanup(baseCleanedUpGenre);
-
-            return `${baseCleanedUpGenre}, ${fullyCleanedUpGenre}`;
-        })
-        .join(', ');
-
-    return genreQueries.every((genreQuery) => genres.includes(genreQuery));
+type TMangaQueryFilter = Pick<MangaType, 'title' | 'genre' | 'description' | 'artist' | 'author'> & {
+    source?: NullAndUndefined<Pick<SourceType, 'displayName'>>;
 };
-
-type TMangaDescriptionFilter = Pick<MangaType, 'description'>;
-const queryDescriptionFilter = (query: NullAndUndefined<string>, { description }: TMangaDescriptionFilter): boolean => {
-    if (!query) return true;
-    if (!description) return false;
-
-    const cleanedUpQuery = baseCleanup(query);
-
-    return baseCleanup(description).includes(cleanedUpQuery) || enhancedCleanup(description).includes(cleanedUpQuery);
-};
-
-type TMangaArtistFilter = Pick<MangaType, 'artist'>;
-const queryArtistFilter = (query: NullAndUndefined<string>, { artist }: TMangaArtistFilter): boolean => {
-    if (!query) return true;
-    if (!artist) return false;
-
-    return enhancedCleanup(artist).includes(enhancedCleanup(query));
-};
-
-type TMangaAuthorFilter = Pick<MangaType, 'author'>;
-const queryAuthorFilter = (query: NullAndUndefined<string>, { author }: TMangaAuthorFilter): boolean => {
-    if (!query) return true;
-    if (!author) return false;
-
-    return enhancedCleanup(author).includes(enhancedCleanup(query));
-};
-
-type TMangaSourceFilter = { source?: NullAndUndefined<Pick<SourceType, 'displayName'>> };
-const querySourceFilter = (query: NullAndUndefined<string>, { source }: TMangaSourceFilter): boolean => {
-    if (!query) return true;
-    if (!source) return false;
-
-    return enhancedCleanup(source.displayName).includes(enhancedCleanup(query));
-};
+const querySearchManga = (
+    query: NullAndUndefined<string>,
+    { title, genre: genres, description, artist, author, source }: TMangaQueryFilter,
+): boolean =>
+    performSearch([query], [title]) ||
+    performSearch(
+        query?.split(','),
+        genres.map((genre) => enhancedCleanup(genre)),
+    ) ||
+    performSearch([query], [description]) ||
+    performSearch([query], [artist]) ||
+    performSearch([query], [author]) ||
+    performSearch([query], [source?.displayName]);
 
 type TMangaTrackerFilter = { trackRecords: { nodes: Pick<TrackRecordType, 'id' | 'trackerId'>[] } };
 const trackerFilter = (trackFilters: LibraryOptions['tracker'], manga: TMangaTrackerFilter): boolean =>
@@ -121,12 +93,7 @@ const trackerFilter = (trackFilters: LibraryOptions['tracker'], manga: TMangaTra
         .every((matchesFilter) => matchesFilter);
 
 type TMangaFilter = TMangaQueryFilter &
-    TMangaQueryGenreFilter &
     TMangaTrackerFilter &
-    TMangaDescriptionFilter &
-    TMangaArtistFilter &
-    TMangaAuthorFilter &
-    TMangaSourceFilter &
     Pick<MangaType, 'downloadCount' | 'unreadCount' | 'bookmarkCount' | 'hasDuplicateChapters'>;
 const filterManga = <Manga extends TMangaFilter>(
     mangas: Manga[],
@@ -140,13 +107,7 @@ const filterManga = <Manga extends TMangaFilter>(
 ): Manga[] =>
     mangas.filter((manga) => {
         const ignoreFiltersWhileSearching = ignoreFilters && query?.length;
-        const matchesSearch =
-            queryFilter(query, manga) ||
-            queryGenreFilter(query, manga) ||
-            queryDescriptionFilter(query, manga) ||
-            queryArtistFilter(query, manga) ||
-            queryAuthorFilter(query, manga) ||
-            querySourceFilter(query, manga);
+        const matchesSearch = querySearchManga(query, manga);
         const matchesFilters =
             ignoreFiltersWhileSearching ||
             (triStateFilterNumber(downloaded, manga.downloadCount) &&
