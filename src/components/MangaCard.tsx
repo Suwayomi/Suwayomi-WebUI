@@ -42,7 +42,7 @@ const getMangaLinkTo = (
 
 export const MangaCard = (props: MangaCardProps) => {
     const { manga, gridLayout, inLibraryIndicator, selected, handleSelection, mode = 'default' } = props;
-    const { id, latestReadChapter, firstUnreadChapter, chapters, downloadCount, unreadCount } = manga;
+    const { id, firstUnreadChapter, downloadCount, unreadCount } = manga;
     const {
         options: { showContinueReadingButton },
     } = useLibraryOptionsContext();
@@ -54,8 +54,7 @@ export const MangaCard = (props: MangaCardProps) => {
 
     const mangaLinkTo = getMangaLinkTo(mode, manga.id, manga.sourceId, manga.title);
 
-    const nextChapterIndexToRead = firstUnreadChapter?.sourceOrder ?? 1;
-    const isLatestChapterRead = chapters?.totalCount === latestReadChapter?.sourceOrder;
+    const nextChapterIndexToRead = firstUnreadChapter?.sourceOrder;
 
     const [isMigrateDialogOpen, setIsMigrateDialogOpen] = useState(false);
 
@@ -107,15 +106,12 @@ export const MangaCard = (props: MangaCardProps) => {
     const continueReadingButton = useMemo(
         () => (
             <ContinueReadingButton
-                showContinueReadingButton={
-                    showContinueReadingButton && mode === 'default' && !!manga.chapters?.totalCount
-                }
-                isLatestChapterRead={isLatestChapterRead}
+                showContinueReadingButton={showContinueReadingButton && mode === 'default'}
                 nextChapterIndexToRead={nextChapterIndexToRead}
                 mangaLinkTo={mangaLinkTo}
             />
         ),
-        [showContinueReadingButton, isLatestChapterRead, nextChapterIndexToRead, mangaLinkTo],
+        [showContinueReadingButton, nextChapterIndexToRead, mangaLinkTo],
     );
 
     const mangaBadges = useMemo(

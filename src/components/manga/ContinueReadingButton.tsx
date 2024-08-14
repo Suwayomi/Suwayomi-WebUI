@@ -15,20 +15,18 @@ import { Link } from 'react-router-dom';
 
 export const ContinueReadingButton = ({
     showContinueReadingButton,
-    isLatestChapterRead,
     nextChapterIndexToRead,
     mangaLinkTo,
 }: {
     showContinueReadingButton: boolean;
-    isLatestChapterRead: boolean;
-    nextChapterIndexToRead: number;
+    nextChapterIndexToRead?: number;
     mangaLinkTo: string;
 }) => {
     const { t } = useTranslation();
 
     const isFirstChapter = nextChapterIndexToRead === 1;
 
-    if (!showContinueReadingButton || isLatestChapterRead) {
+    if (!showContinueReadingButton || nextChapterIndexToRead === undefined) {
         return null;
     }
 

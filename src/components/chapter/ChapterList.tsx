@@ -41,6 +41,7 @@ import { ChaptersDownloadActionMenuItems } from '@/components/chapter/ChaptersDo
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
 import { GET_CHAPTERS_MANGA } from '@/lib/graphql/queries/ChapterQuery.ts';
+import { Mangas } from '@/lib/data/Mangas';
 
 const ChapterListHeader = styled(Stack)(({ theme }) => ({
     margin: 8,
@@ -72,10 +73,7 @@ export const ChapterList = ({
     manga,
     isRefreshing,
 }: {
-    manga: Pick<
-        MangaScreenFieldsFragment,
-        'id' | 'firstUnreadChapter' | 'chapters' | 'latestReadChapter' | 'unreadCount' | 'downloadCount'
-    >;
+    manga: Pick<MangaScreenFieldsFragment, 'id' | 'firstUnreadChapter' | 'chapters' | 'unreadCount' | 'downloadCount'>;
     isRefreshing: boolean;
 }) => {
     const { t } = useTranslation();
@@ -103,11 +101,10 @@ export const ChapterList = ({
 
     const visibleChapters = useMemo(() => filterAndSortChapters(chapters, options), [chapters, options]);
 
-    const nextChapterIndexToRead = manga.firstUnreadChapter?.sourceOrder ?? 1;
-    const isLatestChapterRead = manga.chapters.totalCount === manga.latestReadChapter?.sourceOrder;
+    const nextChapterIndexToRead = manga.firstUnreadChapter?.sourceOrder;
 
-    const areAllChaptersRead = manga.unreadCount === 0;
-    const areAllChaptersDownloaded = manga.downloadCount === manga.chapters.totalCount;
+    const areAllChaptersRead = Mangas.isFullyRead(manga);
+    const areAllChaptersDownloaded = Mangas.isFullyDownloaded(manga);
 
     const noChaptersFound = chapters.length === 0;
     const noChaptersMatchingFilter = !noChaptersFound && visibleChapters.length === 0;
@@ -139,12 +136,12 @@ export const ChapterList = ({
             );
         }
 
-        if (!isLatestChapterRead) {
+        if (nextChapterIndexToRead !== undefined) {
             return <ResumeFab chapterIndex={nextChapterIndexToRead} mangaId={manga.id} />;
         }
 
         return null;
-    }, [chaptersWithMeta, isLatestChapterRead]);
+    }, [chaptersWithMeta]);
 
     if (isLoading || (noChaptersFound && isRefreshing)) {
         return (

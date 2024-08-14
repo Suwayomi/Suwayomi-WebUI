@@ -11,7 +11,7 @@ import { PopupState } from 'material-ui-popup-state/hooks';
 import { GridLayout } from '@/components/context/LibraryOptionsContext.tsx';
 import { SelectableCollectionReturnType } from '@/components/collection/useSelectableCollection.ts';
 import { useManageMangaLibraryState } from '@/components/manga/useManageMangaLibraryState.tsx';
-import { MangaChapterCountInfo, MangaThumbnailInfo } from '@/lib/data/Mangas.ts';
+import { MangaThumbnailInfo } from '@/lib/data/Mangas.ts';
 import { ChapterType, MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { SingleModeProps } from '@/components/manga/MangaActionMenuItems.tsx';
 
@@ -19,9 +19,7 @@ export type MangaCardMode = 'default' | 'source' | 'migrate.search' | 'migrate.s
 
 type MangaCardBaseProps = Pick<MangaType, 'id' | 'title' | 'sourceId'> &
     Omit<SingleModeProps['manga'], 'downloadCount' | 'unreadCount' | 'chapters'> &
-    Partial<Pick<MangaType, 'inLibrary' | 'downloadCount' | 'unreadCount'>> &
-    Partial<MangaChapterCountInfo> & {
-        latestReadChapter?: Pick<ChapterType, 'id' | 'sourceOrder'> | null;
+    Partial<Pick<MangaType, 'inLibrary' | 'downloadCount' | 'unreadCount'>> & {
         firstUnreadChapter?: Pick<ChapterType, 'id' | 'sourceOrder'> | null;
     };
 
