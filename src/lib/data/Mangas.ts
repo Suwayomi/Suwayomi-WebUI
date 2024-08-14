@@ -506,6 +506,7 @@ export class Mangas {
                         migrateChapters,
                         migrateCategories,
                         migrateTracking,
+                        apolloOptions: { errorPolicy: 'all' },
                     }).response,
                     getMetadataServerSettings(),
                 ]);
@@ -514,11 +515,12 @@ export class Mangas {
                 throw new Error('Mangas::migrate: missing manga data');
             }
 
-            if (
-                migrateChapters &&
-                (!mangaToMigrateData.manga.chapters || !mangaToMigrateToData.fetchChapters?.chapters)
-            ) {
+            if (migrateChapters && !mangaToMigrateData.manga.chapters) {
                 throw new Error('Mangas::migrate: missing chapters data');
+            }
+
+            if (!mangaToMigrateToData.fetchChapters?.chapters) {
+                mangaToMigrateToData.fetchChapters = { chapters: [] };
             }
 
             const performMigrationAction = async (
