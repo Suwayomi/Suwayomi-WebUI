@@ -7,7 +7,9 @@
  */
 
 import { useCallback, useState } from 'react';
+import { ApolloError } from '@apollo/client';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { baseCleanup } from '@/lib/data/Strings.ts';
 
 export const useRefreshManga = (mangaId: string) => {
     const [fetchingOnline, setFetchingOnline] = useState(false);
@@ -20,7 +22,13 @@ export const useRefreshManga = (mangaId: string) => {
             requestManager.getMangaFetch(mangaId, { awaitRefetchQueries: true }).response,
             requestManager.getMangaChaptersFetch(mangaId, { awaitRefetchQueries: true }).response,
         ])
-            .catch((e) => setError(e))
+            .catch((e) => {
+                if (e instanceof ApolloError && baseCleanup(e.message) === 'no chapters found') {
+                    return;
+                }
+
+                setError(e);
+            })
             .finally(() => setFetchingOnline(false));
     }, [mangaId]);
 
