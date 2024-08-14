@@ -92,32 +92,40 @@ const trackerFilter = (trackFilters: LibraryOptions['tracker'], manga: TMangaTra
         })
         .every((matchesFilter) => matchesFilter);
 
-type TMangaFilter = TMangaQueryFilter &
-    TMangaTrackerFilter &
-    Pick<MangaType, 'downloadCount' | 'unreadCount' | 'bookmarkCount' | 'hasDuplicateChapters'>;
-const filterManga = <Manga extends TMangaFilter>(
+type TMangaFilterOptions = {
+    unread: NullAndUndefined<boolean>;
+    downloaded: NullAndUndefined<boolean>;
+    bookmarked: NullAndUndefined<boolean>;
+    hasDuplicateChapters: NullAndUndefined<boolean>;
+    tracker: LibraryOptions['tracker'];
+};
+type TMangaFilter = Pick<MangaType, 'downloadCount' | 'unreadCount' | 'bookmarkCount' | 'hasDuplicateChapters'> &
+    TMangaTrackerFilter;
+const filterManga = (
+    manga: TMangaFilter,
+    { unread, downloaded, bookmarked, hasDuplicateChapters, tracker }: TMangaFilterOptions,
+): boolean =>
+    triStateFilterNumber(downloaded, manga.downloadCount) &&
+    triStateFilterNumber(unread, manga.unreadCount) &&
+    triStateFilterNumber(bookmarked, manga.bookmarkCount) &&
+    triStateFilterBoolean(hasDuplicateChapters, manga.hasDuplicateChapters) &&
+    trackerFilter(tracker, manga);
+
+type TMangasFilter = TMangaQueryFilter & TMangaFilter;
+const filterMangas = <Manga extends TMangasFilter>(
     mangas: Manga[],
     query: NullAndUndefined<string>,
-    unread: NullAndUndefined<boolean>,
-    downloaded: NullAndUndefined<boolean>,
-    bookmarked: NullAndUndefined<boolean>,
-    hasDuplicateChapters: NullAndUndefined<boolean>,
-    tracker: LibraryOptions['tracker'],
-    ignoreFilters: boolean,
-): Manga[] =>
-    mangas.filter((manga) => {
-        const ignoreFiltersWhileSearching = ignoreFilters && query?.length;
+    options: TMangaFilterOptions & { ignoreFilters: boolean },
+): Manga[] => {
+    const ignoreFiltersWhileSearching = options.ignoreFilters && query?.length;
+
+    return mangas.filter((manga) => {
         const matchesSearch = querySearchManga(query, manga);
-        const matchesFilters =
-            ignoreFiltersWhileSearching ||
-            (triStateFilterNumber(downloaded, manga.downloadCount) &&
-                triStateFilterNumber(unread, manga.unreadCount) &&
-                triStateFilterNumber(bookmarked, manga.bookmarkCount) &&
-                triStateFilterBoolean(hasDuplicateChapters, manga.hasDuplicateChapters) &&
-                trackerFilter(tracker, manga));
+        const matchesFilters = ignoreFiltersWhileSearching || filterManga(manga, options);
 
         return matchesSearch && matchesFilters;
     });
+};
 
 const sortByNumber = (a: number | string = 0, b: number | string = 0) => Number(a) - Number(b);
 
@@ -167,7 +175,7 @@ const sortManga = <Manga extends TMangaSort>(
     return result;
 };
 
-export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangaFilter & TMangaSort>(
+export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFilter & TMangaSort>(
     mangas: Manga[],
 ): {
     visibleMangas: Manga[];
@@ -180,16 +188,14 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangaFil
 
     const filteredMangas = useMemo(
         () =>
-            filterManga(
-                mangas,
-                query,
+            filterMangas(mangas, query, {
                 unread,
                 downloaded,
                 bookmarked,
                 hasDuplicateChapters,
                 tracker,
-                settings.ignoreFilters,
-            ),
+                ignoreFilters: settings.ignoreFilters,
+            }),
         [mangas, query, unread, downloaded, bookmarked, hasDuplicateChapters, tracker, settings.ignoreFilters],
     );
     const sortedMangas = useMemo(
