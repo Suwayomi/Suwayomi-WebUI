@@ -8,4 +8,7 @@
 
 export const baseCleanup = (str: string) => str.toLowerCase().trim();
 
-export const enhancedCleanup = (str: string): string => baseCleanup(str).replace(/[^a-zA-Z0-9]/g, '');
+export const enhancedCleanup = (str: string): string =>
+    baseCleanup(str)
+        .replace(/[^a-zA-Z0-9\\s]+/g, ' ')
+        .trim();
