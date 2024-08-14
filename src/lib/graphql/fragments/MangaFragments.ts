@@ -13,7 +13,6 @@ export const MANGA_BASE_FIELDS = gql`
         id
         title
 
-        description
         thumbnailUrl
         thumbnailUrlLastFetched
         inLibrary
@@ -97,6 +96,15 @@ export const MANGA_LIBRARY_FIELDS = gql`
         genre
         lastFetchedAt
         inLibraryAt
+
+        artist
+        author
+        description
+
+        source {
+            id
+            displayName
+        }
 
         trackRecords {
             totalCount
