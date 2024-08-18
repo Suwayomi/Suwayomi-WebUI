@@ -1,13 +1,22 @@
-## Hold up!
-If you got here hoping to download Suwayomi-WebUI, go back and download [Suwayomi-Server](https://github.com/Suwayomi/Suwayomi-Server), Suwayomi-WebUI is distributed as an embedded web interface along with Suwayomi-Server.
-
 # Suwayomi-WebUI
-WebUI doesn't have it's own Suwayomi distribution and is version locked by Suwayomi-Server, In other words the Suwayomi-WebUI distribution is actually the Suwayomi-Server distribution.
+This is the repository of the default client of [Suwayomi-Server](https://github.com/Suwayomi/Suwayomi-Server).
 
-Online builds of WebUI of are always available [here](https://suwayomi-webui-preview.github.io/). 
+The server has this web app bundled by default and is able to automatically update to the latest versions.
+Thus, there is no need to manually download any builds unless you want to host the app yourself instead of having it hosted by the Suwayomi-Server.
+
+## Preview
+An ongoing changelog of all relevant changes since the last stable release can be found [here](https://github.com/Suwayomi/Suwayomi-WebUI/issues/749)
+
+To use the preview version you can select the PREVIEW channel in the settings of your Suwayomi-Server.
+The server is then able to download and also keep the version automatically up-to-date.
+
+Keep in mind that the preview version might need a newer version than the stable server.
+In case your server is outdated, it will automatically downgrade to the latest compatible WebUI version.
+
+Minified builds of WebUI can be found here [Suwayomi-WebUI-preview](https://github.com/Suwayomi/Suwayomi-WebUI-preview).
+
+Additionally, there is an online build of the WebUI preview version that is available [here](https://suwayomi-webui-preview.github.io/).
 *Make sure to set your Suwayomi-Server hostname in Settings or you'll get infinite loading.* Also note that its the **latest** revision of WebUI and might not work correctly if you connect to a stable build of Suwayomi-Server.
-
-You can find minified builds of WebUI in [Suwayomi-WebUI-preview](https://github.com/Suwayomi/Suwayomi-WebUI-preview)
 
 ## Contributing and Technical info
 See [CONTRIBUTING.md](./CONTRIBUTING.md).
