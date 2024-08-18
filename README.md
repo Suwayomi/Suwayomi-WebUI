@@ -4,6 +4,31 @@ This is the repository of the default client of [Suwayomi-Server](https://github
 The server has this web app bundled by default and is able to automatically update to the latest versions.
 Thus, there is no need to manually download any builds unless you want to host the app yourself instead of having it hosted by the Suwayomi-Server.
 
+## Features
+- All available Suwayomi-Server features are implemented
+- Library management
+  - Filter/Sort/Search your manga
+  - Use categories to categorize your manga
+  - Select manga in your library and perform actions (e.g. download, change categories, mark as read, ...) on one or multiple manga
+- Manga chapter management
+  - Filter/Sort the chapter list
+  - Select chapters and perform actions (e.g. download, bookmark, mark as read, ...) on one or multiple manga
+- Select a range of manga/chapters by using shift + left click or long press
+- Download queue
+- Settings per device (e.g. different reader settings for pc, phone and tablet)
+- Reader settings per manga
+- Option to ignore duplicated chapters while reading
+- Option to automatically download next chapters while reading
+- Option to automatically delete downloaded chapters after reading them
+- Migration of manga between sources
+- Hide in library manga while browsing sources
+- Save source searches to easily reuse them
+- Overview of duplicated manga in your library (settings > library)
+- Duplication check when adding a new manga to your library
+- Quick add/remove a manga to your library in the source browse (hover with mouse on pc or long press on touch devices)
+- Inform about available WebUI and Server updates
+- Inform about successful WebUI and Server updates since the last time the app was used
+
 ## Preview
 An ongoing changelog of all relevant changes since the last stable release can be found [here](https://github.com/Suwayomi/Suwayomi-WebUI/issues/749)
 
