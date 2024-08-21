@@ -8,27 +8,52 @@
 
 import gql from 'graphql-tag';
 
+const DOWNLOAD_TYPE_FIELDS = gql`
+    fragment DOWNLOAD_TYPE_FIELDS on DownloadType {
+        chapter {
+            id
+            name
+            sourceOrder
+            isDownloaded
+        }
+
+        manga {
+            id
+            title
+            downloadCount
+        }
+
+        progress
+        state
+        tries
+    }
+`;
+
 export const DOWNLOAD_STATUS_FIELDS = gql`
+    ${DOWNLOAD_TYPE_FIELDS}
+
     fragment DOWNLOAD_STATUS_FIELDS on DownloadStatus {
         state
 
         queue {
-            chapter {
-                id
-                name
-                sourceOrder
-                isDownloaded
-            }
+            ...DOWNLOAD_TYPE_FIELDS
+        }
+    }
+`;
 
-            manga {
-                id
-                title
-                downloadCount
-            }
+export const DOWNLOAD_UPDATES_FIELDS = gql`
+    ${DOWNLOAD_TYPE_FIELDS}
 
-            progress
-            state
-            tries
+    fragment DOWNLOAD_UPDATES_FIELDS on DownloadUpdates {
+        state
+        omittedUpdates
+
+        updates {
+            type
+            download {
+                ...DOWNLOAD_TYPE_FIELDS
+                position
+            }
         }
     }
 `;

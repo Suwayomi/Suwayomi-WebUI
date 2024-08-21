@@ -467,6 +467,11 @@ export type DoubleFilterInput = {
   notIn?: InputMaybe<Array<Scalars['Float']['input']>>;
 };
 
+export type DownloadChangedInput = {
+  /** Sets a max number of updates that can be contained in a download update message.Everything above this limit will be omitted and the "downloadStatus" should be re-fetched via the corresponding query. Due to the graphql subscription execution strategy not supporting batching for data loaders, the data loaders run into the n+1 problem, which can cause the server to get unresponsive until the status update has been handled. This is an issue e.g. when mass en- or dequeuing downloads. */
+  maxUpdates?: InputMaybe<Scalars['Int']['input']>;
+};
+
 export type DownloadEdge = Edge & {
   __typename?: 'DownloadEdge';
   cursor: Scalars['Cursor']['output'];
@@ -498,9 +503,35 @@ export type DownloadType = {
   __typename?: 'DownloadType';
   chapter: ChapterType;
   manga: MangaType;
+  position: Scalars['Int']['output'];
   progress: Scalars['Float']['output'];
   state: DownloadState;
   tries: Scalars['Int']['output'];
+};
+
+export type DownloadUpdate = {
+  __typename?: 'DownloadUpdate';
+  download: DownloadType;
+  type: DownloadUpdateType;
+};
+
+export enum DownloadUpdateType {
+  Dequeued = 'DEQUEUED',
+  Error = 'ERROR',
+  Finished = 'FINISHED',
+  Position = 'POSITION',
+  Progress = 'PROGRESS',
+  Queued = 'QUEUED'
+}
+
+export type DownloadUpdates = {
+  __typename?: 'DownloadUpdates';
+  /** The current download queue at the time of sending initial message. Is null for all following messages */
+  initial?: Maybe<Array<DownloadType>>;
+  /** Indicates whether updates have been omitted based on the "maxUpdates" subscription variable. In case updates have been omitted, the "downloadStatus" query should be re-fetched. */
+  omittedUpdates: Scalars['Boolean']['output'];
+  state: DownloaderState;
+  updates: Array<DownloadUpdate>;
 };
 
 export enum DownloaderState {
@@ -1415,7 +1446,7 @@ export type MutationUpdateWebUiArgs = {
   input: WebUiUpdateInput;
 };
 
-export type Node = CategoryMetaType | CategoryType | ChapterMetaType | ChapterType | DownloadType | ExtensionType | GlobalMetaType | MangaMetaType | MangaType | PartialSettingsType | SettingsType | SourceMetaType | SourceType | TrackRecordType | TrackerType;
+export type Node = CategoryMetaType | CategoryType | ChapterMetaType | ChapterType | DownloadType | DownloadUpdate | ExtensionType | GlobalMetaType | MangaMetaType | MangaType | PartialSettingsType | SettingsType | SourceMetaType | SourceType | TrackRecordType | TrackerType;
 
 export type NodeList = {
   /** A list of edges which contains the [T] and cursor to aid in pagination. */
@@ -2177,9 +2208,16 @@ export type StringFilterInput = {
 
 export type Subscription = {
   __typename?: 'Subscription';
+  /** @deprecated Replaced width downloadStatusChanged, replace with downloadStatusChanged(input) */
   downloadChanged: DownloadStatus;
+  downloadStatusChanged: DownloadUpdates;
   updateStatusChanged: UpdateStatus;
   webUIUpdateStatusChange: WebUiUpdateStatus;
+};
+
+
+export type SubscriptionDownloadStatusChangedArgs = {
+  input: DownloadChangedInput;
 };
 
 export type SwitchPreference = {
@@ -2731,7 +2769,11 @@ export type ChapterListFieldsFragment = { __typename?: 'ChapterType', fetchedAt:
 
 export type ChapterUpdateListFieldsFragment = { __typename?: 'ChapterType', fetchedAt: string, uploadDate: string, id: number, name: string, mangaId: number, scanlator?: string | null, realUrl?: string | null, sourceOrder: number, chapterNumber: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean, manga: { __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: string | null, inLibrary: boolean, initialized: boolean, sourceId: string } };
 
+export type DownloadTypeFieldsFragment = { __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, isDownloaded: boolean }, manga: { __typename?: 'MangaType', id: number, title: string, downloadCount: number } };
+
 export type DownloadStatusFieldsFragment = { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, isDownloaded: boolean }, manga: { __typename?: 'MangaType', id: number, title: string, downloadCount: number } }> };
+
+export type DownloadUpdatesFieldsFragment = { __typename?: 'DownloadUpdates', state: DownloaderState, omittedUpdates: boolean, updates: Array<{ __typename?: 'DownloadUpdate', type: DownloadUpdateType, download: { __typename?: 'DownloadType', position: number, progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, isDownloaded: boolean }, manga: { __typename?: 'MangaType', id: number, title: string, downloadCount: number } } }> };
 
 export type ExtensionListFieldsFragment = { __typename?: 'ExtensionType', pkgName: string, name: string, lang: string, versionCode: number, versionName: string, iconUrl: string, repo?: string | null, isNsfw: boolean, isInstalled: boolean, isObsolete: boolean, hasUpdate: boolean };
 
@@ -3554,10 +3596,12 @@ export type GetLastUpdateTimestampQueryVariables = Exact<{ [key: string]: never;
 
 export type GetLastUpdateTimestampQuery = { __typename?: 'Query', lastUpdateTimestamp: { __typename?: 'LastUpdateTimestampPayload', timestamp: string } };
 
-export type DownloadStatusSubscriptionVariables = Exact<{ [key: string]: never; }>;
+export type DownloadStatusSubscriptionVariables = Exact<{
+  input: DownloadChangedInput;
+}>;
 
 
-export type DownloadStatusSubscription = { __typename?: 'Subscription', downloadChanged: { __typename?: 'DownloadStatus', state: DownloaderState, queue: Array<{ __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, isDownloaded: boolean }, manga: { __typename?: 'MangaType', id: number, title: string, downloadCount: number } }> } };
+export type DownloadStatusSubscription = { __typename?: 'Subscription', downloadStatusChanged: { __typename?: 'DownloadUpdates', state: DownloaderState, omittedUpdates: boolean, updates: Array<{ __typename?: 'DownloadUpdate', type: DownloadUpdateType, download: { __typename?: 'DownloadType', position: number, progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, isDownloaded: boolean }, manga: { __typename?: 'MangaType', id: number, title: string, downloadCount: number } } }> } };
 
 export type WebuiUpdateSubscriptionVariables = Exact<{ [key: string]: never; }>;
 

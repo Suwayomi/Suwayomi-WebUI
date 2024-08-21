@@ -87,11 +87,16 @@ const typePolicies: StrictTypedTypePolicies = {
                     key: args?.key,
                 });
             },
-            downloadStatus(_, { toReference }) {
-                return toReference({
-                    __typename: 'DownloadStatus',
-                    key: {},
-                });
+            downloadStatus: {
+                read(_, { toReference }) {
+                    return toReference({
+                        __typename: 'DownloadStatus',
+                        key: {},
+                    });
+                },
+                merge(_, incoming) {
+                    return incoming;
+                },
             },
             getWebUIUpdateStatus(_, { toReference }) {
                 return toReference({

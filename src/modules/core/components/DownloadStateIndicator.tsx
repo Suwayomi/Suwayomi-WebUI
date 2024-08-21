@@ -57,7 +57,7 @@ export const DownloadStateIndicator = ({ download }: { download: ChapterDownload
                     }}
                 >
                     <>
-                        {isDownloading && `${Math.round(download.progress * 100)}%`}
+                        {(isDownloading || isPartiallyDownloaded) && `${Math.round(download.progress * 100)}%`}
                         {!isDownloading &&
                             !isPartiallyDownloaded &&
                             t(DOWNLOAD_STATE_TO_TRANSLATION_KEY_MAP[download.state])}

@@ -214,13 +214,26 @@ export type DownloadStatusFieldPolicy = {
 	queue?: FieldPolicy<any> | FieldReadFunction<any>,
 	state?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type DownloadTypeKeySpecifier = ('chapter' | 'manga' | 'progress' | 'state' | 'tries' | DownloadTypeKeySpecifier)[];
+export type DownloadTypeKeySpecifier = ('chapter' | 'manga' | 'position' | 'progress' | 'state' | 'tries' | DownloadTypeKeySpecifier)[];
 export type DownloadTypeFieldPolicy = {
 	chapter?: FieldPolicy<any> | FieldReadFunction<any>,
 	manga?: FieldPolicy<any> | FieldReadFunction<any>,
+	position?: FieldPolicy<any> | FieldReadFunction<any>,
 	progress?: FieldPolicy<any> | FieldReadFunction<any>,
 	state?: FieldPolicy<any> | FieldReadFunction<any>,
 	tries?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type DownloadUpdateKeySpecifier = ('download' | 'type' | DownloadUpdateKeySpecifier)[];
+export type DownloadUpdateFieldPolicy = {
+	download?: FieldPolicy<any> | FieldReadFunction<any>,
+	type?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type DownloadUpdatesKeySpecifier = ('initial' | 'omittedUpdates' | 'state' | 'updates' | DownloadUpdatesKeySpecifier)[];
+export type DownloadUpdatesFieldPolicy = {
+	initial?: FieldPolicy<any> | FieldReadFunction<any>,
+	omittedUpdates?: FieldPolicy<any> | FieldReadFunction<any>,
+	state?: FieldPolicy<any> | FieldReadFunction<any>,
+	updates?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type EdgeKeySpecifier = ('cursor' | 'node' | EdgeKeySpecifier)[];
 export type EdgeFieldPolicy = {
@@ -822,9 +835,10 @@ export type StopDownloaderPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	downloadStatus?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type SubscriptionKeySpecifier = ('downloadChanged' | 'updateStatusChanged' | 'webUIUpdateStatusChange' | SubscriptionKeySpecifier)[];
+export type SubscriptionKeySpecifier = ('downloadChanged' | 'downloadStatusChanged' | 'updateStatusChanged' | 'webUIUpdateStatusChange' | SubscriptionKeySpecifier)[];
 export type SubscriptionFieldPolicy = {
 	downloadChanged?: FieldPolicy<any> | FieldReadFunction<any>,
+	downloadStatusChanged?: FieldPolicy<any> | FieldReadFunction<any>,
 	updateStatusChanged?: FieldPolicy<any> | FieldReadFunction<any>,
 	webUIUpdateStatusChange?: FieldPolicy<any> | FieldReadFunction<any>
 };
@@ -1200,6 +1214,14 @@ export type StrictTypedTypePolicies = {
 	DownloadType?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | DownloadTypeKeySpecifier | (() => undefined | DownloadTypeKeySpecifier),
 		fields?: DownloadTypeFieldPolicy,
+	},
+	DownloadUpdate?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | DownloadUpdateKeySpecifier | (() => undefined | DownloadUpdateKeySpecifier),
+		fields?: DownloadUpdateFieldPolicy,
+	},
+	DownloadUpdates?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | DownloadUpdatesKeySpecifier | (() => undefined | DownloadUpdatesKeySpecifier),
+		fields?: DownloadUpdatesFieldPolicy,
 	},
 	Edge?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | EdgeKeySpecifier | (() => undefined | EdgeKeySpecifier),
