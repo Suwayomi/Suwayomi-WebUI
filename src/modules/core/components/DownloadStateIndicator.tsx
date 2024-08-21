@@ -36,7 +36,7 @@ export const DownloadStateIndicator = ({ download }: { download: ChapterDownload
                 justifyContent: 'center',
             }}
         >
-            {download.progress !== 0 && <CircularProgress variant="determinate" value={download.progress * 100} />}
+            {isDownloading && <CircularProgress variant="determinate" value={download.progress * 100} />}
             <Box
                 sx={{
                     top: 0,
