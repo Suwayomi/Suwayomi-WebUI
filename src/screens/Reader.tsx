@@ -173,16 +173,15 @@ export function Reader() {
     );
 
     const doFetchPages = () => {
-        const shouldFetchPages = !isChapterLoading && !chapter.isDownloaded;
-        if (shouldFetchPages) {
-            fetchPages()
-                .then(() => {
-                    arePagesUpdatedRef.current = true;
-                })
-                .catch(defaultPromiseErrorHandler('Reader::fetchPages'));
-        } else {
-            arePagesUpdatedRef.current = true;
+        if (isChapterLoading) {
+            return;
         }
+
+        fetchPages()
+            .then(() => {
+                arePagesUpdatedRef.current = true;
+            })
+            .catch(defaultPromiseErrorHandler('Reader::fetchPages'));
     };
 
     useEffect(() => {
