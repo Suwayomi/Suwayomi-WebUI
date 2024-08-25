@@ -136,12 +136,22 @@ export class GraphQLClient extends BaseClient<
 > {
     readonly fetcher = null;
 
-    public declare client: ApolloClient<NormalizedCacheObject>;
+    public client!: ApolloClient<NormalizedCacheObject>;
 
     private wsClient!: Client;
 
+    constructor() {
+        super();
+
+        this.createClient();
+    }
+
     public override getBaseUrl(): string {
         return `${super.getBaseUrl()}/api/graphql`;
+    }
+
+    public terminateSubscriptions(): void {
+        this.wsClient.terminate();
     }
 
     private createUploadLink() {
@@ -182,13 +192,11 @@ export class GraphQLClient extends BaseClient<
         });
 
         const checkHeartbeatInterval = heartbeatInterval + 1000 * 10;
-        // for some reason "this.wsClient" is undefined in the "setInterval" callback
-        const { wsClient } = this;
         setInterval(() => {
             const isHeartbeatMissing = Date.now() - lastHeartbeat > checkHeartbeatInterval * 1.1;
             if (isHeartbeatMissing) {
                 // force a reconnect
-                wsClient.terminate();
+                this.wsClient.terminate();
             }
         }, checkHeartbeatInterval);
 

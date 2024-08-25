@@ -27,6 +27,8 @@ export class RestClient
     extends BaseClient<typeof fetch, RequestInit, (url: string, data: any) => Promise<Response>>
     implements IRestClient
 {
+    protected client!: typeof fetch;
+
     private config: RequestInit = {
         credentials: 'include',
     };
@@ -78,7 +80,13 @@ export class RestClient
         return result;
     };
 
-    protected override createClient(): void {
+    constructor() {
+        super();
+
+        this.createClient();
+    }
+
+    private createClient(): void {
         this.client = fetch.bind(window);
     }
 

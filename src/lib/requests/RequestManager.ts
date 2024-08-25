@@ -428,6 +428,7 @@ export class RequestManager {
 
     public reset(): void {
         this.graphQLClient.client.resetStore();
+        this.graphQLClient.terminateSubscriptions();
         this.cache.clear();
         this.imageQueue.clear();
     }

@@ -9,13 +9,9 @@
 import { AppStorage } from '@/util/AppStorage.ts';
 
 export abstract class BaseClient<Client, ClientConfig, Fetcher> {
-    protected client!: Client;
+    protected abstract client: Client;
 
     public abstract readonly fetcher: Fetcher;
-
-    constructor() {
-        this.createClient();
-    }
 
     public getBaseUrl(): string {
         const { hostname, port, protocol } = window.location;
@@ -24,8 +20,6 @@ export abstract class BaseClient<Client, ClientConfig, Fetcher> {
         const inferredPort = port === '3000' ? '4567' : port;
         return AppStorage.local.getItemParsed('serverBaseURL', `${protocol}//${hostname}:${inferredPort}`);
     }
-
-    protected abstract createClient(): void;
 
     public abstract updateConfig(config: Partial<ClientConfig>): void;
 }
