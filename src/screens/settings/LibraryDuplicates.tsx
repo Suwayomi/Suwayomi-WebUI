@@ -167,10 +167,16 @@ export const LibraryDuplicates = () => {
         return findDuplicatesByTitle(libraryMangas);
     }, [data?.mangas.nodes, checkAlternativeTitles]);
 
-    const duplicatedTitles = useMemo(() => Object.keys(mangasByTitle), [mangasByTitle]);
-    const duplicatedMangas = useMemo(() => Object.values(mangasByTitle).flat(), [mangasByTitle]);
+    const duplicatedTitles = useMemo(
+        () => Object.keys(mangasByTitle).toSorted((titleA, titleB) => titleA.localeCompare(titleB)),
+        [mangasByTitle],
+    );
+    const duplicatedMangas = useMemo(
+        () => duplicatedTitles.map((title) => mangasByTitle[title]).flat(),
+        [mangasByTitle],
+    );
     const mangasCountByTitle = useMemo(
-        () => Object.values(mangasByTitle).map((mangas) => mangas.length),
+        () => duplicatedTitles.map((title) => mangasByTitle[title]).map((mangas) => mangas.length),
         [mangasByTitle],
     );
 
