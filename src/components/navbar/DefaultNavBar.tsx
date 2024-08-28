@@ -146,7 +146,7 @@ export function DefaultNavBar() {
                     <Stack
                         sx={{
                             ml: `${isCollapsed ? navBarWidth : 0}px`,
-                            width: '100%',
+                            width: `calc(100% - ${isCollapsed ? navBarWidth : 0}px)`,
                             flexDirection: 'row',
                             alignItems: 'center',
                         }}
