@@ -15,7 +15,7 @@
             "display": {
                 "badge": {
                     "label": {
-                        "download_badges": "Télécharger les badges",
+                        "download_badges": "Badges de téléchargements",
                         "unread_badges": "Badges non lus"
                     },
                     "title": "Badges"
@@ -779,11 +779,11 @@
                     "label": {
                         "action": "Ajouter un marque-page",
                         "error_one": "Erreur lors de l'ajout d'un marque-page sur le chapitre",
-                        "error_many": "Erreur lors de l'ajout de marque-pages sur le chapitre",
-                        "error_other": "Erreur lors de l'ajout de marque-pages sur le chapitre",
-                        "success_one": "Marque-page ajouté au chapitre",
-                        "success_many": "{{count}} marque-pages ajoutés au chapitre",
-                        "success_other": "{{count}} marque-pages ajoutés au chapitre"
+                        "error_many": "Erreur lors de l'ajout de marque-pages sur les chapitres",
+                        "error_other": "Erreur lors de l'ajout de marque-pages sur les chapitres",
+                        "success_one": "Chapitre ajouté en marque-page",
+                        "success_many": "{{count}} chapitres ajoutés en marque-pages",
+                        "success_other": "{{count}} chapitres ajoutés en marque-pages"
                     }
                 },
                 "remove": {
@@ -863,7 +863,7 @@
                         "success_other": "{{count}} téléchargements ajoutés",
                         "error_one": "Impossible d'ajouter le téléchargement",
                         "error_many": "Impossible d'ajouter des téléchargements",
-                        "error_other": "Impossible d'ajouter des téléchargements",
+                        "error_other": "Impossible d'ajouter les téléchargements",
                         "action": "Télécharger",
                         "next_twentyfive": "25 prochains chapitres",
                         "next_ten": "10 prochains chapitres",

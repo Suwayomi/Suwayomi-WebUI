@@ -238,7 +238,7 @@
                     "response_fallback": {
                         "label": {
                             "title": "Respuesta de respaldo",
-                            "description": "Utiliza la respuesta de FlareSolverr en caso de que el servidor se encuentre con un desafío de Cloudflare mientras que FlareSolverr no y, por lo tanto, no pueda resolver el desafío (no funciona con imágenes)."
+                            "description": "Utiliza la respuesta de FlareSolverr en caso de que el servidor se encuentre con un desafío de Cloudflare mientras que FlareSolverr no y, por lo tanto, no pueda resolver el desafío (no funciona con imágenes)"
                         }
                     }
                 },
