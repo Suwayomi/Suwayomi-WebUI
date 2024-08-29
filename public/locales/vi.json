@@ -259,7 +259,7 @@
                 "updating": "Cập nhật"
             }
         },
-        "title_other": "Phần tiện ích mở rộng",
+        "title_other": "Phần mở rộng",
         "settings": {
             "repositories": {
                 "custom": {
@@ -450,7 +450,8 @@
                 "empty": "Thư viện của bạn trống",
                 "no_matches": "Không có manga nào phù hợp với bộ lọc này",
                 "add_to_library": "Không thể thêm manga vào thư viện!",
-                "remove_from_library": "Không thể xóa manga ra khỏi thư viện!"
+                "remove_from_library": "Không thể xóa manga ra khỏi thư viện!",
+                "stop_global_update": "Không thể dừng cập nhật thư viện"
             }
         },
         "option": {
@@ -480,7 +481,8 @@
                     "by_unread_chapters": "Các chương chưa đọc",
                     "alphabetically": "A-Z",
                     "by_last_read": "Đọc gần đây",
-                    "by_latest_uploaded_chapter": "Chương mới nhất được tải lên"
+                    "by_latest_uploaded_chapter": "Chương mới nhất được tải lên",
+                    "by_latest_fetched_chapter": "Chương mới nhất đã được cập nhật"
                 }
             }
         },
@@ -493,7 +495,7 @@
                         "info": "Các mục trong danh mục bị loại trừ sẽ không được cập nhật ngay cả khi chúng cũng nằm trong danh mục được bao gồm"
                     }
                 },
-                "title": "Cập nhật toàn cầu",
+                "title": "Cập nhật thư viện",
                 "label": {
                     "last_update_tooltip": "$t(library.settings.global_update.title) ($t(library.settings.global_update.label.last_update, lowercase))",
                     "last_update": "Lần cuối cập nhật: {{date}}"
@@ -518,7 +520,8 @@
                 "entries": {
                     "label": {
                         "completed": "Với trạng thái \"Hoàn thành\"",
-                        "unread_chapters": "Với chương chưa đọc"
+                        "unread_chapters": "Với chương chưa đọc",
+                        "not_started": "Chưa bắt đầu đọc"
                     },
                     "title": "Bỏ qua các mục cập nhật"
                 }
@@ -536,7 +539,8 @@
                 "remove_from_library": {
                     "remove_from_categories": {
                         "label": {
-                            "description": "Xóa manga khỏi danh mục khi chúng được xóa khỏi thư viện"
+                            "description": "Xóa manga khỏi danh mục khi chúng được xóa khỏi thư viện",
+                            "title": "Không lưu danh mục"
                         }
                     }
                 },
@@ -553,7 +557,10 @@
                 "database": {
                     "cleanup": {
                         "label": {
-                            "title": "Dọn cơ sở dữ liệu"
+                            "title": "Dọn cơ sở dữ liệu",
+                            "description": "Xóa manga không có trong thư viện khỏi danh mục",
+                            "error": "Không thể xóa manga không thuộc thư viện khỏi danh mục",
+                            "success": "Đã xóa manga không có trong thư viện khỏi danh mục"
                         }
                     }
                 },
@@ -561,6 +568,11 @@
                     "label": {
                         "title": "Mục trùng lặp",
                         "description": "Hiển thị tất cả các mục trùng lặp trong thư viện"
+                    },
+                    "settings": {
+                        "label": {
+                            "check_description": "Kiểm tra mô tả"
+                        }
                     }
                 }
             }
@@ -575,7 +587,8 @@
         "action": {
             "label": {
                 "update_category": "Câp nhật danh mục",
-                "update_library": "Cập nhật thư viện"
+                "update_library": "Cập nhật thư viện",
+                "stop_update": "Dừng cập nhật thư viện"
             }
         }
     },
@@ -628,8 +641,8 @@
             },
             "migrate": {
                 "label": {
-                    "success": "Sáp nhập manga thành công",
-                    "error": "Không thể sáp nhập manga"
+                    "success": "Di chuyển manga thành công",
+                    "error": "Không thể di chuyển manga"
                 }
             },
             "library": {
@@ -664,6 +677,9 @@
                     "success_other": "Không thể chuyển danh mục của {{count}} manga",
                     "error_other": "Không thể chuyển danh mục của manga",
                     "action": "Chuyển danh mục"
+                },
+                "button": {
+                    "selected": "Thay đổi danh mục đã chọn"
                 }
             }
         }
@@ -753,7 +769,7 @@
                 "server_address": "Địa chỉ máy chủ",
                 "server_version": "Phiên bản máy chủ"
             },
-            "title": "Về",
+            "title": "Giới thiệu",
             "server": {
                 "label": {
                     "version": "Phiên bản máy chủ",
@@ -867,7 +883,8 @@
                     "label": {
                         "ip": "IP",
                         "port": "Cổng"
-                    }
+                    },
+                    "title": "Ràng buộc máy chủ"
                 },
                 "client": {
                     "dialog": {
@@ -884,15 +901,18 @@
                 "basic": {
                     "label": {
                         "enable": "Sử dụng xác thực đơn giản",
-                        "password": "Xác thực đơn giản $t(global.label.password, lowercase)"
+                        "password": "Xác thực đơn giản $t(global.label.password, lowercase)",
+                        "username": "Xác thực cơ bản $t(global.label.username, lowercase)"
                     }
-                }
+                },
+                "title": "Xác thực"
             },
             "cloudflare": {
                 "flaresolverr": {
                     "enabled": {
                         "label": {
-                            "title": "FlareSolverr đã được kích hoạt"
+                            "title": "FlareSolverr đã được kích hoạt",
+                            "description": "Xem <2>FlareSolverr</2> để biết thông tin về cách thiết lập nó"
                         }
                     },
                     "session": {
@@ -903,8 +923,82 @@
                         },
                         "ttl": {
                             "label": {
-                                "title": "TTL của phiên FlareSolverr"
+                                "title": "TTL của phiên FlareSolverr",
+                                "description": "FlareSolverr sẽ tự động xoay vòng các phiên đã hết hạn dựa trên TTL được cung cấp sau vài phút"
                             }
+                        }
+                    },
+                    "url": {
+                        "label": {
+                            "title": "Url máy chủ FlareSolverr",
+                            "description": "Địa chỉ của máy chủ FlareSolverr"
+                        }
+                    },
+                    "timeout": {
+                        "label": {
+                            "title": "Thời gian yêu cầu FlareSolverr",
+                            "description": "Thời gian xử lý yêu cầu của FlareSolverr"
+                        }
+                    },
+                    "response_fallback": {
+                        "label": {
+                            "title": "Phản hồi dự phòng",
+                            "description": "Dùng Phản hồi dự phòng trong trường hợp máy chủ gặp Cloudflare nhưng FlareSolverr thì không, FlareSolverr sẽ không thể xử lý vấn đề này (không áp dụng cho hình ảnh)"
+                        }
+                    }
+                },
+                "title": "Bỏ qua Cloudflare"
+            },
+            "local_source": {
+                "path": {
+                    "label": {
+                        "title": "Đường dẫn nguồn cục bộ",
+                        "description": "Đường dẫn đến thư mục trên máy chủ nơi lưu các tệp nguồn cục bộ"
+                    }
+                }
+            },
+            "title": {
+                "settings": "Cài đặt máy chủ",
+                "server": "Máy chủ"
+            },
+            "misc": {
+                "tray_icon": {
+                    "label": {
+                        "description": "Biểu tượng sẽ hiển thị trên khay hệ thống khi máy chủ đang hoạt động",
+                        "title": "Hiển thị biểu tượng trên khay hệ thống"
+                    }
+                },
+                "log_level": {
+                    "label": {
+                        "server": "Bật nhật ký gỡ lỗi"
+                    },
+                    "graphql": {
+                        "label": {
+                            "description": "Điều này bao gồm các nhật ký có thông tin không an toàn về quyền riêng tư",
+                            "title": "Bật nhật ký gỡ lỗi graphql"
+                        }
+                    }
+                },
+                "title": "Khác"
+            },
+            "socks_proxy": {
+                "label": {
+                    "port": "Cổng SOCKS Proxy",
+                    "enable": "Dùng SOCKS proxy",
+                    "host": "Địa chỉ của SOCKS Proxy",
+                    "password": "Mật khẩu SOCKS Proxy",
+                    "username": "Tên người dùng SOCKS Proxy",
+                    "version": "Phiên bản SOCKS Proxy"
+                },
+                "title": "SOCKS proxy"
+            },
+            "requests": {
+                "title": "Kết nối",
+                "sources": {
+                    "parallel": {
+                        "label": {
+                            "title": "Số lượng kết nối",
+                            "value": "{{value}}$t(source.title)"
                         }
                     }
                 }
@@ -913,7 +1007,8 @@
         "device": {
             "devices": {
                 "label": {
-                    "title": "Thiết bị"
+                    "title": "Thiết bị",
+                    "description": "Quản lý các thiết bị hiện có của bạn.\nCác cài đặt cụ thể về giao diện người dùng được lưu trữ trên máy chủ dành cho mỗi thiết bị.\nVí dụ: Cài đặt khác nhau trên máy tính và điện thoại thông minh"
                 }
             },
             "title": {
@@ -925,7 +1020,8 @@
             },
             "active_device": {
                 "label": {
-                    "title": "Thiết bị hoạt động"
+                    "title": "Thiết bị hoạt động",
+                    "description": "Chọn một thiết bị để sử dụng các cài đặt cá nhân đã được lưu trữ trên máy chủ của thiết bị đó"
                 }
             }
         },
@@ -933,8 +1029,96 @@
             "label": {
                 "success": "Đã xóa dữ liệu tạm thời của máy chủ",
                 "title": "Xóa dữ liệu tạm thời của máy chủ",
-                "failure": "Không thể xóa dữ liệu dữ liệu tạm thời của máy chủ"
+                "failure": "Không thể xóa dữ liệu dữ liệu tạm thời của máy chủ",
+                "description": "Bộ nhớ đệm của máy khách (trình duyệt, electron) sẽ bị xóa, còn không xóa bộ đệm của máy khách sẽ tiếp tục được dùng"
             }
+        },
+        "webui": {
+            "flavor": {
+                "option": {
+                    "vui": {
+                        "label": {
+                            "title": "VUI",
+                            "description": "Giao diện người dùng web được thiết kế tập trung vào bản xem trước với kiểu dáng thanh mảnh và tinh tế"
+                        }
+                    },
+                    "custom": {
+                        "label": {
+                            "description": "Sử dụng tùy chỉnh $t(settings.webui.title.webui).\nĐể sử dụng tùy chỉnh $t(settings.webui.title.webui) thay thế nội dung của thư mục \"webUI\" trong thư mục gốc trên máy chủ bằng các tệp tùy chỉnh $t(settings.webui.title.webui)",
+                            "title": "Tùy chỉnh"
+                        }
+                    },
+                    "webui": {
+                        "label": {
+                            "description": "Sử dụng mặc định $t(settings.webui.title.webui)"
+                        }
+                    }
+                },
+                "label": {
+                    "info": "Sau khi thay đổi cài đặt này, hãy truy cập trang \"Giới thiệu\" và kiểm tra bản cập nhật webUI rồi cài đặt nó",
+                    "title": "Chủ đề"
+                }
+            },
+            "auto_update": {
+                "label": {
+                    "interval": "Thời gian cập nhật",
+                    "title": "Tự động tải xuống phiên bản mới nhất"
+                }
+            },
+            "channel": {
+                "label": {
+                    "title": "Kênh"
+                },
+                "option": {
+                    "stable": {
+                        "label": {
+                            "title": "Ổn định",
+                            "description": "Sử dụng phiên bản phát hành mới nhất."
+                        }
+                    },
+                    "bundled": {
+                        "label": {
+                            "title": "Đính kèm",
+                            "description": "Sử dụng phiên bản được phân phối cùng với bản phát hành máy chủ"
+                        }
+                    },
+                    "preview": {
+                        "label": {
+                            "title": "Xem trước",
+                            "disclaimer": "Các tính năng và cải tiến trong phiên bản này có thể chưa được hoàn thiện và có khả năng gây ra lỗi.\nĐảm bảo rằng bạn đã bật sao lưu tự động để tránh mất thư viện\n\n$t(settings.webui.flavor.label.info)",
+                            "description": "Sử dụng các tính năng mới nhất và giúp chúng tôi chuẩn bị sẵn sàng để phát hành ổn định."
+                        }
+                    }
+                }
+            },
+            "interface": {
+                "option": {
+                    "label": {
+                        "browser": "Trình duyệt",
+                        "electron": "Electron"
+                    }
+                },
+                "label": {
+                    "title": "Giao diện",
+                    "description": "Chạy $t(settings.webui.title.webui) khi khởi động máy chủ"
+                }
+            },
+            "electron_path": {
+                "label": {
+                    "title": "Đường dẫn Electron",
+                    "description": "Đường dẫn cài đặt electron trên máy chủ"
+                }
+            },
+            "label": {
+                "initial_open_browser": "Mở $t(settings.webui.title.webui) khi khởi động máy chủ"
+            },
+            "title": {
+                "settings": "$t(settings.webui.title.webui) Cài đặt",
+                "webui": "Giao diện Web"
+            }
+        },
+        "browse": {
+            "title": "Duyệt"
         }
     },
     "source": {
@@ -954,7 +1138,21 @@
             },
             "title": "Nguồn cục bộ"
         },
-        "title_other": "Nguồn"
+        "title_other": "Nguồn",
+        "filter": {
+            "save_search": {
+                "label": {
+                    "delete": "Xóa tìm kiếm",
+                    "save": "Lưu tìm kiếm"
+                },
+                "dialog": {
+                    "label": {
+                        "delete": "Thao tác này sẽ xóa tìm kiếm đã lưu {{name}}",
+                        "title": "Lưu tìm kiếm hiện tại"
+                    }
+                }
+            }
+        }
     },
     "updates": {
         "error": {
@@ -977,17 +1175,66 @@
             "title": "Lụa chọn dữ liệu để thêm vào"
         },
         "label": {
-            "info": "Sáp nhập manga…"
+            "info": "Di chuyển manga…"
         },
         "search": {
             "title": "$t(migrate.title) \"{{title}}\""
         },
-        "title": "Sáp nhập"
+        "title": "Di chuyển"
     },
     "tracking": {
         "track_record": {
             "label": {
-                "start_date": "Ngày bắt đầu"
+                "start_date": "Ngày bắt đầu",
+                "finish_date": "Ngày kết thúc",
+                "score": "Điểm"
+            }
+        },
+        "settings": {
+            "title": {
+                "settings": "Theo dõi",
+                "trackers": "Dịch vụ"
+            },
+            "label": {
+                "update_progress_reading_description": "Không hoạt động khi đánh dấu nhiều manga là đã đọc cùng một lúc",
+                "update_progress_reading": "Cập nhật tiến độ sau khi đọc",
+                "update_progress_manual": "Cập nhật tiến trình sau khi đánh dấu thủ công là đã đọc"
+            },
+            "dialog": {
+                "title": {
+                    "log_out": "Đăng xuất khỏi {{name}}",
+                    "log_in": "Đăng nhập vào {{name}}"
+                }
+            }
+        },
+        "title": "Theo dõi",
+        "action": {
+            "button": {
+                "add_tracking": "Thêm theo dõi"
+            },
+            "login": {
+                "label": {
+                    "progress": "Đăng nhập vào {{name}}…",
+                    "failure": "Không thể đăng nhập {{name}}"
+                }
+            },
+            "logout": {
+                "label": {
+                    "failure": "Không thể đăng xuất {{name}}"
+                }
+            }
+        },
+        "error": {
+            "label": {
+                "could_not_fetch_track_info": "Không thể tải thông tin mới nhất từ trình theo dõi",
+                "could_not_load_track_info": "Không thể tải thông tin"
+            }
+        },
+        "my_anime_list": {
+            "search": {
+                "label": {
+                    "hint": "Tìm kiếm ID qua \"id:<ID>\" (ví dụ: \"id:13\") \nGiới hạn tìm kiếm trong danh sách của bạn thông qua \"my:<Title>\" (ví dụ: \"my:One Piece\")"
+                }
             }
         }
     }

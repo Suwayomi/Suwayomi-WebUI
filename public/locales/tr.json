@@ -196,7 +196,8 @@
                 "bookmarked": "Yer imi eklendi",
                 "downloaded": "İndirildi",
                 "unread": "Okunmamış",
-                "tracked": "Takip edildi"
+                "tracked": "Takip edildi",
+                "duplicate_chapters": "Yinelenen bölümler"
             }
         },
         "language": {
@@ -757,6 +758,12 @@
                         "label": {
                             "description": "FlareSolverr'ın isteği işlemesi için ne kadar zamanı var",
                             "title": "FlareSolverr isteği zaman aşımına uğradı"
+                        }
+                    },
+                    "response_fallback": {
+                        "label": {
+                            "description": "Eğer sunucu bir Cloudflare zorluklarıyla karşılaşırken FlareSolverr karşılaşmazsa ve bu nedenle zorluğu çözemezse, FlareSolverr yanıtını kullanın (görseller için çalışmaz)",
+                            "title": "Yanıt geri dönüşü"
                         }
                     }
                 },

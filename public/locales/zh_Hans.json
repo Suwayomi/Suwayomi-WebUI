@@ -354,7 +354,8 @@
                 "bookmarked": "已收藏",
                 "downloaded": "已下载",
                 "unread": "未读",
-                "tracked": "已追踪"
+                "tracked": "已追踪",
+                "duplicate_chapters": "重复章节"
             }
         },
         "grid_layout": {
@@ -978,6 +979,12 @@
                         "label": {
                             "description": "FlareSolverr 服务器地址",
                             "title": "FlareSolverr 服务器网址"
+                        }
+                    },
+                    "response_fallback": {
+                        "label": {
+                            "description": "如果服务器遇到Cloudflare验证，而FlareSolverr没有遇到并且因此无法解决该验证（不适用于图像），请使用FlareSolverr的响应",
+                            "title": "响应回滚"
                         }
                     }
                 },
