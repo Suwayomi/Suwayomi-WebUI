@@ -11,7 +11,7 @@ import Stack from '@mui/material/Stack';
 import Tooltip from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import { ComponentProps, useMemo } from 'react';
+import { ComponentProps, useCallback, useMemo, useState } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 import { useTranslation } from 'react-i18next';
 import IconButton from '@mui/material/IconButton';
@@ -42,27 +42,29 @@ import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
 import { GET_CHAPTERS_MANGA } from '@/lib/graphql/queries/ChapterQuery.ts';
 import { Mangas } from '@/lib/data/Mangas';
+import { useNavBarContext } from '@/components/context/NavbarContext.tsx';
+import { useResizeObserver } from '@/util/useResizeObserver.tsx';
+import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
 
 const ChapterListHeader = styled(Stack)(({ theme }) => ({
-    margin: 8,
-    marginBottom: 0,
-    marginRight: '10px',
-    minHeight: 40,
+    padding: theme.spacing(1),
+    paddingRight: `calc(14px + ${theme.spacing(1)})`,
+    paddingBottom: 0,
     [theme.breakpoints.down('md')]: {
-        marginRight: 0,
+        paddingRight: theme.spacing(1),
     },
 }));
 
-const StyledVirtuoso = styled(Virtuoso)(({ theme }) => ({
-    listStyle: 'none',
-    padding: 0,
-    minHeight: '200px',
-    [theme.breakpoints.up('md')]: {
-        // 64px for the Appbar, 48px for the ChapterCount Header
-        height: 'calc(100vh - 64px - 48px)',
-        margin: 0,
-    },
-}));
+const StyledVirtuoso = styled(Virtuoso, { shouldForwardProp: (prop) => prop !== 'topOffset' })<{ topOffset: number }>(
+    ({ theme, topOffset }) => ({
+        listStyle: 'none',
+        padding: 0,
+        [theme.breakpoints.up('md')]: {
+            height: `calc(100vh - ${topOffset}px)`,
+            margin: 0,
+        },
+    }),
+);
 
 export interface IChapterWithMeta extends ChapterWithMetaType<ComponentProps<typeof ChapterCard>['chapter']> {
     selected: boolean | null;
@@ -76,6 +78,16 @@ export const ChapterList = ({
     isRefreshing: boolean;
 }) => {
     const { t } = useTranslation();
+    const { appBarHeight } = useNavBarContext();
+
+    const isMobileWidth = MediaQuery.useIsBelowWidth('md');
+
+    const [chapterListHeaderHeight, setChapterListHeaderHeight] = useState(0);
+    const [chapterListHeaderRef, setChapterListHeaderRef] = useState<HTMLDivElement | null>(null);
+    useResizeObserver(
+        chapterListHeaderRef,
+        useCallback(() => setChapterListHeaderHeight(chapterListHeaderRef?.offsetHeight ?? 0), [chapterListHeaderRef]),
+    );
 
     const { data: downloaderData } = requestManager.useGetDownloadStatus();
     const queue = downloaderData?.downloadStatus.queue ?? [];
@@ -165,7 +177,12 @@ export const ChapterList = ({
     return (
         <>
             <Stack direction="column" sx={{ position: 'relative', flexBasis: '60%' }}>
-                <ChapterListHeader direction="row" alignItems="center" justifyContent="space-between">
+                <ChapterListHeader
+                    ref={setChapterListHeaderRef}
+                    direction="row"
+                    alignItems="center"
+                    justifyContent="space-between"
+                >
                     <Typography variant="h5">
                         {`${visibleChapters.length} ${t('chapter.title_one', {
                             count: visibleChapters.length,
@@ -224,11 +241,10 @@ export const ChapterList = ({
                 )}
 
                 <StyledVirtuoso
+                    topOffset={appBarHeight + chapterListHeaderHeight}
                     style={{
                         // override Virtuoso default values and set them with class
                         height: 'undefined',
-                        // 900 is the md breakpoint in MUI
-                        overflowY: window.innerWidth < 900 ? 'visible' : 'auto',
                     }}
                     components={{ Footer: () => <Box sx={{ paddingBottom: DEFAULT_FULL_FAB_HEIGHT }} /> }}
                     totalCount={visibleChapters.length}
@@ -242,7 +258,7 @@ export const ChapterList = ({
                             }
                         />
                     )}
-                    useWindowScroll={window.innerWidth < 900}
+                    useWindowScroll={isMobileWidth}
                     overscan={window.innerHeight * 0.5}
                 />
             </Stack>
