@@ -8,7 +8,6 @@
 
 import CardActionArea from '@mui/material/CardActionArea';
 import Box from '@mui/material/Box';
-import { styled } from '@mui/material/styles';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
@@ -17,29 +16,13 @@ import Typography from '@mui/material/Typography';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import Stack from '@mui/material/Stack';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { translateExtensionLanguage } from '@/screens/util/Extensions';
 import { SourceContentType } from '@/screens/SourceMangas';
 import { SpinnerImage } from '@/components/util/SpinnerImage.tsx';
 import { GetSourcesListQuery } from '@/lib/graphql/generated/graphql.ts';
-
-const MobileWidthButtons = styled('div')(({ theme }) => ({
-    display: 'flex',
-    [theme.breakpoints.up('sm')]: {
-        display: 'none',
-    },
-}));
-
-const WiderWidthButtons = styled('div')(({ theme }) => ({
-    display: 'flex',
-    [theme.breakpoints.down('sm')]: {
-        display: 'none',
-    },
-
-    '& .MuiButton-root': {
-        marginLeft: '20px',
-    },
-}));
+import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
 
 interface IProps {
     source: GetSourcesListQuery['sources']['nodes'][number];
@@ -48,6 +31,8 @@ interface IProps {
 
 export const SourceCard: React.FC<IProps> = (props: IProps) => {
     const { t } = useTranslation();
+
+    const isMobileWidth = MediaQuery.useIsMobileWidth();
 
     const {
         source: {
@@ -65,7 +50,7 @@ export const SourceCard: React.FC<IProps> = (props: IProps) => {
     return (
         <Card
             sx={{
-                margin: '10px',
+                margin: 1,
                 marginTop: 0,
             }}
         >
@@ -79,7 +64,7 @@ export const SourceCard: React.FC<IProps> = (props: IProps) => {
                         display: 'flex',
                         justifyContent: 'space-between',
                         alignItems: 'center',
-                        padding: 2,
+                        padding: 1.5,
                     }}
                 >
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -90,7 +75,7 @@ export const SourceCard: React.FC<IProps> = (props: IProps) => {
                                 width: 56,
                                 height: 56,
                                 flex: '0 0 auto',
-                                mr: 2,
+                                mr: 1,
                                 background: 'transparent',
                             }}
                         >
@@ -108,14 +93,14 @@ export const SourceCard: React.FC<IProps> = (props: IProps) => {
                                 justifyContent: 'center',
                             }}
                         >
-                            <Typography variant="h5" component="h2">
+                            <Typography variant="h6" component="h3">
                                 {name}
                             </Typography>
                             {id !== '0' && (
-                                <Typography variant="caption" display="block" gutterBottom>
+                                <Typography variant="caption" display="block">
                                     {translateExtensionLanguage(lang)}
                                     {isNsfw && (
-                                        <Typography variant="caption" display="inline" gutterBottom color="red">
+                                        <Typography variant="caption" display="inline" color="error">
                                             {' 18+'}
                                         </Typography>
                                     )}
@@ -128,30 +113,18 @@ export const SourceCard: React.FC<IProps> = (props: IProps) => {
                             )}
                         </Box>
                     </Box>
-                    <>
-                        <MobileWidthButtons>
-                            {supportsLatest && (
-                                <Button
-                                    variant="outlined"
-                                    component={Link}
-                                    to={`/sources/${id}`}
-                                    state={{ contentType: SourceContentType.LATEST, clearCache: true }}
-                                >
-                                    {t('global.button.latest')}
-                                </Button>
-                            )}
-                        </MobileWidthButtons>
-                        <WiderWidthButtons>
-                            {supportsLatest && (
-                                <Button
-                                    variant="outlined"
-                                    component={Link}
-                                    to={`/sources/${id}`}
-                                    state={{ contentType: SourceContentType.LATEST, clearCache: true }}
-                                >
-                                    {t('global.button.latest')}
-                                </Button>
-                            )}
+                    <Stack sx={{ flexDirection: 'row', gap: 1 }}>
+                        {supportsLatest && (
+                            <Button
+                                variant="outlined"
+                                component={Link}
+                                to={`/sources/${id}`}
+                                state={{ contentType: SourceContentType.LATEST, clearCache: true }}
+                            >
+                                {t('global.button.latest')}
+                            </Button>
+                        )}
+                        {!isMobileWidth && (
                             <Button
                                 variant="outlined"
                                 component={Link}
@@ -160,8 +133,8 @@ export const SourceCard: React.FC<IProps> = (props: IProps) => {
                             >
                                 {t('global.button.popular')}
                             </Button>
-                        </WiderWidthButtons>
-                    </>
+                        )}
+                    </Stack>
                 </CardContent>
             </CardActionArea>
         </Card>
