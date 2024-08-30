@@ -45,10 +45,11 @@ import { Mangas } from '@/lib/data/Mangas';
 import { useNavBarContext } from '@/components/context/NavbarContext.tsx';
 import { useResizeObserver } from '@/util/useResizeObserver.tsx';
 import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
+import { SCROLLBAR_WIDTH } from '@/theme.ts';
 
 const ChapterListHeader = styled(Stack)(({ theme }) => ({
     padding: theme.spacing(1),
-    paddingRight: `calc(14px + ${theme.spacing(1)})`,
+    paddingRight: `calc(${SCROLLBAR_WIDTH}px + ${theme.spacing(1)})`,
     paddingBottom: 0,
     [theme.breakpoints.down('md')]: {
         paddingRight: theme.spacing(1),
@@ -183,13 +184,13 @@ export const ChapterList = ({
                     alignItems="center"
                     justifyContent="space-between"
                 >
-                    <Typography variant="h5">
+                    <Typography variant="h5" component="h3">
                         {`${visibleChapters.length} ${t('chapter.title_one', {
                             count: visibleChapters.length,
                         })}`}
                     </Typography>
 
-                    <Stack direction="row" sx={{ paddingRight: '24px' }}>
+                    <Stack direction="row">
                         <Tooltip title={t('chapter.action.mark_as_read.add.label.action.current')}>
                             <IconButton
                                 disabled={areAllChaptersRead}

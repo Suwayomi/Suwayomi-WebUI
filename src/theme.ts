@@ -25,6 +25,8 @@ declare module '@mui/material/styles/createPalette' {
     }
 }
 
+export const SCROLLBAR_WIDTH = 14;
+
 type DefaultMuiPalette = Omit<MuiPalette, 'custom'>;
 type DefaultMuiTheme = Omit<Theme, 'palette'> & { palette: DefaultMuiPalette };
 
@@ -55,7 +57,7 @@ export const createTheme = (dark?: boolean, direction: Direction = 'ltr') => {
                 MuiCssBaseline: {
                     styleOverrides: `
                         *::-webkit-scrollbar {
-                          width: 14px;
+                          width: ${SCROLLBAR_WIDTH}px;
                         }
                         *::-webkit-scrollbar-thumb {
                           border: 4px solid rgba(0, 0, 0, 0);

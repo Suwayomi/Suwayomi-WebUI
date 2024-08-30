@@ -116,8 +116,8 @@ export const ChapterCard: React.FC<IProps> = (props: IProps) => {
                                         display: 'flex',
                                         justifyContent: 'space-between',
                                         alignItems: 'center',
-                                        padding: 2,
-                                        '&:last-child': { pb: 2 },
+                                        padding: 1.5,
+                                        '&:last-child': { pb: 1.5 },
                                     }}
                                 >
                                     <Stack direction="column" flex={1}>
@@ -129,7 +129,7 @@ export const ChapterCard: React.FC<IProps> = (props: IProps) => {
                                             }}
                                         >
                                             {chapter.isBookmarked && <BookmarkIcon color="primary" />}
-                                            <TypographyMaxLines variant="h5" component="h2">
+                                            <TypographyMaxLines variant="h6" component="h4">
                                                 {showChapterNumber
                                                     ? `${t('chapter.title_one')} ${chapter.chapterNumber}`
                                                     : chapter.name}
