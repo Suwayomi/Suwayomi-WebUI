@@ -68,7 +68,7 @@ export const MangaListCard = ({
                         display: 'flex',
                         justifyContent: 'space-between',
                         alignItems: 'center',
-                        padding: 2,
+                        padding: 1.5,
                         position: 'relative',
                     }}
                 >
@@ -78,7 +78,7 @@ export const MangaListCard = ({
                             width: 56,
                             height: 56,
                             flex: '0 0 auto',
-                            marginRight: 2,
+                            marginRight: 1,
                         }}
                     >
                         <SpinnerImage
@@ -103,10 +103,12 @@ export const MangaListCard = ({
                         }}
                     >
                         <Tooltip title={title} placement="top">
-                            <TypographyMaxLines variant="h5">{title}</TypographyMaxLines>
+                            <TypographyMaxLines variant="h6" component="h3">
+                                {title}
+                            </TypographyMaxLines>
                         </Tooltip>
                     </Box>
-                    <Stack direction="row" alignItems="center" gap="5px">
+                    <Stack direction="row" alignItems="center" gap={0.5}>
                         {mangaBadges}
                         {continueReadingButton}
                         <MangaOptionButton

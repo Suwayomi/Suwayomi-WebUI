@@ -14,18 +14,17 @@ import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsCon
 import { MangaCardMode } from '@/components/manga/MangaCard.types.tsx';
 import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
 
-const BadgeContainer = styled('div')({
+const BadgeContainer = styled('div')(({ theme }) => ({
     display: 'flex',
     height: 'fit-content',
-    borderRadius: '5px',
+    borderRadius: theme.shape.borderRadius,
     overflow: 'hidden',
-    '& p': {
-        color: 'white',
-        padding: '0.1em',
-        paddingInline: '0.2em',
-        fontSize: '1.05rem',
-    },
-});
+}));
+
+const Badge = styled(Typography)(({ theme }) => ({
+    color: theme.palette.primary.contrastText,
+    paddingInline: theme.spacing(0.3),
+}));
 
 export const MangaBadges = ({
     inLibraryIndicator,
@@ -78,16 +77,16 @@ export const MangaBadges = ({
                 </Typography>
             )}
             {((showUnreadBadge && mode === 'default') || mode === 'duplicate') && (unread ?? 0) > 0 && (
-                <Typography sx={{ backgroundColor: 'primary.dark' }}>{unread}</Typography>
+                <Badge sx={{ backgroundColor: 'primary.dark' }}>{unread}</Badge>
             )}
             {((showDownloadBadge && mode === 'default') || mode === 'duplicate') && (downloadCount ?? 0) > 0 && (
-                <Typography
+                <Badge
                     sx={{
-                        backgroundColor: 'success.dark',
+                        backgroundColor: 'primary.light',
                     }}
                 >
                     {downloadCount}
-                </Typography>
+                </Badge>
             )}
         </BadgeContainer>
     );

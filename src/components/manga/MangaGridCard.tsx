@@ -18,9 +18,9 @@ import { useRef } from 'react';
 import { SpinnerImage } from '@/components/util/SpinnerImage.tsx';
 import { MangaOptionButton } from '@/components/manga/MangaOptionButton.tsx';
 import { GridLayout } from '@/components/context/LibraryOptionsContext.tsx';
-import { TypographyMaxLines } from '@/components/atoms/TypographyMaxLines.tsx';
 import { Mangas } from '@/lib/data/Mangas.ts';
 import { SpecificMangaCardProps } from '@/components/manga/MangaCard.types.tsx';
+import { TypographyMaxLines } from '@/components/atoms/TypographyMaxLines';
 
 const BottomGradient = styled('div')({
     position: 'absolute',
@@ -36,10 +36,6 @@ const BottomGradientDoubledDown = styled('div')({
     width: '100%',
     height: '20%',
     background: 'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%)',
-});
-
-const GridMangaTitle = styled(TypographyMaxLines)({
-    fontSize: '1.05rem',
 });
 
 export const MangaGridCard = ({
@@ -74,7 +70,7 @@ export const MangaGridCard = ({
                 sx={{
                     display: 'flex',
                     flexDirection: 'column',
-                    margin: '2px',
+                    m: 0.25,
                     outline: selected ? '4px solid' : undefined,
                     borderRadius: selected ? '1px' : undefined,
                     outlineColor: (theme) => theme.palette.primary.main,
@@ -134,9 +130,9 @@ export const MangaGridCard = ({
                             direction="row"
                             sx={{
                                 position: 'absolute',
-                                top: 5,
-                                left: 5,
-                                right: 5,
+                                top: (theme) => theme.spacing(1),
+                                left: (theme) => theme.spacing(1),
+                                right: (theme) => theme.spacing(1),
                             }}
                         >
                             {mangaBadges}
@@ -163,21 +159,21 @@ export const MangaGridCard = ({
                                     position: 'absolute',
                                     bottom: 0,
                                     width: '100%',
-                                    margin: '0.5em 0',
-                                    padding: '0 0.5em',
-                                    gap: '0.5em',
+                                    p: 1,
+                                    gap: 1,
                                 }}
                             >
                                 {gridLayout !== GridLayout.Comfortable && (
                                     <Tooltip title={title} placement="top">
-                                        <GridMangaTitle
+                                        <TypographyMaxLines
+                                            component="h3"
                                             sx={{
                                                 color: 'white',
                                                 textShadow: '0px 0px 3px #000000',
                                             }}
                                         >
                                             {title}
-                                        </GridMangaTitle>
+                                        </TypographyMaxLines>
                                     </Tooltip>
                                 )}
                                 {continueReadingButton}
@@ -186,21 +182,20 @@ export const MangaGridCard = ({
                     </CardActionArea>
                 </Card>
                 {gridLayout === GridLayout.Comfortable && (
-                    <Tooltip title={title} placement="top">
-                        <GridMangaTitle
-                            sx={{
-                                position: 'relative',
-                                width: '100%',
-                                bottom: 0,
-                                margin: '0.5em 0',
-                                padding: '0 0.5em',
-                                color: 'text.primary',
-                                height: '3rem',
-                            }}
-                        >
-                            {title}
-                        </GridMangaTitle>
-                    </Tooltip>
+                    <Stack sx={{ pb: 1 }}>
+                        <Tooltip title={title} placement="top">
+                            <TypographyMaxLines
+                                component="h3"
+                                sx={{
+                                    color: 'text.primary',
+                                    height: '3rem',
+                                    pt: 0.5,
+                                }}
+                            >
+                                {title}
+                            </TypographyMaxLines>
+                        </Tooltip>
+                    </Stack>
                 )}
             </Box>
         </Link>

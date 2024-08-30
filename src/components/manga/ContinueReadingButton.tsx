@@ -35,7 +35,7 @@ export const ContinueReadingButton = ({
             <Button
                 variant="contained"
                 size="small"
-                sx={{ minWidth: 'unset' }}
+                sx={{ minWidth: 'unset', py: 0.5, px: 0.75 }}
                 component={Link}
                 to={`${mangaLinkTo}chapter/${nextChapterIndexToRead}`}
                 onClick={(e) => e.stopPropagation()}
