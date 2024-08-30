@@ -12,7 +12,6 @@ import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { loadErrorMessages, loadDevMessages } from '@apollo/client/dev';
 import { loadable } from 'react-lazily/loadable';
 import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
 import { AppContext } from '@/components/context/AppContext';
 import '@/i18n';
 import { DefaultNavBar } from '@/components/navbar/DefaultNavBar';
@@ -79,23 +78,22 @@ const BackgroundSubscriptions = () => {
 };
 
 const MainApp = () => {
-    const { navBarWidth, bottomBarHeight } = useNavBarContext();
+    const { navBarWidth, appBarHeight, bottomBarHeight } = useNavBarContext();
 
     return (
         <Box
             id="appMainContainer"
             component="main"
             sx={{
-                minHeight: `calc(100vh - ${bottomBarHeight}px)`,
+                minHeight: `calc(100vh - ${appBarHeight + bottomBarHeight}px)`,
                 width: `calc(100vw - (100vw - 100%) - ${navBarWidth}px)`,
                 minWidth: `calc(100vw - (100vw - 100%) - ${navBarWidth}px)`,
                 maxWidth: `calc(100vw - (100vw - 100%) - ${navBarWidth}px)`,
                 position: 'relative',
+                mt: `${appBarHeight}px`,
                 mb: `${bottomBarHeight}px`,
             }}
         >
-            <Toolbar />
-
             <ErrorBoundary>
                 <Routes>
                     {/* General Routes */}

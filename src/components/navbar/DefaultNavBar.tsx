@@ -164,12 +164,7 @@ export function DefaultNavBar() {
                                 {getOptionForDirection(<ArrowBack />, <ArrowForwardIcon />)}
                             </IconButton>
                         )}
-                        <Typography
-                            variant={isMobileWidth ? 'h6' : 'h5'}
-                            sx={{ flexGrow: 1 }}
-                            noWrap
-                            textOverflow="ellipsis"
-                        >
+                        <Typography variant="h5" component="h1" sx={{ flexGrow: 1 }} noWrap textOverflow="ellipsis">
                             {title}
                         </Typography>
                         {action}

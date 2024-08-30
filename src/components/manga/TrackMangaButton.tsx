@@ -52,11 +52,11 @@ export const TrackMangaButton = ({ manga }: { manga: MangaTrackRecordInfo & Pick
                 <>
                     <CustomIconButton
                         {...bindTrigger(popupState)}
+                        size="medium"
                         disabled={trackerList.loading || !!trackerList.error}
                         onClick={() => handleClick(popupState.open)}
                         onTouchStart={() => handleClick(popupState.open)}
-                        size="large"
-                        sx={{ color: trackersInUse.length ? '#2196f3' : 'inherit' }}
+                        variant={trackersInUse.length ? 'contained' : 'outlined'}
                     >
                         {trackersInUse.length ? <CheckIcon /> : <SyncIcon />}
                         {trackersInUse.length

@@ -8,15 +8,17 @@
 
 import Button, { ButtonProps } from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
-import { TypographyProps } from '@mui/material/Typography';
+import { ForwardedRef, forwardRef } from 'react';
 
-export const CustomIconButton = <C extends React.ElementType>({
-    children,
-    ...props
-}: ButtonProps & TypographyProps<C, { component?: C }>) => (
-    <Button {...props}>
-        <Stack direction="row" alignItems="center" justifyContent="center" gap="10px" flexWrap="wrap">
-            {children}
-        </Stack>
-    </Button>
+export const CustomIconButton = forwardRef(
+    <C extends React.ElementType>(
+        { children, ...props }: ButtonProps<C, { component?: C }>,
+        ref: ForwardedRef<HTMLButtonElement | null>,
+    ) => (
+        <Button ref={ref} {...props}>
+            <Stack direction="row" alignItems="center" justifyContent="center" gap={1} flexWrap="wrap">
+                {children}
+            </Stack>
+        </Button>
+    ),
 );

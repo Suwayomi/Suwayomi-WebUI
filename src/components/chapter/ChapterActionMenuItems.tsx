@@ -16,7 +16,7 @@ import BookmarkRemove from '@mui/icons-material/BookmarkRemove';
 import BookmarkAdd from '@mui/icons-material/BookmarkAdd';
 import DoneAll from '@mui/icons-material/DoneAll';
 import { useMemo } from 'react';
-import PublicIcon from '@mui/icons-material/Public';
+import LaunchIcon from '@mui/icons-material/Launch';
 import { SelectableCollectionReturnType } from '@/components/collection/useSelectableCollection.ts';
 import {
     actionToTranslationKey,
@@ -159,7 +159,7 @@ export const ChapterActionMenuItems = ({
             )}
             {isSingleMode && (
                 <MenuItem
-                    Icon={PublicIcon}
+                    Icon={LaunchIcon}
                     disabled={!chapter!.realUrl}
                     onClick={() => {
                         window.open(chapter!.realUrl!, '_blank', 'noopener,noreferrer');

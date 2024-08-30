@@ -58,7 +58,6 @@ const StyledVirtuoso = styled(Virtuoso)(({ theme }) => ({
     padding: 0,
     minHeight: '200px',
     [theme.breakpoints.up('md')]: {
-        width: '50vw',
         // 64px for the Appbar, 48px for the ChapterCount Header
         height: 'calc(100vh - 64px - 48px)',
         margin: 0,
@@ -165,7 +164,7 @@ export const ChapterList = ({
 
     return (
         <>
-            <Stack direction="column" sx={{ position: 'relative' }}>
+            <Stack direction="column" sx={{ position: 'relative', flexBasis: '60%' }}>
                 <ChapterListHeader direction="row" alignItems="center" justifyContent="space-between">
                     <Typography variant="h5">
                         {`${visibleChapters.length} ${t('chapter.title_one', {
