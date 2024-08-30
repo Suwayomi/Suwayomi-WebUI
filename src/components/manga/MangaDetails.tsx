@@ -18,7 +18,11 @@ import { useLongPress } from 'use-long-press';
 import Chip from '@mui/material/Chip';
 import Tooltip from '@mui/material/Tooltip';
 import LaunchIcon from '@mui/icons-material/Launch';
+import Collapse from '@mui/material/Collapse';
 import Stack from '@mui/material/Stack';
+import IconButton from '@mui/material/IconButton';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { makeToast } from '@/components/util/Toast';
 import { Mangas, MangaThumbnailInfo, MangaTrackRecordInfo } from '@/lib/data/Mangas.ts';
 import { SpinnerImage } from '@/components/util/SpinnerImage.tsx';
@@ -28,6 +32,7 @@ import { useManageMangaLibraryState } from '@/components/manga/useManageMangaLib
 import { Metadata as BaseMetadata } from '@/components/atoms/Metadata.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { MangaType, SourceType } from '@/lib/graphql/generated/graphql.ts';
+import { useLocalStorage } from '@/util/useStorage.tsx';
 
 const DetailsWrapper = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -104,29 +109,54 @@ function getValueOrUnknown(val?: string | null) {
     return val ?? translate('global.label.unknown');
 }
 
+const DESCRIPTION_COLLAPSED_SIZE = 75;
 const DescriptionGenre = ({
     manga: { description, genre: genres },
 }: {
     manga: Pick<MangaType, 'description' | 'genre'>;
-}) => (
-    <>
-        <Typography style={{ whiteSpace: 'pre-line', textAlign: 'justify', textJustify: 'inter-word' }}>
-            {description}
-        </Typography>
-        <Stack
-            sx={{
-                flexDirection: 'row',
-                flexWrap: isCollapsed ? 'no-wrap' : 'wrap',
-                gap: 1,
-                overflowX: isCollapsed ? 'auto' : null,
-            }}
-        >
-            {genres.map((genre) => (
-                <Chip label={genre} variant="outlined" />
-            ))}
-        </Stack>
-    </>
-);
+}) => {
+    const [isCollapsed, setIsCollapsed] = useLocalStorage('isDescriptionGenreCollapsed', true);
+
+    return (
+        <>
+            <Stack sx={{ position: 'relative' }}>
+                <Collapse collapsedSize={DESCRIPTION_COLLAPSED_SIZE} in={!isCollapsed}>
+                    <Typography style={{ whiteSpace: 'pre-line', textAlign: 'justify', textJustify: 'inter-word' }}>
+                        {description}
+                    </Typography>
+                </Collapse>
+                <Stack
+                    onClick={() => setIsCollapsed(!isCollapsed)}
+                    sx={{
+                        pt: 1,
+                        alignItems: 'center',
+                        cursor: 'pointer',
+                        position: isCollapsed ? 'absolute' : null,
+                        width: '100%',
+                        bottom: 0,
+                        background: (theme) => `linear-gradient(transparent 1px, ${theme.palette.background.paper})`,
+                    }}
+                >
+                    <IconButton sx={{ color: (theme) => (theme.palette.mode === 'light' ? 'black' : 'text') }}>
+                        {isCollapsed ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+                    </IconButton>
+                </Stack>
+            </Stack>
+            <Stack
+                sx={{
+                    flexDirection: 'row',
+                    flexWrap: isCollapsed ? 'no-wrap' : 'wrap',
+                    gap: 1,
+                    overflowX: isCollapsed ? 'auto' : null,
+                }}
+            >
+                {genres.map((genre) => (
+                    <Chip label={genre} variant="outlined" />
+                ))}
+            </Stack>
+        </>
+    );
+};
 
 export const MangaDetails = ({
     manga,
