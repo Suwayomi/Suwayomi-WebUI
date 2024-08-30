@@ -157,10 +157,10 @@ export function ExtensionCard(props: IProps) {
                 sx={{
                     display: 'flex',
                     alignItems: 'center',
-                    gap: 2,
-                    p: 2,
+                    gap: 1,
+                    p: 1.5,
                     '&:last-child': {
-                        paddingBottom: 2,
+                        paddingBottom: 1.5,
                     },
                 }}
             >
@@ -188,15 +188,16 @@ export function ExtensionCard(props: IProps) {
                         flexGrow: 1,
                         flexShrink: 1,
                         wordBreak: 'break-word',
+                        justifyContent: 'center',
                     }}
                 >
-                    <Typography variant="h5" component="h2">
+                    <Typography variant="h6" component="h3">
                         {name}
                     </Typography>
                     <Typography variant="caption" display="block">
                         {langPress} {versionName}
                         {isNsfw && (
-                            <Typography variant="caption" display="inline" color="red">
+                            <Typography variant="caption" display="inline" color="error">
                                 {' 18+'}
                             </Typography>
                         )}
