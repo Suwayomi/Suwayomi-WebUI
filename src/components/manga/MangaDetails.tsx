@@ -8,7 +8,7 @@
 
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { styled } from '@mui/material/styles';
+import { styled, useTheme } from '@mui/material/styles';
 import { ComponentProps, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { t as translate } from 'i18next';
@@ -23,6 +23,9 @@ import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import OpenInFullIcon from '@mui/icons-material/OpenInFull';
+import Modal from '@mui/material/Modal';
+import { bindPopover, bindTrigger, usePopupState } from 'material-ui-popup-state/hooks';
 import { makeToast } from '@/components/util/Toast';
 import { Mangas, MangaThumbnailInfo, MangaTrackRecordInfo } from '@/lib/data/Mangas.ts';
 import { SpinnerImage } from '@/components/util/SpinnerImage.tsx';
@@ -48,22 +51,9 @@ const DetailsWrapper = styled('div')(({ theme }) => ({
 
 const TopContentWrapper = styled('div')(() => ({}));
 
-const ThumbnailMetadataWrapper = styled('div')(() => ({
+const ThumbnailMetadataWrapper = styled('div')(({ theme }) => ({
     display: 'flex',
-}));
-
-const Thumbnail = styled('div')(({ theme }) => ({
-    '& img': {
-        borderRadius: 4,
-        width: '150px',
-        height: 'auto',
-        [theme.breakpoints.up('lg')]: {
-            width: '200px',
-        },
-        [theme.breakpoints.up('xl')]: {
-            width: '300px',
-        },
-    },
+    paddingBottom: theme.spacing(1),
 }));
 
 const MetadataContainer = styled('div')(({ theme }) => ({
@@ -108,6 +98,66 @@ function getSourceName(source?: Pick<SourceType, 'id' | 'displayName'> | null): 
 function getValueOrUnknown(val?: string | null) {
     return val ?? translate('global.label.unknown');
 }
+
+const Thumbnail = ({ manga }: { manga: Partial<MangaThumbnailInfo> }) => {
+    const theme = useTheme();
+
+    const popupState = usePopupState({ variant: 'popover', popupId: 'manga-thumbnail-fullscreen' });
+
+    return (
+        <>
+            <Stack
+                sx={{
+                    position: 'relative',
+                    '& img': {
+                        borderRadius: 0.5,
+                        width: '150px',
+                        height: 'auto',
+                        [theme.breakpoints.up('lg')]: {
+                            width: '200px',
+                        },
+                        [theme.breakpoints.up('xl')]: {
+                            width: '300px',
+                        },
+                    },
+                }}
+            >
+                <SpinnerImage src={Mangas.getThumbnailUrl(manga)} alt="Manga Thumbnail" />
+                <Stack
+                    {...bindTrigger(popupState)}
+                    sx={{
+                        position: 'absolute',
+                        top: 0,
+                        bottom: 0,
+                        width: '100%',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        opacity: 0,
+                        '&:hover': {
+                            background: 'rgba(0, 0, 0, 0.4)',
+                            cursor: 'pointer',
+                            opacity: 1,
+                        },
+                    }}
+                >
+                    <OpenInFullIcon fontSize="large" />
+                </Stack>
+            </Stack>
+            <Modal {...bindPopover(popupState)} sx={{ outline: 0 }}>
+                <Stack
+                    onClick={() => popupState.close()}
+                    sx={{ height: '100vh', py: 2, outline: 0, justifyContent: 'center', alignItems: 'center' }}
+                >
+                    <SpinnerImage
+                        src={Mangas.getThumbnailUrl(manga)}
+                        alt="Manga Thumbnail"
+                        imgStyle={{ height: '100%', width: '100%', objectFit: 'contain' }}
+                    />
+                </Stack>
+            </Modal>
+        </>
+    );
+};
 
 const DESCRIPTION_COLLAPSED_SIZE = 75;
 const DescriptionGenre = ({
@@ -194,9 +244,7 @@ export const MangaDetails = ({
             <DetailsWrapper>
                 <TopContentWrapper>
                     <ThumbnailMetadataWrapper>
-                        <Thumbnail>
-                            <SpinnerImage src={Mangas.getThumbnailUrl(manga)} alt="Manga Thumbnail" />
-                        </Thumbnail>
+                        <Thumbnail manga={manga} />
                         <MetadataContainer>
                             <Typography
                                 variant="h5"
