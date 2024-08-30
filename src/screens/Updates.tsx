@@ -156,7 +156,7 @@ export const Updates: React.FC = () => {
                 endReached={loadMore}
                 groupCounts={groupCounts}
                 groupContent={(index) => (
-                    <StyledGroupHeader variant="h5" isFirstItem={index === 0}>
+                    <StyledGroupHeader variant="h5" component="h2" isFirstItem={index === 0}>
                         {groupedUpdates[index][0]}
                     </StyledGroupHeader>
                 )}

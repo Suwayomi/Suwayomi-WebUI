@@ -7,20 +7,21 @@
  */
 
 import { styled } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
+import Typography, { TypographyProps } from '@mui/material/Typography';
 
-export const StyledGroupHeader = styled(Typography, { shouldForwardProp: (prop) => prop !== 'isFirstItem' })<{
-    isFirstItem: boolean;
-}>(({ theme, isFirstItem }) => ({
-    paddingLeft: '24px',
+export const StyledGroupHeader = styled(Typography, { shouldForwardProp: (prop) => prop !== 'isFirstItem' })<
+    {
+        isFirstItem: boolean;
+    } & TypographyProps
+>(({ theme, isFirstItem }) => ({
+    paddingLeft: theme.spacing(3),
     // 16px - 10px (bottom padding of the group items)
-    paddingTop: '6px',
-    paddingBottom: '16px',
-    fontWeight: 700,
-    textTransform: 'uppercase',
+    paddingTop: theme.spacing(0.75),
+    paddingBottom: theme.spacing(2),
+    fontWeight: 'bold',
     backgroundColor: theme.palette.background.default,
     [theme.breakpoints.down('sm')]: {
         // 16px - 8px (margin of header)
-        paddingTop: isFirstItem ? '8px' : '6px',
+        paddingTop: isFirstItem ? theme.spacing(1) : theme.spacing(0.75),
     },
 }));

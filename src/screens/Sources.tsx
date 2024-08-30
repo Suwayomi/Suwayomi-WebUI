@@ -140,11 +140,12 @@ export function Sources() {
                             <Fragment key={lang}>
                                 <Typography
                                     key={lang}
-                                    variant="h4"
-                                    style={{
-                                        paddingLeft: '24px',
-                                        paddingTop: '6px',
-                                        paddingBottom: '16px',
+                                    variant="h5"
+                                    component="h2"
+                                    sx={{
+                                        paddingLeft: 3,
+                                        paddingTop: 1,
+                                        paddingBottom: 2,
                                         fontWeight: 'bold',
                                     }}
                                 >

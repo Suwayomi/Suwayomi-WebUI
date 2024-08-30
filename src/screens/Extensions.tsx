@@ -285,7 +285,7 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
                     const [groupName] = filteredGroupedExtensions[index];
 
                     return (
-                        <StyledGroupHeader key={groupName} variant="h4" isFirstItem={index === 0}>
+                        <StyledGroupHeader key={groupName} variant="h5" component="h2" isFirstItem={index === 0}>
                             {translateExtensionLanguage(groupName)}
                         </StyledGroupHeader>
                     );
