@@ -32,7 +32,7 @@ export const MigrationCard = ({ id, name, lang, iconUrl, mangaCount }: TMigratab
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
-                    p: 2,
+                    p: 1.5,
                 }}
             >
                 <Box sx={{ display: 'flex' }}>
@@ -42,7 +42,7 @@ export const MigrationCard = ({ id, name, lang, iconUrl, mangaCount }: TMigratab
                             width: 56,
                             height: 56,
                             flex: '0 0 auto',
-                            mr: 2,
+                            mr: 1,
                             background: 'transparent',
                         }}
                     >
@@ -53,8 +53,8 @@ export const MigrationCard = ({ id, name, lang, iconUrl, mangaCount }: TMigratab
                             src={requestManager.getValidImgUrlFor(iconUrl)}
                         />
                     </Avatar>
-                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                        <Typography variant="h5" component="h2">
+                    <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                        <Typography variant="h6" component="h3">
                             {name}
                         </Typography>
                         <Typography variant="caption" display="block">
@@ -62,7 +62,7 @@ export const MigrationCard = ({ id, name, lang, iconUrl, mangaCount }: TMigratab
                         </Typography>
                     </Box>
                 </Box>
-                <Chip sx={{ borderRadius: '5px' }} size="small" label={mangaCount} />
+                <Chip sx={{ borderRadius: 1 }} size="small" label={mangaCount} />
             </CardContent>
         </CardActionArea>
     </Card>
