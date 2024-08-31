@@ -23,6 +23,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import { Virtuoso } from 'react-virtuoso';
+import CardContent from '@mui/material/CardContent';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { StrictModeDroppable } from '@/lib/StrictModeDroppable';
 import { makeToast } from '@/components/util/Toast';
@@ -54,43 +55,45 @@ const DownloadChapterItem = ({
     const { t } = useTranslation();
 
     return (
-        <Box {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} sx={{ pt: 1, px: 1 }}>
+        <Box {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} sx={{ p: 1, pb: 0 }}>
             <Card
                 sx={{
                     backgroundColor: isDragging ? 'custom.light' : undefined,
                 }}
             >
-                <CardActionArea
-                    component={Link}
-                    to={`/manga/${item.manga.id}`}
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        p: 1,
-                    }}
-                >
-                    <IconButton sx={{ pointerEvents: 'none' }}>
-                        <DragHandle />
-                    </IconButton>
-                    <Stack sx={{ flex: 1, ml: 1 }} direction="column">
-                        <Typography variant="h6">{item.manga.title}</Typography>
-                        <Typography variant="caption" display="block" gutterBottom>
-                            {item.chapter.name}
-                        </Typography>
-                    </Stack>
-                    <DownloadStateIndicator download={item} />
-                    <Tooltip title={t('chapter.action.download.delete.label.action')}>
-                        <IconButton
-                            onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                handleDelete(item.chapter);
-                            }}
-                            size="large"
-                        >
-                            <DeleteIcon />
+                <CardActionArea component={Link} to={`/manga/${item.manga.id}`}>
+                    <CardContent
+                        sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            p: 1.5,
+                        }}
+                    >
+                        <IconButton sx={{ pointerEvents: 'none' }}>
+                            <DragHandle />
                         </IconButton>
-                    </Tooltip>
+                        <Stack sx={{ flex: 1, ml: 1 }} direction="column">
+                            <Typography variant="h6" component="h3">
+                                {item.manga.title}
+                            </Typography>
+                            <Typography variant="caption" display="block">
+                                {item.chapter.name}
+                            </Typography>
+                        </Stack>
+                        <DownloadStateIndicator download={item} />
+                        <Tooltip title={t('chapter.action.download.delete.label.action')}>
+                            <IconButton
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    handleDelete(item.chapter);
+                                }}
+                                size="large"
+                            >
+                                <DeleteIcon />
+                            </IconButton>
+                        </Tooltip>
+                    </CardContent>
                 </CardActionArea>
             </Card>
         </Box>
