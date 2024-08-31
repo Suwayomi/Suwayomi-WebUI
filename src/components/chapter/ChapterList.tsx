@@ -83,7 +83,7 @@ export const ChapterList = ({
 
     const isMobileWidth = MediaQuery.useIsBelowWidth('md');
 
-    const [chapterListHeaderHeight, setChapterListHeaderHeight] = useState(0);
+    const [chapterListHeaderHeight, setChapterListHeaderHeight] = useState(50);
     const [chapterListHeaderRef, setChapterListHeaderRef] = useState<HTMLDivElement | null>(null);
     useResizeObserver(
         chapterListHeaderRef,
