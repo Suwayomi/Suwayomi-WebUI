@@ -181,7 +181,7 @@ export const Updates: React.FC = () => {
                                             display: 'flex',
                                             justifyContent: 'space-between',
                                             alignItems: 'center',
-                                            padding: 2,
+                                            padding: 1.5,
                                         }}
                                     >
                                         <Box sx={{ display: 'flex' }}>
@@ -192,7 +192,7 @@ export const Updates: React.FC = () => {
                                                         width: 56,
                                                         height: 56,
                                                         flex: '0 0 auto',
-                                                        marginRight: 2,
+                                                        marginRight: 1,
                                                         background: 'transparent',
                                                     }}
                                                 >
@@ -209,16 +209,20 @@ export const Updates: React.FC = () => {
                                                     />
                                                 </Avatar>
                                             </Link>
-                                            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                                                <TypographyMaxLines variant="h5" component="h2">
+                                            <Box
+                                                sx={{
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    justifyContent: 'center',
+                                                    flexGrow: 1,
+                                                    flexShrink: 1,
+                                                    wordBreak: 'break-word',
+                                                }}
+                                            >
+                                                <TypographyMaxLines variant="h6" component="h3">
                                                     {manga.title}
                                                 </TypographyMaxLines>
-                                                <TypographyMaxLines
-                                                    variant="caption"
-                                                    display="block"
-                                                    gutterBottom
-                                                    lines={1}
-                                                >
+                                                <TypographyMaxLines variant="caption" display="block" lines={1}>
                                                     {chapter.name}
                                                 </TypographyMaxLines>
                                             </Box>
