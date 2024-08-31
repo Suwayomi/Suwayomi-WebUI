@@ -122,7 +122,23 @@ const Thumbnail = ({ manga }: { manga: Partial<MangaThumbnailInfo> }) => {
                     },
                 }}
             >
-                <SpinnerImage src={Mangas.getThumbnailUrl(manga)} alt="Manga Thumbnail" />
+                <SpinnerImage
+                    src={Mangas.getThumbnailUrl(manga)}
+                    alt="Manga Thumbnail"
+                    spinnerStyle={{
+                        borderRadius: 0.5,
+                        width: '150px',
+                        height: '225px',
+                        [theme.breakpoints.up('lg')]: {
+                            width: '200px',
+                            height: '300px',
+                        },
+                        [theme.breakpoints.up('xl')]: {
+                            width: '300px',
+                            height: '450px',
+                        },
+                    }}
+                />
                 <Stack
                     {...bindTrigger(popupState)}
                     sx={{
