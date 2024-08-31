@@ -69,6 +69,11 @@ export const WebUIUpdateChecker = () => {
     const newVersion = aboutWebUI?.tag;
     const isSameAsCurrent = !newVersion || !webUIVersion || webUIVersion === newVersion;
 
+    const saveInitialVersion = !webUIVersion && !!newVersion;
+    if (saveInitialVersion) {
+        setWebUIVersion(newVersion);
+    }
+
     if (!isSameAsCurrent && !open) {
         setOpen(true);
     }
