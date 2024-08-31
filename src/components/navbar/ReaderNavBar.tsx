@@ -36,6 +36,7 @@ import { ChapterType } from '@/lib/graphql/generated/graphql.ts';
 import { MangaChapterCountInfo, MangaIdInfo } from '@/lib/data/Mangas.ts';
 import { useNavBarContext } from '@/components/context/NavbarContext.tsx';
 import { useResizeObserver } from '@/util/useResizeObserver.tsx';
+import { CustomIconButton } from '@/components/atoms/CustomIconButton.tsx';
 
 const Root = styled('div')({
     zIndex: 10,
@@ -55,36 +56,15 @@ const NavContainer = styled('div')(({ theme }) => ({
         backgroundColor: theme.palette.action.hover,
         display: 'flex',
         alignItems: 'center',
-        minHeight: '64px',
-        paddingLeft: '24px',
-        paddingRight: '24px',
+        padding: `${theme.spacing(1)} ${theme.spacing(3)}`,
 
         transition: 'left 2s ease',
-
-        '& button': {
-            flexGrow: 0,
-            flexShrink: 0,
-        },
-
-        '& button:nth-child(1)': {
-            marginRight: '16px',
-        },
-
-        '& h1': {
-            fontSize: '1.25rem',
-            flexGrow: 1,
-        },
     },
 }));
 
-const Navigation = styled('div')({
-    margin: '0 16px',
-    '& > span:nth-child(1)': {
-        textAlign: 'center',
-        display: 'block',
-        marginTop: '16px',
-    },
-});
+const Navigation = styled('div')(({ theme }) => ({
+    margin: `0 ${theme.spacing(2)}`,
+}));
 
 const PageNavigation = styled('div')({
     display: 'flex',
@@ -94,13 +74,13 @@ const PageNavigation = styled('div')({
     justifyContent: 'center',
 });
 
-const ChapterNavigation = styled('div')({
+const ChapterNavigation = styled('div')(({ theme }) => ({
     display: 'grid',
     gridTemplateRows: 'auto auto auto',
     gridTemplateColumns: '0fr 1fr 0fr',
     gridTemplateAreas: '"pre current next"',
-    gridColumnGap: '5px',
-    margin: '10px 0',
+    gridColumnGap: theme.spacing(0.5),
+    margin: `${theme.spacing(1)} 0`,
 
     '& a': {
         textDecoration: 'none',
@@ -108,19 +88,6 @@ const ChapterNavigation = styled('div')({
         display: 'flex',
         flexWrap: 'wrap',
         alignContent: 'center',
-    },
-});
-
-const OpenDrawerButton = styled(IconButton)(({ theme }) => ({
-    position: 'fixed',
-    top: 0 + 20,
-    left: 10 + 20,
-    height: '40px',
-    width: '40px',
-    borderRadius: 5,
-    backgroundColor: theme.palette.custom.main,
-    '&:hover': {
-        backgroundColor: theme.palette.custom.light,
     },
 }));
 
@@ -256,7 +223,13 @@ export function ReaderNavBar(props: IProps) {
                                 </IconButton>
                             </Tooltip>
                         )}
-                        <Typography variant="h1" textOverflow="ellipsis" overflow="hidden" sx={{ py: 1 }}>
+                        <Typography
+                            variant="h6"
+                            component="h1"
+                            textOverflow="ellipsis"
+                            overflow="hidden"
+                            sx={{ py: 1, flexGrow: 1 }}
+                        >
                             {chapter.name}
                         </Typography>
                         <Tooltip title={t('reader.button.exit')}>
@@ -314,7 +287,7 @@ export function ReaderNavBar(props: IProps) {
                             <span>{t('reader.page_info.label.currently_on_page')}</span>
                             <FormControl
                                 size="small"
-                                sx={{ margin: '0 5px' }}
+                                sx={{ mx: 0.5 }}
                                 disabled={disableChapterNavButtons || chapter.pageCount === -1}
                             >
                                 <Select
@@ -392,16 +365,18 @@ export function ReaderNavBar(props: IProps) {
             <Zoom in={!drawerOpen}>
                 <Fade in={!hideOpenButton}>
                     <Tooltip title={t('reader.button.open_menu')}>
-                        <OpenDrawerButton
-                            edge="start"
-                            aria-label="menu"
-                            disableRipple
-                            disableFocusRipple
-                            onClick={() => updateDrawer(true)}
+                        <CustomIconButton
+                            sx={{
+                                position: 'fixed',
+                                top: 20,
+                                left: 20,
+                            }}
                             size="large"
+                            variant="contained"
+                            onClick={() => updateDrawer(true)}
                         >
                             {getOptionForDirection(<KeyboardArrowRightIcon />, <KeyboardArrowLeftIcon />)}
-                        </OpenDrawerButton>
+                        </CustomIconButton>
                     </Tooltip>
                 </Fade>
             </Zoom>
