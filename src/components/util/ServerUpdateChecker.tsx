@@ -64,6 +64,12 @@ export const ServerUpdateChecker = () => {
             : undefined;
 
     const isSameAsCurrent = !version || !serverVersion || serverVersion === version;
+
+    const saveInitialVersion = !serverVersion && !!version;
+    if (saveInitialVersion) {
+        setServerVersion(version);
+    }
+
     if (!isSameAsCurrent && !open) {
         setOpen(true);
     }
