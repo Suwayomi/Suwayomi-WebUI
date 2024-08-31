@@ -12,6 +12,7 @@ import {
     Direction,
     lighten,
     Palette as MuiPalette,
+    responsiveFontSizes,
     Theme,
 } from '@mui/material/styles';
 
@@ -75,9 +76,9 @@ export const createTheme = (dark?: boolean, direction: Direction = 'ltr') => {
         baseTheme,
     );
 
-    theme = suwayomiTheme;
+    theme = responsiveFontSizes(suwayomiTheme);
 
-    return suwayomiTheme;
+    return theme;
 };
 
 export const getOptionForDirection = <T>(ltrOption: T, rtlOption: T): T =>
