@@ -178,7 +178,7 @@ const getUsername = async (url: string, authToken: string): Promise<string> => {
 
 const getLanguageName = async (url: string, authToken: string): Promise<string> => {
     const languagePayload = await fetchData<WeblateLanguagePayload>(url, authToken);
-    return languagePayload.language.name;
+    return languagePayload.language.name.replace(/\(([a-zA-Z]+) Han script\)/g, '($1)');
 };
 
 const extractContributionInfoFromChanges = (
@@ -381,15 +381,20 @@ const createTranslationChangelog = async (): Promise<void> => {
             'Thank you for your contribution to the translation of the project.\n',
     );
 
-    console.log('### Added');
-    newLanguages.forEach(({ language, contributors }) => {
-        console.log(`- ${language} (by ${contributors.join(', ')})`);
-    });
-    console.log('');
-    console.log('### Updated');
-    updatedLanguages.forEach(({ language, contributors }) => {
-        console.log(`- ${language} (by ${contributors.join(', ')})`);
-    });
+    if (newLanguages.length) {
+        console.log('### Added');
+        newLanguages.forEach(({ language, contributors }) => {
+            console.log(`- ${language} (by ${contributors.join(', ')})`);
+        });
+        console.log('');
+    }
+
+    if (updatedLanguages.length) {
+        console.log('### Updated');
+        updatedLanguages.forEach(({ language, contributors }) => {
+            console.log(`- ${language} (by ${contributors.join(', ')})`);
+        });
+    }
 };
 
 createTranslationChangelog();
