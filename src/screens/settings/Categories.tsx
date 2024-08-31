@@ -7,16 +7,12 @@
  */
 
 import { useMemo, useState, useContext, useEffect } from 'react';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import { DragDropContext, Draggable, DropResult, DraggingStyle, NotDraggingStyle } from 'react-beautiful-dnd';
+import { DragDropContext, Draggable, DraggableProvided, DropResult } from 'react-beautiful-dnd';
 import DragHandleIcon from '@mui/icons-material/DragHandle';
 import EditIcon from '@mui/icons-material/Edit';
-import { useTheme, Palette } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -29,6 +25,11 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { useTranslation } from 'react-i18next';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { StrictModeDroppable } from '@/lib/StrictModeDroppable';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/components/util/StyledFab';
@@ -36,23 +37,65 @@ import { NavBarContext } from '@/components/context/NavbarContext';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
-import { GetCategoriesSettingsQuery, GetCategoriesSettingsQueryVariables } from '@/lib/graphql/generated/graphql.ts';
+import {
+    CategoryType,
+    GetCategoriesSettingsQuery,
+    GetCategoriesSettingsQueryVariables,
+} from '@/lib/graphql/generated/graphql.ts';
 import { GET_CATEGORIES_SETTINGS } from '@/lib/graphql/queries/CategoryQuery.ts';
 import { CategoryIdInfo } from '@/lib/data/Categories.ts';
 
-const getItemStyle = (
-    isDragging: boolean,
-    draggableStyle: DraggingStyle | NotDraggingStyle | undefined,
-    palette: Palette,
-) => ({
-    // styles we need to apply on draggables
-    ...draggableStyle,
+const CategoryCard = ({
+    category,
+    provided,
+    onEdit,
+}: {
+    category: Pick<CategoryType, 'id' | 'name'>;
+    provided: DraggableProvided;
+    onEdit: () => void;
+}) => {
+    const { t } = useTranslation();
 
-    ...(isDragging && {
-        background: palette.mode === 'dark' ? '#424242' : 'rgb(235,235,235)',
-    }),
-});
+    const deleteCategory = () => {
+        requestManager.deleteCategory(category.id);
+    };
 
+    return (
+        <Box sx={{ p: 1, pb: 0 }} {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
+            <Card>
+                <CardContent
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        padding: 1.5,
+                        '&:last-child': {
+                            paddingBottom: 1.5,
+                        },
+                        gap: 2,
+                    }}
+                >
+                    <DragHandleIcon />
+                    <Typography sx={{ flexGrow: 1 }} variant="h6" component="h2">
+                        {category.name}
+                    </Typography>
+                    <Stack sx={{ flexDirection: 'row' }}>
+                        <Tooltip title={t('global.button.edit')}>
+                            <IconButton component={Box} onClick={onEdit} size="large">
+                                <EditIcon />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title={t('chapter.action.download.delete.label.action')}>
+                            <IconButton component={Box} onClick={deleteCategory} size="large">
+                                <DeleteIcon />
+                            </IconButton>
+                        </Tooltip>
+                    </Stack>
+                </CardContent>
+            </Card>
+        </Box>
+    );
+};
 export function Categories() {
     const { t } = useTranslation();
 
@@ -136,11 +179,6 @@ export function Categories() {
         }
     };
 
-    const deleteCategory = (index: number) => {
-        const category = categories[index];
-        requestManager.deleteCategory(category.id);
-    };
-
     if (loading) {
         return <LoadingPlaceholder />;
     }
@@ -160,50 +198,20 @@ export function Categories() {
             <DragDropContext onDragEnd={onDragEnd}>
                 <StrictModeDroppable droppableId="droppable">
                     {(droppableProvided) => (
-                        <List ref={droppableProvided.innerRef} sx={{ paddingBottom: DEFAULT_FULL_FAB_HEIGHT }}>
-                            {categories.map((item, index) => (
-                                <Draggable key={item.id} draggableId={item.id.toString()} index={index}>
-                                    {(draggableProvided, snapshot) => (
-                                        <ListItem
-                                            ref={draggableProvided.innerRef}
-                                            {...draggableProvided.draggableProps}
-                                            {...draggableProvided.dragHandleProps}
-                                            style={getItemStyle(
-                                                snapshot.isDragging,
-                                                draggableProvided.draggableProps.style,
-                                                theme.palette,
-                                            )}
-                                        >
-                                            <ListItemIcon>
-                                                <DragHandleIcon />
-                                            </ListItemIcon>
-                                            <ListItemText primary={item.name} />
-                                            <Tooltip title={t('global.button.edit')}>
-                                                <IconButton
-                                                    onClick={() => {
-                                                        handleEditDialogOpen(index);
-                                                    }}
-                                                    size="large"
-                                                >
-                                                    <EditIcon />
-                                                </IconButton>
-                                            </Tooltip>
-                                            <Tooltip title={t('chapter.action.download.delete.label.action')}>
-                                                <IconButton
-                                                    onClick={() => {
-                                                        deleteCategory(index);
-                                                    }}
-                                                    size="large"
-                                                >
-                                                    <DeleteIcon />
-                                                </IconButton>
-                                            </Tooltip>
-                                        </ListItem>
+                        <Box ref={droppableProvided.innerRef} sx={{ paddingBottom: DEFAULT_FULL_FAB_HEIGHT }}>
+                            {categories.map((category, index) => (
+                                <Draggable key={category.id} draggableId={category.id.toString()} index={index}>
+                                    {(draggableProvided) => (
+                                        <CategoryCard
+                                            provided={draggableProvided}
+                                            category={category}
+                                            onEdit={() => handleEditDialogOpen(index)}
+                                        />
                                     )}
                                 </Draggable>
                             ))}
                             {droppableProvided.placeholder}
-                        </List>
+                        </Box>
                     )}
                 </StrictModeDroppable>
             </DragDropContext>
