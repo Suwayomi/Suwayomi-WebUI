@@ -247,7 +247,7 @@ export class Mangas {
     static getThumbnailUrl(manga: Partial<MangaThumbnailInfo>): string {
         const thumbnailUrl = manga.thumbnailUrl
             ? `${manga.thumbnailUrl}?fetchedAt=${manga.thumbnailUrlLastFetched}`
-            : 'nonExistingMangaUrl';
+            : '';
         return requestManager.getValidImgUrlFor(thumbnailUrl);
     }
 

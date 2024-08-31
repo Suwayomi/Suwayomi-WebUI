@@ -131,7 +131,7 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
                     height="100%"
                     alignItems="center"
                     justifyContent="center"
-                    sx={{ background: (theme) => theme.palette.background.default }}
+                    sx={{ background: (theme) => theme.palette.background.default, ...spinnerStyle }}
                 >
                     <ImageIcon fontSize="large" />
                 </Stack>
