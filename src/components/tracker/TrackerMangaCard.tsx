@@ -111,27 +111,27 @@ export const TrackerMangaCard = ({
     return (
         <Card
             sx={{
-                marginBottom: '15px',
-                '&:last-child': { marginBottom: '60px' },
+                marginBottom: 2,
+                '&:last-child': { marginBottom: 8 },
             }}
         >
             <CardActionArea onClick={onSelect}>
                 <CardContent sx={{ padding: '0', borderRadius: 'inherit' }}>
                     <Box
                         sx={{
-                            padding: '10px',
+                            padding: 1,
                             border: '3px solid',
                             borderRadius: 'inherit',
                             borderColor: selected ? 'primary.main' : 'transparent',
                         }}
                     >
-                        <Stack direction="row" gap="15px" marginBottom="15px">
+                        <Stack direction="row" gap={2} marginBottom={2}>
                             <CardMedia
                                 sx={{
                                     aspectRatio: '225/350',
                                     minWidth: '100px',
                                     width: '150px',
-                                    borderRadius: '4px',
+                                    borderRadius: 1,
                                     overflow: 'hidden',
                                 }}
                             >

@@ -28,7 +28,7 @@ export const TrackerUntrackedCard = ({
     return (
         <Card sx={CARD_STYLING}>
             <CardContent sx={{ padding: '0' }}>
-                <Stack direction="row" gap="25px">
+                <Stack direction="row" gap={3}>
                     <Avatar
                         alt={`${tracker.name}`}
                         src={requestManager.getValidImgUrlFor(tracker.icon)}

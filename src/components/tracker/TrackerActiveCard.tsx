@@ -153,7 +153,7 @@ const TrackerActiveHeader = ({
     const { t } = useTranslation();
 
     return (
-        <Stack direction="row" alignItems="stretch" sx={{ paddingBottom: '15px' }}>
+        <Stack direction="row" alignItems="stretch" sx={{ paddingBottom: 2 }}>
             <TrackerActiveLink url={trackRecord.remoteUrl}>
                 <Avatar
                     alt={`${tracker.name}`}
