@@ -14,6 +14,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
 import ListSubheader from '@mui/material/ListSubheader';
+import { t as translate } from 'i18next';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { useLocalStorage } from '@/util/useStorage.tsx';
@@ -43,6 +44,9 @@ type ServerSettingsType = Pick<
     | 'debugLogsEnabled'
     | 'gqlDebugLogsEnabled'
     | 'systemTrayEnabled'
+    | 'maxLogFiles'
+    | 'maxLogFileSize'
+    | 'maxLogFolderSize'
     | 'basicAuthEnabled'
     | 'basicAuthUsername'
     | 'basicAuthPassword'
@@ -66,6 +70,9 @@ const extractServerSettings = (settings: GqlServerSettings): ServerSettingsType 
     debugLogsEnabled: settings.debugLogsEnabled,
     gqlDebugLogsEnabled: settings.gqlDebugLogsEnabled,
     systemTrayEnabled: settings.systemTrayEnabled,
+    maxLogFiles: settings.maxLogFiles,
+    maxLogFileSize: settings.maxLogFileSize,
+    maxLogFolderSize: settings.maxLogFolderSize,
     basicAuthEnabled: settings.basicAuthEnabled,
     basicAuthUsername: settings.basicAuthUsername,
     basicAuthPassword: settings.basicAuthPassword,
@@ -76,6 +83,14 @@ const extractServerSettings = (settings: GqlServerSettings): ServerSettingsType 
     flareSolverrSessionTtl: settings.flareSolverrSessionTtl,
     flareSolverrAsResponseFallback: settings.flareSolverrAsResponseFallback,
 });
+
+const getLogFilesCleanupDisplayValue = (ttl: number): string => {
+    if (ttl === 0) {
+        return translate('global.label.never');
+    }
+
+    return translate('settings.server.misc.log_files.file_cleanup.value', { days: ttl, count: ttl });
+};
 
 export const ServerSettings = () => {
     const { t } = useTranslation();
@@ -408,6 +423,27 @@ export const ServerSettings = () => {
                         onChange={(e) => updateSetting('systemTrayEnabled', e.target.checked)}
                     />
                 </ListItem>
+                <NumberSetting
+                    settingTitle={t('settings.server.misc.log_files.file_cleanup.title')}
+                    settingValue={getLogFilesCleanupDisplayValue(serverSettings.maxLogFiles)}
+                    value={serverSettings.maxLogFiles}
+                    valueUnit={t('global.date.label.day_one')}
+                    handleUpdate={(maxFiles) => updateSetting('maxLogFiles', maxFiles)}
+                />
+                <TextSetting
+                    settingName={t('settings.server.misc.log_files.file_size.title')}
+                    value={serverSettings.maxLogFileSize}
+                    dialogDescription={t('settings.server.misc.log_files.file_size.description')}
+                    validate={(value) => !!value.match(/^[0-9]+(|kb|KB|mb|MB|gb|GB)$/g)}
+                    handleChange={(maxLogFileSize) => updateSetting('maxLogFileSize', maxLogFileSize)}
+                />
+                <TextSetting
+                    settingName={t('settings.server.misc.log_files.total_size.title')}
+                    value={serverSettings.maxLogFolderSize}
+                    dialogDescription={t('settings.server.misc.log_files.total_size.description')}
+                    validate={(value) => !!value.match(/^[0-9]+(|kb|KB|mb|MB|gb|GB)$/g)}
+                    handleChange={(maxLogFolderSize) => updateSetting('maxLogFolderSize', maxLogFolderSize)}
+                />
             </List>
         </List>
     );

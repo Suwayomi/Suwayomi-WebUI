@@ -27,6 +27,7 @@ export type TextSettingDialogProps = {
     placeholder?: string;
     isDialogOpen: boolean;
     setIsDialogOpen: (open: boolean) => void;
+    validate?: (value: string) => boolean;
 };
 
 export const TextSettingDialog = ({
@@ -39,10 +40,12 @@ export const TextSettingDialog = ({
     placeholder = '',
     isDialogOpen,
     setIsDialogOpen,
+    validate = () => true,
 }: TextSettingDialogProps) => {
     const { t } = useTranslation();
 
     const [dialogValue, setDialogValue] = useState(value ?? '');
+    const [isValidValue, setIsValidValue] = useState(true);
 
     const TextFieldComponent = useMemo(() => (isPassword ? PasswordTextField : TextField), [isPassword]);
 
@@ -82,14 +85,21 @@ export const TextSettingDialog = ({
                     autoFocus
                     placeholder={placeholder}
                     value={dialogValue}
-                    onChange={(e) => setDialogValue(e.target.value)}
+                    error={!isValidValue}
+                    helperText={!isValidValue ? t('global.error.label.invalid_input') : ''}
+                    onChange={(e) => {
+                        const newValue = e.target.value;
+
+                        setIsValidValue(validate(newValue));
+                        setDialogValue(newValue);
+                    }}
                 />
             </DialogContent>
             <DialogActions>
                 <Button onClick={() => closeDialog()} color="primary">
                     {t('global.button.cancel')}
                 </Button>
-                <Button onClick={() => updateSetting()} color="primary">
+                <Button onClick={() => updateSetting()} disabled={!isValidValue} color="primary">
                     {t('global.button.ok')}
                 </Button>
             </DialogActions>

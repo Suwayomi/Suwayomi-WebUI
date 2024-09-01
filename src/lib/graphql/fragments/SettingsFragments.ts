@@ -60,6 +60,9 @@ export const SERVER_SETTINGS = gql`
         debugLogsEnabled
         gqlDebugLogsEnabled
         systemTrayEnabled
+        maxLogFileSize
+        maxLogFiles
+        maxLogFolderSize
 
         # backup
         backupPath
