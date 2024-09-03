@@ -31,8 +31,8 @@ export function imageStyle(settings: IReaderSettings): CSSProperties {
 
     const continuesHorizontalStyling: CSSProperties = {
         width: undefined,
-        minHeight: '100vh',
-        maxHeight: '100vh',
+        minHeight: 'calc(100vh - 1rem)',
+        maxHeight: 'calc(100vh - 1rem)',
         marginLeft: '7px',
         marginRight: '7px',
     };
@@ -42,8 +42,8 @@ export function imageStyle(settings: IReaderSettings): CSSProperties {
         height: undefined,
         minWidth: settings.scalePage ? 'calc(100vw - (100vw - 100%))' : undefined,
         maxWidth: 'calc(100vw - (100vw - 100%))',
-        minHeight: settings.scalePage ? '100vh' : undefined,
-        maxHeight: '100vh',
+        minHeight: settings.scalePage ? 'calc(100vh - 1rem)' : undefined,
+        maxHeight: 'calc(100vh - 1rem)',
     };
 
     return {
