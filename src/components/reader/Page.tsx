@@ -19,6 +19,7 @@ export const isHorizontalReaderType = (readerType: ReaderType): boolean =>
 export function imageStyle(settings: IReaderSettings): CSSProperties {
     const isVertical = settings.readerType === 'ContinuesVertical';
     const isHorizontal = isHorizontalReaderType(settings.readerType);
+    const scrollbarHeight = window.innerHeight - document.documentElement.clientHeight;
     const baseStyling: CSSProperties = {
         margin: 0,
         width: `${settings.readerWidth}%`,
@@ -31,8 +32,8 @@ export function imageStyle(settings: IReaderSettings): CSSProperties {
 
     const continuesHorizontalStyling: CSSProperties = {
         width: undefined,
-        minHeight: 'calc(100vh - 1rem)',
-        maxHeight: 'calc(100vh - 1rem)',
+        minHeight: `calc(100vh - ${scrollbarHeight}px)`,
+        maxHeight: `calc(100vh - ${scrollbarHeight}px)`,
         marginLeft: '7px',
         marginRight: '7px',
     };
@@ -42,8 +43,8 @@ export function imageStyle(settings: IReaderSettings): CSSProperties {
         height: undefined,
         minWidth: settings.scalePage ? 'calc(100vw - (100vw - 100%))' : undefined,
         maxWidth: 'calc(100vw - (100vw - 100%))',
-        minHeight: settings.scalePage ? 'calc(100vh - 1rem)' : undefined,
-        maxHeight: 'calc(100vh - 1rem)',
+        minHeight: settings.scalePage ? `calc(100vh - ${scrollbarHeight}px)` : undefined,
+        maxHeight: `calc(100vh - ${scrollbarHeight}px)`,
     };
 
     return {
