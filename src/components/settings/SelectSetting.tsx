@@ -105,7 +105,12 @@ export const SelectSetting = <SettingValue extends string | number>({
                                 </Typography>
                             )}
                             {dialogValueDisplayInfo.disclaimer && (
-                                <Stack direction="row" alignItems="center">
+                                <Stack
+                                    direction="row"
+                                    sx={{
+                                        alignItems: 'center',
+                                    }}
+                                >
                                     <InfoIcon color="warning" />
                                     <Typography
                                         variant="body1"

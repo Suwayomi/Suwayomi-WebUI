@@ -153,7 +153,13 @@ const TrackerActiveHeader = ({
     const { t } = useTranslation();
 
     return (
-        <Stack direction="row" alignItems="stretch" sx={{ paddingBottom: 2 }}>
+        <Stack
+            direction="row"
+            sx={{
+                alignItems: 'stretch',
+                paddingBottom: 2,
+            }}
+        >
             <TrackerActiveLink url={trackRecord.remoteUrl}>
                 <Avatar
                     alt={`${tracker.name}`}
@@ -170,7 +176,11 @@ const TrackerActiveHeader = ({
                     </TypographyMaxLines>
                 </Tooltip>
             </ListItemButton>
-            <Stack justifyContent="center">
+            <Stack
+                sx={{
+                    justifyContent: 'center',
+                }}
+            >
                 <PopupState variant="popover" popupId={`tracker-active-menu-popup-${tracker.id}`}>
                     {(popupState) => (
                         <>

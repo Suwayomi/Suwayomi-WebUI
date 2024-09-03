@@ -167,7 +167,12 @@ export const MutableListSetting = ({
                                 </Typography>
                             )}
                             {dialogDisclaimer && (
-                                <Stack direction="row" alignItems="center">
+                                <Stack
+                                    direction="row"
+                                    sx={{
+                                        alignItems: 'center',
+                                    }}
+                                >
                                     <InfoIcon color="warning" />
                                     <Typography
                                         variant="body1"
@@ -200,7 +205,13 @@ export const MutableListSetting = ({
                     </List>
                 </DialogContent>
                 <DialogActions>
-                    <Stack sx={{ width: '100%' }} direction="row" justifyContent="space-between">
+                    <Stack
+                        direction="row"
+                        sx={{
+                            justifyContent: 'space-between',
+                            width: '100%',
+                        }}
+                    >
                         <Button onClick={() => setIsAddItemDialogOpen(true)}>
                             {addItemButtonTitle ?? t('global.button.add')}
                         </Button>

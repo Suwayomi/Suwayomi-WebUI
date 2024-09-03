@@ -70,7 +70,12 @@ export const Manga: React.FC = () => {
 
     useEffect(() => {
         setAction(
-            <Stack direction="row" alignItems="center">
+            <Stack
+                direction="row"
+                sx={{
+                    alignItems: 'center',
+                }}
+            >
                 {error && !isValidating && !refreshing && (
                     <Tooltip
                         title={

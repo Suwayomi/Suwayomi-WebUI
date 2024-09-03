@@ -263,7 +263,14 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
             <>
                 {toasts}
                 {FileInputComponent}
-                <Stack sx={{ paddingTop: '20px' }} alignItems="center" justifyContent="center" rowGap="10px">
+                <Stack
+                    sx={{
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        rowGap: '10px',
+                        paddingTop: '20px',
+                    }}
+                >
                     <Typography>{t('extension.label.add_repository_info')}</Typography>
                     <Button component={Link} variant="contained" to="/settings/browseSettings">
                         {t('settings.title')}

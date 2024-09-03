@@ -15,7 +15,11 @@ export const Progress = ({ progress, showText = true }: { progress: number; show
         <CircularProgress variant="determinate" value={progress} />
         {showText && (
             <Box sx={{ position: 'absolute' }}>
-                <Typography fontSize="0.8rem">{`${Math.round(progress)}%`}</Typography>
+                <Typography
+                    sx={{
+                        fontSize: '0.8rem',
+                    }}
+                >{`${Math.round(progress)}%`}</Typography>
             </Box>
         )}
     </Box>

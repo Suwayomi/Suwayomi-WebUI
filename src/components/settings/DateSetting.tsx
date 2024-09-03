@@ -100,7 +100,14 @@ export const DateSetting = ({
                     </LocalizationProvider>
                 </DialogContent>
                 <DialogActions>
-                    <Stack sx={{ width: '100%' }} direction="row" justifyContent="space-between" alignItems="end">
+                    <Stack
+                        direction="row"
+                        sx={{
+                            justifyContent: 'space-between',
+                            alignItems: 'end',
+                            width: '100%',
+                        }}
+                    >
                         <Stack>
                             {defaultValue !== undefined && (
                                 <Button

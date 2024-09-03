@@ -206,7 +206,7 @@ export const DownloadSettings = () => {
                         updateSetting('autoDownloadNewChaptersLimit', autoDownloadNewChaptersLimit)
                     }
                 />
-                <ListItem disabled={!downloadSettings?.autoDownloadNewChapters}>
+                <ListItem>
                     <ListItemText primary={t('download.settings.auto_download.label.ignore_with_unread_chapters')} />
                     <Switch
                         edge="end"
@@ -215,7 +215,7 @@ export const DownloadSettings = () => {
                         disabled={!downloadSettings?.autoDownloadNewChapters}
                     />
                 </ListItem>
-                <ListItem disabled={!downloadSettings?.autoDownloadNewChapters}>
+                <ListItem>
                     <ListItemText primary={t('download.settings.auto_download.label.ignore_re_uploads')} />
                     <Switch
                         edge="end"

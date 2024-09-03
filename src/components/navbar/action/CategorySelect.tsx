@@ -223,7 +223,14 @@ export function CategorySelect(props: CategorySelectProps) {
                             onChange={(e) => setDoNotShowAddToLibraryDialogAgain(e.target.checked)}
                         />
                     )}
-                    <Stack sx={{ width: '100%' }} direction="row" justifyContent="space-between" alignItems="end">
+                    <Stack
+                        direction="row"
+                        sx={{
+                            justifyContent: 'space-between',
+                            alignItems: 'end',
+                            width: '100%',
+                        }}
+                    >
                         <Button component={Link} to="/settings/categories">
                             {t(allCategories.length ? 'global.button.edit' : 'global.button.create')}
                         </Button>

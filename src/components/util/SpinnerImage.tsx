@@ -104,7 +104,13 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
         <>
             {(isLoading || hasError) && (
                 <Box sx={spinnerStyle}>
-                    <Stack height="100%" alignItems="center" justifyContent="center">
+                    <Stack
+                        sx={{
+                            height: '100%',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}
+                    >
                         {isLoading && <CircularProgress thickness={5} />}
                         {hasError && isLoading === false && (
                             <>
@@ -128,10 +134,13 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
 
             {showMissingImageIcon ? (
                 <Stack
-                    height="100%"
-                    alignItems="center"
-                    justifyContent="center"
-                    sx={{ background: (theme) => theme.palette.background.default, ...spinnerStyle }}
+                    sx={{
+                        height: '100%',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        background: (theme) => theme.palette.background.default,
+                        ...spinnerStyle,
+                    }}
                 >
                     <ImageIcon fontSize="large" />
                 </Stack>

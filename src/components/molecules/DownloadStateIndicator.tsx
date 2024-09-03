@@ -46,7 +46,13 @@ export const DownloadStateIndicator = ({ download }: { download: ChapterDownload
                     justifyContent: 'center',
                 }}
             >
-                <Typography variant="caption" component="div" color="text.secondary">
+                <Typography
+                    variant="caption"
+                    component="div"
+                    sx={{
+                        color: 'text.secondary',
+                    }}
+                >
                     <>
                         {download.progress !== 0 && `${Math.round(download.progress * 100)}%`}
                         {download.progress === 0 && t(DOWNLOAD_STATE_TO_TRANSLATION_KEY_MAP[download.state])}

@@ -26,7 +26,13 @@ export const Metadata = ({
         {...stackProps}
         sx={{ flexDirection: 'row', columnGap: 1, flexWrap: 'wrap', alignItems: 'baseline', ...stackProps?.sx }}
     >
-        <Typography color="text.secondary" {...titleProps}>
+        <Typography
+            {...titleProps}
+            sx={{
+                color: 'text.secondary',
+                ...titleProps?.sx,
+            }}
+        >
             {title}
         </Typography>
         <Typography {...valueProps}>{value}</Typography>

@@ -97,15 +97,31 @@ export const SourceCard: React.FC<IProps> = (props: IProps) => {
                                 {name}
                             </Typography>
                             {id !== '0' && (
-                                <Typography variant="caption" display="block">
+                                <Typography
+                                    variant="caption"
+                                    sx={{
+                                        display: 'block',
+                                    }}
+                                >
                                     {translateExtensionLanguage(lang)}
                                     {isNsfw && (
-                                        <Typography variant="caption" display="inline" color="error">
+                                        <Typography
+                                            variant="caption"
+                                            color="error"
+                                            sx={{
+                                                display: 'inline',
+                                            }}
+                                        >
                                             {' 18+'}
                                         </Typography>
                                     )}
                                     {showSourceRepo && (
-                                        <Typography variant="caption" display="block">
+                                        <Typography
+                                            variant="caption"
+                                            sx={{
+                                                display: 'block',
+                                            }}
+                                        >
                                             {repo}
                                         </Typography>
                                     )}

@@ -16,7 +16,15 @@ export const CustomIconButton = forwardRef(
         ref: ForwardedRef<HTMLButtonElement | null>,
     ) => (
         <Button ref={ref} {...props}>
-            <Stack direction="row" alignItems="center" justifyContent="center" gap={1} flexWrap="wrap">
+            <Stack
+                direction="row"
+                sx={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: 1,
+                    flexWrap: 'wrap',
+                }}
+            >
                 {children}
             </Stack>
         </Button>

@@ -76,7 +76,12 @@ const DownloadChapterItem = ({
                             <Typography variant="h6" component="h3">
                                 {item.manga.title}
                             </Typography>
-                            <Typography variant="caption" display="block">
+                            <Typography
+                                variant="caption"
+                                sx={{
+                                    display: 'block',
+                                }}
+                            >
                                 {item.chapter.name}
                             </Typography>
                         </Stack>

@@ -139,7 +139,12 @@ export const NumberSetting = ({
                                 </Typography>
                             )}
                             {dialogDisclaimer && (
-                                <Stack direction="row" alignItems="center">
+                                <Stack
+                                    direction="row"
+                                    sx={{
+                                        alignItems: 'center',
+                                    }}
+                                >
                                     <InfoIcon color="warning" />
                                     <Typography
                                         variant="body1"
@@ -160,16 +165,18 @@ export const NumberSetting = ({
                             width: '100%',
                             margin: 'auto',
                         }}
-                        InputProps={{
-                            inputProps: { min: minValue, max: maxValue, step: stepSize },
-                            endAdornment: <InputAdornment position="end">{valueUnit}</InputAdornment>,
-                        }}
                         autoFocus
                         value={dialogValue}
                         type="number"
                         onChange={(e) => {
                             const newValue = Number(e.target.value);
                             updateValue(newValue, false);
+                        }}
+                        slotProps={{
+                            input: {
+                                inputProps: { min: minValue, max: maxValue, step: stepSize },
+                                endAdornment: <InputAdornment position="end">{valueUnit}</InputAdornment>,
+                            },
                         }}
                     />
                     {showSlider ? (

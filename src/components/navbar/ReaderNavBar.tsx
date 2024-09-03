@@ -226,9 +226,12 @@ export function ReaderNavBar(props: IProps) {
                         <Typography
                             variant="h6"
                             component="h1"
-                            textOverflow="ellipsis"
-                            overflow="hidden"
-                            sx={{ py: 1, flexGrow: 1 }}
+                            sx={{
+                                textOverflow: 'ellipsis',
+                                overflow: 'hidden',
+                                py: 1,
+                                flexGrow: 1,
+                            }}
                         >
                             {chapter.name}
                         </Typography>

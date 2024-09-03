@@ -149,7 +149,11 @@ const VersionInfo = ({
     };
 
     return (
-        <Stack alignItems="start">
+        <Stack
+            sx={{
+                alignItems: 'start',
+            }}
+        >
             <Typography component="span" variant="body2">
                 {version}
             </Typography>

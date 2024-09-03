@@ -92,7 +92,13 @@ export const TrackerSearch = ({
     return (
         <>
             <DialogTitle sx={{ padding: DIALOG_PADDING }}>
-                <Stack direction="row" gap="10px" alignItems="center">
+                <Stack
+                    direction="row"
+                    sx={{
+                        gap: '10px',
+                        alignItems: 'center',
+                    }}
+                >
                     <IconButton onClick={closeSearchMode}>
                         {getOptionForDirection(<ArrowBack />, <ArrowForwardIcon />)}
                     </IconButton>
@@ -164,8 +170,8 @@ export const TrackerSearch = ({
                 {showTrackButton && (
                     <Stack
                         direction="row"
-                        justifyContent="center"
                         sx={{
+                            justifyContent: 'center',
                             position: 'absolute',
                             left: 0,
                             right: 0,

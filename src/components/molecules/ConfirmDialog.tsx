@@ -77,9 +77,11 @@ export const ConfirmDialog = ({
             </DialogContent>
             <DialogActions>
                 <Stack
-                    sx={{ width: '100%' }}
                     direction="row"
-                    justifyContent={actions.extra.show ? 'space-between' : 'end'}
+                    sx={{
+                        justifyContent: actions.extra.show ? 'space-between' : 'end',
+                        width: '100%',
+                    }}
                 >
                     {actions.extra.show && (
                         <Button onClick={onExtra} variant={actions.extra.contain ? 'contained' : undefined}>

@@ -125,10 +125,10 @@ export const MangaGridCard = ({
                             }}
                         />
                         <Stack
-                            alignItems="start"
-                            justifyContent="space-between"
                             direction="row"
                             sx={{
+                                alignItems: 'start',
+                                justifyContent: 'space-between',
                                 position: 'absolute',
                                 top: (theme) => theme.spacing(1),
                                 left: (theme) => theme.spacing(1),
@@ -153,9 +153,9 @@ export const MangaGridCard = ({
                             )}
                             <Stack
                                 direction="row"
-                                justifyContent={gridLayout !== GridLayout.Comfortable ? 'space-between' : 'end'}
-                                alignItems="end"
                                 sx={{
+                                    justifyContent: gridLayout !== GridLayout.Comfortable ? 'space-between' : 'end',
+                                    alignItems: 'end',
                                     position: 'absolute',
                                     bottom: 0,
                                     width: '100%',

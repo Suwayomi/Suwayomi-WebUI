@@ -194,16 +194,32 @@ export function ExtensionCard(props: IProps) {
                     <Typography variant="h6" component="h3">
                         {name}
                     </Typography>
-                    <Typography variant="caption" display="block">
+                    <Typography
+                        variant="caption"
+                        sx={{
+                            display: 'block',
+                        }}
+                    >
                         {langPress} {versionName}
                         {isNsfw && (
-                            <Typography variant="caption" display="inline" color="error">
+                            <Typography
+                                variant="caption"
+                                color="error"
+                                sx={{
+                                    display: 'inline',
+                                }}
+                            >
                                 {' 18+'}
                             </Typography>
                         )}
                     </Typography>
                     {showSourceRepo && (
-                        <Typography variant="caption" display="block">
+                        <Typography
+                            variant="caption"
+                            sx={{
+                                display: 'block',
+                            }}
+                        >
                             {repo}
                         </Typography>
                     )}

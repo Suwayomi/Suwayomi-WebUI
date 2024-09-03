@@ -341,7 +341,13 @@ export function Backup() {
                     )}
                 </DialogContent>
                 <DialogActions>
-                    <Stack sx={{ width: '100%' }} direction="row" justifyContent="space-between">
+                    <Stack
+                        direction="row"
+                        sx={{
+                            justifyContent: 'space-between',
+                            width: '100%',
+                        }}
+                    >
                         {!!validationResult?.missingSources.length && (
                             <Button
                                 onClick={closeInvalidBackupDialog}

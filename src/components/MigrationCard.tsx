@@ -57,7 +57,12 @@ export const MigrationCard = ({ id, name, lang, iconUrl, mangaCount }: TMigratab
                         <Typography variant="h6" component="h3">
                             {name}
                         </Typography>
-                        <Typography variant="caption" display="block">
+                        <Typography
+                            variant="caption"
+                            sx={{
+                                display: 'block',
+                            }}
+                        >
                             {translateExtensionLanguage(lang)}
                         </Typography>
                     </Box>

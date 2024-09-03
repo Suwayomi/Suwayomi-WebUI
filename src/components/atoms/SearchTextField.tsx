@@ -14,15 +14,17 @@ import CancelIcon from '@mui/icons-material/Cancel';
 export const SearchTextField = ({ onCancel, ...textFieldProps }: TextFieldProps & { onCancel: () => void }) => (
     <TextField
         {...textFieldProps}
-        InputProps={{
-            ...textFieldProps.InputProps,
-            endAdornment: textFieldProps.InputProps?.endAdornment ?? (
-                <InputAdornment position="end">
-                    <IconButton onClick={() => onCancel()}>
-                        <CancelIcon />
-                    </IconButton>
-                </InputAdornment>
-            ),
+        slotProps={{
+            input: {
+                ...textFieldProps.InputProps,
+                endAdornment: textFieldProps.InputProps?.endAdornment ?? (
+                    <InputAdornment position="end">
+                        <IconButton onClick={() => onCancel()}>
+                            <CancelIcon />
+                        </IconButton>
+                    </InputAdornment>
+                ),
+            },
         }}
     />
 );

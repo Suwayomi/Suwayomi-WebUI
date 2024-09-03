@@ -29,7 +29,13 @@ import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
 import { TTrackerManga } from '@/lib/data/Trackers.ts';
 
 const TrackerMangaCardTitle = ({ title, selected }: { title: string; selected: boolean }) => (
-    <Stack direction="row" gap="5px" justifyContent="space-between">
+    <Stack
+        direction="row"
+        sx={{
+            gap: '5px',
+            justifyContent: 'space-between',
+        }}
+    >
         <Tooltip title={title}>
             <TypographyMaxLines variant="h5" component="h1">
                 {title}
@@ -125,7 +131,13 @@ export const TrackerMangaCard = ({
                             borderColor: selected ? 'primary.main' : 'transparent',
                         }}
                     >
-                        <Stack direction="row" gap={2} marginBottom={2}>
+                        <Stack
+                            direction="row"
+                            sx={{
+                                gap: 2,
+                                marginBottom: 2,
+                            }}
+                        >
                             <CardMedia
                                 sx={{
                                     aspectRatio: '225/350',

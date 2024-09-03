@@ -56,7 +56,7 @@ export const WebUIUpdateIntervalSetting = ({
 
     return (
         <List>
-            <ListItem disabled={disabled}>
+            <ListItem>
                 <ListItemText primary={t('settings.webui.auto_update.label.title')} />
                 <Switch
                     disabled={disabled}

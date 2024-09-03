@@ -63,7 +63,13 @@ export const VersionUpdateInfoDialog = ({
                 <DialogContentText>{info}</DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Stack sx={{ width: '100%' }} direction="row" justifyContent={changelogUrl ? 'space-between' : 'end'}>
+                <Stack
+                    direction="row"
+                    sx={{
+                        justifyContent: changelogUrl ? 'space-between' : 'end',
+                        width: '100%',
+                    }}
+                >
                     {changelogUrl && (
                         <Button href={changelogUrl} target="_blank" rel="noreferrer">
                             {t('global.button.changelog')}

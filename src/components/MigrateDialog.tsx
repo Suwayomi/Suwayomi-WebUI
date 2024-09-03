@@ -100,7 +100,13 @@ export const MigrateDialog = ({ mangaIdToMigrateTo, onClose }: { mangaIdToMigrat
                 </FormGroup>
             </DialogContent>
             <DialogActions>
-                <Stack sx={{ width: '100%' }} direction="row" justifyContent="space-between">
+                <Stack
+                    direction="row"
+                    sx={{
+                        justifyContent: 'space-between',
+                        width: '100%',
+                    }}
+                >
                     <Button disabled={isMigrationInProcess} component={Link} to={`/manga/${mangaIdToMigrateTo}`}>
                         {t('migrate.dialog.action.button.show_entry')}
                     </Button>

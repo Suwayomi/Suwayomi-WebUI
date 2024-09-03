@@ -120,7 +120,12 @@ export const ChapterCard: React.FC<IProps> = (props: IProps) => {
                                         '&:last-child': { pb: 1.5 },
                                     }}
                                 >
-                                    <Stack direction="column" flex={1}>
+                                    <Stack
+                                        direction="column"
+                                        sx={{
+                                            flex: 1,
+                                        }}
+                                    >
                                         <Stack
                                             sx={{
                                                 flexDirection: 'row',

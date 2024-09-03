@@ -26,18 +26,20 @@ export const PasswordTextField = (props: TextFieldProps) => {
             name="password"
             label={t('global.label.password')}
             type={showPassword ? 'text' : 'password'}
-            InputProps={{
-                endAdornment: (
-                    <InputAdornment position="start">
-                        <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={handleClickShowPassword}
-                            edge="end"
-                        >
-                            {showPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                    </InputAdornment>
-                ),
+            slotProps={{
+                input: {
+                    endAdornment: (
+                        <InputAdornment position="start">
+                            <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={handleClickShowPassword}
+                                edge="end"
+                            >
+                                {showPassword ? <VisibilityOff /> : <Visibility />}
+                            </IconButton>
+                        </InputAdornment>
+                    ),
+                },
             }}
             {...props}
         />

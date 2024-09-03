@@ -209,9 +209,11 @@ export function SourceOptions({
                                         <DialogContent>
                                             <TextField
                                                 sx={{ width: '100%' }}
-                                                inputProps={{ maxLength: 50 }}
                                                 value={newSavedSearch}
                                                 onChange={(e) => setNewSavedSearch(e.target.value as string)}
+                                                slotProps={{
+                                                    htmlInput: { maxLength: 50 },
+                                                }}
                                             />
                                         </DialogContent>
                                         <DialogActions>
