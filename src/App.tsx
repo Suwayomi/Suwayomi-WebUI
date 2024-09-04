@@ -46,6 +46,7 @@ const { DeviceSetting } = loadable(() => import('@/components/settings/DeviceSet
 const { TrackingSettings } = loadable(() => import('@/screens/settings/TrackingSettings.tsx'), lazyLoadFallback);
 const { TrackerOAuthLogin } = loadable(() => import('@/screens/TrackerOAuthLogin.tsx'), lazyLoadFallback);
 const { LibraryDuplicates } = loadable(() => import('@/screens/settings/LibraryDuplicates.tsx'), lazyLoadFallback);
+const { Appearance } = loadable(() => import('@/screens/settings/Appearance.tsx'), lazyLoadFallback);
 
 if (process.env.NODE_ENV !== 'production') {
     // Adds messages only in a dev environment
@@ -115,6 +116,7 @@ const MainApp = () => {
                         <Route path="browseSettings" element={<BrowseSettings />} />
                         <Route path="device" element={<DeviceSetting />} />
                         <Route path="trackingSettings" element={<TrackingSettings />} />
+                        <Route path="appearance" element={<Appearance />} />
                     </Route>
 
                     {/* Manga Routes */}

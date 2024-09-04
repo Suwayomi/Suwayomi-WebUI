@@ -816,6 +816,9 @@
         }
       }
     },
+    "appearance": {
+      "title": "Appearance"
+    },
     "backup": {
       "action": {
         "create": {

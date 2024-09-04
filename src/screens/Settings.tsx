@@ -11,12 +11,10 @@ import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import List from '@mui/material/List';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import BackupIcon from '@mui/icons-material/Backup';
-import Brightness6Icon from '@mui/icons-material/Brightness6';
 import InfoIcon from '@mui/icons-material/Info';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import Switch from '@mui/material/Switch';
 import Link from '@mui/material/Link';
 import ListItemButton from '@mui/material/ListItemButton';
 import MenuItem from '@mui/material/MenuItem';
@@ -31,10 +29,10 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
 import DevicesIcon from '@mui/icons-material/Devices';
 import SyncIcon from '@mui/icons-material/Sync';
+import PaletteIcon from '@mui/icons-material/Palette';
 import { langCodeToName } from '@/util/language';
 import { useLocalStorage } from '@/util/useStorage.tsx';
 import { ListItemLink } from '@/components/util/ListItemLink';
-import { DarkTheme } from '@/components/context/DarkTheme';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
@@ -56,8 +54,6 @@ export function Settings() {
         };
     }, [t]);
 
-    const { darkTheme, setDarkTheme } = useContext(DarkTheme);
-
     const DEFAULT_ITEM_WIDTH = 300;
     const itemWidthIcon = useMemo(() => <ViewModuleIcon />, []);
     const [itemWidth, setItemWidth] = useLocalStorage<number>('ItemWidth', DEFAULT_ITEM_WIDTH);
@@ -75,6 +71,12 @@ export function Settings() {
 
     return (
         <List sx={{ padding: 0 }}>
+            <ListItemLink to="/settings/appearance">
+                <ListItemIcon>
+                    <PaletteIcon />
+                </ListItemIcon>
+                <ListItemText primary={t('settings.appearance.title')} />
+            </ListItemLink>
             <ListItemLink to="/settings/categories">
                 <ListItemIcon>
                     <ListAltIcon />
@@ -111,13 +113,6 @@ export function Settings() {
                 </ListItemIcon>
                 <ListItemText primary={t('settings.backup.title')} />
             </ListItemLink>
-            <ListItem>
-                <ListItemIcon>
-                    <Brightness6Icon />
-                </ListItemIcon>
-                <ListItemText primary={t('settings.label.dark_theme')} />
-                <Switch edge="end" checked={darkTheme} onChange={() => setDarkTheme(!darkTheme)} />
-            </ListItem>
             <NumberSetting
                 settingTitle={t('settings.label.manga_item_width')}
                 settingValue={`px:${itemWidth}`}
