@@ -18,6 +18,8 @@ import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { ThemeMode, ThemeModeContext } from '@/components/context/ThemeModeContext.tsx';
 import { Select } from '@/components/atoms/Select.tsx';
 import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
+import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
+import { useLocalStorage } from '@/util/useStorage.tsx';
 
 export const Appearance = () => {
     const { t } = useTranslation();
@@ -34,6 +36,9 @@ export const Appearance = () => {
             setAction(null);
         };
     }, [t]);
+
+    const DEFAULT_ITEM_WIDTH = 300;
+    const [itemWidth, setItemWidth] = useLocalStorage<number>('ItemWidth', DEFAULT_ITEM_WIDTH);
 
     return (
         <List
@@ -63,6 +68,26 @@ export const Appearance = () => {
                     <Switch checked={pureBlackMode} onChange={(_, enabled) => setPureBlackMode(enabled)} />
                 </ListItem>
             )}
+            <List
+                subheader={
+                    <ListSubheader component="div" id="appearance-theme">
+                        {t('global.label.display')}
+                    </ListSubheader>
+                }
+            >
+                <NumberSetting
+                    settingTitle={t('settings.label.manga_item_width')}
+                    settingValue={`px: ${itemWidth}`}
+                    value={itemWidth}
+                    defaultValue={DEFAULT_ITEM_WIDTH}
+                    minValue={100}
+                    maxValue={1000}
+                    stepSize={10}
+                    valueUnit="px"
+                    showSlider
+                    handleUpdate={setItemWidth}
+                />
+            </List>
         </List>
     );
 };

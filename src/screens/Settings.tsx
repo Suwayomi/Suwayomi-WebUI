@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useContext, useEffect, useMemo } from 'react';
+import { useContext, useEffect } from 'react';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import List from '@mui/material/List';
 import ListAltIcon from '@mui/icons-material/ListAlt';
@@ -22,7 +22,6 @@ import { useTranslation } from 'react-i18next';
 import LanguageIcon from '@mui/icons-material/Language';
 import CollectionsOutlinedBookmarkIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
 import GetAppOutlinedIcon from '@mui/icons-material/GetAppOutlined';
-import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import DnsIcon from '@mui/icons-material/Dns';
 import WebIcon from '@mui/icons-material/Web';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -31,10 +30,8 @@ import DevicesIcon from '@mui/icons-material/Devices';
 import SyncIcon from '@mui/icons-material/Sync';
 import PaletteIcon from '@mui/icons-material/Palette';
 import { langCodeToName } from '@/util/language';
-import { useLocalStorage } from '@/util/useStorage.tsx';
 import { ListItemLink } from '@/components/util/ListItemLink';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
-import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { Select } from '@/components/atoms/Select.tsx';
@@ -53,10 +50,6 @@ export function Settings() {
             setAction(null);
         };
     }, [t]);
-
-    const DEFAULT_ITEM_WIDTH = 300;
-    const itemWidthIcon = useMemo(() => <ViewModuleIcon />, []);
-    const [itemWidth, setItemWidth] = useLocalStorage<number>('ItemWidth', DEFAULT_ITEM_WIDTH);
 
     const [triggerClearServerCache, { loading: isClearingServerCache }] = requestManager.useClearServerCache();
 
@@ -113,19 +106,7 @@ export function Settings() {
                 </ListItemIcon>
                 <ListItemText primary={t('settings.backup.title')} />
             </ListItemLink>
-            <NumberSetting
-                settingTitle={t('settings.label.manga_item_width')}
-                settingValue={`px:${itemWidth}`}
-                settingIcon={itemWidthIcon}
-                value={itemWidth}
-                defaultValue={DEFAULT_ITEM_WIDTH}
-                minValue={100}
-                maxValue={1000}
-                stepSize={10}
-                valueUnit="px"
-                showSlider
-                handleUpdate={setItemWidth}
-            />
+
             <ListItem>
                 <ListItemIcon>
                     <LanguageIcon />
