@@ -22,7 +22,7 @@ import Divider from '@mui/material/Divider';
 import FormControl from '@mui/material/FormControl';
 import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
-import { styled } from '@mui/material/styles';
+import { styled, useTheme } from '@mui/material/styles';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
@@ -106,6 +106,7 @@ interface IProps {
 export function ReaderNavBar(props: IProps) {
     const { t } = useTranslation();
     const { setReaderNavBarWidth } = useNavBarContext();
+    const theme = useTheme();
 
     const navigate = useNavigate();
     const location = useLocation<{
@@ -373,6 +374,12 @@ export function ReaderNavBar(props: IProps) {
                                 position: 'fixed',
                                 top: 20,
                                 left: 20,
+                                backgroundColor: 'rgba(255, 255, 255, 0.75);',
+                                color: 'black',
+                                ...theme.applyStyles('dark', {
+                                    backgroundColor: 'rgba(0, 0, 0, 0.75);',
+                                    color: 'white',
+                                }),
                             }}
                             size="large"
                             variant="contained"
