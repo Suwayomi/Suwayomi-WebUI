@@ -7,7 +7,7 @@
  */
 
 import { Direction, StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
-import React, { useMemo, useRef } from 'react';
+import React, { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
 import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
@@ -18,10 +18,11 @@ import { prefixer } from 'stylis';
 import rtlPlugin from 'stylis-plugin-rtl';
 import { createTheme } from '@/theme';
 import { useLocalStorage } from '@/util/useStorage.tsx';
-import { DarkTheme } from '@/components/context/DarkTheme';
+import { ThemeMode, ThemeModeContext } from '@/components/context/ThemeModeContext.tsx';
 import { NavBarContextProvider } from '@/components/navbar/NavBarContextProvider';
 import { LibraryOptionsContextProvider } from '@/components/library/LibraryOptionsProvider';
 import { ActiveDevice, DEFAULT_DEVICE, setActiveDevice } from '@/util/device.ts';
+import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
 
 interface Props {
     children: React.ReactNode;
@@ -48,15 +49,22 @@ export const AppContext: React.FC<Props> = ({ children }) => {
         directionRef.current = currentDirection;
     }
 
-    const [darkTheme, setDarkTheme] = useLocalStorage<boolean>('darkTheme', true);
+    const [systemThemeMode, setSystemThemeMode] = useState<ThemeMode>(MediaQuery.getSystemThemeMode());
+    useLayoutEffect(() => {
+        const unsubscribe = MediaQuery.listenToSystemThemeChange(setSystemThemeMode);
+
+        return () => unsubscribe();
+    }, []);
+
+    const [themeMode, setThemeMode] = useLocalStorage<ThemeMode>('themeMode', ThemeMode.SYSTEM);
     const [activeDevice, setActiveDeviceContext] = useLocalStorage('activeDevice', DEFAULT_DEVICE);
 
     const darkThemeContext = useMemo(
         () => ({
-            darkTheme,
-            setDarkTheme,
+            themeMode,
+            setThemeMode,
         }),
-        [darkTheme],
+        [themeMode],
     );
 
     const activeDeviceContext = useMemo(
@@ -64,7 +72,10 @@ export const AppContext: React.FC<Props> = ({ children }) => {
         [activeDevice],
     );
 
-    const theme = useMemo(() => createTheme(darkTheme, currentDirection), [darkTheme, currentDirection]);
+    const theme = useMemo(
+        () => createTheme(themeMode, currentDirection),
+        [themeMode, currentDirection, systemThemeMode],
+    );
 
     setActiveDevice(activeDevice);
 
@@ -73,7 +84,7 @@ export const AppContext: React.FC<Props> = ({ children }) => {
             <StyledEngineProvider injectFirst>
                 <CacheProvider value={directionToCache[currentDirection]}>
                     <ThemeProvider theme={theme}>
-                        <DarkTheme.Provider value={darkThemeContext}>
+                        <ThemeModeContext.Provider value={darkThemeContext}>
                             <QueryParamProvider adapter={ReactRouter6Adapter}>
                                 <LibraryOptionsContextProvider>
                                     <NavBarContextProvider>
@@ -83,7 +94,7 @@ export const AppContext: React.FC<Props> = ({ children }) => {
                                     </NavBarContextProvider>
                                 </LibraryOptionsContextProvider>
                             </QueryParamProvider>
-                        </DarkTheme.Provider>
+                        </ThemeModeContext.Provider>
                     </ThemeProvider>
                 </CacheProvider>
             </StyledEngineProvider>

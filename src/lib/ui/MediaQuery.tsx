@@ -9,6 +9,7 @@
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { Breakpoint } from '@mui/material/styles';
 import { getCurrentTheme } from '@/theme.ts';
+import { ThemeMode } from '@/components/context/ThemeModeContext.tsx';
 
 export class MediaQuery {
     static useIsTouchDevice(): boolean {
@@ -21,5 +22,22 @@ export class MediaQuery {
 
     static useIsMobileWidth(): boolean {
         return this.useIsBelowWidth('sm');
+    }
+
+    static getSystemThemeMode(): Exclude<ThemeMode, 'system'> {
+        const prefersDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        return prefersDarkMode ? ThemeMode.DARK : ThemeMode.LIGHT;
+    }
+
+    static listenToSystemThemeChange(onChange: (themeMode: Exclude<ThemeMode, 'system'>) => void): () => void {
+        const handleSystemThemeModeChange = (e: MediaQueryListEvent) => {
+            onChange(e.matches ? ThemeMode.DARK : ThemeMode.LIGHT);
+        };
+
+        const matchSystemThemeMode = window.matchMedia('(prefers-color-scheme: dark)');
+
+        matchSystemThemeMode.addEventListener('change', handleSystemThemeModeChange);
+
+        return () => matchSystemThemeMode.removeEventListener('change', handleSystemThemeModeChange);
     }
 }

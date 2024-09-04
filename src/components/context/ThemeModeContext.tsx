@@ -8,12 +8,18 @@
 
 import React from 'react';
 
+export enum ThemeMode {
+    SYSTEM = 'system',
+    DARK = 'dark',
+    LIGHT = 'light',
+}
+
 type ContextType = {
-    darkTheme: boolean;
-    setDarkTheme: React.Dispatch<React.SetStateAction<boolean>>;
+    themeMode: ThemeMode;
+    setThemeMode: React.Dispatch<React.SetStateAction<ThemeMode>>;
 };
 
-export const DarkTheme = React.createContext<ContextType>({
-    darkTheme: true,
-    setDarkTheme: (): void => {},
+export const ThemeModeContext = React.createContext<ContextType>({
+    themeMode: ThemeMode.SYSTEM,
+    setThemeMode: (): void => {},
 });

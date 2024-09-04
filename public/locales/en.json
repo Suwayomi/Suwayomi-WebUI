@@ -817,6 +817,8 @@
       }
     },
     "appearance": {
+      "device_theme": "Device theme",
+      "theme": "Theme",
       "title": "Appearance"
     },
     "backup": {
@@ -912,7 +914,7 @@
       }
     },
     "label": {
-      "dark_theme": "Dark theme",
+      "theme": "Theme",
       "hide_library_entries": "Hide entries already in library",
       "language_description": "Feel free to translate the project on",
       "manga_item_width": "Manga item width",

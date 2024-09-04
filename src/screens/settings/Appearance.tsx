@@ -11,13 +11,15 @@ import { useContext, useEffect } from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import Switch from '@mui/material/Switch';
+import MenuItem from '@mui/material/MenuItem';
+import ListSubheader from '@mui/material/ListSubheader';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
-import { DarkTheme } from '@/components/context/DarkTheme';
+import { ThemeMode, ThemeModeContext } from '@/components/context/ThemeModeContext.tsx';
+import { Select } from '@/components/atoms/Select.tsx';
 
 export const Appearance = () => {
     const { t } = useTranslation();
-    const { darkTheme, setDarkTheme } = useContext(DarkTheme);
+    const { themeMode, setThemeMode } = useContext(ThemeModeContext);
 
     const { setTitle, setAction } = useContext(NavBarContext);
     useEffect(() => {
@@ -31,10 +33,26 @@ export const Appearance = () => {
     }, [t]);
 
     return (
-        <List>
+        <List
+            subheader={
+                <ListSubheader component="div" id="appearance-theme">
+                    {t('settings.appearance.theme')}
+                </ListSubheader>
+            }
+        >
             <ListItem>
-                <ListItemText primary={t('settings.label.dark_theme')} />
-                <Switch edge="end" checked={darkTheme} onChange={() => setDarkTheme(!darkTheme)} />
+                <ListItemText primary={t('settings.appearance.device_theme')} />
+                <Select<ThemeMode> value={themeMode} onChange={(e) => setThemeMode(e.target.value as ThemeMode)}>
+                    <MenuItem key={ThemeMode.SYSTEM} value={ThemeMode.SYSTEM}>
+                        System
+                    </MenuItem>
+                    <MenuItem key={ThemeMode.DARK} value={ThemeMode.DARK}>
+                        Dark
+                    </MenuItem>
+                    <MenuItem key={ThemeMode.LIGHT} value={ThemeMode.LIGHT}>
+                        Light
+                    </MenuItem>
+                </Select>
             </ListItem>
         </List>
     );

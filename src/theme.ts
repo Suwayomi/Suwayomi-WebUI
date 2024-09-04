@@ -15,23 +15,27 @@ import {
     responsiveFontSizes,
     Theme,
 } from '@mui/material/styles';
+import { ThemeMode } from '@/components/context/ThemeModeContext.tsx';
+import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
 
 export const SCROLLBAR_WIDTH = 14;
 
 let theme: Theme;
 export const getCurrentTheme = () => theme;
 export const createTheme = (
-    dark?: boolean,
+    themeMode: ThemeMode,
     direction: Direction = 'ltr',
     color: string = '#5b74ef',
     pureBlackMode: boolean = false,
 ) => {
-    const isDarkMode = dark || pureBlackMode;
+    const systemMode = MediaQuery.getSystemThemeMode();
+    const mode = themeMode === ThemeMode.SYSTEM ? systemMode : themeMode;
+    const isDarkMode = mode === ThemeMode.DARK;
 
     const baseTheme = createMuiTheme({
         direction,
         palette: {
-            mode: isDarkMode ? 'dark' : 'light',
+            mode,
             primary: {
                 main: color,
             },
