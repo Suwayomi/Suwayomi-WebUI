@@ -210,7 +210,7 @@ export const ServerSettings = () => {
     const serverSettings = extractServerSettings(data!.settings);
 
     return (
-        <List>
+        <List sx={{ pt: 0 }}>
             {localSettings}
             <List
                 subheader={

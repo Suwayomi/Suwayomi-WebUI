@@ -79,7 +79,7 @@ export const DeviceSetting = () => {
     }
 
     return (
-        <List>
+        <List sx={{ pt: 0 }}>
             <MutableListSetting
                 settingName={t('settings.device.devices.label.title')}
                 description={t('settings.device.devices.label.description')}

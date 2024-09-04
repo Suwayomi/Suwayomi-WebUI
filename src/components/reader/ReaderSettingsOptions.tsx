@@ -36,7 +36,7 @@ export function ReaderSettingsOptions({
     const { t } = useTranslation();
     const fitPageToWindowEligible = !isHorizontalReaderType(readerType);
     return (
-        <List>
+        <List sx={{ pt: 0 }}>
             <ListItem>
                 <ListItemText primary={t('reader.settings.label.static_navigation')} />
                 <Switch

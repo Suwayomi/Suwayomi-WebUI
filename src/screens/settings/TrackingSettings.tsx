@@ -87,7 +87,7 @@ export const TrackingSettings = () => {
 
     return (
         <>
-            <List>
+            <List sx={{ pt: 0 }}>
                 <ListItem>
                     <ListItemText primary={t('tracking.settings.label.update_progress_reading')} />
                     <Switch

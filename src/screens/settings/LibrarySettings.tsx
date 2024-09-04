@@ -121,7 +121,7 @@ export function LibrarySettings() {
     }
 
     return (
-        <List>
+        <List sx={{ pt: 0 }}>
             <List
                 subheader={
                     <ListSubheader component="div" id="library-general-settings">

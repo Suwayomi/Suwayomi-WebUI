@@ -194,7 +194,7 @@ export const WebUISettings = () => {
     const isCustomWebUI = webUISettings.webUIFlavor === WebUiFlavor.Custom;
 
     return (
-        <List>
+        <List sx={{ pt: 0 }}>
             <SelectSetting<WebUiFlavor>
                 settingName={t('settings.webui.flavor.label.title')}
                 value={webUISettings.webUIFlavor}

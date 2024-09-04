@@ -80,7 +80,7 @@ export const BrowseSettings = () => {
     const serverSettings = extractBrowseSettings(data!.settings);
 
     return (
-        <List>
+        <List sx={{ pt: 0 }}>
             <ListItem>
                 <ListItemText primary={t('settings.label.hide_library_entries')} />
                 <Switch

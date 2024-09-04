@@ -250,7 +250,7 @@ export function About() {
     const isWebUIUpdateAvailable = !!webUIUpdateData?.checkForWebUIUpdate.updateAvailable;
 
     return (
-        <List>
+        <List sx={{ pt: 0 }}>
             <List
                 sx={{ padding: 0 }}
                 subheader={

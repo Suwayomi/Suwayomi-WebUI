@@ -124,7 +124,7 @@ export const DownloadSettings = () => {
     );
 
     return (
-        <List>
+        <List sx={{ pt: 0 }}>
             <TextSetting
                 settingName={t('download.settings.download_path.label.title')}
                 dialogDescription={t('download.settings.download_path.label.description')}
