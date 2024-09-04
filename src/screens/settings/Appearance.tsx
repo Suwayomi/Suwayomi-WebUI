@@ -14,15 +14,18 @@ import ListItemText from '@mui/material/ListItemText';
 import MenuItem from '@mui/material/MenuItem';
 import ListSubheader from '@mui/material/ListSubheader';
 import Switch from '@mui/material/Switch';
+import Link from '@mui/material/Link';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { ThemeMode, ThemeModeContext } from '@/components/context/ThemeModeContext.tsx';
 import { Select } from '@/components/atoms/Select.tsx';
 import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
 import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
 import { useLocalStorage } from '@/util/useStorage.tsx';
+import { I18nResourceCode, i18nResources } from '@/i18n';
+import { langCodeToName } from '@/util/language.tsx';
 
 export const Appearance = () => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const { themeMode, setThemeMode, pureBlackMode, setPureBlackMode } = useContext(ThemeModeContext);
     const isDarkMode = MediaQuery.getThemeMode() === ThemeMode.DARK;
 
@@ -75,6 +78,33 @@ export const Appearance = () => {
                     </ListSubheader>
                 }
             >
+                <ListItem>
+                    <ListItemText
+                        primary={t('global.language.label.language')}
+                        secondary={
+                            <>
+                                <span>{t('settings.label.language_description')} </span>
+                                <Link
+                                    href="https://hosted.weblate.org/projects/suwayomi/suwayomi-webui"
+                                    target="_blank"
+                                    rel="noreferrer"
+                                >
+                                    {t('global.language.title.weblate')}
+                                </Link>
+                            </>
+                        }
+                    />
+                    <Select
+                        value={i18nResources.includes(i18n.language as I18nResourceCode) ? i18n.language : 'en'}
+                        onChange={({ target: { value: language } }) => i18n.changeLanguage(language)}
+                    >
+                        {i18nResources.map((language) => (
+                            <MenuItem key={language} value={language}>
+                                {langCodeToName(language)}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </ListItem>
                 <NumberSetting
                     settingTitle={t('settings.label.manga_item_width')}
                     settingValue={`px: ${itemWidth}`}

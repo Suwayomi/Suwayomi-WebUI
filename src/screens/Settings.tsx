@@ -12,14 +12,10 @@ import List from '@mui/material/List';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import BackupIcon from '@mui/icons-material/Backup';
 import InfoIcon from '@mui/icons-material/Info';
-import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import Link from '@mui/material/Link';
 import ListItemButton from '@mui/material/ListItemButton';
-import MenuItem from '@mui/material/MenuItem';
 import { useTranslation } from 'react-i18next';
-import LanguageIcon from '@mui/icons-material/Language';
 import CollectionsOutlinedBookmarkIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
 import GetAppOutlinedIcon from '@mui/icons-material/GetAppOutlined';
 import DnsIcon from '@mui/icons-material/Dns';
@@ -29,16 +25,13 @@ import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
 import DevicesIcon from '@mui/icons-material/Devices';
 import SyncIcon from '@mui/icons-material/Sync';
 import PaletteIcon from '@mui/icons-material/Palette';
-import { langCodeToName } from '@/util/language';
 import { ListItemLink } from '@/components/util/ListItemLink';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
-import { Select } from '@/components/atoms/Select.tsx';
-import { I18nResourceCode, i18nResources } from '@/i18n';
 
 export function Settings() {
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
 
     const { setTitle, setAction } = useContext(NavBarContext);
     useEffect(() => {
@@ -107,36 +100,6 @@ export function Settings() {
                 <ListItemText primary={t('settings.backup.title')} />
             </ListItemLink>
 
-            <ListItem>
-                <ListItemIcon>
-                    <LanguageIcon />
-                </ListItemIcon>
-                <ListItemText
-                    primary={t('global.language.label.language')}
-                    secondary={
-                        <>
-                            <span>{t('settings.label.language_description')} </span>
-                            <Link
-                                href="https://hosted.weblate.org/projects/suwayomi/suwayomi-webui"
-                                target="_blank"
-                                rel="noreferrer"
-                            >
-                                {t('global.language.title.weblate')}
-                            </Link>
-                        </>
-                    }
-                />
-                <Select
-                    value={i18nResources.includes(i18n.language as I18nResourceCode) ? i18n.language : 'en'}
-                    onChange={({ target: { value: language } }) => i18n.changeLanguage(language)}
-                >
-                    {i18nResources.map((language) => (
-                        <MenuItem key={language} value={language}>
-                            {langCodeToName(language)}
-                        </MenuItem>
-                    ))}
-                </Select>
-            </ListItem>
             <ListItemButton disabled={isClearingServerCache} onClick={clearServerCache}>
                 <ListItemIcon>
                     <DeleteForeverIcon />
