@@ -6,12 +6,13 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { CSSProperties, forwardRef } from 'react';
+import { CSSProperties, forwardRef, useCallback, useState } from 'react';
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { IReaderSettings, ReaderType } from '@/typings';
 import { SpinnerImage } from '@/components/util/SpinnerImage';
+import { useResizeObserver } from '@/util/useResizeObserver';
 
 export const isHorizontalReaderType = (readerType: ReaderType): boolean =>
     ['ContinuesHorizontalLTR', 'ContinuesHorizontalRTL'].includes(readerType);
@@ -19,7 +20,11 @@ export const isHorizontalReaderType = (readerType: ReaderType): boolean =>
 export function imageStyle(settings: IReaderSettings): CSSProperties {
     const isVertical = settings.readerType === 'ContinuesVertical';
     const isHorizontal = isHorizontalReaderType(settings.readerType);
-    const scrollbarHeight = window.innerHeight - document.documentElement.clientHeight;
+    const [scrollbarHeight, setScrollbarHeight] = useState(0);
+    useResizeObserver(
+        document.documentElement,
+        useCallback(() => setScrollbarHeight(window.innerHeight - document.documentElement.clientHeight), []),
+    );
     const baseStyling: CSSProperties = {
         margin: 0,
         width: `${settings.readerWidth}%`,

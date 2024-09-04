@@ -553,7 +553,7 @@ export function Reader() {
                 alignItems: 'center',
                 justifyContent: 'center',
                 minWidth: `calc((100vw - (100vw - 100%)) - ${navBarWidth}px)`, // 100vw = width excluding scrollbar; 100% = width including scrollbar
-                minHeight: `calc(100vh - (100vh - 100%))`,
+                minHeight: 'calc(100vh - (100vh - 100%))',
                 marginLeft: `${navBarWidth}px`,
             }}
         >
