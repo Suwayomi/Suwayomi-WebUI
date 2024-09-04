@@ -72,7 +72,10 @@ export const MangaBadges = ({
                 </Button>
             )}
             {inLibraryIndicator && isInLibrary && (
-                <Typography className="source-manga-library-state-indicator" sx={{ backgroundColor: 'primary.dark' }}>
+                <Typography
+                    className="source-manga-library-state-indicator"
+                    sx={{ backgroundColor: 'primary.dark', p: 0.3 }}
+                >
                     {t('manga.button.in_library')}
                 </Typography>
             )}
