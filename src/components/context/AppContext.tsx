@@ -57,14 +57,17 @@ export const AppContext: React.FC<Props> = ({ children }) => {
     }, []);
 
     const [themeMode, setThemeMode] = useLocalStorage<ThemeMode>('themeMode', ThemeMode.SYSTEM);
+    const [pureBlackMode, setPureBlackMode] = useLocalStorage<boolean>('pureBlackMode', false);
     const [activeDevice, setActiveDeviceContext] = useLocalStorage('activeDevice', DEFAULT_DEVICE);
 
     const darkThemeContext = useMemo(
         () => ({
             themeMode,
             setThemeMode,
+            pureBlackMode,
+            setPureBlackMode,
         }),
-        [themeMode],
+        [themeMode, pureBlackMode],
     );
 
     const activeDeviceContext = useMemo(
@@ -73,8 +76,8 @@ export const AppContext: React.FC<Props> = ({ children }) => {
     );
 
     const theme = useMemo(
-        () => createTheme(themeMode, currentDirection),
-        [themeMode, currentDirection, systemThemeMode],
+        () => createTheme(themeMode, currentDirection, undefined, pureBlackMode),
+        [themeMode, currentDirection, systemThemeMode, pureBlackMode],
     );
 
     setActiveDevice(activeDevice);

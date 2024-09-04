@@ -818,6 +818,7 @@
     },
     "appearance": {
       "device_theme": "Device theme",
+      "pure_black_mode": "Pure black dark mode",
       "theme": "Theme",
       "title": "Appearance"
     },
@@ -914,12 +915,12 @@
       }
     },
     "label": {
-      "theme": "Theme",
       "hide_library_entries": "Hide entries already in library",
       "language_description": "Feel free to translate the project on",
       "manga_item_width": "Manga item width",
       "show_nsfw": "Show NSFW",
-      "show_nsfw_description": "Hide NSFW extensions and sources"
+      "show_nsfw_description": "Hide NSFW extensions and sources",
+      "theme": "Theme"
     },
     "server": {
       "address": {

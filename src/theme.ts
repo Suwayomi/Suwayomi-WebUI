@@ -31,6 +31,7 @@ export const createTheme = (
     const systemMode = MediaQuery.getSystemThemeMode();
     const mode = themeMode === ThemeMode.SYSTEM ? systemMode : themeMode;
     const isDarkMode = mode === ThemeMode.DARK;
+    const setPureBlackMode = isDarkMode && pureBlackMode;
 
     const baseTheme = createMuiTheme({
         direction,
@@ -55,7 +56,7 @@ export const createTheme = (
         default: lighten(baseTheme.palette.primary.dark, 0.85),
     };
     const backgroundThemeMode = isDarkMode ? backgroundDark : backgroundLight;
-    const background = pureBlackMode ? backgroundTrueBlack : backgroundThemeMode;
+    const background = setPureBlackMode ? backgroundTrueBlack : backgroundThemeMode;
 
     const colorTheme = createMuiTheme(baseTheme, {
         palette: {

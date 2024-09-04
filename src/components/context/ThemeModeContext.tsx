@@ -17,9 +17,13 @@ export enum ThemeMode {
 type ContextType = {
     themeMode: ThemeMode;
     setThemeMode: React.Dispatch<React.SetStateAction<ThemeMode>>;
+    pureBlackMode: boolean;
+    setPureBlackMode: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const ThemeModeContext = React.createContext<ContextType>({
     themeMode: ThemeMode.SYSTEM,
     setThemeMode: (): void => {},
+    pureBlackMode: false,
+    setPureBlackMode: (): void => {},
 });

@@ -10,6 +10,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { Breakpoint } from '@mui/material/styles';
 import { getCurrentTheme } from '@/theme.ts';
 import { ThemeMode } from '@/components/context/ThemeModeContext.tsx';
+import { AppStorage } from '@/util/AppStorage.ts';
 
 export class MediaQuery {
     static useIsTouchDevice(): boolean {
@@ -27,6 +28,17 @@ export class MediaQuery {
     static getSystemThemeMode(): Exclude<ThemeMode, 'system'> {
         const prefersDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
         return prefersDarkMode ? ThemeMode.DARK : ThemeMode.LIGHT;
+    }
+
+    static getThemeMode(): Exclude<ThemeMode, 'system'> {
+        const themeMode = AppStorage.local.getItemParsed<ThemeMode>('themeMode', ThemeMode.SYSTEM);
+
+        const isSystemMode = themeMode === ThemeMode.SYSTEM;
+        if (isSystemMode) {
+            return this.getSystemThemeMode();
+        }
+
+        return themeMode;
     }
 
     static listenToSystemThemeChange(onChange: (themeMode: Exclude<ThemeMode, 'system'>) => void): () => void {

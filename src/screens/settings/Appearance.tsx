@@ -13,13 +13,16 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import MenuItem from '@mui/material/MenuItem';
 import ListSubheader from '@mui/material/ListSubheader';
+import Switch from '@mui/material/Switch';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { ThemeMode, ThemeModeContext } from '@/components/context/ThemeModeContext.tsx';
 import { Select } from '@/components/atoms/Select.tsx';
+import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
 
 export const Appearance = () => {
     const { t } = useTranslation();
-    const { themeMode, setThemeMode } = useContext(ThemeModeContext);
+    const { themeMode, setThemeMode, pureBlackMode, setPureBlackMode } = useContext(ThemeModeContext);
+    const isDarkMode = MediaQuery.getThemeMode() === ThemeMode.DARK;
 
     const { setTitle, setAction } = useContext(NavBarContext);
     useEffect(() => {
@@ -54,6 +57,12 @@ export const Appearance = () => {
                     </MenuItem>
                 </Select>
             </ListItem>
+            {isDarkMode && (
+                <ListItem>
+                    <ListItemText primary={t('settings.appearance.pure_black_mode')} />
+                    <Switch checked={pureBlackMode} onChange={(_, enabled) => setPureBlackMode(enabled)} />
+                </ListItem>
+            )}
         </List>
     );
 };
