@@ -40,7 +40,6 @@ export const MobileBottomBar = ({ navBarItems }: { navBarItems: NavbarItem[] }) 
             elevation={3}
         >
             <BottomNavigation
-                sx={{ backgroundColor: 'custom.light' }}
                 showLabels
                 value={selectedNavBarItem}
                 onChange={(_, newValue: string) => {

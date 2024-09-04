@@ -138,7 +138,7 @@ export function DefaultNavBar() {
                                 alignItems: 'center',
                             }}
                         >
-                            <IconButton color="inherit" aria-label="open drawer" onClick={() => setIsCollapsed(false)}>
+                            <IconButton aria-label="open drawer" onClick={() => setIsCollapsed(false)}>
                                 <MenuIcon />
                             </IconButton>
                         </Stack>
@@ -157,7 +157,6 @@ export function DefaultNavBar() {
                                 component="button"
                                 sx={{ marginRight: 2 }}
                                 size="large"
-                                color="inherit"
                                 aria-label="menu"
                                 onClick={handleBack}
                             >

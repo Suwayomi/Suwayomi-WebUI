@@ -182,7 +182,6 @@ export const TrackerSearch = ({
                         <Button
                             disabled={bindTrackerMutation.loading}
                             size="large"
-                            color="primary"
                             variant="contained"
                             onClick={trackManga}
                             sx={{ width: '75%' }}

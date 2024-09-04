@@ -257,7 +257,7 @@ export const TrackerActiveCard = ({
         <Card sx={CARD_STYLING}>
             <CardContent sx={{ padding: 0 }}>
                 <TrackerActiveHeader trackRecord={trackRecord} tracker={tracker} openSearch={onClick} />
-                <Card>
+                <Card sx={{ backgroundColor: 'background.default' }}>
                     <CardContent sx={{ padding: '0' }}>
                         <Box sx={{ padding: 1 }}>
                             <TrackerActiveCardInfoRow>

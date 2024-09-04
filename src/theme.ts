@@ -11,52 +11,63 @@ import {
     darken,
     Direction,
     lighten,
-    Palette as MuiPalette,
+    Palette,
     responsiveFontSizes,
     Theme,
 } from '@mui/material/styles';
 
-declare module '@mui/material/styles/createPalette' {
-    interface Palette {
-        custom: Palette['primary'];
-    }
-
-    interface PaletteOptions {
-        custom: PaletteOptions['primary'];
-    }
-}
-
 export const SCROLLBAR_WIDTH = 14;
-
-type DefaultMuiPalette = Omit<MuiPalette, 'custom'>;
-type DefaultMuiTheme = Omit<Theme, 'palette'> & { palette: DefaultMuiPalette };
 
 let theme: Theme;
 export const getCurrentTheme = () => theme;
-export const createTheme = (dark?: boolean, direction: Direction = 'ltr') => {
-    const baseTheme: DefaultMuiTheme = createMuiTheme({
+export const createTheme = (
+    dark?: boolean,
+    direction: Direction = 'ltr',
+    color: string = '#5b74ef',
+    pureBlackMode: boolean = false,
+) => {
+    const isDarkMode = dark || pureBlackMode;
+
+    const baseTheme = createMuiTheme({
         direction,
         palette: {
-            mode: dark ? 'dark' : 'light',
+            mode: isDarkMode ? 'dark' : 'light',
+            primary: {
+                main: color,
+            },
         },
-    } as Theme);
+    });
 
-    const suwayomiTheme = createMuiTheme(
-        {
-            palette: {
-                custom: {
-                    main: dark ? baseTheme.palette.common.black : baseTheme.palette.common.white,
-                    light: dark ? baseTheme.palette.grey[900] : baseTheme.palette.grey[100],
+    const backgroundTrueBlack: Palette['background'] = {
+        paper: '#111',
+        default: '#000',
+    };
+    const backgroundDark: Palette['background'] = {
+        paper: darken(baseTheme.palette.primary.main, 0.75),
+        default: darken(baseTheme.palette.primary.main, 0.85),
+    };
+    const backgroundLight: Palette['background'] = {
+        paper: lighten(baseTheme.palette.primary.dark, 0.75),
+        default: lighten(baseTheme.palette.primary.dark, 0.85),
+    };
+    const backgroundThemeMode = isDarkMode ? backgroundDark : backgroundLight;
+    const background = pureBlackMode ? backgroundTrueBlack : backgroundThemeMode;
+
+    const colorTheme = createMuiTheme(baseTheme, {
+        palette: {
+            background,
+        },
+    });
+
+    const suwayomiTheme = createMuiTheme(colorTheme, {
+        components: {
+            MuiUseMediaQuery: {
+                defaultProps: {
+                    noSsr: true,
                 },
             },
-            components: {
-                MuiUseMediaQuery: {
-                    defaultProps: {
-                        noSsr: true,
-                    },
-                },
-                MuiCssBaseline: {
-                    styleOverrides: `
+            MuiCssBaseline: {
+                styleOverrides: `
                         *::-webkit-scrollbar {
                           width: ${SCROLLBAR_WIDTH}px;
                         }
@@ -64,17 +75,15 @@ export const createTheme = (dark?: boolean, direction: Direction = 'ltr') => {
                           border: 4px solid rgba(0, 0, 0, 0);
                           background-clip: padding-box;
                           border-radius: 9999px;
-                          background-color: ${dark ? lighten(baseTheme.palette.background.default, 0.4) : darken(baseTheme.palette.background.default, 0.4)};
+                          background-color: ${colorTheme.palette.primary[isDarkMode ? 'dark' : 'light']};
                         }
                         *::-webkit-scrollbar-thumb:hover {
                           border-width: 2px;
                         }
                     `,
-                },
             },
         },
-        baseTheme,
-    );
+    });
 
     theme = responsiveFontSizes(suwayomiTheme);
 

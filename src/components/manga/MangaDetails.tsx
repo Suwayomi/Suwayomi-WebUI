@@ -200,7 +200,7 @@ const DescriptionGenre = ({
                         position: isCollapsed ? 'absolute' : null,
                         width: '100%',
                         bottom: 0,
-                        background: (theme) => `linear-gradient(transparent 1px, ${theme.palette.background.paper})`,
+                        background: (theme) => `linear-gradient(transparent 1px, ${theme.palette.background.default})`,
                     }}
                 >
                     <IconButton sx={{ color: (theme) => (theme.palette.mode === 'light' ? 'black' : 'text') }}>

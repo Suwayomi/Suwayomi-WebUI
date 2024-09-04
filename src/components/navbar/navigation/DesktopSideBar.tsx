@@ -58,7 +58,14 @@ const NavigationBarItem = ({ path, title, IconComponent, SelectedIconComponent }
             <Tooltip title={t(title)} placement="right">
                 <ListItem sx={listItemProps}>
                     <ListItemIcon sx={listItemIconProps}>
-                        <Icon sx={{ color: isActive ? 'primary.main' : undefined }} />
+                        <Icon
+                            sx={{
+                                color: isActive ? 'primary.dark' : undefined,
+                                ...theme.applyStyles('dark', {
+                                    color: isActive ? 'primary.light' : undefined,
+                                }),
+                            }}
+                        />
                     </ListItemIcon>
                     <ListItemText
                         primary={t(title)}
@@ -69,7 +76,10 @@ const NavigationBarItem = ({ path, title, IconComponent, SelectedIconComponent }
                                 overflow: 'hidden',
                                 textOverflow: 'ellipsis',
                                 ...(isCollapsed ? theme.typography.caption : {}),
-                                color: isActive ? 'primary.main' : undefined,
+                                color: isActive ? 'primary.dark' : undefined,
+                                ...theme.applyStyles('dark', {
+                                    color: isActive ? 'primary.light' : undefined,
+                                }),
                             },
                         }}
                     />

@@ -44,23 +44,17 @@ const HeightPreservingItem = ({ children, ...props }: BoxProps) => (
 const DownloadChapterItem = ({
     provided,
     item,
-    isDragging,
     handleDelete,
 }: {
     provided: DraggableProvided;
     item: ChapterDownloadStatus;
-    isDragging: boolean;
     handleDelete: (chapter: ChapterIdInfo) => void;
 }) => {
     const { t } = useTranslation();
 
     return (
         <Box {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} sx={{ p: 1, pb: 0 }}>
-            <Card
-                sx={{
-                    backgroundColor: isDragging ? 'custom.light' : undefined,
-                }}
-            >
+            <Card>
                 <CardActionArea component={Link} to={`/manga/${item.manga.id}`}>
                     <CardContent
                         sx={{
@@ -253,7 +247,6 @@ export const DownloadQueue: React.FC = () => {
                     <DownloadChapterItem
                         provided={provided}
                         item={queue[rubric.source.index]}
-                        isDragging={snapshot.isDragging}
                         handleDelete={handleDelete}
                     />
                 )}
@@ -277,7 +270,6 @@ export const DownloadQueue: React.FC = () => {
                                         <DownloadChapterItem
                                             provided={draggableProvided}
                                             item={item}
-                                            isDragging={false}
                                             handleDelete={handleDelete}
                                         />
                                     )}

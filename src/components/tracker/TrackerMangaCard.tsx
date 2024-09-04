@@ -117,6 +117,7 @@ export const TrackerMangaCard = ({
     return (
         <Card
             sx={{
+                backgroundColor: 'background.default',
                 marginBottom: 2,
                 '&:last-child': { marginBottom: 8 },
             }}
