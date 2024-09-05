@@ -20,6 +20,8 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import { styled, ThemeProvider } from '@mui/material/styles';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import Card from '@mui/material/Card';
+import CardActionArea from '@mui/material/CardActionArea';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { ThemeMode, ThemeModeContext } from '@/components/context/ThemeModeContext.tsx';
 import { Select } from '@/components/atoms/Select.tsx';
@@ -61,74 +63,91 @@ const ThemePreview = ({ theme }: { theme: AppTheme }) => {
             }}
         >
             <ThemeProvider theme={muiTheme}>
-                <Stack
+                <Card
                     sx={{
-                        cursor: 'pointer',
-                        backgroundColor: 'background.default',
                         width: '100%',
                         height: '225px',
                         outline: '4px solid',
                         outlineColor: isSelected ? muiTheme.palette.primary.light : muiTheme.palette.background.paper,
                         borderRadius: 1,
+                        p: 0,
                     }}
-                    onClick={() => setAppTheme(theme.id)}
                 >
-                    <Stack sx={{ height: '100%', gap: 2, p: 1 }}>
-                        <Stack
-                            sx={{
-                                maxHeight: '20px',
-                                flexDirection: 'row',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                            }}
-                        >
-                            <Box
-                                sx={{ width: '65%', height: '20px', backgroundColor: 'primary.dark', borderRadius: 1 }}
-                            />
-                            {isSelected && (
-                                <CheckCircleIcon
-                                    sx={{ visibility: isSelected ? 'visible' : 'hidden', color: 'primary.light' }}
-                                    // color="primary"
-                                />
-                            )}
-                        </Stack>
-                        <Stack
-                            sx={{
-                                flexDirection: 'row',
-                                width: '55%',
-                                height: '65%',
-                                backgroundColor: 'background.paper',
-                                borderRadius: 1,
-                                p: 1,
-                            }}
-                        >
-                            <ThemePreviewBage sx={{ backgroundColor: 'primary.main' }} />
-                            <ThemePreviewBage sx={{ backgroundColor: 'secondary.main' }} />
-                        </Stack>
-                    </Stack>
-                    <Stack
-                        sx={{
-                            height: '80px',
-                            backgroundColor: muiTheme.palette.background.paper,
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            flexDirection: 'row',
-                            gap: 1,
-                        }}
+                    <CardActionArea
+                        sx={{ height: '100%', backgroundColor: 'background.default' }}
+                        onClick={() => setAppTheme(theme.id)}
                     >
-                        <Box
-                            sx={{ width: '20px', height: '20px', borderRadius: '50%', backgroundColor: 'primary.main' }}
-                        />
-                        <Box
-                            sx={{
-                                flexGrow: 0.75,
-                                height: '20px',
-                                borderRadius: 1,
-                                backgroundColor: 'primary.light',
-                            }}
-                        />
-                    </Stack>
-                </Stack>
+                        <Stack sx={{ height: '100%' }}>
+                            <Stack sx={{ height: '100%', gap: 2, p: 1 }}>
+                                <Stack
+                                    sx={{
+                                        maxHeight: '20px',
+                                        flexDirection: 'row',
+                                        justifyContent: 'space-between',
+                                        alignItems: 'center',
+                                    }}
+                                >
+                                    <Box
+                                        sx={{
+                                            width: '65%',
+                                            height: '20px',
+                                            backgroundColor: 'primary.dark',
+                                            borderRadius: 1,
+                                        }}
+                                    />
+                                    {isSelected && (
+                                        <CheckCircleIcon
+                                            sx={{
+                                                visibility: isSelected ? 'visible' : 'hidden',
+                                                color: 'primary.light',
+                                            }}
+                                        />
+                                    )}
+                                </Stack>
+                                <Stack
+                                    sx={{
+                                        flexDirection: 'row',
+                                        width: '55%',
+                                        height: '65%',
+                                        backgroundColor: 'background.paper',
+                                        borderRadius: 1,
+                                        p: 1,
+                                    }}
+                                >
+                                    <ThemePreviewBage sx={{ backgroundColor: 'primary.main' }} />
+                                    <ThemePreviewBage sx={{ backgroundColor: 'secondary.main' }} />
+                                </Stack>
+                            </Stack>
+                            <Stack
+                                sx={{
+                                    height: '80px',
+                                    backgroundColor: muiTheme.palette.background.paper,
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    flexDirection: 'row',
+                                    gap: 1,
+                                }}
+                            >
+                                <Box
+                                    sx={{
+                                        width: '20px',
+                                        height: '20px',
+                                        borderRadius: '50%',
+                                        backgroundColor: 'primary.main',
+                                    }}
+                                />
+                                <Box
+                                    sx={{
+                                        flexGrow: 0.75,
+                                        height: '20px',
+                                        borderRadius: 1,
+                                        backgroundColor: 'primary.light',
+                                    }}
+                                />
+                            </Stack>
+                        </Stack>
+                    </CardActionArea>
+                </Card>
             </ThemeProvider>
             <Typography>{getName()}</Typography>
         </Stack>
