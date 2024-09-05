@@ -7,6 +7,7 @@
  */
 
 import React from 'react';
+import { AppThemes } from '@/lib/ui/AppThemes.ts';
 
 export enum ThemeMode {
     SYSTEM = 'system',
@@ -15,6 +16,8 @@ export enum ThemeMode {
 }
 
 type ContextType = {
+    appTheme: AppThemes;
+    setAppTheme: React.Dispatch<React.SetStateAction<AppThemes>>;
     themeMode: ThemeMode;
     setThemeMode: React.Dispatch<React.SetStateAction<ThemeMode>>;
     pureBlackMode: boolean;
@@ -22,6 +25,8 @@ type ContextType = {
 };
 
 export const ThemeModeContext = React.createContext<ContextType>({
+    appTheme: 'default',
+    setAppTheme: (): void => {},
     themeMode: ThemeMode.SYSTEM,
     setThemeMode: (): void => {},
     pureBlackMode: false,

@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useMemo } from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -15,6 +15,11 @@ import MenuItem from '@mui/material/MenuItem';
 import ListSubheader from '@mui/material/ListSubheader';
 import Switch from '@mui/material/Switch';
 import Link from '@mui/material/Link';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Stack from '@mui/material/Stack';
+import { styled, ThemeProvider } from '@mui/material/styles';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { ThemeMode, ThemeModeContext } from '@/components/context/ThemeModeContext.tsx';
 import { Select } from '@/components/atoms/Select.tsx';
@@ -23,6 +28,112 @@ import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
 import { useLocalStorage } from '@/util/useStorage.tsx';
 import { I18nResourceCode, i18nResources } from '@/i18n';
 import { langCodeToName } from '@/util/language.tsx';
+import { AppTheme, appThemes } from '@/lib/ui/AppThemes.ts';
+import { createTheme } from '@/theme.ts';
+
+const ThemePreviewBage = styled(Box)(({ theme }) => ({
+    width: '15px',
+    height: '20px',
+    borderRadius: theme.shape.borderRadius,
+}));
+
+const ThemePreview = ({ theme }: { theme: AppTheme }) => {
+    const { getName } = theme;
+
+    const { themeMode, setAppTheme, appTheme, pureBlackMode } = useContext(ThemeModeContext);
+
+    const isSelected = theme.id === appTheme;
+
+    const muiTheme = useMemo(
+        () => createTheme(themeMode, theme.id, pureBlackMode),
+        [theme.id, themeMode, pureBlackMode],
+    );
+
+    return (
+        <Stack
+            sx={{
+                padding: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+                minWidth: '150px',
+                maxWidth: '150px',
+                gap: 1,
+            }}
+        >
+            <ThemeProvider theme={muiTheme}>
+                <Stack
+                    sx={{
+                        backgroundColor: 'background.default',
+                        width: '100%',
+                        height: '225px',
+                        outline: '4px solid',
+                        outlineColor: isSelected ? muiTheme.palette.primary.light : muiTheme.palette.background.paper,
+                        borderRadius: 1,
+                    }}
+                    onClick={() => setAppTheme(theme.id)}
+                >
+                    <Stack sx={{ height: '100%', gap: 2, p: 1 }}>
+                        <Stack sx={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <Box
+                                sx={{ width: '65%', height: '20px', backgroundColor: 'primary.dark', borderRadius: 1 }}
+                            />
+                            {isSelected && (
+                                <CheckCircleIcon
+                                    sx={{ visibility: isSelected ? 'visible' : 'hidden', color: 'primary.light' }}
+                                    // color="primary"
+                                />
+                            )}
+                        </Stack>
+                        <Stack
+                            sx={{
+                                flexDirection: 'row',
+                                width: '55%',
+                                height: '65%',
+                                backgroundColor: 'background.paper',
+                                borderRadius: 1,
+                                p: 1,
+                            }}
+                        >
+                            <ThemePreviewBage sx={{ backgroundColor: 'primary.main' }} />
+                            <ThemePreviewBage sx={{ backgroundColor: 'secondary.main' }} />
+                        </Stack>
+                    </Stack>
+                    <Stack
+                        sx={{
+                            height: '80px',
+                            backgroundColor: muiTheme.palette.background.paper,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            flexDirection: 'row',
+                            gap: 1,
+                        }}
+                    >
+                        <Box
+                            sx={{ width: '20px', height: '20px', borderRadius: '50%', backgroundColor: 'primary.main' }}
+                        />
+                        <Box
+                            sx={{
+                                flexGrow: 0.75,
+                                height: '20px',
+                                borderRadius: 1,
+                                backgroundColor: 'primary.light',
+                            }}
+                        />
+                    </Stack>
+                </Stack>
+            </ThemeProvider>
+            <Typography>{getName()}</Typography>
+        </Stack>
+    );
+};
+
+const ThemePicker = () => (
+    <Stack sx={{ flexDirection: 'row', flexWrap: 'no-wrap', overflowX: 'auto', gap: 3, mx: 1 }}>
+        {appThemes.map((theme) => (
+            <ThemePreview key={theme.id} theme={theme} />
+        ))}
+    </Stack>
+);
 
 export const Appearance = () => {
     const { t, i18n } = useTranslation();
@@ -65,6 +176,7 @@ export const Appearance = () => {
                     </MenuItem>
                 </Select>
             </ListItem>
+            <ThemePicker />
             {isDarkMode && (
                 <ListItem>
                     <ListItemText primary={t('settings.appearance.pure_black_mode')} />

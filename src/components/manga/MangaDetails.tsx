@@ -156,7 +156,7 @@ const Thumbnail = ({ manga }: { manga: Partial<MangaThumbnailInfo> }) => {
                         },
                     }}
                 >
-                    <OpenInFullIcon fontSize="large" />
+                    <OpenInFullIcon fontSize="large" color="primary" />
                 </Stack>
             </Stack>
             <Modal {...bindPopover(popupState)} sx={{ outline: 0 }}>

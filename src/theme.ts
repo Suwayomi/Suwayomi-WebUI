@@ -17,17 +17,18 @@ import {
 } from '@mui/material/styles';
 import { ThemeMode } from '@/components/context/ThemeModeContext.tsx';
 import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
+import { AppThemes, getTheme } from '@/lib/ui/AppThemes.ts';
 
 export const SCROLLBAR_WIDTH = 14;
 
-let theme: Theme;
-export const getCurrentTheme = () => theme;
 export const createTheme = (
     themeMode: ThemeMode,
-    direction: Direction = 'ltr',
-    color: string = '#5b74ef',
+    appThemeId: AppThemes,
     pureBlackMode: boolean = false,
+    direction: Direction = 'ltr',
 ) => {
+    const appTheme = getTheme(appThemeId);
+
     const systemMode = MediaQuery.getSystemThemeMode();
     const mode = themeMode === ThemeMode.SYSTEM ? systemMode : themeMode;
     const isDarkMode = mode === ThemeMode.DARK;
@@ -37,9 +38,7 @@ export const createTheme = (
         direction,
         palette: {
             mode,
-            primary: {
-                main: color,
-            },
+            ...appTheme.palette,
         },
     });
 
@@ -90,8 +89,13 @@ export const createTheme = (
         },
     });
 
-    theme = responsiveFontSizes(suwayomiTheme);
+    return responsiveFontSizes(suwayomiTheme);
+};
 
+let theme: Theme;
+export const getCurrentTheme = () => theme;
+export const createAndSetTheme = (...args: Parameters<typeof createTheme>) => {
+    theme = createTheme(...args);
     return theme;
 };
 

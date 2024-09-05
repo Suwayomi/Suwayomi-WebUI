@@ -16,13 +16,14 @@ import { CacheProvider, EmotionCache } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { prefixer } from 'stylis';
 import rtlPlugin from 'stylis-plugin-rtl';
-import { createTheme } from '@/theme';
+import { createAndSetTheme } from '@/theme';
 import { useLocalStorage } from '@/util/useStorage.tsx';
 import { ThemeMode, ThemeModeContext } from '@/components/context/ThemeModeContext.tsx';
 import { NavBarContextProvider } from '@/components/navbar/NavBarContextProvider';
 import { LibraryOptionsContextProvider } from '@/components/library/LibraryOptionsProvider';
 import { ActiveDevice, DEFAULT_DEVICE, setActiveDevice } from '@/util/device.ts';
 import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
+import { AppThemes } from '@/lib/ui/AppThemes.ts';
 
 interface Props {
     children: React.ReactNode;
@@ -56,18 +57,21 @@ export const AppContext: React.FC<Props> = ({ children }) => {
         return () => unsubscribe();
     }, []);
 
+    const [appTheme, setAppTheme] = useLocalStorage<AppThemes>('appTheme', 'default');
     const [themeMode, setThemeMode] = useLocalStorage<ThemeMode>('themeMode', ThemeMode.SYSTEM);
     const [pureBlackMode, setPureBlackMode] = useLocalStorage<boolean>('pureBlackMode', false);
     const [activeDevice, setActiveDeviceContext] = useLocalStorage('activeDevice', DEFAULT_DEVICE);
 
     const darkThemeContext = useMemo(
         () => ({
+            appTheme,
+            setAppTheme,
             themeMode,
             setThemeMode,
             pureBlackMode,
             setPureBlackMode,
         }),
-        [themeMode, pureBlackMode],
+        [themeMode, pureBlackMode, appTheme],
     );
 
     const activeDeviceContext = useMemo(
@@ -76,8 +80,8 @@ export const AppContext: React.FC<Props> = ({ children }) => {
     );
 
     const theme = useMemo(
-        () => createTheme(themeMode, currentDirection, undefined, pureBlackMode),
-        [themeMode, currentDirection, systemThemeMode, pureBlackMode],
+        () => createAndSetTheme(themeMode, appTheme, pureBlackMode, currentDirection),
+        [themeMode, currentDirection, systemThemeMode, pureBlackMode, appTheme],
     );
 
     setActiveDevice(activeDevice);

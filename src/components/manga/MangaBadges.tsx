@@ -74,18 +74,19 @@ export const MangaBadges = ({
             {inLibraryIndicator && isInLibrary && (
                 <Typography
                     className="source-manga-library-state-indicator"
-                    sx={{ backgroundColor: 'primary.dark', p: 0.3 }}
+                    sx={{ backgroundColor: 'primary.dark', color: 'primary.contrastText', p: 0.3 }}
                 >
                     {t('manga.button.in_library')}
                 </Typography>
             )}
             {((showUnreadBadge && mode === 'default') || mode === 'duplicate') && (unread ?? 0) > 0 && (
-                <Badge sx={{ backgroundColor: 'primary.dark' }}>{unread}</Badge>
+                <Badge sx={{ backgroundColor: 'primary.main', color: 'primary.contrastText' }}>{unread}</Badge>
             )}
             {((showDownloadBadge && mode === 'default') || mode === 'duplicate') && (downloadCount ?? 0) > 0 && (
                 <Badge
                     sx={{
-                        backgroundColor: 'primary.light',
+                        backgroundColor: 'secondary.main',
+                        color: 'secondary.contrastText',
                     }}
                 >
                     {downloadCount}

@@ -386,6 +386,7 @@
       "client": "Client",
       "close": "Close",
       "copied": "Copied",
+      "default": "Default",
       "disabled": "Disabled",
       "discord": "Discord",
       "display": "Display",
@@ -820,6 +821,16 @@
       "device_theme": "Device theme",
       "pure_black_mode": "Pure black dark mode",
       "theme": "Theme",
+      "themes": {
+        "crimson": "Crimson",
+        "dune": "Dune",
+        "forest_dew": "Forest dew",
+        "lavendar": "Lavendar",
+        "minty_miracles": "Minty Miracles",
+        "mountain_sunset": "Mountain sunset",
+        "orange_juice": "Orange juice",
+        "rosegold": "Rosegold"
+      },
       "title": "Appearance"
     },
     "backup": {
