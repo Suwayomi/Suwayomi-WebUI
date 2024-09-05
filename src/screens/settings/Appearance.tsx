@@ -74,7 +74,14 @@ const ThemePreview = ({ theme }: { theme: AppTheme }) => {
                     onClick={() => setAppTheme(theme.id)}
                 >
                     <Stack sx={{ height: '100%', gap: 2, p: 1 }}>
-                        <Stack sx={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <Stack
+                            sx={{
+                                maxHeight: '20px',
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                            }}
+                        >
                             <Box
                                 sx={{ width: '65%', height: '20px', backgroundColor: 'primary.dark', borderRadius: 1 }}
                             />
