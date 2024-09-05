@@ -6,12 +6,13 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { CSSProperties, forwardRef } from 'react';
+import { CSSProperties, forwardRef, useCallback, useState } from 'react';
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { IReaderSettings, ReaderType } from '@/typings';
 import { SpinnerImage } from '@/components/util/SpinnerImage';
+import { useResizeObserver } from '@/util/useResizeObserver';
 
 export const isHorizontalReaderType = (readerType: ReaderType): boolean =>
     ['ContinuesHorizontalLTR', 'ContinuesHorizontalRTL'].includes(readerType);
@@ -19,6 +20,11 @@ export const isHorizontalReaderType = (readerType: ReaderType): boolean =>
 export function imageStyle(settings: IReaderSettings): CSSProperties {
     const isVertical = settings.readerType === 'ContinuesVertical';
     const isHorizontal = isHorizontalReaderType(settings.readerType);
+    const [scrollbarHeight, setScrollbarHeight] = useState(0);
+    useResizeObserver(
+        document.documentElement,
+        useCallback(() => setScrollbarHeight(window.innerHeight - document.documentElement.clientHeight), []),
+    );
     const baseStyling: CSSProperties = {
         margin: 0,
         width: `${settings.readerWidth}%`,
@@ -31,8 +37,8 @@ export function imageStyle(settings: IReaderSettings): CSSProperties {
 
     const continuesHorizontalStyling: CSSProperties = {
         width: undefined,
-        minHeight: '100vh',
-        maxHeight: '100vh',
+        minHeight: `calc(100vh - ${scrollbarHeight}px)`,
+        maxHeight: `calc(100vh - ${scrollbarHeight}px)`,
         marginLeft: '7px',
         marginRight: '7px',
     };
@@ -42,8 +48,8 @@ export function imageStyle(settings: IReaderSettings): CSSProperties {
         height: undefined,
         minWidth: settings.scalePage ? 'calc(100vw - (100vw - 100%))' : undefined,
         maxWidth: 'calc(100vw - (100vw - 100%))',
-        minHeight: settings.scalePage ? '100vh' : undefined,
-        maxHeight: '100vh',
+        minHeight: settings.scalePage ? `calc(100vh - ${scrollbarHeight}px)` : undefined,
+        maxHeight: `calc(100vh - ${scrollbarHeight}px)`,
     };
 
     return {

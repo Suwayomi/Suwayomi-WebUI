@@ -42,6 +42,7 @@ import { GET_CHAPTERS_READER } from '@/lib/graphql/queries/ChapterQuery.ts';
 import { GET_MANGA_READER } from '@/lib/graphql/queries/MangaQuery.ts';
 import { TMangaReader } from '@/lib/data/Mangas.ts';
 import { CHAPTER_READER_FIELDS } from '@/lib/graphql/fragments/ChapterFragments.ts';
+import { useResizeObserver } from '@/util/useResizeObserver';
 
 type TChapter = GetChaptersReaderQuery['chapters']['nodes'][number];
 
@@ -487,6 +488,12 @@ export function Reader() {
         openNextChapter(ChapterOffset.PREV);
     }, [openNextChapter]);
 
+    const [scrollbarHeight, setScrollbarHeight] = useState(0);
+    useResizeObserver(
+        document.documentElement,
+        useCallback(() => setScrollbarHeight(window.innerHeight - document.documentElement.clientHeight), []),
+    );
+
     if (isLoading) {
         return (
             <Box
@@ -553,7 +560,7 @@ export function Reader() {
                 alignItems: 'center',
                 justifyContent: 'center',
                 minWidth: `calc((100vw - (100vw - 100%)) - ${navBarWidth}px)`, // 100vw = width excluding scrollbar; 100% = width including scrollbar
-                minHeight: '100vh',
+                minHeight: `calc(100vh - ${scrollbarHeight}px)`,
                 marginLeft: `${navBarWidth}px`,
             }}
         >
