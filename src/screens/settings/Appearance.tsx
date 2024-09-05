@@ -33,7 +33,7 @@ import { langCodeToName } from '@/util/language.tsx';
 import { AppTheme, appThemes } from '@/lib/ui/AppThemes.ts';
 import { createTheme } from '@/theme.ts';
 
-const ThemePreviewBage = styled(Box)(({ theme }) => ({
+const ThemePreviewBadge = styled(Box)(({ theme }) => ({
     width: '15px',
     height: '20px',
     borderRadius: theme.shape.borderRadius,
@@ -114,8 +114,8 @@ const ThemePreview = ({ theme }: { theme: AppTheme }) => {
                                         p: 1,
                                     }}
                                 >
-                                    <ThemePreviewBage sx={{ backgroundColor: 'primary.main' }} />
-                                    <ThemePreviewBage sx={{ backgroundColor: 'secondary.main' }} />
+                                    <ThemePreviewBadge sx={{ backgroundColor: 'primary.main' }} />
+                                    <ThemePreviewBadge sx={{ backgroundColor: 'secondary.main' }} />
                                 </Stack>
                             </Stack>
                             <Stack
