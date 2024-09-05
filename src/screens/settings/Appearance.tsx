@@ -63,6 +63,7 @@ const ThemePreview = ({ theme }: { theme: AppTheme }) => {
             <ThemeProvider theme={muiTheme}>
                 <Stack
                     sx={{
+                        cursor: 'pointer',
                         backgroundColor: 'background.default',
                         width: '100%',
                         height: '225px',
