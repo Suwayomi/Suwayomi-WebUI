@@ -328,6 +328,7 @@
       "restore": "Restore",
       "resume": "Resume",
       "retry": "Retry",
+      "save": "Save",
       "select": "Select",
       "select_all": "Select all",
       "set": "Set",
@@ -818,18 +819,48 @@
       }
     },
     "appearance": {
-      "device_theme": "Device theme",
-      "pure_black_mode": "Pure black dark mode",
-      "theme": "Theme",
-      "themes": {
-        "crimson": "Crimson",
-        "dune": "Dune",
-        "forest_dew": "Forest dew",
-        "lavendar": "Lavendar",
-        "minty_miracles": "Minty Miracles",
-        "mountain_sunset": "Mountain sunset",
-        "orange_juice": "Orange juice",
-        "rosegold": "Rosegold"
+      "theme": {
+        "create": {
+          "action": "Creating theme…",
+          "dialog": {
+            "error": {
+              "invalid_json": "Invalid json",
+              "invalid_name": "The theme name must be unique and has a limit of 16 characters"
+            },
+            "info": {
+              "creating_theme": "Create a custom theme with the <2>MUI Theme Creator</2>, copy everything after \"themeOptions\" from \"{\" to \"}\" and paste it into the \"theme\" text field.",
+              "theme_mode_lock": "In case the \"mode\" is defined in the \"palette\" object, the theme will be locked into this mode and will not change regardless of the apps device theme"
+            },
+            "theme_name": "Name"
+          },
+          "failure": "Could not create theme",
+          "success": "Created theme",
+          "title": "Create theme"
+        },
+        "delete": {
+          "action": "Deleting theme \"{{theme}}\"…",
+          "failure": "Could not delete theme \"{{theme}}\"",
+          "success": "Deleted theme \"{{theme}}\""
+        },
+        "device_theme": "Device theme",
+        "edit": {
+          "action": "Saving theme changes…",
+          "failure": "Could not save theme changes",
+          "success": "Saved theme changes",
+          "title": "Edit theme"
+        },
+        "pure_black_mode": "Pure black dark mode",
+        "themes": {
+          "crimson": "Crimson",
+          "dune": "Dune",
+          "forest_dew": "Forest dew",
+          "lavender": "Lavender",
+          "minty_miracles": "Minty Miracles",
+          "mountain_sunset": "Mountain sunset",
+          "orange_juice": "Orange juice",
+          "rosegold": "Rosegold"
+        },
+        "title": "Theme"
       },
       "title": "Appearance"
     },

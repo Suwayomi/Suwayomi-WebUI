@@ -46,7 +46,7 @@ const { DeviceSetting } = loadable(() => import('@/components/settings/DeviceSet
 const { TrackingSettings } = loadable(() => import('@/screens/settings/TrackingSettings.tsx'), lazyLoadFallback);
 const { TrackerOAuthLogin } = loadable(() => import('@/screens/TrackerOAuthLogin.tsx'), lazyLoadFallback);
 const { LibraryDuplicates } = loadable(() => import('@/screens/settings/LibraryDuplicates.tsx'), lazyLoadFallback);
-const { Appearance } = loadable(() => import('@/screens/settings/Appearance.tsx'), lazyLoadFallback);
+const { Appearance } = loadable(() => import('@/screens/settings/appearance/Appearance.tsx'), lazyLoadFallback);
 
 if (process.env.NODE_ENV !== 'production') {
     // Adds messages only in a dev environment

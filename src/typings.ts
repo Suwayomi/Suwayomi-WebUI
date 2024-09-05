@@ -20,6 +20,7 @@ import {
     SourcePreferenceChangeInput,
     TrackerType,
 } from '@/lib/graphql/generated/graphql.ts';
+import { AppTheme } from '@/lib/ui/AppThemes.ts';
 
 type GenericLocation<State = any> = Omit<Location, 'state'> & { state?: State };
 
@@ -156,13 +157,18 @@ export type MetadataUpdateSettings = {
     serverInformAvailableUpdate: boolean;
 };
 
+export type MetadataThemeSettings = {
+    customThemes: Record<string, AppTheme>;
+};
+
 export type MetadataServerSettings = MetadataDownloadSettings &
     MetadataLibrarySettings &
     MetadataClientSettings &
     MetadataMigrationSettings &
     MetadataBrowseSettings &
     MetadataTrackingSettings &
-    MetadataUpdateSettings;
+    MetadataUpdateSettings &
+    MetadataThemeSettings;
 
 export interface ISearchSettings {
     ignoreFilters: boolean;

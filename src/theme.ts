@@ -17,28 +17,32 @@ import {
 } from '@mui/material/styles';
 import { ThemeMode } from '@/components/context/ThemeModeContext.tsx';
 import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
-import { AppThemes, getTheme } from '@/lib/ui/AppThemes.ts';
+import { AppTheme } from '@/lib/ui/AppThemes.ts';
 
 export const SCROLLBAR_WIDTH = 14;
 
 export const createTheme = (
     themeMode: ThemeMode,
-    appThemeId: AppThemes,
+    appTheme: AppTheme,
     pureBlackMode: boolean = false,
     direction: Direction = 'ltr',
 ) => {
-    const appTheme = getTheme(appThemeId);
-
     const systemMode = MediaQuery.getSystemThemeMode();
-    const mode = themeMode === ThemeMode.SYSTEM ? systemMode : themeMode;
+
+    const isStaticThemeMode = !!appTheme.muiTheme.palette?.mode;
+    const appThemeMode = appTheme.muiTheme.palette?.mode === 'dark' ? ThemeMode.DARK : ThemeMode.LIGHT;
+    const staticThemeMode = isStaticThemeMode ? appThemeMode : undefined;
+
+    const mode = staticThemeMode ?? (themeMode === ThemeMode.SYSTEM ? systemMode : themeMode);
     const isDarkMode = mode === ThemeMode.DARK;
     const setPureBlackMode = isDarkMode && pureBlackMode;
 
     const baseTheme = createMuiTheme({
         direction,
+        ...appTheme.muiTheme,
         palette: {
             mode,
-            ...appTheme.palette,
+            ...(appTheme.muiTheme.palette ?? {}),
         },
     });
 
@@ -55,7 +59,11 @@ export const createTheme = (
         default: lighten(baseTheme.palette.primary.dark, 0.85),
     };
     const backgroundThemeMode = isDarkMode ? backgroundDark : backgroundLight;
-    const background = setPureBlackMode ? backgroundTrueBlack : backgroundThemeMode;
+    const automaticBackground = setPureBlackMode ? backgroundTrueBlack : backgroundThemeMode;
+    const appThemeBackground = appTheme.muiTheme.palette?.background;
+
+    const requiresAutomaticBackground = setPureBlackMode || !appThemeBackground;
+    const background = requiresAutomaticBackground ? automaticBackground : appThemeBackground;
 
     const colorTheme = createMuiTheme(baseTheme, {
         palette: {

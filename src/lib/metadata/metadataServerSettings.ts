@@ -12,6 +12,7 @@ import {
     Metadata,
     MetadataServerSettingKeys,
     MetadataServerSettings,
+    MetadataThemeSettings,
 } from '@/typings.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { convertFromGqlMeta, getMetadataFrom, requestUpdateServerMetadata } from '@/lib/metadata/metadata.ts';
@@ -50,6 +51,9 @@ export const getDefaultSettings = (): MetadataServerSettings => ({
     // updates
     webUIInformAvailableUpdate: true,
     serverInformAvailableUpdate: true,
+
+    // themes
+    customThemes: {},
 });
 
 export const convertSettingsToMetadata = (
@@ -57,6 +61,7 @@ export const convertSettingsToMetadata = (
 ): Metadata<string, AllowedMetadataValueTypes> => ({
     ...settings,
     devices: JSON.stringify(settings.devices),
+    customThemes: JSON.stringify(settings.customThemes),
 });
 
 export const convertMetadataToSettings = (
@@ -66,6 +71,9 @@ export const convertMetadataToSettings = (
         ...getDefaultSettings(),
         ...(metadata as unknown as MetadataServerSettings),
         devices: jsonSaveParse<string[]>((metadata.devices as string) ?? '') ?? getDefaultSettings().devices,
+        customThemes:
+            jsonSaveParse<MetadataThemeSettings['customThemes']>((metadata.customThemes as string) ?? '') ??
+            getDefaultSettings().customThemes,
     }) satisfies MetadataServerSettings;
 
 const getMetadataServerSettingsWithDefaultFallback = (

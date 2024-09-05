@@ -23,7 +23,8 @@ import { NavBarContextProvider } from '@/components/navbar/NavBarContextProvider
 import { LibraryOptionsContextProvider } from '@/components/library/LibraryOptionsProvider';
 import { ActiveDevice, DEFAULT_DEVICE, setActiveDevice } from '@/util/device.ts';
 import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
-import { AppThemes } from '@/lib/ui/AppThemes.ts';
+import { AppThemes, getTheme } from '@/lib/ui/AppThemes.ts';
+import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 
 interface Props {
     children: React.ReactNode;
@@ -49,6 +50,10 @@ export const AppContext: React.FC<Props> = ({ children }) => {
         document.dir = currentDirection;
         directionRef.current = currentDirection;
     }
+
+    const {
+        settings: { customThemes },
+    } = useMetadataServerSettings();
 
     const [systemThemeMode, setSystemThemeMode] = useState<ThemeMode>(MediaQuery.getSystemThemeMode());
     useLayoutEffect(() => {
@@ -80,8 +85,8 @@ export const AppContext: React.FC<Props> = ({ children }) => {
     );
 
     const theme = useMemo(
-        () => createAndSetTheme(themeMode, appTheme, pureBlackMode, currentDirection),
-        [themeMode, currentDirection, systemThemeMode, pureBlackMode, appTheme],
+        () => createAndSetTheme(themeMode, getTheme(appTheme, customThemes), pureBlackMode, currentDirection),
+        [themeMode, currentDirection, systemThemeMode, pureBlackMode, appTheme, customThemes],
     );
 
     setActiveDevice(activeDevice);
