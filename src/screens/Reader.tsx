@@ -488,7 +488,7 @@ export function Reader() {
         openNextChapter(ChapterOffset.PREV);
     }, [openNextChapter]);
 
-    const scrollbarHeight = MediaQuery.useGetScrollbarSize();
+    const scrollbarHeight = MediaQuery.useGetScrollbarSize('height');
 
     if (isLoading) {
         return (

@@ -27,12 +27,18 @@ export class MediaQuery {
         return this.useIsBelowWidth('sm');
     }
 
-    static useGetScrollbarSize(): number {
+    static useGetScrollbarSize(type: 'height' | 'width'): number {
         const [scrollbarSize, setScrollbarSize] = useState(0);
 
         useResizeObserver(
             document.documentElement,
-            useCallback(() => setScrollbarSize(window.innerHeight - document.documentElement.clientHeight), []),
+            useCallback(() => {
+                const height = window.innerHeight - document.documentElement.clientHeight;
+                const width = window.innerWidth - document.documentElement.clientWidth;
+                const size = type === 'height' ? height : width;
+
+                setScrollbarSize(size);
+            }, []),
         );
 
         return scrollbarSize;

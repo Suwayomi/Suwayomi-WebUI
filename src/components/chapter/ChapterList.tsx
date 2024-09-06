@@ -45,11 +45,12 @@ import { Mangas } from '@/lib/data/Mangas';
 import { useNavBarContext } from '@/components/context/NavbarContext.tsx';
 import { useResizeObserver } from '@/util/useResizeObserver.tsx';
 import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
-import { SCROLLBAR_SIZE } from '@/theme.ts';
 
-const ChapterListHeader = styled(Stack)(({ theme }) => ({
+const ChapterListHeader = styled(Stack, { shouldForwardProp: (prop) => prop !== 'scrollbarWidth' })<{
+    scrollbarWidth: number;
+}>(({ theme, scrollbarWidth }) => ({
     padding: theme.spacing(1),
-    paddingRight: `calc(${SCROLLBAR_SIZE}px + ${theme.spacing(1)})`,
+    paddingRight: `calc(${scrollbarWidth}px + ${theme.spacing(1)})`,
     paddingBottom: 0,
     [theme.breakpoints.down('md')]: {
         paddingRight: theme.spacing(1),
@@ -89,6 +90,8 @@ export const ChapterList = ({
         chapterListHeaderRef,
         useCallback(() => setChapterListHeaderHeight(chapterListHeaderRef?.offsetHeight ?? 0), [chapterListHeaderRef]),
     );
+
+    const scrollbarWidth = MediaQuery.useGetScrollbarSize('width');
 
     const { data: downloaderData } = requestManager.useGetDownloadStatus();
     const queue = downloaderData?.downloadStatus.queue ?? [];
@@ -183,6 +186,7 @@ export const ChapterList = ({
                     direction="row"
                     alignItems="center"
                     justifyContent="space-between"
+                    scrollbarWidth={scrollbarWidth}
                 >
                     <Typography variant="h5" component="h3">
                         {`${visibleChapters.length} ${t('chapter.title_one', {

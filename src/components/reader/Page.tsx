@@ -21,7 +21,7 @@ export function imageStyle(settings: IReaderSettings): CSSProperties {
     const isVertical = settings.readerType === 'ContinuesVertical';
     const isHorizontal = isHorizontalReaderType(settings.readerType);
 
-    const scrollbarHeight = MediaQuery.useGetScrollbarSize();
+    const scrollbarHeight = MediaQuery.useGetScrollbarSize('height');
 
     const baseStyling: CSSProperties = {
         margin: 0,

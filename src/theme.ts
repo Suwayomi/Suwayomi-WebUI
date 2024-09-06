@@ -19,7 +19,7 @@ import { ThemeMode } from '@/components/context/ThemeModeContext.tsx';
 import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
 import { AppTheme } from '@/lib/ui/AppThemes.ts';
 
-export const SCROLLBAR_SIZE = 14;
+const SCROLLBAR_SIZE = 14;
 
 export const createTheme = (
     themeMode: ThemeMode,
