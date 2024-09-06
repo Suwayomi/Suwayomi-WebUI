@@ -23,7 +23,11 @@ export const CreateThemeButton = () => {
         <>
             <Stack sx={{ alignItems: 'center', gap: 1 }}>
                 <Button
-                    sx={{ minWidth: '150px', height: '225px', m: 1, mb: 0 }}
+                    sx={{
+                        minWidth: '150px',
+                        maxWidth: '150px',
+                        height: '225px',
+                    }}
                     variant="contained"
                     size="large"
                     {...bindTrigger(popupState)}

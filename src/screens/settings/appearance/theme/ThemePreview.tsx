@@ -25,10 +25,9 @@ import { AppTheme } from '@/lib/ui/AppThemes.ts';
 import { createTheme } from '@/theme.ts';
 import { ThemeCreationDialog } from '@/screens/settings/appearance/theme/CreateThemeDialog.tsx';
 
-const ThemePreviewBadge = styled(Box)(({ theme }) => ({
+const ThemePreviewBadge = styled(Box)(() => ({
     width: '15px',
     height: '20px',
-    borderRadius: theme.shape.borderRadius,
 }));
 
 export const ThemePreview = ({ theme, onDelete }: { theme: AppTheme; onDelete: () => void }) => {
@@ -47,13 +46,11 @@ export const ThemePreview = ({ theme, onDelete }: { theme: AppTheme; onDelete: (
         <>
             <Stack
                 sx={{
-                    m: 1,
                     justifyContent: 'center',
                     alignItems: 'center',
                     minWidth: '150px',
                     maxWidth: '150px',
                     gap: 1,
-                    position: 'relative',
                 }}
             >
                 <ThemeProvider theme={muiTheme}>
@@ -61,20 +58,34 @@ export const ThemePreview = ({ theme, onDelete }: { theme: AppTheme; onDelete: (
                         sx={{
                             width: '100%',
                             height: '225px',
-                            outline: '4px solid',
-                            outlineColor: isSelected
-                                ? muiTheme.palette.primary.light
-                                : muiTheme.palette.background.paper,
-                            borderRadius: 1,
-                            p: 0,
+                            position: 'relative',
                         }}
                     >
+                        <Box
+                            sx={{
+                                position: 'absolute',
+                                top: 0,
+                                right: 0,
+                                bottom: 0,
+                                left: 0,
+                                border: '4px solid',
+                                borderColor: isSelected
+                                    ? muiTheme.palette.primary.light
+                                    : muiTheme.palette.background.paper,
+                                zIndex: 1,
+                                pointerEvents: 'none',
+                                borderRadius: 1,
+                            }}
+                        />
                         <CardActionArea
-                            sx={{ height: '100%', backgroundColor: 'background.default' }}
+                            sx={{
+                                height: '100%',
+                                backgroundColor: 'background.default',
+                            }}
                             onClick={() => setAppTheme(theme.id)}
                         >
-                            <Stack sx={{ height: '100%' }}>
-                                <Stack sx={{ height: '100%', gap: 2, p: 1 }}>
+                            <Stack sx={{ height: '100%', m: 0 }}>
+                                <Stack sx={{ height: '100%', gap: 2, p: 2 }}>
                                     <Stack
                                         sx={{
                                             maxHeight: '20px',
@@ -132,28 +143,36 @@ export const ThemePreview = ({ theme, onDelete }: { theme: AppTheme; onDelete: (
                                             )}
                                         </Stack>
                                     </Stack>
-                                    <Stack
+                                    <Box
                                         sx={{
-                                            flexDirection: 'row',
                                             width: '55%',
                                             height: '65%',
                                             backgroundColor: 'background.paper',
-                                            borderRadius: 1,
                                             p: 1,
+                                            borderRadius: 1,
                                         }}
                                     >
-                                        <ThemePreviewBadge sx={{ backgroundColor: 'primary.main' }} />
-                                        <ThemePreviewBadge sx={{ backgroundColor: 'secondary.main' }} />
-                                    </Stack>
+                                        <Stack
+                                            sx={{
+                                                width: 'max-content',
+                                                flexDirection: 'row',
+                                                overflow: 'hidden',
+                                                borderRadius: 1,
+                                            }}
+                                        >
+                                            <ThemePreviewBadge sx={{ backgroundColor: 'primary.main' }} />
+                                            <ThemePreviewBadge sx={{ backgroundColor: 'secondary.main' }} />
+                                        </Stack>
+                                    </Box>
                                 </Stack>
                                 <Stack
                                     sx={{
-                                        height: '80px',
+                                        height: '25%',
                                         backgroundColor: muiTheme.palette.background.paper,
-                                        justifyContent: 'center',
                                         alignItems: 'center',
                                         flexDirection: 'row',
-                                        gap: 1,
+                                        gap: 2,
+                                        p: 2,
                                     }}
                                 >
                                     <Box
@@ -166,7 +185,7 @@ export const ThemePreview = ({ theme, onDelete }: { theme: AppTheme; onDelete: (
                                     />
                                     <Box
                                         sx={{
-                                            flexGrow: 0.75,
+                                            flexGrow: 1,
                                             height: '20px',
                                             borderRadius: 1,
                                             backgroundColor: 'primary.light',
