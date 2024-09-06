@@ -42,7 +42,7 @@ import { GET_CHAPTERS_READER } from '@/lib/graphql/queries/ChapterQuery.ts';
 import { GET_MANGA_READER } from '@/lib/graphql/queries/MangaQuery.ts';
 import { TMangaReader } from '@/lib/data/Mangas.ts';
 import { CHAPTER_READER_FIELDS } from '@/lib/graphql/fragments/ChapterFragments.ts';
-import { useResizeObserver } from '@/util/useResizeObserver';
+import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
 
 type TChapter = GetChaptersReaderQuery['chapters']['nodes'][number];
 
@@ -488,11 +488,7 @@ export function Reader() {
         openNextChapter(ChapterOffset.PREV);
     }, [openNextChapter]);
 
-    const [scrollbarHeight, setScrollbarHeight] = useState(0);
-    useResizeObserver(
-        document.documentElement,
-        useCallback(() => setScrollbarHeight(window.innerHeight - document.documentElement.clientHeight), []),
-    );
+    const scrollbarHeight = MediaQuery.useGetScrollbarSize();
 
     if (isLoading) {
         return (

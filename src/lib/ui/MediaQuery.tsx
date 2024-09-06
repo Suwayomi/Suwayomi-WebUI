@@ -8,9 +8,11 @@
 
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { Breakpoint } from '@mui/material/styles';
+import { useCallback, useState } from 'react';
 import { getCurrentTheme } from '@/theme.ts';
 import { ThemeMode } from '@/components/context/ThemeModeContext.tsx';
 import { AppStorage } from '@/util/AppStorage.ts';
+import { useResizeObserver } from '@/util/useResizeObserver.tsx';
 
 export class MediaQuery {
     static useIsTouchDevice(): boolean {
@@ -23,6 +25,17 @@ export class MediaQuery {
 
     static useIsMobileWidth(): boolean {
         return this.useIsBelowWidth('sm');
+    }
+
+    static useGetScrollbarSize(): number {
+        const [scrollbarSize, setScrollbarSize] = useState(0);
+
+        useResizeObserver(
+            document.documentElement,
+            useCallback(() => setScrollbarSize(window.innerHeight - document.documentElement.clientHeight), []),
+        );
+
+        return scrollbarSize;
     }
 
     static getSystemThemeMode(): Exclude<ThemeMode, 'system'> {
