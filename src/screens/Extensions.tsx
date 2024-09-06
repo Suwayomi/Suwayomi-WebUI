@@ -30,7 +30,7 @@ import {
 } from '@/screens/util/Extensions';
 import { AppbarSearch } from '@/components/util/AppbarSearch';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
-import { makeToaster } from '@/components/util/Toast';
+import { makeToast } from '@/components/util/Toast';
 import { LangSelect } from '@/components/navbar/action/LangSelect';
 import { ExtensionCard } from '@/components/ExtensionCard';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
@@ -155,8 +155,6 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
         [filteredGroupedExtensions],
     );
 
-    const [toasts, makeToast] = makeToaster(useState<React.ReactElement[]>([]));
-
     const submitExternalExtension = (file: File) => {
         if (file.name.toLowerCase().endsWith('apk')) {
             if (inputRef.current) {
@@ -261,7 +259,6 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     if (showAddRepoInfo) {
         return (
             <>
-                {toasts}
                 {FileInputComponent}
                 <Stack
                     sx={{
@@ -282,7 +279,6 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
 
     return (
         <>
-            {toasts}
             {FileInputComponent}
             <StyledGroupedVirtuoso
                 heightToSubtract={tabsMenuHeight}
