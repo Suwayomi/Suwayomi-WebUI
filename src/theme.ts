@@ -29,8 +29,9 @@ export const createTheme = (
 ) => {
     const systemMode = MediaQuery.getSystemThemeMode();
 
-    const isStaticThemeMode = !!appTheme.muiTheme.palette?.mode;
-    const appThemeMode = appTheme.muiTheme.palette?.mode === 'dark' ? ThemeMode.DARK : ThemeMode.LIGHT;
+    const appThemeType = (appTheme.muiTheme.palette as any)?.type ?? appTheme.muiTheme.palette?.mode;
+    const isStaticThemeMode = !!appThemeType;
+    const appThemeMode = appThemeType === 'dark' ? ThemeMode.DARK : ThemeMode.LIGHT;
     const staticThemeMode = isStaticThemeMode ? appThemeMode : undefined;
 
     const mode = staticThemeMode ?? (themeMode === ThemeMode.SYSTEM ? systemMode : themeMode);
