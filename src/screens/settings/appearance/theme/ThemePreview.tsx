@@ -21,7 +21,7 @@ import Tooltip from '@mui/material/Tooltip';
 import EditIcon from '@mui/icons-material/Edit';
 import { bindDialog, usePopupState } from 'material-ui-popup-state/hooks';
 import { ThemeModeContext } from '@/components/context/ThemeModeContext.tsx';
-import { AppTheme, loadThemeFonts } from '@/lib/ui/AppThemes.ts';
+import { AppTheme, hasMissingFonts, loadThemeFonts } from '@/lib/ui/AppThemes.ts';
 import { createTheme } from '@/theme.ts';
 import { ThemeCreationDialog } from '@/screens/settings/appearance/theme/CreateThemeDialog.tsx';
 import { makeToast } from '@/components/util/Toast';
@@ -84,12 +84,15 @@ export const ThemePreview = ({ theme, onDelete }: { theme: AppTheme; onDelete: (
                                 backgroundColor: 'background.default',
                             }}
                             onClick={() => {
+                                const needToLoadFonts = hasMissingFonts(theme.muiTheme);
+                                if (!needToLoadFonts) {
+                                    setAppTheme(theme.id);
+                                    return;
+                                }
+
                                 makeToast(t('settings.appearance.theme.select.fonts.loading'), 'info');
                                 loadThemeFonts(theme.muiTheme)
-                                    .then(() => {
-                                        setAppTheme(theme.id);
-                                        makeToast(t('settings.appearance.theme.select.success'), 'success');
-                                    })
+                                    .then(() => setAppTheme(theme.id))
                                     .catch(() => makeToast(t('settings.appearance.theme.select.fonts.error'), 'error'));
                             }}
                         >

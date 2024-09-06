@@ -196,8 +196,14 @@ const getFontsFromTheme = (obj: Record<string, any>, fonts: string[] = []): stri
 };
 
 const loadedFonts: string[] = [];
+
+export const hasMissingFonts = (theme: ThemeOptions): boolean => {
+    const themeFonts = getFontsFromTheme(theme.typography ?? {});
+    return !!themeFonts.length && themeFonts.some((font) => !loadedFonts.includes(font));
+};
+
 export const loadThemeFonts = async (theme: ThemeOptions): Promise<void> => {
-    const themeFonts = getFontsFromTheme(theme);
+    const themeFonts = getFontsFromTheme(theme.typography ?? {});
     const missingThemeFonts = themeFonts.filter((font) => !loadedFonts.includes(font));
 
     if (!missingThemeFonts.length) {
