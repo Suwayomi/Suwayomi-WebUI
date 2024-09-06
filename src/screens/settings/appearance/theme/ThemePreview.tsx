@@ -21,9 +21,10 @@ import Tooltip from '@mui/material/Tooltip';
 import EditIcon from '@mui/icons-material/Edit';
 import { bindDialog, usePopupState } from 'material-ui-popup-state/hooks';
 import { ThemeModeContext } from '@/components/context/ThemeModeContext.tsx';
-import { AppTheme } from '@/lib/ui/AppThemes.ts';
+import { AppTheme, loadThemeFonts } from '@/lib/ui/AppThemes.ts';
 import { createTheme } from '@/theme.ts';
 import { ThemeCreationDialog } from '@/screens/settings/appearance/theme/CreateThemeDialog.tsx';
+import { makeToast } from '@/components/util/Toast.tsx';
 
 const ThemePreviewBadge = styled(Box)(() => ({
     width: '15px',
@@ -82,7 +83,15 @@ export const ThemePreview = ({ theme, onDelete }: { theme: AppTheme; onDelete: (
                                 height: '100%',
                                 backgroundColor: 'background.default',
                             }}
-                            onClick={() => setAppTheme(theme.id)}
+                            onClick={() => {
+                                makeToast(t('settings.appearance.theme.select.fonts.loading'), 'info');
+                                loadThemeFonts(theme.muiTheme)
+                                    .then(() => {
+                                        setAppTheme(theme.id);
+                                        makeToast(t('settings.appearance.theme.select.success'), 'success');
+                                    })
+                                    .catch(() => makeToast(t('settings.appearance.theme.select.fonts.error'), 'error'));
+                            }}
                         >
                             <Stack sx={{ height: '100%', m: 0 }}>
                                 <Stack sx={{ height: '100%', gap: 2, p: 2 }}>

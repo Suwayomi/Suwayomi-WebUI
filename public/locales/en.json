@@ -850,6 +850,13 @@
           "title": "Edit theme"
         },
         "pure_black_mode": "Pure black dark mode",
+        "select": {
+          "fonts": {
+            "error": "Could not load theme fonts",
+            "loading": "Loading theme fonts…"
+          },
+          "success": "Selected theme"
+        },
         "themes": {
           "crimson": "Crimson",
           "dune": "Dune",

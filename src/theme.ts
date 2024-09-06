@@ -17,7 +17,8 @@ import {
 } from '@mui/material/styles';
 import { ThemeMode } from '@/components/context/ThemeModeContext.tsx';
 import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
-import { AppTheme } from '@/lib/ui/AppThemes.ts';
+import { AppTheme, loadThemeFonts } from '@/lib/ui/AppThemes.ts';
+import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 
 const SCROLLBAR_SIZE = 14;
 
@@ -106,6 +107,8 @@ let theme: Theme;
 export const getCurrentTheme = () => theme;
 export const createAndSetTheme = (...args: Parameters<typeof createTheme>) => {
     theme = createTheme(...args);
+    loadThemeFonts(theme).catch(defaultPromiseErrorHandler('theme::createAndSetTheme'));
+
     return theme;
 };
 
