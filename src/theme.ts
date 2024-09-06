@@ -19,7 +19,7 @@ import { ThemeMode } from '@/components/context/ThemeModeContext.tsx';
 import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
 import { AppTheme } from '@/lib/ui/AppThemes.ts';
 
-export const SCROLLBAR_WIDTH = 14;
+export const SCROLLBAR_SIZE = 14;
 
 export const createTheme = (
     themeMode: ThemeMode,
@@ -82,7 +82,8 @@ export const createTheme = (
             MuiCssBaseline: {
                 styleOverrides: `
                         *::-webkit-scrollbar {
-                          width: ${SCROLLBAR_WIDTH}px;
+                          width: ${SCROLLBAR_SIZE}px;
+                          height: ${SCROLLBAR_SIZE}px;
                         }
                         *::-webkit-scrollbar-thumb {
                           border: 4px solid rgba(0, 0, 0, 0);

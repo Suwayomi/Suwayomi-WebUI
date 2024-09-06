@@ -45,11 +45,11 @@ import { Mangas } from '@/lib/data/Mangas';
 import { useNavBarContext } from '@/components/context/NavbarContext.tsx';
 import { useResizeObserver } from '@/util/useResizeObserver.tsx';
 import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
-import { SCROLLBAR_WIDTH } from '@/theme.ts';
+import { SCROLLBAR_SIZE } from '@/theme.ts';
 
 const ChapterListHeader = styled(Stack)(({ theme }) => ({
     padding: theme.spacing(1),
-    paddingRight: `calc(${SCROLLBAR_WIDTH}px + ${theme.spacing(1)})`,
+    paddingRight: `calc(${SCROLLBAR_SIZE}px + ${theme.spacing(1)})`,
     paddingBottom: 0,
     [theme.breakpoints.down('md')]: {
         paddingRight: theme.spacing(1),
