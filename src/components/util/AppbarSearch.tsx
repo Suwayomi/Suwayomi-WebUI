@@ -13,6 +13,7 @@ import Tooltip from '@mui/material/Tooltip';
 import { useQueryParam, StringParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
+import { useTheme } from '@mui/material/styles';
 import { SearchTextField } from '@/components/atoms/SearchTextField.tsx';
 
 interface IProps {
@@ -22,6 +23,7 @@ interface IProps {
 export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
     const { isClosable = true } = props;
 
+    const theme = useTheme();
     const { t } = useTranslation();
 
     const [prevLocationKey, setPrevLocationKey] = useState<string>();
@@ -103,13 +105,27 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
                 }}
                 onBlur={handleBlur}
                 inputRef={inputRef}
+                sx={{
+                    ...theme.applyStyles('light', {
+                        '& .MuiInput-underline:before': {
+                            borderBottomColor: 'primary.contrastText', // Default color
+                        },
+                        '& .MuiInput-underline:hover:before': {
+                            borderBottomColor: 'primary.contrastText', // Hover color
+                        },
+                        '& .MuiInput-underline:after': {
+                            borderBottomColor: 'primary.dark', // Focused color
+                        },
+                    }),
+                }}
+                cancelButtonProps={{ sx: { ...theme.applyStyles('light', { color: 'primary.contrastText' }) } }}
             />
         );
     }
 
     return (
         <Tooltip title={t('search.title.search')}>
-            <IconButton onClick={() => updateSearchOpenState(true)}>
+            <IconButton onClick={() => updateSearchOpenState(true)} color="inherit">
                 <SearchIcon />
             </IconButton>
         </Tooltip>

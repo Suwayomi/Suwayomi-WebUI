@@ -96,7 +96,7 @@ export function Sources() {
         setAction(
             <>
                 <Tooltip title={t('search.title.global_search')}>
-                    <IconButton onClick={() => navigate('/sources/all/search/')} size="large">
+                    <IconButton onClick={() => navigate('/sources/all/search/')} size="large" color="inherit">
                         <TravelExploreIcon />
                     </IconButton>
                 </Tooltip>

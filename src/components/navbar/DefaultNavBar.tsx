@@ -25,6 +25,7 @@ import { useLocation } from 'react-router-dom';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import MenuIcon from '@mui/icons-material/Menu';
 import Stack from '@mui/material/Stack';
+import { useTheme } from '@mui/material/styles';
 import { NavbarItem } from '@/typings';
 import { NavBarContext } from '@/components/context/NavbarContext';
 import { useBackButton } from '@/util/useBackButton.ts';
@@ -76,6 +77,7 @@ export function DefaultNavBar() {
     const { title, action, override, isCollapsed, setIsCollapsed, setAppBarHeight, navBarWidth, setNavBarWidth } =
         useContext(NavBarContext);
 
+    const theme = useTheme();
     const { pathname } = useLocation();
     const handleBack = useBackButton();
 
@@ -123,9 +125,8 @@ export function DefaultNavBar() {
                     position: 'fixed',
                     marginLeft: actualNavBarWidth,
                     width: `calc(100% - ${actualNavBarWidth}px)`,
-                    zIndex: (theme) => theme.zIndex.drawer + 1,
+                    zIndex: theme.zIndex.drawer + 1,
                 }}
-                color="default"
             >
                 <Toolbar sx={{ position: 'relative' }}>
                     {!isMobileWidth && (
@@ -138,7 +139,7 @@ export function DefaultNavBar() {
                                 alignItems: 'center',
                             }}
                         >
-                            <IconButton aria-label="open drawer" onClick={() => setIsCollapsed(false)}>
+                            <IconButton aria-label="open drawer" onClick={() => setIsCollapsed(false)} color="inherit">
                                 <MenuIcon />
                             </IconButton>
                         </Stack>
@@ -159,6 +160,7 @@ export function DefaultNavBar() {
                                 size="large"
                                 aria-label="menu"
                                 onClick={handleBack}
+                                color="inherit"
                             >
                                 {getOptionForDirection(<ArrowBack />, <ArrowForwardIcon />)}
                             </IconButton>

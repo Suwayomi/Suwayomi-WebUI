@@ -7,12 +7,20 @@
  */
 
 import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
+import CircularProgress, { CircularProgressProps } from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
 
-export const Progress = ({ progress, showText = true }: { progress: number; showText?: boolean }) => (
+export const Progress = ({
+    progress,
+    showText = true,
+    progressProps = {},
+}: {
+    progress: number;
+    showText?: boolean;
+    progressProps?: CircularProgressProps;
+}) => (
     <Box sx={{ display: 'grid', placeItems: 'center', position: 'relative' }}>
-        <CircularProgress variant="determinate" value={progress} />
+        <CircularProgress {...progressProps} variant="determinate" value={progress} />
         {showText && (
             <Box sx={{ position: 'absolute' }}>
                 <Typography

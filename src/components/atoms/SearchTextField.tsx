@@ -7,19 +7,26 @@
  */
 
 import TextField, { TextFieldProps } from '@mui/material/TextField';
-import IconButton from '@mui/material/IconButton';
+import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import CancelIcon from '@mui/icons-material/Cancel';
 
-export const SearchTextField = ({ onCancel, ...textFieldProps }: TextFieldProps & { onCancel: () => void }) => (
+export const SearchTextField = ({
+    onCancel,
+    cancelButtonProps,
+    ...textFieldProps
+}: TextFieldProps & { onCancel: () => void; cancelButtonProps?: IconButtonProps }) => (
     <TextField
         {...textFieldProps}
         slotProps={{
             input: {
                 ...textFieldProps.InputProps,
+                sx: {
+                    color: 'inherit',
+                },
                 endAdornment: textFieldProps.InputProps?.endAdornment ?? (
                     <InputAdornment position="end">
-                        <IconButton onClick={() => onCancel()}>
+                        <IconButton {...cancelButtonProps} onClick={() => onCancel()}>
                             <CancelIcon />
                         </IconButton>
                     </InputAdornment>

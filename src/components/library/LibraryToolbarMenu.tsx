@@ -27,7 +27,7 @@ export const LibraryToolbarMenu: React.FC = () => {
     return (
         <>
             <Tooltip title={t('settings.title')}>
-                <IconButton onClick={() => setOpen(!open)} color={active ? 'warning' : 'default'}>
+                <IconButton onClick={() => setOpen(!open)} color={active ? 'warning' : 'inherit'}>
                     <FilterList />
                 </IconButton>
             </Tooltip>

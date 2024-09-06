@@ -24,7 +24,13 @@ export const SelectableCollectionSelectAll = ({
     return (
         <Tooltip title={t(!areAllItemsSelected ? 'global.button.select_all' : 'global.button.clear')}>
             <Checkbox
-                sx={{ padding: '8px' }}
+                sx={{
+                    padding: '8px',
+                    color: 'inherit',
+                    '&.Mui-checked': {
+                        color: 'inherit',
+                    },
+                }}
                 checked={areAllItemsSelected}
                 indeterminate={!areNoItemsSelected && !areAllItemsSelected}
                 onChange={(_, checked) => onChange(checked)}

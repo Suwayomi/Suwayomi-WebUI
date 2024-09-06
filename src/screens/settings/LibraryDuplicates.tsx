@@ -126,7 +126,7 @@ export const LibraryDuplicates = () => {
                 <PopupState variant="popover" popupId="library-dupliactes-settings">
                     {(popupState) => (
                         <>
-                            <IconButton {...bindTrigger(popupState)}>
+                            <IconButton {...bindTrigger(popupState)} color="inherit">
                                 <SettingsIcon />
                             </IconButton>
                             <Menu {...bindMenu(popupState)}>

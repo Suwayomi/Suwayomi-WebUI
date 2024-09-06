@@ -119,7 +119,7 @@ export const TrackerSearch = ({
                                     <PopupState variant="popover" popupId="tracker-search-info">
                                         {(popupState) => (
                                             <>
-                                                <IconButton {...bindTrigger(popupState)}>
+                                                <IconButton {...bindTrigger(popupState)} color="inherit">
                                                     <InfoIcon />
                                                 </IconButton>
                                                 <Popover

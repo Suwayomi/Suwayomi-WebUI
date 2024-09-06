@@ -132,6 +132,7 @@ export function UpdateChecker({
                                 : { onClick: () => onClick() })}
                             onMouseEnter={() => setIsHovered(true)}
                             onMouseLeave={() => setIsHovered(false)}
+                            color="inherit"
                         >
                             {!isRunning ? (
                                 <RefreshIcon />
@@ -139,7 +140,11 @@ export function UpdateChecker({
                                 <>
                                     <ClearIcon sx={{ opacity: Number(isTouchDevice || isHovered) }} />
                                     <Stack sx={{ position: 'absolute' }}>
-                                        <Progress progress={progress} showText={!isTouchDevice && !isHovered} />
+                                        <Progress
+                                            progress={progress}
+                                            showText={!isTouchDevice && !isHovered}
+                                            progressProps={{ color: 'inherit' }}
+                                        />
                                     </Stack>
                                 </>
                             )}

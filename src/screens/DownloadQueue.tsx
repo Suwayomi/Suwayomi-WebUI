@@ -139,13 +139,13 @@ export const DownloadQueue: React.FC = () => {
         setAction(
             <>
                 <Tooltip title={t('download.queue.label.delete_all')}>
-                    <IconButton onClick={clearQueue} size="large">
+                    <IconButton onClick={clearQueue} size="large" color="inherit">
                         <DeleteSweepIcon />
                     </IconButton>
                 </Tooltip>
 
                 <Tooltip title={t(status === 'STOPPED' ? 'global.button.start' : 'global.button.stop')}>
-                    <IconButton onClick={toggleQueueStatus} size="large" disabled={isQueueEmpty}>
+                    <IconButton onClick={toggleQueueStatus} size="large" disabled={isQueueEmpty} color="inherit">
                         {status === 'STOPPED' ? <PlayArrowIcon /> : <PauseIcon />}
                     </IconButton>
                 </Tooltip>

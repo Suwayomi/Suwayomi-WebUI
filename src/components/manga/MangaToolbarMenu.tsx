@@ -56,6 +56,7 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                                 onRefresh();
                             }}
                             disabled={refreshing}
+                            color="inherit"
                         >
                             <Refresh />
                         </IconButton>
@@ -68,7 +69,7 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                                     state={{ mangaTitle: manga.title }}
                                     style={{ textDecoration: 'none', color: 'inherit' }}
                                 >
-                                    <IconButton>
+                                    <IconButton color="inherit">
                                         <SyncAltIcon />
                                     </IconButton>
                                 </Link>
@@ -78,6 +79,7 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                                     onClick={() => {
                                         openCategorySelect(true);
                                     }}
+                                    color="inherit"
                                 >
                                     <Label />
                                 </IconButton>
@@ -94,6 +96,7 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                         aria-haspopup="true"
                         aria-expanded={open ? 'true' : undefined}
                         onClick={(e) => setAnchorEl(e.currentTarget)}
+                        color="inherit"
                     >
                         <MoreHoriz />
                     </IconButton>

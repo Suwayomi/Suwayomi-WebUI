@@ -6,10 +6,10 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import Chip from '@mui/material/Chip';
+import Chip, { ChipProps } from '@mui/material/Chip';
 import Tab from '@mui/material/Tab';
 import { styled } from '@mui/material/styles';
-import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useQueryParam, NumberParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
@@ -45,8 +45,8 @@ const TitleWithSizeTag = styled('span')({
     alignItems: 'center',
 });
 
-const TitleSizeTag = (props: React.ComponentProps<typeof Chip>) => (
-    <Chip {...props} size="small" sx={{ marginLeft: '5px' }} />
+const TitleSizeTag = ({ sx, ...props }: ChipProps) => (
+    <Chip {...props} size="small" sx={{ ...sx, marginLeft: '5px' }} />
 );
 
 export function Library() {
@@ -152,7 +152,7 @@ export function Library() {
         const navBarTitle = (
             <TitleWithSizeTag>
                 {title}
-                {options.showTabSize && <TitleSizeTag label={librarySize} />}
+                {options.showTabSize && <TitleSizeTag sx={{ color: 'inherit' }} label={librarySize} />}
             </TitleWithSizeTag>
         );
         setTitle(navBarTitle, title);

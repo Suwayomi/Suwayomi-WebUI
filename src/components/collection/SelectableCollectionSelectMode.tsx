@@ -39,7 +39,13 @@ export const SelectableCollectionSelectMode = ({
             <Tooltip title={t(!isActive ? 'global.button.select_all' : 'global.button.cancel')}>
                 <Checkbox
                     checkedIcon={<ClearIcon />}
-                    sx={{ padding: '8px' }}
+                    sx={{
+                        padding: '8px',
+                        color: 'inherit',
+                        '&.Mui-checked': {
+                            color: 'inherit',
+                        },
+                    }}
                     checked={isActive}
                     onChange={(_, checked) => onModeChange(checked)}
                 />
