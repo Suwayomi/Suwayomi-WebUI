@@ -217,7 +217,7 @@ const DescriptionGenre = ({
                 }}
             >
                 {genres.map((genre) => (
-                    <Chip label={genre} variant="outlined" />
+                    <Chip key={genre} label={genre} variant="outlined" />
                 ))}
             </Stack>
         </>
