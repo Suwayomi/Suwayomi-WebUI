@@ -24,7 +24,7 @@ import { ThemeModeContext } from '@/components/context/ThemeModeContext.tsx';
 import { AppTheme, loadThemeFonts } from '@/lib/ui/AppThemes.ts';
 import { createTheme } from '@/theme.ts';
 import { ThemeCreationDialog } from '@/screens/settings/appearance/theme/CreateThemeDialog.tsx';
-import { makeToast } from '@/components/util/Toast.tsx';
+import { makeToast } from '@/components/util/Toast';
 
 const ThemePreviewBadge = styled(Box)(() => ({
     width: '15px',

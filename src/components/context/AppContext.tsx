@@ -16,6 +16,7 @@ import { CacheProvider, EmotionCache } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { prefixer } from 'stylis';
 import rtlPlugin from 'stylis-plugin-rtl';
+import { SnackbarProvider } from 'notistack';
 import { createAndSetTheme } from '@/theme';
 import { useLocalStorage } from '@/util/useStorage.tsx';
 import { ThemeMode, ThemeModeContext } from '@/components/context/ThemeModeContext.tsx';
@@ -101,7 +102,7 @@ export const AppContext: React.FC<Props> = ({ children }) => {
                                 <LibraryOptionsContextProvider>
                                     <NavBarContextProvider>
                                         <ActiveDevice.Provider value={activeDeviceContext}>
-                                            {children}
+                                            <SnackbarProvider>{children}</SnackbarProvider>
                                         </ActiveDevice.Provider>
                                     </NavBarContextProvider>
                                 </LibraryOptionsContextProvider>

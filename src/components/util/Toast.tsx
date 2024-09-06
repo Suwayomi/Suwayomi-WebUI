@@ -6,69 +6,14 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import React from 'react';
-import Slide, { SlideProps } from '@mui/material/Slide';
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert, { AlertColor as Severity } from '@mui/material/Alert';
-import { createRoot, Root } from 'react-dom/client';
+import { enqueueSnackbar, OptionsObject, SnackbarKey } from 'notistack';
 
-function removeToast(root: Root) {
-    root.unmount();
-}
+export function makeToast(message: string, severity?: OptionsObject['variant']): SnackbarKey;
+export function makeToast(message: string, options?: OptionsObject): SnackbarKey;
+export function makeToast(message: string, options: OptionsObject['variant'] | OptionsObject = 'default'): SnackbarKey {
+    if (typeof options === 'string') {
+        return enqueueSnackbar(message, { variant: options });
+    }
 
-function Transition(props: SlideProps) {
-    return <Slide {...props} direction="up" />;
-}
-
-interface IToastProps {
-    message: string;
-    severity: Severity;
-}
-
-export function Toast(props: IToastProps) {
-    const { message, severity } = props;
-    const [open, setOpen] = React.useState(true);
-
-    const handleClose = () => {
-        setOpen(false);
-    };
-
-    return (
-        <Snackbar
-            open={open}
-            onClose={handleClose}
-            autoHideDuration={3000}
-            TransitionComponent={Transition}
-            message="I love snacks"
-        >
-            <MuiAlert elevation={6} variant="filled" onClose={handleClose} severity={severity}>
-                {message}
-            </MuiAlert>
-        </Snackbar>
-    );
-}
-
-export function makeToast(message: string, severity: Severity) {
-    const id = Math.floor(Math.random() * 1000);
-    const container = document.createElement('div');
-    container.id = `alert-${id}`;
-
-    document.body.appendChild(container);
-
-    const root = createRoot(container!);
-    root.render(<Toast message={message} severity={severity} />);
-
-    setTimeout(() => removeToast(root), 3500);
-}
-
-export function makeToaster([toasts, setToasts]: [React.ReactElement[], (arg0: React.ReactElement[]) => void]): [
-    React.ReactElement[],
-    (message: string, severity: Severity) => void,
-] {
-    return [
-        toasts,
-        (message: string, severity: Severity) => {
-            setToasts([<Toast key={Math.floor(Math.random() * 1000) + 1} message={message} severity={severity} />]);
-        },
-    ];
+    return enqueueSnackbar(message, options);
 }
