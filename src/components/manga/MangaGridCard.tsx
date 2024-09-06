@@ -187,7 +187,7 @@ export const MangaGridCard = ({
                             <TypographyMaxLines
                                 component="h3"
                                 sx={{
-                                    color: 'text.primary',
+                                    color: (theme) => (selected ? theme.palette.primary.contrastText : 'text.primary'),
                                     height: '3rem',
                                     pt: 0.5,
                                 }}
