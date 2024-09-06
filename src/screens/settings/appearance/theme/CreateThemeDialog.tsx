@@ -189,7 +189,7 @@ export const ThemeCreationDialog = ({
                     {t('global.button.cancel')}
                 </Button>
                 <Button
-                    disabled={invalidTheme || invalidName || isCreating || !didThemeChange}
+                    disabled={invalidTheme || invalidName || isCreating || !didThemeChange || !theme.id.length}
                     onClick={(e) => {
                         makeToast(t(dialogModeToTranslationKey[mode].action, { theme: theme.getName() }), 'info');
 
