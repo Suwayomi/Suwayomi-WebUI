@@ -24,6 +24,22 @@ import { StrictTypedTypePolicies } from '@/lib/graphql/generated/apollo-helpers.
 
 /* eslint-disable no-underscore-dangle */
 const typePolicies: StrictTypedTypePolicies = {
+    MangaType: {
+        fields: {
+            trackRecords: {
+                merge(existing, incoming) {
+                    const nodes = incoming.nodes ?? existing?.nodes;
+
+                    return {
+                        ...existing,
+                        ...incoming,
+                        totalCount: nodes?.length ?? existing?.totalCount ?? incoming.totalCount,
+                        nodes,
+                    };
+                },
+            },
+        },
+    },
     GlobalMetaType: { keyFields: ['key'] },
     ExtensionType: { keyFields: ['pkgName'] },
     AboutServerPayload: { keyFields: [] },
