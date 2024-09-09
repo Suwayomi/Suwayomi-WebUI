@@ -75,13 +75,45 @@ export const createTheme = (
 
     const suwayomiTheme = createMuiTheme(colorTheme, {
         components: {
+            ...appTheme.muiTheme.components,
             MuiUseMediaQuery: {
                 defaultProps: {
                     noSsr: true,
                 },
             },
             MuiCssBaseline: {
-                styleOverrides: `
+                ...appTheme.muiTheme.components?.MuiCssBaseline,
+                styleOverrides:
+                    typeof appTheme.muiTheme.components?.MuiCssBaseline?.styleOverrides === 'object'
+                        ? {
+                              ...appTheme.muiTheme.components?.MuiCssBaseline?.styleOverrides,
+                              '*::-webkit-scrollbar': {
+                                  width: `${SCROLLBAR_SIZE}px`,
+                                  height: `${SCROLLBAR_SIZE}px`,
+                                  // @ts-ignore - '*::-webkit-scrollbar' is a valid key
+                                  ...appTheme.muiTheme.components?.MuiCssBaseline?.styleOverrides?.[
+                                      '*::-webkit-scrollbar'
+                                  ],
+                              },
+                              '*::-webkit-scrollbar-thumb': {
+                                  border: '4px solid rgba(0, 0, 0, 0)',
+                                  backgroundClip: 'padding-box',
+                                  borderRadius: '9999px',
+                                  backgroundColor: `${colorTheme.palette.primary[isDarkMode ? 'dark' : 'light']}`,
+                                  // @ts-ignore - '*::-webkit-scrollbar-thumb' is a valid key
+                                  ...appTheme.muiTheme.components?.MuiCssBaseline?.styleOverrides?.[
+                                      '*::-webkit-scrollbar-thumb'
+                                  ],
+                              },
+                              '*::-webkit-scrollbar-thumb:hover': {
+                                  borderWidth: '2px',
+                                  // @ts-ignore - '*::-webkit-scrollbar-thumb:hover' is a valid key
+                                  ...appTheme.muiTheme.components?.MuiCssBaseline?.styleOverrides?.[
+                                      '*::-webkit-scrollbar-thumb:hover'
+                                  ],
+                              },
+                          }
+                        : `
                         *::-webkit-scrollbar {
                           width: ${SCROLLBAR_SIZE}px;
                           height: ${SCROLLBAR_SIZE}px;
@@ -95,6 +127,8 @@ export const createTheme = (
                         *::-webkit-scrollbar-thumb:hover {
                           border-width: 2px;
                         }
+                        
+                        ${appTheme.muiTheme.components?.MuiCssBaseline?.styleOverrides ?? ''}
                     `,
             },
         },
