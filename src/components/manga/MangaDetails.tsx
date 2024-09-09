@@ -9,7 +9,7 @@
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { styled, useTheme } from '@mui/material/styles';
-import { ComponentProps, useEffect, useMemo } from 'react';
+import { ComponentProps, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { t as translate } from 'i18next';
 import Link from '@mui/material/Link';
@@ -103,6 +103,7 @@ const Thumbnail = ({ manga }: { manga: Partial<MangaThumbnailInfo> }) => {
     const theme = useTheme();
 
     const popupState = usePopupState({ variant: 'popover', popupId: 'manga-thumbnail-fullscreen' });
+    const [isImageReady, setIsImageReady] = useState(false);
 
     return (
         <>
@@ -125,6 +126,7 @@ const Thumbnail = ({ manga }: { manga: Partial<MangaThumbnailInfo> }) => {
                 <SpinnerImage
                     src={Mangas.getThumbnailUrl(manga)}
                     alt="Manga Thumbnail"
+                    onImageLoad={() => setIsImageReady(true)}
                     spinnerStyle={{
                         borderRadius: 0.5,
                         width: '150px',
@@ -139,25 +141,27 @@ const Thumbnail = ({ manga }: { manga: Partial<MangaThumbnailInfo> }) => {
                         },
                     }}
                 />
-                <Stack
-                    {...bindTrigger(popupState)}
-                    sx={{
-                        position: 'absolute',
-                        top: 0,
-                        bottom: 0,
-                        width: '100%',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        opacity: 0,
-                        '&:hover': {
-                            background: 'rgba(0, 0, 0, 0.4)',
-                            cursor: 'pointer',
-                            opacity: 1,
-                        },
-                    }}
-                >
-                    <OpenInFullIcon fontSize="large" color="primary" />
-                </Stack>
+                {isImageReady && (
+                    <Stack
+                        {...bindTrigger(popupState)}
+                        sx={{
+                            position: 'absolute',
+                            top: 0,
+                            bottom: 0,
+                            width: '100%',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            opacity: 0,
+                            '&:hover': {
+                                background: 'rgba(0, 0, 0, 0.4)',
+                                cursor: 'pointer',
+                                opacity: 1,
+                            },
+                        }}
+                    >
+                        <OpenInFullIcon fontSize="large" color="primary" />
+                    </Stack>
+                )}
             </Stack>
             <Modal {...bindPopover(popupState)} sx={{ outline: 0 }}>
                 <Stack
