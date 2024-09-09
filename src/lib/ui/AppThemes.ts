@@ -63,10 +63,10 @@ const themes = {
         muiTheme: {
             palette: {
                 primary: {
-                    main: '#f1a886',
+                    main: '#E9A7A1',
                 },
                 secondary: {
-                    main: '#86cff1',
+                    main: '#A1E3E9',
                 },
             },
         },
@@ -105,10 +105,10 @@ const themes = {
         muiTheme: {
             palette: {
                 primary: {
-                    main: '#ff0033',
+                    main: '#DC143C',
                 },
                 secondary: {
-                    main: '#00ffcc',
+                    main: '#14DCB4',
                 },
             },
         },
@@ -119,10 +119,10 @@ const themes = {
         muiTheme: {
             palette: {
                 primary: {
-                    main: '#9defc3',
+                    main: '#5CE6A1',
                 },
                 secondary: {
-                    main: '#ef9dc9',
+                    main: '#E65CA1',
                 },
             },
         },
