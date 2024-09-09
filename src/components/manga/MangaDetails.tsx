@@ -183,31 +183,36 @@ const DescriptionGenre = ({
 }) => {
     const [isCollapsed, setIsCollapsed] = useLocalStorage('isDescriptionGenreCollapsed', true);
 
+    const collapsedSize = description ? DESCRIPTION_COLLAPSED_SIZE : 0;
+
     return (
         <>
-            <Stack sx={{ position: 'relative' }}>
-                <Collapse collapsedSize={DESCRIPTION_COLLAPSED_SIZE} in={!isCollapsed}>
-                    <Typography style={{ whiteSpace: 'pre-line', textAlign: 'justify', textJustify: 'inter-word' }}>
-                        {description}
-                    </Typography>
-                </Collapse>
-                <Stack
-                    onClick={() => setIsCollapsed(!isCollapsed)}
-                    sx={{
-                        pt: 1,
-                        alignItems: 'center',
-                        cursor: 'pointer',
-                        position: isCollapsed ? 'absolute' : null,
-                        width: '100%',
-                        bottom: 0,
-                        background: (theme) => `linear-gradient(transparent 1px, ${theme.palette.background.default})`,
-                    }}
-                >
-                    <IconButton sx={{ color: (theme) => (theme.palette.mode === 'light' ? 'black' : 'text') }}>
-                        {isCollapsed ? <ExpandMoreIcon /> : <ExpandLessIcon />}
-                    </IconButton>
+            {description && (
+                <Stack sx={{ position: 'relative' }}>
+                    <Collapse collapsedSize={collapsedSize} in={!isCollapsed}>
+                        <Typography style={{ whiteSpace: 'pre-line', textAlign: 'justify', textJustify: 'inter-word' }}>
+                            {description}
+                        </Typography>
+                    </Collapse>
+                    <Stack
+                        onClick={() => setIsCollapsed(!isCollapsed)}
+                        sx={{
+                            pt: 1,
+                            alignItems: 'center',
+                            cursor: 'pointer',
+                            position: isCollapsed ? 'absolute' : null,
+                            width: '100%',
+                            bottom: 0,
+                            background: (theme) =>
+                                `linear-gradient(transparent 1px, ${theme.palette.background.default})`,
+                        }}
+                    >
+                        <IconButton sx={{ color: (theme) => (theme.palette.mode === 'light' ? 'black' : 'text') }}>
+                            {isCollapsed ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+                        </IconButton>
+                    </Stack>
                 </Stack>
-            </Stack>
+            )}
             <Stack
                 sx={{
                     flexDirection: 'row',
