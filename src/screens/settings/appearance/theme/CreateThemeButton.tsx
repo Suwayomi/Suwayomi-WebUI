@@ -32,7 +32,7 @@ export const CreateThemeButton = () => {
                     size="large"
                     {...bindTrigger(popupState)}
                 >
-                    <AddCircleIcon />
+                    <AddCircleIcon fontSize="large" />
                 </Button>
                 <Tooltip title={t('settings.appearance.theme.create.title')} placement="top">
                     <TypographyMaxLines sx={{ maxWidth: '100%' }}>
