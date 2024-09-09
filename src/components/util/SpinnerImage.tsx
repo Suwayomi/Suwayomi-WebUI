@@ -43,11 +43,11 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
     const [isLoading, setIsLoading] = useState<boolean | undefined>(undefined);
     const [hasError, setHasError] = useState(false);
 
-    const updateImageState = (loading: boolean, error: boolean = false) => {
+    const updateImageState = (loading: boolean, error: boolean = false, aborted: boolean = false) => {
         setIsLoading(loading);
         setHasError(error);
 
-        if (!loading && !error) {
+        if (!loading && !error && !aborted) {
             onImageLoad?.();
         }
     };
@@ -87,7 +87,7 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
             } catch (e) {
                 const wasAborted =
                     e instanceof Error && (e.name === 'AbortError' || e.message === 'Component was unmounted');
-                updateImageState(false, !wasAborted);
+                updateImageState(false, !wasAborted, wasAborted);
             }
         };
 
