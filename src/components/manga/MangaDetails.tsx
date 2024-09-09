@@ -186,9 +186,18 @@ const DescriptionGenre = ({
 }: {
     manga: Pick<MangaType, 'description' | 'genre'>;
 }) => {
+    const [descriptionElement, setDescriptionElement] = useState<HTMLSpanElement | null>(null);
+    const [descriptionHeight, setDescriptionHeight] = useState<number>();
+    useResizeObserver(
+        descriptionElement,
+        useCallback(() => setDescriptionHeight(descriptionElement?.clientHeight), [descriptionElement]),
+    );
+
     const [isCollapsed, setIsCollapsed] = useLocalStorage('isDescriptionGenreCollapsed', true);
 
-    const collapsedSize = description ? DESCRIPTION_COLLAPSED_SIZE : 0;
+    const collapsedSize = description
+        ? Math.min(DESCRIPTION_COLLAPSED_SIZE, descriptionHeight ?? DESCRIPTION_COLLAPSED_SIZE)
+        : 0;
     const genres = useMemo(() => mangaGenres.filter(Boolean), [mangaGenres]);
 
     return (
@@ -196,7 +205,10 @@ const DescriptionGenre = ({
             {description && (
                 <Stack sx={{ position: 'relative' }}>
                     <Collapse collapsedSize={collapsedSize} in={!isCollapsed}>
-                        <Typography style={{ whiteSpace: 'pre-line', textAlign: 'justify', textJustify: 'inter-word' }}>
+                        <Typography
+                            ref={setDescriptionElement}
+                            style={{ whiteSpace: 'pre-line', textAlign: 'justify', textJustify: 'inter-word' }}
+                        >
                             {description}
                         </Typography>
                     </Collapse>
