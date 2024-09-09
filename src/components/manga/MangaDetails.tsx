@@ -9,7 +9,7 @@
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { styled, useTheme } from '@mui/material/styles';
-import { ComponentProps, useEffect, useMemo, useState } from 'react';
+import { ComponentProps, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { t as translate } from 'i18next';
 import Link from '@mui/material/Link';
@@ -36,6 +36,7 @@ import { Metadata as BaseMetadata } from '@/components/atoms/Metadata.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { MangaType, SourceType } from '@/lib/graphql/generated/graphql.ts';
 import { useLocalStorage } from '@/util/useStorage.tsx';
+import { useResizeObserver } from '@/util/useResizeObserver.tsx';
 
 const DetailsWrapper = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -103,43 +104,43 @@ const Thumbnail = ({ manga }: { manga: Partial<MangaThumbnailInfo> }) => {
     const theme = useTheme();
 
     const popupState = usePopupState({ variant: 'popover', popupId: 'manga-thumbnail-fullscreen' });
+
+    const [imageHeight, setImageHeight] = useState<number>();
+    const [imageElement, setImageElement] = useState<HTMLImageElement | null>(null);
+    useResizeObserver(
+        imageElement,
+        useCallback(() => setImageHeight(imageElement?.clientHeight), [imageElement]),
+    );
+
     const [isImageReady, setIsImageReady] = useState(false);
+    const isImageHeightReady = isImageReady && !!imageHeight;
 
     return (
         <>
             <Stack
                 sx={{
                     position: 'relative',
-                    '& img': {
-                        borderRadius: 0.5,
-                        width: '150px',
-                        height: 'auto',
-                        [theme.breakpoints.up('lg')]: {
-                            width: '200px',
-                        },
-                        [theme.breakpoints.up('xl')]: {
-                            width: '300px',
-                        },
+                    borderRadius: 1,
+                    overflow: 'hidden',
+                    backgroundColor: 'background.paper',
+                    width: '150px',
+                    height: `${isImageHeightReady ? imageHeight : 225}px`,
+                    flexShrink: 0,
+                    [theme.breakpoints.up('lg')]: {
+                        width: '200px',
+                        height: `${isImageHeightReady ? imageHeight : 300}px`,
+                    },
+                    [theme.breakpoints.up('xl')]: {
+                        width: '300px',
+                        height: `${isImageHeightReady ? imageHeight : 450}px`,
                     },
                 }}
             >
                 <SpinnerImage
+                    ref={setImageElement}
                     src={Mangas.getThumbnailUrl(manga)}
                     alt="Manga Thumbnail"
                     onImageLoad={() => setIsImageReady(true)}
-                    spinnerStyle={{
-                        borderRadius: 0.5,
-                        width: '150px',
-                        height: '225px',
-                        [theme.breakpoints.up('lg')]: {
-                            width: '200px',
-                            height: '300px',
-                        },
-                        [theme.breakpoints.up('xl')]: {
-                            width: '300px',
-                            height: '450px',
-                        },
-                    }}
                 />
                 {isImageReady && (
                     <Stack
