@@ -57,8 +57,8 @@ export const createTheme = (
         default: darken(baseTheme.palette.primary.main, 0.85),
     };
     const backgroundLight: Palette['background'] = {
-        paper: lighten(baseTheme.palette.primary.dark, 0.75),
-        default: lighten(baseTheme.palette.primary.dark, 0.85),
+        paper: lighten(baseTheme.palette.primary.dark, 0.8),
+        default: lighten(baseTheme.palette.primary.dark, 0.9),
     };
     const backgroundThemeMode = isDarkMode ? backgroundDark : backgroundLight;
     const automaticBackground = setPureBlackMode ? backgroundTrueBlack : backgroundThemeMode;
