@@ -104,7 +104,15 @@ export const DesktopSideBar = ({ navBarItems }: { navBarItems: NavbarItem[] }) =
     );
 
     return (
-        <Drawer variant="permanent" sx={{ width: navBarWidth }}>
+        <Drawer
+            variant="permanent"
+            sx={{
+                width: navBarWidth,
+                '& .MuiDrawer-paper': {
+                    zIndex: (theme) => theme.zIndex.drawer - 1,
+                },
+            }}
+        >
             <Box
                 ref={ref}
                 sx={{

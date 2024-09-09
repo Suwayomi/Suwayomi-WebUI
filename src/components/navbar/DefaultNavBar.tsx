@@ -125,7 +125,7 @@ export function DefaultNavBar() {
                     position: 'fixed',
                     marginLeft: actualNavBarWidth,
                     width: `calc(100% - ${actualNavBarWidth}px)`,
-                    zIndex: theme.zIndex.drawer + 1,
+                    zIndex: theme.zIndex.drawer,
                 }}
             >
                 <Toolbar sx={{ position: 'relative' }}>
