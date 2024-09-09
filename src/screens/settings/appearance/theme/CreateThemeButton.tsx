@@ -7,12 +7,13 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { bindDialog, bindTrigger, usePopupState } from 'material-ui-popup-state/hooks';
+import Tooltip from '@mui/material/Tooltip';
 import { ThemeCreationDialog } from '@/screens/settings/appearance/theme/CreateThemeDialog.tsx';
+import { TypographyMaxLines } from '@/components/atoms/TypographyMaxLines.tsx';
 
 export const CreateThemeButton = () => {
     const { t } = useTranslation();
@@ -21,11 +22,10 @@ export const CreateThemeButton = () => {
 
     return (
         <>
-            <Stack sx={{ alignItems: 'center', gap: 1 }}>
+            <Stack sx={{ alignItems: 'center', gap: 1, minWidth: '150px', maxWidth: '150px' }}>
                 <Button
                     sx={{
-                        minWidth: '150px',
-                        maxWidth: '150px',
+                        width: '100%',
                         height: '225px',
                     }}
                     variant="contained"
@@ -34,7 +34,11 @@ export const CreateThemeButton = () => {
                 >
                     <AddCircleIcon />
                 </Button>
-                <Typography>{t('settings.appearance.theme.create.title')}</Typography>
+                <Tooltip title={t('settings.appearance.theme.create.title')} placement="top">
+                    <TypographyMaxLines sx={{ maxWidth: '100%' }}>
+                        {t('settings.appearance.theme.create.title')}
+                    </TypographyMaxLines>
+                </Tooltip>
             </Stack>
             {popupState.isOpen && <ThemeCreationDialog bindDialogProps={bindDialog(popupState)} mode="create" />}
         </>

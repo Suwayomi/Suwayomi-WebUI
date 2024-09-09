@@ -60,7 +60,9 @@ export const ThemeList = () => {
     }
 
     return (
-        <Stack sx={{ flexDirection: 'row', flexWrap: 'no-wrap', overflowX: 'auto', gap: 1, mx: 2 }}>
+        <Stack
+            sx={{ flexDirection: 'row', flexWrap: 'no-wrap', alignItems: 'start', overflowX: 'auto', gap: 1, mx: 2 }}
+        >
             <CreateThemeButton />
             {allThemes.map((theme) => (
                 <ThemePreview

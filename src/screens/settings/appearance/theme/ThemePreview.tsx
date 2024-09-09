@@ -9,7 +9,6 @@
 import { useTranslation } from 'react-i18next';
 import { useContext, useMemo } from 'react';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import { styled, ThemeProvider } from '@mui/material/styles';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -25,6 +24,7 @@ import { AppTheme, hasMissingFonts, loadThemeFonts } from '@/lib/ui/AppThemes.ts
 import { createTheme } from '@/theme.ts';
 import { ThemeCreationDialog } from '@/screens/settings/appearance/theme/CreateThemeDialog.tsx';
 import { makeToast } from '@/components/util/Toast';
+import { TypographyMaxLines } from '@/components/atoms/TypographyMaxLines.tsx';
 
 const ThemePreviewBadge = styled(Box)(() => ({
     width: '15px',
@@ -208,7 +208,9 @@ export const ThemePreview = ({ theme, onDelete }: { theme: AppTheme; onDelete: (
                         </CardActionArea>
                     </Card>
                 </ThemeProvider>
-                <Typography>{getName()}</Typography>
+                <Tooltip title={getName()} placement="top">
+                    <TypographyMaxLines sx={{ maxWidth: '100%' }}>{getName()}</TypographyMaxLines>
+                </Tooltip>
             </Stack>
             <ThemeCreationDialog bindDialogProps={bindDialog(popupState)} mode="edit" appTheme={theme} />
         </>

@@ -21,4 +21,5 @@ export const TypographyMaxLines = styled(Typography, {
     WebkitBoxOrient: 'vertical',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
+    overflowWrap: 'break-word',
 })) as React.FC<TypographyProps & { lines?: number }>;
