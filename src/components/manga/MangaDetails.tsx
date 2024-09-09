@@ -9,7 +9,7 @@
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { styled, useTheme } from '@mui/material/styles';
-import { ComponentProps, useEffect } from 'react';
+import { ComponentProps, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { t as translate } from 'i18next';
 import Link from '@mui/material/Link';
@@ -177,13 +177,14 @@ const Thumbnail = ({ manga }: { manga: Partial<MangaThumbnailInfo> }) => {
 
 const DESCRIPTION_COLLAPSED_SIZE = 75;
 const DescriptionGenre = ({
-    manga: { description, genre: genres },
+    manga: { description, genre: mangaGenres },
 }: {
     manga: Pick<MangaType, 'description' | 'genre'>;
 }) => {
     const [isCollapsed, setIsCollapsed] = useLocalStorage('isDescriptionGenreCollapsed', true);
 
     const collapsedSize = description ? DESCRIPTION_COLLAPSED_SIZE : 0;
+    const genres = useMemo(() => mangaGenres.filter(Boolean), [mangaGenres]);
 
     return (
         <>
