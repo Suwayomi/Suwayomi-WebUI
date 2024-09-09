@@ -141,6 +141,48 @@ const themes = {
             },
         },
     },
+    'bright pink': {
+        isCustom: false,
+        getName: () => translate('settings.appearance.theme.themes.bright_pink'),
+        muiTheme: {
+            palette: {
+                primary: {
+                    main: '#FF007F',
+                },
+                secondary: {
+                    main: '#00FF80',
+                },
+            },
+        },
+    },
+    veronica: {
+        isCustom: false,
+        getName: () => translate('settings.appearance.theme.themes.veronica'),
+        muiTheme: {
+            palette: {
+                primary: {
+                    main: '#A020F0',
+                },
+                secondary: {
+                    main: '#70F020',
+                },
+            },
+        },
+    },
+    'tree frog green': {
+        isCustom: false,
+        getName: () => translate('settings.appearance.theme.themes.tree_frog_green'),
+        muiTheme: {
+            palette: {
+                primary: {
+                    main: '#8ace31',
+                },
+                secondary: {
+                    main: '#7531CE',
+                },
+            },
+        },
+    },
 } as const satisfies Record<string, Theme>;
 
 export type AppThemes = keyof typeof themes | string;

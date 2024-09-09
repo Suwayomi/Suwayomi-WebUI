@@ -858,14 +858,17 @@
           "success": "Selected theme"
         },
         "themes": {
+          "bright_pink": "Bright Pink",
           "crimson": "Crimson",
           "dune": "Dune",
-          "forest_dew": "Forest dew",
+          "forest_dew": "Forest Dew",
           "lavender": "Lavender",
           "minty_miracles": "Minty Miracles",
-          "mountain_sunset": "Mountain sunset",
-          "orange_juice": "Orange juice",
-          "rosegold": "Rosegold"
+          "mountain_sunset": "Mountain Sunset",
+          "orange_juice": "Orange Juice",
+          "rosegold": "Rosegold",
+          "tree_frog_green": "Tree Frog Green",
+          "veronica": "Veronica"
         },
         "title": "Theme"
       },
