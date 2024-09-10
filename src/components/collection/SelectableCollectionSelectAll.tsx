@@ -27,7 +27,7 @@ export const SelectableCollectionSelectAll = ({
                 sx={{
                     padding: '8px',
                     color: 'inherit',
-                    '&.Mui-checked': {
+                    '&.Mui-checked, &.MuiCheckbox-indeterminate': {
                         color: 'inherit',
                     },
                 }}
