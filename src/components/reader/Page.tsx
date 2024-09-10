@@ -98,7 +98,7 @@ export const Page = forwardRef((props: IProps, ref: any) => {
                         : isHorizontalReaderType(settings.readerType)
                           ? '50vw'
                           : 'calc(100% * 0.5)',
-                    backgroundColor: '#525252',
+                    backgroundColor: 'background.paper',
                 }}
                 imgStyle={imgStyle}
             />
