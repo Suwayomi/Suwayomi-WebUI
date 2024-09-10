@@ -37,6 +37,7 @@ import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts
 import { MangaType, SourceType } from '@/lib/graphql/generated/graphql.ts';
 import { useLocalStorage } from '@/util/useStorage.tsx';
 import { useResizeObserver } from '@/util/useResizeObserver.tsx';
+import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 
 const DetailsWrapper = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -50,7 +51,29 @@ const DetailsWrapper = styled('div')(({ theme }) => ({
     },
 }));
 
-const TopContentWrapper = styled('div')(() => ({}));
+const TopContentWrapper = styled('div', {
+    shouldForwardProp: (prop) => !['url', 'mangaThumbnailBackdrop'].includes(prop as string),
+})<{
+    url: string;
+    mangaThumbnailBackdrop: boolean;
+}>(({ theme, url, mangaThumbnailBackdrop }) => ({
+    position: 'relative',
+    backgroundImage: mangaThumbnailBackdrop ? `url(${url})` : undefined,
+    backgroundRepeat: mangaThumbnailBackdrop ? 'no-repeat' : undefined,
+    backgroundSize: mangaThumbnailBackdrop ? 'cover' : undefined,
+    borderRadius: mangaThumbnailBackdrop ? theme.shape.borderRadius : undefined,
+    '&::before': mangaThumbnailBackdrop && {
+        position: 'absolute',
+        display: 'inline-block',
+        content: '""',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        background: `linear-gradient(to top, ${theme.palette.background.default}, transparent 100%, transparent 1px),linear-gradient(to right, ${theme.palette.background.default}, transparent 50%, transparent 1px),linear-gradient(to bottom, ${theme.palette.background.default}, transparent 50%, transparent 1px),linear-gradient(to left, ${theme.palette.background.default}, transparent 50%, transparent 1px)`,
+        backdropFilter: 'blur(4.5px) brightness(0.75)',
+    },
+}));
 
 const ThumbnailMetadataWrapper = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -58,6 +81,7 @@ const ThumbnailMetadataWrapper = styled('div')(({ theme }) => ({
 }));
 
 const MetadataContainer = styled('div')(({ theme }) => ({
+    zIndex: 1,
     marginLeft: theme.spacing(1),
 }));
 
@@ -261,6 +285,10 @@ export const MangaDetails = ({
 }) => {
     const { t } = useTranslation();
 
+    const {
+        settings: { mangaThumbnailBackdrop },
+    } = useMetadataServerSettings();
+
     useEffect(() => {
         if (!manga.source) {
             makeToast(translate('source.error.label.source_not_found'), 'error');
@@ -281,7 +309,7 @@ export const MangaDetails = ({
     return (
         <>
             <DetailsWrapper>
-                <TopContentWrapper>
+                <TopContentWrapper url={Mangas.getThumbnailUrl(manga)} mangaThumbnailBackdrop={mangaThumbnailBackdrop}>
                     <ThumbnailMetadataWrapper>
                         <Thumbnail manga={manga} />
                         <MetadataContainer>

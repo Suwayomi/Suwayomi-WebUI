@@ -60,6 +60,7 @@ const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
 
     // themes
     'customThemes',
+    'mangaThumbnailBackdrop',
 ];
 
 /**

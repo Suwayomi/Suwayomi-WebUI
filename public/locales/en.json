@@ -819,6 +819,10 @@
       }
     },
     "appearance": {
+      "manga_thumbnail_backdrop": {
+        "description": "Sets the manga thumbnail as the background image on the manga page",
+        "title": "Manga thumbnail as background"
+      },
       "theme": {
         "create": {
           "action": "Creating theme…",

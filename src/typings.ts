@@ -159,6 +159,7 @@ export type MetadataUpdateSettings = {
 
 export type MetadataThemeSettings = {
     customThemes: Record<string, AppTheme>;
+    mangaThumbnailBackdrop: boolean;
 };
 
 export type MetadataServerSettings = MetadataDownloadSettings &

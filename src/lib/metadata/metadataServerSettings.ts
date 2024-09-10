@@ -54,6 +54,7 @@ export const getDefaultSettings = (): MetadataServerSettings => ({
 
     // themes
     customThemes: {},
+    mangaThumbnailBackdrop: true,
 });
 
 export const convertSettingsToMetadata = (

@@ -25,12 +25,19 @@ import { I18nResourceCode, i18nResources } from '@/i18n';
 import { langCodeToName } from '@/util/language.tsx';
 import { getTheme } from '@/lib/ui/AppThemes.ts';
 import { ThemeList } from '@/screens/settings/appearance/theme/ThemeList.tsx';
+import {
+    createUpdateMetadataServerSettings,
+    useMetadataServerSettings,
+} from '@/lib/metadata/metadataServerSettings.ts';
+import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
+import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
+import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { MetadataThemeSettings } from '@/typings.ts';
+import { makeToast } from '@/components/util/Toast.tsx';
 
 export const Appearance = () => {
     const { t, i18n } = useTranslation();
     const { themeMode, setThemeMode, pureBlackMode, setPureBlackMode, appTheme } = useContext(ThemeModeContext);
-    const isDarkMode =
-        getTheme(appTheme).muiTheme.palette?.mode === 'dark' || MediaQuery.getThemeMode() === ThemeMode.DARK;
 
     const { setTitle, setAction } = useContext(NavBarContext);
     useEffect(() => {
@@ -43,8 +50,33 @@ export const Appearance = () => {
         };
     }, [t]);
 
+    const {
+        settings,
+        request: { loading, error, refetch },
+    } = useMetadataServerSettings();
+    const updateMetadataSetting = createUpdateMetadataServerSettings<keyof MetadataThemeSettings>(() =>
+        makeToast(t('global.error.label.failed_to_save_changes'), 'error'),
+    );
+
+    const isDarkMode =
+        getTheme(appTheme).muiTheme.palette?.mode === 'dark' || MediaQuery.getThemeMode() === ThemeMode.DARK;
+
     const DEFAULT_ITEM_WIDTH = 300;
     const [itemWidth, setItemWidth] = useLocalStorage<number>('ItemWidth', DEFAULT_ITEM_WIDTH);
+
+    if (loading) {
+        return <LoadingPlaceholder />;
+    }
+
+    if (error) {
+        return (
+            <EmptyViewAbsoluteCentered
+                message={t('global.error.label.failed_to_load_data')}
+                messageExtra={error.message}
+                retry={() => refetch().catch(defaultPromiseErrorHandler('Appearance::refetch'))}
+            />
+        );
+    }
 
     return (
         <List
@@ -121,6 +153,18 @@ export const Appearance = () => {
                     showSlider
                     handleUpdate={setItemWidth}
                 />
+
+                <ListItem>
+                    <ListItemText
+                        primary={t('settings.appearance.manga_thumbnail_backdrop.title')}
+                        secondary={t('settings.appearance.manga_thumbnail_backdrop.description')}
+                    />
+                    <Switch
+                        edge="end"
+                        checked={settings.mangaThumbnailBackdrop}
+                        onChange={(e) => updateMetadataSetting('mangaThumbnailBackdrop', e.target.checked)}
+                    />
+                </ListItem>
             </List>
         </List>
     );
