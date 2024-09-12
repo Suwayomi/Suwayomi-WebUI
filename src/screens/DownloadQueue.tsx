@@ -24,6 +24,7 @@ import { useTranslation } from 'react-i18next';
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import { Virtuoso } from 'react-virtuoso';
 import CardContent from '@mui/material/CardContent';
+import Refresh from '@mui/icons-material/Refresh';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { StrictModeDroppable } from '@/lib/StrictModeDroppable';
 import { makeToast } from '@/components/util/Toast';
@@ -33,6 +34,7 @@ import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { ChapterDownloadStatus, ChapterIdInfo } from '@/lib/data/Chapters.ts';
+import { DownloadState } from '@/lib/graphql/generated/graphql.ts';
 
 const HeightPreservingItem = ({ children, ...props }: BoxProps) => (
     // the height is necessary to prevent the item container from collapsing, which confuses Virtuoso measurements
@@ -45,10 +47,12 @@ const DownloadChapterItem = ({
     provided,
     item,
     handleDelete,
+    handleRetry,
 }: {
     provided: DraggableProvided;
     item: ChapterDownloadStatus;
     handleDelete: (chapter: ChapterIdInfo) => void;
+    handleRetry: (chapter: ChapterIdInfo) => void;
 }) => {
     const { t } = useTranslation();
 
@@ -80,6 +84,20 @@ const DownloadChapterItem = ({
                             </Typography>
                         </Stack>
                         <DownloadStateIndicator download={item} />
+                        {item.state === DownloadState.Error && (
+                            <Tooltip title={t('global.button.retry')}>
+                                <IconButton
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        handleRetry(item.chapter);
+                                    }}
+                                    size="large"
+                                >
+                                    <Refresh />
+                                </IconButton>
+                            </Tooltip>
+                        )}
                         <Tooltip title={t('chapter.action.download.delete.label.action')}>
                             <IconButton
                                 onClick={(e) => {
@@ -193,6 +211,14 @@ export const DownloadQueue: React.FC = () => {
         categoryReorder(queue, result.source.index, result.destination.index);
     };
 
+    const handleRetry = async (chapter: ChapterIdInfo) => {
+        try {
+            await requestManager.addChapterToDownloadQueue(chapter.id).response;
+        } catch (e) {
+            makeToast(t('download.queue.error.label.failed_to_remove'), 'error');
+        }
+    };
+
     const handleDelete = async (chapter: ChapterIdInfo) => {
         const isRunning = status === 'STARTED';
 
@@ -210,7 +236,7 @@ export const DownloadQueue: React.FC = () => {
                 requestManager.deleteDownloadedChapter(chapter.id).response,
             ]);
         } catch (e) {
-            makeToast(t('download.queue.error.label.failed_to_remove'), 'error');
+            makeToast(t('download.queue.error.label.failed_to_retry'), 'error');
         }
 
         if (!isRunning) {
@@ -248,6 +274,7 @@ export const DownloadQueue: React.FC = () => {
                         provided={provided}
                         item={queue[rubric.source.index]}
                         handleDelete={handleDelete}
+                        handleRetry={handleRetry}
                     />
                 )}
             >
@@ -271,6 +298,7 @@ export const DownloadQueue: React.FC = () => {
                                             provided={draggableProvided}
                                             item={item}
                                             handleDelete={handleDelete}
+                                            handleRetry={handleRetry}
                                         />
                                     )}
                                 </Draggable>

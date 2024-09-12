@@ -157,7 +157,8 @@
       "error": {
         "label": {
           "failed_delete_all": "Could not remove all downloads from the queue",
-          "failed_to_remove": "Could not remove the download from the queue."
+          "failed_to_remove": "Could not remove the download from the queue.",
+          "failed_to_retry": "Could not retry failed download."
         }
       },
       "label": {

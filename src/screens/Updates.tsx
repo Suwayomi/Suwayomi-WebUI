@@ -18,11 +18,12 @@ import Typography from '@mui/material/Typography';
 import React, { useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import Refresh from '@mui/icons-material/Refresh';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
 import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 import { DownloadStateIndicator } from '@/components/molecules/DownloadStateIndicator';
-import { ChapterType } from '@/lib/graphql/generated/graphql.ts';
+import { ChapterType, DownloadState } from '@/lib/graphql/generated/graphql.ts';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { UpdateChecker } from '@/components/library/UpdateChecker.tsx';
 import { StyledGroupedVirtuoso } from '@/components/virtuoso/StyledGroupedVirtuoso.tsx';
@@ -100,6 +101,14 @@ export const Updates: React.FC = () => {
     const downloadForChapter = (chapter: Pick<ChapterType, 'sourceOrder'> & ChapterMangaInfo) => {
         const { sourceOrder, mangaId } = chapter;
         return queue.find((q) => sourceOrder === q.chapter.sourceOrder && mangaId === q.manga.id);
+    };
+
+    const handleRetry = async (chapter: ChapterIdInfo) => {
+        try {
+            await requestManager.addChapterToDownloadQueue(chapter.id).response;
+        } catch (e) {
+            makeToast(t('download.queue.error.label.failed_to_remove'), 'error');
+        }
     };
 
     const downloadChapter = (chapter: ChapterIdInfo) => {
@@ -228,6 +237,20 @@ export const Updates: React.FC = () => {
                                             </Box>
                                         </Box>
                                         {download && <DownloadStateIndicator download={download} />}
+                                        {download?.state === DownloadState.Error && (
+                                            <Tooltip title={t('global.button.retry')}>
+                                                <IconButton
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        e.stopPropagation();
+                                                        handleRetry(download.chapter);
+                                                    }}
+                                                    size="large"
+                                                >
+                                                    <Refresh />
+                                                </IconButton>
+                                            </Tooltip>
+                                        )}
                                         {download == null && !chapter.isDownloaded && (
                                             <Tooltip title={t('chapter.action.download.add.label.action')}>
                                                 <IconButton

@@ -13,6 +13,7 @@ import {
     ChapterReadInfo,
     Chapters,
 } from '@/lib/data/Chapters.ts';
+import { DownloadState } from '@/lib/graphql/generated/graphql.ts';
 
 export type ChapterWithMetaType<
     Chapter extends ChapterDownloadInfo & ChapterReadInfo & ChapterBookmarkInfo = ChapterDownloadInfo &
@@ -50,7 +51,10 @@ export class ChaptersWithMeta {
     }
 
     static getDownloadable<Chapter extends ChapterWithMetaType>(chapters: Chapter[]): Chapter[] {
-        return chapters.filter(({ chapter, downloadChapter }) => !Chapters.isDownloaded(chapter) && !downloadChapter);
+        return chapters.filter(
+            ({ chapter, downloadChapter }) =>
+                !Chapters.isDownloaded(chapter) && downloadChapter?.state !== DownloadState.Error,
+        );
     }
 
     static getBookmarked<Chapter extends ChapterWithMetaType>(chapters: Chapter[]): Chapter[] {
