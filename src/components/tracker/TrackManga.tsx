@@ -59,6 +59,15 @@ export const TrackManga = ({ manga }: { manga: MangaIdInfo & Pick<MangaType, 'ti
     const isSearchActive = searchModeForTracker !== undefined;
     const OptionalDialogContent = useMemo(() => (isSearchActive ? Box : DialogContent), [isSearchActive]);
 
+    const loading = trackerList.loading || mangaTrackRecordsList.loading;
+    const error = trackerList.error ?? mangaTrackRecordsList.error;
+
+    useEffect(() => {
+        if (!loading && !error && !trackersInUse.length && !loggedInTrackers.length) {
+            navigate('/settings/trackingSettings');
+        }
+    }, [loading]);
+
     useEffect(() => {
         Promise.all(
             mangaTrackRecords.map((trackRecord) => requestManager.fetchTrackBind(trackRecord.id).response),
@@ -90,7 +99,6 @@ export const TrackManga = ({ manga }: { manga: MangaIdInfo & Pick<MangaType, 'ti
         [trackersInUseIds, searchModeForTracker, mangaTrackRecords],
     );
 
-    const error = trackerList.error ?? mangaTrackRecordsList.error;
     if (error) {
         return (
             <EmptyViewAbsoluteCentered
@@ -111,13 +119,8 @@ export const TrackManga = ({ manga }: { manga: MangaIdInfo & Pick<MangaType, 'ti
         );
     }
 
-    const loading = trackerList.loading || mangaTrackRecordsList.loading;
     if (loading) {
         return <LoadingPlaceholder />;
-    }
-
-    if (!loggedInTrackers) {
-        navigate('/settings/trackingSettings');
     }
 
     if (!isSearchActive) {
