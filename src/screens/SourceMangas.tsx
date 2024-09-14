@@ -49,37 +49,20 @@ import { MangaIdInfo } from '@/lib/data/Mangas.ts';
 
 const ContentTypeMenu = styled('div')(({ theme }) => ({
     display: 'flex',
-    position: 'fixed',
-    top: '64px',
+    position: 'sticky',
     width: '100%',
     zIndex: 1,
+    padding: theme.spacing(1),
+    gap: theme.spacing(1),
     backgroundColor: theme.palette.background.default,
-    [theme.breakpoints.down('sm')]: {
-        top: '56px', // header height
-    },
 }));
 
-const ContentTypeButton = styled(Button)(() => ({
-    marginTop: '13px',
-    marginBottom: '13px',
-    marginLeft: '13px',
-}));
+const ContentTypeButton = styled(Button)(() => ({}));
 
-const StyledGridWrapper = styled(Box, { shouldForwardProp: (prop) => prop !== 'hasContent' })<{ hasContent: boolean }>(
-    ({ theme, hasContent }) => ({
-        // 62.5px ContentTypeMenu height (- padding of grid + grid item)
-        marginTop: `calc(62.5px ${hasContent ? '- 8px' : ''})`,
-        // header height - ContentTypeMenu height
-        minHeight: 'calc(100vh - 64px - 62.5px)',
-        position: 'relative',
-        [theme.breakpoints.down('sm')]: {
-            // 62.5px ContentTypeMenu - 8px margin diff header height (56px) (- padding of grid item)
-            marginTop: `calc(62.5px - 8px ${hasContent ? '- 8px' : ''})`,
-            // header height (+ 8px margin) - footer height - ContentTypeMenu height
-            minHeight: 'calc(100vh - 64px - 64px - 62.5px)',
-        },
-    }),
-);
+const StyledGridWrapper = styled(Box)(() => ({
+    minHeight: '100%',
+    position: 'relative',
+}));
 
 export enum SourceContentType {
     POPULAR,
@@ -212,7 +195,7 @@ const useSourceManga = (
 
 export function SourceMangas() {
     const { t } = useTranslation();
-    const { setTitle, setAction } = useContext(NavBarContext);
+    const { setTitle, setAction, appBarHeight } = useContext(NavBarContext);
 
     const { sourceId } = useParams<{ sourceId: string }>();
 
@@ -226,7 +209,6 @@ export function SourceMangas() {
         }>().state ?? {};
 
     const [isFirstRender, setIsFirstRender] = useState(true);
-
     useEffect(() => {
         setIsFirstRender(false);
     }, []);
@@ -444,8 +426,8 @@ export function SourceMangas() {
     }, [t, source]);
 
     return (
-        <StyledGridWrapper hasContent={!!mangas.length}>
-            <ContentTypeMenu>
+        <StyledGridWrapper>
+            <ContentTypeMenu sx={{ top: `${appBarHeight}px` }}>
                 <ContentTypeButton
                     variant={contentType === SourceContentType.POPULAR ? 'contained' : 'outlined'}
                     startIcon={<FavoriteIcon />}
@@ -473,6 +455,7 @@ export function SourceMangas() {
             </ContentTypeMenu>
             <BaseMangaGrid
                 key={contentType}
+                gridWrapperProps={{ sx: { px: 1, pb: 1 } }}
                 mangas={mangas}
                 hasNextPage={hasNextPage}
                 loadMore={loadMore}

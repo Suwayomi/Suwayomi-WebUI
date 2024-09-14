@@ -16,8 +16,8 @@ import React, {
     useRef,
     useState,
 } from 'react';
-import Grid, { GridTypeMap } from '@mui/material/Grid';
-import Box from '@mui/material/Box';
+import Grid, { Grid2TypeMap as GridTypeMap } from '@mui/material/Grid2';
+import Box, { BoxProps } from '@mui/material/Box';
 import { GridItemProps, GridStateSnapshot, VirtuosoGrid } from 'react-virtuoso';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -35,7 +35,7 @@ import { useResizeObserver } from '@/util/useResizeObserver.tsx';
 import { useNavBarContext } from '@/components/context/NavbarContext.tsx';
 
 const GridContainer = React.forwardRef<HTMLDivElement, GridTypeMap['props']>(({ children, ...props }, ref) => (
-    <Grid {...props} ref={ref} container sx={{ paddingLeft: '5px', paddingRight: '13px' }}>
+    <Grid {...props} ref={ref} container spacing={1}>
         {children}
     </Grid>
 ));
@@ -51,7 +51,7 @@ const GridItemContainerWithDimension = (
 
     // MUI GridProps and Virtuoso GridItemProps use different types for the "ref" prop which conflict with each other
     return ({ children, ...itemProps }: GridTypeMap['props'] & Omit<Partial<GridItemProps>, 'ref'>) => (
-        <Grid {...itemProps} item xs={columnsPerItem} sx={{ width: '100%', paddingTop: '8px', paddingLeft: '8px' }}>
+        <Grid {...itemProps} size={columnsPerItem}>
             {children}
         </Grid>
     );
@@ -109,10 +109,8 @@ const HorizontalGrid = forwardRef(
             ref={ref}
             container
             spacing={1}
-            style={{
-                margin: 0,
+            sx={{
                 width: '100%',
-                padding: '5px',
                 overflowX: 'auto',
                 display: '-webkit-inline-box',
                 flexWrap: 'nowrap',
@@ -232,6 +230,7 @@ export interface IMangaGridProps
     loadMore: () => void;
     horizontal?: boolean | undefined;
     noFaces?: boolean | undefined;
+    gridWrapperProps?: Omit<BoxProps, 'ref'>;
 }
 
 export const MangaGrid: React.FC<IMangaGridProps> = ({
@@ -250,6 +249,7 @@ export const MangaGrid: React.FC<IMangaGridProps> = ({
     handleSelection,
     mode,
     retry,
+    gridWrapperProps,
 }) => {
     const { t } = useTranslation();
 
@@ -353,13 +353,7 @@ export const MangaGrid: React.FC<IMangaGridProps> = ({
     }
 
     return (
-        <div
-            ref={gridWrapperRef}
-            style={{
-                overflow: 'hidden',
-                paddingBottom: '13px',
-            }}
-        >
+        <Box {...gridWrapperProps} ref={gridWrapperRef} sx={{ ...gridWrapperProps?.sx, overflow: 'hidden' }}>
             {horizontal ? (
                 <HorizontalGrid
                     ref={gridRef}
@@ -389,6 +383,6 @@ export const MangaGrid: React.FC<IMangaGridProps> = ({
                     mode={mode}
                 />
             )}
-        </div>
+        </Box>
     );
 };

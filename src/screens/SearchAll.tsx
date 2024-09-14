@@ -13,6 +13,7 @@ import React, { useCallback, useContext, useEffect, useMemo, useState } from 're
 import { Link, useLocation } from 'react-router-dom';
 import { StringParam, useQueryParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
+import Box from '@mui/material/Box';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { useLocalStorage } from '@/util/useStorage.tsx';
 import { langSortCmp, sourceDefualtLangs, sourceForcedDefaultLangs } from '@/util/language';
@@ -144,7 +145,7 @@ const SourceSearchPreview = React.memo(
 
         return (
             <>
-                <Card sx={{ margin: '10px' }}>
+                <Card sx={{ mb: 1 }}>
                     <CardActionArea component={Link} to={`/sources/${id}?query=${searchString}`} sx={{ p: 3 }}>
                         <Typography variant="h5">{displayName}</Typography>
                         <Typography variant="caption">{translateExtensionLanguage(lang)}</Typography>
@@ -167,6 +168,7 @@ const SourceSearchPreview = React.memo(
                     />
                 ) : (
                     <BaseMangaGrid
+                        gridWrapperProps={{ sx: { px: 0 } }}
                         mangas={mangas}
                         isLoading={isLoading}
                         hasNextPage={false}
@@ -275,17 +277,18 @@ export const SearchAll: React.FC = () => {
     }
 
     return (
-        <>
-            {sourcesSortedByResult.map((source) => (
-                <SourceSearchPreview
-                    key={source.id}
-                    source={source}
-                    onSearchRequestFinished={updateSourceLoadingState}
-                    searchString={searchString}
-                    emptyQuery={!query}
-                    mode={isMigrateMode ? 'migrate.select' : 'source'}
-                />
+        <Box sx={{ p: 1 }}>
+            {sourcesSortedByResult.map((source, index) => (
+                <Box key={source.id} sx={{ pb: index + 1 !== sourcesSortedByResult.length ? 2 : 0 }}>
+                    <SourceSearchPreview
+                        source={source}
+                        onSearchRequestFinished={updateSourceLoadingState}
+                        searchString={searchString}
+                        emptyQuery={!query}
+                        mode={isMigrateMode ? 'migrate.select' : 'source'}
+                    />
+                </Box>
             ))}
-        </>
+        </Box>
     );
 };

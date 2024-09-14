@@ -13,5 +13,5 @@ type TMangaBaseGrid = Omit<IMangaGridProps['mangas'][number], 'downloadCount' | 
 export function BaseMangaGrid(props: Omit<IMangaGridProps, 'mangas'> & { mangas: TMangaBaseGrid[] }) {
     const { mangas } = props;
 
-    return <MangaGrid {...props} mangas={mangas as IMangaGridProps['mangas']} />;
+    return <MangaGrid gridWrapperProps={{ sx: { p: 1 } }} {...props} mangas={mangas as IMangaGridProps['mangas']} />;
 }
