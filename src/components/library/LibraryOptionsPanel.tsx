@@ -19,8 +19,9 @@ import { GridLayout, useLibraryOptionsContext } from '@/components/context/Libra
 import { OptionsTabs } from '@/components/molecules/OptionsTabs';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Trackers } from '@/lib/data/Trackers.ts';
-import { GetTrackersSettingsQuery } from '@/lib/graphql/generated/graphql.ts';
+import { GetTrackersSettingsQuery, MangaStatus } from '@/lib/graphql/generated/graphql.ts';
 import { GET_TRACKERS_SETTINGS } from '@/lib/graphql/queries/TrackerQuery.ts';
+import { statusToTranslationKey } from '@/lib/data/Mangas.ts';
 
 const TITLES: { [key in 'filter' | 'sort' | 'display']: TranslationKey } = {
     filter: 'global.label.filter',
@@ -83,6 +84,19 @@ export const LibraryOptionsPanel: React.FC<IProps> = ({ open, onClose }) => {
                                 checked={options.hasDuplicateChapters}
                                 onChange={(c) => handleFilterChange('hasDuplicateChapters', c)}
                             />
+                            <FormLabel sx={{ mt: 2 }}>{t('manga.label.status')}</FormLabel>
+                            {Object.values(MangaStatus).map((status) => (
+                                <ThreeStateCheckboxInput
+                                    label={t(statusToTranslationKey[status])}
+                                    checked={options.status[status]}
+                                    onChange={(checked) =>
+                                        handleFilterChange('status', {
+                                            ...options.status,
+                                            [status]: checked,
+                                        })
+                                    }
+                                />
+                            ))}
                             <FormLabel sx={{ mt: 2 }}>{t('global.filter.label.tracked')}</FormLabel>
                             {loggedInTrackers.map((tracker) => (
                                 <ThreeStateCheckboxInput

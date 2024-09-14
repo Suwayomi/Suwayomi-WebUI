@@ -16,6 +16,7 @@ import {
     GetSourceBrowseQuery,
     GetSourceSettingsQuery,
     MangaReaderFieldsFragment,
+    MangaStatus,
     MetaType,
     SourcePreferenceChangeInput,
     TrackerType,
@@ -281,6 +282,7 @@ export interface LibraryOptions {
     sortDesc: NullAndUndefined<boolean>;
     showTabSize: boolean;
     tracker: Record<TrackerType['id'], NullAndUndefined<boolean>>;
+    status: Record<MangaStatus, NullAndUndefined<boolean>>;
 }
 
 export type ServerSettings = GetServerSettingsQuery['settings'];

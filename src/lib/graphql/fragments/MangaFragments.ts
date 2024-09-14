@@ -96,6 +96,7 @@ export const MANGA_LIBRARY_FIELDS = gql`
         genre
         lastFetchedAt
         inLibraryAt
+        status
 
         artist
         author

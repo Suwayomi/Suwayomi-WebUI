@@ -19,6 +19,7 @@ import {
     GetMangaToMigrateToFetchMutation,
     MangaBaseFieldsFragment,
     MangaReaderFieldsFragment,
+    MangaStatus,
     MangaType,
     TrackRecordType,
     UpdateMangaCategoriesPatchInput,
@@ -38,6 +39,16 @@ export type MangaAction =
     | 'change_categories'
     | 'migrate'
     | 'track';
+
+export const statusToTranslationKey: Record<MangaStatus, TranslationKey> = {
+    [MangaStatus.Cancelled]: 'manga.status.cancelled',
+    [MangaStatus.Completed]: 'manga.status.completed',
+    [MangaStatus.Licensed]: 'manga.status.licensed',
+    [MangaStatus.Ongoing]: 'manga.status.ongoing',
+    [MangaStatus.OnHiatus]: 'manga.status.hiatus',
+    [MangaStatus.PublishingFinished]: 'manga.status.finished',
+    [MangaStatus.Unknown]: 'manga.status.unknown',
+};
 
 export const actionToTranslationKey: {
     [key in MangaAction]: {

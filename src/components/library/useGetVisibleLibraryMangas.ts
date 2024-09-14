@@ -90,26 +90,31 @@ const trackerFilter = (trackFilters: LibraryOptions['tracker'], manga: TMangaTra
                 () => !isTrackerBound,
             );
         })
-        .every((matchesFilter) => matchesFilter);
+        .every(Boolean);
 
-type TMangaFilterOptions = {
-    unread: NullAndUndefined<boolean>;
-    downloaded: NullAndUndefined<boolean>;
-    bookmarked: NullAndUndefined<boolean>;
-    hasDuplicateChapters: NullAndUndefined<boolean>;
-    tracker: LibraryOptions['tracker'];
-};
+type TMangaStatusFilter = Pick<MangaType, 'status'>;
+const statusFilter = (statusFilters: LibraryOptions['status'], manga: TMangaStatusFilter): boolean =>
+    Object.entries(statusFilters)
+        .map(([status, statusFilterState]) => triStateFilterBoolean(statusFilterState, status === manga.status))
+        .every(Boolean);
+
+type TMangaFilterOptions = Pick<
+    LibraryOptions,
+    'unread' | 'downloaded' | 'bookmarked' | 'hasDuplicateChapters' | 'tracker' | 'status'
+>;
 type TMangaFilter = Pick<MangaType, 'downloadCount' | 'unreadCount' | 'bookmarkCount' | 'hasDuplicateChapters'> &
-    TMangaTrackerFilter;
+    TMangaTrackerFilter &
+    TMangaStatusFilter;
 const filterManga = (
     manga: TMangaFilter,
-    { unread, downloaded, bookmarked, hasDuplicateChapters, tracker }: TMangaFilterOptions,
+    { unread, downloaded, bookmarked, hasDuplicateChapters, tracker, status }: TMangaFilterOptions,
 ): boolean =>
     triStateFilterNumber(downloaded, manga.downloadCount) &&
     triStateFilterNumber(unread, manga.unreadCount) &&
     triStateFilterNumber(bookmarked, manga.bookmarkCount) &&
     triStateFilterBoolean(hasDuplicateChapters, manga.hasDuplicateChapters) &&
-    trackerFilter(tracker, manga);
+    trackerFilter(tracker, manga) &&
+    statusFilter(status, manga);
 
 type TMangasFilter = TMangaQueryFilter & TMangaFilter;
 const filterMangas = <Manga extends TMangasFilter>(
@@ -183,7 +188,7 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
 } => {
     const [query] = useQueryParam('query', StringParam);
     const { options } = useLibraryOptionsContext();
-    const { unread, downloaded, bookmarked, tracker, hasDuplicateChapters } = options;
+    const { unread, downloaded, bookmarked, tracker, hasDuplicateChapters, status } = options;
     const { settings } = useMetadataServerSettings();
 
     const filteredMangas = useMemo(
@@ -194,6 +199,7 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
                 bookmarked,
                 hasDuplicateChapters,
                 tracker,
+                status,
                 ignoreFilters: settings.ignoreFilters,
             }),
         [mangas, query, unread, downloaded, bookmarked, hasDuplicateChapters, tracker, settings.ignoreFilters],

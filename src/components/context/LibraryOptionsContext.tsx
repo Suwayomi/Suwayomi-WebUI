@@ -34,6 +34,7 @@ export const DefaultLibraryOptions: LibraryOptions = {
     unread: undefined,
     hasDuplicateChapters: undefined,
     tracker: {},
+    status: {} as LibraryOptions['status'],
 
     showTabSize: false,
 };

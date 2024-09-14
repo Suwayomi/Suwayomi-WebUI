@@ -704,6 +704,15 @@
       "reload_from_source": "Reload data from source",
       "status": "Status"
     },
+    "status": {
+      "cancelled": "Cancelled",
+      "completed": "Completed",
+      "finished": "Finished",
+      "hiatus": "Hiatus",
+      "licensed": "Licensed",
+      "ongoing": "Ongoing",
+      "unknown": "$t(global.label.unknown)"
+    },
     "title_one": "Manga",
     "title_other": "Manga"
   },
