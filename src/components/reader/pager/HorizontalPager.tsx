@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { MouseEvent as ReactMouseEvent, useCallback, useEffect, useRef } from 'react';
+import { MouseEvent as ReactMouseEvent, WheelEvent as ReactWheelEvent, useCallback, useEffect, useRef } from 'react';
 import Box from '@mui/material/Box';
 import { IReaderProps } from '@/typings';
 import { Page } from '@/components/reader/Page';
@@ -96,6 +96,12 @@ export function HorizontalPager(props: IReaderProps) {
         }
     }
 
+    function horizontalScroll(e: ReactWheelEvent) {
+        window.scrollBy({
+            left: settings.readerType === 'ContinuesHorizontalLTR' ? e.deltaY : e.deltaY * -1,
+        });
+    }
+
     const handleLoadNextonEnding = () => {
         if (settings.readerType === 'ContinuesHorizontalLTR') {
             if (window.scrollX + window.innerWidth >= document.body.scrollWidth) {
@@ -181,6 +187,7 @@ export function HorizontalPager(props: IReaderProps) {
                 userSelect: 'none',
             }}
             onClick={clickControl}
+            onWheel={horizontalScroll}
         >
             {pages.map((page) => (
                 <Page
