@@ -46,7 +46,7 @@ export const statusToTranslationKey: Record<MangaStatus, TranslationKey> = {
     [MangaStatus.Licensed]: 'manga.status.licensed',
     [MangaStatus.Ongoing]: 'manga.status.ongoing',
     [MangaStatus.OnHiatus]: 'manga.status.hiatus',
-    [MangaStatus.PublishingFinished]: 'manga.status.finished',
+    [MangaStatus.PublishingFinished]: 'manga.status.publishing_finished',
     [MangaStatus.Unknown]: 'manga.status.unknown',
 };
 

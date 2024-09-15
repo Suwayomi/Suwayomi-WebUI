@@ -27,7 +27,7 @@ import OpenInFullIcon from '@mui/icons-material/OpenInFull';
 import Modal from '@mui/material/Modal';
 import { bindPopover, bindTrigger, usePopupState } from 'material-ui-popup-state/hooks';
 import { makeToast } from '@/components/util/Toast';
-import { Mangas, MangaThumbnailInfo, MangaTrackRecordInfo } from '@/lib/data/Mangas.ts';
+import { Mangas, MangaThumbnailInfo, MangaTrackRecordInfo, statusToTranslationKey } from '@/lib/data/Mangas.ts';
 import { SpinnerImage } from '@/components/util/SpinnerImage.tsx';
 import { CustomIconButton } from '@/components/atoms/CustomIconButton';
 import { TrackMangaButton } from '@/components/manga/TrackMangaButton.tsx';
@@ -323,7 +323,7 @@ export const MangaDetails = ({
                             </Typography>
                             <Metadata title={t('manga.label.author')} value={getValueOrUnknown(manga.author)} />
                             <Metadata title={t('manga.label.artist')} value={getValueOrUnknown(manga.artist)} />
-                            <Metadata title={t('manga.label.status')} value={getValueOrUnknown(manga.status)} />
+                            <Metadata title={t('manga.label.status')} value={t(statusToTranslationKey[manga.status])} />
                             <Metadata title={t('source.title_one')} value={getSourceName(manga.source)} />
                         </MetadataContainer>
                     </ThumbnailMetadataWrapper>

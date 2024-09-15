@@ -707,7 +707,7 @@
     "status": {
       "cancelled": "Cancelled",
       "completed": "Completed",
-      "finished": "Finished",
+      "publishing_finished": "Publishing finished",
       "hiatus": "Hiatus",
       "licensed": "Licensed",
       "ongoing": "Ongoing",
