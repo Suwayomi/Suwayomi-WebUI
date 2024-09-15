@@ -12,7 +12,7 @@ import { LibraryOptions, LibrarySortMode, NullAndUndefined } from '@/typings.ts'
 import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext.tsx';
 import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 import { ChapterType, MangaType, SourceType, TrackRecordType } from '@/lib/graphql/generated/graphql.ts';
-import { MangaIdInfo } from '@/lib/data/Mangas.ts';
+import { MangaChapterCountInfo, MangaIdInfo } from '@/lib/data/Mangas.ts';
 import { enhancedCleanup } from '@/lib/data/Strings.ts';
 
 const triStateFilter = (
@@ -136,11 +136,12 @@ const sortByNumber = (a: number | string = 0, b: number | string = 0) => Number(
 
 const sortByString = (a: string, b: string): number => a.localeCompare(b);
 
-type TMangaSort = Pick<MangaType, 'title' | 'inLibraryAt' | 'unreadCount'> & {
-    lastReadChapter?: Pick<ChapterType, 'lastReadAt'> | null;
-    latestUploadedChapter?: Pick<ChapterType, 'uploadDate'> | null;
-    latestFetchedChapter?: Pick<ChapterType, 'fetchedAt'> | null;
-};
+type TMangaSort = Pick<MangaType, 'title' | 'inLibraryAt' | 'unreadCount'> &
+    MangaChapterCountInfo & {
+        lastReadChapter?: Pick<ChapterType, 'lastReadAt'> | null;
+        latestUploadedChapter?: Pick<ChapterType, 'uploadDate'> | null;
+        latestFetchedChapter?: Pick<ChapterType, 'fetchedAt'> | null;
+    };
 const sortManga = <Manga extends TMangaSort>(
     manga: Manga[],
     sort: NullAndUndefined<LibrarySortMode>,
@@ -168,6 +169,9 @@ const sortManga = <Manga extends TMangaSort>(
             break;
         case 'sortLatestFetchedChapter':
             result.sort((a, b) => sortByNumber(a.latestFetchedChapter?.fetchedAt, b.latestFetchedChapter?.fetchedAt));
+            break;
+        case 'sortTotalChapters':
+            result.sort((a, b) => sortByNumber(a.chapters.totalCount, b.chapters.totalCount));
             break;
         default:
             break;

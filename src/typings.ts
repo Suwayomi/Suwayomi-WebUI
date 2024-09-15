@@ -257,7 +257,8 @@ export type LibrarySortMode =
     | 'sortDateAdded'
     | 'sortLastRead'
     | 'sortLatestFetchedChapter'
-    | 'sortLatestUploadedChapter';
+    | 'sortLatestUploadedChapter'
+    | 'sortTotalChapters';
 
 enum GridLayout {
     Compact = 0,
@@ -273,13 +274,15 @@ export interface LibraryOptions {
     gridLayout: GridLayout;
     SourcegridLayout: GridLayout;
 
+    // sort options
+    sorts: NullAndUndefined<LibrarySortMode>;
+    sortDesc: NullAndUndefined<boolean>;
+
     // filter options
     downloaded: NullAndUndefined<boolean>;
     bookmarked: NullAndUndefined<boolean>;
     unread: NullAndUndefined<boolean>;
     hasDuplicateChapters: NullAndUndefined<boolean>;
-    sorts: NullAndUndefined<LibrarySortMode>;
-    sortDesc: NullAndUndefined<boolean>;
     showTabSize: boolean;
     tracker: Record<TrackerType['id'], NullAndUndefined<boolean>>;
     status: Record<MangaStatus, NullAndUndefined<boolean>>;

@@ -21,22 +21,26 @@ export enum GridLayout {
 }
 
 export const DefaultLibraryOptions: LibraryOptions = {
+    // display options
     showContinueReadingButton: false,
     showDownloadBadge: false,
     showUnreadBadge: false,
     gridLayout: GridLayout.Compact,
     SourcegridLayout: GridLayout.Compact,
 
-    downloaded: undefined,
-    bookmarked: undefined,
+    showTabSize: false,
+
+    // sort options
     sortDesc: undefined,
     sorts: undefined,
+
+    // filter options
+    downloaded: undefined,
+    bookmarked: undefined,
     unread: undefined,
     hasDuplicateChapters: undefined,
     tracker: {},
     status: {} as LibraryOptions['status'],
-
-    showTabSize: false,
 };
 
 export const LibraryOptionsContext = React.createContext<ContextType>({

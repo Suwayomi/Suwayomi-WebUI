@@ -514,6 +514,7 @@
           "by_last_read": "Recently read",
           "by_latest_fetched_chapter": "Latest fetched chapter",
           "by_latest_uploaded_chapter": "Latest uploaded chapter",
+          "by_total_chapters": "Total chapters",
           "by_unread_chapters": "Unread chapters"
         }
       }
@@ -707,10 +708,10 @@
     "status": {
       "cancelled": "Cancelled",
       "completed": "Completed",
-      "publishing_finished": "Publishing finished",
       "hiatus": "Hiatus",
       "licensed": "Licensed",
       "ongoing": "Ongoing",
+      "publishing_finished": "Publishing finished",
       "unknown": "$t(global.label.unknown)"
     },
     "title_one": "Manga",

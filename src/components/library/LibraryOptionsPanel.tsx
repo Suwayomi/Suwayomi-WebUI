@@ -31,6 +31,7 @@ const TITLES: { [key in 'filter' | 'sort' | 'display']: TranslationKey } = {
 
 const SORT_OPTIONS: [LibrarySortMode, TranslationKey][] = [
     ['sortToRead', 'library.option.sort.label.by_unread_chapters'],
+    ['sortTotalChapters', 'library.option.sort.label.by_total_chapters'],
     ['sortAlph', 'library.option.sort.label.alphabetically'],
     ['sortDateAdded', 'library.option.sort.label.by_date_added'],
     ['sortLastRead', 'library.option.sort.label.by_last_read'],
