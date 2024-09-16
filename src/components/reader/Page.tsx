@@ -30,6 +30,8 @@ export function imageStyle(settings: IReaderSettings): CSSProperties {
         objectFit: 'contain',
     };
 
+    const doublePageStyling: CSSProperties = {};
+
     const continuesVerticalStyling: CSSProperties = {
         marginBottom: '15px',
     };
@@ -53,6 +55,7 @@ export function imageStyle(settings: IReaderSettings): CSSProperties {
 
     return {
         ...baseStyling,
+        ...(isDoublePageReader ? doublePageStyling : undefined),
         ...(isHorizontal ? continuesHorizontalStyling : undefined),
         ...(isVertical ? continuesVerticalStyling : undefined),
         ...(settings.fitPageToWindow && !isHorizontal ? fitToPageStyling : undefined),
@@ -74,7 +77,6 @@ export const Page = forwardRef((props: IProps, ref: any) => {
     const isMobileWidth = useMediaQuery(theme.breakpoints.down('md'));
 
     const imgStyle = imageStyle(settings);
-    const isDoublePageReader = ['DoubleRTL', 'DoubleLTR'].includes(settings.readerType);
 
     return (
         <Box
@@ -84,7 +86,6 @@ export const Page = forwardRef((props: IProps, ref: any) => {
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                minWidth: isDoublePageReader ? '100%' : undefined,
             }}
         >
             <SpinnerImage

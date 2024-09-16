@@ -10,7 +10,6 @@ import { MouseEvent, useEffect, useRef, useState } from 'react';
 import Box from '@mui/material/Box';
 import { IReaderProps } from '@/typings';
 import { Page } from '@/components/reader/Page';
-import { DoublePage } from '@/components/reader/DoublePage';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 
 const isSpreadPage = (image: HTMLImageElement): boolean => {
@@ -18,69 +17,53 @@ const isSpreadPage = (image: HTMLImageElement): boolean => {
     return aspectRatio < 1;
 };
 
-const isSinglePage = (index: number, spreadPages: boolean[], offsetFirstPage: boolean): boolean => {
-    // Page is single if it is spread page
-    if (spreadPages[index] || spreadPages[index + 1]) return true;
-    // Page is single if it is last page
-    if (index === spreadPages.length - 1) return true;
-    // Page is single if number of single pages since last spread is odd
-    const previousSpreadIndex = spreadPages.lastIndexOf(true, index - 1);
-    const numberOfNonSpreads = index - (previousSpreadIndex + 1);
-    return offsetFirstPage ? numberOfNonSpreads % 2 === 0 : numberOfNonSpreads % 2 === 1;
-};
-
 export function DoublePagedPager(props: IReaderProps) {
     const { pages, settings, setCurPage, initialPage, curPage, chapter, nextChapter, prevChapter } = props;
 
     const selfRef = useRef<HTMLDivElement>(null);
 
+    const pagesToDisplayStateRef = useRef<boolean[]>([]);
+    const pageToPrevSpreadPageRef = useRef<number[]>([]);
+
     const [pagesToSpreadState, setPagesToSpreadState] = useState(Array(pages.length).fill(false));
     const [pagesLoadState, setPagesLoadState] = useState<boolean[]>(Array(pages.length).fill(false));
 
-    function getPagesToDisplay(): number {
-        let pagesToDisplay = 1; // has to be at least one so skipping forward while pages are still loading is possible
-        if (curPage < pages.length) {
-            if (pagesLoadState[curPage]) {
-                pagesToDisplay = 1;
-                if (pagesToSpreadState[curPage]) return pagesToDisplay;
-            }
-        }
-        if (curPage + 1 < pages.length) {
-            if (pagesLoadState[curPage + 1]) {
-                if (isSinglePage(curPage, pagesToSpreadState, settings.offsetFirstPage)) return pagesToDisplay;
-                pagesToDisplay = 2;
-            }
-        }
-
-        return pagesToDisplay;
-    }
-
-    function pagesToGoBack() {
-        // If previous page is single page, go only one page pack
-        if (isSinglePage(curPage - 2, pagesToSpreadState, settings.offsetFirstPage)) {
-            return 1;
-        }
-
-        // Otherwise go two pages back
-        return 2;
-    }
-
     function nextPage() {
-        if (curPage < pages.length - 1) {
-            const nextCurPage = curPage + getPagesToDisplay();
-            setCurPage(nextCurPage >= pages.length ? pages.length - 1 : nextCurPage);
-        } else if (settings.loadNextOnEnding) {
+        const setNextPage = (page: number) => setCurPage(page === -1 ? pages.length - 1 : page);
+
+        const isLastPageDisplayed = pagesToDisplayStateRef.current[pages.length - 1];
+        if (isLastPageDisplayed && settings.loadNextOnEnding) {
+            // make sure to set last page as current page so that the chapter gets marked as read before opening the next chapter
+            const isLastPage = curPage === pages.length - 1;
+            if (!isLastPage) {
+                setNextPage(pages.length - 1);
+            }
+
             nextChapter();
+            return;
         }
+
+        const page = pagesToDisplayStateRef.current.findIndex((displayed, index) => !displayed && index > curPage);
+        setNextPage(page);
     }
 
     function prevPage() {
-        if (curPage > 0) {
-            const nextCurPage = curPage - pagesToGoBack();
-            setCurPage(nextCurPage < 0 ? 0 : nextCurPage);
-        } else {
+        const setPrevPage = (page: number) => setCurPage(Math.max(page, 0));
+
+        const isFirstPageDisplayed = pagesToDisplayStateRef.current[0];
+        if (isFirstPageDisplayed) {
+            // not important, but for consistency make sure that first page gets set as current page in case it was displayed
+            const isFirstPage = !curPage;
+            if (!isFirstPage) {
+                setPrevPage(0);
+            }
+
             prevChapter();
+            return;
         }
+
+        const page = [...pagesToDisplayStateRef.current].slice(0, curPage).findLastIndex((displayed) => !displayed);
+        setPrevPage(page);
     }
 
     function goLeft() {
@@ -137,16 +120,6 @@ export function DoublePagedPager(props: IReaderProps) {
     }, [initialPage]);
 
     useEffect(() => {
-        if (settings.offsetFirstPage) {
-            if (getPagesToDisplay() === 2) {
-                setCurPage(curPage + 1);
-            }
-        } else if (curPage > 0 && !isSinglePage(curPage - 1, pagesToSpreadState, settings.offsetFirstPage)) {
-            setCurPage(curPage - 1);
-        }
-    }, [settings.offsetFirstPage]);
-
-    useEffect(() => {
         const imageRequests: [number, ReturnType<(typeof requestManager)['requestImage']>][] = pages.map((page) => [
             page.index,
             requestManager.requestImage(page.src),
@@ -187,23 +160,61 @@ export function DoublePagedPager(props: IReaderProps) {
                     height: 'auto',
                 }}
             >
-                {getPagesToDisplay() === 2 ? (
-                    <DoublePage
-                        key={curPage}
-                        index={curPage}
-                        image1src={pages[curPage].src}
-                        image2src={pages[curPage + 1].src}
-                        settings={settings}
-                    />
-                ) : (
-                    <Page
-                        key={curPage}
-                        index={curPage}
-                        src={pages[curPage].src}
-                        onImageLoad={() => {}}
-                        settings={settings}
-                    />
-                )}
+                {pages.map(({ index, src }) => {
+                    const prevSpreadPage = (() => {
+                        let currentIndexOfPrevSpreadPage = pageToPrevSpreadPageRef.current[curPage];
+
+                        if (currentIndexOfPrevSpreadPage === undefined) {
+                            currentIndexOfPrevSpreadPage = Math.max(pagesToSpreadState.lastIndexOf(true, curPage), 0);
+
+                            const areAllPrevPagesLoaded = pagesLoadState.slice(0, curPage).every(Boolean);
+                            if (areAllPrevPagesLoaded) {
+                                pageToPrevSpreadPageRef.current[curPage] = currentIndexOfPrevSpreadPage;
+                            }
+                        }
+
+                        return currentIndexOfPrevSpreadPage > 0
+                            ? currentIndexOfPrevSpreadPage + 1
+                            : currentIndexOfPrevSpreadPage;
+                    })();
+
+                    // index of first page after a spread page will be 0
+                    const normalizedCurPageIndexForSpreadPages = curPage - prevSpreadPage;
+
+                    const isFirstPage = curPage === 0;
+                    // only offset pages before the first spread page, after the first spread page handle as if "offsetFirstPage" is disabled
+                    const firstPageOffset =
+                        Number(settings.offsetFirstPage) +
+                        Number(settings.offsetFirstPage && !normalizedCurPageIndexForSpreadPages && !isFirstPage);
+
+                    const normalizedCurPageIndex = normalizedCurPageIndexForSpreadPages - firstPageOffset;
+
+                    const isCurPageEven = !(normalizedCurPageIndex % 2);
+                    const secondPage = curPage + (isCurPageEven ? 1 : -1);
+
+                    const isCurPage = index === curPage;
+                    const isSecondPage = index === secondPage;
+
+                    const isCurrentPageSpreadPage = pagesToSpreadState[curPage];
+                    const isSecondPageSpreadPage = pagesToSpreadState[secondPage];
+                    const hasSpreadPage = isCurrentPageSpreadPage || isSecondPageSpreadPage;
+
+                    const displaySecondPage = isSecondPage && !hasSpreadPage;
+                    const displayPage = isCurPage || displaySecondPage;
+
+                    pagesToDisplayStateRef.current[index] = displayPage;
+
+                    return (
+                        <Page
+                            key={src}
+                            index={index}
+                            src={src}
+                            onImageLoad={() => {}}
+                            settings={settings}
+                            display={displayPage}
+                        />
+                    );
+                })}
             </Box>
         </Box>
     );
