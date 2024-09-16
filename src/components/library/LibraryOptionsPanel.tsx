@@ -30,13 +30,13 @@ const TITLES: { [key in 'filter' | 'sort' | 'display']: TranslationKey } = {
 };
 
 const SORT_OPTIONS: [LibrarySortMode, TranslationKey][] = [
-    ['sortToRead', 'library.option.sort.label.by_unread_chapters'],
-    ['sortTotalChapters', 'library.option.sort.label.by_total_chapters'],
-    ['sortAlph', 'library.option.sort.label.alphabetically'],
-    ['sortDateAdded', 'library.option.sort.label.by_date_added'],
-    ['sortLastRead', 'library.option.sort.label.by_last_read'],
-    ['sortLatestFetchedChapter', 'library.option.sort.label.by_latest_fetched_chapter'],
-    ['sortLatestUploadedChapter', 'library.option.sort.label.by_latest_uploaded_chapter'],
+    ['unreadChapters', 'library.option.sort.label.by_unread_chapters'],
+    ['totalChapters', 'library.option.sort.label.by_total_chapters'],
+    ['alphabetically', 'library.option.sort.label.alphabetically'],
+    ['dateAdded', 'library.option.sort.label.by_date_added'],
+    ['lastRead', 'library.option.sort.label.by_last_read'],
+    ['latestFetchedChapter', 'library.option.sort.label.by_latest_fetched_chapter'],
+    ['latestUploadedChapter', 'library.option.sort.label.by_latest_uploaded_chapter'],
 ];
 
 interface IProps {
@@ -67,18 +67,18 @@ export const LibraryOptionsPanel: React.FC<IProps> = ({ open, onClose }) => {
                         <>
                             <ThreeStateCheckboxInput
                                 label={t('global.filter.label.unread')}
-                                checked={options.unread}
-                                onChange={(c) => handleFilterChange('unread', c)}
+                                checked={options.hasUnreadChapters}
+                                onChange={(c) => handleFilterChange('hasUnreadChapters', c)}
                             />
                             <ThreeStateCheckboxInput
                                 label={t('global.filter.label.downloaded')}
-                                checked={options.downloaded}
-                                onChange={(c) => handleFilterChange('downloaded', c)}
+                                checked={options.hasDownloadedChapters}
+                                onChange={(c) => handleFilterChange('hasDownloadedChapters', c)}
                             />
                             <ThreeStateCheckboxInput
                                 label={t('global.filter.label.bookmarked')}
-                                checked={options.bookmarked}
-                                onChange={(c) => handleFilterChange('bookmarked', c)}
+                                checked={options.hasBookmarkedChapters}
+                                onChange={(c) => handleFilterChange('hasBookmarkedChapters', c)}
                             />
                             <ThreeStateCheckboxInput
                                 label={t('global.filter.label.duplicate_chapters')}
@@ -89,10 +89,10 @@ export const LibraryOptionsPanel: React.FC<IProps> = ({ open, onClose }) => {
                             {Object.values(MangaStatus).map((status) => (
                                 <ThreeStateCheckboxInput
                                     label={t(statusToTranslationKey[status])}
-                                    checked={options.status[status]}
+                                    checked={options.hasStatus[status]}
                                     onChange={(checked) =>
-                                        handleFilterChange('status', {
-                                            ...options.status,
+                                        handleFilterChange('hasStatus', {
+                                            ...options.hasStatus,
                                             [status]: checked,
                                         })
                                     }
@@ -103,9 +103,12 @@ export const LibraryOptionsPanel: React.FC<IProps> = ({ open, onClose }) => {
                                 <ThreeStateCheckboxInput
                                     key={tracker.id}
                                     label={tracker.name}
-                                    checked={options.tracker[tracker.id]}
+                                    checked={options.hasTrackerBinding[tracker.id]}
                                     onChange={(checked) =>
-                                        handleFilterChange('tracker', { ...options.tracker, [tracker.id]: checked })
+                                        handleFilterChange('hasTrackerBinding', {
+                                            ...options.hasTrackerBinding,
+                                            [tracker.id]: checked,
+                                        })
                                     }
                                 />
                             ))}
@@ -117,11 +120,11 @@ export const LibraryOptionsPanel: React.FC<IProps> = ({ open, onClose }) => {
                         <SortRadioInput
                             key={mode}
                             label={t(label)}
-                            checked={options.sorts === mode}
+                            checked={options.sortBy === mode}
                             sortDescending={options.sortDesc}
                             onClick={() =>
-                                mode !== options.sorts
-                                    ? handleFilterChange('sorts', mode)
+                                mode !== options.sortBy
+                                    ? handleFilterChange('sortBy', mode)
                                     : handleFilterChange('sortDesc', !options.sortDesc)
                             }
                         />

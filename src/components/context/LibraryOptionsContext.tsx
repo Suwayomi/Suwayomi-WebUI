@@ -26,21 +26,21 @@ export const DefaultLibraryOptions: LibraryOptions = {
     showDownloadBadge: false,
     showUnreadBadge: false,
     gridLayout: GridLayout.Compact,
-    SourcegridLayout: GridLayout.Compact,
+    sourceGridLayout: GridLayout.Compact,
 
     showTabSize: false,
 
     // sort options
     sortDesc: undefined,
-    sorts: undefined,
+    sortBy: undefined,
 
     // filter options
-    downloaded: undefined,
-    bookmarked: undefined,
-    unread: undefined,
+    hasDownloadedChapters: undefined,
+    hasBookmarkedChapters: undefined,
+    hasUnreadChapters: undefined,
     hasDuplicateChapters: undefined,
-    tracker: {},
-    status: {} as LibraryOptions['status'],
+    hasTrackerBinding: {},
+    hasStatus: {} as LibraryOptions['hasStatus'],
 };
 
 export const LibraryOptionsContext = React.createContext<ContextType>({

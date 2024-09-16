@@ -11,8 +11,8 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
 import { LibraryOptionsPanel } from '@/components/library/LibraryOptionsPanel';
+import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext.tsx';
 
 export const LibraryToolbarMenu: React.FC = () => {
     const { t } = useTranslation();
@@ -20,9 +20,9 @@ export const LibraryToolbarMenu: React.FC = () => {
     const [open, setOpen] = useState(false);
     const { options } = useLibraryOptionsContext();
     const active =
-        options.downloaded != null ||
-        options.unread != null ||
-        Object.values(options.tracker).some((trackerFilterStatus) => trackerFilterStatus != null);
+        options.hasDownloadedChapters != null ||
+        options.hasUnreadChapters != null ||
+        Object.values(options.hasTrackerBinding).some((trackerFilterStatus) => trackerFilterStatus != null);
 
     return (
         <>

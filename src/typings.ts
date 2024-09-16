@@ -252,13 +252,13 @@ export type ChapterOptionsReducerAction =
     | { type: 'showChapterNumber' };
 
 export type LibrarySortMode =
-    | 'sortToRead'
-    | 'sortAlph'
-    | 'sortDateAdded'
-    | 'sortLastRead'
-    | 'sortLatestFetchedChapter'
-    | 'sortLatestUploadedChapter'
-    | 'sortTotalChapters';
+    | 'unreadChapters'
+    | 'totalChapters'
+    | 'alphabetically'
+    | 'dateAdded'
+    | 'lastRead'
+    | 'latestFetchedChapter'
+    | 'latestUploadedChapter';
 
 enum GridLayout {
     Compact = 0,
@@ -272,20 +272,20 @@ export interface LibraryOptions {
     showDownloadBadge: boolean;
     showUnreadBadge: boolean;
     gridLayout: GridLayout;
-    SourcegridLayout: GridLayout;
+    sourceGridLayout: GridLayout;
+    showTabSize: boolean;
 
     // sort options
-    sorts: NullAndUndefined<LibrarySortMode>;
+    sortBy: NullAndUndefined<LibrarySortMode>;
     sortDesc: NullAndUndefined<boolean>;
 
     // filter options
-    downloaded: NullAndUndefined<boolean>;
-    bookmarked: NullAndUndefined<boolean>;
-    unread: NullAndUndefined<boolean>;
+    hasDownloadedChapters: NullAndUndefined<boolean>;
+    hasBookmarkedChapters: NullAndUndefined<boolean>;
+    hasUnreadChapters: NullAndUndefined<boolean>;
     hasDuplicateChapters: NullAndUndefined<boolean>;
-    showTabSize: boolean;
-    tracker: Record<TrackerType['id'], NullAndUndefined<boolean>>;
-    status: Record<MangaStatus, NullAndUndefined<boolean>>;
+    hasTrackerBinding: Record<TrackerType['id'], NullAndUndefined<boolean>>;
+    hasStatus: Record<MangaStatus, NullAndUndefined<boolean>>;
 }
 
 export type ServerSettings = GetServerSettingsQuery['settings'];

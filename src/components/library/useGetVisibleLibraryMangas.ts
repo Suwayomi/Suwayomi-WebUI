@@ -77,7 +77,7 @@ const querySearchManga = (
     performSearch([query], [source?.displayName]);
 
 type TMangaTrackerFilter = { trackRecords: { nodes: Pick<TrackRecordType, 'id' | 'trackerId'>[] } };
-const trackerFilter = (trackFilters: LibraryOptions['tracker'], manga: TMangaTrackerFilter): boolean =>
+const trackerFilter = (trackFilters: LibraryOptions['hasTrackerBinding'], manga: TMangaTrackerFilter): boolean =>
     Object.entries(trackFilters)
         .map(([trackFilterId, trackFilterState]) => {
             const isTrackerBound = manga.trackRecords.nodes.some(
@@ -93,28 +93,40 @@ const trackerFilter = (trackFilters: LibraryOptions['tracker'], manga: TMangaTra
         .every(Boolean);
 
 type TMangaStatusFilter = Pick<MangaType, 'status'>;
-const statusFilter = (statusFilters: LibraryOptions['status'], manga: TMangaStatusFilter): boolean =>
+const statusFilter = (statusFilters: LibraryOptions['hasStatus'], manga: TMangaStatusFilter): boolean =>
     Object.entries(statusFilters)
         .map(([status, statusFilterState]) => triStateFilterBoolean(statusFilterState, status === manga.status))
         .every(Boolean);
 
 type TMangaFilterOptions = Pick<
     LibraryOptions,
-    'unread' | 'downloaded' | 'bookmarked' | 'hasDuplicateChapters' | 'tracker' | 'status'
+    | 'hasUnreadChapters'
+    | 'hasDownloadedChapters'
+    | 'hasBookmarkedChapters'
+    | 'hasDuplicateChapters'
+    | 'hasTrackerBinding'
+    | 'hasStatus'
 >;
 type TMangaFilter = Pick<MangaType, 'downloadCount' | 'unreadCount' | 'bookmarkCount' | 'hasDuplicateChapters'> &
     TMangaTrackerFilter &
     TMangaStatusFilter;
 const filterManga = (
     manga: TMangaFilter,
-    { unread, downloaded, bookmarked, hasDuplicateChapters, tracker, status }: TMangaFilterOptions,
+    {
+        hasDownloadedChapters,
+        hasUnreadChapters,
+        hasBookmarkedChapters,
+        hasDuplicateChapters,
+        hasTrackerBinding,
+        hasStatus,
+    }: TMangaFilterOptions,
 ): boolean =>
-    triStateFilterNumber(downloaded, manga.downloadCount) &&
-    triStateFilterNumber(unread, manga.unreadCount) &&
-    triStateFilterNumber(bookmarked, manga.bookmarkCount) &&
+    triStateFilterNumber(hasDownloadedChapters, manga.downloadCount) &&
+    triStateFilterNumber(hasUnreadChapters, manga.unreadCount) &&
+    triStateFilterNumber(hasBookmarkedChapters, manga.bookmarkCount) &&
     triStateFilterBoolean(hasDuplicateChapters, manga.hasDuplicateChapters) &&
-    trackerFilter(tracker, manga) &&
-    statusFilter(status, manga);
+    trackerFilter(hasTrackerBinding, manga) &&
+    statusFilter(hasStatus, manga);
 
 type TMangasFilter = TMangaQueryFilter & TMangaFilter;
 const filterMangas = <Manga extends TMangasFilter>(
@@ -150,27 +162,27 @@ const sortManga = <Manga extends TMangaSort>(
     const result = [...manga];
 
     switch (sort) {
-        case 'sortAlph':
+        case 'alphabetically':
             result.sort((a, b) => sortByString(a.title, b.title));
             break;
-        case 'sortDateAdded':
+        case 'dateAdded':
             result.sort((a, b) => sortByNumber(a.inLibraryAt, b.inLibraryAt));
             break;
-        case 'sortToRead':
+        case 'unreadChapters':
             result.sort((a, b) => sortByNumber(a.unreadCount, b.unreadCount));
             break;
-        case 'sortLastRead':
+        case 'lastRead':
             result.sort((a, b) => sortByNumber(a.lastReadChapter?.lastReadAt, b.lastReadChapter?.lastReadAt));
             break;
-        case 'sortLatestUploadedChapter':
+        case 'latestUploadedChapter':
             result.sort((a, b) =>
                 sortByNumber(a.latestUploadedChapter?.uploadDate, b.latestUploadedChapter?.uploadDate),
             );
             break;
-        case 'sortLatestFetchedChapter':
+        case 'latestFetchedChapter':
             result.sort((a, b) => sortByNumber(a.latestFetchedChapter?.fetchedAt, b.latestFetchedChapter?.fetchedAt));
             break;
-        case 'sortTotalChapters':
+        case 'totalChapters':
             result.sort((a, b) => sortByNumber(a.chapters.totalCount, b.chapters.totalCount));
             break;
         default:
@@ -192,30 +204,48 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
 } => {
     const [query] = useQueryParam('query', StringParam);
     const { options } = useLibraryOptionsContext();
-    const { unread, downloaded, bookmarked, tracker, hasDuplicateChapters, status } = options;
+    const {
+        hasUnreadChapters,
+        hasDownloadedChapters,
+        hasBookmarkedChapters,
+        hasTrackerBinding,
+        hasDuplicateChapters,
+        hasStatus,
+    } = options;
     const { settings } = useMetadataServerSettings();
 
     const filteredMangas = useMemo(
         () =>
             filterMangas(mangas, query, {
-                unread,
-                downloaded,
-                bookmarked,
-                hasDuplicateChapters,
-                tracker,
-                status,
+                ...options,
                 ignoreFilters: settings.ignoreFilters,
             }),
-        [mangas, query, unread, downloaded, bookmarked, hasDuplicateChapters, tracker, settings.ignoreFilters],
+        [
+            mangas,
+            query,
+            hasUnreadChapters,
+            hasDownloadedChapters,
+            hasBookmarkedChapters,
+            hasTrackerBinding,
+            hasDuplicateChapters,
+            hasStatus,
+            settings.ignoreFilters,
+        ],
     );
     const sortedMangas = useMemo(
-        () => sortManga(filteredMangas, options.sorts, options.sortDesc),
-        [filteredMangas, options.sorts, options.sortDesc],
+        () => sortManga(filteredMangas, options.sortBy, options.sortDesc),
+        [filteredMangas, options.sortBy, options.sortDesc],
     );
 
-    const isATrackFilterActive = Object.values(options.tracker).some((trackFilterState) => trackFilterState != null);
+    const isATrackFilterActive = Object.values(options.hasTrackerBinding).some(
+        (trackFilterState) => trackFilterState != null,
+    );
     const showFilteredOutMessage =
-        (unread != null || downloaded != null || bookmarked != null || !!query || isATrackFilterActive) &&
+        (hasUnreadChapters != null ||
+            hasDownloadedChapters != null ||
+            hasBookmarkedChapters != null ||
+            !!query ||
+            isATrackFilterActive) &&
         filteredMangas.length === 0 &&
         mangas.length > 0;
 
