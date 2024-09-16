@@ -121,7 +121,16 @@ export function PagedPager(props: IReaderProps) {
             }}
             onClick={clickControl}
         >
-            <Page key={curPage} index={curPage} onImageLoad={() => {}} src={pages[curPage].src} settings={settings} />
+            {pages.map(({ index, src }) => (
+                <Page
+                    key={src}
+                    index={index}
+                    onImageLoad={() => {}}
+                    src={src}
+                    settings={settings}
+                    display={index === curPage}
+                />
+            ))}
         </Box>
     );
 }

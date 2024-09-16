@@ -18,6 +18,7 @@ export const isHorizontalReaderType = (readerType: ReaderType): boolean =>
     ['ContinuesHorizontalLTR', 'ContinuesHorizontalRTL'].includes(readerType);
 
 export function imageStyle(settings: IReaderSettings): CSSProperties {
+    const isDoublePageReader = ['DoubleRTL', 'DoubleLTR'].includes(settings.readerType);
     const isVertical = settings.readerType === 'ContinuesVertical';
     const isHorizontal = isHorizontalReaderType(settings.readerType);
 
@@ -63,10 +64,11 @@ interface IProps {
     index: number;
     onImageLoad: () => void;
     settings: IReaderSettings;
+    display?: boolean;
 }
 
 export const Page = forwardRef((props: IProps, ref: any) => {
-    const { src, index, onImageLoad, settings } = props;
+    const { src, index, onImageLoad, settings, display = true } = props;
 
     const theme = useTheme();
     const isMobileWidth = useMediaQuery(theme.breakpoints.down('md'));
@@ -78,7 +80,7 @@ export const Page = forwardRef((props: IProps, ref: any) => {
         <Box
             ref={ref}
             sx={{
-                display: 'flex',
+                display: display ? 'flex' : 'none',
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
