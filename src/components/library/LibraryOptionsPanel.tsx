@@ -8,20 +8,27 @@
 
 import FormLabel from '@mui/material/FormLabel';
 import RadioGroup from '@mui/material/RadioGroup';
-import React from 'react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { LibraryOptions, LibrarySortMode, TranslationKey } from '@/typings';
+import { LibrarySortMode, TranslationKey } from '@/typings';
 import { CheckboxInput } from '@/components/atoms/CheckboxInput';
 import { RadioInput } from '@/components/atoms/RadioInput';
 import { SortRadioInput } from '@/components/atoms/SortRadioInput';
 import { ThreeStateCheckboxInput } from '@/components/atoms/ThreeStateCheckboxInput';
-import { GridLayout, useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
+import { GridLayout } from '@/components/context/LibraryOptionsContext';
 import { OptionsTabs } from '@/components/molecules/OptionsTabs';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Trackers } from '@/lib/data/Trackers.ts';
 import { GetTrackersSettingsQuery, MangaStatus } from '@/lib/graphql/generated/graphql.ts';
 import { GET_TRACKERS_SETTINGS } from '@/lib/graphql/queries/TrackerQuery.ts';
 import { statusToTranslationKey } from '@/lib/data/Mangas.ts';
+import { CategoryMetadataInfo } from '@/lib/data/Categories.ts';
+import { createUpdateCategoryMetadata, getCategoryMetadata } from '@/lib/metadata/categoryMetadata.ts';
+import { makeToast } from '@/components/util/Toast.tsx';
+import {
+    createUpdateMetadataServerSettings,
+    useMetadataServerSettings,
+} from '@/lib/metadata/metadataServerSettings.ts';
 
 const TITLES: { [key in 'filter' | 'sort' | 'display']: TranslationKey } = {
     filter: 'global.label.filter',
@@ -39,21 +46,31 @@ const SORT_OPTIONS: [LibrarySortMode, TranslationKey][] = [
     ['latestUploadedChapter', 'library.option.sort.label.by_latest_uploaded_chapter'],
 ];
 
-interface IProps {
+export const LibraryOptionsPanel = ({
+    category,
+    open,
+    onClose,
+}: {
+    category: CategoryMetadataInfo;
     open: boolean;
     onClose: () => void;
-}
-
-export const LibraryOptionsPanel: React.FC<IProps> = ({ open, onClose }) => {
+}) => {
     const { t } = useTranslation();
-    const { options, setOptions } = useLibraryOptionsContext();
 
     const trackerList = requestManager.useGetTrackerList<GetTrackersSettingsQuery>(GET_TRACKERS_SETTINGS);
     const loggedInTrackers = Trackers.getLoggedIn(trackerList.data?.trackers.nodes ?? []);
 
-    const handleFilterChange = <T extends keyof LibraryOptions>(key: T, value: LibraryOptions[T]) => {
-        setOptions((v) => ({ ...v, [key]: value }));
-    };
+    const categoryLibraryOptions = useMemo(() => getCategoryMetadata(category), [category]);
+    const updateCategoryLibraryOptions = createUpdateCategoryMetadata(category, () =>
+        makeToast(t('global.error.label.failed_to_save_changes', 'error')),
+    );
+
+    const {
+        settings: { showTabSize },
+    } = useMetadataServerSettings();
+    const setSettingValue = createUpdateMetadataServerSettings<'showTabSize'>(() =>
+        makeToast(t('search.error.label.failed_to_save_settings'), 'warning'),
+    );
 
     return (
         <OptionsTabs<'filter' | 'sort' | 'display'>
@@ -67,32 +84,33 @@ export const LibraryOptionsPanel: React.FC<IProps> = ({ open, onClose }) => {
                         <>
                             <ThreeStateCheckboxInput
                                 label={t('global.filter.label.unread')}
-                                checked={options.hasUnreadChapters}
-                                onChange={(c) => handleFilterChange('hasUnreadChapters', c)}
+                                checked={categoryLibraryOptions.hasUnreadChapters}
+                                onChange={(c) => updateCategoryLibraryOptions('hasUnreadChapters', c)}
                             />
                             <ThreeStateCheckboxInput
                                 label={t('global.filter.label.downloaded')}
-                                checked={options.hasDownloadedChapters}
-                                onChange={(c) => handleFilterChange('hasDownloadedChapters', c)}
+                                checked={categoryLibraryOptions.hasDownloadedChapters}
+                                onChange={(c) => updateCategoryLibraryOptions('hasDownloadedChapters', c)}
                             />
                             <ThreeStateCheckboxInput
                                 label={t('global.filter.label.bookmarked')}
-                                checked={options.hasBookmarkedChapters}
-                                onChange={(c) => handleFilterChange('hasBookmarkedChapters', c)}
+                                checked={categoryLibraryOptions.hasBookmarkedChapters}
+                                onChange={(c) => updateCategoryLibraryOptions('hasBookmarkedChapters', c)}
                             />
                             <ThreeStateCheckboxInput
                                 label={t('global.filter.label.duplicate_chapters')}
-                                checked={options.hasDuplicateChapters}
-                                onChange={(c) => handleFilterChange('hasDuplicateChapters', c)}
+                                checked={categoryLibraryOptions.hasDuplicateChapters}
+                                onChange={(c) => updateCategoryLibraryOptions('hasDuplicateChapters', c)}
                             />
                             <FormLabel sx={{ mt: 2 }}>{t('manga.label.status')}</FormLabel>
                             {Object.values(MangaStatus).map((status) => (
                                 <ThreeStateCheckboxInput
+                                    key={status}
                                     label={t(statusToTranslationKey[status])}
-                                    checked={options.hasStatus[status]}
+                                    checked={categoryLibraryOptions.hasStatus[status]}
                                     onChange={(checked) =>
-                                        handleFilterChange('hasStatus', {
-                                            ...options.hasStatus,
+                                        updateCategoryLibraryOptions('hasStatus', {
+                                            ...categoryLibraryOptions.hasStatus,
                                             [status]: checked,
                                         })
                                     }
@@ -103,10 +121,10 @@ export const LibraryOptionsPanel: React.FC<IProps> = ({ open, onClose }) => {
                                 <ThreeStateCheckboxInput
                                     key={tracker.id}
                                     label={tracker.name}
-                                    checked={options.hasTrackerBinding[tracker.id]}
+                                    checked={categoryLibraryOptions.hasTrackerBinding[tracker.id]}
                                     onChange={(checked) =>
-                                        handleFilterChange('hasTrackerBinding', {
-                                            ...options.hasTrackerBinding,
+                                        updateCategoryLibraryOptions('hasTrackerBinding', {
+                                            ...categoryLibraryOptions.hasTrackerBinding,
                                             [tracker.id]: checked,
                                         })
                                     }
@@ -120,24 +138,24 @@ export const LibraryOptionsPanel: React.FC<IProps> = ({ open, onClose }) => {
                         <SortRadioInput
                             key={mode}
                             label={t(label)}
-                            checked={options.sortBy === mode}
-                            sortDescending={options.sortDesc}
+                            checked={categoryLibraryOptions.sortBy === mode}
+                            sortDescending={categoryLibraryOptions.sortDesc}
                             onClick={() =>
-                                mode !== options.sortBy
-                                    ? handleFilterChange('sortBy', mode)
-                                    : handleFilterChange('sortDesc', !options.sortDesc)
+                                mode !== categoryLibraryOptions.sortBy
+                                    ? updateCategoryLibraryOptions('sortBy', mode)
+                                    : updateCategoryLibraryOptions('sortDesc', !categoryLibraryOptions.sortDesc)
                             }
                         />
                     ));
                 }
                 if (key === 'display') {
-                    const { gridLayout, showContinueReadingButton, showDownloadBadge, showUnreadBadge, showTabSize } =
-                        options;
+                    const { gridLayout, showContinueReadingButton, showDownloadBadge, showUnreadBadge } =
+                        categoryLibraryOptions;
                     return (
                         <>
                             <FormLabel>{t('global.grid_layout.title')}</FormLabel>
                             <RadioGroup
-                                onChange={(e) => handleFilterChange('gridLayout', Number(e.target.value))}
+                                onChange={(e) => updateCategoryLibraryOptions('gridLayout', Number(e.target.value))}
                                 value={gridLayout}
                             >
                                 <RadioInput
@@ -161,19 +179,19 @@ export const LibraryOptionsPanel: React.FC<IProps> = ({ open, onClose }) => {
                             <CheckboxInput
                                 label={t('library.option.display.badge.label.unread_badges')}
                                 checked={showUnreadBadge}
-                                onChange={() => handleFilterChange('showUnreadBadge', !showUnreadBadge)}
+                                onChange={() => updateCategoryLibraryOptions('showUnreadBadge', !showUnreadBadge)}
                             />
                             <CheckboxInput
                                 label={t('library.option.display.badge.label.download_badges')}
                                 checked={showDownloadBadge}
-                                onChange={() => handleFilterChange('showDownloadBadge', !showDownloadBadge)}
+                                onChange={() => updateCategoryLibraryOptions('showDownloadBadge', !showDownloadBadge)}
                             />
 
                             <FormLabel sx={{ mt: 2 }}>{t('library.option.display.tab.title')}</FormLabel>
                             <CheckboxInput
                                 label={t('library.option.display.tab.label.show_number_of_items')}
                                 checked={showTabSize}
-                                onChange={() => handleFilterChange('showTabSize', !showTabSize)}
+                                onChange={() => setSettingValue('showTabSize', !showTabSize)}
                             />
 
                             <FormLabel sx={{ mt: 2 }}>{t('global.label.other')}</FormLabel>
@@ -181,7 +199,10 @@ export const LibraryOptionsPanel: React.FC<IProps> = ({ open, onClose }) => {
                                 label={t('library.option.display.other.label.show_continue_reading_button')}
                                 checked={showContinueReadingButton}
                                 onChange={() =>
-                                    handleFilterChange('showContinueReadingButton', !showContinueReadingButton)
+                                    updateCategoryLibraryOptions(
+                                        'showContinueReadingButton',
+                                        !showContinueReadingButton,
+                                    )
                                 }
                             />
                         </>

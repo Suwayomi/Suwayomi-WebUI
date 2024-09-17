@@ -24,6 +24,10 @@ export const CATEGORY_LIBRARY_FIELDS = gql`
     fragment CATEGORY_LIBRARY_FIELDS on CategoryType {
         ...CATEGORY_BASE_FIELDS
 
+        meta {
+            key
+            value
+        }
         mangas {
             totalCount
         }

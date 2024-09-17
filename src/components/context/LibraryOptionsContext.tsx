@@ -8,6 +8,7 @@
 
 import React, { useContext } from 'react';
 import { LibraryOptions } from '@/typings';
+import { getDefaultCategoryMetadata } from '@/lib/metadata/categoryMetadata.ts';
 
 type ContextType = {
     options: LibraryOptions;
@@ -20,31 +21,8 @@ export enum GridLayout {
     List = 2,
 }
 
-export const DefaultLibraryOptions: LibraryOptions = {
-    // display options
-    showContinueReadingButton: false,
-    showDownloadBadge: false,
-    showUnreadBadge: false,
-    gridLayout: GridLayout.Compact,
-    sourceGridLayout: GridLayout.Compact,
-
-    showTabSize: false,
-
-    // sort options
-    sortDesc: undefined,
-    sortBy: undefined,
-
-    // filter options
-    hasDownloadedChapters: undefined,
-    hasBookmarkedChapters: undefined,
-    hasUnreadChapters: undefined,
-    hasDuplicateChapters: undefined,
-    hasTrackerBinding: {},
-    hasStatus: {} as LibraryOptions['hasStatus'],
-};
-
 export const LibraryOptionsContext = React.createContext<ContextType>({
-    options: DefaultLibraryOptions,
+    options: getDefaultCategoryMetadata(),
     setOptions: () => {},
 });
 

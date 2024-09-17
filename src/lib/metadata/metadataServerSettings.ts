@@ -31,6 +31,7 @@ export const getDefaultSettings = (): MetadataServerSettings => ({
     showAddToLibraryCategorySelectDialog: true,
     ignoreFilters: false,
     removeMangaFromCategories: false,
+    showTabSize: false,
 
     // client
     devices: [DEFAULT_DEVICE],

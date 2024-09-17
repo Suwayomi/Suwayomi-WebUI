@@ -26,7 +26,7 @@ import {
     AbortableApolloUseMutationPaginatedResponse,
     SPECIAL_ED_SOURCES,
 } from '@/lib/requests/RequestManager.ts';
-import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
+import { GridLayout } from '@/components/context/LibraryOptionsContext';
 import { SourceGridLayout } from '@/components/source/SourceGridLayout';
 import { AppbarSearch } from '@/components/util/AppbarSearch';
 import { SourceOptions } from '@/components/source/SourceOptions';
@@ -39,7 +39,7 @@ import {
 } from '@/lib/graphql/generated/graphql.ts';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
-import { useSessionStorage } from '@/util/useStorage.tsx';
+import { useLocalStorage, useSessionStorage } from '@/util/useStorage.tsx';
 import { AppStorage } from '@/util/AppStorage.ts';
 import { getGridSnapshotKey } from '@/components/MangaGrid.tsx';
 import { createUpdateSourceMetadata, getSourceMetadata } from '@/lib/metadata/sourceMetadata.ts';
@@ -217,7 +217,7 @@ export function SourceMangas() {
         settings: { hideLibraryEntries },
     } = useMetadataServerSettings();
 
-    const { options } = useLibraryOptionsContext();
+    const [sourceGridLayout] = useLocalStorage('source-grid-layout', GridLayout.Compact);
     const [query] = useQueryParam('query', StringParam);
     const [currentFiltersToApply, setCurrentFiltersToApply] = useSessionStorage<IPos[] | undefined>(
         `source-mangas-${sourceId}-filters`,
@@ -462,7 +462,7 @@ export function SourceMangas() {
                 message={message}
                 messageExtra={messageExtra}
                 isLoading={isLoading}
-                gridLayout={options.SourcegridLayout}
+                gridLayout={sourceGridLayout}
                 mode="source"
                 inLibraryIndicator
             />

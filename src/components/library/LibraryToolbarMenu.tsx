@@ -9,12 +9,16 @@
 import FilterList from '@mui/icons-material/FilterList';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import React, { useState } from 'react';
+import { ComponentProps, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { LibraryOptionsPanel } from '@/components/library/LibraryOptionsPanel';
 import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext.tsx';
 
-export const LibraryToolbarMenu: React.FC = () => {
+export const LibraryToolbarMenu = ({
+    category,
+}: {
+    category: ComponentProps<typeof LibraryOptionsPanel>['category'];
+}) => {
     const { t } = useTranslation();
 
     const [open, setOpen] = useState(false);
@@ -31,7 +35,7 @@ export const LibraryToolbarMenu: React.FC = () => {
                     <FilterList />
                 </IconButton>
             </Tooltip>
-            <LibraryOptionsPanel open={open} onClose={() => setOpen(false)} />
+            <LibraryOptionsPanel category={category} open={open} onClose={() => setOpen(false)} />
         </>
     );
 };

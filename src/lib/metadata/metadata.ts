@@ -34,6 +34,24 @@ const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
     'showAddToLibraryCategorySelectDialog',
     'ignoreFilters',
     'removeMangaFromCategories',
+    'showTabSize',
+
+    // library category options
+    // filter
+    'hasDownloadedChapters',
+    'hasBookmarkedChapters',
+    'hasUnreadChapters',
+    'hasDuplicateChapters',
+    'hasTrackerBinding',
+    'hasStatus',
+    // sort
+    'sortBy',
+    'sortDesc',
+    // display
+    'showDownloadBadge',
+    'showUnreadBadge',
+    'showTabSize',
+    'showContinueReadingButton',
 
     // client
     'devices',
@@ -160,6 +178,10 @@ const convertValueFromMetadata = <T extends AllowedMetadataValueTypes = AllowedM
 
     if (value === 'undefined') {
         return undefined as T;
+    }
+
+    if (value === 'null') {
+        return null as T;
     }
 
     return value as T;

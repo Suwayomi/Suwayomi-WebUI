@@ -9,7 +9,7 @@
 import Chip, { ChipProps } from '@mui/material/Chip';
 import Tab from '@mui/material/Tab';
 import { styled } from '@mui/material/styles';
-import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { useCallback, useContext, useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import { useQueryParam, NumberParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
@@ -20,7 +20,6 @@ import { LibraryToolbarMenu } from '@/components/library/LibraryToolbarMenu';
 import { LibraryMangaGrid } from '@/components/library/LibraryMangaGrid';
 import { AppbarSearch } from '@/components/util/AppbarSearch';
 import { UpdateChecker } from '@/components/library/UpdateChecker';
-import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { useSelectableCollection } from '@/components/collection/useSelectableCollection.ts';
 import { SelectableCollectionSelectMode } from '@/components/collection/SelectableCollectionSelectMode.tsx';
@@ -39,6 +38,9 @@ import {
 import { GET_CATEGORIES_LIBRARY } from '@/lib/graphql/queries/CategoryQuery.ts';
 import { Mangas } from '@/lib/data/Mangas.ts';
 import { MANGA_CHAPTER_STAT_FIELDS } from '@/lib/graphql/fragments/MangaFragments.ts';
+import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext.tsx';
+import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
+import { getCategoryMetadata } from '@/lib/metadata/categoryMetadata.ts';
 
 const TitleWithSizeTag = styled('span')({
     display: 'flex',
@@ -52,7 +54,10 @@ const TitleSizeTag = ({ sx, ...props }: ChipProps) => (
 export function Library() {
     const { t } = useTranslation();
 
-    const { options } = useLibraryOptionsContext();
+    const {
+        settings: { showTabSize },
+    } = useMetadataServerSettings();
+
     const {
         data: categoriesResponse,
         error: tabsError,
@@ -75,7 +80,13 @@ export function Library() {
 
     const [tabSearchParam, setTabSearchParam] = useQueryParam('tab', NumberParam);
 
-    const activeTab = tabs.find((tab) => tab.order === tabSearchParam) ?? tabs[0];
+    const { setOptions } = useLibraryOptionsContext();
+    const activeTab: (typeof tabs)[number] | undefined = tabs.find((tab) => tab.order === tabSearchParam) ?? tabs[0];
+
+    useLayoutEffect(() => {
+        setOptions(getCategoryMetadata(activeTab));
+    }, [activeTab]);
+
     const {
         data: categoryMangaResponse,
         error: mangaError,
@@ -83,7 +94,7 @@ export function Library() {
         refetch: refetchCategoryMangas,
     } = requestManager.useGetCategoryMangas(activeTab?.id, { skip: !activeTab, notifyOnNetworkStatusChange: true });
     const categoryMangas = categoryMangaResponse?.mangas.nodes ?? [];
-    const { visibleMangas: mangas, showFilteredOutMessage } = useGetVisibleLibraryMangas(categoryMangas);
+    const { visibleMangas: mangas, showFilteredOutMessage } = useGetVisibleLibraryMangas(categoryMangas, activeTab);
 
     const retryFetchCategoryMangas = useCallback(
         () => refetchCategoryMangas().catch(defaultPromiseErrorHandler('Library::refetchCategoryMangas')),
@@ -152,7 +163,7 @@ export function Library() {
         const navBarTitle = (
             <TitleWithSizeTag>
                 {title}
-                {options.showTabSize && <TitleSizeTag sx={{ color: 'inherit' }} label={librarySize} />}
+                {showTabSize && <TitleSizeTag sx={{ color: 'inherit' }} label={librarySize} />}
             </TitleWithSizeTag>
         );
         setTitle(navBarTitle, title);
@@ -161,7 +172,7 @@ export function Library() {
                 {!isSelectModeActive && (
                     <>
                         <AppbarSearch />
-                        <LibraryToolbarMenu />
+                        <LibraryToolbarMenu category={activeTab} />
                         <UpdateChecker categoryId={activeTab?.id} />
                     </>
                 )}
@@ -192,13 +203,13 @@ export function Library() {
         t,
         librarySize,
         areCategoriesLoading,
-        options,
         isSelectModeActive,
         areNoItemsSelected,
         areAllItemsSelected,
         selectedItemIds.length,
         mangas.length,
         activeTab,
+        showTabSize,
     ]);
 
     const handleTabChange = (newTab: number) => {
@@ -252,7 +263,7 @@ export function Library() {
                         label={
                             <TitleWithSizeTag>
                                 {tab.name}
-                                {options.showTabSize ? <TitleSizeTag label={tab.mangas.totalCount} /> : null}
+                                {showTabSize ? <TitleSizeTag label={tab.mangas.totalCount} /> : null}
                             </TitleWithSizeTag>
                         }
                         value={tab.order}

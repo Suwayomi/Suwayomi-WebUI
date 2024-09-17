@@ -29,11 +29,10 @@ export const LibraryMangaGrid: React.FC<LibraryMangaGridProps> = ({
 
     const [query] = useQueryParam('query', StringParam);
     const { options } = useLibraryOptionsContext();
-    const { unread, downloaded } = options;
 
     useEffect(() => {
         window.scrollTo(0, 0);
-    }, [query, unread, downloaded]);
+    }, [query, options.hasUnreadChapters, options.hasDownloadedChapters]);
 
     useLayoutEffect(() => {
         document.body.style.overflowY = options.gridLayout === GridLayout.List ? 'auto' : 'scroll';

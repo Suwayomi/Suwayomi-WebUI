@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { CategoryType } from '@/lib/graphql/generated/graphql.ts';
+import { CategoryMetaType, CategoryType } from '@/lib/graphql/generated/graphql.ts';
 
 export const DEFAULT_CATEGORY_ID = 0;
 
@@ -15,6 +15,7 @@ export type CategoryNameInfo = Pick<CategoryType, 'name'>;
 export type CategoryDefaultInfo = Pick<CategoryType, 'default'>;
 export type CategoryUpdateInclusionInfo = Pick<CategoryType, 'includeInUpdate'>;
 export type CategoryDownloadInclusionInfo = Pick<CategoryType, 'includeInDownload'>;
+export type CategoryMetadataInfo = CategoryIdInfo & { meta: Pick<CategoryMetaType, 'key' | 'value'>[] };
 
 export class Categories {
     static getIds(categories: CategoryIdInfo[]): number[] {

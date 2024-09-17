@@ -9,17 +9,18 @@
 import React, { useMemo } from 'react';
 import { LibraryOptions } from '@/typings';
 import { useLocalStorage } from '@/util/useStorage.tsx';
-import { LibraryOptionsContext, DefaultLibraryOptions } from '@/components/context/LibraryOptionsContext';
+import { LibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
+import { getDefaultCategoryMetadata } from '@/lib/metadata/categoryMetadata.ts';
 
 interface IProps {
     children: React.ReactNode;
 }
 
 export const LibraryOptionsContextProvider: React.FC<IProps> = ({ children }) => {
-    const [options, setOptions] = useLocalStorage<LibraryOptions>('libraryOptions', DefaultLibraryOptions);
+    const [options, setOptions] = useLocalStorage<LibraryOptions>('libraryOptions', getDefaultCategoryMetadata());
 
     const value = useMemo(
-        () => ({ options: { ...DefaultLibraryOptions, ...options }, setOptions }),
+        () => ({ options: { ...getDefaultCategoryMetadata(), ...options }, setOptions }),
         [options, setOptions],
     );
 

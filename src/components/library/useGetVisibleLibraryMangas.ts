@@ -9,11 +9,12 @@
 import { StringParam, useQueryParam } from 'use-query-params';
 import { useMemo } from 'react';
 import { LibraryOptions, LibrarySortMode, NullAndUndefined } from '@/typings.ts';
-import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext.tsx';
 import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 import { ChapterType, MangaType, SourceType, TrackRecordType } from '@/lib/graphql/generated/graphql.ts';
 import { MangaChapterCountInfo, MangaIdInfo } from '@/lib/data/Mangas.ts';
 import { enhancedCleanup } from '@/lib/data/Strings.ts';
+import { CategoryMetadataInfo } from '@/lib/data/Categories.ts';
+import { getCategoryMetadata } from '@/lib/metadata/categoryMetadata.ts';
 
 const triStateFilter = (
     triState: NullAndUndefined<boolean>,
@@ -198,12 +199,13 @@ const sortManga = <Manga extends TMangaSort>(
 
 export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFilter & TMangaSort>(
     mangas: Manga[],
+    category?: CategoryMetadataInfo,
 ): {
     visibleMangas: Manga[];
     showFilteredOutMessage: boolean;
 } => {
     const [query] = useQueryParam('query', StringParam);
-    const { options } = useLibraryOptionsContext();
+    const options = getCategoryMetadata(category);
     const {
         hasUnreadChapters,
         hasDownloadedChapters,

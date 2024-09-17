@@ -46,6 +46,8 @@ export interface ISourceMetadata {
     savedSearches?: Record<string, SavedSourceSearch>;
 }
 
+export interface ICategoryMetadata extends LibraryOptions {}
+
 export type SourceFilters = GetSourceBrowseQuery['source']['filters'][number];
 
 export interface IMetadataMigration {
@@ -72,7 +74,7 @@ export type MetadataHolder<Keys extends string = string, Values = string> = {
     meta?: Metadata<Keys, Values>;
 };
 
-export type AllowedMetadataValueTypes = string | boolean | number | undefined;
+export type AllowedMetadataValueTypes = string | boolean | number | undefined | null;
 
 export type MetadataServerSettingKeys = keyof MetadataServerSettings;
 
@@ -82,7 +84,14 @@ export type SearchMetadataKeys = keyof ISearchSettings;
 
 export type SourceMetadataKeys = keyof ISourceMetadata;
 
-export type AppMetadataKeys = MetadataServerSettingKeys | MangaMetadataKeys | SearchMetadataKeys | SourceMetadataKeys;
+export type CategoryMetadataKeys = keyof ICategoryMetadata;
+
+export type AppMetadataKeys =
+    | MetadataServerSettingKeys
+    | MangaMetadataKeys
+    | SearchMetadataKeys
+    | SourceMetadataKeys
+    | CategoryMetadataKeys;
 
 export type MetadataKeyValuePair = [AppMetadataKeys, AllowedMetadataValueTypes];
 
@@ -131,6 +140,7 @@ export type MetadataLibrarySettings = {
     showAddToLibraryCategorySelectDialog: boolean;
     ignoreFilters: boolean;
     removeMangaFromCategories: boolean;
+    showTabSize: boolean;
 };
 
 export type MetadataClientSettings = {
@@ -272,8 +282,6 @@ export interface LibraryOptions {
     showDownloadBadge: boolean;
     showUnreadBadge: boolean;
     gridLayout: GridLayout;
-    sourceGridLayout: GridLayout;
-    showTabSize: boolean;
 
     // sort options
     sortBy: NullAndUndefined<LibrarySortMode>;
