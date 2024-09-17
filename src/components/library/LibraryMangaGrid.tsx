@@ -6,8 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import React, { useEffect, useLayoutEffect } from 'react';
-import { StringParam, useQueryParam } from 'use-query-params';
+import React, { useLayoutEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GridLayout, useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
 import { IMangaGridProps, MangaGrid } from '@/components/MangaGrid';
@@ -27,12 +26,7 @@ export const LibraryMangaGrid: React.FC<LibraryMangaGridProps> = ({
 }) => {
     const { t } = useTranslation();
 
-    const [query] = useQueryParam('query', StringParam);
     const { options } = useLibraryOptionsContext();
-
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, [query, options.hasUnreadChapters, options.hasDownloadedChapters]);
 
     useLayoutEffect(() => {
         document.body.style.overflowY = options.gridLayout === GridLayout.List ? 'auto' : 'scroll';
