@@ -53,7 +53,7 @@ export class ChaptersWithMeta {
     static getDownloadable<Chapter extends ChapterWithMetaType>(chapters: Chapter[]): Chapter[] {
         return chapters.filter(
             ({ chapter, downloadChapter }) =>
-                !Chapters.isDownloaded(chapter) && downloadChapter?.state !== DownloadState.Error,
+                !Chapters.isDownloaded(chapter) && (!downloadChapter || downloadChapter?.state === DownloadState.Error),
         );
     }
 
