@@ -50,11 +50,12 @@ export class ChaptersWithMeta {
         return chapters.filter(({ chapter }) => !Chapters.isDownloaded(chapter));
     }
 
+    static isDownloadable<Chapter extends ChapterWithMetaType>({ chapter, downloadChapter }: Chapter): boolean {
+        return !Chapters.isDownloaded(chapter) && (!downloadChapter || downloadChapter?.state === DownloadState.Error);
+    }
+
     static getDownloadable<Chapter extends ChapterWithMetaType>(chapters: Chapter[]): Chapter[] {
-        return chapters.filter(
-            ({ chapter, downloadChapter }) =>
-                !Chapters.isDownloaded(chapter) && (!downloadChapter || downloadChapter?.state === DownloadState.Error),
-        );
+        return chapters.filter(this.isDownloadable);
     }
 
     static getBookmarked<Chapter extends ChapterWithMetaType>(chapters: Chapter[]): Chapter[] {

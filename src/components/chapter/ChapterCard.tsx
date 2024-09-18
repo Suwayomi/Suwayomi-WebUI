@@ -38,6 +38,7 @@ import {
     ChapterReadInfo,
     ChapterScanlatorInfo,
 } from '@/lib/data/Chapters.ts';
+import { ChaptersWithMeta } from '@/lib/data/ChaptersWithMeta.ts';
 
 type TChapter = ChapterIdInfo &
     ChapterMangaInfo &
@@ -182,7 +183,10 @@ export const ChapterCard: React.FC<IProps> = (props: IProps) => {
                                         chapter={chapter}
                                         allChapters={allChapters}
                                         handleSelection={() => onSelect(true)}
-                                        canBeDownloaded={!chapter.isDownloaded && !dc}
+                                        canBeDownloaded={ChaptersWithMeta.isDownloadable({
+                                            chapter,
+                                            downloadChapter: dc,
+                                        })}
                                     />
                                 )}
                             </Menu>
