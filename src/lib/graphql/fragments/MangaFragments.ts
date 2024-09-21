@@ -69,6 +69,7 @@ export const MANGA_READER_FIELDS = gql`
         ...MANGA_BASE_FIELDS
 
         meta {
+            mangaId
             key
             value
         }

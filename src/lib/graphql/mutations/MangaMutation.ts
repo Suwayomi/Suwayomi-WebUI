@@ -13,19 +13,14 @@ export const DELETE_MANGA_METADATA = gql`
     mutation DELETE_MANGA_METADATA($input: DeleteMangaMetaInput!) {
         deleteMangaMeta(input: $input) {
             meta {
+                mangaId
                 key
                 value
-                manga {
-                    id
-                    meta {
-                        key
-                        value
-                    }
-                }
             }
             manga {
                 id
                 meta {
+                    mangaId
                     key
                     value
                 }
@@ -93,15 +88,9 @@ export const SET_MANGA_METADATA = gql`
     mutation SET_MANGA_METADATA($input: SetMangaMetaInput!) {
         setMangaMeta(input: $input) {
             meta {
+                mangaId
                 key
                 value
-                manga {
-                    id
-                    meta {
-                        key
-                        value
-                    }
-                }
             }
         }
     }

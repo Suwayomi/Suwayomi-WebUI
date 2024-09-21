@@ -15,19 +15,14 @@ export const DELETE_CHAPTER_METADATA = gql`
     mutation DELETE_CHAPTER_METADATA($input: DeleteChapterMetaInput!) {
         deleteChapterMeta(input: $input) {
             meta {
+                chapterId
                 key
                 value
-                chapter {
-                    id
-                    meta {
-                        key
-                        value
-                    }
-                }
             }
             chapter {
                 id
                 meta {
+                    chapterId
                     key
                     value
                 }
@@ -73,15 +68,9 @@ export const SET_CHAPTER_METADATA = gql`
     mutation SET_CHAPTER_METADATA($input: SetChapterMetaInput!) {
         setChapterMeta(input: $input) {
             meta {
+                chapterId
                 key
                 value
-                chapter {
-                    id
-                    meta {
-                        key
-                        value
-                    }
-                }
             }
         }
     }

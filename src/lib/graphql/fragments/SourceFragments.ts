@@ -55,6 +55,7 @@ export const SOURCE_BROWSE_FIELDS = gql`
         supportsLatest
 
         meta {
+            sourceId
             key
             value
         }

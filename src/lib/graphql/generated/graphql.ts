@@ -2713,7 +2713,7 @@ export type WebUiUpdateStatus = {
 
 export type CategoryBaseFieldsFragment = { __typename?: 'CategoryType', id: number, name: string, default: boolean, order: number };
 
-export type CategoryLibraryFieldsFragment = { __typename?: 'CategoryType', id: number, name: string, default: boolean, order: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }>, mangas: { __typename?: 'MangaNodeList', totalCount: number } };
+export type CategoryLibraryFieldsFragment = { __typename?: 'CategoryType', id: number, name: string, default: boolean, order: number, meta: Array<{ __typename?: 'CategoryMetaType', categoryId: number, key: string, value: string }>, mangas: { __typename?: 'MangaNodeList', totalCount: number } };
 
 export type CategorySettingFieldsFragment = { __typename?: 'CategoryType', includeInUpdate: IncludeOrExclude, includeInDownload: IncludeOrExclude, id: number, name: string, default: boolean, order: number };
 
@@ -2749,7 +2749,7 @@ export type MangaChapterStatFieldsFragment = { __typename?: 'MangaType', id: num
 
 export type MangaChapterNodeFieldsFragment = { __typename?: 'MangaType', firstUnreadChapter?: { __typename?: 'ChapterType', id: number, sourceOrder: number } | null, lastReadChapter?: { __typename?: 'ChapterType', id: number, sourceOrder: number, lastReadAt: string } | null, latestReadChapter?: { __typename?: 'ChapterType', id: number, sourceOrder: number, lastReadAt: string } | null, latestFetchedChapter?: { __typename?: 'ChapterType', id: number, fetchedAt: string } | null, latestUploadedChapter?: { __typename?: 'ChapterType', id: number, uploadDate: string } | null };
 
-export type MangaReaderFieldsFragment = { __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: string | null, inLibrary: boolean, initialized: boolean, sourceId: string, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, trackRecords: { __typename?: 'TrackRecordNodeList', totalCount: number } };
+export type MangaReaderFieldsFragment = { __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: string | null, inLibrary: boolean, initialized: boolean, sourceId: string, meta: Array<{ __typename?: 'MangaMetaType', mangaId: number, key: string, value: string }>, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, trackRecords: { __typename?: 'TrackRecordNodeList', totalCount: number } };
 
 export type MangaLibraryFieldsFragment = { __typename?: 'MangaType', genre: Array<string>, lastFetchedAt?: string | null, inLibraryAt: string, status: MangaStatus, artist?: string | null, author?: string | null, description?: string | null, id: number, title: string, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: string | null, inLibrary: boolean, initialized: boolean, sourceId: string, unreadCount: number, downloadCount: number, bookmarkCount: number, hasDuplicateChapters: boolean, source?: { __typename?: 'SourceType', id: string, displayName: string } | null, trackRecords: { __typename?: 'TrackRecordNodeList', totalCount: number, nodes: Array<{ __typename?: 'TrackRecordType', id: number, trackerId: number }> }, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, firstUnreadChapter?: { __typename?: 'ChapterType', id: number, sourceOrder: number } | null, lastReadChapter?: { __typename?: 'ChapterType', id: number, sourceOrder: number, lastReadAt: string } | null, latestReadChapter?: { __typename?: 'ChapterType', id: number, sourceOrder: number, lastReadAt: string } | null, latestFetchedChapter?: { __typename?: 'ChapterType', id: number, fetchedAt: string } | null, latestUploadedChapter?: { __typename?: 'ChapterType', id: number, uploadDate: string } | null };
 
@@ -2765,7 +2765,7 @@ export type SourceMigratableFieldsFragment = { __typename?: 'SourceType', lang: 
 
 export type SourceListFieldsFragment = { __typename?: 'SourceType', lang: string, iconUrl: string, isNsfw: boolean, supportsLatest: boolean, id: string, name: string, displayName: string, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } };
 
-export type SourceBrowseFieldsFragment = { __typename?: 'SourceType', isConfigurable: boolean, supportsLatest: boolean, id: string, name: string, displayName: string, meta: Array<{ __typename?: 'SourceMetaType', key: string, value: string }>, filters: Array<{ __typename?: 'CheckBoxFilter', name: string, type: 'CheckBoxFilter', CheckBoxFilterDefault: boolean } | { __typename?: 'GroupFilter', name: string, type: 'GroupFilter', filters: Array<{ __typename?: 'CheckBoxFilter', name: string, type: 'CheckBoxFilter', CheckBoxFilterDefault: boolean } | { __typename?: 'GroupFilter' } | { __typename?: 'HeaderFilter', name: string, type: 'HeaderFilter' } | { __typename?: 'SelectFilter', name: string, values: Array<string>, type: 'SelectFilter', SelectFilterDefault: number } | { __typename?: 'SeparatorFilter', name: string, type: 'SeparatorFilter' } | { __typename?: 'SortFilter', name: string, values: Array<string>, type: 'SortFilter', SortFilterDefault?: { __typename?: 'SortSelection', ascending: boolean, index: number } | null } | { __typename?: 'TextFilter', name: string, type: 'TextFilter', TextFilterDefault: string } | { __typename?: 'TriStateFilter', name: string, type: 'TriStateFilter', TriStateFilterDefault: TriState }> } | { __typename?: 'HeaderFilter', name: string, type: 'HeaderFilter' } | { __typename?: 'SelectFilter', name: string, values: Array<string>, type: 'SelectFilter', SelectFilterDefault: number } | { __typename?: 'SeparatorFilter', name: string, type: 'SeparatorFilter' } | { __typename?: 'SortFilter', name: string, values: Array<string>, type: 'SortFilter', SortFilterDefault?: { __typename?: 'SortSelection', ascending: boolean, index: number } | null } | { __typename?: 'TextFilter', name: string, type: 'TextFilter', TextFilterDefault: string } | { __typename?: 'TriStateFilter', name: string, type: 'TriStateFilter', TriStateFilterDefault: TriState }> };
+export type SourceBrowseFieldsFragment = { __typename?: 'SourceType', isConfigurable: boolean, supportsLatest: boolean, id: string, name: string, displayName: string, meta: Array<{ __typename?: 'SourceMetaType', sourceId: string, key: string, value: string }>, filters: Array<{ __typename?: 'CheckBoxFilter', name: string, type: 'CheckBoxFilter', CheckBoxFilterDefault: boolean } | { __typename?: 'GroupFilter', name: string, type: 'GroupFilter', filters: Array<{ __typename?: 'CheckBoxFilter', name: string, type: 'CheckBoxFilter', CheckBoxFilterDefault: boolean } | { __typename?: 'GroupFilter' } | { __typename?: 'HeaderFilter', name: string, type: 'HeaderFilter' } | { __typename?: 'SelectFilter', name: string, values: Array<string>, type: 'SelectFilter', SelectFilterDefault: number } | { __typename?: 'SeparatorFilter', name: string, type: 'SeparatorFilter' } | { __typename?: 'SortFilter', name: string, values: Array<string>, type: 'SortFilter', SortFilterDefault?: { __typename?: 'SortSelection', ascending: boolean, index: number } | null } | { __typename?: 'TextFilter', name: string, type: 'TextFilter', TextFilterDefault: string } | { __typename?: 'TriStateFilter', name: string, type: 'TriStateFilter', TriStateFilterDefault: TriState }> } | { __typename?: 'HeaderFilter', name: string, type: 'HeaderFilter' } | { __typename?: 'SelectFilter', name: string, values: Array<string>, type: 'SelectFilter', SelectFilterDefault: number } | { __typename?: 'SeparatorFilter', name: string, type: 'SeparatorFilter' } | { __typename?: 'SortFilter', name: string, values: Array<string>, type: 'SortFilter', SortFilterDefault?: { __typename?: 'SortSelection', ascending: boolean, index: number } | null } | { __typename?: 'TextFilter', name: string, type: 'TextFilter', TextFilterDefault: string } | { __typename?: 'TriStateFilter', name: string, type: 'TriStateFilter', TriStateFilterDefault: TriState }> };
 
 export type SourceSettingFieldsFragment = { __typename?: 'SourceType', id: string, name: string, displayName: string, preferences: Array<{ __typename?: 'CheckBoxPreference', summary?: string | null, key: string, type: 'CheckBoxPreference', CheckBoxCheckBoxCurrentValue?: boolean | null, CheckBoxDefault: boolean, CheckBoxTitle: string } | { __typename?: 'EditTextPreference', text?: string | null, summary?: string | null, key: string, dialogTitle?: string | null, dialogMessage?: string | null, type: 'EditTextPreference', EditTextPreferenceCurrentValue?: string | null, EditTextPreferenceDefault?: string | null, EditTextPreferenceTitle?: string | null } | { __typename?: 'ListPreference', summary?: string | null, key: string, entryValues: Array<string>, entries: Array<string>, type: 'ListPreference', ListPreferenceCurrentValue?: string | null, ListPreferenceDefault?: string | null, ListPreferenceTitle?: string | null } | { __typename?: 'MultiSelectListPreference', dialogMessage?: string | null, dialogTitle?: string | null, summary?: string | null, key: string, entryValues: Array<string>, entries: Array<string>, type: 'MultiSelectListPreference', MultiSelectListPreferenceTitle?: string | null, MultiSelectListPreferenceDefault?: Array<string> | null, MultiSelectListPreferenceCurrentValue?: Array<string> | null } | { __typename?: 'SwitchPreference', summary?: string | null, key: string, type: 'SwitchPreference', SwitchPreferenceCurrentValue?: boolean | null, SwitchPreferenceDefault: boolean, SwitchPreferenceTitle: string }> };
 
@@ -2818,14 +2818,14 @@ export type DeleteCategoryMetadataMutationVariables = Exact<{
 }>;
 
 
-export type DeleteCategoryMetadataMutation = { __typename?: 'Mutation', deleteCategoryMeta?: { __typename?: 'DeleteCategoryMetaPayload', meta?: { __typename?: 'CategoryMetaType', key: string } | null, category: { __typename?: 'CategoryType', id: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }> } } | null };
+export type DeleteCategoryMetadataMutation = { __typename?: 'Mutation', deleteCategoryMeta?: { __typename?: 'DeleteCategoryMetaPayload', meta?: { __typename?: 'CategoryMetaType', categoryId: number, key: string, value: string } | null, category: { __typename?: 'CategoryType', id: number, meta: Array<{ __typename?: 'CategoryMetaType', categoryId: number, key: string, value: string }> } } | null };
 
 export type SetCategoryMetadataMutationVariables = Exact<{
   input: SetCategoryMetaInput;
 }>;
 
 
-export type SetCategoryMetadataMutation = { __typename?: 'Mutation', setCategoryMeta?: { __typename?: 'SetCategoryMetaPayload', meta: { __typename?: 'CategoryMetaType', key: string, value: string, category: { __typename?: 'CategoryType', id: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }> } } } | null };
+export type SetCategoryMetadataMutation = { __typename?: 'Mutation', setCategoryMeta?: { __typename?: 'SetCategoryMetaPayload', meta: { __typename?: 'CategoryMetaType', categoryId: number, key: string, value: string } } | null };
 
 export type UpdateCategoryMutationVariables = Exact<{
   input: UpdateCategoryInput;
@@ -2861,7 +2861,7 @@ export type DeleteChapterMetadataMutationVariables = Exact<{
 }>;
 
 
-export type DeleteChapterMetadataMutation = { __typename?: 'Mutation', deleteChapterMeta?: { __typename?: 'DeleteChapterMetaPayload', meta?: { __typename?: 'ChapterMetaType', key: string, value: string, chapter: { __typename?: 'ChapterType', id: number, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } } | null, chapter: { __typename?: 'ChapterType', id: number, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } } | null };
+export type DeleteChapterMetadataMutation = { __typename?: 'Mutation', deleteChapterMeta?: { __typename?: 'DeleteChapterMetaPayload', meta?: { __typename?: 'ChapterMetaType', chapterId: number, key: string, value: string } | null, chapter: { __typename?: 'ChapterType', id: number, meta: Array<{ __typename?: 'ChapterMetaType', chapterId: number, key: string, value: string }> } } | null };
 
 export type GetChapterPagesFetchMutationVariables = Exact<{
   input: FetchChapterPagesInput;
@@ -2882,7 +2882,7 @@ export type SetChapterMetadataMutationVariables = Exact<{
 }>;
 
 
-export type SetChapterMetadataMutation = { __typename?: 'Mutation', setChapterMeta?: { __typename?: 'SetChapterMetaPayload', meta: { __typename?: 'ChapterMetaType', key: string, value: string, chapter: { __typename?: 'ChapterType', id: number, meta: Array<{ __typename?: 'ChapterMetaType', key: string, value: string }> } } } | null };
+export type SetChapterMetadataMutation = { __typename?: 'Mutation', setChapterMeta?: { __typename?: 'SetChapterMetaPayload', meta: { __typename?: 'ChapterMetaType', chapterId: number, key: string, value: string } } | null };
 
 export type UpdateChapterMutationVariables = Exact<{
   input: UpdateChapterInput;
@@ -3036,7 +3036,7 @@ export type DeleteMangaMetadataMutationVariables = Exact<{
 }>;
 
 
-export type DeleteMangaMetadataMutation = { __typename?: 'Mutation', deleteMangaMeta?: { __typename?: 'DeleteMangaMetaPayload', meta?: { __typename?: 'MangaMetaType', key: string, value: string, manga: { __typename?: 'MangaType', id: number, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }> } } | null, manga: { __typename?: 'MangaType', id: number, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }> } } | null };
+export type DeleteMangaMetadataMutation = { __typename?: 'Mutation', deleteMangaMeta?: { __typename?: 'DeleteMangaMetaPayload', meta?: { __typename?: 'MangaMetaType', mangaId: number, key: string, value: string } | null, manga: { __typename?: 'MangaType', id: number, meta: Array<{ __typename?: 'MangaMetaType', mangaId: number, key: string, value: string }> } } | null };
 
 export type GetMangaFetchMutationVariables = Exact<{
   input: FetchMangaInput;
@@ -3060,7 +3060,7 @@ export type SetMangaMetadataMutationVariables = Exact<{
 }>;
 
 
-export type SetMangaMetadataMutation = { __typename?: 'Mutation', setMangaMeta?: { __typename?: 'SetMangaMetaPayload', meta: { __typename?: 'MangaMetaType', key: string, value: string, manga: { __typename?: 'MangaType', id: number, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }> } } } | null };
+export type SetMangaMetadataMutation = { __typename?: 'Mutation', setMangaMeta?: { __typename?: 'SetMangaMetaPayload', meta: { __typename?: 'MangaMetaType', mangaId: number, key: string, value: string } } | null };
 
 export type UpdateMangaMutationVariables = Exact<{
   input: UpdateMangaInput;
@@ -3139,7 +3139,7 @@ export type SetSourceMetadataMutationVariables = Exact<{
 }>;
 
 
-export type SetSourceMetadataMutation = { __typename?: 'Mutation', setSourceMeta?: { __typename?: 'SetSourceMetaPayload', meta: { __typename?: 'SourceMetaType', key: string, value: string, source: { __typename?: 'SourceType', id: string, meta: Array<{ __typename?: 'SourceMetaType', key: string, value: string }> } } } | null };
+export type SetSourceMetadataMutation = { __typename?: 'Mutation', setSourceMeta?: { __typename?: 'SetSourceMetaPayload', meta: { __typename?: 'SourceMetaType', sourceId: string, key: string, value: string } } | null };
 
 export type TrackerLoginOauthMutationVariables = Exact<{
   input: LoginTrackerOAuthInput;
@@ -3253,7 +3253,7 @@ export type GetCategoriesLibraryQueryVariables = Exact<{
 }>;
 
 
-export type GetCategoriesLibraryQuery = { __typename?: 'Query', categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, name: string, default: boolean, order: number, meta: Array<{ __typename?: 'CategoryMetaType', key: string, value: string }>, mangas: { __typename?: 'MangaNodeList', totalCount: number } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } };
+export type GetCategoriesLibraryQuery = { __typename?: 'Query', categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, name: string, default: boolean, order: number, meta: Array<{ __typename?: 'CategoryMetaType', categoryId: number, key: string, value: string }>, mangas: { __typename?: 'MangaNodeList', totalCount: number } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } };
 
 export type GetCategoriesSettingsQueryVariables = Exact<{
   after?: InputMaybe<Scalars['Cursor']['input']>;
@@ -3380,7 +3380,7 @@ export type GetMangaReaderQueryVariables = Exact<{
 }>;
 
 
-export type GetMangaReaderQuery = { __typename?: 'Query', manga: { __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: string | null, inLibrary: boolean, initialized: boolean, sourceId: string, meta: Array<{ __typename?: 'MangaMetaType', key: string, value: string }>, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, trackRecords: { __typename?: 'TrackRecordNodeList', totalCount: number } } };
+export type GetMangaReaderQuery = { __typename?: 'Query', manga: { __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: string | null, inLibrary: boolean, initialized: boolean, sourceId: string, meta: Array<{ __typename?: 'MangaMetaType', mangaId: number, key: string, value: string }>, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, trackRecords: { __typename?: 'TrackRecordNodeList', totalCount: number } } };
 
 export type GetMangaTrackRecordsQueryVariables = Exact<{
   id: Scalars['Int']['input'];
@@ -3485,7 +3485,7 @@ export type GetSourceBrowseQueryVariables = Exact<{
 }>;
 
 
-export type GetSourceBrowseQuery = { __typename?: 'Query', source: { __typename?: 'SourceType', isConfigurable: boolean, supportsLatest: boolean, id: string, name: string, displayName: string, meta: Array<{ __typename?: 'SourceMetaType', key: string, value: string }>, filters: Array<{ __typename?: 'CheckBoxFilter', name: string, type: 'CheckBoxFilter', CheckBoxFilterDefault: boolean } | { __typename?: 'GroupFilter', name: string, type: 'GroupFilter', filters: Array<{ __typename?: 'CheckBoxFilter', name: string, type: 'CheckBoxFilter', CheckBoxFilterDefault: boolean } | { __typename?: 'GroupFilter' } | { __typename?: 'HeaderFilter', name: string, type: 'HeaderFilter' } | { __typename?: 'SelectFilter', name: string, values: Array<string>, type: 'SelectFilter', SelectFilterDefault: number } | { __typename?: 'SeparatorFilter', name: string, type: 'SeparatorFilter' } | { __typename?: 'SortFilter', name: string, values: Array<string>, type: 'SortFilter', SortFilterDefault?: { __typename?: 'SortSelection', ascending: boolean, index: number } | null } | { __typename?: 'TextFilter', name: string, type: 'TextFilter', TextFilterDefault: string } | { __typename?: 'TriStateFilter', name: string, type: 'TriStateFilter', TriStateFilterDefault: TriState }> } | { __typename?: 'HeaderFilter', name: string, type: 'HeaderFilter' } | { __typename?: 'SelectFilter', name: string, values: Array<string>, type: 'SelectFilter', SelectFilterDefault: number } | { __typename?: 'SeparatorFilter', name: string, type: 'SeparatorFilter' } | { __typename?: 'SortFilter', name: string, values: Array<string>, type: 'SortFilter', SortFilterDefault?: { __typename?: 'SortSelection', ascending: boolean, index: number } | null } | { __typename?: 'TextFilter', name: string, type: 'TextFilter', TextFilterDefault: string } | { __typename?: 'TriStateFilter', name: string, type: 'TriStateFilter', TriStateFilterDefault: TriState }> } };
+export type GetSourceBrowseQuery = { __typename?: 'Query', source: { __typename?: 'SourceType', isConfigurable: boolean, supportsLatest: boolean, id: string, name: string, displayName: string, meta: Array<{ __typename?: 'SourceMetaType', sourceId: string, key: string, value: string }>, filters: Array<{ __typename?: 'CheckBoxFilter', name: string, type: 'CheckBoxFilter', CheckBoxFilterDefault: boolean } | { __typename?: 'GroupFilter', name: string, type: 'GroupFilter', filters: Array<{ __typename?: 'CheckBoxFilter', name: string, type: 'CheckBoxFilter', CheckBoxFilterDefault: boolean } | { __typename?: 'GroupFilter' } | { __typename?: 'HeaderFilter', name: string, type: 'HeaderFilter' } | { __typename?: 'SelectFilter', name: string, values: Array<string>, type: 'SelectFilter', SelectFilterDefault: number } | { __typename?: 'SeparatorFilter', name: string, type: 'SeparatorFilter' } | { __typename?: 'SortFilter', name: string, values: Array<string>, type: 'SortFilter', SortFilterDefault?: { __typename?: 'SortSelection', ascending: boolean, index: number } | null } | { __typename?: 'TextFilter', name: string, type: 'TextFilter', TextFilterDefault: string } | { __typename?: 'TriStateFilter', name: string, type: 'TriStateFilter', TriStateFilterDefault: TriState }> } | { __typename?: 'HeaderFilter', name: string, type: 'HeaderFilter' } | { __typename?: 'SelectFilter', name: string, values: Array<string>, type: 'SelectFilter', SelectFilterDefault: number } | { __typename?: 'SeparatorFilter', name: string, type: 'SeparatorFilter' } | { __typename?: 'SortFilter', name: string, values: Array<string>, type: 'SortFilter', SortFilterDefault?: { __typename?: 'SortSelection', ascending: boolean, index: number } | null } | { __typename?: 'TextFilter', name: string, type: 'TextFilter', TextFilterDefault: string } | { __typename?: 'TriStateFilter', name: string, type: 'TriStateFilter', TriStateFilterDefault: TriState }> } };
 
 export type GetSourceSettingsQueryVariables = Exact<{
   id: Scalars['LongString']['input'];

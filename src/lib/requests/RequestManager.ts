@@ -25,7 +25,7 @@ import {
     useQuery,
     useSubscription,
 } from '@apollo/client';
-import { OperationVariables, Reference } from '@apollo/client/core';
+import { OperationVariables } from '@apollo/client/core';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { IRestClient, RestClient } from '@/lib/requests/client/RestClient.ts';
 import { GraphQLClient } from '@/lib/requests/client/GraphQLClient.ts';
@@ -281,7 +281,6 @@ import { DOWNLOAD_STATUS_SUBSCRIPTION } from '@/lib/graphql/subscriptions/Downlo
 import { UPDATER_SUBSCRIPTION } from '@/lib/graphql/subscriptions/UpdaterSubscription.ts';
 import { GET_SERVER_SETTINGS } from '@/lib/graphql/queries/SettingsQuery.ts';
 import { UPDATE_SERVER_SETTINGS } from '@/lib/graphql/mutations/SettingsMutation.ts';
-import { GLOBAL_METADATA } from '@/lib/graphql/fragments/Fragments.ts';
 import { CLEAR_SERVER_CACHE } from '@/lib/graphql/mutations/ImageMutation.ts';
 import { RESET_WEBUI_UPDATE_STATUS, UPDATE_WEBUI } from '@/lib/graphql/mutations/ServerInfoMutation.ts';
 import { WEBUI_UPDATE_SUBSCRIPTION } from '@/lib/graphql/subscriptions/ServerInfoSubscription.ts';
@@ -1073,35 +1072,16 @@ export class RequestManager {
             SET_GLOBAL_METADATA,
             { input: { meta: { key, value: `${value}` } } },
             {
-                update(cache, { data }) {
-                    cache.modify({
-                        fields: {
-                            metas(existingMetas, { readField }) {
-                                if (!existingMetas) {
-                                    return existingMetas;
-                                }
-
-                                if (!data?.setGlobalMeta) {
-                                    return existingMetas;
-                                }
-
-                                const exists = existingMetas.nodes.some(
-                                    // eslint-disable-next-line no-underscore-dangle
-                                    (meta: Reference) => readField('key', meta) === key,
-                                );
-                                if (exists) {
-                                    return existingMetas;
-                                }
-
-                                const newMetaRef = cache.writeFragment({
-                                    data: data!.setGlobalMeta.meta,
-                                    fragment: GLOBAL_METADATA,
-                                });
-
-                                return [...existingMetas.nodes, newMetaRef];
-                            },
+                optimisticResponse: {
+                    __typename: 'Mutation',
+                    setGlobalMeta: {
+                        __typename: 'SetGlobalMetaPayload',
+                        meta: {
+                            __typename: 'GlobalMetaType',
+                            key,
+                            value: `${value}`,
                         },
-                    });
+                    },
                 },
                 ...options,
             },
@@ -1371,7 +1351,21 @@ export class RequestManager {
             {
                 input: { meta: { sourceId, key, value: `${value}` } },
             },
-            options,
+            {
+                optimisticResponse: {
+                    __typename: 'Mutation',
+                    setSourceMeta: {
+                        __typename: 'SetSourceMetaPayload',
+                        meta: {
+                            __typename: 'SourceMetaType',
+                            sourceId,
+                            key,
+                            value: `${value}`,
+                        },
+                    },
+                },
+                ...options,
+            },
         );
     }
 
@@ -1836,7 +1830,21 @@ export class RequestManager {
             {
                 input: { meta: { mangaId, key, value: `${value}` } },
             },
-            options,
+            {
+                optimisticResponse: {
+                    __typename: 'Mutation',
+                    setMangaMeta: {
+                        __typename: 'SetMangaMetaPayload',
+                        meta: {
+                            __typename: 'MangaMetaType',
+                            mangaId,
+                            key,
+                            value: `${value}`,
+                        },
+                    },
+                },
+                ...options,
+            },
         );
     }
 
@@ -2005,7 +2013,21 @@ export class RequestManager {
             GQLMethod.MUTATION,
             SET_CHAPTER_METADATA,
             { input: { meta: { chapterId, key, value: `${value}` } } },
-            options,
+            {
+                optimisticResponse: {
+                    __typename: 'Mutation',
+                    setChapterMeta: {
+                        __typename: 'SetChapterMetaPayload',
+                        meta: {
+                            __typename: 'ChapterMetaType',
+                            chapterId,
+                            key,
+                            value: `${value}`,
+                        },
+                    },
+                },
+                ...options,
+            },
         );
     }
 
@@ -2225,7 +2247,21 @@ export class RequestManager {
             GQLMethod.MUTATION,
             SET_CATEGORY_METADATA,
             { input: { meta: { categoryId, key, value: `${value}` } } },
-            options,
+            {
+                optimisticResponse: {
+                    __typename: 'Mutation',
+                    setCategoryMeta: {
+                        __typename: 'SetCategoryMetaPayload',
+                        meta: {
+                            __typename: 'CategoryMetaType',
+                            categoryId,
+                            key,
+                            value: `${value}`,
+                        },
+                    },
+                },
+                ...options,
+            },
         );
     }
 

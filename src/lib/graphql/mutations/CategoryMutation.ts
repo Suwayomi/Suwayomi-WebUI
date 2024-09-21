@@ -34,11 +34,14 @@ export const DELETE_CATEGORY_METADATA = gql`
     mutation DELETE_CATEGORY_METADATA($input: DeleteCategoryMetaInput!) {
         deleteCategoryMeta(input: $input) {
             meta {
+                categoryId
                 key
+                value
             }
             category {
                 id
                 meta {
+                    categoryId
                     key
                     value
                 }
@@ -51,15 +54,9 @@ export const SET_CATEGORY_METADATA = gql`
     mutation SET_CATEGORY_METADATA($input: SetCategoryMetaInput!) {
         setCategoryMeta(input: $input) {
             meta {
+                categoryId
                 key
                 value
-                category {
-                    id
-                    meta {
-                        key
-                        value
-                    }
-                }
             }
         }
     }

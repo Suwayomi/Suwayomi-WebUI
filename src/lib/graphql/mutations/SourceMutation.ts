@@ -39,15 +39,9 @@ export const SET_SOURCE_METADATA = gql`
     mutation SET_SOURCE_METADATA($input: SetSourceMetaInput!) {
         setSourceMeta(input: $input) {
             meta {
+                sourceId
                 key
                 value
-                source {
-                    id
-                    meta {
-                        key
-                        value
-                    }
-                }
             }
         }
     }

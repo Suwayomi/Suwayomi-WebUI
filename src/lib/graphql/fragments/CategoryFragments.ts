@@ -25,6 +25,7 @@ export const CATEGORY_LIBRARY_FIELDS = gql`
         ...CATEGORY_BASE_FIELDS
 
         meta {
+            categoryId
             key
             value
         }
