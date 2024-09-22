@@ -1108,15 +1108,32 @@ export class RequestManager {
                 },
                 update(cache, { data }) {
                     cache.modify({
-                        id: cache.identify({ __typename: 'GlobalMetaType', key }),
                         fields: {
-                            meta(existingMetas, { readField }) {
-                                return updateMetadata(key, existingMetas, readField, () =>
-                                    cache.writeFragment({
-                                        data: data!.setGlobalMeta!.meta,
-                                        fragment: GLOBAL_METADATA,
-                                    }),
+                            metas(existingMetas, { readField }) {
+                                if (!existingMetas) {
+                                    return existingMetas;
+                                }
+
+                                if (!data?.setGlobalMeta) {
+                                    return existingMetas;
+                                }
+
+                                const exists = existingMetas.nodes.some(
+                                    (meta: Reference) => readField('key', meta) === key,
                                 );
+                                if (exists) {
+                                    return existingMetas;
+                                }
+
+                                const newMetaRef = cache.writeFragment({
+                                    data: data!.setGlobalMeta.meta,
+                                    fragment: GLOBAL_METADATA,
+                                });
+
+                                return {
+                                    ...existingMetas,
+                                    nodes: [...existingMetas.nodes, newMetaRef],
+                                };
                             },
                         },
                     });
