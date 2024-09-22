@@ -108,7 +108,8 @@
             "dark_theme": "Modo oscuro",
             "image_cache_description": "Reduce el consumo de los datos y mejora el rendimiento cuando se vuelve a solicitar una imagen ya solicitada",
             "language_description": "No dude en traducir el proyecto en",
-            "hide_library_entries": "Ocultar entradas en biblioteca"
+            "hide_library_entries": "Ocultar entradas en biblioteca",
+            "theme": "Tema"
         },
         "server_address": {
             "dialog": {
@@ -188,6 +189,20 @@
                     },
                     "label": {
                         "server": "Activar los registros de depuración"
+                    }
+                },
+                "log_files": {
+                    "file_cleanup": {
+                        "title": "Limpieza de archivos de registro",
+                        "value": "Eliminar copias de seguridad anteriores a $t(global.date.value.label.day)"
+                    },
+                    "file_size": {
+                        "title": "Tamaño máximo del archivo de registro",
+                        "description": "Ejemplo de valores posibles: 1 (bytes), 1KB (kilobytes), 1MB (megabytes), 1GB (gigabytes)"
+                    },
+                    "total_size": {
+                        "title": "Tamaño máximo de todos los archivos de registro",
+                        "description": "$t(settings.server.misc.log_files.file_size.description)"
                     }
                 }
             },
@@ -360,6 +375,66 @@
             "label": {
                 "placeholder": "Nombre_movil-1 | longitud: 16, caracteres: letras, números, -, _"
             }
+        },
+        "appearance": {
+            "theme": {
+                "create": {
+                    "dialog": {
+                        "error": {
+                            "invalid_json": "Json incorrecto",
+                            "invalid_name": "El nombre del tema debe ser único y tiene un límite de 16 caracteres"
+                        },
+                        "info": {
+                            "creating_theme": "Crea un tema personalizado con el <2>Creador de temas MUI</2>, copia todo lo que hay después de \"themeOptions\" de \"{\" a \"}\" y pégalo en el campo de texto \"theme\".",
+                            "theme_mode_lock": "En caso de que \"modo\" o \"tipo\" se defina en el objeto \"paleta\", el tema se bloqueará en este modo y no cambiará independientemente del tema de aplicaciones del dispositivo seleccionado"
+                        },
+                        "theme_name": "Nombre"
+                    },
+                    "action": "Creando un tema…",
+                    "success": "Tema creado",
+                    "failure": "No se puede crear el tema",
+                    "title": "Crear tema"
+                },
+                "themes": {
+                    "orange_juice": "Zumo de Naranja",
+                    "rosegold": "Oro rosa",
+                    "crimson": "Carmesí",
+                    "forest_dew": "Rocío del Bosque",
+                    "mountain_sunset": "Puesta de Sol en la Montaña",
+                    "dune": "Duna",
+                    "lavender": "Lavanda",
+                    "minty_miracles": "Minty Miracles",
+                    "tree_frog_green": "Rana de Árbol Verde",
+                    "veronica": "Verónica",
+                    "bright_pink": "Rosa Brillante"
+                },
+                "title": "Tema",
+                "delete": {
+                    "action": "Eliminando tema \"{{theme}}\"…",
+                    "failure": "No se pudo eliminar el tema \"{{theme}}\"",
+                    "success": "Tema \"{{theme}}\" eliminado"
+                },
+                "device_theme": "Tema del dispositivo",
+                "edit": {
+                    "success": "Cambios guardados en el tema",
+                    "title": "Modificar tema",
+                    "action": "Guardando cambios en el tema…",
+                    "failure": "No se han podido guardar los cambios del tema"
+                },
+                "pure_black_mode": "Modo oscuro, negro puro",
+                "select": {
+                    "fonts": {
+                        "error": "No se pudo cargar las fuentes del tema",
+                        "loading": "Cargando fuentes del tema…"
+                    },
+                    "success": "Tema seleccionado"
+                }
+            },
+            "title": "Apariencia",
+            "manga_thumbnail_backdrop": {
+                "description": "Establece la miniatura del manga como imagen de fondo en la página del manga",
+                "title": "Miniatura del manga como fondo"
+            }
         }
     },
     "updates": {
@@ -394,7 +469,8 @@
                     "alphabetically": "A-Z",
                     "by_date_added": "Añadido recientemente",
                     "by_latest_fetched_chapter": "Capítulo más reciente",
-                    "by_latest_uploaded_chapter": "Último capítulo subido"
+                    "by_latest_uploaded_chapter": "Último capítulo subido",
+                    "by_total_chapters": "Capítulos totales"
                 }
             },
             "display": {
@@ -613,7 +689,8 @@
             "ignore": "Ignorar",
             "refresh": "Refrescar",
             "remind_later": "Recordar más tarde",
-            "delete": "Borrar"
+            "delete": "Borrar",
+            "save": "Guardar"
         },
         "label": {
             "display": "Visualización",
@@ -642,7 +719,8 @@
             "started": "Iniciado",
             "type": "Tipo",
             "are_you_sure": "¿Estás seguro?",
-            "copied": "Copiado"
+            "copied": "Copiado",
+            "default": "Por defecto"
         },
         "error": {
             "label": {
@@ -1124,6 +1202,15 @@
                     }
                 }
             }
+        },
+        "status": {
+            "cancelled": "Cancelado",
+            "completed": "Completado",
+            "hiatus": "En receso",
+            "licensed": "Licenciado",
+            "ongoing": "En curso",
+            "publishing_finished": "Publicación finalizada",
+            "unknown": "$t(global.label.unknown)"
         }
     },
     "download": {
@@ -1137,7 +1224,8 @@
             "error": {
                 "label": {
                     "failed_to_remove": "No se ha podido eliminar la descarga de la cola.",
-                    "failed_delete_all": "No se han podido eliminar todas las descargas de la cola"
+                    "failed_delete_all": "No se han podido eliminar todas las descargas de la cola",
+                    "failed_to_retry": "No se pudo reintentar la descarga fallida."
                 }
             }
         },
