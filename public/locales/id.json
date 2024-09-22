@@ -73,13 +73,16 @@
                 },
                 "add": {
                     "label": {
-                        "success_other": "{{count}} download ditambahkan",
+                        "success_other": "{{count}} unduhan ditambahkan",
                         "error_other": "Tidak dapat menambah unduhan",
                         "action": "Unduh",
                         "next_five": "5 bab berikutnya",
                         "next_ten": "10 bab berikutnya",
                         "next_twentyfive": "25 bab berikutnya",
-                        "unread": "$t(global.filter.label.unread)"
+                        "unread": "$t(global.filter.label.unread)",
+                        "ahead": "$t(download.settings.download_ahead.title) ({{count}})",
+                        "all": "$t(extension.language.all)",
+                        "next": "$t(reader.button.next_chapter)Lanjut"
                     },
                     "button": {
                         "selected": "Memilih Unduhan"
@@ -190,7 +193,19 @@
                     "cbz": "Simpan sebagai arsip CBZ"
                 }
             },
-            "title": "Unduh pengaturan"
+            "title": "Unduh pengaturan",
+            "delete_chapters": {
+                "title": "Hapus bab",
+                "label": {
+                    "allow_deletion_of_bookmarked": "Izinkan penghapusan bab yang ditandai",
+                    "manually_marked_as_read": "Hapus bab setelah menandainya secara manual sebagai telah dibaca"
+                },
+                "while_reading": {
+                    "label": {
+                        "title": "Hapus bab yang sudah selesai saat membaca"
+                    }
+                }
+            }
         }
     }
 }

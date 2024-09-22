@@ -150,7 +150,8 @@
             "error": {
                 "label": {
                     "failed_to_remove": "无法从队列中删除下载。",
-                    "failed_delete_all": "无法从队列中删除所有下载"
+                    "failed_delete_all": "无法从队列中删除所有下载",
+                    "failed_to_retry": "无法重试已失败的下载。"
                 }
             }
         },
@@ -323,7 +324,8 @@
             "refresh": "刷新",
             "ignore": "忽略",
             "remind_later": "稍后提醒",
-            "delete": "删除"
+            "delete": "删除",
+            "save": "保存"
         },
         "date": {
             "label": {
@@ -393,7 +395,8 @@
             "logged_in": "已登录",
             "open_in_browser": "在浏览器中打开",
             "are_you_sure": "你确定吗？",
-            "copied": "已复制"
+            "copied": "已复制",
+            "default": "默认"
         },
         "language": {
             "label": {
@@ -483,7 +486,8 @@
                     "by_unread_chapters": "按未读章节",
                     "alphabetically": "按字母顺序",
                     "by_latest_fetched_chapter": "最新获取的章节",
-                    "by_latest_uploaded_chapter": "最新上传的章节"
+                    "by_latest_uploaded_chapter": "最新上传的章节",
+                    "by_total_chapters": "总章节数"
                 }
             }
         },
@@ -683,6 +687,15 @@
                     }
                 }
             }
+        },
+        "status": {
+            "hiatus": "暂时停更",
+            "unknown": "$t(global.label.unknown)",
+            "completed": "已完结",
+            "licensed": "版权授权",
+            "ongoing": "连载中",
+            "publishing_finished": "已出版完毕",
+            "cancelled": "中止连载"
         }
     },
     "reader": {
@@ -824,7 +837,8 @@
             "manga_item_width": "漫画单元格宽度",
             "show_nsfw_description": "在图源和插件列表中显示",
             "language_description": "准确的翻译离不开大家的指正 ->",
-            "hide_library_entries": "隐藏已在书架中的条目"
+            "hide_library_entries": "隐藏已在书架中的条目",
+            "theme": "主题"
         },
         "server_address": {
             "dialog": {
@@ -934,6 +948,20 @@
                     },
                     "label": {
                         "server": "启用调试日志"
+                    }
+                },
+                "log_files": {
+                    "file_cleanup": {
+                        "title": "清理日志文件",
+                        "value": "删除早于$t(global.date.value.label.day)的备份"
+                    },
+                    "total_size": {
+                        "description": "$t(settings.server.misc.log_files.file_size.description)",
+                        "title": "所有日志文件的最大体积"
+                    },
+                    "file_size": {
+                        "title": "日志文件的最大体积",
+                        "description": "可能的数值示例：1 （字节）、 1KB （千字节）、1MB （百万字节）、1GB （十亿字节）"
                     }
                 }
             },
@@ -1105,6 +1133,66 @@
             },
             "label": {
                 "placeholder": "移动端_Name-1 | length: 16, chars: letters, numbers, -, _"
+            }
+        },
+        "appearance": {
+            "theme": {
+                "create": {
+                    "dialog": {
+                        "theme_name": "名称",
+                        "error": {
+                            "invalid_json": "无效的json",
+                            "invalid_name": "主题名称必须唯一且最多16字符"
+                        },
+                        "info": {
+                            "creating_theme": "创建一个带有 <2>MUI Theme Creator</2>的自定义主题，将“themeOptions”后面从“{”到“}”的所有内容复制，粘贴到“theme”域之内。",
+                            "theme_mode_lock": "在“palette”中已定义“mode”或“type”的情况下，主题会被锁定在这个模式名不会随选择的设备主题改变而改变"
+                        }
+                    },
+                    "success": "已创建的主题",
+                    "failure": "无法创建主题",
+                    "action": "正在创建主题……",
+                    "title": "创建主题"
+                },
+                "delete": {
+                    "success": "已删除主题“{{theme}}”",
+                    "action": "正在删除主题“{{theme}}”……",
+                    "failure": "无法删除主题“{{theme}}”"
+                },
+                "device_theme": "设备主题",
+                "edit": {
+                    "success": "已保存主题修改的内容",
+                    "action": "正在保存主题……",
+                    "failure": "无法保存主题修改的内容",
+                    "title": "编辑主题"
+                },
+                "pure_black_mode": "纯黑暗色模式",
+                "themes": {
+                    "crimson": "丹霞绯红",
+                    "dune": "苍茫沙海",
+                    "forest_dew": "谧林涓露",
+                    "mountain_sunset": "暮色黄昏",
+                    "lavender": "紫气薰衣",
+                    "rosegold": "玫瑰流金",
+                    "orange_juice": "橙味橘香",
+                    "minty_miracles": "薄荷奇境",
+                    "bright_pink": "炫彩桃红",
+                    "tree_frog_green": "翠蛙青绿",
+                    "veronica": "幽蓝婉柔"
+                },
+                "select": {
+                    "fonts": {
+                        "error": "无法加载主题字体",
+                        "loading": "正在加载主题字体……"
+                    },
+                    "success": "已选择的主题"
+                },
+                "title": "主题"
+            },
+            "title": "外观",
+            "manga_thumbnail_backdrop": {
+                "description": "将漫画缩略图设置为漫画页面背景",
+                "title": "漫画缩略图设为背景"
             }
         }
     },

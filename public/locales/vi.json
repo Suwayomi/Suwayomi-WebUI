@@ -145,7 +145,8 @@
             "error": {
                 "label": {
                     "failed_to_remove": "Không thể xóa tải xuống khỏi hàng đợi.",
-                    "failed_delete_all": "Không thể xóa tất cả các mục ra khỏi hàng đợi"
+                    "failed_delete_all": "Không thể xóa tất cả các mục ra khỏi hàng đợi",
+                    "failed_to_retry": "Không thể thử lại tải xuống không thành công."
                 }
             },
             "title": "Danh sách tải xuống",
@@ -300,7 +301,7 @@
             "select_all": "Chọn tất cả",
             "set": "Lựa chọn",
             "start": "Bắt đầu",
-            "submit": "Nộp",
+            "submit": "OK",
             "create": "Tạo",
             "dont_show_dialog_again": "Không hiển thị thông báo này thêm lần nữa",
             "restore": "Khôi phục",
@@ -322,7 +323,8 @@
             "ignore": "Phớt lờ",
             "refresh": "Làm mới",
             "delete": "Xóa",
-            "remind_later": "Nhắc sau"
+            "remind_later": "Nhắc sau",
+            "save": "Lưu"
         },
         "date": {
             "label": {
@@ -367,7 +369,7 @@
         },
         "label": {
             "browse": "Duyệt",
-            "display": "Trưng bày",
+            "display": "Hiển thị",
             "filter": "Bộ lọc",
             "loading": "Đang tải…",
             "none": "Trống",
@@ -392,7 +394,8 @@
             "logged_in": "Đã đăng nhập",
             "copied": "Đã sao chép",
             "type": "Thể loại",
-            "are_you_sure": "Bạn đã chắc chắn chứ?"
+            "are_you_sure": "Bạn đã chắc chắn chứ?",
+            "default": "Mặc định"
         },
         "language": {
             "label": {
@@ -433,7 +436,7 @@
             }
         },
         "time": {
-            "hour_short": "h",
+            "hour_short": "Giờ",
             "minutes": {
                 "minute_other": "Phút",
                 "value": "{{count}} $t(global.time.minutes.minute, lowercase)"
@@ -458,20 +461,20 @@
             "display": {
                 "badge": {
                     "label": {
-                        "download_badges": "Số lượt tải xuống",
-                        "unread_badges": "Số lượng chưa đọc"
+                        "download_badges": "Hiện số chương tải xuống",
+                        "unread_badges": "Hiện chương chưa đọc"
                     },
-                    "title": "Đánh dấu"
+                    "title": "Mục"
                 },
                 "tab": {
                     "title": "Nhãn",
                     "label": {
-                        "show_number_of_items": "Hiển thị số lượng mục"
+                        "show_number_of_items": "Hiện số truyện"
                     }
                 },
                 "other": {
                     "label": {
-                        "show_continue_reading_button": "Hiển thị nút tiếp tục đọc"
+                        "show_continue_reading_button": "Hiển nút tiếp tục đọc"
                     }
                 }
             },
@@ -481,8 +484,9 @@
                     "by_unread_chapters": "Các chương chưa đọc",
                     "alphabetically": "A-Z",
                     "by_last_read": "Đọc gần đây",
-                    "by_latest_uploaded_chapter": "Chương mới nhất được tải lên",
-                    "by_latest_fetched_chapter": "Chương mới nhất đã được cập nhật"
+                    "by_latest_uploaded_chapter": "Chương mới tải lên",
+                    "by_latest_fetched_chapter": "Chương mới nhất",
+                    "by_total_chapters": "Tổng số chương"
                 }
             }
         },
@@ -509,7 +513,7 @@
                 "auto_update": {
                     "interval": {
                         "label": {
-                            "value": "{{hours}}$t(global.time.hour_short)",
+                            "value": "{{hours}} $t(global.time.hour_short)",
                             "title": "Thời gian tự động cập nhật"
                         }
                     },
@@ -523,7 +527,7 @@
                         "unread_chapters": "Với chương chưa đọc",
                         "not_started": "Chưa bắt đầu đọc"
                     },
-                    "title": "Bỏ qua các mục cập nhật"
+                    "title": "Bỏ qua cập nhật các mục"
                 }
             },
             "title": "Cài đặt thư viện",
@@ -674,7 +678,7 @@
             },
             "category": {
                 "label": {
-                    "success_other": "Không thể chuyển danh mục của {{count}} manga",
+                    "success_other": "Đã chuyển danh mục của {{count}} manga",
                     "error_other": "Không thể chuyển danh mục của manga",
                     "action": "Chuyển danh mục"
                 },
@@ -682,6 +686,15 @@
                     "selected": "Thay đổi danh mục đã chọn"
                 }
             }
+        },
+        "status": {
+            "cancelled": "Đã ngưng",
+            "completed": "Đã hoàn thành",
+            "hiatus": "Đang tạm ngưng",
+            "licensed": "Đã được mua bản quyền",
+            "ongoing": "Đang tiến hành",
+            "publishing_finished": "Đã hoàn thành xuất bản",
+            "unknown": "$t(global.label.unknown)"
         }
     },
     "reader": {
@@ -728,13 +741,13 @@
             "reader_type": {
                 "label": {
                     "continuous_horizontal_ltr": "Ngang (trái sang phải) ➡️",
-                    "continuous_vertical": "Tiếp tục theo chiều dọc",
+                    "continuous_vertical": "Cuộn dọc có khoảng cách",
                     "double_page_ltr": "Trang đôi (trái sang phải) ➡️",
                     "double_page_rtl": "Trang đôi (phải sang trái) ⬅️",
                     "single_page_rtl": "Trang đơn (phải sang trái) ⬅️",
                     "continuous_horizontal_rtl": "Ngang (phải sang trái) ⬅️",
                     "single_page_ltr": "Trang đơn (trái sang phải) ➡️",
-                    "webtoon": "Webtoon"
+                    "webtoon": "Cuộn dọc"
                 }
             },
             "title": {
@@ -774,7 +787,7 @@
                 "label": {
                     "version": "Phiên bản máy chủ",
                     "build_time": "Thời gian xây dựng",
-                    "github": "$t(global.label.github)$t(settings.server.title.server)",
+                    "github": "$t(global.label.github) $t(settings.server.title.server)",
                     "address": "Địa chỉ máy chủ"
                 }
             },
@@ -783,7 +796,7 @@
                     "version": "Phiên bản $t(settings.webui.title.webui)",
                     "update_failure": "Không thể cập nhật $t(settings.webui.title.webui)",
                     "github": "$t(global.label.github) $t(settings.webui.title.webui)",
-                    "channel": "kênh $t(settings.webui.title.webui)",
+                    "channel": "Kênh $t(settings.webui.title.webui)",
                     "info": "$t(settings.webui.title.webui) Phiên bản {{version}} ({{channel}}) đã sẵn sàng để tải về",
                     "updated": "Phiên bản đã được cập nhật"
                 }
@@ -867,7 +880,8 @@
             "show_nsfw": "Nội dung NSFW (18+)",
             "image_cache_description": "Giảm mức tiêu thụ lưu lượng trong khi làm cho hình ảnh tải nhanh hơn",
             "show_nsfw_description": "Ẩn các tiện ích mở rộng và nguồn NSFW (18+)",
-            "hide_library_entries": "Ẩn mục đã có sẵn trong thư viện"
+            "hide_library_entries": "Ẩn mục đã có sẵn trong thư viện",
+            "theme": "Chủ đề"
         },
         "server_address": {
             "dialog": {
@@ -979,7 +993,21 @@
                         }
                     }
                 },
-                "title": "Khác"
+                "title": "Khác",
+                "log_files": {
+                    "file_cleanup": {
+                        "title": "Dọn dẹp tập tin nhật ký",
+                        "value": "Xóa các bản sao lưu cũ hơn $t(global.date.value.label.day)"
+                    },
+                    "file_size": {
+                        "description": "Ví dụ về các giá trị có thể có: 1 (byte), 1KB (kilobyte), 1 MB (megabyte), 1GB (gigabyte)",
+                        "title": "Kích thước tệp nhật ký tối đa"
+                    },
+                    "total_size": {
+                        "description": "$t(settings.server.misc.log_files.file_size.description)",
+                        "title": "Kích thước tối đa của tất cả các tệp nhật ký"
+                    }
+                }
             },
             "socks_proxy": {
                 "label": {
@@ -998,7 +1026,7 @@
                     "parallel": {
                         "label": {
                             "title": "Số lượng kết nối",
-                            "value": "{{value}}$t(source.title)"
+                            "value": "{{value}} $t(source.title)"
                         }
                     }
                 }
@@ -1030,7 +1058,7 @@
                 "success": "Đã xóa dữ liệu tạm thời của máy chủ",
                 "title": "Xóa dữ liệu tạm thời của máy chủ",
                 "failure": "Không thể xóa dữ liệu dữ liệu tạm thời của máy chủ",
-                "description": "Bộ nhớ đệm của máy khách (trình duyệt, electron) sẽ bị xóa, còn không xóa bộ đệm của máy khách sẽ tiếp tục được dùng"
+                "description": "Bộ nhớ đệm của máy khách (trình duyệt, electron) sẽ bị xóa, còn không bộ nhớ đệm của máy khách sẽ tiếp tục được dùng"
             }
         },
         "webui": {
@@ -1113,12 +1141,72 @@
                 "initial_open_browser": "Mở $t(settings.webui.title.webui) khi khởi động máy chủ"
             },
             "title": {
-                "settings": "$t(settings.webui.title.webui) Cài đặt",
+                "settings": "Cài đặt $t(settings.webui.title.webui)",
                 "webui": "Giao diện Web"
             }
         },
         "browse": {
             "title": "Duyệt"
+        },
+        "appearance": {
+            "theme": {
+                "create": {
+                    "dialog": {
+                        "error": {
+                            "invalid_json": "JSON không hợp lệ",
+                            "invalid_name": "Tên chủ đề phải là duy nhất và có giới hạn 16 ký tự"
+                        },
+                        "theme_name": "Tên",
+                        "info": {
+                            "creating_theme": "Tạo một chủ đề tùy chỉnh với <2>MUI Theme Creator</2>, sao chép mọi thứ sau \"themeOptions\" from \"{\" to \"}\" và dán vào trường văn bản có nhãn \"Chủ đề\".",
+                            "theme_mode_lock": "Nếu \"mode\" được thiết lập trong \"palette\", chủ đề sẽ cố định theo chế độ đó và không thay đổi theo chủ đề thiết bị của ứng dụng"
+                        }
+                    },
+                    "success": "Đã tạo chủ đề",
+                    "action": "Đang tạo chủ đề…",
+                    "failure": "Không thể tạo chủ đề",
+                    "title": "Tạo chủ đề"
+                },
+                "delete": {
+                    "action": "Đang xóa chủ đề \"{{theme}}\"…",
+                    "failure": "Không thể xóa chủ đề \"{{theme}}\"",
+                    "success": "Đã xóa chủ đề \"{{theme}}\""
+                },
+                "edit": {
+                    "failure": "Không thể lưu thay đổi chủ đề",
+                    "success": "Đã lưu thay đổi chủ đề",
+                    "action": "Đang lưu các thay đổi về chủ đề…",
+                    "title": "Chỉnh sửa chủ đề"
+                },
+                "pure_black_mode": "Chế độ đen tuyền",
+                "themes": {
+                    "crimson": "Đỏ thắm",
+                    "dune": "Cồn cát",
+                    "lavender": "Oải hương",
+                    "minty_miracles": "Xanh bạc hà",
+                    "mountain_sunset": "Hoàng hôn trên núi",
+                    "rosegold": "Vàng hồng",
+                    "forest_dew": "Sương rừng",
+                    "orange_juice": "Cam ép",
+                    "bright_pink": "Hồng tươi",
+                    "tree_frog_green": "Ếch cây xanh",
+                    "veronica": "Hoa tím"
+                },
+                "device_theme": "Chủ đề thiết bị",
+                "title": "Chủ đề",
+                "select": {
+                    "fonts": {
+                        "loading": "Đang tải phông chữ chủ đề…",
+                        "error": "Không thể tải phông chữ chủ đề"
+                    },
+                    "success": "Đã chọn chủ đề"
+                }
+            },
+            "title": "Giao diện",
+            "manga_thumbnail_backdrop": {
+                "description": "Đặt ảnh bìa truyện làm hình nền trên trang truyện",
+                "title": "Ảnh bìa truyện làm hình nền"
+            }
         }
     },
     "source": {

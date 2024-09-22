@@ -295,7 +295,8 @@
             "changelog": "變更日誌",
             "ignore": "忽略",
             "refresh": "重新整理",
-            "remind_later": "稍後提醒"
+            "remind_later": "稍後提醒",
+            "save": "儲存"
         },
         "date": {
             "label": {
@@ -338,7 +339,8 @@
             "load_in_progress": "正在載入所需的資料…",
             "logged_in": "已登入",
             "are_you_sure": "您確定嗎？",
-            "copied": "已複製"
+            "copied": "已複製",
+            "default": "預設"
         },
         "language": {
             "label": {
@@ -781,7 +783,8 @@
             "show_nsfw": "NSFW (18+) 內容",
             "show_nsfw_description": "顯示 NSFW 擴充套件與來源",
             "image_cache_description": "減少流量消耗，同時可以使圖像加載更快",
-            "hide_library_entries": "隱藏已在書櫃中的條目"
+            "hide_library_entries": "隱藏已在書櫃中的條目",
+            "theme": "主題"
         },
         "server_address": {
             "dialog": {
@@ -824,7 +827,20 @@
                         "description": "此圖示將被顯示在執行伺服器的系統上"
                     }
                 },
-                "title": "雜項"
+                "title": "雜項",
+                "log_files": {
+                    "file_size": {
+                        "description": "可能值的範例：1 （位元組）、1KB（千位元組）、1MB（百萬位元組）、1GB（十億位元組）",
+                        "title": "日誌檔案最大大小"
+                    },
+                    "file_cleanup": {
+                        "title": "清理日誌檔案",
+                        "value": "刪除早於 $t(global.date.value.label.day) 的備份"
+                    },
+                    "total_size": {
+                        "title": "所有日誌檔案的最大大小"
+                    }
+                }
             },
             "socks_proxy": {
                 "label": {
@@ -1024,6 +1040,49 @@
                     "description": "選擇一個裝置以使用它儲存在伺服器中的 UI 設定"
                 }
             }
+        },
+        "appearance": {
+            "theme": {
+                "create": {
+                    "dialog": {
+                        "error": {
+                            "invalid_json": "無效的 JSON",
+                            "invalid_name": "主題名稱必須是唯一且限制為 16 字元以下"
+                        },
+                        "info": {
+                            "theme_mode_lock": "在「palette」物件中「mode」或「type」已定義的情況下，主題將會被鎖定在此模式並且將不隨選擇的裝置主題而改變",
+                            "creating_theme": "建立具有 <2>MUI Theme Creator</2> 的主題，將「themeOptions」之後從「{」至「}」的所有內容複製並貼上至「theme」文字欄位之內。"
+                        },
+                        "theme_name": "名稱"
+                    },
+                    "action": "建立主題…",
+                    "failure": "無法建立主題",
+                    "title": "建立主題",
+                    "success": "已建立的主題"
+                },
+                "delete": {
+                    "action": "刪除主題「{{theme}}」…",
+                    "success": "已刪除主題「{{theme}}」",
+                    "failure": "無法刪除主題「{{theme}}」"
+                },
+                "device_theme": "裝置主題",
+                "edit": {
+                    "action": "正在儲存主題變更…",
+                    "failure": "無法儲存主題變更",
+                    "success": "已儲存主題變更",
+                    "title": "編輯主題"
+                },
+                "pure_black_mode": "純黑深色模式",
+                "select": {
+                    "fonts": {
+                        "error": "無法載入主題字型",
+                        "loading": "正在載入主題字型…"
+                    },
+                    "success": "已選擇的主題"
+                },
+                "title": "主題"
+            },
+            "title": "外觀"
         }
     },
     "source": {

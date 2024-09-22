@@ -9,7 +9,8 @@
                     "by_last_read": "Par date de lecture",
                     "by_date_added": "Par date d'ajout",
                     "by_latest_uploaded_chapter": "Dernier chapitre mis en ligne",
-                    "by_latest_fetched_chapter": "Dernier chapitre récupéré"
+                    "by_latest_fetched_chapter": "Dernier chapitre récupéré",
+                    "by_total_chapters": "Nombre total de chapitres"
                 }
             },
             "display": {
@@ -202,7 +203,8 @@
             "refresh": "Rafraichir",
             "remind_later": "Rappeler plus tard",
             "changelog": "Journal des modifications",
-            "ignore": "Ignorer"
+            "ignore": "Ignorer",
+            "save": "Sauvegarder"
         },
         "language": {
             "label": {
@@ -241,7 +243,8 @@
             "links": "Liens",
             "github": "GitHub",
             "started": "Commencé",
-            "username": "Nom d'utilisateur"
+            "username": "Nom d'utilisateur",
+            "default": "Défaut"
         },
         "date": {
             "label": {
@@ -331,7 +334,8 @@
             "error": {
                 "label": {
                     "failed_to_remove": "Impossible de supprimer le téléchargement de la file d'attente.",
-                    "failed_delete_all": "Impossible de supprimer tous les téléchargements de la file d'attente"
+                    "failed_delete_all": "Impossible de supprimer tous les téléchargements de la file d'attente",
+                    "failed_to_retry": "Impossible de réessayer le téléchargement échoué."
                 }
             }
         },
@@ -761,6 +765,36 @@
         },
         "browse": {
             "title": "Paramètres de navigation"
+        },
+        "appearance": {
+            "theme": {
+                "create": {
+                    "dialog": {
+                        "info": {
+                            "creating_theme": "Créez un thème personnalisé avec le <2>Créateur de Thème MUI</2>, copiez tout ce qui suit \"themeOptions\" à partir de \"{\" to \"}\" et collez-le dans le champ de texte \"theme\".",
+                            "theme_mode_lock": "Si \"mode\" ou \"type\" est défini dans l’objet \"palette\", le thème sera verrouillé dans ce mode et ne changera pas, quel que soit le thème de l’appareil sélectionné"
+                        },
+                        "error": {
+                            "invalid_name": "Le nom du thème doit être unique et ne peut pas dépasser 16 caractères",
+                            "invalid_json": "JSON invalide"
+                        },
+                        "theme_name": "Nom"
+                    },
+                    "failure": "Impossible de créer le thème",
+                    "success": "Thème créé",
+                    "title": "Créer un thème",
+                    "action": "Création du thème…"
+                },
+                "delete": {
+                    "action": "Suppression du thème \"{{theme}}\"…",
+                    "failure": "Impossible de supprimer le thème \"{{theme}}\"",
+                    "success": "Thème \"{{theme}}\" supprimé"
+                }
+            },
+            "manga_thumbnail_backdrop": {
+                "description": "Définit la vignette du manga comme image de fond sur la page du manga",
+                "title": "Miniature de manga en arrière-plan"
+            }
         }
     },
     "chapter": {
@@ -1003,6 +1037,15 @@
                     "success": "Manga migré avec succès"
                 }
             }
+        },
+        "status": {
+            "cancelled": "Annulé",
+            "completed": "Terminé",
+            "hiatus": "En pause",
+            "licensed": "Licencié",
+            "ongoing": "En cours",
+            "publishing_finished": "Publication terminée",
+            "unknown": "$t(global.label.unknown)"
         }
     },
     "reader": {

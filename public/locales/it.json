@@ -154,8 +154,8 @@
             }
         },
         "title_one": "Capitolo",
-        "title_many": "",
-        "title_other": "",
+        "title_many": "Capitoli",
+        "title_other": "Capitoli",
         "error": {
             "label": {
                 "no_matches": "Nessun capitolo corrispondente ai filtri",
@@ -237,7 +237,8 @@
             "error": {
                 "label": {
                     "failed_delete_all": "Impossibile rimuovere i download dalla coda",
-                    "failed_to_remove": "Impossibile rimuovere il download dalla coda."
+                    "failed_to_remove": "Impossibile rimuovere il download dalla coda.",
+                    "failed_to_retry": "Impossibile riprovare i download falliti."
                 }
             },
             "label": {
@@ -352,7 +353,8 @@
             "filter": "Filtro",
             "latest": "Ultimo",
             "log_out": "Esci",
-            "refresh": "Aggiornare"
+            "refresh": "Aggiornare",
+            "save": "Salva"
         },
         "date": {
             "label": {
@@ -385,7 +387,8 @@
                 "downloaded": "Scaricato",
                 "unread": "Non letto",
                 "bookmarked": "Segnalibro",
-                "tracked": "Tracciato"
+                "tracked": "Tracciato",
+                "duplicate_chapters": "Capitoli duplicati"
             }
         },
         "label": {
@@ -415,7 +418,8 @@
             "none": "Nessuno",
             "other": "Altro",
             "password": "Password",
-            "placeholder": "Segnaposto"
+            "placeholder": "Segnaposto",
+            "default": "Predefinito"
         },
         "update": {
             "label": {
@@ -458,7 +462,9 @@
         "sort": {
             "label": {
                 "by_source": "Dalla fonte",
-                "by_fetch_date": "Per data di recupero"
+                "by_fetch_date": "Per data di recupero",
+                "by_chapter_number": "Per numero capitolo",
+                "by_upload_date": "Per data di caricamento"
             }
         },
         "time": {
@@ -984,6 +990,18 @@
         },
         "browse": {
             "title": "Sfoglia le impostazioni"
+        },
+        "appearance": {
+            "theme": {
+                "create": {
+                    "action": "Creando il tema…",
+                    "dialog": {
+                        "error": {
+                            "invalid_json": "json invalido"
+                        }
+                    }
+                }
+            }
         }
     },
     "library": {
@@ -1122,7 +1140,14 @@
                 "removed_from_library": "Rimosso il manga dalla libreria!"
             }
         },
-        "title": "Libreria"
+        "title": "Libreria",
+        "action": {
+            "label": {
+                "stop_update": "Ferma aggiornamento globale",
+                "update_category": "Aggiorna categoria",
+                "update_library": "Aggiorna libreria"
+            }
+        }
     },
     "reader": {
         "page_info": {
@@ -1134,7 +1159,8 @@
         "error": {
             "label": {
                 "prev_chapter_does_not_exist": "Non c'è un capitolo precedente da aprire",
-                "next_chapter_does_not_exist": "Non c'è un capitolo successivo da aprire"
+                "next_chapter_does_not_exist": "Non c'è un capitolo successivo da aprire",
+                "no_pages_found": "Nessuna pagina trovata"
             }
         },
         "settings": {
