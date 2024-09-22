@@ -9,6 +9,14 @@
 import gql from 'graphql-tag';
 import { MANGA_BASE_FIELDS } from '@/lib/graphql/fragments/MangaFragments.ts';
 
+export const CHAPTER_META_FIELDS = gql`
+    fragment CHAPTER_META_FIELDS on ChapterMetaType {
+        chapterId
+        key
+        value
+    }
+`;
+
 export const CHAPTER_BASE_FIELDS = gql`
     fragment CHAPTER_BASE_FIELDS on ChapterType {
         id

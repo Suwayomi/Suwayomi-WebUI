@@ -8,6 +8,14 @@
 
 import gql from 'graphql-tag';
 
+export const MANGA_META_FIELDS = gql`
+    fragment MANGA_META_FIELDS on MangaMetaType {
+        mangaId
+        key
+        value
+    }
+`;
+
 export const MANGA_BASE_FIELDS = gql`
     fragment MANGA_BASE_FIELDS on MangaType {
         id
@@ -64,14 +72,13 @@ export const MANGA_CHAPTER_NODE_FIELDS = gql`
 
 export const MANGA_READER_FIELDS = gql`
     ${MANGA_BASE_FIELDS}
+    ${MANGA_META_FIELDS}
 
     fragment MANGA_READER_FIELDS on MangaType {
         ...MANGA_BASE_FIELDS
 
         meta {
-            mangaId
-            key
-            value
+            ...MANGA_META_FIELDS
         }
 
         chapters {

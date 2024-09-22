@@ -8,6 +8,14 @@
 
 import gql from 'graphql-tag';
 
+export const CATEGORY_META_FIELDS = gql`
+    fragment CATEGORY_META_FIELDS on CategoryMetaType {
+        categoryId
+        key
+        value
+    }
+`;
+
 export const CATEGORY_BASE_FIELDS = gql`
     fragment CATEGORY_BASE_FIELDS on CategoryType {
         id
@@ -20,14 +28,13 @@ export const CATEGORY_BASE_FIELDS = gql`
 
 export const CATEGORY_LIBRARY_FIELDS = gql`
     ${CATEGORY_BASE_FIELDS}
+    ${CATEGORY_META_FIELDS}
 
     fragment CATEGORY_LIBRARY_FIELDS on CategoryType {
         ...CATEGORY_BASE_FIELDS
 
         meta {
-            categoryId
-            key
-            value
+            ...CATEGORY_META_FIELDS
         }
         mangas {
             totalCount

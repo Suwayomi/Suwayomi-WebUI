@@ -25,8 +25,9 @@ import {
     useQuery,
     useSubscription,
 } from '@apollo/client';
-import { OperationVariables } from '@apollo/client/core';
+import { OperationVariables, Reference } from '@apollo/client/core';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { ReadFieldFunction } from '@apollo/client/cache/core/types/common';
 import { IRestClient, RestClient } from '@/lib/requests/client/RestClient.ts';
 import { GraphQLClient } from '@/lib/requests/client/GraphQLClient.ts';
 import {
@@ -301,8 +302,12 @@ import { ControlledPromise } from '@/lib/ControlledPromise.ts';
 import { MetadataMigrationSettings } from '@/typings.ts';
 import { DOWNLOAD_STATUS_FIELDS } from '@/lib/graphql/fragments/DownloadFragments.ts';
 import { EXTENSION_LIST_FIELDS } from '@/lib/graphql/fragments/ExtensionFragments.ts';
-import { MANGA_BASE_FIELDS } from '@/lib/graphql/fragments/MangaFragments.ts';
+import { MANGA_BASE_FIELDS, MANGA_META_FIELDS } from '@/lib/graphql/fragments/MangaFragments.ts';
 import { MangaIdInfo } from '@/lib/data/Mangas.ts';
+import { GLOBAL_METADATA } from '@/lib/graphql/fragments/Fragments';
+import { CATEGORY_META_FIELDS } from '@/lib/graphql/fragments/CategoryFragments.ts';
+import { SOURCE_META_FIELDS } from '@/lib/graphql/fragments/SourceFragments.ts';
+import { CHAPTER_META_FIELDS } from '@/lib/graphql/fragments/ChapterFragments.ts';
 
 enum GQLMethod {
     QUERY = 'QUERY',
@@ -401,6 +406,24 @@ export const SPECIAL_ED_SOURCES = {
     REVALIDATION: [
         '57122881048805941', // e-hentai
     ],
+};
+
+const updateMetadata = (
+    key: string,
+    existingMetas: Reference[] | undefined,
+    readField: ReadFieldFunction,
+    createMetaRef: () => Reference | undefined,
+): (Reference | undefined)[] | undefined => {
+    if (!existingMetas) {
+        return existingMetas;
+    }
+
+    const exists = existingMetas.some((metaRef: Reference) => readField('key', metaRef) === key);
+    if (exists) {
+        return existingMetas;
+    }
+
+    return [...existingMetas, createMetaRef()];
 };
 
 // TODO - extract logic to reduce the size of this file... grew waaaaaaaaaaaaay too big peepoFat
@@ -1083,6 +1106,21 @@ export class RequestManager {
                         },
                     },
                 },
+                update(cache, { data }) {
+                    cache.modify({
+                        id: cache.identify({ __typename: 'GlobalMetaType', key }),
+                        fields: {
+                            meta(existingMetas, { readField }) {
+                                return updateMetadata(key, existingMetas, readField, () =>
+                                    cache.writeFragment({
+                                        data: data!.setGlobalMeta!.meta,
+                                        fragment: GLOBAL_METADATA,
+                                    }),
+                                );
+                            },
+                        },
+                    });
+                },
                 ...options,
             },
         );
@@ -1363,6 +1401,21 @@ export class RequestManager {
                             value: `${value}`,
                         },
                     },
+                },
+                update(cache, { data }) {
+                    cache.modify({
+                        id: cache.identify({ __typename: 'SourceType', id: sourceId }),
+                        fields: {
+                            meta(existingMetas, { readField }) {
+                                return updateMetadata(key, existingMetas, readField, () =>
+                                    cache.writeFragment({
+                                        data: data!.setSourceMeta!.meta,
+                                        fragment: SOURCE_META_FIELDS,
+                                    }),
+                                );
+                            },
+                        },
+                    });
                 },
                 ...options,
             },
@@ -1843,6 +1896,21 @@ export class RequestManager {
                         },
                     },
                 },
+                update(cache, { data }) {
+                    cache.modify({
+                        id: cache.identify({ __typename: 'MangaType', id: mangaId }),
+                        fields: {
+                            meta(existingMetas, { readField }) {
+                                return updateMetadata(key, existingMetas, readField, () =>
+                                    cache.writeFragment({
+                                        data: data!.setMangaMeta!.meta,
+                                        fragment: MANGA_META_FIELDS,
+                                    }),
+                                );
+                            },
+                        },
+                    });
+                },
                 ...options,
             },
         );
@@ -2025,6 +2093,21 @@ export class RequestManager {
                             value: `${value}`,
                         },
                     },
+                },
+                update(cache, { data }) {
+                    cache.modify({
+                        id: cache.identify({ __typename: 'ChapterType', id: chapterId }),
+                        fields: {
+                            meta(existingMetas, { readField }) {
+                                return updateMetadata(key, existingMetas, readField, () =>
+                                    cache.writeFragment({
+                                        data: data!.setChapterMeta!.meta,
+                                        fragment: CHAPTER_META_FIELDS,
+                                    }),
+                                );
+                            },
+                        },
+                    });
                 },
                 ...options,
             },
@@ -2259,6 +2342,21 @@ export class RequestManager {
                             value: `${value}`,
                         },
                     },
+                },
+                update(cache, { data }) {
+                    cache.modify({
+                        id: cache.identify({ __typename: 'CategoryType', id: categoryId }),
+                        fields: {
+                            meta(existingMetas, { readField }) {
+                                return updateMetadata(key, existingMetas, readField, () =>
+                                    cache.writeFragment({
+                                        data: data!.setCategoryMeta!.meta,
+                                        fragment: CATEGORY_META_FIELDS,
+                                    }),
+                                );
+                            },
+                        },
+                    });
                 },
                 ...options,
             },

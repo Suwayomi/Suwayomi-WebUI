@@ -7,22 +7,20 @@
  */
 
 import gql from 'graphql-tag';
-import { MANGA_SCREEN_FIELDS } from '@/lib/graphql/fragments/MangaFragments.ts';
+import { MANGA_META_FIELDS, MANGA_SCREEN_FIELDS } from '@/lib/graphql/fragments/MangaFragments.ts';
 
 export const DELETE_MANGA_METADATA = gql`
+    ${MANGA_META_FIELDS}
+
     mutation DELETE_MANGA_METADATA($input: DeleteMangaMetaInput!) {
         deleteMangaMeta(input: $input) {
             meta {
-                mangaId
-                key
-                value
+                ...MANGA_META_FIELDS
             }
             manga {
                 id
                 meta {
-                    mangaId
-                    key
-                    value
+                    ...MANGA_META_FIELDS
                 }
             }
         }
@@ -85,12 +83,12 @@ export const GET_MANGA_TO_MIGRATE_TO_FETCH = gql`
 `;
 
 export const SET_MANGA_METADATA = gql`
+    ${MANGA_META_FIELDS}
+
     mutation SET_MANGA_METADATA($input: SetMangaMetaInput!) {
         setMangaMeta(input: $input) {
             meta {
-                mangaId
-                key
-                value
+                ...MANGA_META_FIELDS
             }
         }
     }

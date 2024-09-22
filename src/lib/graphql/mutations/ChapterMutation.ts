@@ -7,24 +7,22 @@
  */
 
 import gql from 'graphql-tag';
-import { CHAPTER_LIST_FIELDS } from '@/lib/graphql/fragments/ChapterFragments.ts';
+import { CHAPTER_LIST_FIELDS, CHAPTER_META_FIELDS } from '@/lib/graphql/fragments/ChapterFragments.ts';
 import { TRACK_RECORD_BIND_FIELDS } from '@/lib/graphql/fragments/TrackRecordFragments.ts';
 import { MANGA_CHAPTER_NODE_FIELDS, MANGA_CHAPTER_STAT_FIELDS } from '@/lib/graphql/fragments/MangaFragments.ts';
 
 export const DELETE_CHAPTER_METADATA = gql`
+    ${CHAPTER_META_FIELDS}
+
     mutation DELETE_CHAPTER_METADATA($input: DeleteChapterMetaInput!) {
         deleteChapterMeta(input: $input) {
             meta {
-                chapterId
-                key
-                value
+                ...CHAPTER_META_FIELDS
             }
             chapter {
                 id
                 meta {
-                    chapterId
-                    key
-                    value
+                    ...CHAPTER_META_FIELDS
                 }
             }
         }
@@ -65,12 +63,12 @@ export const GET_MANGA_CHAPTERS_FETCH = gql`
 `;
 
 export const SET_CHAPTER_METADATA = gql`
+    ${CHAPTER_META_FIELDS}
+
     mutation SET_CHAPTER_METADATA($input: SetChapterMetaInput!) {
         setChapterMeta(input: $input) {
             meta {
-                chapterId
-                key
-                value
+                ...CHAPTER_META_FIELDS
             }
         }
     }

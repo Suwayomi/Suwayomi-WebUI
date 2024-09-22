@@ -7,7 +7,7 @@
  */
 
 import gql from 'graphql-tag';
-import { SOURCE_SETTING_FIELDS } from '@/lib/graphql/fragments/SourceFragments.ts';
+import { SOURCE_META_FIELDS, SOURCE_SETTING_FIELDS } from '@/lib/graphql/fragments/SourceFragments.ts';
 import { MANGA_BASE_FIELDS } from '@/lib/graphql/fragments/MangaFragments.ts';
 
 export const GET_SOURCE_MANGAS_FETCH = gql`
@@ -36,12 +36,12 @@ export const UPDATE_SOURCE_PREFERENCES = gql`
 `;
 
 export const SET_SOURCE_METADATA = gql`
+    ${SOURCE_META_FIELDS}
+
     mutation SET_SOURCE_METADATA($input: SetSourceMetaInput!) {
         setSourceMeta(input: $input) {
             meta {
-                sourceId
-                key
-                value
+                ...SOURCE_META_FIELDS
             }
         }
     }

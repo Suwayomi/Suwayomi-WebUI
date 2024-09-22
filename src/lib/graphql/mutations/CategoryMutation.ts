@@ -7,7 +7,7 @@
  */
 
 import gql from 'graphql-tag';
-import { CATEGORY_SETTING_FIELDS } from '@/lib/graphql/fragments/CategoryFragments.ts';
+import { CATEGORY_META_FIELDS, CATEGORY_SETTING_FIELDS } from '@/lib/graphql/fragments/CategoryFragments.ts';
 
 export const CREATE_CATEGORY = gql`
     ${CATEGORY_SETTING_FIELDS}
@@ -31,19 +31,17 @@ export const DELETE_CATEGORY = gql`
 `;
 
 export const DELETE_CATEGORY_METADATA = gql`
+    ${CATEGORY_META_FIELDS}
+
     mutation DELETE_CATEGORY_METADATA($input: DeleteCategoryMetaInput!) {
         deleteCategoryMeta(input: $input) {
             meta {
-                categoryId
-                key
-                value
+                ...CATEGORY_META_FIELDS
             }
             category {
                 id
                 meta {
-                    categoryId
-                    key
-                    value
+                    ...CATEGORY_META_FIELDS
                 }
             }
         }
@@ -51,12 +49,12 @@ export const DELETE_CATEGORY_METADATA = gql`
 `;
 
 export const SET_CATEGORY_METADATA = gql`
+    ${CATEGORY_META_FIELDS}
+
     mutation SET_CATEGORY_METADATA($input: SetCategoryMetaInput!) {
         setCategoryMeta(input: $input) {
             meta {
-                categoryId
-                key
-                value
+                ...CATEGORY_META_FIELDS
             }
         }
     }

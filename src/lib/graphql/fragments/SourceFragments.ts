@@ -8,6 +8,14 @@
 
 import gql from 'graphql-tag';
 
+export const SOURCE_META_FIELDS = gql`
+    fragment SOURCE_META_FIELDS on SourceMetaType {
+        sourceId
+        key
+        value
+    }
+`;
+
 export const SOURCE_BASE_FIELDS = gql`
     fragment SOURCE_BASE_FIELDS on SourceType {
         id
@@ -47,6 +55,7 @@ export const SOURCE_LIST_FIELDS = gql`
 
 export const SOURCE_BROWSE_FIELDS = gql`
     ${SOURCE_BASE_FIELDS}
+    ${SOURCE_META_FIELDS}
 
     fragment SOURCE_BROWSE_FIELDS on SourceType {
         ...SOURCE_BASE_FIELDS
@@ -55,9 +64,7 @@ export const SOURCE_BROWSE_FIELDS = gql`
         supportsLatest
 
         meta {
-            sourceId
-            key
-            value
+            ...SOURCE_META_FIELDS
         }
 
         filters {
