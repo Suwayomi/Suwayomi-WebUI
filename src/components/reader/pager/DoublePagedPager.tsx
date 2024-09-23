@@ -10,7 +10,6 @@ import { MouseEvent, useEffect, useRef, useState } from 'react';
 import Box from '@mui/material/Box';
 import { IReaderProps } from '@/typings';
 import { Page } from '@/components/reader/Page';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
 
 const isSpreadPage = (image: HTMLImageElement): boolean => {
     const aspectRatio = image.height / image.width;
@@ -18,7 +17,7 @@ const isSpreadPage = (image: HTMLImageElement): boolean => {
 };
 
 export function DoublePagedPager(props: IReaderProps) {
-    const { pages, settings, setCurPage, initialPage, curPage, chapter, nextChapter, prevChapter } = props;
+    const { pages, settings, setCurPage, initialPage, curPage, nextChapter, prevChapter } = props;
 
     const selfRef = useRef<HTMLDivElement>(null);
 
@@ -119,35 +118,6 @@ export function DoublePagedPager(props: IReaderProps) {
         setCurPage(initialPage);
     }, [initialPage]);
 
-    useEffect(() => {
-        const imageRequests: [number, ReturnType<(typeof requestManager)['requestImage']>][] = pages.map((page) => [
-            page.index,
-            requestManager.requestImage(page.src),
-        ]);
-
-        imageRequests.forEach(async ([index, imageRequest]) => {
-            try {
-                const imageUrl = await imageRequest.response;
-                const img = new Image();
-                img.onload = () => {
-                    URL.revokeObjectURL(imageUrl);
-
-                    setPagesLoadState((prevState) => prevState.toSpliced(index, 1, true));
-                    setPagesToSpreadState((prevState) => prevState.toSpliced(index, 1, isSpreadPage(img)));
-                };
-                img.src = imageUrl;
-            } catch (e) {
-                // ignore
-            }
-        });
-
-        return () => {
-            imageRequests.forEach(([index, imageRequest]) =>
-                imageRequest.abortRequest(new Error(`DoublePagedPager::preload(${index}): chapter changed`)),
-            );
-        };
-    }, [chapter.id]);
-
     return (
         <Box ref={selfRef} onClick={clickControl}>
             <Box
@@ -209,7 +179,16 @@ export function DoublePagedPager(props: IReaderProps) {
                             key={src}
                             index={index}
                             src={src}
-                            onImageLoad={() => {}}
+                            onImageLoad={() => {
+                                const img = new Image();
+                                img.onload = () => {
+                                    setPagesLoadState((prevState) => prevState.toSpliced(index, 1, true));
+                                    setPagesToSpreadState((prevState) =>
+                                        prevState.toSpliced(index, 1, isSpreadPage(img)),
+                                    );
+                                };
+                                img.src = src;
+                            }}
                             settings={settings}
                             display={displayPage}
                         />
