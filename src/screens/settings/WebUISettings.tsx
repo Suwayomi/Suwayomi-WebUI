@@ -219,6 +219,9 @@ export const WebUISettings = () => {
                 settingName={t('settings.webui.electron_path.label.title')}
                 dialogDescription={t('settings.webui.electron_path.label.description')}
                 value={webUISettings.electronPath}
+                settingDescription={
+                    webUISettings.electronPath.length ? webUISettings.electronPath : t('global.label.default')
+                }
                 handleChange={(path) => updateSetting('electronPath', path)}
             />
             <SelectSetting<WebUiChannel>

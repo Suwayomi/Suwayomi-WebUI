@@ -274,6 +274,9 @@ export function Backup() {
                         settingName={t('settings.backup.automated.location.label.title')}
                         dialogDescription={t('settings.backup.automated.location.label.description')}
                         value={backupSettings.backupPath}
+                        settingDescription={
+                            backupSettings.backupPath.length ? backupSettings.backupPath : t('global.label.default')
+                        }
                         handleChange={(path) => updateSetting('backupPath', path)}
                     />
                     <TimeSetting

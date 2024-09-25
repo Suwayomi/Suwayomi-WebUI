@@ -141,6 +141,9 @@ export const BrowseSettings = () => {
                 settingName={t('settings.server.local_source.path.label.title')}
                 dialogDescription={t('settings.server.local_source.path.label.description')}
                 value={serverSettings.localSourcePath}
+                settingDescription={
+                    serverSettings.localSourcePath.length ? serverSettings.localSourcePath : t('global.label.default')
+                }
                 handleChange={(path) => updateSetting('localSourcePath', path)}
             />
         </List>

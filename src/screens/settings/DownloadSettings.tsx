@@ -129,6 +129,9 @@ export const DownloadSettings = () => {
                 settingName={t('download.settings.download_path.label.title')}
                 dialogDescription={t('download.settings.download_path.label.description')}
                 value={downloadSettings?.downloadsPath}
+                settingDescription={
+                    downloadSettings?.downloadsPath.length ? downloadSettings.downloadsPath : t('global.label.default')
+                }
                 handleChange={(path) => updateSetting('downloadsPath', path)}
             />
             <ListItem>

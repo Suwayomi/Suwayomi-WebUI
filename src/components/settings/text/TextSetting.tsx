@@ -14,19 +14,20 @@ import { TextSettingDialog, TextSettingDialogProps } from '@/components/settings
 export type TextSettingProps = Omit<TextSettingDialogProps, 'isDialogOpen' | 'setIsDialogOpen' | 'value'> &
     Required<Pick<TextSettingDialogProps, 'value'>> & {
         disabled?: boolean;
+        settingDescription?: string;
     };
 
 export const TextSetting = (props: TextSettingProps) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-    const { settingName, value, isPassword = false, disabled = false } = props;
+    const { settingName, settingDescription, value, isPassword = false, disabled = false } = props;
 
     return (
         <>
             <ListItemButton disabled={disabled} onClick={() => setIsDialogOpen(true)}>
                 <ListItemText
                     primary={settingName}
-                    secondary={isPassword ? value.replace(/./g, '*') : value}
+                    secondary={settingDescription ?? (isPassword ? value.replace(/./g, '*') : value)}
                     secondaryTypographyProps={{
                         sx: { display: 'flex', flexDirection: 'column', wordWrap: 'break-word' },
                     }}
