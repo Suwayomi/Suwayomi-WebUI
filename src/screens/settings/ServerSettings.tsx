@@ -137,7 +137,9 @@ export const ServerSettings = () => {
         setting: Setting,
         value: ServerSettingsType[Setting],
     ) => {
-        mutateSettings({ variables: { input: { settings: { [setting]: value } } } });
+        mutateSettings({ variables: { input: { settings: { [setting]: value } } } }).catch(() =>
+            makeToast(t('global.error.label.failed_to_save_changes'), 'error'),
+        );
     };
 
     const localSettings = useMemo(

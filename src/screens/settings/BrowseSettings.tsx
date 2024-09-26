@@ -26,6 +26,7 @@ import {
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { makeToast } from '@/components/util/Toast.tsx';
 
 type ExtensionsSettings = Pick<GqlServerSettings, 'maxSourcesInParallel' | 'localSourcePath' | 'extensionRepos'>;
 
@@ -55,13 +56,17 @@ export const BrowseSettings = () => {
         setting: Setting,
         value: ExtensionsSettings[Setting],
     ) => {
-        mutateSettings({ variables: { input: { settings: { [setting]: value } } } });
+        mutateSettings({ variables: { input: { settings: { [setting]: value } } } }).catch(() =>
+            makeToast(t('global.error.label.failed_to_save_changes'), 'error'),
+        );
     };
 
     const {
         settings: { hideLibraryEntries },
     } = useMetadataServerSettings();
-    const updateMetadataServerSettings = createUpdateMetadataServerSettings<keyof MetadataBrowseSettings>();
+    const updateMetadataServerSettings = createUpdateMetadataServerSettings<keyof MetadataBrowseSettings>(() =>
+        makeToast(t('global.error.label.failed_to_save_changes'), 'error'),
+    );
 
     if (loading) {
         return <LoadingPlaceholder />;

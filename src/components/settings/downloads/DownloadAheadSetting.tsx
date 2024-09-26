@@ -39,7 +39,7 @@ export const DownloadAheadSetting = ({
     const updateSetting = (value: MetadataDownloadSettings['downloadAheadLimit']) => {
         persistDownloadAheadLimit(value === 0 ? currentDownloadAheadLimit : value);
         updateMetadataServerSettings('downloadAheadLimit', value).catch(() =>
-            makeToast(t('search.error.label.failed_to_save_settings'), 'warning'),
+            makeToast(t('global.error.label.failed_to_save_changes'), 'error'),
         );
     };
 
