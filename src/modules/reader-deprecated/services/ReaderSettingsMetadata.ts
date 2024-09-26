@@ -77,6 +77,7 @@ export const checkAndHandleMissingStoredReaderSettings = async (
             readerType: undefined,
             offsetFirstPage: undefined,
             readerWidth: undefined,
+            tapZoneLayout: undefined,
         },
         false,
     );

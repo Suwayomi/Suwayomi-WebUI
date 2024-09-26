@@ -7,6 +7,7 @@
  */
 
 import { IReaderSettings } from '@/modules/reader-deprecated/Reader.types.ts';
+import { TapZoneLayouts } from '@/modules/reader/types/TapZoneLayout.types.ts';
 
 export const DEFAULT_READER_SETTINGS: IReaderSettings = {
     staticNav: false,
@@ -18,4 +19,5 @@ export const DEFAULT_READER_SETTINGS: IReaderSettings = {
     readerType: 'ContinuesVertical',
     offsetFirstPage: false,
     readerWidth: 50,
+    tapZoneLayout: TapZoneLayouts.STANDARD,
 };
