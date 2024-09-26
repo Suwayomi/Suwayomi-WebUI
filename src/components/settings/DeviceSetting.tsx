@@ -11,7 +11,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import MenuItem from '@mui/material/MenuItem';
 import { useTranslation } from 'react-i18next';
-import { useContext, useEffect } from 'react';
+import { useContext, useLayoutEffect } from 'react';
 import { updateMetadataServerSettings, useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 import { MetadataServerSettingKeys, MetadataServerSettings } from '@/typings.ts';
 import { makeToast } from '@/components/util/Toast.tsx';
@@ -27,7 +27,7 @@ export const DeviceSetting = () => {
     const { t } = useTranslation();
     const { setTitle, setAction } = useContext(NavBarContext);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         setTitle(t('settings.device.title.settings'));
         setAction(null);
 

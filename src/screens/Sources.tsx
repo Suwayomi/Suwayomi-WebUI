@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Fragment, useContext, useEffect, useMemo } from 'react';
+import { Fragment, useContext, useEffect, useLayoutEffect, useMemo } from 'react';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
@@ -92,7 +92,7 @@ export function Sources() {
         });
     }, []);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         setAction(
             <>
                 <Tooltip title={t('search.title.global_search')}>

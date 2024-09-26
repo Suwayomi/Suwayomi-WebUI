@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useContext, useEffect } from 'react';
+import { useContext, useLayoutEffect } from 'react';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import List from '@mui/material/List';
 import ListAltIcon from '@mui/icons-material/ListAlt';
@@ -34,7 +34,7 @@ export function Settings() {
     const { t } = useTranslation();
 
     const { setTitle, setAction } = useContext(NavBarContext);
-    useEffect(() => {
+    useLayoutEffect(() => {
         setTitle(t('settings.title'));
         setAction(null);
 

@@ -12,7 +12,7 @@ import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import Tooltip from '@mui/material/Tooltip';
 import Box from '@mui/material/Box';
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useLayoutEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { isNetworkRequestInFlight } from '@apollo/client/core/networkStatus';
@@ -58,7 +58,7 @@ export const Manga: React.FC = () => {
         }
     }, [manga]);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         setTitle(manga?.title ?? t('manga.title_one'));
         setAction(null);
 
@@ -68,7 +68,7 @@ export const Manga: React.FC = () => {
         };
     }, [t, manga?.title]);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         setAction(
             <Stack
                 direction="row"

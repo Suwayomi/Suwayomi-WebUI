@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { useCallback, useContext, useLayoutEffect, useRef, useState } from 'react';
 import Tab from '@mui/material/Tab';
 import { useTranslation } from 'react-i18next';
 import { Sources } from '@/screens/Sources';
@@ -31,7 +31,7 @@ export function Browse() {
 
     const [tabNum, setTabNum] = useState<number>(0);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         setTitle(t('global.label.browse'));
     }, [t]);
 

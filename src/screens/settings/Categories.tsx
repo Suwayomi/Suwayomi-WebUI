@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useMemo, useState, useContext, useEffect } from 'react';
+import { useMemo, useState, useContext, useLayoutEffect } from 'react';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import { DragDropContext, Draggable, DraggableProvided, DropResult } from 'react-beautiful-dnd';
@@ -100,7 +100,7 @@ export function Categories() {
     const { t } = useTranslation();
 
     const { setTitle, setAction } = useContext(NavBarContext);
-    useEffect(() => {
+    useLayoutEffect(() => {
         setTitle(t('category.title.category_other'));
         setAction(null);
 

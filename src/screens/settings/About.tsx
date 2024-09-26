@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useContext, useEffect } from 'react';
+import { useContext, useLayoutEffect } from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -195,7 +195,7 @@ export function About() {
     const { t } = useTranslation();
     const { setTitle, setAction } = useContext(NavBarContext);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         setTitle(t('settings.about.title'));
         setAction(null);
 

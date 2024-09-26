@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { useCallback, useContext, useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -397,7 +397,7 @@ export function SourceMangas() {
         [query],
     );
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         setTitle(source?.displayName ?? t('source.title_one'));
         setAction(
             <>

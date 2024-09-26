@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { fromEvent } from 'file-selector';
 import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
@@ -174,7 +174,7 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
         }
     };
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         setAction(
             <>
                 <AppbarSearch />

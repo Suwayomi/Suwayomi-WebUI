@@ -9,7 +9,7 @@
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import Typography from '@mui/material/Typography';
-import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { StringParam, useQueryParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
@@ -234,7 +234,7 @@ export const SearchAll: React.FC = () => {
         [setSourceToLoadingStateMap],
     );
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         setTitle(t(isMigrateMode ? 'migrate.search.title' : 'search.title.global_search', { title: mangaTitle }));
         setAction(
             <>

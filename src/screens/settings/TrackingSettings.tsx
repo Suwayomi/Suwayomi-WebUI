@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { useContext, useEffect } from 'react';
+import { useContext, useLayoutEffect } from 'react';
 import List from '@mui/material/List';
 
 import ListSubheader from '@mui/material/ListSubheader';
@@ -33,7 +33,7 @@ export const TrackingSettings = () => {
     const { t } = useTranslation();
     const { setTitle } = useContext(NavBarContext);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         setTitle(t('tracking.settings.title.settings'));
     }, [t]);
 

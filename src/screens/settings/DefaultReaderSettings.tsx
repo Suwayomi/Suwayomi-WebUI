@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useContext, useEffect } from 'react';
+import { useContext, useLayoutEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AllowedMetadataValueTypes, IReaderSettings } from '@/typings';
 import { convertToGqlMeta, requestUpdateServerMetadata } from '@/lib/metadata/metadata.ts';
@@ -25,7 +25,7 @@ import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
 export function DefaultReaderSettings() {
     const { t } = useTranslation();
     const { setTitle, setAction } = useContext(NavBarContext);
-    useEffect(() => {
+    useLayoutEffect(() => {
         setTitle(t('reader.settings.title.default_reader_settings'));
         setAction(null);
 

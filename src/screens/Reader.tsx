@@ -7,7 +7,7 @@
  */
 
 import CircularProgress from '@mui/material/CircularProgress';
-import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import { useTranslation } from 'react-i18next';
@@ -407,7 +407,7 @@ export function Reader() {
         } else setCurPage(chapter.lastPageRead);
     }, [chapter, isLoading]);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (!manga?.title || chapter.name === t('global.label.loading')) {
             setTitle(t('reader.title'));
         } else {
@@ -424,7 +424,7 @@ export function Reader() {
         }
     }, [areDefaultSettingsLoading, isMangaLoading]);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         // set the custom navbar
         setOverride({
             status: true,

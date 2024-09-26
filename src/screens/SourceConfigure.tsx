@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { createElement, useContext, useEffect } from 'react';
+import { createElement, useContext, useLayoutEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import List from '@mui/material/List';
 import { useTranslation } from 'react-i18next';
@@ -46,7 +46,7 @@ export function SourceConfigure() {
     const { t } = useTranslation();
     const { setTitle, setAction } = useContext(NavBarContext);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         setTitle(t('source.configuration.title'));
         setAction(null);
 

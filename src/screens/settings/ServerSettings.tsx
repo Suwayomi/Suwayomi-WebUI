@@ -7,7 +7,7 @@
  */
 
 import { useTranslation, Trans } from 'react-i18next';
-import { useContext, useEffect, useMemo } from 'react';
+import { useContext, useLayoutEffect, useMemo } from 'react';
 import Link from '@mui/material/Link';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -96,7 +96,7 @@ export const ServerSettings = () => {
     const { t } = useTranslation();
     const { setTitle, setAction } = useContext(NavBarContext);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         setTitle(t('settings.server.title.settings'));
         setAction(null);
 

@@ -16,7 +16,7 @@ import Stack from '@mui/material/Stack';
 import Box, { BoxProps } from '@mui/material/Box';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useLayoutEffect } from 'react';
 import { DragDropContext, Draggable, DraggableProvided, DropResult } from 'react-beautiful-dnd';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
@@ -152,7 +152,7 @@ export const DownloadQueue: React.FC = () => {
         }
     };
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         setTitle(t('download.queue.title'));
         setAction(
             <>

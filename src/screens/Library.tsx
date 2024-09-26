@@ -9,7 +9,7 @@
 import Chip, { ChipProps } from '@mui/material/Chip';
 import Tab from '@mui/material/Tab';
 import { styled } from '@mui/material/styles';
-import { useCallback, useContext, useEffect, useLayoutEffect, useMemo, useState } from 'react';
+import { useCallback, useContext, useLayoutEffect, useMemo, useState } from 'react';
 import { useQueryParam, NumberParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
@@ -158,7 +158,7 @@ export function Library() {
     }, [isSelectModeActive, selectedMangas]);
 
     const { setTitle, setAction } = useContext(NavBarContext);
-    useEffect(() => {
+    useLayoutEffect(() => {
         const title = t('library.title');
         const navBarTitle = (
             <TitleWithSizeTag>

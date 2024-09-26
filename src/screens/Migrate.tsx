@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useLayoutEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
@@ -67,7 +67,7 @@ export const Migrate = () => {
         notifyOnNetworkStatusChange: true,
     });
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         setTitle(name ?? sourceId ?? t('migrate.title'));
         setAction(<GridLayouts gridLayout={gridLayout} onChange={setGridLayout} />);
 

@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useLayoutEffect, useState } from 'react';
 import List from '@mui/material/List';
 import ListItemText from '@mui/material/ListItemText';
 import { fromEvent } from 'file-selector';
@@ -58,7 +58,7 @@ let backupRestoreId: string | undefined;
 export function Backup() {
     const { t } = useTranslation();
     const { setTitle, setAction } = useContext(NavBarContext);
-    useEffect(() => {
+    useLayoutEffect(() => {
         setTitle(t('settings.backup.title'));
         setAction(null);
 

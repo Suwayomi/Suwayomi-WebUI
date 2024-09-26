@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { useContext, useEffect, useMemo } from 'react';
+import { useContext, useLayoutEffect, useMemo } from 'react';
 import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
@@ -118,7 +118,7 @@ export const LibraryDuplicates = () => {
     );
 
     const { setTitle, setAction } = useContext(NavBarContext);
-    useEffect(() => {
+    useLayoutEffect(() => {
         setTitle(t('library.settings.advanced.duplicates.label.title'));
         setAction(
             <>

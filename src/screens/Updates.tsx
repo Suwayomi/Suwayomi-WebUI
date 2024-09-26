@@ -15,7 +15,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import React, { useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useContext, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Refresh from '@mui/icons-material/Refresh';
@@ -88,7 +88,7 @@ export const Updates: React.FC = () => {
     });
     const lastUpdateTimestamp = lastUpdateTimestampData?.lastUpdateTimestamp.timestamp;
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         setTitle(t('updates.title'));
         setAction(<UpdateChecker />);
 
