@@ -26,6 +26,7 @@ import { ActiveDeviceContextProvider } from '@/modules/device/contexts/DeviceCon
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 import { AppThemes, getTheme } from '@/modules/theme/services/AppThemes.ts';
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
+import { ReaderContextProvider } from '@/modules/reader/contexts/ReaderContextProvider.tsx';
 
 interface Props {
     children: React.ReactNode;
@@ -94,7 +95,9 @@ export const AppContext: React.FC<Props> = ({ children }) => {
                                 <LibraryOptionsContextProvider>
                                     <NavBarContextProvider>
                                         <ActiveDeviceContextProvider>
-                                            <SnackbarProvider>{children}</SnackbarProvider>
+                                            <SnackbarProvider>
+                                                <ReaderContextProvider>{children}</ReaderContextProvider>
+                                            </SnackbarProvider>
                                         </ActiveDeviceContextProvider>
                                     </NavBarContextProvider>
                                 </LibraryOptionsContextProvider>
