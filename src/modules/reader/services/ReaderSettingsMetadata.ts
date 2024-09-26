@@ -8,12 +8,37 @@
 
 import { useEffect, useMemo } from 'react';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { DEFAULT_READER_SETTINGS } from '@/modules/reader/Reader.constants.ts';
-import { IReaderSettings } from '@/modules/reader/Reader.types.ts';
+import { DEFAULT_READER_SETTINGS } from '@/modules/reader/constants/Reader.constants.ts';
+import { IReaderSettings } from '@/modules/reader/types/Reader.types.ts';
 import { convertFromGqlMeta } from '@/modules/metadata/services/MetadataConverter.ts';
 import { getMetadataFrom } from '@/modules/metadata/services/MetadataReader.ts';
-import { GqlMetaHolder, Metadata, MetadataHolder, MetadataHolderType } from '@/modules/metadata/Metadata.types.ts';
+import {
+    AllowedMetadataValueTypes,
+    AppMetadataKeys,
+    GqlMetaHolder,
+    Metadata,
+    MetadataHolder,
+    MetadataHolderType,
+} from '@/modules/metadata/Metadata.types.ts';
+import { jsonSaveParse } from '@/lib/HelperFunctions.ts';
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
+
+const convertSettingsToMetadata = (
+    settings: Partial<IReaderSettings>,
+): Metadata<string, AllowedMetadataValueTypes> => ({
+    ...settings,
+    tapZoneInvertMode: JSON.stringify(settings.tapZoneInvertMode),
+});
+
+const convertMetadataToSettings = (
+    metadata: Partial<Metadata<AppMetadataKeys, AllowedMetadataValueTypes>>,
+    defaultSettings: IReaderSettings,
+): IReaderSettings => ({
+    ...(metadata as unknown as IReaderSettings),
+    tapZoneInvertMode:
+        jsonSaveParse<IReaderSettings['tapZoneInvertMode']>((metadata.tapZoneInvertMode as string) ?? '') ??
+        defaultSettings.tapZoneInvertMode,
+});
 
 function getReaderSettingsWithDefaultValueFallback<DefaultSettings extends IReaderSettings>(
     type: 'global',
@@ -33,13 +58,16 @@ function getReaderSettingsWithDefaultValueFallback<DefaultSettings extends IRead
     defaultSettings: DefaultSettings = DEFAULT_READER_SETTINGS as DefaultSettings,
     useEffectFn?: typeof useEffect,
 ): DefaultSettings {
-    return getMetadataFrom(
-        type as Parameters<typeof getMetadataFrom>[0],
-        metadataHolder as Parameters<typeof getMetadataFrom>[1],
-        defaultSettings,
-        true,
-        useEffectFn,
-    );
+    return convertMetadataToSettings(
+        getMetadataFrom(
+            type as Parameters<typeof getMetadataFrom>[0],
+            metadataHolder as Parameters<typeof getMetadataFrom>[1],
+            convertSettingsToMetadata(defaultSettings),
+            true,
+            useEffectFn,
+        ),
+        defaultSettings as IReaderSettings,
+    ) as DefaultSettings;
 }
 
 const getSettings = (
