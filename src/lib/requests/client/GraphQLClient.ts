@@ -144,6 +144,14 @@ const typePolicies: StrictTypedTypePolicies = {
                     return existingWithAppendedIncoming;
                 },
             },
+            settings: {
+                merge(existing, incoming) {
+                    return {
+                        ...(existing ?? {}),
+                        ...(incoming ?? {}),
+                    };
+                },
+            },
         },
     },
 };

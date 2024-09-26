@@ -133,6 +133,7 @@ import {
     SetMangaMetadataMutationVariables,
     SetSourceMetadataMutation,
     SetSourceMetadataMutationVariables,
+    SettingsType,
     SortOrder,
     SourcePreferenceChangeInput,
     StartDownloaderMutation,
@@ -2657,7 +2658,24 @@ export class RequestManager {
     public useUpdateServerSettings(
         options?: MutationHookOptions<UpdateServerSettingsMutation, UpdateServerSettingsMutationVariables>,
     ): AbortableApolloUseMutationResponse<UpdateServerSettingsMutation, UpdateServerSettingsMutationVariables> {
-        return this.doRequest(GQLMethod.USE_MUTATION, UPDATE_SERVER_SETTINGS, undefined, options);
+        const [mutate, result] = this.doRequest(GQLMethod.USE_MUTATION, UPDATE_SERVER_SETTINGS, undefined, options);
+
+        const wrappedMutate = async (mutateOptions: Parameters<typeof mutate>[0]) =>
+            mutate({
+                optimisticResponse: {
+                    __typename: 'Mutation',
+                    setSettings: {
+                        __typename: 'SetSettingsPayload',
+                        settings: {
+                            __typename: 'SettingsType',
+                            ...(mutateOptions?.variables?.input.settings ?? {}),
+                        } as SettingsType,
+                    },
+                },
+                ...mutateOptions,
+            });
+
+        return [wrappedMutate, result];
     }
 
     public useGetLastGlobalUpdateTimestamp(
