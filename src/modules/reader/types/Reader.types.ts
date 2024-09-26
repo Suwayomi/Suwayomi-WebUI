@@ -6,6 +6,13 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import { TapZoneInvertMode, TapZoneLayouts } from '@/modules/reader/types/TapZoneLayout.types.ts';
+
+export enum ReadingDirection {
+    LTR,
+    RTL,
+}
+
 export interface IReaderSettings {
     staticNav: boolean;
     showPageNumber: boolean;
@@ -15,4 +22,7 @@ export interface IReaderSettings {
     scalePage: boolean;
     offsetFirstPage: boolean;
     readerWidth: number;
+    tapZoneLayout: TapZoneLayouts;
+    tapZoneInvertMode: TapZoneInvertMode;
+    readingDirection: ReadingDirection;
 }

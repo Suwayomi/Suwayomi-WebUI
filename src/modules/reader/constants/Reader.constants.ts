@@ -6,7 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { IReaderSettings } from '@/modules/reader/Reader.types.ts';
+import { IReaderSettings, ReadingDirection } from '@/modules/reader/types/Reader.types.ts';
+import { TapZoneLayouts } from '@/modules/reader/types/TapZoneLayout.types.ts';
 
 export const DEFAULT_READER_SETTINGS: IReaderSettings = {
     staticNav: false,
@@ -17,4 +18,7 @@ export const DEFAULT_READER_SETTINGS: IReaderSettings = {
     scalePage: false,
     offsetFirstPage: false,
     readerWidth: 50,
+    tapZoneLayout: TapZoneLayouts.RIGHT_LEFT,
+    tapZoneInvertMode: { vertical: false, horizontal: false },
+    readingDirection: ReadingDirection.LTR,
 };

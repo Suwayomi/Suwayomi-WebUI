@@ -54,6 +54,9 @@ const APP_METADATA_OBJECT: Record<AppMetadataKeys, undefined> = {
     hasStatus: undefined,
     customThemes: undefined,
     mangaThumbnailBackdrop: undefined,
+    tapZoneLayout: undefined,
+    tapZoneInvertMode: undefined,
+    readingDirection: undefined,
 };
 
 export const VALID_APP_METADATA_KEYS = Object.keys(APP_METADATA_OBJECT);
