@@ -8,12 +8,15 @@
 
 import styled from '@emotion/styled';
 import Typography, { TypographyProps } from '@mui/material/Typography';
+import { shouldForwardProp } from '@/lib/ui/ShouldForwardProp.ts';
+
+type TypographyMaxLinesProps = {
+    lines?: number;
+};
 
 export const TypographyMaxLines = styled(Typography, {
-    shouldForwardProp: (prop) => prop !== 'lines',
-})<{
-    lines?: number;
-}>(({ lines = 2 }) => ({
+    shouldForwardProp: shouldForwardProp<TypographyMaxLinesProps>(['lines']),
+})<TypographyMaxLinesProps>(({ lines = 2 }) => ({
     lineHeight: '1.5rem',
     maxHeight: '3rem',
     display: '-webkit-box',

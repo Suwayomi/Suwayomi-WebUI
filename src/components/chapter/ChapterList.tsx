@@ -45,10 +45,14 @@ import { Mangas } from '@/lib/data/Mangas';
 import { useNavBarContext } from '@/components/context/NavbarContext.tsx';
 import { useResizeObserver } from '@/util/useResizeObserver.tsx';
 import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
+import { shouldForwardProp } from '@/lib/ui/ShouldForwardProp.ts';
 
-const ChapterListHeader = styled(Stack, { shouldForwardProp: (prop) => prop !== 'scrollbarWidth' })<{
+type ChapterListHeaderProps = {
     scrollbarWidth: number;
-}>(({ theme, scrollbarWidth }) => ({
+};
+const ChapterListHeader = styled(Stack, {
+    shouldForwardProp: shouldForwardProp<ChapterListHeaderProps>(['scrollbarWidth']),
+})<ChapterListHeaderProps>(({ theme, scrollbarWidth }) => ({
     padding: theme.spacing(1),
     paddingRight: `calc(${scrollbarWidth}px + ${theme.spacing(1)})`,
     paddingBottom: 0,
@@ -57,16 +61,17 @@ const ChapterListHeader = styled(Stack, { shouldForwardProp: (prop) => prop !== 
     },
 }));
 
-const StyledVirtuoso = styled(Virtuoso, { shouldForwardProp: (prop) => prop !== 'topOffset' })<{ topOffset: number }>(
-    ({ theme, topOffset }) => ({
-        listStyle: 'none',
-        padding: 0,
-        [theme.breakpoints.up('md')]: {
-            height: `calc(100vh - ${topOffset}px)`,
-            margin: 0,
-        },
-    }),
-);
+type StyledVirtuosoProps = { topOffset: number };
+const StyledVirtuoso = styled(Virtuoso, {
+    shouldForwardProp: shouldForwardProp<StyledVirtuosoProps>(['topOffset']),
+})<StyledVirtuosoProps>(({ theme, topOffset }) => ({
+    listStyle: 'none',
+    padding: 0,
+    [theme.breakpoints.up('md')]: {
+        height: `calc(100vh - ${topOffset}px)`,
+        margin: 0,
+    },
+}));
 
 export interface IChapterWithMeta extends ChapterWithMetaType<ComponentProps<typeof ChapterCard>['chapter']> {
     selected: boolean | null;

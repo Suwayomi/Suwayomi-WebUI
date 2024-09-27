@@ -38,6 +38,7 @@ import { MangaType, SourceType } from '@/lib/graphql/generated/graphql.ts';
 import { useLocalStorage } from '@/util/useStorage.tsx';
 import { useResizeObserver } from '@/util/useResizeObserver.tsx';
 import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
+import { shouldForwardProp } from '@/lib/ui/ShouldForwardProp.ts';
 
 const DetailsWrapper = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -51,12 +52,13 @@ const DetailsWrapper = styled('div')(({ theme }) => ({
     },
 }));
 
-const TopContentWrapper = styled('div', {
-    shouldForwardProp: (prop) => !['url', 'mangaThumbnailBackdrop'].includes(prop as string),
-})<{
+type TopContentWrapperProps = {
     url: string;
     mangaThumbnailBackdrop: boolean;
-}>(({ theme, url, mangaThumbnailBackdrop }) => ({
+};
+const TopContentWrapper = styled('div', {
+    shouldForwardProp: shouldForwardProp<TopContentWrapperProps>(['url', 'mangaThumbnailBackdrop']),
+})<TopContentWrapperProps>(({ theme, url, mangaThumbnailBackdrop }) => ({
     position: 'relative',
     backgroundImage: mangaThumbnailBackdrop ? `url(${url})` : undefined,
     backgroundRepeat: mangaThumbnailBackdrop ? 'no-repeat' : undefined,
