@@ -92,6 +92,7 @@ export type ChapterDownloadInfo = ChapterIdInfo & Pick<ChapterType, 'isDownloade
 export type ChapterBookmarkInfo = ChapterIdInfo & Pick<ChapterType, 'isBookmarked'>;
 export type ChapterReadInfo = ChapterIdInfo & Pick<ChapterType, 'isRead'>;
 export type ChapterNumberInfo = ChapterIdInfo & Pick<ChapterType, 'chapterNumber'>;
+export type ChapterSourceOrderInfo = ChapterIdInfo & Pick<ChapterType, 'sourceOrder'>;
 export type ChapterScanlatorInfo = ChapterIdInfo & Pick<ChapterType, 'scanlator'>;
 export type ChapterRealUrlInfo = Pick<ChapterType, 'realUrl'>;
 
@@ -113,6 +114,10 @@ export class Chapters {
             fragment,
             fragmentName,
         });
+    }
+
+    static getReaderUrl<Chapter extends ChapterMangaInfo & ChapterSourceOrderInfo>(chapter: Chapter): string {
+        return `manga/${chapter.mangaId}/chapter/${chapter.sourceOrder}`;
     }
 
     static isDownloading(id: number): boolean {

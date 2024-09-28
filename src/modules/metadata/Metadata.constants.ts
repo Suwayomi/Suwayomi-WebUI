@@ -57,6 +57,9 @@ const APP_METADATA_OBJECT: Record<AppMetadataKeys, undefined> = {
     tapZoneLayout: undefined,
     tapZoneInvertMode: undefined,
     readingDirection: undefined,
+    progressBarType: undefined,
+    progressBarSize: undefined,
+    progressBarPosition: undefined,
 };
 
 export const VALID_APP_METADATA_KEYS = Object.keys(APP_METADATA_OBJECT);
