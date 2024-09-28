@@ -2767,7 +2767,7 @@ export type ChapterBaseFieldsFragment = { __typename?: 'ChapterType', id: number
 
 export type ChapterStateFieldsFragment = { __typename?: 'ChapterType', id: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean };
 
-export type ChapterReaderFieldsFragment = { __typename?: 'ChapterType', lastPageRead: number, pageCount: number, id: number, name: string, mangaId: number, scanlator?: string | null, realUrl?: string | null, sourceOrder: number, chapterNumber: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean };
+export type ChapterReaderFieldsFragment = { __typename?: 'ChapterType', uploadDate: string, lastPageRead: number, pageCount: number, id: number, name: string, mangaId: number, scanlator?: string | null, realUrl?: string | null, sourceOrder: number, chapterNumber: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean };
 
 export type ChapterListFieldsFragment = { __typename?: 'ChapterType', fetchedAt: string, uploadDate: string, id: number, name: string, mangaId: number, scanlator?: string | null, realUrl?: string | null, sourceOrder: number, chapterNumber: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean };
 
@@ -3349,7 +3349,7 @@ export type GetChaptersReaderQueryVariables = Exact<{
 }>;
 
 
-export type GetChaptersReaderQuery = { __typename?: 'Query', chapters: { __typename?: 'ChapterNodeList', totalCount: number, nodes: Array<{ __typename?: 'ChapterType', lastPageRead: number, pageCount: number, id: number, name: string, mangaId: number, scanlator?: string | null, realUrl?: string | null, sourceOrder: number, chapterNumber: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } };
+export type GetChaptersReaderQuery = { __typename?: 'Query', chapters: { __typename?: 'ChapterNodeList', totalCount: number, nodes: Array<{ __typename?: 'ChapterType', uploadDate: string, lastPageRead: number, pageCount: number, id: number, name: string, mangaId: number, scanlator?: string | null, realUrl?: string | null, sourceOrder: number, chapterNumber: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } };
 
 export type GetChaptersMangaQueryVariables = Exact<{
   after?: InputMaybe<Scalars['Cursor']['input']>;

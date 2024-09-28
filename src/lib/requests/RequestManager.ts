@@ -2184,7 +2184,7 @@ export class RequestManager {
         return this.doRequest(GQLMethod.QUERY, document, variables, options);
     }
 
-    public useGetMangaChapters<Data, Variables extends OperationVariables>(
+    public useGetMangaChapters<Data, Variables extends OperationVariables = OperationVariables>(
         document: DocumentNode | TypedDocumentNode<Data, Variables>,
         mangaId: number | string,
         options?: QueryHookOptions<Data, Variables>,
