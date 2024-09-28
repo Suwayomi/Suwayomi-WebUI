@@ -8,6 +8,8 @@
 
 import { useEffect, useMemo } from 'react';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { requestUpdateMangaMetadata } from '@/modules/metadata/services/MetadataUpdater.ts';
+import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { DEFAULT_READER_SETTINGS } from '@/modules/reader/constants/Reader.constants.ts';
 import { IReaderSettings } from '@/modules/reader/types/Reader.types.ts';
 import { convertFromGqlMeta } from '@/modules/metadata/services/MetadataConverter.ts';
@@ -20,6 +22,7 @@ import {
     MetadataHolder,
     MetadataHolderType,
 } from '@/modules/metadata/Metadata.types.ts';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { jsonSaveParse } from '@/lib/HelperFunctions.ts';
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 
@@ -121,3 +124,18 @@ export const useDefaultReaderSettings = (): {
         [metadata, settings, loading, request],
     );
 };
+
+export const updateReaderSettings = async <Setting extends keyof IReaderSettings = keyof IReaderSettings>(
+    manga: Pick<MangaType, 'id'> & GqlMetaHolder,
+    setting: Setting,
+    value: IReaderSettings[Setting],
+): Promise<void[]> =>
+    requestUpdateMangaMetadata(manga, [[setting, convertSettingsToMetadata({ [setting]: value })[setting]]]);
+
+export const createUpdateReaderSettings =
+    <Settings extends keyof IReaderSettings>(
+        manga: Pick<MangaType, 'id'> & GqlMetaHolder,
+        handleError: (error: any) => void = defaultPromiseErrorHandler('createUpdateReaderSettings'),
+    ): ((...args: OmitFirst<Parameters<typeof updateReaderSettings<Settings>>>) => Promise<void | void[]>) =>
+    (setting, value) =>
+        updateReaderSettings(manga, setting, value).catch(handleError);

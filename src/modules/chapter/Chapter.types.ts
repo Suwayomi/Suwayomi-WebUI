@@ -7,6 +7,7 @@
  */
 
 import { NullAndUndefined } from '@/Base.types.ts';
+import { ChapterReaderFieldsFragment } from '@/lib/graphql/generated/graphql.ts';
 
 export type ChapterSortMode = 'fetchedAt' | 'source' | 'chapterNumber' | 'uploadedAt';
 
@@ -25,3 +26,5 @@ export type ChapterOptionsReducerAction =
     | { type: 'sortBy'; sortBy: ChapterSortMode }
     | { type: 'sortReverse' }
     | { type: 'showChapterNumber' };
+
+export type TChapterReader = ChapterReaderFieldsFragment;
