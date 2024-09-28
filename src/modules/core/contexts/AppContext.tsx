@@ -12,10 +12,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
 import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
 import { useTranslation } from 'react-i18next';
-import { CacheProvider, EmotionCache } from '@emotion/react';
-import createCache from '@emotion/cache';
-import { prefixer } from 'stylis';
-import rtlPlugin from 'stylis-plugin-rtl';
+import { CacheProvider } from '@emotion/react';
 import { SnackbarProvider } from 'notistack';
 import { createAndSetTheme } from '@/theme.tsx';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
@@ -27,20 +24,11 @@ import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 import { AppThemes, getTheme } from '@/modules/theme/services/AppThemes.ts';
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { ReaderContextProvider } from '@/modules/reader/contexts/ReaderContextProvider.tsx';
+import { DIRECTION_TO_CACHE } from '@/modules/theme/ThemeDirectionCache.ts';
 
 interface Props {
     children: React.ReactNode;
 }
-
-const directionToCache: Record<Direction, EmotionCache> = {
-    ltr: createCache({
-        key: 'muiltr',
-    }),
-    rtl: createCache({
-        key: 'muirtl',
-        stylisPlugins: [prefixer, rtlPlugin],
-    }),
-};
 
 export const AppContext: React.FC<Props> = ({ children }) => {
     const directionRef = useRef<Direction>('ltr');
@@ -88,7 +76,7 @@ export const AppContext: React.FC<Props> = ({ children }) => {
     return (
         <Router>
             <StyledEngineProvider injectFirst>
-                <CacheProvider value={directionToCache[currentDirection]}>
+                <CacheProvider value={DIRECTION_TO_CACHE[currentDirection]}>
                     <ThemeProvider theme={theme}>
                         <ThemeModeContext.Provider value={darkThemeContext}>
                             <QueryParamProvider adapter={ReactRouter6Adapter}>

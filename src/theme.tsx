@@ -148,8 +148,11 @@ export const createAndSetTheme = (...args: Parameters<typeof createTheme>) => {
     return theme;
 };
 
-export const getOptionForDirection = <T,>(ltrOption: T, rtlOption: T): T =>
-    (theme?.direction ?? 'ltr') === 'ltr' ? ltrOption : rtlOption;
+export const getOptionForDirection = <T,>(
+    ltrOption: T,
+    rtlOption: T,
+    direction: Theme['direction'] = theme?.direction ?? 'ltr',
+): T => (direction === 'ltr' ? ltrOption : rtlOption);
 
 export const useGetOptionForDirection = (): typeof getOptionForDirection => {
     const muiTheme = useTheme();

@@ -78,6 +78,9 @@ export const checkAndHandleMissingStoredReaderSettings = async (
             offsetFirstPage: undefined,
             readerWidth: undefined,
             tapZoneLayout: undefined,
+            progressBarType: undefined,
+            progressBarSize: undefined,
+            progressBarPosition: undefined,
         },
         false,
     );

@@ -21,6 +21,17 @@ export type ReaderType =
     | 'ContinuesHorizontalLTR'
     | 'ContinuesHorizontalRTL';
 
+export enum ProgressBarType {
+    HIDDEN,
+    STANDARD,
+}
+
+export enum ProgressBarPosition {
+    BOTTOM,
+    LEFT,
+    RIGHT,
+}
+
 export interface IReaderSettings {
     staticNav: boolean;
     showPageNumber: boolean;
@@ -32,6 +43,9 @@ export interface IReaderSettings {
     offsetFirstPage: boolean;
     readerWidth: number;
     tapZoneLayout: TapZoneLayouts;
+    progressBarType: ProgressBarType;
+    progressBarSize: number;
+    progressBarPosition: ProgressBarPosition;
 }
 
 export type UndefinedReaderSettings = {

@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { IReaderSettings } from '@/modules/reader-deprecated/Reader.types.ts';
+import { IReaderSettings, ProgressBarPosition, ProgressBarType } from '@/modules/reader-deprecated/Reader.types.ts';
 import { TapZoneLayouts } from '@/modules/reader/types/TapZoneLayout.types.ts';
 
 export const DEFAULT_READER_SETTINGS: IReaderSettings = {
@@ -20,4 +20,7 @@ export const DEFAULT_READER_SETTINGS: IReaderSettings = {
     offsetFirstPage: false,
     readerWidth: 50,
     tapZoneLayout: TapZoneLayouts.STANDARD,
+    progressBarType: ProgressBarType.STANDARD,
+    progressBarSize: 4,
+    progressBarPosition: ProgressBarPosition.BOTTOM,
 };
