@@ -8,7 +8,16 @@
 
 import { ReactNode } from 'react';
 import { ReaderTapZoneContextProvider } from '@/modules/reader/contexts/ReaderTapZoneContextProvider.tsx';
+import { ReaderProgressBarContextProvider } from '@/modules/reader/contexts/ReaderProgressBarContextProvider.tsx';
+import { ReaderOverlayContextProvider } from '@/modules/reader/contexts/ReaderOverlayContextProvider.tsx';
+import { ReaderStateContextProvider } from '@/modules/reader/contexts/state/ReaderStateContextProvider.tsx';
 
 export const ReaderContextProvider = ({ children }: { children?: ReactNode }) => (
-    <ReaderTapZoneContextProvider>{children}</ReaderTapZoneContextProvider>
+    <ReaderStateContextProvider>
+        <ReaderTapZoneContextProvider>
+            <ReaderOverlayContextProvider>
+                <ReaderProgressBarContextProvider>{children}</ReaderProgressBarContextProvider>
+            </ReaderOverlayContextProvider>
+        </ReaderTapZoneContextProvider>
+    </ReaderStateContextProvider>
 );
