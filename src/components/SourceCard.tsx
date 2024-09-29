@@ -47,6 +47,9 @@ export const SourceCard: React.FC<IProps> = (props: IProps) => {
         showSourceRepo,
     } = props;
 
+    const isLocalSource = Number(id) === 0;
+    const sourceName = isLocalSource ? t('source.local_source.title') : name;
+
     return (
         <Card
             sx={{
@@ -70,7 +73,7 @@ export const SourceCard: React.FC<IProps> = (props: IProps) => {
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <Avatar
                             variant="rounded"
-                            alt={name}
+                            alt={sourceName}
                             sx={{
                                 width: 56,
                                 height: 56,
@@ -82,7 +85,7 @@ export const SourceCard: React.FC<IProps> = (props: IProps) => {
                             <SpinnerImage
                                 spinnerStyle={{ small: true }}
                                 imgStyle={{ objectFit: 'cover', width: '100%', height: '100%' }}
-                                alt={name}
+                                alt={sourceName}
                                 src={requestManager.getValidImgUrlFor(iconUrl)}
                             />
                         </Avatar>
@@ -94,39 +97,37 @@ export const SourceCard: React.FC<IProps> = (props: IProps) => {
                             }}
                         >
                             <Typography variant="h6" component="h3">
-                                {name}
+                                {sourceName}
                             </Typography>
-                            {id !== '0' && (
-                                <Typography
-                                    variant="caption"
-                                    sx={{
-                                        display: 'block',
-                                    }}
-                                >
-                                    {translateExtensionLanguage(lang)}
-                                    {isNsfw && (
-                                        <Typography
-                                            variant="caption"
-                                            color="error"
-                                            sx={{
-                                                display: 'inline',
-                                            }}
-                                        >
-                                            {' 18+'}
-                                        </Typography>
-                                    )}
-                                    {showSourceRepo && (
-                                        <Typography
-                                            variant="caption"
-                                            sx={{
-                                                display: 'block',
-                                            }}
-                                        >
-                                            {repo}
-                                        </Typography>
-                                    )}
-                                </Typography>
-                            )}
+                            <Typography
+                                variant="caption"
+                                sx={{
+                                    display: 'block',
+                                }}
+                            >
+                                {translateExtensionLanguage(lang)}
+                                {isNsfw && (
+                                    <Typography
+                                        variant="caption"
+                                        color="error"
+                                        sx={{
+                                            display: 'inline',
+                                        }}
+                                    >
+                                        {' 18+'}
+                                    </Typography>
+                                )}
+                                {showSourceRepo && (
+                                    <Typography
+                                        variant="caption"
+                                        sx={{
+                                            display: 'block',
+                                        }}
+                                    >
+                                        {repo}
+                                    </Typography>
+                                )}
+                            </Typography>
                         </Box>
                     </Box>
                     <Stack sx={{ flexDirection: 'row', gap: 1 }}>
