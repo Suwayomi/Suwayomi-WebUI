@@ -90,10 +90,15 @@ function getExtensionsInfo(extensions: TExtension[]): {
     ];
 
     const langExt: GroupedExtensionsResult = allLangs.map((lang) => [lang, sortedExtensions[lang]]);
+    const groupedExtensions = result.concat(langExt);
+
+    groupedExtensions.forEach(([, groupedExtensionList]) =>
+        groupedExtensionList.sort((a, b) => a.name.localeCompare(b.name)),
+    );
 
     return {
         allLangs,
-        groupedExtensions: result.concat(langExt),
+        groupedExtensions,
     };
 }
 
