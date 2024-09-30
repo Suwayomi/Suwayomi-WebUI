@@ -10,6 +10,7 @@ import {
     AllowedMetadataValueTypes,
     AppMetadataKeys,
     Metadata,
+    MetadataMigrationSettings,
     MetadataServerSettingKeys,
     MetadataServerSettings,
     MetadataThemeSettings,
@@ -19,6 +20,7 @@ import { convertFromGqlMeta, getMetadataFrom, requestUpdateServerMetadata } from
 import { jsonSaveParse } from '@/util/HelperFunctions.ts';
 import { DEFAULT_DEVICE } from '@/util/device.ts';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { DEFAULT_SORT_SETTINGS } from '@/screens/Migration.constants.ts';
 
 export const getDefaultSettings = (): MetadataServerSettings => ({
     // downloads
@@ -41,6 +43,7 @@ export const getDefaultSettings = (): MetadataServerSettings => ({
     migrateCategories: true,
     migrateTracking: true,
     deleteChapters: true,
+    migrateSortSettings: DEFAULT_SORT_SETTINGS,
 
     // browse
     hideLibraryEntries: false,
@@ -64,6 +67,7 @@ export const convertSettingsToMetadata = (
     ...settings,
     devices: JSON.stringify(settings.devices),
     customThemes: JSON.stringify(settings.customThemes),
+    migrateSortSettings: JSON.stringify(settings.migrateSortSettings),
 });
 
 export const convertMetadataToSettings = (
@@ -76,6 +80,10 @@ export const convertMetadataToSettings = (
         customThemes:
             jsonSaveParse<MetadataThemeSettings['customThemes']>((metadata.customThemes as string) ?? '') ??
             getDefaultSettings().customThemes,
+        migrateSortSettings:
+            jsonSaveParse<MetadataMigrationSettings['migrateSortSettings']>(
+                (metadata.migrateSortSettings as string) ?? '',
+            ) ?? getDefaultSettings().migrateSortSettings,
     }) satisfies MetadataServerSettings;
 
 const getMetadataServerSettingsWithDefaultFallback = (

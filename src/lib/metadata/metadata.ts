@@ -61,6 +61,7 @@ const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
     'migrateCategories',
     'migrateTracking',
     'deleteChapters',
+    'migrateSortSettings',
 
     // browse
     'hideLibraryEntries',

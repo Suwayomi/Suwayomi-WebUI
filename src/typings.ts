@@ -22,6 +22,7 @@ import {
     TrackerType,
 } from '@/lib/graphql/generated/graphql.ts';
 import { AppTheme } from '@/lib/ui/AppThemes.ts';
+import { SortSettings } from '@/screens/Migration.types.ts';
 
 type GenericLocation<State = any> = Omit<Location, 'state'> & { state?: State };
 
@@ -152,6 +153,7 @@ export type MetadataMigrationSettings = {
     migrateCategories: boolean;
     migrateTracking: boolean;
     deleteChapters: boolean;
+    migrateSortSettings: SortSettings;
 };
 
 export type MetadataBrowseSettings = {

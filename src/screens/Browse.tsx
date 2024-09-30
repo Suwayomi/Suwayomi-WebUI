@@ -55,7 +55,7 @@ export function Browse() {
                 <Extensions tabsMenuHeight={tabsMenuHeight} />
             </TabPanel>
             <TabPanel index={2} currentIndex={tabNum}>
-                <Migration />
+                <Migration tabsMenuHeight={tabsMenuHeight} />
             </TabPanel>
         </TabsWrapper>
     );

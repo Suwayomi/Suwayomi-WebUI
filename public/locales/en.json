@@ -423,10 +423,12 @@
     },
     "sort": {
       "label": {
+        "asc": "Ascending",
         "by_chapter_number": "By chapter number",
         "by_fetch_date": "By date fetched",
         "by_source": "By source",
-        "by_upload_date": "By upload date"
+        "by_upload_date": "By upload date",
+        "desc": "Descending"
       }
     },
     "time": {
@@ -734,6 +736,10 @@
     },
     "search": {
       "title": "$t(migrate.title) \"{{title}}\""
+    },
+    "sort": {
+      "by_manga_count": "By manga count",
+      "by_source_name": "By source name"
     },
     "title": "Migrate"
   },
