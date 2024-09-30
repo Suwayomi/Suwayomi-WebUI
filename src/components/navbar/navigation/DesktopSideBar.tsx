@@ -23,7 +23,7 @@ import ListItem from '@mui/material/ListItem';
 import Tooltip from '@mui/material/Tooltip';
 import { NavbarItem } from '@/typings.ts';
 import { ListItemLink } from '@/components/util/ListItemLink.tsx';
-import { getOptionForDirection } from '@/theme.ts';
+import { useGetOptionForDirection } from '@/theme.tsx';
 import { useNavBarContext } from '@/components/context/NavbarContext.tsx';
 import { useResizeObserver } from '@/util/useResizeObserver.tsx';
 
@@ -96,6 +96,7 @@ const MAX_WIDTH_EXTENDED = 400;
 
 export const DesktopSideBar = ({ navBarItems }: { navBarItems: NavbarItem[] }) => {
     const { isCollapsed, setIsCollapsed, navBarWidth, setNavBarWidth } = useNavBarContext();
+    const getOptionForDirection = useGetOptionForDirection();
 
     const ref = useRef<HTMLDivElement | null>(null);
     useResizeObserver(

@@ -14,7 +14,9 @@ import {
     Palette,
     responsiveFontSizes,
     Theme,
+    useTheme,
 } from '@mui/material/styles';
+import { useCallback } from 'react';
 import { ThemeMode } from '@/components/context/ThemeModeContext.tsx';
 import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
 import { AppTheme, loadThemeFonts } from '@/lib/ui/AppThemes.ts';
@@ -146,5 +148,14 @@ export const createAndSetTheme = (...args: Parameters<typeof createTheme>) => {
     return theme;
 };
 
-export const getOptionForDirection = <T>(ltrOption: T, rtlOption: T): T =>
+export const getOptionForDirection = <T,>(ltrOption: T, rtlOption: T): T =>
     (theme?.direction ?? 'ltr') === 'ltr' ? ltrOption : rtlOption;
+
+export const useGetOptionForDirection = (): typeof getOptionForDirection => {
+    const muiTheme = useTheme();
+
+    return useCallback(
+        <T,>(...args: Parameters<typeof getOptionForDirection<T>>) => getOptionForDirection(...args),
+        [muiTheme.direction],
+    );
+};

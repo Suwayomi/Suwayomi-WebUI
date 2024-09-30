@@ -29,7 +29,7 @@ import { useTheme } from '@mui/material/styles';
 import { NavbarItem } from '@/typings';
 import { NavBarContext } from '@/components/context/NavbarContext';
 import { useBackButton } from '@/util/useBackButton.ts';
-import { getOptionForDirection } from '@/theme.ts';
+import { useGetOptionForDirection } from '@/theme.tsx';
 import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
 import { DesktopSideBar } from '@/components/navbar/navigation/DesktopSideBar.tsx';
 import { useResizeObserver } from '@/util/useResizeObserver.tsx';
@@ -78,6 +78,7 @@ export function DefaultNavBar() {
         useContext(NavBarContext);
 
     const theme = useTheme();
+    const getOptionForDirection = useGetOptionForDirection();
     const { pathname } = useLocation();
     const handleBack = useBackButton();
 

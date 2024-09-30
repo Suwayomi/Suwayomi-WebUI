@@ -11,7 +11,7 @@ import Box from '@mui/material/Box';
 import { IReaderSettings } from '@/typings';
 import { SpinnerImage } from '@/components/util/SpinnerImage';
 import { imageStyle } from '@/components/reader/Page';
-import { getOptionForDirection } from '@/theme.ts';
+import { getOptionForDirection } from '@/theme.tsx';
 
 interface IProps {
     index: number;

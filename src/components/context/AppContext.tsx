@@ -17,7 +17,7 @@ import createCache from '@emotion/cache';
 import { prefixer } from 'stylis';
 import rtlPlugin from 'stylis-plugin-rtl';
 import { SnackbarProvider } from 'notistack';
-import { createAndSetTheme } from '@/theme';
+import { createAndSetTheme } from '@/theme.tsx';
 import { useLocalStorage } from '@/util/useStorage.tsx';
 import { ThemeMode, ThemeModeContext } from '@/components/context/ThemeModeContext.tsx';
 import { NavBarContextProvider } from '@/components/navbar/NavBarContextProvider';

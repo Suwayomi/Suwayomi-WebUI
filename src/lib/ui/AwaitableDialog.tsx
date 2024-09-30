@@ -10,7 +10,7 @@ import { createRoot } from 'react-dom/client';
 import { ThemeProvider } from '@mui/material/styles';
 import { ConfirmDialog } from '@/components/molecules/ConfirmDialog.tsx';
 import { ControlledPromise } from '@/lib/ControlledPromise.ts';
-import { getCurrentTheme } from '@/theme.ts';
+import { getCurrentTheme } from '@/theme.tsx';
 
 export const awaitConfirmation = async (
     dialogProps: Omit<React.ComponentProps<typeof ConfirmDialog>, 'onCancel' | 'onConfirm'>,

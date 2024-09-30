@@ -31,7 +31,7 @@ import { AllowedMetadataValueTypes, ChapterOffset, IReaderSettings } from '@/typ
 import { ReaderSettingsOptions } from '@/components/reader/ReaderSettingsOptions';
 import { useBackButton } from '@/util/useBackButton.ts';
 import { Select } from '@/components/atoms/Select.tsx';
-import { getOptionForDirection } from '@/theme.ts';
+import { useGetOptionForDirection } from '@/theme.tsx';
 import { ChapterType } from '@/lib/graphql/generated/graphql.ts';
 import { MangaChapterCountInfo, MangaIdInfo } from '@/lib/data/Mangas.ts';
 import { useNavBarContext } from '@/components/context/NavbarContext.tsx';
@@ -107,6 +107,7 @@ export function ReaderNavBar(props: IProps) {
     const { t } = useTranslation();
     const { setReaderNavBarWidth } = useNavBarContext();
     const theme = useTheme();
+    const getOptionForDirection = useGetOptionForDirection();
 
     const navigate = useNavigate();
     const location = useLocation<{

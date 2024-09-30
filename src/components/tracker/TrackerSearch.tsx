@@ -29,7 +29,7 @@ import { SearchTextField } from '@/components/atoms/SearchTextField.tsx';
 import { makeToast } from '@/components/util/Toast.tsx';
 import { TrackerMangaCard } from '@/components/tracker/TrackerMangaCard.tsx';
 import { DIALOG_PADDING } from '@/components/tracker/constants.ts';
-import { getOptionForDirection } from '@/theme.ts';
+import { useGetOptionForDirection } from '@/theme.tsx';
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { MangaIdInfo } from '@/lib/data/Mangas.ts';
@@ -46,6 +46,7 @@ export const TrackerSearch = ({
     trackedId?: string;
 }) => {
     const { t } = useTranslation();
+    const getOptionForDirection = useGetOptionForDirection();
 
     const [searchString, setSearchString] = useState<string>(manga.title);
     const [tmpSearchString, setTmpSearchString] = useState(searchString);
