@@ -38,7 +38,9 @@ function sourceToLangList(sources: Pick<SourceType, 'id' | 'lang'>[]) {
     return [...result].sort(langSortCmp);
 }
 
-function groupByLang<Source extends Pick<SourceType, 'id' | 'lang'>>(sources: Source[]): Record<string, Source[]> {
+function groupByLang<Source extends Pick<SourceType, 'id' | 'name' | 'lang'>>(
+    sources: Source[],
+): Record<string, Source[]> {
     const result: Record<string, Source[]> = {};
 
     sources.forEach((source) => {
@@ -48,6 +50,8 @@ function groupByLang<Source extends Pick<SourceType, 'id' | 'lang'>>(sources: So
         result[lang] ??= [];
         result[lang].push(source);
     });
+
+    Object.values(result).forEach((langSources) => langSources.sort((a, b) => a.name.localeCompare(b.name)));
 
     return result;
 }
