@@ -15,7 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { useLocalStorage } from '@/util/useStorage.tsx';
-import { sourceDefualtLangs, sourceForcedDefaultLangs, langSortCmp } from '@/util/language';
+import { sourceDefualtLangs, sourceForcedDefaultLangs, langSortCmp, DefaultLanguage } from '@/util/language';
 import { translateExtensionLanguage } from '@/screens/util/Extensions';
 import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
 import { SourceCard } from '@/components/SourceCard';
@@ -25,26 +25,28 @@ import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCe
 import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
 import { SourceType } from '@/lib/graphql/generated/graphql.ts';
 
-function sourceToLangList(sources: Pick<SourceType, 'lang'>[]) {
-    const result: string[] = [];
+function sourceToLangList(sources: Pick<SourceType, 'id' | 'lang'>[]) {
+    const result = new Set<string>();
 
     sources.forEach((source) => {
-        if (result.indexOf(source.lang) === -1) {
-            result.push(source.lang);
-        }
+        const isLocalSource = Number(source.id) === 0;
+        const lang = isLocalSource ? DefaultLanguage.OTHER : source.lang;
+
+        result.add(lang);
     });
 
-    result.sort(langSortCmp);
-    return result;
+    return [...result].sort(langSortCmp);
 }
 
-function groupByLang<Source extends Pick<SourceType, 'lang'>>(sources: Source[]): Record<string, Source[]> {
+function groupByLang<Source extends Pick<SourceType, 'id' | 'lang'>>(sources: Source[]): Record<string, Source[]> {
     const result: Record<string, Source[]> = {};
+
     sources.forEach((source) => {
-        if (result[source.lang] === undefined) {
-            result[source.lang] = [];
-        }
-        result[source.lang].push(source);
+        const isLocalSource = Number(source.id) === 0;
+        const lang = isLocalSource ? DefaultLanguage.OTHER : source.lang;
+
+        result[lang] ??= [];
+        result[lang].push(source);
     });
 
     return result;
@@ -136,7 +138,7 @@ export function Sources() {
                 .sort((a, b) => langSortCmp(a[0], b[0]))
                 .map(
                     ([lang, list]) =>
-                        shownLangs.indexOf(lang) !== -1 && (
+                        (lang === DefaultLanguage.OTHER || shownLangs.includes(lang)) && (
                             <Fragment key={lang}>
                                 <Typography
                                     key={lang}
@@ -152,7 +154,20 @@ export function Sources() {
                                     {translateExtensionLanguage(lang)}
                                 </Typography>
                                 {list
-                                    .filter((source) => showNsfw || !source.isNsfw)
+                                    .filter((source) => {
+                                        const isLangOther = lang === DefaultLanguage.OTHER;
+                                        if (isLangOther) {
+                                            const isLocalSource = Number(source.id) === 0;
+                                            const isLangShown = shownLangs.includes(lang);
+
+                                            const isLangOtherSourceShown = isLangShown || isLocalSource;
+                                            if (!isLangOtherSourceShown) {
+                                                return false;
+                                            }
+                                        }
+
+                                        return showNsfw || !source.isNsfw;
+                                    })
                                     .map((source) => (
                                         <SourceCard
                                             key={source.id}

@@ -52,7 +52,7 @@ export const extensionLanguageToTranslationKey: { [state in ExtensionState | Def
     [ExtensionState.OBSOLETE]: 'extension.state.label.obsolete',
     [DefaultLanguage.ALL]: 'extension.language.all',
     [DefaultLanguage.OTHER]: 'extension.language.other',
-    [DefaultLanguage.LOCAL_SOURCE]: 'source.local_source.title',
+    [DefaultLanguage.LOCAL_SOURCE]: 'extension.language.other',
 };
 
 export const isExtensionStateOrLanguage = (languageCode: string): boolean =>

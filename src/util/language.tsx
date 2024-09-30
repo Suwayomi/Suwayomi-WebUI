@@ -73,8 +73,6 @@ export const langSortCmp = (a: string, b: string) => {
 
     if (a === 'en') return -1;
     if (b === 'en') return 1;
-    if (a === DefaultLanguage.LOCAL_SOURCE) return 1;
-    if (b === DefaultLanguage.LOCAL_SOURCE) return -1;
 
     return aLang > bLang ? 1 : -1;
 };
