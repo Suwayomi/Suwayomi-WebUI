@@ -25,10 +25,7 @@ const StyledTabsMenu = styled(Tabs)(({ theme }) => ({
 }));
 
 export const TabsMenu = forwardRef(
-    (
-        { children, tabsCount, sx, ...props }: TabsProps & { tabsCount: number },
-        ref: ForwardedRef<HTMLDivElement | null>,
-    ) => {
+    ({ children, sx, ...props }: TabsProps, ref: ForwardedRef<HTMLDivElement | null>) => {
         const { appBarHeight } = useNavBarContext();
 
         return (

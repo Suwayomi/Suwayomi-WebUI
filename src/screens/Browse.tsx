@@ -9,6 +9,7 @@
 import { useCallback, useContext, useLayoutEffect, useRef, useState } from 'react';
 import Tab from '@mui/material/Tab';
 import { useTranslation } from 'react-i18next';
+import { StringParam, useQueryParam } from 'use-query-params';
 import { Sources } from '@/screens/Sources';
 import { Extensions } from '@/screens/Extensions';
 import { TabPanel } from '@/components/tabs/TabPanel.tsx';
@@ -18,9 +19,19 @@ import { Migration } from '@/screens/Migration.tsx';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { useResizeObserver } from '@/util/useResizeObserver.tsx';
 
+enum Tabs {
+    SOURCE = 'source',
+    EXTENSIONS = 'extensions',
+    MIGRATE = 'migrate',
+}
+
 export function Browse() {
     const { t } = useTranslation();
     const { setTitle } = useContext(NavBarContext);
+
+    useLayoutEffect(() => {
+        setTitle(t('global.label.browse'));
+    }, [t]);
 
     const tabsMenuRef = useRef<HTMLDivElement | null>(null);
     const [tabsMenuHeight, setTabsMenuHeight] = useState(0);
@@ -29,32 +40,32 @@ export function Browse() {
         useCallback(() => setTabsMenuHeight(tabsMenuRef.current!.offsetHeight), [tabsMenuRef.current]),
     );
 
-    const [tabNum, setTabNum] = useState<number>(0);
+    const [tabSearchParam, setTabSearchParam] = useQueryParam('tab', StringParam, {});
+    const tabName = (tabSearchParam as Tabs) ?? Tabs.SOURCE;
 
-    useLayoutEffect(() => {
-        setTitle(t('global.label.browse'));
-    }, [t]);
+    if (!tabSearchParam) {
+        setTabSearchParam(tabName, 'replaceIn');
+    }
 
     return (
         <TabsWrapper>
             <TabsMenu
                 ref={tabsMenuRef}
                 variant="fullWidth"
-                value={tabNum}
-                tabsCount={2}
-                onChange={(e, newTab) => setTabNum(newTab)}
+                value={tabName}
+                onChange={(_, newTab) => setTabSearchParam(newTab, 'replaceIn')}
             >
-                <Tab sx={{ textTransform: 'none' }} label={t('source.title_one')} />
-                <Tab sx={{ textTransform: 'none' }} label={t('extension.title_other')} />
-                <Tab sx={{ textTransform: 'none' }} label={t('migrate.title')} />
+                <Tab value={Tabs.SOURCE} sx={{ textTransform: 'none' }} label={t('source.title_one')} />
+                <Tab value={Tabs.EXTENSIONS} sx={{ textTransform: 'none' }} label={t('extension.title_other')} />
+                <Tab value={Tabs.MIGRATE} sx={{ textTransform: 'none' }} label={t('migrate.title')} />
             </TabsMenu>
-            <TabPanel index={0} currentIndex={tabNum}>
+            <TabPanel index={Tabs.SOURCE} currentIndex={tabName}>
                 <Sources />
             </TabPanel>
-            <TabPanel index={1} currentIndex={tabNum}>
+            <TabPanel index={Tabs.EXTENSIONS} currentIndex={tabName}>
                 <Extensions tabsMenuHeight={tabsMenuHeight} />
             </TabPanel>
-            <TabPanel index={2} currentIndex={tabNum}>
+            <TabPanel index={Tabs.MIGRATE} currentIndex={tabName}>
                 <Migration tabsMenuHeight={tabsMenuHeight} />
             </TabPanel>
         </TabsWrapper>
