@@ -103,7 +103,7 @@ export const ThemePreview = ({ theme, onDelete }: { theme: AppTheme; onDelete: (
                                             maxHeight: '20px',
                                             flexDirection: 'row',
                                             justifyContent: 'space-between',
-                                            alignItems: 'center',
+                                            alignItems: 'flex-start',
                                         }}
                                     >
                                         <Box
@@ -114,7 +114,13 @@ export const ThemePreview = ({ theme, onDelete }: { theme: AppTheme; onDelete: (
                                                 borderRadius: 1,
                                             }}
                                         />
-                                        <Stack sx={{ height: '100%', alignItems: 'center', gap: 1 }}>
+                                        <Stack
+                                            sx={{
+                                                alignItems: 'center',
+                                                gap: 1,
+                                                mt: -0.25,
+                                            }}
+                                        >
                                             {isSelected && (
                                                 <CheckCircleIcon
                                                     sx={{
@@ -132,6 +138,7 @@ export const ThemePreview = ({ theme, onDelete }: { theme: AppTheme; onDelete: (
                                                     }}
                                                     component="div"
                                                     size="small"
+                                                    sx={{ mt: -0.5 }}
                                                 >
                                                     <Tooltip title={t('global.button.delete')}>
                                                         <DeleteIcon />
