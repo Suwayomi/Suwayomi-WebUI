@@ -6,12 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import Box from '@mui/material/Box';
-import { styled } from '@mui/material/styles';
+export const ReaderViewer = () => {
+    const a = null;
 
-export const ReaderProgressBarContainer = styled(Box)({
-    position: 'fixed',
-    bottom: 0,
-    right: 0,
-    pointerEvents: 'all',
-});
+    return null;
+};
