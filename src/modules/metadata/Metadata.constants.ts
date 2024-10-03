@@ -7,6 +7,7 @@
  */
 
 import { AppMetadataKeys, IMetadataMigration } from '@/modules/metadata/Metadata.types.ts';
+import { ReadingMode } from '@/modules/reader/types/Reader.types.ts';
 
 export const APP_METADATA_KEY_PREFIX = 'webUI_';
 
@@ -60,6 +61,7 @@ const APP_METADATA_OBJECT: Record<AppMetadataKeys, undefined> = {
     progressBarType: undefined,
     progressBarSize: undefined,
     progressBarPosition: undefined,
+    readingMode: undefined,
 };
 
 export const VALID_APP_METADATA_KEYS = Object.keys(APP_METADATA_OBJECT);
@@ -121,6 +123,7 @@ export const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
     'customThemes',
     'mangaThumbnailBackdrop',
 ];
+
 /**
  * Once all changes have been done in the current branch, a new migration for all changes should be
  * created.
@@ -183,5 +186,57 @@ export const METADATA_MIGRATIONS: IMetadataMigration[] = [
     },
     {
         keys: [{ oldKey: 'deleteChaptersAutoMarkedRead', newKey: 'deleteChaptersWhileReading' }],
+    },
+    {
+        keys: [
+            {
+                oldKey: 'readerType',
+                newKey: 'readingMode',
+            },
+        ],
+        values: [
+            // START: readerType
+            {
+                key: 'readerType',
+                oldValue: 'ContinuesVertical',
+                newValue: `${ReadingMode.CONTINUOUS_VERTICAL}`,
+            },
+            {
+                key: 'readerType',
+                oldValue: 'Webtoon',
+                newValue: `${ReadingMode.CONTINUOUS_VERTICAL}`,
+            },
+            {
+                key: 'readerType',
+                oldValue: 'SingleRTL',
+                newValue: `${ReadingMode.SINGLE_PAGE}`,
+            },
+            {
+                key: 'readerType',
+                oldValue: 'SingleLTR',
+                newValue: `${ReadingMode.SINGLE_PAGE}`,
+            },
+            {
+                key: 'readerType',
+                oldValue: 'DoubleRTL',
+                newValue: `${ReadingMode.DOUBLE_PAGE}`,
+            },
+            {
+                key: 'readerType',
+                oldValue: 'DoubleLTR',
+                newValue: `${ReadingMode.DOUBLE_PAGE}`,
+            },
+            {
+                key: 'readerType',
+                oldValue: 'ContinuesHorizontalLTR',
+                newValue: `${ReadingMode.CONTINUOUS_HORIZONTAL}`,
+            },
+            {
+                key: 'readerType',
+                oldValue: 'ContinuesHorizontalRTL',
+                newValue: `${ReadingMode.CONTINUOUS_HORIZONTAL}`,
+            },
+            // END: readerType
+        ],
     },
 ];

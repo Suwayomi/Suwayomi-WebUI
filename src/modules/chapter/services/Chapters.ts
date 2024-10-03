@@ -117,7 +117,7 @@ export class Chapters {
     }
 
     static getReaderUrl<Chapter extends ChapterMangaInfo & ChapterSourceOrderInfo>(chapter: Chapter): string {
-        return `manga/${chapter.mangaId}/chapter/${chapter.sourceOrder}`;
+        return `/manga/${chapter.mangaId}/chapter/${chapter.sourceOrder}`;
     }
 
     static isDownloading(id: number): boolean {
