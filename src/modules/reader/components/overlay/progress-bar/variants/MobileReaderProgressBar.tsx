@@ -15,7 +15,7 @@ import Box from '@mui/material/Box';
 import { ReaderProgressBarProps } from '@/modules/reader/types/ReaderProgressBar.types.ts';
 import { ReaderProgressBar } from '@/modules/reader/components/overlay/progress-bar/ReaderProgressBar.tsx';
 import { ReaderProgressBarSlot } from '@/modules/reader/components/overlay/progress-bar/ReaderProgressBarSlot.tsx';
-import { getPage } from '@/modules/reader/components/overlay/progress-bar/ReaderProgressBar.utils.tsx';
+import { getPage } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
 
 export const MobileReaderProgressBar = (props: ReaderProgressBarProps) => {
     const { currentPageIndex, pages } = props;
