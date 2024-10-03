@@ -17,7 +17,7 @@ import { ReaderProgressBarSlot } from '@/modules/reader/components/overlay/progr
 import { userReaderStatePagesContext } from '@/modules/reader/contexts/state/ReaderStatePagesContext.tsx';
 import { useReaderStateChaptersContext } from '@/modules/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
-import { getPage } from '@/modules/reader/utils/ReaderProgressBar.utils';
+import { getPage } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
 import { useGetOptionForDirection } from '@/theme.tsx';
 
 export const MobileReaderProgressBar = () => {

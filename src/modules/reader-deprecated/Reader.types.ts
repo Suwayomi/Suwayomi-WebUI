@@ -7,7 +7,6 @@
  */
 
 import { GetChaptersReaderQuery, MangaReaderFieldsFragment } from '@/lib/graphql/generated/graphql.ts';
-import { TapZoneLayouts } from '@/modules/reader/types/TapZoneLayout.types.ts';
 
 export type ReaderType =
     | 'ContinuesVertical'
@@ -21,6 +20,25 @@ export type ReaderType =
     | 'ContinuesHorizontalLTR'
     | 'ContinuesHorizontalRTL';
 
+export enum ReadingMode {
+    SINGLE_PAGE,
+    DOUBLE_PAGE,
+    CONTINUOUS_VERTICAL,
+    CONTINUOUS_HORIZONTAL,
+}
+
+export enum ReadingDirection {
+    LTR,
+    RTL,
+}
+
+export enum ReaderPageScaleMode {
+    WIDTH,
+    HEIGHT,
+    SCREEN,
+    ORIGINAL,
+}
+
 export interface IReaderSettings {
     staticNav: boolean;
     showPageNumber: boolean;
@@ -31,7 +49,8 @@ export interface IReaderSettings {
     readerType: ReaderType;
     offsetFirstPage: boolean;
     readerWidth: number;
-    tapZoneLayout: TapZoneLayouts;
+    readingDirection: ReadingDirection;
+    readingMode: ReadingMode;
 }
 
 export type UndefinedReaderSettings = {

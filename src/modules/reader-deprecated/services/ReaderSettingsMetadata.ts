@@ -11,13 +11,14 @@ import {
     requestUpdateMangaMetadata,
     requestUpdateServerMetadata,
 } from '@/modules/metadata/services/MetadataUpdater.ts';
-import { MetaType } from '@/lib/graphql/generated/graphql.ts';
+import { MangaType, MetaType } from '@/lib/graphql/generated/graphql.ts';
 import { DEFAULT_READER_SETTINGS } from '@/modules/reader-deprecated/Reader.constants.ts';
 import { IReaderSettings, UndefinedReaderSettings } from '@/modules/reader-deprecated/Reader.types.ts';
 import { convertFromGqlMeta } from '@/modules/metadata/services/MetadataConverter.ts';
 import { getMetadataFrom } from '@/modules/metadata/services/MetadataReader.ts';
 import { GqlMetaHolder, Metadata, MetadataKeyValuePair } from '@/modules/metadata/Metadata.types.ts';
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 
 const getReaderSettingsWithDefaultValueFallback = <DefaultSettings extends IReaderSettings | UndefinedReaderSettings>(
     meta?: Metadata,
@@ -32,7 +33,7 @@ export const getReaderSettingsFromMetadata = (
 ): IReaderSettings => getReaderSettingsWithDefaultValueFallback(meta, defaultSettings, applyMetadataMigration);
 
 export const getReaderSettingsFor = (
-    { meta }: GqlMetaHolder = {},
+    { meta }: GqlMetaHolder = { meta: [] },
     defaultSettings?: IReaderSettings,
     applyMetadataMigration?: boolean,
 ): IReaderSettings => getReaderSettingsFromMetadata(convertFromGqlMeta(meta), defaultSettings, applyMetadataMigration);
@@ -50,6 +51,20 @@ export const useDefaultReaderSettings = (): {
 
     return { metadata, settings, loading, request };
 };
+
+export const updateReaderSettings = async <Setting extends keyof IReaderSettings = keyof IReaderSettings>(
+    manga: Pick<MangaType, 'id'> & GqlMetaHolder,
+    setting: Setting,
+    value: IReaderSettings[Setting],
+): Promise<void[]> => requestUpdateMangaMetadata(manga, [[setting, value]]);
+
+export const createUpdateReaderSettings =
+    <Settings extends keyof IReaderSettings>(
+        manga: Pick<MangaType, 'id'> & GqlMetaHolder,
+        handleError: (error: any) => void = defaultPromiseErrorHandler('createUpdateReaderSettings'),
+    ): ((...args: OmitFirst<Parameters<typeof updateReaderSettings<Settings>>>) => Promise<void | void[]>) =>
+    (setting, value) =>
+        updateReaderSettings(manga, setting, value).catch(handleError);
 
 /**
  * Saves all missing reader settings from the metadata to the server
@@ -78,6 +93,11 @@ export const checkAndHandleMissingStoredReaderSettings = async (
             offsetFirstPage: undefined,
             readerWidth: undefined,
             tapZoneLayout: undefined,
+            pageScaleMode: undefined,
+            shouldScalePage: undefined,
+            shouldOffsetDoubleSpreads: undefined,
+            readingDirection: undefined,
+            readingMode: undefined,
         },
         false,
     );

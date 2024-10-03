@@ -9,9 +9,12 @@
 import { ReactNode } from 'react';
 import { ReaderStatePagesContextProvider } from '@/modules/reader/contexts/state/ReaderStatePagesContextProvider.tsx';
 import { ReaderStateChaptersContextProvider } from '@/modules/reader/contexts/state/ReaderStateChaptersContextProvider.tsx';
+import { ReaderStateMangaContextProvider } from '@/modules/reader/contexts/state/ReaderStateMangaContextProvider.tsx';
 
 export const ReaderStateContextProvider = ({ children }: { children: ReactNode }) => (
-    <ReaderStateChaptersContextProvider>
-        <ReaderStatePagesContextProvider>{children}</ReaderStatePagesContextProvider>
-    </ReaderStateChaptersContextProvider>
+    <ReaderStateMangaContextProvider>
+        <ReaderStateChaptersContextProvider>
+            <ReaderStatePagesContextProvider>{children}</ReaderStatePagesContextProvider>
+        </ReaderStateChaptersContextProvider>
+    </ReaderStateMangaContextProvider>
 );
