@@ -11,6 +11,7 @@ import {
     ProgressBarPosition,
     ProgressBarType,
     ReadingDirection,
+    ReadingMode,
 } from '@/modules/reader/types/Reader.types.ts';
 import { TapZoneLayouts } from '@/modules/reader/types/TapZoneLayout.types.ts';
 
@@ -29,4 +30,5 @@ export const DEFAULT_READER_SETTINGS: IReaderSettings = {
     progressBarSize: 4,
     progressBarPosition: ProgressBarPosition.BOTTOM,
     readingDirection: ReadingDirection.LTR,
+    readingMode: ReadingMode.SINGLE_PAGE,
 };

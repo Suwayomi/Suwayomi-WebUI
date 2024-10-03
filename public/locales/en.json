@@ -754,6 +754,7 @@
   },
   "reader": {
     "button": {
+      "chapter_list": "Chapter list",
       "close_menu": "Close menu",
       "exit": "Exit reader",
       "next_chapter": "Next Chapter",
@@ -786,6 +787,8 @@
         "offset_first_page": "Offset first page",
         "reader_type": "Reader type",
         "reader_width": "Reader width",
+        "reading_direction": "Reading direction",
+        "reading_mode": "Reading mode",
         "scale_page": "Scale small pages",
         "show_page_number": "Show page number",
         "skip_dup_chapters": "Skip duplicate chapters",
@@ -793,15 +796,16 @@
       },
       "reader_type": {
         "label": {
-          "continuous_horizontal_ltr": "Horizontal (LTR) ➡️",
-          "continuous_horizontal_rtl": "Horizontal (RTL) ⬅️",
-          "continuous_vertical": "Continues vertical",
-          "double_page_ltr": "Double page (LTR) ➡️",
-          "double_page_rtl": "Double page (RTL) ⬅️",
-          "single_page_ltr": "Single page (LTR) ➡️",
-          "single_page_rtl": "Single page (RTL) ⬅️",
+          "continuous_horizontal": "Continuous horizontal",
+          "continuous_vertical": "Continuous vertical",
+          "double_page": "Double page",
+          "single_page": "Single page",
           "webtoon": "Webtoon"
         }
+      },
+      "reading_direction": {
+        "ltr": "Left to right",
+        "rtl": "Right to left"
       },
       "title": {
         "default_reader_settings": "Default Reader Settings",

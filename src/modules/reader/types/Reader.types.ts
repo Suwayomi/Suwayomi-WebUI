@@ -25,6 +25,13 @@ export enum ReadingDirection {
     RTL,
 }
 
+export enum ReadingMode {
+    SINGLE_PAGE,
+    DOUBLE_PAGE,
+    CONTINUOUS_VERTICAL,
+    CONTINUOUS_HORIZONTAL,
+}
+
 export interface ReaderStateChapters {
     chapters: TChapterReader[];
     currentChapter?: TChapterReader | null;
@@ -48,4 +55,5 @@ export interface IReaderSettings {
     progressBarSize: number;
     progressBarPosition: ProgressBarPosition;
     readingDirection: ReadingDirection;
+    readingMode: ReadingMode;
 }

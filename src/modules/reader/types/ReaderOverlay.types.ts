@@ -6,6 +6,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-export interface MobileHeaderProps {
+export interface BaseReaderOverlayProps {
     isVisible: boolean;
+}
+
+export interface MobileHeaderProps extends BaseReaderOverlayProps {}
+
+export interface ReaderBottomBarMobileProps extends BaseReaderOverlayProps {
+    openSettings: () => void;
 }
