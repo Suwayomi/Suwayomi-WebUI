@@ -6,8 +6,10 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import { ComponentProps } from 'react';
 import { ChapterType, MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { ChapterBookmarkInfo, ChapterRealUrlInfo } from '@/modules/chapter/services/Chapters.ts';
+import { ChapterCard } from '@/modules/chapter/components/cards/ChapterCard.tsx';
 
 export interface BaseReaderOverlayProps {
     isVisible: boolean;
@@ -17,4 +19,10 @@ export interface BaseReaderOverlayProps {
 export interface MobileHeaderProps extends Pick<BaseReaderOverlayProps, 'isVisible'> {
     manga: Pick<MangaType, 'title'>;
     chapter: Pick<ChapterType, 'name'> & ChapterBookmarkInfo & ChapterRealUrlInfo;
+}
+
+export interface ReaderBottomBarMobileProps extends Omit<BaseReaderOverlayProps, 'setIsVisible'> {
+    openSettings: () => void;
+    chapters: ComponentProps<typeof ChapterCard>['allChapters'];
+    currentChapterIndex: number;
 }

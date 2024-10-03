@@ -749,6 +749,7 @@
   },
   "reader": {
     "button": {
+      "chapter_list": "Chapter list",
       "close_menu": "Close menu",
       "exit": "Exit reader",
       "next_chapter": "Next Chapter",
