@@ -19,3 +19,7 @@ export interface MobileHeaderProps extends Pick<BaseReaderOverlayProps, 'isVisib
     manga: MangaIdInfo & Pick<MangaType, 'title'>;
     chapter: Pick<ChapterType, 'name'> & ChapterBookmarkInfo & ChapterRealUrlInfo;
 }
+
+export interface ReaderBottomBarMobileProps extends Omit<BaseReaderOverlayProps, 'setIsVisible'> {
+    openSettings: () => void;
+}

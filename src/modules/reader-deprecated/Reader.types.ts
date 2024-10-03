@@ -32,6 +32,25 @@ export enum ProgressBarPosition {
     RIGHT,
 }
 
+export enum ReadingMode {
+    SINGLE_PAGE,
+    DOUBLE_PAGE,
+    CONTINUOUS_VERTICAL,
+    CONTINUOUS_HORIZONTAL,
+}
+
+export enum ReadingDirection {
+    LTR,
+    RTL,
+}
+
+export enum ReaderPageScaleMode {
+    WIDTH,
+    HEIGHT,
+    SCREEN,
+    ORIGINAL,
+}
+
 export interface IReaderSettings {
     staticNav: boolean;
     showPageNumber: boolean;
@@ -46,6 +65,8 @@ export interface IReaderSettings {
     progressBarType: ProgressBarType;
     progressBarSize: number;
     progressBarPosition: ProgressBarPosition;
+    readingDirection: ReadingDirection;
+    readingMode: ReadingMode;
 }
 
 export type UndefinedReaderSettings = {
