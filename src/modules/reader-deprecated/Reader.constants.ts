@@ -10,6 +10,7 @@ import {
     IReaderSettings,
     ProgressBarPosition,
     ProgressBarType,
+    ReaderPageScaleMode,
     ReadingDirection,
     ReadingMode,
 } from '@/modules/reader-deprecated/Reader.types.ts';
@@ -29,6 +30,9 @@ export const DEFAULT_READER_SETTINGS: IReaderSettings = {
     progressBarType: ProgressBarType.STANDARD,
     progressBarSize: 4,
     progressBarPosition: ProgressBarPosition.BOTTOM,
+    pageScaleMode: ReaderPageScaleMode.ORIGINAL,
+    shouldScalePage: false,
+    shouldOffsetDoubleSpreads: false,
     readingDirection: ReadingDirection.LTR,
     readingMode: ReadingMode.SINGLE_PAGE,
 };

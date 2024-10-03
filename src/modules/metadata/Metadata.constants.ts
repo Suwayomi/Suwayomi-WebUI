@@ -7,7 +7,7 @@
  */
 
 import { AppMetadataKeys, IMetadataMigration } from '@/modules/metadata/Metadata.types.ts';
-import { ReadingMode } from '@/modules/reader-deprecated/Reader.types.ts';
+import { ReaderPageScaleMode, ReadingMode } from '@/modules/reader-deprecated/Reader.types.ts';
 
 export const APP_METADATA_KEY_PREFIX = 'webUI_';
 
@@ -138,6 +138,18 @@ export const METADATA_MIGRATIONS: IMetadataMigration[] = [
                 oldKey: 'readerType',
                 newKey: 'readingMode',
             },
+            {
+                oldKey: 'offsetFirstPage',
+                newKey: 'shouldOffsetDoubleSpreads',
+            },
+            {
+                oldKey: 'fitPageToWindow',
+                newKey: 'pageScaleMode',
+            },
+            {
+                oldKey: 'scalePage',
+                newKey: 'shouldScalePage',
+            },
         ],
         values: [
             // START: readerType
@@ -182,6 +194,18 @@ export const METADATA_MIGRATIONS: IMetadataMigration[] = [
                 newValue: `${ReadingMode.CONTINUOUS_HORIZONTAL}`,
             },
             // END: readerType
+            // START: fitPageToWindow
+            {
+                key: 'fitPageToWindow',
+                oldValue: 'false',
+                newValue: `${ReaderPageScaleMode.ORIGINAL}`,
+            },
+            {
+                key: 'fitPageToWindow',
+                oldValue: 'true',
+                newValue: `${ReaderPageScaleMode.SCREEN}`,
+            },
+            // END: fitPageToWindow
         ],
     },
 ];

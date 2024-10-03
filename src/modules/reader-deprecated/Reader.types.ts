@@ -65,6 +65,9 @@ export interface IReaderSettings {
     progressBarType: ProgressBarType;
     progressBarSize: number;
     progressBarPosition: ProgressBarPosition;
+    pageScaleMode: ReaderPageScaleMode;
+    shouldScalePage: boolean;
+    shouldOffsetDoubleSpreads: boolean;
     readingDirection: ReadingDirection;
     readingMode: ReadingMode;
 }
