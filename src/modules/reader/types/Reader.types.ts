@@ -32,6 +32,13 @@ export enum ReadingMode {
     CONTINUOUS_HORIZONTAL,
 }
 
+export enum ReaderPageScaleMode {
+    WIDTH,
+    HEIGHT,
+    SCREEN,
+    ORIGINAL,
+}
+
 export interface ReaderStateChapters {
     chapters: TChapterReader[];
     currentChapter?: TChapterReader | null;
@@ -45,15 +52,15 @@ export interface IReaderSettings {
     showPageNumber: boolean;
     loadNextOnEnding: boolean;
     skipDupChapters: boolean;
-    fitPageToWindow: boolean;
-    scalePage: boolean;
-    offsetFirstPage: boolean;
     readerWidth: number;
     tapZoneLayout: TapZoneLayouts;
     tapZoneInvertMode: TapZoneInvertMode;
     progressBarType: ProgressBarType;
     progressBarSize: number;
     progressBarPosition: ProgressBarPosition;
+    pageScaleMode: ReaderPageScaleMode;
+    shouldScalePage: boolean;
+    shouldOffsetDoubleSpreads: boolean;
     readingDirection: ReadingDirection;
     readingMode: ReadingMode;
 }

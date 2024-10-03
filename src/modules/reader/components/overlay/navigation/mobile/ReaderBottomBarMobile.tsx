@@ -90,7 +90,14 @@ export const ReaderBottomBarMobile = ({ openSettings, isVisible }: ReaderBottomB
             {chapterListPopupState.isOpen && (
                 <Dialog {...bindDialog(chapterListPopupState)} fullWidth maxWidth="md" scroll="paper">
                     <DialogContent sx={{ p: 0, pb: 1 }}>
-                        <ReaderChapterList currentChapter={currentChapter} chapters={chapters} />
+                        <ReaderChapterList
+                            style={{
+                                minHeight: '15vh',
+                                maxHeight: '75vh',
+                            }}
+                            currentChapter={currentChapter}
+                            chapters={chapters}
+                        />
                     </DialogContent>
                 </Dialog>
             )}

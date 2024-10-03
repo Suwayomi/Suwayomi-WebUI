@@ -7,7 +7,7 @@
  */
 
 import { AppMetadataKeys, IMetadataMigration } from '@/modules/metadata/Metadata.types.ts';
-import { ReadingMode } from '@/modules/reader/types/Reader.types.ts';
+import { ReaderPageScaleMode, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
 
 export const APP_METADATA_KEY_PREFIX = 'webUI_';
 
@@ -16,9 +16,6 @@ const APP_METADATA_OBJECT: Record<AppMetadataKeys, undefined> = {
     showPageNumber: undefined,
     loadNextOnEnding: undefined,
     skipDupChapters: undefined,
-    fitPageToWindow: undefined,
-    scalePage: undefined,
-    offsetFirstPage: undefined,
     migration: undefined,
     deleteChaptersManuallyMarkedRead: undefined,
     deleteChaptersWhileReading: undefined,
@@ -62,6 +59,9 @@ const APP_METADATA_OBJECT: Record<AppMetadataKeys, undefined> = {
     progressBarSize: undefined,
     progressBarPosition: undefined,
     readingMode: undefined,
+    pageScaleMode: undefined,
+    shouldScalePage: undefined,
+    shouldOffsetDoubleSpreads: undefined,
 };
 
 export const VALID_APP_METADATA_KEYS = Object.keys(APP_METADATA_OBJECT);
@@ -193,6 +193,18 @@ export const METADATA_MIGRATIONS: IMetadataMigration[] = [
                 oldKey: 'readerType',
                 newKey: 'readingMode',
             },
+            {
+                oldKey: 'offsetFirstPage',
+                newKey: 'shouldOffsetDoubleSpreads',
+            },
+            {
+                oldKey: 'fitPageToWindow',
+                newKey: 'pageScaleMode',
+            },
+            {
+                oldKey: 'scalePage',
+                newKey: 'shouldScalePage',
+            },
         ],
         values: [
             // START: readerType
@@ -237,6 +249,18 @@ export const METADATA_MIGRATIONS: IMetadataMigration[] = [
                 newValue: `${ReadingMode.CONTINUOUS_HORIZONTAL}`,
             },
             // END: readerType
+            // START: fitPageToWindow
+            {
+                key: 'fitPageToWindow',
+                oldValue: 'false',
+                newValue: `${ReaderPageScaleMode.ORIGINAL}`,
+            },
+            {
+                key: 'fitPageToWindow',
+                oldValue: 'true',
+                newValue: `${ReaderPageScaleMode.SCREEN}`,
+            },
+            // END: fitPageToWindow
         ],
     },
 ];
