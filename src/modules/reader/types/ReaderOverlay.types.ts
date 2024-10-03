@@ -7,7 +7,12 @@
  */
 
 import { ChapterType, MangaType } from '@/lib/graphql/generated/graphql.ts';
-import { ChapterBookmarkInfo, ChapterRealUrlInfo } from '@/modules/chapter/services/Chapters.ts';
+import {
+    ChapterBookmarkInfo,
+    ChapterMangaInfo,
+    ChapterNumberInfo,
+    ChapterRealUrlInfo,
+} from '@/modules/chapter/services/Chapters.ts';
 
 export interface BaseReaderOverlayProps {
     isVisible: boolean;
@@ -16,9 +21,17 @@ export interface BaseReaderOverlayProps {
 
 export interface MobileHeaderProps extends Pick<BaseReaderOverlayProps, 'isVisible'> {
     manga: Pick<MangaType, 'title'>;
-    chapter: Pick<ChapterType, 'name'> & ChapterBookmarkInfo & ChapterRealUrlInfo;
+    chapter: Pick<ChapterType, 'name'> &
+        ChapterBookmarkInfo &
+        ChapterRealUrlInfo &
+        ChapterNumberInfo &
+        ChapterMangaInfo;
 }
 
-export interface ReaderBottomBarMobileProps extends Omit<BaseReaderOverlayProps, 'setIsVisible'> {
+interface ReaderNavBarBaseProps extends BaseReaderOverlayProps {
     openSettings: () => void;
 }
+
+export interface ReaderBottomBarMobileProps extends Omit<ReaderNavBarBaseProps, 'setIsVisible'> {}
+
+export interface ReaderNavBarDesktopProps extends ReaderNavBarBaseProps {}
