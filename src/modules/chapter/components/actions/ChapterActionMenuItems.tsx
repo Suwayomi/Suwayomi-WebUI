@@ -40,7 +40,7 @@ import {
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 
-type BaseProps = { onClose: () => void };
+type BaseProps = { onClose: () => void; selectable?: boolean };
 
 type TChapter = ChapterIdInfo &
     ChapterMangaInfo &
@@ -71,6 +71,7 @@ export const ChapterActionMenuItems = ({
     canBeDownloaded = false,
     selectedChapters = [],
     onClose,
+    selectable = true,
 }: Props) => {
     const { t } = useTranslation();
 
@@ -158,7 +159,7 @@ export const ChapterActionMenuItems = ({
 
     return (
         <>
-            {isSingleMode && (
+            {isSingleMode && selectable && (
                 <MenuItem onClick={handleSelect} Icon={CheckBoxOutlineBlank} title={t('chapter.action.label.select')} />
             )}
             {isSingleMode && (
