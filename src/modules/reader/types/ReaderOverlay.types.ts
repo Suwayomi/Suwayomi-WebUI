@@ -12,6 +12,10 @@ export interface BaseReaderOverlayProps {
 
 export interface MobileHeaderProps extends BaseReaderOverlayProps {}
 
-export interface ReaderBottomBarMobileProps extends BaseReaderOverlayProps {
+interface ReaderNavBarBaseProps extends BaseReaderOverlayProps {
     openSettings: () => void;
 }
+
+export interface ReaderBottomBarMobileProps extends ReaderNavBarBaseProps {}
+
+export interface ReaderNavBarDesktopProps extends ReaderNavBarBaseProps {}

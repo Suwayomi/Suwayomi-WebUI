@@ -757,9 +757,12 @@
       "chapter_list": "Chapter list",
       "close_menu": "Close menu",
       "exit": "Exit reader",
-      "next_chapter": "Next Chapter",
+      "next_chapter": "Next chapter",
+      "next_page": "Next page",
       "open_menu": "Open menu",
-      "previous_chapter": "Previous Chapter"
+      "previous_chapter": "Previous chapter",
+      "previous_page": "Previous page",
+      "retry_load_pages": "Retry errored pages"
     },
     "error": {
       "label": {
@@ -771,7 +774,8 @@
     "page_info": {
       "label": {
         "currently_on_page": "Currently on page",
-        "of_max_pages": "of {{maxPages}}"
+        "of_max_pages": "of {{maxPages}}",
+        "page": "Page"
       }
     },
     "settings": {
@@ -784,7 +788,7 @@
       "label": {
         "fit_page_to_window": "Fit page to window",
         "load_next_chapter": "Load next chapter at ending",
-        "offset_first_page": "Offset first page",
+        "offset_double_spread": "Offset double spreads",
         "reader_type": "Reader type",
         "reader_width": "Reader width",
         "reading_direction": "Reading direction",
@@ -793,6 +797,13 @@
         "show_page_number": "Show page number",
         "skip_dup_chapters": "Skip duplicate chapters",
         "static_navigation": "Static navigation"
+      },
+      "page_scale": {
+        "height": "Fit height",
+        "original": "Original size",
+        "screen": "Fit screen",
+        "stretch": "Stretch small pages",
+        "width": "Fit width"
       },
       "reader_type": {
         "label": {

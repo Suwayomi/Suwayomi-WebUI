@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Virtuoso } from 'react-virtuoso';
+import { Virtuoso, VirtuosoProps } from 'react-virtuoso';
 import { useMemo } from 'react';
 import { IChapterWithMeta } from '@/modules/chapter/components/ChapterList.tsx';
 import { ChapterCard } from '@/modules/chapter/components/cards/ChapterCard.tsx';
@@ -16,7 +16,8 @@ import { ReaderStateChapters } from '@/modules/reader/types/Reader.types.ts';
 export const ReaderChapterList = ({
     currentChapter,
     chapters,
-}: Required<Pick<ReaderStateChapters, 'chapters' | 'currentChapter'>>) => {
+    style,
+}: Pick<ReaderStateChapters, 'chapters' | 'currentChapter'> & Pick<VirtuosoProps<any, any>, 'style'>) => {
     const { data: downloaderData } = requestManager.useGetDownloadStatus();
     const queue = downloaderData?.downloadStatus.queue ?? [];
 
@@ -43,8 +44,7 @@ export const ReaderChapterList = ({
         <Virtuoso
             style={{
                 height: `calc(${chaptersWithMeta.length} * 100px)`,
-                minHeight: '15vh',
-                maxHeight: '75vh',
+                ...style,
             }}
             initialTopMostItemIndex={currentChapterIndex ?? 0}
             totalCount={chaptersWithMeta.length}
