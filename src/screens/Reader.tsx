@@ -40,7 +40,7 @@ import { ChapterIdInfo, Chapters } from '@/modules/chapter/services/Chapters.ts'
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { GET_CHAPTERS_READER } from '@/lib/graphql/queries/ChapterQuery.ts';
 import { GET_MANGA_READER } from '@/lib/graphql/queries/MangaQuery.ts';
-import { TMangaReader } from '@/lib/data/Mangas.ts';
+import { TMangaReader } from '@/modules/manga/services/Mangas.ts';
 import { CHAPTER_READER_FIELDS } from '@/lib/graphql/fragments/ChapterFragments.ts';
 import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
 import { DirectionOffset } from '@/Base.types.ts';

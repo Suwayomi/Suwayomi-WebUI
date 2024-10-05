@@ -17,9 +17,9 @@ import { Link as RouterLink } from 'react-router-dom';
 import { useRef } from 'react';
 import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
 import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines.tsx';
-import { SpecificMangaCardProps } from '@/components/manga/MangaCard.types.tsx';
-import { Mangas } from '@/lib/data/Mangas.ts';
-import { MangaOptionButton } from '@/components/manga/MangaOptionButton.tsx';
+import { SpecificMangaCardProps } from '@/modules/manga/MangaCard.types.tsx';
+import { Mangas } from '@/modules/manga/services/Mangas.ts';
+import { MangaOptionButton } from '@/modules/manga/components/MangaOptionButton.tsx';
 
 export const MangaListCard = ({
     manga,

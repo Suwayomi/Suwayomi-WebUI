@@ -9,7 +9,7 @@
 import React, { useLayoutEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GridLayout, useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
-import { IMangaGridProps, MangaGrid } from '@/components/MangaGrid';
+import { IMangaGridProps, MangaGrid } from '@/modules/manga/components/MangaGrid';
 
 interface LibraryMangaGridProps
     extends Required<Pick<IMangaGridProps, 'isSelectModeActive' | 'selectedMangaIds' | 'handleSelection' | 'mangas'>>,

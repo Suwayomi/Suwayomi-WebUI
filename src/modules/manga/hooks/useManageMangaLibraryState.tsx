@@ -16,7 +16,7 @@ import { makeToast } from '@/lib/ui/Toast.ts';
 import { getMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 import { Categories } from '@/lib/data/Categories.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { Mangas } from '@/lib/data/Mangas.ts';
+import { Mangas } from '@/modules/manga/services/Mangas.ts';
 import { awaitConfirmation } from '@/lib/ui/AwaitableDialog.tsx';
 import { GetCategoriesBaseQuery, GetCategoriesBaseQueryVariables, MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { GET_CATEGORIES_BASE } from '@/lib/graphql/queries/CategoryQuery.ts';

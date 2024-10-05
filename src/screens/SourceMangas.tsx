@@ -41,11 +41,11 @@ import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 import { useLocalStorage, useSessionStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { AppStorage } from '@/lib/AppStorage.ts';
-import { getGridSnapshotKey } from '@/components/MangaGrid.tsx';
+import { getGridSnapshotKey } from '@/modules/manga/components/MangaGrid.tsx';
 import { createUpdateSourceMetadata, getSourceMetadata } from '@/lib/metadata/sourceMetadata.ts';
 import { makeToast } from '@/lib/ui/Toast.ts';
 import { GET_SOURCE_BROWSE } from '@/lib/graphql/queries/SourceQuery.ts';
-import { MangaIdInfo } from '@/lib/data/Mangas.ts';
+import { MangaIdInfo } from '@/modules/manga/services/Mangas.ts';
 import { TranslationKey } from '@/Base.types.ts';
 
 const ContentTypeMenu = styled('div')(({ theme }) => ({

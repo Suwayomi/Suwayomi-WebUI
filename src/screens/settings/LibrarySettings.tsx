@@ -24,7 +24,7 @@ import {
     useMetadataServerSettings,
 } from '@/lib/metadata/metadataServerSettings.ts';
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
-import { Mangas } from '@/lib/data/Mangas.ts';
+import { Mangas } from '@/modules/manga/services/Mangas.ts';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';

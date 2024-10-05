@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { MangaGrid, IMangaGridProps } from '@/components/MangaGrid';
+import { MangaGrid, IMangaGridProps } from '@/modules/manga/components/MangaGrid.tsx';
 
 type TMangaBaseGrid = Omit<IMangaGridProps['mangas'][number], 'downloadCount' | 'unreadCount' | 'chapters'>;
 

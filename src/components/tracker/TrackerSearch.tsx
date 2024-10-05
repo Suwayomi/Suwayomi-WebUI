@@ -32,7 +32,7 @@ import { DIALOG_PADDING } from '@/components/tracker/constants.ts';
 import { useGetOptionForDirection } from '@/theme.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { MangaType } from '@/lib/graphql/generated/graphql.ts';
-import { MangaIdInfo } from '@/lib/data/Mangas.ts';
+import { MangaIdInfo } from '@/modules/manga/services/Mangas.ts';
 
 export const TrackerSearch = ({
     manga,

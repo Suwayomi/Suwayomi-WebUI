@@ -9,7 +9,7 @@
 import MenuItem from '@mui/material/MenuItem';
 import { useTranslation } from 'react-i18next';
 import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
-import { Mangas } from '@/lib/data/Mangas.ts';
+import { Mangas } from '@/modules/manga/services/Mangas.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 

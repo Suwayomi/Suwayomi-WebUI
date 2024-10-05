@@ -10,10 +10,11 @@ import { LongPressPointerHandlers, LongPressResult } from 'use-long-press/lib/us
 import { PopupState } from 'material-ui-popup-state/hooks';
 import { GridLayout } from '@/components/context/LibraryOptionsContext.tsx';
 import { SelectableCollectionReturnType } from '@/components/collection/useSelectableCollection.ts';
-import { useManageMangaLibraryState } from '@/components/manga/useManageMangaLibraryState.tsx';
-import { MangaThumbnailInfo } from '@/lib/data/Mangas.ts';
+import { useManageMangaLibraryState } from '@/modules/manga/hooks/useManageMangaLibraryState.tsx';
+import { MangaThumbnailInfo } from '@/modules/manga/services/Mangas.ts';
 import { ChapterType, MangaType } from '@/lib/graphql/generated/graphql.ts';
-import { SingleModeProps } from '@/components/manga/MangaActionMenuItems.tsx';
+import { SingleModeProps } from '@/modules/manga/components/MangaActionMenuItems.tsx';
+import { IReaderSettings } from '@/typings';
 
 export type MangaCardMode = 'default' | 'source' | 'migrate.search' | 'migrate.select' | 'duplicate';
 
@@ -44,3 +45,5 @@ export type SpecificMangaCardProps = Omit<MangaCardProps, 'manga'> &
         continueReadingButton: JSX.Element;
         mangaBadges: JSX.Element;
     };
+
+export type MangaMetadataKeys = keyof IReaderSettings;

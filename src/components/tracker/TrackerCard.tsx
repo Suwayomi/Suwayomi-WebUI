@@ -11,7 +11,7 @@ import { TrackerSearch } from '@/components/tracker/TrackerSearch.tsx';
 import { TrackerActiveCard } from '@/components/tracker/TrackerActiveCard.tsx';
 import { TTrackerBind, TTrackRecordBind } from '@/lib/data/Trackers.ts';
 import { MangaType } from '@/lib/graphql/generated/graphql.ts';
-import { MangaIdInfo } from '@/lib/data/Mangas.ts';
+import { MangaIdInfo } from '@/modules/manga/services/Mangas.ts';
 
 export enum TrackerMode {
     UNTRACKED,

@@ -18,7 +18,7 @@ import {
     DownloadStatusFieldsFragment,
 } from '@/lib/graphql/generated/graphql.ts';
 import { CHAPTER_LIST_FIELDS } from '@/lib/graphql/fragments/ChapterFragments.ts';
-import { MangaIdInfo } from '@/lib/data/Mangas.ts';
+import { MangaIdInfo } from '@/modules/manga/services/Mangas.ts';
 
 import { DirectionOffset, TranslationKey } from '@/Base.types.ts';
 

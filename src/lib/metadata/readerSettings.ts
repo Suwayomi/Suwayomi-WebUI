@@ -15,7 +15,7 @@ import {
     requestUpdateServerMetadata,
 } from '@/lib/metadata/metadata.ts';
 import { MetaType } from '@/lib/graphql/generated/graphql.ts';
-import { MangaIdInfo } from '@/lib/data/Mangas.ts';
+import { MangaIdInfo } from '@/modules/manga/services/Mangas.ts';
 
 type UndefinedReaderSettings = {
     [setting in keyof IReaderSettings]: IReaderSettings[setting] | undefined;

@@ -21,7 +21,7 @@ import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import { Trackers } from '@/lib/data/Trackers.ts';
 import { GetTrackersSettingsQuery, MangaStatus } from '@/lib/graphql/generated/graphql.ts';
 import { GET_TRACKERS_SETTINGS } from '@/lib/graphql/queries/TrackerQuery.ts';
-import { statusToTranslationKey } from '@/lib/data/Mangas.ts';
+import { statusToTranslationKey } from '@/modules/manga/services/Mangas.ts';
 import { CategoryMetadataInfo } from '@/lib/data/Categories.ts';
 import { createUpdateCategoryMetadata, getCategoryMetadata } from '@/lib/metadata/categoryMetadata.ts';
 import { makeToast } from '@/lib/ui/Toast.ts';

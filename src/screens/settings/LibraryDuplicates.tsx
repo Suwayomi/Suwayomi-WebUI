@@ -23,7 +23,7 @@ import { CheckboxInput } from '@/modules/core/components/inputs/CheckboxInput.ts
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { MangaCard } from '@/components/MangaCard.tsx';
+import { MangaCard } from '@/modules/manga/components/cards/MangaCard.tsx';
 import { StyledGroupedVirtuoso } from '@/modules/core/components/virtuoso/StyledGroupedVirtuoso.tsx';
 import { StyledGroupHeader } from '@/modules/core/components/virtuoso/StyledGroupHeader.tsx';
 import {
@@ -33,7 +33,7 @@ import {
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_MANGAS_DUPLICATES } from '@/lib/graphql/queries/MangaQuery.ts';
 import { BaseMangaGrid } from '@/components/source/BaseMangaGrid.tsx';
-import { IMangaGridProps } from '@/components/MangaGrid.tsx';
+import { IMangaGridProps } from '@/modules/manga/components/MangaGrid.tsx';
 import { StyledGroupItemWrapper } from '@/modules/core/components/virtuoso/StyledGroupItemWrapper.tsx';
 import { enhancedCleanup } from '@/lib/data/Strings.ts';
 

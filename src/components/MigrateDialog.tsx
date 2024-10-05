@@ -17,7 +17,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useState } from 'react';
 import FormGroup from '@mui/material/FormGroup';
 import { CheckboxInput } from '@/modules/core/components/inputs/CheckboxInput.tsx';
-import { Mangas, MigrateMode } from '@/lib/data/Mangas.ts';
+import { Mangas, MigrateMode } from '@/modules/manga/services/Mangas.ts';
 import { makeToast } from '@/lib/ui/Toast.ts';
 import {
     createUpdateMetadataServerSettings,

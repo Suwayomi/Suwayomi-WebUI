@@ -20,7 +20,7 @@ import { MetaType, SourceType } from '@/lib/graphql/generated/graphql.ts';
 import { DEFAULT_DEVICE, getActiveDevice } from '@/util/device.ts';
 import { CategoryIdInfo } from '@/lib/data/Categories.ts';
 import { ChapterIdInfo } from '@/modules/chapter/services/Chapters.ts';
-import { MangaIdInfo } from '@/lib/data/Mangas.ts';
+import { MangaIdInfo } from '@/modules/manga/services/Mangas.ts';
 
 const APP_METADATA_KEY_PREFIX = 'webUI_';
 

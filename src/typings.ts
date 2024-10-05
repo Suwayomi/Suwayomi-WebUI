@@ -22,6 +22,7 @@ import {
 import { AppTheme } from '@/lib/ui/AppThemes.ts';
 import { SortSettings } from '@/screens/Migration.types.ts';
 import { NullAndUndefined, TranslationKey } from '@/Base.types.ts';
+import { MangaMetadataKeys } from '@/modules/manga/MangaCard.types.tsx';
 
 export interface IPos {
     type: 'selectState' | 'textState' | 'checkBoxState' | 'triState' | 'sortState';
@@ -67,8 +68,6 @@ export type MetadataHolder<Keys extends string = string, Values = string> = {
 export type AllowedMetadataValueTypes = string | boolean | number | undefined | null;
 
 export type MetadataServerSettingKeys = keyof MetadataServerSettings;
-
-export type MangaMetadataKeys = keyof IReaderSettings;
 
 export type SearchMetadataKeys = keyof ISearchSettings;
 

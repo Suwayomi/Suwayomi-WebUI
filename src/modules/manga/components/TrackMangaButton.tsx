@@ -19,7 +19,7 @@ import { Trackers } from '@/lib/data/Trackers.ts';
 import { CustomIconButton } from '@/modules/core/components/buttons/CustomIconButton.tsx';
 import { GetTrackersSettingsQuery, MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { GET_TRACKERS_SETTINGS } from '@/lib/graphql/queries/TrackerQuery.ts';
-import { MangaTrackRecordInfo } from '@/lib/data/Mangas.ts';
+import { MangaTrackRecordInfo } from '@/modules/manga/services/Mangas.ts';
 
 export const TrackMangaButton = ({ manga }: { manga: MangaTrackRecordInfo & Pick<MangaType, 'title'> }) => {
     const { t } = useTranslation();

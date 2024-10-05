@@ -21,7 +21,7 @@ import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
 import Menu from '@mui/material/Menu';
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import { ChapterCard } from '@/modules/chapter/components/cards/ChapterCard.tsx';
-import { ResumeFab } from '@/components/manga/ResumeFAB.tsx';
+import { ResumeFab } from '@/modules/manga/components/ResumeFAB.tsx';
 import { filterAndSortChapters } from '@/modules/chapter/utils/ChapterList.util.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { ChaptersToolbarMenu } from '@/modules/chapter/components/ChaptersToolbarMenu.tsx';
@@ -41,7 +41,7 @@ import { ChaptersDownloadActionMenuItems } from '@/modules/chapter/components/ac
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { GET_CHAPTERS_MANGA } from '@/lib/graphql/queries/ChapterQuery.ts';
-import { Mangas } from '@/lib/data/Mangas.ts';
+import { Mangas } from '@/modules/manga/services/Mangas.ts';
 import { useNavBarContext } from '@/components/context/NavbarContext.tsx';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';

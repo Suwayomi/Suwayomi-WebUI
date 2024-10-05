@@ -27,11 +27,16 @@ import OpenInFullIcon from '@mui/icons-material/OpenInFull';
 import Modal from '@mui/material/Modal';
 import { bindPopover, bindTrigger, usePopupState } from 'material-ui-popup-state/hooks';
 import { makeToast } from '@/lib/ui/Toast.ts';
-import { Mangas, MangaThumbnailInfo, MangaTrackRecordInfo, statusToTranslationKey } from '@/lib/data/Mangas.ts';
+import {
+    Mangas,
+    MangaThumbnailInfo,
+    MangaTrackRecordInfo,
+    statusToTranslationKey,
+} from '@/modules/manga/services/Mangas.ts';
 import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
 import { CustomIconButton } from '@/modules/core/components/buttons/CustomIconButton.tsx';
-import { TrackMangaButton } from '@/components/manga/TrackMangaButton.tsx';
-import { useManageMangaLibraryState } from '@/components/manga/useManageMangaLibraryState.tsx';
+import { TrackMangaButton } from '@/modules/manga/components/TrackMangaButton.tsx';
+import { useManageMangaLibraryState } from '@/modules/manga/hooks/useManageMangaLibraryState.tsx';
 import { Metadata as BaseMetadata } from '@/modules/core/components/Metadata.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { MangaType, SourceType } from '@/lib/graphql/generated/graphql.ts';

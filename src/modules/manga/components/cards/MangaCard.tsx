@@ -10,15 +10,15 @@ import PopupState, { bindMenu } from 'material-ui-popup-state';
 import { useMemo, useState } from 'react';
 import { useLongPress } from 'use-long-press';
 import { GridLayout, useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
-import { MangaActionMenuItems, SingleModeProps } from '@/components/manga/MangaActionMenuItems.tsx';
+import { MangaActionMenuItems, SingleModeProps } from '@/modules/manga/components/MangaActionMenuItems.tsx';
 import { Menu } from '@/modules/core/components/menu/Menu.tsx';
 import { MigrateDialog } from '@/components/MigrateDialog.tsx';
-import { useManageMangaLibraryState } from '@/components/manga/useManageMangaLibraryState.tsx';
-import { MangaGridCard } from '@/components/manga/MangaGridCard.tsx';
-import { MangaListCard } from '@/components/manga/MangaListCard.tsx';
-import { MangaCardMode, MangaCardProps } from '@/components/manga/MangaCard.types';
-import { ContinueReadingButton } from '@/components/manga/ContinueReadingButton.tsx';
-import { MangaBadges } from '@/components/manga/MangaBadges.tsx';
+import { useManageMangaLibraryState } from '@/modules/manga/hooks/useManageMangaLibraryState.tsx';
+import { MangaGridCard } from '@/modules/manga/components/cards/MangaGridCard.tsx';
+import { MangaListCard } from '@/modules/manga/components/cards/MangaListCard.tsx';
+import { MangaCardMode, MangaCardProps } from '@/modules/manga/MangaCard.types.tsx';
+import { ContinueReadingButton } from '@/modules/manga/components/ContinueReadingButton.tsx';
+import { MangaBadges } from '@/modules/manga/components/MangaBadges.tsx';
 
 const getMangaLinkTo = (
     mode: MangaCardMode,

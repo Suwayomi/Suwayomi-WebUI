@@ -25,7 +25,7 @@ import { useNavBarContext } from '@/components/context/NavbarContext.tsx';
 const { Browse } = loadable(() => import('@/screens/Browse'), lazyLoadFallback);
 const { DownloadQueue } = loadable(() => import('@/screens/DownloadQueue'), lazyLoadFallback);
 const { Library } = loadable(() => import('@/screens/Library'), lazyLoadFallback);
-const { Manga } = loadable(() => import('@/screens/Manga'), lazyLoadFallback);
+const { Manga } = loadable(() => import('@/modules/manga/screens/Manga.tsx'), lazyLoadFallback);
 const { Reader } = loadable(() => import('@/screens/Reader'), lazyLoadFallback);
 const { SearchAll } = loadable(() => import('@/screens/SearchAll'), lazyLoadFallback);
 const { Settings } = loadable(() => import('@/screens/Settings'), lazyLoadFallback);

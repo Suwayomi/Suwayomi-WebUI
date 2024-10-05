@@ -25,7 +25,7 @@ import { useSelectableCollection } from '@/components/collection/useSelectableCo
 import { SelectableCollectionSelectMode } from '@/components/collection/SelectableCollectionSelectMode.tsx';
 import { useGetVisibleLibraryMangas } from '@/components/library/useGetVisibleLibraryMangas.ts';
 import { SelectionFAB } from '@/components/collection/SelectionFAB.tsx';
-import { MangaActionMenuItems } from '@/components/manga/MangaActionMenuItems.tsx';
+import { MangaActionMenuItems } from '@/modules/manga/components/MangaActionMenuItems.tsx';
 import { TabsMenu } from '@/modules/core/components/tabs/TabsMenu.tsx';
 import { TabsWrapper } from '@/modules/core/components/tabs/TabsWrapper.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
@@ -36,7 +36,7 @@ import {
     MangaType,
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_CATEGORIES_LIBRARY } from '@/lib/graphql/queries/CategoryQuery.ts';
-import { Mangas } from '@/lib/data/Mangas.ts';
+import { Mangas } from '@/modules/manga/services/Mangas.ts';
 import { MANGA_CHAPTER_STAT_FIELDS } from '@/lib/graphql/fragments/MangaFragments.ts';
 import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext.tsx';
 import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
