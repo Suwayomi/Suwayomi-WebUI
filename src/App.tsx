@@ -30,7 +30,7 @@ const { Reader } = loadable(() => import('@/modules/reader/screens/Reader.tsx'),
 const { SearchAll } = loadable(() => import('@/modules/global-search/screens/SearchAll.tsx'), lazyLoadFallback);
 const { Settings } = loadable(() => import('@/screens/Settings'), lazyLoadFallback);
 const { About } = loadable(() => import('@/screens/settings/About'), lazyLoadFallback);
-const { Backup } = loadable(() => import('@/screens/settings/Backup'), lazyLoadFallback);
+const { Backup } = loadable(() => import('@/modules/backup/screens/Backup.tsx'), lazyLoadFallback);
 const { CategorySettings } = loadable(
     () => import('@/modules/category/screens/CategorySettings.tsx'),
     lazyLoadFallback,
