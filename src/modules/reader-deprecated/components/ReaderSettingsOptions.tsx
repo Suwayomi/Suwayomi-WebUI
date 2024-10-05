@@ -13,9 +13,9 @@ import Switch from '@mui/material/Switch';
 import MenuItem from '@mui/material/MenuItem';
 import { useTranslation } from 'react-i18next';
 import { NumberSetting } from '@/modules/core/components/settings/NumberSetting.tsx';
-import { isHorizontalReaderType } from '@/modules/reader/components/page/Page.tsx';
+import { isHorizontalReaderType } from '@/modules/reader-deprecated/components/page/Page.tsx';
 import { Select } from '@/modules/core/components/inputs/Select.tsx';
-import { IReaderSettings } from '@/modules/reader/Reader.types.ts';
+import { IReaderSettings } from '@/modules/reader-deprecated/Reader.types.ts';
 import { AllowedMetadataValueTypes } from '@/modules/metadata/Metadata.types.ts';
 
 interface IProps extends IReaderSettings {

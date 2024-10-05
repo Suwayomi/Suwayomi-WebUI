@@ -8,7 +8,7 @@
 
 import Box from '@mui/material/Box';
 
-import { IReaderSettings } from '@/modules/reader/Reader.types.ts';
+import { IReaderSettings } from '@/modules/reader-deprecated/Reader.types.ts';
 
 interface IProps {
     settings: IReaderSettings;

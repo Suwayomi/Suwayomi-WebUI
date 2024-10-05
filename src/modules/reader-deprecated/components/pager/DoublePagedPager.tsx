@@ -8,8 +8,8 @@
 
 import { MouseEvent, useEffect, useRef, useState } from 'react';
 import Box from '@mui/material/Box';
-import { Page } from '@/modules/reader/components/page/Page.tsx';
-import { IReaderProps } from '@/modules/reader/Reader.types.ts';
+import { Page } from '@/modules/reader-deprecated/components/page/Page.tsx';
+import { IReaderProps } from '@/modules/reader-deprecated/Reader.types.ts';
 
 const isSpreadPage = (image: HTMLImageElement): boolean => {
     const aspectRatio = image.height / image.width;
