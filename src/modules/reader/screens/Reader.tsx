@@ -11,14 +11,13 @@ import { useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, u
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import { useTranslation } from 'react-i18next';
-import { AllowedMetadataValueTypes } from '@/typings.ts';
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import {
     checkAndHandleMissingStoredReaderSettings,
     getReaderSettingsFor,
     useDefaultReaderSettings,
 } from '@/modules/reader/services/ReaderSettingsMetadata.ts';
-import { requestUpdateMangaMetadata } from '@/lib/metadata/metadata.ts';
+import { requestUpdateMangaMetadata } from '@/modules/metadata/services/MetadataUpdater.ts';
 import { HorizontalPager } from '@/modules/reader/components/pager/HorizontalPager.tsx';
 import { PageNumber } from '@/modules/reader/components/page/PageNumber.tsx';
 import { PagedPager } from '@/modules/reader/components/pager/PagedPager.tsx';
@@ -45,6 +44,7 @@ import { CHAPTER_READER_FIELDS } from '@/lib/graphql/fragments/ChapterFragments.
 import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
 import { IReaderSettings, ReaderType } from '@/modules/reader/Reader.types.ts';
 import { DirectionOffset } from '@/Base.types.ts';
+import { AllowedMetadataValueTypes } from '@/modules/metadata/Metadata.types.ts';
 
 type TChapter = GetChaptersReaderQuery['chapters']['nodes'][number];
 

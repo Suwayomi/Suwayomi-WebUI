@@ -27,7 +27,6 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
 import { useTranslation } from 'react-i18next';
-import { AllowedMetadataValueTypes } from '@/typings.ts';
 import { ReaderSettingsOptions } from '@/modules/reader/components/ReaderSettingsOptions.tsx';
 import { useBackButton } from '@/modules/core/hooks/useBackButton.ts';
 import { Select } from '@/modules/core/components/inputs/Select.tsx';
@@ -39,6 +38,7 @@ import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 import { CustomIconButton } from '@/modules/core/components/buttons/CustomIconButton.tsx';
 import { IReaderSettings } from '@/modules/reader/Reader.types.ts';
 import { DirectionOffset } from '@/Base.types.ts';
+import { AllowedMetadataValueTypes } from '@/modules/metadata/Metadata.types.ts';
 
 const Root = styled('div')({
     zIndex: 10,

@@ -6,18 +6,18 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { GqlMetaHolder, Metadata, MetadataKeyValuePair } from '@/typings.ts';
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import {
-    convertFromGqlMeta,
-    getMetadataFrom,
     requestUpdateMangaMetadata,
     requestUpdateServerMetadata,
-} from '@/lib/metadata/metadata.ts';
+} from '@/modules/metadata/services/MetadataUpdater.ts';
 import { MetaType } from '@/lib/graphql/generated/graphql.ts';
 import { MangaIdInfo } from '@/modules/manga/services/Mangas.ts';
 import { DEFAULT_READER_SETTINGS } from '@/modules/reader/Reader.constants.ts';
 import { IReaderSettings, UndefinedReaderSettings } from '@/modules/reader/Reader.types.ts';
+import { convertFromGqlMeta } from '@/modules/metadata/services/MetadataConverter.ts';
+import { getMetadataFrom } from '@/modules/metadata/services/MetadataReader.ts';
+import { GqlMetaHolder, Metadata, MetadataKeyValuePair } from '@/modules/metadata/Metadata.types.ts';
 
 const getReaderSettingsWithDefaultValueFallback = <DefaultSettings extends IReaderSettings | UndefinedReaderSettings>(
     meta?: Metadata,

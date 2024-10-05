@@ -6,13 +6,20 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { AllowedMetadataValueTypes, AppMetadataKeys, GqlMetaHolder, Metadata } from '@/typings.ts';
 import { jsonSaveParse } from '@/lib/HelperFunctions.ts';
-import { convertFromGqlMeta, getMetadataFrom, requestUpdateCategoryMetadata } from '@/lib/metadata/metadata.ts';
+import { requestUpdateCategoryMetadata } from '@/modules/metadata/services/MetadataUpdater.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { GridLayout } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
 import { LibraryOptions } from '@/modules/library/Library.types.ts';
 import { CategoryIdInfo, CategoryMetadataKeys, ICategoryMetadata } from '@/modules/category/Category.types.ts';
+import { convertFromGqlMeta } from '@/modules/metadata/services/MetadataConverter.ts';
+import { getMetadataFrom } from '@/modules/metadata/services/MetadataReader.ts';
+import {
+    AllowedMetadataValueTypes,
+    AppMetadataKeys,
+    GqlMetaHolder,
+    Metadata,
+} from '@/modules/metadata/Metadata.types.ts';
 
 export const getDefaultCategoryMetadata = (): ICategoryMetadata => ({
     // display options

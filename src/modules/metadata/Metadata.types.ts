@@ -6,11 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { MetaType } from '@/lib/graphql/generated/graphql.ts';
+import { MetadataServerSettingKeys, SearchMetadataKeys } from '@/modules/settings/Settings.types.ts';
 import { MangaMetadataKeys } from '@/modules/manga/MangaCard.types.tsx';
 import { SourceMetadataKeys } from '@/modules/source/Source.types.ts';
 import { CategoryMetadataKeys } from '@/modules/category/Category.types.ts';
-import { MetadataServerSettingKeys, SearchMetadataKeys } from '@/modules/settings/Settings.types.ts';
+import { MetaType } from '@/lib/graphql/generated/graphql.ts';
 
 export interface IMetadataMigration {
     appKeyPrefix?: { oldPrefix: string; newPrefix: string };

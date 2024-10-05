@@ -6,15 +6,17 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { AllowedMetadataValueTypes, AppMetadataKeys, Metadata } from '@/typings.ts';
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
-import { convertFromGqlMeta, getMetadataFrom, requestUpdateServerMetadata } from '@/lib/metadata/metadata.ts';
+import { requestUpdateServerMetadata } from '@/modules/metadata/services/MetadataUpdater.ts';
 import { jsonSaveParse } from '@/lib/HelperFunctions.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { MetadataMigrationSettings } from '@/modules/migration/Migration.types.ts';
 import { MetadataThemeSettings } from '@/modules/theme/AppTheme.types.ts';
 import { SERVER_SETTINGS_METADATA_DEFAULT } from '@/modules/settings/Settings.constants.ts';
 import { MetadataServerSettingKeys, MetadataServerSettings } from '@/modules/settings/Settings.types.ts';
+import { convertFromGqlMeta } from '@/modules/metadata/services/MetadataConverter.ts';
+import { getMetadataFrom } from '@/modules/metadata/services/MetadataReader.ts';
+import { AllowedMetadataValueTypes, AppMetadataKeys, Metadata } from '@/modules/metadata/Metadata.types.ts';
 
 export const convertSettingsToMetadata = (
     settings: Partial<MetadataServerSettings>,

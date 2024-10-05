@@ -8,8 +8,7 @@
 
 import { useContext, useLayoutEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AllowedMetadataValueTypes } from '@/typings.ts';
-import { convertToGqlMeta, requestUpdateServerMetadata } from '@/lib/metadata/metadata.ts';
+import { requestUpdateServerMetadata } from '@/modules/metadata/services/MetadataUpdater.ts';
 import {
     checkAndHandleMissingStoredReaderSettings,
     useDefaultReaderSettings,
@@ -22,6 +21,8 @@ import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { DEFAULT_READER_SETTINGS } from '@/modules/reader/Reader.constants.ts';
 import { IReaderSettings } from '@/modules/reader/Reader.types.ts';
+import { convertToGqlMeta } from '@/modules/metadata/services/MetadataConverter.ts';
+import { AllowedMetadataValueTypes } from '@/modules/metadata/Metadata.types.ts';
 
 export function DefaultReaderSettings() {
     const { t } = useTranslation();
