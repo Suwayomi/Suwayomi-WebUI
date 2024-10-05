@@ -255,7 +255,7 @@ export function Library() {
 
     return (
         <TabsWrapper>
-            <TabsMenu value={activeTab.order} onChange={(e, newTab) => handleTabChange(newTab)} tabsCount={tabs.length}>
+            <TabsMenu value={activeTab.order} onChange={(e, newTab) => handleTabChange(newTab)}>
                 {tabs.map((tab) => (
                     <Tab
                         sx={{ display: 'flex' }}
