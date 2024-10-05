@@ -27,7 +27,7 @@ import { EmptyView } from '@/modules/core/components/placeholder/EmptyView.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { SourceType } from '@/lib/graphql/generated/graphql.ts';
-import { BaseMangaGrid } from '@/components/source/BaseMangaGrid.tsx';
+import { BaseMangaGrid } from '@/modules/manga/components/BaseMangaGrid.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 
 type SourceLoadingState = { isLoading: boolean; hasResults: boolean; emptySearch: boolean };

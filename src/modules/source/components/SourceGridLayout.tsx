@@ -7,7 +7,7 @@
  */
 
 import { GridLayout } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
-import { GridLayouts } from '@/components/source/GridLayouts.tsx';
+import { GridLayouts } from '@/modules/core/components/GridLayouts.tsx';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 
 export function SourceGridLayout() {

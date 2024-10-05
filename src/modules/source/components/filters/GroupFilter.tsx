@@ -15,8 +15,8 @@ import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import React from 'react';
 // eslint-disable-next-line import/no-cycle
-import { SourceFilters } from '@/typings';
-import { Options } from '@/components/source/SourceOptions';
+import { Options } from '@/modules/source/components/SourceOptions.tsx';
+import { SourceFilters } from '@/modules/source/Source.types.ts';
 
 interface Props {
     state: ExtractByKeyValue<SourceFilters, '__typename', 'GroupFilter'>['filters'];

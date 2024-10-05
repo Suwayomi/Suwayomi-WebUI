@@ -24,21 +24,21 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import TextField from '@mui/material/TextField';
 import Tooltip from '@mui/material/Tooltip';
-import { ISourceMetadata, SourceFilters } from '@/typings';
 import { OptionsPanel } from '@/modules/core/components/OptionsPanel.tsx';
-import { CheckBoxFilter } from '@/components/source/filters/CheckBoxFilter';
-import { HeaderFilter } from '@/components/source/filters/HeaderFilter';
-import { SelectFilter } from '@/components/source/filters/SelectFilter';
-import { SortFilter } from '@/components/source/filters/SortFilter';
-import { TextFilter } from '@/components/source/filters/TextFilter';
-import { TriStateFilter } from '@/components/source/filters/TriStateFilter';
+import { CheckBoxFilter } from '@/modules/source/components/filters/CheckBoxFilter.tsx';
+import { HeaderFilter } from '@/modules/source/components/filters/HeaderFilter.tsx';
+import { SelectFilter } from '@/modules/source/components/filters/SelectFilter.tsx';
+import { SortFilter } from '@/modules/source/components/filters/SortFilter.tsx';
+import { TextFilter } from '@/modules/source/components/filters/TextFilter.tsx';
+import { TriStateFilter } from '@/modules/source/components/filters/TriStateFilter.tsx';
 // this can only cycle once, so should be fine
 // eslint-disable-next-line import/no-cycle
-import { GroupFilter } from '@/components/source/filters/GroupFilter';
-import { SeparatorFilter } from '@/components/source/filters/SeparatorFilter';
+import { GroupFilter } from '@/modules/source/components/filters/GroupFilter.tsx';
+import { SeparatorFilter } from '@/modules/source/components/filters/SeparatorFilter.tsx';
 import { StyledFab } from '@/modules/core/components/buttons/StyledFab.tsx';
 import { awaitConfirmation } from '@/lib/ui/AwaitableDialog.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
+import { ISourceMetadata, SourceFilters } from '@/modules/source/Source.types.ts';
 
 interface IFilters {
     sourceFilter: SourceFilters[];

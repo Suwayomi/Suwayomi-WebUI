@@ -6,18 +6,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import {
-    AllowedMetadataValueTypes,
-    AppMetadataKeys,
-    GqlMetaHolder,
-    ISourceMetadata,
-    Metadata,
-    SourceMetadataKeys,
-} from '@/typings.ts';
+import { AllowedMetadataValueTypes, AppMetadataKeys, GqlMetaHolder, Metadata } from '@/typings.ts';
 import { jsonSaveParse } from '@/lib/HelperFunctions.ts';
 import { convertFromGqlMeta, getMetadataFrom, requestUpdateSourceMetadata } from '@/lib/metadata/metadata.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { SourceType } from '@/lib/graphql/generated/graphql.ts';
+import { ISourceMetadata, SourceMetadataKeys } from '@/modules/source/Source.types.ts';
 
 const convertAppMetadataToGqlMetadata = (
     metadata: Partial<ISourceMetadata>,

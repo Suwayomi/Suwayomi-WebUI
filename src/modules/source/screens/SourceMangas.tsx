@@ -20,17 +20,16 @@ import { styled } from '@mui/material/styles';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import NewReleasesIcon from '@mui/icons-material/NewReleases';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { IPos } from '@/typings';
 import {
     requestManager,
     AbortableApolloUseMutationPaginatedResponse,
     SPECIAL_ED_SOURCES,
 } from '@/lib/requests/requests/RequestManager.ts';
 import { GridLayout } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
-import { SourceGridLayout } from '@/components/source/SourceGridLayout';
+import { SourceGridLayout } from '@/modules/source/components/SourceGridLayout.tsx';
 import { AppbarSearch } from '@/modules/core/components/AppbarSearch.tsx';
-import { SourceOptions } from '@/components/source/SourceOptions';
-import { BaseMangaGrid } from '@/components/source/BaseMangaGrid.tsx';
+import { SourceOptions } from '@/modules/source/components/SourceOptions.tsx';
+import { BaseMangaGrid } from '@/modules/manga/components/BaseMangaGrid.tsx';
 import {
     GetSourceBrowseQuery,
     GetSourceBrowseQueryVariables,
@@ -42,11 +41,12 @@ import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings
 import { useLocalStorage, useSessionStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { AppStorage } from '@/lib/AppStorage.ts';
 import { getGridSnapshotKey } from '@/modules/manga/components/MangaGrid.tsx';
-import { createUpdateSourceMetadata, getSourceMetadata } from '@/lib/metadata/sourceMetadata.ts';
+import { createUpdateSourceMetadata, getSourceMetadata } from '@/modules/source/services/SourceMetadata.ts';
 import { makeToast } from '@/lib/ui/Toast.ts';
 import { GET_SOURCE_BROWSE } from '@/lib/graphql/queries/SourceQuery.ts';
 import { MangaIdInfo } from '@/modules/manga/services/Mangas.ts';
 import { TranslationKey } from '@/Base.types.ts';
+import { IPos } from '@/modules/source/Source.types.ts';
 
 const ContentTypeMenu = styled('div')(({ theme }) => ({
     display: 'flex',

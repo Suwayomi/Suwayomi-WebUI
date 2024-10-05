@@ -14,14 +14,14 @@ import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import { TMigratableSource } from '@/components/MigrationCard.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
-import { GridLayouts } from '@/components/source/GridLayouts.tsx';
+import { GridLayouts } from '@/modules/core/components/GridLayouts.tsx';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { GridLayout } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { GetSourceMigratableQuery, GetSourceMigratableQueryVariables } from '@/lib/graphql/generated/graphql.ts';
 import { GET_SOURCE_MIGRATABLE } from '@/lib/graphql/queries/SourceQuery.ts';
 import { SOURCE_BASE_FIELDS } from '@/lib/graphql/fragments/SourceFragments.ts';
-import { BaseMangaGrid } from '@/components/source/BaseMangaGrid.tsx';
+import { BaseMangaGrid } from '@/modules/manga/components/BaseMangaGrid.tsx';
 
 export const Migrate = () => {
     const { t } = useTranslation();

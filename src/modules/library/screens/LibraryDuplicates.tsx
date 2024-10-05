@@ -18,7 +18,7 @@ import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { GridLayout } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
-import { GridLayouts } from '@/components/source/GridLayouts.tsx';
+import { GridLayouts } from '@/modules/core/components/GridLayouts.tsx';
 import { CheckboxInput } from '@/modules/core/components/inputs/CheckboxInput.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
@@ -32,7 +32,7 @@ import {
     MangaType,
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_MANGAS_DUPLICATES } from '@/lib/graphql/queries/MangaQuery.ts';
-import { BaseMangaGrid } from '@/components/source/BaseMangaGrid.tsx';
+import { BaseMangaGrid } from '@/modules/manga/components/BaseMangaGrid.tsx';
 import { IMangaGridProps } from '@/modules/manga/components/MangaGrid.tsx';
 import { StyledGroupItemWrapper } from '@/modules/core/components/virtuoso/StyledGroupItemWrapper.tsx';
 import { enhancedCleanup } from '@/lib/data/Strings.ts';

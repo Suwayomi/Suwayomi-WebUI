@@ -30,7 +30,7 @@ import PopupState, { bindDialog, bindMenu, bindTrigger } from 'material-ui-popup
 import { useMemo, useState } from 'react';
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import { Trackers, TTrackerBind, TTrackRecordBind, UNSET_DATE } from '@/lib/data/Trackers.ts';
-import { ListPreference } from '@/components/sourceConfiguration/ListPreference.tsx';
+import { ListPreference } from '@/modules/source/components/sourceConfiguration/ListPreference.tsx';
 import { NumberSetting } from '@/modules/core/components/settings/NumberSetting.tsx';
 import { DateSetting } from '@/modules/core/components/settings/DateSetting.tsx';
 import { makeToast } from '@/lib/ui/Toast.ts';

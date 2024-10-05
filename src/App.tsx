@@ -36,8 +36,8 @@ const { DefaultReaderSettings } = loadable(
     () => import('@/modules/reader/screens/DefaultReaderSettings.tsx'),
     lazyLoadFallback,
 );
-const { SourceConfigure } = loadable(() => import('@/screens/SourceConfigure'), lazyLoadFallback);
-const { SourceMangas } = loadable(() => import('@/screens/SourceMangas'), lazyLoadFallback);
+const { SourceConfigure } = loadable(() => import('@/modules/source/screens/SourceConfigure.tsx'), lazyLoadFallback);
+const { SourceMangas } = loadable(() => import('@/modules/source/screens/SourceMangas.tsx'), lazyLoadFallback);
 const { Updates } = loadable(() => import('@/screens/Updates'), lazyLoadFallback);
 const { LibrarySettings } = loadable(() => import('@/modules/library/screens/LibrarySettings.tsx'), lazyLoadFallback);
 const { DownloadSettings } = loadable(() => import('@/screens/settings/DownloadSettings.tsx'), lazyLoadFallback);

@@ -18,8 +18,8 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Button from '@mui/material/Button';
 import { useTranslation } from 'react-i18next';
 import ListItemButton from '@mui/material/ListItemButton';
-import { MultiSelectListPreferenceProps } from '@/typings';
-import { cloneObject } from '@/util/cloneObject';
+import { cloneObject } from '@/util/cloneObject.tsx';
+import { MultiSelectListPreferenceProps } from '@/modules/source/Source.types.ts';
 
 interface IListDialogProps {
     selectedValues: string[];

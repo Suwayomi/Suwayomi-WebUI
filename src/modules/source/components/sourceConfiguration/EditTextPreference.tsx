@@ -17,7 +17,8 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useTranslation } from 'react-i18next';
 import ListItemButton from '@mui/material/ListItemButton';
-import { EditTextPreferenceProps } from '@/typings';
+
+import { EditTextPreferenceProps } from '@/modules/source/Source.types.ts';
 
 export function EditTextPreference(props: EditTextPreferenceProps) {
     const { t } = useTranslation();

@@ -10,7 +10,7 @@ import { useCallback, useContext, useLayoutEffect, useRef, useState } from 'reac
 import Tab from '@mui/material/Tab';
 import { useTranslation } from 'react-i18next';
 import { StringParam, useQueryParam } from 'use-query-params';
-import { Sources } from '@/screens/Sources';
+import { Sources } from '@/modules/source/screens/Sources.tsx';
 import { Extensions } from '@/screens/Extensions';
 import { TabPanel } from '@/modules/core/components/tabs/TabPanel.tsx';
 import { TabsWrapper } from '@/modules/core/components/tabs/TabsWrapper.tsx';
