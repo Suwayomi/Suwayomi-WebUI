@@ -14,8 +14,9 @@ import Switch from '@mui/material/Switch';
 import { NumberSetting } from '@/modules/core/components/settings/NumberSetting.tsx';
 import { getPersistedServerSetting, usePersistedValue } from '@/modules/core/hooks/usePersistedValue.tsx';
 import { updateMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
-import { MetadataDownloadSettings, MetadataServerSettings } from '@/typings.ts';
+import { MetadataServerSettings } from '@/typings.ts';
 import { makeToast } from '@/lib/ui/Toast.ts';
+import { MetadataDownloadSettings } from '@/modules/downloads/Downloads.types.ts';
 
 const MIN_LIMIT = 2;
 const MAX_LIMIT = 10;

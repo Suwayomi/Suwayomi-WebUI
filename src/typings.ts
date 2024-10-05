@@ -17,6 +17,7 @@ import { MetadataUpdateSettings } from '@/modules/app-updates/AppUpdateChecker.t
 import { MetadataThemeSettings } from '@/modules/theme/AppTheme.types.ts';
 import { MetadataClientSettings } from '@/modules/device/Device.types.ts';
 import { MetadataBrowseSettings } from '@/modules/browse/Browse.types.ts';
+import { MetadataDownloadSettings } from '@/modules/downloads/Downloads.types.ts';
 
 export interface IMetadataMigration {
     appKeyPrefix?: { oldPrefix: string; newPrefix: string };
@@ -56,13 +57,6 @@ export type AppMetadataKeys =
     | CategoryMetadataKeys;
 
 export type MetadataKeyValuePair = [AppMetadataKeys, AllowedMetadataValueTypes];
-
-export type MetadataDownloadSettings = {
-    deleteChaptersManuallyMarkedRead: boolean;
-    deleteChaptersWhileReading: number;
-    deleteChaptersWithBookmark: boolean;
-    downloadAheadLimit: number;
-};
 
 export type MetadataServerSettings = MetadataDownloadSettings &
     MetadataLibrarySettings &

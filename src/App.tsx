@@ -23,7 +23,7 @@ import { ErrorBoundary } from '@/modules/core/components/ErrorBoundary.tsx';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 
 const { Browse } = loadable(() => import('@/modules/browse/screens/Browse.tsx'), lazyLoadFallback);
-const { DownloadQueue } = loadable(() => import('@/screens/DownloadQueue'), lazyLoadFallback);
+const { DownloadQueue } = loadable(() => import('@/modules/downloads/screens/DownloadQueue.tsx'), lazyLoadFallback);
 const { Library } = loadable(() => import('@/modules/library/screens/Library.tsx'), lazyLoadFallback);
 const { Manga } = loadable(() => import('@/modules/manga/screens/Manga.tsx'), lazyLoadFallback);
 const { Reader } = loadable(() => import('@/modules/reader/screens/Reader.tsx'), lazyLoadFallback);
@@ -43,7 +43,10 @@ const { SourceConfigure } = loadable(() => import('@/modules/source/screens/Sour
 const { SourceMangas } = loadable(() => import('@/modules/source/screens/SourceMangas.tsx'), lazyLoadFallback);
 const { Updates } = loadable(() => import('@/screens/Updates'), lazyLoadFallback);
 const { LibrarySettings } = loadable(() => import('@/modules/library/screens/LibrarySettings.tsx'), lazyLoadFallback);
-const { DownloadSettings } = loadable(() => import('@/screens/settings/DownloadSettings.tsx'), lazyLoadFallback);
+const { DownloadSettings } = loadable(
+    () => import('@/modules/downloads/screens/DownloadSettings.tsx'),
+    lazyLoadFallback,
+);
 const { ServerSettings } = loadable(() => import('@/screens/settings/ServerSettings.tsx'), lazyLoadFallback);
 const { BrowseSettings } = loadable(() => import('@/modules/browse/screens/BrowseSettings.tsx'), lazyLoadFallback);
 const { WebUISettings } = loadable(() => import('@/screens/settings/WebUISettings.tsx'), lazyLoadFallback);
