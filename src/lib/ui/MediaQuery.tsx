@@ -10,7 +10,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { Breakpoint } from '@mui/material/styles';
 import { useCallback, useState } from 'react';
 import { getCurrentTheme } from '@/theme.tsx';
-import { ThemeMode } from '@/components/context/ThemeModeContext.tsx';
+import { ThemeMode } from '@/modules/theme/contexts/ThemeModeContext.tsx';
 import { AppStorage } from '@/lib/AppStorage.ts';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 

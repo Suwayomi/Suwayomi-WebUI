@@ -9,7 +9,6 @@
 import { OverridableComponent } from '@mui/material/OverridableComponent';
 import { SvgIconTypeMap } from '@mui/material/SvgIcon';
 import { GetServerSettingsQuery, MetaType } from '@/lib/graphql/generated/graphql.ts';
-import { AppTheme } from '@/lib/ui/AppThemes.ts';
 import { MetadataMigrationSettings } from '@/modules/migration/Migration.types.ts';
 import { TranslationKey } from '@/Base.types.ts';
 import { MangaMetadataKeys } from '@/modules/manga/MangaCard.types.tsx';
@@ -18,6 +17,7 @@ import { SourceMetadataKeys } from '@/modules/source/Source.types.ts';
 import { MetadataTrackingSettings } from '@/modules/tracker/Tracker.types.ts';
 import { CategoryMetadataKeys } from '@/modules/category/Category.types.ts';
 import { MetadataUpdateSettings } from '@/modules/app-updates/AppUpdateChecker.types.ts';
+import { MetadataThemeSettings } from '@/modules/theme/AppTheme.types.ts';
 
 export interface IMetadataMigration {
     appKeyPrefix?: { oldPrefix: string; newPrefix: string };
@@ -76,11 +76,6 @@ export type MetadataClientSettings = {
 
 export type MetadataBrowseSettings = {
     hideLibraryEntries: boolean;
-};
-
-export type MetadataThemeSettings = {
-    customThemes: Record<string, AppTheme>;
-    mangaThumbnailBackdrop: boolean;
 };
 
 export type MetadataServerSettings = MetadataDownloadSettings &

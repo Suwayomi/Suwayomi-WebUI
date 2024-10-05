@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { AppThemes } from '@/lib/ui/AppThemes.ts';
+import { AppThemes } from '@/modules/theme/services/AppThemes.ts';
 
 export enum ThemeMode {
     SYSTEM = 'system',

@@ -58,7 +58,7 @@ const { LibraryDuplicates } = loadable(
     () => import('@/modules/library/screens/LibraryDuplicates.tsx'),
     lazyLoadFallback,
 );
-const { Appearance } = loadable(() => import('@/screens/settings/appearance/Appearance.tsx'), lazyLoadFallback);
+const { Appearance } = loadable(() => import('@/screens/settings/Appearance.tsx'), lazyLoadFallback);
 
 if (process.env.NODE_ENV !== 'production') {
     // Adds messages only in a dev environment

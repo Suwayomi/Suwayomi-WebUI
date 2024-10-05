@@ -20,17 +20,17 @@ import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
 import { jsonrepair } from 'jsonrepair';
 import { jsonSaveParse } from '@/lib/HelperFunctions.ts';
-import { AppTheme, isThemeNameUnique } from '@/lib/ui/AppThemes.ts';
+import { AppTheme, isThemeNameUnique } from '@/modules/theme/services/AppThemes.ts';
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/lib/metadata/metadataServerSettings.ts';
-import { MetadataThemeSettings } from '@/typings.ts';
 import { makeToast } from '@/lib/ui/Toast.ts';
 import { EmptyView } from '@/modules/core/components/placeholder/EmptyView.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { TranslationKey } from '@/Base.types.ts';
+import { MetadataThemeSettings } from '@/modules/theme/AppTheme.types.ts';
 
 const baseCustomTheme: AppTheme = {
     id: '',

@@ -12,7 +12,6 @@ import {
     Metadata,
     MetadataServerSettingKeys,
     MetadataServerSettings,
-    MetadataThemeSettings,
 } from '@/typings.ts';
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import { convertFromGqlMeta, getMetadataFrom, requestUpdateServerMetadata } from '@/lib/metadata/metadata.ts';
@@ -21,6 +20,7 @@ import { DEFAULT_DEVICE } from '@/util/device.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { DEFAULT_SORT_SETTINGS } from '@/modules/migration/Migration.constants.ts';
 import { MetadataMigrationSettings } from '@/modules/migration/Migration.types.ts';
+import { MetadataThemeSettings } from '@/modules/theme/AppTheme.types.ts';
 
 export const getDefaultSettings = (): MetadataServerSettings => ({
     // downloads

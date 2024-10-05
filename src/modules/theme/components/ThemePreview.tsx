@@ -19,10 +19,10 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import EditIcon from '@mui/icons-material/Edit';
 import { bindDialog, usePopupState } from 'material-ui-popup-state/hooks';
-import { ThemeModeContext } from '@/components/context/ThemeModeContext.tsx';
-import { AppTheme, hasMissingFonts, loadThemeFonts } from '@/lib/ui/AppThemes.ts';
+import { ThemeModeContext } from '@/modules/theme/contexts/ThemeModeContext.tsx';
+import { AppTheme, hasMissingFonts, loadThemeFonts } from '@/modules/theme/services/AppThemes.ts';
 import { createTheme } from '@/theme.tsx';
-import { ThemeCreationDialog } from '@/screens/settings/appearance/theme/CreateThemeDialog.tsx';
+import { ThemeCreationDialog } from '@/modules/theme/components/CreateThemeDialog.tsx';
 import { makeToast } from '@/lib/ui/Toast.ts';
 import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines.tsx';
 

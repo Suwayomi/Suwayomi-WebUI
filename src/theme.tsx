@@ -17,9 +17,9 @@ import {
     useTheme,
 } from '@mui/material/styles';
 import { useCallback } from 'react';
-import { ThemeMode } from '@/components/context/ThemeModeContext.tsx';
+import { ThemeMode } from '@/modules/theme/contexts/ThemeModeContext.tsx';
 import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
-import { AppTheme, loadThemeFonts } from '@/lib/ui/AppThemes.ts';
+import { AppTheme, loadThemeFonts } from '@/modules/theme/services/AppThemes.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 
 const SCROLLBAR_SIZE = 14;

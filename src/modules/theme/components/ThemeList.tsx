@@ -9,18 +9,18 @@
 import { useTranslation } from 'react-i18next';
 import Stack from '@mui/material/Stack';
 import { useMemo } from 'react';
-import { appThemes } from '@/lib/ui/AppThemes.ts';
+import { appThemes } from '@/modules/theme/services/AppThemes.ts';
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/lib/metadata/metadataServerSettings.ts';
-import { MetadataThemeSettings } from '@/typings.ts';
 import { makeToast } from '@/lib/ui/Toast.ts';
 import { EmptyView } from '@/modules/core/components/placeholder/EmptyView.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { CreateThemeButton } from '@/screens/settings/appearance/theme/CreateThemeButton.tsx';
-import { ThemePreview } from '@/screens/settings/appearance/theme/ThemePreview.tsx';
+import { CreateThemeButton } from '@/modules/theme/components/CreateThemeButton.tsx';
+import { ThemePreview } from '@/modules/theme/components/ThemePreview.tsx';
+import { MetadataThemeSettings } from '@/modules/theme/AppTheme.types.ts';
 
 export const ThemeList = () => {
     const { t } = useTranslation();

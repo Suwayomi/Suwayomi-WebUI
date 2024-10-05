@@ -12,7 +12,7 @@ import Button from '@mui/material/Button';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { bindDialog, bindTrigger, usePopupState } from 'material-ui-popup-state/hooks';
 import Tooltip from '@mui/material/Tooltip';
-import { ThemeCreationDialog } from '@/screens/settings/appearance/theme/CreateThemeDialog.tsx';
+import { ThemeCreationDialog } from '@/modules/theme/components/CreateThemeDialog.tsx';
 import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines.tsx';
 
 export const CreateThemeButton = () => {

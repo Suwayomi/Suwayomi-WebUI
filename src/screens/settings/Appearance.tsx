@@ -16,15 +16,15 @@ import ListSubheader from '@mui/material/ListSubheader';
 import Switch from '@mui/material/Switch';
 import Link from '@mui/material/Link';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
-import { ThemeMode, ThemeModeContext } from '@/components/context/ThemeModeContext.tsx';
+import { ThemeMode, ThemeModeContext } from '@/modules/theme/contexts/ThemeModeContext.tsx';
 import { Select } from '@/modules/core/components/inputs/Select.tsx';
 import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
 import { NumberSetting } from '@/modules/core/components/settings/NumberSetting.tsx';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { I18nResourceCode, i18nResources } from '@/i18n';
 import { langCodeToName } from '@/lib/Languages.tsx';
-import { getTheme } from '@/lib/ui/AppThemes.ts';
-import { ThemeList } from '@/screens/settings/appearance/theme/ThemeList.tsx';
+import { getTheme } from '@/modules/theme/services/AppThemes.ts';
+import { ThemeList } from '@/modules/theme/components/ThemeList.tsx';
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
@@ -32,8 +32,8 @@ import {
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { MetadataThemeSettings } from '@/typings.ts';
 import { makeToast } from '@/lib/ui/Toast.ts';
+import { MetadataThemeSettings } from '@/modules/theme/AppTheme.types.ts';
 
 export const Appearance = () => {
     const { t, i18n } = useTranslation();
