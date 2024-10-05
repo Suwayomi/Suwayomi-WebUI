@@ -15,7 +15,7 @@ import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { PopupState } from 'material-ui-popup-state/hooks';
 import { bindTrigger } from 'material-ui-popup-state';
-import { SelectableCollectionReturnType } from '@/components/collection/useSelectableCollection.ts';
+import { SelectableCollectionReturnType } from '@/modules/collection/hooks/useSelectableCollection.ts';
 import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
 import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 

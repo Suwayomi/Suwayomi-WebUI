@@ -25,15 +25,15 @@ import { ResumeFab } from '@/modules/manga/components/ResumeFAB.tsx';
 import { filterAndSortChapters } from '@/modules/chapter/utils/ChapterList.util.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { ChaptersToolbarMenu } from '@/modules/chapter/components/ChaptersToolbarMenu.tsx';
-import { SelectionFAB } from '@/components/collection/SelectionFAB.tsx';
+import { SelectionFAB } from '@/modules/collection/components/SelectionFAB.tsx';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/modules/core/components/buttons/StyledFab.tsx';
 import {
     GetChaptersMangaQuery,
     GetChaptersMangaQueryVariables,
     MangaScreenFieldsFragment,
 } from '@/lib/graphql/generated/graphql.ts';
-import { useSelectableCollection } from '@/components/collection/useSelectableCollection.ts';
-import { SelectableCollectionSelectAll } from '@/components/collection/SelectableCollectionSelectAll.tsx';
+import { useSelectableCollection } from '@/modules/collection/hooks/useSelectableCollection.ts';
+import { SelectableCollectionSelectAll } from '@/modules/collection/components/SelectableCollectionSelectAll.tsx';
 import { Chapters } from '@/modules/chapter/services/Chapters.ts';
 import { ChaptersWithMeta, ChapterWithMetaType } from '@/modules/chapter/services/ChaptersWithMeta.ts';
 import { ChapterActionMenuItems } from '@/modules/chapter/components/actions/ChapterActionMenuItems.tsx';

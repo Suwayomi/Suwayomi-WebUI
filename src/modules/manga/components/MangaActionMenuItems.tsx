@@ -27,7 +27,7 @@ import {
     Mangas,
     MangaUnreadInfo,
 } from '@/modules/manga/services/Mangas.ts';
-import { SelectableCollectionReturnType } from '@/components/collection/useSelectableCollection.ts';
+import { SelectableCollectionReturnType } from '@/modules/collection/hooks/useSelectableCollection.ts';
 import { MenuItem } from '@/modules/core/components/menu/MenuItem.tsx';
 import {
     createGetMenuItemTitle,

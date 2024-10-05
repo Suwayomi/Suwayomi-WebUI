@@ -17,7 +17,7 @@ import BookmarkAdd from '@mui/icons-material/BookmarkAdd';
 import DoneAll from '@mui/icons-material/DoneAll';
 import { useMemo } from 'react';
 import LaunchIcon from '@mui/icons-material/Launch';
-import { SelectableCollectionReturnType } from '@/components/collection/useSelectableCollection.ts';
+import { SelectableCollectionReturnType } from '@/modules/collection/hooks/useSelectableCollection.ts';
 import {
     actionToTranslationKey,
     ChapterAction,

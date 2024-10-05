@@ -26,7 +26,7 @@ import { LoadingPlaceholder } from '@/modules/core/components/placeholder/Loadin
 import { MangaCard } from '@/modules/manga/components/cards/MangaCard.tsx';
 import { GridLayout } from '@/components/context/LibraryOptionsContext';
 import { useLocalStorage, useSessionStorage } from '@/modules/core/hooks/useStorage.tsx';
-import { SelectableCollectionReturnType } from '@/components/collection/useSelectableCollection.ts';
+import { SelectableCollectionReturnType } from '@/modules/collection/hooks/useSelectableCollection.ts';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/modules/core/components/buttons/StyledFab.tsx';
 import { AppStorage } from '@/lib/AppStorage.ts';
 import { MangaCardProps } from '@/modules/manga/MangaCard.types.tsx';

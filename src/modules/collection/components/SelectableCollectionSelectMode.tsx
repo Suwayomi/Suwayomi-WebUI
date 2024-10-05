@@ -10,7 +10,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Checkbox from '@mui/material/Checkbox';
 import { useTranslation } from 'react-i18next';
 import ClearIcon from '@mui/icons-material/Clear';
-import { SelectableCollectionSelectAll } from '@/components/collection/SelectableCollectionSelectAll.tsx';
+import { SelectableCollectionSelectAll } from '@/modules/collection/components/SelectableCollectionSelectAll.tsx';
 
 export const SelectableCollectionSelectMode = ({
     isActive,
