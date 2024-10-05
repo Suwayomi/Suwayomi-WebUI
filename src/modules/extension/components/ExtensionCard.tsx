@@ -18,7 +18,7 @@ import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { makeToast } from '@/lib/ui/Toast.ts';
 import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
-import { TExtension } from '@/screens/util/Extensions.ts';
+import { TExtension } from '@/modules/extension/services/Extensions.ts';
 import { TranslationKey } from '@/Base.types.ts';
 
 interface IProps {

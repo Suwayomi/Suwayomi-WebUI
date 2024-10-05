@@ -27,12 +27,12 @@ import {
     isExtensionStateOrLanguage,
     TExtension,
     translateExtensionLanguage,
-} from '@/screens/util/Extensions';
+} from '@/modules/extension/services/Extensions.ts';
 import { AppbarSearch } from '@/modules/core/components/AppbarSearch.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { makeToast } from '@/lib/ui/Toast.ts';
 import { LangSelect } from '@/modules/core/components/inputs/LangSelect.tsx';
-import { ExtensionCard } from '@/components/ExtensionCard';
+import { ExtensionCard } from '@/modules/extension/components/ExtensionCard.tsx';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { StyledGroupedVirtuoso } from '@/modules/core/components/virtuoso/StyledGroupedVirtuoso.tsx';
 import { StyledGroupHeader } from '@/modules/core/components/virtuoso/StyledGroupHeader.tsx';

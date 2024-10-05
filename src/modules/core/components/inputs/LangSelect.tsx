@@ -21,7 +21,7 @@ import Tooltip from '@mui/material/Tooltip';
 import ListItem from '@mui/material/ListItem';
 import { useTranslation } from 'react-i18next';
 import { cloneObject } from '@/util/cloneObject.tsx';
-import { translateExtensionLanguage } from '@/screens/util/Extensions.ts';
+import { translateExtensionLanguage } from '@/modules/extension/services/Extensions.ts';
 
 function removeAll(firstList: any[], secondList: any[]) {
     secondList.forEach((item) => {

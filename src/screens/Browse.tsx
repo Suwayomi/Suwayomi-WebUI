@@ -11,7 +11,7 @@ import Tab from '@mui/material/Tab';
 import { useTranslation } from 'react-i18next';
 import { StringParam, useQueryParam } from 'use-query-params';
 import { Sources } from '@/modules/source/screens/Sources.tsx';
-import { Extensions } from '@/screens/Extensions';
+import { Extensions } from '@/modules/extension/screens/Extensions.tsx';
 import { TabPanel } from '@/modules/core/components/tabs/TabPanel.tsx';
 import { TabsWrapper } from '@/modules/core/components/tabs/TabsWrapper.tsx';
 import { TabsMenu } from '@/modules/core/components/tabs/TabsMenu.tsx';
