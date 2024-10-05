@@ -8,7 +8,7 @@
 
 import { GroupedVirtuoso } from 'react-virtuoso';
 import { ComponentProps } from 'react';
-import { useNavBarContext } from '@/components/context/NavbarContext.tsx';
+import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 
 export const StyledGroupedVirtuoso = ({
     heightToSubtract = 0,

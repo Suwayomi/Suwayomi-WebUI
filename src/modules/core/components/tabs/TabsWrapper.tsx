@@ -7,7 +7,7 @@
  */
 
 import Box, { BoxProps } from '@mui/material/Box';
-import { useNavBarContext } from '@/components/context/NavbarContext.tsx';
+import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 
 export const TabsWrapper = ({ children, ...props }: BoxProps) => {
     const { appBarHeight } = useNavBarContext();

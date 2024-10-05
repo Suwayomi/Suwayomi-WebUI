@@ -24,7 +24,7 @@ import { LoadingPlaceholder } from '@/modules/core/components/placeholder/Loadin
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { DownloadStateIndicator } from '@/modules/core/components/DownloadStateIndicator.tsx';
 import { ChapterType, DownloadState } from '@/lib/graphql/generated/graphql.ts';
-import { NavBarContext } from '@/components/context/NavbarContext.tsx';
+import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { UpdateChecker } from '@/modules/core/components/UpdateChecker.tsx';
 import { StyledGroupedVirtuoso } from '@/modules/core/components/virtuoso/StyledGroupedVirtuoso.tsx';
 import { StyledGroupHeader } from '@/modules/core/components/virtuoso/StyledGroupHeader.tsx';

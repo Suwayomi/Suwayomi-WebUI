@@ -36,7 +36,7 @@ import {
     GetSourceMangasFetchMutation,
     GetSourceMangasFetchMutationVariables,
 } from '@/lib/graphql/generated/graphql.ts';
-import { NavBarContext } from '@/components/context/NavbarContext.tsx';
+import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 import { useLocalStorage, useSessionStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { AppStorage } from '@/lib/AppStorage.ts';

@@ -15,7 +15,7 @@ import MenuItem from '@mui/material/MenuItem';
 import ListSubheader from '@mui/material/ListSubheader';
 import Switch from '@mui/material/Switch';
 import Link from '@mui/material/Link';
-import { NavBarContext } from '@/components/context/NavbarContext.tsx';
+import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { ThemeMode, ThemeModeContext } from '@/modules/theme/contexts/ThemeModeContext.tsx';
 import { Select } from '@/modules/core/components/inputs/Select.tsx';
 import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';

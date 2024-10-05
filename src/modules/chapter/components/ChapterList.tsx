@@ -42,7 +42,7 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { GET_CHAPTERS_MANGA } from '@/lib/graphql/queries/ChapterQuery.ts';
 import { Mangas } from '@/modules/manga/services/Mangas.ts';
-import { useNavBarContext } from '@/components/context/NavbarContext.tsx';
+import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
 import { shouldForwardProp } from '@/modules/core/utils/ShouldForwardProp.ts';

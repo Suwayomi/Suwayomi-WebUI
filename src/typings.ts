@@ -6,11 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { OverridableComponent } from '@mui/material/OverridableComponent';
-import { SvgIconTypeMap } from '@mui/material/SvgIcon';
 import { GetServerSettingsQuery, MetaType } from '@/lib/graphql/generated/graphql.ts';
 import { MetadataMigrationSettings } from '@/modules/migration/Migration.types.ts';
-import { TranslationKey } from '@/Base.types.ts';
 import { MangaMetadataKeys } from '@/modules/manga/MangaCard.types.tsx';
 import { MetadataLibrarySettings } from '@/modules/library/Library.types.ts';
 import { SourceMetadataKeys } from '@/modules/source/Source.types.ts';
@@ -58,11 +55,6 @@ export type AppMetadataKeys =
 
 export type MetadataKeyValuePair = [AppMetadataKeys, AllowedMetadataValueTypes];
 
-export interface INavbarOverride {
-    status: boolean;
-    value: any;
-}
-
 export type MetadataDownloadSettings = {
     deleteChaptersManuallyMarkedRead: boolean;
     deleteChaptersWhileReading: number;
@@ -89,14 +81,6 @@ export type MetadataServerSettings = MetadataDownloadSettings &
 
 export interface ISearchSettings {
     ignoreFilters: boolean;
-}
-
-export interface NavbarItem {
-    path: string;
-    title: TranslationKey;
-    SelectedIconComponent: OverridableComponent<SvgIconTypeMap<{}, 'svg'>>;
-    IconComponent: OverridableComponent<SvgIconTypeMap<{}, 'svg'>>;
-    show: 'mobile' | 'desktop' | 'both';
 }
 
 export type ServerSettings = GetServerSettingsQuery['settings'];

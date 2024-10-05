@@ -21,11 +21,11 @@ import { useCallback, useMemo, useRef } from 'react';
 import Box from '@mui/material/Box';
 import ListItem from '@mui/material/ListItem';
 import Tooltip from '@mui/material/Tooltip';
-import { NavbarItem } from '@/typings.ts';
 import { ListItemLink } from '@/modules/core/components/ListItemLink.tsx';
 import { useGetOptionForDirection } from '@/theme.tsx';
-import { useNavBarContext } from '@/components/context/NavbarContext.tsx';
+import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
+import { NavbarItem } from '@/modules/navigation-bar/NavigationBar.types.ts';
 
 const DrawerHeader = styled('div')(({ theme }) => ({
     display: 'flex',

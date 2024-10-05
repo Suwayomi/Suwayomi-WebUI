@@ -20,7 +20,7 @@ import { translateExtensionLanguage } from '@/modules/extension/services/Extensi
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { SourceCard } from '@/modules/source/components/SourceCard.tsx';
 import { LangSelect } from '@/modules/core/components/inputs/LangSelect.tsx';
-import { NavBarContext } from '@/components/context/NavbarContext.tsx';
+import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { SourceType } from '@/lib/graphql/generated/graphql.ts';

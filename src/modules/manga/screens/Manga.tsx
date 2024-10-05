@@ -17,7 +17,7 @@ import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { isNetworkRequestInFlight } from '@apollo/client/core/networkStatus';
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
-import { NavBarContext } from '@/components/context/NavbarContext.tsx';
+import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { ChapterList } from '@/modules/chapter/components/ChapterList.tsx';
 import { useRefreshManga } from '@/modules/manga/hooks/useRefreshManga.ts';
 import { MangaDetails } from '@/modules/manga/components/MangaDetails.tsx';

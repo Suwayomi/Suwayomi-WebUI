@@ -20,7 +20,7 @@ import { SnackbarProvider } from 'notistack';
 import { createAndSetTheme } from '@/theme.tsx';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { ThemeMode, ThemeModeContext } from '@/modules/theme/contexts/ThemeModeContext.tsx';
-import { NavBarContextProvider } from '@/components/navbar/NavBarContextProvider.tsx';
+import { NavBarContextProvider } from '@/modules/navigation-bar/contexts/NavBarContextProvider.tsx';
 import { LibraryOptionsContextProvider } from '@/modules/library/contexts/LibraryOptionsProvider.tsx';
 import { ActiveDevice, DEFAULT_DEVICE, setActiveDevice } from '@/util/device.ts';
 import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';

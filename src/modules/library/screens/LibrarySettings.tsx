@@ -15,7 +15,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
 import ListSubheader from '@mui/material/ListSubheader';
 import { t as translate } from 'i18next';
-import { NavBarContext } from '@/components/context/NavbarContext.tsx';
+import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { GlobalUpdateSettings } from '@/components/settings/globalUpdate/GlobalUpdateSettings.tsx';
 import { makeToast } from '@/lib/ui/Toast.ts';
 import {

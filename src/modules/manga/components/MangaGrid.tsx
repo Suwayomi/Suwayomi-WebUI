@@ -32,7 +32,7 @@ import { AppStorage } from '@/lib/AppStorage.ts';
 import { MangaCardProps } from '@/modules/manga/MangaCard.types.tsx';
 import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
-import { useNavBarContext } from '@/components/context/NavbarContext.tsx';
+import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 
 const GridContainer = React.forwardRef<HTMLDivElement, GridTypeMap['props']>(({ children, ...props }, ref) => (
     <Grid {...props} ref={ref} container spacing={1}>

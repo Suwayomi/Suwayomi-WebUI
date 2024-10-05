@@ -7,7 +7,8 @@
  */
 
 import React, { useContext } from 'react';
-import { INavbarOverride } from '@/typings';
+
+import { INavbarOverride } from '@/modules/navigation-bar/NavigationBar.types.ts';
 
 type ContextType = {
     history: string[];

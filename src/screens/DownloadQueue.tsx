@@ -30,7 +30,7 @@ import { StrictModeDroppable } from '@/modules/core/components/StrictModeDroppab
 import { makeToast } from '@/lib/ui/Toast.ts';
 import { DownloadStateIndicator } from '@/modules/core/components/DownloadStateIndicator.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
-import { NavBarContext } from '@/components/context/NavbarContext.tsx';
+import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { ChapterDownloadStatus, ChapterIdInfo } from '@/modules/chapter/services/Chapters.ts';

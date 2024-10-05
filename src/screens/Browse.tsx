@@ -16,7 +16,7 @@ import { TabPanel } from '@/modules/core/components/tabs/TabPanel.tsx';
 import { TabsWrapper } from '@/modules/core/components/tabs/TabsWrapper.tsx';
 import { TabsMenu } from '@/modules/core/components/tabs/TabsMenu.tsx';
 import { Migration } from '@/modules/migration/screens/Migration.tsx';
-import { NavBarContext } from '@/components/context/NavbarContext.tsx';
+import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 
 enum Tabs {

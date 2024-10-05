@@ -9,7 +9,7 @@
 import { useContext, useEffect, useLayoutEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { NavBarContext } from '@/components/context/NavbarContext.tsx';
+import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import { TMigratableSource } from '@/modules/migration/components/MigrationCard.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';

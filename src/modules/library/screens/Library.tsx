@@ -20,7 +20,7 @@ import { LibraryToolbarMenu } from '@/modules/library/components/LibraryToolbarM
 import { LibraryMangaGrid } from '@/modules/library/components/LibraryMangaGrid.tsx';
 import { AppbarSearch } from '@/modules/core/components/AppbarSearch.tsx';
 import { UpdateChecker } from '@/modules/core/components/UpdateChecker.tsx';
-import { NavBarContext } from '@/components/context/NavbarContext.tsx';
+import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { useSelectableCollection } from '@/modules/collection/hooks/useSelectableCollection.ts';
 import { SelectableCollectionSelectMode } from '@/modules/collection/components/SelectableCollectionSelectMode.tsx';
 import { useGetVisibleLibraryMangas } from '@/modules/library/hooks/useGetVisibleLibraryMangas.ts';

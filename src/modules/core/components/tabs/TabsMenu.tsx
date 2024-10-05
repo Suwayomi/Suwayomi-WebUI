@@ -9,7 +9,7 @@
 import Tabs, { TabsProps } from '@mui/material/Tabs';
 import { styled } from '@mui/material/styles';
 import { ForwardedRef, forwardRef } from 'react';
-import { useNavBarContext } from '@/components/context/NavbarContext.tsx';
+import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 
 const StyledTabsMenu = styled(Tabs)(({ theme }) => ({
     display: 'flex',

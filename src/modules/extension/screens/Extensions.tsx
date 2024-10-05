@@ -33,7 +33,7 @@ import { LoadingPlaceholder } from '@/modules/core/components/placeholder/Loadin
 import { makeToast } from '@/lib/ui/Toast.ts';
 import { LangSelect } from '@/modules/core/components/inputs/LangSelect.tsx';
 import { ExtensionCard } from '@/modules/extension/components/ExtensionCard.tsx';
-import { NavBarContext } from '@/components/context/NavbarContext.tsx';
+import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { StyledGroupedVirtuoso } from '@/modules/core/components/virtuoso/StyledGroupedVirtuoso.tsx';
 import { StyledGroupHeader } from '@/modules/core/components/virtuoso/StyledGroupHeader.tsx';
 import { StyledGroupItemWrapper } from '@/modules/core/components/virtuoso/StyledGroupItemWrapper.tsx';

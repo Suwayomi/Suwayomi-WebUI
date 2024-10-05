@@ -26,7 +26,7 @@ import { DoublePagedPager } from '@/modules/reader/components/pager/DoublePagedP
 import { VerticalPager } from '@/modules/reader/components/pager/VerticalPager.tsx';
 import { ReaderNavBar } from '@/modules/reader/components/ReaderNavBar.tsx';
 import { makeToast } from '@/lib/ui/Toast.ts';
-import { NavBarContext } from '@/components/context/NavbarContext.tsx';
+import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { useDebounce } from '@/modules/core/hooks/useDebounce.ts';
 import {
     GetChaptersReaderQuery,

@@ -26,14 +26,14 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import MenuIcon from '@mui/icons-material/Menu';
 import Stack from '@mui/material/Stack';
 import { useTheme } from '@mui/material/styles';
-import { NavbarItem } from '@/typings';
-import { NavBarContext } from '@/components/context/NavbarContext';
+import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { useBackButton } from '@/modules/core/hooks/useBackButton.ts';
 import { useGetOptionForDirection } from '@/theme.tsx';
 import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
-import { DesktopSideBar } from '@/components/navbar/navigation/DesktopSideBar.tsx';
+import { DesktopSideBar } from '@/modules/navigation-bar/components/DesktopSideBar.tsx';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
-import { MobileBottomBar } from '@/components/navbar/navigation/MobileBottomBar.tsx';
+import { MobileBottomBar } from '@/modules/navigation-bar/components/MobileBottomBar.tsx';
+import { NavbarItem } from '@/modules/navigation-bar/NavigationBar.types.ts';
 
 const navbarItems: Array<NavbarItem> = [
     {

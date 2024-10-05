@@ -8,7 +8,7 @@
 
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
-import { NavBarContext } from '@/components/context/NavbarContext.tsx';
+import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 
 export const useBackButton = () => {
     const navigate = useNavigate();

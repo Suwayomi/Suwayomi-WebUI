@@ -15,7 +15,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
-import { NavBarContext } from '@/components/context/NavbarContext.tsx';
+import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { GridLayout } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
 import { GridLayouts } from '@/modules/core/components/GridLayouts.tsx';

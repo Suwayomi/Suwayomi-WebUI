@@ -12,9 +12,9 @@ import { useTranslation } from 'react-i18next';
 import Paper from '@mui/material/Paper';
 import { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { NavbarItem } from '@/typings.ts';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
-import { useNavBarContext } from '@/components/context/NavbarContext.tsx';
+import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
+import { NavbarItem } from '@/modules/navigation-bar/NavigationBar.types.ts';
 
 export const MobileBottomBar = ({ navBarItems }: { navBarItems: NavbarItem[] }) => {
     const { t } = useTranslation();

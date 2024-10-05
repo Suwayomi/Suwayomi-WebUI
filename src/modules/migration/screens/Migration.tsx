@@ -29,7 +29,7 @@ import {
     useMetadataServerSettings,
 } from '@/lib/metadata/metadataServerSettings.ts';
 import { makeToast } from '@/lib/ui/Toast.ts';
-import { useNavBarContext } from '@/components/context/NavbarContext.tsx';
+import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 
 const getMigratableSources = (
     mangas: TMigratableSourcesResult | undefined,

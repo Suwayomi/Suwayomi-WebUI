@@ -14,13 +14,13 @@ import { loadable } from 'react-lazily/loadable';
 import Box from '@mui/material/Box';
 import { AppContext } from '@/modules/core/contexts/AppContext.tsx';
 import '@/i18n';
-import { DefaultNavBar } from '@/components/navbar/DefaultNavBar';
+import { DefaultNavBar } from '@/modules/navigation-bar/components/DefaultNavBar.tsx';
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import { WebUIUpdateChecker } from '@/modules/app-updates/components/WebUIUpdateChecker.tsx';
 import { ServerUpdateChecker } from '@/modules/app-updates/components/ServerUpdateChecker.tsx';
 import { lazyLoadFallback } from '@/modules/core/utils/LazyLoad.tsx';
 import { ErrorBoundary } from '@/modules/core/components/ErrorBoundary.tsx';
-import { useNavBarContext } from '@/components/context/NavbarContext.tsx';
+import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 
 const { Browse } = loadable(() => import('@/screens/Browse'), lazyLoadFallback);
 const { DownloadQueue } = loadable(() => import('@/screens/DownloadQueue'), lazyLoadFallback);

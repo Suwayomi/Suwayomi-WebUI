@@ -16,7 +16,7 @@ import { updateMetadataServerSettings, useMetadataServerSettings } from '@/lib/m
 import { MetadataServerSettingKeys, MetadataServerSettings } from '@/typings.ts';
 import { makeToast } from '@/lib/ui/Toast.ts';
 import { MutableListSetting } from '@/modules/core/components/settings/MutableListSetting.tsx';
-import { NavBarContext } from '@/components/context/NavbarContext.tsx';
+import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { ActiveDevice, DEFAULT_DEVICE } from '@/util/device.ts';
 import { Select } from '@/modules/core/components/inputs/Select.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';

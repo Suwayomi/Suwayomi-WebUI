@@ -21,7 +21,7 @@ import { translateExtensionLanguage } from '@/modules/extension/services/Extensi
 import { AppbarSearch } from '@/modules/core/components/AppbarSearch.tsx';
 import { LangSelect } from '@/modules/core/components/inputs/LangSelect.tsx';
 import { useDebounce } from '@/modules/core/hooks/useDebounce.ts';
-import { NavBarContext } from '@/components/context/NavbarContext.tsx';
+import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { MangaCardProps } from '@/modules/manga/MangaCard.types.tsx';
 import { EmptyView } from '@/modules/core/components/placeholder/EmptyView.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
