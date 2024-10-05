@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 import {
     requestUpdateMangaMetadata,
     requestUpdateServerMetadata,

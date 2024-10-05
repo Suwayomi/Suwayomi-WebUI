@@ -24,7 +24,7 @@ import {
     requestManager,
     AbortableApolloUseMutationPaginatedResponse,
     SPECIAL_ED_SOURCES,
-} from '@/lib/requests/requests/RequestManager.ts';
+} from '@/lib/requests/RequestManager.ts';
 import { GridLayout } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
 import { SourceGridLayout } from '@/modules/source/components/SourceGridLayout.tsx';
 import { AppbarSearch } from '@/modules/core/components/AppbarSearch.tsx';

@@ -16,7 +16,7 @@ import Switch from '@mui/material/Switch';
 import ListSubheader from '@mui/material/ListSubheader';
 import { t as translate } from 'i18next';
 import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
-import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { TextSetting } from '@/modules/core/components/settings/text/TextSetting.tsx';
 import { NumberSetting } from '@/modules/core/components/settings/NumberSetting.tsx';

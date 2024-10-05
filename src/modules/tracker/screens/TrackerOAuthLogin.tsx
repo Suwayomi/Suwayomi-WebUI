@@ -9,7 +9,7 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 
 export const TrackerOAuthLogin = () => {

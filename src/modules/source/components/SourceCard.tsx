@@ -17,7 +17,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
-import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { translateExtensionLanguage } from '@/modules/extension/services/Extensions.ts';
 import { SourceContentType } from '@/modules/source/screens/SourceMangas.tsx';
 import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';

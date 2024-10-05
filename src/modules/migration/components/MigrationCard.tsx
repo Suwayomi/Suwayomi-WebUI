@@ -15,7 +15,7 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { GetMigratableSourcesQuery } from '@/lib/graphql/generated/graphql.ts';
 import { translateExtensionLanguage } from '@/modules/extension/services/Extensions.ts';
 import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';

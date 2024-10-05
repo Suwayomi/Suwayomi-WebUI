@@ -27,7 +27,7 @@ import SyncIcon from '@mui/icons-material/Sync';
 import PaletteIcon from '@mui/icons-material/Palette';
 import { ListItemLink } from '@/modules/core/components/ListItemLink.tsx';
 import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
-import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 
 export function Settings() {

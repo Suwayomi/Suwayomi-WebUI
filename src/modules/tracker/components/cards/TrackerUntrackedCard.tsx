@@ -12,7 +12,7 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import { useTranslation } from 'react-i18next';
 import Stack from '@mui/material/Stack';
-import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { CARD_STYLING } from '@/modules/tracker/Tracker.constants.ts';
 import { TTrackerBase } from '@/modules/tracker/services/Trackers.ts';
 

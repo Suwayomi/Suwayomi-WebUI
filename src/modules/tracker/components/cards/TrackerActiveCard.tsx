@@ -28,7 +28,7 @@ import Typography from '@mui/material/Typography';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import PopupState, { bindDialog, bindMenu, bindTrigger } from 'material-ui-popup-state';
 import { useMemo, useState } from 'react';
-import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Trackers, TTrackerBind, TTrackRecordBind, UNSET_DATE } from '@/modules/tracker/services/Trackers.ts';
 import { ListPreference } from '@/modules/source/components/sourceConfiguration/ListPreference.tsx';
 import { NumberSetting } from '@/modules/core/components/settings/NumberSetting.tsx';

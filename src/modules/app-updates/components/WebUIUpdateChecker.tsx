@@ -17,7 +17,7 @@ import Button from '@mui/material/Button';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { UpdateState, WebUiChannel, WebUiUpdateStatus } from '@/lib/graphql/generated/graphql.ts';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
-import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { ABOUT_WEBUI, WEBUI_UPDATE_CHECK } from '@/lib/graphql/fragments/InfoFragments.ts';
 import { VersionUpdateInfoDialog } from '@/modules/app-updates/components/VersionUpdateInfoDialog.tsx';

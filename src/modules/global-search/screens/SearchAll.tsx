@@ -14,7 +14,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { StringParam, useQueryParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
-import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { langSortCmp, sourceDefualtLangs, sourceForcedDefaultLangs } from '@/modules/core/utils/Languages.ts';
 import { translateExtensionLanguage } from '@/modules/extension/services/Extensions.ts';

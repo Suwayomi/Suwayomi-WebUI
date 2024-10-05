@@ -19,7 +19,7 @@ import DownloadIcon from '@mui/icons-material/Download';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
 import Menu from '@mui/material/Menu';
-import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { ChapterCard } from '@/modules/chapter/components/cards/ChapterCard.tsx';
 import { ResumeFab } from '@/modules/manga/components/ResumeFAB.tsx';
 import { filterAndSortChapters } from '@/modules/chapter/utils/ChapterList.util.tsx';

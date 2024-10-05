@@ -10,7 +10,7 @@ import { t as translate } from 'i18next';
 import gql from 'graphql-tag';
 import { DocumentNode } from '@apollo/client';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
-import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { getMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import {
     ChapterListFieldsFragment,

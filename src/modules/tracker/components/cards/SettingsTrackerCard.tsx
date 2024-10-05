@@ -23,7 +23,7 @@ import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import { PasswordTextField } from '@/modules/core/components/inputs/PasswordTextField.tsx';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
-import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Trackers, TTrackerSearch } from '@/modules/tracker/services/Trackers.ts';
 
 export const SettingsTrackerCard = ({ tracker }: { tracker: TTrackerSearch }) => {

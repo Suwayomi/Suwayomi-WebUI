@@ -16,7 +16,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { CheckboxContainer } from '@/modules/core/components/inputs/CheckboxContainer.ts';
 import { CheckboxInput } from '@/modules/core/components/inputs/CheckboxInput.tsx';

@@ -8,7 +8,7 @@
 
 import { useCallback, useState } from 'react';
 import { ApolloError } from '@apollo/client';
-import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { baseCleanup } from '@/util/Strings.ts';
 
 export const useRefreshManga = (mangaId: string) => {

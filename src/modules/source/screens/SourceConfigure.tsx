@@ -10,7 +10,7 @@ import { createElement, useContext, useLayoutEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import List from '@mui/material/List';
 import { useTranslation } from 'react-i18next';
-import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { cloneObject } from '@/util/cloneObject.tsx';
 import {
     SwitchPreferenceCompat,

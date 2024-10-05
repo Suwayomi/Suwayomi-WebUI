@@ -16,7 +16,7 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import { useTranslation } from 'react-i18next';
 import ImageIcon from '@mui/icons-material/Image';
 import { SxProps, Theme } from '@mui/material/styles';
-import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Priority } from '@/lib/Queue.ts';
 
 interface IProps {

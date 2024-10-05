@@ -15,7 +15,7 @@ import Switch from '@mui/material/Switch';
 import ListSubheader from '@mui/material/ListSubheader';
 import { TextSetting } from '@/modules/core/components/settings/text/TextSetting.tsx';
 import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
-import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { DownloadAheadSetting } from '@/modules/downloads/components/DownloadAheadSetting.tsx';
 import {
     createUpdateMetadataServerSettings,

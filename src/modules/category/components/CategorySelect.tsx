@@ -16,7 +16,7 @@ import FormGroup from '@mui/material/FormGroup';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
-import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Mangas } from '@/modules/manga/services/Mangas.ts';
 import { useSelectableCollection } from '@/modules/collection/hooks/useSelectableCollection.ts';
 import { ThreeStateCheckboxInput } from '@/modules/core/components/inputs/ThreeStateCheckboxInput.tsx';

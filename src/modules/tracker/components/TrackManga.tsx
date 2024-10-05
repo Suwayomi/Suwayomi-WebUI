@@ -11,7 +11,7 @@ import Box from '@mui/material/Box';
 import { useEffect, useMemo, useState } from 'react';
 import DialogContent from '@mui/material/DialogContent';
 import { useTranslation } from 'react-i18next';
-import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { Trackers } from '@/modules/tracker/services/Trackers.ts';

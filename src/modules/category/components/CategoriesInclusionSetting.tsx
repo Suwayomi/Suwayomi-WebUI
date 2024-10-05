@@ -20,7 +20,7 @@ import { t as translate } from 'i18next';
 import { ThreeStateCheckboxInput } from '@/modules/core/components/inputs/ThreeStateCheckboxInput.tsx';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { IncludeOrExclude } from '@/lib/graphql/generated/graphql.ts';
-import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { CheckboxContainer } from '@/modules/core/components/inputs/CheckboxContainer.ts';
 import {
     CategoryDownloadInclusionInfo,

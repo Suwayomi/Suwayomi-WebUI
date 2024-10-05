@@ -22,7 +22,7 @@ import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/modules/settings/services/ServerSettingsMetadata.ts';
-import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Mangas } from '@/modules/manga/services/Mangas.ts';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';

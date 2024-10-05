@@ -19,7 +19,7 @@ import React, { useCallback, useContext, useLayoutEffect, useMemo, useRef, useSt
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Refresh from '@mui/icons-material/Refresh';
-import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { DownloadStateIndicator } from '@/modules/core/components/DownloadStateIndicator.tsx';

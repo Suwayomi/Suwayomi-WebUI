@@ -8,7 +8,7 @@
 
 import { t as translate } from 'i18next';
 import { DocumentNode } from '@apollo/client/core';
-import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 import {
     ChapterConditionInput,
     GetMangasBaseQuery,

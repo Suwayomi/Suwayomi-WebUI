@@ -13,7 +13,7 @@ import ListItemText from '@mui/material/ListItemText';
 import { useTranslation } from 'react-i18next';
 import ListSubheader from '@mui/material/ListSubheader';
 import Divider from '@mui/material/Divider';
-import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { ListItemLink } from '@/modules/core/components/ListItemLink.tsx';
 import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';

@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import gql from 'graphql-tag';
 import { useCategorySelect } from '@/modules/category/hooks/useCategorySelect.tsx';
-import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { getMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { Categories } from '@/modules/category/services/Categories.ts';

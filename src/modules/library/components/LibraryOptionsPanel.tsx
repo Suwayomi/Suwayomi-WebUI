@@ -16,7 +16,7 @@ import { SortRadioInput } from '@/modules/core/components/inputs/SortRadioInput.
 import { ThreeStateCheckboxInput } from '@/modules/core/components/inputs/ThreeStateCheckboxInput.tsx';
 import { GridLayout } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
 import { OptionsTabs } from '@/modules/core/components/OptionsTabs.tsx';
-import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Trackers } from '@/modules/tracker/services/Trackers.ts';
 import { GetTrackersSettingsQuery, MangaStatus } from '@/lib/graphql/generated/graphql.ts';
 import { GET_TRACKERS_SETTINGS } from '@/lib/graphql/queries/TrackerQuery.ts';

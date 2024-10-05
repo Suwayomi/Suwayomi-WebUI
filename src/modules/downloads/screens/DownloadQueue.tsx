@@ -25,7 +25,7 @@ import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import { Virtuoso } from 'react-virtuoso';
 import CardContent from '@mui/material/CardContent';
 import Refresh from '@mui/icons-material/Refresh';
-import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { StrictModeDroppable } from '@/modules/core/components/StrictModeDroppable.tsx';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { DownloadStateIndicator } from '@/modules/core/components/DownloadStateIndicator.tsx';

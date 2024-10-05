@@ -15,7 +15,7 @@ import Box from '@mui/material/Box';
 import { AppContext } from '@/modules/core/contexts/AppContext.tsx';
 import '@/i18n';
 import { DefaultNavBar } from '@/modules/navigation-bar/components/DefaultNavBar.tsx';
-import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { WebUIUpdateChecker } from '@/modules/app-updates/components/WebUIUpdateChecker.tsx';
 import { ServerUpdateChecker } from '@/modules/app-updates/components/ServerUpdateChecker.tsx';
 import { lazyLoadFallback } from '@/modules/core/utils/LazyLoad.tsx';
