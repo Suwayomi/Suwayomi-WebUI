@@ -27,7 +27,7 @@ const { DownloadQueue } = loadable(() => import('@/modules/downloads/screens/Dow
 const { Library } = loadable(() => import('@/modules/library/screens/Library.tsx'), lazyLoadFallback);
 const { Manga } = loadable(() => import('@/modules/manga/screens/Manga.tsx'), lazyLoadFallback);
 const { Reader } = loadable(() => import('@/modules/reader/screens/Reader.tsx'), lazyLoadFallback);
-const { SearchAll } = loadable(() => import('@/screens/SearchAll'), lazyLoadFallback);
+const { SearchAll } = loadable(() => import('@/modules/global-search/screens/SearchAll.tsx'), lazyLoadFallback);
 const { Settings } = loadable(() => import('@/screens/Settings'), lazyLoadFallback);
 const { About } = loadable(() => import('@/screens/settings/About'), lazyLoadFallback);
 const { Backup } = loadable(() => import('@/screens/settings/Backup'), lazyLoadFallback);
