@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { IReaderSettings } from '@/modules/reader/Reader.types.ts';
+import { IReaderSettings } from '@/modules/reader-deprecated/Reader.types.ts';
 
 export const DEFAULT_READER_SETTINGS: IReaderSettings = {
     staticNav: false,

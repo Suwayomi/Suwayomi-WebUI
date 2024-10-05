@@ -26,7 +26,7 @@ const { Browse } = loadable(() => import('@/modules/browse/screens/Browse.tsx'),
 const { DownloadQueue } = loadable(() => import('@/modules/downloads/screens/DownloadQueue.tsx'), lazyLoadFallback);
 const { Library } = loadable(() => import('@/modules/library/screens/Library.tsx'), lazyLoadFallback);
 const { Manga } = loadable(() => import('@/modules/manga/screens/Manga.tsx'), lazyLoadFallback);
-const { Reader } = loadable(() => import('@/modules/reader/screens/Reader.tsx'), lazyLoadFallback);
+const { Reader } = loadable(() => import('@/modules/reader-deprecated/screens/Reader.tsx'), lazyLoadFallback);
 const { SearchAll } = loadable(() => import('@/modules/global-search/screens/SearchAll.tsx'), lazyLoadFallback);
 const { Settings } = loadable(() => import('@/modules/settings/screens/Settings.tsx'), lazyLoadFallback);
 const { About } = loadable(() => import('@/modules/settings/screens/About.tsx'), lazyLoadFallback);
@@ -36,7 +36,7 @@ const { CategorySettings } = loadable(
     lazyLoadFallback,
 );
 const { DefaultReaderSettings } = loadable(
-    () => import('@/modules/reader/screens/DefaultReaderSettings.tsx'),
+    () => import('@/modules/reader-deprecated/screens/DefaultReaderSettings.tsx'),
     lazyLoadFallback,
 );
 const { SourceConfigure } = loadable(() => import('@/modules/source/screens/SourceConfigure.tsx'), lazyLoadFallback);

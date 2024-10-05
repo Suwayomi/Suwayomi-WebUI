@@ -8,8 +8,8 @@
 
 import { MouseEvent, useEffect, useRef } from 'react';
 import Box from '@mui/material/Box';
-import { Page } from '@/modules/reader/components/page/Page.tsx';
-import { IReaderProps } from '@/modules/reader/Reader.types.ts';
+import { Page } from '@/modules/reader-deprecated/components/page/Page.tsx';
+import { IReaderProps } from '@/modules/reader-deprecated/Reader.types.ts';
 
 export function PagedPager(props: IReaderProps) {
     const { pages, settings, setCurPage, initialPage, curPage, nextChapter, prevChapter } = props;

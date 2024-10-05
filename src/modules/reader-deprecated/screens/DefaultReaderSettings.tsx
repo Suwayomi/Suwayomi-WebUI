@@ -12,15 +12,15 @@ import { requestUpdateServerMetadata } from '@/modules/metadata/services/Metadat
 import {
     checkAndHandleMissingStoredReaderSettings,
     useDefaultReaderSettings,
-} from '@/modules/reader/services/ReaderSettingsMetadata.ts';
-import { ReaderSettingsOptions } from '@/modules/reader/components/ReaderSettingsOptions.tsx';
+} from '@/modules/reader-deprecated/services/ReaderSettingsMetadata.ts';
+import { ReaderSettingsOptions } from '@/modules/reader-deprecated/components/ReaderSettingsOptions.tsx';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
-import { DEFAULT_READER_SETTINGS } from '@/modules/reader/Reader.constants.ts';
-import { IReaderSettings } from '@/modules/reader/Reader.types.ts';
+import { DEFAULT_READER_SETTINGS } from '@/modules/reader-deprecated/Reader.constants.ts';
+import { IReaderSettings } from '@/modules/reader-deprecated/Reader.types.ts';
 import { convertToGqlMeta } from '@/modules/metadata/services/MetadataConverter.ts';
 import { AllowedMetadataValueTypes } from '@/modules/metadata/Metadata.types.ts';
 
