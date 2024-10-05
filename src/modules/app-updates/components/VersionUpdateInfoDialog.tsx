@@ -17,7 +17,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useTranslation } from 'react-i18next';
 import Stack from '@mui/material/Stack';
-import { useUpdateChecker } from '@/util/useUpdateChecker.tsx';
+import { useUpdateChecker } from '@/modules/app-updates/hooks/useUpdateChecker.tsx';
 
 interface BaseProps {
     info: string;

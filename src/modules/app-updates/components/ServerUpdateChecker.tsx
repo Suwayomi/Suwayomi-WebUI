@@ -15,11 +15,11 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
-import { getVersion } from '@/screens/settings/About.tsx';
-import { useUpdateChecker } from '@/util/useUpdateChecker.tsx';
-import { VersionUpdateInfoDialog } from '@/components/util/VersionUpdateInfoDialog.tsx';
+import { useUpdateChecker } from '@/modules/app-updates/hooks/useUpdateChecker.tsx';
+import { VersionUpdateInfoDialog } from '@/modules/app-updates/components/VersionUpdateInfoDialog.tsx';
 import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
+import { getVersion } from '@/modules/app-updates/services/AppUpdateChecker.tsx';
 
 const disabledUpdateCheck = () => Promise.resolve();
 

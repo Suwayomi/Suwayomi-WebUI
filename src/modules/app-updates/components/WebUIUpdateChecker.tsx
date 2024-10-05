@@ -20,8 +20,8 @@ import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import { makeToast } from '@/lib/ui/Toast.ts';
 import { ABOUT_WEBUI, WEBUI_UPDATE_CHECK } from '@/lib/graphql/fragments/InfoFragments.ts';
-import { VersionUpdateInfoDialog } from '@/components/util/VersionUpdateInfoDialog.tsx';
-import { useUpdateChecker } from '@/util/useUpdateChecker';
+import { VersionUpdateInfoDialog } from '@/modules/app-updates/components/VersionUpdateInfoDialog.tsx';
+import { useUpdateChecker } from '@/modules/app-updates/hooks/useUpdateChecker.tsx';
 import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 
 const disabledUpdateCheck = () => Promise.resolve();

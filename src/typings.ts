@@ -17,6 +17,7 @@ import { MetadataLibrarySettings } from '@/modules/library/Library.types.ts';
 import { SourceMetadataKeys } from '@/modules/source/Source.types.ts';
 import { MetadataTrackingSettings } from '@/modules/tracker/Tracker.types.ts';
 import { CategoryMetadataKeys } from '@/modules/category/Category.types.ts';
+import { MetadataUpdateSettings } from '@/modules/app-updates/AppUpdateChecker.types.ts';
 
 export interface IMetadataMigration {
     appKeyPrefix?: { oldPrefix: string; newPrefix: string };
@@ -75,11 +76,6 @@ export type MetadataClientSettings = {
 
 export type MetadataBrowseSettings = {
     hideLibraryEntries: boolean;
-};
-
-export type MetadataUpdateSettings = {
-    webUIInformAvailableUpdate: boolean;
-    serverInformAvailableUpdate: boolean;
 };
 
 export type MetadataThemeSettings = {
