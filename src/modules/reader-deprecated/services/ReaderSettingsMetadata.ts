@@ -12,8 +12,8 @@ import {
     requestUpdateServerMetadata,
 } from '@/modules/metadata/services/MetadataUpdater.ts';
 import { MetaType } from '@/lib/graphql/generated/graphql.ts';
-import { DEFAULT_READER_SETTINGS } from '@/modules/reader/Reader.constants.ts';
-import { IReaderSettings, UndefinedReaderSettings } from '@/modules/reader/Reader.types.ts';
+import { DEFAULT_READER_SETTINGS } from '@/modules/reader-deprecated/Reader.constants.ts';
+import { IReaderSettings, UndefinedReaderSettings } from '@/modules/reader-deprecated/Reader.types.ts';
 import { convertFromGqlMeta } from '@/modules/metadata/services/MetadataConverter.ts';
 import { getMetadataFrom } from '@/modules/metadata/services/MetadataReader.ts';
 import { GqlMetaHolder, Metadata, MetadataKeyValuePair } from '@/modules/metadata/Metadata.types.ts';
