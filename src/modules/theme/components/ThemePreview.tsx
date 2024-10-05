@@ -23,7 +23,7 @@ import { ThemeModeContext } from '@/modules/theme/contexts/ThemeModeContext.tsx'
 import { AppTheme, hasMissingFonts, loadThemeFonts } from '@/modules/theme/services/AppThemes.ts';
 import { createTheme } from '@/theme.tsx';
 import { ThemeCreationDialog } from '@/modules/theme/components/CreateThemeDialog.tsx';
-import { makeToast } from '@/lib/ui/Toast.ts';
+import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines.tsx';
 
 const ThemePreviewBadge = styled(Box)(() => ({

@@ -16,7 +16,7 @@ import Box from '@mui/material/Box';
 import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { makeToast } from '@/lib/ui/Toast.ts';
+import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
 import { TExtension } from '@/modules/extension/services/Extensions.ts';
 import { TranslationKey } from '@/Base.types.ts';

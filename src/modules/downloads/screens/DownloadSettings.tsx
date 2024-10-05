@@ -21,7 +21,7 @@ import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/modules/settings/services/ServerSettingsMetadata.ts';
-import { makeToast } from '@/lib/ui/Toast.ts';
+import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { DeleteChaptersWhileReadingSetting } from '@/modules/downloads/components/DeleteChaptersWhileReadingSetting.tsx';
 import { CategoriesInclusionSetting } from '@/modules/category/components/CategoriesInclusionSetting.tsx';
 import { NumberSetting } from '@/modules/core/components/settings/NumberSetting.tsx';

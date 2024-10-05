@@ -18,7 +18,7 @@ import { useState } from 'react';
 import FormGroup from '@mui/material/FormGroup';
 import { CheckboxInput } from '@/modules/core/components/inputs/CheckboxInput.tsx';
 import { Mangas, MigrateMode } from '@/modules/manga/services/Mangas.ts';
-import { makeToast } from '@/lib/ui/Toast.ts';
+import { makeToast } from '@/modules/core/utils/Toast.ts';
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,

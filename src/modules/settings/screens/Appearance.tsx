@@ -18,11 +18,11 @@ import Link from '@mui/material/Link';
 import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { ThemeMode, ThemeModeContext } from '@/modules/theme/contexts/ThemeModeContext.tsx';
 import { Select } from '@/modules/core/components/inputs/Select.tsx';
-import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
+import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 import { NumberSetting } from '@/modules/core/components/settings/NumberSetting.tsx';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { I18nResourceCode, i18nResources } from '@/i18n';
-import { langCodeToName } from '@/lib/Languages.tsx';
+import { langCodeToName } from '@/modules/core/utils/Languages.ts';
 import { getTheme } from '@/modules/theme/services/AppThemes.ts';
 import { ThemeList } from '@/modules/theme/components/ThemeList.tsx';
 import {
@@ -32,7 +32,7 @@ import {
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { makeToast } from '@/lib/ui/Toast.ts';
+import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { MetadataThemeSettings } from '@/modules/theme/AppTheme.types.ts';
 
 export const Appearance = () => {

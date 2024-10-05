@@ -11,7 +11,7 @@ import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
-import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
+import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 import { IReaderSettings, ReaderType } from '@/modules/reader/Reader.types.ts';
 
 export const isHorizontalReaderType = (readerType: ReaderType): boolean =>

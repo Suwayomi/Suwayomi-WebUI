@@ -23,7 +23,7 @@ import { ThemeMode, ThemeModeContext } from '@/modules/theme/contexts/ThemeModeC
 import { NavBarContextProvider } from '@/modules/navigation-bar/contexts/NavBarContextProvider.tsx';
 import { LibraryOptionsContextProvider } from '@/modules/library/contexts/LibraryOptionsProvider.tsx';
 import { ActiveDeviceContextProvider } from '@/modules/device/contexts/DeviceContext.tsx';
-import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
+import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 import { AppThemes, getTheme } from '@/modules/theme/services/AppThemes.ts';
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 

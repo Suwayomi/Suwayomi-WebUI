@@ -23,7 +23,7 @@ import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/modules/settings/services/ServerSettingsMetadata.ts';
-import { makeToast } from '@/lib/ui/Toast.ts';
+import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { GET_TRACKERS_SETTINGS } from '@/lib/graphql/queries/TrackerQuery.ts';
 import { GetTrackersSettingsQuery } from '@/lib/graphql/generated/graphql.ts';

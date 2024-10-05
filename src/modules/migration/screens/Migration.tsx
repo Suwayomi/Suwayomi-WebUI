@@ -28,7 +28,7 @@ import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/modules/settings/services/ServerSettingsMetadata.ts';
-import { makeToast } from '@/lib/ui/Toast.ts';
+import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 
 const getMigratableSources = (

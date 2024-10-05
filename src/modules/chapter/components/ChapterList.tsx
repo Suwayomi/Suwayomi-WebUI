@@ -44,7 +44,7 @@ import { GET_CHAPTERS_MANGA } from '@/lib/graphql/queries/ChapterQuery.ts';
 import { Mangas } from '@/modules/manga/services/Mangas.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
-import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
+import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 import { shouldForwardProp } from '@/modules/core/utils/ShouldForwardProp.ts';
 import { useChapterOptions } from '@/modules/chapter/hooks/useChapterOptions.tsx';
 

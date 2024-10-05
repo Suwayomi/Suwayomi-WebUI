@@ -15,7 +15,12 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
-import { sourceDefualtLangs, sourceForcedDefaultLangs, langSortCmp, DefaultLanguage } from '@/lib/Languages.tsx';
+import {
+    sourceDefualtLangs,
+    sourceForcedDefaultLangs,
+    langSortCmp,
+    DefaultLanguage,
+} from '@/modules/core/utils/Languages.ts';
 import { translateExtensionLanguage } from '@/modules/extension/services/Extensions.ts';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { SourceCard } from '@/modules/source/components/SourceCard.tsx';

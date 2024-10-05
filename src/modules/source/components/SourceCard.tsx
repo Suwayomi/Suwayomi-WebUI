@@ -22,7 +22,7 @@ import { translateExtensionLanguage } from '@/modules/extension/services/Extensi
 import { SourceContentType } from '@/modules/source/screens/SourceMangas.tsx';
 import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
 import { GetSourcesListQuery } from '@/lib/graphql/generated/graphql.ts';
-import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
+import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 
 interface IProps {
     source: GetSourcesListQuery['sources']['nodes'][number];

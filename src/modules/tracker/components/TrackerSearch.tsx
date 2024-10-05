@@ -26,7 +26,7 @@ import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { Tracker, TTrackerBase } from '@/modules/tracker/services/Trackers.ts';
 import { SearchTextField } from '@/modules/core/components/inputs/SearchTextField.tsx';
-import { makeToast } from '@/lib/ui/Toast.ts';
+import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { TrackerMangaCard } from '@/modules/tracker/components/cards/TrackerMangaCard.tsx';
 import { DIALOG_PADDING } from '@/modules/tracker/Tracker.constants.ts';
 import { useGetOptionForDirection } from '@/theme.tsx';

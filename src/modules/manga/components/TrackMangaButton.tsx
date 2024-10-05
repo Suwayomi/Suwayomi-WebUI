@@ -13,7 +13,7 @@ import PopupState, { bindDialog, bindTrigger } from 'material-ui-popup-state';
 import Dialog from '@mui/material/Dialog';
 import CheckIcon from '@mui/icons-material/Check';
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
-import { makeToast } from '@/lib/ui/Toast.ts';
+import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { TrackManga } from '@/modules/tracker/components/TrackManga.tsx';
 import { Trackers } from '@/modules/tracker/services/Trackers.ts';
 import { CustomIconButton } from '@/modules/core/components/buttons/CustomIconButton.tsx';

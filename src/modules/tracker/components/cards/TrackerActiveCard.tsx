@@ -33,7 +33,7 @@ import { Trackers, TTrackerBind, TTrackRecordBind, UNSET_DATE } from '@/modules/
 import { ListPreference } from '@/modules/source/components/sourceConfiguration/ListPreference.tsx';
 import { NumberSetting } from '@/modules/core/components/settings/NumberSetting.tsx';
 import { DateSetting } from '@/modules/core/components/settings/DateSetting.tsx';
-import { makeToast } from '@/lib/ui/Toast.ts';
+import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { Menu } from '@/modules/core/components/menu/Menu.tsx';
 import { CARD_STYLING } from '@/modules/tracker/Tracker.constants.ts';
 import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines.tsx';

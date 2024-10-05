@@ -35,7 +35,7 @@ import { dateTimeFormatter, epochToDate, getDateString } from '@/util/DateHelper
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines.tsx';
 import { ChapterIdInfo, ChapterMangaInfo } from '@/modules/chapter/services/Chapters.ts';
-import { makeToast } from '@/lib/ui/Toast.ts';
+import { makeToast } from '@/modules/core/utils/Toast.ts';
 
 const groupByDate = (updates: Pick<ChapterType, 'fetchedAt'>[]): [date: string, items: number][] => {
     if (!updates.length) {

@@ -7,7 +7,7 @@
  */
 
 import { t } from 'i18next';
-import { ISOLanguage, IsoLanguages } from '@/lib/IsoLanguages.ts';
+import { ISOLanguage, IsoLanguages } from '@/modules/core/IsoLanguages.ts';
 
 export enum DefaultLanguage {
     ALL = 'all',

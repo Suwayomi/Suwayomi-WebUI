@@ -35,7 +35,7 @@ import { GET_MANGAS_DUPLICATES } from '@/lib/graphql/queries/MangaQuery.ts';
 import { BaseMangaGrid } from '@/modules/manga/components/BaseMangaGrid.tsx';
 import { IMangaGridProps } from '@/modules/manga/components/MangaGrid.tsx';
 import { StyledGroupItemWrapper } from '@/modules/core/components/virtuoso/StyledGroupItemWrapper.tsx';
-import { enhancedCleanup } from '@/lib/data/Strings.ts';
+import { enhancedCleanup } from '@/util/Strings.ts';
 
 const findDuplicatesByTitle = <Manga extends Pick<MangaType, 'title'>>(
     libraryMangas: Manga[],

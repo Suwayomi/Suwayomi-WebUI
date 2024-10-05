@@ -27,7 +27,7 @@ import CardContent from '@mui/material/CardContent';
 import Refresh from '@mui/icons-material/Refresh';
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import { StrictModeDroppable } from '@/modules/core/components/StrictModeDroppable.tsx';
-import { makeToast } from '@/lib/ui/Toast.ts';
+import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { DownloadStateIndicator } from '@/modules/core/components/DownloadStateIndicator.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';

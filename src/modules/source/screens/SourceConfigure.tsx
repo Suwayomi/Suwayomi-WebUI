@@ -25,7 +25,7 @@ import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { GetCategoriesSettingsQueryVariables, GetSourceSettingsQuery } from '@/lib/graphql/generated/graphql.ts';
 import { GET_SOURCE_SETTINGS } from '@/lib/graphql/queries/SourceQuery.ts';
-import { makeToast } from '@/lib/ui/Toast.ts';
+import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { PreferenceProps } from '@/modules/source/Source.types.ts';
 
 function getPrefComponent(type: string) {

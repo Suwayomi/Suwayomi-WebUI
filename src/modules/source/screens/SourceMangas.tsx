@@ -39,10 +39,10 @@ import {
 import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { useLocalStorage, useSessionStorage } from '@/modules/core/hooks/useStorage.tsx';
-import { AppStorage } from '@/lib/AppStorage.ts';
+import { AppStorage } from '@/lib/storage/AppStorage.ts';
 import { getGridSnapshotKey } from '@/modules/manga/components/MangaGrid.tsx';
 import { createUpdateSourceMetadata, getSourceMetadata } from '@/modules/source/services/SourceMetadata.ts';
-import { makeToast } from '@/lib/ui/Toast.ts';
+import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { GET_SOURCE_BROWSE } from '@/lib/graphql/queries/SourceQuery.ts';
 import { MangaIdInfo } from '@/modules/manga/services/Mangas.ts';
 import { TranslationKey } from '@/Base.types.ts';

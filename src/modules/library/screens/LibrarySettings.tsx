@@ -17,7 +17,7 @@ import ListSubheader from '@mui/material/ListSubheader';
 import { t as translate } from 'i18next';
 import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { GlobalUpdateSettings } from '@/modules/settings/components/globalUpdate/GlobalUpdateSettings.tsx';
-import { makeToast } from '@/lib/ui/Toast.ts';
+import { makeToast } from '@/modules/core/utils/Toast.ts';
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,

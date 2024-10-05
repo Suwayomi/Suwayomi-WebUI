@@ -18,7 +18,7 @@ import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
-import { extensionDefaultLangs, DefaultLanguage, langSortCmp } from '@/lib/Languages.tsx';
+import { extensionDefaultLangs, DefaultLanguage, langSortCmp } from '@/modules/core/utils/Languages.ts';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import {
     ExtensionState,
@@ -30,7 +30,7 @@ import {
 } from '@/modules/extension/services/Extensions.ts';
 import { AppbarSearch } from '@/modules/core/components/AppbarSearch.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
-import { makeToast } from '@/lib/ui/Toast.ts';
+import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { LangSelect } from '@/modules/core/components/inputs/LangSelect.tsx';
 import { ExtensionCard } from '@/modules/extension/components/ExtensionCard.tsx';
 import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';

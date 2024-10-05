@@ -14,7 +14,7 @@ import {
     useDefaultReaderSettings,
 } from '@/modules/reader/services/ReaderSettingsMetadata.ts';
 import { ReaderSettingsOptions } from '@/modules/reader/components/ReaderSettingsOptions.tsx';
-import { makeToast } from '@/lib/ui/Toast.ts';
+import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';

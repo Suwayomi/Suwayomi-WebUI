@@ -22,7 +22,7 @@ import { GetTrackersSettingsQuery, MangaStatus } from '@/lib/graphql/generated/g
 import { GET_TRACKERS_SETTINGS } from '@/lib/graphql/queries/TrackerQuery.ts';
 import { statusToTranslationKey } from '@/modules/manga/services/Mangas.ts';
 import { createUpdateCategoryMetadata, getCategoryMetadata } from '@/modules/category/services/CategoryMetadata.ts';
-import { makeToast } from '@/lib/ui/Toast.ts';
+import { makeToast } from '@/modules/core/utils/Toast.ts';
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,

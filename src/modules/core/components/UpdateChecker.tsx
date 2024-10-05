@@ -17,12 +17,12 @@ import MenuItem from '@mui/material/MenuItem';
 import ClearIcon from '@mui/icons-material/Clear';
 import Stack from '@mui/material/Stack';
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
-import { makeToast } from '@/lib/ui/Toast.ts';
+import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { UpdaterSubscription } from '@/lib/graphql/generated/graphql.ts';
 import { Progress } from '@/modules/core/components/Progress.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { dateTimeFormatter } from '@/util/DateHelper.ts';
-import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
+import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 
 import { CategoryIdInfo } from '@/modules/category/Category.types.ts';
 

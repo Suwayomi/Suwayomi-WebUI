@@ -36,7 +36,7 @@ import { OverridableComponent } from '@mui/material/OverridableComponent';
 import { SvgIconTypeMap } from '@mui/material/SvgIcon';
 import { IconMenuItem } from '@/modules/core/components/menu/IconMenuItem.tsx';
 import { getOptionForDirection } from '@/theme.tsx';
-import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
+import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 
 export type NestedMenuItemProps = Omit<MuiMenuItemProps, 'button'> & {
     parentMenuOpen: boolean;

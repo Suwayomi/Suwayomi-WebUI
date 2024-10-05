@@ -26,7 +26,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import InfoIcon from '@mui/icons-material/Info';
 import { TextSetting, TextSettingProps } from '@/modules/core/components/settings/text/TextSetting.tsx';
 import { TextSettingDialog } from '@/modules/core/components/settings/text/TextSettingDialog.tsx';
-import { makeToast } from '@/lib/ui/Toast.ts';
+import { makeToast } from '@/modules/core/utils/Toast.ts';
 
 const MutableListItem = ({
     handleDelete,

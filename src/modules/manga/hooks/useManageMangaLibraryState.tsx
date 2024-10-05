@@ -12,12 +12,12 @@ import { useNavigate } from 'react-router-dom';
 import gql from 'graphql-tag';
 import { useCategorySelect } from '@/modules/category/hooks/useCategorySelect.tsx';
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
-import { makeToast } from '@/lib/ui/Toast.ts';
+import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { getMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { Categories } from '@/modules/category/services/Categories.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { Mangas } from '@/modules/manga/services/Mangas.ts';
-import { awaitConfirmation } from '@/lib/ui/AwaitableDialog.tsx';
+import { awaitConfirmation } from '@/modules/core/utils/AwaitableDialog.tsx';
 import { GetCategoriesBaseQuery, GetCategoriesBaseQueryVariables, MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { GET_CATEGORIES_BASE } from '@/lib/graphql/queries/CategoryQuery.ts';
 

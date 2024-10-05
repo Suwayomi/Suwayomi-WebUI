@@ -16,7 +16,7 @@ import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { Trackers } from '@/modules/tracker/services/Trackers.ts';
 import { TrackerCard, TrackerMode } from '@/modules/tracker/components/cards/TrackerCard.tsx';
-import { makeToast } from '@/lib/ui/Toast.ts';
+import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { GetMangaTrackRecordsQuery, GetTrackersBindQuery, MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { GET_TRACKERS_BIND } from '@/lib/graphql/queries/TrackerQuery.ts';

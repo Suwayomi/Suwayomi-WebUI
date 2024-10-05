@@ -16,7 +16,7 @@ import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
-import { langSortCmp, sourceDefualtLangs, sourceForcedDefaultLangs } from '@/lib/Languages.tsx';
+import { langSortCmp, sourceDefualtLangs, sourceForcedDefaultLangs } from '@/modules/core/utils/Languages.ts';
 import { translateExtensionLanguage } from '@/modules/extension/services/Extensions.ts';
 import { AppbarSearch } from '@/modules/core/components/AppbarSearch.tsx';
 import { LangSelect } from '@/modules/core/components/inputs/LangSelect.tsx';

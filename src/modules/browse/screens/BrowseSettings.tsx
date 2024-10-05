@@ -25,7 +25,7 @@ import {
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { makeToast } from '@/lib/ui/Toast.ts';
+import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { MetadataBrowseSettings } from '@/modules/browse/Browse.types.ts';
 import { ServerSettings as GqlServerSettings } from '@/modules/settings/Settings.types.ts';
 

@@ -276,7 +276,7 @@ import {
     UPDATE_LIBRARY_MANGAS,
 } from '@/lib/graphql/mutations/UpdaterMutation.ts';
 import { GET_LAST_UPDATE_TIMESTAMP, GET_UPDATE_STATUS } from '@/lib/graphql/queries/UpdaterQuery.ts';
-import { CustomCache } from '@/lib/CustomCache.ts';
+import { CustomCache } from '@/lib/storage/CustomCache.ts';
 import { RESTORE_BACKUP } from '@/lib/graphql/mutations/BackupMutation.ts';
 import { GET_RESTORE_STATUS, VALIDATE_BACKUP } from '@/lib/graphql/queries/BackupQuery.ts';
 import { DOWNLOAD_STATUS_SUBSCRIPTION } from '@/lib/graphql/subscriptions/DownloaderSubscription.ts';

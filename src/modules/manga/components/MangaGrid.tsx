@@ -28,7 +28,7 @@ import { GridLayout } from '@/modules/library/contexts/LibraryOptionsContext.tsx
 import { useLocalStorage, useSessionStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { SelectableCollectionReturnType } from '@/modules/collection/hooks/useSelectableCollection.ts';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/modules/core/components/buttons/StyledFab.tsx';
-import { AppStorage } from '@/lib/AppStorage.ts';
+import { AppStorage } from '@/lib/storage/AppStorage.ts';
 import { MangaCardProps } from '@/modules/manga/MangaCard.types.tsx';
 import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';

@@ -24,7 +24,7 @@ import { PagedPager } from '@/modules/reader/components/pager/PagedPager.tsx';
 import { DoublePagedPager } from '@/modules/reader/components/pager/DoublePagedPager.tsx';
 import { VerticalPager } from '@/modules/reader/components/pager/VerticalPager.tsx';
 import { ReaderNavBar } from '@/modules/reader/components/ReaderNavBar.tsx';
-import { makeToast } from '@/lib/ui/Toast.ts';
+import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { useDebounce } from '@/modules/core/hooks/useDebounce.ts';
 import {
@@ -41,7 +41,7 @@ import { GET_CHAPTERS_READER } from '@/lib/graphql/queries/ChapterQuery.ts';
 import { GET_MANGA_READER } from '@/lib/graphql/queries/MangaQuery.ts';
 import { TMangaReader } from '@/modules/manga/services/Mangas.ts';
 import { CHAPTER_READER_FIELDS } from '@/lib/graphql/fragments/ChapterFragments.ts';
-import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
+import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 import { IReaderSettings, ReaderType } from '@/modules/reader/Reader.types.ts';
 import { DirectionOffset } from '@/Base.types.ts';
 import { AllowedMetadataValueTypes } from '@/modules/metadata/Metadata.types.ts';

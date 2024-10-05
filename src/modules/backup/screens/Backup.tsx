@@ -24,7 +24,7 @@ import ListItem from '@mui/material/ListItem';
 import { Link } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
-import { makeToast } from '@/lib/ui/Toast.ts';
+import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { BackupRestoreState, ValidateBackupQuery } from '@/lib/graphql/generated/graphql.ts';
 import { Progress } from '@/modules/core/components/Progress.tsx';

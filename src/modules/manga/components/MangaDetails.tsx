@@ -26,7 +26,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import OpenInFullIcon from '@mui/icons-material/OpenInFull';
 import Modal from '@mui/material/Modal';
 import { bindPopover, bindTrigger, usePopupState } from 'material-ui-popup-state/hooks';
-import { makeToast } from '@/lib/ui/Toast.ts';
+import { makeToast } from '@/modules/core/utils/Toast.ts';
 import {
     Mangas,
     MangaThumbnailInfo,

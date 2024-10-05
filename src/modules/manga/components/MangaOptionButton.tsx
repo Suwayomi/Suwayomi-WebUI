@@ -16,7 +16,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { PopupState } from 'material-ui-popup-state/hooks';
 import { bindTrigger } from 'material-ui-popup-state';
 import { SelectableCollectionReturnType } from '@/modules/collection/hooks/useSelectableCollection.ts';
-import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
+import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 
 export const MangaOptionButton = forwardRef(

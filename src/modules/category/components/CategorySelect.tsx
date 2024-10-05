@@ -22,7 +22,7 @@ import { useSelectableCollection } from '@/modules/collection/hooks/useSelectabl
 import { ThreeStateCheckboxInput } from '@/modules/core/components/inputs/ThreeStateCheckboxInput.tsx';
 import { Categories } from '@/modules/category/services/Categories.ts';
 import { CheckboxInput } from '@/modules/core/components/inputs/CheckboxInput.tsx';
-import { makeToast } from '@/lib/ui/Toast.ts';
+import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { updateMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import {

@@ -7,7 +7,7 @@
  */
 
 import { Dispatch, Reducer, SetStateAction, useCallback, useMemo, useReducer, useSyncExternalStore } from 'react';
-import { AppStorage, Storage } from '@/lib/AppStorage.ts';
+import { AppStorage, Storage } from '@/lib/storage/AppStorage.ts';
 
 const subscribeToStorageUpdates = (callback: () => void) => {
     window.addEventListener('storage', callback);

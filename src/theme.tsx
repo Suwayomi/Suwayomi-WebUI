@@ -18,7 +18,7 @@ import {
 } from '@mui/material/styles';
 import { useCallback } from 'react';
 import { ThemeMode } from '@/modules/theme/contexts/ThemeModeContext.tsx';
-import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
+import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 import { AppTheme, loadThemeFonts } from '@/modules/theme/services/AppThemes.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 

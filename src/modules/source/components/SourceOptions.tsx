@@ -36,7 +36,7 @@ import { TriStateFilter } from '@/modules/source/components/filters/TriStateFilt
 import { GroupFilter } from '@/modules/source/components/filters/GroupFilter.tsx';
 import { SeparatorFilter } from '@/modules/source/components/filters/SeparatorFilter.tsx';
 import { StyledFab } from '@/modules/core/components/buttons/StyledFab.tsx';
-import { awaitConfirmation } from '@/lib/ui/AwaitableDialog.tsx';
+import { awaitConfirmation } from '@/modules/core/utils/AwaitableDialog.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { ISourceMetadata, SourceFilters } from '@/modules/source/Source.types.ts';
 
