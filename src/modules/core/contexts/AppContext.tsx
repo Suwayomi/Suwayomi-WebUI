@@ -22,7 +22,7 @@ import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { ThemeMode, ThemeModeContext } from '@/modules/theme/contexts/ThemeModeContext.tsx';
 import { NavBarContextProvider } from '@/modules/navigation-bar/contexts/NavBarContextProvider.tsx';
 import { LibraryOptionsContextProvider } from '@/modules/library/contexts/LibraryOptionsProvider.tsx';
-import { ActiveDevice, DEFAULT_DEVICE, setActiveDevice } from '@/util/device.ts';
+import { ActiveDeviceContextProvider } from '@/modules/device/contexts/DeviceContext.tsx';
 import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
 import { AppThemes, getTheme } from '@/modules/theme/services/AppThemes.ts';
 import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
@@ -66,7 +66,6 @@ export const AppContext: React.FC<Props> = ({ children }) => {
     const [appTheme, setAppTheme] = useLocalStorage<AppThemes>('appTheme', 'default');
     const [themeMode, setThemeMode] = useLocalStorage<ThemeMode>('themeMode', ThemeMode.SYSTEM);
     const [pureBlackMode, setPureBlackMode] = useLocalStorage<boolean>('pureBlackMode', false);
-    const [activeDevice, setActiveDeviceContext] = useLocalStorage('activeDevice', DEFAULT_DEVICE);
 
     const darkThemeContext = useMemo(
         () => ({
@@ -80,17 +79,10 @@ export const AppContext: React.FC<Props> = ({ children }) => {
         [themeMode, pureBlackMode, appTheme],
     );
 
-    const activeDeviceContext = useMemo(
-        () => ({ activeDevice, setActiveDevice: setActiveDeviceContext }),
-        [activeDevice],
-    );
-
     const theme = useMemo(
         () => createAndSetTheme(themeMode, getTheme(appTheme, customThemes), pureBlackMode, currentDirection),
         [themeMode, currentDirection, systemThemeMode, pureBlackMode, appTheme, customThemes],
     );
-
-    setActiveDevice(activeDevice);
 
     return (
         <Router>
@@ -101,9 +93,9 @@ export const AppContext: React.FC<Props> = ({ children }) => {
                             <QueryParamProvider adapter={ReactRouter6Adapter}>
                                 <LibraryOptionsContextProvider>
                                     <NavBarContextProvider>
-                                        <ActiveDevice.Provider value={activeDeviceContext}>
+                                        <ActiveDeviceContextProvider>
                                             <SnackbarProvider>{children}</SnackbarProvider>
-                                        </ActiveDevice.Provider>
+                                        </ActiveDeviceContextProvider>
                                     </NavBarContextProvider>
                                 </LibraryOptionsContextProvider>
                             </QueryParamProvider>

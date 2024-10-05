@@ -15,6 +15,7 @@ import { MetadataTrackingSettings } from '@/modules/tracker/Tracker.types.ts';
 import { CategoryMetadataKeys } from '@/modules/category/Category.types.ts';
 import { MetadataUpdateSettings } from '@/modules/app-updates/AppUpdateChecker.types.ts';
 import { MetadataThemeSettings } from '@/modules/theme/AppTheme.types.ts';
+import { MetadataClientSettings } from '@/modules/device/Device.types.ts';
 
 export interface IMetadataMigration {
     appKeyPrefix?: { oldPrefix: string; newPrefix: string };
@@ -60,10 +61,6 @@ export type MetadataDownloadSettings = {
     deleteChaptersWhileReading: number;
     deleteChaptersWithBookmark: boolean;
     downloadAheadLimit: number;
-};
-
-export type MetadataClientSettings = {
-    devices: string[];
 };
 
 export type MetadataBrowseSettings = {
