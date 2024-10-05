@@ -9,7 +9,7 @@
 import { CSSProperties, forwardRef } from 'react';
 import Box from '@mui/material/Box';
 import { IReaderSettings } from '@/typings';
-import { SpinnerImage } from '@/components/util/SpinnerImage';
+import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
 import { imageStyle } from '@/components/reader/Page';
 import { getOptionForDirection } from '@/theme.tsx';
 

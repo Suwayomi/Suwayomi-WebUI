@@ -14,14 +14,14 @@ import { useTranslation } from 'react-i18next';
 import { useContext, useLayoutEffect } from 'react';
 import { updateMetadataServerSettings, useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 import { MetadataServerSettingKeys, MetadataServerSettings } from '@/typings.ts';
-import { makeToast } from '@/components/util/Toast.tsx';
-import { MutableListSetting } from '@/components/settings/MutableListSetting.tsx';
+import { makeToast } from '@/lib/ui/Toast.ts';
+import { MutableListSetting } from '@/modules/core/components/settings/MutableListSetting.tsx';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { ActiveDevice, DEFAULT_DEVICE } from '@/util/device.ts';
-import { Select } from '@/components/atoms/Select.tsx';
-import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
-import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
-import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { Select } from '@/modules/core/components/inputs/Select.tsx';
+import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
+import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 
 export const DeviceSetting = () => {
     const { t } = useTranslation();

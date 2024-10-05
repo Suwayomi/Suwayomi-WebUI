@@ -10,7 +10,7 @@ import { useCallback, useEffect, useRef } from 'react';
 import Box from '@mui/material/Box';
 import { IReaderProps } from '@/typings';
 import { Page } from '@/components/reader/Page';
-import { useResizeObserver } from '@/util/useResizeObserver.tsx';
+import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 
 const findCurrentPageIndex = (wrapper: HTMLDivElement): number => {
     for (let i = 0; i < wrapper.children.length; i++) {

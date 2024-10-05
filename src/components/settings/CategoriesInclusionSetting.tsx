@@ -17,11 +17,11 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import { t as translate } from 'i18next';
-import { ThreeStateCheckboxInput } from '@/components/atoms/ThreeStateCheckboxInput.tsx';
-import { makeToast } from '@/components/util/Toast.tsx';
+import { ThreeStateCheckboxInput } from '@/modules/core/components/inputs/ThreeStateCheckboxInput.tsx';
+import { makeToast } from '@/lib/ui/Toast.ts';
 import { IncludeOrExclude } from '@/lib/graphql/generated/graphql.ts';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { CheckboxContainer } from '@/components/settings/globalUpdate/CheckboxContainer.ts';
+import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
+import { CheckboxContainer } from '@/modules/core/components/inputs/CheckboxContainer.ts';
 import {
     CategoryDownloadInclusionInfo,
     CategoryIdInfo,

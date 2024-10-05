@@ -15,12 +15,12 @@ import Stack from '@mui/material/Stack';
 import Tooltip from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
 import { useRef } from 'react';
-import { SpinnerImage } from '@/components/util/SpinnerImage.tsx';
+import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
 import { MangaOptionButton } from '@/components/manga/MangaOptionButton.tsx';
 import { GridLayout } from '@/components/context/LibraryOptionsContext.tsx';
 import { Mangas } from '@/lib/data/Mangas.ts';
 import { SpecificMangaCardProps } from '@/components/manga/MangaCard.types.tsx';
-import { TypographyMaxLines } from '@/components/atoms/TypographyMaxLines';
+import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines.tsx';
 
 const BottomGradient = styled('div')({
     position: 'absolute',

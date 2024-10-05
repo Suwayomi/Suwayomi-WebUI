@@ -20,7 +20,7 @@ import { useCallback } from 'react';
 import { ThemeMode } from '@/components/context/ThemeModeContext.tsx';
 import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
 import { AppTheme, loadThemeFonts } from '@/lib/ui/AppThemes.ts';
-import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 
 const SCROLLBAR_SIZE = 14;
 

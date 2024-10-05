@@ -18,8 +18,8 @@ import {
 } from '@/components/settings/CategoriesInclusionSetting.tsx';
 import { GlobalUpdateSettingsEntries } from '@/components/settings/globalUpdate/GlobalUpdateSettingsEntries.tsx';
 import { GlobalUpdateSettingsInterval } from '@/components/settings/globalUpdate/GlobalUpdateSettingsInterval.tsx';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { makeToast } from '@/components/util/Toast.tsx';
+import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
+import { makeToast } from '@/lib/ui/Toast.ts';
 import { ServerSettings } from '@/typings.ts';
 
 type LibrarySettingsType = Pick<ServerSettings, 'updateMangas'>;

@@ -16,14 +16,14 @@ import React, { useContext, useEffect, useLayoutEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { isNetworkRequestInFlight } from '@apollo/client/core/networkStatus';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import { NavBarContext } from '@/components/context/NavbarContext';
 import { ChapterList } from '@/components/chapter/ChapterList.tsx';
 import { useRefreshManga } from '@/components/manga/useRefreshManga.ts';
 import { MangaDetails } from '@/components/manga/MangaDetails';
 import { MangaToolbarMenu } from '@/components/manga/MangaToolbarMenu';
-import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
-import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
+import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
+import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { GetMangaScreenQuery } from '@/lib/graphql/generated/graphql.ts';
 import { GET_MANGA_SCREEN } from '@/lib/graphql/queries/MangaQuery.ts';
 

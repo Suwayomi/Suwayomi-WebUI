@@ -8,8 +8,8 @@
 
 import { t as translate } from 'i18next';
 import { DocumentNode } from '@apollo/client/core';
-import { MetadataMigrationSettings, TranslationKey } from '@/typings.ts';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { MetadataMigrationSettings } from '@/typings.ts';
+import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import {
     ChapterConditionInput,
     GetMangasBaseQuery,
@@ -25,10 +25,11 @@ import {
     UpdateMangaCategoriesPatchInput,
 } from '@/lib/graphql/generated/graphql.ts';
 import { Chapters } from '@/lib/data/Chapters.ts';
-import { makeToast } from '@/components/util/Toast.tsx';
+import { makeToast } from '@/lib/ui/Toast.ts';
 import { getMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 import { GET_MANGAS_BASE } from '@/lib/graphql/queries/MangaQuery.ts';
 import { MANGA_BASE_FIELDS } from '@/lib/graphql/fragments/MangaFragments.ts';
+import { TranslationKey } from '@/Base.types.ts';
 
 export type MangaAction =
     | 'download'

@@ -12,7 +12,7 @@ import Input from '@mui/material/Input';
 import InputAdornment from '@mui/material/InputAdornment';
 import InputLabel from '@mui/material/InputLabel';
 import React, { useEffect } from 'react';
-import { useDebounce } from '@/util/useDebounce.ts';
+import { useDebounce } from '@/modules/core/hooks/useDebounce.ts';
 
 interface Props {
     state: string;

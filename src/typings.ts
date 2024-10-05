@@ -8,8 +8,6 @@
 
 import { OverridableComponent } from '@mui/material/OverridableComponent';
 import { SvgIconTypeMap } from '@mui/material/SvgIcon';
-import { ParseKeys } from 'i18next';
-import { Location } from 'react-router-dom';
 import {
     GetChaptersReaderQuery,
     GetServerSettingsQuery,
@@ -23,16 +21,7 @@ import {
 } from '@/lib/graphql/generated/graphql.ts';
 import { AppTheme } from '@/lib/ui/AppThemes.ts';
 import { SortSettings } from '@/screens/Migration.types.ts';
-
-type GenericLocation<State = any> = Omit<Location, 'state'> & { state?: State };
-
-declare module 'react-router-dom' {
-    export function useParams<Params extends { [K in keyof Params]: string } = {}>(): Params;
-
-    export function useLocation<State = any>(): GenericLocation<State>;
-}
-
-export type TranslationKey = ParseKeys;
+import { NullAndUndefined, TranslationKey } from '@/Base.types.ts';
 
 export interface IPos {
     type: 'selectState' | 'textState' | 'checkBoxState' | 'triState' | 'sortState';
@@ -123,11 +112,6 @@ export interface IReaderSettings {
     readerType: ReaderType;
     offsetFirstPage: boolean;
     readerWidth: number;
-}
-
-export enum ChapterOffset {
-    PREV = -1,
-    NEXT = 1,
 }
 
 export type MetadataDownloadSettings = {
@@ -242,8 +226,6 @@ export interface NavbarItem {
     IconComponent: OverridableComponent<SvgIconTypeMap<{}, 'svg'>>;
     show: 'mobile' | 'desktop' | 'both';
 }
-
-export type NullAndUndefined<T> = T | null | undefined;
 
 export type ChapterSortMode = 'fetchedAt' | 'source' | 'chapterNumber' | 'uploadedAt';
 

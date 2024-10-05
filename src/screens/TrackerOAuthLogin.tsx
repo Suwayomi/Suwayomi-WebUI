@@ -9,8 +9,8 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { makeToast } from '@/components/util/Toast.tsx';
+import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
+import { makeToast } from '@/lib/ui/Toast.ts';
 
 export const TrackerOAuthLogin = () => {
     const { t } = useTranslation();

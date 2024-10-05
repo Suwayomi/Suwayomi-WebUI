@@ -16,19 +16,19 @@ import TagIcon from '@mui/icons-material/Tag';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import Tooltip from '@mui/material/Tooltip';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
-import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
+import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
+import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
+import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { MigrationCard, TMigratableSource } from '@/components/MigrationCard.tsx';
-import { StyledGroupItemWrapper } from '@/components/virtuoso/StyledGroupItemWrapper.tsx';
-import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { StyledGroupItemWrapper } from '@/modules/core/components/virtuoso/StyledGroupItemWrapper.tsx';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { SortBy, SortOrder, SortSettings, TMigratableSourcesResult } from '@/screens/Migration.types.ts';
 import { sortByToTranslationKey, sortOrderToTranslationKey } from '@/screens/Migration.constants';
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/lib/metadata/metadataServerSettings.ts';
-import { makeToast } from '@/components/util/Toast.tsx';
+import { makeToast } from '@/lib/ui/Toast.ts';
 import { useNavBarContext } from '@/components/context/NavbarContext.tsx';
 
 const getMigratableSources = (

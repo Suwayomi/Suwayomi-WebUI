@@ -9,7 +9,7 @@
 import { ThemeOptions } from '@mui/material/styles';
 import { t as translate } from 'i18next';
 import WebFont from 'webfontloader';
-import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { ControlledPromise } from '@/lib/ControlledPromise.ts';
 
 type Theme = { isCustom: boolean; getName: () => string; muiTheme: ThemeOptions };

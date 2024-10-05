@@ -9,9 +9,8 @@
 import { t as translate } from 'i18next';
 import gql from 'graphql-tag';
 import { DocumentNode } from '@apollo/client';
-import { ChapterOffset, TranslationKey } from '@/typings.ts';
-import { makeToast } from '@/components/util/Toast.tsx';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { makeToast } from '@/lib/ui/Toast.ts';
+import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import { getMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 import {
     ChapterListFieldsFragment,
@@ -20,6 +19,8 @@ import {
 } from '@/lib/graphql/generated/graphql.ts';
 import { CHAPTER_LIST_FIELDS } from '@/lib/graphql/fragments/ChapterFragments.ts';
 import { MangaIdInfo } from '@/lib/data/Mangas.ts';
+
+import { DirectionOffset, TranslationKey } from '@/Base.types.ts';
 
 export type ChapterAction = 'download' | 'delete' | 'bookmark' | 'unbookmark' | 'mark_as_read' | 'mark_as_unread';
 
@@ -348,13 +349,13 @@ export class Chapters {
         currentChapter: Chapter,
         chapters: Chapter[],
         {
-            offset = ChapterOffset.NEXT,
+            offset = DirectionOffset.NEXT,
             ...options
-        }: { offset?: ChapterOffset; onlyUnread?: boolean; skipDupe?: boolean; skipDupeChapter?: Chapter } = {},
+        }: { offset?: DirectionOffset; onlyUnread?: boolean; skipDupe?: boolean; skipDupeChapter?: Chapter } = {},
     ): Chapter | undefined {
         const nextChapters = Chapters.getNextChapters(currentChapter, chapters, { offset, ...options });
 
-        const isNextChapterOffset = offset === ChapterOffset.NEXT;
+        const isNextChapterOffset = offset === DirectionOffset.NEXT;
         const sliceStartIndex = isNextChapterOffset ? -1 : 0;
         const sliceEndIndex = isNextChapterOffset ? undefined : 1;
 
@@ -365,15 +366,15 @@ export class Chapters {
         fromChapter: Chapter,
         chapters: Chapter[],
         {
-            offset = ChapterOffset.NEXT,
+            offset = DirectionOffset.NEXT,
             onlyUnread = false,
             skipDupe = false,
             skipDupeChapter = fromChapter,
-        }: { offset?: ChapterOffset; onlyUnread?: boolean; skipDupe?: boolean; skipDupeChapter?: Chapter } = {},
+        }: { offset?: DirectionOffset; onlyUnread?: boolean; skipDupe?: boolean; skipDupeChapter?: Chapter } = {},
     ): Chapter[] {
         const fromChapterIndex = chapters.findIndex((chapter) => chapter.id === fromChapter.id);
 
-        const isNextChapterOffset = offset === ChapterOffset.NEXT;
+        const isNextChapterOffset = offset === DirectionOffset.NEXT;
         const sliceStartIndex = isNextChapterOffset ? 0 : fromChapterIndex;
         const sliceEndIndex = isNextChapterOffset ? fromChapterIndex + 1 : undefined;
 

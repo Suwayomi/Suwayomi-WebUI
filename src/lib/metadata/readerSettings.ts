@@ -7,7 +7,7 @@
  */
 
 import { Metadata, IReaderSettings, MetadataKeyValuePair, GqlMetaHolder } from '@/typings.ts';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import {
     convertFromGqlMeta,
     getMetadataFrom,

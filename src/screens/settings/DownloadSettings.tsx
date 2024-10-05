@@ -13,22 +13,22 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
 import ListSubheader from '@mui/material/ListSubheader';
-import { TextSetting } from '@/components/settings/text/TextSetting.tsx';
+import { TextSetting } from '@/modules/core/components/settings/text/TextSetting.tsx';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { MetadataDownloadSettings, ServerSettings } from '@/typings.ts';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import { DownloadAheadSetting } from '@/components/settings/downloads/DownloadAheadSetting.tsx';
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/lib/metadata/metadataServerSettings.ts';
-import { makeToast } from '@/components/util/Toast.tsx';
+import { makeToast } from '@/lib/ui/Toast.ts';
 import { DeleteChaptersWhileReadingSetting } from '@/components/settings/downloads/DeleteChaptersWhileReadingSetting.tsx';
 import { CategoriesInclusionSetting } from '@/components/settings/CategoriesInclusionSetting.tsx';
-import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
-import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
-import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
-import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { NumberSetting } from '@/modules/core/components/settings/NumberSetting.tsx';
+import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
+import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { GetCategoriesSettingsQuery, GetCategoriesSettingsQueryVariables } from '@/lib/graphql/generated/graphql.ts';
 import { GET_CATEGORIES_SETTINGS } from '@/lib/graphql/queries/CategoryQuery.ts';
 

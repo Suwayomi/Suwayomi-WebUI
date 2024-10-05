@@ -14,12 +14,12 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { useTranslation } from 'react-i18next';
-import { TranslationKey } from '@/typings';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
-import { makeToast } from '@/components/util/Toast.tsx';
-import { SpinnerImage } from '@/components/util/SpinnerImage.tsx';
+import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
+import { makeToast } from '@/lib/ui/Toast.ts';
+import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
 import { TExtension } from '@/screens/util/Extensions.ts';
+import { TranslationKey } from '@/Base.types.ts';
 
 interface IProps {
     extension: TExtension;

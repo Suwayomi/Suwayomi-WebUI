@@ -16,20 +16,20 @@ import Switch from '@mui/material/Switch';
 import ListSubheader from '@mui/material/ListSubheader';
 import { t as translate } from 'i18next';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { useLocalStorage } from '@/util/useStorage.tsx';
-import { TextSetting } from '@/components/settings/text/TextSetting.tsx';
+import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
+import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
+import { TextSetting } from '@/modules/core/components/settings/text/TextSetting.tsx';
 import { MetadataUpdateSettings, ServerSettings as GqlServerSettings } from '@/typings.ts';
-import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
-import { SelectSetting } from '@/components/settings/SelectSetting.tsx';
-import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
-import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
-import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { NumberSetting } from '@/modules/core/components/settings/NumberSetting.tsx';
+import { SelectSetting } from '@/modules/core/components/settings/SelectSetting.tsx';
+import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
+import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/lib/metadata/metadataServerSettings.ts';
-import { makeToast } from '@/components/util/Toast.tsx';
+import { makeToast } from '@/lib/ui/Toast.ts';
 
 type ServerSettingsType = Pick<
     GqlServerSettings,

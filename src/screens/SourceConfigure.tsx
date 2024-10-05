@@ -10,7 +10,7 @@ import { createElement, useContext, useLayoutEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import List from '@mui/material/List';
 import { useTranslation } from 'react-i18next';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import { cloneObject } from '@/util/cloneObject';
 import { SwitchPreferenceCompat, CheckBoxPreference } from '@/components/sourceConfiguration/TwoStatePreference';
 import { ListPreference } from '@/components/sourceConfiguration/ListPreference';
@@ -18,12 +18,12 @@ import { EditTextPreference } from '@/components/sourceConfiguration/EditTextPre
 import { MultiSelectListPreference } from '@/components/sourceConfiguration/MultiSelectListPreference';
 import { PreferenceProps } from '@/typings.ts';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
-import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
-import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
-import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
+import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { GetCategoriesSettingsQueryVariables, GetSourceSettingsQuery } from '@/lib/graphql/generated/graphql.ts';
 import { GET_SOURCE_SETTINGS } from '@/lib/graphql/queries/SourceQuery.ts';
-import { makeToast } from '@/components/util/Toast.tsx';
+import { makeToast } from '@/lib/ui/Toast.ts';
 
 function getPrefComponent(type: string) {
     switch (type) {

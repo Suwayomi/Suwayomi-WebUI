@@ -16,14 +16,14 @@ import FormGroup from '@mui/material/FormGroup';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import { Mangas } from '@/lib/data/Mangas.ts';
 import { useSelectableCollection } from '@/components/collection/useSelectableCollection.ts';
-import { ThreeStateCheckboxInput } from '@/components/atoms/ThreeStateCheckboxInput.tsx';
+import { ThreeStateCheckboxInput } from '@/modules/core/components/inputs/ThreeStateCheckboxInput.tsx';
 import { Categories } from '@/lib/data/Categories.ts';
-import { CheckboxInput } from '@/components/atoms/CheckboxInput.tsx';
-import { makeToast } from '@/components/util/Toast.tsx';
-import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { CheckboxInput } from '@/modules/core/components/inputs/CheckboxInput.tsx';
+import { makeToast } from '@/lib/ui/Toast.ts';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { updateMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 import {
     GetCategoriesBaseQuery,

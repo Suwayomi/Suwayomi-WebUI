@@ -13,9 +13,9 @@ import { styled } from '@mui/material/styles';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
-import { DEFAULT_FAB_STYLE } from '@/components/util/StyledFab.tsx';
-import { TranslationKey } from '@/typings.ts';
-import { Menu } from '@/components/menu/Menu.tsx';
+import { DEFAULT_FAB_STYLE } from '@/modules/core/components/buttons/StyledFab.tsx';
+import { Menu } from '@/modules/core/components/menu/Menu.tsx';
+import { TranslationKey } from '@/Base.types.ts';
 
 interface SelectionFABProps {
     children: (handleClose: () => void, setHideMenu: (hide: boolean) => void) => JSX.Element;

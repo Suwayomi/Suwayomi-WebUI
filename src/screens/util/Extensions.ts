@@ -7,9 +7,9 @@
  */
 
 import { t } from 'i18next';
-import { TranslationKey } from '@/typings';
-import { DefaultLanguage, langCodeToName } from '@/util/language';
+import { DefaultLanguage, langCodeToName } from '@/lib/Languages.tsx';
 import { ExtensionType } from '@/lib/graphql/generated/graphql.ts';
+import { TranslationKey } from '@/Base.types.ts';
 
 export enum ExtensionState {
     INSTALLED = 'INSTALLED',

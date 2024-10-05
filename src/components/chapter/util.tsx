@@ -7,16 +7,11 @@
  */
 
 import { t } from 'i18next';
-import {
-    ChapterListOptions,
-    ChapterOptionsReducerAction,
-    ChapterSortMode,
-    NullAndUndefined,
-    TranslationKey,
-} from '@/typings.ts';
-import { useReducerLocalStorage } from '@/util/useStorage.tsx';
+import { ChapterListOptions, ChapterOptionsReducerAction, ChapterSortMode } from '@/typings.ts';
+import { useReducerLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { ChapterBookmarkInfo, ChapterDownloadInfo, ChapterReadInfo } from '@/lib/data/Chapters.ts';
 import { ChapterType } from '@/lib/graphql/generated/graphql.ts';
+import { NullAndUndefined, TranslationKey } from '@/Base.types.ts';
 
 const defaultChapterOptions: ChapterListOptions = {
     active: false,

@@ -18,17 +18,17 @@ import { t as translate } from 'i18next';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { GlobalUpdateSettings } from '@/components/settings/globalUpdate/GlobalUpdateSettings.tsx';
 import { MetadataLibrarySettings } from '@/typings.ts';
-import { makeToast } from '@/components/util/Toast.tsx';
+import { makeToast } from '@/lib/ui/Toast.ts';
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/lib/metadata/metadataServerSettings.ts';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import { Mangas } from '@/lib/data/Mangas.ts';
-import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
-import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
-import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
-import { ListItemLink } from '@/components/util/ListItemLink.tsx';
+import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
+import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
+import { ListItemLink } from '@/modules/core/components/ListItemLink.tsx';
 import {
     GetCategoriesSettingsQuery,
     GetCategoriesSettingsQueryVariables,

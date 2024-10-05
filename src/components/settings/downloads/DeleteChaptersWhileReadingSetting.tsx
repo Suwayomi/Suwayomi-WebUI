@@ -11,7 +11,7 @@ import {
     SelectSetting,
     SelectSettingValue,
     SelectSettingValueDisplayInfo,
-} from '@/components/settings/SelectSetting.tsx';
+} from '@/modules/core/components/settings/SelectSetting.tsx';
 
 const CHAPTERS_TO_DELETE = [0, 1, 2, 3, 4, 5] as const;
 const CHAPTERS_TO_DELETE_TO_TRANSLATION_KEY: {

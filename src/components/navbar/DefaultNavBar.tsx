@@ -28,11 +28,11 @@ import Stack from '@mui/material/Stack';
 import { useTheme } from '@mui/material/styles';
 import { NavbarItem } from '@/typings';
 import { NavBarContext } from '@/components/context/NavbarContext';
-import { useBackButton } from '@/util/useBackButton.ts';
+import { useBackButton } from '@/modules/core/hooks/useBackButton.ts';
 import { useGetOptionForDirection } from '@/theme.tsx';
 import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
 import { DesktopSideBar } from '@/components/navbar/navigation/DesktopSideBar.tsx';
-import { useResizeObserver } from '@/util/useResizeObserver.tsx';
+import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 import { MobileBottomBar } from '@/components/navbar/navigation/MobileBottomBar.tsx';
 
 const navbarItems: Array<NavbarItem> = [

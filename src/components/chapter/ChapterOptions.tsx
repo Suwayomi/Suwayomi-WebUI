@@ -9,12 +9,13 @@
 import RadioGroup from '@mui/material/RadioGroup';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { ChapterListOptions, ChapterOptionsReducerAction, TranslationKey } from '@/typings.ts';
-import { RadioInput } from '@/components/atoms/RadioInput.tsx';
-import { SortRadioInput } from '@/components/atoms/SortRadioInput.tsx';
-import { ThreeStateCheckboxInput } from '@/components/atoms/ThreeStateCheckboxInput.tsx';
-import { OptionsTabs } from '@/components/molecules/OptionsTabs.tsx';
+import { ChapterListOptions, ChapterOptionsReducerAction } from '@/typings.ts';
+import { RadioInput } from '@/modules/core/components/inputs/RadioInput.tsx';
+import { SortRadioInput } from '@/modules/core/components/inputs/SortRadioInput.tsx';
+import { ThreeStateCheckboxInput } from '@/modules/core/components/inputs/ThreeStateCheckboxInput.tsx';
+import { OptionsTabs } from '@/modules/core/components/OptionsTabs.tsx';
 import { SORT_OPTIONS } from '@/components/chapter/util.tsx';
+import { TranslationKey } from '@/Base.types.ts';
 
 interface IProps {
     open: boolean;

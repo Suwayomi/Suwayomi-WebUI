@@ -12,12 +12,12 @@ import { useTranslation } from 'react-i18next';
 import { StringParam, useQueryParam } from 'use-query-params';
 import { Sources } from '@/screens/Sources';
 import { Extensions } from '@/screens/Extensions';
-import { TabPanel } from '@/components/tabs/TabPanel.tsx';
-import { TabsWrapper } from '@/components/tabs/TabsWrapper.tsx';
-import { TabsMenu } from '@/components/tabs/TabsMenu.tsx';
+import { TabPanel } from '@/modules/core/components/tabs/TabPanel.tsx';
+import { TabsWrapper } from '@/modules/core/components/tabs/TabsWrapper.tsx';
+import { TabsMenu } from '@/modules/core/components/tabs/TabsMenu.tsx';
 import { Migration } from '@/screens/Migration.tsx';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
-import { useResizeObserver } from '@/util/useResizeObserver.tsx';
+import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 
 enum Tabs {
     SOURCE = 'source',

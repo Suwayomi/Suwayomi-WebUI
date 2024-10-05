@@ -30,13 +30,13 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { StrictModeDroppable } from '@/lib/StrictModeDroppable';
-import { DEFAULT_FULL_FAB_HEIGHT } from '@/components/util/StyledFab';
+import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
+import { StrictModeDroppable } from '@/modules/core/components/StrictModeDroppable.tsx';
+import { DEFAULT_FULL_FAB_HEIGHT } from '@/modules/core/components/buttons/StyledFab.tsx';
 import { NavBarContext } from '@/components/context/NavbarContext';
-import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
-import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
-import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
+import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import {
     CategoryType,
     GetCategoriesSettingsQuery,

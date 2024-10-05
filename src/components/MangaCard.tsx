@@ -11,7 +11,7 @@ import { useMemo, useState } from 'react';
 import { useLongPress } from 'use-long-press';
 import { GridLayout, useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
 import { MangaActionMenuItems, SingleModeProps } from '@/components/manga/MangaActionMenuItems.tsx';
-import { Menu } from '@/components/menu/Menu.tsx';
+import { Menu } from '@/modules/core/components/menu/Menu.tsx';
 import { MigrateDialog } from '@/components/MigrateDialog.tsx';
 import { useManageMangaLibraryState } from '@/components/manga/useManageMangaLibraryState.tsx';
 import { MangaGridCard } from '@/components/manga/MangaGridCard.tsx';

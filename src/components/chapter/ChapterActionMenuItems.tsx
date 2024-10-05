@@ -29,11 +29,15 @@ import {
     ChapterRealUrlInfo,
     Chapters,
 } from '@/lib/data/Chapters.ts';
-import { MenuItem } from '@/components/menu/MenuItem.tsx';
+import { MenuItem } from '@/modules/core/components/menu/MenuItem.tsx';
 import { IChapterWithMeta } from '@/components/chapter/ChapterList.tsx';
 import { ChaptersWithMeta } from '@/lib/data/ChaptersWithMeta.ts';
-import { createGetMenuItemTitle, createIsMenuItemDisabled, createShouldShowMenuItem } from '@/components/menu/util.ts';
-import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import {
+    createGetMenuItemTitle,
+    createIsMenuItemDisabled,
+    createShouldShowMenuItem,
+} from '@/modules/core/components/menu/Menu.utils.ts';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 
 type BaseProps = { onClose: () => void };

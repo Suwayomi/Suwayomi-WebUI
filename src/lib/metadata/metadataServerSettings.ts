@@ -15,11 +15,11 @@ import {
     MetadataServerSettings,
     MetadataThemeSettings,
 } from '@/typings.ts';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import { convertFromGqlMeta, getMetadataFrom, requestUpdateServerMetadata } from '@/lib/metadata/metadata.ts';
-import { jsonSaveParse } from '@/util/HelperFunctions.ts';
+import { jsonSaveParse } from '@/lib/HelperFunctions.ts';
 import { DEFAULT_DEVICE } from '@/util/device.ts';
-import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { DEFAULT_SORT_SETTINGS } from '@/screens/Migration.constants.ts';
 
 export const getDefaultSettings = (): MetadataServerSettings => ({

@@ -22,9 +22,9 @@ import { useLayoutEffect, useRef, useState } from 'react';
 import parseHtml from 'html-react-parser';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import sanitizeHtml from 'sanitize-html';
-import { SpinnerImage } from '@/components/util/SpinnerImage.tsx';
-import { TypographyMaxLines } from '@/components/atoms/TypographyMaxLines.tsx';
-import { Metadata } from '@/components/atoms/Metadata.tsx';
+import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
+import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines.tsx';
+import { Metadata } from '@/modules/core/components/Metadata.tsx';
 import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
 import { TTrackerManga } from '@/lib/data/Trackers.ts';
 

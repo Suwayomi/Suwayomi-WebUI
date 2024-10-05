@@ -22,12 +22,12 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
 import { useLongPress } from 'use-long-press';
-import { getDateString } from '@/util/date.ts';
-import { DownloadStateIndicator } from '@/components/molecules/DownloadStateIndicator.tsx';
+import { getDateString } from '@/util/DateHelper.ts';
+import { DownloadStateIndicator } from '@/modules/core/components/DownloadStateIndicator.tsx';
 import { ChapterType } from '@/lib/graphql/generated/graphql.ts';
 import { ChapterActionMenuItems } from '@/components/chapter/ChapterActionMenuItems.tsx';
-import { Menu } from '@/components/menu/Menu.tsx';
-import { TypographyMaxLines } from '@/components/atoms/TypographyMaxLines.tsx';
+import { Menu } from '@/modules/core/components/menu/Menu.tsx';
+import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines.tsx';
 import {
     ChapterBookmarkInfo,
     ChapterDownloadInfo,

@@ -28,17 +28,17 @@ import Typography from '@mui/material/Typography';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import PopupState, { bindDialog, bindMenu, bindTrigger } from 'material-ui-popup-state';
 import { useMemo, useState } from 'react';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import { Trackers, TTrackerBind, TTrackRecordBind, UNSET_DATE } from '@/lib/data/Trackers.ts';
 import { ListPreference } from '@/components/sourceConfiguration/ListPreference.tsx';
-import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
-import { DateSetting } from '@/components/settings/DateSetting.tsx';
-import { makeToast } from '@/components/util/Toast.tsx';
-import { Menu } from '@/components/menu/Menu';
+import { NumberSetting } from '@/modules/core/components/settings/NumberSetting.tsx';
+import { DateSetting } from '@/modules/core/components/settings/DateSetting.tsx';
+import { makeToast } from '@/lib/ui/Toast.ts';
+import { Menu } from '@/modules/core/components/menu/Menu';
 import { CARD_STYLING } from '@/components/tracker/constants.ts';
-import { TypographyMaxLines } from '@/components/atoms/TypographyMaxLines.tsx';
-import { SelectSetting, SelectSettingValue } from '@/components/settings/SelectSetting.tsx';
-import { CheckboxInput } from '@/components/atoms/CheckboxInput';
+import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines.tsx';
+import { SelectSetting, SelectSettingValue } from '@/modules/core/components/settings/SelectSetting.tsx';
+import { CheckboxInput } from '@/modules/core/components/inputs/CheckboxInput.tsx';
 import { TrackRecordType } from '@/lib/graphql/generated/graphql.ts';
 
 const TrackerActiveLink = ({ children, url }: { children: React.ReactNode; url: string }) => (

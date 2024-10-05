@@ -13,7 +13,7 @@ import Paper from '@mui/material/Paper';
 import { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { NavbarItem } from '@/typings.ts';
-import { useResizeObserver } from '@/util/useResizeObserver.tsx';
+import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 import { useNavBarContext } from '@/components/context/NavbarContext.tsx';
 
 export const MobileBottomBar = ({ navBarItems }: { navBarItems: NavbarItem[] }) => {

@@ -12,23 +12,23 @@ import { styled } from '@mui/material/styles';
 import { useCallback, useContext, useLayoutEffect, useMemo, useState } from 'react';
 import { useQueryParam, NumberParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
-import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
-import { TabPanel } from '@/components/tabs/TabPanel.tsx';
+import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
+import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
+import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
+import { TabPanel } from '@/modules/core/components/tabs/TabPanel.tsx';
 import { LibraryToolbarMenu } from '@/components/library/LibraryToolbarMenu';
 import { LibraryMangaGrid } from '@/components/library/LibraryMangaGrid';
-import { AppbarSearch } from '@/components/util/AppbarSearch';
-import { UpdateChecker } from '@/components/library/UpdateChecker';
+import { AppbarSearch } from '@/modules/core/components/AppbarSearch.tsx';
+import { UpdateChecker } from '@/modules/core/components/UpdateChecker.tsx';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { useSelectableCollection } from '@/components/collection/useSelectableCollection.ts';
 import { SelectableCollectionSelectMode } from '@/components/collection/SelectableCollectionSelectMode.tsx';
 import { useGetVisibleLibraryMangas } from '@/components/library/useGetVisibleLibraryMangas.ts';
 import { SelectionFAB } from '@/components/collection/SelectionFAB.tsx';
 import { MangaActionMenuItems } from '@/components/manga/MangaActionMenuItems.tsx';
-import { TabsMenu } from '@/components/tabs/TabsMenu.tsx';
-import { TabsWrapper } from '@/components/tabs/TabsWrapper.tsx';
-import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { TabsMenu } from '@/modules/core/components/tabs/TabsMenu.tsx';
+import { TabsWrapper } from '@/modules/core/components/tabs/TabsWrapper.tsx';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import {
     GetCategoriesLibraryQuery,
     GetCategoriesLibraryQueryVariables,

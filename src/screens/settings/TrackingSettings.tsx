@@ -15,17 +15,17 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
-import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
+import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
+import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
+import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { SettingsTrackerCard } from '@/components/tracker/SettingsTrackerCard.tsx';
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/lib/metadata/metadataServerSettings.ts';
 import { MetadataTrackingSettings } from '@/typings.ts';
-import { makeToast } from '@/components/util/Toast.tsx';
-import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { makeToast } from '@/lib/ui/Toast.ts';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { GET_TRACKERS_SETTINGS } from '@/lib/graphql/queries/TrackerQuery.ts';
 import { GetTrackersSettingsQuery } from '@/lib/graphql/generated/graphql.ts';
 

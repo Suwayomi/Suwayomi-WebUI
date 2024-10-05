@@ -15,9 +15,9 @@ import {
     LibraryOptions,
     Metadata,
 } from '@/typings.ts';
-import { jsonSaveParse } from '@/util/HelperFunctions.ts';
+import { jsonSaveParse } from '@/lib/HelperFunctions.ts';
 import { convertFromGqlMeta, getMetadataFrom, requestUpdateCategoryMetadata } from '@/lib/metadata/metadata.ts';
-import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { CategoryIdInfo } from '@/lib/data/Categories.ts';
 import { GridLayout } from '@/components/context/LibraryOptionsContext.tsx';
 

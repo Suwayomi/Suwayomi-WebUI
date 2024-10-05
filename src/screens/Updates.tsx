@@ -19,23 +19,23 @@ import React, { useCallback, useContext, useLayoutEffect, useMemo, useRef, useSt
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Refresh from '@mui/icons-material/Refresh';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
-import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
-import { DownloadStateIndicator } from '@/components/molecules/DownloadStateIndicator';
+import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
+import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
+import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
+import { DownloadStateIndicator } from '@/modules/core/components/DownloadStateIndicator.tsx';
 import { ChapterType, DownloadState } from '@/lib/graphql/generated/graphql.ts';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
-import { UpdateChecker } from '@/components/library/UpdateChecker.tsx';
-import { StyledGroupedVirtuoso } from '@/components/virtuoso/StyledGroupedVirtuoso.tsx';
-import { StyledGroupHeader } from '@/components/virtuoso/StyledGroupHeader.tsx';
-import { StyledGroupItemWrapper } from '@/components/virtuoso/StyledGroupItemWrapper.tsx';
+import { UpdateChecker } from '@/modules/core/components/UpdateChecker.tsx';
+import { StyledGroupedVirtuoso } from '@/modules/core/components/virtuoso/StyledGroupedVirtuoso.tsx';
+import { StyledGroupHeader } from '@/modules/core/components/virtuoso/StyledGroupHeader.tsx';
+import { StyledGroupItemWrapper } from '@/modules/core/components/virtuoso/StyledGroupItemWrapper.tsx';
 import { Mangas } from '@/lib/data/Mangas.ts';
-import { SpinnerImage } from '@/components/util/SpinnerImage.tsx';
-import { dateTimeFormatter, epochToDate, getDateString } from '@/util/date.ts';
-import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
-import { TypographyMaxLines } from '@/components/atoms/TypographyMaxLines.tsx';
+import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
+import { dateTimeFormatter, epochToDate, getDateString } from '@/util/DateHelper.ts';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
+import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines.tsx';
 import { ChapterIdInfo, ChapterMangaInfo } from '@/lib/data/Chapters.ts';
-import { makeToast } from '@/components/util/Toast.tsx';
+import { makeToast } from '@/lib/ui/Toast.ts';
 
 const groupByDate = (updates: Pick<ChapterType, 'fetchedAt'>[]): [date: string, items: number][] => {
     if (!updates.length) {

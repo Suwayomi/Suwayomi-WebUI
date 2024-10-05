@@ -16,11 +16,11 @@ import {
     useDefaultReaderSettings,
 } from '@/lib/metadata/readerSettings.ts';
 import { ReaderSettingsOptions } from '@/components/reader/ReaderSettingsOptions';
-import { makeToast } from '@/components/util/Toast';
+import { makeToast } from '@/lib/ui/Toast.ts';
 import { NavBarContext } from '@/components/context/NavbarContext';
-import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
-import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
-import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
+import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
+import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 
 export function DefaultReaderSettings() {
     const { t } = useTranslation();

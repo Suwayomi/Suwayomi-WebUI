@@ -14,23 +14,23 @@ import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { MetadataUpdateSettings, ServerSettings } from '@/typings.ts';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import { WebUIUpdateIntervalSetting } from '@/components/settings/webUI/WebUIUpdateIntervalSetting.tsx';
-import { TextSetting } from '@/components/settings/text/TextSetting.tsx';
+import { TextSetting } from '@/modules/core/components/settings/text/TextSetting.tsx';
 import {
     SelectSetting,
     SelectSettingValue,
     SelectSettingValueDisplayInfo,
-} from '@/components/settings/SelectSetting.tsx';
+} from '@/modules/core/components/settings/SelectSetting.tsx';
 import { WebUiChannel, WebUiFlavor, WebUiInterface } from '@/lib/graphql/generated/graphql.ts';
-import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
-import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
-import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
+import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/lib/metadata/metadataServerSettings.ts';
-import { makeToast } from '@/components/util/Toast.tsx';
+import { makeToast } from '@/lib/ui/Toast.ts';
 
 type WebUISettingsType = Pick<
     ServerSettings,

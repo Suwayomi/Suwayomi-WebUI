@@ -9,8 +9,8 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { INavbarOverride } from '@/typings';
 import { NavBarContext } from '@/components/context/NavbarContext';
-import { useHistory } from '@/util/useHistory.ts';
-import { useLocalStorage } from '@/util/useStorage.tsx';
+import { useHistory } from '@/modules/core/hooks/useHistory.ts';
+import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 
 interface IProps {
     children: React.ReactNode;

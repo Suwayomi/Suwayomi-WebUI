@@ -12,14 +12,14 @@ import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { loadErrorMessages, loadDevMessages } from '@apollo/client/dev';
 import { loadable } from 'react-lazily/loadable';
 import Box from '@mui/material/Box';
-import { AppContext } from '@/components/context/AppContext';
+import { AppContext } from '@/modules/core/contexts/AppContext.tsx';
 import '@/i18n';
 import { DefaultNavBar } from '@/components/navbar/DefaultNavBar';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import { WebUIUpdateChecker } from '@/components/util/WebUIUpdateChecker.tsx';
 import { ServerUpdateChecker } from '@/components/util/ServerUpdateChecker.tsx';
-import { lazyLoadFallback } from '@/util/LazyLoad.tsx';
-import { ErrorBoundary } from '@/util/ErrorBoundary.tsx';
+import { lazyLoadFallback } from '@/modules/core/utils/LazyLoad.tsx';
+import { ErrorBoundary } from '@/modules/core/components/ErrorBoundary.tsx';
 import { useNavBarContext } from '@/components/context/NavbarContext.tsx';
 
 const { Browse } = loadable(() => import('@/screens/Browse'), lazyLoadFallback);

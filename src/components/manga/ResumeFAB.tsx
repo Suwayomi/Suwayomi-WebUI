@@ -9,7 +9,7 @@
 import { Link } from 'react-router-dom';
 import PlayArrow from '@mui/icons-material/PlayArrow';
 import { useTranslation } from 'react-i18next';
-import { StyledFab } from '@/components/util/StyledFab';
+import { StyledFab } from '@/modules/core/components/buttons/StyledFab.tsx';
 
 interface ResumeFABProps {
     chapterIndex: number;

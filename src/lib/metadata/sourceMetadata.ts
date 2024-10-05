@@ -14,9 +14,9 @@ import {
     Metadata,
     SourceMetadataKeys,
 } from '@/typings.ts';
-import { jsonSaveParse } from '@/util/HelperFunctions.ts';
+import { jsonSaveParse } from '@/lib/HelperFunctions.ts';
 import { convertFromGqlMeta, getMetadataFrom, requestUpdateSourceMetadata } from '@/lib/metadata/metadata.ts';
-import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { SourceType } from '@/lib/graphql/generated/graphql.ts';
 
 const convertAppMetadataToGqlMetadata = (

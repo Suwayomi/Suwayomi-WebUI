@@ -8,7 +8,7 @@
 
 import { GridLayout } from '@/components/context/LibraryOptionsContext';
 import { GridLayouts } from '@/components/source/GridLayouts.tsx';
-import { useLocalStorage } from '@/util/useStorage.tsx';
+import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 
 export function SourceGridLayout() {
     const [sourceGridLayout, setSourceGridLayout] = useLocalStorage('source-grid-layout', GridLayout.Compact);

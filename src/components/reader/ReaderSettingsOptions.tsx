@@ -13,9 +13,9 @@ import Switch from '@mui/material/Switch';
 import MenuItem from '@mui/material/MenuItem';
 import { useTranslation } from 'react-i18next';
 import { AllowedMetadataValueTypes, IReaderSettings } from '@/typings';
-import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
+import { NumberSetting } from '@/modules/core/components/settings/NumberSetting.tsx';
 import { isHorizontalReaderType } from '@/components/reader/Page.tsx';
-import { Select } from '@/components/atoms/Select.tsx';
+import { Select } from '@/modules/core/components/inputs/Select.tsx';
 
 interface IProps extends IReaderSettings {
     setSettingValue: (key: keyof IReaderSettings, value: AllowedMetadataValueTypes, persist?: boolean) => void;

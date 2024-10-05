@@ -21,9 +21,9 @@ import DialogContent from '@mui/material/DialogContent';
 import TextField from '@mui/material/TextField';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
-import { PasswordTextField } from '@/components/atoms/PasswordTextField.tsx';
-import { makeToast } from '@/components/util/Toast.tsx';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { PasswordTextField } from '@/modules/core/components/inputs/PasswordTextField.tsx';
+import { makeToast } from '@/lib/ui/Toast.ts';
+import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import { Trackers, TTrackerSearch } from '@/lib/data/Trackers.ts';
 
 export const SettingsTrackerCard = ({ tracker }: { tracker: TTrackerSearch }) => {

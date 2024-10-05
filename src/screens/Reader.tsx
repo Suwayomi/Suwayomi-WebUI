@@ -11,8 +11,8 @@ import { useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, u
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import { useTranslation } from 'react-i18next';
-import { AllowedMetadataValueTypes, ChapterOffset, IReaderSettings, ReaderType } from '@/typings';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { AllowedMetadataValueTypes, IReaderSettings, ReaderType } from '@/typings';
+import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import {
     checkAndHandleMissingStoredReaderSettings,
     getReaderSettingsFor,
@@ -25,9 +25,9 @@ import { PagedPager } from '@/components/reader/pager/PagedPager';
 import { DoublePagedPager } from '@/components/reader/pager/DoublePagedPager';
 import { VerticalPager } from '@/components/reader/pager/VerticalPager';
 import { ReaderNavBar } from '@/components/navbar/ReaderNavBar';
-import { makeToast } from '@/components/util/Toast';
+import { makeToast } from '@/lib/ui/Toast.ts';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
-import { useDebounce } from '@/util/useDebounce.ts';
+import { useDebounce } from '@/modules/core/hooks/useDebounce.ts';
 import {
     GetChaptersReaderQuery,
     GetChaptersReaderQueryVariables,
@@ -35,14 +35,15 @@ import {
     UpdateChapterPatchInput,
 } from '@/lib/graphql/generated/graphql.ts';
 import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
-import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { ChapterIdInfo, Chapters } from '@/lib/data/Chapters.ts';
-import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
+import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { GET_CHAPTERS_READER } from '@/lib/graphql/queries/ChapterQuery.ts';
 import { GET_MANGA_READER } from '@/lib/graphql/queries/MangaQuery.ts';
 import { TMangaReader } from '@/lib/data/Mangas.ts';
 import { CHAPTER_READER_FIELDS } from '@/lib/graphql/fragments/ChapterFragments.ts';
 import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
+import { DirectionOffset } from '@/Base.types.ts';
 
 type TChapter = GetChaptersReaderQuery['chapters']['nodes'][number];
 
@@ -231,7 +232,7 @@ export function Reader() {
     const prevChapters = useMemo(
         () =>
             Chapters.getNextChapters(chapter, mangaChapters ?? [], {
-                offset: ChapterOffset.PREV,
+                offset: DirectionOffset.PREVIOUS,
                 skipDupe: settings.skipDupChapters,
                 skipDupeChapter: initialChapterRef.current,
             }),
@@ -248,7 +249,7 @@ export function Reader() {
     const prevChapter = useMemo(
         () =>
             Chapters.getNextChapter(chapter, mangaChapters ?? [], {
-                offset: ChapterOffset.PREV,
+                offset: DirectionOffset.PREVIOUS,
                 skipDupe: settings.skipDupChapters,
                 skipDupeChapter: initialChapterRef.current,
             }),
@@ -365,8 +366,8 @@ export function Reader() {
     };
 
     const openNextChapter = useCallback(
-        (offset: ChapterOffset) => {
-            const isOpenNextChapter = offset === ChapterOffset.NEXT;
+        (offset: DirectionOffset) => {
+            const isOpenNextChapter = offset === DirectionOffset.NEXT;
             const chapterToOpen = isOpenNextChapter ? nextChapter : prevChapter;
 
             if (!chapterToOpen) {
@@ -481,11 +482,11 @@ export function Reader() {
             isRead: true,
         });
 
-        openNextChapter(ChapterOffset.NEXT);
+        openNextChapter(DirectionOffset.NEXT);
     }, [chapter.pageCount, openNextChapter, chapter, manga]);
 
     const loadPrevChapter = useCallback(() => {
-        openNextChapter(ChapterOffset.PREV);
+        openNextChapter(DirectionOffset.PREVIOUS);
     }, [openNextChapter]);
 
     const scrollbarHeight = MediaQuery.useGetScrollbarSize('height');

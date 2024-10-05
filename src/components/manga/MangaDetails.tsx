@@ -26,19 +26,19 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import OpenInFullIcon from '@mui/icons-material/OpenInFull';
 import Modal from '@mui/material/Modal';
 import { bindPopover, bindTrigger, usePopupState } from 'material-ui-popup-state/hooks';
-import { makeToast } from '@/components/util/Toast';
+import { makeToast } from '@/lib/ui/Toast.ts';
 import { Mangas, MangaThumbnailInfo, MangaTrackRecordInfo, statusToTranslationKey } from '@/lib/data/Mangas.ts';
-import { SpinnerImage } from '@/components/util/SpinnerImage.tsx';
-import { CustomIconButton } from '@/components/atoms/CustomIconButton';
+import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
+import { CustomIconButton } from '@/modules/core/components/buttons/CustomIconButton.tsx';
 import { TrackMangaButton } from '@/components/manga/TrackMangaButton.tsx';
 import { useManageMangaLibraryState } from '@/components/manga/useManageMangaLibraryState.tsx';
-import { Metadata as BaseMetadata } from '@/components/atoms/Metadata.tsx';
-import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { Metadata as BaseMetadata } from '@/modules/core/components/Metadata.tsx';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { MangaType, SourceType } from '@/lib/graphql/generated/graphql.ts';
-import { useLocalStorage } from '@/util/useStorage.tsx';
-import { useResizeObserver } from '@/util/useResizeObserver.tsx';
+import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
+import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
-import { shouldForwardProp } from '@/lib/ui/ShouldForwardProp.ts';
+import { shouldForwardProp } from '@/modules/core/utils/ShouldForwardProp.ts';
 
 const DetailsWrapper = styled('div')(({ theme }) => ({
     display: 'flex',

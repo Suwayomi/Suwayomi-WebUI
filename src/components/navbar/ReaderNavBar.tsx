@@ -27,16 +27,17 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
 import { useTranslation } from 'react-i18next';
-import { AllowedMetadataValueTypes, ChapterOffset, IReaderSettings } from '@/typings';
+import { AllowedMetadataValueTypes, IReaderSettings } from '@/typings';
 import { ReaderSettingsOptions } from '@/components/reader/ReaderSettingsOptions';
-import { useBackButton } from '@/util/useBackButton.ts';
-import { Select } from '@/components/atoms/Select.tsx';
+import { useBackButton } from '@/modules/core/hooks/useBackButton.ts';
+import { Select } from '@/modules/core/components/inputs/Select.tsx';
 import { useGetOptionForDirection } from '@/theme.tsx';
 import { ChapterType } from '@/lib/graphql/generated/graphql.ts';
 import { MangaChapterCountInfo, MangaIdInfo } from '@/lib/data/Mangas.ts';
 import { useNavBarContext } from '@/components/context/NavbarContext.tsx';
-import { useResizeObserver } from '@/util/useResizeObserver.tsx';
-import { CustomIconButton } from '@/components/atoms/CustomIconButton.tsx';
+import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
+import { CustomIconButton } from '@/modules/core/components/buttons/CustomIconButton.tsx';
+import { DirectionOffset } from '@/Base.types.ts';
 
 const Root = styled('div')({
     zIndex: 10,
@@ -99,7 +100,7 @@ interface IProps {
     chapters: Pick<ChapterType, 'id' | 'sourceOrder' | 'name' | 'chapterNumber' | 'scanlator'>[];
     curPage: number;
     scrollToPage: (page: number) => void;
-    openNextChapter: (offset: ChapterOffset) => void;
+    openNextChapter: (offset: DirectionOffset) => void;
     retrievingNextChapter: boolean;
 }
 
@@ -319,7 +320,7 @@ export function ReaderNavBar(props: IProps) {
                                 <IconButton
                                     sx={{ gridArea: 'pre' }}
                                     disabled={disableChapterNavButtons || chapter.sourceOrder <= 1}
-                                    onClick={() => openNextChapter(ChapterOffset.PREV)}
+                                    onClick={() => openNextChapter(DirectionOffset.PREVIOUS)}
                                 >
                                     {getOptionForDirection(<KeyboardArrowLeftIcon />, <KeyboardArrowRightIcon />)}
                                 </IconButton>
@@ -358,7 +359,7 @@ export function ReaderNavBar(props: IProps) {
                                         chapter.sourceOrder < 1 ||
                                         chapter.sourceOrder >= manga.chapters.totalCount
                                     }
-                                    onClick={() => openNextChapter(ChapterOffset.NEXT)}
+                                    onClick={() => openNextChapter(DirectionOffset.NEXT)}
                                 >
                                     {getOptionForDirection(<KeyboardArrowRightIcon />, <KeyboardArrowLeftIcon />)}
                                 </IconButton>

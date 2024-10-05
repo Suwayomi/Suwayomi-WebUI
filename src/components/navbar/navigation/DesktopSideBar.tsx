@@ -22,10 +22,10 @@ import Box from '@mui/material/Box';
 import ListItem from '@mui/material/ListItem';
 import Tooltip from '@mui/material/Tooltip';
 import { NavbarItem } from '@/typings.ts';
-import { ListItemLink } from '@/components/util/ListItemLink.tsx';
+import { ListItemLink } from '@/modules/core/components/ListItemLink.tsx';
 import { useGetOptionForDirection } from '@/theme.tsx';
 import { useNavBarContext } from '@/components/context/NavbarContext.tsx';
-import { useResizeObserver } from '@/util/useResizeObserver.tsx';
+import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 
 const DrawerHeader = styled('div')(({ theme }) => ({
     display: 'flex',

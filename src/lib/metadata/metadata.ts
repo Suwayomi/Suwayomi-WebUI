@@ -15,7 +15,7 @@ import {
     MetadataHolder,
     MetadataKeyValuePair,
 } from '@/typings.ts';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import { MetaType, SourceType } from '@/lib/graphql/generated/graphql.ts';
 import { DEFAULT_DEVICE, getActiveDevice } from '@/util/device.ts';
 import { CategoryIdInfo } from '@/lib/data/Categories.ts';

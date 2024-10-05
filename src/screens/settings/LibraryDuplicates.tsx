@@ -14,18 +14,18 @@ import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
-import { useLocalStorage } from '@/util/useStorage.tsx';
+import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { GridLayout } from '@/components/context/LibraryOptionsContext.tsx';
 import { GridLayouts } from '@/components/source/GridLayouts.tsx';
-import { CheckboxInput } from '@/components/atoms/CheckboxInput.tsx';
-import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
-import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
-import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { CheckboxInput } from '@/modules/core/components/inputs/CheckboxInput.tsx';
+import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
+import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { MangaCard } from '@/components/MangaCard.tsx';
-import { StyledGroupedVirtuoso } from '@/components/virtuoso/StyledGroupedVirtuoso.tsx';
-import { StyledGroupHeader } from '@/components/virtuoso/StyledGroupHeader.tsx';
+import { StyledGroupedVirtuoso } from '@/modules/core/components/virtuoso/StyledGroupedVirtuoso.tsx';
+import { StyledGroupHeader } from '@/modules/core/components/virtuoso/StyledGroupHeader.tsx';
 import {
     GetMangasDuplicatesQuery,
     GetMangasDuplicatesQueryVariables,
@@ -34,7 +34,7 @@ import {
 import { GET_MANGAS_DUPLICATES } from '@/lib/graphql/queries/MangaQuery.ts';
 import { BaseMangaGrid } from '@/components/source/BaseMangaGrid.tsx';
 import { IMangaGridProps } from '@/components/MangaGrid.tsx';
-import { StyledGroupItemWrapper } from '@/components/virtuoso/StyledGroupItemWrapper.tsx';
+import { StyledGroupItemWrapper } from '@/modules/core/components/virtuoso/StyledGroupItemWrapper.tsx';
 import { enhancedCleanup } from '@/lib/data/Strings.ts';
 
 const findDuplicatesByTitle = <Manga extends Pick<MangaType, 'title'>>(

@@ -13,16 +13,16 @@ import Typography from '@mui/material/Typography';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { useLocalStorage } from '@/util/useStorage.tsx';
-import { sourceDefualtLangs, sourceForcedDefaultLangs, langSortCmp, DefaultLanguage } from '@/util/language';
+import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
+import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
+import { sourceDefualtLangs, sourceForcedDefaultLangs, langSortCmp, DefaultLanguage } from '@/lib/Languages.tsx';
 import { translateExtensionLanguage } from '@/screens/util/Extensions';
-import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
+import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { SourceCard } from '@/components/SourceCard';
-import { LangSelect } from '@/components/navbar/action/LangSelect';
+import { LangSelect } from '@/modules/core/components/inputs/LangSelect.tsx';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
-import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
-import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { SourceType } from '@/lib/graphql/generated/graphql.ts';
 
 function sourceToLangList(sources: Pick<SourceType, 'id' | 'lang'>[]) {

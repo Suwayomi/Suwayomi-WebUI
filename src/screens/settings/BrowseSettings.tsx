@@ -13,20 +13,20 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
-import { MutableListSetting } from '@/components/settings/MutableListSetting.tsx';
+import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
+import { NumberSetting } from '@/modules/core/components/settings/NumberSetting.tsx';
+import { MutableListSetting } from '@/modules/core/components/settings/MutableListSetting.tsx';
 import { MetadataBrowseSettings, ServerSettings as GqlServerSettings } from '@/typings.ts';
-import { TextSetting } from '@/components/settings/text/TextSetting.tsx';
-import { useLocalStorage } from '@/util/useStorage.tsx';
+import { TextSetting } from '@/modules/core/components/settings/text/TextSetting.tsx';
+import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/lib/metadata/metadataServerSettings.ts';
-import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
-import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
-import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
-import { makeToast } from '@/components/util/Toast.tsx';
+import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
+import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
+import { makeToast } from '@/lib/ui/Toast.ts';
 
 type ExtensionsSettings = Pick<GqlServerSettings, 'maxSourcesInParallel' | 'localSourcePath' | 'extensionRepos'>;
 

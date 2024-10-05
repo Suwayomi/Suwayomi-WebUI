@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { AppStorage } from '@/util/AppStorage.ts';
+import { AppStorage } from '@/lib/AppStorage.ts';
 
 export abstract class BaseClient<Client, ClientConfig, Fetcher> {
     protected abstract client: Client;

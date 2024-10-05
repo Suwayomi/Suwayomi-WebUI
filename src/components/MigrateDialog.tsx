@@ -16,15 +16,15 @@ import Stack from '@mui/material/Stack';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useState } from 'react';
 import FormGroup from '@mui/material/FormGroup';
-import { CheckboxInput } from '@/components/atoms/CheckboxInput.tsx';
+import { CheckboxInput } from '@/modules/core/components/inputs/CheckboxInput.tsx';
 import { Mangas, MigrateMode } from '@/lib/data/Mangas.ts';
-import { makeToast } from '@/components/util/Toast.tsx';
+import { makeToast } from '@/lib/ui/Toast.ts';
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/lib/metadata/metadataServerSettings.ts';
 import { MetadataMigrationSettings } from '@/typings.ts';
-import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 
 export const MigrateDialog = ({ mangaIdToMigrateTo, onClose }: { mangaIdToMigrateTo: number; onClose: () => void }) => {
     const { t } = useTranslation();

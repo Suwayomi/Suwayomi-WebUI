@@ -25,7 +25,7 @@ import DialogContent from '@mui/material/DialogContent';
 import TextField from '@mui/material/TextField';
 import Tooltip from '@mui/material/Tooltip';
 import { ISourceMetadata, SourceFilters } from '@/typings';
-import { OptionsPanel } from '@/components/molecules/OptionsPanel';
+import { OptionsPanel } from '@/modules/core/components/OptionsPanel.tsx';
 import { CheckBoxFilter } from '@/components/source/filters/CheckBoxFilter';
 import { HeaderFilter } from '@/components/source/filters/HeaderFilter';
 import { SelectFilter } from '@/components/source/filters/SelectFilter';
@@ -36,9 +36,9 @@ import { TriStateFilter } from '@/components/source/filters/TriStateFilter';
 // eslint-disable-next-line import/no-cycle
 import { GroupFilter } from '@/components/source/filters/GroupFilter';
 import { SeparatorFilter } from '@/components/source/filters/SeparatorFilter';
-import { StyledFab } from '@/components/util/StyledFab';
+import { StyledFab } from '@/modules/core/components/buttons/StyledFab.tsx';
 import { awaitConfirmation } from '@/lib/ui/AwaitableDialog.tsx';
-import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 
 interface IFilters {
     sourceFilter: SourceFilters[];

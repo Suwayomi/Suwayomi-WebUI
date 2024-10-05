@@ -21,17 +21,17 @@ import Box, { BoxProps } from '@mui/material/Box';
 import { GridItemProps, GridStateSnapshot, VirtuosoGrid } from 'react-virtuoso';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
-import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
+import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
+import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { MangaCard } from '@/components/MangaCard';
 import { GridLayout } from '@/components/context/LibraryOptionsContext';
-import { useLocalStorage, useSessionStorage } from '@/util/useStorage.tsx';
+import { useLocalStorage, useSessionStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { SelectableCollectionReturnType } from '@/components/collection/useSelectableCollection.ts';
-import { DEFAULT_FULL_FAB_HEIGHT } from '@/components/util/StyledFab.tsx';
-import { AppStorage } from '@/util/AppStorage.ts';
+import { DEFAULT_FULL_FAB_HEIGHT } from '@/modules/core/components/buttons/StyledFab.tsx';
+import { AppStorage } from '@/lib/AppStorage.ts';
 import { MangaCardProps } from '@/components/manga/MangaCard.types.tsx';
 import { MangaType } from '@/lib/graphql/generated/graphql.ts';
-import { useResizeObserver } from '@/util/useResizeObserver.tsx';
+import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 import { useNavBarContext } from '@/components/context/NavbarContext.tsx';
 
 const GridContainer = React.forwardRef<HTMLDivElement, GridTypeMap['props']>(({ children, ...props }, ref) => (

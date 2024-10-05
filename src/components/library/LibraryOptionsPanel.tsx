@@ -10,25 +10,26 @@ import FormLabel from '@mui/material/FormLabel';
 import RadioGroup from '@mui/material/RadioGroup';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { LibrarySortMode, TranslationKey } from '@/typings';
-import { CheckboxInput } from '@/components/atoms/CheckboxInput';
-import { RadioInput } from '@/components/atoms/RadioInput';
-import { SortRadioInput } from '@/components/atoms/SortRadioInput';
-import { ThreeStateCheckboxInput } from '@/components/atoms/ThreeStateCheckboxInput';
+import { LibrarySortMode } from '@/typings';
+import { CheckboxInput } from '@/modules/core/components/inputs/CheckboxInput.tsx';
+import { RadioInput } from '@/modules/core/components/inputs/RadioInput.tsx';
+import { SortRadioInput } from '@/modules/core/components/inputs/SortRadioInput.tsx';
+import { ThreeStateCheckboxInput } from '@/modules/core/components/inputs/ThreeStateCheckboxInput.tsx';
 import { GridLayout } from '@/components/context/LibraryOptionsContext';
-import { OptionsTabs } from '@/components/molecules/OptionsTabs';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { OptionsTabs } from '@/modules/core/components/OptionsTabs.tsx';
+import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import { Trackers } from '@/lib/data/Trackers.ts';
 import { GetTrackersSettingsQuery, MangaStatus } from '@/lib/graphql/generated/graphql.ts';
 import { GET_TRACKERS_SETTINGS } from '@/lib/graphql/queries/TrackerQuery.ts';
 import { statusToTranslationKey } from '@/lib/data/Mangas.ts';
 import { CategoryMetadataInfo } from '@/lib/data/Categories.ts';
 import { createUpdateCategoryMetadata, getCategoryMetadata } from '@/lib/metadata/categoryMetadata.ts';
-import { makeToast } from '@/components/util/Toast.tsx';
+import { makeToast } from '@/lib/ui/Toast.ts';
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/lib/metadata/metadataServerSettings.ts';
+import { TranslationKey } from '@/Base.types.ts';
 
 const TITLES: { [key in 'filter' | 'sort' | 'display']: TranslationKey } = {
     filter: 'global.label.filter',

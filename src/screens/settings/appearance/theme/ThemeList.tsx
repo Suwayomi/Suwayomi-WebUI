@@ -15,10 +15,10 @@ import {
     useMetadataServerSettings,
 } from '@/lib/metadata/metadataServerSettings.ts';
 import { MetadataThemeSettings } from '@/typings.ts';
-import { makeToast } from '@/components/util/Toast.tsx';
-import { EmptyView } from '@/components/util/EmptyView.tsx';
-import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
-import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { makeToast } from '@/lib/ui/Toast.ts';
+import { EmptyView } from '@/modules/core/components/placeholder/EmptyView.tsx';
+import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { CreateThemeButton } from '@/screens/settings/appearance/theme/CreateThemeButton.tsx';
 import { ThemePreview } from '@/screens/settings/appearance/theme/ThemePreview.tsx';
 

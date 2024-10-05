@@ -23,8 +23,8 @@ import { ThemeModeContext } from '@/components/context/ThemeModeContext.tsx';
 import { AppTheme, hasMissingFonts, loadThemeFonts } from '@/lib/ui/AppThemes.ts';
 import { createTheme } from '@/theme.tsx';
 import { ThemeCreationDialog } from '@/screens/settings/appearance/theme/CreateThemeDialog.tsx';
-import { makeToast } from '@/components/util/Toast';
-import { TypographyMaxLines } from '@/components/atoms/TypographyMaxLines.tsx';
+import { makeToast } from '@/lib/ui/Toast.ts';
+import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines.tsx';
 
 const ThemePreviewBadge = styled(Box)(() => ({
     width: '15px',

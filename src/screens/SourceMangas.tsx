@@ -20,15 +20,15 @@ import { styled } from '@mui/material/styles';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import NewReleasesIcon from '@mui/icons-material/NewReleases';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { IPos, TranslationKey } from '@/typings';
+import { IPos } from '@/typings';
 import {
     requestManager,
     AbortableApolloUseMutationPaginatedResponse,
     SPECIAL_ED_SOURCES,
-} from '@/lib/requests/RequestManager.ts';
+} from '@/lib/requests/requests/RequestManager.ts';
 import { GridLayout } from '@/components/context/LibraryOptionsContext';
 import { SourceGridLayout } from '@/components/source/SourceGridLayout';
-import { AppbarSearch } from '@/components/util/AppbarSearch';
+import { AppbarSearch } from '@/modules/core/components/AppbarSearch.tsx';
 import { SourceOptions } from '@/components/source/SourceOptions';
 import { BaseMangaGrid } from '@/components/source/BaseMangaGrid.tsx';
 import {
@@ -39,13 +39,14 @@ import {
 } from '@/lib/graphql/generated/graphql.ts';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
-import { useLocalStorage, useSessionStorage } from '@/util/useStorage.tsx';
-import { AppStorage } from '@/util/AppStorage.ts';
+import { useLocalStorage, useSessionStorage } from '@/modules/core/hooks/useStorage.tsx';
+import { AppStorage } from '@/lib/AppStorage.ts';
 import { getGridSnapshotKey } from '@/components/MangaGrid.tsx';
 import { createUpdateSourceMetadata, getSourceMetadata } from '@/lib/metadata/sourceMetadata.ts';
-import { makeToast } from '@/components/util/Toast.tsx';
+import { makeToast } from '@/lib/ui/Toast.ts';
 import { GET_SOURCE_BROWSE } from '@/lib/graphql/queries/SourceQuery.ts';
 import { MangaIdInfo } from '@/lib/data/Mangas.ts';
+import { TranslationKey } from '@/Base.types.ts';
 
 const ContentTypeMenu = styled('div')(({ theme }) => ({
     display: 'flex',

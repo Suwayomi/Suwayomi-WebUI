@@ -17,9 +17,9 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { extensionDefaultLangs, DefaultLanguage, langSortCmp } from '@/util/language';
-import { useLocalStorage } from '@/util/useStorage.tsx';
+import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
+import { extensionDefaultLangs, DefaultLanguage, langSortCmp } from '@/lib/Languages.tsx';
+import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import {
     ExtensionState,
     GroupedExtensions,
@@ -28,17 +28,17 @@ import {
     TExtension,
     translateExtensionLanguage,
 } from '@/screens/util/Extensions';
-import { AppbarSearch } from '@/components/util/AppbarSearch';
-import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
-import { makeToast } from '@/components/util/Toast';
-import { LangSelect } from '@/components/navbar/action/LangSelect';
+import { AppbarSearch } from '@/modules/core/components/AppbarSearch.tsx';
+import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
+import { makeToast } from '@/lib/ui/Toast.ts';
+import { LangSelect } from '@/modules/core/components/inputs/LangSelect.tsx';
 import { ExtensionCard } from '@/components/ExtensionCard';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
-import { StyledGroupedVirtuoso } from '@/components/virtuoso/StyledGroupedVirtuoso.tsx';
-import { StyledGroupHeader } from '@/components/virtuoso/StyledGroupHeader.tsx';
-import { StyledGroupItemWrapper } from '@/components/virtuoso/StyledGroupItemWrapper.tsx';
-import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
-import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { StyledGroupedVirtuoso } from '@/modules/core/components/virtuoso/StyledGroupedVirtuoso.tsx';
+import { StyledGroupHeader } from '@/modules/core/components/virtuoso/StyledGroupHeader.tsx';
+import { StyledGroupItemWrapper } from '@/modules/core/components/virtuoso/StyledGroupItemWrapper.tsx';
+import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 
 const LANGUAGE = 0;
 const EXTENSIONS = 1;

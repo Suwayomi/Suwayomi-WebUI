@@ -8,7 +8,7 @@
 
 import React, { useMemo } from 'react';
 import { LibraryOptions } from '@/typings';
-import { useLocalStorage } from '@/util/useStorage.tsx';
+import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { LibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
 import { getDefaultCategoryMetadata } from '@/lib/metadata/categoryMetadata.ts';
 

@@ -13,7 +13,7 @@ import { App } from '@/App';
 import '@/index.css';
 // roboto font
 import '@fontsource/roboto';
-import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import '@/lib/dayjs/Setup.ts';
 
 if ('serviceWorker' in navigator) {

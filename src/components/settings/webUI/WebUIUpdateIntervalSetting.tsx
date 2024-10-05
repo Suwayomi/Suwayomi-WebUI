@@ -12,11 +12,11 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
 import { useCallback } from 'react';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
-import { getPersistedServerSetting, usePersistedValue } from '@/util/usePersistedValue.tsx';
+import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
+import { NumberSetting } from '@/modules/core/components/settings/NumberSetting.tsx';
+import { getPersistedServerSetting, usePersistedValue } from '@/modules/core/hooks/usePersistedValue.tsx';
 import { ServerSettings } from '@/typings.ts';
-import { makeToast } from '@/components/util/Toast.tsx';
+import { makeToast } from '@/lib/ui/Toast.ts';
 
 const DEFAULT_VALUE = 23;
 const MIN_VALUE = 1;

@@ -28,13 +28,17 @@ import {
     MangaUnreadInfo,
 } from '@/lib/data/Mangas.ts';
 import { SelectableCollectionReturnType } from '@/components/collection/useSelectableCollection.ts';
-import { MenuItem } from '@/components/menu/MenuItem.tsx';
-import { createGetMenuItemTitle, createIsMenuItemDisabled, createShouldShowMenuItem } from '@/components/menu/util.ts';
-import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { MenuItem } from '@/modules/core/components/menu/MenuItem.tsx';
+import {
+    createGetMenuItemTitle,
+    createIsMenuItemDisabled,
+    createShouldShowMenuItem,
+} from '@/modules/core/components/menu/Menu.utils.ts';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { TrackManga } from '@/components/tracker/TrackManga.tsx';
 import { useCategorySelect } from '@/components/navbar/action/useCategorySelect.tsx';
 import { ChaptersDownloadActionMenuItems } from '@/components/chapter/ChaptersDownloadActionMenuItems.tsx';
-import { NestedMenuItem } from '@/components/menu/NestedMenuItem.tsx';
+import { NestedMenuItem } from '@/modules/core/components/menu/NestedMenuItem.tsx';
 import { MangaChapterStatFieldsFragment, MangaType } from '@/lib/graphql/generated/graphql.ts';
 
 const ACTION_DISABLES_SELECTION_MODE: MangaAction[] = ['remove_from_library'] as const;

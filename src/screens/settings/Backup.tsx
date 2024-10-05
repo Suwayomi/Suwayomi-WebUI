@@ -23,18 +23,18 @@ import Button from '@mui/material/Button';
 import ListItem from '@mui/material/ListItem';
 import { Link } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { makeToast } from '@/components/util/Toast';
+import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
+import { makeToast } from '@/lib/ui/Toast.ts';
 import { NavBarContext } from '@/components/context/NavbarContext';
 import { BackupRestoreState, ValidateBackupQuery } from '@/lib/graphql/generated/graphql.ts';
-import { Progress } from '@/components/util/Progress.tsx';
-import { TextSetting } from '@/components/settings/text/TextSetting.tsx';
-import { NumberSetting } from '@/components/settings/NumberSetting.tsx';
-import { TimeSetting } from '@/components/settings/TimeSetting.tsx';
+import { Progress } from '@/modules/core/components/Progress.tsx';
+import { TextSetting } from '@/modules/core/components/settings/text/TextSetting.tsx';
+import { NumberSetting } from '@/modules/core/components/settings/NumberSetting.tsx';
+import { TimeSetting } from '@/modules/core/components/settings/TimeSetting.tsx';
 import { ServerSettings } from '@/typings.ts';
-import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder.tsx';
-import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
-import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
+import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
+import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 
 type BackupSettingsType = Pick<ServerSettings, 'backupPath' | 'backupTime' | 'backupInterval' | 'backupTTL'>;
 

@@ -22,14 +22,14 @@ import DownloadIcon from '@mui/icons-material/Download';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { t as translate } from 'i18next';
 import DownloadingIcon from '@mui/icons-material/Downloading';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { ListItemLink } from '@/components/util/ListItemLink';
+import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
+import { ListItemLink } from '@/modules/core/components/ListItemLink.tsx';
 import { NavBarContext } from '@/components/context/NavbarContext';
-import { LoadingPlaceholder } from '@/components/util/LoadingPlaceholder';
+import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { GetAboutQuery, UpdateState } from '@/lib/graphql/generated/graphql.ts';
-import { defaultPromiseErrorHandler } from '@/util/defaultPromiseErrorHandler.ts';
-import { EmptyViewAbsoluteCentered } from '@/components/util/EmptyViewAbsoluteCentered.tsx';
-import { epochToDate } from '@/util/date.ts';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
+import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
+import { epochToDate } from '@/util/DateHelper.ts';
 
 type AboutServer = GetAboutQuery['aboutServer'];
 
