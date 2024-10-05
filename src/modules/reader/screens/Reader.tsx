@@ -11,20 +11,20 @@ import { useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, u
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import { useTranslation } from 'react-i18next';
-import { AllowedMetadataValueTypes, IReaderSettings, ReaderType } from '@/typings';
+import { AllowedMetadataValueTypes } from '@/typings.ts';
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import {
     checkAndHandleMissingStoredReaderSettings,
     getReaderSettingsFor,
     useDefaultReaderSettings,
-} from '@/lib/metadata/readerSettings.ts';
+} from '@/modules/reader/services/ReaderSettingsMetadata.ts';
 import { requestUpdateMangaMetadata } from '@/lib/metadata/metadata.ts';
-import { HorizontalPager } from '@/components/reader/pager/HorizontalPager';
-import { PageNumber } from '@/components/reader/PageNumber';
-import { PagedPager } from '@/components/reader/pager/PagedPager';
-import { DoublePagedPager } from '@/components/reader/pager/DoublePagedPager';
-import { VerticalPager } from '@/components/reader/pager/VerticalPager';
-import { ReaderNavBar } from '@/components/navbar/ReaderNavBar';
+import { HorizontalPager } from '@/modules/reader/components/pager/HorizontalPager.tsx';
+import { PageNumber } from '@/modules/reader/components/page/PageNumber.tsx';
+import { PagedPager } from '@/modules/reader/components/pager/PagedPager.tsx';
+import { DoublePagedPager } from '@/modules/reader/components/pager/DoublePagedPager.tsx';
+import { VerticalPager } from '@/modules/reader/components/pager/VerticalPager.tsx';
+import { ReaderNavBar } from '@/modules/reader/components/ReaderNavBar.tsx';
 import { makeToast } from '@/lib/ui/Toast.ts';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { useDebounce } from '@/modules/core/hooks/useDebounce.ts';
@@ -43,6 +43,7 @@ import { GET_MANGA_READER } from '@/lib/graphql/queries/MangaQuery.ts';
 import { TMangaReader } from '@/modules/manga/services/Mangas.ts';
 import { CHAPTER_READER_FIELDS } from '@/lib/graphql/fragments/ChapterFragments.ts';
 import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
+import { IReaderSettings, ReaderType } from '@/modules/reader/Reader.types.ts';
 import { DirectionOffset } from '@/Base.types.ts';
 
 type TChapter = GetChaptersReaderQuery['chapters']['nodes'][number];

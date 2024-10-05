@@ -14,7 +14,7 @@ import { useManageMangaLibraryState } from '@/modules/manga/hooks/useManageManga
 import { MangaThumbnailInfo } from '@/modules/manga/services/Mangas.ts';
 import { ChapterType, MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { SingleModeProps } from '@/modules/manga/components/MangaActionMenuItems.tsx';
-import { IReaderSettings } from '@/typings';
+import { IReaderSettings } from '@/modules/reader/Reader.types';
 
 export type MangaCardMode = 'default' | 'source' | 'migrate.search' | 'migrate.select' | 'duplicate';
 

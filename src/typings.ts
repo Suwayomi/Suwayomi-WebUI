@@ -9,11 +9,9 @@
 import { OverridableComponent } from '@mui/material/OverridableComponent';
 import { SvgIconTypeMap } from '@mui/material/SvgIcon';
 import {
-    GetChaptersReaderQuery,
     GetServerSettingsQuery,
     GetSourceBrowseQuery,
     GetSourceSettingsQuery,
-    MangaReaderFieldsFragment,
     MetaType,
     SourcePreferenceChangeInput,
 } from '@/lib/graphql/generated/graphql.ts';
@@ -88,30 +86,6 @@ export interface INavbarOverride {
     value: any;
 }
 
-export type ReaderType =
-    | 'ContinuesVertical'
-    | 'Webtoon'
-    | 'SingleVertical'
-    | 'SingleRTL'
-    | 'SingleLTR'
-    | 'DoubleVertical'
-    | 'DoubleRTL'
-    | 'DoubleLTR'
-    | 'ContinuesHorizontalLTR'
-    | 'ContinuesHorizontalRTL';
-
-export interface IReaderSettings {
-    staticNav: boolean;
-    showPageNumber: boolean;
-    loadNextOnEnding: boolean;
-    skipDupChapters: boolean;
-    fitPageToWindow: boolean;
-    scalePage: boolean;
-    readerType: ReaderType;
-    offsetFirstPage: boolean;
-    readerWidth: number;
-}
-
 export type MetadataDownloadSettings = {
     deleteChaptersManuallyMarkedRead: boolean;
     deleteChaptersWhileReading: number;
@@ -161,24 +135,6 @@ export type MetadataServerSettings = MetadataDownloadSettings &
 
 export interface ISearchSettings {
     ignoreFilters: boolean;
-}
-
-export interface IReaderPage {
-    index: number;
-    src: string;
-}
-
-export interface IReaderProps {
-    pages: Array<IReaderPage>;
-    pageCount: number;
-    setCurPage: React.Dispatch<React.SetStateAction<number>>;
-    curPage: number;
-    initialPage: number;
-    settings: IReaderSettings;
-    manga: MangaReaderFieldsFragment;
-    chapter: GetChaptersReaderQuery['chapters']['nodes'][number];
-    nextChapter: () => void;
-    prevChapter: () => void;
 }
 
 export type SourcePreferences = GetSourceSettingsQuery['source']['preferences'][number];

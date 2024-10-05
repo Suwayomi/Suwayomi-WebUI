@@ -12,10 +12,11 @@ import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
 import MenuItem from '@mui/material/MenuItem';
 import { useTranslation } from 'react-i18next';
-import { AllowedMetadataValueTypes, IReaderSettings } from '@/typings';
+import { AllowedMetadataValueTypes } from '@/typings.ts';
 import { NumberSetting } from '@/modules/core/components/settings/NumberSetting.tsx';
-import { isHorizontalReaderType } from '@/components/reader/Page.tsx';
+import { isHorizontalReaderType } from '@/modules/reader/components/page/Page.tsx';
 import { Select } from '@/modules/core/components/inputs/Select.tsx';
+import { IReaderSettings } from '@/modules/reader/Reader.types.ts';
 
 interface IProps extends IReaderSettings {
     setSettingValue: (key: keyof IReaderSettings, value: AllowedMetadataValueTypes, persist?: boolean) => void;

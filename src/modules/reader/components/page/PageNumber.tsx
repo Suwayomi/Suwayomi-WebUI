@@ -7,7 +7,8 @@
  */
 
 import Box from '@mui/material/Box';
-import { IReaderSettings } from '@/typings';
+
+import { IReaderSettings } from '@/modules/reader/Reader.types.ts';
 
 interface IProps {
     settings: IReaderSettings;

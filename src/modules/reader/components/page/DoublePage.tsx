@@ -8,10 +8,10 @@
 
 import { CSSProperties, forwardRef } from 'react';
 import Box from '@mui/material/Box';
-import { IReaderSettings } from '@/typings';
 import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
-import { imageStyle } from '@/components/reader/Page';
+import { imageStyle } from '@/modules/reader/components/page/Page.tsx';
 import { getOptionForDirection } from '@/theme.tsx';
+import { IReaderSettings } from '@/modules/reader/Reader.types.ts';
 
 interface IProps {
     index: number;

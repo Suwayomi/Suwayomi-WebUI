@@ -8,19 +8,20 @@
 
 import { useContext, useLayoutEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AllowedMetadataValueTypes, IReaderSettings } from '@/typings';
+import { AllowedMetadataValueTypes } from '@/typings.ts';
 import { convertToGqlMeta, requestUpdateServerMetadata } from '@/lib/metadata/metadata.ts';
 import {
     checkAndHandleMissingStoredReaderSettings,
-    getDefaultSettings,
     useDefaultReaderSettings,
-} from '@/lib/metadata/readerSettings.ts';
-import { ReaderSettingsOptions } from '@/components/reader/ReaderSettingsOptions';
+} from '@/modules/reader/services/ReaderSettingsMetadata.ts';
+import { ReaderSettingsOptions } from '@/modules/reader/components/ReaderSettingsOptions.tsx';
 import { makeToast } from '@/lib/ui/Toast.ts';
-import { NavBarContext } from '@/components/context/NavbarContext';
+import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
+import { DEFAULT_READER_SETTINGS } from '@/modules/reader/Reader.constants.ts';
+import { IReaderSettings } from '@/modules/reader/Reader.types.ts';
 
 export function DefaultReaderSettings() {
     const { t } = useTranslation();
@@ -67,7 +68,7 @@ export function DefaultReaderSettings() {
     checkAndHandleMissingStoredReaderSettings(
         { meta: convertToGqlMeta(metadata)! },
         'server',
-        getDefaultSettings(),
+        DEFAULT_READER_SETTINGS,
     ).catch(defaultPromiseErrorHandler('DefaultReaderSettings::checkAndHandleMissingStoredReaderSettings'));
 
     return (

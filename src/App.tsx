@@ -26,13 +26,16 @@ const { Browse } = loadable(() => import('@/screens/Browse'), lazyLoadFallback);
 const { DownloadQueue } = loadable(() => import('@/screens/DownloadQueue'), lazyLoadFallback);
 const { Library } = loadable(() => import('@/modules/library/screens/Library.tsx'), lazyLoadFallback);
 const { Manga } = loadable(() => import('@/modules/manga/screens/Manga.tsx'), lazyLoadFallback);
-const { Reader } = loadable(() => import('@/screens/Reader'), lazyLoadFallback);
+const { Reader } = loadable(() => import('@/modules/reader/screens/Reader.tsx'), lazyLoadFallback);
 const { SearchAll } = loadable(() => import('@/screens/SearchAll'), lazyLoadFallback);
 const { Settings } = loadable(() => import('@/screens/Settings'), lazyLoadFallback);
 const { About } = loadable(() => import('@/screens/settings/About'), lazyLoadFallback);
 const { Backup } = loadable(() => import('@/screens/settings/Backup'), lazyLoadFallback);
 const { Categories } = loadable(() => import('@/screens/settings/Categories'), lazyLoadFallback);
-const { DefaultReaderSettings } = loadable(() => import('@/screens/settings/DefaultReaderSettings'), lazyLoadFallback);
+const { DefaultReaderSettings } = loadable(
+    () => import('@/modules/reader/screens/DefaultReaderSettings.tsx'),
+    lazyLoadFallback,
+);
 const { SourceConfigure } = loadable(() => import('@/screens/SourceConfigure'), lazyLoadFallback);
 const { SourceMangas } = loadable(() => import('@/screens/SourceMangas'), lazyLoadFallback);
 const { Updates } = loadable(() => import('@/screens/Updates'), lazyLoadFallback);

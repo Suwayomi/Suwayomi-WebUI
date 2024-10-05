@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Metadata, IReaderSettings, MetadataKeyValuePair, GqlMetaHolder } from '@/typings.ts';
+import { GqlMetaHolder, Metadata, MetadataKeyValuePair } from '@/typings.ts';
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import {
     convertFromGqlMeta,
@@ -16,26 +16,12 @@ import {
 } from '@/lib/metadata/metadata.ts';
 import { MetaType } from '@/lib/graphql/generated/graphql.ts';
 import { MangaIdInfo } from '@/modules/manga/services/Mangas.ts';
-
-type UndefinedReaderSettings = {
-    [setting in keyof IReaderSettings]: IReaderSettings[setting] | undefined;
-};
-
-export const getDefaultSettings = (): IReaderSettings => ({
-    staticNav: false,
-    showPageNumber: true,
-    loadNextOnEnding: false,
-    skipDupChapters: true,
-    fitPageToWindow: true,
-    scalePage: false,
-    readerType: 'ContinuesVertical',
-    offsetFirstPage: false,
-    readerWidth: 50,
-});
+import { DEFAULT_READER_SETTINGS } from '@/modules/reader/Reader.constants.ts';
+import { IReaderSettings, UndefinedReaderSettings } from '@/modules/reader/Reader.types.ts';
 
 const getReaderSettingsWithDefaultValueFallback = <DefaultSettings extends IReaderSettings | UndefinedReaderSettings>(
     meta?: Metadata,
-    defaultSettings: DefaultSettings = getDefaultSettings() as DefaultSettings,
+    defaultSettings: DefaultSettings = DEFAULT_READER_SETTINGS as DefaultSettings,
     applyMetadataMigration: boolean = true,
 ): DefaultSettings => getMetadataFrom({ meta }, defaultSettings, applyMetadataMigration);
 

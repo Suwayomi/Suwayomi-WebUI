@@ -27,8 +27,8 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
 import { useTranslation } from 'react-i18next';
-import { AllowedMetadataValueTypes, IReaderSettings } from '@/typings';
-import { ReaderSettingsOptions } from '@/components/reader/ReaderSettingsOptions';
+import { AllowedMetadataValueTypes } from '@/typings.ts';
+import { ReaderSettingsOptions } from '@/modules/reader/components/ReaderSettingsOptions.tsx';
 import { useBackButton } from '@/modules/core/hooks/useBackButton.ts';
 import { Select } from '@/modules/core/components/inputs/Select.tsx';
 import { useGetOptionForDirection } from '@/theme.tsx';
@@ -37,6 +37,7 @@ import { MangaChapterCountInfo, MangaIdInfo } from '@/modules/manga/services/Man
 import { useNavBarContext } from '@/components/context/NavbarContext.tsx';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 import { CustomIconButton } from '@/modules/core/components/buttons/CustomIconButton.tsx';
+import { IReaderSettings } from '@/modules/reader/Reader.types.ts';
 import { DirectionOffset } from '@/Base.types.ts';
 
 const Root = styled('div')({
