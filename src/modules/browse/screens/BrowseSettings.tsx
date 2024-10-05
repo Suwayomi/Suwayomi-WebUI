@@ -16,7 +16,7 @@ import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.t
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import { NumberSetting } from '@/modules/core/components/settings/NumberSetting.tsx';
 import { MutableListSetting } from '@/modules/core/components/settings/MutableListSetting.tsx';
-import { MetadataBrowseSettings, ServerSettings as GqlServerSettings } from '@/typings.ts';
+import { ServerSettings as GqlServerSettings } from '@/typings.ts';
 import { TextSetting } from '@/modules/core/components/settings/text/TextSetting.tsx';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import {
@@ -27,6 +27,7 @@ import { LoadingPlaceholder } from '@/modules/core/components/placeholder/Loadin
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { makeToast } from '@/lib/ui/Toast.ts';
+import { MetadataBrowseSettings } from '@/modules/browse/Browse.types.ts';
 
 type ExtensionsSettings = Pick<GqlServerSettings, 'maxSourcesInParallel' | 'localSourcePath' | 'extensionRepos'>;
 
