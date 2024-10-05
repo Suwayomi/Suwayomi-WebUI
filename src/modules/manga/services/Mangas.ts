@@ -8,7 +8,6 @@
 
 import { t as translate } from 'i18next';
 import { DocumentNode } from '@apollo/client/core';
-import { MetadataMigrationSettings } from '@/typings.ts';
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import {
     ChapterConditionInput,
@@ -30,6 +29,7 @@ import { getMetadataServerSettings } from '@/lib/metadata/metadataServerSettings
 import { GET_MANGAS_BASE } from '@/lib/graphql/queries/MangaQuery.ts';
 import { MANGA_BASE_FIELDS } from '@/lib/graphql/fragments/MangaFragments.ts';
 import { TranslationKey } from '@/Base.types.ts';
+import { MetadataMigrationSettings } from '@/modules/migration/Migration.types.ts';
 
 export type MangaAction =
     | 'download'

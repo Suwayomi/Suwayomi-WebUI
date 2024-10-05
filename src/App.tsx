@@ -44,7 +44,7 @@ const { DownloadSettings } = loadable(() => import('@/screens/settings/DownloadS
 const { ServerSettings } = loadable(() => import('@/screens/settings/ServerSettings.tsx'), lazyLoadFallback);
 const { BrowseSettings } = loadable(() => import('@/screens/settings/BrowseSettings.tsx'), lazyLoadFallback);
 const { WebUISettings } = loadable(() => import('@/screens/settings/WebUISettings.tsx'), lazyLoadFallback);
-const { Migrate } = loadable(() => import('@/screens/Migrate.tsx'), lazyLoadFallback);
+const { Migrate } = loadable(() => import('@/modules/migration/screens/Migrate.tsx'), lazyLoadFallback);
 const { DeviceSetting } = loadable(() => import('@/components/settings/DeviceSetting.tsx'), lazyLoadFallback);
 const { TrackingSettings } = loadable(() => import('@/modules/tracker/screens/TrackingSettings.tsx'), lazyLoadFallback);
 const { TrackerOAuthLogin } = loadable(

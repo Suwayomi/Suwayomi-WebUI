@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { SortBy, SortOrder } from '@/screens/Migration.types.ts';
+import { SortBy, SortOrder } from '@/modules/migration/Migration.types.ts';
 
 import { TranslationKey } from '@/Base.types.ts';
 

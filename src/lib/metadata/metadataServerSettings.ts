@@ -10,7 +10,6 @@ import {
     AllowedMetadataValueTypes,
     AppMetadataKeys,
     Metadata,
-    MetadataMigrationSettings,
     MetadataServerSettingKeys,
     MetadataServerSettings,
     MetadataThemeSettings,
@@ -20,7 +19,8 @@ import { convertFromGqlMeta, getMetadataFrom, requestUpdateServerMetadata } from
 import { jsonSaveParse } from '@/lib/HelperFunctions.ts';
 import { DEFAULT_DEVICE } from '@/util/device.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { DEFAULT_SORT_SETTINGS } from '@/screens/Migration.constants.ts';
+import { DEFAULT_SORT_SETTINGS } from '@/modules/migration/Migration.constants.ts';
+import { MetadataMigrationSettings } from '@/modules/migration/Migration.types.ts';
 
 export const getDefaultSettings = (): MetadataServerSettings => ({
     // downloads

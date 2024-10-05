@@ -10,7 +10,7 @@ import { OverridableComponent } from '@mui/material/OverridableComponent';
 import { SvgIconTypeMap } from '@mui/material/SvgIcon';
 import { GetServerSettingsQuery, MetaType } from '@/lib/graphql/generated/graphql.ts';
 import { AppTheme } from '@/lib/ui/AppThemes.ts';
-import { SortSettings } from '@/screens/Migration.types.ts';
+import { MetadataMigrationSettings } from '@/modules/migration/Migration.types.ts';
 import { TranslationKey } from '@/Base.types.ts';
 import { MangaMetadataKeys } from '@/modules/manga/MangaCard.types.tsx';
 import { LibraryOptions, MetadataLibrarySettings } from '@/modules/library/Library.types.ts';
@@ -74,14 +74,6 @@ export type MetadataDownloadSettings = {
 
 export type MetadataClientSettings = {
     devices: string[];
-};
-
-export type MetadataMigrationSettings = {
-    migrateChapters: boolean;
-    migrateCategories: boolean;
-    migrateTracking: boolean;
-    deleteChapters: boolean;
-    migrateSortSettings: SortSettings;
 };
 
 export type MetadataBrowseSettings = {

@@ -11,7 +11,7 @@ import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
-import { TMigratableSource } from '@/components/MigrationCard.tsx';
+import { TMigratableSource } from '@/modules/migration/components/MigrationCard.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { GridLayouts } from '@/modules/core/components/GridLayouts.tsx';

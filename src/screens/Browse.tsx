@@ -15,7 +15,7 @@ import { Extensions } from '@/modules/extension/screens/Extensions.tsx';
 import { TabPanel } from '@/modules/core/components/tabs/TabPanel.tsx';
 import { TabsWrapper } from '@/modules/core/components/tabs/TabsWrapper.tsx';
 import { TabsMenu } from '@/modules/core/components/tabs/TabsMenu.tsx';
-import { Migration } from '@/screens/Migration.tsx';
+import { Migration } from '@/modules/migration/screens/Migration.tsx';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 

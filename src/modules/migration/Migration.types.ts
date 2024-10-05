@@ -24,3 +24,11 @@ export interface SortSettings {
 }
 
 export type TMigratableSourcesResult = GetMigratableSourcesQuery['mangas']['nodes'];
+
+export type MetadataMigrationSettings = {
+    migrateChapters: boolean;
+    migrateCategories: boolean;
+    migrateTracking: boolean;
+    deleteChapters: boolean;
+    migrateSortSettings: SortSettings;
+};

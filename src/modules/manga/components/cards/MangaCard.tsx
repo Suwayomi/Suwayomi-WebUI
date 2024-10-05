@@ -12,7 +12,7 @@ import { useLongPress } from 'use-long-press';
 import { GridLayout, useLibraryOptionsContext } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
 import { MangaActionMenuItems, SingleModeProps } from '@/modules/manga/components/MangaActionMenuItems.tsx';
 import { Menu } from '@/modules/core/components/menu/Menu.tsx';
-import { MigrateDialog } from '@/components/MigrateDialog.tsx';
+import { MigrateDialog } from '@/modules/migration/components/MigrateDialog.tsx';
 import { useManageMangaLibraryState } from '@/modules/manga/hooks/useManageMangaLibraryState.tsx';
 import { MangaGridCard } from '@/modules/manga/components/cards/MangaGridCard.tsx';
 import { MangaListCard } from '@/modules/manga/components/cards/MangaListCard.tsx';

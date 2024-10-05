@@ -19,11 +19,11 @@ import Tooltip from '@mui/material/Tooltip';
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
-import { MigrationCard, TMigratableSource } from '@/components/MigrationCard.tsx';
+import { MigrationCard, TMigratableSource } from '@/modules/migration/components/MigrationCard.tsx';
 import { StyledGroupItemWrapper } from '@/modules/core/components/virtuoso/StyledGroupItemWrapper.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { SortBy, SortOrder, SortSettings, TMigratableSourcesResult } from '@/screens/Migration.types.ts';
-import { sortByToTranslationKey, sortOrderToTranslationKey } from '@/screens/Migration.constants';
+import { SortBy, SortOrder, SortSettings, TMigratableSourcesResult } from '@/modules/migration/Migration.types.ts';
+import { sortByToTranslationKey, sortOrderToTranslationKey } from '@/modules/migration/Migration.constants.ts';
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
