@@ -22,7 +22,7 @@ import { SettingsTrackerCard } from '@/modules/tracker/components/cards/Settings
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
-} from '@/lib/metadata/metadataServerSettings.ts';
+} from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { makeToast } from '@/lib/ui/Toast.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { GET_TRACKERS_SETTINGS } from '@/lib/graphql/queries/TrackerQuery.ts';

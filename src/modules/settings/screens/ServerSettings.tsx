@@ -19,7 +19,6 @@ import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.t
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { TextSetting } from '@/modules/core/components/settings/text/TextSetting.tsx';
-import { ServerSettings as GqlServerSettings } from '@/typings.ts';
 import { NumberSetting } from '@/modules/core/components/settings/NumberSetting.tsx';
 import { SelectSetting } from '@/modules/core/components/settings/SelectSetting.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
@@ -28,9 +27,10 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
-} from '@/lib/metadata/metadataServerSettings.ts';
+} from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { makeToast } from '@/lib/ui/Toast.ts';
 import { MetadataUpdateSettings } from '@/modules/app-updates/AppUpdateChecker.types.ts';
+import { ServerSettings as GqlServerSettings } from '@/modules/settings/Settings.types.ts';
 
 type ServerSettingsType = Pick<
     GqlServerSettings,

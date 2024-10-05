@@ -22,7 +22,7 @@ import { makeToast } from '@/lib/ui/Toast.ts';
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
-} from '@/lib/metadata/metadataServerSettings.ts';
+} from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { MetadataMigrationSettings } from '@/modules/migration/Migration.types.ts';
 

@@ -16,11 +16,11 @@ import {
     CategoriesInclusionSetting,
     CategoriesInclusionSettingProps,
 } from '@/modules/category/components/CategoriesInclusionSetting.tsx';
-import { GlobalUpdateSettingsEntries } from '@/components/settings/globalUpdate/GlobalUpdateSettingsEntries.tsx';
-import { GlobalUpdateSettingsInterval } from '@/components/settings/globalUpdate/GlobalUpdateSettingsInterval.tsx';
+import { GlobalUpdateSettingsEntries } from '@/modules/settings/components/globalUpdate/GlobalUpdateSettingsEntries.tsx';
+import { GlobalUpdateSettingsInterval } from '@/modules/settings/components/globalUpdate/GlobalUpdateSettingsInterval.tsx';
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import { makeToast } from '@/lib/ui/Toast.ts';
-import { ServerSettings } from '@/typings.ts';
+import { ServerSettings } from '@/modules/settings/Settings.types.ts';
 
 type LibrarySettingsType = Pick<ServerSettings, 'updateMangas'>;
 

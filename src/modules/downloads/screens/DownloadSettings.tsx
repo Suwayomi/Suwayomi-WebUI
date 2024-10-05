@@ -15,13 +15,12 @@ import Switch from '@mui/material/Switch';
 import ListSubheader from '@mui/material/ListSubheader';
 import { TextSetting } from '@/modules/core/components/settings/text/TextSetting.tsx';
 import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
-import { ServerSettings } from '@/typings.ts';
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import { DownloadAheadSetting } from '@/modules/downloads/components/DownloadAheadSetting.tsx';
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
-} from '@/lib/metadata/metadataServerSettings.ts';
+} from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { makeToast } from '@/lib/ui/Toast.ts';
 import { DeleteChaptersWhileReadingSetting } from '@/modules/downloads/components/DeleteChaptersWhileReadingSetting.tsx';
 import { CategoriesInclusionSetting } from '@/modules/category/components/CategoriesInclusionSetting.tsx';
@@ -32,6 +31,7 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { GetCategoriesSettingsQuery, GetCategoriesSettingsQueryVariables } from '@/lib/graphql/generated/graphql.ts';
 import { GET_CATEGORIES_SETTINGS } from '@/lib/graphql/queries/CategoryQuery.ts';
 import { MetadataDownloadSettings } from '@/modules/downloads/Downloads.types.ts';
+import { ServerSettings } from '@/modules/settings/Settings.types.ts';
 
 type DownloadSettingsType = Pick<
     ServerSettings,

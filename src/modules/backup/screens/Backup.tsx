@@ -31,10 +31,10 @@ import { Progress } from '@/modules/core/components/Progress.tsx';
 import { TextSetting } from '@/modules/core/components/settings/text/TextSetting.tsx';
 import { NumberSetting } from '@/modules/core/components/settings/NumberSetting.tsx';
 import { TimeSetting } from '@/modules/core/components/settings/TimeSetting.tsx';
-import { ServerSettings } from '@/typings.ts';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
+import { ServerSettings } from '@/modules/settings/Settings.types.ts';
 
 type BackupSettingsType = Pick<ServerSettings, 'backupPath' | 'backupTime' | 'backupInterval' | 'backupTTL'>;
 

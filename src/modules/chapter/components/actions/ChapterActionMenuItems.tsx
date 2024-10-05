@@ -38,7 +38,7 @@ import {
     createShouldShowMenuItem,
 } from '@/modules/core/components/menu/Menu.utils.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
+import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 
 type BaseProps = { onClose: () => void };
 

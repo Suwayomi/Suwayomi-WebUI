@@ -6,60 +6,15 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import {
-    AllowedMetadataValueTypes,
-    AppMetadataKeys,
-    Metadata,
-    MetadataServerSettingKeys,
-    MetadataServerSettings,
-} from '@/typings.ts';
+import { AllowedMetadataValueTypes, AppMetadataKeys, Metadata } from '@/typings.ts';
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import { convertFromGqlMeta, getMetadataFrom, requestUpdateServerMetadata } from '@/lib/metadata/metadata.ts';
 import { jsonSaveParse } from '@/lib/HelperFunctions.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { DEFAULT_SORT_SETTINGS } from '@/modules/migration/Migration.constants.ts';
 import { MetadataMigrationSettings } from '@/modules/migration/Migration.types.ts';
 import { MetadataThemeSettings } from '@/modules/theme/AppTheme.types.ts';
-import { DEFAULT_DEVICE } from '@/modules/device/services/Device.ts';
-
-export const getDefaultSettings = (): MetadataServerSettings => ({
-    // downloads
-    deleteChaptersManuallyMarkedRead: false,
-    deleteChaptersWhileReading: 0,
-    deleteChaptersWithBookmark: false,
-    downloadAheadLimit: 0,
-
-    // library
-    showAddToLibraryCategorySelectDialog: true,
-    ignoreFilters: false,
-    removeMangaFromCategories: false,
-    showTabSize: false,
-
-    // client
-    devices: [DEFAULT_DEVICE],
-
-    // migration
-    migrateChapters: true,
-    migrateCategories: true,
-    migrateTracking: true,
-    deleteChapters: true,
-    migrateSortSettings: DEFAULT_SORT_SETTINGS,
-
-    // browse
-    hideLibraryEntries: false,
-
-    // tracking
-    updateProgressAfterReading: true,
-    updateProgressManualMarkRead: false,
-
-    // updates
-    webUIInformAvailableUpdate: true,
-    serverInformAvailableUpdate: true,
-
-    // themes
-    customThemes: {},
-    mangaThumbnailBackdrop: true,
-});
+import { SERVER_SETTINGS_METADATA_DEFAULT } from '@/modules/settings/Settings.constants.ts';
+import { MetadataServerSettingKeys, MetadataServerSettings } from '@/modules/settings/Settings.types.ts';
 
 export const convertSettingsToMetadata = (
     settings: Partial<MetadataServerSettings>,
@@ -74,21 +29,22 @@ export const convertMetadataToSettings = (
     metadata: Partial<Metadata<AppMetadataKeys, AllowedMetadataValueTypes>>,
 ): MetadataServerSettings =>
     ({
-        ...getDefaultSettings(),
+        ...SERVER_SETTINGS_METADATA_DEFAULT,
         ...(metadata as unknown as MetadataServerSettings),
-        devices: jsonSaveParse<string[]>((metadata.devices as string) ?? '') ?? getDefaultSettings().devices,
+        devices:
+            jsonSaveParse<string[]>((metadata.devices as string) ?? '') ?? SERVER_SETTINGS_METADATA_DEFAULT.devices,
         customThemes:
             jsonSaveParse<MetadataThemeSettings['customThemes']>((metadata.customThemes as string) ?? '') ??
-            getDefaultSettings().customThemes,
+            SERVER_SETTINGS_METADATA_DEFAULT.customThemes,
         migrateSortSettings:
             jsonSaveParse<MetadataMigrationSettings['migrateSortSettings']>(
                 (metadata.migrateSortSettings as string) ?? '',
-            ) ?? getDefaultSettings().migrateSortSettings,
+            ) ?? SERVER_SETTINGS_METADATA_DEFAULT.migrateSortSettings,
     }) satisfies MetadataServerSettings;
 
 const getMetadataServerSettingsWithDefaultFallback = (
     meta?: Metadata,
-    defaultSettings: MetadataServerSettings = getDefaultSettings(),
+    defaultSettings: MetadataServerSettings = SERVER_SETTINGS_METADATA_DEFAULT,
     applyMetadataMigration: boolean = true,
 ): MetadataServerSettings =>
     convertMetadataToSettings(

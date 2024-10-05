@@ -24,7 +24,7 @@ import { AppTheme, isThemeNameUnique } from '@/modules/theme/services/AppThemes.
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
-} from '@/lib/metadata/metadataServerSettings.ts';
+} from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { makeToast } from '@/lib/ui/Toast.ts';
 import { EmptyView } from '@/modules/core/components/placeholder/EmptyView.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';

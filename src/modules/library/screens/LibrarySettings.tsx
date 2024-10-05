@@ -16,12 +16,12 @@ import Switch from '@mui/material/Switch';
 import ListSubheader from '@mui/material/ListSubheader';
 import { t as translate } from 'i18next';
 import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
-import { GlobalUpdateSettings } from '@/components/settings/globalUpdate/GlobalUpdateSettings.tsx';
+import { GlobalUpdateSettings } from '@/modules/settings/components/globalUpdate/GlobalUpdateSettings.tsx';
 import { makeToast } from '@/lib/ui/Toast.ts';
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
-} from '@/lib/metadata/metadataServerSettings.ts';
+} from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import { Mangas } from '@/modules/manga/services/Mangas.ts';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';

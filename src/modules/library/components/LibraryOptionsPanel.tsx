@@ -26,7 +26,7 @@ import { makeToast } from '@/lib/ui/Toast.ts';
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
-} from '@/lib/metadata/metadataServerSettings.ts';
+} from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { TranslationKey } from '@/Base.types.ts';
 import { LibrarySortMode } from '@/modules/library/Library.types.ts';
 import { CategoryMetadataInfo } from '@/modules/category/Category.types.ts';

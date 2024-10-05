@@ -13,10 +13,10 @@ import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
 import { NumberSetting } from '@/modules/core/components/settings/NumberSetting.tsx';
 import { getPersistedServerSetting, usePersistedValue } from '@/modules/core/hooks/usePersistedValue.tsx';
-import { updateMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
-import { MetadataServerSettings } from '@/typings.ts';
+import { updateMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { makeToast } from '@/lib/ui/Toast.ts';
 import { MetadataDownloadSettings } from '@/modules/downloads/Downloads.types.ts';
+import { MetadataServerSettings } from '@/modules/settings/Settings.types.ts';
 
 const MIN_LIMIT = 2;
 const MAX_LIMIT = 10;

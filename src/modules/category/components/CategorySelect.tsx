@@ -24,7 +24,7 @@ import { Categories } from '@/modules/category/services/Categories.ts';
 import { CheckboxInput } from '@/modules/core/components/inputs/CheckboxInput.tsx';
 import { makeToast } from '@/lib/ui/Toast.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { updateMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
+import { updateMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import {
     GetCategoriesBaseQuery,
     GetCategoriesBaseQueryVariables,

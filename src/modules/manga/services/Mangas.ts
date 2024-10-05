@@ -25,7 +25,7 @@ import {
 } from '@/lib/graphql/generated/graphql.ts';
 import { Chapters } from '@/modules/chapter/services/Chapters.ts';
 import { makeToast } from '@/lib/ui/Toast.ts';
-import { getMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
+import { getMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { GET_MANGAS_BASE } from '@/lib/graphql/queries/MangaQuery.ts';
 import { MANGA_BASE_FIELDS } from '@/lib/graphql/fragments/MangaFragments.ts';
 import { TranslationKey } from '@/Base.types.ts';

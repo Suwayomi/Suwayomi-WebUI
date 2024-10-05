@@ -28,8 +28,8 @@ const { Library } = loadable(() => import('@/modules/library/screens/Library.tsx
 const { Manga } = loadable(() => import('@/modules/manga/screens/Manga.tsx'), lazyLoadFallback);
 const { Reader } = loadable(() => import('@/modules/reader/screens/Reader.tsx'), lazyLoadFallback);
 const { SearchAll } = loadable(() => import('@/modules/global-search/screens/SearchAll.tsx'), lazyLoadFallback);
-const { Settings } = loadable(() => import('@/screens/Settings'), lazyLoadFallback);
-const { About } = loadable(() => import('@/screens/settings/About'), lazyLoadFallback);
+const { Settings } = loadable(() => import('@/modules/settings/screens/Settings.tsx'), lazyLoadFallback);
+const { About } = loadable(() => import('@/modules/settings/screens/About.tsx'), lazyLoadFallback);
 const { Backup } = loadable(() => import('@/modules/backup/screens/Backup.tsx'), lazyLoadFallback);
 const { CategorySettings } = loadable(
     () => import('@/modules/category/screens/CategorySettings.tsx'),
@@ -47,9 +47,9 @@ const { DownloadSettings } = loadable(
     () => import('@/modules/downloads/screens/DownloadSettings.tsx'),
     lazyLoadFallback,
 );
-const { ServerSettings } = loadable(() => import('@/screens/settings/ServerSettings.tsx'), lazyLoadFallback);
+const { ServerSettings } = loadable(() => import('@/modules/settings/screens/ServerSettings.tsx'), lazyLoadFallback);
 const { BrowseSettings } = loadable(() => import('@/modules/browse/screens/BrowseSettings.tsx'), lazyLoadFallback);
-const { WebUISettings } = loadable(() => import('@/screens/settings/WebUISettings.tsx'), lazyLoadFallback);
+const { WebUISettings } = loadable(() => import('@/modules/settings/screens/WebUISettings.tsx'), lazyLoadFallback);
 const { Migrate } = loadable(() => import('@/modules/migration/screens/Migrate.tsx'), lazyLoadFallback);
 const { DeviceSetting } = loadable(() => import('@/modules/device/screens/DeviceSetting.tsx'), lazyLoadFallback);
 const { TrackingSettings } = loadable(() => import('@/modules/tracker/screens/TrackingSettings.tsx'), lazyLoadFallback);
@@ -61,7 +61,7 @@ const { LibraryDuplicates } = loadable(
     () => import('@/modules/library/screens/LibraryDuplicates.tsx'),
     lazyLoadFallback,
 );
-const { Appearance } = loadable(() => import('@/screens/settings/Appearance.tsx'), lazyLoadFallback);
+const { Appearance } = loadable(() => import('@/modules/settings/screens/Appearance.tsx'), lazyLoadFallback);
 
 if (process.env.NODE_ENV !== 'production') {
     // Adds messages only in a dev environment

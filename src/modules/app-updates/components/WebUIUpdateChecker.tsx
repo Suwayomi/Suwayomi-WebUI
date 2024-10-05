@@ -22,7 +22,7 @@ import { makeToast } from '@/lib/ui/Toast.ts';
 import { ABOUT_WEBUI, WEBUI_UPDATE_CHECK } from '@/lib/graphql/fragments/InfoFragments.ts';
 import { VersionUpdateInfoDialog } from '@/modules/app-updates/components/VersionUpdateInfoDialog.tsx';
 import { useUpdateChecker } from '@/modules/app-updates/hooks/useUpdateChecker.tsx';
-import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
+import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 
 const disabledUpdateCheck = () => Promise.resolve();
 

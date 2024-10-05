@@ -6,18 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { GetServerSettingsQuery, MetaType } from '@/lib/graphql/generated/graphql.ts';
-import { MetadataMigrationSettings } from '@/modules/migration/Migration.types.ts';
+import { MetaType } from '@/lib/graphql/generated/graphql.ts';
 import { MangaMetadataKeys } from '@/modules/manga/MangaCard.types.tsx';
-import { MetadataLibrarySettings } from '@/modules/library/Library.types.ts';
 import { SourceMetadataKeys } from '@/modules/source/Source.types.ts';
-import { MetadataTrackingSettings } from '@/modules/tracker/Tracker.types.ts';
 import { CategoryMetadataKeys } from '@/modules/category/Category.types.ts';
-import { MetadataUpdateSettings } from '@/modules/app-updates/AppUpdateChecker.types.ts';
-import { MetadataThemeSettings } from '@/modules/theme/AppTheme.types.ts';
-import { MetadataClientSettings } from '@/modules/device/Device.types.ts';
-import { MetadataBrowseSettings } from '@/modules/browse/Browse.types.ts';
-import { MetadataDownloadSettings } from '@/modules/downloads/Downloads.types.ts';
+import { MetadataServerSettingKeys, SearchMetadataKeys } from '@/modules/settings/Settings.types.ts';
 
 export interface IMetadataMigration {
     appKeyPrefix?: { oldPrefix: string; newPrefix: string };
@@ -45,10 +38,6 @@ export type MetadataHolder<Keys extends string = string, Values = string> = {
 
 export type AllowedMetadataValueTypes = string | boolean | number | undefined | null;
 
-export type MetadataServerSettingKeys = keyof MetadataServerSettings;
-
-export type SearchMetadataKeys = keyof ISearchSettings;
-
 export type AppMetadataKeys =
     | MetadataServerSettingKeys
     | MangaMetadataKeys
@@ -57,18 +46,3 @@ export type AppMetadataKeys =
     | CategoryMetadataKeys;
 
 export type MetadataKeyValuePair = [AppMetadataKeys, AllowedMetadataValueTypes];
-
-export type MetadataServerSettings = MetadataDownloadSettings &
-    MetadataLibrarySettings &
-    MetadataClientSettings &
-    MetadataMigrationSettings &
-    MetadataBrowseSettings &
-    MetadataTrackingSettings &
-    MetadataUpdateSettings &
-    MetadataThemeSettings;
-
-export interface ISearchSettings {
-    ignoreFilters: boolean;
-}
-
-export type ServerSettings = GetServerSettingsQuery['settings'];

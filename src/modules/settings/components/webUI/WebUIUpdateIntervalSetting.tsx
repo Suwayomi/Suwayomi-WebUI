@@ -15,8 +15,8 @@ import { useCallback } from 'react';
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import { NumberSetting } from '@/modules/core/components/settings/NumberSetting.tsx';
 import { getPersistedServerSetting, usePersistedValue } from '@/modules/core/hooks/usePersistedValue.tsx';
-import { ServerSettings } from '@/typings.ts';
-import { makeToast } from '@/lib/ui/Toast.ts';
+import { makeToast } from '@/modules/core/utils/Toast.ts';
+import { ServerSettings } from '@/modules/settings/Settings.types.ts';
 
 const DEFAULT_VALUE = 23;
 const MIN_VALUE = 1;

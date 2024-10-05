@@ -13,9 +13,8 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
 import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
-import { ServerSettings } from '@/typings.ts';
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
-import { WebUIUpdateIntervalSetting } from '@/components/settings/webUI/WebUIUpdateIntervalSetting.tsx';
+import { WebUIUpdateIntervalSetting } from '@/modules/settings/components/webUI/WebUIUpdateIntervalSetting.tsx';
 import { TextSetting } from '@/modules/core/components/settings/text/TextSetting.tsx';
 import {
     SelectSetting,
@@ -29,9 +28,10 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
-} from '@/lib/metadata/metadataServerSettings.ts';
+} from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { makeToast } from '@/lib/ui/Toast.ts';
 import { MetadataUpdateSettings } from '@/modules/app-updates/AppUpdateChecker.types.ts';
+import { ServerSettings } from '@/modules/settings/Settings.types.ts';
 
 type WebUISettingsType = Pick<
     ServerSettings,

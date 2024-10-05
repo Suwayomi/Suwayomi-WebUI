@@ -13,7 +13,7 @@ import gql from 'graphql-tag';
 import { useCategorySelect } from '@/modules/category/hooks/useCategorySelect.tsx';
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import { makeToast } from '@/lib/ui/Toast.ts';
-import { getMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
+import { getMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { Categories } from '@/modules/category/services/Categories.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { Mangas } from '@/modules/manga/services/Mangas.ts';

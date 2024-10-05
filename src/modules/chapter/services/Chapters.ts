@@ -11,7 +11,7 @@ import gql from 'graphql-tag';
 import { DocumentNode } from '@apollo/client';
 import { makeToast } from '@/lib/ui/Toast.ts';
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
-import { getMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
+import { getMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import {
     ChapterListFieldsFragment,
     ChapterType,

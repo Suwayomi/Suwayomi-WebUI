@@ -12,8 +12,10 @@ import ListItemText from '@mui/material/ListItemText';
 import MenuItem from '@mui/material/MenuItem';
 import { useTranslation } from 'react-i18next';
 import { useContext, useLayoutEffect } from 'react';
-import { updateMetadataServerSettings, useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
-import { MetadataServerSettingKeys, MetadataServerSettings } from '@/typings.ts';
+import {
+    updateMetadataServerSettings,
+    useMetadataServerSettings,
+} from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { makeToast } from '@/lib/ui/Toast.ts';
 import { MutableListSetting } from '@/modules/core/components/settings/MutableListSetting.tsx';
 import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
@@ -23,6 +25,7 @@ import { LoadingPlaceholder } from '@/modules/core/components/placeholder/Loadin
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { DEFAULT_DEVICE } from '@/modules/device/services/Device.ts';
+import { MetadataServerSettingKeys, MetadataServerSettings } from '@/modules/settings/Settings.types.ts';
 
 export const DeviceSetting = () => {
     const { t } = useTranslation();

@@ -34,7 +34,7 @@ import {
     GetMangaReaderQuery,
     UpdateChapterPatchInput,
 } from '@/lib/graphql/generated/graphql.ts';
-import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
+import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { ChapterIdInfo, Chapters } from '@/modules/chapter/services/Chapters.ts';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';

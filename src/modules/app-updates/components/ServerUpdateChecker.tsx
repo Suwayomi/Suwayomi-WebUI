@@ -17,7 +17,7 @@ import Button from '@mui/material/Button';
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import { useUpdateChecker } from '@/modules/app-updates/hooks/useUpdateChecker.tsx';
 import { VersionUpdateInfoDialog } from '@/modules/app-updates/components/VersionUpdateInfoDialog.tsx';
-import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
+import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { getVersion } from '@/modules/app-updates/services/AppUpdateChecker.tsx';
 

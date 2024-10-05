@@ -16,18 +16,18 @@ import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.t
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import { NumberSetting } from '@/modules/core/components/settings/NumberSetting.tsx';
 import { MutableListSetting } from '@/modules/core/components/settings/MutableListSetting.tsx';
-import { ServerSettings as GqlServerSettings } from '@/typings.ts';
 import { TextSetting } from '@/modules/core/components/settings/text/TextSetting.tsx';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
-} from '@/lib/metadata/metadataServerSettings.ts';
+} from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { makeToast } from '@/lib/ui/Toast.ts';
 import { MetadataBrowseSettings } from '@/modules/browse/Browse.types.ts';
+import { ServerSettings as GqlServerSettings } from '@/modules/settings/Settings.types.ts';
 
 type ExtensionsSettings = Pick<GqlServerSettings, 'maxSourcesInParallel' | 'localSourcePath' | 'extensionRepos'>;
 

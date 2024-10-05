@@ -39,7 +39,7 @@ import { GET_CATEGORIES_LIBRARY } from '@/lib/graphql/queries/CategoryQuery.ts';
 import { Mangas } from '@/modules/manga/services/Mangas.ts';
 import { MANGA_CHAPTER_STAT_FIELDS } from '@/lib/graphql/fragments/MangaFragments.ts';
 import { useLibraryOptionsContext } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
-import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
+import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { getCategoryMetadata } from '@/modules/category/services/CategoryMetadata.ts';
 
 const TitleWithSizeTag = styled('span')({

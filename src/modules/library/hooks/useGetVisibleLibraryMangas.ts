@@ -8,7 +8,7 @@
 
 import { StringParam, useQueryParam } from 'use-query-params';
 import { useMemo } from 'react';
-import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
+import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { ChapterType, MangaType, SourceType, TrackRecordType } from '@/lib/graphql/generated/graphql.ts';
 import { MangaChapterCountInfo, MangaIdInfo } from '@/modules/manga/services/Mangas.ts';
 import { enhancedCleanup } from '@/lib/data/Strings.ts';

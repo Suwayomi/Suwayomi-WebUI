@@ -25,7 +25,7 @@ import { LibraryOptionsContextProvider } from '@/modules/library/contexts/Librar
 import { ActiveDeviceContextProvider } from '@/modules/device/contexts/DeviceContext.tsx';
 import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
 import { AppThemes, getTheme } from '@/modules/theme/services/AppThemes.ts';
-import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
+import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 
 interface Props {
     children: React.ReactNode;

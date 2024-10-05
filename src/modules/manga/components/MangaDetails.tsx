@@ -42,7 +42,7 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { MangaType, SourceType } from '@/lib/graphql/generated/graphql.ts';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
-import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
+import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { shouldForwardProp } from '@/modules/core/utils/ShouldForwardProp.ts';
 
 const DetailsWrapper = styled('div')(({ theme }) => ({
