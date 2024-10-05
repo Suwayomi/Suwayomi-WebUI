@@ -24,7 +24,7 @@ import Button from '@mui/material/Button';
 import { PasswordTextField } from '@/modules/core/components/inputs/PasswordTextField.tsx';
 import { makeToast } from '@/lib/ui/Toast.ts';
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
-import { Trackers, TTrackerSearch } from '@/lib/data/Trackers.ts';
+import { Trackers, TTrackerSearch } from '@/modules/tracker/services/Trackers.ts';
 
 export const SettingsTrackerCard = ({ tracker }: { tracker: TTrackerSearch }) => {
     const { t } = useTranslation();

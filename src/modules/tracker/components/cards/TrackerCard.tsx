@@ -6,10 +6,10 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { TrackerUntrackedCard } from '@/components/tracker/TrackerUntrackedCard.tsx';
-import { TrackerSearch } from '@/components/tracker/TrackerSearch.tsx';
-import { TrackerActiveCard } from '@/components/tracker/TrackerActiveCard.tsx';
-import { TTrackerBind, TTrackRecordBind } from '@/lib/data/Trackers.ts';
+import { TrackerUntrackedCard } from '@/modules/tracker/components/cards/TrackerUntrackedCard.tsx';
+import { TrackerSearch } from '@/modules/tracker/components/TrackerSearch.tsx';
+import { TrackerActiveCard } from '@/modules/tracker/components/cards/TrackerActiveCard.tsx';
+import { TTrackerBind, TTrackRecordBind } from '@/modules/tracker/services/Trackers.ts';
 import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { MangaIdInfo } from '@/modules/manga/services/Mangas.ts';
 

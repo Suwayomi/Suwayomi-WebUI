@@ -26,7 +26,7 @@ import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
 import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines.tsx';
 import { Metadata } from '@/modules/core/components/Metadata.tsx';
 import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
-import { TTrackerManga } from '@/lib/data/Trackers.ts';
+import { TTrackerManga } from '@/modules/tracker/services/Trackers.ts';
 
 const TrackerMangaCardTitle = ({ title, selected }: { title: string; selected: boolean }) => (
     <Stack

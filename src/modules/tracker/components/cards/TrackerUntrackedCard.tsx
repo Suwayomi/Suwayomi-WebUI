@@ -13,8 +13,8 @@ import Button from '@mui/material/Button';
 import { useTranslation } from 'react-i18next';
 import Stack from '@mui/material/Stack';
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
-import { CARD_STYLING } from '@/components/tracker/constants.ts';
-import { TTrackerBase } from '@/lib/data/Trackers.ts';
+import { CARD_STYLING } from '@/modules/tracker/Tracker.constants.ts';
+import { TTrackerBase } from '@/modules/tracker/services/Trackers.ts';
 
 export const TrackerUntrackedCard = ({
     tracker,

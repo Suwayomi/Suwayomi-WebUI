@@ -18,16 +18,16 @@ import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
-import { SettingsTrackerCard } from '@/components/tracker/SettingsTrackerCard.tsx';
+import { SettingsTrackerCard } from '@/modules/tracker/components/cards/SettingsTrackerCard.tsx';
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/lib/metadata/metadataServerSettings.ts';
-import { MetadataTrackingSettings } from '@/typings.ts';
 import { makeToast } from '@/lib/ui/Toast.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { GET_TRACKERS_SETTINGS } from '@/lib/graphql/queries/TrackerQuery.ts';
 import { GetTrackersSettingsQuery } from '@/lib/graphql/generated/graphql.ts';
+import { MetadataTrackingSettings } from '@/modules/tracker/Tracker.types.ts';
 
 export const TrackingSettings = () => {
     const { t } = useTranslation();

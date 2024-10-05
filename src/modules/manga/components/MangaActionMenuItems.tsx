@@ -35,7 +35,7 @@ import {
     createShouldShowMenuItem,
 } from '@/modules/core/components/menu/Menu.utils.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { TrackManga } from '@/components/tracker/TrackManga.tsx';
+import { TrackManga } from '@/modules/tracker/components/TrackManga.tsx';
 import { useCategorySelect } from '@/components/navbar/action/useCategorySelect.tsx';
 import { ChaptersDownloadActionMenuItems } from '@/modules/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx';
 import { NestedMenuItem } from '@/modules/core/components/menu/NestedMenuItem.tsx';

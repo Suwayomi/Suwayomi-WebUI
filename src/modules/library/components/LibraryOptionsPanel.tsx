@@ -17,7 +17,7 @@ import { ThreeStateCheckboxInput } from '@/modules/core/components/inputs/ThreeS
 import { GridLayout } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
 import { OptionsTabs } from '@/modules/core/components/OptionsTabs.tsx';
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
-import { Trackers } from '@/lib/data/Trackers.ts';
+import { Trackers } from '@/modules/tracker/services/Trackers.ts';
 import { GetTrackersSettingsQuery, MangaStatus } from '@/lib/graphql/generated/graphql.ts';
 import { GET_TRACKERS_SETTINGS } from '@/lib/graphql/queries/TrackerQuery.ts';
 import { statusToTranslationKey } from '@/modules/manga/services/Mangas.ts';

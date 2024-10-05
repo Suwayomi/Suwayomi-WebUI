@@ -15,6 +15,7 @@ import { TranslationKey } from '@/Base.types.ts';
 import { MangaMetadataKeys } from '@/modules/manga/MangaCard.types.tsx';
 import { LibraryOptions, MetadataLibrarySettings } from '@/modules/library/Library.types.ts';
 import { SourceMetadataKeys } from '@/modules/source/Source.types.ts';
+import { MetadataTrackingSettings } from '@/modules/tracker/Tracker.types.ts';
 
 export interface ICategoryMetadata extends LibraryOptions {}
 
@@ -85,11 +86,6 @@ export type MetadataMigrationSettings = {
 
 export type MetadataBrowseSettings = {
     hideLibraryEntries: boolean;
-};
-
-export type MetadataTrackingSettings = {
-    updateProgressAfterReading: boolean;
-    updateProgressManualMarkRead: boolean;
 };
 
 export type MetadataUpdateSettings = {
