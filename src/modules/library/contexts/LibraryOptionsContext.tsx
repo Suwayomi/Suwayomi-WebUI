@@ -7,7 +7,7 @@
  */
 
 import React, { useContext } from 'react';
-import { getDefaultCategoryMetadata } from '@/lib/metadata/categoryMetadata.ts';
+import { getDefaultCategoryMetadata } from '@/modules/category/services/CategoryMetadata.ts';
 import { LibraryOptions } from '@/modules/library/Library.types.ts';
 
 type ContextType = {

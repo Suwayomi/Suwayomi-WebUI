@@ -12,10 +12,10 @@ import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings
 import { ChapterType, MangaType, SourceType, TrackRecordType } from '@/lib/graphql/generated/graphql.ts';
 import { MangaChapterCountInfo, MangaIdInfo } from '@/modules/manga/services/Mangas.ts';
 import { enhancedCleanup } from '@/lib/data/Strings.ts';
-import { CategoryMetadataInfo } from '@/lib/data/Categories.ts';
-import { getCategoryMetadata } from '@/lib/metadata/categoryMetadata.ts';
+import { getCategoryMetadata } from '@/modules/category/services/CategoryMetadata.ts';
 import { NullAndUndefined } from '@/Base.types.ts';
 import { LibraryOptions, LibrarySortMode } from '@/modules/library/Library.types.ts';
+import { CategoryMetadataInfo } from '@/modules/category/Category.types.ts';
 
 const triStateFilter = (
     triState: NullAndUndefined<boolean>,

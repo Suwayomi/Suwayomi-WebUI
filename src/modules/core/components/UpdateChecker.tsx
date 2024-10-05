@@ -23,7 +23,8 @@ import { Progress } from '@/modules/core/components/Progress.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { dateTimeFormatter } from '@/util/DateHelper.ts';
 import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
-import { CategoryIdInfo } from '@/lib/data/Categories.ts';
+
+import { CategoryIdInfo } from '@/modules/category/Category.types.ts';
 
 const calcProgress = (status: UpdaterSubscription['updateStatusChanged'] | undefined) => {
     if (!status) {

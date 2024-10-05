@@ -15,7 +15,7 @@ import Switch from '@mui/material/Switch';
 import {
     CategoriesInclusionSetting,
     CategoriesInclusionSettingProps,
-} from '@/components/settings/CategoriesInclusionSetting.tsx';
+} from '@/modules/category/components/CategoriesInclusionSetting.tsx';
 import { GlobalUpdateSettingsEntries } from '@/components/settings/globalUpdate/GlobalUpdateSettingsEntries.tsx';
 import { GlobalUpdateSettingsInterval } from '@/components/settings/globalUpdate/GlobalUpdateSettingsInterval.tsx';
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';

@@ -27,7 +27,7 @@ import {
     CategoryIdInfo,
     CategoryNameInfo,
     CategoryUpdateInclusionInfo,
-} from '@/lib/data/Categories.ts';
+} from '@/modules/category/Category.types.ts';
 
 type CategoryType = CategoryIdInfo & CategoryNameInfo & CategoryUpdateInclusionInfo & CategoryDownloadInclusionInfo;
 

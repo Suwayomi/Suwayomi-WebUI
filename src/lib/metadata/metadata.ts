@@ -18,9 +18,9 @@ import {
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import { MetaType, SourceType } from '@/lib/graphql/generated/graphql.ts';
 import { DEFAULT_DEVICE, getActiveDevice } from '@/util/device.ts';
-import { CategoryIdInfo } from '@/lib/data/Categories.ts';
 import { ChapterIdInfo } from '@/modules/chapter/services/Chapters.ts';
 import { MangaIdInfo } from '@/modules/manga/services/Mangas.ts';
+import { CategoryIdInfo } from '@/modules/category/Category.types.ts';
 
 const APP_METADATA_KEY_PREFIX = 'webUI_';
 

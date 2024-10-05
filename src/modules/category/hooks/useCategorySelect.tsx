@@ -7,7 +7,7 @@
  */
 
 import { useMemo, useState } from 'react';
-import { CategorySelect, CategorySelectProps } from '@/components/navbar/action/CategorySelect.tsx';
+import { CategorySelect, CategorySelectProps } from '@/modules/category/components/CategorySelect.tsx';
 
 export const useCategorySelect = ({
     mangaId,

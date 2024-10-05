@@ -40,7 +40,7 @@ import { Mangas } from '@/modules/manga/services/Mangas.ts';
 import { MANGA_CHAPTER_STAT_FIELDS } from '@/lib/graphql/fragments/MangaFragments.ts';
 import { useLibraryOptionsContext } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
 import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
-import { getCategoryMetadata } from '@/lib/metadata/categoryMetadata.ts';
+import { getCategoryMetadata } from '@/modules/category/services/CategoryMetadata.ts';
 
 const TitleWithSizeTag = styled('span')({
     display: 'flex',

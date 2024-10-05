@@ -13,11 +13,10 @@ import { AppTheme } from '@/lib/ui/AppThemes.ts';
 import { MetadataMigrationSettings } from '@/modules/migration/Migration.types.ts';
 import { TranslationKey } from '@/Base.types.ts';
 import { MangaMetadataKeys } from '@/modules/manga/MangaCard.types.tsx';
-import { LibraryOptions, MetadataLibrarySettings } from '@/modules/library/Library.types.ts';
+import { MetadataLibrarySettings } from '@/modules/library/Library.types.ts';
 import { SourceMetadataKeys } from '@/modules/source/Source.types.ts';
 import { MetadataTrackingSettings } from '@/modules/tracker/Tracker.types.ts';
-
-export interface ICategoryMetadata extends LibraryOptions {}
+import { CategoryMetadataKeys } from '@/modules/category/Category.types.ts';
 
 export interface IMetadataMigration {
     appKeyPrefix?: { oldPrefix: string; newPrefix: string };
@@ -48,8 +47,6 @@ export type AllowedMetadataValueTypes = string | boolean | number | undefined | 
 export type MetadataServerSettingKeys = keyof MetadataServerSettings;
 
 export type SearchMetadataKeys = keyof ISearchSettings;
-
-export type CategoryMetadataKeys = keyof ICategoryMetadata;
 
 export type AppMetadataKeys =
     | MetadataServerSettingKeys

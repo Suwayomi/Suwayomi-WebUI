@@ -31,7 +31,10 @@ const { SearchAll } = loadable(() => import('@/screens/SearchAll'), lazyLoadFall
 const { Settings } = loadable(() => import('@/screens/Settings'), lazyLoadFallback);
 const { About } = loadable(() => import('@/screens/settings/About'), lazyLoadFallback);
 const { Backup } = loadable(() => import('@/screens/settings/Backup'), lazyLoadFallback);
-const { Categories } = loadable(() => import('@/screens/settings/Categories'), lazyLoadFallback);
+const { CategorySettings } = loadable(
+    () => import('@/modules/category/screens/CategorySettings.tsx'),
+    lazyLoadFallback,
+);
 const { DefaultReaderSettings } = loadable(
     () => import('@/modules/reader/screens/DefaultReaderSettings.tsx'),
     lazyLoadFallback,
@@ -112,7 +115,7 @@ const MainApp = () => {
                     <Route path="settings">
                         <Route index element={<Settings />} />
                         <Route path="about" element={<About />} />
-                        <Route path="categories" element={<Categories />} />
+                        <Route path="categories" element={<CategorySettings />} />
                         <Route path="defaultReaderSettings" element={<DefaultReaderSettings />} />
                         <Route path="librarySettings">
                             <Route index element={<LibrarySettings />} />

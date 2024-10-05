@@ -9,7 +9,7 @@
 import React, { useMemo } from 'react';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { LibraryOptionsContext } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
-import { getDefaultCategoryMetadata } from '@/lib/metadata/categoryMetadata.ts';
+import { getDefaultCategoryMetadata } from '@/modules/category/services/CategoryMetadata.ts';
 import { LibraryOptions } from '@/modules/library/Library.types.ts';
 
 interface IProps {

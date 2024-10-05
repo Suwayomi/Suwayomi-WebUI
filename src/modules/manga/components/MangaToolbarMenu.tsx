@@ -21,7 +21,7 @@ import { Link } from 'react-router-dom';
 import SyncAltIcon from '@mui/icons-material/SyncAlt';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { useCategorySelect } from '@/components/navbar/action/useCategorySelect.tsx';
+import { useCategorySelect } from '@/modules/category/hooks/useCategorySelect.tsx';
 import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 
 interface IProps {

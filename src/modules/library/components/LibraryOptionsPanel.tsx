@@ -21,8 +21,7 @@ import { Trackers } from '@/modules/tracker/services/Trackers.ts';
 import { GetTrackersSettingsQuery, MangaStatus } from '@/lib/graphql/generated/graphql.ts';
 import { GET_TRACKERS_SETTINGS } from '@/lib/graphql/queries/TrackerQuery.ts';
 import { statusToTranslationKey } from '@/modules/manga/services/Mangas.ts';
-import { CategoryMetadataInfo } from '@/lib/data/Categories.ts';
-import { createUpdateCategoryMetadata, getCategoryMetadata } from '@/lib/metadata/categoryMetadata.ts';
+import { createUpdateCategoryMetadata, getCategoryMetadata } from '@/modules/category/services/CategoryMetadata.ts';
 import { makeToast } from '@/lib/ui/Toast.ts';
 import {
     createUpdateMetadataServerSettings,
@@ -30,6 +29,7 @@ import {
 } from '@/lib/metadata/metadataServerSettings.ts';
 import { TranslationKey } from '@/Base.types.ts';
 import { LibrarySortMode } from '@/modules/library/Library.types.ts';
+import { CategoryMetadataInfo } from '@/modules/category/Category.types.ts';
 
 const TITLES: { [key in 'filter' | 'sort' | 'display']: TranslationKey } = {
     filter: 'global.label.filter',

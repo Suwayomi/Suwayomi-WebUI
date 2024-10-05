@@ -6,16 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useMemo, useState, useContext, useLayoutEffect } from 'react';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
-import { DragDropContext, Draggable, DraggableProvided, DropResult } from 'react-beautiful-dnd';
-import DragHandleIcon from '@mui/icons-material/DragHandle';
-import EditIcon from '@mui/icons-material/Edit';
+import { useContext, useLayoutEffect, useMemo, useState } from 'react';
+import { DragDropContext, Draggable, DropResult } from 'react-beautiful-dnd';
 import { useTheme } from '@mui/material/styles';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
-import DeleteIcon from '@mui/icons-material/Delete';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -26,77 +21,19 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import { StrictModeDroppable } from '@/modules/core/components/StrictModeDroppable.tsx';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/modules/core/components/buttons/StyledFab.tsx';
-import { NavBarContext } from '@/components/context/NavbarContext';
+import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import {
-    CategoryType,
-    GetCategoriesSettingsQuery,
-    GetCategoriesSettingsQueryVariables,
-} from '@/lib/graphql/generated/graphql.ts';
+import { GetCategoriesSettingsQuery, GetCategoriesSettingsQueryVariables } from '@/lib/graphql/generated/graphql.ts';
 import { GET_CATEGORIES_SETTINGS } from '@/lib/graphql/queries/CategoryQuery.ts';
-import { CategoryIdInfo } from '@/lib/data/Categories.ts';
+import { CategorySettingsCard } from '@/modules/category/components/CategorySettingsCard.tsx';
+import { CategoryIdInfo } from '@/modules/category/Category.types.ts';
 
-const CategoryCard = ({
-    category,
-    provided,
-    onEdit,
-}: {
-    category: Pick<CategoryType, 'id' | 'name'>;
-    provided: DraggableProvided;
-    onEdit: () => void;
-}) => {
-    const { t } = useTranslation();
-
-    const deleteCategory = () => {
-        requestManager.deleteCategory(category.id);
-    };
-
-    return (
-        <Box sx={{ p: 1, pb: 0 }} {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
-            <Card>
-                <CardContent
-                    sx={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        padding: 1.5,
-                        '&:last-child': {
-                            paddingBottom: 1.5,
-                        },
-                        gap: 2,
-                    }}
-                >
-                    <DragHandleIcon />
-                    <Typography sx={{ flexGrow: 1 }} variant="h6" component="h2">
-                        {category.name}
-                    </Typography>
-                    <Stack sx={{ flexDirection: 'row' }}>
-                        <Tooltip title={t('global.button.edit')}>
-                            <IconButton component={Box} onClick={onEdit} size="large">
-                                <EditIcon />
-                            </IconButton>
-                        </Tooltip>
-                        <Tooltip title={t('chapter.action.download.delete.label.action')}>
-                            <IconButton component={Box} onClick={deleteCategory} size="large">
-                                <DeleteIcon />
-                            </IconButton>
-                        </Tooltip>
-                    </Stack>
-                </CardContent>
-            </Card>
-        </Box>
-    );
-};
-export function Categories() {
+export function CategorySettings() {
     const { t } = useTranslation();
 
     const { setTitle, setAction } = useContext(NavBarContext);
@@ -188,7 +125,7 @@ export function Categories() {
             <EmptyViewAbsoluteCentered
                 message={t('category.error.label.request_failure')}
                 messageExtra={error.message}
-                retry={() => refetch().catch(defaultPromiseErrorHandler('Categories::refetch'))}
+                retry={() => refetch().catch(defaultPromiseErrorHandler('CategorySettings::refetch'))}
             />
         );
     }
@@ -202,7 +139,7 @@ export function Categories() {
                             {categories.map((category, index) => (
                                 <Draggable key={category.id} draggableId={category.id.toString()} index={index}>
                                     {(draggableProvided) => (
-                                        <CategoryCard
+                                        <CategorySettingsCard
                                             provided={draggableProvided}
                                             category={category}
                                             onEdit={() => handleEditDialogOpen(index)}

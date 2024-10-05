@@ -24,7 +24,7 @@ import {
 } from '@/lib/metadata/metadataServerSettings.ts';
 import { makeToast } from '@/lib/ui/Toast.ts';
 import { DeleteChaptersWhileReadingSetting } from '@/components/settings/downloads/DeleteChaptersWhileReadingSetting.tsx';
-import { CategoriesInclusionSetting } from '@/components/settings/CategoriesInclusionSetting.tsx';
+import { CategoriesInclusionSetting } from '@/modules/category/components/CategoriesInclusionSetting.tsx';
 import { NumberSetting } from '@/modules/core/components/settings/NumberSetting.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
