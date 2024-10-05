@@ -20,11 +20,11 @@ import DoneAllIcon from '@mui/icons-material/DoneAll';
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
 import Menu from '@mui/material/Menu';
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
-import { ChapterCard } from '@/components/chapter/ChapterCard.tsx';
+import { ChapterCard } from '@/modules/chapter/components/cards/ChapterCard.tsx';
 import { ResumeFab } from '@/components/manga/ResumeFAB.tsx';
-import { filterAndSortChapters, useChapterOptions } from '@/components/chapter/util.tsx';
+import { filterAndSortChapters } from '@/modules/chapter/utils/ChapterList.util.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
-import { ChaptersToolbarMenu } from '@/components/chapter/ChaptersToolbarMenu.tsx';
+import { ChaptersToolbarMenu } from '@/modules/chapter/components/ChaptersToolbarMenu.tsx';
 import { SelectionFAB } from '@/components/collection/SelectionFAB.tsx';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/modules/core/components/buttons/StyledFab.tsx';
 import {
@@ -34,18 +34,19 @@ import {
 } from '@/lib/graphql/generated/graphql.ts';
 import { useSelectableCollection } from '@/components/collection/useSelectableCollection.ts';
 import { SelectableCollectionSelectAll } from '@/components/collection/SelectableCollectionSelectAll.tsx';
-import { Chapters } from '@/lib/data/Chapters.ts';
-import { ChaptersWithMeta, ChapterWithMetaType } from '@/lib/data/ChaptersWithMeta.ts';
-import { ChapterActionMenuItems } from '@/components/chapter/ChapterActionMenuItems.tsx';
-import { ChaptersDownloadActionMenuItems } from '@/components/chapter/ChaptersDownloadActionMenuItems.tsx';
+import { Chapters } from '@/modules/chapter/services/Chapters.ts';
+import { ChaptersWithMeta, ChapterWithMetaType } from '@/modules/chapter/services/ChaptersWithMeta.ts';
+import { ChapterActionMenuItems } from '@/modules/chapter/components/actions/ChapterActionMenuItems.tsx';
+import { ChaptersDownloadActionMenuItems } from '@/modules/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { GET_CHAPTERS_MANGA } from '@/lib/graphql/queries/ChapterQuery.ts';
-import { Mangas } from '@/lib/data/Mangas';
+import { Mangas } from '@/lib/data/Mangas.ts';
 import { useNavBarContext } from '@/components/context/NavbarContext.tsx';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
 import { shouldForwardProp } from '@/modules/core/utils/ShouldForwardProp.ts';
+import { useChapterOptions } from '@/modules/chapter/hooks/useChapterOptions.tsx';
 
 type ChapterListHeaderProps = {
     scrollbarWidth: number;

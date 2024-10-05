@@ -11,9 +11,9 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { ChapterListOptions, ChapterOptionsReducerAction } from '@/typings.ts';
-import { ChapterOptions } from '@/components/chapter/ChapterOptions.tsx';
-import { isFilterActive } from '@/components/chapter/util.tsx';
+import { ChapterOptions } from '@/modules/chapter/components/ChapterOptions.tsx';
+import { isFilterActive } from '@/modules/chapter/utils/ChapterList.util.tsx';
+import { ChapterListOptions, ChapterOptionsReducerAction } from '@/modules/chapter/Chapter.types.ts';
 
 interface IProps {
     options: ChapterListOptions;

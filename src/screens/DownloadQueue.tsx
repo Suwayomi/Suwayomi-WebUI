@@ -33,7 +33,7 @@ import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { ChapterDownloadStatus, ChapterIdInfo } from '@/lib/data/Chapters.ts';
+import { ChapterDownloadStatus, ChapterIdInfo } from '@/modules/chapter/services/Chapters.ts';
 import { DownloadState } from '@/lib/graphql/generated/graphql.ts';
 
 const HeightPreservingItem = ({ children, ...props }: BoxProps) => (

@@ -12,7 +12,7 @@ import {
     ChapterDownloadStatus,
     ChapterReadInfo,
     Chapters,
-} from '@/lib/data/Chapters.ts';
+} from '@/modules/chapter/services/Chapters.ts';
 import { DownloadState } from '@/lib/graphql/generated/graphql.ts';
 
 export type ChapterWithMetaType<

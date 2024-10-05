@@ -227,24 +227,6 @@ export interface NavbarItem {
     show: 'mobile' | 'desktop' | 'both';
 }
 
-export type ChapterSortMode = 'fetchedAt' | 'source' | 'chapterNumber' | 'uploadedAt';
-
-export interface ChapterListOptions {
-    active: boolean;
-    unread: NullAndUndefined<boolean>;
-    downloaded: NullAndUndefined<boolean>;
-    bookmarked: NullAndUndefined<boolean>;
-    reverse: boolean;
-    sortBy: ChapterSortMode;
-    showChapterNumber: boolean;
-}
-
-export type ChapterOptionsReducerAction =
-    | { type: 'filter'; filterType: string; filterValue: NullAndUndefined<boolean> }
-    | { type: 'sortBy'; sortBy: ChapterSortMode }
-    | { type: 'sortReverse' }
-    | { type: 'showChapterNumber' };
-
 export type LibrarySortMode =
     | 'unreadChapters'
     | 'totalChapters'

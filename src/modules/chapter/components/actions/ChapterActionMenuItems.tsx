@@ -28,10 +28,10 @@ import {
     ChapterReadInfo,
     ChapterRealUrlInfo,
     Chapters,
-} from '@/lib/data/Chapters.ts';
+} from '@/modules/chapter/services/Chapters.ts';
 import { MenuItem } from '@/modules/core/components/menu/MenuItem.tsx';
-import { IChapterWithMeta } from '@/components/chapter/ChapterList.tsx';
-import { ChaptersWithMeta } from '@/lib/data/ChaptersWithMeta.ts';
+import { IChapterWithMeta } from '@/modules/chapter/components/ChapterList.tsx';
+import { ChaptersWithMeta } from '@/modules/chapter/services/ChaptersWithMeta.ts';
 import {
     createGetMenuItemTitle,
     createIsMenuItemDisabled,

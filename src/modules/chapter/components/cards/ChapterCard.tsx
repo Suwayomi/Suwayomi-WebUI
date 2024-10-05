@@ -25,7 +25,7 @@ import { useLongPress } from 'use-long-press';
 import { getDateString } from '@/util/DateHelper.ts';
 import { DownloadStateIndicator } from '@/modules/core/components/DownloadStateIndicator.tsx';
 import { ChapterType } from '@/lib/graphql/generated/graphql.ts';
-import { ChapterActionMenuItems } from '@/components/chapter/ChapterActionMenuItems.tsx';
+import { ChapterActionMenuItems } from '@/modules/chapter/components/actions/ChapterActionMenuItems.tsx';
 import { Menu } from '@/modules/core/components/menu/Menu.tsx';
 import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines.tsx';
 import {
@@ -37,8 +37,8 @@ import {
     ChapterNumberInfo,
     ChapterReadInfo,
     ChapterScanlatorInfo,
-} from '@/lib/data/Chapters.ts';
-import { ChaptersWithMeta } from '@/lib/data/ChaptersWithMeta.ts';
+} from '@/modules/chapter/services/Chapters.ts';
+import { ChaptersWithMeta } from '@/modules/chapter/services/ChaptersWithMeta.ts';
 
 type TChapter = ChapterIdInfo &
     ChapterMangaInfo &

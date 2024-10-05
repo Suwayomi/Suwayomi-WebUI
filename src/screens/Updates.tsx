@@ -34,7 +34,7 @@ import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
 import { dateTimeFormatter, epochToDate, getDateString } from '@/util/DateHelper.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines.tsx';
-import { ChapterIdInfo, ChapterMangaInfo } from '@/lib/data/Chapters.ts';
+import { ChapterIdInfo, ChapterMangaInfo } from '@/modules/chapter/services/Chapters.ts';
 import { makeToast } from '@/lib/ui/Toast.ts';
 
 const groupByDate = (updates: Pick<ChapterType, 'fetchedAt'>[]): [date: string, items: number][] => {

@@ -11,7 +11,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next';
 import { DownloadState } from '@/lib/graphql/generated/graphql.ts';
-import { ChapterDownloadStatus } from '@/lib/data/Chapters.ts';
+import { ChapterDownloadStatus } from '@/modules/chapter/services/Chapters.ts';
 import { TranslationKey } from '@/Base.types.ts';
 
 const DOWNLOAD_STATE_TO_TRANSLATION_KEY_MAP: { [state in DownloadState]: TranslationKey } = {

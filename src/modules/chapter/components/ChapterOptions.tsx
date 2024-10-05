@@ -9,13 +9,13 @@
 import RadioGroup from '@mui/material/RadioGroup';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { ChapterListOptions, ChapterOptionsReducerAction } from '@/typings.ts';
 import { RadioInput } from '@/modules/core/components/inputs/RadioInput.tsx';
 import { SortRadioInput } from '@/modules/core/components/inputs/SortRadioInput.tsx';
 import { ThreeStateCheckboxInput } from '@/modules/core/components/inputs/ThreeStateCheckboxInput.tsx';
 import { OptionsTabs } from '@/modules/core/components/OptionsTabs.tsx';
-import { SORT_OPTIONS } from '@/components/chapter/util.tsx';
+import { CHAPTER_SORT_OPTIONS_TO_TRANSLATION_KEY } from '@/modules/chapter/Chapter.constants.ts';
 import { TranslationKey } from '@/Base.types.ts';
+import { ChapterListOptions, ChapterOptionsReducerAction } from '@/modules/chapter/Chapter.types.ts';
 
 interface IProps {
     open: boolean;
@@ -81,7 +81,7 @@ export const ChapterOptions: React.FC<IProps> = ({ open, onClose, options, optio
                     );
                 }
                 if (key === 'sort') {
-                    return Object.entries(SORT_OPTIONS).map(([mode, label]) => (
+                    return Object.entries(CHAPTER_SORT_OPTIONS_TO_TRANSLATION_KEY).map(([mode, label]) => (
                         <SortRadioInput
                             key={mode}
                             label={t(label)}
@@ -89,7 +89,10 @@ export const ChapterOptions: React.FC<IProps> = ({ open, onClose, options, optio
                             sortDescending={options.reverse}
                             onClick={() =>
                                 mode !== options.sortBy
-                                    ? optionsDispatch({ type: 'sortBy', sortBy: mode as keyof typeof SORT_OPTIONS })
+                                    ? optionsDispatch({
+                                          type: 'sortBy',
+                                          sortBy: mode as keyof typeof CHAPTER_SORT_OPTIONS_TO_TRANSLATION_KEY,
+                                      })
                                     : optionsDispatch({ type: 'sortReverse' })
                             }
                         />

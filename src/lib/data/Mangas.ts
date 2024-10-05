@@ -24,7 +24,7 @@ import {
     TrackRecordType,
     UpdateMangaCategoriesPatchInput,
 } from '@/lib/graphql/generated/graphql.ts';
-import { Chapters } from '@/lib/data/Chapters.ts';
+import { Chapters } from '@/modules/chapter/services/Chapters.ts';
 import { makeToast } from '@/lib/ui/Toast.ts';
 import { getMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 import { GET_MANGAS_BASE } from '@/lib/graphql/queries/MangaQuery.ts';

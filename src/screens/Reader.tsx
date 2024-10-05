@@ -36,7 +36,7 @@ import {
 } from '@/lib/graphql/generated/graphql.ts';
 import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { ChapterIdInfo, Chapters } from '@/lib/data/Chapters.ts';
+import { ChapterIdInfo, Chapters } from '@/modules/chapter/services/Chapters.ts';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { GET_CHAPTERS_READER } from '@/lib/graphql/queries/ChapterQuery.ts';
 import { GET_MANGA_READER } from '@/lib/graphql/queries/MangaQuery.ts';

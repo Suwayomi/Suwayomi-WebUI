@@ -6,41 +6,10 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { t } from 'i18next';
-import { ChapterListOptions, ChapterOptionsReducerAction, ChapterSortMode } from '@/typings.ts';
-import { useReducerLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
-import { ChapterBookmarkInfo, ChapterDownloadInfo, ChapterReadInfo } from '@/lib/data/Chapters.ts';
+import { ChapterBookmarkInfo, ChapterDownloadInfo, ChapterReadInfo } from '@/modules/chapter/services/Chapters.ts';
 import { ChapterType } from '@/lib/graphql/generated/graphql.ts';
-import { NullAndUndefined, TranslationKey } from '@/Base.types.ts';
-
-const defaultChapterOptions: ChapterListOptions = {
-    active: false,
-    unread: undefined,
-    downloaded: undefined,
-    bookmarked: undefined,
-    reverse: true,
-    sortBy: 'source',
-    showChapterNumber: false,
-};
-
-function chapterOptionsReducer(state: ChapterListOptions, actions: ChapterOptionsReducerAction): ChapterListOptions {
-    switch (actions.type) {
-        case 'filter':
-            return {
-                ...state,
-                active: state.unread !== false && state.downloaded !== false && state.bookmarked !== false,
-                [actions.filterType!]: actions.filterValue,
-            };
-        case 'sortBy':
-            return { ...state, sortBy: actions.sortBy };
-        case 'sortReverse':
-            return { ...state, reverse: !state.reverse };
-        case 'showChapterNumber':
-            return { ...state, showChapterNumber: !state.showChapterNumber };
-        default:
-            throw Error(t('global.error.label.invalid_action'));
-    }
-}
+import { NullAndUndefined } from '@/Base.types.ts';
+import { ChapterListOptions } from '@/modules/chapter/Chapter.types.ts';
 
 export function unreadFilter(unread: NullAndUndefined<boolean>, { isRead: isChapterRead }: ChapterReadInfo) {
     switch (unread) {
@@ -125,20 +94,6 @@ export function filterAndSortChapters<Chapters extends TChapterFilter>(
 
     return sortChapters(filtered, options);
 }
-
-export const useChapterOptions = (mangaId: number) =>
-    useReducerLocalStorage<ChapterListOptions, ChapterOptionsReducerAction>(
-        chapterOptionsReducer,
-        `${mangaId}filterOptions`,
-        defaultChapterOptions,
-    );
-
-export const SORT_OPTIONS: Record<ChapterSortMode, TranslationKey> = {
-    source: 'global.sort.label.by_source',
-    chapterNumber: 'global.sort.label.by_chapter_number',
-    uploadedAt: 'global.sort.label.by_upload_date',
-    fetchedAt: 'global.sort.label.by_fetch_date',
-};
 
 export const isFilterActive = (options: ChapterListOptions) => {
     const { unread, downloaded, bookmarked } = options;

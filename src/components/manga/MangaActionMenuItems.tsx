@@ -37,7 +37,7 @@ import {
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { TrackManga } from '@/components/tracker/TrackManga.tsx';
 import { useCategorySelect } from '@/components/navbar/action/useCategorySelect.tsx';
-import { ChaptersDownloadActionMenuItems } from '@/components/chapter/ChaptersDownloadActionMenuItems.tsx';
+import { ChaptersDownloadActionMenuItems } from '@/modules/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx';
 import { NestedMenuItem } from '@/modules/core/components/menu/NestedMenuItem.tsx';
 import { MangaChapterStatFieldsFragment, MangaType } from '@/lib/graphql/generated/graphql.ts';
 
