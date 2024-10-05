@@ -17,7 +17,7 @@ import Box from '@mui/material/Box';
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
-import { GridLayout } from '@/components/context/LibraryOptionsContext.tsx';
+import { GridLayout } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
 import { GridLayouts } from '@/components/source/GridLayouts.tsx';
 import { CheckboxInput } from '@/modules/core/components/inputs/CheckboxInput.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';

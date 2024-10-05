@@ -24,7 +24,7 @@ import { useTranslation } from 'react-i18next';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { MangaCard } from '@/modules/manga/components/cards/MangaCard.tsx';
-import { GridLayout } from '@/components/context/LibraryOptionsContext';
+import { GridLayout } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
 import { useLocalStorage, useSessionStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { SelectableCollectionReturnType } from '@/modules/collection/hooks/useSelectableCollection.ts';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/modules/core/components/buttons/StyledFab.tsx';

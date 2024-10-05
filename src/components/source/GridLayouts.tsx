@@ -15,7 +15,7 @@ import Tooltip from '@mui/material/Tooltip';
 import React from 'react';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import { useTranslation } from 'react-i18next';
-import { GridLayout } from '@/components/context/LibraryOptionsContext';
+import { GridLayout } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
 
 // TODO: clean up this to use a FormControl, and remove dependency on name o radio button
 export function GridLayouts({

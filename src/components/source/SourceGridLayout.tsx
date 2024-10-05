@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { GridLayout } from '@/components/context/LibraryOptionsContext';
+import { GridLayout } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
 import { GridLayouts } from '@/components/source/GridLayouts.tsx';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 

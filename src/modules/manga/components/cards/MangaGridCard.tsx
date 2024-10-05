@@ -17,7 +17,7 @@ import { styled } from '@mui/material/styles';
 import { useRef } from 'react';
 import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
 import { MangaOptionButton } from '@/modules/manga/components/MangaOptionButton.tsx';
-import { GridLayout } from '@/components/context/LibraryOptionsContext.tsx';
+import { GridLayout } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
 import { Mangas } from '@/modules/manga/services/Mangas.ts';
 import { SpecificMangaCardProps } from '@/modules/manga/MangaCard.types.tsx';
 import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines.tsx';

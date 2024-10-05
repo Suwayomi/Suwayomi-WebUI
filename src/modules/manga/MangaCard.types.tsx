@@ -8,7 +8,7 @@
 
 import { LongPressPointerHandlers, LongPressResult } from 'use-long-press/lib/use-long-press.types';
 import { PopupState } from 'material-ui-popup-state/hooks';
-import { GridLayout } from '@/components/context/LibraryOptionsContext.tsx';
+import { GridLayout } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
 import { SelectableCollectionReturnType } from '@/modules/collection/hooks/useSelectableCollection.ts';
 import { useManageMangaLibraryState } from '@/modules/manga/hooks/useManageMangaLibraryState.tsx';
 import { MangaThumbnailInfo } from '@/modules/manga/services/Mangas.ts';

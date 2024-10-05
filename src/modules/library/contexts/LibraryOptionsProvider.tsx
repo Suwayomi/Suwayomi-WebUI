@@ -7,10 +7,10 @@
  */
 
 import React, { useMemo } from 'react';
-import { LibraryOptions } from '@/typings';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
-import { LibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
+import { LibraryOptionsContext } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
 import { getDefaultCategoryMetadata } from '@/lib/metadata/categoryMetadata.ts';
+import { LibraryOptions } from '@/modules/library/Library.types.ts';
 
 interface IProps {
     children: React.ReactNode;

@@ -21,7 +21,7 @@ import { createAndSetTheme } from '@/theme.tsx';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { ThemeMode, ThemeModeContext } from '@/components/context/ThemeModeContext.tsx';
 import { NavBarContextProvider } from '@/components/navbar/NavBarContextProvider.tsx';
-import { LibraryOptionsContextProvider } from '@/components/library/LibraryOptionsProvider.tsx';
+import { LibraryOptionsContextProvider } from '@/modules/library/contexts/LibraryOptionsProvider.tsx';
 import { ActiveDevice, DEFAULT_DEVICE, setActiveDevice } from '@/util/device.ts';
 import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
 import { AppThemes, getTheme } from '@/lib/ui/AppThemes.ts';

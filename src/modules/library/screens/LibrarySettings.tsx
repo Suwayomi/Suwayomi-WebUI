@@ -17,7 +17,6 @@ import ListSubheader from '@mui/material/ListSubheader';
 import { t as translate } from 'i18next';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { GlobalUpdateSettings } from '@/components/settings/globalUpdate/GlobalUpdateSettings.tsx';
-import { MetadataLibrarySettings } from '@/typings.ts';
 import { makeToast } from '@/lib/ui/Toast.ts';
 import {
     createUpdateMetadataServerSettings,
@@ -37,6 +36,7 @@ import {
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_CATEGORIES_SETTINGS } from '@/lib/graphql/queries/CategoryQuery.ts';
 import { GET_MANGAS_BASE } from '@/lib/graphql/queries/MangaQuery.ts';
+import { MetadataLibrarySettings } from '@/modules/library/Library.types.ts';
 
 const removeNonLibraryMangasFromCategories = async (): Promise<void> => {
     try {

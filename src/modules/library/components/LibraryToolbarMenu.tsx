@@ -11,8 +11,8 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import { ComponentProps, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { LibraryOptionsPanel } from '@/components/library/LibraryOptionsPanel';
-import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext.tsx';
+import { LibraryOptionsPanel } from '@/modules/library/components/LibraryOptionsPanel.tsx';
+import { useLibraryOptionsContext } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
 
 export const LibraryToolbarMenu = ({
     category,

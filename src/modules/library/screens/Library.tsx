@@ -16,14 +16,14 @@ import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { TabPanel } from '@/modules/core/components/tabs/TabPanel.tsx';
-import { LibraryToolbarMenu } from '@/components/library/LibraryToolbarMenu';
-import { LibraryMangaGrid } from '@/components/library/LibraryMangaGrid';
+import { LibraryToolbarMenu } from '@/modules/library/components/LibraryToolbarMenu.tsx';
+import { LibraryMangaGrid } from '@/modules/library/components/LibraryMangaGrid.tsx';
 import { AppbarSearch } from '@/modules/core/components/AppbarSearch.tsx';
 import { UpdateChecker } from '@/modules/core/components/UpdateChecker.tsx';
 import { NavBarContext } from '@/components/context/NavbarContext.tsx';
 import { useSelectableCollection } from '@/modules/collection/hooks/useSelectableCollection.ts';
 import { SelectableCollectionSelectMode } from '@/modules/collection/components/SelectableCollectionSelectMode.tsx';
-import { useGetVisibleLibraryMangas } from '@/components/library/useGetVisibleLibraryMangas.ts';
+import { useGetVisibleLibraryMangas } from '@/modules/library/hooks/useGetVisibleLibraryMangas.ts';
 import { SelectionFAB } from '@/modules/collection/components/SelectionFAB.tsx';
 import { MangaActionMenuItems } from '@/modules/manga/components/MangaActionMenuItems.tsx';
 import { TabsMenu } from '@/modules/core/components/tabs/TabsMenu.tsx';
@@ -38,7 +38,7 @@ import {
 import { GET_CATEGORIES_LIBRARY } from '@/lib/graphql/queries/CategoryQuery.ts';
 import { Mangas } from '@/modules/manga/services/Mangas.ts';
 import { MANGA_CHAPTER_STAT_FIELDS } from '@/lib/graphql/fragments/MangaFragments.ts';
-import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext.tsx';
+import { useLibraryOptionsContext } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
 import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 import { getCategoryMetadata } from '@/lib/metadata/categoryMetadata.ts';
 

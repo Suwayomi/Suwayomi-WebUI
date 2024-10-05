@@ -16,7 +16,7 @@ import { LoadingPlaceholder } from '@/modules/core/components/placeholder/Loadin
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { GridLayouts } from '@/components/source/GridLayouts.tsx';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
-import { GridLayout } from '@/components/context/LibraryOptionsContext.tsx';
+import { GridLayout } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { GetSourceMigratableQuery, GetSourceMigratableQueryVariables } from '@/lib/graphql/generated/graphql.ts';
 import { GET_SOURCE_MIGRATABLE } from '@/lib/graphql/queries/SourceQuery.ts';

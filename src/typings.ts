@@ -14,15 +14,14 @@ import {
     GetSourceBrowseQuery,
     GetSourceSettingsQuery,
     MangaReaderFieldsFragment,
-    MangaStatus,
     MetaType,
     SourcePreferenceChangeInput,
-    TrackerType,
 } from '@/lib/graphql/generated/graphql.ts';
 import { AppTheme } from '@/lib/ui/AppThemes.ts';
 import { SortSettings } from '@/screens/Migration.types.ts';
-import { NullAndUndefined, TranslationKey } from '@/Base.types.ts';
+import { TranslationKey } from '@/Base.types.ts';
 import { MangaMetadataKeys } from '@/modules/manga/MangaCard.types.tsx';
+import { LibraryOptions, MetadataLibrarySettings } from '@/modules/library/Library.types.ts';
 
 export interface IPos {
     type: 'selectState' | 'textState' | 'checkBoxState' | 'triState' | 'sortState';
@@ -118,13 +117,6 @@ export type MetadataDownloadSettings = {
     deleteChaptersWhileReading: number;
     deleteChaptersWithBookmark: boolean;
     downloadAheadLimit: number;
-};
-
-export type MetadataLibrarySettings = {
-    showAddToLibraryCategorySelectDialog: boolean;
-    ignoreFilters: boolean;
-    removeMangaFromCategories: boolean;
-    showTabSize: boolean;
 };
 
 export type MetadataClientSettings = {
@@ -224,41 +216,6 @@ export interface NavbarItem {
     SelectedIconComponent: OverridableComponent<SvgIconTypeMap<{}, 'svg'>>;
     IconComponent: OverridableComponent<SvgIconTypeMap<{}, 'svg'>>;
     show: 'mobile' | 'desktop' | 'both';
-}
-
-export type LibrarySortMode =
-    | 'unreadChapters'
-    | 'totalChapters'
-    | 'alphabetically'
-    | 'dateAdded'
-    | 'lastRead'
-    | 'latestFetchedChapter'
-    | 'latestUploadedChapter';
-
-enum GridLayout {
-    Compact = 0,
-    Comfortable = 1,
-    List = 2,
-}
-
-export interface LibraryOptions {
-    // display options
-    showContinueReadingButton: boolean;
-    showDownloadBadge: boolean;
-    showUnreadBadge: boolean;
-    gridLayout: GridLayout;
-
-    // sort options
-    sortBy: NullAndUndefined<LibrarySortMode>;
-    sortDesc: NullAndUndefined<boolean>;
-
-    // filter options
-    hasDownloadedChapters: NullAndUndefined<boolean>;
-    hasBookmarkedChapters: NullAndUndefined<boolean>;
-    hasUnreadChapters: NullAndUndefined<boolean>;
-    hasDuplicateChapters: NullAndUndefined<boolean>;
-    hasTrackerBinding: Record<TrackerType['id'], NullAndUndefined<boolean>>;
-    hasStatus: Record<MangaStatus, NullAndUndefined<boolean>>;
 }
 
 export type ServerSettings = GetServerSettingsQuery['settings'];

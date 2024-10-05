@@ -8,7 +8,6 @@
 
 import { StringParam, useQueryParam } from 'use-query-params';
 import { useMemo } from 'react';
-import { LibraryOptions, LibrarySortMode } from '@/typings.ts';
 import { useMetadataServerSettings } from '@/lib/metadata/metadataServerSettings.ts';
 import { ChapterType, MangaType, SourceType, TrackRecordType } from '@/lib/graphql/generated/graphql.ts';
 import { MangaChapterCountInfo, MangaIdInfo } from '@/modules/manga/services/Mangas.ts';
@@ -16,6 +15,7 @@ import { enhancedCleanup } from '@/lib/data/Strings.ts';
 import { CategoryMetadataInfo } from '@/lib/data/Categories.ts';
 import { getCategoryMetadata } from '@/lib/metadata/categoryMetadata.ts';
 import { NullAndUndefined } from '@/Base.types.ts';
+import { LibraryOptions, LibrarySortMode } from '@/modules/library/Library.types.ts';
 
 const triStateFilter = (
     triState: NullAndUndefined<boolean>,

@@ -12,7 +12,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { MangaCardMode } from '@/modules/manga/MangaCard.types.tsx';
 import { MediaQuery } from '@/lib/ui/MediaQuery.tsx';
-import { useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext.tsx';
+import { useLibraryOptionsContext } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
 
 const BadgeContainer = styled('div')(({ theme }) => ({
     display: 'flex',

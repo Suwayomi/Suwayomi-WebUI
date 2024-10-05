@@ -10,12 +10,11 @@ import FormLabel from '@mui/material/FormLabel';
 import RadioGroup from '@mui/material/RadioGroup';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { LibrarySortMode } from '@/typings';
 import { CheckboxInput } from '@/modules/core/components/inputs/CheckboxInput.tsx';
 import { RadioInput } from '@/modules/core/components/inputs/RadioInput.tsx';
 import { SortRadioInput } from '@/modules/core/components/inputs/SortRadioInput.tsx';
 import { ThreeStateCheckboxInput } from '@/modules/core/components/inputs/ThreeStateCheckboxInput.tsx';
-import { GridLayout } from '@/components/context/LibraryOptionsContext';
+import { GridLayout } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
 import { OptionsTabs } from '@/modules/core/components/OptionsTabs.tsx';
 import { requestManager } from '@/lib/requests/requests/RequestManager.ts';
 import { Trackers } from '@/lib/data/Trackers.ts';
@@ -30,6 +29,7 @@ import {
     useMetadataServerSettings,
 } from '@/lib/metadata/metadataServerSettings.ts';
 import { TranslationKey } from '@/Base.types.ts';
+import { LibrarySortMode } from '@/modules/library/Library.types.ts';
 
 const TITLES: { [key in 'filter' | 'sort' | 'display']: TranslationKey } = {
     filter: 'global.label.filter',

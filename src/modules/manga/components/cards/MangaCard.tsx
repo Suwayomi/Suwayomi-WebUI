@@ -9,7 +9,7 @@
 import PopupState, { bindMenu } from 'material-ui-popup-state';
 import { useMemo, useState } from 'react';
 import { useLongPress } from 'use-long-press';
-import { GridLayout, useLibraryOptionsContext } from '@/components/context/LibraryOptionsContext';
+import { GridLayout, useLibraryOptionsContext } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
 import { MangaActionMenuItems, SingleModeProps } from '@/modules/manga/components/MangaActionMenuItems.tsx';
 import { Menu } from '@/modules/core/components/menu/Menu.tsx';
 import { MigrateDialog } from '@/components/MigrateDialog.tsx';

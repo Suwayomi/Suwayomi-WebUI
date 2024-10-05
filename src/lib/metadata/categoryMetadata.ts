@@ -12,14 +12,14 @@ import {
     CategoryMetadataKeys,
     GqlMetaHolder,
     ICategoryMetadata,
-    LibraryOptions,
     Metadata,
 } from '@/typings.ts';
 import { jsonSaveParse } from '@/lib/HelperFunctions.ts';
 import { convertFromGqlMeta, getMetadataFrom, requestUpdateCategoryMetadata } from '@/lib/metadata/metadata.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { CategoryIdInfo } from '@/lib/data/Categories.ts';
-import { GridLayout } from '@/components/context/LibraryOptionsContext.tsx';
+import { GridLayout } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
+import { LibraryOptions } from '@/modules/library/Library.types.ts';
 
 export const getDefaultCategoryMetadata = (): ICategoryMetadata => ({
     // display options

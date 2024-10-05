@@ -24,7 +24,7 @@ import { useNavBarContext } from '@/components/context/NavbarContext.tsx';
 
 const { Browse } = loadable(() => import('@/screens/Browse'), lazyLoadFallback);
 const { DownloadQueue } = loadable(() => import('@/screens/DownloadQueue'), lazyLoadFallback);
-const { Library } = loadable(() => import('@/screens/Library'), lazyLoadFallback);
+const { Library } = loadable(() => import('@/modules/library/screens/Library.tsx'), lazyLoadFallback);
 const { Manga } = loadable(() => import('@/modules/manga/screens/Manga.tsx'), lazyLoadFallback);
 const { Reader } = loadable(() => import('@/screens/Reader'), lazyLoadFallback);
 const { SearchAll } = loadable(() => import('@/screens/SearchAll'), lazyLoadFallback);
@@ -36,7 +36,7 @@ const { DefaultReaderSettings } = loadable(() => import('@/screens/settings/Defa
 const { SourceConfigure } = loadable(() => import('@/screens/SourceConfigure'), lazyLoadFallback);
 const { SourceMangas } = loadable(() => import('@/screens/SourceMangas'), lazyLoadFallback);
 const { Updates } = loadable(() => import('@/screens/Updates'), lazyLoadFallback);
-const { LibrarySettings } = loadable(() => import('@/screens/settings/LibrarySettings'), lazyLoadFallback);
+const { LibrarySettings } = loadable(() => import('@/modules/library/screens/LibrarySettings.tsx'), lazyLoadFallback);
 const { DownloadSettings } = loadable(() => import('@/screens/settings/DownloadSettings.tsx'), lazyLoadFallback);
 const { ServerSettings } = loadable(() => import('@/screens/settings/ServerSettings.tsx'), lazyLoadFallback);
 const { BrowseSettings } = loadable(() => import('@/screens/settings/BrowseSettings.tsx'), lazyLoadFallback);
@@ -45,7 +45,10 @@ const { Migrate } = loadable(() => import('@/screens/Migrate.tsx'), lazyLoadFall
 const { DeviceSetting } = loadable(() => import('@/components/settings/DeviceSetting.tsx'), lazyLoadFallback);
 const { TrackingSettings } = loadable(() => import('@/screens/settings/TrackingSettings.tsx'), lazyLoadFallback);
 const { TrackerOAuthLogin } = loadable(() => import('@/screens/TrackerOAuthLogin.tsx'), lazyLoadFallback);
-const { LibraryDuplicates } = loadable(() => import('@/screens/settings/LibraryDuplicates.tsx'), lazyLoadFallback);
+const { LibraryDuplicates } = loadable(
+    () => import('@/modules/library/screens/LibraryDuplicates.tsx'),
+    lazyLoadFallback,
+);
 const { Appearance } = loadable(() => import('@/screens/settings/appearance/Appearance.tsx'), lazyLoadFallback);
 
 if (process.env.NODE_ENV !== 'production') {

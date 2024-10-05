@@ -7,8 +7,8 @@
  */
 
 import React, { useContext } from 'react';
-import { LibraryOptions } from '@/typings';
 import { getDefaultCategoryMetadata } from '@/lib/metadata/categoryMetadata.ts';
+import { LibraryOptions } from '@/modules/library/Library.types.ts';
 
 type ContextType = {
     options: LibraryOptions;
