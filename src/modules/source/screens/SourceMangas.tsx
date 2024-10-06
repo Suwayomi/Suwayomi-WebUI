@@ -400,7 +400,7 @@ export function SourceMangas() {
             abortRequest(new Error(`SourceMangas(${sourceId}): search string changed`));
             scrollToTop();
         },
-        [query],
+        [query, abortRequest],
     );
 
     useLayoutEffect(() => {

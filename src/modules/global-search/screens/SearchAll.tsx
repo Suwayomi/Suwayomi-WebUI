@@ -137,7 +137,7 @@ const SourceSearchPreview = React.memo(
                 // immediate second request since it's the same key. instead the "second" request will be the error handling of SWR
                 abortRequest(new Error(`SourceSearchPreview(${id}, ${displayName}): search string changed`));
             },
-            [searchString],
+            [searchString, abortRequest],
         );
 
         if ((!isLoading && !searchString) || emptyQuery) {
