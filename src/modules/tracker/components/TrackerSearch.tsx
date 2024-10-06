@@ -53,7 +53,9 @@ export const TrackerSearch = ({
 
     const [selectedTrackerRemoteId, setSelectedTrackerRemoteId] = useState<string | undefined>(trackedId);
 
-    const trackerSearch = requestManager.useTrackerSearch(tracker.id, searchString, { addAbortSignal: true });
+    const trackerSearch = requestManager.useTrackerSearch(tracker.id, searchString, {
+        notifyOnNetworkStatusChange: true,
+    });
     const searchResults = trackerSearch.data?.searchTracker.trackSearches ?? [];
 
     const hasResults = !!searchResults.length;
