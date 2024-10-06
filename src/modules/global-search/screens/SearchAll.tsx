@@ -202,7 +202,7 @@ export const SearchAll: React.FC = () => {
     const [showNsfw] = useLocalStorage<boolean>('showNsfw', true);
 
     const { data, loading, error, refetch } = requestManager.useGetSourceList({ notifyOnNetworkStatusChange: true });
-    const sources = data?.sources.nodes ?? [];
+    const sources = useMemo(() => data?.sources.nodes ?? [], [data?.sources.nodes]);
     const [sourceToLoadingStateMap, setSourceToLoadingStateMap] = useState<SourceToLoadingStateMap>(new Map());
     const debouncedSourceToLoadingStateMap = useDebounce(sourceToLoadingStateMap, 500);
 
