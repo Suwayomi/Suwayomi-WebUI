@@ -47,6 +47,9 @@ import { GET_SOURCE_BROWSE } from '@/lib/graphql/queries/SourceQuery.ts';
 import { MangaIdInfo } from '@/modules/manga/services/Mangas.ts';
 import { TranslationKey } from '@/Base.types.ts';
 import { IPos } from '@/modules/source/Source.types.ts';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
+import { EmptyView } from '@/modules/core/components/placeholder/EmptyView.tsx';
+import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 
 const ContentTypeMenu = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -262,8 +265,10 @@ export function SourceMangas() {
         setLocationContentType(newContentType);
     };
 
-    const [loadPage, { data, isLoading: loading, size: lastPageNum, abortRequest, filteredOutAllItemsOfFetchedPage }] =
-        useSourceManga(sourceId, contentType, query, filtersToApply, 1, hideLibraryEntries);
+    const [
+        loadPage,
+        { data, error, isLoading: loading, size: lastPageNum, abortRequest, filteredOutAllItemsOfFetchedPage },
+    ] = useSourceManga(sourceId, contentType, query, filtersToApply, 1, hideLibraryEntries);
     const isLoading = loading || filteredOutAllItemsOfFetchedPage;
     const mangas = data?.fetchSourceManga?.mangas ?? [];
     const hasNextPage = !!data?.fetchSourceManga?.hasNextPage;
@@ -454,19 +459,38 @@ export function SourceMangas() {
                     {t('global.button.filter')}
                 </ContentTypeButton>
             </ContentTypeMenu>
-            <BaseMangaGrid
-                key={contentType}
-                gridWrapperProps={{ sx: { px: 1, pb: 1 } }}
-                mangas={mangas}
-                hasNextPage={hasNextPage}
-                loadMore={loadMore}
-                message={message}
-                messageExtra={messageExtra}
-                isLoading={isLoading}
-                gridLayout={sourceGridLayout}
-                mode="source"
-                inLibraryIndicator
-            />
+
+            {(isLoading || !error || (!!error && !!mangas.length)) && (
+                <BaseMangaGrid
+                    key={contentType}
+                    gridWrapperProps={{ sx: { px: 1, pb: 1 } }}
+                    mangas={mangas}
+                    hasNextPage={hasNextPage}
+                    loadMore={loadMore}
+                    message={message}
+                    messageExtra={messageExtra}
+                    isLoading={isLoading}
+                    gridLayout={sourceGridLayout}
+                    mode="source"
+                    inLibraryIndicator
+                />
+            )}
+
+            {error && !mangas.length && (
+                <EmptyViewAbsoluteCentered
+                    message={t('global.error.label.failed_to_load_data')}
+                    messageExtra={error.message}
+                    retry={() => loadPage(lastPageNum).catch(defaultPromiseErrorHandler('SourceMangas::refetch'))}
+                />
+            )}
+            {error && !!mangas.length && (
+                <EmptyView
+                    message={t('global.error.label.failed_to_load_data')}
+                    messageExtra={error.message}
+                    retry={() => loadPage(lastPageNum).catch(defaultPromiseErrorHandler('SourceMangas::refetch'))}
+                />
+            )}
+
             {contentType === SourceContentType.SEARCH && (
                 <SourceOptions
                     savedSearches={savedSearches}

@@ -669,6 +669,16 @@ export class RequestManager {
             const { signal, abortRequest } = this.createAbortController();
             setAbortRequest(abortRequest);
 
+            const isRefetch = newPage === [...cachedPages][cachedPages.size - 1];
+            if (isRefetch) {
+                this.cache.cacheResponse(
+                    cachePagesKey,
+                    getVariablesFor(0),
+                    new Set([...cachedPages].slice(0, cachedPages.size - 1)),
+                );
+                this.cache.clearFor(this.cache.getKeyFor(cacheResultsKey, getVariablesFor(newPage)));
+            }
+
             setResult({
                 ...getResultIdInfo(),
                 ...createPaginatedResult({ isLoading: true, abortRequest, size: newPage, called: true }),
@@ -689,6 +699,7 @@ export class RequestManager {
 
             basePaginatedResult.data = response.data;
         } catch (error: any) {
+            defaultPromiseErrorHandler('RequestManager::fetchPaginatedMutationPage')(error);
             if (error instanceof ApolloError) {
                 basePaginatedResult.error = error;
             } else {
@@ -706,12 +717,9 @@ export class RequestManager {
 
         setResult(fetchPaginatedResult);
 
-        const shouldCacheResult = !fetchPaginatedResult.error;
-        if (shouldCacheResult) {
-            const currentCachedPages = this.cache.getResponseFor<Set<number>>(cachePagesKey, getVariablesFor(0)) ?? [];
-            this.cache.cacheResponse(cachePagesKey, getVariablesFor(0), new Set([...currentCachedPages, newPage]));
-            this.cache.cacheResponse(cacheResultsKey, getVariablesFor(newPage), fetchPaginatedResult);
-        }
+        const currentCachedPages = this.cache.getResponseFor<Set<number>>(cachePagesKey, getVariablesFor(0)) ?? [];
+        this.cache.cacheResponse(cachePagesKey, getVariablesFor(0), new Set([...currentCachedPages, newPage]));
+        this.cache.cacheResponse(cacheResultsKey, getVariablesFor(newPage), fetchPaginatedResult);
 
         return response;
     }

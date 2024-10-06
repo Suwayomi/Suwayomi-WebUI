@@ -114,9 +114,10 @@ const SourceSearchPreview = React.memo(
             skipRequest: !searchString,
             addAbortSignal: true,
         });
+        console.log('SearchAll', source.displayName, results);
         const { data: searchResult, isLoading, error, abortRequest } = results[0]!;
         const mangas = searchResult?.fetchSourceManga?.mangas ?? [];
-        const noMangasFound = !isLoading && !mangas.length;
+        const noMangasFound = !error && !isLoading && !mangas.length;
 
         useEffect(() => {
             onSearchRequestFinished(source, isLoading, !noMangasFound, !searchString);
