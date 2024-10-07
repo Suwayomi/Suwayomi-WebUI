@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useCallback, useContext, useEffect, useLayoutEffect, useMemo, useState } from 'react';
+import { useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -212,11 +212,6 @@ export function SourceMangas() {
             clearCache: boolean;
         }>().state ?? {};
 
-    const [isFirstRender, setIsFirstRender] = useState(true);
-    useEffect(() => {
-        setIsFirstRender(false);
-    }, []);
-
     const {
         settings: { hideLibraryEntries },
     } = useMetadataServerSettings();
@@ -241,6 +236,21 @@ export function SourceMangas() {
         query ? SourceContentType.SEARCH : currentContentType!,
     );
 
+    const scrollToTop = useCallback(() => {
+        AppStorage.session.setItem(getGridSnapshotKey(location), undefined, false);
+        window.scrollTo(0, 0);
+    }, [locationKey]);
+
+    const currentQuery = useRef(query);
+    const currentAbortRequest = useRef<(reason: any) => void>(() => {});
+
+    const didSearchChange = currentQuery.current !== query;
+    if (didSearchChange && contentType === SourceContentType.SEARCH) {
+        currentQuery.current = query;
+        currentAbortRequest.current(new Error(`SourceMangas(${sourceId}): search string changed`));
+        scrollToTop();
+    }
+
     useEffect(
         () => () => {
             setCurrentFiltersToApply(undefined);
@@ -248,11 +258,6 @@ export function SourceMangas() {
         },
         [sourceId],
     );
-
-    const scrollToTop = useCallback(() => {
-        AppStorage.session.setItem(getGridSnapshotKey(location), undefined, false);
-        window.scrollTo(0, 0);
-    }, [locationKey]);
 
     const setFiltersToApply = (filters: IPos[]) => {
         setCurrentFiltersToApply(filters);
@@ -269,6 +274,7 @@ export function SourceMangas() {
         loadPage,
         { data, error, isLoading: loading, size: lastPageNum, abortRequest, filteredOutAllItemsOfFetchedPage },
     ] = useSourceManga(sourceId, contentType, query, filtersToApply, 1, hideLibraryEntries);
+    currentAbortRequest.current = abortRequest;
     const isLoading = loading || filteredOutAllItemsOfFetchedPage;
     const mangas = data?.fetchSourceManga?.mangas ?? [];
     const hasNextPage = !!data?.fetchSourceManga?.hasNextPage;
@@ -388,20 +394,6 @@ export function SourceMangas() {
 
         requestManager.clearBrowseCacheFor(sourceId);
     }, [clearCache]);
-
-    useEffect(
-        () => () => {
-            if (contentType !== SourceContentType.SEARCH || isFirstRender) {
-                return;
-            }
-            // INFO:
-            // with strict mode + dev mode the first request will be aborted. due to using SWR there won't be an
-            // immediate second request since it's the same key. instead the "second" request will be the error handling of SWR
-            abortRequest(new Error(`SourceMangas(${sourceId}): search string changed`));
-            scrollToTop();
-        },
-        [query, abortRequest],
-    );
 
     useLayoutEffect(() => {
         setTitle(source?.displayName ?? t('source.title_one'));

@@ -9,7 +9,7 @@
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import Typography from '@mui/material/Typography';
-import React, { useCallback, useContext, useEffect, useLayoutEffect, useMemo, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { StringParam, useQueryParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
@@ -110,12 +110,24 @@ const SourceSearchPreview = React.memo(
         const { t } = useTranslation();
 
         const { id, displayName, lang } = source;
+
+        const currentSearchString = useRef(searchString);
+        const currentAbortRequest = useRef<(reason: any) => void>(() => {});
+
+        const didSearchChange = currentSearchString.current !== searchString;
+        if (didSearchChange) {
+            currentSearchString.current = searchString;
+            currentAbortRequest.current(new Error(`SourceSearchPreview(${id}, ${displayName}): search string changed`));
+        }
+
         const [refetch, results] = requestManager.useSourceSearch(id, searchString ?? '', undefined, 1, {
             skipRequest: !searchString,
             addAbortSignal: true,
         });
-        console.log('SearchAll', source.displayName, results);
+
         const { data: searchResult, isLoading, error, abortRequest } = results[0]!;
+        currentAbortRequest.current = abortRequest;
+
         const mangas = searchResult?.fetchSourceManga?.mangas ?? [];
         const noMangasFound = !error && !isLoading && !mangas.length;
 
@@ -129,16 +141,6 @@ const SourceSearchPreview = React.memo(
         } else if (noMangasFound) {
             errorMessage = t('manga.error.label.no_mangas_found');
         }
-
-        useEffect(
-            () => () => {
-                // INFO:
-                // with strict mode + dev mode the first request will be aborted. due to using SWR there won't be an
-                // immediate second request since it's the same key. instead the "second" request will be the error handling of SWR
-                abortRequest(new Error(`SourceSearchPreview(${id}, ${displayName}): search string changed`));
-            },
-            [searchString, abortRequest],
-        );
 
         if ((!isLoading && !searchString) || emptyQuery) {
             return null;
