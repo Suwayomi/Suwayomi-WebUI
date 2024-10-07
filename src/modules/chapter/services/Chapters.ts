@@ -18,9 +18,9 @@ import {
     DownloadStatusFieldsFragment,
 } from '@/lib/graphql/generated/graphql.ts';
 import { CHAPTER_LIST_FIELDS } from '@/lib/graphql/fragments/ChapterFragments.ts';
-import { MangaIdInfo } from '@/modules/manga/services/Mangas.ts';
 
 import { DirectionOffset, TranslationKey } from '@/Base.types.ts';
+import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 
 export type ChapterAction = 'download' | 'delete' | 'bookmark' | 'unbookmark' | 'mark_as_read' | 'mark_as_unread';
 

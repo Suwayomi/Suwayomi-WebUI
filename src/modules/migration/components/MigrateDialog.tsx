@@ -17,7 +17,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useState } from 'react';
 import FormGroup from '@mui/material/FormGroup';
 import { CheckboxInput } from '@/modules/core/components/inputs/CheckboxInput.tsx';
-import { Mangas, MigrateMode } from '@/modules/manga/services/Mangas.ts';
+import { Mangas } from '@/modules/manga/services/Mangas.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import {
     createUpdateMetadataServerSettings,
@@ -25,6 +25,7 @@ import {
 } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { MetadataMigrationSettings } from '@/modules/migration/Migration.types.ts';
+import { MigrateMode } from '@/modules/manga/Manga.types.ts';
 
 export const MigrateDialog = ({ mangaIdToMigrateTo, onClose }: { mangaIdToMigrateTo: number; onClose: () => void }) => {
     const { t } = useTranslation();

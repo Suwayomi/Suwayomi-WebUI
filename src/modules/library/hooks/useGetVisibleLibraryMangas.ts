@@ -10,12 +10,12 @@ import { StringParam, useQueryParam } from 'use-query-params';
 import { useMemo } from 'react';
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { ChapterType, MangaType, SourceType, TrackRecordType } from '@/lib/graphql/generated/graphql.ts';
-import { MangaChapterCountInfo, MangaIdInfo } from '@/modules/manga/services/Mangas.ts';
 import { enhancedCleanup } from '@/util/Strings.ts';
 import { getCategoryMetadata } from '@/modules/category/services/CategoryMetadata.ts';
 import { NullAndUndefined } from '@/Base.types.ts';
 import { LibraryOptions, LibrarySortMode } from '@/modules/library/Library.types.ts';
 import { CategoryMetadataInfo } from '@/modules/category/Category.types.ts';
+import { MangaChapterCountInfo, MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 
 const triStateFilter = (
     triState: NullAndUndefined<boolean>,

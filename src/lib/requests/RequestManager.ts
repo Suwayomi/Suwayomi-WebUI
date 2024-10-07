@@ -303,12 +303,12 @@ import { ControlledPromise } from '@/lib/ControlledPromise.ts';
 import { DOWNLOAD_STATUS_FIELDS } from '@/lib/graphql/fragments/DownloadFragments.ts';
 import { EXTENSION_LIST_FIELDS } from '@/lib/graphql/fragments/ExtensionFragments.ts';
 import { MANGA_BASE_FIELDS, MANGA_META_FIELDS } from '@/lib/graphql/fragments/MangaFragments.ts';
-import { MangaIdInfo } from '@/modules/manga/services/Mangas.ts';
 import { GLOBAL_METADATA } from '@/lib/graphql/fragments/Fragments.ts';
 import { CATEGORY_META_FIELDS } from '@/lib/graphql/fragments/CategoryFragments.ts';
 import { SOURCE_META_FIELDS } from '@/lib/graphql/fragments/SourceFragments.ts';
 import { CHAPTER_META_FIELDS } from '@/lib/graphql/fragments/ChapterFragments.ts';
 import { MetadataMigrationSettings } from '@/modules/migration/Migration.types.ts';
+import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 
 enum GQLMethod {
     QUERY = 'QUERY',

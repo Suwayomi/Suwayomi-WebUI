@@ -19,14 +19,7 @@ import SyncAltIcon from '@mui/icons-material/SyncAlt';
 import { Link } from 'react-router-dom';
 import SyncIcon from '@mui/icons-material/Sync';
 import Dialog from '@mui/material/Dialog';
-import {
-    actionToTranslationKey,
-    MangaAction,
-    MangaDownloadInfo,
-    MangaIdInfo,
-    Mangas,
-    MangaUnreadInfo,
-} from '@/modules/manga/services/Mangas.ts';
+import { Mangas } from '@/modules/manga/services/Mangas.ts';
 import { SelectableCollectionReturnType } from '@/modules/collection/hooks/useSelectableCollection.ts';
 import { MenuItem } from '@/modules/core/components/menu/MenuItem.tsx';
 import {
@@ -40,6 +33,8 @@ import { useCategorySelect } from '@/modules/category/hooks/useCategorySelect.ts
 import { ChaptersDownloadActionMenuItems } from '@/modules/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx';
 import { NestedMenuItem } from '@/modules/core/components/menu/NestedMenuItem.tsx';
 import { MangaChapterStatFieldsFragment, MangaType } from '@/lib/graphql/generated/graphql.ts';
+import { MangaAction, MangaDownloadInfo, MangaIdInfo, MangaUnreadInfo } from '@/modules/manga/Manga.types.ts';
+import { actionToTranslationKey } from '@/modules/manga/Manga.constants.ts';
 
 const ACTION_DISABLES_SELECTION_MODE: MangaAction[] = ['remove_from_library'] as const;
 

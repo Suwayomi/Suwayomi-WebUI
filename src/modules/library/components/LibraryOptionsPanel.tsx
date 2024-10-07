@@ -20,7 +20,6 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Trackers } from '@/modules/tracker/services/Trackers.ts';
 import { GetTrackersSettingsQuery, MangaStatus } from '@/lib/graphql/generated/graphql.ts';
 import { GET_TRACKERS_SETTINGS } from '@/lib/graphql/queries/TrackerQuery.ts';
-import { statusToTranslationKey } from '@/modules/manga/services/Mangas.ts';
 import { createUpdateCategoryMetadata, getCategoryMetadata } from '@/modules/category/services/CategoryMetadata.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import {
@@ -30,6 +29,7 @@ import {
 import { TranslationKey } from '@/Base.types.ts';
 import { LibrarySortMode } from '@/modules/library/Library.types.ts';
 import { CategoryMetadataInfo } from '@/modules/category/Category.types.ts';
+import { statusToTranslationKey } from '@/modules/manga/Manga.constants.ts';
 
 const TITLES: { [key in 'filter' | 'sort' | 'display']: TranslationKey } = {
     filter: 'global.label.filter',

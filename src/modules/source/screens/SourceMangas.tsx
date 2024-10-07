@@ -44,12 +44,12 @@ import { getGridSnapshotKey } from '@/modules/manga/components/MangaGrid.tsx';
 import { createUpdateSourceMetadata, getSourceMetadata } from '@/modules/source/services/SourceMetadata.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { GET_SOURCE_BROWSE } from '@/lib/graphql/queries/SourceQuery.ts';
-import { MangaIdInfo } from '@/modules/manga/services/Mangas.ts';
 import { TranslationKey } from '@/Base.types.ts';
 import { IPos } from '@/modules/source/Source.types.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { EmptyView } from '@/modules/core/components/placeholder/EmptyView.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
+import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 
 const ContentTypeMenu = styled('div')(({ theme }) => ({
     display: 'flex',

@@ -12,12 +12,12 @@ import {
     requestUpdateServerMetadata,
 } from '@/modules/metadata/services/MetadataUpdater.ts';
 import { MetaType } from '@/lib/graphql/generated/graphql.ts';
-import { MangaIdInfo } from '@/modules/manga/services/Mangas.ts';
 import { DEFAULT_READER_SETTINGS } from '@/modules/reader/Reader.constants.ts';
 import { IReaderSettings, UndefinedReaderSettings } from '@/modules/reader/Reader.types.ts';
 import { convertFromGqlMeta } from '@/modules/metadata/services/MetadataConverter.ts';
 import { getMetadataFrom } from '@/modules/metadata/services/MetadataReader.ts';
 import { GqlMetaHolder, Metadata, MetadataKeyValuePair } from '@/modules/metadata/Metadata.types.ts';
+import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 
 const getReaderSettingsWithDefaultValueFallback = <DefaultSettings extends IReaderSettings | UndefinedReaderSettings>(
     meta?: Metadata,

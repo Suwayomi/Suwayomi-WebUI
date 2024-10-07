@@ -11,8 +11,7 @@ import { PopupState } from 'material-ui-popup-state/hooks';
 import { GridLayout } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
 import { SelectableCollectionReturnType } from '@/modules/collection/hooks/useSelectableCollection.ts';
 import { useManageMangaLibraryState } from '@/modules/manga/hooks/useManageMangaLibraryState.tsx';
-import { MangaThumbnailInfo } from '@/modules/manga/services/Mangas.ts';
-import { ChapterType, MangaType } from '@/lib/graphql/generated/graphql.ts';
+import { ChapterType, MangaReaderFieldsFragment, MangaType, TrackRecordType } from '@/lib/graphql/generated/graphql.ts';
 import { SingleModeProps } from '@/modules/manga/components/MangaActionMenuItems.tsx';
 import { IReaderSettings } from '@/modules/reader/Reader.types';
 
@@ -23,6 +22,17 @@ type MangaCardBaseProps = Pick<MangaType, 'id' | 'title' | 'sourceId'> &
     Partial<Pick<MangaType, 'inLibrary' | 'downloadCount' | 'unreadCount'>> & {
         firstUnreadChapter?: Pick<ChapterType, 'id' | 'sourceOrder'> | null;
     };
+
+export type MangaIdInfo = Pick<MangaType, 'id'>;
+export type MangaChapterCountInfo = { chapters: Pick<MangaType['chapters'], 'totalCount'> };
+export type MangaDownloadInfo = Pick<MangaType, 'downloadCount'> & MangaChapterCountInfo;
+export type MangaUnreadInfo = Pick<MangaType, 'unreadCount'> & MangaChapterCountInfo;
+export type MangaThumbnailInfo = Pick<MangaType, 'thumbnailUrl' | 'thumbnailUrlLastFetched'>;
+export type MangaTrackRecordInfo = MangaIdInfo & {
+    trackRecords: { nodes: Pick<TrackRecordType, 'id' | 'trackerId'>[] };
+};
+
+export type MigrateMode = 'copy' | 'migrate';
 
 type MangaCardSpecificProps = MangaCardBaseProps & MangaThumbnailInfo;
 
@@ -47,3 +57,15 @@ export type SpecificMangaCardProps = Omit<MangaCardProps, 'manga'> &
     };
 
 export type MangaMetadataKeys = keyof IReaderSettings;
+
+export type MangaAction =
+    | 'download'
+    | 'delete'
+    | 'mark_as_read'
+    | 'mark_as_unread'
+    | 'remove_from_library'
+    | 'change_categories'
+    | 'migrate'
+    | 'track';
+
+export type TMangaReader = MangaReaderFieldsFragment;

@@ -17,10 +17,6 @@ import {
     GetMangaToMigrateQuery,
     GetMangaToMigrateToFetchMutation,
     MangaBaseFieldsFragment,
-    MangaReaderFieldsFragment,
-    MangaStatus,
-    MangaType,
-    TrackRecordType,
     UpdateMangaCategoriesPatchInput,
 } from '@/lib/graphql/generated/graphql.ts';
 import { Chapters } from '@/modules/chapter/services/Chapters.ts';
@@ -28,117 +24,16 @@ import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { getMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { GET_MANGAS_BASE } from '@/lib/graphql/queries/MangaQuery.ts';
 import { MANGA_BASE_FIELDS } from '@/lib/graphql/fragments/MangaFragments.ts';
-import { TranslationKey } from '@/Base.types.ts';
 import { MetadataMigrationSettings } from '@/modules/migration/Migration.types.ts';
-
-export type MangaAction =
-    | 'download'
-    | 'delete'
-    | 'mark_as_read'
-    | 'mark_as_unread'
-    | 'remove_from_library'
-    | 'change_categories'
-    | 'migrate'
-    | 'track';
-
-export const statusToTranslationKey: Record<MangaStatus, TranslationKey> = {
-    [MangaStatus.Cancelled]: 'manga.status.cancelled',
-    [MangaStatus.Completed]: 'manga.status.completed',
-    [MangaStatus.Licensed]: 'manga.status.licensed',
-    [MangaStatus.Ongoing]: 'manga.status.ongoing',
-    [MangaStatus.OnHiatus]: 'manga.status.hiatus',
-    [MangaStatus.PublishingFinished]: 'manga.status.publishing_finished',
-    [MangaStatus.Unknown]: 'manga.status.unknown',
-};
-
-export const actionToTranslationKey: {
-    [key in MangaAction]: {
-        action: {
-            single: TranslationKey;
-            selected: TranslationKey;
-        };
-        success: TranslationKey;
-        error: TranslationKey;
-    };
-} = {
-    download: {
-        action: {
-            single: 'chapter.action.download.add.label.action',
-            selected: 'chapter.action.download.add.button.selected',
-        },
-        success: 'chapter.action.download.add.label.success',
-        error: 'chapter.action.download.add.label.error',
-    },
-    delete: {
-        action: {
-            single: 'chapter.action.download.delete.label.action',
-            selected: 'chapter.action.download.delete.button.selected',
-        },
-        success: 'chapter.action.download.delete.label.success',
-        error: 'chapter.action.download.delete.label.error',
-    },
-    mark_as_read: {
-        action: {
-            single: 'chapter.action.mark_as_read.add.label.action.current',
-            selected: 'chapter.action.mark_as_read.add.button.selected',
-        },
-        success: 'chapter.action.mark_as_read.add.label.success',
-        error: 'chapter.action.mark_as_read.add.label.error',
-    },
-    mark_as_unread: {
-        action: {
-            single: 'chapter.action.mark_as_read.remove.label.action',
-            selected: 'chapter.action.mark_as_read.remove.button.selected',
-        },
-        success: 'chapter.action.mark_as_read.remove.label.success',
-        error: 'chapter.action.mark_as_read.remove.label.error',
-    },
-    remove_from_library: {
-        action: {
-            single: 'manga.action.library.remove.label.action',
-            selected: 'manga.action.library.remove.button.selected',
-        },
-        success: 'manga.action.library.remove.label.success',
-        error: 'manga.action.library.remove.label.error',
-    },
-    change_categories: {
-        action: {
-            single: 'manga.action.category.label.action',
-            selected: 'manga.action.category.button.selected',
-        },
-        success: 'manga.action.category.label.success',
-        error: 'manga.action.category.label.error',
-    },
-    migrate: {
-        action: {
-            single: 'global.button.migrate',
-            selected: 'global.button.migrate', // not supported
-        },
-        success: 'manga.action.migrate.label.success',
-        error: 'manga.action.migrate.label.error',
-    },
-    track: {
-        action: {
-            single: 'manga.action.track.add.label.action',
-            selected: 'manga.action.track.add.label.action', // not supported
-        },
-        success: 'manga.action.track.add.label.success',
-        error: 'manga.action.track.add.label.error',
-    },
-};
-
-export type TMangaReader = MangaReaderFieldsFragment;
-
-export type MangaIdInfo = Pick<MangaType, 'id'>;
-export type MangaChapterCountInfo = { chapters: Pick<MangaType['chapters'], 'totalCount'> };
-export type MangaDownloadInfo = Pick<MangaType, 'downloadCount'> & MangaChapterCountInfo;
-export type MangaUnreadInfo = Pick<MangaType, 'unreadCount'> & MangaChapterCountInfo;
-export type MangaThumbnailInfo = Pick<MangaType, 'thumbnailUrl' | 'thumbnailUrlLastFetched'>;
-export type MangaTrackRecordInfo = MangaIdInfo & {
-    trackRecords: { nodes: Pick<TrackRecordType, 'id' | 'trackerId'>[] };
-};
-
-export type MigrateMode = 'copy' | 'migrate';
+import {
+    MangaAction,
+    MangaDownloadInfo,
+    MangaIdInfo,
+    MangaThumbnailInfo,
+    MangaUnreadInfo,
+    MigrateMode,
+} from '@/modules/manga/Manga.types.ts';
+import { actionToTranslationKey } from '@/modules/manga/Manga.constants.ts';
 
 type MangaToMigrate = NonNullable<GetMangaToMigrateQuery['manga']>;
 type MangaToMigrateTo = NonNullable<GetMangaToMigrateToFetchMutation['fetchManga']>['manga'];

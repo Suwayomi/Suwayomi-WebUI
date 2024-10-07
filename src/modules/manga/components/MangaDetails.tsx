@@ -27,12 +27,7 @@ import OpenInFullIcon from '@mui/icons-material/OpenInFull';
 import Modal from '@mui/material/Modal';
 import { bindPopover, bindTrigger, usePopupState } from 'material-ui-popup-state/hooks';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
-import {
-    Mangas,
-    MangaThumbnailInfo,
-    MangaTrackRecordInfo,
-    statusToTranslationKey,
-} from '@/modules/manga/services/Mangas.ts';
+import { Mangas } from '@/modules/manga/services/Mangas.ts';
 import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
 import { CustomIconButton } from '@/modules/core/components/buttons/CustomIconButton.tsx';
 import { TrackMangaButton } from '@/modules/manga/components/TrackMangaButton.tsx';
@@ -44,7 +39,8 @@ import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { shouldForwardProp } from '@/modules/core/utils/ShouldForwardProp.ts';
-import { MANGA_COVER_ASPECT_RATIO } from '@/modules/manga/Manga.constants.ts';
+import { MANGA_COVER_ASPECT_RATIO, statusToTranslationKey } from '@/modules/manga/Manga.constants.ts';
+import { MangaThumbnailInfo, MangaTrackRecordInfo } from '@/modules/manga/Manga.types.ts';
 
 const DetailsWrapper = styled('div')(({ theme }) => ({
     display: 'flex',

@@ -32,13 +32,13 @@ import { useBackButton } from '@/modules/core/hooks/useBackButton.ts';
 import { Select } from '@/modules/core/components/inputs/Select.tsx';
 import { useGetOptionForDirection } from '@/theme.tsx';
 import { ChapterType } from '@/lib/graphql/generated/graphql.ts';
-import { MangaChapterCountInfo, MangaIdInfo } from '@/modules/manga/services/Mangas.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 import { CustomIconButton } from '@/modules/core/components/buttons/CustomIconButton.tsx';
 import { IReaderSettings } from '@/modules/reader/Reader.types.ts';
 import { DirectionOffset } from '@/Base.types.ts';
 import { AllowedMetadataValueTypes } from '@/modules/metadata/Metadata.types.ts';
+import { MangaChapterCountInfo, MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 
 const Root = styled('div')({
     zIndex: 10,

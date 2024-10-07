@@ -20,8 +20,8 @@ import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { GetMangaTrackRecordsQuery, GetTrackersBindQuery, MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { GET_TRACKERS_BIND } from '@/lib/graphql/queries/TrackerQuery.ts';
-import { MangaIdInfo } from '@/modules/manga/services/Mangas.ts';
 import { GET_MANGA_TRACK_RECORDS } from '@/lib/graphql/queries/MangaQuery.ts';
+import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 
 const getTrackerMode = (id: number, trackersInUse: number[], searchModeForTracker?: number): TrackerMode => {
     if (id === searchModeForTracker) {
