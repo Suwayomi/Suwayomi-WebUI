@@ -44,6 +44,7 @@ import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { shouldForwardProp } from '@/modules/core/utils/ShouldForwardProp.ts';
+import { MANGA_COVER_ASPECT_RATIO } from '@/modules/manga/Manga.constants.ts';
 
 const DetailsWrapper = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -141,15 +142,7 @@ const Thumbnail = ({ manga }: { manga: Partial<MangaThumbnailInfo> }) => {
 
     const popupState = usePopupState({ variant: 'popover', popupId: 'manga-thumbnail-fullscreen' });
 
-    const [imageHeight, setImageHeight] = useState<number>();
-    const [imageElement, setImageElement] = useState<HTMLImageElement | null>(null);
-    useResizeObserver(
-        imageElement,
-        useCallback(() => setImageHeight(imageElement?.clientHeight), [imageElement]),
-    );
-
     const [isImageReady, setIsImageReady] = useState(false);
-    const isImageHeightReady = isImageReady && !!imageHeight;
 
     return (
         <>
@@ -160,23 +153,23 @@ const Thumbnail = ({ manga }: { manga: Partial<MangaThumbnailInfo> }) => {
                     overflow: 'hidden',
                     backgroundColor: 'background.paper',
                     width: '150px',
-                    height: `${isImageHeightReady ? imageHeight : 225}px`,
+                    maxHeight: 'fit-content',
+                    aspectRatio: MANGA_COVER_ASPECT_RATIO,
                     flexShrink: 0,
+                    flexGrow: 0,
                     [theme.breakpoints.up('lg')]: {
                         width: '200px',
-                        height: `${isImageHeightReady ? imageHeight : 300}px`,
                     },
                     [theme.breakpoints.up('xl')]: {
                         width: '300px',
-                        height: `${isImageHeightReady ? imageHeight : 450}px`,
                     },
                 }}
             >
                 <SpinnerImage
-                    ref={setImageElement}
                     src={Mangas.getThumbnailUrl(manga)}
                     alt="Manga Thumbnail"
                     onImageLoad={() => setIsImageReady(true)}
+                    imgStyle={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
                 {isImageReady && (
                     <Stack
@@ -203,7 +196,7 @@ const Thumbnail = ({ manga }: { manga: Partial<MangaThumbnailInfo> }) => {
             <Modal {...bindPopover(popupState)} sx={{ outline: 0 }}>
                 <Stack
                     onClick={() => popupState.close()}
-                    sx={{ height: '100vh', py: 2, outline: 0, justifyContent: 'center', alignItems: 'center' }}
+                    sx={{ height: '100vh', p: 2, outline: 0, justifyContent: 'center', alignItems: 'center' }}
                 >
                     <SpinnerImage
                         src={Mangas.getThumbnailUrl(manga)}

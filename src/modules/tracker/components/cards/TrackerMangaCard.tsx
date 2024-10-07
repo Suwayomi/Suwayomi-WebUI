@@ -27,6 +27,7 @@ import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines
 import { Metadata } from '@/modules/core/components/Metadata.tsx';
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 import { TTrackerManga } from '@/modules/tracker/services/Trackers.ts';
+import { MANGA_COVER_ASPECT_RATIO } from '@/modules/manga/Manga.constants.ts';
 
 const TrackerMangaCardTitle = ({ title, selected }: { title: string; selected: boolean }) => (
     <Stack
@@ -141,7 +142,7 @@ export const TrackerMangaCard = ({
                         >
                             <CardMedia
                                 sx={{
-                                    aspectRatio: '225/350',
+                                    aspectRatio: MANGA_COVER_ASPECT_RATIO,
                                     minWidth: '100px',
                                     width: '150px',
                                     borderRadius: 1,

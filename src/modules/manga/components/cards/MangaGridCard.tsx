@@ -21,6 +21,7 @@ import { GridLayout } from '@/modules/library/contexts/LibraryOptionsContext.tsx
 import { Mangas } from '@/modules/manga/services/Mangas.ts';
 import { SpecificMangaCardProps } from '@/modules/manga/MangaCard.types.tsx';
 import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines.tsx';
+import { MANGA_COVER_ASPECT_RATIO } from '@/modules/manga/Manga.constants.ts';
 
 const BottomGradient = styled('div')({
     position: 'absolute',
@@ -92,7 +93,7 @@ export const MangaGridCard = ({
                 <Card
                     sx={{
                         // force standard aspect ratio of manga covers
-                        aspectRatio: '225/350',
+                        aspectRatio: MANGA_COVER_ASPECT_RATIO,
                         display: 'flex',
                     }}
                 >
