@@ -10,7 +10,7 @@ import { styled } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { MangaCardMode } from '@/modules/manga/MangaCard.types.tsx';
+import { MangaCardMode } from '@/modules/manga/Manga.types.ts';
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 import { useLibraryOptionsContext } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
 

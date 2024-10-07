@@ -7,7 +7,7 @@
  */
 
 import { MetadataServerSettingKeys, SearchMetadataKeys } from '@/modules/settings/Settings.types.ts';
-import { MangaMetadataKeys } from '@/modules/manga/MangaCard.types.tsx';
+import { MangaMetadataKeys } from '@/modules/manga/Manga.types.ts';
 import { SourceMetadataKeys } from '@/modules/source/Source.types.ts';
 import { CategoryMetadataKeys } from '@/modules/category/Category.types.ts';
 import { MetaType } from '@/lib/graphql/generated/graphql.ts';

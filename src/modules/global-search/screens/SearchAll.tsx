@@ -22,7 +22,7 @@ import { AppbarSearch } from '@/modules/core/components/AppbarSearch.tsx';
 import { LangSelect } from '@/modules/core/components/inputs/LangSelect.tsx';
 import { useDebounce } from '@/modules/core/hooks/useDebounce.ts';
 import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
-import { MangaCardProps } from '@/modules/manga/MangaCard.types.tsx';
+import { MangaCardProps } from '@/modules/manga/Manga.types.ts';
 import { EmptyView } from '@/modules/core/components/placeholder/EmptyView.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';

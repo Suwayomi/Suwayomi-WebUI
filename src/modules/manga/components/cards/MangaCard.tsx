@@ -16,7 +16,7 @@ import { MigrateDialog } from '@/modules/migration/components/MigrateDialog.tsx'
 import { useManageMangaLibraryState } from '@/modules/manga/hooks/useManageMangaLibraryState.tsx';
 import { MangaGridCard } from '@/modules/manga/components/cards/MangaGridCard.tsx';
 import { MangaListCard } from '@/modules/manga/components/cards/MangaListCard.tsx';
-import { MangaCardMode, MangaCardProps } from '@/modules/manga/MangaCard.types.tsx';
+import { MangaCardMode, MangaCardProps } from '@/modules/manga/Manga.types.ts';
 import { ContinueReadingButton } from '@/modules/manga/components/ContinueReadingButton.tsx';
 import { MangaBadges } from '@/modules/manga/components/MangaBadges.tsx';
 

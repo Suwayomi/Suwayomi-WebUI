@@ -29,7 +29,7 @@ import { useLocalStorage, useSessionStorage } from '@/modules/core/hooks/useStor
 import { SelectableCollectionReturnType } from '@/modules/collection/hooks/useSelectableCollection.ts';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/modules/core/components/buttons/StyledFab.tsx';
 import { AppStorage } from '@/lib/storage/AppStorage.ts';
-import { MangaCardProps } from '@/modules/manga/MangaCard.types.tsx';
+import { MangaCardProps } from '@/modules/manga/Manga.types.ts';
 import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
