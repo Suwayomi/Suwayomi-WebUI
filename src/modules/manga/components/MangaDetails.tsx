@@ -14,7 +14,6 @@ import { useTranslation } from 'react-i18next';
 import { t as translate } from 'i18next';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import { useLongPress } from 'use-long-press';
 import Chip from '@mui/material/Chip';
 import Tooltip from '@mui/material/Tooltip';
 import LaunchIcon from '@mui/icons-material/Launch';
@@ -26,6 +25,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import OpenInFullIcon from '@mui/icons-material/OpenInFull';
 import Modal from '@mui/material/Modal';
 import { bindPopover, bindTrigger, usePopupState } from 'material-ui-popup-state/hooks';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { Mangas } from '@/modules/manga/services/Mangas.ts';
 import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
@@ -298,14 +298,14 @@ export const MangaDetails = ({
 
     const { CategorySelectComponent, updateLibraryState } = useManageMangaLibraryState(manga);
 
-    const copyTitleLongPressBind = useLongPress(async () => {
+    const copyTitle = async () => {
         try {
             await navigator.clipboard.writeText(manga.title);
             makeToast(t('global.label.copied'), 'info');
         } catch (e) {
             defaultPromiseErrorHandler('MangaDetails::copyTitleLongPress')(e);
         }
-    });
+    };
 
     return (
         <>
@@ -314,14 +314,16 @@ export const MangaDetails = ({
                     <ThumbnailMetadataWrapper>
                         <Thumbnail manga={manga} />
                         <MetadataContainer>
-                            <Typography
-                                variant="h5"
-                                component="h2"
-                                sx={{ mb: 1, '@media not (pointer: fine)': { userSelect: 'none' } }}
-                                {...copyTitleLongPressBind()}
-                            >
-                                {manga.title}
-                            </Typography>
+                            <Stack sx={{ flexDirection: 'row', gap: 1, alignItems: 'flex-start', mb: 1 }}>
+                                <Typography variant="h5" component="h2" sx={{ wordBreak: 'break-word' }}>
+                                    {manga.title}
+                                </Typography>
+                                <Tooltip title={t('global.button.copy')}>
+                                    <IconButton onClick={copyTitle} color="inherit">
+                                        <ContentCopyIcon fontSize="small" />
+                                    </IconButton>
+                                </Tooltip>
+                            </Stack>
                             <Metadata title={t('manga.label.author')} value={getValueOrUnknown(manga.author)} />
                             <Metadata title={t('manga.label.artist')} value={getValueOrUnknown(manga.artist)} />
                             <Metadata title={t('manga.label.status')} value={t(statusToTranslationKey[manga.status])} />
