@@ -129,7 +129,7 @@
             "display": {
                 "label": {
                     "chapter_number": "章节数",
-                    "source_title": "原标题"
+                    "source_title": "图源标题"
                 }
             }
         },
@@ -413,7 +413,9 @@
                 "by_source": "按图源",
                 "by_fetch_date": "按日期",
                 "by_chapter_number": "按章节序号",
-                "by_upload_date": "按上传日期"
+                "by_upload_date": "按上传日期",
+                "asc": "升序",
+                "desc": "降序"
             }
         },
         "time": {
@@ -833,9 +835,9 @@
             "dark_theme": "暗黑主题",
             "image_cache": "使用图片缓存",
             "image_cache_description": "减少流量消耗，同时可以使图像加载更快",
-            "show_nsfw": "NSFW (18+) 内容",
+            "show_nsfw": "显示NSFW (18+) 内容",
             "manga_item_width": "漫画单元格宽度",
-            "show_nsfw_description": "在图源和插件列表中显示",
+            "show_nsfw_description": "显示NSFW (18+) 插件和图源",
             "language_description": "准确的翻译离不开大家的指正 ->",
             "hide_library_entries": "隐藏已在书架中的条目",
             "theme": "主题"
@@ -1270,7 +1272,11 @@
         "search": {
             "title": "$t(migrate.title) \"{{title}}\""
         },
-        "title": "迁移"
+        "title": "迁移",
+        "sort": {
+            "by_manga_count": "按漫画数量",
+            "by_source_name": "按图源名称"
+        }
     },
     "tracking": {
         "settings": {

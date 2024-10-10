@@ -69,8 +69,8 @@
                         "next_five": "5 Chương tiếp theo",
                         "next_ten": "10 Chương tiếp theo",
                         "next_twentyfive": "25 Chương tiếp theo",
-                        "next": "$t(reader.button.next_chapter)1 Chương tiếp theo",
-                        "unread": "$t(global.filter.label.unread)Chưa đọc",
+                        "next": "1 $t(reader.button.next_chapter)",
+                        "unread": "$t(global.filter.label.unread)",
                         "ahead": "$t(download.settings.download_ahead.title) ({{count}})",
                         "all": "$t(extension.language.all)"
                     },
@@ -412,7 +412,9 @@
                 "by_fetch_date": "Theo ngày",
                 "by_source": "Theo nguồn",
                 "by_upload_date": "Bằng ngày tải lên",
-                "by_chapter_number": "Bằng số chương"
+                "by_chapter_number": "Bằng số chương",
+                "asc": "Tăng dần",
+                "desc": "Giảm dần"
             }
         },
         "update": {
@@ -1268,7 +1270,11 @@
         "search": {
             "title": "$t(migrate.title) \"{{title}}\""
         },
-        "title": "Di chuyển"
+        "title": "Di chuyển",
+        "sort": {
+            "by_manga_count": "Theo số truyện",
+            "by_source_name": "Theo tên nguồn"
+        }
     },
     "tracking": {
         "track_record": {
