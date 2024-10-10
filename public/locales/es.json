@@ -615,7 +615,9 @@
                 "by_source": "Según la fuente",
                 "by_fetch_date": "Por fecha de obtención del capítulo",
                 "by_upload_date": "Por fecha de subida",
-                "by_chapter_number": "Por número de capítulo"
+                "by_chapter_number": "Por número de capítulo",
+                "asc": "Ascendente",
+                "desc": "Descendente"
             }
         },
         "date": {
@@ -1320,7 +1322,11 @@
         "search": {
             "title": "$t(migrate.title) \"{{title}}\""
         },
-        "title": "Migrar"
+        "title": "Migrar",
+        "sort": {
+            "by_source_name": "Por nombre de la fuente",
+            "by_manga_count": "Por número de manga"
+        }
     },
     "tracking": {
         "action": {

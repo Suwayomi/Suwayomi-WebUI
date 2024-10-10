@@ -264,7 +264,8 @@
             "remind_later": "Lembrar depois",
             "retry": "Tentar novamente",
             "select": "Selecionar",
-            "set": "Definir"
+            "set": "Definir",
+            "save": "Salvar"
         },
         "date": {
             "label": {
@@ -309,7 +310,8 @@
             "started": "Iniciado",
             "type": "Tipo",
             "logged_in": "Logado",
-            "open_in_browser": "Abra no navegador"
+            "open_in_browser": "Abra no navegador",
+            "default": "Padrão"
         },
         "error": {
             "label": {
@@ -334,7 +336,8 @@
                 "bookmarked": "Marcado",
                 "unread": "Não lido",
                 "tracked": "Rastreado",
-                "downloaded": "Baixado"
+                "downloaded": "Baixado",
+                "duplicate_chapters": "Capítulos duplicados"
             }
         },
         "language": {
@@ -372,7 +375,9 @@
                 "by_source": "Por fonte",
                 "by_fetch_date": "Até à data",
                 "by_upload_date": "Por data do envio",
-                "by_chapter_number": "Pelo número do capítulo"
+                "by_chapter_number": "Pelo número do capítulo",
+                "asc": "Ascendente",
+                "desc": "Descendente"
             }
         },
         "time": {
@@ -401,7 +406,8 @@
             "error": {
                 "label": {
                     "failed_to_remove": "Erro ao remover o download da fila.",
-                    "failed_delete_all": "Erro ao remover todos os downloads da fila"
+                    "failed_delete_all": "Erro ao remover todos os downloads da fila",
+                    "failed_to_retry": "Não foi possível tentar baixar novamente."
                 }
             }
         },
@@ -505,7 +511,11 @@
         "label": {
             "info": "Migrando manga…"
         },
-        "title": "Migrar"
+        "title": "Migrar",
+        "sort": {
+            "by_manga_count": "Por contagem de mangás",
+            "by_source_name": "Por nome de fonte"
+        }
     },
     "source": {
         "filter": {
@@ -644,6 +654,15 @@
             "author": "Autor",
             "edit_categories": "Editar categorias dos mangas",
             "reload_from_source": "Recarregar dados da fonte"
+        },
+        "status": {
+            "cancelled": "Cancelado",
+            "completed": "Completo",
+            "hiatus": "Hiatos",
+            "licensed": "Licenciado",
+            "ongoing": "Em lançamento",
+            "publishing_finished": "Publicação concluída",
+            "unknown": "$t(global.label.unknown)"
         }
     },
     "settings": {
@@ -877,6 +896,12 @@
                                 "description": "FlareSolverr ira trocar automaticamente as sessões expiradas com base no TTL fornecido em minutos"
                             }
                         }
+                    },
+                    "response_fallback": {
+                        "label": {
+                            "description": "Use a resposta FlareSolverr no caso de o servidor encontrar um desafio do Cloudflare enquanto o FlareSolverr não e, portanto, não é capaz de resolver o desafio (não funciona para imagens)",
+                            "title": "Resposta alternativa"
+                        }
                     }
                 },
                 "title": "Contorno do Cloudflare"
@@ -918,7 +943,21 @@
                         "server": "Habilitar logs de depuração"
                     }
                 },
-                "title": "Miscelânea"
+                "title": "Miscelânea",
+                "log_files": {
+                    "file_size": {
+                        "title": "Tamanho máximo do arquivo de log",
+                        "description": "Exemplo para possíveis valores: 1 (bytes), 1KB (kilobytes), 1MB (megabytes), 1GB (gigabytes)"
+                    },
+                    "total_size": {
+                        "title": "Tamanho máximo de todos os arquivos de log",
+                        "description": "$t(settings.server.misc.log_files.file_size.description)"
+                    },
+                    "file_cleanup": {
+                        "title": "Limpar o arquivo de log",
+                        "value": "Excluir backups que são mais antigos do que $t(global.date.value.label.day)"
+                    }
+                }
             }
         },
         "device": {
@@ -948,7 +987,8 @@
             "show_nsfw": "Mostrar NSFW",
             "manga_item_width": "Largura do item do manga",
             "hide_library_entries": "Ocultar entradas já na biblioteca",
-            "language_description": "Sinta-se livre para traduzir o projeto em"
+            "language_description": "Sinta-se livre para traduzir o projeto em",
+            "theme": "Tema"
         },
         "browse": {
             "title": "Configurações de busca"
@@ -973,6 +1013,66 @@
                 }
             },
             "title": "Sobre"
+        },
+        "appearance": {
+            "theme": {
+                "create": {
+                    "dialog": {
+                        "error": {
+                            "invalid_json": "Json inválido",
+                            "invalid_name": "O nome do tema deve ser único e tem um limite de 16 caracteres"
+                        },
+                        "theme_name": "Nome",
+                        "info": {
+                            "creating_theme": "Crie um tema personalizado com o <2>Criador de tema MUI</2>, copie tudo após \"themeOptions\" de \"{\" até \"}\" e cole-o no campo de texto \"tema\".",
+                            "theme_mode_lock": "No caso de \"modo\" ou \"tipo\" é definido no objeto \"palette\", o tema será bloqueado neste modo e não mudará, independentemente do tema do dispositivo de aplicativos selecionado"
+                        }
+                    },
+                    "title": "Criar tema",
+                    "success": "Tema criado",
+                    "failure": "Não foi possível criar o tema",
+                    "action": "Criando tema…"
+                },
+                "edit": {
+                    "action": "Salvando mudanças do tema…",
+                    "success": "Mudanças do tema salvas",
+                    "title": "Editar tema",
+                    "failure": "Não foi possível salvar as alterações do tema"
+                },
+                "pure_black_mode": "Modo escuro preto puro",
+                "themes": {
+                    "crimson": "Carmesim",
+                    "lavender": "Lavanda",
+                    "minty_miracles": "Minty Miracles",
+                    "tree_frog_green": "Tree Frog Green",
+                    "forest_dew": "Forest Dew",
+                    "rosegold": "Rosegold",
+                    "veronica": "Veronica",
+                    "bright_pink": "Rosa brilhante",
+                    "dune": "Duna",
+                    "orange_juice": "Suco de laranja",
+                    "mountain_sunset": "Pôr do sol da montanha"
+                },
+                "delete": {
+                    "failure": "Não foi possível excluir o tema \"{{theme}}\"",
+                    "success": "Tema \"{{theme}}\" excluído",
+                    "action": "Excluindo o tema \"{{theme}}\"…"
+                },
+                "device_theme": "Tema do dispositivo",
+                "title": "Tema",
+                "select": {
+                    "fonts": {
+                        "error": "Não foi possível carregar as fontes do tema",
+                        "loading": "Carregando fontes do tema…"
+                    },
+                    "success": "Tema selecionado"
+                }
+            },
+            "manga_thumbnail_backdrop": {
+                "description": "Define a miniatura do mangá como a imagem de fundo na página do mangá",
+                "title": "Miniatura do manga como fundo"
+            },
+            "title": "Aparência"
         }
     },
     "library": {
@@ -1004,7 +1104,8 @@
                     "by_latest_fetched_chapter": "Último capítulo buscado",
                     "by_unread_chapters": "Capítulos não lidos",
                     "by_latest_uploaded_chapter": "Último capítulo carregado",
-                    "by_date_added": "Adicionados recentemente"
+                    "by_date_added": "Adicionados recentemente",
+                    "by_total_chapters": "Capítulos totais"
                 }
             }
         },

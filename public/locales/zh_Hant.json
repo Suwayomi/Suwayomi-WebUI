@@ -64,7 +64,7 @@
             "no_categories_found": {
                 "label": {
                     "hint": "您應該需要進行一些設定。",
-                    "info": "您還沒有任何分類。"
+                    "info": "你還沒有任何分類。"
                 }
             },
             "label": {
@@ -457,7 +457,8 @@
                     "alphabetically": "A-Z",
                     "by_last_read": "依照最後一次閱讀",
                     "by_latest_fetched_chapter": "最新獲取的章節",
-                    "by_latest_uploaded_chapter": "最新上傳的章節"
+                    "by_latest_uploaded_chapter": "最新上傳的章節",
+                    "by_total_chapters": "總章節數"
                 }
             }
         },
@@ -657,6 +658,15 @@
                     }
                 }
             }
+        },
+        "status": {
+            "cancelled": "中止連載",
+            "completed": "已完结",
+            "hiatus": "暫時停更",
+            "licensed": "版權授權",
+            "ongoing": "連載中",
+            "publishing_finished": "已出版完畢",
+            "unknown": "$t(global.label.unknown)"
         }
     },
     "search": {
@@ -838,7 +848,8 @@
                         "value": "刪除早於 $t(global.date.value.label.day) 的備份"
                     },
                     "total_size": {
-                        "title": "所有日誌檔案的最大大小"
+                        "title": "所有日誌檔案的最大大小",
+                        "description": "$t(settings.server.misc.log_files.file_size.description)"
                     }
                 }
             },
@@ -903,6 +914,12 @@
                         "label": {
                             "title": "FlareSolverr 請求逾時",
                             "description": "FlareSolverr 需要多少時間來處理請求"
+                        }
+                    },
+                    "response_fallback": {
+                        "label": {
+                            "title": "回應預設機制",
+                            "description": "如果伺服器遇到Cloudflare驗證，而FlareSolverr沒有遇到並且因此無法解決該驗證（不適用於圖像），請使用FlareSolverr的回應"
                         }
                     }
                 },
@@ -1025,20 +1042,23 @@
         },
         "device": {
             "title": {
-                "settings": "裝置設定",
-                "device": "裝置"
+                "settings": "設備設定",
+                "device": "設備"
             },
             "devices": {
                 "label": {
-                    "title": "裝置",
+                    "title": "設備",
                     "description": "管理您現有的裝置。\n儲存在伺服器上的個別裝置裝置的具體 UI 設定。\n這可以使例如桌面或智慧型手機擁有不同的設定"
                 }
             },
             "active_device": {
                 "label": {
-                    "title": "活動中的裝置",
+                    "title": "使用中的設備",
                     "description": "選擇一個裝置以使用它儲存在伺服器中的 UI 設定"
                 }
+            },
+            "label": {
+                "placeholder": "手機_Name-1 | length: 16, chars: letters, numbers, -, _"
             }
         },
         "appearance": {
@@ -1080,9 +1100,26 @@
                     },
                     "success": "已選擇的主題"
                 },
-                "title": "主題"
+                "title": "主題",
+                "themes": {
+                    "crimson": "丹霞緋紅",
+                    "minty_miracles": "薄荷奇境",
+                    "mountain_sunset": "暮色黃昏",
+                    "rosegold": "玫瑰流金",
+                    "bright_pink": "炫彩桃紅",
+                    "dune": "蒼茫沙海",
+                    "forest_dew": "謐林涓露",
+                    "lavender": "紫氣薰衣",
+                    "orange_juice": "橙味橘香",
+                    "tree_frog_green": "翠蛙青綠",
+                    "veronica": "幽藍婉柔"
+                }
             },
-            "title": "外觀"
+            "title": "外觀",
+            "manga_thumbnail_backdrop": {
+                "description": "將漫畫縮圖設定為漫畫頁面背景",
+                "title": "漫畫縮圖設為背景"
+            }
         }
     },
     "source": {
@@ -1131,7 +1168,8 @@
             "error": {
                 "label": {
                     "failed_to_remove": "無法從隊列中刪除此下載。",
-                    "failed_delete_all": "無法從隊列中移除所有下載"
+                    "failed_delete_all": "無法從隊列中移除所有下載",
+                    "failed_to_retry": "無法重試已失敗的下載。"
                 }
             },
             "label": {
