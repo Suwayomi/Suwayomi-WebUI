@@ -287,12 +287,9 @@ export const DownloadQueue: React.FC = () => {
                             components={{
                                 Item: HeightPreservingItem,
                             }}
+                            computeItemKey={(_, item) => item.manga.id}
                             itemContent={(index, item) => (
-                                <Draggable
-                                    key={`${item.manga.id}-${item.chapter.sourceOrder}`}
-                                    draggableId={`${item.manga.id}-${item.chapter.sourceOrder}`}
-                                    index={index}
-                                >
+                                <Draggable draggableId={`${item.manga.id}-${item.chapter.sourceOrder}`} index={index}>
                                     {(draggableProvided) => (
                                         <DownloadChapterItem
                                             provided={draggableProvided}

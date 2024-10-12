@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { useContext, useLayoutEffect, useMemo } from 'react';
+import { useCallback, useContext, useLayoutEffect, useMemo } from 'react';
 import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
@@ -36,6 +36,7 @@ import { BaseMangaGrid } from '@/modules/manga/components/BaseMangaGrid.tsx';
 import { IMangaGridProps } from '@/modules/manga/components/MangaGrid.tsx';
 import { StyledGroupItemWrapper } from '@/modules/core/components/virtuoso/StyledGroupItemWrapper.tsx';
 import { enhancedCleanup } from '@/util/Strings.ts';
+import { VirtuosoUtil } from '@/lib/virtuoso/Virtuoso.util.tsx';
 
 const findDuplicatesByTitle = <Manga extends Pick<MangaType, 'title'>>(
     libraryMangas: Manga[],
@@ -180,6 +181,15 @@ export const LibraryDuplicates = () => {
         [mangasByTitle],
     );
 
+    const computeItemKey = VirtuosoUtil.useCreateGroupedComputeItemKey(
+        mangasCountByTitle,
+        useCallback((index) => duplicatedTitles[index], [duplicatedTitles]),
+        useCallback(
+            (index, groupIndex) => `${duplicatedTitles[groupIndex]}-${duplicatedMangas[index].id}}`,
+            [duplicatedTitles, duplicatedMangas],
+        ),
+    );
+
     if (loading) {
         return <LoadingPlaceholder />;
     }
@@ -203,8 +213,9 @@ export const LibraryDuplicates = () => {
                         {duplicatedTitles[index]}
                     </StyledGroupHeader>
                 )}
+                computeItemKey={computeItemKey}
                 itemContent={(index) => (
-                    <StyledGroupItemWrapper key={duplicatedMangas[index].id}>
+                    <StyledGroupItemWrapper>
                         <MangaCard
                             manga={duplicatedMangas[index] as IMangaGridProps['mangas'][number]}
                             gridLayout={gridLayout}

@@ -259,6 +259,7 @@ export const ChapterList = ({
                     }}
                     components={{ Footer: () => <Box sx={{ paddingBottom: DEFAULT_FULL_FAB_HEIGHT }} /> }}
                     totalCount={visibleChapters.length}
+                    computeItemKey={(index) => visibleChapters[index].id}
                     itemContent={(index: number) => (
                         <ChapterCard
                             {...chaptersWithMeta[index]}

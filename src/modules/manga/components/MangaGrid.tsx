@@ -69,7 +69,6 @@ const createMangaCard = (
     mode?: MangaCardProps['mode'],
 ) => (
     <MangaCard
-        key={manga.id}
         manga={manga}
         gridLayout={gridLayout}
         inLibraryIndicator={inLibraryIndicator}
@@ -195,6 +194,7 @@ const VerticalGrid = forwardRef(
                         restoreStateFrom={snapshot}
                         stateChanged={persistGridState}
                         endReached={() => loadMore()}
+                        computeItemKey={(index) => mangas[index].id}
                         itemContent={(index) =>
                             createMangaCard(
                                 mangas[index],

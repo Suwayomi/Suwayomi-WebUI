@@ -36,6 +36,7 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines.tsx';
 import { ChapterIdInfo, ChapterMangaInfo } from '@/modules/chapter/services/Chapters.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
+import { VirtuosoUtil } from '@/lib/virtuoso/Virtuoso.util.tsx';
 
 const groupByDate = (updates: Pick<ChapterType, 'fetchedAt'>[]): [date: string, items: number][] => {
     if (!updates.length) {
@@ -73,6 +74,12 @@ export const Updates: React.FC = () => {
     const groupCounts: number[] = useMemo(() => groupedUpdates.map((group) => group[1]), [groupedUpdates]);
     const { data: downloaderData } = requestManager.useGetDownloadStatus();
     const queue = downloaderData?.downloadStatus.queue ?? [];
+
+    const computeItemKey = VirtuosoUtil.useCreateGroupedComputeItemKey(
+        groupCounts,
+        useCallback((index) => groupedUpdates[index][0], [groupedUpdates]),
+        useCallback((index) => updateEntries[index].id, [updateEntries]),
+    );
 
     const lastUpdateTimestampCompRef = useRef<HTMLElement>(null);
     const [lastUpdateTimestampCompHeight, setLastUpdateTimestampCompHeight] = useState(0);
@@ -169,13 +176,14 @@ export const Updates: React.FC = () => {
                         {groupedUpdates[index][0]}
                     </StyledGroupHeader>
                 )}
+                computeItemKey={computeItemKey}
                 itemContent={(index) => {
                     const chapter = updateEntries[index];
                     const { manga } = chapter;
                     const download = downloadForChapter(chapter);
 
                     return (
-                        <StyledGroupItemWrapper key={index}>
+                        <StyledGroupItemWrapper>
                             <Card>
                                 <CardActionArea
                                     component={Link}

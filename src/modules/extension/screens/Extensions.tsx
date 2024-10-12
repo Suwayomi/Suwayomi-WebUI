@@ -39,6 +39,7 @@ import { StyledGroupHeader } from '@/modules/core/components/virtuoso/StyledGrou
 import { StyledGroupItemWrapper } from '@/modules/core/components/virtuoso/StyledGroupItemWrapper.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
+import { VirtuosoUtil } from '@/lib/virtuoso/Virtuoso.util.tsx';
 
 const LANGUAGE = 0;
 const EXTENSIONS = 1;
@@ -158,6 +159,12 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     const visibleExtensions = useMemo(
         () => filteredGroupedExtensions.map(([, extensions]) => extensions).flat(1),
         [filteredGroupedExtensions],
+    );
+
+    const computeItemKey = VirtuosoUtil.useCreateGroupedComputeItemKey(
+        groupCounts,
+        useCallback((index) => filteredGroupedExtensions[index][0], [filteredGroupedExtensions]),
+        useCallback((index) => visibleExtensions[index].pkgName, [visibleExtensions]),
     );
 
     const submitExternalExtension = (file: File) => {
@@ -298,13 +305,12 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
                         </StyledGroupHeader>
                     );
                 }}
+                computeItemKey={computeItemKey}
                 itemContent={(index) => {
                     const item = visibleExtensions[index];
 
                     return (
-                        <StyledGroupItemWrapper
-                            key={`${item.pkgName}_${item.isInstalled}_${item.isObsolete}_${item.hasUpdate}`}
-                        >
+                        <StyledGroupItemWrapper>
                             <ExtensionCard
                                 extension={item}
                                 handleUpdate={handleExtensionUpdate}
