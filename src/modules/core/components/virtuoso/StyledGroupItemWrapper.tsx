@@ -9,6 +9,6 @@
 import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
 
-export const StyledGroupItemWrapper = styled(Box)(() => ({
-    padding: '1px 10px 10px 10px',
+export const StyledGroupItemWrapper = styled(Box)(({ theme }) => ({
+    padding: theme.spacing(0, 1, 1, 1),
 }));
