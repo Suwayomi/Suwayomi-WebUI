@@ -35,7 +35,11 @@ export const getMetadataValueFrom = <Key extends AppMetadataKeys, Value extends 
 ): Value | undefined => {
     const metadata = applyMigrations ? applyMetadataMigrations(meta) : meta;
 
-    if (metadata === undefined || !doesMetadataKeyExistIn(metadata, key)) {
+    if (
+        metadata === undefined ||
+        !doesMetadataKeyExistIn(metadata, key) ||
+        metadata[getMetadataKey(key)] === undefined
+    ) {
         return defaultValue;
     }
 
