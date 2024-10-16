@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { useCallback, useContext, useLayoutEffect, useMemo } from 'react';
+import { useCallback, useContext, useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
@@ -26,111 +26,13 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { MangaCard } from '@/modules/manga/components/cards/MangaCard.tsx';
 import { StyledGroupedVirtuoso } from '@/modules/core/components/virtuoso/StyledGroupedVirtuoso.tsx';
 import { StyledGroupHeader } from '@/modules/core/components/virtuoso/StyledGroupHeader.tsx';
-import {
-    GetMangasDuplicatesQuery,
-    GetMangasDuplicatesQueryVariables,
-    MangaType,
-} from '@/lib/graphql/generated/graphql.ts';
+import { GetMangasDuplicatesQuery, GetMangasDuplicatesQueryVariables } from '@/lib/graphql/generated/graphql.ts';
 import { GET_MANGAS_DUPLICATES } from '@/lib/graphql/queries/MangaQuery.ts';
 import { BaseMangaGrid } from '@/modules/manga/components/BaseMangaGrid.tsx';
 import { IMangaGridProps } from '@/modules/manga/components/MangaGrid.tsx';
 import { StyledGroupItemWrapper } from '@/modules/core/components/virtuoso/StyledGroupItemWrapper.tsx';
-import { enhancedCleanup } from '@/util/Strings.ts';
 import { VirtuosoUtil } from '@/lib/virtuoso/Virtuoso.util.tsx';
-
-const findDuplicatesByTitle = <Manga extends Pick<MangaType, 'title'>>(
-    libraryMangas: Manga[],
-): Record<string, Manga[]> => {
-    const titleToMangas = Object.groupBy(libraryMangas, ({ title }) => enhancedCleanup(title));
-
-    return Object.fromEntries(
-        Object.entries(titleToMangas)
-            .filter((titleToMangaMap): titleToMangaMap is [string, Manga[]] => (titleToMangaMap[1]?.length ?? 0) > 1)
-            .map(([, mangas]) => [mangas[0].title, mangas]),
-    );
-};
-
-type TMangaDuplicate = Pick<MangaType, 'id' | 'title' | 'description'>;
-
-const findDuplicatesByTitleAndAlternativeTitlesSingleManga = <Manga extends TMangaDuplicate>(
-    manga: Manga,
-    mangas: Manga[],
-): { byTitle: Manga[]; byAlternativeTitle: Manga[] } => {
-    const titleToCheck = enhancedCleanup(manga.title);
-
-    const result: ReturnType<typeof findDuplicatesByTitleAndAlternativeTitlesSingleManga<Manga>> = {
-        byTitle: [manga],
-        byAlternativeTitle: [manga],
-    };
-
-    mangas.forEach((libraryManga) => {
-        const isDifferentManga = manga.id !== libraryManga.id;
-        if (!isDifferentManga) {
-            return;
-        }
-
-        const doesTitleMatch = enhancedCleanup(libraryManga.title) === titleToCheck;
-        const doesAlternativeTitleMatch = enhancedCleanup(libraryManga?.description ?? '').includes(titleToCheck);
-
-        const isDuplicate = doesTitleMatch || doesAlternativeTitleMatch;
-        if (!isDuplicate) {
-            return;
-        }
-
-        if (doesTitleMatch) {
-            result.byTitle.push(libraryManga);
-        }
-
-        if (doesAlternativeTitleMatch) {
-            result.byAlternativeTitle.push(libraryManga);
-        }
-    });
-
-    return result;
-};
-
-const findDuplicatesByTitleAndAlternativeTitles = <Manga extends TMangaDuplicate>(
-    libraryMangas: Manga[],
-): Record<string, Manga[]> => {
-    const titleToMangas: Record<string, Manga[]> = {};
-    const titleToAlternativeTitleMatches: Record<string, Manga[]> = {};
-
-    libraryMangas.forEach((mangaToCheck) => {
-        const titleToCheck = enhancedCleanup(mangaToCheck.title);
-
-        titleToMangas[titleToCheck] ??= [];
-        titleToAlternativeTitleMatches[titleToCheck] ??= [];
-
-        const { byTitle, byAlternativeTitle } = findDuplicatesByTitleAndAlternativeTitlesSingleManga(
-            mangaToCheck,
-            libraryMangas,
-        );
-
-        titleToMangas[titleToCheck].push(...byTitle);
-        titleToAlternativeTitleMatches[titleToCheck].push(...byAlternativeTitle);
-    });
-
-    const titleToDuplicatesEntries = Object.entries(titleToMangas)
-        .map(([title, titleMatches]) => {
-            const uniqueTitleMatches = new Set(titleMatches);
-            const uniqueAlternativeTitleMatches = new Set(titleToAlternativeTitleMatches[title] ?? []);
-
-            const originalTitle = [...uniqueTitleMatches][0].title;
-
-            const combinedDuplicates = [...uniqueTitleMatches, ...uniqueAlternativeTitleMatches];
-            const duplicates = [...new Set([...combinedDuplicates])];
-
-            const noDuplicatesFound = duplicates.length === 1;
-            if (noDuplicatesFound) {
-                return null;
-            }
-
-            return [originalTitle, duplicates];
-        })
-        .filter((entry) => !!entry);
-
-    return Object.fromEntries(titleToDuplicatesEntries);
-};
+import { LibraryDuplicatesWorkerInput, TMangaDuplicate, TMangaDuplicates } from '@/modules/library/Library.types.ts';
 
 export const LibraryDuplicates = () => {
     const { t } = useTranslation();
@@ -181,14 +83,29 @@ export const LibraryDuplicates = () => {
         GetMangasDuplicatesQueryVariables
     >(GET_MANGAS_DUPLICATES, { condition: { inLibrary: true } });
 
-    const mangasByTitle = useMemo(() => {
+    const [isCheckingForDuplicates, setIsCheckingForDuplicates] = useState(true);
+
+    const [mangasByTitle, setMangasByTitle] = useState<Record<string, TMangaDuplicate[]>>({});
+    useEffect(() => {
+        setIsCheckingForDuplicates(true);
         const libraryMangas: TMangaDuplicate[] = data?.mangas.nodes ?? [];
 
-        if (checkAlternativeTitles) {
-            return findDuplicatesByTitleAndAlternativeTitles(libraryMangas);
+        if (!libraryMangas.length) {
+            setMangasByTitle({});
+            return () => {};
         }
 
-        return findDuplicatesByTitle(libraryMangas);
+        const worker = new Worker(new URL('../workers/LibraryDuplicatesWorker.ts', import.meta.url), {
+            type: 'module',
+        });
+
+        worker.onmessage = (event: MessageEvent<TMangaDuplicates<(typeof libraryMangas)[number]>>) => {
+            setMangasByTitle(event.data);
+            setIsCheckingForDuplicates(false);
+        };
+        worker.postMessage({ mangas: libraryMangas, checkAlternativeTitles } satisfies LibraryDuplicatesWorkerInput);
+
+        return () => worker.terminate();
     }, [data?.mangas.nodes, checkAlternativeTitles]);
 
     const duplicatedTitles = useMemo(
@@ -213,7 +130,7 @@ export const LibraryDuplicates = () => {
         ),
     );
 
-    if (loading) {
+    if (loading || isCheckingForDuplicates) {
         return <LoadingPlaceholder />;
     }
 

@@ -7,7 +7,7 @@
  */
 
 import { NullAndUndefined } from '@/Base.types.ts';
-import { MangaStatus, TrackerType } from '@/lib/graphql/generated/graphql.ts';
+import { MangaStatus, MangaType, TrackerType } from '@/lib/graphql/generated/graphql.ts';
 import { GridLayout } from '@/modules/core/Core.types.ts';
 
 export type MetadataLibrarySettings = {
@@ -44,3 +44,14 @@ export interface LibraryOptions {
     hasTrackerBinding: Record<TrackerType['id'], NullAndUndefined<boolean>>;
     hasStatus: Record<MangaStatus, NullAndUndefined<boolean>>;
 }
+
+export type TMangaDuplicate = Pick<MangaType, 'id' | 'title' | 'description'>;
+
+export type TMangaDuplicates<Manga> = Record<string, Manga[]>;
+
+export type TMangaDuplicateResult<Manga> = { byTitle: Manga[]; byAlternativeTitle: Manga[] };
+
+export type LibraryDuplicatesWorkerInput<Manga extends TMangaDuplicate = TMangaDuplicate> = {
+    mangas: Manga[];
+    checkAlternativeTitles: boolean;
+};
