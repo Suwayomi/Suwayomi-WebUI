@@ -24,6 +24,9 @@ const DOWNLOAD_STATE_TO_TRANSLATION_KEY_MAP: { [state in DownloadState]: Transla
 export const DownloadStateIndicator = ({ download }: { download: ChapterDownloadStatus }) => {
     const { t } = useTranslation();
 
+    const isDownloading = download.state === DownloadState.Downloading;
+    const isPartiallyDownloaded = download.progress !== 0;
+
     return (
         <Box
             sx={{
@@ -54,8 +57,10 @@ export const DownloadStateIndicator = ({ download }: { download: ChapterDownload
                     }}
                 >
                     <>
-                        {download.progress !== 0 && `${Math.round(download.progress * 100)}%`}
-                        {download.progress === 0 && t(DOWNLOAD_STATE_TO_TRANSLATION_KEY_MAP[download.state])}
+                        {isDownloading && `${Math.round(download.progress * 100)}%`}
+                        {!isDownloading &&
+                            !isPartiallyDownloaded &&
+                            t(DOWNLOAD_STATE_TO_TRANSLATION_KEY_MAP[download.state])}
                     </>
                 </Typography>
             </Box>
