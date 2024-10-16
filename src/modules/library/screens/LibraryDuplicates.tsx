@@ -51,50 +51,73 @@ const findDuplicatesByTitle = <Manga extends Pick<MangaType, 'title'>>(
 };
 
 type TMangaDuplicate = Pick<MangaType, 'id' | 'title' | 'description'>;
+
+const findDuplicatesByTitleAndAlternativeTitlesSingleManga = <Manga extends TMangaDuplicate>(
+    manga: Manga,
+    mangas: Manga[],
+): { byTitle: Manga[]; byAlternativeTitle: Manga[] } => {
+    const titleToCheck = enhancedCleanup(manga.title);
+
+    const result: ReturnType<typeof findDuplicatesByTitleAndAlternativeTitlesSingleManga<Manga>> = {
+        byTitle: [manga],
+        byAlternativeTitle: [manga],
+    };
+
+    mangas.forEach((libraryManga) => {
+        const isDifferentManga = manga.id !== libraryManga.id;
+        if (!isDifferentManga) {
+            return;
+        }
+
+        const doesTitleMatch = enhancedCleanup(libraryManga.title) === titleToCheck;
+        const doesAlternativeTitleMatch = enhancedCleanup(libraryManga?.description ?? '').includes(titleToCheck);
+
+        const isDuplicate = doesTitleMatch || doesAlternativeTitleMatch;
+        if (!isDuplicate) {
+            return;
+        }
+
+        if (doesTitleMatch) {
+            result.byTitle.push(libraryManga);
+        }
+
+        if (doesAlternativeTitleMatch) {
+            result.byAlternativeTitle.push(libraryManga);
+        }
+    });
+
+    return result;
+};
+
 const findDuplicatesByTitleAndAlternativeTitles = <Manga extends TMangaDuplicate>(
     libraryMangas: Manga[],
 ): Record<string, Manga[]> => {
-    const titleToMangas: Record<string, Set<Manga>> = {};
-    const titleToAlternativeTitleMatches: Record<string, Set<Manga>> = {};
+    const titleToMangas: Record<string, Manga[]> = {};
+    const titleToAlternativeTitleMatches: Record<string, Manga[]> = {};
 
     libraryMangas.forEach((mangaToCheck) => {
         const titleToCheck = enhancedCleanup(mangaToCheck.title);
 
-        titleToMangas[titleToCheck] ??= new Set();
-        titleToMangas[titleToCheck].add(mangaToCheck);
+        titleToMangas[titleToCheck] ??= [];
+        titleToAlternativeTitleMatches[titleToCheck] ??= [];
 
-        titleToAlternativeTitleMatches[titleToCheck] ??= new Set();
-        titleToAlternativeTitleMatches[titleToCheck].add(mangaToCheck);
+        const { byTitle, byAlternativeTitle } = findDuplicatesByTitleAndAlternativeTitlesSingleManga(
+            mangaToCheck,
+            libraryMangas,
+        );
 
-        libraryMangas.forEach((libraryManga) => {
-            const isDifferentManga = mangaToCheck.id !== libraryManga.id;
-            if (!isDifferentManga) {
-                return;
-            }
-
-            const doesTitleMatch = enhancedCleanup(libraryManga.title) === titleToCheck;
-            const doesAlternativeTitleMatch = enhancedCleanup(libraryManga?.description ?? '').includes(titleToCheck);
-
-            const isDuplicate = doesTitleMatch || doesAlternativeTitleMatch;
-            if (!isDuplicate) {
-                return;
-            }
-
-            if (doesTitleMatch) {
-                titleToMangas[titleToCheck].add(libraryManga);
-            }
-
-            if (doesAlternativeTitleMatch) {
-                titleToAlternativeTitleMatches[titleToCheck].add(libraryManga);
-            }
-        });
+        titleToMangas[titleToCheck].push(...byTitle);
+        titleToAlternativeTitleMatches[titleToCheck].push(...byAlternativeTitle);
     });
 
     const titleToDuplicatesEntries = Object.entries(titleToMangas)
         .map(([title, titleMatches]) => {
-            const originalTitle = [...titleMatches][0].title;
+            const uniqueTitleMatches = new Set(titleMatches);
+            const uniqueAlternativeTitleMatches = new Set(titleToAlternativeTitleMatches[title] ?? []);
 
-            const combinedDuplicates = [...titleMatches, ...(titleToAlternativeTitleMatches[title] ?? [])];
+            const originalTitle = [...uniqueTitleMatches][0].title;
+
+            const combinedDuplicates = [...uniqueTitleMatches, ...uniqueAlternativeTitleMatches];
             const duplicates = [...new Set([...combinedDuplicates])];
 
             const noDuplicatesFound = duplicates.length === 1;
