@@ -8,7 +8,7 @@
 
 import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import DialogContent from '@mui/material/DialogContent';
 import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
@@ -68,7 +68,13 @@ export const TrackManga = ({ manga }: { manga: MangaIdInfo & Pick<MangaType, 'ti
         }
     }, [loading]);
 
+    const fetchedLatestTrackDataRef = useRef(false);
     useEffect(() => {
+        if (!mangaTrackRecords.length || fetchedLatestTrackDataRef.current) {
+            return;
+        }
+
+        fetchedLatestTrackDataRef.current = true;
         Promise.all(
             mangaTrackRecords.map((trackRecord) => requestManager.fetchTrackBind(trackRecord.id).response),
         ).catch(() => makeToast(t('tracking.error.label.could_not_fetch_track_info'), 'error'));
