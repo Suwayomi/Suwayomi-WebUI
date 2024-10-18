@@ -21,12 +21,13 @@ import { ServerUpdateChecker } from '@/modules/app-updates/components/ServerUpda
 import { lazyLoadFallback } from '@/modules/core/utils/LazyLoad.tsx';
 import { ErrorBoundary } from '@/modules/core/components/ErrorBoundary.tsx';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
+import { ReaderNew } from '@/modules/reader/screens/ReaderNew.tsx';
 
 const { Browse } = loadable(() => import('@/modules/browse/screens/Browse.tsx'), lazyLoadFallback);
 const { DownloadQueue } = loadable(() => import('@/modules/downloads/screens/DownloadQueue.tsx'), lazyLoadFallback);
 const { Library } = loadable(() => import('@/modules/library/screens/Library.tsx'), lazyLoadFallback);
 const { Manga } = loadable(() => import('@/modules/manga/screens/Manga.tsx'), lazyLoadFallback);
-const { Reader } = loadable(() => import('@/modules/reader/screens/Reader.tsx'), lazyLoadFallback);
+const { Reader } = loadable(() => import('@/modules/reader-deprecated/screens/Reader.tsx'), lazyLoadFallback);
 const { SearchAll } = loadable(() => import('@/modules/global-search/screens/SearchAll.tsx'), lazyLoadFallback);
 const { Settings } = loadable(() => import('@/modules/settings/screens/Settings.tsx'), lazyLoadFallback);
 const { About } = loadable(() => import('@/modules/settings/screens/About.tsx'), lazyLoadFallback);
@@ -36,7 +37,7 @@ const { CategorySettings } = loadable(
     lazyLoadFallback,
 );
 const { DefaultReaderSettings } = loadable(
-    () => import('@/modules/reader/screens/DefaultReaderSettings.tsx'),
+    () => import('@/modules/reader-deprecated/screens/DefaultReaderSettings.tsx'),
     lazyLoadFallback,
 );
 const { SourceConfigure } = loadable(() => import('@/modules/source/screens/SourceConfigure.tsx'), lazyLoadFallback);
@@ -164,8 +165,8 @@ const MainApp = () => {
 const ReaderApp = () => (
     <ErrorBoundary>
         <Routes>
-            <Route path="manga/:mangaId/chapter/:chapterIndex" element={<Reader />} />
-            <Route path="*" element={null} />
+            <Route path="/old" element={<Reader />} />
+            <Route path="*" element={<ReaderNew />} />
         </Routes>
     </ErrorBoundary>
 );
@@ -181,8 +182,10 @@ export const App: React.FC = () => (
             <Box sx={{ flexShrink: 0 }}>
                 <DefaultNavBar />
             </Box>
-            <MainApp />
-            <ReaderApp />
+            <Routes>
+                <Route path="*" element={<MainApp />} />
+                <Route path="manga/:mangaId/chapter/:chapterIndex/*" element={<ReaderApp />} />
+            </Routes>
         </Box>
     </AppContext>
 );

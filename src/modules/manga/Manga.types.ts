@@ -13,7 +13,7 @@ import { SelectableCollectionReturnType } from '@/modules/collection/hooks/useSe
 import { useManageMangaLibraryState } from '@/modules/manga/hooks/useManageMangaLibraryState.tsx';
 import { ChapterType, MangaReaderFieldsFragment, MangaType, TrackRecordType } from '@/lib/graphql/generated/graphql.ts';
 import { SingleModeProps } from '@/modules/manga/components/MangaActionMenuItems.tsx';
-import { IReaderSettings } from '@/modules/reader/Reader.types';
+import { IReaderSettings } from '@/modules/reader-deprecated/Reader.types';
 
 export type MangaCardMode = 'default' | 'source' | 'migrate.search' | 'migrate.select' | 'duplicate';
 

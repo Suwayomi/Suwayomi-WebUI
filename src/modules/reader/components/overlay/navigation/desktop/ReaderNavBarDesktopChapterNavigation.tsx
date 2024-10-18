@@ -1,0 +1,99 @@
+/*
+ * Copyright (C) Contributors to the Suwayomi project
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+import Stack from '@mui/material/Stack';
+import { useTranslation } from 'react-i18next';
+import Box from '@mui/material/Box';
+import MenuItem from '@mui/material/MenuItem';
+import { ContextType } from 'react';
+import Popover from '@mui/material/Popover';
+import { bindPopover, bindTrigger, usePopupState } from 'material-ui-popup-state/hooks';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import { Link } from 'react-router-dom';
+import { Select } from '@/modules/core/components/inputs/Select.tsx';
+import { ReaderNavBarDesktopPreviousButton } from '@/modules/reader/components/overlay/navigation/desktop/ReaderNavBarDesktopPreviousButton.tsx';
+import { ReaderNavBarDesktopNextButton } from '@/modules/reader/components/overlay/navigation/desktop/ReaderNavBarDesktopNextButton.tsx';
+import { Chapters } from '@/modules/chapter/services/Chapters.ts';
+import { ReaderStateChaptersContext } from '@/modules/reader/contexts/state/ReaderStateChaptersContext.tsx';
+import { ReaderChapterList } from '@/modules/reader/components/overlay/navigation/ReaderChapterList.tsx';
+
+export const ReaderNavBarDesktopChapterNavigation = ({
+    currentChapter,
+    previousChapter,
+    nextChapter,
+    chapters = [],
+}: Pick<
+    ContextType<typeof ReaderStateChaptersContext>,
+    'chapters' | 'currentChapter' | 'previousChapter' | 'nextChapter'
+>) => {
+    const { t } = useTranslation();
+
+    const popupState = usePopupState({ variant: 'popover', popupId: 'reader-nav-bar-desktop-chapter-list' });
+
+    if (!currentChapter) {
+        return null;
+    }
+
+    return (
+        <Stack sx={{ flexDirection: 'row', gap: 1 }}>
+            <ReaderNavBarDesktopPreviousButton
+                component={Link}
+                title={t('reader.button.previous_chapter')}
+                disabled={!previousChapter}
+                to={previousChapter && Chapters.getReaderUrl(previousChapter)}
+                replace
+            />
+            <FormControl sx={{ flexBasis: '70%', flexGrow: 0, flexShrink: 0 }}>
+                <InputLabel id="reader-nav-bar-desktop-chapter-select">{t('chapter.title_one')}</InputLabel>
+                <Select
+                    {...bindTrigger(popupState)}
+                    open={popupState.isOpen}
+                    value={currentChapter.id}
+                    // hide actual select menu
+                    MenuProps={{ sx: { visibility: 'hidden' } }}
+                    label={t('chapter.title_one')}
+                    labelId="reader-nav-bar-desktop-chapter-select"
+                >
+                    {/* hacky way to use the select component with a custom menu, the only possible value that is needed is the current chapter */}
+                    <MenuItem
+                        key={currentChapter.id}
+                        value={currentChapter.id}
+                    >{`#${currentChapter.chapterNumber} ${currentChapter.name}`}</MenuItem>
+                </Select>
+            </FormControl>
+            <Popover
+                {...bindPopover(popupState)}
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                }}
+            >
+                <Box sx={{ mb: 1 }}>
+                    <ReaderChapterList
+                        style={{
+                            width: '500px',
+                            maxWidth: '90vw',
+                            minHeight: '150px',
+                            maxHeight: '300px',
+                        }}
+                        currentChapter={currentChapter}
+                        chapters={chapters}
+                    />
+                </Box>
+            </Popover>
+            <ReaderNavBarDesktopNextButton
+                component={Link}
+                title={t('reader.button.next_chapter')}
+                disabled={!nextChapter}
+                to={nextChapter && Chapters.getReaderUrl(nextChapter)}
+                replace
+            />
+        </Stack>
+    );
+};

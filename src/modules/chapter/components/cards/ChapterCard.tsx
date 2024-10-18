@@ -50,12 +50,15 @@ type TChapter = ChapterIdInfo &
     Pick<ChapterType, 'name' | 'sourceOrder' | 'uploadDate'>;
 
 interface IProps {
+    mode?: 'manga.page' | 'reader';
     chapter: TChapter;
     allChapters: TChapter[];
     downloadChapter: ChapterDownloadStatus | undefined;
     showChapterNumber: boolean;
     onSelect: (selected: boolean, isShiftKey?: boolean) => void;
     selected: boolean | null;
+    selectable?: boolean;
+    isActiveChapter?: boolean; // reader
 }
 
 export const ChapterCard: React.FC<IProps> = (props: IProps) => {
@@ -64,7 +67,17 @@ export const ChapterCard: React.FC<IProps> = (props: IProps) => {
 
     const menuButtonRef = useRef<HTMLButtonElement>(null);
 
-    const { chapter, allChapters, downloadChapter: dc, showChapterNumber, onSelect, selected } = props;
+    const {
+        mode = 'manga.page',
+        chapter,
+        allChapters,
+        downloadChapter: dc,
+        showChapterNumber,
+        onSelect,
+        selected,
+        selectable = true,
+        isActiveChapter = false,
+    } = props;
     const isSelecting = selected !== null;
 
     const { isDownloaded } = chapter;
@@ -98,102 +111,115 @@ export const ChapterCard: React.FC<IProps> = (props: IProps) => {
     });
 
     return (
-        <li>
-            <PopupState variant="popover" popupId="chapter-card-action-menu">
-                {(popupState) => (
-                    <Stack sx={{ pt: 1, px: 1 }}>
-                        <Card sx={{ touchCallout: 'none' }}>
-                            <CardActionArea
-                                component={Link}
-                                to={`/manga/${chapter.mangaId}/chapter/${chapter.sourceOrder}`}
-                                style={{
-                                    color: theme.palette.text[chapter.isRead ? 'disabled' : 'primary'],
+        <PopupState variant="popover" popupId="chapter-card-action-menu">
+            {(popupState) => (
+                <Stack sx={{ pt: 1, px: 1 }}>
+                    <Card
+                        sx={{
+                            touchCallout: 'none',
+                            backgroundColor:
+                                // eslint-disable-next-line no-nested-ternary
+                                mode === 'reader'
+                                    ? isActiveChapter
+                                        ? 'primary.main'
+                                        : 'background.default'
+                                    : undefined,
+                        }}
+                    >
+                        <CardActionArea
+                            component={Link}
+                            to={`/manga/${chapter.mangaId}/chapter/${chapter.sourceOrder}`}
+                            style={{
+                                color: theme.palette.text[chapter.isRead ? 'disabled' : 'primary'],
+                            }}
+                            replace={mode === 'reader'}
+                            onClick={(e) => handleClick(e)}
+                            {...longPressBind(popupState.open)}
+                        >
+                            <CardContent
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                    padding: 1.5,
+                                    '&:last-child': { pb: 1.5 },
                                 }}
-                                onClick={(e) => handleClick(e)}
-                                {...longPressBind(popupState.open)}
                             >
-                                <CardContent
+                                <Stack
+                                    direction="column"
                                     sx={{
-                                        display: 'flex',
-                                        justifyContent: 'space-between',
-                                        alignItems: 'center',
-                                        padding: 1.5,
-                                        '&:last-child': { pb: 1.5 },
+                                        flex: 1,
                                     }}
                                 >
                                     <Stack
-                                        direction="column"
                                         sx={{
-                                            flex: 1,
+                                            flexDirection: 'row',
+                                            gap: 0.5,
+                                            alignItems: 'center',
                                         }}
                                     >
-                                        <Stack
-                                            sx={{
-                                                flexDirection: 'row',
-                                                gap: 0.5,
-                                                alignItems: 'center',
-                                            }}
-                                        >
-                                            {chapter.isBookmarked && <BookmarkIcon color="primary" />}
-                                            <TypographyMaxLines variant="h6" component="h4">
-                                                {showChapterNumber
-                                                    ? `${t('chapter.title_one')} ${chapter.chapterNumber}`
-                                                    : chapter.name}
-                                            </TypographyMaxLines>
-                                        </Stack>
-                                        <Typography variant="caption">{chapter.scanlator}</Typography>
-                                        <Typography variant="caption">
-                                            {getDateString(Number(chapter.uploadDate ?? 0), true)}
-                                            {isDownloaded && ` • ${t('chapter.status.label.downloaded')}`}
-                                        </Typography>
-                                    </Stack>
-
-                                    {dc && <DownloadStateIndicator download={dc} />}
-
-                                    <Stack sx={{ minHeight: '48px' }}>
-                                        {selected === null ? (
-                                            <Tooltip title={t('global.button.options')}>
-                                                <IconButton
-                                                    ref={menuButtonRef}
-                                                    {...bindTrigger(popupState)}
-                                                    onClick={(e) => handleClickOpenMenu(e, popupState.open)}
-                                                    onTouchStart={(e) => handleClickOpenMenu(e, popupState.open)}
-                                                    aria-label="more"
-                                                    size="large"
-                                                >
-                                                    <MoreVertIcon />
-                                                </IconButton>
-                                            </Tooltip>
-                                        ) : (
-                                            <Tooltip
-                                                title={t(selected ? 'global.button.deselect' : 'global.button.select')}
-                                            >
-                                                <Checkbox checked={selected} />
-                                            </Tooltip>
+                                        {chapter.isBookmarked && (
+                                            <BookmarkIcon color={isActiveChapter ? 'secondary' : 'primary'} />
                                         )}
+                                        <TypographyMaxLines variant="h6" component="h4">
+                                            {showChapterNumber
+                                                ? `${t('chapter.title_one')} ${chapter.chapterNumber}`
+                                                : chapter.name}
+                                        </TypographyMaxLines>
                                     </Stack>
-                                </CardContent>
-                            </CardActionArea>
-                        </Card>
-                        {!isSelecting && popupState.isOpen && (
-                            <Menu {...bindMenu(popupState)}>
-                                {(onClose) => (
-                                    <ChapterActionMenuItems
-                                        onClose={onClose}
-                                        chapter={chapter}
-                                        allChapters={allChapters}
-                                        handleSelection={() => onSelect(true)}
-                                        canBeDownloaded={ChaptersWithMeta.isDownloadable({
-                                            chapter,
-                                            downloadChapter: dc,
-                                        })}
-                                    />
-                                )}
-                            </Menu>
-                        )}
-                    </Stack>
-                )}
-            </PopupState>
-        </li>
+                                    <Typography variant="caption">{chapter.scanlator}</Typography>
+                                    <Typography variant="caption">
+                                        {getDateString(Number(chapter.uploadDate ?? 0), true)}
+                                        {isDownloaded && ` • ${t('chapter.status.label.downloaded')}`}
+                                    </Typography>
+                                </Stack>
+
+                                {dc && <DownloadStateIndicator download={dc} />}
+
+                                <Stack sx={{ minHeight: '48px' }}>
+                                    {selected === null ? (
+                                        <Tooltip title={t('global.button.options')}>
+                                            <IconButton
+                                                ref={menuButtonRef}
+                                                {...bindTrigger(popupState)}
+                                                onClick={(e) => handleClickOpenMenu(e, popupState.open)}
+                                                onTouchStart={(e) => handleClickOpenMenu(e, popupState.open)}
+                                                aria-label="more"
+                                                size="large"
+                                            >
+                                                <MoreVertIcon />
+                                            </IconButton>
+                                        </Tooltip>
+                                    ) : (
+                                        <Tooltip
+                                            title={t(selected ? 'global.button.deselect' : 'global.button.select')}
+                                        >
+                                            <Checkbox checked={selected} />
+                                        </Tooltip>
+                                    )}
+                                </Stack>
+                            </CardContent>
+                        </CardActionArea>
+                    </Card>
+                    {!isSelecting && popupState.isOpen && (
+                        <Menu {...bindMenu(popupState)}>
+                            {(onClose) => (
+                                <ChapterActionMenuItems
+                                    onClose={onClose}
+                                    chapter={chapter}
+                                    allChapters={allChapters}
+                                    handleSelection={() => onSelect(true)}
+                                    canBeDownloaded={ChaptersWithMeta.isDownloadable({
+                                        chapter,
+                                        downloadChapter: dc,
+                                    })}
+                                    selectable={selectable}
+                                />
+                            )}
+                        </Menu>
+                    )}
+                </Stack>
+            )}
+        </PopupState>
     );
 };
