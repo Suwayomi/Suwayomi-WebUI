@@ -113,9 +113,11 @@ export const DesktopSideBar = ({ navBarItems }: { navBarItems: NavbarItem[] }) =
                     zIndex: (theme) => theme.zIndex.drawer - 1,
                 },
             }}
+            PaperProps={{
+                ref,
+            }}
         >
             <Box
-                ref={ref}
                 sx={{
                     minWidth: isCollapsed ? MIN_WIDTH_COLLAPSED : MIN_WIDTH_EXTENDED,
                     maxWidth: isCollapsed ? MAX_WIDTH_COLLAPSED : MAX_WIDTH_EXTENDED,
