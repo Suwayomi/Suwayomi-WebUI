@@ -187,17 +187,7 @@ export function ReaderNavBar(props: IProps) {
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
 
-        const rootEl: HTMLDivElement = document.querySelector('#root')!;
-        const mainContainer: HTMLDivElement = document.querySelector('#appMainContainer')!;
-
-        // main container and root div need to change styles...
-        rootEl.style.display = 'flex';
-        rootEl.style.flexDirection = 'column';
-        mainContainer.style.display = 'none';
-
         return () => {
-            rootEl.style.display = 'block';
-            mainContainer.style.display = 'block';
             window.removeEventListener('scroll', handleScroll);
         };
     }, [handleScroll]); // handleScroll changes on every render
