@@ -38,7 +38,7 @@ const VALUE_TO_DISPLAY_DATA: ValueToDisplayData<ReadingMode> = {
 
 const READING_MODE_VALUES = Object.values(ReadingMode).filter((value) => typeof value === 'number');
 
-export const ReaderBottomBarMobileReadingMode = ({
+export const ReaderReadingMode = ({
     readingMode,
     setReadingMode,
 }: Pick<IReaderSettings, 'readingMode'> & {

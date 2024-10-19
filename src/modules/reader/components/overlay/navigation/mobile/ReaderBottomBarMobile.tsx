@@ -21,7 +21,7 @@ import Slide from '@mui/material/Slide';
 import { ReaderBottomBarMobileProps } from '@/modules/reader/types/ReaderOverlay.types.ts';
 import { MobileReaderProgressBar } from '@/modules/reader/components/overlay/progress-bar/variants/MobileReaderProgressBar.tsx';
 import { ReaderChapterList } from '@/modules/reader/components/overlay/navigation/ReaderChapterList.tsx';
-import { ReaderBottomBarMobileQuickSettings } from '@/modules/reader/components/overlay/navigation/mobile/quick-settings/ReaderBottomBarMobileQuickSettings.tsx';
+import { ReaderBottomBarMobileQuickSettings } from '@/modules/reader/components/overlay/navigation/mobile/ReaderBottomBarMobileQuickSettings.tsx';
 import { useReaderStateChaptersContext } from '@/modules/reader/contexts/state/ReaderStateChaptersContext.tsx';
 
 export const ReaderBottomBarMobile = ({ openSettings, isVisible }: ReaderBottomBarMobileProps) => {

@@ -28,11 +28,10 @@ import { ReaderNavBarDesktopActions } from '@/modules/reader/components/overlay/
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 import { useReaderStateMangaContext } from '@/modules/reader/contexts/state/ReaderStateMangaContext.tsx';
-import { createUpdateReaderSettings } from '@/modules/reader-deprecated/services/ReaderSettingsMetadata.ts';
-import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { userReaderStatePagesContext } from '@/modules/reader/contexts/state/ReaderStatePagesContext.tsx';
 import { useReaderStateChaptersContext } from '@/modules/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
+import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 
 const useGetPreviousNavBarStaticValue = (isVisible: boolean, staticNav: boolean) => {
     const wasNavBarStaticRef = useRef(staticNav);
@@ -52,6 +51,7 @@ const useGetPreviousNavBarStaticValue = (isVisible: boolean, staticNav: boolean)
     return wasNavBarStaticRef.current;
 };
 
+const DEFAULT_MANGA: MangaIdInfo = { id: -1 };
 export const ReaderNavBarDesktop = ({ isVisible, setIsVisible, openSettings }: ReaderNavBarDesktopProps) => {
     const { t } = useTranslation();
     const { setReaderNavBarWidth } = useNavBarContext();
@@ -62,9 +62,7 @@ export const ReaderNavBarDesktop = ({ isVisible, setIsVisible, openSettings }: R
     const handleBack = useBackButton();
     const getOptionForDirection = useGetOptionForDirection();
 
-    const updateReaderSettings = createUpdateReaderSettings(manga ?? { id: -1 }, () =>
-        makeToast(t('reader.settings.error.label.failed_to_save_settings')),
-    );
+    const updateReaderSettings = ReaderService.useCreateUpdateSetting(manga ?? DEFAULT_MANGA);
 
     const settings = ReaderService.useSettings();
 

@@ -395,6 +395,7 @@
       "filter": "Filter",
       "general": "General",
       "github": "GitHub",
+      "hidden": "Hidden",
       "links": "Links",
       "load_in_progress": "Still loading required data…",
       "loading": "Loading…",
@@ -410,6 +411,7 @@
       "previous": "Previous",
       "share": "Share",
       "sort": "Sort",
+      "standard": "Standard",
       "started": "Started",
       "type": "Type",
       "unknown": "Unknown",
@@ -799,6 +801,9 @@
         "screen": "Fit screen",
         "stretch": "Stretch small pages",
         "width": "Fit width"
+      },
+      "progress_bar": {
+        "size": "Progress bar size: {{value}} pixel"
       },
       "reader_type": {
         "label": {

@@ -28,7 +28,7 @@ const VALUE_TO_DISPLAY_DATA: ValueToDisplayData<ReadingDirection> = {
 
 const READING_DIRECTION_VALUES = Object.values(ReadingDirection).filter((value) => typeof value === 'number');
 
-export const ReaderBottomBarMobileReadingDirection = ({
+export const ReaderReadingDirection = ({
     readingDirection,
     setReadingDirection,
 }: Pick<IReaderSettings, 'readingDirection'> & {
