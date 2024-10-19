@@ -18,7 +18,7 @@ export const TypographyMaxLines = styled(Typography, {
     shouldForwardProp: shouldForwardProp<TypographyMaxLinesProps>(['lines']),
 })<TypographyMaxLinesProps>(({ lines = 2 }) => ({
     lineHeight: '1.5rem',
-    maxHeight: '3rem',
+    maxHeight: `${3 * lines}rem`,
     display: '-webkit-box',
     WebkitLineClamp: `${lines}`,
     WebkitBoxOrient: 'vertical',
