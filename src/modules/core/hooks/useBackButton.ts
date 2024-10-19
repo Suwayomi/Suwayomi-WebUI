@@ -7,19 +7,21 @@
  */
 
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useContext } from 'react';
-import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
+import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
+
+const PAGES_TO_IGNORE: readonly RegExp[] = [/\/manga\/[0-9]+\/chapter\/[0-9]+/g];
 
 export const useBackButton = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const { history } = useContext(NavBarContext);
+    const { history } = useNavBarContext();
 
     return () => {
         const isHistoryEmpty = !history.length;
         const isLastPageInHistoryCurrentPage = history.length === 1 && history[0] === location.pathname;
+        const ignorePreviousPage = history.length && PAGES_TO_IGNORE.some((page) => !!history.slice(-2)[0].match(page));
 
-        const canNavigateBack = !isHistoryEmpty && !isLastPageInHistoryCurrentPage;
+        const canNavigateBack = !ignorePreviousPage && !isHistoryEmpty && !isLastPageInHistoryCurrentPage;
         if (canNavigateBack) {
             navigate(-1);
             return;
