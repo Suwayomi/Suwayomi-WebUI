@@ -48,6 +48,7 @@ export const CHAPTER_READER_FIELDS = gql`
         ...CHAPTER_BASE_FIELDS
         ...CHAPTER_STATE_FIELDS
 
+        uploadDate
         lastPageRead
         pageCount
     }

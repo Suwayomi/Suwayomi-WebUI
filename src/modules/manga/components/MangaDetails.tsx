@@ -301,7 +301,7 @@ export const MangaDetails = ({
     const copyTitle = async () => {
         try {
             await navigator.clipboard.writeText(manga.title);
-            makeToast(t('global.label.copied'), 'info');
+            makeToast(t('global.label.copied_clipboard'), 'info');
         } catch (e) {
             defaultPromiseErrorHandler('MangaDetails::copyTitleLongPress')(e);
         }
