@@ -6,6 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import { useMemo } from 'react';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import {
     requestUpdateMangaMetadata,
@@ -45,10 +46,18 @@ export const useDefaultReaderSettings = (): {
 } => {
     const request = requestManager.useGetGlobalMeta({ notifyOnNetworkStatusChange: true });
     const { data, loading } = request;
-    const metadata = convertFromGqlMeta(data?.metas.nodes);
-    const settings = getReaderSettingsWithDefaultValueFallback<IReaderSettings>(metadata);
+    const metadata = useMemo(() => convertFromGqlMeta(data?.metas.nodes), [data?.metas.nodes]);
+    const settings = useMemo(() => getReaderSettingsWithDefaultValueFallback<IReaderSettings>(metadata), [metadata]);
 
-    return { metadata, settings, loading, request };
+    return useMemo(
+        () => ({
+            metadata,
+            settings,
+            loading,
+            request,
+        }),
+        [metadata, settings, loading, request],
+    );
 };
 
 /**

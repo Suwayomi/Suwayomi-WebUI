@@ -6,6 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import { useMemo } from 'react';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { requestUpdateServerMetadata } from '@/modules/metadata/services/MetadataUpdater.ts';
 import { jsonSaveParse } from '@/lib/HelperFunctions.ts';
@@ -60,10 +61,10 @@ export const useMetadataServerSettings = (): {
 } => {
     const request = requestManager.useGetGlobalMeta({ notifyOnNetworkStatusChange: true });
     const { data, loading } = request;
-    const metadata = convertFromGqlMeta(data?.metas.nodes);
-    const settings = getMetadataServerSettingsWithDefaultFallback(metadata);
+    const metadata = useMemo(() => convertFromGqlMeta(data?.metas.nodes), [data?.metas.nodes]);
+    const settings = useMemo(() => getMetadataServerSettingsWithDefaultFallback(metadata), [metadata]);
 
-    return { metadata, settings, loading, request };
+    return useMemo(() => ({ metadata, settings, loading, request }), [metadata, settings, loading, request]);
 };
 
 export const getMetadataServerSettings = async (): Promise<MetadataServerSettings> => {
