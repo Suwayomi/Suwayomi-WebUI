@@ -26,17 +26,12 @@ const { Browse } = loadable(() => import('@/modules/browse/screens/Browse.tsx'),
 const { DownloadQueue } = loadable(() => import('@/modules/downloads/screens/DownloadQueue.tsx'), lazyLoadFallback);
 const { Library } = loadable(() => import('@/modules/library/screens/Library.tsx'), lazyLoadFallback);
 const { Manga } = loadable(() => import('@/modules/manga/screens/Manga.tsx'), lazyLoadFallback);
-const { Reader } = loadable(() => import('@/modules/reader/screens/Reader.tsx'), lazyLoadFallback);
 const { SearchAll } = loadable(() => import('@/modules/global-search/screens/SearchAll.tsx'), lazyLoadFallback);
 const { Settings } = loadable(() => import('@/modules/settings/screens/Settings.tsx'), lazyLoadFallback);
 const { About } = loadable(() => import('@/modules/settings/screens/About.tsx'), lazyLoadFallback);
 const { Backup } = loadable(() => import('@/modules/backup/screens/Backup.tsx'), lazyLoadFallback);
 const { CategorySettings } = loadable(
     () => import('@/modules/category/screens/CategorySettings.tsx'),
-    lazyLoadFallback,
-);
-const { DefaultReaderSettings } = loadable(
-    () => import('@/modules/reader/screens/DefaultReaderSettings.tsx'),
     lazyLoadFallback,
 );
 const { SourceConfigure } = loadable(() => import('@/modules/source/screens/SourceConfigure.tsx'), lazyLoadFallback);
@@ -119,7 +114,7 @@ const MainApp = () => {
                         <Route index element={<Settings />} />
                         <Route path="about" element={<About />} />
                         <Route path="categories" element={<CategorySettings />} />
-                        <Route path="defaultReaderSettings" element={<DefaultReaderSettings />} />
+                        <Route path="defaultReaderSettings" element={null} />
                         <Route path="librarySettings">
                             <Route index element={<LibrarySettings />} />
                             <Route path="duplicates" element={<LibraryDuplicates />} />
@@ -164,7 +159,7 @@ const MainApp = () => {
 const ReaderApp = () => (
     <ErrorBoundary>
         <Routes>
-            <Route path="manga/:mangaId/chapter/:chapterIndex" element={<Reader />} />
+            <Route path="manga/:mangaId/chapter/:chapterIndex" element={null} />
             <Route path="*" element={null} />
         </Routes>
     </ErrorBoundary>
