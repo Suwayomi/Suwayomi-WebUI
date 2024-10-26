@@ -15,7 +15,6 @@ export const DEFAULT_READER_SETTINGS: IReaderSettings = {
     skipDupChapters: true,
     fitPageToWindow: true,
     scalePage: false,
-    readerType: 'ContinuesVertical',
     offsetFirstPage: false,
     readerWidth: 50,
 };
