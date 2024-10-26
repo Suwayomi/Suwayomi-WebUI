@@ -17,7 +17,6 @@ const APP_METADATA_OBJECT: Record<AppMetadataKeys, undefined> = {
     skipDupChapters: undefined,
     fitPageToWindow: undefined,
     scalePage: undefined,
-    readerType: undefined,
     offsetFirstPage: undefined,
     migration: undefined,
     deleteChaptersManuallyMarkedRead: undefined,
