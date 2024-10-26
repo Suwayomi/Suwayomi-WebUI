@@ -8,19 +8,17 @@
 
 import FormLabel from '@mui/material/FormLabel';
 import RadioGroup from '@mui/material/RadioGroup';
-import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CheckboxInput } from '@/modules/core/components/inputs/CheckboxInput.tsx';
 import { RadioInput } from '@/modules/core/components/inputs/RadioInput.tsx';
 import { SortRadioInput } from '@/modules/core/components/inputs/SortRadioInput.tsx';
 import { ThreeStateCheckboxInput } from '@/modules/core/components/inputs/ThreeStateCheckboxInput.tsx';
-import { GridLayout } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
 import { OptionsTabs } from '@/modules/core/components/OptionsTabs.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Trackers } from '@/modules/tracker/services/Trackers.ts';
 import { GetTrackersSettingsQuery, MangaStatus } from '@/lib/graphql/generated/graphql.ts';
 import { GET_TRACKERS_SETTINGS } from '@/lib/graphql/queries/TrackerQuery.ts';
-import { createUpdateCategoryMetadata, getCategoryMetadata } from '@/modules/category/services/CategoryMetadata.ts';
+import { createUpdateCategoryMetadata, useGetCategoryMetadata } from '@/modules/category/services/CategoryMetadata.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import {
     createUpdateMetadataServerSettings,
@@ -30,6 +28,7 @@ import { TranslationKey } from '@/Base.types.ts';
 import { LibrarySortMode } from '@/modules/library/Library.types.ts';
 import { CategoryMetadataInfo } from '@/modules/category/Category.types.ts';
 import { statusToTranslationKey } from '@/modules/manga/Manga.constants.ts';
+import { GridLayout } from '@/modules/core/Core.types.ts';
 
 const TITLES: { [key in 'filter' | 'sort' | 'display']: TranslationKey } = {
     filter: 'global.label.filter',
@@ -61,7 +60,7 @@ export const LibraryOptionsPanel = ({
     const trackerList = requestManager.useGetTrackerList<GetTrackersSettingsQuery>(GET_TRACKERS_SETTINGS);
     const loggedInTrackers = Trackers.getLoggedIn(trackerList.data?.trackers.nodes ?? []);
 
-    const categoryLibraryOptions = useMemo(() => getCategoryMetadata(category), [category]);
+    const categoryLibraryOptions = useGetCategoryMetadata(category);
     const updateCategoryLibraryOptions = createUpdateCategoryMetadata(category, () =>
         makeToast(t('global.error.label.failed_to_save_changes', 'error')),
     );

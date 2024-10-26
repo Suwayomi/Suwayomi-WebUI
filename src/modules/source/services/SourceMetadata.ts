@@ -6,6 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import { useEffect, useMemo } from 'react';
 import { jsonSaveParse } from '@/lib/HelperFunctions.ts';
 import { requestUpdateSourceMetadata } from '@/modules/metadata/services/MetadataUpdater.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
@@ -20,6 +21,10 @@ import {
     Metadata,
 } from '@/modules/metadata/Metadata.types.ts';
 
+const DEFAULT_SOURCE_METADATA: ISourceMetadata = {
+    savedSearches: undefined,
+};
+
 const convertAppMetadataToGqlMetadata = (
     metadata: Partial<ISourceMetadata>,
 ): Metadata<string, AllowedMetadataValueTypes> => ({
@@ -27,17 +32,34 @@ const convertAppMetadataToGqlMetadata = (
     savedSearches: metadata.savedSearches ? JSON.stringify(metadata.savedSearches) : undefined,
 });
 
-export const convertGqlMetadataToAppMetadata = (
+const convertGqlMetadataToAppMetadata = (
     metadata: Partial<Metadata<AppMetadataKeys, AllowedMetadataValueTypes>>,
 ): ISourceMetadata => ({
     ...(metadata as unknown as ISourceMetadata),
     savedSearches: jsonSaveParse<ISourceMetadata['savedSearches']>(metadata.savedSearches as string) ?? undefined,
 });
 
-export const getSourceMetadata = ({ meta }: GqlMetaHolder = {}, applyMetadataMigration?: boolean): ISourceMetadata =>
+const getMetadata = (
+    metaHolder: Pick<SourceType, 'id'> & GqlMetaHolder,
+    useEffectFn?: typeof useEffect,
+): ISourceMetadata =>
     convertGqlMetadataToAppMetadata(
-        getMetadataFrom({ meta: convertFromGqlMeta(meta) }, { savedSearches: undefined }, applyMetadataMigration),
+        getMetadataFrom(
+            'source',
+            { ...metaHolder, meta: convertFromGqlMeta(metaHolder.meta) },
+            convertAppMetadataToGqlMetadata(DEFAULT_SOURCE_METADATA),
+            true,
+            useEffectFn,
+        ),
     );
+
+export const getSourceMetadata = (metaHolder: Pick<SourceType, 'id'> & GqlMetaHolder): ISourceMetadata =>
+    getMetadata(metaHolder);
+
+export const useGetSourceMetadata = (metaHolder: Pick<SourceType, 'id'> & GqlMetaHolder): ISourceMetadata => {
+    const metadata = getMetadata(metaHolder, useEffect);
+    return useMemo(() => metadata, [metaHolder]);
+};
 
 export const updateSourceMetadata = async <
     MetadataKeys extends SourceMetadataKeys = SourceMetadataKeys,

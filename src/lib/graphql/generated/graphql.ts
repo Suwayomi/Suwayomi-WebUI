@@ -2826,7 +2826,7 @@ export type DeleteCategoryMetadataMutationVariables = Exact<{
 }>;
 
 
-export type DeleteCategoryMetadataMutation = { __typename?: 'Mutation', deleteCategoryMeta?: { __typename?: 'DeleteCategoryMetaPayload', meta?: { __typename?: 'CategoryMetaType', categoryId: number, key: string, value: string } | null, category: { __typename?: 'CategoryType', id: number, meta: Array<{ __typename?: 'CategoryMetaType', categoryId: number, key: string, value: string }> } } | null };
+export type DeleteCategoryMetadataMutation = { __typename?: 'Mutation', deleteCategoryMeta?: { __typename?: 'DeleteCategoryMetaPayload', meta?: { __typename?: 'CategoryMetaType', categoryId: number, key: string, value: string } | null } | null };
 
 export type SetCategoryMetadataMutationVariables = Exact<{
   input: SetCategoryMetaInput;
@@ -2869,7 +2869,7 @@ export type DeleteChapterMetadataMutationVariables = Exact<{
 }>;
 
 
-export type DeleteChapterMetadataMutation = { __typename?: 'Mutation', deleteChapterMeta?: { __typename?: 'DeleteChapterMetaPayload', meta?: { __typename?: 'ChapterMetaType', chapterId: number, key: string, value: string } | null, chapter: { __typename?: 'ChapterType', id: number, meta: Array<{ __typename?: 'ChapterMetaType', chapterId: number, key: string, value: string }> } } | null };
+export type DeleteChapterMetadataMutation = { __typename?: 'Mutation', deleteChapterMeta?: { __typename?: 'DeleteChapterMetaPayload', meta?: { __typename?: 'ChapterMetaType', chapterId: number, key: string, value: string } | null } | null };
 
 export type GetChapterPagesFetchMutationVariables = Exact<{
   input: FetchChapterPagesInput;
@@ -3044,7 +3044,7 @@ export type DeleteMangaMetadataMutationVariables = Exact<{
 }>;
 
 
-export type DeleteMangaMetadataMutation = { __typename?: 'Mutation', deleteMangaMeta?: { __typename?: 'DeleteMangaMetaPayload', meta?: { __typename?: 'MangaMetaType', mangaId: number, key: string, value: string } | null, manga: { __typename?: 'MangaType', id: number, meta: Array<{ __typename?: 'MangaMetaType', mangaId: number, key: string, value: string }> } } | null };
+export type DeleteMangaMetadataMutation = { __typename?: 'Mutation', deleteMangaMeta?: { __typename?: 'DeleteMangaMetaPayload', meta?: { __typename?: 'MangaMetaType', mangaId: number, key: string, value: string } | null } | null };
 
 export type GetMangaFetchMutationVariables = Exact<{
   input: FetchMangaInput;
@@ -3148,6 +3148,13 @@ export type SetSourceMetadataMutationVariables = Exact<{
 
 
 export type SetSourceMetadataMutation = { __typename?: 'Mutation', setSourceMeta?: { __typename?: 'SetSourceMetaPayload', meta: { __typename?: 'SourceMetaType', sourceId: string, key: string, value: string } } | null };
+
+export type DeleteSourceMetadataMutationVariables = Exact<{
+  input: DeleteSourceMetaInput;
+}>;
+
+
+export type DeleteSourceMetadataMutation = { __typename?: 'Mutation', deleteSourceMeta?: { __typename?: 'DeleteSourceMetaPayload', meta?: { __typename?: 'SourceMetaType', sourceId: string, key: string, value: string } | null } | null };
 
 export type TrackerLoginOauthMutationVariables = Exact<{
   input: LoginTrackerOAuthInput;

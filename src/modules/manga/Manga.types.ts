@@ -8,12 +8,12 @@
 
 import { LongPressPointerHandlers, LongPressResult } from 'use-long-press/lib/use-long-press.types';
 import { PopupState } from 'material-ui-popup-state/hooks';
-import { GridLayout } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
 import { SelectableCollectionReturnType } from '@/modules/collection/hooks/useSelectableCollection.ts';
 import { useManageMangaLibraryState } from '@/modules/manga/hooks/useManageMangaLibraryState.tsx';
 import { ChapterType, MangaReaderFieldsFragment, MangaType, TrackRecordType } from '@/lib/graphql/generated/graphql.ts';
 import { SingleModeProps } from '@/modules/manga/components/MangaActionMenuItems.tsx';
 import { IReaderSettings } from '@/modules/reader/Reader.types';
+import { GridLayout } from '@/modules/core/Core.types.ts';
 
 export type MangaCardMode = 'default' | 'source' | 'migrate.search' | 'migrate.select' | 'duplicate';
 

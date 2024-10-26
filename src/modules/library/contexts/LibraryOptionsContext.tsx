@@ -7,7 +7,7 @@
  */
 
 import React, { useContext } from 'react';
-import { getDefaultCategoryMetadata } from '@/modules/category/services/CategoryMetadata.ts';
+import { DEFAULT_CATEGORY_METADATA } from '@/modules/category/services/CategoryMetadata.ts';
 import { LibraryOptions } from '@/modules/library/Library.types.ts';
 
 type ContextType = {
@@ -15,14 +15,8 @@ type ContextType = {
     setOptions: React.Dispatch<React.SetStateAction<LibraryOptions>>;
 };
 
-export enum GridLayout {
-    Compact = 0,
-    Comfortable = 1,
-    List = 2,
-}
-
 export const LibraryOptionsContext = React.createContext<ContextType>({
-    options: getDefaultCategoryMetadata(),
+    options: DEFAULT_CATEGORY_METADATA,
     setOptions: () => {},
 });
 

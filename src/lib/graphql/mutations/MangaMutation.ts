@@ -17,12 +17,6 @@ export const DELETE_MANGA_METADATA = gql`
             meta {
                 ...MANGA_META_FIELDS
             }
-            manga {
-                id
-                meta {
-                    ...MANGA_META_FIELDS
-                }
-            }
         }
     }
 `;

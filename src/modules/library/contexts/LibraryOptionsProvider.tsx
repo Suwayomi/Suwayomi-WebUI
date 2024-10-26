@@ -9,7 +9,7 @@
 import React, { useMemo } from 'react';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { LibraryOptionsContext } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
-import { getDefaultCategoryMetadata } from '@/modules/category/services/CategoryMetadata.ts';
+import { DEFAULT_CATEGORY_METADATA } from '@/modules/category/services/CategoryMetadata.ts';
 import { LibraryOptions } from '@/modules/library/Library.types.ts';
 
 interface IProps {
@@ -17,10 +17,10 @@ interface IProps {
 }
 
 export const LibraryOptionsContextProvider: React.FC<IProps> = ({ children }) => {
-    const [options, setOptions] = useLocalStorage<LibraryOptions>('libraryOptions', getDefaultCategoryMetadata());
+    const [options, setOptions] = useLocalStorage<LibraryOptions>('libraryOptions', DEFAULT_CATEGORY_METADATA);
 
     const value = useMemo(
-        () => ({ options: { ...getDefaultCategoryMetadata(), ...options }, setOptions }),
+        () => ({ options: { ...DEFAULT_CATEGORY_METADATA, ...options }, setOptions }),
         [options, setOptions],
     );
 

@@ -25,7 +25,6 @@ import {
     AbortableApolloUseMutationPaginatedResponse,
     SPECIAL_ED_SOURCES,
 } from '@/lib/requests/RequestManager.ts';
-import { GridLayout } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
 import { SourceGridLayout } from '@/modules/source/components/SourceGridLayout.tsx';
 import { AppbarSearch } from '@/modules/core/components/AppbarSearch.tsx';
 import { SourceOptions } from '@/modules/source/components/SourceOptions.tsx';
@@ -35,13 +34,14 @@ import {
     GetSourceBrowseQueryVariables,
     GetSourceMangasFetchMutation,
     GetSourceMangasFetchMutationVariables,
+    SourceType,
 } from '@/lib/graphql/generated/graphql.ts';
 import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { useLocalStorage, useSessionStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { AppStorage } from '@/lib/storage/AppStorage.ts';
 import { getGridSnapshotKey } from '@/modules/manga/components/MangaGrid.tsx';
-import { createUpdateSourceMetadata, getSourceMetadata } from '@/modules/source/services/SourceMetadata.ts';
+import { createUpdateSourceMetadata, useGetSourceMetadata } from '@/modules/source/services/SourceMetadata.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { GET_SOURCE_BROWSE } from '@/lib/graphql/queries/SourceQuery.ts';
 import { TranslationKey } from '@/Base.types.ts';
@@ -50,6 +50,9 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { EmptyView } from '@/modules/core/components/placeholder/EmptyView.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
+import { GridLayout } from '@/modules/core/Core.types.ts';
+
+const DEFAULT_SOURCE: Pick<SourceType, 'id'> = { id: '-1' };
 
 const ContentTypeMenu = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -285,8 +288,8 @@ export function SourceMangas() {
     const source = sourceData?.source;
 
     const filters = source?.filters ?? [];
-    const { savedSearches = {} } = useMemo(() => getSourceMetadata(source), [source, source?.meta]);
-    const updateSourceMetadata = createUpdateSourceMetadata<'savedSearches'>(source ?? { id: sourceId }, () =>
+    const { savedSearches = {} } = useGetSourceMetadata(source ?? DEFAULT_SOURCE);
+    const updateSourceMetadata = createUpdateSourceMetadata<'savedSearches'>(source ?? { id: '-1' }, () =>
         makeToast(t('global.error.label.failed_to_save_changes'), 'error'),
     );
 

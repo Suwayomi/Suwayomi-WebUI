@@ -8,8 +8,9 @@
 
 import React, { useLayoutEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { GridLayout, useLibraryOptionsContext } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
+import { useLibraryOptionsContext } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
 import { IMangaGridProps, MangaGrid } from '@/modules/manga/components/MangaGrid.tsx';
+import { GridLayout } from '@/modules/core/Core.types.ts';
 
 interface LibraryMangaGridProps
     extends Required<Pick<IMangaGridProps, 'isSelectModeActive' | 'selectedMangaIds' | 'handleSelection' | 'mangas'>>,

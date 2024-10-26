@@ -19,12 +19,6 @@ export const DELETE_CHAPTER_METADATA = gql`
             meta {
                 ...CHAPTER_META_FIELDS
             }
-            chapter {
-                id
-                meta {
-                    ...CHAPTER_META_FIELDS
-                }
-            }
         }
     }
 `;

@@ -9,19 +9,14 @@
 import { useContext, useLayoutEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { requestUpdateServerMetadata } from '@/modules/metadata/services/MetadataUpdater.ts';
-import {
-    checkAndHandleMissingStoredReaderSettings,
-    useDefaultReaderSettings,
-} from '@/modules/reader/services/ReaderSettingsMetadata.ts';
+import { useDefaultReaderSettings } from '@/modules/reader/services/ReaderSettingsMetadata.ts';
 import { ReaderSettingsOptions } from '@/modules/reader/components/ReaderSettingsOptions.tsx';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
-import { DEFAULT_READER_SETTINGS } from '@/modules/reader/Reader.constants.ts';
 import { IReaderSettings } from '@/modules/reader/Reader.types.ts';
-import { convertToGqlMeta } from '@/modules/metadata/services/MetadataConverter.ts';
 import { AllowedMetadataValueTypes } from '@/modules/metadata/Metadata.types.ts';
 
 export function DefaultReaderSettings() {
@@ -38,7 +33,6 @@ export function DefaultReaderSettings() {
     }, [t]);
 
     const {
-        metadata,
         settings,
         loading,
         request: { error, refetch },
@@ -65,12 +59,6 @@ export function DefaultReaderSettings() {
             />
         );
     }
-
-    checkAndHandleMissingStoredReaderSettings(
-        { meta: convertToGqlMeta(metadata)! },
-        'server',
-        DEFAULT_READER_SETTINGS,
-    ).catch(defaultPromiseErrorHandler('DefaultReaderSettings::checkAndHandleMissingStoredReaderSettings'));
 
     return (
         <ReaderSettingsOptions

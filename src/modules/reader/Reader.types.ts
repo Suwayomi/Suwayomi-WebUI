@@ -32,10 +32,6 @@ export interface IReaderSettings {
     readerWidth: number;
 }
 
-export type UndefinedReaderSettings = {
-    [setting in keyof IReaderSettings]: IReaderSettings[setting] | undefined;
-};
-
 export interface IReaderPage {
     index: number;
     src: string;

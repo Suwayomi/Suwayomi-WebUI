@@ -12,11 +12,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import {
-    checkAndHandleMissingStoredReaderSettings,
-    getReaderSettingsFor,
-    useDefaultReaderSettings,
-} from '@/modules/reader/services/ReaderSettingsMetadata.ts';
+import { getReaderSettingsFor, useDefaultReaderSettings } from '@/modules/reader/services/ReaderSettingsMetadata.ts';
 import { requestUpdateMangaMetadata } from '@/modules/metadata/services/MetadataUpdater.ts';
 import { HorizontalPager } from '@/modules/reader/components/pager/HorizontalPager.tsx';
 import { PageNumber } from '@/modules/reader/components/page/PageNumber.tsx';
@@ -219,7 +215,7 @@ export function Reader() {
     const error = mangaError ?? chapterError ?? chaptersError ?? pagesError;
 
     const { settings: defaultSettings, loading: areDefaultSettingsLoading } = useDefaultReaderSettings();
-    const [settings, setSettings] = useState(getReaderSettingsFor(manga, defaultSettings));
+    const [settings, setSettings] = useState(defaultSettings);
 
     const { settings: metadataSettings } = useMetadataServerSettings();
 
@@ -419,9 +415,6 @@ export function Reader() {
 
     useEffect(() => {
         if (!areDefaultSettingsLoading && !isMangaLoading) {
-            checkAndHandleMissingStoredReaderSettings(manga, 'manga', defaultSettings).catch(
-                defaultPromiseErrorHandler('Reader::checkAndHandleMissingStoredReaderSettings'),
-            );
             setSettings(getReaderSettingsFor(manga, defaultSettings));
         }
     }, [areDefaultSettingsLoading, isMangaLoading]);

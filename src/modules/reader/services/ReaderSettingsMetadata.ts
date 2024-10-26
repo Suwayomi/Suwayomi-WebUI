@@ -6,37 +6,69 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import {
-    requestUpdateMangaMetadata,
-    requestUpdateServerMetadata,
-} from '@/modules/metadata/services/MetadataUpdater.ts';
-import { MetaType } from '@/lib/graphql/generated/graphql.ts';
 import { DEFAULT_READER_SETTINGS } from '@/modules/reader/Reader.constants.ts';
-import { IReaderSettings, UndefinedReaderSettings } from '@/modules/reader/Reader.types.ts';
+import { IReaderSettings } from '@/modules/reader/Reader.types.ts';
 import { convertFromGqlMeta } from '@/modules/metadata/services/MetadataConverter.ts';
 import { getMetadataFrom } from '@/modules/metadata/services/MetadataReader.ts';
-import { GqlMetaHolder, Metadata, MetadataKeyValuePair } from '@/modules/metadata/Metadata.types.ts';
+import { GqlMetaHolder, Metadata, MetadataHolder, MetadataHolderType } from '@/modules/metadata/Metadata.types.ts';
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 
-const getReaderSettingsWithDefaultValueFallback = <DefaultSettings extends IReaderSettings | UndefinedReaderSettings>(
-    meta?: Metadata,
+function getReaderSettingsWithDefaultValueFallback<DefaultSettings extends IReaderSettings>(
+    type: 'global',
+    metadataHolder: MetadataHolder,
+    defaultSettings?: DefaultSettings,
+    useEffectFn?: typeof useEffect,
+): DefaultSettings;
+function getReaderSettingsWithDefaultValueFallback<DefaultSettings extends IReaderSettings>(
+    type: 'manga',
+    metadataHolder: MangaIdInfo & MetadataHolder,
+    defaultSettings?: DefaultSettings,
+    useEffectFn?: typeof useEffect,
+): DefaultSettings;
+function getReaderSettingsWithDefaultValueFallback<DefaultSettings extends IReaderSettings>(
+    type: Extract<MetadataHolderType, 'global' | 'manga'>,
+    metadataHolder: (MangaIdInfo & MetadataHolder) | MetadataHolder,
     defaultSettings: DefaultSettings = DEFAULT_READER_SETTINGS as DefaultSettings,
-    applyMetadataMigration: boolean = true,
-): DefaultSettings => getMetadataFrom({ meta }, defaultSettings, applyMetadataMigration);
+    useEffectFn?: typeof useEffect,
+): DefaultSettings {
+    return getMetadataFrom(
+        type as Parameters<typeof getMetadataFrom>[0],
+        metadataHolder as Parameters<typeof getMetadataFrom>[1],
+        defaultSettings,
+        true,
+        useEffectFn,
+    );
+}
 
-export const getReaderSettingsFromMetadata = (
-    meta?: Metadata,
+const getSettings = (
+    metaHolder: MangaIdInfo & GqlMetaHolder,
     defaultSettings?: IReaderSettings,
-    applyMetadataMigration?: boolean,
-): IReaderSettings => getReaderSettingsWithDefaultValueFallback(meta, defaultSettings, applyMetadataMigration);
+    useEffectFn?: typeof useEffect,
+) =>
+    getReaderSettingsWithDefaultValueFallback(
+        'manga',
+        {
+            ...metaHolder,
+            meta: convertFromGqlMeta(metaHolder.meta),
+        },
+        defaultSettings,
+        useEffectFn,
+    );
 
 export const getReaderSettingsFor = (
-    { meta }: GqlMetaHolder = {},
-    defaultSettings?: IReaderSettings,
-    applyMetadataMigration?: boolean,
-): IReaderSettings => getReaderSettingsFromMetadata(convertFromGqlMeta(meta), defaultSettings, applyMetadataMigration);
+    metaHolder: MangaIdInfo & GqlMetaHolder,
+    defaultSettings: IReaderSettings,
+): IReaderSettings => getSettings(metaHolder, defaultSettings);
+
+export const useGetReaderSettingsFor = (
+    metaHolder: MangaIdInfo & GqlMetaHolder,
+    defaultSettings: IReaderSettings,
+): IReaderSettings => {
+    const settings = getSettings(metaHolder, defaultSettings, useEffect);
+    return useMemo(() => settings, [metaHolder, defaultSettings]);
+};
 
 export const useDefaultReaderSettings = (): {
     metadata?: Metadata;
@@ -47,7 +79,9 @@ export const useDefaultReaderSettings = (): {
     const request = requestManager.useGetGlobalMeta({ notifyOnNetworkStatusChange: true });
     const { data, loading } = request;
     const metadata = useMemo(() => convertFromGqlMeta(data?.metas.nodes), [data?.metas.nodes]);
-    const settings = useMemo(() => getReaderSettingsWithDefaultValueFallback<IReaderSettings>(metadata), [metadata]);
+    const metaHolder: MetadataHolder = useMemo(() => ({ meta: metadata }), [metadata]);
+    const tmpSettings = getReaderSettingsWithDefaultValueFallback('global', metaHolder, undefined, useEffect);
+    const settings = useMemo(() => tmpSettings, [metaHolder]);
 
     return useMemo(
         () => ({
@@ -58,56 +92,4 @@ export const useDefaultReaderSettings = (): {
         }),
         [metadata, settings, loading, request],
     );
-};
-
-/**
- * Saves all missing reader settings from the metadata to the server
- *
- * @param metadataHolder
- * @param metadataHolderType
- * @param defaultSettings
- */
-export const checkAndHandleMissingStoredReaderSettings = async (
-    metadataHolder: Required<GqlMetaHolder> | MetaType[],
-    metadataHolderType: 'manga' | 'server',
-    defaultSettings: IReaderSettings,
-): Promise<void | void[]> => {
-    const getMeta = () => (Array.isArray(metadataHolder) ? metadataHolder : metadataHolder.meta);
-    const meta = convertFromGqlMeta(getMeta())!;
-    const settingsToCheck = getReaderSettingsWithDefaultValueFallback(
-        meta,
-        {
-            staticNav: undefined,
-            showPageNumber: undefined,
-            loadNextOnEnding: undefined,
-            skipDupChapters: undefined,
-            fitPageToWindow: undefined,
-            scalePage: undefined,
-            readerType: undefined,
-            offsetFirstPage: undefined,
-            readerWidth: undefined,
-        },
-        false,
-    );
-    const newSettings = getReaderSettingsFor({ meta: getMeta() }, defaultSettings);
-
-    const undefinedSettings = Object.entries(settingsToCheck).filter((setting) => setting[1] === undefined);
-
-    const settingsToUpdate: MetadataKeyValuePair[] = [];
-    undefinedSettings.forEach((setting) => {
-        const key = setting[0] as keyof IReaderSettings;
-
-        settingsToUpdate.push([key, newSettings[key]]);
-    });
-
-    if (!undefinedSettings.length) {
-        return;
-    }
-
-    if (metadataHolderType === 'manga') {
-        await requestUpdateMangaMetadata(metadataHolder as MangaIdInfo & GqlMetaHolder, settingsToUpdate);
-        return;
-    }
-
-    await requestUpdateServerMetadata(settingsToUpdate);
 };

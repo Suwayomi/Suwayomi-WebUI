@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { requestUpdateServerMetadata } from '@/modules/metadata/services/MetadataUpdater.ts';
 import { jsonSaveParse } from '@/lib/HelperFunctions.ts';
@@ -48,10 +48,10 @@ export const convertMetadataToSettings = (
 const getMetadataServerSettingsWithDefaultFallback = (
     meta?: Metadata,
     defaultSettings: MetadataServerSettings = SERVER_SETTINGS_METADATA_DEFAULT,
-    applyMetadataMigration: boolean = true,
+    useEffectFn?: typeof useEffect,
 ): MetadataServerSettings =>
     convertMetadataToSettings(
-        getMetadataFrom({ meta }, convertSettingsToMetadata(defaultSettings), applyMetadataMigration),
+        getMetadataFrom('global', { meta }, convertSettingsToMetadata(defaultSettings), true, useEffectFn),
     );
 export const useMetadataServerSettings = (): {
     metadata?: Metadata;
@@ -62,7 +62,8 @@ export const useMetadataServerSettings = (): {
     const request = requestManager.useGetGlobalMeta({ notifyOnNetworkStatusChange: true });
     const { data, loading } = request;
     const metadata = useMemo(() => convertFromGqlMeta(data?.metas.nodes), [data?.metas.nodes]);
-    const settings = useMemo(() => getMetadataServerSettingsWithDefaultFallback(metadata), [metadata]);
+    const tmpSettings = getMetadataServerSettingsWithDefaultFallback(metadata, undefined, useEffect);
+    const settings = useMemo(() => tmpSettings, [metadata]);
 
     return useMemo(() => ({ metadata, settings, loading, request }), [metadata, settings, loading, request]);
 };

@@ -111,7 +111,8 @@ export const applyMetadataMigrations = (meta?: Metadata): Metadata | undefined =
         return undefined;
     }
 
-    const migrationToMetadata: [number, Metadata][] = [[0, meta]];
+    const appliedMigrationId = Number.isNaN(Number(meta.migration)) ? 0 : Math.max(0, Number(meta.migration) - 1);
+    const migrationToMetadata: [number, Metadata][] = [[appliedMigrationId, meta]];
 
     METADATA_MIGRATIONS.forEach((migration, index) => {
         const migrationId = index + 1;

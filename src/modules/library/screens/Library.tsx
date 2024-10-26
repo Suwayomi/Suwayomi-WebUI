@@ -84,7 +84,7 @@ export function Library() {
     const activeTab: (typeof tabs)[number] | undefined = tabs.find((tab) => tab.order === tabSearchParam) ?? tabs[0];
 
     useLayoutEffect(() => {
-        setOptions(getCategoryMetadata(activeTab));
+        setOptions(getCategoryMetadata(activeTab ?? { id: -1 }));
     }, [activeTab]);
 
     const {
@@ -169,7 +169,7 @@ export function Library() {
         setTitle(navBarTitle, title);
         setAction(
             <>
-                {!isSelectModeActive && (
+                {!isSelectModeActive && activeTab && (
                     <>
                         <AppbarSearch />
                         <LibraryToolbarMenu category={activeTab} />

@@ -17,7 +17,6 @@ import Box from '@mui/material/Box';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
-import { GridLayout } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
 import { GridLayouts } from '@/modules/core/components/GridLayouts.tsx';
 import { CheckboxInput } from '@/modules/core/components/inputs/CheckboxInput.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
@@ -33,6 +32,7 @@ import { IMangaGridProps } from '@/modules/manga/components/MangaGrid.tsx';
 import { StyledGroupItemWrapper } from '@/modules/core/components/virtuoso/StyledGroupItemWrapper.tsx';
 import { VirtuosoUtil } from '@/lib/virtuoso/Virtuoso.util.tsx';
 import { LibraryDuplicatesWorkerInput, TMangaDuplicate, TMangaDuplicates } from '@/modules/library/Library.types.ts';
+import { GridLayout } from '@/modules/core/Core.types.ts';
 
 export const LibraryDuplicates = () => {
     const { t } = useTranslation();

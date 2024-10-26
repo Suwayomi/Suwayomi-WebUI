@@ -17,11 +17,11 @@ import { styled } from '@mui/material/styles';
 import { useRef } from 'react';
 import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
 import { MangaOptionButton } from '@/modules/manga/components/MangaOptionButton.tsx';
-import { GridLayout } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
 import { Mangas } from '@/modules/manga/services/Mangas.ts';
 import { SpecificMangaCardProps } from '@/modules/manga/Manga.types.ts';
 import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines.tsx';
 import { MANGA_COVER_ASPECT_RATIO } from '@/modules/manga/Manga.constants.ts';
+import { GridLayout } from '@/modules/core/Core.types.ts';
 
 const BottomGradient = styled('div')({
     position: 'absolute',

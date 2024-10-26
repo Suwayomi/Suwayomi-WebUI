@@ -38,12 +38,6 @@ export const DELETE_CATEGORY_METADATA = gql`
             meta {
                 ...CATEGORY_META_FIELDS
             }
-            category {
-                id
-                meta {
-                    ...CATEGORY_META_FIELDS
-                }
-            }
         }
     }
 `;

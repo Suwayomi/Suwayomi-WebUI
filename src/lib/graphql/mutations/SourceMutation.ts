@@ -46,3 +46,15 @@ export const SET_SOURCE_METADATA = gql`
         }
     }
 `;
+
+export const DELETE_SOURCE_METADATA = gql`
+    ${SOURCE_META_FIELDS}
+
+    mutation DELETE_SOURCE_METADATA($input: DeleteSourceMetaInput!) {
+        deleteSourceMeta(input: $input) {
+            meta {
+                ...SOURCE_META_FIELDS
+            }
+        }
+    }
+`;

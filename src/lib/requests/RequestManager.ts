@@ -46,12 +46,22 @@ import {
     CreateCategoryInput,
     CreateCategoryMutation,
     CreateCategoryMutationVariables,
+    DeleteCategoryMetadataMutation,
+    DeleteCategoryMetadataMutationVariables,
     DeleteCategoryMutation,
     DeleteCategoryMutationVariables,
+    DeleteChapterMetadataMutation,
+    DeleteChapterMetadataMutationVariables,
     DeleteDownloadedChapterMutation,
     DeleteDownloadedChapterMutationVariables,
     DeleteDownloadedChaptersMutation,
     DeleteDownloadedChaptersMutationVariables,
+    DeleteGlobalMetadataMutation,
+    DeleteGlobalMetadataMutationVariables,
+    DeleteMangaMetadataMutation,
+    DeleteMangaMetadataMutationVariables,
+    DeleteSourceMetadataMutation,
+    DeleteSourceMetadataMutationVariables,
     DequeueChapterDownloadMutation,
     DequeueChapterDownloadMutationVariables,
     DequeueChapterDownloadsMutation,
@@ -199,7 +209,7 @@ import {
     WebuiUpdateSubscription,
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_GLOBAL_METADATAS } from '@/lib/graphql/queries/GlobalMetadataQuery.ts';
-import { SET_GLOBAL_METADATA } from '@/lib/graphql/mutations/GlobalMetadataMutation.ts';
+import { DELETE_GLOBAL_METADATA, SET_GLOBAL_METADATA } from '@/lib/graphql/mutations/GlobalMetadataMutation.ts';
 import {
     CHECK_FOR_SERVER_UPDATES,
     CHECK_FOR_WEBUI_UPDATE,
@@ -214,6 +224,7 @@ import {
 } from '@/lib/graphql/mutations/ExtensionMutation.ts';
 import { GET_MIGRATABLE_SOURCES, GET_SOURCES_LIST } from '@/lib/graphql/queries/SourceQuery.ts';
 import {
+    DELETE_MANGA_METADATA,
     GET_MANGA_FETCH,
     GET_MANGA_TO_MIGRATE_TO_FETCH,
     SET_MANGA_METADATA,
@@ -235,6 +246,7 @@ import {
     GET_CATEGORY_MANGAS,
 } from '@/lib/graphql/queries/CategoryQuery.ts';
 import {
+    DELETE_SOURCE_METADATA,
     GET_SOURCE_MANGAS_FETCH,
     SET_SOURCE_METADATA,
     UPDATE_SOURCE_PREFERENCES,
@@ -257,6 +269,7 @@ import {
     GET_MANGAS_CHAPTER_IDS_WITH_STATE,
 } from '@/lib/graphql/queries/ChapterQuery.ts';
 import {
+    DELETE_CHAPTER_METADATA,
     GET_CHAPTER_PAGES_FETCH,
     GET_MANGA_CHAPTERS_FETCH,
     SET_CHAPTER_METADATA,
@@ -266,6 +279,7 @@ import {
 import {
     CREATE_CATEGORY,
     DELETE_CATEGORY,
+    DELETE_CATEGORY_METADATA,
     SET_CATEGORY_METADATA,
     UPDATE_CATEGORY,
     UPDATE_CATEGORY_ORDER,
@@ -1152,6 +1166,34 @@ export class RequestManager {
         );
     }
 
+    public deleteGlobalMeta(
+        key: string,
+        options?: MutationOptions<DeleteGlobalMetadataMutation, DeleteGlobalMetadataMutationVariables>,
+    ): AbortableApolloMutationResponse<DeleteGlobalMetadataMutation> {
+        return this.doRequest(
+            GQLMethod.MUTATION,
+            DELETE_GLOBAL_METADATA,
+            { input: { key } },
+            {
+                optimisticResponse: {
+                    __typename: 'Mutation',
+                    deleteGlobalMeta: {
+                        __typename: 'DeleteGlobalMetaPayload',
+                        meta: {
+                            __typename: 'GlobalMetaType',
+                            key,
+                            value: '',
+                        },
+                    },
+                },
+                update(cache) {
+                    cache.evict({ id: cache.identify({ __typename: 'GlobalMetaType', key }) });
+                },
+                ...options,
+            },
+        );
+    }
+
     public useGetAbout(
         options?: QueryHookOptions<GetAboutQuery, GetAboutQueryVariables>,
     ): AbortableApolloUseQueryResponse<GetAboutQuery, GetAboutQueryVariables> {
@@ -1442,6 +1484,36 @@ export class RequestManager {
                             },
                         },
                     });
+                },
+                ...options,
+            },
+        );
+    }
+
+    public deleteSourceMeta(
+        sourceId: string,
+        key: string,
+        options?: MutationOptions<DeleteSourceMetadataMutation, DeleteSourceMetadataMutationVariables>,
+    ): AbortableApolloMutationResponse<DeleteSourceMetadataMutation> {
+        return this.doRequest(
+            GQLMethod.MUTATION,
+            DELETE_SOURCE_METADATA,
+            { input: { sourceId, key } },
+            {
+                optimisticResponse: {
+                    __typename: 'Mutation',
+                    deleteSourceMeta: {
+                        __typename: 'DeleteSourceMetaPayload',
+                        meta: {
+                            __typename: 'SourceMetaType',
+                            sourceId,
+                            key,
+                            value: '',
+                        },
+                    },
+                },
+                update(cache) {
+                    cache.evict({ id: cache.identify({ __typename: 'SourceMetaType', id: sourceId, key }) });
                 },
                 ...options,
             },
@@ -1942,6 +2014,36 @@ export class RequestManager {
         );
     }
 
+    public deleteMangaMeta(
+        mangaId: number,
+        key: string,
+        options?: MutationOptions<DeleteMangaMetadataMutation, DeleteMangaMetadataMutationVariables>,
+    ): AbortableApolloMutationResponse<DeleteMangaMetadataMutation> {
+        return this.doRequest(
+            GQLMethod.MUTATION,
+            DELETE_MANGA_METADATA,
+            { input: { mangaId, key } },
+            {
+                optimisticResponse: {
+                    __typename: 'Mutation',
+                    deleteMangaMeta: {
+                        __typename: 'DeleteMangaMetaPayload',
+                        meta: {
+                            __typename: 'MangaMetaType',
+                            mangaId,
+                            key,
+                            value: '',
+                        },
+                    },
+                },
+                update(cache) {
+                    cache.evict({ id: cache.identify({ __typename: 'MangaMetaType', id: mangaId, key }) });
+                },
+                ...options,
+            },
+        );
+    }
+
     public useGetChapters<Data, Variables extends OperationVariables>(
         document: DocumentNode | TypedDocumentNode<Data, Variables>,
         variables: Variables,
@@ -2134,6 +2236,36 @@ export class RequestManager {
                             },
                         },
                     });
+                },
+                ...options,
+            },
+        );
+    }
+
+    public deleteChapterMeta(
+        chapterId: number,
+        key: string,
+        options?: MutationOptions<DeleteChapterMetadataMutation, DeleteChapterMetadataMutationVariables>,
+    ): AbortableApolloMutationResponse<DeleteChapterMetadataMutation> {
+        return this.doRequest(
+            GQLMethod.MUTATION,
+            DELETE_CHAPTER_METADATA,
+            { input: { chapterId, key } },
+            {
+                optimisticResponse: {
+                    __typename: 'Mutation',
+                    deleteChapterMeta: {
+                        __typename: 'DeleteChapterMetaPayload',
+                        meta: {
+                            __typename: 'ChapterMetaType',
+                            chapterId,
+                            key,
+                            value: '',
+                        },
+                    },
+                },
+                update(cache) {
+                    cache.evict({ id: cache.identify({ __typename: 'ChapterMetaType', id: chapterId, key }) });
                 },
                 ...options,
             },
@@ -2383,6 +2515,36 @@ export class RequestManager {
                             },
                         },
                     });
+                },
+                ...options,
+            },
+        );
+    }
+
+    public deleteCategoryMeta(
+        categoryId: number,
+        key: string,
+        options?: MutationOptions<DeleteCategoryMetadataMutation, DeleteCategoryMetadataMutationVariables>,
+    ): AbortableApolloMutationResponse<DeleteCategoryMetadataMutation> {
+        return this.doRequest(
+            GQLMethod.MUTATION,
+            DELETE_CATEGORY_METADATA,
+            { input: { categoryId, key } },
+            {
+                optimisticResponse: {
+                    __typename: 'Mutation',
+                    deleteCategoryMeta: {
+                        __typename: 'DeleteCategoryMetaPayload',
+                        meta: {
+                            __typename: 'CategoryMetaType',
+                            categoryId,
+                            key,
+                            value: '',
+                        },
+                    },
+                },
+                update(cache) {
+                    cache.evict({ id: cache.identify({ __typename: 'CategoryMetaType', id: categoryId, key }) });
                 },
                 ...options,
             },

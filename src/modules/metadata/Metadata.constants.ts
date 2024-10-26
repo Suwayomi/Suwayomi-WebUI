@@ -10,6 +10,55 @@ import { AppMetadataKeys, IMetadataMigration } from '@/modules/metadata/Metadata
 
 export const APP_METADATA_KEY_PREFIX = 'webUI_';
 
+const APP_METADATA_OBJECT: Record<AppMetadataKeys, undefined> = {
+    staticNav: undefined,
+    showPageNumber: undefined,
+    loadNextOnEnding: undefined,
+    skipDupChapters: undefined,
+    fitPageToWindow: undefined,
+    scalePage: undefined,
+    readerType: undefined,
+    offsetFirstPage: undefined,
+    migration: undefined,
+    deleteChaptersManuallyMarkedRead: undefined,
+    deleteChaptersWhileReading: undefined,
+    deleteChaptersWithBookmark: undefined,
+    downloadAheadLimit: undefined,
+    showAddToLibraryCategorySelectDialog: undefined,
+    ignoreFilters: undefined,
+    removeMangaFromCategories: undefined,
+    showTabSize: undefined,
+    devices: undefined,
+    migrateChapters: undefined,
+    migrateCategories: undefined,
+    migrateTracking: undefined,
+    deleteChapters: undefined,
+    migrateSortSettings: undefined,
+    hideLibraryEntries: undefined,
+    updateProgressAfterReading: undefined,
+    updateProgressManualMarkRead: undefined,
+    webUIInformAvailableUpdate: undefined,
+    serverInformAvailableUpdate: undefined,
+    readerWidth: undefined,
+    savedSearches: undefined,
+    showContinueReadingButton: undefined,
+    showDownloadBadge: undefined,
+    showUnreadBadge: undefined,
+    gridLayout: undefined,
+    sortBy: undefined,
+    sortDesc: undefined,
+    hasDownloadedChapters: undefined,
+    hasBookmarkedChapters: undefined,
+    hasUnreadChapters: undefined,
+    hasDuplicateChapters: undefined,
+    hasTrackerBinding: undefined,
+    hasStatus: undefined,
+    customThemes: undefined,
+    mangaThumbnailBackdrop: undefined,
+};
+
+export const VALID_APP_METADATA_KEYS = Object.keys(APP_METADATA_OBJECT);
+
 export const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
     // downloads
     'deleteChaptersManuallyMarkedRead',

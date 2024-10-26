@@ -9,7 +9,7 @@
 import PopupState, { bindMenu } from 'material-ui-popup-state';
 import { useMemo, useState } from 'react';
 import { useLongPress } from 'use-long-press';
-import { GridLayout, useLibraryOptionsContext } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
+import { useLibraryOptionsContext } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
 import { MangaActionMenuItems, SingleModeProps } from '@/modules/manga/components/MangaActionMenuItems.tsx';
 import { Menu } from '@/modules/core/components/menu/Menu.tsx';
 import { MigrateDialog } from '@/modules/migration/components/MigrateDialog.tsx';
@@ -19,6 +19,7 @@ import { MangaListCard } from '@/modules/manga/components/cards/MangaListCard.ts
 import { MangaCardMode, MangaCardProps } from '@/modules/manga/Manga.types.ts';
 import { ContinueReadingButton } from '@/modules/manga/components/ContinueReadingButton.tsx';
 import { MangaBadges } from '@/modules/manga/components/MangaBadges.tsx';
+import { GridLayout } from '@/modules/core/Core.types.ts';
 
 const getMangaLinkTo = (
     mode: MangaCardMode,

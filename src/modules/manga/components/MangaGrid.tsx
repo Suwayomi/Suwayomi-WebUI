@@ -24,7 +24,6 @@ import { useTranslation } from 'react-i18next';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { MangaCard } from '@/modules/manga/components/cards/MangaCard.tsx';
-import { GridLayout } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
 import { useLocalStorage, useSessionStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { SelectableCollectionReturnType } from '@/modules/collection/hooks/useSelectableCollection.ts';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/modules/core/components/buttons/StyledFab.tsx';
@@ -33,6 +32,7 @@ import { MangaCardProps } from '@/modules/manga/Manga.types.ts';
 import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
+import { GridLayout } from '@/modules/core/Core.types.ts';
 
 const GridContainer = React.forwardRef<HTMLDivElement, GridTypeMap['props']>(({ children, ...props }, ref) => (
     <Grid {...props} ref={ref} container spacing={1}>

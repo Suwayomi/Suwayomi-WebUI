@@ -15,11 +15,10 @@ import {
     AllowedMetadataValueTypes,
     AppMetadataKeys,
     GqlMetaHolder,
+    MetadataHolderType,
     MetadataKeyValuePair,
 } from '@/modules/metadata/Metadata.types.ts';
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
-
-type MetadataHolderType = 'manga' | 'chapter' | 'category' | 'global' | 'source';
 
 export const requestUpdateMetadataValue = async (
     metadataHolder: GqlMetaHolder,
@@ -80,3 +79,62 @@ export const requestUpdateSourceMetadata = async (
     source: Pick<SourceType, 'id'> & GqlMetaHolder,
     keysToValue: MetadataKeyValuePair[],
 ): Promise<void[]> => requestUpdateMetadata(source, 'source', keysToValue);
+
+export const requestDeleteMetadataValue = async (
+    metadataHolder: GqlMetaHolder,
+    holderType: MetadataHolderType,
+    key: AppMetadataKeys,
+): Promise<void> => {
+    const metadataKey = getMetadataKey(key);
+
+    switch (holderType) {
+        case 'category':
+            await requestManager.deleteCategoryMeta((metadataHolder as CategoryIdInfo).id, metadataKey).response;
+            break;
+        case 'chapter':
+            await requestManager.deleteChapterMeta((metadataHolder as ChapterIdInfo).id, metadataKey).response;
+            break;
+        case 'global':
+            await requestManager.deleteGlobalMeta(metadataKey).response;
+            break;
+        case 'manga':
+            await requestManager.deleteMangaMeta((metadataHolder as MangaIdInfo).id, metadataKey).response;
+            break;
+        case 'source':
+            await requestManager.deleteSourceMeta((metadataHolder as Pick<SourceType, 'id'>).id, metadataKey).response;
+            break;
+        default:
+            throw new Error(`requestDeleteMetadataValue: unknown holderType "${holderType}"`);
+    }
+};
+
+export async function requestDeleteMetadata(
+    metadataHolder: GqlMetaHolder,
+    holderType: MetadataHolderType,
+    keys: AppMetadataKeys[],
+): Promise<void[]> {
+    return Promise.all(keys.map((key) => requestDeleteMetadataValue(metadataHolder, holderType, key)));
+}
+
+export const requestDeleteServerMetadata = async (keys: AppMetadataKeys[]): Promise<void[]> =>
+    requestDeleteMetadata({}, 'global', keys);
+
+export const requestDeleteMangaMetadata = async (
+    manga: MangaIdInfo & GqlMetaHolder,
+    keys: AppMetadataKeys[],
+): Promise<void[]> => requestDeleteMetadata(manga, 'manga', keys);
+
+export const requestDeleteChapterMetadata = async (
+    chapter: ChapterIdInfo & GqlMetaHolder,
+    keys: AppMetadataKeys[],
+): Promise<void[]> => requestDeleteMetadata(chapter, 'chapter', keys);
+
+export const requestDeleteCategoryMetadata = async (
+    category: CategoryIdInfo & GqlMetaHolder,
+    keys: AppMetadataKeys[],
+): Promise<void[]> => requestDeleteMetadata(category, 'category', keys);
+
+export const requestDeleteSourceMetadata = async (
+    source: Pick<SourceType, 'id'> & GqlMetaHolder,
+    keys: AppMetadataKeys[],
+): Promise<void[]> => requestDeleteMetadata(source, 'source', keys);

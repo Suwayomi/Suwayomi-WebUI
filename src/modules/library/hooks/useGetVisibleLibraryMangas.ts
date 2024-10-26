@@ -11,10 +11,10 @@ import { useMemo } from 'react';
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { ChapterType, MangaType, SourceType, TrackRecordType } from '@/lib/graphql/generated/graphql.ts';
 import { enhancedCleanup } from '@/util/Strings.ts';
-import { getCategoryMetadata } from '@/modules/category/services/CategoryMetadata.ts';
+import { useGetCategoryMetadata } from '@/modules/category/services/CategoryMetadata.ts';
 import { NullAndUndefined } from '@/Base.types.ts';
 import { LibraryOptions, LibrarySortMode } from '@/modules/library/Library.types.ts';
-import { CategoryMetadataInfo } from '@/modules/category/Category.types.ts';
+import { CategoryIdInfo, CategoryMetadataInfo } from '@/modules/category/Category.types.ts';
 import { MangaChapterCountInfo, MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 
 const triStateFilter = (
@@ -198,6 +198,7 @@ const sortManga = <Manga extends TMangaSort>(
     return result;
 };
 
+const DEFAULT_CATEGORY: CategoryIdInfo = { id: -1 };
 export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFilter & TMangaSort>(
     mangas: Manga[],
     category?: CategoryMetadataInfo,
@@ -206,7 +207,7 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
     showFilteredOutMessage: boolean;
 } => {
     const [query] = useQueryParam('query', StringParam);
-    const options = getCategoryMetadata(category);
+    const options = useGetCategoryMetadata(category ?? DEFAULT_CATEGORY);
     const {
         hasUnreadChapters,
         hasDownloadedChapters,

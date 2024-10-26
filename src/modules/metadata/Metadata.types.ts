@@ -38,7 +38,12 @@ export type MetadataHolder<Keys extends string = string, Values = string> = {
 
 export type AllowedMetadataValueTypes = string | boolean | number | undefined | null;
 
+interface MetadataAppliedMigration {
+    migration: number;
+}
+
 export type AppMetadataKeys =
+    | keyof MetadataAppliedMigration
     | MetadataServerSettingKeys
     | MangaMetadataKeys
     | SearchMetadataKeys
@@ -46,3 +51,5 @@ export type AppMetadataKeys =
     | CategoryMetadataKeys;
 
 export type MetadataKeyValuePair = [AppMetadataKeys, AllowedMetadataValueTypes];
+
+export type MetadataHolderType = 'manga' | 'chapter' | 'category' | 'global' | 'source';
