@@ -64,7 +64,9 @@ export const ValueRotationButton = <Value extends string | number>({
             startIcon={valueToDisplayData[value].icon}
             size="large"
         >
-            {t(valueToDisplayData[value].title)}
+            {valueToDisplayData[value].isTitleString
+                ? valueToDisplayData[value].title
+                : t(valueToDisplayData[value].title)}
         </Button>
     );
 };

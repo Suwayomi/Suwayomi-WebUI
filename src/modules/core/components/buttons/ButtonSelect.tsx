@@ -35,7 +35,9 @@ export const ButtonSelect = <Value extends string | number>({
                     variant={displayValue === value ? 'contained' : 'outlined'}
                     startIcon={valueToDisplayData[displayValue].icon}
                 >
-                    {t(valueToDisplayData[displayValue].title)}
+                    {valueToDisplayData[displayValue].isTitleString
+                        ? valueToDisplayData[displayValue].title
+                        : t(valueToDisplayData[displayValue].title)}
                 </Button>
             ))}
         </Stack>

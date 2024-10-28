@@ -20,11 +20,7 @@ import {
     ReadingDirection,
 } from '@/modules/reader/types/Reader.types.ts';
 import { useReaderStateMangaContext } from '@/modules/reader/contexts/state/ReaderStateMangaContext.tsx';
-import {
-    updateReaderSettings,
-    useDefaultReaderSettings,
-    useGetReaderSettingsFor,
-} from '@/modules/reader/services/ReaderSettingsMetadata.ts';
+import { updateReaderSettings } from '@/modules/reader/services/ReaderSettingsMetadata.ts';
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 import { getMetadataKey } from '@/modules/metadata/services/MetadataReader.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
@@ -35,6 +31,7 @@ import { GLOBAL_METADATA } from '@/lib/graphql/fragments/Fragments.ts';
 import { updateMetadataList } from '@/modules/metadata/services/MetadataApolloCacheHandler.ts';
 import { useBackButton } from '@/modules/core/hooks/useBackButton.ts';
 import { GLOBAL_READER_SETTING_KEYS } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
+import { useReaderStateSettingsContext } from '@/modules/reader/contexts/state/ReaderStateSettingsContext.tsx';
 
 const DIRECTION_TO_INVERTED: Record<Direction, Direction> = {
     ltr: 'rtl',
@@ -46,8 +43,6 @@ const DIRECTION_TO_READING_DIRECTION: Record<Direction, ReadingDirection> = {
     rtl: ReadingDirection.RTL,
 };
 
-const DEFAULT_MANGA: MangaIdInfo = { id: -1 };
-
 export class ReaderService {
     static useNavigateToChapter(chapter?: TChapterReader): () => void {
         const navigate = useNavigate();
@@ -56,10 +51,7 @@ export class ReaderService {
     }
 
     static useSettings(): IReaderSettingsWithDefaultFlag {
-        const { manga } = useReaderStateMangaContext();
-        const defaultReaderSettings = useDefaultReaderSettings();
-
-        return useGetReaderSettingsFor(manga ?? DEFAULT_MANGA, defaultReaderSettings.settings);
+        return useReaderStateSettingsContext().settings;
     }
 
     static useGetThemeDirection(): Direction {
@@ -80,12 +72,12 @@ export class ReaderService {
         value: IReaderSettings[Setting],
         commit: boolean = true,
         isGlobal: boolean = false,
+        profile?: string,
     ): void {
         if (!manga) {
             return;
         }
-
-        const key = getMetadataKey(setting);
+        const key = getMetadataKey(setting, profile ? [profile] : undefined);
 
         const { cache } = requestManager.graphQLClient.client;
 
@@ -130,7 +122,7 @@ export class ReaderService {
         }
 
         if (commit) {
-            updateReaderSettings(manga, setting, value, isGlobal).catch(() =>
+            updateReaderSettings(manga, setting, value, isGlobal, profile).catch(() =>
                 makeToast(translate('reader.settings.error.label.failed_to_save_settings'), 'error'),
             );
         }
@@ -140,12 +132,13 @@ export class ReaderService {
         manga: MangaIdInfo,
         setting: Setting,
         isGlobal: boolean = false,
+        profile?: string,
     ): void {
         if (!manga) {
             return;
         }
 
-        const key = getMetadataKey(setting);
+        const key = getMetadataKey(setting, profile ? [profile] : undefined);
 
         const { cache } = requestManager.graphQLClient.client;
 
@@ -166,18 +159,27 @@ export class ReaderService {
 
     static useCreateUpdateSetting<Setting extends keyof IReaderSettings>(
         manga: MangaIdInfo,
+        profile?: string,
     ): (
         ...args: OmitFirst<Parameters<typeof this.updateSetting<Setting>>>
     ) => ReturnType<typeof this.updateSetting<Setting>> {
-        return useCallback((...args) => this.updateSetting<Setting>(manga, ...args), [manga]);
+        return useCallback(
+            (setting, value, commit, isGlobal) =>
+                this.updateSetting<Setting>(manga, setting, value, commit, isGlobal, profile),
+            [manga, profile],
+        );
     }
 
     static useCreateDeleteSetting<Setting extends keyof IReaderSettings>(
         manga: MangaIdInfo,
+        profile?: string,
     ): (
         ...args: OmitFirst<Parameters<typeof this.deleteSetting<Setting>>>
     ) => ReturnType<typeof this.deleteSetting<Setting>> {
-        return useCallback((...args) => this.deleteSetting<Setting>(manga, ...args), [manga]);
+        return useCallback(
+            (setting, isGlobal) => this.deleteSetting<Setting>(manga, setting, isGlobal, profile),
+            [manga, profile],
+        );
     }
 
     static useOverlayMode(): { mode: ReaderOverlayMode; isDesktop: boolean; isMobile: boolean } {

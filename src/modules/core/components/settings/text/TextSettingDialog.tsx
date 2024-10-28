@@ -47,6 +47,8 @@ export const TextSettingDialog = ({
     const [dialogValue, setDialogValue] = useState(value ?? '');
     const [isValidValue, setIsValidValue] = useState(true);
 
+    const error = !isValidValue && !!dialogValue.length;
+
     const TextFieldComponent = useMemo(() => (isPassword ? PasswordTextField : TextField), [isPassword]);
 
     useEffect(() => {
@@ -85,8 +87,8 @@ export const TextSettingDialog = ({
                     autoFocus
                     placeholder={placeholder}
                     value={dialogValue}
-                    error={!isValidValue}
-                    helperText={!isValidValue ? t('global.error.label.invalid_input') : ''}
+                    error={error}
+                    helperText={error ? t('global.error.label.invalid_input') : ''}
                     onChange={(e) => {
                         const newValue = e.target.value;
 

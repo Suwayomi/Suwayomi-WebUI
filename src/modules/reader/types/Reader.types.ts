@@ -117,6 +117,8 @@ export interface IReaderSettingsGlobal {
     shouldShowPageNumber: boolean;
     isStaticNav: boolean;
     backgroundColor: ReaderBackgroundColor;
+    profiles: string[];
+    readingModesDefaultProfile: Record<ReadingMode, string>;
 }
 
 export interface IReaderSettingsManga {
@@ -138,6 +140,7 @@ export interface IReaderSettingsManga {
         value: number;
         enabled: boolean;
     };
+    defaultProfile: string;
 }
 
 export interface IReaderSettings extends IReaderSettingsGlobal, IReaderSettingsManga {}

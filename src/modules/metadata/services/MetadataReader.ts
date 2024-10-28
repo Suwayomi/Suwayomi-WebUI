@@ -13,7 +13,7 @@ import {
     METADATA_MIGRATIONS,
     VALID_APP_METADATA_KEYS,
 } from '@/modules/metadata/Metadata.constants.ts';
-import { DEFAULT_DEVICE, getActiveDevice } from '@/modules/device/services/Device.ts';
+import { getActiveDevice } from '@/modules/device/services/Device.ts';
 import { applyMetadataMigrations } from '@/modules/metadata/services/MetadataMigrations.ts';
 import { convertToGqlMeta, convertValueFromMetadata } from '@/modules/metadata/services/MetadataConverter.ts';
 import {
@@ -44,21 +44,44 @@ import { SourceType } from '@/lib/graphql/generated/graphql.ts';
 
 export const extractOriginalKey = (key: string) => key.split('_').slice(-1)[0];
 
-export const getMetadataKey = (key: string, appPrefix: string = APP_METADATA_KEY_PREFIX) => {
+/**
+ * Returns the key with the provided prefixes.
+ *
+ * In case the key is not a global key ({@link GLOBAL_METADATA_KEYS}), the active device name ({@link getActiveDevice})
+ * will be added as the second prefix.
+ *
+ * **Important**
+ *
+ * "default" (case-insensitive) is a reserved value and will be handled as if there is no prefix to add
+ *
+ * The format is <prefixes>\_<key>
+ *
+ *     e.g.: <base_prefix>\_[device_name]\_[optional_prefix1]\_[optional_prefix2]\_<key>
+ */
+export const getMetadataKey = (key: string, prefixes: string[] = [], appPrefix: string = APP_METADATA_KEY_PREFIX) => {
     const isGlobalMetadataKey = GLOBAL_METADATA_KEYS.includes(key as AppMetadataKeys);
-    const addActiveDevicePrefix = !isGlobalMetadataKey && getActiveDevice() !== DEFAULT_DEVICE;
+    const addActiveDevicePrefix = !isGlobalMetadataKey;
 
-    return `${appPrefix}${addActiveDevicePrefix ? `${getActiveDevice()}_` : ''}${key}`;
+    const finalPrefix = [appPrefix, ...(addActiveDevicePrefix ? [getActiveDevice()] : []), ...prefixes].filter(
+        (prefix) => prefix.toLowerCase() !== 'default',
+    );
+
+    return `${finalPrefix.join('_')}_${key}`;
 };
 
-export const doesMetadataKeyExistIn = (meta: Metadata | undefined, key: string, appPrefix?: string): boolean =>
-    Object.prototype.hasOwnProperty.call(meta ?? {}, getMetadataKey(key, appPrefix));
+export const doesMetadataKeyExistIn = (
+    meta: Metadata | undefined,
+    key: string,
+    prefixes?: string[],
+    appPrefix?: string,
+): boolean => Object.prototype.hasOwnProperty.call(meta ?? {}, getMetadataKey(key, prefixes, appPrefix));
 
 export const getMetadataValueFrom = <Key extends AppMetadataKeys, Value extends AllowedMetadataValueTypes>(
     { meta }: MetadataHolder,
     key: Key,
     defaultValue?: Value,
-    applyMigrations: boolean = true,
+    prefixes?: string[],
+    applyMigrations?: boolean,
 ): Value | undefined => {
     const requiresMigration = Number(meta?.migration) !== METADATA_MIGRATIONS.length;
     const doMigration = requiresMigration && applyMigrations;
@@ -66,13 +89,13 @@ export const getMetadataValueFrom = <Key extends AppMetadataKeys, Value extends 
 
     if (
         metadata === undefined ||
-        !doesMetadataKeyExistIn(metadata, key) ||
-        metadata[getMetadataKey(key)] === undefined
+        !doesMetadataKeyExistIn(metadata, key, prefixes) ||
+        metadata[getMetadataKey(key, prefixes)] === undefined
     ) {
         return defaultValue;
     }
 
-    return convertValueFromMetadata(metadata[getMetadataKey(key)]);
+    return convertValueFromMetadata(metadata[getMetadataKey(key, prefixes)]);
 };
 
 const getMetadataUpdateFunction = (
@@ -172,6 +195,7 @@ export function getMetadataFrom<METADATA extends Partial<Metadata<AppMetadataKey
     type: 'global',
     metadataHolder: MetadataHolder,
     metadataWithDefaultValues: METADATA,
+    prefixes?: string[],
     applyMigrations?: boolean,
     useEffectFn?: typeof useEffect,
 ): METADATA;
@@ -179,6 +203,7 @@ export function getMetadataFrom<METADATA extends Partial<Metadata<AppMetadataKey
     type: 'manga',
     metadataHolder: MangaIdInfo & MetadataHolder,
     metadataWithDefaultValues: METADATA,
+    prefixes?: string[],
     applyMigrations?: boolean,
     useEffectFn?: typeof useEffect,
 ): METADATA;
@@ -186,6 +211,7 @@ export function getMetadataFrom<METADATA extends Partial<Metadata<AppMetadataKey
     type: 'chapter',
     metadataHolder: ChapterIdInfo & MetadataHolder,
     metadataWithDefaultValues: METADATA,
+    prefixes?: string[],
     applyMigrations?: boolean,
     useEffectFn?: typeof useEffect,
 ): METADATA;
@@ -193,6 +219,7 @@ export function getMetadataFrom<METADATA extends Partial<Metadata<AppMetadataKey
     type: 'category',
     metadataHolder: CategoryIdInfo & MetadataHolder,
     metadataWithDefaultValues: METADATA,
+    prefixes?: string[],
     applyMigrations?: boolean,
     useEffectFn?: typeof useEffect,
 ): METADATA;
@@ -200,6 +227,7 @@ export function getMetadataFrom<METADATA extends Partial<Metadata<AppMetadataKey
     type: 'source',
     metadataHolder: Pick<SourceType, 'id'> & MetadataHolder,
     metadataWithDefaultValues: METADATA,
+    prefixes?: string[],
     applyMigrations?: boolean,
     useEffectFn?: typeof useEffect,
 ): METADATA;
@@ -212,13 +240,14 @@ export function getMetadataFrom<METADATA extends Partial<Metadata<AppMetadataKey
         | (CategoryIdInfo & MetadataHolder)
         | (Pick<SourceType, 'id'> & MetadataHolder),
     metadataWithDefaultValues: METADATA,
-    applyMigrations?: boolean,
+    prefixes?: string[],
+    applyMigrations: boolean = true,
     useEffectFn: typeof useEffect = (fn: () => void) => fn(),
 ): METADATA {
     const wasMigrated =
         !!metadataHolder?.meta &&
-        !!applyMigrations &&
-        Number(getMetadataValueFrom(metadataHolder, 'migration')) !== METADATA_MIGRATIONS.length;
+        applyMigrations &&
+        Number(getMetadataValueFrom(metadataHolder, 'migration', 0, undefined, true)) !== METADATA_MIGRATIONS.length;
     const appMetadata = {} as METADATA;
 
     Object.entries(metadataWithDefaultValues).forEach(([key, defaultValue]) => {
@@ -226,6 +255,7 @@ export function getMetadataFrom<METADATA extends Partial<Metadata<AppMetadataKey
             metadataHolder,
             key as AppMetadataKeys,
             defaultValue,
+            prefixes,
             applyMigrations,
         );
     });
@@ -257,11 +287,15 @@ export function getMetadataFrom<METADATA extends Partial<Metadata<AppMetadataKey
     return appMetadata;
 }
 
-export const getAppMetadataFrom = (meta: Metadata, appPrefix: string = APP_METADATA_KEY_PREFIX): Metadata => {
+export const getAppMetadataFrom = (
+    meta: Metadata,
+    prefixes: string[] = [],
+    appPrefix: string = APP_METADATA_KEY_PREFIX,
+): Metadata => {
     const appMetadata: Metadata = {};
 
     Object.entries(meta).forEach(([key, value]) => {
-        if (key.startsWith(appPrefix)) {
+        if (key.startsWith([appPrefix, ...prefixes].join('_'))) {
             appMetadata[key] = value;
         }
     });

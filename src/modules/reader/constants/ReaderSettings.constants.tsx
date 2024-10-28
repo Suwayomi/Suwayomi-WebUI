@@ -33,12 +33,14 @@ import { ContinuousHorizontalPageIcon } from '@/assets/icons/svg/ContinuousHoriz
 import { TranslationKey } from '@/Base.types.ts';
 import { TapZoneLayouts } from '@/modules/reader/types/TapZoneLayout.types.ts';
 
+export const DEFAULT_READER_PROFILE = 'default';
+
 export const READING_DIRECTION_TO_THEME_DIRECTION: Record<ReadingDirection, Direction> = {
     [ReadingDirection.LTR]: 'ltr',
     [ReadingDirection.RTL]: 'rtl',
 };
 
-export const GLOBAL_READER_SETTING_OBJECT: Record<keyof IReaderSettingsGlobal, undefined> = {
+const GLOBAL_READER_SETTING_OBJECT: Record<keyof IReaderSettingsGlobal, undefined> = {
     overlayMode: undefined,
     exitMode: undefined,
     customFilter: undefined,
@@ -49,6 +51,8 @@ export const GLOBAL_READER_SETTING_OBJECT: Record<keyof IReaderSettingsGlobal, u
     shouldShowPageNumber: undefined,
     isStaticNav: undefined,
     backgroundColor: undefined,
+    profiles: undefined,
+    readingModesDefaultProfile: undefined,
 };
 
 export const GLOBAL_READER_SETTING_KEYS = Object.keys(GLOBAL_READER_SETTING_OBJECT);
@@ -102,6 +106,14 @@ export const DEFAULT_READER_SETTINGS: IReaderSettings = {
         invert: false,
     },
     pageGap: 5,
+    profiles: [DEFAULT_READER_PROFILE],
+    readingModesDefaultProfile: {
+        [ReadingMode.SINGLE_PAGE]: DEFAULT_READER_PROFILE,
+        [ReadingMode.DOUBLE_PAGE]: DEFAULT_READER_PROFILE,
+        [ReadingMode.CONTINUOUS_VERTICAL]: DEFAULT_READER_PROFILE,
+        [ReadingMode.CONTINUOUS_HORIZONTAL]: DEFAULT_READER_PROFILE,
+    },
+    defaultProfile: DEFAULT_READER_PROFILE,
 };
 
 export const READER_PROGRESS_BAR_POSITION_TO_PLACEMENT: Record<ProgressBarPosition, TooltipProps['placement']> = {
@@ -153,7 +165,7 @@ export const READER_PAGE_SCALE_MODE_TO_SCALING_ALLOWED: Record<ReaderPageScaleMo
     [ReaderPageScaleMode.ORIGINAL]: false,
 };
 
-export const READING_MODE_VALUE_TO_DISPLAY_DATA: ValueToDisplayData<ReadingMode> = {
+export const READING_MODE_VALUE_TO_DISPLAY_DATA = {
     [ReadingMode.SINGLE_PAGE]: {
         title: 'reader.settings.reader_type.label.single_page',
         icon: <SinglePageIcon />,
@@ -170,7 +182,8 @@ export const READING_MODE_VALUE_TO_DISPLAY_DATA: ValueToDisplayData<ReadingMode>
         title: 'reader.settings.reader_type.label.continuous_horizontal',
         icon: <ContinuousHorizontalPageIcon />,
     },
-};
+} satisfies ValueToDisplayData<ReadingMode>;
+
 export const READING_MODE_VALUES = Object.values(ReadingMode).filter((value) => typeof value === 'number');
 
 export enum ReaderSettingTab {
