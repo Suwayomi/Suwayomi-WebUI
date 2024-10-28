@@ -25,8 +25,9 @@ export const requestUpdateMetadataValue = async (
     holderType: MetadataHolderType,
     key: AppMetadataKeys,
     value: AllowedMetadataValueTypes,
+    keyPrefixes?: string[],
 ): Promise<void> => {
-    const metadataKey = getMetadataKey(key);
+    const metadataKey = getMetadataKey(key, keyPrefixes);
 
     switch (holderType) {
         case 'category':
@@ -54,38 +55,50 @@ export const requestUpdateMetadata = async (
     metadataHolder: GqlMetaHolder,
     holderType: MetadataHolderType,
     keysToValues: MetadataKeyValuePair[],
+    keyPrefixes?: string[],
 ): Promise<void[]> =>
-    Promise.all(keysToValues.map(([key, value]) => requestUpdateMetadataValue(metadataHolder, holderType, key, value)));
+    Promise.all(
+        keysToValues.map(([key, value]) =>
+            requestUpdateMetadataValue(metadataHolder, holderType, key, value, keyPrefixes),
+        ),
+    );
 
-export const requestUpdateServerMetadata = async (keysToValues: MetadataKeyValuePair[]): Promise<void[]> =>
-    requestUpdateMetadata({}, 'global', keysToValues);
+export const requestUpdateServerMetadata = async (
+    keysToValues: MetadataKeyValuePair[],
+    keyPrefixes?: string[],
+): Promise<void[]> => requestUpdateMetadata({}, 'global', keysToValues, keyPrefixes);
 
 export const requestUpdateMangaMetadata = async (
     manga: MangaIdInfo & GqlMetaHolder,
     keysToValues: MetadataKeyValuePair[],
-): Promise<void[]> => requestUpdateMetadata(manga, 'manga', keysToValues);
+    keyPrefixes?: string[],
+): Promise<void[]> => requestUpdateMetadata(manga, 'manga', keysToValues, keyPrefixes);
 
 export const requestUpdateChapterMetadata = async (
     chapter: ChapterIdInfo & GqlMetaHolder,
     keysToValues: MetadataKeyValuePair[],
-): Promise<void[]> => requestUpdateMetadata(chapter, 'chapter', keysToValues);
+    keyPrefixes?: string[],
+): Promise<void[]> => requestUpdateMetadata(chapter, 'chapter', keysToValues, keyPrefixes);
 
 export const requestUpdateCategoryMetadata = async (
     category: CategoryIdInfo & GqlMetaHolder,
     keysToValues: MetadataKeyValuePair[],
-): Promise<void[]> => requestUpdateMetadata(category, 'category', keysToValues);
+    keyPrefixes?: string[],
+): Promise<void[]> => requestUpdateMetadata(category, 'category', keysToValues, keyPrefixes);
 
 export const requestUpdateSourceMetadata = async (
     source: Pick<SourceType, 'id'> & GqlMetaHolder,
     keysToValue: MetadataKeyValuePair[],
-): Promise<void[]> => requestUpdateMetadata(source, 'source', keysToValue);
+    keyPrefixes?: string[],
+): Promise<void[]> => requestUpdateMetadata(source, 'source', keysToValue, keyPrefixes);
 
 export const requestDeleteMetadataValue = async (
     metadataHolder: GqlMetaHolder,
     holderType: MetadataHolderType,
     key: AppMetadataKeys,
+    keyPrefixes?: string[],
 ): Promise<void> => {
-    const metadataKey = getMetadataKey(key);
+    const metadataKey = getMetadataKey(key, keyPrefixes);
 
     switch (holderType) {
         case 'category':
@@ -112,29 +125,34 @@ export async function requestDeleteMetadata(
     metadataHolder: GqlMetaHolder,
     holderType: MetadataHolderType,
     keys: AppMetadataKeys[],
+    keyPrefixes?: string[],
 ): Promise<void[]> {
-    return Promise.all(keys.map((key) => requestDeleteMetadataValue(metadataHolder, holderType, key)));
+    return Promise.all(keys.map((key) => requestDeleteMetadataValue(metadataHolder, holderType, key, keyPrefixes)));
 }
 
-export const requestDeleteServerMetadata = async (keys: AppMetadataKeys[]): Promise<void[]> =>
-    requestDeleteMetadata({}, 'global', keys);
+export const requestDeleteServerMetadata = async (keys: AppMetadataKeys[], keyPrefixes?: string[]): Promise<void[]> =>
+    requestDeleteMetadata({}, 'global', keys, keyPrefixes);
 
 export const requestDeleteMangaMetadata = async (
     manga: MangaIdInfo & GqlMetaHolder,
     keys: AppMetadataKeys[],
-): Promise<void[]> => requestDeleteMetadata(manga, 'manga', keys);
+    keyPrefixes?: string[],
+): Promise<void[]> => requestDeleteMetadata(manga, 'manga', keys, keyPrefixes);
 
 export const requestDeleteChapterMetadata = async (
     chapter: ChapterIdInfo & GqlMetaHolder,
     keys: AppMetadataKeys[],
-): Promise<void[]> => requestDeleteMetadata(chapter, 'chapter', keys);
+    keyPrefixes?: string[],
+): Promise<void[]> => requestDeleteMetadata(chapter, 'chapter', keys, keyPrefixes);
 
 export const requestDeleteCategoryMetadata = async (
     category: CategoryIdInfo & GqlMetaHolder,
     keys: AppMetadataKeys[],
-): Promise<void[]> => requestDeleteMetadata(category, 'category', keys);
+    keyPrefixes?: string[],
+): Promise<void[]> => requestDeleteMetadata(category, 'category', keys, keyPrefixes);
 
 export const requestDeleteSourceMetadata = async (
     source: Pick<SourceType, 'id'> & GqlMetaHolder,
     keys: AppMetadataKeys[],
-): Promise<void[]> => requestDeleteMetadata(source, 'source', keys);
+    keyPrefixes?: string[],
+): Promise<void[]> => requestDeleteMetadata(source, 'source', keys, keyPrefixes);

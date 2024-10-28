@@ -66,9 +66,9 @@ type MutableListSettingProps = Pick<TextSettingProps, 'settingName' | 'placehold
     description?: string;
     dialogDisclaimer?: JSX.Element | string;
     addItemButtonTitle?: string;
-    handleChange: (values: string[]) => void;
+    handleChange: (values: string[], removedValues: string[]) => void;
     allowDuplicates?: boolean;
-    validateItem?: (value: string) => boolean;
+    validateItem?: (value: string, tmpValues?: string[]) => boolean;
     invalidItemError?: string;
 };
 
@@ -128,7 +128,7 @@ export const MutableListSetting = ({
             return;
         }
 
-        if (!validateItem(newValue)) {
+        if (!validateItem?.(newValue, dialogValues)) {
             makeToast(invalidItemError ?? t('global.error.label.invalid_input'), 'error');
             return;
         }
@@ -138,7 +138,11 @@ export const MutableListSetting = ({
 
     const saveChanges = () => {
         closeDialog(true);
-        handleChange(dialogValues.filter((dialogValue) => dialogValue !== ''));
+
+        const updatedValues = dialogValues.filter((dialogValue) => dialogValue !== '');
+        const removedValues = values.filter((value) => !updatedValues.includes(value));
+
+        handleChange(updatedValues, removedValues);
     };
 
     return (
@@ -193,6 +197,7 @@ export const MutableListSetting = ({
                     <List>
                         {dialogValues.map((dialogValue, index) => (
                             <MutableListItem
+                                key={dialogValue}
                                 settingName=""
                                 placeholder={placeholder}
                                 handleChange={(newValue: string) => updateSetting(index, newValue)}
@@ -230,6 +235,7 @@ export const MutableListSetting = ({
                     handleChange={(newValue: string) => updateSetting(dialogValues.length, newValue)}
                     isDialogOpen={isAddItemDialogOpen}
                     setIsDialogOpen={setIsAddItemDialogOpen}
+                    validate={(value) => validateItem?.(value, dialogValues) ?? true}
                 />
             )}
         </>

@@ -12,11 +12,12 @@ import { ReaderSettingReadingDirection } from '@/modules/reader/components/setti
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { useReaderStateMangaContext } from '@/modules/reader/contexts/state/ReaderStateMangaContext.tsx';
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
+import { ReaderSettingProfile } from '@/modules/reader/components/settings/layout/profiles/ReaderSettingProfile.tsx';
 
 const DEFAULT_MANGA: MangaIdInfo = { id: -1 };
 export const ReaderBottomBarMobileQuickSettings = () => {
     const { manga } = useReaderStateMangaContext();
-    const { readingMode, readingDirection } = ReaderService.useSettings();
+    const { defaultProfile, profiles, readingMode, readingDirection } = ReaderService.useSettings();
     const deleteSetting = ReaderService.useCreateDeleteSetting(manga ?? DEFAULT_MANGA);
 
     if (!manga) {
@@ -25,6 +26,13 @@ export const ReaderBottomBarMobileQuickSettings = () => {
 
     return (
         <Stack sx={{ gap: 2 }}>
+            <ReaderSettingProfile
+                defaultProfile={defaultProfile}
+                profiles={profiles}
+                updateSetting={(value) => ReaderService.updateSetting(manga, 'defaultProfile', value)}
+                isDefaultable
+                onDefault={() => deleteSetting('defaultProfile')}
+            />
             <ReaderSettingReadingMode
                 readingMode={readingMode}
                 setReadingMode={(value) => ReaderService.updateSetting(manga, 'readingMode', value)}

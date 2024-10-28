@@ -15,13 +15,21 @@ export enum GridLayout {
     List = 2,
 }
 
-export type ValueToDisplayData<Value extends string | number> = Record<
-    Value,
-    {
-        title: TranslationKey;
-        icon: ReactNode;
-    }
->;
+interface DisplayDataTranslationKey {
+    isTitleString?: never;
+    title: TranslationKey;
+    icon: ReactNode;
+}
+
+interface DisplayDataString {
+    isTitleString: true;
+    title: string;
+    icon: ReactNode;
+}
+
+type DisplayData = DisplayDataTranslationKey | DisplayDataString;
+
+export type ValueToDisplayData<Value extends string | number> = Record<Value, DisplayData>;
 
 export interface MultiValueButtonBaseProps<Value extends string | number> {
     value: Value;

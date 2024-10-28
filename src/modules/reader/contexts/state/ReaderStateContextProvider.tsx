@@ -10,11 +10,14 @@ import { ReactNode } from 'react';
 import { ReaderStatePagesContextProvider } from '@/modules/reader/contexts/state/ReaderStatePagesContextProvider.tsx';
 import { ReaderStateChaptersContextProvider } from '@/modules/reader/contexts/state/ReaderStateChaptersContextProvider.tsx';
 import { ReaderStateMangaContextProvider } from '@/modules/reader/contexts/state/ReaderStateMangaContextProvider.tsx';
+import { ReaderStateSettingsContextProvider } from '@/modules/reader/contexts/state/ReaderStateSettingsContextProvider.tsx';
 
 export const ReaderStateContextProvider = ({ children }: { children: ReactNode }) => (
     <ReaderStateMangaContextProvider>
         <ReaderStateChaptersContextProvider>
-            <ReaderStatePagesContextProvider>{children}</ReaderStatePagesContextProvider>
+            <ReaderStateSettingsContextProvider>
+                <ReaderStatePagesContextProvider>{children}</ReaderStatePagesContextProvider>
+            </ReaderStateSettingsContextProvider>
         </ReaderStateChaptersContextProvider>
     </ReaderStateMangaContextProvider>
 );
