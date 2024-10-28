@@ -42,8 +42,9 @@ export const DefaultReaderSettings = () => {
         key: Setting,
         value: IReaderSettings[Setting],
         commit?: boolean,
+        profile?: string,
     ) => {
-        ReaderService.updateSetting({ id: -1 }, key, value, commit, true);
+        ReaderService.updateSetting({ id: -1 }, key, value, commit, true, profile);
     };
 
     if (loading) {
@@ -66,7 +67,7 @@ export const DefaultReaderSettings = () => {
             setActiveTab={setActiveTab}
             areDefaultSettings
             settings={settings}
-            updateSetting={(setting, value, commit) => updateSetting(setting, value, commit)}
+            updateSetting={(setting, value, commit, _, profile) => updateSetting(setting, value, commit, profile)}
         />
     );
 };

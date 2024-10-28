@@ -9,7 +9,7 @@
 import { AppMetadataKeys, IMetadataMigration } from '@/modules/metadata/Metadata.types.ts';
 import { ReaderPageScaleMode, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
 
-export const APP_METADATA_KEY_PREFIX = 'webUI_';
+export const APP_METADATA_KEY_PREFIX = 'webUI';
 
 const APP_METADATA_OBJECT: Record<AppMetadataKeys, undefined> = {
     migration: undefined,
@@ -66,6 +66,9 @@ const APP_METADATA_OBJECT: Record<AppMetadataKeys, undefined> = {
     shouldShowPageNumber: undefined,
     backgroundColor: undefined,
     pageGap: undefined,
+    profiles: undefined,
+    readingModesDefaultProfile: undefined,
+    defaultProfile: undefined,
 };
 
 export const VALID_APP_METADATA_KEYS = Object.keys(APP_METADATA_OBJECT);
@@ -131,6 +134,7 @@ export const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
     'exitMode',
     'customFilter',
     'shouldSkipDupChapters',
+    'profiles',
 ];
 
 /**
