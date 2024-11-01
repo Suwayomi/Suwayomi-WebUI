@@ -88,9 +88,16 @@ export const DeviceSetting = () => {
                 settingName={t('settings.device.devices.label.title')}
                 description={t('settings.device.devices.label.description')}
                 handleChange={(deviceList) => {
-                    updateMetadataSetting('devices', [...new Set([DEFAULT_DEVICE, ...deviceList])]);
+                    updateMetadataSetting('devices', [
+                        ...new Set(
+                            [DEFAULT_DEVICE, ...deviceList].filter((device) => device !== t('global.label.default')),
+                        ),
+                    ]);
                 }}
-                valueInfos={devices.map((device) => [device, { mutable: false, deletable: device !== DEFAULT_DEVICE }])}
+                valueInfos={devices.map((device) => [
+                    device === DEFAULT_DEVICE ? t('global.label.default') : device,
+                    { mutable: false, deletable: device !== DEFAULT_DEVICE },
+                ])}
                 addItemButtonTitle={t('global.button.create')}
                 validateItem={(device) => device.length <= 16 && !!device.match(/^[a-zA-Z0-9\-_]+$/g)}
                 placeholder={t('settings.device.label.placeholder')}
@@ -103,7 +110,7 @@ export const DeviceSetting = () => {
                 <Select value={activeDevice} onChange={({ target: { value: device } }) => setActiveDevice(device)}>
                     {devices.map((device) => (
                         <MenuItem key={device} value={device}>
-                            {device}
+                            {device === DEFAULT_DEVICE ? t('global.label.default') : device}
                         </MenuItem>
                     ))}
                 </Select>
