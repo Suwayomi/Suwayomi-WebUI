@@ -25,6 +25,7 @@ import { AppThemes, getTheme } from '@/modules/theme/services/AppThemes.ts';
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { ReaderContextProvider } from '@/modules/reader/contexts/ReaderContextProvider.tsx';
 import { DIRECTION_TO_CACHE } from '@/modules/theme/ThemeDirectionCache.ts';
+import { AppHotkeysProvider } from '@/modules/hotkeys/contexts/AppHotkeysProvider.tsx';
 
 interface Props {
     children: React.ReactNode;
@@ -84,7 +85,9 @@ export const AppContext: React.FC<Props> = ({ children }) => {
                                     <NavBarContextProvider>
                                         <ActiveDeviceContextProvider>
                                             <SnackbarProvider>
-                                                <ReaderContextProvider>{children}</ReaderContextProvider>
+                                                <ReaderContextProvider>
+                                                    <AppHotkeysProvider>{children}</AppHotkeysProvider>
+                                                </ReaderContextProvider>
                                             </SnackbarProvider>
                                         </ActiveDeviceContextProvider>
                                     </NavBarContextProvider>

@@ -119,6 +119,7 @@ export interface IReaderSettingsGlobal {
     backgroundColor: ReaderBackgroundColor;
     profiles: string[];
     readingModesDefaultProfile: Record<ReadingMode, string>;
+    hotkeys: Record<ReaderHotkey, string[]>;
 }
 
 export interface IReaderSettingsManga {
@@ -179,3 +180,16 @@ export type ReaderSettingsTypeProps =
     | ReaderSettingsTypeDefaultableProps
     | (PropertiesNever<Omit<ReaderSettingsTypeDefaultableProps, keyof ReaderSettingsTypeBaseProps>> &
           ReaderSettingsTypeNonDefaultableProps);
+
+export enum ReaderHotkey {
+    PREVIOUS_PAGE,
+    NEXT_PAGE,
+    SCROLL_BACKWARD,
+    SCROLL_FORWARD,
+    PREVIOUS_CHAPTER,
+    NEXT_CHAPTER,
+    TOGGLE_MENU,
+    CYCLE_SCALE_TYPE,
+    STRETCH_IMAGE,
+    OFFSET_SPREAD_PAGES,
+}

@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { ReactNode, useMemo } from 'react';
 import Button from '@mui/material/Button';
 import { MultiValueButtonProps } from '@/modules/core/Core.types.ts';
+import { getNextRotationValue } from '@/modules/core/utils/ValueRotationButton.utils.ts';
 
 export const ValueRotationButton = <Value extends string | number>({
     value,
@@ -48,16 +49,14 @@ export const ValueRotationButton = <Value extends string | number>({
     return (
         <Button
             onClick={() => {
-                const nextValueIndex = (indexOfValue + 1) % values.length;
-                const wasLastValue = nextValueIndex === 0;
+                const nextValue = getNextRotationValue(indexOfValue, values, isDefaultable);
 
-                const isDefaultNextValue = isDefaultable && wasLastValue;
-                if (isDefaultNextValue) {
+                if (nextValue === undefined) {
                     onDefault?.();
                     return;
                 }
 
-                setValue(values[(indexOfValue + 1) % values.length]);
+                setValue(nextValue);
             }}
             sx={{ justifyContent: 'start', textTransform: 'unset', flexGrow: 1 }}
             variant="contained"
