@@ -46,7 +46,6 @@ const DIRECTION_TO_READING_DIRECTION: Record<Direction, ReadingDirection> = {
 export class ReaderService {
     static useNavigateToChapter(chapter?: TChapterReader): () => void {
         const navigate = useNavigate();
-
         return useCallback(() => chapter && navigate(Chapters.getReaderUrl(chapter), { replace: true }), [chapter]);
     }
 

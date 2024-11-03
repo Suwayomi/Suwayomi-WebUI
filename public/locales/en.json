@@ -496,6 +496,23 @@
     },
     "value": "{{value}}{{unit}}"
   },
+  "hotkeys": {
+    "create": {
+      "dialog": {
+        "label": "Recorded keys: <Keys/>",
+        "placeholder": "Press keys",
+        "title": "Record keybind"
+      },
+      "error": {
+        "exists": "Hotkey already exists"
+      }
+    },
+    "info": {
+      "delete": "Click key to remove binding"
+    },
+    "title_one": "Keybind",
+    "title_other": "Keybinds"
+  },
   "library": {
     "action": {
       "label": {
@@ -838,6 +855,18 @@
         }
       },
       "exit_mode": "Open page on exit",
+      "hotkey": {
+        "menu": "Toggle menu",
+        "next_chapter": "Next chapter",
+        "next_page": "Next page",
+        "offset_spread_pages": "Toggle offset spread pages",
+        "previous_chapter": "Previous chapter",
+        "previous_page": "Previous page",
+        "scale_type": "Cycle image scale type",
+        "scroll_backward": "Scroll backward",
+        "scroll_forward": "Scroll forward",
+        "stretch_image": "Toggle stretch image"
+      },
       "label": {
         "behaviour": "Behaviour",
         "fit_page_to_window": "Fit page to window",

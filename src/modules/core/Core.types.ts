@@ -47,3 +47,13 @@ export interface MultiValueButtonDefaultableProps<Value extends string | number>
 export type MultiValueButtonProps<Value extends string | number> =
     | (MultiValueButtonBaseProps<Value> & PropertiesNever<MultiValueButtonDefaultableProps<Value>>)
     | MultiValueButtonDefaultableProps<Value>;
+
+export enum ScrollOffset {
+    BACKWARD,
+    FORWARD,
+}
+
+export enum ScrollDirection {
+    X,
+    Y,
+}

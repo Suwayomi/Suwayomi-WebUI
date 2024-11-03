@@ -93,6 +93,7 @@ const convertSettingsToMetadata = (
     readerWidth: JSON.stringify(settings.readerWidth),
     profiles: JSON.stringify(settings.profiles),
     readingModesDefaultProfile: JSON.stringify(settings.readingModesDefaultProfile),
+    hotkeys: JSON.stringify(settings.hotkeys),
 });
 
 export const DEFAULT_READER_SETTINGS_WITH_DEFAULT_FLAG = convertToSettingsWithDefaultFlag(
@@ -130,6 +131,8 @@ const convertMetadataToSettings = (
                 profiles.includes(profile) ? profile : DEFAULT_READER_PROFILE,
             ]),
         ) as IReaderSettings['readingModesDefaultProfile'],
+        hotkeys:
+            jsonSaveParse<IReaderSettings['hotkeys']>((metadata.hotkeys as string) ?? '') ?? defaultSettings.hotkeys,
     };
 };
 
