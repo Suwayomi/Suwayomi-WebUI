@@ -14,10 +14,13 @@ import { useReaderStateMangaContext } from '@/modules/reader/contexts/state/Read
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { ReaderSettingsTabs } from '@/modules/reader/components/settings/ReaderSettingsTabs.tsx';
 import { ReaderSettingTab } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
+import { useDisableAllHotkeysWhileMounted } from '@/modules/hotkeys/Hotkeys.utils.ts';
 
 export const ReaderSettings = ({ isOpen, close }: { isOpen: boolean; close: () => void }) => {
     const { manga } = useReaderStateMangaContext();
     const settings = ReaderService.useSettings();
+
+    useDisableAllHotkeysWhileMounted();
 
     const [activeTab, setActiveTab] = useState(0);
 

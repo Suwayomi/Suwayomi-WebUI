@@ -6,7 +6,6 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import Stack from '@mui/material/Stack';
 import { useTranslation } from 'react-i18next';
 import { IReaderSettingsWithDefaultFlag, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
 import { SliderInput } from '@/modules/core/components/inputs/SliderInput.tsx';
@@ -21,29 +20,32 @@ export const ReaderSettingPageGap = ({
 }) => {
     const { t } = useTranslation();
 
+    const isChangeable = [ReadingMode.CONTINUOUS_HORIZONTAL, ReadingMode.CONTINUOUS_VERTICAL].includes(
+        readingMode.value,
+    );
+    if (!isChangeable) {
+        return null;
+    }
+
     return (
-        <Stack>
-            {[ReadingMode.CONTINUOUS_HORIZONTAL, ReadingMode.CONTINUOUS_VERTICAL].includes(readingMode.value) && (
-                <SliderInput
-                    label={t('reader.settings.label.page_gap')}
-                    value={t('global.value', { value: pageGap.value, unit: t('global.unit.px') })}
-                    slotProps={{
-                        slider: {
-                            defaultValue: DEFAULT_READER_SETTINGS.readerWidth.value,
-                            value: pageGap.value,
-                            step: 1,
-                            min: 0,
-                            max: 20,
-                            onChange: (_, value) => {
-                                updateSetting(value as number, false);
-                            },
-                            onChangeCommitted: (_, value) => {
-                                updateSetting(value as number, true);
-                            },
-                        },
-                    }}
-                />
-            )}
-        </Stack>
+        <SliderInput
+            label={t('reader.settings.label.page_gap')}
+            value={t('global.value', { value: pageGap.value, unit: t('global.unit.px') })}
+            slotProps={{
+                slider: {
+                    defaultValue: DEFAULT_READER_SETTINGS.readerWidth.value,
+                    value: pageGap.value,
+                    step: 1,
+                    min: 0,
+                    max: 20,
+                    onChange: (_, value) => {
+                        updateSetting(value as number, false);
+                    },
+                    onChangeCommitted: (_, value) => {
+                        updateSetting(value as number, true);
+                    },
+                },
+            }}
+        />
     );
 };

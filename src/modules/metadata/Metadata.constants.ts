@@ -69,6 +69,7 @@ const APP_METADATA_OBJECT: Record<AppMetadataKeys, undefined> = {
     profiles: undefined,
     readingModesDefaultProfile: undefined,
     defaultProfile: undefined,
+    hotkeys: undefined,
 };
 
 export const VALID_APP_METADATA_KEYS = Object.keys(APP_METADATA_OBJECT);
@@ -135,6 +136,7 @@ export const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
     'customFilter',
     'shouldSkipDupChapters',
     'profiles',
+    'hotkeys',
 ];
 
 /**

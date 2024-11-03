@@ -21,6 +21,7 @@ import {
     ProgressBarType,
     ReaderBackgroundColor,
     ReaderExitMode,
+    ReaderHotkey,
     ReaderOverlayMode,
     ReaderPageScaleMode,
     ReadingDirection,
@@ -53,6 +54,7 @@ const GLOBAL_READER_SETTING_OBJECT: Record<keyof IReaderSettingsGlobal, undefine
     backgroundColor: undefined,
     profiles: undefined,
     readingModesDefaultProfile: undefined,
+    hotkeys: undefined,
 };
 
 export const GLOBAL_READER_SETTING_KEYS = Object.keys(GLOBAL_READER_SETTING_OBJECT);
@@ -114,6 +116,18 @@ export const DEFAULT_READER_SETTINGS: IReaderSettings = {
         [ReadingMode.CONTINUOUS_HORIZONTAL]: DEFAULT_READER_PROFILE,
     },
     defaultProfile: DEFAULT_READER_PROFILE,
+    hotkeys: {
+        [ReaderHotkey.PREVIOUS_PAGE]: ['arrowleft', 'a'],
+        [ReaderHotkey.NEXT_PAGE]: ['arrowright', 'd'],
+        [ReaderHotkey.SCROLL_BACKWARD]: ['arrowup', 'w'],
+        [ReaderHotkey.SCROLL_FORWARD]: ['arrowdown', 's'],
+        [ReaderHotkey.PREVIOUS_CHAPTER]: ['comma'],
+        [ReaderHotkey.NEXT_CHAPTER]: ['period'],
+        [ReaderHotkey.TOGGLE_MENU]: ['m'],
+        [ReaderHotkey.CYCLE_SCALE_TYPE]: ['i'],
+        [ReaderHotkey.STRETCH_IMAGE]: ['f'],
+        [ReaderHotkey.OFFSET_SPREAD_PAGES]: ['o'],
+    },
 };
 
 export const READER_PROGRESS_BAR_POSITION_TO_PLACEMENT: Record<ProgressBarPosition, TooltipProps['placement']> = {
@@ -191,6 +205,7 @@ export enum ReaderSettingTab {
     GENERAL,
     FILTER,
     BEHAVIOUR,
+    HOTKEYS,
 }
 
 export const READER_SETTING_TABS: Record<
@@ -221,4 +236,21 @@ export const READER_SETTING_TABS: Record<
         label: 'reader.settings.label.behaviour',
         supportsTouchDevices: true,
     },
+    [ReaderSettingTab.HOTKEYS]: {
+        id: ReaderSettingTab.HOTKEYS,
+        label: 'hotkeys.title_other',
+        supportsTouchDevices: false,
+    },
 };
+
+/**
+ * percentage values
+ */
+export enum ReaderScrollAmount {
+    SMALL = 25,
+    LARGE = 95,
+}
+
+export const READER_HOTKEYS = Object.values(ReaderHotkey).filter(
+    (hotkey) => typeof hotkey === 'number',
+) as ReaderHotkey[];

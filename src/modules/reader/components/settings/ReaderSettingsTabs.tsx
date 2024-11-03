@@ -22,6 +22,7 @@ import { ReaderGeneralSettings } from '@/modules/reader/components/settings/gene
 import { ReaderFilterSettings } from '@/modules/reader/components/settings/filters/ReaderFilterSettings.tsx';
 import { ReaderBehaviourSettings } from '@/modules/reader/components/settings/behaviour/ReaderBehaviourSettings.tsx';
 import { ReaderDefaultLayoutSettings } from '@/modules/reader/components/settings/layout/ReaderDefaultLayoutSettings.tsx';
+import { ReaderHotkeysSettings } from '@/modules/reader/components/settings/hotkeys/ReaderHotkeysSettings.tsx';
 
 interface BaseProps {
     activeTab: number;
@@ -155,6 +156,20 @@ export const ReaderSettingsTabs = ({
                                     sx={{ p: areDefaultSettings ? 2 : undefined }}
                                 >
                                     <ReaderBehaviourSettings
+                                        settings={settings}
+                                        updateSetting={(...args) => updateSetting(...args)}
+                                    />
+                                </TabPanel>
+                            );
+                        case ReaderSettingTab.HOTKEYS:
+                            return (
+                                <TabPanel
+                                    key={id}
+                                    index={id}
+                                    currentIndex={activeTab}
+                                    sx={{ p: areDefaultSettings ? 2 : undefined }}
+                                >
+                                    <ReaderHotkeysSettings
                                         settings={settings}
                                         updateSetting={(...args) => updateSetting(...args)}
                                     />
