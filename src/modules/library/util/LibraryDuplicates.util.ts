@@ -60,12 +60,13 @@ const findDuplicatesByTitleAndAlternativeTitlesSingleManga = <Manga extends TMan
 };
 
 export const findDuplicatesByTitleAndAlternativeTitles = <Manga extends TMangaDuplicate>(
-    mangas: Manga[],
-): Promise<TMangaDuplicates<Manga>> => {
+    mangasToCheck: Manga[],
+    mangas: Manga[] = mangasToCheck,
+): TMangaDuplicates<Manga> => {
     const titleToMangas: TMangaDuplicates<Manga> = {};
     const titleToAlternativeTitleMatches: TMangaDuplicates<Manga> = {};
 
-    mangas.forEach((mangaToCheck) => {
+    mangasToCheck.forEach((mangaToCheck) => {
         const titleToCheck = enhancedCleanup(mangaToCheck.title);
 
         titleToMangas[titleToCheck] ??= [];

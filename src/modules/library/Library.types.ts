@@ -55,3 +55,8 @@ export type LibraryDuplicatesWorkerInput<Manga extends TMangaDuplicate = TMangaD
     mangas: Manga[];
     checkAlternativeTitles: boolean;
 };
+
+export type LibraryDuplicatesDescriptionWorkerInput<Manga extends TMangaDuplicate = TMangaDuplicate> = {
+    mangasToCheck: Manga[];
+    mangas: Manga[];
+};
