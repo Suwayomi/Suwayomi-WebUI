@@ -12,10 +12,6 @@ import { ReaderPageScaleMode, ReadingMode } from '@/modules/reader/types/Reader.
 export const APP_METADATA_KEY_PREFIX = 'webUI_';
 
 const APP_METADATA_OBJECT: Record<AppMetadataKeys, undefined> = {
-    staticNav: undefined,
-    showPageNumber: undefined,
-    loadNextOnEnding: undefined,
-    skipDupChapters: undefined,
     migration: undefined,
     deleteChaptersManuallyMarkedRead: undefined,
     deleteChaptersWhileReading: undefined,
@@ -60,8 +56,16 @@ const APP_METADATA_OBJECT: Record<AppMetadataKeys, undefined> = {
     progressBarPosition: undefined,
     readingMode: undefined,
     pageScaleMode: undefined,
-    shouldScalePage: undefined,
     shouldOffsetDoubleSpreads: undefined,
+    exitMode: undefined,
+    customFilter: undefined,
+    shouldSkipDupChapters: undefined,
+    isStaticNav: undefined,
+    overlayMode: undefined,
+    shouldStretchPage: undefined,
+    shouldShowPageNumber: undefined,
+    backgroundColor: undefined,
+    pageGap: undefined,
 };
 
 export const VALID_APP_METADATA_KEYS = Object.keys(APP_METADATA_OBJECT);
@@ -122,6 +126,11 @@ export const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
     // themes
     'customThemes',
     'mangaThumbnailBackdrop',
+
+    // reader
+    'exitMode',
+    'customFilter',
+    'shouldSkipDupChapters',
 ];
 
 /**
@@ -203,7 +212,19 @@ export const METADATA_MIGRATIONS: IMetadataMigration[] = [
             },
             {
                 oldKey: 'scalePage',
-                newKey: 'shouldScalePage',
+                newKey: 'shouldStretchPage',
+            },
+            {
+                oldKey: 'skipDupChapters',
+                newKey: 'shouldSkipDupChapters',
+            },
+            {
+                oldKey: 'showPageNumber',
+                newKey: 'shouldShowPageNumber',
+            },
+            {
+                oldKey: 'staticNav',
+                newKey: 'isStaticNav',
             },
         ],
         values: [

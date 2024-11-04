@@ -57,6 +57,10 @@ const { LibraryDuplicates } = loadable(
     lazyLoadFallback,
 );
 const { Appearance } = loadable(() => import('@/modules/settings/screens/Appearance.tsx'), lazyLoadFallback);
+const { DefaultReaderSettings } = loadable(
+    () => import('@/modules/reader/screens/DefaultReaderSettings.tsx'),
+    lazyLoadFallback,
+);
 
 if (process.env.NODE_ENV !== 'production') {
     // Adds messages only in a dev environment
@@ -114,7 +118,7 @@ const MainApp = () => {
                         <Route index element={<Settings />} />
                         <Route path="about" element={<About />} />
                         <Route path="categories" element={<CategorySettings />} />
-                        <Route path="defaultReaderSettings" element={null} />
+                        <Route path="defaultReaderSettings" element={<DefaultReaderSettings />} />
                         <Route path="librarySettings">
                             <Route index element={<LibrarySettings />} />
                             <Route path="duplicates" element={<LibraryDuplicates />} />

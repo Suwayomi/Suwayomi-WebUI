@@ -344,6 +344,11 @@
       "stop": "Stop",
       "submit": "Submit"
     },
+    "colors": {
+      "black": "Black",
+      "gray": "Gray",
+      "white": "White"
+    },
     "date": {
       "label": {
         "day_one": "Day",
@@ -389,22 +394,30 @@
     "label": {
       "advanced": "Advanced",
       "are_you_sure": "Are you sure?",
+      "auto": "Auto",
+      "both": "Both",
+      "bottom": "Bottom",
       "browse": "Browse",
       "client": "Client",
       "close": "Close",
       "copied_clipboard": "Copied to clipboard",
       "default": "Default",
+      "desktop": "Desktop",
       "disabled": "Disabled",
       "discord": "Discord",
       "display": "Display",
       "filter": "Filter",
       "general": "General",
       "github": "GitHub",
+      "hidden": "Hidden",
+      "horizontal": "Horizontal",
+      "left": "Left",
       "links": "Links",
       "load_in_progress": "Still loading required data…",
       "loading": "Loading…",
       "logged_in": "Logged in",
       "menu": "Menu",
+      "mobile": "Mobile",
       "never": "Never",
       "next": "Next",
       "none": "None",
@@ -413,12 +426,15 @@
       "password": "Password",
       "placeholder": "Placeholder",
       "previous": "Previous",
+      "right": "Right",
       "share": "Share",
       "sort": "Sort",
+      "standard": "Standard",
       "started": "Started",
       "type": "Type",
       "unknown": "Unknown",
-      "username": "Username"
+      "username": "Username",
+      "vertical": "Vertical"
     },
     "language": {
       "label": {
@@ -453,6 +469,9 @@
         "value": "{{count}} $t(global.time.seconds.second, lowercase)"
       }
     },
+    "unit": {
+      "px": "px"
+    },
     "update": {
       "label": {
         "available": "Update available",
@@ -472,7 +491,8 @@
           }
         }
       }
-    }
+    },
+    "value": "{{value}}{{unit}}"
   },
   "library": {
     "action": {
@@ -779,16 +799,51 @@
       }
     },
     "settings": {
+      "background_color": "Background color",
+      "custom_filter": {
+        "brightness": {
+          "title": "Custom brightness",
+          "value": "$t(reader.settings.custom_filter.brightness.title)"
+        },
+        "contrast": {
+          "title": "Custom contrast",
+          "value": "$t(reader.settings.custom_filter.contrast.title)"
+        },
+        "grayscale": "Grayscale",
+        "hue": {
+          "title": "Custom hue",
+          "value": "$t(reader.settings.custom_filter.hue.title)"
+        },
+        "invert": "Invert",
+        "rgba": {
+          "alpha": "Alpha",
+          "blue": "Blue",
+          "green": "Green",
+          "red": "Red",
+          "title": "Custom color filters"
+        },
+        "saturate": {
+          "title": "Custom saturate",
+          "value": "$t(reader.settings.custom_filter.saturate.title)"
+        },
+        "sepia": "Sepia",
+        "title": "Custom filter"
+      },
       "error": {
         "label": {
           "failed_to_save_default_settings": "Could not save the default reader settings to the server",
           "failed_to_save_settings": "Could not save the reader settings to the server"
         }
       },
+      "exit_mode": "Open page on exit",
       "label": {
+        "behaviour": "Behaviour",
         "fit_page_to_window": "Fit page to window",
+        "layout": "Layout",
+        "limit_reader_width": "Limit reader width",
         "load_next_chapter": "Load next chapter at ending",
         "offset_double_spread": "Offset double spreads",
+        "page_gap": "Page gap",
         "reader_type": "Reader type",
         "reader_width": "Reader width",
         "reading_direction": "Reading direction",
@@ -798,12 +853,19 @@
         "skip_dup_chapters": "Skip duplicate chapters",
         "static_navigation": "Static navigation"
       },
+      "overlay_mode": "Overlay mode",
       "page_scale": {
         "height": "Fit height",
         "original": "Original size",
         "screen": "Fit screen",
         "stretch": "Stretch small pages",
+        "title": "Scale type",
         "width": "Fit width"
+      },
+      "progress_bar": {
+        "position": "Progress bar position",
+        "size": "Progress bar size",
+        "style": "Progress bar style"
       },
       "reader_type": {
         "label": {
@@ -817,6 +879,14 @@
       "reading_direction": {
         "ltr": "Left to right",
         "rtl": "Right to left"
+      },
+      "tap_zones": {
+        "edge": "Edge",
+        "invert": "Invert tap zones",
+        "kindle": "Kindle",
+        "l_shape": "L-Shape",
+        "right_left": "Right and left",
+        "title": "Tap zones"
       },
       "title": {
         "default_reader_settings": "Default Reader Settings",
