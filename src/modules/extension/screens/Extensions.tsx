@@ -21,7 +21,7 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { extensionDefaultLangs, DefaultLanguage, langSortCmp } from '@/modules/core/utils/Languages.ts';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import {
-    ExtensionState,
+    ExtensionGroupState,
     GroupedExtensions,
     GroupedExtensionsResult,
     isExtensionStateOrLanguage,
@@ -50,9 +50,9 @@ function getExtensionsInfo(extensions: TExtension[]): {
 } {
     const allLangs: string[] = [];
     const sortedExtensions: GroupedExtensions = {
-        [ExtensionState.OBSOLETE]: [],
-        [ExtensionState.INSTALLED]: [],
-        [ExtensionState.UPDATE_PENDING]: [],
+        [ExtensionGroupState.OBSOLETE]: [],
+        [ExtensionGroupState.INSTALLED]: [],
+        [ExtensionGroupState.UPDATE_PENDING]: [],
         [DefaultLanguage.ALL]: [],
         [DefaultLanguage.OTHER]: [],
         [DefaultLanguage.LOCAL_SOURCE]: [],
@@ -66,25 +66,25 @@ function getExtensionsInfo(extensions: TExtension[]): {
         }
         if (extension.isInstalled) {
             if (extension.hasUpdate) {
-                sortedExtensions[ExtensionState.UPDATE_PENDING].push(extension);
+                sortedExtensions[ExtensionGroupState.UPDATE_PENDING].push(extension);
                 return;
             }
             if (extension.isObsolete) {
-                sortedExtensions[ExtensionState.OBSOLETE].push(extension);
+                sortedExtensions[ExtensionGroupState.OBSOLETE].push(extension);
                 return;
             }
 
-            sortedExtensions[ExtensionState.INSTALLED].push(extension);
+            sortedExtensions[ExtensionGroupState.INSTALLED].push(extension);
         } else {
             sortedExtensions[extension.lang].push(extension);
         }
     });
 
     allLangs.sort(langSortCmp);
-    const result: GroupedExtensionsResult<ExtensionState | DefaultLanguage | string> = [
-        [ExtensionState.OBSOLETE, sortedExtensions[ExtensionState.OBSOLETE]],
-        [ExtensionState.UPDATE_PENDING, sortedExtensions[ExtensionState.UPDATE_PENDING]],
-        [ExtensionState.INSTALLED, sortedExtensions[ExtensionState.INSTALLED]],
+    const result: GroupedExtensionsResult<ExtensionGroupState | DefaultLanguage | string> = [
+        [ExtensionGroupState.OBSOLETE, sortedExtensions[ExtensionGroupState.OBSOLETE]],
+        [ExtensionGroupState.UPDATE_PENDING, sortedExtensions[ExtensionGroupState.UPDATE_PENDING]],
+        [ExtensionGroupState.INSTALLED, sortedExtensions[ExtensionGroupState.INSTALLED]],
         [DefaultLanguage.ALL, sortedExtensions[DefaultLanguage.ALL]],
         [DefaultLanguage.OTHER, sortedExtensions[DefaultLanguage.OTHER]],
         [DefaultLanguage.LOCAL_SOURCE, sortedExtensions[DefaultLanguage.LOCAL_SOURCE]],

@@ -11,7 +11,7 @@ import { DefaultLanguage, langCodeToName } from '@/modules/core/utils/Languages.
 import { ExtensionType } from '@/lib/graphql/generated/graphql.ts';
 import { TranslationKey } from '@/Base.types.ts';
 
-export enum ExtensionState {
+export enum ExtensionGroupState {
     INSTALLED = 'INSTALLED',
     UPDATE_PENDING = 'UPDATE_PENDING',
     OBSOLETE = 'OBSOLETE',
@@ -35,7 +35,7 @@ export type TExtension = Pick<
 export type GroupedExtensionsResult<KEY extends string = string> = [KEY, TExtension[]][];
 
 export type GroupedByExtensionState = {
-    [state in ExtensionState]: TExtension[];
+    [state in ExtensionGroupState]: TExtension[];
 };
 
 export type GroupedByLanguage = {
@@ -46,10 +46,10 @@ export type GroupedByLanguage = {
 
 export type GroupedExtensions = GroupedByExtensionState & GroupedByLanguage;
 
-export const extensionLanguageToTranslationKey: { [state in ExtensionState | DefaultLanguage]: TranslationKey } = {
-    [ExtensionState.INSTALLED]: 'extension.state.label.installed',
-    [ExtensionState.UPDATE_PENDING]: 'extension.state.label.update_pending',
-    [ExtensionState.OBSOLETE]: 'extension.state.label.obsolete',
+export const extensionLanguageToTranslationKey: { [state in ExtensionGroupState | DefaultLanguage]: TranslationKey } = {
+    [ExtensionGroupState.INSTALLED]: 'extension.state.label.installed',
+    [ExtensionGroupState.UPDATE_PENDING]: 'extension.state.label.update_pending',
+    [ExtensionGroupState.OBSOLETE]: 'extension.state.label.obsolete',
     [DefaultLanguage.ALL]: 'extension.language.all',
     [DefaultLanguage.OTHER]: 'extension.language.other',
     [DefaultLanguage.LOCAL_SOURCE]: 'extension.language.other',
@@ -57,15 +57,15 @@ export const extensionLanguageToTranslationKey: { [state in ExtensionState | Def
 
 export const isExtensionStateOrLanguage = (languageCode: string): boolean =>
     [
-        ExtensionState.INSTALLED,
-        ExtensionState.UPDATE_PENDING,
-        ExtensionState.OBSOLETE,
+        ExtensionGroupState.INSTALLED,
+        ExtensionGroupState.UPDATE_PENDING,
+        ExtensionGroupState.OBSOLETE,
         DefaultLanguage.ALL,
         DefaultLanguage.OTHER,
         DefaultLanguage.LOCAL_SOURCE,
-    ].includes(languageCode as ExtensionState | DefaultLanguage);
+    ].includes(languageCode as ExtensionGroupState | DefaultLanguage);
 
 export const translateExtensionLanguage = (languageCode: string): string =>
     isExtensionStateOrLanguage(languageCode)
-        ? t(extensionLanguageToTranslationKey[languageCode as ExtensionState | DefaultLanguage])
+        ? t(extensionLanguageToTranslationKey[languageCode as ExtensionGroupState | DefaultLanguage])
         : langCodeToName(languageCode);
