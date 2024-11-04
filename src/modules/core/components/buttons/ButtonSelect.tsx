@@ -9,23 +9,25 @@
 import Stack from '@mui/material/Stack';
 import { useTranslation } from 'react-i18next';
 import Button from '@mui/material/Button';
-import { ValueToDisplayData } from '@/modules/core/Core.types.ts';
+import { MultiValueButtonProps } from '@/modules/core/Core.types.ts';
 
 export const ButtonSelect = <Value extends string | number>({
     value,
     values,
     setValue,
     valueToDisplayData,
-}: {
-    value: Value;
-    values: Value[];
-    setValue: (value: Value) => void;
-    valueToDisplayData: ValueToDisplayData<Value>;
-}) => {
+    isDefaultable,
+    onDefault,
+}: MultiValueButtonProps<Value>) => {
     const { t } = useTranslation();
 
     return (
         <Stack sx={{ flexDirection: 'row', flexWrap: 'wrap', gap: 1 }}>
+            {isDefaultable && (
+                <Button key="default" onClick={onDefault} variant={value === undefined ? 'contained' : 'outlined'}>
+                    {t('global.label.default')}
+                </Button>
+            )}
             {values.map((displayValue) => (
                 <Button
                     key={displayValue}

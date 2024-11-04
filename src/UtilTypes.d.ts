@@ -26,6 +26,10 @@ type PropertiesNever<T> = { [key in keyof T]?: never };
 
 type OmitFirst<T extends any[]> = T extends [any, ...infer R] ? R : never;
 
-type TupleUnion<U extends string, R extends any[] = []> = {
+type TupleUnion<U extends string | number | symbol, R extends any[] = []> = {
     [S in U]: Exclude<U, S> extends never ? [...R, S] : TupleUnion<Exclude<U, S>, [...R, S]>;
 }[U];
+
+type TransformRecordToWithDefaultFlag<T extends Record<string, any>> = {
+    [K in keyof T]: { value: T[K]; isDefault: boolean };
+};

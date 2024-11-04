@@ -27,7 +27,6 @@ import {
 } from '@apollo/client';
 import { OperationVariables, Reference } from '@apollo/client/core';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { ReadFieldFunction } from '@apollo/client/cache/core/types/common';
 import { IRestClient, RestClient } from '@/lib/requests/client/RestClient.ts';
 import { GraphQLClient } from '@/lib/requests/client/GraphQLClient.ts';
 import {
@@ -327,6 +326,7 @@ import { SOURCE_META_FIELDS } from '@/lib/graphql/fragments/SourceFragments.ts';
 import { CHAPTER_META_FIELDS } from '@/lib/graphql/fragments/ChapterFragments.ts';
 import { MetadataMigrationSettings } from '@/modules/migration/Migration.types.ts';
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
+import { updateMetadataList } from '@/modules/metadata/services/MetadataApolloCacheHandler.ts';
 
 enum GQLMethod {
     QUERY = 'QUERY',
@@ -425,24 +425,6 @@ export const SPECIAL_ED_SOURCES = {
     REVALIDATION: [
         '57122881048805941', // e-hentai
     ],
-};
-
-const updateMetadata = (
-    key: string,
-    existingMetas: Reference[] | undefined,
-    readField: ReadFieldFunction,
-    createMetaRef: () => Reference | undefined,
-): (Reference | undefined)[] | undefined => {
-    if (!existingMetas) {
-        return existingMetas;
-    }
-
-    const exists = existingMetas.some((metaRef: Reference) => readField('key', metaRef) === key);
-    if (exists) {
-        return existingMetas;
-    }
-
-    return [...existingMetas, createMetaRef()];
 };
 
 // TODO - extract logic to reduce the size of this file... grew waaaaaaaaaaaaay too big peepoFat
@@ -1599,7 +1581,7 @@ export class RequestManager {
                         id: cache.identify({ __typename: 'SourceType', id: sourceId }),
                         fields: {
                             meta(existingMetas, { readField }) {
-                                return updateMetadata(key, existingMetas, readField, () =>
+                                return updateMetadataList(key, existingMetas, readField, () =>
                                     cache.writeFragment({
                                         data: data!.setSourceMeta!.meta,
                                         fragment: SOURCE_META_FIELDS,
@@ -1637,7 +1619,7 @@ export class RequestManager {
                     },
                 },
                 update(cache) {
-                    cache.evict({ id: cache.identify({ __typename: 'SourceMetaType', id: sourceId, key }) });
+                    cache.evict({ id: cache.identify({ __typename: 'SourceMetaType', sourceId, key }) });
                 },
                 ...options,
             },
@@ -2123,7 +2105,7 @@ export class RequestManager {
                         id: cache.identify({ __typename: 'MangaType', id: mangaId }),
                         fields: {
                             meta(existingMetas, { readField }) {
-                                return updateMetadata(key, existingMetas, readField, () =>
+                                return updateMetadataList(key, existingMetas, readField, () =>
                                     cache.writeFragment({
                                         data: data!.setMangaMeta!.meta,
                                         fragment: MANGA_META_FIELDS,
@@ -2161,7 +2143,7 @@ export class RequestManager {
                     },
                 },
                 update(cache) {
-                    cache.evict({ id: cache.identify({ __typename: 'MangaMetaType', id: mangaId, key }) });
+                    cache.evict({ id: cache.identify({ __typename: 'MangaMetaType', mangaId, key }) });
                 },
                 ...options,
             },
@@ -2351,7 +2333,7 @@ export class RequestManager {
                         id: cache.identify({ __typename: 'ChapterType', id: chapterId }),
                         fields: {
                             meta(existingMetas, { readField }) {
-                                return updateMetadata(key, existingMetas, readField, () =>
+                                return updateMetadataList(key, existingMetas, readField, () =>
                                     cache.writeFragment({
                                         data: data!.setChapterMeta!.meta,
                                         fragment: CHAPTER_META_FIELDS,
@@ -2389,7 +2371,7 @@ export class RequestManager {
                     },
                 },
                 update(cache) {
-                    cache.evict({ id: cache.identify({ __typename: 'ChapterMetaType', id: chapterId, key }) });
+                    cache.evict({ id: cache.identify({ __typename: 'ChapterMetaType', chapterId, key }) });
                 },
                 ...options,
             },
@@ -2630,7 +2612,7 @@ export class RequestManager {
                         id: cache.identify({ __typename: 'CategoryType', id: categoryId }),
                         fields: {
                             meta(existingMetas, { readField }) {
-                                return updateMetadata(key, existingMetas, readField, () =>
+                                return updateMetadataList(key, existingMetas, readField, () =>
                                     cache.writeFragment({
                                         data: data!.setCategoryMeta!.meta,
                                         fragment: CATEGORY_META_FIELDS,
@@ -2668,7 +2650,7 @@ export class RequestManager {
                     },
                 },
                 update(cache) {
-                    cache.evict({ id: cache.identify({ __typename: 'CategoryMetaType', id: categoryId, key }) });
+                    cache.evict({ id: cache.identify({ __typename: 'CategoryMetaType', categoryId, key }) });
                 },
                 ...options,
             },

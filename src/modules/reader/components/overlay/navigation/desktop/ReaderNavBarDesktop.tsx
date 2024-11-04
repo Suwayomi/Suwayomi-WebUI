@@ -18,7 +18,6 @@ import { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import Drawer from '@mui/material/Drawer';
 import { useGetOptionForDirection } from '@/theme.tsx';
 import { ReaderNavBarDesktopProps } from '@/modules/reader/types/ReaderOverlay.types.ts';
-import { useBackButton } from '@/modules/core/hooks/useBackButton.ts';
 import { ReaderNavContainer } from '@/modules/reader/components/overlay/navigation/desktop/ReaderNavContainer.tsx';
 import { ReaderNavBarDesktopMetadata } from '@/modules/reader/components/overlay/navigation/desktop/ReaderNavBarDesktopMetadata.tsx';
 import { ReaderNavBarDesktopPageNavigation } from '@/modules/reader/components/overlay/navigation/desktop/ReaderNavBarDesktopPageNavigation.tsx';
@@ -28,31 +27,31 @@ import { ReaderNavBarDesktopActions } from '@/modules/reader/components/overlay/
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 import { useReaderStateMangaContext } from '@/modules/reader/contexts/state/ReaderStateMangaContext.tsx';
-import { createUpdateReaderSettings } from '@/modules/reader/services/ReaderSettingsMetadata.ts';
-import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { userReaderStatePagesContext } from '@/modules/reader/contexts/state/ReaderStatePagesContext.tsx';
 import { useReaderStateChaptersContext } from '@/modules/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
+import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 
-const useGetPreviousNavBarStaticValue = (isVisible: boolean, staticNav: boolean) => {
-    const wasNavBarStaticRef = useRef(staticNav);
-    const wasNavBarStaticPreviousRef = useRef(staticNav);
+const useGetPreviousNavBarStaticValue = (isVisible: boolean, isStaticNav: boolean) => {
+    const wasNavBarStaticRef = useRef(isStaticNav);
+    const wasNavBarStaticPreviousRef = useRef(isStaticNav);
 
     const resetWasNavBarStaticValue = wasNavBarStaticPreviousRef.current !== wasNavBarStaticRef.current && !isVisible;
     if (resetWasNavBarStaticValue) {
         wasNavBarStaticRef.current = false;
     }
 
-    const didNavBarStaticValueChange = wasNavBarStaticPreviousRef.current !== staticNav;
+    const didNavBarStaticValueChange = wasNavBarStaticPreviousRef.current !== isStaticNav;
     if (didNavBarStaticValueChange) {
         wasNavBarStaticRef.current = wasNavBarStaticPreviousRef.current;
-        wasNavBarStaticPreviousRef.current = staticNav;
+        wasNavBarStaticPreviousRef.current = isStaticNav;
     }
 
     return wasNavBarStaticRef.current;
 };
 
+const DEFAULT_MANGA: MangaIdInfo = { id: -1 };
 export const ReaderNavBarDesktop = ({ isVisible, openSettings }: ReaderNavBarDesktopProps) => {
     const { t } = useTranslation();
     const { setReaderNavBarWidth } = useNavBarContext();
@@ -60,36 +59,33 @@ export const ReaderNavBarDesktop = ({ isVisible, openSettings }: ReaderNavBarDes
     const { chapters, currentChapter, nextChapter, previousChapter } = useReaderStateChaptersContext();
     const { pages, currentPageIndex, setCurrentPageIndex } = userReaderStatePagesContext();
 
-    const handleBack = useBackButton();
     const getOptionForDirection = useGetOptionForDirection();
 
-    const updateReaderSettings = createUpdateReaderSettings(manga ?? { id: -1 }, () =>
-        makeToast(t('reader.settings.error.label.failed_to_save_settings')),
-    );
-
+    const exit = ReaderService.useExit();
+    const updateReaderSettings = ReaderService.useCreateUpdateSetting(manga ?? DEFAULT_MANGA);
     const settings = ReaderService.useSettings();
 
     const [navBarElement, setNavBarElement] = useState<HTMLDivElement | null>();
     useResizeObserver(
         navBarElement,
         useCallback(() => {
-            if (!settings?.staticNav) {
+            if (!settings?.isStaticNav) {
                 return;
             }
 
             setReaderNavBarWidth(navBarElement!.offsetWidth);
-        }, [navBarElement, settings?.staticNav]),
+        }, [navBarElement, settings?.isStaticNav]),
     );
     useLayoutEffect(() => () => setReaderNavBarWidth(0), []);
 
-    const wasNavBarStatic = useGetPreviousNavBarStaticValue(isVisible, settings.staticNav);
+    const wasNavBarStatic = useGetPreviousNavBarStaticValue(isVisible, settings.isStaticNav);
     const changedNavBarStaticValue = wasNavBarStatic && isVisible;
     const drawerTransitionDuration = changedNavBarStaticValue ? 0 : undefined;
 
     return (
         <Drawer
-            variant={settings.staticNav ? 'permanent' : 'persistent'}
-            open={isVisible || settings.staticNav}
+            variant={settings.isStaticNav ? 'permanent' : 'persistent'}
+            open={isVisible || settings.isStaticNav}
             transitionDuration={drawerTransitionDuration}
             PaperProps={{
                 ref: (ref: HTMLDivElement | null) => setNavBarElement(ref),
@@ -99,7 +95,7 @@ export const ReaderNavBarDesktop = ({ isVisible, openSettings }: ReaderNavBarDes
                 <Stack sx={{ p: 2, gap: 2, backgroundColor: 'action.hover' }}>
                     <Stack sx={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                         <Tooltip title={t('reader.button.exit')}>
-                            <IconButton onClick={handleBack} color="inherit">
+                            <IconButton onClick={exit} color="inherit">
                                 {getOptionForDirection(<ArrowBack />, <ArrowForwardIcon />)}
                             </IconButton>
                         </Tooltip>
@@ -107,9 +103,9 @@ export const ReaderNavBarDesktop = ({ isVisible, openSettings }: ReaderNavBarDes
                             <IconButton
                                 onClick={() => {
                                     setReaderNavBarWidth(0);
-                                    updateReaderSettings('staticNav', !settings.staticNav);
+                                    updateReaderSettings('isStaticNav', !settings.isStaticNav);
                                 }}
-                                color={settings.staticNav ? 'primary' : 'inherit'}
+                                color={settings.isStaticNav ? 'primary' : 'inherit'}
                             >
                                 <PushPinIcon />
                             </IconButton>
@@ -147,6 +143,8 @@ export const ReaderNavBarDesktop = ({ isVisible, openSettings }: ReaderNavBarDes
                         settings={settings}
                         updateSetting={updateReaderSettings}
                         openSettings={openSettings}
+                        isDefaultable
+                        onDefault={(...args) => manga && ReaderService.deleteSetting(manga, ...args)}
                     />
                 </Stack>
             </ReaderNavContainer>

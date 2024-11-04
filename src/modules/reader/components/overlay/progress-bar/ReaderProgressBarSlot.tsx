@@ -10,7 +10,8 @@ import Box from '@mui/material/Box';
 import Tooltip from '@mui/material/Tooltip';
 import { ReactNode } from 'react';
 import { ReaderProgressBarSlotProps } from '@/modules/reader/types/ReaderProgressBar.types.ts';
-import { READER_PROGRESS_BAR_POSITION_TO_PLACEMENT } from '@/modules/reader/constants/ReaderProgressBar.constants.ts';
+
+import { READER_PROGRESS_BAR_POSITION_TO_PLACEMENT } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 
 export const ReaderProgressBarSlot = ({
     pageName,

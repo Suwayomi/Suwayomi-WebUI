@@ -9,8 +9,8 @@
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import { useTranslation } from 'react-i18next';
-import { IReaderSettings, ReadingDirection } from '@/modules/reader/types/Reader.types.ts';
-import { ValueToDisplayData } from '@/modules/core/Core.types.ts';
+import { IReaderSettingsWithDefaultFlag, ReadingDirection } from '@/modules/reader/types/Reader.types.ts';
+import { MultiValueButtonDefaultableProps, ValueToDisplayData } from '@/modules/core/Core.types.ts';
 import { ButtonSelectInput } from '@/modules/core/components/inputs/ButtonSelectInput.tsx';
 
 const VALUE_TO_DISPLAY_DATA: ValueToDisplayData<ReadingDirection> = {
@@ -26,18 +26,21 @@ const VALUE_TO_DISPLAY_DATA: ValueToDisplayData<ReadingDirection> = {
 
 const READING_DIRECTION_VALUES = Object.values(ReadingDirection).filter((value) => typeof value === 'number');
 
-export const ReaderBottomBarMobileReadingDirection = ({
+export const ReaderSettingReadingDirection = ({
     readingDirection,
     setReadingDirection,
-}: Pick<IReaderSettings, 'readingDirection'> & {
-    setReadingDirection: (readingDirection: ReadingDirection) => void;
-}) => {
+    ...buttonSelectInputProps
+}: Pick<IReaderSettingsWithDefaultFlag, 'readingDirection'> &
+    Pick<MultiValueButtonDefaultableProps<ReadingDirection>, 'isDefaultable' | 'onDefault'> & {
+        setReadingDirection: (readingDirection: ReadingDirection) => void;
+    }) => {
     const { t } = useTranslation();
 
     return (
         <ButtonSelectInput
+            {...buttonSelectInputProps}
             label={t('reader.settings.label.reading_direction')}
-            value={readingDirection}
+            value={readingDirection.isDefault ? undefined : readingDirection.value}
             values={READING_DIRECTION_VALUES}
             setValue={setReadingDirection}
             valueToDisplayData={VALUE_TO_DISPLAY_DATA}

@@ -9,7 +9,8 @@
 import { useTranslation } from 'react-i18next';
 import Button from '@mui/material/Button';
 import { OffsetDoubleSpreadIcon } from '@/assets/icons/svg/OffsetDoubleSpreadIcon.tsx';
-import { IReaderSettings, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
+import { IReaderSettings } from '@/modules/reader/types/Reader.types.ts';
+import { isOffsetDoubleSpreadPagesEditable } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
 
 export const ReaderNavBarDesktopOffsetDoubleSpread = ({
     readingMode,
@@ -20,7 +21,7 @@ export const ReaderNavBarDesktopOffsetDoubleSpread = ({
 }) => {
     const { t } = useTranslation();
 
-    if (readingMode !== ReadingMode.DOUBLE_PAGE) {
+    if (!isOffsetDoubleSpreadPagesEditable(readingMode)) {
         return null;
     }
 

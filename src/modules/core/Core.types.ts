@@ -22,3 +22,20 @@ export type ValueToDisplayData<Value extends string | number> = Record<
         icon: ReactNode;
     }
 >;
+
+export interface MultiValueButtonBaseProps<Value extends string | number> {
+    value: Value;
+    values: Value[];
+    setValue: (value: Value) => void;
+    valueToDisplayData: ValueToDisplayData<Value>;
+}
+
+export interface MultiValueButtonDefaultableProps<Value extends string | number>
+    extends OptionalProperty<MultiValueButtonBaseProps<Value>, 'value'> {
+    isDefaultable?: boolean;
+    onDefault?: () => void;
+}
+
+export type MultiValueButtonProps<Value extends string | number> =
+    | (MultiValueButtonBaseProps<Value> & PropertiesNever<MultiValueButtonDefaultableProps<Value>>)
+    | MultiValueButtonDefaultableProps<Value>;

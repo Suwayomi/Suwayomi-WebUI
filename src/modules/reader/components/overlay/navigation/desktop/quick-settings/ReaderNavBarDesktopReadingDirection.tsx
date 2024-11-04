@@ -6,35 +6,28 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
-import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import { ValueRotationButton } from '@/modules/core/components/buttons/ValueRotationButton.tsx';
-import { IReaderSettings, ReadingDirection } from '@/modules/reader/types/Reader.types.ts';
-import { ValueToDisplayData } from '@/modules/core/Core.types.ts';
-
-const READING_MODE_VALUE_TO_DISPLAY_DATA: ValueToDisplayData<ReadingDirection> = {
-    [ReadingDirection.LTR]: {
-        title: 'reader.settings.reading_direction.ltr',
-        icon: <ArrowCircleRightIcon />,
-    },
-    [ReadingDirection.RTL]: {
-        title: 'reader.settings.reading_direction.rtl',
-        icon: <ArrowCircleLeftIcon />,
-    },
-};
-
-const READING_DIRECTION_VALUES = Object.values(ReadingDirection).filter((value) => typeof value === 'number');
+import { IReaderSettingsWithDefaultFlag, ReadingDirection } from '@/modules/reader/types/Reader.types.ts';
+import {
+    READING_DIRECTION_VALUES,
+    READING_DIRECTION_VALUE_TO_DISPLAY_DATA,
+} from '@/modules/reader/constants/ReaderSettings.constants.tsx';
+import { MultiValueButtonDefaultableProps } from '@/modules/core/Core.types.ts';
 
 export const ReaderNavBarDesktopReadingDirection = ({
     readingDirection,
     setReadingDirection,
-}: Pick<IReaderSettings, 'readingDirection'> & {
-    setReadingDirection: (readingDirection: ReadingDirection) => void;
-}) => (
+    ...buttonSelectInputProps
+}: Pick<IReaderSettingsWithDefaultFlag, 'readingDirection'> &
+    Pick<MultiValueButtonDefaultableProps<ReadingDirection>, 'isDefaultable' | 'onDefault'> & {
+        setReadingDirection: (readingDirection: ReadingDirection) => void;
+    }) => (
     <ValueRotationButton
-        value={readingDirection}
+        {...buttonSelectInputProps}
+        value={readingDirection.isDefault ? undefined : readingDirection.value}
         values={READING_DIRECTION_VALUES}
         setValue={setReadingDirection}
-        valueToDisplayData={READING_MODE_VALUE_TO_DISPLAY_DATA}
+        valueToDisplayData={READING_DIRECTION_VALUE_TO_DISPLAY_DATA}
+        defaultIcon={READING_DIRECTION_VALUE_TO_DISPLAY_DATA[readingDirection.value].icon}
     />
 );

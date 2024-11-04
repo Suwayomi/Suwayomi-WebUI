@@ -16,18 +16,19 @@ import { userReaderStatePagesContext } from '@/modules/reader/contexts/state/Rea
 import { getPage } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { useReaderProgressBarContext } from '@/modules/reader/contexts/ReaderProgressBarContext.tsx';
-import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
+import { useReaderScrollbarContext } from '@/modules/reader/contexts/ReaderScrollbarContext.tsx';
 
 export const ReaderPageNumber = () => {
-    const isMobileWidth = MediaQuery.useIsMobileWidth();
+    const { isDesktop } = ReaderService.useOverlayMode();
+    const { scrollbarXSize } = useReaderScrollbarContext();
     const { readerNavBarWidth } = useNavBarContext();
     const { isMaximized } = useReaderProgressBarContext();
     const { currentPageIndex, pages, totalPages } = userReaderStatePagesContext();
-    const { progressBarType, showPageNumber } = ReaderService.useSettings();
+    const { progressBarType, shouldShowPageNumber } = ReaderService.useSettings();
 
     const pageName = useMemo(() => getPage(currentPageIndex, pages).name, [currentPageIndex, pages]);
 
-    if (!showPageNumber) {
+    if (!shouldShowPageNumber) {
         return null;
     }
 
@@ -35,7 +36,7 @@ export const ReaderPageNumber = () => {
         return null;
     }
 
-    if (!isMobileWidth && progressBarType === ProgressBarType.STANDARD) {
+    if (isDesktop && progressBarType === ProgressBarType.STANDARD) {
         return null;
     }
 
@@ -49,7 +50,7 @@ export const ReaderPageNumber = () => {
                 position: 'fixed',
                 left: readerNavBarWidth,
                 right: 0,
-                bottom: (theme) => theme.spacing(1),
+                bottom: (theme) => `calc(${theme.spacing(1)} + ${scrollbarXSize}px)`,
                 alignItems: 'center',
                 transition: (theme) => `left 0.${theme.transitions.duration.shortest}s`,
             }}

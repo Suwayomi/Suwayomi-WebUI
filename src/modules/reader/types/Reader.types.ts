@@ -8,6 +8,7 @@
 
 import { TapZoneInvertMode, TapZoneLayouts } from '@/modules/reader/types/TapZoneLayout.types.ts';
 import { TChapterReader } from '@/modules/chapter/Chapter.types.ts';
+import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 
 export enum ProgressBarType {
     HIDDEN,
@@ -39,6 +40,112 @@ export enum ReaderPageScaleMode {
     ORIGINAL,
 }
 
+export enum ReaderOverlayMode {
+    AUTO,
+    DESKTOP,
+    MOBILE,
+}
+
+export enum ReaderExitMode {
+    PREVIOUS,
+    MANGA,
+}
+
+export enum ReaderBackgroundColor {
+    THEME,
+    BLACK,
+    GRAY,
+    WHITE,
+}
+
+export interface ReaderFilterRGBA {
+    red: number;
+    green: number;
+    blue: number;
+    alpha: number;
+}
+
+export interface ReaderCustomFilter {
+    brightness: {
+        /**
+         * percentage
+         */
+        value: number;
+        enabled: boolean;
+    };
+    contrast: {
+        /**
+         * percentage
+         */
+        value: number;
+        enabled: boolean;
+    };
+    saturate: {
+        /**
+         * percentage
+         */
+        value: number;
+        enabled: boolean;
+    };
+    hue: {
+        /**
+         * degree
+         */
+        value: number;
+        enabled: boolean;
+    };
+    rgba: {
+        value: ReaderFilterRGBA;
+        enabled: boolean;
+    };
+    sepia: boolean;
+    grayscale: boolean;
+    invert: boolean;
+}
+
+export interface IReaderSettingsGlobal {
+    overlayMode: ReaderOverlayMode;
+    exitMode: ReaderExitMode;
+    customFilter: ReaderCustomFilter;
+    shouldSkipDupChapters: boolean;
+    progressBarType: ProgressBarType;
+    /**
+     * pixel
+     */
+    progressBarSize: number;
+    progressBarPosition: ProgressBarPosition;
+    shouldShowPageNumber: boolean;
+    isStaticNav: boolean;
+    backgroundColor: ReaderBackgroundColor;
+}
+
+export interface IReaderSettingsManga {
+    tapZoneLayout: TapZoneLayouts;
+    tapZoneInvertMode: TapZoneInvertMode;
+    pageScaleMode: ReaderPageScaleMode;
+    shouldStretchPage: boolean;
+    shouldOffsetDoubleSpreads: boolean;
+    readingDirection: ReadingDirection;
+    readingMode: ReadingMode;
+    /**
+     * pixel
+     */
+    pageGap: number;
+    readerWidth: {
+        /**
+         * percentage
+         */
+        value: number;
+        enabled: boolean;
+    };
+}
+
+export interface IReaderSettings extends IReaderSettingsGlobal, IReaderSettingsManga {}
+
+export interface IReaderSettingsWithDefaultFlag
+    extends IReaderSettingsGlobal,
+        TransformRecordToWithDefaultFlag<IReaderSettingsManga> {}
+
 export interface ReaderStateChapters {
     chapters: TChapterReader[];
     currentChapter?: TChapterReader | null;
@@ -47,20 +154,25 @@ export interface ReaderStateChapters {
     setReaderStateChapters: React.Dispatch<React.SetStateAction<Omit<ReaderStateChapters, 'setReaderStateChapters'>>>;
 }
 
-export interface IReaderSettings {
-    staticNav: boolean;
-    showPageNumber: boolean;
-    loadNextOnEnding: boolean;
-    skipDupChapters: boolean;
-    readerWidth: number;
-    tapZoneLayout: TapZoneLayouts;
-    tapZoneInvertMode: TapZoneInvertMode;
-    progressBarType: ProgressBarType;
-    progressBarSize: number;
-    progressBarPosition: ProgressBarPosition;
-    pageScaleMode: ReaderPageScaleMode;
-    shouldScalePage: boolean;
-    shouldOffsetDoubleSpreads: boolean;
-    readingDirection: ReadingDirection;
-    readingMode: ReadingMode;
+interface ReaderSettingsTypeBaseProps {
+    settings: IReaderSettingsWithDefaultFlag;
+    updateSetting: (
+        ...args: OmitFirst<Parameters<typeof ReaderService.updateSetting>>
+    ) => ReturnType<typeof ReaderService.updateSetting>;
 }
+
+export interface ReaderSettingsDefaultableProps {
+    isDefaultable: boolean;
+    onDefault: (setting: keyof IReaderSettings) => void;
+}
+
+interface ReaderSettingsTypeDefaultableProps extends ReaderSettingsTypeBaseProps, ReaderSettingsDefaultableProps {
+    isDefaultable: true;
+}
+
+interface ReaderSettingsTypeNonDefaultableProps extends ReaderSettingsTypeBaseProps {}
+
+export type ReaderSettingsTypeProps =
+    | ReaderSettingsTypeDefaultableProps
+    | (PropertiesNever<Omit<ReaderSettingsTypeDefaultableProps, keyof ReaderSettingsTypeBaseProps>> &
+          ReaderSettingsTypeNonDefaultableProps);
