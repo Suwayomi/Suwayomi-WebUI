@@ -7,28 +7,58 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { useMemo } from 'react';
+import { ReactNode, useMemo } from 'react';
 import Button from '@mui/material/Button';
-import { ValueToDisplayData } from '@/modules/core/Core.types.ts';
+import { MultiValueButtonProps } from '@/modules/core/Core.types.ts';
 
 export const ValueRotationButton = <Value extends string | number>({
     value,
     values,
     setValue,
     valueToDisplayData,
-}: {
-    value: Value;
-    values: Value[];
-    setValue: (value: Value) => void;
-    valueToDisplayData: ValueToDisplayData<Value>;
-}) => {
+    isDefaultable,
+    onDefault,
+    defaultIcon,
+}: MultiValueButtonProps<Value> & { defaultIcon?: ReactNode }) => {
     const { t } = useTranslation();
 
-    const indexOfValue = useMemo(() => values.indexOf(value), [value, values]);
+    const isDefault = value === undefined;
+    const indexOfValue = useMemo(() => {
+        if (isDefault) {
+            return -1;
+        }
+
+        return values.indexOf(value);
+    }, [value, values]);
+
+    if (isDefault) {
+        return (
+            <Button
+                onClick={() => setValue(values[0])}
+                sx={{ justifyContent: 'start', textTransform: 'unset', flexGrow: 1 }}
+                variant="contained"
+                startIcon={defaultIcon}
+                size="large"
+            >
+                {t('global.label.default')}
+            </Button>
+        );
+    }
 
     return (
         <Button
-            onClick={() => setValue(values[(indexOfValue + 1) % values.length])}
+            onClick={() => {
+                const nextValueIndex = (indexOfValue + 1) % values.length;
+                const wasLastValue = nextValueIndex === 0;
+
+                const isDefaultNextValue = isDefaultable && wasLastValue;
+                if (isDefaultNextValue) {
+                    onDefault?.();
+                    return;
+                }
+
+                setValue(values[(indexOfValue + 1) % values.length]);
+            }}
             sx={{ justifyContent: 'start', textTransform: 'unset', flexGrow: 1 }}
             variant="contained"
             startIcon={valueToDisplayData[value].icon}

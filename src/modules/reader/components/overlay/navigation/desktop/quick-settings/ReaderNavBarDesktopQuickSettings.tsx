@@ -14,17 +14,16 @@ import { ReaderNavBarDesktopPageScale } from '@/modules/reader/components/overla
 import { ReaderNavBarDesktopReadingMode } from '@/modules/reader/components/overlay/navigation/desktop/quick-settings/ReaderNavBarDesktopReadingMode.tsx';
 import { ReaderNavBarDesktopOffsetDoubleSpread } from '@/modules/reader/components/overlay/navigation/desktop/quick-settings/ReaderNavBarDesktopOffsetDoubleSpread.tsx';
 import { ReaderNavBarDesktopReadingDirection } from '@/modules/reader/components/overlay/navigation/desktop/quick-settings/ReaderNavBarDesktopReadingDirection.tsx';
-import { IReaderSettings } from '@/modules/reader/types/Reader.types.ts';
+import { ReaderSettingsTypeProps } from '@/modules/reader/types/Reader.types.ts';
 import { ReaderNavBarDesktopProps } from '@/modules/reader/types/ReaderOverlay.types.ts';
 
 export const ReaderNavBarDesktopQuickSettings = ({
-    settings: { readingMode, shouldOffsetDoubleSpreads, pageScaleMode, shouldScalePage, readingDirection },
+    settings: { readingMode, shouldOffsetDoubleSpreads, pageScaleMode, shouldStretchPage, readingDirection },
     updateSetting,
     openSettings,
-}: {
-    settings: IReaderSettings;
-    updateSetting: <Setting extends keyof IReaderSettings>(setting: Setting, value: IReaderSettings[Setting]) => void;
-} & Pick<ReaderNavBarDesktopProps, 'openSettings'>) => {
+    isDefaultable,
+    onDefault,
+}: ReaderSettingsTypeProps & Pick<ReaderNavBarDesktopProps, 'openSettings'>) => {
     const { t } = useTranslation();
 
     return (
@@ -32,19 +31,26 @@ export const ReaderNavBarDesktopQuickSettings = ({
             <ReaderNavBarDesktopReadingMode
                 readingMode={readingMode}
                 setReadingMode={(value) => updateSetting('readingMode', value)}
+                isDefaultable={isDefaultable}
+                onDefault={() => onDefault?.('readingMode')}
             />
             <ReaderNavBarDesktopOffsetDoubleSpread
-                shouldOffsetDoubleSpreads={shouldOffsetDoubleSpreads}
+                readingMode={readingMode.value}
+                shouldOffsetDoubleSpreads={shouldOffsetDoubleSpreads.value}
                 setShouldOffsetDoubleSpreads={(value) => updateSetting('shouldOffsetDoubleSpreads', value)}
             />
             <ReaderNavBarDesktopPageScale
                 pageScaleMode={pageScaleMode}
-                shouldScalePage={shouldScalePage}
+                shouldStretchPage={shouldStretchPage}
                 updateSetting={updateSetting}
+                isDefaultable={isDefaultable}
+                onDefault={() => onDefault?.('pageScaleMode')}
             />
             <ReaderNavBarDesktopReadingDirection
                 readingDirection={readingDirection}
                 setReadingDirection={(value) => updateSetting('readingDirection', value)}
+                isDefaultable={isDefaultable}
+                onDefault={() => onDefault?.('readingDirection')}
             />
             <Button
                 onClick={() => openSettings()}

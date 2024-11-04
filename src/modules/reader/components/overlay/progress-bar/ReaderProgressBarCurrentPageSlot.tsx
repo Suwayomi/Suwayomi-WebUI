@@ -11,8 +11,8 @@ import Tooltip from '@mui/material/Tooltip';
 import { ReactNode } from 'react';
 import { CurrentPageSlotProps } from '@/modules/reader/types/ReaderProgressBar.types.ts';
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
-import { READER_PROGRESS_BAR_POSITION_TO_PLACEMENT } from '@/modules/reader/constants/ReaderProgressBar.constants.ts';
 import { getProgressBarPositionInfo } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
+import { READER_PROGRESS_BAR_POSITION_TO_PLACEMENT } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 
 export const ReaderProgressBarCurrentPageSlot = ({
     pageName,

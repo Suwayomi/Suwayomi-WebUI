@@ -6,10 +6,6 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-type TupleUnion<U extends string | number | symbol, R extends any[] = []> = {
-    [S in U]: Exclude<U, S> extends never ? [...R, S] : TupleUnion<Exclude<U, S>, [...R, S]>;
-}[U];
-
 export const shouldForwardProp =
     <TCustomProps extends Record<string, unknown>>(customProps: TupleUnion<keyof TCustomProps>) =>
     (prop: string): boolean =>

@@ -35,10 +35,10 @@ export const TapZoneLayout = () => {
         }, [tapZoneLayoutElement]),
     );
 
-    const canvas = ReaderTapZoneService.getOrCreateCanvas(tapZoneLayout, width, height, theme.typography.h3, {
-        vertical: tapZoneInvertMode.vertical,
-        horizontal: tapZoneInvertMode.horizontal,
-        isRTL: readingDirection === ReadingDirection.RTL,
+    const canvas = ReaderTapZoneService.getOrCreateCanvas(tapZoneLayout.value, width, height, theme.typography.h3, {
+        vertical: tapZoneInvertMode.value.vertical,
+        horizontal: tapZoneInvertMode.value.horizontal,
+        isRTL: readingDirection.value === ReadingDirection.RTL,
     });
 
     useLayoutEffect(() => {

@@ -42,7 +42,7 @@ import { ChapterIdInfo } from '@/modules/chapter/services/Chapters.ts';
 import { CategoryIdInfo } from '@/modules/category/Category.types.ts';
 import { SourceType } from '@/lib/graphql/generated/graphql.ts';
 
-export const extractOriginalKey = (key: string): string => key.split('_').slice(-1)[0];
+export const extractOriginalKey = (key: string) => key.split('_').slice(-1)[0];
 
 export const getMetadataKey = (key: string, appPrefix: string = APP_METADATA_KEY_PREFIX) => {
     const isGlobalMetadataKey = GLOBAL_METADATA_KEYS.includes(key as AppMetadataKeys);

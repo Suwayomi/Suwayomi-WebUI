@@ -9,65 +9,52 @@
 import Stack from '@mui/material/Stack';
 import Tooltip from '@mui/material/Tooltip';
 import { useTranslation } from 'react-i18next';
-import ZoomOutMapIcon from '@mui/icons-material/ZoomOutMap';
-import ExpandIcon from '@mui/icons-material/Expand';
-import CropOriginalIcon from '@mui/icons-material/CropOriginal';
 import FitScreenIcon from '@mui/icons-material/FitScreen';
 import { CustomIconButton } from '@/modules/core/components/buttons/CustomIconButton.tsx';
 import { ValueRotationButton } from '@/modules/core/components/buttons/ValueRotationButton.tsx';
-import { IReaderSettings, ReaderPageScaleMode } from '@/modules/reader/types/Reader.types.ts';
-import { ValueToDisplayData } from '@/modules/core/Core.types';
-
-const VALUE_TO_DISPLAY_DATA: ValueToDisplayData<ReaderPageScaleMode> = {
-    [ReaderPageScaleMode.WIDTH]: {
-        title: 'reader.settings.page_scale.width',
-        icon: <ExpandIcon sx={{ transform: 'rotate(90deg)' }} />,
-    },
-    [ReaderPageScaleMode.HEIGHT]: {
-        title: 'reader.settings.page_scale.height',
-        icon: <ExpandIcon />,
-    },
-    [ReaderPageScaleMode.SCREEN]: {
-        title: 'reader.settings.page_scale.screen',
-        icon: <ZoomOutMapIcon />,
-    },
-    [ReaderPageScaleMode.ORIGINAL]: {
-        title: 'reader.settings.page_scale.original',
-        icon: <CropOriginalIcon />,
-    },
-};
-
-const READER_PAGE_SCALE_MODE_VALUES = Object.values(ReaderPageScaleMode).filter((value) => typeof value === 'number');
+import {
+    IReaderSettings,
+    IReaderSettingsWithDefaultFlag,
+    ReaderPageScaleMode,
+} from '@/modules/reader/types/Reader.types.ts';
+import {
+    PAGE_SCALE_VALUE_TO_DISPLAY_DATA,
+    READER_PAGE_SCALE_MODE_TO_SCALING_ALLOWED,
+    READER_PAGE_SCALE_MODE_VALUES,
+} from '@/modules/reader/constants/ReaderSettings.constants.tsx';
+import { MultiValueButtonDefaultableProps } from '@/modules/core/Core.types.ts';
 
 export const ReaderNavBarDesktopPageScale = ({
     pageScaleMode,
-    shouldScalePage,
+    shouldStretchPage,
     updateSetting,
-}: Pick<IReaderSettings, 'pageScaleMode' | 'shouldScalePage'> & {
-    updateSetting: <Setting extends keyof Pick<IReaderSettings, 'pageScaleMode' | 'shouldScalePage'>>(
-        setting: Setting,
-        value: IReaderSettings[Setting],
-    ) => void;
-}) => {
+    ...buttonSelectInputProps
+}: Pick<IReaderSettingsWithDefaultFlag, 'pageScaleMode' | 'shouldStretchPage'> &
+    Pick<MultiValueButtonDefaultableProps<ReaderPageScaleMode>, 'isDefaultable' | 'onDefault'> & {
+        updateSetting: <Setting extends keyof Pick<IReaderSettings, 'pageScaleMode' | 'shouldStretchPage'>>(
+            setting: Setting,
+            value: IReaderSettings[Setting],
+        ) => void;
+    }) => {
     const { t } = useTranslation();
-
-    const isPageScalingPossible = pageScaleMode !== ReaderPageScaleMode.ORIGINAL;
 
     return (
         <Stack sx={{ flexDirection: 'row', gap: 1 }}>
             <ValueRotationButton
-                value={pageScaleMode}
+                {...buttonSelectInputProps}
+                value={pageScaleMode.isDefault ? undefined : pageScaleMode.value}
                 values={READER_PAGE_SCALE_MODE_VALUES}
                 setValue={(value) => updateSetting('pageScaleMode', value)}
-                valueToDisplayData={VALUE_TO_DISPLAY_DATA}
+                valueToDisplayData={PAGE_SCALE_VALUE_TO_DISPLAY_DATA}
+                defaultIcon={PAGE_SCALE_VALUE_TO_DISPLAY_DATA[pageScaleMode.value].icon}
             />
-            {isPageScalingPossible && (
+            {READER_PAGE_SCALE_MODE_TO_SCALING_ALLOWED[pageScaleMode.value] && (
                 <Tooltip title={t('reader.settings.label.scale_page')}>
                     <CustomIconButton
-                        onClick={() => updateSetting('shouldScalePage', !shouldScalePage)}
+                        onClick={() => updateSetting('shouldStretchPage', !shouldStretchPage.value)}
                         sx={{ minWidth: 0 }}
                         variant="contained"
-                        color={shouldScalePage ? 'secondary' : 'primary'}
+                        color={shouldStretchPage.value ? 'secondary' : 'primary'}
                     >
                         <FitScreenIcon />
                     </CustomIconButton>

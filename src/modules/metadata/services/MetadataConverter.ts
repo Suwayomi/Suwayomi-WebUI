@@ -31,14 +31,19 @@ export const convertValueFromMetadata = <T extends AllowedMetadataValueTypes = A
     return value as T;
 };
 
-export const convertFromGqlMeta = (gqlMetadata?: MetaType[]): Metadata | undefined => {
+export const convertFromGqlMeta = (
+    gqlMetadata?: MetaType[],
+    filter: (key: string) => boolean = () => true,
+): Metadata | undefined => {
     if (!gqlMetadata) {
         return undefined;
     }
 
     const metadata: Metadata = {};
     gqlMetadata.forEach(({ key, value }) => {
-        metadata[key] = value;
+        if (filter(key)) {
+            metadata[key] = value;
+        }
     });
 
     return metadata;
