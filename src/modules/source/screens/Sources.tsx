@@ -21,7 +21,6 @@ import {
     langSortCmp,
     DefaultLanguage,
 } from '@/modules/core/utils/Languages.ts';
-import { translateExtensionLanguage } from '@/modules/extension/services/Extensions.ts';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { SourceCard } from '@/modules/source/components/SourceCard.tsx';
 import { LangSelect } from '@/modules/core/components/inputs/LangSelect.tsx';
@@ -29,6 +28,7 @@ import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.t
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { SourceType } from '@/lib/graphql/generated/graphql.ts';
+import { translateExtensionLanguage } from '@/modules/extension/Extensions.utils.ts';
 
 function sourceToLangList(sources: Pick<SourceType, 'id' | 'lang'>[]) {
     const result = new Set<string>();

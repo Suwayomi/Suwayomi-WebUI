@@ -17,7 +17,6 @@ import Box from '@mui/material/Box';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { langSortCmp, sourceDefualtLangs, sourceForcedDefaultLangs } from '@/modules/core/utils/Languages.ts';
-import { translateExtensionLanguage } from '@/modules/extension/services/Extensions.ts';
 import { AppbarSearch } from '@/modules/core/components/AppbarSearch.tsx';
 import { LangSelect } from '@/modules/core/components/inputs/LangSelect.tsx';
 import { useDebounce } from '@/modules/core/hooks/useDebounce.ts';
@@ -29,6 +28,7 @@ import { LoadingPlaceholder } from '@/modules/core/components/placeholder/Loadin
 import { SourceType } from '@/lib/graphql/generated/graphql.ts';
 import { BaseMangaGrid } from '@/modules/manga/components/BaseMangaGrid.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
+import { translateExtensionLanguage } from '@/modules/extension/Extensions.utils.ts';
 
 type SourceLoadingState = { isLoading: boolean; hasResults: boolean; emptySearch: boolean };
 type SourceToLoadingStateMap = Map<string, SourceLoadingState>;

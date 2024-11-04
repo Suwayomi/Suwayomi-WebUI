@@ -18,77 +18,26 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
-import { TExtension } from '@/modules/extension/services/Extensions.ts';
-import { TranslationKey } from '@/Base.types.ts';
+import {
+    ExtensionAction,
+    ExtensionState,
+    InstalledState,
+    InstalledStates,
+    TExtension,
+} from '@/modules/extension/Extensions.types.ts';
+import {
+    EXTENSION_ACTION_TO_FAILURE_TRANSLATION_KEY_MAP,
+    EXTENSION_ACTION_TO_NEXT_ACTION_MAP,
+    EXTENSION_ACTION_TO_STATE_MAP,
+    INSTALLED_STATE_TO_TRANSLATION_KEY_MAP,
+} from '@/modules/extension/Extensions.constants.ts';
+import { getInstalledState } from '@/modules/extension/Extensions.utils.ts';
 
 interface IProps {
     extension: TExtension;
     handleUpdate: () => void;
     showSourceRepo: boolean;
 }
-
-enum ExtensionAction {
-    UPDATE = 'UPDATE',
-    UNINSTALL = 'UNINSTALL',
-    INSTALL = 'INSTALL',
-}
-
-enum ExtensionState {
-    OBSOLETE = 'OBSOLETE',
-    UPDATING = 'UPDATING',
-    UNINSTALLING = 'UNINSTALLING',
-    INSTALLING = 'INSTALLING',
-}
-
-type InstalledStates = ExtensionAction | ExtensionState;
-
-const InstalledState = { ...ExtensionAction, ...ExtensionState } as const;
-
-const EXTENSION_ACTION_TO_STATE_MAP: { [action in ExtensionAction]: ExtensionState } = {
-    [ExtensionAction.UPDATE]: ExtensionState.UPDATING,
-    [ExtensionAction.UNINSTALL]: ExtensionState.UNINSTALLING,
-    [ExtensionAction.INSTALL]: ExtensionState.INSTALLING,
-} as const;
-
-const EXTENSION_ACTION_TO_NEXT_ACTION_MAP: { [action in ExtensionAction]: ExtensionAction } = {
-    [ExtensionAction.UPDATE]: ExtensionAction.UNINSTALL,
-    [ExtensionAction.UNINSTALL]: ExtensionAction.INSTALL,
-    [ExtensionAction.INSTALL]: ExtensionAction.UNINSTALL,
-} as const;
-
-const INSTALLED_STATE_TO_TRANSLATION_KEY_MAP: { [installedState in InstalledStates]: TranslationKey } = {
-    [InstalledState.UNINSTALL]: 'extension.action.label.uninstall',
-    [InstalledState.INSTALL]: 'extension.action.label.install',
-    [InstalledState.UPDATE]: 'extension.action.label.update',
-    [InstalledState.OBSOLETE]: 'extension.state.label.obsolete',
-    [InstalledState.UPDATING]: 'extension.state.label.updating',
-    [InstalledState.UNINSTALLING]: 'extension.state.label.uninstalling',
-    [InstalledState.INSTALLING]: 'extension.state.label.installing',
-} as const;
-
-const EXTENSION_ACTION_TO_FAILURE_TRANSLATION_KEY_MAP: {
-    [action in ExtensionAction]: TranslationKey;
-} = {
-    [ExtensionAction.UPDATE]: 'extension.label.update_failed',
-    [ExtensionAction.INSTALL]: 'extension.label.installation_failed',
-    [ExtensionAction.UNINSTALL]: 'extension.label.uninstallation_failed',
-};
-
-const getInstalledState = (
-    isInstalled: boolean,
-    isObsolete: boolean,
-    hasUpdate: boolean,
-): ExtensionAction | ExtensionState.OBSOLETE => {
-    if (isObsolete) {
-        return InstalledState.OBSOLETE;
-    }
-
-    if (hasUpdate) {
-        return InstalledState.UPDATE;
-    }
-
-    return isInstalled ? InstalledState.UNINSTALL : InstalledState.INSTALL;
-};
 
 export function ExtensionCard(props: IProps) {
     const { t } = useTranslation();

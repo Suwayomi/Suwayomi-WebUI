@@ -17,8 +17,8 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { GetMigratableSourcesQuery } from '@/lib/graphql/generated/graphql.ts';
-import { translateExtensionLanguage } from '@/modules/extension/services/Extensions.ts';
 import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
+import { translateExtensionLanguage } from '@/modules/extension/Extensions.utils.ts';
 
 export type TMigratableSource = NonNullable<GetMigratableSourcesQuery['mangas']['nodes'][number]['source']> & {
     mangaCount: number;

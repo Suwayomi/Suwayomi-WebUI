@@ -18,16 +18,8 @@ import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { extensionDefaultLangs, DefaultLanguage, langSortCmp } from '@/modules/core/utils/Languages.ts';
+import { extensionDefaultLangs } from '@/modules/core/utils/Languages.ts';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
-import {
-    ExtensionGroupState,
-    GroupedExtensions,
-    GroupedExtensionsResult,
-    isExtensionStateOrLanguage,
-    TExtension,
-    translateExtensionLanguage,
-} from '@/modules/extension/services/Extensions.ts';
 import { AppbarSearch } from '@/modules/core/components/AppbarSearch.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
@@ -40,68 +32,14 @@ import { StyledGroupItemWrapper } from '@/modules/core/components/virtuoso/Style
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { VirtuosoUtil } from '@/lib/virtuoso/Virtuoso.util.tsx';
+import {
+    getExtensionsInfo,
+    isExtensionStateOrLanguage,
+    translateExtensionLanguage,
+} from '@/modules/extension/Extensions.utils.ts';
 
 const LANGUAGE = 0;
 const EXTENSIONS = 1;
-
-function getExtensionsInfo(extensions: TExtension[]): {
-    allLangs: string[];
-    groupedExtensions: GroupedExtensionsResult;
-} {
-    const allLangs: string[] = [];
-    const sortedExtensions: GroupedExtensions = {
-        [ExtensionGroupState.OBSOLETE]: [],
-        [ExtensionGroupState.INSTALLED]: [],
-        [ExtensionGroupState.UPDATE_PENDING]: [],
-        [DefaultLanguage.ALL]: [],
-        [DefaultLanguage.OTHER]: [],
-        [DefaultLanguage.LOCAL_SOURCE]: [],
-    };
-    extensions.forEach((extension) => {
-        if (sortedExtensions[extension.lang] === undefined) {
-            sortedExtensions[extension.lang] = [];
-            if (extension.lang !== 'all') {
-                allLangs.push(extension.lang);
-            }
-        }
-        if (extension.isInstalled) {
-            if (extension.hasUpdate) {
-                sortedExtensions[ExtensionGroupState.UPDATE_PENDING].push(extension);
-                return;
-            }
-            if (extension.isObsolete) {
-                sortedExtensions[ExtensionGroupState.OBSOLETE].push(extension);
-                return;
-            }
-
-            sortedExtensions[ExtensionGroupState.INSTALLED].push(extension);
-        } else {
-            sortedExtensions[extension.lang].push(extension);
-        }
-    });
-
-    allLangs.sort(langSortCmp);
-    const result: GroupedExtensionsResult<ExtensionGroupState | DefaultLanguage | string> = [
-        [ExtensionGroupState.OBSOLETE, sortedExtensions[ExtensionGroupState.OBSOLETE]],
-        [ExtensionGroupState.UPDATE_PENDING, sortedExtensions[ExtensionGroupState.UPDATE_PENDING]],
-        [ExtensionGroupState.INSTALLED, sortedExtensions[ExtensionGroupState.INSTALLED]],
-        [DefaultLanguage.ALL, sortedExtensions[DefaultLanguage.ALL]],
-        [DefaultLanguage.OTHER, sortedExtensions[DefaultLanguage.OTHER]],
-        [DefaultLanguage.LOCAL_SOURCE, sortedExtensions[DefaultLanguage.LOCAL_SOURCE]],
-    ];
-
-    const langExt: GroupedExtensionsResult = allLangs.map((lang) => [lang, sortedExtensions[lang]]);
-    const groupedExtensions = result.concat(langExt);
-
-    groupedExtensions.forEach(([, groupedExtensionList]) =>
-        groupedExtensionList.sort((a, b) => a.name.localeCompare(b.name)),
-    );
-
-    return {
-        allLangs,
-        groupedExtensions,
-    };
-}
 
 export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     const { t } = useTranslation();
