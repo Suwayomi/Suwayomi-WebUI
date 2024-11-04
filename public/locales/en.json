@@ -247,16 +247,21 @@
         "install": "Install",
         "install_external": "Install external extension",
         "uninstall": "Uninstall",
-        "update": "Update"
+        "update": "Update",
+        "update_all": "Update all"
       }
     },
     "label": {
       "add_repository_info": "You have to add a extension repository to be able to install extensions",
-      "installation_failed": "Could not install the extension",
-      "installed_successfully": "Extension installed",
+      "installation_failed_one": "Could not install the extension",
+      "installation_failed_other": "Could not install the extensions",
+      "installed_successfully_one": "Extension installed",
+      "installed_successfully_other": "Extensions installed",
       "installing_file": "Installing extension file…",
-      "uninstallation_failed": "Could not uninstall the extension",
-      "update_failed": "Could not update the extension"
+      "uninstallation_failed_one": "Could not uninstall the extension",
+      "uninstallation_failed_other": "Could not uninstall the extensions",
+      "update_failed_one": "Could not update the extension",
+      "update_failed_other": "Could not update the extensions"
     },
     "language": {
       "all": "All",

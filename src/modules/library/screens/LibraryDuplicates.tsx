@@ -14,6 +14,7 @@ import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
@@ -149,8 +150,10 @@ export const LibraryDuplicates = () => {
             <StyledGroupedVirtuoso
                 groupCounts={mangasCountByTitle}
                 groupContent={(index) => (
-                    <StyledGroupHeader variant="h5" isFirstItem={index === 0}>
-                        {duplicatedTitles[index]}
+                    <StyledGroupHeader isFirstItem={index === 0}>
+                        <Typography variant="h5" component="h2">
+                            {duplicatedTitles[index]}
+                        </Typography>
                     </StyledGroupHeader>
                 )}
                 computeItemKey={computeItemKey}
@@ -170,8 +173,10 @@ export const LibraryDuplicates = () => {
 
     return duplicatedTitles.map((title, index) => (
         <Box key={title}>
-            <StyledGroupHeader sx={{ pt: index === 0 ? undefined : 0, pb: 0 }} variant="h5" isFirstItem={false}>
-                {title}
+            <StyledGroupHeader sx={{ pt: index === 0 ? undefined : 0, pb: 0 }} isFirstItem={false}>
+                <Typography variant="h5" component="h2">
+                    {title}
+                </Typography>
             </StyledGroupHeader>
             <BaseMangaGrid
                 mangas={mangasByTitle[title] as IMangaGridProps['mangas']}

@@ -183,6 +183,8 @@ import {
     UpdateExtensionMutation,
     UpdateExtensionMutationVariables,
     UpdateExtensionPatchInput,
+    UpdateExtensionsMutation,
+    UpdateExtensionsMutationVariables,
     UpdateLibraryMangasMutation,
     UpdateLibraryMangasMutationVariables,
     UpdateMangaCategoriesMutation,
@@ -221,6 +223,7 @@ import {
     GET_EXTENSIONS_FETCH,
     INSTALL_EXTERNAL_EXTENSION,
     UPDATE_EXTENSION,
+    UPDATE_EXTENSIONS,
 } from '@/lib/graphql/mutations/ExtensionMutation.ts';
 import { GET_MIGRATABLE_SOURCES, GET_SOURCES_LIST } from '@/lib/graphql/queries/SourceQuery.ts';
 import {
@@ -1415,6 +1418,72 @@ export class RequestManager {
                                     return {
                                         ...extension,
                                         ...(response.data?.updateExtension?.extension ?? []),
+                                    };
+                                }) ?? [],
+                    },
+                },
+            };
+
+            this.cache.cacheResponse(EXTENSION_LIST_CACHE_KEY, undefined, updatedCachedExtensions);
+        });
+
+        return result;
+    }
+
+    public updateExtensions(
+        ids: string[],
+        { isObsolete = false, ...patch }: UpdateExtensionPatchInput & { isObsolete?: boolean },
+        options?: MutationOptions<UpdateExtensionsMutation, UpdateExtensionsMutationVariables>,
+    ): AbortableApolloMutationResponse<UpdateExtensionsMutation> {
+        const result = this.doRequest<UpdateExtensionsMutation, UpdateExtensionsMutationVariables>(
+            GQLMethod.MUTATION,
+            UPDATE_EXTENSIONS,
+            { input: { ids, patch } },
+            options,
+        );
+
+        result.response.then((response) => {
+            if (response.errors) {
+                return;
+            }
+
+            this.graphQLClient.client.cache.evict({ fieldName: 'sources' });
+            const cachedExtensions = this.cache.getResponseFor<MutationResult<GetExtensionsFetchMutation>>(
+                EXTENSION_LIST_CACHE_KEY,
+                undefined,
+            );
+
+            if (!cachedExtensions || !cachedExtensions.data) {
+                return;
+            }
+
+            const updatedCachedExtensions: MutationResult<GetExtensionsFetchMutation> = {
+                ...cachedExtensions,
+                data: {
+                    ...cachedExtensions.data,
+                    fetchExtensions: {
+                        ...cachedExtensions.data.fetchExtensions,
+                        extensions:
+                            cachedExtensions.data.fetchExtensions?.extensions
+                                .filter((extension) => {
+                                    if (!isObsolete) {
+                                        return true;
+                                    }
+
+                                    const isUpdatedExtension = ids.includes(extension.pkgName);
+                                    return !isUpdatedExtension;
+                                })
+                                .map((extension) => {
+                                    const isUpdatedExtension = ids.includes(extension.pkgName);
+                                    if (!isUpdatedExtension) {
+                                        return extension;
+                                    }
+
+                                    return {
+                                        ...extension,
+                                        ...(response.data?.updateExtensions?.extensions.find(
+                                            (updatedExtension) => updatedExtension.pkgName === extension.pkgName,
+                                        ) ?? []),
                                     };
                                 }) ?? [],
                     },

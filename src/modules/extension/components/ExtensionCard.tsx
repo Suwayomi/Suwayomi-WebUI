@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
@@ -37,6 +37,7 @@ interface IProps {
     extension: TExtension;
     handleUpdate: () => void;
     showSourceRepo: boolean;
+    forcedState?: ExtensionState;
 }
 
 export function ExtensionCard(props: IProps) {
@@ -46,10 +47,16 @@ export function ExtensionCard(props: IProps) {
         extension: { name, lang, versionName, isInstalled, hasUpdate, isObsolete, pkgName, iconUrl, isNsfw, repo },
         handleUpdate,
         showSourceRepo,
+        forcedState,
     } = props;
-    const [installedState, setInstalledState] = useState<InstalledStates>(
+    const [localInstalledState, setInstalledState] = useState<InstalledStates>(
         getInstalledState(isInstalled, isObsolete, hasUpdate),
     );
+    const installedState = forcedState ?? localInstalledState;
+
+    useEffect(() => {
+        setInstalledState(getInstalledState(isInstalled, isObsolete, hasUpdate));
+    }, [getInstalledState(isInstalled, isObsolete, hasUpdate)]);
 
     const langPress = lang === 'all' ? t('extension.language.all') : lang.toUpperCase();
 
@@ -77,7 +84,7 @@ export function ExtensionCard(props: IProps) {
             handleUpdate();
         } catch (e) {
             setInstalledState(getInstalledState(isInstalled, isObsolete, hasUpdate));
-            makeToast(t(EXTENSION_ACTION_TO_FAILURE_TRANSLATION_KEY_MAP[action]), 'error');
+            makeToast(t(EXTENSION_ACTION_TO_FAILURE_TRANSLATION_KEY_MAP[action], { count: 1 }), 'error');
         }
     };
 
@@ -175,7 +182,10 @@ export function ExtensionCard(props: IProps) {
                 </Box>
                 <Button
                     variant="outlined"
-                    sx={{ color: installedState === InstalledState.OBSOLETE ? 'red' : 'inherit', flexShrink: 0 }}
+                    sx={{
+                        color: installedState === InstalledState.OBSOLETE ? 'red' : 'inherit',
+                        flexShrink: 0,
+                    }}
                     onClick={() => handleButtonClick()}
                 >
                     {t(INSTALLED_STATE_TO_TRANSLATION_KEY_MAP[installedState])}

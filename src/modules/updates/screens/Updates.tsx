@@ -172,8 +172,10 @@ export const Updates: React.FC = () => {
                 endReached={loadMore}
                 groupCounts={groupCounts}
                 groupContent={(index) => (
-                    <StyledGroupHeader variant="h5" component="h2" isFirstItem={index === 0}>
-                        {groupedUpdates[index][0]}
+                    <StyledGroupHeader sx={{ pt: index === 0 ? undefined : 0, pb: 0 }} isFirstItem={index === 0}>
+                        <Typography variant="h5" component="h2">
+                            {groupedUpdates[index][0]}
+                        </Typography>
                     </StyledGroupHeader>
                 )}
                 computeItemKey={computeItemKey}

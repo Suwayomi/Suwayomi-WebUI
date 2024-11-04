@@ -37,6 +37,8 @@ import {
     isExtensionStateOrLanguage,
     translateExtensionLanguage,
 } from '@/modules/extension/Extensions.utils.ts';
+import { ExtensionAction, ExtensionGroupState, ExtensionState } from '@/modules/extension/Extensions.types.ts';
+import { EXTENSION_ACTION_TO_FAILURE_TRANSLATION_KEY_MAP } from '@/modules/extension/Extensions.constants.ts';
 
 const LANGUAGE = 0;
 const EXTENSIONS = 1;
@@ -63,6 +65,8 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     const [fetchExtensions, { data, loading: areExtensionsLoading, error: extensionsError }] =
         requestManager.useExtensionListFetch();
     const allExtensions = data?.fetchExtensions?.extensions;
+
+    const [updatingExtensionIds, setUpdatingExtensionIds] = useState<string[]>([]);
 
     const handleExtensionUpdate = useCallback(() => setRefetchExtensions({}), []);
 
@@ -235,11 +239,45 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
                 overscan={window.innerHeight * 0.5}
                 groupCounts={groupCounts}
                 groupContent={(index) => {
-                    const [groupName] = filteredGroupedExtensions[index];
+                    const [groupName, groupExtensions] = filteredGroupedExtensions[index];
+                    const isUpdateGroup = groupName === ExtensionGroupState.UPDATE_PENDING;
 
                     return (
-                        <StyledGroupHeader key={groupName} variant="h5" component="h2" isFirstItem={index === 0}>
-                            {translateExtensionLanguage(groupName)}
+                        <StyledGroupHeader
+                            key={groupName}
+                            isFirstItem={index === 0}
+                            sx={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', pr: 1 }}
+                        >
+                            <Typography variant="h5" component="h2">
+                                {translateExtensionLanguage(groupName)}
+                            </Typography>
+                            {isUpdateGroup && (
+                                <Button
+                                    disabled={!!updatingExtensionIds.length}
+                                    variant="contained"
+                                    onClick={() => {
+                                        const extensionIds = groupExtensions.map((extension) => extension.pkgName);
+                                        setUpdatingExtensionIds(extensionIds);
+
+                                        requestManager
+                                            .updateExtensions(extensionIds, { update: true })
+                                            .response.then(() => handleExtensionUpdate())
+                                            .catch(() =>
+                                                makeToast(
+                                                    t(
+                                                        EXTENSION_ACTION_TO_FAILURE_TRANSLATION_KEY_MAP[
+                                                            ExtensionAction.UPDATE
+                                                        ],
+                                                        { count: groupedExtensions.length },
+                                                    ),
+                                                ),
+                                            )
+                                            .finally(() => setUpdatingExtensionIds([]));
+                                    }}
+                                >
+                                    {t('extension.action.label.update_all')}
+                                </Button>
+                            )}
                         </StyledGroupHeader>
                     );
                 }}
@@ -253,6 +291,9 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
                                 extension={item}
                                 handleUpdate={handleExtensionUpdate}
                                 showSourceRepo={areMultipleReposInUse}
+                                forcedState={
+                                    updatingExtensionIds.includes(item.pkgName) ? ExtensionState.UPDATING : undefined
+                                }
                             />
                         </StyledGroupItemWrapper>
                     );

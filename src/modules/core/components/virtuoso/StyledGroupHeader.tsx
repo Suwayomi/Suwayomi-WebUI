@@ -7,13 +7,14 @@
  */
 
 import { styled } from '@mui/material/styles';
-import Typography, { TypographyProps } from '@mui/material/Typography';
+import { TypographyProps } from '@mui/material/Typography';
+import Stack from '@mui/material/Stack';
 import { shouldForwardProp } from '@/modules/core/utils/ShouldForwardProp.ts';
 
 type StyledGroupHeaderProps = {
     isFirstItem: boolean;
 };
-export const StyledGroupHeader = styled(Typography, {
+export const StyledGroupHeader = styled(Stack, {
     shouldForwardProp: shouldForwardProp<StyledGroupHeaderProps>(['isFirstItem']),
 })<StyledGroupHeaderProps & TypographyProps>(({ theme, isFirstItem }) => ({
     paddingLeft: theme.spacing(3),
