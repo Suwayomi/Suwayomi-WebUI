@@ -7,7 +7,7 @@
  */
 
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import { IReaderSettings, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
+import { IReaderSettings, ReaderPageScaleMode, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
 import { DEFAULT_READER_PROFILE } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 import { ValueToDisplayData } from '@/modules/core/Core.types.ts';
 
@@ -31,3 +31,9 @@ export const createProfileValueToDisplayData = (
 
 export const getValidReaderProfile = (profile: string, profiles: string[]): string =>
     profiles.includes(profile) ? profile : DEFAULT_READER_PROFILE;
+
+export const isReaderWidthEditable = (pageScaleMode: IReaderSettings['pageScaleMode']): boolean =>
+    [ReaderPageScaleMode.WIDTH, ReaderPageScaleMode.SCREEN].includes(pageScaleMode);
+
+export const isContinuousReadingMode = (readingMode: IReaderSettings['readingMode']): boolean =>
+    [ReadingMode.CONTINUOUS_VERTICAL, ReadingMode.CONTINUOUS_HORIZONTAL].includes(readingMode);

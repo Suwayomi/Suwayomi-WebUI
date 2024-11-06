@@ -11,12 +11,13 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
-import { ProgressBarType } from '@/modules/reader/types/Reader.types.ts';
+import { ProgressBarType, ReadingDirection } from '@/modules/reader/types/Reader.types.ts';
 import { userReaderStatePagesContext } from '@/modules/reader/contexts/state/ReaderStatePagesContext.tsx';
 import { getPage } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { useReaderProgressBarContext } from '@/modules/reader/contexts/ReaderProgressBarContext.tsx';
 import { useReaderScrollbarContext } from '@/modules/reader/contexts/ReaderScrollbarContext.tsx';
+import { reverseString } from '@/util/Strings.ts';
 
 export const ReaderPageNumber = () => {
     const { isDesktop } = ReaderService.useOverlayMode();
@@ -24,9 +25,15 @@ export const ReaderPageNumber = () => {
     const { readerNavBarWidth } = useNavBarContext();
     const { isMaximized } = useReaderProgressBarContext();
     const { currentPageIndex, pages, totalPages } = userReaderStatePagesContext();
-    const { progressBarType, shouldShowPageNumber } = ReaderService.useSettings();
+    const { progressBarType, shouldShowPageNumber, readingDirection } = ReaderService.useSettings();
 
-    const pageName = useMemo(() => getPage(currentPageIndex, pages).name, [currentPageIndex, pages]);
+    const pageName = useMemo(() => {
+        const currentPageName = getPage(currentPageIndex, pages).name;
+        const SEPARATOR = '/';
+        const tmpPageName = `${currentPageName}${SEPARATOR}${totalPages}`;
+
+        return readingDirection.value === ReadingDirection.LTR ? tmpPageName : reverseString(tmpPageName, SEPARATOR);
+    }, [currentPageIndex, pages, totalPages, readingDirection.value]);
 
     if (!shouldShowPageNumber) {
         return null;
@@ -62,9 +69,7 @@ export const ReaderPageNumber = () => {
                     backgroundColor: 'rgba(0, 0, 0, 0.3)',
                 }}
             >
-                <Typography sx={{ color: 'white' }}>
-                    {pageName}/{totalPages}
-                </Typography>
+                <Typography sx={{ color: 'white' }}>{pageName}</Typography>
             </Box>
         </Stack>
     );

@@ -85,7 +85,7 @@ export const useHandleProgressDragging = (
     progressBarRef: RefObject<HTMLDivElement | null>,
     isDragging: boolean,
     currentPage: TReaderProgressCurrentPage,
-    setCurrentPageIndex: (pageIndex: number) => void,
+    setPageToScrollToIndex: (pageIndex: number) => void,
     pages: ReaderProgressBarProps['pages'],
     progressBarPosition: ProgressBarPosition,
     getOptionForDirection: typeof getOptionForDirectionImpl,
@@ -115,7 +115,7 @@ export const useHandleProgressDragging = (
                 return;
             }
 
-            setCurrentPageIndex(newPageIndex);
+            setPageToScrollToIndex(newPageIndex);
         };
 
         const handleMouseMove = (e: MouseEvent) => {

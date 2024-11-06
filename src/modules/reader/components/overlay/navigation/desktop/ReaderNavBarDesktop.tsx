@@ -57,7 +57,7 @@ export const ReaderNavBarDesktop = ({ isVisible, openSettings }: ReaderNavBarDes
     const { setReaderNavBarWidth } = useNavBarContext();
     const { manga } = useReaderStateMangaContext();
     const { chapters, currentChapter, nextChapter, previousChapter } = useReaderStateChaptersContext();
-    const { pages, currentPageIndex, setCurrentPageIndex } = userReaderStatePagesContext();
+    const { pages, currentPageIndex, setPageToScrollToIndex } = userReaderStatePagesContext();
 
     const getOptionForDirection = useGetOptionForDirection();
 
@@ -128,7 +128,7 @@ export const ReaderNavBarDesktop = ({ isVisible, openSettings }: ReaderNavBarDes
                     <Stack sx={{ gap: 1 }}>
                         <ReaderNavBarDesktopPageNavigation
                             currentPageIndex={currentPageIndex}
-                            setCurrentPageIndex={setCurrentPageIndex}
+                            setPageToScrollToIndex={setPageToScrollToIndex}
                             pages={pages}
                         />
                         <ReaderNavBarDesktopChapterNavigation

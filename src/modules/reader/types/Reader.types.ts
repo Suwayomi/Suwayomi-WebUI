@@ -6,9 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import { MutableRefObject } from 'react';
 import { TapZoneInvertMode, TapZoneLayouts } from '@/modules/reader/types/TapZoneLayout.types.ts';
 import { TChapterReader } from '@/modules/chapter/Chapter.types.ts';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
+import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types.ts';
 
 export enum ProgressBarType {
     HIDDEN,
@@ -120,6 +122,7 @@ export interface IReaderSettingsGlobal {
     profiles: string[];
     readingModesDefaultProfile: Record<ReadingMode, string>;
     hotkeys: Record<ReaderHotkey, string[]>;
+    imagePreLoadAmount: number;
 }
 
 export interface IReaderSettingsManga {
@@ -192,4 +195,14 @@ export enum ReaderHotkey {
     CYCLE_SCALE_TYPE,
     STRETCH_IMAGE,
     OFFSET_SPREAD_PAGES,
+}
+
+export interface ReaderPagerProps extends Pick<ReaderStatePages, 'currentPageIndex' | 'pages' | 'totalPages'> {
+    imageRefs: MutableRefObject<(HTMLElement | null)[]>;
+    onLoad?: (pagesIndex: number, isPrimary?: boolean) => void;
+}
+
+export enum PageInViewportType {
+    X,
+    Y,
 }

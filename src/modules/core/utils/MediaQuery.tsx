@@ -15,16 +15,24 @@ import { AppStorage } from '@/lib/storage/AppStorage.ts';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 
 export class MediaQuery {
+    static readonly MOBILE_WIDTH: Breakpoint | number = 'sm';
+
+    static readonly TABLET_WIDTH: Breakpoint | number = 1025;
+
     static useIsTouchDevice(): boolean {
         return useMediaQuery('not (pointer: fine)');
     }
 
-    static useIsBelowWidth(breakpoint: Breakpoint): boolean {
+    static useIsBelowWidth(breakpoint: Breakpoint | number): boolean {
         return useMediaQuery(getCurrentTheme().breakpoints.down(breakpoint));
     }
 
     static useIsMobileWidth(): boolean {
-        return this.useIsBelowWidth('sm');
+        return this.useIsBelowWidth(this.MOBILE_WIDTH);
+    }
+
+    static useIsTabletWidth(): boolean {
+        return this.useIsBelowWidth(this.TABLET_WIDTH);
     }
 
     private static getScrollbarSize(type: 'height' | 'width'): number {
