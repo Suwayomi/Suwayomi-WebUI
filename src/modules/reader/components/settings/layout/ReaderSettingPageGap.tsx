@@ -7,9 +7,10 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { IReaderSettingsWithDefaultFlag, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
+import { IReaderSettingsWithDefaultFlag } from '@/modules/reader/types/Reader.types.ts';
 import { SliderInput } from '@/modules/core/components/inputs/SliderInput.tsx';
 import { DEFAULT_READER_SETTINGS } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
+import { isContinuousReadingMode } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
 
 export const ReaderSettingPageGap = ({
     pageGap,
@@ -20,9 +21,7 @@ export const ReaderSettingPageGap = ({
 }) => {
     const { t } = useTranslation();
 
-    const isChangeable = [ReadingMode.CONTINUOUS_HORIZONTAL, ReadingMode.CONTINUOUS_VERTICAL].includes(
-        readingMode.value,
-    );
+    const isChangeable = isContinuousReadingMode(readingMode.value);
     if (!isChangeable) {
         return null;
     }

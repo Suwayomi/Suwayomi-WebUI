@@ -12,3 +12,6 @@ export const enhancedCleanup = (str: string): string =>
     baseCleanup(str)
         .replace(/[^a-zA-Z0-9\\s]+/g, ' ')
         .trim();
+
+export const reverseString = (str: string, separator: string = ''): string =>
+    str.split(separator).reverse().join(separator);

@@ -6,16 +6,22 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useCallback, useMemo } from 'react';
+import { MutableRefObject, useCallback, useMemo } from 'react';
 import { Direction } from '@mui/material/styles';
 import { userReaderStatePagesContext } from '@/modules/reader/contexts/state/ReaderStatePagesContext.tsx';
 import { getNextPageIndex, getPage } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
 import { getOptionForDirection } from '@/theme.tsx';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { useReaderStateChaptersContext } from '@/modules/reader/contexts/state/ReaderStateChaptersContext.tsx';
-import { ReadingDirection } from '@/modules/reader/types/Reader.types.ts';
+import { PageInViewportType, ReadingDirection, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
 import { ScrollDirection, ScrollOffset } from '@/modules/core/Core.types.ts';
 import { ReaderScrollAmount } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
+import { isPageInViewport } from '@/modules/reader/utils/ReaderPager.utils.tsx';
+import { useReaderOverlayContext } from '@/modules/reader/contexts/ReaderOverlayContext.tsx';
+import { useReaderTapZoneContext } from '@/modules/reader/contexts/ReaderTapZoneContext.tsx';
+import { TapZoneRegionType } from '@/modules/reader/types/TapZoneLayout.types.ts';
+import { ReaderTapZoneService } from '@/modules/reader/services/ReaderTapZoneService.ts';
+import { isContinuousReadingMode } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
 
 const READING_DIRECTION_TO_DIRECTION: Record<ReadingDirection, Direction> = {
     [ReadingDirection.LTR]: 'ltr',
@@ -95,7 +101,7 @@ export class ReaderControls {
     }
 
     static useOpenPage(): (offset: 'previous' | 'next') => void {
-        const { currentPageIndex, setCurrentPageIndex, pages } = userReaderStatePagesContext();
+        const { currentPageIndex, setPageToScrollToIndex, pages } = userReaderStatePagesContext();
         const { readingDirection } = ReaderService.useSettings();
 
         const currentPage = useMemo(() => getPage(currentPageIndex, pages), [currentPageIndex, pages]);
@@ -113,16 +119,81 @@ export class ReaderControls {
             (offset) => {
                 switch (offset) {
                     case 'previous':
-                        setCurrentPageIndex(getOptionForDirection(previousPageIndex, nextPageIndex, direction));
+                        setPageToScrollToIndex(getOptionForDirection(previousPageIndex, nextPageIndex, direction));
                         break;
                     case 'next':
-                        setCurrentPageIndex(getOptionForDirection(nextPageIndex, previousPageIndex, direction));
+                        setPageToScrollToIndex(getOptionForDirection(nextPageIndex, previousPageIndex, direction));
                         break;
                     default:
                         throw new Error(`Unexpected "offset" (${offset})`);
                 }
             },
             [direction, previousPageIndex, nextPageIndex],
+        );
+    }
+
+    static updateCurrentPageOnScroll(
+        imageRefs: MutableRefObject<(HTMLElement | null)[]>,
+        currentPageIndex: number,
+        setCurrentPageIndex: (index: number) => void,
+        type: PageInViewportType,
+    ) {
+        const firstVisibleImageIndex = imageRefs.current.findIndex((image) => image && isPageInViewport(image, type));
+
+        if (firstVisibleImageIndex !== -1 && firstVisibleImageIndex !== currentPageIndex) {
+            setCurrentPageIndex(firstVisibleImageIndex);
+        }
+    }
+
+    static useHandleClick(
+        scrollElement: HTMLElement | null,
+    ): (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void {
+        const { setIsVisible: setIsOverlayVisible } = useReaderOverlayContext();
+        const { currentPageIndex, pages } = userReaderStatePagesContext();
+        const { setShowPreview } = useReaderTapZoneContext();
+        const { readingMode, readingDirection, isStaticNav } = ReaderService.useSettings();
+        const openPage = ReaderControls.useOpenPage();
+
+        return useCallback(
+            (e) => {
+                if (!scrollElement) {
+                    return;
+                }
+
+                const rect = e.currentTarget.getBoundingClientRect();
+                const rectRelativeX = e.clientX - rect.left;
+                const rectRelativeY = e.clientY - rect.top;
+                const action = ReaderTapZoneService.getAction(rectRelativeX, rectRelativeY);
+
+                setShowPreview(false);
+
+                const isContinuousReadingModeActive = isContinuousReadingMode(readingMode.value);
+                const scrollDirection =
+                    readingMode.value === ReadingMode.CONTINUOUS_HORIZONTAL ? ScrollDirection.X : ScrollDirection.Y;
+
+                switch (action) {
+                    case TapZoneRegionType.MENU:
+                        setIsOverlayVisible((isVisible) => isStaticNav || !isVisible);
+                        break;
+                    case TapZoneRegionType.PREVIOUS:
+                        if (isContinuousReadingModeActive) {
+                            this.scroll(ScrollOffset.BACKWARD, scrollDirection, readingDirection.value, scrollElement);
+                        } else {
+                            openPage('previous');
+                        }
+                        break;
+                    case TapZoneRegionType.NEXT:
+                        if (isContinuousReadingModeActive) {
+                            this.scroll(ScrollOffset.FORWARD, scrollDirection, readingDirection.value, scrollElement);
+                        } else {
+                            openPage('next');
+                        }
+                        break;
+                    default:
+                        throw new Error(`Unexpected "TapZoneRegionType" (${action})`);
+                }
+            },
+            [scrollElement, currentPageIndex, pages, readingMode.value, openPage, readingDirection.value],
         );
     }
 }

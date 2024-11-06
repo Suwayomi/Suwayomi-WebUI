@@ -35,7 +35,7 @@ export const ReaderProgressBar = ({
     pages,
     pageLoadStates,
     currentPageIndex,
-    setCurrentPageIndex,
+    setPageToScrollToIndex,
     slotProps,
     slots,
     createProgressBarSlot,
@@ -81,7 +81,7 @@ export const ReaderProgressBar = ({
         progressBarRef,
         isDragging,
         currentPage,
-        setCurrentPageIndex,
+        setPageToScrollToIndex,
         pages,
         progressBarPosition,
         getOptionForDirection,
@@ -101,7 +101,7 @@ export const ReaderProgressBar = ({
                             ? (slotProps?.progressBarPageTexts?.current?.sx ?? [])
                             : [slotProps?.progressBarPageTexts?.current?.sx]),
                     ]}
-                    onClick={() => setCurrentPageIndex(getNextPageIndex('previous', currentPage.pagesIndex, pages))}
+                    onClick={() => setPageToScrollToIndex(getNextPageIndex('previous', currentPage.pagesIndex, pages))}
                 >
                     {currentPage.name}
                 </ReaderProgressBarPageNumber>
@@ -115,7 +115,7 @@ export const ReaderProgressBar = ({
                                 return;
                             }
 
-                            setCurrentPageIndex(
+                            setPageToScrollToIndex(
                                 getPageForMousePos(
                                     event.touches[0],
                                     progressBarRef.current.getBoundingClientRect(),
@@ -132,7 +132,7 @@ export const ReaderProgressBar = ({
                                 return;
                             }
 
-                            setCurrentPageIndex(
+                            setPageToScrollToIndex(
                                 getPageForMousePos(
                                     event,
                                     progressBarRef.current.getBoundingClientRect(),
@@ -195,7 +195,7 @@ export const ReaderProgressBar = ({
                             ? (slotProps?.progressBarPageTexts?.total?.sx ?? [])
                             : [slotProps?.progressBarPageTexts?.total?.sx]),
                     ]}
-                    onClick={() => setCurrentPageIndex(getNextPageIndex('next', currentPage.pagesIndex, pages))}
+                    onClick={() => setPageToScrollToIndex(getNextPageIndex('next', currentPage.pagesIndex, pages))}
                 >
                     {totalPages}
                 </ReaderProgressBarPageNumber>

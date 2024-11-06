@@ -13,6 +13,8 @@ import { IReaderSettingsWithDefaultFlag } from '@/modules/reader/types/Reader.ty
 import { CheckboxInput } from '@/modules/core/components/inputs/CheckboxInput.tsx';
 import { ReaderSettingExitMode } from '@/modules/reader/components/settings/behaviour/ReaderSettingExitMode.tsx';
 import { isOffsetDoubleSpreadPagesEditable } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
+import { SliderInput } from '@/modules/core/components/inputs/SliderInput.tsx';
+import { DEFAULT_READER_SETTINGS } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 
 export const ReaderBehaviourSettings = ({
     settings,
@@ -43,6 +45,25 @@ export const ReaderBehaviourSettings = ({
                     onChange={(_, checked) => updateSetting('shouldOffsetDoubleSpreads', checked)}
                 />
             )}
+            <SliderInput
+                label={t('reader.settings.image_preload_amount')}
+                value={settings.imagePreLoadAmount}
+                slotProps={{
+                    slider: {
+                        defaultValue: DEFAULT_READER_SETTINGS.imagePreLoadAmount,
+                        value: settings.imagePreLoadAmount,
+                        step: 1,
+                        min: 1,
+                        max: 20,
+                        onChange: (_, value) => {
+                            updateSetting('imagePreLoadAmount', value as number, false);
+                        },
+                        onChangeCommitted: (_, value) => {
+                            updateSetting('imagePreLoadAmount', value as number, true);
+                        },
+                    },
+                }}
+            />
         </Stack>
     );
 };

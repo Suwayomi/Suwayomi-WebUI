@@ -867,6 +867,7 @@
         "scroll_forward": "Scroll forward",
         "stretch_image": "Toggle stretch image"
       },
+      "image_preload_amount": "Preload images",
       "label": {
         "behaviour": "Behaviour",
         "fit_page_to_window": "Fit page to window",
