@@ -164,7 +164,7 @@ const Thumbnail = ({ manga }: { manga: Partial<MangaThumbnailInfo> }) => {
                 <SpinnerImage
                     src={Mangas.getThumbnailUrl(manga)}
                     alt="Manga Thumbnail"
-                    onImageLoad={() => setIsImageReady(true)}
+                    onLoad={() => setIsImageReady(true)}
                     imgStyle={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
                 {isImageReady && (

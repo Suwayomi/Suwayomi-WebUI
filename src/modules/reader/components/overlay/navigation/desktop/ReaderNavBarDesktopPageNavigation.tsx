@@ -23,9 +23,9 @@ import { READING_DIRECTION_TO_THEME_DIRECTION } from '@/modules/reader/constants
 
 export const ReaderNavBarDesktopPageNavigation = ({
     currentPageIndex,
-    setCurrentPageIndex,
+    setPageToScrollToIndex,
     pages,
-}: Pick<ReaderStatePages, 'currentPageIndex' | 'setCurrentPageIndex' | 'pages'>) => {
+}: Pick<ReaderStatePages, 'currentPageIndex' | 'setPageToScrollToIndex' | 'pages'>) => {
     const { t } = useTranslation();
     const openPage = ReaderControls.useOpenPage();
     const { readingDirection } = ReaderService.useSettings();
@@ -52,7 +52,7 @@ export const ReaderNavBarDesktopPageNavigation = ({
                     labelId="reader-nav-bar-desktop-page-select"
                     label={t('reader.page_info.label.page')}
                     value={currentPage.primary.index}
-                    onChange={(e) => setCurrentPageIndex(e.target.value as number)}
+                    onChange={(e) => setPageToScrollToIndex(e.target.value as number)}
                 >
                     {pages.map(({ primary: { index }, name }) => (
                         <MenuItem key={index} value={index}>

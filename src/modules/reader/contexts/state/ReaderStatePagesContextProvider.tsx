@@ -15,6 +15,7 @@ type TContext = ContextType<typeof ReaderStatePagesContext>;
 export const ReaderStatePagesContextProvider = ({ children }: { children: ReactNode }) => {
     const [totalPages, setTotalPages] = useState<TContext['totalPages']>(0);
     const [currentPageIndex, setCurrentPageIndex] = useState<TContext['currentPageIndex']>(0);
+    const [pageToScrollToIndex, setPageToScrollToIndex] = useState<TContext['pageToScrollToIndex']>(0);
     const [pageUrls, setPageUrls] = useState<TContext['pageUrls']>([]);
     const [pageLoadStates, setPageLoadStates] = useState<TContext['pageLoadStates']>([]);
     const [pages, setPages] = useState<TContext['pages']>([createPageData('', 0)]);
@@ -25,6 +26,8 @@ export const ReaderStatePagesContextProvider = ({ children }: { children: ReactN
             setTotalPages,
             currentPageIndex,
             setCurrentPageIndex,
+            pageToScrollToIndex,
+            setPageToScrollToIndex,
             pageUrls,
             setPageUrls,
             pageLoadStates,
@@ -32,7 +35,7 @@ export const ReaderStatePagesContextProvider = ({ children }: { children: ReactN
             pages,
             setPages,
         }),
-        [totalPages, pages, currentPageIndex, pageUrls, pageLoadStates],
+        [totalPages, pages, currentPageIndex, pageToScrollToIndex, pageUrls, pageLoadStates],
     );
 
     return <ReaderStatePagesContext.Provider value={value}>{children}</ReaderStatePagesContext.Provider>;

@@ -55,6 +55,7 @@ const GLOBAL_READER_SETTING_OBJECT: Record<keyof IReaderSettingsGlobal, undefine
     profiles: undefined,
     readingModesDefaultProfile: undefined,
     hotkeys: undefined,
+    imagePreLoadAmount: undefined,
 };
 
 export const GLOBAL_READER_SETTING_KEYS = Object.keys(GLOBAL_READER_SETTING_OBJECT);
@@ -128,6 +129,7 @@ export const DEFAULT_READER_SETTINGS: IReaderSettings = {
         [ReaderHotkey.STRETCH_IMAGE]: ['f'],
         [ReaderHotkey.OFFSET_SPREAD_PAGES]: ['o'],
     },
+    imagePreLoadAmount: 5,
 };
 
 export const READER_PROGRESS_BAR_POSITION_TO_PLACEMENT: Record<ProgressBarPosition, TooltipProps['placement']> = {
