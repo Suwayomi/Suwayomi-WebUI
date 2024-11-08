@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { MouseEvent, useEffect, useRef, useState } from 'react';
+import { MouseEvent, useEffect, useMemo, useRef, useState } from 'react';
 import Box from '@mui/material/Box';
 import { Page } from '@/modules/reader/components/page/Page.tsx';
 import { IReaderProps } from '@/modules/reader/Reader.types.ts';
@@ -22,10 +22,16 @@ export function DoublePagedPager(props: IReaderProps) {
     const selfRef = useRef<HTMLDivElement>(null);
 
     const pagesToDisplayStateRef = useRef<boolean[]>([]);
-    const pageToPrevSpreadPageRef = useRef<number[]>([]);
 
     const [pagesToSpreadState, setPagesToSpreadState] = useState(Array(pages.length).fill(false));
     const [pagesLoadState, setPagesLoadState] = useState<boolean[]>(Array(pages.length).fill(false));
+
+    // each spread page has to be counted as 2 pages and all trailing page numbers have to be increased by the count
+    // of leading spread pages
+    const pageToActualPageIndex = useMemo(
+        () => pagesToSpreadState.map((_, page) => page + pagesToSpreadState.slice(0, page).filter(Boolean).length),
+        [pagesToSpreadState],
+    );
 
     function nextPage() {
         const setNextPage = (page: number) => setCurPage(page === -1 ? pages.length - 1 : page);
@@ -131,37 +137,46 @@ export function DoublePagedPager(props: IReaderProps) {
                 }}
             >
                 {pages.map(({ index, src }) => {
-                    const prevSpreadPage = (() => {
-                        let currentIndexOfPrevSpreadPage = pageToPrevSpreadPageRef.current[curPage];
+                    /*
 
-                        if (currentIndexOfPrevSpreadPage === undefined) {
-                            currentIndexOfPrevSpreadPage = Math.max(pagesToSpreadState.lastIndexOf(true, curPage), 0);
+                    | = page separator
+                    + = double page
+                    _ = double spread
 
-                            const areAllPrevPagesLoaded = pagesLoadState.slice(0, curPage).every(Boolean);
-                            if (areAllPrevPagesLoaded) {
-                                pageToPrevSpreadPageRef.current[curPage] = currentIndexOfPrevSpreadPage;
-                            }
-                        }
+                    without double spreads:
+                     without double spread offset: | 0 + 1 | 2 + 3 | 4 + 5 | 6 + 7 |   8   |
+                     with double spread offset   : |   0   | 1 + 2 | 3 + 4 | 5 + 6 | 7 + 8 |
 
-                        return currentIndexOfPrevSpreadPage > 0
-                            ? currentIndexOfPrevSpreadPage + 1
-                            : currentIndexOfPrevSpreadPage;
+                    with double spreads
+                      to handle double spreads:
+                       each double spread has to count as 2 pages, thus, each page number after a double spread has to increase
+                       by the number of leading double spreads
+
+                     without double spread offset: | 0 + 1 |   2   | _3/4_ | 5 + 6 | 7 + 8 | _9/10_ | 11 + 12 | 13 + 14 |
+                     with double spread offset   : |   0   | 1 + 2 | _3/4_ | 5 + 6 | 7 + 8 | _9/10_ | 11 + 12 | 13 + 14 |
+
+                     thus, to get the second page:
+                      without offset: second page = current page number even ? +1 : -1
+                      with offset   : second page = current page number even ? +1 : -1
+
+                      the second page has to be ignored in case:
+                       - double spreads are offset, and the current page is the first page
+                       - either the current or second page is a double spread
+                     */
+
+                    const normalizedCurPage = pageToActualPageIndex[curPage];
+                    const isCurPageEven = !(normalizedCurPage % 2);
+
+                    const secondPageOffset = (() => {
+                        const invert = settings.offsetFirstPage ? -1 : 1;
+                        const offset = isCurPageEven ? 1 : -1;
+
+                        return offset * invert;
                     })();
 
-                    // index of first page after a spread page will be 0
-                    const normalizedCurPageIndexForSpreadPages = curPage - prevSpreadPage;
+                    const secondPage = curPage + secondPageOffset;
 
                     const isFirstPage = curPage === 0;
-                    // only offset pages before the first spread page, after the first spread page handle as if "offsetFirstPage" is disabled
-                    const firstPageOffset =
-                        Number(settings.offsetFirstPage) +
-                        Number(settings.offsetFirstPage && !normalizedCurPageIndexForSpreadPages && !isFirstPage);
-
-                    const normalizedCurPageIndex = normalizedCurPageIndexForSpreadPages - firstPageOffset;
-
-                    const isCurPageEven = !(normalizedCurPageIndex % 2);
-                    const secondPage = curPage + (isCurPageEven ? 1 : -1);
-
                     const isCurPage = index === curPage;
                     const isSecondPage = index === secondPage;
 
@@ -169,7 +184,9 @@ export function DoublePagedPager(props: IReaderProps) {
                     const isSecondPageSpreadPage = pagesToSpreadState[secondPage];
                     const hasSpreadPage = isCurrentPageSpreadPage || isSecondPageSpreadPage;
 
-                    const displaySecondPage = isSecondPage && !hasSpreadPage;
+                    const ignoreSecondPageDueToOffset = isFirstPage && settings.offsetFirstPage;
+
+                    const displaySecondPage = isSecondPage && !hasSpreadPage && !ignoreSecondPageDueToOffset;
                     const displayPage = isCurPage || displaySecondPage;
 
                     pagesToDisplayStateRef.current[index] = displayPage;
