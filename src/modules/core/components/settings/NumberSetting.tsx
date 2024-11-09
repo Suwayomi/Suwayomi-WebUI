@@ -170,7 +170,10 @@ export const NumberSetting = ({
                         type="number"
                         onChange={(e) => {
                             const newValue = Number(e.target.value);
-                            updateValue(newValue, false);
+                            const newValueMinLimit = Math.min(newValue, maxValue ?? newValue);
+                            const newValueMaxLimit = Math.max(newValueMinLimit, minValue ?? newValueMinLimit);
+
+                            updateValue(newValueMaxLimit, false);
                         }}
                         slotProps={{
                             input: {
