@@ -38,7 +38,7 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
 
     const showMissingImageIcon = !src.length;
 
-    const [imageSourceUrl, setImageSourceUrl] = useState('');
+    const [imageSourceUrl, setImageSourceUrl] = useState(src);
     const [imgLoadRetryKey, setImgLoadRetryKey] = useState(0);
     const [isLoading, setIsLoading] = useState<boolean | undefined>(undefined);
     const [hasError, setHasError] = useState(false);
