@@ -1084,7 +1084,7 @@
         "log_files": {
           "file_cleanup": {
             "title": "Log file cleanup",
-            "value": "Delete backups that are older than $t(global.date.value.label.day)"
+            "value": "Delete log files that are older than $t(global.date.value.label.day)"
           },
           "file_size": {
             "description": "Example for possible values: 1 (bytes), 1KB (kilobytes), 1MB (megabytes), 1GB (gigabytes)",
