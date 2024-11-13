@@ -13,6 +13,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 import { IReaderSettings, ReaderType } from '@/modules/reader/Reader.types.ts';
+import { Priority } from '@/lib/Queue.ts';
 
 export const isHorizontalReaderType = (readerType: ReaderType): boolean =>
     ['ContinuesHorizontalLTR', 'ContinuesHorizontalRTL'].includes(readerType);
@@ -68,10 +69,11 @@ interface IProps {
     onImageLoad: () => void;
     settings: IReaderSettings;
     display?: boolean;
+    priority?: Priority;
 }
 
 export const Page = forwardRef((props: IProps, ref: any) => {
-    const { src, index, onImageLoad, settings, display = true } = props;
+    const { src, index, onImageLoad, settings, display = true, priority } = props;
 
     const theme = useTheme();
     const isMobileWidth = useMediaQuery(theme.breakpoints.down('md'));
@@ -89,6 +91,7 @@ export const Page = forwardRef((props: IProps, ref: any) => {
             }}
         >
             <SpinnerImage
+                priority={priority}
                 src={src}
                 onImageLoad={onImageLoad}
                 alt={`Page #${index}`}

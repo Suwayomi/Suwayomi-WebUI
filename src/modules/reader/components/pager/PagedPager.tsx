@@ -10,6 +10,7 @@ import { MouseEvent, useEffect, useRef } from 'react';
 import Box from '@mui/material/Box';
 import { Page } from '@/modules/reader/components/page/Page.tsx';
 import { IReaderProps } from '@/modules/reader/Reader.types.ts';
+import { Priority } from '@/lib/Queue.ts';
 
 export function PagedPager(props: IReaderProps) {
     const { pages, settings, setCurPage, initialPage, curPage, nextChapter, prevChapter } = props;
@@ -114,6 +115,7 @@ export function PagedPager(props: IReaderProps) {
                     src={src}
                     settings={settings}
                     display={index === curPage}
+                    priority={index === curPage ? Priority.HIGH : undefined}
                 />
             ))}
         </Box>

@@ -11,6 +11,7 @@ import Box from '@mui/material/Box';
 import { Page } from '@/modules/reader/components/page/Page.tsx';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 import { IReaderProps } from '@/modules/reader/Reader.types.ts';
+import { Priority } from '@/lib/Queue.ts';
 
 const findCurrentPageIndex = (wrapper: HTMLDivElement): number => {
     for (let i = 0; i < wrapper.children.length; i++) {
@@ -38,7 +39,7 @@ const isAtBottom = () => {
 const isAtTop = () => window.scrollY <= 0;
 
 export function VerticalPager(props: IReaderProps) {
-    const { pages, settings, setCurPage, initialPage, nextChapter, prevChapter } = props;
+    const { curPage, pages, settings, setCurPage, initialPage, nextChapter, prevChapter } = props;
 
     const currentPageRef = useRef(initialPage);
     const selfRef = useRef<HTMLDivElement>(null);
@@ -212,6 +213,7 @@ export function VerticalPager(props: IReaderProps) {
                     ref={(e: HTMLDivElement) => {
                         pagesRef.current[page.index] = e;
                     }}
+                    priority={page.index === curPage ? Priority.HIGH : undefined}
                 />
             ))}
         </Box>

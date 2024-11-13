@@ -10,6 +10,7 @@ import { MouseEvent, useEffect, useMemo, useRef, useState } from 'react';
 import Box from '@mui/material/Box';
 import { Page } from '@/modules/reader/components/page/Page.tsx';
 import { IReaderProps } from '@/modules/reader/Reader.types.ts';
+import { Priority } from '@/lib/Queue.ts';
 
 const isSpreadPage = (image: HTMLImageElement): boolean => {
     const aspectRatio = image.height / image.width;
@@ -208,6 +209,7 @@ export function DoublePagedPager(props: IReaderProps) {
                             }}
                             settings={settings}
                             display={displayPage}
+                            priority={displayPage ? Priority.HIGH : undefined}
                         />
                     );
                 })}
