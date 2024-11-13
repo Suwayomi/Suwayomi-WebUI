@@ -891,17 +891,7 @@ export class RequestManager {
 
         return {
             response,
-            abortRequest: (reason?: any) => {
-                if (this.imageQueue.isProcessing(key)) {
-                    // prevent aborting image requests that are already in progress
-                    // e.g. for source image requests, ongoing requests are already handled by the server and aborting them
-                    // will just cause new source image requests to be sent to the server, which then will cause the server
-                    // to become really slow for image requests to the same source
-                    return;
-                }
-
-                abortRequest(reason);
-            },
+            abortRequest: (reason?: any) => this.abortImageRequest(key, () => abortRequest(reason)),
             cleanup: () => {},
         };
     }
@@ -945,17 +935,7 @@ export class RequestManager {
 
         return {
             response,
-            abortRequest: (reason?: any) => {
-                if (this.imageQueue.isProcessing(key)) {
-                    // prevent aborting image requests that are already in progress
-                    // e.g. for source image requests, ongoing requests are already handled by the server and aborting them
-                    // will just cause new source image requests to be sent to the server, which then will cause the server
-                    // to become really slow for image requests to the same source
-                    return;
-                }
-
-                abortRequest(reason);
-            },
+            abortRequest: (reason?: any) => this.abortImageRequest(key, () => abortRequest(reason)),
             cleanup: () => URL.revokeObjectURL(objectUrl),
         };
     }
