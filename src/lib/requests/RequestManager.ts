@@ -859,7 +859,54 @@ export class RequestManager {
         return `${this.getValidUrlFor(imageUrl, apiVersion)}`;
     }
 
-    private fetchImageViaTag(url: string, priority?: QueuePriority): ImageRequest {
+    /**
+     * Aborts pending image requests
+     *
+     * prevents aborting image requests that are already in progress
+     * e.g. for source image requests, ongoing requests are already handled by the server and aborting them
+     * will just cause new source image requests to be sent to the server, which then will cause the server
+     * to become really slow for image requests to the same source
+     */
+    private abortImageRequest(key: string, abort: () => void): void {
+        if (this.imageQueue.isProcessing(key)) {
+            return;
+        }
+
+        abort();
+    }
+
+    private async optionallyDecodeImage(url: string, shouldDecode?: boolean): Promise<string> {
+        if (!shouldDecode) {
+            return url;
+        }
+
+        const decodePromise = new ControlledPromise();
+
+        const img = new Image();
+        img.src = url;
+
+        img.onload = async () => {
+            try {
+                await img.decode();
+            } catch (error) {
+                decodePromise.reject(error);
+            }
+
+            decodePromise.resolve();
+        };
+
+        img.onerror = (error) => decodePromise.reject(error);
+        img.onabort = (error) => decodePromise.reject(error);
+
+        await decodePromise.promise;
+
+        return url;
+    }
+
+    private fetchImageViaTag(
+        url: string,
+        { priority, shouldDecode }: { priority?: QueuePriority; shouldDecode?: boolean } = {},
+    ): ImageRequest {
         const imgRequest = new ControlledPromise<string>();
         imgRequest.promise.catch(() => {});
 
@@ -880,7 +927,15 @@ export class RequestManager {
 
                 img.src = url;
 
-                img.onload = () => imgRequest.resolve(url);
+                img.onload = async () => {
+                    try {
+                        await this.optionallyDecodeImage(url, shouldDecode);
+                        imgRequest.resolve(url);
+                    } catch (error) {
+                        imgRequest.reject(error);
+                    }
+                };
+
                 img.onerror = (error) => imgRequest.reject(error);
                 img.onabort = (error) => imgRequest.reject(error);
 
@@ -909,7 +964,10 @@ export class RequestManager {
      * img.src = imageUrl;
      *
      */
-    private fetchImageViaFetchApi(url: string, priority?: QueuePriority): ImageRequest {
+    private fetchImageViaFetchApi(
+        url: string,
+        { priority, shouldDecode }: { priority?: QueuePriority; shouldDecode?: boolean } = {},
+    ): ImageRequest {
         let objectUrl: string = '';
         const { abortRequest, signal } = this.createAbortController();
         const { key, promise: response } = this.imageQueue.enqueue(
@@ -920,14 +978,16 @@ export class RequestManager {
                         checkResponseIsJson: false,
                         config: {
                             signal,
-                            // @ts-ignore - typing has not been updated yet
                             priority: 'low',
                         },
                     })
                     .then((data) => data.blob())
                     .then((data) => URL.createObjectURL(data))
-                    .then((imageUrl) => {
+                    .then(async (imageUrl) => {
                         objectUrl = imageUrl;
+
+                        await this.optionallyDecodeImage(imageUrl, shouldDecode);
+
                         return imageUrl;
                     }),
             priority,
@@ -942,13 +1002,27 @@ export class RequestManager {
 
     /**
      * Make sure to call "cleanup" once the image is not needed anymore (only required if fetched via "fetch api")
+     *
+     * options:
+     * - shouldDecode: decodes the image in case the browser is Firefox to prevent a flickering/blinking when an image gets visible for the first time
      */
-    public requestImage(url: string, priority?: QueuePriority, useFetchApi: boolean = false): ImageRequest {
-        if (useFetchApi) {
-            return this.fetchImageViaFetchApi(url, priority);
+    public requestImage(
+        url: string,
+        options: { priority?: QueuePriority; useFetchApi?: boolean; shouldDecode?: boolean } = {
+            useFetchApi: false,
+            shouldDecode: false,
+        },
+    ): ImageRequest {
+        // on firefox images are decoded async which causes a "flicker/blinking" when they're getting visible for the first time
+        // this is an issue especially in the reader because pages that should not be shown are rendered but
+        // not displayed, which then causes this issue once they get displayed
+        const shouldDecode = !!options.shouldDecode && navigator.userAgent.toLowerCase().includes('firefox');
+
+        if (options.useFetchApi) {
+            return this.fetchImageViaFetchApi(url, { ...options, shouldDecode });
         }
 
-        return this.fetchImageViaTag(url, priority);
+        return this.fetchImageViaTag(url, { ...options, shouldDecode });
     }
 
     private doRequest<Data, Variables extends OperationVariables = OperationVariables>(

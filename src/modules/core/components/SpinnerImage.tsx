@@ -28,11 +28,20 @@ interface IProps {
 
     onImageLoad?: () => void;
 
+    shouldDecode?: boolean;
     useFetchApi?: boolean;
 }
 
 export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTMLImageElement | null>) => {
-    const { useFetchApi, src, alt, onImageLoad, spinnerStyle: { small, ...spinnerStyle } = {}, imgStyle } = props;
+    const {
+        shouldDecode,
+        useFetchApi,
+        src,
+        alt,
+        onImageLoad,
+        spinnerStyle: { small, ...spinnerStyle } = {},
+        imgStyle,
+    } = props;
 
     const { t } = useTranslation();
 
@@ -57,7 +66,7 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
             return () => {};
         }
 
-        const imageRequest = requestManager.requestImage(src, Priority.HIGH, useFetchApi);
+        const imageRequest = requestManager.requestImage(src, { priority: Priority.HIGH, shouldDecode, useFetchApi });
         let cacheTimeout: NodeJS.Timeout;
 
         const fetchImage = async () => {
