@@ -1161,10 +1161,18 @@
         "title_other": "Extensions",
         "label": {
             "installing_file": "Installation de l'extension à partir du fichier…",
-            "installation_failed": "Échec de l'installation de l'extension",
-            "installed_successfully": "L'extension a bien été installée",
-            "uninstallation_failed": "Impossible de désinstaller l'extension",
-            "update_failed": "Impossible de mettre à jour l'extension",
+            "installation_failed_one": "Échec de l'installation de l'extension",
+            "installation_failed_many": "",
+            "installation_failed_other": "",
+            "installed_successfully_one": "L'extension a bien été installée",
+            "installed_successfully_many": "",
+            "installed_successfully_other": "",
+            "uninstallation_failed_one": "Impossible de désinstaller l'extension",
+            "uninstallation_failed_many": "",
+            "uninstallation_failed_other": "",
+            "update_failed_one": "Impossible de mettre à jour l'extension",
+            "update_failed_many": "",
+            "update_failed_other": "",
             "add_repository_info": "Vous devez ajouter un dépôt d’extensions pour pouvoir installer des extensions"
         },
         "state": {

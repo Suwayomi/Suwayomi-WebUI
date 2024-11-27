@@ -127,8 +127,8 @@
         },
         "label": {
             "installing_file": "확장 기능 설치 중…",
-            "installation_failed": "확장 기능을 설치할 수 없습니다",
-            "installed_successfully": "확장 기능 설치됨"
+            "installation_failed_other": "확장 기능을 설치할 수 없습니다",
+            "installed_successfully_other": "확장 기능 설치됨"
         },
         "language": {
             "all": "모든 언어"

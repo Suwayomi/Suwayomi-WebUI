@@ -1,6 +1,6 @@
 {
     "library": {
-        "title": "Bibliotek",
+        "title": "Bibliothek",
         "option": {
             "sort": {
                 "label": {
@@ -48,7 +48,10 @@
                         "success_one": "Download hinzugefügt",
                         "success_other": "{{count}} Downloads hinzugefügt",
                         "error_one": "Fehler beim Hinzufügen des Downloads",
-                        "error_other": "Fehler beim Hinzufügen der Downloads"
+                        "error_other": "Fehler beim Hinzufügen der Downloads",
+                        "next_five": "Nächste 5 Kapitel",
+                        "next_ten": "Nächste 10 Kapitel",
+                        "next_twentyfive": "Nächste 25 Kapitel"
                     },
                     "button": {
                         "selected": "Auswahl downloaden"
@@ -135,7 +138,7 @@
             }
         },
         "title_one": "Kapitel",
-        "title_other": "",
+        "title_other": "Kapitel",
         "option": {
             "display": {
                 "label": {
@@ -212,15 +215,15 @@
             }
         },
         "title_one": "Manga",
-        "title_other": "",
+        "title_other": "Manga",
         "button": {
             "in_library": "In Bibliothek",
             "add_to_library": "Zur Bibliothek hinzufügen"
         }
     },
     "extension": {
-        "title_one": "Erweiterungen",
-        "title_other": "",
+        "title_one": "Erweiterung",
+        "title_other": "Erweiterungen",
         "action": {
             "label": {
                 "install": "Installieren",
@@ -230,11 +233,16 @@
             }
         },
         "label": {
-            "installed_successfully": "Erweiterung installiert",
-            "installation_failed": "Die Erweiterung konnte nicht installiert werden",
+            "installed_successfully_one": "Erweiterung installiert",
+            "installed_successfully_other": "",
+            "installation_failed_one": "Die Erweiterung konnte nicht installiert werden",
+            "installation_failed_other": "",
             "installing_file": "Erweiterungsdatei wird installiert…",
-            "update_failed": "Die Erweiterung konnte nicht aktualisiert werden",
-            "uninstallation_failed": "Die Erweiterung konnte nicht deinstalliert werden"
+            "update_failed_one": "Die Erweiterung konnte nicht aktualisiert werden",
+            "update_failed_other": "",
+            "uninstallation_failed_one": "Die Erweiterung konnte nicht deinstalliert werden",
+            "uninstallation_failed_other": "",
+            "add_repository_info": "Es muss ein Erweiterungs-Repository hinzugefügt werden, bevor Erweiterungen installiert werden können"
         },
         "state": {
             "label": {
@@ -371,7 +379,7 @@
                 "yesterday": "Gestern",
                 "today": "Heute",
                 "day_one": "Tag",
-                "day_other": ""
+                "day_other": "Tage"
             }
         },
         "update": {
@@ -477,7 +485,58 @@
                 }
             }
         },
-        "title": "Einstellungen"
+        "title": "Einstellungen",
+        "server": {
+            "socks_proxy": {
+                "label": {
+                    "host": "SOCKS Host",
+                    "version": "SOCKS Version",
+                    "port": "SOCKS Port",
+                    "enable": "Benutze SOCKS Proxy",
+                    "username": "SOCKS Nutzername",
+                    "password": "SOCKS Passwort"
+                },
+                "title": "SOCKS Proxy"
+            },
+            "title": {
+                "server": "Server",
+                "settings": "Server Einstellungen"
+            }
+        },
+        "appearance": {
+            "theme": {
+                "create": {
+                    "dialog": {
+                        "info": {
+                            "creating_theme": "Erstelle ein benutzerdefiniertes Design mit dem <2> MUI Theme Creator</2>, kopiere alles nach \"themeOptions\" von \"{\" bis \"}\" und füge es in das \"theme\" Textfeld ein."
+                        }
+                    }
+                }
+            }
+        },
+        "webui": {
+            "flavor": {
+                "option": {
+                    "custom": {
+                        "label": {
+                            "title": "Benutzerdefiniert",
+                            "description": "Benutze benutzerdefinierte $t(settings.webui.title.webui).\nUm eine benutzerdefinierte $t(settings.webui.title.webui) ersetze den Inhalt des \"webUI\" Ordners im Root-Verzeichnis des Servers mit den Dateien des benutzerdefinierten $t(settings.webui.title.webui)."
+                        }
+                    },
+                    "webui": {
+                        "label": {
+                            "description": "Nutze $t(settings.webui.title.webui) als Standard"
+                        }
+                    },
+                    "vui": {
+                        "label": {
+                            "title": "VUI",
+                            "description": "Ein mit svelte erstelltes Web Frontend mit Fokus auf die Vorschau"
+                        }
+                    }
+                }
+            }
+        }
     },
     "download": {
         "queue": {
@@ -552,7 +611,8 @@
             },
             "download_path": {
                 "label": {
-                    "title": "Download-Speicherort"
+                    "title": "Download-Speicherort",
+                    "description": "Der Pfad zum Verzeichnis auf dem Server in dem heruntergeladene Dateien gespeichert werden sollen"
                 }
             },
             "file_type": {
@@ -568,10 +628,11 @@
             "label": {
                 "guide": "Anleitung zum Einrichten der lokalen Quelle",
                 "checkout": "Lese die"
-            }
+            },
+            "title": "Lokale Quelle"
         },
         "title_one": "Quelle",
-        "title_other": "",
+        "title_other": "Quellen",
         "error": {
             "label": {
                 "no_sources_found": "Keine Quellen gefunden. Installiere zuerst ein paar Erweiterungen."
@@ -593,5 +654,31 @@
                 "failed_to_save_settings": "Die Standardsucheinstellungen konnten nicht gespeichert werden"
             }
         }
+    },
+    "tracking": {
+        "settings": {
+            "title": {
+                "settings": "Tracking-Einstellungen",
+                "trackers": "Tracker"
+            },
+            "label": {
+                "update_progress_reading": "Aktualisiere Fortschritt nach dem Lesen",
+                "update_progress_manual": "Aktualisiere Fortschritt nach manueller Markierung als gelesen",
+                "update_progress_reading_description": "Funktioniert nicht, wenn mehrere Manga gleichzeitig markiert werden"
+            }
+        },
+        "action": {
+            "button": {
+                "add_tracking": "Tracking hinzufügen"
+            }
+        },
+        "track_record": {
+            "label": {
+                "finish_date": "Enddatum",
+                "score": "Bewertung",
+                "start_date": "Startdatum"
+            }
+        },
+        "title": "Tracking"
     }
 }

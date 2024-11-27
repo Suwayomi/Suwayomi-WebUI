@@ -38,11 +38,6 @@
                     "label": {
                         "action": "Legg til bokmerke"
                     }
-                },
-                "remove": {
-                    "button": {
-                        "selected": ""
-                    }
                 }
             }
         }
