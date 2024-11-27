@@ -171,7 +171,8 @@
             "error": {
                 "label": {
                     "failed_delete_all": "Не удалось удалить все загрузки из очереди",
-                    "failed_to_remove": "Не удалось удалить загрузку из очереди."
+                    "failed_to_remove": "Не удалось удалить загрузку из очереди.",
+                    "failed_to_retry": "Не удалось повторить неудачную загрузку."
                 }
             },
             "label": {
@@ -349,7 +350,7 @@
                 "empty": "Ваша библиотека пуста",
                 "no_matches": "Ни одна манга не соответствует этому фильтру",
                 "add_to_library": "Не получилось добавить мангу в библиотеку!",
-                "remove_from_library": "Не получилось удалить мангу из библиотеки",
+                "remove_from_library": "Не получилось удалить мангу из библиотеки!",
                 "stop_global_update": "Не удалось остановить глобальное обновление"
             }
         },
@@ -361,7 +362,8 @@
                     "by_last_read": "Недавно прочитанные",
                     "alphabetically": "А-Я",
                     "by_date_added": "Недавно добавленные",
-                    "by_latest_uploaded_chapter": "Последняя загруженная глава"
+                    "by_latest_uploaded_chapter": "Последняя загруженная глава",
+                    "by_total_chapters": "Всего глав"
                 }
             },
             "display": {
@@ -372,10 +374,10 @@
                     "title": "Вкладки"
                 },
                 "badge": {
-                    "title": "Значки",
+                    "title": "Обложки",
                     "label": {
                         "download_badges": "Скачать обложки",
-                        "unread_badges": "Непрочитанные значки"
+                        "unread_badges": "Непрочитанные обложки"
                     }
                 },
                 "other": {
@@ -438,7 +440,8 @@
             "show_less": "Показывать меньше",
             "stop": "Остановить",
             "submit": "Подтвердить",
-            "delete": "Удалить"
+            "delete": "Удалить",
+            "save": "Сохранить"
         },
         "label": {
             "browse": "Поисковик",
@@ -467,7 +470,8 @@
             "started": "Начато",
             "type": "Тип",
             "unknown": "Неизвестно",
-            "copied": "Скопировано"
+            "copied": "Скопировано",
+            "default": "По умолчанию"
         },
         "time": {
             "hour_short": "ч",
@@ -562,7 +566,9 @@
                 "by_fetch_date": "По выбранной дате",
                 "by_source": "По источнику",
                 "by_chapter_number": "По номеру главы",
-                "by_upload_date": "По дате публикации"
+                "by_upload_date": "По дате публикации",
+                "asc": "Восходящий",
+                "desc": "Нисходящий"
             }
         }
     },
@@ -636,7 +642,8 @@
             "show_nsfw_description": "Скрыть NSFW-расширения (18+) и источники",
             "hide_library_entries": "Скрывать имеющиеся в библиотеки записи",
             "show_nsfw": "Источник NSFW (18+)",
-            "language_description": "Не стесняйтесь переводить проект на"
+            "language_description": "Не стесняйтесь переводить проект на",
+            "theme": "Тема"
         },
         "about": {
             "webui": {
@@ -727,7 +734,21 @@
                         }
                     }
                 },
-                "title": "Разное"
+                "title": "Разное",
+                "log_files": {
+                    "file_size": {
+                        "title": "Максимальный размер файла журнала",
+                        "description": "Пример возможных значений: 1 (байты), 1 КБ (килобайты), 1 МБ (мегабайты), 1 ГБ (гигабайты)"
+                    },
+                    "total_size": {
+                        "title": "Максимальный размер всех файлов журнала",
+                        "description": "$t(settings.server.misc.log_files.file_size.description)"
+                    },
+                    "file_cleanup": {
+                        "title": "Очистка файла журнала",
+                        "value": "Удаление резервных копий, возраст которых превышает $t(global.date.value.label.day)"
+                    }
+                }
             },
             "requests": {
                 "sources": {
@@ -871,7 +892,7 @@
                     }
                 },
                 "label": {
-                    "title": "Аромат",
+                    "title": "Flavor",
                     "info": "После изменения этого параметра перейдите на страницу «Информация», проверьте наличие обновления webUI и установите его"
                 }
             },
@@ -900,16 +921,84 @@
                 "success": "Кэш сервера очищен"
             }
         },
-        "title": "Настройки"
+        "title": "Настройки",
+        "appearance": {
+            "theme": {
+                "create": {
+                    "dialog": {
+                        "info": {
+                            "creating_theme": "Создайте пользовательскую тему с помощью <2>MUI Theme Creator</2>, скопируйте все после \"themeOptions\" из \"{\" вto\"}\" и вставьте это в текстовое поле \"theme\".",
+                            "theme_mode_lock": "В случае, если в объекте \"palette\" задан \"mode\" или \"type\", тема будет заблокирована в этом режиме и не изменится независимо от выбранной темы устройства"
+                        },
+                        "error": {
+                            "invalid_json": "Недопустимый json",
+                            "invalid_name": "Название темы должно быть уникальным и не должно превышать 16 символов"
+                        },
+                        "theme_name": "Название"
+                    },
+                    "action": "Создание темы…",
+                    "success": "Тема создана",
+                    "failure": "Не удалось создать тему",
+                    "title": "Создать тему"
+                },
+                "edit": {
+                    "action": "Сохранение изменений темы…",
+                    "failure": "Не удалось сохранить изменения темы",
+                    "success": "Изменение темы сохранено",
+                    "title": "Редактировать тему"
+                },
+                "pure_black_mode": "Чистый черный темный режим",
+                "themes": {
+                    "orange_juice": "Апельсиновый Сок",
+                    "dune": "Дюна",
+                    "tree_frog_green": "Древесная Зеленая Лягушка",
+                    "bright_pink": "Ярко Розовый",
+                    "crimson": "Малиновый",
+                    "forest_dew": "Лесная Роса",
+                    "lavender": "Лавандовый",
+                    "minty_miracles": "Мятные Чудеса",
+                    "mountain_sunset": "Горный Закат",
+                    "rosegold": "Розовое золото",
+                    "veronica": "Вероника"
+                },
+                "select": {
+                    "success": "Выбранная тема",
+                    "fonts": {
+                        "error": "Не удалось загрузить тематические шрифты",
+                        "loading": "Загрузка тематических шрифтов…"
+                    }
+                },
+                "delete": {
+                    "failure": "Не удалось удалить тему \"{{theme}}\"",
+                    "action": "Удаление темы \"{{theme}}\"…",
+                    "success": "Удаленная тема \"{{theme}}\""
+                },
+                "device_theme": "Тема устройства",
+                "title": "Тема"
+            },
+            "manga_thumbnail_backdrop": {
+                "description": "Устанавливает миниатюру манги в качестве фонового изображения на странице манги",
+                "title": "Миниатюра манги в качестве фона"
+            },
+            "title": "Внешний вид"
+        }
     },
     "extension": {
         "label": {
-            "installation_failed": "Не получилось установить расширение",
+            "installation_failed_one": "Не получилось установить расширение",
+            "installation_failed_few": "Не получилось установить расширения",
+            "installation_failed_many": "Не получилось установить расширения",
             "add_repository_info": "Вы должны добавить репозиторий расширений, чтобы иметь возможность устанавливать расширения",
-            "installed_successfully": "Расширение установлено",
+            "installed_successfully_one": "Расширение установлено",
+            "installed_successfully_few": "Расширения установлены",
+            "installed_successfully_many": "Расширения установлены",
             "installing_file": "Установка расширения из файла…",
-            "uninstallation_failed": "Не получилось установить расширение",
-            "update_failed": "Не получилось обновить расширение"
+            "uninstallation_failed_one": "Не получилось установить расширение",
+            "uninstallation_failed_few": "Не получилось установить расширения",
+            "uninstallation_failed_many": "Не получилось установить расширения",
+            "update_failed_one": "Не получилось обновить расширение",
+            "update_failed_few": "Не получилось обновить расширения",
+            "update_failed_many": "Не получилось обновить расширения"
         },
         "settings": {
             "repositories": {
@@ -942,7 +1031,8 @@
                 "install": "Установить",
                 "install_external": "Установить стороннее расширение",
                 "uninstall": "Удалить",
-                "update": "Обновить"
+                "update": "Обновить",
+                "update_all": "Обновить все"
             }
         },
         "language": {
@@ -1062,6 +1152,15 @@
                 "no_mangas_found": "Манга не найдена",
                 "request_failure": "Не удалось загрузить мангу"
             }
+        },
+        "status": {
+            "completed": "Завершено",
+            "hiatus": "Прервано",
+            "licensed": "Лицензированный",
+            "ongoing": "Продолжается",
+            "publishing_finished": "Публикация завершена",
+            "unknown": "$t(global.label.unknown)",
+            "cancelled": "Отменено"
         }
     },
     "reader": {
@@ -1152,7 +1251,11 @@
         "search": {
             "title": "$t(migrate.title) \"{{title}}\""
         },
-        "title": "Мигрировать"
+        "title": "Мигрировать",
+        "sort": {
+            "by_manga_count": "По количеству манги",
+            "by_source_name": "По названию источника"
+        }
     },
     "source": {
         "configuration": {
@@ -1193,12 +1296,26 @@
         "title": "Отслеживание",
         "track_record": {
             "label": {
-                "start_date": "Дата начала"
+                "start_date": "Дата начала",
+                "finish_date": "Дата окончания",
+                "score": "Оценка"
             }
         },
         "settings": {
             "label": {
-                "update_progress_reading": "Обновить прогресс после чтения"
+                "update_progress_reading": "Обновить прогресс после чтения",
+                "update_progress_manual": "Обновить прогресс после ручной маркировки как прочитано",
+                "update_progress_reading_description": "Не работает при пометке нескольких манг как прочитанных одновременно"
+            },
+            "title": {
+                "trackers": "Отслеживания",
+                "settings": "Настройки отслеживания"
+            },
+            "dialog": {
+                "title": {
+                    "log_in": "Войти в систему как {{name}}",
+                    "log_out": "Выход из {{name}}"
+                }
             }
         },
         "error": {
@@ -1220,6 +1337,13 @@
             "logout": {
                 "label": {
                     "failure": "Не удалось выйти из {{name}}"
+                }
+            }
+        },
+        "my_anime_list": {
+            "search": {
+                "label": {
+                    "hint": "Ищите идентификатор с помощью \"id:<ID>\" (например, \"id: 13\")\nОграничьте поиск своими списками с помощью \"my:<Title>\" (например, \"my: One Piece\")"
                 }
             }
         }

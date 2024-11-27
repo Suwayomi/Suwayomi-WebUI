@@ -157,11 +157,15 @@
         },
         "label": {
             "add_repository_info": "Eklentileri yükleyebilmek için eklenti deposu eklemelisiniz",
-            "installation_failed": "Eklenti yüklenemedi",
-            "installed_successfully": "Eklenti yüklendi",
+            "installation_failed_one": "Eklenti yüklenemedi",
+            "installation_failed_other": "",
+            "installed_successfully_one": "Eklenti yüklendi",
+            "installed_successfully_other": "",
             "installing_file": "Eklenti dosyası yükleniyor…",
-            "uninstallation_failed": "Eklenti kaldırılamadı",
-            "update_failed": "Eklenti güncellenemedi"
+            "uninstallation_failed_one": "Eklenti kaldırılamadı",
+            "uninstallation_failed_other": "",
+            "update_failed_one": "Eklenti güncellenemedi",
+            "update_failed_other": ""
         },
         "language": {
             "all": "Hepsi",

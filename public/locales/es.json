@@ -91,7 +91,7 @@
             "webui": {
                 "label": {
                     "update_success": "Actualizado $t(settings.webui.title.webui) a la versión {{version}}.",
-                    "version": "$t(settings.webui.title.webui) versión",
+                    "version": "Versión $t(settings.webui.title.webui)",
                     "update_failure": "No se ha podido actualizar $t(settings.webui.title.webui)",
                     "github": "$t(global.label.github) $t(settings.webui.title.webui)",
                     "channel": "$t(settings.webui.title.webui) canal",
@@ -615,7 +615,9 @@
                 "by_source": "Según la fuente",
                 "by_fetch_date": "Por fecha de obtención del capítulo",
                 "by_upload_date": "Por fecha de subida",
-                "by_chapter_number": "Por número de capítulo"
+                "by_chapter_number": "Por número de capítulo",
+                "asc": "Ascendente",
+                "desc": "Descendente"
             }
         },
         "date": {
@@ -1047,7 +1049,8 @@
                 "update": "Actualizar",
                 "install": "Instalar",
                 "uninstall": "Desinstalar",
-                "install_external": "Instalar extensión externa"
+                "install_external": "Instalar extensión externa",
+                "update_all": "Actualizar todo"
             }
         },
         "state": {
@@ -1062,10 +1065,18 @@
         },
         "label": {
             "installing_file": "Instalando archivo de extensión…",
-            "installation_failed": "No se pudo instalar la extensión",
-            "installed_successfully": "Extensión instalada",
-            "uninstallation_failed": "No se ha podido desinstalar la extensión",
-            "update_failed": "No se ha podido actualizar la extensión",
+            "installation_failed_one": "No se ha podido instalar la extensión",
+            "installation_failed_many": "No se han podido instalar las extensiones",
+            "installation_failed_other": "No se han podido instalar las extensiones",
+            "installed_successfully_one": "Extensión instalada",
+            "installed_successfully_many": "Extensiones instaladas",
+            "installed_successfully_other": "Extensiones instaladas",
+            "uninstallation_failed_one": "No se ha podido desinstalar la extensión",
+            "uninstallation_failed_many": "No se han podido desinstalar las extensiones",
+            "uninstallation_failed_other": "No se han podido desinstalar las extensiones",
+            "update_failed_one": "No se ha podido actualizar la extensión",
+            "update_failed_many": "No se han podido actualizar las extensiones",
+            "update_failed_other": "No se han podido actualizar las extensiones",
             "add_repository_info": "Tienes que añadir un repositorio de extensiones para poder instalar extensiones"
         },
         "title_one": "Extensión",
@@ -1320,7 +1331,11 @@
         "search": {
             "title": "$t(migrate.title) \"{{title}}\""
         },
-        "title": "Migrar"
+        "title": "Migrar",
+        "sort": {
+            "by_source_name": "Por nombre de la fuente",
+            "by_manga_count": "Por número de manga"
+        }
     },
     "tracking": {
         "action": {

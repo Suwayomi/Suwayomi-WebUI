@@ -251,11 +251,15 @@
         },
         "label": {
             "add_repository_info": "U moet een extensierepository toevoegen om extensies te kunnen installeren",
-            "installation_failed": "Kan de extensie niet installeren",
-            "installed_successfully": "Extensie geïnstalleerd",
+            "installation_failed_one": "Kan de extensie niet installeren",
+            "installation_failed_other": "",
+            "installed_successfully_one": "Extensie geïnstalleerd",
+            "installed_successfully_other": "",
             "installing_file": "Extensie bestand aan het installeren…",
-            "uninstallation_failed": "Kan de extensie niet de-installeren",
-            "update_failed": "Kan de extensie niet updaten"
+            "uninstallation_failed_one": "Kan de extensie niet de-installeren",
+            "uninstallation_failed_other": "",
+            "update_failed_one": "Kan de extensie niet updaten",
+            "update_failed_other": ""
         },
         "settings": {
             "repositories": {

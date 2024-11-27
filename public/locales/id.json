@@ -149,7 +149,8 @@
             "error": {
                 "label": {
                     "failed_delete_all": "Tidak dapat menghapus seluruh unduhan dari barisan",
-                    "failed_to_remove": "Tidak dapat menghilangkan unduhan dari barisan"
+                    "failed_to_remove": "Tidak dapat menghilangkan unduhan dari barisan",
+                    "failed_to_retry": "Tidak dapat mengulang unduhan yang gagal"
                 }
             },
             "title": "Baris unduhan"
@@ -185,7 +186,8 @@
                 "label": {
                     "value": "{{chapters}} $t(chapter.title)",
                     "unread_chapters_to_download": "Jumlah bab yang belum dibaca untuk diunduh",
-                    "while_reading": "Unduh otomatis saat membaca"
+                    "while_reading": "Unduh otomatis saat membaca",
+                    "description": "Seberapa banyak bab yang dapat diunduh sembari membaca."
                 }
             },
             "file_type": {
@@ -193,7 +195,7 @@
                     "cbz": "Simpan sebagai arsip CBZ"
                 }
             },
-            "title": "Unduh pengaturan",
+            "title": "Pengaturan unduhan",
             "delete_chapters": {
                 "title": "Hapus bab",
                 "label": {
@@ -203,9 +205,149 @@
                 "while_reading": {
                     "label": {
                         "title": "Hapus bab yang sudah selesai saat membaca"
+                    },
+                    "option": {
+                        "label": {
+                            "fifth": "Lima bab terakhir yang sudah dibaca",
+                            "first": "Bab terakhir yang sudah dibaca",
+                            "fourth": "Empat bab terakhir yang sudah dibaca",
+                            "third": "Tiga bab terakhir yang sudah dibaca",
+                            "second": "Dua bab terakhir yang sudah dibaca"
+                        }
                     }
                 }
             }
+        },
+        "state": {
+            "label": {
+                "finished": "Selesai",
+                "queued": "Diantrikan",
+                "downloading": "Mengunduh",
+                "error": "Terjadi kesalahan"
+            }
+        },
+        "title": "Unduhan"
+    },
+    "global": {
+        "button": {
+            "create": "Buat",
+            "deselect": "Batalkan Pilihan",
+            "reset": "Reset",
+            "retry": "Ulangi",
+            "select": "Pilih",
+            "options": "Opsi",
+            "reset_to_default": "Kembalikan ke Setelan Awal",
+            "ok": "Ok",
+            "save": "Simpan",
+            "add": "Tambah",
+            "start": "Mulai",
+            "submit": "Kirim",
+            "open_site": "Buka Situs",
+            "copy": "Salin",
+            "select_all": "Pilih Semua",
+            "show_more": "Tampilkan lebih banyak",
+            "stop": "Stop",
+            "cancel": "Batal",
+            "log_in": "Masuk",
+            "refresh": "Muat Ulang",
+            "remind_later": "Ingatkan Nanti",
+            "restore": "Pulihkan",
+            "resume": "Lanjutkan",
+            "delete": "Hapus",
+            "latest": "Terakhir",
+            "log_out": "Keluar",
+            "popular": "Populer",
+            "dont_show_dialog_again": "Jangan tampilkan dialog ini lagi",
+            "remove": "Copot",
+            "show_less": "Tampilkan lebih sedikit",
+            "clear": "Hapus",
+            "edit": "Sunting",
+            "filter": "Saring",
+            "ignore": "Abaikan"
+        },
+        "date": {
+            "label": {
+                "day_other": "Hari",
+                "today": "Hari ini",
+                "today_at": "Hari ini pada waktu  {{timeString}}",
+                "yesterday": "Kemarin",
+                "yesterday_at": "Kemarin pada waktu {{timeString}}"
+            },
+            "value": {
+                "label": {
+                    "day": "{{days}} $t(global.date.label.day, lowercase)"
+                }
+            }
+        },
+        "label": {
+            "close": "Tutup",
+            "are_you_sure": "Anda yakin?"
+        },
+        "filter": {
+            "label": {
+                "unread": "Belum dibaca"
+            }
+        },
+        "error": {
+            "label": {
+                "failed_to_load_data": "Tidak dapat memuat data",
+                "invalid_action": "Ini bukan aksi yang valid",
+                "failed_to_save_changes": "Tidak dapat menyimpan perubahan"
+            }
         }
+    },
+    "extension": {
+        "label": {
+            "update_failed_other": "Tidak dapat memperbaharui file ekstensi",
+            "uninstallation_failed_other": "Tidak dapat memasang file ekstensi",
+            "installation_failed_other": "Tidak dapat memasang file ekstensi",
+            "installing_file": "Memasang file ekstensi…",
+            "installed_successfully_other": "File ekstensi terpasang"
+        },
+        "language": {
+            "other": "Lainnya",
+            "all": "Semua"
+        },
+        "action": {
+            "label": {
+                "install": "Pasang",
+                "update": "Perbaharui",
+                "uninstall": "Hapus pemasangan",
+                "install_external": "Pasang ekstensi eksternal",
+                "update_all": "Perbaharui semua"
+            }
+        },
+        "settings": {
+            "repositories": {
+                "custom": {
+                    "error": {
+                        "label": {
+                            "invalid_url": "Alamat url repositori salah"
+                        }
+                    },
+                    "dialog": {
+                        "action": {
+                            "button": {
+                                "add": "Tambahkan repositori"
+                            }
+                        }
+                    },
+                    "label": {
+                        "disclaimer": "<strong>Suwayomi tidak  mendukung repositori atau file tambahan pihak ketiga!</strong><br/>Gunakan dengan hati-hati karena ada kemungkinan adanya aktor jahat yang membuat repositori tersebut .<br/>Anda sebagai pengguna harus memverifikasi keamanan dan mempercayai repositori dan ekstensi apapun."
+                    }
+                }
+            }
+        },
+        "state": {
+            "label": {
+                "uninstalling": "Menghapus pemasangan",
+                "installing": "Memasang",
+                "installed": "Terpasang",
+                "obsolete": "Usang",
+                "update_pending": "Pembaruan tertunda",
+                "updating": "Memperbarui"
+            }
+        },
+        "title_other": "Ekstensi"
     }
 }

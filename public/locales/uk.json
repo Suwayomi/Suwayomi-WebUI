@@ -258,11 +258,19 @@
             }
         },
         "label": {
-            "installed_successfully": "Розширення встановлено",
+            "installed_successfully_one": "Розширення встановлено",
+            "installed_successfully_few": "",
+            "installed_successfully_many": "",
             "installing_file": "Встановлення файлу розширення…",
-            "installation_failed": "Не вдалося встановити розширення",
-            "update_failed": "Не вдалося оновити розширення",
-            "uninstallation_failed": "Не вдалося видалити розширення",
+            "installation_failed_one": "Не вдалося встановити розширення",
+            "installation_failed_few": "",
+            "installation_failed_many": "",
+            "update_failed_one": "Не вдалося оновити розширення",
+            "update_failed_few": "",
+            "update_failed_many": "",
+            "uninstallation_failed_one": "Не вдалося видалити розширення",
+            "uninstallation_failed_few": "",
+            "uninstallation_failed_many": "",
             "add_repository_info": "Ви повинні додати репозиторій розширень, щоб мати змогу встановлювати розширення"
         },
         "language": {

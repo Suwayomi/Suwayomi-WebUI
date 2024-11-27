@@ -605,12 +605,12 @@
         },
         "title_other": "拡張機能",
         "label": {
-            "installed_successfully": "拡張機能インストール完了",
+            "installed_successfully_other": "拡張機能インストール完了",
             "add_repository_info": "拡張機能をインストールできるように、拡張機能リポジトリを追加する必要があります",
-            "installation_failed": "拡張機能をインストールできません",
+            "installation_failed_other": "拡張機能をインストールできません",
             "installing_file": "拡張機能ファイルをインストール中…",
-            "uninstallation_failed": "拡張機能をアンインストールできませんでした",
-            "update_failed": "拡張機能を更新できませんでした"
+            "uninstallation_failed_other": "拡張機能をアンインストールできませんでした",
+            "update_failed_other": "拡張機能を更新できませんでした"
         },
         "action": {
             "label": {

@@ -267,11 +267,19 @@
             }
         },
         "label": {
-            "update_failed": "Impossibile aggiornare l'estensione",
+            "update_failed_one": "Impossibile aggiornare l'estensione",
+            "update_failed_many": "",
+            "update_failed_other": "",
             "installing_file": "Installando il file dell'estensione…",
-            "installation_failed": "Impossibile installare l'estensione",
-            "uninstallation_failed": "Impossibile disinstallare l'estensione",
-            "installed_successfully": "Estensione installata",
+            "installation_failed_one": "Impossibile installare l'estensione",
+            "installation_failed_many": "",
+            "installation_failed_other": "",
+            "uninstallation_failed_one": "Impossibile disinstallare l'estensione",
+            "uninstallation_failed_many": "",
+            "uninstallation_failed_other": "",
+            "installed_successfully_one": "Estensione installata",
+            "installed_successfully_many": "",
+            "installed_successfully_other": "",
             "add_repository_info": "È necessario aggiungere un repository di estensioni per poter installare le estensioni"
         },
         "language": {

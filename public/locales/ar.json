@@ -890,11 +890,31 @@
     "extension": {
         "label": {
             "installing_file": "جارٍ تثبيت ملف الامتداد…",
-            "uninstallation_failed": "تعذر إلغاء تثبيت الامتداد",
-            "update_failed": "تعذر تحديث الامتداد",
+            "uninstallation_failed_zero": "تعذر إلغاء تثبيت الامتداد",
+            "uninstallation_failed_one": "",
+            "uninstallation_failed_two": "",
+            "uninstallation_failed_few": "",
+            "uninstallation_failed_many": "",
+            "uninstallation_failed_other": "",
+            "update_failed_zero": "تعذر تحديث الامتداد",
+            "update_failed_one": "",
+            "update_failed_two": "",
+            "update_failed_few": "",
+            "update_failed_many": "",
+            "update_failed_other": "",
             "add_repository_info": "يجب عليك إضافة مستودع ملحقات لتتمكن من تثبيت الملحقات",
-            "installed_successfully": "تم تثبيت الامتداد",
-            "installation_failed": "تعذر تثبيت الامتداد"
+            "installed_successfully_zero": "تم تثبيت الامتداد",
+            "installed_successfully_one": "",
+            "installed_successfully_two": "",
+            "installed_successfully_few": "",
+            "installed_successfully_many": "",
+            "installed_successfully_other": "",
+            "installation_failed_zero": "تعذر تثبيت الامتداد",
+            "installation_failed_one": "",
+            "installation_failed_two": "",
+            "installation_failed_few": "",
+            "installation_failed_many": "",
+            "installation_failed_other": ""
         },
         "state": {
             "label": {
