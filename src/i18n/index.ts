@@ -22,6 +22,7 @@ import HttpBackend from 'i18next-http-backend';
 export const i18nResources = [
     'ar',
     'bn',
+    'da',
     'de',
     'en',
     'es',
