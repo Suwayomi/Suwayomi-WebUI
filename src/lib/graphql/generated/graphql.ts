@@ -519,9 +519,11 @@ export enum DownloadUpdateType {
   Dequeued = 'DEQUEUED',
   Error = 'ERROR',
   Finished = 'FINISHED',
+  Paused = 'PAUSED',
   Position = 'POSITION',
   Progress = 'PROGRESS',
-  Queued = 'QUEUED'
+  Queued = 'QUEUED',
+  Stopped = 'STOPPED'
 }
 
 export type DownloadUpdates = {
@@ -1501,6 +1503,7 @@ export type PartialSettingsType = Settings & {
   flareSolverrTimeout?: Maybe<Scalars['Int']['output']>;
   flareSolverrUrl?: Maybe<Scalars['String']['output']>;
   globalUpdateInterval?: Maybe<Scalars['Float']['output']>;
+  /** @deprecated Removed - does not do anything */
   gqlDebugLogsEnabled?: Maybe<Scalars['Boolean']['output']>;
   initialOpenInBrowserEnabled?: Maybe<Scalars['Boolean']['output']>;
   ip?: Maybe<Scalars['String']['output']>;
@@ -1551,7 +1554,6 @@ export type PartialSettingsTypeInput = {
   flareSolverrTimeout?: InputMaybe<Scalars['Int']['input']>;
   flareSolverrUrl?: InputMaybe<Scalars['String']['input']>;
   globalUpdateInterval?: InputMaybe<Scalars['Float']['input']>;
-  gqlDebugLogsEnabled?: InputMaybe<Scalars['Boolean']['input']>;
   initialOpenInBrowserEnabled?: InputMaybe<Scalars['Boolean']['input']>;
   ip?: InputMaybe<Scalars['String']['input']>;
   localSourcePath?: InputMaybe<Scalars['String']['input']>;
@@ -1925,6 +1927,7 @@ export type Settings = {
   flareSolverrTimeout?: Maybe<Scalars['Int']['output']>;
   flareSolverrUrl?: Maybe<Scalars['String']['output']>;
   globalUpdateInterval?: Maybe<Scalars['Float']['output']>;
+  /** @deprecated Removed - does not do anything */
   gqlDebugLogsEnabled?: Maybe<Scalars['Boolean']['output']>;
   initialOpenInBrowserEnabled?: Maybe<Scalars['Boolean']['output']>;
   ip?: Maybe<Scalars['String']['output']>;
@@ -1978,6 +1981,7 @@ export type SettingsType = Settings & {
   flareSolverrTimeout: Scalars['Int']['output'];
   flareSolverrUrl: Scalars['String']['output'];
   globalUpdateInterval: Scalars['Float']['output'];
+  /** @deprecated Removed - does not do anything */
   gqlDebugLogsEnabled: Scalars['Boolean']['output'];
   initialOpenInBrowserEnabled: Scalars['Boolean']['output'];
   ip: Scalars['String']['output'];
@@ -3511,6 +3515,11 @@ export type GetMigratableSourceMangasQueryVariables = Exact<{
 
 
 export type GetMigratableSourceMangasQuery = { __typename?: 'Query', mangas: { __typename?: 'MangaNodeList', nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null, sourceId: string, categories: { __typename?: 'CategoryNodeList', nodes: Array<{ __typename?: 'CategoryType', id: number }> } }> } };
+
+export type GetLibraryMangaCountQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetLibraryMangaCountQuery = { __typename?: 'Query', mangas: { __typename?: 'MangaNodeList', totalCount: number } };
 
 export type GetAboutQueryVariables = Exact<{ [key: string]: never; }>;
 

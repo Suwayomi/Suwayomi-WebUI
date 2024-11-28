@@ -32,6 +32,8 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import {
     GetCategoriesLibraryQuery,
     GetCategoriesLibraryQueryVariables,
+    GetLibraryMangaCountQuery,
+    GetLibraryMangaCountQueryVariables,
     MangaChapterStatFieldsFragment,
     MangaType,
 } from '@/lib/graphql/generated/graphql.ts';
@@ -41,6 +43,7 @@ import { MANGA_CHAPTER_STAT_FIELDS } from '@/lib/graphql/fragments/MangaFragment
 import { useLibraryOptionsContext } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { getCategoryMetadata } from '@/modules/category/services/CategoryMetadata.ts';
+import { GET_LIBRARY_MANGA_COUNT } from '@/lib/graphql/queries/MangaQuery.ts';
 
 const TitleWithSizeTag = styled('span')({
     display: 'flex',
@@ -73,10 +76,13 @@ export function Library() {
         (category) => category.id !== 0 || (category.id === 0 && category.mangas.totalCount),
     );
     const tabs = tabsData ?? [];
-    const librarySize = useMemo(
-        () => tabs.map((tab) => tab.mangas.totalCount).reduce((prev, curr) => prev + curr, 0),
-        [tabs],
-    );
+
+    const librarySizeResponse = requestManager.useGetMangas<
+        GetLibraryMangaCountQuery,
+        GetLibraryMangaCountQueryVariables
+    >(GET_LIBRARY_MANGA_COUNT, {});
+
+    const librarySize = librarySizeResponse.data?.mangas.totalCount ?? 0;
 
     const [tabSearchParam, setTabSearchParam] = useQueryParam('tab', NumberParam);
 
@@ -216,17 +222,25 @@ export function Library() {
         setTabSearchParam(newTab);
     };
 
-    if (tabsError != null) {
+    if (tabsError != null || librarySizeResponse.error) {
         return (
             <EmptyViewAbsoluteCentered
-                message={t('category.error.label.request_failure')}
-                messageExtra={tabsError.message}
-                retry={() => refetchCategories().catch(defaultPromiseErrorHandler('Library::refetchCategories'))}
+                message={t('global.error.label.failed_to_load_data')}
+                messageExtra={tabsError?.message ?? librarySizeResponse.error?.message}
+                retry={() => {
+                    if (tabsError) {
+                        refetchCategories().catch(defaultPromiseErrorHandler('Library::refetchCategories'));
+                    }
+
+                    if (librarySizeResponse.error) {
+                        librarySizeResponse.refetch().catch(defaultPromiseErrorHandler('Library::refetchLibrarySize'));
+                    }
+                }}
             />
         );
     }
 
-    if (areCategoriesLoading) {
+    if (areCategoriesLoading || librarySizeResponse.loading) {
         return <LoadingPlaceholder />;
     }
 
