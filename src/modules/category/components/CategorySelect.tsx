@@ -182,6 +182,7 @@ export function CategorySelect(props: CategorySelectProps) {
             }}
             maxWidth="xs"
             open={open}
+            onClose={handleCancel}
         >
             <DialogTitle>{t('category.title.set_categories')}</DialogTitle>
             <DialogContent dividers>
