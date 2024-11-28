@@ -43,7 +43,6 @@ type ServerSettingsType = Pick<
     | 'socksProxyUsername'
     | 'socksProxyPassword'
     | 'debugLogsEnabled'
-    | 'gqlDebugLogsEnabled'
     | 'systemTrayEnabled'
     | 'maxLogFiles'
     | 'maxLogFileSize'
@@ -69,7 +68,6 @@ const extractServerSettings = (settings: GqlServerSettings): ServerSettingsType 
     socksProxyUsername: settings.socksProxyUsername,
     socksProxyPassword: settings.socksProxyPassword,
     debugLogsEnabled: settings.debugLogsEnabled,
-    gqlDebugLogsEnabled: settings.gqlDebugLogsEnabled,
     systemTrayEnabled: settings.systemTrayEnabled,
     maxLogFiles: settings.maxLogFiles,
     maxLogFileSize: settings.maxLogFileSize,
@@ -402,17 +400,6 @@ export const ServerSettings = () => {
                         edge="end"
                         checked={serverSettings.debugLogsEnabled}
                         onChange={(e) => updateSetting('debugLogsEnabled', e.target.checked)}
-                    />
-                </ListItem>
-                <ListItem>
-                    <ListItemText
-                        primary={t('settings.server.misc.log_level.graphql.label.title')}
-                        secondary={t('settings.server.misc.log_level.graphql.label.description')}
-                    />
-                    <Switch
-                        edge="end"
-                        checked={serverSettings.gqlDebugLogsEnabled}
-                        onChange={(e) => updateSetting('gqlDebugLogsEnabled', e.target.checked)}
                     />
                 </ListItem>
                 <ListItem>

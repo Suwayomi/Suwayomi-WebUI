@@ -58,7 +58,6 @@ export const SERVER_SETTINGS = gql`
 
         # misc
         debugLogsEnabled
-        gqlDebugLogsEnabled
         systemTrayEnabled
         maxLogFileSize
         maxLogFiles
