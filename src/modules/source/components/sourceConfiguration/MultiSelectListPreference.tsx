@@ -69,7 +69,12 @@ function ListDialog(props: IListDialogProps) {
     };
 
     return (
-        <Dialog sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 435 } }} maxWidth="xs" open={open}>
+        <Dialog
+            sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 435 } }}
+            maxWidth="xs"
+            open={open}
+            onClose={handleCancel}
+        >
             <DialogTitle>{title}</DialogTitle>
             <DialogContent dividers>
                 <FormGroup>

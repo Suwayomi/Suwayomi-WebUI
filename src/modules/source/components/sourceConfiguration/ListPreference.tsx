@@ -66,6 +66,7 @@ function ListDialog(props: IListDialogProps) {
             maxWidth="xs"
             TransitionProps={{ onEntering: handleEntering }}
             open={open}
+            onClose={handleCancel}
         >
             <DialogTitle>{title}</DialogTitle>
             <DialogContent dividers>
