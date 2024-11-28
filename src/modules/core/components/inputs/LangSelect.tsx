@@ -92,6 +92,7 @@ export function LangSelect(props: IProps) {
                 }}
                 maxWidth="xs"
                 open={open}
+                onClose={handleCancel}
             >
                 <DialogTitle>{t('global.language.title.enabled_languages')}</DialogTitle>
                 <DialogContent dividers sx={{ padding: 0 }}>
