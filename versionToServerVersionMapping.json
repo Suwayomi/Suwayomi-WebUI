@@ -4,6 +4,26 @@
     "serverVersion": "r1636"
   },
   {
+    "tag": "PREVIEW",
+    "uiVersion": "r1947",
+    "serverVersion": "r1611"
+  },
+  {
+    "tag": "PREVIEW",
+    "uiVersion": "r1944",
+    "serverVersion": "r1566"
+  },
+  {
+    "tag": "PREVIEW",
+    "uiVersion": "r1798",
+    "serverVersion": "r1548"
+  },
+  {
+    "tag": "PREVIEW",
+    "uiVersion": "r1745",
+    "serverVersion": "r1540"
+  },
+  {
     "tag": "v1.1.0",
     "uiVersion": "r1689",
     "serverVersion": "r1527"
