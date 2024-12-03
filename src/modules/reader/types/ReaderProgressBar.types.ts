@@ -8,7 +8,7 @@
 
 import { BoxProps } from '@mui/material/Box';
 import { TooltipProps } from '@mui/material/Tooltip';
-import { IReaderSettings } from '@/modules/reader/types/Reader.types.ts';
+import { IReaderSettings, ReaderTransitionPageMode } from '@/modules/reader/types/Reader.types.ts';
 
 interface SinglePageData {
     index: number;
@@ -35,6 +35,8 @@ export interface ReaderStatePages {
     setPageLoadStates: React.Dispatch<React.SetStateAction<boolean[]>>;
     pages: PageData[];
     setPages: React.Dispatch<React.SetStateAction<PageData[]>>;
+    transitionPageMode: ReaderTransitionPageMode;
+    setTransitionPageMode: React.Dispatch<React.SetStateAction<ReaderTransitionPageMode>>;
 }
 
 export interface ReaderProgressBarProps

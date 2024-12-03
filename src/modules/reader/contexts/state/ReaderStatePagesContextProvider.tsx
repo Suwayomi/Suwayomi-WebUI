@@ -9,6 +9,7 @@
 import { ContextType, ReactNode, useMemo, useState } from 'react';
 import { ReaderStatePagesContext } from '@/modules/reader/contexts/state/ReaderStatePagesContext.tsx';
 import { createPageData } from '@/modules/reader/utils/ReaderPager.utils.tsx';
+import { ReaderTransitionPageMode } from '@/modules/reader/types/Reader.types.ts';
 
 type TContext = ContextType<typeof ReaderStatePagesContext>;
 
@@ -19,6 +20,9 @@ export const ReaderStatePagesContextProvider = ({ children }: { children: ReactN
     const [pageUrls, setPageUrls] = useState<TContext['pageUrls']>([]);
     const [pageLoadStates, setPageLoadStates] = useState<TContext['pageLoadStates']>([]);
     const [pages, setPages] = useState<TContext['pages']>([createPageData('', 0)]);
+    const [transitionPageMode, setTransitionPageMode] = useState<TContext['transitionPageMode']>(
+        ReaderTransitionPageMode.NONE,
+    );
 
     const value = useMemo(
         () => ({
@@ -34,8 +38,10 @@ export const ReaderStatePagesContextProvider = ({ children }: { children: ReactN
             setPageLoadStates,
             pages,
             setPages,
+            transitionPageMode,
+            setTransitionPageMode,
         }),
-        [totalPages, pages, currentPageIndex, pageToScrollToIndex, pageUrls, pageLoadStates],
+        [totalPages, pages, currentPageIndex, pageToScrollToIndex, pageUrls, pageLoadStates, transitionPageMode],
     );
 
     return <ReaderStatePagesContext.Provider value={value}>{children}</ReaderStatePagesContext.Provider>;

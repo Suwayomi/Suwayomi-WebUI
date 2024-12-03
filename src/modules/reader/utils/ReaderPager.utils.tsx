@@ -13,10 +13,11 @@ import {
     PageInViewportType,
     ReaderPageScaleMode,
     ReadingDirection,
+    ReaderTransitionPageMode,
     ReadingMode,
 } from '@/modules/reader/types/Reader.types.ts';
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
-import { isReaderWidthEditable } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
+import { isContinuousReadingMode, isReaderWidthEditable } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { ReaderPage } from '@/modules/reader/components/viewer/ReaderPage.tsx';
@@ -367,3 +368,9 @@ export const getPageIndexesToLoad = (
         .fill(1)
         .map((_, index) => startPagesIndex + index * directionInvert);
 };
+
+export const isTransitionPageVisible = (
+    mode: ReaderTransitionPageMode,
+    activeMode: ReaderTransitionPageMode,
+    readingMode: IReaderSettings['readingMode'],
+): boolean => [ReaderTransitionPageMode.BOTH, mode].includes(activeMode) || isContinuousReadingMode(readingMode);

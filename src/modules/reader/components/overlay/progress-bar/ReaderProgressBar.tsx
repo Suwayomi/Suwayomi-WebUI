@@ -20,7 +20,6 @@ import { ReaderProgressBarSlotsContainer } from '@/modules/reader/components/ove
 import { ProgressBarHighlightReadPages } from '@/modules/reader/components/overlay/progress-bar/ProgressBarHighlightReadPages.tsx';
 import { ReaderProgressBarCurrentPageSlot } from '@/modules/reader/components/overlay/progress-bar/ReaderProgressBarCurrentPageSlot.tsx';
 import {
-    getNextPageIndex,
     getPage,
     getPageForMousePos,
     getProgressBarPositionInfo,
@@ -29,13 +28,13 @@ import {
 import { getOptionForDirection as getOptionForDirectionImpl } from '@/theme.tsx';
 import { ReaderProgressBarSlotsActionArea } from '@/modules/reader/components/overlay/progress-bar/ReaderProgressBarSlotsActionArea.tsx';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
+import { ReaderControls } from '@/modules/reader/services/ReaderControls.ts';
 
 export const ReaderProgressBar = ({
     totalPages,
     pages,
     pageLoadStates,
     currentPageIndex,
-    setPageToScrollToIndex,
     slotProps,
     slots,
     createProgressBarSlot,
@@ -65,12 +64,13 @@ export const ReaderProgressBar = ({
     };
 }) => {
     const { isDragging, setIsDragging } = useReaderProgressBarContext();
+    const openPage = ReaderControls.useOpenPage();
+    const direction = ReaderService.useGetThemeDirection();
 
     const progressBarRef = useRef<HTMLDivElement | null>(null);
 
     const isHorizontalPosition = getProgressBarPositionInfo(progressBarPosition).isHorizontal;
     const currentPage = useMemo(() => getPage(currentPageIndex, pages), [currentPageIndex, pages]);
-    const direction = ReaderService.useGetThemeDirection();
     const getOptionForDirection = useCallback(
         <T,>(...args: Parameters<typeof getOptionForDirectionImpl<T>>) =>
             getOptionForDirectionImpl(args[0], args[1], direction),
@@ -78,10 +78,10 @@ export const ReaderProgressBar = ({
     );
 
     useHandleProgressDragging(
+        openPage,
         progressBarRef,
         isDragging,
         currentPage,
-        setPageToScrollToIndex,
         pages,
         progressBarPosition,
         getOptionForDirection,
@@ -101,7 +101,7 @@ export const ReaderProgressBar = ({
                             ? (slotProps?.progressBarPageTexts?.current?.sx ?? [])
                             : [slotProps?.progressBarPageTexts?.current?.sx]),
                     ]}
-                    onClick={() => setPageToScrollToIndex(getNextPageIndex('previous', currentPage.pagesIndex, pages))}
+                    onClick={() => openPage('previous', 'ltr')}
                 >
                     {currentPage.name}
                 </ReaderProgressBarPageNumber>
@@ -115,7 +115,7 @@ export const ReaderProgressBar = ({
                                 return;
                             }
 
-                            setPageToScrollToIndex(
+                            openPage(
                                 getPageForMousePos(
                                     event.touches[0],
                                     progressBarRef.current.getBoundingClientRect(),
@@ -132,7 +132,7 @@ export const ReaderProgressBar = ({
                                 return;
                             }
 
-                            setPageToScrollToIndex(
+                            openPage(
                                 getPageForMousePos(
                                     event,
                                     progressBarRef.current.getBoundingClientRect(),
@@ -195,7 +195,7 @@ export const ReaderProgressBar = ({
                             ? (slotProps?.progressBarPageTexts?.total?.sx ?? [])
                             : [slotProps?.progressBarPageTexts?.total?.sx]),
                     ]}
-                    onClick={() => setPageToScrollToIndex(getNextPageIndex('next', currentPage.pagesIndex, pages))}
+                    onClick={() => openPage('next', 'ltr')}
                 >
                     {totalPages}
                 </ReaderProgressBarPageNumber>

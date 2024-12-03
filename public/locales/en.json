@@ -235,7 +235,7 @@
       "label": {
         "downloading": "Downloading",
         "error": "Error",
-        "finished": "Finished",
+        "finished": "$t(global.label.finished)",
         "queued": "Queued"
       }
     },
@@ -407,6 +407,7 @@
       "discord": "Discord",
       "display": "Display",
       "filter": "Filter",
+      "finished": "Finished",
       "general": "General",
       "github": "GitHub",
       "hidden": "Hidden",
@@ -805,6 +806,7 @@
     },
     "error": {
       "label": {
+        "chapter_not_found": "Chapter does not exist",
         "next_chapter_does_not_exist": "There is no next chapter to open",
         "no_pages_found": "No pages found",
         "prev_chapter_does_not_exist": "There is no previous chapter to open"
@@ -929,7 +931,19 @@
         "reader_settings": "Reader Settings"
       }
     },
-    "title": "Reader — Manga {{mangaId}} Chapter {{chapterIndex}}"
+    "title": "Reader — Manga {{mangaId}} Chapter {{chapterIndex}}",
+    "transition_page": {
+      "current": "Current:",
+      "exit": {
+        "manga_page": "Exit to manga page",
+        "previous_page": "Exit to previous page"
+      },
+      "finished": "$t(global.label.finished):",
+      "first_chapter": "There is no previous chapter",
+      "last_chapter": "There is no next chapter",
+      "next": "$t(global.label.next):",
+      "previous": "$t(global.label.previous):"
+    }
   },
   "search": {
     "error": {
