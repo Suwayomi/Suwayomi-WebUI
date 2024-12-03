@@ -16,12 +16,12 @@ export const ReaderPagedPager = ({ onLoad, ...props }: ReaderPagerProps) => {
     return (
         <BasePager
             {...props}
-            createPage={(page, pagesIndex, shouldLoad) =>
+            createPage={(page, pagesIndex, shouldLoad, shouldDisplay) =>
                 createReaderPage(
                     page,
                     () => onLoad?.(pagesIndex),
                     shouldLoad,
-                    currentPageIndex === page.primary.index,
+                    shouldDisplay && currentPageIndex === page.primary.index,
                     currentPageIndex,
                     totalPages,
                 )

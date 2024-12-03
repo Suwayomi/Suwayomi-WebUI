@@ -197,7 +197,8 @@ export enum ReaderHotkey {
     OFFSET_SPREAD_PAGES,
 }
 
-export interface ReaderPagerProps extends Pick<ReaderStatePages, 'currentPageIndex' | 'pages' | 'totalPages'> {
+export interface ReaderPagerProps
+    extends Pick<ReaderStatePages, 'currentPageIndex' | 'pages' | 'totalPages' | 'transitionPageMode'> {
     imageRefs: MutableRefObject<(HTMLElement | null)[]>;
     onLoad?: (pagesIndex: number, isPrimary?: boolean) => void;
 }
@@ -205,4 +206,11 @@ export interface ReaderPagerProps extends Pick<ReaderStatePages, 'currentPageInd
 export enum PageInViewportType {
     X,
     Y,
+}
+
+export enum ReaderTransitionPageMode {
+    NONE,
+    PREVIOUS,
+    NEXT,
+    BOTH,
 }

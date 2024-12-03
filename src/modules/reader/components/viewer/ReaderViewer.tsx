@@ -48,6 +48,7 @@ export const ReaderViewer = forwardRef((_, ref: ForwardedRef<HTMLDivElement | nu
         totalPages,
         pageUrls,
         setPageLoadStates,
+        transitionPageMode,
     } = userReaderStatePagesContext();
     const { readingMode, shouldOffsetDoubleSpreads, readingDirection } = ReaderService.useSettings();
     const { setScrollbarXSize, setScrollbarYSize } = useReaderScrollbarContext();
@@ -127,17 +128,19 @@ export const ReaderViewer = forwardRef((_, ref: ForwardedRef<HTMLDivElement | nu
         }
     }, [actualPages, readingMode.value]);
 
-    // optionally scroll selected page into view in continues reading modes
+    // handle user page selection
     useLayoutEffect(() => {
+        const pageToScrollTo = getPage(pageToScrollToIndex, pages);
+
         if (isContinuousReadingMode(readingMode.value)) {
-            const pageToScrollToPagesIndex = getPage(pageToScrollToIndex, pages).pagesIndex;
-            const imageRef = imageRefs.current[pageToScrollToPagesIndex];
+            const imageRef = imageRefs.current[pageToScrollTo.pagesIndex];
             imageRef?.scrollIntoView({
                 block: 'start',
                 inline: 'start',
             });
-            setCurrentPageIndex(pageToScrollToPagesIndex);
         }
+
+        setCurrentPageIndex(pageToScrollTo.primary.index);
     }, [pageToScrollToIndex]);
 
     // invert x and y scrolling for the continuous horizontal reading mode
@@ -187,6 +190,7 @@ export const ReaderViewer = forwardRef((_, ref: ForwardedRef<HTMLDivElement | nu
                 totalPages={totalPages}
                 currentPageIndex={currentPageIndex}
                 pages={actualPages}
+                transitionPageMode={transitionPageMode}
                 imageRefs={imageRefs}
                 onLoad={(pagesIndex, isPrimary = true) => {
                     const page = actualPages[pagesIndex];

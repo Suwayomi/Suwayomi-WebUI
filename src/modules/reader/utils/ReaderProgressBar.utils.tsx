@@ -10,6 +10,7 @@ import { RefObject, useEffect } from 'react';
 import { ReaderProgressBarProps, TReaderProgressCurrentPage } from '@/modules/reader/types/ReaderProgressBar.types.ts';
 import { getOptionForDirection as getOptionForDirectionImpl } from '@/theme.tsx';
 import { ProgressBarPosition } from '@/modules/reader/types/Reader.types.ts';
+import { ReaderControls } from '@/modules/reader/services/ReaderControls.ts';
 
 export const getPage = (pageIndex: number, pages: ReaderProgressBarProps['pages']): TReaderProgressCurrentPage => {
     const pagesIndex = pages.findIndex(({ primary, secondary }) =>
@@ -82,10 +83,10 @@ export const getProgressBarPositionInfo = (
 };
 
 export const useHandleProgressDragging = (
+    openPage: ReturnType<(typeof ReaderControls)['useOpenPage']>,
     progressBarRef: RefObject<HTMLDivElement | null>,
     isDragging: boolean,
     currentPage: TReaderProgressCurrentPage,
-    setPageToScrollToIndex: (pageIndex: number) => void,
     pages: ReaderProgressBarProps['pages'],
     progressBarPosition: ProgressBarPosition,
     getOptionForDirection: typeof getOptionForDirectionImpl,
@@ -115,7 +116,7 @@ export const useHandleProgressDragging = (
                 return;
             }
 
-            setPageToScrollToIndex(newPageIndex);
+            openPage(newPageIndex);
         };
 
         const handleMouseMove = (e: MouseEvent) => {
@@ -135,5 +136,5 @@ export const useHandleProgressDragging = (
             document.removeEventListener('mousemove', handleMouseMove);
             document.removeEventListener('touchmove', handleTouchMove);
         };
-    }, [isDragging, currentPage, pages, progressBarPosition]);
+    }, [openPage, isDragging, currentPage, pages, progressBarPosition]);
 };

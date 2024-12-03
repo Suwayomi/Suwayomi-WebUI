@@ -19,7 +19,7 @@ export const ReaderVerticalPager = ({ onLoad, ...props }: ReaderPagerProps) => {
     return (
         <BasePager
             {...props}
-            createPage={(page, pagesIndex, shouldLoad, setRef) =>
+            createPage={(page, pagesIndex, shouldLoad, _, setRef) =>
                 createReaderPage(
                     page,
                     () => onLoad?.(pagesIndex),

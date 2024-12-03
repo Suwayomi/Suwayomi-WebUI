@@ -49,7 +49,7 @@ export const ReaderDoublePagedPager = ({ onLoad, ...props }: ReaderPagerProps) =
     return (
         <BasePager
             {...props}
-            createPage={(page, pagesIndex, shouldLoad) => {
+            createPage={(page, pagesIndex, shouldLoad, shouldDisplay) => {
                 const { primary, secondary } = page;
 
                 const currentSecondaryPageIndex = currentPage.secondary?.index ?? currentPage.primary.index;
@@ -64,7 +64,7 @@ export const ReaderDoublePagedPager = ({ onLoad, ...props }: ReaderPagerProps) =
                             page,
                             () => onLoad?.(pagesIndex),
                             shouldLoad,
-                            isPrimaryPage,
+                            shouldDisplay && isPrimaryPage,
                             currentPage.primary.index,
                             totalPages,
                             hasSecondaryPage
@@ -77,7 +77,7 @@ export const ReaderDoublePagedPager = ({ onLoad, ...props }: ReaderPagerProps) =
                                 { ...page, primary: { ...page.secondary! } },
                                 () => onLoad?.(pagesIndex, false),
                                 shouldLoad,
-                                isSecondaryPage,
+                                shouldDisplay && isSecondaryPage,
                                 currentSecondaryPageIndex,
                                 totalPages,
                                 getPagePosition('second', themeDirection, readingDirection.value),
