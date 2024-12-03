@@ -8,6 +8,7 @@
 
 import { createContext, useContext } from 'react';
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types.ts';
+import { ReaderTransitionPageMode } from '@/modules/reader/types/Reader.types.ts';
 
 export const ReaderStatePagesContext = createContext<ReaderStatePages>({
     totalPages: 0,
@@ -22,6 +23,8 @@ export const ReaderStatePagesContext = createContext<ReaderStatePages>({
     setPageLoadStates: () => undefined,
     pages: [],
     setPages: () => undefined,
+    transitionPageMode: ReaderTransitionPageMode.NONE,
+    setTransitionPageMode: () => undefined,
 });
 
 export const userReaderStatePagesContext = () => useContext(ReaderStatePagesContext);

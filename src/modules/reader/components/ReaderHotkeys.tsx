@@ -65,10 +65,11 @@ export const ReaderHotkeys = ({
                 CONTINUOUS_READING_MODE_TO_SCROLL_DIRECTION[readingMode.value],
                 readingDirection.value,
                 scrollElementRef.current,
+                openChapter,
                 ReaderScrollAmount.SMALL,
             ),
         { preventDefault: true },
-        [readingMode.value, readingDirection.value],
+        [readingMode.value, readingDirection.value, openChapter],
     );
     useHotkeys(
         hotkeys[ReaderHotkey.SCROLL_FORWARD],
@@ -79,10 +80,11 @@ export const ReaderHotkeys = ({
                 CONTINUOUS_READING_MODE_TO_SCROLL_DIRECTION[readingMode.value],
                 readingDirection.value,
                 scrollElementRef.current,
+                openChapter,
                 ReaderScrollAmount.SMALL,
             ),
         { preventDefault: true },
-        [readingMode.value, readingDirection.value],
+        [readingMode.value, readingDirection.value, openChapter],
     );
     useHotkeys(hotkeys[ReaderHotkey.PREVIOUS_CHAPTER], () => openChapter('previous'), [openChapter]);
     useHotkeys(hotkeys[ReaderHotkey.NEXT_CHAPTER], () => openChapter('next'), [openChapter]);

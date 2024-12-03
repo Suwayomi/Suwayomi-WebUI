@@ -13,7 +13,12 @@ import { getNextPageIndex, getPage } from '@/modules/reader/utils/ReaderProgress
 import { getOptionForDirection } from '@/theme.tsx';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { useReaderStateChaptersContext } from '@/modules/reader/contexts/state/ReaderStateChaptersContext.tsx';
-import { PageInViewportType, ReadingDirection, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
+import {
+    PageInViewportType,
+    ReadingDirection,
+    ReadingMode,
+    ReaderTransitionPageMode,
+} from '@/modules/reader/types/Reader.types.ts';
 import { ScrollDirection, ScrollOffset } from '@/modules/core/Core.types.ts';
 import { ReaderScrollAmount } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 import { isPageInViewport } from '@/modules/reader/utils/ReaderPager.utils.tsx';
@@ -45,11 +50,21 @@ export class ReaderControls {
         direction: ScrollDirection,
         readingDirection: ReadingDirection,
         element: HTMLElement,
+        openChapter: ReturnType<(typeof ReaderControls)['useOpenChapter']>,
         scrollAmountPercentage: number = ReaderScrollAmount.LARGE,
     ): void {
         if (!element) {
             return;
         }
+
+        const isAtStartY = element.scrollTop === 0;
+        const isAtEndY =
+            Math.floor(element.scrollTop) === element.scrollHeight - element.clientHeight ||
+            Math.ceil(element.scrollTop) === element.scrollHeight - element.clientHeight;
+        const isAtStartX = element.scrollLeft === 0;
+        const isAtEndX =
+            Math.floor(element.scrollLeft) === element.scrollWidth - element.clientWidth ||
+            Math.ceil(element.scrollLeft) === element.scrollWidth - element.clientWidth;
 
         const scrollAmount = scrollAmountPercentage / 100;
         const scrollDirection = SCROLL_DIRECTION_BY_SCROLL_OFFSET_BY_READING_DIRECTION[readingDirection][offset];
@@ -59,12 +74,32 @@ export class ReaderControls {
 
         switch (direction) {
             case ScrollDirection.X:
+                if (isAtStartX && offset === ScrollOffset.BACKWARD) {
+                    openChapter('previous');
+                    return;
+                }
+
+                if (isAtEndX && offset === ScrollOffset.FORWARD) {
+                    openChapter('next');
+                    return;
+                }
+
                 element.scroll({
                     left: getNewScrollPosition(element.scrollLeft, element.clientWidth),
                     behavior: 'smooth',
                 });
                 break;
             case ScrollDirection.Y:
+                if (isAtStartY && offset === ScrollOffset.BACKWARD) {
+                    openChapter('previous');
+                    return;
+                }
+
+                if (isAtEndY && offset === ScrollOffset.FORWARD) {
+                    openChapter('next');
+                    return;
+                }
+
                 element.scroll({
                     top: getNewScrollPosition(element.scrollTop, element.clientHeight),
                     behavior: 'smooth',
@@ -76,7 +111,7 @@ export class ReaderControls {
     }
 
     static useOpenChapter(): (offset: 'previous' | 'next') => void {
-        const { readingDirection } = ReaderService.useSettings();
+        const { readingDirection, readingMode } = ReaderService.useSettings();
         const { previousChapter, nextChapter } = useReaderStateChaptersContext();
         const direction = READING_DIRECTION_TO_DIRECTION[readingDirection.value];
 
@@ -96,13 +131,16 @@ export class ReaderControls {
                         throw new Error(`Unexpected "offset" (${offset})`);
                 }
             },
-            [direction, openPreviousChapter, openNextChapter],
+            [direction, openPreviousChapter, openNextChapter, readingMode.value],
         );
     }
 
-    static useOpenPage(): (offset: 'previous' | 'next') => void {
-        const { currentPageIndex, setPageToScrollToIndex, pages } = userReaderStatePagesContext();
-        const { readingDirection } = ReaderService.useSettings();
+    static useOpenPage(): (page: number | 'previous' | 'next', forceDirection?: Direction) => void {
+        const { currentPageIndex, setPageToScrollToIndex, pages, transitionPageMode, setTransitionPageMode } =
+            userReaderStatePagesContext();
+        const { previousChapter, nextChapter } = useReaderStateChaptersContext();
+        const { readingDirection, readingMode } = ReaderService.useSettings();
+        const openChapter = ReaderControls.useOpenChapter();
 
         const currentPage = useMemo(() => getPage(currentPageIndex, pages), [currentPageIndex, pages]);
         const previousPageIndex = useMemo(
@@ -115,20 +153,85 @@ export class ReaderControls {
         );
         const direction = READING_DIRECTION_TO_DIRECTION[readingDirection.value];
 
+        const isFirstPage = currentPageIndex === 0;
+        const isLastPage = currentPageIndex === pages[pages.length - 1].primary.index;
+        const isATransitionPageVisible = transitionPageMode !== ReaderTransitionPageMode.NONE;
+        const isContinuousReadingModeActive = isContinuousReadingMode(readingMode.value);
+
         return useCallback(
-            (offset) => {
-                switch (offset) {
+            (page, forceDirection = direction) => {
+                const convertedPage = getOptionForDirection(
+                    page,
+                    page === 'previous' ? 'next' : 'previous',
+                    forceDirection,
+                );
+
+                const shouldOpenPreviousChapter =
+                    isFirstPage && isATransitionPageVisible && convertedPage === 'previous' && !!previousChapter;
+                if (shouldOpenPreviousChapter) {
+                    openChapter('previous');
+                    return;
+                }
+
+                const shouldOpenNextChapter =
+                    isLastPage && isATransitionPageVisible && convertedPage === 'next' && !!nextChapter;
+                if (shouldOpenNextChapter) {
+                    openChapter('next');
+                    return;
+                }
+
+                const hideTransitionPage = () => setTransitionPageMode(ReaderTransitionPageMode.NONE);
+
+                if (typeof page === 'number') {
+                    setPageToScrollToIndex(page);
+                    hideTransitionPage();
+                    return;
+                }
+
+                const needToHideTransitionPage = isATransitionPageVisible && !isContinuousReadingModeActive;
+                switch (convertedPage) {
                     case 'previous':
-                        setPageToScrollToIndex(getOptionForDirection(previousPageIndex, nextPageIndex, direction));
+                        if (isFirstPage) {
+                            setTransitionPageMode(ReaderTransitionPageMode.PREVIOUS);
+                            return;
+                        }
+
+                        if (needToHideTransitionPage) {
+                            hideTransitionPage();
+                            return;
+                        }
+
+                        setPageToScrollToIndex(previousPageIndex);
                         break;
                     case 'next':
-                        setPageToScrollToIndex(getOptionForDirection(nextPageIndex, previousPageIndex, direction));
+                        if (isLastPage) {
+                            setTransitionPageMode(ReaderTransitionPageMode.NEXT);
+                            return;
+                        }
+
+                        if (needToHideTransitionPage) {
+                            hideTransitionPage();
+                            return;
+                        }
+
+                        setPageToScrollToIndex(nextPageIndex);
                         break;
                     default:
-                        throw new Error(`Unexpected "offset" (${offset})`);
+                        throw new Error(`Unexpected "offset" (${page})`);
                 }
             },
-            [direction, previousPageIndex, nextPageIndex],
+            [
+                direction,
+                previousPageIndex,
+                nextPageIndex,
+                isATransitionPageVisible,
+                isContinuousReadingModeActive,
+                isFirstPage,
+                isLastPage,
+                openChapter,
+                !!previousChapter,
+                !!nextChapter,
+            ],
         );
     }
 
@@ -153,6 +256,7 @@ export class ReaderControls {
         const { setShowPreview } = useReaderTapZoneContext();
         const { readingMode, readingDirection, isStaticNav } = ReaderService.useSettings();
         const openPage = ReaderControls.useOpenPage();
+        const openChapter = ReaderControls.useOpenChapter();
 
         return useCallback(
             (e) => {
@@ -177,14 +281,26 @@ export class ReaderControls {
                         break;
                     case TapZoneRegionType.PREVIOUS:
                         if (isContinuousReadingModeActive) {
-                            this.scroll(ScrollOffset.BACKWARD, scrollDirection, readingDirection.value, scrollElement);
+                            this.scroll(
+                                ScrollOffset.BACKWARD,
+                                scrollDirection,
+                                readingDirection.value,
+                                scrollElement,
+                                openChapter,
+                            );
                         } else {
                             openPage('previous');
                         }
                         break;
                     case TapZoneRegionType.NEXT:
                         if (isContinuousReadingModeActive) {
-                            this.scroll(ScrollOffset.FORWARD, scrollDirection, readingDirection.value, scrollElement);
+                            this.scroll(
+                                ScrollOffset.FORWARD,
+                                scrollDirection,
+                                readingDirection.value,
+                                scrollElement,
+                                openChapter,
+                            );
                         } else {
                             openPage('next');
                         }
@@ -193,7 +309,7 @@ export class ReaderControls {
                         throw new Error(`Unexpected "TapZoneRegionType" (${action})`);
                 }
             },
-            [scrollElement, currentPageIndex, pages, readingMode.value, openPage, readingDirection.value],
+            [scrollElement, currentPageIndex, pages, readingMode.value, openPage, readingDirection.value, openChapter],
         );
     }
 }
