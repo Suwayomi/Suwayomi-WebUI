@@ -256,3 +256,10 @@ export enum ReaderScrollAmount {
 export const READER_HOTKEYS = Object.values(ReaderHotkey).filter(
     (hotkey) => typeof hotkey === 'number',
 ) as ReaderHotkey[];
+
+export const READER_BACKGROUND_TO_COLOR: Record<ReaderBackgroundColor, string> = {
+    [ReaderBackgroundColor.THEME]: 'background.default',
+    [ReaderBackgroundColor.BLACK]: 'black',
+    [ReaderBackgroundColor.GRAY]: 'gray',
+    [ReaderBackgroundColor.WHITE]: 'white',
+};

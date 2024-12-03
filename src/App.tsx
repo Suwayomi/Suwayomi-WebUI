@@ -21,6 +21,7 @@ import { ServerUpdateChecker } from '@/modules/app-updates/components/ServerUpda
 import { lazyLoadFallback } from '@/modules/core/utils/LazyLoad.tsx';
 import { ErrorBoundary } from '@/modules/core/components/ErrorBoundary.tsx';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
+import { Reader } from '@/modules/reader/screens/Reader.tsx';
 
 const { Browse } = loadable(() => import('@/modules/browse/screens/Browse.tsx'), lazyLoadFallback);
 const { DownloadQueue } = loadable(() => import('@/modules/downloads/screens/DownloadQueue.tsx'), lazyLoadFallback);
@@ -163,8 +164,7 @@ const MainApp = () => {
 const ReaderApp = () => (
     <ErrorBoundary>
         <Routes>
-            <Route path="manga/:mangaId/chapter/:chapterIndex" element={null} />
-            <Route path="*" element={null} />
+            <Route path="*" element={<Reader />} />
         </Routes>
     </ErrorBoundary>
 );
@@ -180,8 +180,10 @@ export const App: React.FC = () => (
             <Box sx={{ flexShrink: 0 }}>
                 <DefaultNavBar />
             </Box>
-            <MainApp />
-            <ReaderApp />
+            <Routes>
+                <Route path="*" element={<MainApp />} />
+                <Route path="manga/:mangaId/chapter/:chapterIndex/*" element={<ReaderApp />} />
+            </Routes>
         </Box>
     </AppContext>
 );
