@@ -30,6 +30,7 @@ import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 import { ReaderControls } from '@/modules/reader/services/ReaderControls.ts';
 import { getPage } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
 import { isContinuousReadingMode } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
+import { useMouseDragScroll } from '@/modules/core/hooks/useMouseDragScroll.tsx';
 
 const READING_MODE_TO_IN_VIEWPORT_TYPE: Record<ReadingMode, PageInViewportType> = {
     [ReadingMode.SINGLE_PAGE]: PageInViewportType.X,
@@ -55,6 +56,9 @@ export const ReaderViewer = forwardRef((_, ref: ForwardedRef<HTMLDivElement | nu
 
     const scrollElementRef = useRef<HTMLDivElement | null>(null);
     useImperativeHandle(ref, () => scrollElementRef.current!);
+
+    const isContinuousReadingModeActive = isContinuousReadingMode(readingMode.value);
+    const isDragging = useMouseDragScroll(isContinuousReadingModeActive ? scrollElementRef : undefined);
 
     const scrollbarXSize = MediaQuery.useGetScrollbarSize('width', scrollElementRef.current);
     const scrollbarYSize = MediaQuery.useGetScrollbarSize('height', scrollElementRef.current);
@@ -117,7 +121,6 @@ export const ReaderViewer = forwardRef((_, ref: ForwardedRef<HTMLDivElement | nu
             setWasDoublePageMode(false);
             setPages(createPagesData(pageUrls));
             setPagesToSpreadState(Array(totalPages).fill(false));
-
             return;
         }
 
@@ -132,7 +135,7 @@ export const ReaderViewer = forwardRef((_, ref: ForwardedRef<HTMLDivElement | nu
     useLayoutEffect(() => {
         const pageToScrollTo = getPage(pageToScrollToIndex, pages);
 
-        if (isContinuousReadingMode(readingMode.value)) {
+        if (isContinuousReadingModeActive) {
             const imageRef = imageRefs.current[pageToScrollTo.pagesIndex];
             imageRef?.scrollIntoView({
                 block: 'start',
@@ -176,7 +179,7 @@ export const ReaderViewer = forwardRef((_, ref: ForwardedRef<HTMLDivElement | nu
         <Stack
             ref={scrollElementRef}
             sx={{ width: '100%', height: '100%', overflow: 'auto' }}
-            onClick={handleClick}
+            onClick={(e) => !isDragging && handleClick(e)}
             onScroll={() =>
                 ReaderControls.updateCurrentPageOnScroll(
                     imageRefs,
