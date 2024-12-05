@@ -56,4 +56,5 @@ export enum ScrollOffset {
 export enum ScrollDirection {
     X,
     Y,
+    XY,
 }
