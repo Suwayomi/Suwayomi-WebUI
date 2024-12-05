@@ -194,7 +194,7 @@
                 "log_files": {
                     "file_cleanup": {
                         "title": "Limpieza de archivos de registro",
-                        "value": "Eliminar copias de seguridad anteriores a $t(global.date.value.label.day)"
+                        "value": "Eliminar archivos de registro anteriores a $t(global.date.value.label.day)"
                     },
                     "file_size": {
                         "title": "Tamaño máximo del archivo de registro",

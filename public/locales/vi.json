@@ -235,7 +235,8 @@
                 "install": "Cài đặt",
                 "uninstall": "Gỡ cài đặt",
                 "update": "Cập nhật",
-                "install_external": "Cài đặt tiện ích bên ngoài"
+                "install_external": "Cài đặt tiện ích bên ngoài",
+                "update_all": "Cập nhật tất cả"
             }
         },
         "label": {
