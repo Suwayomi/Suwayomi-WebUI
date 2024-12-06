@@ -214,3 +214,9 @@ export enum ReaderTransitionPageMode {
     NEXT,
     BOTH,
 }
+
+export enum ReaderResumeMode {
+    START,
+    END,
+    LAST_READ,
+}

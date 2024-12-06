@@ -12,23 +12,25 @@ import Tooltip from '@mui/material/Tooltip';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
 import { Link } from 'react-router-dom';
+import { ChapterReadInfo, Chapters, ChapterSourceOrderInfo } from '@/modules/chapter/services/Chapters.ts';
 
 export const ContinueReadingButton = ({
     showContinueReadingButton,
-    nextChapterIndexToRead,
+    chapter,
     mangaLinkTo,
 }: {
     showContinueReadingButton: boolean;
-    nextChapterIndexToRead?: number;
+    chapter?: (ChapterSourceOrderInfo & ChapterReadInfo) | null;
     mangaLinkTo: string;
 }) => {
     const { t } = useTranslation();
 
-    const isFirstChapter = nextChapterIndexToRead === 1;
-
-    if (!showContinueReadingButton || nextChapterIndexToRead === undefined) {
+    if (!showContinueReadingButton || !chapter) {
         return null;
     }
+
+    const { sourceOrder } = chapter;
+    const isFirstChapter = sourceOrder === 1;
 
     return (
         <Tooltip title={t(isFirstChapter ? 'global.button.start' : 'global.button.resume')}>
@@ -37,7 +39,8 @@ export const ContinueReadingButton = ({
                 size="small"
                 sx={{ minWidth: 'unset', py: 0.5, px: 0.75 }}
                 component={Link}
-                to={`${mangaLinkTo}chapter/${nextChapterIndexToRead}`}
+                to={`${mangaLinkTo}chapter/${chapter.sourceOrder}`}
+                state={{ resumeMode: Chapters.getReaderResumeMode(chapter) }}
                 onClick={(e) => e.stopPropagation()}
                 onMouseDown={(e) => e.stopPropagation()}
             >

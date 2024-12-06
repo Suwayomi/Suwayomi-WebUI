@@ -122,8 +122,6 @@ export const ChapterList = ({
 
     const visibleChapters = useMemo(() => filterAndSortChapters(chapters, options), [chapters, options]);
 
-    const nextChapterIndexToRead = manga.firstUnreadChapter?.sourceOrder;
-
     const areAllChaptersRead = Mangas.isFullyRead(manga);
     const areAllChaptersDownloaded = Mangas.isFullyDownloaded(manga);
 
@@ -157,8 +155,8 @@ export const ChapterList = ({
             );
         }
 
-        if (nextChapterIndexToRead !== undefined) {
-            return <ResumeFab chapterIndex={nextChapterIndexToRead} mangaId={manga.id} />;
+        if (manga.firstUnreadChapter) {
+            return <ResumeFab chapter={manga.firstUnreadChapter} />;
         }
 
         return null;
