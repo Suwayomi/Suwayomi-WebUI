@@ -55,8 +55,6 @@ export const MangaCard = (props: MangaCardProps) => {
 
     const mangaLinkTo = getMangaLinkTo(mode, manga.id, manga.sourceId, manga.title);
 
-    const nextChapterIndexToRead = firstUnreadChapter?.sourceOrder;
-
     const [isMigrateDialogOpen, setIsMigrateDialogOpen] = useState(false);
 
     const handleClick = (event: React.MouseEvent | React.TouchEvent, openMenu?: () => void) => {
@@ -108,11 +106,11 @@ export const MangaCard = (props: MangaCardProps) => {
         () => (
             <ContinueReadingButton
                 showContinueReadingButton={showContinueReadingButton && mode === 'default'}
-                nextChapterIndexToRead={nextChapterIndexToRead}
+                chapter={firstUnreadChapter}
                 mangaLinkTo={mangaLinkTo}
             />
         ),
-        [showContinueReadingButton, nextChapterIndexToRead, mangaLinkTo],
+        [showContinueReadingButton, firstUnreadChapter, mangaLinkTo],
     );
 
     const mangaBadges = useMemo(

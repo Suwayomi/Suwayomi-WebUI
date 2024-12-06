@@ -21,6 +21,7 @@ import { CHAPTER_LIST_FIELDS } from '@/lib/graphql/fragments/ChapterFragments.ts
 
 import { DirectionOffset, TranslationKey } from '@/Base.types.ts';
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
+import { ReaderResumeMode } from '@/modules/reader/types/Reader.types.ts';
 
 export type ChapterAction = 'download' | 'delete' | 'bookmark' | 'unbookmark' | 'mark_as_read' | 'mark_as_unread';
 
@@ -390,5 +391,13 @@ export class Chapters {
         const nextChapters = uniqueNextChapters.toSpliced(isNextChapterOffset ? -1 : 0, 1);
 
         return onlyUnread ? Chapters.getNonRead(nextChapters) : nextChapters;
+    }
+
+    static getReaderResumeMode(chapter: ChapterReadInfo): ReaderResumeMode {
+        if (chapter.isRead) {
+            return ReaderResumeMode.START;
+        }
+
+        return ReaderResumeMode.LAST_READ;
     }
 }

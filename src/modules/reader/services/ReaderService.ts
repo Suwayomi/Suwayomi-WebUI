@@ -17,6 +17,7 @@ import {
     IReaderSettingsWithDefaultFlag,
     ReaderExitMode,
     ReaderOverlayMode,
+    ReaderResumeMode,
     ReadingDirection,
 } from '@/modules/reader/types/Reader.types.ts';
 import { useReaderStateMangaContext } from '@/modules/reader/contexts/state/ReaderStateMangaContext.tsx';
@@ -44,9 +45,19 @@ const DIRECTION_TO_READING_DIRECTION: Record<Direction, ReadingDirection> = {
 };
 
 export class ReaderService {
-    static useNavigateToChapter(chapter?: TChapterReader): () => void {
+    static useNavigateToChapter(chapter?: TChapterReader, resumeMode?: ReaderResumeMode): () => void {
         const navigate = useNavigate();
-        return useCallback(() => chapter && navigate(Chapters.getReaderUrl(chapter), { replace: true }), [chapter]);
+        return useCallback(
+            () =>
+                chapter &&
+                navigate(Chapters.getReaderUrl(chapter), {
+                    replace: true,
+                    state: {
+                        resumeMode,
+                    },
+                }),
+            [chapter],
+        );
     }
 
     static useSettings(): IReaderSettingsWithDefaultFlag {

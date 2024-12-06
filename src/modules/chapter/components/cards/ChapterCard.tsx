@@ -36,6 +36,7 @@ import {
     ChapterMangaInfo,
     ChapterNumberInfo,
     ChapterReadInfo,
+    Chapters,
     ChapterScanlatorInfo,
 } from '@/modules/chapter/services/Chapters.ts';
 import { ChaptersWithMeta } from '@/modules/chapter/services/ChaptersWithMeta.ts';
@@ -128,10 +129,11 @@ export const ChapterCard: React.FC<IProps> = (props: IProps) => {
                     >
                         <CardActionArea
                             component={Link}
-                            to={`/manga/${chapter.mangaId}/chapter/${chapter.sourceOrder}`}
+                            to={Chapters.getReaderUrl(chapter)}
                             style={{
                                 color: theme.palette.text[chapter.isRead ? 'disabled' : 'primary'],
                             }}
+                            state={{ resumeMode: Chapters.getReaderResumeMode(chapter) }}
                             replace={mode === 'reader'}
                             onClick={(e) => handleClick(e)}
                             {...longPressBind(popupState.open)}
