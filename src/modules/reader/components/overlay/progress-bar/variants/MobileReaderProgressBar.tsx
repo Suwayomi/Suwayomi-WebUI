@@ -20,7 +20,7 @@ import { useReaderStateChaptersContext } from '@/modules/reader/contexts/state/R
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { getPage } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
 import { getOptionForDirection } from '@/theme.tsx';
-import { ProgressBarPosition } from '@/modules/reader/types/Reader.types.ts';
+import { ProgressBarPosition, ReaderResumeMode } from '@/modules/reader/types/Reader.types.ts';
 import { ReaderProgressBarDirectionWrapper } from '@/modules/reader/components/overlay/progress-bar/ReaderProgressBarDirectionWrapper.tsx';
 import { useReaderProgressBarContext } from '@/modules/reader/contexts/ReaderProgressBarContext.tsx';
 import { useReaderOverlayContext } from '@/modules/reader/contexts/ReaderOverlayContext.tsx';
@@ -34,8 +34,8 @@ export const MobileReaderProgressBar = () => {
 
     const direction = ReaderService.useGetThemeDirection();
 
-    const openNextChapter = ReaderService.useNavigateToChapter(nextChapter);
-    const openPreviousChapter = ReaderService.useNavigateToChapter(previousChapter);
+    const openNextChapter = ReaderService.useNavigateToChapter(nextChapter, ReaderResumeMode.START);
+    const openPreviousChapter = ReaderService.useNavigateToChapter(previousChapter, ReaderResumeMode.END);
 
     useLayoutEffect(() => {
         setIsMaximized(isVisible);

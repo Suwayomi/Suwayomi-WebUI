@@ -24,6 +24,7 @@ import { ReaderNavBarDesktopNextPreviousButton } from '@/modules/reader/componen
 import { useGetOptionForDirection } from '@/theme.tsx';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { READING_DIRECTION_TO_THEME_DIRECTION } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
+import { ReaderResumeMode } from '@/modules/reader/types/Reader.types.ts';
 
 export const ReaderNavBarDesktopChapterNavigation = ({
     currentChapter,
@@ -61,6 +62,7 @@ export const ReaderNavBarDesktopChapterNavigation = ({
                     direction,
                 )}
                 replace
+                state={{ resumeMode: getOptionForDirection(ReaderResumeMode.END, ReaderResumeMode.START) }}
             />
             <FormControl sx={{ flexBasis: '70%', flexGrow: 0, flexShrink: 0 }}>
                 <InputLabel id="reader-nav-bar-desktop-chapter-select">{t('chapter.title_one')}</InputLabel>
@@ -92,6 +94,7 @@ export const ReaderNavBarDesktopChapterNavigation = ({
                     direction,
                 )}
                 replace
+                state={{ resumeMode: getOptionForDirection(ReaderResumeMode.START, ReaderResumeMode.END) }}
             />
             <Popover
                 {...bindPopover(popupState)}

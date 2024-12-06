@@ -48,6 +48,8 @@ export const MANGA_CHAPTER_NODE_FIELDS = gql`
         firstUnreadChapter {
             id
             sourceOrder
+            isRead
+            mangaId
         }
         lastReadChapter {
             id

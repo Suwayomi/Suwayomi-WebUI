@@ -10,20 +10,27 @@ import { Link } from 'react-router-dom';
 import PlayArrow from '@mui/icons-material/PlayArrow';
 import { useTranslation } from 'react-i18next';
 import { StyledFab } from '@/modules/core/components/buttons/StyledFab.tsx';
+import {
+    ChapterMangaInfo,
+    ChapterReadInfo,
+    Chapters,
+    ChapterSourceOrderInfo,
+} from '@/modules/chapter/services/Chapters.ts';
 
-interface ResumeFABProps {
-    chapterIndex: number;
-    mangaId: number;
-}
-
-export function ResumeFab(props: ResumeFABProps) {
+export function ResumeFab({ chapter }: { chapter: ChapterMangaInfo & ChapterSourceOrderInfo & ChapterReadInfo }) {
     const { t } = useTranslation();
 
-    const { chapterIndex, mangaId } = props;
+    const { sourceOrder } = chapter;
     return (
-        <StyledFab component={Link} variant="extended" color="primary" to={`/manga/${mangaId}/chapter/${chapterIndex}`}>
+        <StyledFab
+            component={Link}
+            variant="extended"
+            color="primary"
+            to={Chapters.getReaderUrl(chapter)}
+            state={{ resumeMode: Chapters.getReaderResumeMode(chapter) }}
+        >
             <PlayArrow />
-            {chapterIndex === 1 ? t('global.button.start') : t('global.button.resume')}
+            {sourceOrder === 1 ? t('global.button.start') : t('global.button.resume')}
         </StyledFab>
     );
 }

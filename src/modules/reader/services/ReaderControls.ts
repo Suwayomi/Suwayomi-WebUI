@@ -15,9 +15,10 @@ import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { useReaderStateChaptersContext } from '@/modules/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import {
     PageInViewportType,
+    ReaderResumeMode,
+    ReaderTransitionPageMode,
     ReadingDirection,
     ReadingMode,
-    ReaderTransitionPageMode,
 } from '@/modules/reader/types/Reader.types.ts';
 import { ScrollDirection, ScrollOffset } from '@/modules/core/Core.types.ts';
 import { ReaderScrollAmount } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
@@ -115,8 +116,8 @@ export class ReaderControls {
         const { previousChapter, nextChapter } = useReaderStateChaptersContext();
         const direction = READING_DIRECTION_TO_DIRECTION[readingDirection.value];
 
-        const openPreviousChapter = ReaderService.useNavigateToChapter(previousChapter);
-        const openNextChapter = ReaderService.useNavigateToChapter(nextChapter);
+        const openPreviousChapter = ReaderService.useNavigateToChapter(previousChapter, ReaderResumeMode.END);
+        const openNextChapter = ReaderService.useNavigateToChapter(nextChapter, ReaderResumeMode.START);
 
         return useCallback(
             (offset) => {
