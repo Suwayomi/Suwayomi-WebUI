@@ -28,7 +28,7 @@ import { createPagesData, getDoublePageModePages, isSpreadPage } from '@/modules
 import { useReaderScrollbarContext } from '@/modules/reader/contexts/ReaderScrollbarContext.tsx';
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 import { ReaderControls } from '@/modules/reader/services/ReaderControls.ts';
-import { getPage } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
+import { getNextIndexFromPage, getPage } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
 import { isContinuousReadingMode } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
 import { useMouseDragScroll } from '@/modules/core/hooks/useMouseDragScroll.tsx';
 
@@ -42,7 +42,6 @@ const READING_MODE_TO_IN_VIEWPORT_TYPE: Record<ReadingMode, PageInViewportType> 
 export const ReaderViewer = forwardRef((_, ref: ForwardedRef<HTMLDivElement | null>) => {
     const {
         currentPageIndex,
-        setCurrentPageIndex,
         pageToScrollToIndex,
         pages,
         setPages,
@@ -53,6 +52,7 @@ export const ReaderViewer = forwardRef((_, ref: ForwardedRef<HTMLDivElement | nu
     } = userReaderStatePagesContext();
     const { readingMode, shouldOffsetDoubleSpreads, readingDirection } = ReaderService.useSettings();
     const { setScrollbarXSize, setScrollbarYSize } = useReaderScrollbarContext();
+    const updateCurrentPageIndex = ReaderControls.useUpdateCurrentPageIndex();
 
     const scrollElementRef = useRef<HTMLDivElement | null>(null);
     useImperativeHandle(ref, () => scrollElementRef.current!);
@@ -143,7 +143,10 @@ export const ReaderViewer = forwardRef((_, ref: ForwardedRef<HTMLDivElement | nu
             });
         }
 
-        setCurrentPageIndex(pageToScrollTo.primary.index);
+        const newPageIndex = getNextIndexFromPage(pageToScrollTo);
+        const isLastPage = newPageIndex === totalPages - 1;
+
+        updateCurrentPageIndex(newPageIndex, !isLastPage);
     }, [pageToScrollToIndex]);
 
     // invert x and y scrolling for the continuous horizontal reading mode
@@ -183,9 +186,10 @@ export const ReaderViewer = forwardRef((_, ref: ForwardedRef<HTMLDivElement | nu
             onScroll={() =>
                 ReaderControls.updateCurrentPageOnScroll(
                     imageRefs,
-                    currentPageIndex,
-                    setCurrentPageIndex,
+                    totalPages - 1,
+                    updateCurrentPageIndex,
                     inViewportType,
+                    readingDirection.value,
                 )
             }
         >

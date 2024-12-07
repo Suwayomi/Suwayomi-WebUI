@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Direction, useTheme } from '@mui/material/styles';
 import { t as translate } from 'i18next';
@@ -33,6 +33,12 @@ import { updateMetadataList } from '@/modules/metadata/services/MetadataApolloCa
 import { useBackButton } from '@/modules/core/hooks/useBackButton.ts';
 import { GLOBAL_READER_SETTING_KEYS } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 import { useReaderStateSettingsContext } from '@/modules/reader/contexts/state/ReaderStateSettingsContext.tsx';
+import { UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
+import { useReaderStateChaptersContext } from '@/modules/reader/contexts/state/ReaderStateChaptersContext.tsx';
+import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
+import { DirectionOffset } from '@/Base.types.ts';
+import { getChapterIdsToDeleteForChapterUpdate } from '@/modules/reader/utils/Reader.utils.ts';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 
 const DIRECTION_TO_INVERTED: Record<Direction, Direction> = {
     ltr: 'rtl',
@@ -57,6 +63,73 @@ export class ReaderService {
                     },
                 }),
             [chapter],
+        );
+    }
+
+    static useUpdateChapter(): (patch: UpdateChapterPatchInput) => void {
+        const { manga } = useReaderStateMangaContext();
+        const { initialChapter, currentChapter, mangaChapters } = useReaderStateChaptersContext();
+        const { shouldSkipDupChapters } = this.useSettings();
+        const {
+            settings: { deleteChaptersWhileReading, deleteChaptersWithBookmark, updateProgressAfterReading },
+        } = useMetadataServerSettings();
+
+        const previousChapters = useMemo(() => {
+            if (!initialChapter || !currentChapter) {
+                return [];
+            }
+
+            return Chapters.getNextChapters(currentChapter, mangaChapters, {
+                offset: DirectionOffset.PREVIOUS,
+                skipDupe: shouldSkipDupChapters,
+                skipDupeChapter: initialChapter,
+            });
+        }, [initialChapter?.id, currentChapter?.id, mangaChapters, shouldSkipDupChapters]);
+
+        return useCallback(
+            (patch) => {
+                if (!manga || !currentChapter) {
+                    return;
+                }
+
+                const chapterIdsToUpdate = Chapters.getIds(
+                    shouldSkipDupChapters ? Chapters.addDuplicates([currentChapter], mangaChapters) : [currentChapter],
+                );
+                const chapterIdsToDelete = getChapterIdsToDeleteForChapterUpdate(
+                    currentChapter,
+                    mangaChapters,
+                    previousChapters,
+                    patch,
+                    deleteChaptersWhileReading,
+                    deleteChaptersWithBookmark,
+                    shouldSkipDupChapters,
+                );
+
+                requestManager
+                    .updateChapters(
+                        chapterIdsToUpdate,
+                        {
+                            ...patch,
+                            chapterIdsToDelete,
+                            trackProgressMangaId:
+                                updateProgressAfterReading && patch.isRead && manga.trackRecords.totalCount
+                                    ? manga.id
+                                    : undefined,
+                        },
+                        { errorPolicy: 'all' },
+                    )
+                    .response.catch(defaultPromiseErrorHandler('ReaderService::useUpdateChapter'));
+            },
+            [
+                manga?.id,
+                currentChapter?.id,
+                mangaChapters,
+                previousChapters,
+                shouldSkipDupChapters,
+                deleteChaptersWhileReading,
+                deleteChaptersWithBookmark,
+                updateProgressAfterReading,
+            ],
         );
     }
 

@@ -154,7 +154,18 @@ export interface IReaderSettingsWithDefaultFlag
         TransformRecordToWithDefaultFlag<IReaderSettingsManga> {}
 
 export interface ReaderStateChapters {
+    /**
+     * all chapters of the manga
+     */
+    mangaChapters: TChapterReader[];
+    /**
+     * actual chapters that have been filtered
+     *
+     * optional filters:
+     *  - removed duplicate chapters
+     */
     chapters: TChapterReader[];
+    initialChapter?: TChapterReader | null;
     currentChapter?: TChapterReader | null;
     nextChapter?: TChapterReader;
     previousChapter?: TChapterReader;

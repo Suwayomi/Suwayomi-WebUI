@@ -10,6 +10,7 @@ import { createContext, useContext } from 'react';
 import { ReaderStateChapters } from '@/modules/reader/types/Reader.types.ts';
 
 export const ReaderStateChaptersContext = createContext<ReaderStateChapters>({
+    mangaChapters: [],
     chapters: [],
     setReaderStateChapters: () => {},
 });

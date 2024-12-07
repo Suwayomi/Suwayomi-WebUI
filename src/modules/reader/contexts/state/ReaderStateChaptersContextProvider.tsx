@@ -12,7 +12,7 @@ import { ReaderStateChaptersContext } from '@/modules/reader/contexts/state/Read
 type TContext = ContextType<typeof ReaderStateChaptersContext>;
 
 export const ReaderStateChaptersContextProvider = ({ children }: { children: ReactNode }) => {
-    const [state, setState] = useState<Omit<TContext, 'setReaderStateChapters'>>({ chapters: [] });
+    const [state, setState] = useState<Omit<TContext, 'setReaderStateChapters'>>({ mangaChapters: [], chapters: [] });
 
     const value = useMemo(
         () => ({
