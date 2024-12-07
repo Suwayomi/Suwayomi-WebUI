@@ -30,11 +30,14 @@ interface IProps {
     imgStyle?: SxProps<Theme>;
 
     onLoad?: () => void;
+    onError?: () => void;
 
     shouldDecode?: boolean;
     useFetchApi?: boolean;
 
     priority?: Priority;
+
+    retryKeyPrefix?: string;
 }
 
 export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTMLImageElement | null>) => {
@@ -45,9 +48,11 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
         src,
         alt,
         onLoad,
+        onError,
         spinnerStyle: { small, ...spinnerStyle } = {},
         imgStyle,
         priority,
+        retryKeyPrefix,
     } = props;
 
     const { t } = useTranslation();
@@ -62,6 +67,10 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
     const updateImageState = (loading: boolean, error: boolean = false, aborted: boolean = false) => {
         setIsLoading(loading);
         setHasError(error);
+
+        if (error && !loading && !aborted) {
+            onError?.();
+        }
 
         if (!loading && !error && !aborted) {
             onLoad?.();
@@ -114,7 +123,7 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
             clearTimeout(cacheTimeout);
             imageRequest.abortRequest(new Error('Component was unmounted'));
         };
-    }, [src, imgLoadRetryKey, showMissingImageIcon, shouldLoad]);
+    }, [src, imgLoadRetryKey, retryKeyPrefix, showMissingImageIcon, shouldLoad]);
 
     return (
         <>
@@ -134,7 +143,7 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
             ) : (
                 <Box
                     component="img"
-                    key={`${src}_${imgLoadRetryKey}`}
+                    key={`${src}_${imgLoadRetryKey}_${retryKeyPrefix}`}
                     sx={[
                         ...(Array.isArray(imgStyle) ? (imgStyle ?? []) : [imgStyle]),
                         applyStyles(!imageSourceUrl || isLoading || hasError, {

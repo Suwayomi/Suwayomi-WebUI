@@ -13,7 +13,13 @@ import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 import { ReaderPagerProps, ReadingDirection } from '@/modules/reader/types/Reader.types.ts';
 import { createReaderPage } from '@/modules/reader/utils/ReaderPager.utils.tsx';
 
-export const ReaderHorizontalPager = ({ onLoad, ...props }: ReaderPagerProps) => {
+export const ReaderHorizontalPager = ({
+    onLoad,
+    onError,
+    pageLoadStates,
+    retryFailedPagesKeyPrefix,
+    ...props
+}: ReaderPagerProps) => {
     const { currentPageIndex, totalPages } = props;
 
     const { pageGap, readingDirection } = ReaderService.useSettings();
@@ -28,10 +34,12 @@ export const ReaderHorizontalPager = ({ onLoad, ...props }: ReaderPagerProps) =>
                 createReaderPage(
                     page,
                     () => onLoad?.(pagesIndex),
+                    () => onError?.(page.primary.index),
                     shouldLoad,
                     true,
                     currentPageIndex,
                     totalPages,
+                    pageLoadStates[page.primary.index].error ? retryFailedPagesKeyPrefix : undefined,
                     undefined,
                     undefined,
                     setRef,

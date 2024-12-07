@@ -202,10 +202,12 @@ const getPageDownloadPriority = (currentPageIndex: number, pageIndex: number, to
 export const createReaderPage = (
     { primary: { index, alt, url } }: ReaderStatePages['pages'][number],
     onLoad: () => void,
+    onError: (() => void) | undefined,
     shouldLoad: boolean,
     display: boolean,
     currentPageIndex: number,
     totalPages: number,
+    retryKeyPrefix?: string,
     position?: 'left' | 'right',
     isDoublePage?: boolean,
     setRef?: (ref: HTMLElement | null) => void,
@@ -219,8 +221,10 @@ export const createReaderPage = (
         priority={getPageDownloadPriority(currentPageIndex, index, totalPages)}
         position={position}
         onLoad={onLoad}
+        onError={onError}
         doublePage={isDoublePage}
         shouldLoad={shouldLoad}
+        retryKeyPrefix={retryKeyPrefix}
     />
 );
 

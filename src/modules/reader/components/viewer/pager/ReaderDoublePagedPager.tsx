@@ -37,7 +37,13 @@ const getPagePosition = (
     return isLtrReadingDirection ? 'right' : 'left';
 };
 
-export const ReaderDoublePagedPager = ({ onLoad, ...props }: ReaderPagerProps) => {
+export const ReaderDoublePagedPager = ({
+    onLoad,
+    onError,
+    pageLoadStates,
+    retryFailedPagesKeyPrefix,
+    ...props
+}: ReaderPagerProps) => {
     const { currentPageIndex, pages, totalPages } = props;
 
     const { readingDirection } = ReaderService.useSettings();
@@ -63,10 +69,12 @@ export const ReaderDoublePagedPager = ({ onLoad, ...props }: ReaderPagerProps) =
                         {createReaderPage(
                             page,
                             () => onLoad?.(pagesIndex),
+                            () => onError?.(primary.index),
                             shouldLoad,
                             shouldDisplay && isPrimaryPage,
                             currentPage.primary.index,
                             totalPages,
+                            pageLoadStates[primary.index].error ? retryFailedPagesKeyPrefix : undefined,
                             hasSecondaryPage
                                 ? getPagePosition('first', themeDirection, readingDirection.value)
                                 : undefined,
@@ -76,10 +84,12 @@ export const ReaderDoublePagedPager = ({ onLoad, ...props }: ReaderPagerProps) =
                             createReaderPage(
                                 { ...page, primary: { ...page.secondary! } },
                                 () => onLoad?.(pagesIndex, false),
+                                () => onError?.(secondary.index),
                                 shouldLoad,
                                 shouldDisplay && isSecondaryPage,
                                 currentSecondaryPageIndex,
                                 totalPages,
+                                pageLoadStates[secondary.index].error ? retryFailedPagesKeyPrefix : undefined,
                                 getPagePosition('second', themeDirection, readingDirection.value),
                                 true,
                             )}

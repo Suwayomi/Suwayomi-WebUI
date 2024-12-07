@@ -23,6 +23,8 @@ export const ReaderStatePagesContextProvider = ({ children }: { children: ReactN
     const [transitionPageMode, setTransitionPageMode] = useState<TContext['transitionPageMode']>(
         ReaderTransitionPageMode.NONE,
     );
+    const [retryFailedPagesKeyPrefix, setRetryFailedPagesKeyPrefix] =
+        useState<TContext['retryFailedPagesKeyPrefix']>('');
 
     const value = useMemo(
         () => ({
@@ -40,8 +42,19 @@ export const ReaderStatePagesContextProvider = ({ children }: { children: ReactN
             setPages,
             transitionPageMode,
             setTransitionPageMode,
+            retryFailedPagesKeyPrefix,
+            setRetryFailedPagesKeyPrefix,
         }),
-        [totalPages, pages, currentPageIndex, pageToScrollToIndex, pageUrls, pageLoadStates, transitionPageMode],
+        [
+            totalPages,
+            pages,
+            currentPageIndex,
+            pageToScrollToIndex,
+            pageUrls,
+            pageLoadStates,
+            transitionPageMode,
+            retryFailedPagesKeyPrefix,
+        ],
     );
 
     return <ReaderStatePagesContext.Provider value={value}>{children}</ReaderStatePagesContext.Provider>;

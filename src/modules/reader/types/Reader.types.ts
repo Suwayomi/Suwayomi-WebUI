@@ -209,9 +209,18 @@ export enum ReaderHotkey {
 }
 
 export interface ReaderPagerProps
-    extends Pick<ReaderStatePages, 'currentPageIndex' | 'pages' | 'totalPages' | 'transitionPageMode'> {
+    extends Pick<
+        ReaderStatePages,
+        | 'currentPageIndex'
+        | 'pages'
+        | 'totalPages'
+        | 'transitionPageMode'
+        | 'pageLoadStates'
+        | 'retryFailedPagesKeyPrefix'
+    > {
     imageRefs: MutableRefObject<(HTMLElement | null)[]>;
     onLoad?: (pagesIndex: number, isPrimary?: boolean) => void;
+    onError?: (pageIndex: number) => void;
 }
 
 export enum PageInViewportType {
