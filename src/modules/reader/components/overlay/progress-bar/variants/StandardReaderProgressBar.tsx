@@ -68,8 +68,8 @@ export const StandardReaderProgressBar = () => {
                                         backgroundColor: lighten(theme.palette.background.paper, 0.1),
                                     }),
                                     ...applyStyles(
-                                        pageLoadStates[primary.index] &&
-                                            (!secondary || pageLoadStates[secondary.index]),
+                                        pageLoadStates[primary.index]?.loaded &&
+                                            (!secondary || pageLoadStates[secondary.index]?.loaded),
                                         {
                                             backgroundColor: darken(theme.palette.background.paper, 0.35),
                                             ...theme.applyStyles('dark', {

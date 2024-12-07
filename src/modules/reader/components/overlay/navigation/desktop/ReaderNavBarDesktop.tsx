@@ -57,7 +57,8 @@ export const ReaderNavBarDesktop = ({ isVisible, openSettings }: ReaderNavBarDes
     const { setReaderNavBarWidth } = useNavBarContext();
     const { manga } = useReaderStateMangaContext();
     const { chapters, currentChapter, nextChapter, previousChapter } = useReaderStateChaptersContext();
-    const { pages, currentPageIndex } = userReaderStatePagesContext();
+    const { pages, currentPageIndex, pageLoadStates, setPageLoadStates, setRetryFailedPagesKeyPrefix } =
+        userReaderStatePagesContext();
 
     const getOptionForDirection = useGetOptionForDirection();
 
@@ -118,7 +119,12 @@ export const ReaderNavBarDesktop = ({ isVisible, openSettings }: ReaderNavBarDes
                                 mangaTitle={manga.title}
                                 chapterTitle={currentChapter.name}
                             />
-                            <ReaderNavBarDesktopActions currentChapter={currentChapter} />
+                            <ReaderNavBarDesktopActions
+                                currentChapter={currentChapter}
+                                pageLoadStates={pageLoadStates}
+                                setPageLoadStates={setPageLoadStates}
+                                setRetryFailedPagesKeyPrefix={setRetryFailedPagesKeyPrefix}
+                            />
                         </>
                     ) : (
                         <LoadingPlaceholder />

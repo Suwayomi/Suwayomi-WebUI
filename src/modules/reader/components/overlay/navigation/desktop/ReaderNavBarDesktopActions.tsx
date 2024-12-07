@@ -15,13 +15,14 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import DownloadIcon from '@mui/icons-material/Download';
 import ReplayIcon from '@mui/icons-material/Replay';
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { actionToTranslationKey, ChapterAction, Chapters } from '@/modules/chapter/services/Chapters.ts';
 import { ReaderStateChapters } from '@/modules/reader/types/Reader.types.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { DownloadStateIndicator } from '@/modules/core/components/DownloadStateIndicator.tsx';
 import { DownloadStatusFieldsFragment } from '@/lib/graphql/generated/graphql.ts';
+import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types.ts';
 
 const DownloadButton = ({
     currentChapter,
@@ -60,10 +61,16 @@ const DownloadButton = ({
 
 export const ReaderNavBarDesktopActions = ({
     currentChapter,
-}: Required<Pick<ReaderStateChapters, 'currentChapter'>>) => {
+    pageLoadStates,
+    setPageLoadStates,
+    setRetryFailedPagesKeyPrefix,
+}: Required<Pick<ReaderStateChapters, 'currentChapter'>> &
+    Pick<ReaderStatePages, 'pageLoadStates' | 'setPageLoadStates' | 'setRetryFailedPagesKeyPrefix'>) => {
     const { id, isBookmarked, realUrl } = currentChapter ?? { id: -1, isBookmarked: false, realUrl: '' };
 
     const { t } = useTranslation();
+
+    const pageRetryKeyPrefix = useRef<number>(0);
 
     const { data: downloaderData } = requestManager.useGetDownloadStatus();
     const queue = downloaderData?.downloadStatus.queue ?? [];
@@ -71,6 +78,11 @@ export const ReaderNavBarDesktopActions = ({
     const downloadChapter = useMemo(
         () => queue.find((queueItem) => queueItem.chapter.id === currentChapter?.id),
         [queue, id],
+    );
+
+    const haveSomePagesFailedToLoad = useMemo(
+        () => pageLoadStates.some((pageLoadState) => pageLoadState.error),
+        [pageLoadStates],
     );
 
     const bookmarkAction: Extract<ChapterAction, 'unbookmark' | 'bookmark'> = isBookmarked ? 'unbookmark' : 'bookmark';
@@ -83,7 +95,17 @@ export const ReaderNavBarDesktopActions = ({
                 </IconButton>
             </Tooltip>
             <Tooltip title={t('reader.button.retry_load_pages')}>
-                <IconButton color="inherit">
+                <IconButton
+                    onClick={() => {
+                        setPageLoadStates((statePageLoadStates) =>
+                            statePageLoadStates.map((pageLoadState) => ({ loaded: pageLoadState.loaded })),
+                        );
+                        setRetryFailedPagesKeyPrefix(`${pageRetryKeyPrefix.current}`);
+                        pageRetryKeyPrefix.current = (pageRetryKeyPrefix.current + 1) % 1000;
+                    }}
+                    disabled={!haveSomePagesFailedToLoad}
+                    color="inherit"
+                >
                     <ReplayIcon />
                 </IconButton>
             </Tooltip>
