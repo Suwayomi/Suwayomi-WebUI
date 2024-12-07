@@ -12,8 +12,8 @@ import {
     IReaderSettings,
     PageInViewportType,
     ReaderPageScaleMode,
-    ReadingDirection,
     ReaderTransitionPageMode,
+    ReadingDirection,
     ReadingMode,
 } from '@/modules/reader/types/Reader.types.ts';
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
@@ -224,7 +224,16 @@ export const createReaderPage = (
     />
 );
 
-export const isPageInViewport = (element: HTMLElement, type: PageInViewportType): boolean => {
+const getIsPageInViewportInfo = (
+    element: HTMLElement,
+): {
+    isLeftInViewport: boolean;
+    isRightInViewport: boolean;
+    isFillingWidthViewportCompletely: boolean;
+    isTopInViewport: boolean;
+    isBottomInViewport: boolean;
+    isFillingHeightViewportCompletely: boolean;
+} => {
     const { top, bottom, left, right } = element.getBoundingClientRect();
 
     // for some reason using "scrollIntoView" to scroll a page into view does not always result in the page to be at top,
@@ -239,6 +248,26 @@ export const isPageInViewport = (element: HTMLElement, type: PageInViewportType)
     const isBottomInViewport = bottom >= MIN_VISIBLE_PX && bottom <= window.innerHeight;
     const isFillingHeightViewportCompletely = top <= MIN_VISIBLE_PX && bottom >= window.innerHeight;
 
+    return {
+        isLeftInViewport,
+        isRightInViewport,
+        isFillingWidthViewportCompletely,
+        isTopInViewport,
+        isBottomInViewport,
+        isFillingHeightViewportCompletely,
+    };
+};
+
+export const isPageInViewport = (element: HTMLElement, type: PageInViewportType): boolean => {
+    const {
+        isLeftInViewport,
+        isRightInViewport,
+        isFillingWidthViewportCompletely,
+        isTopInViewport,
+        isBottomInViewport,
+        isFillingHeightViewportCompletely,
+    } = getIsPageInViewportInfo(element);
+
     const isInViewportX = isLeftInViewport || isRightInViewport || isFillingWidthViewportCompletely;
     const isInViewportY = isTopInViewport || isBottomInViewport || isFillingHeightViewportCompletely;
 
@@ -247,6 +276,23 @@ export const isPageInViewport = (element: HTMLElement, type: PageInViewportType)
             return isInViewportX;
         case PageInViewportType.Y:
             return isInViewportY;
+        default:
+            throw new Error(`unexpected "type" (${type})`);
+    }
+};
+
+export const isEndOfPageInViewport = (
+    element: HTMLElement,
+    type: PageInViewportType,
+    direction: ReadingDirection,
+): boolean => {
+    const { isLeftInViewport, isRightInViewport, isBottomInViewport } = getIsPageInViewportInfo(element);
+
+    switch (type) {
+        case PageInViewportType.X:
+            return direction === ReadingDirection.LTR ? isRightInViewport : isLeftInViewport;
+        case PageInViewportType.Y:
+            return isBottomInViewport;
         default:
             throw new Error(`unexpected "type" (${type})`);
     }

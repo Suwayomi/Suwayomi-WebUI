@@ -23,6 +23,13 @@ export const getPage = (pageIndex: number, pages: ReaderProgressBarProps['pages'
     };
 };
 
+/**
+ * for the double page mode the secondary page index has to be used to be able to correctly detect if the last page is visible
+ *
+ */
+export const getNextIndexFromPage = (page: ReaderProgressBarProps['pages'][number]) =>
+    page.secondary?.index ?? page.primary.index;
+
 export const getNextPageIndex = (
     offset: 'previous' | 'next',
     pagesIndex: number,
@@ -30,9 +37,9 @@ export const getNextPageIndex = (
 ): number => {
     switch (offset) {
         case 'previous':
-            return pages[Math.max(0, pagesIndex - 1)].primary.index;
+            return getNextIndexFromPage(pages[Math.max(0, pagesIndex - 1)]);
         case 'next':
-            return pages[Math.min(pages.length - 1, pagesIndex + 1)].primary.index;
+            return getNextIndexFromPage(pages[Math.min(pages.length - 1, pagesIndex + 1)]);
         default:
             throw new Error(`Unexpected offset "${offset}"`);
     }
