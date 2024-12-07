@@ -2981,7 +2981,16 @@ export class RequestManager {
                                 return data;
                             }
 
-                            const queueWithAddedDownloads = [...data.downloadStatus.queue, ...downloadsToAdd];
+                            const downloadsToAddWithoutAlreadyKnown = downloadsToAdd.filter((download) =>
+                                data.downloadStatus.queue.every(
+                                    (queueDownload) => queueDownload.chapter.id !== download.chapter.id,
+                                ),
+                            );
+
+                            const queueWithAddedDownloads = [
+                                ...data.downloadStatus.queue,
+                                ...downloadsToAddWithoutAlreadyKnown,
+                            ];
                             const queueWithoutRemovedDownloads = !downloadsToRemove.length
                                 ? queueWithAddedDownloads
                                 : queueWithAddedDownloads.filter(
