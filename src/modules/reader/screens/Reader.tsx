@@ -147,7 +147,7 @@ export const Reader = () => {
             setTotalPages(pagesPayload.chapter.pageCount);
             setPages(createPagesData(pages));
             setPageUrls(pages);
-            setPageLoadStates(pages.map(() => false));
+            setPageLoadStates(pages.map(() => ({ loaded: false })));
             setCurrentPageIndex(initialReaderPageIndex);
             setPageToScrollToIndex(initialReaderPageIndex);
         } else {
@@ -156,7 +156,7 @@ export const Reader = () => {
             setTotalPages(0);
             setPages([createPageData('', 0)]);
             setPageUrls([]);
-            setPageLoadStates([]);
+            setPageLoadStates([{ loaded: false }]);
         }
 
         setTransitionPageMode(ReaderTransitionPageMode.NONE);

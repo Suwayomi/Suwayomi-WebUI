@@ -31,12 +31,14 @@ export interface ReaderStatePages {
     setPageToScrollToIndex: React.Dispatch<React.SetStateAction<number>>;
     pageUrls: string[];
     setPageUrls: React.Dispatch<React.SetStateAction<string[]>>;
-    pageLoadStates: boolean[];
-    setPageLoadStates: React.Dispatch<React.SetStateAction<boolean[]>>;
+    pageLoadStates: { loaded: boolean; error?: boolean }[];
+    setPageLoadStates: React.Dispatch<React.SetStateAction<{ loaded: boolean; error?: boolean }[]>>;
     pages: PageData[];
     setPages: React.Dispatch<React.SetStateAction<PageData[]>>;
     transitionPageMode: ReaderTransitionPageMode;
     setTransitionPageMode: React.Dispatch<React.SetStateAction<ReaderTransitionPageMode>>;
+    retryFailedPagesKeyPrefix: string;
+    setRetryFailedPagesKeyPrefix: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export interface ReaderProgressBarProps

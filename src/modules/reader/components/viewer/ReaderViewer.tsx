@@ -47,8 +47,10 @@ export const ReaderViewer = forwardRef((_, ref: ForwardedRef<HTMLDivElement | nu
         setPages,
         totalPages,
         pageUrls,
+        pageLoadStates,
         setPageLoadStates,
         transitionPageMode,
+        retryFailedPagesKeyPrefix,
     } = userReaderStatePagesContext();
     const { readingMode, shouldOffsetDoubleSpreads, readingDirection } = ReaderService.useSettings();
     const { setScrollbarXSize, setScrollbarYSize } = useReaderScrollbarContext();
@@ -227,6 +229,8 @@ export const ReaderViewer = forwardRef((_, ref: ForwardedRef<HTMLDivElement | nu
                 currentPageIndex={currentPageIndex}
                 pages={actualPages}
                 transitionPageMode={transitionPageMode}
+                pageLoadStates={pageLoadStates}
+                retryFailedPagesKeyPrefix={retryFailedPagesKeyPrefix}
                 imageRefs={imageRefs}
                 onLoad={(pagesIndex, isPrimary = true) => {
                     const page = actualPages[pagesIndex];
@@ -240,7 +244,14 @@ export const ReaderViewer = forwardRef((_, ref: ForwardedRef<HTMLDivElement | nu
                         img.src = url;
                     }
 
-                    setPageLoadStates((pageLoadStates) => pageLoadStates.toSpliced(index, 1, true));
+                    setPageLoadStates((statePageLoadStates) =>
+                        statePageLoadStates.toSpliced(index, 1, { loaded: true }),
+                    );
+                }}
+                onError={(pageIndex) => {
+                    setPageLoadStates((statePageLoadStates) =>
+                        statePageLoadStates.toSpliced(pageIndex, 1, { loaded: false, error: true }),
+                    );
                 }}
             />
         </Stack>

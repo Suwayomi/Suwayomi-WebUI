@@ -10,7 +10,13 @@ import { BasePager } from '@/modules/reader/components/viewer/pager/BasePager.ts
 import { ReaderPagerProps } from '@/modules/reader/types/Reader.types.ts';
 import { createReaderPage } from '@/modules/reader/utils/ReaderPager.utils.tsx';
 
-export const ReaderPagedPager = ({ onLoad, ...props }: ReaderPagerProps) => {
+export const ReaderPagedPager = ({
+    onLoad,
+    onError,
+    pageLoadStates,
+    retryFailedPagesKeyPrefix,
+    ...props
+}: ReaderPagerProps) => {
     const { currentPageIndex, totalPages } = props;
 
     return (
@@ -20,10 +26,12 @@ export const ReaderPagedPager = ({ onLoad, ...props }: ReaderPagerProps) => {
                 createReaderPage(
                     page,
                     () => onLoad?.(pagesIndex),
+                    () => onError?.(page.primary.index),
                     shouldLoad,
                     shouldDisplay && currentPageIndex === page.primary.index,
                     currentPageIndex,
                     totalPages,
+                    pageLoadStates[page.primary.index].error ? retryFailedPagesKeyPrefix : undefined,
                 )
             }
             slots={{

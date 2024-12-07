@@ -23,7 +23,7 @@ export const BasePager = ({
     imageRefs,
     createPage,
     slots,
-}: ReaderPagerProps & {
+}: Omit<ReaderPagerProps, 'pageLoadStates' | 'retryFailedPagesKeyPrefix'> & {
     createPage: (
         page: ReaderStatePages['pages'][number],
         pagesIndex: number,

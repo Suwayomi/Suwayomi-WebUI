@@ -25,6 +25,8 @@ export const ReaderStatePagesContext = createContext<ReaderStatePages>({
     setPages: () => undefined,
     transitionPageMode: ReaderTransitionPageMode.NONE,
     setTransitionPageMode: () => undefined,
+    retryFailedPagesKeyPrefix: '',
+    setRetryFailedPagesKeyPrefix: () => undefined,
 });
 
 export const userReaderStatePagesContext = () => useContext(ReaderStatePagesContext);

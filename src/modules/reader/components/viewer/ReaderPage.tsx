@@ -51,12 +51,12 @@ export const ReaderPage = forwardRef(
             doublePage = false,
             position,
             shouldLoad,
+            retryKeyPrefix,
             ...props
         }: Omit<ComponentProps<typeof SpinnerImage>, 'ref' | 'spinnerStyle' | 'imgStyle'> & {
             display: boolean;
             doublePage?: boolean;
             position?: 'left' | 'right';
-            onLoad?: () => void;
         },
         ref: ForwardedRef<HTMLImageElement | null>,
     ) => {
@@ -71,6 +71,7 @@ export const ReaderPage = forwardRef(
 
         return (
             <SpinnerImage
+                key={retryKeyPrefix}
                 {...props}
                 shouldLoad={shouldLoad}
                 shouldDecode

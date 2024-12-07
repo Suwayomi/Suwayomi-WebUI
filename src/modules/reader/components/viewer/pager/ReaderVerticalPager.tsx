@@ -11,7 +11,13 @@ import { BasePager } from '@/modules/reader/components/viewer/pager/BasePager.ts
 import { ReaderPagerProps } from '@/modules/reader/types/Reader.types.ts';
 import { createReaderPage } from '@/modules/reader/utils/ReaderPager.utils.tsx';
 
-export const ReaderVerticalPager = ({ onLoad, ...props }: ReaderPagerProps) => {
+export const ReaderVerticalPager = ({
+    onLoad,
+    onError,
+    pageLoadStates,
+    retryFailedPagesKeyPrefix,
+    ...props
+}: ReaderPagerProps) => {
     const { currentPageIndex, totalPages } = props;
 
     const { pageGap } = ReaderService.useSettings();
@@ -23,10 +29,12 @@ export const ReaderVerticalPager = ({ onLoad, ...props }: ReaderPagerProps) => {
                 createReaderPage(
                     page,
                     () => onLoad?.(pagesIndex),
+                    () => onError?.(page.primary.index),
                     shouldLoad,
                     true,
                     currentPageIndex,
                     totalPages,
+                    pageLoadStates[page.primary.index].error ? retryFailedPagesKeyPrefix : undefined,
                     undefined,
                     undefined,
                     setRef,
