@@ -9,7 +9,7 @@
 import { MutableRefObject, useCallback, useMemo } from 'react';
 import { Direction } from '@mui/material/styles';
 import { userReaderStatePagesContext } from '@/modules/reader/contexts/state/ReaderStatePagesContext.tsx';
-import { getNextPageIndex, getPage } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
+import { getNextIndexFromPage, getNextPageIndex, getPage } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
 import { getOptionForDirection } from '@/theme.tsx';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { useReaderStateChaptersContext } from '@/modules/reader/contexts/state/ReaderStateChaptersContext.tsx';
@@ -22,12 +22,16 @@ import {
 } from '@/modules/reader/types/Reader.types.ts';
 import { ScrollDirection, ScrollOffset } from '@/modules/core/Core.types.ts';
 import { ReaderScrollAmount } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
-import { isPageInViewport } from '@/modules/reader/utils/ReaderPager.utils.tsx';
+import { isEndOfPageInViewport, isPageInViewport } from '@/modules/reader/utils/ReaderPager.utils.tsx';
 import { useReaderOverlayContext } from '@/modules/reader/contexts/ReaderOverlayContext.tsx';
 import { useReaderTapZoneContext } from '@/modules/reader/contexts/ReaderTapZoneContext.tsx';
 import { TapZoneRegionType } from '@/modules/reader/types/TapZoneLayout.types.ts';
 import { ReaderTapZoneService } from '@/modules/reader/services/ReaderTapZoneService.ts';
 import { isContinuousReadingMode } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
+import { getReaderChapterFromCache } from '@/modules/reader/utils/Reader.utils.ts';
+import { Chapters } from '@/modules/chapter/services/Chapters.ts';
+import { DirectionOffset } from '@/Base.types.ts';
+import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 
 const READING_DIRECTION_TO_DIRECTION: Record<ReadingDirection, Direction> = {
     [ReadingDirection.LTR]: 'ltr',
@@ -46,6 +50,8 @@ const SCROLL_DIRECTION_BY_SCROLL_OFFSET_BY_READING_DIRECTION: Record<ReadingDire
 };
 
 export class ReaderControls {
+    private static updateCurrentPageTimeout: NodeJS.Timeout;
+
     static scroll(
         offset: ScrollOffset,
         direction: ScrollDirection,
@@ -152,10 +158,11 @@ export class ReaderControls {
             () => getNextPageIndex('next', currentPage.pagesIndex, pages),
             [currentPage, pages],
         );
+        const indexOfLastPage = getNextIndexFromPage(pages[pages.length - 1]);
         const direction = READING_DIRECTION_TO_DIRECTION[readingDirection.value];
 
         const isFirstPage = currentPageIndex === 0;
-        const isLastPage = currentPageIndex === pages[pages.length - 1].primary.index;
+        const isLastPage = currentPageIndex === indexOfLastPage;
         const isATransitionPageVisible = transitionPageMode !== ReaderTransitionPageMode.NONE;
         const isContinuousReadingModeActive = isContinuousReadingMode(readingMode.value);
 
@@ -225,6 +232,7 @@ export class ReaderControls {
                 direction,
                 previousPageIndex,
                 nextPageIndex,
+                indexOfLastPage,
                 isATransitionPageVisible,
                 isContinuousReadingModeActive,
                 isFirstPage,
@@ -236,16 +244,96 @@ export class ReaderControls {
         );
     }
 
+    static useUpdateCurrentPageIndex(): (
+        pageIndex: number,
+        debounceChapterUpdate?: boolean,
+        endReached?: boolean,
+    ) => void {
+        const { currentPageIndex, setCurrentPageIndex } = userReaderStatePagesContext();
+        const { initialChapter, currentChapter, nextChapter, mangaChapters } = useReaderStateChaptersContext();
+        const updateChapter = ReaderService.useUpdateChapter();
+        const { shouldSkipDupChapters } = ReaderService.useSettings();
+        const {
+            settings: { downloadAheadLimit },
+        } = useMetadataServerSettings();
+
+        const nextChapters = useMemo(() => {
+            if (!initialChapter || !currentChapter) {
+                return [];
+            }
+
+            return Chapters.getNextChapters(currentChapter, mangaChapters, {
+                offset: DirectionOffset.NEXT,
+                skipDupe: shouldSkipDupChapters,
+                skipDupeChapter: initialChapter,
+            });
+        }, [initialChapter?.id, currentChapter?.id, mangaChapters, shouldSkipDupChapters]);
+
+        return useCallback(
+            (pageIndex, debounceChapterUpdate = true, endReached = false) => {
+                setCurrentPageIndex(pageIndex);
+
+                if (!currentChapter) {
+                    return;
+                }
+
+                const hasPageIndexChanged = pageIndex !== currentPageIndex;
+                if (!hasPageIndexChanged) {
+                    return;
+                }
+
+                ReaderService.downloadAhead(currentChapter, nextChapter, nextChapters, pageIndex, downloadAheadLimit);
+
+                const handleCurrentPageIndexChange = () => {
+                    const currentChapterUpToDate = getReaderChapterFromCache(currentChapter.id);
+                    if (!currentChapterUpToDate) {
+                        return;
+                    }
+
+                    const hasLastPageReadChanged = pageIndex !== currentChapterUpToDate.lastPageRead;
+                    const isLasPage = endReached || pageIndex === currentChapterUpToDate.pageCount - 1;
+                    const shouldUpdateChapter = hasLastPageReadChanged || isLasPage;
+                    if (!shouldUpdateChapter) {
+                        return;
+                    }
+
+                    updateChapter({
+                        lastPageRead: hasLastPageReadChanged ? pageIndex : undefined,
+                        isRead: isLasPage ? true : undefined,
+                    });
+                };
+
+                clearTimeout(this.updateCurrentPageTimeout);
+                if (debounceChapterUpdate) {
+                    this.updateCurrentPageTimeout = setTimeout(handleCurrentPageIndexChange, 1000);
+                    return;
+                }
+
+                handleCurrentPageIndexChange();
+            },
+            [currentChapter?.id, nextChapter?.id, nextChapters, currentPageIndex, downloadAheadLimit],
+        );
+    }
+
     static updateCurrentPageOnScroll(
         imageRefs: MutableRefObject<(HTMLElement | null)[]>,
-        currentPageIndex: number,
-        setCurrentPageIndex: (index: number) => void,
+        lastPageIndex: number,
+        updateCurrentPageIndex: ReturnType<typeof ReaderControls.useUpdateCurrentPageIndex>,
         type: PageInViewportType,
+        readingDirection: ReadingDirection,
     ) {
         const firstVisibleImageIndex = imageRefs.current.findIndex((image) => image && isPageInViewport(image, type));
+        const lastPage = imageRefs.current?.[imageRefs.current.length - 1];
+        const isEndReached = lastPage && isEndOfPageInViewport(lastPage, type, readingDirection);
 
-        if (firstVisibleImageIndex !== -1 && firstVisibleImageIndex !== currentPageIndex) {
-            setCurrentPageIndex(firstVisibleImageIndex);
+        // handle cases where the last page is too small to ever be the "firstVisibleImageIndex"
+        if (isEndReached) {
+            updateCurrentPageIndex(lastPageIndex, false);
+            return;
+        }
+
+        if (firstVisibleImageIndex !== -1) {
+            updateCurrentPageIndex(firstVisibleImageIndex, firstVisibleImageIndex !== lastPageIndex);
         }
     }
 
