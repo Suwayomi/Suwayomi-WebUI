@@ -149,6 +149,35 @@ export const ReaderViewer = forwardRef((_, ref: ForwardedRef<HTMLDivElement | nu
         updateCurrentPageIndex(newPageIndex, !isLastPage);
     }, [pageToScrollToIndex]);
 
+    // hide cursor on mouse inactivity
+    const mouseInactiveTimeout = useRef<NodeJS.Timeout>();
+    useEffect(() => {
+        const setCursorVisibility = (visible: boolean) => {
+            const scrollElement = scrollElementRef.current;
+            if (!scrollElement) {
+                return;
+            }
+
+            scrollElement.style.cursor = visible ? 'default' : 'none';
+        };
+
+        const handleMouseMove = () => {
+            setCursorVisibility(true);
+            clearTimeout(mouseInactiveTimeout.current);
+            mouseInactiveTimeout.current = setTimeout(() => {
+                setCursorVisibility(false);
+            }, 5000);
+        };
+
+        handleMouseMove();
+        window.addEventListener('mousemove', handleMouseMove);
+        return () => {
+            setCursorVisibility(true);
+            window.removeEventListener('mousemove', handleMouseMove);
+            clearTimeout(mouseInactiveTimeout.current);
+        };
+    }, []);
+
     // invert x and y scrolling for the continuous horizontal reading mode
     useEffect(() => {
         if (readingMode.value !== ReadingMode.CONTINUOUS_HORIZONTAL) {
