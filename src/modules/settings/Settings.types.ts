@@ -33,4 +33,4 @@ export interface ISearchSettings {
     ignoreFilters: boolean;
 }
 
-export type ServerSettings = GetServerSettingsQuery['settings'];
+export type ServerSettings = Omit<GetServerSettingsQuery['settings'], '__typename'>;

@@ -7,18 +7,11 @@
  */
 
 import { AppMetadataKeys, IMetadataMigration } from '@/modules/metadata/Metadata.types.ts';
+import { ReaderPageScaleMode, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
 
-export const APP_METADATA_KEY_PREFIX = 'webUI_';
+export const APP_METADATA_KEY_PREFIX = 'webUI';
 
 const APP_METADATA_OBJECT: Record<AppMetadataKeys, undefined> = {
-    staticNav: undefined,
-    showPageNumber: undefined,
-    loadNextOnEnding: undefined,
-    skipDupChapters: undefined,
-    fitPageToWindow: undefined,
-    scalePage: undefined,
-    readerType: undefined,
-    offsetFirstPage: undefined,
     migration: undefined,
     deleteChaptersManuallyMarkedRead: undefined,
     deleteChaptersWhileReading: undefined,
@@ -55,6 +48,29 @@ const APP_METADATA_OBJECT: Record<AppMetadataKeys, undefined> = {
     hasStatus: undefined,
     customThemes: undefined,
     mangaThumbnailBackdrop: undefined,
+    tapZoneLayout: undefined,
+    tapZoneInvertMode: undefined,
+    readingDirection: undefined,
+    progressBarType: undefined,
+    progressBarSize: undefined,
+    progressBarPosition: undefined,
+    readingMode: undefined,
+    pageScaleMode: undefined,
+    shouldOffsetDoubleSpreads: undefined,
+    exitMode: undefined,
+    customFilter: undefined,
+    shouldSkipDupChapters: undefined,
+    isStaticNav: undefined,
+    overlayMode: undefined,
+    shouldStretchPage: undefined,
+    shouldShowPageNumber: undefined,
+    backgroundColor: undefined,
+    pageGap: undefined,
+    profiles: undefined,
+    readingModesDefaultProfile: undefined,
+    defaultProfile: undefined,
+    hotkeys: undefined,
+    imagePreLoadAmount: undefined,
 };
 
 export const VALID_APP_METADATA_KEYS = Object.keys(APP_METADATA_OBJECT);
@@ -115,7 +131,15 @@ export const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
     // themes
     'customThemes',
     'mangaThumbnailBackdrop',
+
+    // reader
+    'exitMode',
+    'customFilter',
+    'shouldSkipDupChapters',
+    'profiles',
+    'hotkeys',
 ];
+
 /**
  * Once all changes have been done in the current branch, a new migration for all changes should be
  * created.
@@ -178,5 +202,93 @@ export const METADATA_MIGRATIONS: IMetadataMigration[] = [
     },
     {
         keys: [{ oldKey: 'deleteChaptersAutoMarkedRead', newKey: 'deleteChaptersWhileReading' }],
+    },
+    {
+        keys: [
+            {
+                oldKey: 'readerType',
+                newKey: 'readingMode',
+            },
+            {
+                oldKey: 'offsetFirstPage',
+                newKey: 'shouldOffsetDoubleSpreads',
+            },
+            {
+                oldKey: 'fitPageToWindow',
+                newKey: 'pageScaleMode',
+            },
+            {
+                oldKey: 'scalePage',
+                newKey: 'shouldStretchPage',
+            },
+            {
+                oldKey: 'skipDupChapters',
+                newKey: 'shouldSkipDupChapters',
+            },
+            {
+                oldKey: 'showPageNumber',
+                newKey: 'shouldShowPageNumber',
+            },
+            {
+                oldKey: 'staticNav',
+                newKey: 'isStaticNav',
+            },
+        ],
+        values: [
+            // START: readerType
+            {
+                key: 'readerType',
+                oldValue: 'ContinuesVertical',
+                newValue: `${ReadingMode.CONTINUOUS_VERTICAL}`,
+            },
+            {
+                key: 'readerType',
+                oldValue: 'Webtoon',
+                newValue: `${ReadingMode.CONTINUOUS_VERTICAL}`,
+            },
+            {
+                key: 'readerType',
+                oldValue: 'SingleRTL',
+                newValue: `${ReadingMode.SINGLE_PAGE}`,
+            },
+            {
+                key: 'readerType',
+                oldValue: 'SingleLTR',
+                newValue: `${ReadingMode.SINGLE_PAGE}`,
+            },
+            {
+                key: 'readerType',
+                oldValue: 'DoubleRTL',
+                newValue: `${ReadingMode.DOUBLE_PAGE}`,
+            },
+            {
+                key: 'readerType',
+                oldValue: 'DoubleLTR',
+                newValue: `${ReadingMode.DOUBLE_PAGE}`,
+            },
+            {
+                key: 'readerType',
+                oldValue: 'ContinuesHorizontalLTR',
+                newValue: `${ReadingMode.CONTINUOUS_HORIZONTAL}`,
+            },
+            {
+                key: 'readerType',
+                oldValue: 'ContinuesHorizontalRTL',
+                newValue: `${ReadingMode.CONTINUOUS_HORIZONTAL}`,
+            },
+            // END: readerType
+            // START: fitPageToWindow
+            {
+                key: 'fitPageToWindow',
+                oldValue: 'false',
+                newValue: `${ReaderPageScaleMode.ORIGINAL}`,
+            },
+            {
+                key: 'fitPageToWindow',
+                oldValue: 'true',
+                newValue: `${ReaderPageScaleMode.SCREEN}`,
+            },
+            // END: fitPageToWindow
+        ],
     },
 ];

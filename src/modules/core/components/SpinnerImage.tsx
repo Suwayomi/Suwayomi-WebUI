@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useState, CSSProperties, useEffect, forwardRef, ForwardedRef } from 'react';
+import { useState, useEffect, forwardRef, ForwardedRef } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -18,32 +18,41 @@ import ImageIcon from '@mui/icons-material/Image';
 import { SxProps, Theme } from '@mui/material/styles';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Priority } from '@/lib/Queue.ts';
+import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 
 interface IProps {
+    shouldLoad?: boolean;
+
     src: string;
     alt: string;
 
     spinnerStyle?: SxProps<Theme> & { small?: boolean };
-    imgStyle?: CSSProperties;
+    imgStyle?: SxProps<Theme>;
 
-    onImageLoad?: () => void;
+    onLoad?: () => void;
+    onError?: () => void;
 
     shouldDecode?: boolean;
     useFetchApi?: boolean;
 
     priority?: Priority;
+
+    retryKeyPrefix?: string;
 }
 
 export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTMLImageElement | null>) => {
     const {
+        shouldLoad = true,
         shouldDecode,
         useFetchApi,
         src,
         alt,
-        onImageLoad,
+        onLoad,
+        onError,
         spinnerStyle: { small, ...spinnerStyle } = {},
         imgStyle,
         priority,
+        retryKeyPrefix,
     } = props;
 
     const { t } = useTranslation();
@@ -59,13 +68,19 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
         setIsLoading(loading);
         setHasError(error);
 
+        if (error && !loading && !aborted) {
+            console.log('@xyz error', alt);
+            onError?.();
+        }
+
         if (!loading && !error && !aborted) {
-            onImageLoad?.();
+            console.log('@xyz loaded', alt);
+            onLoad?.();
         }
     };
 
     useEffect(() => {
-        if (showMissingImageIcon) {
+        if (showMissingImageIcon || !shouldLoad) {
             return () => {};
         }
 
@@ -110,12 +125,49 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
             clearTimeout(cacheTimeout);
             imageRequest.abortRequest(new Error('Component was unmounted'));
         };
-    }, [src, imgLoadRetryKey]);
+    }, [src, imgLoadRetryKey, retryKeyPrefix, showMissingImageIcon, shouldLoad]);
 
     return (
         <>
-            {(isLoading || hasError) && (
-                <Box sx={{ height: '100%', ...spinnerStyle }}>
+            {showMissingImageIcon ? (
+                <Stack
+                    ref={imgRef}
+                    sx={{
+                        height: '100%',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        background: (theme) => theme.palette.background.default,
+                        ...spinnerStyle,
+                    }}
+                >
+                    <ImageIcon fontSize="large" />
+                </Stack>
+            ) : (
+                <Box
+                    component="img"
+                    key={`${src}_${imgLoadRetryKey}_${retryKeyPrefix}`}
+                    sx={[
+                        ...(Array.isArray(imgStyle) ? (imgStyle ?? []) : [imgStyle]),
+                        applyStyles(!imageSourceUrl || isLoading || hasError, {
+                            visibility: 'hidden',
+                            width: 0,
+                            height: 0,
+                        }),
+                    ]}
+                    ref={imgRef}
+                    src={imageSourceUrl}
+                    alt={alt}
+                    draggable={false}
+                />
+            )}
+
+            {(isLoading || (src && !imageSourceUrl) || hasError) && (
+                <Box
+                    sx={{
+                        height: '100%',
+                        ...spinnerStyle,
+                    }}
+                >
                     <Stack
                         sx={{
                             height: '100%',
@@ -123,7 +175,7 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
                             justifyContent: 'center',
                         }}
                     >
-                        {isLoading && <CircularProgress thickness={5} />}
+                        {(isLoading || (src && !imageSourceUrl && !hasError)) && <CircularProgress thickness={5} />}
                         {hasError && isLoading === false && (
                             <>
                                 <BrokenImageIcon />
@@ -142,32 +194,6 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
                         )}
                     </Stack>
                 </Box>
-            )}
-
-            {showMissingImageIcon ? (
-                <Stack
-                    sx={{
-                        height: '100%',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        background: (theme) => theme.palette.background.default,
-                        ...spinnerStyle,
-                    }}
-                >
-                    <ImageIcon fontSize="large" />
-                </Stack>
-            ) : (
-                <img
-                    key={`${src}_${imgLoadRetryKey}`}
-                    style={{
-                        ...imgStyle,
-                        display: !imageSourceUrl || isLoading || hasError ? 'none' : imgStyle?.display,
-                    }}
-                    ref={imgRef}
-                    src={imageSourceUrl}
-                    alt={alt}
-                    draggable={false}
-                />
             )}
         </>
     );

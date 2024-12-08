@@ -51,8 +51,9 @@ const getMetadataServerSettingsWithDefaultFallback = (
     useEffectFn?: typeof useEffect,
 ): MetadataServerSettings =>
     convertMetadataToSettings(
-        getMetadataFrom('global', { meta }, convertSettingsToMetadata(defaultSettings), true, useEffectFn),
+        getMetadataFrom('global', { meta }, convertSettingsToMetadata(defaultSettings), undefined, true, useEffectFn),
     );
+
 export const useMetadataServerSettings = (): {
     metadata?: Metadata;
     settings: MetadataServerSettings;

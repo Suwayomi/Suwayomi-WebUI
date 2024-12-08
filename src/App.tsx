@@ -21,22 +21,18 @@ import { ServerUpdateChecker } from '@/modules/app-updates/components/ServerUpda
 import { lazyLoadFallback } from '@/modules/core/utils/LazyLoad.tsx';
 import { ErrorBoundary } from '@/modules/core/components/ErrorBoundary.tsx';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
+import { Reader } from '@/modules/reader/screens/Reader.tsx';
 
 const { Browse } = loadable(() => import('@/modules/browse/screens/Browse.tsx'), lazyLoadFallback);
 const { DownloadQueue } = loadable(() => import('@/modules/downloads/screens/DownloadQueue.tsx'), lazyLoadFallback);
 const { Library } = loadable(() => import('@/modules/library/screens/Library.tsx'), lazyLoadFallback);
 const { Manga } = loadable(() => import('@/modules/manga/screens/Manga.tsx'), lazyLoadFallback);
-const { Reader } = loadable(() => import('@/modules/reader/screens/Reader.tsx'), lazyLoadFallback);
 const { SearchAll } = loadable(() => import('@/modules/global-search/screens/SearchAll.tsx'), lazyLoadFallback);
 const { Settings } = loadable(() => import('@/modules/settings/screens/Settings.tsx'), lazyLoadFallback);
 const { About } = loadable(() => import('@/modules/settings/screens/About.tsx'), lazyLoadFallback);
 const { Backup } = loadable(() => import('@/modules/backup/screens/Backup.tsx'), lazyLoadFallback);
 const { CategorySettings } = loadable(
     () => import('@/modules/category/screens/CategorySettings.tsx'),
-    lazyLoadFallback,
-);
-const { DefaultReaderSettings } = loadable(
-    () => import('@/modules/reader/screens/DefaultReaderSettings.tsx'),
     lazyLoadFallback,
 );
 const { SourceConfigure } = loadable(() => import('@/modules/source/screens/SourceConfigure.tsx'), lazyLoadFallback);
@@ -62,6 +58,10 @@ const { LibraryDuplicates } = loadable(
     lazyLoadFallback,
 );
 const { Appearance } = loadable(() => import('@/modules/settings/screens/Appearance.tsx'), lazyLoadFallback);
+const { DefaultReaderSettings } = loadable(
+    () => import('@/modules/reader/screens/DefaultReaderSettings.tsx'),
+    lazyLoadFallback,
+);
 
 if (process.env.NODE_ENV !== 'production') {
     // Adds messages only in a dev environment
@@ -164,8 +164,7 @@ const MainApp = () => {
 const ReaderApp = () => (
     <ErrorBoundary>
         <Routes>
-            <Route path="manga/:mangaId/chapter/:chapterIndex" element={<Reader />} />
-            <Route path="*" element={null} />
+            <Route path="*" element={<Reader />} />
         </Routes>
     </ErrorBoundary>
 );
@@ -181,8 +180,10 @@ export const App: React.FC = () => (
             <Box sx={{ flexShrink: 0 }}>
                 <DefaultNavBar />
             </Box>
-            <MainApp />
-            <ReaderApp />
+            <Routes>
+                <Route path="*" element={<MainApp />} />
+                <Route path="manga/:mangaId/chapter/:chapterIndex/*" element={<ReaderApp />} />
+            </Routes>
         </Box>
     </AppContext>
 );

@@ -35,7 +35,7 @@ export const TabsMenu = forwardRef(
                 indicatorColor="primary"
                 textColor="primary"
                 variant="scrollable"
-                scrollButtons
+                scrollButtons="auto"
                 allowScrollButtonsMobile
                 {...props}
             >

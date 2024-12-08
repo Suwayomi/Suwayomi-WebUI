@@ -235,7 +235,7 @@
       "label": {
         "downloading": "Downloading",
         "error": "Error",
-        "finished": "Finished",
+        "finished": "$t(global.label.finished)",
         "queued": "Queued"
       }
     },
@@ -344,6 +344,11 @@
       "stop": "Stop",
       "submit": "Submit"
     },
+    "colors": {
+      "black": "Black",
+      "gray": "Gray",
+      "white": "White"
+    },
     "date": {
       "label": {
         "day_one": "Day",
@@ -389,32 +394,50 @@
     "label": {
       "advanced": "Advanced",
       "are_you_sure": "Are you sure?",
+      "auto": "Auto",
+      "both": "Both",
+      "bottom": "Bottom",
       "browse": "Browse",
       "client": "Client",
       "close": "Close",
-      "copied": "Copied",
+      "copied_clipboard": "Copied to clipboard",
       "default": "Default",
+      "desktop": "Desktop",
       "disabled": "Disabled",
       "discord": "Discord",
       "display": "Display",
       "filter": "Filter",
+      "finished": "Finished",
       "general": "General",
       "github": "GitHub",
+      "hidden": "Hidden",
+      "horizontal": "Horizontal",
+      "left": "Left",
       "links": "Links",
       "load_in_progress": "Still loading required data…",
       "loading": "Loading…",
       "logged_in": "Logged in",
+      "menu": "Menu",
+      "mobile": "Mobile",
       "never": "Never",
+      "next": "Next",
       "none": "None",
       "open_in_browser": "Open in browser",
       "other": "Other",
       "password": "Password",
       "placeholder": "Placeholder",
+      "previous": "Previous",
+      "profile_one": "Profile",
+      "profile_other": "Profiles",
+      "right": "Right",
+      "share": "Share",
       "sort": "Sort",
+      "standard": "Standard",
       "started": "Started",
       "type": "Type",
       "unknown": "Unknown",
-      "username": "Username"
+      "username": "Username",
+      "vertical": "Vertical"
     },
     "language": {
       "label": {
@@ -469,6 +492,23 @@
         }
       }
     }
+  },
+  "hotkeys": {
+    "create": {
+      "dialog": {
+        "label": "Recorded keys: <Keys/>",
+        "placeholder": "Press keys",
+        "title": "Record keybind"
+      },
+      "error": {
+        "exists": "Hotkey already exists"
+      }
+    },
+    "info": {
+      "delete": "Click key to remove binding"
+    },
+    "title_one": "Keybind",
+    "title_other": "Keybinds"
   },
   "library": {
     "action": {
@@ -750,14 +790,19 @@
   },
   "reader": {
     "button": {
+      "chapter_list": "Chapter list",
       "close_menu": "Close menu",
       "exit": "Exit reader",
-      "next_chapter": "Next Chapter",
+      "next_chapter": "Next chapter",
+      "next_page": "Next page",
       "open_menu": "Open menu",
-      "previous_chapter": "Previous Chapter"
+      "previous_chapter": "Previous chapter",
+      "previous_page": "Previous page",
+      "retry_load_pages": "Retry errored pages"
     },
     "error": {
       "label": {
+        "chapter_not_found": "Chapter does not exist",
         "next_chapter_does_not_exist": "There is no next chapter to open",
         "no_pages_found": "No pages found",
         "prev_chapter_does_not_exist": "There is no previous chapter to open"
@@ -766,45 +811,135 @@
     "page_info": {
       "label": {
         "currently_on_page": "Currently on page",
-        "of_max_pages": "of {{maxPages}}"
+        "of_max_pages": "of {{maxPages}}",
+        "page": "Page"
       }
     },
     "settings": {
+      "background_color": "Background color",
+      "custom_filter": {
+        "brightness": {
+          "title": "Custom brightness",
+          "value": "$t(reader.settings.custom_filter.brightness.title)\n{{value}}"
+        },
+        "contrast": {
+          "title": "Custom contrast",
+          "value": "$t(reader.settings.custom_filter.contrast.title)\n{{value}}"
+        },
+        "grayscale": "Grayscale",
+        "hue": {
+          "title": "Custom hue",
+          "value": "$t(reader.settings.custom_filter.hue.title)\n{{value}}"
+        },
+        "invert": "Invert",
+        "rgba": {
+          "alpha": "Alpha\n{{value}}",
+          "blue": "Blue\n{{value}}",
+          "green": "Green\n{{value}}",
+          "red": "Red\n{{value}}",
+          "title": "Custom color filters"
+        },
+        "saturate": {
+          "title": "Custom saturate",
+          "value": "$t(reader.settings.custom_filter.saturate.title)\n{{value}}"
+        },
+        "sepia": "Sepia",
+        "title": "Custom filter"
+      },
       "error": {
         "label": {
           "failed_to_save_default_settings": "Could not save the default reader settings to the server",
           "failed_to_save_settings": "Could not save the reader settings to the server"
         }
       },
+      "exit_mode": "Open page on exit",
+      "hotkey": {
+        "menu": "Toggle menu",
+        "next_chapter": "Next chapter",
+        "next_page": "Next page",
+        "offset_spread_pages": "Toggle offset spread pages",
+        "previous_chapter": "Previous chapter",
+        "previous_page": "Previous page",
+        "scale_type": "Cycle image scale type",
+        "scroll_backward": "Scroll backward",
+        "scroll_forward": "Scroll forward",
+        "stretch_image": "Toggle stretch image"
+      },
+      "image_preload_amount": "Preload images\n{{value}}",
       "label": {
+        "behaviour": "Behaviour",
         "fit_page_to_window": "Fit page to window",
+        "layout": "Layout",
+        "limit_reader_width": "Limit reader width",
         "load_next_chapter": "Load next chapter at ending",
-        "offset_first_page": "Offset first page",
+        "offset_double_spread": "Offset double spreads",
+        "page_gap": "Page gap\n{{value}}px",
         "reader_type": "Reader type",
-        "reader_width": "Reader width",
+        "reader_width": "Reader width\n{{value}}%",
+        "reading_direction": "Reading direction",
+        "reading_mode": "Reading mode",
         "scale_page": "Scale small pages",
         "show_page_number": "Show page number",
         "skip_dup_chapters": "Skip duplicate chapters",
         "static_navigation": "Static navigation"
       },
+      "overlay_mode": "Overlay mode",
+      "page_scale": {
+        "height": "Fit height",
+        "original": "Original size",
+        "screen": "Fit screen",
+        "stretch": "Stretch small pages",
+        "title": "Scale type",
+        "width": "Fit width"
+      },
+      "profiles": {
+        "description": "Profiles are used to define the default reader settings which then can be used for series and reading modes",
+        "placeholder": "Comics | length: 16, chars: letters, numbers, -, _"
+      },
+      "progress_bar": {
+        "position": "Progress bar position",
+        "size": "Progress bar size\n{{value}} pixel",
+        "style": "Progress bar style"
+      },
       "reader_type": {
         "label": {
-          "continuous_horizontal_ltr": "Horizontal (LTR) ➡️",
-          "continuous_horizontal_rtl": "Horizontal (RTL) ⬅️",
-          "continuous_vertical": "Continues vertical",
-          "double_page_ltr": "Double page (LTR) ➡️",
-          "double_page_rtl": "Double page (RTL) ⬅️",
-          "single_page_ltr": "Single page (LTR) ➡️",
-          "single_page_rtl": "Single page (RTL) ⬅️",
+          "continuous_horizontal": "Continuous horizontal",
+          "continuous_vertical": "Continuous vertical",
+          "double_page": "Double page",
+          "single_page": "Single page",
           "webtoon": "Webtoon"
         }
+      },
+      "reading_direction": {
+        "ltr": "Left to right",
+        "rtl": "Right to left"
+      },
+      "tap_zones": {
+        "edge": "Edge",
+        "invert": "Invert tap zones",
+        "kindle": "Kindle",
+        "l_shape": "L-Shape",
+        "right_left": "Right and left",
+        "title": "Tap zones"
       },
       "title": {
         "default_reader_settings": "Default Reader Settings",
         "reader_settings": "Reader Settings"
       }
     },
-    "title": "Reader — Manga {{mangaId}} Chapter {{chapterIndex}}"
+    "title": "Reader — Manga {{mangaId}} Chapter {{chapterIndex}}",
+    "transition_page": {
+      "current": "Current:",
+      "exit": {
+        "manga_page": "Exit to manga page",
+        "previous_page": "Exit to previous page"
+      },
+      "finished": "$t(global.label.finished):",
+      "first_chapter": "There is no previous chapter",
+      "last_chapter": "There is no next chapter",
+      "next": "$t(global.label.next):",
+      "previous": "$t(global.label.previous):"
+    }
   },
   "search": {
     "error": {

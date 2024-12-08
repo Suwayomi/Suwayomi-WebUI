@@ -15,30 +15,65 @@ import { AppStorage } from '@/lib/storage/AppStorage.ts';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 
 export class MediaQuery {
+    static readonly MOBILE_WIDTH: Breakpoint | number = 'sm';
+
+    static readonly TABLET_WIDTH: Breakpoint | number = 1025;
+
     static useIsTouchDevice(): boolean {
         return useMediaQuery('not (pointer: fine)');
     }
 
-    static useIsBelowWidth(breakpoint: Breakpoint): boolean {
+    static useIsBelowWidth(breakpoint: Breakpoint | number): boolean {
         return useMediaQuery(getCurrentTheme().breakpoints.down(breakpoint));
     }
 
     static useIsMobileWidth(): boolean {
-        return this.useIsBelowWidth('sm');
+        return this.useIsBelowWidth(this.MOBILE_WIDTH);
     }
 
-    static useGetScrollbarSize(type: 'height' | 'width'): number {
+    static useIsTabletWidth(): boolean {
+        return this.useIsBelowWidth(this.TABLET_WIDTH);
+    }
+
+    private static getScrollbarSize(type: 'height' | 'width'): number {
+        const outer = document.createElement('div');
+        outer.style.visibility = 'hidden';
+        outer.style.overflow = 'scroll';
+        document.body.appendChild(outer);
+
+        const inner = document.createElement('div');
+        inner.style.width = '100%';
+        inner.style.height = '100%';
+        outer.appendChild(inner);
+
+        const width = outer.offsetWidth - inner.offsetWidth;
+        const height = outer.offsetHeight - inner.offsetHeight;
+
+        outer.parentNode?.removeChild(outer);
+
+        return type === 'height' ? height : width;
+    }
+
+    static useGetScrollbarSize(
+        type: 'height' | 'width',
+        element: HTMLElement | null = document.documentElement,
+    ): number {
         const [scrollbarSize, setScrollbarSize] = useState(0);
 
         useResizeObserver(
-            document.documentElement,
+            element,
             useCallback(() => {
-                const height = window.innerHeight - document.documentElement.clientHeight;
-                const width = window.innerWidth - document.documentElement.clientWidth;
-                const size = type === 'height' ? height : width;
+                const hasYScrollbar = !!(element!.scrollHeight - element!.clientHeight);
+                const hasXScrollbar = !!(element!.scrollWidth - element!.clientWidth);
 
-                setScrollbarSize(size);
-            }, []),
+                const hasScrollbar = (type === 'height' && hasYScrollbar) || (type === 'width' && hasXScrollbar);
+                if (hasScrollbar) {
+                    setScrollbarSize(this.getScrollbarSize(type));
+                    return;
+                }
+
+                setScrollbarSize(0);
+            }, [element]),
         );
 
         return scrollbarSize;

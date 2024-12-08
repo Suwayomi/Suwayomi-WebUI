@@ -31,8 +31,8 @@ export const applyAppKeyPrefixMigration = (meta: Metadata, migration: IMetadataM
 
     const { oldPrefix, newPrefix } = migration.appKeyPrefix;
 
-    const oldAppMetadata = getAppMetadataFrom(meta, oldPrefix);
-    const newAppMetadata = getAppMetadataFrom(meta, newPrefix);
+    const oldAppMetadata = getAppMetadataFrom(meta, undefined, oldPrefix);
+    const newAppMetadata = getAppMetadataFrom(meta, undefined, newPrefix);
 
     const missingMetadataKeys = Object.keys(oldAppMetadata).filter((key) => !Object.keys(newAppMetadata).includes(key));
 
@@ -54,7 +54,7 @@ const applyMetadataValueMigration = (meta: Metadata, migration: IMetadataMigrati
         return migratedMetadata;
     }
 
-    const appMetadata = getAppMetadataFrom(meta, appKeyPrefix);
+    const appMetadata = getAppMetadataFrom(meta, undefined, appKeyPrefix);
     const metadataValueChanges = migration.values;
 
     metadataValueChanges.forEach(({ key, oldValue, newValue }) => {
@@ -72,11 +72,11 @@ const applyMetadataValueMigration = (meta: Metadata, migration: IMetadataMigrati
             return;
         }
 
-        if (!doesMetadataKeyExistIn(meta, key, appKeyPrefix)) {
+        if (!doesMetadataKeyExistIn(meta, key, undefined, appKeyPrefix)) {
             return;
         }
 
-        migrateValue(getMetadataKey(key, appKeyPrefix));
+        migrateValue(getMetadataKey(key, undefined, appKeyPrefix));
     });
 
     return migratedMetadata;

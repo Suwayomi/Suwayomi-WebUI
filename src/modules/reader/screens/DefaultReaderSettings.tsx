@@ -6,22 +6,21 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useContext, useLayoutEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { requestUpdateServerMetadata } from '@/modules/metadata/services/MetadataUpdater.ts';
-import { useDefaultReaderSettings } from '@/modules/reader/services/ReaderSettingsMetadata.ts';
-import { ReaderSettingsOptions } from '@/modules/reader/components/ReaderSettingsOptions.tsx';
-import { makeToast } from '@/modules/core/utils/Toast.ts';
-import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
-import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
+import { useLayoutEffect, useState } from 'react';
+import { useDefaultReaderSettingsWithDefaultFlag } from '@/modules/reader/services/ReaderSettingsMetadata.ts';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
-import { IReaderSettings } from '@/modules/reader/Reader.types.ts';
-import { AllowedMetadataValueTypes } from '@/modules/metadata/Metadata.types.ts';
+import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
+import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
+import { IReaderSettings } from '@/modules/reader/types/Reader.types.ts';
+import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
+import { ReaderSettingsTabs } from '@/modules/reader/components/settings/ReaderSettingsTabs.tsx';
 
-export function DefaultReaderSettings() {
+export const DefaultReaderSettings = () => {
     const { t } = useTranslation();
-    const { setTitle, setAction } = useContext(NavBarContext);
+    const { setTitle, setAction } = useNavBarContext();
+
     useLayoutEffect(() => {
         setTitle(t('reader.settings.title.default_reader_settings'));
         setAction(null);
@@ -32,18 +31,20 @@ export function DefaultReaderSettings() {
         };
     }, [t]);
 
+    const [activeTab, setActiveTab] = useState(0);
+
     const {
         settings,
-        loading,
-        request: { error, refetch },
-    } = useDefaultReaderSettings();
+        request: { loading, error, refetch },
+    } = useDefaultReaderSettingsWithDefaultFlag();
 
-    const setSettingValue = (key: keyof IReaderSettings, value: AllowedMetadataValueTypes, persist: boolean = true) => {
-        if (persist) {
-            requestUpdateServerMetadata([[key, value]]).catch(() =>
-                makeToast(t('reader.settings.error.label.failed_to_save_settings'), 'warning'),
-            );
-        }
+    const updateSetting = <Setting extends keyof IReaderSettings>(
+        key: Setting,
+        value: IReaderSettings[Setting],
+        commit?: boolean,
+        profile?: string,
+    ) => {
+        ReaderService.updateSetting({ id: -1 }, key, value, commit, true, profile);
     };
 
     if (loading) {
@@ -61,17 +62,12 @@ export function DefaultReaderSettings() {
     }
 
     return (
-        <ReaderSettingsOptions
-            setSettingValue={setSettingValue}
-            staticNav={settings.staticNav}
-            showPageNumber={settings.showPageNumber}
-            loadNextOnEnding={settings.loadNextOnEnding}
-            skipDupChapters={settings.skipDupChapters}
-            fitPageToWindow={settings.fitPageToWindow}
-            scalePage={settings.scalePage}
-            readerType={settings.readerType}
-            offsetFirstPage={settings.offsetFirstPage}
-            readerWidth={settings.readerWidth}
+        <ReaderSettingsTabs
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+            areDefaultSettings
+            settings={settings}
+            updateSetting={(setting, value, commit, _, profile) => updateSetting(setting, value, commit, profile)}
         />
     );
-}
+};

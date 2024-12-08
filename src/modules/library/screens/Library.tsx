@@ -272,7 +272,7 @@ export function Library() {
             <TabsMenu value={activeTab.order} onChange={(e, newTab) => handleTabChange(newTab)}>
                 {tabs.map((tab) => (
                     <Tab
-                        sx={{ display: 'flex' }}
+                        sx={{ flexGrow: 1, maxWidth: 'unset' }}
                         key={tab.id}
                         label={
                             <TitleWithSizeTag>

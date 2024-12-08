@@ -21,6 +21,7 @@ import { CHAPTER_LIST_FIELDS } from '@/lib/graphql/fragments/ChapterFragments.ts
 
 import { DirectionOffset, TranslationKey } from '@/Base.types.ts';
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
+import { ReaderResumeMode } from '@/modules/reader/types/Reader.types.ts';
 
 export type ChapterAction = 'download' | 'delete' | 'bookmark' | 'unbookmark' | 'mark_as_read' | 'mark_as_unread';
 
@@ -92,6 +93,7 @@ export type ChapterDownloadInfo = ChapterIdInfo & Pick<ChapterType, 'isDownloade
 export type ChapterBookmarkInfo = ChapterIdInfo & Pick<ChapterType, 'isBookmarked'>;
 export type ChapterReadInfo = ChapterIdInfo & Pick<ChapterType, 'isRead'>;
 export type ChapterNumberInfo = ChapterIdInfo & Pick<ChapterType, 'chapterNumber'>;
+export type ChapterSourceOrderInfo = ChapterIdInfo & Pick<ChapterType, 'sourceOrder'>;
 export type ChapterScanlatorInfo = ChapterIdInfo & Pick<ChapterType, 'scanlator'>;
 export type ChapterRealUrlInfo = Pick<ChapterType, 'realUrl'>;
 
@@ -113,6 +115,10 @@ export class Chapters {
             fragment,
             fragmentName,
         });
+    }
+
+    static getReaderUrl<Chapter extends ChapterMangaInfo & ChapterSourceOrderInfo>(chapter: Chapter): string {
+        return `/manga/${chapter.mangaId}/chapter/${chapter.sourceOrder}`;
     }
 
     static isDownloading(id: number): boolean {
@@ -385,5 +391,13 @@ export class Chapters {
         const nextChapters = uniqueNextChapters.toSpliced(isNextChapterOffset ? -1 : 0, 1);
 
         return onlyUnread ? Chapters.getNonRead(nextChapters) : nextChapters;
+    }
+
+    static getReaderResumeMode(chapter: ChapterReadInfo): ReaderResumeMode {
+        if (chapter.isRead) {
+            return ReaderResumeMode.START;
+        }
+
+        return ReaderResumeMode.LAST_READ;
     }
 }

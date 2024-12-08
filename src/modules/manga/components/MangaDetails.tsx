@@ -164,7 +164,7 @@ const Thumbnail = ({ manga }: { manga: Partial<MangaThumbnailInfo> }) => {
                 <SpinnerImage
                     src={Mangas.getThumbnailUrl(manga)}
                     alt="Manga Thumbnail"
-                    onImageLoad={() => setIsImageReady(true)}
+                    onLoad={() => setIsImageReady(true)}
                     imgStyle={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
                 {isImageReady && (
@@ -301,7 +301,7 @@ export const MangaDetails = ({
     const copyTitle = async () => {
         try {
             await navigator.clipboard.writeText(manga.title);
-            makeToast(t('global.label.copied'), 'info');
+            makeToast(t('global.label.copied_clipboard'), 'info');
         } catch (e) {
             defaultPromiseErrorHandler('MangaDetails::copyTitleLongPress')(e);
         }
