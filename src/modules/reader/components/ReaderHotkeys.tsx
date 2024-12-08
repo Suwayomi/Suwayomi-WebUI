@@ -8,6 +8,7 @@
 
 import { useHotkeys as useHotKeysHook, useHotkeysContext } from 'react-hotkeys-hook';
 import { useEffect } from 'react';
+import { useTheme } from '@mui/material/styles';
 import { HOTKEY_SCOPES } from '@/modules/hotkeys/Hotkeys.constants.ts';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { ReaderHotkey, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
@@ -42,6 +43,7 @@ export const ReaderHotkeys = ({
 }: {
     scrollElementRef: React.MutableRefObject<HTMLElement | null>;
 }) => {
+    const { direction: themeDirection } = useTheme();
     const { enableScope, disableScope } = useHotkeysContext();
     const { manga } = useReaderStateMangaContext();
     const { isVisible, setIsVisible } = useReaderOverlayContext();
@@ -63,13 +65,15 @@ export const ReaderHotkeys = ({
             ReaderControls.scroll(
                 ScrollOffset.BACKWARD,
                 CONTINUOUS_READING_MODE_TO_SCROLL_DIRECTION[readingMode.value],
+                readingMode.value,
                 readingDirection.value,
+                themeDirection,
                 scrollElementRef.current,
                 openChapter,
                 ReaderScrollAmount.SMALL,
             ),
         { preventDefault: true },
-        [readingMode.value, readingDirection.value, openChapter],
+        [readingMode.value, readingDirection.value, themeDirection, openChapter],
     );
     useHotkeys(
         hotkeys[ReaderHotkey.SCROLL_FORWARD],
@@ -78,13 +82,15 @@ export const ReaderHotkeys = ({
             ReaderControls.scroll(
                 ScrollOffset.FORWARD,
                 CONTINUOUS_READING_MODE_TO_SCROLL_DIRECTION[readingMode.value],
+                readingMode.value,
                 readingDirection.value,
+                themeDirection,
                 scrollElementRef.current,
                 openChapter,
                 ReaderScrollAmount.SMALL,
             ),
         { preventDefault: true },
-        [readingMode.value, readingDirection.value, openChapter],
+        [readingMode.value, readingDirection.value, themeDirection, openChapter],
     );
     useHotkeys(hotkeys[ReaderHotkey.PREVIOUS_CHAPTER], () => openChapter('previous'), [openChapter]);
     useHotkeys(hotkeys[ReaderHotkey.NEXT_CHAPTER], () => openChapter('next'), [openChapter]);
