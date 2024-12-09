@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Theme } from '@mui/material/styles';
+import { Direction, Theme } from '@mui/material/styles';
 import { ReactNode } from 'react';
 import {
     IReaderSettings,
@@ -23,6 +23,9 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { ReaderPage } from '@/modules/reader/components/viewer/ReaderPage.tsx';
 import { reverseString } from '@/util/Strings.ts';
 import { getPage } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
+import { DirectionOffset } from '@/Base.types.ts';
+import { getOptionForDirection } from '@/theme.tsx';
+import { READING_DIRECTION_TO_THEME_DIRECTION } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 
 type CSSObject = ReturnType<Theme['applyStyles']>;
 
@@ -424,3 +427,25 @@ export const isTransitionPageVisible = (
     activeMode: ReaderTransitionPageMode,
     readingMode: IReaderSettings['readingMode'],
 ): boolean => [ReaderTransitionPageMode.BOTH, mode].includes(activeMode) || isContinuousReadingMode(readingMode);
+
+export const getScrollIntoViewInlineOption = (
+    offset: DirectionOffset,
+    themeDirection: Direction,
+    readingDirection: ReadingDirection,
+): ScrollIntoViewOptions['inline'] => {
+    const themeDirectionForReadingDirection = READING_DIRECTION_TO_THEME_DIRECTION[readingDirection];
+
+    if (themeDirection === 'ltr') {
+        if (offset === DirectionOffset.PREVIOUS) {
+            return getOptionForDirection('start', 'end', themeDirectionForReadingDirection);
+        }
+
+        return getOptionForDirection('start', 'end', themeDirectionForReadingDirection);
+    }
+
+    if (offset === DirectionOffset.PREVIOUS) {
+        return getOptionForDirection('end', 'start', themeDirectionForReadingDirection);
+    }
+
+    return getOptionForDirection('end', 'start', themeDirectionForReadingDirection);
+};

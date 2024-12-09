@@ -302,7 +302,7 @@ export class ReaderControls {
                     return;
                 }
 
-                const hasPageIndexChanged = pageIndex !== currentPageIndex;
+                const hasPageIndexChanged = endReached || pageIndex !== currentPageIndex;
                 if (!hasPageIndexChanged) {
                     return;
                 }
@@ -353,7 +353,7 @@ export class ReaderControls {
 
         // handle cases where the last page is too small to ever be the "firstVisibleImageIndex"
         if (isEndReached) {
-            updateCurrentPageIndex(lastPageIndex, false);
+            updateCurrentPageIndex(firstVisibleImageIndex, false, true);
             return;
         }
 

@@ -17,6 +17,7 @@ import {
     useState,
 } from 'react';
 import Stack from '@mui/material/Stack';
+import { useTheme } from '@mui/material/styles';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { PageInViewportType, ReadingDirection, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
 import { ReaderPagedPager } from '@/modules/reader/components/viewer/pager/ReaderPagedPager.tsx';
@@ -24,13 +25,19 @@ import { ReaderDoublePagedPager } from '@/modules/reader/components/viewer/pager
 import { ReaderHorizontalPager } from '@/modules/reader/components/viewer/pager/ReaderHorizontalPager.tsx';
 import { ReaderVerticalPager } from '@/modules/reader/components/viewer/pager/ReaderVerticalPager.tsx';
 import { userReaderStatePagesContext } from '@/modules/reader/contexts/state/ReaderStatePagesContext.tsx';
-import { createPagesData, getDoublePageModePages, isSpreadPage } from '@/modules/reader/utils/ReaderPager.utils.tsx';
+import {
+    createPagesData,
+    getDoublePageModePages,
+    getScrollIntoViewInlineOption,
+    isSpreadPage,
+} from '@/modules/reader/utils/ReaderPager.utils.tsx';
 import { useReaderScrollbarContext } from '@/modules/reader/contexts/ReaderScrollbarContext.tsx';
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 import { ReaderControls } from '@/modules/reader/services/ReaderControls.ts';
 import { getNextIndexFromPage, getPage } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
 import { isContinuousReadingMode } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
 import { useMouseDragScroll } from '@/modules/core/hooks/useMouseDragScroll.tsx';
+import { DirectionOffset } from '@/Base.types.ts';
 
 const READING_MODE_TO_IN_VIEWPORT_TYPE: Record<ReadingMode, PageInViewportType> = {
     [ReadingMode.SINGLE_PAGE]: PageInViewportType.X,
@@ -52,6 +59,7 @@ export const ReaderViewer = forwardRef((_, ref: ForwardedRef<HTMLDivElement | nu
         transitionPageMode,
         retryFailedPagesKeyPrefix,
     } = userReaderStatePagesContext();
+    const { direction: themeDirection } = useTheme();
     const { readingMode, shouldOffsetDoubleSpreads, readingDirection } = ReaderService.useSettings();
     const { setScrollbarXSize, setScrollbarYSize } = useReaderScrollbarContext();
     const updateCurrentPageIndex = ReaderControls.useUpdateCurrentPageIndex();
@@ -138,10 +146,13 @@ export const ReaderViewer = forwardRef((_, ref: ForwardedRef<HTMLDivElement | nu
         const pageToScrollTo = getPage(pageToScrollToIndex, pages);
 
         if (isContinuousReadingModeActive) {
+            const directionOffset =
+                pageToScrollToIndex > currentPageIndex ? DirectionOffset.PREVIOUS : DirectionOffset.NEXT;
             const imageRef = imageRefs.current[pageToScrollTo.pagesIndex];
+
             imageRef?.scrollIntoView({
                 block: 'start',
-                inline: 'start',
+                inline: getScrollIntoViewInlineOption(directionOffset, themeDirection, readingDirection.value),
             });
         }
 
