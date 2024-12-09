@@ -56,6 +56,7 @@ export const Reader = () => {
         setTotalPages,
         setCurrentPageIndex,
         setPageToScrollToIndex,
+        pages,
         setPages,
         setPageUrls,
         setPageLoadStates,
@@ -331,6 +332,11 @@ export const Reader = () => {
     }
 
     if (!manga || !currentChapter) {
+        return null;
+    }
+
+    const isPlaceholderPageState = pages.length === 1 && pages[0].primary.url === requestManager.getBaseUrl();
+    if (isPlaceholderPageState) {
         return null;
     }
 
