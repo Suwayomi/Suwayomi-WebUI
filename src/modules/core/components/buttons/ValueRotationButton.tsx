@@ -9,10 +9,12 @@
 import { useTranslation } from 'react-i18next';
 import { ReactNode, useMemo } from 'react';
 import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
 import { MultiValueButtonProps } from '@/modules/core/Core.types.ts';
 import { getNextRotationValue } from '@/modules/core/utils/ValueRotationButton.utils.ts';
 
 export const ValueRotationButton = <Value extends string | number>({
+    tooltip,
     value,
     values,
     setValue,
@@ -32,40 +34,40 @@ export const ValueRotationButton = <Value extends string | number>({
         return values.indexOf(value);
     }, [value, values]);
 
-    if (isDefault) {
-        return (
-            <Button
-                onClick={() => setValue(values[0])}
-                sx={{ justifyContent: 'start', textTransform: 'unset', flexGrow: 1 }}
-                variant="contained"
-                startIcon={defaultIcon}
-                size="large"
-            >
-                {t('global.label.default')}
-            </Button>
-        );
-    }
-
     return (
-        <Button
-            onClick={() => {
-                const nextValue = getNextRotationValue(indexOfValue, values, isDefaultable);
+        <Tooltip title={tooltip}>
+            {isDefault ? (
+                <Button
+                    onClick={() => setValue(values[0])}
+                    sx={{ justifyContent: 'start', textTransform: 'unset', flexGrow: 1 }}
+                    variant="contained"
+                    startIcon={defaultIcon}
+                    size="large"
+                >
+                    {t('global.label.default')}
+                </Button>
+            ) : (
+                <Button
+                    onClick={() => {
+                        const nextValue = getNextRotationValue(indexOfValue, values, isDefaultable);
 
-                if (nextValue === undefined) {
-                    onDefault?.();
-                    return;
-                }
+                        if (nextValue === undefined) {
+                            onDefault?.();
+                            return;
+                        }
 
-                setValue(nextValue);
-            }}
-            sx={{ justifyContent: 'start', textTransform: 'unset', flexGrow: 1 }}
-            variant="contained"
-            startIcon={valueToDisplayData[value].icon}
-            size="large"
-        >
-            {valueToDisplayData[value].isTitleString
-                ? valueToDisplayData[value].title
-                : t(valueToDisplayData[value].title)}
-        </Button>
+                        setValue(nextValue);
+                    }}
+                    sx={{ justifyContent: 'start', textTransform: 'unset', flexGrow: 1 }}
+                    variant="contained"
+                    startIcon={valueToDisplayData[value].icon}
+                    size="large"
+                >
+                    {valueToDisplayData[value].isTitleString
+                        ? valueToDisplayData[value].title
+                        : t(valueToDisplayData[value].title)}
+                </Button>
+            )}
+        </Tooltip>
     );
 };

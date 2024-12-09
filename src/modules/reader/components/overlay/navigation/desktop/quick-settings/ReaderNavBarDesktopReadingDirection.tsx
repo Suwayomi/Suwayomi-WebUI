@@ -6,6 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import { useTranslation } from 'react-i18next';
 import { ValueRotationButton } from '@/modules/core/components/buttons/ValueRotationButton.tsx';
 import { IReaderSettingsWithDefaultFlag, ReadingDirection } from '@/modules/reader/types/Reader.types.ts';
 import {
@@ -21,13 +22,18 @@ export const ReaderNavBarDesktopReadingDirection = ({
 }: Pick<IReaderSettingsWithDefaultFlag, 'readingDirection'> &
     Pick<MultiValueButtonDefaultableProps<ReadingDirection>, 'isDefaultable' | 'onDefault'> & {
         setReadingDirection: (readingDirection: ReadingDirection) => void;
-    }) => (
-    <ValueRotationButton
-        {...buttonSelectInputProps}
-        value={readingDirection.isDefault ? undefined : readingDirection.value}
-        values={READING_DIRECTION_VALUES}
-        setValue={setReadingDirection}
-        valueToDisplayData={READING_DIRECTION_VALUE_TO_DISPLAY_DATA}
-        defaultIcon={READING_DIRECTION_VALUE_TO_DISPLAY_DATA[readingDirection.value].icon}
-    />
-);
+    }) => {
+    const { t } = useTranslation();
+
+    return (
+        <ValueRotationButton
+            {...buttonSelectInputProps}
+            tooltip={t('reader.settings.label.reading_direction')}
+            value={readingDirection.isDefault ? undefined : readingDirection.value}
+            values={READING_DIRECTION_VALUES}
+            setValue={setReadingDirection}
+            valueToDisplayData={READING_DIRECTION_VALUE_TO_DISPLAY_DATA}
+            defaultIcon={READING_DIRECTION_VALUE_TO_DISPLAY_DATA[readingDirection.value].icon}
+        />
+    );
+};

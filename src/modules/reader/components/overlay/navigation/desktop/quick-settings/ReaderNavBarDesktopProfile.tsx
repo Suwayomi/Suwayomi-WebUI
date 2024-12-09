@@ -7,6 +7,7 @@
  */
 
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import { useTranslation } from 'react-i18next';
 import { IReaderSettingsWithDefaultFlag } from '@/modules/reader/types/Reader.types.ts';
 import { MultiValueButtonDefaultableProps } from '@/modules/core/Core.types.ts';
 import { ValueRotationButton } from '@/modules/core/components/buttons/ValueRotationButton.tsx';
@@ -23,13 +24,18 @@ export const ReaderNavBarDesktopProfile = ({
 }: Pick<IReaderSettingsWithDefaultFlag, 'defaultProfile' | 'profiles'> &
     Pick<MultiValueButtonDefaultableProps<string>, 'isDefaultable' | 'onDefault'> & {
         updateSetting: (profile: string) => void;
-    }) => (
-    <ValueRotationButton
-        {...buttonSelectInputProps}
-        value={defaultProfile.isDefault ? undefined : getValidReaderProfile(defaultProfile.value, profiles)}
-        values={profiles}
-        setValue={updateSetting}
-        valueToDisplayData={createProfileValueToDisplayData(profiles, true)}
-        defaultIcon={<ManageAccountsIcon />}
-    />
-);
+    }) => {
+    const { t } = useTranslation();
+
+    return (
+        <ValueRotationButton
+            {...buttonSelectInputProps}
+            tooltip={t('global.label.profile_one')}
+            value={defaultProfile.isDefault ? undefined : getValidReaderProfile(defaultProfile.value, profiles)}
+            values={profiles}
+            setValue={updateSetting}
+            valueToDisplayData={createProfileValueToDisplayData(profiles, true)}
+            defaultIcon={<ManageAccountsIcon />}
+        />
+    );
+};

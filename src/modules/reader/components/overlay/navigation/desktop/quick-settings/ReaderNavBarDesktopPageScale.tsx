@@ -42,6 +42,7 @@ export const ReaderNavBarDesktopPageScale = ({
         <Stack sx={{ flexDirection: 'row', gap: 1 }}>
             <ValueRotationButton
                 {...buttonSelectInputProps}
+                tooltip={t('reader.settings.page_scale.title')}
                 value={pageScaleMode.isDefault ? undefined : pageScaleMode.value}
                 values={READER_PAGE_SCALE_MODE_VALUES}
                 setValue={(value) => updateSetting('pageScaleMode', value)}

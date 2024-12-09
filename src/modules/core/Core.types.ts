@@ -32,6 +32,7 @@ type DisplayData = DisplayDataTranslationKey | DisplayDataString;
 export type ValueToDisplayData<Value extends string | number> = Record<Value, DisplayData>;
 
 export interface MultiValueButtonBaseProps<Value extends string | number> {
+    tooltip?: string;
     value: Value;
     values: Value[];
     setValue: (value: Value) => void;
