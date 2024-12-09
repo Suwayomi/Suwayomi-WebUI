@@ -155,19 +155,19 @@ export const Reader = () => {
     useEffect(() => {
         const pagesPayload = pagesResponse.data?.fetchChapterPages;
         if (pagesPayload) {
-            const { pages } = pagesPayload;
+            const { pages: newPages } = pagesPayload;
 
             const initialReaderPageIndex = getInitialReaderPageIndex(
                 resumeMode,
                 currentChapter?.lastPageRead ?? 0,
-                pages.length - 1,
+                newPages.length - 1,
             );
 
             setArePagesFetched(true);
             setTotalPages(pagesPayload.chapter.pageCount);
-            setPages(createPagesData(pages));
-            setPageUrls(pages);
-            setPageLoadStates(pages.map(() => ({ loaded: false })));
+            setPages(createPagesData(newPages));
+            setPageUrls(newPages);
+            setPageLoadStates(newPages.map(() => ({ loaded: false })));
             setCurrentPageIndex(initialReaderPageIndex);
             setPageToScrollToIndex(initialReaderPageIndex);
         } else {
