@@ -272,13 +272,9 @@ export const Reader = () => {
         return () => setOverride({ status: false, value: null });
     }, [isOverlayVisible, setIsOverlayVisible, scrollElementRef.current]);
 
-    const [isInitialLoad, setIsInitialLoad] = useState(true);
     useEffect(() => {
-        if (isInitialLoad) {
-            setIsOverlayVisible(isLoading || !!error);
-            setIsInitialLoad(false);
-        }
-    }, [isLoading, error]);
+        setIsOverlayVisible(true);
+    }, []);
 
     if (isLoading) {
         return (
