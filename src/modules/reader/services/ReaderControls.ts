@@ -407,7 +407,7 @@ export class ReaderControls {
                                 openChapter,
                             );
                         } else {
-                            openPage('previous');
+                            openPage('previous', 'ltr');
                         }
                         break;
                     case TapZoneRegionType.NEXT:
@@ -422,7 +422,7 @@ export class ReaderControls {
                                 openChapter,
                             );
                         } else {
-                            openPage('next');
+                            openPage('next', 'ltr');
                         }
                         break;
                     default:
