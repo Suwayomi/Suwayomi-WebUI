@@ -31,6 +31,7 @@ export const useMouseDragScroll = (
 ) => {
     const [isDragging, setIsDragging] = useState(false);
 
+    const elementStyle = useRef<CSSStyleDeclaration>();
     const previousClickPosX = useRef<Positions>([0, 0, 0]);
     const previousClickPosY = useRef<Positions>([0, 0, 0]);
     const previousClickTime = useRef<ClickTimes>([0, 0, 0]);
@@ -44,6 +45,11 @@ export const useMouseDragScroll = (
             return () => {};
         }
 
+        if (!elementStyle.current) {
+            elementStyle.current = getComputedStyle(element);
+        }
+
+        const isRTL = elementStyle.current.direction;
         const handleScrollX = scrollDirection !== ScrollDirection.Y;
         const handleScrollY = scrollDirection !== ScrollDirection.X;
 
@@ -103,7 +109,7 @@ export const useMouseDragScroll = (
                 element.scrollHeight - element.clientHeight,
             ];
             const newScrollPos = [
-                Math.min(maxScrollPos[X], Math.max(0, scrollAtT0.current[X] - delta[X])),
+                Math.min(maxScrollPos[X], Math.max(isRTL ? -maxScrollPos[X] : 0, scrollAtT0.current[X] - delta[X])),
                 Math.min(maxScrollPos[Y], Math.max(0, scrollAtT0.current[Y] - delta[Y])),
             ];
 
