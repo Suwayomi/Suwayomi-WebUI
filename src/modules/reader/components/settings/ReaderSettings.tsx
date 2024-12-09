@@ -20,7 +20,7 @@ export const ReaderSettings = ({ isOpen, close }: { isOpen: boolean; close: () =
     const { manga } = useReaderStateMangaContext();
     const settings = ReaderService.useSettings();
 
-    useDisableAllHotkeysWhileMounted();
+    useDisableAllHotkeysWhileMounted(isOpen);
 
     const [activeTab, setActiveTab] = useState(0);
 

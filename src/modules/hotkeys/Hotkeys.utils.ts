@@ -6,21 +6,27 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useHotkeysContext } from 'react-hotkeys-hook';
 import { HotkeyScope } from '@/modules/hotkeys/Hotkeys.types.ts';
 
-export const useDisableAllHotkeysWhileMounted = () => {
+export const useDisableAllHotkeysWhileMounted = (shouldDisable?: boolean) => {
     const { enabledScopes, enableScope, disableScope } = useHotkeysContext();
-    const [previouslyEnabledScopes] = useState(enabledScopes);
+    const previouslyEnabledScopes = useRef<typeof enabledScopes>([]);
 
     useEffect(() => {
+        if (!shouldDisable) {
+            return () => {};
+        }
+
+        previouslyEnabledScopes.current = [...enabledScopes];
+
         enableScope(HotkeyScope.NONE);
-        previouslyEnabledScopes.forEach(disableScope);
+        previouslyEnabledScopes.current.forEach(disableScope);
 
         return () => {
             disableScope(HotkeyScope.NONE);
-            previouslyEnabledScopes.forEach(enableScope);
+            previouslyEnabledScopes.current.forEach(enableScope);
         };
-    }, []);
+    }, [shouldDisable]);
 };
