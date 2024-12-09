@@ -88,14 +88,14 @@ export class ReaderControls {
         const areReadingDirectionsEqual = themeDirection === themeDirectionOfReadingDirection;
         const isContinuousReadingModeActive = isContinuousReadingMode(readingMode);
 
-        const isAtStartY = element.scrollTop === 0;
+        const isAtStartY = Math.abs(element.scrollTop) <= 1;
         const isAtEndY =
             Math.floor(element.scrollTop) === element.scrollHeight - element.clientHeight ||
             Math.ceil(element.scrollTop) === element.scrollHeight - element.clientHeight;
-        const isAtStartX = element.scrollLeft === 0;
+        const isAtStartX = Math.abs(element.scrollLeft) <= 1;
         const isAtEndX =
-            Math.floor(Math.abs(element.scrollLeft)) === element.scrollWidth - element.clientWidth ||
-            Math.ceil(Math.abs(element.scrollLeft)) === element.scrollWidth - element.clientWidth;
+            element.scrollWidth - element.clientWidth - Math.floor(Math.abs(element.scrollLeft)) <= 1 ||
+            element.scrollWidth - element.clientWidth - Math.ceil(Math.abs(element.scrollLeft)) <= 1;
         const isAtStartXForDirection = areReadingDirectionsEqual ? isAtStartX : isAtEndX;
         const isAtEndXForDirection = areReadingDirectionsEqual ? isAtEndX : isAtStartX;
 
@@ -108,12 +108,12 @@ export class ReaderControls {
         switch (direction) {
             case ScrollDirection.X:
                 if (isAtStartXForDirection && offset === ScrollOffset.BACKWARD && isContinuousReadingModeActive) {
-                    openChapter('previous', 'ltr');
+                    openChapter('previous');
                     return;
                 }
 
                 if (isAtEndXForDirection && offset === ScrollOffset.FORWARD && isContinuousReadingModeActive) {
-                    openChapter('next', 'ltr');
+                    openChapter('next');
                     return;
                 }
 
@@ -124,12 +124,12 @@ export class ReaderControls {
                 break;
             case ScrollDirection.Y:
                 if (isAtStartY && offset === ScrollOffset.BACKWARD && isContinuousReadingModeActive) {
-                    openChapter('previous', 'ltr');
+                    openChapter('previous');
                     return;
                 }
 
                 if (isAtEndY && offset === ScrollOffset.FORWARD && isContinuousReadingModeActive) {
-                    openChapter('next', 'ltr');
+                    openChapter('next');
                     return;
                 }
 
@@ -143,28 +143,27 @@ export class ReaderControls {
         }
     }
 
-    static useOpenChapter(): (offset: 'previous' | 'next', forceDirection?: Direction) => void {
-        const { readingDirection, readingMode } = ReaderService.useSettings();
+    static useOpenChapter(): (offset: 'previous' | 'next') => void {
+        const { readingMode } = ReaderService.useSettings();
         const { previousChapter, nextChapter } = useReaderStateChaptersContext();
-        const direction = READING_DIRECTION_TO_THEME_DIRECTION[readingDirection.value];
 
         const openPreviousChapter = ReaderService.useNavigateToChapter(previousChapter, ReaderResumeMode.END);
         const openNextChapter = ReaderService.useNavigateToChapter(nextChapter, ReaderResumeMode.START);
 
         return useCallback(
-            (offset, forceDirection = direction) => {
+            (offset) => {
                 switch (offset) {
                     case 'previous':
-                        getOptionForDirection(openPreviousChapter, openNextChapter, forceDirection)();
+                        openPreviousChapter();
                         break;
                     case 'next':
-                        getOptionForDirection(openNextChapter, openPreviousChapter, forceDirection)();
+                        openNextChapter();
                         break;
                     default:
                         throw new Error(`Unexpected "offset" (${offset})`);
                 }
             },
-            [direction, openPreviousChapter, openNextChapter, readingMode.value],
+            [openPreviousChapter, openNextChapter, readingMode.value],
         );
     }
 
@@ -390,7 +389,7 @@ export class ReaderControls {
                 const isContinuousReadingModeActive = isContinuousReadingMode(readingMode.value);
                 const scrollDirection =
                     readingMode.value === ReadingMode.CONTINUOUS_HORIZONTAL ? ScrollDirection.X : ScrollDirection.Y;
-
+                console.log('click', action);
                 switch (action) {
                     case TapZoneRegionType.MENU:
                         setIsOverlayVisible((isVisible) => isStaticNav || !isVisible);

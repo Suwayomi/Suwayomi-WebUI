@@ -23,6 +23,7 @@ import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 import { HotkeyScope } from '@/modules/hotkeys/Hotkeys.types.ts';
 import { ReaderControls } from '@/modules/reader/services/ReaderControls.ts';
 import { ScrollDirection, ScrollOffset } from '@/modules/core/Core.types.ts';
+import { getOptionForDirection } from '@/theme.tsx';
 
 const useHotkeys = (...args: Parameters<typeof useHotKeysHook>): ReturnType<typeof useHotKeysHook> => {
     const [keys, callback, options, dependencies] = args;
@@ -44,6 +45,7 @@ export const ReaderHotkeys = ({
     scrollElementRef: React.MutableRefObject<HTMLElement | null>;
 }) => {
     const { direction: themeDirection } = useTheme();
+    const readerThemeDirection = ReaderService.useGetThemeDirection();
     const { enableScope, disableScope } = useHotkeysContext();
     const { manga } = useReaderStateMangaContext();
     const { isVisible, setIsVisible } = useReaderOverlayContext();
@@ -92,8 +94,16 @@ export const ReaderHotkeys = ({
         { preventDefault: true },
         [readingMode.value, readingDirection.value, themeDirection, openChapter],
     );
-    useHotkeys(hotkeys[ReaderHotkey.PREVIOUS_CHAPTER], () => openChapter('previous'), [openChapter]);
-    useHotkeys(hotkeys[ReaderHotkey.NEXT_CHAPTER], () => openChapter('next'), [openChapter]);
+    useHotkeys(
+        hotkeys[ReaderHotkey.PREVIOUS_CHAPTER],
+        () => openChapter(getOptionForDirection('previous', 'next', readerThemeDirection)),
+        [openChapter, readerThemeDirection],
+    );
+    useHotkeys(
+        hotkeys[ReaderHotkey.NEXT_CHAPTER],
+        () => openChapter(getOptionForDirection('next', 'previous', readerThemeDirection)),
+        [openChapter, readerThemeDirection],
+    );
     useHotkeys(hotkeys[ReaderHotkey.TOGGLE_MENU], () => setIsVisible(!isVisible), [isVisible]);
     useHotkeys(
         hotkeys[ReaderHotkey.CYCLE_SCALE_TYPE],

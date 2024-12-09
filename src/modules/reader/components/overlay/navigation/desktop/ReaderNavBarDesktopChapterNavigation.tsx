@@ -21,9 +21,8 @@ import { Chapters } from '@/modules/chapter/services/Chapters.ts';
 import { ReaderStateChaptersContext } from '@/modules/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import { ReaderChapterList } from '@/modules/reader/components/overlay/navigation/ReaderChapterList.tsx';
 import { ReaderNavBarDesktopNextPreviousButton } from '@/modules/reader/components/overlay/navigation/desktop/ReaderNavBarDesktopNextPreviousButton.tsx';
-import { useGetOptionForDirection } from '@/theme.tsx';
+import { getOptionForDirection } from '@/theme.tsx';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
-import { READING_DIRECTION_TO_THEME_DIRECTION } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 import { ReaderResumeMode } from '@/modules/reader/types/Reader.types.ts';
 
 export const ReaderNavBarDesktopChapterNavigation = ({
@@ -36,12 +35,9 @@ export const ReaderNavBarDesktopChapterNavigation = ({
     'chapters' | 'currentChapter' | 'previousChapter' | 'nextChapter'
 >) => {
     const { t } = useTranslation();
-    const { readingDirection } = ReaderService.useSettings();
-    const getOptionForDirection = useGetOptionForDirection();
+    const readerThemeDirection = ReaderService.useGetThemeDirection();
 
     const popupState = usePopupState({ variant: 'popover', popupId: 'reader-nav-bar-desktop-chapter-list' });
-
-    const direction = READING_DIRECTION_TO_THEME_DIRECTION[readingDirection.value];
 
     useLayoutEffect(() => {
         popupState.close();
@@ -53,16 +49,26 @@ export const ReaderNavBarDesktopChapterNavigation = ({
                 component={Link}
                 type="previous"
                 title={t(
-                    getOptionForDirection('reader.button.previous_chapter', 'reader.button.next_chapter', direction),
+                    getOptionForDirection(
+                        'reader.button.previous_chapter',
+                        'reader.button.next_chapter',
+                        readerThemeDirection,
+                    ),
                 )}
-                disabled={getOptionForDirection(!previousChapter, !nextChapter, direction)}
+                disabled={getOptionForDirection(!previousChapter, !nextChapter, readerThemeDirection)}
                 to={getOptionForDirection(
                     previousChapter && Chapters.getReaderUrl(previousChapter),
                     nextChapter && Chapters.getReaderUrl(nextChapter),
-                    direction,
+                    readerThemeDirection,
                 )}
                 replace
-                state={{ resumeMode: getOptionForDirection(ReaderResumeMode.END, ReaderResumeMode.START) }}
+                state={{
+                    resumeMode: getOptionForDirection(
+                        ReaderResumeMode.END,
+                        ReaderResumeMode.START,
+                        readerThemeDirection,
+                    ),
+                }}
             />
             <FormControl sx={{ flexBasis: '70%', flexGrow: 0, flexShrink: 0 }}>
                 <InputLabel id="reader-nav-bar-desktop-chapter-select">{t('chapter.title_one')}</InputLabel>
@@ -85,16 +91,26 @@ export const ReaderNavBarDesktopChapterNavigation = ({
                 component={Link}
                 type="next"
                 title={t(
-                    getOptionForDirection('reader.button.next_chapter', 'reader.button.previous_chapter', direction),
+                    getOptionForDirection(
+                        'reader.button.next_chapter',
+                        'reader.button.previous_chapter',
+                        readerThemeDirection,
+                    ),
                 )}
-                disabled={getOptionForDirection(!nextChapter, !previousChapter, direction)}
+                disabled={getOptionForDirection(!nextChapter, !previousChapter, readerThemeDirection)}
                 to={getOptionForDirection(
                     nextChapter && Chapters.getReaderUrl(nextChapter),
                     previousChapter && Chapters.getReaderUrl(previousChapter),
-                    direction,
+                    readerThemeDirection,
                 )}
                 replace
-                state={{ resumeMode: getOptionForDirection(ReaderResumeMode.START, ReaderResumeMode.END) }}
+                state={{
+                    resumeMode: getOptionForDirection(
+                        ReaderResumeMode.START,
+                        ReaderResumeMode.END,
+                        readerThemeDirection,
+                    ),
+                }}
             />
             <Popover
                 {...bindPopover(popupState)}
