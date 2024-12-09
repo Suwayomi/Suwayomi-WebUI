@@ -18,7 +18,7 @@ export const ReaderStatePagesContextProvider = ({ children }: { children: ReactN
     const [currentPageIndex, setCurrentPageIndex] = useState<TContext['currentPageIndex']>(0);
     const [pageToScrollToIndex, setPageToScrollToIndex] = useState<TContext['pageToScrollToIndex']>(0);
     const [pageUrls, setPageUrls] = useState<TContext['pageUrls']>([]);
-    const [pageLoadStates, setPageLoadStates] = useState<TContext['pageLoadStates']>([]);
+    const [pageLoadStates, setPageLoadStates] = useState<TContext['pageLoadStates']>([{ loaded: false }]);
     const [pages, setPages] = useState<TContext['pages']>([createPageData('', 0)]);
     const [transitionPageMode, setTransitionPageMode] = useState<TContext['transitionPageMode']>(
         ReaderTransitionPageMode.NONE,

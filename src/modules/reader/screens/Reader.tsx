@@ -131,6 +131,25 @@ export const Reader = () => {
         setManga(mangaResponse.data?.manga);
     }, [mangaResponse.data?.manga]);
 
+    // reset states
+    useEffect(
+        () => () => {
+            setManga(undefined);
+            setReaderStateChapters({
+                mangaChapters: [],
+                chapters: [],
+            });
+
+            setCurrentPageIndex(0);
+            setPageToScrollToIndex(0);
+            setTotalPages(0);
+            setPages([createPageData('', 0)]);
+            setPageUrls([]);
+            setPageLoadStates([{ loaded: false }]);
+        },
+        [],
+    );
+
     // set pages state
     useEffect(() => {
         const pagesPayload = pagesResponse.data?.fetchChapterPages;
@@ -151,6 +170,7 @@ export const Reader = () => {
             setCurrentPageIndex(initialReaderPageIndex);
             setPageToScrollToIndex(initialReaderPageIndex);
         } else {
+            setArePagesFetched(false);
             setCurrentPageIndex(0);
             setPageToScrollToIndex(0);
             setTotalPages(0);
