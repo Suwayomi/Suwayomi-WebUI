@@ -389,7 +389,7 @@ export class ReaderControls {
                 const isContinuousReadingModeActive = isContinuousReadingMode(readingMode.value);
                 const scrollDirection =
                     readingMode.value === ReadingMode.CONTINUOUS_HORIZONTAL ? ScrollDirection.X : ScrollDirection.Y;
-                console.log('click', action);
+
                 switch (action) {
                     case TapZoneRegionType.MENU:
                         setIsOverlayVisible((isVisible) => isStaticNav || !isVisible);
