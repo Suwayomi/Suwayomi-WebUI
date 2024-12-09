@@ -118,6 +118,21 @@ export const READER_TAP_ZONE_LAYOUTS: Record<TapZoneLayouts, TapZoneRegion[]> = 
             type: TapZoneRegionType.NEXT,
         },
     ],
+    /**
+     * +---+---+---+
+     * | M | M | M | P: Previous
+     * +---+---+---+
+     * | M | M | M | M: Menu
+     * +---+---+---+
+     * | M | M | M | N: Next
+     * +---+---+---+
+     */
+    [TapZoneLayouts.DISABLED]: [
+        {
+            rect: [0, 0, 100, 100],
+            type: TapZoneRegionType.MENU,
+        },
+    ],
 };
 
 export const TAP_ZONE_REGION_TYPE_DATA: Record<TapZoneRegionType, { text: TranslationKey; color: string }> = {

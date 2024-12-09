@@ -29,6 +29,10 @@ const VALUE_TO_DISPLAY_DATA: ValueToDisplayData<TapZoneLayouts> = {
         title: 'reader.settings.tap_zones.right_left',
         icon: null,
     },
+    [TapZoneLayouts.DISABLED]: {
+        title: 'global.label.disabled',
+        icon: null,
+    },
 };
 
 const READER_TAP_ZONE_LAYOUT_VALUES = Object.values(TapZoneLayouts).filter((value) => typeof value === 'number');

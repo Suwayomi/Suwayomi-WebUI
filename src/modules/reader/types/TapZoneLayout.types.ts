@@ -11,6 +11,7 @@ export enum TapZoneLayouts {
     KINDLE,
     L_SHAPE,
     RIGHT_LEFT,
+    DISABLED,
 }
 
 export enum TapZoneRegionType {
