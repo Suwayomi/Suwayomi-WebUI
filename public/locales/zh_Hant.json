@@ -225,7 +225,8 @@
                 "install": "安裝",
                 "uninstall": "解除安裝",
                 "update": "更新",
-                "install_external": "安裝額外的擴充套件"
+                "install_external": "安裝額外的擴充套件",
+                "update_all": "全部更新"
             }
         },
         "language": {
@@ -357,7 +358,9 @@
                 "by_source": "依照來源",
                 "by_fetch_date": "依照獲取日期",
                 "by_upload_date": "依照更新日期",
-                "by_chapter_number": "依照章節編號"
+                "by_chapter_number": "依照章節編號",
+                "asc": "升序",
+                "desc": "降序"
             }
         },
         "error": {
@@ -845,7 +848,7 @@
                     },
                     "file_cleanup": {
                         "title": "清理日誌檔案",
-                        "value": "刪除早於 $t(global.date.value.label.day) 的備份"
+                        "value": "刪除早於 $t(global.date.value.label.day) 的日誌檔案"
                     },
                     "total_size": {
                         "title": "所有日誌檔案的最大大小",
@@ -1270,6 +1273,10 @@
         "title": "遷移",
         "search": {
             "title": "$t(migrate.title) \"{{title}}\""
+        },
+        "sort": {
+            "by_manga_count": "依照漫畫數量",
+            "by_source_name": "依照來源名稱"
         }
     },
     "tracking": {
