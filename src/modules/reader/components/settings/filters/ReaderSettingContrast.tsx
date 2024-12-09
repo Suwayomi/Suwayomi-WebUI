@@ -28,13 +28,13 @@ export const ReaderSettingContrast = ({
     return (
         <Stack>
             <CheckboxInput
-                label={t('reader.settings.custom_filter.contrast.title')}
+                label={t('reader.settings.custom_filter.contrast')}
                 checked={contrast.enabled}
                 onChange={(_, checked) => updateSetting('contrast', { ...contrast, enabled: checked }, true)}
             />
             {contrast.enabled && (
                 <SliderInput
-                    label={t('reader.settings.custom_filter.contrast.value')}
+                    label={t('reader.settings.custom_filter.contrast')}
                     value={contrast.value}
                     slotProps={{
                         slider: {

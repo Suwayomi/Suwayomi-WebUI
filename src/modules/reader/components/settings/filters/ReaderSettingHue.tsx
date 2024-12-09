@@ -28,13 +28,13 @@ export const ReaderSettingHue = ({
     return (
         <Stack>
             <CheckboxInput
-                label={t('reader.settings.custom_filter.hue.title')}
+                label={t('reader.settings.custom_filter.hue')}
                 checked={hue.enabled}
                 onChange={(_, checked) => updateSetting('hue', { ...hue, enabled: checked }, true)}
             />
             {hue.enabled && (
                 <SliderInput
-                    label={t('reader.settings.custom_filter.hue.value')}
+                    label={t('reader.settings.custom_filter.hue')}
                     value={hue.value}
                     slotProps={{
                         slider: {

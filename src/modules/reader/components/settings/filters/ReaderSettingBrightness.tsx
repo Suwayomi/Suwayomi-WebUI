@@ -29,13 +29,13 @@ export const ReaderSettingBrightness = ({
     return (
         <Stack>
             <CheckboxInput
-                label={t('reader.settings.custom_filter.brightness.title')}
+                label={t('reader.settings.custom_filter.brightness')}
                 checked={brightness.enabled}
                 onChange={(_, checked) => updateSetting('brightness', { ...brightness, enabled: checked }, true)}
             />
             {brightness.enabled && (
                 <SliderInput
-                    label={t('reader.settings.custom_filter.brightness.value')}
+                    label={t('reader.settings.custom_filter.brightness')}
                     value={brightness.value}
                     slotProps={{
                         slider: {

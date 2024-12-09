@@ -822,19 +822,10 @@
     "settings": {
       "background_color": "Background color",
       "custom_filter": {
-        "brightness": {
-          "title": "Custom brightness",
-          "value": "$t(reader.settings.custom_filter.brightness.title)"
-        },
-        "contrast": {
-          "title": "Custom contrast",
-          "value": "$t(reader.settings.custom_filter.contrast.title)"
-        },
+        "brightness": "Custom brightness",
+        "contrast": "Custom contrast",
         "grayscale": "Grayscale",
-        "hue": {
-          "title": "Custom hue",
-          "value": "$t(reader.settings.custom_filter.hue.title)"
-        },
+        "hue": "Custom hue",
         "invert": "Invert",
         "rgba": {
           "alpha": "Alpha",
@@ -843,10 +834,7 @@
           "red": "Red",
           "title": "Custom color filters"
         },
-        "saturate": {
-          "title": "Custom saturate",
-          "value": "$t(reader.settings.custom_filter.saturate.title)"
-        },
+        "saturate": "Custom saturate",
         "sepia": "Sepia",
         "title": "Custom filter"
       },

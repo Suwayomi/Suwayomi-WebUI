@@ -28,13 +28,13 @@ export const ReaderSettingSaturate = ({
     return (
         <Stack>
             <CheckboxInput
-                label={t('reader.settings.custom_filter.saturate.title')}
+                label={t('reader.settings.custom_filter.saturate')}
                 checked={saturate.enabled}
                 onChange={(_, checked) => updateSetting('saturate', { ...saturate, enabled: checked }, true)}
             />
             {saturate.enabled && (
                 <SliderInput
-                    label={t('reader.settings.custom_filter.saturate.value')}
+                    label={t('reader.settings.custom_filter.saturate')}
                     value={saturate.value}
                     slotProps={{
                         slider: {
