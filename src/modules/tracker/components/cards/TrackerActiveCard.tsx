@@ -268,9 +268,7 @@ export const TrackerActiveCard = ({
                                     type="ListPreference"
                                     entryValues={tracker.statuses.map((status) => `${status.value}`)}
                                     ListPreferenceCurrentValue={`${trackRecord.status}`}
-                                    updateValue={(_, status) =>
-                                        updateTrackerBind({ status: status as unknown as number })
-                                    }
+                                    updateValue={(_, status) => updateTrackerBind({ status: Number(status) })}
                                     summary="%s"
                                 />
                                 <Divider orientation="vertical" flexItem />
