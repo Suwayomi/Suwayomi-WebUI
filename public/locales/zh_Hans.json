@@ -72,9 +72,9 @@
                         "ahead": "$t(download.settings.download_ahead.title) ({{count}})",
                         "all": "$t(extension.language.all)",
                         "next": "$t(reader.button.next_chapter)",
-                        "next_five": "后5个章节",
-                        "next_ten": "后10个章节",
-                        "next_twentyfive": "后25个章节",
+                        "next_five": "接下来的5个章节",
+                        "next_ten": "接下来的10个章节",
+                        "next_twentyfive": "接下来的25个章节",
                         "unread": "$t(global.filter.label.unread)"
                     }
                 },
@@ -100,7 +100,7 @@
                             "current": "标记为已读",
                             "previous": "标记之前的章节为已读"
                         },
-                        "error_other": "将章节标记为已读出错",
+                        "error_other": "无法将章节标记为已读出错",
                         "success_other": "{{count}}章节标记为已读"
                     },
                     "button": {
@@ -158,7 +158,7 @@
         "state": {
             "label": {
                 "downloading": "正在下载",
-                "finished": "完成",
+                "finished": "$t(global.label.finished)",
                 "queued": "排队中",
                 "error": "错误"
             }
@@ -234,7 +234,7 @@
             "label": {
                 "install": "安装",
                 "uninstall": "卸载",
-                "update": "升级",
+                "update": "更新",
                 "install_external": "安装外部插件",
                 "update_all": "全部更新"
             }
@@ -248,7 +248,7 @@
                 "installing": "安装中",
                 "obsolete": "过时",
                 "uninstalling": "卸载中",
-                "updating": "升级中",
+                "updating": "更新中",
                 "installed": "已安装",
                 "update_pending": "待更新"
             }
@@ -397,7 +397,25 @@
             "open_in_browser": "在浏览器中打开",
             "are_you_sure": "你确定吗？",
             "copied": "已复制",
-            "default": "默认"
+            "default": "默认",
+            "auto": "自动",
+            "copied_clipboard": "已复制到剪贴板",
+            "finished": "已完成",
+            "hidden": "已隐藏",
+            "horizontal": "水平",
+            "left": "左",
+            "menu": "菜单",
+            "next": "下一个",
+            "previous": "上一个",
+            "profile_other": "用户配置",
+            "right": "右",
+            "share": "分享",
+            "standard": "标准",
+            "vertical": "垂直",
+            "both": "二者都是",
+            "bottom": "底部",
+            "desktop": "桌面",
+            "mobile": "移动端"
         },
         "language": {
             "label": {
@@ -432,14 +450,14 @@
         },
         "update": {
             "label": {
-                "updating": "{{progress}}% | 正在升级…",
+                "updating": "{{progress}}% | 正在更新…",
                 "up_to_date": "已经是最新版本",
                 "update_failure": "更新失败",
                 "checking": "正在检查更新",
                 "available": "可用更新",
                 "check_failure": "无法检查更新",
                 "info": "服务器版本 {{version}} ({{channel}}) 可供下载",
-                "update_success": "{{name}} 已升级到版本 {{version}} ({{channel}})"
+                "update_success": "{{name}} 已更新到版本 {{version}} ({{channel}})"
             },
             "settings": {
                 "inform": {
@@ -449,7 +467,16 @@
                     }
                 }
             }
-        }
+        },
+        "colors": {
+            "black": "黑色",
+            "gray": "灰色",
+            "white": "白色"
+        },
+        "unit": {
+            "px": "像素"
+        },
+        "value": "{{value}}{{unit}}"
     },
     "library": {
         "error": {
@@ -703,16 +730,21 @@
     },
     "reader": {
         "button": {
-            "previous_chapter": "上一章",
-            "next_chapter": "下一章",
+            "previous_chapter": "上一章节",
+            "next_chapter": "下一章节",
             "exit": "离开阅读器",
             "open_menu": "打开菜单",
-            "close_menu": "关闭菜单"
+            "close_menu": "关闭菜单",
+            "chapter_list": "章节列表",
+            "next_page": "下一页",
+            "previous_page": "上一页",
+            "retry_load_pages": "重试加载出错的页"
         },
         "page_info": {
             "label": {
                 "currently_on_page": "当前页面",
-                "of_max_pages": "/ {{maxPages}}"
+                "of_max_pages": "/ {{maxPages}}",
+                "page": "页"
             }
         },
         "settings": {
@@ -731,7 +763,14 @@
                 "fit_page_to_window": "自适应",
                 "offset_first_page": "返回第一页",
                 "reader_width": "阅读器宽度",
-                "scale_page": "放大较小的页面"
+                "scale_page": "放大较小的页面",
+                "behaviour": "行为",
+                "layout": "布局",
+                "limit_reader_width": "限制阅读器宽度",
+                "offset_double_spread": "调整双页错位",
+                "page_gap": "页间距",
+                "reading_direction": "阅读顺序",
+                "reading_mode": "阅读模式"
             },
             "reader_type": {
                 "label": {
@@ -740,14 +779,91 @@
                     "double_page_rtl": "双页(右到左)",
                     "single_page_ltr": "单页(左到右)",
                     "single_page_rtl": "单页(右到左)",
-                    "continuous_vertical": "从上到下",
+                    "continuous_vertical": "连续竖直滚动",
                     "continuous_horizontal_rtl": "水平(右到左)",
-                    "webtoon": "条漫"
+                    "webtoon": "条漫",
+                    "continuous_horizontal": "连续水平滚动",
+                    "double_page": "双页",
+                    "single_page": "单页"
                 }
             },
             "title": {
                 "default_reader_settings": "默认阅读器",
                 "reader_settings": "阅读器设置"
+            },
+            "background_color": "背景色",
+            "custom_filter": {
+                "brightness": {
+                    "title": "自定义亮度",
+                    "value": "$t(reader.settings.custom_filter.brightness.title)"
+                },
+                "contrast": {
+                    "title": "自定义对比度",
+                    "value": "$t(reader.settings.custom_filter.contrast.title)"
+                },
+                "hue": {
+                    "title": "自定义色调",
+                    "value": "$t(reader.settings.custom_filter.hue.title)"
+                },
+                "rgba": {
+                    "alpha": "透明通道",
+                    "blue": "蓝",
+                    "green": "绿",
+                    "red": "红",
+                    "title": "自定义颜色滤镜"
+                },
+                "saturate": {
+                    "title": "自定义饱和度",
+                    "value": "$t(reader.settings.custom_filter.saturate.title)"
+                },
+                "sepia": "棕褐色",
+                "title": "自定义滤镜",
+                "invert": "反转",
+                "grayscale": "灰度"
+            },
+            "exit_mode": "退出后打开漫画页",
+            "hotkey": {
+                "menu": "展示菜单",
+                "next_page": "下一页",
+                "offset_spread_pages": "展示错位跨页",
+                "previous_chapter": "上一章",
+                "previous_page": "上一页",
+                "scale_type": "循环切换图像缩放类型",
+                "scroll_backward": "向后翻转",
+                "stretch_image": "切换图像拉伸模式",
+                "scroll_forward": "向前翻转",
+                "next_chapter": "下一章"
+            },
+            "image_preload_amount": "预载图片",
+            "overlay_mode": "叠加模式",
+            "page_scale": {
+                "height": "适配高度",
+                "screen": "适配屏幕",
+                "stretch": "缩放较小的页面",
+                "title": "缩放类型",
+                "width": "适配宽度",
+                "original": "原始大小"
+            },
+            "profiles": {
+                "placeholder": "漫画 | 长度：16，字符：字母、数字、-、_",
+                "description": "配置文件可定义默认阅读设置，并应用于系列和阅读模式"
+            },
+            "progress_bar": {
+                "position": "进度条位置",
+                "size": "进度条尺寸",
+                "style": "进度条样式"
+            },
+            "reading_direction": {
+                "ltr": "从左到右",
+                "rtl": "从右到左"
+            },
+            "tap_zones": {
+                "edge": "边缘",
+                "invert": "反转触控区域",
+                "right_left": "左右",
+                "title": "触控区域",
+                "kindle": "Kindle",
+                "l_shape": "L型"
             }
         },
         "title": "浏览 - 漫画 {{mangaId}} 章节 {{chapterIndex}}",
@@ -757,8 +873,21 @@
                 "unable_to_get_prev_chapter_skip_dup": "无法获取上一章 - \"$t(reader.settings.label.skip_dup_chapters)\" 选项已启用",
                 "next_chapter_does_not_exist": "无下一章节",
                 "prev_chapter_does_not_exist": "无上一章节",
-                "no_pages_found": "未找到内容"
+                "no_pages_found": "未找到内容",
+                "chapter_not_found": "章节不存在"
             }
+        },
+        "transition_page": {
+            "current": "现在：",
+            "exit": {
+                "manga_page": "返回到漫画页",
+                "previous_page": "返回到上一页"
+            },
+            "finished": "$t(global.label.finished):",
+            "first_chapter": "无上一章节",
+            "last_chapter": "无下一章节",
+            "next": "$t(global.label.next):",
+            "previous": "$t(global.label.previous):"
         }
     },
     "settings": {
@@ -818,7 +947,7 @@
                     "dialog": {
                         "content": {
                             "label": {
-                                "missing_sources": "未安装以下源：",
+                                "missing_sources": "未安装以下图源：",
                                 "missing_trackers": "以下追踪列表未登录："
                             }
                         },
@@ -877,7 +1006,7 @@
                     "channel": "$t(settings.webui.title.webui) 版本选择",
                     "github": "$t(global.label.github) $t(settings.webui.title.webui)",
                     "info": "$t(settings.webui.title.webui) 版本 {{version}} ({{channel}}) 可供下载",
-                    "updated": "已升级的版本"
+                    "updated": "已更新的版本"
                 }
             }
         },
@@ -956,7 +1085,7 @@
                 "log_files": {
                     "file_cleanup": {
                         "title": "清理日志文件",
-                        "value": "删除早于$t(global.date.value.label.day)的备份"
+                        "value": "删除早于$t(global.date.value.label.day)的日志文件"
                     },
                     "total_size": {
                         "description": "$t(settings.server.misc.log_files.file_size.description)",
@@ -1213,7 +1342,7 @@
         "error": {
             "label": {
                 "no_sources_found": "没有找到图源。请先安装一些插件。",
-                "source_not_found": "找不到源，请检查您已安装的插件。"
+                "source_not_found": "找不到图源，请检查您已安装的插件。"
             }
         },
         "title_other": "图源",
@@ -1334,5 +1463,21 @@
                 }
             }
         }
+    },
+    "hotkeys": {
+        "create": {
+            "dialog": {
+                "placeholder": "按下快捷键",
+                "title": "记录按键绑定",
+                "label": "已记录的按键：<Keys/>"
+            },
+            "error": {
+                "exists": "快捷键已存在"
+            }
+        },
+        "info": {
+            "delete": "单击按键以解除绑定"
+        },
+        "title_other": "按键绑定"
     }
 }
