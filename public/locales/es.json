@@ -194,7 +194,7 @@
                 "log_files": {
                     "file_cleanup": {
                         "title": "Limpieza de archivos de registro",
-                        "value": "Eliminar copias de seguridad anteriores a $t(global.date.value.label.day)"
+                        "value": "Eliminar archivos de registro anteriores a $t(global.date.value.label.day)"
                     },
                     "file_size": {
                         "title": "Tamaño máximo del archivo de registro",
@@ -722,7 +722,27 @@
             "type": "Tipo",
             "are_you_sure": "¿Estás seguro?",
             "copied": "Copiado",
-            "default": "Por defecto"
+            "default": "Por defecto",
+            "both": "Ambos",
+            "copied_clipboard": "Copiado al portapapeles",
+            "desktop": "Escritorio",
+            "finished": "Finalizado",
+            "hidden": "Oculto",
+            "horizontal": "Horizontal",
+            "left": "Izquierda",
+            "menu": "Menú",
+            "mobile": "Móvil",
+            "next": "Siguiente",
+            "previous": "Anterior",
+            "right": "Derecha",
+            "share": "Compartir",
+            "standard": "Estándar",
+            "vertical": "Vertical",
+            "auto": "Automático",
+            "profile_one": "Perfil",
+            "profile_many": "Perfiles",
+            "profile_other": "Perfiles",
+            "bottom": "Inferior"
         },
         "error": {
             "label": {
@@ -777,6 +797,15 @@
                     }
                 }
             }
+        },
+        "unit": {
+            "px": "px"
+        },
+        "value": "{{value}}{{unit}}",
+        "colors": {
+            "black": "Negro",
+            "white": "Blanco",
+            "gray": "Gris"
         }
     },
     "chapter": {
@@ -918,9 +947,12 @@
                     "single_page_ltr": "Página única (IZQ-DER) ➡️",
                     "webtoon": "Webtoon",
                     "double_page_ltr": "Página doble (IZQ-DER) ➡️",
-                    "continuous_vertical": "Continúa en vertical",
+                    "continuous_vertical": "Continuamente vertical",
                     "continuous_horizontal_ltr": "Horizontal (IZQ-DER) ➡️",
-                    "single_page_rtl": "Página única (DER-IZQ) ⬅️"
+                    "single_page_rtl": "Página única (DER-IZQ) ⬅️",
+                    "continuous_horizontal": "Continuamente horizontal",
+                    "double_page": "Página doble",
+                    "single_page": "Página simple"
                 }
             },
             "label": {
@@ -932,7 +964,14 @@
                 "fit_page_to_window": "Ajustar página a la ventana",
                 "offset_first_page": "Atenuar la primera página",
                 "reader_width": "Ancho del lector",
-                "scale_page": "Escalar páginas pequeñas"
+                "scale_page": "Escalar páginas pequeñas",
+                "behaviour": "Comportamiento",
+                "layout": "Diseño",
+                "limit_reader_width": "Límite de anchura del lector",
+                "reading_direction": "Dirección de lectura",
+                "reading_mode": "Modo de lectura",
+                "offset_double_spread": "Doble página en offset",
+                "page_gap": "Separación de páginas"
             },
             "title": {
                 "default_reader_settings": "Configuración predeterminada del lector",
@@ -943,6 +982,80 @@
                     "failed_to_save_default_settings": "No se pudo guardar la configuración predeterminada del lector en el servidor",
                     "failed_to_save_settings": "No se pudo guardar la configuración del lector en el servidor"
                 }
+            },
+            "background_color": "Color del fondo",
+            "custom_filter": {
+                "brightness": {
+                    "title": "Brillo personalizado",
+                    "value": "$t(reader.settings.custom_filter.brightness.title)"
+                },
+                "contrast": {
+                    "title": "Contraste personalizado",
+                    "value": "$t(reader.settings.custom_filter.contrast.title)"
+                },
+                "grayscale": "Escala de grises",
+                "hue": {
+                    "title": "Tono personalizado",
+                    "value": "$t(reader.settings.custom_filter.hue.title)"
+                },
+                "invert": "Invertir",
+                "rgba": {
+                    "alpha": "Alfa",
+                    "blue": "Azul",
+                    "green": "Verde",
+                    "red": "Rojo",
+                    "title": "Filtros de color personalizados"
+                },
+                "saturate": {
+                    "title": "Saturado personalizado",
+                    "value": "$t(reader.settings.custom_filter.saturate.title)"
+                },
+                "sepia": "Sepia",
+                "title": "Filtro personalizado"
+            },
+            "exit_mode": "Abrir página al salir",
+            "hotkey": {
+                "menu": "Menú alternativo",
+                "next_chapter": "Siguiente capítulo",
+                "next_page": "Siguiente página",
+                "previous_chapter": "Capítulo anterior",
+                "previous_page": "Página anterior",
+                "offset_spread_pages": "Alternar las páginas de propagación offset",
+                "scale_type": "Pasar por los tipos de zoom de imagen",
+                "scroll_backward": "Retroceder",
+                "scroll_forward": "Avanzar",
+                "stretch_image": "Alternar estirar imagen"
+            },
+            "image_preload_amount": "Precargar imágenes",
+            "overlay_mode": "Modo de superposición",
+            "page_scale": {
+                "height": "Ajustar la altura",
+                "original": "Tamaño original",
+                "screen": "Ajustar la pantalla",
+                "stretch": "Extender las páginas pequeñas",
+                "title": "Tipo de escala",
+                "width": "Ajustar la anchura"
+            },
+            "profiles": {
+                "description": "Los perfiles son usados para definir la configuración predeterminada del lector que puede ser usada para series y modos de lectura",
+                "placeholder": "Cómics | longitud: 16, caracteres: letras, números, -, _"
+            },
+            "progress_bar": {
+                "size": "Tamaño de la barra de progreso",
+                "style": "Estilo de la barra de progreso",
+                "position": "Posición de la barra de progreso"
+            },
+            "reading_direction": {
+                "ltr": "De izquierda a derecha",
+                "rtl": "De derecha a izquierda"
+            },
+            "tap_zones": {
+                "invert": "Invertir zonas de toque",
+                "title": "Zonas de toque",
+                "right_left": "Derecha e izquierda",
+                "edge": "Borde",
+                "kindle": "Kindle",
+                "l_shape": "Forma de L"
             }
         },
         "title": "Lector — Manga {{mangaId}} Capítulo {{chapterIndex}}",
@@ -951,12 +1064,17 @@
             "previous_chapter": "Capítulo anterior",
             "exit": "Salir del lector",
             "open_menu": "Abrir el menú",
-            "close_menu": "Cerrar el menú"
+            "close_menu": "Cerrar el menú",
+            "chapter_list": "Lista de capítulos",
+            "next_page": "Siguiente página",
+            "retry_load_pages": "Intentar de nuevo las páginas con errores",
+            "previous_page": "Página anterior"
         },
         "page_info": {
             "label": {
                 "currently_on_page": "Actualmente en página",
-                "of_max_pages": "de {{maxPages}}"
+                "of_max_pages": "de {{maxPages}}",
+                "page": "Página"
             }
         },
         "error": {
@@ -965,8 +1083,21 @@
                 "unable_to_get_prev_chapter_skip_dup": "No se puede obtener el capítulo anterior - la opción \"$t(reader.settings.label.skip_dup_chapters)\" está activada",
                 "next_chapter_does_not_exist": "No hay siguiente capítulo para abrir",
                 "prev_chapter_does_not_exist": "No hay capítulo anterior para abrir",
-                "no_pages_found": "Ninguna página encontrada"
+                "no_pages_found": "Ninguna página encontrada",
+                "chapter_not_found": "El capítulo no existe"
             }
+        },
+        "transition_page": {
+            "current": "Actual:",
+            "exit": {
+                "manga_page": "Salir a la página del manga",
+                "previous_page": "Salir a la página anterior"
+            },
+            "first_chapter": "No hay ningún capítulo anterior",
+            "last_chapter": "No hay ningún capítulo siguiente",
+            "next": "$t(global.label.next):",
+            "finished": "$t(global.label.finished):",
+            "previous": "$t(global.label.previous):"
         }
     },
     "category": {
@@ -1243,7 +1374,7 @@
         "state": {
             "label": {
                 "error": "Error",
-                "finished": "Terminada",
+                "finished": "$t(global.label.finished)",
                 "queued": "Puesto en cola",
                 "downloading": "Descargando"
             }
@@ -1392,5 +1523,23 @@
                 }
             }
         }
+    },
+    "hotkeys": {
+        "create": {
+            "dialog": {
+                "label": "Teclas grabadas: <Keys/>",
+                "placeholder": "Presionar teclas",
+                "title": "Grabar combinación de tecla"
+            },
+            "error": {
+                "exists": "La tecla de acceso rápido ya existe"
+            }
+        },
+        "info": {
+            "delete": "Haz clic en la tecla para eliminar el enlace"
+        },
+        "title_one": "Combinación de tecla",
+        "title_many": "Combinación de teclas",
+        "title_other": "Combinación de teclas"
     }
 }
