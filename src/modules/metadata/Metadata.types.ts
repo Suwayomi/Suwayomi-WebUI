@@ -21,7 +21,7 @@ export interface IMetadataMigration {
          */
         key?: string;
         oldValue: string | RegExp;
-        newValue: string;
+        newValue: string | ((oldValue: string) => string);
     }[];
     keys?: { oldKey: string; newKey: string }[];
 }

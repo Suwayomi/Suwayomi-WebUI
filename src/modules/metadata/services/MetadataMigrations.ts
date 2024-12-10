@@ -60,7 +60,7 @@ const applyMetadataValueMigration = (meta: Metadata, migration: IMetadataMigrati
     metadataValueChanges.forEach(({ key, oldValue, newValue }) => {
         const migrateValue = (metaKey: string) => {
             if (meta[metaKey].match(oldValue)) {
-                migratedMetadata[metaKey] = newValue;
+                migratedMetadata[metaKey] = typeof newValue === 'function' ? newValue(meta[metaKey]) : newValue;
             }
         };
 
