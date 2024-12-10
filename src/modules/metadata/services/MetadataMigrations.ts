@@ -59,7 +59,7 @@ const applyMetadataValueMigration = (meta: Metadata, migration: IMetadataMigrati
 
     metadataValueChanges.forEach(({ key, oldValue, newValue }) => {
         const migrateValue = (metaKey: string) => {
-            if (meta[metaKey] === oldValue) {
+            if (meta[metaKey].match(oldValue)) {
                 migratedMetadata[metaKey] = newValue;
             }
         };
