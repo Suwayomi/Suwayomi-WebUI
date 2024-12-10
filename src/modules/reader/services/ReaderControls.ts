@@ -316,15 +316,17 @@ export class ReaderControls {
                     }
 
                     const hasLastPageReadChanged = pageIndex !== currentChapterUpToDate.lastPageRead;
-                    const isLasPage = endReached || pageIndex === currentChapterUpToDate.pageCount - 1;
-                    const shouldUpdateChapter = hasLastPageReadChanged || isLasPage;
+                    const isLastPage = pageIndex === currentChapterUpToDate.pageCount - 1;
+                    const hasIsReadChanged = (isLastPage || endReached) && !currentChapterUpToDate.isRead;
+
+                    const shouldUpdateChapter = hasLastPageReadChanged || hasIsReadChanged;
                     if (!shouldUpdateChapter) {
                         return;
                     }
 
                     updateChapter({
                         lastPageRead: hasLastPageReadChanged ? pageIndex : undefined,
-                        isRead: isLasPage ? true : undefined,
+                        isRead: isLastPage ? true : undefined,
                     });
                 };
 
