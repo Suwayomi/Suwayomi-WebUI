@@ -58,8 +58,8 @@ const { LibraryDuplicates } = loadable(
     lazyLoadFallback,
 );
 const { Appearance } = loadable(() => import('@/modules/settings/screens/Appearance.tsx'), lazyLoadFallback);
-const { DefaultReaderSettings } = loadable(
-    () => import('@/modules/reader/screens/DefaultReaderSettings.tsx'),
+const { GlobalReaderSettings } = loadable(
+    () => import('@/modules/reader/screens/GlobalReaderSettings.tsx'),
     lazyLoadFallback,
 );
 
@@ -119,7 +119,7 @@ const MainApp = () => {
                         <Route index element={<Settings />} />
                         <Route path="about" element={<About />} />
                         <Route path="categories" element={<CategorySettings />} />
-                        <Route path="defaultReaderSettings" element={<DefaultReaderSettings />} />
+                        <Route path="readerSettings" element={<GlobalReaderSettings />} />
                         <Route path="librarySettings">
                             <Route index element={<LibrarySettings />} />
                             <Route path="duplicates" element={<LibraryDuplicates />} />

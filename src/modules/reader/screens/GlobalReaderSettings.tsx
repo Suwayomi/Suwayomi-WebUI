@@ -17,12 +17,12 @@ import { IReaderSettings } from '@/modules/reader/types/Reader.types.ts';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { ReaderSettingsTabs } from '@/modules/reader/components/settings/ReaderSettingsTabs.tsx';
 
-export const DefaultReaderSettings = () => {
+export const GlobalReaderSettings = () => {
     const { t } = useTranslation();
     const { setTitle, setAction } = useNavBarContext();
 
     useLayoutEffect(() => {
-        setTitle(t('reader.settings.title.default_reader_settings'));
+        setTitle(t('reader.settings.title.reader_settings'));
         setAction(null);
 
         return () => {

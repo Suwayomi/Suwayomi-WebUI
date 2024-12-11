@@ -69,11 +69,11 @@ export function Settings() {
                 </ListItemIcon>
                 <ListItemText primary={t('category.title.category_other')} />
             </ListItemLink>
-            <ListItemLink to="/settings/defaultReaderSettings">
+            <ListItemLink to="/settings/readerSettings">
                 <ListItemIcon>
                     <AutoStoriesIcon />
                 </ListItemIcon>
-                <ListItemText primary={t('reader.settings.title.default_reader_settings')} />
+                <ListItemText primary={t('reader.settings.title.reader_settings')} />
             </ListItemLink>
             <ListItemLink to="/settings/librarySettings">
                 <ListItemIcon>

@@ -840,7 +840,6 @@
       },
       "error": {
         "label": {
-          "failed_to_save_default_settings": "Could not save the default reader settings to the server",
           "failed_to_save_settings": "Could not save the reader settings to the server"
         }
       },
@@ -915,7 +914,6 @@
         "title": "Tap zones"
       },
       "title": {
-        "default_reader_settings": "Default Reader Settings",
         "reader_settings": "Reader Settings"
       }
     },
