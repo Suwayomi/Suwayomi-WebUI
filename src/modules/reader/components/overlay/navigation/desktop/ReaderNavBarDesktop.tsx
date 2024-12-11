@@ -16,7 +16,7 @@ import PushPinIcon from '@mui/icons-material/PushPin';
 import Divider from '@mui/material/Divider';
 import { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import Drawer from '@mui/material/Drawer';
-import { useGetOptionForDirection } from '@/modules/theme/services/theme.tsx';
+import { useGetOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts';
 import { ReaderNavBarDesktopProps } from '@/modules/reader/types/ReaderOverlay.types.ts';
 import { ReaderNavContainer } from '@/modules/reader/components/overlay/navigation/desktop/ReaderNavContainer.tsx';
 import { ReaderNavBarDesktopMetadata } from '@/modules/reader/components/overlay/navigation/desktop/ReaderNavBarDesktopMetadata.tsx';

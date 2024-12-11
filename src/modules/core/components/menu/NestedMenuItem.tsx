@@ -35,7 +35,7 @@ import Box from '@mui/material/Box';
 import { OverridableComponent } from '@mui/material/OverridableComponent';
 import { SvgIconTypeMap } from '@mui/material/SvgIcon';
 import { IconMenuItem } from '@/modules/core/components/menu/IconMenuItem.tsx';
-import { getOptionForDirection } from '@/modules/theme/services/theme.tsx';
+import { getOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts';
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 
 export type NestedMenuItemProps = Omit<MuiMenuItemProps, 'button'> & {

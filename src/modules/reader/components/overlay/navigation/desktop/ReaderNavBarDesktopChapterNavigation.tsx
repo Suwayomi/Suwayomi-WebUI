@@ -21,7 +21,7 @@ import { Chapters } from '@/modules/chapter/services/Chapters.ts';
 import { ReaderStateChaptersContext } from '@/modules/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import { ReaderChapterList } from '@/modules/reader/components/overlay/navigation/ReaderChapterList.tsx';
 import { ReaderNavBarDesktopNextPreviousButton } from '@/modules/reader/components/overlay/navigation/desktop/ReaderNavBarDesktopNextPreviousButton.tsx';
-import { getOptionForDirection } from '@/modules/theme/services/theme.tsx';
+import { getOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { ReaderResumeMode } from '@/modules/reader/types/Reader.types.ts';
 

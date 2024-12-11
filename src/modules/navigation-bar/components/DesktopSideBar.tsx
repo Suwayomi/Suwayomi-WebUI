@@ -22,7 +22,7 @@ import Box from '@mui/material/Box';
 import ListItem from '@mui/material/ListItem';
 import Tooltip from '@mui/material/Tooltip';
 import { ListItemLink } from '@/modules/core/components/ListItemLink.tsx';
-import { useGetOptionForDirection } from '@/modules/theme/services/theme.tsx';
+import { useGetOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 import { NavbarItem } from '@/modules/navigation-bar/NavigationBar.types.ts';

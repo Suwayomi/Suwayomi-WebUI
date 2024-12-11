@@ -24,7 +24,7 @@ import { ReaderPage } from '@/modules/reader/components/viewer/ReaderPage.tsx';
 import { reverseString } from '@/util/Strings.ts';
 import { getPage } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
 import { DirectionOffset } from '@/Base.types.ts';
-import { getOptionForDirection } from '@/modules/theme/services/theme.tsx';
+import { getOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts';
 import { READING_DIRECTION_TO_THEME_DIRECTION } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 
 type CSSObject = ReturnType<Theme['applyStyles']>;

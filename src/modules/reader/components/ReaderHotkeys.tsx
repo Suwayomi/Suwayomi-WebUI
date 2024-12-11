@@ -23,7 +23,7 @@ import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 import { HotkeyScope } from '@/modules/hotkeys/Hotkeys.types.ts';
 import { ReaderControls } from '@/modules/reader/services/ReaderControls.ts';
 import { ScrollDirection, ScrollOffset } from '@/modules/core/Core.types.ts';
-import { getOptionForDirection } from '@/modules/theme/services/theme.tsx';
+import { getOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts';
 
 const useHotkeys = (...args: Parameters<typeof useHotKeysHook>): ReturnType<typeof useHotKeysHook> => {
     const [keys, callback, options, dependencies] = args;

@@ -148,7 +148,7 @@ export const createAndSetTheme = (...args: Parameters<typeof createTheme>) => {
     return theme;
 };
 
-export const getOptionForDirection = <T,>(
+export const getOptionForDirection = <T>(
     ltrOption: T,
     rtlOption: T,
     direction: Theme['direction'] = theme?.direction ?? 'ltr',
@@ -158,7 +158,7 @@ export const useGetOptionForDirection = (): typeof getOptionForDirection => {
     const muiTheme = useTheme();
 
     return useCallback(
-        <T,>(...args: Parameters<typeof getOptionForDirection<T>>) => getOptionForDirection(...args),
+        <T>(...args: Parameters<typeof getOptionForDirection<T>>) => getOptionForDirection(...args),
         [muiTheme.direction],
     );
 };
