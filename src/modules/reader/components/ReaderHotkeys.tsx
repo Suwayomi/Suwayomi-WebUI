@@ -73,7 +73,7 @@ export const ReaderHotkeys = ({
     const readerThemeDirection = ReaderService.useGetThemeDirection();
     const { enableScope, disableScope } = useHotkeysContext();
     const { manga } = useReaderStateMangaContext();
-    const { isVisible, setIsVisible } = useReaderOverlayContext();
+    const { isVisible, setIsVisible: setIsOverlayVisible } = useReaderOverlayContext();
     const {
         hotkeys,
         pageScaleMode,
@@ -105,6 +105,7 @@ export const ReaderHotkeys = ({
                 themeDirection,
                 scrollElementRef.current,
                 openChapter,
+                setIsOverlayVisible,
                 ReaderScrollAmount.SMALL,
             ),
         { preventDefault: true },
@@ -122,6 +123,7 @@ export const ReaderHotkeys = ({
                 themeDirection,
                 scrollElementRef.current,
                 openChapter,
+                setIsOverlayVisible,
                 ReaderScrollAmount.SMALL,
             ),
         { preventDefault: true },
@@ -137,7 +139,7 @@ export const ReaderHotkeys = ({
         () => openChapter(getOptionForDirection('next', 'previous', readerThemeDirection)),
         [openChapter, readerThemeDirection],
     );
-    useHotkeys(hotkeys[ReaderHotkey.TOGGLE_MENU], () => setIsVisible(!isVisible), [isVisible]);
+    useHotkeys(hotkeys[ReaderHotkey.TOGGLE_MENU], () => setIsOverlayVisible(!isVisible), [isVisible]);
     useHotkeys(
         hotkeys[ReaderHotkey.CYCLE_SCALE_TYPE],
         () => {

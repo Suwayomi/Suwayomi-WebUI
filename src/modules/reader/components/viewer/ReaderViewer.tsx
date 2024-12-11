@@ -38,6 +38,7 @@ import { getNextIndexFromPage, getPage } from '@/modules/reader/utils/ReaderProg
 import { isContinuousReadingMode } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
 import { useMouseDragScroll } from '@/modules/core/hooks/useMouseDragScroll.tsx';
 import { DirectionOffset } from '@/Base.types.ts';
+import { useReaderOverlayContext } from '@/modules/reader/contexts/ReaderOverlayContext.tsx';
 
 const READING_MODE_TO_IN_VIEWPORT_TYPE: Record<ReadingMode, PageInViewportType> = {
     [ReadingMode.SINGLE_PAGE]: PageInViewportType.X,
@@ -62,6 +63,7 @@ export const ReaderViewer = forwardRef((_, ref: ForwardedRef<HTMLDivElement | nu
     const { direction: themeDirection } = useTheme();
     const { readingMode, shouldOffsetDoubleSpreads, readingDirection } = ReaderService.useSettings();
     const { setScrollbarXSize, setScrollbarYSize } = useReaderScrollbarContext();
+    const { isVisible: isOverlayVisible, setIsVisible: setIsOverlayVisible } = useReaderOverlayContext();
     const updateCurrentPageIndex = ReaderControls.useUpdateCurrentPageIndex();
 
     const scrollElementRef = useRef<HTMLDivElement | null>(null);
@@ -219,6 +221,22 @@ export const ReaderViewer = forwardRef((_, ref: ForwardedRef<HTMLDivElement | nu
         scrollElementRef.current.addEventListener('wheel', handleScroll);
         return () => scrollElementRef.current?.removeEventListener('wheel', handleScroll);
     }, [readingMode.value, readingDirection.value]);
+
+    // hide overlay on user triggered scroll
+    useEffect(() => {
+        const handleScroll = () => {
+            if (isOverlayVisible) {
+                setIsOverlayVisible(false);
+            }
+        };
+
+        scrollElementRef.current?.addEventListener('wheel', handleScroll);
+        scrollElementRef.current?.addEventListener('touchmove', handleScroll);
+        return () => {
+            scrollElementRef.current?.removeEventListener('wheel', handleScroll);
+            scrollElementRef.current?.removeEventListener('touchmove', handleScroll);
+        };
+    }, [isOverlayVisible]);
 
     return (
         <Stack

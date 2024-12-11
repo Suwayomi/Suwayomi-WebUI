@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { MutableRefObject, useCallback, useMemo } from 'react';
+import { ContextType, MutableRefObject, useCallback, useMemo } from 'react';
 import { Direction, useTheme } from '@mui/material/styles';
 import { userReaderStatePagesContext } from '@/modules/reader/contexts/state/ReaderStatePagesContext.tsx';
 import { getNextIndexFromPage, getNextPageIndex, getPage } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
@@ -26,7 +26,7 @@ import {
     READING_DIRECTION_TO_THEME_DIRECTION,
 } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 import { isEndOfPageInViewport, isPageInViewport } from '@/modules/reader/utils/ReaderPager.utils.tsx';
-import { useReaderOverlayContext } from '@/modules/reader/contexts/ReaderOverlayContext.tsx';
+import { ReaderOverlayContext, useReaderOverlayContext } from '@/modules/reader/contexts/ReaderOverlayContext.tsx';
 import { useReaderTapZoneContext } from '@/modules/reader/contexts/ReaderTapZoneContext.tsx';
 import { TapZoneRegionType } from '@/modules/reader/types/TapZoneLayout.types.ts';
 import { ReaderTapZoneService } from '@/modules/reader/services/ReaderTapZoneService.ts';
@@ -78,6 +78,7 @@ export class ReaderControls {
         themeDirection: Direction,
         element: HTMLElement,
         openChapter: ReturnType<(typeof ReaderControls)['useOpenChapter']>,
+        setIsOverlayVisible: ContextType<typeof ReaderOverlayContext>['setIsVisible'],
         scrollAmountPercentage: number = ReaderScrollAmount.LARGE,
     ): void {
         if (!element) {
@@ -104,6 +105,8 @@ export class ReaderControls {
 
         const getNewScrollPosition = (currentPos: number, elementSize: number) =>
             currentPos + elementSize * scrollAmount * scrollDirection;
+
+        setIsOverlayVisible(false);
 
         switch (direction) {
             case ScrollDirection.X:
@@ -171,6 +174,7 @@ export class ReaderControls {
         const { currentPageIndex, setPageToScrollToIndex, pages, transitionPageMode, setTransitionPageMode } =
             userReaderStatePagesContext();
         const { previousChapter, nextChapter } = useReaderStateChaptersContext();
+        const { setIsVisible: setIsOverlayVisible } = useReaderOverlayContext();
         const { readingDirection, readingMode } = ReaderService.useSettings();
         const openChapter = ReaderControls.useOpenChapter();
 
@@ -198,6 +202,8 @@ export class ReaderControls {
                     page === 'previous' ? 'next' : 'previous',
                     forceDirection,
                 );
+
+                setIsOverlayVisible(false);
 
                 const shouldOpenPreviousChapter =
                     isFirstPage && isATransitionPageVisible && convertedPage === 'previous' && !!previousChapter;
@@ -406,6 +412,7 @@ export class ReaderControls {
                                 themeDirection,
                                 scrollElement,
                                 openChapter,
+                                setIsOverlayVisible,
                             );
                         } else {
                             openPage('previous', 'ltr');
@@ -421,6 +428,7 @@ export class ReaderControls {
                                 themeDirection,
                                 scrollElement,
                                 openChapter,
+                                setIsOverlayVisible,
                             );
                         } else {
                             openPage('next', 'ltr');
