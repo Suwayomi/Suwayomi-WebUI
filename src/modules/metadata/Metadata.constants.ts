@@ -291,7 +291,7 @@ export const METADATA_MIGRATIONS: IMetadataMigration[] = [
             // END: fitPageToWindow
             {
                 key: 'readerWidth',
-                oldValue: /[0-9]+/g,
+                oldValue: /^[0-9]+$/g,
                 newValue: (oldValue) => JSON.stringify({ value: Number(oldValue), enabled: true }),
             },
         ],
