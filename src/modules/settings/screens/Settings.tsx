@@ -121,7 +121,7 @@ export function Settings() {
                 </ListItemIcon>
                 <ListItemText primary={t('settings.device.title.device')} />
             </ListItemLink>
-            <ListItemLink to="/settings/webUI">
+            <ListItemLink to="/settings/webui">
                 <ListItemIcon>
                     <WebIcon />
                 </ListItemIcon>

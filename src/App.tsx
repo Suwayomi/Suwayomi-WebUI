@@ -127,7 +127,7 @@ const MainApp = () => {
                         <Route path="download" element={<DownloadSettings />} />
                         <Route path="backup" element={<Backup />} />
                         <Route path="server" element={<ServerSettings />} />
-                        <Route path="webUI" element={<WebUISettings />} />
+                        <Route path="webui" element={<WebUISettings />} />
                         <Route path="browse" element={<BrowseSettings />} />
                         <Route path="device" element={<DeviceSetting />} />
                         <Route path="tracking" element={<TrackingSettings />} />
