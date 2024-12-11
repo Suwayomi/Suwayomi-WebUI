@@ -25,7 +25,7 @@ import {
     getProgressBarPositionInfo,
     useHandleProgressDragging,
 } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
-import { getOptionForDirection as getOptionForDirectionImpl } from '@/theme.tsx';
+import { getOptionForDirection as getOptionForDirectionImpl } from '@/modules/theme/services/theme.tsx';
 import { ReaderProgressBarSlotsActionArea } from '@/modules/reader/components/overlay/progress-bar/ReaderProgressBarSlotsActionArea.tsx';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { ReaderControls } from '@/modules/reader/services/ReaderControls.ts';

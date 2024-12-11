@@ -29,7 +29,7 @@ import { SearchTextField } from '@/modules/core/components/inputs/SearchTextFiel
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { TrackerMangaCard } from '@/modules/tracker/components/cards/TrackerMangaCard.tsx';
 import { DIALOG_PADDING } from '@/modules/tracker/Tracker.constants.ts';
-import { useGetOptionForDirection } from '@/theme.tsx';
+import { useGetOptionForDirection } from '@/modules/theme/services/theme.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 

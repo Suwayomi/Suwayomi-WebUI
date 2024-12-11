@@ -16,7 +16,7 @@ import { Select } from '@/modules/core/components/inputs/Select.tsx';
 import { getPage } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types.ts';
 import { ReaderControls } from '@/modules/reader/services/ReaderControls.ts';
-import { useGetOptionForDirection } from '@/theme.tsx';
+import { useGetOptionForDirection } from '@/modules/theme/services/theme.tsx';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { ReaderNavBarDesktopNextPreviousButton } from '@/modules/reader/components/overlay/navigation/desktop/ReaderNavBarDesktopNextPreviousButton.tsx';
 import { READING_DIRECTION_TO_THEME_DIRECTION } from '@/modules/reader/constants/ReaderSettings.constants.tsx';

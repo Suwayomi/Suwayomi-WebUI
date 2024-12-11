@@ -19,7 +19,7 @@ import { userReaderStatePagesContext } from '@/modules/reader/contexts/state/Rea
 import { useReaderStateChaptersContext } from '@/modules/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { getPage } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
-import { getOptionForDirection } from '@/theme.tsx';
+import { getOptionForDirection } from '@/modules/theme/services/theme.tsx';
 import { ProgressBarPosition, ReaderResumeMode } from '@/modules/reader/types/Reader.types.ts';
 import { ReaderProgressBarDirectionWrapper } from '@/modules/reader/components/overlay/progress-bar/ReaderProgressBarDirectionWrapper.tsx';
 import { useReaderProgressBarContext } from '@/modules/reader/contexts/ReaderProgressBarContext.tsx';

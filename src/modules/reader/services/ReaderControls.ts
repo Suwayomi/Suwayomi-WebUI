@@ -10,7 +10,7 @@ import { MutableRefObject, useCallback, useMemo } from 'react';
 import { Direction, useTheme } from '@mui/material/styles';
 import { userReaderStatePagesContext } from '@/modules/reader/contexts/state/ReaderStatePagesContext.tsx';
 import { getNextIndexFromPage, getNextPageIndex, getPage } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
-import { getOptionForDirection } from '@/theme.tsx';
+import { getOptionForDirection } from '@/modules/theme/services/theme.tsx';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { useReaderStateChaptersContext } from '@/modules/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import {

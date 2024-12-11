@@ -8,7 +8,7 @@
 
 import { RefObject, useEffect } from 'react';
 import { ReaderProgressBarProps, TReaderProgressCurrentPage } from '@/modules/reader/types/ReaderProgressBar.types.ts';
-import { getOptionForDirection as getOptionForDirectionImpl } from '@/theme.tsx';
+import { getOptionForDirection as getOptionForDirectionImpl } from '@/modules/theme/services/theme.tsx';
 import { ProgressBarPosition } from '@/modules/reader/types/Reader.types.ts';
 import { ReaderControls } from '@/modules/reader/services/ReaderControls.ts';
 

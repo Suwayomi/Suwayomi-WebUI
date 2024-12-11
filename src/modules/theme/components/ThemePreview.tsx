@@ -21,7 +21,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { bindDialog, usePopupState } from 'material-ui-popup-state/hooks';
 import { ThemeModeContext } from '@/modules/theme/contexts/ThemeModeContext.tsx';
 import { AppTheme, hasMissingFonts, loadThemeFonts } from '@/modules/theme/services/AppThemes.ts';
-import { createTheme } from '@/theme.tsx';
+import { createTheme } from '@/modules/theme/services/theme.tsx';
 import { ThemeCreationDialog } from '@/modules/theme/components/CreateThemeDialog.tsx';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines.tsx';

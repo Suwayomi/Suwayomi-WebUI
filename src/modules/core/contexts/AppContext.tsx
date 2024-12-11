@@ -14,7 +14,7 @@ import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
 import { useTranslation } from 'react-i18next';
 import { CacheProvider } from '@emotion/react';
 import { SnackbarProvider } from 'notistack';
-import { createAndSetTheme } from '@/theme.tsx';
+import { createAndSetTheme } from '@/modules/theme/services/theme.tsx';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { ThemeMode, ThemeModeContext } from '@/modules/theme/contexts/ThemeModeContext.tsx';
 import { NavBarContextProvider } from '@/modules/navigation-bar/contexts/NavBarContextProvider.tsx';
