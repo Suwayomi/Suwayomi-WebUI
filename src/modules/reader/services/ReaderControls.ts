@@ -39,6 +39,7 @@ import { DirectionOffset, TranslationKey } from '@/Base.types.ts';
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { TChapterReader } from '@/modules/chapter/Chapter.types.ts';
 import { awaitConfirmation } from '@/modules/core/utils/AwaitableDialog.tsx';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 
 const getScrollDirectionInvert = (
     scrollDirection: ScrollDirection,
@@ -162,14 +163,14 @@ export class ReaderControls {
             (offset) => {
                 switch (offset) {
                     case 'previous':
-                        ReaderControls.checkNextChapterConsistency(t, offset, currentChapter, previousChapter).then(
-                            openPreviousChapter,
-                        );
+                        ReaderControls.checkNextChapterConsistency(t, offset, currentChapter, previousChapter)
+                            .then(openPreviousChapter)
+                            .catch(defaultPromiseErrorHandler('ReaderControls::checkNextChapterConsistency: previous'));
                         break;
                     case 'next':
-                        ReaderControls.checkNextChapterConsistency(t, offset, currentChapter, nextChapter).then(
-                            openNextChapter,
-                        );
+                        ReaderControls.checkNextChapterConsistency(t, offset, currentChapter, nextChapter)
+                            .then(openNextChapter)
+                            .catch(defaultPromiseErrorHandler('ReaderControls::checkNextChapterConsistency: next'));
                         break;
                     default:
                         throw new Error(`Unexpected "offset" (${offset})`);
