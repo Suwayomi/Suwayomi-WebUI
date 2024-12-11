@@ -323,6 +323,7 @@
       "log_out": "Log out",
       "migrate": "Migrate",
       "ok": "Ok",
+      "open": "Open",
       "open_site": "Open Site",
       "options": "Options",
       "popular": "Popular",
@@ -803,6 +804,21 @@
       "previous_chapter": "Previous chapter",
       "previous_page": "Previous page",
       "retry_load_pages": "Retry errored pages"
+    },
+    "chapter_transition": {
+      "warning": {
+        "next": {
+          "chapter_number_one": "There is one missing chapter.\nCurrent: {{currentChapter}}\nNext: {{nextChapter}}",
+          "chapter_number_other": "There are {{count}} missing chapters.\nCurrent: {{currentChapter}}\nNext: {{nextChapter}}",
+          "scanlator": "The next chapter has a different scanlator then the current one.\nCurrent: {{currentScanlator}}\nNext: {{nextScanlator}}"
+        },
+        "previous": {
+          "chapter_number_one": "There is one missing chapter.\nPrevious: {{nextChapter}}\nCurrent: {{currentChapter}}",
+          "chapter_number_other": "There are {{count}} missing chapters.\nPrevious: {{nextChapter}}\nCurrent: {{currentChapter}}",
+          "scanlator": "The previous chapter has a different scanlator then the current one.\nPrevious: {{nextScanlator}}\nCurrent: {{currentScanlator}}"
+        },
+        "title": "Chapter transition warning"
+      }
     },
     "error": {
       "label": {

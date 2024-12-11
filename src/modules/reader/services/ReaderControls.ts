@@ -8,6 +8,8 @@
 
 import { ContextType, MutableRefObject, useCallback, useMemo } from 'react';
 import { Direction, useTheme } from '@mui/material/styles';
+import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 import { userReaderStatePagesContext } from '@/modules/reader/contexts/state/ReaderStatePagesContext.tsx';
 import { getNextIndexFromPage, getNextPageIndex, getPage } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
 import { getOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts';
@@ -33,8 +35,10 @@ import { ReaderTapZoneService } from '@/modules/reader/services/ReaderTapZoneSer
 import { isContinuousReadingMode } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
 import { getReaderChapterFromCache } from '@/modules/reader/utils/Reader.utils.ts';
 import { Chapters } from '@/modules/chapter/services/Chapters.ts';
-import { DirectionOffset } from '@/Base.types.ts';
+import { DirectionOffset, TranslationKey } from '@/Base.types.ts';
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
+import { TChapterReader } from '@/modules/chapter/Chapter.types.ts';
+import { awaitConfirmation } from '@/modules/core/utils/AwaitableDialog.tsx';
 
 const getScrollDirectionInvert = (
     scrollDirection: ScrollDirection,
@@ -147,8 +151,9 @@ export class ReaderControls {
     }
 
     static useOpenChapter(): (offset: 'previous' | 'next') => void {
+        const { t } = useTranslation();
         const { readingMode } = ReaderService.useSettings();
-        const { previousChapter, nextChapter } = useReaderStateChaptersContext();
+        const { currentChapter, previousChapter, nextChapter } = useReaderStateChaptersContext();
 
         const openPreviousChapter = ReaderService.useNavigateToChapter(previousChapter, ReaderResumeMode.END);
         const openNextChapter = ReaderService.useNavigateToChapter(nextChapter, ReaderResumeMode.START);
@@ -157,17 +162,78 @@ export class ReaderControls {
             (offset) => {
                 switch (offset) {
                     case 'previous':
-                        openPreviousChapter();
+                        ReaderControls.checkNextChapterConsistency(t, offset, currentChapter, previousChapter).then(
+                            openPreviousChapter,
+                        );
                         break;
                     case 'next':
-                        openNextChapter();
+                        ReaderControls.checkNextChapterConsistency(t, offset, currentChapter, nextChapter).then(
+                            openNextChapter,
+                        );
                         break;
                     default:
                         throw new Error(`Unexpected "offset" (${offset})`);
                 }
             },
-            [openPreviousChapter, openNextChapter, readingMode.value],
+            [t, currentChapter?.id, openPreviousChapter, openNextChapter, readingMode.value],
         );
+    }
+
+    private static async checkNextChapterConsistency(
+        t: TFunction,
+        offset: 'previous' | 'next',
+        currentChapter?: TChapterReader | null,
+        chapterToOpen?: TChapterReader | null,
+    ): Promise<void> {
+        if (!currentChapter || !chapterToOpen) {
+            return;
+        }
+
+        const missingChapters = Math.abs(currentChapter.chapterNumber - chapterToOpen.chapterNumber);
+        const isSameScanlator = currentChapter.scanlator === chapterToOpen.scanlator;
+        const isContinuousChapter = missingChapters === 1;
+
+        const showWarning = !isSameScanlator || !isContinuousChapter;
+        if (!showWarning) {
+            return;
+        }
+
+        const offsetToTranslationKeys: Record<typeof offset, Record<'scanlator' | 'chapter_number', TranslationKey>> = {
+            previous: {
+                scanlator: 'reader.chapter_transition.warning.previous.scanlator',
+                chapter_number: 'reader.chapter_transition.warning.previous.chapter_number',
+            },
+            next: {
+                scanlator: 'reader.chapter_transition.warning.next.scanlator',
+                chapter_number: 'reader.chapter_transition.warning.next.chapter_number',
+            },
+        };
+
+        const sameScanlator = isSameScanlator
+            ? ''
+            : t(offsetToTranslationKeys[offset].scanlator, {
+                  nextScanlator: chapterToOpen.scanlator,
+                  currentScanlator: currentChapter.scanlator,
+              });
+        const continuousChapter = isContinuousChapter
+            ? ''
+            : t(offsetToTranslationKeys[offset].chapter_number, {
+                  count: missingChapters,
+                  nextChapter: `#${chapterToOpen.chapterNumber} ${chapterToOpen.name}`,
+                  currentChapter: `#${currentChapter.chapterNumber} ${currentChapter.name}`,
+              });
+        const warningLineBreak = !isSameScanlator && !isContinuousChapter ? '\n\n' : '';
+        const warning = `${sameScanlator}${warningLineBreak}${continuousChapter}`;
+
+        await awaitConfirmation({
+            title: t('reader.chapter_transition.warning.title'),
+            message: warning,
+            actions: {
+                confirm: {
+                    title: t('global.button.open'),
+                },
+            },
+        });
     }
 
     static useOpenPage(): (page: number | 'previous' | 'next', forceDirection?: Direction) => void {

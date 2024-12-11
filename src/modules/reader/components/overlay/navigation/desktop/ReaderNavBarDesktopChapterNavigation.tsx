@@ -17,13 +17,12 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import { Link } from 'react-router-dom';
 import { Select } from '@/modules/core/components/inputs/Select.tsx';
-import { Chapters } from '@/modules/chapter/services/Chapters.ts';
 import { ReaderStateChaptersContext } from '@/modules/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import { ReaderChapterList } from '@/modules/reader/components/overlay/navigation/ReaderChapterList.tsx';
 import { ReaderNavBarDesktopNextPreviousButton } from '@/modules/reader/components/overlay/navigation/desktop/ReaderNavBarDesktopNextPreviousButton.tsx';
 import { getOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
-import { ReaderResumeMode } from '@/modules/reader/types/Reader.types.ts';
+import { ReaderControls } from '@/modules/reader/services/ReaderControls.ts';
 
 export const ReaderNavBarDesktopChapterNavigation = ({
     currentChapter,
@@ -36,6 +35,7 @@ export const ReaderNavBarDesktopChapterNavigation = ({
 >) => {
     const { t } = useTranslation();
     const readerThemeDirection = ReaderService.useGetThemeDirection();
+    const openChapter = ReaderControls.useOpenChapter();
 
     const popupState = usePopupState({ variant: 'popover', popupId: 'reader-nav-bar-desktop-chapter-list' });
 
@@ -46,7 +46,6 @@ export const ReaderNavBarDesktopChapterNavigation = ({
     return (
         <Stack sx={{ flexDirection: 'row', gap: 1 }} dir="ltr">
             <ReaderNavBarDesktopNextPreviousButton
-                component={Link}
                 type="previous"
                 title={t(
                     getOptionForDirection(
@@ -55,20 +54,10 @@ export const ReaderNavBarDesktopChapterNavigation = ({
                         readerThemeDirection,
                     ),
                 )}
-                disabled={getOptionForDirection(!previousChapter, !nextChapter, readerThemeDirection)}
-                to={getOptionForDirection(
-                    previousChapter && Chapters.getReaderUrl(previousChapter),
-                    nextChapter && Chapters.getReaderUrl(nextChapter),
-                    readerThemeDirection,
-                )}
-                replace
-                state={{
-                    resumeMode: getOptionForDirection(
-                        ReaderResumeMode.END,
-                        ReaderResumeMode.START,
-                        readerThemeDirection,
-                    ),
+                onClick={() => {
+                    openChapter(getOptionForDirection('previous', 'next', readerThemeDirection));
                 }}
+                disabled={getOptionForDirection(!previousChapter, !nextChapter, readerThemeDirection)}
             />
             <FormControl sx={{ flexBasis: '70%', flexGrow: 0, flexShrink: 0 }}>
                 <InputLabel id="reader-nav-bar-desktop-chapter-select">{t('chapter.title_one')}</InputLabel>
@@ -97,20 +86,10 @@ export const ReaderNavBarDesktopChapterNavigation = ({
                         readerThemeDirection,
                     ),
                 )}
-                disabled={getOptionForDirection(!nextChapter, !previousChapter, readerThemeDirection)}
-                to={getOptionForDirection(
-                    nextChapter && Chapters.getReaderUrl(nextChapter),
-                    previousChapter && Chapters.getReaderUrl(previousChapter),
-                    readerThemeDirection,
-                )}
-                replace
-                state={{
-                    resumeMode: getOptionForDirection(
-                        ReaderResumeMode.START,
-                        ReaderResumeMode.END,
-                        readerThemeDirection,
-                    ),
+                onClick={() => {
+                    openChapter(getOptionForDirection('next', 'previous', readerThemeDirection));
                 }}
+                disabled={getOptionForDirection(!nextChapter, !previousChapter, readerThemeDirection)}
             />
             <Popover
                 {...bindPopover(popupState)}

@@ -25,7 +25,7 @@ export const awaitConfirmation = async (
         if (accepted) {
             confirmationPromise.resolve();
         } else {
-            confirmationPromise.reject();
+            confirmationPromise.reject(new Error('Confirmation declined'));
         }
 
         root.unmount();
