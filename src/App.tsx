@@ -119,18 +119,18 @@ const MainApp = () => {
                         <Route index element={<Settings />} />
                         <Route path="about" element={<About />} />
                         <Route path="categories" element={<CategorySettings />} />
-                        <Route path="readerSettings" element={<GlobalReaderSettings />} />
-                        <Route path="librarySettings">
+                        <Route path="reader" element={<GlobalReaderSettings />} />
+                        <Route path="library">
                             <Route index element={<LibrarySettings />} />
                             <Route path="duplicates" element={<LibraryDuplicates />} />
                         </Route>
-                        <Route path="downloadSettings" element={<DownloadSettings />} />
+                        <Route path="download" element={<DownloadSettings />} />
                         <Route path="backup" element={<Backup />} />
                         <Route path="server" element={<ServerSettings />} />
                         <Route path="webUI" element={<WebUISettings />} />
-                        <Route path="browseSettings" element={<BrowseSettings />} />
+                        <Route path="browse" element={<BrowseSettings />} />
                         <Route path="device" element={<DeviceSetting />} />
-                        <Route path="trackingSettings" element={<TrackingSettings />} />
+                        <Route path="tracking" element={<TrackingSettings />} />
                         <Route path="appearance" element={<Appearance />} />
                     </Route>
 

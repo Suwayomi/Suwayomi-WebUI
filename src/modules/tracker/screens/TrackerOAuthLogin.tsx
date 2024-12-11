@@ -38,7 +38,7 @@ export const TrackerOAuthLogin = () => {
                 makeToast(t('tracking.action.login.label.failure', { name: trackerName }), 'error');
             }
 
-            navigate('/settings/trackingSettings', { replace: true });
+            navigate('/settings/tracking', { replace: true });
         };
 
         login();

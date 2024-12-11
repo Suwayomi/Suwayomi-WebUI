@@ -64,7 +64,7 @@ export const TrackManga = ({ manga }: { manga: MangaIdInfo & Pick<MangaType, 'ti
 
     useEffect(() => {
         if (!loading && !error && !trackersInUse.length && !loggedInTrackers.length) {
-            navigate('/settings/trackingSettings');
+            navigate('/settings/tracking');
         }
     }, [loading]);
 

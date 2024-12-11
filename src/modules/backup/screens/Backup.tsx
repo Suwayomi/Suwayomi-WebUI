@@ -368,7 +368,7 @@ export function Backup() {
                             <Button
                                 onClick={closeInvalidBackupDialog}
                                 component={Link}
-                                to="/settings/trackingSettings"
+                                to="/settings/tracking"
                                 autoFocus={!!validationResult?.missingTrackers.length}
                                 variant={validationResult?.missingTrackers.length ? 'contained' : 'text'}
                             >

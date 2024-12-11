@@ -223,7 +223,7 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
                     }}
                 >
                     <Typography>{t('extension.label.add_repository_info')}</Typography>
-                    <Button component={Link} variant="contained" to="/settings/browseSettings">
+                    <Button component={Link} variant="contained" to="/settings/browse">
                         {t('settings.title')}
                     </Button>
                 </Stack>

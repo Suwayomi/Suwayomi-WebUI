@@ -69,25 +69,25 @@ export function Settings() {
                 </ListItemIcon>
                 <ListItemText primary={t('category.title.category_other')} />
             </ListItemLink>
-            <ListItemLink to="/settings/readerSettings">
+            <ListItemLink to="/settings/reader">
                 <ListItemIcon>
                     <AutoStoriesIcon />
                 </ListItemIcon>
                 <ListItemText primary={t('reader.settings.title.reader_settings')} />
             </ListItemLink>
-            <ListItemLink to="/settings/librarySettings">
+            <ListItemLink to="/settings/library">
                 <ListItemIcon>
                     <CollectionsOutlinedBookmarkIcon />
                 </ListItemIcon>
                 <ListItemText primary={t('library.title')} />
             </ListItemLink>
-            <ListItemLink to="/settings/downloadSettings">
+            <ListItemLink to="/settings/download">
                 <ListItemIcon>
                     <GetAppOutlinedIcon />
                 </ListItemIcon>
                 <ListItemText primary={t('download.title')} />
             </ListItemLink>
-            <ListItemLink to="/settings/trackingSettings">
+            <ListItemLink to="/settings/tracking">
                 <ListItemIcon>
                     <SyncIcon />
                 </ListItemIcon>
@@ -109,7 +109,7 @@ export function Settings() {
                     secondary={t('settings.clear_cache.label.description')}
                 />
             </ListItemButton>
-            <ListItemLink to="/settings/browseSettings">
+            <ListItemLink to="/settings/browse">
                 <ListItemIcon>
                     <ExploreOutlinedIcon />
                 </ListItemIcon>
