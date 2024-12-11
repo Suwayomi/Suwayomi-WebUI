@@ -31,6 +31,7 @@ const READER_HOTKEY_TO_TITLE: Record<ReaderHotkey, TranslationKey> = {
     [ReaderHotkey.CYCLE_SCALE_TYPE]: 'reader.settings.hotkey.scale_type',
     [ReaderHotkey.STRETCH_IMAGE]: 'reader.settings.hotkey.stretch_image',
     [ReaderHotkey.OFFSET_SPREAD_PAGES]: 'reader.settings.hotkey.offset_spread_pages',
+    [ReaderHotkey.CYCLE_PROFILES]: 'reader.settings.hotkey.profiles',
 };
 
 export const ReaderSettingHotkey = ({

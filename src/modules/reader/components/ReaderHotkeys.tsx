@@ -11,7 +11,7 @@ import { useEffect } from 'react';
 import { useTheme } from '@mui/material/styles';
 import { HOTKEY_SCOPES } from '@/modules/hotkeys/Hotkeys.constants.ts';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
-import { ReaderHotkey, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
+import { IReaderSettings, ReaderHotkey, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
 import { useReaderOverlayContext } from '@/modules/reader/contexts/ReaderOverlayContext.tsx';
 import { getNextRotationValue } from '@/modules/core/utils/ValueRotationButton.utils.ts';
 import {
@@ -28,6 +28,31 @@ import { getOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts'
 const useHotkeys = (...args: Parameters<typeof useHotKeysHook>): ReturnType<typeof useHotKeysHook> => {
     const [keys, callback, options, dependencies] = args;
     return useHotKeysHook(keys, callback, { ...options, ...HOTKEY_SCOPES.reader }, dependencies);
+};
+
+const updateSettingCycleThrough = <Setting extends keyof IReaderSettings>(
+    updateSetting: ReturnType<typeof ReaderService.useCreateUpdateSetting>,
+    deleteSetting: ReturnType<typeof ReaderService.useCreateDeleteSetting>,
+    setting: Setting,
+    value: IReaderSettings[Setting],
+    values: IReaderSettings[Setting][],
+    isDefault: boolean,
+    isDefaultable: boolean,
+) => {
+    if (isDefault) {
+        updateSetting(setting, values[0]);
+        return;
+    }
+
+    const nextValue = getNextRotationValue(values.indexOf(value), values, isDefaultable);
+
+    const isDefaultNextValue = nextValue === undefined;
+    if (isDefaultNextValue) {
+        deleteSetting(setting);
+        return;
+    }
+
+    updateSetting(setting, nextValue);
 };
 
 const DEFAULT_MANGA: MangaIdInfo = { id: -1 };
@@ -49,8 +74,16 @@ export const ReaderHotkeys = ({
     const { enableScope, disableScope } = useHotkeysContext();
     const { manga } = useReaderStateMangaContext();
     const { isVisible, setIsVisible } = useReaderOverlayContext();
-    const { hotkeys, pageScaleMode, shouldStretchPage, shouldOffsetDoubleSpreads, readingMode, readingDirection } =
-        ReaderService.useSettings();
+    const {
+        hotkeys,
+        pageScaleMode,
+        shouldStretchPage,
+        shouldOffsetDoubleSpreads,
+        readingMode,
+        readingDirection,
+        defaultProfile,
+        profiles,
+    } = ReaderService.useSettings();
 
     const openChapter = ReaderControls.useOpenChapter();
     const openPage = ReaderControls.useOpenPage();
@@ -108,23 +141,15 @@ export const ReaderHotkeys = ({
     useHotkeys(
         hotkeys[ReaderHotkey.CYCLE_SCALE_TYPE],
         () => {
-            if (pageScaleMode.isDefault) {
-                updateSetting('pageScaleMode', READER_PAGE_SCALE_MODE_VALUES[0]);
-                return;
-            }
-
-            const nextValue = getNextRotationValue(
-                READER_PAGE_SCALE_MODE_VALUES.indexOf(pageScaleMode.value),
+            updateSettingCycleThrough(
+                updateSetting,
+                deleteSetting,
+                'pageScaleMode',
+                pageScaleMode.value,
                 READER_PAGE_SCALE_MODE_VALUES,
+                pageScaleMode.isDefault,
                 true,
             );
-
-            if (nextValue === undefined) {
-                deleteSetting('pageScaleMode');
-                return;
-            }
-
-            updateSetting('pageScaleMode', nextValue);
         },
         [updateSetting, deleteSetting, pageScaleMode],
     );
@@ -138,6 +163,17 @@ export const ReaderHotkeys = ({
         () => updateSetting('shouldOffsetDoubleSpreads', !shouldOffsetDoubleSpreads.value),
         [updateSetting, shouldOffsetDoubleSpreads.value],
     );
+    useHotkeys(hotkeys[ReaderHotkey.CYCLE_PROFILES], () => {
+        updateSettingCycleThrough(
+            updateSetting,
+            deleteSetting,
+            'defaultProfile',
+            defaultProfile.value,
+            profiles,
+            defaultProfile.isDefault,
+            true,
+        );
+    });
 
     useEffect(() => {
         enableScope(HotkeyScope.READER);

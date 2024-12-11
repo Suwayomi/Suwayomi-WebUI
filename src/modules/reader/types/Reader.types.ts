@@ -206,6 +206,7 @@ export enum ReaderHotkey {
     CYCLE_SCALE_TYPE,
     STRETCH_IMAGE,
     OFFSET_SPREAD_PAGES,
+    CYCLE_PROFILES,
 }
 
 export interface ReaderPagerProps
