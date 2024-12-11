@@ -35,6 +35,7 @@ import { LoadingPlaceholder } from '@/modules/core/components/placeholder/Loadin
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { ChapterDownloadStatus, ChapterIdInfo } from '@/modules/chapter/services/Chapters.ts';
 import { DownloaderState, DownloadState } from '@/lib/graphql/generated/graphql.ts';
+import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 
 const HeightPreservingItem = ({ children, ...props }: BoxProps) => (
     // the height is necessary to prevent the item container from collapsing, which confuses Virtuoso measurements
@@ -59,7 +60,7 @@ const DownloadChapterItem = ({
     return (
         <Box {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} sx={{ p: 1, pb: 0 }}>
             <Card>
-                <CardActionArea component={Link} to={`/manga/${item.manga.id}`}>
+                <CardActionArea component={Link} to={AppRoutes.manga.path(item.manga.id)}>
                     <CardContent
                         sx={{
                             display: 'flex',

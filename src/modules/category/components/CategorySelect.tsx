@@ -33,6 +33,7 @@ import {
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_CATEGORIES_BASE } from '@/lib/graphql/queries/CategoryQuery.ts';
 import { GET_MANGA_CATEGORIES } from '@/lib/graphql/queries/MangaQuery.ts';
+import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 
 type BaseProps = {
     open: boolean;
@@ -232,7 +233,7 @@ export function CategorySelect(props: CategorySelectProps) {
                             width: '100%',
                         }}
                     >
-                        <Button component={Link} to="/settings/categories">
+                        <Button component={Link} to={AppRoutes.settings.childRoutes.categories.path}>
                             {t(allCategories.length ? 'global.button.edit' : 'global.button.create')}
                         </Button>
                         <Stack direction="row">

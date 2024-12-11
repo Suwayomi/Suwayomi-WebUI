@@ -34,38 +34,39 @@ import { DesktopSideBar } from '@/modules/navigation-bar/components/DesktopSideB
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 import { MobileBottomBar } from '@/modules/navigation-bar/components/MobileBottomBar.tsx';
 import { NavbarItem } from '@/modules/navigation-bar/NavigationBar.types.ts';
+import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 
 const navbarItems: Array<NavbarItem> = [
     {
-        path: '/library',
+        path: AppRoutes.library.path,
         title: 'library.title',
         SelectedIconComponent: CollectionsBookmarkIcon,
         IconComponent: CollectionsOutlinedBookmarkIcon,
         show: 'both',
     },
     {
-        path: '/updates',
+        path: AppRoutes.updates.path,
         title: 'updates.title',
         SelectedIconComponent: NewReleasesIcon,
         IconComponent: NewReleasesOutlinedIcon,
         show: 'both',
     },
     {
-        path: '/browse',
+        path: AppRoutes.browse.path,
         title: 'global.label.browse',
         SelectedIconComponent: ExploreIcon,
         IconComponent: ExploreOutlinedIcon,
         show: 'both',
     },
     {
-        path: '/downloads',
+        path: AppRoutes.downloads.path,
         title: 'download.title',
         SelectedIconComponent: GetAppIcon,
         IconComponent: GetAppOutlinedIcon,
         show: 'both',
     },
     {
-        path: '/settings',
+        path: AppRoutes.settings.path,
         title: 'settings.title',
         SelectedIconComponent: SettingsIcon,
         IconComponent: SettingsIcon,

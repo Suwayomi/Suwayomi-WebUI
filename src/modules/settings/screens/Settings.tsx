@@ -29,6 +29,7 @@ import { ListItemLink } from '@/modules/core/components/ListItemLink.tsx';
 import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
+import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 
 export function Settings() {
     const { t } = useTranslation();
@@ -57,43 +58,43 @@ export function Settings() {
 
     return (
         <List sx={{ padding: 0 }}>
-            <ListItemLink to="/settings/appearance">
+            <ListItemLink to={AppRoutes.settings.childRoutes.appearance.path}>
                 <ListItemIcon>
                     <PaletteIcon />
                 </ListItemIcon>
                 <ListItemText primary={t('settings.appearance.title')} />
             </ListItemLink>
-            <ListItemLink to="/settings/categories">
+            <ListItemLink to={AppRoutes.settings.childRoutes.categories.path}>
                 <ListItemIcon>
                     <ListAltIcon />
                 </ListItemIcon>
                 <ListItemText primary={t('category.title.category_other')} />
             </ListItemLink>
-            <ListItemLink to="/settings/reader">
+            <ListItemLink to={AppRoutes.settings.childRoutes.reader.path}>
                 <ListItemIcon>
                     <AutoStoriesIcon />
                 </ListItemIcon>
                 <ListItemText primary={t('reader.settings.title.reader_settings')} />
             </ListItemLink>
-            <ListItemLink to="/settings/library">
+            <ListItemLink to={AppRoutes.settings.childRoutes.library.path}>
                 <ListItemIcon>
                     <CollectionsOutlinedBookmarkIcon />
                 </ListItemIcon>
                 <ListItemText primary={t('library.title')} />
             </ListItemLink>
-            <ListItemLink to="/settings/download">
+            <ListItemLink to={AppRoutes.settings.childRoutes.download.path}>
                 <ListItemIcon>
                     <GetAppOutlinedIcon />
                 </ListItemIcon>
                 <ListItemText primary={t('download.title')} />
             </ListItemLink>
-            <ListItemLink to="/settings/tracking">
+            <ListItemLink to={AppRoutes.settings.childRoutes.tracking.path}>
                 <ListItemIcon>
                     <SyncIcon />
                 </ListItemIcon>
                 <ListItemText primary={t('tracking.title')} />
             </ListItemLink>
-            <ListItemLink to="/settings/backup">
+            <ListItemLink to={AppRoutes.settings.childRoutes.backup.path}>
                 <ListItemIcon>
                     <BackupIcon />
                 </ListItemIcon>
@@ -109,31 +110,31 @@ export function Settings() {
                     secondary={t('settings.clear_cache.label.description')}
                 />
             </ListItemButton>
-            <ListItemLink to="/settings/browse">
+            <ListItemLink to={AppRoutes.settings.childRoutes.browse.path}>
                 <ListItemIcon>
                     <ExploreOutlinedIcon />
                 </ListItemIcon>
                 <ListItemText primary={t('global.label.browse')} />
             </ListItemLink>
-            <ListItemLink to="/settings/device">
+            <ListItemLink to={AppRoutes.settings.childRoutes.device.path}>
                 <ListItemIcon>
                     <DevicesIcon />
                 </ListItemIcon>
                 <ListItemText primary={t('settings.device.title.device')} />
             </ListItemLink>
-            <ListItemLink to="/settings/webui">
+            <ListItemLink to={AppRoutes.settings.childRoutes.webui.path}>
                 <ListItemIcon>
                     <WebIcon />
                 </ListItemIcon>
                 <ListItemText primary={t('settings.webui.title.webui')} />
             </ListItemLink>
-            <ListItemLink to="/settings/server">
+            <ListItemLink to={AppRoutes.settings.childRoutes.server.path}>
                 <ListItemIcon>
                     <DnsIcon />
                 </ListItemIcon>
                 <ListItemText primary={t('settings.server.title.server')} />
             </ListItemLink>
-            <ListItemLink to="/settings/about">
+            <ListItemLink to={AppRoutes.settings.childRoutes.about.path}>
                 <ListItemIcon>
                     <InfoIcon />
                 </ListItemIcon>

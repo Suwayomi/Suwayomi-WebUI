@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
+import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 
 export const TrackerOAuthLogin = () => {
     const { t } = useTranslation();
@@ -38,7 +39,7 @@ export const TrackerOAuthLogin = () => {
                 makeToast(t('tracking.action.login.label.failure', { name: trackerName }), 'error');
             }
 
-            navigate('/settings/tracking', { replace: true });
+            navigate(AppRoutes.tracker.path, { replace: true });
         };
 
         login();

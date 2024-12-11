@@ -8,6 +8,7 @@
 
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
+import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 
 const PAGES_TO_IGNORE: readonly RegExp[] = [/\/manga\/[0-9]+\/chapter\/[0-9]+/g];
 
@@ -27,6 +28,6 @@ export const useBackButton = () => {
             return;
         }
 
-        navigate('/library');
+        navigate(AppRoutes.library.path);
     };
 };

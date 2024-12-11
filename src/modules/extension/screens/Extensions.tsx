@@ -39,6 +39,7 @@ import {
 } from '@/modules/extension/Extensions.utils.ts';
 import { ExtensionAction, ExtensionGroupState, ExtensionState } from '@/modules/extension/Extensions.types.ts';
 import { EXTENSION_ACTION_TO_FAILURE_TRANSLATION_KEY_MAP } from '@/modules/extension/Extensions.constants.ts';
+import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 
 const LANGUAGE = 0;
 const EXTENSIONS = 1;
@@ -223,7 +224,7 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
                     }}
                 >
                     <Typography>{t('extension.label.add_repository_info')}</Typography>
-                    <Button component={Link} variant="contained" to="/settings/browse">
+                    <Button component={Link} variant="contained" to={AppRoutes.browse.path}>
                         {t('settings.title')}
                     </Button>
                 </Stack>

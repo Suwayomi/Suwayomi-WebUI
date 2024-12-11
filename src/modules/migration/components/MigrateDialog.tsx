@@ -26,6 +26,7 @@ import {
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { MetadataMigrationSettings } from '@/modules/migration/Migration.types.ts';
 import { MigrateMode } from '@/modules/manga/Manga.types.ts';
+import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 
 export const MigrateDialog = ({ mangaIdToMigrateTo, onClose }: { mangaIdToMigrateTo: number; onClose: () => void }) => {
     const { t } = useTranslation();
@@ -63,7 +64,7 @@ export const MigrateDialog = ({ mangaIdToMigrateTo, onClose }: { mangaIdToMigrat
                 deleteChapters,
             });
 
-            navigate(`/manga/${mangaIdToMigrateTo}`, { replace: true });
+            navigate(AppRoutes.manga.path(mangaIdToMigrateTo), { replace: true });
         } catch (e) {
             setIsMigrationInProcess(false);
         }
@@ -108,7 +109,11 @@ export const MigrateDialog = ({ mangaIdToMigrateTo, onClose }: { mangaIdToMigrat
                         width: '100%',
                     }}
                 >
-                    <Button disabled={isMigrationInProcess} component={Link} to={`/manga/${mangaIdToMigrateTo}`}>
+                    <Button
+                        disabled={isMigrationInProcess}
+                        component={Link}
+                        to={AppRoutes.manga.path(mangaIdToMigrateTo)}
+                    >
                         {t('migrate.dialog.action.button.show_entry')}
                     </Button>
                     <Stack direction="row">

@@ -51,6 +51,7 @@ import { EmptyView } from '@/modules/core/components/placeholder/EmptyView.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 import { GridLayout } from '@/modules/core/Core.types.ts';
+import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 
 const DEFAULT_SOURCE: Pick<SourceType, 'id'> = { id: '-1' };
 
@@ -407,7 +408,7 @@ export function SourceMangas() {
                 {source?.isConfigurable && (
                     <Tooltip title={t('settings.title')}>
                         <IconButton
-                            onClick={() => navigate(`/sources/${sourceId}/configure/`)}
+                            onClick={() => navigate(AppRoutes.sources.childRoutes.configure.path(sourceId))}
                             aria-label="display more actions"
                             edge="end"
                             color="inherit"

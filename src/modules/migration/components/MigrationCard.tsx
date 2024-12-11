@@ -19,6 +19,7 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { GetMigratableSourcesQuery } from '@/lib/graphql/generated/graphql.ts';
 import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
 import { translateExtensionLanguage } from '@/modules/extension/Extensions.utils.ts';
+import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 
 export type TMigratableSource = NonNullable<GetMigratableSourcesQuery['mangas']['nodes'][number]['source']> & {
     mangaCount: number;
@@ -33,7 +34,7 @@ export const MigrationCard = ({ id, name, lang, iconUrl, mangaCount }: TMigratab
 
     return (
         <Card>
-            <CardActionArea component={Link} to={`/migrate/source/${id}/`}>
+            <CardActionArea component={Link} to={AppRoutes.migrate.path(id)}>
                 <CardContent
                     sx={{
                         display: 'flex',

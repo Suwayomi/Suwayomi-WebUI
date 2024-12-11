@@ -29,6 +29,7 @@ import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { SourceType } from '@/lib/graphql/generated/graphql.ts';
 import { translateExtensionLanguage } from '@/modules/extension/Extensions.utils.ts';
+import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 
 function sourceToLangList(sources: Pick<SourceType, 'id' | 'lang'>[]) {
     const result = new Set<string>();
@@ -107,7 +108,11 @@ export function Sources() {
         setAction(
             <>
                 <Tooltip title={t('search.title.global_search')}>
-                    <IconButton onClick={() => navigate('/sources/all/search/')} size="large" color="inherit">
+                    <IconButton
+                        onClick={() => navigate(AppRoutes.sources.childRoutes.searchAll.path)}
+                        size="large"
+                        color="inherit"
+                    >
                         <TravelExploreIcon />
                     </IconButton>
                 </Tooltip>

@@ -35,6 +35,7 @@ import { LoadingPlaceholder } from '@/modules/core/components/placeholder/Loadin
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { ServerSettings } from '@/modules/settings/Settings.types.ts';
+import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 
 type BackupSettingsType = Pick<ServerSettings, 'backupPath' | 'backupTime' | 'backupInterval' | 'backupTTL'>;
 
@@ -357,7 +358,7 @@ export function Backup() {
                             <Button
                                 onClick={closeInvalidBackupDialog}
                                 component={Link}
-                                to="/browse"
+                                to={AppRoutes.browse.path}
                                 autoFocus={!!validationResult?.missingSources.length}
                                 variant={validationResult?.missingSources.length ? 'contained' : 'text'}
                             >
@@ -368,7 +369,7 @@ export function Backup() {
                             <Button
                                 onClick={closeInvalidBackupDialog}
                                 component={Link}
-                                to="/settings/tracking"
+                                to={AppRoutes.tracker.path}
                                 autoFocus={!!validationResult?.missingTrackers.length}
                                 variant={validationResult?.missingTrackers.length ? 'contained' : 'text'}
                             >

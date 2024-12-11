@@ -20,6 +20,7 @@ import { MangaCardMode, MangaCardProps } from '@/modules/manga/Manga.types.ts';
 import { ContinueReadingButton } from '@/modules/manga/components/ContinueReadingButton.tsx';
 import { MangaBadges } from '@/modules/manga/components/MangaBadges.tsx';
 import { GridLayout } from '@/modules/core/Core.types.ts';
+import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 
 const getMangaLinkTo = (
     mode: MangaCardMode,
@@ -31,9 +32,9 @@ const getMangaLinkTo = (
         case 'default':
         case 'source':
         case 'duplicate':
-            return `/manga/${mangaId}/`;
+            return AppRoutes.manga.path(mangaId);
         case 'migrate.search':
-            return `/migrate/source/${sourceId}/manga/${mangaId}/search?query=${mangaTitle}`;
+            return `${AppRoutes.migrate.childRoutes.search.path(sourceId ?? '-1', mangaId)}?query=${mangaTitle}`;
         case 'migrate.select':
             return '';
         default:

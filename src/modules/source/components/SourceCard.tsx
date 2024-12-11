@@ -23,6 +23,7 @@ import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
 import { GetSourcesListQuery } from '@/lib/graphql/generated/graphql.ts';
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 import { translateExtensionLanguage } from '@/modules/extension/Extensions.utils.ts';
+import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 
 interface IProps {
     source: GetSourcesListQuery['sources']['nodes'][number];
@@ -59,7 +60,7 @@ export const SourceCard: React.FC<IProps> = (props: IProps) => {
         >
             <CardActionArea
                 component={Link}
-                to={`/sources/${id}`}
+                to={AppRoutes.sources.childRoutes.browse.path(id)}
                 state={{ contentType: SourceContentType.POPULAR, clearCache: true }}
             >
                 <CardContent
@@ -135,7 +136,7 @@ export const SourceCard: React.FC<IProps> = (props: IProps) => {
                             <Button
                                 variant="outlined"
                                 component={Link}
-                                to={`/sources/${id}`}
+                                to={AppRoutes.sources.childRoutes.browse.path(id)}
                                 state={{ contentType: SourceContentType.LATEST, clearCache: true }}
                             >
                                 {t('global.button.latest')}
@@ -145,7 +146,7 @@ export const SourceCard: React.FC<IProps> = (props: IProps) => {
                             <Button
                                 variant="outlined"
                                 component={Link}
-                                to={`/sources/${id}`}
+                                to={AppRoutes.sources.childRoutes.browse.path(id)}
                                 state={{ contentType: SourceContentType.POPULAR, clearCache: true }}
                             >
                                 {t('global.button.popular')}

@@ -37,6 +37,7 @@ import {
 import { GET_CATEGORIES_SETTINGS } from '@/lib/graphql/queries/CategoryQuery.ts';
 import { GET_MANGAS_BASE } from '@/lib/graphql/queries/MangaQuery.ts';
 import { MetadataLibrarySettings } from '@/modules/library/Library.types.ts';
+import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 
 const removeNonLibraryMangasFromCategories = async (): Promise<void> => {
     try {
@@ -182,7 +183,7 @@ export function LibrarySettings() {
                         secondary={t('library.settings.advanced.database.cleanup.label.description')}
                     />
                 </ListItemButton>
-                <ListItemLink to="duplicates">
+                <ListItemLink to={AppRoutes.settings.childRoutes.library.childRoutes.duplicates.path}>
                     <ListItemText
                         primary={t('library.settings.advanced.duplicates.label.title')}
                         secondary={t('library.settings.advanced.duplicates.label.description')}

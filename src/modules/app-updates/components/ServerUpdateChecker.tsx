@@ -20,6 +20,7 @@ import { VersionUpdateInfoDialog } from '@/modules/app-updates/components/Versio
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { getVersion } from '@/modules/app-updates/services/AppUpdateChecker.tsx';
+import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 
 const disabledUpdateCheck = () => Promise.resolve();
 
@@ -87,7 +88,7 @@ export const ServerUpdateChecker = () => {
             return null;
         }
 
-        const isAboutPage = window.location.pathname === '/settings/about';
+        const isAboutPage = window.location.pathname === AppRoutes.settings.childRoutes.about.path;
         if (isAboutPage) {
             return null;
         }

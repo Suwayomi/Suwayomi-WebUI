@@ -43,6 +43,7 @@ import {
 } from '@/modules/reader/utils/Reader.utils.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { Queue } from '@/lib/Queue.ts';
+import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 
 const DIRECTION_TO_INVERTED: Record<Direction, Direction> = {
     ltr: 'rtl',
@@ -330,7 +331,7 @@ export class ReaderService {
                 return () => {};
             }
 
-            return navigate(`/manga/${manga.id}`);
+            return navigate(AppRoutes.manga.path(manga.id));
         }, [manga]);
 
         switch (exitMode) {

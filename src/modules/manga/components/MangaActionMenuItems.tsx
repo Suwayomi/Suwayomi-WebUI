@@ -35,6 +35,7 @@ import { NestedMenuItem } from '@/modules/core/components/menu/NestedMenuItem.ts
 import { MangaChapterStatFieldsFragment, MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { MangaAction, MangaDownloadInfo, MangaIdInfo, MangaUnreadInfo } from '@/modules/manga/Manga.types.ts';
 import { actionToTranslationKey } from '@/modules/manga/Manga.constants.ts';
+import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 
 const ACTION_DISABLES_SELECTION_MODE: MangaAction[] = ['remove_from_library'] as const;
 
@@ -156,7 +157,7 @@ export const MangaActionMenuItems = ({
             )}
             {isSingleMode && (
                 <Link
-                    to={`/migrate/source/${manga?.sourceId}/manga/${manga?.id}/search?query=${manga?.title}`}
+                    to={`${AppRoutes.migrate.childRoutes.search.path(manga?.sourceId ?? -1, manga?.id ?? -1)}?query=${manga?.title}`}
                     state={{ mangaTitle: manga?.title }}
                     style={{ textDecoration: 'none', color: 'inherit' }}
                 >

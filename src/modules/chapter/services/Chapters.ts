@@ -22,6 +22,7 @@ import { CHAPTER_LIST_FIELDS } from '@/lib/graphql/fragments/ChapterFragments.ts
 import { DirectionOffset, TranslationKey } from '@/Base.types.ts';
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 import { ReaderResumeMode } from '@/modules/reader/types/Reader.types.ts';
+import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 
 export type ChapterAction = 'download' | 'delete' | 'bookmark' | 'unbookmark' | 'mark_as_read' | 'mark_as_unread';
 
@@ -118,7 +119,7 @@ export class Chapters {
     }
 
     static getReaderUrl<Chapter extends ChapterMangaInfo & ChapterSourceOrderInfo>(chapter: Chapter): string {
-        return `/manga/${chapter.mangaId}/chapter/${chapter.sourceOrder}`;
+        return AppRoutes.reader.path(chapter.mangaId, chapter.sourceOrder);
     }
 
     static isDownloading(id: number): boolean {

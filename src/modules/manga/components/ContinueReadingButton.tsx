@@ -10,7 +10,6 @@ import { useTranslation } from 'react-i18next';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-
 import { Link } from 'react-router-dom';
 import { ChapterReadInfo, Chapters, ChapterSourceOrderInfo } from '@/modules/chapter/services/Chapters.ts';
 
@@ -39,7 +38,7 @@ export const ContinueReadingButton = ({
                 size="small"
                 sx={{ minWidth: 'unset', py: 0.5, px: 0.75 }}
                 component={Link}
-                to={`${mangaLinkTo}chapter/${chapter.sourceOrder}`}
+                to={`${mangaLinkTo}/chapter/${chapter.sourceOrder}`}
                 state={{ resumeMode: Chapters.getReaderResumeMode(chapter) }}
                 onClick={(e) => e.stopPropagation()}
                 onMouseDown={(e) => e.stopPropagation()}

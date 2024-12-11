@@ -12,6 +12,7 @@ import Link from '@mui/material/Link';
 
 import { Link as RouterLink } from 'react-router-dom';
 import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines';
+import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 
 export const ReaderNavBarDesktopMetadata = ({
     mangaId,
@@ -25,7 +26,11 @@ export const ReaderNavBarDesktopMetadata = ({
     <Stack>
         <Tooltip title={mangaTitle} placement="right">
             <TypographyMaxLines lines={3} variant="h6" component="h1" sx={{ textAlign: 'center' }}>
-                <Link component={RouterLink} to={`/manga/${mangaId}`} sx={{ textDecoration: 'none', color: 'inherit' }}>
+                <Link
+                    component={RouterLink}
+                    to={AppRoutes.manga.path(mangaId)}
+                    sx={{ textDecoration: 'none', color: 'inherit' }}
+                >
                     {mangaTitle}
                 </Link>
             </TypographyMaxLines>

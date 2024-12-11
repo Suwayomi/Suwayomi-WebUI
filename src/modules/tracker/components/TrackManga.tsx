@@ -22,6 +22,7 @@ import { GetMangaTrackRecordsQuery, GetTrackersBindQuery, MangaType } from '@/li
 import { GET_TRACKERS_BIND } from '@/lib/graphql/queries/TrackerQuery.ts';
 import { GET_MANGA_TRACK_RECORDS } from '@/lib/graphql/queries/MangaQuery.ts';
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
+import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 
 const getTrackerMode = (id: number, trackersInUse: number[], searchModeForTracker?: number): TrackerMode => {
     if (id === searchModeForTracker) {
@@ -64,7 +65,7 @@ export const TrackManga = ({ manga }: { manga: MangaIdInfo & Pick<MangaType, 'ti
 
     useEffect(() => {
         if (!loading && !error && !trackersInUse.length && !loggedInTrackers.length) {
-            navigate('/settings/tracking');
+            navigate(AppRoutes.tracker.path);
         }
     }, [loading]);
 

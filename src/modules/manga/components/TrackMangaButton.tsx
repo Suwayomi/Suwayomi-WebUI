@@ -19,8 +19,8 @@ import { Trackers } from '@/modules/tracker/services/Trackers.ts';
 import { CustomIconButton } from '@/modules/core/components/buttons/CustomIconButton.tsx';
 import { GetTrackersSettingsQuery, MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { GET_TRACKERS_SETTINGS } from '@/lib/graphql/queries/TrackerQuery.ts';
-
 import { MangaTrackRecordInfo } from '@/modules/manga/Manga.types.ts';
+import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 
 export const TrackMangaButton = ({ manga }: { manga: MangaTrackRecordInfo & Pick<MangaType, 'title'> }) => {
     const { t } = useTranslation();
@@ -40,7 +40,7 @@ export const TrackMangaButton = ({ manga }: { manga: MangaTrackRecordInfo & Pick
         }
 
         if (!loggedInTrackers.length) {
-            navigate('/settings/tracking');
+            navigate(AppRoutes.tracker.path);
             return;
         }
 

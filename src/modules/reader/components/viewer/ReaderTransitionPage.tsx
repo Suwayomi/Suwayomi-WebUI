@@ -27,6 +27,7 @@ import { useReaderStateMangaContext } from '@/modules/reader/contexts/state/Read
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 import { isContinuousReadingMode } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
+import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 
 const ChapterInfo = ({
     title,
@@ -173,7 +174,7 @@ export const ReaderTransitionPage = ({
                                 e.stopPropagation();
                             }}
                             variant="contained"
-                            to={`/manga/${manga?.id}`}
+                            to={AppRoutes.manga.path(manga?.id ?? -1)}
                         >
                             {t('reader.transition_page.exit.manga_page')}
                         </Button>

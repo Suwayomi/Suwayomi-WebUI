@@ -22,6 +22,7 @@ import { lazyLoadFallback } from '@/modules/core/utils/LazyLoad.tsx';
 import { ErrorBoundary } from '@/modules/core/components/ErrorBoundary.tsx';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { Reader } from '@/modules/reader/screens/Reader.tsx';
+import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 
 const { Browse } = loadable(() => import('@/modules/browse/screens/Browse.tsx'), lazyLoadFallback);
 const { DownloadQueue } = loadable(() => import('@/modules/downloads/screens/DownloadQueue.tsx'), lazyLoadFallback);
@@ -113,48 +114,51 @@ const MainApp = () => {
             <ErrorBoundary>
                 <Routes>
                     {/* General Routes */}
-                    <Route path="/" element={<Navigate to="/library" replace />} />
-                    <Route path="*" element={<Navigate to="/" replace />} />
-                    <Route path="settings">
+                    <Route path={AppRoutes.root.match} element={<Navigate to={AppRoutes.library.path} replace />} />
+                    <Route path={AppRoutes.matchAll.match} element={<Navigate to={AppRoutes.root.path} replace />} />
+                    <Route path={AppRoutes.settings.match}>
                         <Route index element={<Settings />} />
-                        <Route path="about" element={<About />} />
-                        <Route path="categories" element={<CategorySettings />} />
-                        <Route path="reader" element={<GlobalReaderSettings />} />
-                        <Route path="library">
+                        <Route path={AppRoutes.settings.childRoutes.about.match} element={<About />} />
+                        <Route path={AppRoutes.settings.childRoutes.categories.match} element={<CategorySettings />} />
+                        <Route path={AppRoutes.settings.childRoutes.reader.match} element={<GlobalReaderSettings />} />
+                        <Route path={AppRoutes.settings.childRoutes.library.match}>
                             <Route index element={<LibrarySettings />} />
-                            <Route path="duplicates" element={<LibraryDuplicates />} />
+                            <Route
+                                path={AppRoutes.settings.childRoutes.library.childRoutes.duplicates.match}
+                                element={<LibraryDuplicates />}
+                            />
                         </Route>
-                        <Route path="download" element={<DownloadSettings />} />
-                        <Route path="backup" element={<Backup />} />
-                        <Route path="server" element={<ServerSettings />} />
-                        <Route path="webui" element={<WebUISettings />} />
-                        <Route path="browse" element={<BrowseSettings />} />
-                        <Route path="device" element={<DeviceSetting />} />
-                        <Route path="tracking" element={<TrackingSettings />} />
-                        <Route path="appearance" element={<Appearance />} />
+                        <Route path={AppRoutes.settings.childRoutes.download.match} element={<DownloadSettings />} />
+                        <Route path={AppRoutes.settings.childRoutes.backup.match} element={<Backup />} />
+                        <Route path={AppRoutes.settings.childRoutes.server.match} element={<ServerSettings />} />
+                        <Route path={AppRoutes.settings.childRoutes.webui.match} element={<WebUISettings />} />
+                        <Route path={AppRoutes.settings.childRoutes.browse.match} element={<BrowseSettings />} />
+                        <Route path={AppRoutes.settings.childRoutes.device.match} element={<DeviceSetting />} />
+                        <Route path={AppRoutes.settings.childRoutes.tracking.match} element={<TrackingSettings />} />
+                        <Route path={AppRoutes.settings.childRoutes.appearance.match} element={<Appearance />} />
                     </Route>
 
                     {/* Manga Routes */}
 
-                    <Route path="sources">
-                        <Route index element={<Navigate to="/" replace />} />
-                        <Route path=":sourceId" element={<SourceMangas />} />
-                        <Route path=":sourceId/configure/" element={<SourceConfigure />} />
-                        <Route path="all/search/" element={<SearchAll />} />
+                    <Route path={AppRoutes.sources.match}>
+                        <Route index element={<Navigate to={AppRoutes.root.path} replace />} />
+                        <Route path={AppRoutes.sources.childRoutes.browse.match} element={<SourceMangas />} />
+                        <Route path={AppRoutes.sources.childRoutes.configure.match} element={<SourceConfigure />} />
+                        <Route path={AppRoutes.sources.childRoutes.searchAll.match} element={<SearchAll />} />
                     </Route>
-                    <Route path="downloads" element={<DownloadQueue />} />
-                    <Route path="manga/:id">
-                        <Route path="chapter/:chapterNum" element={null} />
+                    <Route path={AppRoutes.downloads.match} element={<DownloadQueue />} />
+                    <Route path={AppRoutes.manga.match}>
+                        <Route path={AppRoutes.manga.childRoutes.reader.match} element={null} />
                         <Route index element={<Manga />} />
                     </Route>
-                    <Route path="library" element={<Library />} />
-                    <Route path="updates" element={<Updates />} />
-                    <Route path="browse" element={<Browse />} />
-                    <Route path="migrate/source/:sourceId">
+                    <Route path={AppRoutes.library.match} element={<Library />} />
+                    <Route path={AppRoutes.updates.match} element={<Updates />} />
+                    <Route path={AppRoutes.browse.match} element={<Browse />} />
+                    <Route path={AppRoutes.migrate.match}>
                         <Route index element={<Migrate />} />
-                        <Route path="manga/:mangaId/search" element={<SearchAll />} />
+                        <Route path={AppRoutes.migrate.childRoutes.search.match} element={<SearchAll />} />
                     </Route>
-                    <Route path="tracker/login/oauth" element={<TrackerOAuthLogin />} />
+                    <Route path={AppRoutes.tracker.match} element={<TrackerOAuthLogin />} />
                 </Routes>
             </ErrorBoundary>
         </Box>
@@ -164,7 +168,7 @@ const MainApp = () => {
 const ReaderApp = () => (
     <ErrorBoundary>
         <Routes>
-            <Route path="*" element={<Reader />} />
+            <Route path={AppRoutes.matchAll.match} element={<Reader />} />
         </Routes>
     </ErrorBoundary>
 );
@@ -181,8 +185,8 @@ export const App: React.FC = () => (
                 <DefaultNavBar />
             </Box>
             <Routes>
-                <Route path="*" element={<MainApp />} />
-                <Route path="manga/:mangaId/chapter/:chapterIndex/*" element={<ReaderApp />} />
+                <Route path={AppRoutes.matchAll.match} element={<MainApp />} />
+                <Route path={AppRoutes.reader.match} element={<ReaderApp />} />
             </Routes>
         </Box>
     </AppContext>

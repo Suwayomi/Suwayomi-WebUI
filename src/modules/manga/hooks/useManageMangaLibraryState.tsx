@@ -20,6 +20,7 @@ import { Mangas } from '@/modules/manga/services/Mangas.ts';
 import { awaitConfirmation } from '@/modules/core/utils/AwaitableDialog.tsx';
 import { GetCategoriesBaseQuery, GetCategoriesBaseQueryVariables, MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { GET_CATEGORIES_BASE } from '@/lib/graphql/queries/CategoryQuery.ts';
+import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 
 export const useManageMangaLibraryState = (
     manga: Pick<MangaType, 'id' | 'title'> & Partial<Pick<MangaType, 'inLibrary'>>,
@@ -136,7 +137,7 @@ export const useManageMangaLibraryState = (
                         extra: { show: true, title: t('migrate.dialog.action.button.show_entry'), contain: true },
                         confirm: { title: t('global.button.add') },
                     },
-                    onExtra: () => navigate(`/manga/${duplicatedLibraryMangas!.data.mangas.nodes[0].id}`),
+                    onExtra: () => navigate(AppRoutes.manga.path(duplicatedLibraryMangas!.data.mangas.nodes[0].id)),
                 });
             }
 

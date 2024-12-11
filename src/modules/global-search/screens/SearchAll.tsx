@@ -29,6 +29,7 @@ import { SourceType } from '@/lib/graphql/generated/graphql.ts';
 import { BaseMangaGrid } from '@/modules/manga/components/BaseMangaGrid.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { translateExtensionLanguage } from '@/modules/extension/Extensions.utils.ts';
+import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 
 type SourceLoadingState = { isLoading: boolean; hasResults: boolean; emptySearch: boolean };
 type SourceToLoadingStateMap = Map<string, SourceLoadingState>;
@@ -149,7 +150,11 @@ const SourceSearchPreview = React.memo(
         return (
             <>
                 <Card sx={{ mb: 1 }}>
-                    <CardActionArea component={Link} to={`/sources/${id}?query=${searchString}`} sx={{ p: 3 }}>
+                    <CardActionArea
+                        component={Link}
+                        to={`${AppRoutes.sources.childRoutes.browse.path(id)}?query=${searchString}`}
+                        sx={{ p: 3 }}
+                    >
                         <Typography variant="h5">{displayName}</Typography>
                         <Typography variant="caption">{translateExtensionLanguage(lang)}</Typography>
                     </CardActionArea>

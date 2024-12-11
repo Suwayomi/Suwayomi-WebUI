@@ -23,6 +23,7 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useCategorySelect } from '@/modules/category/hooks/useCategorySelect.tsx';
 import { MangaType } from '@/lib/graphql/generated/graphql.ts';
+import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 
 interface IProps {
     manga: Pick<MangaType, 'id' | 'inLibrary' | 'sourceId' | 'title'>;
@@ -65,7 +66,7 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                         <>
                             <Tooltip title={t('global.button.migrate')}>
                                 <Link
-                                    to={`/migrate/source/${manga.sourceId}/manga/${manga.id}/search?query=${manga.title}`}
+                                    to={`${AppRoutes.migrate.childRoutes.search.path(manga.sourceId, manga.id)}?query=${manga.title}`}
                                     state={{ mangaTitle: manga.title }}
                                     style={{ textDecoration: 'none', color: 'inherit' }}
                                 >
@@ -125,7 +126,7 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                             <MenuItem
                                 key="migrate"
                                 component={Link}
-                                to={`/migrate/source/${manga.sourceId}/manga/${manga.id}/search?query=${manga.title}`}
+                                to={`${AppRoutes.migrate.childRoutes.search.path(manga.sourceId, manga.id)}?query=${manga.title}`}
                                 state={{ mangaTitle: manga.title }}
                                 style={{ textDecoration: 'none', color: 'inherit' }}
                             >

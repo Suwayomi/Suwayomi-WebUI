@@ -37,6 +37,7 @@ import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines
 import { ChapterIdInfo, ChapterMangaInfo } from '@/modules/chapter/services/Chapters.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { VirtuosoUtil } from '@/lib/virtuoso/Virtuoso.util.tsx';
+import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 
 const groupByDate = (updates: Pick<ChapterType, 'fetchedAt'>[]): [date: string, items: number][] => {
     if (!updates.length) {
@@ -189,7 +190,7 @@ export const Updates: React.FC = () => {
                             <Card>
                                 <CardActionArea
                                     component={Link}
-                                    to={`/manga/${chapter.manga.id}/chapter/${chapter.sourceOrder}`}
+                                    to={AppRoutes.reader.path(chapter.manga.id, chapter.sourceOrder)}
                                     state={location.state}
                                     sx={{
                                         color: (theme) => theme.palette.text[chapter.isRead ? 'disabled' : 'primary'],
@@ -204,7 +205,10 @@ export const Updates: React.FC = () => {
                                         }}
                                     >
                                         <Box sx={{ display: 'flex' }}>
-                                            <Link to={`/manga/${chapter.manga.id}`} style={{ textDecoration: 'none' }}>
+                                            <Link
+                                                to={AppRoutes.manga.path(chapter.manga.id)}
+                                                style={{ textDecoration: 'none' }}
+                                            >
                                                 <Avatar
                                                     variant="rounded"
                                                     sx={{

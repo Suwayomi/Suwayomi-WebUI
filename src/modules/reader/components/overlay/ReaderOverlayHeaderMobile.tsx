@@ -32,6 +32,7 @@ import { useReaderScrollbarContext } from '@/modules/reader/contexts/ReaderScrol
 import { useReaderStateMangaContext } from '@/modules/reader/contexts/state/ReaderStateMangaContext.tsx';
 import { useReaderStateChaptersContext } from '@/modules/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder';
+import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 
 const DEFAULT_MANGA = { id: -1, title: '' };
 const DEFAULT_CHAPTER = { id: -1, name: '', realUrl: '', isBookmarked: false };
@@ -79,7 +80,7 @@ export const ReaderOverlayHeaderMobile = ({ isVisible }: MobileHeaderProps) => {
                                 <TypographyMaxLines lines={1} component="h1" variant="h5">
                                     <Link
                                         component={RouterLink}
-                                        to={`/manga/${mangaId}`}
+                                        to={AppRoutes.manga.path(mangaId)}
                                         sx={{ textDecoration: 'none', color: 'inherit' }}
                                     >
                                         {title}
