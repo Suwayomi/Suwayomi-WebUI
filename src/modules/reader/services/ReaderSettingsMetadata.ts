@@ -131,8 +131,11 @@ const convertMetadataToSettings = (
                 profiles.includes(profile) ? profile : DEFAULT_READER_PROFILE,
             ]),
         ) as IReaderSettings['readingModesDefaultProfile'],
-        hotkeys:
-            jsonSaveParse<IReaderSettings['hotkeys']>((metadata.hotkeys as string) ?? '') ?? defaultSettings.hotkeys,
+        hotkeys: {
+            ...defaultSettings.hotkeys,
+            ...(jsonSaveParse<IReaderSettings['hotkeys']>((metadata.hotkeys as string) ?? '') ??
+                defaultSettings.hotkeys),
+        },
     };
 };
 
