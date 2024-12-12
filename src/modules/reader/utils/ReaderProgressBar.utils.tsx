@@ -110,15 +110,17 @@ export const useHandleProgressDragging = (
                 return;
             }
 
-            const newPageIndex = getPageForMousePos(
-                coordinates,
-                progressBarRef.current.getBoundingClientRect(),
-                pages,
-                isHorizontal,
-                getOptionForDirection,
-            ).primary.index;
+            const newPageIndex = getNextIndexFromPage(
+                getPageForMousePos(
+                    coordinates,
+                    progressBarRef.current.getBoundingClientRect(),
+                    pages,
+                    isHorizontal,
+                    getOptionForDirection,
+                ),
+            );
 
-            const hasCurrentPageIndexChanged = currentPage.primary.index !== newPageIndex;
+            const hasCurrentPageIndexChanged = getNextIndexFromPage(currentPage) !== newPageIndex;
             if (!hasCurrentPageIndexChanged) {
                 return;
             }

@@ -20,6 +20,7 @@ import { ReaderProgressBarSlotsContainer } from '@/modules/reader/components/ove
 import { ProgressBarHighlightReadPages } from '@/modules/reader/components/overlay/progress-bar/ProgressBarHighlightReadPages.tsx';
 import { ReaderProgressBarCurrentPageSlot } from '@/modules/reader/components/overlay/progress-bar/ReaderProgressBarCurrentPageSlot.tsx';
 import {
+    getNextIndexFromPage,
     getPage,
     getPageForMousePos,
     getProgressBarPositionInfo,
@@ -116,13 +117,15 @@ export const ReaderProgressBar = ({
                             }
 
                             openPage(
-                                getPageForMousePos(
-                                    event.touches[0],
-                                    progressBarRef.current.getBoundingClientRect(),
-                                    pages,
-                                    isHorizontalPosition,
-                                    getOptionForDirection,
-                                ).primary.index,
+                                getNextIndexFromPage(
+                                    getPageForMousePos(
+                                        event.touches[0],
+                                        progressBarRef.current.getBoundingClientRect(),
+                                        pages,
+                                        isHorizontalPosition,
+                                        getOptionForDirection,
+                                    ),
+                                ),
                             );
                             setIsDragging(true);
                         }}
@@ -133,13 +136,15 @@ export const ReaderProgressBar = ({
                             }
 
                             openPage(
-                                getPageForMousePos(
-                                    event,
-                                    progressBarRef.current.getBoundingClientRect(),
-                                    pages,
-                                    isHorizontalPosition,
-                                    getOptionForDirection,
-                                ).primary.index,
+                                getNextIndexFromPage(
+                                    getPageForMousePos(
+                                        event,
+                                        progressBarRef.current.getBoundingClientRect(),
+                                        pages,
+                                        isHorizontalPosition,
+                                        getOptionForDirection,
+                                    ),
+                                ),
                             );
                             setIsDragging(true);
                         }}

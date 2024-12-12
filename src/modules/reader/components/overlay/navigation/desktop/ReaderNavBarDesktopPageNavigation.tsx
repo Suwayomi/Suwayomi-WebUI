@@ -13,7 +13,7 @@ import { useMemo } from 'react';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import { Select } from '@/modules/core/components/inputs/Select.tsx';
-import { getPage } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
+import { getNextIndexFromPage, getPage } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types.ts';
 import { ReaderControls } from '@/modules/reader/services/ReaderControls.ts';
 import { useGetOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts';
@@ -50,7 +50,7 @@ export const ReaderNavBarDesktopPageNavigation = ({
                 <Select
                     labelId="reader-nav-bar-desktop-page-select"
                     label={t('reader.page_info.label.page')}
-                    value={currentPage.primary.index}
+                    value={getNextIndexFromPage(currentPage)}
                     onChange={(e) => openPage(e.target.value as number)}
                 >
                     {pages.map(({ primary: { index }, name }) => (

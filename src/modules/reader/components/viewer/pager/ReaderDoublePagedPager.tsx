@@ -13,7 +13,7 @@ import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { ReaderPagerProps, ReadingDirection } from '@/modules/reader/types/Reader.types.ts';
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 import { createReaderPage } from '@/modules/reader/utils/ReaderPager.utils.tsx';
-import { getPage } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
+import { getNextIndexFromPage, getPage } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
 
 const getPagePosition = (
     pageType: 'first' | 'second',
@@ -58,7 +58,7 @@ export const ReaderDoublePagedPager = ({
             createPage={(page, pagesIndex, shouldLoad, shouldDisplay) => {
                 const { primary, secondary } = page;
 
-                const currentSecondaryPageIndex = currentPage.secondary?.index ?? currentPage.primary.index;
+                const currentSecondaryPageIndex = getNextIndexFromPage(currentPage);
 
                 const hasSecondaryPage = !!secondary;
                 const isPrimaryPage = currentPage.primary.index === primary.index;
