@@ -22,6 +22,7 @@ export const ReaderNavBarDesktopQuickSettings = ({
     settings: {
         defaultProfile,
         profiles,
+        readingModesDefaultProfile,
         readingMode,
         shouldOffsetDoubleSpreads,
         pageScaleMode,
@@ -40,6 +41,8 @@ export const ReaderNavBarDesktopQuickSettings = ({
             <ReaderNavBarDesktopProfile
                 defaultProfile={defaultProfile}
                 profiles={profiles}
+                readingModesDefaultProfile={readingModesDefaultProfile}
+                readingMode={readingMode}
                 updateSetting={(value) => updateSetting('defaultProfile', value)}
                 isDefaultable={isDefaultable}
                 onDefault={() => onDefault?.('defaultProfile')}

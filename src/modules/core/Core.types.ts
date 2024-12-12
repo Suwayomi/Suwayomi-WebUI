@@ -33,6 +33,7 @@ export type ValueToDisplayData<Value extends string | number> = Record<Value, Di
 
 export interface MultiValueButtonBaseProps<Value extends string | number> {
     tooltip?: string;
+    defaultText?: string;
     value: Value;
     values: Value[];
     setValue: (value: Value) => void;

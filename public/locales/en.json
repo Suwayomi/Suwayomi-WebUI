@@ -901,6 +901,7 @@
         "width": "Fit width"
       },
       "profiles": {
+        "default_value": "$t(global.label.default) ({{profile}})",
         "description": "Profiles are used to define the default reader settings which then can be used for series and reading modes",
         "placeholder": "Comics | length: 16, chars: letters, numbers, -, _"
       },

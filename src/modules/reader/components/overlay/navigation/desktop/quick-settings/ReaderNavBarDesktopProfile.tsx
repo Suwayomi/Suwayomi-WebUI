@@ -13,24 +13,33 @@ import { MultiValueButtonDefaultableProps } from '@/modules/core/Core.types.ts';
 import { ValueRotationButton } from '@/modules/core/components/buttons/ValueRotationButton.tsx';
 import {
     createProfileValueToDisplayData,
+    getReaderProfile,
     getValidReaderProfile,
 } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
+import { DEFAULT_READER_PROFILE } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 
 export const ReaderNavBarDesktopProfile = ({
     defaultProfile,
     profiles,
+    readingModesDefaultProfile,
+    readingMode,
     updateSetting,
     ...buttonSelectInputProps
-}: Pick<IReaderSettingsWithDefaultFlag, 'defaultProfile' | 'profiles'> &
+}: Pick<IReaderSettingsWithDefaultFlag, 'defaultProfile' | 'profiles' | 'readingModesDefaultProfile' | 'readingMode'> &
     Pick<MultiValueButtonDefaultableProps<string>, 'isDefaultable' | 'onDefault'> & {
         updateSetting: (profile: string) => void;
     }) => {
     const { t } = useTranslation();
 
+    const activeProfile = getReaderProfile(defaultProfile, profiles, readingModesDefaultProfile, readingMode.value);
+
     return (
         <ValueRotationButton
             {...buttonSelectInputProps}
             tooltip={t('global.label.profile_one')}
+            defaultText={t('reader.settings.profiles.default_value', {
+                profile: activeProfile === DEFAULT_READER_PROFILE ? t('global.label.standard') : activeProfile,
+            })}
             value={defaultProfile.isDefault ? undefined : getValidReaderProfile(defaultProfile.value, profiles)}
             values={profiles}
             setValue={updateSetting}

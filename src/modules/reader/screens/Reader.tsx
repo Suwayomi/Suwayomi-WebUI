@@ -37,7 +37,7 @@ import { ReaderViewer } from '@/modules/reader/components/viewer/ReaderViewer.ts
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { READER_BACKGROUND_TO_COLOR } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 import { createPageData, createPagesData } from '@/modules/reader/utils/ReaderPager.utils.tsx';
-import { getValidReaderProfile } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
+import { getReaderProfile } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
 import { ReaderHotkeys } from '@/modules/reader/components/ReaderHotkeys.tsx';
 import { ReaderResumeMode, ReaderTransitionPageMode } from '@/modules/reader/types/Reader.types.ts';
 import { getInitialReaderPageIndex } from '@/modules/reader/utils/Reader.utils.ts';
@@ -194,13 +194,11 @@ export const Reader = () => {
             defaultSettings,
         );
 
-        const profile = getValidReaderProfile(
-            settingsWithDefaultProfileFallback.defaultProfile.isDefault
-                ? settingsWithDefaultProfileFallback.readingModesDefaultProfile[
-                      settingsWithDefaultProfileFallback.readingMode.value
-                  ]
-                : settingsWithDefaultProfileFallback.defaultProfile.value,
+        const profile = getReaderProfile(
+            settingsWithDefaultProfileFallback.defaultProfile,
             settingsWithDefaultProfileFallback.profiles,
+            settingsWithDefaultProfileFallback.readingModesDefaultProfile,
+            settingsWithDefaultProfileFallback.readingMode.value,
         );
 
         const profileSettings = getReaderSettings(

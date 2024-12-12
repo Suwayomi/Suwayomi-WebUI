@@ -15,6 +15,7 @@ import { getNextRotationValue } from '@/modules/core/utils/ValueRotationButton.u
 
 export const ValueRotationButton = <Value extends string | number>({
     tooltip,
+    defaultText,
     value,
     values,
     setValue,
@@ -44,7 +45,7 @@ export const ValueRotationButton = <Value extends string | number>({
                     startIcon={defaultIcon}
                     size="large"
                 >
-                    {t('global.label.default')}
+                    {defaultText ?? t('global.label.default')}
                 </Button>
             ) : (
                 <Button
