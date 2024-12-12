@@ -192,7 +192,7 @@ export class ReaderControls {
 
         const missingChapters = Math.abs(currentChapter.chapterNumber - chapterToOpen.chapterNumber);
         const isSameScanlator = currentChapter.scanlator === chapterToOpen.scanlator;
-        const isContinuousChapter = missingChapters === 1;
+        const isContinuousChapter = missingChapters <= 1;
 
         const showWarning = !isSameScanlator || !isContinuousChapter;
         if (!showWarning) {
