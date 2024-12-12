@@ -375,11 +375,6 @@ export class ReaderControls {
                     return;
                 }
 
-                const hasPageIndexChanged = endReached || pageIndex !== currentPageIndex;
-                if (!hasPageIndexChanged) {
-                    return;
-                }
-
                 ReaderService.downloadAhead(currentChapter, nextChapter, nextChapters, pageIndex, downloadAheadLimit);
 
                 const handleCurrentPageIndexChange = () => {

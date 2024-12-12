@@ -138,6 +138,7 @@ export const ReaderViewer = forwardRef((_, ref: ForwardedRef<HTMLDivElement | nu
 
         const convertPagesToDoublePageMode = readingMode.value === ReadingMode.DOUBLE_PAGE;
         if (convertPagesToDoublePageMode) {
+            updateCurrentPageIndex(getNextIndexFromPage(getPage(currentPageIndex, actualPages)));
             setPages(actualPages);
             setWasDoublePageMode(readingMode.value === ReadingMode.DOUBLE_PAGE);
         }
