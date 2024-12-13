@@ -39,8 +39,8 @@ export const ReaderNavBarDesktopPageNavigation = ({
                 type="previous"
                 title={t(getOptionForDirection('reader.button.previous_page', 'reader.button.next_page', direction))}
                 disabled={getOptionForDirection(
-                    !currentPageIndex,
-                    currentPage.primary.index === pages.slice(-1)[0].primary.index,
+                    !currentPage.primary.index,
+                    getNextIndexFromPage(currentPage) === getNextIndexFromPage(pages.slice(-1)[0]),
                     direction,
                 )}
                 onClick={() => openPage('previous', undefined, false)}
@@ -64,8 +64,8 @@ export const ReaderNavBarDesktopPageNavigation = ({
                 type="next"
                 title={t(getOptionForDirection('reader.button.next_page', 'reader.button.previous_page', direction))}
                 disabled={getOptionForDirection(
-                    currentPage.primary.index === pages.slice(-1)[0].primary.index,
-                    !currentPageIndex,
+                    getNextIndexFromPage(currentPage) === getNextIndexFromPage(pages.slice(-1)[0]),
+                    !currentPage.primary.index,
                     direction,
                 )}
                 onClick={() => openPage('next', undefined, false)}
