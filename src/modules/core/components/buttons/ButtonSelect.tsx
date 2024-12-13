@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import { MultiValueButtonProps } from '@/modules/core/Core.types.ts';
+import { Superscript } from '@/modules/core/components/Superscript.tsx';
 
 export const ButtonSelect = <Value extends string | number>({
     value,
@@ -36,8 +37,6 @@ export const ButtonSelect = <Value extends string | number>({
                 const text = valueToDisplayData[displayValue].isTitleString
                     ? valueToDisplayData[displayValue].title
                     : t(valueToDisplayData[displayValue].title);
-                const defaultValueText = t('global.label.footnote', { text });
-                const finalText = isDefault ? defaultValueText : text;
 
                 return (
                     <Tooltip key={displayValue} title={isDefault ? t('reader.settings.active_setting') : ''}>
@@ -46,7 +45,7 @@ export const ButtonSelect = <Value extends string | number>({
                             variant={displayValue === value ? 'contained' : 'outlined'}
                             startIcon={valueToDisplayData[displayValue].icon}
                         >
-                            {finalText}
+                            {isDefault ? <Superscript i18nKey="global.label.footnote" value={text} /> : text}
                         </Button>
                     </Tooltip>
                 );

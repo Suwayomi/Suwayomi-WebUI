@@ -16,7 +16,6 @@ import {
     getReaderProfile,
     getValidReaderProfile,
 } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
-import { DEFAULT_READER_PROFILE } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 
 export const ReaderNavBarDesktopProfile = ({
     defaultProfile,
@@ -37,10 +36,8 @@ export const ReaderNavBarDesktopProfile = ({
         <ValueRotationButton
             {...buttonSelectInputProps}
             tooltip={t('global.label.profile_one')}
-            defaultText={t('reader.settings.profiles.default_value', {
-                profile: activeProfile === DEFAULT_READER_PROFILE ? t('global.label.standard') : activeProfile,
-            })}
             value={defaultProfile.isDefault ? undefined : getValidReaderProfile(defaultProfile.value, profiles)}
+            defaultValue={defaultProfile.isDefault ? activeProfile : undefined}
             values={profiles}
             setValue={updateSetting}
             valueToDisplayData={createProfileValueToDisplayData(profiles, true)}

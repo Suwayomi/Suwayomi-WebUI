@@ -395,7 +395,7 @@
     "label": {
       "advanced": "Advanced",
       "are_you_sure": "Are you sure?",
-      "footnote": "{{text}}*",
+      "asterisk": "*",
       "auto": "Auto",
       "both": "Both",
       "bottom": "Bottom",
@@ -410,6 +410,7 @@
       "display": "Display",
       "filter": "Filter",
       "finished": "Finished",
+      "footnote": "{{value}}<0>$t(global.label.asterisk)</0>",
       "general": "General",
       "github": "GitHub",
       "hidden": "Hidden",
@@ -903,7 +904,6 @@
         "width": "Fit width"
       },
       "profiles": {
-        "default_value": "$t(global.label.default) ({{profile}})",
         "description": "Profiles are used to define the default reader settings which then can be used for series and reading modes",
         "placeholder": "Comics | length: 16, chars: letters, numbers, -, _"
       },
@@ -1116,6 +1116,7 @@
         "title": "Clear server cache"
       }
     },
+    "default_value": "{{value}}<0>($t(global.label.default))</0>",
     "device": {
       "active_device": {
         "label": {

@@ -12,11 +12,12 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import { MultiValueButtonProps } from '@/modules/core/Core.types.ts';
 import { getNextRotationValue } from '@/modules/core/utils/ValueRotationButton.utils.ts';
+import { Superscript } from '@/modules/core/components/Superscript.tsx';
 
 export const ValueRotationButton = <Value extends string | number>({
     tooltip,
-    defaultText,
     value,
+    defaultValue,
     values,
     setValue,
     valueToDisplayData,
@@ -45,7 +46,18 @@ export const ValueRotationButton = <Value extends string | number>({
                     startIcon={defaultIcon}
                     size="large"
                 >
-                    {defaultText ?? t('global.label.default')}
+                    {defaultValue === undefined ? (
+                        t('global.label.default')
+                    ) : (
+                        <Superscript
+                            i18nKey="settings.default_value"
+                            value={
+                                valueToDisplayData[defaultValue].isTitleString
+                                    ? valueToDisplayData[defaultValue].title
+                                    : t(valueToDisplayData[defaultValue].title)
+                            }
+                        />
+                    )}
                 </Button>
             ) : (
                 <Button

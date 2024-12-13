@@ -30,6 +30,7 @@ export const ReaderNavBarDesktopReadingMode = ({
             {...buttonSelectInputProps}
             tooltip={t('reader.settings.label.reading_mode')}
             value={readingMode.isDefault ? undefined : readingMode.value}
+            defaultValue={readingMode.isDefault ? readingMode.value : undefined}
             values={READING_MODE_VALUES}
             setValue={setReadingMode}
             valueToDisplayData={READING_MODE_VALUE_TO_DISPLAY_DATA}

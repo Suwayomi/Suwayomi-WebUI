@@ -44,6 +44,7 @@ export const ReaderNavBarDesktopPageScale = ({
                 {...buttonSelectInputProps}
                 tooltip={t('reader.settings.page_scale.title')}
                 value={pageScaleMode.isDefault ? undefined : pageScaleMode.value}
+                defaultValue={pageScaleMode.isDefault ? pageScaleMode.value : undefined}
                 values={READER_PAGE_SCALE_MODE_VALUES}
                 setValue={(value) => updateSetting('pageScaleMode', value)}
                 valueToDisplayData={PAGE_SCALE_VALUE_TO_DISPLAY_DATA}

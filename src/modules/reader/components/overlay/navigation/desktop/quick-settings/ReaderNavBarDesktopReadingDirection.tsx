@@ -30,6 +30,7 @@ export const ReaderNavBarDesktopReadingDirection = ({
             {...buttonSelectInputProps}
             tooltip={t('reader.settings.label.reading_direction')}
             value={readingDirection.isDefault ? undefined : readingDirection.value}
+            defaultValue={readingDirection.isDefault ? readingDirection.value : undefined}
             values={READING_DIRECTION_VALUES}
             setValue={setReadingDirection}
             valueToDisplayData={READING_DIRECTION_VALUE_TO_DISPLAY_DATA}
