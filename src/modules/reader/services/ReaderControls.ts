@@ -278,6 +278,14 @@ export class ReaderControls {
                     setIsOverlayVisible(false);
                 }
 
+                const hideTransitionPage = () => setTransitionPageMode(ReaderTransitionPageMode.NONE);
+
+                if (typeof page === 'number') {
+                    setPageToScrollToIndex(page);
+                    hideTransitionPage();
+                    return;
+                }
+
                 const shouldOpenPreviousChapter =
                     isFirstPage && isATransitionPageVisible && convertedPage === 'previous' && !!previousChapter;
                 if (shouldOpenPreviousChapter) {
@@ -289,14 +297,6 @@ export class ReaderControls {
                     isLastPage && isATransitionPageVisible && convertedPage === 'next' && !!nextChapter;
                 if (shouldOpenNextChapter) {
                     openChapter('next');
-                    return;
-                }
-
-                const hideTransitionPage = () => setTransitionPageMode(ReaderTransitionPageMode.NONE);
-
-                if (typeof page === 'number') {
-                    setPageToScrollToIndex(page);
-                    hideTransitionPage();
                     return;
                 }
 
