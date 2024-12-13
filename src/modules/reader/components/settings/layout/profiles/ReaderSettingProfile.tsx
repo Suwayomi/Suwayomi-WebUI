@@ -26,11 +26,14 @@ export const ReaderSettingProfile = ({
     }) => {
     const { t } = useTranslation();
 
+    const validReaderProfile = getValidReaderProfile(defaultProfile.value, profiles);
+
     return (
         <ButtonSelectInput
             {...buttonSelectInputProps}
             label={t('global.label.profile_one')}
-            value={defaultProfile.isDefault ? undefined : getValidReaderProfile(defaultProfile.value, profiles)}
+            value={defaultProfile.isDefault ? undefined : validReaderProfile}
+            defaultValue={defaultProfile.isDefault ? validReaderProfile : undefined}
             values={profiles}
             setValue={updateSetting}
             valueToDisplayData={createProfileValueToDisplayData(profiles)}

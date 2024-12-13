@@ -34,6 +34,7 @@ export const ReaderSettingPageScaleMode = ({
             {...buttonSelectInputProps}
             label={t('reader.settings.page_scale.title')}
             value={pageScaleMode.isDefault ? undefined : pageScaleMode.value}
+            defaultValue={pageScaleMode.isDefault ? pageScaleMode.value : undefined}
             values={READER_PAGE_SCALE_MODE_VALUES}
             setValue={setPageScaleMode}
             valueToDisplayData={PAGE_SCALE_VALUE_TO_DISPLAY_DATA}

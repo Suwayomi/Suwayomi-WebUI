@@ -52,6 +52,7 @@ export const ReaderSettingTapZoneLayout = ({
             {...buttonSelectInputProps}
             label={t('reader.settings.tap_zones.title')}
             value={tapZoneLayout.isDefault ? undefined : tapZoneLayout.value}
+            defaultValue={tapZoneLayout.isDefault ? tapZoneLayout.value : undefined}
             values={READER_TAP_ZONE_LAYOUT_VALUES}
             setValue={setTapZoneLayout}
             valueToDisplayData={VALUE_TO_DISPLAY_DATA}

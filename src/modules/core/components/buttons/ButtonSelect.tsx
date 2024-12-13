@@ -9,11 +9,13 @@
 import Stack from '@mui/material/Stack';
 import { useTranslation } from 'react-i18next';
 import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
 import { MultiValueButtonProps } from '@/modules/core/Core.types.ts';
 
 export const ButtonSelect = <Value extends string | number>({
     value,
     values,
+    defaultValue,
     setValue,
     valueToDisplayData,
     isDefaultable,
@@ -28,18 +30,27 @@ export const ButtonSelect = <Value extends string | number>({
                     {t('global.label.default')}
                 </Button>
             )}
-            {values.map((displayValue) => (
-                <Button
-                    key={displayValue}
-                    onClick={() => setValue(displayValue)}
-                    variant={displayValue === value ? 'contained' : 'outlined'}
-                    startIcon={valueToDisplayData[displayValue].icon}
-                >
-                    {valueToDisplayData[displayValue].isTitleString
-                        ? valueToDisplayData[displayValue].title
-                        : t(valueToDisplayData[displayValue].title)}
-                </Button>
-            ))}
+            {values.map((displayValue) => {
+                const isDefault = value === undefined && displayValue === defaultValue;
+
+                const text = valueToDisplayData[displayValue].isTitleString
+                    ? valueToDisplayData[displayValue].title
+                    : t(valueToDisplayData[displayValue].title);
+                const defaultValueText = t('global.label.footnote', { text });
+                const finalText = isDefault ? defaultValueText : text;
+
+                return (
+                    <Tooltip key={displayValue} title={isDefault ? t('reader.settings.active_setting') : ''}>
+                        <Button
+                            onClick={() => setValue(displayValue)}
+                            variant={displayValue === value ? 'contained' : 'outlined'}
+                            startIcon={valueToDisplayData[displayValue].icon}
+                        >
+                            {finalText}
+                        </Button>
+                    </Tooltip>
+                );
+            })}
         </Stack>
     );
 };

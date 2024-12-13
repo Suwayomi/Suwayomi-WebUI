@@ -35,6 +35,7 @@ export interface MultiValueButtonBaseProps<Value extends string | number> {
     tooltip?: string;
     defaultText?: string;
     value: Value;
+    defaultValue?: Value;
     values: Value[];
     setValue: (value: Value) => void;
     valueToDisplayData: ValueToDisplayData<Value>;

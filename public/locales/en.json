@@ -395,6 +395,7 @@
     "label": {
       "advanced": "Advanced",
       "are_you_sure": "Are you sure?",
+      "footnote": "{{text}}*",
       "auto": "Auto",
       "both": "Both",
       "bottom": "Bottom",
@@ -836,6 +837,7 @@
       }
     },
     "settings": {
+      "active_setting": "Active setting",
       "background_color": "Background color",
       "custom_filter": {
         "brightness": "Custom brightness",

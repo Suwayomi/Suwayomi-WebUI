@@ -41,6 +41,7 @@ export const ReaderSettingReadingDirection = ({
             {...buttonSelectInputProps}
             label={t('reader.settings.label.reading_direction')}
             value={readingDirection.isDefault ? undefined : readingDirection.value}
+            defaultValue={readingDirection.isDefault ? readingDirection.value : undefined}
             values={READING_DIRECTION_VALUES}
             setValue={setReadingDirection}
             valueToDisplayData={VALUE_TO_DISPLAY_DATA}
