@@ -53,9 +53,9 @@ export const ReaderNavBarDesktopPageNavigation = ({
                     value={getNextIndexFromPage(currentPage)}
                     onChange={(e) => openPage(e.target.value as number)}
                 >
-                    {pages.map(({ primary: { index }, name }) => (
-                        <MenuItem key={index} value={index}>
-                            {name}
+                    {pages.map((page) => (
+                        <MenuItem key={getNextIndexFromPage(page)} value={getNextIndexFromPage(page)}>
+                            {page.name}
                         </MenuItem>
                     ))}
                 </Select>
