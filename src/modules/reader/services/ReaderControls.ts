@@ -237,7 +237,11 @@ export class ReaderControls {
         });
     }
 
-    static useOpenPage(): (page: number | 'previous' | 'next', forceDirection?: Direction) => void {
+    static useOpenPage(): (
+        page: number | 'previous' | 'next',
+        forceDirection?: Direction,
+        hideOverlay?: boolean,
+    ) => void {
         const { currentPageIndex, setPageToScrollToIndex, pages, transitionPageMode, setTransitionPageMode } =
             userReaderStatePagesContext();
         const { previousChapter, nextChapter } = useReaderStateChaptersContext();
@@ -263,14 +267,16 @@ export class ReaderControls {
         const isContinuousReadingModeActive = isContinuousReadingMode(readingMode.value);
 
         return useCallback(
-            (page, forceDirection = direction) => {
+            (page, forceDirection = direction, hideOverlay: boolean = true) => {
                 const convertedPage = getOptionForDirection(
                     page,
                     page === 'previous' ? 'next' : 'previous',
                     forceDirection,
                 );
 
-                setIsOverlayVisible(false);
+                if (hideOverlay) {
+                    setIsOverlayVisible(false);
+                }
 
                 const shouldOpenPreviousChapter =
                     isFirstPage && isATransitionPageVisible && convertedPage === 'previous' && !!previousChapter;

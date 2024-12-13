@@ -102,7 +102,7 @@ export const ReaderProgressBar = ({
                             ? (slotProps?.progressBarPageTexts?.current?.sx ?? [])
                             : [slotProps?.progressBarPageTexts?.current?.sx]),
                     ]}
-                    onClick={() => openPage('previous', 'ltr')}
+                    onClick={() => openPage('previous', 'ltr', false)}
                 >
                     {currentPage.name}
                 </ReaderProgressBarPageNumber>
@@ -126,6 +126,8 @@ export const ReaderProgressBar = ({
                                         getOptionForDirection,
                                     ),
                                 ),
+                                undefined,
+                                false,
                             );
                             setIsDragging(true);
                         }}
@@ -145,6 +147,8 @@ export const ReaderProgressBar = ({
                                         getOptionForDirection,
                                     ),
                                 ),
+                                undefined,
+                                false,
                             );
                             setIsDragging(true);
                         }}
@@ -200,7 +204,7 @@ export const ReaderProgressBar = ({
                             ? (slotProps?.progressBarPageTexts?.total?.sx ?? [])
                             : [slotProps?.progressBarPageTexts?.total?.sx]),
                     ]}
-                    onClick={() => openPage('next', 'ltr')}
+                    onClick={() => openPage('next', 'ltr', false)}
                 >
                     {totalPages}
                 </ReaderProgressBarPageNumber>

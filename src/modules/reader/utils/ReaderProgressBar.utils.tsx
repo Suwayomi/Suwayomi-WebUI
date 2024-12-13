@@ -125,7 +125,7 @@ export const useHandleProgressDragging = (
                 return;
             }
 
-            openPage(newPageIndex);
+            openPage(newPageIndex, undefined, false);
         };
 
         const handleMouseMove = (e: MouseEvent) => {

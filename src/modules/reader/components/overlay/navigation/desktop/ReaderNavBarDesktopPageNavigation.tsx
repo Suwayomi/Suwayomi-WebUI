@@ -43,7 +43,7 @@ export const ReaderNavBarDesktopPageNavigation = ({
                     currentPage.primary.index === pages.slice(-1)[0].primary.index,
                     direction,
                 )}
-                onClick={() => openPage('previous')}
+                onClick={() => openPage('previous', undefined, false)}
             />
             <FormControl sx={{ flexBasis: '70%', flexGrow: 0, flexShrink: 0 }}>
                 <InputLabel id="reader-nav-bar-desktop-page-select">{t('reader.page_info.label.page')}</InputLabel>
@@ -51,7 +51,7 @@ export const ReaderNavBarDesktopPageNavigation = ({
                     labelId="reader-nav-bar-desktop-page-select"
                     label={t('reader.page_info.label.page')}
                     value={getNextIndexFromPage(currentPage)}
-                    onChange={(e) => openPage(e.target.value as number)}
+                    onChange={(e) => openPage(e.target.value as number, undefined, false)}
                 >
                     {pages.map((page) => (
                         <MenuItem key={getNextIndexFromPage(page)} value={getNextIndexFromPage(page)}>
@@ -68,7 +68,7 @@ export const ReaderNavBarDesktopPageNavigation = ({
                     !currentPageIndex,
                     direction,
                 )}
-                onClick={() => openPage('next')}
+                onClick={() => openPage('next', undefined, false)}
             />
         </Stack>
     );
