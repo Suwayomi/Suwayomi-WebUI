@@ -19,6 +19,7 @@ import { ReaderSettingsTypeProps } from '@/modules/reader/types/Reader.types.ts'
 import { ReaderSettingPageGap } from '@/modules/reader/components/settings/layout/ReaderSettingPageGap.tsx';
 import { ReaderSettingWidth } from '@/modules/reader/components/settings/layout/ReaderSettingWidth.tsx';
 import { ReaderSettingProfile } from '@/modules/reader/components/settings/layout/profiles/ReaderSettingProfile.tsx';
+import { DefaultSettingFootnote } from '@/modules/reader/components/settings/DefaultSettingFootnote.tsx';
 
 export const ReaderLayoutSettings = ({
     setShowPreview,
@@ -30,6 +31,7 @@ export const ReaderLayoutSettings = ({
     setShowPreview: ContextType<typeof ReaderTapZoneContext>['setShowPreview'];
 }) => (
     <Stack sx={{ gap: 2 }}>
+        <DefaultSettingFootnote />
         {isDefaultable && (
             <ReaderSettingProfile
                 defaultProfile={settings.defaultProfile}

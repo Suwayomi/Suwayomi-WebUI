@@ -13,6 +13,7 @@ import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { useReaderStateMangaContext } from '@/modules/reader/contexts/state/ReaderStateMangaContext.tsx';
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 import { ReaderSettingProfile } from '@/modules/reader/components/settings/layout/profiles/ReaderSettingProfile.tsx';
+import { DefaultSettingFootnote } from '@/modules/reader/components/settings/DefaultSettingFootnote.tsx';
 
 const DEFAULT_MANGA: MangaIdInfo = { id: -1 };
 export const ReaderBottomBarMobileQuickSettings = () => {
@@ -26,6 +27,7 @@ export const ReaderBottomBarMobileQuickSettings = () => {
 
     return (
         <Stack sx={{ gap: 2 }}>
+            <DefaultSettingFootnote />
             <ReaderSettingProfile
                 defaultProfile={defaultProfile}
                 profiles={profiles}

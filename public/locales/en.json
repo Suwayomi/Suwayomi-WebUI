@@ -857,6 +857,7 @@
         "sepia": "Sepia",
         "title": "Custom filter"
       },
+      "default_setting_footnote": "$t(global.label.asterisk): $t(reader.settings.active_setting)",
       "error": {
         "label": {
           "failed_to_save_settings": "Could not save the reader settings to the server"
