@@ -261,7 +261,7 @@ export class ReaderControls {
         const indexOfLastPage = getNextIndexFromPage(pages[pages.length - 1]);
         const direction = READING_DIRECTION_TO_THEME_DIRECTION[readingDirection.value];
 
-        const isFirstPage = currentPageIndex === 0;
+        const isFirstPage = currentPage.primary.index === 0;
         const isLastPage = currentPageIndex === indexOfLastPage;
         const isATransitionPageVisible = transitionPageMode !== ReaderTransitionPageMode.NONE;
         const isContinuousReadingModeActive = isContinuousReadingMode(readingMode.value);
