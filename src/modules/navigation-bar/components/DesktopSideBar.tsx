@@ -119,6 +119,7 @@ export const DesktopSideBar = ({ navBarItems }: { navBarItems: NavbarItem[] }) =
         >
             <Box
                 sx={{
+                    pl: 'env(safe-area-inset-left)',
                     minWidth: isCollapsed ? MIN_WIDTH_COLLAPSED : MIN_WIDTH_EXTENDED,
                     maxWidth: isCollapsed ? MAX_WIDTH_COLLAPSED : MAX_WIDTH_EXTENDED,
                 }}

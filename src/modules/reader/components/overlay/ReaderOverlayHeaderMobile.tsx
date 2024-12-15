@@ -64,6 +64,7 @@ export const ReaderOverlayHeaderMobile = ({ isVisible }: MobileHeaderProps) => {
                     left: 0,
                     right: `${scrollbarYSize}px`,
                     p: 2,
+                    pt: (theme) => `env(safe-area-inset-top, ${theme.spacing(2)})`,
                     backgroundColor: (theme) => alpha(theme.palette.background.paper, 0.95),
                     pointerEvents: 'all',
                 }}

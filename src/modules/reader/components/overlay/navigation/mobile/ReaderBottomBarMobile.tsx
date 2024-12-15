@@ -45,7 +45,7 @@ export const ReaderBottomBarMobile = ({ openSettings, isVisible }: ReaderBottomB
                     sx={{
                         position: 'fixed',
                         right: `${scrollbarYSize}px`,
-                        bottom: `${scrollbarXSize}px`,
+                        bottom: 0,
                         left: 0,
                         gap: 2,
                         pointerEvents: 'all',
@@ -56,6 +56,7 @@ export const ReaderBottomBarMobile = ({ openSettings, isVisible }: ReaderBottomB
                         sx={{
                             alignItems: 'center',
                             backgroundColor: (theme) => alpha(theme.palette.background.paper, 0.95),
+                            pb: `max(${scrollbarXSize}px, env(safe-area-inset-bottom))`,
                         }}
                     >
                         <Stack

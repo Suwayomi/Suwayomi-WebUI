@@ -108,7 +108,7 @@ const MainApp = () => {
                 maxWidth: `calc(100vw - (100vw - 100%) - ${navBarWidth}px)`,
                 position: 'relative',
                 mt: `${appBarHeight}px`,
-                mb: `${bottomBarHeight}px`,
+                pb: `calc(${bottomBarHeight}px + ${!bottomBarHeight ? 'env(safe-area-inset-bottom)' : '0px'})`,
             }}
         >
             <ErrorBoundary>
@@ -181,7 +181,7 @@ export const App: React.FC = () => (
         <BackgroundSubscriptions />
         <CssBaseline enableColorScheme />
         <Box sx={{ display: 'flex' }}>
-            <Box sx={{ flexShrink: 0 }}>
+            <Box sx={{ flexShrink: 0, position: 'relative', height: '100vh' }}>
                 <DefaultNavBar />
             </Box>
             <Routes>

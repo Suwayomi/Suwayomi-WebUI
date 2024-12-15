@@ -91,7 +91,9 @@ export function DefaultNavBar() {
     const appBarRef = useRef<HTMLDivElement | null>(null);
     useResizeObserver(
         appBarRef,
-        useCallback(() => setAppBarHeight(appBarRef.current?.clientHeight ?? 0), [appBarRef.current]),
+        useCallback(() => {
+            setAppBarHeight(appBarRef.current?.clientHeight ?? 0);
+        }, [appBarRef.current]),
     );
     useLayoutEffect(() => {
         if (!override.status) {
@@ -132,6 +134,7 @@ export function DefaultNavBar() {
                 sx={{
                     position: 'fixed',
                     marginLeft: actualNavBarWidth,
+                    pt: 'env(safe-area-inset-top)',
                     width: `calc(100% - ${actualNavBarWidth}px)`,
                     zIndex: theme.zIndex.drawer,
                 }}
@@ -142,7 +145,7 @@ export function DefaultNavBar() {
                             sx={{
                                 position: 'absolute',
                                 left: 0,
-                                width: navBarWidth,
+                                width: `calc(${navBarWidth}px + env(safe-area-inset-left))`,
                                 ...(!isCollapsed && { display: 'none' }),
                                 alignItems: 'center',
                             }}
@@ -155,7 +158,7 @@ export function DefaultNavBar() {
                     <Stack
                         sx={{
                             ml: `${isCollapsed ? navBarWidth : 0}px`,
-                            width: `calc(100% - ${isCollapsed ? navBarWidth : 0}px)`,
+                            width: `calc(100% - (${isCollapsed ? navBarWidth : 0}px + env(safe-area-inset-left)))`,
                             flexDirection: 'row',
                             alignItems: 'center',
                         }}

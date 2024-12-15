@@ -57,7 +57,7 @@ export const ReaderPageNumber = () => {
                 position: 'fixed',
                 left: readerNavBarWidth,
                 right: 0,
-                bottom: (theme) => `calc(${theme.spacing(1)} + ${scrollbarXSize}px)`,
+                bottom: (theme) => `max(calc(${theme.spacing(1)} + ${scrollbarXSize}px), env(safe-area-inset-bottom))`,
                 alignItems: 'center',
                 transition: (theme) => `left 0.${theme.transitions.duration.shortest}s`,
             }}

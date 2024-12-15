@@ -12,12 +12,14 @@ import { useTranslation } from 'react-i18next';
 import Paper from '@mui/material/Paper';
 import { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { CSSObject, useTheme } from '@mui/material/styles';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { NavbarItem } from '@/modules/navigation-bar/NavigationBar.types.ts';
 
 export const MobileBottomBar = ({ navBarItems }: { navBarItems: NavbarItem[] }) => {
     const { t } = useTranslation();
+    const theme = useTheme();
     const { setBottomBarHeight } = useNavBarContext();
     const location = useLocation();
     const navigate = useNavigate();
@@ -36,7 +38,21 @@ export const MobileBottomBar = ({ navBarItems }: { navBarItems: NavbarItem[] }) 
     return (
         <Paper
             ref={ref}
-            sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: (theme) => theme.zIndex.drawer - 1 }}
+            sx={{
+                position: 'fixed',
+                bottom: 0,
+                left: 0,
+                right: 0,
+                pb: 'env(safe-area-inset-bottom)',
+                pl: 'env(safe-area-inset-left)',
+                pr: 'env(safe-area-inset-right)',
+                zIndex: theme.zIndex.drawer - 1,
+            }}
+            style={{
+                ...(theme.applyStyles('dark', {
+                    '--Paper-overlay': 'unset',
+                }) as Omit<CSSObject, 'accentColorsd'>),
+            }}
             elevation={3}
         >
             <BottomNavigation

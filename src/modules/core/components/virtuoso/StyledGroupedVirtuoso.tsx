@@ -22,7 +22,7 @@ export const StyledGroupedVirtuoso = ({
             {...props}
             style={{
                 ...style,
-                height: `calc(100vh - ${heightToSubtract}px - ${appBarHeight}px - ${bottomBarHeight}px)`,
+                height: `calc(100vh - ${heightToSubtract}px - ${appBarHeight}px - ${bottomBarHeight}px - ${!bottomBarHeight ? 'env(safe-area-inset-bottom)' : '0px'})`,
             }}
         />
     );
