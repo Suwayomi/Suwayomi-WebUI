@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { Direction, useTheme } from '@mui/material/styles';
 import { t as translate } from 'i18next';
 import { TChapterReader } from '@/modules/chapter/Chapter.types.ts';
-import { Chapters } from '@/modules/chapter/services/Chapters.ts';
+import { ChapterIdInfo, Chapters } from '@/modules/chapter/services/Chapters.ts';
 import {
     IReaderSettings,
     IReaderSettingsWithDefaultFlag,
@@ -58,6 +58,16 @@ const DIRECTION_TO_READING_DIRECTION: Record<Direction, ReadingDirection> = {
 
 export class ReaderService {
     private static downloadAheadQueue: Queue = new Queue(1);
+
+    private static chapterUpdateQueues: Map<ChapterIdInfo['id'], Queue> = new Map();
+
+    private static getOrCreateChapterUpdateQueue(id: ChapterIdInfo['id']): Queue {
+        if (!this.chapterUpdateQueues.has(id)) {
+            this.chapterUpdateQueues.set(id, new Queue(1));
+        }
+
+        return this.chapterUpdateQueues.get(id)!;
+    }
 
     static useNavigateToChapter(chapter?: TChapterReader, resumeMode?: ReaderResumeMode): () => void {
         const navigate = useNavigate();
@@ -130,50 +140,58 @@ export class ReaderService {
                     return;
                 }
 
-                const chapterIdsToUpdate = Chapters.getIds(
-                    shouldSkipDupChapters ? Chapters.addDuplicates([currentChapter], mangaChapters) : [currentChapter],
-                );
+                const update = async () => {
+                    const chapterIdsToUpdate = Chapters.getIds(
+                        shouldSkipDupChapters
+                            ? Chapters.addDuplicates([currentChapter], mangaChapters)
+                            : [currentChapter],
+                    );
 
-                const isUpdateRequired = chapterIdsToUpdate.some((id) => {
-                    const chapterUpToDateData = getReaderChapterFromCache(id);
-                    if (!chapterUpToDateData) {
-                        return false;
+                    const isUpdateRequired = chapterIdsToUpdate.some((id) => {
+                        const chapterUpToDateData = getReaderChapterFromCache(id);
+                        if (!chapterUpToDateData) {
+                            return false;
+                        }
+
+                        return (
+                            (patch.isRead !== undefined && patch.isRead !== chapterUpToDateData.isRead) ||
+                            (patch.lastPageRead !== undefined &&
+                                patch.lastPageRead !== chapterUpToDateData.lastPageRead) ||
+                            (patch.isBookmarked !== undefined &&
+                                patch.isBookmarked !== chapterUpToDateData.isBookmarked)
+                        );
+                    });
+                    if (!isUpdateRequired) {
+                        return;
                     }
 
-                    return (
-                        (patch.isRead !== undefined && patch.isRead !== chapterUpToDateData.isRead) ||
-                        (patch.lastPageRead !== undefined && patch.lastPageRead !== chapterUpToDateData.lastPageRead) ||
-                        (patch.isBookmarked !== undefined && patch.isBookmarked !== chapterUpToDateData.isBookmarked)
+                    const chapterIdsToDelete = getChapterIdsToDeleteForChapterUpdate(
+                        currentChapter,
+                        mangaChapters,
+                        previousChapters,
+                        patch,
+                        deleteChaptersWhileReading,
+                        deleteChaptersWithBookmark,
+                        shouldSkipDupChapters,
                     );
-                });
-                if (!isUpdateRequired) {
-                    return;
-                }
 
-                const chapterIdsToDelete = getChapterIdsToDeleteForChapterUpdate(
-                    currentChapter,
-                    mangaChapters,
-                    previousChapters,
-                    patch,
-                    deleteChaptersWhileReading,
-                    deleteChaptersWithBookmark,
-                    shouldSkipDupChapters,
-                );
+                    await requestManager
+                        .updateChapters(
+                            chapterIdsToUpdate,
+                            {
+                                ...patch,
+                                chapterIdsToDelete,
+                                trackProgressMangaId:
+                                    updateProgressAfterReading && patch.isRead && manga.trackRecords.totalCount
+                                        ? manga.id
+                                        : undefined,
+                            },
+                            { errorPolicy: 'all' },
+                        )
+                        .response.catch(defaultPromiseErrorHandler('ReaderService::useUpdateChapter'));
+                };
 
-                requestManager
-                    .updateChapters(
-                        chapterIdsToUpdate,
-                        {
-                            ...patch,
-                            chapterIdsToDelete,
-                            trackProgressMangaId:
-                                updateProgressAfterReading && patch.isRead && manga.trackRecords.totalCount
-                                    ? manga.id
-                                    : undefined,
-                        },
-                        { errorPolicy: 'all' },
-                    )
-                    .response.catch(defaultPromiseErrorHandler('ReaderService::useUpdateChapter'));
+                this.getOrCreateChapterUpdateQueue(currentChapter.id).enqueue(`${currentChapter.id}`, () => update());
             },
             [
                 manga?.id,
