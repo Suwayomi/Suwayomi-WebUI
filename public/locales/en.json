@@ -993,7 +993,7 @@
             },
             "info": {
               "creating_theme": "Create a custom theme with the <2>MUI Theme Creator</2>, copy everything after \"themeOptions\" from \"{\" to \"}\" and paste it into the \"theme\" text field.",
-              "theme_mode_lock": "In case \"mode\" or \"type\" is defined in the \"palette\" object, the theme will be locked into this mode and will not change regardless of the selected apps device theme"
+              "theme_mode_lock": "In case \"mode\" or \"type\" is defined in the \"palette\" object, the theme will be locked into this mode and will not change regardless of the selected apps theme mode"
             },
             "theme_name": "Name"
           },
@@ -1006,7 +1006,7 @@
           "failure": "Could not delete theme \"{{theme}}\"",
           "success": "Deleted theme \"{{theme}}\""
         },
-        "device_theme": "Device theme",
+        "mode": "Theme mode",
         "edit": {
           "action": "Saving theme changes…",
           "failure": "Could not save theme changes",

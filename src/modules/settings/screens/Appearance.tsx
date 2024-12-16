@@ -87,7 +87,7 @@ export const Appearance = () => {
             }
         >
             <ListItem>
-                <ListItemText primary={t('settings.appearance.theme.device_theme')} />
+                <ListItemText primary={t('settings.appearance.theme.mode')} />
                 <Select<ThemeMode> value={themeMode} onChange={(e) => setThemeMode(e.target.value as ThemeMode)}>
                     <MenuItem key={ThemeMode.SYSTEM} value={ThemeMode.SYSTEM}>
                         System
