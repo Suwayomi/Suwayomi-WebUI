@@ -98,6 +98,9 @@ export const ReaderPage = forwardRef(
                         display: 'none',
                     }),
                     ...getImageMarginStyling(readingMode.value, doublePage, position),
+                    ...applyStyles(marginTop !== undefined, {
+                        mt: `${marginTop}px`,
+                    }),
                 }}
                 imgStyle={{
                     ...getImageWidthStyling(
@@ -117,7 +120,9 @@ export const ReaderPage = forwardRef(
                     objectPosition: position,
                     userSelect: 'none',
                     ...getImageMarginStyling(readingMode.value, doublePage, position),
-                    mt: `${marginTop}px`,
+                    ...applyStyles(marginTop !== undefined, {
+                        mt: `${marginTop}px`,
+                    }),
                 }}
             />
         );
