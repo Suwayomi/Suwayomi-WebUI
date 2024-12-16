@@ -33,6 +33,7 @@ import { ContinuousVerticalPageIcon } from '@/assets/icons/svg/ContinuousVertica
 import { ContinuousHorizontalPageIcon } from '@/assets/icons/svg/ContinuousHorizontalPageIcon.tsx';
 import { TranslationKey } from '@/Base.types.ts';
 import { TapZoneLayouts } from '@/modules/reader/types/TapZoneLayout.types.ts';
+import { WebtoonPageIcon } from '@/assets/icons/svg/WebtoonPageIcon.tsx';
 
 export const DEFAULT_READER_PROFILE = ReadingMode.SINGLE_PAGE;
 
@@ -187,6 +188,10 @@ export const READING_MODE_VALUE_TO_DISPLAY_DATA = {
     [ReadingMode.CONTINUOUS_HORIZONTAL]: {
         title: 'reader.settings.reader_type.label.continuous_horizontal',
         icon: <ContinuousHorizontalPageIcon />,
+    },
+    [ReadingMode.WEBTOON]: {
+        title: 'reader.settings.reader_type.label.webtoon',
+        icon: <WebtoonPageIcon />,
     },
 } satisfies ValueToDisplayData<ReadingMode>;
 

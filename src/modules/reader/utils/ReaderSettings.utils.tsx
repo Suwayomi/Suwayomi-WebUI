@@ -15,4 +15,7 @@ export const isReaderWidthEditable = (pageScaleMode: IReaderSettings['pageScaleM
     [ReaderPageScaleMode.WIDTH, ReaderPageScaleMode.SCREEN].includes(pageScaleMode);
 
 export const isContinuousReadingMode = (readingMode: IReaderSettings['readingMode']): boolean =>
-    [ReadingMode.CONTINUOUS_VERTICAL, ReadingMode.CONTINUOUS_HORIZONTAL].includes(readingMode);
+    [ReadingMode.CONTINUOUS_VERTICAL, ReadingMode.CONTINUOUS_HORIZONTAL, ReadingMode.WEBTOON].includes(readingMode);
+
+export const isContinuousVerticalReadingMode = (readingMode: IReaderSettings['readingMode']): boolean =>
+    [ReadingMode.CONTINUOUS_VERTICAL, ReadingMode.WEBTOON].includes(readingMode);

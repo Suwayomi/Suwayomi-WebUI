@@ -45,6 +45,7 @@ const READING_MODE_TO_IN_VIEWPORT_TYPE: Record<ReadingMode, PageInViewportType> 
     [ReadingMode.DOUBLE_PAGE]: PageInViewportType.X,
     [ReadingMode.CONTINUOUS_VERTICAL]: PageInViewportType.Y,
     [ReadingMode.CONTINUOUS_HORIZONTAL]: PageInViewportType.X,
+    [ReadingMode.WEBTOON]: PageInViewportType.Y,
 };
 
 export const ReaderViewer = forwardRef((_, ref: ForwardedRef<HTMLDivElement | null>) => {
@@ -111,6 +112,7 @@ export const ReaderViewer = forwardRef((_, ref: ForwardedRef<HTMLDivElement | nu
             case ReadingMode.DOUBLE_PAGE:
                 return ReaderDoublePagedPager;
             case ReadingMode.CONTINUOUS_VERTICAL:
+            case ReadingMode.WEBTOON:
                 return ReaderVerticalPager;
             case ReadingMode.CONTINUOUS_HORIZONTAL:
                 return ReaderHorizontalPager;

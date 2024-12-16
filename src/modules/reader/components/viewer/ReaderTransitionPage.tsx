@@ -25,7 +25,10 @@ import { isTransitionPageVisible } from '@/modules/reader/utils/ReaderPager.util
 import { useBackButton } from '@/modules/core/hooks/useBackButton.ts';
 import { useReaderStateMangaContext } from '@/modules/reader/contexts/state/ReaderStateMangaContext.tsx';
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
-import { isContinuousReadingMode } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
+import {
+    isContinuousReadingMode,
+    isContinuousVerticalReadingMode,
+} from '@/modules/reader/utils/ReaderSettings.utils.tsx';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 
@@ -94,7 +97,7 @@ export const ReaderTransitionPage = ({
                 ...applyStyles(isContinuousReadingMode(readingMode), {
                     position: 'relative',
                     transform: 'scale(1)',
-                    ...applyStyles(readingMode === ReadingMode.CONTINUOUS_VERTICAL, {
+                    ...applyStyles(isContinuousVerticalReadingMode(readingMode), {
                         maxWidth: '100%',
                         width: '100%',
                         ...applyStyles(!isFitWidthPageScaleMode, { alignItems: 'baseline' }),
@@ -120,7 +123,7 @@ export const ReaderTransitionPage = ({
                             // on small screens with "fit to with" enabled, "left 50%" does not center the element in the
                             // viewport which then causes "translate" to move the element mostly outside the viewport with
                             // only a small part of it being visible
-                            !isFitWidthPageScaleMode && readingMode === ReadingMode.CONTINUOUS_VERTICAL,
+                            !isFitWidthPageScaleMode && isContinuousVerticalReadingMode(readingMode),
                             {
                                 left: '50%',
                                 transform: 'translateX(-50%)',

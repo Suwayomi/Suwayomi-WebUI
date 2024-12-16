@@ -62,6 +62,7 @@ const CONTINUOUS_READING_MODE_TO_SCROLL_DIRECTION: Record<ReadingMode, ScrollDir
     [ReadingMode.DOUBLE_PAGE]: ScrollDirection.Y,
     [ReadingMode.CONTINUOUS_VERTICAL]: ScrollDirection.Y,
     [ReadingMode.CONTINUOUS_HORIZONTAL]: ScrollDirection.X,
+    [ReadingMode.WEBTOON]: ScrollDirection.Y,
 };
 
 export const ReaderHotkeys = ({

@@ -8,7 +8,7 @@
 
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { BasePager } from '@/modules/reader/components/viewer/pager/BasePager.tsx';
-import { ReaderPagerProps } from '@/modules/reader/types/Reader.types.ts';
+import { ReaderPagerProps, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
 import { createReaderPage } from '@/modules/reader/utils/ReaderPager.utils.tsx';
 
 export const ReaderVerticalPager = ({
@@ -20,7 +20,9 @@ export const ReaderVerticalPager = ({
 }: ReaderPagerProps) => {
     const { currentPageIndex, totalPages } = props;
 
-    const { pageGap } = ReaderService.useSettings();
+    const { readingMode, pageGap } = ReaderService.useSettings();
+    const isWebtoonMode = readingMode.value === ReadingMode.WEBTOON;
+    const actualPageGap = isWebtoonMode ? 0 : pageGap;
 
     return (
         <BasePager
@@ -46,7 +48,7 @@ export const ReaderVerticalPager = ({
                         margin: 'auto',
                         flexWrap: 'nowrap',
                         alignItems: 'center',
-                        gap: `${pageGap.value}px`,
+                        gap: `${actualPageGap}px`,
                     },
                 },
             }}

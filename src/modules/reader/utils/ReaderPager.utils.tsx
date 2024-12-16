@@ -17,7 +17,11 @@ import {
     ReadingMode,
 } from '@/modules/reader/types/Reader.types.ts';
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
-import { isContinuousReadingMode, isReaderWidthEditable } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
+import {
+    isContinuousReadingMode,
+    isContinuousVerticalReadingMode,
+    isReaderWidthEditable,
+} from '@/modules/reader/utils/ReaderSettings.utils.tsx';
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { ReaderPage } from '@/modules/reader/components/viewer/ReaderPage.tsx';
@@ -71,6 +75,10 @@ export const getImagePlaceholderStyling = (
             minWidth: DEFAULT_SINGLE_PAGE_WIDTH,
             minHeight: `calc(${DEFAULT_SINGLE_PAGE_HEIGHT} - ${scrollbarXSize}px)`,
         },
+        [ReadingMode.WEBTOON]: {
+            minWidth: `calc(${DEFAULT_SINGLE_PAGE_WIDTH} - ${scrollbarYSize}px)`,
+            minHeight: '100vh',
+        },
     };
     const defaultStyling = READING_MODE_TO_PLACEHOLDER_SIZE[readingMode];
     const minWidthForStretch = isDoublePage ? '50%' : '100%';
@@ -91,7 +99,7 @@ export const getImagePlaceholderStyling = (
                 ...defaultStyling,
                 ...applyStyles(shouldStretchPage, {
                     minHeight: `calc(100vh - ${scrollbarXSize}px)`,
-                    ...applyStyles(readingMode === ReadingMode.CONTINUOUS_VERTICAL, {
+                    ...applyStyles(isContinuousVerticalReadingMode(readingMode), {
                         minHeight: '100vh',
                     }),
                 }),
@@ -105,7 +113,7 @@ export const getImagePlaceholderStyling = (
                 ...applyStyles(shouldStretchPage, {
                     minWidth: minWidthForStretch,
                     minHeight: `calc(100vh - ${scrollbarXSize}px)`,
-                    ...applyStyles(readingMode === ReadingMode.CONTINUOUS_VERTICAL, {
+                    ...applyStyles(isContinuousVerticalReadingMode(readingMode), {
                         minHeight: '100vh',
                     }),
                 }),
@@ -160,7 +168,7 @@ export const getImageWidthStyling = (
                         minWidth: 'unset',
                         minHeight: '100%',
                     }),
-                    ...applyStyles(readingMode === ReadingMode.CONTINUOUS_VERTICAL, {
+                    ...applyStyles(isContinuousVerticalReadingMode(readingMode), {
                         minWidth: width,
                         minHeight: 'unset',
                     }),

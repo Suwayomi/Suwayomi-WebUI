@@ -33,6 +33,7 @@ export enum ReadingMode {
     DOUBLE_PAGE,
     CONTINUOUS_VERTICAL,
     CONTINUOUS_HORIZONTAL,
+    WEBTOON,
 }
 
 export enum ReaderPageScaleMode {
