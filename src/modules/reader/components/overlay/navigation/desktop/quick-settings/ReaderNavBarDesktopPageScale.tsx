@@ -51,7 +51,7 @@ export const ReaderNavBarDesktopPageScale = ({
                 defaultIcon={PAGE_SCALE_VALUE_TO_DISPLAY_DATA[pageScaleMode.value].icon}
             />
             {READER_PAGE_SCALE_MODE_TO_SCALING_ALLOWED[pageScaleMode.value] && (
-                <Tooltip title={t('reader.settings.label.scale_page')}>
+                <Tooltip title={t('reader.settings.page_scale.stretch')}>
                     <CustomIconButton
                         onClick={() => updateSetting('shouldStretchPage', !shouldStretchPage.value)}
                         sx={{ minWidth: 0 }}
