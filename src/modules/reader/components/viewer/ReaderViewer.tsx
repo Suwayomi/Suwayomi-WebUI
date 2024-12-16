@@ -35,10 +35,14 @@ import { useReaderScrollbarContext } from '@/modules/reader/contexts/ReaderScrol
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 import { ReaderControls } from '@/modules/reader/services/ReaderControls.ts';
 import { getNextIndexFromPage, getPage } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
-import { isContinuousReadingMode } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
+import {
+    isContinuousReadingMode,
+    isContinuousVerticalReadingMode,
+} from '@/modules/reader/utils/ReaderSettings.utils.tsx';
 import { useMouseDragScroll } from '@/modules/core/hooks/useMouseDragScroll.tsx';
 import { DirectionOffset } from '@/Base.types.ts';
 import { useReaderOverlayContext } from '@/modules/reader/contexts/ReaderOverlayContext.tsx';
+import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 
 const READING_MODE_TO_IN_VIEWPORT_TYPE: Record<ReadingMode, PageInViewportType> = {
     [ReadingMode.SINGLE_PAGE]: PageInViewportType.X,
@@ -244,7 +248,12 @@ export const ReaderViewer = forwardRef((_, ref: ForwardedRef<HTMLDivElement | nu
     return (
         <Stack
             ref={scrollElementRef}
-            sx={{ width: '100%', height: '100%', overflow: 'auto' }}
+            sx={{
+                width: '100%',
+                height: '100%',
+                overflow: 'auto',
+                ...applyStyles(isContinuousVerticalReadingMode(readingMode.value), { alignItems: 'center' }),
+            }}
             onClick={(e) => !isDragging && handleClick(e)}
             onScroll={() =>
                 ReaderControls.updateCurrentPageOnScroll(

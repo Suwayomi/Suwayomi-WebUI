@@ -90,19 +90,19 @@ export const ReaderTransitionPage = ({
     return (
         <Stack
             sx={{
-                minWidth: `calc(100vw - ${scrollbarYSize}px - ${readerNavBarWidth}px)`,
-                minHeight: `calc(100vh - ${scrollbarXSize}px)`,
                 justifyContent: 'center',
                 alignItems: 'center',
                 ...applyStyles(isContinuousReadingMode(readingMode), {
                     position: 'relative',
                     transform: 'scale(1)',
                     ...applyStyles(isContinuousVerticalReadingMode(readingMode), {
+                        minHeight: `calc(100vh - ${scrollbarXSize}px)`,
                         maxWidth: '100%',
                         width: '100%',
                         ...applyStyles(!isFitWidthPageScaleMode, { alignItems: 'baseline' }),
                     }),
                     ...applyStyles(readingMode === ReadingMode.CONTINUOUS_HORIZONTAL, {
+                        minWidth: `calc(100vw - ${scrollbarYSize}px - ${readerNavBarWidth}px)`,
                         maxHeight: '100%',
                         height: '100%',
                         justifyContent: 'unset',

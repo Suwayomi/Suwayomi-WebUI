@@ -95,6 +95,10 @@ export const getImagePlaceholderStyling = (
                 ...applyStyles(shouldStretchPage, {
                     minWidth: minWidthForStretch,
                 }),
+                // the SpinnerImage placeholder has a default height of 100%, this caused the placeholder due take up 100% of the readers full scrollable height instead of only 100% of the viewport
+                ...applyStyles(isContinuousVerticalReadingMode(readingMode), {
+                    height: 'unset',
+                }),
             };
         case ReaderPageScaleMode.HEIGHT:
             return {
@@ -241,6 +245,7 @@ export const createReaderPage = (
     retryKeyPrefix?: string,
     position?: 'left' | 'right',
     isDoublePage?: boolean,
+    marginTop?: number,
     setRef?: (ref: HTMLElement | null) => void,
 ): ReactNode => (
     <ReaderPage
@@ -256,6 +261,7 @@ export const createReaderPage = (
         doublePage={isDoublePage}
         shouldLoad={shouldLoad}
         retryKeyPrefix={retryKeyPrefix}
+        marginTop={marginTop}
     />
 );
 

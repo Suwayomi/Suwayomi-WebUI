@@ -35,7 +35,7 @@ export const ReaderPagedPager = ({
                 )
             }
             slots={{
-                stackProps: {
+                boxProps: {
                     sx: {
                         margin: 'auto',
                     },

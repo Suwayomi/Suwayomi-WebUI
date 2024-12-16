@@ -54,6 +54,7 @@ export const ReaderPage = forwardRef(
             display,
             doublePage = false,
             position,
+            marginTop,
             shouldLoad,
             retryKeyPrefix,
             ...props
@@ -61,6 +62,7 @@ export const ReaderPage = forwardRef(
             display: boolean;
             doublePage?: boolean;
             position?: 'left' | 'right';
+            marginTop?: number;
         },
         ref: ForwardedRef<HTMLImageElement | null>,
     ) => {
@@ -115,6 +117,7 @@ export const ReaderPage = forwardRef(
                     objectPosition: position,
                     userSelect: 'none',
                     ...getImageMarginStyling(readingMode.value, doublePage, position),
+                    mt: `${marginTop}px`,
                 }}
             />
         );

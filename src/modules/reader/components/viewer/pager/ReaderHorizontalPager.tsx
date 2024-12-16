@@ -42,13 +42,18 @@ export const ReaderHorizontalPager = ({
                     pageLoadStates[page.primary.index].error ? retryFailedPagesKeyPrefix : undefined,
                     undefined,
                     undefined,
+                    undefined,
                     setRef,
                 )
             }
             slots={{
-                stackProps: {
+                boxProps: {
                     sx: {
                         my: 'auto',
+                        display: 'flex',
+                        flexWrap: 'nowrap',
+                        alignItems: 'center',
+                        gap: `${pageGap.value}px`,
                         ...applyStyles(themeDirection === 'ltr', {
                             flexDirection: isLtrReadingDirection ? 'row' : 'row-reverse',
                             justifyContent: isLtrReadingDirection ? 'flex-start' : 'flex-end',
@@ -57,9 +62,6 @@ export const ReaderHorizontalPager = ({
                             flexDirection: isLtrReadingDirection ? 'row-reverse' : 'row',
                             justifyContent: isLtrReadingDirection ? 'flex-end' : 'flex-start',
                         }),
-                        flexWrap: 'nowrap',
-                        alignItems: 'center',
-                        gap: `${pageGap.value}px`,
                     },
                 },
             }}

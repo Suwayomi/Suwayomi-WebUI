@@ -6,8 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import Stack, { StackProps } from '@mui/material/Stack';
 import { ReactNode, useEffect, useMemo, useRef } from 'react';
+import Box, { BoxProps } from '@mui/material/Box';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { getImageWidthStyling, getPageIndexesToLoad } from '@/modules/reader/utils/ReaderPager.utils.tsx';
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types.ts';
@@ -29,7 +29,7 @@ export const BasePager = ({
         shouldDisplay: boolean,
         setRef: (element: HTMLElement | null) => void,
     ) => ReactNode;
-    slots?: { stackProps?: StackProps };
+    slots?: { boxProps?: BoxProps };
 }) => {
     const { readingMode, pageScaleMode, shouldStretchPage, readerWidth, imagePreLoadAmount } =
         ReaderService.useSettings();
@@ -44,10 +44,10 @@ export const BasePager = ({
     }, [pagesIndexesToRender]);
 
     return (
-        <Stack
-            {...slots?.stackProps}
+        <Box
+            {...slots?.boxProps}
             sx={[
-                ...(Array.isArray(slots?.stackProps?.sx) ? (slots?.stackProps?.sx ?? []) : [slots?.stackProps?.sx]),
+                ...(Array.isArray(slots?.boxProps?.sx) ? (slots?.boxProps?.sx ?? []) : [slots?.boxProps?.sx]),
                 getImageWidthStyling(
                     readingMode.value,
                     shouldStretchPage.value,
@@ -81,6 +81,6 @@ export const BasePager = ({
                 readingMode={readingMode.value}
                 pageScaleMode={pageScaleMode.value}
             />
-        </Stack>
+        </Box>
     );
 };

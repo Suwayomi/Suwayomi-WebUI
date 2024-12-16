@@ -162,9 +162,11 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
             )}
 
             {(isLoading || (src && !imageSourceUrl) || hasError) && (
-                <Box
+                <Stack
                     sx={{
                         height: '100%',
+                        justifyContent: 'center',
+                        alignItems: 'center',
                         ...spinnerStyle,
                     }}
                 >
@@ -193,7 +195,7 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
                             </>
                         )}
                     </Stack>
-                </Box>
+                </Stack>
             )}
         </>
     );

@@ -6,10 +6,10 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { BasePager } from '@/modules/reader/components/viewer/pager/BasePager.tsx';
 import { ReaderPagerProps, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
 import { createReaderPage } from '@/modules/reader/utils/ReaderPager.utils.tsx';
+import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 
 export const ReaderVerticalPager = ({
     onLoad,
@@ -22,7 +22,7 @@ export const ReaderVerticalPager = ({
 
     const { readingMode, pageGap } = ReaderService.useSettings();
     const isWebtoonMode = readingMode.value === ReadingMode.WEBTOON;
-    const actualPageGap = isWebtoonMode ? 0 : pageGap;
+    const actualPageGap = isWebtoonMode ? 0 : pageGap.value;
 
     return (
         <BasePager
@@ -39,19 +39,10 @@ export const ReaderVerticalPager = ({
                     pageLoadStates[page.primary.index].error ? retryFailedPagesKeyPrefix : undefined,
                     undefined,
                     undefined,
+                    page.primary.index !== 0 ? actualPageGap : 0,
                     setRef,
                 )
             }
-            slots={{
-                stackProps: {
-                    sx: {
-                        margin: 'auto',
-                        flexWrap: 'nowrap',
-                        alignItems: 'center',
-                        gap: `${actualPageGap}px`,
-                    },
-                },
-            }}
         />
     );
 };

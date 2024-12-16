@@ -97,17 +97,18 @@ export const ReaderDoublePagedPager = ({
                 );
             }}
             slots={{
-                stackProps: {
+                boxProps: {
                     sx: {
                         margin: 'auto',
+                        display: 'flex',
                         flexDirection: 'row',
+                        flexWrap: 'nowrap',
                         ...applyStyles(themeDirection === 'ltr', {
                             flexDirection: isLtrReadingDirection ? 'row' : 'row-reverse',
                         }),
                         ...applyStyles(themeDirection === 'rtl', {
                             flexDirection: isLtrReadingDirection ? 'row-reverse' : 'row',
                         }),
-                        flexWrap: 'nowrap',
                     },
                 },
             }}
