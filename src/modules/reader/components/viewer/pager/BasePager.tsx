@@ -11,8 +11,6 @@ import { ReactNode, useEffect, useMemo, useRef } from 'react';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { getImageWidthStyling, getPageIndexesToLoad } from '@/modules/reader/utils/ReaderPager.utils.tsx';
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types.ts';
-import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
-import { isContinuousReadingMode, isReaderWidthEditable } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
 import { ReaderPagerProps, ReaderTransitionPageMode } from '@/modules/reader/types/Reader.types.ts';
 import { ReaderTransitionPage } from '@/modules/reader/components/viewer/ReaderTransitionPage.tsx';
 
@@ -57,14 +55,6 @@ export const BasePager = ({
                     false,
                     readerWidth.value,
                 ),
-                applyStyles(!!readerWidth?.value.enabled && isReaderWidthEditable(pageScaleMode.value), {
-                    alignItems: 'center',
-                    // both continuous pagers have content that causes scrollbars, centering this content causes content
-                    // to be cut off
-                    ...applyStyles(!isContinuousReadingMode(readingMode.value), {
-                        justifyContent: 'center',
-                    }),
-                }),
             ]}
         >
             <ReaderTransitionPage

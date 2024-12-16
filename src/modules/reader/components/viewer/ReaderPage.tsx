@@ -10,7 +10,11 @@ import { ComponentProps, ForwardedRef, forwardRef } from 'react';
 import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { ReaderCustomFilter } from '@/modules/reader/types/Reader.types.ts';
-import { getImagePlaceholderStyling, getImageWidthStyling } from '@/modules/reader/utils/ReaderPager.utils.tsx';
+import {
+    getImageMarginStyling,
+    getImagePlaceholderStyling,
+    getImageWidthStyling,
+} from '@/modules/reader/utils/ReaderPager.utils.tsx';
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 import { useReaderScrollbarContext } from '@/modules/reader/contexts/ReaderScrollbarContext.tsx';
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
@@ -91,6 +95,7 @@ export const ReaderPage = forwardRef(
                     ...applyStyles(!display, {
                         display: 'none',
                     }),
+                    ...getImageMarginStyling(readingMode.value, doublePage, position),
                 }}
                 imgStyle={{
                     ...getImageWidthStyling(
@@ -109,6 +114,7 @@ export const ReaderPage = forwardRef(
                     objectFit: 'contain',
                     objectPosition: position,
                     userSelect: 'none',
+                    ...getImageMarginStyling(readingMode.value, doublePage, position),
                 }}
             />
         );

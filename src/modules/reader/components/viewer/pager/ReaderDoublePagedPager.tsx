@@ -101,8 +101,6 @@ export const ReaderDoublePagedPager = ({
                     sx: {
                         margin: 'auto',
                         flexDirection: 'row',
-                        justifyContent: 'center',
-                        alignItems: 'center',
                         ...applyStyles(themeDirection === 'ltr', {
                             flexDirection: isLtrReadingDirection ? 'row' : 'row-reverse',
                         }),

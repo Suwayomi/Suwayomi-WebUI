@@ -37,9 +37,11 @@ const getPageWidth = (
     pageScaleMode: IReaderSettings['pageScaleMode'],
     isDoublePage?: boolean,
     readerWidth?: IReaderSettings['readerWidth'],
+    shouldStretchPage?: IReaderSettings['shouldStretchPage'],
     isImage?: boolean,
 ): string => {
-    if (isImage && isDoublePage) {
+    // only return 50% in case pages should get stretched, otherwise, pages might unintentionally shrink in size (e.g. 2 pages with different dimensions, the bigger page will shrink due to taking up more than 50%)
+    if (isImage && isDoublePage && shouldStretchPage) {
         return '50%';
     }
 
@@ -133,7 +135,7 @@ export const getImageWidthStyling = (
     readerWidth?: IReaderSettings['readerWidth'],
     isImage?: boolean,
 ): CSSObject => {
-    const width = getPageWidth(pageScaleMode, isDoublePage, readerWidth, isImage);
+    const width = getPageWidth(pageScaleMode, isDoublePage, readerWidth, shouldStretchPage, isImage);
 
     // setting the "width" of the wrapper is required for being able to properly size the image placeholders
     const staticReaderWidthForWrapper = applyStyles(
@@ -184,6 +186,24 @@ export const getImageWidthStyling = (
             throw new Error(`Unexpected "PageScaleMode" (${pageScaleMode})`);
     }
 };
+
+export const getImageMarginStyling = (
+    readingMode: IReaderSettings['readingMode'],
+    doublePage: boolean,
+    objectFitPosition?: 'left' | 'right',
+): CSSObject => ({
+    ...applyStyles(!isContinuousReadingMode(readingMode), {
+        my: 'auto',
+        ...applyStyles(doublePage, {
+            // the applied margin is the opposite of the objectFitPosition
+            ...applyStyles(objectFitPosition === 'right', { ml: 'auto ' }),
+            ...applyStyles(objectFitPosition === 'left', { mr: 'auto ' }),
+        }),
+    }),
+    ...applyStyles(isContinuousReadingMode(readingMode), {
+        m: 'auto',
+    }),
+});
 
 export const createSinglePageData = (url: string, index: number): ReaderStatePages['pages'][number]['primary'] => ({
     index,
