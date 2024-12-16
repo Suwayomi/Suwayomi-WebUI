@@ -42,6 +42,8 @@ export const ReaderLayoutSettings = ({
         <ReaderSettingPageGap
             pageGap={settings.pageGap}
             readingMode={settings.readingMode}
+            isDefaultable={isDefaultable}
+            onDefault={() => onDefault?.('pageGap')}
             updateSetting={(...args) => updateSetting('pageGap', ...args)}
         />
         <ReaderSettingReadingDirection
@@ -88,6 +90,8 @@ export const ReaderLayoutSettings = ({
         <ReaderSettingWidth
             readerWidth={settings.readerWidth.value}
             pageScaleMode={settings.pageScaleMode.value}
+            isDefaultable={isDefaultable}
+            onDefault={() => onDefault?.('readerWidth')}
             updateSetting={(...args) => updateSetting(...args)}
         />
     </Stack>

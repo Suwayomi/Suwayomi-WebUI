@@ -9,21 +9,24 @@
 import Slider, { SliderProps } from '@mui/material/Slider';
 import Typography, { TypographyProps } from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
+import { ResetButton } from '@/modules/core/components/buttons/ResetButton.tsx';
 
 export const SliderInput = ({
     label,
     value,
+    onDefault,
     slotProps,
 }: {
     label: string;
     value: number | string;
+    onDefault?: () => void;
     slotProps?: {
         label?: TypographyProps;
         value?: TypographyProps;
         slider?: SliderProps;
     };
 }) => (
-    <Stack sx={{ flexDirection: 'row', gap: 1, alignItems: 'center' }}>
+    <Stack sx={{ flexDirection: 'row', gap: 2, alignItems: 'center' }}>
         <Stack sx={{ flexBasis: '25%' }}>
             <Typography {...slotProps?.label} sx={{ ...slotProps?.label?.sx }}>
                 {label}
@@ -33,5 +36,6 @@ export const SliderInput = ({
             </Typography>
         </Stack>
         <Slider {...slotProps?.slider} sx={{ flexBasis: '75%', ...slotProps?.slider?.sx }} />
+        {onDefault && <ResetButton onClick={onDefault} variant="outlined" />}
     </Stack>
 );

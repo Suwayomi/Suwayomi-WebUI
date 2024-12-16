@@ -9,11 +9,10 @@
 import Stack from '@mui/material/Stack';
 import { useTranslation } from 'react-i18next';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import { ReaderSettingsTypeProps } from '@/modules/reader/types/Reader.types.ts';
 import { ReaderSettingHotkey } from '@/modules/reader/components/settings/hotkeys/ReaderSettingHotkey.tsx';
 import { DEFAULT_READER_SETTINGS, READER_HOTKEYS } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
+import { ResetButton } from '@/modules/core/components/buttons/ResetButton.tsx';
 
 export const ReaderHotkeysSettings = ({ settings, updateSetting }: ReaderSettingsTypeProps) => {
     const { t } = useTranslation();
@@ -33,13 +32,7 @@ export const ReaderHotkeysSettings = ({ settings, updateSetting }: ReaderSetting
                 />
             ))}
             <Stack sx={{ alignItems: 'end' }}>
-                <Button
-                    variant="contained"
-                    startIcon={<RestartAltIcon />}
-                    onClick={() => updateSetting('hotkeys', DEFAULT_READER_SETTINGS.hotkeys)}
-                >
-                    {t('global.button.reset')}
-                </Button>
+                <ResetButton onClick={() => updateSetting('hotkeys', DEFAULT_READER_SETTINGS.hotkeys)} />
             </Stack>
         </Stack>
     );

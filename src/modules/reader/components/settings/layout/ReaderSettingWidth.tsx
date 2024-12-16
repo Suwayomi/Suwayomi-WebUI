@@ -14,14 +14,18 @@ import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { SliderInput } from '@/modules/core/components/inputs/SliderInput.tsx';
 import { DEFAULT_READER_SETTINGS } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 import { isReaderWidthEditable } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
+import { MultiValueButtonDefaultableProps } from '@/modules/core/Core.types.ts';
+import { ResetButton } from '@/modules/core/components/buttons/ResetButton.tsx';
 
 export const ReaderSettingWidth = ({
     readerWidth,
     pageScaleMode,
+    onDefault,
     updateSetting,
-}: Pick<IReaderSettings, 'readerWidth' | 'pageScaleMode'> & {
-    updateSetting: (...args: OmitFirst<Parameters<typeof ReaderService.updateSetting>>) => void;
-}) => {
+}: Pick<IReaderSettings, 'readerWidth' | 'pageScaleMode'> &
+    Pick<MultiValueButtonDefaultableProps<IReaderSettings['readerWidth']['value']>, 'isDefaultable' | 'onDefault'> & {
+        updateSetting: (...args: OmitFirst<Parameters<typeof ReaderService.updateSetting>>) => void;
+    }) => {
     const { t } = useTranslation();
 
     if (!isReaderWidthEditable(pageScaleMode)) {
@@ -30,11 +34,14 @@ export const ReaderSettingWidth = ({
 
     return (
         <Stack>
-            <CheckboxInput
-                label={t('reader.settings.label.limit_reader_width')}
-                checked={readerWidth.enabled}
-                onChange={(_, checked) => updateSetting('readerWidth', { ...readerWidth, enabled: checked }, true)}
-            />
+            <Stack sx={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                <CheckboxInput
+                    label={t('reader.settings.label.limit_reader_width')}
+                    checked={readerWidth.enabled}
+                    onChange={(_, checked) => updateSetting('readerWidth', { ...readerWidth, enabled: checked }, true)}
+                />
+                {onDefault && <ResetButton onClick={onDefault} variant="outlined" />}
+            </Stack>
             {readerWidth.enabled && (
                 <SliderInput
                     label={t('reader.settings.label.reader_width')}

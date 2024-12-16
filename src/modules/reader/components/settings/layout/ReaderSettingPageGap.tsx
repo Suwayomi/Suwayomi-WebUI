@@ -7,18 +7,21 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { IReaderSettingsWithDefaultFlag, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
+import { IReaderSettings, IReaderSettingsWithDefaultFlag, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
 import { SliderInput } from '@/modules/core/components/inputs/SliderInput.tsx';
 import { DEFAULT_READER_SETTINGS } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 import { isContinuousReadingMode } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
+import { MultiValueButtonDefaultableProps } from '@/modules/core/Core.types.ts';
 
 export const ReaderSettingPageGap = ({
     pageGap,
     readingMode,
+    onDefault,
     updateSetting,
-}: Pick<IReaderSettingsWithDefaultFlag, 'pageGap' | 'readingMode'> & {
-    updateSetting: (gap: number, commit: boolean) => void;
-}) => {
+}: Pick<IReaderSettingsWithDefaultFlag, 'pageGap' | 'readingMode'> &
+    Pick<MultiValueButtonDefaultableProps<IReaderSettings['pageGap']>, 'isDefaultable' | 'onDefault'> & {
+        updateSetting: (gap: number, commit: boolean) => void;
+    }) => {
     const { t } = useTranslation();
 
     const isChangeable = readingMode.value !== ReadingMode.WEBTOON && isContinuousReadingMode(readingMode.value);
@@ -30,6 +33,7 @@ export const ReaderSettingPageGap = ({
         <SliderInput
             label={t('reader.settings.label.page_gap')}
             value={t('global.value', { value: pageGap.value, unit: t('global.unit.px') })}
+            onDefault={onDefault}
             slotProps={{
                 slider: {
                     defaultValue: DEFAULT_READER_SETTINGS.readerWidth.value,
