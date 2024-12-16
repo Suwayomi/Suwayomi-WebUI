@@ -66,9 +66,6 @@ const APP_METADATA_OBJECT: Record<AppMetadataKeys, undefined> = {
     shouldShowPageNumber: undefined,
     backgroundColor: undefined,
     pageGap: undefined,
-    profiles: undefined,
-    readingModesDefaultProfile: undefined,
-    defaultProfile: undefined,
     hotkeys: undefined,
     imagePreLoadAmount: undefined,
 };
@@ -136,7 +133,6 @@ export const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
     'exitMode',
     'customFilter',
     'shouldSkipDupChapters',
-    'profiles',
     'hotkeys',
 ];
 

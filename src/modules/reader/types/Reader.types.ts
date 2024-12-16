@@ -119,8 +119,6 @@ export interface IReaderSettingsGlobal {
     shouldShowPageNumber: boolean;
     isStaticNav: boolean;
     backgroundColor: ReaderBackgroundColor;
-    profiles: string[];
-    readingModesDefaultProfile: Record<ReadingMode, string>;
     hotkeys: Record<ReaderHotkey, string[]>;
     imagePreLoadAmount: number;
 }
@@ -144,7 +142,6 @@ export interface IReaderSettingsManga {
         value: number;
         enabled: boolean;
     };
-    defaultProfile: string;
 }
 
 export interface IReaderSettings extends IReaderSettingsGlobal, IReaderSettingsManga {}
@@ -206,7 +203,6 @@ export enum ReaderHotkey {
     CYCLE_SCALE_TYPE,
     STRETCH_IMAGE,
     OFFSET_SPREAD_PAGES,
-    CYCLE_PROFILES,
 }
 
 export interface ReaderPagerProps

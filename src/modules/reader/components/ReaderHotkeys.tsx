@@ -74,16 +74,8 @@ export const ReaderHotkeys = ({
     const { enableScope, disableScope } = useHotkeysContext();
     const { manga } = useReaderStateMangaContext();
     const { isVisible, setIsVisible: setIsOverlayVisible } = useReaderOverlayContext();
-    const {
-        hotkeys,
-        pageScaleMode,
-        shouldStretchPage,
-        shouldOffsetDoubleSpreads,
-        readingMode,
-        readingDirection,
-        defaultProfile,
-        profiles,
-    } = ReaderService.useSettings();
+    const { hotkeys, pageScaleMode, shouldStretchPage, shouldOffsetDoubleSpreads, readingMode, readingDirection } =
+        ReaderService.useSettings();
 
     const openChapter = ReaderControls.useOpenChapter();
     const openPage = ReaderControls.useOpenPage();
@@ -165,17 +157,6 @@ export const ReaderHotkeys = ({
         () => updateSetting('shouldOffsetDoubleSpreads', !shouldOffsetDoubleSpreads.value),
         [updateSetting, shouldOffsetDoubleSpreads.value],
     );
-    useHotkeys(hotkeys[ReaderHotkey.CYCLE_PROFILES], () => {
-        updateSettingCycleThrough(
-            updateSetting,
-            deleteSetting,
-            'defaultProfile',
-            defaultProfile.value,
-            profiles,
-            defaultProfile.isDefault,
-            true,
-        );
-    });
 
     useEffect(() => {
         enableScope(HotkeyScope.READER);

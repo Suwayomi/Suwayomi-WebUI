@@ -13,7 +13,7 @@ import { LoadingPlaceholder } from '@/modules/core/components/placeholder/Loadin
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
-import { IReaderSettings } from '@/modules/reader/types/Reader.types.ts';
+import { IReaderSettings, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { ReaderSettingsTabs } from '@/modules/reader/components/settings/ReaderSettingsTabs.tsx';
 
@@ -42,7 +42,7 @@ export const GlobalReaderSettings = () => {
         key: Setting,
         value: IReaderSettings[Setting],
         commit?: boolean,
-        profile?: string,
+        profile?: ReadingMode,
     ) => {
         ReaderService.updateSetting({ id: -1 }, key, value, commit, true, profile);
     };

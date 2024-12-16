@@ -8,30 +8,40 @@
 
 import Stack from '@mui/material/Stack';
 import ListSubheader from '@mui/material/ListSubheader';
-import { ComponentProps } from 'react';
-import { useTranslation } from 'react-i18next';
+import { ComponentProps, useMemo } from 'react';
 import { ReaderLayoutSettings } from '@/modules/reader/components/settings/layout/ReaderLayoutSettings.tsx';
 import { useDefaultReaderSettingsWithDefaultFlag } from '@/modules/reader/services/ReaderSettingsMetadata.ts';
-import { DEFAULT_READER_PROFILE } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
+import { ReadingMode } from '@/modules/reader/types/Reader.types.ts';
 
 export const ReaderSettingProfileSettings = ({
     profile,
+    title,
     updateSetting,
     ...props
-}: Pick<ComponentProps<typeof ReaderLayoutSettings>, 'updateSetting'> & { profile: string }) => {
-    const { t } = useTranslation();
+}: Pick<ComponentProps<typeof ReaderLayoutSettings>, 'updateSetting'> & { profile: ReadingMode; title: string }) => {
     const { settings } = useDefaultReaderSettingsWithDefaultFlag(profile);
+
+    const adjustedSettings = useMemo(
+        () => ({
+            ...settings,
+            readingMode: {
+                value: profile,
+                isDefault: true,
+            },
+        }),
+        [settings, profile],
+    );
 
     return (
         <Stack sx={{ gap: 2 }}>
             <ListSubheader component="div" id={`${profile}-settings`}>
-                {profile === DEFAULT_READER_PROFILE ? t('global.label.standard') : profile}
+                {title}
             </ListSubheader>
             <Stack sx={{ px: 2 }}>
                 <ReaderLayoutSettings
                     {...props}
                     setShowPreview={() => {}}
-                    settings={settings}
+                    settings={adjustedSettings}
                     updateSetting={(setting, value, commit) => updateSetting(setting, value, commit, true, profile)}
                 />
             </Stack>

@@ -19,6 +19,7 @@ import {
     ReaderOverlayMode,
     ReaderResumeMode,
     ReadingDirection,
+    ReadingMode,
 } from '@/modules/reader/types/Reader.types.ts';
 import { useReaderStateMangaContext } from '@/modules/reader/contexts/state/ReaderStateMangaContext.tsx';
 import { updateReaderSettings } from '@/modules/reader/services/ReaderSettingsMetadata.ts';
@@ -228,12 +229,12 @@ export class ReaderService {
         value: IReaderSettings[Setting],
         commit: boolean = true,
         isGlobal: boolean = false,
-        profile?: string,
+        profile?: ReadingMode,
     ): void {
         if (!manga) {
             return;
         }
-        const key = getMetadataKey(setting, profile ? [profile] : undefined);
+        const key = getMetadataKey(setting, profile !== undefined ? [profile?.toString()] : undefined);
 
         const { cache } = requestManager.graphQLClient.client;
 
@@ -294,7 +295,7 @@ export class ReaderService {
             return;
         }
 
-        const key = getMetadataKey(setting, profile ? [profile] : undefined);
+        const key = getMetadataKey(setting, profile !== undefined ? [profile] : undefined);
 
         const { cache } = requestManager.graphQLClient.client;
 
@@ -315,7 +316,7 @@ export class ReaderService {
 
     static useCreateUpdateSetting<Setting extends keyof IReaderSettings>(
         manga: MangaIdInfo,
-        profile?: string,
+        profile?: ReadingMode,
     ): (
         ...args: OmitFirst<Parameters<typeof this.updateSetting<Setting>>>
     ) => ReturnType<typeof this.updateSetting<Setting>> {
@@ -328,12 +329,12 @@ export class ReaderService {
 
     static useCreateDeleteSetting<Setting extends keyof IReaderSettings>(
         manga: MangaIdInfo,
-        profile?: string,
+        profile?: ReadingMode,
     ): (
         ...args: OmitFirst<Parameters<typeof this.deleteSetting<Setting>>>
     ) => ReturnType<typeof this.deleteSetting<Setting>> {
         return useCallback(
-            (setting, isGlobal) => this.deleteSetting<Setting>(manga, setting, isGlobal, profile),
+            (setting, isGlobal) => this.deleteSetting<Setting>(manga, setting, isGlobal, profile?.toString()),
             [manga, profile],
         );
     }

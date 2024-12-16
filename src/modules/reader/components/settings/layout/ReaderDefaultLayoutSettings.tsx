@@ -8,53 +8,37 @@
 
 import Stack from '@mui/material/Stack';
 import { ComponentProps } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ReaderLayoutSettings } from '@/modules/reader/components/settings/layout/ReaderLayoutSettings.tsx';
-import { ReaderSettingProfiles } from '@/modules/reader/components/settings/layout/profiles/ReaderSettingProfiles.tsx';
-import { ReaderSettingReadingModesDefaultProfile } from '@/modules/reader/components/settings/layout/profiles/ReaderSettingReadingModesDefaultProfile.tsx';
 import { ReaderSettingProfileSettings } from '@/modules/reader/components/settings/layout/profiles/ReaderSettingProfileSettings.tsx';
-import { DEFAULT_READER_PROFILE } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
-import { IReaderSettings } from '@/modules/reader/types/Reader.types.ts';
+import {
+    READING_MODE_VALUE_TO_DISPLAY_DATA,
+    READING_MODE_VALUES,
+} from '@/modules/reader/constants/ReaderSettings.constants.tsx';
+import { ReaderSettingReadingMode } from '@/modules/reader/components/settings/layout/ReaderSettingReadingMode.tsx';
 
 export const ReaderDefaultLayoutSettings = (
     props: Omit<ComponentProps<typeof ReaderLayoutSettings>, 'setShowPreview'>,
 ) => {
     const { settings, updateSetting } = props;
 
+    const { t } = useTranslation();
+
     return (
         <Stack sx={{ gap: 2, pb: 2 }}>
-            <Stack sx={{ gap: 2 }}>
-                <ReaderSettingProfiles
-                    profiles={settings.profiles}
-                    updateSetting={(profiles, removedProfiles) => {
-                        if (removedProfiles.length) {
-                            updateSetting(
-                                'readingModesDefaultProfile',
-                                Object.fromEntries(
-                                    Object.entries(settings.readingModesDefaultProfile).map(
-                                        ([readingMode, profile]) => [
-                                            readingMode,
-                                            removedProfiles.includes(profile) ? DEFAULT_READER_PROFILE : profile,
-                                        ],
-                                    ),
-                                ) as IReaderSettings['readingModesDefaultProfile'],
-                            );
-                        }
-
-                        updateSetting('profiles', profiles);
-                    }}
+            <Stack sx={{ pt: 2, px: 2 }}>
+                <ReaderSettingReadingMode
+                    readingMode={settings.readingMode}
+                    setReadingMode={(value) => updateSetting('readingMode', value)}
                 />
-                <Stack sx={{ px: 2 }}>
-                    <ReaderSettingReadingModesDefaultProfile
-                        profiles={settings.profiles}
-                        readingModesDefaultProfile={settings.readingModesDefaultProfile}
-                        updateSetting={(readingModesDefaultProfile) =>
-                            updateSetting('readingModesDefaultProfile', readingModesDefaultProfile)
-                        }
-                    />
-                </Stack>
             </Stack>
-            {settings.profiles.map((profile) => (
-                <ReaderSettingProfileSettings key={profile} profile={profile} {...props} />
+            {READING_MODE_VALUES.map((readingMode) => (
+                <ReaderSettingProfileSettings
+                    key={readingMode}
+                    profile={readingMode}
+                    title={t(READING_MODE_VALUE_TO_DISPLAY_DATA[readingMode].title)}
+                    {...props}
+                />
             ))}
         </Stack>
     );

@@ -16,19 +16,9 @@ import { ReaderNavBarDesktopOffsetDoubleSpread } from '@/modules/reader/componen
 import { ReaderNavBarDesktopReadingDirection } from '@/modules/reader/components/overlay/navigation/desktop/quick-settings/ReaderNavBarDesktopReadingDirection.tsx';
 import { ReaderSettingsTypeProps } from '@/modules/reader/types/Reader.types.ts';
 import { ReaderNavBarDesktopProps } from '@/modules/reader/types/ReaderOverlay.types.ts';
-import { ReaderNavBarDesktopProfile } from '@/modules/reader/components/overlay/navigation/desktop/quick-settings/ReaderNavBarDesktopProfile.tsx';
 
 export const ReaderNavBarDesktopQuickSettings = ({
-    settings: {
-        defaultProfile,
-        profiles,
-        readingModesDefaultProfile,
-        readingMode,
-        shouldOffsetDoubleSpreads,
-        pageScaleMode,
-        shouldStretchPage,
-        readingDirection,
-    },
+    settings: { readingMode, shouldOffsetDoubleSpreads, pageScaleMode, shouldStretchPage, readingDirection },
     updateSetting,
     openSettings,
     isDefaultable,
@@ -38,15 +28,6 @@ export const ReaderNavBarDesktopQuickSettings = ({
 
     return (
         <Stack sx={{ gap: 1 }}>
-            <ReaderNavBarDesktopProfile
-                defaultProfile={defaultProfile}
-                profiles={profiles}
-                readingModesDefaultProfile={readingModesDefaultProfile}
-                readingMode={readingMode}
-                updateSetting={(value) => updateSetting('defaultProfile', value)}
-                isDefaultable={isDefaultable}
-                onDefault={() => onDefault?.('defaultProfile')}
-            />
             <ReaderNavBarDesktopReadingMode
                 readingMode={readingMode}
                 setReadingMode={(value) => updateSetting('readingMode', value)}

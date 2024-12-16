@@ -13,7 +13,7 @@ import {
     requestUpdateServerMetadata,
 } from '@/modules/metadata/services/MetadataUpdater.ts';
 import { MangaType } from '@/lib/graphql/generated/graphql.ts';
-import { IReaderSettings, IReaderSettingsWithDefaultFlag } from '@/modules/reader/types/Reader.types.ts';
+import { IReaderSettings, IReaderSettingsWithDefaultFlag, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
 import { convertFromGqlMeta } from '@/modules/metadata/services/MetadataConverter.ts';
 import { extractOriginalKey, getMetadataFrom } from '@/modules/metadata/services/MetadataReader.ts';
 import {
@@ -28,7 +28,6 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { jsonSaveParse } from '@/lib/HelperFunctions.ts';
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 import {
-    DEFAULT_READER_PROFILE,
     DEFAULT_READER_SETTINGS,
     GLOBAL_READER_SETTING_KEYS,
 } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
@@ -91,8 +90,6 @@ const convertSettingsToMetadata = (
     tapZoneInvertMode: JSON.stringify(settings.tapZoneInvertMode),
     customFilter: JSON.stringify(settings.customFilter),
     readerWidth: JSON.stringify(settings.readerWidth),
-    profiles: JSON.stringify(settings.profiles),
-    readingModesDefaultProfile: JSON.stringify(settings.readingModesDefaultProfile),
     hotkeys: JSON.stringify(settings.hotkeys),
 });
 
@@ -105,53 +102,36 @@ export const DEFAULT_READER_SETTINGS_WITH_DEFAULT_FLAG = convertToSettingsWithDe
 const convertMetadataToSettings = (
     metadata: Partial<Metadata<AppMetadataKeys, AllowedMetadataValueTypes>>,
     defaultSettings: IReaderSettings,
-): IReaderSettings => {
-    const profiles =
-        jsonSaveParse<IReaderSettings['profiles']>((metadata.profiles as string) ?? '') ?? defaultSettings.profiles;
-
-    return {
-        ...(metadata as unknown as IReaderSettings),
-        tapZoneInvertMode:
-            jsonSaveParse<IReaderSettings['tapZoneInvertMode']>((metadata.tapZoneInvertMode as string) ?? '') ??
-            defaultSettings.tapZoneInvertMode,
-        customFilter:
-            jsonSaveParse<IReaderSettings['customFilter']>((metadata.customFilter as string) ?? '') ??
-            defaultSettings.customFilter,
-        readerWidth:
-            jsonSaveParse<IReaderSettings['readerWidth']>((metadata.readerWidth as string) ?? '') ??
-            defaultSettings.readerWidth,
-        profiles,
-        readingModesDefaultProfile: Object.fromEntries(
-            Object.entries(
-                jsonSaveParse<IReaderSettings['readingModesDefaultProfile']>(
-                    (metadata.readingModesDefaultProfile as string) ?? '',
-                ) ?? defaultSettings.readingModesDefaultProfile,
-            ).map(([readingMode, profile]) => [
-                readingMode,
-                profiles.includes(profile) ? profile : DEFAULT_READER_PROFILE,
-            ]),
-        ) as IReaderSettings['readingModesDefaultProfile'],
-        hotkeys: {
-            ...defaultSettings.hotkeys,
-            ...(jsonSaveParse<IReaderSettings['hotkeys']>((metadata.hotkeys as string) ?? '') ??
-                defaultSettings.hotkeys),
-        },
-    };
-};
+): IReaderSettings => ({
+    ...(metadata as unknown as IReaderSettings),
+    tapZoneInvertMode:
+        jsonSaveParse<IReaderSettings['tapZoneInvertMode']>((metadata.tapZoneInvertMode as string) ?? '') ??
+        defaultSettings.tapZoneInvertMode,
+    customFilter:
+        jsonSaveParse<IReaderSettings['customFilter']>((metadata.customFilter as string) ?? '') ??
+        defaultSettings.customFilter,
+    readerWidth:
+        jsonSaveParse<IReaderSettings['readerWidth']>((metadata.readerWidth as string) ?? '') ??
+        defaultSettings.readerWidth,
+    hotkeys: {
+        ...defaultSettings.hotkeys,
+        ...(jsonSaveParse<IReaderSettings['hotkeys']>((metadata.hotkeys as string) ?? '') ?? defaultSettings.hotkeys),
+    },
+});
 
 export const getReaderSettings = (
     type: Extract<MetadataHolderType, 'global' | 'manga'>,
     metadataHolder: (MangaIdInfo & MetadataHolder) | MetadataHolder,
     defaultSettings: IReaderSettings = DEFAULT_READER_SETTINGS,
     useEffectFn?: typeof useEffect,
-    profile: string = DEFAULT_READER_PROFILE,
+    profile?: ReadingMode,
 ) =>
     convertMetadataToSettings(
         getMetadataFrom(
             type as Parameters<typeof getMetadataFrom>[0],
             metadataHolder as Parameters<typeof getMetadataFrom>[1],
             convertSettingsToMetadata(defaultSettings),
-            [profile],
+            profile !== undefined ? [profile.toString()] : undefined,
             true,
             useEffectFn,
         ),
@@ -163,21 +143,21 @@ function getReaderSettingsWithDefaultValueFallback(
     metadataHolder: MetadataHolder,
     defaultSettings?: IReaderSettings,
     useEffectFn?: typeof useEffect,
-    profile?: string,
+    profile?: ReadingMode,
 ): IReaderSettingsWithDefaultFlag;
 function getReaderSettingsWithDefaultValueFallback(
     type: 'manga',
     metadataHolder: MangaIdInfo & MetadataHolder,
     defaultSettings?: IReaderSettings,
     useEffectFn?: typeof useEffect,
-    profile?: string,
+    profile?: ReadingMode,
 ): IReaderSettingsWithDefaultFlag;
 function getReaderSettingsWithDefaultValueFallback(
     type: Extract<MetadataHolderType, 'global' | 'manga'>,
     metadataHolder: (MangaIdInfo & MetadataHolder) | MetadataHolder,
     defaultSettings: IReaderSettings = DEFAULT_READER_SETTINGS,
     useEffectFn?: typeof useEffect,
-    profile?: string,
+    profile?: ReadingMode,
 ): IReaderSettingsWithDefaultFlag {
     const settings = getReaderSettings(type, metadataHolder, defaultSettings, useEffectFn, profile);
     return convertToSettingsWithDefaultFlag(type, settings, metadataHolder);
@@ -187,7 +167,7 @@ const getSettings = (
     metaHolder: MangaIdInfo & GqlMetaHolder,
     defaultSettings?: IReaderSettings,
     useEffectFn?: typeof useEffect,
-    profile?: string,
+    profile?: ReadingMode,
 ): IReaderSettingsWithDefaultFlag =>
     getReaderSettingsWithDefaultValueFallback(
         'manga',
@@ -211,14 +191,14 @@ export const getReaderSettingsFor = (
 export const useGetReaderSettingsFor = (
     metaHolder: MangaIdInfo & GqlMetaHolder,
     defaultSettings: IReaderSettings,
-    profile?: string,
+    profile?: ReadingMode,
 ): IReaderSettingsWithDefaultFlag => {
     const settings = getSettings(metaHolder, defaultSettings, useEffect, profile);
     return useMemo(() => settings, [metaHolder, defaultSettings, profile]);
 };
 
 export const useDefaultReaderSettings = (
-    profile?: string,
+    profile?: ReadingMode,
 ): {
     metadata?: Metadata;
     settings: IReaderSettings;
@@ -244,7 +224,7 @@ export const useDefaultReaderSettings = (
 };
 
 export const useDefaultReaderSettingsWithDefaultFlag = (
-    profile?: string,
+    profile?: ReadingMode,
 ): {
     metadata?: Metadata;
     settings: IReaderSettingsWithDefaultFlag;
@@ -274,27 +254,27 @@ export const updateReaderSettings = async <Setting extends keyof IReaderSettings
     setting: Setting,
     value: IReaderSettings[Setting],
     isGlobal: boolean = false,
-    profile?: string,
+    profile?: ReadingMode,
 ): Promise<void[]> => {
     const isGlobalSetting = isGlobal || GLOBAL_READER_SETTING_KEYS.includes(setting);
     if (isGlobalSetting) {
         return requestUpdateServerMetadata(
             [[setting, convertSettingsToMetadata({ [setting]: value })[setting]]],
-            profile ? [profile] : undefined,
+            profile !== undefined ? [profile?.toString()] : undefined,
         );
     }
 
     return requestUpdateMangaMetadata(
         manga,
         [[setting, convertSettingsToMetadata({ [setting]: value })[setting]]],
-        profile ? [profile] : undefined,
+        profile !== undefined ? [profile?.toString()] : undefined,
     );
 };
 export const createUpdateReaderSettings =
     <Settings extends keyof IReaderSettings>(
         manga: Pick<MangaType, 'id'> & GqlMetaHolder,
         handleError: (error: any) => void = defaultPromiseErrorHandler('createUpdateReaderSettings'),
-        profile?: string,
+        profile?: ReadingMode,
     ): ((...args: OmitFirst<Parameters<typeof updateReaderSettings<Settings>>>) => Promise<void | void[]>) =>
     (setting, value, isGlobal) =>
         updateReaderSettings(manga, setting, value, isGlobal, profile).catch(handleError);

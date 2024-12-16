@@ -18,7 +18,6 @@ import { ReaderSettingStretchPage } from '@/modules/reader/components/settings/l
 import { ReaderSettingsTypeProps } from '@/modules/reader/types/Reader.types.ts';
 import { ReaderSettingPageGap } from '@/modules/reader/components/settings/layout/ReaderSettingPageGap.tsx';
 import { ReaderSettingWidth } from '@/modules/reader/components/settings/layout/ReaderSettingWidth.tsx';
-import { ReaderSettingProfile } from '@/modules/reader/components/settings/layout/profiles/ReaderSettingProfile.tsx';
 import { DefaultSettingFootnote } from '@/modules/reader/components/settings/DefaultSettingFootnote.tsx';
 
 export const ReaderLayoutSettings = ({
@@ -33,20 +32,13 @@ export const ReaderLayoutSettings = ({
     <Stack sx={{ gap: 2 }}>
         <DefaultSettingFootnote />
         {isDefaultable && (
-            <ReaderSettingProfile
-                defaultProfile={settings.defaultProfile}
-                profiles={settings.profiles}
-                updateSetting={(value) => updateSetting('defaultProfile', value)}
+            <ReaderSettingReadingMode
+                readingMode={settings.readingMode}
+                setReadingMode={(value) => updateSetting('readingMode', value)}
                 isDefaultable={isDefaultable}
-                onDefault={() => onDefault?.('defaultProfile')}
+                onDefault={() => onDefault?.('readingMode')}
             />
         )}
-        <ReaderSettingReadingMode
-            readingMode={settings.readingMode}
-            setReadingMode={(value) => updateSetting('readingMode', value)}
-            isDefaultable={isDefaultable}
-            onDefault={() => onDefault?.('readingMode')}
-        />
         <ReaderSettingPageGap
             pageGap={settings.pageGap}
             readingMode={settings.readingMode}

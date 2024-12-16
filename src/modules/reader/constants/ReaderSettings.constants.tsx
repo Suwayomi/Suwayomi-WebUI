@@ -34,7 +34,7 @@ import { ContinuousHorizontalPageIcon } from '@/assets/icons/svg/ContinuousHoriz
 import { TranslationKey } from '@/Base.types.ts';
 import { TapZoneLayouts } from '@/modules/reader/types/TapZoneLayout.types.ts';
 
-export const DEFAULT_READER_PROFILE = 'default';
+export const DEFAULT_READER_PROFILE = ReadingMode.SINGLE_PAGE;
 
 export const READING_DIRECTION_TO_THEME_DIRECTION: Record<ReadingDirection, Direction> = {
     [ReadingDirection.LTR]: 'ltr',
@@ -52,8 +52,6 @@ const GLOBAL_READER_SETTING_OBJECT: Record<keyof IReaderSettingsGlobal, undefine
     shouldShowPageNumber: undefined,
     isStaticNav: undefined,
     backgroundColor: undefined,
-    profiles: undefined,
-    readingModesDefaultProfile: undefined,
     hotkeys: undefined,
     imagePreLoadAmount: undefined,
 };
@@ -109,14 +107,6 @@ export const DEFAULT_READER_SETTINGS: IReaderSettings = {
         invert: false,
     },
     pageGap: 5,
-    profiles: [DEFAULT_READER_PROFILE],
-    readingModesDefaultProfile: {
-        [ReadingMode.SINGLE_PAGE]: DEFAULT_READER_PROFILE,
-        [ReadingMode.DOUBLE_PAGE]: DEFAULT_READER_PROFILE,
-        [ReadingMode.CONTINUOUS_VERTICAL]: DEFAULT_READER_PROFILE,
-        [ReadingMode.CONTINUOUS_HORIZONTAL]: DEFAULT_READER_PROFILE,
-    },
-    defaultProfile: DEFAULT_READER_PROFILE,
     hotkeys: {
         [ReaderHotkey.PREVIOUS_PAGE]: ['arrowleft', 'a'],
         [ReaderHotkey.NEXT_PAGE]: ['arrowright', 'd'],
@@ -128,7 +118,6 @@ export const DEFAULT_READER_SETTINGS: IReaderSettings = {
         [ReaderHotkey.CYCLE_SCALE_TYPE]: ['i'],
         [ReaderHotkey.STRETCH_IMAGE]: ['f'],
         [ReaderHotkey.OFFSET_SPREAD_PAGES]: ['o'],
-        [ReaderHotkey.CYCLE_PROFILES]: ['p'],
     },
     imagePreLoadAmount: 5,
 };
