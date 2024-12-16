@@ -151,6 +151,10 @@ export const getImageWidthStyling = (
     switch (pageScaleMode) {
         case ReaderPageScaleMode.WIDTH:
             return {
+                minWidth: 0,
+                ...applyStyles(isContinuousReadingMode(readingMode), {
+                    minWidth: 'unset',
+                }),
                 ...applyStyles(shouldStretchPage, {
                     minWidth: width,
                     ...readerWidthStretchForWrapper,
@@ -160,6 +164,10 @@ export const getImageWidthStyling = (
             };
         case ReaderPageScaleMode.HEIGHT:
             return {
+                minHeight: 0,
+                ...applyStyles(isContinuousReadingMode(readingMode), {
+                    minHeight: 'unset',
+                }),
                 ...applyStyles(shouldStretchPage, {
                     minHeight: '100%',
                 }),
@@ -167,6 +175,12 @@ export const getImageWidthStyling = (
             };
         case ReaderPageScaleMode.SCREEN:
             return {
+                minWidth: 0,
+                minHeight: 0,
+                ...applyStyles(isContinuousReadingMode(readingMode), {
+                    minWidth: 'unset',
+                    minHeight: 'unset',
+                }),
                 ...applyStyles(shouldStretchPage, {
                     minWidth: width,
                     minHeight: '100%',
