@@ -16,6 +16,7 @@ import { MultiValueButtonDefaultableProps } from '@/modules/core/Core.types.ts';
 export const ReaderSettingPageGap = ({
     pageGap,
     readingMode,
+    isDefaultable,
     onDefault,
     updateSetting,
 }: Pick<IReaderSettingsWithDefaultFlag, 'pageGap' | 'readingMode'> &
@@ -33,7 +34,7 @@ export const ReaderSettingPageGap = ({
         <SliderInput
             label={t('reader.settings.label.page_gap')}
             value={t('global.value', { value: pageGap.value, unit: t('global.unit.px') })}
-            onDefault={onDefault}
+            onDefault={isDefaultable ? onDefault : undefined}
             slotProps={{
                 slider: {
                     defaultValue: DEFAULT_READER_SETTINGS.readerWidth.value,

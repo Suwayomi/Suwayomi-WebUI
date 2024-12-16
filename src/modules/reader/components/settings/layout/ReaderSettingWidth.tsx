@@ -20,6 +20,7 @@ import { ResetButton } from '@/modules/core/components/buttons/ResetButton.tsx';
 export const ReaderSettingWidth = ({
     readerWidth,
     pageScaleMode,
+    isDefaultable,
     onDefault,
     updateSetting,
 }: Pick<IReaderSettings, 'readerWidth' | 'pageScaleMode'> &
@@ -40,7 +41,7 @@ export const ReaderSettingWidth = ({
                     checked={readerWidth.enabled}
                     onChange={(_, checked) => updateSetting('readerWidth', { ...readerWidth, enabled: checked }, true)}
                 />
-                {onDefault && <ResetButton onClick={onDefault} variant="outlined" />}
+                {isDefaultable && <ResetButton onClick={onDefault} variant="outlined" />}
             </Stack>
             {readerWidth.enabled && (
                 <SliderInput
