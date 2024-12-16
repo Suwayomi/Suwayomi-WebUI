@@ -40,6 +40,7 @@ import { DirectionOffset } from '@/Base.types.ts';
 import {
     getChapterIdsForDownloadAhead,
     getChapterIdsToDeleteForChapterUpdate,
+    getReaderChapterFromCache,
 } from '@/modules/reader/utils/Reader.utils.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { Queue } from '@/lib/Queue.ts';
@@ -132,6 +133,23 @@ export class ReaderService {
                 const chapterIdsToUpdate = Chapters.getIds(
                     shouldSkipDupChapters ? Chapters.addDuplicates([currentChapter], mangaChapters) : [currentChapter],
                 );
+
+                const isUpdateRequired = chapterIdsToUpdate.some((id) => {
+                    const chapterUpToDateData = getReaderChapterFromCache(id);
+                    if (!chapterUpToDateData) {
+                        return false;
+                    }
+
+                    return (
+                        (patch.isRead !== undefined && patch.isRead !== chapterUpToDateData.isRead) ||
+                        (patch.lastPageRead !== undefined && patch.lastPageRead !== chapterUpToDateData.lastPageRead) ||
+                        (patch.isBookmarked !== undefined && patch.isBookmarked !== chapterUpToDateData.isBookmarked)
+                    );
+                });
+                if (!isUpdateRequired) {
+                    return;
+                }
+
                 const chapterIdsToDelete = getChapterIdsToDeleteForChapterUpdate(
                     currentChapter,
                     mangaChapters,
