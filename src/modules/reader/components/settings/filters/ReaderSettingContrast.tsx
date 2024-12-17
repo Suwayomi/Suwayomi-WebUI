@@ -36,6 +36,13 @@ export const ReaderSettingContrast = ({
                 <SliderInput
                     label={t('reader.settings.custom_filter.contrast')}
                     value={contrast.value}
+                    onDefault={() =>
+                        updateSetting(
+                            'contrast',
+                            { ...contrast, value: DEFAULT_READER_SETTINGS.customFilter.contrast.value },
+                            true,
+                        )
+                    }
                     slotProps={{
                         slider: {
                             defaultValue: DEFAULT_READER_SETTINGS.customFilter.contrast.value,

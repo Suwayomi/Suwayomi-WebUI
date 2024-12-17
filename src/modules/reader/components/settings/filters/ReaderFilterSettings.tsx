@@ -16,6 +16,8 @@ import { ReaderSettingSepia } from '@/modules/reader/components/settings/filters
 import { ReaderSettingGrayscale } from '@/modules/reader/components/settings/filters/ReaderSettingGrayscale.tsx';
 import { ReaderSettingInvert } from '@/modules/reader/components/settings/filters/ReaderSettingInvert.tsx';
 import { ReaderSettingsTypeProps } from '@/modules/reader/types/Reader.types.ts';
+import { ResetButton } from '@/modules/core/components/buttons/ResetButton.tsx';
+import { DEFAULT_READER_SETTINGS } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 
 export const ReaderFilterSettings = ({ settings: { customFilter }, updateSetting }: ReaderSettingsTypeProps) => (
     <Stack sx={{ gap: 2 }}>
@@ -111,5 +113,11 @@ export const ReaderFilterSettings = ({ settings: { customFilter }, updateSetting
                 })
             }
         />
+        <Stack sx={{ alignItems: 'end' }}>
+            <ResetButton
+                onClick={() => updateSetting('customFilter', DEFAULT_READER_SETTINGS.customFilter)}
+                variant="outlined"
+            />
+        </Stack>
     </Stack>
 );

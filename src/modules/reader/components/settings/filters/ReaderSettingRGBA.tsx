@@ -57,6 +57,19 @@ export const ReaderSettingRGBA = ({
                             key={key}
                             label={t(RGBA_TYPE_TO_TRANSLATION_KEY[key as RGBAType])}
                             value={value}
+                            onDefault={() =>
+                                updateSetting(
+                                    'rgba',
+                                    {
+                                        ...rgba,
+                                        value: {
+                                            ...rgba.value,
+                                            [key]: DEFAULT_READER_SETTINGS.customFilter.rgba.value[key as RGBAType],
+                                        },
+                                    },
+                                    true,
+                                )
+                            }
                             slotProps={{
                                 slider: {
                                     value,

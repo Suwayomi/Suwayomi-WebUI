@@ -9,7 +9,6 @@
 import Stack from '@mui/material/Stack';
 import { useTranslation } from 'react-i18next';
 import AddIcon from '@mui/icons-material/Add';
-import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
 import { bindTrigger, usePopupState } from 'material-ui-popup-state/hooks';
@@ -19,6 +18,7 @@ import { DEFAULT_READER_SETTINGS } from '@/modules/reader/constants/ReaderSettin
 import { TranslationKey } from '@/Base.types.ts';
 import { RecordHotkey } from '@/modules/reader/components/settings/hotkeys/RecordHotkey.tsx';
 import { Hotkey } from '@/modules/reader/components/settings/hotkeys/Hotkey.tsx';
+import { ResetButton } from '@/modules/core/components/buttons/ResetButton.tsx';
 
 const READER_HOTKEY_TO_TITLE: Record<ReaderHotkey, TranslationKey> = {
     [ReaderHotkey.PREVIOUS_PAGE]: 'reader.settings.hotkey.previous_page',
@@ -62,11 +62,7 @@ export const ReaderSettingHotkey = ({
                         <AddIcon />
                     </IconButton>
                 </Tooltip>
-                <Tooltip title={t('global.button.reset')}>
-                    <IconButton onClick={() => updateSetting(DEFAULT_READER_SETTINGS.hotkeys[hotkey])} color="inherit">
-                        <RestartAltIcon />
-                    </IconButton>
-                </Tooltip>
+                <ResetButton asIconButton onClick={() => updateSetting(DEFAULT_READER_SETTINGS.hotkeys[hotkey])} />
             </Stack>
             {popupState.isOpen && (
                 <RecordHotkey

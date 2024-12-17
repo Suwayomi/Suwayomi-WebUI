@@ -32,7 +32,10 @@ export const ReaderHotkeysSettings = ({ settings, updateSetting }: ReaderSetting
                 />
             ))}
             <Stack sx={{ alignItems: 'end' }}>
-                <ResetButton onClick={() => updateSetting('hotkeys', DEFAULT_READER_SETTINGS.hotkeys)} />
+                <ResetButton
+                    onClick={() => updateSetting('hotkeys', DEFAULT_READER_SETTINGS.hotkeys)}
+                    variant="outlined"
+                />
             </Stack>
         </Stack>
     );

@@ -36,6 +36,6 @@ export const SliderInput = ({
             </Typography>
         </Stack>
         <Slider {...slotProps?.slider} sx={{ flexBasis: '75%', ...slotProps?.slider?.sx }} />
-        {onDefault && <ResetButton onClick={onDefault} variant="outlined" />}
+        {onDefault && <ResetButton asIconButton onClick={onDefault} />}
     </Stack>
 );

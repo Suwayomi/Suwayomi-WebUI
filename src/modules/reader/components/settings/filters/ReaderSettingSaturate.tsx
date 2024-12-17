@@ -36,6 +36,13 @@ export const ReaderSettingSaturate = ({
                 <SliderInput
                     label={t('reader.settings.custom_filter.saturate')}
                     value={saturate.value}
+                    onDefault={() =>
+                        updateSetting(
+                            'saturate',
+                            { ...saturate, value: DEFAULT_READER_SETTINGS.customFilter.saturate.value },
+                            true,
+                        )
+                    }
                     slotProps={{
                         slider: {
                             defaultValue: DEFAULT_READER_SETTINGS.customFilter.saturate.value,

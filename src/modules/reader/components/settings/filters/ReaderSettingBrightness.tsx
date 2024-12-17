@@ -37,6 +37,13 @@ export const ReaderSettingBrightness = ({
                 <SliderInput
                     label={t('reader.settings.custom_filter.brightness')}
                     value={brightness.value}
+                    onDefault={() =>
+                        updateSetting(
+                            'brightness',
+                            { ...brightness, value: DEFAULT_READER_SETTINGS.customFilter.brightness.value },
+                            true,
+                        )
+                    }
                     slotProps={{
                         slider: {
                             defaultValue: DEFAULT_READER_SETTINGS.customFilter.brightness.value,

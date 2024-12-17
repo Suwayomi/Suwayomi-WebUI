@@ -36,6 +36,9 @@ export const ReaderSettingHue = ({
                 <SliderInput
                     label={t('reader.settings.custom_filter.hue')}
                     value={hue.value}
+                    onDefault={() =>
+                        updateSetting('hue', { ...hue, value: DEFAULT_READER_SETTINGS.customFilter.hue.value }, true)
+                    }
                     slotProps={{
                         slider: {
                             defaultValue: DEFAULT_READER_SETTINGS.customFilter.hue.value,
