@@ -17,6 +17,7 @@ import { getNextRotationValue } from '@/modules/core/utils/ValueRotationButton.u
 import {
     READER_PAGE_SCALE_MODE_VALUES,
     ReaderScrollAmount,
+    READING_MODE_VALUES,
 } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 import { useReaderStateMangaContext } from '@/modules/reader/contexts/state/ReaderStateMangaContext.tsx';
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
@@ -146,7 +147,7 @@ export const ReaderHotkeys = ({
                 true,
             );
         },
-        [updateSetting, deleteSetting, pageScaleMode],
+        [updateSetting, deleteSetting, pageScaleMode.value, pageScaleMode.isDefault],
     );
     useHotkeys(
         hotkeys[ReaderHotkey.STRETCH_IMAGE],
@@ -157,6 +158,21 @@ export const ReaderHotkeys = ({
         hotkeys[ReaderHotkey.OFFSET_SPREAD_PAGES],
         () => updateSetting('shouldOffsetDoubleSpreads', !shouldOffsetDoubleSpreads.value),
         [updateSetting, shouldOffsetDoubleSpreads.value],
+    );
+    useHotkeys(
+        hotkeys[ReaderHotkey.CYCLE_READING_MODE],
+        () => {
+            updateSettingCycleThrough(
+                updateSetting,
+                deleteSetting,
+                'readingMode',
+                readingMode.value,
+                READING_MODE_VALUES,
+                readingMode.isDefault,
+                true,
+            );
+        },
+        [updateSetting, deleteSetting, readingMode.value, readingMode.isDefault],
     );
 
     useEffect(() => {

@@ -869,6 +869,7 @@
         "offset_spread_pages": "Toggle offset spread pages",
         "previous_chapter": "Previous chapter",
         "previous_page": "Previous page",
+        "reading_mode": "Cycle reading mode",
         "scale_type": "Cycle image scale type",
         "scroll_backward": "Scroll backward",
         "scroll_forward": "Scroll forward",
@@ -1006,13 +1007,13 @@
           "failure": "Could not delete theme \"{{theme}}\"",
           "success": "Deleted theme \"{{theme}}\""
         },
-        "mode": "Theme mode",
         "edit": {
           "action": "Saving theme changes…",
           "failure": "Could not save theme changes",
           "success": "Saved theme changes",
           "title": "Edit theme"
         },
+        "mode": "Theme mode",
         "pure_black_mode": "Pure black dark mode",
         "select": {
           "fonts": {

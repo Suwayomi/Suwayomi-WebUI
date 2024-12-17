@@ -119,6 +119,7 @@ export const DEFAULT_READER_SETTINGS: IReaderSettings = {
         [ReaderHotkey.CYCLE_SCALE_TYPE]: ['i'],
         [ReaderHotkey.STRETCH_IMAGE]: ['f'],
         [ReaderHotkey.OFFSET_SPREAD_PAGES]: ['o'],
+        [ReaderHotkey.CYCLE_READING_MODE]: ['r'],
     },
     imagePreLoadAmount: 5,
 };
