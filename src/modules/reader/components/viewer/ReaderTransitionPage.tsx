@@ -92,6 +92,10 @@ export const ReaderTransitionPage = ({
             sx={{
                 justifyContent: 'center',
                 alignItems: 'center',
+                ...applyStyles(!isContinuousReadingMode(readingMode), {
+                    width: '100%',
+                    height: '100%',
+                }),
                 ...applyStyles(isContinuousReadingMode(readingMode), {
                     position: 'relative',
                     transform: 'scale(1)',
