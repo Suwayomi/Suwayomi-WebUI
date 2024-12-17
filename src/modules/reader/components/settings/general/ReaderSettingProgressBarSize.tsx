@@ -30,6 +30,7 @@ export const ReaderSettingProgressBarSize = ({
         <SliderInput
             label={t('reader.settings.progress_bar.size')}
             value={t('global.value', { value: progressBarSize, unit: t('global.unit.px') })}
+            onDefault={() => setProgressBarSize(DEFAULT_READER_SETTINGS.progressBarSize, true)}
             slotProps={{
                 slider: {
                     defaultValue: DEFAULT_READER_SETTINGS.progressBarSize,
