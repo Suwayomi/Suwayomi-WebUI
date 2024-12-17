@@ -48,6 +48,7 @@ export const ReaderBehaviourSettings = ({
             <SliderInput
                 label={t('reader.settings.image_preload_amount')}
                 value={settings.imagePreLoadAmount}
+                onDefault={() => updateSetting('imagePreLoadAmount', DEFAULT_READER_SETTINGS.imagePreLoadAmount, true)}
                 slotProps={{
                     slider: {
                         defaultValue: DEFAULT_READER_SETTINGS.imagePreLoadAmount,
