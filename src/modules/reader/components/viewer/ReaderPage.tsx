@@ -97,7 +97,7 @@ export const ReaderPage = forwardRef(
                     ...applyStyles(!display, {
                         display: 'none',
                     }),
-                    ...getImageMarginStyling(readingMode.value, doublePage, position),
+                    ...getImageMarginStyling(doublePage, position),
                     ...applyStyles(marginTop !== undefined, {
                         mt: `${marginTop}px`,
                     }),
@@ -119,7 +119,7 @@ export const ReaderPage = forwardRef(
                     objectFit: 'contain',
                     objectPosition: position,
                     userSelect: 'none',
-                    ...getImageMarginStyling(readingMode.value, doublePage, position),
+                    ...getImageMarginStyling(doublePage, position),
                     ...applyStyles(marginTop !== undefined, {
                         mt: `${marginTop}px`,
                     }),

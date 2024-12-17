@@ -205,21 +205,12 @@ export const getImageWidthStyling = (
     }
 };
 
-export const getImageMarginStyling = (
-    readingMode: IReaderSettings['readingMode'],
-    doublePage: boolean,
-    objectFitPosition?: 'left' | 'right',
-): CSSObject => ({
-    ...applyStyles(!isContinuousReadingMode(readingMode), {
-        my: 'auto',
-        ...applyStyles(doublePage, {
-            // the applied margin is the opposite of the objectFitPosition
-            ...applyStyles(objectFitPosition === 'right', { ml: 'auto ' }),
-            ...applyStyles(objectFitPosition === 'left', { mr: 'auto ' }),
-        }),
-    }),
-    ...applyStyles(isContinuousReadingMode(readingMode), {
-        m: 'auto',
+export const getImageMarginStyling = (doublePage: boolean, objectFitPosition?: 'left' | 'right'): CSSObject => ({
+    m: 'auto',
+    ...applyStyles(doublePage, {
+        // the applied margin is the opposite of the objectFitPosition
+        ...applyStyles(objectFitPosition === 'right', { ml: 'auto ' }),
+        ...applyStyles(objectFitPosition === 'left', { mr: 'auto ' }),
     }),
 });
 
