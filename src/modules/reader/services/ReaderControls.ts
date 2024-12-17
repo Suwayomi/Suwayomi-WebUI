@@ -258,6 +258,7 @@ export class ReaderControls {
             () => getNextPageIndex('next', currentPage.pagesIndex, pages),
             [currentPage, pages],
         );
+        const indexOfFirstPage = getNextIndexFromPage(pages[0]);
         const indexOfLastPage = getNextIndexFromPage(pages[pages.length - 1]);
         const direction = READING_DIRECTION_TO_THEME_DIRECTION[readingDirection.value];
 
@@ -310,6 +311,7 @@ export class ReaderControls {
 
                         if (needToHideTransitionPage) {
                             hideTransitionPage();
+                            setPageToScrollToIndex(indexOfLastPage);
                             return;
                         }
 
@@ -323,6 +325,7 @@ export class ReaderControls {
 
                         if (needToHideTransitionPage) {
                             hideTransitionPage();
+                            setPageToScrollToIndex(indexOfFirstPage);
                             return;
                         }
 
@@ -334,6 +337,8 @@ export class ReaderControls {
             },
             [
                 direction,
+                indexOfFirstPage,
+                indexOfLastPage,
                 previousPageIndex,
                 nextPageIndex,
                 indexOfLastPage,
