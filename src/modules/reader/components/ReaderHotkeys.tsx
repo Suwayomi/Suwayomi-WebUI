@@ -17,6 +17,7 @@ import { getNextRotationValue } from '@/modules/core/utils/ValueRotationButton.u
 import {
     READER_PAGE_SCALE_MODE_VALUES,
     ReaderScrollAmount,
+    READING_DIRECTION_VALUES,
     READING_MODE_VALUES,
 } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 import { useReaderStateMangaContext } from '@/modules/reader/contexts/state/ReaderStateMangaContext.tsx';
@@ -173,6 +174,21 @@ export const ReaderHotkeys = ({
             );
         },
         [updateSetting, deleteSetting, readingMode.value, readingMode.isDefault],
+    );
+    useHotkeys(
+        hotkeys[ReaderHotkey.CYCLE_READING_DIRECTION],
+        () => {
+            updateSettingCycleThrough(
+                updateSetting,
+                deleteSetting,
+                'readingDirection',
+                readingDirection.value,
+                READING_DIRECTION_VALUES,
+                readingDirection.isDefault,
+                true,
+            );
+        },
+        [updateSetting, deleteSetting, readingDirection.value, readingDirection.isDefault],
     );
 
     useEffect(() => {

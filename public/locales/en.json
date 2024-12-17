@@ -869,6 +869,7 @@
         "offset_spread_pages": "Toggle offset spread pages",
         "previous_chapter": "Previous chapter",
         "previous_page": "Previous page",
+        "reading_direction": "Cycle reading direction",
         "reading_mode": "Cycle reading mode",
         "scale_type": "Cycle image scale type",
         "scroll_backward": "Scroll backward",
