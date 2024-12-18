@@ -118,6 +118,7 @@ export const ReaderNavBarDesktop = ({ isVisible, openSettings }: ReaderNavBarDes
                                 mangaId={manga.id}
                                 mangaTitle={manga.title}
                                 chapterTitle={currentChapter.name}
+                                scanlator={currentChapter.scanlator}
                             />
                             <ReaderNavBarDesktopActions
                                 currentChapter={currentChapter}

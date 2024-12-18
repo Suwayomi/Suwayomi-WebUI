@@ -18,10 +18,12 @@ export const ReaderNavBarDesktopMetadata = ({
     mangaId,
     mangaTitle,
     chapterTitle,
+    scanlator,
 }: {
     mangaId: number;
     mangaTitle: string;
     chapterTitle: string;
+    scanlator?: string | null;
 }) => (
     <Stack>
         <Tooltip title={mangaTitle} placement="right">
@@ -40,5 +42,18 @@ export const ReaderNavBarDesktopMetadata = ({
                 {chapterTitle}
             </TypographyMaxLines>
         </Tooltip>
+        {scanlator && (
+            <Tooltip title={scanlator} placement="right">
+                <TypographyMaxLines
+                    lines={4}
+                    variant="body2"
+                    component="h3"
+                    color="textDisabled"
+                    sx={{ textAlign: 'center' }}
+                >
+                    {scanlator}
+                </TypographyMaxLines>
+            </Tooltip>
+        )}
     </Stack>
 );
