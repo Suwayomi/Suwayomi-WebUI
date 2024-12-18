@@ -24,25 +24,6 @@ import { ReaderBehaviourSettings } from '@/modules/reader/components/settings/be
 import { ReaderDefaultLayoutSettings } from '@/modules/reader/components/settings/layout/ReaderDefaultLayoutSettings.tsx';
 import { ReaderHotkeysSettings } from '@/modules/reader/components/settings/hotkeys/ReaderHotkeysSettings.tsx';
 
-interface BaseProps {
-    activeTab: number;
-    setActiveTab: (tab: number) => void;
-    settings: IReaderSettingsWithDefaultFlag;
-    updateSetting: (...args: OmitFirst<Parameters<typeof ReaderService.updateSetting>>) => void;
-}
-
-interface DefaultSettingsProps extends BaseProps {
-    areDefaultSettings: true;
-}
-
-interface MangaSettingsProps extends BaseProps {
-    deleteSetting: (setting: keyof IReaderSettings) => void;
-}
-
-type Props =
-    | (DefaultSettingsProps & PropertiesNever<Omit<MangaSettingsProps, keyof BaseProps>>)
-    | (PropertiesNever<Omit<DefaultSettingsProps, keyof BaseProps>> & MangaSettingsProps);
-
 export const ReaderSettingsTabs = ({
     activeTab,
     setActiveTab,
@@ -50,7 +31,14 @@ export const ReaderSettingsTabs = ({
     settings,
     updateSetting,
     deleteSetting,
-}: Props) => {
+}: {
+    activeTab: number;
+    setActiveTab: (tab: number) => void;
+    settings: IReaderSettingsWithDefaultFlag;
+    updateSetting: (...args: OmitFirst<Parameters<typeof ReaderService.updateSetting>>) => void;
+    areDefaultSettings?: boolean;
+    deleteSetting: (setting: keyof IReaderSettings) => void;
+}) => {
     const { t } = useTranslation();
     const { setShowPreview } = useReaderTapZoneContext();
     const isTouchDevice = MediaQuery.useIsTouchDevice();
@@ -144,6 +132,8 @@ export const ReaderSettingsTabs = ({
                                     <ReaderFilterSettings
                                         settings={settings}
                                         updateSetting={(...args) => updateSetting(...args)}
+                                        isDefaultable
+                                        onDefault={(...args) => deleteSetting?.(...args)}
                                     />
                                 </TabPanel>
                             );
@@ -158,6 +148,8 @@ export const ReaderSettingsTabs = ({
                                     <ReaderBehaviourSettings
                                         settings={settings}
                                         updateSetting={(...args) => updateSetting(...args)}
+                                        isDefaultable
+                                        onDefault={(...args) => deleteSetting?.(...args)}
                                     />
                                 </TabPanel>
                             );
@@ -172,6 +164,8 @@ export const ReaderSettingsTabs = ({
                                     <ReaderHotkeysSettings
                                         settings={settings}
                                         updateSetting={(...args) => updateSetting(...args)}
+                                        isDefaultable
+                                        onDefault={(...args) => deleteSetting?.(...args)}
                                     />
                                 </TabPanel>
                             );

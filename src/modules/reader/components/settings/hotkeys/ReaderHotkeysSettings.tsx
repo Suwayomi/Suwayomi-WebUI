@@ -11,10 +11,10 @@ import { useTranslation } from 'react-i18next';
 import Typography from '@mui/material/Typography';
 import { ReaderSettingsTypeProps } from '@/modules/reader/types/Reader.types.ts';
 import { ReaderSettingHotkey } from '@/modules/reader/components/settings/hotkeys/ReaderSettingHotkey.tsx';
-import { DEFAULT_READER_SETTINGS, READER_HOTKEYS } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
+import { READER_HOTKEYS } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 import { ResetButton } from '@/modules/core/components/buttons/ResetButton.tsx';
 
-export const ReaderHotkeysSettings = ({ settings, updateSetting }: ReaderSettingsTypeProps) => {
+export const ReaderHotkeysSettings = ({ settings, updateSetting, onDefault }: ReaderSettingsTypeProps) => {
     const { t } = useTranslation();
 
     return (
@@ -32,10 +32,7 @@ export const ReaderHotkeysSettings = ({ settings, updateSetting }: ReaderSetting
                 />
             ))}
             <Stack sx={{ alignItems: 'end' }}>
-                <ResetButton
-                    onClick={() => updateSetting('hotkeys', DEFAULT_READER_SETTINGS.hotkeys)}
-                    variant="outlined"
-                />
+                <ResetButton onClick={() => onDefault?.('hotkeys')} variant="outlined" />
             </Stack>
         </Stack>
     );

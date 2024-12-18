@@ -16,8 +16,10 @@ export const ReaderSettingProgressBarSize = ({
     progressBarType,
     progressBarSize,
     setProgressBarSize,
+    onDefault,
 }: Pick<IReaderSettings, 'progressBarType' | 'progressBarSize' | 'overlayMode'> & {
     setProgressBarSize: (size: number, commit: boolean) => void;
+    onDefault: () => void;
 }) => {
     const { t } = useTranslation();
     const isChangeable = overlayMode === ReaderOverlayMode.DESKTOP && progressBarType === ProgressBarType.STANDARD;
@@ -30,7 +32,7 @@ export const ReaderSettingProgressBarSize = ({
         <SliderInput
             label={t('reader.settings.progress_bar.size')}
             value={t('global.value', { value: progressBarSize, unit: t('global.unit.px') })}
-            onDefault={() => setProgressBarSize(DEFAULT_READER_SETTINGS.progressBarSize, true)}
+            onDefault={onDefault}
             slotProps={{
                 slider: {
                     defaultValue: DEFAULT_READER_SETTINGS.progressBarSize,

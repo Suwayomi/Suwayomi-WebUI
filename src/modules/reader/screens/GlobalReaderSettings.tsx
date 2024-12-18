@@ -68,6 +68,7 @@ export const GlobalReaderSettings = () => {
             areDefaultSettings
             settings={settings}
             updateSetting={(setting, value, commit, _, profile) => updateSetting(setting, value, commit, profile)}
+            deleteSetting={(setting) => ReaderService.deleteSetting({ id: -1 }, setting, true)}
         />
     );
 };

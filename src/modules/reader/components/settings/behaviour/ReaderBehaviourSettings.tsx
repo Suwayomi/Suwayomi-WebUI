@@ -9,7 +9,7 @@
 import Stack from '@mui/material/Stack';
 import { useTranslation } from 'react-i18next';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
-import { IReaderSettingsWithDefaultFlag } from '@/modules/reader/types/Reader.types.ts';
+import { IReaderSettingsWithDefaultFlag, ReaderSettingsTypeProps } from '@/modules/reader/types/Reader.types.ts';
 import { CheckboxInput } from '@/modules/core/components/inputs/CheckboxInput.tsx';
 import { ReaderSettingExitMode } from '@/modules/reader/components/settings/behaviour/ReaderSettingExitMode.tsx';
 import { isOffsetDoubleSpreadPagesEditable } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
@@ -19,12 +19,13 @@ import { DEFAULT_READER_SETTINGS } from '@/modules/reader/constants/ReaderSettin
 export const ReaderBehaviourSettings = ({
     settings,
     updateSetting,
+    onDefault,
 }: {
     settings: IReaderSettingsWithDefaultFlag;
     updateSetting: (
         ...args: OmitFirst<Parameters<typeof ReaderService.updateSetting>>
     ) => ReturnType<typeof ReaderService.updateSetting>;
-}) => {
+} & ReaderSettingsTypeProps) => {
     const { t } = useTranslation();
 
     return (
@@ -48,7 +49,7 @@ export const ReaderBehaviourSettings = ({
             <SliderInput
                 label={t('reader.settings.image_preload_amount')}
                 value={settings.imagePreLoadAmount}
-                onDefault={() => updateSetting('imagePreLoadAmount', DEFAULT_READER_SETTINGS.imagePreLoadAmount, true)}
+                onDefault={() => onDefault?.('imagePreLoadAmount')}
                 slotProps={{
                     slider: {
                         defaultValue: DEFAULT_READER_SETTINGS.imagePreLoadAmount,

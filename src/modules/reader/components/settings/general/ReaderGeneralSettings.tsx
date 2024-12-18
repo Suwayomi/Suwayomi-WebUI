@@ -25,6 +25,7 @@ export const ReaderGeneralSettings = ({
     overlayMode,
     settings,
     updateSetting,
+    onDefault,
 }: Pick<IReaderSettings, 'overlayMode'> & ReaderSettingsTypeProps) => {
     const { t } = useTranslation();
 
@@ -48,6 +49,7 @@ export const ReaderGeneralSettings = ({
                 progressBarType={settings.progressBarType}
                 progressBarSize={settings.progressBarSize}
                 setProgressBarSize={(...args) => updateSetting('progressBarSize', ...args)}
+                onDefault={() => onDefault?.('progressBarSize')}
             />
             <ReaderSettingProgressBarPosition
                 overlayMode={overlayMode}
