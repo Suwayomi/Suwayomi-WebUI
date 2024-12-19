@@ -146,6 +146,8 @@ export const Reader = () => {
             setPages([createPageData('', 0)]);
             setPageUrls([]);
             setPageLoadStates([{ loaded: false }]);
+
+            setIsOverlayVisible(false);
         },
         [],
     );
@@ -262,10 +264,6 @@ export const Reader = () => {
 
         return () => setOverride({ status: false, value: null });
     }, [isOverlayVisible, setIsOverlayVisible, scrollElementRef.current]);
-
-    useEffect(() => {
-        setIsOverlayVisible(true);
-    }, []);
 
     if (isLoading) {
         return (
