@@ -56,7 +56,6 @@ export const ReaderPage = forwardRef(
             position,
             marginTop,
             shouldLoad,
-            retryKeyPrefix,
             ...props
         }: Omit<ComponentProps<typeof SpinnerImage>, 'ref' | 'spinnerStyle' | 'imgStyle'> & {
             display: boolean;
@@ -77,7 +76,6 @@ export const ReaderPage = forwardRef(
 
         return (
             <SpinnerImage
-                key={retryKeyPrefix}
                 {...props}
                 shouldLoad={shouldLoad}
                 shouldDecode
