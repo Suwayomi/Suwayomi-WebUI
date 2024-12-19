@@ -219,7 +219,7 @@ export class ReaderControls {
         const continuousChapter = isContinuousChapter
             ? ''
             : t(offsetToTranslationKeys[offset].chapter_number, {
-                  count: missingChapters,
+                  count: missingChapters - 1,
                   nextChapter: `#${chapterToOpen.chapterNumber} ${chapterToOpen.name}`,
                   currentChapter: `#${currentChapter.chapterNumber} ${currentChapter.name}`,
               });
