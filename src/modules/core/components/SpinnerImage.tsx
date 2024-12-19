@@ -28,6 +28,7 @@ interface IProps {
 
     spinnerStyle?: SxProps<Theme> & { small?: boolean };
     imgStyle?: SxProps<Theme>;
+    hideImgStyle?: Omit<SxProps<Theme>, 'accentColor'>;
 
     onLoad?: () => void;
     onError?: () => void;
@@ -51,6 +52,7 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
         onError,
         spinnerStyle: { small, ...spinnerStyle } = {},
         imgStyle,
+        hideImgStyle,
         priority,
         retryKeyPrefix,
     } = props;
@@ -147,11 +149,10 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
                     sx={[
                         ...(Array.isArray(imgStyle) ? (imgStyle ?? []) : [imgStyle]),
                         applyStyles(!imageSourceUrl || isLoading || hasError, {
-                            visibility: 'hidden',
-                            minWidth: 0,
-                            minHeight: 0,
-                            width: 0,
-                            height: 0,
+                            ...hideImgStyle,
+                            ...applyStyles(!hideImgStyle, {
+                                display: 'none',
+                            }),
                         }),
                     ]}
                     ref={imgRef}

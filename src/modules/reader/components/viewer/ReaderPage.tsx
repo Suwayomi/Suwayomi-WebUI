@@ -96,9 +96,6 @@ export const ReaderPage = forwardRef(
                         display: 'none',
                     }),
                     ...getImageMarginStyling(doublePage, position),
-                    ...applyStyles(marginTop !== undefined, {
-                        mt: `${marginTop}px`,
-                    }),
                 }}
                 imgStyle={{
                     ...getImageWidthStyling(
@@ -121,6 +118,13 @@ export const ReaderPage = forwardRef(
                     ...applyStyles(marginTop !== undefined, {
                         mt: `${marginTop}px`,
                     }),
+                }}
+                hideImgStyle={{
+                    visibility: 'hidden',
+                    minWidth: 0,
+                    minHeight: 0,
+                    width: 0,
+                    height: 0,
                 }}
             />
         );
