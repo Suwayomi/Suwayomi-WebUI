@@ -66,7 +66,7 @@ export const ConfirmDialog = ({
     } satisfies Actions;
 
     return (
-        <Dialog open>
+        <Dialog open onClose={onCancel}>
             <DialogTitle>{title}</DialogTitle>
             <DialogContent
                 sx={{
