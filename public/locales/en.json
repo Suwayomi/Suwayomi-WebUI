@@ -445,6 +445,9 @@
       "warning": "Warning"
     },
     "language": {
+      "error": {
+        "load": "Could not load language"
+      },
       "label": {
         "language": "Language",
         "language_with_code": "Language with code: {{code}}"

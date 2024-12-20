@@ -133,7 +133,13 @@ export const Appearance = () => {
                     />
                     <Select
                         value={i18nResources.includes(i18n.language as I18nResourceCode) ? i18n.language : 'en'}
-                        onChange={({ target: { value: language } }) => i18n.changeLanguage(language)}
+                        onChange={({ target: { value: language } }) =>
+                            i18n.changeLanguage(language, (e) => {
+                                if (e) {
+                                    makeToast(t('global.language.error.load'), 'error', getErrorMessage(e));
+                                }
+                            })
+                        }
                     >
                         {i18nResources.map((language) => (
                             <MenuItem key={language} value={language}>
