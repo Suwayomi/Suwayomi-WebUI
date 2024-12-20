@@ -120,7 +120,6 @@
     },
     "category": {
         "title": {
-            "categories": "الفئات",
             "set_categories": "تعيين الفئات",
             "category_zero": "فئة",
             "category_one": "فئات",
@@ -140,7 +139,6 @@
             },
             "no_categories_found": {
                 "label": {
-                    "hint": "يجب عليك إجراء بعض من الإعدادات.",
                     "info": "لم يتم العثور على فئات."
                 }
             }
@@ -162,9 +160,6 @@
     },
     "settings": {
         "backup": {
-            "label": {
-                "create_backup": "إنشاء نسخة احتياطية"
-            },
             "automated": {
                 "label": {
                     "time": "وقت النسخ الاحتياطي",
@@ -225,15 +220,11 @@
         },
         "about": {
             "title": "عن",
-            "label": {
-                "build_time": "تاريخ بناء الخادم"
-            },
             "webui": {
                 "label": {
                     "github": "$t(global.label.github) $t(settings.webui.title.webui)",
                     "channel": "قناة $t(settings.webui.title.webui).",
                     "update_failure": "تعذر تحديث $t(settings.webui.title.webui)",
-                    "update_success": "تم تحديث $t(settings.webui.title.webui) إلى الإصدار {{version}}. التحديث مطلوب",
                     "version": "$t(settings.webui.title.webui) الإصدار"
                 }
             },
@@ -453,8 +444,7 @@
             "language_description": "لا تتردد في ترجمة المشروع على",
             "manga_item_width": "عرض عنصر المانجا",
             "show_nsfw_description": "إخفاء ملحقات ومصادر NSFW",
-            "show_nsfw": "عرض إن إس إف دبليو",
-            "dark_theme": "موضوع مظلم"
+            "show_nsfw": "عرض إن إس إف دبليو"
         },
         "title": "إعدادات"
     },
@@ -965,15 +955,13 @@
                         "title": "مستودعات التمديد"
                     }
                 }
-            },
-            "title": "إعدادات تمديد"
+            }
         }
     },
     "reader": {
         "settings": {
             "label": {
                 "reader_width": "عرض القارئ",
-                "offset_first_page": "إزاحة الصفحة الأولى",
                 "reader_type": "نوع القارئ",
                 "skip_dup_chapters": "تخطي الفصول المكررة",
                 "static_navigation": "الملاحة الثابتة",
@@ -983,31 +971,17 @@
             },
             "error": {
                 "label": {
-                    "failed_to_save_default_settings": "تعذر حفظ إعدادات القارئ الافتراضية على الخادم",
                     "failed_to_save_settings": "لا يمكن حفظ إعدادات القارئ على الخادم"
                 }
             },
             "reader_type": {
                 "label": {
                     "webtoon": "ويبتون",
-                    "continuous_horizontal_ltr": "أفقي (LTR) ➡️",
-                    "double_page_ltr": "صفحة مزدوجة (LTR) ➡️",
-                    "continuous_vertical": "يستمر عموديا",
-                    "single_page_rtl": "صفحة واحدة (RTL) ⬅️",
-                    "continuous_horizontal_rtl": "أفقي (RTL) ⬅️",
-                    "double_page_rtl": "صفحة مزدوجة (RTL) ⬅️",
-                    "single_page_ltr": "صفحة واحدة (LTR) ➡️"
+                    "continuous_vertical": "يستمر عموديا"
                 }
             },
             "title": {
-                "default_reader_settings": "إعدادات القارئ الافتراضية",
                 "reader_settings": "إعدادات القارئ"
-            }
-        },
-        "error": {
-            "label": {
-                "unable_to_get_next_chapter_skip_dup": "غير قادر على الحصول على الفصل التالي - تم تمكين الخيار \"$t(reader.settings.label.skip_dup_chapters)\"",
-                "unable_to_get_prev_chapter_skip_dup": "غير قادر على الحصول على الفصل السابق - تم تمكين الخيار \"$t(reader.settings.label.skip_dup_chapters)\""
             }
         },
         "page_info": {

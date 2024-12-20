@@ -288,7 +288,6 @@
             "placeholder": "Yer tutucu",
             "sort": "Sırala",
             "username": "Kullanıcı adı",
-            "copied": "Kopyalandı",
             "discord": "Discord",
             "display": "Görüntüle",
             "filter": "Filtrele",
@@ -597,35 +596,25 @@
         "settings": {
             "error": {
                 "label": {
-                    "failed_to_save_default_settings": "Varsayılan okuyucu ayarları sunucuya kaydedilemedi",
                     "failed_to_save_settings": "Okuyucu ayarları sunucuya kaydedilemedi"
                 }
             },
             "title": {
-                "default_reader_settings": "Varsayılan Okuyucu Ayarları",
                 "reader_settings": "Okuyucu Ayarları"
             },
             "label": {
                 "reader_type": "Okuyucu türü",
                 "reader_width": "Okuyucu genişliği",
                 "fit_page_to_window": "Sayfayı pencereye sığdır",
-                "offset_first_page": "İlk sayfayı kaydır",
                 "skip_dup_chapters": "Yinelenen bölümleri atla",
                 "show_page_number": "Sayfa numarasını göster",
                 "load_next_chapter": "Sonraki bölümü bitişte yükle",
-                "scale_page": "Küçük sayfaları ölçeklendirin",
                 "static_navigation": "Statik gezinme"
             },
             "reader_type": {
                 "label": {
-                    "double_page_ltr": "Çift sayfa (LTR) ➡️",
                     "webtoon": "Webtoon",
-                    "continuous_horizontal_rtl": "Yatay (RTL) ⬅️",
-                    "double_page_rtl": "Çift sayfa (RTL) ⬅️",
-                    "continuous_horizontal_ltr": "Yatay (LTR) ➡️",
-                    "continuous_vertical": "Dikey devam ediyor",
-                    "single_page_ltr": "Tek sayfa (LTR) ➡️",
-                    "single_page_rtl": "Tek sayfa (RTL) ⬅️"
+                    "continuous_vertical": "Dikey devam ediyor"
                 }
             }
         },
@@ -919,7 +908,6 @@
             "title": "Arama ayarları"
         },
         "label": {
-            "dark_theme": "Koyu tema",
             "manga_item_width": "Manga öğe genişliği",
             "show_nsfw": "NSFW'yi göster",
             "show_nsfw_description": "NSFW uzantılarını ve kaynaklarını gizle",
@@ -1031,7 +1019,6 @@
                     "success": "Tema oluşturuldu",
                     "title": "Tema oluştur"
                 },
-                "device_theme": "Cihaz teması",
                 "edit": {
                     "action": "Tema değişiklikleri kaydediliyor…",
                     "title": "Temayı güncelle",
