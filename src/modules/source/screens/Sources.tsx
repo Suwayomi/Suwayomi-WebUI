@@ -62,7 +62,7 @@ function groupByLang<Source extends Pick<SourceType, 'id' | 'name' | 'lang'>>(
     return result;
 }
 
-export function Sources() {
+export function Sources({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     const { t } = useTranslation();
     const { setAction } = useContext(NavBarContext);
 
@@ -138,12 +138,15 @@ export function Sources() {
                 message={t('global.error.label.failed_to_load_data')}
                 messageExtra={error.message}
                 retry={() => refetch().catch(defaultPromiseErrorHandler('Sources::refetch'))}
+                topOffset={tabsMenuHeight}
             />
         );
     }
 
     if (sources?.length === 0) {
-        return <EmptyViewAbsoluteCentered message={t('source.error.label.no_sources_found')} />;
+        return (
+            <EmptyViewAbsoluteCentered message={t('source.error.label.no_sources_found')} topOffset={tabsMenuHeight} />
+        );
     }
 
     return (

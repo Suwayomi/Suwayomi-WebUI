@@ -27,10 +27,11 @@ export interface EmptyViewProps {
     messageExtra?: JSX.Element | string;
     retry?: () => void;
     noFaces?: boolean;
+    topOffset?: number;
     sx?: SxProps<Theme>;
 }
 
-export function EmptyView({ message, messageExtra, retry, noFaces, sx }: EmptyViewProps) {
+export function EmptyView({ message, messageExtra, retry, noFaces, topOffset = 0, sx }: EmptyViewProps) {
     const { t } = useTranslation();
 
     const errorFace = useMemo(() => getRandomErrorFace(), []);
@@ -41,7 +42,9 @@ export function EmptyView({ message, messageExtra, retry, noFaces, sx }: EmptyVi
                 textAlign: 'center',
                 alignItems: 'center',
                 justifyContent: 'center',
-                height: '100%',
+                minWidth: '100%',
+                minHeight: `calc(100% - ${topOffset}px)`,
+                mt: `${topOffset}px`,
                 ...sx,
             }}
         >
@@ -51,7 +54,9 @@ export function EmptyView({ message, messageExtra, retry, noFaces, sx }: EmptyVi
                 </Typography>
             )}
             <Typography variant="h5">{message}</Typography>
-            {messageExtra}
+            <Typography variant="body1" sx={{ wordBreak: 'break-word' }}>
+                {messageExtra}
+            </Typography>
             {retry && <Button onClick={retry}>{t('global.button.retry')}</Button>}
         </Stack>
     );

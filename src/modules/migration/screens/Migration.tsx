@@ -104,6 +104,7 @@ export const Migration = ({ tabsMenuHeight }: { tabsMenuHeight: number }) => {
                 message={t('global.error.label.failed_to_load_data')}
                 messageExtra={error.message}
                 retry={() => refetch().catch(defaultPromiseErrorHandler('Migration::refetch'))}
+                topOffset={tabsMenuHeight}
             />
         );
     }

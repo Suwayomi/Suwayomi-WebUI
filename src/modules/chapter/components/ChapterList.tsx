@@ -47,6 +47,7 @@ import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 import { shouldForwardProp } from '@/modules/core/utils/ShouldForwardProp.ts';
 import { useChapterOptions } from '@/modules/chapter/hooks/useChapterOptions.tsx';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 type ChapterListHeaderProps = {
     scrollbarWidth: number;
@@ -175,7 +176,7 @@ export const ChapterList = ({
             <Stack sx={{ justifyContent: 'center', position: 'relative', flexGrow: 1 }}>
                 <EmptyViewAbsoluteCentered
                     message={t('global.error.label.failed_to_load_data')}
-                    messageExtra={error.message}
+                    messageExtra={getErrorMessage(error)}
                     retry={() => refetch().catch(defaultPromiseErrorHandler('ChapterList::refetch'))}
                 />
             </Stack>
