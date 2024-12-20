@@ -31,6 +31,7 @@ import {
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { MetadataUpdateSettings } from '@/modules/app-updates/AppUpdateChecker.types.ts';
 import { ServerSettings as GqlServerSettings } from '@/modules/settings/Settings.types.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 type ServerSettingsType = Pick<
     GqlServerSettings,
@@ -112,7 +113,7 @@ export const ServerSettings = () => {
     } = useMetadataServerSettings();
     const updateMetadataServerSettings = createUpdateMetadataServerSettings<
         keyof Pick<MetadataUpdateSettings, 'serverInformAvailableUpdate'>
-    >(() => makeToast(t('global.error.label.failed_to_save_changes'), 'error'));
+    >((e) => makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)));
 
     const {
         data,
@@ -136,8 +137,8 @@ export const ServerSettings = () => {
         setting: Setting,
         value: ServerSettingsType[Setting],
     ) => {
-        mutateSettings({ variables: { input: { settings: { [setting]: value } } } }).catch(() =>
-            makeToast(t('global.error.label.failed_to_save_changes'), 'error'),
+        mutateSettings({ variables: { input: { settings: { [setting]: value } } } }).catch((e) =>
+            makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
         );
     };
 

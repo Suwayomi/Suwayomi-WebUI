@@ -34,6 +34,7 @@ import {
     MigrateMode,
 } from '@/modules/manga/Manga.types.ts';
 import { actionToTranslationKey } from '@/modules/manga/Manga.constants.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 type MangaToMigrate = NonNullable<GetMangaToMigrateQuery['manga']>;
 type MangaToMigrateTo = NonNullable<GetMangaToMigrateToFetchMutation['fetchManga']>['manga'];
@@ -481,7 +482,11 @@ export class Mangas {
             await fnToExecute();
             makeToast(translate(actionToTranslationKey[action].success, { count: itemCount }), 'success');
         } catch (e) {
-            makeToast(translate(actionToTranslationKey[action].error, { count: itemCount }), 'error');
+            makeToast(
+                translate(actionToTranslationKey[action].error, { count: itemCount }),
+                'error',
+                getErrorMessage(e),
+            );
             throw e;
         }
     }

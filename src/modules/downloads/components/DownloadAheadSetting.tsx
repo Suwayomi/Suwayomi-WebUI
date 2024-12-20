@@ -17,6 +17,7 @@ import { updateMetadataServerSettings } from '@/modules/settings/services/Server
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { MetadataDownloadSettings } from '@/modules/downloads/Downloads.types.ts';
 import { MetadataServerSettings } from '@/modules/settings/Settings.types.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 const MIN_LIMIT = 2;
 const MAX_LIMIT = 10;
@@ -39,8 +40,8 @@ export const DownloadAheadSetting = ({
 
     const updateSetting = (value: MetadataDownloadSettings['downloadAheadLimit']) => {
         persistDownloadAheadLimit(value === 0 ? currentDownloadAheadLimit : value);
-        updateMetadataServerSettings('downloadAheadLimit', value).catch(() =>
-            makeToast(t('global.error.label.failed_to_save_changes'), 'error'),
+        updateMetadataServerSettings('downloadAheadLimit', value).catch((e) =>
+            makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
         );
     };
 

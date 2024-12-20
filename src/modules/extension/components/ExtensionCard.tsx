@@ -32,6 +32,7 @@ import {
     INSTALLED_STATE_TO_TRANSLATION_KEY_MAP,
 } from '@/modules/extension/Extensions.constants.ts';
 import { getInstalledState } from '@/modules/extension/Extensions.utils.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 interface IProps {
     extension: TExtension;
@@ -84,7 +85,11 @@ export function ExtensionCard(props: IProps) {
             handleUpdate();
         } catch (e) {
             setInstalledState(getInstalledState(isInstalled, isObsolete, hasUpdate));
-            makeToast(t(EXTENSION_ACTION_TO_FAILURE_TRANSLATION_KEY_MAP[action], { count: 1 }), 'error');
+            makeToast(
+                t(EXTENSION_ACTION_TO_FAILURE_TRANSLATION_KEY_MAP[action], { count: 1 }),
+                'error',
+                getErrorMessage(e),
+            );
         }
     };
 

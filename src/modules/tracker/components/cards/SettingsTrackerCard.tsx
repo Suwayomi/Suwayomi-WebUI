@@ -25,6 +25,7 @@ import { PasswordTextField } from '@/modules/core/components/inputs/PasswordText
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Trackers, TTrackerSearch } from '@/modules/tracker/services/Trackers.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 export const SettingsTrackerCard = ({ tracker }: { tracker: TTrackerSearch }) => {
     const { t } = useTranslation();
@@ -42,7 +43,7 @@ export const SettingsTrackerCard = ({ tracker }: { tracker: TTrackerSearch }) =>
         try {
             await logoutFromTracker({ variables: { trackerId: tracker.id } });
         } catch (e) {
-            makeToast(t('tracking.action.logout.label.failure', { name: tracker.name }), 'error');
+            makeToast(t('tracking.action.logout.label.failure', { name: tracker.name }), 'error', getErrorMessage(e));
         }
     };
 
@@ -62,7 +63,7 @@ export const SettingsTrackerCard = ({ tracker }: { tracker: TTrackerSearch }) =>
         try {
             await loginTrackerCredentials({ variables: { input: { trackerId: tracker.id, username, password } } });
         } catch (e) {
-            makeToast(t('tracking.action.login.label.failure', { name: tracker.name }), 'error');
+            makeToast(t('tracking.action.login.label.failure', { name: tracker.name }), 'error', getErrorMessage(e));
         }
     };
 

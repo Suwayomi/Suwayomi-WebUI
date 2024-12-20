@@ -28,6 +28,7 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { GET_TRACKERS_SETTINGS } from '@/lib/graphql/queries/TrackerQuery.ts';
 import { GetTrackersSettingsQuery } from '@/lib/graphql/generated/graphql.ts';
 import { MetadataTrackingSettings } from '@/modules/tracker/Tracker.types.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 export const TrackingSettings = () => {
     const { t } = useTranslation();
@@ -42,8 +43,8 @@ export const TrackingSettings = () => {
         loading: areMetadataServerSettingsLoading,
         request: { error: metadataServerSettingsError, refetch: refetchServerMetadataSettings },
     } = useMetadataServerSettings();
-    const updateTrackingSettings = createUpdateMetadataServerSettings<keyof MetadataTrackingSettings>(() =>
-        makeToast(t('global.error.label.failed_to_save_changes'), 'error'),
+    const updateTrackingSettings = createUpdateMetadataServerSettings<keyof MetadataTrackingSettings>((e) =>
+        makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
     );
 
     const {

@@ -36,6 +36,7 @@ import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { ServerSettings } from '@/modules/settings/Settings.types.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 type BackupSettingsType = Pick<ServerSettings, 'backupPath' | 'backupTime' | 'backupInterval' | 'backupTTL'>;
 
@@ -101,8 +102,8 @@ export function Backup() {
         setting: Setting,
         value: BackupSettingsType[Setting],
     ) => {
-        mutateSettings({ variables: { input: { settings: { [setting]: value } } } }).catch(() =>
-            makeToast(t('global.error.label.failed_to_save_changes'), 'error'),
+        mutateSettings({ variables: { input: { settings: { [setting]: value } } } }).catch((e) =>
+            makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
         );
     };
 
@@ -152,7 +153,7 @@ export function Backup() {
 
             return true;
         } catch (e) {
-            makeToast(t('settings.backup.action.validate.error.label.failure'), 'error');
+            makeToast(t('settings.backup.action.validate.error.label.failure'), 'error', getErrorMessage(e));
             resetBackupState();
         }
 
@@ -167,7 +168,7 @@ export function Backup() {
             backupRestoreId = response.data?.restoreBackup.id;
             setTriggerReRender(Date.now());
         } catch (e) {
-            makeToast(t('settings.backup.action.restore.error.label.failure'), 'error');
+            makeToast(t('settings.backup.action.restore.error.label.failure'), 'error', getErrorMessage(e));
         } finally {
             resetBackupState();
         }

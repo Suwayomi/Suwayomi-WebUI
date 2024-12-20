@@ -46,6 +46,7 @@ import {
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { Queue } from '@/lib/Queue.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 const DIRECTION_TO_INVERTED: Record<Direction, Direction> = {
     ltr: 'rtl',
@@ -279,8 +280,12 @@ export class ReaderService {
         }
 
         if (commit) {
-            updateReaderSettings(manga, setting, value, isGlobal, profile).catch(() =>
-                makeToast(translate('reader.settings.error.label.failed_to_save_settings'), 'error'),
+            updateReaderSettings(manga, setting, value, isGlobal, profile).catch((e) =>
+                makeToast(
+                    translate('reader.settings.error.label.failed_to_save_settings'),
+                    'error',
+                    getErrorMessage(e),
+                ),
             );
         }
     }
@@ -309,8 +314,8 @@ export class ReaderService {
         const deleteSetting = isGlobalSetting
             ? () => requestManager.deleteGlobalMeta(key).response
             : () => requestManager.deleteMangaMeta(manga.id, key).response;
-        deleteSetting().catch(() =>
-            makeToast(translate('reader.settings.error.label.failed_to_save_settings'), 'error'),
+        deleteSetting().catch((e) =>
+            makeToast(translate('reader.settings.error.label.failed_to_save_settings'), 'error', getErrorMessage(e)),
         );
     }
 

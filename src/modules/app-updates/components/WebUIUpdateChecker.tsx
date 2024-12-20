@@ -23,6 +23,7 @@ import { ABOUT_WEBUI, WEBUI_UPDATE_CHECK } from '@/lib/graphql/fragments/InfoFra
 import { VersionUpdateInfoDialog } from '@/modules/app-updates/components/VersionUpdateInfoDialog.tsx';
 import { useUpdateChecker } from '@/modules/app-updates/hooks/useUpdateChecker.tsx';
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 const disabledUpdateCheck = () => Promise.resolve();
 
@@ -136,7 +137,9 @@ export const WebUIUpdateChecker = () => {
                 onAction={() =>
                     requestManager
                         .updateWebUI()
-                        .response.catch(() => makeToast(t('settings.about.webui.label.update_failure'), 'error'))
+                        .response.catch((e) =>
+                            makeToast(t('settings.about.webui.label.update_failure'), 'error', getErrorMessage(e)),
+                        )
                 }
                 actionTitle={
                     isUpdateInProgress

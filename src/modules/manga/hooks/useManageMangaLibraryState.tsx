@@ -21,6 +21,7 @@ import { awaitConfirmation } from '@/modules/core/utils/AwaitableDialog.tsx';
 import { GetCategoriesBaseQuery, GetCategoriesBaseQueryVariables, MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { GET_CATEGORIES_BASE } from '@/lib/graphql/queries/CategoryQuery.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 export const useManageMangaLibraryState = (
     manga: Pick<MangaType, 'id' | 'title'> & Partial<Pick<MangaType, 'inLibrary'>>,
@@ -44,8 +45,8 @@ export const useManageMangaLibraryState = (
                 })
                 .response.then(() => makeToast(t('library.info.label.added_to_library'), 'success'))
                 .then(() => setIsInLibrary(true))
-                .catch(() => {
-                    makeToast(t('library.error.label.add_to_library'), 'error');
+                .catch((e) => {
+                    makeToast(t('library.error.label.add_to_library'), 'error', getErrorMessage(e));
                 });
         },
         [manga.id],
@@ -86,7 +87,7 @@ export const useManageMangaLibraryState = (
                 showAddToLibraryCategorySelectDialog = (await getMetadataServerSettings())
                     .showAddToLibraryCategorySelectDialog;
             } catch (e) {
-                makeToast(t('global.error.label.failed_to_load_data'), 'error');
+                makeToast(t('global.error.label.failed_to_load_data'), 'error', getErrorMessage(e));
                 return;
             }
 
@@ -101,7 +102,7 @@ export const useManageMangaLibraryState = (
                     GetCategoriesBaseQueryVariables
                 >(GET_CATEGORIES_BASE).response;
             } catch (e) {
-                makeToast(t('category.error.label.request_failure'), 'error');
+                makeToast(t('category.error.label.request_failure'), 'error', getErrorMessage(e));
                 return;
             }
             const userCreatedCategories = Categories.getUserCreated(categories.data.categories.nodes);

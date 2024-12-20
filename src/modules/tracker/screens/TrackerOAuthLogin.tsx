@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 export const TrackerOAuthLogin = () => {
     const { t } = useTranslation();
@@ -36,7 +37,7 @@ export const TrackerOAuthLogin = () => {
                     },
                 });
             } catch (e) {
-                makeToast(t('tracking.action.login.label.failure', { name: trackerName }), 'error');
+                makeToast(t('tracking.action.login.label.failure', { name: trackerName }), 'error', getErrorMessage(e));
             }
 
             navigate(AppRoutes.tracker.path, { replace: true });

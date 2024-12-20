@@ -19,7 +19,7 @@ import DialogActions from '@mui/material/DialogActions';
 import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
 import { jsonrepair } from 'jsonrepair';
-import { jsonSaveParse } from '@/lib/HelperFunctions.ts';
+import { getErrorMessage, jsonSaveParse } from '@/lib/HelperFunctions.ts';
 import { AppTheme, isThemeNameUnique } from '@/modules/theme/services/AppThemes.ts';
 import {
     createUpdateMetadataServerSettings,
@@ -203,10 +203,11 @@ export const ThemeCreationDialog = ({
                                 );
                                 bindDialogProps.onClose(e);
                             })
-                            .catch(() =>
+                            .catch((updateError) =>
                                 makeToast(
                                     t(dialogModeToTranslationKey[mode].failure, { theme: theme.getName() }),
                                     'error',
+                                    getErrorMessage(updateError),
                                 ),
                             )
                             .finally(() => setIsCreating(false));

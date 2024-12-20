@@ -40,6 +40,7 @@ import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines
 import { SelectSetting, SelectSettingValue } from '@/modules/core/components/settings/SelectSetting.tsx';
 import { CheckboxInput } from '@/modules/core/components/inputs/CheckboxInput.tsx';
 import { TrackRecordType } from '@/lib/graphql/generated/graphql.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 const TrackerActiveLink = ({ children, url }: { children: React.ReactNode; url: string }) => (
     <Link href={url} rel="noreferrer" target="_blank" underline="none" color="inherit">
@@ -69,7 +70,7 @@ const TrackerActiveRemoveBind = ({
         requestManager
             .unbindTracker(trackerRecordId, removeRemoteTracking)
             .response.then(() => makeToast(t('manga.action.track.remove.label.success'), 'success'))
-            .catch(() => makeToast(t('manga.action.track.remove.label.error'), 'error'));
+            .catch((e) => makeToast(t('manga.action.track.remove.label.error'), 'error', getErrorMessage(e)));
     };
 
     return (
@@ -250,7 +251,9 @@ export const TrackerActiveCard = ({
     const updateTrackerBind = (patch: Parameters<typeof requestManager.updateTrackerBind>[1]) => {
         requestManager
             .updateTrackerBind(trackRecord.id, patch)
-            .response.catch(() => makeToast(t('global.error.label.failed_to_save_changes'), 'error'));
+            .response.catch((e) =>
+                makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
+            );
     };
 
     return (

@@ -25,6 +25,7 @@ import { createTheme } from '@/modules/theme/services/ThemeCreator.ts';
 import { ThemeCreationDialog } from '@/modules/theme/components/CreateThemeDialog.tsx';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines.tsx';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 const ThemePreviewBadge = styled(Box)(() => ({
     width: '15px',
@@ -93,7 +94,13 @@ export const ThemePreview = ({ theme, onDelete }: { theme: AppTheme; onDelete: (
                                 makeToast(t('settings.appearance.theme.select.fonts.loading'), 'info');
                                 loadThemeFonts(theme.muiTheme)
                                     .then(() => setAppTheme(theme.id))
-                                    .catch(() => makeToast(t('settings.appearance.theme.select.fonts.error'), 'error'));
+                                    .catch((e) =>
+                                        makeToast(
+                                            t('settings.appearance.theme.select.fonts.error'),
+                                            'error',
+                                            getErrorMessage(e),
+                                        ),
+                                    );
                             }}
                         >
                             <Stack sx={{ height: '100%', m: 0 }}>

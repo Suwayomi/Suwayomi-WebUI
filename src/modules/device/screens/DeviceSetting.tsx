@@ -26,6 +26,7 @@ import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { DEFAULT_DEVICE } from '@/modules/device/services/Device.ts';
 import { MetadataServerSettingKeys, MetadataServerSettings } from '@/modules/settings/Settings.types.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 export const DeviceSetting = () => {
     const { t } = useTranslation();
@@ -63,8 +64,8 @@ export const DeviceSetting = () => {
             setActiveDevice(DEFAULT_DEVICE);
         }
 
-        updateMetadataServerSettings(setting, value).catch(() =>
-            makeToast(t('global.error.label.failed_to_save_changes'), 'error'),
+        updateMetadataServerSettings(setting, value).catch((e) =>
+            makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
         );
     };
 

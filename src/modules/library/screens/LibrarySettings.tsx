@@ -38,6 +38,7 @@ import { GET_CATEGORIES_SETTINGS } from '@/lib/graphql/queries/CategoryQuery.ts'
 import { GET_MANGAS_BASE } from '@/lib/graphql/queries/MangaQuery.ts';
 import { MetadataLibrarySettings } from '@/modules/library/Library.types.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 const removeNonLibraryMangasFromCategories = async (): Promise<void> => {
     try {
@@ -57,7 +58,7 @@ const removeNonLibraryMangasFromCategories = async (): Promise<void> => {
         }
         makeToast(translate('library.settings.advanced.database.cleanup.label.success'), 'success');
     } catch (e) {
-        makeToast(translate('library.settings.advanced.database.cleanup.label.error'), 'error');
+        makeToast(translate('library.settings.advanced.database.cleanup.label.error'), 'error', getErrorMessage(e));
     }
 };
 
@@ -85,8 +86,8 @@ export function LibrarySettings() {
         request: { error: metadataServerSettingsError, refetch: refetchMetadataServerSettings },
     } = useMetadataServerSettings();
 
-    const setSettingValue = createUpdateMetadataServerSettings<keyof MetadataLibrarySettings>(() =>
-        makeToast(t('search.error.label.failed_to_save_settings'), 'warning'),
+    const setSettingValue = createUpdateMetadataServerSettings<keyof MetadataLibrarySettings>((e) =>
+        makeToast(t('search.error.label.failed_to_save_settings'), 'error', getErrorMessage(e)),
     );
 
     const loading = serverSettings.loading || areMetadataServerSettingsLoading || categories.loading;

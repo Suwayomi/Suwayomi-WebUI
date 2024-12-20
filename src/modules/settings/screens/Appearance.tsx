@@ -34,6 +34,7 @@ import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { MetadataThemeSettings } from '@/modules/theme/AppTheme.types.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 export const Appearance = () => {
     const { t, i18n } = useTranslation();
@@ -54,8 +55,8 @@ export const Appearance = () => {
         settings,
         request: { loading, error, refetch },
     } = useMetadataServerSettings();
-    const updateMetadataSetting = createUpdateMetadataServerSettings<keyof MetadataThemeSettings>(() =>
-        makeToast(t('global.error.label.failed_to_save_changes'), 'error'),
+    const updateMetadataSetting = createUpdateMetadataServerSettings<keyof MetadataThemeSettings>((e) =>
+        makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
     );
 
     const isDarkMode =

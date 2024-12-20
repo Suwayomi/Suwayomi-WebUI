@@ -28,6 +28,7 @@ import {
     CategoryNameInfo,
     CategoryUpdateInclusionInfo,
 } from '@/modules/category/Category.types.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 type CategoryType = CategoryIdInfo & CategoryNameInfo & CategoryUpdateInclusionInfo & CategoryDownloadInclusionInfo;
 
@@ -139,8 +140,8 @@ export const CategoriesInclusionSetting = ({
             await Promise.all(categoriesToUpdate.map((category) => updateCategory(category)));
             // TODO - update cache immediately
             // mutate(categoriesEndpoint, [...dialogCategories], { revalidate: false });
-        } catch (error) {
-            makeToast(t('global.error.label.failed_to_save_changes'), 'error');
+        } catch (e) {
+            makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e));
             // mutate(categoriesEndpoint, [...categories]);
         }
     };

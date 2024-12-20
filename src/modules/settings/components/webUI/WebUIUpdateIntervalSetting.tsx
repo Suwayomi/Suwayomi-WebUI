@@ -17,6 +17,7 @@ import { NumberSetting } from '@/modules/core/components/settings/NumberSetting.
 import { getPersistedServerSetting, usePersistedValue } from '@/modules/core/hooks/usePersistedValue.tsx';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { ServerSettings } from '@/modules/settings/Settings.types.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 const DEFAULT_VALUE = 23;
 const MIN_VALUE = 1;
@@ -45,8 +46,8 @@ export const WebUIUpdateIntervalSetting = ({
             persistUpdateCheckInterval(
                 webUIUpdateCheckInterval === 0 ? currentUpdateCheckInterval : webUIUpdateCheckInterval,
             );
-            mutateSettings({ variables: { input: { settings: { webUIUpdateCheckInterval } } } }).catch(() =>
-                makeToast(t('global.error.label.failed_to_save_changes'), 'error'),
+            mutateSettings({ variables: { input: { settings: { webUIUpdateCheckInterval } } } }).catch((e) =>
+                makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
             );
         },
         [currentUpdateCheckInterval],

@@ -26,6 +26,7 @@ import { useMetadataServerSettings } from '@/modules/settings/services/ServerSet
 import { ReaderContextProvider } from '@/modules/reader/contexts/ReaderContextProvider.tsx';
 import { DIRECTION_TO_CACHE } from '@/modules/theme/ThemeDirectionCache.ts';
 import { AppHotkeysProvider } from '@/modules/hotkeys/contexts/AppHotkeysProvider.tsx';
+import { SnackbarWithDescription } from '@/modules/core/components/snackbar/SnackbarWithDescription.tsx';
 
 interface Props {
     children: React.ReactNode;
@@ -84,7 +85,15 @@ export const AppContext: React.FC<Props> = ({ children }) => {
                                 <LibraryOptionsContextProvider>
                                     <NavBarContextProvider>
                                         <ActiveDeviceContextProvider>
-                                            <SnackbarProvider>
+                                            <SnackbarProvider
+                                                Components={{
+                                                    default: SnackbarWithDescription,
+                                                    info: SnackbarWithDescription,
+                                                    success: SnackbarWithDescription,
+                                                    warning: SnackbarWithDescription,
+                                                    error: SnackbarWithDescription,
+                                                }}
+                                            >
                                                 <ReaderContextProvider>
                                                     <AppHotkeysProvider>{children}</AppHotkeysProvider>
                                                 </ReaderContextProvider>

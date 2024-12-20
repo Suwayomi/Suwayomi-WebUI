@@ -29,6 +29,7 @@ import { LibrarySortMode } from '@/modules/library/Library.types.ts';
 import { CategoryMetadataInfo } from '@/modules/category/Category.types.ts';
 import { statusToTranslationKey } from '@/modules/manga/Manga.constants.ts';
 import { GridLayout } from '@/modules/core/Core.types.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 const TITLES: { [key in 'filter' | 'sort' | 'display']: TranslationKey } = {
     filter: 'global.label.filter',
@@ -61,15 +62,15 @@ export const LibraryOptionsPanel = ({
     const loggedInTrackers = Trackers.getLoggedIn(trackerList.data?.trackers.nodes ?? []);
 
     const categoryLibraryOptions = useGetCategoryMetadata(category);
-    const updateCategoryLibraryOptions = createUpdateCategoryMetadata(category, () =>
-        makeToast(t('global.error.label.failed_to_save_changes', 'error')),
+    const updateCategoryLibraryOptions = createUpdateCategoryMetadata(category, (e) =>
+        makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
     );
 
     const {
         settings: { showTabSize },
     } = useMetadataServerSettings();
-    const setSettingValue = createUpdateMetadataServerSettings<'showTabSize'>(() =>
-        makeToast(t('search.error.label.failed_to_save_settings'), 'warning'),
+    const setSettingValue = createUpdateMetadataServerSettings<'showTabSize'>((e) =>
+        makeToast(t('search.error.label.failed_to_save_settings'), 'error', getErrorMessage(e)),
     );
 
     return (

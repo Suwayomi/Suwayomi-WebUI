@@ -23,6 +23,7 @@ import { GET_TRACKERS_BIND } from '@/lib/graphql/queries/TrackerQuery.ts';
 import { GET_MANGA_TRACK_RECORDS } from '@/lib/graphql/queries/MangaQuery.ts';
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 const getTrackerMode = (id: number, trackersInUse: number[], searchModeForTracker?: number): TrackerMode => {
     if (id === searchModeForTracker) {
@@ -78,7 +79,7 @@ export const TrackManga = ({ manga }: { manga: MangaIdInfo & Pick<MangaType, 'ti
         fetchedLatestTrackDataRef.current = true;
         Promise.all(
             mangaTrackRecords.map((trackRecord) => requestManager.fetchTrackBind(trackRecord.id).response),
-        ).catch(() => makeToast(t('tracking.error.label.could_not_fetch_track_info'), 'error'));
+        ).catch((e) => makeToast(t('tracking.error.label.could_not_fetch_track_info'), 'error', getErrorMessage(e)));
     }, [mangaTrackRecords]);
 
     const trackerComponents = useMemo(

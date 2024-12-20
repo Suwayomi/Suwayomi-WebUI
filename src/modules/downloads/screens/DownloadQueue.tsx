@@ -36,6 +36,7 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { ChapterDownloadStatus, ChapterIdInfo } from '@/modules/chapter/services/Chapters.ts';
 import { DownloaderState, DownloadState } from '@/lib/graphql/generated/graphql.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 const HeightPreservingItem = ({ children, ...props }: BoxProps) => (
     // the height is necessary to prevent the item container from collapsing, which confuses Virtuoso measurements
@@ -141,7 +142,7 @@ export const DownloadQueue: React.FC = () => {
         try {
             await requestManager.clearDownloads().response;
         } catch (e) {
-            makeToast(t('download.queue.error.label.failed_delete_all'), 'error');
+            makeToast(t('download.queue.error.label.failed_delete_all'), 'error', getErrorMessage(e));
         }
     };
 
@@ -216,7 +217,7 @@ export const DownloadQueue: React.FC = () => {
         try {
             await requestManager.addChapterToDownloadQueue(chapter.id).response;
         } catch (e) {
-            makeToast(t('download.queue.error.label.failed_to_remove'), 'error');
+            makeToast(t('download.queue.error.label.failed_to_remove'), 'error', getErrorMessage(e));
         }
     };
 
@@ -237,7 +238,7 @@ export const DownloadQueue: React.FC = () => {
                 requestManager.deleteDownloadedChapter(chapter.id).response,
             ]);
         } catch (e) {
-            makeToast(t('download.queue.error.label.failed_to_retry'), 'error');
+            makeToast(t('download.queue.error.label.failed_to_retry'), 'error', getErrorMessage(e));
         }
 
         if (!isRunning) {

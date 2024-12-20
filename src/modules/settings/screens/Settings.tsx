@@ -30,6 +30,7 @@ import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.t
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 export function Settings() {
     const { t } = useTranslation();
@@ -52,7 +53,7 @@ export function Settings() {
             await triggerClearServerCache();
             makeToast(t('settings.clear_cache.label.success'), 'success');
         } catch (e) {
-            makeToast(t('settings.clear_cache.label.failure'), 'error');
+            makeToast(t('settings.clear_cache.label.failure'), 'error', getErrorMessage(e));
         }
     };
 

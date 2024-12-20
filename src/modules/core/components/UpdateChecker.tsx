@@ -25,6 +25,7 @@ import { dateTimeFormatter } from '@/util/DateHelper.ts';
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 
 import { CategoryIdInfo } from '@/modules/category/Category.types.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 const calcProgress = (status: UpdaterSubscription['updateStatusChanged'] | undefined) => {
     if (!status) {
@@ -93,7 +94,7 @@ export function UpdateChecker({
             reFetchLastTimestamp().catch(defaultPromiseErrorHandler('UpdateChecker::reFetchLastTimestamp'));
         } catch (e) {
             lastRunningState = false;
-            makeToast(t('global.error.label.update_failed'), 'error');
+            makeToast(t('global.error.label.update_failed'), 'error', getErrorMessage(e));
         }
     };
 
@@ -101,7 +102,7 @@ export function UpdateChecker({
         try {
             await requestManager.resetGlobalUpdate();
         } catch (e) {
-            makeToast(t('library.error.label.stop_global_update'), 'error');
+            makeToast(t('library.error.label.stop_global_update'), 'error', getErrorMessage(e));
         }
     };
 

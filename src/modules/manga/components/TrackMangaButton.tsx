@@ -35,7 +35,7 @@ export const TrackMangaButton = ({ manga }: { manga: MangaTrackRecordInfo & Pick
 
     const handleClick = (openPopup: () => void) => {
         if (trackerList.error) {
-            makeToast(t('tracking.error.label.could_not_load_track_info'), 'error');
+            makeToast(t('tracking.error.label.could_not_load_track_info'), 'error', trackerList.error?.toString());
             return;
         }
 

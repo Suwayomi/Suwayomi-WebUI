@@ -408,6 +408,7 @@
       "disabled": "Disabled",
       "discord": "Discord",
       "display": "Display",
+      "error": "Error",
       "filter": "Filter",
       "finished": "Finished",
       "footnote": "{{value}}<0>$t(global.label.asterisk)</0>",
@@ -415,6 +416,7 @@
       "github": "GitHub",
       "hidden": "Hidden",
       "horizontal": "Horizontal",
+      "info": "Information",
       "left": "Left",
       "links": "Links",
       "load_in_progress": "Still loading required data…",
@@ -435,10 +437,12 @@
       "sort": "Sort",
       "standard": "Standard",
       "started": "Started",
+      "success": "Success",
       "type": "Type",
       "unknown": "Unknown",
       "username": "Username",
-      "vertical": "Vertical"
+      "vertical": "Vertical",
+      "warning": "Warning"
     },
     "language": {
       "label": {

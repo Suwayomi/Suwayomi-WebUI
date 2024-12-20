@@ -34,6 +34,7 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 export const TrackerSearch = ({
     manga,
@@ -90,7 +91,7 @@ export const TrackerSearch = ({
                 makeToast(t('manga.action.track.add.label.success'), 'success');
                 closeSearchMode();
             })
-            .catch(() => makeToast(t('manga.action.track.add.label.error'), 'error'));
+            .catch((e) => makeToast(t('manga.action.track.add.label.error'), 'error', getErrorMessage(e)));
     };
 
     return (

@@ -22,6 +22,7 @@ import { CheckboxContainer } from '@/modules/core/components/inputs/CheckboxCont
 import { CheckboxInput } from '@/modules/core/components/inputs/CheckboxInput.tsx';
 import { TranslationKey } from '@/Base.types.ts';
 import { ServerSettings } from '@/modules/settings/Settings.types.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 type GlobalUpdateSkipEntriesSettings = Pick<
     ServerSettings,
@@ -90,8 +91,8 @@ export const GlobalUpdateSettingsEntries = ({ serverSettings }: { serverSettings
 
         try {
             await mutateSettings({ variables: { input: { settings: dialogSettings } } });
-        } catch (error) {
-            makeToast(t('global.error.label.failed_to_save_changes'), 'error');
+        } catch (e) {
+            makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e));
         }
     };
 

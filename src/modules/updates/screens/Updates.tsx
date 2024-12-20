@@ -38,6 +38,7 @@ import { ChapterIdInfo, ChapterMangaInfo } from '@/modules/chapter/services/Chap
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { VirtuosoUtil } from '@/lib/virtuoso/Virtuoso.util.tsx';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 const groupByDate = (updates: Pick<ChapterType, 'fetchedAt'>[]): [date: string, items: number][] => {
     if (!updates.length) {
@@ -115,14 +116,16 @@ export const Updates: React.FC = () => {
         try {
             await requestManager.addChapterToDownloadQueue(chapter.id).response;
         } catch (e) {
-            makeToast(t('download.queue.error.label.failed_to_remove'), 'error');
+            makeToast(t('download.queue.error.label.failed_to_remove'), 'error', getErrorMessage(e));
         }
     };
 
     const downloadChapter = (chapter: ChapterIdInfo) => {
         requestManager
             .addChapterToDownloadQueue(chapter.id)
-            .response.catch(() => makeToast(t('global.error.label.failed_to_save_changes'), 'error'));
+            .response.catch((e) =>
+                makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
+            );
     };
 
     const loadMore = useCallback(() => {

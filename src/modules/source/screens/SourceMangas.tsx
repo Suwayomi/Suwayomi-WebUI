@@ -52,6 +52,7 @@ import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 import { GridLayout } from '@/modules/core/Core.types.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 const DEFAULT_SOURCE: Pick<SourceType, 'id'> = { id: '-1' };
 
@@ -290,8 +291,8 @@ export function SourceMangas() {
 
     const filters = source?.filters ?? [];
     const { savedSearches = {} } = useGetSourceMetadata(source ?? DEFAULT_SOURCE);
-    const updateSourceMetadata = createUpdateSourceMetadata<'savedSearches'>(source ?? { id: '-1' }, () =>
-        makeToast(t('global.error.label.failed_to_save_changes'), 'error'),
+    const updateSourceMetadata = createUpdateSourceMetadata<'savedSearches'>(source ?? { id: '-1' }, (e) =>
+        makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
     );
 
     const selectSavedSearch = useCallback(

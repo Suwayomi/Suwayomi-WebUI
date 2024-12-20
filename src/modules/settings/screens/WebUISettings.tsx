@@ -32,6 +32,7 @@ import {
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { MetadataUpdateSettings } from '@/modules/app-updates/AppUpdateChecker.types.ts';
 import { ServerSettings } from '@/modules/settings/Settings.types.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 type WebUISettingsType = Pick<
     ServerSettings,
@@ -138,7 +139,7 @@ export const WebUISettings = () => {
     } = useMetadataServerSettings();
     const updateMetadataServerSettings = createUpdateMetadataServerSettings<
         keyof Pick<MetadataUpdateSettings, 'webUIInformAvailableUpdate'>
-    >(() => makeToast(t('global.error.label.failed_to_save_changes'), 'error'));
+    >((e) => makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)));
 
     const {
         data,
@@ -158,8 +159,8 @@ export const WebUISettings = () => {
             requestManager.graphQLClient.client.cache.evict({ fieldName: 'checkForWebUIUpdate' });
         }
 
-        mutateSettings({ variables: { input: { settings: { [setting]: value } } } }).catch(() =>
-            makeToast(t('global.error.label.failed_to_save_changes'), 'error'),
+        mutateSettings({ variables: { input: { settings: { [setting]: value } } } }).catch((e) =>
+            makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
         );
     };
 

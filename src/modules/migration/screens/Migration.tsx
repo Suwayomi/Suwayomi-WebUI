@@ -30,6 +30,7 @@ import {
 } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 const getMigratableSources = (
     mangas: TMigratableSourcesResult | undefined,
@@ -80,8 +81,8 @@ export const Migration = ({ tabsMenuHeight }: { tabsMenuHeight: number }) => {
     const {
         settings: { migrateSortSettings },
     } = useMetadataServerSettings();
-    const updateMetadataServerSettings = createUpdateMetadataServerSettings<'migrateSortSettings'>(() =>
-        makeToast(t('global.error.label.failed_to_save_changes'), 'error'),
+    const updateMetadataServerSettings = createUpdateMetadataServerSettings<'migrateSortSettings'>((e) =>
+        makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
     );
     const { sortBy, sortOrder } = migrateSortSettings;
 

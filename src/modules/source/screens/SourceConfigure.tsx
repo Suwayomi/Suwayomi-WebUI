@@ -27,6 +27,7 @@ import { GetCategoriesSettingsQueryVariables, GetSourceSettingsQuery } from '@/l
 import { GET_SOURCE_SETTINGS } from '@/lib/graphql/queries/SourceQuery.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { PreferenceProps } from '@/modules/source/Source.types.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 function getPrefComponent(type: string) {
     switch (type) {
@@ -73,7 +74,9 @@ export function SourceConfigure() {
         (type, value) => {
             requestManager
                 .setSourcePreferences(sourceId, { position, [type]: value })
-                .response.catch(() => makeToast(t('global.error.label.failed_to_save_changes'), 'error'));
+                .response.catch((e) =>
+                    makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
+                );
         };
 
     if (loading) {

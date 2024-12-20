@@ -21,6 +21,7 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { CreateThemeButton } from '@/modules/theme/components/CreateThemeButton.tsx';
 import { ThemePreview } from '@/modules/theme/components/ThemePreview.tsx';
 import { MetadataThemeSettings } from '@/modules/theme/AppTheme.types.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 export const ThemeList = () => {
     const { t } = useTranslation();
@@ -80,10 +81,11 @@ export const ThemeList = () => {
                                     'success',
                                 ),
                             )
-                            .catch(() =>
+                            .catch((e) =>
                                 makeToast(
                                     t('settings.appearance.theme.delete.failure', { theme: theme.getName() }),
                                     'error',
+                                    getErrorMessage(e),
                                 ),
                             );
                     }}

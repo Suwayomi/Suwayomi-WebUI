@@ -34,6 +34,7 @@ import {
 import { GET_CATEGORIES_BASE } from '@/lib/graphql/queries/CategoryQuery.ts';
 import { GET_MANGA_CATEGORIES } from '@/lib/graphql/queries/MangaQuery.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 type BaseProps = {
     open: boolean;
@@ -150,8 +151,8 @@ export function CategorySelect(props: CategorySelectProps) {
         onClose(true, addToCategories, removeFromCategories);
 
         if (doNotShowAddToLibraryDialogAgain) {
-            updateMetadataServerSettings('showAddToLibraryCategorySelectDialog', false).catch(() =>
-                makeToast(t('search.error.label.failed_to_save_settings'), 'error'),
+            updateMetadataServerSettings('showAddToLibraryCategorySelectDialog', false).catch((e) =>
+                makeToast(t('search.error.label.failed_to_save_settings'), 'error', getErrorMessage(e)),
             );
         }
 

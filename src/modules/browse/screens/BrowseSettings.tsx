@@ -28,6 +28,7 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { MetadataBrowseSettings } from '@/modules/browse/Browse.types.ts';
 import { ServerSettings as GqlServerSettings } from '@/modules/settings/Settings.types.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 type ExtensionsSettings = Pick<GqlServerSettings, 'maxSourcesInParallel' | 'localSourcePath' | 'extensionRepos'>;
 
@@ -57,16 +58,16 @@ export const BrowseSettings = () => {
         setting: Setting,
         value: ExtensionsSettings[Setting],
     ) => {
-        mutateSettings({ variables: { input: { settings: { [setting]: value } } } }).catch(() =>
-            makeToast(t('global.error.label.failed_to_save_changes'), 'error'),
+        mutateSettings({ variables: { input: { settings: { [setting]: value } } } }).catch((e) =>
+            makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
         );
     };
 
     const {
         settings: { hideLibraryEntries },
     } = useMetadataServerSettings();
-    const updateMetadataServerSettings = createUpdateMetadataServerSettings<keyof MetadataBrowseSettings>(() =>
-        makeToast(t('global.error.label.failed_to_save_changes'), 'error'),
+    const updateMetadataServerSettings = createUpdateMetadataServerSettings<keyof MetadataBrowseSettings>((e) =>
+        makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
     );
 
     if (loading) {

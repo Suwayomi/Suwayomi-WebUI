@@ -32,6 +32,7 @@ import { GetCategoriesSettingsQuery, GetCategoriesSettingsQueryVariables } from 
 import { GET_CATEGORIES_SETTINGS } from '@/lib/graphql/queries/CategoryQuery.ts';
 import { MetadataDownloadSettings } from '@/modules/downloads/Downloads.types.ts';
 import { ServerSettings } from '@/modules/settings/Settings.types.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 type DownloadSettingsType = Pick<
     ServerSettings,
@@ -115,13 +116,13 @@ export const DownloadSettings = () => {
         setting: Setting,
         value: DownloadSettingsType[Setting],
     ) => {
-        mutateSettings({ variables: { input: { settings: { [setting]: value } } } }).catch(() =>
-            makeToast(t('global.error.label.failed_to_save_changes'), 'error'),
+        mutateSettings({ variables: { input: { settings: { [setting]: value } } } }).catch((e) =>
+            makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
         );
     };
 
-    const updateMetadataSetting = createUpdateMetadataServerSettings<keyof MetadataDownloadSettings>(() =>
-        makeToast(t('global.error.label.failed_to_save_changes'), 'error'),
+    const updateMetadataSetting = createUpdateMetadataServerSettings<keyof MetadataDownloadSettings>((e) =>
+        makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
     );
 
     return (

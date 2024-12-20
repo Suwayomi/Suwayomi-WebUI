@@ -40,6 +40,7 @@ import {
 import { ExtensionAction, ExtensionGroupState, ExtensionState } from '@/modules/extension/Extensions.types.ts';
 import { EXTENSION_ACTION_TO_FAILURE_TRANSLATION_KEY_MAP } from '@/modules/extension/Extensions.constants.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 const LANGUAGE = 0;
 const EXTENSIONS = 1;
@@ -123,7 +124,7 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
                     handleExtensionUpdate();
                     makeToast(t('extension.label.installed_successfully'), 'success');
                 })
-                .catch(() => makeToast(t('extension.label.installation_failed'), 'error'));
+                .catch((e) => makeToast(t('extension.label.installation_failed'), 'error', getErrorMessage(e)));
         } else {
             makeToast(t('global.error.label.invalid_file_type'), 'error');
         }
@@ -263,7 +264,7 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
                                         requestManager
                                             .updateExtensions(extensionIds, { update: true })
                                             .response.then(() => handleExtensionUpdate())
-                                            .catch(() =>
+                                            .catch((e) =>
                                                 makeToast(
                                                     t(
                                                         EXTENSION_ACTION_TO_FAILURE_TRANSLATION_KEY_MAP[
@@ -271,6 +272,8 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
                                                         ],
                                                         { count: groupedExtensions.length },
                                                     ),
+                                                    'error',
+                                                    getErrorMessage(e),
                                                 ),
                                             )
                                             .finally(() => setUpdatingExtensionIds([]));

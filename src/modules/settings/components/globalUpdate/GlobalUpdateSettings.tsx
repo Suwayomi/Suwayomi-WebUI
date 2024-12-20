@@ -21,6 +21,7 @@ import { GlobalUpdateSettingsInterval } from '@/modules/settings/components/glob
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { ServerSettings } from '@/modules/settings/Settings.types.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 type LibrarySettingsType = Pick<ServerSettings, 'updateMangas'>;
 
@@ -42,8 +43,8 @@ export const GlobalUpdateSettings = ({
     ) => {
         try {
             await mutateSettings({ variables: { input: { settings: { [setting]: value } } } });
-        } catch (error) {
-            makeToast(t('global.error.label.failed_to_save_changes'), 'error');
+        } catch (e) {
+            makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e));
         }
     };
 
