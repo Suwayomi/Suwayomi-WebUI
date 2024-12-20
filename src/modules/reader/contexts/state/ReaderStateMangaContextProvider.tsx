@@ -6,11 +6,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ContextType, ReactNode, useMemo, useState } from 'react';
+import { ReactNode, useMemo, useState } from 'react';
 import { ReaderStateMangaContext } from '@/modules/reader/contexts/state/ReaderStateMangaContext.tsx';
+import { TReaderStateMangaContext } from '@/modules/reader/types/Reader.types.ts';
 
 export const ReaderStateMangaContextProvider = ({ children }: { children: ReactNode }) => {
-    const [manga, setManga] = useState<ContextType<typeof ReaderStateMangaContext>['manga']>();
+    const [manga, setManga] = useState<TReaderStateMangaContext['manga']>();
 
     const value = useMemo(() => ({ manga, setManga }), [manga]);
 

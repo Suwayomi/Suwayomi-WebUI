@@ -60,3 +60,8 @@ export type LibraryDuplicatesDescriptionWorkerInput<Manga extends TMangaDuplicat
     mangasToCheck: Manga[];
     mangas: Manga[];
 };
+
+export type LibraryOptionsContextType = {
+    options: LibraryOptions;
+    setOptions: React.Dispatch<React.SetStateAction<LibraryOptions>>;
+};

@@ -65,3 +65,10 @@ export interface CurrentPageSlotProps extends Pick<IReaderSettings, 'progressBar
     setIsDragging: (isDragging: boolean) => void;
     boxProps?: BoxProps;
 }
+
+export type TReaderProgressBarContext = {
+    isMaximized: boolean;
+    setIsMaximized: (visible: boolean) => void;
+    isDragging: boolean;
+    setIsDragging: (isDragging: boolean) => void;
+};

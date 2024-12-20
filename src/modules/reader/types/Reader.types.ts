@@ -11,6 +11,7 @@ import { TapZoneInvertMode, TapZoneLayouts } from '@/modules/reader/types/TapZon
 import { TChapterReader } from '@/modules/chapter/Chapter.types.ts';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types.ts';
+import { TMangaReader } from '@/modules/manga/Manga.types.ts';
 
 export enum ProgressBarType {
     HIDDEN,
@@ -240,3 +241,20 @@ export enum ReaderResumeMode {
     END,
     LAST_READ,
 }
+
+export type TReaderScrollbarContext = {
+    scrollbarXSize: number;
+    setScrollbarXSize: (size: number) => void;
+    scrollbarYSize: number;
+    setScrollbarYSize: (size: number) => void;
+};
+
+export type TReaderStateMangaContext = {
+    manga: TMangaReader | undefined;
+    setManga: (manga: TMangaReader | undefined) => void;
+};
+
+export type TReaderStateSettingsContext = {
+    settings: IReaderSettingsWithDefaultFlag;
+    setSettings: (settings: IReaderSettingsWithDefaultFlag) => void;
+};

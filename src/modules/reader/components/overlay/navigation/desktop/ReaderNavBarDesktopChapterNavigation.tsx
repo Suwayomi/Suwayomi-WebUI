@@ -10,29 +10,26 @@ import Stack from '@mui/material/Stack';
 import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
 import MenuItem from '@mui/material/MenuItem';
-import { ContextType, useLayoutEffect } from 'react';
+import { useLayoutEffect } from 'react';
 import Popover from '@mui/material/Popover';
 import { bindPopover, bindTrigger, usePopupState } from 'material-ui-popup-state/hooks';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import { Link } from 'react-router-dom';
 import { Select } from '@/modules/core/components/inputs/Select.tsx';
-import { ReaderStateChaptersContext } from '@/modules/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import { ReaderChapterList } from '@/modules/reader/components/overlay/navigation/ReaderChapterList.tsx';
 import { ReaderNavBarDesktopNextPreviousButton } from '@/modules/reader/components/overlay/navigation/desktop/ReaderNavBarDesktopNextPreviousButton.tsx';
 import { getOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { ReaderControls } from '@/modules/reader/services/ReaderControls.ts';
+import { ReaderStateChapters } from '@/modules/reader/types/Reader.types.ts';
 
 export const ReaderNavBarDesktopChapterNavigation = ({
     currentChapter,
     previousChapter,
     nextChapter,
     chapters = [],
-}: Pick<
-    ContextType<typeof ReaderStateChaptersContext>,
-    'chapters' | 'currentChapter' | 'previousChapter' | 'nextChapter'
->) => {
+}: Pick<ReaderStateChapters, 'chapters' | 'currentChapter' | 'previousChapter' | 'nextChapter'>) => {
     const { t } = useTranslation();
     const readerThemeDirection = ReaderService.useGetThemeDirection();
     const openChapter = ReaderControls.useOpenChapter();

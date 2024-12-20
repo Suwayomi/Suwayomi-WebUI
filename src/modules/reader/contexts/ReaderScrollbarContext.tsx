@@ -7,13 +7,7 @@
  */
 
 import { createContext, useContext } from 'react';
-
-type TReaderScrollbarContext = {
-    scrollbarXSize: number;
-    setScrollbarXSize: (size: number) => void;
-    scrollbarYSize: number;
-    setScrollbarYSize: (size: number) => void;
-};
+import { TReaderScrollbarContext } from '@/modules/reader/types/Reader.types.ts';
 
 export const ReaderScrollbarContext = createContext<TReaderScrollbarContext>({
     scrollbarXSize: 0,

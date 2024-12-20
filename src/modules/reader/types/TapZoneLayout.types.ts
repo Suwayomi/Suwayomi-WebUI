@@ -34,3 +34,8 @@ export interface TapZoneInvertMode {
     vertical: boolean;
     horizontal: boolean;
 }
+
+export type TReaderTapZoneContext = {
+    showPreview: boolean;
+    setShowPreview: (showPreview: boolean) => void;
+};

@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ContextType, MutableRefObject, useCallback, useMemo } from 'react';
+import { MutableRefObject, useCallback, useMemo } from 'react';
 import { Direction, useTheme } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
 import { TFunction } from 'i18next';
@@ -28,7 +28,7 @@ import {
     READING_DIRECTION_TO_THEME_DIRECTION,
 } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 import { isEndOfPageInViewport, isPageInViewport } from '@/modules/reader/utils/ReaderPager.utils.tsx';
-import { ReaderOverlayContext, useReaderOverlayContext } from '@/modules/reader/contexts/ReaderOverlayContext.tsx';
+import { useReaderOverlayContext } from '@/modules/reader/contexts/ReaderOverlayContext.tsx';
 import { useReaderTapZoneContext } from '@/modules/reader/contexts/ReaderTapZoneContext.tsx';
 import { TapZoneRegionType } from '@/modules/reader/types/TapZoneLayout.types.ts';
 import { ReaderTapZoneService } from '@/modules/reader/services/ReaderTapZoneService.ts';
@@ -40,6 +40,7 @@ import { useMetadataServerSettings } from '@/modules/settings/services/ServerSet
 import { TChapterReader } from '@/modules/chapter/Chapter.types.ts';
 import { awaitConfirmation } from '@/modules/core/utils/AwaitableDialog.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
+import { TReaderOverlayContext } from '@/modules/reader/types/ReaderOverlay.types.ts';
 
 const getScrollDirectionInvert = (
     scrollDirection: ScrollDirection,
@@ -83,7 +84,7 @@ export class ReaderControls {
         themeDirection: Direction,
         element: HTMLElement,
         openChapter: ReturnType<(typeof ReaderControls)['useOpenChapter']>,
-        setIsOverlayVisible: ContextType<typeof ReaderOverlayContext>['setIsVisible'],
+        setIsOverlayVisible: TReaderOverlayContext['setIsVisible'],
         scrollAmountPercentage: number = ReaderScrollAmount.LARGE,
     ): void {
         if (!element) {

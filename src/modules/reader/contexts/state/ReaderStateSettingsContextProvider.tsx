@@ -6,12 +6,13 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ContextType, ReactNode, useMemo, useState } from 'react';
+import { ReactNode, useMemo, useState } from 'react';
 import { ReaderStateSettingsContext } from '@/modules/reader/contexts/state/ReaderStateSettingsContext.tsx';
 import { DEFAULT_READER_SETTINGS_WITH_DEFAULT_FLAG } from '@/modules/reader/services/ReaderSettingsMetadata.ts';
+import { TReaderStateSettingsContext } from '@/modules/reader/types/Reader.types.ts';
 
 export const ReaderStateSettingsContextProvider = ({ children }: { children: ReactNode }) => {
-    const [settings, setSettings] = useState<ContextType<typeof ReaderStateSettingsContext>['settings']>(
+    const [settings, setSettings] = useState<TReaderStateSettingsContext['settings']>(
         DEFAULT_READER_SETTINGS_WITH_DEFAULT_FLAG,
     );
 

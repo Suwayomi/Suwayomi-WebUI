@@ -7,11 +7,9 @@
  */
 
 import Stack from '@mui/material/Stack';
-import { ContextType } from 'react';
 import { ReaderSettingReadingMode } from '@/modules/reader/components/settings/layout/ReaderSettingReadingMode.tsx';
 import { ReaderSettingReadingDirection } from '@/modules/reader/components/settings/layout/ReaderSettingReadingDirection.tsx';
 import { ReaderSettingTapZoneLayout } from '@/modules/reader/components/settings/layout/ReaderSettingTapZoneLayout.tsx';
-import { ReaderTapZoneContext } from '@/modules/reader/contexts/ReaderTapZoneContext.tsx';
 import { ReaderSettingTapZoneInvertMode } from '@/modules/reader/components/settings/layout/ReaderSettingTapZoneInvertMode.tsx';
 import { ReaderSettingPageScaleMode } from '@/modules/reader/components/settings/layout/ReaderSettingPageScaleMode.tsx';
 import { ReaderSettingStretchPage } from '@/modules/reader/components/settings/layout/ReaderSettingStretchPage.tsx';
@@ -19,6 +17,7 @@ import { ReaderSettingsTypeProps } from '@/modules/reader/types/Reader.types.ts'
 import { ReaderSettingPageGap } from '@/modules/reader/components/settings/layout/ReaderSettingPageGap.tsx';
 import { ReaderSettingWidth } from '@/modules/reader/components/settings/layout/ReaderSettingWidth.tsx';
 import { DefaultSettingFootnote } from '@/modules/reader/components/settings/DefaultSettingFootnote.tsx';
+import { TReaderTapZoneContext } from '@/modules/reader/types/TapZoneLayout.types.ts';
 
 export const ReaderLayoutSettings = ({
     setShowPreview,
@@ -27,7 +26,7 @@ export const ReaderLayoutSettings = ({
     isDefaultable,
     onDefault,
 }: ReaderSettingsTypeProps & {
-    setShowPreview: ContextType<typeof ReaderTapZoneContext>['setShowPreview'];
+    setShowPreview: TReaderTapZoneContext['setShowPreview'];
 }) => (
     <Stack sx={{ gap: 2 }}>
         <DefaultSettingFootnote />

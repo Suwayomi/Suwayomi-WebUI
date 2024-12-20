@@ -7,13 +7,7 @@
  */
 
 import { createContext, useContext } from 'react';
-
-type TReaderProgressBarContext = {
-    isMaximized: boolean;
-    setIsMaximized: (visible: boolean) => void;
-    isDragging: boolean;
-    setIsDragging: (isDragging: boolean) => void;
-};
+import { TReaderProgressBarContext } from '@/modules/reader/types/ReaderProgressBar.types.ts';
 
 export const ReaderProgressBarContext = createContext<TReaderProgressBarContext>({
     isMaximized: false,

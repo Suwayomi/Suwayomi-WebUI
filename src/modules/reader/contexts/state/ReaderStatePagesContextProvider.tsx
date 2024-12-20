@@ -6,25 +6,24 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ContextType, ReactNode, useMemo, useState } from 'react';
+import { ReactNode, useMemo, useState } from 'react';
 import { ReaderStatePagesContext } from '@/modules/reader/contexts/state/ReaderStatePagesContext.tsx';
 import { createPageData } from '@/modules/reader/utils/ReaderPager.utils.tsx';
 import { ReaderTransitionPageMode } from '@/modules/reader/types/Reader.types.ts';
-
-type TContext = ContextType<typeof ReaderStatePagesContext>;
+import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types.ts';
 
 export const ReaderStatePagesContextProvider = ({ children }: { children: ReactNode }) => {
-    const [totalPages, setTotalPages] = useState<TContext['totalPages']>(0);
-    const [currentPageIndex, setCurrentPageIndex] = useState<TContext['currentPageIndex']>(0);
-    const [pageToScrollToIndex, setPageToScrollToIndex] = useState<TContext['pageToScrollToIndex']>(0);
-    const [pageUrls, setPageUrls] = useState<TContext['pageUrls']>([]);
-    const [pageLoadStates, setPageLoadStates] = useState<TContext['pageLoadStates']>([{ loaded: false }]);
-    const [pages, setPages] = useState<TContext['pages']>([createPageData('', 0)]);
-    const [transitionPageMode, setTransitionPageMode] = useState<TContext['transitionPageMode']>(
+    const [totalPages, setTotalPages] = useState<ReaderStatePages['totalPages']>(0);
+    const [currentPageIndex, setCurrentPageIndex] = useState<ReaderStatePages['currentPageIndex']>(0);
+    const [pageToScrollToIndex, setPageToScrollToIndex] = useState<ReaderStatePages['pageToScrollToIndex']>(0);
+    const [pageUrls, setPageUrls] = useState<ReaderStatePages['pageUrls']>([]);
+    const [pageLoadStates, setPageLoadStates] = useState<ReaderStatePages['pageLoadStates']>([{ loaded: false }]);
+    const [pages, setPages] = useState<ReaderStatePages['pages']>([createPageData('', 0)]);
+    const [transitionPageMode, setTransitionPageMode] = useState<ReaderStatePages['transitionPageMode']>(
         ReaderTransitionPageMode.NONE,
     );
     const [retryFailedPagesKeyPrefix, setRetryFailedPagesKeyPrefix] =
-        useState<TContext['retryFailedPagesKeyPrefix']>('');
+        useState<ReaderStatePages['retryFailedPagesKeyPrefix']>('');
 
     const value = useMemo(
         () => ({

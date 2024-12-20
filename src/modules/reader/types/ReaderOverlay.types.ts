@@ -19,3 +19,8 @@ interface ReaderNavBarBaseProps extends BaseReaderOverlayProps {
 export interface ReaderBottomBarMobileProps extends ReaderNavBarBaseProps {}
 
 export interface ReaderNavBarDesktopProps extends ReaderNavBarBaseProps {}
+
+export type TReaderOverlayContext = {
+    isVisible: boolean;
+    setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
+};

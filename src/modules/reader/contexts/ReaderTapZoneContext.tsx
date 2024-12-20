@@ -7,11 +7,7 @@
  */
 
 import { createContext, useContext } from 'react';
-
-type TReaderTapZoneContext = {
-    showPreview: boolean;
-    setShowPreview: (showPreview: boolean) => void;
-};
+import { TReaderTapZoneContext } from '@/modules/reader/types/TapZoneLayout.types.ts';
 
 export const ReaderTapZoneContext = createContext<TReaderTapZoneContext>({
     showPreview: false,

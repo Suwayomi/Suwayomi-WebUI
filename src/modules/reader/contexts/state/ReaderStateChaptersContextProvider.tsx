@@ -6,13 +6,15 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ContextType, ReactNode, useMemo, useState } from 'react';
+import { ReactNode, useMemo, useState } from 'react';
 import { ReaderStateChaptersContext } from '@/modules/reader/contexts/state/ReaderStateChaptersContext.tsx';
-
-type TContext = ContextType<typeof ReaderStateChaptersContext>;
+import { ReaderStateChapters } from '@/modules/reader/types/Reader.types.ts';
 
 export const ReaderStateChaptersContextProvider = ({ children }: { children: ReactNode }) => {
-    const [state, setState] = useState<Omit<TContext, 'setReaderStateChapters'>>({ mangaChapters: [], chapters: [] });
+    const [state, setState] = useState<Omit<ReaderStateChapters, 'setReaderStateChapters'>>({
+        mangaChapters: [],
+        chapters: [],
+    });
 
     const value = useMemo(
         () => ({

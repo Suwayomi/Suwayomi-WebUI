@@ -22,3 +22,35 @@ export interface NavbarItem {
     IconComponent: OverridableComponent<SvgIconTypeMap<{}, 'svg'>>;
     show: 'mobile' | 'desktop' | 'both';
 }
+
+export type NavbarContextType = {
+    history: string[];
+
+    // AppBar title
+    title: string | React.ReactNode;
+    setTitle: (title: NavbarContextType['title'], browserTitle?: string) => void;
+
+    appBarHeight: number;
+    setAppBarHeight: React.Dispatch<React.SetStateAction<number>>;
+
+    // AppBar action buttons
+    action: any;
+    setAction: React.Dispatch<React.SetStateAction<any>>;
+
+    // Allow default navbar to be overrided
+    override: INavbarOverride;
+    setOverride: React.Dispatch<React.SetStateAction<INavbarOverride>>;
+
+    // NavBar
+    isCollapsed: boolean;
+    setIsCollapsed: React.Dispatch<React.SetStateAction<boolean>>;
+
+    navBarWidth: number;
+    setNavBarWidth: React.Dispatch<React.SetStateAction<number>>;
+
+    readerNavBarWidth: number;
+    setReaderNavBarWidth: React.Dispatch<React.SetStateAction<number>>;
+
+    bottomBarHeight: number;
+    setBottomBarHeight: React.Dispatch<React.SetStateAction<number>>;
+};

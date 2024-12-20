@@ -8,39 +8,7 @@
 
 import React, { useContext } from 'react';
 
-import { INavbarOverride } from '@/modules/navigation-bar/NavigationBar.types.ts';
-
-type NavbarContextType = {
-    history: string[];
-
-    // AppBar title
-    title: string | React.ReactNode;
-    setTitle: (title: NavbarContextType['title'], browserTitle?: string) => void;
-
-    appBarHeight: number;
-    setAppBarHeight: React.Dispatch<React.SetStateAction<number>>;
-
-    // AppBar action buttons
-    action: any;
-    setAction: React.Dispatch<React.SetStateAction<any>>;
-
-    // Allow default navbar to be overrided
-    override: INavbarOverride;
-    setOverride: React.Dispatch<React.SetStateAction<INavbarOverride>>;
-
-    // NavBar
-    isCollapsed: boolean;
-    setIsCollapsed: React.Dispatch<React.SetStateAction<boolean>>;
-
-    navBarWidth: number;
-    setNavBarWidth: React.Dispatch<React.SetStateAction<number>>;
-
-    readerNavBarWidth: number;
-    setReaderNavBarWidth: React.Dispatch<React.SetStateAction<number>>;
-
-    bottomBarHeight: number;
-    setBottomBarHeight: React.Dispatch<React.SetStateAction<number>>;
-};
+import { NavbarContextType } from '@/modules/navigation-bar/NavigationBar.types.ts';
 
 export const NavBarContext = React.createContext<NavbarContextType>({
     history: [],

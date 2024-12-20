@@ -6,12 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import React, { createContext, useContext } from 'react';
-
-type TReaderOverlayContext = {
-    isVisible: boolean;
-    setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
-};
+import { createContext, useContext } from 'react';
+import { TReaderOverlayContext } from '@/modules/reader/types/ReaderOverlay.types.ts';
 
 export const ReaderOverlayContext = createContext<TReaderOverlayContext>({
     isVisible: false,
