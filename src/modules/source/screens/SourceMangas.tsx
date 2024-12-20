@@ -337,11 +337,11 @@ export function SourceMangas() {
 
             const updatedSavedSearches = {
                 ...savedSearches,
-                [savedSearch]: { query: query ?? undefined, filters: filtersToApply },
+                [savedSearch]: { query: query ?? undefined, filters: dialogFiltersToApply },
             };
             updateSourceMetadata('savedSearches', updatedSavedSearches);
         },
-        [savedSearches, query, filtersToApply],
+        [savedSearches, query, dialogFiltersToApply],
     );
 
     const message = !isLoading ? t(SOURCE_CONTENT_TYPE_TO_ERROR_MSG_KEY[contentType]) : undefined;
