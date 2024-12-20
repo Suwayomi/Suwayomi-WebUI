@@ -8,14 +8,14 @@
 
 import { createContext, useContext } from 'react';
 
-type TReaderContext = {
+type TReaderProgressBarContext = {
     isMaximized: boolean;
     setIsMaximized: (visible: boolean) => void;
     isDragging: boolean;
     setIsDragging: (isDragging: boolean) => void;
 };
 
-export const ReaderProgressBarContext = createContext<TReaderContext>({
+export const ReaderProgressBarContext = createContext<TReaderProgressBarContext>({
     isMaximized: false,
     setIsMaximized: () => undefined,
     isDragging: false,

@@ -10,12 +10,12 @@ import React, { useContext } from 'react';
 import { DEFAULT_CATEGORY_METADATA } from '@/modules/category/services/CategoryMetadata.ts';
 import { LibraryOptions } from '@/modules/library/Library.types.ts';
 
-type ContextType = {
+type LibraryOptionsContextType = {
     options: LibraryOptions;
     setOptions: React.Dispatch<React.SetStateAction<LibraryOptions>>;
 };
 
-export const LibraryOptionsContext = React.createContext<ContextType>({
+export const LibraryOptionsContext = React.createContext<LibraryOptionsContextType>({
     options: DEFAULT_CATEGORY_METADATA,
     setOptions: () => {},
 });

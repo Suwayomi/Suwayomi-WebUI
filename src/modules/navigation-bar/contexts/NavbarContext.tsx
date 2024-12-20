@@ -10,12 +10,12 @@ import React, { useContext } from 'react';
 
 import { INavbarOverride } from '@/modules/navigation-bar/NavigationBar.types.ts';
 
-type ContextType = {
+type NavbarContextType = {
     history: string[];
 
     // AppBar title
     title: string | React.ReactNode;
-    setTitle: (title: ContextType['title'], browserTitle?: string) => void;
+    setTitle: (title: NavbarContextType['title'], browserTitle?: string) => void;
 
     appBarHeight: number;
     setAppBarHeight: React.Dispatch<React.SetStateAction<number>>;
@@ -42,7 +42,7 @@ type ContextType = {
     setBottomBarHeight: React.Dispatch<React.SetStateAction<number>>;
 };
 
-export const NavBarContext = React.createContext<ContextType>({
+export const NavBarContext = React.createContext<NavbarContextType>({
     history: [],
     title: 'Suwayomi',
     setTitle: (): void => {},
