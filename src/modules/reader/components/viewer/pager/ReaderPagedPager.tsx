@@ -26,8 +26,10 @@ const BaseReaderPagedPager = ({
             createPage={(page, pagesIndex, shouldLoad, shouldDisplay) =>
                 createReaderPage(
                     page,
-                    () => onLoad?.(pagesIndex),
-                    () => onError?.(page.primary.index),
+                    pagesIndex,
+                    true,
+                    onLoad,
+                    onError,
                     shouldLoad,
                     shouldDisplay && currentPageIndex === page.primary.index,
                     currentPageIndex,

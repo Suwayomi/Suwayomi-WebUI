@@ -69,8 +69,10 @@ const BaseReaderDoublePagedPager = ({
                     <Fragment key={`${primary.url}_${secondary?.url}`}>
                         {createReaderPage(
                             page,
-                            () => onLoad?.(pagesIndex),
-                            () => onError?.(primary.index),
+                            pagesIndex,
+                            true,
+                            onLoad,
+                            onError,
                             shouldLoad,
                             shouldDisplay && isPrimaryPage,
                             currentPage.primary.index,
@@ -82,8 +84,10 @@ const BaseReaderDoublePagedPager = ({
                         {hasSecondaryPage &&
                             createReaderPage(
                                 { ...page, primary: { ...page.secondary! } },
-                                () => onLoad?.(pagesIndex, false),
-                                () => onError?.(secondary.index),
+                                pagesIndex,
+                                false,
+                                onLoad,
+                                onError,
                                 shouldLoad,
                                 shouldDisplay && isSecondaryPage,
                                 currentSecondaryPageIndex,

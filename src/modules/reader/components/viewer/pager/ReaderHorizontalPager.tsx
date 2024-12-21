@@ -36,8 +36,10 @@ const BaseReaderHorizontalPager = ({
             createPage={(page, pagesIndex, shouldLoad, _, setRef) =>
                 createReaderPage(
                     page,
-                    () => onLoad?.(pagesIndex),
-                    () => onError?.(page.primary.index),
+                    pagesIndex,
+                    true,
+                    onLoad,
+                    onError,
                     shouldLoad,
                     true,
                     currentPageIndex,

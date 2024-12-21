@@ -6,10 +6,15 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ComponentProps, ForwardedRef, forwardRef, memo } from 'react';
+import { ComponentProps, memo, useCallback } from 'react';
 import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
-import { IReaderSettings, ReaderCustomFilter, TReaderScrollbarContext } from '@/modules/reader/types/Reader.types.ts';
+import {
+    IReaderSettings,
+    ReaderCustomFilter,
+    ReaderPagerProps,
+    TReaderScrollbarContext,
+} from '@/modules/reader/types/Reader.types.ts';
 import {
     getImageMarginStyling,
     getImagePlaceholderStyling,
@@ -49,97 +54,100 @@ const getCustomFilterString = (customFilter: ReaderCustomFilter): string =>
         })
         .join(' ');
 
-const BaseReaderPage = forwardRef(
-    (
-        {
-            display,
-            doublePage = false,
-            position,
-            marginTop,
-            shouldLoad,
-            readingMode,
-            customFilter,
-            pageScaleMode,
-            shouldStretchPage,
-            readerWidth,
-            scrollbarXSize,
-            scrollbarYSize,
-            ...props
-        }: Omit<ComponentProps<typeof SpinnerImage>, 'ref' | 'spinnerStyle' | 'imgStyle'> &
-            Pick<
-                IReaderSettings,
-                'readingMode' | 'customFilter' | 'pageScaleMode' | 'shouldStretchPage' | 'readerWidth'
-            > &
-            Pick<TReaderScrollbarContext, 'scrollbarXSize' | 'scrollbarYSize'> & {
-                display: boolean;
-                doublePage?: boolean;
-                position?: 'left' | 'right';
-                marginTop?: number;
-            },
-        ref: ForwardedRef<HTMLImageElement | null>,
-    ) => {
-        const isTabletWidth = MediaQuery.useIsTabletWidth();
+const BaseReaderPage = ({
+    pageIndex,
+    pagesIndex,
+    isPrimaryPage,
+    display,
+    doublePage = false,
+    position,
+    marginTop,
+    shouldLoad,
+    readingMode,
+    customFilter,
+    pageScaleMode,
+    shouldStretchPage,
+    readerWidth,
+    scrollbarXSize,
+    scrollbarYSize,
+    onLoad,
+    onError,
+    setRef,
+    ...props
+}: Omit<ComponentProps<typeof SpinnerImage>, 'ref' | 'spinnerStyle' | 'imgStyle' | 'onLoad' | 'onError'> &
+    Pick<IReaderSettings, 'readingMode' | 'customFilter' | 'pageScaleMode' | 'shouldStretchPage' | 'readerWidth'> &
+    Pick<TReaderScrollbarContext, 'scrollbarXSize' | 'scrollbarYSize'> & {
+        pageIndex: number;
+        pagesIndex: number;
+        isPrimaryPage: boolean;
+        display: boolean;
+        doublePage?: boolean;
+        position?: 'left' | 'right';
+        marginTop?: number;
+        onLoad: ReaderPagerProps['onLoad'];
+        onError: ReaderPagerProps['onError'];
+        setRef?: (pagesIndex: number, ref: HTMLElement | null) => void;
+    }) => {
+    const isTabletWidth = MediaQuery.useIsTabletWidth();
 
-        if (!display && !shouldLoad) {
-            return null;
-        }
+    const handleLoad = useCallback(() => onLoad?.(pagesIndex, isPrimaryPage), [onLoad, pagesIndex, isPrimaryPage]);
+    const handleError = useCallback(() => onError?.(pageIndex), [onError, pageIndex]);
+    const updateRef = useCallback((element: HTMLElement | null) => setRef?.(pagesIndex, element), [pagesIndex, setRef]);
 
-        return (
-            <SpinnerImage
-                {...props}
-                shouldLoad={shouldLoad}
-                shouldDecode
-                ref={ref}
-                spinnerStyle={{
-                    backgroundColor: 'background.paper',
-                    ...getImagePlaceholderStyling(
-                        readingMode,
-                        shouldStretchPage,
-                        pageScaleMode,
-                        readerWidth,
-                        scrollbarXSize,
-                        scrollbarYSize,
-                        doublePage,
-                        isTabletWidth,
-                    ),
-                    ...applyStyles(!display, {
-                        display: 'none',
-                    }),
-                    ...getImageMarginStyling(doublePage, position),
-                }}
-                imgStyle={{
-                    ...getImageWidthStyling(
-                        readingMode,
-                        shouldStretchPage,
-                        pageScaleMode,
-                        doublePage,
-                        readerWidth,
-                        true,
-                    ),
-                    display: 'block',
-                    ...applyStyles(!display, {
-                        display: 'none',
-                    }),
-                    filter: getCustomFilterString(customFilter),
-                    objectFit: 'contain',
-                    objectPosition: position,
-                    userSelect: 'none',
-                    ...getImageMarginStyling(doublePage, position),
-                    ...applyStyles(marginTop !== undefined, {
-                        mt: `${marginTop}px`,
-                    }),
-                }}
-                hideImgStyle={{
-                    visibility: 'hidden',
-                    minWidth: 0,
-                    minHeight: 0,
-                    width: 0,
-                    height: 0,
-                }}
-            />
-        );
-    },
-);
+    if (!display && !shouldLoad) {
+        return null;
+    }
+
+    return (
+        <SpinnerImage
+            {...props}
+            onLoad={handleLoad}
+            onError={handleError}
+            shouldLoad={shouldLoad}
+            shouldDecode
+            ref={updateRef}
+            spinnerStyle={{
+                backgroundColor: 'background.paper',
+                ...getImagePlaceholderStyling(
+                    readingMode,
+                    shouldStretchPage,
+                    pageScaleMode,
+                    readerWidth,
+                    scrollbarXSize,
+                    scrollbarYSize,
+                    doublePage,
+                    isTabletWidth,
+                ),
+                ...applyStyles(!display, {
+                    display: 'none',
+                }),
+                ...getImageMarginStyling(doublePage, position),
+            }}
+            imgStyle={{
+                ...getImageWidthStyling(readingMode, shouldStretchPage, pageScaleMode, doublePage, readerWidth, true),
+                display: 'block',
+                ...applyStyles(!display, {
+                    display: 'none',
+                }),
+                filter: getCustomFilterString(customFilter),
+                objectFit: 'contain',
+                objectPosition: position,
+                userSelect: 'none',
+                ...getImageMarginStyling(doublePage, position),
+                ...applyStyles(marginTop !== undefined, {
+                    mt: `${marginTop}px`,
+                }),
+            }}
+            hideImgStyle={{
+                visibility: 'hidden',
+                minWidth: 0,
+                minHeight: 0,
+                width: 0,
+                height: 0,
+            }}
+        />
+    );
+};
 
 export const ReaderPage = withPropsFrom(
     memo(BaseReaderPage),

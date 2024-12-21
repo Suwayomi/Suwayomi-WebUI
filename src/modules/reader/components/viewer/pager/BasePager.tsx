@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { memo, ReactNode, useEffect, useMemo, useRef } from 'react';
+import { memo, ReactNode, useCallback, useEffect, useMemo, useRef } from 'react';
 import Box, { BoxProps } from '@mui/material/Box';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { getImageWidthStyling, getPageIndexesToLoad } from '@/modules/reader/utils/ReaderPager.utils.tsx';
@@ -37,7 +37,7 @@ const BaseBasePager = ({
             pagesIndex: number,
             shouldLoad: boolean,
             shouldDisplay: boolean,
-            setRef: (element: HTMLElement | null) => void,
+            setRef: (pagesIndex: number, element: HTMLElement | null) => void,
         ) => ReactNode;
         slots?: { boxProps?: BoxProps };
     }) => {
@@ -49,6 +49,14 @@ const BaseBasePager = ({
     useEffect(() => {
         previousCurrentPageIndex.current = currentPageIndex;
     }, [pagesIndexesToRender]);
+
+    const setRef = useCallback(
+        (pagesIndex: number, element: HTMLElement | null) => {
+            // eslint-disable-next-line no-param-reassign
+            imageRefs.current[pagesIndex] = element;
+        },
+        [imageRefs],
+    );
 
     return (
         <Box
@@ -70,10 +78,7 @@ const BaseBasePager = ({
                     pagesIndex,
                     pagesIndexesToRender.includes(pagesIndex),
                     [ReaderTransitionPageMode.NONE, ReaderTransitionPageMode.BOTH].includes(transitionPageMode),
-                    (element) => {
-                        // eslint-disable-next-line no-param-reassign
-                        imageRefs.current[pagesIndex] = element;
-                    },
+                    setRef,
                 ),
             )}
             <ReaderTransitionPage

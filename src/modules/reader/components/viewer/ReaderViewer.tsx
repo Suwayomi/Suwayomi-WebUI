@@ -10,6 +10,7 @@ import {
     ForwardedRef,
     forwardRef,
     memo,
+    useCallback,
     useEffect,
     useImperativeHandle,
     useLayoutEffect,
@@ -162,6 +163,30 @@ const BaseReaderViewer = forwardRef(
 
         const inViewportType = READING_MODE_TO_IN_VIEWPORT_TYPE[readingMode];
 
+        const onLoad = useCallback(
+            (pagesIndex: number, isPrimary: boolean = true) => {
+                const page = actualPages[pagesIndex];
+                const { index, url } = isPrimary ? page.primary : page.secondary!;
+
+                if (readingMode === ReadingMode.DOUBLE_PAGE) {
+                    const img = new Image();
+                    img.onload = () => {
+                        setPagesToSpreadState((prevState) => prevState.toSpliced(index, 1, isSpreadPage(img)));
+                    };
+                    img.src = url;
+                }
+
+                setPageLoadStates((statePageLoadStates) => statePageLoadStates.toSpliced(index, 1, { loaded: true }));
+            },
+            [actualPages, readingMode],
+        );
+
+        const onError = useCallback((pageIndex: number) => {
+            setPageLoadStates((statePageLoadStates) =>
+                statePageLoadStates.toSpliced(pageIndex, 1, { loaded: false, error: true }),
+            );
+        }, []);
+
         // reset spread state
         useLayoutEffect(() => {
             setPagesToSpreadState(Array(totalPages).fill(false));
@@ -310,27 +335,8 @@ const BaseReaderViewer = forwardRef(
                     pageLoadStates={pageLoadStates}
                     retryFailedPagesKeyPrefix={retryFailedPagesKeyPrefix}
                     imageRefs={imageRefs}
-                    onLoad={(pagesIndex, isPrimary = true) => {
-                        const page = actualPages[pagesIndex];
-                        const { index, url } = isPrimary ? page.primary : page.secondary!;
-
-                        if (readingMode === ReadingMode.DOUBLE_PAGE) {
-                            const img = new Image();
-                            img.onload = () => {
-                                setPagesToSpreadState((prevState) => prevState.toSpliced(index, 1, isSpreadPage(img)));
-                            };
-                            img.src = url;
-                        }
-
-                        setPageLoadStates((statePageLoadStates) =>
-                            statePageLoadStates.toSpliced(index, 1, { loaded: true }),
-                        );
-                    }}
-                    onError={(pageIndex) => {
-                        setPageLoadStates((statePageLoadStates) =>
-                            statePageLoadStates.toSpliced(pageIndex, 1, { loaded: false, error: true }),
-                        );
-                    }}
+                    onLoad={onLoad}
+                    onError={onError}
                 />
             </Stack>
         );

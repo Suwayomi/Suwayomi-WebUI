@@ -7,7 +7,7 @@
  */
 
 import { Direction, Theme } from '@mui/material/styles';
-import { ReactNode } from 'react';
+import { ComponentProps, ReactNode } from 'react';
 import {
     IReaderSettings,
     PageInViewportType,
@@ -227,7 +227,16 @@ export const createPageData = (url: string, index: number): ReaderStatePages['pa
 
 export const createPagesData = (pageUrls: string[]): ReaderStatePages['pages'] => pageUrls.map(createPageData);
 
-const getPageDownloadPriority = (currentPageIndex: number, pageIndex: number, totalPages: number): number => {
+const getPageDownloadPriority = (
+    currentPageIndex: number,
+    pageIndex: number,
+    totalPages: number,
+    shouldLoad: boolean,
+): number => {
+    if (!shouldLoad) {
+        return Number.MAX_SAFE_INTEGER;
+    }
+
     const distanceToCurrentPage = Math.abs(pageIndex - currentPageIndex);
     const priorityBasedOnDistance = totalPages - distanceToCurrentPage;
 
@@ -241,8 +250,10 @@ const getPageDownloadPriority = (currentPageIndex: number, pageIndex: number, to
 
 export const createReaderPage = (
     { primary: { index, alt, url } }: ReaderStatePages['pages'][number],
-    onLoad: () => void,
-    onError: (() => void) | undefined,
+    pagesIndex: number,
+    isPrimaryPage: boolean,
+    onLoad: ComponentProps<typeof ReaderPage>['onLoad'],
+    onError: ComponentProps<typeof ReaderPage>['onError'],
     shouldLoad: boolean,
     display: boolean,
     currentPageIndex: number,
@@ -251,15 +262,18 @@ export const createReaderPage = (
     position?: 'left' | 'right',
     isDoublePage?: boolean,
     marginTop?: number,
-    setRef?: (ref: HTMLElement | null) => void,
+    setRef?: (pagesIndex: number, ref: HTMLElement | null) => void,
 ): ReactNode => (
     <ReaderPage
-        ref={setRef}
+        setRef={setRef}
+        pageIndex={index}
+        pagesIndex={pagesIndex}
+        isPrimaryPage={isPrimaryPage}
         key={url}
         src={url}
         alt={alt}
         display={display}
-        priority={getPageDownloadPriority(currentPageIndex, index, totalPages)}
+        priority={getPageDownloadPriority(currentPageIndex, index, totalPages, shouldLoad)}
         position={position}
         onLoad={onLoad}
         onError={onError}
