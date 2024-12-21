@@ -138,15 +138,12 @@ export function Sources({ tabsMenuHeight }: { tabsMenuHeight: number }) {
                 message={t('global.error.label.failed_to_load_data')}
                 messageExtra={error.message}
                 retry={() => refetch().catch(defaultPromiseErrorHandler('Sources::refetch'))}
-                topOffset={tabsMenuHeight}
             />
         );
     }
 
     if (sources?.length === 0) {
-        return (
-            <EmptyViewAbsoluteCentered message={t('source.error.label.no_sources_found')} topOffset={tabsMenuHeight} />
-        );
+        return <EmptyViewAbsoluteCentered message={t('source.error.label.no_sources_found')} />;
     }
 
     return (

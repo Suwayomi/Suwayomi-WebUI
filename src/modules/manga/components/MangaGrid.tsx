@@ -238,7 +238,6 @@ export const MangaGrid: React.FC<IMangaGridProps> = ({
     isLoading,
     message,
     messageExtra,
-    topOffset,
     hasNextPage,
     loadMore,
     gridLayout,
@@ -349,7 +348,6 @@ export const MangaGrid: React.FC<IMangaGridProps> = ({
                 message={message ?? t('manga.error.label.no_mangas_found')}
                 messageExtra={messageExtra}
                 retry={retry}
-                topOffset={topOffset}
             />
         );
     }

@@ -53,7 +53,6 @@ import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 import { GridLayout } from '@/modules/core/Core.types.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 
 const DEFAULT_SOURCE: Pick<SourceType, 'id'> = { id: '-1' };
 
@@ -250,16 +249,6 @@ export function SourceMangas() {
     const currentQuery = useRef(query);
     const currentAbortRequest = useRef<(reason: any) => void>(() => {});
 
-    const contentTypeMenuRef = useRef<HTMLDivElement>(null);
-    const [contentTypeMenuHeight, setContentTypeMenuHeight] = useState(0);
-    useResizeObserver(
-        contentTypeMenuRef,
-        useCallback(
-            () => setContentTypeMenuHeight(contentTypeMenuRef.current?.clientHeight ?? 0),
-            [contentTypeMenuRef],
-        ),
-    );
-
     const didSearchChange = currentQuery.current !== query;
     if (didSearchChange && contentType === SourceContentType.SEARCH) {
         currentQuery.current = query;
@@ -443,7 +432,7 @@ export function SourceMangas() {
 
     return (
         <StyledGridWrapper>
-            <ContentTypeMenu ref={contentTypeMenuRef} sx={{ top: `${appBarHeight}px` }}>
+            <ContentTypeMenu sx={{ top: `${appBarHeight}px` }}>
                 <ContentTypeButton
                     variant={contentType === SourceContentType.POPULAR ? 'contained' : 'outlined'}
                     startIcon={<FavoriteIcon />}
@@ -479,7 +468,6 @@ export function SourceMangas() {
                     loadMore={loadMore}
                     message={message}
                     messageExtra={messageExtra}
-                    topOffset={contentTypeMenuHeight}
                     isLoading={isLoading}
                     gridLayout={sourceGridLayout}
                     mode="source"
@@ -492,7 +480,6 @@ export function SourceMangas() {
                     message={t('global.error.label.failed_to_load_data')}
                     messageExtra={getErrorMessage(error)}
                     retry={() => loadPage(lastPageNum).catch(defaultPromiseErrorHandler('SourceMangas::refetch'))}
-                    topOffset={contentTypeMenuHeight}
                 />
             )}
 

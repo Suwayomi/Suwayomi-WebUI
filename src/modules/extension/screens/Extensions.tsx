@@ -207,7 +207,6 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
                         fetchExtensions().catch(defaultPromiseErrorHandler('Extensions::refetchExtensions'));
                     }
                 }}
-                topOffset={tabsMenuHeight}
             />
         );
     }

@@ -27,11 +27,10 @@ export interface EmptyViewProps {
     messageExtra?: JSX.Element | string;
     retry?: () => void;
     noFaces?: boolean;
-    topOffset?: number;
     sx?: SxProps<Theme>;
 }
 
-export function EmptyView({ message, messageExtra, retry, noFaces, topOffset = 0, sx }: EmptyViewProps) {
+export function EmptyView({ message, messageExtra, retry, noFaces, sx }: EmptyViewProps) {
     const { t } = useTranslation();
 
     const errorFace = useMemo(() => getRandomErrorFace(), []);
@@ -42,9 +41,9 @@ export function EmptyView({ message, messageExtra, retry, noFaces, topOffset = 0
                 textAlign: 'center',
                 alignItems: 'center',
                 justifyContent: 'center',
-                minWidth: '100%',
-                minHeight: `calc(100% - ${topOffset}px)`,
-                mt: `${topOffset}px`,
+                minWidth: '-webkit-fill-available',
+                maxWidth: '100%',
+                minHeight: '100%',
                 ...sx,
             }}
         >

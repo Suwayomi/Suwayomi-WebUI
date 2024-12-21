@@ -147,7 +147,7 @@ export const TrackerSearch = ({
                     />
                 </Stack>
             </DialogTitle>
-            <DialogContent dividers sx={{ padding: DIALOG_PADDING, height: '100vh' }}>
+            <DialogContent dividers sx={{ padding: DIALOG_PADDING, height: '100vh', position: 'relative' }}>
                 {!trackerSearch.loading && !trackerSearch.error && !hasResults && (
                     <EmptyViewAbsoluteCentered message={t('manga.error.label.no_mangas_found')} />
                 )}
