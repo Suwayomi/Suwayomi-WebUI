@@ -14,25 +14,40 @@ import { ReaderNavBarDesktopPageScale } from '@/modules/reader/components/overla
 import { ReaderNavBarDesktopReadingMode } from '@/modules/reader/components/overlay/navigation/desktop/quick-settings/ReaderNavBarDesktopReadingMode.tsx';
 import { ReaderNavBarDesktopOffsetDoubleSpread } from '@/modules/reader/components/overlay/navigation/desktop/quick-settings/ReaderNavBarDesktopOffsetDoubleSpread.tsx';
 import { ReaderNavBarDesktopReadingDirection } from '@/modules/reader/components/overlay/navigation/desktop/quick-settings/ReaderNavBarDesktopReadingDirection.tsx';
-import { ReaderSettingsTypeProps } from '@/modules/reader/types/Reader.types.ts';
+import { IReaderSettingsWithDefaultFlag, TReaderStateMangaContext } from '@/modules/reader/types/Reader.types.ts';
 import { ReaderNavBarDesktopProps } from '@/modules/reader/types/ReaderOverlay.types.ts';
+import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
+import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
+import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
+import { useReaderStateMangaContext } from '@/modules/reader/contexts/state/ReaderStateMangaContext.tsx';
 
-export const ReaderNavBarDesktopQuickSettings = ({
-    settings: { readingMode, shouldOffsetDoubleSpreads, pageScaleMode, shouldStretchPage, readingDirection },
-    updateSetting,
+const DEFAULT_MANGA: MangaIdInfo = { id: -1 };
+const BaseReaderNavBarDesktopQuickSettings = ({
+    manga,
+    readingMode,
+    shouldOffsetDoubleSpreads,
+    pageScaleMode,
+    shouldStretchPage,
+    readingDirection,
     openSettings,
-    isDefaultable,
-    onDefault,
-}: ReaderSettingsTypeProps & Pick<ReaderNavBarDesktopProps, 'openSettings'>) => {
+}: Pick<TReaderStateMangaContext, 'manga'> &
+    Pick<ReaderNavBarDesktopProps, 'openSettings'> &
+    Pick<
+        IReaderSettingsWithDefaultFlag,
+        'readingMode' | 'shouldOffsetDoubleSpreads' | 'pageScaleMode' | 'shouldStretchPage' | 'readingDirection'
+    >) => {
     const { t } = useTranslation();
+
+    const updateSetting = ReaderService.useCreateUpdateSetting(manga ?? DEFAULT_MANGA);
+    const deleteSetting = ReaderService.useCreateDeleteSetting(manga ?? DEFAULT_MANGA);
 
     return (
         <Stack sx={{ gap: 1 }}>
             <ReaderNavBarDesktopReadingMode
                 readingMode={readingMode}
                 setReadingMode={(value) => updateSetting('readingMode', value)}
-                isDefaultable={isDefaultable}
-                onDefault={() => onDefault?.('readingMode')}
+                isDefaultable
+                onDefault={() => deleteSetting('readingMode')}
             />
             <ReaderNavBarDesktopOffsetDoubleSpread
                 readingMode={readingMode.value}
@@ -43,14 +58,14 @@ export const ReaderNavBarDesktopQuickSettings = ({
                 pageScaleMode={pageScaleMode}
                 shouldStretchPage={shouldStretchPage}
                 updateSetting={updateSetting}
-                isDefaultable={isDefaultable}
-                onDefault={() => onDefault?.('pageScaleMode')}
+                isDefaultable
+                onDefault={() => deleteSetting('pageScaleMode')}
             />
             <ReaderNavBarDesktopReadingDirection
                 readingDirection={readingDirection}
                 setReadingDirection={(value) => updateSetting('readingDirection', value)}
-                isDefaultable={isDefaultable}
-                onDefault={() => onDefault?.('readingDirection')}
+                isDefaultable
+                onDefault={() => deleteSetting('readingDirection')}
             />
             <Button
                 onClick={() => openSettings()}
@@ -64,3 +79,9 @@ export const ReaderNavBarDesktopQuickSettings = ({
         </Stack>
     );
 };
+
+export const ReaderNavBarDesktopQuickSettings = withPropsFrom(
+    BaseReaderNavBarDesktopQuickSettings,
+    [useReaderStateMangaContext, ReaderService.useSettings],
+    ['manga', 'readingMode', 'shouldOffsetDoubleSpreads', 'pageScaleMode', 'shouldStretchPage', 'readingDirection'],
+);

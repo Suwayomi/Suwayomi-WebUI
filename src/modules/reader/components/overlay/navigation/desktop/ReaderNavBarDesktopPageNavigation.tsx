@@ -22,6 +22,7 @@ import { ReaderNavBarDesktopNextPreviousButton } from '@/modules/reader/componen
 import { READING_DIRECTION_TO_THEME_DIRECTION } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 import { IReaderSettings } from '@/modules/reader/types/Reader.types.ts';
 import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
+import { userReaderStatePagesContext } from '@/modules/reader/contexts/state/ReaderStatePagesContext.tsx';
 
 const BaseReaderNavBarDesktopPageNavigation = ({
     currentPageIndex,
@@ -81,6 +82,10 @@ const BaseReaderNavBarDesktopPageNavigation = ({
 
 export const ReaderNavBarDesktopPageNavigation = withPropsFrom(
     memo(BaseReaderNavBarDesktopPageNavigation),
-    [() => ({ openPage: ReaderControls.useOpenPage() }), ReaderService.useSettingsWithoutDefaultFlag],
-    ['readingDirection', 'openPage'],
+    [
+        userReaderStatePagesContext,
+        () => ({ openPage: ReaderControls.useOpenPage() }),
+        ReaderService.useSettingsWithoutDefaultFlag,
+    ],
+    ['currentPageIndex', 'pages', 'readingDirection', 'openPage'],
 );

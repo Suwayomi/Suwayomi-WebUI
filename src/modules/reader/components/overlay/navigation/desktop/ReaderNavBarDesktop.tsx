@@ -33,8 +33,7 @@ import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 import { NavbarContextType } from '@/modules/navigation-bar/NavigationBar.types.ts';
-import { ReaderStateChapters, TReaderStateMangaContext } from '@/modules/reader/types/Reader.types.ts';
-import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types.ts';
+import { IReaderSettings, ReaderStateChapters, TReaderStateMangaContext } from '@/modules/reader/types/Reader.types.ts';
 import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 
 const useGetPreviousNavBarStaticValue = (isVisible: boolean, isStaticNav: boolean) => {
@@ -65,20 +64,13 @@ const BaseReaderNavBarDesktop = ({
     currentChapter,
     previousChapter,
     nextChapter,
-    pages,
-    currentPageIndex,
-    pageLoadStates,
-    setPageLoadStates,
-    setRetryFailedPagesKeyPrefix,
+    isStaticNav,
     exit,
 }: ReaderNavBarDesktopProps &
     Pick<NavbarContextType, 'setReaderNavBarWidth'> &
     Pick<TReaderStateMangaContext, 'manga'> &
     Pick<ReaderStateChapters, 'currentChapter' | 'previousChapter' | 'nextChapter' | 'chapters'> &
-    Pick<
-        ReaderStatePages,
-        'pages' | 'currentPageIndex' | 'pageLoadStates' | 'setPageLoadStates' | 'setRetryFailedPagesKeyPrefix'
-    > & {
+    Pick<IReaderSettings, 'isStaticNav'> & {
         exit: ReturnType<typeof ReaderService.useExit>;
     }) => {
     const { t } = useTranslation();
@@ -86,29 +78,28 @@ const BaseReaderNavBarDesktop = ({
     const getOptionForDirection = useGetOptionForDirection();
 
     const updateReaderSettings = ReaderService.useCreateUpdateSetting(manga ?? DEFAULT_MANGA);
-    const settings = ReaderService.useSettings();
 
     const [navBarElement, setNavBarElement] = useState<HTMLDivElement | null>();
     useResizeObserver(
         navBarElement,
         useCallback(() => {
-            if (!settings?.isStaticNav) {
+            if (!isStaticNav) {
                 return;
             }
 
             setReaderNavBarWidth(navBarElement!.offsetWidth);
-        }, [navBarElement, settings?.isStaticNav]),
+        }, [navBarElement, isStaticNav]),
     );
     useLayoutEffect(() => () => setReaderNavBarWidth(0), []);
 
-    const wasNavBarStatic = useGetPreviousNavBarStaticValue(isVisible, settings.isStaticNav);
+    const wasNavBarStatic = useGetPreviousNavBarStaticValue(isVisible, isStaticNav);
     const changedNavBarStaticValue = wasNavBarStatic && isVisible;
     const drawerTransitionDuration = changedNavBarStaticValue ? 0 : undefined;
 
     return (
         <Drawer
-            variant={settings.isStaticNav ? 'permanent' : 'persistent'}
-            open={isVisible || settings.isStaticNav}
+            variant={isStaticNav ? 'permanent' : 'persistent'}
+            open={isVisible || isStaticNav}
             transitionDuration={drawerTransitionDuration}
             PaperProps={{
                 ref: (ref: HTMLDivElement | null) => setNavBarElement(ref),
@@ -126,9 +117,9 @@ const BaseReaderNavBarDesktop = ({
                             <IconButton
                                 onClick={() => {
                                     setReaderNavBarWidth(0);
-                                    updateReaderSettings('isStaticNav', !settings.isStaticNav);
+                                    updateReaderSettings('isStaticNav', !isStaticNav);
                                 }}
-                                color={settings.isStaticNav ? 'primary' : 'inherit'}
+                                color={isStaticNav ? 'primary' : 'inherit'}
                             >
                                 <PushPinIcon />
                             </IconButton>
@@ -142,12 +133,7 @@ const BaseReaderNavBarDesktop = ({
                                 chapterTitle={currentChapter.name}
                                 scanlator={currentChapter.scanlator}
                             />
-                            <ReaderNavBarDesktopActions
-                                currentChapter={currentChapter}
-                                pageLoadStates={pageLoadStates}
-                                setPageLoadStates={setPageLoadStates}
-                                setRetryFailedPagesKeyPrefix={setRetryFailedPagesKeyPrefix}
-                            />
+                            <ReaderNavBarDesktopActions />
                         </>
                     ) : (
                         <LoadingPlaceholder />
@@ -155,7 +141,7 @@ const BaseReaderNavBarDesktop = ({
                 </Stack>
                 <Stack sx={{ p: 2, gap: 2 }}>
                     <Stack sx={{ gap: 1 }}>
-                        <ReaderNavBarDesktopPageNavigation currentPageIndex={currentPageIndex} pages={pages} />
+                        <ReaderNavBarDesktopPageNavigation />
                         <ReaderNavBarDesktopChapterNavigation
                             chapters={chapters}
                             currentChapter={currentChapter}
@@ -164,13 +150,7 @@ const BaseReaderNavBarDesktop = ({
                         />
                     </Stack>
                     <Divider />
-                    <ReaderNavBarDesktopQuickSettings
-                        settings={settings}
-                        updateSetting={updateReaderSettings}
-                        openSettings={openSettings}
-                        isDefaultable
-                        onDefault={(...args) => manga && ReaderService.deleteSetting(manga, ...args)}
-                    />
+                    <ReaderNavBarDesktopQuickSettings openSettings={openSettings} />
                 </Stack>
             </ReaderNavContainer>
         </Drawer>
@@ -184,6 +164,7 @@ export const ReaderNavBarDesktop = withPropsFrom(
         useReaderStateMangaContext,
         useReaderStateChaptersContext,
         userReaderStatePagesContext,
+        ReaderService.useSettingsWithoutDefaultFlag,
         () => ({ exit: ReaderService.useExit() }),
     ],
     [
@@ -193,11 +174,7 @@ export const ReaderNavBarDesktop = withPropsFrom(
         'currentChapter',
         'previousChapter',
         'nextChapter',
-        'pages',
-        'currentPageIndex',
-        'pageLoadStates',
-        'setPageLoadStates',
-        'setRetryFailedPagesKeyPrefix',
+        'isStaticNav',
         'exit',
     ],
 );
