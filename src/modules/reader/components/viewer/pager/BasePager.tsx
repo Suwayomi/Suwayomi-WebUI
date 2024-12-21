@@ -11,29 +11,36 @@ import Box, { BoxProps } from '@mui/material/Box';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { getImageWidthStyling, getPageIndexesToLoad } from '@/modules/reader/utils/ReaderPager.utils.tsx';
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types.ts';
-import { ReaderPagerProps, ReaderTransitionPageMode } from '@/modules/reader/types/Reader.types.ts';
+import { IReaderSettings, ReaderPagerProps, ReaderTransitionPageMode } from '@/modules/reader/types/Reader.types.ts';
 import { ReaderTransitionPage } from '@/modules/reader/components/viewer/ReaderTransitionPage.tsx';
+import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 
-export const BasePager = ({
+const BaseBasePager = ({
     currentPageIndex,
     pages,
     transitionPageMode,
     imageRefs,
     createPage,
     slots,
-}: Omit<ReaderPagerProps, 'pageLoadStates' | 'retryFailedPagesKeyPrefix'> & {
-    createPage: (
-        page: ReaderStatePages['pages'][number],
-        pagesIndex: number,
-        shouldLoad: boolean,
-        shouldDisplay: boolean,
-        setRef: (element: HTMLElement | null) => void,
-    ) => ReactNode;
-    slots?: { boxProps?: BoxProps };
-}) => {
-    const { readingMode, pageScaleMode, shouldStretchPage, readerWidth, imagePreLoadAmount } =
-        ReaderService.useSettings();
-
+    readingMode,
+    pageScaleMode,
+    shouldStretchPage,
+    readerWidth,
+    imagePreLoadAmount,
+}: Omit<ReaderPagerProps, 'pageLoadStates' | 'retryFailedPagesKeyPrefix'> &
+    Pick<
+        IReaderSettings,
+        'readingMode' | 'pageScaleMode' | 'shouldStretchPage' | 'readerWidth' | 'imagePreLoadAmount'
+    > & {
+        createPage: (
+            page: ReaderStatePages['pages'][number],
+            pagesIndex: number,
+            shouldLoad: boolean,
+            shouldDisplay: boolean,
+            setRef: (element: HTMLElement | null) => void,
+        ) => ReactNode;
+        slots?: { boxProps?: BoxProps };
+    }) => {
     const previousCurrentPageIndex = useRef(-1);
     const pagesIndexesToRender = useMemo(
         () => getPageIndexesToLoad(currentPageIndex, pages, previousCurrentPageIndex.current, imagePreLoadAmount),
@@ -48,20 +55,14 @@ export const BasePager = ({
             {...slots?.boxProps}
             sx={[
                 ...(Array.isArray(slots?.boxProps?.sx) ? (slots?.boxProps?.sx ?? []) : [slots?.boxProps?.sx]),
-                getImageWidthStyling(
-                    readingMode.value,
-                    shouldStretchPage.value,
-                    pageScaleMode.value,
-                    false,
-                    readerWidth.value,
-                ),
+                getImageWidthStyling(readingMode, shouldStretchPage, pageScaleMode, false, readerWidth),
             ]}
         >
             <ReaderTransitionPage
                 type={ReaderTransitionPageMode.PREVIOUS}
                 mode={transitionPageMode}
-                readingMode={readingMode.value}
-                pageScaleMode={pageScaleMode.value}
+                readingMode={readingMode}
+                pageScaleMode={pageScaleMode}
             />
             {pages.map((page, pagesIndex) =>
                 createPage(
@@ -78,9 +79,15 @@ export const BasePager = ({
             <ReaderTransitionPage
                 type={ReaderTransitionPageMode.NEXT}
                 mode={transitionPageMode}
-                readingMode={readingMode.value}
-                pageScaleMode={pageScaleMode.value}
+                readingMode={readingMode}
+                pageScaleMode={pageScaleMode}
             />
         </Box>
     );
 };
+
+export const BasePager = withPropsFrom(
+    BaseBasePager,
+    [ReaderService.useSettingsWithoutDefaultFlag],
+    ['readingMode', 'pageScaleMode', 'shouldStretchPage', 'readerWidth', 'imagePreLoadAmount'],
+);

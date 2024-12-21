@@ -16,9 +16,15 @@ import { ThemeMode } from '@/modules/theme/contexts/ThemeModeContext.tsx';
 import { createTheme } from '@/modules/theme/services/ThemeCreator.ts';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { DIRECTION_TO_CACHE } from '@/modules/theme/ThemeDirectionCache.ts';
+import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 
-export const ReaderProgressBarDirectionWrapper = ({ children }: { children: ReactNode }) => {
-    const direction = ReaderService.useGetThemeDirection();
+const BaseReaderProgressBarDirectionWrapper = ({
+    children,
+    direction,
+}: {
+    children: ReactNode;
+    direction: ReturnType<typeof ReaderService.useGetThemeDirection>;
+}) => {
     const [appTheme] = useLocalStorage<AppThemes>('appTheme', 'default');
     const [themeMode] = useLocalStorage<ThemeMode>('themeMode', ThemeMode.SYSTEM);
     const [pureBlackMode] = useLocalStorage<boolean>('pureBlackMode', false);
@@ -40,3 +46,9 @@ export const ReaderProgressBarDirectionWrapper = ({ children }: { children: Reac
         </CacheProvider>
     );
 };
+
+export const ReaderProgressBarDirectionWrapper = withPropsFrom(
+    BaseReaderProgressBarDirectionWrapper,
+    [() => ({ direction: ReaderService.useGetThemeDirection() })],
+    ['direction'],
+);

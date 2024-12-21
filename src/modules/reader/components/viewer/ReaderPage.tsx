@@ -9,7 +9,7 @@
 import { ComponentProps, ForwardedRef, forwardRef } from 'react';
 import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
-import { ReaderCustomFilter } from '@/modules/reader/types/Reader.types.ts';
+import { IReaderSettings, ReaderCustomFilter, TReaderScrollbarContext } from '@/modules/reader/types/Reader.types.ts';
 import {
     getImageMarginStyling,
     getImagePlaceholderStyling,
@@ -18,6 +18,7 @@ import {
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 import { useReaderScrollbarContext } from '@/modules/reader/contexts/ReaderScrollbarContext.tsx';
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
+import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 
 const getCustomFilterString = (customFilter: ReaderCustomFilter): string =>
     Object.keys(customFilter)
@@ -48,7 +49,7 @@ const getCustomFilterString = (customFilter: ReaderCustomFilter): string =>
         })
         .join(' ');
 
-export const ReaderPage = forwardRef(
+const BaseReaderPage = forwardRef(
     (
         {
             display,
@@ -56,18 +57,27 @@ export const ReaderPage = forwardRef(
             position,
             marginTop,
             shouldLoad,
+            readingMode,
+            customFilter,
+            pageScaleMode,
+            shouldStretchPage,
+            readerWidth,
+            scrollbarXSize,
+            scrollbarYSize,
             ...props
-        }: Omit<ComponentProps<typeof SpinnerImage>, 'ref' | 'spinnerStyle' | 'imgStyle'> & {
-            display: boolean;
-            doublePage?: boolean;
-            position?: 'left' | 'right';
-            marginTop?: number;
-        },
+        }: Omit<ComponentProps<typeof SpinnerImage>, 'ref' | 'spinnerStyle' | 'imgStyle'> &
+            Pick<
+                IReaderSettings,
+                'readingMode' | 'customFilter' | 'pageScaleMode' | 'shouldStretchPage' | 'readerWidth'
+            > &
+            Pick<TReaderScrollbarContext, 'scrollbarXSize' | 'scrollbarYSize'> & {
+                display: boolean;
+                doublePage?: boolean;
+                position?: 'left' | 'right';
+                marginTop?: number;
+            },
         ref: ForwardedRef<HTMLImageElement | null>,
     ) => {
-        const { readingMode, customFilter, pageScaleMode, shouldStretchPage, readerWidth } =
-            ReaderService.useSettings();
-        const { scrollbarXSize, scrollbarYSize } = useReaderScrollbarContext();
         const isTabletWidth = MediaQuery.useIsTabletWidth();
 
         if (!display && !shouldLoad) {
@@ -83,10 +93,10 @@ export const ReaderPage = forwardRef(
                 spinnerStyle={{
                     backgroundColor: 'background.paper',
                     ...getImagePlaceholderStyling(
-                        readingMode.value,
-                        shouldStretchPage.value,
-                        pageScaleMode.value,
-                        readerWidth.value,
+                        readingMode,
+                        shouldStretchPage,
+                        pageScaleMode,
+                        readerWidth,
                         scrollbarXSize,
                         scrollbarYSize,
                         doublePage,
@@ -99,11 +109,11 @@ export const ReaderPage = forwardRef(
                 }}
                 imgStyle={{
                     ...getImageWidthStyling(
-                        readingMode.value,
-                        shouldStretchPage.value,
-                        pageScaleMode.value,
+                        readingMode,
+                        shouldStretchPage,
+                        pageScaleMode,
                         doublePage,
-                        readerWidth.value,
+                        readerWidth,
                         true,
                     ),
                     display: 'block',
@@ -129,4 +139,18 @@ export const ReaderPage = forwardRef(
             />
         );
     },
+);
+
+export const ReaderPage = withPropsFrom(
+    BaseReaderPage,
+    [ReaderService.useSettingsWithoutDefaultFlag, useReaderScrollbarContext],
+    [
+        'readingMode',
+        'customFilter',
+        'pageScaleMode',
+        'shouldStretchPage',
+        'readerWidth',
+        'scrollbarXSize',
+        'scrollbarYSize',
+    ],
 );

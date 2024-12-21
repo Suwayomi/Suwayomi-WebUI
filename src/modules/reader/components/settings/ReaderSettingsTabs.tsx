@@ -23,27 +23,29 @@ import { ReaderFilterSettings } from '@/modules/reader/components/settings/filte
 import { ReaderBehaviourSettings } from '@/modules/reader/components/settings/behaviour/ReaderBehaviourSettings.tsx';
 import { ReaderDefaultLayoutSettings } from '@/modules/reader/components/settings/layout/ReaderDefaultLayoutSettings.tsx';
 import { ReaderHotkeysSettings } from '@/modules/reader/components/settings/hotkeys/ReaderHotkeysSettings.tsx';
+import { TReaderTapZoneContext } from '@/modules/reader/types/TapZoneLayout.types.ts';
+import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 
-export const ReaderSettingsTabs = ({
+const BaseReaderSettingsTabs = ({
     activeTab,
     setActiveTab,
     areDefaultSettings,
     settings,
     updateSetting,
     deleteSetting,
-}: {
-    activeTab: number;
-    setActiveTab: (tab: number) => void;
-    settings: IReaderSettingsWithDefaultFlag;
-    updateSetting: (...args: OmitFirst<Parameters<typeof ReaderService.updateSetting>>) => void;
-    areDefaultSettings?: boolean;
-    deleteSetting: (setting: keyof IReaderSettings) => void;
-}) => {
+    setShowPreview,
+    mode: overlayMode,
+}: Pick<TReaderTapZoneContext, 'setShowPreview'> &
+    Pick<ReturnType<typeof ReaderService.useOverlayMode>, 'mode'> & {
+        activeTab: number;
+        setActiveTab: (tab: number) => void;
+        settings: IReaderSettingsWithDefaultFlag;
+        updateSetting: (...args: OmitFirst<Parameters<typeof ReaderService.updateSetting>>) => void;
+        areDefaultSettings?: boolean;
+        deleteSetting: (setting: keyof IReaderSettings) => void;
+    }) => {
     const { t } = useTranslation();
-    const { setShowPreview } = useReaderTapZoneContext();
     const isTouchDevice = MediaQuery.useIsTouchDevice();
-
-    const { mode: overlayMode } = ReaderService.useOverlayMode();
 
     return (
         <>
@@ -177,3 +179,9 @@ export const ReaderSettingsTabs = ({
         </>
     );
 };
+
+export const ReaderSettingsTabs = withPropsFrom(
+    BaseReaderSettingsTabs,
+    [useReaderTapZoneContext, ReaderService.useOverlayMode],
+    ['setShowPreview', 'mode'],
+);

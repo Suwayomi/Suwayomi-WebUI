@@ -7,22 +7,24 @@
  */
 
 import { BasePager } from '@/modules/reader/components/viewer/pager/BasePager.tsx';
-import { ReaderPagerProps, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
+import { IReaderSettings, ReaderPagerProps, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
 import { createReaderPage } from '@/modules/reader/utils/ReaderPager.utils.tsx';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
+import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 
-export const ReaderVerticalPager = ({
+const BaseReaderVerticalPager = ({
     onLoad,
     onError,
     pageLoadStates,
     retryFailedPagesKeyPrefix,
+    readingMode,
+    pageGap,
     ...props
-}: ReaderPagerProps) => {
+}: ReaderPagerProps & Pick<IReaderSettings, 'pageGap' | 'readingMode'>) => {
     const { currentPageIndex, totalPages } = props;
 
-    const { readingMode, pageGap } = ReaderService.useSettings();
-    const isWebtoonMode = readingMode.value === ReadingMode.WEBTOON;
-    const actualPageGap = isWebtoonMode ? 0 : pageGap.value;
+    const isWebtoonMode = readingMode === ReadingMode.WEBTOON;
+    const actualPageGap = isWebtoonMode ? 0 : pageGap;
 
     return (
         <BasePager
@@ -46,3 +48,9 @@ export const ReaderVerticalPager = ({
         />
     );
 };
+
+export const ReaderVerticalPager = withPropsFrom(
+    BaseReaderVerticalPager,
+    [ReaderService.useSettingsWithoutDefaultFlag],
+    ['pageGap', 'readingMode'],
+);

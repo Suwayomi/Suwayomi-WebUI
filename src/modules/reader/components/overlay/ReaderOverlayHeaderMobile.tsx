@@ -28,21 +28,32 @@ import { actionToTranslationKey, ChapterAction, Chapters } from '@/modules/chapt
 import { useBackButton } from '@/modules/core/hooks/useBackButton.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { MobileHeaderProps } from '@/modules/reader/types/ReaderOverlay.types.ts';
-import { useReaderScrollbarContext } from '@/modules/reader/contexts/ReaderScrollbarContext.tsx';
-import { useReaderStateMangaContext } from '@/modules/reader/contexts/state/ReaderStateMangaContext.tsx';
-import { useReaderStateChaptersContext } from '@/modules/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
+import {
+    ReaderStateChapters,
+    TReaderScrollbarContext,
+    TReaderStateMangaContext,
+} from '@/modules/reader/types/Reader.types.ts';
+import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
+import { useReaderStateMangaContext } from '@/modules/reader/contexts/state/ReaderStateMangaContext.tsx';
+import { useReaderStateChaptersContext } from '@/modules/reader/contexts/state/ReaderStateChaptersContext.tsx';
+import { useReaderScrollbarContext } from '@/modules/reader/contexts/ReaderScrollbarContext.tsx';
 
 const DEFAULT_MANGA = { id: -1, title: '' };
 const DEFAULT_CHAPTER = { id: -1, name: '', realUrl: '', isBookmarked: false };
 
-export const ReaderOverlayHeaderMobile = ({ isVisible }: MobileHeaderProps) => {
+const BaseReaderOverlayHeaderMobile = ({
+    isVisible,
+    manga,
+    currentChapter,
+    scrollbarYSize,
+}: MobileHeaderProps &
+    Pick<TReaderStateMangaContext, 'manga'> &
+    Pick<ReaderStateChapters, 'currentChapter'> &
+    Pick<TReaderScrollbarContext, 'scrollbarYSize'>) => {
     const { t } = useTranslation();
-    const { manga } = useReaderStateMangaContext();
-    const { currentChapter } = useReaderStateChaptersContext();
     const getOptionForDirection = useGetOptionForDirection();
-    const { scrollbarYSize } = useReaderScrollbarContext();
     const handleBack = useBackButton();
     const popupState = usePopupState({ popupId: 'reader-overlay-more-menu', variant: 'popover' });
 
@@ -128,3 +139,9 @@ export const ReaderOverlayHeaderMobile = ({ isVisible }: MobileHeaderProps) => {
         </Slide>
     );
 };
+
+export const ReaderOverlayHeaderMobile = withPropsFrom(
+    BaseReaderOverlayHeaderMobile,
+    [useReaderStateMangaContext, useReaderStateChaptersContext, useReaderScrollbarContext],
+    ['manga', 'currentChapter', 'scrollbarYSize'],
+);

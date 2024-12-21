@@ -32,6 +32,10 @@ import { useReaderStateChaptersContext } from '@/modules/reader/contexts/state/R
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
+import { NavbarContextType } from '@/modules/navigation-bar/NavigationBar.types.ts';
+import { ReaderStateChapters, TReaderStateMangaContext } from '@/modules/reader/types/Reader.types.ts';
+import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types.ts';
+import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 
 const useGetPreviousNavBarStaticValue = (isVisible: boolean, isStaticNav: boolean) => {
     const wasNavBarStaticRef = useRef(isStaticNav);
@@ -52,17 +56,35 @@ const useGetPreviousNavBarStaticValue = (isVisible: boolean, isStaticNav: boolea
 };
 
 const DEFAULT_MANGA: MangaIdInfo = { id: -1 };
-export const ReaderNavBarDesktop = ({ isVisible, openSettings }: ReaderNavBarDesktopProps) => {
+const BaseReaderNavBarDesktop = ({
+    isVisible,
+    openSettings,
+    setReaderNavBarWidth,
+    manga,
+    chapters,
+    currentChapter,
+    previousChapter,
+    nextChapter,
+    pages,
+    currentPageIndex,
+    pageLoadStates,
+    setPageLoadStates,
+    setRetryFailedPagesKeyPrefix,
+    exit,
+}: ReaderNavBarDesktopProps &
+    Pick<NavbarContextType, 'setReaderNavBarWidth'> &
+    Pick<TReaderStateMangaContext, 'manga'> &
+    Pick<ReaderStateChapters, 'currentChapter' | 'previousChapter' | 'nextChapter' | 'chapters'> &
+    Pick<
+        ReaderStatePages,
+        'pages' | 'currentPageIndex' | 'pageLoadStates' | 'setPageLoadStates' | 'setRetryFailedPagesKeyPrefix'
+    > & {
+        exit: ReturnType<typeof ReaderService.useExit>;
+    }) => {
     const { t } = useTranslation();
-    const { setReaderNavBarWidth } = useNavBarContext();
-    const { manga } = useReaderStateMangaContext();
-    const { chapters, currentChapter, nextChapter, previousChapter } = useReaderStateChaptersContext();
-    const { pages, currentPageIndex, pageLoadStates, setPageLoadStates, setRetryFailedPagesKeyPrefix } =
-        userReaderStatePagesContext();
 
     const getOptionForDirection = useGetOptionForDirection();
 
-    const exit = ReaderService.useExit();
     const updateReaderSettings = ReaderService.useCreateUpdateSetting(manga ?? DEFAULT_MANGA);
     const settings = ReaderService.useSettings();
 
@@ -154,3 +176,28 @@ export const ReaderNavBarDesktop = ({ isVisible, openSettings }: ReaderNavBarDes
         </Drawer>
     );
 };
+
+export const ReaderNavBarDesktop = withPropsFrom(
+    BaseReaderNavBarDesktop,
+    [
+        useNavBarContext,
+        useReaderStateMangaContext,
+        useReaderStateChaptersContext,
+        userReaderStatePagesContext,
+        () => ({ exit: ReaderService.useExit() }),
+    ],
+    [
+        'setReaderNavBarWidth',
+        'manga',
+        'chapters',
+        'currentChapter',
+        'previousChapter',
+        'nextChapter',
+        'pages',
+        'currentPageIndex',
+        'pageLoadStates',
+        'setPageLoadStates',
+        'setRetryFailedPagesKeyPrefix',
+        'exit',
+    ],
+);

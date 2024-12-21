@@ -10,22 +10,24 @@ import { useTheme } from '@mui/material/styles';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { BasePager } from '@/modules/reader/components/viewer/pager/BasePager.tsx';
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
-import { ReaderPagerProps, ReadingDirection } from '@/modules/reader/types/Reader.types.ts';
+import { IReaderSettings, ReaderPagerProps, ReadingDirection } from '@/modules/reader/types/Reader.types.ts';
 import { createReaderPage } from '@/modules/reader/utils/ReaderPager.utils.tsx';
+import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 
-export const ReaderHorizontalPager = ({
+const BaseReaderHorizontalPager = ({
     onLoad,
     onError,
     pageLoadStates,
     retryFailedPagesKeyPrefix,
+    pageGap,
+    readingDirection,
     ...props
-}: ReaderPagerProps) => {
+}: ReaderPagerProps & Pick<IReaderSettings, 'pageGap' | 'readingDirection'>) => {
     const { currentPageIndex, totalPages } = props;
 
-    const { pageGap, readingDirection } = ReaderService.useSettings();
     const { direction: themeDirection } = useTheme();
 
-    const isLtrReadingDirection = readingDirection.value === ReadingDirection.LTR;
+    const isLtrReadingDirection = readingDirection === ReadingDirection.LTR;
 
     return (
         <BasePager
@@ -53,7 +55,7 @@ export const ReaderHorizontalPager = ({
                         display: 'flex',
                         flexWrap: 'nowrap',
                         alignItems: 'center',
-                        gap: `${pageGap.value}px`,
+                        gap: `${pageGap}px`,
                         ...applyStyles(themeDirection === 'ltr', {
                             flexDirection: isLtrReadingDirection ? 'row' : 'row-reverse',
                             justifyContent: isLtrReadingDirection ? 'flex-start' : 'flex-end',
@@ -68,3 +70,9 @@ export const ReaderHorizontalPager = ({
         />
     );
 };
+
+export const ReaderHorizontalPager = withPropsFrom(
+    BaseReaderHorizontalPager,
+    [ReaderService.useSettingsWithoutDefaultFlag],
+    ['pageGap', 'readingDirection'],
+);

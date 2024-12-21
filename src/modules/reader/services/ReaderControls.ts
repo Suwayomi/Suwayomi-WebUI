@@ -412,9 +412,9 @@ export class ReaderControls {
                     });
                 };
 
-                clearTimeout(this.updateCurrentPageTimeout);
+                clearTimeout(ReaderControls.updateCurrentPageTimeout);
                 if (debounceChapterUpdate) {
-                    this.updateCurrentPageTimeout = setTimeout(handleCurrentPageIndexChange, 1000);
+                    ReaderControls.updateCurrentPageTimeout = setTimeout(handleCurrentPageIndexChange, 1000);
                     return;
                 }
 
@@ -480,7 +480,7 @@ export class ReaderControls {
                         break;
                     case TapZoneRegionType.PREVIOUS:
                         if (isContinuousReadingModeActive) {
-                            this.scroll(
+                            ReaderControls.scroll(
                                 ScrollOffset.BACKWARD,
                                 scrollDirection,
                                 readingMode.value,
@@ -496,7 +496,7 @@ export class ReaderControls {
                         break;
                     case TapZoneRegionType.NEXT:
                         if (isContinuousReadingModeActive) {
-                            this.scroll(
+                            ReaderControls.scroll(
                                 ScrollOffset.FORWARD,
                                 scrollDirection,
                                 readingMode.value,

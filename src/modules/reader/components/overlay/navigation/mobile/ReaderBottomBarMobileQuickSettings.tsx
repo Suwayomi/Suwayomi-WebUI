@@ -13,11 +13,16 @@ import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { useReaderStateMangaContext } from '@/modules/reader/contexts/state/ReaderStateMangaContext.tsx';
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 import { DefaultSettingFootnote } from '@/modules/reader/components/settings/DefaultSettingFootnote.tsx';
+import { IReaderSettingsWithDefaultFlag, TReaderStateMangaContext } from '@/modules/reader/types/Reader.types.ts';
+import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 
 const DEFAULT_MANGA: MangaIdInfo = { id: -1 };
-export const ReaderBottomBarMobileQuickSettings = () => {
-    const { manga } = useReaderStateMangaContext();
-    const { readingMode, readingDirection } = ReaderService.useSettings();
+const BaseReaderBottomBarMobileQuickSettings = ({
+    manga,
+    readingMode,
+    readingDirection,
+}: Pick<TReaderStateMangaContext, 'manga'> &
+    Pick<IReaderSettingsWithDefaultFlag, 'readingMode' | 'readingDirection'>) => {
     const deleteSetting = ReaderService.useCreateDeleteSetting(manga ?? DEFAULT_MANGA);
 
     if (!manga) {
@@ -42,3 +47,9 @@ export const ReaderBottomBarMobileQuickSettings = () => {
         </Stack>
     );
 };
+
+export const ReaderBottomBarMobileQuickSettings = withPropsFrom(
+    BaseReaderBottomBarMobileQuickSettings,
+    [useReaderStateMangaContext, ReaderService.useSettings],
+    ['manga', 'readingMode', 'readingDirection'],
+);

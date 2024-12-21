@@ -20,15 +20,22 @@ import { useReaderStateChaptersContext } from '@/modules/reader/contexts/state/R
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { getPage } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
 import { getOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts';
-import { ProgressBarPosition, ReaderResumeMode } from '@/modules/reader/types/Reader.types.ts';
+import { ProgressBarPosition, ReaderResumeMode, ReaderStateChapters } from '@/modules/reader/types/Reader.types.ts';
 import { ReaderProgressBarDirectionWrapper } from '@/modules/reader/components/overlay/progress-bar/ReaderProgressBarDirectionWrapper.tsx';
 import { useReaderProgressBarContext } from '@/modules/reader/contexts/ReaderProgressBarContext.tsx';
 import { useReaderOverlayContext } from '@/modules/reader/contexts/ReaderOverlayContext.tsx';
+import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
+import { TReaderOverlayContext } from '@/modules/reader/types/ReaderOverlay.types.ts';
+import { TReaderProgressBarContext } from '@/modules/reader/types/ReaderProgressBar.types.ts';
 
-export const MobileReaderProgressBar = () => {
-    const { nextChapter, previousChapter } = useReaderStateChaptersContext();
-    const { isVisible } = useReaderOverlayContext();
-    const { setIsMaximized } = useReaderProgressBarContext();
+const BaseMobileReaderProgressBar = ({
+    previousChapter,
+    nextChapter,
+    isVisible,
+    setIsMaximized,
+}: Pick<ReaderStateChapters, 'previousChapter' | 'nextChapter'> &
+    Pick<TReaderOverlayContext, 'isVisible'> &
+    Pick<TReaderProgressBarContext, 'setIsMaximized'>) => {
     const pagesState = userReaderStatePagesContext();
     const { currentPageIndex, pages } = pagesState;
 
@@ -177,3 +184,9 @@ export const MobileReaderProgressBar = () => {
         </ReaderProgressBarDirectionWrapper>
     );
 };
+
+export const MobileReaderProgressBar = withPropsFrom(
+    BaseMobileReaderProgressBar,
+    [useReaderStateChaptersContext, useReaderOverlayContext, useReaderProgressBarContext],
+    ['previousChapter', 'nextChapter', 'isVisible', 'setIsMaximized'],
+);

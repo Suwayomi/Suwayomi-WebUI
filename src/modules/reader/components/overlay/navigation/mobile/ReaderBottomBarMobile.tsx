@@ -25,11 +25,20 @@ import { ReaderChapterList } from '@/modules/reader/components/overlay/navigatio
 import { ReaderBottomBarMobileQuickSettings } from '@/modules/reader/components/overlay/navigation/mobile/ReaderBottomBarMobileQuickSettings.tsx';
 import { useReaderStateChaptersContext } from '@/modules/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import { useReaderScrollbarContext } from '@/modules/reader/contexts/ReaderScrollbarContext.tsx';
+import { ReaderStateChapters, TReaderScrollbarContext } from '@/modules/reader/types/Reader.types.ts';
+import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 
-export const ReaderBottomBarMobile = ({ openSettings, isVisible }: ReaderBottomBarMobileProps) => {
+const BaseReaderBottomBarMobile = ({
+    openSettings,
+    isVisible,
+    currentChapter,
+    chapters,
+    scrollbarXSize,
+    scrollbarYSize,
+}: ReaderBottomBarMobileProps &
+    Pick<ReaderStateChapters, 'currentChapter' | 'chapters'> &
+    Pick<TReaderScrollbarContext, 'scrollbarXSize' | 'scrollbarYSize'>) => {
     const { t } = useTranslation();
-    const { currentChapter, chapters } = useReaderStateChaptersContext();
-    const { scrollbarXSize, scrollbarYSize } = useReaderScrollbarContext();
 
     const chapterListPopupState = usePopupState({ variant: 'dialog', popupId: 'reader-chapter-list-dialog' });
     const quickSettingsPopupState = usePopupState({ variant: 'dialog', popupId: 'reader-quick-settings-dialog' });
@@ -112,3 +121,9 @@ export const ReaderBottomBarMobile = ({ openSettings, isVisible }: ReaderBottomB
         </>
     );
 };
+
+export const ReaderBottomBarMobile = withPropsFrom(
+    BaseReaderBottomBarMobile,
+    [useReaderStateChaptersContext, useReaderScrollbarContext],
+    ['currentChapter', 'chapters', 'scrollbarXSize', 'scrollbarYSize'],
+);

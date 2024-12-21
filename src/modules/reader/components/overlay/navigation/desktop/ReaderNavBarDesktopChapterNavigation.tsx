@@ -23,16 +23,20 @@ import { getOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts'
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { ReaderControls } from '@/modules/reader/services/ReaderControls.ts';
 import { ReaderStateChapters } from '@/modules/reader/types/Reader.types.ts';
+import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 
-export const ReaderNavBarDesktopChapterNavigation = ({
+const BaseReaderNavBarDesktopChapterNavigation = ({
     currentChapter,
     previousChapter,
     nextChapter,
     chapters = [],
-}: Pick<ReaderStateChapters, 'chapters' | 'currentChapter' | 'previousChapter' | 'nextChapter'>) => {
+    readerThemeDirection,
+    openChapter,
+}: Pick<ReaderStateChapters, 'chapters' | 'currentChapter' | 'previousChapter' | 'nextChapter'> & {
+    readerThemeDirection: ReturnType<typeof ReaderService.useGetThemeDirection>;
+    openChapter: ReturnType<typeof ReaderControls.useOpenChapter>;
+}) => {
     const { t } = useTranslation();
-    const readerThemeDirection = ReaderService.useGetThemeDirection();
-    const openChapter = ReaderControls.useOpenChapter();
 
     const popupState = usePopupState({ variant: 'popover', popupId: 'reader-nav-bar-desktop-chapter-list' });
 
@@ -111,3 +115,16 @@ export const ReaderNavBarDesktopChapterNavigation = ({
         </Stack>
     );
 };
+
+export const ReaderNavBarDesktopChapterNavigation = withPropsFrom(
+    BaseReaderNavBarDesktopChapterNavigation,
+    [
+        () => ({
+            readerThemeDirection: ReaderService.useGetThemeDirection(),
+        }),
+        () => ({
+            openChapter: ReaderControls.useOpenChapter(),
+        }),
+    ],
+    ['readerThemeDirection', 'openChapter'],
+);

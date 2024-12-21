@@ -22,7 +22,10 @@ import {
     ReadingMode,
 } from '@/modules/reader/types/Reader.types.ts';
 import { useReaderStateMangaContext } from '@/modules/reader/contexts/state/ReaderStateMangaContext.tsx';
-import { updateReaderSettings } from '@/modules/reader/services/ReaderSettingsMetadata.ts';
+import {
+    convertFromReaderSettingsWithDefaultFlag,
+    updateReaderSettings,
+} from '@/modules/reader/services/ReaderSettingsMetadata.ts';
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 import { getMetadataKey } from '@/modules/metadata/services/MetadataReader.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
@@ -64,11 +67,11 @@ export class ReaderService {
     private static chapterUpdateQueues: Map<ChapterIdInfo['id'], Queue> = new Map();
 
     private static getOrCreateChapterUpdateQueue(id: ChapterIdInfo['id']): Queue {
-        if (!this.chapterUpdateQueues.has(id)) {
-            this.chapterUpdateQueues.set(id, new Queue(1));
+        if (!ReaderService.chapterUpdateQueues.has(id)) {
+            ReaderService.chapterUpdateQueues.set(id, new Queue(1));
         }
 
-        return this.chapterUpdateQueues.get(id)!;
+        return ReaderService.chapterUpdateQueues.get(id)!;
     }
 
     static useNavigateToChapter(chapter?: TChapterReader, resumeMode?: ReaderResumeMode): () => void {
@@ -95,7 +98,7 @@ export class ReaderService {
     ): void {
         const key = `${currentChapter.id}_${nextChapter?.id}_${pageIndex}_${downloadAheadLimit}`;
 
-        this.downloadAheadQueue.enqueue(key, async () => {
+        ReaderService.downloadAheadQueue.enqueue(key, async () => {
             const chapterIdsForDownloadAhead = getChapterIdsForDownloadAhead(
                 currentChapter,
                 nextChapter,
@@ -119,7 +122,7 @@ export class ReaderService {
     static useUpdateChapter(): (patch: UpdateChapterPatchInput) => void {
         const { manga } = useReaderStateMangaContext();
         const { initialChapter, currentChapter, mangaChapters } = useReaderStateChaptersContext();
-        const { shouldSkipDupChapters } = this.useSettings();
+        const { shouldSkipDupChapters } = ReaderService.useSettings();
         const {
             settings: { deleteChaptersWhileReading, deleteChaptersWithBookmark, updateProgressAfterReading },
         } = useMetadataServerSettings();
@@ -193,7 +196,9 @@ export class ReaderService {
                         .response.catch(defaultPromiseErrorHandler('ReaderService::useUpdateChapter'));
                 };
 
-                this.getOrCreateChapterUpdateQueue(currentChapter.id).enqueue(`${currentChapter.id}`, () => update());
+                ReaderService.getOrCreateChapterUpdateQueue(currentChapter.id).enqueue(`${currentChapter.id}`, () =>
+                    update(),
+                );
             },
             [
                 manga?.id,
@@ -210,6 +215,10 @@ export class ReaderService {
 
     static useSettings(): IReaderSettingsWithDefaultFlag {
         return useReaderStateSettingsContext().settings;
+    }
+
+    static useSettingsWithoutDefaultFlag(): IReaderSettings {
+        return convertFromReaderSettingsWithDefaultFlag(ReaderService.useSettings());
     }
 
     static useGetThemeDirection(): Direction {
@@ -323,11 +332,11 @@ export class ReaderService {
         manga: MangaIdInfo,
         profile?: ReadingMode,
     ): (
-        ...args: OmitFirst<Parameters<typeof this.updateSetting<Setting>>>
-    ) => ReturnType<typeof this.updateSetting<Setting>> {
+        ...args: OmitFirst<Parameters<typeof ReaderService.updateSetting<Setting>>>
+    ) => ReturnType<typeof ReaderService.updateSetting<Setting>> {
         return useCallback(
             (setting, value, commit, isGlobal) =>
-                this.updateSetting<Setting>(manga, setting, value, commit, isGlobal, profile),
+                ReaderService.updateSetting<Setting>(manga, setting, value, commit, isGlobal, profile),
             [manga, profile],
         );
     }
@@ -336,17 +345,17 @@ export class ReaderService {
         manga: MangaIdInfo,
         profile?: ReadingMode,
     ): (
-        ...args: OmitFirst<Parameters<typeof this.deleteSetting<Setting>>>
-    ) => ReturnType<typeof this.deleteSetting<Setting>> {
+        ...args: OmitFirst<Parameters<typeof ReaderService.deleteSetting<Setting>>>
+    ) => ReturnType<typeof ReaderService.deleteSetting<Setting>> {
         return useCallback(
-            (setting, isGlobal) => this.deleteSetting<Setting>(manga, setting, isGlobal, profile?.toString()),
+            (setting, isGlobal) => ReaderService.deleteSetting<Setting>(manga, setting, isGlobal, profile?.toString()),
             [manga, profile],
         );
     }
 
     static useOverlayMode(): { mode: ReaderOverlayMode; isDesktop: boolean; isMobile: boolean } {
         const isTouchDevice = MediaQuery.useIsTouchDevice();
-        const { overlayMode } = this.useSettings();
+        const { overlayMode } = ReaderService.useSettings();
 
         const isAutoModeSelected = overlayMode === ReaderOverlayMode.AUTO;
         const isDesktopModeSelected = overlayMode === ReaderOverlayMode.DESKTOP;
@@ -364,7 +373,7 @@ export class ReaderService {
 
     static useExit(): () => void {
         const { manga } = useReaderStateMangaContext();
-        const { exitMode } = this.useSettings();
+        const { exitMode } = ReaderService.useSettings();
         const handleBack = useBackButton();
         const navigate = useNavigate();
 

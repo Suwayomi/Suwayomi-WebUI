@@ -9,26 +9,40 @@
 import { alpha, darken, lighten, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import { ReaderProgressBar } from '@/modules/reader/components/overlay/progress-bar/ReaderProgressBar.tsx';
-import { useReaderProgressBarContext } from '@/modules/reader/contexts/ReaderProgressBarContext.tsx';
 import { ReaderProgressBarSlot } from '@/modules/reader/components/overlay/progress-bar/ReaderProgressBarSlot.tsx';
-import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { userReaderStatePagesContext } from '@/modules/reader/contexts/state/ReaderStatePagesContext.tsx';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
-import { ProgressBarType } from '@/modules/reader/types/Reader.types.ts';
+import { IReaderSettings, ProgressBarType, TReaderScrollbarContext } from '@/modules/reader/types/Reader.types.ts';
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 import { getPage, getProgressBarPositionInfo } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
 import { ReaderProgressBarDirectionWrapper } from '@/modules/reader/components/overlay/progress-bar/ReaderProgressBarDirectionWrapper.tsx';
+import { TReaderProgressBarContext } from '@/modules/reader/types/ReaderProgressBar.types.ts';
+import { NavbarContextType } from '@/modules/navigation-bar/NavigationBar.types.ts';
+import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
+import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
+import { useReaderProgressBarContext } from '@/modules/reader/contexts/ReaderProgressBarContext.tsx';
 import { useReaderScrollbarContext } from '@/modules/reader/contexts/ReaderScrollbarContext.tsx';
 
-export const StandardReaderProgressBar = () => {
+const BaseStandardReaderProgressBar = ({
+    readerNavBarWidth,
+    isMaximized,
+    setIsMaximized,
+    isDragging,
+    progressBarType,
+    progressBarSize,
+    progressBarPosition,
+    readerDirection,
+    scrollbarXSize,
+    scrollbarYSize,
+}: Pick<NavbarContextType, 'readerNavBarWidth'> &
+    Pick<TReaderProgressBarContext, 'isMaximized' | 'setIsMaximized' | 'isDragging'> &
+    Pick<IReaderSettings, 'progressBarType' | 'progressBarSize' | 'progressBarPosition'> &
+    Pick<TReaderScrollbarContext, 'scrollbarXSize' | 'scrollbarYSize'> & {
+        readerDirection: ReturnType<typeof ReaderService.useGetThemeDirection>;
+    }) => {
     const theme = useTheme();
     const pagesState = userReaderStatePagesContext();
     const { currentPageIndex, pages } = pagesState;
-    const { readerNavBarWidth } = useNavBarContext();
-    const { isMaximized, setIsMaximized, isDragging } = useReaderProgressBarContext();
-    const { progressBarType, progressBarSize, progressBarPosition } = ReaderService.useSettings();
-    const readerDirection = ReaderService.useGetThemeDirection();
-    const { scrollbarXSize, scrollbarYSize } = useReaderScrollbarContext();
 
     const currentPagesIndex = getPage(currentPageIndex, pages).pagesIndex;
 
@@ -255,3 +269,26 @@ export const StandardReaderProgressBar = () => {
         </ReaderProgressBarDirectionWrapper>
     );
 };
+
+export const StandardReaderProgressBar = withPropsFrom(
+    BaseStandardReaderProgressBar,
+    [
+        useNavBarContext,
+        useReaderProgressBarContext,
+        ReaderService.useSettingsWithoutDefaultFlag,
+        () => ({ readerDirection: ReaderService.useGetThemeDirection() }),
+        useReaderScrollbarContext,
+    ],
+    [
+        'readerNavBarWidth',
+        'isMaximized',
+        'setIsMaximized',
+        'isDragging',
+        'progressBarType',
+        'progressBarSize',
+        'progressBarPosition',
+        'readerDirection',
+        'scrollbarXSize',
+        'scrollbarYSize',
+    ],
+);

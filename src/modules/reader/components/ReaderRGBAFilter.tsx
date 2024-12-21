@@ -9,18 +9,19 @@
 import Box from '@mui/material/Box';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
+import { NavbarContextType } from '@/modules/navigation-bar/NavigationBar.types.ts';
+import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
+import { IReaderSettings } from '@/modules/reader/types/Reader.types.ts';
 
-export const ReaderRGBAFilter = () => {
-    const { readerNavBarWidth } = useNavBarContext();
-    const {
-        customFilter: {
-            rgba: {
-                value: { red, green, blue, alpha },
-                enabled,
-            },
+const BaseReaderRGBAFilter = ({
+    readerNavBarWidth,
+    customFilter: {
+        rgba: {
+            value: { red, green, blue, alpha },
+            enabled,
         },
-    } = ReaderService.useSettings();
-
+    },
+}: Pick<NavbarContextType, 'readerNavBarWidth'> & Pick<IReaderSettings, 'customFilter'>) => {
     if (!enabled) {
         return null;
     }
@@ -39,3 +40,9 @@ export const ReaderRGBAFilter = () => {
         />
     );
 };
+
+export const ReaderRGBAFilter = withPropsFrom(
+    BaseReaderRGBAFilter,
+    [useNavBarContext, ReaderService.useSettingsWithoutDefaultFlag],
+    ['readerNavBarWidth', 'customFilter'],
+);

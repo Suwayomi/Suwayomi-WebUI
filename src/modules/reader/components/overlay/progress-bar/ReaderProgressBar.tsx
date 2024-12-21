@@ -11,8 +11,7 @@ import { ReactNode, useCallback, useMemo, useRef } from 'react';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { TypographyProps } from '@mui/material/Typography';
 import { StackProps } from '@mui/material/Stack';
-import { useReaderProgressBarContext } from '@/modules/reader/contexts/ReaderProgressBarContext.tsx';
-import { ReaderProgressBarProps } from '@/modules/reader/types/ReaderProgressBar.types.ts';
+import { ReaderProgressBarProps, TReaderProgressBarContext } from '@/modules/reader/types/ReaderProgressBar.types.ts';
 import { ReaderProgressBarPageNumber } from '@/modules/reader/components/overlay/progress-bar/ReaderProgressBarPageNumber.tsx';
 import { ReaderProgressBarContainer } from '@/modules/reader/components/overlay/progress-bar/ReaderProgressBarContainer.tsx';
 import { ReaderProgressBarRoot } from '@/modules/reader/components/overlay/progress-bar/ReaderProgressBarRoot.tsx';
@@ -30,8 +29,10 @@ import { getOptionForDirection as getOptionForDirectionImpl } from '@/modules/th
 import { ReaderProgressBarSlotsActionArea } from '@/modules/reader/components/overlay/progress-bar/ReaderProgressBarSlotsActionArea.tsx';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { ReaderControls } from '@/modules/reader/services/ReaderControls.ts';
+import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
+import { useReaderProgressBarContext } from '@/modules/reader/contexts/ReaderProgressBarContext.tsx';
 
-export const ReaderProgressBar = ({
+const BaseReaderProgressBar = ({
     totalPages,
     pages,
     pageLoadStates,
@@ -40,34 +41,37 @@ export const ReaderProgressBar = ({
     slots,
     createProgressBarSlot,
     progressBarPosition,
-}: ReaderProgressBarProps & {
-    createProgressBarSlot: (
-        page: ReaderProgressBarProps['pages'][number],
-        pageLoadStates: ReaderProgressBarProps['pageLoadStates'],
-        pagesIndex: number,
-    ) => ReactNode;
-    slotProps?: {
-        container?: StackProps;
-        progressBarRoot?: StackProps;
-        progressBarSlotsActionArea?: StackProps;
-        progressBarSlotsContainer?: StackProps;
-        progressBarSlot?: BoxProps;
-        progressBarReadPages?: BoxProps;
-        progressBarCurrentPageSlot?: BoxProps;
-        progressBarPageTexts?: {
-            base?: TypographyProps;
-            current?: TypographyProps;
-            total?: TypographyProps;
+    isDragging,
+    setIsDragging,
+    openPage,
+    direction,
+}: ReaderProgressBarProps &
+    Pick<TReaderProgressBarContext, 'isDragging' | 'setIsDragging'> & {
+        createProgressBarSlot: (
+            page: ReaderProgressBarProps['pages'][number],
+            pageLoadStates: ReaderProgressBarProps['pageLoadStates'],
+            pagesIndex: number,
+        ) => ReactNode;
+        slotProps?: {
+            container?: StackProps;
+            progressBarRoot?: StackProps;
+            progressBarSlotsActionArea?: StackProps;
+            progressBarSlotsContainer?: StackProps;
+            progressBarSlot?: BoxProps;
+            progressBarReadPages?: BoxProps;
+            progressBarCurrentPageSlot?: BoxProps;
+            progressBarPageTexts?: {
+                base?: TypographyProps;
+                current?: TypographyProps;
+                total?: TypographyProps;
+            };
         };
-    };
-    slots?: {
-        progressBarCurrentPage?: ReactNode;
-    };
-}) => {
-    const { isDragging, setIsDragging } = useReaderProgressBarContext();
-    const openPage = ReaderControls.useOpenPage();
-    const direction = ReaderService.useGetThemeDirection();
-
+        slots?: {
+            progressBarCurrentPage?: ReactNode;
+        };
+        openPage: ReturnType<typeof ReaderControls.useOpenPage>;
+        direction: ReturnType<typeof ReaderService.useGetThemeDirection>;
+    }) => {
     const progressBarRef = useRef<HTMLDivElement | null>(null);
 
     const isHorizontalPosition = getProgressBarPositionInfo(progressBarPosition).isHorizontal;
@@ -212,3 +216,15 @@ export const ReaderProgressBar = ({
         </ReaderProgressBarContainer>
     );
 };
+
+export const ReaderProgressBar = withPropsFrom(
+    BaseReaderProgressBar,
+    [
+        useReaderProgressBarContext,
+        () => ({ openPage: ReaderControls.useOpenPage() }),
+        () => ({
+            direction: ReaderService.useGetThemeDirection(),
+        }),
+    ],
+    ['isDragging', 'setIsDragging', 'openPage', 'direction'],
+);

@@ -33,3 +33,7 @@ type TupleUnion<U extends string | number | symbol, R extends any[] = []> = {
 type TransformRecordToWithDefaultFlag<T extends Record<string, any>> = {
     [K in keyof T]: { value: T[K]; isDefault: boolean };
 };
+
+type MergeObjectsArray<T extends object[]> = T extends [infer F, ...infer R]
+    ? F & MergeObjects<R extends object[] ? R : []>
+    : {};

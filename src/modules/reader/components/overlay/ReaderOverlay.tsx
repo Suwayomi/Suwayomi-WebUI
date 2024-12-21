@@ -16,10 +16,15 @@ import { ReaderNavBarDesktop } from '@/modules/reader/components/overlay/navigat
 import { ReaderOverlayHeaderMobile } from '@/modules/reader/components/overlay/ReaderOverlayHeaderMobile.tsx';
 import { ReaderBottomBarMobile } from '@/modules/reader/components/overlay/navigation/mobile/ReaderBottomBarMobile.tsx';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
+import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 
-export const ReaderOverlay = ({ isVisible }: BaseReaderOverlayProps & MobileHeaderProps) => {
-    const { isDesktop, isMobile } = ReaderService.useOverlayMode();
-
+const BaseReaderOverlay = ({
+    isVisible,
+    isDesktop,
+    isMobile,
+}: BaseReaderOverlayProps &
+    MobileHeaderProps &
+    Pick<ReturnType<typeof ReaderService.useOverlayMode>, 'isDesktop' | 'isMobile'>) => {
     const [areSettingsOpen, setAreSettingsOpen] = useState(false);
 
     return (
@@ -44,3 +49,9 @@ export const ReaderOverlay = ({ isVisible }: BaseReaderOverlayProps & MobileHead
         </Box>
     );
 };
+
+export const ReaderOverlay = withPropsFrom(
+    BaseReaderOverlay,
+    [ReaderService.useOverlayMode],
+    ['isDesktop', 'isMobile'],
+);

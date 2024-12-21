@@ -18,12 +18,14 @@ import { TChapterReader } from '@/modules/chapter/Chapter.types.ts';
 import {
     IReaderSettings,
     ReaderPageScaleMode,
+    ReaderStateChapters,
     ReaderTransitionPageMode,
     ReadingMode,
+    TReaderScrollbarContext,
+    TReaderStateMangaContext,
 } from '@/modules/reader/types/Reader.types.ts';
 import { isTransitionPageVisible } from '@/modules/reader/utils/ReaderPager.utils.tsx';
 import { useBackButton } from '@/modules/core/hooks/useBackButton.ts';
-import { useReaderStateMangaContext } from '@/modules/reader/contexts/state/ReaderStateMangaContext.tsx';
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 import {
     isContinuousReadingMode,
@@ -31,6 +33,8 @@ import {
 } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
+import { NavbarContextType } from '@/modules/navigation-bar/NavigationBar.types.ts';
+import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 
 const ChapterInfo = ({
     title,
@@ -58,22 +62,29 @@ const ChapterInfo = ({
     );
 };
 
-export const ReaderTransitionPage = ({
+const BaseReaderTransitionPage = ({
     type,
     mode,
     readingMode,
     pageScaleMode,
-}: Pick<IReaderSettings, 'readingMode' | 'pageScaleMode'> & {
-    type: Exclude<ReaderTransitionPageMode, ReaderTransitionPageMode.NONE | ReaderTransitionPageMode.BOTH>;
-    mode: ReaderTransitionPageMode;
-}) => {
+    manga,
+    currentChapter,
+    previousChapter,
+    nextChapter,
+    scrollbarXSize,
+    scrollbarYSize,
+    readerNavBarWidth,
+}: Pick<IReaderSettings, 'readingMode' | 'pageScaleMode'> &
+    Pick<TReaderStateMangaContext, 'manga'> &
+    Pick<ReaderStateChapters, 'currentChapter' | 'previousChapter' | 'nextChapter'> &
+    Pick<TReaderScrollbarContext, 'scrollbarXSize' | 'scrollbarYSize'> &
+    Pick<NavbarContextType, 'readerNavBarWidth'> & {
+        type: Exclude<ReaderTransitionPageMode, ReaderTransitionPageMode.NONE | ReaderTransitionPageMode.BOTH>;
+        mode: ReaderTransitionPageMode;
+    }) => {
     const { t } = useTranslation();
 
     const handleBack = useBackButton();
-    const { manga } = useReaderStateMangaContext();
-    const { currentChapter, nextChapter, previousChapter } = useReaderStateChaptersContext();
-    const { scrollbarXSize, scrollbarYSize } = useReaderScrollbarContext();
-    const { readerNavBarWidth } = useNavBarContext();
 
     const isPreviousType = type === ReaderTransitionPageMode.PREVIOUS;
     const isNextType = type === ReaderTransitionPageMode.NEXT;
@@ -191,3 +202,17 @@ export const ReaderTransitionPage = ({
         </Stack>
     );
 };
+
+export const ReaderTransitionPage = withPropsFrom(
+    BaseReaderTransitionPage,
+    [useReaderStateChaptersContext, useReaderScrollbarContext, useNavBarContext],
+    [
+        'manga',
+        'currentChapter',
+        'previousChapter',
+        'nextChapter',
+        'scrollbarXSize',
+        'scrollbarYSize',
+        'readerNavBarWidth',
+    ],
+);

@@ -7,7 +7,7 @@
  */
 
 import Box from '@mui/material/Box';
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
@@ -24,7 +24,6 @@ import { LoadingPlaceholder } from '@/modules/core/components/placeholder/Loadin
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { userReaderStatePagesContext } from '@/modules/reader/contexts/state/ReaderStatePagesContext.tsx';
-import { useReaderStateChaptersContext } from '@/modules/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import { GET_CHAPTERS_READER } from '@/lib/graphql/queries/ChapterQuery.ts';
 import { Chapters } from '@/modules/chapter/services/Chapters.ts';
 import { DirectionOffset } from '@/Base.types.ts';
@@ -38,37 +37,71 @@ import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { READER_BACKGROUND_TO_COLOR } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 import { createPageData, createPagesData } from '@/modules/reader/utils/ReaderPager.utils.tsx';
 import { ReaderHotkeys } from '@/modules/reader/components/ReaderHotkeys.tsx';
-import { ReaderResumeMode, ReaderTransitionPageMode } from '@/modules/reader/types/Reader.types.ts';
+import {
+    IReaderSettings,
+    ReaderResumeMode,
+    ReaderStateChapters,
+    ReaderTransitionPageMode,
+    TReaderStateMangaContext,
+    TReaderStateSettingsContext,
+} from '@/modules/reader/types/Reader.types.ts';
 import { getInitialReaderPageIndex } from '@/modules/reader/utils/Reader.utils.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { NavbarContextType } from '@/modules/navigation-bar/NavigationBar.types.ts';
+import { TReaderOverlayContext } from '@/modules/reader/types/ReaderOverlay.types.ts';
+import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types.ts';
+import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
+import { useReaderStateChaptersContext } from '@/modules/reader/contexts/state/ReaderStateChaptersContext.tsx';
 
-export const Reader = () => {
+const BaseReader = ({
+    setTitle,
+    setOverride,
+    readerNavBarWidth,
+    isVisible: isOverlayVisible,
+    setIsVisible: setIsOverlayVisible,
+    manga,
+    setManga,
+    shouldSkipDupChapters,
+    backgroundColor,
+    setSettings,
+    initialChapter,
+    currentChapter,
+    chapters,
+    setReaderStateChapters,
+    firstPageUrl,
+    totalPages,
+    setTotalPages,
+    setCurrentPageIndex,
+    setPageToScrollToIndex,
+    setPages,
+    setPageUrls,
+    setPageLoadStates,
+    setTransitionPageMode,
+}: Pick<NavbarContextType, 'setTitle' | 'setOverride' | 'readerNavBarWidth'> &
+    Pick<TReaderOverlayContext, 'isVisible' | 'setIsVisible'> &
+    Pick<TReaderStateMangaContext, 'manga' | 'setManga'> &
+    Pick<TReaderStateSettingsContext, 'setSettings'> &
+    Pick<IReaderSettings, 'shouldSkipDupChapters' | 'backgroundColor'> &
+    Pick<ReaderStateChapters, 'initialChapter' | 'currentChapter' | 'chapters' | 'setReaderStateChapters'> &
+    Pick<
+        ReaderStatePages,
+        | 'totalPages'
+        | 'setTotalPages'
+        | 'setCurrentPageIndex'
+        | 'setPageToScrollToIndex'
+        | 'setPages'
+        | 'setPageUrls'
+        | 'setPageLoadStates'
+        | 'setTransitionPageMode'
+    > & {
+        firstPageUrl?: string;
+    }) => {
     const { t } = useTranslation();
-    const { setTitle, setOverride, readerNavBarWidth } = useNavBarContext();
-    const { isVisible: isOverlayVisible, setIsVisible: setIsOverlayVisible } = useReaderOverlayContext();
-    const { manga, setManga } = useReaderStateMangaContext();
-    const {
-        settings: { shouldSkipDupChapters },
-        setSettings,
-    } = useReaderStateSettingsContext();
-    const { initialChapter, currentChapter, chapters, setReaderStateChapters } = useReaderStateChaptersContext();
-    const {
-        setTotalPages,
-        setCurrentPageIndex,
-        setPageToScrollToIndex,
-        pages,
-        setPages,
-        setPageUrls,
-        setPageLoadStates,
-        setTransitionPageMode,
-    } = userReaderStatePagesContext();
     const { resumeMode } = useLocation<{
         resumeMode: ReaderResumeMode;
     }>().state ?? { resumeMode: ReaderResumeMode.START };
 
     const scrollElementRef = useRef<HTMLDivElement | null>(null);
-
-    const { backgroundColor } = ReaderService.useSettings();
 
     const { chapterIndex: paramChapterIndex, mangaId: paramMangaId } = useParams<{
         chapterIndex: string;
@@ -321,7 +354,7 @@ export const Reader = () => {
         return null;
     }
 
-    const isPlaceholderPageState = pages.length === 1 && pages[0].primary.url === requestManager.getBaseUrl();
+    const isPlaceholderPageState = totalPages === 1 && firstPageUrl === requestManager.getBaseUrl();
     if (isPlaceholderPageState) {
         return null;
     }
@@ -350,3 +383,43 @@ export const Reader = () => {
         </>
     );
 };
+
+export const Reader = withPropsFrom(
+    memo(BaseReader),
+    [
+        useNavBarContext,
+        useReaderOverlayContext,
+        useReaderStateMangaContext,
+        useReaderStateChaptersContext,
+        useReaderStateSettingsContext,
+        ReaderService.useSettingsWithoutDefaultFlag,
+        userReaderStatePagesContext,
+        () => ({
+            firstPageUrl: userReaderStatePagesContext().pages[0].primary.url,
+        }),
+    ],
+    [
+        'setTitle',
+        'setOverride',
+        'readerNavBarWidth',
+        'isVisible',
+        'setIsVisible',
+        'manga',
+        'setManga',
+        'shouldSkipDupChapters',
+        'setSettings',
+        'initialChapter',
+        'currentChapter',
+        'chapters',
+        'setReaderStateChapters',
+        'firstPageUrl',
+        'totalPages',
+        'setTotalPages',
+        'setCurrentPageIndex',
+        'setPageToScrollToIndex',
+        'setPages',
+        'setPageUrls',
+        'setPageLoadStates',
+        'setTransitionPageMode',
+    ],
+);

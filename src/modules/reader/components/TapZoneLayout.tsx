@@ -14,15 +14,23 @@ import { ReaderTapZoneService } from '@/modules/reader/services/ReaderTapZoneSer
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
-import { ReadingDirection } from '@/modules/reader/types/Reader.types.ts';
+import { IReaderSettings, ReadingDirection } from '@/modules/reader/types/Reader.types.ts';
+import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
+import { NavbarContextType } from '@/modules/navigation-bar/NavigationBar.types.ts';
+import { TReaderTapZoneContext } from '@/modules/reader/types/TapZoneLayout.types.ts';
 
 const CANVAS_ID = 'reader-tap-zone-layout-canvas';
 
-export const TapZoneLayout = () => {
+const BaseTapZoneLayout = ({
+    readerNavBarWidth,
+    showPreview,
+    tapZoneLayout,
+    tapZoneInvertMode,
+    readingDirection,
+}: Pick<NavbarContextType, 'readerNavBarWidth'> &
+    Pick<TReaderTapZoneContext, 'showPreview'> &
+    Pick<IReaderSettings, 'tapZoneLayout' | 'tapZoneInvertMode' | 'readingDirection'>) => {
     const theme = useTheme();
-    const { readerNavBarWidth } = useNavBarContext();
-    const { showPreview } = useReaderTapZoneContext();
-    const { tapZoneLayout, readingDirection, tapZoneInvertMode } = ReaderService.useSettings();
 
     const [width, setWidth] = useState(0);
     const [height, setHeight] = useState(0);
@@ -35,10 +43,10 @@ export const TapZoneLayout = () => {
         }, [tapZoneLayoutElement]),
     );
 
-    const canvas = ReaderTapZoneService.getOrCreateCanvas(tapZoneLayout.value, width, height, theme.typography.h3, {
-        vertical: tapZoneInvertMode.value.vertical,
-        horizontal: tapZoneInvertMode.value.horizontal,
-        isRTL: readingDirection.value === ReadingDirection.RTL,
+    const canvas = ReaderTapZoneService.getOrCreateCanvas(tapZoneLayout, width, height, theme.typography.h3, {
+        vertical: tapZoneInvertMode.vertical,
+        horizontal: tapZoneInvertMode.horizontal,
+        isRTL: readingDirection === ReadingDirection.RTL,
     });
 
     useLayoutEffect(() => {
@@ -62,3 +70,9 @@ export const TapZoneLayout = () => {
         </Box>
     );
 };
+
+export const TapZoneLayout = withPropsFrom(
+    BaseTapZoneLayout,
+    [useNavBarContext, useReaderTapZoneContext, ReaderService.useSettingsWithoutDefaultFlag],
+    ['readerNavBarWidth', 'showPreview', 'tapZoneLayout', 'tapZoneInvertMode', 'readingDirection'],
+);

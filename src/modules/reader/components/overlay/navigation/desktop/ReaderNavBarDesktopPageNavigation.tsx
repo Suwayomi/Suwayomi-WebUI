@@ -20,18 +20,23 @@ import { useGetOptionForDirection } from '@/modules/theme/services/ThemeCreator.
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { ReaderNavBarDesktopNextPreviousButton } from '@/modules/reader/components/overlay/navigation/desktop/ReaderNavBarDesktopNextPreviousButton.tsx';
 import { READING_DIRECTION_TO_THEME_DIRECTION } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
+import { IReaderSettings } from '@/modules/reader/types/Reader.types.ts';
+import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 
-export const ReaderNavBarDesktopPageNavigation = ({
+const BaseReaderNavBarDesktopPageNavigation = ({
     currentPageIndex,
     pages,
-}: Pick<ReaderStatePages, 'currentPageIndex' | 'pages'>) => {
+    readingDirection,
+    openPage,
+}: Pick<ReaderStatePages, 'currentPageIndex' | 'pages'> &
+    Pick<IReaderSettings, 'readingDirection'> & {
+        openPage: ReturnType<typeof ReaderControls.useOpenPage>;
+    }) => {
     const { t } = useTranslation();
-    const openPage = ReaderControls.useOpenPage();
-    const { readingDirection } = ReaderService.useSettings();
     const getOptionForDirection = useGetOptionForDirection();
     const currentPage = useMemo(() => getPage(currentPageIndex, pages), [currentPageIndex, pages]);
 
-    const direction = READING_DIRECTION_TO_THEME_DIRECTION[readingDirection.value];
+    const direction = READING_DIRECTION_TO_THEME_DIRECTION[readingDirection];
 
     return (
         <Stack sx={{ flexDirection: 'row', gap: 1 }} dir="ltr">
@@ -73,3 +78,9 @@ export const ReaderNavBarDesktopPageNavigation = ({
         </Stack>
     );
 };
+
+export const ReaderNavBarDesktopPageNavigation = withPropsFrom(
+    BaseReaderNavBarDesktopPageNavigation,
+    [() => ({ openPage: ReaderControls.useOpenPage() }), ReaderService.useSettingsWithoutDefaultFlag],
+    ['readingDirection', 'openPage'],
+);

@@ -10,10 +10,11 @@ import { Direction, useTheme } from '@mui/material/styles';
 import { Fragment, useMemo } from 'react';
 import { BasePager } from '@/modules/reader/components/viewer/pager/BasePager.tsx';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
-import { ReaderPagerProps, ReadingDirection } from '@/modules/reader/types/Reader.types.ts';
+import { IReaderSettings, ReaderPagerProps, ReadingDirection } from '@/modules/reader/types/Reader.types.ts';
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 import { createReaderPage } from '@/modules/reader/utils/ReaderPager.utils.tsx';
 import { getNextIndexFromPage, getPage } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
+import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 
 const getPagePosition = (
     pageType: 'first' | 'second',
@@ -37,20 +38,20 @@ const getPagePosition = (
     return isLtrReadingDirection ? 'right' : 'left';
 };
 
-export const ReaderDoublePagedPager = ({
+const BaseReaderDoublePagedPager = ({
     onLoad,
     onError,
     pageLoadStates,
     retryFailedPagesKeyPrefix,
+    readingDirection,
     ...props
-}: ReaderPagerProps) => {
+}: ReaderPagerProps & Pick<IReaderSettings, 'readingDirection'>) => {
     const { currentPageIndex, pages, totalPages } = props;
 
-    const { readingDirection } = ReaderService.useSettings();
     const { direction: themeDirection } = useTheme();
 
     const currentPage = useMemo(() => getPage(currentPageIndex, pages), [currentPageIndex, pages]);
-    const isLtrReadingDirection = readingDirection.value === ReadingDirection.LTR;
+    const isLtrReadingDirection = readingDirection === ReadingDirection.LTR;
 
     return (
         <BasePager
@@ -75,9 +76,7 @@ export const ReaderDoublePagedPager = ({
                             currentPage.primary.index,
                             totalPages,
                             pageLoadStates[primary.index].error ? retryFailedPagesKeyPrefix : undefined,
-                            hasSecondaryPage
-                                ? getPagePosition('first', themeDirection, readingDirection.value)
-                                : undefined,
+                            hasSecondaryPage ? getPagePosition('first', themeDirection, readingDirection) : undefined,
                             hasSecondaryPage,
                         )}
                         {hasSecondaryPage &&
@@ -90,7 +89,7 @@ export const ReaderDoublePagedPager = ({
                                 currentSecondaryPageIndex,
                                 totalPages,
                                 pageLoadStates[secondary.index].error ? retryFailedPagesKeyPrefix : undefined,
-                                getPagePosition('second', themeDirection, readingDirection.value),
+                                getPagePosition('second', themeDirection, readingDirection),
                                 true,
                             )}
                     </Fragment>
@@ -115,3 +114,9 @@ export const ReaderDoublePagedPager = ({
         />
     );
 };
+
+export const ReaderDoublePagedPager = withPropsFrom(
+    BaseReaderDoublePagedPager,
+    [ReaderService.useSettingsWithoutDefaultFlag],
+    ['readingDirection'],
+);
