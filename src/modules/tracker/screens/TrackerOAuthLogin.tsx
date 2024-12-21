@@ -40,7 +40,7 @@ export const TrackerOAuthLogin = () => {
                 makeToast(t('tracking.action.login.label.failure', { name: trackerName }), 'error', getErrorMessage(e));
             }
 
-            navigate(AppRoutes.tracker.path, { replace: true });
+            navigate(AppRoutes.settings.childRoutes.tracking.path, { replace: true });
         };
 
         login();
