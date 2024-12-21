@@ -6,11 +6,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import { memo } from 'react';
 import { BasePager } from '@/modules/reader/components/viewer/pager/BasePager.tsx';
 import { ReaderPagerProps } from '@/modules/reader/types/Reader.types.ts';
 import { createReaderPage } from '@/modules/reader/utils/ReaderPager.utils.tsx';
 
-export const ReaderPagedPager = ({
+const BaseReaderPagedPager = ({
     onLoad,
     onError,
     pageLoadStates,
@@ -44,3 +45,5 @@ export const ReaderPagedPager = ({
         />
     );
 };
+
+export const ReaderPagedPager = memo(BaseReaderPagedPager);

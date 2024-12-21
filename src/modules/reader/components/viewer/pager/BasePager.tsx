@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ReactNode, useEffect, useMemo, useRef } from 'react';
+import { memo, ReactNode, useEffect, useMemo, useRef } from 'react';
 import Box, { BoxProps } from '@mui/material/Box';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { getImageWidthStyling, getPageIndexesToLoad } from '@/modules/reader/utils/ReaderPager.utils.tsx';
@@ -87,7 +87,7 @@ const BaseBasePager = ({
 };
 
 export const BasePager = withPropsFrom(
-    BaseBasePager,
+    memo(BaseBasePager),
     [ReaderService.useSettingsWithoutDefaultFlag],
     ['readingMode', 'pageScaleMode', 'shouldStretchPage', 'readerWidth', 'imagePreLoadAmount'],
 );

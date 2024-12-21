@@ -7,7 +7,7 @@
  */
 
 import { Direction, useTheme } from '@mui/material/styles';
-import { Fragment, useMemo } from 'react';
+import { Fragment, memo, useMemo } from 'react';
 import { BasePager } from '@/modules/reader/components/viewer/pager/BasePager.tsx';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { IReaderSettings, ReaderPagerProps, ReadingDirection } from '@/modules/reader/types/Reader.types.ts';
@@ -116,7 +116,7 @@ const BaseReaderDoublePagedPager = ({
 };
 
 export const ReaderDoublePagedPager = withPropsFrom(
-    BaseReaderDoublePagedPager,
+    memo(BaseReaderDoublePagedPager),
     [ReaderService.useSettingsWithoutDefaultFlag],
     ['readingDirection'],
 );

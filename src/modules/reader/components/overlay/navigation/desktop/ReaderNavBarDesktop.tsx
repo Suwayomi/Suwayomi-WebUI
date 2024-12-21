@@ -14,7 +14,7 @@ import ArrowBack from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import PushPinIcon from '@mui/icons-material/PushPin';
 import Divider from '@mui/material/Divider';
-import { useCallback, useLayoutEffect, useRef, useState } from 'react';
+import { memo, useCallback, useLayoutEffect, useRef, useState } from 'react';
 import Drawer from '@mui/material/Drawer';
 import { useGetOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts';
 import { ReaderNavBarDesktopProps } from '@/modules/reader/types/ReaderOverlay.types.ts';
@@ -178,7 +178,7 @@ const BaseReaderNavBarDesktop = ({
 };
 
 export const ReaderNavBarDesktop = withPropsFrom(
-    BaseReaderNavBarDesktop,
+    memo(BaseReaderNavBarDesktop),
     [
         useNavBarContext,
         useReaderStateMangaContext,

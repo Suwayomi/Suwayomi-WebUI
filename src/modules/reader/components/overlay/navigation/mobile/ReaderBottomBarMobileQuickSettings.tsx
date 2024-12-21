@@ -7,6 +7,7 @@
  */
 
 import Stack from '@mui/material/Stack';
+import { memo } from 'react';
 import { ReaderSettingReadingMode } from '@/modules/reader/components/settings/layout/ReaderSettingReadingMode.tsx';
 import { ReaderSettingReadingDirection } from '@/modules/reader/components/settings/layout/ReaderSettingReadingDirection.tsx';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
@@ -49,7 +50,7 @@ const BaseReaderBottomBarMobileQuickSettings = ({
 };
 
 export const ReaderBottomBarMobileQuickSettings = withPropsFrom(
-    BaseReaderBottomBarMobileQuickSettings,
+    memo(BaseReaderBottomBarMobileQuickSettings),
     [useReaderStateMangaContext, ReaderService.useSettings],
     ['manga', 'readingMode', 'readingDirection'],
 );

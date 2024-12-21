@@ -12,7 +12,7 @@ import SkipNextIcon from '@mui/icons-material/SkipNext';
 import Stack from '@mui/material/Stack';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import { useLayoutEffect } from 'react';
+import { memo, useLayoutEffect } from 'react';
 import { ReaderProgressBar } from '@/modules/reader/components/overlay/progress-bar/ReaderProgressBar.tsx';
 import { ReaderProgressBarSlot } from '@/modules/reader/components/overlay/progress-bar/ReaderProgressBarSlot.tsx';
 import { userReaderStatePagesContext } from '@/modules/reader/contexts/state/ReaderStatePagesContext.tsx';
@@ -186,7 +186,7 @@ const BaseMobileReaderProgressBar = ({
 };
 
 export const MobileReaderProgressBar = withPropsFrom(
-    BaseMobileReaderProgressBar,
+    memo(BaseMobileReaderProgressBar),
     [useReaderStateChaptersContext, useReaderOverlayContext, useReaderProgressBarContext],
     ['previousChapter', 'nextChapter', 'isVisible', 'setIsMaximized'],
 );

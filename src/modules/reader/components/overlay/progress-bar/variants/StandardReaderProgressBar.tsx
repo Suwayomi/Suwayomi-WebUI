@@ -8,6 +8,7 @@
 
 import { alpha, darken, lighten, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
+import { memo } from 'react';
 import { ReaderProgressBar } from '@/modules/reader/components/overlay/progress-bar/ReaderProgressBar.tsx';
 import { ReaderProgressBarSlot } from '@/modules/reader/components/overlay/progress-bar/ReaderProgressBarSlot.tsx';
 import { userReaderStatePagesContext } from '@/modules/reader/contexts/state/ReaderStatePagesContext.tsx';
@@ -271,7 +272,7 @@ const BaseStandardReaderProgressBar = ({
 };
 
 export const StandardReaderProgressBar = withPropsFrom(
-    BaseStandardReaderProgressBar,
+    memo(BaseStandardReaderProgressBar),
     [
         useNavBarContext,
         useReaderProgressBarContext,

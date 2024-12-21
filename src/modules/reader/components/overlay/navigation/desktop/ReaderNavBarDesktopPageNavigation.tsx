@@ -9,7 +9,7 @@
 import Stack from '@mui/material/Stack';
 import { useTranslation } from 'react-i18next';
 import MenuItem from '@mui/material/MenuItem';
-import { useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import { Select } from '@/modules/core/components/inputs/Select.tsx';
@@ -80,7 +80,7 @@ const BaseReaderNavBarDesktopPageNavigation = ({
 };
 
 export const ReaderNavBarDesktopPageNavigation = withPropsFrom(
-    BaseReaderNavBarDesktopPageNavigation,
+    memo(BaseReaderNavBarDesktopPageNavigation),
     [() => ({ openPage: ReaderControls.useOpenPage() }), ReaderService.useSettingsWithoutDefaultFlag],
     ['readingDirection', 'openPage'],
 );

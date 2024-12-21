@@ -9,6 +9,7 @@
 import {
     ForwardedRef,
     forwardRef,
+    memo,
     useEffect,
     useImperativeHandle,
     useLayoutEffect,
@@ -337,7 +338,7 @@ const BaseReaderViewer = forwardRef(
 );
 
 export const ReaderViewer = withPropsFrom(
-    BaseReaderViewer,
+    memo(BaseReaderViewer),
     [
         userReaderStatePagesContext,
         ReaderService.useSettingsWithoutDefaultFlag,

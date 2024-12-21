@@ -22,6 +22,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { alpha } from '@mui/material/styles';
 import Tooltip from '@mui/material/Tooltip';
 import Slide from '@mui/material/Slide';
+import { memo } from 'react';
 import { useGetOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts';
 import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines.tsx';
 import { actionToTranslationKey, ChapterAction, Chapters } from '@/modules/chapter/services/Chapters.ts';
@@ -141,7 +142,7 @@ const BaseReaderOverlayHeaderMobile = ({
 };
 
 export const ReaderOverlayHeaderMobile = withPropsFrom(
-    BaseReaderOverlayHeaderMobile,
+    memo(BaseReaderOverlayHeaderMobile),
     [useReaderStateMangaContext, useReaderStateChaptersContext, useReaderScrollbarContext],
     ['manga', 'currentChapter', 'scrollbarYSize'],
 );

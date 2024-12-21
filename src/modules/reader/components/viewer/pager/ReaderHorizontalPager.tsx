@@ -7,6 +7,7 @@
  */
 
 import { useTheme } from '@mui/material/styles';
+import { memo } from 'react';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { BasePager } from '@/modules/reader/components/viewer/pager/BasePager.tsx';
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
@@ -72,7 +73,7 @@ const BaseReaderHorizontalPager = ({
 };
 
 export const ReaderHorizontalPager = withPropsFrom(
-    BaseReaderHorizontalPager,
+    memo(BaseReaderHorizontalPager),
     [ReaderService.useSettingsWithoutDefaultFlag],
     ['pageGap', 'readingDirection'],
 );

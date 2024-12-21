@@ -6,6 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import { memo } from 'react';
 import { BasePager } from '@/modules/reader/components/viewer/pager/BasePager.tsx';
 import { IReaderSettings, ReaderPagerProps, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
 import { createReaderPage } from '@/modules/reader/utils/ReaderPager.utils.tsx';
@@ -50,7 +51,7 @@ const BaseReaderVerticalPager = ({
 };
 
 export const ReaderVerticalPager = withPropsFrom(
-    BaseReaderVerticalPager,
+    memo(BaseReaderVerticalPager),
     [ReaderService.useSettingsWithoutDefaultFlag],
     ['pageGap', 'readingMode'],
 );

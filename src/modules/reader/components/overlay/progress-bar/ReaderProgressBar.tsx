@@ -7,7 +7,7 @@
  */
 
 import Box, { BoxProps } from '@mui/material/Box';
-import { ReactNode, useCallback, useMemo, useRef } from 'react';
+import { memo, ReactNode, useCallback, useMemo, useRef } from 'react';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { TypographyProps } from '@mui/material/Typography';
 import { StackProps } from '@mui/material/Stack';
@@ -218,7 +218,7 @@ const BaseReaderProgressBar = ({
 };
 
 export const ReaderProgressBar = withPropsFrom(
-    BaseReaderProgressBar,
+    memo(BaseReaderProgressBar),
     [
         useReaderProgressBarContext,
         () => ({ openPage: ReaderControls.useOpenPage() }),

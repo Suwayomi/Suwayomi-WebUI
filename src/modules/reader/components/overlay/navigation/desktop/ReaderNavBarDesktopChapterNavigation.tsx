@@ -10,7 +10,7 @@ import Stack from '@mui/material/Stack';
 import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
 import MenuItem from '@mui/material/MenuItem';
-import { useLayoutEffect } from 'react';
+import { memo, useLayoutEffect } from 'react';
 import Popover from '@mui/material/Popover';
 import { bindPopover, bindTrigger, usePopupState } from 'material-ui-popup-state/hooks';
 import FormControl from '@mui/material/FormControl';
@@ -117,7 +117,7 @@ const BaseReaderNavBarDesktopChapterNavigation = ({
 };
 
 export const ReaderNavBarDesktopChapterNavigation = withPropsFrom(
-    BaseReaderNavBarDesktopChapterNavigation,
+    memo(BaseReaderNavBarDesktopChapterNavigation),
     [
         () => ({
             readerThemeDirection: ReaderService.useGetThemeDirection(),

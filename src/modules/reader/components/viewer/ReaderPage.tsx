@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ComponentProps, ForwardedRef, forwardRef } from 'react';
+import { ComponentProps, ForwardedRef, forwardRef, memo } from 'react';
 import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { IReaderSettings, ReaderCustomFilter, TReaderScrollbarContext } from '@/modules/reader/types/Reader.types.ts';
@@ -142,7 +142,7 @@ const BaseReaderPage = forwardRef(
 );
 
 export const ReaderPage = withPropsFrom(
-    BaseReaderPage,
+    memo(BaseReaderPage),
     [ReaderService.useSettingsWithoutDefaultFlag, useReaderScrollbarContext],
     [
         'readingMode',

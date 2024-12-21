@@ -18,7 +18,7 @@ import DialogContent from '@mui/material/DialogContent';
 import Tooltip from '@mui/material/Tooltip';
 import { useTranslation } from 'react-i18next';
 import Slide from '@mui/material/Slide';
-import { useLayoutEffect } from 'react';
+import { memo, useLayoutEffect } from 'react';
 import { ReaderBottomBarMobileProps } from '@/modules/reader/types/ReaderOverlay.types.ts';
 import { MobileReaderProgressBar } from '@/modules/reader/components/overlay/progress-bar/variants/MobileReaderProgressBar.tsx';
 import { ReaderChapterList } from '@/modules/reader/components/overlay/navigation/ReaderChapterList.tsx';
@@ -123,7 +123,7 @@ const BaseReaderBottomBarMobile = ({
 };
 
 export const ReaderBottomBarMobile = withPropsFrom(
-    BaseReaderBottomBarMobile,
+    memo(BaseReaderBottomBarMobile),
     [useReaderStateChaptersContext, useReaderScrollbarContext],
     ['currentChapter', 'chapters', 'scrollbarXSize', 'scrollbarYSize'],
 );

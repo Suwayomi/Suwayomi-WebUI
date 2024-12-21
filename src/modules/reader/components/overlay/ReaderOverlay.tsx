@@ -7,7 +7,7 @@
  */
 
 import Box from '@mui/material/Box';
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { BaseReaderOverlayProps, MobileHeaderProps } from '@/modules/reader/types/ReaderOverlay.types.ts';
 import { ReaderSettings } from '@/modules/reader/components/settings/ReaderSettings.tsx';
 import { ReaderPageNumber } from '@/modules/reader/components/ReaderPageNumber.tsx';
@@ -51,7 +51,7 @@ const BaseReaderOverlay = ({
 };
 
 export const ReaderOverlay = withPropsFrom(
-    BaseReaderOverlay,
+    memo(BaseReaderOverlay),
     [ReaderService.useOverlayMode],
     ['isDesktop', 'isMobile'],
 );
