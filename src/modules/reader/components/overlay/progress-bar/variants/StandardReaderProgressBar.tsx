@@ -6,11 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { alpha, darken, lighten, useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
+import { useTheme } from '@mui/material/styles';
 import { memo } from 'react';
 import { ReaderProgressBar } from '@/modules/reader/components/overlay/progress-bar/ReaderProgressBar.tsx';
-import { ReaderProgressBarSlot } from '@/modules/reader/components/overlay/progress-bar/ReaderProgressBarSlot.tsx';
 import { userReaderStatePagesContext } from '@/modules/reader/contexts/state/ReaderStatePagesContext.tsx';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { IReaderSettings, ProgressBarType, TReaderScrollbarContext } from '@/modules/reader/types/Reader.types.ts';
@@ -23,6 +21,7 @@ import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { useReaderProgressBarContext } from '@/modules/reader/contexts/ReaderProgressBarContext.tsx';
 import { useReaderScrollbarContext } from '@/modules/reader/contexts/ReaderScrollbarContext.tsx';
+import { ReaderProgressBarSlotDesktop } from '@/modules/reader/components/overlay/progress-bar/desktop/ReaderProgressBarSlotDesktop.tsx';
 
 const BaseStandardReaderProgressBar = ({
     readerNavBarWidth,
@@ -63,77 +62,23 @@ const BaseStandardReaderProgressBar = ({
             <ReaderProgressBar
                 {...pagesState}
                 progressBarPosition={progressBarPosition}
-                createProgressBarSlot={({ name, primary, secondary }, pageLoadStates, pagesIndex) => (
-                    <ReaderProgressBarSlot
-                        key={primary.url}
-                        pageName={name}
+                createProgressBarSlot={(page, pageLoadStates, pagesIndex) => (
+                    <ReaderProgressBarSlotDesktop
+                        pageName={page.name}
+                        pageUrl={page.primary.url}
+                        primaryPageLoadState={pageLoadStates[page.primary.index].loaded}
+                        secondaryPageLoadState={
+                            page.secondary ? pageLoadStates[page.secondary.index].loaded : undefined
+                        }
+                        isHorizontal={isHorizontal}
+                        isVertical={isVertical}
                         progressBarPosition={progressBarPosition}
-                        slotProps={{
-                            box: {
-                                sx: {
-                                    cursor: 'pointer',
-                                    backgroundColor: darken(theme.palette.background.paper, 0.2),
-                                    ...applyStyles(isHorizontal, {
-                                        borderLeftWidth: 2,
-                                        borderLeftColor: 'background.paper',
-                                        borderLeftStyle: 'solid',
-                                    }),
-                                    ...applyStyles(isVertical, {
-                                        borderTopWidth: 2,
-                                        borderTopColor: 'background.paper',
-                                        borderTopStyle: 'solid',
-                                    }),
-                                    ...theme.applyStyles('dark', {
-                                        backgroundColor: lighten(theme.palette.background.paper, 0.1),
-                                    }),
-                                    ...applyStyles(
-                                        pageLoadStates[primary.index]?.loaded &&
-                                            (!secondary || pageLoadStates[secondary.index]?.loaded),
-                                        {
-                                            backgroundColor: darken(theme.palette.background.paper, 0.35),
-                                            ...theme.applyStyles('dark', {
-                                                backgroundColor: lighten(theme.palette.background.paper, 0.25),
-                                            }),
-                                        },
-                                    ),
-                                    borderLeftWidth: pagesIndex === 0 ? 0 : undefined,
-                                    borderRightWidth: pagesIndex === pages.length - 1 ? 0 : undefined,
-                                },
-                            },
-                            tooltip: {
-                                slotProps:
-                                    pagesIndex === currentPagesIndex
-                                        ? {
-                                              tooltip: {
-                                                  sx: {
-                                                      backgroundColor: 'primary.main',
-                                                      color: 'primary.contrastText',
-                                                  },
-                                              },
-                                          }
-                                        : undefined,
-                            },
-                        }}
-                    >
-                        <Box
-                            sx={{
-                                width: '100%',
-                                height: '100%',
-                                ...applyStyles(pagesIndex < currentPagesIndex, {
-                                    backgroundColor: alpha(theme.palette.primary.main, 0.5),
-                                }),
-                                ...applyStyles(pagesIndex === currentPagesIndex, {
-                                    cursor: isDragging ? 'grabbing' : 'grab',
-                                    pointer: 'grabbing',
-                                    borderRadius: 2,
-                                    backgroundColor: 'primary.dark',
-                                    ...theme.applyStyles('dark', {
-                                        backgroundColor: 'primary.light',
-                                    }),
-                                }),
-                            }}
-                        />
-                    </ReaderProgressBarSlot>
+                        isCurrentPage={currentPagesIndex === pagesIndex}
+                        isFirstPage={pagesIndex === 0}
+                        isLastPage={pagesIndex === pages.length - 1}
+                        isLeadingPage={pagesIndex < currentPagesIndex}
+                        isDragging={isDragging}
+                    />
                 )}
                 slotProps={{
                     container: {
