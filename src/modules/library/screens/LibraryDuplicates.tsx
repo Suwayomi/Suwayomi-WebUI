@@ -34,6 +34,7 @@ import { StyledGroupItemWrapper } from '@/modules/core/components/virtuoso/Style
 import { VirtuosoUtil } from '@/lib/virtuoso/Virtuoso.util.tsx';
 import { LibraryDuplicatesWorkerInput, TMangaDuplicate, TMangaDuplicates } from '@/modules/library/Library.types.ts';
 import { GridLayout } from '@/modules/core/Core.types.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 export const LibraryDuplicates = () => {
     const { t } = useTranslation();
@@ -139,7 +140,7 @@ export const LibraryDuplicates = () => {
         return (
             <EmptyViewAbsoluteCentered
                 message={t('global.error.label.failed_to_load_data')}
-                messageExtra={error.message}
+                messageExtra={getErrorMessage(error)}
                 retry={() => refetch().catch(defaultPromiseErrorHandler('LibraryDuplicates::refetch'))}
             />
         );

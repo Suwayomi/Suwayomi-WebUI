@@ -30,6 +30,7 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { SourceType } from '@/lib/graphql/generated/graphql.ts';
 import { translateExtensionLanguage } from '@/modules/extension/Extensions.utils.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 function sourceToLangList(sources: Pick<SourceType, 'id' | 'lang'>[]) {
     const result = new Set<string>();
@@ -136,7 +137,7 @@ export function Sources({ tabsMenuHeight }: { tabsMenuHeight: number }) {
         return (
             <EmptyViewAbsoluteCentered
                 message={t('global.error.label.failed_to_load_data')}
-                messageExtra={error.message}
+                messageExtra={getErrorMessage(error)}
                 retry={() => refetch().catch(defaultPromiseErrorHandler('Sources::refetch'))}
             />
         );

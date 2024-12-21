@@ -30,6 +30,7 @@ import { BaseMangaGrid } from '@/modules/manga/components/BaseMangaGrid.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { translateExtensionLanguage } from '@/modules/extension/Extensions.utils.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 type SourceLoadingState = { isLoading: boolean; hasResults: boolean; emptySearch: boolean };
 type SourceToLoadingStateMap = Map<string, SourceLoadingState>;
@@ -164,7 +165,7 @@ const SourceSearchPreview = React.memo(
                         sx={{ alignItems: 'start', height: undefined }}
                         noFaces
                         message={errorMessage}
-                        messageExtra={error && error.message}
+                        messageExtra={getErrorMessage(error)}
                         retry={
                             error
                                 ? () =>
@@ -278,7 +279,7 @@ export const SearchAll: React.FC = () => {
         return (
             <EmptyViewAbsoluteCentered
                 message={t('global.error.label.failed_to_load_data')}
-                messageExtra={error.message}
+                messageExtra={getErrorMessage(error)}
                 retry={() => refetch().catch(defaultPromiseErrorHandler('SearchAll::refetch'))}
             />
         );

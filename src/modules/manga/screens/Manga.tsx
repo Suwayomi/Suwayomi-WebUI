@@ -26,6 +26,7 @@ import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { GetMangaScreenQuery } from '@/lib/graphql/generated/graphql.ts';
 import { GET_MANGA_SCREEN } from '@/lib/graphql/queries/MangaQuery.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 export const Manga: React.FC = () => {
     const { t } = useTranslation();
@@ -82,7 +83,7 @@ export const Manga: React.FC = () => {
                             <>
                                 {t('manga.error.label.request_failure')}
                                 <br />
-                                {error.message ?? error}
+                                {getErrorMessage(error)}
                             </>
                         }
                     >
@@ -107,7 +108,10 @@ export const Manga: React.FC = () => {
 
     if (error && !manga) {
         return (
-            <EmptyViewAbsoluteCentered message={t('manga.error.label.request_failure')} messageExtra={error.message} />
+            <EmptyViewAbsoluteCentered
+                message={t('manga.error.label.request_failure')}
+                messageExtra={getErrorMessage(error)}
+            />
         );
     }
     return (

@@ -100,7 +100,7 @@ export function LibrarySettings() {
         return (
             <EmptyViewAbsoluteCentered
                 message={t('global.error.label.failed_to_load_data')}
-                messageExtra={error.message}
+                messageExtra={getErrorMessage(error)}
                 retry={() => {
                     if (serverSettings.error) {
                         serverSettings

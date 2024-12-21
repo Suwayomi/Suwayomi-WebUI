@@ -190,7 +190,7 @@ export const ServerSettings = () => {
                 {localSettings}
                 <EmptyViewAbsoluteCentered
                     message={t('global.error.label.failed_to_load_data')}
-                    messageExtra={error.message}
+                    messageExtra={getErrorMessage(error)}
                     retry={() => {
                         if (metadataServerSettingsError) {
                             refetchServerMetadataSettings().catch(

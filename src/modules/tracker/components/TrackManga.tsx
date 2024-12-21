@@ -111,7 +111,7 @@ export const TrackManga = ({ manga }: { manga: MangaIdInfo & Pick<MangaType, 'ti
         return (
             <EmptyViewAbsoluteCentered
                 message={t('global.error.label.failed_to_load_data')}
-                messageExtra={error.message}
+                messageExtra={getErrorMessage(error)}
                 retry={() => {
                     if (trackerList.error) {
                         trackerList.refetch().catch(defaultPromiseErrorHandler('TrackManga::refetch: trackerList'));

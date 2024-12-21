@@ -22,6 +22,7 @@ import { GET_SOURCE_MIGRATABLE } from '@/lib/graphql/queries/SourceQuery.ts';
 import { SOURCE_BASE_FIELDS } from '@/lib/graphql/fragments/SourceFragments.ts';
 import { BaseMangaGrid } from '@/modules/manga/components/BaseMangaGrid.tsx';
 import { GridLayout } from '@/modules/core/Core.types.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 export const Migrate = () => {
     const { t } = useTranslation();
@@ -101,7 +102,7 @@ export const Migrate = () => {
         return (
             <EmptyViewAbsoluteCentered
                 message={t('global.error.label.failed_to_load_data')}
-                messageExtra={error.message}
+                messageExtra={getErrorMessage(error)}
                 retry={() => {
                     if (hasErrorSource) {
                         refetchSource().catch(defaultPromiseErrorHandler('Migrate::refetchSource'));

@@ -155,7 +155,7 @@ export const TrackerSearch = ({
                 {trackerSearch.error && !trackerSearch.loading && (
                     <EmptyViewAbsoluteCentered
                         message={t('global.error.label.failed_to_load_data')}
-                        messageExtra={trackerSearch.error.message}
+                        messageExtra={getErrorMessage(trackerSearch.error)}
                         retry={() =>
                             trackerSearch.refetch().catch(defaultPromiseErrorHandler('TrackerSearch::refetch'))
                         }

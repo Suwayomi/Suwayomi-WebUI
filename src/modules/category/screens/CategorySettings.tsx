@@ -32,6 +32,7 @@ import { GetCategoriesSettingsQuery, GetCategoriesSettingsQueryVariables } from 
 import { GET_CATEGORIES_SETTINGS } from '@/lib/graphql/queries/CategoryQuery.ts';
 import { CategorySettingsCard } from '@/modules/category/components/CategorySettingsCard.tsx';
 import { CategoryIdInfo } from '@/modules/category/Category.types.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 export function CategorySettings() {
     const { t } = useTranslation();
@@ -124,7 +125,7 @@ export function CategorySettings() {
         return (
             <EmptyViewAbsoluteCentered
                 message={t('category.error.label.request_failure')}
-                messageExtra={error.message}
+                messageExtra={getErrorMessage(error)}
                 retry={() => refetch().catch(defaultPromiseErrorHandler('CategorySettings::refetch'))}
             />
         );

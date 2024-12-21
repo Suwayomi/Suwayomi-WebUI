@@ -54,7 +54,7 @@ export const ThemeList = () => {
         return (
             <EmptyView
                 message={t('global.error.label.failed_to_load_data')}
-                messageExtra={error.message}
+                messageExtra={getErrorMessage(error)}
                 retry={() => refetch().catch(defaultPromiseErrorHandler('ThemeList::refetch'))}
             />
         );

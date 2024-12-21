@@ -40,6 +40,7 @@ import { createPageData, createPagesData } from '@/modules/reader/utils/ReaderPa
 import { ReaderHotkeys } from '@/modules/reader/components/ReaderHotkeys.tsx';
 import { ReaderResumeMode, ReaderTransitionPageMode } from '@/modules/reader/types/Reader.types.ts';
 import { getInitialReaderPageIndex } from '@/modules/reader/utils/Reader.utils.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 export const Reader = () => {
     const { t } = useTranslation();
@@ -284,7 +285,7 @@ export const Reader = () => {
         return (
             <EmptyViewAbsoluteCentered
                 message={t('global.error.label.failed_to_load_data')}
-                messageExtra={error.message}
+                messageExtra={getErrorMessage(error)}
                 retry={() => {
                     if (mangaResponse.error) {
                         mangaResponse.refetch().catch(defaultPromiseErrorHandler('Reader::refetchManga'));

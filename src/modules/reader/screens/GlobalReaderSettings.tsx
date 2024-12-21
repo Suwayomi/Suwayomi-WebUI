@@ -16,6 +16,7 @@ import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContex
 import { IReaderSettings, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { ReaderSettingsTabs } from '@/modules/reader/components/settings/ReaderSettingsTabs.tsx';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 export const GlobalReaderSettings = () => {
     const { t } = useTranslation();
@@ -55,7 +56,7 @@ export const GlobalReaderSettings = () => {
         return (
             <EmptyViewAbsoluteCentered
                 message={t('global.error.label.failed_to_load_data')}
-                messageExtra={error.message}
+                messageExtra={getErrorMessage(error)}
                 retry={() => refetch().catch(defaultPromiseErrorHandler('DefaultReaderSettings::refetch'))}
             />
         );

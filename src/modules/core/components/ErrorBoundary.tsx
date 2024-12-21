@@ -8,6 +8,7 @@
 
 import { Component, ErrorInfo, ReactNode, useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 interface Props {
     children?: ReactNode;
@@ -55,7 +56,7 @@ class RealErrorBoundary extends Component<Props, State> {
             return (
                 <>
                     <h1>Something went wrong.</h1>
-                    <p>{error.message ?? JSON.stringify(error)}</p>
+                    <p>{getErrorMessage(error)}</p>
                 </>
             );
         }

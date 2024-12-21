@@ -22,6 +22,7 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { getBuildTime, getVersion } from '@/modules/app-updates/services/AppUpdateChecker.tsx';
 import { VersionInfo } from '@/modules/app-updates/components/VersionInfo.tsx';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 export function About() {
     const { t } = useTranslation();
@@ -67,7 +68,7 @@ export function About() {
         return (
             <EmptyViewAbsoluteCentered
                 message={t('global.error.label.failed_to_load_data')}
-                messageExtra={error.message}
+                messageExtra={getErrorMessage(error)}
                 retry={() => refetch().catch(defaultPromiseErrorHandler('About::refetch'))}
             />
         );

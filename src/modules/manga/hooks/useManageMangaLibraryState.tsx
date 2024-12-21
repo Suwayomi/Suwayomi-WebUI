@@ -112,11 +112,11 @@ export const useManageMangaLibraryState = (
                 | undefined;
             try {
                 duplicatedLibraryMangas = await Mangas.getDuplicateLibraryMangas(manga.title).response;
-            } catch (e: any) {
+            } catch (e) {
                 await awaitConfirmation({
                     title: t('global.error.label.failed_to_load_data'),
                     message: t('manga.action.library.add.dialog.duplicate.label.failure', {
-                        error: e.message,
+                        error: getErrorMessage(e),
                     }),
                     actions: {
                         extra: { show: true, title: t('global.button.retry'), contain: true },
