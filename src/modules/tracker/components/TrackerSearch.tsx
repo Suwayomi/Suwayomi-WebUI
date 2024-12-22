@@ -35,6 +35,7 @@ import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 
 export const TrackerSearch = ({
     manga,
@@ -61,6 +62,8 @@ export const TrackerSearch = ({
     const searchResults = trackerSearch.data?.searchTracker.trackSearches ?? [];
 
     const hasResults = !!searchResults.length;
+    const hasNoResults = !trackerSearch.loading && !trackerSearch.error && !hasResults;
+    const hasError = !!trackerSearch.error && !trackerSearch.loading;
 
     useEffect(() => {
         setSelectedTrackerRemoteId(trackedId);
@@ -77,9 +80,7 @@ export const TrackerSearch = ({
                 !!selectedTrackerRemoteId &&
                 !!searchResults.find((searchResult) => searchResult.remoteId === selectedTrackerRemoteId),
             [selectedTrackerRemoteId, searchResults],
-        ) &&
-        !trackerSearch.loading &&
-        !trackerSearch.error;
+        ) && !hasError;
 
     const trackManga = () => {
         if (selectedTrackerRemoteId === undefined) {
@@ -147,12 +148,17 @@ export const TrackerSearch = ({
                     />
                 </Stack>
             </DialogTitle>
-            <DialogContent dividers sx={{ padding: DIALOG_PADDING, height: '100vh', position: 'relative' }}>
-                {!trackerSearch.loading && !trackerSearch.error && !hasResults && (
-                    <EmptyViewAbsoluteCentered message={t('manga.error.label.no_mangas_found')} />
-                )}
+            <DialogContent
+                dividers
+                sx={{
+                    padding: DIALOG_PADDING,
+                    height: '100vh',
+                    ...applyStyles(hasNoResults || hasError, { position: 'relative' }),
+                }}
+            >
+                {hasNoResults && <EmptyViewAbsoluteCentered message={t('manga.error.label.no_mangas_found')} />}
                 {trackerSearch.loading && <LoadingPlaceholder />}
-                {trackerSearch.error && !trackerSearch.loading && (
+                {hasError && (
                     <EmptyViewAbsoluteCentered
                         message={t('global.error.label.failed_to_load_data')}
                         messageExtra={getErrorMessage(trackerSearch.error)}
