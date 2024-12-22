@@ -125,7 +125,12 @@ export const getImagePlaceholderStyling = (
                 }),
             };
         case ReaderPageScaleMode.ORIGINAL:
-            return defaultStyling;
+            return {
+                ...defaultStyling,
+                ...applyStyles(isContinuousVerticalReadingMode(readingMode), {
+                    height: undefined,
+                }),
+            };
         default:
             throw new Error(`Unexpected "PageScaleMode" (${pageScaleMode})`);
     }
