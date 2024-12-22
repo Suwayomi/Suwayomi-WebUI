@@ -106,56 +106,52 @@ const BaseReaderNavBarDesktop = ({
             }}
         >
             <ReaderNavContainer sx={{ backgroundColor: 'background.paper', pointerEvents: 'all' }}>
-                {isVisible && (
-                    <>
-                        <Stack sx={{ p: 2, gap: 2, backgroundColor: 'action.hover' }}>
-                            <Stack sx={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <Tooltip title={t('reader.button.exit')}>
-                                    <IconButton onClick={exit} color="inherit">
-                                        {getOptionForDirection(<ArrowBack />, <ArrowForwardIcon />)}
-                                    </IconButton>
-                                </Tooltip>
-                                <Tooltip title={t('reader.settings.label.static_navigation')}>
-                                    <IconButton
-                                        onClick={() => {
-                                            setReaderNavBarWidth(0);
-                                            updateReaderSettings('isStaticNav', !isStaticNav);
-                                        }}
-                                        color={isStaticNav ? 'primary' : 'inherit'}
-                                    >
-                                        <PushPinIcon />
-                                    </IconButton>
-                                </Tooltip>
-                            </Stack>
-                            {manga && currentChapter ? (
-                                <>
-                                    <ReaderNavBarDesktopMetadata
-                                        mangaId={manga.id}
-                                        mangaTitle={manga.title}
-                                        chapterTitle={currentChapter.name}
-                                        scanlator={currentChapter.scanlator}
-                                    />
-                                    <ReaderNavBarDesktopActions />
-                                </>
-                            ) : (
-                                <LoadingPlaceholder />
-                            )}
-                        </Stack>
-                        <Stack sx={{ p: 2, gap: 2 }}>
-                            <Stack sx={{ gap: 1 }}>
-                                <ReaderNavBarDesktopPageNavigation />
-                                <ReaderNavBarDesktopChapterNavigation
-                                    chapters={chapters}
-                                    currentChapter={currentChapter}
-                                    nextChapter={nextChapter}
-                                    previousChapter={previousChapter}
-                                />
-                            </Stack>
-                            <Divider />
-                            <ReaderNavBarDesktopQuickSettings openSettings={openSettings} />
-                        </Stack>
-                    </>
-                )}
+                <Stack sx={{ p: 2, gap: 2, backgroundColor: 'action.hover' }}>
+                    <Stack sx={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Tooltip title={t('reader.button.exit')}>
+                            <IconButton onClick={exit} color="inherit">
+                                {getOptionForDirection(<ArrowBack />, <ArrowForwardIcon />)}
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title={t('reader.settings.label.static_navigation')}>
+                            <IconButton
+                                onClick={() => {
+                                    setReaderNavBarWidth(0);
+                                    updateReaderSettings('isStaticNav', !isStaticNav);
+                                }}
+                                color={isStaticNav ? 'primary' : 'inherit'}
+                            >
+                                <PushPinIcon />
+                            </IconButton>
+                        </Tooltip>
+                    </Stack>
+                    {manga && currentChapter ? (
+                        <>
+                            <ReaderNavBarDesktopMetadata
+                                mangaId={manga.id}
+                                mangaTitle={manga.title}
+                                chapterTitle={currentChapter.name}
+                                scanlator={currentChapter.scanlator}
+                            />
+                            <ReaderNavBarDesktopActions />
+                        </>
+                    ) : (
+                        <LoadingPlaceholder />
+                    )}
+                </Stack>
+                <Stack sx={{ p: 2, gap: 2 }}>
+                    <Stack sx={{ gap: 1 }}>
+                        <ReaderNavBarDesktopPageNavigation />
+                        <ReaderNavBarDesktopChapterNavigation
+                            chapters={chapters}
+                            currentChapter={currentChapter}
+                            nextChapter={nextChapter}
+                            previousChapter={previousChapter}
+                        />
+                    </Stack>
+                    <Divider />
+                    <ReaderNavBarDesktopQuickSettings openSettings={openSettings} />
+                </Stack>
             </ReaderNavContainer>
         </Drawer>
     );
