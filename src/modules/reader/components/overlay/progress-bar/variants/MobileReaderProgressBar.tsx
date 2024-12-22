@@ -50,6 +50,10 @@ const BaseMobileReaderProgressBar = ({
         return () => setIsMaximized(false);
     }, [isVisible]);
 
+    if (!isVisible) {
+        return null;
+    }
+
     return (
         <ReaderProgressBarDirectionWrapper>
             <Stack

@@ -52,6 +52,10 @@ const BaseStandardReaderProgressBar = ({
     const isHidden = progressBarType === ProgressBarType.HIDDEN;
     const isMinimized = !isMaximized && !isDragging;
 
+    if (isHidden) {
+        return null;
+    }
+
     // the progress bar uses the reading direction to set the themes direction, thus, stuff has to be adjusted to still be correctly positioned
     // depending on which combination of theme direction and reading direction is currently active
     return (
