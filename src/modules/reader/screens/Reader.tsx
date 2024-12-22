@@ -407,6 +407,7 @@ export const Reader = withPropsFrom(
         'manga',
         'setManga',
         'shouldSkipDupChapters',
+        'backgroundColor',
         'setSettings',
         'initialChapter',
         'currentChapter',
