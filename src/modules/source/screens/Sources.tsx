@@ -63,7 +63,7 @@ function groupByLang<Source extends Pick<SourceType, 'id' | 'name' | 'lang'>>(
     return result;
 }
 
-export function Sources({ tabsMenuHeight }: { tabsMenuHeight: number }) {
+export function Sources() {
     const { t } = useTranslation();
     const { setAction } = useContext(NavBarContext);
 
