@@ -51,10 +51,6 @@ const BaseStandardReaderProgressBar = ({
     const isHidden = progressBarType === ProgressBarType.HIDDEN;
     const isMinimized = !isMaximized && !isDragging;
 
-    if (isHidden) {
-        return null;
-    }
-
     // the progress bar uses the reading direction to set the themes direction, thus, stuff has to be adjusted to still be correctly positioned
     // depending on which combination of theme direction and reading direction is currently active
     return (
@@ -62,24 +58,30 @@ const BaseStandardReaderProgressBar = ({
             <ReaderProgressBar
                 {...pagesState}
                 progressBarPosition={progressBarPosition}
-                createProgressBarSlot={(page, pageLoadStates, pagesIndex) => (
-                    <ReaderProgressBarSlotDesktop
-                        pageName={page.name}
-                        pageUrl={page.primary.url}
-                        primaryPageLoadState={pageLoadStates[page.primary.index].loaded}
-                        secondaryPageLoadState={
-                            page.secondary ? pageLoadStates[page.secondary.index].loaded : undefined
-                        }
-                        isHorizontal={isHorizontal}
-                        isVertical={isVertical}
-                        progressBarPosition={progressBarPosition}
-                        isCurrentPage={currentPagesIndex === pagesIndex}
-                        isFirstPage={pagesIndex === 0}
-                        isLastPage={pagesIndex === pages.length - 1}
-                        isLeadingPage={pagesIndex < currentPagesIndex}
-                        isDragging={isDragging}
-                    />
-                )}
+                createProgressBarSlot={(page, pageLoadStates, pagesIndex) => {
+                    if (isHidden && isMinimized) {
+                        return null;
+                    }
+
+                    return (
+                        <ReaderProgressBarSlotDesktop
+                            pageName={page.name}
+                            pageUrl={page.primary.url}
+                            primaryPageLoadState={pageLoadStates[page.primary.index].loaded}
+                            secondaryPageLoadState={
+                                page.secondary ? pageLoadStates[page.secondary.index].loaded : undefined
+                            }
+                            isHorizontal={isHorizontal}
+                            isVertical={isVertical}
+                            progressBarPosition={progressBarPosition}
+                            isCurrentPage={currentPagesIndex === pagesIndex}
+                            isFirstPage={pagesIndex === 0}
+                            isLastPage={pagesIndex === pages.length - 1}
+                            isLeadingPage={pagesIndex < currentPagesIndex}
+                            isDragging={isDragging}
+                        />
+                    );
+                }}
                 slotProps={{
                     container: {
                         sx: {
