@@ -60,7 +60,7 @@ export function Browse() {
                 <Tab value={Tabs.MIGRATE} sx={{ textTransform: 'none' }} label={t('migrate.title')} />
             </TabsMenu>
             <TabPanel index={Tabs.SOURCE} currentIndex={tabName}>
-                <Sources tabsMenuHeight={tabsMenuHeight} />
+                <Sources />
             </TabPanel>
             <TabPanel index={Tabs.EXTENSIONS} currentIndex={tabName}>
                 <Extensions tabsMenuHeight={tabsMenuHeight} />
