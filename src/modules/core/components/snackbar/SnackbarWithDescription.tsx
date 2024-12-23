@@ -55,7 +55,7 @@ export const SnackbarWithDescription = memo(
 
             return (
                 <SnackbarContent ref={ref}>
-                    <Alert severity={severity} action={finalAction}>
+                    <Alert elevation={1} severity={severity} action={finalAction}>
                         <TitleComponent>{message}</TitleComponent>
                         {actualDescription}
                         {isDescriptionTooLong ? (
