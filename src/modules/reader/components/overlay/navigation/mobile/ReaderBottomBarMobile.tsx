@@ -66,6 +66,7 @@ const BaseReaderBottomBarMobile = ({
                             alignItems: 'center',
                             backgroundColor: (theme) => alpha(theme.palette.background.paper, 0.95),
                             pb: `max(${scrollbarXSize}px, env(safe-area-inset-bottom))`,
+                            boxShadow: 2,
                         }}
                     >
                         <Stack

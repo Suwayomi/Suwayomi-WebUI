@@ -79,6 +79,7 @@ const BaseReaderOverlayHeaderMobile = ({
                     pt: (theme) => `max(env(safe-area-inset-top), ${theme.spacing(2)})`,
                     backgroundColor: (theme) => alpha(theme.palette.background.paper, 0.95),
                     pointerEvents: 'all',
+                    boxShadow: 2,
                 }}
             >
                 <Tooltip title={t('reader.button.exit')}>

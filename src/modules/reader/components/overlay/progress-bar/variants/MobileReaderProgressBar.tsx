@@ -68,7 +68,7 @@ const BaseMobileReaderProgressBar = ({
                 <IconButton
                     onClick={openPreviousChapter}
                     disabled={!previousChapter}
-                    sx={{ backgroundColor: (theme) => alpha(theme.palette.background.paper, 0.85) }}
+                    sx={{ backgroundColor: (theme) => alpha(theme.palette.background.paper, 0.85), boxShadow: 2 }}
                 >
                     {getOptionForDirection(<SkipPreviousIcon />, <SkipNextIcon />, direction)}
                 </IconButton>
@@ -119,6 +119,7 @@ const BaseMobileReaderProgressBar = ({
                                 alignItems: 'stretch',
                                 backgroundColor: (theme) => alpha(theme.palette.background.paper, 0.85),
                                 borderRadius: 100,
+                                boxShadow: 2,
                             },
                         },
                         progressBarRoot: {
@@ -185,7 +186,7 @@ const BaseMobileReaderProgressBar = ({
                 <IconButton
                     onClick={openNextChapter}
                     disabled={!nextChapter}
-                    sx={{ backgroundColor: (theme) => alpha(theme.palette.background.paper, 0.85) }}
+                    sx={{ backgroundColor: (theme) => alpha(theme.palette.background.paper, 0.85), boxShadow: 2 }}
                 >
                     {getOptionForDirection(<SkipNextIcon />, <SkipPreviousIcon />, direction)}
                 </IconButton>
