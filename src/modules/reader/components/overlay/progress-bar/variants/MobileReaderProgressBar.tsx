@@ -94,7 +94,8 @@ const BaseMobileReaderProgressBar = ({
                             <Box
                                 sx={{
                                     position: 'absolute',
-                                    top: 'calc(50% - 2px)',
+                                    top: '50%',
+                                    transform: 'translateY(-50%)',
                                     right: '2px',
                                     width: '2px',
                                     height: '2px',
