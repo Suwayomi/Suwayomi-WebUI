@@ -11,11 +11,11 @@ import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next';
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 
-export const DefaultSettingFootnote = () => {
+export const DefaultSettingFootnote = ({ areDefaultSettings }: { areDefaultSettings?: boolean }) => {
     const { t } = useTranslation();
     const isTouchDevice = MediaQuery.useIsTouchDevice();
 
-    if (!isTouchDevice) {
+    if (!isTouchDevice || areDefaultSettings) {
         return null;
     }
 

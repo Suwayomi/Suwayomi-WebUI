@@ -29,7 +29,7 @@ export const ReaderLayoutSettings = ({
     setShowPreview: TReaderTapZoneContext['setShowPreview'];
 }) => (
     <Stack sx={{ gap: 2 }}>
-        <DefaultSettingFootnote />
+        <DefaultSettingFootnote areDefaultSettings={!isDefaultable} />
         {isDefaultable && (
             <ReaderSettingReadingMode
                 readingMode={settings.readingMode}
