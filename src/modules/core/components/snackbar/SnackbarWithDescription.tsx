@@ -7,7 +7,7 @@
  */
 
 import { CustomContentProps, SnackbarContent, VariantType } from 'notistack';
-import { ForwardedRef, forwardRef, memo } from 'react';
+import { ForwardedRef, forwardRef, Fragment, memo } from 'react';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Button from '@mui/material/Button';
@@ -51,11 +51,13 @@ export const SnackbarWithDescription = memo(
                 ? description?.slice(0, MAX_DESCRIPTION_LENGTH)
                 : description;
 
+            const TitleComponent = actualDescription?.length ? AlertTitle : Fragment;
+
             return (
                 <SnackbarContent ref={ref}>
                     <Alert severity={severity} action={finalAction}>
-                        <AlertTitle>{message}</AlertTitle>
-                        {actualDescription}{' '}
+                        <TitleComponent>{message}</TitleComponent>
+                        {actualDescription}
                         {isDescriptionTooLong ? (
                             <Button
                                 onClick={() => {
