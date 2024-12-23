@@ -8,7 +8,7 @@
 
 import { t as translate } from 'i18next';
 import gql from 'graphql-tag';
-import { DocumentNode } from '@apollo/client';
+import { DocumentNode, Unmasked } from '@apollo/client';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { getMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
@@ -108,7 +108,7 @@ export class Chapters {
         id: number,
         fragment: DocumentNode = CHAPTER_LIST_FIELDS,
         fragmentName: string = 'CHAPTER_LIST_FIELDS',
-    ): T | null {
+    ): Unmasked<T> | null {
         return requestManager.graphQLClient.client.cache.readFragment<T>({
             id: requestManager.graphQLClient.client.cache.identify({
                 __typename: 'ChapterType',

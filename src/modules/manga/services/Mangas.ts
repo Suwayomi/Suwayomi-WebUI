@@ -7,7 +7,7 @@
  */
 
 import { t as translate } from 'i18next';
-import { DocumentNode } from '@apollo/client/core';
+import { DocumentNode, Unmasked } from '@apollo/client/core';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import {
     ChapterConditionInput,
@@ -93,7 +93,7 @@ export class Mangas {
         id: MangaIdInfo['id'],
         fragment: DocumentNode = MANGA_BASE_FIELDS,
         fragmentName: string = 'MANGA_BASE_FIELDS',
-    ): T | null {
+    ): Unmasked<T> | null {
         return requestManager.graphQLClient.client.cache.readFragment<T>({
             id: requestManager.graphQLClient.client.cache.identify({
                 __typename: 'MangaType',

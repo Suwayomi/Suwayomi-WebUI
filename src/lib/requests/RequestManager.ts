@@ -25,7 +25,7 @@ import {
     useQuery,
     useSubscription,
 } from '@apollo/client';
-import { OperationVariables, Reference } from '@apollo/client/core';
+import { MaybeMasked, OperationVariables, Reference } from '@apollo/client/core';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { IRestClient, RestClient } from '@/lib/requests/client/RestClient.ts';
 import { GraphQLClient } from '@/lib/requests/client/GraphQLClient.ts';
@@ -380,12 +380,12 @@ type AbortableRequest = { abortRequest: AbortController['abort'] };
 type ImageRequest = { response: Promise<string>; cleanup: () => void } & AbortableRequest;
 
 export type AbortabaleApolloQueryResponse<Data = any> = {
-    response: Promise<ApolloQueryResult<Data>>;
+    response: Promise<ApolloQueryResult<MaybeMasked<Data>>>;
 } & AbortableRequest;
 export type AbortableApolloUseQueryResponse<
     Data = any,
     Variables extends OperationVariables = OperationVariables,
-> = QueryResult<Data, Variables> & AbortableRequest;
+> = QueryResult<MaybeMasked<Data>, Variables> & AbortableRequest;
 export type AbortableApolloUseMutationResponse<
     Data = any,
     Variables extends OperationVariables = OperationVariables,
@@ -394,7 +394,7 @@ export type AbortableApolloUseMutationPaginatedResponse<
     Data = any,
     Variables extends OperationVariables = OperationVariables,
 > = [
-    (page: number) => Promise<FetchResult<Data>>,
+    (page: number) => Promise<FetchResult<MaybeMasked<Data>>>,
     (Omit<MutationTuple<Data, Variables>[1], 'loading'> &
         AbortableRequest & {
             size: number;
@@ -413,7 +413,9 @@ export type AbortableApolloUseMutationPaginatedResponse<
             isValidating: boolean;
         })[],
 ];
-export type AbortableApolloMutationResponse<Data = any> = { response: Promise<FetchResult<Data>> } & AbortableRequest;
+export type AbortableApolloMutationResponse<Data = any> = {
+    response: Promise<FetchResult<MaybeMasked<Data>>>;
+} & AbortableRequest;
 
 const EXTENSION_LIST_CACHE_KEY = 'useExtensionListFetch';
 
@@ -517,9 +519,9 @@ export class RequestManager {
         options: ApolloPaginatedMutationOptions<Data, Variables> | undefined,
         checkIfCachedPageIsInvalid: (
             cachedResult: AbortableApolloUseMutationPaginatedResponse<Data, Variables>[1][number] | undefined,
-            revalidatedResult: FetchResult<Data>,
+            revalidatedResult: FetchResult<MaybeMasked<Data>>,
         ) => boolean,
-        hasNextPage: (revalidatedResult: FetchResult<Data>) => boolean,
+        hasNextPage: (revalidatedResult: FetchResult<MaybeMasked<Data>>) => boolean,
         pageToRevalidate: number,
         maxPage: number,
         signal: AbortSignal,
@@ -656,7 +658,7 @@ export class RequestManager {
         cacheResultsKey: string,
         cachedPages: Set<number>,
         newPage: number,
-    ): Promise<FetchResult<Data>> {
+    ): Promise<FetchResult<MaybeMasked<Data>>> {
         const basePaginatedResult: Partial<AbortableApolloUseMutationPaginatedResponse<Data, Variables>[1][number]> = {
             size: newPage,
             isLoading: false,
@@ -664,7 +666,7 @@ export class RequestManager {
             called: true,
         };
 
-        let response: FetchResult<Data> = {};
+        let response: FetchResult<MaybeMasked<Data>> = {};
         try {
             const { signal, abortRequest } = this.createAbortController();
             setAbortRequest(abortRequest);
@@ -769,7 +771,7 @@ export class RequestManager {
         cachedResults: AbortableApolloUseMutationPaginatedResponse<Data, Variables>[1][number][],
         getVariablesFor: (page: number) => Variables,
         paginatedResult: AbortableApolloUseMutationPaginatedResponse<Data, Variables>[1][number],
-        fetchPage: (page: number) => Promise<FetchResult<Data>>,
+        fetchPage: (page: number) => Promise<FetchResult<MaybeMasked<Data>>>,
         hasCachedResult: boolean,
         createPaginatedResult: (
             result: Partial<AbortableApolloUseMutationPaginatedResponse<Data, Variables>[1][number]>,
