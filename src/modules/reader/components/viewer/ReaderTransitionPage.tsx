@@ -36,6 +36,7 @@ import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContex
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { NavbarContextType } from '@/modules/navigation-bar/NavigationBar.types.ts';
 import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
+import { useReaderStateMangaContext } from '@/modules/reader/contexts/state/ReaderStateMangaContext.tsx';
 
 const ChapterInfo = ({
     title,
@@ -206,7 +207,7 @@ const BaseReaderTransitionPage = ({
 
 export const ReaderTransitionPage = withPropsFrom(
     memo(BaseReaderTransitionPage),
-    [useReaderStateChaptersContext, useReaderScrollbarContext, useNavBarContext],
+    [useReaderStateMangaContext, useReaderStateChaptersContext, useReaderScrollbarContext, useNavBarContext],
     [
         'manga',
         'currentChapter',
