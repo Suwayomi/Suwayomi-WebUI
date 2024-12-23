@@ -18,7 +18,7 @@ import { ReaderProgressBarSlot } from '@/modules/reader/components/overlay/progr
 import { userReaderStatePagesContext } from '@/modules/reader/contexts/state/ReaderStatePagesContext.tsx';
 import { useReaderStateChaptersContext } from '@/modules/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
-import { getPage } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
+import { getNextIndexFromPage, getPage } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
 import { getOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts';
 import { ProgressBarPosition, ReaderResumeMode, ReaderStateChapters } from '@/modules/reader/types/Reader.types.ts';
 import { ReaderProgressBarDirectionWrapper } from '@/modules/reader/components/overlay/progress-bar/ReaderProgressBarDirectionWrapper.tsx';
@@ -27,6 +27,7 @@ import { useReaderOverlayContext } from '@/modules/reader/contexts/ReaderOverlay
 import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 import { TReaderOverlayContext } from '@/modules/reader/types/ReaderOverlay.types.ts';
 import { TReaderProgressBarContext } from '@/modules/reader/types/ReaderProgressBar.types.ts';
+import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 
 const BaseMobileReaderProgressBar = ({
     previousChapter,
@@ -74,9 +75,9 @@ const BaseMobileReaderProgressBar = ({
                 <ReaderProgressBar
                     progressBarPosition={ProgressBarPosition.BOTTOM}
                     {...pagesState}
-                    createProgressBarSlot={({ name }) => (
+                    createProgressBarSlot={(page) => (
                         <ReaderProgressBarSlot
-                            pageName={name}
+                            pageName={page.name}
                             progressBarPosition={ProgressBarPosition.BOTTOM}
                             slotProps={{
                                 box: {
@@ -99,6 +100,9 @@ const BaseMobileReaderProgressBar = ({
                                     height: '2px',
                                     borderRadius: 100,
                                     backgroundColor: 'background.paper',
+                                    ...applyStyles(getNextIndexFromPage(page) > currentPageIndex, {
+                                        backgroundColor: 'primary.main',
+                                    }),
                                     zIndex: 1,
                                 }}
                             />
