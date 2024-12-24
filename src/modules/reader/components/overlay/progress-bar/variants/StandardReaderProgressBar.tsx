@@ -42,12 +42,13 @@ const BaseStandardReaderProgressBar = ({
     }) => {
     const theme = useTheme();
     const pagesState = userReaderStatePagesContext();
-    const { currentPageIndex, pages } = pagesState;
+    const { currentPageIndex, pages, totalPages } = pagesState;
 
     const currentPagesIndex = getPage(currentPageIndex, pages).pagesIndex;
 
     const { isBottom, isLeft, isRight, isVertical, isHorizontal } = getProgressBarPositionInfo(progressBarPosition);
 
+    const arePagesLoaded = !!totalPages;
     const isHidden = progressBarType === ProgressBarType.HIDDEN;
     const isMinimized = !isMaximized && !isDragging;
 
@@ -127,6 +128,9 @@ const BaseStandardReaderProgressBar = ({
                             }),
                             ...applyStyles(isMinimized, {
                                 opacity: !isHidden ? 0.85 : 0,
+                            }),
+                            ...applyStyles(!arePagesLoaded, {
+                                pointerEvents: 'none',
                             }),
                         },
                         onMouseEnter: () => setIsMaximized(true),
