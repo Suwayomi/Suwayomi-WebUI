@@ -224,7 +224,6 @@
             },
             "no_categories_found": {
                 "label": {
-                    "hint": "설정에서 카테고리를 만들어야 합니다.",
                     "info": "카테고리를 찾을 수 없습니다."
                 }
             }
@@ -234,7 +233,6 @@
             "use_as_default_category": "새 만화를 추가할 때 기본 카테고리 설정"
         },
         "title": {
-            "categories": "카테고리",
             "set_categories": "카테고리 설정"
         }
     }

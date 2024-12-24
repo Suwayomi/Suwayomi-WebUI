@@ -136,7 +136,6 @@
             },
             "no_categories_found": {
                 "label": {
-                    "hint": "Ви повинні зробити деякі з налаштувань.",
                     "info": "У вас поки немає жодної категорії."
                 }
             }
@@ -146,7 +145,6 @@
             "category_name": "Назва категорії"
         },
         "title": {
-            "categories": "Категорії",
             "set_categories": "Встановити категорії",
             "category_one": "Категорія",
             "category_few": "Категорії",
@@ -496,9 +494,7 @@
             "global_update": {
                 "categories": {
                     "label": {
-                        "info": "Елементи у виключених категоріях не будуть оновлюватися, навіть якщо вони є у включених категоріях",
-                        "exclude": "Виключити: {{excludedCategoriesText}}",
-                        "include": "Включити: {{includedCategoriesText}}"
+                        "info": "Елементи у виключених категоріях не будуть оновлюватися, навіть якщо вони є у включених категоріях"
                     }
                 },
                 "title": "Глобальне оновлення",
@@ -651,8 +647,6 @@
         },
         "error": {
             "label": {
-                "unable_to_get_prev_chapter_skip_dup": "Не вдалося отримати попередній розділ - ввімкнено опцію \"$t(reader.settings.label.skip_dup_chapters)\"",
-                "unable_to_get_next_chapter_skip_dup": "Не вдається отримати наступний розділ - ввімкнено опцію \"$t(reader.settings.label.skip_dup_chapters)\"",
                 "prev_chapter_does_not_exist": "Відсутня попередня глава для відкриття",
                 "next_chapter_does_not_exist": "Відсутня наступна глава для відкриття"
             }
@@ -671,29 +665,19 @@
                 "static_navigation": "Статична навігація",
                 "load_next_chapter": "Завантажувати наступну главу наприкінці поточної",
                 "fit_page_to_window": "Підгонка сторінки до вікна",
-                "reader_width": "Ширина сторінки",
-                "offset_first_page": "Зміщення першої сторінки",
-                "scale_page": "Масштабування маленьких сторінок"
+                "reader_width": "Ширина сторінки"
             },
             "reader_type": {
                 "label": {
-                    "continuous_horizontal_ltr": "Горизонтальний (зліва направо) ➡️",
-                    "continuous_horizontal_rtl": "Горизонтальний (справа наліво) ⬅️",
                     "continuous_vertical": "Вертикальний безперервний",
-                    "double_page_ltr": "Подвійна сторінка (зліва направо) ➡️",
-                    "double_page_rtl": "Подвійна сторінка (справа наліво) ⬅️",
-                    "single_page_ltr": "Одна сторінка (зліва направо) ➡️",
-                    "single_page_rtl": "Одна сторінка (справа наліво) ⬅️",
                     "webtoon": "Вебтун"
                 }
             },
             "title": {
-                "default_reader_settings": "Налаштування читача за замовчуванням",
                 "reader_settings": "Налаштування читача"
             },
             "error": {
                 "label": {
-                    "failed_to_save_default_settings": "Не вдалося зберегти налаштування читача за замовчуванням на сервері",
                     "failed_to_save_settings": "Не вдалося зберегти налаштування читача на сервер"
                 }
             }
@@ -701,9 +685,6 @@
         "title": "Читати Манґу {{mangaId}} Розділ {{chapterIndex}}"
     },
     "search": {
-        "label": {
-            "ignore_filters": "Ігнорувати фільтри під час пошуку"
-        },
         "title": {
             "global_search": "Глобальний пошук",
             "search": "Пошук"
@@ -717,14 +698,6 @@
     },
     "settings": {
         "about": {
-            "label": {
-                "build_time": "Час збірки",
-                "github": "GitHub",
-                "server": "Сервер",
-                "server_address": "Адреса сервера",
-                "server_version": "Версія сервера",
-                "discord": "Discord"
-            },
             "title": "Про застосунок",
             "server": {
                 "label": {
@@ -739,22 +712,11 @@
                     "update_failure": "Не вдалося оновити $t(settings.webui.title.webui)",
                     "channel": "Канал $t(settings.webui.title.webui)",
                     "version": "Версія $t(settings.webui.title.webui)",
-                    "update_success": "Оновлено $t(settings.webui.title.webui) до версії {{version}}. Необхідно оновити сторінку",
                     "github": "$t(global.label.github) $t(settings.webui.title.webui)"
                 }
             }
         },
         "backup": {
-            "label": {
-                "backup_restore_failed": "Не вдалося відновити резервну копію",
-                "create_backup": "Створити резервну копію",
-                "create_backup_info": "Резервна копія бібліотеки як резервна копія Tachiyomi",
-                "legacy_backup_unsupported": "застарілі резервні копії не підтримуються!",
-                "restore_backup_info": "Ви також можете перетягнути файл резервної копії сюди, щоб відновити його",
-                "restoring_backup": "Відновлення резервної копії…",
-                "restored_backup": "Резервну копію відновлено.",
-                "restore_backup": "Відновити резервну копію"
-            },
             "title": "Резервна копія",
             "automated": {
                 "location": {
@@ -814,20 +776,10 @@
             }
         },
         "label": {
-            "dark_theme": "Темна тема",
-            "image_cache": "Використовувати кеш зображень",
             "manga_item_width": "Ширина елемента манґи",
             "show_nsfw": "Показати NSFW",
             "show_nsfw_description": "Приховати NSFW розширення та джерела",
-            "image_cache_description": "Зменшує споживання даних і покращує продуктивність, коли вже запитане зображення запитується повторно",
             "language_description": "Не соромтеся перекладати проєкт на"
-        },
-        "server_address": {
-            "dialog": {
-                "label": {
-                    "enter_address": "Введіть адресу сервера"
-                }
-            }
         },
         "title": "Налаштування",
         "server": {
